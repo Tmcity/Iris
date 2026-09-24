@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Iris.Core\Iris.Core.csproj" />
+    <ProjectReference Include="..\Iris.Providers\Iris.Providers.csproj" />
+    <ProjectReference Include="..\Iris.Infrastructure\Iris.Infrastructure.csproj" />
+    <ProjectReference Include="..\Iris.Platform.Windows\Iris.Platform.Windows.csproj" />
+  </ItemGroup>
+</Project>

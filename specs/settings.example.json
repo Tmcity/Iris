@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "general": {
+    "uiLanguage": "zh-CN",
+    "theme": "System",
+    "launchAtStartup": false,
+    "showStartupNotification": true,
+    "checkForUpdates": true,
+    "logLevel": "Information"
+  },
+  "hotkeys": {
+    "SelectionTranslate": {
+      "modifiers": "Alt, Control",
+      "key": "D",
+      "enabled": true
+    },
+    "InputTranslate": {
+      "modifiers": "Alt, Control",
+      "key": "F",
+      "enabled": true
+    },
+    "ScreenshotTranslate": {
+      "modifiers": "Alt, Control",
+      "key": "S",
+      "enabled": true
+    },
+    "ScreenshotOcr": {
+      "modifiers": "Alt, Control",
+      "key": "O",
+      "enabled": true
+    },
+    "SilentScreenshotOcr": {
+      "modifiers": "Alt, Control, Shift",
+      "key": "O",
+      "enabled": false
+    },
+    "ClipboardTranslate": {
+      "modifiers": "Alt, Control",
+      "key": "V",
+      "enabled": false
+    },
+    "ToggleFloatingBall": {
+      "modifiers": "Alt, Control",
+      "key": "B",
+      "enabled": false
+    }
+  },
+  "translation": {
+    "defaultSourceLanguage": "auto",
+    "primaryTargetLanguage": "zh-Hans",
+    "secondaryTargetLanguage": "en",
+    "autoSwapTarget": true,
+    "providers": [
+      {
+        "id": "tp-3f9a1c2b7d4e",
+        "kind": "OpenAICompatible",
+        "displayName": "DeepSeek",
+        "enabled": true,
+        "order": 0,
+        "baseUrl": "https://api.deepseek.com/v1",
+        "model": "deepseek-chat",
+        "timeoutSeconds": 60,
+        "temperature": 0.3,
+        "openAIOptions": {
+          "stream": true,
+          "includeStreamUsage": false,
+          "maxTokensField": "MaxTokens",
+          "stripThinkTags": true,
+          "chatCompletionsPath": "chat/completions"
+        }
+      },
+      {
+        "id": "tp-8c21e0a4b5f6",
+        "kind": "Anthropic",
+        "displayName": "Claude",
+        "enabled": true,
+        "order": 1,
+        "model": "claude-opus-5",
+        "timeoutSeconds": 60,
+        "maxOutputTokens": 16000,
+        "anthropicOptions": {
+          "effort": "low",
+          "refusalFallback": true
+        }
+      }
+    ],
+    "customPrompts": [],
+    "defaultPromptTemplateId": "builtin.translate.v1",
+    "maxConcurrentProviders": 4,
+    "maxInputChars": 5000,
+    "cacheEnabled": true,
+    "cacheCapacity": 500,
+    "autoCopy": "None",
+    "selectionLineBreaks": "Keep"
+  },
+  "ocr": {
+    "activeProviderId": "ocr-baidu",
+    "fallbackProviderId": "ocr-windows",
+    "providers": [
+      {
+        "id": "ocr-baidu",
+        "kind": "BaiduCloud",
+        "displayName": "\u767E\u5EA6\u667A\u80FD\u4E91 OCR",
+        "enabled": true,
+        "timeoutSeconds": 15,
+        "baiduOptions": {
+          "mode": "AccurateBasic",
+          "detectDirection": true,
+          "paragraph": true,
+          "baseUrl": "https://aip.baidubce.com"
+        }
+      },
+      {
+        "id": "ocr-windows",
+        "kind": "WindowsLocal",
+        "displayName": "Windows \u672C\u5730 OCR",
+        "enabled": true,
+        "timeoutSeconds": 15,
+        "windowsOptions": {}
+      }
+    ],
+    "textLayout": "MergeParagraphs",
+    "languageHint": "auto",
+    "autoCopyOnOcr": false,
+    "silentOcrShowNotification": true
+  },
+  "selection": {
+    "mouseMode": "Off",
+    "readOrder": [
+      "UIAutomation",
+      "Clipboard"
+    ],
+    "restoreClipboard": true,
+    "clipboardTimeoutMs": 400,
+    "requireIBeamCursor": true,
+    "minDragDistancePx": 6,
+    "iconAutoHideMs": 3000,
+    "excludedProcesses": [],
+    "clipboardUnsafeProcesses": [
+      "WindowsTerminal.exe",
+      "cmd.exe",
+      "powershell.exe",
+      "pwsh.exe",
+      "conhost.exe",
+      "OpenConsole.exe",
+      "mintty.exe",
+      "wezterm-gui.exe",
+      "alacritty.exe",
+      "putty.exe",
+      "kitty.exe",
+      "Tabby.exe"
+    ],
+    "openInputWhenEmpty": true
+  },
+  "screenshot": {
+    "confirmOnMouseUp": true,
+    "showMagnifier": true,
+    "hideIrisWindows": true,
+    "copyImageToClipboard": false,
+    "maskOpacity": 0.45
+  },
+  "floatingBall": {
+    "enabled": false,
+    "clickAction": "ScreenshotTranslate",
+    "size": 44,
+    "opacity": 0.9,
+    "edgeSnap": true,
+    "autoHideAtEdge": true,
+    "acceptDrop": true
+  },
+  "translateWindow": {
+    "placement": "FollowCursor",
+    "topmost": true,
+    "hideOnDeactivate": true,
+    "enterToTranslate": true,
+    "width": 460,
+    "fontSize": 14
+  },
+  "history": {
+    "enabled": true,
+    "maxEntries": 5000
+  },
+  "network": {
+    "proxyMode": "System",
+    "bypassProxyOnLocal": true
+  }
+}

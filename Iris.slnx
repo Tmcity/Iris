@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Iris.App/Iris.App.csproj" />
+    <Project Path="src/Iris.Core/Iris.Core.csproj" />
+    <Project Path="src/Iris.Infrastructure/Iris.Infrastructure.csproj" />
+    <Project Path="src/Iris.Platform.Windows/Iris.Platform.Windows.csproj" />
+    <Project Path="src/Iris.Providers/Iris.Providers.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Iris.ArchitectureTests/Iris.ArchitectureTests.csproj" />
+    <Project Path="tests/Iris.Core.Tests/Iris.Core.Tests.csproj" />
+    <Project Path="tests/Iris.Infrastructure.Tests/Iris.Infrastructure.Tests.csproj" />
+    <Project Path="tests/Iris.Platform.Windows.Tests/Iris.Platform.Windows.Tests.csproj" />
+    <Project Path="tests/Iris.Providers.Tests/Iris.Providers.Tests.csproj" />
+  </Folder>
+</Solution>
