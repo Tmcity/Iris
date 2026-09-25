@@ -1,7 +1,8 @@
 # Iris 架构设计说明书
 
-> 版本：v1.1 · 2026-09-25 · 状态：**已冻结（首期）**
+> 版本：v1.2 · 2026-09-25 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
+> 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
@@ -173,6 +174,7 @@ Core 程序集禁止引用：`PresentationFramework`、`PresentationCore`、`Win
 | `Presentation/` | `ITranslateWindowPresenter`、`IScreenshotService`、`IOcrResultPresenter`、`INotificationService`、`ISettingsWindowPresenter`、`IHistoryWindowPresenter`、`IFloatingBallController`、`IAppLifetime` | 端口，App 实现 |
 | `Workflows/` | 每个 `IrisAction` 一个 `IActionHandler` | Core |
 | `Serialization/` | `IrisJson` | Core |
+| `IO/` | `AtomicFile`：原子写文件（tmp + WriteThrough + 备份 + Move，共享冲突重试），供设置与密钥文件使用 | Core |
 | `DependencyInjection/` | `AddIrisCore(this IServiceCollection)` | Core |
 
 ### 5.2 Iris.Providers
@@ -187,7 +189,7 @@ Core 程序集禁止引用：`PresentationFramework`、`PresentationCore`、`Win
 
 ### 5.3 Iris.Infrastructure
 
-`Settings/JsonSettingsService`、`Settings/Migrations/*`、`Storage/AppPaths`、`Storage/SqliteConnectionFactory`、`Storage/DatabaseInitializer`、`Storage/SqliteHistoryRepository`、`DependencyInjection/AddIrisInfrastructure`。
+`Settings/JsonSettingsService`、`Settings/SettingsMigrationRunner`、`Settings/SettingsSalvager`、`Settings/SettingsNormalizer`（§12.2）、`Settings/Migrations/*`、`Storage/AppPaths`、`Storage/SqliteConnectionFactory`、`Storage/DatabaseInitializer`、`Storage/SqliteHistoryRepository`、`DependencyInjection/AddIrisInfrastructure`。
 
 ### 5.4 Iris.Platform.Windows
 
@@ -608,8 +610,53 @@ Message 使用默认文案；Detail = `"HTTP {status}: {error.message 截断到 
 
 - 不可变 record + `with`：`await settings.UpdateAsync(s => s with { General = s.General with { Theme = AppTheme.Dark } })`。
 - 设置页采用“草稿 → 保存”模式：打开时复制 Current 作为草稿，点击“保存”时一次性 UpdateAsync；热键录入、Provider 测试都针对草稿进行。
-- 迁移：`SchemaVersion < CurrentSchemaVersion` 时按 FromVersion 依次执行 `ISettingsMigration`（操作 `JsonObject`），迁移后先备份原文件再写入。
 - 新增字段只要有默认值就不需要迁移（缺失字段取默认值）；重命名、删除、改变字段含义时才需要迁移。
+- Iris 运行期间用户手动修改 settings.json 不会被检测到，下次保存时会被覆盖（首期接受）。
+
+#### 12.2.1 加载管道（`JsonSettingsService.LoadAsync`）
+
+```
+读取文件（UTF-8，兼容 BOM）
+ → JsonNode.Parse（允许注释与尾逗号）          失败或根节点不是对象 → 损坏处理（见契约）
+ → 读取 schemaVersion                            缺失 → 视为当前版本；非整数 → 视为当前版本并记一条修复
+     > 当前版本：记 Warning，复制原文件为 settings.v{n}.json（已存在则跳过），不迁移，尽力加载
+     < 当前版本：复制原文件为 settings.v{n}.bak.json，按 FromVersion 依次执行 ISettingsMigration
+ → 挽救（Salvage，JsonNode 层）
+ → 反序列化为 AppSettings（IrisJson.Options）   仍失败 → 损坏处理
+ → 规范化（Normalize，强类型层）
+ → 若发生了迁移 / 挽救 / 规范化修复 → 原子回写，并以 Warning 记录修复清单（只记字段路径与新旧值，不记整份 JSON）
+```
+
+**挽救规则（Salvage）**：目的是让单个坏字段只影响它自己，而不是把整份设置重置为默认值（`required` 成员缺失、枚举字符串非法都会让整份反序列化失败）。
+0. 版本处理完成后，无条件把 `schemaVersion` 写为当前版本号（数字）——否则 `"schemaVersion": "abc"` 会让整份反序列化失败。
+1. `translation.providers`、`translation.customPrompts`、`ocr.providers`：不是数组 → 移除该属性；是数组 → 逐个元素尝试单独反序列化为对应类型，失败的元素移除。
+2. `hotkeys`：不是对象 → 移除该属性；是对象 → 逐个属性检查：键名须能用 `Enum.TryParse<IrisAction>(ignoreCase: true)` 解析且 `Enum.IsDefined` 为真（System.Text.Json 本身接受小写与数字键，这里统一**改写为规范名称**，如 `"3"` → `"ScreenshotTranslate"`；改写后与已有键重复则丢弃后者），值为 null 或能反序列化为 `HotkeyBinding`，否则移除该属性。
+3. 顶层各节（`general`、`translation`、`ocr`、`selection`、`screenshot`、`floatingBall`、`translateWindow`、`history`、`network`）：逐节尝试单独反序列化为对应类型，失败的整节移除（使用默认值）。
+4. 顶层未知属性保留原样（反序列化时忽略）。
+
+**规范化规则（Normalize）**：保证 `Current` 永远满足下列不变量。数值越界一律**夹到边界值**（clamp）。
+
+| # | 范围 | 规则 |
+|---|---|---|
+| N1 | 顶层 | 任何为 null 的节 / `Hotkeys` 字典 → 默认值；`SchemaVersion` → 当前版本 |
+| N2 | Hotkeys | 值为 null 的条目视为缺失；`HotkeyDefaults` 中有、字典中缺失的动作 → 补默认绑定；`Key` 为空白的条目 → 有默认绑定则替换为默认绑定，否则移除。注意：JSON 中只要出现 `hotkeys` 对象，反序列化结果就**只包含**文件中列出的条目（不会与默认值合并），因此本规则是必需的 |
+| N3 | Translation | null 列表 → 空列表；Profile：`Id` 空白 → 移除，`Id` 重复 → 保留第一个；`DisplayName` 空白 → 用 `Id`；`TimeoutSeconds` ∈ [5, 600]；`MaxOutputTokens` 为 null 或 ≥ 1（否则置 null）；`Temperature` 为 null 或 ∈ [0, 2]；OpenAICompatible 且 `BaseUrl` 空白 → `Enabled = false`；按 Kind 补齐 null 的 `OpenAIOptions` / `AnthropicOptions`。`MaxConcurrentProviders` ∈ [1, 8]；`MaxInputChars` ∈ [100, 100000]；`CacheCapacity` ∈ [0, 10000]；`PrimaryTargetLanguage` / `SecondaryTargetLanguage` 为空白或 `auto` → 各自默认值；`DefaultSourceLanguage` 空白 → `auto`；`CustomPrompts`：`Id` 空白、重复、或与内置模板 Id 相同 → 移除；`DefaultPromptTemplateId` 不存在于内置 + 自定义模板中 → 内置默认 |
+| N4 | Ocr | null 列表 → 默认列表；缺失的内置 Profile（`ocr-baidu`、`ocr-windows`）→ 按默认值追加；`Id` 空白 / 重复规则同 N3；`TimeoutSeconds` ∈ [5, 120]；按 Kind 补齐 null 的 `BaiduOptions` / `WindowsOptions`；`ActiveProviderId` 不存在 → `ocr-baidu`；`FallbackProviderId` 不存在或等于 Active → null；`LanguageHint` 空白 → `auto` |
+| N5 | Selection | `ReadOrder` 为 null 或空 → 默认顺序，并去除重复项；`ClipboardTimeoutMs` ∈ [100, 2000]；`MinDragDistancePx` ∈ [2, 50]；`IconAutoHideMs` ∈ [500, 10000]；`ExcludedProcesses` 为 null → 空列表；`ClipboardUnsafeProcesses` 为 null → 默认列表 |
+| N6 | Screenshot | `MaskOpacity` ∈ [0, 0.9] |
+| N7 | FloatingBall | `Size` ∈ [24, 96]；`Opacity` ∈ [0.2, 1.0] |
+| N8 | TranslateWindow | `Width` ∈ [280, 1200]；`FontSize` ∈ [10, 32] |
+| N9 | History | `MaxEntries` ∈ [100, 100000] |
+| N10 | Network | `ProxyMode = Custom` 但 `CustomProxyUrl` 不是 scheme 为 http / https / socks5 的绝对 URI → `ProxyMode = System` |
+| N11 | General | `UiLanguage` 不属于 {zh-CN, en-US}（不区分大小写）→ zh-CN，属于时统一为规范大小写；`LogLevel` 不属于 {Verbose, Debug, Information, Warning, Error}（不区分大小写）→ Information，属于时统一为规范大小写 |
+
+浮点数若为 NaN / Infinity，按“越界”处理，夹到下界。`UpdateAsync` 同样先规范化再写入，因此 UI 层传入越界值不会破坏不变量（但 UI 仍应在输入控件上限制范围）。
+
+#### 12.2.2 写入
+
+- 原子写入：序列化（`IrisJson.Options`，UTF-8 无 BOM，末尾换行）→ 以 `FileOptions.WriteThrough` 写入 `settings.json.tmp` 并 `Flush(true)` → 目标文件存在时复制为 `settings.json.bak` → `File.Move(tmp, settings.json, overwrite: true)`。
+- 共享冲突（HResult 0x80070020 / 0x80070021）与 `UnauthorizedAccessException`（杀毒软件或索引服务短暂占用文件）：每一步最多重试 5 次，间隔 50 ms。最终失败 → 尽力删除 tmp，抛 `IrisException(StorageFailure, detail: 路径)`。
+- 损坏文件的备份使用 `File.Move`（而不是复制），这样随后写入默认值时不会用损坏内容覆盖上一次正常的 `settings.json.bak`。备份文件名冲突时依次追加 `-1`、`-2`……
 
 ### 12.3 密钥
 

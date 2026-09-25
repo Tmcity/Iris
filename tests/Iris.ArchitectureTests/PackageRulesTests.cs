@@ -10,27 +10,31 @@ namespace Iris.ArchitectureTests;
 
 public class PackageRulesTests
 {
+    private static readonly HashSet<string> UnrestrictedProjects = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "Iris.App",
+    };
+
     // 新增依赖须经架构师批准（ARCH §4.2）
-    private static readonly IReadOnlyDictionary<string, IReadOnlySet<string>> AllowedPackages = new Dictionary<string, IReadOnlySet<string>>
+    private static readonly Dictionary<string, IReadOnlySet<string>> AllowedPackages = new(StringComparer.OrdinalIgnoreCase)
     {
         ["Iris.Core"] = new HashSet<string>(StringComparer.OrdinalIgnoreCase),
         ["Iris.Providers"] = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
             "Microsoft.Extensions.Http",
             "Microsoft.Extensions.Http.Resilience",
-            "Anthropic"
+            "Anthropic",
         },
         ["Iris.Infrastructure"] = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
             "Microsoft.Data.Sqlite",
-            "Dapper"
+            "Dapper",
         },
         ["Iris.Platform.Windows"] = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
         {
             "Microsoft.Windows.CsWin32",
-            "System.Security.Cryptography.ProtectedData"
+            "System.Security.Cryptography.ProtectedData",
         },
-        ["Iris.App"] = new HashSet<string>(StringComparer.OrdinalIgnoreCase) // 不限制（组合根）
     };
 
     private static string FindRepoRoot()
@@ -61,12 +65,6 @@ public class PackageRulesTests
 
         foreach (var (projectName, allowedSet) in AllowedPackages)
         {
-            if (projectName == "Iris.App")
-            {
-                // 不限制（组合根）
-                continue;
-            }
-
             var projPath = Path.Combine(srcDir, projectName, $"{projectName}.csproj");
             File.Exists(projPath).ShouldBeTrue($"Project file not found: {projPath}");
 
@@ -83,6 +81,27 @@ public class PackageRulesTests
                 isAllowed.ShouldBeTrue(
                     $"Package '{pkg}' in project '{projectName}' is not in the allowlist. 新增依赖须经架构师批准（ARCH §4.2）");
             }
+        }
+    }
+
+    [Fact]
+    public void AllSourceProjects_AreCovered()
+    {
+        var root = FindRepoRoot();
+        var srcDir = Path.Combine(root, "src");
+
+        var projectDirectories = Directory.EnumerateDirectories(srcDir)
+            .Where(dir => Directory.EnumerateFiles(dir, "*.csproj").Any())
+            .Select(Path.GetFileName)
+            .ToList();
+
+        projectDirectories.ShouldNotBeEmpty();
+
+        foreach (var projectName in projectDirectories)
+        {
+            projectName.ShouldNotBeNull();
+            var isCovered = AllowedPackages.ContainsKey(projectName) || UnrestrictedProjects.Contains(projectName);
+            isCovered.ShouldBeTrue($"Source project '{projectName}' is not registered in either AllowedPackages or UnrestrictedProjects.");
         }
     }
 }

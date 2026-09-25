@@ -110,8 +110,10 @@ public sealed class AppPathsTests : IDisposable
     {
         var ex1 = Should.Throw<IrisException>(() => new AppPaths(_exeDir, string.Empty));
         ex1.Code.ShouldBe(ErrorCode.StorageFailure);
+        ex1.Detail.ShouldBe("(ApplicationData 路径为空)");
 
         var ex2 = Should.Throw<IrisException>(() => new AppPaths(_exeDir, "   "));
         ex2.Code.ShouldBe(ErrorCode.StorageFailure);
+        ex2.Detail.ShouldBe("(ApplicationData 路径为空)");
     }
 }

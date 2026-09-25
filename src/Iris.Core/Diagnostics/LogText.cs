@@ -54,13 +54,40 @@ public static class LogText
             }
         }
 
-        var escaped = head
-            .Replace("\r", "\\r")
-            .Replace("\n", "\\n")
-            .Replace("\t", "\\t")
-            .Replace("\"", "\\\"");
+        var sb = new StringBuilder(head.Length + 8);
+        foreach (var c in head)
+        {
+            switch (c)
+            {
+                case '\\':
+                    sb.Append(@"\\");
+                    break;
+                case '"':
+                    sb.Append(@"\""");
+                    break;
+                case '\r':
+                    sb.Append(@"\r");
+                    break;
+                case '\n':
+                    sb.Append(@"\n");
+                    break;
+                case '\t':
+                    sb.Append(@"\t");
+                    break;
+                default:
+                    if (char.IsControl(c) || c == '\u0085' || c == '\u2028' || c == '\u2029')
+                    {
+                        sb.Append(System.Globalization.CultureInfo.InvariantCulture, $@"\u{(int)c:X4}");
+                    }
+                    else
+                    {
+                        sb.Append(c);
+                    }
+                    break;
+            }
+        }
 
         var suffix = hasMore ? "…" : string.Empty;
-        return $"{fp} head=\"{escaped}{suffix}\"";
+        return $"{fp} head=\"{sb}{suffix}\"";
     }
 }

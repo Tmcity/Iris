@@ -85,4 +85,14 @@ public class LogTextTests
             }
         }
     }
+
+    [Fact]
+    public void Preview_EscapesBackslashAndSpecialControlCharacters()
+    {
+        // Backslash, ESC (\u001B), NUL (\0), and Line Separator (\u2028)
+        var input = "a\\b\u001bc\0d\u2028e";
+        var preview = LogText.Preview(input);
+
+        preview.ShouldContain(@"head=""a\\b\u001Bc\u0000d\u2028e""");
+    }
 }

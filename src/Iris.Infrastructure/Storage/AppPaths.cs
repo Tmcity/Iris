@@ -19,16 +19,7 @@ internal sealed class AppPaths : IAppPaths
     internal AppPaths(string executableDirectory, string roamingAppDataDirectory)
     {
         var markerPath = Path.Combine(executableDirectory, PortableMarkerFileName);
-        var isPortable = false;
-        if (File.Exists(markerPath))
-        {
-            isPortable = true;
-        }
-        else if (Directory.Exists(executableDirectory))
-        {
-            isPortable = Directory.EnumerateFiles(executableDirectory)
-                .Any(f => string.Equals(Path.GetFileName(f), PortableMarkerFileName, StringComparison.OrdinalIgnoreCase));
-        }
+        var isPortable = File.Exists(markerPath);
 
         IsPortable = isPortable;
 
@@ -40,7 +31,7 @@ internal sealed class AppPaths : IAppPaths
         {
             if (string.IsNullOrWhiteSpace(roamingAppDataDirectory))
             {
-                throw new IrisException(ErrorCode.StorageFailure, "无法创建数据目录", detail: roamingAppDataDirectory ?? string.Empty);
+                throw new IrisException(ErrorCode.StorageFailure, "无法创建数据目录", detail: "(ApplicationData 路径为空)");
             }
 
             DataDirectory = Path.GetFullPath(Path.Combine(roamingAppDataDirectory, AppFolderName));

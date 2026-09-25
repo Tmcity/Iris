@@ -25,18 +25,18 @@
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
 | T-001 | ☑ | 工程骨架与核心契约落地 | — | 1d |
-| T-002 | ▶ | AppPaths + 日志基础设施 + ErrorMessages + LogText | T-001 | 0.75d |
-| T-003 | ☐ | JsonSettingsService（加载 / 原子保存 / 迁移 / 损坏恢复） | T-002 | 1d |
+| T-002 | ☑ | AppPaths + 日志基础设施 + ErrorMessages + LogText | T-001 | 0.75d |
+| T-003 | ▶ | JsonSettingsService（加载 / 挽救 / 规范化 / 原子保存 / 迁移 / 损坏恢复）+ T-002 整改 | T-002 | 1.5d |
 | T-004 | ☐ | DpapiSecretStore | T-002 | 0.5d |
 | T-005 | ☐ | WPF 应用外壳：Generic Host、单实例、托盘、主题、全局异常 | T-003, T-004 | 1.5d |
 
 **T-001 工程骨架与核心契约落地** — ☑ 已完成，见 `tasks/done/T-001.md`（2026-09-25 评审通过）。
 
-**T-002 AppPaths + 日志** — 详见 `tasks/current_task.md`
+**T-002 AppPaths + 日志** — ☑ 已完成，见 `tasks/done/T-002.md`（2026-09-25 评审通过）。
 - 交付：`Iris.Infrastructure/Storage/AppPaths.cs`（实现 `IAppPaths`，含便携模式判断，ARCH §12.1）；`Iris.App` 中配置 Serilog（文件 sink，按天滚动，保留 7 天，单文件 ≤ 10 MB；最低级别取自 `GeneralSettings.LogLevel`，启动时先用 Information）；`Iris.Core/Errors/ErrorMessages.cs`（每个 ErrorCode 对应一条默认中文文案）。
 - 验收：测试覆盖便携 / 非便携两种路径，且目录会被自动创建；`ErrorMessages` 覆盖全部枚举值（用反射遍历测试）。
 
-**T-003 JsonSettingsService**
+**T-003 JsonSettingsService** — 详见 `tasks/current_task.md`
 - 交付：`Iris.Infrastructure/Settings/JsonSettingsService.cs`、`SettingsMigrationRunner.cs`，严格按 CONTRACTS 中 `ISettingsService` 注释描述的语义实现。
 - 验收（全部为自动化测试，在临时目录中进行）：首次加载会生成默认文件；读写往返后内容一致；损坏的 JSON 会被备份并抛出 `SettingsCorrupted`，之后 Current 可用；写入是原子的（写入过程中模拟异常，原文件不被破坏）；并发调用 UpdateAsync 按顺序串行执行；mutate 返回同一实例时不写盘；迁移链按顺序执行（用一个测试专用的迁移验证）；`Changed` 事件携带新旧值。
 
@@ -46,6 +46,12 @@
 
 **T-005 WPF 应用外壳**
 - 交付：`Program.cs`（自定义 Main + `SingleInstanceGuard`）、`AppHostBuilder`、`AppBootstrapper`（本任务只实现 ARCH §10.1 的步骤 1、2、3、8；其余步骤留下 TODO 标记）、`TrayIconController`（菜单暂时只有“设置（占位）/ 退出”）、`AppLifetime`、`ThemeService`（跟随系统 / 浅色 / 深色）、`GlobalExceptionHandler`、`TrayNotificationService`（实现 `INotificationService`）、`app.manifest`（PerMonitorV2）。
+- **评审遗留（T-002，必须在本任务中处理）**：
+  1. 删除 `App.xaml` 的 `StartupUri`，所有窗口一律显式创建；启动失败路径（数据目录不可用等）必须在构造任何窗口之前退出。（T-002 评审实测：`Shutdown(1)` 之后 WPF 仍按 StartupUri 构造了 MainWindow。）
+  2. `IrisLogging.CreateLogger` 不得修改调用方传入的 `LoggingLevelSwitch`；初始级别由调用方根据 `GeneralSettings.LogLevel` 设置，并在 `ISettingsService.Changed` 时更新。
+  3. 启动与退出日志改用带 SourceContext 的日志器（`ILogger<T>` 或 `Log.ForContext<T>()`），不再输出空的 `()`。
+  4. `Program.Main` 在日志器可用之前兜底捕获所有异常（不只是 `IrisException`），弹窗提示后以退出码 1 结束。
+  5. 启动错误弹窗需要确保可见（没有其他窗口时对话框可能出现在其他应用下方）：以置顶方式显示。
 - 验收：启动后只显示托盘图标（没有主窗口、不出现在任务栏）；再次启动时第二个进程立即退出；退出菜单可以干净地退出（日志中能看到关闭流程）；人为抛出一个未处理异常会被记录到日志并弹出通知，进程不崩溃；空闲内存 ≤ 120 MB。
 
 ---
@@ -183,7 +189,7 @@
 
 **T-034** 交付 `specs/DB_SCHEMA.sql` 全部内容。验收（使用临时文件数据库）：迁移可以重复执行（幂等）；增删改查、FTS 检索（中文 ≥ 3 字、< 3 字走 LIKE）、收藏、按上限修剪时保留收藏、去重规则、删除后 FTS 同步。
 **T-035** 验收：搜索防抖、分页、展开查看各服务结果、收藏 / 删除 / 清空（可选择保留收藏）/ 重新翻译 / 复制。
-**T-036** 验收：三种代理模式切换无需重启即可生效；“测试”按钮通过当前代理访问一个已配置的服务端点并显示结果。
+**T-036** 注意：自定义代理 URL 可能包含账号密码（`http://user:pass@host:port`），不得以明文写入 settings.json——带凭据时把 userinfo 部分存入 `ISecretStore`（键 `network/proxy-credentials`），settings 中只保存去掉 userinfo 的 URL（需同步提交契约变更申请）。验收：三种代理模式切换无需重启即可生效；“测试”按钮通过当前代理访问一个已配置的服务端点并显示结果。
 **T-037** 交付 ARCH §10.1 步骤 1、7、9 及命令行。验收：`Iris.exe --action ScreenshotTranslate` 在主实例中触发截图；`--translate "hello"` 可用；非法参数给出提示且不崩溃。
 **T-038** 验收：代码和 XAML 中不再有硬编码的中文 UI 字符串（用脚本扫描）；切换 UI 语言后重启生效。
 **T-039** 交付 `build/pack.ps1`。验收：生成的安装包在一台干净的 Windows 10/11 虚拟机上能自动安装 .NET 桌面运行时并正常运行；检查更新功能可用；卸载时询问是否保留用户数据。
