@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.0 · 2026-09-25 · 状态：**已冻结（首期）**
+> 版本：v1.1 · 2026-09-25 · 状态：**已冻结（首期）**
+> 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
@@ -93,7 +94,7 @@ Iris 是一个 Windows 桌面翻译工具（对标 TTime / Pot），常驻系统
 | 本地 OCR / 图像 | WinRT `Windows.Media.Ocr`、`Windows.Graphics.Imaging`（TFM `net10.0-windows10.0.19041.0`） | Iris.Platform.Windows |
 | 数据库 | **Microsoft.Data.Sqlite** + **Dapper** | Iris.Infrastructure |
 | 打包更新 | **Velopack** | Iris.App / build |
-| 单元测试 | **xUnit v3**、**NSubstitute**、**Shouldly**、**RichardSzalay.MockHttp** | tests/* |
+| 单元测试 | **xUnit v3**、**NSubstitute**、**Shouldly**、**RichardSzalay.MockHttp**；运行器为 **Microsoft.Testing.Platform**（`global.json` 中 `"test": { "runner": "Microsoft.Testing.Platform" }`，.NET 10 SDK 的 `dotnet test` 需要此配置） | tests/* |
 
 **最低系统**：Windows 10 2004（19041）x64。**DPI**：Per-Monitor V2（`app.manifest`）。
 
@@ -138,8 +139,10 @@ Iris 是一个 Windows 桌面翻译工具（对标 TTime / Pot），常驻系统
 | `Iris.Core` | `net10.0` | 无 | 仅 `Microsoft.Extensions.*.Abstractions`（Logging / DependencyInjection / Options） |
 | `Iris.Providers` | `net10.0` | Core | Microsoft.Extensions.Http(.Resilience)、Anthropic |
 | `Iris.Infrastructure` | `net10.0` | Core | Microsoft.Data.Sqlite、Dapper |
-| `Iris.Platform.Windows` | `net10.0-windows10.0.19041.0` | Core | CsWin32、UIAutomation；**不启用 UseWPF / UseWindowsForms** |
+| `Iris.Platform.Windows` | `net10.0-windows10.0.19041.0` | Core | CsWin32、UIAutomation、System.Security.Cryptography.ProtectedData；**不启用 UseWPF / UseWindowsForms** |
 | `Iris.App` | `net10.0-windows10.0.19041.0`，`UseWPF`，`WinExe` | 全部 | WPF-UI、CommunityToolkit.Mvvm、H.NotifyIcon.Wpf、Hosting、Serilog、Velopack |
+
+`Microsoft.Extensions.*.Abstractions` 在所有层均可引用（各层的 `AddIris*` 扩展方法需要）。除此之外，每个项目的 NuGet 依赖以 `Iris.ArchitectureTests` 中的**包白名单**为准；新增依赖须经架构师批准后同时更新本表与白名单。
 
 Core 程序集禁止引用：`PresentationFramework`、`PresentationCore`、`WindowsBase`、`System.Windows.Forms`、`Microsoft.Windows.SDK.NET`、任何 `Iris.*`。
 
@@ -156,6 +159,7 @@ Core 程序集禁止引用：`PresentationFramework`、`PresentationCore`、`Win
 | 目录 | 内容 | 实现者 |
 |---|---|---|
 | `Errors/` | `ErrorCode`、`ErrorInfo`、`IrisException`、`ErrorMessages`（ErrorCode → 默认中文提示的静态表） | Core |
+| `Diagnostics/` | `LogText`：日志安全的文本描述（长度 + 哈希指纹 / Debug 预览），见 §12.5 | Core |
 | `Languages/` | `LanguageCodes`、`LanguageCatalog`（`ILanguageCatalog` 实现，含 §7.3 的语言表）、`ScriptLanguageDetector`、`TargetLanguageResolver` | Core |
 | `Imaging/` | `PixelPoint/PixelRect/ImageData/ImageConstraints`，`IImagePreprocessor`（端口） | 端口，Platform 实现 |
 | `Common/` | `ProviderDescriptor`、`ProviderCredentials`、`ProviderTestResult`、`PagedResult<T>` | — |
@@ -621,7 +625,7 @@ Message 使用默认文案；Detail = `"HTTP {status}: {error.message 截断到 
 
 ### 12.5 日志与隐私
 
-- 默认级别 Information。日志中**绝不**记录 API Key、Authorization 头、完整原文或译文。Debug 级别下原文只记录前 32 个字符 + 长度 + SHA-256 前 8 位。
+- 默认级别 Information。日志中**绝不**记录 API Key、Authorization 头、完整原文或译文。原文 / 译文统一通过 `LogText` 输出：Information 及以上级别只用 `LogText.Fingerprint(text)`（长度 + SHA-256 前 8 位）；Debug 级别可用 `LogText.Preview(text)`（再加前 32 个字符）。
 - 每个翻译会话以 `RequestId` 作为日志作用域（`BeginScope`），便于排查问题。
 
 ---

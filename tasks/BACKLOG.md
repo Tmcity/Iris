@@ -24,15 +24,15 @@
 
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
-| T-001 | ▶ | 工程骨架与核心契约落地 | — | 1d |
-| T-002 | ☐ | AppPaths + 日志基础设施 | T-001 | 0.5d |
+| T-001 | ☑ | 工程骨架与核心契约落地 | — | 1d |
+| T-002 | ▶ | AppPaths + 日志基础设施 + ErrorMessages + LogText | T-001 | 0.75d |
 | T-003 | ☐ | JsonSettingsService（加载 / 原子保存 / 迁移 / 损坏恢复） | T-002 | 1d |
 | T-004 | ☐ | DpapiSecretStore | T-002 | 0.5d |
 | T-005 | ☐ | WPF 应用外壳：Generic Host、单实例、托盘、主题、全局异常 | T-003, T-004 | 1.5d |
 
-**T-001 工程骨架与核心契约落地** — 见 `tasks/current_task.md`。
+**T-001 工程骨架与核心契约落地** — ☑ 已完成，见 `tasks/done/T-001.md`（2026-09-25 评审通过）。
 
-**T-002 AppPaths + 日志**
+**T-002 AppPaths + 日志** — 详见 `tasks/current_task.md`
 - 交付：`Iris.Infrastructure/Storage/AppPaths.cs`（实现 `IAppPaths`，含便携模式判断，ARCH §12.1）；`Iris.App` 中配置 Serilog（文件 sink，按天滚动，保留 7 天，单文件 ≤ 10 MB；最低级别取自 `GeneralSettings.LogLevel`，启动时先用 Information）；`Iris.Core/Errors/ErrorMessages.cs`（每个 ErrorCode 对应一条默认中文文案）。
 - 验收：测试覆盖便携 / 非便携两种路径，且目录会被自动创建；`ErrorMessages` 覆盖全部枚举值（用反射遍历测试）。
 

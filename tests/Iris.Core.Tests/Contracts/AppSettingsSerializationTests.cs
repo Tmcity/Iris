@@ -36,10 +36,6 @@ public class AppSettingsSerializationTests
     public void SpecExample_Deserializes()
     {
         var fixturePath = Path.Combine(AppContext.BaseDirectory, "Fixtures", "settings.example.json");
-        if (!File.Exists(fixturePath))
-        {
-            fixturePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Fixtures", "settings.example.json");
-        }
         File.Exists(fixturePath).ShouldBeTrue($"Fixture not found at {fixturePath}");
 
         var raw = File.ReadAllText(fixturePath);
