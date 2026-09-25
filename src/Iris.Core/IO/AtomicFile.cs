@@ -79,6 +79,51 @@ public static class AtomicFile
         return WriteAllBytesAsync(path, bytes, backupPath, cancellationToken);
     }
 
+    /// <summary>WriteAllBytesAsync 的同步版本，语义完全相同（tmp + WriteThrough + Flush(true) → 可选备份 → Move）。</summary>
+    public static void WriteAllBytes(string path, ReadOnlyMemory<byte> content, string? backupPath)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+
+        var tmpPath = path + ".tmp";
+
+        try
+        {
+            // 阶段 1：写入 tmp 文件
+            ExecuteWithRetry(() =>
+            {
+                using var fileStream = new FileStream(
+                    tmpPath,
+                    FileMode.Create,
+                    FileAccess.Write,
+                    FileShare.None,
+                    bufferSize: 4096,
+                    FileOptions.WriteThrough);
+
+                fileStream.Write(content.Span);
+                fileStream.Flush(flushToDisk: true);
+            });
+
+            // 阶段 2 & 3：tmp 写完后执行备份与替换
+            if (!string.IsNullOrEmpty(backupPath) && File.Exists(path))
+            {
+                ExecuteWithRetry(() =>
+                {
+                    File.Copy(path, backupPath, overwrite: true);
+                });
+            }
+
+            ExecuteWithRetry(() =>
+            {
+                File.Move(tmpPath, path, overwrite: true);
+            });
+        }
+        catch (Exception ex)
+        {
+            TryDelete(tmpPath);
+            throw new IrisException(ErrorCode.StorageFailure, ErrorMessages.GetDefault(ErrorCode.StorageFailure), ex, detail: path);
+        }
+    }
+
     /// <summary>带重试的复制（重试策略与 WriteAllBytesAsync 相同）。失败抛 IrisException(StorageFailure, detail: "源路径 → 目标路径")。</summary>
     public static async Task CopyAsync(string sourcePath, string destinationPath, bool overwrite, CancellationToken cancellationToken)
     {
@@ -134,6 +179,45 @@ public static class AtomicFile
                 ErrorMessages.GetDefault(ErrorCode.StorageFailure),
                 ex,
                 detail: FormattableString.Invariant($"{sourcePath} → {destinationPath}"));
+        }
+    }
+
+    /// <summary>MoveAsync 的同步版本。</summary>
+    public static void Move(string sourcePath, string destinationPath, bool overwrite)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(sourcePath);
+        ArgumentException.ThrowIfNullOrWhiteSpace(destinationPath);
+
+        try
+        {
+            ExecuteWithRetry(() =>
+            {
+                File.Move(sourcePath, destinationPath, overwrite);
+            });
+        }
+        catch (Exception ex)
+        {
+            throw new IrisException(
+                ErrorCode.StorageFailure,
+                ErrorMessages.GetDefault(ErrorCode.StorageFailure),
+                ex,
+                detail: FormattableString.Invariant($"{sourcePath} → {destinationPath}"));
+        }
+    }
+
+    private static void ExecuteWithRetry(Action action)
+    {
+        for (var attempt = 0; attempt <= MaxRetries; attempt++)
+        {
+            try
+            {
+                action();
+                return;
+            }
+            catch (Exception ex) when (attempt < MaxRetries && IsTransient(ex))
+            {
+                Thread.Sleep(RetryDelayMs);
+            }
         }
     }
 

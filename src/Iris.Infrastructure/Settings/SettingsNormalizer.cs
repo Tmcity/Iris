@@ -441,6 +441,31 @@ internal static class SettingsNormalizer
                     fixes.Add($"Translation.Providers[{profile.Id}].OpenAIOptions.ChatCompletionsPath: 为空 → 默认值");
                     openAIOptions = openAIOptions with { ChatCompletionsPath = "chat/completions" };
                 }
+
+                // N13 & R1-2: ExtraHeaders 字典中值为 null 的条目移除
+                var extraHeaders = openAIOptions.ExtraHeaders;
+                if (extraHeaders != null)
+                {
+                    var cleanedHeaders = new Dictionary<string, string>(StringComparer.Ordinal);
+                    var hasNullValues = false;
+                    foreach (var (headerKey, headerValue) in extraHeaders)
+                    {
+                        if (headerValue == null)
+                        {
+                            hasNullValues = true;
+                            fixes.Add($"Translation.Providers[{profile.Id}].OpenAIOptions.ExtraHeaders[{headerKey}]: null → 已移除");
+                        }
+                        else
+                        {
+                            cleanedHeaders[headerKey] = headerValue;
+                        }
+                    }
+
+                    if (hasNullValues)
+                    {
+                        openAIOptions = openAIOptions with { ExtraHeaders = cleanedHeaders };
+                    }
+                }
             }
 
             var anthropicOptions = profile.AnthropicOptions;

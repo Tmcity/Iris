@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Iris.Core.Actions;
 using Iris.Core.Errors;
 using Iris.Core.Serialization;
 using Iris.Core.Settings;
@@ -870,5 +871,73 @@ public sealed class JsonSettingsServiceTests
         service.Current.ShouldNotBeNull();
         service.Current.SchemaVersion.ShouldBe(AppSettings.CurrentSchemaVersion);
         service.Current.General.Theme.ShouldBe(AppTheme.System);
+    }
+
+    [Fact]
+    public async Task R1_1_HotkeyModifiersWithUndefinedBits_RetainsCustomKeyAndMasksModifiers()
+    {
+        using var dir = new TempDirectory();
+        var paths = new FakeAppPaths(dir.Path);
+        const string json = """
+        {
+          "schemaVersion": 1,
+          "hotkeys": {
+            "InputTranslate": {
+              "modifiers": 22,
+              "key": "F"
+            }
+          }
+        }
+        """;
+        await File.WriteAllTextAsync(paths.SettingsFile, json, TestContext.Current.CancellationToken);
+
+        using var service = CreateService(dir);
+        await service.LoadAsync(TestContext.Current.CancellationToken);
+
+        // 22 (0x16) masked with 0x0F (Alt, Control, Shift, Win) -> 6 (0x06 = Control | Shift)
+        service.Current.Hotkeys.ContainsKey(IrisAction.InputTranslate).ShouldBeTrue();
+        var binding = service.Current.Hotkeys[IrisAction.InputTranslate];
+        binding.Key.ShouldBe("F");
+        binding.Modifiers.ShouldBe(HotkeyModifiers.Control | HotkeyModifiers.Shift);
+        SettingsTestInvariants.AssertInvariants(service.Current);
+    }
+
+    [Fact]
+    public async Task R1_2_ExtraHeadersWithNullValue_RemovesNullEntry()
+    {
+        using var dir = new TempDirectory();
+        var paths = new FakeAppPaths(dir.Path);
+        const string json = """
+        {
+          "schemaVersion": 1,
+          "translation": {
+            "providers": [
+              {
+                "id": "tp-custom",
+                "kind": "OpenAICompatible",
+                "displayName": "Custom OpenAI",
+                "model": "gpt-4o",
+                "openAIOptions": {
+                  "extraHeaders": {
+                    "X-A": null,
+                    "X-B": "b"
+                  }
+                }
+              }
+            ]
+          }
+        }
+        """;
+        await File.WriteAllTextAsync(paths.SettingsFile, json, TestContext.Current.CancellationToken);
+
+        using var service = CreateService(dir);
+        await service.LoadAsync(TestContext.Current.CancellationToken);
+
+        var p = service.Current.Translation.Providers.First(p => p.Id == "tp-custom");
+        p.OpenAIOptions.ShouldNotBeNull();
+        p.OpenAIOptions.ExtraHeaders.ShouldNotBeNull();
+        p.OpenAIOptions.ExtraHeaders.ContainsKey("X-A").ShouldBeFalse();
+        p.OpenAIOptions.ExtraHeaders["X-B"].ShouldBe("b");
+        SettingsTestInvariants.AssertInvariants(service.Current);
     }
 }

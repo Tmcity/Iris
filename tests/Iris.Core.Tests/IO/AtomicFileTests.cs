@@ -262,4 +262,126 @@ public sealed class AtomicFileTests : IDisposable
         File.Exists(src).ShouldBeTrue();
         File.Exists(dest).ShouldBeFalse();
     }
+
+    [Fact]
+    public void WriteAllBytes_ContentCorrect_NoTmpResidual()
+    {
+        var targetFile = Path.Combine(_testDir, "sync_test.txt");
+        var tmpFile = targetFile + ".tmp";
+        var content = Encoding.UTF8.GetBytes("hello sync world 你好");
+
+        AtomicFile.WriteAllBytes(targetFile, content, null);
+
+        File.Exists(targetFile).ShouldBeTrue();
+        File.ReadAllBytes(targetFile).ShouldBe(content);
+        File.Exists(tmpFile).ShouldBeFalse();
+    }
+
+    [Fact]
+    public void WriteAllBytes_WhenTargetExistsAndBackupProvided_BacksUpOldContent()
+    {
+        var targetFile = Path.Combine(_testDir, "sync_test_backup.txt");
+        var backupFile = Path.Combine(_testDir, "sync_test_backup.txt.bak");
+        var oldContent = Encoding.UTF8.GetBytes("old sync content");
+        var newContent = Encoding.UTF8.GetBytes("new sync content");
+
+        File.WriteAllBytes(targetFile, oldContent);
+
+        AtomicFile.WriteAllBytes(targetFile, newContent, backupFile);
+
+        File.ReadAllBytes(targetFile).ShouldBe(newContent);
+        File.Exists(backupFile).ShouldBeTrue();
+        File.ReadAllBytes(backupFile).ShouldBe(oldContent);
+    }
+
+    [Fact]
+    public void WriteAllBytes_WhenTmpLocked_ThrowsStorageFailureAndTargetUnchanged()
+    {
+        var targetFile = Path.Combine(_testDir, "sync_tmp_locked.txt");
+        var tmpFile = targetFile + ".tmp";
+        var originalContent = Encoding.UTF8.GetBytes("orig sync content");
+        File.WriteAllBytes(targetFile, originalContent);
+
+        using (new FileStream(tmpFile, FileMode.Create, FileAccess.ReadWrite, FileShare.None))
+        {
+            var ex = Should.Throw<IrisException>(() =>
+                AtomicFile.WriteAllBytes(targetFile, Encoding.UTF8.GetBytes("new attempt"), null));
+
+            ex.Code.ShouldBe(ErrorCode.StorageFailure);
+            ex.Detail.ShouldBe(targetFile);
+        }
+
+        File.ReadAllBytes(targetFile).ShouldBe(originalContent);
+    }
+
+    [Fact]
+    public void WriteAllBytes_WhenTargetLockedIndefinitely_ThrowsStorageFailureAndCleansTmp()
+    {
+        var targetFile = Path.Combine(_testDir, "sync_target_locked.txt");
+        var tmpFile = targetFile + ".tmp";
+        var originalContent = Encoding.UTF8.GetBytes("orig sync content");
+        File.WriteAllBytes(targetFile, originalContent);
+
+        using (new FileStream(targetFile, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+        {
+            var ex = Should.Throw<IrisException>(() =>
+                AtomicFile.WriteAllBytes(targetFile, Encoding.UTF8.GetBytes("new attempt"), null));
+
+            ex.Code.ShouldBe(ErrorCode.StorageFailure);
+            ex.Detail.ShouldBe(targetFile);
+        }
+
+        File.Exists(tmpFile).ShouldBeFalse();
+        File.ReadAllBytes(targetFile).ShouldBe(originalContent);
+    }
+
+    [Fact]
+    public void Move_ContentMoved_SourceDeleted()
+    {
+        var src = Path.Combine(_testDir, "sync_move_src.txt");
+        var dest = Path.Combine(_testDir, "sync_move_dest.txt");
+        File.WriteAllText(src, "sync move data");
+
+        AtomicFile.Move(src, dest, overwrite: true);
+
+        File.Exists(dest).ShouldBeTrue();
+        File.ReadAllText(dest).ShouldBe("sync move data");
+        File.Exists(src).ShouldBeFalse();
+    }
+
+    [Fact]
+    public void Move_TargetLocked_ThrowsStorageFailureWithArrowDetail()
+    {
+        var src = Path.Combine(_testDir, "sync_move_src_locked.txt");
+        var dest = Path.Combine(_testDir, "sync_move_dest_locked.txt");
+        File.WriteAllText(src, "source data");
+        File.WriteAllText(dest, "dest data");
+
+        using (new FileStream(dest, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+        {
+            var ex = Should.Throw<IrisException>(() =>
+                AtomicFile.Move(src, dest, overwrite: true));
+
+            ex.Code.ShouldBe(ErrorCode.StorageFailure);
+            ex.Detail.ShouldBe($"{src} → {dest}");
+        }
+
+        File.Exists(src).ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task SyncAndAsync_ProduceIdenticalBytes_ConsistencyTest()
+    {
+        var syncFile = Path.Combine(_testDir, "consistency_sync.txt");
+        var asyncFile = Path.Combine(_testDir, "consistency_async.txt");
+        var testData = Encoding.UTF8.GetBytes("Consistency test payload with \u4e2d\u6587 and emojis \U0001F680");
+
+        AtomicFile.WriteAllBytes(syncFile, testData, null);
+        await AtomicFile.WriteAllBytesAsync(asyncFile, testData, null, TestContext.Current.CancellationToken);
+
+        var syncBytes = File.ReadAllBytes(syncFile);
+        var asyncBytes = File.ReadAllBytes(asyncFile);
+
+        syncBytes.ShouldBe(asyncBytes);
+    }
 }

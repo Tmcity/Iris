@@ -934,6 +934,45 @@ public sealed class SettingsNormalizerTests
     }
 
     [Fact]
+    public void N13_ExtraHeaders_NullValue_RemovedAndFixRecorded()
+    {
+        var settings = new AppSettings
+        {
+            Translation = new TranslationSettings
+            {
+                Providers =
+                [
+                    new()
+                    {
+                        Id = "tp-1",
+                        Kind = TranslationProviderKind.OpenAICompatible,
+                        DisplayName = "TP1",
+                        Model = "gpt-4",
+                        OpenAIOptions = new()
+                        {
+                            ExtraHeaders = new Dictionary<string, string>
+                            {
+                                ["X-A"] = null!,
+                                ["X-B"] = "b",
+                            },
+                        },
+                    },
+                ],
+            },
+        };
+
+        var fixes = new List<string>();
+        var normalized = SettingsNormalizer.Normalize(settings, fixes);
+        var p = normalized.Translation.Providers.First(p => p.Id == "tp-1");
+        p.OpenAIOptions.ShouldNotBeNull();
+        p.OpenAIOptions.ExtraHeaders.ShouldNotBeNull();
+        p.OpenAIOptions.ExtraHeaders.ContainsKey("X-A").ShouldBeFalse();
+        p.OpenAIOptions.ExtraHeaders["X-B"].ShouldBe("b");
+        fixes.ShouldContain("Translation.Providers[tp-1].OpenAIOptions.ExtraHeaders[X-A]: null → 已移除");
+        SettingsTestInvariants.AssertInvariants(normalized);
+    }
+
+    [Fact]
     public void N13_b_Normalize_AllNullFixture_LeavesNoNullInNonNullableMembers()
     {
         var fixturePath = Path.Combine(AppContext.BaseDirectory, "Fixtures", "settings.all-null.json");

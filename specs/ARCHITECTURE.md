@@ -1,9 +1,10 @@
 # Iris 架构设计说明书
 
-> 版本：v1.3 · 2026-09-25 · 状态：**已冻结（首期）**
+> 版本：v1.4 · 2026-09-25 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
+> 变更记录：v1.4（T-003-R1 复审）— §12.3 密钥存储完整规范（文件格式、加载与降级、读写语义、线程与事件）；N13 补充字典 null 值规则。
 > 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
@@ -658,7 +659,7 @@ Message 使用默认文案；Detail = `"HTTP {status}: {error.message 截断到 
 | N10 | Network | `ProxyMode = Custom` 但 `CustomProxyUrl` 不是 scheme 为 http / https / socks5 的绝对 URI → `ProxyMode = System` |
 | N11 | General | `UiLanguage` 不属于 {zh-CN, en-US}（不区分大小写）→ zh-CN，属于时统一为规范大小写；`LogLevel` 不属于 {Verbose, Debug, Information, Warning, Error}（不区分大小写）→ Information，属于时统一为规范大小写 |
 | N12 | 枚举 | System.Text.Json 接受整数形式的枚举值，所以未定义的数值（如 `"theme": 5`）能通过反序列化，必须在这里处理。普通枚举必须满足 `Enum.IsDefined`；`[Flags]` 枚举只保留已定义的位。需要检查的字段（完整清单）：`General.Theme`、`Hotkeys` 的键（`IrisAction`，未定义则移除该条目）、`HotkeyBinding.Modifiers`（Flags）、`TranslationProviderProfile.Kind`（未定义则**移除该 Profile**）、`OpenAICompatibleOptions.MaxTokensField`、`Translation.AutoCopy`、`Translation.SelectionLineBreaks`、`OcrProviderProfile.Kind`（未定义则移除该 Profile；如果它是内置 Profile，随后按 N4 补回默认配置）、`BaiduOcrOptions.Mode`、`Ocr.TextLayout`、`Selection.MouseMode`、`Selection.ReadOrder` 的元素（未定义则移除该元素，然后再应用 N5）、`FloatingBall.ClickAction`、`TranslateWindow.Placement`、`Network.ProxyMode`。未单独说明的字段，未定义值 → 该字段在默认实例中的值 |
-| N13 | 空值 | 用户手写的 `null` 会绕过非可空引用类型的约束（`RespectNullableAnnotations` 未开启），所以规范化后，AppSettings 对象图中**所有非可空引用类型的成员都不得为 null**。规则：`TranslationProviderProfile.Model` 为 null → 空字符串，并设 `Enabled = false`；`PromptTemplate.Name` 为空白 → 用 `Id`；`PromptTemplate.System` 或 `User` 为 null 或空白 → 移除该模板；其余带默认值的字符串（`OpenAICompatibleOptions.ChatCompletionsPath`、`BaiduOcrOptions.BaseUrl` 等）为 null 或空白 → 该属性在默认实例中的值；为 null 的嵌套对象与集合 → 默认实例或默认集合（N1、N3–N5 已覆盖的部分按原规则执行）；集合中为 null 的字符串元素（如 `ExcludedProcesses: [null]`）→ 移除 |
+| N13 | 空值 | 用户手写的 `null` 会绕过非可空引用类型的约束（`RespectNullableAnnotations` 未开启），所以规范化后，AppSettings 对象图中**所有非可空引用类型的成员都不得为 null**。规则：`TranslationProviderProfile.Model` 为 null → 空字符串，并设 `Enabled = false`；`PromptTemplate.Name` 为空白 → 用 `Id`；`PromptTemplate.System` 或 `User` 为 null 或空白 → 移除该模板；其余带默认值的字符串（`OpenAICompatibleOptions.ChatCompletionsPath`、`BaiduOcrOptions.BaseUrl` 等）为 null 或空白 → 该属性在默认实例中的值；为 null 的嵌套对象与集合 → 默认实例或默认集合（N1、N3–N5 已覆盖的部分按原规则执行）；集合中为 null 的字符串元素（如 `ExcludedProcesses: [null]`）→ 移除；字典中值为 null 的条目（如 `ExtraHeaders: {"X-A": null}`）→ 移除。总之，规范化后 AppSettings 对象图中的任何集合都不得包含 null 元素或 null 值 |
 | N14 | 引用 | `Ocr.ActiveProviderId`、`Ocr.FallbackProviderId`、`Translation.DefaultPromptTemplateId` 采用不区分大小写的方式匹配，匹配成功后**改写为被匹配对象的精确 Id**（下游的注册表按序数比较查找）。N4 中补回的内置 OCR Profile 必须**直接复制** `new OcrSettings().Providers` 中的对应项，不得另行硬编码名称或选项 |
 
 浮点数若为 NaN / Infinity，按“越界”处理，夹到下界。`UpdateAsync` 同样先规范化再写入，因此 UI 层传入越界值不会破坏不变量（但 UI 仍应在输入控件上限制范围）。
@@ -672,9 +673,38 @@ Message 使用默认文案；Detail = `"HTTP {status}: {error.message 截断到 
 
 ### 12.3 密钥
 
-- `DpapiSecretStore`：`ProtectedData.Protect(bytes, entropy: "Iris.Secrets.v1"u8, DataProtectionScope.CurrentUser)`（NuGet `System.Security.Cryptography.ProtectedData`）。
-- 文件写入同样采用原子方式；读取失败（换了机器或用户）→ 该 key 视为不存在并记 Warning。
-- 删除 Provider Profile 时，同时删除它的所有 SecretKeys。
+**存储格式（secrets.dat）**：UTF-8 JSON（无 BOM，末尾换行），明文部分只包含结构信息，所有密钥值都是 DPAPI 密文：
+
+```json
+{
+  "format": "iris-secrets",
+  "version": 1,
+  "entries": {
+    "provider/tp-8c21e0a4b5f6/api-key": "<Base64(DPAPI 密文)>"
+  }
+}
+```
+
+- 加密：`ProtectedData.Protect(UTF8(value), entropy: "Iris.Secrets.v1"u8, DataProtectionScope.CurrentUser)`（NuGet `System.Security.Cryptography.ProtectedData`）。同一明文每次加密得到的密文都不同（DPAPI 自带随机盐），因此不能通过比较密文判断值是否变化。
+- 键名只保存明文（用于按 Provider 清理），值永远不以明文落盘。
+- **不使用内存缓存明文**：`Get` 每次从内存中的密文字典取出后即时解密，明文只存在于返回的字符串中。
+
+**加载（在构造函数中同步完成；文件很小，可以接受）**：
+1. 文件不存在 → 空字典，不创建文件（首次 `Set` 时才创建）。
+2. 读取失败（共享冲突按 `AtomicFile` 的策略重试后仍失败）→ 空字典，进入**只读降级模式**，记 Error 日志。降级模式下 `Get` 返回 null；`Set` / `Remove` 先尝试重新加载一次——成功则退出降级模式并照常执行，失败则抛 `IrisException(SecretUnavailable)`。目的：绝不用空字典覆盖掉仍然有效的密钥文件。
+3. JSON 语法错误、重复属性名（用 `JsonDocument.Parse` 并设置 `JsonDocumentOptions.AllowDuplicateProperties = false`，重复时在解析阶段直接抛 `JsonException`）、`format` / `version` 不匹配、`entries` 不是对象 → 把原文件**移动**为 `secrets.corrupt-{yyyyMMddHHmmss}.dat`（重名追加 `-1`……）后按空字典继续（可写）；记 Error 日志。移动失败 → 进入只读降级模式。
+4. 单个条目的值不是字符串或不是合法 Base64 → 只丢弃该条目，记 Warning（只记键名）。
+5. 加载阶段**不解密**任何条目。
+
+**Get(key)**：键不存在 → null。解密失败（`CryptographicException`：换了机器或用户、文件被篡改）→ 返回 null，并且**每个键只记一次** Warning（只记键名）；不修改文件（用户重新填写时会覆盖该条目）。
+
+**Set(key, value)**：`value` 为 null → `ArgumentNullException`；为空字符串 → 等价于 `Remove(key)`。加密 → 在锁内更新字典并同步原子写入 → 成功后才更新内存并触发 `Changed`。写入失败 → 抛 `IrisException(StorageFailure)`，内存字典保持不变，不触发事件。
+**Remove(key)**：键不存在 → 返回 false，不写盘、不触发事件；存在 → 原子写入后删除并触发 `Changed`，返回 true。
+**线程安全**：所有读写经由同一把锁串行化；`Changed` 在释放锁之后触发（与设置服务不同：密钥变化的订阅方——Provider 注册表——会在处理器中调用 `Get`，锁外触发可以避免重入问题），处理器异常逐个捕获并记 Error。
+**同步写盘**：`ISecretStore` 是同步接口，内部使用 `AtomicFile` 的同步方法 `WriteAllBytes` / `Move`（T-004 新增）。写入**不保留** `.bak`：`Remove` 之后，密钥不应再以任何形式留在磁盘上。条目按键名（序数）排序写出，保证输出确定。调用方（设置页的“保存”）应在后台线程调用 `Set` / `Remove`。
+
+- 删除 Provider Profile 时，同时删除它的所有 SecretKeys（调用方负责，T-019）。
+- 日志中只允许出现键名，禁止出现值、密文和 Base64 串。
 
 ### 12.4 代理（`DynamicWebProxy : IWebProxy`）
 

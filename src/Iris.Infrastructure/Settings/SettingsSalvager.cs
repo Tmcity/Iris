@@ -145,11 +145,7 @@ internal static class SettingsSalvager
                 var binding = JsonSerializer.Deserialize<HotkeyBinding>(propVal.ToJsonString(), IrisJson.Options);
                 if (binding != null)
                 {
-                    const HotkeyModifiers allValid = HotkeyModifiers.Alt | HotkeyModifiers.Control | HotkeyModifiers.Shift | HotkeyModifiers.Win;
-                    if ((binding.Modifiers & ~allValid) == 0)
-                    {
-                        validBinding = true;
-                    }
+                    validBinding = true;
                 }
             }
             catch (JsonException)

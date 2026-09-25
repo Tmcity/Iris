@@ -26,8 +26,8 @@
 |---|---|---|---|---|
 | T-001 | ☑ | 工程骨架与核心契约落地 | — | 1d |
 | T-002 | ☑ | AppPaths + 日志基础设施 + ErrorMessages + LogText | T-001 | 0.75d |
-| T-003 | ▶ | JsonSettingsService（加载 / 挽救 / 规范化 / 原子保存 / 迁移 / 损坏恢复）+ T-002 整改（**返工 R1 中**） | T-002 | 1.5d + 0.5d |
-| T-004 | ☐ | DpapiSecretStore | T-002 | 0.5d |
+| T-003 | ☑ | JsonSettingsService（加载 / 挽救 / 规范化 / 原子保存 / 迁移 / 损坏恢复）+ T-002 整改（含返工 R1） | T-002 | 1.5d + 0.5d |
+| T-004 | ▶ | DpapiSecretStore + AtomicFile 同步方法 + AddIrisPlatformWindows + T-003-R1 遗留 | T-003 | 1d |
 | T-005 | ☐ | WPF 应用外壳：Generic Host、单实例、托盘、主题、全局异常 | T-003, T-004 | 1.5d |
 
 **T-001 工程骨架与核心契约落地** — ☑ 已完成，见 `tasks/done/T-001.md`（2026-09-25 评审通过）。
@@ -36,11 +36,11 @@
 - 交付：`Iris.Infrastructure/Storage/AppPaths.cs`（实现 `IAppPaths`，含便携模式判断，ARCH §12.1）；`Iris.App` 中配置 Serilog（文件 sink，按天滚动，保留 7 天，单文件 ≤ 10 MB；最低级别取自 `GeneralSettings.LogLevel`，启动时先用 Information）；`Iris.Core/Errors/ErrorMessages.cs`（每个 ErrorCode 对应一条默认中文文案）。
 - 验收：测试覆盖便携 / 非便携两种路径，且目录会被自动创建；`ErrorMessages` 覆盖全部枚举值（用反射遍历测试）。
 
-**T-003 JsonSettingsService** — 首次提交 1be472c 审查**不通过**（2026-09-25），返工单 T-003-R1 见 `tasks/current_task.md`；原工单与完成报告见 `tasks/done/T-003.md`。
+**T-003 JsonSettingsService** — ☑ 已完成（首次提交 1be472c 不通过 → 返工提交 5824211 复审通过，2026-09-25），见 `tasks/done/T-003.md`。
 - 交付：`Iris.Infrastructure/Settings/JsonSettingsService.cs`、`SettingsMigrationRunner.cs`，严格按 CONTRACTS 中 `ISettingsService` 注释描述的语义实现。
 - 验收（全部为自动化测试，在临时目录中进行）：首次加载会生成默认文件；读写往返后内容一致；损坏的 JSON 会被备份并抛出 `SettingsCorrupted`，之后 Current 可用；写入是原子的（写入过程中模拟异常，原文件不被破坏）；并发调用 UpdateAsync 按顺序串行执行；mutate 返回同一实例时不写盘；迁移链按顺序执行（用一个测试专用的迁移验证）；`Changed` 事件携带新旧值。
 
-**T-004 DpapiSecretStore**
+**T-004 DpapiSecretStore** — 详见 `tasks/current_task.md`（规范：ARCH v1.4 §12.3）
 - 交付：`Iris.Platform.Windows/Security/DpapiSecretStore.cs`（ARCH §12.3），原子写入，线程安全，触发 `Changed` 事件。
 - 验收：Set / Get / Remove 往返正确；文件中找不到明文（测试直接读文件字节进行断言）；文件损坏时 Get 返回 null，不抛异常；`ProviderCredentials.ToString()` 不泄露密钥。
 

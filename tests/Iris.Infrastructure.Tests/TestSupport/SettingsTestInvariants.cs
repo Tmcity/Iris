@@ -88,6 +88,8 @@ public static class SettingsTestInvariants
         {
             foreach (DictionaryEntry entry in dict)
             {
+                entry.Key.ShouldNotBeNull($"Dictionary key must not be null in {type.Name}");
+                entry.Value.ShouldNotBeNull($"Dictionary value must not be null for key '{entry.Key}' in {type.Name}");
                 AssertNoNullInNonNullableMembers(entry.Key, nullabilityContext, visited);
                 AssertNoNullInNonNullableMembers(entry.Value, nullabilityContext, visited);
             }
@@ -98,6 +100,7 @@ public static class SettingsTestInvariants
         {
             foreach (var item in enumerable)
             {
+                item.ShouldNotBeNull($"Collection item in {type.Name} must not be null");
                 AssertNoNullInNonNullableMembers(item, nullabilityContext, visited);
             }
             return;
