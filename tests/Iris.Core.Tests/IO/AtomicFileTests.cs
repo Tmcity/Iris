@@ -384,4 +384,74 @@ public sealed class AtomicFileTests : IDisposable
 
         syncBytes.ShouldBe(asyncBytes);
     }
+
+    [Fact]
+    public void ReadAllBytes_NormalRead_Succeeds()
+    {
+        var file = Path.Combine(_testDir, "read_all_bytes_sync.txt");
+        var expected = Encoding.UTF8.GetBytes("Sync read data \u4e2d\u6587");
+        File.WriteAllBytes(file, expected);
+
+        var actual = AtomicFile.ReadAllBytes(file);
+        actual.ShouldBe(expected);
+    }
+
+    [Fact]
+    public void ReadAllBytes_FileLockedWithFileShareNone_RetriesAndThrowsStorageFailure()
+    {
+        var file = Path.Combine(_testDir, "read_all_bytes_sync_locked.txt");
+        File.WriteAllBytes(file, [1, 2, 3]);
+
+        using (new FileStream(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+        {
+            var ex = Should.Throw<IrisException>(() => AtomicFile.ReadAllBytes(file));
+            ex.Code.ShouldBe(ErrorCode.StorageFailure);
+            ex.Detail.ShouldBe(file);
+        }
+    }
+
+    [Fact]
+    public void ReadAllBytes_FileDoesNotExist_ThrowsStorageFailure()
+    {
+        var file = Path.Combine(_testDir, "non_existent_sync.txt");
+        var ex = Should.Throw<IrisException>(() => AtomicFile.ReadAllBytes(file));
+        ex.Code.ShouldBe(ErrorCode.StorageFailure);
+        ex.Detail.ShouldBe(file);
+    }
+
+    [Fact]
+    public async Task ReadAllBytesAsync_NormalRead_Succeeds()
+    {
+        var file = Path.Combine(_testDir, "read_all_bytes_async.txt");
+        var expected = Encoding.UTF8.GetBytes("Async read data \u4e2d\u6587");
+        await File.WriteAllBytesAsync(file, expected, TestContext.Current.CancellationToken);
+
+        var actual = await AtomicFile.ReadAllBytesAsync(file, TestContext.Current.CancellationToken);
+        actual.ShouldBe(expected);
+    }
+
+    [Fact]
+    public async Task ReadAllBytesAsync_FileLockedWithFileShareNone_RetriesAndThrowsStorageFailure()
+    {
+        var file = Path.Combine(_testDir, "read_all_bytes_async_locked.txt");
+        await File.WriteAllBytesAsync(file, [1, 2, 3], TestContext.Current.CancellationToken);
+
+        using (new FileStream(file, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+        {
+            var ex = await Should.ThrowAsync<IrisException>(() =>
+                AtomicFile.ReadAllBytesAsync(file, TestContext.Current.CancellationToken));
+            ex.Code.ShouldBe(ErrorCode.StorageFailure);
+            ex.Detail.ShouldBe(file);
+        }
+    }
+
+    [Fact]
+    public async Task ReadAllBytesAsync_FileDoesNotExist_ThrowsStorageFailure()
+    {
+        var file = Path.Combine(_testDir, "non_existent_async.txt");
+        var ex = await Should.ThrowAsync<IrisException>(() =>
+            AtomicFile.ReadAllBytesAsync(file, TestContext.Current.CancellationToken));
+        ex.Code.ShouldBe(ErrorCode.StorageFailure);
+        ex.Detail.ShouldBe(file);
+    }
 }

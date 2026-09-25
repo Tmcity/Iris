@@ -166,9 +166,16 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
         string text;
         try
         {
-            text = await ReadFileWithRetryAsync(settingsPath, cancellationToken).ConfigureAwait(false);
+            var bytes = await AtomicFile.ReadAllBytesAsync(settingsPath, cancellationToken).ConfigureAwait(false);
+            using var stream = new MemoryStream(bytes);
+            using var reader = new StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks: true);
+            text = await reader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (IrisException)
         {
             throw;
         }
@@ -370,38 +377,6 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
         throw new IrisException(ErrorCode.SettingsCorrupted, ErrorMessages.GetDefault(ErrorCode.SettingsCorrupted), detail: backupPath);
     }
 
-    private static async Task<string> ReadFileWithRetryAsync(string path, CancellationToken cancellationToken)
-    {
-        const int maxRetries = 5;
-        const int retryDelayMs = 50;
-
-        for (var attempt = 0; attempt <= maxRetries; attempt++)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            try
-            {
-                using var stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-                using var reader = new StreamReader(stream, Encoding.UTF8, detectEncodingFromByteOrderMarks: true);
-                return await reader.ReadToEndAsync(cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception ex) when (attempt < maxRetries && (ex is UnauthorizedAccessException || IsSharingViolation(ex)))
-            {
-                await Task.Delay(retryDelayMs, cancellationToken).ConfigureAwait(false);
-            }
-        }
-
-        throw new IOException("无法读取文件（共享冲突重试已用尽）");
-    }
-
-    private static bool IsSharingViolation(Exception ex)
-    {
-        if (ex is IOException io)
-        {
-            return io.HResult == unchecked((int)0x80070020) || io.HResult == unchecked((int)0x80070021);
-        }
-
-        return false;
-    }
 
     [LoggerMessage(EventId = 1, Level = LogLevel.Information, Message = "设置文件不存在，已初始化为默认设置并写入 {path}")]
     private static partial void LogFileCreated(ILogger logger, string path);

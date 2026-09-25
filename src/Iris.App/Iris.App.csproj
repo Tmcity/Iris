@@ -4,6 +4,8 @@
     <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
     <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <UseWPF>true</UseWPF>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Resources\Icons\iris.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +16,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- 使用自定义 Program.Main：App.xaml 不再作为 ApplicationDefinition 自动生成 Main -->
+    <ApplicationDefinition Remove="App.xaml" />
+    <Page Include="App.xaml" />
+    <Resource Include="Resources\Icons\iris.ico" />
+    <InternalsVisibleTo Include="Iris.App.Tests" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Serilog" />
     <PackageReference Include="Serilog.Sinks.File" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" />
+    <PackageReference Include="Serilog.Extensions.Hosting" />
+    <PackageReference Include="H.NotifyIcon.Wpf" />
+    <PackageReference Include="WPF-UI" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,70 @@
+using System;
+using Iris.App.Services;
+using Iris.App.Tray;
+using Iris.Core.Presentation;
+using Iris.Core.Storage;
+using Iris.Infrastructure.DependencyInjection;
+using Iris.Platform.Windows.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Serilog;
+using Serilog.Core;
+
+namespace Iris.App.Hosting;
+
+/// <summary>
+/// 组合根：构建 Generic Host 并配置唯一的 Serilog 日志以及全部服务注册。
+/// </summary>
+internal static class AppHostBuilder
+{
+    public static IHost Build(string[] args, IAppPaths paths, LoggingLevelSwitch levelSwitch, long startTimestamp)
+    {
+        ArgumentNullException.ThrowIfNull(args);
+        ArgumentNullException.ThrowIfNull(paths);
+        ArgumentNullException.ThrowIfNull(levelSwitch);
+
+        var settings = new HostApplicationBuilderSettings
+        {
+            Args = args,
+            DisableDefaults = true,
+            ContentRootPath = AppContext.BaseDirectory,
+        };
+
+        var builder = Host.CreateApplicationBuilder(settings);
+
+        // 启用依赖注入容器的构建期校验与作用域校验
+        builder.ConfigureContainer(new DefaultServiceProviderFactory(new ServiceProviderOptions
+        {
+            ValidateOnBuild = true,
+            ValidateScopes = true,
+        }));
+
+        // 日志接入 Serilog，禁止外部 Dispose 静态 Logger
+        builder.Services.AddSerilog(Log.Logger, dispose: false);
+
+        // 基础实例注册
+        builder.Services.AddSingleton(paths);
+        builder.Services.AddSingleton(levelSwitch);
+        builder.Services.AddSingleton(new AppStartupInfo(startTimestamp));
+
+        // 基础设施与平台层服务
+        builder.Services.AddIrisInfrastructure();
+        builder.Services.AddIrisPlatformWindows();
+
+        // TODO(T-006~T-013): AddIrisCore() / AddIrisProviders()
+
+        // App 层单例服务
+        builder.Services.AddSingleton<NotificationThrottle>();
+        builder.Services.AddSingleton<GlobalExceptionHandler>();
+        builder.Services.AddSingleton<LogLevelController>();
+        builder.Services.AddSingleton<ThemeService>();
+        builder.Services.AddSingleton<TrayIconController>();
+        builder.Services.AddSingleton<TrayNotificationService>();
+        builder.Services.AddSingleton<INotificationService>(sp => sp.GetRequiredService<TrayNotificationService>());
+        builder.Services.AddSingleton<IAppLifetime, AppLifetime>();
+        builder.Services.AddSingleton<AppBootstrapper>();
+        builder.Services.AddSingleton<App>();
+
+        return builder.Build();
+    }
+}

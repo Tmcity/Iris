@@ -1,61 +1,45 @@
 using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Windows;
 using Iris.App.Hosting;
-using Iris.Core.Errors;
-using Iris.Core.Storage;
-using Iris.Infrastructure.Storage;
+using Iris.Platform.Windows.SystemIntegration;
 using Serilog;
-using Serilog.Core;
 
 namespace Iris.App;
 
-/// <summary>
-/// Interaction logic for App.xaml
-/// </summary>
-public partial class App : Application
+internal partial class App : Application
 {
-    private LoggingLevelSwitch? _levelSwitch;
+    private readonly AppBootstrapper _bootstrapper;
+    private readonly GlobalExceptionHandler _exceptionHandler;
 
-    protected override void OnStartup(StartupEventArgs e)
+    public App(AppBootstrapper bootstrapper, GlobalExceptionHandler exceptionHandler)
     {
-        IAppPaths paths;
+        _bootstrapper = bootstrapper ?? throw new ArgumentNullException(nameof(bootstrapper));
+        _exceptionHandler = exceptionHandler ?? throw new ArgumentNullException(nameof(exceptionHandler));
+
+        ShutdownMode = ShutdownMode.OnExplicitShutdown;
+        _exceptionHandler.Install(this);
+    }
+
+    protected override async void OnStartup(StartupEventArgs e)
+    {
+        base.OnStartup(e);
+
         try
         {
-            paths = AppPathsFactory.CreateDefault();
+            await _bootstrapper.StartAsync();
         }
-        catch (IrisException ex)
+        catch (Exception ex)
         {
-            MessageBox.Show($"{ex.Message}\n{ex.Detail}", "Iris", MessageBoxButton.OK, MessageBoxImage.Error);
+            Log.ForContext<App>().Fatal(ex, "应用程序启动序列发生未处理异常");
+            FatalErrorDialog.Show(UiText.AppName, $"{UiText.FatalUnknown}\n{ex.Message}");
             Shutdown(1);
-            return;
         }
-
-        _levelSwitch = new LoggingLevelSwitch();
-        Log.Logger = IrisLogging.CreateLogger(paths, _levelSwitch);
-
-        var version = Assembly.GetEntryAssembly()?
-            .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?
-            .InformationalVersion
-            ?? Assembly.GetEntryAssembly()?.GetName().Version?.ToString()
-            ?? "Unknown";
-
-        Log.Information(
-            "Iris starting up. Version: {Version}, DataDirectory: {DataDirectory}, IsPortable: {IsPortable}, OS: {OSVersion}, Runtime: {FrameworkDescription}",
-            version,
-            paths.DataDirectory,
-            paths.IsPortable,
-            Environment.OSVersion.ToString(),
-            RuntimeInformation.FrameworkDescription);
-
-        base.OnStartup(e);
     }
 
     protected override void OnExit(ExitEventArgs e)
     {
-        Log.Information("Iris exiting with code {ExitCode}", e.ApplicationExitCode);
-        Log.CloseAndFlush();
+        _bootstrapper.StopSynchronousParts();
+        _exceptionHandler.Dispose();
         base.OnExit(e);
     }
 }

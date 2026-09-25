@@ -1,10 +1,11 @@
 # Iris 架构设计说明书
 
-> 版本：v1.4 · 2026-09-25 · 状态：**已冻结（首期）**
+> 版本：v1.5 · 2026-09-25 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
 > 变更记录：v1.4（T-003-R1 复审）— §12.3 密钥存储完整规范（文件格式、加载与降级、读写语义、线程与事件）；N13 补充字典 null 值规则。
+> 变更记录：v1.5（T-004 评审）— 新增 §10.1.1 启动与退出的实现细节（单实例锁、致命错误对话框、Generic Host 配置、启动与退出序列、全局异常、通知队列）。
 > 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
@@ -206,14 +207,14 @@ Core 程序集禁止引用：`PresentationFramework`、`PresentationCore`、`Win
 | `Imaging/` | `WinRtImagePreprocessor`、`PngEncoder` 工具 |
 | `Ocr/` | `WindowsOcrProvider` + Factory |
 | `Security/` | `DpapiSecretStore` |
-| `SystemIntegration/` | `AutoStartService`、`SingleInstanceGuard`（命名 Mutex）、`NamedPipeIpc`（服务端 / 客户端）。**目录不得命名为 `System`**，否则命名空间 `Iris.Platform.Windows.System` 会在项目内遮蔽 BCL 的 `System` |
+| `SystemIntegration/` | `AutoStartService`、`SingleInstanceGuard`（命名 Mutex）、`FatalErrorDialog`（§10.1.1）、`NamedPipeIpc`（服务端 / 客户端）。**目录不得命名为 `System`**，否则命名空间 `Iris.Platform.Windows.System` 会在项目内遮蔽 BCL 的 `System` |
 
 ### 5.5 Iris.App
 
 | 目录 | 内容 |
 |---|---|
 | 根 | `App.xaml(.cs)`、`Program.cs`（自定义 `Main`：单实例检查 → 启动 WPF）、`app.manifest` |
-| `Hosting/` | `AppHostBuilder`（组合根，调用各层 `AddIris*`）、`AppBootstrapper`（启动序列 §10.1）、`ActionDispatcher`、`GlobalExceptionHandler` |
+| `Hosting/` | `AppHostBuilder`（组合根，调用各层 `AddIris*`）、`AppBootstrapper`（启动序列 §10.1）、`ActionDispatcher`、`GlobalExceptionHandler`、`LogLevelController` |
 | `Tray/` | `TrayIconController`（菜单：输入翻译 / 截图翻译 / 截图 OCR / 划词开关 / 悬浮球开关 / 历史 / 设置 / 退出） |
 | `Services/` | Presentation 端口实现：`TranslateWindowPresenter`、`ScreenshotService`、`OcrResultPresenter`、`TrayNotificationService`、`SettingsWindowPresenter`、`HistoryWindowPresenter`、`FloatingBallController`、`SelectionIconController`、`AppLifetime`、`WindowPlacementHelper`、`ThemeService` |
 | `Views/` | §14 所列窗口 |
@@ -509,6 +510,42 @@ data: {"type":"message_stop"}
 **命令行**：`Iris.exe --action <IrisAction>`，`Iris.exe --translate "<text>"`（= TranslateText）。
 
 **退出**：`IAppLifetime.RequestShutdown()` → 停止管道服务 → 停止鼠标钩子 → `UnregisterAll` 热键 → 释放托盘图标 → `Log.CloseAndFlush()` → `Application.Shutdown()`。
+
+#### 10.1.1 启动与退出的实现细节（v1.5）
+
+**`Program.Main`（`[STAThread]`，返回退出码）**，严格按以下顺序执行；任何一步失败都在构造 `App` 之前退出：
+1. `SingleInstanceGuard.TryAcquireForCurrentUser()`：返回 null → 已有实例在运行 → 直接 `return 0`。这一步必须在创建日志器**之前**执行：Serilog 文件 sink 默认独占日志文件，第二个实例即使创建了日志器也写不进去。第二实例通过 IPC 唤起主实例的功能在 T-037 实现，此前第二实例静默退出。
+2. `AppPathsFactory.CreateDefault()`；失败 → `FatalErrorDialog.Show` → `return 1`。
+3. 创建 `LoggingLevelSwitch`（初始级别 Information）→ `Log.Logger = IrisLogging.CreateLogger(paths, levelSwitch)`。
+4. `AppHostBuilder.Build(args, paths, levelSwitch)` → 从容器中解析 `App` → `app.InitializeComponent()` → `return app.Run()`。
+5. 整个 Main 包在 try / catch / finally 中：catch（任何异常）→ 日志器可用时记 Fatal → `FatalErrorDialog.Show` → `return 1`；finally → `host.Dispose()` → `Log.CloseAndFlush()` → `guard.Dispose()`。
+
+**单实例锁（`SingleInstanceGuard`，Platform.Windows）**：命名 Mutex，名称 = `IpcConstants.MutexNamePrefix + 当前用户 SID`。以 `initiallyOwned: false` 创建后调用 `WaitOne(0)`；捕获 `AbandonedMutexException` 视为获取成功（上一个实例崩溃时没有释放锁）。Mutex 有线程亲和性：`Dispose`（内部 `ReleaseMutex`）必须在获取它的线程上调用，也就是 Main 的 finally。
+
+**致命错误对话框（`FatalErrorDialog`，Platform.Windows）**：在 App 与 DI 都不可用的阶段也能使用。直接调用 Win32 `MessageBoxW`，样式 `MB_OK | MB_ICONERROR | MB_TOPMOST | MB_SETFOREGROUND`，保证对话框不会被其他窗口挡住。
+
+**Generic Host**：`Host.CreateApplicationBuilder(new HostApplicationBuilderSettings { Args = args, DisableDefaults = true, ContentRootPath = AppContext.BaseDirectory })`。必须设置 `DisableDefaults = true`：默认配置会在 Windows 上注册 EventLog 日志提供程序（写入 Windows 事件日志），还会加载 appsettings.json、环境变量等本项目不需要的配置源。日志只接入 Serilog（`Services.AddSerilog()`，使用静态 `Log.Logger`，`dispose: false`）。容器开启 `ValidateOnBuild` 与 `ValidateScopes`，缺少注册时启动即失败，而不是运行到一半才失败。
+
+**`App`**：`ShutdownMode = OnExplicitShutdown`（没有主窗口；关闭任何窗口都不会导致进程退出）。不使用 `StartupUri`；App.xaml 的生成操作改为 `Page`，由 `Program.Main` 手动构造。
+
+**`AppBootstrapper.StartAsync`**（在 `App.OnStartup` 中调用，它是 `async void` 事件处理器，整体包在 try/catch 中）：
+1. `ISettingsService.LoadAsync()`：`SettingsCorrupted` → 继续运行，把提示加入通知队列；`StorageFailure` → `FatalErrorDialog`，然后 `Shutdown(1)`。
+2. `LogLevelController`：按 `GeneralSettings.LogLevel` 设置 `LoggingLevelSwitch`，并订阅 `Changed`，之后随设置变化更新。
+3. `ThemeService.Apply(Theme)`，并订阅 `Changed`。
+4. 创建托盘图标 → 通知服务开始输出排队中的通知。
+5. `host.StartAsync()`。
+6. `ShowStartupNotification` 为 true → 显示“Iris 已在后台运行”。
+7. 记录一条 Information 日志：从进程启动到托盘就绪的耗时（`Environment.TickCount64 - Process.GetCurrentProcess().StartTime`，或在 Main 开头记录 `Stopwatch.GetTimestamp()`）。
+
+**退出（`AppLifetime.RequestShutdown` → `AppBootstrapper.StopAsync`）**：可以从任意线程调用，切换到 UI 线程执行；**幂等**（第二次调用直接返回）：取消设置订阅 → 释放托盘图标（不释放的话，托盘上会残留一个“幽灵图标”，直到鼠标划过才消失）→ `host.StopAsync`（5 秒超时）→ `Application.Shutdown(0)`。Windows 注销或关机时，WPF 会直接触发 `Exit`，所以 `App.OnExit` 中也要调用同一套幂等清理（同步部分：释放托盘图标、取消订阅）。
+
+**全局异常（`GlobalExceptionHandler`，在 `App` 构造后、`Run` 之前安装）**：
+- `Application.DispatcherUnhandledException`：记 Error；设置 `e.Handled = true`；通知“发生未知错误，详情请查看日志”（`IrisException` 则显示它自己的 Message）。
+- `TaskScheduler.UnobservedTaskException`：记 Error；调用 `e.SetObserved()`；不通知。
+- `AppDomain.CurrentDomain.UnhandledException`：记 Fatal 并立即 `Log.CloseAndFlush()`（进程随后必然终止，无法阻止）。
+- 通知限流：10 秒内最多一条，避免同一个异常在每一帧重复抛出时刷屏（时间使用 `TimeProvider`）。
+
+**通知（`TrayNotificationService : INotificationService`）**：可以从任意线程调用。托盘图标创建之前的通知先进入队列（最多 10 条，超出时丢弃最早的一条并记 Warning），托盘就绪后按顺序输出。
 
 ### 10.2 线程模型
 

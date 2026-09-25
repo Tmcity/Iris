@@ -321,30 +321,30 @@ public sealed class DpapiSecretStoreTests
     }
 
     [Fact]
-    public async Task S14_ReentrantCallInsideChangedHandler_DoesNotDeadlock()
+    public void S14_ReentrantCallFromAnotherThreadInsideChangedHandler_DoesNotDeadlock()
     {
         using var dir = new TempDirectory();
         var store = CreateStore(dir);
 
-        var reentrantTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var otherThreadReadSuccess = false;
+        string? readVal = null;
 
         store.Changed += (_, key) =>
         {
             if (key == "trigger-key")
             {
-                // Directly call Get and Set from within Changed handler
-                var readVal = store.Get("trigger-key");
-                readVal.ShouldBe("initial");
-
-                store.Set("secondary-key", "secondary-val");
-                reentrantTcs.TrySetResult(true);
+                // Must call from another thread because Lock allows same-thread reentrancy
+                otherThreadReadSuccess = Task.Run(() =>
+                {
+                    readVal = store.Get(key);
+                }).Wait(TimeSpan.FromSeconds(5));
             }
         };
 
         store.Set("trigger-key", "initial");
 
-        await reentrantTcs.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
-        store.Get("secondary-key").ShouldBe("secondary-val");
+        otherThreadReadSuccess.ShouldBeTrue();
+        readVal.ShouldBe("initial");
     }
 
     [Fact]

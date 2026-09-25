@@ -19,8 +19,6 @@ internal static class IrisLogging
         ArgumentNullException.ThrowIfNull(paths);
         ArgumentNullException.ThrowIfNull(levelSwitch);
 
-        levelSwitch.MinimumLevel = LogEventLevel.Information;
-
         var logFilePath = Path.Combine(paths.LogDirectory, "iris-.log");
         var utf8NoBom = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
 

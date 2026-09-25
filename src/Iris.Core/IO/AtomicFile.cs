@@ -205,6 +205,59 @@ public static class AtomicFile
         }
     }
 
+    /// <summary>带重试的全部字节读取（重试策略与 WriteAllBytes 相同）。失败抛 IrisException(StorageFailure, detail: path)。</summary>
+    public static byte[] ReadAllBytes(string path)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+
+        try
+        {
+            byte[]? result = null;
+            ExecuteWithRetry(() =>
+            {
+                result = File.ReadAllBytes(path);
+            });
+            return result!;
+        }
+        catch (Exception ex)
+        {
+            throw new IrisException(
+                ErrorCode.StorageFailure,
+                ErrorMessages.GetDefault(ErrorCode.StorageFailure),
+                ex,
+                detail: path);
+        }
+    }
+
+    /// <summary>带重试的全部字节异步读取（重试策略与 WriteAllBytesAsync 相同）。失败抛 IrisException(StorageFailure, detail: path)。</summary>
+    public static async Task<byte[]> ReadAllBytesAsync(string path, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ArgumentException.ThrowIfNullOrWhiteSpace(path);
+
+        try
+        {
+            byte[]? result = null;
+            await ExecuteWithRetryAsync(async () =>
+            {
+                result = await File.ReadAllBytesAsync(path, cancellationToken).ConfigureAwait(false);
+            }, cancellationToken).ConfigureAwait(false);
+            return result!;
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            throw new IrisException(
+                ErrorCode.StorageFailure,
+                ErrorMessages.GetDefault(ErrorCode.StorageFailure),
+                ex,
+                detail: path);
+        }
+    }
+
     private static void ExecuteWithRetry(Action action)
     {
         for (var attempt = 0; attempt <= MaxRetries; attempt++)

@@ -16,8 +16,6 @@ namespace Iris.Platform.Windows.Security;
 internal sealed partial class DpapiSecretStore : ISecretStore
 {
     private static readonly byte[] Entropy = "Iris.Secrets.v1"u8.ToArray();
-    private const int MaxRetries = 5;
-    private const int RetryDelayMs = 50;
 
     private readonly IAppPaths _paths;
     private readonly TimeProvider _timeProvider;
@@ -37,7 +35,7 @@ internal sealed partial class DpapiSecretStore : ISecretStore
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
         _entries = new Dictionary<string, byte[]>(StringComparer.Ordinal);
-        LoadInitial();
+        LoadFromDisk(clearOnFailure: true);
     }
 
     public string? Get(string key)
@@ -95,7 +93,7 @@ internal sealed partial class DpapiSecretStore : ISecretStore
         {
             if (_degraded)
             {
-                ReloadUnderLock();
+                LoadFromDisk(clearOnFailure: false);
                 if (_degraded)
                 {
                     throw new IrisException(
@@ -134,7 +132,7 @@ internal sealed partial class DpapiSecretStore : ISecretStore
         {
             if (_degraded)
             {
-                ReloadUnderLock();
+                LoadFromDisk(clearOnFailure: false);
                 if (_degraded)
                 {
                     throw new IrisException(
@@ -168,7 +166,7 @@ internal sealed partial class DpapiSecretStore : ISecretStore
         return true;
     }
 
-    private void LoadInitial()
+    private void LoadFromDisk(bool clearOnFailure)
     {
         var secretsPath = _paths.SecretsFile;
         if (!File.Exists(secretsPath))
@@ -181,11 +179,15 @@ internal sealed partial class DpapiSecretStore : ISecretStore
         byte[] bytes;
         try
         {
-            bytes = ReadFileWithRetry(secretsPath);
+            bytes = AtomicFile.ReadAllBytes(secretsPath);
         }
-        catch (Exception ex)
+        catch (IrisException ex)
         {
-            _entries = new Dictionary<string, byte[]>(StringComparer.Ordinal);
+            if (clearOnFailure)
+            {
+                _entries = new Dictionary<string, byte[]>(StringComparer.Ordinal);
+            }
+
             _degraded = true;
             LogReadFailed(_logger, secretsPath, ex);
             return;
@@ -205,59 +207,11 @@ internal sealed partial class DpapiSecretStore : ISecretStore
             }
             catch (Exception ex)
             {
-                _entries = new Dictionary<string, byte[]>(StringComparer.Ordinal);
-                _degraded = true;
-                LogCorruptBackupFailed(_logger, backupPath, ex);
-            }
+                if (clearOnFailure)
+                {
+                    _entries = new Dictionary<string, byte[]>(StringComparer.Ordinal);
+                }
 
-            return;
-        }
-
-        _entries = new Dictionary<string, byte[]>(parseResult.Entries, StringComparer.Ordinal);
-        _degraded = false;
-
-        foreach (var droppedKey in parseResult.DroppedKeys)
-        {
-            LogEntryDropped(_logger, droppedKey);
-        }
-    }
-
-    private void ReloadUnderLock()
-    {
-        var secretsPath = _paths.SecretsFile;
-        if (!File.Exists(secretsPath))
-        {
-            _entries = new Dictionary<string, byte[]>(StringComparer.Ordinal);
-            _degraded = false;
-            return;
-        }
-
-        byte[] bytes;
-        try
-        {
-            bytes = ReadFileWithRetry(secretsPath);
-        }
-        catch (Exception ex)
-        {
-            _degraded = true;
-            LogReadFailed(_logger, secretsPath, ex);
-            return;
-        }
-
-        var parseResult = SecretsFileCodec.Parse(bytes);
-        if (parseResult.IsCorrupted)
-        {
-            LogSecretsFileCorrupted(_logger, secretsPath);
-            var backupPath = GetCorruptBackupPath(secretsPath);
-            try
-            {
-                AtomicFile.Move(secretsPath, backupPath, overwrite: false);
-                _entries = new Dictionary<string, byte[]>(StringComparer.Ordinal);
-                _degraded = false;
-                LogCorruptBackupCreated(_logger, backupPath);
-            }
-            catch (Exception ex)
-            {
                 _degraded = true;
                 LogCorruptBackupFailed(_logger, backupPath, ex);
             }
@@ -315,38 +269,6 @@ internal sealed partial class DpapiSecretStore : ISecretStore
                 LogChangedHandlerFailed(_logger, key, ex);
             }
         }
-    }
-
-    private static byte[] ReadFileWithRetry(string path)
-    {
-        for (var attempt = 0; attempt <= MaxRetries; attempt++)
-        {
-            try
-            {
-                return File.ReadAllBytes(path);
-            }
-            catch (Exception ex) when (attempt < MaxRetries && IsTransient(ex))
-            {
-                Thread.Sleep(RetryDelayMs);
-            }
-        }
-
-        return File.ReadAllBytes(path);
-    }
-
-    private static bool IsTransient(Exception ex)
-    {
-        if (ex is UnauthorizedAccessException)
-        {
-            return true;
-        }
-
-        if (ex is IOException io)
-        {
-            return io.HResult == unchecked((int)0x80070020) || io.HResult == unchecked((int)0x80070021);
-        }
-
-        return false;
     }
 
     [LoggerMessage(EventId = 1, Level = LogLevel.Error, Message = "读取 secrets.dat 失败，进入只读降级模式: {Path}")]
