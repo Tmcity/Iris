@@ -1163,8 +1163,10 @@ namespace Iris.Core.Settings
     /// - LoadAsync：进程内只允许调用一次（重复调用抛 InvalidOperationException）。
     ///   文件不存在 → 写入默认值；SchemaVersion 较旧 → 依次执行 ISettingsMigration 迁移后回写；
     ///   单个字段 / 条目非法 → 按 ARCH §12.2 挽救与规范化后回写（只记日志，不抛异常）；
-    ///   JSON 语法损坏或根节点不是对象 → 备份为 settings.corrupt-{yyyyMMddHHmmss}.json、使用默认值，
+    ///   JSON 语法损坏、存在重复属性名（含仅大小写不同）或根节点不是对象 → 备份为 settings.corrupt-{yyyyMMddHHmmss}.json、使用默认值，
     ///   并抛出一次 IrisException(SettingsCorrupted)（调用方提示用户后继续运行，Current 已可用）。
+    ///   只允许抛出：IrisException(SettingsCorrupted)（已加载）、IrisException(StorageFailure)（未加载，可重试）、
+    ///   OperationCanceledException，以及编程错误导致的 InvalidOperationException。
     /// - UpdateAsync：必须在 LoadAsync 之后调用（否则抛 InvalidOperationException）；串行化执行（SemaphoreSlim）；
     ///   mutate 结果与当前值引用相等、或序列化结果完全相同 → 不写盘、不通知；结果先规范化再写入；
     ///   原子写入（写 .tmp → File.Move 覆盖），写入前保留 settings.json.bak；写盘失败抛 IrisException(StorageFailure)

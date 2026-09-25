@@ -24,5 +24,6 @@
 
   <ItemGroup>
     <None Include="..\..\specs\settings.example.json" Link="Fixtures\settings.example.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Update="Fixtures\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

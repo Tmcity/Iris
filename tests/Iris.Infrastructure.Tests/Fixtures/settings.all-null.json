@@ -1,0 +1,105 @@
+{
+  "general": {
+    "uiLanguage": null,
+    "logLevel": null
+  },
+  "hotkeys": {
+    "InputTranslate": null,
+    "SelectionTranslate": {
+      "modifiers": 3,
+      "key": null
+    }
+  },
+  "translation": {
+    "defaultSourceLanguage": null,
+    "primaryTargetLanguage": null,
+    "secondaryTargetLanguage": null,
+    "defaultPromptTemplateId": null,
+    "providers": [
+      {
+        "id": "tp-custom",
+        "kind": "OpenAICompatible",
+        "displayName": null,
+        "baseUrl": null,
+        "model": null,
+        "promptTemplateId": null,
+        "openAIOptions": {
+          "chatCompletionsPath": null,
+          "extraHeaders": null
+        },
+        "anthropicOptions": null
+      },
+      {
+        "id": "tp-anthropic",
+        "kind": "Anthropic",
+        "displayName": null,
+        "baseUrl": null,
+        "model": null,
+        "promptTemplateId": null,
+        "openAIOptions": null,
+        "anthropicOptions": {
+          "effort": null
+        }
+      },
+      {
+        "id": null,
+        "kind": "OpenAICompatible",
+        "model": "gpt-4"
+      }
+    ],
+    "customPrompts": [
+      {
+        "id": "cp-1",
+        "name": null,
+        "system": "Translate {{text}}",
+        "user": "{{text}}"
+      },
+      {
+        "id": "cp-2",
+        "name": "Template 2",
+        "system": null,
+        "user": null
+      }
+    ]
+  },
+  "ocr": {
+    "activeProviderId": null,
+    "fallbackProviderId": null,
+    "languageHint": null,
+    "providers": [
+      {
+        "id": "ocr-baidu",
+        "kind": "BaiduCloud",
+        "displayName": null,
+        "baiduOptions": {
+          "baseUrl": null,
+          "languageType": null
+        },
+        "windowsOptions": null
+      },
+      {
+        "id": "ocr-windows",
+        "kind": "WindowsLocal",
+        "displayName": null,
+        "baiduOptions": null,
+        "windowsOptions": {
+          "languageTag": null
+        }
+      }
+    ]
+  },
+  "selection": {
+    "readOrder": null,
+    "excludedProcesses": null,
+    "clipboardUnsafeProcesses": null
+  },
+  "screenshot": {},
+  "floatingBall": {
+    "monitorDeviceName": null
+  },
+  "translateWindow": {},
+  "history": {},
+  "network": {
+    "customProxyUrl": null
+  }
+}

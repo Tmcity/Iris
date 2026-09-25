@@ -163,4 +163,103 @@ public sealed class AtomicFileTests : IDisposable
         var read = await File.ReadAllBytesAsync(targetFile, TestContext.Current.CancellationToken);
         read.ShouldBe(data);
     }
+
+    [Fact]
+    public async Task CopyAsync_Success_CopiesContent()
+    {
+        var src = Path.Combine(_testDir, "src.txt");
+        var dest = Path.Combine(_testDir, "dest.txt");
+        await File.WriteAllTextAsync(src, "test-data", TestContext.Current.CancellationToken);
+
+        await AtomicFile.CopyAsync(src, dest, overwrite: true, TestContext.Current.CancellationToken);
+
+        File.Exists(dest).ShouldBeTrue();
+        File.ReadAllText(dest, Encoding.UTF8).ShouldBe("test-data");
+        File.Exists(src).ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task CopyAsync_TargetLocked_ThrowsStorageFailureWithArrowDetail()
+    {
+        var src = Path.Combine(_testDir, "src.txt");
+        var dest = Path.Combine(_testDir, "dest.txt");
+        await File.WriteAllTextAsync(src, "source-data", TestContext.Current.CancellationToken);
+        await File.WriteAllTextAsync(dest, "dest-data", TestContext.Current.CancellationToken);
+
+        using (new FileStream(dest, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+        {
+            var ex = await Should.ThrowAsync<IrisException>(async () =>
+                await AtomicFile.CopyAsync(src, dest, overwrite: true, TestContext.Current.CancellationToken));
+
+            ex.Code.ShouldBe(ErrorCode.StorageFailure);
+            ex.Detail.ShouldBe($"{src} → {dest}");
+        }
+    }
+
+    [Fact]
+    public async Task CopyAsync_WhenTokenPreCancelled_ThrowsOperationCanceledException()
+    {
+        var src = Path.Combine(_testDir, "src.txt");
+        var dest = Path.Combine(_testDir, "dest.txt");
+        await File.WriteAllTextAsync(src, "source-data", TestContext.Current.CancellationToken);
+
+        using var cts = new CancellationTokenSource();
+        cts.Cancel();
+
+        await Should.ThrowAsync<OperationCanceledException>(async () =>
+            await AtomicFile.CopyAsync(src, dest, overwrite: true, cts.Token));
+
+        File.Exists(dest).ShouldBeFalse();
+    }
+
+    [Fact]
+    public async Task MoveAsync_Success_MovesFile()
+    {
+        var src = Path.Combine(_testDir, "src_move.txt");
+        var dest = Path.Combine(_testDir, "dest_move.txt");
+        await File.WriteAllTextAsync(src, "move-data", TestContext.Current.CancellationToken);
+
+        await AtomicFile.MoveAsync(src, dest, overwrite: true, TestContext.Current.CancellationToken);
+
+        File.Exists(dest).ShouldBeTrue();
+        File.ReadAllText(dest, Encoding.UTF8).ShouldBe("move-data");
+        File.Exists(src).ShouldBeFalse();
+    }
+
+    [Fact]
+    public async Task MoveAsync_TargetLocked_ThrowsStorageFailureWithArrowDetail()
+    {
+        var src = Path.Combine(_testDir, "src_move.txt");
+        var dest = Path.Combine(_testDir, "dest_move.txt");
+        await File.WriteAllTextAsync(src, "source-data", TestContext.Current.CancellationToken);
+        await File.WriteAllTextAsync(dest, "dest-data", TestContext.Current.CancellationToken);
+
+        using (new FileStream(dest, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+        {
+            var ex = await Should.ThrowAsync<IrisException>(async () =>
+                await AtomicFile.MoveAsync(src, dest, overwrite: true, TestContext.Current.CancellationToken));
+
+            ex.Code.ShouldBe(ErrorCode.StorageFailure);
+            ex.Detail.ShouldBe($"{src} → {dest}");
+        }
+
+        File.Exists(src).ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task MoveAsync_WhenTokenPreCancelled_ThrowsOperationCanceledException()
+    {
+        var src = Path.Combine(_testDir, "src_move.txt");
+        var dest = Path.Combine(_testDir, "dest_move.txt");
+        await File.WriteAllTextAsync(src, "source-data", TestContext.Current.CancellationToken);
+
+        using var cts = new CancellationTokenSource();
+        cts.Cancel();
+
+        await Should.ThrowAsync<OperationCanceledException>(async () =>
+            await AtomicFile.MoveAsync(src, dest, overwrite: true, cts.Token));
+
+        File.Exists(src).ShouldBeTrue();
+        File.Exists(dest).ShouldBeFalse();
+    }
 }

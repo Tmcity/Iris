@@ -22,8 +22,16 @@ internal static class SettingsSalvager
         ArgumentNullException.ThrowIfNull(fixes);
 
         // 步骤 1：处理内层数组（providers, customPrompts）
-        SalvageTranslationArrays(root, fixes);
-        SalvageOcrArrays(root, fixes);
+        if (TryGetProperty(root, "translation", out _, out var transNode) && transNode is JsonObject transObj)
+        {
+            SalvageArray<TranslationProviderProfile>(transObj, "providers", "translation.providers", fixes);
+            SalvageArray<PromptTemplate>(transObj, "customPrompts", "translation.customPrompts", fixes);
+        }
+
+        if (TryGetProperty(root, "ocr", out _, out var ocrNode) && ocrNode is JsonObject ocrObj)
+        {
+            SalvageArray<OcrProviderProfile>(ocrObj, "providers", "ocr.providers", fixes);
+        }
 
         // 步骤 2：处理热键
         SalvageHotkeys(root, fixes);
@@ -42,137 +50,47 @@ internal static class SettingsSalvager
         // 步骤 4：顶层未知属性保留原样（无需操作）
     }
 
-    private static void SalvageTranslationArrays(JsonObject root, ICollection<string> fixes)
+    private static void SalvageArray<T>(JsonObject parent, string propertyName, string path, ICollection<string> fixes)
     {
-        if (!TryGetProperty(root, "translation", out _, out var transNode) || transNode is not JsonObject transObj)
+        if (!TryGetProperty(parent, propertyName, out var actualKey, out var propNode) || propNode is null)
         {
             return;
         }
 
-        if (TryGetProperty(transObj, "providers", out var provKey, out var provNode))
+        if (propNode is not JsonArray array)
         {
-            if (provNode is not JsonArray provArray)
-            {
-                transObj.Remove(provKey);
-                fixes.Add("translation.providers: 已移除（不是数组）");
-            }
-            else
-            {
-                for (var i = provArray.Count - 1; i >= 0; i--)
-                {
-                    var item = provArray[i];
-                    var valid = false;
-                    if (item is not null)
-                    {
-                        try
-                        {
-                            var profile = JsonSerializer.Deserialize<TranslationProviderProfile>(item.ToJsonString(), IrisJson.Options);
-                            if (profile != null)
-                            {
-                                valid = true;
-                            }
-                        }
-                        catch
-                        {
-                            valid = false;
-                        }
-                    }
-
-                    if (!valid)
-                    {
-                        provArray.RemoveAt(i);
-                        fixes.Add($"translation.providers[{i}]: 已移除（缺少必填字段或类型错误）");
-                    }
-                }
-            }
-        }
-
-        if (TryGetProperty(transObj, "customPrompts", out var cpKey, out var cpNode))
-        {
-            if (cpNode is not JsonArray cpArray)
-            {
-                transObj.Remove(cpKey);
-                fixes.Add("translation.customPrompts: 已移除（不是数组）");
-            }
-            else
-            {
-                for (var i = cpArray.Count - 1; i >= 0; i--)
-                {
-                    var item = cpArray[i];
-                    var valid = false;
-                    if (item is not null)
-                    {
-                        try
-                        {
-                            var prompt = JsonSerializer.Deserialize<PromptTemplate>(item.ToJsonString(), IrisJson.Options);
-                            if (prompt != null)
-                            {
-                                valid = true;
-                            }
-                        }
-                        catch
-                        {
-                            valid = false;
-                        }
-                    }
-
-                    if (!valid)
-                    {
-                        cpArray.RemoveAt(i);
-                        fixes.Add($"translation.customPrompts[{i}]: 已移除（缺少必填字段或类型错误）");
-                    }
-                }
-            }
-        }
-    }
-
-    private static void SalvageOcrArrays(JsonObject root, ICollection<string> fixes)
-    {
-        if (!TryGetProperty(root, "ocr", out _, out var ocrNode) || ocrNode is not JsonObject ocrObj)
-        {
+            parent.Remove(actualKey);
+            fixes.Add($"{path}: 已移除（不是数组）");
             return;
         }
 
-        if (TryGetProperty(ocrObj, "providers", out var provKey, out var provNode))
+        for (var i = array.Count - 1; i >= 0; i--)
         {
-            if (provNode is not JsonArray provArray)
+            var item = array[i];
+            var valid = false;
+            if (item is not null)
             {
-                ocrObj.Remove(provKey);
-                fixes.Add("ocr.providers: 已移除（不是数组）");
-            }
-            else
-            {
-                for (var i = provArray.Count - 1; i >= 0; i--)
+                try
                 {
-                    var item = provArray[i];
-                    var valid = false;
-                    if (item is not null)
+                    var deserialized = JsonSerializer.Deserialize<T>(item.ToJsonString(), IrisJson.Options);
+                    if (deserialized != null)
                     {
-                        try
-                        {
-                            var profile = JsonSerializer.Deserialize<OcrProviderProfile>(item.ToJsonString(), IrisJson.Options);
-                            if (profile != null)
-                            {
-                                valid = true;
-                            }
-                        }
-                        catch
-                        {
-                            valid = false;
-                        }
-                    }
-
-                    if (!valid)
-                    {
-                        ocrArrayRemoveAt(provArray, i);
-                        fixes.Add($"ocr.providers[{i}]: 已移除（缺少必填字段或类型错误）");
+                        valid = true;
                     }
                 }
+                catch (JsonException)
+                {
+                    valid = false;
+                }
+            }
+
+            if (!valid)
+            {
+                array.RemoveAt(i);
+                fixes.Add($"{path}[{i}]: 已移除（缺少必填字段或类型错误）");
             }
         }
     }
-
-    private static void ocrArrayRemoveAt(JsonArray arr, int index) => arr.RemoveAt(index);
 
     private static void SalvageHotkeys(JsonObject root, ICollection<string> fixes)
     {
@@ -234,7 +152,7 @@ internal static class SettingsSalvager
                     }
                 }
             }
-            catch
+            catch (JsonException)
             {
                 validBinding = false;
             }
@@ -273,7 +191,7 @@ internal static class SettingsSalvager
                 fixes.Add($"{sectionName}: 已重置为默认值（类型错误）");
             }
         }
-        catch
+        catch (JsonException)
         {
             root.Remove(actualKey);
             fixes.Add($"{sectionName}: 已重置为默认值（类型错误）");

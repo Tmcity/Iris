@@ -45,6 +45,7 @@ public sealed class JsonSettingsServiceTests
         File.Exists(paths.SettingsFile).ShouldBeTrue();
         service.Current.ShouldNotBeNull();
         service.Current.SchemaVersion.ShouldBe(AppSettings.CurrentSchemaVersion);
+        SettingsTestInvariants.AssertInvariants(service.Current);
 
         var fileText = await File.ReadAllTextAsync(paths.SettingsFile, TestContext.Current.CancellationToken);
         var deserialized = JsonSerializer.Deserialize<AppSettings>(fileText, IrisJson.Options);
@@ -70,6 +71,7 @@ public sealed class JsonSettingsServiceTests
 
         service.Current.General.UiLanguage.ShouldBe("en-US");
         service.Current.History.MaxEntries.ShouldBe(2000);
+        SettingsTestInvariants.AssertInvariants(service.Current);
 
         var currentBytes = await File.ReadAllBytesAsync(paths.SettingsFile, TestContext.Current.CancellationToken);
         currentBytes.ShouldBe(initialBytes);
@@ -106,6 +108,7 @@ public sealed class JsonSettingsServiceTests
         File.Exists(paths.SettingsFile).ShouldBeTrue();
         service.Current.ShouldNotBeNull();
         service.Current.SchemaVersion.ShouldBe(AppSettings.CurrentSchemaVersion);
+        SettingsTestInvariants.AssertInvariants(service.Current);
 
         // settings.json.bak remains untouched
         (await File.ReadAllTextAsync(bakFile, TestContext.Current.CancellationToken)).ShouldBe(oldBakContent);
@@ -122,6 +125,7 @@ public sealed class JsonSettingsServiceTests
         var ex1 = await Should.ThrowAsync<IrisException>(async () =>
             await service1.LoadAsync(TestContext.Current.CancellationToken));
         ex1.Code.ShouldBe(ErrorCode.SettingsCorrupted);
+        SettingsTestInvariants.AssertInvariants(service1.Current);
 
         using var dir2 = new TempDirectory();
         var paths2 = new FakeAppPaths(dir2.Path);
@@ -131,6 +135,7 @@ public sealed class JsonSettingsServiceTests
         var ex2 = await Should.ThrowAsync<IrisException>(async () =>
             await service2.LoadAsync(TestContext.Current.CancellationToken));
         ex2.Code.ShouldBe(ErrorCode.SettingsCorrupted);
+        SettingsTestInvariants.AssertInvariants(service2.Current);
     }
 
     [Fact]
@@ -156,6 +161,7 @@ public sealed class JsonSettingsServiceTests
         ex.Code.ShouldBe(ErrorCode.SettingsCorrupted);
         ex.Detail.ShouldBe(Path.Combine(dir.Path, $"settings.corrupt-{timestamp}-1.json"));
         File.Exists(ex.Detail).ShouldBeTrue();
+        SettingsTestInvariants.AssertInvariants(service.Current);
     }
 
     [Fact]
@@ -197,6 +203,7 @@ public sealed class JsonSettingsServiceTests
 
         // general theme reset to default (System)
         service.Current.General.Theme.ShouldBe(AppTheme.System);
+        SettingsTestInvariants.AssertInvariants(service.Current);
 
         // File is rewritten
         var rewrittenText = await File.ReadAllTextAsync(paths.SettingsFile, TestContext.Current.CancellationToken);
@@ -230,6 +237,7 @@ public sealed class JsonSettingsServiceTests
 
         service.Current.SchemaVersion.ShouldBe(1);
         service.Current.History.MaxEntries.ShouldBe(2500);
+        SettingsTestInvariants.AssertInvariants(service.Current);
 
         var bakPath = Path.Combine(dir.Path, "settings.v0.bak.json");
         File.Exists(bakPath).ShouldBeTrue();
@@ -259,6 +267,7 @@ public sealed class JsonSettingsServiceTests
         await service.LoadAsync(TestContext.Current.CancellationToken);
 
         service.Current.History.MaxEntries.ShouldBe(3000);
+        SettingsTestInvariants.AssertInvariants(service.Current);
 
         var v99File = Path.Combine(dir.Path, "settings.v99.json");
         File.Exists(v99File).ShouldBeTrue();
@@ -287,6 +296,7 @@ public sealed class JsonSettingsServiceTests
 
         service.Current.SchemaVersion.ShouldBe(AppSettings.CurrentSchemaVersion);
         service.Current.History.MaxEntries.ShouldBe(4000);
+        SettingsTestInvariants.AssertInvariants(service.Current);
     }
 
     [Fact]
@@ -311,6 +321,7 @@ public sealed class JsonSettingsServiceTests
         await service.LoadAsync(TestContext.Current.CancellationToken);
 
         service.Current.History.MaxEntries.ShouldBe(1200);
+        SettingsTestInvariants.AssertInvariants(service.Current);
     }
 
     [Fact]
@@ -346,6 +357,197 @@ public sealed class JsonSettingsServiceTests
         // After releasing the lock, calling LoadAsync again succeeds
         await service.LoadAsync(TestContext.Current.CancellationToken);
         service.Current.ShouldNotBeNull();
+        SettingsTestInvariants.AssertInvariants(service.Current);
+    }
+
+    [Fact]
+    public async Task L13_RootExactDuplicateKeys_TreatedAsCorrupted_BacksUp_SubsequentUpdateSucceeds()
+    {
+        using var dir = new TempDirectory();
+        var paths = new FakeAppPaths(dir.Path);
+        const string json = """{"general":{"theme":"Dark"},"general":{"theme":"Light"}}""";
+        await File.WriteAllTextAsync(paths.SettingsFile, json, TestContext.Current.CancellationToken);
+
+        using var service = CreateService(dir);
+        var ex = await Should.ThrowAsync<IrisException>(async () =>
+            await service.LoadAsync(TestContext.Current.CancellationToken));
+        ex.Code.ShouldBe(ErrorCode.SettingsCorrupted);
+
+        File.Exists(ex.Detail).ShouldBeTrue();
+        (await File.ReadAllTextAsync(ex.Detail!, TestContext.Current.CancellationToken)).ShouldBe(json);
+
+        // Default settings loaded and invariants hold
+        SettingsTestInvariants.AssertInvariants(service.Current);
+
+        // Subsequent UpdateAsync succeeds
+        await service.UpdateAsync(s => s with
+        {
+            History = s.History with { MaxEntries = 9999 },
+        }, TestContext.Current.CancellationToken);
+
+        service.Current.History.MaxEntries.ShouldBe(9999);
+        SettingsTestInvariants.AssertInvariants(service.Current);
+    }
+
+    [Fact]
+    public async Task L14_RootCaseInsensitiveDuplicateKeys_TreatedAsCorrupted()
+    {
+        using var dir = new TempDirectory();
+        var paths = new FakeAppPaths(dir.Path);
+        const string json = """{"general":{"theme":"Dark"},"General":{"theme":"Light"}}""";
+        await File.WriteAllTextAsync(paths.SettingsFile, json, TestContext.Current.CancellationToken);
+
+        using var service = CreateService(dir);
+        var ex = await Should.ThrowAsync<IrisException>(async () =>
+            await service.LoadAsync(TestContext.Current.CancellationToken));
+        ex.Code.ShouldBe(ErrorCode.SettingsCorrupted);
+
+        File.Exists(ex.Detail).ShouldBeTrue();
+        (await File.ReadAllTextAsync(ex.Detail!, TestContext.Current.CancellationToken)).ShouldBe(json);
+        SettingsTestInvariants.AssertInvariants(service.Current);
+
+        // Subsequent UpdateAsync succeeds
+        await service.UpdateAsync(s => s with
+        {
+            History = s.History with { MaxEntries = 8888 },
+        }, TestContext.Current.CancellationToken);
+
+        service.Current.History.MaxEntries.ShouldBe(8888);
+        SettingsTestInvariants.AssertInvariants(service.Current);
+    }
+
+    [Fact]
+    public async Task L15_NestedProviderDuplicateKeys_TreatedAsCorrupted()
+    {
+        using var dir = new TempDirectory();
+        var paths = new FakeAppPaths(dir.Path);
+        const string json = """{"ocr":{"providers":[{"id":"ocr-1","id":"ocr-2","kind":"WindowsLocal","displayName":"w"}]}}""";
+        await File.WriteAllTextAsync(paths.SettingsFile, json, TestContext.Current.CancellationToken);
+
+        using var service = CreateService(dir);
+        var ex = await Should.ThrowAsync<IrisException>(async () =>
+            await service.LoadAsync(TestContext.Current.CancellationToken));
+        ex.Code.ShouldBe(ErrorCode.SettingsCorrupted);
+
+        File.Exists(ex.Detail).ShouldBeTrue();
+        (await File.ReadAllTextAsync(ex.Detail!, TestContext.Current.CancellationToken)).ShouldBe(json);
+        SettingsTestInvariants.AssertInvariants(service.Current);
+
+        // Subsequent UpdateAsync succeeds
+        await service.UpdateAsync(s => s with
+        {
+            History = s.History with { MaxEntries = 7777 },
+        }, TestContext.Current.CancellationToken);
+
+        service.Current.History.MaxEntries.ShouldBe(7777);
+        SettingsTestInvariants.AssertInvariants(service.Current);
+    }
+
+    [Fact]
+    public async Task L16_SchemaVersion0_WithoutMigrations_SkipsMigrationAndLoadsCurrent()
+    {
+        using var dir = new TempDirectory();
+        var paths = new FakeAppPaths(dir.Path);
+        const string json = """{"schemaVersion":0,"history":{"maxEntries":1234}}""";
+        await File.WriteAllTextAsync(paths.SettingsFile, json, TestContext.Current.CancellationToken);
+
+        using var service = CreateService(dir, migrations: []);
+        await service.LoadAsync(TestContext.Current.CancellationToken);
+
+        service.Current.SchemaVersion.ShouldBe(AppSettings.CurrentSchemaVersion);
+        service.Current.History.MaxEntries.ShouldBe(1234);
+        SettingsTestInvariants.AssertInvariants(service.Current);
+
+        var rewritten = await File.ReadAllTextAsync(paths.SettingsFile, TestContext.Current.CancellationToken);
+        rewritten.ShouldContain("\"schemaVersion\": 1");
+    }
+
+    [Fact]
+    public async Task L17_SchemaVersionNegative_WithoutMigrations_SkipsMigrationAndLoadsCurrent()
+    {
+        using var dir = new TempDirectory();
+        var paths = new FakeAppPaths(dir.Path);
+        const string json = """{"schemaVersion":-3,"history":{"maxEntries":5678}}""";
+        await File.WriteAllTextAsync(paths.SettingsFile, json, TestContext.Current.CancellationToken);
+
+        using var service = CreateService(dir, migrations: []);
+        await service.LoadAsync(TestContext.Current.CancellationToken);
+
+        service.Current.SchemaVersion.ShouldBe(AppSettings.CurrentSchemaVersion);
+        service.Current.History.MaxEntries.ShouldBe(5678);
+        SettingsTestInvariants.AssertInvariants(service.Current);
+
+        var rewritten = await File.ReadAllTextAsync(paths.SettingsFile, TestContext.Current.CancellationToken);
+        rewritten.ShouldContain("\"schemaVersion\": 1");
+    }
+
+    [Fact]
+    public async Task L18_CorruptedFileLockedWithoutDelete_ThrowsStorageFailure_RetryingAfterUnlockSucceeds()
+    {
+        using var dir = new TempDirectory();
+        var paths = new FakeAppPaths(dir.Path);
+        const string corruptContent = "{ bad json syntax !!";
+        await File.WriteAllTextAsync(paths.SettingsFile, corruptContent, TestContext.Current.CancellationToken);
+
+        using var service = CreateService(dir);
+
+        // Lock file with FileShare.ReadWrite (which does not allow Delete/Move)
+        using (new FileStream(paths.SettingsFile, FileMode.Open, FileAccess.ReadWrite, FileShare.ReadWrite))
+        {
+            var ex = await Should.ThrowAsync<IrisException>(async () =>
+                await service.LoadAsync(TestContext.Current.CancellationToken));
+            ex.Code.ShouldBe(ErrorCode.StorageFailure);
+
+            // Service is unloaded; UpdateAsync throws InvalidOperationException
+            await Should.ThrowAsync<InvalidOperationException>(async () =>
+                await service.UpdateAsync(s => s, TestContext.Current.CancellationToken));
+        }
+
+        // Releasing handle and calling LoadAsync again throws SettingsCorrupted and completes backup
+        var corruptEx = await Should.ThrowAsync<IrisException>(async () =>
+            await service.LoadAsync(TestContext.Current.CancellationToken));
+        corruptEx.Code.ShouldBe(ErrorCode.SettingsCorrupted);
+        File.Exists(corruptEx.Detail).ShouldBeTrue();
+
+        SettingsTestInvariants.AssertInvariants(service.Current);
+    }
+
+    [Fact]
+    public async Task L19_MigrationBackupLocked_ThrowsStorageFailure_RetryingAfterUnlockSucceeds()
+    {
+        using var dir = new TempDirectory();
+        var paths = new FakeAppPaths(dir.Path);
+        const string json = """{"schemaVersion":0,"history":{"maxEntries":1000}}""";
+        await File.WriteAllTextAsync(paths.SettingsFile, json, TestContext.Current.CancellationToken);
+
+        var migration0To1 = new TestMigration(0, root =>
+        {
+            root["history"]!["maxEntries"] = 2500;
+            return root;
+        });
+
+        var bakPath = Path.Combine(dir.Path, "settings.v0.bak.json");
+        await File.WriteAllTextAsync(bakPath, "old-backup", TestContext.Current.CancellationToken);
+
+        using var service = CreateService(dir, migrations: [migration0To1]);
+
+        // Lock bakPath with FileShare.None
+        using (new FileStream(bakPath, FileMode.Open, FileAccess.ReadWrite, FileShare.None))
+        {
+            var ex = await Should.ThrowAsync<IrisException>(async () =>
+                await service.LoadAsync(TestContext.Current.CancellationToken));
+            ex.Code.ShouldBe(ErrorCode.StorageFailure);
+
+            await Should.ThrowAsync<InvalidOperationException>(async () =>
+                await service.UpdateAsync(s => s, TestContext.Current.CancellationToken));
+        }
+
+        // After unlocking, calling LoadAsync again succeeds with migration applied
+        await service.LoadAsync(TestContext.Current.CancellationToken);
+        service.Current.SchemaVersion.ShouldBe(1);
+        service.Current.History.MaxEntries.ShouldBe(2500);
+
+        SettingsTestInvariants.AssertInvariants(service.Current);
     }
 
     [Fact]
@@ -615,8 +817,7 @@ public sealed class JsonSettingsServiceTests
         using var service = CreateService(dir);
         await service.LoadAsync(TestContext.Current.CancellationToken);
 
-        var firstUpdateDone = new TaskCompletionSource<bool>();
-        var secondUpdateDone = new TaskCompletionSource<bool>();
+        var secondUpdateDone = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         var triggerSecondUpdate = true;
         service.Changed += (_, e) =>
@@ -624,38 +825,40 @@ public sealed class JsonSettingsServiceTests
             if (e.NewSettings.History.MaxEntries == 2000 && triggerSecondUpdate)
             {
                 triggerSecondUpdate = false;
-                // Unawaited update from within handler
-                _ = Task.Run(async () =>
+                // Directly invoke UpdateAsync from within the handler without Task.Run
+                _ = service.UpdateAsync(s => s with
                 {
-                    try
+                    History = s.History with { MaxEntries = 3000 },
+                }, TestContext.Current.CancellationToken).ContinueWith(t =>
+                {
+                    if (t.IsFaulted && t.Exception != null)
                     {
-                        await service.UpdateAsync(s => s with
-                        {
-                            History = s.History with { MaxEntries = 3000 },
-                        }, TestContext.Current.CancellationToken);
+                        secondUpdateDone.TrySetException(t.Exception.InnerExceptions);
+                    }
+                    else if (t.IsCanceled)
+                    {
+                        secondUpdateDone.TrySetCanceled();
+                    }
+                    else
+                    {
                         secondUpdateDone.TrySetResult(true);
                     }
-                    catch (Exception ex)
-                    {
-                        secondUpdateDone.TrySetException(ex);
-                    }
-                }, TestContext.Current.CancellationToken);
-                firstUpdateDone.TrySetResult(true);
+                }, TaskScheduler.Default);
             }
         };
 
         // First update
-        await service.UpdateAsync(s => s with
+        var firstUpdateTask = service.UpdateAsync(s => s with
         {
             History = s.History with { MaxEntries = 2000 },
         }, TestContext.Current.CancellationToken);
 
         // Wait both with 5 seconds timeout
-        var timeoutTask = Task.Delay(5000, TestContext.Current.CancellationToken);
-        var completed = await Task.WhenAll(firstUpdateDone.Task, secondUpdateDone.Task);
+        await Task.WhenAll(firstUpdateTask, secondUpdateDone.Task)
+            .WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
-        completed.Length.ShouldBe(2);
         service.Current.History.MaxEntries.ShouldBe(3000);
+        SettingsTestInvariants.AssertInvariants(service.Current);
     }
 
     [Fact]

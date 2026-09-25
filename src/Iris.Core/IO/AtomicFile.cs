@@ -79,6 +79,64 @@ public static class AtomicFile
         return WriteAllBytesAsync(path, bytes, backupPath, cancellationToken);
     }
 
+    /// <summary>带重试的复制（重试策略与 WriteAllBytesAsync 相同）。失败抛 IrisException(StorageFailure, detail: "源路径 → 目标路径")。</summary>
+    public static async Task CopyAsync(string sourcePath, string destinationPath, bool overwrite, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ArgumentException.ThrowIfNullOrWhiteSpace(sourcePath);
+        ArgumentException.ThrowIfNullOrWhiteSpace(destinationPath);
+
+        try
+        {
+            await ExecuteWithRetryAsync(() =>
+            {
+                File.Copy(sourcePath, destinationPath, overwrite);
+                return Task.CompletedTask;
+            }, cancellationToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            throw new IrisException(
+                ErrorCode.StorageFailure,
+                ErrorMessages.GetDefault(ErrorCode.StorageFailure),
+                ex,
+                detail: FormattableString.Invariant($"{sourcePath} → {destinationPath}"));
+        }
+    }
+
+    /// <summary>带重试的移动，其余同上。</summary>
+    public static async Task MoveAsync(string sourcePath, string destinationPath, bool overwrite, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ArgumentException.ThrowIfNullOrWhiteSpace(sourcePath);
+        ArgumentException.ThrowIfNullOrWhiteSpace(destinationPath);
+
+        try
+        {
+            await ExecuteWithRetryAsync(() =>
+            {
+                File.Move(sourcePath, destinationPath, overwrite);
+                return Task.CompletedTask;
+            }, cancellationToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            throw new IrisException(
+                ErrorCode.StorageFailure,
+                ErrorMessages.GetDefault(ErrorCode.StorageFailure),
+                ex,
+                detail: FormattableString.Invariant($"{sourcePath} → {destinationPath}"));
+        }
+    }
+
     private static async Task ExecuteWithRetryAsync(Func<Task> action, CancellationToken cancellationToken)
     {
         for (var attempt = 0; attempt <= MaxRetries; attempt++)

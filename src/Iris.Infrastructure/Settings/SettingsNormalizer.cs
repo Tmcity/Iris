@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Iris.Core.Actions;
 using Iris.Core.Languages;
@@ -10,12 +11,13 @@ using Iris.Core.Translation;
 namespace Iris.Infrastructure.Settings;
 
 /// <summary>
-/// 设置规范化器：纯函数，保证 AppSettings 永远满足 N1–N11 不变量。
+/// 设置规范化器：纯函数，保证 AppSettings 永远满足 N1–N14 不变量。
 /// 若未发生任何修复，返回原实例。
 /// </summary>
 internal static class SettingsNormalizer
 {
     private static readonly string[] AllowedLogLevels = ["Verbose", "Debug", "Information", "Warning", "Error"];
+    private static readonly string[] AllowedLanguages = ["zh-CN", "en-US"];
 
     public static AppSettings Normalize(AppSettings input, ICollection<string> fixes)
     {
@@ -28,7 +30,7 @@ internal static class SettingsNormalizer
         var schemaVersion = input.SchemaVersion;
         if (schemaVersion != AppSettings.CurrentSchemaVersion)
         {
-            fixes.Add($"SchemaVersion: {schemaVersion} → {AppSettings.CurrentSchemaVersion}");
+            fixes.Add(FormattableString.Invariant($"SchemaVersion: {schemaVersion} → {AppSettings.CurrentSchemaVersion}"));
             schemaVersion = AppSettings.CurrentSchemaVersion;
         }
 
@@ -96,41 +98,43 @@ internal static class SettingsNormalizer
 
     private static GeneralSettings NormalizeGeneral(GeneralSettings general, ICollection<string> fixes)
     {
-        // N11
+        // N11: UiLanguage
         var uiLang = general.UiLanguage;
-        string canonicalLang;
-        if (string.Equals(uiLang, "zh-CN", StringComparison.OrdinalIgnoreCase))
+        var canonicalLang = AllowedLanguages.FirstOrDefault(l => string.Equals(l, uiLang, StringComparison.OrdinalIgnoreCase));
+        if (canonicalLang == null)
         {
             canonicalLang = "zh-CN";
+            fixes.Add($"General.UiLanguage: {uiLang ?? "null"} → zh-CN");
         }
-        else if (string.Equals(uiLang, "en-US", StringComparison.OrdinalIgnoreCase))
-        {
-            canonicalLang = "en-US";
-        }
-        else
-        {
-            canonicalLang = "zh-CN";
-        }
-
-        if (!string.Equals(uiLang, canonicalLang, StringComparison.Ordinal))
+        else if (!string.Equals(uiLang, canonicalLang, StringComparison.Ordinal))
         {
             fixes.Add($"General.UiLanguage: {uiLang} → {canonicalLang}");
         }
 
+        // N11: LogLevel
         var logLevel = general.LogLevel;
         var canonicalLevel = AllowedLogLevels.FirstOrDefault(l => string.Equals(l, logLevel, StringComparison.OrdinalIgnoreCase));
         if (canonicalLevel == null)
         {
             canonicalLevel = "Information";
-            fixes.Add($"General.LogLevel: {logLevel} → Information");
+            fixes.Add($"General.LogLevel: {logLevel ?? "null"} → Information");
         }
         else if (!string.Equals(logLevel, canonicalLevel, StringComparison.Ordinal))
         {
             fixes.Add($"General.LogLevel: {logLevel} → {canonicalLevel}");
         }
 
+        // N12: Theme
+        var theme = general.Theme;
+        if (!Enum.IsDefined(theme))
+        {
+            fixes.Add(FormattableString.Invariant($"General.Theme: {(int)theme} → {AppTheme.System}"));
+            theme = AppTheme.System;
+        }
+
         if (string.Equals(general.UiLanguage, canonicalLang, StringComparison.Ordinal) &&
-            string.Equals(general.LogLevel, canonicalLevel, StringComparison.Ordinal))
+            string.Equals(general.LogLevel, canonicalLevel, StringComparison.Ordinal) &&
+            general.Theme == theme)
         {
             return general;
         }
@@ -139,6 +143,7 @@ internal static class SettingsNormalizer
         {
             UiLanguage = canonicalLang,
             LogLevel = canonicalLevel,
+            Theme = theme,
         };
     }
 
@@ -146,21 +151,50 @@ internal static class SettingsNormalizer
         IReadOnlyDictionary<IrisAction, HotkeyBinding>? hotkeys,
         ICollection<string> fixes)
     {
-        // N2
+        // N2, N12, N13
         var defaults = HotkeyDefaults.Create();
         var result = new Dictionary<IrisAction, HotkeyBinding>();
+        const HotkeyModifiers allModifiers = HotkeyModifiers.Alt | HotkeyModifiers.Control | HotkeyModifiers.Shift | HotkeyModifiers.Win;
 
         if (hotkeys != null)
         {
             foreach (var (action, binding) in hotkeys)
             {
-                if (binding == null)
+                // N12: 未定义动作
+                if (!Enum.IsDefined(action))
                 {
-                    // 值为 null 的条目视为缺失，后续补默认
+                    fixes.Add(FormattableString.Invariant($"Hotkeys: 未定义动作 {(int)action} → 已移除"));
                     continue;
                 }
 
-                if (string.IsNullOrWhiteSpace(binding.Key))
+                // N2 & D-3: 值为 null 的条目
+                if (binding == null)
+                {
+                    if (defaults.TryGetValue(action, out var defaultBinding))
+                    {
+                        result[action] = defaultBinding;
+                        fixes.Add($"Hotkeys[{action}]: null → 默认绑定");
+                    }
+                    else
+                    {
+                        fixes.Add($"Hotkeys[{action}]: null → 已移除");
+                    }
+
+                    continue;
+                }
+
+                var currentBinding = binding;
+
+                // N12: Modifiers 只保留已定义位
+                var masked = currentBinding.Modifiers & allModifiers;
+                if (masked != currentBinding.Modifiers)
+                {
+                    fixes.Add(FormattableString.Invariant($"Hotkeys[{action}].Modifiers: 0x{(int)currentBinding.Modifiers:X} → 0x{(int)masked:X}"));
+                    currentBinding = currentBinding with { Modifiers = masked };
+                }
+
+                // N2: Key 为空白
+                if (string.IsNullOrWhiteSpace(currentBinding.Key))
                 {
                     if (defaults.TryGetValue(action, out var defaultBinding))
                     {
@@ -174,11 +208,12 @@ internal static class SettingsNormalizer
                 }
                 else
                 {
-                    result[action] = binding;
+                    result[action] = currentBinding;
                 }
             }
         }
 
+        // N2: 补齐缺失的默认动作
         foreach (var (defaultAction, defaultBinding) in defaults)
         {
             if (!result.ContainsKey(defaultAction))
@@ -201,25 +236,40 @@ internal static class SettingsNormalizer
         var primaryTarget = translation.PrimaryTargetLanguage;
         if (string.IsNullOrWhiteSpace(primaryTarget) || string.Equals(primaryTarget, "auto", StringComparison.OrdinalIgnoreCase))
         {
-            fixes.Add($"Translation.PrimaryTargetLanguage: {primaryTarget} → {LanguageCodes.ChineseSimplified}");
+            fixes.Add($"Translation.PrimaryTargetLanguage: {primaryTarget ?? "null"} → {LanguageCodes.ChineseSimplified}");
             primaryTarget = LanguageCodes.ChineseSimplified;
         }
 
         var secondaryTarget = translation.SecondaryTargetLanguage;
         if (string.IsNullOrWhiteSpace(secondaryTarget) || string.Equals(secondaryTarget, "auto", StringComparison.OrdinalIgnoreCase))
         {
-            fixes.Add($"Translation.SecondaryTargetLanguage: {secondaryTarget} → {LanguageCodes.English}");
+            fixes.Add($"Translation.SecondaryTargetLanguage: {secondaryTarget ?? "null"} → {LanguageCodes.English}");
             secondaryTarget = LanguageCodes.English;
         }
 
         var defaultSource = translation.DefaultSourceLanguage;
         if (string.IsNullOrWhiteSpace(defaultSource))
         {
-            fixes.Add($"Translation.DefaultSourceLanguage: {defaultSource} → {LanguageCodes.Auto}");
+            fixes.Add($"Translation.DefaultSourceLanguage: {defaultSource ?? "null"} → {LanguageCodes.Auto}");
             defaultSource = LanguageCodes.Auto;
         }
 
-        // CustomPrompts 规范化
+        // N12: AutoCopy & SelectionLineBreaks
+        var autoCopy = translation.AutoCopy;
+        if (!Enum.IsDefined(autoCopy))
+        {
+            fixes.Add(FormattableString.Invariant($"Translation.AutoCopy: {(int)autoCopy} → {AutoCopyMode.None}"));
+            autoCopy = AutoCopyMode.None;
+        }
+
+        var lineBreaks = translation.SelectionLineBreaks;
+        if (!Enum.IsDefined(lineBreaks))
+        {
+            fixes.Add(FormattableString.Invariant($"Translation.SelectionLineBreaks: {(int)lineBreaks} → {LineBreakHandling.Keep}"));
+            lineBreaks = LineBreakHandling.Keep;
+        }
+
+        // CustomPrompts 规范化 (N3, N13)
         var customPrompts = translation.CustomPrompts;
         if (customPrompts == null)
         {
@@ -232,6 +282,12 @@ internal static class SettingsNormalizer
 
         foreach (var prompt in customPrompts)
         {
+            if (prompt == null)
+            {
+                fixes.Add("Translation.CustomPrompts: 移除 null 模板");
+                continue;
+            }
+
             if (string.IsNullOrWhiteSpace(prompt.Id) ||
                 string.Equals(prompt.Id, BuiltInPrompts.DefaultTemplateId, StringComparison.OrdinalIgnoreCase) ||
                 !seenPromptIds.Add(prompt.Id))
@@ -240,21 +296,53 @@ internal static class SettingsNormalizer
                 continue;
             }
 
-            normalizedPrompts.Add(prompt);
+            // N13: System 或 User 为 null 或空白 → 移除该模板
+            if (string.IsNullOrWhiteSpace(prompt.System) || string.IsNullOrWhiteSpace(prompt.User))
+            {
+                fixes.Add($"Translation.CustomPrompts[{prompt.Id}]: System 或 User 为空 → 已移除");
+                continue;
+            }
+
+            // N13: Name 为空白 → 用 Id
+            var name = prompt.Name;
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                fixes.Add($"Translation.CustomPrompts[{prompt.Id}].Name: 空白 → {prompt.Id}");
+                name = prompt.Id;
+            }
+
+            normalizedPrompts.Add(prompt with { Name = name });
         }
 
-        // DefaultPromptTemplateId 必须存在于内置模板或自定义模板中
+        // DefaultPromptTemplateId 必须存在于内置模板或自定义模板中，且 N14 不区分大小写匹配后改写为精确 Id
         var defaultPromptId = translation.DefaultPromptTemplateId;
-        var promptExists = string.Equals(defaultPromptId, BuiltInPrompts.DefaultTemplateId, StringComparison.OrdinalIgnoreCase) ||
-                           normalizedPrompts.Any(p => string.Equals(p.Id, defaultPromptId, StringComparison.OrdinalIgnoreCase));
+        string? canonicalPromptId = null;
 
-        if (!promptExists)
+        if (string.Equals(defaultPromptId, BuiltInPrompts.DefaultTemplateId, StringComparison.OrdinalIgnoreCase))
         {
-            fixes.Add($"Translation.DefaultPromptTemplateId: {defaultPromptId} → {BuiltInPrompts.DefaultTemplateId}");
+            canonicalPromptId = BuiltInPrompts.DefaultTemplateId;
+        }
+        else
+        {
+            var matchedCustom = normalizedPrompts.FirstOrDefault(p => string.Equals(p.Id, defaultPromptId, StringComparison.OrdinalIgnoreCase));
+            if (matchedCustom != null)
+            {
+                canonicalPromptId = matchedCustom.Id;
+            }
+        }
+
+        if (canonicalPromptId == null)
+        {
+            fixes.Add($"Translation.DefaultPromptTemplateId: {defaultPromptId ?? "null"} → {BuiltInPrompts.DefaultTemplateId}");
             defaultPromptId = BuiltInPrompts.DefaultTemplateId;
         }
+        else if (!string.Equals(defaultPromptId, canonicalPromptId, StringComparison.Ordinal))
+        {
+            fixes.Add($"Translation.DefaultPromptTemplateId: {defaultPromptId} → {canonicalPromptId}");
+            defaultPromptId = canonicalPromptId;
+        }
 
-        // Providers 规范化
+        // Providers 规范化 (N3, N12, N13, N14)
         var rawProviders = translation.Providers;
         if (rawProviders == null)
         {
@@ -267,6 +355,12 @@ internal static class SettingsNormalizer
 
         foreach (var profile in rawProviders)
         {
+            if (profile == null)
+            {
+                fixes.Add("Translation.Providers: 移除 null Profile");
+                continue;
+            }
+
             if (string.IsNullOrWhiteSpace(profile.Id))
             {
                 fixes.Add("Translation.Providers: 缺少 Id → 已移除");
@@ -279,6 +373,13 @@ internal static class SettingsNormalizer
                 continue;
             }
 
+            // N12: 未定义 Kind 移除 Profile
+            if (!Enum.IsDefined(profile.Kind))
+            {
+                fixes.Add(FormattableString.Invariant($"Translation.Providers: 移除未定义 Kind {(int)profile.Kind} 的 Profile '{profile.Id}'"));
+                continue;
+            }
+
             var displayName = profile.DisplayName;
             if (string.IsNullOrWhiteSpace(displayName))
             {
@@ -286,12 +387,22 @@ internal static class SettingsNormalizer
                 displayName = profile.Id;
             }
 
+            // N13: Model 为 null → 空字符串，并设 Enabled = false
+            var model = profile.Model;
+            var enabled = profile.Enabled;
+            if (model == null)
+            {
+                fixes.Add($"Translation.Providers[{profile.Id}].Model: null → \"\"（并禁用）");
+                model = string.Empty;
+                enabled = false;
+            }
+
             var timeout = Clamp(profile.TimeoutSeconds, 5, 600, $"Translation.Providers[{profile.Id}].TimeoutSeconds", fixes);
 
             int? maxOutputTokens = profile.MaxOutputTokens;
             if (maxOutputTokens.HasValue && maxOutputTokens.Value < 1)
             {
-                fixes.Add($"Translation.Providers[{profile.Id}].MaxOutputTokens: {maxOutputTokens.Value} → null");
+                fixes.Add(FormattableString.Invariant($"Translation.Providers[{profile.Id}].MaxOutputTokens: {maxOutputTokens.Value} → null"));
                 maxOutputTokens = null;
             }
 
@@ -302,18 +413,34 @@ internal static class SettingsNormalizer
                 temp = clampedTemp;
             }
 
-            var enabled = profile.Enabled;
             if (profile.Kind == TranslationProviderKind.OpenAICompatible && string.IsNullOrWhiteSpace(profile.BaseUrl) && enabled)
             {
-                fixes.Add($"Translation.Providers[{profile.Id}].Enabled: true → false");
+                fixes.Add($"Translation.Providers[{profile.Id}].Enabled: true → false（缺少 BaseUrl）");
                 enabled = false;
             }
 
             var openAIOptions = profile.OpenAIOptions;
-            if (profile.Kind == TranslationProviderKind.OpenAICompatible && openAIOptions == null)
+            if (profile.Kind == TranslationProviderKind.OpenAICompatible)
             {
-                fixes.Add($"Translation.Providers[{profile.Id}].OpenAIOptions: null → 默认值");
-                openAIOptions = new OpenAICompatibleOptions();
+                if (openAIOptions == null)
+                {
+                    fixes.Add($"Translation.Providers[{profile.Id}].OpenAIOptions: null → 默认值");
+                    openAIOptions = new OpenAICompatibleOptions();
+                }
+
+                // N12: MaxTokensField
+                if (!Enum.IsDefined(openAIOptions.MaxTokensField))
+                {
+                    fixes.Add(FormattableString.Invariant($"Translation.Providers[{profile.Id}].OpenAIOptions.MaxTokensField: {(int)openAIOptions.MaxTokensField} → {MaxTokensField.MaxTokens}"));
+                    openAIOptions = openAIOptions with { MaxTokensField = MaxTokensField.MaxTokens };
+                }
+
+                // N13: ChatCompletionsPath 为 null 或空白 → 默认值
+                if (string.IsNullOrWhiteSpace(openAIOptions.ChatCompletionsPath))
+                {
+                    fixes.Add($"Translation.Providers[{profile.Id}].OpenAIOptions.ChatCompletionsPath: 为空 → 默认值");
+                    openAIOptions = openAIOptions with { ChatCompletionsPath = "chat/completions" };
+                }
             }
 
             var anthropicOptions = profile.AnthropicOptions;
@@ -323,15 +450,47 @@ internal static class SettingsNormalizer
                 anthropicOptions = new AnthropicOptions();
             }
 
+            // N14: PromptTemplateId 规范化
+            var promptTemplateId = profile.PromptTemplateId;
+            if (promptTemplateId != null)
+            {
+                string? matchedTemplateId = null;
+                if (string.Equals(promptTemplateId, BuiltInPrompts.DefaultTemplateId, StringComparison.OrdinalIgnoreCase))
+                {
+                    matchedTemplateId = BuiltInPrompts.DefaultTemplateId;
+                }
+                else
+                {
+                    var matchedCustom = normalizedPrompts.FirstOrDefault(p => string.Equals(p.Id, promptTemplateId, StringComparison.OrdinalIgnoreCase));
+                    if (matchedCustom != null)
+                    {
+                        matchedTemplateId = matchedCustom.Id;
+                    }
+                }
+
+                if (matchedTemplateId == null)
+                {
+                    fixes.Add($"Translation.Providers[{profile.Id}].PromptTemplateId: {promptTemplateId} → null");
+                    promptTemplateId = null;
+                }
+                else if (!string.Equals(promptTemplateId, matchedTemplateId, StringComparison.Ordinal))
+                {
+                    fixes.Add($"Translation.Providers[{profile.Id}].PromptTemplateId: {promptTemplateId} → {matchedTemplateId}");
+                    promptTemplateId = matchedTemplateId;
+                }
+            }
+
             normalizedProviders.Add(profile with
             {
                 DisplayName = displayName,
+                Model = model,
                 TimeoutSeconds = timeout,
                 MaxOutputTokens = maxOutputTokens,
                 Temperature = temp,
                 Enabled = enabled,
                 OpenAIOptions = openAIOptions,
                 AnthropicOptions = anthropicOptions,
+                PromptTemplateId = promptTemplateId,
             });
         }
 
@@ -343,6 +502,8 @@ internal static class SettingsNormalizer
             PrimaryTargetLanguage = primaryTarget,
             SecondaryTargetLanguage = secondaryTarget,
             DefaultSourceLanguage = defaultSource,
+            AutoCopy = autoCopy,
+            SelectionLineBreaks = lineBreaks,
             CustomPrompts = normalizedPrompts,
             DefaultPromptTemplateId = defaultPromptId,
             Providers = normalizedProviders,
@@ -351,12 +512,21 @@ internal static class SettingsNormalizer
 
     private static OcrSettings NormalizeOcr(OcrSettings ocr, ICollection<string> fixes)
     {
-        // N4
+        // N4, N12, N13, N14
+        var defaultOcrProviders = new OcrSettings().Providers;
         var rawProviders = ocr.Providers;
         if (rawProviders == null)
         {
             fixes.Add("Ocr.Providers: null → 默认列表");
-            rawProviders = new OcrSettings().Providers;
+            rawProviders = defaultOcrProviders;
+        }
+
+        // N12: TextLayout
+        var textLayout = ocr.TextLayout;
+        if (!Enum.IsDefined(textLayout))
+        {
+            fixes.Add(FormattableString.Invariant($"Ocr.TextLayout: {(int)textLayout} → {OcrTextLayout.MergeParagraphs}"));
+            textLayout = OcrTextLayout.MergeParagraphs;
         }
 
         var normalizedProviders = new List<OcrProviderProfile>();
@@ -364,6 +534,12 @@ internal static class SettingsNormalizer
 
         foreach (var profile in rawProviders)
         {
+            if (profile == null)
+            {
+                fixes.Add("Ocr.Providers: 移除 null Profile");
+                continue;
+            }
+
             if (string.IsNullOrWhiteSpace(profile.Id))
             {
                 fixes.Add("Ocr.Providers: 缺少 Id → 已移除");
@@ -373,6 +549,13 @@ internal static class SettingsNormalizer
             if (!seenProviderIds.Add(profile.Id))
             {
                 fixes.Add($"Ocr.Providers[{profile.Id}]: 重复 Id → 已移除");
+                continue;
+            }
+
+            // N12: 未定义 Kind 移除 Profile
+            if (!Enum.IsDefined(profile.Kind))
+            {
+                fixes.Add(FormattableString.Invariant($"Ocr.Providers: 移除未定义 Kind {(int)profile.Kind} 的 Profile '{profile.Id}'"));
                 continue;
             }
 
@@ -386,10 +569,27 @@ internal static class SettingsNormalizer
             var timeout = Clamp(profile.TimeoutSeconds, 5, 120, $"Ocr.Providers[{profile.Id}].TimeoutSeconds", fixes);
 
             var baiduOptions = profile.BaiduOptions;
-            if (profile.Kind == OcrProviderKind.BaiduCloud && baiduOptions == null)
+            if (profile.Kind == OcrProviderKind.BaiduCloud)
             {
-                fixes.Add($"Ocr.Providers[{profile.Id}].BaiduOptions: null → 默认值");
-                baiduOptions = new BaiduOcrOptions();
+                if (baiduOptions == null)
+                {
+                    fixes.Add($"Ocr.Providers[{profile.Id}].BaiduOptions: null → 默认值");
+                    baiduOptions = new BaiduOcrOptions();
+                }
+
+                // N12: BaiduOcrOptions.Mode
+                if (!Enum.IsDefined(baiduOptions.Mode))
+                {
+                    fixes.Add(FormattableString.Invariant($"Ocr.Providers[{profile.Id}].BaiduOptions.Mode: {(int)baiduOptions.Mode} → {BaiduOcrMode.AccurateBasic}"));
+                    baiduOptions = baiduOptions with { Mode = BaiduOcrMode.AccurateBasic };
+                }
+
+                // N13: BaseUrl 为空 → 默认值
+                if (string.IsNullOrWhiteSpace(baiduOptions.BaseUrl))
+                {
+                    fixes.Add($"Ocr.Providers[{profile.Id}].BaiduOptions.BaseUrl: 为空 → 默认值");
+                    baiduOptions = baiduOptions with { BaseUrl = "https://aip.baidubce.com" };
+                }
             }
 
             var windowsOptions = profile.WindowsOptions;
@@ -408,58 +608,62 @@ internal static class SettingsNormalizer
             });
         }
 
-        // 补齐缺失的内置 Profile
+        // N4 & N14: 补齐缺失的内置 Profile（直接复制 new OcrSettings().Providers 中的对应项，不硬编码）
         if (!normalizedProviders.Any(p => string.Equals(p.Id, BuiltInProviderIds.BaiduOcr, StringComparison.OrdinalIgnoreCase)))
         {
             fixes.Add("Ocr.Providers: 缺少内置 ocr-baidu → 已追加默认配置");
-            normalizedProviders.Add(new OcrProviderProfile
-            {
-                Id = BuiltInProviderIds.BaiduOcr,
-                Kind = OcrProviderKind.BaiduCloud,
-                DisplayName = "百度 OCR",
-                BaiduOptions = new(),
-            });
+            var defaultBaidu = defaultOcrProviders.First(p => string.Equals(p.Id, BuiltInProviderIds.BaiduOcr, StringComparison.OrdinalIgnoreCase));
+            normalizedProviders.Add(defaultBaidu);
         }
 
         if (!normalizedProviders.Any(p => string.Equals(p.Id, BuiltInProviderIds.WindowsOcr, StringComparison.OrdinalIgnoreCase)))
         {
             fixes.Add("Ocr.Providers: 缺少内置 ocr-windows → 已追加默认配置");
-            normalizedProviders.Add(new OcrProviderProfile
-            {
-                Id = BuiltInProviderIds.WindowsOcr,
-                Kind = OcrProviderKind.WindowsLocal,
-                DisplayName = "Windows 离线 OCR",
-                WindowsOptions = new(),
-            });
+            var defaultWindows = defaultOcrProviders.First(p => string.Equals(p.Id, BuiltInProviderIds.WindowsOcr, StringComparison.OrdinalIgnoreCase));
+            normalizedProviders.Add(defaultWindows);
         }
 
+        // N4 & N14: ActiveProviderId
         var activeId = ocr.ActiveProviderId;
-        if (!normalizedProviders.Any(p => string.Equals(p.Id, activeId, StringComparison.OrdinalIgnoreCase)))
+        var matchedActive = normalizedProviders.FirstOrDefault(p => string.Equals(p.Id, activeId, StringComparison.OrdinalIgnoreCase));
+        if (matchedActive == null)
         {
-            fixes.Add($"Ocr.ActiveProviderId: {activeId} → {BuiltInProviderIds.BaiduOcr}");
+            fixes.Add($"Ocr.ActiveProviderId: {activeId ?? "null"} → {BuiltInProviderIds.BaiduOcr}");
             activeId = BuiltInProviderIds.BaiduOcr;
         }
+        else if (!string.Equals(activeId, matchedActive.Id, StringComparison.Ordinal))
+        {
+            fixes.Add($"Ocr.ActiveProviderId: {activeId} → {matchedActive.Id}");
+            activeId = matchedActive.Id;
+        }
 
+        // N4 & N14: FallbackProviderId
         var fallbackId = ocr.FallbackProviderId;
         if (fallbackId != null)
         {
-            if (string.Equals(fallbackId, activeId, StringComparison.OrdinalIgnoreCase) ||
-                !normalizedProviders.Any(p => string.Equals(p.Id, fallbackId, StringComparison.OrdinalIgnoreCase)))
+            var matchedFallback = normalizedProviders.FirstOrDefault(p => string.Equals(p.Id, fallbackId, StringComparison.OrdinalIgnoreCase));
+            if (matchedFallback == null || string.Equals(matchedFallback.Id, activeId, StringComparison.OrdinalIgnoreCase))
             {
                 fixes.Add($"Ocr.FallbackProviderId: {fallbackId} → null");
                 fallbackId = null;
+            }
+            else if (!string.Equals(fallbackId, matchedFallback.Id, StringComparison.Ordinal))
+            {
+                fixes.Add($"Ocr.FallbackProviderId: {fallbackId} → {matchedFallback.Id}");
+                fallbackId = matchedFallback.Id;
             }
         }
 
         var langHint = ocr.LanguageHint;
         if (string.IsNullOrWhiteSpace(langHint))
         {
-            fixes.Add($"Ocr.LanguageHint: {langHint} → {LanguageCodes.Auto}");
+            fixes.Add($"Ocr.LanguageHint: {langHint ?? "null"} → {LanguageCodes.Auto}");
             langHint = LanguageCodes.Auto;
         }
 
         return ocr with
         {
+            TextLayout = textLayout,
             Providers = normalizedProviders,
             ActiveProviderId = activeId,
             FallbackProviderId = fallbackId,
@@ -469,43 +673,111 @@ internal static class SettingsNormalizer
 
     private static SelectionSettings NormalizeSelection(SelectionSettings selection, ICollection<string> fixes)
     {
-        // N5
-        var readOrder = selection.ReadOrder;
-        if (readOrder == null || readOrder.Count == 0)
+        // N12: MouseMode
+        var mouseMode = selection.MouseMode;
+        if (!Enum.IsDefined(mouseMode))
+        {
+            fixes.Add(FormattableString.Invariant($"Selection.MouseMode: {(int)mouseMode} → {MouseSelectionMode.Off}"));
+            mouseMode = MouseSelectionMode.Off;
+        }
+
+        // N5 & N12: ReadOrder
+        var rawReadOrder = selection.ReadOrder;
+        IReadOnlyList<SelectionReadMethod> readOrder;
+        if (rawReadOrder == null || rawReadOrder.Count == 0)
         {
             fixes.Add("Selection.ReadOrder: 空白 → 默认顺序");
             readOrder = [SelectionReadMethod.UIAutomation, SelectionReadMethod.Clipboard];
         }
         else
         {
-            var distinct = readOrder.Distinct().ToList();
-            if (distinct.Count != readOrder.Count)
+            var validList = new List<SelectionReadMethod>();
+            foreach (var m in rawReadOrder)
             {
-                fixes.Add("Selection.ReadOrder: 存在重复项 → 已去重");
-                readOrder = distinct;
+                if (!Enum.IsDefined(m))
+                {
+                    fixes.Add(FormattableString.Invariant($"Selection.ReadOrder: 移除未定义元素 {(int)m}"));
+                    continue;
+                }
+
+                if (!validList.Contains(m))
+                {
+                    validList.Add(m);
+                }
+                else
+                {
+                    fixes.Add("Selection.ReadOrder: 存在重复项 → 已去重");
+                }
             }
+
+            if (validList.Count == 0)
+            {
+                fixes.Add("Selection.ReadOrder: 空白 → 默认顺序");
+                validList = [SelectionReadMethod.UIAutomation, SelectionReadMethod.Clipboard];
+            }
+
+            readOrder = validList;
         }
 
         var clipboardTimeout = Clamp(selection.ClipboardTimeoutMs, 100, 2000, "Selection.ClipboardTimeoutMs", fixes);
         var minDrag = Clamp(selection.MinDragDistancePx, 2, 50, "Selection.MinDragDistancePx", fixes);
         var autoHide = Clamp(selection.IconAutoHideMs, 500, 10000, "Selection.IconAutoHideMs", fixes);
 
-        var excluded = selection.ExcludedProcesses;
-        if (excluded == null)
+        // N5 & N13: ExcludedProcesses
+        var rawExcluded = selection.ExcludedProcesses;
+        IReadOnlyList<string> excluded;
+        if (rawExcluded == null)
         {
             fixes.Add("Selection.ExcludedProcesses: null → []");
             excluded = [];
         }
+        else
+        {
+            var cleaned = new List<string>();
+            foreach (var p in rawExcluded)
+            {
+                if (p == null)
+                {
+                    fixes.Add("Selection.ExcludedProcesses: 移除 null 元素");
+                }
+                else
+                {
+                    cleaned.Add(p);
+                }
+            }
 
-        var unsafeProcesses = selection.ClipboardUnsafeProcesses;
-        if (unsafeProcesses == null)
+            excluded = cleaned;
+        }
+
+        // N5 & N13: ClipboardUnsafeProcesses
+        var rawUnsafe = selection.ClipboardUnsafeProcesses;
+        IReadOnlyList<string> unsafeProcesses;
+        if (rawUnsafe == null)
         {
             fixes.Add("Selection.ClipboardUnsafeProcesses: null → 默认列表");
             unsafeProcesses = new SelectionSettings().ClipboardUnsafeProcesses;
         }
+        else
+        {
+            var cleaned = new List<string>();
+            foreach (var p in rawUnsafe)
+            {
+                if (p == null)
+                {
+                    fixes.Add("Selection.ClipboardUnsafeProcesses: 移除 null 元素");
+                }
+                else
+                {
+                    cleaned.Add(p);
+                }
+            }
+
+            unsafeProcesses = cleaned;
+        }
 
         return selection with
         {
+            MouseMode = mouseMode,
             ReadOrder = readOrder,
             ClipboardTimeoutMs = clipboardTimeout,
             MinDragDistancePx = minDrag,
@@ -524,18 +796,42 @@ internal static class SettingsNormalizer
 
     private static FloatingBallSettings NormalizeFloatingBall(FloatingBallSettings fb, ICollection<string> fixes)
     {
-        // N7
+        // N7 & N12
+        var clickAction = fb.ClickAction;
+        if (!Enum.IsDefined(clickAction))
+        {
+            fixes.Add(FormattableString.Invariant($"FloatingBall.ClickAction: {(int)clickAction} → {IrisAction.ScreenshotTranslate}"));
+            clickAction = IrisAction.ScreenshotTranslate;
+        }
+
         var size = Clamp(fb.Size, 24.0, 96.0, "FloatingBall.Size", fixes);
         var opacity = Clamp(fb.Opacity, 0.2, 1.0, "FloatingBall.Opacity", fixes);
-        return fb with { Size = size, Opacity = opacity };
+        return fb with
+        {
+            ClickAction = clickAction,
+            Size = size,
+            Opacity = opacity,
+        };
     }
 
     private static TranslateWindowSettings NormalizeTranslateWindow(TranslateWindowSettings tw, ICollection<string> fixes)
     {
-        // N8
+        // N8 & N12
+        var placement = tw.Placement;
+        if (!Enum.IsDefined(placement))
+        {
+            fixes.Add(FormattableString.Invariant($"TranslateWindow.Placement: {(int)placement} → {WindowPlacementMode.FollowCursor}"));
+            placement = WindowPlacementMode.FollowCursor;
+        }
+
         var width = Clamp(tw.Width, 280.0, 1200.0, "TranslateWindow.Width", fixes);
         var fontSize = Clamp(tw.FontSize, 10.0, 32.0, "TranslateWindow.FontSize", fixes);
-        return tw with { Width = width, FontSize = fontSize };
+        return tw with
+        {
+            Placement = placement,
+            Width = width,
+            FontSize = fontSize,
+        };
     }
 
     private static HistorySettings NormalizeHistory(HistorySettings history, ICollection<string> fixes)
@@ -547,8 +843,15 @@ internal static class SettingsNormalizer
 
     private static NetworkSettings NormalizeNetwork(NetworkSettings network, ICollection<string> fixes)
     {
-        // N10
-        if (network.ProxyMode == ProxyMode.Custom)
+        // N10 & N12
+        var mode = network.ProxyMode;
+        if (!Enum.IsDefined(mode))
+        {
+            fixes.Add(FormattableString.Invariant($"Network.ProxyMode: {(int)mode} → {ProxyMode.System}"));
+            mode = ProxyMode.System;
+        }
+
+        if (mode == ProxyMode.Custom)
         {
             var isValid = !string.IsNullOrWhiteSpace(network.CustomProxyUrl) &&
                           Uri.TryCreate(network.CustomProxyUrl, UriKind.Absolute, out var uri) &&
@@ -559,24 +862,24 @@ internal static class SettingsNormalizer
             if (!isValid)
             {
                 fixes.Add("Network.ProxyMode: Custom → System（代理地址无效，已隐藏）");
-                return network with { ProxyMode = ProxyMode.System };
+                mode = ProxyMode.System;
             }
         }
 
-        return network;
+        return network with { ProxyMode = mode };
     }
 
     private static int Clamp(int value, int min, int max, string propertyPath, ICollection<string> fixes)
     {
         if (value < min)
         {
-            fixes.Add($"{propertyPath}: {value} → {min}");
+            fixes.Add(FormattableString.Invariant($"{propertyPath}: {value} → {min}"));
             return min;
         }
 
         if (value > max)
         {
-            fixes.Add($"{propertyPath}: {value} → {max}");
+            fixes.Add(FormattableString.Invariant($"{propertyPath}: {value} → {max}"));
             return max;
         }
 

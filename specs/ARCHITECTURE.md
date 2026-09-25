@@ -1,8 +1,9 @@
 # Iris 架构设计说明书
 
-> 版本：v1.2 · 2026-09-25 · 状态：**已冻结（首期）**
+> 版本：v1.3 · 2026-09-25 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
+> 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
 > 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
@@ -174,7 +175,7 @@ Core 程序集禁止引用：`PresentationFramework`、`PresentationCore`、`Win
 | `Presentation/` | `ITranslateWindowPresenter`、`IScreenshotService`、`IOcrResultPresenter`、`INotificationService`、`ISettingsWindowPresenter`、`IHistoryWindowPresenter`、`IFloatingBallController`、`IAppLifetime` | 端口，App 实现 |
 | `Workflows/` | 每个 `IrisAction` 一个 `IActionHandler` | Core |
 | `Serialization/` | `IrisJson` | Core |
-| `IO/` | `AtomicFile`：原子写文件（tmp + WriteThrough + 备份 + Move，共享冲突重试），供设置与密钥文件使用 | Core |
+| `IO/` | `AtomicFile`：原子写文件（tmp + WriteThrough + 备份 + Move，共享冲突重试），以及带同样重试策略的 `CopyAsync` / `MoveAsync`，供设置与密钥文件使用 | Core |
 | `DependencyInjection/` | `AddIrisCore(this IServiceCollection)` | Core |
 
 ### 5.2 Iris.Providers
@@ -617,15 +618,22 @@ Message 使用默认文案；Detail = `"HTTP {status}: {error.message 截断到 
 
 ```
 读取文件（UTF-8，兼容 BOM）
- → JsonNode.Parse（允许注释与尾逗号）          失败或根节点不是对象 → 损坏处理（见契约）
+ → JsonNode.Parse（允许注释与尾逗号）+ 立即完整展开（递归遍历全部 JsonObject / JsonArray）
+       解析或展开时抛出 JsonException / ArgumentException，或根节点不是对象 → 损坏处理（见契约）
+       说明：JsonObject 是延迟展开的，重复属性名（包括完全相同的重名，以及开启大小写不敏感后仅大小写不同的重名）
+       在 Parse 时不报错，要到首次访问属性时才抛 ArgumentException，所以必须在同一个 try 块中完整展开
  → 读取 schemaVersion                            缺失 → 视为当前版本；非整数 → 视为当前版本并记一条修复
      > 当前版本：记 Warning，复制原文件为 settings.v{n}.json（已存在则跳过），不迁移，尽力加载
-     < 当前版本：复制原文件为 settings.v{n}.bak.json，按 FromVersion 依次执行 ISettingsMigration
+     < 当前版本：迁移链完整 → 复制原文件为 settings.v{n}.bak.json，按 FromVersion 依次执行 ISettingsMigration
+            迁移链不完整（例如 0、负数等从未存在过的版本，或缺少某一步迁移）→ 记 Warning 与一条修复，
+            跳过迁移，按当前版本尽力加载（绝不因此抛出异常）
  → 挽救（Salvage，JsonNode 层）
  → 反序列化为 AppSettings（IrisJson.Options）   仍失败 → 损坏处理
  → 规范化（Normalize，强类型层）
  → 若发生了迁移 / 挽救 / 规范化修复 → 原子回写，并以 Warning 记录修复清单（只记字段路径与新旧值，不记整份 JSON）
 ```
+
+**LoadAsync 允许抛出的异常只有**：`IrisException(SettingsCorrupted)`（此时已加载，Current 为默认值）、`IrisException(StorageFailure)`（此时未加载，可以重试）、`OperationCanceledException`，以及编程错误导致的 `InvalidOperationException`（重复调用 LoadAsync）。**任何其他异常都视为缺陷。**
 
 **挽救规则（Salvage）**：目的是让单个坏字段只影响它自己，而不是把整份设置重置为默认值（`required` 成员缺失、枚举字符串非法都会让整份反序列化失败）。
 0. 版本处理完成后，无条件把 `schemaVersion` 写为当前版本号（数字）——否则 `"schemaVersion": "abc"` 会让整份反序列化失败。
@@ -639,7 +647,7 @@ Message 使用默认文案；Detail = `"HTTP {status}: {error.message 截断到 
 | # | 范围 | 规则 |
 |---|---|---|
 | N1 | 顶层 | 任何为 null 的节 / `Hotkeys` 字典 → 默认值；`SchemaVersion` → 当前版本 |
-| N2 | Hotkeys | 值为 null 的条目视为缺失；`HotkeyDefaults` 中有、字典中缺失的动作 → 补默认绑定；`Key` 为空白的条目 → 有默认绑定则替换为默认绑定，否则移除。注意：JSON 中只要出现 `hotkeys` 对象，反序列化结果就**只包含**文件中列出的条目（不会与默认值合并），因此本规则是必需的 |
+| N2 | Hotkeys | 值为 null 的条目：动作有默认绑定 → 替换为默认绑定；没有默认绑定 → **移除**；两种情况都要记修复。`HotkeyDefaults` 中有、字典中缺失的动作 → 补默认绑定；`Key` 为空白的条目 → 有默认绑定则替换为默认绑定，否则移除。注意：JSON 中只要出现 `hotkeys` 对象，反序列化结果就**只包含**文件中列出的条目（不会与默认值合并），因此本规则是必需的 |
 | N3 | Translation | null 列表 → 空列表；Profile：`Id` 空白 → 移除，`Id` 重复 → 保留第一个；`DisplayName` 空白 → 用 `Id`；`TimeoutSeconds` ∈ [5, 600]；`MaxOutputTokens` 为 null 或 ≥ 1（否则置 null）；`Temperature` 为 null 或 ∈ [0, 2]；OpenAICompatible 且 `BaseUrl` 空白 → `Enabled = false`；按 Kind 补齐 null 的 `OpenAIOptions` / `AnthropicOptions`。`MaxConcurrentProviders` ∈ [1, 8]；`MaxInputChars` ∈ [100, 100000]；`CacheCapacity` ∈ [0, 10000]；`PrimaryTargetLanguage` / `SecondaryTargetLanguage` 为空白或 `auto` → 各自默认值；`DefaultSourceLanguage` 空白 → `auto`；`CustomPrompts`：`Id` 空白、重复、或与内置模板 Id 相同 → 移除；`DefaultPromptTemplateId` 不存在于内置 + 自定义模板中 → 内置默认 |
 | N4 | Ocr | null 列表 → 默认列表；缺失的内置 Profile（`ocr-baidu`、`ocr-windows`）→ 按默认值追加；`Id` 空白 / 重复规则同 N3；`TimeoutSeconds` ∈ [5, 120]；按 Kind 补齐 null 的 `BaiduOptions` / `WindowsOptions`；`ActiveProviderId` 不存在 → `ocr-baidu`；`FallbackProviderId` 不存在或等于 Active → null；`LanguageHint` 空白 → `auto` |
 | N5 | Selection | `ReadOrder` 为 null 或空 → 默认顺序，并去除重复项；`ClipboardTimeoutMs` ∈ [100, 2000]；`MinDragDistancePx` ∈ [2, 50]；`IconAutoHideMs` ∈ [500, 10000]；`ExcludedProcesses` 为 null → 空列表；`ClipboardUnsafeProcesses` 为 null → 默认列表 |
@@ -649,6 +657,9 @@ Message 使用默认文案；Detail = `"HTTP {status}: {error.message 截断到 
 | N9 | History | `MaxEntries` ∈ [100, 100000] |
 | N10 | Network | `ProxyMode = Custom` 但 `CustomProxyUrl` 不是 scheme 为 http / https / socks5 的绝对 URI → `ProxyMode = System` |
 | N11 | General | `UiLanguage` 不属于 {zh-CN, en-US}（不区分大小写）→ zh-CN，属于时统一为规范大小写；`LogLevel` 不属于 {Verbose, Debug, Information, Warning, Error}（不区分大小写）→ Information，属于时统一为规范大小写 |
+| N12 | 枚举 | System.Text.Json 接受整数形式的枚举值，所以未定义的数值（如 `"theme": 5`）能通过反序列化，必须在这里处理。普通枚举必须满足 `Enum.IsDefined`；`[Flags]` 枚举只保留已定义的位。需要检查的字段（完整清单）：`General.Theme`、`Hotkeys` 的键（`IrisAction`，未定义则移除该条目）、`HotkeyBinding.Modifiers`（Flags）、`TranslationProviderProfile.Kind`（未定义则**移除该 Profile**）、`OpenAICompatibleOptions.MaxTokensField`、`Translation.AutoCopy`、`Translation.SelectionLineBreaks`、`OcrProviderProfile.Kind`（未定义则移除该 Profile；如果它是内置 Profile，随后按 N4 补回默认配置）、`BaiduOcrOptions.Mode`、`Ocr.TextLayout`、`Selection.MouseMode`、`Selection.ReadOrder` 的元素（未定义则移除该元素，然后再应用 N5）、`FloatingBall.ClickAction`、`TranslateWindow.Placement`、`Network.ProxyMode`。未单独说明的字段，未定义值 → 该字段在默认实例中的值 |
+| N13 | 空值 | 用户手写的 `null` 会绕过非可空引用类型的约束（`RespectNullableAnnotations` 未开启），所以规范化后，AppSettings 对象图中**所有非可空引用类型的成员都不得为 null**。规则：`TranslationProviderProfile.Model` 为 null → 空字符串，并设 `Enabled = false`；`PromptTemplate.Name` 为空白 → 用 `Id`；`PromptTemplate.System` 或 `User` 为 null 或空白 → 移除该模板；其余带默认值的字符串（`OpenAICompatibleOptions.ChatCompletionsPath`、`BaiduOcrOptions.BaseUrl` 等）为 null 或空白 → 该属性在默认实例中的值；为 null 的嵌套对象与集合 → 默认实例或默认集合（N1、N3–N5 已覆盖的部分按原规则执行）；集合中为 null 的字符串元素（如 `ExcludedProcesses: [null]`）→ 移除 |
+| N14 | 引用 | `Ocr.ActiveProviderId`、`Ocr.FallbackProviderId`、`Translation.DefaultPromptTemplateId` 采用不区分大小写的方式匹配，匹配成功后**改写为被匹配对象的精确 Id**（下游的注册表按序数比较查找）。N4 中补回的内置 OCR Profile 必须**直接复制** `new OcrSettings().Providers` 中的对应项，不得另行硬编码名称或选项 |
 
 浮点数若为 NaN / Infinity，按“越界”处理，夹到下界。`UpdateAsync` 同样先规范化再写入，因此 UI 层传入越界值不会破坏不变量（但 UI 仍应在输入控件上限制范围）。
 
@@ -656,7 +667,8 @@ Message 使用默认文案；Detail = `"HTTP {status}: {error.message 截断到 
 
 - 原子写入：序列化（`IrisJson.Options`，UTF-8 无 BOM，末尾换行）→ 以 `FileOptions.WriteThrough` 写入 `settings.json.tmp` 并 `Flush(true)` → 目标文件存在时复制为 `settings.json.bak` → `File.Move(tmp, settings.json, overwrite: true)`。
 - 共享冲突（HResult 0x80070020 / 0x80070021）与 `UnauthorizedAccessException`（杀毒软件或索引服务短暂占用文件）：每一步最多重试 5 次，间隔 50 ms。最终失败 → 尽力删除 tmp，抛 `IrisException(StorageFailure, detail: 路径)`。
-- 损坏文件的备份使用 `File.Move`（而不是复制），这样随后写入默认值时不会用损坏内容覆盖上一次正常的 `settings.json.bak`。备份文件名冲突时依次追加 `-1`、`-2`……
+- 损坏文件的备份使用移动（而不是复制），这样随后写入默认值时不会用损坏内容覆盖上一次正常的 `settings.json.bak`。备份文件名冲突时依次追加 `-1`、`-2`……
+- 加载阶段所有的辅助文件操作——损坏备份的移动、`settings.v{n}.bak.json` / `settings.v{n}.json` 的复制——都使用与原子写入相同的重试策略（`AtomicFile.MoveAsync` / `AtomicFile.CopyAsync`）。最终失败 → `IrisException(StorageFailure)`，服务保持**未加载**状态。
 
 ### 12.3 密钥
 

@@ -17,6 +17,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Iris.Infrastructure.Settings;
 
+/// <summary>
+/// 基于单个 JSON 文件的设置服务实现。
+/// </summary>
 internal sealed partial class JsonSettingsService : ISettingsService, IDisposable
 {
     private readonly IAppPaths _paths;
@@ -25,9 +28,9 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
     private readonly ILogger<JsonSettingsService> _logger;
     private readonly SemaphoreSlim _gate = new(1, 1);
 
+    private AppSettings _current;
+    private string _currentJson = string.Empty;
     private int _isLoaded;
-    private AppSettings _current = new();
-    private string? _currentJson;
 
     public JsonSettingsService(
         IAppPaths paths,
@@ -39,6 +42,8 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
         _migrationRunner = new SettingsMigrationRunner(migrations ?? throw new ArgumentNullException(nameof(migrations)));
         _timeProvider = timeProvider ?? throw new ArgumentNullException(nameof(timeProvider));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+        _current = new AppSettings();
     }
 
     public AppSettings Current => Volatile.Read(ref _current);
@@ -47,17 +52,14 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
 
     public async Task LoadAsync(CancellationToken cancellationToken = default)
     {
-        if (Volatile.Read(ref _isLoaded) == 1)
-        {
-            throw new InvalidOperationException("LoadAsync 只能调用一次");
-        }
+        cancellationToken.ThrowIfCancellationRequested();
 
         await _gate.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
             if (Volatile.Read(ref _isLoaded) == 1)
             {
-                throw new InvalidOperationException("LoadAsync 只能调用一次");
+                throw new InvalidOperationException("LoadAsync 仅允许调用一次");
             }
 
             await LoadInternalAsync(cancellationToken).ConfigureAwait(false);
@@ -71,29 +73,35 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
     public async Task UpdateAsync(Func<AppSettings, AppSettings> mutate, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(mutate);
+        cancellationToken.ThrowIfCancellationRequested();
 
-        if (Volatile.Read(ref _isLoaded) != 1)
+        if (Volatile.Read(ref _isLoaded) == 0)
         {
-            throw new InvalidOperationException("UpdateAsync 必须在 LoadAsync 之后调用");
+            throw new InvalidOperationException("必须先调用 LoadAsync 后才能调用 UpdateAsync");
         }
 
         await _gate.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
             var oldSettings = _current;
-            var next = mutate(oldSettings) ?? throw new InvalidOperationException("mutate 函数不能返回 null");
+            var mutated = mutate(oldSettings);
 
-            if (ReferenceEquals(next, oldSettings))
+            if (mutated is null)
+            {
+                throw new InvalidOperationException("mutate 委托返回了 null");
+            }
+
+            if (ReferenceEquals(oldSettings, mutated))
             {
                 return;
             }
 
             var fixes = new List<string>();
-            var normalized = SettingsNormalizer.Normalize(next, fixes);
+            var normalized = SettingsNormalizer.Normalize(mutated, fixes);
             if (fixes.Count > 0 && _logger.IsEnabled(LogLevel.Debug))
             {
-                var fixesSummary = string.Join("; ", fixes);
-                LogUpdateNormalizationFixes(_logger, fixesSummary);
+                var fixSummary = string.Join("; ", fixes);
+                LogUpdateNormalizationFixes(_logger, fixSummary);
             }
 
             var newJson = JsonSerializer.Serialize(normalized, IrisJson.Options) + "\n";
@@ -106,7 +114,7 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
             var backupPath = settingsPath + ".bak";
             await AtomicFile.WriteAllTextAsync(settingsPath, newJson, backupPath, cancellationToken).ConfigureAwait(false);
 
-            _current = normalized;
+            Volatile.Write(ref _current, normalized);
             _currentJson = newJson;
 
             // 仍在锁内同步触发 Changed，逐个处理器单独捕获异常
@@ -148,7 +156,7 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
             var defaultJson = JsonSerializer.Serialize(defaults, IrisJson.Options) + "\n";
             await AtomicFile.WriteAllTextAsync(settingsPath, defaultJson, null, cancellationToken).ConfigureAwait(false);
 
-            _current = defaults;
+            Volatile.Write(ref _current, defaults);
             _currentJson = defaultJson;
             Volatile.Write(ref _isLoaded, 1);
             LogFileCreated(_logger, settingsPath);
@@ -169,24 +177,27 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
             throw new IrisException(ErrorCode.StorageFailure, ErrorMessages.GetDefault(ErrorCode.StorageFailure), ex, detail: settingsPath);
         }
 
-        JsonNode? parsedNode;
+        JsonObject root;
         try
         {
-            parsedNode = JsonNode.Parse(
+            var parsedNode = JsonNode.Parse(
                 text,
                 new JsonNodeOptions { PropertyNameCaseInsensitive = true },
                 new JsonDocumentOptions { CommentHandling = JsonCommentHandling.Skip, AllowTrailingCommas = true });
+
+            if (parsedNode is not JsonObject parsedRoot)
+            {
+                LogRootNotObject(_logger);
+                await HandleCorruptionAsync(settingsPath, cancellationToken).ConfigureAwait(false);
+                return;
+            }
+
+            EnsureFullyExpanded(parsedRoot);
+            root = parsedRoot;
         }
-        catch (JsonException ex)
+        catch (Exception ex) when (ex is JsonException or ArgumentException)
         {
             LogJsonSyntaxCorrupted(_logger, ex);
-            await HandleCorruptionAsync(settingsPath, cancellationToken).ConfigureAwait(false);
-            return;
-        }
-
-        if (parsedNode is not JsonObject root)
-        {
-            LogRootNotObject(_logger);
             await HandleCorruptionAsync(settingsPath, cancellationToken).ConfigureAwait(false);
             return;
         }
@@ -206,7 +217,7 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
         }
         else
         {
-            fixes.Add($"schemaVersion: 非整数 → {AppSettings.CurrentSchemaVersion}");
+            fixes.Add(FormattableString.Invariant($"schemaVersion: 非整数 → {AppSettings.CurrentSchemaVersion}"));
             fileSchemaVersion = AppSettings.CurrentSchemaVersion;
         }
 
@@ -215,10 +226,10 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
 
         if (fileSchemaVersion > AppSettings.CurrentSchemaVersion)
         {
-            var targetVersionPath = Path.Combine(dir, $"settings.v{fileSchemaVersion}.json");
+            var targetVersionPath = Path.Combine(dir, FormattableString.Invariant($"settings.v{fileSchemaVersion}.json"));
             if (!File.Exists(targetVersionPath))
             {
-                File.Copy(settingsPath, targetVersionPath);
+                await AtomicFile.CopyAsync(settingsPath, targetVersionPath, overwrite: false, cancellationToken).ConfigureAwait(false);
             }
 
             LogHigherVersion(_logger, fileSchemaVersion, AppSettings.CurrentSchemaVersion);
@@ -226,11 +237,19 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
         }
         else if (fileSchemaVersion < AppSettings.CurrentSchemaVersion)
         {
-            var targetBakPath = Path.Combine(dir, $"settings.v{fileSchemaVersion}.bak.json");
-            File.Copy(settingsPath, targetBakPath, overwrite: true);
+            if (_migrationRunner.CanMigrate(fileSchemaVersion, AppSettings.CurrentSchemaVersion))
+            {
+                var targetBakPath = Path.Combine(dir, FormattableString.Invariant($"settings.v{fileSchemaVersion}.bak.json"));
+                await AtomicFile.CopyAsync(settingsPath, targetBakPath, overwrite: true, cancellationToken).ConfigureAwait(false);
 
-            root = _migrationRunner.Run(root, fileSchemaVersion, AppSettings.CurrentSchemaVersion);
-            hasMigrated = true;
+                root = _migrationRunner.Run(root, fileSchemaVersion, AppSettings.CurrentSchemaVersion);
+                hasMigrated = true;
+            }
+            else
+            {
+                fixes.Add(FormattableString.Invariant($"schemaVersion: {fileSchemaVersion} → {AppSettings.CurrentSchemaVersion}（迁移链不完整，已跳过迁移）"));
+                LogIncompleteMigrationChain(_logger, fileSchemaVersion, AppSettings.CurrentSchemaVersion);
+            }
         }
 
         // 挽救第 0 步：无条件更新 schemaVersion 为当前数字版本
@@ -252,7 +271,7 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
             return;
         }
 
-        // 强类型规范化 N1–N11
+        // 强类型规范化 N1–N14
         var normalized = SettingsNormalizer.Normalize(deserialized, fixes);
         var formattedJson = JsonSerializer.Serialize(normalized, IrisJson.Options) + "\n";
 
@@ -268,7 +287,7 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
                 var summary = string.Join("; ", displayed);
                 if (fixes.Count > 50)
                 {
-                    summary += $"; ……另有 {fixes.Count - 50} 条";
+                    summary += FormattableString.Invariant($"; ……另有 {fixes.Count - 50} 条");
                 }
 
                 LogRepairsApplied(_logger, fixes.Count, summary);
@@ -279,9 +298,33 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
             _currentJson = formattedJson;
         }
 
-        _current = normalized;
+        Volatile.Write(ref _current, normalized);
         Volatile.Write(ref _isLoaded, 1);
         LogLoadSuccess(_logger, settingsPath, _current.SchemaVersion, fixes.Count);
+    }
+
+    private static void EnsureFullyExpanded(JsonNode node)
+    {
+        if (node is JsonObject obj)
+        {
+            foreach (KeyValuePair<string, JsonNode?> pair in obj)
+            {
+                if (pair.Value is not null)
+                {
+                    EnsureFullyExpanded(pair.Value);
+                }
+            }
+        }
+        else if (node is JsonArray arr)
+        {
+            foreach (JsonNode? item in arr)
+            {
+                if (item is not null)
+                {
+                    EnsureFullyExpanded(item);
+                }
+            }
+        }
     }
 
     private async Task HandleCorruptionAsync(string settingsPath, CancellationToken cancellationToken)
@@ -295,7 +338,7 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
         {
             for (var counter = 1; ; counter++)
             {
-                var candidate = Path.Combine(dir, $"settings.corrupt-{timestamp}-{counter}.json");
+                var candidate = Path.Combine(dir, FormattableString.Invariant($"settings.corrupt-{timestamp}-{counter}.json"));
                 if (!File.Exists(candidate))
                 {
                     backupPath = candidate;
@@ -306,15 +349,16 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
 
         if (File.Exists(settingsPath))
         {
-            File.Move(settingsPath, backupPath);
+            await AtomicFile.MoveAsync(settingsPath, backupPath, overwrite: false, cancellationToken).ConfigureAwait(false);
         }
 
-        _current = new AppSettings();
+        var defaultSettings = new AppSettings();
+        Volatile.Write(ref _current, defaultSettings);
         Volatile.Write(ref _isLoaded, 1);
 
         try
         {
-            var defaultJson = JsonSerializer.Serialize(_current, IrisJson.Options) + "\n";
+            var defaultJson = JsonSerializer.Serialize(defaultSettings, IrisJson.Options) + "\n";
             await AtomicFile.WriteAllTextAsync(settingsPath, defaultJson, null, cancellationToken).ConfigureAwait(false);
             _currentJson = defaultJson;
         }
@@ -388,4 +432,7 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
 
     [LoggerMessage(EventId = 10, Level = LogLevel.Error, Message = "Settings Changed 事件处理器执行失败")]
     private static partial void LogChangedHandlerFailed(ILogger logger, Exception ex);
+
+    [LoggerMessage(EventId = 11, Level = LogLevel.Warning, Message = "设置文件版本 ({fileVersion}) 到 ({currentVersion}) 的迁移链不完整，已跳过迁移")]
+    private static partial void LogIncompleteMigrationChain(ILogger logger, int fileVersion, int currentVersion);
 }

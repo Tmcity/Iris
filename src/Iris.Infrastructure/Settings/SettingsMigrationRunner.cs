@@ -50,4 +50,22 @@ internal sealed class SettingsMigrationRunner
 
         return current;
     }
+
+    internal bool CanMigrate(int fromVersion, int toVersion)
+    {
+        if (fromVersion >= toVersion)
+        {
+            return true;
+        }
+
+        for (var v = fromVersion; v < toVersion; v++)
+        {
+            if (!_migrations.ContainsKey(v))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }
