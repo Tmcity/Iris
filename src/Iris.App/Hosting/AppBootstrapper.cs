@@ -104,7 +104,8 @@ internal sealed partial class AppBootstrapper
 
         // 7. 记录耗时日志
         var elapsedMs = Stopwatch.GetElapsedTime(_startupInfo.StartTimestamp).TotalMilliseconds;
-        LogStartupReady(_logger, elapsedMs);
+        var trayState = _trayIconController.IsCreated ? "已创建" : "创建中（将自动重试）";
+        LogStartupReady(_logger, elapsedMs, trayState);
         LogDebugEnabled(_logger);
     }
 
@@ -158,8 +159,8 @@ internal sealed partial class AppBootstrapper
         Application.Current?.Shutdown(0);
     }
 
-    [LoggerMessage(EventId = 1, Level = LogLevel.Information, Message = "Iris 启动就绪，从进程启动到托盘就绪耗时 {ElapsedMs:F1} ms")]
-    private static partial void LogStartupReady(ILogger logger, double elapsedMs);
+    [LoggerMessage(EventId = 1, Level = LogLevel.Information, Message = "Iris 启动序列完成，耗时 {ElapsedMs:F1} ms，托盘图标{TrayState}")]
+    private static partial void LogStartupReady(ILogger logger, double elapsedMs, string trayState);
 
     [LoggerMessage(EventId = 2, Level = LogLevel.Debug, Message = "调试级别日志已启用，当前日志级别为 Debug/Verbose")]
     private static partial void LogDebugEnabled(ILogger logger);

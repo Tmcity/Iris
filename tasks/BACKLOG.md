@@ -28,7 +28,7 @@
 | T-002 | ☑ | AppPaths + 日志基础设施 + ErrorMessages + LogText | T-001 | 0.75d |
 | T-003 | ☑ | JsonSettingsService（加载 / 挽救 / 规范化 / 原子保存 / 迁移 / 损坏恢复）+ T-002 整改（含返工 R1） | T-002 | 1.5d + 0.5d |
 | T-004 | ☑ | DpapiSecretStore + AtomicFile 同步方法 + AddIrisPlatformWindows + T-003-R1 遗留 | T-003 | 1d |
-| T-005 | ▶ | WPF 应用外壳：Generic Host、单实例、托盘、主题、全局异常 + T-002/T-004 遗留（**返工 R1 中**） | T-003, T-004 | 2d + 0.5d |
+| T-005 | ☑ | WPF 应用外壳：Generic Host、单实例、托盘、主题、全局异常 + T-002/T-004 遗留（含返工 R1） | T-003, T-004 | 2d + 0.5d |
 
 **T-001 工程骨架与核心契约落地** — ☑ 已完成，见 `tasks/done/T-001.md`（2026-09-25 评审通过）。
 
@@ -44,7 +44,7 @@
 - 交付：`Iris.Platform.Windows/Security/DpapiSecretStore.cs`（ARCH §12.3），原子写入，线程安全，触发 `Changed` 事件。
 - 验收：Set / Get / Remove 往返正确；文件中找不到明文（测试直接读文件字节进行断言）；文件损坏时 Get 返回 null，不抛异常；`ProviderCredentials.ToString()` 不泄露密钥。
 
-**T-005 WPF 应用外壳** — 提交 92fa706 审查**不通过**（2026-09-26，状态由架构师改回 ▶），返工单 T-005-R1 见 `tasks/current_task.md`；原工单与完成报告见 `tasks/done/T-005.md`。
+**T-005 WPF 应用外壳** — ☑ 已完成（首次提交 92fa706 不通过 → 返工提交 b5543e7 复审通过，2026-09-26），见 `tasks/done/T-005.md`。**M0 里程碑完成。**
 - 交付：`Program.cs`（自定义 Main + `SingleInstanceGuard`）、`AppHostBuilder`、`AppBootstrapper`（本任务只实现 ARCH §10.1 的步骤 1、2、3、8；其余步骤留下 TODO 标记）、`TrayIconController`（菜单暂时只有“设置（占位）/ 退出”）、`AppLifetime`、`ThemeService`（跟随系统 / 浅色 / 深色）、`GlobalExceptionHandler`、`TrayNotificationService`（实现 `INotificationService`）、`app.manifest`（PerMonitorV2）。
 - **评审遗留（T-002，必须在本任务中处理）**：
   1. 删除 `App.xaml` 的 `StartupUri`，所有窗口一律显式创建；启动失败路径（数据目录不可用等）必须在构造任何窗口之前退出。（T-002 评审实测：`Shutdown(1)` 之后 WPF 仍按 StartupUri 构造了 MainWindow。）
@@ -60,7 +60,7 @@
 
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
-| T-006 | ☐ | LanguageCatalog + ScriptLanguageDetector + TargetLanguageResolver | T-001 | 1d |
+| T-006 | ▶ | LanguageCatalog + ScriptLanguageDetector + TargetLanguageResolver | T-005 | 1d |
 | T-007 | ☐ | TextPreprocessor + PromptRenderer + PromptTemplateProvider | T-006 | 0.5d |
 | T-008 | ☐ | Providers/Http：SseParser、HttpErrorMapper、DynamicWebProxy、命名 HttpClient 注册 | T-003 | 1d |
 | T-009 | ☐ | OpenAI 兼容翻译 Provider | T-007, T-008 | 1.5d |
@@ -71,7 +71,7 @@
 
 > T-006/T-007 与 T-008 可以并行；T-009 与 T-010 可以并行；T-012 可以随时插入。
 
-**T-006** 交付 ARCH §7.3 的语言表、检测阈值与 Resolver 规则。验收：检测器测试集至少 30 条（中 / 日含汉字 / 韩 / 俄 / 英长句 / 英单词 / 法语 → auto / 数字与标点 → auto / 中英混排）；Resolver 覆盖全部 4 条规则，并验证 zh-Hant 与 zh-Hans 被视为同族。
+**T-006** — 详见 `tasks/current_task.md`（规范：ARCH v1.7 §7.3）。交付 ARCH §7.3 的语言表、检测阈值与 Resolver 规则。验收：检测器测试集至少 30 条（中 / 日含汉字 / 韩 / 俄 / 英长句 / 英单词 / 法语 → auto / 数字与标点 → auto / 中英混排）；Resolver 覆盖全部 4 条规则，并验证 zh-Hant 与 zh-Hans 被视为同族。
 
 **T-007** 验收：预处理覆盖零宽字符、CRLF、多余空行、MergeSmart 合并；Renderer 能替换全部占位符、保留未知占位符、Auto 渲染为 "the auto-detected language"；TemplateProvider 能正确回退到内置模板。
 

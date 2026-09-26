@@ -2,6 +2,7 @@ using System;
 using Iris.App.Hosting;
 using Iris.App.Services;
 using Iris.App.Tests.TestSupport;
+using Iris.Core.Languages;
 using Iris.Core.Presentation;
 using Iris.Core.Security;
 using Iris.Core.Settings;
@@ -41,11 +42,13 @@ public sealed class AppHostBuilderTests
         var secretStore = host.Services.GetService<ISecretStore>();
         var notificationService = host.Services.GetService<INotificationService>();
         var appLifetime = host.Services.GetService<IAppLifetime>();
+        var targetLanguageResolver = host.Services.GetService<ITargetLanguageResolver>();
 
         settingsService.ShouldNotBeNull();
         secretStore.ShouldNotBeNull();
         notificationService.ShouldNotBeNull();
         appLifetime.ShouldNotBeNull();
+        targetLanguageResolver.ShouldNotBeNull();
     }
 
     [Fact]

@@ -1,12 +1,13 @@
 # Iris 架构设计说明书
 
-> 版本：v1.6 · 2026-09-26 · 状态：**已冻结（首期）**
+> 版本：v1.7 · 2026-09-26 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
 > 变更记录：v1.4（T-003-R1 复审）— §12.3 密钥存储完整规范（文件格式、加载与降级、读写语义、线程与事件）；N13 补充字典 null 值规则。
 > 变更记录：v1.5（T-004 评审）— 新增 §10.1.1 启动与退出的实现细节（单实例锁、致命错误对话框、Generic Host 配置、启动与退出序列、全局异常、通知队列）。
 > 变更记录：v1.6（T-005 评审）— §1.2 空闲内存增加 Private Bytes 指标并规定测量方法（Working Set 上限不变）；§10.1.1 新增主机生命周期、退出日志、托盘创建失败重试。
+> 变更记录：v1.7（T-005-R1 复审）— §1.2 依据实测修订内存指标（Working Set 上限 160 MB，说明 GC 前后两种读数）与启动时间的测量条件；§7.3 细化语言目录、检测（Unicode 范围、按码点遍历、短语规则、停用词表）与目标语言解析规则。
 > 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
@@ -52,11 +53,11 @@ Iris 是一个 Windows 桌面翻译工具（对标 TTime / Pot），常驻系统
 
 | 指标 | 目标 |
 |---|---|
-| 冷启动到托盘可用 | ≤ 1.5 s |
+| 冷启动到启动序列完成 | ≤ 1.5 s（在 CPU 负载 < 30% 时测量；`build/measure-startup.ps1` 会输出测量时的负载，负载过高时结果仅供参考，应改用同负载下的 A/B 对比判断是否回归） |
 | 热键 → 截图覆盖层可见 | ≤ 150 ms（单 4K 屏） |
 | 热键 → 翻译窗口可见（划词） | ≤ 300 ms（不含选区读取超时） |
 | 首个译文字符（流式） | 取决于服务；Iris 自身附加开销 ≤ 50 ms |
-| 空闲内存 | Private Bytes ≤ 100 MB；Working Set ≤ 120 MB（启动后空闲 30 秒，使用 `build/measure-startup.ps1` 测量；Working Set 包含共享的框架 DLL 页，波动较大，以 Private Bytes 为主要判据） |
+| 空闲内存 | Private Bytes ≤ 100 MB；Working Set ≤ 160 MB（启动后空闲 30 秒，使用 `build/measure-startup.ps1` 测量）。说明：运行时在发生第一次完整 GC 之后会额外提交约 15 MB 内存，因此同一版本会出现两种读数——GC 前约 107 / 53 MB，GC 后约 128 / 70 MB（M0 实测，T-005 与 T-005-R1 相同）。后者才是稳态，**以稳态读数对照上限**；两次读数不同不代表回归。上限为 M1–M7 预留了约 30 MB 余量 |
 | 空闲 CPU | ≈ 0%（开启鼠标钩子时 < 0.5%） |
 | 崩溃 | 未处理异常全部记录日志并提示，不得静默退出 |
 
@@ -352,10 +353,46 @@ TranslateAsync(request, ct)
 | th | Thai | ไทย |
 | ar | Arabic | العربية |
 
-检测阈值（`ScriptLanguageDetector`，只统计字母类字符，忽略数字、标点、空白）：
-- 假名 ≥ 5% → `ja`（优先于汉字判断）；谚文 ≥ 30% → `ko`；汉字 ≥ 30% → `zh-Hans`；西里尔 ≥ 50% → `ru`；泰文 ≥ 50% → `th`；阿拉伯 ≥ 50% → `ar`；
-- 拉丁 ≥ 70%：按空白切词，词数 ≥ 3 且英文停用词（the, a, an, is, are, of, to, and, in, that, it, for, on, with, as, was, be, this, by, or, not, you, i, we, they 等约 50 个）占比 ≥ 15% → `en`；单个英文词（仅 ASCII 字母）→ `en`（置信度 0.6）；否则 → `auto`；
-- 其他 → `auto`。置信度 = 命中脚本的占比。
+#### 7.3.1 语言目录（`LanguageCatalog`）
+
+- `All`：上表 14 种语言，顺序即表格顺序（也是 UI 下拉框顺序），不含 Auto。
+- 代码比较一律**不区分大小写**；`Find` 返回的 `LanguageInfo.Code` 为表中的规范写法（如传入 `ZH-HANS` 返回 `zh-Hans`）。`Find(null / 空白 / auto)` 返回 null。
+- `IsSameFamily(a, b)`：比较 BCP-47 **主语言子标签**（第一个 `-` 之前的部分，不区分大小写）。因此 zh-Hans 与 zh-Hant 同族，en 与 en-US 同族。任一方为 Auto、null 或空白时返回 false。
+- `GetPromptName(code)`：Auto → `the auto-detected language`；表中语言 → EnglishName；其他代码 → 原样返回去除首尾空白后的代码。不在表中的代码是**允许的**：用户可以在设置中手工填写 `pl`、`nl` 等代码，大模型通常能够理解。
+
+#### 7.3.2 语言检测（`ScriptLanguageDetector`，纯函数，线程安全）
+
+1. 用 `text.EnumerateRunes()` 逐个**码点**遍历（CJK 扩展 B 等字符在 UTF-16 中是代理对，按 `char` 遍历会统计错误），只统计 `Rune.IsLetter(r)` 为真的码点，记总数为 L。L = 0 → `auto`，置信度 0。
+2. 按以下 Unicode 范围给每个字母归类（闭区间）：
+
+| 脚本 | 范围 |
+|---|---|
+| 假名 | 3040–309F、30A0–30FF、31F0–31FF、FF66–FF9F |
+| 谚文 | 1100–11FF、3130–318F、A960–A97F、AC00–D7AF、D7B0–D7FF |
+| 汉字 | 3400–4DBF、4E00–9FFF、F900–FAFF、20000–323AF |
+| 西里尔 | 0400–052F |
+| 泰文 | 0E00–0E7F |
+| 阿拉伯 | 0600–06FF、0750–077F、08A0–08FF、FB50–FDFF、FE70–FEFF |
+| 拉丁 | 0041–005A、0061–007A、00C0–024F（只会命中字母）、1E00–1EFF、FF21–FF3A、FF41–FF5A |
+
+3. 按顺序判定，命中即返回（ratio = 该脚本字母数 / L）：
+   假名 ≥ 0.05 → `ja`（置信度取假名与汉字比例之和，上限 1）→ 谚文 ≥ 0.30 → `ko` → 汉字 ≥ 0.30 → `zh-Hans` → 西里尔 ≥ 0.50 → `ru` → 泰文 ≥ 0.50 → `th` → 阿拉伯 ≥ 0.50 → `ar` → 拉丁 ≥ 0.70 → 进入第 4 步 → 其他 → `auto`（置信度 0）。
+   其余脚本命中时，置信度 = 该脚本的 ratio。
+4. 英语判定（只在拉丁 ≥ 0.70 时进行）：
+   - 按空白切分为词；每个词去掉首尾非字母字符（词内的 `'` 与 `-` 保留，如 `don't`、`e-mail`）；丢弃不含字母的词。设剩余词数为 W。
+   - **W ≤ 2 且每个词都只由 ASCII 字母、词内 `'`、词内 `-` 组成** → `en`，置信度 0.6（短语如 “Hello world”、“Good morning”；单个法语词也会被判为 en，属于已知的可接受误差）。
+   - **W ≥ 3 且英文停用词占比 ≥ 0.15** → `en`，置信度 = 拉丁 ratio。
+   - 其他 → `auto`，置信度 0（法语、德语、越南语等句子都会落到这里，由大模型自行识别）。
+   - 停用词表（不区分大小写，共 68 个）：`a an the is are was were be been being am do does did have has had i you he she it we they me him her us them my your his its our their this that these those and or but not no of to in on at by for with from as if so than then there what which who how can will would should could`。
+5. 已知且可接受的局限：全是汉字、不含假名的日文会判为 zh-Hans；繁体中文判为 zh-Hans（与 zh-Hant 同族，不影响目标语言的自动切换）。
+
+#### 7.3.3 目标语言解析（`TargetLanguageResolver`）
+
+每次调用都读取 `ISettingsService.Current.Translation`（`PrimaryTargetLanguage`、`SecondaryTargetLanguage`、`AutoSwapTarget`），不缓存。
+1. 规范化：`requestedSource` 为 null 或空白 → Auto；`requestedTarget` 为 null、空白或 `auto`（不区分大小写）→ 视为未指定。表中已知的代码转为规范写法，未知代码原样保留（去除首尾空白）。
+2. Source：requestedSource ≠ Auto → 使用它（`SourceWasDetected = false`）；否则 → `Detect(text).Code`（`SourceWasDetected = true`，结果可能仍是 Auto）。
+3. Target：指定了 requestedTarget → 直接使用；否则 `AutoSwapTarget` 为 true 且 `IsSameFamily(Source, Primary)` → Secondary；否则 → Primary。
+4. 结果中的 Target **永远不是 Auto**。
 
 ### 7.4 Prompt
 

@@ -1,6 +1,7 @@
 using System;
 using Iris.App.Services;
 using Iris.App.Tray;
+using Iris.Core.DependencyInjection;
 using Iris.Core.Presentation;
 using Iris.Core.Storage;
 using Iris.Infrastructure.DependencyInjection;
@@ -51,7 +52,9 @@ internal static class AppHostBuilder
         builder.Services.AddIrisInfrastructure();
         builder.Services.AddIrisPlatformWindows();
 
-        // TODO(T-006~T-013): AddIrisCore() / AddIrisProviders()
+        // Core 层服务
+        builder.Services.AddIrisCore();
+        // TODO(T-008~T-013): AddIrisProviders()
 
         // App 层单例服务
         builder.Services.AddSingleton<NotificationThrottle>();
