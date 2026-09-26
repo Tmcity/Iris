@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Iris.Core.Languages;
 
@@ -24,10 +25,12 @@ internal sealed class LanguageCatalog : ILanguageCatalog
         new(LanguageCodes.Arabic, "Arabic", "العربية"),
     ];
 
+    private static readonly ReadOnlyCollection<LanguageInfo> AllLanguages = Array.AsReadOnly(Languages);
+
     private static readonly FrozenDictionary<string, LanguageInfo> CatalogByCode =
         Languages.ToFrozenDictionary(lang => lang.Code, lang => lang, StringComparer.OrdinalIgnoreCase);
 
-    public IReadOnlyList<LanguageInfo> All => Languages;
+    public IReadOnlyList<LanguageInfo> All => AllLanguages;
 
     public LanguageInfo? Find(string code)
     {

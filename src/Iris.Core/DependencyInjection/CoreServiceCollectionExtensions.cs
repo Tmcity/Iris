@@ -1,5 +1,6 @@
 using System;
 using Iris.Core.Languages;
+using Iris.Core.Translation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -15,6 +16,10 @@ public static class CoreServiceCollectionExtensions
         services.TryAddSingleton<ILanguageCatalog, LanguageCatalog>();
         services.TryAddSingleton<ILanguageDetector, ScriptLanguageDetector>();
         services.TryAddSingleton<ITargetLanguageResolver, TargetLanguageResolver>();
+
+        services.TryAddSingleton<ITextPreprocessor, TextPreprocessor>();
+        services.TryAddSingleton<IPromptRenderer, PromptRenderer>();
+        services.TryAddSingleton<IPromptTemplateProvider, PromptTemplateProvider>();
 
         return services;
     }

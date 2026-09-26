@@ -38,13 +38,14 @@ public static class BuiltInPrompts
     };
 }
 
-/// <summary>纯函数：替换占位符。语言名通过 ILanguageCatalog.GetPromptName 获取。</summary>
+/// <summary>纯函数：单遍替换占位符（替换进去的内容不再被扫描，防止模板注入；未知占位符原样保留）。语言名通过 ILanguageCatalog.GetPromptName 获取。</summary>
 public interface IPromptRenderer
 {
     RenderedPrompt Render(PromptTemplate template, ProviderTranslateRequest request);
 }
 
-/// <summary>按 Id 取模板：先查 Settings.Translation.CustomPrompts，再查内置；找不到回退到 BuiltInPrompts.Default。</summary>
+/// <summary>按 Id 取模板（Id 为 null 或空白时使用 Settings.Translation.DefaultPromptTemplateId）：先查 CustomPrompts，再查内置，均不区分大小写；
+/// 找不到，或模板的 System 与 User 都不含 {{text}}，则回退到 BuiltInPrompts.Default。</summary>
 public interface IPromptTemplateProvider
 {
     PromptTemplate Get(string? templateId);

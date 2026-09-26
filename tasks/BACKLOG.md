@@ -60,8 +60,8 @@
 
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
-| T-006 | ▶ | LanguageCatalog + ScriptLanguageDetector + TargetLanguageResolver | T-005 | 1d |
-| T-007 | ☐ | TextPreprocessor + PromptRenderer + PromptTemplateProvider | T-006 | 0.5d |
+| T-006 | ☑ | LanguageCatalog + ScriptLanguageDetector + TargetLanguageResolver | T-005 | 1d |
+| T-007 | ▶ | TextPreprocessor + SoftLineBreakMerger + PromptRenderer + PromptTemplateProvider + T-006 遗留 | T-006 | 1d |
 | T-008 | ☐ | Providers/Http：SseParser、HttpErrorMapper、DynamicWebProxy、命名 HttpClient 注册 | T-003 | 1d |
 | T-009 | ☐ | OpenAI 兼容翻译 Provider | T-007, T-008 | 1.5d |
 | T-010 | ☐ | Anthropic 翻译 Provider（官方 SDK） | T-007, T-008 | 1d |
@@ -71,9 +71,9 @@
 
 > T-006/T-007 与 T-008 可以并行；T-009 与 T-010 可以并行；T-012 可以随时插入。
 
-**T-006** — 详见 `tasks/current_task.md`（规范：ARCH v1.7 §7.3）。交付 ARCH §7.3 的语言表、检测阈值与 Resolver 规则。验收：检测器测试集至少 30 条（中 / 日含汉字 / 韩 / 俄 / 英长句 / 英单词 / 法语 → auto / 数字与标点 → auto / 中英混排）；Resolver 覆盖全部 4 条规则，并验证 zh-Hant 与 zh-Hans 被视为同族。
+**T-006** — ☑ 已完成（提交 fe508b5，2026-09-27 评审通过，附报告问题记录），见 `tasks/done/T-006.md`。
 
-**T-007** 验收：预处理覆盖零宽字符、CRLF、多余空行、MergeSmart 合并；Renderer 能替换全部占位符、保留未知占位符、Auto 渲染为 "the auto-detected language"；TemplateProvider 能正确回退到内置模板。
+**T-007** — 详见 `tasks/current_task.md`（规范：ARCH v1.8 §7.4、§7.5）。验收：预处理覆盖零宽字符、CRLF、多余空行、MergeSmart 合并；Renderer 能替换全部占位符、保留未知占位符、Auto 渲染为 "the auto-detected language"；TemplateProvider 能正确回退到内置模板。
 
 **T-008** 交付 ARCH §5.2 Http 目录、§11.2 映射表、§11.3 重试策略、§12.4 动态代理。验收：SseParser 能处理多行 data、`event:` 字段、注释行（以 `:` 开头）、CRLF、一个事件被拆在多个网络分片中；HttpErrorMapper 覆盖映射表每一行；DynamicWebProxy 三种模式与本地地址绕过均有测试。
 

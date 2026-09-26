@@ -19,8 +19,8 @@ public interface ITranslationOrchestrator
 }
 
 /// <summary>
-/// 文本预处理：去首尾空白；换行统一为 \n；移除零宽字符（U+200B/200C/200D/FEFF）；连续 3 个以上空行压缩为 1 个；
-/// Origin=Selection 且 SelectionLineBreaks=MergeSmart 时合并段内硬换行（规则同 IOcrTextNormalizer.MergeParagraphs）。
+/// 文本预处理（规则详见 ARCH §7.5）：换行统一为 \n；移除 U+200B / U+FEFF / U+2060（保留 ZWJ 与 ZWNJ）；U+00A0 → 空格；
+/// 连续多个空行压缩为 1 个；Origin=Selection 且 SelectionLineBreaks=MergeSmart 时执行软换行合并；最后去除首尾空白。
 /// </summary>
 public interface ITextPreprocessor
 {

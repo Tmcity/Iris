@@ -466,8 +466,8 @@ namespace Iris.Core.Translation
     }
 
     /// <summary>
-    /// 文本预处理：去首尾空白；换行统一为 \n；移除零宽字符（U+200B/200C/200D/FEFF）；连续 3 个以上空行压缩为 1 个；
-    /// Origin=Selection 且 SelectionLineBreaks=MergeSmart 时合并段内硬换行（规则同 IOcrTextNormalizer.MergeParagraphs）。
+    /// 文本预处理（规则详见 ARCH §7.5）：换行统一为 \n；移除 U+200B / U+FEFF / U+2060（保留 ZWJ 与 ZWNJ）；U+00A0 → 空格；
+    /// 连续多个空行压缩为 1 个；Origin=Selection 且 SelectionLineBreaks=MergeSmart 时执行软换行合并；最后去除首尾空白。
     /// </summary>
     public interface ITextPreprocessor
     {
@@ -516,13 +516,14 @@ namespace Iris.Core.Translation
         };
     }
 
-    /// <summary>纯函数：替换占位符。语言名通过 ILanguageCatalog.GetPromptName 获取。</summary>
+    /// <summary>纯函数：单遍替换占位符（替换进去的内容不再被扫描，防止模板注入；未知占位符原样保留）。语言名通过 ILanguageCatalog.GetPromptName 获取。</summary>
     public interface IPromptRenderer
     {
         RenderedPrompt Render(PromptTemplate template, ProviderTranslateRequest request);
     }
 
-    /// <summary>按 Id 取模板：先查 Settings.Translation.CustomPrompts，再查内置；找不到回退到 BuiltInPrompts.Default。</summary>
+    /// <summary>按 Id 取模板（Id 为 null 或空白时使用 Settings.Translation.DefaultPromptTemplateId）：先查 CustomPrompts，再查内置，均不区分大小写；
+    /// 找不到，或模板的 System 与 User 都不含 {{text}}，则回退到 BuiltInPrompts.Default。</summary>
     public interface IPromptTemplateProvider
     {
         PromptTemplate Get(string? templateId);
@@ -572,8 +573,8 @@ namespace Iris.Core.Ocr
         KeepLines,
 
         /// <summary>
-        /// 合并段内换行：相邻两行之间，若前行以句末标点（。！？.!?：:）结尾或行距明显大于平均行距则保留换行，否则合并；
-        /// 合并时拉丁文字之间插入空格、行尾连字符 "-" 去除后直接拼接，CJK 之间不插空格。
+        /// 合并段内换行：规则见 ARCH §7.5“软换行合并”（句末标点、列表标记、行距明显大于平均行距时保留换行；
+        /// 行尾连字符去除后直接拼接；两侧都是 CJK 时不加空格，其余情况加一个空格）。
         /// </summary>
         MergeParagraphs,
     }

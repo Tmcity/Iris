@@ -34,6 +34,14 @@ public sealed class LanguageCatalogTests
         _catalog.All.Select(l => l.Code).ShouldBe(expectedCodes);
     }
 
+    [Fact]
+    public void All_IsNotMutableArray()
+    {
+        (_catalog.All is LanguageInfo[]).ShouldBeFalse();
+        (_catalog.All is System.Array).ShouldBeFalse();
+        _catalog.All.ShouldBeOfType<System.Collections.ObjectModel.ReadOnlyCollection<LanguageInfo>>();
+    }
+
     [Theory]
     [InlineData("zh-Hans", "zh-Hans", "Simplified Chinese", "简体中文")]
     [InlineData("ZH-HANS", "zh-Hans", "Simplified Chinese", "简体中文")]

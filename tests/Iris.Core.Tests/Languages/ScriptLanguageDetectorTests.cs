@@ -45,6 +45,7 @@ public sealed class ScriptLanguageDetectorTests
     [InlineData("Hello world", LanguageCodes.English)]
     [InlineData("Good morning", LanguageCodes.English)]
     [InlineData("don't", LanguageCodes.English)]
+    [InlineData("don’t", LanguageCodes.English)]
     [InlineData("e-mail", LanguageCodes.English)]
     [InlineData("Bonjour", LanguageCodes.English)]
     // 其他拉丁语言
@@ -78,6 +79,7 @@ public sealed class ScriptLanguageDetectorTests
         _detector.Detect("Hello").Confidence.ShouldBe(0.6);
         _detector.Detect("Hello world").Confidence.ShouldBe(0.6);
         _detector.Detect("don't").Confidence.ShouldBe(0.6);
+        _detector.Detect("don’t").Confidence.ShouldBe(0.6);
         _detector.Detect("e-mail").Confidence.ShouldBe(0.6);
         _detector.Detect("Bonjour").Confidence.ShouldBe(0.6);
     }
