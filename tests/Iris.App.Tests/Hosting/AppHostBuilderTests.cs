@@ -1,4 +1,5 @@
 using System;
+using System.Net.Http;
 using Iris.App.Hosting;
 using Iris.App.Services;
 using Iris.App.Tests.TestSupport;
@@ -6,6 +7,7 @@ using Iris.Core.Languages;
 using Iris.Core.Presentation;
 using Iris.Core.Security;
 using Iris.Core.Settings;
+using Iris.Providers.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog.Core;
@@ -77,5 +79,22 @@ public sealed class AppHostBuilderTests
         var trayNotificationService = host.Services.GetRequiredService<TrayNotificationService>();
 
         notificationService.ShouldBeSameAs(trayNotificationService);
+    }
+
+    [Fact]
+    public void Host_CreatesNamedHttpClients()
+    {
+        using var tempDir = new TempDirectory();
+        var paths = new FakeAppPaths(tempDir.Path);
+        var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
+
+        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+
+        var factory = host.Services.GetRequiredService<IHttpClientFactory>();
+        using var llmClient = factory.CreateClient(HttpClientNames.Llm);
+        using var ocrClient = factory.CreateClient(HttpClientNames.Ocr);
+
+        llmClient.ShouldNotBeNull();
+        ocrClient.ShouldNotBeNull();
     }
 }

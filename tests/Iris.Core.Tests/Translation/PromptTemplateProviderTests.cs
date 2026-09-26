@@ -49,6 +49,13 @@ public sealed class PromptTemplateProviderTests
         return new PromptTemplateProvider(_settings, _logger);
     }
 
+    [Fact]
+    public void Constructor_NullArguments_ThrowsArgumentNullException()
+    {
+        Should.Throw<ArgumentNullException>(() => new PromptTemplateProvider(null!, _logger));
+        Should.Throw<ArgumentNullException>(() => new PromptTemplateProvider(_settings, null!));
+    }
+
     [Theory]
     [InlineData(null)]
     [InlineData("")]

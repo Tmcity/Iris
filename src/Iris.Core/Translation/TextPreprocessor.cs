@@ -11,6 +11,7 @@ internal sealed class TextPreprocessor : ITextPreprocessor
 
     public TextPreprocessor(ISettingsService settings)
     {
+        ArgumentNullException.ThrowIfNull(settings);
         _settings = settings;
     }
 

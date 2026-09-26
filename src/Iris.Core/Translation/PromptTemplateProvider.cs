@@ -23,6 +23,8 @@ internal sealed partial class PromptTemplateProvider : IPromptTemplateProvider
 
     public PromptTemplateProvider(ISettingsService settings, ILogger<PromptTemplateProvider> logger)
     {
+        ArgumentNullException.ThrowIfNull(settings);
+        ArgumentNullException.ThrowIfNull(logger);
         _settings = settings;
         _logger = logger;
     }

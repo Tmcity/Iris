@@ -1,6 +1,6 @@
 # Iris 架构设计说明书
 
-> 版本：v1.8 · 2026-09-27 · 状态：**已冻结（首期）**
+> 版本：v1.9 · 2026-09-27 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
@@ -9,6 +9,7 @@
 > 变更记录：v1.6（T-005 评审）— §1.2 空闲内存增加 Private Bytes 指标并规定测量方法（Working Set 上限不变）；§10.1.1 新增主机生命周期、退出日志、托盘创建失败重试。
 > 变更记录：v1.7（T-005-R1 复审）— §1.2 依据实测修订内存指标（Working Set 上限 160 MB，说明 GC 前后两种读数）与启动时间的测量条件；§7.3 细化语言目录、检测（Unicode 范围、按码点遍历、短语规则、停用词表）与目标语言解析规则。
 > 变更记录：v1.8（T-006 评审）— §7.3.2 短语规则允许弯撇号；§7.4 单遍替换（防模板注入）、模板查找与有效性；新增 §7.5 文本预处理与软换行合并（保留 ZWJ / ZWNJ，空行压缩规则澄清）。
+> 变更记录：v1.9（T-007 评审）— §5.2 SSE 解析改为包装 .NET 自带解析器；§7.5 修正编号列表正则（避免把小数当作列表编号）；§11.2 补全状态码、异常映射与错误信息提取；§11.3 命名 HttpClient 的完整配置（移除会记录完整 URL 的默认日志）；§12.4 代理细则；§12.5 URL 与服务端错误信息的脱敏。
 > 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
@@ -187,7 +188,7 @@ Core 程序集禁止引用：`PresentationFramework`、`PresentationCore`、`Win
 
 | 目录 | 内容 |
 |---|---|
-| `Http/` | `HttpClientNames`、`ProviderJson`、`SseEvent` + `SseParser`（`static IAsyncEnumerable<SseEvent> ReadEventsAsync(Stream, CancellationToken)`）、`HttpErrorMapper`（HTTP 状态码 / 网络异常 → `IrisException`，§11.2）、`DynamicWebProxy`（§12.4） |
+| `Http/` | `HttpClientNames`、`ProviderJson`、`SseEvent`；`SseParser`（`static IAsyncEnumerable<SseEvent> ReadEventsAsync(Stream, CancellationToken)`，**包装 .NET 自带的 `System.Net.ServerSentEvents.SseParser`**，外面套一层 `LimitedReadStream` 限制响应大小）；`HttpErrorMapper`（HTTP 状态码 / 响应体 / 网络异常 → `IrisException`，§11.2）；`SecretRedactor`（§12.5）；`DynamicWebProxy`（§12.4）；`HttpLoggingHandler`（§11.3）；`AddIrisProviders()` 中的命名 HttpClient 注册 |
 | `Translation/OpenAICompatible/` | `OpenAICompatibleTranslationProvider`（实现 `ITranslationProvider` + `IModelCatalogSource`）、Factory、`ThinkTagStripper`（流式剥离 `<think>`）、`Wire/` |
 | `Translation/Anthropic/` | `AnthropicTranslationProvider`（实现 `ITranslationProvider` + `IModelCatalogSource`）、Factory |
 | `Ocr/Baidu/` | `BaiduOcrProvider`、`BaiduTokenCache`、`BaiduErrorMapper`、`BaiduLanguageMap`、Factory、`Wire/` |
@@ -414,10 +415,10 @@ TranslateAsync(request, ct)
 5. `origin == Selection` 且 `SelectionLineBreaks == MergeSmart` → 执行软换行合并（见下）。
 6. 去除整段文本的首尾空白（`string.Trim()`）。
 
-**软换行合并（`SoftLineBreakMerger`，internal static，T-030 的 OCR 规范化复用同一实现）**：输入若干行，空行作为段落分隔原样保留（1 个）。对相邻的两个非空行 A、B：
+**软换行合并（`SoftLineBreakMerger`，internal static，T-030 的 OCR 规范化复用同一实现）**：输入若干行，空行作为段落分隔原样保留（每个空行都保留，压缩连续空行是调用方的职责）。对相邻的两个非空行 A、B：
 - **保留换行**的情况（任一成立即保留）：
   1. A 去掉末尾空白以及末尾的收尾符号（`" ' ” ’ ） ) 」 』 】 ] 》`）之后，以句末标点结尾：`。 ！ ？ . ! ? ： : ； ;`。
-  2. B 去掉开头空白后，以列表标记开头：`- `、`* `、`• `、`· `（符号后必须有空格），或匹配 `^\d{1,3}[.)、]`、`^[（(]\d{1,3}[)）]`。
+  2. B 去掉开头空白后，以列表标记开头：`- `、`* `、`• `、`· `（符号后必须有空格），或匹配 `^\d{1,3}(?:[.)]\s|、)`（`.` 与 `)` 后面必须跟空白，避免把 “1.5 kg”、“3.14” 这样的小数误认为列表编号；`、` 后面通常不加空格，保持原样）、`^[（(]\d{1,3}[)）]`。
   3. 调用方提供的 `isParagraphBreakAfter(index)` 返回 true（OCR 根据行距判断；文本预处理不提供此回调）。
 - 否则**合并**：去掉 A 的末尾空白与 B 的开头空白之后：
   1. A 以 `-` 结尾、`-` 前一个字符是拉丁字母、且 B 以拉丁字母开头 → 去掉 `-` 后直接拼接（“inter-\nnational” → “international”）。已知局限：真正的连字符词（“well-\nknown”）也会被连在一起。
@@ -684,10 +685,11 @@ data: {"type":"message_stop"}
 
 ### 11.2 HTTP → ErrorCode 映射（`HttpErrorMapper`）
 
+**状态码映射**（非 2xx 响应）：
+
 | 条件 | ErrorCode | Retryable |
 |---|---|---|
-| `HttpRequestException`（DNS / 连接失败）/ `SocketException` | NetworkUnavailable | ✓ |
-| Provider 的超时 CTS 触发（用户 ct 未取消） | Timeout | ✓ |
+| 3xx（HttpClient 不会自动跟随跨协议重定向，出现即为异常） | InvalidResponse | |
 | 400 / 422 | BadRequest | |
 | 401 | AuthenticationFailed | |
 | 402 | QuotaExceeded | |
@@ -695,16 +697,40 @@ data: {"type":"message_stop"}
 | 404 | EndpointNotFound | |
 | 408 / 504 | Timeout | ✓ |
 | 413 | InputTooLong | |
-| 429（OpenAI `insufficient_quota` 除外） | RateLimited | ✓ |
-| 500 / 502 / 503 / 529 | ProviderUnavailable | ✓ |
-| 响应无法解析 | InvalidResponse | |
+| 429，且错误体的 `error.code` 或 `error.type` 为 `insufficient_quota`（OpenAI 余额不足） | QuotaExceeded | |
+| 其他 429 | RateLimited | ✓ |
+| 500 / 502 / 503 / 529（Anthropic overloaded） | ProviderUnavailable | ✓ |
+| 其他 4xx | BadRequest | |
+| 其他 5xx | ProviderUnavailable | ✓ |
 
-Message 使用默认文案；Detail = `"HTTP {status}: {error.message 截断到 300 字符}"`。
+**异常映射**：
 
-### 11.3 重试策略（`Microsoft.Extensions.Http.Resilience`）
+| 条件 | ErrorCode | Retryable |
+|---|---|---|
+| `HttpRequestException`（任何 `HttpRequestError`：DNS、连接、TLS、代理隧道……）；读取响应流时的 `IOException`（连接中途被重置） | NetworkUnavailable | ✓ |
+| Provider 自己的超时 CTS 触发，而用户的 ct 没有取消（由 Provider 判断后调用 `HttpErrorMapper.Timeout(...)`） | Timeout | ✓ |
+| `JsonException`（响应体无法解析） | InvalidResponse | |
+| 用户的 ct 已取消 | **不映射**，原样抛出 `OperationCanceledException` | — |
+| 其他异常 | **不映射**（属于编程错误，原样抛出，由编排器按 Unknown 处理） | — |
 
-- `iris.llm`：只重试 1 次（总共 2 次尝试），条件为连接失败 / 408 / 429 / 5xx，遵守 `Retry-After`（上限 5 s）。**不设 TotalRequestTimeout / AttemptTimeout**（流式响应可能持续较长时间，超时由 Provider 的 CTS 控制）。重试只发生在响应头返回之前，因此不会造成重复输出。
-- `iris.ocr`：标准弹性管道，重试 2 次，单次尝试超时 10 s，总超时 = Profile.TimeoutSeconds。
+**错误信息提取**：读取响应体的前 64 KB（UTF-8），依次尝试以下 JSON 路径，取第一个非空字符串：`error.message` → `message` → `error`（字符串） → `detail` → `error_msg`。错误码同理：`error.code`（字符串或数字） → `error.type`。响应体不是 JSON（例如网关返回的 HTML 页面）时，取原文、把连续空白压缩为一个空格。最后用 `SecretRedactor` 脱敏，并截断到 300 个字符（超出部分以 `…` 结尾）。
+- `Message` = `ErrorMessages.GetDefault(code)`；`Detail` = `HTTP {status}: {提取并脱敏后的信息}`；`HttpStatus` = 状态码；`ProviderId` 由调用方传入。
+
+### 11.3 HTTP 客户端与重试（`AddIrisProviders`，`Microsoft.Extensions.Http.Resilience`）
+
+**两个命名客户端的公共配置**：
+- 主处理器：`SocketsHttpHandler { Proxy = DynamicWebProxy（单例）, UseProxy = true, PooledConnectionLifetime = 2 min, ConnectTimeout = 15 s, AutomaticDecompression = All }`。
+- `HttpClient.Timeout = Timeout.InfiniteTimeSpan`：超时一律由弹性管道或 Provider 的 CTS 控制。
+- 默认请求头 `User-Agent: Iris/{InformationalVersion 中 '+' 之前的部分}`。
+- **日志（安全要求）**：调用 `RemoveAllLoggers()` 移除 IHttpClientFactory 默认的日志处理器。默认处理器会在 Information 级别记录**完整 URL**，而百度 OCR 的 `access_token` 就在查询字符串中。改为添加自己的 `HttpLoggingHandler`：只在 Debug 级别记录 `方法 + scheme://host/path（不含查询字符串）+ 状态码 + 耗时`。
+
+**`iris.llm`**：`AddResilienceHandler("iris-llm")`，只包含一个重试策略：
+- 最多重试 1 次（共 2 次尝试）。触发条件：`HttpRequestException`，或状态码为 408 / 429 / 5xx。
+- 延迟：响应带 `Retry-After`（秒数或 HTTP 日期）→ 使用该值，上限 5 s；否则 1 s（带抖动）。延迟计算写成纯函数 `LlmRetryDelay.Compute(HttpResponseMessage?)`，单独测试。
+- **不设** TotalRequestTimeout / AttemptTimeout / 熔断器：流式响应可能持续很久，超时由 Provider 的 CTS 控制。重试只可能发生在响应头返回之前，所以不会重复输出内容。
+- 请求内容必须可以重复发送（`StringContent`、`ByteArrayContent`、`JsonContent`）；**禁止**使用基于流的 `StreamContent`，否则无法重试。
+
+**`iris.ocr`**：`AddStandardResilienceHandler`：重试 2 次；单次尝试超时 10 s；总超时 30 s；熔断器使用默认值。Profile 的 `TimeoutSeconds` 由 Provider 的 CTS 实现。
 
 ---
 
@@ -821,14 +847,18 @@ Message 使用默认文案；Detail = `"HTTP {status}: {error.message 截断到 
 
 ### 12.4 代理（`DynamicWebProxy : IWebProxy`）
 
-- 两个命名 HttpClient 的主处理器均为 `SocketsHttpHandler { Proxy = dynamicProxy, UseProxy = true, PooledConnectionLifetime = 2 min }`。
-- `GetProxy(uri)` 每次读取 `ISettingsService.Current.Network`：System → `HttpClient.DefaultProxy.GetProxy(uri)`；None → 返回 null（直连）；Custom → `new Uri(CustomProxyUrl)`（支持 http / https / socks5）。`IsBypassed(uri)`：`BypassProxyOnLocal` 且目标是 loopback 或局域网地址时返回 true。
-- 代理设置修改后，新建的连接立即生效；已存在的连接最多 2 分钟后轮换。
+- 单例，每次调用都读取 `ISettingsService.Current.Network`，因此代理设置修改后，下一个请求立即生效（SocketsHttpHandler 按代理地址区分连接池）。
+- `GetProxy(uri)`：先判断 `IsBypassed(uri)`，为 true 时返回 null（直连）。否则：System → `HttpClient.DefaultProxy.GetProxy(uri)`；None → null；Custom → `new Uri(CustomProxyUrl)`（http / https / socks5 均由 SocketsHttpHandler 原生支持；地址无法解析时返回 null，并且只记一次 Warning，日志中不写地址本身）。
+- `IsBypassed(uri)`：None → true；`BypassProxyOnLocal` 为 true 且目标属于**本地地址**时 → true（System 与 Custom 模式都适用）；System 模式下再调用 `HttpClient.DefaultProxy.IsBypassed(uri)`（尊重系统的例外列表）；其余 → false。
+- **本地地址**的定义：`localhost`；不含点号的单标签主机名（如 `intranet`）；以 `.local` 结尾的主机名；IP 地址属于 127.0.0.0/8、10.0.0.0/8、172.16.0.0/12、192.168.0.0/16、169.254.0.0/16、::1、fc00::/7、fe80::/10。
+- `Credentials`：System 模式 → `HttpClient.DefaultProxy.Credentials ?? CredentialCache.DefaultCredentials`（兼容需要 Windows 集成认证的企业代理）；其他模式 → null（带账号密码的自定义代理在 T-036 实现）。
 
 ### 12.5 日志与隐私
 
 - 默认级别 Information。日志中**绝不**记录 API Key、Authorization 头、完整原文或译文。原文 / 译文统一通过 `LogText` 输出：Information 及以上级别只用 `LogText.Fingerprint(text)`（长度 + SHA-256 前 8 位）；Debug 级别可用 `LogText.Preview(text)`（再加前 32 个字符）。
 - 每个翻译会话以 `RequestId` 作为日志作用域（`BeginScope`），便于排查问题。
+- **URL 与查询字符串**：日志和异常信息中不得出现完整 URL（查询字符串中可能带有 `access_token` 等凭据），最多记录 `scheme://host/path`。
+- **服务端错误信息脱敏（`SecretRedactor`）**：写入 `IrisException.Detail` 之前，对服务端返回的错误信息执行：(1) 替换调用方传入的已知密钥值（长度 ≥ 8 的才替换）为 `***`；(2) 按正则替换常见的密钥形态：`sk-[A-Za-z0-9_\-]{8,}` → `sk-***`，`(?i)bearer\s+[A-Za-z0-9._\-]{8,}` → `Bearer ***`，`(?i)(access_token|api[_-]?key|secret[_-]?key)=[^&\s"']+` → `$1=***`。部分兼容服务在“Key 无效”的错误信息中会回显完整的 Key。
 
 ---
 

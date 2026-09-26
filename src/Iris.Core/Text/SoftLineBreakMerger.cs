@@ -15,7 +15,7 @@ internal static partial class SoftLineBreakMerger
     private static readonly SearchValues<char> SentencePunctuation = SearchValues.Create(
         ['\u3002', '\uFF01', '\uFF1F', '.', '!', '?', '\uFF1A', ':', '\uFF1B', ';']);
 
-    [GeneratedRegex(@"^\d{1,3}[.)、]")]
+    [GeneratedRegex(@"^\d{1,3}(?:[.)]\s|、)")]
     private static partial Regex NumberedListRegex();
 
     [GeneratedRegex(@"^[（(]\d{1,3}[)）]")]

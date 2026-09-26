@@ -22,6 +22,12 @@ public sealed class TextPreprocessorTests
     }
 
     [Fact]
+    public void Constructor_NullSettings_ThrowsArgumentNullException()
+    {
+        Should.Throw<ArgumentNullException>(() => new TextPreprocessor(null!));
+    }
+
+    [Fact]
     public void Prepare_TrimsLeadingAndTrailingWhitespace()
     {
         SetSelectionLineBreaks(LineBreakHandling.Keep);

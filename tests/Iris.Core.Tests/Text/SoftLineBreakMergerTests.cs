@@ -51,6 +51,26 @@ public sealed class SoftLineBreakMergerTests
     }
 
     [Fact]
+    public void Merge_DecimalNumbers_NotListMarker_Merges()
+    {
+        var lines1 = new[] { "The weight is", "1.5 kg" };
+        SoftLineBreakMerger.Merge(lines1).ShouldBe("The weight is 1.5 kg");
+
+        var lines2 = new[] { "Pi is about", "3.14 today" };
+        SoftLineBreakMerger.Merge(lines2).ShouldBe("Pi is about 3.14 today");
+    }
+
+    [Fact]
+    public void Merge_ParenthesisAndSesameNumberedList_PreservesBreak()
+    {
+        var lines1 = new[] { "1) a", "2) b" };
+        SoftLineBreakMerger.Merge(lines1).ShouldBe("1) a\n2) b");
+
+        var lines2 = new[] { "1、第一", "2、第二" };
+        SoftLineBreakMerger.Merge(lines2).ShouldBe("1、第一\n2、第二");
+    }
+
+    [Fact]
     public void Merge_ParenthesizedNumberedList_PreservesBreak()
     {
         var lines = new[] { "（1）甲", "（2）乙" };

@@ -61,8 +61,8 @@
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
 | T-006 | ☑ | LanguageCatalog + ScriptLanguageDetector + TargetLanguageResolver | T-005 | 1d |
-| T-007 | ▶ | TextPreprocessor + SoftLineBreakMerger + PromptRenderer + PromptTemplateProvider + T-006 遗留 | T-006 | 1d |
-| T-008 | ☐ | Providers/Http：SseParser、HttpErrorMapper、DynamicWebProxy、命名 HttpClient 注册 | T-003 | 1d |
+| T-007 | ☑ | TextPreprocessor + SoftLineBreakMerger + PromptRenderer + PromptTemplateProvider + T-006 遗留 | T-006 | 1d |
+| T-008 | ▶ | Providers/Http：SseParser、HttpErrorMapper、SecretRedactor、DynamicWebProxy、命名 HttpClient 注册 + T-007 遗留 | T-007 | 1.5d |
 | T-009 | ☐ | OpenAI 兼容翻译 Provider | T-007, T-008 | 1.5d |
 | T-010 | ☐ | Anthropic 翻译 Provider（官方 SDK） | T-007, T-008 | 1d |
 | T-011 | ☐ | TranslationProviderRegistry | T-004, T-009 | 0.5d |
@@ -73,9 +73,9 @@
 
 **T-006** — ☑ 已完成（提交 fe508b5，2026-09-27 评审通过，附报告问题记录），见 `tasks/done/T-006.md`。
 
-**T-007** — 详见 `tasks/current_task.md`（规范：ARCH v1.8 §7.4、§7.5）。验收：预处理覆盖零宽字符、CRLF、多余空行、MergeSmart 合并；Renderer 能替换全部占位符、保留未知占位符、Auto 渲染为 "the auto-detected language"；TemplateProvider 能正确回退到内置模板。
+**T-007** — ☑ 已完成（提交 78009a9，2026-09-27 评审通过），见 `tasks/done/T-007.md`。
 
-**T-008** 交付 ARCH §5.2 Http 目录、§11.2 映射表、§11.3 重试策略、§12.4 动态代理。验收：SseParser 能处理多行 data、`event:` 字段、注释行（以 `:` 开头）、CRLF、一个事件被拆在多个网络分片中；HttpErrorMapper 覆盖映射表每一行；DynamicWebProxy 三种模式与本地地址绕过均有测试。
+**T-008** — 详见 `tasks/current_task.md`（规范：ARCH v1.9 §5.2、§11.2、§11.3、§12.4、§12.5）。交付 ARCH §5.2 Http 目录、§11.2 映射表、§11.3 重试策略、§12.4 动态代理。验收：SseParser 能处理多行 data、`event:` 字段、注释行（以 `:` 开头）、CRLF、一个事件被拆在多个网络分片中；HttpErrorMapper 覆盖映射表每一行；DynamicWebProxy 三种模式与本地地址绕过均有测试。
 
 **T-009** 交付 ARCH §9.1 全部行为 + `IModelCatalogSource` + Factory。验收（MockHttp + 夹具）：正常流式输出；非流式输出；忽略 `reasoning_content`；`<think>` 标签被拆在多个 Delta 中时仍能剥离；`finish_reason=length` → Truncated；`content_filter` → ContentRefused；200 响应中带 error；各 HTTP 状态码映射；超时 → Timeout；用户取消 → OCE；没有 Key 时不发送 Authorization 头；ExtraHeaders 生效；`max_tokens` / `max_completion_tokens` 按配置切换；模型列表解析。
 

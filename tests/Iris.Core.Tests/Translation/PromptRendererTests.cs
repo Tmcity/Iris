@@ -16,6 +16,12 @@ public sealed class PromptRendererTests
     }
 
     [Fact]
+    public void Constructor_NullCatalog_ThrowsArgumentNullException()
+    {
+        Should.Throw<ArgumentNullException>(() => new PromptRenderer(null!));
+    }
+
+    [Fact]
     public void Render_DefaultTemplate_EnglishToSimplifiedChinese_RendersExpectedPrompt()
     {
         var request = new ProviderTranslateRequest("Hello", LanguageCodes.English, LanguageCodes.ChineseSimplified);

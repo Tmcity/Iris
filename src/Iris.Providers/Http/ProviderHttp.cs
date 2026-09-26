@@ -24,6 +24,6 @@ public static class ProviderJson
 }
 
 /// <summary>一条 Server-Sent Event（由 SseParser 从响应流解析）。</summary>
-/// <param name="EventType">"event:" 字段；未指定时为 null（OpenAI 兼容协议不带 event 字段）。</param>
+/// <param name="EventType">"event:" 字段；未指定时为 "message"（WHATWG 规范的默认值；OpenAI 兼容协议不带 event 字段，因此总是 "message"）。</param>
 /// <param name="Data">多行 "data:" 以 \n 连接后的内容。</param>
 public readonly record struct SseEvent(string? EventType, string Data, string? Id);

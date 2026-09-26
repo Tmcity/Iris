@@ -9,6 +9,7 @@ internal sealed partial class PromptRenderer : IPromptRenderer
 
     public PromptRenderer(ILanguageCatalog catalog)
     {
+        ArgumentNullException.ThrowIfNull(catalog);
         _catalog = catalog;
     }
 

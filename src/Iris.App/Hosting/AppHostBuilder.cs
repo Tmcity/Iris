@@ -6,6 +6,7 @@ using Iris.Core.Presentation;
 using Iris.Core.Storage;
 using Iris.Infrastructure.DependencyInjection;
 using Iris.Platform.Windows.DependencyInjection;
+using Iris.Providers.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -54,7 +55,7 @@ internal static class AppHostBuilder
 
         // Core 层服务
         builder.Services.AddIrisCore();
-        // TODO(T-008~T-013): AddIrisProviders()
+        builder.Services.AddIrisProviders();
 
         // App 层单例服务
         builder.Services.AddSingleton<NotificationThrottle>();
