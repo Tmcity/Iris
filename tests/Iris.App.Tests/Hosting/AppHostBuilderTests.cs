@@ -49,6 +49,19 @@ public sealed class AppHostBuilderTests
     }
 
     [Fact]
+    public void Host_ResolvesIHostLifetimeAsWpfHostLifetime()
+    {
+        using var tempDir = new TempDirectory();
+        var paths = new FakeAppPaths(tempDir.Path);
+        var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
+
+        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+
+        var hostLifetime = host.Services.GetRequiredService<IHostLifetime>();
+        hostLifetime.ShouldBeOfType<WpfHostLifetime>();
+    }
+
+    [Fact]
     public void NotificationService_And_TrayNotificationService_ResolveToSameInstance()
     {
         using var tempDir = new TempDirectory();

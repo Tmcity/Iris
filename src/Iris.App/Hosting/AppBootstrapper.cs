@@ -32,6 +32,7 @@ internal sealed partial class AppBootstrapper
 
     private int _stopped;
     private int _syncStopped;
+    private int _trayAttached;
 
     public AppBootstrapper(
         ISettingsService settingsService,
@@ -66,7 +67,7 @@ internal sealed partial class AppBootstrapper
         }
         catch (IrisException ex) when (ex.Code == ErrorCode.StorageFailure)
         {
-            FatalErrorDialog.Show(UiText.AppName, ex.Message);
+            FatalErrorDialog.Show(UiText.AppName, FatalErrorFormatter.Format(ex));
             Application.Current?.Shutdown(1);
             return;
         }
@@ -79,9 +80,13 @@ internal sealed partial class AppBootstrapper
 
         // TODO(T-034): 数据库初始化
 
-        // 4. 创建托盘图标并输出排队通知
+        // 4. 创建托盘图标并输出排队通知（先订阅 Created，创建成功后才挂接通知）
+        _trayIconController.Created += OnTrayIconCreated;
         _trayIconController.Initialize();
-        _trayNotificationService.AttachTray(_trayIconController);
+        if (_trayIconController.IsCreated)
+        {
+            EnsureTrayAttached();
+        }
 
         // TODO(T-017): 注册热键
         // TODO(T-024): 鼠标监视
@@ -103,6 +108,19 @@ internal sealed partial class AppBootstrapper
         LogDebugEnabled(_logger);
     }
 
+    private void EnsureTrayAttached()
+    {
+        if (Interlocked.Exchange(ref _trayAttached, 1) == 0)
+        {
+            _trayNotificationService.AttachTray(_trayIconController);
+        }
+    }
+
+    private void OnTrayIconCreated(object? sender, EventArgs e)
+    {
+        EnsureTrayAttached();
+    }
+
     public void StopSynchronousParts()
     {
         if (Interlocked.Exchange(ref _syncStopped, 1) != 0)
@@ -110,6 +128,7 @@ internal sealed partial class AppBootstrapper
             return;
         }
 
+        _trayIconController.Created -= OnTrayIconCreated;
         _themeService.Dispose();
         _logLevelController.Dispose();
         _trayIconController.Dispose();
@@ -117,6 +136,8 @@ internal sealed partial class AppBootstrapper
 
     public async Task StopAsync()
     {
+        LogStopping(_logger);
+
         if (Interlocked.Exchange(ref _stopped, 1) != 0)
         {
             return;
@@ -145,4 +166,7 @@ internal sealed partial class AppBootstrapper
 
     [LoggerMessage(EventId = 3, Level = LogLevel.Error, Message = "Host 停止超时或遇到异常")]
     private static partial void LogHostStopFailed(ILogger logger, Exception ex);
+
+    [LoggerMessage(EventId = 4, Level = LogLevel.Information, Message = "Iris 正在退出")]
+    private static partial void LogStopping(ILogger logger);
 }

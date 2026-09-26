@@ -122,7 +122,14 @@ public sealed class SingleInstanceGuardTests
         SingleInstanceGuard? guardB = null;
         await Task.Run(() =>
         {
-            guardB = SingleInstanceGuard.TryAcquire(testMutexName);
+            for (var i = 0; i < 20 && guardB == null; i++)
+            {
+                guardB = SingleInstanceGuard.TryAcquire(testMutexName);
+                if (guardB == null)
+                {
+                    Thread.Sleep(50);
+                }
+            }
         }, ct);
 
         try

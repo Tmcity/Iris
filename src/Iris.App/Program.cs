@@ -39,7 +39,7 @@ internal static class Program
             }
             catch (Exception ex)
             {
-                FatalErrorDialog.Show(UiText.AppName, FormatFatalMessage(ex));
+                FatalErrorDialog.Show(UiText.AppName, FatalErrorFormatter.Format(ex));
                 return 1;
             }
 
@@ -55,12 +55,8 @@ internal static class Program
         }
         catch (Exception ex)
         {
-            if (Log.Logger != null)
-            {
-                Log.ForContext(typeof(Program)).Fatal(ex, "程序启动阶段遇到致命异常");
-            }
-
-            FatalErrorDialog.Show(UiText.AppName, FormatFatalMessage(ex));
+            Log.ForContext(typeof(Program)).Fatal(ex, "程序启动阶段遇到致命异常");
+            FatalErrorDialog.Show(UiText.AppName, FatalErrorFormatter.Format(ex));
             return 1;
         }
         finally
@@ -69,17 +65,5 @@ internal static class Program
             Log.CloseAndFlush();
             guard.Dispose();
         }
-    }
-
-    private static string FormatFatalMessage(Exception ex)
-    {
-        if (ex is IrisException irisEx)
-        {
-            return string.IsNullOrEmpty(irisEx.Detail)
-                ? irisEx.Message
-                : $"{irisEx.Message}\n{irisEx.Detail}";
-        }
-
-        return $"{UiText.FatalUnknown}\n{ex.Message}";
     }
 }

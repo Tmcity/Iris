@@ -1,11 +1,12 @@
 # Iris 架构设计说明书
 
-> 版本：v1.5 · 2026-09-25 · 状态：**已冻结（首期）**
+> 版本：v1.6 · 2026-09-26 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
 > 变更记录：v1.4（T-003-R1 复审）— §12.3 密钥存储完整规范（文件格式、加载与降级、读写语义、线程与事件）；N13 补充字典 null 值规则。
 > 变更记录：v1.5（T-004 评审）— 新增 §10.1.1 启动与退出的实现细节（单实例锁、致命错误对话框、Generic Host 配置、启动与退出序列、全局异常、通知队列）。
+> 变更记录：v1.6（T-005 评审）— §1.2 空闲内存增加 Private Bytes 指标并规定测量方法（Working Set 上限不变）；§10.1.1 新增主机生命周期、退出日志、托盘创建失败重试。
 > 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
@@ -55,7 +56,7 @@ Iris 是一个 Windows 桌面翻译工具（对标 TTime / Pot），常驻系统
 | 热键 → 截图覆盖层可见 | ≤ 150 ms（单 4K 屏） |
 | 热键 → 翻译窗口可见（划词） | ≤ 300 ms（不含选区读取超时） |
 | 首个译文字符（流式） | 取决于服务；Iris 自身附加开销 ≤ 50 ms |
-| 空闲内存 | ≤ 120 MB（Working Set） |
+| 空闲内存 | Private Bytes ≤ 100 MB；Working Set ≤ 120 MB（启动后空闲 30 秒，使用 `build/measure-startup.ps1` 测量；Working Set 包含共享的框架 DLL 页，波动较大，以 Private Bytes 为主要判据） |
 | 空闲 CPU | ≈ 0%（开启鼠标钩子时 < 0.5%） |
 | 崩溃 | 未处理异常全部记录日志并提示，不得静默退出 |
 
@@ -526,6 +527,8 @@ data: {"type":"message_stop"}
 
 **Generic Host**：`Host.CreateApplicationBuilder(new HostApplicationBuilderSettings { Args = args, DisableDefaults = true, ContentRootPath = AppContext.BaseDirectory })`。必须设置 `DisableDefaults = true`：默认配置会在 Windows 上注册 EventLog 日志提供程序（写入 Windows 事件日志），还会加载 appsettings.json、环境变量等本项目不需要的配置源。日志只接入 Serilog（`Services.AddSerilog()`，使用静态 `Log.Logger`，`dispose: false`）。容器开启 `ValidateOnBuild` 与 `ValidateScopes`，缺少注册时启动即失败，而不是运行到一半才失败。
 
+**主机生命周期（v1.6）**：用一个什么都不做的 `WpfHostLifetime : IHostLifetime`（`WaitForStartAsync` / `StopAsync` 直接返回已完成的任务）替换默认的 `ConsoleLifetime`。`ConsoleLifetime` 是为控制台程序设计的：它会输出 “Application started. Press Ctrl+C to shut down.”、“Hosting environment”、“Content root path” 这类对托盘程序没有意义的日志，还会挂接 Ctrl+C 与进程退出信号。Iris 的生命周期完全由 `AppBootstrapper` 管理。
+
 **`App`**：`ShutdownMode = OnExplicitShutdown`（没有主窗口；关闭任何窗口都不会导致进程退出）。不使用 `StartupUri`；App.xaml 的生成操作改为 `Page`，由 `Program.Main` 手动构造。
 
 **`AppBootstrapper.StartAsync`**（在 `App.OnStartup` 中调用，它是 `async void` 事件处理器，整体包在 try/catch 中）：
@@ -538,6 +541,17 @@ data: {"type":"message_stop"}
 7. 记录一条 Information 日志：从进程启动到托盘就绪的耗时（`Environment.TickCount64 - Process.GetCurrentProcess().StartTime`，或在 Main 开头记录 `Stopwatch.GetTimestamp()`）。
 
 **退出（`AppLifetime.RequestShutdown` → `AppBootstrapper.StopAsync`）**：可以从任意线程调用，切换到 UI 线程执行；**幂等**（第二次调用直接返回）：取消设置订阅 → 释放托盘图标（不释放的话，托盘上会残留一个“幽灵图标”，直到鼠标划过才消失）→ `host.StopAsync`（5 秒超时）→ `Application.Shutdown(0)`。Windows 注销或关机时，WPF 会直接触发 `Exit`，所以 `App.OnExit` 中也要调用同一套幂等清理（同步部分：释放托盘图标、取消订阅）。
+
+**退出日志（v1.6，必须）**：任何退出路径都必须在日志中留下记录，便于排查“程序自己消失”一类的问题：
+- `AppBootstrapper.StopAsync` 开始时：Information `Iris 正在退出`。
+- `App.OnSessionEnding`（重写）：Information `Windows 会话即将结束（{ReasonSessionEnding}）`。
+- `App.OnExit`：Information `Iris 已退出，退出码 {ExitCode}`。这一行必须在 `Log.CloseAndFlush()` 之前写出（`Program.Main` 的 finally 在 `app.Run()` 返回之后才执行，顺序天然满足）。
+
+**托盘图标创建失败（v1.6）**：用户开启“开机自启”后，Iris 可能在资源管理器的通知区域就绪之前启动，这时 `Shell_NotifyIcon` 会失败。**绝不允许静默吞掉这个异常**：否则 Iris 会在后台运行，却没有任何图标可以操作或退出。
+- 第一次失败：记 Warning，按 `TrayCreationRetryPolicy` 重试——前 30 次间隔 2 秒，之后每 30 秒一次，不设上限。第 30 次仍然失败时记 Error（只记一次）；最终成功时记 Information（包含尝试次数）。
+- 重试用 `DispatcherTimer`（UI 线程）实现；退出时停止计时器。
+- `TrayIconController` 在图标**真正创建成功**之后触发 `Created` 事件；`AppBootstrapper` 在这个事件中才调用 `TrayNotificationService.AttachTray`。这样，托盘就绪之前的通知会一直排队，不会因为托盘尚未创建而丢失。
+- `ShowNotification` 失败同样要记 Warning，不能静默忽略。
 
 **全局异常（`GlobalExceptionHandler`，在 `App` 构造后、`Run` 之前安装）**：
 - `Application.DispatcherUnhandledException`：记 Error；设置 `e.Handled = true`；通知“发生未知错误，详情请查看日志”（`IrisException` 则显示它自己的 Message）。

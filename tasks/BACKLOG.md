@@ -28,7 +28,7 @@
 | T-002 | ☑ | AppPaths + 日志基础设施 + ErrorMessages + LogText | T-001 | 0.75d |
 | T-003 | ☑ | JsonSettingsService（加载 / 挽救 / 规范化 / 原子保存 / 迁移 / 损坏恢复）+ T-002 整改（含返工 R1） | T-002 | 1.5d + 0.5d |
 | T-004 | ☑ | DpapiSecretStore + AtomicFile 同步方法 + AddIrisPlatformWindows + T-003-R1 遗留 | T-003 | 1d |
-| T-005 | ☑ | WPF 应用外壳：Generic Host、单实例、托盘、主题、全局异常 + T-002/T-004 遗留 | T-003, T-004 | 2d |
+| T-005 | ▶ | WPF 应用外壳：Generic Host、单实例、托盘、主题、全局异常 + T-002/T-004 遗留（**返工 R1 中**） | T-003, T-004 | 2d + 0.5d |
 
 **T-001 工程骨架与核心契约落地** — ☑ 已完成，见 `tasks/done/T-001.md`（2026-09-25 评审通过）。
 
@@ -44,7 +44,7 @@
 - 交付：`Iris.Platform.Windows/Security/DpapiSecretStore.cs`（ARCH §12.3），原子写入，线程安全，触发 `Changed` 事件。
 - 验收：Set / Get / Remove 往返正确；文件中找不到明文（测试直接读文件字节进行断言）；文件损坏时 Get 返回 null，不抛异常；`ProviderCredentials.ToString()` 不泄露密钥。
 
-**T-005 WPF 应用外壳** — ☑ 已完成，见 `tasks/done/T-005.md`（2026-09-26）。
+**T-005 WPF 应用外壳** — 提交 92fa706 审查**不通过**（2026-09-26，状态由架构师改回 ▶），返工单 T-005-R1 见 `tasks/current_task.md`；原工单与完成报告见 `tasks/done/T-005.md`。
 - 交付：`Program.cs`（自定义 Main + `SingleInstanceGuard`）、`AppHostBuilder`、`AppBootstrapper`（本任务只实现 ARCH §10.1 的步骤 1、2、3、8；其余步骤留下 TODO 标记）、`TrayIconController`（菜单暂时只有“设置（占位）/ 退出”）、`AppLifetime`、`ThemeService`（跟随系统 / 浅色 / 深色）、`GlobalExceptionHandler`、`TrayNotificationService`（实现 `INotificationService`）、`app.manifest`（PerMonitorV2）。
 - **评审遗留（T-002，必须在本任务中处理）**：
   1. 删除 `App.xaml` 的 `StartupUri`，所有窗口一律显式创建；启动失败路径（数据目录不可用等）必须在构造任何窗口之前退出。（T-002 评审实测：`Shutdown(1)` 之后 WPF 仍按 StartupUri 构造了 MainWindow。）

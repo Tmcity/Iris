@@ -65,6 +65,9 @@ internal static class AppHostBuilder
         builder.Services.AddSingleton<AppBootstrapper>();
         builder.Services.AddSingleton<App>();
 
+        // 主机生命周期：使用 WpfHostLifetime 替换默认的 ConsoleLifetime
+        builder.Services.AddSingleton<IHostLifetime, WpfHostLifetime>();
+
         return builder.Build();
     }
 }
