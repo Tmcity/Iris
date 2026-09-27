@@ -3,10 +3,12 @@ using System.Net.Http;
 using Iris.App.Hosting;
 using Iris.App.Services;
 using Iris.App.Tests.TestSupport;
+using Iris.Core.Common;
 using Iris.Core.Languages;
 using Iris.Core.Presentation;
 using Iris.Core.Security;
 using Iris.Core.Settings;
+using Iris.Core.Translation;
 using Iris.Providers.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -96,5 +98,18 @@ public sealed class AppHostBuilderTests
 
         llmClient.ShouldNotBeNull();
         ocrClient.ShouldNotBeNull();
+    }
+
+    [Fact]
+    public void Host_ResolvesTranslationProviderFactories_ContainsOpenAICompatible()
+    {
+        using var tempDir = new TempDirectory();
+        var paths = new FakeAppPaths(tempDir.Path);
+        var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
+
+        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+
+        var factories = host.Services.GetRequiredService<System.Collections.Generic.IEnumerable<ITranslationProviderFactory>>();
+        factories.ShouldContain(f => f.Kind == TranslationProviderKind.OpenAICompatible);
     }
 }

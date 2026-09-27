@@ -10,7 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.ExceptionSummarization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Testing;
+using Iris.Core.Common;
 using Iris.Core.Settings;
+using Iris.Core.Translation;
 using Iris.Providers.DependencyInjection;
 using Iris.Providers.Http;
 using NSubstitute;
@@ -35,6 +37,12 @@ public sealed class HttpClientPipelineTests
         var settings = Substitute.For<ISettingsService>();
         settings.Current.Returns(new AppSettings());
         services.AddSingleton(settings);
+
+        var promptTemplates = Substitute.For<IPromptTemplateProvider>();
+        services.AddSingleton(promptTemplates);
+
+        var promptRenderer = Substitute.For<IPromptRenderer>();
+        services.AddSingleton(promptRenderer);
 
         services.AddIrisProviders();
 
@@ -307,5 +315,18 @@ public sealed class HttpClientPipelineTests
         });
 
         sp.ShouldNotBeNull();
+    }
+
+    [Fact]
+    public void AddIrisProviders_RegistersExactlyOneOpenAICompatibleFactory_EvenWhenCalledTwice()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        var services = CreateServices(mockHttp);
+        services.AddIrisProviders();
+
+        using var sp = services.BuildServiceProvider();
+        var factories = sp.GetRequiredService<System.Collections.Generic.IEnumerable<ITranslationProviderFactory>>().ToList();
+
+        factories.Count(f => f.Kind == TranslationProviderKind.OpenAICompatible).ShouldBe(1);
     }
 }

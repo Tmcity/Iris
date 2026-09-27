@@ -9,7 +9,9 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Http.Resilience;
 using Polly;
 using Polly.Retry;
+using Iris.Core.Translation;
 using Iris.Providers.Http;
+using Iris.Providers.Translation.OpenAICompatible;
 
 namespace Iris.Providers.DependencyInjection;
 
@@ -28,6 +30,9 @@ public static class ProvidersServiceCollectionExtensions
         services.TryAddSingleton(TimeProvider.System);
         services.AddSingleton<DynamicWebProxy>();
         services.AddTransient<HttpLoggingHandler>();
+
+        services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<ITranslationProviderFactory, OpenAICompatibleTranslationProviderFactory>());
 
         var informationalVersion = typeof(ProvidersServiceCollectionExtensions).Assembly
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;

@@ -234,4 +234,17 @@ public sealed class HttpErrorMapperTests
         ex.Detail.ShouldNotBeNull();
         ex.Detail.ShouldContain("15");
     }
+
+    [Fact]
+    public void TryMapException_RedactsProxyCredentialsInExceptionDetail()
+    {
+        var ex = new HttpRequestException("The proxy tunnel request to proxy 'http://alice:S3cretPass@10.0.0.1:8080/' failed");
+        var mapped = HttpErrorMapper.TryMapException(ex, "provider-p1");
+
+        mapped.ShouldNotBeNull();
+        mapped.Detail.ShouldNotBeNull();
+        mapped.Detail.ShouldNotContain("S3cretPass");
+        mapped.Detail.ShouldNotContain("alice");
+        mapped.Detail.ShouldContain("http://***@10.0.0.1:8080/");
+    }
 }

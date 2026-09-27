@@ -85,6 +85,10 @@ public sealed class DynamicWebProxyTests
     [InlineData("http://[fe80::1]/")]
     [InlineData("http://intranet/")]
     [InlineData("http://printer.local/")]
+    [InlineData("http://[::ffff:10.1.2.3]/")]
+    [InlineData("http://[::ffff:192.168.1.1]/")]
+    [InlineData("http://localhost./")]
+    [InlineData("http://intranet./")]
     public void ModeCustom_BypassProxyOnLocalTrue_LocalAddressesAreBypassed(string uriString)
     {
         SetNetworkSettings(new NetworkSettings
@@ -105,6 +109,7 @@ public sealed class DynamicWebProxyTests
     [InlineData("http://172.32.0.1/")]
     [InlineData("http://8.8.8.8/")]
     [InlineData("https://api.openai.com/")]
+    [InlineData("http://[::ffff:8.8.8.8]/")]
     public void ModeCustom_BypassProxyOnLocalTrue_NonLocalAddressesGoThroughProxy(string uriString)
     {
         SetNetworkSettings(new NetworkSettings

@@ -1,0 +1,4 @@
+data: {"id":"c1","choices":[{"index":0,"delta":{"content":"截断的译文"},"finish_reason":"length"}]}
+
+data: [DONE]
+

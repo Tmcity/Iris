@@ -1,6 +1,6 @@
 # Iris 架构设计说明书
 
-> 版本：v1.9 · 2026-09-27 · 状态：**已冻结（首期）**
+> 版本：v1.10 · 2026-09-28 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
@@ -10,6 +10,7 @@
 > 变更记录：v1.7（T-005-R1 复审）— §1.2 依据实测修订内存指标（Working Set 上限 160 MB，说明 GC 前后两种读数）与启动时间的测量条件；§7.3 细化语言目录、检测（Unicode 范围、按码点遍历、短语规则、停用词表）与目标语言解析规则。
 > 变更记录：v1.8（T-006 评审）— §7.3.2 短语规则允许弯撇号；§7.4 单遍替换（防模板注入）、模板查找与有效性；新增 §7.5 文本预处理与软换行合并（保留 ZWJ / ZWNJ，空行压缩规则澄清）。
 > 变更记录：v1.9（T-007 评审）— §5.2 SSE 解析改为包装 .NET 自带解析器；§7.5 修正编号列表正则（避免把小数当作列表编号）；§11.2 补全状态码、异常映射与错误信息提取；§11.3 命名 HttpClient 的完整配置（移除会记录完整 URL 的默认日志）；§12.4 代理细则；§12.5 URL 与服务端错误信息的脱敏。
+> 变更记录：v1.10（T-008 评审）— §9.1 OpenAI 兼容 Provider 完整行为规范（配置判定、请求构造、无进展超时、异常归类、响应分流、流结束判定、`<think>` 剥离状态机、TestAsync、模型列表）；§11.2 异常 Detail 必须脱敏；§12.4 本地地址判断处理 IPv4 映射地址与末尾的点；§12.5 新增 URL 账号密码脱敏规则。
 > 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
@@ -452,14 +453,45 @@ return new OcrOutcome(raw, text, usedFallback)
 
 ### 9.1 OpenAI 兼容（`OpenAICompatibleTranslationProvider`）
 
-- **请求**：`POST {BaseUrl.TrimEnd('/')}/{ChatCompletionsPath}`；Header `Authorization: Bearer {ApiKey}`（Key 为空时不发送，如 Ollama）+ `ExtraHeaders`；Body 为 `ChatCompletionRequest`：messages = `[system: Rendered.System, user: Rendered.User]`；`temperature` 仅在 Profile 设置时发送；`MaxOutputTokens` 按 `MaxTokensField` 写入 `max_tokens` 或 `max_completion_tokens`；`IncludeStreamUsage` 时带 `stream_options`。
-- **流式**：`HttpCompletionOption.ResponseHeadersRead`；非 2xx → 读出 body → `HttpErrorMapper`。2xx → `SseParser` 逐条解析：`data == "[DONE]"` 结束；每条反序列化为 `ChatCompletionChunk`，取 `choices[0].delta.content` 作为 Delta（**忽略 `reasoning_content`**）；记录 `finish_reason`；`usage` 出现时记下。
-- **finish_reason**：`stop` → Completed；`length` → 最后一个 Chunk 标记 `Truncated`；`content_filter` → 抛 `ContentRefused`。
-- **非流式**（`Stream=false`）：解析 `ChatCompletionResponse`，一次性产出一个 Chunk。
-- **`<think>` 剥离**（`StripThinkTags`）：流式状态机——文本开头出现 `<think>` 时进入丢弃状态，直到 `</think>` 为止，并去掉其后的前导空白；标签可能被拆在两个 Delta 之间，需缓冲最多 8 个字符再判断。
-- **200 响应中的错误**：部分兼容服务出错时仍返回 200 且 body 为 `{"error":{...}}`，或 SSE 中出现 `data: {"error":...}` → 按 `ErrorEnvelope` 解析并抛出。
-- **模型列表**：`GET {BaseUrl}/models` → `ModelListResponse.data[].id` 排序后返回。
-- **OpenAI 特殊情况**：`error.code == "insufficient_quota"`（HTTP 429）→ `QuotaExceeded`，而不是 `RateLimited`。
+**构造与配置判定**
+- 由 `OpenAICompatibleTranslationProviderFactory`（`ITranslationProviderFactory`，单例，`AddIrisProviders` 中以 `TryAddEnumerable` 注册）创建；依赖 `IHttpClientFactory`、`IPromptTemplateProvider`、`IPromptRenderer`、`ISettingsService`、`TimeProvider`、`ILoggerFactory`。`Create` 时 `profile.Kind` 不是 OpenAICompatible → `ArgumentException`；`OpenAIOptions` 为 null → 使用 `new OpenAICompatibleOptions()`。Provider 实例不可变，设置变化由 Registry 重建实例（T-011）。
+- **`Descriptor.IsConfigured`** = `BaseUrl` 是 scheme 为 http / https 的绝对 URI **且** `Model` 非空白 **且**（`ApiKey` 非空白 **或** BaseUrl 的主机是本地地址——判定复用 `DynamicWebProxy.IsLocalAddress`，覆盖本机与局域网的 Ollama / LM Studio）。未配置时 `TranslateStreamAsync` 在第一次 `MoveNextAsync` 时抛 `IrisException(NotConfigured)`，不发出任何请求；`ListModelsAsync` 同样处理。
+
+**请求**
+- `POST {BaseUrl.TrimEnd('/')}/{ChatCompletionsPath.TrimStart('/')}`，使用命名客户端 `iris.llm`。
+- Header：`Authorization: Bearer {ApiKey}`（Key 为空白时不发送）；然后逐个加入 `ExtraHeaders`（`TryAddWithoutValidation`；名称为 `Authorization` 的条目**忽略**——密钥只能来自 ISecretStore；添加失败的条目忽略；两种情况都只记 Debug 日志且**只写头名称，不写值**）。
+- Body：`ChatCompletionRequest`。messages = `[system: Rendered.System, user: Rendered.User]`，`Rendered.System` 为空白时**省略 system 消息**（部分服务拒绝空 content）；`temperature` 仅在 Profile 设置时发送；`MaxOutputTokens` 按 `MaxTokensField` 写入 `max_tokens` 或 `max_completion_tokens`（null 时两者都不发送）；`stream` 始终发送；`Stream && IncludeStreamUsage` 时带 `stream_options`。模板每次调用时通过 `IPromptTemplateProvider.Get(profile.PromptTemplateId)` 获取，再用 `IPromptRenderer.Render` 渲染。
+- 序列化：`JsonSerializer.SerializeToUtf8Bytes(body, ProviderJson.Options)` → `ByteArrayContent`，`Content-Type: application/json`（长度已知、可重复发送，满足 §11.3 的重试要求）。
+
+**超时（“无进展超时”）**
+- `timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(profile.TimeoutSeconds), timeProvider)`，与调用方的 ct 链接后传给 `SendAsync` 与读流。流式模式下**每收到一个 SSE 事件就调用 `timeoutCts.CancelAfter(同一时长)` 重置计时**：从发出请求到收到响应头、以及相邻两个事件之间，任何一段超过 `TimeoutSeconds` 即超时；只要持续有输出，长译文不会被切断。非流式模式与模型列表不重置（即总超时）。（架构师已实测：`CancelAfter` 重置对 `FakeTimeProvider` 同样生效，测试可以推进虚拟时间。）
+- **异常归类（统一出口）**：任何异常发生时按以下顺序判断——① 调用方 ct 已取消 → 抛 `OperationCanceledException`（原样重抛；若原异常不是 OCE，抛 `new OperationCanceledException(ct)`）；② `timeoutCts` 已触发 → 抛 `HttpErrorMapper.Timeout(providerId, timeout)`；③ 已是 `IrisException` → 原样抛出；④ `HttpErrorMapper.TryMapException` 返回非 null → 抛出映射结果；⑤ 其他 → 原样抛出（编程错误，由编排器按 Unknown 处理）。异步迭代器中 `yield return` 不能位于带 catch 的 try 内，因此内部实现为“不做异常处理的迭代器”，外层迭代器在 try/catch 中手动调用 `MoveNextAsync`、在 try 之外 `yield return`。
+
+**响应处理**
+- `HttpCompletionOption.ResponseHeadersRead`。非 2xx → `HttpErrorMapper.FromResponseAsync(response, providerId, [ApiKey], ct)` 并抛出。
+- 2xx 且 `Content-Type` 的媒体类型为 `application/json` → 无论是否请求了流式，都按**非流式**处理（部分服务忽略 `stream=true`，或直接返回错误 JSON）。其他媒体类型（含缺失）→ 按 SSE 处理。
+- **SSE**：`SseParser.ReadEventsAsync`。对每个事件：`data == "[DONE]"` → 结束；`EventType == "error"` 或 data 是含 `error` 属性的 JSON 对象 → `HttpErrorMapper.FromBody(200, data, …)` 并抛出；否则反序列化为 `ChatCompletionChunk`：`choices` 为 null 或空时跳过（`include_usage` 的最后一个 Chunk 就是这样）；取 `choices[0].delta.content` 作为 Delta（**忽略 `reasoning_content`**）；记录最后一个非空的 `finish_reason`；`usage` 出现时记下。data 不是合法 JSON → `JsonException` → 经统一出口映射为 InvalidResponse。
+- **流的结束**：收到 `[DONE]`，或流结束（EOF）时已经收到过 `finish_reason` → 正常结束；EOF 时既没有 `[DONE]` 也没有 `finish_reason` → `IrisException(InvalidResponse, detail: "响应流意外结束")`（连接中途断开）。
+- **非流式**：用 `LimitedReadStream`（上限 `SseParser.DefaultMaxResponseBytes`）包装响应流后反序列化。根对象含 `error` 属性 → `FromBody(200, …)` 并抛出（需要原文，因此先把受限流读成字符串，再解析）；否则按 `ChatCompletionResponse` 取 `choices[0].message.content`（忽略 `reasoning_content`）；`choices` 为空或 `content` 为 null → InvalidResponse。
+- **finish_reason**：`stop` → Completed；`length` → Truncated；`content_filter`、`sensitive`（智谱 GLM）→ 抛 `ContentRefused`（已输出的部分作废）；null 或其他值 → Completed，并记一条 Debug 日志（写入该值）。各服务的取值以 T-009 核对官方文档的结果为准。
+- **输出**：内容片段依次经过 `ThinkTagStripper`（`StripThinkTags` 为 true 时）后，非空才产出 `TranslationChunk(delta)`（FinishReason 为 null）。**最后恰好产出一个**带 `FinishReason`（非 null）与 `Usage` 的 Chunk，其 Delta = 剥离器 `Flush()` 的剩余内容（可为空串）。`Usage` = `TokenUsage(prompt_tokens, completion_tokens)`，没有 usage 时为 null。非流式同样遵守此约定：一个 Chunk，Delta 为剥离后的完整文本，同时带 FinishReason 与 Usage。
+- 消费者提前结束枚举（`DisposeAsync`）时必须释放 `HttpResponseMessage`，不得泄漏连接。
+
+**`<think>` 剥离（`ThinkTagStripper`，internal sealed，每次请求一个实例，非线程安全）**
+- `string Process(string delta)` + `string Flush()`。只处理**开头**：跳过前导空白后，如果内容以 `<think>` 开头（区分大小写）→ 丢弃直到 `</think>`（含），然后去掉其后的前导空白（可能跨越多个 Delta）；如果前导空白之后的第一个字符无法构成 `<think>` 的前缀 → 进入直通状态，**原样**输出包括前导空白在内的全部内容，之后不再检测（译文中间出现的 `<think>` 字样必须保留）。
+- 标签可能被拆在多个 Delta 之间：判断阶段最多缓冲 `<think>` 的 7 个字符（加前导空白）；丢弃阶段只需保留最后 7 个字符用来匹配跨片段的 `</think>`。
+- `Flush()`：仍在判断阶段 → 输出缓冲内容（原文其实就是 `<thi` 之类的短文本）；仍在丢弃阶段（`</think>` 始终没有出现，例如在思考中被 max_tokens 截断）→ 输出空串。
+- 已知限制：个别服务只输出 `</think>` 而省略开头的 `<think>`，本剥离器不处理此情况。
+
+**`TestAsync`**
+- 以 `ProviderTranslateRequest("Hello, world.", "en", Settings.Translation.PrimaryTargetLanguage)` 走与 `TranslateStreamAsync` 相同的路径，拼接全部 Delta 作为 `Sample`；`Latency` 用 `TimeProvider.GetElapsedTime` 计算。`IrisException` → `Success = false`、`Error = ex.ToErrorInfo()`；调用方 ct 取消 → 抛 `OperationCanceledException`（取消不是测试结果）；其他异常 → `Success = false`、`Error` 为 `ErrorCode.Unknown`（Message 取 `ErrorMessages.GetDefault(Unknown)`，Detail 只写异常类型名），并记 Warning 日志。
+
+**模型列表（`IModelCatalogSource`）**
+- `GET {BaseUrl.TrimEnd('/')}/models`，Header 规则与翻译请求相同，总超时 `TimeoutSeconds`，异常归类同上。非 2xx → `HttpErrorMapper`。返回 `data[].id`：去掉空白项、去重（序数比较），再按 `StringComparer.OrdinalIgnoreCase` 排序；`data` 为 null → InvalidResponse。
+
+**日志**：请求开始记 Debug（ProviderId、Model、`LogText.Fingerprint(原文)`）；结束记 Debug（ProviderId、FinishReason、耗时、Usage）。不得记录 Key、请求头、完整原文或译文。
+
+- **OpenAI 特殊情况**：`error.code == "insufficient_quota"`（HTTP 429）→ `QuotaExceeded`，而不是 `RateLimited`（由 `HttpErrorMapper.MapStatus` 实现）。
 
 流式响应示例（测试夹具 `tests/Iris.Providers.Tests/Fixtures/openai_stream_ok.txt`）：
 
@@ -713,6 +745,8 @@ data: {"type":"message_stop"}
 | 用户的 ct 已取消 | **不映射**，原样抛出 `OperationCanceledException` | — |
 | 其他异常 | **不映射**（属于编程错误，原样抛出，由编排器按 Unknown 处理） | — |
 
+映射后的 `Detail` = `SecretRedactor.Redact(exception.Message)`，**不得**直接使用原始消息：架构师实测，代理隧道失败时 `HttpRequestException.Message` 会包含完整的代理地址，例如 `The proxy tunnel request to proxy 'http://alice:S3cretPass@127.0.0.1:10332/' failed with status code '407'`，其中的账号密码会随 Detail 进入日志与界面。
+
 **错误信息提取**：读取响应体的前 64 KB（UTF-8），依次尝试以下 JSON 路径，取第一个非空字符串：`error.message` → `message` → `error`（字符串） → `detail` → `error_msg`。错误码同理：`error.code`（字符串或数字） → `error.type`。响应体不是 JSON（例如网关返回的 HTML 页面）时，取原文、把连续空白压缩为一个空格。最后用 `SecretRedactor` 脱敏，并截断到 300 个字符（超出部分以 `…` 结尾）。
 - `Message` = `ErrorMessages.GetDefault(code)`；`Detail` = `HTTP {status}: {提取并脱敏后的信息}`；`HttpStatus` = 状态码；`ProviderId` 由调用方传入。
 
@@ -850,7 +884,7 @@ data: {"type":"message_stop"}
 - 单例，每次调用都读取 `ISettingsService.Current.Network`，因此代理设置修改后，下一个请求立即生效（SocketsHttpHandler 按代理地址区分连接池）。
 - `GetProxy(uri)`：先判断 `IsBypassed(uri)`，为 true 时返回 null（直连）。否则：System → `HttpClient.DefaultProxy.GetProxy(uri)`；None → null；Custom → `new Uri(CustomProxyUrl)`（http / https / socks5 均由 SocketsHttpHandler 原生支持；地址无法解析时返回 null，并且只记一次 Warning，日志中不写地址本身）。
 - `IsBypassed(uri)`：None → true；`BypassProxyOnLocal` 为 true 且目标属于**本地地址**时 → true（System 与 Custom 模式都适用）；System 模式下再调用 `HttpClient.DefaultProxy.IsBypassed(uri)`（尊重系统的例外列表）；其余 → false。
-- **本地地址**的定义：`localhost`；不含点号的单标签主机名（如 `intranet`）；以 `.local` 结尾的主机名；IP 地址属于 127.0.0.0/8、10.0.0.0/8、172.16.0.0/12、192.168.0.0/16、169.254.0.0/16、::1、fc00::/7、fe80::/10。
+- **本地地址**的定义（判断前先去掉主机名末尾的 `.`，例如 `localhost.`；IPv4 映射的 IPv6 地址（`::ffff:10.1.2.3`，`IPAddress.IsIPv4MappedToIPv6`）先用 `MapToIPv4()` 转换再判断——`IPNetwork.Contains` 不会跨地址族匹配）：`localhost`；不含点号的单标签主机名（如 `intranet`）；以 `.local` 结尾的主机名；IP 地址属于 127.0.0.0/8、10.0.0.0/8、172.16.0.0/12、192.168.0.0/16、169.254.0.0/16、::1、fc00::/7、fe80::/10。
 - `Credentials`：System 模式 → `HttpClient.DefaultProxy.Credentials ?? CredentialCache.DefaultCredentials`（兼容需要 Windows 集成认证的企业代理）；其他模式 → null（带账号密码的自定义代理在 T-036 实现）。
 
 ### 12.5 日志与隐私
@@ -858,7 +892,7 @@ data: {"type":"message_stop"}
 - 默认级别 Information。日志中**绝不**记录 API Key、Authorization 头、完整原文或译文。原文 / 译文统一通过 `LogText` 输出：Information 及以上级别只用 `LogText.Fingerprint(text)`（长度 + SHA-256 前 8 位）；Debug 级别可用 `LogText.Preview(text)`（再加前 32 个字符）。
 - 每个翻译会话以 `RequestId` 作为日志作用域（`BeginScope`），便于排查问题。
 - **URL 与查询字符串**：日志和异常信息中不得出现完整 URL（查询字符串中可能带有 `access_token` 等凭据），最多记录 `scheme://host/path`。
-- **服务端错误信息脱敏（`SecretRedactor`）**：写入 `IrisException.Detail` 之前，对服务端返回的错误信息执行：(1) 替换调用方传入的已知密钥值（长度 ≥ 8 的才替换）为 `***`；(2) 按正则替换常见的密钥形态：`sk-[A-Za-z0-9_\-]{8,}` → `sk-***`，`(?i)bearer\s+[A-Za-z0-9._\-]{8,}` → `Bearer ***`，`(?i)(access_token|api[_-]?key|secret[_-]?key)=[^&\s"']+` → `$1=***`。部分兼容服务在“Key 无效”的错误信息中会回显完整的 Key。
+- **服务端错误信息脱敏（`SecretRedactor`）**：写入 `IrisException.Detail` 之前，对服务端返回的错误信息执行：(1) 替换调用方传入的已知密钥值（长度 ≥ 8 的才替换）为 `***`；(2) 按正则替换常见的密钥形态：`sk-[A-Za-z0-9_\-]{8,}` → `sk-***`，`(?i)bearer\s+[A-Za-z0-9._\-]{8,}` → `Bearer ***`，`(?i)(access_token|api[_-]?key|secret[_-]?key)=[^&\s"']+` → `$1=***`，`(?i)\b([a-z][a-z0-9+.\-]*://)[^\s/@:'"]+:[^\s/@'"]+@` → `$1***@`（URL 中的账号密码，例如代理地址）。部分兼容服务在“Key 无效”的错误信息中会回显完整的 Key。
 
 ---
 

@@ -19,10 +19,13 @@ internal static partial class SecretRedactor
     [GeneratedRegex(@"(?i)(access_token|api[_-]?key|secret[_-]?key)=[^&\s""']+")]
     private static partial Regex ParameterSecretRegex();
 
+    [GeneratedRegex(@"(?i)\b([a-z][a-z0-9+.\-]*://)[^\s/@:'""]+:[^\s/@'""]+@")]
+    private static partial Regex UrlCredentialsRegex();
+
     /// <summary>
     /// 脱敏文本。按 ARCH §12.5：
     /// 1. 先替换已知密钥（按长度降序排列，仅替换长度 >= 8 的密钥）；
-    /// 2. 再应用常见密钥形态的三个正则表达式。
+    /// 2. 再应用常见密钥形态的四个正则表达式。
     /// </summary>
     public static string Redact(string text, IReadOnlyList<string?>? knownSecrets = null)
     {
@@ -50,6 +53,7 @@ internal static partial class SecretRedactor
         result = OpenAiKeyRegex().Replace(result, "sk-***");
         result = BearerTokenRegex().Replace(result, "Bearer ***");
         result = ParameterSecretRegex().Replace(result, "$1=***");
+        result = UrlCredentialsRegex().Replace(result, "$1***@");
 
         return result;
     }

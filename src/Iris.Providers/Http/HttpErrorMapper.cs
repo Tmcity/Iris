@@ -165,7 +165,7 @@ internal static partial class HttpErrorMapper
                 innerException: exception,
                 retryable: true,
                 providerId: providerId,
-                detail: exception.Message);
+                detail: SecretRedactor.Redact(exception.Message));
         }
 
         if (exception is JsonException)
@@ -176,7 +176,7 @@ internal static partial class HttpErrorMapper
                 innerException: exception,
                 retryable: false,
                 providerId: providerId,
-                detail: exception.Message);
+                detail: SecretRedactor.Redact(exception.Message));
         }
 
         return null;

@@ -1,0 +1,16 @@
+data: {"id":"c1","choices":[{"index":0,"delta":{"content":"<th"},"finish_reason":null}]}
+
+data: {"id":"c1","choices":[{"index":0,"delta":{"content":"ink>让我想想"},"finish_reason":null}]}
+
+data: {"id":"c1","choices":[{"index":0,"delta":{"content":"……</thi"},"finish_reason":null}]}
+
+data: {"id":"c1","choices":[{"index":0,"delta":{"content":"nk>"},"finish_reason":null}]}
+
+data: {"id":"c1","choices":[{"index":0,"delta":{"content":"\n\n你好"},"finish_reason":null}]}
+
+data: {"id":"c1","choices":[{"index":0,"delta":{"content":"世界"},"finish_reason":null}]}
+
+data: {"id":"c1","choices":[{"index":0,"delta":{},"finish_reason":"stop"}]}
+
+data: [DONE]
+

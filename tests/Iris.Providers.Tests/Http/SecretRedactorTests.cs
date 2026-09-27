@@ -74,4 +74,27 @@ public sealed class SecretRedactorTests
         SecretRedactor.Redact(text, new List<string?> { null, "valid-secret-token", null }).ShouldBe(text);
         SecretRedactor.Redact(string.Empty, null).ShouldBe(string.Empty);
     }
+
+    [Fact]
+    public void Redact_UrlCredentialsPattern_ReplacesCredentialsWithAsterisks()
+    {
+        var text1 = "The proxy tunnel request to proxy 'http://alice:S3cretPass@127.0.0.1:10332/' failed";
+        var redacted1 = SecretRedactor.Redact(text1);
+        redacted1.ShouldNotContain("alice");
+        redacted1.ShouldNotContain("S3cretPass");
+        redacted1.ShouldContain("http://***@127.0.0.1:10332/");
+
+        var text2 = "socks5://u:p%40ss@h:1080";
+        var redacted2 = SecretRedactor.Redact(text2);
+        redacted2.ShouldBe("socks5://***@h:1080");
+
+        var text3 = "https://api.openai.com/v1/chat";
+        SecretRedactor.Redact(text3).ShouldBe(text3);
+
+        var text4 = "http://host:8080/path";
+        SecretRedactor.Redact(text4).ShouldBe(text4);
+
+        var text5 = "user@host";
+        SecretRedactor.Redact(text5).ShouldBe(text5);
+    }
 }

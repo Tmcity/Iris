@@ -96,7 +96,7 @@ internal sealed partial class DynamicWebProxy : IWebProxy
     {
         ArgumentNullException.ThrowIfNull(uri);
 
-        var host = uri.DnsSafeHost;
+        var host = uri.DnsSafeHost.TrimEnd('.');
         if (string.Equals(host, "localhost", StringComparison.OrdinalIgnoreCase))
         {
             return true;
@@ -109,6 +109,11 @@ internal sealed partial class DynamicWebProxy : IWebProxy
 
         if (IPAddress.TryParse(host, out var ip))
         {
+            if (ip.IsIPv4MappedToIPv6)
+            {
+                ip = ip.MapToIPv4();
+            }
+
             if (IPAddress.IsLoopback(ip))
             {
                 return true;
