@@ -63,8 +63,8 @@
 | T-006 | ☑ | LanguageCatalog + ScriptLanguageDetector + TargetLanguageResolver | T-005 | 1d |
 | T-007 | ☑ | TextPreprocessor + SoftLineBreakMerger + PromptRenderer + PromptTemplateProvider + T-006 遗留 | T-006 | 1d |
 | T-008 | ☑ | Providers/Http：SseParser、HttpErrorMapper、SecretRedactor、DynamicWebProxy、命名 HttpClient 注册 + T-007 遗留 | T-007 | 1.5d |
-| T-009 | ▶ | OpenAI 兼容翻译 Provider | T-007, T-008 | 1.5d |
-| T-010 | ☐ | Anthropic 翻译 Provider（官方 SDK） | T-007, T-008 | 1d |
+| T-009 | ☑ | OpenAI 兼容翻译 Provider | T-007, T-008 | 1.5d |
+| T-010 | ▶ | Anthropic 翻译 Provider（官方 SDK） | T-007, T-008 | 1d |
 | T-011 | ☐ | TranslationProviderRegistry | T-004, T-009 | 0.5d |
 | T-012 | ☐ | LruTranslationCache | T-001 | 0.5d |
 | T-013 | ☐ | TranslationOrchestrator | T-011, T-012 | 1.5d |
@@ -77,9 +77,9 @@
 
 **T-008** — ☑ 已完成（提交 718c23b，2026-09-28 评审通过，两项小遗留转入 T-009），见 `tasks/done/T-008.md`。
 
-**T-009** — 详见 `tasks/current_task.md`（规范：ARCH v1.10 §9.1）。交付 ARCH §9.1 全部行为 + `IModelCatalogSource` + Factory。验收（MockHttp + 夹具）：正常流式输出；非流式输出；忽略 `reasoning_content`；`<think>` 标签被拆在多个 Delta 中时仍能剥离；`finish_reason=length` → Truncated；`content_filter` → ContentRefused；200 响应中带 error；各 HTTP 状态码映射；超时 → Timeout；用户取消 → OCE；没有 Key 时不发送 Authorization 头；ExtraHeaders 生效；`max_tokens` / `max_completion_tokens` 按配置切换；模型列表解析。
+**T-009** — ☑ 已完成（提交 0bb2d2d，2026-09-28 评审通过，报告需补充说明，小遗留转入 T-010），见 `tasks/done/T-009.md`。
 
-**T-010** 交付 ARCH §9.2 全部行为 + Factory。验收：文本增量正确输出；thinking 内容块被忽略；`max_tokens` → Truncated；`refusal` → ContentRefused；不发送 temperature（断言请求体中不存在该字段）；Effort 为 null 时不发送 output_config；RefusalFallback 的最终写法记录在完成报告中；异常映射正确。
+**T-010** — 详见 `tasks/current_task.md`（规范：ARCH v1.11 §9.2）。交付 ARCH §9.2 全部行为 + Factory。验收：文本增量正确输出；thinking 内容块被忽略；`max_tokens` → Truncated；`refusal` → ContentRefused；不发送 temperature（断言请求体中不存在该字段）；Effort 为 null 时不发送 output_config；RefusalFallback 的最终写法记录在完成报告中；异常映射正确。
 
 **T-011** 交付 `TranslationProviderRegistry`（Core）：按 Kind 找到对应 Factory，从 SecretStore 读取凭据，缓存实例，收到设置或密钥变化时重建并触发 Changed；`CreateTransient` 不缓存。验收：用 NSubstitute 验证重建时机、排序、禁用的 Profile 被排除、缺少 Key 时 `IsConfigured=false`。
 
@@ -118,7 +118,7 @@
 | T-020 | ☐ | 快捷键页 + HotkeyRecorderBox | T-018 | 1d |
 
 **T-018** 验收：打开 / 取消 / 保存行为符合 ARCH §12.2 的草稿模式；主题切换即时生效；开机自启写入并清除注册表 Run 键；设置窗口只存在一个实例。
-**T-019** 验收：从预设添加服务时自动填入 BaseUrl 和模型；Key 保存到 SecretStore（settings.json 中找不到 Key）；删除 Profile 时同时删除其密钥；测试连接显示延迟与测试译文，或错误信息；获取模型列表可用；模型名包含 haiku 时自动清空 Effort 并提示；拖拽排序后结果卡片顺序随之改变。
+**T-019** 验收：从预设添加服务时自动填入 BaseUrl 和模型；Key 保存到 SecretStore（settings.json 中找不到 Key）；删除 Profile 时同时删除其密钥；测试连接显示延迟与测试译文，或错误信息；获取模型列表可用；模型名包含 haiku 时自动清空 Effort 并提示；Anthropic 的反代 BaseUrl 以 `/v1` 结尾时提示去掉（SDK 会自动追加 `/v1/messages`，ARCH §9.2）；拖拽排序后结果卡片顺序随之改变。
 **T-020** 验收：录入框能捕获组合键（包括 Win 键），Esc 取消，Backspace 清除；实时检测冲突并提示；保存后立即重新注册。
 
 ---

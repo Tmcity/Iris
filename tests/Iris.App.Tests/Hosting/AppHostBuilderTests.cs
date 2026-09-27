@@ -101,7 +101,7 @@ public sealed class AppHostBuilderTests
     }
 
     [Fact]
-    public void Host_ResolvesTranslationProviderFactories_ContainsOpenAICompatible()
+    public void Host_ResolvesTranslationProviderFactories_ContainsOpenAICompatibleAndAnthropic()
     {
         using var tempDir = new TempDirectory();
         var paths = new FakeAppPaths(tempDir.Path);
@@ -109,7 +109,8 @@ public sealed class AppHostBuilderTests
 
         using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
 
-        var factories = host.Services.GetRequiredService<System.Collections.Generic.IEnumerable<ITranslationProviderFactory>>();
-        factories.ShouldContain(f => f.Kind == TranslationProviderKind.OpenAICompatible);
+        var factories = host.Services.GetRequiredService<System.Collections.Generic.IEnumerable<ITranslationProviderFactory>>().ToList();
+        factories.Count(f => f.Kind == TranslationProviderKind.OpenAICompatible).ShouldBe(1);
+        factories.Count(f => f.Kind == TranslationProviderKind.Anthropic).ShouldBe(1);
     }
 }

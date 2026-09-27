@@ -13,6 +13,7 @@ using Iris.Core.Common;
 using Iris.Core.Diagnostics;
 using Iris.Core.Errors;
 using Iris.Core.Languages;
+using Iris.Core.Security;
 using Iris.Core.Settings;
 using Iris.Core.Translation;
 using Iris.Providers.Http;
@@ -21,13 +22,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Iris.Providers.Translation.OpenAICompatible;
 
-/// <summary>
-/// OpenAI 兼容协议翻译服务，实现 ITranslationProvider 与 IModelCatalogSource。
-/// </summary>
 internal sealed partial class OpenAICompatibleTranslationProvider : ITranslationProvider, IModelCatalogSource
 {
     private readonly TranslationProviderProfile _profile;
-    private readonly OpenAICompatibleOptions _options;
     private readonly ProviderCredentials _credentials;
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly IPromptTemplateProvider _promptTemplates;
@@ -35,6 +32,7 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
     private readonly ISettingsService _settings;
     private readonly TimeProvider _timeProvider;
     private readonly ILogger<OpenAICompatibleTranslationProvider> _logger;
+    private readonly OpenAICompatibleOptions _options;
 
     public OpenAICompatibleTranslationProvider(
         TranslationProviderProfile profile,
@@ -55,8 +53,12 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
         ArgumentNullException.ThrowIfNull(timeProvider);
         ArgumentNullException.ThrowIfNull(loggerFactory);
 
+        if (profile.Kind != TranslationProviderKind.OpenAICompatible)
+        {
+            throw new ArgumentException($"Provider kind must be OpenAICompatible, but was '{profile.Kind}'.", nameof(profile));
+        }
+
         _profile = profile;
-        _options = profile.OpenAIOptions ?? new OpenAICompatibleOptions();
         _credentials = credentials;
         _httpClientFactory = httpClientFactory;
         _promptTemplates = promptTemplates;
@@ -64,19 +66,17 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
         _settings = settings;
         _timeProvider = timeProvider;
         _logger = loggerFactory.CreateLogger<OpenAICompatibleTranslationProvider>();
+        _options = profile.OpenAIOptions ?? new OpenAICompatibleOptions();
 
-        var isConfigured = Uri.TryCreate(_profile.BaseUrl, UriKind.Absolute, out var baseUri)
-            && (baseUri.Scheme.Equals("http", StringComparison.OrdinalIgnoreCase) || baseUri.Scheme.Equals("https", StringComparison.OrdinalIgnoreCase))
-            && !string.IsNullOrWhiteSpace(_profile.Model)
-            && (!string.IsNullOrWhiteSpace(_credentials.ApiKey) || DynamicWebProxy.IsLocalAddress(baseUri));
-
-        Descriptor = new ProviderDescriptor(_profile.Id, _profile.DisplayName, "OpenAICompatible", _profile.Model, isConfigured);
+        var isConfigured = ComputeIsConfigured(profile, credentials);
+        Descriptor = new ProviderDescriptor(profile.Id, profile.DisplayName, "OpenAICompatible", profile.Model, isConfigured);
     }
 
     public ProviderDescriptor Descriptor { get; }
 
-    public async IAsyncEnumerable<TranslationChunk> TranslateStreamAsync(
-        ProviderTranslateRequest request, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    public IAsyncEnumerable<TranslationChunk> TranslateStreamAsync(
+        ProviderTranslateRequest request,
+        CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(request);
 
@@ -90,83 +90,22 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
         }
 
         var timeout = TimeSpan.FromSeconds(_profile.TimeoutSeconds);
-        using var timeoutCts = new CancellationTokenSource(timeout, _timeProvider);
-        using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutCts.Token);
-
-        await using var enumerator = TranslateStreamCoreAsync(request, timeoutCts, timeout, linkedCts.Token)
-            .GetAsyncEnumerator(linkedCts.Token);
-
-        while (true)
-        {
-            TranslationChunk current;
-            bool hasNext;
-            try
-            {
-                hasNext = await enumerator.MoveNextAsync().ConfigureAwait(false);
-                if (hasNext)
-                {
-                    current = enumerator.Current;
-                }
-                else
-                {
-                    break;
-                }
-            }
-            catch (Exception ex)
-            {
-                var classified = ClassifyException(ex, timeoutCts, timeout, cancellationToken);
-                if (ReferenceEquals(classified, ex))
-                {
-                    throw;
-                }
-                throw classified;
-            }
-
-            yield return current;
-        }
+        return ProviderCallGuard.GuardStreamAsync(
+            (token, resetTimeout) => TranslateStreamCoreAsync(request, resetTimeout, token),
+            timeout,
+            _timeProvider,
+            _profile.Id,
+            mapSpecific: null,
+            cancellationToken);
     }
 
-    public async Task<ProviderTestResult> TestAsync(CancellationToken cancellationToken)
+    public Task<ProviderTestResult> TestAsync(CancellationToken cancellationToken)
     {
         var targetLanguage = _settings.Current.Translation.PrimaryTargetLanguage;
-        var request = new ProviderTranslateRequest("Hello, world.", LanguageCodes.English, targetLanguage);
-
-        var startTimestamp = _timeProvider.GetTimestamp();
-        var sb = new StringBuilder();
-
-        try
-        {
-            await foreach (var chunk in TranslateStreamAsync(request, cancellationToken).ConfigureAwait(false))
-            {
-                if (!string.IsNullOrEmpty(chunk.Delta))
-                {
-                    sb.Append(chunk.Delta);
-                }
-            }
-
-            var elapsed = _timeProvider.GetElapsedTime(startTimestamp);
-            return new ProviderTestResult(true, elapsed, Sample: sb.ToString());
-        }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-        {
-            throw;
-        }
-        catch (IrisException ex)
-        {
-            var elapsed = _timeProvider.GetElapsedTime(startTimestamp);
-            return new ProviderTestResult(false, elapsed, Error: ex.ToErrorInfo());
-        }
-        catch (Exception ex)
-        {
-            var elapsed = _timeProvider.GetElapsedTime(startTimestamp);
-            var exType = ex.GetType().Name;
-            LogTestFailed(_logger, _profile.Id, exType, ex);
-            var errorInfo = new ErrorInfo(ErrorCode.Unknown, ErrorMessages.GetDefault(ErrorCode.Unknown), exType);
-            return new ProviderTestResult(false, elapsed, Error: errorInfo);
-        }
+        return ProviderCallGuard.RunTestAsync(this, targetLanguage, _timeProvider, _logger, cancellationToken);
     }
 
-    public async Task<IReadOnlyList<string>> ListModelsAsync(CancellationToken cancellationToken)
+    public Task<IReadOnlyList<string>> ListModelsAsync(CancellationToken cancellationToken)
     {
         if (!Descriptor.IsConfigured)
         {
@@ -178,97 +117,73 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
         }
 
         var timeout = TimeSpan.FromSeconds(_profile.TimeoutSeconds);
-        using var timeoutCts = new CancellationTokenSource(timeout, _timeProvider);
-        using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, timeoutCts.Token);
+        return ProviderCallGuard.GuardAsync(
+            ListModelsCoreAsync,
+            timeout,
+            _timeProvider,
+            _profile.Id,
+            mapSpecific: null,
+            cancellationToken);
+    }
 
+    private async Task<IReadOnlyList<string>> ListModelsCoreAsync(CancellationToken token)
+    {
+        var baseUrl = _profile.BaseUrl?.TrimEnd('/') ?? string.Empty;
+        var requestUri = $"{baseUrl}/models";
+        using var httpRequest = new HttpRequestMessage(HttpMethod.Get, requestUri);
+
+        ApplyHeaders(httpRequest);
+
+        var client = _httpClientFactory.CreateClient(HttpClientNames.Llm);
+        using var response = await client.SendAsync(httpRequest, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw await HttpErrorMapper.FromResponseAsync(response, _profile.Id, [_credentials.ApiKey], token).ConfigureAwait(false);
+        }
+
+        using var responseStream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
+        using var limitedStream = new LimitedReadStream(responseStream, SseParser.DefaultMaxResponseBytes);
+
+        ModelListResponse? modelList;
         try
         {
-            var baseUrl = _profile.BaseUrl?.TrimEnd('/') ?? string.Empty;
-            var requestUri = $"{baseUrl}/models";
-            using var httpRequest = new HttpRequestMessage(HttpMethod.Get, requestUri);
-
-            if (!string.IsNullOrWhiteSpace(_credentials.ApiKey))
-            {
-                httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _credentials.ApiKey);
-            }
-
-            if (_options.ExtraHeaders != null)
-            {
-                foreach (var (headerName, headerValue) in _options.ExtraHeaders)
-                {
-                    if (string.Equals(headerName, "Authorization", StringComparison.OrdinalIgnoreCase))
-                    {
-                        LogIgnoredAuthorizationHeader(_logger, headerName);
-                        continue;
-                    }
-                    if (!httpRequest.Headers.TryAddWithoutValidation(headerName, headerValue))
-                    {
-                        LogFailedToAddHeader(_logger, headerName);
-                    }
-                }
-            }
-
-            var client = _httpClientFactory.CreateClient(HttpClientNames.Llm);
-            using var response = await client.SendAsync(httpRequest, HttpCompletionOption.ResponseHeadersRead, linkedCts.Token).ConfigureAwait(false);
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw await HttpErrorMapper.FromResponseAsync(response, _profile.Id, [_credentials.ApiKey], linkedCts.Token).ConfigureAwait(false);
-            }
-
-            using var responseStream = await response.Content.ReadAsStreamAsync(linkedCts.Token).ConfigureAwait(false);
-            using var limitedStream = new LimitedReadStream(responseStream, SseParser.DefaultMaxResponseBytes);
-
-            ModelListResponse? modelList;
-            try
-            {
-                modelList = await JsonSerializer.DeserializeAsync<ModelListResponse>(limitedStream, ProviderJson.Options, linkedCts.Token).ConfigureAwait(false);
-            }
-            catch (JsonException ex)
-            {
-                throw new IrisException(
-                    ErrorCode.InvalidResponse,
-                    ErrorMessages.GetDefault(ErrorCode.InvalidResponse),
-                    innerException: ex,
-                    retryable: false,
-                    providerId: _profile.Id,
-                    detail: SecretRedactor.Redact(ex.Message));
-            }
-
-            if (modelList?.Data == null)
-            {
-                throw new IrisException(
-                    ErrorCode.InvalidResponse,
-                    ErrorMessages.GetDefault(ErrorCode.InvalidResponse),
-                    retryable: false,
-                    providerId: _profile.Id,
-                    detail: "模型列表 data 为空");
-            }
-
-            var models = modelList.Data
-                .Select(m => m.Id)
-                .Where(id => !string.IsNullOrWhiteSpace(id))
-                .Distinct(StringComparer.Ordinal)
-                .OrderBy(id => id, StringComparer.OrdinalIgnoreCase)
-                .ToList();
-
-            return models;
+            modelList = await JsonSerializer.DeserializeAsync<ModelListResponse>(limitedStream, ProviderJson.Options, token).ConfigureAwait(false);
         }
-        catch (Exception ex)
+        catch (JsonException ex)
         {
-            var classified = ClassifyException(ex, timeoutCts, timeout, cancellationToken);
-            if (ReferenceEquals(classified, ex))
-            {
-                throw;
-            }
-            throw classified;
+            throw new IrisException(
+                ErrorCode.InvalidResponse,
+                ErrorMessages.GetDefault(ErrorCode.InvalidResponse),
+                innerException: ex,
+                retryable: false,
+                providerId: _profile.Id,
+                detail: SecretRedactor.Redact(ex.Message));
         }
+
+        if (modelList?.Data == null)
+        {
+            throw new IrisException(
+                ErrorCode.InvalidResponse,
+                ErrorMessages.GetDefault(ErrorCode.InvalidResponse),
+                retryable: false,
+                providerId: _profile.Id,
+                detail: "模型列表 data 为空");
+        }
+
+        var models = modelList.Data
+            .Select(m => m.Id)
+            .Where(id => !string.IsNullOrWhiteSpace(id))
+            .Distinct(StringComparer.Ordinal)
+            .OrderBy(id => id, StringComparer.OrdinalIgnoreCase)
+            .ToList();
+
+        return models;
     }
 
     private async IAsyncEnumerable<TranslationChunk> TranslateStreamCoreAsync(
         ProviderTranslateRequest request,
-        CancellationTokenSource timeoutCts,
-        TimeSpan timeout,
+        Action resetTimeout,
         [EnumeratorCancellation] CancellationToken linkedToken)
     {
         var startTimestamp = _timeProvider.GetTimestamp();
@@ -325,26 +240,7 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
 
         using var httpRequest = new HttpRequestMessage(HttpMethod.Post, requestUri) { Content = content };
 
-        if (!string.IsNullOrWhiteSpace(_credentials.ApiKey))
-        {
-            httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _credentials.ApiKey);
-        }
-
-        if (_options.ExtraHeaders != null)
-        {
-            foreach (var (headerName, headerValue) in _options.ExtraHeaders)
-            {
-                if (string.Equals(headerName, "Authorization", StringComparison.OrdinalIgnoreCase))
-                {
-                    LogIgnoredAuthorizationHeader(_logger, headerName);
-                    continue;
-                }
-                if (!httpRequest.Headers.TryAddWithoutValidation(headerName, headerValue))
-                {
-                    LogFailedToAddHeader(_logger, headerName);
-                }
-            }
-        }
+        ApplyHeaders(httpRequest);
 
         var client = _httpClientFactory.CreateClient(HttpClientNames.Llm);
         using var response = await client.SendAsync(httpRequest, HttpCompletionOption.ResponseHeadersRead, linkedToken).ConfigureAwait(false);
@@ -434,9 +330,9 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
             }
 
             TokenUsage? usage = null;
-            if (completionResponse.Usage != null && completionResponse.Usage.PromptTokens.HasValue && completionResponse.Usage.CompletionTokens.HasValue)
+            if (completionResponse.Usage != null && (completionResponse.Usage.PromptTokens.HasValue || completionResponse.Usage.CompletionTokens.HasValue))
             {
-                usage = new TokenUsage(completionResponse.Usage.PromptTokens.Value, completionResponse.Usage.CompletionTokens.Value);
+                usage = new TokenUsage(completionResponse.Usage.PromptTokens, completionResponse.Usage.CompletionTokens);
             }
 
             var finishReasonText = finishReason.ToString();
@@ -448,14 +344,16 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
         else
         {
             var stripper = _options.StripThinkTags ? new ThinkTagStripper() : null;
-            string? lastFinishReason = null;
+            TranslationFinishReason? lastFinishReason = null;
             TokenUsage? usage = null;
             var hasDone = false;
+            var eventCount = 0;
 
             using var responseStream = await response.Content.ReadAsStreamAsync(linkedToken).ConfigureAwait(false);
             await foreach (var sseEvent in SseParser.ReadEventsAsync(responseStream, linkedToken).ConfigureAwait(false))
             {
-                timeoutCts.CancelAfter(timeout);
+                eventCount++;
+                resetTimeout();
 
                 if (string.Equals(sseEvent.Data, "[DONE]", StringComparison.Ordinal))
                 {
@@ -494,9 +392,9 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
                     continue;
                 }
 
-                if (chunk.Usage != null && chunk.Usage.PromptTokens.HasValue && chunk.Usage.CompletionTokens.HasValue)
+                if (chunk.Usage != null && (chunk.Usage.PromptTokens.HasValue || chunk.Usage.CompletionTokens.HasValue))
                 {
-                    usage = new TokenUsage(chunk.Usage.PromptTokens.Value, chunk.Usage.CompletionTokens.Value);
+                    usage = new TokenUsage(chunk.Usage.PromptTokens, chunk.Usage.CompletionTokens);
                 }
 
                 if (chunk.Choices == null || chunk.Choices.Count == 0)
@@ -507,14 +405,7 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
                 var choice = chunk.Choices[0];
                 if (!string.IsNullOrEmpty(choice.FinishReason))
                 {
-                    lastFinishReason = choice.FinishReason;
-                    if (string.Equals(choice.FinishReason, FinishReasons.ContentFilter, StringComparison.OrdinalIgnoreCase) ||
-                        string.Equals(choice.FinishReason, "sensitive", StringComparison.OrdinalIgnoreCase) ||
-                        string.Equals(choice.FinishReason, "insufficient_system_resource", StringComparison.OrdinalIgnoreCase) ||
-                        string.Equals(choice.FinishReason, "network_error", StringComparison.OrdinalIgnoreCase))
-                    {
-                        MapFinishReason(choice.FinishReason);
-                    }
+                    lastFinishReason = MapFinishReason(choice.FinishReason);
                 }
 
                 var deltaContent = choice.Delta?.Content;
@@ -535,17 +426,21 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
                 }
             }
 
-            if (!hasDone && string.IsNullOrEmpty(lastFinishReason))
+            if (!hasDone && lastFinishReason == null)
             {
+                var detail = (eventCount == 0 && !string.Equals(mediaType, "text/event-stream", StringComparison.OrdinalIgnoreCase))
+                    ? $"服务未返回事件流（Content-Type: {mediaType ?? "无"}），请检查 BaseUrl"
+                    : "响应流意外结束";
+
                 throw new IrisException(
                     ErrorCode.InvalidResponse,
                     ErrorMessages.GetDefault(ErrorCode.InvalidResponse),
                     retryable: false,
                     providerId: _profile.Id,
-                    detail: "响应流意外结束");
+                    detail: detail);
             }
 
-            var finalReason = MapFinishReason(lastFinishReason);
+            var finalReason = lastFinishReason ?? TranslationFinishReason.Completed;
             var remaining = stripper?.Flush() ?? string.Empty;
 
             var finishReasonText = finalReason.ToString();
@@ -553,6 +448,30 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
             LogTranslationFinished(_logger, _profile.Id, finishReasonText, elapsedMs, usage?.InputTokens, usage?.OutputTokens);
 
             yield return new TranslationChunk(remaining, Usage: usage, FinishReason: finalReason);
+        }
+    }
+
+    private void ApplyHeaders(HttpRequestMessage httpRequest)
+    {
+        if (!string.IsNullOrWhiteSpace(_credentials.ApiKey))
+        {
+            httpRequest.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _credentials.ApiKey);
+        }
+
+        if (_options.ExtraHeaders != null)
+        {
+            foreach (var (headerName, headerValue) in _options.ExtraHeaders)
+            {
+                if (string.Equals(headerName, "Authorization", StringComparison.OrdinalIgnoreCase))
+                {
+                    LogIgnoredAuthorizationHeader(_logger, headerName);
+                    continue;
+                }
+                if (!httpRequest.Headers.TryAddWithoutValidation(headerName, headerValue))
+                {
+                    LogFailedToAddHeader(_logger, headerName);
+                }
+            }
         }
     }
 
@@ -594,38 +513,29 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
         return TranslationFinishReason.Completed;
     }
 
-    private Exception ClassifyException(
-        Exception ex,
-        CancellationTokenSource timeoutCts,
-        TimeSpan timeout,
-        CancellationToken userToken)
+    private static bool ComputeIsConfigured(TranslationProviderProfile profile, ProviderCredentials credentials)
     {
-        if (userToken.IsCancellationRequested)
+        if (string.IsNullOrWhiteSpace(profile.Model))
         {
-            if (ex is OperationCanceledException oce && oce.CancellationToken == userToken)
-            {
-                return oce;
-            }
-            return new OperationCanceledException(userToken);
+            return false;
         }
 
-        if (timeoutCts.IsCancellationRequested)
+        if (string.IsNullOrWhiteSpace(profile.BaseUrl) || !Uri.TryCreate(profile.BaseUrl, UriKind.Absolute, out var uri))
         {
-            return HttpErrorMapper.Timeout(_profile.Id, timeout);
+            return false;
         }
 
-        if (ex is IrisException irisEx)
+        if (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps)
         {
-            return irisEx;
+            return false;
         }
 
-        var mapped = HttpErrorMapper.TryMapException(ex, _profile.Id);
-        if (mapped != null)
+        if (!string.IsNullOrWhiteSpace(credentials.ApiKey))
         {
-            return mapped;
+            return true;
         }
 
-        return ex;
+        return DynamicWebProxy.IsLocalAddress(uri);
     }
 
     [LoggerMessage(EventId = 1, Level = LogLevel.Debug, Message = "开始翻译请求: ProviderId={ProviderId}, Model={Model}, Input={InputFingerprint}")]
@@ -642,7 +552,4 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
 
     [LoggerMessage(EventId = 5, Level = LogLevel.Debug, Message = "未知的 finish_reason: ProviderId={ProviderId}, Reason={RawReason}")]
     private static partial void LogUnknownFinishReason(ILogger logger, string providerId, string? rawReason);
-
-    [LoggerMessage(EventId = 6, Level = LogLevel.Warning, Message = "测试翻译异常: ProviderId={ProviderId}, Exception={ExceptionType}")]
-    private static partial void LogTestFailed(ILogger logger, string providerId, string exceptionType, Exception exception);
 }

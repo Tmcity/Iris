@@ -1,6 +1,6 @@
 # Iris 架构设计说明书
 
-> 版本：v1.10 · 2026-09-28 · 状态：**已冻结（首期）**
+> 版本：v1.11 · 2026-09-28 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
@@ -11,6 +11,7 @@
 > 变更记录：v1.8（T-006 评审）— §7.3.2 短语规则允许弯撇号；§7.4 单遍替换（防模板注入）、模板查找与有效性；新增 §7.5 文本预处理与软换行合并（保留 ZWJ / ZWNJ，空行压缩规则澄清）。
 > 变更记录：v1.9（T-007 评审）— §5.2 SSE 解析改为包装 .NET 自带解析器；§7.5 修正编号列表正则（避免把小数当作列表编号）；§11.2 补全状态码、异常映射与错误信息提取；§11.3 命名 HttpClient 的完整配置（移除会记录完整 URL 的默认日志）；§12.4 代理细则；§12.5 URL 与服务端错误信息的脱敏。
 > 变更记录：v1.10（T-008 评审）— §9.1 OpenAI 兼容 Provider 完整行为规范（配置判定、请求构造、无进展超时、异常归类、响应分流、流结束判定、`<think>` 剥离状态机、TestAsync、模型列表）；§11.2 异常 Detail 必须脱敏；§12.4 本地地址判断处理 IPv4 映射地址与末尾的点；§12.5 新增 URL 账号密码脱敏规则。
+> 变更记录：v1.11（T-009 评审）— §9.2 Anthropic Provider 依据 SDK 12.50.0 实测重写（显式隔离 SDK 读取的环境变量凭据与地址、关闭 SDK 自带重试、回退启用条件、流截断检测、异常映射与隐私要求）；§9.1 非事件流响应的错误提示、Usage 允许部分缺失、TestAsync 的 Unknown 结果带 ProviderId 且日志不传入异常对象。
 > 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
@@ -471,10 +472,10 @@ return new OcrOutcome(raw, text, usedFallback)
 - `HttpCompletionOption.ResponseHeadersRead`。非 2xx → `HttpErrorMapper.FromResponseAsync(response, providerId, [ApiKey], ct)` 并抛出。
 - 2xx 且 `Content-Type` 的媒体类型为 `application/json` → 无论是否请求了流式，都按**非流式**处理（部分服务忽略 `stream=true`，或直接返回错误 JSON）。其他媒体类型（含缺失）→ 按 SSE 处理。
 - **SSE**：`SseParser.ReadEventsAsync`。对每个事件：`data == "[DONE]"` → 结束；`EventType == "error"` 或 data 是含 `error` 属性的 JSON 对象 → `HttpErrorMapper.FromBody(200, data, …)` 并抛出；否则反序列化为 `ChatCompletionChunk`：`choices` 为 null 或空时跳过（`include_usage` 的最后一个 Chunk 就是这样）；取 `choices[0].delta.content` 作为 Delta（**忽略 `reasoning_content`**）；记录最后一个非空的 `finish_reason`；`usage` 出现时记下。data 不是合法 JSON → `JsonException` → 经统一出口映射为 InvalidResponse。
-- **流的结束**：收到 `[DONE]`，或流结束（EOF）时已经收到过 `finish_reason` → 正常结束；EOF 时既没有 `[DONE]` 也没有 `finish_reason` → `IrisException(InvalidResponse, detail: "响应流意外结束")`（连接中途断开）。
+- **流的结束**：收到 `[DONE]`，或流结束（EOF）时已经收到过 `finish_reason` → 正常结束；EOF 时既没有 `[DONE]` 也没有 `finish_reason` → `IrisException(InvalidResponse)`：一个 SSE 事件都没有收到、且媒体类型不是 `text/event-stream` 时，`detail` 为 `"服务未返回事件流（Content-Type: {媒体类型，缺失时写“无”}），请检查 BaseUrl"`（常见于 BaseUrl 填错、网关返回 200 的 HTML 页面）；否则为 `"响应流意外结束"`（连接中途断开）。
 - **非流式**：用 `LimitedReadStream`（上限 `SseParser.DefaultMaxResponseBytes`）包装响应流后反序列化。根对象含 `error` 属性 → `FromBody(200, …)` 并抛出（需要原文，因此先把受限流读成字符串，再解析）；否则按 `ChatCompletionResponse` 取 `choices[0].message.content`（忽略 `reasoning_content`）；`choices` 为空或 `content` 为 null → InvalidResponse。
 - **finish_reason**：`stop` → Completed；`length` → Truncated；`content_filter`、`sensitive`（智谱 GLM）→ 抛 `ContentRefused`（已输出的部分作废）；null 或其他值 → Completed，并记一条 Debug 日志（写入该值）。各服务的取值以 T-009 核对官方文档的结果为准。
-- **输出**：内容片段依次经过 `ThinkTagStripper`（`StripThinkTags` 为 true 时）后，非空才产出 `TranslationChunk(delta)`（FinishReason 为 null）。**最后恰好产出一个**带 `FinishReason`（非 null）与 `Usage` 的 Chunk，其 Delta = 剥离器 `Flush()` 的剩余内容（可为空串）。`Usage` = `TokenUsage(prompt_tokens, completion_tokens)`，没有 usage 时为 null。非流式同样遵守此约定：一个 Chunk，Delta 为剥离后的完整文本，同时带 FinishReason 与 Usage。
+- **输出**：内容片段依次经过 `ThinkTagStripper`（`StripThinkTags` 为 true 时）后，非空才产出 `TranslationChunk(delta)`（FinishReason 为 null）。**最后恰好产出一个**带 `FinishReason`（非 null）与 `Usage` 的 Chunk，其 Delta = 剥离器 `Flush()` 的剩余内容（可为空串）。`Usage` = `TokenUsage(prompt_tokens, completion_tokens)`（任一项缺失时该项为 null）；没有 usage 对象、或两项都缺失时为 null。非流式同样遵守此约定：一个 Chunk，Delta 为剥离后的完整文本，同时带 FinishReason 与 Usage。
 - 消费者提前结束枚举（`DisposeAsync`）时必须释放 `HttpResponseMessage`，不得泄漏连接。
 
 **`<think>` 剥离（`ThinkTagStripper`，internal sealed，每次请求一个实例，非线程安全）**
@@ -484,7 +485,7 @@ return new OcrOutcome(raw, text, usedFallback)
 - 已知限制：个别服务只输出 `</think>` 而省略开头的 `<think>`，本剥离器不处理此情况。
 
 **`TestAsync`**
-- 以 `ProviderTranslateRequest("Hello, world.", "en", Settings.Translation.PrimaryTargetLanguage)` 走与 `TranslateStreamAsync` 相同的路径，拼接全部 Delta 作为 `Sample`；`Latency` 用 `TimeProvider.GetElapsedTime` 计算。`IrisException` → `Success = false`、`Error = ex.ToErrorInfo()`；调用方 ct 取消 → 抛 `OperationCanceledException`（取消不是测试结果）；其他异常 → `Success = false`、`Error` 为 `ErrorCode.Unknown`（Message 取 `ErrorMessages.GetDefault(Unknown)`，Detail 只写异常类型名），并记 Warning 日志。
+- 以 `ProviderTranslateRequest("Hello, world.", "en", Settings.Translation.PrimaryTargetLanguage)` 走与 `TranslateStreamAsync` 相同的路径，拼接全部 Delta 作为 `Sample`；`Latency` 用 `TimeProvider.GetElapsedTime` 计算。`IrisException` → `Success = false`、`Error = ex.ToErrorInfo()`；调用方 ct 取消 → 抛 `OperationCanceledException`（取消不是测试结果）；其他异常 → `Success = false`、`Error` 为 `ErrorCode.Unknown`（Message 取 `ErrorMessages.GetDefault(Unknown)`，Detail 只写异常类型名，`ProviderId` 为 Profile Id），并记 Warning 日志（只写异常类型名，不传入异常对象——异常消息可能包含服务端响应体）。
 
 **模型列表（`IModelCatalogSource`）**
 - `GET {BaseUrl.TrimEnd('/')}/models`，Header 规则与翻译请求相同，总超时 `TimeoutSeconds`，异常归类同上。非 2xx → `HttpErrorMapper`。返回 `data[].id`：去掉空白项、去重（序数比较），再按 `StringComparer.OrdinalIgnoreCase` 排序；`data` 为 null → InvalidResponse。
@@ -509,20 +510,71 @@ data: [DONE]
 
 ### 9.2 Anthropic（`AnthropicTranslationProvider`，官方 SDK）
 
-- **包**：NuGet `Anthropic`（官方 C# SDK）。非 beta 类型在 `Anthropic.Models.Messages`，beta 类型在 `Anthropic.Models.Beta.Messages`，异常在 `Anthropic.Exceptions`。**不要手写 Messages API 的 HTTP 请求。**
-- **客户端**：每个 Profile 一个 `AnthropicClient`，传入 `ApiKey = credentials.ApiKey`；`BaseUrl` 非空时覆盖服务地址；尽量注入由 `IHttpClientFactory` 创建的 `HttpClient`（命名客户端 `iris.llm`），使代理设置生效——SDK 的具体属性名以编译结果为准（参考 SDK README / examples）。
-- **请求参数**：`Model = profile.Model`（默认预设 `claude-opus-5`）；`MaxTokens = profile.MaxOutputTokens ?? 16000`；`System = Rendered.System`；`Messages = [User: Rendered.User]`；`AnthropicOptions.Effort` 非空时设置 `OutputConfig = new OutputConfig { Effort = ... }`（翻译场景默认 `low`，以降低延迟）。
-  - **不发送 `Temperature`**（新模型会拒绝非默认采样参数并返回 400），忽略 `profile.Temperature`。
-  - **不设置 `Thinking`**：Claude Opus 5 默认启用自适应思考，用 effort 控制深度即可。Haiku 4.5 等不支持 effort 的模型，用户需把 `Effort` 置为 null（设置页在模型名包含 `haiku` 时自动置空并给出提示）。
-  - 不要构造以 assistant 消息结尾的“预填充”（新模型会返回 400）。
-- **流式**：`client.Messages.CreateStreaming(params)`，`await foreach` 遍历 `RawMessageStreamEvent`：
-  - `TryPickContentBlockDelta` 且 `delta.Delta.TryPickText(out var t)` → 产出 `t.Text`。**只取 text delta**，thinking / signature delta 一律忽略（启用思考时流中会出现 thinking 内容块）。
-  - `TryPickDelta`（message_delta）→ 读 `StopReason` 与 usage。
-  - `stop_reason`：`end_turn` / `stop_sequence` → Completed；`max_tokens` → Truncated；`refusal` → 抛 `ContentRefused`（已输出的部分内容作废）。
-- **拒答回退**（`RefusalFallback = true`，仅官方地址生效）：走 beta 路径 `client.Beta.Messages`，按 SDK README 设置服务端 fallback。首选 `fallbacks: "default"` + beta `server-side-fallback-2026-07-01`；如果当前 SDK 版本不支持字符串形式，改用数组形式 `Fallbacks = [new(Model.ClaudeOpus4_8)]` + `AnthropicBeta.ServerSideFallback2026_06_01`。使用自定义 `BaseUrl`（反代）时禁用回退。T-010 以编译通过为准确定最终写法，并在工单报告中记录。
-- **异常映射**：`AnthropicRateLimitException` → RateLimited；`Anthropic5xxException` → ProviderUnavailable；其余 `AnthropicApiException` 按 HTTP 状态码走 §11.2；网络异常 → NetworkUnavailable。按“最具体优先”的顺序逐个 catch。
-- **模型列表**：`await client.Models.List()` → `page.Items[].ID`。
-- **可测试性**：若 SDK 支持注入 `HttpClient`，测试用 MockHttp 返回下方的 SSE 夹具；若不支持，在 Provider 内部抽象出 `IAnthropicStreamSource`（internal 接口）作为测试缝。
+> 本节依据架构师对 NuGet `Anthropic` **12.50.0** 的编译与本地服务器实测（2026-09-28）。标注“实测”的条目是观察到的 SDK 行为，不是推测；升级 SDK 版本时须重新验证这些条目。
+
+**包与原则**
+- NuGet `Anthropic`（官方 C# SDK，版本 12.50.0）。非 beta 类型在 `Anthropic.Models.Messages`，beta 类型在 `Anthropic.Models.Beta.Messages`（两者都有 `MessageCreateParams` 与 `Role`，同时引用时给 beta 命名空间起别名，例如 `using Beta = Anthropic.Models.Beta.Messages;`），异常在 `Anthropic.Exceptions`。**不要手写 Messages API 的 HTTP 请求。**
+- 由 `AnthropicTranslationProviderFactory`（`ITranslationProviderFactory`，单例，`TryAddEnumerable` 注册）创建，依赖与 §9.1 的 Factory 相同。`Create` 时 `Kind` 不是 Anthropic → `ArgumentException`；`AnthropicOptions` 为 null → `new AnthropicOptions()`。
+
+**客户端构造（每个 Provider 实例一个，在构造函数中创建）——安全要求**
+
+```csharp
+new AnthropicClient
+{
+    ApiKey = string.IsNullOrWhiteSpace(credentials.ApiKey) ? null : credentials.ApiKey,
+    AuthToken = null,
+    BaseUrl = string.IsNullOrWhiteSpace(profile.BaseUrl) ? EnvironmentUrl.Production : profile.BaseUrl.TrimEnd('/'),
+    HttpClient = httpClientFactory.CreateClient(HttpClientNames.Llm),
+    MaxRetries = 0,
+    Timeout = Timeout.InfiniteTimeSpan,
+}
+```
+- **`ApiKey`、`AuthToken`、`BaseUrl` 三项必须全部显式赋值（包括显式赋 null）**。实测：这三个属性的默认值分别取自环境变量 `ANTHROPIC_API_KEY`、`ANTHROPIC_AUTH_TOKEN`、`ANTHROPIC_BASE_URL`。只设置 `ApiKey` 时，请求里仍会带上 `Authorization: Bearer {ANTHROPIC_AUTH_TOKEN}`；不设置 `BaseUrl` 时，请求会发往 `ANTHROPIC_BASE_URL`。安装了 Claude Code 等工具的机器上这些变量很常见（架构师与开发的机器上都有），后果是用户本机的其他凭据被发给用户配置的反代服务器，或者请求被发到错误的地址。重写 `ShouldAutoResolveCredentials` **无效**（实测）。
+- `MaxRetries = 0`：重试由 `iris.llm` 的弹性管道负责（§11.3）。SDK 默认重试 2 次，与管道叠加后一次请求最多会发出 6 次（实测 SDK 自身 3 次）。
+- `Timeout = Timeout.InfiniteTimeSpan`：超时由 Provider 的 CTS 负责（与 §9.1 相同的无进展超时）。
+- `BaseUrl` 是 `/v1/messages` 之前的部分：实测 `BaseUrl = "http://h/proxy"` → `POST http://h/proxy/v1/messages`。反代地址**不应**以 `/v1` 结尾（设置页 T-019 需提示）。
+- **`Descriptor.IsConfigured`** = `Model` 非空白 **且**（`BaseUrl` 为空白，或为 scheme 为 http / https 的绝对 URI）**且**（`ApiKey` 非空白，或 `BaseUrl` 非空白且主机是本地地址（`DynamicWebProxy.IsLocalAddress`））。未配置 → 与 §9.1 相同，第一次 `MoveNextAsync` 时抛 `NotConfigured`，不发请求。
+- `KindName = "Anthropic"`。
+
+**请求**
+- `Model = profile.Model`；`MaxTokens = profile.MaxOutputTokens ?? 16000`；`System = Rendered.System`（空白时不设置）；`Messages = [User: Rendered.User]`；`AnthropicOptions.Effort` 非空白时 `OutputConfig = new OutputConfig { Effort = effort }`（字符串可直接赋值，实测序列化为 `"output_config":{"effort":"low"}`），空白或 null 时不设置 `OutputConfig`。
+- **不发送 `Temperature`**（新模型对非默认采样参数返回 400），忽略 `profile.Temperature`。**不设置 `Thinking`**：Claude Opus 5 默认启用自适应思考，用 effort 控制深度；思考内容默认不返回正文（display 为 omitted），流中的 thinking 块一律忽略。不构造以 assistant 消息结尾的预填充。
+- 模板与渲染同 §9.1。
+- **拒答回退**：满足以下**全部**条件时走 beta 路径，否则走非 beta 路径 `client.Messages.CreateStreaming(params, token)`：
+  1. `AnthropicOptions.RefusalFallback = true`；
+  2. `profile.BaseUrl` 为空白（官方地址；反代未必支持该 beta）；
+  3. `profile.Model` 以 `claude-opus-5` 或 `claude-fable-` 开头（`OrdinalIgnoreCase`）——这是已知支持服务端回退的模型；对其他模型发送该参数的行为未经验证。
+
+  beta 路径：`client.Beta.Messages.CreateStreaming(new Beta.MessageCreateParams { …同上…, OutputConfig = new Beta.BetaOutputConfig { Effort = … }, Fallbacks = new Beta.Default(), Betas = [AnthropicBeta.ServerSideFallback2026_07_01] }, token)`。实测线上格式为 `"fallbacks":"default"` + 请求头 `anthropic-beta: server-side-fallback-2026-07-01`。服务端回退对客户端透明：拒答发生在输出之前时，流直接由回退模型输出；发生在输出中途时，已输出的部分保留，由回退模型接着输出（中间会出现一个 `fallback` 类型的内容块，忽略即可）。最终仍为 `refusal` 表示整条回退链都拒绝了。
+
+**流处理**（beta 与非 beta 的事件类型不同，但 `TryPick*` 方法名相同，实测两条路径都能编译）
+- 每收到一个流事件（包括 `ping`）都重置无进展超时计时（§9.1 的规则）。
+- `TryPickStart` → 记录 `Message.Usage.InputTokens`。
+- `TryPickContentBlockDelta` 且 `Delta.TryPickText(out var t)` → `t.Text` 非空时产出 Delta。**只取 text delta**：thinking / signature delta、`fallback` 块、其他块一律忽略。
+- `TryPickDelta`（message_delta）→ 记录 `Delta.StopReason`（用 `.Raw()` 取原始字符串；实测未知的取值会原样透传，例如 `brand_new_reason`）与 `Usage.OutputTokens`（累计值，取最后一次）。
+- **流的结束**：实测流在 `message_delta` 之前断开时，SDK **静默结束、不抛异常**。因此枚举结束时如果没有收到过 `stop_reason` → `IrisException(InvalidResponse, detail: "响应流意外结束")`。
+- `stop_reason`：`end_turn`、`stop_sequence` → Completed；`max_tokens`、`model_context_window_exceeded` → Truncated；`refusal` → 抛 `ContentRefused`（已输出的部分作废；`Detail = "模型拒绝回答（stop_reason=refusal）"`）；其他 → Completed，并记一条 Debug 日志（写入该值）。
+- 输出约定与 §9.1 完全相同：内容 Chunk 的 FinishReason 为 null；**最后恰好一个** Delta 为空串、带 FinishReason 与 `Usage = TokenUsage(InputTokens, OutputTokens)` 的 Chunk（两者都没有时 Usage 为 null；SDK 的 token 数为 long，转换为 int 时超出 `int.MaxValue` 的取 `int.MaxValue`）。
+
+**异常映射**（全部经过与 §9.1 相同的统一出口：用户取消 → 超时 → 下表 → `HttpErrorMapper.TryMapException` → 原样抛出）
+
+| SDK 异常（实测） | 何时出现 | 映射 |
+|---|---|---|
+| `AnthropicApiException` 及其子类（`Anthropic4xxException`、`AnthropicRateLimitException`、`AnthropicUnauthorizedException`、`AnthropicNotFoundException`、`Anthropic5xxException`…） | 非 2xx 响应。带 `StatusCode`（`HttpStatusCode`）与 `ResponseBody` | `HttpErrorMapper.FromBody((int)ex.StatusCode, ex.ResponseBody, providerId, [ApiKey])`。§11.2 的状态码表已覆盖全部情况（413 → InputTooLong、529 → ProviderUnavailable、网关返回的 HTML 502 等），**不需要**按子类逐个 catch |
+| `AnthropicSseException` | 流中出现 `event: error`（2xx 之后）。没有状态码，`ErrorType` 为错误类型枚举，未知类型时为 null | 按下方“等效状态码”调用 `HttpErrorMapper.FromBody(等效状态码, json, …)`。`json` = `ex.Message` 中第一个 `'` 与最后一个 `'` 之间的部分（实测格式：`SSE error returned from server: '{json}'`），提取失败时使用整条消息 |
+| `AnthropicInvalidDataException` | 事件 JSON 无法解析（内部异常为 `JsonException`） | `IrisException(InvalidResponse, detail: "无法解析的流事件")` |
+| `AnthropicIOException` | 网络错误（内部异常为 `HttpRequestException`） | `HttpErrorMapper.TryMapException(ex.InnerException ?? ex, providerId)`；结果为 null 时 → NetworkUnavailable，Detail 为 `SecretRedactor.Redact(ex.Message)` |
+| `OperationCanceledException` / `TaskCanceledException` | 取消或超时（实测：读流时取消抛 `TaskCanceledException`） | 统一出口的前两步 |
+
+等效状态码（`ErrorType` → 状态码）：`RateLimitError` → 429；`OverloadedError` → 529；`ApiError` → 500；`InvalidRequestError` → 400；`AuthenticationError` → 401；`PermissionError` → 403；`NotFoundError` → 404；`BillingError` → 402；`RequestTooLarge` → 413；`TimeoutError` → 504；null 或其他 → 500（枚举成员名以编译结果为准）。异常的 `HttpStatus` 即为该等效状态码。
+
+- **隐私（安全要求）**：实测 `AnthropicApiException.Message` 与 `AnthropicSseException.Message` 都**原样包含服务端响应体**（反代可能在其中回显密钥）。因此：① `Detail` 一律来自 `HttpErrorMapper`（已脱敏）；② **不得**把 `AnthropicApiException`、`AnthropicSseException`、`AnthropicInvalidDataException` 作为 `innerException` 传入 `IrisException`（日志会输出内部异常的消息，`IrisException.ToErrorInfo()` 在 Detail 为 null 时也会回退到内部异常的消息）；③ 这些异常不得以任何形式写入日志。
+
+**TestAsync**：与 §9.1 完全相同（共用实现，见 T-010 工单）。
+
+**模型列表（`IModelCatalogSource`）**：`await client.Models.List(cancellationToken)`，遍历全部分页（SDK 的分页 API 以编译结果为准；最多取 1000 项），返回 `ID`，去空白、去重、排序规则同 §9.1。总超时 `TimeoutSeconds`，异常映射同上。
+
+**可测试性**：实测 SDK 支持注入 `HttpClient`，测试用 MockHttp 返回下方的 SSE 夹具，并断言线上请求（地址、请求头、请求体 JSON）。
 
 SSE 线协议参考（夹具 `anthropic_stream_ok.txt`）：
 

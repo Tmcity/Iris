@@ -11,6 +11,7 @@ using Polly;
 using Polly.Retry;
 using Iris.Core.Translation;
 using Iris.Providers.Http;
+using Iris.Providers.Translation.Anthropic;
 using Iris.Providers.Translation.OpenAICompatible;
 
 namespace Iris.Providers.DependencyInjection;
@@ -33,6 +34,8 @@ public static class ProvidersServiceCollectionExtensions
 
         services.TryAddEnumerable(
             ServiceDescriptor.Singleton<ITranslationProviderFactory, OpenAICompatibleTranslationProviderFactory>());
+        services.TryAddEnumerable(
+            ServiceDescriptor.Singleton<ITranslationProviderFactory, AnthropicTranslationProviderFactory>());
 
         var informationalVersion = typeof(ProvidersServiceCollectionExtensions).Assembly
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;

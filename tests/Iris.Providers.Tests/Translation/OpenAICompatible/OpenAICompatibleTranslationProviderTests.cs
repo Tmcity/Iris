@@ -622,6 +622,75 @@ public sealed class OpenAICompatibleTranslationProviderTests
     }
 
     [Fact]
+    public async Task Stream_NoEventsAndContentTypeHtml_ThrowsInvalidResponseWithCheckBaseUrl()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.When("https://api.openai.com/v1/chat/completions")
+            .Respond("text/html", "<html><body>Gateway 200</body></html>");
+
+        var provider = CreateProvider(mockHttp);
+
+        var ex = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await foreach (var _ in provider.TranslateStreamAsync(new ProviderTranslateRequest("hi", "en", "zh-CN"), TestContext.Current.CancellationToken))
+            {
+            }
+        });
+
+        ex.Code.ShouldBe(ErrorCode.InvalidResponse);
+        ex.Detail.ShouldNotBeNull();
+        ex.Detail.ShouldContain("服务未返回事件流（Content-Type: text/html），请检查 BaseUrl");
+    }
+
+    [Fact]
+    public async Task Stream_PartialUsage_PromptTokensOnly_ConstructsTokenUsage()
+    {
+        var fixture = "data: {\"choices\":[{\"delta\":{\"content\":\"test\"},\"finish_reason\":null}]}\n\n" +
+                      "data: {\"choices\":[],\"usage\":{\"prompt_tokens\":15}}\n\n" +
+                      "data: [DONE]\n\n";
+
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.When("https://api.openai.com/v1/chat/completions")
+            .Respond("text/event-stream", fixture);
+
+        var provider = CreateProvider(mockHttp);
+        var chunks = new List<TranslationChunk>();
+
+        await foreach (var chunk in provider.TranslateStreamAsync(new ProviderTranslateRequest("hi", "en", "zh-CN"), TestContext.Current.CancellationToken))
+        {
+            chunks.Add(chunk);
+        }
+
+        chunks.Count.ShouldBe(2);
+        chunks[1].Usage.ShouldNotBeNull();
+        chunks[1].Usage!.InputTokens.ShouldBe(15);
+        chunks[1].Usage!.OutputTokens.ShouldBeNull();
+    }
+
+    [Fact]
+    public async Task NonStreaming_PartialUsage_CompletionTokensOnly_ConstructsTokenUsage()
+    {
+        var jsonResponse = "{\"choices\":[{\"message\":{\"role\":\"assistant\",\"content\":\"译文\"},\"finish_reason\":\"stop\"}],\"usage\":{\"completion_tokens\":8}}";
+
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.When("https://api.openai.com/v1/chat/completions")
+            .Respond("application/json", jsonResponse);
+
+        var provider = CreateProvider(mockHttp);
+        var chunks = new List<TranslationChunk>();
+
+        await foreach (var chunk in provider.TranslateStreamAsync(new ProviderTranslateRequest("hi", "en", "zh-CN"), TestContext.Current.CancellationToken))
+        {
+            chunks.Add(chunk);
+        }
+
+        chunks.Count.ShouldBe(1);
+        chunks[0].Usage.ShouldNotBeNull();
+        chunks[0].Usage!.InputTokens.ShouldBeNull();
+        chunks[0].Usage!.OutputTokens.ShouldBe(8);
+    }
+
+    [Fact]
     public async Task Stream_EndsWithFinishReasonWithoutDone_CompletesNormally()
     {
         var fixture = "data: {\"choices\":[{\"delta\":{\"content\":\"hello\"},\"finish_reason\":\"stop\"}]}\n\n";
@@ -961,19 +1030,28 @@ public sealed class OpenAICompatibleTranslationProviderTests
             return chunks;
         }, TestContext.Current.CancellationToken);
 
+        await stream.WaitForReadAsync();
         for (var i = 0; i < 5; i++)
         {
             stream.Push($"data: {{\"choices\":[{{\"delta\":{{\"content\":\"chunk{i}\"}},\"finish_reason\":null}}]}}\n\n");
-            await Task.Delay(50, TestContext.Current.CancellationToken);
+            await stream.WaitForReadAsync();
             timeProvider.Advance(TimeSpan.FromSeconds(6));
         }
 
         stream.Push("data: {\"choices\":[{\"delta\":{},\"finish_reason\":\"stop\"}]}\n\n");
+        await stream.WaitForReadAsync();
         stream.Push("data: [DONE]\n\n");
         stream.Complete();
 
         var results = await translateTask;
-        results.Count.ShouldBeGreaterThan(0);
+        results.Count.ShouldBe(6);
+        for (var i = 0; i < 5; i++)
+        {
+            results[i].Delta.ShouldBe($"chunk{i}");
+            results[i].FinishReason.ShouldBeNull();
+        }
+        results[5].Delta.ShouldBeEmpty();
+        results[5].FinishReason.ShouldBe(TranslationFinishReason.Completed);
     }
 
     [Fact]
@@ -1005,8 +1083,9 @@ public sealed class OpenAICompatibleTranslationProviderTests
             return chunks;
         }, TestContext.Current.CancellationToken);
 
+        await stream.WaitForReadAsync();
         stream.Push("data: {\"choices\":[{\"delta\":{\"content\":\"first\"},\"finish_reason\":null}]}\n\n");
-        await Task.Delay(50, TestContext.Current.CancellationToken);
+        await stream.WaitForReadAsync();
 
         timeProvider.Advance(TimeSpan.FromSeconds(11));
 
@@ -1036,6 +1115,21 @@ public sealed class OpenAICompatibleTranslationProviderTests
             }
         });
 
+        // Waiting for response headers
+        var delayingHandler = new DelayingHandler(Timeout.InfiniteTimeSpan);
+        var providerHeaders = CreateProvider(delayingHandler);
+        using var ctsHeaders = new CancellationTokenSource();
+        var headersTask = Task.Run(async () =>
+        {
+            await foreach (var _ in providerHeaders.TranslateStreamAsync(new ProviderTranslateRequest("hi", "en", "zh-CN"), ctsHeaders.Token))
+            {
+            }
+        }, TestContext.Current.CancellationToken);
+
+        await delayingHandler.Entered;
+        ctsHeaders.Cancel();
+        await Should.ThrowAsync<OperationCanceledException>(async () => await headersTask);
+
         // During stream reading
         var stream = new ControllableStream();
         var mockHttp2 = new MockHttpMessageHandler();
@@ -1060,8 +1154,9 @@ public sealed class OpenAICompatibleTranslationProviderTests
             }
         }, TestContext.Current.CancellationToken);
 
+        await stream.WaitForReadAsync();
         stream.Push("data: {\"choices\":[{\"delta\":{\"content\":\"a\"},\"finish_reason\":null}]}\n\n");
-        await Task.Delay(50, TestContext.Current.CancellationToken);
+        await stream.WaitForReadAsync();
         ctsDuring.Cancel();
 
         await Should.ThrowAsync<OperationCanceledException>(async () => await readTask);
@@ -1456,9 +1551,27 @@ public sealed class OpenAICompatibleTranslationProviderTests
         private readonly Channel<byte[]> _channel = Channel.CreateUnbounded<byte[]>();
         private byte[]? _currentChunk;
         private int _currentOffset;
+        private TaskCompletionSource _waitingToRead = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public async Task WaitForReadAsync()
+        {
+            TaskCompletionSource tcs;
+            lock (_channel)
+            {
+                tcs = _waitingToRead;
+            }
+            await tcs.Task.ConfigureAwait(false);
+        }
 
         public void Push(string sseText)
         {
+            lock (_channel)
+            {
+                if (_waitingToRead.Task.IsCompleted)
+                {
+                    _waitingToRead = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                }
+            }
             _channel.Writer.TryWrite(Encoding.UTF8.GetBytes(sseText));
         }
 
@@ -1471,6 +1584,11 @@ public sealed class OpenAICompatibleTranslationProviderTests
         {
             while (_currentChunk == null || _currentOffset >= _currentChunk.Length)
             {
+                lock (_channel)
+                {
+                    _waitingToRead.TrySetResult();
+                }
+
                 if (!await _channel.Reader.WaitToReadAsync(cancellationToken).ConfigureAwait(false))
                 {
                     return 0;

@@ -318,7 +318,7 @@ public sealed class HttpClientPipelineTests
     }
 
     [Fact]
-    public void AddIrisProviders_RegistersExactlyOneOpenAICompatibleFactory_EvenWhenCalledTwice()
+    public void AddIrisProviders_RegistersExactlyOneOfEachFactory_EvenWhenCalledTwice()
     {
         var mockHttp = new MockHttpMessageHandler();
         var services = CreateServices(mockHttp);
@@ -328,5 +328,6 @@ public sealed class HttpClientPipelineTests
         var factories = sp.GetRequiredService<System.Collections.Generic.IEnumerable<ITranslationProviderFactory>>().ToList();
 
         factories.Count(f => f.Kind == TranslationProviderKind.OpenAICompatible).ShouldBe(1);
+        factories.Count(f => f.Kind == TranslationProviderKind.Anthropic).ShouldBe(1);
     }
 }
