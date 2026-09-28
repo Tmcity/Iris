@@ -94,7 +94,7 @@ T-010B 将以下已批准注释机械同步到 `specs/CONTRACTS.cs` 对应段及
 | 字段 | 值 |
 |---|---|
 | 提出与批准 | 架构师 Codex，2026-09-28 |
-| 状态 | **已落地，待 T-011-R1 复审**（2026-09-29：屏障/租约验收未通过，接口签名不需变更） |
+| 状态 | **已落地，待 T-011-R2 复审**（2026-09-29：R1 主要修复接受；锁边界与回归验证待收尾，接口签名不需变更） |
 | 设计依据 | specs/PROVIDER_REGISTRY.md（A03/A04） |
 | 兼容性 | 替换尚无业务调用方的 Registry 原型接口；Profile 新增可空字段，旧 JSON 与 schemaVersion 不变；ITranslationProvider/Factory 本身的签名不变 |
 

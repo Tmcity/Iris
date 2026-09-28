@@ -42,6 +42,7 @@ public sealed class TranslationProviderRegistryTests : IDisposable
         public TranslationProviderProfile Profile { get; }
         public ProviderCredentials Credentials { get; }
         public int DisposeCount { get; private set; }
+        public Action? OnDispose { get; set; }
 
         public TestDisposableProvider(TranslationProviderProfile profile, ProviderCredentials credentials, bool isConfigured = true)
         {
@@ -64,6 +65,49 @@ public sealed class TranslationProviderRegistryTests : IDisposable
         public void Dispose()
         {
             DisposeCount++;
+            OnDispose?.Invoke();
+        }
+    }
+
+    private sealed class TestGate : IDisposable
+    {
+        public TaskCompletionSource Entered { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private readonly ManualResetEventSlim _release = new();
+
+        public void Pause(TimeSpan? timeout = null)
+        {
+            Entered.TrySetResult();
+            if (!_release.Wait(timeout ?? TimeSpan.FromSeconds(8)))
+            {
+                throw new TimeoutException("TestGate wait timed out.");
+            }
+        }
+
+        public void Open() => _release.Set();
+
+        public void Dispose()
+        {
+            _release.Set();
+            _release.Dispose();
+        }
+    }
+
+    private sealed class TestQueueSynchronizationContext : SynchronizationContext
+    {
+        private readonly Queue<Action> _actions = new();
+        public int Count => _actions.Count;
+
+        public override void Post(SendOrPostCallback d, object? state)
+        {
+            _actions.Enqueue(() => d(state));
+        }
+
+        public void Drain()
+        {
+            while (_actions.TryDequeue(out var action))
+            {
+                action();
+            }
         }
     }
 
@@ -810,15 +854,13 @@ public sealed class TranslationProviderRegistryTests : IDisposable
         var p1 = new TranslationProviderProfile { Id = "tp-1", Kind = TranslationProviderKind.OpenAICompatible, DisplayName = "P1", Model = "model-a", Enabled = true };
         _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1] } };
 
-        var factoryEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var factoryGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var factoryGate = new TestGate();
 
         var factory = new DelegatingFactory(TranslationProviderKind.OpenAICompatible, (p, c) =>
         {
             if (p.Model == "model-b")
             {
-                factoryEntered.TrySetResult();
-                factoryGate.Task.GetAwaiter().GetResult();
+                factoryGate.Pause();
             }
             return new TestDisposableProvider(p, c);
         });
@@ -838,7 +880,7 @@ public sealed class TranslationProviderRegistryTests : IDisposable
         var refreshTask = registry.RefreshAsync(TestContext.Current.CancellationToken);
 
         // Wait until factory for model-b is entered
-        await factoryEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        await factoryGate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
         // While refresh is paused on gate, acquire snapshot
         var acquireTask = registry.AcquireSnapshotAsync(TestContext.Current.CancellationToken);
@@ -847,7 +889,7 @@ public sealed class TranslationProviderRegistryTests : IDisposable
         acquireTask.IsCompleted.ShouldBeFalse();
 
         // Release factory gate
-        factoryGate.TrySetResult();
+        factoryGate.Open();
 
         await refreshTask;
         using var snapB = await acquireTask;
@@ -915,40 +957,55 @@ public sealed class TranslationProviderRegistryTests : IDisposable
         var p1 = new TranslationProviderProfile { Id = "tp-1", Kind = TranslationProviderKind.OpenAICompatible, DisplayName = "P1", Model = "model-a", Enabled = true };
         _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1] } };
 
-        var bEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var bGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var bGate = new TestGate();
+        var cCreated = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         var factory = new DelegatingFactory(TranslationProviderKind.OpenAICompatible, (p, c) =>
         {
             if (p.Model == "model-b")
             {
-                bEntered.TrySetResult();
-                bGate.Task.GetAwaiter().GetResult();
+                bGate.Pause();
+            }
+            if (p.Model == "model-c")
+            {
+                cCreated.TrySetResult();
             }
             return new TestDisposableProvider(p, c);
         });
 
         using var registry = new TranslationProviderRegistry(_settingsService, _secretStore, [factory], _logger);
-        await registry.RefreshAsync(TestContext.Current.CancellationToken);
+        using var old = await registry.AcquireSnapshotAsync(TestContext.Current.CancellationToken);
+        old.Providers[0].Profile.Model.ShouldBe("model-a");
 
         // Start B rebuild
         _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1 with { Model = "model-b" }] } };
         var bTask = registry.RefreshAsync(TestContext.Current.CancellationToken);
 
-        await bEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        await bGate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
-        // While B is paused, new event C arrives
+        // While B is paused, queue an acquire, verify waiting on B, then cancel it to clear waiters
+        using var acquireCts = new CancellationTokenSource();
+        var acquireTask = registry.AcquireSnapshotAsync(acquireCts.Token);
+        acquireTask.IsCompleted.ShouldBeFalse();
+        acquireCts.Cancel();
+        await Should.ThrowAsync<OperationCanceledException>(async () => await acquireTask);
+
+        // While B is paused, new event C arrives via SettingsChanged
         _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1 with { Model = "model-c" }] } };
         _settingsService.Changed += Raise.Event<EventHandler<SettingsChangedEventArgs>>(
             _settingsService, new SettingsChangedEventArgs(new AppSettings(), _currentSettings));
 
         // Release B gate
-        bGate.TrySetResult();
+        bGate.Open();
         await bTask;
 
-        // Acquire snapshot: must observe C, not B
+        // CRITICAL: Wait for background worker to automatically construct C without rescue from Acquire/Refresh
+        await cCreated.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+        // Acquire snapshot: must observe C, while old lease remains A
         using var snap = await registry.AcquireSnapshotAsync(TestContext.Current.CancellationToken);
         snap.Providers[0].Profile.Model.ShouldBe("model-c");
+        old.Providers[0].Profile.Model.ShouldBe("model-a");
     }
 
     [Fact]
@@ -957,41 +1014,56 @@ public sealed class TranslationProviderRegistryTests : IDisposable
         var p1 = new TranslationProviderProfile { Id = "tp-1", Kind = TranslationProviderKind.OpenAICompatible, DisplayName = "P1", Model = "model-a", Enabled = true };
         _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1] } };
 
-        var bEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var bGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var bGate = new TestGate();
+        var cCreated = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         var factory = new DelegatingFactory(TranslationProviderKind.OpenAICompatible, (p, c) =>
         {
             if (p.Model == "model-b")
             {
-                bEntered.TrySetResult();
-                bGate.Task.GetAwaiter().GetResult();
+                bGate.Pause();
                 throw new InvalidOperationException("B failed");
+            }
+            if (p.Model == "model-c")
+            {
+                cCreated.TrySetResult();
             }
             return new TestDisposableProvider(p, c);
         });
 
         using var registry = new TranslationProviderRegistry(_settingsService, _secretStore, [factory], _logger);
-        await registry.RefreshAsync(TestContext.Current.CancellationToken);
+        using var old = await registry.AcquireSnapshotAsync(TestContext.Current.CancellationToken);
+        old.Providers[0].Profile.Model.ShouldBe("model-a");
 
         // Start B rebuild (will fail)
         _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1 with { Model = "model-b" }] } };
         var bTask = registry.RefreshAsync(TestContext.Current.CancellationToken);
 
-        await bEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        await bGate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
-        // While B is paused, new event C arrives
+        // While B is paused, queue an acquire, verify waiting on B, then cancel it to clear waiters
+        using var acquireCts = new CancellationTokenSource();
+        var acquireTask = registry.AcquireSnapshotAsync(acquireCts.Token);
+        acquireTask.IsCompleted.ShouldBeFalse();
+        acquireCts.Cancel();
+        await Should.ThrowAsync<OperationCanceledException>(async () => await acquireTask);
+
+        // While B is paused, new event C arrives via SettingsChanged
         _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1 with { Model = "model-c" }] } };
         _settingsService.Changed += Raise.Event<EventHandler<SettingsChangedEventArgs>>(
             _settingsService, new SettingsChangedEventArgs(new AppSettings(), _currentSettings));
 
         // Release B gate
-        bGate.TrySetResult();
+        bGate.Open();
         await Should.ThrowAsync<IrisException>(async () => await bTask);
 
-        // Acquire snapshot: C is built and acquired successfully!
+        // CRITICAL: Wait for background worker to automatically construct C without rescue from Acquire/Refresh
+        await cCreated.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+        // Acquire snapshot: must observe C, while old lease remains A
         using var snap = await registry.AcquireSnapshotAsync(TestContext.Current.CancellationToken);
         snap.Providers[0].Profile.Model.ShouldBe("model-c");
+        old.Providers[0].Profile.Model.ShouldBe("model-a");
     }
 
     [Fact]
@@ -1000,37 +1072,37 @@ public sealed class TranslationProviderRegistryTests : IDisposable
         var p1 = new TranslationProviderProfile { Id = "tp-1", Kind = TranslationProviderKind.OpenAICompatible, DisplayName = "P1", Model = "m", Enabled = true };
         _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1] } };
 
-        var factoryAttempts = 0;
+        var failingAttemptStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var failingAttempts = 0;
         var firstSuccess = true;
         var factory = new DelegatingFactory(TranslationProviderKind.OpenAICompatible, (p, c) =>
         {
-            Interlocked.Increment(ref factoryAttempts);
             if (firstSuccess)
             {
                 firstSuccess = false;
                 return new TestDisposableProvider(p, c);
             }
+            failingAttemptStarted.TrySetResult();
+            Interlocked.Increment(ref failingAttempts);
             throw new InvalidOperationException("Persistent failure");
         });
 
         using var registry = new TranslationProviderRegistry(_settingsService, _secretStore, [factory], _logger);
         await registry.RefreshAsync(TestContext.Current.CancellationToken);
-        factoryAttempts.ShouldBe(1);
 
         // Fire setting change to failing config
         _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1 with { Model = "failing" }] } };
         _settingsService.Changed += Raise.Event<EventHandler<SettingsChangedEventArgs>>(
             _settingsService, new SettingsChangedEventArgs(new AppSettings(), _currentSettings));
 
-        // Wait a short time for background refresh to attempt and fail
-        await Task.Delay(200, TestContext.Current.CancellationToken);
+        // 证明失败配置确实被后台尝试且失败
+        await failingAttemptStarted.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        await Should.ThrowAsync<IrisException>(async () => await registry.AcquireSnapshotAsync(TestContext.Current.CancellationToken));
+        Volatile.Read(ref failingAttempts).ShouldBe(1);
 
-        var attemptsAfterFirstFail = Volatile.Read(ref factoryAttempts);
-        // Wait another interval to confirm no busy loop
+        // 有界观察窗口检查没有重复尝试（不忙循环）
         await Task.Delay(200, TestContext.Current.CancellationToken);
-        var attemptsLater = Volatile.Read(ref factoryAttempts);
-
-        attemptsLater.ShouldBe(attemptsAfterFirstFail);
+        Volatile.Read(ref failingAttempts).ShouldBe(1);
     }
 
     [Fact]
@@ -1039,8 +1111,7 @@ public sealed class TranslationProviderRegistryTests : IDisposable
         var p1 = new TranslationProviderProfile { Id = "tp-1", Kind = TranslationProviderKind.OpenAICompatible, DisplayName = "P1", Model = "model-a", Enabled = true };
         _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1] } };
 
-        var bEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var bGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var bGate = new TestGate();
         TestDisposableProvider? provB = null;
 
         var factory = new DelegatingFactory(TranslationProviderKind.OpenAICompatible, (p, c) =>
@@ -1049,8 +1120,7 @@ public sealed class TranslationProviderRegistryTests : IDisposable
             if (p.Model == "model-b")
             {
                 provB = prov;
-                bEntered.TrySetResult();
-                bGate.Task.GetAwaiter().GetResult();
+                bGate.Pause();
             }
             return prov;
         });
@@ -1063,11 +1133,11 @@ public sealed class TranslationProviderRegistryTests : IDisposable
         using var cts = new CancellationTokenSource();
         var refreshTask = registry.RefreshAsync(cts.Token);
 
-        await bEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        await bGate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
         // Cancel while factory is paused
         cts.Cancel();
-        bGate.TrySetResult();
+        bGate.Open();
 
         await Should.ThrowAsync<OperationCanceledException>(async () => await refreshTask);
 
@@ -1087,8 +1157,7 @@ public sealed class TranslationProviderRegistryTests : IDisposable
         var p1 = new TranslationProviderProfile { Id = "tp-1", Kind = TranslationProviderKind.OpenAICompatible, DisplayName = "P1", Model = "model-a", Enabled = true };
         _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1] } };
 
-        var bEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var bGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var bGate = new TestGate();
         TestDisposableProvider? provB = null;
 
         var factory = new DelegatingFactory(TranslationProviderKind.OpenAICompatible, (p, c) =>
@@ -1097,8 +1166,7 @@ public sealed class TranslationProviderRegistryTests : IDisposable
             if (p.Model == "model-b")
             {
                 provB = prov;
-                bEntered.TrySetResult();
-                bGate.Task.GetAwaiter().GetResult();
+                bGate.Pause();
             }
             return prov;
         });
@@ -1109,11 +1177,11 @@ public sealed class TranslationProviderRegistryTests : IDisposable
         _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1 with { Model = "model-b" }] } };
 
         var refreshTask = registry.RefreshAsync(TestContext.Current.CancellationToken);
-        await bEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        await bGate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
         // Dispose registry while factory is paused
         registry.Dispose();
-        bGate.TrySetResult();
+        bGate.Open();
 
         await Should.ThrowAsync<ObjectDisposedException>(async () => await refreshTask);
 
@@ -1128,15 +1196,13 @@ public sealed class TranslationProviderRegistryTests : IDisposable
         var p1 = new TranslationProviderProfile { Id = "tp-1", Kind = TranslationProviderKind.OpenAICompatible, DisplayName = "P1", Model = "model-a", Enabled = true };
         _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1] } };
 
-        var bEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var bGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var bGate = new TestGate();
 
         var factory = new DelegatingFactory(TranslationProviderKind.OpenAICompatible, (p, c) =>
         {
             if (p.Model == "model-b")
             {
-                bEntered.TrySetResult();
-                bGate.Task.GetAwaiter().GetResult();
+                bGate.Pause();
             }
             return new TestDisposableProvider(p, c);
         });
@@ -1148,7 +1214,7 @@ public sealed class TranslationProviderRegistryTests : IDisposable
 
         // Thread 1 starts refresh
         var refreshTask = registry.RefreshAsync(TestContext.Current.CancellationToken);
-        await bEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        await bGate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
         // Thread 2 calls Acquire with a cancellable token
         using var cts2 = new CancellationTokenSource();
@@ -1159,7 +1225,7 @@ public sealed class TranslationProviderRegistryTests : IDisposable
         await Should.ThrowAsync<OperationCanceledException>(async () => await acquireTask);
 
         // Thread 1 releases gate and finishes successfully
-        bGate.TrySetResult();
+        bGate.Open();
         await refreshTask;
 
         // Model B is published and usable
@@ -1171,15 +1237,13 @@ public sealed class TranslationProviderRegistryTests : IDisposable
     public async Task R1_3_Ownership_Transient_CancellationDuringFactory_DisposesProvider()
     {
         var draft = new TranslationProviderProfile { Id = "tp-t", Kind = TranslationProviderKind.OpenAICompatible, DisplayName = "T", Model = "m", Enabled = true };
-        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var gate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var gate = new TestGate();
         TestDisposableProvider? prov = null;
 
         var factory = new DelegatingFactory(TranslationProviderKind.OpenAICompatible, (p, c) =>
         {
             prov = new TestDisposableProvider(p, c);
-            entered.TrySetResult();
-            gate.Task.GetAwaiter().GetResult();
+            gate.Pause();
             return prov;
         });
 
@@ -1188,10 +1252,10 @@ public sealed class TranslationProviderRegistryTests : IDisposable
         using var cts = new CancellationTokenSource();
         var transientTask = registry.CreateTransientAsync(draft, ProviderCredentials.None, cts.Token);
 
-        await entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        await gate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
         cts.Cancel();
-        gate.TrySetResult();
+        gate.Open();
 
         await Should.ThrowAsync<OperationCanceledException>(async () => await transientTask);
 
@@ -1203,15 +1267,13 @@ public sealed class TranslationProviderRegistryTests : IDisposable
     public async Task R1_3_Ownership_Transient_DisposeDuringFactory_DisposesProvider()
     {
         var draft = new TranslationProviderProfile { Id = "tp-t", Kind = TranslationProviderKind.OpenAICompatible, DisplayName = "T", Model = "m", Enabled = true };
-        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var gate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var gate = new TestGate();
         TestDisposableProvider? prov = null;
 
         var factory = new DelegatingFactory(TranslationProviderKind.OpenAICompatible, (p, c) =>
         {
             prov = new TestDisposableProvider(p, c);
-            entered.TrySetResult();
-            gate.Task.GetAwaiter().GetResult();
+            gate.Pause();
             return prov;
         });
 
@@ -1219,10 +1281,10 @@ public sealed class TranslationProviderRegistryTests : IDisposable
 
         var transientTask = registry.CreateTransientAsync(draft, ProviderCredentials.None, TestContext.Current.CancellationToken);
 
-        await entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        await gate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
         registry.Dispose();
-        gate.TrySetResult();
+        gate.Open();
 
         await Should.ThrowAsync<ObjectDisposedException>(async () => await transientTask);
 
@@ -1233,41 +1295,116 @@ public sealed class TranslationProviderRegistryTests : IDisposable
     [Fact]
     public async Task R1_4_BackgroundExecution_RefreshAndTransient_ExecuteOnThreadPoolThread()
     {
-        var callingThreadId = Environment.CurrentManagedThreadId;
-        int? refreshFactoryThreadId = null;
-        int? transientFactoryThreadId = null;
+        foreach (var operation in new[] { "refresh", "first-acquire", "transient" })
+        {
+            var finished = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var thread = new Thread(() =>
+            {
+                try
+                {
+                    var callerThreadId = Environment.CurrentManagedThreadId;
+                    var factoryOnPool = false;
+                    var secretOnPool = true;
+                    var secretReads = 0;
 
-        var p1 = new TranslationProviderProfile { Id = "tp-1", Kind = TranslationProviderKind.OpenAICompatible, DisplayName = "P1", Model = "m", Enabled = true };
-        _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1] } };
+                    var p1 = new TranslationProviderProfile
+                    {
+                        Id = "tp-bg",
+                        Kind = TranslationProviderKind.OpenAICompatible,
+                        DisplayName = "Bg",
+                        Model = "m",
+                        CredentialSetId = "cs-0123456789abcdef0123456789abcdef",
+                        Enabled = true
+                    };
+
+                    var settingsService = Substitute.For<ISettingsService>();
+                    var currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1] } };
+                    settingsService.Current.Returns(_ => currentSettings);
+
+                    var secretStore = Substitute.For<ISecretStore>();
+                    secretStore.Get(Arg.Any<string>()).Returns(callInfo =>
+                    {
+                        Interlocked.Increment(ref secretReads);
+                        secretOnPool &= Thread.CurrentThread.IsThreadPoolThread && Environment.CurrentManagedThreadId != callerThreadId;
+                        return "{\"format\":\"iris-provider-credentials\",\"version\":1,\"apiKey\":\"key\",\"secretKey\":null}";
+                    });
+
+                    var factory = new DelegatingFactory(TranslationProviderKind.OpenAICompatible, (p, c) =>
+                    {
+                        factoryOnPool = Thread.CurrentThread.IsThreadPoolThread && Environment.CurrentManagedThreadId != callerThreadId;
+                        return new TestDisposableProvider(p, c);
+                    });
+
+                    using var registry = new TranslationProviderRegistry(settingsService, secretStore, [factory], _logger);
+
+                    if (operation == "refresh")
+                    {
+                        registry.RefreshAsync().GetAwaiter().GetResult();
+                        factoryOnPool.ShouldBeTrue();
+                        secretOnPool.ShouldBeTrue();
+                        secretReads.ShouldBeGreaterThan(0);
+                    }
+                    else if (operation == "first-acquire")
+                    {
+                        using var snap = registry.AcquireSnapshotAsync().GetAwaiter().GetResult();
+                        factoryOnPool.ShouldBeTrue();
+                        secretOnPool.ShouldBeTrue();
+                        secretReads.ShouldBeGreaterThan(0);
+                    }
+                    else
+                    {
+                        using var snap = registry.CreateTransientAsync(p1, ProviderCredentials.None).GetAwaiter().GetResult();
+                        factoryOnPool.ShouldBeTrue();
+                        secretReads.ShouldBe(0); // 瞬态不应读取 SecretStore
+                    }
+
+                    finished.TrySetResult();
+                }
+                catch (Exception ex)
+                {
+                    finished.TrySetException(ex);
+                }
+            }) { IsBackground = true };
+
+            thread.Start();
+            await finished.Task.WaitAsync(TimeSpan.FromSeconds(8), TestContext.Current.CancellationToken);
+        }
+    }
+
+    [Fact]
+    public async Task R1_4_DraftProfile_ExtraHeadersFrozen_BeforeBackgroundScheduling()
+    {
+        var headers = new Dictionary<string, string> { ["X-Probe"] = "before" };
+        using var gate = new TestGate();
+        var draft = new TranslationProviderProfile
+        {
+            Id = "tp-draft",
+            Kind = TranslationProviderKind.OpenAICompatible,
+            DisplayName = "Draft",
+            Model = "m",
+            OpenAIOptions = new OpenAICompatibleOptions { ExtraHeaders = headers },
+            Enabled = true
+        };
 
         var factory = new DelegatingFactory(TranslationProviderKind.OpenAICompatible, (p, c) =>
         {
-            if (p.Id == "tp-1")
-            {
-                refreshFactoryThreadId = Environment.CurrentManagedThreadId;
-            }
-            else
-            {
-                transientFactoryThreadId = Environment.CurrentManagedThreadId;
-            }
+            gate.Pause();
             return new TestDisposableProvider(p, c);
         });
 
         using var registry = new TranslationProviderRegistry(_settingsService, _secretStore, [factory], _logger);
 
-        // Run RefreshAsync
-        await registry.RefreshAsync(TestContext.Current.CancellationToken);
-        refreshFactoryThreadId.ShouldNotBeNull();
-        (refreshFactoryThreadId!.Value != callingThreadId || Thread.CurrentThread.IsThreadPoolThread).ShouldBeTrue();
+        // 调度 CreateTransientAsync
+        var pending = registry.CreateTransientAsync(draft, ProviderCredentials.None, TestContext.Current.CancellationToken);
 
-        // Run CreateTransientAsync
-        var draft = new TranslationProviderProfile { Id = "tp-transient", Kind = TranslationProviderKind.OpenAICompatible, DisplayName = "T", Model = "m", Enabled = true };
-        using (var snap = await registry.CreateTransientAsync(draft, ProviderCredentials.None, TestContext.Current.CancellationToken))
-        {
-            snap.Providers.Count.ShouldBe(1);
-        }
-        transientFactoryThreadId.ShouldNotBeNull();
-        (transientFactoryThreadId!.Value != callingThreadId || Thread.CurrentThread.IsThreadPoolThread).ShouldBeTrue();
+        // 调用方在调度后、后台任务完成前修改草稿字典
+        headers["X-Probe"] = "after";
+
+        await gate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        gate.Open();
+
+        using var snapshot = await pending;
+        snapshot.Providers[0].Profile.OpenAIOptions!.ExtraHeaders!["X-Probe"].ShouldBe("before");
     }
 
     [Fact]
@@ -1330,18 +1467,204 @@ public sealed class TranslationProviderRegistryTests : IDisposable
         };
 
         var provider = new UnavailableTranslationProvider(profile);
+        var prior = SynchronizationContext.Current;
+        var queue = new TestQueueSynchronizationContext();
+
+        try
+        {
+            using var cts = new CancellationTokenSource();
+            SynchronizationContext.SetSynchronizationContext(queue);
+
+            var request = new ProviderTranslateRequest("test", "en", "zh-Hans");
+            var enumerator = provider.TranslateStreamAsync(request, cts.Token).GetAsyncEnumerator(cts.Token);
+            var move = enumerator.MoveNextAsync().AsTask();
+
+            SynchronizationContext.SetSynchronizationContext(prior);
+
+            // 确认 MoveNextAsync 已到达异步挂起点且尚未完成
+            move.IsCompleted.ShouldBeFalse();
+            queue.Count.ShouldBe(1);
+
+            // 取消令牌并放行挂起后的续体
+            cts.Cancel();
+            queue.Drain();
+
+            await Should.ThrowAsync<OperationCanceledException>(async () => await move);
+            await enumerator.DisposeAsync();
+        }
+        finally
+        {
+            SynchronizationContext.SetSynchronizationContext(prior);
+        }
+    }
+
+    [Fact]
+    public async Task R1_5_UnavailableProvider_TranslateStreamAsync_ThrowsOperationCanceledException_WhenCancelledBeforeFirstMoveNext()
+    {
+        var profile = new TranslationProviderProfile
+        {
+            Id = "tp-unavail",
+            Kind = TranslationProviderKind.OpenAICompatible,
+            DisplayName = "Unavail",
+            Model = "m",
+            CredentialSetId = "cs-0123456789abcdef0123456789abcdef",
+            Enabled = true
+        };
+
+        var provider = new UnavailableTranslationProvider(profile);
         using var cts = new CancellationTokenSource();
+        cts.Cancel();
 
         var request = new ProviderTranslateRequest("test", "en", "zh-Hans");
         var enumerator = provider.TranslateStreamAsync(request, cts.Token).GetAsyncEnumerator(cts.Token);
 
-        // Cancel token after enumerator created, but before MoveNextAsync completes
-        cts.Cancel();
+        await Should.ThrowAsync<OperationCanceledException>(async () => await enumerator.MoveNextAsync());
+        await enumerator.DisposeAsync();
+    }
 
-        await Should.ThrowAsync<OperationCanceledException>(async () =>
+    [Fact]
+    public async Task R2_1_LockBoundary_RetiredProviderDispose_AndChangedHandler_ExecuteOutsideRebuildLock()
+    {
+        var p1 = new TranslationProviderProfile { Id = "tp-1", Kind = TranslationProviderKind.OpenAICompatible, DisplayName = "P1", Model = "model-a", Enabled = true };
+        _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1] } };
+
+        int? disposeRebuildCount = null;
+        int? changedRebuildCount = null;
+        string? changedObservedModel = null;
+        TestDisposableProvider? provA = null;
+
+        var factory = new DelegatingFactory(TranslationProviderKind.OpenAICompatible, (p, c) =>
         {
-            await enumerator.MoveNextAsync();
+            var prov = new TestDisposableProvider(p, c);
+            if (p.Model == "model-a")
+            {
+                provA = prov;
+            }
+            return prov;
         });
+
+        using var registry = new TranslationProviderRegistry(_settingsService, _secretStore, [factory], _logger);
+        await registry.RefreshAsync(TestContext.Current.CancellationToken);
+
+        provA.ShouldNotBeNull();
+        provA!.OnDispose = () =>
+        {
+            disposeRebuildCount = registry.RebuildLockCurrentCount;
+        };
+
+        var changedInvoked = 0;
+        registry.Changed += (_, _) =>
+        {
+            changedInvoked++;
+            changedRebuildCount = registry.RebuildLockCurrentCount;
+
+            // 订阅者在 Changed 回调中调用 AcquireSnapshotAsync 能够立即取得新快照，不发生死锁
+            using var snap = registry.AcquireSnapshotAsync(TestContext.Current.CancellationToken).GetAwaiter().GetResult();
+            changedObservedModel = snap.Providers[0].Profile.Model;
+        };
+
+        // 更新为 model-b，触发 model-a 退休与 Changed 通知
+        _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1 with { Model = "model-b" }] } };
+        await registry.RefreshAsync(TestContext.Current.CancellationToken);
+
+        provA.DisposeCount.ShouldBe(1);
+        disposeRebuildCount.ShouldBe(1); // 退休 Dispose 在锁外执行，CurrentCount 为 1
+        changedInvoked.ShouldBe(1);
+        changedRebuildCount.ShouldBe(1); // Changed 委托在锁外执行，CurrentCount 为 1
+        changedObservedModel.ShouldBe("model-b");
+    }
+
+    [Fact]
+    public async Task R2_1_LockBoundary_RollbackCleanup_ExecutesOutsideRebuildLock()
+    {
+        var p1 = new TranslationProviderProfile { Id = "tp-1", Kind = TranslationProviderKind.OpenAICompatible, DisplayName = "P1", Model = "model-a", Order = 1, Enabled = true };
+        _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1] } };
+
+        int? rollbackDisposeRebuildCount = null;
+        TestDisposableProvider? provB1 = null;
+
+        TranslationProviderRegistry? registry = null;
+        var factory = new DelegatingFactory(TranslationProviderKind.OpenAICompatible, (p, c) =>
+        {
+            if (p.Model == "model-b1")
+            {
+                provB1 = new TestDisposableProvider(p, c)
+                {
+                    OnDispose = () =>
+                    {
+                        rollbackDisposeRebuildCount = registry?.RebuildLockCurrentCount;
+                    }
+                };
+                return provB1;
+            }
+            if (p.Model == "model-b2")
+            {
+                throw new InvalidOperationException("Controlled B2 failure");
+            }
+            return new TestDisposableProvider(p, c);
+        });
+
+        registry = new TranslationProviderRegistry(_settingsService, _secretStore, [factory], _logger);
+        using var reg = registry;
+
+        await registry.RefreshAsync(TestContext.Current.CancellationToken);
+
+        // p1 (model-b1, 成功) 与 p2 (model-b2, 失败)
+        var pB1 = new TranslationProviderProfile { Id = "tp-1", Kind = TranslationProviderKind.OpenAICompatible, DisplayName = "P1", Model = "model-b1", Order = 1, Enabled = true };
+        var pB2 = new TranslationProviderProfile { Id = "tp-2", Kind = TranslationProviderKind.OpenAICompatible, DisplayName = "P2", Model = "model-b2", Order = 2, Enabled = true };
+        _currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [pB1, pB2] } };
+
+        await Should.ThrowAsync<IrisException>(async () => await registry.RefreshAsync(TestContext.Current.CancellationToken));
+
+        provB1.ShouldNotBeNull();
+        provB1!.DisposeCount.ShouldBe(1);
+        rollbackDisposeRebuildCount.ShouldBe(1); // 回滚新建实例 Dispose 在锁外执行，CurrentCount 为 1
+    }
+
+    [Fact]
+    public async Task R2_1_Barrier_ExplicitRefresh_WaitsForInProgressCredentialResolution()
+    {
+        var p1 = new TranslationProviderProfile
+        {
+            Id = "tp-1",
+            Kind = TranslationProviderKind.OpenAICompatible,
+            DisplayName = "P1",
+            Model = "model-a",
+            CredentialSetId = "cs-0123456789abcdef0123456789abcdef",
+            Enabled = true
+        };
+        var settingsService = Substitute.For<ISettingsService>();
+        var currentSettings = new AppSettings { Translation = new TranslationSettings { Providers = [p1] } };
+        settingsService.Current.Returns(_ => currentSettings);
+
+        using var secretGate = new TestGate();
+        var secretStore = Substitute.For<ISecretStore>();
+        secretStore.Get(Arg.Any<string>()).Returns(callInfo =>
+        {
+            secretGate.Pause();
+            return "{\"format\":\"iris-provider-credentials\",\"version\":1,\"apiKey\":\"key\",\"secretKey\":null}";
+        });
+
+        var factory = new DelegatingFactory(TranslationProviderKind.OpenAICompatible, (p, c) => new TestDisposableProvider(p, c));
+
+        using var registry = new TranslationProviderRegistry(settingsService, secretStore, [factory], _logger);
+
+        // 第一次刷新在解析凭据时暂停在门闩
+        var refreshTask1 = registry.RefreshAsync(TestContext.Current.CancellationToken);
+        await secretGate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+        // 第二次刷新发起，必须在重建信号量上等待凭据解析退出
+        var refreshTask2 = registry.RefreshAsync(TestContext.Current.CancellationToken);
+        refreshTask2.IsCompleted.ShouldBeFalse();
+
+        // 放行第一次凭据解析
+        secretGate.Open();
+
+        await refreshTask1;
+        await refreshTask2;
+
+        using var snap = await registry.AcquireSnapshotAsync(TestContext.Current.CancellationToken);
+        snap.Providers[0].Profile.Model.ShouldBe("model-a");
     }
 
     #endregion

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Iris.Core.Common;
@@ -25,6 +26,8 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
 
     private readonly SemaphoreSlim _rebuildLock = new(1, 1);
     private readonly Lock _stateLock = new();
+
+    internal int RebuildLockCurrentCount => _rebuildLock.CurrentCount;
 
     private Dictionary<string, TrackedInstance> _activeInstances = new(StringComparer.Ordinal);
     private ReadOnlyCollection<TranslationProviderRegistration> _currentRegistrations = Array.AsReadOnly(Array.Empty<TranslationProviderRegistration>());
@@ -74,16 +77,7 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
         ThrowIfDisposed();
         cancellationToken.ThrowIfCancellationRequested();
 
-        long target;
-        lock (_stateLock)
-        {
-            ThrowIfDisposed();
-            _targetVersion++;
-            _failedVersion = 0;
-            _lastFailure = null;
-            target = _targetVersion;
-        }
-
+        var target = Interlocked.Increment(ref _targetVersion);
         await PerformRebuildAsync(target, cancellationToken).ConfigureAwait(false);
     }
 
@@ -99,7 +93,8 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
             {
                 ThrowIfDisposed();
 
-                if (_isInitialized && _publishedVersion >= _targetVersion)
+                var targetVersion = Interlocked.Read(ref _targetVersion);
+                if (_isInitialized && _publishedVersion >= targetVersion)
                 {
                     foreach (var instance in _currentTrackedInstances)
                     {
@@ -113,7 +108,7 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
                         _logger);
                 }
 
-                if (_failedVersion == _targetVersion && _lastFailure != null)
+                if (_failedVersion == targetVersion && _lastFailure != null)
                 {
                     throw new IrisException(
                         ErrorCode.Unknown,
@@ -121,7 +116,7 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
                         innerException: null);
                 }
 
-                target = _targetVersion;
+                target = targetVersion;
             }
 
             await PerformRebuildAsync(target, cancellationToken).ConfigureAwait(false);
@@ -193,12 +188,34 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
         }, cancellationToken).ConfigureAwait(false);
     }
 
+    private sealed class RebuildResult
+    {
+        public required List<TrackedInstance> InstancesToDispose { get; init; }
+        public required bool HasChanged { get; init; }
+    }
+
+    private sealed class BuildWorkException : Exception
+    {
+        public List<TrackedInstance> NewlyCreated { get; }
+
+        public BuildWorkException(Exception inner, List<TrackedInstance> newlyCreated)
+            : base(inner.Message, inner)
+        {
+            NewlyCreated = newlyCreated;
+        }
+    }
+
     private async Task PerformRebuildAsync(long targetVersion, CancellationToken cancellationToken)
     {
         ThrowIfDisposed();
         cancellationToken.ThrowIfCancellationRequested();
 
         await _rebuildLock.WaitAsync(cancellationToken).ConfigureAwait(false);
+
+        RebuildResult? result = null;
+        List<TrackedInstance>? instancesToCleanUpOnFailure = null;
+        Exception? failureToThrow = null;
+
         try
         {
             ThrowIfDisposed();
@@ -209,6 +226,7 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
             lock (_stateLock)
             {
                 ThrowIfDisposed();
+                var currentTargetVersion = Interlocked.Read(ref _targetVersion);
                 if (_isInitialized && _publishedVersion >= targetVersion)
                 {
                     return;
@@ -222,19 +240,58 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
                         innerException: null);
                 }
 
-                currentTarget = _targetVersion;
+                currentTarget = currentTargetVersion;
                 settings = _settingsService.Current;
             }
 
-            await Task.Run(() => DoRebuildWork(currentTarget, settings, cancellationToken), cancellationToken).ConfigureAwait(false);
+            try
+            {
+                result = await Task.Run(() => BuildAndCommit(currentTarget, settings, cancellationToken)).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                failureToThrow = ex;
+                if (ex is BuildWorkException bwe)
+                {
+                    instancesToCleanUpOnFailure = bwe.NewlyCreated;
+                    failureToThrow = bwe.InnerException!;
+                }
+            }
         }
         finally
         {
             _rebuildLock.Release();
         }
+
+        // 互斥信号量释放后，在锁外执行清理与通知（specs/PROVIDER_REGISTRY.md §3.3）
+        if (failureToThrow != null)
+        {
+            if (instancesToCleanUpOnFailure != null)
+            {
+                foreach (var instance in instancesToCleanUpOnFailure)
+                {
+                    instance.DisposeProvider(_logger);
+                }
+            }
+
+            ExceptionDispatchInfo.Capture(failureToThrow).Throw();
+        }
+
+        if (result != null)
+        {
+            foreach (var instance in result.InstancesToDispose)
+            {
+                instance.DisposeProvider(_logger);
+            }
+
+            if (result.HasChanged)
+            {
+                FireChanged();
+            }
+        }
     }
 
-    private void DoRebuildWork(long targetVersion, AppSettings settings, CancellationToken cancellationToken)
+    private RebuildResult BuildAndCommit(long targetVersion, AppSettings settings, CancellationToken cancellationToken)
     {
         ThrowIfDisposed();
         cancellationToken.ThrowIfCancellationRequested();
@@ -248,7 +305,6 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
         var nextRegistrations = new List<TranslationProviderRegistration>();
         var nextTracked = new List<TrackedInstance>();
         var newlyCreated = new List<TrackedInstance>();
-        var committed = false;
 
         try
         {
@@ -350,19 +406,16 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
                 _currentRegistrations = Array.AsReadOnly(nextRegistrations.ToArray());
                 _currentTrackedInstances = Array.AsReadOnly(nextTracked.ToArray());
                 _publishedVersion = targetVersion;
+                _failedVersion = 0;
+                _lastFailure = null;
                 _isInitialized = true;
-                committed = true;
             }
 
-            foreach (var instance in instancesToDispose)
+            return new RebuildResult
             {
-                instance.DisposeProvider(_logger);
-            }
-
-            if (hasChanged)
-            {
-                FireChanged();
-            }
+                InstancesToDispose = instancesToDispose,
+                HasChanged = hasChanged
+            };
         }
         catch (Exception ex)
         {
@@ -374,17 +427,8 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
                     _lastFailure = ex;
                 }
             }
-            throw;
-        }
-        finally
-        {
-            if (!committed)
-            {
-                foreach (var instance in newlyCreated)
-                {
-                    instance.DisposeProvider(_logger);
-                }
-            }
+
+            throw new BuildWorkException(ex, newlyCreated);
         }
     }
 
@@ -442,13 +486,7 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
             return;
         }
 
-        lock (_stateLock)
-        {
-            _targetVersion++;
-            _failedVersion = 0;
-            _lastFailure = null;
-        }
-
+        Interlocked.Increment(ref _targetVersion);
         ScheduleBackgroundRefresh();
     }
 
@@ -459,13 +497,7 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
             return;
         }
 
-        lock (_stateLock)
-        {
-            _targetVersion++;
-            _failedVersion = 0;
-            _lastFailure = null;
-        }
-
+        Interlocked.Increment(ref _targetVersion);
         ScheduleBackgroundRefresh();
     }
 
@@ -486,12 +518,13 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
                 long currentTarget;
                 lock (_stateLock)
                 {
-                    if ((_isInitialized && _publishedVersion >= _targetVersion) ||
-                        _failedVersion == _targetVersion)
+                    var targetVersion = Interlocked.Read(ref _targetVersion);
+                    if ((_isInitialized && _publishedVersion >= targetVersion) ||
+                        _failedVersion == targetVersion)
                     {
                         break;
                     }
-                    currentTarget = _targetVersion;
+                    currentTarget = targetVersion;
                 }
 
                 try
@@ -517,9 +550,10 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
             bool shouldReschedule = false;
             lock (_stateLock)
             {
+                var targetVersion = Interlocked.Read(ref _targetVersion);
                 if (Volatile.Read(ref _disposed) == 0 &&
-                    (!_isInitialized || _publishedVersion < _targetVersion) &&
-                    _failedVersion != _targetVersion)
+                    (!_isInitialized || _publishedVersion < targetVersion) &&
+                    _failedVersion != targetVersion)
                 {
                     shouldReschedule = true;
                 }
