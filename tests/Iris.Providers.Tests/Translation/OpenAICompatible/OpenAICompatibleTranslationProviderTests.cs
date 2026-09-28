@@ -1739,5 +1739,193 @@ public sealed class OpenAICompatibleTranslationProviderTests
         ex.ProviderId.ShouldBe(provider.Descriptor.Id);
         mockHttp.GetMatchCount(mockHttp.When("*")).ShouldBe(0);
     }
+
+    [Fact]
+    public async Task TranslateStreamAsync_WithPreparedPrompt_Streaming_BypassesTemplateAndRenderer_AndSendsExactMessages()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        string? capturedBody = null;
+
+        mockHttp.Expect(HttpMethod.Post, "https://api.openai.com/v1/chat/completions")
+            .With(req =>
+            {
+                capturedBody = req.Content?.ReadAsStringAsync(TestContext.Current.CancellationToken).GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("text/event-stream", LoadFixture("openai_stream_ok.txt"));
+
+        var promptTemplates = Substitute.For<IPromptTemplateProvider>();
+        promptTemplates.Get(Arg.Any<string?>()).Returns(_ => throw new InvalidOperationException("PromptTemplateProvider should not be called when PreparedPrompt is present."));
+
+        var promptRenderer = Substitute.For<IPromptRenderer>();
+        promptRenderer.Render(Arg.Any<PromptTemplate>(), Arg.Any<ProviderTranslateRequest>())
+            .Returns(_ => throw new InvalidOperationException("PromptRenderer should not be called when PreparedPrompt is present."));
+
+        var provider = CreateProvider(mockHttp, promptTemplates: promptTemplates, promptRenderer: promptRenderer);
+        var preparedPrompt = new RenderedPrompt("Custom prepared system instruction", "Custom prepared user content");
+        var request = new ProviderTranslateRequest("Original text", "en", "zh-CN")
+        {
+            PreparedPrompt = preparedPrompt,
+        };
+
+        var chunks = new List<TranslationChunk>();
+        await foreach (var chunk in provider.TranslateStreamAsync(request, TestContext.Current.CancellationToken))
+        {
+            chunks.Add(chunk);
+        }
+
+        chunks.Count.ShouldBeGreaterThan(0);
+        promptTemplates.DidNotReceiveWithAnyArgs().Get(default);
+        promptRenderer.DidNotReceiveWithAnyArgs().Render(default!, default!);
+
+        capturedBody.ShouldNotBeNull();
+        using var doc = JsonDocument.Parse(capturedBody);
+        var messages = doc.RootElement.GetProperty("messages");
+        messages.GetArrayLength().ShouldBe(2);
+
+        messages[0].GetProperty("role").GetString().ShouldBe("system");
+        messages[0].GetProperty("content").GetString().ShouldBe("Custom prepared system instruction");
+
+        messages[1].GetProperty("role").GetString().ShouldBe("user");
+        messages[1].GetProperty("content").GetString().ShouldBe("Custom prepared user content");
+
+        mockHttp.VerifyNoOutstandingExpectation();
+    }
+
+    [Fact]
+    public async Task TranslateStreamAsync_WithPreparedPrompt_NonStreaming_BypassesTemplateAndRenderer_AndSendsExactMessages()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        string? capturedBody = null;
+
+        mockHttp.Expect(HttpMethod.Post, "https://api.openai.com/v1/chat/completions")
+            .With(req =>
+            {
+                capturedBody = req.Content?.ReadAsStringAsync(TestContext.Current.CancellationToken).GetAwaiter().GetResult();
+                return true;
+            })
+            .Respond("application/json", "{\"choices\":[{\"message\":{\"role\":\"assistant\",\"content\":\"translated ok\"},\"finish_reason\":\"stop\"}]}");
+
+        var profile = new TranslationProviderProfile
+        {
+            Id = "p-nonstream",
+            DisplayName = "NonStream OpenAI",
+            Kind = TranslationProviderKind.OpenAICompatible,
+            BaseUrl = "https://api.openai.com/v1",
+            Model = "gpt-4o",
+            OpenAIOptions = new OpenAICompatibleOptions
+            {
+                Stream = false,
+            },
+        };
+
+        var promptTemplates = Substitute.For<IPromptTemplateProvider>();
+        promptTemplates.Get(Arg.Any<string?>()).Returns(_ => throw new InvalidOperationException("PromptTemplateProvider should not be called when PreparedPrompt is present."));
+
+        var promptRenderer = Substitute.For<IPromptRenderer>();
+        promptRenderer.Render(Arg.Any<PromptTemplate>(), Arg.Any<ProviderTranslateRequest>())
+            .Returns(_ => throw new InvalidOperationException("PromptRenderer should not be called when PreparedPrompt is present."));
+
+        var provider = CreateProvider(mockHttp, profile: profile, promptTemplates: promptTemplates, promptRenderer: promptRenderer);
+        var preparedPrompt = new RenderedPrompt("Non-stream system prompt", "Non-stream user prompt");
+        var request = new ProviderTranslateRequest("Original text", "en", "zh-CN")
+        {
+            PreparedPrompt = preparedPrompt,
+        };
+
+        var chunks = new List<TranslationChunk>();
+        await foreach (var chunk in provider.TranslateStreamAsync(request, TestContext.Current.CancellationToken))
+        {
+            chunks.Add(chunk);
+        }
+
+        chunks.Count.ShouldBeGreaterThan(0);
+        chunks.Any(c => c.Delta.Contains("translated ok")).ShouldBeTrue();
+        promptTemplates.DidNotReceiveWithAnyArgs().Get(default);
+        promptRenderer.DidNotReceiveWithAnyArgs().Render(default!, default!);
+
+        capturedBody.ShouldNotBeNull();
+        using var doc = JsonDocument.Parse(capturedBody);
+        var messages = doc.RootElement.GetProperty("messages");
+        messages.GetArrayLength().ShouldBe(2);
+
+        messages[0].GetProperty("role").GetString().ShouldBe("system");
+        messages[0].GetProperty("content").GetString().ShouldBe("Non-stream system prompt");
+
+        messages[1].GetProperty("role").GetString().ShouldBe("user");
+        messages[1].GetProperty("content").GetString().ShouldBe("Non-stream user prompt");
+
+        mockHttp.VerifyNoOutstandingExpectation();
+    }
+
+    [Fact]
+    public async Task TranslateStreamAsync_WithoutPreparedPrompt_CallsTemplateAndRenderer()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.Expect(HttpMethod.Post, "https://api.openai.com/v1/chat/completions")
+            .Respond("text/event-stream", LoadFixture("openai_stream_ok.txt"));
+
+        var promptTemplates = Substitute.For<IPromptTemplateProvider>();
+        var template = BuiltInPrompts.Default;
+        promptTemplates.Get(Arg.Any<string?>()).Returns(template);
+
+        var promptRenderer = Substitute.For<IPromptRenderer>();
+        promptRenderer.Render(Arg.Any<PromptTemplate>(), Arg.Any<ProviderTranslateRequest>())
+            .Returns(new RenderedPrompt("Rendered system", "Rendered user"));
+
+        var provider = CreateProvider(mockHttp, promptTemplates: promptTemplates, promptRenderer: promptRenderer);
+        var request = new ProviderTranslateRequest("Source text", "en", "zh-CN")
+        {
+            PreparedPrompt = null,
+        };
+
+        await foreach (var _ in provider.TranslateStreamAsync(request, TestContext.Current.CancellationToken))
+        {
+        }
+
+        promptTemplates.Received(1).Get(Arg.Any<string?>());
+        promptRenderer.Received(1).Render(template, request);
+        mockHttp.VerifyNoOutstandingExpectation();
+    }
+
+    [Fact]
+    public async Task TranslateStreamAsync_StreamLaziness_DoesNotIssueHttpBeforeFirstMoveNextAsync()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        var callCount = 0;
+        mockHttp.Expect(HttpMethod.Post, "https://api.openai.com/v1/chat/completions")
+            .Respond(_ =>
+            {
+                callCount++;
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent(LoadFixture("openai_stream_ok.txt"), Encoding.UTF8, "text/event-stream"),
+                };
+            });
+
+        var provider = CreateProvider(mockHttp);
+        var request = new ProviderTranslateRequest("Text to translate", "en", "zh-CN")
+        {
+            PreparedPrompt = new RenderedPrompt("Sys", "User"),
+        };
+
+        // 1. Invoking TranslateStreamAsync must NOT send HTTP
+        var enumerable = provider.TranslateStreamAsync(request, TestContext.Current.CancellationToken);
+        enumerable.ShouldNotBeNull();
+        callCount.ShouldBe(0);
+
+        // 2. Getting async enumerator must NOT send HTTP
+        var enumerator = enumerable.GetAsyncEnumerator(TestContext.Current.CancellationToken);
+        enumerator.ShouldNotBeNull();
+        callCount.ShouldBe(0);
+
+        // 3. First MoveNextAsync sends HTTP request
+        var hasNext = await enumerator.MoveNextAsync();
+        hasNext.ShouldBeTrue();
+        callCount.ShouldBe(1);
+
+        mockHttp.VerifyNoOutstandingExpectation();
+    }
 }
+
 

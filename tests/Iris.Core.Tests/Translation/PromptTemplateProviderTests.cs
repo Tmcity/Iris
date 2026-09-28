@@ -210,4 +210,36 @@ public sealed class PromptTemplateProviderTests
 
         provider.Get("template.b").Name.ShouldBe("B");
     }
+
+    [Fact]
+    public void Get_ExplicitSettings_UsesProvidedSettings_AndDoesNotReadSettingsService()
+    {
+        var customTemplate = new PromptTemplate
+        {
+            Id = "custom.isolated",
+            Name = "Isolated",
+            System = "System {{text}}",
+            User = "User",
+        };
+
+        var settingsA = new TranslationSettings
+        {
+            CustomPrompts = [customTemplate],
+        };
+
+        var provider = new PromptTemplateProvider(_settings, _logger);
+
+        // 令 _settings.Current 抛出异常，证明显式重载绝不访问全局设置服务
+        _settings.Current.Returns(_ => throw new InvalidOperationException("Should not access SettingsService.Current"));
+
+        var result = provider.Get("custom.isolated", settingsA);
+        result.Name.ShouldBe("Isolated");
+    }
+
+    [Fact]
+    public void Get_ExplicitSettings_Null_ThrowsArgumentNullException()
+    {
+        var provider = new PromptTemplateProvider(_settings, _logger);
+        Should.Throw<ArgumentNullException>(() => provider.Get("any", null!));
+    }
 }

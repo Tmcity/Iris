@@ -94,7 +94,7 @@ T-010B 将以下已批准注释机械同步到 `specs/CONTRACTS.cs` 对应段及
 | 字段 | 值 |
 |---|---|
 | 提出与批准 | 架构师 Codex，2026-09-28 |
-| 状态 | **已落地，待 T-011-R2 复审**（2026-09-29：R1 主要修复接受；锁边界与回归验证待收尾，接口签名不需变更） |
+| 状态 | **已结案**（2026-09-29：R2 实现 3be662d 与报告更正 0744d7b 复审通过，契约同步与运行时行为均已验收） |
 | 设计依据 | specs/PROVIDER_REGISTRY.md（A03/A04） |
 | 兼容性 | 替换尚无业务调用方的 Registry 原型接口；Profile 新增可空字段，旧 JSON 与 schemaVersion 不变；ITranslationProvider/Factory 本身的签名不变 |
 
@@ -205,3 +205,114 @@ public interface ITranslationProviderRegistry : IProviderConfigurationObserver, 
 OCR 原型签名暂不变，T-011 不实施 OCR 注册表。新增源文件须补齐 using；CONTRACTS.cs 沿用现有全局 using 与块级 namespace 格式。
 
 实施后将本条标为“已落地，待复审”，由架构师结案。
+
+## CCR-004：显式请求配置、PreparedPrompt 与有界缓存契约
+
+| 字段 | 值 |
+|---|---|
+| 批准 | 架构师 Codex，2026-09-29 |
+| 状态 | **已落地，待复审** |
+| 依据 | specs/TRANSLATION_EXECUTION.md（A05、A12） |
+| 兼容性 | 缓存尚无实现/业务调用方，可替换原型；三项配置服务保留旧入口；Provider 请求保留三参数构造；不改变设置 JSON 或 HTTP 线协议 |
+
+由 T-012 同步修改下述 CONTRACTS.cs FILE 段及落地文件，精确内容如下。其余公开签名不变。
+
+### 1. TranslationModels.cs
+
+将 ProviderTranslateRequest 的单行 record 替换为（原 summary 保持）：
+
+```csharp
+public sealed record ProviderTranslateRequest(string Text, string SourceLanguage, string TargetLanguage)
+{
+    /// <summary>非 null 时 Provider 直接发送此已渲染值，不再查找/渲染模板；null 保留直接调用行为。
+    /// 编排器从同一注册表快照准备此值，并使用同一请求计算缓存键。不得记录整个请求。</summary>
+    public RenderedPrompt? PreparedPrompt { get; init; }
+}
+```
+
+### 2. 三项显式配置重载
+
+在 Languages/ILanguageDetector.cs 的 ITargetLanguageResolver 中，紧随旧 Resolve 增加：
+
+```csharp
+/// <summary>使用指定配置执行同一语言规则，不读取当前设置、不修改传入配置。</summary>
+ResolvedLanguagePair Resolve(string text, string requestedSource, string? requestedTarget, TranslationSettings settings);
+```
+
+在 Translation/ITranslationOrchestrator.cs 的 ITextPreprocessor 中，紧随旧 Prepare 增加：
+
+```csharp
+/// <summary>使用指定配置执行同一预处理规则，不读取当前设置、不修改传入配置。</summary>
+string Prepare(string raw, TextOrigin origin, TranslationSettings settings);
+```
+
+在 Translation/Prompts.cs 的 IPromptTemplateProvider 中，紧随旧 Get 增加：
+
+```csharp
+/// <summary>使用指定配置执行同一模板查找/回退规则，不读取当前设置、不修改传入配置。</summary>
+PromptTemplate Get(string? templateId, TranslationSettings settings);
+```
+
+上述文件补充 `using Iris.Core.Settings;`，CONTRACTS.cs 沿用全局 using。旧重载每次捕获一次 Current.Translation 后委托显式重载；显式重载 settings 为 null 时抛 ArgumentNullException。
+
+### 3. ITranslationCache.cs 全部类型
+
+```csharp
+using System.Diagnostics.CodeAnalysis;
+
+namespace Iris.Core.Translation;
+
+/// <summary>进程内缓存键；InstanceId 隔离配置/凭据代次，RequestFingerprint 是实际请求的完整 SHA-256。
+/// 精确编码见 TRANSLATION_EXECUTION.md；不保存原文、Prompt、地址或凭据。</summary>
+public readonly record struct TranslationCacheKey(string ProviderId, Guid InstanceId, string RequestFingerprint);
+
+/// <summary>缓存记账预算，不等于整个进程或 CLR 实际分配量。</summary>
+public static class TranslationCacheLimits
+{
+    public const long MaxTotalBytes = 16L * 1024 * 1024;
+    public const long MaxEntryBytes = 1L * 1024 * 1024;
+    public const long EntryOverheadBytes = 256;
+}
+
+/// <summary>进程内线程安全 LRU，受当前 CacheEnabled/CacheCapacity 与固定字节预算共同限制。
+/// 不持久化；编排器只写完整成功结果。Dispose 幂等并取消订阅，之后操作抛 ObjectDisposedException。</summary>
+public interface ITranslationCache : IDisposable
+{
+    /// <summary>当前清空代次，初始为 0；调用方开始请求时捕获，迟到写入必须携带原值。</summary>
+    long Generation { get; }
+
+    /// <summary>命中移至 MRU；未命中返回 false 且 text 为 null。</summary>
+    bool TryGet(in TranslationCacheKey key, [NotNullWhen(true)] out string? text);
+
+    /// <summary>原子校验 generation 并尝试写入；过期、禁用或超预算返回 false；null text 抛 ArgumentNullException。
+    /// 准入/替换/淘汰规则见 TRANSLATION_EXECUTION.md，不得保留完整请求作为键。</summary>
+    bool TrySet(in TranslationCacheKey key, string text, long generation);
+
+    /// <summary>原子清空并递增 Generation，旧请求不能重新填入。</summary>
+    void Clear();
+}
+```
+
+### 4. 编排器注释同步
+
+ITranslationOrchestrator 的 summary 全部替换为：
+
+```csharp
+/// <summary>
+/// 翻译编排器（Core 内实现）。TranslateAsync 语义：
+/// 1) 首次枚举借用 Registry 快照；预处理、语言、模板与执行选项全部使用 Snapshot.Settings。
+///    预处理后空文本抛 IrisException(InputEmpty)；超过 MaxInputChars 抛 InputTooLong。
+/// 2) ProviderIds 为 null 时选择快照中 IsConfigured 的 Provider；空集合或没有可用项时抛 NotConfigured。
+///    显式指定但不存在/未配置的项产出对应 ProviderFailed(NotConfigured)。
+/// 3) 在排队前准备每项 PreparedPrompt、实际请求缓存键与缓存 Generation；后续不读取动态设置重算。
+/// 4) BypassCache=false 且 CacheEnabled 时查缓存；命中产出 ProviderStarted、ProviderCompleted(FromCache=true)。
+///    否则调用流式接口，并发度不超过快照中的 MaxConcurrentProviders，事件由有界 Channel 合并。
+/// 5) 单个 Provider 失败不影响其它项，转为 ProviderFailed；失败/取消/截断不写缓存。
+/// 6) 全部子任务结束后，未截断成功值以原 Generation 尝试写缓存；BypassCache 只跳过读取。
+///    RecordHistory 且快照 History.Enabled 且至少一个成功时写历史，写入失败只记安全日志。
+/// 7) 调用取消或消费者提前结束时取消并等待全部子任务退出，再释放租约；调用取消抛 OperationCanceledException，不写历史。
+/// 请求级错误在首次 MoveNextAsync 抛出。精确选择、事件与资源边界见 TRANSLATION_EXECUTION.md 和 T-013 工单。
+/// </summary>
+```
+
+本单不实现 Orchestrator。实施后将 CCR-004 标为“已落地，待复审”，由架构师结案。

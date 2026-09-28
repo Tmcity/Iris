@@ -176,4 +176,29 @@ public sealed class TargetLanguageResolverTests
         result2.Target.ShouldBe(LanguageCodes.French);
         result2.Target.ShouldNotBe(LanguageCodes.Auto);
     }
+
+    [Fact]
+    public void Resolve_ExplicitSettings_UsesProvidedSettings_AndDoesNotReadSettingsService()
+    {
+        _detector.Detect("Test").Returns(new LanguageDetectionResult(LanguageCodes.English, 1.0));
+
+        var settingsA = new TranslationSettings
+        {
+            PrimaryTargetLanguage = LanguageCodes.Japanese,
+            SecondaryTargetLanguage = LanguageCodes.Korean,
+            AutoSwapTarget = false,
+        };
+
+        // 令 _settingsService.Current 抛出异常，证明显式重载绝不访问全局设置服务
+        _settingsService.Current.Returns(_ => throw new InvalidOperationException("Should not access SettingsService.Current"));
+
+        var result = _resolver.Resolve("Test", LanguageCodes.Auto, null, settingsA);
+        result.Target.ShouldBe(LanguageCodes.Japanese);
+    }
+
+    [Fact]
+    public void Resolve_ExplicitSettings_Null_ThrowsArgumentNullException()
+    {
+        Should.Throw<ArgumentNullException>(() => _resolver.Resolve("Test", LanguageCodes.Auto, null, null!));
+    }
 }

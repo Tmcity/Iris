@@ -17,6 +17,13 @@ internal sealed class TextPreprocessor : ITextPreprocessor
 
     public string Prepare(string raw, TextOrigin origin)
     {
+        return Prepare(raw, origin, _settings.Current.Translation);
+    }
+
+    public string Prepare(string raw, TextOrigin origin, TranslationSettings settings)
+    {
+        ArgumentNullException.ThrowIfNull(settings);
+
         if (string.IsNullOrEmpty(raw))
         {
             return string.Empty;
@@ -84,7 +91,7 @@ internal sealed class TextPreprocessor : ITextPreprocessor
 
         // 5. origin == Selection 且 SelectionLineBreaks == MergeSmart → 执行软换行合并。
         string result;
-        var selectionLineBreaks = _settings.Current.Translation.SelectionLineBreaks;
+        var selectionLineBreaks = settings.SelectionLineBreaks;
         if (origin == TextOrigin.Selection && selectionLineBreaks == LineBreakHandling.MergeSmart)
         {
             result = SoftLineBreakMerger.Merge(processedLines);

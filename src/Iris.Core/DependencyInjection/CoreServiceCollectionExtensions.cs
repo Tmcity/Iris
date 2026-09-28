@@ -26,6 +26,8 @@ public static class CoreServiceCollectionExtensions
         services.TryAddSingleton<ITranslationProviderRegistry>(sp => sp.GetRequiredService<TranslationProviderRegistry>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IProviderConfigurationObserver, TranslationProviderConfigurationObserver>());
 
+        services.TryAddSingleton<ITranslationCache, LruTranslationCache>();
+
         return services;
     }
 }

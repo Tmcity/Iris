@@ -1,3 +1,5 @@
+using Iris.Core.Settings;
+
 namespace Iris.Core.Translation;
 
 /// <summary>Prompt 模板。占位符见 PromptPlaceholders，未知占位符原样保留。</summary>
@@ -49,4 +51,7 @@ public interface IPromptRenderer
 public interface IPromptTemplateProvider
 {
     PromptTemplate Get(string? templateId);
+
+    /// <summary>使用指定配置执行同一模板查找/回退规则，不读取当前设置、不修改传入配置。</summary>
+    PromptTemplate Get(string? templateId, TranslationSettings settings);
 }

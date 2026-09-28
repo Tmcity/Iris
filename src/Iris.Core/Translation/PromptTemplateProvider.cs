@@ -31,7 +31,13 @@ internal sealed partial class PromptTemplateProvider : IPromptTemplateProvider
 
     public PromptTemplate Get(string? templateId)
     {
-        var settings = _settings.Current.Translation;
+        return Get(templateId, _settings.Current.Translation);
+    }
+
+    public PromptTemplate Get(string? templateId, TranslationSettings settings)
+    {
+        ArgumentNullException.ThrowIfNull(settings);
+
         var effectiveId = string.IsNullOrWhiteSpace(templateId)
             ? settings.DefaultPromptTemplateId
             : templateId.Trim();

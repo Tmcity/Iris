@@ -21,6 +21,13 @@ internal sealed class TargetLanguageResolver : ITargetLanguageResolver
 
     public ResolvedLanguagePair Resolve(string text, string requestedSource, string? requestedTarget)
     {
+        return Resolve(text, requestedSource, requestedTarget, _settings.Current.Translation);
+    }
+
+    public ResolvedLanguagePair Resolve(string text, string requestedSource, string? requestedTarget, TranslationSettings settings)
+    {
+        ArgumentNullException.ThrowIfNull(settings);
+
         // 1. 规范化
         string? normalizedSource = null;
         if (!string.IsNullOrWhiteSpace(requestedSource))
@@ -70,7 +77,6 @@ internal sealed class TargetLanguageResolver : ITargetLanguageResolver
         }
         else
         {
-            var settings = _settings.Current.Translation;
             var primary = NormalizeCode(settings.PrimaryTargetLanguage);
             var secondary = NormalizeCode(settings.SecondaryTargetLanguage);
 

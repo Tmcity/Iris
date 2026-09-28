@@ -68,6 +68,11 @@ public sealed class CoreRegistrationTests
         var observer2 = provider.GetService<IProviderConfigurationObserver>();
         observer1.ShouldNotBeNull();
         observer1.ShouldBeSameAs(observer2);
+
+        var cache1 = provider.GetService<ITranslationCache>();
+        var cache2 = provider.GetService<ITranslationCache>();
+        cache1.ShouldNotBeNull();
+        cache1.ShouldBeSameAs(cache2);
     }
 
     [Fact]
@@ -94,5 +99,6 @@ public sealed class CoreRegistrationTests
         provider.GetServices<IPromptTemplateProvider>().Count().ShouldBe(1);
         provider.GetServices<ITranslationProviderRegistry>().Count().ShouldBe(1);
         provider.GetServices<IProviderConfigurationObserver>().Count().ShouldBe(1);
+        provider.GetServices<ITranslationCache>().Count().ShouldBe(1);
     }
 }

@@ -45,7 +45,12 @@ public enum TranslationFinishReason
 public readonly record struct TranslationChunk(string Delta, TokenUsage? Usage = null, TranslationFinishReason? FinishReason = null);
 
 /// <summary>发给单个 Provider 的请求（语言已解析、文本已预处理）。</summary>
-public sealed record ProviderTranslateRequest(string Text, string SourceLanguage, string TargetLanguage);
+public sealed record ProviderTranslateRequest(string Text, string SourceLanguage, string TargetLanguage)
+{
+    /// <summary>非 null 时 Provider 直接发送此已渲染值，不再查找/渲染模板；null 保留直接调用行为。
+    /// 编排器从同一注册表快照准备此值，并使用同一请求计算缓存键。不得记录整个请求。</summary>
+    public RenderedPrompt? PreparedPrompt { get; init; }
+}
 
 // ---------------- 翻译会话事件流 ----------------
 // 顺序保证：TranslationStarted 一定最先；每个 Provider 依次为 ProviderStarted → ProviderDelta* →

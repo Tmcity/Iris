@@ -194,8 +194,8 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
         var path = _options.ChatCompletionsPath?.TrimStart('/') ?? "chat/completions";
         var requestUri = $"{baseUrl}/{path}";
 
-        var template = _promptTemplates.Get(_profile.PromptTemplateId);
-        var rendered = _promptRenderer.Render(template, request);
+        var rendered = request.PreparedPrompt
+            ?? _promptRenderer.Render(_promptTemplates.Get(_profile.PromptTemplateId), request);
 
         var messages = new List<ChatMessage>();
         if (!string.IsNullOrWhiteSpace(rendered.System))

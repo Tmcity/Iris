@@ -199,8 +199,8 @@ internal sealed partial class AnthropicTranslationProvider : ITranslationProvide
 
             var startTimestamp = _timeProvider.GetTimestamp();
 
-            var template = _promptTemplates.Get(_profile.PromptTemplateId);
-            var rendered = _promptRenderer.Render(template, request);
+            var rendered = request.PreparedPrompt
+                ?? _promptRenderer.Render(_promptTemplates.Get(_profile.PromptTemplateId), request);
 
             var isFallbackEligible = _options.RefusalFallback == true &&
                 string.IsNullOrWhiteSpace(_profile.BaseUrl) &&

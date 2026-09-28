@@ -50,7 +50,9 @@ public sealed class AnthropicTranslationProviderTests
         FakeTimeProvider? timeProvider = null,
         ILoggerFactory? loggerFactory = null,
         RenderedPrompt? renderedPrompt = null,
-        int timeoutSeconds = 30)
+        int timeoutSeconds = 30,
+        IPromptTemplateProvider? promptTemplates = null,
+        IPromptRenderer? promptRenderer = null)
     {
         var prof = profile ?? new TranslationProviderProfile
         {
@@ -68,20 +70,26 @@ public sealed class AnthropicTranslationProviderTests
         var httpClientFactory = Substitute.For<IHttpClientFactory>();
         httpClientFactory.CreateClient(HttpClientNames.Llm).Returns(httpClient);
 
-        var promptTemplates = Substitute.For<IPromptTemplateProvider>();
-        promptTemplates.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+        if (promptTemplates == null)
+        {
+            promptTemplates = Substitute.For<IPromptTemplateProvider>();
+            promptTemplates.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+        }
 
-        var promptRenderer = Substitute.For<IPromptRenderer>();
-        promptRenderer.Render(Arg.Any<PromptTemplate>(), Arg.Any<ProviderTranslateRequest>())
-            .Returns(callInfo =>
-            {
-                if (renderedPrompt != null)
+        if (promptRenderer == null)
+        {
+            promptRenderer = Substitute.For<IPromptRenderer>();
+            promptRenderer.Render(Arg.Any<PromptTemplate>(), Arg.Any<ProviderTranslateRequest>())
+                .Returns(callInfo =>
                 {
-                    return renderedPrompt;
-                }
-                var req = callInfo.Arg<ProviderTranslateRequest>();
-                return new RenderedPrompt(System: "You are a professional translator.", User: $"Translate to {req.TargetLanguage}: {req.Text}");
-            });
+                    if (renderedPrompt != null)
+                    {
+                        return renderedPrompt;
+                    }
+                    var req = callInfo.Arg<ProviderTranslateRequest>();
+                    return new RenderedPrompt(System: "You are a professional translator.", User: $"Translate to {req.TargetLanguage}: {req.Text}");
+                });
+        }
 
         var settings = Substitute.For<ISettingsService>();
         settings.Current.Returns(new AppSettings());
@@ -1719,6 +1727,187 @@ public sealed class AnthropicTranslationProviderTests
         ex.Retryable.ShouldBeFalse();
         ex.InnerException.ShouldBeNull();
         mockHttp.VerifyNoOutstandingExpectation();
+    }
+
+    [Fact]
+    public async Task TranslateStreamAsync_WithPreparedPrompt_NormalStream_BypassesTemplateAndRenderer_AndSendsExactMessages()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        string? capturedBody = null;
+
+        mockHttp.When(HttpMethod.Post, "https://api.anthropic.com/v1/messages")
+            .Respond(async req =>
+            {
+                capturedBody = await req.Content!.ReadAsStringAsync();
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent(LoadFixture("anthropic_stream_ok.txt"), Encoding.UTF8, "text/event-stream"),
+                };
+            });
+
+        var promptTemplates = Substitute.For<IPromptTemplateProvider>();
+        promptTemplates.Get(Arg.Any<string?>()).Returns(_ => throw new InvalidOperationException("PromptTemplateProvider should not be called when PreparedPrompt is present."));
+
+        var promptRenderer = Substitute.For<IPromptRenderer>();
+        promptRenderer.Render(Arg.Any<PromptTemplate>(), Arg.Any<ProviderTranslateRequest>())
+            .Returns(_ => throw new InvalidOperationException("PromptRenderer should not be called when PreparedPrompt is present."));
+
+        var provider = CreateProvider(mockHttp, promptTemplates: promptTemplates, promptRenderer: promptRenderer);
+        var preparedPrompt = new RenderedPrompt("Prepared Anthropic System Instruction", "Prepared Anthropic User Content");
+        var request = new ProviderTranslateRequest("Original source text", "en", "zh-CN")
+        {
+            PreparedPrompt = preparedPrompt,
+        };
+
+        var chunks = new List<TranslationChunk>();
+        await foreach (var chunk in provider.TranslateStreamAsync(request, TestContext.Current.CancellationToken))
+        {
+            chunks.Add(chunk);
+        }
+
+        chunks.Count.ShouldBeGreaterThan(0);
+        promptTemplates.DidNotReceiveWithAnyArgs().Get(default);
+        promptRenderer.DidNotReceiveWithAnyArgs().Render(default!, default!);
+
+        capturedBody.ShouldNotBeNull();
+        using var doc = JsonDocument.Parse(capturedBody);
+        var root = doc.RootElement;
+
+        root.GetProperty("system").GetString().ShouldBe("Prepared Anthropic System Instruction");
+        root.GetProperty("messages").GetArrayLength().ShouldBe(1);
+        root.GetProperty("messages")[0].GetProperty("role").GetString().ShouldBe("user");
+        root.GetProperty("messages")[0].GetProperty("content").GetString().ShouldBe("Prepared Anthropic User Content");
+    }
+
+    [Fact]
+    public async Task TranslateStreamAsync_WithPreparedPrompt_BetaFallback_BypassesTemplateAndRenderer_AndSendsExactMessages()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        HttpRequestMessage? capturedRequest = null;
+        string? capturedBody = null;
+
+        mockHttp.When(HttpMethod.Post, "https://api.anthropic.com/v1/messages")
+            .Respond(async req =>
+            {
+                capturedRequest = req;
+                capturedBody = await req.Content!.ReadAsStringAsync();
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent(LoadFixture("anthropic_stream_fallback.txt"), Encoding.UTF8, "text/event-stream"),
+                };
+            });
+
+        var profile = new TranslationProviderProfile
+        {
+            Id = "p-beta",
+            DisplayName = "Anthropic Beta",
+            Kind = TranslationProviderKind.Anthropic,
+            BaseUrl = null,
+            Model = "claude-opus-5-20250101",
+            AnthropicOptions = new AnthropicOptions { RefusalFallback = true },
+        };
+
+        var promptTemplates = Substitute.For<IPromptTemplateProvider>();
+        promptTemplates.Get(Arg.Any<string?>()).Returns(_ => throw new InvalidOperationException("PromptTemplateProvider should not be called when PreparedPrompt is present."));
+
+        var promptRenderer = Substitute.For<IPromptRenderer>();
+        promptRenderer.Render(Arg.Any<PromptTemplate>(), Arg.Any<ProviderTranslateRequest>())
+            .Returns(_ => throw new InvalidOperationException("PromptRenderer should not be called when PreparedPrompt is present."));
+
+        var provider = CreateProvider(mockHttp, profile: profile, promptTemplates: promptTemplates, promptRenderer: promptRenderer);
+        var preparedPrompt = new RenderedPrompt("Prepared Beta System Instruction", "Prepared Beta User Content");
+        var request = new ProviderTranslateRequest("Original source text", "en", "zh-CN")
+        {
+            PreparedPrompt = preparedPrompt,
+        };
+
+        var chunks = new List<TranslationChunk>();
+        await foreach (var chunk in provider.TranslateStreamAsync(request, TestContext.Current.CancellationToken))
+        {
+            chunks.Add(chunk);
+        }
+
+        chunks.Count.ShouldBeGreaterThan(0);
+        promptTemplates.DidNotReceiveWithAnyArgs().Get(default);
+        promptRenderer.DidNotReceiveWithAnyArgs().Render(default!, default!);
+
+        capturedRequest.ShouldNotBeNull();
+        capturedRequest.Headers.GetValues("anthropic-beta").ShouldContain("server-side-fallback-2026-07-01");
+
+        capturedBody.ShouldNotBeNull();
+        using var doc = JsonDocument.Parse(capturedBody);
+        var root = doc.RootElement;
+
+        root.GetProperty("system").GetString().ShouldBe("Prepared Beta System Instruction");
+        root.GetProperty("messages").GetArrayLength().ShouldBe(1);
+        root.GetProperty("messages")[0].GetProperty("role").GetString().ShouldBe("user");
+        root.GetProperty("messages")[0].GetProperty("content").GetString().ShouldBe("Prepared Beta User Content");
+    }
+
+    [Fact]
+    public async Task TranslateStreamAsync_WithoutPreparedPrompt_CallsTemplateAndRenderer()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.When(HttpMethod.Post, "https://api.anthropic.com/v1/messages")
+            .Respond("text/event-stream", LoadFixture("anthropic_stream_ok.txt"));
+
+        var promptTemplates = Substitute.For<IPromptTemplateProvider>();
+        var template = BuiltInPrompts.Default;
+        promptTemplates.Get(Arg.Any<string?>()).Returns(template);
+
+        var promptRenderer = Substitute.For<IPromptRenderer>();
+        promptRenderer.Render(Arg.Any<PromptTemplate>(), Arg.Any<ProviderTranslateRequest>())
+            .Returns(new RenderedPrompt("Rendered system", "Rendered user"));
+
+        var provider = CreateProvider(mockHttp, promptTemplates: promptTemplates, promptRenderer: promptRenderer);
+        var request = new ProviderTranslateRequest("Source text", "en", "zh-CN")
+        {
+            PreparedPrompt = null,
+        };
+
+        await foreach (var _ in provider.TranslateStreamAsync(request, TestContext.Current.CancellationToken))
+        {
+        }
+
+        promptTemplates.Received(1).Get(Arg.Any<string?>());
+        promptRenderer.Received(1).Render(template, request);
+    }
+
+    [Fact]
+    public async Task TranslateStreamAsync_StreamLaziness_DoesNotIssueHttpBeforeFirstMoveNextAsync()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        var callCount = 0;
+        mockHttp.When(HttpMethod.Post, "https://api.anthropic.com/v1/messages")
+            .Respond(_ =>
+            {
+                callCount++;
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent(LoadFixture("anthropic_stream_ok.txt"), Encoding.UTF8, "text/event-stream"),
+                };
+            });
+
+        var provider = CreateProvider(mockHttp);
+        var request = new ProviderTranslateRequest("Text to translate", "en", "zh-CN")
+        {
+            PreparedPrompt = new RenderedPrompt("Sys", "User"),
+        };
+
+        // 1. Invoking TranslateStreamAsync must NOT send HTTP
+        var enumerable = provider.TranslateStreamAsync(request, TestContext.Current.CancellationToken);
+        enumerable.ShouldNotBeNull();
+        callCount.ShouldBe(0);
+
+        // 2. Getting async enumerator must NOT send HTTP
+        var enumerator = enumerable.GetAsyncEnumerator(TestContext.Current.CancellationToken);
+        enumerator.ShouldNotBeNull();
+        callCount.ShouldBe(0);
+
+        // 3. First MoveNextAsync sends HTTP request
+        var hasNext = await enumerator.MoveNextAsync();
+        hasNext.ShouldBeTrue();
+        callCount.ShouldBe(1);
     }
 }
 

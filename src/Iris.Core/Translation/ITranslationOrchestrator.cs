@@ -1,18 +1,21 @@
+using Iris.Core.Settings;
+
 namespace Iris.Core.Translation;
 
 /// <summary>
 /// 翻译编排器（Core 内实现）。TranslateAsync 语义：
-/// 1) ITextPreprocessor 预处理；空文本抛 IrisException(InputEmpty)；超过 MaxInputChars 抛 InputTooLong。
-/// 2) ITargetLanguageResolver 解析语言对。
-/// 3) 使用 Registry.AcquireSnapshotAsync 获取快照；ProviderIds 为 null 时选择其中 IsConfigured 的 Provider，为空集合时抛 NotConfigured。
-///    ProviderIds 指定但不存在/未配置的 → 对应 ProviderFailed(NotConfigured)。
-/// 4) 每个 Provider：先查缓存（BypassCache=false 且 CacheEnabled）→ 命中直接 ProviderCompleted(FromCache=true)；
-///    否则调用流式接口，并发度 ≤ MaxConcurrentProviders，事件经 Channel 合并后按到达顺序产出。
-/// 5) 单个 Provider 失败不影响其他 Provider；异常统一转为 ProviderFailed。
-/// 6) 全部结束后：成功结果写缓存；RecordHistory 且 History.Enabled 且至少一个成功 → 写历史（失败只记日志）。
-/// 7) cancellationToken 取消：停止所有 Provider，枚举抛 OperationCanceledException，不写历史。
-/// 快照租约须保持到子任务全部退出；正常、异常和消费者提前结束时都须完成子任务清理再释放。
-/// 请求级错误（第 1、3 步）在第一次 MoveNextAsync 时以 IrisException 抛出。
+/// 1) 首次枚举借用 Registry 快照；预处理、语言、模板与执行选项全部使用 Snapshot.Settings。
+///    预处理后空文本抛 IrisException(InputEmpty)；超过 MaxInputChars 抛 InputTooLong。
+/// 2) ProviderIds 为 null 时选择快照中 IsConfigured 的 Provider；空集合或没有可用项时抛 NotConfigured。
+///    显式指定但不存在/未配置的项产出对应 ProviderFailed(NotConfigured)。
+/// 3) 在排队前准备每项 PreparedPrompt、实际请求缓存键与缓存 Generation；后续不读取动态设置重算。
+/// 4) BypassCache=false 且 CacheEnabled 时查缓存；命中产出 ProviderStarted、ProviderCompleted(FromCache=true)。
+///    否则调用流式接口，并发度不超过快照中的 MaxConcurrentProviders，事件由有界 Channel 合并。
+/// 5) 单个 Provider 失败不影响其它项，转为 ProviderFailed；失败/取消/截断不写缓存。
+/// 6) 全部子任务结束后，未截断成功值以原 Generation 尝试写缓存；BypassCache 只跳过读取。
+///    RecordHistory 且快照 History.Enabled 且至少一个成功时写历史，写入失败只记安全日志。
+/// 7) 调用取消或消费者提前结束时取消并等待全部子任务退出，再释放租约；调用取消抛 OperationCanceledException，不写历史。
+/// 请求级错误在首次 MoveNextAsync 抛出。精确选择、事件与资源边界见 TRANSLATION_EXECUTION.md 和 T-013 工单。
 /// </summary>
 public interface ITranslationOrchestrator
 {
@@ -26,4 +29,7 @@ public interface ITranslationOrchestrator
 public interface ITextPreprocessor
 {
     string Prepare(string raw, TextOrigin origin);
+
+    /// <summary>使用指定配置执行同一预处理规则，不读取当前设置、不修改传入配置。</summary>
+    string Prepare(string raw, TextOrigin origin, TranslationSettings settings);
 }

@@ -1,3 +1,5 @@
+using Iris.Core.Settings;
+
 namespace Iris.Core.Languages;
 
 /// <summary>
@@ -20,4 +22,7 @@ public interface ILanguageDetector
 public interface ITargetLanguageResolver
 {
     ResolvedLanguagePair Resolve(string text, string requestedSource, string? requestedTarget);
+
+    /// <summary>使用指定配置执行同一语言规则，不读取当前设置、不修改传入配置。</summary>
+    ResolvedLanguagePair Resolve(string text, string requestedSource, string? requestedTarget, TranslationSettings settings);
 }

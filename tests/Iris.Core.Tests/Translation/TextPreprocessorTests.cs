@@ -152,4 +152,28 @@ public sealed class TextPreprocessorTests
         SetSelectionLineBreaks(LineBreakHandling.MergeSmart);
         preprocessor.Prepare("This is\nwrapped.", TextOrigin.Selection).ShouldBe("This is wrapped.");
     }
+
+    [Fact]
+    public void Prepare_ExplicitSettings_UsesProvidedSettings_AndDoesNotReadSettingsService()
+    {
+        var settingsA = new TranslationSettings
+        {
+            SelectionLineBreaks = LineBreakHandling.MergeSmart,
+        };
+
+        var preprocessor = new TextPreprocessor(_settings);
+
+        // 令 _settings.Current 抛出异常，证明显式重载不访问 Current
+        _settings.Current.Returns(_ => throw new InvalidOperationException("Should not access SettingsService.Current"));
+
+        var result = preprocessor.Prepare("This is\nwrapped.", TextOrigin.Selection, settingsA);
+        result.ShouldBe("This is wrapped.");
+    }
+
+    [Fact]
+    public void Prepare_ExplicitSettings_Null_ThrowsArgumentNullException()
+    {
+        var preprocessor = new TextPreprocessor(_settings);
+        Should.Throw<ArgumentNullException>(() => preprocessor.Prepare("text", TextOrigin.Input, null!));
+    }
 }
