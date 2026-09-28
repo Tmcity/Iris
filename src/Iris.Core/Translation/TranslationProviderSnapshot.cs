@@ -152,12 +152,24 @@ internal sealed partial class TrackedInstance
     private int _refCount;
     private bool _retired;
     private bool _disposed;
+    private int _providerDisposed;
 
     public Guid InstanceId { get; }
     public TranslationProviderProfile Profile { get; }
     public ProviderCredentials? Credentials { get; }
     public ITranslationProvider Provider { get; }
     public ProviderConstructionFingerprint Fingerprint { get; }
+
+    public bool IsRetired
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _retired || _disposed;
+            }
+        }
+    }
 
     public TrackedInstance(
         TranslationProviderProfile profile,
@@ -228,6 +240,11 @@ internal sealed partial class TrackedInstance
 
     public void DisposeProvider(ILogger? logger)
     {
+        if (Interlocked.Exchange(ref _providerDisposed, 1) != 0)
+        {
+            return;
+        }
+
         if (Provider is IDisposable disposable)
         {
             try
@@ -254,8 +271,8 @@ internal sealed partial class TrackedInstance
 internal sealed class TranslationProviderSnapshot : ITranslationProviderSnapshot
 {
     private readonly AppSettings _settings;
-    private readonly IReadOnlyList<TranslationProviderRegistration> _providers;
-    private readonly IReadOnlyList<TrackedInstance> _trackedInstances;
+    private readonly ReadOnlyCollection<TranslationProviderRegistration> _providers;
+    private readonly ReadOnlyCollection<TrackedInstance> _trackedInstances;
     private readonly ILogger? _logger;
     private int _disposed;
 
@@ -266,8 +283,13 @@ internal sealed class TranslationProviderSnapshot : ITranslationProviderSnapshot
         ILogger? logger = null)
     {
         _settings = settings ?? throw new ArgumentNullException(nameof(settings));
-        _providers = providers ?? throw new ArgumentNullException(nameof(providers));
-        _trackedInstances = trackedInstances ?? throw new ArgumentNullException(nameof(trackedInstances));
+        ArgumentNullException.ThrowIfNull(providers);
+        ArgumentNullException.ThrowIfNull(trackedInstances);
+
+        _providers = providers as ReadOnlyCollection<TranslationProviderRegistration>
+            ?? Array.AsReadOnly(providers.ToArray());
+        _trackedInstances = trackedInstances as ReadOnlyCollection<TrackedInstance>
+            ?? Array.AsReadOnly(trackedInstances.ToArray());
         _logger = logger;
     }
 

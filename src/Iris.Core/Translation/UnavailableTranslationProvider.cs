@@ -37,16 +37,15 @@ internal sealed class UnavailableTranslationProvider : ITranslationProvider
     {
         cancellationToken.ThrowIfCancellationRequested();
         await Task.Yield();
-
-        if (cancellationToken.IsCancellationRequested)
-        {
-            yield break;
-        }
+        cancellationToken.ThrowIfCancellationRequested();
 
         throw new IrisException(
             ErrorCode.NotConfigured,
             $"Provider '{_profile.DisplayName}' is not configured.",
             providerId: _profile.Id);
+#pragma warning disable CS0162
+        yield break;
+#pragma warning restore CS0162
     }
 
     public Task<ProviderTestResult> TestAsync(CancellationToken cancellationToken)

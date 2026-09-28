@@ -237,6 +237,9 @@ public sealed class ProviderCredentialResolverTests
     [InlineData("""{"format":"iris-provider-credentials","version":1,"apiKey":"k","secretKey":false}""")] // secretKey is bool
     [InlineData("""{"format":"iris-provider-credentials","version":1,"apiKey":"k","secretKey":null,"apiKey":"dup"}""")] // Duplicate property
     [InlineData("""{"format":"iris-provider-credentials","version":1,"apiKey":"k","secretKey":null,"format":"dup"}""")] // Duplicate format
+    [InlineData("""{"format":"iris-provider-credentials","version":1,"apiKey":"k","secretKey":null,"nested":{"dup":1,"dup":2}}""")] // Nested duplicate in object
+    [InlineData("""{"format":"iris-provider-credentials","version":1,"apiKey":"k","secretKey":null,"arr":[{"dup":1,"dup":2}]}""")] // Nested duplicate in object within array
+    [InlineData("""{"format":"iris-provider-credentials","version":1,"apiKey":"k","secretKey":null,"nested":{"inner":{"dup":1,"dup":2}}}""")] // Deeply nested duplicate
     [InlineData("""{"format":"iris-provider-credentials","version":1,"apiKey":"k","secretKey":null} trailing-junk""")] // Trailing junk
     [InlineData("""not json at all""")]
     [InlineData("""{ broken json""")]
@@ -261,6 +264,70 @@ public sealed class ProviderCredentialResolverTests
         result.IsExplicitUnconfigured.ShouldBeTrue();
         result.Credentials.ShouldBeNull();
         _secretStore.DidNotReceive().Get(SecretKeys.ApiKey("tp-bad-json"));
+    }
+
+    [Theory]
+    [InlineData("cs-0123456789abcdef0123456789abcdef\n")]
+    [InlineData("cs-0123456789abcdef0123456789abcdef\r\n")]
+    [InlineData("\ncs-0123456789abcdef0123456789abcdef")]
+    [InlineData("cs-0123456789abcdef0123456789abcdef ")]
+    [InlineData(" cs-0123456789abcdef0123456789abcdef")]
+    public void Resolve_WhenCredentialSetIdHasTrailingOrLeadingWhitespaceOrNewline_ReturnsExplicitUnconfigured_DoesNotQuerySecretStore(string invalidId)
+    {
+        var profile = new TranslationProviderProfile
+        {
+            Id = "tp-bad-id",
+            Kind = TranslationProviderKind.OpenAICompatible,
+            DisplayName = "Test",
+            Model = "gpt-4o",
+            CredentialSetId = invalidId
+        };
+
+        var result = ProviderCredentialResolver.Resolve(profile, _secretStore);
+
+        result.IsExplicitUnconfigured.ShouldBeTrue();
+        result.Credentials.ShouldBeNull();
+        _secretStore.DidNotReceiveWithAnyArgs().Get(default!);
+    }
+
+    [Fact]
+    public void Resolve_WhenJsonContainsValidNestedObjectsAndArraysWithoutDuplicates_Succeeds()
+    {
+        var validSetId = "cs-" + Guid.NewGuid().ToString("N");
+        var profile = new TranslationProviderProfile
+        {
+            Id = "tp-nested-ok",
+            Kind = TranslationProviderKind.OpenAICompatible,
+            DisplayName = "Test",
+            Model = "gpt-4o",
+            CredentialSetId = validSetId
+        };
+
+        var json = """
+        {
+          "format": "iris-provider-credentials",
+          "version": 1,
+          "apiKey": "nested-ok-key",
+          "secretKey": "nested-ok-secret",
+          "metadata": {
+            "environment": "production",
+            "tags": ["cloud", "azure"]
+          },
+          "nestedArray": [
+            { "item": 1 },
+            { "item": 2 }
+          ]
+        }
+        """;
+
+        _secretStore.Get(SecretKeys.CredentialSet(validSetId)).Returns(json);
+
+        var result = ProviderCredentialResolver.Resolve(profile, _secretStore);
+
+        result.IsExplicitUnconfigured.ShouldBeFalse();
+        result.Credentials.ShouldNotBeNull();
+        result.Credentials!.ApiKey.ShouldBe("nested-ok-key");
+        result.Credentials.SecretKey.ShouldBe("nested-ok-secret");
     }
 
     [Fact]

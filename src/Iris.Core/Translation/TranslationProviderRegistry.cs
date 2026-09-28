@@ -23,16 +23,20 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
     private readonly Dictionary<TranslationProviderKind, ITranslationProviderFactory> _factoriesByKind;
     private readonly ILogger<TranslationProviderRegistry> _logger;
 
-    private readonly SemaphoreSlim _refreshSemaphore = new(1, 1);
+    private readonly SemaphoreSlim _rebuildLock = new(1, 1);
     private readonly Lock _stateLock = new();
 
     private Dictionary<string, TrackedInstance> _activeInstances = new(StringComparer.Ordinal);
-    private IReadOnlyList<TranslationProviderRegistration> _currentRegistrations = [];
-    private IReadOnlyList<TrackedInstance> _currentTrackedInstances = [];
+    private ReadOnlyCollection<TranslationProviderRegistration> _currentRegistrations = Array.AsReadOnly(Array.Empty<TranslationProviderRegistration>());
+    private ReadOnlyCollection<TrackedInstance> _currentTrackedInstances = Array.AsReadOnly(Array.Empty<TrackedInstance>());
     private AppSettings _currentSettings = new();
 
+    private long _targetVersion = 1;
+    private long _publishedVersion;
+    private long _failedVersion;
+    private Exception? _lastFailure;
     private bool _isInitialized;
-    private int _needsRefresh = 1;
+
     private int _isBackgroundRefreshScheduled;
     private int _disposed;
 
@@ -60,7 +64,7 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
         }
         _factoriesByKind = dict;
 
-        // 订阅设置与密钥变化事件：仅标记失效并调度后台刷新，不在事件回调中同步进入锁或等待
+        // 订阅设置与密钥变化事件：仅标记失效代次并调度后台刷新，不在事件回调中同步进入锁或等待
         _settingsService.Changed += OnSettingsChanged;
         _secretStore.Changed += OnSecretChanged;
     }
@@ -68,7 +72,19 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
     public async Task RefreshAsync(CancellationToken cancellationToken = default)
     {
         ThrowIfDisposed();
-        await RefreshInternalAsync(cancellationToken).ConfigureAwait(false);
+        cancellationToken.ThrowIfCancellationRequested();
+
+        long target;
+        lock (_stateLock)
+        {
+            ThrowIfDisposed();
+            _targetVersion++;
+            _failedVersion = 0;
+            _lastFailure = null;
+            target = _targetVersion;
+        }
+
+        await PerformRebuildAsync(target, cancellationToken).ConfigureAwait(false);
     }
 
     public async Task<ITranslationProviderSnapshot> AcquireSnapshotAsync(CancellationToken cancellationToken = default)
@@ -76,31 +92,43 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
         ThrowIfDisposed();
         cancellationToken.ThrowIfCancellationRequested();
 
-        // 首次调用或标记失效时执行刷新屏障
-        if (Volatile.Read(ref _needsRefresh) != 0 || !_isInitialized)
+        while (true)
         {
-            await RefreshInternalAsync(cancellationToken).ConfigureAwait(false);
-        }
-
-        lock (_stateLock)
-        {
-            ThrowIfDisposed();
-
-            // 为当前快照持有的所有实例增加引用
-            foreach (var instance in _currentTrackedInstances)
+            long target;
+            lock (_stateLock)
             {
-                instance.AddRef();
+                ThrowIfDisposed();
+
+                if (_isInitialized && _publishedVersion >= _targetVersion)
+                {
+                    foreach (var instance in _currentTrackedInstances)
+                    {
+                        instance.AddRef();
+                    }
+
+                    return new TranslationProviderSnapshot(
+                        _currentSettings,
+                        _currentRegistrations,
+                        _currentTrackedInstances,
+                        _logger);
+                }
+
+                if (_failedVersion == _targetVersion && _lastFailure != null)
+                {
+                    throw new IrisException(
+                        ErrorCode.Unknown,
+                        "Translation provider registry configuration failed.",
+                        innerException: null);
+                }
+
+                target = _targetVersion;
             }
 
-            return new TranslationProviderSnapshot(
-                _currentSettings,
-                _currentRegistrations,
-                _currentTrackedInstances,
-                _logger);
+            await PerformRebuildAsync(target, cancellationToken).ConfigureAwait(false);
         }
     }
 
-    public Task<ITranslationProviderSnapshot> CreateTransientAsync(
+    public async Task<ITranslationProviderSnapshot> CreateTransientAsync(
         TranslationProviderProfile profile,
         ProviderCredentials credentials,
         CancellationToken cancellationToken = default)
@@ -110,129 +138,200 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
         ArgumentNullException.ThrowIfNull(credentials);
         cancellationToken.ThrowIfCancellationRequested();
 
-        // 复制并只读封装 ExtraHeaders，隔离调用方草稿后续修改
+        // 1. 同步在调用线程捕获草稿与设置快照（防延迟捕获别名竞态）
         var frozenProfile = FreezeDraftProfile(profile);
+        var currentSettings = _settingsService.Current;
 
-        if (!_factoriesByKind.TryGetValue(frozenProfile.Kind, out var factory))
+        // 2. 调度到后台线程池执行构造
+        return await Task.Run(() =>
         {
-            throw new IrisException(ErrorCode.Unknown, $"No factory registered for provider kind '{frozenProfile.Kind}'.");
-        }
+            ThrowIfDisposed();
+            cancellationToken.ThrowIfCancellationRequested();
 
-        ITranslationProvider provider;
-        try
-        {
-            provider = factory.Create(frozenProfile, credentials);
-        }
-        catch (Exception ex)
-        {
-            LogTransientCreateFailed(_logger, frozenProfile.Id, frozenProfile.Kind, ex.GetType().Name);
-            throw new IrisException(ErrorCode.Unknown, "Failed to create transient provider.", innerException: null);
-        }
+            if (!_factoriesByKind.TryGetValue(frozenProfile.Kind, out var factory))
+            {
+                throw new IrisException(ErrorCode.Unknown, $"No factory registered for provider kind '{frozenProfile.Kind}'.");
+            }
 
-        var fingerprint = new ProviderConstructionFingerprint(frozenProfile, credentials, isExplicitUnconfigured: false);
-        var tracked = new TrackedInstance(frozenProfile, credentials, provider, fingerprint, initiallyRetired: true);
+            ITranslationProvider provider;
+            try
+            {
+                provider = factory.Create(frozenProfile, credentials);
+            }
+            catch (Exception ex)
+            {
+                LogTransientCreateFailed(_logger, frozenProfile.Id, frozenProfile.Kind, ex.GetType().Name);
+                throw new IrisException(ErrorCode.Unknown, "Failed to create transient provider.", innerException: null);
+            }
 
-        var registration = new TranslationProviderRegistration(frozenProfile, provider, tracked.InstanceId);
-        var snapshot = new TranslationProviderSnapshot(
-            _settingsService.Current,
-            [registration],
-            [tracked],
-            _logger);
+            var fingerprint = new ProviderConstructionFingerprint(frozenProfile, credentials, isExplicitUnconfigured: false);
+            var tracked = new TrackedInstance(frozenProfile, credentials, provider, fingerprint, initiallyRetired: true);
 
-        return Task.FromResult<ITranslationProviderSnapshot>(snapshot);
+            var handedOver = false;
+            try
+            {
+                ThrowIfDisposed();
+                cancellationToken.ThrowIfCancellationRequested();
+
+                var registration = new TranslationProviderRegistration(frozenProfile, provider, tracked.InstanceId);
+                var snapshot = new TranslationProviderSnapshot(
+                    currentSettings,
+                    Array.AsReadOnly([registration]),
+                    Array.AsReadOnly([tracked]),
+                    _logger);
+
+                handedOver = true;
+                return (ITranslationProviderSnapshot)snapshot;
+            }
+            finally
+            {
+                if (!handedOver)
+                {
+                    tracked.DisposeProvider(_logger);
+                }
+            }
+        }, cancellationToken).ConfigureAwait(false);
     }
 
-    private async Task RefreshInternalAsync(CancellationToken cancellationToken)
+    private async Task PerformRebuildAsync(long targetVersion, CancellationToken cancellationToken)
     {
-        await _refreshSemaphore.WaitAsync(cancellationToken).ConfigureAwait(false);
+        ThrowIfDisposed();
+        cancellationToken.ThrowIfCancellationRequested();
+
+        await _rebuildLock.WaitAsync(cancellationToken).ConfigureAwait(false);
         try
         {
             ThrowIfDisposed();
             cancellationToken.ThrowIfCancellationRequested();
 
-            Interlocked.Exchange(ref _needsRefresh, 0);
-
-            // 重新在屏障内读取当前设置
-            var settings = _settingsService.Current;
-            var enabledProfiles = settings.Translation.Providers
-                .Where(p => p.Enabled)
-                .OrderBy(p => p.Order)
-                .ToList();
-
-            var nextActive = new Dictionary<string, TrackedInstance>(StringComparer.Ordinal);
-            var nextRegistrations = new List<TranslationProviderRegistration>();
-            var nextTracked = new List<TrackedInstance>();
-            var newlyCreated = new List<TrackedInstance>();
-
-            try
+            long currentTarget;
+            AppSettings settings;
+            lock (_stateLock)
             {
-                foreach (var profile in enabledProfiles)
+                ThrowIfDisposed();
+                if (_isInitialized && _publishedVersion >= targetVersion)
                 {
+                    return;
+                }
+
+                if (_failedVersion == targetVersion && _lastFailure != null)
+                {
+                    throw new IrisException(
+                        ErrorCode.Unknown,
+                        "Translation provider registry configuration failed.",
+                        innerException: null);
+                }
+
+                currentTarget = _targetVersion;
+                settings = _settingsService.Current;
+            }
+
+            await Task.Run(() => DoRebuildWork(currentTarget, settings, cancellationToken), cancellationToken).ConfigureAwait(false);
+        }
+        finally
+        {
+            _rebuildLock.Release();
+        }
+    }
+
+    private void DoRebuildWork(long targetVersion, AppSettings settings, CancellationToken cancellationToken)
+    {
+        ThrowIfDisposed();
+        cancellationToken.ThrowIfCancellationRequested();
+
+        var enabledProfiles = settings.Translation.Providers
+            .Where(p => p.Enabled)
+            .OrderBy(p => p.Order)
+            .ToList();
+
+        var nextActive = new Dictionary<string, TrackedInstance>(StringComparer.Ordinal);
+        var nextRegistrations = new List<TranslationProviderRegistration>();
+        var nextTracked = new List<TrackedInstance>();
+        var newlyCreated = new List<TrackedInstance>();
+        var committed = false;
+
+        try
+        {
+            foreach (var profile in enabledProfiles)
+            {
+                ThrowIfDisposed();
+                cancellationToken.ThrowIfCancellationRequested();
+
+                var credResult = ProviderCredentialResolver.Resolve(profile, _secretStore, _logger);
+                var fingerprint = new ProviderConstructionFingerprint(profile, credResult.Credentials, credResult.IsExplicitUnconfigured);
+
+                TrackedInstance? existing = null;
+                lock (_stateLock)
+                {
+                    ThrowIfDisposed();
+                    if (_activeInstances.TryGetValue(profile.Id, out var candidate) &&
+                        candidate.Fingerprint.Equals(fingerprint) &&
+                        !candidate.IsRetired)
+                    {
+                        existing = candidate;
+                    }
+                }
+
+                if (existing != null)
+                {
+                    // 复用已有实例：使用本次更新的 Profile，保留同一 Provider 与 InstanceId
+                    nextActive[profile.Id] = existing;
+                    nextTracked.Add(existing);
+                    nextRegistrations.Add(new TranslationProviderRegistration(profile, existing.Provider, existing.InstanceId));
+                }
+                else
+                {
+                    ThrowIfDisposed();
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    var credResult = ProviderCredentialResolver.Resolve(profile, _secretStore, _logger);
-                    var fingerprint = new ProviderConstructionFingerprint(profile, credResult.Credentials, credResult.IsExplicitUnconfigured);
-
-                    if (_activeInstances.TryGetValue(profile.Id, out var existing) && existing.Fingerprint.Equals(fingerprint))
+                    ITranslationProvider provider;
+                    if (credResult.IsExplicitUnconfigured)
                     {
-                        // 命中指纹复用：保留原有实例与 InstanceId
-                        nextActive[profile.Id] = existing;
-                        nextTracked.Add(existing);
-                        nextRegistrations.Add(new TranslationProviderRegistration(existing.Profile, existing.Provider, existing.InstanceId));
+                        provider = new UnavailableTranslationProvider(profile);
                     }
                     else
                     {
-                        // 构造新代实例
-                        ITranslationProvider provider;
-                        if (credResult.IsExplicitUnconfigured)
+                        if (!_factoriesByKind.TryGetValue(profile.Kind, out var factory))
                         {
-                            provider = new UnavailableTranslationProvider(profile);
-                        }
-                        else
-                        {
-                            if (!_factoriesByKind.TryGetValue(profile.Kind, out var factory))
-                            {
-                                throw new IrisException(ErrorCode.Unknown, $"No factory registered for provider kind '{profile.Kind}'.");
-                            }
-
-                            try
-                            {
-                                provider = factory.Create(profile, credResult.Credentials!);
-                            }
-                            catch (Exception ex)
-                            {
-                                LogFactoryCreateFailed(_logger, profile.Id, profile.Kind, ex.GetType().Name);
-                                throw new IrisException(ErrorCode.Unknown, "Failed to create provider.", innerException: null);
-                            }
+                            throw new IrisException(ErrorCode.Unknown, $"No factory registered for provider kind '{profile.Kind}'.");
                         }
 
-                        var tracked = new TrackedInstance(profile, credResult.Credentials, provider, fingerprint);
-                        newlyCreated.Add(tracked);
-                        nextActive[profile.Id] = tracked;
-                        nextTracked.Add(tracked);
-                        nextRegistrations.Add(new TranslationProviderRegistration(profile, provider, tracked.InstanceId));
+                        try
+                        {
+                            provider = factory.Create(profile, credResult.Credentials!);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogFactoryCreateFailed(_logger, profile.Id, profile.Kind, ex.GetType().Name);
+                            throw new IrisException(ErrorCode.Unknown, "Failed to create provider.", innerException: null);
+                        }
                     }
+
+                    var tracked = new TrackedInstance(profile, credResult.Credentials, provider, fingerprint);
+                    newlyCreated.Add(tracked);
+
+                    // 同步 Factory 调用返回后检查取消与 disposed
+                    ThrowIfDisposed();
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    nextActive[profile.Id] = tracked;
+                    nextTracked.Add(tracked);
+                    nextRegistrations.Add(new TranslationProviderRegistration(profile, provider, tracked.InstanceId));
                 }
-            }
-            catch
-            {
-                // 失败回滚：释放本次已新建的实例，不改变当前注册表发布状态
-                foreach (var instance in newlyCreated)
-                {
-                    instance.DisposeProvider(_logger);
-                }
-                throw;
             }
 
-            // 原子发布与退休计算
+            // 最终发布检查
+            ThrowIfDisposed();
+            cancellationToken.ThrowIfCancellationRequested();
+
             List<TrackedInstance> instancesToDispose = [];
             bool hasChanged;
 
             lock (_stateLock)
             {
                 ThrowIfDisposed();
+                cancellationToken.ThrowIfCancellationRequested();
 
-                // 计算退休实例：原本在 _activeInstances 中，但在新表中被移除或被新代替换的实例
                 foreach (var (id, active) in _activeInstances)
                 {
                     if (!nextActive.TryGetValue(id, out var currentInNext) || !ReferenceEquals(currentInNext, active))
@@ -248,31 +347,49 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
 
                 _currentSettings = settings;
                 _activeInstances = nextActive;
-                _currentRegistrations = nextRegistrations;
-                _currentTrackedInstances = nextTracked;
+                _currentRegistrations = Array.AsReadOnly(nextRegistrations.ToArray());
+                _currentTrackedInstances = Array.AsReadOnly(nextTracked.ToArray());
+                _publishedVersion = targetVersion;
                 _isInitialized = true;
+                committed = true;
             }
 
-            // 在注册表锁外清理退休且无快照引用的实例
             foreach (var instance in instancesToDispose)
             {
                 instance.DisposeProvider(_logger);
             }
 
-            // 在注册表锁外触发 Changed 事件
             if (hasChanged)
             {
                 FireChanged();
             }
         }
+        catch (Exception ex)
+        {
+            if (ex is not OperationCanceledException && ex is not ObjectDisposedException)
+            {
+                lock (_stateLock)
+                {
+                    _failedVersion = targetVersion;
+                    _lastFailure = ex;
+                }
+            }
+            throw;
+        }
         finally
         {
-            _refreshSemaphore.Release();
+            if (!committed)
+            {
+                foreach (var instance in newlyCreated)
+                {
+                    instance.DisposeProvider(_logger);
+                }
+            }
         }
     }
 
     private static bool HasChanges(
-        IReadOnlyList<TranslationProviderRegistration> oldList,
+        ReadOnlyCollection<TranslationProviderRegistration> oldList,
         List<TranslationProviderRegistration> newList)
     {
         if (oldList.Count != newList.Count)
@@ -325,7 +442,13 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
             return;
         }
 
-        Interlocked.Exchange(ref _needsRefresh, 1);
+        lock (_stateLock)
+        {
+            _targetVersion++;
+            _failedVersion = 0;
+            _lastFailure = null;
+        }
+
         ScheduleBackgroundRefresh();
     }
 
@@ -336,7 +459,13 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
             return;
         }
 
-        Interlocked.Exchange(ref _needsRefresh, 1);
+        lock (_stateLock)
+        {
+            _targetVersion++;
+            _failedVersion = 0;
+            _lastFailure = null;
+        }
+
         ScheduleBackgroundRefresh();
     }
 
@@ -344,31 +473,62 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
     {
         if (Interlocked.CompareExchange(ref _isBackgroundRefreshScheduled, 1, 0) == 0)
         {
-            _ = Task.Run(async () => await ProcessBackgroundRefreshAsync().ConfigureAwait(false));
+            _ = Task.Run(ProcessBackgroundRefreshAsync);
         }
     }
 
     private async Task ProcessBackgroundRefreshAsync()
     {
-        while (Volatile.Read(ref _needsRefresh) != 0 && Volatile.Read(ref _disposed) == 0)
+        try
         {
-            try
+            while (Volatile.Read(ref _disposed) == 0)
             {
-                await RefreshAsync(CancellationToken.None).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                LogBackgroundRefreshFailed(_logger, ex.GetType().Name);
-                Interlocked.Exchange(ref _needsRefresh, 0);
-                break;
+                long currentTarget;
+                lock (_stateLock)
+                {
+                    if ((_isInitialized && _publishedVersion >= _targetVersion) ||
+                        _failedVersion == _targetVersion)
+                    {
+                        break;
+                    }
+                    currentTarget = _targetVersion;
+                }
+
+                try
+                {
+                    await PerformRebuildAsync(currentTarget, CancellationToken.None).ConfigureAwait(false);
+                }
+                catch (IrisException ex)
+                {
+                    LogBackgroundRefreshFailed(_logger, ex.GetType().Name);
+                    break;
+                }
+                catch (Exception ex) when (ex is not ObjectDisposedException)
+                {
+                    LogBackgroundRefreshFailed(_logger, ex.GetType().Name);
+                    break;
+                }
             }
         }
-
-        Interlocked.Exchange(ref _isBackgroundRefreshScheduled, 0);
-
-        if (Volatile.Read(ref _needsRefresh) != 0 && Volatile.Read(ref _disposed) == 0)
+        finally
         {
-            ScheduleBackgroundRefresh();
+            Interlocked.Exchange(ref _isBackgroundRefreshScheduled, 0);
+
+            bool shouldReschedule = false;
+            lock (_stateLock)
+            {
+                if (Volatile.Read(ref _disposed) == 0 &&
+                    (!_isInitialized || _publishedVersion < _targetVersion) &&
+                    _failedVersion != _targetVersion)
+                {
+                    shouldReschedule = true;
+                }
+            }
+
+            if (shouldReschedule)
+            {
+                ScheduleBackgroundRefresh();
+            }
         }
     }
 
@@ -424,8 +584,8 @@ internal sealed partial class TranslationProviderRegistry : ITranslationProvider
                 }
             }
             _activeInstances.Clear();
-            _currentRegistrations = [];
-            _currentTrackedInstances = [];
+            _currentRegistrations = Array.AsReadOnly(Array.Empty<TranslationProviderRegistration>());
+            _currentTrackedInstances = Array.AsReadOnly(Array.Empty<TrackedInstance>());
         }
 
         foreach (var instance in instancesToDispose)

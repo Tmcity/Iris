@@ -25,7 +25,7 @@ internal readonly record struct CredentialResolutionResult(
 /// </summary>
 internal static partial class ProviderCredentialResolver
 {
-    [GeneratedRegex(@"^cs-[0-9a-f]{32}$")]
+    [GeneratedRegex(@"\Acs-[0-9a-f]{32}\z")]
     private static partial Regex CredentialSetIdRegex();
 
     public static CredentialResolutionResult Resolve(
@@ -199,8 +199,12 @@ internal static partial class ProviderCredentialResolver
                         break;
 
                     default:
-                        // 额外未知字段可忽略
-                        reader.Skip();
+                        // 额外未知字段：检查是否有重复属性或结构异常，继续忽略合法未知字段
+                        if (!ValidateSubtreeNoDuplicates(ref reader))
+                        {
+                            if (logger != null) LogDuplicateProperty(logger, profileId);
+                            return CredentialResolutionResult.ExplicitUnconfigured();
+                        }
                         break;
                 }
             }
@@ -233,6 +237,63 @@ internal static partial class ProviderCredentialResolver
             if (logger != null) LogJsonParseFailed(logger, profileId, ex.GetType().Name);
             return CredentialResolutionResult.ExplicitUnconfigured();
         }
+    }
+
+    private static bool ValidateSubtreeNoDuplicates(ref Utf8JsonReader reader)
+    {
+        if (reader.TokenType != JsonTokenType.StartObject && reader.TokenType != JsonTokenType.StartArray)
+        {
+            return true;
+        }
+
+        var stack = new Stack<HashSet<string>>();
+        var nestingDepth = 1;
+
+        if (reader.TokenType == JsonTokenType.StartObject)
+        {
+            stack.Push(new HashSet<string>(StringComparer.Ordinal));
+        }
+
+        while (nestingDepth > 0 && reader.Read())
+        {
+            switch (reader.TokenType)
+            {
+                case JsonTokenType.StartObject:
+                    nestingDepth++;
+                    stack.Push(new HashSet<string>(StringComparer.Ordinal));
+                    break;
+
+                case JsonTokenType.EndObject:
+                    nestingDepth--;
+                    if (stack.Count > 0)
+                    {
+                        stack.Pop();
+                    }
+                    break;
+
+                case JsonTokenType.StartArray:
+                    nestingDepth++;
+                    break;
+
+                case JsonTokenType.EndArray:
+                    nestingDepth--;
+                    break;
+
+                case JsonTokenType.PropertyName:
+                    if (stack.Count == 0)
+                    {
+                        return false;
+                    }
+                    var propName = reader.GetString()!;
+                    if (!stack.Peek().Add(propName))
+                    {
+                        return false;
+                    }
+                    break;
+            }
+        }
+
+        return nestingDepth == 0;
     }
 
     [LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = "Failed to read legacy apiKey for profile {ProfileId}: {ExceptionType}")]
