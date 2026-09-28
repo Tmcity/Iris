@@ -503,14 +503,8 @@ internal sealed partial class AnthropicTranslationProvider : ITranslationProvide
                     return true;
                 }
             }
-            else if (root.TryGetProperty("type", out var rootTypeProp) &&
-                     rootTypeProp.ValueKind == JsonValueKind.String &&
-                     rootTypeProp.ValueEquals("request_too_large"))
-            {
-                return true;
-            }
         }
-        catch (Exception)
+        catch (JsonException)
         {
             // 非合法 JSON 或解析失败保持未知错误 500
         }

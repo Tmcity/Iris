@@ -22,6 +22,7 @@ using Iris.Providers.Http;
 using Iris.Providers.Translation.Anthropic;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Time.Testing;
+using NetSse = System.Net.ServerSentEvents;
 using NSubstitute;
 using RichardSzalay.MockHttp;
 using Shouldly;
@@ -335,7 +336,8 @@ public sealed class AnthropicReworkR1Tests
     public async Task R1_3_StreamReadCancellation_DisposesResponseStreamAndContent()
     {
         var stream = new ControllableStream();
-        var trackingContent = new StreamContent(stream)
+        var trackingStream = new DisposableTrackingStream(stream);
+        var trackingContent = new DisposableTrackingContent(trackingStream)
         {
             Headers = { ContentType = new MediaTypeHeaderValue("text/event-stream") }
         };
@@ -364,19 +366,27 @@ public sealed class AnthropicReworkR1Tests
         userCts.Cancel();
 
         await Should.ThrowAsync<OperationCanceledException>(async () => await readTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken));
+
+        // 验证取消时底层流与 HttpContent 均被实际释放
+        trackingStream.IsDisposed.ShouldBeTrue();
+        trackingContent.IsDisposed.ShouldBeTrue();
     }
 
     [Fact]
     public void R1_3_ProviderDispose_IsIdempotent()
     {
-        var mockHttp = new MockHttpMessageHandler();
-        var provider = CreateProvider(mockHttp);
+        var transportHandler = new DisposableTrackingHandler();
+        var provider = CreateProvider(transportHandler);
 
-        // 第一次 Dispose
+        transportHandler.IsDisposed.ShouldBeFalse();
+
+        // 第一次 Dispose 释放底层客户端与传输 Handler
         Should.NotThrow(() => provider.Dispose());
+        transportHandler.IsDisposed.ShouldBeTrue();
 
         // 第二次 Dispose 幂等安全
         Should.NotThrow(() => provider.Dispose());
+        transportHandler.IsDisposed.ShouldBeTrue();
     }
 
     #endregion
@@ -412,13 +422,17 @@ public sealed class AnthropicReworkR1Tests
         tracker.ProcessBytes(Encoding.UTF8.GetBytes("event: ping\ndata: {\"type\":\"ping\"}\n\n"));
         count.ShouldBe(1);
 
-        // ping without data
+        // ping without data (does not increment)
         tracker.ProcessBytes(Encoding.UTF8.GetBytes("event: ping\n\n"));
-        count.ShouldBe(2);
+        count.ShouldBe(1);
 
-        // ping with spaces around
+        // ping with spaces around without data (does not increment)
         tracker.ProcessBytes(Encoding.UTF8.GetBytes("event:  ping  \r\n\r\n"));
-        count.ShouldBe(3);
+        count.ShouldBe(1);
+
+        // ping with empty data value (has data: so increments)
+        tracker.ProcessBytes(Encoding.UTF8.GetBytes("event: ping\ndata:\n\n"));
+        count.ShouldBe(2);
     }
 
     [Fact]
@@ -637,6 +651,7 @@ public sealed class AnthropicReworkR1Tests
     [InlineData("{\"type\":\"error\",\"error\":{\"type\":\"some_future_type\",\"message\":\"request_too_large is in the message but type is not\"}}", 500, ErrorCode.ProviderUnavailable, true)]
     [InlineData("{\"type\":\"error\",\"error\":{\"message\":\"missing type\"}}", 500, ErrorCode.ProviderUnavailable, true)]
     [InlineData("{\"type\":\"error\",\"error\":{\"type\":12345,\"message\":\"type is int\"}}", 500, ErrorCode.ProviderUnavailable, true)]
+    [InlineData("{\"type\":\"request_too_large\"}", 500, ErrorCode.ProviderUnavailable, true)]
     [InlineData("not a json error", 500, ErrorCode.ProviderUnavailable, true)]
     public async Task R1_5_StructuredErrorTypeMapping_Tests(string errorJson, int expectedStatus, ErrorCode expectedCode, bool expectedRetryable)
     {
@@ -664,10 +679,16 @@ public sealed class AnthropicReworkR1Tests
     {
         AnthropicTranslationProvider.IsRequestTooLarge("{\"type\":\"error\",\"error\":{\"type\":\"request_too_large\"}}").ShouldBeTrue();
         AnthropicTranslationProvider.IsRequestTooLarge("{\"error\":{\"type\":\"request_too_large\"}}").ShouldBeTrue();
-        AnthropicTranslationProvider.IsRequestTooLarge("{\"type\":\"request_too_large\"}").ShouldBeTrue();
+        AnthropicTranslationProvider.IsRequestTooLarge("{\"type\":\"request_too_large\"}").ShouldBeFalse();
         AnthropicTranslationProvider.IsRequestTooLarge("{\"type\":\"error\",\"error\":{\"type\":\"REQUEST_TOO_LARGE\"}}").ShouldBeFalse();
         AnthropicTranslationProvider.IsRequestTooLarge("{\"type\":\"error\",\"error\":{\"type\":\"other\",\"message\":\"request_too_large\"}}").ShouldBeFalse();
         AnthropicTranslationProvider.IsRequestTooLarge("{\"type\":\"error\",\"error\":{}}").ShouldBeFalse();
+        AnthropicTranslationProvider.IsRequestTooLarge("{\"type\":\"error\",\"error\":null}").ShouldBeFalse();
+        AnthropicTranslationProvider.IsRequestTooLarge("{\"type\":\"error\",\"error\":\"not an object\"}").ShouldBeFalse();
+        AnthropicTranslationProvider.IsRequestTooLarge("{\"type\":\"error\",\"error\":{\"type\":null}}").ShouldBeFalse();
+        AnthropicTranslationProvider.IsRequestTooLarge("{\"type\":\"error\",\"error\":{\"type\":12345}}").ShouldBeFalse();
+        AnthropicTranslationProvider.IsRequestTooLarge("{\"error\":null}").ShouldBeFalse();
+        AnthropicTranslationProvider.IsRequestTooLarge("{\"error\":\"not an object\"}").ShouldBeFalse();
         AnthropicTranslationProvider.IsRequestTooLarge("").ShouldBeFalse();
         AnthropicTranslationProvider.IsRequestTooLarge("invalid json").ShouldBeFalse();
     }
@@ -733,14 +754,241 @@ public sealed class AnthropicReworkR1Tests
 
     #endregion
 
+    #region R2: SSE 边界与错误类型判定收紧
+
+    [Fact]
+    public void R2_1_SseBoundary_Differential_PingWithoutData_CountZero()
+    {
+        var count = 0;
+        var tracker = new SseEventBoundaryTracker(() => count++);
+        tracker.ProcessBytes(Encoding.UTF8.GetBytes("event: ping\n\n"));
+        count.ShouldBe(0);
+    }
+
+    [Fact]
+    public void R2_1_SseBoundary_Differential_DataIgnored_CountZero()
+    {
+        var count = 0;
+        var tracker = new SseEventBoundaryTracker(() => count++);
+        tracker.ProcessBytes(Encoding.UTF8.GetBytes("data ignored\n\n"));
+        count.ShouldBe(0);
+    }
+
+    [Fact]
+    public void R2_1_SseBoundary_Differential_BomBeforeData_CountOne()
+    {
+        var count = 0;
+        var tracker = new SseEventBoundaryTracker(() => count++);
+        tracker.ProcessBytes(Encoding.UTF8.GetBytes("\uFEFFdata: hello\n\n"));
+        count.ShouldBe(1);
+    }
+
+    [Fact]
+    public void R2_2_IsRequestTooLarge_RootTypeWithoutErrorObject_ReturnsFalse()
+    {
+        AnthropicTranslationProvider.IsRequestTooLarge("{\"type\":\"request_too_large\"}").ShouldBeFalse();
+    }
+
+    [Fact]
+    public async Task R2_2_ProviderError_MissingErrorType_MapsTo500ProviderUnavailable()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        var ssePayload = "event: error\ndata: {\"type\":\"request_too_large\"}\n\n";
+        mockHttp.When(HttpMethod.Post, "https://api.anthropic.com/v1/messages")
+            .Respond("text/event-stream", ssePayload);
+
+        var provider = CreateProvider(mockHttp);
+        var ex = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await foreach (var _ in provider.TranslateStreamAsync(new ProviderTranslateRequest("hi", "en", "zh-CN"), TestContext.Current.CancellationToken))
+            {
+            }
+        });
+
+        ex.Code.ShouldBe(ErrorCode.ProviderUnavailable);
+        ex.HttpStatus.ShouldBe(500);
+        ex.Retryable.ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task R2_1_ProviderStream_PingWithoutData_DoesNotResetTimeout_TimesOut_Sonnet()
+    {
+        var timeProvider = new FakeTimeProvider();
+        var stream = new ControllableStream();
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.When(HttpMethod.Post, "https://api.anthropic.com/v1/messages")
+            .Respond(_ => new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StreamContent(stream)
+                {
+                    Headers = { ContentType = new MediaTypeHeaderValue("text/event-stream") }
+                }
+            });
+
+        var provider = CreateProvider(mockHttp, timeProvider: timeProvider, timeoutSeconds: 10);
+        var task = Task.Run(async () =>
+        {
+            await foreach (var _ in provider.TranslateStreamAsync(new ProviderTranslateRequest("hi", "en", "zh-CN"), TestContext.Current.CancellationToken))
+            {
+            }
+        }, TestContext.Current.CancellationToken);
+
+        try
+        {
+            await stream.WaitForReadAsync();
+            stream.Push("event: message_start\ndata: {\"type\":\"message_start\",\"message\":{\"id\":\"msg_1\",\"type\":\"message\",\"role\":\"assistant\",\"model\":\"claude-sonnet-5\",\"content\":[],\"stop_reason\":null,\"usage\":{\"input_tokens\":10,\"output_tokens\":1}}}\n\n");
+            await stream.WaitForReadAsync();
+
+            // t=6s: 发送无 data 的 ping，按规范不能续期
+            timeProvider.Advance(TimeSpan.FromSeconds(6));
+            stream.Push("event: ping\n\n");
+            await stream.WaitForReadAsync();
+
+            // t=12s (再过 6s，总静默时间 12s > 10s)：应该超时
+            timeProvider.Advance(TimeSpan.FromSeconds(6));
+
+            var ex = await Should.ThrowAsync<IrisException>(async () => await task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken));
+            ex.Code.ShouldBe(ErrorCode.Timeout);
+        }
+        finally
+        {
+            stream.Complete();
+        }
+    }
+
+    [Fact]
+    public async Task R2_1_ProviderStream_PingWithoutData_DoesNotResetTimeout_TimesOut_Opus()
+    {
+        var timeProvider = new FakeTimeProvider();
+        var stream = new ControllableStream();
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.When(HttpMethod.Post, "https://api.anthropic.com/v1/messages")
+            .Respond(_ => new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StreamContent(stream)
+                {
+                    Headers = { ContentType = new MediaTypeHeaderValue("text/event-stream") }
+                }
+            });
+
+        var profile = new TranslationProviderProfile
+        {
+            Id = "p-rework-opus",
+            DisplayName = "Test Opus",
+            Kind = TranslationProviderKind.Anthropic,
+            Model = "claude-opus-5-20250514",
+            TimeoutSeconds = 10,
+            AnthropicOptions = new AnthropicOptions { RefusalFallback = true },
+        };
+
+        var provider = CreateProvider(mockHttp, profile: profile, timeProvider: timeProvider, timeoutSeconds: 10);
+        var task = Task.Run(async () =>
+        {
+            await foreach (var _ in provider.TranslateStreamAsync(new ProviderTranslateRequest("hi", "en", "zh-CN"), TestContext.Current.CancellationToken))
+            {
+            }
+        }, TestContext.Current.CancellationToken);
+
+        try
+        {
+            await stream.WaitForReadAsync();
+            stream.Push("event: message_start\ndata: {\"type\":\"message_start\",\"message\":{\"id\":\"msg_1\",\"type\":\"message\",\"role\":\"assistant\",\"model\":\"claude-opus-5\",\"content\":[],\"stop_reason\":null,\"usage\":{\"input_tokens\":10,\"output_tokens\":1}}}\n\n");
+            await stream.WaitForReadAsync();
+
+            // t=6s: 发送无 data 的 ping，按规范不能续期
+            timeProvider.Advance(TimeSpan.FromSeconds(6));
+            stream.Push("event: ping\n\n");
+            await stream.WaitForReadAsync();
+
+            // t=12s (再过 6s，总静默时间 12s > 10s)：应该超时
+            timeProvider.Advance(TimeSpan.FromSeconds(6));
+
+            var ex = await Should.ThrowAsync<IrisException>(async () => await task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken));
+            ex.Code.ShouldBe(ErrorCode.Timeout);
+        }
+        finally
+        {
+            stream.Complete();
+        }
+    }
+
+    [Theory]
+    [InlineData("event: ping\ndata: {\"type\":\"ping\"}\n\n", 1)]
+    [InlineData("event: ping\n\n", 0)]
+    [InlineData("data ignored\n\n", 0)]
+    [InlineData("data:\n\n", 1)]
+    [InlineData("\uFEFFdata: hello\n\n", 1)]
+    [InlineData("data: hello", 0)]
+    [InlineData(":comment\n\n", 0)]
+    [InlineData("data: first\ndata: second\n\n", 1)]
+    [InlineData("data\n\n", 1)]
+    [InlineData("data: one\r\r", 1)]
+    [InlineData("data: one\r\n\r\n", 1)]
+    [InlineData("\uFEFFdata: {\"text\":\"你好世界\"}\n\n", 1)]
+    public async Task R2_1_SseParser_Differential_ComparisonWithDotNetSseParser(string sseInput, int expectedEvents)
+    {
+        var bytes = Encoding.UTF8.GetBytes(sseInput);
+
+        // 1. .NET SseParser 产出事件数验证
+        var dotNetCount = await CountEventsUsingDotNetSseParserAsync(bytes);
+        dotNetCount.ShouldBe(expectedEvents);
+
+        // 2. 整块输入
+        CountEventsUsingTracker(bytes, bytes.Length).ShouldBe(expectedEvents);
+
+        // 3. 逐字节输入（测试跨字节状态机与跨 chunk UTF-8/BOM）
+        CountEventsUsingTracker(bytes, 1).ShouldBe(expectedEvents);
+
+        // 4. 双字节切分
+        CountEventsUsingTracker(bytes, 2).ShouldBe(expectedEvents);
+
+        // 5. 3 字节切分（对应 BOM 边界）
+        CountEventsUsingTracker(bytes, 3).ShouldBe(expectedEvents);
+
+        // 6. 7 字节切分
+        CountEventsUsingTracker(bytes, 7).ShouldBe(expectedEvents);
+    }
+
+    private static async Task<int> CountEventsUsingDotNetSseParserAsync(byte[] bytes)
+    {
+        using var ms = new MemoryStream(bytes);
+        var parser = NetSse.SseParser.Create(ms);
+        var count = 0;
+        await foreach (var _ in parser.EnumerateAsync())
+        {
+            count++;
+        }
+        return count;
+    }
+
+    private static int CountEventsUsingTracker(byte[] bytes, int chunkSize)
+    {
+        var count = 0;
+        var tracker = new SseEventBoundaryTracker(() => count++);
+        for (int i = 0; i < bytes.Length; i += chunkSize)
+        {
+            var len = Math.Min(chunkSize, bytes.Length - i);
+            tracker.ProcessBytes(bytes.AsSpan(i, len));
+        }
+        return count;
+    }
+
+    #endregion
+
     #region Test Dummies
 
     private sealed class DisposableTrackingContent : HttpContent
     {
+        private readonly Stream? _stream;
         private readonly bool _throwOnReadStream;
         private readonly bool _cancelOnReadStream;
 
         public bool IsDisposed { get; private set; }
+
+        public DisposableTrackingContent(Stream stream)
+        {
+            _stream = stream;
+        }
 
         public DisposableTrackingContent(bool throwOnReadStream = false, bool cancelOnReadStream = false)
         {
@@ -758,7 +1006,7 @@ public sealed class AnthropicReworkR1Tests
             {
                 throw new OperationCanceledException();
             }
-            return Task.FromResult<Stream>(new MemoryStream());
+            return Task.FromResult(_stream ?? new MemoryStream());
         }
 
         protected override Task SerializeToStreamAsync(Stream stream, TransportContext? context) =>
@@ -898,6 +1146,27 @@ public sealed class AnthropicReworkR1Tests
         public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
         public override void SetLength(long value) => throw new NotSupportedException();
         public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+    }
+
+    private sealed class DisposableTrackingHandler : HttpMessageHandler
+    {
+        public bool IsDisposed { get; private set; }
+
+        protected override Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StringContent(string.Empty)
+            });
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            IsDisposed = true;
+        }
     }
 
     #endregion

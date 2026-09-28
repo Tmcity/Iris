@@ -1609,27 +1609,31 @@ public sealed class AnthropicTranslationProviderTests
             }
         }, TestContext.Current.CancellationToken);
 
+        try
+        {
+            // 1. Initial valid event: message_start (Push -> Wait)
+            await controllableStream.WaitForReadAsync();
+            controllableStream.Push("event: message_start\ndata: {\"type\":\"message_start\",\"message\":{\"id\":\"msg_1\",\"type\":\"message\",\"role\":\"assistant\",\"model\":\"claude-sonnet-5\",\"content\":[],\"stop_reason\":null,\"usage\":{\"input_tokens\":10,\"output_tokens\":1}}}\n\n");
+            await controllableStream.WaitForReadAsync();
 
-        // 1. Initial valid event: message_start
-        await controllableStream.WaitForReadAsync();
-        controllableStream.Push("event: message_start\ndata: {\"type\":\"message_start\",\"message\":{\"id\":\"msg_1\",\"type\":\"message\",\"role\":\"assistant\",\"model\":\"claude-sonnet-5\",\"content\":[],\"stop_reason\":null,\"usage\":{\"input_tokens\":10,\"output_tokens\":1}}}\n\n");
+            // 2. Push fragmented bytes without complete event boundary -> wait for consumption -> advance 6s
+            controllableStream.Push("data: ");
+            await controllableStream.WaitForReadAsync();
+            timeProvider.Advance(TimeSpan.FromSeconds(6));
 
-        // 2. At t=6s, push fragmented bytes without complete event boundary
-        timeProvider.Advance(TimeSpan.FromSeconds(6));
-        await controllableStream.WaitForReadAsync();
-        controllableStream.Push("data: ");
+            // 3. Push more fragmented spaces -> wait for consumption -> advance 6s (total 12s > 10s)
+            controllableStream.Push("   ");
+            await controllableStream.WaitForReadAsync();
+            timeProvider.Advance(TimeSpan.FromSeconds(6));
 
-        // 3. At t=12s (6s later), push more fragmented spaces
-        timeProvider.Advance(TimeSpan.FromSeconds(6));
-        await controllableStream.WaitForReadAsync();
-        controllableStream.Push("   ");
-
-        // 4. Advance time past 10s timeout threshold (total 18s without complete event)
-        timeProvider.Advance(TimeSpan.FromSeconds(6));
-
-        // Expect timeout exception because no complete event arrived in >10 seconds
-        var ex = await Should.ThrowAsync<IrisException>(async () => await readTask.WaitAsync(TimeSpan.FromSeconds(5)));
-        ex.Code.ShouldBe(ErrorCode.Timeout);
+            // Expect timeout exception because no complete event arrived in >10 seconds
+            var ex = await Should.ThrowAsync<IrisException>(async () => await readTask.WaitAsync(TimeSpan.FromSeconds(5)));
+            ex.Code.ShouldBe(ErrorCode.Timeout);
+        }
+        finally
+        {
+            controllableStream.Complete();
+        }
     }
 
     [Fact]
