@@ -8,6 +8,7 @@ using Iris.App.Tray;
 using Iris.Core.Errors;
 using Iris.Core.Presentation;
 using Iris.Core.Settings;
+using Iris.Core.Translation;
 using Iris.Platform.Windows.SystemIntegration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -22,6 +23,7 @@ internal sealed record AppStartupInfo(long StartTimestamp);
 internal sealed partial class AppBootstrapper
 {
     private readonly ISettingsService _settingsService;
+    private readonly ITranslationProviderRegistry _translationRegistry;
     private readonly LogLevelController _logLevelController;
     private readonly ThemeService _themeService;
     private readonly TrayIconController _trayIconController;
@@ -36,6 +38,7 @@ internal sealed partial class AppBootstrapper
 
     public AppBootstrapper(
         ISettingsService settingsService,
+        ITranslationProviderRegistry translationRegistry,
         LogLevelController logLevelController,
         ThemeService themeService,
         TrayIconController trayIconController,
@@ -45,6 +48,7 @@ internal sealed partial class AppBootstrapper
         AppStartupInfo startupInfo)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
+        _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
         _logLevelController = logLevelController ?? throw new ArgumentNullException(nameof(logLevelController));
         _themeService = themeService ?? throw new ArgumentNullException(nameof(themeService));
         _trayIconController = trayIconController ?? throw new ArgumentNullException(nameof(trayIconController));
@@ -71,6 +75,9 @@ internal sealed partial class AppBootstrapper
             Application.Current?.Shutdown(1);
             return;
         }
+
+        // T-011: 设置成功加载（含损坏恢复）后，在用户入口启用前调用 ITranslationProviderRegistry.RefreshAsync()
+        await _translationRegistry.RefreshAsync();
 
         // 2. 配置日志级别
         _logLevelController.ApplyCurrent();

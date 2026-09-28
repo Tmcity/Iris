@@ -426,21 +426,39 @@ namespace Iris.Core.Translation
         ITranslationProvider Create(TranslationProviderProfile profile, ProviderCredentials credentials);
     }
 
-    /// <summary>
-    /// 根据 Settings + SecretStore 构建并缓存 Provider 实例；监听 ISettingsService.Changed 与 ISecretStore.Changed
-    /// 自动重建，重建完成后触发 Changed。
-    /// </summary>
-    public interface ITranslationProviderRegistry
+    /// <summary>按设置和凭据管理 Provider 实例。构造函数不加载设置、不创建实例；首次刷新在设置加载后进行。
+    /// 退休实例在最后一个快照释放后清理；Dispose 后拒绝新操作，已有快照仍可安全释放。</summary>
+    public interface ITranslationProviderRegistry : IProviderConfigurationObserver, IDisposable
     {
-        /// <summary>Enabled 的 Profile 对应实例，按 Order 升序（含未配置的，调用方按 Descriptor.IsConfigured 判断）。</summary>
-        IReadOnlyList<ITranslationProvider> GetEnabled();
+        /// <summary>必要时刷新并原子获取快照。按 Order 稳定排序，包含已启用但未配置的项。</summary>
+        Task<ITranslationProviderSnapshot> AcquireSnapshotAsync(CancellationToken cancellationToken = default);
 
-        ITranslationProvider? Find(string providerId);
+        /// <summary>以独立捕获的草稿及显式凭据创建单项快照；忽略 Enabled，不缓存、不写盘、不触发 Changed。</summary>
+        Task<ITranslationProviderSnapshot> CreateTransientAsync(
+            TranslationProviderProfile profile,
+            ProviderCredentials credentials,
+            CancellationToken cancellationToken = default);
 
-        /// <summary>设置页“测试连接 / 获取模型”用：以草稿 Profile 与草稿凭据临时创建，不缓存。</summary>
-        ITranslationProvider CreateTransient(TranslationProviderProfile profile, ProviderCredentials credentials);
-
+        /// <summary>有效注册项、顺序、Descriptor 或实例代次变化后的通知；锁外触发，可合并，订阅方通过新快照读取状态。</summary>
         event EventHandler? Changed;
+    }
+}
+
+// FILE: src/Iris.Core/Translation/ProviderRegistryModels.cs
+namespace Iris.Core.Translation
+{
+    /// <summary>快照中的注册项。InstanceId 为实例代次；不可记录整个对象或其配置/凭据内容。</summary>
+    public sealed record TranslationProviderRegistration(
+        TranslationProviderProfile Profile,
+        ITranslationProvider Provider,
+        Guid InstanceId);
+
+    /// <summary>拥有 Provider 使用权的快照。消费者须在子任务全部结束后释放，不能自行释放借出的 Provider。
+    /// Dispose 幂等；释放后访问属性抛 ObjectDisposedException；旧快照不受注册表后续重建影响。</summary>
+    public interface ITranslationProviderSnapshot : IDisposable
+    {
+        AppSettings Settings { get; }
+        IReadOnlyList<TranslationProviderRegistration> Providers { get; }
     }
 }
 
@@ -451,13 +469,14 @@ namespace Iris.Core.Translation
     /// 翻译编排器（Core 内实现）。TranslateAsync 语义：
     /// 1) ITextPreprocessor 预处理；空文本抛 IrisException(InputEmpty)；超过 MaxInputChars 抛 InputTooLong。
     /// 2) ITargetLanguageResolver 解析语言对。
-    /// 3) 选取 Provider：ProviderIds 为 null 取 Registry.GetEnabled() 中 IsConfigured 的；为空集合时抛 NotConfigured。
+    /// 3) 使用 Registry.AcquireSnapshotAsync 获取快照；ProviderIds 为 null 时选择其中 IsConfigured 的 Provider，为空集合时抛 NotConfigured。
     ///    ProviderIds 指定但不存在/未配置的 → 对应 ProviderFailed(NotConfigured)。
     /// 4) 每个 Provider：先查缓存（BypassCache=false 且 CacheEnabled）→ 命中直接 ProviderCompleted(FromCache=true)；
     ///    否则调用流式接口，并发度 ≤ MaxConcurrentProviders，事件经 Channel 合并后按到达顺序产出。
     /// 5) 单个 Provider 失败不影响其他 Provider；异常统一转为 ProviderFailed。
     /// 6) 全部结束后：成功结果写缓存；RecordHistory 且 History.Enabled 且至少一个成功 → 写历史（失败只记日志）。
     /// 7) cancellationToken 取消：停止所有 Provider，枚举抛 OperationCanceledException，不写历史。
+    /// 快照租约须保持到子任务全部退出；正常、异常和消费者提前结束时都须完成子任务清理再释放。
     /// 请求级错误（第 1、3 步）在第一次 MoveNextAsync 时以 IrisException 抛出。
     /// </summary>
     public interface ITranslationOrchestrator
@@ -615,7 +634,7 @@ namespace Iris.Core.Ocr
         IOcrProvider Create(OcrProviderProfile profile, ProviderCredentials credentials);
     }
 
-    /// <summary>行为同 ITranslationProviderRegistry。</summary>
+    /// <summary>OCR 注册表原型；T-030 落地前按 PROVIDER_REGISTRY.md 同步租约与发布屏障接口，当前不实现此原型。</summary>
     public interface IOcrProviderRegistry
     {
         IOcrProvider? GetActive();
@@ -795,6 +814,10 @@ namespace Iris.Core.Settings
         /// <summary>稳定 Id："tp-" + Guid("N") 前 12 位；创建后不可修改。</summary>
         public required string Id { get; init; }
 
+        /// <summary>null = 兼容旧的按 Profile.Id 存储的凭据；非 null = 精确的不可变凭据集引用。
+        /// 引用非法、缺失或内容损坏时视为未配置，禁止回退旧键。格式与发布协议见 PROVIDER_REGISTRY.md。</summary>
+        public string? CredentialSetId { get; init; }
+
         public required TranslationProviderKind Kind { get; init; }
         public required string DisplayName { get; init; }
         public bool Enabled { get; init; } = true;
@@ -866,6 +889,9 @@ namespace Iris.Core.Settings
     public sealed record OcrProviderProfile
     {
         public required string Id { get; init; }
+        /// <summary>null = 兼容旧的按 Profile.Id 存储的凭据；非 null = 精确的不可变凭据集引用。
+        /// 引用非法、缺失或内容损坏时视为未配置，禁止回退旧键。格式与发布协议见 PROVIDER_REGISTRY.md。</summary>
+        public string? CredentialSetId { get; init; }
         public required OcrProviderKind Kind { get; init; }
         public required string DisplayName { get; init; }
         public bool Enabled { get; init; } = true;
@@ -1199,6 +1225,16 @@ namespace Iris.Core.Settings
     }
 }
 
+// FILE: src/Iris.Core/Settings/IProviderConfigurationObserver.cs
+namespace Iris.Core.Settings
+{
+    /// <summary>配置提交后的发布屏障；刷新当前设置与凭据，成功返回后旧引用的解析工作已经结束。</summary>
+    public interface IProviderConfigurationObserver
+    {
+        Task RefreshAsync(CancellationToken cancellationToken = default);
+    }
+}
+
 // FILE: src/Iris.Core/Security/ISecretStore.cs
 namespace Iris.Core.Security
 {
@@ -1228,6 +1264,8 @@ namespace Iris.Core.Security
         public static string ApiKey(string providerId) => $"provider/{providerId}/api-key";
 
         public static string SecretKey(string providerId) => $"provider/{providerId}/secret-key";
+
+        public static string CredentialSet(string credentialSetId) => $"credential-set/{credentialSetId}";
     }
 }
 

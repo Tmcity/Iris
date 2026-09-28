@@ -20,6 +20,7 @@
         "id": "tp-custom",
         "kind": "OpenAICompatible",
         "displayName": null,
+        "credentialSetId": null,
         "baseUrl": null,
         "model": null,
         "promptTemplateId": null,

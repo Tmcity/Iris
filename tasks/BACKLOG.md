@@ -66,8 +66,8 @@
 | T-009 | ☑ | OpenAI 兼容翻译 Provider | T-007, T-008 | 1.5d |
 | T-010 | ☑ | Anthropic 翻译 Provider（官方 SDK）+ 公共调用骨架（含 R1/R2） | T-007, T-008 | 1.25d + 0.75d + 0.25d |
 | T-010A | ☑ | 远程异常与 HTTP 凭据边界加固（架构审查 A01，含 R1） | T-010 | 0.75d + 0.5d |
-| T-010B | ▶ | 深度不可变设置快照（架构审查 A02） | T-010A | 0.75d |
-| T-011 | ☐ | TranslationProviderRegistry（签发前完成 A03/A04 契约决策） | T-004, T-010B | 待契约细化 |
+| T-010B | ☑ | 深度不可变设置快照（架构审查 A02） | T-010A | 0.75d |
+| T-011 | ▶ | TranslationProviderRegistry、凭据解析与快照租约 | T-004, T-010B | 1.5d |
 | T-012 | ☐ | LruTranslationCache（执行版本与字节预算纳入工单） | T-011 | 待工单细化 |
 | T-013 | ☐ | TranslationOrchestrator | T-011, T-012 | 1.5d |
 
@@ -85,9 +85,9 @@
 
 **T-010A** — ☑ 提交 `587484a4487188031d5d637141b4c430c9c18af6` 于 2026-09-28 复审通过，CCR-001 已结案。独立构建零警告、824 个测试通过；原泄漏探针不再回显假凭据，64 KiB 短凭据样本本次约 3.05 ms，原二次扫描已移除；R2 基线表已更正。证据见 `tasks/done/T-010A.md` 末尾。
 
-**T-010B** — ▶ 当前工单见 `tasks/current_task.md`，依据 ARCH v1.14 与已批准 CCR-002：在设置服务五处发布位置捕获深度不可变快照，覆盖所有嵌套集合，确保文件/Current/Changed 来自同一份值，保留无操作更新、失败回滚与事件顺序。只修改契约注释，不更改公开签名、默认值或 JSON 格式。
+**T-010B** — ☑ 提交 `21f6224cd66ec0e07f9f127f388a7b9410336986` 于 2026-09-28 复审通过，CCR-002 结案。独立构建零警告、840 个测试通过；别名隔离、无操作更新、失败回滚、旧版本及未来版本/损坏恢复探针通过。反射覆盖测试的 C10B-1 小遗留转入 T-011，不改已验收实现。
 
-**T-011** 交付 `TranslationProviderRegistry`（Core）：按 Kind 找到对应 Factory，从 SecretStore 读取凭据，缓存实例，收到设置或密钥变化时重建并触发 Changed；`CreateTransient` 不缓存。签发前必须明确配置/凭据一致发布与在途实例所有权（审查 A03/A04），不能由开发自行猜测。验收包括重建时机、排序、禁用 Profile 排除、按实际 Provider 规则判定 IsConfigured（本地免 Key 服务不能一律判未配置）。
+**T-011** — ▶ 当前工单见 `tasks/current_task.md`。A03/A04 的设计已写入 `specs/PROVIDER_REGISTRY.md`，CCR-003 已批准并通过独立编译验证：不可变 CredentialSetId 读取、注册表快照租约、实例复用/退休、后台刷新、发布屏障、瞬态快照、DI/启动接线。设置写入协调器在 T-019 实施，OCR 租约接口在 T-030 同步；T-011 不宣称这些后续功能已完成。
 
 **T-012** 验收：容量淘汰遵循 LRU；多线程并发读写安全（Parallel.For 压测）；Clear 生效。
 
@@ -125,6 +125,7 @@
 
 **T-018** 验收：打开 / 取消 / 保存行为符合 ARCH §12.2 的草稿模式；主题切换即时生效；开机自启写入并清除注册表 Run 键；设置窗口只存在一个实例。
 **T-019** 验收：从预设添加服务时自动填入 BaseUrl 和模型；Key 保存到 SecretStore（settings.json 中找不到 Key）；删除 Profile 时同时删除其密钥；测试连接显示延迟与测试译文，或错误信息；获取模型列表可用；模型名包含 haiku 时自动清空 Effort 并提示；Anthropic 的反代 BaseUrl 以 `/v1` 结尾时提示去掉（SDK 会自动追加 `/v1/messages`，ARCH §9.2）；拖拽排序后结果卡片顺序随之改变。
+T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器：整组凭据先写入新引用，再原子切换 Profile，刷新观察者后清理旧值；禁止直接复写活动凭据集或以多次 legacy Set 模拟事务。单卡测试连接/模型列表使用瞬态快照并及时释放。
 **T-020** 验收：录入框能捕获组合键（包括 Win 键），Esc 取消，Backspace 清除；实时检测冲突并提示；保存后立即重新注册。
 
 ---
@@ -166,6 +167,7 @@
 **T-028** 交付 ARCH §9.3。验收（MockHttp）：token 缓存与过期；并发获取 token 时只发出一次请求；110/111 刷新后只重试一次；错误码映射表每一行；language_type 映射；含位置版本的 Bounds 解析；段落合并；TestAsync 只请求 token。
 **T-029** 交付 ARCH §9.4。验收：CJK 字符之间多余空格被删除（单元测试）；缺少语言包时返回 OcrLanguageUnsupported；并发调用被串行化。
 **T-030** 交付 ARCH §8。验收：回退触发条件的每个分支；UsedFallback 标记；MergeParagraphs 在有 / 无 Bounds 两种情况下的规则；无文字时抛 OcrNoTextFound。
+T-030 签发前须按 PROVIDER_REGISTRY.md 将 OCR 注册表原型同步为租约/发布屏障模式，支持同一凭据集格式，并接入 T-019 配置协调器；不能直接实现旧裸实例原型。
 **T-031** 交付 ARCH §6.4、§6.5、§14 的 OcrResultWindow。验收：Handler 单元测试覆盖取消 / 失败 / 无文字 / 成功；OCR 结果窗口可以编辑、复制、转翻译、换服务重新识别；静默 OCR 完成后文本已复制并弹出通知。
 **T-032** 验收：可以配置百度 API Key 与 Secret Key（写入 SecretStore）、选择模式、设置主服务和备用服务、测试连接；截图相关选项即时生效。
 

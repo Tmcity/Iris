@@ -47,12 +47,16 @@ public sealed class AppHostBuilderTests
         var notificationService = host.Services.GetService<INotificationService>();
         var appLifetime = host.Services.GetService<IAppLifetime>();
         var targetLanguageResolver = host.Services.GetService<ITargetLanguageResolver>();
+        var translationRegistry = host.Services.GetService<ITranslationProviderRegistry>();
+        var configObserver = host.Services.GetService<IProviderConfigurationObserver>();
 
         settingsService.ShouldNotBeNull();
         secretStore.ShouldNotBeNull();
         notificationService.ShouldNotBeNull();
         appLifetime.ShouldNotBeNull();
         targetLanguageResolver.ShouldNotBeNull();
+        translationRegistry.ShouldNotBeNull();
+        configObserver.ShouldNotBeNull();
     }
 
     [Fact]

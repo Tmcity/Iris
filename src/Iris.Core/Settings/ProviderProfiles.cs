@@ -52,6 +52,10 @@ public sealed record TranslationProviderProfile
     /// <summary>稳定 Id："tp-" + Guid("N") 前 12 位；创建后不可修改。</summary>
     public required string Id { get; init; }
 
+    /// <summary>null = 兼容旧的按 Profile.Id 存储的凭据；非 null = 精确的不可变凭据集引用。
+    /// 引用非法、缺失或内容损坏时视为未配置，禁止回退旧键。格式与发布协议见 PROVIDER_REGISTRY.md。</summary>
+    public string? CredentialSetId { get; init; }
+
     public required TranslationProviderKind Kind { get; init; }
     public required string DisplayName { get; init; }
     public bool Enabled { get; init; } = true;
@@ -123,6 +127,9 @@ public sealed record WindowsOcrOptions
 public sealed record OcrProviderProfile
 {
     public required string Id { get; init; }
+    /// <summary>null = 兼容旧的按 Profile.Id 存储的凭据；非 null = 精确的不可变凭据集引用。
+    /// 引用非法、缺失或内容损坏时视为未配置，禁止回退旧键。格式与发布协议见 PROVIDER_REGISTRY.md。</summary>
+    public string? CredentialSetId { get; init; }
     public required OcrProviderKind Kind { get; init; }
     public required string DisplayName { get; init; }
     public bool Enabled { get; init; } = true;

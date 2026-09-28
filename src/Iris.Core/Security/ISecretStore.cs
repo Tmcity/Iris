@@ -26,4 +26,6 @@ public static class SecretKeys
     public static string ApiKey(string providerId) => $"provider/{providerId}/api-key";
 
     public static string SecretKey(string providerId) => $"provider/{providerId}/secret-key";
+
+    public static string CredentialSet(string credentialSetId) => $"credential-set/{credentialSetId}";
 }

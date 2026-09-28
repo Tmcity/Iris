@@ -11,5 +11,6 @@ public class SecretKeysTests
     {
         SecretKeys.ApiKey("tp-1").ShouldBe("provider/tp-1/api-key");
         SecretKeys.SecretKey("tp-1").ShouldBe("provider/tp-1/secret-key");
+        SecretKeys.CredentialSet("cs-123").ShouldBe("credential-set/cs-123");
     }
 }

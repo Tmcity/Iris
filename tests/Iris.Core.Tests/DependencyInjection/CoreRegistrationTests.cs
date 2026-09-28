@@ -19,7 +19,9 @@ public sealed class CoreRegistrationTests
     {
         var services = new ServiceCollection();
         var settingsMock = Substitute.For<ISettingsService>();
+        var secretStoreMock = Substitute.For<Iris.Core.Security.ISecretStore>();
         services.AddSingleton(settingsMock);
+        services.AddSingleton(secretStoreMock);
         services.AddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
         services.AddSingleton(typeof(ILogger<>), typeof(NullLogger<>));
 
@@ -56,6 +58,16 @@ public sealed class CoreRegistrationTests
         var templateProvider2 = provider.GetService<IPromptTemplateProvider>();
         templateProvider1.ShouldNotBeNull();
         templateProvider1.ShouldBeSameAs(templateProvider2);
+
+        var registry1 = provider.GetService<ITranslationProviderRegistry>();
+        var registry2 = provider.GetService<ITranslationProviderRegistry>();
+        registry1.ShouldNotBeNull();
+        registry1.ShouldBeSameAs(registry2);
+
+        var observer1 = provider.GetService<IProviderConfigurationObserver>();
+        var observer2 = provider.GetService<IProviderConfigurationObserver>();
+        observer1.ShouldNotBeNull();
+        observer1.ShouldBeSameAs(observer2);
     }
 
     [Fact]
@@ -63,7 +75,9 @@ public sealed class CoreRegistrationTests
     {
         var services = new ServiceCollection();
         var settingsMock = Substitute.For<ISettingsService>();
+        var secretStoreMock = Substitute.For<Iris.Core.Security.ISecretStore>();
         services.AddSingleton(settingsMock);
+        services.AddSingleton(secretStoreMock);
         services.AddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
         services.AddSingleton(typeof(ILogger<>), typeof(NullLogger<>));
 
@@ -78,5 +92,7 @@ public sealed class CoreRegistrationTests
         provider.GetServices<ITextPreprocessor>().Count().ShouldBe(1);
         provider.GetServices<IPromptRenderer>().Count().ShouldBe(1);
         provider.GetServices<IPromptTemplateProvider>().Count().ShouldBe(1);
+        provider.GetServices<ITranslationProviderRegistry>().Count().ShouldBe(1);
+        provider.GetServices<IProviderConfigurationObserver>().Count().ShouldBe(1);
     }
 }

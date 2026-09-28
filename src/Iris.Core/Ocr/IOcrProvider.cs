@@ -28,7 +28,7 @@ public interface IOcrProviderFactory
     IOcrProvider Create(OcrProviderProfile profile, ProviderCredentials credentials);
 }
 
-/// <summary>行为同 ITranslationProviderRegistry。</summary>
+/// <summary>OCR 注册表原型；T-030 落地前按 PROVIDER_REGISTRY.md 同步租约与发布屏障接口，当前不实现此原型。</summary>
 public interface IOcrProviderRegistry
 {
     IOcrProvider? GetActive();

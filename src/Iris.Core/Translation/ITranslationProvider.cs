@@ -34,19 +34,19 @@ public interface ITranslationProviderFactory
     ITranslationProvider Create(TranslationProviderProfile profile, ProviderCredentials credentials);
 }
 
-/// <summary>
-/// 根据 Settings + SecretStore 构建并缓存 Provider 实例；监听 ISettingsService.Changed 与 ISecretStore.Changed
-/// 自动重建，重建完成后触发 Changed。
-/// </summary>
-public interface ITranslationProviderRegistry
+/// <summary>按设置和凭据管理 Provider 实例。构造函数不加载设置、不创建实例；首次刷新在设置加载后进行。
+/// 退休实例在最后一个快照释放后清理；Dispose 后拒绝新操作，已有快照仍可安全释放。</summary>
+public interface ITranslationProviderRegistry : IProviderConfigurationObserver, IDisposable
 {
-    /// <summary>Enabled 的 Profile 对应实例，按 Order 升序（含未配置的，调用方按 Descriptor.IsConfigured 判断）。</summary>
-    IReadOnlyList<ITranslationProvider> GetEnabled();
+    /// <summary>必要时刷新并原子获取快照。按 Order 稳定排序，包含已启用但未配置的项。</summary>
+    Task<ITranslationProviderSnapshot> AcquireSnapshotAsync(CancellationToken cancellationToken = default);
 
-    ITranslationProvider? Find(string providerId);
+    /// <summary>以独立捕获的草稿及显式凭据创建单项快照；忽略 Enabled，不缓存、不写盘、不触发 Changed。</summary>
+    Task<ITranslationProviderSnapshot> CreateTransientAsync(
+        TranslationProviderProfile profile,
+        ProviderCredentials credentials,
+        CancellationToken cancellationToken = default);
 
-    /// <summary>设置页“测试连接 / 获取模型”用：以草稿 Profile 与草稿凭据临时创建，不缓存。</summary>
-    ITranslationProvider CreateTransient(TranslationProviderProfile profile, ProviderCredentials credentials);
-
+    /// <summary>有效注册项、顺序、Descriptor 或实例代次变化后的通知；锁外触发，可合并，订阅方通过新快照读取状态。</summary>
     event EventHandler? Changed;
 }

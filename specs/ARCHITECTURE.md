@@ -1,6 +1,6 @@
 # Iris 架构设计说明书
 
-> 版本：v1.14 · 2026-09-28 · 状态：**已冻结（首期）**
+> 版本：v1.15 · 2026-09-28 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
@@ -15,6 +15,7 @@
 > 变更记录：v1.12（T-010 评审，返工 R1）— §9.1 重申公共骨架重构不得改变流式调用的延迟执行语义；§9.2 补充 SDK 心跳适配层的超时、事件边界、并发与资源所有权要求，纠正 request_too_large 的判定方式，明确模型 ID 去重规则。评审证据见 tasks/done/T-010.md；本次不变更契约签名。
 > 变更记录：v1.13（T-010-R2 通过后，签发 T-010A）— §9.2/§11.2 统一远程异常的安全诊断与内部异常链约束；§11.3 禁止自动重定向；§12.5 完整移除 URL 中的 userinfo/query/fragment，并取消已知凭据脱敏的长度门槛。ToErrorInfo 行为变更见已批准的 CCR-001（tasks/CONTRACT_CHANGE_REQUESTS.md），由 T-010A 同步应用到契约与落地文件；当前签名不变。
 > 变更记录：v1.14（T-010A-R1 通过后，签发 T-010B）— §12.2 明确设置 DTO 与运行时快照的边界、嵌套集合所有权及五处发布路径。CCR-001 已结案；CCR-002 批准设置快照的契约注释修订，不改变签名、默认值或 JSON 格式，由 T-010B 同步落地。
+> 变更记录：v1.15（T-010B 通过后，签发 T-011）— 新增 PROVIDER_REGISTRY.md，确定不可变凭据集引用、注册表快照租约、刷新屏障与实例退休规则（A03/A04）；CCR-002 结案，CCR-003 批准尚未落地的 Registry 原型接口调整及可空 CredentialSetId 字段，由 T-011 同步实施。
 > 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
@@ -304,6 +305,8 @@ if outcome.UsedFallback → Notify(Info, "已使用备用 OCR", ...)（每次会
 
 ## 7. 翻译管道
 
+**Provider 注册表（T-011）**：以 `specs/PROVIDER_REGISTRY.md` 为本模块的完整行为规范。请求通过 AcquireSnapshotAsync 借用一组注册项，租约持有至子任务全部退出；配置变化不会直接释放正在被使用的旧实例。新凭据通过 CredentialSetId 整组引用读取；旧键仅作兼容。准确公开定义见已批准 CCR-003，实施时同步 CONTRACTS.cs 与落地文件。
+
 ### 7.1 编排（`TranslationOrchestrator`）
 
 ```
@@ -311,7 +314,8 @@ TranslateAsync(request, ct)
  ├─ text = ITextPreprocessor.Prepare(request.Text, request.Origin)
  │    空 → throw InputEmpty；超长 → throw InputTooLong
  ├─ langs = ITargetLanguageResolver.Resolve(text, request.SourceLanguage, request.TargetLanguage)
- ├─ providers = 选取（见 CONTRACTS 注释）；为空 → throw NotConfigured
+ ├─ lease = await Registry.AcquireSnapshotAsync(ct)
+ ├─ providers = 从 lease.Providers 选取（见 CONTRACTS 注释）；为空 → throw NotConfigured
  ├─ yield TranslationStarted(langs, descriptors)
  ├─ channel = Channel.CreateUnbounded<TranslationEvent>()
  ├─ 对每个 provider（SemaphoreSlim(MaxConcurrentProviders) 限流）启动任务：
@@ -329,6 +333,7 @@ TranslateAsync(request, ct)
 
 要点：
 - 用 `CancellationTokenSource.CreateLinkedTokenSource(ct)` 管理子任务；消费者提前停止枚举（`DisposeAsync`）时也要取消全部子任务。
+- 注册表租约在全部子任务退出后释放，包括请求失败和提前结束路径；调用方不直接 Dispose 借出的 Provider。T-012/T-013 签发前还须按审查 A05 定稿请求上下文与缓存键，将实例代次及实际使用的 Prompt 纳入，不能直接沿用只按 ProviderId/Model 的旧键。
 - `Elapsed` 用 `Stopwatch` 从 ProviderStarted 开始计时。
 - 历史写入失败不影响事件流（记 Warning 日志即可）。
 
@@ -692,6 +697,7 @@ data: {"type":"message_stop"}
 
 **`AppBootstrapper.StartAsync`**（在 `App.OnStartup` 中调用，它是 `async void` 事件处理器，整体包在 try/catch 中）：
 1. `ISettingsService.LoadAsync()`：`SettingsCorrupted` → 继续运行，把提示加入通知队列；`StorageFailure` → `FatalErrorDialog`，然后 `Shutdown(1)`。
+   T-011：设置成功加载（含损坏恢复）后，在用户入口启用前调用 `ITranslationProviderRegistry.RefreshAsync()`；注册表构造函数不读取凭据或创建 Provider，刷新不发远程请求。
 2. `LogLevelController`：按 `GeneralSettings.LogLevel` 设置 `LoggingLevelSwitch`，并订阅 `Changed`，之后随设置变化更新。
 3. `ThemeService.Apply(Theme)`，并订阅 `Changed`。
 4. 创建托盘图标 → 通知服务开始输出排队中的通知。
@@ -851,6 +857,7 @@ data: {"type":"message_stop"}
 
 - 设置 DTO 使用 record + `with`：`await settings.UpdateAsync(s => s with { General = s.General with { Theme = AppTheme.Dark } })`。record 的浅复制与 IReadOnly 集合接口本身不提供深度不可变保证，运行时快照按下述规则发布。
 - 设置页采用“草稿 → 保存”模式：需要编辑的集合建立独立副本，点击“保存”时一次性 UpdateAsync；热键录入、Provider 测试都针对草稿进行。直接 `Current with { }` 不会复制嵌套集合，不能据此原地编辑它们。
+- 涉及 Provider 地址/凭据的编辑必须遵循 PROVIDER_REGISTRY.md §2.2 的整组引用提交协议，不能把两次旧凭据键写入与设置写入当成联合事务；设置编辑协调器在 T-019 实现，本阶段 Registry 只读取。
 - 新增字段只要有默认值就不需要迁移（缺失字段取默认值）；重命名、删除、改变字段含义时才需要迁移。
 - Iris 运行期间用户手动修改 settings.json 不会被检测到，下次保存时会被覆盖（首期接受）。
 
@@ -953,7 +960,7 @@ data: {"type":"message_stop"}
 **线程安全**：所有读写经由同一把锁串行化；`Changed` 在释放锁之后触发（与设置服务不同：密钥变化的订阅方——Provider 注册表——会在处理器中调用 `Get`，锁外触发可以避免重入问题），处理器异常逐个捕获并记 Error。
 **同步写盘**：`ISecretStore` 是同步接口，内部使用 `AtomicFile` 的同步方法 `WriteAllBytes` / `Move`（T-004 新增）。写入**不保留** `.bak`：`Remove` 之后，密钥不应再以任何形式留在磁盘上。条目按键名（序数）排序写出，保证输出确定。调用方（设置页的“保存”）应在后台线程调用 `Set` / `Remove`。
 
-- 删除 Provider Profile 时，同时删除它的所有 SecretKeys（调用方负责，T-019）。
+- 删除/更换 Provider 凭据时按 PROVIDER_REGISTRY.md 的“发布设置 → 刷新屏障 → 无引用后清理”顺序执行（T-019）；原始 ISecretStore.Set/Remove 的语义不变。CredentialSetId 为 null 才兼容旧键，显式坏引用不得回退旧键。
 - 日志中只允许出现键名，禁止出现值、密文和 Base64 串。
 
 ### 12.4 代理（`DynamicWebProxy : IWebProxy`）
@@ -977,6 +984,7 @@ data: {"type":"message_stop"}
 
 - 每层暴露一个扩展方法：`AddIrisCore()`、`AddIrisProviders()`、`AddIrisInfrastructure()`、`AddIrisPlatformWindows()`、`AddIrisApp()`，由 `AppHostBuilder` 按此顺序调用。
 - 生命周期：服务、Registry、Presenter、Controller 均为 **Singleton**；`IActionHandler` 为 Singleton，通过 `IEnumerable<IActionHandler>` 注入 Dispatcher；Provider 实例由 Registry 管理（不注册到容器）；`TranslateWindow` 为 Singleton（关闭 = 隐藏）；`SettingsWindow`、`HistoryWindow`、`OcrResultWindow` 同一时间只有一个实例（由 Presenter 管理，关闭即释放）。
+- Provider 可以有多代同时存活，退休后由最后一个快照使用者触发清理。IProviderConfigurationObserver 的翻译适配器必须转发到唯一的 ITranslationProviderRegistry，不创建第二份注册表；详细并发/Dispose 约定见 PROVIDER_REGISTRY.md。
 - ViewModel 通过构造函数注入，View 在构造函数中接收 ViewModel 并设为 `DataContext`。
 
 ---

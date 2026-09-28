@@ -380,13 +380,94 @@ public sealed class SettingsSnapshotTests
     [Fact]
     public void Reflection_AllReachableCollectionPaths_AreCoveredAndFrozen()
     {
-        var snapshot = SettingsSnapshot.Create(new AppSettings());
+        // C10B-1: 使用覆盖全部路径（包括嵌套 ExtraHeaders）的非空 fixture
+        var fixture = new AppSettings
+        {
+            Hotkeys = new Dictionary<IrisAction, HotkeyBinding>
+            {
+                [IrisAction.SelectionTranslate] = new(HotkeyModifiers.Control, "D")
+            },
+            Translation = new TranslationSettings
+            {
+                Providers =
+                [
+                    new TranslationProviderProfile
+                    {
+                        Id = "tp-1",
+                        Kind = TranslationProviderKind.OpenAICompatible,
+                        DisplayName = "OpenAI",
+                        Model = "gpt-4o",
+                        OpenAIOptions = new OpenAICompatibleOptions
+                        {
+                            ExtraHeaders = new Dictionary<string, string> { ["X-Header"] = "val" }
+                        }
+                    }
+                ],
+                CustomPrompts =
+                [
+                    new PromptTemplate { Id = "cp-1", Name = "CP", System = "Sys", User = "Usr" }
+                ]
+            },
+            Ocr = new OcrSettings
+            {
+                Providers =
+                [
+                    new OcrProviderProfile { Id = "ocr-1", Kind = OcrProviderKind.BaiduCloud, DisplayName = "Baidu" }
+                ]
+            },
+            Selection = new SelectionSettings
+            {
+                ReadOrder = [SelectionReadMethod.UIAutomation],
+                ExcludedProcesses = ["proc.exe"],
+                ClipboardUnsafeProcesses = ["term.exe"]
+            }
+        };
 
-        // Use reflection to traverse AppSettings and find all collection properties
+        var snapshot = SettingsSnapshot.Create(fixture);
+
+        // 1. 递归类型图，收集 AppSettings 声明模型中所有可达集合属性路径
+        var expectedPaths = new HashSet<string>(StringComparer.Ordinal);
+        void DiscoverCollectionPathsInTypeGraph(Type type, string currentPath)
+        {
+            if (type.IsPrimitive || type.IsEnum || type == typeof(string) || type == typeof(decimal))
+            {
+                return;
+            }
+
+            foreach (var prop in type.GetProperties(BindingFlags.Public | BindingFlags.Instance))
+            {
+                if (prop.GetIndexParameters().Length > 0)
+                {
+                    continue;
+                }
+
+                var propType = prop.PropertyType;
+                var fullPath = string.IsNullOrEmpty(currentPath) ? prop.Name : $"{currentPath}.{prop.Name}";
+
+                if (typeof(IEnumerable).IsAssignableFrom(propType) && propType != typeof(string))
+                {
+                    expectedPaths.Add(fullPath);
+                    // 如果集合元素类型属于 Core 模型，也继续检查其内部可能嵌套的集合属性
+                    var elementType = propType.IsGenericType ? propType.GetGenericArguments()[0] : null;
+                    if (elementType != null && elementType.Assembly == typeof(AppSettings).Assembly && !elementType.IsEnum)
+                    {
+                        DiscoverCollectionPathsInTypeGraph(elementType, $"{fullPath}[]");
+                    }
+                }
+                else if (propType.Assembly == typeof(AppSettings).Assembly && !propType.IsEnum)
+                {
+                    DiscoverCollectionPathsInTypeGraph(propType, fullPath);
+                }
+            }
+        }
+
+        DiscoverCollectionPathsInTypeGraph(typeof(AppSettings), "");
+
+        // 2. 遍历已构建的 snapshot 对象图，收集所有实际集合实例
         var visited = new HashSet<object>(ReferenceEqualityComparer.Instance);
-        var collectionProperties = new List<(string Path, object? Value, Type Type)>();
+        var actualCollections = new Dictionary<string, object>(StringComparer.Ordinal);
 
-        void Traverse(object? obj, string currentPath)
+        void TraverseInstance(object? obj, string currentPath)
         {
             if (obj == null || !visited.Add(obj))
             {
@@ -412,49 +493,60 @@ public sealed class SettingsSnapshotTests
 
                 if (typeof(IEnumerable).IsAssignableFrom(propType) && propType != typeof(string))
                 {
-                    collectionProperties.Add((fullPath, propValue, propType));
-                    if (propValue is IEnumerable enumerable)
+                    if (propValue != null)
                     {
-                        var index = 0;
-                        foreach (var item in enumerable)
+                        actualCollections[fullPath] = propValue;
+                        if (propValue is IEnumerable enumerable)
                         {
-                            if (item != null)
+                            var index = 0;
+                            foreach (var item in enumerable)
                             {
-                                Traverse(item, $"{fullPath}[{index}]");
+                                if (item != null)
+                                {
+                                    TraverseInstance(item, $"{fullPath}[{index}]");
+                                }
+                                index++;
                             }
-                            index++;
                         }
                     }
                 }
                 else if (propType.Assembly == typeof(AppSettings).Assembly && !propType.IsEnum)
                 {
-                    Traverse(propValue, fullPath);
+                    TraverseInstance(propValue, fullPath);
                 }
             }
         }
 
-        Traverse(snapshot, "");
+        TraverseInstance(snapshot, "");
 
-        // Expected 8 collections (or their paths in default AppSettings):
-        // Hotkeys, Translation.Providers, Translation.CustomPrompts, Ocr.Providers,
-        // Selection.ReadOrder, Selection.ExcludedProcesses, Selection.ClipboardUnsafeProcesses
-        // (+ any nested ExtraHeaders in Providers)
-        collectionProperties.Count.ShouldBeGreaterThanOrEqualTo(7);
+        // 3. 验证所有 8 处集合路径全部被实际 fixture 覆盖
+        actualCollections.ContainsKey("Hotkeys").ShouldBeTrue();
+        actualCollections.ContainsKey("Translation.Providers").ShouldBeTrue();
+        actualCollections.ContainsKey("Translation.Providers[0].OpenAIOptions.ExtraHeaders").ShouldBeTrue();
+        actualCollections.ContainsKey("Translation.CustomPrompts").ShouldBeTrue();
+        actualCollections.ContainsKey("Ocr.Providers").ShouldBeTrue();
+        actualCollections.ContainsKey("Selection.ReadOrder").ShouldBeTrue();
+        actualCollections.ContainsKey("Selection.ExcludedProcesses").ShouldBeTrue();
+        actualCollections.ContainsKey("Selection.ClipboardUnsafeProcesses").ShouldBeTrue();
+        actualCollections.Count.ShouldBe(8);
 
-        foreach (var (path, value, propType) in collectionProperties)
+        // 4. 验证不可修改性检查采用公开集合接口/行为，不绑定具体实现类型
+        foreach (var (path, collection) in actualCollections)
         {
-            if (value == null)
+            if (collection is IDictionary dict)
             {
-                // ExtraHeaders can be null
-                path.ShouldContain("ExtraHeaders");
-                continue;
+                dict.IsReadOnly.ShouldBeTrue($"Collection at '{path}' must report IsReadOnly=true");
+                Should.Throw<NotSupportedException>(() => dict.Clear());
             }
-
-            var valType = value.GetType();
-            var isReadOnlyWrapper = (valType.IsGenericType && valType.GetGenericTypeDefinition() == typeof(ReadOnlyCollection<>))
-                                 || (valType.IsGenericType && valType.GetGenericTypeDefinition() == typeof(ReadOnlyDictionary<,>));
-
-            isReadOnlyWrapper.ShouldBeTrue($"Property at path '{path}' of runtime type '{valType.FullName}' must be ReadOnlyCollection<T> or ReadOnlyDictionary<TKey, TValue>");
+            else if (collection is IList list)
+            {
+                list.IsReadOnly.ShouldBeTrue($"Collection at '{path}' must report IsReadOnly=true");
+                Should.Throw<NotSupportedException>(() => list.Clear());
+            }
+            else
+            {
+                throw new InvalidOperationException($"Collection at '{path}' of type {collection.GetType()} should implement IList or IDictionary");
+            }
         }
     }
 }
