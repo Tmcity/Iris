@@ -1,6 +1,6 @@
 # Iris 架构设计说明书
 
-> 版本：v1.13 · 2026-09-28 · 状态：**已冻结（首期）**
+> 版本：v1.14 · 2026-09-28 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
@@ -14,6 +14,7 @@
 > 变更记录：v1.11（T-009 评审）— §9.2 Anthropic Provider 依据 SDK 12.50.0 实测重写（显式隔离 SDK 读取的环境变量凭据与地址、关闭 SDK 自带重试、回退启用条件、流截断检测、异常映射与隐私要求）；§9.1 非事件流响应的错误提示、Usage 允许部分缺失、TestAsync 的 Unknown 结果带 ProviderId 且日志不传入异常对象。
 > 变更记录：v1.12（T-010 评审，返工 R1）— §9.1 重申公共骨架重构不得改变流式调用的延迟执行语义；§9.2 补充 SDK 心跳适配层的超时、事件边界、并发与资源所有权要求，纠正 request_too_large 的判定方式，明确模型 ID 去重规则。评审证据见 tasks/done/T-010.md；本次不变更契约签名。
 > 变更记录：v1.13（T-010-R2 通过后，签发 T-010A）— §9.2/§11.2 统一远程异常的安全诊断与内部异常链约束；§11.3 禁止自动重定向；§12.5 完整移除 URL 中的 userinfo/query/fragment，并取消已知凭据脱敏的长度门槛。ToErrorInfo 行为变更见已批准的 CCR-001（tasks/CONTRACT_CHANGE_REQUESTS.md），由 T-010A 同步应用到契约与落地文件；当前签名不变。
+> 变更记录：v1.14（T-010A-R1 通过后，签发 T-010B）— §12.2 明确设置 DTO 与运行时快照的边界、嵌套集合所有权及五处发布路径。CCR-001 已结案；CCR-002 批准设置快照的契约注释修订，不改变签名、默认值或 JSON 格式，由 T-010B 同步落地。
 > 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
@@ -848,10 +849,21 @@ data: {"type":"message_stop"}
 
 ### 12.2 设置
 
-- 不可变 record + `with`：`await settings.UpdateAsync(s => s with { General = s.General with { Theme = AppTheme.Dark } })`。
-- 设置页采用“草稿 → 保存”模式：打开时复制 Current 作为草稿，点击“保存”时一次性 UpdateAsync；热键录入、Provider 测试都针对草稿进行。
+- 设置 DTO 使用 record + `with`：`await settings.UpdateAsync(s => s with { General = s.General with { Theme = AppTheme.Dark } })`。record 的浅复制与 IReadOnly 集合接口本身不提供深度不可变保证，运行时快照按下述规则发布。
+- 设置页采用“草稿 → 保存”模式：需要编辑的集合建立独立副本，点击“保存”时一次性 UpdateAsync；热键录入、Provider 测试都针对草稿进行。直接 `Current with { }` 不会复制嵌套集合，不能据此原地编辑它们。
 - 新增字段只要有默认值就不需要迁移（缺失字段取默认值）；重命名、删除、改变字段含义时才需要迁移。
 - Iris 运行期间用户手动修改 settings.json 不会被检测到，下次保存时会被覆盖（首期接受）。
+
+**运行时设置快照（T-010B，CCR-002）**
+
+- ISettingsService 发布的 Current，以及其 Changed 事件中的 OldSettings/NewSettings，均为深度不可变快照：所有可达可变集合先复制，再以不可修改的接口/容器发布；不得持有调用方仍可改写的底层集合。直接构造的 AppSettings DTO 可以包含普通 List/Dictionary，它不是自动冻结的运行时对象。
+- 增加 Infrastructure 内部的纯快照构建器。它只负责复制和只读封装，不执行规范化、I/O、事件或日志；正常加载与更新先按原规则规范化，再捕获快照。不可变叶节点（字符串、仅含不可变值的 record）允许共享；包含 ExtraHeaders 等集合的嵌套对象必须隔离。
+- 发布覆盖五处：服务构造时的默认 Current、文件缺失后的首次加载、正常加载（含挽救/迁移/较新版本的原有路径）、损坏恢复的默认值、UpdateAsync 成功值。损坏恢复/版本处理/错误类型的现有规则不在本单重写。
+- 更新顺序：mutate → Normalize → 捕获独立快照 → 序列化该快照 → 比较原 JSON → 原子写盘 → 发布同一个快照 → Changed(old, new)。序列化、磁盘数据、Current 和事件 NewSettings 必须描述同一份值；不能在 await 写盘之后才复制集合。调用方应在 UpdateAsync 完成前保持提交草稿稳定，不并发修改它。
+- Current getter 只读取已发布引用，同一版本重复读取返回同一实例，不在读取时克隆。无操作更新保持原 Current 引用，不写盘、不发事件；写盘失败或取消的原有回滚规则不变。
+- 已发布版本长期持有仍稳定；后续更新、原输入集合修改、另一个事件订阅者都不能改写旧快照。不改变本阶段 Changed 在写锁内同步触发的约定，事件发布协调在 A03/A04 中另行设计。
+- 必须处理以下全部集合路径：Hotkeys；Translation.Providers；Translation.CustomPrompts；Translation.Providers[*].OpenAIOptions.ExtraHeaders（只要存在，无论当前 Kind）；Ocr.Providers；Selection.ReadOrder；Selection.ExcludedProcesses；Selection.ClipboardUnsafeProcesses。可空 ExtraHeaders 的 null 保持 null，列表顺序与键值保持原样，不引入排序或大小写折叠。
+- 推荐 BCL 的 Array.AsReadOnly（先复制数组）与 ReadOnlyDictionary（先复制字典）；不能只把调用方字典包装起来。保持字典现有枚举顺序，ExtraHeaders 使用 Ordinal 键规则。无需新增包、JSON 转换器或 schemaVersion。架构师已用真实 IrisJson 验证这种封装可保持 JSON 内容与往返值不变，具体证据见 T-010B 工单。
 
 #### 12.2.1 加载管道（`JsonSettingsService.LoadAsync`）
 

@@ -7,7 +7,8 @@ using Iris.Core.Translation;
 namespace Iris.Core.Settings;
 
 /// <summary>
-/// 应用设置根对象（不可变 record；修改只能通过 ISettingsService.UpdateAsync 与 with 表达式）。
+/// 应用设置数据模型（record；with 创建新值，直接构造的 DTO 不自动冻结集合）。
+/// ISettingsService 发布的 Current/Changed 快照会复制隔离全部可达集合并禁止修改。
 /// 反序列化时缺失的字段取此处默认值，因此新增字段只要有合理默认值就无需迁移。
 /// </summary>
 public sealed record AppSettings

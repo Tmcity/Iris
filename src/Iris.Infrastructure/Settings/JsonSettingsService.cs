@@ -43,7 +43,7 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
         _timeProvider = timeProvider ?? throw new ArgumentNullException(nameof(timeProvider));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-        _current = new AppSettings();
+        _current = SettingsSnapshot.Create(new AppSettings());
     }
 
     public AppSettings Current => Volatile.Read(ref _current);
@@ -104,7 +104,8 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
                 LogUpdateNormalizationFixes(_logger, fixSummary);
             }
 
-            var newJson = JsonSerializer.Serialize(normalized, IrisJson.Options) + "\n";
+            var snapshot = SettingsSnapshot.Create(normalized);
+            var newJson = JsonSerializer.Serialize(snapshot, IrisJson.Options) + "\n";
             if (string.Equals(newJson, _currentJson, StringComparison.Ordinal))
             {
                 return;
@@ -114,14 +115,14 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
             var backupPath = settingsPath + ".bak";
             await AtomicFile.WriteAllTextAsync(settingsPath, newJson, backupPath, cancellationToken).ConfigureAwait(false);
 
-            Volatile.Write(ref _current, normalized);
+            Volatile.Write(ref _current, snapshot);
             _currentJson = newJson;
 
             // 仍在锁内同步触发 Changed，逐个处理器单独捕获异常
             var handler = Changed;
             if (handler != null)
             {
-                var args = new SettingsChangedEventArgs(oldSettings, normalized);
+                var args = new SettingsChangedEventArgs(oldSettings, snapshot);
                 foreach (var invocation in handler.GetInvocationList())
                 {
                     try
@@ -152,7 +153,7 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
 
         if (!File.Exists(settingsPath))
         {
-            var defaults = new AppSettings();
+            var defaults = SettingsSnapshot.Create(new AppSettings());
             var defaultJson = JsonSerializer.Serialize(defaults, IrisJson.Options) + "\n";
             await AtomicFile.WriteAllTextAsync(settingsPath, defaultJson, null, cancellationToken).ConfigureAwait(false);
 
@@ -280,7 +281,8 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
 
         // 强类型规范化 N1–N14
         var normalized = SettingsNormalizer.Normalize(deserialized, fixes);
-        var formattedJson = JsonSerializer.Serialize(normalized, IrisJson.Options) + "\n";
+        var snapshot = SettingsSnapshot.Create(normalized);
+        var formattedJson = JsonSerializer.Serialize(snapshot, IrisJson.Options) + "\n";
 
         if ((hasMigrated || fixes.Count > 0) && !shouldNotWriteBack)
         {
@@ -305,7 +307,7 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
             _currentJson = formattedJson;
         }
 
-        Volatile.Write(ref _current, normalized);
+        Volatile.Write(ref _current, snapshot);
         Volatile.Write(ref _isLoaded, 1);
         LogLoadSuccess(_logger, settingsPath, _current.SchemaVersion, fixes.Count);
     }
@@ -359,7 +361,7 @@ internal sealed partial class JsonSettingsService : ISettingsService, IDisposabl
             await AtomicFile.MoveAsync(settingsPath, backupPath, overwrite: false, cancellationToken).ConfigureAwait(false);
         }
 
-        var defaultSettings = new AppSettings();
+        var defaultSettings = SettingsSnapshot.Create(new AppSettings());
         Volatile.Write(ref _current, defaultSettings);
         Volatile.Write(ref _isLoaded, 1);
 

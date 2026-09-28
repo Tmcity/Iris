@@ -65,8 +65,8 @@
 | T-008 | ☑ | Providers/Http：SseParser、HttpErrorMapper、SecretRedactor、DynamicWebProxy、命名 HttpClient 注册 + T-007 遗留 | T-007 | 1.5d |
 | T-009 | ☑ | OpenAI 兼容翻译 Provider | T-007, T-008 | 1.5d |
 | T-010 | ☑ | Anthropic 翻译 Provider（官方 SDK）+ 公共调用骨架（含 R1/R2） | T-007, T-008 | 1.25d + 0.75d + 0.25d |
-| T-010A | ▶ | 远程异常与 HTTP 凭据边界加固（架构审查 A01，返工 R1） | T-010 | 0.75d + 0.5d |
-| T-010B | ☐ | 深度不可变设置快照（架构审查 A02） | T-010A | 待工单细化 |
+| T-010A | ☑ | 远程异常与 HTTP 凭据边界加固（架构审查 A01，含 R1） | T-010 | 0.75d + 0.5d |
+| T-010B | ▶ | 深度不可变设置快照（架构审查 A02） | T-010A | 0.75d |
 | T-011 | ☐ | TranslationProviderRegistry（签发前完成 A03/A04 契约决策） | T-004, T-010B | 待契约细化 |
 | T-012 | ☐ | LruTranslationCache（执行版本与字节预算纳入工单） | T-011 | 待工单细化 |
 | T-013 | ☐ | TranslationOrchestrator | T-011, T-012 | 1.5d |
@@ -83,9 +83,9 @@
 
 **T-010** — ☑ R2 于 2026-09-28 复审通过，已独立提交为 `81c0ddd3380cda672a9c45bc589fad25b0117dd5`；架构师已逐个验证提交中的四个文件字节与验收 SHA-256 一致。独立构建零警告、779 个测试通过，46 个定向用例连续五轮通过；独立 SSE 差分及普通/beta 心跳探针通过。完整证据见 `tasks/done/T-010.md` 及 T-010A 评审记录。
 
-**T-010A** — ▶ 返工 R1。独立构建零警告、809 个测试通过；CCR-001、远程异常链、禁用自动重定向已通过单项核验。正文 URL 清理仍有 IPv6/不可解析 URL/单引号查询泄漏，已知值匹配存在二次扫描，完成报告基线表须更正。返工单见 `tasks/current_task.md`，证据见 `tasks/done/T-010A.md`；T-010B 暂不签发。
+**T-010A** — ☑ 提交 `587484a4487188031d5d637141b4c430c9c18af6` 于 2026-09-28 复审通过，CCR-001 已结案。独立构建零警告、824 个测试通过；原泄漏探针不再回显假凭据，64 KiB 短凭据样本本次约 3.05 ms，原二次扫描已移除；R2 基线表已更正。证据见 `tasks/done/T-010A.md` 末尾。
 
-**T-010B** — ☐ 在设置服务发布边界深拷贝并冻结嵌套集合，覆盖默认/加载/损坏恢复/更新各路径，确保外部集合修改和草稿编辑不改变 Current；具体工单在 T-010A 验收后签发。
+**T-010B** — ▶ 当前工单见 `tasks/current_task.md`，依据 ARCH v1.14 与已批准 CCR-002：在设置服务五处发布位置捕获深度不可变快照，覆盖所有嵌套集合，确保文件/Current/Changed 来自同一份值，保留无操作更新、失败回滚与事件顺序。只修改契约注释，不更改公开签名、默认值或 JSON 格式。
 
 **T-011** 交付 `TranslationProviderRegistry`（Core）：按 Kind 找到对应 Factory，从 SecretStore 读取凭据，缓存实例，收到设置或密钥变化时重建并触发 Changed；`CreateTransient` 不缓存。签发前必须明确配置/凭据一致发布与在途实例所有权（审查 A03/A04），不能由开发自行猜测。验收包括重建时机、排序、禁用 Profile 排除、按实际 Provider 规则判定 IsConfigured（本地免 Key 服务不能一律判未配置）。
 

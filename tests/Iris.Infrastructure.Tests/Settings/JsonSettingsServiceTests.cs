@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -940,4 +941,309 @@ public sealed class JsonSettingsServiceTests
         p.OpenAIOptions.ExtraHeaders["X-B"].ShouldBe("b");
         SettingsTestInvariants.AssertInvariants(service.Current);
     }
+
+    [Fact]
+    public async Task T010B_Baseline_InputAliasLeak_WhenCallerMutatesAfterUpdate_FailsOnBaseline()
+    {
+        using var dir = new TempDirectory();
+        using var service = CreateService(dir);
+        await service.LoadAsync(TestContext.Current.CancellationToken);
+
+        var headers = new Dictionary<string, string> { ["X-Header"] = "initial" };
+        var profile = new TranslationProviderProfile
+        {
+            Id = "tp-probe",
+            Kind = TranslationProviderKind.OpenAICompatible,
+            DisplayName = "Probe",
+            Model = "gpt-4o",
+            BaseUrl = "https://example.com/v1",
+            OpenAIOptions = new OpenAICompatibleOptions { ExtraHeaders = headers }
+        };
+        var hotkeys = new Dictionary<IrisAction, HotkeyBinding>(service.Current.Hotkeys)
+        {
+            [IrisAction.InputTranslate] = new HotkeyBinding(HotkeyModifiers.Control | HotkeyModifiers.Alt, "K")
+        };
+        var excluded = new List<string> { "proc1.exe" };
+
+        await service.UpdateAsync(s => s with
+        {
+            Hotkeys = hotkeys,
+            Translation = s.Translation with { Providers = [profile] },
+            Selection = s.Selection with { ExcludedProcesses = excluded }
+        }, TestContext.Current.CancellationToken);
+
+        // Caller mutates their collections after UpdateAsync completes
+        headers["X-Header"] = "mutated";
+        hotkeys[IrisAction.InputTranslate] = new HotkeyBinding(HotkeyModifiers.None, "Z");
+        excluded.Add("hacked.exe");
+
+        // On deeply immutable snapshot, Current must be isolated from caller's mutations
+        service.Current.Translation.Providers[0].OpenAIOptions!.ExtraHeaders!["X-Header"].ShouldBe("initial");
+        service.Current.Hotkeys[IrisAction.InputTranslate].Key.ShouldBe("K");
+        service.Current.Selection.ExcludedProcesses.Count.ShouldBe(1);
+    }
+
+    [Fact]
+    public async Task T010B_Baseline_InPlaceMutation_HotkeysAndHeaders_ThrowsNotSupported_FailsOnBaseline()
+    {
+        using var dir = new TempDirectory();
+        using var service = CreateService(dir);
+        await service.LoadAsync(TestContext.Current.CancellationToken);
+
+        var headers = new Dictionary<string, string> { ["X-Header"] = "initial" };
+        var profile = new TranslationProviderProfile
+        {
+            Id = "tp-probe",
+            Kind = TranslationProviderKind.OpenAICompatible,
+            DisplayName = "Probe",
+            Model = "gpt-4o",
+            BaseUrl = "https://example.com/v1",
+            OpenAIOptions = new OpenAICompatibleOptions { ExtraHeaders = headers }
+        };
+
+        await service.UpdateAsync(s => s with
+        {
+            Translation = s.Translation with { Providers = [profile] }
+        }, TestContext.Current.CancellationToken);
+
+        // On deeply immutable snapshot, in-place mutations through collection interfaces must throw NotSupportedException
+        Should.Throw<NotSupportedException>(() =>
+            ((IDictionary<IrisAction, HotkeyBinding>)service.Current.Hotkeys).Clear());
+
+        Should.Throw<NotSupportedException>(() =>
+            ((IDictionary<string, string>)service.Current.Translation.Providers[0].OpenAIOptions!.ExtraHeaders!).Clear());
+
+        Should.Throw<NotSupportedException>(() =>
+            ((IList<SelectionReadMethod>)service.Current.Selection.ReadOrder).Clear());
+    }
+
+    [Fact]
+    public async Task T010B_Lifecycle_AllFivePublishingLocations_ProduceDeeplyImmutableSnapshots()
+    {
+        using var dir = new TempDirectory();
+        var paths = new FakeAppPaths(dir.Path);
+
+        // Location 1: Before LoadAsync (Constructor default)
+        using var service = CreateService(dir);
+        Should.Throw<NotSupportedException>(() =>
+            ((IDictionary<IrisAction, HotkeyBinding>)service.Current.Hotkeys).Clear());
+        Should.Throw<NotSupportedException>(() =>
+            ((IList<SelectionReadMethod>)service.Current.Selection.ReadOrder).Clear());
+
+        // Location 2: First load when file does not exist
+        await service.LoadAsync(TestContext.Current.CancellationToken);
+        Should.Throw<NotSupportedException>(() =>
+            ((IDictionary<IrisAction, HotkeyBinding>)service.Current.Hotkeys).Clear());
+        Should.Throw<NotSupportedException>(() =>
+            ((IList<SelectionReadMethod>)service.Current.Selection.ReadOrder).Clear());
+
+        // Location 5: UpdateAsync
+        var headers = new Dictionary<string, string> { ["H1"] = "V1" };
+        await service.UpdateAsync(s => s with
+        {
+            Translation = s.Translation with
+            {
+                Providers =
+                [
+                    new TranslationProviderProfile
+                    {
+                        Id = "tp-1",
+                        Kind = TranslationProviderKind.OpenAICompatible,
+                        DisplayName = "P1",
+                        Model = "m1",
+                        OpenAIOptions = new OpenAICompatibleOptions { ExtraHeaders = headers }
+                    }
+                ]
+            }
+        }, TestContext.Current.CancellationToken);
+
+        Should.Throw<NotSupportedException>(() =>
+            ((IDictionary<string, string>)service.Current.Translation.Providers[0].OpenAIOptions!.ExtraHeaders!).Clear());
+
+        // Location 3: Normal load with existing valid file
+        using (var service2 = CreateService(dir))
+        {
+            await service2.LoadAsync(TestContext.Current.CancellationToken);
+            Should.Throw<NotSupportedException>(() =>
+                ((IDictionary<IrisAction, HotkeyBinding>)service2.Current.Hotkeys).Clear());
+            Should.Throw<NotSupportedException>(() =>
+                ((IDictionary<string, string>)service2.Current.Translation.Providers[0].OpenAIOptions!.ExtraHeaders!).Clear());
+        }
+
+        // Location 3 (Higher version branch):
+        var highVersionJson = """
+        {
+          "schemaVersion": 999,
+          "general": { "uiLanguage": "en-US" }
+        }
+        """;
+        await File.WriteAllTextAsync(paths.SettingsFile, highVersionJson, TestContext.Current.CancellationToken);
+        using (var service3 = CreateService(dir))
+        {
+            await service3.LoadAsync(TestContext.Current.CancellationToken);
+            Should.Throw<NotSupportedException>(() =>
+                ((IDictionary<IrisAction, HotkeyBinding>)service3.Current.Hotkeys).Clear());
+        }
+
+        // Location 4: Corruption recovery
+        await File.WriteAllTextAsync(paths.SettingsFile, "{ broken json !!", TestContext.Current.CancellationToken);
+        using (var service4 = CreateService(dir))
+        {
+            await Should.ThrowAsync<IrisException>(async () =>
+                await service4.LoadAsync(TestContext.Current.CancellationToken));
+
+            Should.Throw<NotSupportedException>(() =>
+                ((IDictionary<IrisAction, HotkeyBinding>)service4.Current.Hotkeys).Clear());
+            Should.Throw<NotSupportedException>(() =>
+                ((IList<SelectionReadMethod>)service4.Current.Selection.ReadOrder).Clear());
+        }
+    }
+
+    [Fact]
+    public async Task T010B_OldVersion_RemainsStable_AcrossSubsequentUpdates()
+    {
+        using var dir = new TempDirectory();
+        using var service = CreateService(dir);
+        await service.LoadAsync(TestContext.Current.CancellationToken);
+
+        var firstCurrent = service.Current;
+        var firstHotkeyKey = firstCurrent.Hotkeys[IrisAction.InputTranslate].Key;
+
+        SettingsChangedEventArgs? capturedArgs = null;
+        service.Changed += (_, e) => capturedArgs = e;
+
+        await service.UpdateAsync(s => s with
+        {
+            Hotkeys = new Dictionary<IrisAction, HotkeyBinding>(s.Hotkeys)
+            {
+                [IrisAction.InputTranslate] = new HotkeyBinding(HotkeyModifiers.Control | HotkeyModifiers.Shift, "X")
+            }
+        }, TestContext.Current.CancellationToken);
+
+        // Old version retained original value and remains frozen
+        firstCurrent.Hotkeys[IrisAction.InputTranslate].Key.ShouldBe(firstHotkeyKey);
+        Should.Throw<NotSupportedException>(() =>
+            ((IDictionary<IrisAction, HotkeyBinding>)firstCurrent.Hotkeys).Clear());
+
+        // New version has new value and is frozen
+        service.Current.Hotkeys[IrisAction.InputTranslate].Key.ShouldBe("X");
+        Should.Throw<NotSupportedException>(() =>
+            ((IDictionary<IrisAction, HotkeyBinding>)service.Current.Hotkeys).Clear());
+
+        // Event args
+        capturedArgs.ShouldNotBeNull();
+        ReferenceEquals(capturedArgs!.OldSettings, firstCurrent).ShouldBeTrue();
+        ReferenceEquals(capturedArgs!.NewSettings, service.Current).ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task T010B_NoOpUpdate_SameReference_And_SameJson_RetainsCurrentReference_NoDiskNoEvent()
+    {
+        using var dir = new TempDirectory();
+        var paths = new FakeAppPaths(dir.Path);
+        using var service = CreateService(dir);
+        await service.LoadAsync(TestContext.Current.CancellationToken);
+
+        var originalCurrent = service.Current;
+        var eventCount = 0;
+        service.Changed += (_, _) => eventCount++;
+
+        var diskBytesBefore = await File.ReadAllBytesAsync(paths.SettingsFile, TestContext.Current.CancellationToken);
+
+        // 1. Same reference
+        await service.UpdateAsync(s => s, TestContext.Current.CancellationToken);
+        eventCount.ShouldBe(0);
+        ReferenceEquals(service.Current, originalCurrent).ShouldBeTrue();
+
+        // 2. Different reference but identical serialized JSON
+        await service.UpdateAsync(s => s with
+        {
+            Translation = s.Translation with
+            {
+                MaxConcurrentProviders = s.Translation.MaxConcurrentProviders
+            }
+        }, TestContext.Current.CancellationToken);
+        eventCount.ShouldBe(0);
+        ReferenceEquals(service.Current, originalCurrent).ShouldBeTrue();
+
+        var diskBytesAfter = await File.ReadAllBytesAsync(paths.SettingsFile, TestContext.Current.CancellationToken);
+        diskBytesAfter.ShouldBe(diskBytesBefore);
+    }
+
+    [Fact]
+    public async Task T010B_FailurePath_MutateThrowsOrMutatesOldCollection_CurrentRemainsUnchanged()
+    {
+        using var dir = new TempDirectory();
+        using var service = CreateService(dir);
+        await service.LoadAsync(TestContext.Current.CancellationToken);
+
+        var currentBefore = service.Current;
+
+        // Mutate tries to modify frozen old collection
+        await Should.ThrowAsync<NotSupportedException>(async () =>
+        {
+            await service.UpdateAsync(s =>
+            {
+                ((IDictionary<IrisAction, HotkeyBinding>)s.Hotkeys).Clear();
+                return s;
+            }, TestContext.Current.CancellationToken);
+        });
+
+        ReferenceEquals(service.Current, currentBefore).ShouldBeTrue();
+
+        // Mutate throws custom exception
+        await Should.ThrowAsync<InvalidOperationException>(async () =>
+        {
+            await service.UpdateAsync(_ => throw new InvalidOperationException("boom"), TestContext.Current.CancellationToken);
+        });
+
+        ReferenceEquals(service.Current, currentBefore).ShouldBeTrue();
+
+        // Subsequent valid update succeeds
+        await service.UpdateAsync(s => s with
+        {
+            General = s.General with { Theme = AppTheme.Dark }
+        }, TestContext.Current.CancellationToken);
+
+        service.Current.General.Theme.ShouldBe(AppTheme.Dark);
+    }
+
+    [Fact]
+    public async Task T010B_ReadOnlyDictionary_Wrapper_Input_IsIsolated_InUpdateAsync()
+    {
+        using var dir = new TempDirectory();
+        using var service = CreateService(dir);
+        await service.LoadAsync(TestContext.Current.CancellationToken);
+
+        var callerDict = new Dictionary<string, string> { ["X-Caller"] = "original" };
+        var wrapped = new ReadOnlyDictionary<string, string>(callerDict);
+
+        await service.UpdateAsync(s => s with
+        {
+            Translation = s.Translation with
+            {
+                Providers =
+                [
+                    new TranslationProviderProfile
+                    {
+                        Id = "tp-wrapped-caller",
+                        Kind = TranslationProviderKind.OpenAICompatible,
+                        DisplayName = "P",
+                        Model = "m",
+                        OpenAIOptions = new OpenAICompatibleOptions { ExtraHeaders = wrapped }
+                    }
+                ]
+            }
+        }, TestContext.Current.CancellationToken);
+
+        // Caller mutates the dictionary backing their ReadOnlyDictionary
+        callerDict["X-Caller"] = "hacked";
+        callerDict["X-New"] = "bad";
+
+        // Current must be completely isolated
+        service.Current.Translation.Providers[0].OpenAIOptions!.ExtraHeaders!["X-Caller"].ShouldBe("original");
+        service.Current.Translation.Providers[0].OpenAIOptions!.ExtraHeaders!.ContainsKey("X-New").ShouldBeFalse();
+    }
 }
+
+
