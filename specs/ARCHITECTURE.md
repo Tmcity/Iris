@@ -1,6 +1,6 @@
 # Iris 架构设计说明书
 
-> 版本：v1.11 · 2026-09-28 · 状态：**已冻结（首期）**
+> 版本：v1.12 · 2026-09-28 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
@@ -12,6 +12,7 @@
 > 变更记录：v1.9（T-007 评审）— §5.2 SSE 解析改为包装 .NET 自带解析器；§7.5 修正编号列表正则（避免把小数当作列表编号）；§11.2 补全状态码、异常映射与错误信息提取；§11.3 命名 HttpClient 的完整配置（移除会记录完整 URL 的默认日志）；§12.4 代理细则；§12.5 URL 与服务端错误信息的脱敏。
 > 变更记录：v1.10（T-008 评审）— §9.1 OpenAI 兼容 Provider 完整行为规范（配置判定、请求构造、无进展超时、异常归类、响应分流、流结束判定、`<think>` 剥离状态机、TestAsync、模型列表）；§11.2 异常 Detail 必须脱敏；§12.4 本地地址判断处理 IPv4 映射地址与末尾的点；§12.5 新增 URL 账号密码脱敏规则。
 > 变更记录：v1.11（T-009 评审）— §9.2 Anthropic Provider 依据 SDK 12.50.0 实测重写（显式隔离 SDK 读取的环境变量凭据与地址、关闭 SDK 自带重试、回退启用条件、流截断检测、异常映射与隐私要求）；§9.1 非事件流响应的错误提示、Usage 允许部分缺失、TestAsync 的 Unknown 结果带 ProviderId 且日志不传入异常对象。
+> 变更记录：v1.12（T-010 评审，返工 R1）— §9.1 重申公共骨架重构不得改变流式调用的延迟执行语义；§9.2 补充 SDK 心跳适配层的超时、事件边界、并发与资源所有权要求，纠正 request_too_large 的判定方式，明确模型 ID 去重规则。评审证据见 tasks/done/T-010.md；本次不变更契约签名。
 > 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
@@ -457,6 +458,7 @@ return new OcrOutcome(raw, text, usedFallback)
 **构造与配置判定**
 - 由 `OpenAICompatibleTranslationProviderFactory`（`ITranslationProviderFactory`，单例，`AddIrisProviders` 中以 `TryAddEnumerable` 注册）创建；依赖 `IHttpClientFactory`、`IPromptTemplateProvider`、`IPromptRenderer`、`ISettingsService`、`TimeProvider`、`ILoggerFactory`。`Create` 时 `profile.Kind` 不是 OpenAICompatible → `ArgumentException`；`OpenAIOptions` 为 null → 使用 `new OpenAICompatibleOptions()`。Provider 实例不可变，设置变化由 Registry 重建实例（T-011）。
 - **`Descriptor.IsConfigured`** = `BaseUrl` 是 scheme 为 http / https 的绝对 URI **且** `Model` 非空白 **且**（`ApiKey` 非空白 **或** BaseUrl 的主机是本地地址——判定复用 `DynamicWebProxy.IsLocalAddress`，覆盖本机与局域网的 Ollama / LM Studio）。未配置时 `TranslateStreamAsync` 在第一次 `MoveNextAsync` 时抛 `IrisException(NotConfigured)`，不发出任何请求；`ListModelsAsync` 同样处理。
+- **公共骨架重构的边界**：上述延迟执行要求适用于 Provider 对外返回的序列，不能仅在 `ProviderCallGuard` 内成立。获取序列、创建枚举器时不做配置失败判断或启动 I/O；`NotConfigured` 在第一次 `MoveNextAsync` 时抛出。同步参数校验（如 request 为 null）与配置失败是两类问题，不得用前者解释后者的提前抛出。
 
 **请求**
 - `POST {BaseUrl.TrimEnd('/')}/{ChatCompletionsPath.TrimStart('/')}`，使用命名客户端 `iris.llm`。
@@ -536,6 +538,14 @@ new AnthropicClient
 - **`Descriptor.IsConfigured`** = `Model` 非空白 **且**（`BaseUrl` 为空白，或为 scheme 为 http / https 的绝对 URI）**且**（`ApiKey` 非空白，或 `BaseUrl` 非空白且主机是本地地址（`DynamicWebProxy.IsLocalAddress`））。未配置 → 与 §9.1 相同，第一次 `MoveNextAsync` 时抛 `NotConfigured`，不发请求。
 - `KindName = "Anthropic"`。
 
+**SDK 心跳适配层（T-010-R1）**
+- SDK 12.50.0 的类型化枚举不向调用方暴露 `ping`。允许在 SDK 与命名客户端之间增加透明的响应流观察层，Messages 请求构造、JSON 解析及 beta 协议仍由 SDK 负责。不能因为 SDK 隐藏心跳而删除心跳保活要求。
+- **使用 SDK 原生扩展点**：`AnthropicClient.Handlers` 接受 `IReadOnlyList<DelegatingHandler>`；将每个 Provider 自有的进度观察 handler 放入其中，HttpClient 直接使用命名客户端，handler 通过 `base.SendAsync` 转发。无需再创建第二个 HttpClient 或 CloneRequest，也不手工指定 InnerHandler/跨 client 复用 handler。架构师已联网核对 NuGet 所指向提交 `2beeb9f9b402b1cdb8030e7cdc38cc6cae5d42aa` 的 ClientOptions.cs，并用本地替身验证单次发送、流枚举和释放链；证据见 T-010 评审记录。
+- **每一层 HttpClient 都须显式设为 `Timeout.InfiniteTimeSpan`**，包括自行创建的包装客户端；仅设置 `AnthropicClient.Timeout` 与命名客户端不足以覆盖包装层。T-010 评审实测发现包装层仍为默认 100 秒，且其超时会在 Provider CTS 尚未触发时抛出 `TaskCanceledException`。翻译与模型列表的超时均由公共骨架负责，保持“调用方取消优先、Provider 超时映射为 Timeout”的顺序。
+- **进展仍按完整 SSE 事件计量**：收到完整、含 data 的事件（包括 ping）后重置；读取到任意字节不等于收到事件。观察器须支持分片、UTF-8 字符跨读取、LF / CRLF / CR，不能因半条事件持续到达而无限续期。不缓存完整原文、译文或无限增长的未完成事件；不得改变交给 SDK 的字节。已有 SDK 类型化事件同样按流处理规则重置。
+- 每次调用拥有独立的观察状态、回调与 CTS。同一 Provider 并发翻译时，A 的心跳不能延长 B 的超时；A 取消或结束不能清除 B 的回调。模型列表采用总超时，不受翻译心跳影响。
+- **资源所有权**：包装层在把响应成功交给 SDK 之前负责其释放；取流、创建包装内容或复制响应头失败/取消时，须释放已取得的响应及其内容，然后交由公共骨架归类原始失败。成功后由 SDK/枚举器释放响应链；提前 break、取消、失败、正常结束均须覆盖。请求由 SDK 创建和管理，适配层不自行克隆或提前释放请求 Content。Provider.Dispose 释放其拥有的客户端链且可重复调用；不得释放全局共享的工厂或服务。
+
 **请求**
 - `Model = profile.Model`；`MaxTokens = profile.MaxOutputTokens ?? 16000`；`System = Rendered.System`（空白时不设置）；`Messages = [User: Rendered.User]`；`AnthropicOptions.Effort` 非空白时 `OutputConfig = new OutputConfig { Effort = effort }`（字符串可直接赋值，实测序列化为 `"output_config":{"effort":"low"}`），空白或 null 时不设置 `OutputConfig`。
 - **不发送 `Temperature`**（新模型对非默认采样参数返回 400），忽略 `profile.Temperature`。**不设置 `Thinking`**：Claude Opus 5 默认启用自适应思考，用 effort 控制深度；思考内容默认不返回正文（display 为 omitted），流中的 thinking 块一律忽略。不构造以 assistant 消息结尾的预填充。
@@ -566,13 +576,13 @@ new AnthropicClient
 | `AnthropicIOException` | 网络错误（内部异常为 `HttpRequestException`） | `HttpErrorMapper.TryMapException(ex.InnerException ?? ex, providerId)`；结果为 null 时 → NetworkUnavailable，Detail 为 `SecretRedactor.Redact(ex.Message)` |
 | `OperationCanceledException` / `TaskCanceledException` | 取消或超时（实测：读流时取消抛 `TaskCanceledException`） | 统一出口的前两步 |
 
-等效状态码（`ErrorType` → 状态码）：`RateLimitError` → 429；`OverloadedError` → 529；`ApiError` → 500；`InvalidRequestError` → 400；`AuthenticationError` → 401；`PermissionError` → 403；`NotFoundError` → 404；`BillingError` → 402；`RequestTooLarge` → 413；`TimeoutError` → 504；null 或其他 → 500（枚举成员名以编译结果为准）。异常的 `HttpStatus` 即为该等效状态码。
+等效状态码（`ErrorType` → 状态码）：`RateLimitError` → 429；`OverloadedError` → 529；`ApiError` → 500；`InvalidRequestError` → 400；`AuthenticationError` → 401；`PermissionError` → 403；`NotFoundError` → 404；`BillingError` → 402；`TimeoutError` → 504；null 或其他 → 500。SDK 12.50.0 没有 `RequestTooLarge` 枚举成员：当 ErrorType 无法识别时，解析所提取 JSON 的 `error.type`，仅其值精确为 `"request_too_large"` 才映射 413；不能搜索整个响应或 message 中的这个单词。JSON 无法解析、字段缺失或非字符串时保持未知类型的 500 回退，不把解析失败或原文附为内部异常。HTTP 错误仍以实际 HTTP 状态码为准。异常的 `HttpStatus` 即为实际或等效状态码。
 
 - **隐私（安全要求）**：实测 `AnthropicApiException.Message` 与 `AnthropicSseException.Message` 都**原样包含服务端响应体**（反代可能在其中回显密钥）。因此：① `Detail` 一律来自 `HttpErrorMapper`（已脱敏）；② **不得**把 `AnthropicApiException`、`AnthropicSseException`、`AnthropicInvalidDataException` 作为 `innerException` 传入 `IrisException`（日志会输出内部异常的消息，`IrisException.ToErrorInfo()` 在 Detail 为 null 时也会回退到内部异常的消息）；③ 这些异常不得以任何形式写入日志。
 
 **TestAsync**：与 §9.1 完全相同（共用实现，见 T-010 工单）。
 
-**模型列表（`IModelCatalogSource`）**：`await client.Models.List(cancellationToken)`，遍历全部分页（SDK 的分页 API 以编译结果为准；最多取 1000 项），返回 `ID`，去空白、去重、排序规则同 §9.1。总超时 `TimeoutSeconds`，异常映射同上。
+**模型列表（`IModelCatalogSource`）**：`await client.Models.List(cancellationToken)`，遍历全部分页（SDK 的分页 API 以编译结果为准；最多取 1000 项），返回 `ID`，去空白、去重、排序规则同 §9.1：用 `StringComparer.Ordinal` 去重，用 `StringComparer.OrdinalIgnoreCase` 排序。大小写不同的 ID 必须保留，不能把排序比较器用于去重。总超时 `TimeoutSeconds`，异常映射同上。
 
 **可测试性**：实测 SDK 支持注入 `HttpClient`，测试用 MockHttp 返回下方的 SSE 夹具，并断言线上请求（地址、请求头、请求体 JSON）。
 

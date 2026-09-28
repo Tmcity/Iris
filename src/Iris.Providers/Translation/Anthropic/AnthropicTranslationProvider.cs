@@ -5,6 +5,7 @@ using System.IO;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Anthropic;
@@ -70,15 +71,15 @@ internal sealed partial class AnthropicTranslationProvider : ITranslationProvide
         _logger = logger;
 
         var baseHttpClient = httpClientFactory.CreateClient(HttpClientNames.Llm);
-        var trackingHandler = new ProgressTrackingHandler(baseHttpClient, () => _currentResetTimeout.Value);
-        var trackingHttpClient = new HttpClient(trackingHandler, disposeHandler: true);
+        var trackingHandler = new AnthropicProgressTrackingHandler(() => _currentResetTimeout.Value);
 
         _client = new AnthropicClient
         {
             ApiKey = string.IsNullOrWhiteSpace(credentials.ApiKey) ? null : credentials.ApiKey,
             AuthToken = null,
             BaseUrl = string.IsNullOrWhiteSpace(profile.BaseUrl) ? EnvironmentUrl.Production : profile.BaseUrl.TrimEnd('/'),
-            HttpClient = trackingHttpClient,
+            HttpClient = baseHttpClient,
+            Handlers = [trackingHandler],
             MaxRetries = 0,
             Timeout = Timeout.InfiniteTimeSpan,
         };
@@ -104,15 +105,6 @@ internal sealed partial class AnthropicTranslationProvider : ITranslationProvide
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        if (!Descriptor.IsConfigured)
-        {
-            throw new IrisException(
-                ErrorCode.NotConfigured,
-                ErrorMessages.GetDefault(ErrorCode.NotConfigured),
-                retryable: false,
-                providerId: _profile.Id);
-        }
-
         var timeout = TimeSpan.FromSeconds(_profile.TimeoutSeconds);
         return ProviderCallGuard.GuardStreamAsync(
             (token, resetTimeout) => TranslateStreamCoreAsync(request, resetTimeout, token),
@@ -131,15 +123,6 @@ internal sealed partial class AnthropicTranslationProvider : ITranslationProvide
 
     public Task<IReadOnlyList<string>> ListModelsAsync(CancellationToken cancellationToken = default)
     {
-        if (!Descriptor.IsConfigured)
-        {
-            throw new IrisException(
-                ErrorCode.NotConfigured,
-                ErrorMessages.GetDefault(ErrorCode.NotConfigured),
-                retryable: false,
-                providerId: _profile.Id);
-        }
-
         var timeout = TimeSpan.FromSeconds(_profile.TimeoutSeconds);
         return ProviderCallGuard.GuardAsync(
             ListModelsCoreAsync,
@@ -152,6 +135,15 @@ internal sealed partial class AnthropicTranslationProvider : ITranslationProvide
 
     private async Task<IReadOnlyList<string>> ListModelsCoreAsync(CancellationToken token)
     {
+        if (!Descriptor.IsConfigured)
+        {
+            throw new IrisException(
+                ErrorCode.NotConfigured,
+                ErrorMessages.GetDefault(ErrorCode.NotConfigured),
+                retryable: false,
+                providerId: _profile.Id);
+        }
+
         var modelIds = new List<string>();
         var page = await _client.Models.List(cancellationToken: token).ConfigureAwait(false);
         while (page != null)
@@ -180,7 +172,7 @@ internal sealed partial class AnthropicTranslationProvider : ITranslationProvide
         }
 
         return modelIds
-            .Distinct(StringComparer.OrdinalIgnoreCase)
+            .Distinct(StringComparer.Ordinal)
             .OrderBy(id => id, StringComparer.OrdinalIgnoreCase)
             .ToList();
     }
@@ -190,6 +182,15 @@ internal sealed partial class AnthropicTranslationProvider : ITranslationProvide
         Action resetTimeout,
         [EnumeratorCancellation] CancellationToken token)
     {
+        if (!Descriptor.IsConfigured)
+        {
+            throw new IrisException(
+                ErrorCode.NotConfigured,
+                ErrorMessages.GetDefault(ErrorCode.NotConfigured),
+                retryable: false,
+                providerId: _profile.Id);
+        }
+
         _currentResetTimeout.Value = resetTimeout;
         try
         {
@@ -397,7 +398,7 @@ internal sealed partial class AnthropicTranslationProvider : ITranslationProvide
                 json = message.Substring(firstQuote + 1, lastQuote - firstQuote - 1);
             }
 
-            if (statusCode == 500 && json.Contains("request_too_large", StringComparison.OrdinalIgnoreCase))
+            if (statusCode == 500 && IsRequestTooLarge(json))
             {
                 statusCode = 413;
             }
@@ -477,6 +478,46 @@ internal sealed partial class AnthropicTranslationProvider : ITranslationProvide
         return uri != null && DynamicWebProxy.IsLocalAddress(uri);
     }
 
+    internal static bool IsRequestTooLarge(string json)
+    {
+        if (string.IsNullOrWhiteSpace(json))
+        {
+            return false;
+        }
+
+        try
+        {
+            using var doc = JsonDocument.Parse(json);
+            var root = doc.RootElement;
+            if (root.ValueKind != JsonValueKind.Object)
+            {
+                return false;
+            }
+
+            if (root.TryGetProperty("error", out var errorProp) && errorProp.ValueKind == JsonValueKind.Object)
+            {
+                if (errorProp.TryGetProperty("type", out var typeProp) &&
+                    typeProp.ValueKind == JsonValueKind.String &&
+                    typeProp.ValueEquals("request_too_large"))
+                {
+                    return true;
+                }
+            }
+            else if (root.TryGetProperty("type", out var rootTypeProp) &&
+                     rootTypeProp.ValueKind == JsonValueKind.String &&
+                     rootTypeProp.ValueEquals("request_too_large"))
+            {
+                return true;
+            }
+        }
+        catch (Exception)
+        {
+            // 非合法 JSON 或解析失败保持未知错误 500
+        }
+
+        return false;
+    }
+
     private readonly record struct StreamEventItem(
         string? Text,
         long? InputTokens,
@@ -491,137 +532,5 @@ internal sealed partial class AnthropicTranslationProvider : ITranslationProvide
 
     [LoggerMessage(EventId = 3, Level = LogLevel.Debug, Message = "未知的 stop_reason: ProviderId={ProviderId}, Reason={RawReason}")]
     private static partial void LogUnknownStopReason(ILogger logger, string providerId, string? rawReason);
-
-    private sealed class ProgressTrackingHandler(HttpClient innerClient, Func<Action?> getResetTimeout) : HttpMessageHandler
-    {
-        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-        {
-            var resetTimeout = getResetTimeout();
-            var clone = CloneRequest(request);
-            var response = await innerClient.SendAsync(clone, HttpCompletionOption.ResponseHeadersRead, cancellationToken).ConfigureAwait(false);
-            if (response.Content != null)
-            {
-                var originalContent = response.Content;
-                var originalStream = await originalContent.ReadAsStreamAsync(cancellationToken).ConfigureAwait(false);
-                var trackingStream = new ProgressTrackingStream(originalStream, originalContent, resetTimeout);
-                var newContent = new StreamContent(trackingStream);
-                foreach (var header in originalContent.Headers)
-                {
-                    newContent.Headers.TryAddWithoutValidation(header.Key, header.Value);
-                }
-                response.Content = newContent;
-            }
-            return response;
-        }
-
-        private static HttpRequestMessage CloneRequest(HttpRequestMessage req)
-        {
-            var clone = new HttpRequestMessage(req.Method, req.RequestUri)
-            {
-                Version = req.Version,
-                VersionPolicy = req.VersionPolicy,
-            };
-            foreach (var header in req.Headers)
-            {
-                clone.Headers.TryAddWithoutValidation(header.Key, header.Value);
-            }
-            if (req.Content != null)
-            {
-                clone.Content = req.Content;
-            }
-            foreach (var prop in req.Options)
-            {
-                clone.Options.Set(new HttpRequestOptionsKey<object?>(prop.Key), prop.Value);
-            }
-            return clone;
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                innerClient.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-    }
-
-    private sealed class ProgressTrackingStream(Stream innerStream, HttpContent originalContent, Action? onProgress) : Stream
-    {
-        public override bool CanRead => innerStream.CanRead;
-        public override bool CanSeek => innerStream.CanSeek;
-        public override bool CanWrite => innerStream.CanWrite;
-        public override long Length => innerStream.Length;
-        public override long Position
-        {
-            get => innerStream.Position;
-            set => innerStream.Position = value;
-        }
-
-        public override void Flush() => innerStream.Flush();
-        public override Task FlushAsync(CancellationToken cancellationToken) => innerStream.FlushAsync(cancellationToken);
-        public override long Seek(long offset, SeekOrigin origin) => innerStream.Seek(offset, origin);
-        public override void SetLength(long value) => innerStream.SetLength(value);
-        public override void Write(byte[] buffer, int offset, int count) => innerStream.Write(buffer, offset, count);
-        public override void Write(ReadOnlySpan<byte> buffer) => innerStream.Write(buffer);
-        public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken) => innerStream.WriteAsync(buffer, offset, count, cancellationToken);
-        public override ValueTask WriteAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default) => innerStream.WriteAsync(buffer, cancellationToken);
-
-        public override int Read(byte[] buffer, int offset, int count)
-        {
-            var bytesRead = innerStream.Read(buffer, offset, count);
-            if (bytesRead > 0)
-            {
-                onProgress?.Invoke();
-            }
-            return bytesRead;
-        }
-
-        public override int Read(Span<byte> buffer)
-        {
-            var bytesRead = innerStream.Read(buffer);
-            if (bytesRead > 0)
-            {
-                onProgress?.Invoke();
-            }
-            return bytesRead;
-        }
-
-        public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
-        {
-            var bytesRead = await innerStream.ReadAsync(buffer.AsMemory(offset, count), cancellationToken).ConfigureAwait(false);
-            if (bytesRead > 0)
-            {
-                onProgress?.Invoke();
-            }
-            return bytesRead;
-        }
-
-        public override async ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
-        {
-            var bytesRead = await innerStream.ReadAsync(buffer, cancellationToken).ConfigureAwait(false);
-            if (bytesRead > 0)
-            {
-                onProgress?.Invoke();
-            }
-            return bytesRead;
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                innerStream.Dispose();
-                originalContent.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        public override async ValueTask DisposeAsync()
-        {
-            await innerStream.DisposeAsync().ConfigureAwait(false);
-            originalContent.Dispose();
-            await base.DisposeAsync().ConfigureAwait(false);
-        }
-    }
 }
+

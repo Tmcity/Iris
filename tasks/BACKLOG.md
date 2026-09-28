@@ -64,7 +64,7 @@
 | T-007 | ☑ | TextPreprocessor + SoftLineBreakMerger + PromptRenderer + PromptTemplateProvider + T-006 遗留 | T-006 | 1d |
 | T-008 | ☑ | Providers/Http：SseParser、HttpErrorMapper、SecretRedactor、DynamicWebProxy、命名 HttpClient 注册 + T-007 遗留 | T-007 | 1.5d |
 | T-009 | ☑ | OpenAI 兼容翻译 Provider | T-007, T-008 | 1.5d |
-| T-010 | ▶ | Anthropic 翻译 Provider（官方 SDK） | T-007, T-008 | 1d |
+| T-010 | ▶ | Anthropic 翻译 Provider（官方 SDK）+ 公共调用骨架（返工 R1） | T-007, T-008 | 1.25d + 0.75d |
 | T-011 | ☐ | TranslationProviderRegistry | T-004, T-009 | 0.5d |
 | T-012 | ☐ | LruTranslationCache | T-001 | 0.5d |
 | T-013 | ☐ | TranslationOrchestrator | T-011, T-012 | 1.5d |
@@ -79,7 +79,7 @@
 
 **T-009** — ☑ 已完成（提交 0bb2d2d，2026-09-28 评审通过，报告需补充说明，小遗留转入 T-010），见 `tasks/done/T-009.md`。
 
-**T-010** — 详见 `tasks/current_task.md`（规范：ARCH v1.11 §9.2）。交付 ARCH §9.2 全部行为 + Factory。验收：文本增量正确输出；thinking 内容块被忽略；`max_tokens` → Truncated；`refusal` → ContentRefused；不发送 temperature（断言请求体中不存在该字段）；Effort 为 null 时不发送 output_config；RefusalFallback 的最终写法记录在完成报告中；异常映射正确。
+**T-010** — ▶ 返工中（提交 e1bea17，2026-09-28 评审不通过）。独立构建零警告、726 个测试通过；补充探针发现包装客户端默认超时、未配置错误提前抛出、响应包装失败时资源泄漏、按字节续期、SSE 错误误分类与模型 ID 去重偏差。评审记录见 `tasks/done/T-010.md`，返工单 T-010-R1 见 `tasks/current_task.md`（ARCH v1.12 §9.1–§9.2）；复审通过后再签发 T-011。
 
 **T-011** 交付 `TranslationProviderRegistry`（Core）：按 Kind 找到对应 Factory，从 SecretStore 读取凭据，缓存实例，收到设置或密钥变化时重建并触发 Changed；`CreateTransient` 不缓存。验收：用 NSubstitute 验证重建时机、排序、禁用的 Profile 被排除、缺少 Key 时 `IsConfigured=false`。
 

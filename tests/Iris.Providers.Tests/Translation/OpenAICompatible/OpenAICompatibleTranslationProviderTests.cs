@@ -1667,4 +1667,40 @@ public sealed class OpenAICompatibleTranslationProviderTests
             IsDisposed = true;
         }
     }
+
+    [Fact]
+    public async Task Regression_R1_2_OpenAICompatible_DeferredExecution_NotConfiguredThrownAtFirstMoveNextAsync()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        var profile = new TranslationProviderProfile
+        {
+            Id = "p-unconf",
+            DisplayName = "Unconfigured",
+            Kind = TranslationProviderKind.OpenAICompatible,
+            BaseUrl = "https://api.openai.com/v1",
+            Model = "gpt-4o",
+        };
+
+        var provider = CreateProvider(mockHttp, profile, new ProviderCredentials(null));
+
+        // Phase 0: Synchronous parameter validation
+        Should.Throw<ArgumentNullException>(() => provider.TranslateStreamAsync(null!));
+
+        // Phase 1: Calling method must NOT throw and must NOT send HTTP
+        var enumerable = provider.TranslateStreamAsync(new ProviderTranslateRequest("hi", "en", "zh-CN"), TestContext.Current.CancellationToken);
+        enumerable.ShouldNotBeNull();
+        mockHttp.GetMatchCount(mockHttp.When("*")).ShouldBe(0);
+
+        // Phase 2: Getting async enumerator must NOT throw and must NOT send HTTP
+        var enumerator = enumerable.GetAsyncEnumerator(TestContext.Current.CancellationToken);
+        enumerator.ShouldNotBeNull();
+        mockHttp.GetMatchCount(mockHttp.When("*")).ShouldBe(0);
+
+        // Phase 3: First MoveNextAsync throws NotConfigured with correct ProviderId
+        var ex = await Should.ThrowAsync<IrisException>(async () => await enumerator.MoveNextAsync());
+        ex.Code.ShouldBe(ErrorCode.NotConfigured);
+        ex.ProviderId.ShouldBe(provider.Descriptor.Id);
+        mockHttp.GetMatchCount(mockHttp.When("*")).ShouldBe(0);
+    }
 }
+

@@ -64,7 +64,7 @@ public sealed class AnthropicTranslationProviderTests
 
         var creds = credentials ?? new ProviderCredentials("sk-ant-test-key-12345678");
 
-        var httpClient = new HttpClient(handler);
+        var httpClient = new HttpClient(handler) { Timeout = Timeout.InfiniteTimeSpan };
         var httpClientFactory = Substitute.For<IHttpClientFactory>();
         httpClientFactory.CreateClient(HttpClientNames.Llm).Returns(httpClient);
 
@@ -1487,4 +1487,195 @@ public sealed class AnthropicTranslationProviderTests
             IsDisposed = true;
         }
     }
+
+    private sealed class FailingTrackingHttpContent : HttpContent
+    {
+        public bool IsDisposed { get; private set; }
+
+        protected override Task<Stream> CreateContentReadStreamAsync()
+        {
+            throw new IOException("Simulated network stream read failure during acquisition");
+        }
+
+        protected override Task SerializeToStreamAsync(Stream stream, TransportContext? context) =>
+            throw new NotSupportedException();
+
+        protected override bool TryComputeLength(out long length)
+        {
+            length = 0;
+            return false;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            IsDisposed = true;
+        }
+    }
+
+    [Fact]
+    public void Regression_R1_1_HttpClientTimeout_InfiniteTimeSpan_NoOuterDefault100sTimeout()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        var provider = CreateProvider(mockHttp, timeoutSeconds: 300);
+
+        var clientField = typeof(AnthropicTranslationProvider).GetField("_client", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!;
+        var client = (global::Anthropic.AnthropicClient)clientField.GetValue(provider)!;
+
+        // Native AnthropicClient.HttpClient must be infinite timeout
+        client.HttpClient.Timeout.ShouldBe(Timeout.InfiniteTimeSpan);
+
+        // Native AnthropicClient.Handlers must be populated with progress tracking delegating handler
+        client.Handlers.ShouldNotBeNull();
+        client.Handlers.Count.ShouldBeGreaterThan(0);
+    }
+
+    [Fact]
+    public async Task Regression_R1_2_Anthropic_DeferredExecution_NotConfiguredThrownAtFirstMoveNextAsync()
+    {
+        var profile = new TranslationProviderProfile
+        {
+            Id = "p-unconf",
+            DisplayName = "Unconfigured",
+            Kind = TranslationProviderKind.Anthropic,
+            Model = "", // unconfigured
+        };
+        var mockHttp = new MockHttpMessageHandler();
+        var provider = CreateProvider(mockHttp, profile: profile);
+
+        // Phase 0: Synchronous parameter validation
+        Should.Throw<ArgumentNullException>(() => provider.TranslateStreamAsync(null!));
+
+        // Phase 1: Calling method must NOT throw and must NOT send HTTP
+        var enumerable = provider.TranslateStreamAsync(new ProviderTranslateRequest("hi", "en", "zh-CN"), TestContext.Current.CancellationToken);
+        enumerable.ShouldNotBeNull();
+        mockHttp.GetMatchCount(mockHttp.When("*")).ShouldBe(0);
+
+        // Phase 2: Getting async enumerator must NOT throw and must NOT send HTTP
+        var enumerator = enumerable.GetAsyncEnumerator(TestContext.Current.CancellationToken);
+        enumerator.ShouldNotBeNull();
+        mockHttp.GetMatchCount(mockHttp.When("*")).ShouldBe(0);
+
+        // Phase 3: First MoveNextAsync throws NotConfigured with correct ProviderId
+        var ex = await Should.ThrowAsync<IrisException>(async () => await enumerator.MoveNextAsync());
+        ex.Code.ShouldBe(ErrorCode.NotConfigured);
+        ex.ProviderId.ShouldBe(provider.Descriptor.Id);
+        mockHttp.GetMatchCount(mockHttp.When("*")).ShouldBe(0);
+    }
+
+    [Fact]
+    public async Task Regression_R1_3_ResponseDisposed_WhenStreamAcquisitionFails()
+    {
+        var failingContent = new FailingTrackingHttpContent();
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.When(HttpMethod.Post, "https://api.anthropic.com/v1/messages")
+            .Respond(_ => new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = failingContent,
+            });
+
+        var provider = CreateProvider(mockHttp);
+        await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await foreach (var _ in provider.TranslateStreamAsync(new ProviderTranslateRequest("hi", "en", "zh-CN"), TestContext.Current.CancellationToken))
+            {
+            }
+        });
+
+        failingContent.IsDisposed.ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task Regression_R1_4_FragmentedBytesDoNotResetTimeout_FiresAfterThreshold()
+    {
+        var timeProvider = new FakeTimeProvider();
+        var controllableStream = new ControllableStream();
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.When(HttpMethod.Post, "https://api.anthropic.com/v1/messages")
+            .Respond(_ => new HttpResponseMessage(HttpStatusCode.OK)
+            {
+                Content = new StreamContent(controllableStream)
+                {
+                    Headers = { ContentType = new MediaTypeHeaderValue("text/event-stream") }
+                }
+            });
+
+        var provider = CreateProvider(mockHttp, timeProvider: timeProvider, timeoutSeconds: 10);
+
+        var readTask = Task.Run(async () =>
+        {
+            await foreach (var _ in provider.TranslateStreamAsync(new ProviderTranslateRequest("hi", "en", "zh-CN"), TestContext.Current.CancellationToken))
+            {
+            }
+        }, TestContext.Current.CancellationToken);
+
+
+        // 1. Initial valid event: message_start
+        await controllableStream.WaitForReadAsync();
+        controllableStream.Push("event: message_start\ndata: {\"type\":\"message_start\",\"message\":{\"id\":\"msg_1\",\"type\":\"message\",\"role\":\"assistant\",\"model\":\"claude-sonnet-5\",\"content\":[],\"stop_reason\":null,\"usage\":{\"input_tokens\":10,\"output_tokens\":1}}}\n\n");
+
+        // 2. At t=6s, push fragmented bytes without complete event boundary
+        timeProvider.Advance(TimeSpan.FromSeconds(6));
+        await controllableStream.WaitForReadAsync();
+        controllableStream.Push("data: ");
+
+        // 3. At t=12s (6s later), push more fragmented spaces
+        timeProvider.Advance(TimeSpan.FromSeconds(6));
+        await controllableStream.WaitForReadAsync();
+        controllableStream.Push("   ");
+
+        // 4. Advance time past 10s timeout threshold (total 18s without complete event)
+        timeProvider.Advance(TimeSpan.FromSeconds(6));
+
+        // Expect timeout exception because no complete event arrived in >10 seconds
+        var ex = await Should.ThrowAsync<IrisException>(async () => await readTask.WaitAsync(TimeSpan.FromSeconds(5)));
+        ex.Code.ShouldBe(ErrorCode.Timeout);
+    }
+
+    [Fact]
+    public async Task Regression_R1_5_SseError_KeywordInMessage_Retains500ProviderUnavailable()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        var ssePayload = "event: error\ndata: {\"type\":\"error\",\"error\":{\"type\":\"some_unknown_error\",\"message\":\"request_too_large is not the reason\"}}\n\n";
+        mockHttp.When(HttpMethod.Post, "https://api.anthropic.com/v1/messages")
+            .Respond("text/event-stream", ssePayload);
+
+        var provider = CreateProvider(mockHttp);
+        var ex = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await foreach (var _ in provider.TranslateStreamAsync(new ProviderTranslateRequest("hi", "en", "zh-CN"), TestContext.Current.CancellationToken))
+            {
+            }
+        });
+
+        ex.Code.ShouldBe(ErrorCode.ProviderUnavailable);
+        ex.HttpStatus.ShouldBe(500);
+        ex.Retryable.ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task Regression_R1_6_ListModels_PreservesCaseVariantModelIds()
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        var json = """
+        {
+            "data": [
+                {"id": "Model-X"},
+                {"id": "model-x"},
+                {"id": "Model-X"}
+            ],
+            "has_more": false
+        }
+        """;
+        mockHttp.When(HttpMethod.Get, "https://api.anthropic.com/v1/models")
+            .Respond("application/json", json);
+
+        var provider = CreateProvider(mockHttp);
+        var models = await provider.ListModelsAsync(TestContext.Current.CancellationToken);
+
+        models.Count.ShouldBe(2);
+        models.ShouldContain("Model-X");
+        models.ShouldContain("model-x");
+    }
 }
+

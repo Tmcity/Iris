@@ -80,15 +80,6 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        if (!Descriptor.IsConfigured)
-        {
-            throw new IrisException(
-                ErrorCode.NotConfigured,
-                ErrorMessages.GetDefault(ErrorCode.NotConfigured),
-                retryable: false,
-                providerId: _profile.Id);
-        }
-
         var timeout = TimeSpan.FromSeconds(_profile.TimeoutSeconds);
         return ProviderCallGuard.GuardStreamAsync(
             (token, resetTimeout) => TranslateStreamCoreAsync(request, resetTimeout, token),
@@ -107,15 +98,6 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
 
     public Task<IReadOnlyList<string>> ListModelsAsync(CancellationToken cancellationToken)
     {
-        if (!Descriptor.IsConfigured)
-        {
-            throw new IrisException(
-                ErrorCode.NotConfigured,
-                ErrorMessages.GetDefault(ErrorCode.NotConfigured),
-                retryable: false,
-                providerId: _profile.Id);
-        }
-
         var timeout = TimeSpan.FromSeconds(_profile.TimeoutSeconds);
         return ProviderCallGuard.GuardAsync(
             ListModelsCoreAsync,
@@ -128,6 +110,15 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
 
     private async Task<IReadOnlyList<string>> ListModelsCoreAsync(CancellationToken token)
     {
+        if (!Descriptor.IsConfigured)
+        {
+            throw new IrisException(
+                ErrorCode.NotConfigured,
+                ErrorMessages.GetDefault(ErrorCode.NotConfigured),
+                retryable: false,
+                providerId: _profile.Id);
+        }
+
         var baseUrl = _profile.BaseUrl?.TrimEnd('/') ?? string.Empty;
         var requestUri = $"{baseUrl}/models";
         using var httpRequest = new HttpRequestMessage(HttpMethod.Get, requestUri);
@@ -186,6 +177,15 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
         Action resetTimeout,
         [EnumeratorCancellation] CancellationToken linkedToken)
     {
+        if (!Descriptor.IsConfigured)
+        {
+            throw new IrisException(
+                ErrorCode.NotConfigured,
+                ErrorMessages.GetDefault(ErrorCode.NotConfigured),
+                retryable: false,
+                providerId: _profile.Id);
+        }
+
         var startTimestamp = _timeProvider.GetTimestamp();
         var fingerprint = LogText.Fingerprint(request.Text);
         LogTranslationStarted(_logger, _profile.Id, _profile.Model, fingerprint);
