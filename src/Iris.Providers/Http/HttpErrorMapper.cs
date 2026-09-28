@@ -157,26 +157,37 @@ internal static partial class HttpErrorMapper
             return null;
         }
 
-        if (exception is HttpRequestException or IOException)
+        if (exception is HttpRequestException httpEx)
         {
             return new IrisException(
                 ErrorCode.NetworkUnavailable,
                 ErrorMessages.GetDefault(ErrorCode.NetworkUnavailable),
-                innerException: exception,
+                innerException: null,
                 retryable: true,
                 providerId: providerId,
-                detail: SecretRedactor.Redact(exception.Message));
+                detail: SafeHttpDiagnostics.FormatHttpRequestExceptionDetail(httpEx));
         }
 
-        if (exception is JsonException)
+        if (exception is IOException ioEx)
+        {
+            return new IrisException(
+                ErrorCode.NetworkUnavailable,
+                ErrorMessages.GetDefault(ErrorCode.NetworkUnavailable),
+                innerException: null,
+                retryable: true,
+                providerId: providerId,
+                detail: SafeHttpDiagnostics.FormatIOExceptionDetail(ioEx));
+        }
+
+        if (exception is JsonException jsonEx)
         {
             return new IrisException(
                 ErrorCode.InvalidResponse,
                 ErrorMessages.GetDefault(ErrorCode.InvalidResponse),
-                innerException: exception,
+                innerException: null,
                 retryable: false,
                 providerId: providerId,
-                detail: SecretRedactor.Redact(exception.Message));
+                detail: SafeHttpDiagnostics.FormatJsonExceptionDetail(jsonEx));
         }
 
         return null;

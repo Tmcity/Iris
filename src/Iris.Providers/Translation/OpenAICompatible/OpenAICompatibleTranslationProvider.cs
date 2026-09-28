@@ -146,10 +146,10 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
             throw new IrisException(
                 ErrorCode.InvalidResponse,
                 ErrorMessages.GetDefault(ErrorCode.InvalidResponse),
-                innerException: ex,
+                innerException: null,
                 retryable: false,
                 providerId: _profile.Id,
-                detail: SecretRedactor.Redact(ex.Message));
+                detail: SafeHttpDiagnostics.FormatJsonExceptionDetail(ex));
         }
 
         if (modelList?.Data == null)
@@ -273,10 +273,10 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
                 throw new IrisException(
                     ErrorCode.InvalidResponse,
                     ErrorMessages.GetDefault(ErrorCode.InvalidResponse),
-                    innerException: ex,
+                    innerException: null,
                     retryable: false,
                     providerId: _profile.Id,
-                    detail: SecretRedactor.Redact(ex.Message));
+                    detail: SafeHttpDiagnostics.FormatJsonExceptionDetail(ex));
             }
 
             ChatCompletionResponse? completionResponse;
@@ -289,10 +289,10 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
                 throw new IrisException(
                     ErrorCode.InvalidResponse,
                     ErrorMessages.GetDefault(ErrorCode.InvalidResponse),
-                    innerException: ex,
+                    innerException: null,
                     retryable: false,
                     providerId: _profile.Id,
-                    detail: SecretRedactor.Redact(ex.Message));
+                    detail: SafeHttpDiagnostics.FormatJsonExceptionDetail(ex));
             }
 
             if (completionResponse?.Choices == null || completionResponse.Choices.Count == 0)
@@ -381,10 +381,10 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
                     throw new IrisException(
                         ErrorCode.InvalidResponse,
                         ErrorMessages.GetDefault(ErrorCode.InvalidResponse),
-                        innerException: ex,
+                        innerException: null,
                         retryable: false,
                         providerId: _profile.Id,
-                        detail: SecretRedactor.Redact(ex.Message));
+                        detail: SafeHttpDiagnostics.FormatJsonExceptionDetail(ex));
                 }
 
                 if (chunk == null)

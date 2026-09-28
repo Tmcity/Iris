@@ -447,7 +447,7 @@ internal sealed partial class AnthropicTranslationProvider : ITranslationProvide
                 innerException: null,
                 retryable: true,
                 providerId: _profile.Id,
-                detail: SecretRedactor.Redact(ioEx.Message));
+                detail: SafeHttpDiagnostics.FormatIOExceptionDetail(ioEx));
         }
 
         return null;

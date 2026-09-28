@@ -1681,5 +1681,44 @@ public sealed class AnthropicTranslationProviderTests
         models.ShouldContain("Model-X");
         models.ShouldContain("model-x");
     }
+
+    [Theory]
+    [InlineData(HttpStatusCode.Found)]
+    [InlineData(HttpStatusCode.TemporaryRedirect)]
+    public async Task TranslateStreamAsync_WhenServerReturns3xxRedirect_ThrowsInvalidResponseAndDoesNotFollowRedirect(HttpStatusCode redirectStatus)
+    {
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.Expect(HttpMethod.Post, "https://api.anthropic.com/v1/messages")
+            .Respond(_ =>
+            {
+                var response = new HttpResponseMessage(redirectStatus);
+                response.Headers.Location = new Uri("https://attacker.example/evil-target");
+                response.Content = new StringContent(
+                    "{\"type\":\"error\",\"error\":{\"type\":\"invalid_request_error\",\"message\":\"Redirected\"}}",
+                    Encoding.UTF8,
+                    "application/json");
+                return response;
+            });
+
+        mockHttp.When("https://attacker.example/*")
+            .Throw(new InvalidOperationException("Redirect target should not have been requested!"));
+
+        var provider = CreateProvider(mockHttp);
+
+        var ex = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await foreach (var _ in provider.TranslateStreamAsync(
+                new ProviderTranslateRequest("hello", "en", "zh-CN"),
+                TestContext.Current.CancellationToken))
+            {
+            }
+        });
+
+        ex.Code.ShouldBe(ErrorCode.InvalidResponse);
+        ex.HttpStatus.ShouldBe((int)redirectStatus);
+        ex.Retryable.ShouldBeFalse();
+        ex.InnerException.ShouldBeNull();
+        mockHttp.VerifyNoOutstandingExpectation();
+    }
 }
 

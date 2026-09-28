@@ -1,6 +1,6 @@
 # Iris 架构设计说明书
 
-> 版本：v1.12 · 2026-09-28 · 状态：**已冻结（首期）**
+> 版本：v1.13 · 2026-09-28 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
@@ -13,6 +13,7 @@
 > 变更记录：v1.10（T-008 评审）— §9.1 OpenAI 兼容 Provider 完整行为规范（配置判定、请求构造、无进展超时、异常归类、响应分流、流结束判定、`<think>` 剥离状态机、TestAsync、模型列表）；§11.2 异常 Detail 必须脱敏；§12.4 本地地址判断处理 IPv4 映射地址与末尾的点；§12.5 新增 URL 账号密码脱敏规则。
 > 变更记录：v1.11（T-009 评审）— §9.2 Anthropic Provider 依据 SDK 12.50.0 实测重写（显式隔离 SDK 读取的环境变量凭据与地址、关闭 SDK 自带重试、回退启用条件、流截断检测、异常映射与隐私要求）；§9.1 非事件流响应的错误提示、Usage 允许部分缺失、TestAsync 的 Unknown 结果带 ProviderId 且日志不传入异常对象。
 > 变更记录：v1.12（T-010 评审，返工 R1）— §9.1 重申公共骨架重构不得改变流式调用的延迟执行语义；§9.2 补充 SDK 心跳适配层的超时、事件边界、并发与资源所有权要求，纠正 request_too_large 的判定方式，明确模型 ID 去重规则。评审证据见 tasks/done/T-010.md；本次不变更契约签名。
+> 变更记录：v1.13（T-010-R2 通过后，签发 T-010A）— §9.2/§11.2 统一远程异常的安全诊断与内部异常链约束；§11.3 禁止自动重定向；§12.5 完整移除 URL 中的 userinfo/query/fragment，并取消已知凭据脱敏的长度门槛。ToErrorInfo 行为变更见已批准的 CCR-001（tasks/CONTRACT_CHANGE_REQUESTS.md），由 T-010A 同步应用到契约与落地文件；当前签名不变。
 > 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
@@ -573,12 +574,12 @@ new AnthropicClient
 | `AnthropicApiException` 及其子类（`Anthropic4xxException`、`AnthropicRateLimitException`、`AnthropicUnauthorizedException`、`AnthropicNotFoundException`、`Anthropic5xxException`…） | 非 2xx 响应。带 `StatusCode`（`HttpStatusCode`）与 `ResponseBody` | `HttpErrorMapper.FromBody((int)ex.StatusCode, ex.ResponseBody, providerId, [ApiKey])`。§11.2 的状态码表已覆盖全部情况（413 → InputTooLong、529 → ProviderUnavailable、网关返回的 HTML 502 等），**不需要**按子类逐个 catch |
 | `AnthropicSseException` | 流中出现 `event: error`（2xx 之后）。没有状态码，`ErrorType` 为错误类型枚举，未知类型时为 null | 按下方“等效状态码”调用 `HttpErrorMapper.FromBody(等效状态码, json, …)`。`json` = `ex.Message` 中第一个 `'` 与最后一个 `'` 之间的部分（实测格式：`SSE error returned from server: '{json}'`），提取失败时使用整条消息 |
 | `AnthropicInvalidDataException` | 事件 JSON 无法解析（内部异常为 `JsonException`） | `IrisException(InvalidResponse, detail: "无法解析的流事件")` |
-| `AnthropicIOException` | 网络错误（内部异常为 `HttpRequestException`） | `HttpErrorMapper.TryMapException(ex.InnerException ?? ex, providerId)`；结果为 null 时 → NetworkUnavailable，Detail 为 `SecretRedactor.Redact(ex.Message)` |
+| `AnthropicIOException` | 网络错误（内部异常为 `HttpRequestException`） | `HttpErrorMapper.TryMapException(ex.InnerException ?? ex, providerId)`；结果为 null 时 → NetworkUnavailable，Detail 只包含固定说明与异常类型名，不读原始 Message，也不附原始异常链（§11.2） |
 | `OperationCanceledException` / `TaskCanceledException` | 取消或超时（实测：读流时取消抛 `TaskCanceledException`） | 统一出口的前两步 |
 
 等效状态码（`ErrorType` → 状态码）：`RateLimitError` → 429；`OverloadedError` → 529；`ApiError` → 500；`InvalidRequestError` → 400；`AuthenticationError` → 401；`PermissionError` → 403；`NotFoundError` → 404；`BillingError` → 402；`TimeoutError` → 504；null 或其他 → 500。SDK 12.50.0 没有 `RequestTooLarge` 枚举成员：当 ErrorType 无法识别时，解析所提取 JSON 的 `error.type`，仅其值精确为 `"request_too_large"` 才映射 413；不能搜索整个响应或 message 中的这个单词。JSON 无法解析、字段缺失或非字符串时保持未知类型的 500 回退，不把解析失败或原文附为内部异常。HTTP 错误仍以实际 HTTP 状态码为准。异常的 `HttpStatus` 即为实际或等效状态码。
 
-- **隐私（安全要求）**：实测 `AnthropicApiException.Message` 与 `AnthropicSseException.Message` 都**原样包含服务端响应体**（反代可能在其中回显密钥）。因此：① `Detail` 一律来自 `HttpErrorMapper`（已脱敏）；② **不得**把 `AnthropicApiException`、`AnthropicSseException`、`AnthropicInvalidDataException` 作为 `innerException` 传入 `IrisException`（日志会输出内部异常的消息，`IrisException.ToErrorInfo()` 在 Detail 为 null 时也会回退到内部异常的消息）；③ 这些异常不得以任何形式写入日志。
+- **隐私（安全要求）**：实测 `AnthropicApiException.Message` 与 `AnthropicSseException.Message` 都**原样包含服务端响应体**（反代可能在其中回显密钥）。因此：① `Detail` 一律来自 `HttpErrorMapper` 的安全输出；② **不得**把这些 SDK 异常及网络/解析异常的原始异常链挂进对外 IrisException；③ 不把它们作为日志的 Exception 参数。ToErrorInfo 只复制已提供的 Detail，禁止回退到 InnerException.Message（CCR-001）。
 
 **TestAsync**：与 §9.1 完全相同（共用实现，见 T-010 工单）。
 
@@ -783,7 +784,7 @@ data: {"type":"message_stop"}
 
 | 条件 | ErrorCode | Retryable |
 |---|---|---|
-| 3xx（HttpClient 不会自动跟随跨协议重定向，出现即为异常） | InvalidResponse | |
+| 3xx（命名客户端显式禁用自动重定向，返回调用方处理） | InvalidResponse | |
 | 400 / 422 | BadRequest | |
 | 401 | AuthenticationFailed | |
 | 402 | QuotaExceeded | |
@@ -807,7 +808,9 @@ data: {"type":"message_stop"}
 | 用户的 ct 已取消 | **不映射**，原样抛出 `OperationCanceledException` | — |
 | 其他异常 | **不映射**（属于编程错误，原样抛出，由编排器按 Unknown 处理） | — |
 
-映射后的 `Detail` = `SecretRedactor.Redact(exception.Message)`，**不得**直接使用原始消息：架构师实测，代理隧道失败时 `HttpRequestException.Message` 会包含完整的代理地址，例如 `The proxy tunnel request to proxy 'http://alice:S3cretPass@127.0.0.1:10332/' failed with status code '407'`，其中的账号密码会随 Detail 进入日志与界面。
+**传输/解析异常的安全边界（T-010A）**：已知 HttpRequestException、IOException、JsonException 转换后的 IrisException 不挂原始 InnerException，也不复制异常的 Message、Data、JsonException.Path。Detail 使用固定说明与安全元数据：异常类型名、HttpRequestError 枚举、HResult、HTTP 状态码、JSON 行号/字节位置（可用时）。不要求每种异常都具有全部元数据。这样不会因为日志输出 ToString 或嵌套异常而绕过脱敏。Provider 中直接 catch JsonException 的分支应复用同一策略；用户取消与未知编程错误的分类顺序不变。
+
+`IrisException.ToErrorInfo()` 只复制 Detail，Detail=null 时返回 null；禁止隐式采用 InnerException.Message。具体变更为已批准的 CCR-001，T-010A 同步到规范契约与落地文件。服务端返回的错误正文仍按下一段提取并脱敏，与传输异常的原始诊断消息分开处理。
 
 **错误信息提取**：读取响应体的前 64 KB（UTF-8），依次尝试以下 JSON 路径，取第一个非空字符串：`error.message` → `message` → `error`（字符串） → `detail` → `error_msg`。错误码同理：`error.code`（字符串或数字） → `error.type`。响应体不是 JSON（例如网关返回的 HTML 页面）时，取原文、把连续空白压缩为一个空格。最后用 `SecretRedactor` 脱敏，并截断到 300 个字符（超出部分以 `…` 结尾）。
 - `Message` = `ErrorMessages.GetDefault(code)`；`Detail` = `HTTP {status}: {提取并脱敏后的信息}`；`HttpStatus` = 状态码；`ProviderId` 由调用方传入。
@@ -815,10 +818,10 @@ data: {"type":"message_stop"}
 ### 11.3 HTTP 客户端与重试（`AddIrisProviders`，`Microsoft.Extensions.Http.Resilience`）
 
 **两个命名客户端的公共配置**：
-- 主处理器：`SocketsHttpHandler { Proxy = DynamicWebProxy（单例）, UseProxy = true, PooledConnectionLifetime = 2 min, ConnectTimeout = 15 s, AutomaticDecompression = All }`。
+- 主处理器：`SocketsHttpHandler { Proxy = DynamicWebProxy（单例）, UseProxy = true, AllowAutoRedirect = false, PooledConnectionLifetime = 2 min, ConnectTimeout = 15 s, AutomaticDecompression = All }`。两个命名客户端都禁用自动重定向；不另写手动跟随。原因：默认重定向会保留 x-api-key 等自定义头，.NET 只清除 Authorization，且并非禁止所有跨协议跳转；官方依据见 ARCHITECTURE_AUDIT.md §6。
 - `HttpClient.Timeout = Timeout.InfiniteTimeSpan`：超时一律由弹性管道或 Provider 的 CTS 控制。
 - 默认请求头 `User-Agent: Iris/{InformationalVersion 中 '+' 之前的部分}`。
-- **日志（安全要求）**：调用 `RemoveAllLoggers()` 移除 IHttpClientFactory 默认的日志处理器。默认处理器会在 Information 级别记录**完整 URL**，而百度 OCR 的 `access_token` 就在查询字符串中。改为添加自己的 `HttpLoggingHandler`：只在 Debug 级别记录 `方法 + scheme://host/path（不含查询字符串）+ 状态码 + 耗时`。
+- **日志（安全要求）**：调用 `RemoveAllLoggers()` 移除 IHttpClientFactory 默认的日志处理器。改用 HttpLoggingHandler，只在 Debug 记录方法、安全 URL、状态码和耗时，不附原始异常对象。安全 URL 仅含 scheme、host、非默认端口和 path，必须移除 UserInfo、Query、Fragment；GetLeftPart(UriPartial.Path) 本身会保留 UserInfo，不能直接使用。绝对 URI 格式化与服务端错误文本中的 URL 清理复用一个 internal 工具。
 
 **`iris.llm`**：`AddResilienceHandler("iris-llm")`，只包含一个重试策略：
 - 最多重试 1 次（共 2 次尝试）。触发条件：`HttpRequestException`，或状态码为 408 / 429 / 5xx。
@@ -953,8 +956,8 @@ data: {"type":"message_stop"}
 
 - 默认级别 Information。日志中**绝不**记录 API Key、Authorization 头、完整原文或译文。原文 / 译文统一通过 `LogText` 输出：Information 及以上级别只用 `LogText.Fingerprint(text)`（长度 + SHA-256 前 8 位）；Debug 级别可用 `LogText.Preview(text)`（再加前 32 个字符）。
 - 每个翻译会话以 `RequestId` 作为日志作用域（`BeginScope`），便于排查问题。
-- **URL 与查询字符串**：日志和异常信息中不得出现完整 URL（查询字符串中可能带有 `access_token` 等凭据），最多记录 `scheme://host/path`。
-- **服务端错误信息脱敏（`SecretRedactor`）**：写入 `IrisException.Detail` 之前，对服务端返回的错误信息执行：(1) 替换调用方传入的已知密钥值（长度 ≥ 8 的才替换）为 `***`；(2) 按正则替换常见的密钥形态：`sk-[A-Za-z0-9_\-]{8,}` → `sk-***`，`(?i)bearer\s+[A-Za-z0-9._\-]{8,}` → `Bearer ***`，`(?i)(access_token|api[_-]?key|secret[_-]?key)=[^&\s"']+` → `$1=***`，`(?i)\b([a-z][a-z0-9+.\-]*://)[^\s/@:'"]+:[^\s/@'"]+@` → `$1***@`（URL 中的账号密码，例如代理地址）。部分兼容服务在“Key 无效”的错误信息中会回显完整的 Key。
+- **URL 与查询字符串**：日志和异常详情中的绝对 URL 只保留 scheme、host、端口、path，完整移除 UserInfo、Query、Fragment。IPv6 主机、非默认端口、已编码路径要正确保留；URL 中用 `***@` 代替账号密码也不是最终格式。null/相对 URI 等不符合条件的输入返回固定占位符，不回显原输入。
+- **服务端错误信息脱敏（`SecretRedactor`）**：先按上一条清理绝对 URL，完整去除其中的敏感部分；再将显式传入的所有非空已知凭据替换为 `***`（最长优先、Ordinal 比较，不对替换后的标记再次执行已知值替换），不再设置长度 ≥ 8 的门槛；继续识别常见 sk-/Bearer/凭据参数形态。先清理 URL 可避免短凭据替换破坏 scheme 后漏掉查询字符串。未知凭据的形态识别保留现有保守规则。该变化会有意改变旧 URL 脱敏测试的期望值。随后再按 §11.2 截断输出。
 
 ---
 

@@ -10,7 +10,7 @@
 | 里程碑 | 目标 | 任务 | 可交付结果 |
 |---|---|---|---|
 | M0 基础设施 | 工程骨架、设置、密钥、托盘常驻 | T-001 ~ T-005 | 可以启动的托盘程序，设置可以读写 |
-| M1 翻译核心 | 语言、Prompt、Provider、编排器 | T-006 ~ T-013 | 在单元测试中跑通完整的多服务流式翻译 |
+| M1 翻译核心 | 语言、Prompt、Provider、编排器 | T-006 ~ T-013（含 T-010A/B 加固） | 在单元测试中跑通完整的多服务流式翻译 |
 | M2 输入翻译 | 分发器、翻译窗口、热键 | T-014 ~ T-017 | **首个可用版本**：热键打开窗口，输入文本得到翻译 |
 | M3 设置界面 | 设置窗口与各配置页 | T-018 ~ T-020 | 用户可以在 UI 中配置服务与快捷键 |
 | M4 划词翻译 | 剪贴板、选区读取、鼠标划词 | T-021 ~ T-024 | 选中文本按热键即可翻译；可选划词图标 |
@@ -64,12 +64,14 @@
 | T-007 | ☑ | TextPreprocessor + SoftLineBreakMerger + PromptRenderer + PromptTemplateProvider + T-006 遗留 | T-006 | 1d |
 | T-008 | ☑ | Providers/Http：SseParser、HttpErrorMapper、SecretRedactor、DynamicWebProxy、命名 HttpClient 注册 + T-007 遗留 | T-007 | 1.5d |
 | T-009 | ☑ | OpenAI 兼容翻译 Provider | T-007, T-008 | 1.5d |
-| T-010 | ▶ | Anthropic 翻译 Provider（官方 SDK）+ 公共调用骨架（返工 R1） | T-007, T-008 | 1.25d + 0.75d |
-| T-011 | ☐ | TranslationProviderRegistry | T-004, T-009 | 0.5d |
-| T-012 | ☐ | LruTranslationCache | T-001 | 0.5d |
+| T-010 | ☑ | Anthropic 翻译 Provider（官方 SDK）+ 公共调用骨架（含 R1/R2） | T-007, T-008 | 1.25d + 0.75d + 0.25d |
+| T-010A | ▶ | 远程异常与 HTTP 凭据边界加固（架构审查 A01，返工 R1） | T-010 | 0.75d + 0.5d |
+| T-010B | ☐ | 深度不可变设置快照（架构审查 A02） | T-010A | 待工单细化 |
+| T-011 | ☐ | TranslationProviderRegistry（签发前完成 A03/A04 契约决策） | T-004, T-010B | 待契约细化 |
+| T-012 | ☐ | LruTranslationCache（执行版本与字节预算纳入工单） | T-011 | 待工单细化 |
 | T-013 | ☐ | TranslationOrchestrator | T-011, T-012 | 1.5d |
 
-> T-006/T-007 与 T-008 可以并行；T-009 与 T-010 可以并行；T-012 可以随时插入。
+> T-006/T-007 与 T-008、T-009 与 T-010 的历史并行安排保留。2026-09-28 架构审查后，后续顺序为 T-010A → T-010B → T-011 → T-012 → T-013；保留原编号，以字母后缀插入加固项。T-012 需先明确执行快照/版本和缓存失效规则，不再视为可随时独立插入。
 
 **T-006** — ☑ 已完成（提交 fe508b5，2026-09-27 评审通过，附报告问题记录），见 `tasks/done/T-006.md`。
 
@@ -79,9 +81,13 @@
 
 **T-009** — ☑ 已完成（提交 0bb2d2d，2026-09-28 评审通过，报告需补充说明，小遗留转入 T-010），见 `tasks/done/T-009.md`。
 
-**T-010** — ▶ 返工中（提交 e1bea17，2026-09-28 评审不通过）。独立构建零警告、726 个测试通过；补充探针发现包装客户端默认超时、未配置错误提前抛出、响应包装失败时资源泄漏、按字节续期、SSE 错误误分类与模型 ID 去重偏差。评审记录见 `tasks/done/T-010.md`，返工单 T-010-R1 见 `tasks/current_task.md`（ARCH v1.12 §9.1–§9.2）；复审通过后再签发 T-011。
+**T-010** — ☑ R2 于 2026-09-28 复审通过，已独立提交为 `81c0ddd3380cda672a9c45bc589fad25b0117dd5`；架构师已逐个验证提交中的四个文件字节与验收 SHA-256 一致。独立构建零警告、779 个测试通过，46 个定向用例连续五轮通过；独立 SSE 差分及普通/beta 心跳探针通过。完整证据见 `tasks/done/T-010.md` 及 T-010A 评审记录。
 
-**T-011** 交付 `TranslationProviderRegistry`（Core）：按 Kind 找到对应 Factory，从 SecretStore 读取凭据，缓存实例，收到设置或密钥变化时重建并触发 Changed；`CreateTransient` 不缓存。验收：用 NSubstitute 验证重建时机、排序、禁用的 Profile 被排除、缺少 Key 时 `IsConfigured=false`。
+**T-010A** — ▶ 返工 R1。独立构建零警告、809 个测试通过；CCR-001、远程异常链、禁用自动重定向已通过单项核验。正文 URL 清理仍有 IPv6/不可解析 URL/单引号查询泄漏，已知值匹配存在二次扫描，完成报告基线表须更正。返工单见 `tasks/current_task.md`，证据见 `tasks/done/T-010A.md`；T-010B 暂不签发。
+
+**T-010B** — ☐ 在设置服务发布边界深拷贝并冻结嵌套集合，覆盖默认/加载/损坏恢复/更新各路径，确保外部集合修改和草稿编辑不改变 Current；具体工单在 T-010A 验收后签发。
+
+**T-011** 交付 `TranslationProviderRegistry`（Core）：按 Kind 找到对应 Factory，从 SecretStore 读取凭据，缓存实例，收到设置或密钥变化时重建并触发 Changed；`CreateTransient` 不缓存。签发前必须明确配置/凭据一致发布与在途实例所有权（审查 A03/A04），不能由开发自行猜测。验收包括重建时机、排序、禁用 Profile 排除、按实际 Provider 规则判定 IsConfigured（本地免 Key 服务不能一律判未配置）。
 
 **T-012** 验收：容量淘汰遵循 LRU；多线程并发读写安全（Parallel.For 压测）；Clear 生效。
 

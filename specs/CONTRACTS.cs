@@ -137,7 +137,7 @@ namespace Iris.Core.Errors
         public string? Detail { get; }
 
         public ErrorInfo ToErrorInfo() =>
-            new(Code, Message, Detail ?? InnerException?.Message, HttpStatus, Retryable, ProviderId);
+            new(Code, Message, Detail, HttpStatus, Retryable, ProviderId);
     }
 }
 

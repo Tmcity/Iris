@@ -25,7 +25,7 @@ internal sealed partial class HttpLoggingHandler : DelegatingHandler
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        var safeUrl = request.RequestUri?.GetLeftPart(UriPartial.Path) ?? string.Empty;
+        var safeUrl = SafeHttpDiagnostics.ToSafeUrl(request.RequestUri);
         var stopwatch = Stopwatch.StartNew();
 
         try

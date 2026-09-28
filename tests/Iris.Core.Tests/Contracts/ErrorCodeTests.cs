@@ -55,4 +55,38 @@ public class ErrorCodeTests
         info.Retryable.ShouldBeTrue();
         info.ProviderId.ShouldBe("test-provider");
     }
+
+    [Fact]
+    public void IrisException_ToErrorInfo_WhenDetailIsNull_RetainsNull_DoesNotFallbackToInnerExceptionMessage()
+    {
+        var inner = new InvalidOperationException("Sensitive internal message: token=sk-live-secret-key-12345");
+        var ex = new IrisException(
+            code: ErrorCode.NetworkUnavailable,
+            message: "网络连接失败",
+            innerException: inner,
+            detail: null);
+
+        var info = ex.ToErrorInfo();
+
+        info.Code.ShouldBe(ErrorCode.NetworkUnavailable);
+        info.Message.ShouldBe("网络连接失败");
+        info.Detail.ShouldBeNull();
+    }
+
+    [Fact]
+    public void IrisException_ToErrorInfo_WhenDetailIsExplicit_PreservesExplicitDetail()
+    {
+        var inner = new InvalidOperationException("Sensitive internal message: token=sk-live-secret-key-12345");
+        var ex = new IrisException(
+            code: ErrorCode.NetworkUnavailable,
+            message: "网络连接失败",
+            innerException: inner,
+            detail: "网络请求失败（HttpRequestException; Status=502）");
+
+        var info = ex.ToErrorInfo();
+
+        info.Code.ShouldBe(ErrorCode.NetworkUnavailable);
+        info.Message.ShouldBe("网络连接失败");
+        info.Detail.ShouldBe("网络请求失败（HttpRequestException; Status=502）");
+    }
 }

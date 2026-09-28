@@ -48,6 +48,7 @@ public static class ProvidersServiceCollectionExtensions
             {
                 Proxy = sp.GetRequiredService<DynamicWebProxy>(),
                 UseProxy = true,
+                AllowAutoRedirect = false,
                 PooledConnectionLifetime = TimeSpan.FromMinutes(2),
                 ConnectTimeout = TimeSpan.FromSeconds(15),
                 AutomaticDecompression = DecompressionMethods.All,
@@ -98,6 +99,7 @@ public static class ProvidersServiceCollectionExtensions
             {
                 Proxy = sp.GetRequiredService<DynamicWebProxy>(),
                 UseProxy = true,
+                AllowAutoRedirect = false,
                 PooledConnectionLifetime = TimeSpan.FromMinutes(2),
                 ConnectTimeout = TimeSpan.FromSeconds(15),
                 AutomaticDecompression = DecompressionMethods.All,

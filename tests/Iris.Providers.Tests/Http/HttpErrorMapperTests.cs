@@ -200,21 +200,24 @@ public sealed class HttpErrorMapperTests
         mappedHttp.ShouldNotBeNull();
         mappedHttp.Code.ShouldBe(ErrorCode.NetworkUnavailable);
         mappedHttp.Retryable.ShouldBeTrue();
-        mappedHttp.InnerException.ShouldBe(httpEx);
+        mappedHttp.InnerException.ShouldBeNull();
+        mappedHttp.Detail.ShouldStartWith("网络请求失败（HttpRequestException");
 
         var ioEx = new IOException("The connection was reset");
         var mappedIo = HttpErrorMapper.TryMapException(ioEx, "provider2");
         mappedIo.ShouldNotBeNull();
         mappedIo.Code.ShouldBe(ErrorCode.NetworkUnavailable);
         mappedIo.Retryable.ShouldBeTrue();
-        mappedIo.InnerException.ShouldBe(ioEx);
+        mappedIo.InnerException.ShouldBeNull();
+        mappedIo.Detail.ShouldStartWith("网络传输读写失败（IOException");
 
         var jsonEx = new JsonException("Invalid JSON token");
         var mappedJson = HttpErrorMapper.TryMapException(jsonEx, "provider3");
         mappedJson.ShouldNotBeNull();
         mappedJson.Code.ShouldBe(ErrorCode.InvalidResponse);
         mappedJson.Retryable.ShouldBeFalse();
-        mappedJson.InnerException.ShouldBe(jsonEx);
+        mappedJson.InnerException.ShouldBeNull();
+        mappedJson.Detail.ShouldStartWith("JSON 解析失败（JsonException");
 
         var cancelEx = new OperationCanceledException();
         HttpErrorMapper.TryMapException(cancelEx, "provider4").ShouldBeNull();
@@ -245,6 +248,30 @@ public sealed class HttpErrorMapperTests
         mapped.Detail.ShouldNotBeNull();
         mapped.Detail.ShouldNotContain("S3cretPass");
         mapped.Detail.ShouldNotContain("alice");
-        mapped.Detail.ShouldContain("http://***@10.0.0.1:8080/");
+        mapped.Detail.ShouldNotContain("10.0.0.1");
+        mapped.Detail.ShouldStartWith("网络请求失败（HttpRequestException");
+        mapped.InnerException.ShouldBeNull();
+
+        // Check full exception ToString() and ToErrorInfo()
+        mapped.ToString().ShouldNotContain("S3cretPass");
+        mapped.ToErrorInfo().Detail?.ShouldNotContain("S3cretPass");
+    }
+
+    [Theory]
+    [InlineData("http://audit:AUDIT_FAKE_PASSWORD_67890@[::1]")]
+    [InlineData("https://audit:AUDIT_FAKE_PASSWORD_67890@proxy.invalid:bad/v1?q=AUDIT_FAKE_QUERY_12345")]
+    [InlineData("https://api.example/v1?q=left'AUDIT_FAKE_QUERY_12345")]
+    [InlineData("https://api.example/O'Brien?q=AUDIT_FAKE_QUERY_12345")]
+    public void FromBody_ProbeCounterExamples_DoNotLeakCredentialsIntoErrorInfoDetail(string url)
+    {
+        var text = $"Upstream failed at {url}";
+        var body = JsonSerializer.Serialize(new { error = new { message = text } });
+
+        var ex = HttpErrorMapper.FromBody(502, body, "audit-p", ["UNRELATED_KEY_999"]);
+        var detail = ex.ToErrorInfo().Detail;
+
+        detail.ShouldNotBeNull();
+        detail.ShouldNotContain("AUDIT_FAKE_PASSWORD_67890");
+        detail.ShouldNotContain("AUDIT_FAKE_QUERY_12345");
     }
 }

@@ -330,4 +330,54 @@ public sealed class HttpClientPipelineTests
         factories.Count(f => f.Kind == TranslationProviderKind.OpenAICompatible).ShouldBe(1);
         factories.Count(f => f.Kind == TranslationProviderKind.Anthropic).ShouldBe(1);
     }
+
+    private static ServiceProvider CreateProductionServiceProvider()
+    {
+        var services = new ServiceCollection();
+        services.AddLogging();
+        var settings = Substitute.For<ISettingsService>();
+        settings.Current.Returns(new AppSettings());
+        services.AddSingleton(settings);
+        services.AddSingleton(Substitute.For<IPromptTemplateProvider>());
+        services.AddSingleton(Substitute.For<IPromptRenderer>());
+        services.AddIrisProviders();
+        return services.BuildServiceProvider();
+    }
+
+    private static SocketsHttpHandler FindSocketsHttpHandler(HttpMessageHandler handler)
+    {
+        var current = handler;
+        var innerHandlerProp = typeof(DelegatingHandler).GetProperty(
+            "InnerHandler",
+            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
+
+        while (current is DelegatingHandler delegating)
+        {
+            var next = (HttpMessageHandler?)innerHandlerProp?.GetValue(delegating);
+            if (next == null)
+            {
+                break;
+            }
+            current = next;
+        }
+
+        current.ShouldBeOfType<SocketsHttpHandler>();
+        return (SocketsHttpHandler)current;
+    }
+
+    [Theory]
+    [InlineData(HttpClientNames.Llm)]
+    [InlineData(HttpClientNames.Ocr)]
+    public void ProductionNamedClients_SocketsHttpHandler_HasAllowAutoRedirectFalse(string clientName)
+    {
+        using var sp = CreateProductionServiceProvider();
+        var factory = sp.GetRequiredService<IHttpMessageHandlerFactory>();
+        using var handler = factory.CreateHandler(clientName);
+
+        var socketsHandler = FindSocketsHttpHandler(handler);
+        socketsHandler.ShouldNotBeNull();
+        socketsHandler.AllowAutoRedirect.ShouldBeFalse();
+        socketsHandler.UseProxy.ShouldBeTrue();
+        socketsHandler.ConnectTimeout.ShouldBe(TimeSpan.FromSeconds(15));
+    }
 }
