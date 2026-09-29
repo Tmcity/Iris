@@ -62,6 +62,9 @@ internal sealed partial class AppBootstrapper
         _startupInfo = startupInfo ?? throw new ArgumentNullException(nameof(startupInfo));
     }
 
+    internal static Action<string, string> FatalErrorShower { get; set; } = FatalErrorDialog.Show;
+    internal static Action<int> AppShutdowner { get; set; } = code => Application.Current?.Shutdown(code);
+
     public async Task StartAsync()
     {
         // 1. 加载设置
@@ -75,8 +78,8 @@ internal sealed partial class AppBootstrapper
         }
         catch (IrisException ex) when (ex.Code == ErrorCode.StorageFailure)
         {
-            FatalErrorDialog.Show(UiText.AppName, FatalErrorFormatter.Format(ex));
-            Application.Current?.Shutdown(1);
+            FatalErrorShower(UiText.AppName, FatalErrorFormatter.Format(ex));
+            AppShutdowner(1);
             return;
         }
 
@@ -96,8 +99,8 @@ internal sealed partial class AppBootstrapper
         }
         catch (IrisException ex) when (ex.Code == ErrorCode.StorageFailure)
         {
-            FatalErrorDialog.Show(UiText.AppName, FatalErrorFormatter.Format(ex));
-            Application.Current?.Shutdown(1);
+            FatalErrorShower(UiText.AppName, FatalErrorFormatter.Format(ex));
+            AppShutdowner(1);
             return;
         }
 

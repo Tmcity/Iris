@@ -43,9 +43,13 @@ internal sealed partial class TrayIconController : IDisposable
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
+    internal bool WasInitialized { get; private set; }
+    internal bool SuppressIconCreationForTesting { get; set; }
+
     public void Initialize()
     {
-        if (_taskbarIcon != null || _disposed)
+        WasInitialized = true;
+        if (_taskbarIcon != null || _disposed || SuppressIconCreationForTesting)
         {
             return;
         }

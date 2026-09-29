@@ -26,6 +26,8 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
     private readonly SemaphoreSlim _writeLock = new(1, 1);
     private bool _disposed;
 
+    internal Action? OnReadSnapshotAcquired { get; set; }
+
     public SqliteHistoryRepository(
         ISqliteConnectionFactory connectionFactory,
         IDatabaseInitializer databaseInitializer,
@@ -105,7 +107,6 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
         var origin = entry.Origin.ToString();
         var createdAt = entry.CreatedAt.ToUniversalTime().ToString("O", CultureInfo.InvariantCulture);
         var isFavorite = entry.IsFavorite ? 1 : 0;
-        var maxEntries = _settingsService.Current.History.MaxEntries;
 
         var hashBytes = SHA256.HashData(Encoding.UTF8.GetBytes(sourceText));
         var textHash = Convert.ToHexStringLower(hashBytes);
@@ -124,7 +125,6 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
                 textHash,
                 concatenatedResults,
                 copiedResults,
-                maxEntries,
                 cancellationToken),
             cancellationToken).ConfigureAwait(false);
     }
@@ -139,7 +139,6 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
         string textHash,
         string concatenatedResults,
         IReadOnlyList<HistoryResult> results,
-        int maxEntries,
         CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -149,10 +148,16 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var connection = _connectionFactory.CreateConnection();
-            using var tx = connection.BeginTransaction(deferred: false);
+            // 在取得写门闩后读取最新设置上限，确保排队写入能够观察到最新配置
+            var maxEntries = _settingsService.Current.History.MaxEntries;
+
+            SqliteConnection? connection = null;
+            SqliteTransaction? tx = null;
             try
             {
+                connection = _connectionFactory.CreateConnection();
+                tx = connection.BeginTransaction(deferred: false);
+
                 // 查询最新一条记录
                 const string queryLatestSql = """
                     SELECT id, created_at, origin, source_text, source_lang, target_lang, text_hash, is_favorite
@@ -228,20 +233,30 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
             }
             catch (OperationCanceledException)
             {
-                try { tx.Rollback(); } catch { }
+                try { tx?.Rollback(); } catch { }
+                throw;
+            }
+            catch (IrisException)
+            {
+                try { tx?.Rollback(); } catch { }
                 throw;
             }
             catch (SqliteException ex)
             {
-                try { tx.Rollback(); } catch { }
+                try { tx?.Rollback(); } catch { }
                 LogSqliteOperationFailed(_logger, "AddAsync", ex.SqliteErrorCode);
-                throw new IrisException(ErrorCode.StorageFailure, "Database write failed with SQLite error.", innerException: ex);
+                throw new IrisException(ErrorCode.StorageFailure, "Database write failed with SQLite error.");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                try { tx.Rollback(); } catch { }
+                try { tx?.Rollback(); } catch { }
                 LogOperationFailed(_logger, "AddAsync");
-                throw new IrisException(ErrorCode.StorageFailure, "Database write failed.", innerException: ex);
+                throw new IrisException(ErrorCode.StorageFailure, "Database write failed.");
+            }
+            finally
+            {
+                tx?.Dispose();
+                connection?.Dispose();
             }
         }
         finally
@@ -309,10 +324,14 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        using var connection = _connectionFactory.CreateConnection();
-        using var tx = connection.BeginTransaction();
+        SqliteConnection? connection = null;
+        SqliteTransaction? tx = null;
         try
         {
+            connection = _connectionFactory.CreateConnection();
+            // 使用显式延迟读事务（deferred: true），在 WAL 模式下仅获取共享读锁，绝不阻塞并发写事务
+            tx = connection.BeginTransaction(deferred: true);
+
             cancellationToken.ThrowIfCancellationRequested();
 
             var favoritesOnly = query.FavoritesOnly ? 1 : 0;
@@ -330,6 +349,7 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
                     """;
 
                 totalCount = connection.ExecuteScalar<int>(countSql, new { favoritesOnly }, transaction: tx);
+                OnReadSnapshotAcquired?.Invoke();
 
                 const string pageSql = """
                     SELECT
@@ -370,6 +390,7 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
                         """;
 
                     totalCount = connection.ExecuteScalar<int>(countSql, new { favoritesOnly, ftsMatch }, transaction: tx);
+                    OnReadSnapshotAcquired?.Invoke();
 
                     const string pageSql = """
                         SELECT
@@ -407,6 +428,7 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
                         """;
 
                     totalCount = connection.ExecuteScalar<int>(countSql, new { favoritesOnly, likePattern }, transaction: tx);
+                    OnReadSnapshotAcquired?.Invoke();
 
                     const string pageSql = """
                         SELECT
@@ -453,21 +475,37 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
                     HasTruncatedResults: r.has_truncated_results != 0));
             }
 
+            cancellationToken.ThrowIfCancellationRequested();
+            tx.Commit();
+
             return new PagedResult<HistorySummary>(summaries.AsReadOnly(), totalCount);
         }
         catch (OperationCanceledException)
         {
+            try { tx?.Rollback(); } catch { }
+            throw;
+        }
+        catch (IrisException)
+        {
+            try { tx?.Rollback(); } catch { }
             throw;
         }
         catch (SqliteException ex)
         {
+            try { tx?.Rollback(); } catch { }
             LogSqliteOperationFailed(_logger, "QueryAsync", ex.SqliteErrorCode);
-            throw new IrisException(ErrorCode.StorageFailure, "Database query failed with SQLite error.", innerException: ex);
+            throw new IrisException(ErrorCode.StorageFailure, "Database query failed with SQLite error.");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
+            try { tx?.Rollback(); } catch { }
             LogOperationFailed(_logger, "QueryAsync");
-            throw new IrisException(ErrorCode.StorageFailure, "Database query failed.", innerException: ex);
+            throw new IrisException(ErrorCode.StorageFailure, "Database query failed.");
+        }
+        finally
+        {
+            tx?.Dispose();
+            connection?.Dispose();
         }
     }
 
@@ -488,10 +526,14 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        using var connection = _connectionFactory.CreateConnection();
-        using var tx = connection.BeginTransaction();
+        SqliteConnection? connection = null;
+        SqliteTransaction? tx = null;
         try
         {
+            connection = _connectionFactory.CreateConnection();
+            // 使用显式延迟读事务（deferred: true），在同一只读快照内获取记录头与有序子结果
+            tx = connection.BeginTransaction(deferred: true);
+
             cancellationToken.ThrowIfCancellationRequested();
 
             const string historySql = """
@@ -503,8 +545,11 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
             var historyRow = connection.QueryFirstOrDefault<HistoryDetailDto>(historySql, new { id }, transaction: tx);
             if (historyRow == null)
             {
+                tx.Commit();
                 return null;
             }
+
+            OnReadSnapshotAcquired?.Invoke();
 
             const string resultsSql = """
                 SELECT provider_id, provider_name, model, result_text, is_truncated
@@ -526,6 +571,9 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
             var createdAt = DateTimeOffset.Parse(historyRow.created_at, CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind);
             var origin = Enum.Parse<TextOrigin>(historyRow.origin, ignoreCase: true);
 
+            cancellationToken.ThrowIfCancellationRequested();
+            tx.Commit();
+
             return new HistoryEntry
             {
                 Id = historyRow.id,
@@ -540,17 +588,30 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
         }
         catch (OperationCanceledException)
         {
+            try { tx?.Rollback(); } catch { }
+            throw;
+        }
+        catch (IrisException)
+        {
+            try { tx?.Rollback(); } catch { }
             throw;
         }
         catch (SqliteException ex)
         {
+            try { tx?.Rollback(); } catch { }
             LogSqliteOperationFailed(_logger, "GetAsync", ex.SqliteErrorCode);
-            throw new IrisException(ErrorCode.StorageFailure, "Database read failed with SQLite error.", innerException: ex);
+            throw new IrisException(ErrorCode.StorageFailure, "Database read failed with SQLite error.");
         }
-        catch (Exception ex)
+        catch (Exception)
         {
+            try { tx?.Rollback(); } catch { }
             LogOperationFailed(_logger, "GetAsync");
-            throw new IrisException(ErrorCode.StorageFailure, "Database read failed.", innerException: ex);
+            throw new IrisException(ErrorCode.StorageFailure, "Database read failed.");
+        }
+        finally
+        {
+            tx?.Dispose();
+            connection?.Dispose();
         }
     }
 
@@ -564,12 +625,10 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
 
         await EnsureInitializedAsync(cancellationToken).ConfigureAwait(false);
 
-        var maxEntries = _settingsService.Current.History.MaxEntries;
-
-        await Task.Run(() => SetFavoriteCore(id, isFavorite, maxEntries, cancellationToken), cancellationToken).ConfigureAwait(false);
+        await Task.Run(() => SetFavoriteCore(id, isFavorite, cancellationToken), cancellationToken).ConfigureAwait(false);
     }
 
-    private void SetFavoriteCore(long id, bool isFavorite, int maxEntries, CancellationToken cancellationToken)
+    private void SetFavoriteCore(long id, bool isFavorite, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -578,14 +637,20 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var connection = _connectionFactory.CreateConnection();
-            using var tx = connection.BeginTransaction(deferred: false);
+            var maxEntries = _settingsService.Current.History.MaxEntries;
+
+            SqliteConnection? connection = null;
+            SqliteTransaction? tx = null;
             try
             {
-                const string sql = "UPDATE translation_history SET is_favorite = @fav WHERE id = @id;";
-                connection.Execute(sql, new { fav = isFavorite ? 1 : 0, id }, transaction: tx);
+                connection = _connectionFactory.CreateConnection();
+                tx = connection.BeginTransaction(deferred: false);
 
-                if (!isFavorite)
+                const string sql = "UPDATE translation_history SET is_favorite = @fav WHERE id = @id;";
+                var affectedRows = connection.Execute(sql, new { fav = isFavorite ? 1 : 0, id }, transaction: tx);
+
+                // 仅当记录确实存在且由收藏变更为非收藏时，才触发容量修剪；若记录不存在，此操作为 no-op，严禁修剪其它记录
+                if (!isFavorite && affectedRows > 0)
                 {
                     TrimNonFavorites(connection, tx, maxEntries);
                 }
@@ -595,20 +660,30 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
             }
             catch (OperationCanceledException)
             {
-                try { tx.Rollback(); } catch { }
+                try { tx?.Rollback(); } catch { }
+                throw;
+            }
+            catch (IrisException)
+            {
+                try { tx?.Rollback(); } catch { }
                 throw;
             }
             catch (SqliteException ex)
             {
-                try { tx.Rollback(); } catch { }
+                try { tx?.Rollback(); } catch { }
                 LogSqliteOperationFailed(_logger, "SetFavoriteAsync", ex.SqliteErrorCode);
-                throw new IrisException(ErrorCode.StorageFailure, "Database update failed with SQLite error.", innerException: ex);
+                throw new IrisException(ErrorCode.StorageFailure, "Database update failed with SQLite error.");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                try { tx.Rollback(); } catch { }
+                try { tx?.Rollback(); } catch { }
                 LogOperationFailed(_logger, "SetFavoriteAsync");
-                throw new IrisException(ErrorCode.StorageFailure, "Database update failed.", innerException: ex);
+                throw new IrisException(ErrorCode.StorageFailure, "Database update failed.");
+            }
+            finally
+            {
+                tx?.Dispose();
+                connection?.Dispose();
             }
         }
         finally
@@ -639,10 +714,13 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var connection = _connectionFactory.CreateConnection();
-            using var tx = connection.BeginTransaction(deferred: false);
+            SqliteConnection? connection = null;
+            SqliteTransaction? tx = null;
             try
             {
+                connection = _connectionFactory.CreateConnection();
+                tx = connection.BeginTransaction(deferred: false);
+
                 connection.Execute("DELETE FROM translation_history WHERE id = @id;", new { id }, transaction: tx);
 
                 cancellationToken.ThrowIfCancellationRequested();
@@ -650,20 +728,30 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
             }
             catch (OperationCanceledException)
             {
-                try { tx.Rollback(); } catch { }
+                try { tx?.Rollback(); } catch { }
+                throw;
+            }
+            catch (IrisException)
+            {
+                try { tx?.Rollback(); } catch { }
                 throw;
             }
             catch (SqliteException ex)
             {
-                try { tx.Rollback(); } catch { }
+                try { tx?.Rollback(); } catch { }
                 LogSqliteOperationFailed(_logger, "DeleteAsync", ex.SqliteErrorCode);
-                throw new IrisException(ErrorCode.StorageFailure, "Database delete failed with SQLite error.", innerException: ex);
+                throw new IrisException(ErrorCode.StorageFailure, "Database delete failed with SQLite error.");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                try { tx.Rollback(); } catch { }
+                try { tx?.Rollback(); } catch { }
                 LogOperationFailed(_logger, "DeleteAsync");
-                throw new IrisException(ErrorCode.StorageFailure, "Database delete failed.", innerException: ex);
+                throw new IrisException(ErrorCode.StorageFailure, "Database delete failed.");
+            }
+            finally
+            {
+                tx?.Dispose();
+                connection?.Dispose();
             }
         }
         finally
@@ -689,10 +777,13 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
         {
             cancellationToken.ThrowIfCancellationRequested();
 
-            using var connection = _connectionFactory.CreateConnection();
-            using var tx = connection.BeginTransaction(deferred: false);
+            SqliteConnection? connection = null;
+            SqliteTransaction? tx = null;
             try
             {
+                connection = _connectionFactory.CreateConnection();
+                tx = connection.BeginTransaction(deferred: false);
+
                 if (keepFavorites)
                 {
                     connection.Execute("DELETE FROM translation_history WHERE is_favorite = 0;", transaction: tx);
@@ -708,20 +799,30 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
             }
             catch (OperationCanceledException)
             {
-                try { tx.Rollback(); } catch { }
+                try { tx?.Rollback(); } catch { }
+                throw;
+            }
+            catch (IrisException)
+            {
+                try { tx?.Rollback(); } catch { }
                 throw;
             }
             catch (SqliteException ex)
             {
-                try { tx.Rollback(); } catch { }
+                try { tx?.Rollback(); } catch { }
                 LogSqliteOperationFailed(_logger, "ClearAsync", ex.SqliteErrorCode);
-                throw new IrisException(ErrorCode.StorageFailure, "Database clear failed with SQLite error.", innerException: ex);
+                throw new IrisException(ErrorCode.StorageFailure, "Database clear failed with SQLite error.");
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                try { tx.Rollback(); } catch { }
+                try { tx?.Rollback(); } catch { }
                 LogOperationFailed(_logger, "ClearAsync");
-                throw new IrisException(ErrorCode.StorageFailure, "Database clear failed.", innerException: ex);
+                throw new IrisException(ErrorCode.StorageFailure, "Database clear failed.");
+            }
+            finally
+            {
+                tx?.Dispose();
+                connection?.Dispose();
             }
         }
         finally
@@ -794,13 +895,8 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
 
     public void Dispose()
     {
-        if (_disposed)
-        {
-            return;
-        }
-
         _disposed = true;
-        _writeLock.Dispose();
+        // 注意：不销毁 _writeLock，防止排队等待或在 finally 中执行 Release 的任务被破坏
     }
 
     private sealed class HistoryRowDto
@@ -848,7 +944,7 @@ internal sealed partial class SqliteHistoryRepository : ITranslationHistoryRepos
         public int is_truncated { get; set; }
     }
 
-    [LoggerMessage(EventId = 1, Level = LogLevel.Error, Message = "History repository operation {Operation} failed with SQLite error {SqliteErrorCode}.")]
+    [LoggerMessage(EventId = 1, Level = LogLevel.Error, Message = "History repository operation {Operation} failed with SQLite error code {SqliteErrorCode}.")]
     private static partial void LogSqliteOperationFailed(ILogger logger, string operation, int sqliteErrorCode);
 
     [LoggerMessage(EventId = 2, Level = LogLevel.Error, Message = "History repository operation {Operation} failed.")]

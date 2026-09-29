@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iris.Core.Errors;
@@ -83,7 +84,7 @@ public sealed class DatabaseInitializerTests
         var paths = new FakeAppPaths(tempDir.Path);
         var factory = new SqliteConnectionFactory(paths);
 
-        // 手动构造一个带数据的 V1 数据库
+        // 手动构造一个完整符合 V1 契约的数据库
         using (var setupConn = factory.CreateConnection())
         {
             using var cmd = setupConn.CreateCommand();
@@ -243,13 +244,16 @@ public sealed class DatabaseInitializerTests
         var paths = new FakeAppPaths(tempDir.Path);
         var factory = new SqliteConnectionFactory(paths);
 
-        // 写入未来版本 99
+        // 写入未来版本 99 并保持 journal_mode 为 DELETE
         using (var setupConn = factory.CreateConnection())
         {
             using var cmd = setupConn.CreateCommand();
-            cmd.CommandText = "PRAGMA user_version = 99; CREATE TABLE dummy_future (val TEXT); INSERT INTO dummy_future VALUES ('secret_future_data');";
+            cmd.CommandText = "PRAGMA journal_mode = DELETE; PRAGMA user_version = 99; CREATE TABLE dummy_future (val TEXT); INSERT INTO dummy_future VALUES ('secret_future_data');";
             cmd.ExecuteNonQuery();
         }
+
+        // 记录初始化前的原始文件字节
+        var bytesBefore = File.ReadAllBytes(paths.DatabaseFile);
 
         using var initializer = new DatabaseInitializer(factory, NullLogger<DatabaseInitializer>.Instance);
         var ex = await Should.ThrowAsync<IrisException>(async () =>
@@ -259,14 +263,20 @@ public sealed class DatabaseInitializerTests
 
         ex.Code.ShouldBe(ErrorCode.StorageFailure);
 
-        // 验证文件依然存在且未被删除覆盖
-        File.Exists(paths.DatabaseFile).ShouldBeTrue();
-        using (var checkConn = factory.CreateConnection())
+        // 验证文件字节完全保持一致，未被任何写指令或 WAL 切换修改
+        var bytesAfter = File.ReadAllBytes(paths.DatabaseFile);
+        bytesAfter.SequenceEqual(bytesBefore).ShouldBeTrue();
+
+        using (var checkConn = factory.CreateReadOnlyConnection())
         {
             using var cmd = checkConn.CreateCommand();
             cmd.CommandText = "PRAGMA user_version;";
             var v = Convert.ToInt32(cmd.ExecuteScalar(), System.Globalization.CultureInfo.InvariantCulture);
             v.ShouldBe(99);
+
+            cmd.CommandText = "PRAGMA journal_mode;";
+            var jm = (cmd.ExecuteScalar() as string)?.ToLowerInvariant();
+            jm.ShouldBe("delete");
 
             cmd.CommandText = "SELECT val FROM dummy_future;";
             var val = cmd.ExecuteScalar() as string;
@@ -281,8 +291,10 @@ public sealed class DatabaseInitializerTests
         using var tempDir = new TempDirectory();
         var paths = new FakeAppPaths(tempDir.Path);
 
-        // 写入非 SQLite 文件的垃圾二进制数据
-        File.WriteAllBytes(paths.DatabaseFile, [0xDE, 0xAD, 0xBE, 0xEF, 0x01, 0x02, 0x03, 0x04]);
+        // 写入 1024 字节伪随机损坏数据
+        var corruptedBytes = new byte[1024];
+        new Random(42).NextBytes(corruptedBytes);
+        File.WriteAllBytes(paths.DatabaseFile, corruptedBytes);
 
         var factory = new SqliteConnectionFactory(paths);
         using var initializer = new DatabaseInitializer(factory, NullLogger<DatabaseInitializer>.Instance);
@@ -294,9 +306,128 @@ public sealed class DatabaseInitializerTests
 
         ex.Code.ShouldBe(ErrorCode.StorageFailure);
 
-        // 验证原损坏文件保留，未被静默删除或重置
+        // 验证原损坏文件保留且字节完全未变
         File.Exists(paths.DatabaseFile).ShouldBeTrue();
-        File.ReadAllBytes(paths.DatabaseFile).Length.ShouldBe(8);
+        var bytesAfter = File.ReadAllBytes(paths.DatabaseFile);
+        bytesAfter.SequenceEqual(corruptedBytes).ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task InitializeAsync_IncompatibleV1_MissingOriginColumn_ThrowsStorageFailure_AndDoesNotMigrateToV2()
+    {
+        var ct = TestContext.Current.CancellationToken;
+        using var tempDir = new TempDirectory();
+        var paths = new FakeAppPaths(tempDir.Path);
+        var factory = new SqliteConnectionFactory(paths);
+
+        // 构造一个缺少 origin 关键列的不兼容 V1 库
+        using (var setupConn = factory.CreateConnection())
+        {
+            using var cmd = setupConn.CreateCommand();
+            cmd.CommandText = """
+                CREATE TABLE translation_history (
+                    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                    created_at      TEXT    NOT NULL,
+                    source_text     TEXT    NOT NULL,
+                    source_lang     TEXT    NOT NULL,
+                    target_lang     TEXT    NOT NULL,
+                    text_hash       TEXT    NOT NULL,
+                    is_favorite     INTEGER NOT NULL DEFAULT 0 CHECK (is_favorite IN (0, 1))
+                );
+
+                CREATE TABLE translation_result (
+                    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                    history_id      INTEGER NOT NULL REFERENCES translation_history (id) ON DELETE CASCADE,
+                    sort_order      INTEGER NOT NULL,
+                    provider_id     TEXT    NOT NULL,
+                    provider_name   TEXT    NOT NULL,
+                    model           TEXT,
+                    result_text     TEXT    NOT NULL
+                );
+
+                CREATE VIRTUAL TABLE history_fts USING fts5 (
+                    source_text,
+                    result_text,
+                    tokenize = 'trigram'
+                );
+
+                CREATE TRIGGER trg_history_delete_fts
+                AFTER DELETE ON translation_history
+                BEGIN
+                    DELETE FROM history_fts WHERE rowid = old.id;
+                END;
+
+                PRAGMA user_version = 1;
+                """;
+            cmd.ExecuteNonQuery();
+        }
+
+        var bytesBefore = File.ReadAllBytes(paths.DatabaseFile);
+
+        using var initializer = new DatabaseInitializer(factory, NullLogger<DatabaseInitializer>.Instance);
+        var ex = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await initializer.InitializeAsync(ct);
+        });
+
+        ex.Code.ShouldBe(ErrorCode.StorageFailure);
+
+        // 验证文件在只读预检时被拒绝，版本依然为 1，且未执行 V2 迁移（未添加 is_truncated 列）
+        var bytesAfter = File.ReadAllBytes(paths.DatabaseFile);
+        bytesAfter.SequenceEqual(bytesBefore).ShouldBeTrue();
+
+        using (var checkConn = factory.CreateReadOnlyConnection())
+        {
+            using var cmd = checkConn.CreateCommand();
+            cmd.CommandText = "PRAGMA user_version;";
+            var v = Convert.ToInt32(cmd.ExecuteScalar(), System.Globalization.CultureInfo.InvariantCulture);
+            v.ShouldBe(1);
+
+            cmd.CommandText = "PRAGMA table_info(translation_result);";
+            var hasIsTruncated = false;
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                if (string.Equals(reader.GetString(1), "is_truncated", StringComparison.OrdinalIgnoreCase))
+                {
+                    hasIsTruncated = true;
+                    break;
+                }
+            }
+            hasIsTruncated.ShouldBeFalse();
+        }
+    }
+
+    [Fact]
+    public async Task InitializeAsync_MissingDeleteTrigger_ThrowsStorageFailure()
+    {
+        var ct = TestContext.Current.CancellationToken;
+        using var tempDir = new TempDirectory();
+        var paths = new FakeAppPaths(tempDir.Path);
+        var factory = new SqliteConnectionFactory(paths);
+
+        // 先正常初始化
+        using (var init1 = new DatabaseInitializer(factory, NullLogger<DatabaseInitializer>.Instance))
+        {
+            await init1.InitializeAsync(ct);
+        }
+
+        // 删除触发器
+        using (var conn = factory.CreateConnection())
+        {
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = "DROP TRIGGER trg_history_delete_fts;";
+            cmd.ExecuteNonQuery();
+        }
+
+        // 重新初始化时应检测到结构缺失并拒绝
+        using var init2 = new DatabaseInitializer(factory, NullLogger<DatabaseInitializer>.Instance);
+        var ex = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await init2.InitializeAsync(ct);
+        });
+
+        ex.Code.ShouldBe(ErrorCode.StorageFailure);
     }
 
     [Fact]
