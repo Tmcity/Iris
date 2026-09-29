@@ -203,10 +203,6 @@ internal sealed class LruTranslationCache : ITranslationCache
             _hasInitializedSettings = true;
             _lastActive = newActive;
             _lastCapacity = newCapacity;
-            if (!newActive)
-            {
-                ClearCore();
-            }
             return;
         }
 
@@ -254,7 +250,7 @@ internal sealed class LruTranslationCache : ITranslationCache
     private static long CalculateCost(in TranslationCacheKey key, string text)
     {
         return TranslationCacheLimits.EntryOverheadBytes +
-               2L * (key.ProviderId.Length + key.RequestFingerprint.Length + text.Length);
+               2L * ((long)key.ProviderId.Length + key.RequestFingerprint.Length + text.Length);
     }
 
     private void ThrowIfDisposed()

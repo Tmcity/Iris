@@ -68,7 +68,7 @@
 | T-010A | ☑ | 远程异常与 HTTP 凭据边界加固（架构审查 A01，含 R1） | T-010 | 0.75d + 0.5d |
 | T-010B | ☑ | 深度不可变设置快照（架构审查 A02） | T-010A | 0.75d |
 | T-011 | ☑ | TranslationProviderRegistry、凭据解析与快照租约（含 R1/R2） | T-004, T-010B | 1.5d |
-| T-012 | ▶ | 请求配置/PreparedPrompt 入口、执行版本键与有界 LruTranslationCache | T-011 | 1.5d |
+| T-012 | ▶ | 请求配置/PreparedPrompt 入口、执行版本键与有界 LruTranslationCache（R1 收尾） | T-011 | 1.5d |
 | T-034 | ☐ | DatabaseInitializer + SqliteHistoryRepository（原 M7 前移，编号保留） | T-003, T-012 | 1.5d |
 | T-013 | ☐ | TranslationOrchestrator | T-011, T-012, T-034 | 1.5d |
 
@@ -90,7 +90,7 @@
 
 **T-011** — ☑ 2026-09-29 最终复审通过：R2 实现 3be662d，报告更正 0744d7b（无生产/测试代码变更）。独立构建零警告、920 项测试通过；80 项关键测试连续五轮通过，27 项隔离检查通过且通知/退休清理的互斥信号量观测为 1，三个隔离回归变异均被拒绝。CCR-003 结案。报告中无法还原的退出日志与不满足 CPU 前提的启动 NFR 结论已撤回，不作为本轮验收证据。详见 tasks/done/T-011.md 末尾；下一步由架构师细化 T-012 的执行版本、Prompt 与缓存键后签发工单。
 
-**T-012** — ▶ 已签发 `tasks/current_task.md`。CCR-004 与 TRANSLATION_EXECUTION.md 确定显式配置重载、PreparedPrompt、实例代次/实际请求指纹、Clear 代次与字节预算。验收覆盖调用链不混用动态设置、实际发送 Prompt、LRU 双限制和迟到写入拒绝；不在本单实现编排器。
+**T-012** — ▶ 提交 c68e7ed 复审后签发 T-012-R1。独立构建零警告、959 项测试通过；13 项隔离检查通过，但初始禁用/零容量的 Generation=1 与契约 0 不符。移除总字节预算后的隔离变异仍通过原 29 项测试；R1 仅修正初始化/算术边界、补回归并更正报告。快照重载、PreparedPrompt 与实际请求键的主要实现已接受。CCR-004 待复审，T-034 尚未签发。
 
 **T-013** 交付 ARCH §7.1 + CONTRACTS 中 `ITranslationOrchestrator` 注释描述的全部语义。验收：事件顺序保证；多个 Provider 输出交错时仍能正确归属；一个 Provider 失败不影响其他 Provider；并发度上限生效（用受控的假 Provider 断言最大并发数）；缓存命中时直接返回 FromCache；BypassCache 生效；截断结果不写入缓存；历史写入条件（至少一个成功、RecordHistory 为 true、History.Enabled 为 true）；取消后所有 Provider 都收到取消信号且不写历史；消费者提前 break 时子任务被取消；请求级错误在第一次 MoveNext 时抛出。
 

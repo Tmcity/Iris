@@ -1900,7 +1900,7 @@ public sealed class AnthropicTranslationProviderTests
         callCount.ShouldBe(0);
 
         // 2. Getting async enumerator must NOT send HTTP
-        var enumerator = enumerable.GetAsyncEnumerator(TestContext.Current.CancellationToken);
+        await using var enumerator = enumerable.GetAsyncEnumerator(TestContext.Current.CancellationToken);
         enumerator.ShouldNotBeNull();
         callCount.ShouldBe(0);
 

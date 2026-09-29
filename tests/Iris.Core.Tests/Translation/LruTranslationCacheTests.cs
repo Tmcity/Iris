@@ -31,6 +31,11 @@ public sealed class LruTranslationCacheTests
         {
             Changed?.Invoke(this, new SettingsChangedEventArgs(Current, Current));
         }
+
+        public void TriggerChanged(AppSettings oldSettings, AppSettings newSettings)
+        {
+            Changed?.Invoke(this, new SettingsChangedEventArgs(oldSettings, newSettings));
+        }
     }
 
     private static TranslationCacheKey CreateKey(string providerId = "p1", Guid? instanceId = null, string? fingerprint = null)
@@ -255,6 +260,89 @@ public sealed class LruTranslationCacheTests
     }
 
     [Fact]
+    public void SingleEntry_ExactMaxEntryBytes_IsAdmitted_AndOverByOneCodeUnit_IsRejected()
+    {
+        var settingsService = new FakeSettingsService();
+        using var cache = new LruTranslationCache(settingsService);
+
+        var key = new TranslationCacheKey("p", Guid.NewGuid(), new string('0', 64));
+        var g = cache.Generation;
+
+        // 256 + 2 * (1 + 64 + text.Length) == 1,048,576
+        // 256 + 130 + 2 * text.Length == 1,048,576
+        // 2 * text.Length == 1,048,190 => text.Length == 524,095
+        var exactText = new string('a', 524_095);
+        cache.TrySet(key, exactText, g).ShouldBeTrue();
+        cache.CurrentTotalBytes.ShouldBe(TranslationCacheLimits.MaxEntryBytes);
+        cache.TryGet(key, out var retrieved).ShouldBeTrue();
+        retrieved.ShouldBe(exactText);
+
+        // 超出恰好 1 个 UTF-16 code unit (524,096 chars -> 1,048,578 bytes > 1,048,576)
+        var overKey = new TranslationCacheKey("p", Guid.NewGuid(), new string('1', 64));
+        var overText = new string('b', 524_096);
+        cache.TrySet(overKey, overText, g).ShouldBeFalse();
+
+        // 验证原条目仍保留，总字节数未变
+        cache.Count.ShouldBe(1);
+        cache.CurrentTotalBytes.ShouldBe(TranslationCacheLimits.MaxEntryBytes);
+        cache.TryGet(key, out _).ShouldBeTrue();
+        cache.TryGet(overKey, out _).ShouldBeFalse();
+    }
+
+    [Fact]
+    public void TotalByteBudget_ExactMaxTotalBytes_IsRetained_AndAdditionalEntryEvictsLruTail_BeforeCapacityReached()
+    {
+        var settingsService = new FakeSettingsService();
+        // 确保 Capacity 远大于 16，排除条数容量淘汰的干扰
+        settingsService.Current = settingsService.Current with
+        {
+            Translation = settingsService.Current.Translation with { CacheCapacity = 500 }
+        };
+        using var cache = new LruTranslationCache(settingsService);
+        var g = cache.Generation;
+
+        // 每个条目恰好 1,048,576 bytes (1 MiB)
+        // 16 条 * 1,048,576 bytes = 16,777,216 bytes = MaxTotalBytes (16 MiB)
+        var keys = new List<TranslationCacheKey>(16);
+        for (var i = 0; i < 16; i++)
+        {
+            var k = new TranslationCacheKey("p", Guid.NewGuid(), new string((char)('0' + (i % 10)), 64));
+            keys.Add(k);
+            var text = new string((char)('A' + i), 524_095);
+            cache.TrySet(k, text, g).ShouldBeTrue();
+        }
+
+        // 此时恰好达到 MaxTotalBytes，且 Count 为 16 (远小于 CacheCapacity=500)
+        cache.Count.ShouldBe(16);
+        cache.CurrentTotalBytes.ShouldBe(TranslationCacheLimits.MaxTotalBytes);
+        foreach (var k in keys)
+        {
+            cache.TryGet(k, out _).ShouldBeTrue();
+        }
+
+        // 插入第 17 条条目（任意正成本条目，此处为小文本）
+        // 此时 Count=16 < 500，不会触发容量淘汰；必须仅因总字节超额淘汰 LRU 尾部（keys[0]）
+        var k17 = new TranslationCacheKey("p", Guid.NewGuid(), new string('x', 64));
+        var text17 = "small text";
+        long cost17 = 256L + 2L * (1 + 64 + text17.Length); // 406 bytes
+
+        cache.TrySet(k17, text17, g).ShouldBeTrue();
+
+        // 验证 keys[0]（最久未访问项）被总预算淘汰，其余项保留
+        cache.TryGet(keys[0], out _).ShouldBeFalse("LRU tail must be evicted due to byte budget overflow.");
+        for (var i = 1; i < 16; i++)
+        {
+            cache.TryGet(keys[i], out _).ShouldBeTrue();
+        }
+        cache.TryGet(k17, out _).ShouldBeTrue();
+
+        cache.Count.ShouldBe(16);
+        long expectedTotalBytes = TranslationCacheLimits.MaxTotalBytes - TranslationCacheLimits.MaxEntryBytes + cost17;
+        cache.CurrentTotalBytes.ShouldBe(expectedTotalBytes);
+        cache.CurrentTotalBytes.ShouldBeLessThanOrEqualTo(TranslationCacheLimits.MaxTotalBytes);
+    }
+
+    [Fact]
     public void Generation_Clear_IncrementsGeneration_AndRejectsLateWrite()
     {
         var settingsService = new FakeSettingsService();
@@ -304,6 +392,157 @@ public sealed class LruTranslationCacheTests
         cache.Keys.ShouldBe(new[] { kNew });
         cache.TryGet(kNew, out var text).ShouldBeTrue();
         text.ShouldBe("new value");
+    }
+
+    [Theory]
+    [InlineData(true, 500)]
+    [InlineData(false, 500)]
+    [InlineData(true, 0)]
+    public void Generation_InitialState_IsZero_ForEnabled_Disabled_AndZeroCapacity(bool enabled, int capacity)
+    {
+        var settingsService = new FakeSettingsService();
+        settingsService.Current = settingsService.Current with
+        {
+            Translation = settingsService.Current.Translation with
+            {
+                CacheEnabled = enabled,
+                CacheCapacity = capacity
+            }
+        };
+        using var cache = new LruTranslationCache(settingsService);
+
+        cache.Generation.ShouldBe(0);
+    }
+
+    [Fact]
+    public void Generation_LifecycleSequence_Clear_CapacityZero_AndToggle_IncrementGeneration_AndRejectStaleWrites()
+    {
+        var settingsService = new FakeSettingsService();
+        using var cache = new LruTranslationCache(settingsService);
+
+        cache.Generation.ShouldBe(0);
+        var k1 = CreateKey("p1");
+        cache.TrySet(k1, "v1", 0).ShouldBeTrue();
+
+        // 1. 首次显式 Clear -> Generation 递增至 1
+        cache.Clear();
+        cache.Generation.ShouldBe(1);
+        cache.Count.ShouldBe(0);
+
+        // 过期代次 0 写入被拒绝
+        var k2 = CreateKey("p2");
+        cache.TrySet(k2, "v2", 0).ShouldBeFalse();
+        cache.TrySet(k2, "v2", 1).ShouldBeTrue();
+        cache.Count.ShouldBe(1);
+
+        // 2. 容量从正数变为 0 -> Generation 递增至 2，清空缓存
+        settingsService.Current = settingsService.Current with
+        {
+            Translation = settingsService.Current.Translation with { CacheCapacity = 0 }
+        };
+        settingsService.TriggerChanged();
+
+        cache.Generation.ShouldBe(2);
+        cache.Count.ShouldBe(0);
+        cache.TryGet(k2, out _).ShouldBeFalse();
+
+        // 在容量为 0 下即使使用最新代次 2 写入也会失败
+        var k3 = CreateKey("p3");
+        cache.TrySet(k3, "v3", 1).ShouldBeFalse();
+        cache.TrySet(k3, "v3", 2).ShouldBeFalse();
+
+        // 3. 容量从 0 恢复为正数 -> Generation 递增至 3
+        settingsService.Current = settingsService.Current with
+        {
+            Translation = settingsService.Current.Translation with { CacheCapacity = 500 }
+        };
+        settingsService.TriggerChanged();
+
+        cache.Generation.ShouldBe(3);
+        cache.TrySet(k3, "v3", 2).ShouldBeFalse();
+        cache.TrySet(k3, "v3", 3).ShouldBeTrue();
+        cache.Count.ShouldBe(1);
+
+        // 4. 禁用缓存 -> Generation 递增至 4，清空缓存
+        settingsService.Current = settingsService.Current with
+        {
+            Translation = settingsService.Current.Translation with { CacheEnabled = false }
+        };
+        settingsService.TriggerChanged();
+
+        cache.Generation.ShouldBe(4);
+        cache.Count.ShouldBe(0);
+        cache.TryGet(k3, out _).ShouldBeFalse();
+
+        // 5. 重新启用缓存 -> Generation 递增至 5
+        settingsService.Current = settingsService.Current with
+        {
+            Translation = settingsService.Current.Translation with { CacheEnabled = true }
+        };
+        settingsService.TriggerChanged();
+
+        cache.Generation.ShouldBe(5);
+    }
+
+    [Fact]
+    public async Task Generation_GatedStaleOversizeWrite_PreservesNewValue_OtherItems_Order_AndCost()
+    {
+        var settingsService = new FakeSettingsService();
+        using var cache = new LruTranslationCache(settingsService);
+
+        var kOther = CreateKey("p_other");
+        var kTarget = CreateKey("p_target");
+        var gOld = cache.Generation; // 0
+
+        cache.TrySet(kOther, "other_init", gOld).ShouldBeTrue();
+        cache.TrySet(kTarget, "target_init", gOld).ShouldBeTrue();
+
+        using var readyToSetOld = new System.Threading.ManualResetEventSlim(false);
+        using var setOldCompleted = new System.Threading.ManualResetEventSlim(false);
+        bool? lateResult = null;
+
+        var hugeText = new string('x', 600_000); // 1.2 MB > MaxEntryBytes
+
+        // 旧请求异步任务：已捕获 gOld，等待 Clear 和新代写入后再调用 TrySet
+        var backgroundTask = Task.Run(() =>
+        {
+            if (!readyToSetOld.Wait(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken))
+            {
+                throw new TimeoutException("Timed out waiting for main thread to prepare new generation.");
+            }
+            lateResult = cache.TrySet(kTarget, hugeText, gOld);
+            setOldCompleted.Set();
+        }, TestContext.Current.CancellationToken);
+
+        // 主线程：Clear 推进代次至 1，并以新代次重新写入新值与控制项
+        cache.Clear();
+        var gNew = cache.Generation; // 1
+
+        cache.TrySet(kOther, "other_new", gNew).ShouldBeTrue();
+        cache.TrySet(kTarget, "target_new", gNew).ShouldBeTrue();
+
+        var expectedKeys = new[] { kTarget, kOther };
+        cache.Keys.ShouldBe(expectedKeys);
+        var expectedBytes = cache.CurrentTotalBytes;
+
+        // 释放门闩，触发旧写入
+        readyToSetOld.Set();
+        setOldCompleted.Wait(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken).ShouldBeTrue();
+        await backgroundTask;
+
+        // 验证：旧超大写入被代次拒绝（返回 false）
+        lateResult.ShouldBe(false);
+
+        // 验证旧写入未更改 MRU 顺序与成本
+        cache.Keys.ShouldBe(expectedKeys);
+        cache.CurrentTotalBytes.ShouldBe(expectedBytes);
+
+        // 新值与其它项保持正确
+        cache.TryGet(kTarget, out var targetVal).ShouldBeTrue();
+        targetVal.ShouldBe("target_new");
+
+        cache.TryGet(kOther, out var otherVal).ShouldBeTrue();
+        otherVal.ShouldBe("other_new");
     }
 
     [Fact]
@@ -431,9 +670,53 @@ public sealed class LruTranslationCacheTests
     }
 
     [Fact]
+    public void Settings_StaleEventPayload_DoesNotRevertCapacity_WhenCurrentIsUpdated()
+    {
+        var settingsService = new FakeSettingsService();
+        settingsService.Current = settingsService.Current with
+        {
+            Translation = settingsService.Current.Translation with { CacheCapacity = 10 }
+        };
+        using var cache = new LruTranslationCache(settingsService);
+
+        var k1 = CreateKey("p1");
+        var k2 = CreateKey("p2");
+        var g = cache.Generation;
+        cache.TrySet(k1, "1", g).ShouldBeTrue();
+        cache.TrySet(k2, "2", g).ShouldBeTrue();
+
+        // 外部更新 Current 为容量 2
+        settingsService.Current = settingsService.Current with
+        {
+            Translation = settingsService.Current.Translation with { CacheCapacity = 2 }
+        };
+
+        // 模拟外部下发一个载有陈旧旧容量 10 的事件通知
+        var staleSettings = settingsService.Current with
+        {
+            Translation = settingsService.Current.Translation with { CacheCapacity = 10 }
+        };
+        settingsService.TriggerChanged(staleSettings, staleSettings);
+
+        // 写入第 3 条条目：容量必须仍依据 Current 的 2 条限制，k1 应被 LRU 淘汰
+        var k3 = CreateKey("p3");
+        cache.TrySet(k3, "3", g).ShouldBeTrue();
+
+        cache.Count.ShouldBe(2);
+        cache.Keys.ShouldBe(new[] { k3, k2 });
+        cache.TryGet(k1, out _).ShouldBeFalse();
+        cache.TryGet(k2, out _).ShouldBeTrue();
+        cache.TryGet(k3, out _).ShouldBeTrue();
+    }
+
+    [Fact]
     public void Concurrency_MultiThreadedReadWriteClear_MaintainsIntegrity()
     {
         var settingsService = new FakeSettingsService();
+        settingsService.Current = settingsService.Current with
+        {
+            Translation = settingsService.Current.Translation with { CacheCapacity = 50 }
+        };
         using var cache = new LruTranslationCache(settingsService);
 
         Parallel.For(0, 200, i =>
@@ -455,9 +738,27 @@ public sealed class LruTranslationCacheTests
             }
         });
 
-        // 验证并发后结构完好
-        cache.Count.ShouldBe(cache.Keys.Count);
-        cache.CurrentTotalBytes.ShouldBeGreaterThanOrEqualTo(0);
+        // 验证并发后结构完好、计数与边界一致
+        var keys = cache.Keys;
+        cache.Count.ShouldBe(keys.Count);
+        cache.Count.ShouldBeLessThanOrEqualTo(50);
+        cache.CurrentTotalBytes.ShouldBeLessThanOrEqualTo(TranslationCacheLimits.MaxTotalBytes);
+
+        // 验证键可达性、无重复键，并深层核对每个项的成本之和等于 CurrentTotalBytes
+        var seenKeys = new HashSet<TranslationCacheKey>();
+        long calculatedTotalBytes = 0;
+
+        foreach (var key in keys)
+        {
+            seenKeys.Add(key).ShouldBeTrue("Keys collection should not contain duplicate keys.");
+            cache.TryGet(key, out var text).ShouldBeTrue("Every key in Keys must be reachable via TryGet.");
+            text.ShouldNotBeNull();
+
+            long entryCost = 256L + 2L * ((long)key.ProviderId.Length + key.RequestFingerprint.Length + text.Length);
+            calculatedTotalBytes += entryCost;
+        }
+
+        cache.CurrentTotalBytes.ShouldBe(calculatedTotalBytes);
     }
 
     [Fact]
@@ -474,5 +775,23 @@ public sealed class LruTranslationCacheTests
         Should.Throw<ObjectDisposedException>(() => cache.TrySet(key, "text", 0));
         Should.Throw<ObjectDisposedException>(() => cache.Clear());
         Should.Throw<ObjectDisposedException>(() => _ = cache.Generation);
+    }
+
+    [Fact]
+    public void Dispose_UnsubscribesFromSettingsChangedEvent()
+    {
+        var subSettings = Substitute.For<ISettingsService>();
+        subSettings.Current.Returns(new AppSettings());
+
+        var cache = new LruTranslationCache(subSettings);
+        subSettings.Received(1).Changed += Arg.Any<EventHandler<SettingsChangedEventArgs>>();
+
+        cache.Dispose();
+        subSettings.Received(1).Changed -= Arg.Any<EventHandler<SettingsChangedEventArgs>>();
+
+        // 对已释放的缓存触发事件，不会抛出未处理异常
+        subSettings.Changed += Raise.Event<EventHandler<SettingsChangedEventArgs>>(
+            subSettings,
+            new SettingsChangedEventArgs(new AppSettings(), new AppSettings()));
     }
 }
