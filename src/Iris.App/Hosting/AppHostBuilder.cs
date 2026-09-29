@@ -1,6 +1,7 @@
 using System;
 using Iris.App.Services;
 using Iris.App.Tray;
+using Iris.Core.Actions;
 using Iris.Core.DependencyInjection;
 using Iris.Core.Presentation;
 using Iris.Core.Storage;
@@ -66,6 +67,8 @@ internal static class AppHostBuilder
         builder.Services.AddSingleton<TrayNotificationService>();
         builder.Services.AddSingleton<INotificationService>(sp => sp.GetRequiredService<TrayNotificationService>());
         builder.Services.AddSingleton<IAppLifetime, AppLifetime>();
+        builder.Services.AddSingleton<IUiDispatcher, WpfUiDispatcher>();
+        builder.Services.AddSingleton<IActionDispatcher, ActionDispatcher>();
         builder.Services.AddSingleton<AppBootstrapper>();
         builder.Services.AddSingleton<App>();
 

@@ -11,8 +11,8 @@
 |---|---|---|---|
 | M0 基础设施 | 工程骨架、设置、密钥、托盘常驻 | T-001 ~ T-005 | 可以启动的托盘程序，设置可以读写 |
 | M1 翻译核心 | 语言、Prompt、Provider、缓存、历史仓储、编排器 | T-006 ~ T-013（含 T-010A/B 与前移 T-034） | 在单元测试中跑通完整的多服务流式翻译 |
-| M2 输入翻译 | 分发器、翻译窗口、热键 | T-014 ~ T-017 | **首个可用版本**：热键打开窗口，输入文本得到翻译 |
-| M3 设置界面 | 设置窗口与各配置页 | T-018 ~ T-020 | 用户可以在 UI 中配置服务与快捷键 |
+| M2 输入翻译 | 分发器、平台前置、服务配置、翻译窗口、热键 | T-014 ~ T-017，含前移 T-018/T-019 与拆分 T-021A/T-022A | **首个可用版本**：安全配置服务后，热键打开窗口并得到翻译 |
+| M3 设置界面 | 设置窗口与各配置页 | T-018 ~ T-020（T-018/T-019 前移） | 用户可以在 UI 中配置服务与快捷键 |
 | M4 划词翻译 | 剪贴板、选区读取、鼠标划词 | T-021 ~ T-024 | 选中文本按热键即可翻译；可选划词图标 |
 | M5 截图与 OCR | 抓屏、覆盖层、OCR 服务 | T-025 ~ T-032 | 截图翻译、截图 OCR、静默 OCR |
 | M6 悬浮球 | 悬浮球 | T-033 | 悬浮球全部交互 |
@@ -70,9 +70,9 @@
 | T-011 | ☑ | TranslationProviderRegistry、凭据解析与快照租约（含 R1/R2） | T-004, T-010B | 1.5d |
 | T-012 | ☑ | 请求配置/PreparedPrompt 入口、执行版本键与有界 LruTranslationCache（含 R1） | T-011 | 1.5d |
 | T-034 | ☑ | DatabaseInitializer + SqliteHistoryRepository（含 R1/R2，原 M7 前移） | T-003, T-012 | 1.5d |
-| T-013 | ▶ | TranslationOrchestrator（T-013-R1 清理与收尾修复） | T-011, T-012, T-034 | 1.5d |
+| T-013 | ☑ | TranslationOrchestrator（含 R1 清理与收尾修复） | T-011, T-012, T-034 | 1.5d |
 
-> T-006/T-007 与 T-008、T-009 与 T-010 的历史并行安排保留。当前后续顺序为 T-012 → T-034（提前交付真实历史仓储）→ T-013；保留原编号。T-012 的请求快照/执行版本和缓存规则已由 TRANSLATION_EXECUTION.md / CCR-004 定稿。
+> T-006/T-007 与 T-008、T-009 与 T-010 的历史并行安排保留。M1 已按 T-012 → T-034（提前交付真实历史仓储）→ T-013 完成交付；保留原编号。T-012 的请求快照/执行版本和缓存规则已由 TRANSLATION_EXECUTION.md / CCR-004 定稿。
 
 **T-006** — ☑ 已完成（提交 fe508b5，2026-09-27 评审通过，附报告问题记录），见 `tasks/done/T-006.md`。
 
@@ -94,7 +94,7 @@
 
 **T-034（前移）** — ☑ 提交 2be09c3 于 2026-09-29 最终复审通过，CCR-005 结案。独立构建零警告、1011 项测试通过；合法 V1/V2 与全部隔离反例符合预期，四条交付指纹匹配工作树。数据库保护、结构判断、取消和事务修复已接受，详见 tasks/done/T-034.md 末尾。
 
-**T-013** — ▶ e085558 独立构建零警告、1056 项测试通过，复审后签发 T-013-R1。并发 1 且存在排队项时提前退出会先释放信号量并卡住 DisposeAsync/租约清理；快照关闭缓存仍调用 TrySet，仅释放失败仍成功写入缓存/历史。其它核心流程和总预算探针可以保留，R1 只修清理与成功收尾边界，CCR-006 待复审。
+**T-013** — ☑ 提交 99787b8 于 2026-09-30 复审通过，CCR-006 结案。独立 Release 构建零警告/零错误，1063 项测试通过；原排队清理、快照关缓存和释放失败反例均已修复，总输出预算探针通过。完整证据见 tasks/done/T-013.md 末尾。**M1 里程碑完成**；真实服务与完整 UI 流程尚未验收。
 
 ---
 
@@ -102,19 +102,29 @@
 
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
-| T-014 | ☐ | ActionDispatcher | T-005 | 0.5d |
-| T-015 | ☐ | TranslateWindow（View + ViewModel + Presenter + WindowPlacementHelper） | T-013, T-014 | 2.5d |
-| T-016 | ☐ | InputTranslate / ClipboardTranslate / TranslateText Handler + 托盘菜单 | T-015 | 0.5d |
+| T-014 | ▶ | ActionDispatcher + App 内部 UI 调度适配器 | T-005 | 1d |
+| T-021A | ☐ | Win32ClipboardService（从 T-021 拆出并前移） | T-005 | 0.5d |
+| T-022A | ☐ | DesktopContext + MonitorEnumerator（从 T-022/T-025 拆出并前移） | T-005 | 1d |
+| T-015 | ☐ | TranslateWindow（View + ViewModel + Presenter + WindowPlacementHelper） | T-013, T-014, T-018, T-019, T-021A, T-022A | 2.5d |
+| T-016 | ☐ | InputTranslate / ClipboardTranslate / TranslateText Handler + 托盘菜单 | T-015, T-021A | 0.5d |
 | T-017 | ☐ | HotkeyService + KeyNameMapper + 启动时注册 / 设置变化时重注册 | T-016 | 1.5d |
 
-**T-014** 交付 CONTRACTS 中 `IActionDispatcher` 注释描述的全部约束。验收：防重入（同一 Action 执行中再次触发会被忽略；截图类动作之间互斥）；异常转为通知；OCE 静默；可从后台线程调用。
+**当前执行顺序（2026-09-30 架构修订）**：T-014 → T-021A → T-022A → 前移 T-018 → 前移 T-019 → T-015 → T-016 → T-017。保留历史编号，不按编号大小推断顺序；一次仍只签发一单。T-018 去除对热键 T-017 的不必要前置依赖，使设置 Presenter 和安全凭据入口先于翻译窗口存在；不会让用户手工编辑 DPAPI 密钥文件。
+
+**T-014** 按 ARCH §6.1 / CCR-007 交付 Dispatcher、内部 WPF 调度适配器与单例 DI。只索引实际注册动作，允许空注册；不提前创建未来 Handler 或改托盘行为。验收：UI 排队前原子防重入；等待 Handler 完整 Task；截图组互斥且其它动作可重叠；排队取消/调度失败正确释放；真实 STA Dispatcher 线程测试；安全错误通知与日志。
+
+**T-021A** 交付已有 IClipboardService 的真实 Windows 实现及 STA 调用/占用重试验证，包括文本、图片和序列号；定位于 M2 的复制与剪贴板翻译，不实现键盘模拟或选区兜底。精确平台策略在签发时冻结。
+
+**T-022A** 交付已有 IDesktopContext 及显示器枚举，统一物理像素、负坐标、多屏和 DPI 边界。M2 的窗口定位使用此实现；UIA/剪贴板选区读取与 GDI 抓屏仍留在 T-022/T-025。签发时先核查平台 API 与混合 DPI 验收条件。
+
+T-015 签发前还须完成 A07 的窗口会话/单卡 attempt 设计，覆盖旧任务后完成、隐藏后迟到回调及单卡重试；Dispatcher 的 Action 防重入不能替代结果归属校验。
 
 **T-015** 交付 ARCH §7.2、§10.5（跟随光标定位）、§14 的 TranslateWindow 部分。验收（手动 + VM 单测）：VM 用假 Orchestrator 测试卡片创建、Delta 节流刷新、Completed 覆盖、失败状态、单卡片重试、新请求取消旧请求；手动验证：在多显示器、混合 DPI 下窗口跟随光标且不超出屏幕、钉住 / 失焦隐藏、Esc 隐藏、Enter / Shift+Enter 行为。
 
 **T-016** 验收：托盘菜单新增“输入翻译 / 剪贴板翻译”；托盘左键单击 = 输入翻译；Handler 单元测试覆盖热键二次按下关闭窗口的逻辑。
 
 **T-017** 交付 ARCH §10.3 全部要点。验收：KeyNameMapper 覆盖映射表全部键（单元测试）；默认热键可以正常使用；与其他程序冲突时通知中列出冲突项；修改设置后热键立即生效，旧热键被释放；无效组合返回 HotkeyInvalid。
-**🎯 M2 完成 = 首个可用版本（手动配置 settings.json + secrets 后即可使用）。**
+**🎯 M2 完成 = 用户通过设置 UI 保存服务与密钥后，可以热键打开窗口、翻译、取消/重试，并在真实组合根下完成一条端到端验收。** 测试禁止真实联网；真实服务验收使用用户已配置的服务并单独记录，未执行时明确标为未验证。
 
 ---
 
@@ -122,11 +132,12 @@
 
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
-| T-018 | ☐ | SettingsWindow 外壳（草稿 / 保存模式）+ 常规页 + AutoStartService | T-017 | 1.5d |
-| T-019 | ☐ | 翻译服务页（预设、增删改、排序、Key、测试连接、获取模型、Prompt 选择） | T-018 | 2d |
-| T-020 | ☐ | 快捷键页 + HotkeyRecorderBox | T-018 | 1d |
+| T-018 | ☐ | SettingsWindow 外壳（草稿 / 保存模式）+ 常规页 + AutoStartService（前移至 T-015 前） | T-005, T-014 | 1.5d |
+| T-019 | ☐ | 翻译服务页（预设、增删改、排序、Key、测试连接、获取模型、Prompt 选择，前移至 T-015 前） | T-018, T-011, T-012 | 2d |
+| T-020 | ☐ | 快捷键页 + HotkeyRecorderBox | T-018, T-017 | 1d |
 
 **T-018** 验收：打开 / 取消 / 保存行为符合 ARCH §12.2 的草稿模式；主题切换即时生效；开机自启写入并清除注册表 Run 键；设置窗口只存在一个实例。
+前移后由 T-018 同时接入 OpenSettingsHandler 与真实设置入口；尚未交付的设置页不开放。T-019 的服务排序先验证保存/Registry 读取顺序，待 T-015 交付后再验收实际结果卡片顺序，不把后者冒充已完成。
 **T-019** 验收：从预设添加服务时自动填入 BaseUrl 和模型；Key 保存到 SecretStore（settings.json 中找不到 Key）；删除 Profile 时同时删除其密钥；测试连接显示延迟与测试译文，或错误信息；获取模型列表可用；模型名包含 haiku 时自动清空 Effort 并提示；Anthropic 的反代 BaseUrl 以 `/v1` 结尾时提示去掉（SDK 会自动追加 `/v1/messages`，ARCH §9.2）；拖拽排序后结果卡片顺序随之改变。
 T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器：整组凭据先写入新引用，再原子切换 Profile，刷新观察者后清理旧值；禁止直接复写活动凭据集或以多次 legacy Set 模拟事务。单卡测试连接/模型列表使用瞬态快照并及时释放。
 **T-020** 验收：录入框能捕获组合键（包括 Win 键），Esc 取消，Backspace 清除；实时检测冲突并提示；保存后立即重新注册。
@@ -137,12 +148,12 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
-| T-021 | ☐ | Win32ClipboardService + KeyboardSimulator | T-005 | 1d |
-| T-022 | ☐ | UIA / 剪贴板 / 组合选区读取器 + DesktopContext | T-021 | 2d |
+| T-021 | ☐ | KeyboardSimulator（剪贴板服务已拆至 T-021A） | T-021A | 0.5d |
+| T-022 | ☐ | UIA / 剪贴板 / 组合选区读取器（DesktopContext 已拆至 T-022A） | T-021, T-022A | 1.5d |
 | T-023 | ☐ | SelectionTranslateHandler + 划词设置页（基础部分） | T-022, T-018 | 0.5d |
 | T-024 | ☐ | MouseSelectionMonitor + GestureRecognizer + SelectionIconWindow / Controller | T-023 | 2d |
 
-**T-021** 验收：剪贴板被占用时按策略重试后抛出 ClipboardBusy；文本和图片可以写入；修饰键释放逻辑有单元测试（抽象出按键状态的读取接口）。
+**T-021** 验收：修饰键释放逻辑有单元测试（抽象出按键状态的读取接口）；剪贴板占用重试、文本和图片写入的验收移至 T-021A，不重复实现。
 **T-022** 交付 ARCH §10.4 全部步骤。手动验收清单：记事本、Word、Chrome、Edge、VS Code、微信 / QQ、PDF 阅读器、Windows Terminal（**不得触发 Ctrl+C**）；剪贴板中原有的文本或图片在读取后被恢复；没有选中文本时返回 null，而不是返回旧的剪贴板内容；按住 Ctrl+Alt+D 不放时也能正确读取。
 **T-023** 验收：Handler 单元测试覆盖三个分支（有文本 / 无文本且打开输入窗 / 无文本且只提示）；设置页可以编辑 ReadOrder、RestoreClipboard、排除进程列表。
 **T-024** 交付 ARCH §6.3（鼠标划词）、§10.2（钩子线程）、§10.6（不激活窗口）。验收：GestureRecognizer 纯逻辑单测（拖动阈值、双击 / 三击时间窗、Shift+单击、I 型光标条件）；钩子回调耗时 < 1 ms（Debug 日志统计）；图标出现时不抢焦点，点击图标后翻译的是原窗口中选中的文本；排除列表生效；模式切换后立即生效；在文件资源管理器里拖动文件不会触发。
@@ -153,7 +164,7 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
-| T-025 | ☐ | MonitorEnumerator + GdiScreenCapturer（含 Crop） | T-022 | 1d |
+| T-025 | ☐ | GdiScreenCapturer（含 Crop；MonitorEnumerator 已拆至 T-022A） | T-022A | 1d |
 | T-026 | ☐ | ScreenshotOverlayWindow + ScreenshotService | T-025 | 2.5d |
 | T-027 | ☐ | WinRtImagePreprocessor | T-025 | 1d |
 | T-028 | ☐ | 百度 OCR Provider（Token 缓存、四种模式、错误映射） | T-008, T-004 | 1.5d |

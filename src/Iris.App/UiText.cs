@@ -14,4 +14,5 @@ internal static class UiText
     public const string SettingsCorruptedNotice = "设置文件已损坏，已重置为默认值并将原文件备份。";
     public const string FatalUnknown = "发生未知严重错误，应用程序即将退出：";
     public const string DispatcherUnhandledMessage = "发生未知错误，详情请查看日志";
+    public const string ActionNotAvailable = "该功能尚未开放";
 }

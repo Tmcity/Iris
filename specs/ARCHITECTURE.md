@@ -1,6 +1,6 @@
 # Iris 架构设计说明书
 
-> 版本：v1.18 · 2026-09-29 · 状态：**已冻结（首期）**
+> 版本：v1.19 · 2026-09-30 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
@@ -19,6 +19,7 @@
 > 变更记录：v1.16（T-011 通过后，签发 T-012）— 新增 TRANSLATION_EXECUTION.md：固定请求设置/实际 Prompt、实例代次缓存键、清空代次与条数/字节双预算。CCR-004 批准显式配置重载和缓存原型修订；T-034 前移至 T-013 前，避免用丢弃历史的占位实现接线。
 > 变更记录：v1.17（T-012-R1 通过后，签发前移 T-034）— HISTORY_STORAGE.md / CCR-005 / DB_SCHEMA.sql V2 确定收藏保护、截断结果标记、非收藏容量、摘要分页与按需详情，以及后台 SQLite 初始化/事务/查询。CCR-004 结案。
 > 变更记录：v1.18（T-034-R2 通过后，签发 T-013）— TRANSLATION_ORCHESTRATOR.md / CCR-006 明确显式选择、事件顺序、输出预算、租约清理、取消与正常收尾，以及真实缓存/历史接线；CCR-005 结案。
+> 变更记录：v1.19（T-013-R1 通过后，签发 T-014）— §6.1 固定动作分发的注册、UI 调度、防重入、取消及安全错误边界；CCR-006 结案，CCR-007 批准动作契约注释澄清。BACKLOG 提前安排 M2 必需的桌面/剪贴板能力和设置入口，业务 Handler 仍随对应功能交付。
 > 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json` · `specs/TRANSLATION_EXECUTION.md` · `specs/HISTORY_STORAGE.md` · `specs/TRANSLATION_ORCHESTRATOR.md`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
@@ -251,6 +252,16 @@ Core 程序集禁止引用：`PresentationFramework`、`PresentationCore`、`Win
                            ▼
                      Workflows/*Handler (Core)
 ```
+
+**注册与分层（T-014 / CCR-007）**：`ActionDispatcher` 在 App/Hosting 实现，业务 Handler 在 Core/Workflows，WPF 调度细节不得进入 Core。按当前实际注册的 `IEnumerable<IActionHandler>` 建只读索引；允许空集合或部分动作。每个已开放动作恰有一个 Handler，不要求未来动作的占位实现。重复 Action、未定义的 Action 或 null 注册项在构造时拒绝，诊断只带枚举/数值，不格式化 Handler 对象。T-014 只注册 Dispatcher 与内部调度适配器；已存在的托盘行为在对应 Handler 交付时接线。
+
+**调用与防重入**：`DispatchAsync` 可从任意线程调用。进入时已取消则静默返回；有效调用必须在任何 UI 排队/await 之前，用一次短锁原子取得 Action 的执行权。截图组明确为 ScreenshotTranslate、ScreenshotOcr、SilentScreenshotOcr，组内任意一项占用时其余两项也立即忽略，不排队、不取消正在执行的调用。不同非截图动作可重叠。锁内只读写执行状态，不调用外部代码、不通知、不 await。执行权覆盖 UI 排队、Handler 的完整异步执行及边界处理，所有退出路径在 finally 释放。忽略的调用立即完成，其取消令牌不得影响原调用；这里不实现“新请求替换旧请求”，窗口会话/单卡 attempt 的归属由 T-015 另行设计。
+
+**UI 调度**：App 内部适配器以 `Task InvokeAsync(Func<Task> callback, CancellationToken cancellationToken)` 为边界，不新增 Core 公共调度端口。生产实现运行时取得 `Application.Current.Dispatcher`；构造/Host.Build 时不要求 Application 已存在，禁止在任意调用线程用 `Dispatcher.CurrentDispatcher` 创建错误的 Dispatcher。已在 UI 线程时直接调用；后台调用使用异步 Dispatcher 调度并等待返回的内部 Task（例如 `DispatcherOperation<Task>.Task.Unwrap()`），禁止只等待委托入队/返回 Task 的外层操作。测试可注入 internal 的 Dispatcher 解析委托，以独立 STA 消息循环验证真实适配器。
+
+**取消与关闭**：执行权取得后、UI 回调真正调用 Handler 前再检查取消，并把原令牌传给 Handler。UI 排队取消不启动 Handler；开始后等待 Handler 真正退出，不能用 `WaitAsync(token)` 放弃等待并提前释放执行权。`OperationCanceledException` 一律静默结束。Dispatcher 已开始/完成关闭视为取消；尚无 Application/Dispatcher 则按调度失败进入安全错误边界。调度异常或 Handler 的同步/异步异常都必须释放执行权。
+
+**错误展示**：未定义的 Action 或 null context 以 InvalidArgument 默认文案提示并返回；已定义但未注册的 Action 以固定“该功能尚未开放”提示并返回，不能用全量占位 Handler 掩盖缺失。`IrisException` 使用 `ErrorMessages.GetDefault(Code)`，未知异常使用 Unknown 默认文案；已知/未知执行失败均记安全日志，仅含 Action、错误码与异常类型名，不传异常对象，不复制 Message、Detail、Data、InnerException、Payload 或窗口标题。通知标题和未开放提示使用 App 资源，错误正文复用既有默认文案。`INotificationService` 已支持跨线程；通知自身失败只安全记录一次，不递归通知、不让它阻止执行权释放。无需在此重写既有全局异常处理器或通知服务。
 
 ### 6.2 输入翻译（`InputTranslateHandler`）
 

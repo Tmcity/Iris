@@ -417,7 +417,7 @@ DB_SCHEMA.sql 已批准追加 V2（is_truncated 与索引），保留 V1 用于�
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-09-29 |
-| 状态 | **已落地，待 T-013-R1 复审**（签名/注释同步正确，清理与成功收尾边界待修复） |
+| 状态 | **已结案**（2026-09-30；T-013-R1 提交 99787b8 独立复审通过） |
 | 依据 | TRANSLATION_ORCHESTRATOR.md；T-012/T-034 已提供真实依赖 |
 | 兼容性 | 不变更公开签名、事件字段、默认值或 JSON；只细化尚未实现编排器的注释和语义 |
 
@@ -462,3 +462,38 @@ TranslationEvent 之前的顺序注释替换为：
 ```
 
 不新增公开限制类型，固定内部输出/队列/历史超时常量以 TRANSLATION_ORCHESTRATOR.md 为准。实施后将 CCR-006 标为“已落地，待复审”。
+
+## CCR-007：动作分发的渐进注册与完整异步生命周期
+
+| 字段 | 值 |
+|---|---|
+| 批准 | 架构师 Codex，2026-09-30 |
+| 状态 | **已落地，待复审** |
+| 依据 | ARCH v1.19 §6.1；架构审查 A06 的渐进注册问题 |
+| 兼容性 | 只修改 Actions/IrisAction.cs 中两个接口的 XML 注释，不改任何签名、枚举值或默认参数 |
+
+由 T-014 同步修改 `specs/CONTRACTS.cs` 与 `src/Iris.Core/Actions/IrisAction.cs`，签发时保持两处旧定义一致。其它注释与定义保持原样。
+
+IActionHandler 的 summary 替换为：
+
+```csharp
+/// <summary>每个已开放的 IrisAction 恰好一个 Handler；允许只注册当前已实现的动作，禁止重复或未定义的 Action。
+/// DI 注册多个 IActionHandler，Dispatcher 按 Action 建索引；业务 Handler 在 Core/Workflows 实现。</summary>
+```
+
+IActionDispatcher 的 summary 替换为：
+
+```csharp
+/// <summary>
+/// 动作分发（App 层实现），完整规则见 ARCH §6.1。
+/// 可从任意线程调用；在 UI 线程启动 Handler，等待其完整 Task；构造时不要求 WPF Application 已存在。
+/// 在 UI 排队前原子防重入：同一 Action 执行中再次触发立即忽略；ScreenshotTranslate/ScreenshotOcr/SilentScreenshotOcr 互斥。
+/// 不同非截图动作可重叠；执行权覆盖排队和完整异步执行，所有退出路径均释放；忽略调用不取消已有调用。
+/// 进入时已取消或 Handler 启动前取消则不执行；开始后传递原令牌并等待实际退出，OCE 静默。
+/// 未定义 Action/null context 提示 InvalidArgument；已定义但未注册的 Action 提示功能尚未开放。
+/// 调度/Handler 异常在边界处理：IrisException 使用错误码默认文案，未知异常使用 Unknown 文案；仅记录安全元数据。
+/// 不记录 Payload 或原始异常；通知失败只安全记录，不递归通知。窗口会话与旧结果替换策略不属于 Dispatcher。
+/// </summary>
+```
+
+不修改 INotificationService、IrisException 或全局异常处理契约。App 的 UI 调度适配器保持 internal。实施后只将 CCR-007 改为“已落地，待复审”，BACKLOG 由架构师结案。

@@ -3,6 +3,7 @@ using System.Net.Http;
 using Iris.App.Hosting;
 using Iris.App.Services;
 using Iris.App.Tests.TestSupport;
+using Iris.Core.Actions;
 using Iris.Core.Common;
 using Iris.Core.Languages;
 using Iris.Core.Presentation;
@@ -54,6 +55,8 @@ public sealed class AppHostBuilderTests
         var historyRepository = host.Services.GetService<ITranslationHistoryRepository>();
         var orchestrator = host.Services.GetService<ITranslationOrchestrator>();
         var bootstrapper = host.Services.GetService<AppBootstrapper>();
+        var uiDispatcher = host.Services.GetService<IUiDispatcher>();
+        var actionDispatcher = host.Services.GetService<IActionDispatcher>();
 
         settingsService.ShouldNotBeNull();
         secretStore.ShouldNotBeNull();
@@ -66,6 +69,28 @@ public sealed class AppHostBuilderTests
         historyRepository.ShouldNotBeNull();
         orchestrator.ShouldNotBeNull();
         bootstrapper.ShouldNotBeNull();
+        uiDispatcher.ShouldNotBeNull();
+        actionDispatcher.ShouldNotBeNull();
+        uiDispatcher.ShouldBeOfType<WpfUiDispatcher>();
+        actionDispatcher.ShouldBeOfType<ActionDispatcher>();
+    }
+
+    [Fact]
+    public void Host_ResolvesActionDispatcherAndUiDispatcher_AsSingletons()
+    {
+        using var tempDir = new TempDirectory();
+        var paths = new FakeAppPaths(tempDir.Path);
+        var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
+
+        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+
+        var actionDispatcher1 = host.Services.GetRequiredService<IActionDispatcher>();
+        var actionDispatcher2 = host.Services.GetRequiredService<IActionDispatcher>();
+        var uiDispatcher1 = host.Services.GetRequiredService<IUiDispatcher>();
+        var uiDispatcher2 = host.Services.GetRequiredService<IUiDispatcher>();
+
+        actionDispatcher1.ShouldBeSameAs(actionDispatcher2);
+        uiDispatcher1.ShouldBeSameAs(uiDispatcher2);
     }
 
     [Fact]
