@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Runtime.ExceptionServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Channels;
@@ -125,6 +126,7 @@ internal sealed partial class TranslationOrchestrator : ITranslationOrchestrator
 
         ITranslationProviderSnapshot? lease = null;
         Task[]? workerTasks = null;
+        SemaphoreSlim? concurrencySemaphore = null;
         var isCompletionPhase = false;
 
         try
@@ -249,7 +251,7 @@ internal sealed partial class TranslationOrchestrator : ITranslationOrchestrator
 
             var budgetTracker = new RequestBudgetTracker();
             var maxConcurrent = Math.Max(1, translationSettings.MaxConcurrentProviders);
-            using var concurrencySemaphore = new SemaphoreSlim(maxConcurrent, maxConcurrent);
+            concurrencySemaphore = new SemaphoreSlim(maxConcurrent, maxConcurrent);
 
             workerTasks = cards.Select(card => ProcessCardAsync(
                 card,
@@ -264,14 +266,8 @@ internal sealed partial class TranslationOrchestrator : ITranslationOrchestrator
 
             _ = Task.WhenAll(workerTasks).ContinueWith(t =>
             {
-                if (t.IsFaulted && t.Exception != null)
-                {
-                    channel.Writer.TryComplete(t.Exception);
-                }
-                else
-                {
-                    channel.Writer.TryComplete();
-                }
+                _ = t.Exception;
+                channel.Writer.TryComplete();
             }, TaskScheduler.Default);
 
             // 8. 消费事件流
@@ -286,7 +282,7 @@ internal sealed partial class TranslationOrchestrator : ITranslationOrchestrator
             isCompletionPhase = true;
 
             // 10.1 尝试写入缓存（仅新鲜、未截断的成功值）
-            if (cacheUsable && initialGeneration.HasValue)
+            if (translationSettings.CacheEnabled && cacheUsable && initialGeneration.HasValue)
             {
                 foreach (var card in cards)
                 {
@@ -347,7 +343,10 @@ internal sealed partial class TranslationOrchestrator : ITranslationOrchestrator
                 }
             }
 
-            // 10.3 释放租约（最迟在 Finished 之前，绝不能早于子任务清理）
+            // 10.3 释放租约与信号量（最迟在 Finished 之前，绝不能早于子任务清理）
+            concurrencySemaphore?.Dispose();
+            concurrencySemaphore = null;
+
             lease?.Dispose();
             lease = null;
 
@@ -371,11 +370,15 @@ internal sealed partial class TranslationOrchestrator : ITranslationOrchestrator
                 }
                 catch
                 {
-                    // 忽略清理阶段子任务的取消或异常
+                    // 观察所有任务，避免未观察任务异常
                 }
             }
 
+            concurrencySemaphore?.Dispose();
+            concurrencySemaphore = null;
+
             lease?.Dispose();
+            lease = null;
         }
     }
 
@@ -506,12 +509,20 @@ internal sealed partial class TranslationOrchestrator : ITranslationOrchestrator
         }
 
         // 3. 真实 Provider 调用：申请并发名额
-        await concurrencySemaphore.WaitAsync(workCt).ConfigureAwait(false);
+        try
+        {
+            await concurrencySemaphore.WaitAsync(workCt).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (workCt.IsCancellationRequested)
+        {
+            return;
+        }
+
+        var startTimestamp = _timeProvider.GetTimestamp();
         try
         {
             if (workCt.IsCancellationRequested) return;
 
-            var startTimestamp = _timeProvider.GetTimestamp();
             await writer.WriteAsync(new ProviderStarted(request.RequestId, card.Descriptor.Id), workCt).ConfigureAwait(false);
 
             var provider = card.Registration!.Provider;
@@ -524,80 +535,68 @@ internal sealed partial class TranslationOrchestrator : ITranslationOrchestrator
             TranslationFinishReason? observedFinishReason = null;
             bool finishReasonReceived = false;
 
+            Exception? primaryException = null;
+            IAsyncEnumerator<TranslationChunk>? enumerator = null;
+
             try
             {
-                var enumerator = provider.TranslateStreamAsync(providerReq, workCt).GetAsyncEnumerator(workCt);
-                try
+                enumerator = provider.TranslateStreamAsync(providerReq, workCt).GetAsyncEnumerator(workCt);
+
+                while (await enumerator.MoveNextAsync().ConfigureAwait(false))
                 {
-                    while (await enumerator.MoveNextAsync().ConfigureAwait(false))
+                    if (workCt.IsCancellationRequested) return;
+
+                    var chunk = enumerator.Current;
+
+                    if (finishReasonReceived)
                     {
-                        if (workCt.IsCancellationRequested) return;
+                        throw new IrisException(ErrorCode.InvalidResponse, "Chunk received after finish reason.");
+                    }
 
-                        var chunk = enumerator.Current;
+                    if (chunk.Delta == null)
+                    {
+                        throw new IrisException(ErrorCode.InvalidResponse, "Delta chunk cannot be null.");
+                    }
 
-                        if (finishReasonReceived)
+                    if (chunk.Usage != null)
+                    {
+                        if (chunk.Usage.InputTokens.HasValue) latestInputTokens = chunk.Usage.InputTokens.Value;
+                        if (chunk.Usage.OutputTokens.HasValue) latestOutputTokens = chunk.Usage.OutputTokens.Value;
+                    }
+
+                    if (chunk.FinishReason.HasValue)
+                    {
+                        var reason = chunk.FinishReason.Value;
+                        if (!Enum.IsDefined(reason))
                         {
-                            throw new IrisException(ErrorCode.InvalidResponse, "Chunk received after finish reason.");
+                            throw new IrisException(ErrorCode.InvalidResponse, $"Unknown finish reason '{reason}'.");
+                        }
+                        observedFinishReason = reason;
+                        finishReasonReceived = true;
+                    }
+
+                    if (chunk.Delta.Length > 0)
+                    {
+                        if (currentTextLength + chunk.Delta.Length > RequestBudgetTracker.MaxProviderTextLength)
+                        {
+                            throw new IrisException(ErrorCode.InvalidResponse, "翻译结果超过本地长度限制");
                         }
 
-                        if (chunk.Delta == null)
+                        if (!budgetTracker.TryReserve(chunk.Delta.Length))
                         {
-                            throw new IrisException(ErrorCode.InvalidResponse, "Delta chunk cannot be null.");
+                            throw new IrisException(ErrorCode.InvalidResponse, "翻译结果超过本地长度限制");
                         }
 
-                        if (chunk.Usage != null)
+                        currentTextLength += chunk.Delta.Length;
+                        sb.Append(chunk.Delta);
+
+                        foreach (var slice in SplitDelta(chunk.Delta))
                         {
-                            if (chunk.Usage.InputTokens.HasValue) latestInputTokens = chunk.Usage.InputTokens.Value;
-                            if (chunk.Usage.OutputTokens.HasValue) latestOutputTokens = chunk.Usage.OutputTokens.Value;
-                        }
-
-                        if (chunk.FinishReason.HasValue)
-                        {
-                            var reason = chunk.FinishReason.Value;
-                            if (!Enum.IsDefined(reason))
-                            {
-                                throw new IrisException(ErrorCode.InvalidResponse, $"Unknown finish reason '{reason}'.");
-                            }
-                            observedFinishReason = reason;
-                            finishReasonReceived = true;
-                        }
-
-                        if (chunk.Delta.Length > 0)
-                        {
-                            if (currentTextLength + chunk.Delta.Length > RequestBudgetTracker.MaxProviderTextLength)
-                            {
-                                throw new IrisException(ErrorCode.InvalidResponse, "翻译结果超过本地长度限制");
-                            }
-
-                            if (!budgetTracker.TryReserve(chunk.Delta.Length))
-                            {
-                                throw new IrisException(ErrorCode.InvalidResponse, "翻译结果超过本地长度限制");
-                            }
-
-                            currentTextLength += chunk.Delta.Length;
-                            sb.Append(chunk.Delta);
-
-                            foreach (var slice in SplitDelta(chunk.Delta))
-                            {
-                                if (workCt.IsCancellationRequested) return;
-                                await writer.WriteAsync(new ProviderDelta(request.RequestId, card.Descriptor.Id, slice), workCt).ConfigureAwait(false);
-                            }
+                            if (workCt.IsCancellationRequested) return;
+                            await writer.WriteAsync(new ProviderDelta(request.RequestId, card.Descriptor.Id, slice), workCt).ConfigureAwait(false);
                         }
                     }
                 }
-                finally
-                {
-                    try
-                    {
-                        await enumerator.DisposeAsync().ConfigureAwait(false);
-                    }
-                    catch (Exception ex)
-                    {
-                        LogCleanupFailed(_logger, card.Descriptor.Id, ex.GetType().Name);
-                    }
-                }
-
-                if (workCt.IsCancellationRequested) return;
 
                 if (!finishReasonReceived || !observedFinishReason.HasValue)
                 {
@@ -609,39 +608,73 @@ internal sealed partial class TranslationOrchestrator : ITranslationOrchestrator
                 {
                     throw new IrisException(ErrorCode.InvalidResponse, "Provider returned empty translation result.");
                 }
-
-                var elapsed = _timeProvider.GetElapsedTime(startTimestamp);
-                var isTruncated = observedFinishReason == TranslationFinishReason.Truncated;
-                TokenUsage? usage = (latestInputTokens != null || latestOutputTokens != null)
-                    ? new TokenUsage(latestInputTokens, latestOutputTokens)
-                    : null;
-
-                var completedEvent = new ProviderCompleted(
-                    request.RequestId,
-                    card.Descriptor.Id,
-                    fullText,
-                    elapsed,
-                    FromCache: false,
-                    Truncated: isTruncated,
-                    Usage: usage);
-
-                await writer.WriteAsync(completedEvent, workCt).ConfigureAwait(false);
-
-                card.IsCompleted = true;
-                card.IsSucceeded = true;
-                card.IsFromCache = false;
-                card.IsTruncated = isTruncated;
-                card.FullText = fullText;
-            }
-            catch (OperationCanceledException) when (workCt.IsCancellationRequested)
-            {
-                return;
             }
             catch (Exception ex)
             {
-                if (workCt.IsCancellationRequested) return;
+                primaryException = ex;
+            }
+            finally
+            {
+                if (enumerator != null)
+                {
+                    try
+                    {
+                        await enumerator.DisposeAsync().ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        if (primaryException != null)
+                        {
+                            LogCleanupFailed(_logger, card.Descriptor.Id, ex.GetType().Name);
+                        }
+                        else
+                        {
+                            primaryException = ex;
+                        }
+                    }
+                }
+            }
 
-                var elapsed = _timeProvider.GetElapsedTime(startTimestamp);
+            if (primaryException != null)
+            {
+                ExceptionDispatchInfo.Capture(primaryException).Throw();
+            }
+
+            if (workCt.IsCancellationRequested) return;
+
+            var elapsed = _timeProvider.GetElapsedTime(startTimestamp);
+            var isTruncated = observedFinishReason == TranslationFinishReason.Truncated;
+            TokenUsage? usage = (latestInputTokens != null || latestOutputTokens != null)
+                ? new TokenUsage(latestInputTokens, latestOutputTokens)
+                : null;
+            var completedText = sb.ToString();
+
+            var completedEvent = new ProviderCompleted(
+                request.RequestId,
+                card.Descriptor.Id,
+                completedText,
+                elapsed,
+                FromCache: false,
+                Truncated: isTruncated,
+                Usage: usage);
+
+            await writer.WriteAsync(completedEvent, workCt).ConfigureAwait(false);
+
+            card.IsCompleted = true;
+            card.IsSucceeded = true;
+            card.IsFromCache = false;
+            card.IsTruncated = isTruncated;
+            card.FullText = completedText;
+        }
+        catch (OperationCanceledException) when (workCt.IsCancellationRequested)
+        {
+            return;
+        }
+        catch (Exception ex)
+        {
+            if (workCt.IsCancellationRequested) return;
+
+            var elapsed = _timeProvider.GetElapsedTime(startTimestamp);
                 ErrorInfo errorInfo;
                 if (ex is IrisException irisEx)
                 {
@@ -664,7 +697,6 @@ internal sealed partial class TranslationOrchestrator : ITranslationOrchestrator
                 card.IsCompleted = true;
                 card.IsSucceeded = false;
             }
-        }
         finally
         {
             concurrencySemaphore.Release();

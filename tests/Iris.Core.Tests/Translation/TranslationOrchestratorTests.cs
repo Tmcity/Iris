@@ -244,9 +244,14 @@ public sealed class TranslationOrchestratorTests
     private sealed class TrackingCache(ITranslationCache inner) : ITranslationCache
     {
         private readonly ITranslationCache _inner = inner;
+        public int TryGetCount { get; private set; }
         public int TrySetCount { get; private set; }
         public long Generation => _inner.Generation;
-        public bool TryGet(in TranslationCacheKey key, [NotNullWhen(true)] out string? text) => _inner.TryGet(key, out text);
+        public bool TryGet(in TranslationCacheKey key, [NotNullWhen(true)] out string? text)
+        {
+            TryGetCount++;
+            return _inner.TryGet(key, out text);
+        }
         public bool TrySet(in TranslationCacheKey key, string text, long generation)
         {
             TrySetCount++;
@@ -1748,6 +1753,563 @@ public sealed class TranslationOrchestratorTests
         var finished = events.OfType<TranslationFinished>().Single();
         finished.SucceededCount.ShouldBe(1);
         finished.FailedCount.ShouldBe(0);
+    }
+
+    #endregion
+
+    #region T-013-R1 Regression Tests
+
+    private sealed class CustomDisposeException : Exception
+    {
+        public CustomDisposeException(string message) : base(message) { }
+    }
+
+    private sealed class DirectProvider : ITranslationProvider
+    {
+        private readonly Func<ProviderTranslateRequest, CancellationToken, IAsyncEnumerable<TranslationChunk>> _streamFactory;
+        public ProviderDescriptor Descriptor { get; }
+        public List<ProviderTranslateRequest> Invocations { get; } = new();
+
+        public DirectProvider(string id, Func<ProviderTranslateRequest, CancellationToken, IAsyncEnumerable<TranslationChunk>> streamFactory)
+        {
+            Descriptor = new ProviderDescriptor(id, id, "OpenAICompatible", "fake-model", true);
+            _streamFactory = streamFactory;
+        }
+
+        public IAsyncEnumerable<TranslationChunk> TranslateStreamAsync(ProviderTranslateRequest request, CancellationToken cancellationToken)
+        {
+            lock (Invocations)
+            {
+                Invocations.Add(request);
+            }
+            return _streamFactory(request, cancellationToken);
+        }
+
+        public Task<ProviderTestResult> TestAsync(CancellationToken cancellationToken) =>
+            Task.FromResult(new ProviderTestResult(true, TimeSpan.Zero, "ok"));
+    }
+
+    private static (TranslationProviderRegistration Registration, DirectProvider Provider) CreateDirectProvider(
+        string id,
+        Func<ProviderTranslateRequest, CancellationToken, IAsyncEnumerable<TranslationChunk>> streamFactory)
+    {
+        var profile = new TranslationProviderProfile
+        {
+            Id = id,
+            DisplayName = id,
+            Kind = TranslationProviderKind.OpenAICompatible,
+            Model = "fake-model",
+            Enabled = true,
+            Order = 1,
+        };
+        var provider = new DirectProvider(id, streamFactory);
+        var reg = new TranslationProviderRegistration(profile, provider, Guid.NewGuid());
+        return (reg, provider);
+    }
+
+    private sealed class DisposableFailingEnumerable : IAsyncEnumerable<TranslationChunk>, IAsyncEnumerator<TranslationChunk>
+    {
+        private int _index;
+        private readonly TranslationChunk[] _chunks =
+        [
+            new TranslationChunk("Result text ", new TokenUsage(5, 10), null),
+            new TranslationChunk("final", null, TranslationFinishReason.Completed)
+        ];
+
+        public IAsyncEnumerator<TranslationChunk> GetAsyncEnumerator(CancellationToken cancellationToken = default) => this;
+
+        public ValueTask<bool> MoveNextAsync()
+        {
+            if (_index < _chunks.Length)
+            {
+                Current = _chunks[_index++];
+                return ValueTask.FromResult(true);
+            }
+            return ValueTask.FromResult(false);
+        }
+
+        public TranslationChunk Current { get; private set; } = default!;
+
+        public ValueTask DisposeAsync()
+        {
+            throw new CustomDisposeException("Enumerator dispose failed");
+        }
+    }
+
+    private sealed class FailingStreamWithDisposeError : IAsyncEnumerable<TranslationChunk>, IAsyncEnumerator<TranslationChunk>
+    {
+        public IAsyncEnumerator<TranslationChunk> GetAsyncEnumerator(CancellationToken cancellationToken = default) => this;
+
+        public ValueTask<bool> MoveNextAsync()
+        {
+            throw new IrisException(ErrorCode.Timeout, "Stream read timed out.");
+        }
+
+        public TranslationChunk Current => default!;
+
+        public ValueTask DisposeAsync()
+        {
+            throw new CustomDisposeException("Enumerator dispose failed");
+        }
+    }
+
+    [Fact]
+    public async Task TranslateAsync_EarlyConsumerBreak_WithQueuedProviderAndCleanupLatch_PreservesSemaphoreAndLeaseUntilLatchReleased()
+    {
+        var (reg1, prov1) = CreateRegisteredProvider("prov-1", model: "model-1");
+        var (reg2, prov2) = CreateRegisteredProvider("prov-2", model: "model-2");
+        var settings = CreateDefaultSettings(reg1.Profile, reg2.Profile) with
+        {
+            Translation = new TranslationSettings
+            {
+                Providers = [reg1.Profile, reg2.Profile],
+                MaxConcurrentProviders = 1
+            }
+        };
+
+        var snapshot = new TestSnapshot(settings, [reg1, reg2]);
+        var registry = new TestRegistry { CurrentSnapshot = snapshot };
+        var cache = new TrackingCache(CreateCache(settings));
+        var history = new FakeHistoryRepository();
+
+        var cleanupEnteredGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var cleanupReleaseGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        prov1.StreamHandler = (req, ct) => StreamWithCleanupLatch(cleanupEnteredGate, cleanupReleaseGate, ct);
+        static async IAsyncEnumerable<TranslationChunk> StreamWithCleanupLatch(
+            TaskCompletionSource enteredGate,
+            TaskCompletionSource releaseGate,
+            [EnumeratorCancellation] CancellationToken ct)
+        {
+            try
+            {
+                yield return new TranslationChunk("Delta 1 ");
+                await Task.Delay(Timeout.Infinite, ct);
+            }
+            finally
+            {
+                enteredGate.SetResult();
+                using var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+                try
+                {
+                    await releaseGate.Task.WaitAsync(timeoutCts.Token);
+                }
+                catch (OperationCanceledException)
+                {
+                }
+            }
+        }
+
+        var orchestrator = CreateOrchestrator(registry, cache, history);
+        var request = new TranslationRequest
+        {
+            Text = "Hello world",
+            Origin = TextOrigin.Input,
+            ProviderIds = ["prov-1", "prov-2"],
+            RecordHistory = true
+        };
+
+        var enumerator = orchestrator.TranslateAsync(request, TestContext.Current.CancellationToken).GetAsyncEnumerator(TestContext.Current.CancellationToken);
+        try
+        {
+            (await enumerator.MoveNextAsync()).ShouldBeTrue();
+            enumerator.Current.ShouldBeOfType<TranslationStarted>();
+
+            (await enumerator.MoveNextAsync()).ShouldBeTrue();
+            enumerator.Current.ShouldBeOfType<ProviderStarted>();
+
+            (await enumerator.MoveNextAsync()).ShouldBeTrue();
+            enumerator.Current.ShouldBeOfType<ProviderDelta>();
+
+            var disposeTask = enumerator.DisposeAsync().AsTask();
+
+            await cleanupEnteredGate.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+            // While cleanup latch is pending:
+            disposeTask.IsCompleted.ShouldBeFalse("DisposeAsync must still wait for worker cleanup.");
+            snapshot.IsDisposed.ShouldBeFalse("Lease must not be disposed while worker cleanup is pending.");
+            prov2.Invocations.Count.ShouldBe(0, "Queued provider must not be invoked.");
+
+            // Release cleanup latch
+            cleanupReleaseGate.SetResult();
+
+            await disposeTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+            snapshot.IsDisposed.ShouldBeTrue("Lease must be disposed after all workers exit.");
+            prov2.Invocations.Count.ShouldBe(0, "Queued provider was never invoked.");
+            cache.TrySetCount.ShouldBe(0, "Cache must not be written on early break.");
+            history.SavedRecords.Count.ShouldBe(0, "History must not be written on early break.");
+        }
+        finally
+        {
+            cleanupReleaseGate.TrySetResult();
+            await enumerator.DisposeAsync();
+        }
+    }
+
+    [Fact]
+    public async Task TranslateAsync_CancellationWhileQueued_WorkerExitsCleanlyWithoutInvokingQueuedProvider()
+    {
+        var (reg1, prov1) = CreateRegisteredProvider("prov-1", model: "model-1");
+        var (reg2, prov2) = CreateRegisteredProvider("prov-2", model: "model-2");
+        var settings = CreateDefaultSettings(reg1.Profile, reg2.Profile) with
+        {
+            Translation = new TranslationSettings
+            {
+                Providers = [reg1.Profile, reg2.Profile],
+                MaxConcurrentProviders = 1
+            }
+        };
+
+        var snapshot = new TestSnapshot(settings, [reg1, reg2]);
+        var registry = new TestRegistry { CurrentSnapshot = snapshot };
+        var cache = new TrackingCache(CreateCache(settings));
+        var history = new FakeHistoryRepository();
+
+        var prov1StartedGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var prov1ReleaseGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        prov1.StreamHandler = (req, ct) => StreamWithGate(prov1StartedGate, prov1ReleaseGate, ct);
+        static async IAsyncEnumerable<TranslationChunk> StreamWithGate(
+            TaskCompletionSource startedGate,
+            TaskCompletionSource releaseGate,
+            [EnumeratorCancellation] CancellationToken ct)
+        {
+            startedGate.SetResult();
+            using var timeoutCts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
+            using var linked = CancellationTokenSource.CreateLinkedTokenSource(ct, timeoutCts.Token);
+            try
+            {
+                await releaseGate.Task.WaitAsync(linked.Token);
+            }
+            catch (OperationCanceledException) { }
+
+            yield return new TranslationChunk("Delta 1", FinishReason: TranslationFinishReason.Completed);
+        }
+
+        using var userCts = new CancellationTokenSource();
+        var orchestrator = CreateOrchestrator(registry, cache, history);
+        var request = new TranslationRequest
+        {
+            Text = "Hello",
+            Origin = TextOrigin.Input,
+            ProviderIds = ["prov-1", "prov-2"],
+            RecordHistory = true
+        };
+
+        var events = new List<TranslationEvent>();
+        var enumerator = orchestrator.TranslateAsync(request, userCts.Token).GetAsyncEnumerator(TestContext.Current.CancellationToken);
+        try
+        {
+            (await enumerator.MoveNextAsync()).ShouldBeTrue();
+            events.Add(enumerator.Current); // TranslationStarted
+
+            // MoveNextAsync to start workers and enter prov1 stream
+            var moveNextTask = enumerator.MoveNextAsync().AsTask();
+
+            await prov1StartedGate.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+            // User cancels while prov2 is queued waiting for concurrency semaphore
+            userCts.Cancel();
+
+            prov1ReleaseGate.TrySetResult();
+
+            await Should.ThrowAsync<OperationCanceledException>(async () =>
+            {
+                if (await moveNextTask)
+                {
+                    events.Add(enumerator.Current);
+                }
+                while (await enumerator.MoveNextAsync())
+                {
+                    events.Add(enumerator.Current);
+                }
+            });
+
+            snapshot.IsDisposed.ShouldBeTrue("Lease must be disposed upon cancellation.");
+            prov2.Invocations.Count.ShouldBe(0, "Queued provider 2 must never have been invoked.");
+            cache.TrySetCount.ShouldBe(0, "Cache must not be written on cancellation.");
+            history.SavedRecords.Count.ShouldBe(0, "History must not be written on cancellation.");
+        }
+        finally
+        {
+            prov1ReleaseGate.TrySetResult();
+            await enumerator.DisposeAsync();
+        }
+    }
+
+    [Fact]
+    public async Task TranslateAsync_EarlyConsumerBreak_WhileBackpressureBlocked_CancelsAndCleansUp()
+    {
+        var (reg1, prov1) = CreateRegisteredProvider("prov-1");
+        var settings = CreateDefaultSettings(reg1.Profile);
+        var snapshot = new TestSnapshot(settings, [reg1]);
+        var registry = new TestRegistry { CurrentSnapshot = snapshot };
+
+        var chunksProduced = 0;
+        var producerBlockedGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        prov1.StreamHandler = (req, ct) => BackpressureStream(ct);
+        async IAsyncEnumerable<TranslationChunk> BackpressureStream([EnumeratorCancellation] CancellationToken ct)
+        {
+            for (int i = 0; i < 200; i++)
+            {
+                ct.ThrowIfCancellationRequested();
+                chunksProduced++;
+                if (chunksProduced >= 120)
+                {
+                    producerBlockedGate.TrySetResult();
+                }
+                yield return new TranslationChunk($"chunk-{i} ");
+            }
+            yield return new TranslationChunk("end", FinishReason: TranslationFinishReason.Completed);
+        }
+
+        var orchestrator = CreateOrchestrator(registry);
+        var request = new TranslationRequest { Text = "Hello", Origin = TextOrigin.Input };
+
+        var enumerator = orchestrator.TranslateAsync(request, TestContext.Current.CancellationToken).GetAsyncEnumerator(TestContext.Current.CancellationToken);
+        try
+        {
+            (await enumerator.MoveNextAsync()).ShouldBeTrue(); // TranslationStarted
+            (await enumerator.MoveNextAsync()).ShouldBeTrue(); // ProviderStarted
+            (await enumerator.MoveNextAsync()).ShouldBeTrue(); // First ProviderDelta
+
+            await producerBlockedGate.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+            var disposeTask = enumerator.DisposeAsync().AsTask();
+            await disposeTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+            snapshot.IsDisposed.ShouldBeTrue("Lease must be disposed after backpressure cancellation.");
+        }
+        finally
+        {
+            await enumerator.DisposeAsync();
+        }
+    }
+
+    [Fact]
+    public async Task TranslateAsync_SnapshotCacheDisabled_DoesNotCallTryGetOrTrySet_ProviderSucceeds()
+    {
+        var (reg1, prov1) = CreateRegisteredProvider("prov-1");
+        var settings = CreateDefaultSettings(reg1.Profile) with
+        {
+            Translation = new TranslationSettings
+            {
+                Providers = [reg1.Profile],
+                CacheEnabled = false
+            }
+        };
+
+        var snapshot = new TestSnapshot(settings, [reg1]);
+        var registry = new TestRegistry { CurrentSnapshot = snapshot };
+        var cache = new TrackingCache(CreateCache(settings));
+
+        var orchestrator = CreateOrchestrator(registry, cache);
+        var request = new TranslationRequest
+        {
+            Text = "Hello world",
+            Origin = TextOrigin.Input
+        };
+
+        var events = new List<TranslationEvent>();
+        await foreach (var evt in orchestrator.TranslateAsync(request, TestContext.Current.CancellationToken))
+        {
+            events.Add(evt);
+        }
+
+        cache.TryGetCount.ShouldBe(0, "TryGet must not be called when CacheEnabled is false in snapshot.");
+        cache.TrySetCount.ShouldBe(0, "TrySet must not be called when CacheEnabled is false in snapshot.");
+
+        var completed = events.OfType<ProviderCompleted>().Single();
+        completed.FromCache.ShouldBeFalse();
+        completed.Text.ShouldBe("translated text");
+
+        var finished = events.OfType<TranslationFinished>().Single();
+        finished.SucceededCount.ShouldBe(1);
+        finished.FailedCount.ShouldBe(0);
+    }
+
+    [Fact]
+    public async Task TranslateAsync_DisposeAsyncThrows_WithoutPrimaryFailure_FailsProviderWithUnknownError_NoCompletedOrCacheOrHistory()
+    {
+        var (reg1, prov1) = CreateDirectProvider("prov-1", (req, ct) => new DisposableFailingEnumerable());
+
+        var (reg2, prov2) = CreateRegisteredProvider("prov-2");
+        var settings = CreateDefaultSettings(reg1.Profile, reg2.Profile);
+        var snapshot = new TestSnapshot(settings, [reg1, reg2]);
+        var registry = new TestRegistry { CurrentSnapshot = snapshot };
+        var cache = new TrackingCache(CreateCache(settings));
+        var history = new FakeHistoryRepository();
+
+        prov2.StreamHandler = (req, ct) => NormalStream();
+        static async IAsyncEnumerable<TranslationChunk> NormalStream()
+        {
+            await Task.Yield();
+            yield return new TranslationChunk("Provider 2 text", FinishReason: TranslationFinishReason.Completed);
+        }
+
+        var orchestrator = CreateOrchestrator(registry, cache, history);
+        var request = new TranslationRequest
+        {
+            Text = "Hello",
+            Origin = TextOrigin.Input,
+            ProviderIds = ["prov-1", "prov-2"],
+            RecordHistory = true
+        };
+
+        var events = new List<TranslationEvent>();
+        await foreach (var evt in orchestrator.TranslateAsync(request, TestContext.Current.CancellationToken))
+        {
+            events.Add(evt);
+        }
+
+        var prov1Failed = events.OfType<ProviderFailed>().Single(f => f.ProviderId == "prov-1");
+        prov1Failed.Error.Code.ShouldBe(ErrorCode.Unknown);
+        prov1Failed.Error.Detail.ShouldBe(nameof(CustomDisposeException));
+        events.OfType<ProviderCompleted>().Any(c => c.ProviderId == "prov-1").ShouldBeFalse("Failed provider must not yield ProviderCompleted.");
+
+        var prov2Completed = events.OfType<ProviderCompleted>().Single(c => c.ProviderId == "prov-2");
+        prov2Completed.Text.ShouldBe("Provider 2 text");
+
+        var finished = events.OfType<TranslationFinished>().Single();
+        finished.SucceededCount.ShouldBe(1);
+        finished.FailedCount.ShouldBe(1);
+
+        cache.TrySetCount.ShouldBe(1);
+
+        history.SavedRecords.Count.ShouldBe(1);
+        var historyEntry = history.SavedRecords.Single();
+        historyEntry.Results.Count.ShouldBe(1);
+        historyEntry.Results[0].ProviderId.ShouldBe("prov-2");
+    }
+
+    [Fact]
+    public async Task TranslateAsync_DisposeAsyncThrows_WithPrimaryTimeout_RetainsPrimaryTimeoutError_NoDoubleFinalEvents()
+    {
+        var (reg1, prov1) = CreateDirectProvider("prov-1", (req, ct) => new FailingStreamWithDisposeError());
+
+        var settings = CreateDefaultSettings(reg1.Profile);
+        var snapshot = new TestSnapshot(settings, [reg1]);
+        var registry = new TestRegistry { CurrentSnapshot = snapshot };
+        var cache = new TrackingCache(CreateCache(settings));
+        var history = new FakeHistoryRepository();
+
+        var orchestrator = CreateOrchestrator(registry, cache, history);
+        var request = new TranslationRequest
+        {
+            Text = "Hello",
+            Origin = TextOrigin.Input,
+            RecordHistory = true
+        };
+
+        var events = new List<TranslationEvent>();
+        await foreach (var evt in orchestrator.TranslateAsync(request, TestContext.Current.CancellationToken))
+        {
+            events.Add(evt);
+        }
+
+        var failedEvents = events.OfType<ProviderFailed>().Where(f => f.ProviderId == "prov-1").ToList();
+        failedEvents.Count.ShouldBe(1, "Exactly one terminal event must be emitted.");
+        failedEvents[0].Error.Code.ShouldBe(ErrorCode.Timeout);
+
+        events.OfType<ProviderCompleted>().Any(c => c.ProviderId == "prov-1").ShouldBeFalse();
+
+        var finished = events.OfType<TranslationFinished>().Single();
+        finished.SucceededCount.ShouldBe(0);
+        finished.FailedCount.ShouldBe(1);
+
+        cache.TrySetCount.ShouldBe(0);
+        history.SavedRecords.Count.ShouldBe(0);
+    }
+
+    [Fact]
+    public async Task TranslateAsync_TotalRequestBudget_AcrossMultipleProvidersAndCacheHit_FailsExceededProviderAndDoesNotOverflow()
+    {
+        var (reg1, prov1) = CreateRegisteredProvider("prov-1");
+        var (reg2, prov2) = CreateRegisteredProvider("prov-2");
+        var (reg3, prov3) = CreateRegisteredProvider("prov-3");
+        var (reg4, prov4) = CreateRegisteredProvider("prov-4");
+        var (reg5, prov5) = CreateRegisteredProvider("prov-5");
+
+        var settings = CreateDefaultSettings(reg1.Profile, reg2.Profile, reg3.Profile, reg4.Profile, reg5.Profile) with
+        {
+            Translation = new TranslationSettings
+            {
+                Providers = [reg1.Profile, reg2.Profile, reg3.Profile, reg4.Profile, reg5.Profile],
+                MaxConcurrentProviders = 1
+            }
+        };
+        var registry = new TestRegistry { SnapshotFactory = () => new TestSnapshot(settings, [reg1, reg2, reg3, reg4, reg5]) };
+        var cache = CreateCache(settings);
+
+        static async IAsyncEnumerable<TranslationChunk> GenerateStream(int totalChars)
+        {
+            await Task.Yield();
+            var chunk4000 = new string('X', 4000);
+            int count = totalChars / 4000;
+            for (int i = 0; i < count; i++)
+            {
+                yield return new TranslationChunk(chunk4000);
+            }
+            int remainder = totalChars % 4000;
+            if (remainder > 0)
+            {
+                yield return new TranslationChunk(new string('X', remainder));
+            }
+            yield return new TranslationChunk("end", FinishReason: TranslationFinishReason.Completed);
+        }
+
+        // Prime cache for prov-1 with 500,000 chars (within MaxEntryBytes)
+        prov1.StreamHandler = (req, ct) => GenerateStream(500_000);
+        prov2.StreamHandler = (req, ct) => GenerateStream(1_000_000);
+        prov3.StreamHandler = (req, ct) => GenerateStream(1_000_000);
+        prov4.StreamHandler = (req, ct) => GenerateStream(1_000_000);
+        prov5.StreamHandler = (req, ct) => GenerateStream(1_000_000);
+
+        var orchestrator = CreateOrchestrator(registry, cache);
+
+        // Run priming request for prov-1
+        var primeRequest = new TranslationRequest
+        {
+            Text = "Hello",
+            Origin = TextOrigin.Input,
+            ProviderIds = ["prov-1"],
+            RecordHistory = false
+        };
+        await foreach (var evt in orchestrator.TranslateAsync(primeRequest, TestContext.Current.CancellationToken))
+        {
+        }
+        var request = new TranslationRequest
+        {
+            Text = "Hello",
+            Origin = TextOrigin.Input,
+            ProviderIds = ["prov-1", "prov-2", "prov-3", "prov-4", "prov-5"]
+        };
+
+        var events = new List<TranslationEvent>();
+        await foreach (var evt in orchestrator.TranslateAsync(request, TestContext.Current.CancellationToken))
+        {
+            events.Add(evt);
+        }
+
+        var comp1 = events.OfType<ProviderCompleted>().Single(c => c.ProviderId == "prov-1");
+        comp1.FromCache.ShouldBeTrue();
+
+        var comp2 = events.OfType<ProviderCompleted>().Single(c => c.ProviderId == "prov-2");
+        comp2.FromCache.ShouldBeFalse();
+        var comp3 = events.OfType<ProviderCompleted>().Single(c => c.ProviderId == "prov-3");
+        comp3.FromCache.ShouldBeFalse();
+        var comp4 = events.OfType<ProviderCompleted>().Single(c => c.ProviderId == "prov-4");
+        comp4.FromCache.ShouldBeFalse();
+
+        var fail5 = events.OfType<ProviderFailed>().Single(f => f.ProviderId == "prov-5");
+        fail5.Error.Code.ShouldBe(ErrorCode.InvalidResponse);
+        fail5.Error.Message.ShouldBe("翻译结果超过本地长度限制");
+
+        var finished = events.OfType<TranslationFinished>().Single();
+        finished.SucceededCount.ShouldBe(4);
+        finished.FailedCount.ShouldBe(1);
     }
 
     #endregion

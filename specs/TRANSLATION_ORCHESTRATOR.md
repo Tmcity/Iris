@@ -48,6 +48,7 @@ TranslationStarted.Providers 是独立只读列表。已知项使用捕获的 De
 - 校验 EOF 并完成枚举器 DisposeAsync 后，才发布 ProviderCompleted，Text 为完整权威值。Truncated=true 计为成功，但不写缓存；历史保留截断标记。
 - 单 Provider 的 IrisException 转为其 ErrorInfo，并归一 ProviderId；其它异常（含没有发生请求取消的 OCE）转为 Unknown。日志只记请求/Provider ID、错误码和异常类型，不传原始异常对象或正文/Prompt/密钥。
 - 请求已取消时，Provider 的取消/退出不再产生失败卡片事件。清理异常不得覆盖已确定的主要失败或导致双重终态。
+- 释放结果的细化：已有流处理/校验失败时保留主失败并安全记录清理错误；没有主失败时，DisposeAsync 异常作为该 Provider 的失败，不能继续 Completed 或写该项缓存/历史。终态在流校验和释放都结束后确定。
 
 ## 4. 有界传递与输出上限
 
