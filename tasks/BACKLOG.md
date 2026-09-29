@@ -69,7 +69,7 @@
 | T-010B | ☑ | 深度不可变设置快照（架构审查 A02） | T-010A | 0.75d |
 | T-011 | ☑ | TranslationProviderRegistry、凭据解析与快照租约（含 R1/R2） | T-004, T-010B | 1.5d |
 | T-012 | ☑ | 请求配置/PreparedPrompt 入口、执行版本键与有界 LruTranslationCache（含 R1） | T-011 | 1.5d |
-| T-034 | ▶ | DatabaseInitializer + SqliteHistoryRepository（T-034-R1 返工，原 M7 前移） | T-003, T-012 | 1.5d |
+| T-034 | ▶ | DatabaseInitializer + SqliteHistoryRepository（T-034-R2 收尾，原 M7 前移） | T-003, T-012 | 1.5d |
 | T-013 | ☐ | TranslationOrchestrator | T-011, T-012, T-034 | 1.5d |
 
 > T-006/T-007 与 T-008、T-009 与 T-010 的历史并行安排保留。当前后续顺序为 T-012 → T-034（提前交付真实历史仓储）→ T-013；保留原编号。T-012 的请求快照/执行版本和缓存规则已由 TRANSLATION_EXECUTION.md / CCR-004 定稿。
@@ -92,7 +92,7 @@
 
 **T-012** — ☑ 提交 2daec76 于 2026-09-29 复审通过，CCR-004 结案。独立构建零警告、968 项测试通过；初始三种配置代次均为 0，13 项隔离检查通过；移除总预算的变异被新测试明确拒绝。报告更正接受。C12-1 纯测试补强已随 e131ecd 核对并接受，缓存不再有此遗留。
 
-**T-034（前移）** — ▶ e131ecd 复审未通过，已签发 T-034-R1。独立构建零警告、995 项测试通过；隔离探针确认异常链泄漏、未来/不兼容库被修改、缺触发器仍通过、读取占写锁及事务开启异常外漏、不存在 id 触发修剪、排队写入使用旧容量。CCR-005 同步正确但行为待返工，T-013 暂不签发。
+**T-034（前移）** — ▶ 9ffa57a 的 R1 主要修复接受，独立构建零警告、1004 项测试通过，上轮反例复测改善。仍会接受错误触发器/伪 FTS/错误主键，预检后读到版本 99 仍初始化成功，取消与存储故障竞争未按 OCE 处理；签发 T-034-R2，只收尾这些边界与报告，CCR-005 待复审，T-013 暂不签发。
 
 **T-013** 交付 ARCH §7.1 + CONTRACTS 中 `ITranslationOrchestrator` 注释描述的全部语义。验收：事件顺序保证；多个 Provider 输出交错时仍能正确归属；一个 Provider 失败不影响其他 Provider；并发度上限生效（用受控的假 Provider 断言最大并发数）；缓存命中时直接返回 FromCache；BypassCache 生效；截断结果不写入缓存；历史写入条件（至少一个成功、RecordHistory 为 true、History.Enabled 为 true）；取消后所有 Provider 都收到取消信号且不写历史；消费者提前 break 时子任务被取消；请求级错误在第一次 MoveNext 时抛出。
 

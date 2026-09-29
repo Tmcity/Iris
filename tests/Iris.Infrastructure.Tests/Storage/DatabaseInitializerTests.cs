@@ -463,4 +463,190 @@ public sealed class DatabaseInitializerTests
             val.ShouldBe(123);
         }
     }
+
+    [Fact]
+    public async Task InitializeAsync_BadTrigger_WithoutWhereClause_ThrowsStorageFailure()
+    {
+        var ct = TestContext.Current.CancellationToken;
+        using var tempDir = new TempDirectory();
+        var paths = new FakeAppPaths(tempDir.Path);
+        var factory = new SqliteConnectionFactory(paths);
+
+        // 先正常初始化为 V2
+        using (var init1 = new DatabaseInitializer(factory, NullLogger<DatabaseInitializer>.Instance))
+        {
+            await init1.InitializeAsync(ct);
+        }
+
+        // 替换为缺少 WHERE rowid = old.id 的错误触发器（这会导致删除一条历史抹掉全部 FTS 索引）
+        using (var conn = factory.CreateConnection())
+        {
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = "DROP TRIGGER trg_history_delete_fts; CREATE TRIGGER trg_history_delete_fts AFTER DELETE ON translation_history BEGIN DELETE FROM history_fts; END;";
+            cmd.ExecuteNonQuery();
+        }
+
+        using var init2 = new DatabaseInitializer(factory, NullLogger<DatabaseInitializer>.Instance);
+        var ex = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await init2.InitializeAsync(ct);
+        });
+
+        ex.Code.ShouldBe(ErrorCode.StorageFailure);
+    }
+
+    [Fact]
+    public async Task InitializeAsync_FakeFtsTable_NormalTableWithFtsColumns_ThrowsStorageFailure()
+    {
+        var ct = TestContext.Current.CancellationToken;
+        using var tempDir = new TempDirectory();
+        var paths = new FakeAppPaths(tempDir.Path);
+        var factory = new SqliteConnectionFactory(paths);
+
+        // 先正常初始化为 V2
+        using (var init1 = new DatabaseInitializer(factory, NullLogger<DatabaseInitializer>.Instance))
+        {
+            await init1.InitializeAsync(ct);
+        }
+
+        // 替换为普通表，带有 fts5 与 trigram 列名（模拟伪造的 FTS 表）
+        using (var conn = factory.CreateConnection())
+        {
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = "DROP TABLE history_fts; CREATE TABLE history_fts (source_text TEXT, result_text TEXT, fts5 TEXT, trigram TEXT);";
+            cmd.ExecuteNonQuery();
+        }
+
+        using var init2 = new DatabaseInitializer(factory, NullLogger<DatabaseInitializer>.Instance);
+        var ex = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await init2.InitializeAsync(ct);
+        });
+
+        ex.Code.ShouldBe(ErrorCode.StorageFailure);
+    }
+
+    [Fact]
+    public async Task InitializeAsync_WrongPrimaryKey_TextPrimaryKey_ThrowsStorageFailure()
+    {
+        var ct = TestContext.Current.CancellationToken;
+        using var tempDir = new TempDirectory();
+        var paths = new FakeAppPaths(tempDir.Path);
+        var factory = new SqliteConnectionFactory(paths);
+
+        // 构造一个 translation_history.id 为 TEXT PRIMARY KEY 的错误结构
+        using (var conn = factory.CreateConnection())
+        {
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = """
+                CREATE TABLE translation_history (
+                    id              TEXT PRIMARY KEY,
+                    created_at      TEXT    NOT NULL,
+                    origin          TEXT    NOT NULL,
+                    source_text     TEXT    NOT NULL,
+                    source_lang     TEXT    NOT NULL,
+                    target_lang     TEXT    NOT NULL,
+                    text_hash       TEXT    NOT NULL,
+                    is_favorite     INTEGER NOT NULL DEFAULT 0 CHECK (is_favorite IN (0, 1))
+                );
+
+                CREATE TABLE translation_result (
+                    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+                    history_id      INTEGER NOT NULL REFERENCES translation_history (id) ON DELETE CASCADE,
+                    sort_order      INTEGER NOT NULL,
+                    provider_id     TEXT    NOT NULL,
+                    provider_name   TEXT    NOT NULL,
+                    model           TEXT,
+                    result_text     TEXT    NOT NULL,
+                    is_truncated    INTEGER NOT NULL DEFAULT 0
+                );
+
+                CREATE INDEX ix_history_created_at ON translation_history (created_at DESC, id DESC);
+                CREATE INDEX ix_history_favorite   ON translation_history (is_favorite, created_at DESC, id DESC);
+                CREATE INDEX ix_history_hash       ON translation_history (text_hash, source_lang, target_lang);
+                CREATE INDEX ix_result_history     ON translation_result (history_id, sort_order);
+
+                CREATE VIRTUAL TABLE history_fts USING fts5 (
+                    source_text,
+                    result_text,
+                    tokenize = 'trigram'
+                );
+
+                CREATE TRIGGER trg_history_delete_fts
+                AFTER DELETE ON translation_history
+                BEGIN
+                    DELETE FROM history_fts WHERE rowid = old.id;
+                END;
+
+                PRAGMA user_version = 2;
+                """;
+            cmd.ExecuteNonQuery();
+        }
+
+        using var init = new DatabaseInitializer(factory, NullLogger<DatabaseInitializer>.Instance);
+        var ex = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await init.InitializeAsync(ct);
+        });
+
+        ex.Code.ShouldBe(ErrorCode.StorageFailure);
+    }
+
+    [Fact]
+    public async Task InitializeAsync_VersionChangedToUnsupportedAfterPrecheck_ThrowsStorageFailure_AndDoesNotModifyDatabase()
+    {
+        var ct = TestContext.Current.CancellationToken;
+        using var tempDir = new TempDirectory();
+        var paths = new FakeAppPaths(tempDir.Path);
+        var factory = new SqliteConnectionFactory(paths);
+
+        // 先正常初始化
+        using (var init1 = new DatabaseInitializer(factory, NullLogger<DatabaseInitializer>.Instance))
+        {
+            await init1.InitializeAsync(ct);
+        }
+
+        // 将模式显式设置为 DELETE
+        using (var conn = factory.CreateConnection())
+        {
+            using var cmd = conn.CreateCommand();
+            cmd.CommandText = "PRAGMA journal_mode = DELETE;";
+            cmd.ExecuteNonQuery();
+        }
+
+        var readOnlyCallCount = 0;
+        factory.OnConnectionCreated = conn =>
+        {
+            // 在只读预检之后，写连接打开并创建时，将 user_version 推进到 99
+            if (readOnlyCallCount >= 1)
+            {
+                using var cmd = conn.CreateCommand();
+                cmd.CommandText = "PRAGMA user_version = 99;";
+                cmd.ExecuteNonQuery();
+            }
+            else
+            {
+                readOnlyCallCount++;
+            }
+        };
+
+        using var init2 = new DatabaseInitializer(factory, NullLogger<DatabaseInitializer>.Instance);
+        var ex = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await init2.InitializeAsync(ct);
+        });
+
+        ex.Code.ShouldBe(ErrorCode.StorageFailure);
+
+        factory.OnConnectionCreated = null;
+
+        // 验证 journal_mode 保持为 DELETE，未被切换到 WAL
+        using (var checkConn = factory.CreateReadOnlyConnection())
+        {
+            using var checkCmd = checkConn.CreateCommand();
+            checkCmd.CommandText = "PRAGMA journal_mode;";
+            var jm = (checkCmd.ExecuteScalar() as string)?.ToLowerInvariant();
+            jm.ShouldBe("delete");
+        }
+    }
 }

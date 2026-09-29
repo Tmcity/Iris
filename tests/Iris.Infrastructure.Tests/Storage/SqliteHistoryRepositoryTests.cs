@@ -962,16 +962,23 @@ public sealed class SqliteHistoryRepositoryTests
             using var lockCmd = externalConn.CreateCommand();
             lockCmd.Transaction = externalTx;
             lockCmd.CommandText = "PRAGMA locking_mode = EXCLUSIVE; SELECT COUNT(*) FROM translation_history;";
-            lockCmd.ExecuteNonQuery();
+            // 为了在受控时间内触发锁冲突且不取消 Token，将待创建连接的 busy_timeout 设为 100ms
+            factory.OnConnectionCreated = conn =>
+            {
+                using var cmd = conn.CreateCommand();
+                cmd.CommandText = "PRAGMA busy_timeout = 100;";
+                cmd.ExecuteNonQuery();
+            };
 
-            using var shortCts = new CancellationTokenSource(TimeSpan.FromMilliseconds(500));
             var ex = await Should.ThrowAsync<IrisException>(async () =>
             {
-                await repo.AddAsync(CreateEntry("Lock conflict entry"), shortCts.Token);
+                await repo.AddAsync(CreateEntry("Lock conflict entry"), ct);
             });
 
             ex.Code.ShouldBe(ErrorCode.StorageFailure);
             ex.InnerException.ShouldBeNull();
+
+            factory.OnConnectionCreated = null;
         }
     }
 
@@ -1024,6 +1031,143 @@ public sealed class SqliteHistoryRepositoryTests
             isThreadPoolList.All(isTp => isTp).ShouldBeTrue();
 
             factory.OnConnectionOpened = null;
+        }
+    }
+
+    [Fact]
+    public async Task Transactions_CancellationDuringOpen_ThenLockConflict_ThrowsOperationCanceledException_NotStorageFailure()
+    {
+        var ct = TestContext.Current.CancellationToken;
+        using var tempDir = new TempDirectory();
+        var (repo, initializer, factory, _) = CreateRepository(tempDir.Path);
+        using (repo)
+        using (initializer)
+        {
+            await initializer.InitializeAsync(ct);
+
+            // 外部连接持有排他写事务
+            using var externalConn = factory.CreateConnection();
+            using var externalTx = externalConn.BeginTransaction(deferred: false);
+            using var lockCmd = externalConn.CreateCommand();
+            lockCmd.Transaction = externalTx;
+            lockCmd.CommandText = "PRAGMA locking_mode = EXCLUSIVE; SELECT COUNT(*) FROM translation_history;";
+            lockCmd.ExecuteNonQuery();
+
+            using var cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+
+            // 在连接打开后立即取消令牌
+            factory.OnConnectionOpened = _ =>
+            {
+                cts.Cancel();
+            };
+
+            // 随后进入 BeginTransaction 遭遇外部锁冲突，因令牌已取消，必须优先抛出 OCE，严禁外漏或报告为 StorageFailure
+            await Should.ThrowAsync<OperationCanceledException>(async () =>
+            {
+                await repo.AddAsync(CreateEntry("Conflict entry"), cts.Token);
+            });
+
+            factory.OnConnectionOpened = null;
+        }
+    }
+
+    [Fact]
+    public async Task Transactions_CancellationDuringBatchInsert_RollsBack_AndThrowsOperationCanceledException()
+    {
+        var ct = TestContext.Current.CancellationToken;
+        using var tempDir = new TempDirectory();
+        var (repo, initializer, factory, _) = CreateRepository(tempDir.Path);
+        using (repo)
+        using (initializer)
+        {
+            await initializer.InitializeAsync(ct);
+
+            using var batchCts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+
+            factory.OnConnectionCreated = conn =>
+            {
+                conn.CreateFunction("test_cancel_during_batch", () =>
+                {
+                    batchCts.Cancel();
+                    return 1;
+                });
+            };
+
+            using (var setupConn = factory.CreateConnection())
+            {
+                using var cmd = setupConn.CreateCommand();
+                cmd.CommandText = """
+                    CREATE TRIGGER trg_test_cancel_during_batch
+                    BEFORE INSERT ON translation_result
+                    WHEN NEW.sort_order = 1
+                    BEGIN
+                        SELECT test_cancel_during_batch();
+                    END;
+                    """;
+                cmd.ExecuteNonQuery();
+            }
+
+            var entry = new HistoryEntry
+            {
+                Origin = TextOrigin.Input,
+                SourceText = "Batch cancel source",
+                SourceLanguage = "en",
+                TargetLanguage = "zh-CN",
+                CreatedAt = DateTimeOffset.UtcNow,
+                IsFavorite = false,
+                Results =
+                [
+                    new HistoryResult("p1", "Provider 1", "m1", "t1"),
+                    new HistoryResult("p2", "Provider 2", "m2", "t2"),
+                    new HistoryResult("p3", "Provider 3", "m3", "t3")
+                ]
+            };
+
+            await Should.ThrowAsync<OperationCanceledException>(async () =>
+            {
+                await repo.AddAsync(entry, batchCts.Token);
+            });
+
+            // 批量插入中途取消应导致事务完整回滚，主表、子表和 FTS 均无残留数据
+            using (var checkConn = factory.CreateConnection())
+            {
+                using var cmd = checkConn.CreateCommand();
+                cmd.CommandText = "SELECT COUNT(*) FROM translation_history;";
+                Convert.ToInt64(cmd.ExecuteScalar(), CultureInfo.InvariantCulture).ShouldBe(0);
+
+                cmd.CommandText = "SELECT COUNT(*) FROM translation_result;";
+                Convert.ToInt64(cmd.ExecuteScalar(), CultureInfo.InvariantCulture).ShouldBe(0);
+
+                cmd.CommandText = "SELECT COUNT(*) FROM history_fts;";
+                Convert.ToInt64(cmd.ExecuteScalar(), CultureInfo.InvariantCulture).ShouldBe(0);
+            }
+
+            factory.OnConnectionCreated = null;
+        }
+    }
+
+    [Fact]
+    public async Task Transactions_LateCancellationAfterCommit_ReturnsResult_AndDoesNotRollBack()
+    {
+        var ct = TestContext.Current.CancellationToken;
+        using var tempDir = new TempDirectory();
+        var (repo, initializer, factory, _) = CreateRepository(tempDir.Path);
+        using (repo)
+        using (initializer)
+        {
+            await initializer.InitializeAsync(ct);
+
+            using var cts = CancellationTokenSource.CreateLinkedTokenSource(ct);
+
+            // 提交成功后即便取消令牌，操作仍保持既定成功结果，不伪报失败或取消
+            var id = await repo.AddAsync(CreateEntry("Committed entry"), cts.Token);
+            cts.Cancel();
+
+            id.ShouldBeGreaterThan(0);
+
+            var entry = await repo.GetAsync(id, ct);
+            entry.ShouldNotBeNull();
+            entry.SourceText.ShouldBe("Committed entry");
         }
     }
 }
