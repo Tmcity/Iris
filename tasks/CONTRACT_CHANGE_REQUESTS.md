@@ -322,7 +322,7 @@ ITranslationOrchestrator 的 summary 全部替换为：
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-09-29 |
-| 状态 | **已落地，待 T-034-R2 复审**（R1 主要修复接受；结构语义、写阶段版本与取消边界待收尾） |
+| 状态 | **已结案**（2026-09-29：T-034-R2 提交 2be09c3 独立复审通过） |
 | 依据 | HISTORY_STORAGE.md、DB_SCHEMA.sql V2；架构审查 A06 与历史语义遗留 |
 | 兼容性 | 当前没有历史仓储/UI 业务实现；Query 原型可调整。HistoryResult 保留原位置构造，旧 V1 数据通过 V2 升级；设置字段/默认值不变 |
 
@@ -411,3 +411,54 @@ IDatabaseInitializer 接口签名不变，summary 替换为：
 DB_SCHEMA.sql 已批准追加 V2（is_truncated 与索引），保留 V1 用于升级。允许 Infrastructure 增加 Microsoft.Data.Sqlite 10.0.12、Dapper 2.1.89 的包引用及中央版本，两者均在现有白名单。T-034 只执行明确版本的迁移，不任意修改已存在用户数据库。
 
 实施后将 CCR-005 标为“已落地，待复审”，架构师独立验收后结案。
+
+## CCR-006：编排器事件、选择与正常收尾语义
+
+| 字段 | 值 |
+|---|---|
+| 批准 | 架构师 Codex，2026-09-29 |
+| 状态 | **已落地，待复审** |
+| 依据 | TRANSLATION_ORCHESTRATOR.md；T-012/T-034 已提供真实依赖 |
+| 兼容性 | 不变更公开签名、事件字段、默认值或 JSON；只细化尚未实现编排器的注释和语义 |
+
+由 T-013 同步下列注释到 CONTRACTS.cs 与落地文件，保留其它定义。
+
+### 1. Translation/ITranslationOrchestrator.cs
+
+将 ITranslationOrchestrator 的 summary 全部替换为：
+
+```csharp
+/// <summary>
+/// 翻译编排器（Core）。精确规则见 TRANSLATION_ORCHESTRATOR.md。
+/// 首次枚举检查取消、捕获请求与 ProviderIds，并在首次 await 前捕获缓存 Generation；随后借用 Registry 快照。
+/// 预处理、语言、模板及执行开关使用快照，排队前固定 PreparedPrompt 与缓存键；空输入/超长输入在首次枚举抛出。
+/// ProviderIds=null 选已启用且已配置项，无可用项或显式空集合抛 NotConfigured；显式非空列表精确去重并保持请求顺序。
+/// 显式不存在/禁用/未配置项仍产出失败卡片。每项 Started→Delta*→Completed/Failed；不同项互不因单项失败取消。
+/// 真实调用并发度不超过快照配置，事件用有界背压传递；缓存命中不调用 Provider，BypassCache 只跳过读取。
+/// 全部子任务退出并读尽事件、最后取消检查通过后进入正常收尾；此前取消抛 OCE，提前结束消费取消并等待子任务，均不写本次缓存/历史。
+/// 正常收尾阶段将新鲜完整成功值以原 Generation 尝试缓存，按 RecordHistory/快照 History.Enabled 条件保存成功结果（含截断标记）。
+/// 收尾后的迟到取消不撤回既定完成结果；历史保存有独立取消预算，失败只记安全日志，最后产出 TranslationFinished。
+/// 请求级错误/正常收尾前取消/提前结束没有 Finished；租约在全部 Provider 清理后、Finished 前释放。
+/// </summary>
+```
+
+ITextPreprocessor 及其重载保持原样。
+
+### 2. Translation/TranslationModels.cs
+
+TranslationRequest.ProviderIds 的注释替换为：
+
+```csharp
+/// <summary>null = 所有已启用且已配置项；空集合抛 NotConfigured；非空列表按序数精确去重并保持首次出现顺序。
+/// 不存在/禁用/未配置项生成失败卡片；首次枚举复制列表，之后外部修改不影响请求。</summary>
+```
+
+TranslationEvent 之前的顺序注释替换为：
+
+```csharp
+// 正常顺序：TranslationStarted 唯一最先；每项 ProviderStarted → ProviderDelta* →
+// (ProviderCompleted | ProviderFailed)，TranslationFinished 唯一最后。不同 Provider 事件可交错。
+// 请求级错误、正常收尾前取消及消费者提前结束不产生 TranslationFinished。
+```
+
+不新增公开限制类型，固定内部输出/队列/历史超时常量以 TRANSLATION_ORCHESTRATOR.md 为准。实施后将 CCR-006 标为“已落地，待复审”。

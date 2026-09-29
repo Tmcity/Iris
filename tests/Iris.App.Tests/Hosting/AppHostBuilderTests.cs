@@ -52,6 +52,7 @@ public sealed class AppHostBuilderTests
         var configObserver = host.Services.GetService<IProviderConfigurationObserver>();
         var databaseInitializer = host.Services.GetService<IDatabaseInitializer>();
         var historyRepository = host.Services.GetService<ITranslationHistoryRepository>();
+        var orchestrator = host.Services.GetService<ITranslationOrchestrator>();
         var bootstrapper = host.Services.GetService<AppBootstrapper>();
 
         settingsService.ShouldNotBeNull();
@@ -63,6 +64,7 @@ public sealed class AppHostBuilderTests
         configObserver.ShouldNotBeNull();
         databaseInitializer.ShouldNotBeNull();
         historyRepository.ShouldNotBeNull();
+        orchestrator.ShouldNotBeNull();
         bootstrapper.ShouldNotBeNull();
     }
 
@@ -79,9 +81,12 @@ public sealed class AppHostBuilderTests
         var initializer2 = host.Services.GetRequiredService<IDatabaseInitializer>();
         var repository1 = host.Services.GetRequiredService<ITranslationHistoryRepository>();
         var repository2 = host.Services.GetRequiredService<ITranslationHistoryRepository>();
+        var orchestrator1 = host.Services.GetRequiredService<ITranslationOrchestrator>();
+        var orchestrator2 = host.Services.GetRequiredService<ITranslationOrchestrator>();
 
         initializer1.ShouldBeSameAs(initializer2);
         repository1.ShouldBeSameAs(repository2);
+        orchestrator1.ShouldBeSameAs(orchestrator2);
     }
 
     [Fact]

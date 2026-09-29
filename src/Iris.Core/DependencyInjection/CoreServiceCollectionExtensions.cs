@@ -28,6 +28,9 @@ public static class CoreServiceCollectionExtensions
 
         services.TryAddSingleton<ITranslationCache, LruTranslationCache>();
 
+        services.TryAddSingleton(TimeProvider.System);
+        services.TryAddSingleton<ITranslationOrchestrator, TranslationOrchestrator>();
+
         return services;
     }
 }

@@ -3,19 +3,16 @@ using Iris.Core.Settings;
 namespace Iris.Core.Translation;
 
 /// <summary>
-/// 翻译编排器（Core 内实现）。TranslateAsync 语义：
-/// 1) 首次枚举借用 Registry 快照；预处理、语言、模板与执行选项全部使用 Snapshot.Settings。
-///    预处理后空文本抛 IrisException(InputEmpty)；超过 MaxInputChars 抛 InputTooLong。
-/// 2) ProviderIds 为 null 时选择快照中 IsConfigured 的 Provider；空集合或没有可用项时抛 NotConfigured。
-///    显式指定但不存在/未配置的项产出对应 ProviderFailed(NotConfigured)。
-/// 3) 在排队前准备每项 PreparedPrompt、实际请求缓存键与缓存 Generation；后续不读取动态设置重算。
-/// 4) BypassCache=false 且 CacheEnabled 时查缓存；命中产出 ProviderStarted、ProviderCompleted(FromCache=true)。
-///    否则调用流式接口，并发度不超过快照中的 MaxConcurrentProviders，事件由有界 Channel 合并。
-/// 5) 单个 Provider 失败不影响其它项，转为 ProviderFailed；失败/取消/截断不写缓存。
-/// 6) 全部子任务结束后，未截断成功值以原 Generation 尝试写缓存；BypassCache 只跳过读取。
-///    RecordHistory 且快照 History.Enabled 且至少一个成功时写历史，写入失败只记安全日志。
-/// 7) 调用取消或消费者提前结束时取消并等待全部子任务退出，再释放租约；调用取消抛 OperationCanceledException，不写历史。
-/// 请求级错误在首次 MoveNextAsync 抛出。精确选择、事件与资源边界见 TRANSLATION_EXECUTION.md 和 T-013 工单。
+/// 翻译编排器（Core）。精确规则见 TRANSLATION_ORCHESTRATOR.md。
+/// 首次枚举检查取消、捕获请求与 ProviderIds，并在首次 await 前捕获缓存 Generation；随后借用 Registry 快照。
+/// 预处理、语言、模板及执行开关使用快照，排队前固定 PreparedPrompt 与缓存键；空输入/超长输入在首次枚举抛出。
+/// ProviderIds=null 选已启用且已配置项，无可用项或显式空集合抛 NotConfigured；显式非空列表精确去重并保持请求顺序。
+/// 显式不存在/禁用/未配置项仍产出失败卡片。每项 Started→Delta*→Completed/Failed；不同项互不因单项失败取消。
+/// 真实调用并发度不超过快照配置，事件用有界背压传递；缓存命中不调用 Provider，BypassCache 只跳过读取。
+/// 全部子任务退出并读尽事件、最后取消检查通过后进入正常收尾；此前取消抛 OCE，提前结束消费取消并等待子任务，均不写本次缓存/历史。
+/// 正常收尾阶段将新鲜完整成功值以原 Generation 尝试缓存，按 RecordHistory/快照 History.Enabled 条件保存成功结果（含截断标记）。
+/// 收尾后的迟到取消不撤回既定完成结果；历史保存有独立取消预算，失败只记安全日志，最后产出 TranslationFinished。
+/// 请求级错误/正常收尾前取消/提前结束没有 Finished；租约在全部 Provider 清理后、Finished 前释放。
 /// </summary>
 public interface ITranslationOrchestrator
 {

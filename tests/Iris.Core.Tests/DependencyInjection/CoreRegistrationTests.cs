@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Iris.Core.DependencyInjection;
 using Iris.Core.Languages;
 using Iris.Core.Settings;
+using Iris.Core.Storage;
 using Iris.Core.Translation;
 using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
@@ -20,8 +21,10 @@ public sealed class CoreRegistrationTests
         var services = new ServiceCollection();
         var settingsMock = Substitute.For<ISettingsService>();
         var secretStoreMock = Substitute.For<Iris.Core.Security.ISecretStore>();
+        var historyMock = Substitute.For<ITranslationHistoryRepository>();
         services.AddSingleton(settingsMock);
         services.AddSingleton(secretStoreMock);
+        services.AddSingleton(historyMock);
         services.AddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
         services.AddSingleton(typeof(ILogger<>), typeof(NullLogger<>));
 
@@ -73,6 +76,11 @@ public sealed class CoreRegistrationTests
         var cache2 = provider.GetService<ITranslationCache>();
         cache1.ShouldNotBeNull();
         cache1.ShouldBeSameAs(cache2);
+
+        var orchestrator1 = provider.GetService<ITranslationOrchestrator>();
+        var orchestrator2 = provider.GetService<ITranslationOrchestrator>();
+        orchestrator1.ShouldNotBeNull();
+        orchestrator1.ShouldBeSameAs(orchestrator2);
     }
 
     [Fact]
@@ -81,8 +89,10 @@ public sealed class CoreRegistrationTests
         var services = new ServiceCollection();
         var settingsMock = Substitute.For<ISettingsService>();
         var secretStoreMock = Substitute.For<Iris.Core.Security.ISecretStore>();
+        var historyMock = Substitute.For<ITranslationHistoryRepository>();
         services.AddSingleton(settingsMock);
         services.AddSingleton(secretStoreMock);
+        services.AddSingleton(historyMock);
         services.AddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
         services.AddSingleton(typeof(ILogger<>), typeof(NullLogger<>));
 
@@ -100,5 +110,6 @@ public sealed class CoreRegistrationTests
         provider.GetServices<ITranslationProviderRegistry>().Count().ShouldBe(1);
         provider.GetServices<IProviderConfigurationObserver>().Count().ShouldBe(1);
         provider.GetServices<ITranslationCache>().Count().ShouldBe(1);
+        provider.GetServices<ITranslationOrchestrator>().Count().ShouldBe(1);
     }
 }

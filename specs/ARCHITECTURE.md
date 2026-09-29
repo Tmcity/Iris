@@ -1,6 +1,6 @@
 # Iris 架构设计说明书
 
-> 版本：v1.17 · 2026-09-29 · 状态：**已冻结（首期）**
+> 版本：v1.18 · 2026-09-29 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
@@ -18,7 +18,8 @@
 > 变更记录：v1.15（T-010B 通过后，签发 T-011）— 新增 PROVIDER_REGISTRY.md，确定不可变凭据集引用、注册表快照租约、刷新屏障与实例退休规则（A03/A04）；CCR-002 结案，CCR-003 批准尚未落地的 Registry 原型接口调整及可空 CredentialSetId 字段，由 T-011 同步实施。
 > 变更记录：v1.16（T-011 通过后，签发 T-012）— 新增 TRANSLATION_EXECUTION.md：固定请求设置/实际 Prompt、实例代次缓存键、清空代次与条数/字节双预算。CCR-004 批准显式配置重载和缓存原型修订；T-034 前移至 T-013 前，避免用丢弃历史的占位实现接线。
 > 变更记录：v1.17（T-012-R1 通过后，签发前移 T-034）— HISTORY_STORAGE.md / CCR-005 / DB_SCHEMA.sql V2 确定收藏保护、截断结果标记、非收藏容量、摘要分页与按需详情，以及后台 SQLite 初始化/事务/查询。CCR-004 结案。
-> 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json` · `specs/TRANSLATION_EXECUTION.md` · `specs/HISTORY_STORAGE.md`
+> 变更记录：v1.18（T-034-R2 通过后，签发 T-013）— TRANSLATION_ORCHESTRATOR.md / CCR-006 明确显式选择、事件顺序、输出预算、租约清理、取消与正常收尾，以及真实缓存/历史接线；CCR-005 结案。
+> 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json` · `specs/TRANSLATION_EXECUTION.md` · `specs/HISTORY_STORAGE.md` · `specs/TRANSLATION_ORCHESTRATOR.md`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
 ---
@@ -311,6 +312,8 @@ if outcome.UsedFallback → Notify(Info, "已使用备用 OCR", ...)（每次会
 
 ### 7.1 编排（`TranslationOrchestrator`）
 
+完整规范以 TRANSLATION_ORCHESTRATOR.md 为准。下图为流程概览；请求开始先捕获 Cache.Generation，正常读尽全部事件且最后取消检查通过后才进入缓存/历史收尾，之后迟到取消不撤回已完成结果。显式列表全部不可用时仍输出失败卡片，只有隐式选择无可用项或显式空集合才是请求级 NotConfigured。
+
 ```
 TranslateAsync(request, ct)
  ├─ lease = await Registry.AcquireSnapshotAsync(ct)
@@ -318,7 +321,7 @@ TranslateAsync(request, ct)
  ├─ text = ITextPreprocessor.Prepare(request.Text, request.Origin, settings.Translation)
  │    空 → throw InputEmpty；超长 → throw InputTooLong
  ├─ langs = ITargetLanguageResolver.Resolve(text, request.SourceLanguage, request.TargetLanguage, settings.Translation)
- ├─ providers = 从 lease.Providers 选取（见 CONTRACTS 注释）；为空 → throw NotConfigured
+ ├─ providers = 按 TRANSLATION_ORCHESTRATOR §2 选择并准备卡片
  ├─ yield TranslationStarted(langs, descriptors)
  ├─ 在排队前固定各项 PreparedPrompt、CacheKey 与缓存 Generation
  ├─ channel = Channel.CreateBounded<TranslationEvent>(容量128，FullMode=Wait)
@@ -331,7 +334,7 @@ TranslateAsync(request, ct)
  │    （OperationCanceledException 且 ct 已取消 → 不产出事件，直接结束）
  ├─ 所有任务结束后 channel.Writer.Complete()
  ├─ await foreach evt in channel.Reader.ReadAllAsync(ct) → yield evt
- ├─ 写缓存（未截断的成功结果）、写历史（条件见 CONTRACTS）
+ ├─ 最后取消检查成功 → 正常收尾：尝试缓存完整新鲜结果、限时保存历史
  └─ yield TranslationFinished(succeeded, failed)
 ```
 

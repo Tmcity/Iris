@@ -25,7 +25,8 @@ public sealed record TranslationRequest
     /// <summary>null = 由 ITargetLanguageResolver 自动决定。</summary>
     public string? TargetLanguage { get; init; }
 
-    /// <summary>null = 所有已启用且已配置的服务；非空 = 仅这些服务（用于单卡片重试）。</summary>
+    /// <summary>null = 所有已启用且已配置项；空集合抛 NotConfigured；非空列表按序数精确去重并保持首次出现顺序。
+    /// 不存在/禁用/未配置项生成失败卡片；首次枚举复制列表，之后外部修改不影响请求。</summary>
     public IReadOnlyList<string>? ProviderIds { get; init; }
 
     public TextOrigin Origin { get; init; } = TextOrigin.Input;
@@ -53,8 +54,9 @@ public sealed record ProviderTranslateRequest(string Text, string SourceLanguage
 }
 
 // ---------------- 翻译会话事件流 ----------------
-// 顺序保证：TranslationStarted 一定最先；每个 Provider 依次为 ProviderStarted → ProviderDelta* →
-// (ProviderCompleted | ProviderFailed)；TranslationFinished 一定最后。不同 Provider 的事件相互交错。
+// 正常顺序：TranslationStarted 唯一最先；每项 ProviderStarted → ProviderDelta* →
+// (ProviderCompleted | ProviderFailed)，TranslationFinished 唯一最后。不同 Provider 事件可交错。
+// 请求级错误、正常收尾前取消及消费者提前结束不产生 TranslationFinished。
 
 public abstract record TranslationEvent(Guid RequestId);
 

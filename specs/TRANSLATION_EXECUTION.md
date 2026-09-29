@@ -57,4 +57,4 @@ ITranslationCache 暴露 Generation 和 TrySet(key, text, generation)。编排�
 3. 有界 Channel（首期容量 128，FullMode=Wait）传递事件，终态不可丢；取消/消费者提前结束同时取消阻塞写入、等待子任务退出再释放租约。截断只影响该卡片，完整成功值才写缓存。
 4. 历史写入需要真实仓储。T-034 保留原编号但前移到 T-012 之后、T-013 之前，不用静默丢数据的生产占位仓储满足 DI。
 
-ProviderIds 精确选择、错误卡片与有界流的全部行为表在 T-013 工单细化。此处只确定跨任务不可违反的执行一致性与资源边界。
+ProviderIds 精确选择、错误卡片、有界流、取消与正常收尾的完整行为已在 TRANSLATION_ORCHESTRATOR.md / CCR-006 定稿。缓存 Generation 在首个 await 前捕获；正常收尾点以前的取消/提前结束不写缓存或历史，收尾点以后的迟到取消不撤回已完成结果。
