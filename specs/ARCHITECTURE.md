@@ -1,6 +1,6 @@
 # Iris 架构设计说明书
 
-> 版本：v1.16 · 2026-09-29 · 状态：**已冻结（首期）**
+> 版本：v1.17 · 2026-09-29 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
@@ -17,7 +17,8 @@
 > 变更记录：v1.14（T-010A-R1 通过后，签发 T-010B）— §12.2 明确设置 DTO 与运行时快照的边界、嵌套集合所有权及五处发布路径。CCR-001 已结案；CCR-002 批准设置快照的契约注释修订，不改变签名、默认值或 JSON 格式，由 T-010B 同步落地。
 > 变更记录：v1.15（T-010B 通过后，签发 T-011）— 新增 PROVIDER_REGISTRY.md，确定不可变凭据集引用、注册表快照租约、刷新屏障与实例退休规则（A03/A04）；CCR-002 结案，CCR-003 批准尚未落地的 Registry 原型接口调整及可空 CredentialSetId 字段，由 T-011 同步实施。
 > 变更记录：v1.16（T-011 通过后，签发 T-012）— 新增 TRANSLATION_EXECUTION.md：固定请求设置/实际 Prompt、实例代次缓存键、清空代次与条数/字节双预算。CCR-004 批准显式配置重载和缓存原型修订；T-034 前移至 T-013 前，避免用丢弃历史的占位实现接线。
-> 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json` · `specs/TRANSLATION_EXECUTION.md`
+> 变更记录：v1.17（T-012-R1 通过后，签发前移 T-034）— HISTORY_STORAGE.md / CCR-005 / DB_SCHEMA.sql V2 确定收藏保护、截断结果标记、非收藏容量、摘要分页与按需详情，以及后台 SQLite 初始化/事务/查询。CCR-004 结案。
+> 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json` · `specs/TRANSLATION_EXECUTION.md` · `specs/HISTORY_STORAGE.md`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
 ---
@@ -339,6 +340,7 @@ TranslateAsync(request, ct)
 - 注册表租约在全部子任务退出后释放，包括请求失败和提前结束路径；调用方不直接 Dispose 借出的 Provider。请求与缓存的精确一致性规则见 TRANSLATION_EXECUTION.md：实例代次与实际 PreparedPrompt 纳入键，Generation 拒绝清空前的迟到写入；T-012 提供能力，T-013 接入完整流程。
 - 缓存固定总记账预算 16 MiB、单条 1 MiB，并同时遵循 CacheCapacity。清空、禁用和重新启用有明确代次边界；不将全局 Clear 当作配置代次隔离的替代方案。
 - T-034 历史仓储前移到 T-013 之前；默认启用历史时必须实际持久化，不注入静默丢数据的生产替身。
+- 历史写入/收藏保护与查询以 HISTORY_STORAGE.md 为准：成功但截断的结果保留标记；列表只查询摘要，展开/复制/重译时读取详情。SQLite async API 不代表后台执行，由仓储显式调度整个数据库工作单元。
 - `Elapsed` 用 `Stopwatch` 从 ProviderStarted 开始计时。
 - 历史写入失败不影响事件流（记 Warning 日志即可）。
 

@@ -8,6 +8,7 @@ using Iris.App.Tray;
 using Iris.Core.Errors;
 using Iris.Core.Presentation;
 using Iris.Core.Settings;
+using Iris.Core.Storage;
 using Iris.Core.Translation;
 using Iris.Platform.Windows.SystemIntegration;
 using Microsoft.Extensions.Hosting;
@@ -24,6 +25,7 @@ internal sealed partial class AppBootstrapper
 {
     private readonly ISettingsService _settingsService;
     private readonly ITranslationProviderRegistry _translationRegistry;
+    private readonly IDatabaseInitializer _databaseInitializer;
     private readonly LogLevelController _logLevelController;
     private readonly ThemeService _themeService;
     private readonly TrayIconController _trayIconController;
@@ -39,6 +41,7 @@ internal sealed partial class AppBootstrapper
     public AppBootstrapper(
         ISettingsService settingsService,
         ITranslationProviderRegistry translationRegistry,
+        IDatabaseInitializer databaseInitializer,
         LogLevelController logLevelController,
         ThemeService themeService,
         TrayIconController trayIconController,
@@ -49,6 +52,7 @@ internal sealed partial class AppBootstrapper
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
+        _databaseInitializer = databaseInitializer ?? throw new ArgumentNullException(nameof(databaseInitializer));
         _logLevelController = logLevelController ?? throw new ArgumentNullException(nameof(logLevelController));
         _themeService = themeService ?? throw new ArgumentNullException(nameof(themeService));
         _trayIconController = trayIconController ?? throw new ArgumentNullException(nameof(trayIconController));
@@ -85,9 +89,19 @@ internal sealed partial class AppBootstrapper
         // 3. 应用主题
         _themeService.Apply(_settingsService.Current.General.Theme);
 
-        // TODO(T-034): 数据库初始化
+        // 4. 数据库初始化（在设置加载后、用户入口启用前）
+        try
+        {
+            await _databaseInitializer.InitializeAsync();
+        }
+        catch (IrisException ex) when (ex.Code == ErrorCode.StorageFailure)
+        {
+            FatalErrorDialog.Show(UiText.AppName, FatalErrorFormatter.Format(ex));
+            Application.Current?.Shutdown(1);
+            return;
+        }
 
-        // 4. 创建托盘图标并输出排队通知（先订阅 Created，创建成功后才挂接通知）
+        // 5. 创建托盘图标并输出排队通知（先订阅 Created，创建成功后才挂接通知）
         _trayIconController.Created += OnTrayIconCreated;
         _trayIconController.Initialize();
         if (_trayIconController.IsCreated)

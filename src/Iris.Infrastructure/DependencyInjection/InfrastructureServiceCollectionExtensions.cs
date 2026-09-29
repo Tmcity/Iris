@@ -1,6 +1,8 @@
 using System;
 using Iris.Core.Settings;
+using Iris.Core.Storage;
 using Iris.Infrastructure.Settings;
+using Iris.Infrastructure.Storage;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -15,6 +17,9 @@ public static class InfrastructureServiceCollectionExtensions
 
         services.TryAddSingleton(TimeProvider.System);
         services.AddSingleton<ISettingsService, JsonSettingsService>();
+        services.AddSingleton<ISqliteConnectionFactory, SqliteConnectionFactory>();
+        services.AddSingleton<IDatabaseInitializer, DatabaseInitializer>();
+        services.AddSingleton<ITranslationHistoryRepository, SqliteHistoryRepository>();
 
         return services;
     }

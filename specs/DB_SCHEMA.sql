@@ -2,13 +2,14 @@
 --  Iris — 历史记录数据库 Schema（SQLite，文件：{DataDirectory}\history.db）
 --  访问：Microsoft.Data.Sqlite + Dapper；实现：Iris.Infrastructure/Storage/SqliteHistoryRepository
 --  版本：PRAGMA user_version。IDatabaseInitializer 读取 user_version，按顺序执行 V1..Vn 迁移，每个迁移一个事务。
---  时间：一律存 UTC ISO-8601 文本（DateTimeOffset.UtcNow.ToString("O")），可按字典序排序。
+--  时间：调用方提供 CreatedAt，一律 ToUniversalTime().ToString("O", InvariantCulture)，可按字典序排序。
+--  当前版本 V2；V1 保留用于旧数据库升级，行为细则见 HISTORY_STORAGE.md。
 -- =====================================================================================================
 
 -- 每次打开连接时执行（非迁移）：
 --   PRAGMA foreign_keys = ON;
---   PRAGMA journal_mode = WAL;
 --   PRAGMA busy_timeout = 3000;
+-- 初始化时执行（非迁移）：PRAGMA journal_mode = WAL;
 
 -- ------------------------------------------------ V1 ------------------------------------------------
 BEGIN;
@@ -60,21 +61,39 @@ PRAGMA user_version = 1;
 
 COMMIT;
 
+-- ------------------------------------------------ V2 ------------------------------------------------
+BEGIN;
+
+ALTER TABLE translation_result ADD COLUMN is_truncated INTEGER NOT NULL DEFAULT 0 CHECK (is_truncated IN (0, 1));
+
+DROP INDEX IF EXISTS ix_history_created_at;
+CREATE INDEX ix_history_created_at ON translation_history (created_at DESC, id DESC);
+DROP INDEX IF EXISTS ix_history_favorite;
+CREATE INDEX ix_history_favorite ON translation_history (is_favorite, created_at DESC, id DESC);
+DROP INDEX IF EXISTS ix_history_hash;
+CREATE INDEX ix_history_hash ON translation_history (text_hash, source_lang, target_lang);
+
+PRAGMA user_version = 2;
+COMMIT;
+
 -- ------------------------------------------------ 查询参考 ------------------------------------------------
--- 分页（无关键字）：
---   SELECT * FROM translation_history
+-- 摘要分页（无关键字，实际实现补充结果计数/截断聚合；不加载完整译文）：
+--   SELECT id, created_at, origin, substr(source_text, 1, 200) AS source_preview,
+--          source_lang, target_lang, is_favorite FROM translation_history
 --   WHERE (@favoritesOnly = 0 OR is_favorite = 1)
---   ORDER BY created_at DESC LIMIT @limit OFFSET @offset;
+--   ORDER BY created_at DESC, id DESC LIMIT @limit OFFSET @offset;
 --
 -- 关键字（≥ 3 字符）：
---   SELECT h.* FROM history_fts f JOIN translation_history h ON h.id = f.rowid
+--   SELECT h.id FROM history_fts f JOIN translation_history h ON h.id = f.rowid
 --   WHERE history_fts MATCH @keyword AND (@favoritesOnly = 0 OR h.is_favorite = 1)
---   ORDER BY h.created_at DESC LIMIT @limit OFFSET @offset;
+--   ORDER BY h.created_at DESC, h.id DESC LIMIT @limit OFFSET @offset;
 --   注意：@keyword 需转义为 FTS5 字符串字面量：'"' || replace(keyword, '"', '""') || '"'
 --
--- 修剪（保留最新 @max 条，收藏不删）：
+-- 修剪（保留最新 @max 条非收藏，收藏不占额度）：
 --   DELETE FROM translation_history
---   WHERE is_favorite = 0 AND id NOT IN (SELECT id FROM translation_history ORDER BY created_at DESC LIMIT @max);
+--   WHERE is_favorite = 0 AND id NOT IN
+--     (SELECT id FROM translation_history WHERE is_favorite = 0 ORDER BY created_at DESC, id DESC LIMIT @max);
 --
--- 去重：AddAsync 前查询最新一条；若 text_hash 与 target_lang 都相同 → 删除其 translation_result、
---       插入新结果、更新 created_at / origin，并重写对应 history_fts 行。
+-- 去重：最新一条按 created_at DESC,id DESC；只有非收藏且 text_hash/source_text/source_lang/target_lang
+--       精确相同才替换结果、更新时间/来源/收藏状态并重写 FTS，全部在同一写事务。
+--       最新项已收藏则必须新建。GetAsync 单独获取全文/全部有序结果，不以摘要代替全文。

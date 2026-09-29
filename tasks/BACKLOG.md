@@ -68,8 +68,8 @@
 | T-010A | ☑ | 远程异常与 HTTP 凭据边界加固（架构审查 A01，含 R1） | T-010 | 0.75d + 0.5d |
 | T-010B | ☑ | 深度不可变设置快照（架构审查 A02） | T-010A | 0.75d |
 | T-011 | ☑ | TranslationProviderRegistry、凭据解析与快照租约（含 R1/R2） | T-004, T-010B | 1.5d |
-| T-012 | ▶ | 请求配置/PreparedPrompt 入口、执行版本键与有界 LruTranslationCache（R1 收尾） | T-011 | 1.5d |
-| T-034 | ☐ | DatabaseInitializer + SqliteHistoryRepository（原 M7 前移，编号保留） | T-003, T-012 | 1.5d |
+| T-012 | ☑ | 请求配置/PreparedPrompt 入口、执行版本键与有界 LruTranslationCache（含 R1） | T-011 | 1.5d |
+| T-034 | ▶ | DatabaseInitializer + SqliteHistoryRepository（含摘要/详情与收藏保护，原 M7 前移） | T-003, T-012 | 1.5d |
 | T-013 | ☐ | TranslationOrchestrator | T-011, T-012, T-034 | 1.5d |
 
 > T-006/T-007 与 T-008、T-009 与 T-010 的历史并行安排保留。当前后续顺序为 T-012 → T-034（提前交付真实历史仓储）→ T-013；保留原编号。T-012 的请求快照/执行版本和缓存规则已由 TRANSLATION_EXECUTION.md / CCR-004 定稿。
@@ -90,7 +90,9 @@
 
 **T-011** — ☑ 2026-09-29 最终复审通过：R2 实现 3be662d，报告更正 0744d7b（无生产/测试代码变更）。独立构建零警告、920 项测试通过；80 项关键测试连续五轮通过，27 项隔离检查通过且通知/退休清理的互斥信号量观测为 1，三个隔离回归变异均被拒绝。CCR-003 结案。报告中无法还原的退出日志与不满足 CPU 前提的启动 NFR 结论已撤回，不作为本轮验收证据。详见 tasks/done/T-011.md 末尾；下一步由架构师细化 T-012 的执行版本、Prompt 与缓存键后签发工单。
 
-**T-012** — ▶ 提交 c68e7ed 复审后签发 T-012-R1。独立构建零警告、959 项测试通过；13 项隔离检查通过，但初始禁用/零容量的 Generation=1 与契约 0 不符。移除总字节预算后的隔离变异仍通过原 29 项测试；R1 仅修正初始化/算术边界、补回归并更正报告。快照重载、PreparedPrompt 与实际请求键的主要实现已接受。CCR-004 待复审，T-034 尚未签发。
+**T-012** — ☑ 提交 2daec76 于 2026-09-29 复审通过，CCR-004 结案。独立构建零警告、968 项测试通过；初始三种配置代次均为 0，13 项隔离检查通过；移除总预算的变异被新测试明确拒绝。报告更正接受。C12-1（更明确的设置/缓存并发测试）作为非阻断纯测试补强纳入下一张 T-034，不修改缓存生产实现。
+
+**T-034（前移）** — ▶ 当前工单 tasks/current_task.md，HISTORY_STORAGE.md / CCR-005 / DB_SCHEMA.sql V2 已定稿。实现真实历史仓储、摘要分页/按需详情、收藏保护、完整性标记、迁移与启动接线；完成后再实施 T-013。
 
 **T-013** 交付 ARCH §7.1 + CONTRACTS 中 `ITranslationOrchestrator` 注释描述的全部语义。验收：事件顺序保证；多个 Provider 输出交错时仍能正确归属；一个 Provider 失败不影响其他 Provider；并发度上限生效（用受控的假 Provider 断言最大并发数）；缓存命中时直接返回 FromCache；BypassCache 生效；截断结果不写入缓存；历史写入条件（至少一个成功、RecordHistory 为 true、History.Enabled 为 true）；取消后所有 Provider 都收到取消信号且不写历史；消费者提前 break 时子任务被取消；请求级错误在第一次 MoveNext 时抛出。
 
@@ -195,8 +197,8 @@ T-030 签发前须按 PROVIDER_REGISTRY.md 将 OCR 注册表原型同步为租�
 | T-039 | ☐ | Velopack 打包、安装、自动更新检查 | T-038 | 1d |
 | T-040 | ☐ | 端到端手动验收清单 + NFR 性能测量 + 缺陷修复 | T-039 | 2d |
 
-**T-034** 交付 `specs/DB_SCHEMA.sql` 全部内容。验收（使用临时文件数据库）：迁移可以重复执行（幂等）；增删改查、FTS 检索（中文 ≥ 3 字、< 3 字走 LIKE）、收藏、按上限修剪时保留收藏、去重规则、删除后 FTS 同步。
-**T-035** 验收：搜索防抖、分页、展开查看各服务结果、收藏 / 删除 / 清空（可选择保留收藏）/ 重新翻译 / 复制。
+**T-034** 已前移至 M1，交付 `specs/DB_SCHEMA.sql` V1→V2 和 HISTORY_STORAGE.md 全部行为。验收：事务与幂等迁移、Unicode 字面量检索、摘要/详情分离、收藏保护、截断标记、稳定分页、非收藏容量修剪与 FTS/子表一致。
+**T-035** 验收：搜索防抖、摘要分页，展开时 GetAsync 读取各服务完整结果；收藏 / 删除 / 清空（可保留收藏）/ 重新翻译 / 复制。复制/重译不得使用 SourcePreview 代替全文，截断标记保留。
 **T-036** 注意：自定义代理 URL 可能包含账号密码（`http://user:pass@host:port`），不得以明文写入 settings.json——带凭据时把 userinfo 部分存入 `ISecretStore`（键 `network/proxy-credentials`），settings 中只保存去掉 userinfo 的 URL（需同步提交契约变更申请）。验收：三种代理模式切换无需重启即可生效；“测试”按钮通过当前代理访问一个已配置的服务端点并显示结果。
 **T-037** 交付 ARCH §10.1 步骤 1、7、9 及命令行。验收：`Iris.exe --action ScreenshotTranslate` 在主实例中触发截图；`--translate "hello"` 可用；非法参数给出提示且不崩溃。
 **T-038** 验收：代码和 XAML 中不再有硬编码的中文 UI 字符串（用脚本扫描）；切换 UI 语言后重启生效。

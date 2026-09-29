@@ -761,6 +761,145 @@ public sealed class LruTranslationCacheTests
         cache.CurrentTotalBytes.ShouldBe(calculatedTotalBytes);
     }
 
+    private sealed class InterceptingSettingsService : ISettingsService
+    {
+        private readonly FakeSettingsService _inner = new();
+        public Action<AppSettings>? OnReadingCurrent { get; set; }
+        public Action? OnEnteringChanged { get; set; }
+
+        public AppSettings Current
+        {
+            get
+            {
+                var current = _inner.Current;
+                OnReadingCurrent?.Invoke(current);
+                return current;
+            }
+            set => _inner.Current = value;
+        }
+
+        public event EventHandler<SettingsChangedEventArgs>? Changed
+        {
+            add => _inner.Changed += value;
+            remove => _inner.Changed -= value;
+        }
+
+        public Task LoadAsync(CancellationToken cancellationToken = default) => _inner.LoadAsync(cancellationToken);
+        public Task UpdateAsync(Func<AppSettings, AppSettings> mutate, CancellationToken cancellationToken = default) => _inner.UpdateAsync(mutate, cancellationToken);
+
+        public void TriggerChanged()
+        {
+            OnEnteringChanged?.Invoke();
+            _inner.TriggerChanged();
+        }
+
+        public void TriggerChanged(AppSettings oldSettings, AppSettings newSettings)
+        {
+            OnEnteringChanged?.Invoke();
+            _inner.TriggerChanged(oldSettings, newSettings);
+        }
+    }
+
+    [Fact]
+    public async Task Concurrency_SettingsUpdateAndWriteInterleaving_MaintainsLatestSettingsCapacityAndCost()
+    {
+        var settingsService = new InterceptingSettingsService();
+        settingsService.Current = settingsService.Current with
+        {
+            Translation = settingsService.Current.Translation with { CacheCapacity = 3 }
+        };
+        using var cache = new LruTranslationCache(settingsService);
+
+        var k1 = CreateKey("p1");
+        var k2 = CreateKey("p2");
+        var k3 = CreateKey("p3");
+        var g = cache.Generation;
+
+        cache.TrySet(k1, "v1", g).ShouldBeTrue();
+        cache.TrySet(k2, "v2", g).ShouldBeTrue();
+
+        using var capturedOldCurrent = new System.Threading.ManualResetEventSlim(false);
+        using var enteredChanged = new System.Threading.ManualResetEventSlim(false);
+        using var releaseTask1 = new System.Threading.ManualResetEventSlim(false);
+
+        var ct = TestContext.Current.CancellationToken;
+        bool hookActivated = false;
+        int hookTriggered = 0;
+
+        settingsService.OnReadingCurrent = current =>
+        {
+            if (hookActivated && current.Translation.CacheCapacity == 3 && Interlocked.Exchange(ref hookTriggered, 1) == 0)
+            {
+                capturedOldCurrent.Set();
+                releaseTask1.Wait(TimeSpan.FromSeconds(5), ct);
+            }
+        };
+
+        settingsService.OnEnteringChanged = () =>
+        {
+            enteredChanged.Set();
+        };
+
+        Task? task1 = null;
+        Task? task2 = null;
+
+        try
+        {
+            hookActivated = true;
+
+            // 任务 1：发起写入 k3，读取旧 Current (CacheCapacity=3) 后暂停
+            task1 = Task.Run(() =>
+            {
+                cache.TrySet(k3, "v3", g).ShouldBeTrue();
+            }, ct);
+
+            // 等待任务 1 捕获旧 Current 并暂停
+            capturedOldCurrent.Wait(TimeSpan.FromSeconds(5), ct).ShouldBeTrue();
+
+            // 任务 2：发布缩容配置 (CacheCapacity=2) 并触发 Changed
+            task2 = Task.Run(() =>
+            {
+                settingsService.Current = settingsService.Current with
+                {
+                    Translation = settingsService.Current.Translation with { CacheCapacity = 2 }
+                };
+                settingsService.TriggerChanged();
+            }, ct);
+
+            // 等待任务 2 进入 Changed
+            enteredChanged.Wait(TimeSpan.FromSeconds(5), ct).ShouldBeTrue();
+
+            // 放行任务 1
+            releaseTask1.Set();
+
+            // 等待两任务全部完成
+            await Task.WhenAll(task1, task2);
+
+            // 断言最终状态严格符合最新缩容配置 (CacheCapacity=2)
+            cache.Count.ShouldBe(2);
+            cache.Keys.ShouldBe(new[] { k3, k2 });
+            cache.TryGet(k1, out _).ShouldBeFalse("LRU tail k1 must be trimmed to satisfy shrunk capacity.");
+            cache.TryGet(k2, out var v2).ShouldBeTrue();
+            v2.ShouldBe("v2");
+            cache.TryGet(k3, out var v3).ShouldBeTrue();
+            v3.ShouldBe("v3");
+
+            long expectedCost = (256L + 2L * (k3.ProviderId.Length + k3.RequestFingerprint.Length + "v3".Length))
+                              + (256L + 2L * (k2.ProviderId.Length + k2.RequestFingerprint.Length + "v2".Length));
+            cache.CurrentTotalBytes.ShouldBe(expectedCost);
+        }
+        finally
+        {
+            capturedOldCurrent.Set();
+            enteredChanged.Set();
+            releaseTask1.Set();
+            if (task1 != null || task2 != null)
+            {
+                await Task.WhenAll(task1 ?? Task.CompletedTask, task2 ?? Task.CompletedTask);
+            }
+        }
+    }
+
     [Fact]
     public void Dispose_IsIdempotent_AndThrowsObjectDisposedExceptionOnSubsequentCalls()
     {

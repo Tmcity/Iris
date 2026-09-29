@@ -8,6 +8,7 @@ using Iris.Core.Languages;
 using Iris.Core.Presentation;
 using Iris.Core.Security;
 using Iris.Core.Settings;
+using Iris.Core.Storage;
 using Iris.Core.Translation;
 using Iris.Providers.Http;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,6 +50,9 @@ public sealed class AppHostBuilderTests
         var targetLanguageResolver = host.Services.GetService<ITargetLanguageResolver>();
         var translationRegistry = host.Services.GetService<ITranslationProviderRegistry>();
         var configObserver = host.Services.GetService<IProviderConfigurationObserver>();
+        var databaseInitializer = host.Services.GetService<IDatabaseInitializer>();
+        var historyRepository = host.Services.GetService<ITranslationHistoryRepository>();
+        var bootstrapper = host.Services.GetService<AppBootstrapper>();
 
         settingsService.ShouldNotBeNull();
         secretStore.ShouldNotBeNull();
@@ -57,6 +61,27 @@ public sealed class AppHostBuilderTests
         targetLanguageResolver.ShouldNotBeNull();
         translationRegistry.ShouldNotBeNull();
         configObserver.ShouldNotBeNull();
+        databaseInitializer.ShouldNotBeNull();
+        historyRepository.ShouldNotBeNull();
+        bootstrapper.ShouldNotBeNull();
+    }
+
+    [Fact]
+    public void Host_ResolvesDatabaseInitializerAndHistoryRepository_AsSingletons()
+    {
+        using var tempDir = new TempDirectory();
+        var paths = new FakeAppPaths(tempDir.Path);
+        var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
+
+        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+
+        var initializer1 = host.Services.GetRequiredService<IDatabaseInitializer>();
+        var initializer2 = host.Services.GetRequiredService<IDatabaseInitializer>();
+        var repository1 = host.Services.GetRequiredService<ITranslationHistoryRepository>();
+        var repository2 = host.Services.GetRequiredService<ITranslationHistoryRepository>();
+
+        initializer1.ShouldBeSameAs(initializer2);
+        repository1.ShouldBeSameAs(repository2);
     }
 
     [Fact]

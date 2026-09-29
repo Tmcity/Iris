@@ -211,7 +211,7 @@ OCR 原型签名暂不变，T-011 不实施 OCR 注册表。新增源文件须�
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-09-29 |
-| 状态 | **已落地，待 T-012-R1 复审**（契约同步已核对；缓存初始代次与回归证据待收尾） |
+| 状态 | **已结案**（2026-09-29：T-012-R1 提交 2daec76 独立复审通过） |
 | 依据 | specs/TRANSLATION_EXECUTION.md（A05、A12） |
 | 兼容性 | 缓存尚无实现/业务调用方，可替换原型；三项配置服务保留旧入口；Provider 请求保留三参数构造；不改变设置 JSON 或 HTTP 线协议 |
 
@@ -316,3 +316,98 @@ ITranslationOrchestrator 的 summary 全部替换为：
 ```
 
 本单不实现 Orchestrator。实施后将 CCR-004 标为“已落地，待复审”，由架构师结案。
+
+## CCR-005：历史完整性、摘要分页与查询契约
+
+| 字段 | 值 |
+|---|---|
+| 批准 | 架构师 Codex，2026-09-29 |
+| 状态 | **已落地，待复审** |
+| 依据 | HISTORY_STORAGE.md、DB_SCHEMA.sql V2；架构审查 A06 与历史语义遗留 |
+| 兼容性 | 当前没有历史仓储/UI 业务实现；Query 原型可调整。HistoryResult 保留原位置构造，旧 V1 数据通过 V2 升级；设置字段/默认值不变 |
+
+T-034 同步修改 CONTRACTS.cs 与下述两个 Core 落地文件。此处给出准确签名与注释，不要求再申请；不得顺带变更其它契约。
+
+### 1. Storage/History.cs
+
+将 HistoryResult 替换为：
+
+```csharp
+public sealed record HistoryResult(string ProviderId, string ProviderName, string? Model, string Text)
+{
+    /// <summary>该结果因输出上限截断；历史展示和复制时不得当作完整译文。</summary>
+    public bool Truncated { get; init; }
+}
+```
+
+HistoryEntry 保持全部成员与默认值不变。紧随 HistoryEntry 增加：
+
+```csharp
+/// <summary>历史列表摘要，不包含完整原文/译文；展开、复制或重译前使用 GetAsync 取得详情。</summary>
+public sealed record HistorySummary(
+    long Id,
+    DateTimeOffset CreatedAt,
+    TextOrigin Origin,
+    string SourcePreview,
+    string SourceLanguage,
+    string TargetLanguage,
+    bool IsFavorite,
+    int ResultCount,
+    bool HasTruncatedResults);
+```
+
+HistoryQuery 的位置签名不变，仅将 param 注释改为：
+
+```csharp
+/// <param name="Keyword">null/空白 = 不过滤；Trim 后按字面量子串搜索，Unicode 标量数 >= 3 用 FTS5，否则用转义 LIKE；NUL 非法。</param>
+/// <param name="Offset">非负偏移；结果按 created_at DESC,id DESC 排序。</param>
+/// <param name="Limit">每页 1..200 条，默认 50；只返回摘要。</param>
+public sealed record HistoryQuery(string? Keyword = null, bool FavoritesOnly = false, int Offset = 0, int Limit = 50);
+```
+
+完整替换 ITranslationHistoryRepository 的 summary 和接口为：
+
+```csharp
+/// <summary>
+/// 翻译历史（Infrastructure，SQLite），规则见 HISTORY_STORAGE.md，DDL 见 DB_SCHEMA.sql。
+/// AddAsync 在调用边界捕获数据；只对最新且未收藏、原文与语言对完全相同的记录去重，返回实际 Id。
+/// 结果/索引/修剪同事务，收藏不被隐式替换；MaxEntries 限制非收藏条数，收藏额外保留。
+/// 所有数据库 I/O 在后台执行；提交前取消回滚，提交后不伪报取消；存储异常安全映射为 StorageFailure。
+/// </summary>
+public interface ITranslationHistoryRepository
+{
+    Task<long> AddAsync(HistoryEntry entry, CancellationToken cancellationToken = default);
+
+    /// <summary>同一读快照返回 Total 和摘要页；SourcePreview 最多 200 个 Unicode 标量，超出追加省略号。</summary>
+    Task<PagedResult<HistorySummary>> QueryAsync(HistoryQuery query, CancellationToken cancellationToken = default);
+
+    /// <summary>取得完整详情与有序结果，正 id 不存在时返回 null；不使用摘要代替全文。</summary>
+    Task<HistoryEntry?> GetAsync(long id, CancellationToken cancellationToken = default);
+
+    Task SetFavoriteAsync(long id, bool isFavorite, CancellationToken cancellationToken = default);
+
+    Task DeleteAsync(long id, CancellationToken cancellationToken = default);
+
+    Task ClearAsync(bool keepFavorites, CancellationToken cancellationToken = default);
+}
+```
+
+IDatabaseInitializer 接口签名不变，summary 替换为：
+
+```csharp
+/// <summary>后台创建/顺序迁移历史库（PRAGMA user_version），幂等且并发安全；失败可重试，未来版本/损坏库不覆盖。</summary>
+```
+
+### 2. Settings/AppSettings.cs
+
+仅在 HistorySettings.MaxEntries 之前增加：
+
+```csharp
+/// <summary>最多保留的非收藏记录条数，收藏额外保留；写入及取消收藏后修剪。</summary>
+```
+
+### 3. 数据与依赖授权
+
+DB_SCHEMA.sql 已批准追加 V2（is_truncated 与索引），保留 V1 用于升级。允许 Infrastructure 增加 Microsoft.Data.Sqlite 10.0.12、Dapper 2.1.89 的包引用及中央版本，两者均在现有白名单。T-034 只执行明确版本的迁移，不任意修改已存在用户数据库。
+
+实施后将 CCR-005 标为“已落地，待复审”，架构师独立验收后结案。

@@ -219,6 +219,8 @@ public sealed record TranslateWindowSettings
 public sealed record HistorySettings
 {
     public bool Enabled { get; init; } = true;
+
+    /// <summary>最多保留的非收藏记录条数，收藏额外保留；写入及取消收藏后修剪。</summary>
     public int MaxEntries { get; init; } = 5000;
 }
 
