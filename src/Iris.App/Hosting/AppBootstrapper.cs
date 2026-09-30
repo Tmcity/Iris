@@ -35,6 +35,8 @@ internal sealed partial class AppBootstrapper
     private readonly AppStartupInfo _startupInfo;
     private readonly Iris.App.Settings.ISettingsShutdownCoordinator? _settingsShutdownCoordinator;
 
+    private readonly Lock _stopGate = new();
+    private Task? _stopTask;
     private int _stopped;
     private int _syncStopped;
     private int _trayAttached;
@@ -174,15 +176,41 @@ internal sealed partial class AppBootstrapper
         _trayIconController.Dispose();
     }
 
-    public async Task StopAsync()
+    public Task StopAsync()
     {
         LogStopping(_logger);
 
-        if (Interlocked.Exchange(ref _stopped, 1) != 0)
+        lock (_stopGate)
         {
-            return;
-        }
+            if (_stopped != 0)
+            {
+                return Task.CompletedTask;
+            }
 
+            if (_stopTask != null)
+            {
+                if (!_stopTask.IsCompleted)
+                {
+                    return _stopTask;
+                }
+
+                if (_stopTask.IsFaulted || _stopTask.IsCanceled)
+                {
+                    _stopTask = null;
+                }
+                else
+                {
+                    return _stopTask;
+                }
+            }
+
+            _stopTask = StopCoreAsync();
+            return _stopTask;
+        }
+    }
+
+    private async Task StopCoreAsync()
+    {
         if (_settingsShutdownCoordinator != null)
         {
             try
@@ -191,8 +219,14 @@ internal sealed partial class AppBootstrapper
             }
             catch (Exception ex)
             {
-                LogSettingsShutdownFailed(_logger, ex);
+                LogSettingsShutdownFailed(_logger, ex.GetType().Name);
+                throw;
             }
+        }
+
+        lock (_stopGate)
+        {
+            _stopped = 1;
         }
 
         StopSynchronousParts();
@@ -222,6 +256,6 @@ internal sealed partial class AppBootstrapper
     [LoggerMessage(EventId = 4, Level = LogLevel.Information, Message = "Iris 正在退出")]
     private static partial void LogStopping(ILogger logger);
 
-    [LoggerMessage(EventId = 5, Level = LogLevel.Warning, Message = "设置窗口关闭或持久化任务收尾遇到异常")]
-    private static partial void LogSettingsShutdownFailed(ILogger logger, Exception ex);
+    [LoggerMessage(EventId = 5, Level = LogLevel.Warning, Message = "设置窗口关闭或持久化任务收尾遇到异常：{ExceptionType}")]
+    private static partial void LogSettingsShutdownFailed(ILogger logger, string exceptionType);
 }

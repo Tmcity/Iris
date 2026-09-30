@@ -147,26 +147,23 @@ internal sealed class SettingsWindowSession : IDisposable
             }
         }
 
-        if (_window.IsVisible || new WindowInteropHelper(_window).Handle != IntPtr.Zero)
+        bool closedFired = false;
+        void OnClosed(object? s, EventArgs e) => closedFired = true;
+
+        _window.Closed += OnClosed;
+        try
         {
-            bool closedFired = false;
-            void OnClosed(object? s, EventArgs e) => closedFired = true;
+            _window.ForceClose = true;
+            _window.Close();
+        }
+        finally
+        {
+            _window.Closed -= OnClosed;
+        }
 
-            _window.Closed += OnClosed;
-            try
-            {
-                _window.ForceClose = true;
-                _window.Close();
-            }
-            finally
-            {
-                _window.Closed -= OnClosed;
-            }
-
-            if (!closedFired && _window.IsVisible)
-            {
-                throw new InvalidOperationException("设置窗口关闭被取消或失败，会话保持存活");
-            }
+        if (!closedFired)
+        {
+            throw new InvalidOperationException("设置窗口关闭被取消或失败，会话保持存活");
         }
 
         lock (_gate)

@@ -439,8 +439,17 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                     IsConflict = false;
                     if (snapshot.LaunchAtStartupDirty)
                     {
-                        CanRetryAutoStart = false;
-                        StatusMessage = UiText.SettingsStatusSaved;
+                        var latestStartup = _settingsService.Current.General.LaunchAtStartup;
+                        if (snapshot.TargetLaunchAtStartup == latestStartup)
+                        {
+                            CanRetryAutoStart = false;
+                            StatusMessage = UiText.SettingsStatusSaved;
+                        }
+                        else
+                        {
+                            CanRetryAutoStart = true;
+                            StatusMessage = UiText.SettingsStatusSavedAutoStartStillPending;
+                        }
                     }
                     else
                     {
@@ -569,6 +578,8 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
         StatusMessage = UiText.SettingsStatusRetryingAutoStart;
 
+        var targetStartup = _settingsService.Current.General.LaunchAtStartup;
+
         try
         {
             var result = await _saveCoordinator.RetryAutoStartAsync();
@@ -579,8 +590,17 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
             if (result.Status == GeneralSaveStatus.SavedAndApplied)
             {
-                StatusMessage = UiText.SettingsStatusAutoStartApplied;
-                CanRetryAutoStart = false;
+                var latestStartup = _settingsService.Current.General.LaunchAtStartup;
+                if (targetStartup == latestStartup)
+                {
+                    StatusMessage = UiText.SettingsStatusAutoStartApplied;
+                    CanRetryAutoStart = false;
+                }
+                else
+                {
+                    StatusMessage = UiText.SettingsStatusSavedAutoStartStillPending;
+                    CanRetryAutoStart = true;
+                }
             }
             else
             {

@@ -28,6 +28,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
     private SettingsWindowSession? _activeSession;
     private bool _isShuttingDown;
     private Task? _shutdownTask;
+    private Task? _openTask;
 
     public SettingsWindowPresenter(
         IServiceProvider serviceProvider,
@@ -50,20 +51,119 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
         }
     }
 
-    public async Task ShowAsync(string? pageKey = null)
+    public Task ShowAsync(string? pageKey = null)
     {
         var targetPage = NormalizePageKey(pageKey);
 
+        lock (_gate)
+        {
+            if (_isShuttingDown)
+            {
+                return Task.CompletedTask;
+            }
+
+            if (_activeSession != null && _activeSession.IsOpen)
+            {
+                var existing = _activeSession;
+                return _uiDispatcher.InvokeAsync(() =>
+                {
+                    existing.ActivateAndNavigate(targetPage);
+                    return Task.CompletedTask;
+                }, CancellationToken.None);
+            }
+
+            if (_openTask != null && !_openTask.IsCompleted)
+            {
+                return AwaitAndNavigateAsync(_openTask, targetPage);
+            }
+
+            _openTask = ShowCoreAsync(targetPage);
+            return _openTask;
+        }
+    }
+
+    private async Task AwaitAndNavigateAsync(Task runningOpenTask, string targetPage)
+    {
+        await runningOpenTask.ConfigureAwait(false);
+
+        lock (_gate)
+        {
+            if (_isShuttingDown || _activeSession == null || !_activeSession.IsOpen)
+            {
+                return;
+            }
+        }
+
+        await _uiDispatcher.InvokeAsync(() =>
+        {
+            lock (_gate)
+            {
+                if (_isShuttingDown || _activeSession == null || !_activeSession.IsOpen)
+                {
+                    return Task.CompletedTask;
+                }
+                _activeSession.ActivateAndNavigate(targetPage);
+                return Task.CompletedTask;
+            }
+        }, CancellationToken.None).ConfigureAwait(false);
+    }
+
+    private async Task ShowCoreAsync(string targetPage)
+    {
+        SettingsWindowSession? oldSession;
+        lock (_gate)
+        {
+            if (_isShuttingDown)
+            {
+                return;
+            }
+            oldSession = _activeSession;
+        }
+
+        if (oldSession != null)
+        {
+            try
+            {
+                await oldSession.ShutdownAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                LogSettingsShutdownError(_logger, ex.GetType().Name);
+                throw;
+            }
+        }
+
+        SettingsWindowSession? activeExisting = null;
+        lock (_gate)
+        {
+            if (_isShuttingDown)
+            {
+                return;
+            }
+            if (_activeSession != null && _activeSession.IsOpen)
+            {
+                activeExisting = _activeSession;
+            }
+        }
+
+        if (activeExisting != null)
+        {
+            await _uiDispatcher.InvokeAsync(() =>
+            {
+                activeExisting.ActivateAndNavigate(targetPage);
+                return Task.CompletedTask;
+            }, CancellationToken.None).ConfigureAwait(false);
+            return;
+        }
+
         await _uiDispatcher.InvokeAsync(async () =>
         {
-            SettingsWindowSession session;
             lock (_gate)
             {
                 if (_isShuttingDown)
                 {
                     return;
                 }
-
                 if (_activeSession != null && _activeSession.IsOpen)
                 {
                     _activeSession.ActivateAndNavigate(targetPage);
@@ -71,38 +171,19 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
                 }
             }
 
-            SettingsWindowSession? oldSession;
-            lock (_gate)
-            {
-                oldSession = _activeSession;
-            }
-            if (oldSession != null)
-            {
-                try
-                {
-                    await oldSession.ShutdownAsync().ConfigureAwait(true);
-                }
-                catch
-                {
-                }
-            }
-
-            lock (_gate)
-            {
-                if (_isShuttingDown)
-                {
-                    return;
-                }
-            }
-
-            var scope = _serviceProvider.CreateScope();
+            IServiceScope? scope = null;
             SettingsWindow? window = null;
+            SettingsWindowSession? session = null;
+            GeneralSettingsSaveCoordinator? saveCoordinator = null;
+            SettingsViewModel? viewModel = null;
+
             try
             {
+                scope = _serviceProvider.CreateScope();
                 window = scope.ServiceProvider.GetRequiredService<SettingsWindow>();
-                var viewModel = scope.ServiceProvider.GetRequiredService<SettingsViewModel>();
+                viewModel = scope.ServiceProvider.GetRequiredService<SettingsViewModel>();
                 var themeService = scope.ServiceProvider.GetRequiredService<ThemeService>();
-                var saveCoordinator = scope.ServiceProvider.GetRequiredService<GeneralSettingsSaveCoordinator>();
+                saveCoordinator = scope.ServiceProvider.GetRequiredService<GeneralSettingsSaveCoordinator>();
 
                 window.DataContext = viewModel;
 
@@ -111,6 +192,10 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
 
                 lock (_gate)
                 {
+                    if (_isShuttingDown)
+                    {
+                        throw new OperationCanceledException("Presenter is shutting down.");
+                    }
                     _activeSession = session;
                 }
 
@@ -119,26 +204,43 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
             }
             catch
             {
-                if (window != null)
+                if (session != null)
                 {
-                    window.ForceClose = true;
                     try
                     {
-                        window.Close();
+                        await session.ShutdownAsync().ConfigureAwait(true);
                     }
-                    catch
+                    catch (Exception cleanupEx)
                     {
+                        LogSettingsShutdownError(_logger, cleanupEx.GetType().Name);
                     }
-                }
-
-                if (_activeSession != null)
-                {
-                    _ = _activeSession.ShutdownAsync();
                 }
                 else
                 {
-                    scope.Dispose();
+                    if (window != null)
+                    {
+                        window.ForceClose = true;
+                        try { window.Close(); } catch { }
+                    }
+                    if (saveCoordinator != null)
+                    {
+                        try { await saveCoordinator.WaitForActiveWorkAsync().ConfigureAwait(false); } catch { }
+                    }
+                    if (viewModel != null)
+                    {
+                        try { await viewModel.WaitForActiveWorkAsync().ConfigureAwait(false); } catch { }
+                    }
+                    scope?.Dispose();
                 }
+
+                lock (_gate)
+                {
+                    if (ReferenceEquals(_activeSession, session))
+                    {
+                        _activeSession = null;
+                    }
+                }
+
                 throw;
             }
         }, CancellationToken.None).ConfigureAwait(false);
@@ -159,16 +261,16 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
     {
         lock (_gate)
         {
-            if (_shutdownTask != null)
+            if (_shutdownTask != null && !_shutdownTask.IsCompleted)
             {
-                if (_shutdownTask.IsCompleted && _activeSession != null && _activeSession.IsOpen)
-                {
-                    _shutdownTask = null;
-                }
-                else
-                {
-                    return _shutdownTask;
-                }
+                return _shutdownTask;
+            }
+
+            if (_activeSession == null)
+            {
+                _isShuttingDown = true;
+                _shutdownTask = Task.CompletedTask;
+                return _shutdownTask;
             }
 
             _isShuttingDown = true;
@@ -181,21 +283,45 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
 
     private async Task ShutdownCoreAsync(SettingsWindowSession? sessionToShutdown, CancellationToken cancellationToken)
     {
-        if (sessionToShutdown != null)
+        Task? openTask;
+        lock (_gate)
+        {
+            openTask = _openTask;
+        }
+
+        if (openTask != null)
         {
             try
             {
-                await sessionToShutdown.ShutdownAsync(cancellationToken).ConfigureAwait(false);
+                await openTask.ConfigureAwait(false);
+            }
+            catch
+            {
+            }
+        }
+
+        SettingsWindowSession? currentSession;
+        lock (_gate)
+        {
+            currentSession = _activeSession ?? sessionToShutdown;
+        }
+
+        if (currentSession != null)
+        {
+            try
+            {
+                await currentSession.ShutdownAsync(cancellationToken).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
-                LogSettingsShutdownError(_logger, ex);
+                LogSettingsShutdownError(_logger, ex.GetType().Name);
+                throw;
             }
             finally
             {
                 lock (_gate)
                 {
-                    if (ReferenceEquals(_activeSession, sessionToShutdown) && !sessionToShutdown.IsOpen)
+                    if (ReferenceEquals(_activeSession, currentSession) && !currentSession.IsOpen)
                     {
                         _activeSession = null;
                     }
@@ -217,6 +343,6 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
         return trimmed.Equals("general", StringComparison.OrdinalIgnoreCase) ? "general" : "general";
     }
 
-    [LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = "设置窗口关闭时发生异常")]
-    private static partial void LogSettingsShutdownError(ILogger logger, Exception ex);
+    [LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = "设置窗口关闭时发生异常：{ExceptionType}")]
+    private static partial void LogSettingsShutdownError(ILogger logger, string exceptionType);
 }

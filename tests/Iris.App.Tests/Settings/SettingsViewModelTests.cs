@@ -630,4 +630,177 @@ public sealed class SettingsViewModelTests
         logger.LastFormatted!.ShouldContain("Save");
         logger.LastFormatted!.ShouldContain("InvalidOperationException");
     }
+
+    private sealed class MutableSettingsService(AppSettings initialSettings) : ISettingsService
+    {
+        public AppSettings Current { get; private set; } = initialSettings;
+        public event EventHandler<SettingsChangedEventArgs>? Changed;
+
+        public Task LoadAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
+
+        public Task UpdateAsync(Func<AppSettings, AppSettings> mutate, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var old = Current;
+            Current = mutate(Current);
+            Changed?.Invoke(this, new SettingsChangedEventArgs(old, Current));
+            return Task.CompletedTask;
+        }
+    }
+
+    private sealed class BlockingAutoStartService : IAutoStartService
+    {
+        public bool Enabled { get; set; }
+        public Action? OnQuery { get; set; }
+        public Action? BeforeSet { get; set; }
+
+        public bool IsEnabled()
+        {
+            OnQuery?.Invoke();
+            return Enabled;
+        }
+
+        public void SetEnabled(bool value)
+        {
+            BeforeSet?.Invoke();
+            Enabled = value;
+        }
+    }
+
+    [Fact]
+    public async Task Save_ExternalIntentDuringApply_RetainsRetryEligibilityAndPendingStatus()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var initialSettings = new AppSettings
+            {
+                General = new GeneralSettings { LaunchAtStartup = false }
+            };
+            var state = new MutableSettingsService(initialSettings);
+            var auto = new BlockingAutoStartService();
+            var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            using var release = new ManualResetEventSlim();
+
+            auto.BeforeSet = () =>
+            {
+                entered.TrySetResult();
+                if (!release.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("BeforeSet wait timed out");
+                }
+            };
+
+            using var theme = new ThemeService(state);
+            using var coordinator = new GeneralSettingsSaveCoordinator(state, auto, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+            using var vm = new SettingsViewModel(state, theme, coordinator, new WpfUiDispatcher());
+
+            vm.LaunchAtStartup = true;
+            var saveTask = vm.ExecuteSaveAsync();
+
+            try
+            {
+                await entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                // 在 SetEnabled 挂起期间，外部将已保存意图改为 false
+                await state.UpdateAsync(s => s with { General = s.General with { LaunchAtStartup = false } });
+
+                release.Set();
+                await saveTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                // 验证应用完成后协调结果
+                state.Current.General.LaunchAtStartup.ShouldBeFalse("已保存意图不得被陈旧目标覆盖");
+                auto.Enabled.ShouldBeTrue("SetEnabled(true) 确实执行完成");
+                vm.LaunchAtStartup.ShouldBeFalse("VM 选择应与最新已保存意图协调");
+                vm.CanRetryAutoStart.ShouldBeTrue("实际注册与最新意图不一致时必须保留重试资格");
+                vm.StatusMessage.ShouldBe(UiText.SettingsStatusSavedAutoStartStillPending);
+
+                // 排干所有工作后再次确认
+                await coordinator.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
+                await vm.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
+
+                vm.CanRetryAutoStart.ShouldBeTrue("排干后续后台查询后重试资格依然保留");
+            }
+            finally
+            {
+                release.Set();
+                await saveTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                await coordinator.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
+                await vm.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
+            }
+        });
+    }
+
+    [Fact]
+    public async Task Retry_ExternalIntentDuringApply_RetainsRetryEligibilityAndPendingStatus()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var initialSettings = new AppSettings
+            {
+                General = new GeneralSettings { LaunchAtStartup = false }
+            };
+            var state = new MutableSettingsService(initialSettings);
+            var auto = new BlockingAutoStartService { Enabled = false };
+            var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            using var release = new ManualResetEventSlim();
+
+            var isInitialSave = true;
+            auto.BeforeSet = () =>
+            {
+                if (isInitialSave)
+                {
+                    isInitialSave = false;
+                    throw new System.IO.IOException("Simulated save auto start failure");
+                }
+                entered.TrySetResult();
+                if (!release.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("BeforeSet wait timed out");
+                }
+            };
+
+            using var theme = new ThemeService(state);
+            using var coordinator = new GeneralSettingsSaveCoordinator(state, auto, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+            using var vm = new SettingsViewModel(state, theme, coordinator, new WpfUiDispatcher());
+
+            // 首次保存：由于自启失败获得重试资格
+            vm.LaunchAtStartup = true;
+            await vm.ExecuteSaveAsync().WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+            vm.CanRetryAutoStart.ShouldBeTrue("首次保存自启失败后应具有重试资格");
+
+            // 发起重试
+            var retryTask = vm.ExecuteRetryAutoStartAsync();
+
+            try
+            {
+                await entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                // 在重试应用的 SetEnabled 挂起期间，外部把已保存意图改为 false
+                await state.UpdateAsync(s => s with { General = s.General with { LaunchAtStartup = false } });
+
+                release.Set();
+                await retryTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                // 验证重试完成后协调结果
+                state.Current.General.LaunchAtStartup.ShouldBeFalse("已保存意图不得被覆盖");
+                auto.Enabled.ShouldBeTrue("重试时的 SetEnabled(true) 确实执行完成");
+                vm.LaunchAtStartup.ShouldBeFalse("VM 选择应与最新已保存意图协调");
+                vm.CanRetryAutoStart.ShouldBeTrue("实际注册(true)与最新意图(false)不一致时必须保留重试资格");
+                vm.StatusMessage.ShouldBe(UiText.SettingsStatusSavedAutoStartStillPending);
+
+                // 排干所有工作后再次确认
+                await coordinator.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
+                await vm.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
+
+                vm.CanRetryAutoStart.ShouldBeTrue("排干后续后台查询后重试资格依然保留");
+            }
+            finally
+            {
+                release.Set();
+                await retryTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                await coordinator.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
+                await vm.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
+            }
+        });
+    }
 }

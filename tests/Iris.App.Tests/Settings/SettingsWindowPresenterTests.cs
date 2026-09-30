@@ -636,7 +636,7 @@ public sealed class SettingsWindowPresenterTests
     }
 
     [Fact]
-    public async Task CloseDuringQuery_ShowFailure_ScopeRetainedUntilQueryCompletes_AndShutdownWaits()
+    public async Task CloseDuringQuery_ShowFailure_ScopeRetainedUntilQueryCompletes_AndShowTaskWaitsForCleanup()
     {
         await WpfTestRunner.RunAsync(async () =>
         {
@@ -707,40 +707,47 @@ public sealed class SettingsWindowPresenterTests
             using var rootProvider = services.BuildServiceProvider();
             var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
 
+            Task? showTask = null;
             try
             {
-                var showEx = await Should.ThrowAsync<InvalidOperationException>(() => presenter.ShowAsync("general"));
-                showEx.Message.ShouldContain("Injected source initialization failure");
+                showTask = presenter.ShowAsync("general");
+
+                // 等待进入查询
+                await queryEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
                 var activeQuery = coordinator!.ActiveWorkTask;
                 (activeQuery != null).ShouldBeTrue();
                 activeQuery!.IsCompleted.ShouldBeFalse();
 
-                // Show 失败但异步查询仍挂起时：scope 仍存活，presenter 仍然持有 session 以便追踪清理
-                witness!.IsDisposed.ShouldBeFalse("Show 失败但在查询完成前 scope 必须存活");
-                presenter.ActiveSession.ShouldNotBeNull("Show 失败但清理未完成前 Presenter 必须保留 session 引用");
-
-                var shutdownTask = presenter.ShutdownAsync();
-                shutdownTask.IsCompleted.ShouldBeFalse("Show 失败路径的 ShutdownAsync 必须等待挂起的查询排干");
+                // 在放行查询前，ShowAsync 的 Task 绝不能提前完成（必须等待本次创建的所有异步清理与排干）
+                showTask.IsCompleted.ShouldBeFalse("清理未完成前 ShowAsync 返回的 Task 绝不能提前结束");
+                witness!.IsDisposed.ShouldBeFalse("Show 失败但在查询排干前 scope 必须存活");
 
                 // 放行查询
                 queryRelease.Set();
 
-                await Task.WhenAll(shutdownTask, activeQuery).WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                // 放行后，ShowAsync 最终抛出注入的失败
+                var showEx = await Should.ThrowAsync<InvalidOperationException>(() => showTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken));
+                showEx.Message.ShouldContain("Injected source initialization failure");
 
-                presenter.ActiveSession.ShouldBeNull();
-                witness.IsDisposed.ShouldBeTrue("所有后台工作排干后 scope 最终释放");
+                activeQuery.IsCompleted.ShouldBeTrue("放行后初始查询应当已完成");
+                presenter.ActiveSession.ShouldBeNull("Show 失败排干后 Presenter 不应保留死会话");
+                witness.IsDisposed.ShouldBeTrue("清理完整结束后 scope 必须已被释放");
             }
             finally
             {
                 queryRelease.Set();
+                if (showTask != null)
+                {
+                    try { await showTask.WaitAsync(TimeSpan.FromSeconds(2), TestContext.Current.CancellationToken); } catch { }
+                }
                 await presenter.ShutdownAsync();
             }
         });
     }
 
     [Fact]
-    public async Task ShutdownAsync_WhenClosingCancelled_PreservesScopeAndWindow_AndObservesError()
+    public async Task ShutdownAsync_WhenClosingCancelled_PreservesScopeAndWindow_AndPropagatesError()
     {
         await WpfTestRunner.RunAsync(async () =>
         {
@@ -796,8 +803,9 @@ public sealed class SettingsWindowPresenterTests
 
                 try
                 {
-                    // 第一次 Shutdown：因 Closing 被取消，内部安全记录错误，不抛出崩损
-                    await presenter.ShutdownAsync();
+                    // 第一次 Shutdown：因 Closing 被取消，调用方观察到失败
+                    var shutdownEx = await Should.ThrowAsync<InvalidOperationException>(() => presenter.ShutdownAsync());
+                    shutdownEx.Message.ShouldContain("设置窗口关闭被取消或失败");
 
                     // 窗口必须保持可见与存活，scope 不得释放
                     window.IsVisible.ShouldBeTrue("取消关闭后窗口必须保持可见");
@@ -819,6 +827,291 @@ public sealed class SettingsWindowPresenterTests
             }
             finally
             {
+                await presenter.ShutdownAsync();
+            }
+        });
+    }
+
+    [Fact]
+    public async Task ShutdownAsync_WhenHiddenWindowClosingCancelled_PreservesScopeAndWindow_AndAllowsRetry()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var settingsService = Substitute.For<ISettingsService>();
+            settingsService.Current.Returns(new AppSettings());
+
+            var autoStartService = Substitute.For<IAutoStartService>();
+            var uiDispatcher = new ImmediateUiDispatcher();
+
+            var services = new ServiceCollection();
+            services.AddSingleton(settingsService);
+            services.AddSingleton(autoStartService);
+            services.AddSingleton<IUiDispatcher>(uiDispatcher);
+            services.AddSingleton<ThemeService>();
+
+            ScopedDisposableWitness? witness = null;
+            services.AddScoped<ScopedDisposableWitness>(sp =>
+            {
+                witness = new ScopedDisposableWitness();
+                return witness;
+            });
+            services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
+            {
+                _ = sp.GetRequiredService<ScopedDisposableWitness>();
+                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+            });
+            services.AddScoped<SettingsViewModel>();
+            services.AddTransient<SettingsWindow>(sp =>
+            {
+                return new SettingsWindow
+                {
+                    ShowActivated = false,
+                    ShowInTaskbar = false,
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Left = -10000,
+                    Top = -10000,
+                    Opacity = 0
+                };
+            });
+
+            using var rootProvider = services.BuildServiceProvider();
+            var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
+
+            try
+            {
+                await presenter.ShowAsync("general");
+                var session = presenter.ActiveSession;
+                session.ShouldNotBeNull();
+                var window = session!.Window;
+
+                // 隐藏窗口（持有 HWND 但不可见）
+                window.Hide();
+                window.IsVisible.ShouldBeFalse();
+                new WindowInteropHelper(window).Handle.ShouldNotBe(IntPtr.Zero);
+
+                System.ComponentModel.CancelEventHandler cancelHandler = (_, args) => args.Cancel = true;
+                window.Closing += cancelHandler;
+
+                try
+                {
+                    var shutdownEx = await Should.ThrowAsync<InvalidOperationException>(() => presenter.ShutdownAsync());
+                    shutdownEx.Message.ShouldContain("设置窗口关闭被取消或失败");
+
+                    // 隐藏窗口取消关闭后，原生句柄和 scope 依然存活，session 依然保留
+                    new WindowInteropHelper(window).Handle.ShouldNotBe(IntPtr.Zero);
+                    witness!.IsDisposed.ShouldBeFalse("取消关闭后 scope 必须保持存活");
+                    presenter.ActiveSession.ShouldNotBeNull();
+                }
+                finally
+                {
+                    window.Closing -= cancelHandler;
+                    window.ForceClose = true;
+                }
+
+                // 解除取消后重试 ShutdownAsync
+                await presenter.ShutdownAsync();
+
+                presenter.ActiveSession.ShouldBeNull();
+                new WindowInteropHelper(window).Handle.ShouldBe(IntPtr.Zero);
+                witness!.IsDisposed.ShouldBeTrue("重试关闭成功后 scope 最终释放");
+            }
+            finally
+            {
+                await presenter.ShutdownAsync();
+            }
+        });
+    }
+
+    [Fact]
+    public async Task ShowAsync_ConcurrentCallsWhileWaitingOldSessionCleanup_ReusesSingleNewWindow()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var queryEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            using var queryRelease = new ManualResetEventSlim();
+
+            var settingsService = Substitute.For<ISettingsService>();
+            settingsService.Current.Returns(new AppSettings());
+
+            var autoStartService = Substitute.For<IAutoStartService>();
+            var queryCount = 0;
+            autoStartService.IsEnabled().Returns(_ =>
+            {
+                if (Interlocked.Increment(ref queryCount) == 1)
+                {
+                    queryEntered.TrySetResult();
+                    if (!queryRelease.Wait(TimeSpan.FromSeconds(5)))
+                    {
+                        throw new TimeoutException("Query wait timed out");
+                    }
+                }
+                return false;
+            });
+
+            var uiDispatcher = new WpfUiDispatcher();
+
+            var services = new ServiceCollection();
+            services.AddSingleton(settingsService);
+            services.AddSingleton(autoStartService);
+            services.AddSingleton<IUiDispatcher>(uiDispatcher);
+            services.AddSingleton<ThemeService>();
+
+            var createdWindows = new System.Collections.Generic.List<SettingsWindow>();
+            services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
+                new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
+            services.AddScoped<SettingsViewModel>();
+            services.AddTransient<SettingsWindow>(sp =>
+            {
+                var win = new SettingsWindow
+                {
+                    ShowActivated = false,
+                    ShowInTaskbar = false,
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Left = -10000,
+                    Top = -10000,
+                    Opacity = 0
+                };
+                createdWindows.Add(win);
+                return win;
+            });
+
+            using var rootProvider = services.BuildServiceProvider();
+            var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
+
+            try
+            {
+                // 首次 Show
+                await presenter.ShowAsync("general");
+                await queryEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                // 关闭旧窗口
+                createdWindows[0].Close();
+
+                // 并发发起两次 ShowAsync，两者都等待旧会话的初始查询排干
+                var firstReopen = presenter.ShowAsync("general");
+                var secondReopen = presenter.ShowAsync("general");
+
+                firstReopen.IsCompleted.ShouldBeFalse("重开任务必须等待旧会话清理");
+                secondReopen.IsCompleted.ShouldBeFalse("重开任务必须等待旧会话清理");
+
+                // 放行旧查询
+                queryRelease.Set();
+
+                await Task.WhenAll(firstReopen, secondReopen).WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                // 验证结果：总共只创建了 2 个窗口（旧 1 + 新 1），绝不创建 3 个窗口
+                createdWindows.Count.ShouldBe(2, "并发重开只能创建一个新窗口");
+                createdWindows.Count(w => w.IsVisible).ShouldBe(1, "只有一个新窗口处于可见状态");
+                presenter.ActiveSession.ShouldNotBeNull();
+                presenter.ActiveSession!.IsOpen.ShouldBeTrue();
+            }
+            finally
+            {
+                queryRelease.Set();
+                foreach (var win in createdWindows)
+                {
+                    win.ForceClose = true;
+                    try { win.Close(); } catch { }
+                }
+                await presenter.ShutdownAsync();
+            }
+        });
+    }
+
+    [Fact]
+    public async Task ShowAsync_WhenShutdownCalledDuringOldSessionWait_CancelsNewWindowCreation()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var queryEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            using var queryRelease = new ManualResetEventSlim();
+
+            var settingsService = Substitute.For<ISettingsService>();
+            settingsService.Current.Returns(new AppSettings());
+
+            var autoStartService = Substitute.For<IAutoStartService>();
+            var queryCount = 0;
+            autoStartService.IsEnabled().Returns(_ =>
+            {
+                if (Interlocked.Increment(ref queryCount) == 1)
+                {
+                    queryEntered.TrySetResult();
+                    if (!queryRelease.Wait(TimeSpan.FromSeconds(5)))
+                    {
+                        throw new TimeoutException("Query wait timed out");
+                    }
+                }
+                return false;
+            });
+
+            var uiDispatcher = new WpfUiDispatcher();
+
+            var services = new ServiceCollection();
+            services.AddSingleton(settingsService);
+            services.AddSingleton(autoStartService);
+            services.AddSingleton<IUiDispatcher>(uiDispatcher);
+            services.AddSingleton<ThemeService>();
+
+            var createdWindows = new System.Collections.Generic.List<SettingsWindow>();
+            services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
+                new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
+            services.AddScoped<SettingsViewModel>();
+            services.AddTransient<SettingsWindow>(sp =>
+            {
+                var win = new SettingsWindow
+                {
+                    ShowActivated = false,
+                    ShowInTaskbar = false,
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Left = -10000,
+                    Top = -10000,
+                    Opacity = 0
+                };
+                createdWindows.Add(win);
+                return win;
+            });
+
+            using var rootProvider = services.BuildServiceProvider();
+            var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
+
+            try
+            {
+                await presenter.ShowAsync("general");
+                await queryEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                createdWindows[0].Close();
+
+                // 发起重开，此时在等旧会话排干
+                var reopenTask = presenter.ShowAsync("general");
+
+                // 在等待期间请求 Shutdown
+                var shutdownTask = presenter.ShutdownAsync();
+
+                // 放行旧查询
+                queryRelease.Set();
+
+                try
+                {
+                    await reopenTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                }
+
+                await shutdownTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                // 不应创建新窗口并保留为活跃会话
+                createdWindows.Count(w => w.IsVisible).ShouldBe(0);
+                presenter.ActiveSession.ShouldBeNull();
+            }
+            finally
+            {
+                queryRelease.Set();
+                foreach (var win in createdWindows)
+                {
+                    win.ForceClose = true;
+                    try { win.Close(); } catch { }
+                }
                 await presenter.ShutdownAsync();
             }
         });
