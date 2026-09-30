@@ -69,6 +69,15 @@ internal static class AppHostBuilder
         builder.Services.AddSingleton<IAppLifetime, AppLifetime>();
         builder.Services.AddSingleton<IUiDispatcher, WpfUiDispatcher>();
         builder.Services.AddSingleton<IActionDispatcher, ActionDispatcher>();
+
+        // 设置窗口及编辑协调服务
+        builder.Services.AddSingleton<Iris.App.Settings.SettingsWindowPresenter>();
+        builder.Services.AddSingleton<ISettingsWindowPresenter>(sp => sp.GetRequiredService<Iris.App.Settings.SettingsWindowPresenter>());
+        builder.Services.AddSingleton<Iris.App.Settings.ISettingsShutdownCoordinator>(sp => sp.GetRequiredService<Iris.App.Settings.SettingsWindowPresenter>());
+        builder.Services.AddScoped<Iris.App.Services.GeneralSettingsSaveCoordinator>();
+        builder.Services.AddScoped<Iris.App.Settings.SettingsViewModel>();
+        builder.Services.AddTransient<Iris.App.Settings.SettingsWindow>();
+
         builder.Services.AddSingleton<AppBootstrapper>();
         builder.Services.AddSingleton<App>();
 

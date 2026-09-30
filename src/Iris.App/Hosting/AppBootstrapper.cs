@@ -33,6 +33,7 @@ internal sealed partial class AppBootstrapper
     private readonly IHost _host;
     private readonly ILogger<AppBootstrapper> _logger;
     private readonly AppStartupInfo _startupInfo;
+    private readonly Iris.App.Settings.ISettingsShutdownCoordinator? _settingsShutdownCoordinator;
 
     private int _stopped;
     private int _syncStopped;
@@ -48,7 +49,8 @@ internal sealed partial class AppBootstrapper
         TrayNotificationService trayNotificationService,
         IHost host,
         ILogger<AppBootstrapper> logger,
-        AppStartupInfo startupInfo)
+        AppStartupInfo startupInfo,
+        Iris.App.Settings.ISettingsShutdownCoordinator? settingsShutdownCoordinator = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -60,10 +62,23 @@ internal sealed partial class AppBootstrapper
         _host = host ?? throw new ArgumentNullException(nameof(host));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _startupInfo = startupInfo ?? throw new ArgumentNullException(nameof(startupInfo));
+        _settingsShutdownCoordinator = settingsShutdownCoordinator;
     }
 
     internal static Action<string, string> FatalErrorShower { get; set; } = FatalErrorDialog.Show;
-    internal static Action<int> AppShutdowner { get; set; } = code => Application.Current?.Shutdown(code);
+    internal static Action<int> AppShutdowner { get; set; } = code =>
+    {
+        var app = Application.Current;
+        if (app == null) return;
+        if (app.Dispatcher.CheckAccess())
+        {
+            app.Shutdown(code);
+        }
+        else
+        {
+            app.Dispatcher.InvokeAsync(() => app.Shutdown(code));
+        }
+    };
 
     public async Task StartAsync()
     {
@@ -168,6 +183,18 @@ internal sealed partial class AppBootstrapper
             return;
         }
 
+        if (_settingsShutdownCoordinator != null)
+        {
+            try
+            {
+                await _settingsShutdownCoordinator.ShutdownAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                LogSettingsShutdownFailed(_logger, ex);
+            }
+        }
+
         StopSynchronousParts();
 
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
@@ -180,7 +207,7 @@ internal sealed partial class AppBootstrapper
             LogHostStopFailed(_logger, ex);
         }
 
-        Application.Current?.Shutdown(0);
+        AppShutdowner(0);
     }
 
     [LoggerMessage(EventId = 1, Level = LogLevel.Information, Message = "Iris 启动序列完成，耗时 {ElapsedMs:F1} ms，托盘图标{TrayState}")]
@@ -194,4 +221,7 @@ internal sealed partial class AppBootstrapper
 
     [LoggerMessage(EventId = 4, Level = LogLevel.Information, Message = "Iris 正在退出")]
     private static partial void LogStopping(ILogger logger);
+
+    [LoggerMessage(EventId = 5, Level = LogLevel.Warning, Message = "设置窗口关闭或持久化任务收尾遇到异常")]
+    private static partial void LogSettingsShutdownFailed(ILogger logger, Exception ex);
 }

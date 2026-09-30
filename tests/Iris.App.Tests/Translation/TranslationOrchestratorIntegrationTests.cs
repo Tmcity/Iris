@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Iris.App.Tests.TestSupport;
 using Iris.Core.Common;
 using Iris.Core.DependencyInjection;
+using Iris.Core.Presentation;
 using Iris.Core.Security;
 using Iris.Core.Settings;
 using Iris.Core.Storage;
@@ -15,6 +16,7 @@ using Iris.Core.Translation;
 using Iris.Infrastructure.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NSubstitute;
 using Shouldly;
 using Xunit;
 
@@ -204,6 +206,7 @@ public sealed class TranslationOrchestratorIntegrationTests
             // 注册测试用 SecretStore 与 ProviderFactory（无 HTTP）
             services.AddSingleton<ISecretStore>(SecretStore);
             services.AddSingleton<ITranslationProviderFactory>(ProviderFactory);
+            services.AddSingleton(Substitute.For<ISettingsWindowPresenter>());
 
             ServiceProvider = services.BuildServiceProvider(new ServiceProviderOptions
             {

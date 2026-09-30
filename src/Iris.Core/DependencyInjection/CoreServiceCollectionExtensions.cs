@@ -1,7 +1,9 @@
 using System;
+using Iris.Core.Actions;
 using Iris.Core.Languages;
 using Iris.Core.Settings;
 using Iris.Core.Translation;
+using Iris.Core.Workflows;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
@@ -30,6 +32,8 @@ public static class CoreServiceCollectionExtensions
 
         services.TryAddSingleton(TimeProvider.System);
         services.TryAddSingleton<ITranslationOrchestrator, TranslationOrchestrator>();
+
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<IActionHandler, OpenSettingsHandler>());
 
         return services;
     }

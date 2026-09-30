@@ -1427,11 +1427,15 @@ namespace Iris.Core.Platform
         MonitorInfo GetMonitorAt(PixelPoint point);
     }
 
-    /// <summary>开机自启（HKCU\Software\Microsoft\Windows\CurrentVersion\Run，值名 "Iris"）。</summary>
+    /// <summary>管理 HKCU\Software\Microsoft\Windows\CurrentVersion\Run 的 Iris 值；构造不访问注册表。
+    /// 同步平台方法，由调用方在后台执行；只管理本值，不改 RunOnce/StartupApproved 或系统策略。
+    /// 路径/命令与安全错误规则见 SETTINGS_EDITING.md；读写失败抛 IrisException(StorageFailure)。</summary>
     public interface IAutoStartService
     {
+        /// <summary>检查本应用预期 apphost 命令是否匹配注册；缺失或不匹配为 false，不保证 Windows 实际执行。</summary>
         bool IsEnabled();
 
+        /// <summary>启用时写带引号的 apphost 命令；已匹配时无操作。禁用只移除 Iris 值，缺失时无操作。</summary>
         void SetEnabled(bool enabled);
     }
 }
@@ -1673,7 +1677,10 @@ namespace Iris.Core.Presentation
         void Notify(NotificationLevel level, string title, string message);
     }
 
-    /// <summary>pageKey：general / translation / ocr / hotkeys / selection / screenshot / floatingball / network / history / about。</summary>
+    /// <summary>设置窗口（App 实现），可从任意线程调用，内部切换 UI 线程；构造不创建窗口。
+    /// 重复显示复用当前窗口和草稿，关闭后释放其会话，再次显示创建新会话；ShowAsync 不等待窗口关闭。
+    /// pageKey：general / translation / ocr / hotkeys / selection / screenshot / floatingball / network / history / about。
+    /// null、未知或尚未开放的 pageKey 转到 general；不记录原始 pageKey。完整编辑/保存规则见 SETTINGS_EDITING.md。</summary>
     public interface ISettingsWindowPresenter
     {
         Task ShowAsync(string? pageKey = null);

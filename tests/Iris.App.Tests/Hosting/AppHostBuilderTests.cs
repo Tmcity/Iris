@@ -2,7 +2,9 @@ using System;
 using System.Net.Http;
 using Iris.App.Hosting;
 using Iris.App.Services;
+using Iris.App.Settings;
 using Iris.App.Tests.TestSupport;
+using Iris.App.Tray;
 using Iris.Core.Actions;
 using Iris.Core.Common;
 using Iris.Core.Languages;
@@ -13,6 +15,7 @@ using Iris.Core.Settings;
 using Iris.Core.Storage;
 using Iris.Core.Translation;
 using Iris.Platform.Windows.Clipboard;
+using Iris.Platform.Windows.SystemIntegration;
 using Iris.Providers.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -213,5 +216,38 @@ public sealed class AppHostBuilderTests
         var factories = host.Services.GetRequiredService<System.Collections.Generic.IEnumerable<ITranslationProviderFactory>>().ToList();
         factories.Count(f => f.Kind == TranslationProviderKind.OpenAICompatible).ShouldBe(1);
         factories.Count(f => f.Kind == TranslationProviderKind.Anthropic).ShouldBe(1);
+    }
+
+    [Fact]
+    public void Host_ResolvesSettingsPresenterAndAutoStart_AsSingletons_WithoutInstantiatingSettingsWindow()
+    {
+        using var tempDir = new TempDirectory();
+        var paths = new FakeAppPaths(tempDir.Path);
+        var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
+
+        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+
+        var presenter = host.Services.GetRequiredService<ISettingsWindowPresenter>();
+        var concretePresenter = host.Services.GetRequiredService<SettingsWindowPresenter>();
+        var shutdownCoordinator = host.Services.GetRequiredService<ISettingsShutdownCoordinator>();
+        var autoStartService = host.Services.GetRequiredService<IAutoStartService>();
+
+        presenter.ShouldNotBeNull();
+        presenter.ShouldBeSameAs(concretePresenter);
+        presenter.ShouldBeSameAs(shutdownCoordinator);
+        autoStartService.ShouldNotBeNull();
+
+        // 验证解析托盘、Dispatcher、Presenter 时不会提前实例化 SettingsWindow
+        var tray = host.Services.GetRequiredService<TrayIconController>();
+        var dispatcher = host.Services.GetRequiredService<IActionDispatcher>();
+        tray.ShouldNotBeNull();
+        dispatcher.ShouldNotBeNull();
+
+        // 验证 Scoped 设置服务（ViewModel, SaveCoordinator）在子作用域中解析正常
+        using var scope = host.Services.CreateScope();
+        var saveCoordinator = scope.ServiceProvider.GetRequiredService<GeneralSettingsSaveCoordinator>();
+        var viewModel = scope.ServiceProvider.GetRequiredService<SettingsViewModel>();
+        saveCoordinator.ShouldNotBeNull();
+        viewModel.ShouldNotBeNull();
     }
 }

@@ -536,7 +536,7 @@ IActionDispatcher 的 summary 替换为：
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-09-30 |
-| 状态 | **已落地，待 T-022A-R1 复审**（注释同步正确，采集作用域/重试/冲突及清理边界待修复） |
+| 状态 | **已结案**（2026-09-30；ecee697 独立复审通过；多屏/混合 DPI 实机范围按报告保留未验证） |
 | 依据 | DESKTOP_CONTEXT.md；ARCH v1.21；桌面准备稿与官方 API 核查 |
 | 兼容性 | 仅修改 Platform/DesktopModels.cs 中 MonitorInfo、ForegroundAppInfo、IDesktopContext 的注释，不改签名/默认值/类型，不改 IAutoStartService |
 
@@ -573,3 +573,41 @@ IDesktopContext 的 summary 与四个方法注释依次替换/增加为：
 ```
 
 方法声明及 record 参数保持原样，具体失败/清理文案见正式规范。不新增平台错误码或公共原生适配器。实施后将 CCR-009 标为“已落地，待复审”，架构师验收后结案。
+
+## CCR-010：设置窗口生命周期与开机启动行为
+
+| 字段 | 值 |
+|---|---|
+| 批准 | 架构师 Codex，2026-09-30 |
+| 状态 | **已落地，待复审** |
+| 依据 | SETTINGS_EDITING.md；ARCH v1.22 |
+| 兼容性 | 仅细化 ISettingsWindowPresenter、IAutoStartService 注释，不改签名、默认值或配置字段；保存结果/预览服务保持 App internal |
+
+T-018 同步修改 CONTRACTS.cs 与对应 Core 落地文件；签发时两处旧定义保持一致。
+
+Presentation/PresentationPorts.cs 中 ISettingsWindowPresenter 的 summary 替换为：
+
+```csharp
+/// <summary>设置窗口（App 实现），可从任意线程调用，内部切换 UI 线程；构造不创建窗口。
+/// 重复显示复用当前窗口和草稿，关闭后释放其会话，再次显示创建新会话；ShowAsync 不等待窗口关闭。
+/// pageKey：general / translation / ocr / hotkeys / selection / screenshot / floatingball / network / history / about。
+/// null、未知或尚未开放的 pageKey 转到 general；不记录原始 pageKey。完整编辑/保存规则见 SETTINGS_EDITING.md。</summary>
+```
+
+Platform/DesktopModels.cs 中 IAutoStartService 的 summary 替换为，并分别为方法增加注释：
+
+```csharp
+/// <summary>管理 HKCU\Software\Microsoft\Windows\CurrentVersion\Run 的 Iris 值；构造不访问注册表。
+/// 同步平台方法，由调用方在后台执行；只管理本值，不改 RunOnce/StartupApproved 或系统策略。
+/// 路径/命令与安全错误规则见 SETTINGS_EDITING.md；读写失败抛 IrisException(StorageFailure)。</summary>
+```
+
+```csharp
+/// <summary>检查本应用预期 apphost 命令是否匹配注册；缺失或不匹配为 false，不保证 Windows 实际执行。</summary>
+```
+
+```csharp
+/// <summary>启用时写带引号的 apphost 命令；已匹配时无操作。禁用只移除 Iris 值，缺失时无操作。</summary>
+```
+
+不改变 ISettingsService、IActionDispatcher、IAppLifetime；正常退出的设置等待使用 App 内部接线。不批准 T-019 凭据写入端口，本单不实现它。实施后 CCR-010 改为“已落地，待复审”，BACKLOG 由架构师结案。

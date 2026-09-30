@@ -1,6 +1,6 @@
 # Iris 架构设计说明书
 
-> 版本：v1.21 · 2026-09-30 · 状态：**已冻结（首期）**
+> 版本：v1.22 · 2026-09-30 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
@@ -22,7 +22,8 @@
 > 变更记录：v1.19（T-013-R1 通过后，签发 T-014）— §6.1 固定动作分发的注册、UI 调度、防重入、取消及安全错误边界；CCR-006 结案，CCR-007 批准动作契约注释澄清。BACKLOG 提前安排 M2 必需的桌面/剪贴板能力和设置入口，业务 Handler 仍随对应功能交付。
 > 变更记录：v1.20（T-014 通过后，签发 T-021A）— CLIPBOARD_SERVICE.md / CCR-008 固定 Win32 文本/图像格式、重试与取消提交点、原生资源所有权、输入预算及隔离测试方法；CCR-007 结案。C14-1 仅补强 Dispatcher 回归测试与报告，不返工已验收生产实现。
 > 变更记录：v1.21（T-021A-R2 通过后，签发 T-022A）— DESKTOP_CONTEXT.md / CCR-009 定稿显示器筛选、物理坐标、GetDpiForWindow 路径、最近屏幕、前台快照和资源/失败边界；CCR-008 结案。桌面候选稿转为正式规范，会话草案仍留待 T-015。
-> 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json` · `specs/TRANSLATION_EXECUTION.md` · `specs/HISTORY_STORAGE.md` · `specs/TRANSLATION_ORCHESTRATOR.md` · `specs/CLIPBOARD_SERVICE.md` · `specs/DESKTOP_CONTEXT.md`
+> 变更记录：v1.22（T-022A-R1 通过后，签发前移 T-018）— SETTINGS_EDITING.md / CCR-010 定稿设置窗口按需作用域、四项常规草稿/冲突、主题预览、保存/应用状态、开机启动与正常退出等待；CCR-009 结案。Provider 编辑仍由 T-019 后续接入。
+> 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json` · `specs/TRANSLATION_EXECUTION.md` · `specs/HISTORY_STORAGE.md` · `specs/TRANSLATION_ORCHESTRATOR.md` · `specs/CLIPBOARD_SERVICE.md` · `specs/DESKTOP_CONTEXT.md` · `specs/SETTINGS_EDITING.md`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
 ---
@@ -888,6 +889,8 @@ IClipboardService 的线程、格式、取消和所有权规则以 CLIPBOARD_SER
 ```
 
 ### 12.2 设置
+
+**设置编辑入口（T-018 起）**：完整规则见 SETTINGS_EDITING.md / CCR-010。SettingsWindow 按需创建独立 scope，Presenter 单例但不在构造期创建窗口或形成 Dispatcher 依赖环；关闭即释放。常规首批只编辑 Theme、LaunchAtStartup、ShowStartupNotification、LogLevel，按 dirty 字段在最新 Current 上检查冲突并合并。主题预览不写配置，取消恢复最新持久值；JSON 保存与 Run 注册应用状态分开报告。正常退出先等待设置保存/应用退出，再释放其依赖。其它页面和凭据联合提交仍按后续工单接入。
 
 - 设置 DTO 使用 record + `with`：`await settings.UpdateAsync(s => s with { General = s.General with { Theme = AppTheme.Dark } })`。record 的浅复制与 IReadOnly 集合接口本身不提供深度不可变保证，运行时快照按下述规则发布。
 - 设置页采用“草稿 → 保存”模式：需要编辑的集合建立独立副本，点击“保存”时一次性 UpdateAsync；热键录入、Provider 测试都针对草稿进行。直接 `Current with { }` 不会复制嵌套集合，不能据此原地编辑它们。

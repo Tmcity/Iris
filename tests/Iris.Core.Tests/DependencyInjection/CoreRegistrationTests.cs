@@ -22,9 +22,11 @@ public sealed class CoreRegistrationTests
         var settingsMock = Substitute.For<ISettingsService>();
         var secretStoreMock = Substitute.For<Iris.Core.Security.ISecretStore>();
         var historyMock = Substitute.For<ITranslationHistoryRepository>();
+        var presenterMock = Substitute.For<Iris.Core.Presentation.ISettingsWindowPresenter>();
         services.AddSingleton(settingsMock);
         services.AddSingleton(secretStoreMock);
         services.AddSingleton(historyMock);
+        services.AddSingleton(presenterMock);
         services.AddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
         services.AddSingleton(typeof(ILogger<>), typeof(NullLogger<>));
 
@@ -81,6 +83,10 @@ public sealed class CoreRegistrationTests
         var orchestrator2 = provider.GetService<ITranslationOrchestrator>();
         orchestrator1.ShouldNotBeNull();
         orchestrator1.ShouldBeSameAs(orchestrator2);
+
+        var actionHandlers = provider.GetServices<Iris.Core.Actions.IActionHandler>().ToList();
+        var openSettingsHandler = actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.OpenSettings);
+        openSettingsHandler.ShouldNotBeNull();
     }
 
     [Fact]
@@ -90,9 +96,11 @@ public sealed class CoreRegistrationTests
         var settingsMock = Substitute.For<ISettingsService>();
         var secretStoreMock = Substitute.For<Iris.Core.Security.ISecretStore>();
         var historyMock = Substitute.For<ITranslationHistoryRepository>();
+        var presenterMock = Substitute.For<Iris.Core.Presentation.ISettingsWindowPresenter>();
         services.AddSingleton(settingsMock);
         services.AddSingleton(secretStoreMock);
         services.AddSingleton(historyMock);
+        services.AddSingleton(presenterMock);
         services.AddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
         services.AddSingleton(typeof(ILogger<>), typeof(NullLogger<>));
 
@@ -111,5 +119,6 @@ public sealed class CoreRegistrationTests
         provider.GetServices<IProviderConfigurationObserver>().Count().ShouldBe(1);
         provider.GetServices<ITranslationCache>().Count().ShouldBe(1);
         provider.GetServices<ITranslationOrchestrator>().Count().ShouldBe(1);
+        provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.OpenSettings).ShouldBe(1);
     }
 }

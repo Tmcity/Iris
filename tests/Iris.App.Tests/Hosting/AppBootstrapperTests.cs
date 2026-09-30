@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Iris.App.Hosting;
 using Iris.App.Services;
 using Iris.App.Tray;
+using Iris.Core.Actions;
 using Iris.Core.Common;
 using Iris.Core.Errors;
 using Iris.Core.Presentation;
@@ -62,7 +63,8 @@ public sealed class AppBootstrapperTests : IDisposable
         var logLevelSwitch = new Serilog.Core.LoggingLevelSwitch(Serilog.Events.LogEventLevel.Information);
         var logLevelController = new LogLevelController(settingsService, logLevelSwitch, NullLogger<LogLevelController>.Instance);
 
-        var trayController = new TrayIconController(appLifetime, settingsService, NullLogger<TrayIconController>.Instance)
+        var actionDispatcher = Substitute.For<IActionDispatcher>();
+        var trayController = new TrayIconController(appLifetime, settingsService, actionDispatcher, NullLogger<TrayIconController>.Instance)
         {
             SuppressIconCreationForTesting = true
         };
@@ -110,7 +112,8 @@ public sealed class AppBootstrapperTests : IDisposable
         var logLevelSwitch = new Serilog.Core.LoggingLevelSwitch(Serilog.Events.LogEventLevel.Information);
         var logLevelController = new LogLevelController(settingsService, logLevelSwitch, NullLogger<LogLevelController>.Instance);
 
-        var trayController = new TrayIconController(appLifetime, settingsService, NullLogger<TrayIconController>.Instance)
+        var actionDispatcher = Substitute.For<IActionDispatcher>();
+        var trayController = new TrayIconController(appLifetime, settingsService, actionDispatcher, NullLogger<TrayIconController>.Instance)
         {
             SuppressIconCreationForTesting = true
         };
@@ -154,5 +157,52 @@ public sealed class AppBootstrapperTests : IDisposable
         // 验证托盘图标与 Host 从未被启动
         trayController.WasInitialized.ShouldBeFalse();
         await host.DidNotReceive().StartAsync(Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task StopAsync_AwaitsSettingsShutdownBeforeStoppingSynchronousParts()
+    {
+        var settingsService = Substitute.For<ISettingsService>();
+        var translationRegistry = Substitute.For<ITranslationProviderRegistry>();
+        var databaseInitializer = Substitute.For<IDatabaseInitializer>();
+        var appLifetime = Substitute.For<IAppLifetime>();
+        var themeService = new ThemeService(settingsService);
+        var logLevelSwitch = new Serilog.Core.LoggingLevelSwitch(Serilog.Events.LogEventLevel.Information);
+        var logLevelController = new LogLevelController(settingsService, logLevelSwitch, NullLogger<LogLevelController>.Instance);
+        var actionDispatcher = Substitute.For<IActionDispatcher>();
+        var trayController = new TrayIconController(appLifetime, settingsService, actionDispatcher, NullLogger<TrayIconController>.Instance)
+        {
+            SuppressIconCreationForTesting = true
+        };
+        var trayNotificationService = new TrayNotificationService(NullLogger<TrayNotificationService>.Instance);
+        var host = Substitute.For<IHost>();
+
+        var shutdownCoordinator = Substitute.For<Iris.App.Settings.ISettingsShutdownCoordinator>();
+        var shutdownCompleted = false;
+
+        shutdownCoordinator.ShutdownAsync(Arg.Any<CancellationToken>()).Returns(async _ =>
+        {
+            await Task.Delay(10, TestContext.Current.CancellationToken);
+            shutdownCompleted = true;
+        });
+
+        var bootstrapper = new AppBootstrapper(
+            settingsService,
+            translationRegistry,
+            databaseInitializer,
+            logLevelController,
+            themeService,
+            trayController,
+            trayNotificationService,
+            host,
+            NullLogger<AppBootstrapper>.Instance,
+            new AppStartupInfo(Environment.TickCount64),
+            shutdownCoordinator);
+
+        await bootstrapper.StopAsync();
+
+        shutdownCompleted.ShouldBeTrue();
+        await shutdownCoordinator.Received(1).ShutdownAsync(Arg.Any<CancellationToken>());
+        await host.Received(1).StopAsync(Arg.Any<CancellationToken>());
     }
 }

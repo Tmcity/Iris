@@ -20,6 +20,7 @@ internal sealed partial class TrayIconController : IDisposable
 {
     private readonly IAppLifetime _appLifetime;
     private readonly ISettingsService _settingsService;
+    private readonly Iris.Core.Actions.IActionDispatcher _actionDispatcher;
     private readonly ILogger<TrayIconController> _logger;
 
     private TaskbarIcon? _taskbarIcon;
@@ -30,16 +31,19 @@ internal sealed partial class TrayIconController : IDisposable
     private bool _disposed;
 
     public bool IsCreated => _isCreated;
+    internal MenuItem? SettingsMenuItem { get; private set; }
 
     public event EventHandler? Created;
 
     public TrayIconController(
         IAppLifetime appLifetime,
         ISettingsService settingsService,
+        Iris.Core.Actions.IActionDispatcher actionDispatcher,
         ILogger<TrayIconController> logger)
     {
         _appLifetime = appLifetime ?? throw new ArgumentNullException(nameof(appLifetime));
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
+        _actionDispatcher = actionDispatcher ?? throw new ArgumentNullException(nameof(actionDispatcher));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
@@ -193,8 +197,20 @@ internal sealed partial class TrayIconController : IDisposable
         var settingsItem = new MenuItem
         {
             Header = UiText.TrayMenuSettings,
-            IsEnabled = false, // TODO(T-018): 设置窗口尚未实现
+            IsEnabled = true,
         };
+        settingsItem.Click += async (_, _) =>
+        {
+            try
+            {
+                await _actionDispatcher.DispatchAsync(Iris.Core.Actions.IrisAction.OpenSettings, new Iris.Core.Actions.ActionContext(Iris.Core.Actions.ActionTrigger.TrayMenu));
+            }
+            catch (Exception ex)
+            {
+                LogOpenSettingsFailed(_logger, ex);
+            }
+        };
+        SettingsMenuItem = settingsItem;
         contextMenu.Items.Add(settingsItem);
         contextMenu.Items.Add(new Separator());
 
@@ -283,4 +299,7 @@ internal sealed partial class TrayIconController : IDisposable
 
     [LoggerMessage(EventId = 4, Level = LogLevel.Warning, Message = "展示托盘通知失败")]
     private static partial void LogShowNotificationFailed(ILogger logger, Exception ex);
+
+    [LoggerMessage(EventId = 5, Level = LogLevel.Warning, Message = "托盘派发打开设置动作失败")]
+    private static partial void LogOpenSettingsFailed(ILogger logger, Exception ex);
 }

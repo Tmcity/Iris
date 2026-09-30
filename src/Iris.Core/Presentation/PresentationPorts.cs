@@ -83,7 +83,10 @@ public interface INotificationService
     void Notify(NotificationLevel level, string title, string message);
 }
 
-/// <summary>pageKey：general / translation / ocr / hotkeys / selection / screenshot / floatingball / network / history / about。</summary>
+/// <summary>设置窗口（App 实现），可从任意线程调用，内部切换 UI 线程；构造不创建窗口。
+/// 重复显示复用当前窗口和草稿，关闭后释放其会话，再次显示创建新会话；ShowAsync 不等待窗口关闭。
+/// pageKey：general / translation / ocr / hotkeys / selection / screenshot / floatingball / network / history / about。
+/// null、未知或尚未开放的 pageKey 转到 general；不记录原始 pageKey。完整编辑/保存规则见 SETTINGS_EDITING.md。</summary>
 public interface ISettingsWindowPresenter
 {
     Task ShowAsync(string? pageKey = null);

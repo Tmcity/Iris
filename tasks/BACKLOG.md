@@ -104,7 +104,7 @@
 |---|---|---|---|---|
 | T-014 | ☑ | ActionDispatcher + App 内部 UI 调度适配器（C14-1 已完成） | T-005 | 1d |
 | T-021A | ☑ | Win32ClipboardService（含 R1/R2；C21-1 已完成） | T-005, T-014 | 1.5d |
-| T-022A | ▶ | DesktopContext + MonitorEnumerator（R1 采集/清理边界返工） | T-005 | 1d |
+| T-022A | ☑ | DesktopContext + MonitorEnumerator（含 R1） | T-005 | 1d |
 | T-015 | ☐ | TranslateWindow（View + ViewModel + Presenter + WindowPlacementHelper） | T-013, T-014, T-018, T-019, T-021A, T-022A | 2.5d |
 | T-016 | ☐ | InputTranslate / ClipboardTranslate / TranslateText Handler + 托盘菜单 | T-015, T-021A | 0.5d |
 | T-017 | ☐ | HotkeyService + KeyNameMapper + 启动时注册 / 设置变化时重注册 | T-016 | 1.5d |
@@ -127,6 +127,8 @@
 
 **T-022A 复审（2026-09-30）** — 3147224 独立构建零警告/零错误、1220 项通过/1 项环境跳过；受控反例确认 DPI context 晚于坐标采集，查询/清理复合失败被重试掩盖，同名不同几何快照被接受，异常路径清理日志遗漏。签发 T-022A-R1，CCR-009 未结案。实际几何实现 10,000 组差分无差异；C21-1 的协议基线及两种实际变异均符合预期，维护项销项。
 
+**T-022A 最终结案（2026-09-30）** — ecee697 通过，CCR-009 结案。独立构建零警告/零错误、1230 项通过/1 项环境跳过；所有原采集/清理/冲突反例符合要求，几何差分保持通过。多屏/混合 DPI 等实机范围仍按报告限定。下一单进入前移 T-018，提供真实设置入口。
+
 T-015 签发前还须完成 A07 的窗口会话/单卡 attempt 设计，覆盖旧任务后完成、隐藏后迟到回调及单卡重试；Dispatcher 的 Action 防重入不能替代结果归属校验。
 
 **T-015** 交付 ARCH §7.2、§10.5（跟随光标定位）、§14 的 TranslateWindow 部分。验收（手动 + VM 单测）：VM 用假 Orchestrator 测试卡片创建、Delta 节流刷新、Completed 覆盖、失败状态、单卡片重试、新请求取消旧请求；手动验证：在多显示器、混合 DPI 下窗口跟随光标且不超出屏幕、钉住 / 失焦隐藏、Esc 隐藏、Enter / Shift+Enter 行为。
@@ -142,11 +144,11 @@ T-015 签发前还须完成 A07 的窗口会话/单卡 attempt 设计，覆盖�
 
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
-| T-018 | ☐ | SettingsWindow 外壳（草稿 / 保存模式）+ 常规页 + AutoStartService（前移至 T-015 前） | T-005, T-014 | 1.5d |
+| T-018 | ▶ | SettingsWindow、常规草稿/主题预览 + AutoStartService（前移至 T-015 前） | T-005, T-014 | 1.5d |
 | T-019 | ☐ | 翻译服务页（预设、增删改、排序、Key、测试连接、获取模型、Prompt 选择，前移至 T-015 前） | T-018, T-011, T-012 | 2d |
 | T-020 | ☐ | 快捷键页 + HotkeyRecorderBox | T-018, T-017 | 1d |
 
-**T-018** 验收：打开 / 取消 / 保存行为符合 ARCH §12.2 的草稿模式；主题切换即时生效；开机自启写入并清除注册表 Run 键；设置窗口只存在一个实例。
+**T-018** 已按 SETTINGS_EDITING.md / ARCH v1.22 / CCR-010 签发。交付按需窗口 scope、OpenSettingsHandler/托盘接线、四项常规草稿与增量冲突、主题预览、开机启动应用状态及正常退出等待；首期不开放未生效的语言/更新控件。验收包含实际组合根无环、打开/取消/保存与预览归属、注册表隔离测试及真实 WPF 基本交互的准确记录。
 前移后由 T-018 同时接入 OpenSettingsHandler 与真实设置入口；尚未交付的设置页不开放。T-019 的服务排序先验证保存/Registry 读取顺序，待 T-015 交付后再验收实际结果卡片顺序，不把后者冒充已完成。
 **T-019** 验收：从预设添加服务时自动填入 BaseUrl 和模型；Key 保存到 SecretStore（settings.json 中找不到 Key）；删除 Profile 时同时删除其密钥；测试连接显示延迟与测试译文，或错误信息；获取模型列表可用；模型名包含 haiku 时自动清空 Effort 并提示；Anthropic 的反代 BaseUrl 以 `/v1` 结尾时提示去掉（SDK 会自动追加 `/v1/messages`，ARCH §9.2）；拖拽排序后结果卡片顺序随之改变。
 T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器：整组凭据先写入新引用，再原子切换 Profile，刷新观察者后清理旧值；禁止直接复写活动凭据集或以多次 legacy Set 模拟事务。单卡测试连接/模型列表使用瞬态快照并及时释放。
