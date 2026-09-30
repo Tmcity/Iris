@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
@@ -21,6 +22,11 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
     private readonly GeneralSettingsSaveCoordinator _saveCoordinator;
     private readonly IUiDispatcher _uiDispatcher;
     private readonly object _sessionOwner = new();
+
+    private readonly Lock _admissionLock = new();
+    private readonly HashSet<Task> _activeWork = [];
+    private bool _isStopped;
+    private long _queryGeneration;
 
     private AppTheme _baseTheme;
     private AppTheme _targetTheme;
@@ -44,7 +50,6 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
     private bool _isConflict;
     private bool _canRetryAutoStart;
     private bool _disposed;
-    private Task? _inFlightTask;
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public event Action? RequestClose;
@@ -74,14 +79,16 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
         _baseLogLevel = general.LogLevel;
         _targetLogLevel = general.LogLevel;
 
-        _canRetryAutoStart = _saveCoordinator.IsAutoStartPending();
+        _canRetryAutoStart = false;
 
         SaveCommand = new AsyncRelayCommand(ExecuteSaveAsync, () => CanEdit);
         CancelCommand = new RelayCommand(ExecuteCancel, () => CanEdit);
         ReloadCommand = new RelayCommand(ExecuteReload, () => CanEdit);
-        RetryAutoStartCommand = new AsyncRelayCommand(ExecuteRetryAutoStartAsync, () => !IsSaving && CanRetryAutoStart && !_disposed);
+        RetryAutoStartCommand = new AsyncRelayCommand(ExecuteRetryAutoStartAsync, () => !IsSaving && CanRetryAutoStart && !_disposed && !_isStopped);
 
         _settingsService.Changed += OnExternalSettingsChanged;
+
+        _ = QueryAutoStartStatusAsync();
     }
 
     public static IReadOnlyList<AppTheme> AvailableThemes => _availableThemes;
@@ -106,14 +113,14 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
         }
     }
 
-    public bool CanEdit => !IsSaving && !_disposed;
+    public bool CanEdit => !IsSaving && !_disposed && !_isStopped;
 
     public AppTheme Theme
     {
         get => _targetTheme;
         set
         {
-            if (IsSaving || _disposed)
+            if (IsSaving || _disposed || _isStopped)
             {
                 return;
             }
@@ -141,7 +148,7 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
         get => _targetLaunchAtStartup;
         set
         {
-            if (IsSaving || _disposed)
+            if (IsSaving || _disposed || _isStopped)
             {
                 return;
             }
@@ -161,7 +168,7 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
         get => _targetShowStartupNotification;
         set
         {
-            if (IsSaving || _disposed)
+            if (IsSaving || _disposed || _isStopped)
             {
                 return;
             }
@@ -181,7 +188,7 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
         get => _targetLogLevel;
         set
         {
-            if (IsSaving || _disposed)
+            if (IsSaving || _disposed || _isStopped)
             {
                 return;
             }
@@ -258,18 +265,33 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
 
     internal object SessionOwner => _sessionOwner;
 
+    internal void StopAcceptance()
+    {
+        lock (_admissionLock)
+        {
+            _isStopped = true;
+        }
+    }
+
     internal async Task WaitForActiveWorkAsync()
     {
+        StopAcceptance();
+
         while (true)
         {
-            var task = _inFlightTask;
-            if (task == null)
+            Task[] tasks;
+            lock (_admissionLock)
             {
-                break;
+                if (_activeWork.Count == 0)
+                {
+                    break;
+                }
+                tasks = _activeWork.ToArray();
             }
+
             try
             {
-                await task.ConfigureAwait(false);
+                await Task.WhenAll(tasks).ConfigureAwait(false);
             }
             catch
             {
@@ -277,18 +299,76 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
         }
     }
 
-    public async Task ExecuteSaveAsync()
+    private Task QueryAutoStartStatusAsync()
     {
-        if (IsSaving || _disposed)
+        TaskCompletionSource workTcs;
+        long gen;
+        lock (_admissionLock)
         {
-            return;
+            if (_disposed || _isStopped)
+            {
+                return Task.CompletedTask;
+            }
+            gen = ++_queryGeneration;
+            workTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            _activeWork.Add(workTcs.Task);
         }
 
-        IsSaving = true;
-        StatusMessage = UiText.SettingsStatusSaving;
+        return RunQueryAutoStartStatusAsync(gen, workTcs);
+    }
 
-        var inFlightTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        _inFlightTask = inFlightTcs.Task;
+    private async Task RunQueryAutoStartStatusAsync(long gen, TaskCompletionSource workTcs)
+    {
+        try
+        {
+            var isPending = await _saveCoordinator.QueryAutoStartPendingAsync(CancellationToken.None).ConfigureAwait(false);
+
+            await _uiDispatcher.InvokeAsync(() =>
+            {
+                lock (_admissionLock)
+                {
+                    if (_disposed || _isStopped || gen != _queryGeneration)
+                    {
+                        return Task.CompletedTask;
+                    }
+
+                    CanRetryAutoStart = isPending;
+                    if (isPending && StatusMessage == UiText.SettingsStatusSaved)
+                    {
+                        StatusMessage = UiText.SettingsStatusSavedAutoStartStillPending;
+                    }
+                }
+                return Task.CompletedTask;
+            }, CancellationToken.None).ConfigureAwait(false);
+        }
+        catch
+        {
+        }
+        finally
+        {
+            lock (_admissionLock)
+            {
+                _activeWork.Remove(workTcs.Task);
+            }
+            workTcs.TrySetResult();
+        }
+    }
+
+    public async Task ExecuteSaveAsync()
+    {
+        TaskCompletionSource workTcs;
+        lock (_admissionLock)
+        {
+            if (IsSaving || _disposed || _isStopped)
+            {
+                return;
+            }
+            workTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            _activeWork.Add(workTcs.Task);
+            IsSaving = true;
+        }
+
+        StatusMessage = UiText.SettingsStatusSaving;
 
         var snapshot = new GeneralDraftSnapshot(
             BaseTheme: _baseTheme,
@@ -308,7 +388,7 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
         {
             var result = await _saveCoordinator.SaveAsync(snapshot, CancellationToken.None);
 
-            if (_disposed)
+            if (_disposed || _isStopped)
             {
                 return;
             }
@@ -321,10 +401,20 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
                     SyncBaselineFromCurrent();
                     StatusMessage = UiText.SettingsStatusSaved;
                     IsConflict = false;
-                    CanRetryAutoStart = _saveCoordinator.IsAutoStartPending();
-                    if (CanRetryAutoStart)
+                    try
                     {
-                        StatusMessage = UiText.SettingsStatusSavedAutoStartStillPending;
+                        var isPending = await _saveCoordinator.QueryAutoStartPendingAsync(CancellationToken.None).ConfigureAwait(true);
+                        if (!_disposed && !_isStopped)
+                        {
+                            CanRetryAutoStart = isPending;
+                            if (isPending)
+                            {
+                                StatusMessage = UiText.SettingsStatusSavedAutoStartStillPending;
+                            }
+                        }
+                    }
+                    catch
+                    {
                     }
                     OnPropertyChanged(nameof(IsDirty));
                     break;
@@ -349,9 +439,18 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
         }
         finally
         {
-            _inFlightTask = null;
-            inFlightTcs.TrySetResult();
-            IsSaving = false;
+            try
+            {
+                IsSaving = false;
+            }
+            finally
+            {
+                lock (_admissionLock)
+                {
+                    _activeWork.Remove(workTcs.Task);
+                }
+                workTcs.TrySetResult();
+            }
         }
     }
 
@@ -382,7 +481,7 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
 
     public void ExecuteCancel()
     {
-        if (IsSaving || _disposed)
+        if (IsSaving || _disposed || _isStopped)
         {
             return;
         }
@@ -394,7 +493,7 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
 
     public void ExecuteReload()
     {
-        if (IsSaving || _disposed)
+        if (IsSaving || _disposed || _isStopped)
         {
             return;
         }
@@ -404,25 +503,31 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
 
         StatusMessage = null;
         IsConflict = false;
-        CanRetryAutoStart = _saveCoordinator.IsAutoStartPending();
+        _ = QueryAutoStartStatusAsync();
 
         OnPropertyChanged(nameof(IsDirty));
     }
 
     public async Task ExecuteRetryAutoStartAsync()
     {
-        if (IsSaving || !CanRetryAutoStart || _disposed)
+        TaskCompletionSource workTcs;
+        lock (_admissionLock)
         {
-            return;
+            if (IsSaving || _disposed || _isStopped)
+            {
+                return;
+            }
+            workTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            _activeWork.Add(workTcs.Task);
+            IsSaving = true;
         }
 
-        IsSaving = true;
         StatusMessage = UiText.SettingsStatusRetryingAutoStart;
 
         try
         {
             var result = await _saveCoordinator.RetryAutoStartAsync();
-            if (_disposed)
+            if (_disposed || _isStopped)
             {
                 return;
             }
@@ -430,7 +535,17 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
             if (result.Status == GeneralSaveStatus.SavedAndApplied)
             {
                 StatusMessage = UiText.SettingsStatusAutoStartApplied;
-                CanRetryAutoStart = _saveCoordinator.IsAutoStartPending();
+                try
+                {
+                    var isPending = await _saveCoordinator.QueryAutoStartPendingAsync(CancellationToken.None).ConfigureAwait(true);
+                    if (!_disposed && !_isStopped)
+                    {
+                        CanRetryAutoStart = isPending;
+                    }
+                }
+                catch
+                {
+                }
             }
             else
             {
@@ -440,7 +555,18 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
         }
         finally
         {
-            IsSaving = false;
+            try
+            {
+                IsSaving = false;
+            }
+            finally
+            {
+                lock (_admissionLock)
+                {
+                    _activeWork.Remove(workTcs.Task);
+                }
+                workTcs.TrySetResult();
+            }
         }
     }
 
@@ -448,7 +574,7 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
     {
         _ = _uiDispatcher.InvokeAsync(() =>
         {
-            if (_disposed)
+            if (_disposed || _isStopped)
             {
                 return Task.CompletedTask;
             }
@@ -495,19 +621,27 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
 
     public void Dispose()
     {
-        if (_disposed)
+        lock (_admissionLock)
         {
-            return;
+            if (_disposed)
+            {
+                return;
+            }
+
+            _disposed = true;
+            _isStopped = true;
         }
 
-        _disposed = true;
         _settingsService.Changed -= OnExternalSettingsChanged;
         _themeService.ClearPreview(_sessionOwner);
-        OnPropertyChanged(nameof(CanEdit));
     }
 
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
+        if (_disposed)
+        {
+            return;
+        }
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

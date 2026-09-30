@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -24,11 +25,18 @@ public static class WpfTestRunner
 
     private static void RunStaThread()
     {
-        EnsureApplication();
-        var dispatcher = Dispatcher.CurrentDispatcher;
-        SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(dispatcher));
-        DispatcherTcs.SetResult(dispatcher);
-        Dispatcher.Run();
+        try
+        {
+            EnsureApplication();
+            var dispatcher = Dispatcher.CurrentDispatcher;
+            SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(dispatcher));
+            DispatcherTcs.SetResult(dispatcher);
+            Dispatcher.Run();
+        }
+        catch (Exception ex)
+        {
+            DispatcherTcs.TrySetException(ex);
+        }
     }
 
     public static async Task RunAsync(Func<Task> work)
@@ -92,6 +100,31 @@ public static class WpfTestRunner
         });
 
         return await tcs.Task.ConfigureAwait(false);
+    }
+
+    public static async Task CleanupWindowsAsync()
+    {
+        var dispatcher = await DispatcherTcs.Task.ConfigureAwait(false);
+        await dispatcher.InvokeAsync(() =>
+        {
+            if (Application.Current != null)
+            {
+                foreach (var window in Application.Current.Windows.Cast<Window>().ToArray())
+                {
+                    try
+                    {
+                        if (window is Iris.App.Settings.SettingsWindow sw)
+                        {
+                            sw.ForceClose = true;
+                        }
+                        window.Close();
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+        });
     }
 
     private static void EnsureApplication()

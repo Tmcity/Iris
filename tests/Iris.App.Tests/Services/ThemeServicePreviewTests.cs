@@ -148,21 +148,58 @@ public sealed class ThemeServicePreviewTests
     }
 
     [Fact]
-    public void VisualThemeApplier_WhenThrows_LogsWarningWithoutCrashing()
+    public async Task VisualThemeApplier_WhenThrows_LogsWarningWithoutCrashing()
     {
         var settingsService = Substitute.For<ISettingsService>();
         settingsService.Current.Returns(new AppSettings { General = new GeneralSettings { Theme = AppTheme.Light } });
 
-        var logger = Substitute.For<Microsoft.Extensions.Logging.ILogger<ThemeService>>();
-        logger.IsEnabled(Microsoft.Extensions.Logging.LogLevel.Warning).Returns(true);
-
+        var logger = new TestThemeLogger();
+        const string privateMarker = "fake-theme-private-marker";
         using var themeService = new ThemeService(
             settingsService,
             logger: logger,
-            visualThemeApplier: _ => throw new InvalidOperationException("Simulated theme apply failure"));
+            visualThemeApplier: _ => throw new InvalidOperationException(privateMarker));
 
         var sessionOwner = new object();
         Should.NotThrow(() => themeService.SetPreview(sessionOwner, AppTheme.Dark));
         themeService.EffectiveTheme.ShouldBe(AppTheme.Dark);
+
+        await logger.LoggedTcs.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+        logger.Calls.ShouldBe(1);
+        logger.LastLevel.ShouldBe(Microsoft.Extensions.Logging.LogLevel.Warning);
+        logger.LastException.ShouldBeNull(); // 原生 Exception 必须为 null，不传原始异常对象
+        logger.LastFormatted.ShouldContain("Dark");
+        logger.LastFormatted.ShouldContain("InvalidOperationException");
+        logger.MarkerExposed.ShouldBeFalse();
+    }
+
+    private sealed class TestThemeLogger : Microsoft.Extensions.Logging.ILogger<ThemeService>
+    {
+        public int Calls { get; private set; }
+        public Microsoft.Extensions.Logging.LogLevel LastLevel { get; private set; }
+        public Exception? LastException { get; private set; }
+        public string LastFormatted { get; private set; } = string.Empty;
+        public bool MarkerExposed { get; private set; }
+        public System.Threading.Tasks.TaskCompletionSource LoggedTcs { get; } = new(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
+        public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            Microsoft.Extensions.Logging.LogLevel logLevel,
+            Microsoft.Extensions.Logging.EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            Calls++;
+            LastLevel = logLevel;
+            LastException = exception;
+            LastFormatted = formatter(state, exception);
+            MarkerExposed |= (exception?.ToString() ?? string.Empty).Contains("fake-theme-private-marker", StringComparison.Ordinal)
+                || LastFormatted.Contains("fake-theme-private-marker", StringComparison.Ordinal);
+            LoggedTcs.TrySetResult();
+        }
     }
 }

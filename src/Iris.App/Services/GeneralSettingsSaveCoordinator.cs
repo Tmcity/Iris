@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Iris.App.Settings;
 using Iris.Core.Platform;
 using Iris.Core.Settings;
 using Microsoft.Extensions.Logging;
@@ -68,23 +70,24 @@ internal sealed class GeneralSettingsConflictException : Exception
 }
 
 /// <summary>
-/// 常规设置保存协调器：在 ISettingsService.UpdateAsync 的 mutate 中执行冲突检查与增量合并，
-/// 并在提交成功后串行协调开机自启等系统级应用。
-/// 完整规则见 SETTINGS_EDITING.md §3 与 §4。
+/// 常规设置保存协调器：增量合并、冲突检测、开机自启系统应用与状态跟踪。
+/// Scoped 生命周期，绑定到单次窗口会话。
+/// 完整规则见 SETTINGS_EDITING.md §3、§4、§5。
 /// </summary>
 internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
 {
-    private static readonly string[] AllowedLogLevels = ["Verbose", "Debug", "Information", "Warning", "Error"];
+    private static readonly string[] AllowedLogLevels = ["Verbose", "Debug", "Information", "Warning", "Error", "Fatal"];
 
     private readonly ISettingsService _settingsService;
     private readonly IAutoStartService _autoStartService;
     private readonly ILogger<GeneralSettingsSaveCoordinator> _logger;
 
     private readonly SemaphoreSlim _gate = new(1, 1);
-    private readonly Lock _workLock = new();
-    private volatile Task? _activeExecutionTask;
-    private volatile CancellationTokenSource? _activePreCommitCts;
-    private volatile bool _isStopped;
+    private readonly Lock _admissionLock = new();
+    private readonly HashSet<Task> _inFlightWork = [];
+    private readonly List<CancellationTokenSource> _preCommitCtsList = [];
+    private bool _isStopped;
+    private bool _disposed;
 
     public GeneralSettingsSaveCoordinator(
         ISettingsService settingsService,
@@ -96,7 +99,16 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    internal Task? ActiveWorkTask => _activeExecutionTask;
+    internal Task? ActiveWorkTask
+    {
+        get
+        {
+            lock (_admissionLock)
+            {
+                return _inFlightWork.Count > 0 ? Task.WhenAll(_inFlightWork.ToArray()) : null;
+            }
+        }
+    }
 
     public bool IsAutoStartPending()
     {
@@ -110,43 +122,143 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
         }
     }
 
-    internal void CancelPreCommitWork()
+    public async Task<bool> QueryAutoStartPendingAsync(CancellationToken cancellationToken = default)
     {
-        _isStopped = true;
+        var (admitted, tcs, preCommitCts) = TryAdmitWork(cancellationToken);
+        if (!admitted || tcs == null || preCommitCts == null)
+        {
+            return false;
+        }
+
         try
         {
-            _activePreCommitCts?.Cancel();
+            return await Task.Run(() =>
+            {
+                try
+                {
+                    preCommitCts.Token.ThrowIfCancellationRequested();
+                    var isEnabled = _autoStartService.IsEnabled();
+                    var shouldBeEnabled = _settingsService.Current.General.LaunchAtStartup;
+                    return isEnabled != shouldBeEnabled;
+                }
+                catch (OperationCanceledException)
+                {
+                    return false;
+                }
+                catch
+                {
+                    return true;
+                }
+            }, preCommitCts.Token).ConfigureAwait(false);
         }
-        catch (ObjectDisposedException)
+        catch (OperationCanceledException)
         {
+            return false;
+        }
+        catch
+        {
+            return true;
+        }
+        finally
+        {
+            ExitWork(tcs, preCommitCts);
         }
     }
 
+    private (bool Admitted, TaskCompletionSource? Tcs, CancellationTokenSource? PreCommitCts) TryAdmitWork(CancellationToken callerCt)
+    {
+        lock (_admissionLock)
+        {
+            if (_isStopped || _disposed)
+            {
+                return (false, null, null);
+            }
+
+            var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            _inFlightWork.Add(tcs.Task);
+
+            CancellationTokenSource preCommitCts;
+            if (callerCt.CanBeCanceled)
+            {
+                preCommitCts = CancellationTokenSource.CreateLinkedTokenSource(callerCt);
+            }
+            else
+            {
+                preCommitCts = new CancellationTokenSource();
+            }
+            _preCommitCtsList.Add(preCommitCts);
+
+            return (true, tcs, preCommitCts);
+        }
+    }
+
+    private void ExitWork(TaskCompletionSource tcs, CancellationTokenSource? preCommitCts)
+    {
+        lock (_admissionLock)
+        {
+            _inFlightWork.Remove(tcs.Task);
+            if (preCommitCts != null)
+            {
+                _preCommitCtsList.Remove(preCommitCts);
+            }
+        }
+
+        if (preCommitCts != null)
+        {
+            try
+            {
+                preCommitCts.Dispose();
+            }
+            catch
+            {
+            }
+        }
+
+        tcs.TrySetResult();
+    }
+
+    internal void CancelPreCommitWork() => StopAcceptanceAndCancelPreCommit();
+
     internal void StopAcceptanceAndCancelPreCommit()
     {
-        _isStopped = true;
-        try
+        List<CancellationTokenSource> ctsList;
+        lock (_admissionLock)
         {
-            _activePreCommitCts?.Cancel();
+            _isStopped = true;
+            ctsList = new List<CancellationTokenSource>(_preCommitCtsList);
         }
-        catch (ObjectDisposedException)
+
+        foreach (var cts in ctsList)
         {
+            try
+            {
+                cts.Cancel();
+            }
+            catch (ObjectDisposedException)
+            {
+            }
         }
     }
 
     internal async Task WaitForActiveWorkAsync()
     {
         StopAcceptanceAndCancelPreCommit();
+
         while (true)
         {
-            var work = _activeExecutionTask;
-            if (work == null)
+            Task[] tasks;
+            lock (_admissionLock)
             {
-                break;
+                if (_inFlightWork.Count == 0)
+                {
+                    break;
+                }
+                tasks = _inFlightWork.ToArray();
             }
+
             try
             {
-                await work.ConfigureAwait(false);
+                await Task.WhenAll(tasks).ConfigureAwait(false);
             }
             catch
             {
@@ -161,12 +273,11 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
     {
         ArgumentNullException.ThrowIfNull(snapshot);
 
-        if (_isStopped)
+        if (!snapshot.HasAnyDirty)
         {
-            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusStopped);
+            return GeneralSaveResult.SavedAndApplied();
         }
 
-        // 1. 前置预校验：不依赖 Normalize 静默替换
         if (snapshot.ThemeDirty && !Enum.IsDefined(snapshot.TargetTheme))
         {
             return GeneralSaveResult.Uncommitted(UiText.SettingsStatusInvalidTheme);
@@ -177,178 +288,218 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
             return GeneralSaveResult.Uncommitted(UiText.SettingsStatusInvalidLogLevel);
         }
 
-        // 2. 无 dirty 字段时不写 JSON 或注册表
-        if (!snapshot.HasAnyDirty)
+        var (admitted, tcs, preCommitCts) = TryAdmitWork(cancellationToken);
+        if (!admitted || tcs == null || preCommitCts == null)
         {
-            return GeneralSaveResult.SavedAndApplied();
-        }
-
-        cancellationToken.ThrowIfCancellationRequested();
-
-        await _gate.WaitAsync(cancellationToken).ConfigureAwait(false);
-        if (_isStopped)
-        {
-            _gate.Release();
             return GeneralSaveResult.Uncommitted(UiText.SettingsStatusStopped);
         }
 
-        var executionTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        _activePreCommitCts = linkedCts;
-        _activeExecutionTask = executionTcs.Task;
-
         try
         {
-            // 3. 执行设置持久化（UpdateAsync）
+            var effectiveCt = preCommitCts.Token;
+            effectiveCt.ThrowIfCancellationRequested();
+
+            await _gate.WaitAsync(effectiveCt).ConfigureAwait(false);
             try
             {
-                await _settingsService.UpdateAsync(current =>
+                lock (_admissionLock)
                 {
-                    // 在 mutate 内检查冲突
-                    if (snapshot.ThemeDirty)
+                    if (_isStopped || _disposed)
                     {
-                        if (current.General.Theme != snapshot.BaseTheme && current.General.Theme != snapshot.TargetTheme)
-                        {
-                            throw new GeneralSettingsConflictException(nameof(GeneralSettings.Theme));
-                        }
+                        return GeneralSaveResult.Uncommitted(UiText.SettingsStatusStopped);
                     }
-
-                    if (snapshot.LaunchAtStartupDirty)
-                    {
-                        if (current.General.LaunchAtStartup != snapshot.BaseLaunchAtStartup && current.General.LaunchAtStartup != snapshot.TargetLaunchAtStartup)
-                        {
-                            throw new GeneralSettingsConflictException(nameof(GeneralSettings.LaunchAtStartup));
-                        }
-                    }
-
-                    if (snapshot.ShowStartupNotificationDirty)
-                    {
-                        if (current.General.ShowStartupNotification != snapshot.BaseShowStartupNotification && current.General.ShowStartupNotification != snapshot.TargetShowStartupNotification)
-                        {
-                            throw new GeneralSettingsConflictException(nameof(GeneralSettings.ShowStartupNotification));
-                        }
-                    }
-
-                    if (snapshot.LogLevelDirty)
-                    {
-                        if (!string.Equals(current.General.LogLevel, snapshot.BaseLogLevel, StringComparison.OrdinalIgnoreCase) &&
-                            !string.Equals(current.General.LogLevel, snapshot.TargetLogLevel, StringComparison.OrdinalIgnoreCase))
-                        {
-                            throw new GeneralSettingsConflictException(nameof(GeneralSettings.LogLevel));
-                        }
-                    }
-
-                    // 检查是否已与目标完全一致
-                    var themeSame = !snapshot.ThemeDirty || current.General.Theme == snapshot.TargetTheme;
-                    var launchSame = !snapshot.LaunchAtStartupDirty || current.General.LaunchAtStartup == snapshot.TargetLaunchAtStartup;
-                    var notifSame = !snapshot.ShowStartupNotificationDirty || current.General.ShowStartupNotification == snapshot.TargetShowStartupNotification;
-                    var logSame = !snapshot.LogLevelDirty || string.Equals(current.General.LogLevel, snapshot.TargetLogLevel, StringComparison.OrdinalIgnoreCase);
-
-                    if (themeSame && launchSame && notifSame && logSame)
-                    {
-                        return current;
-                    }
-
-                    // 仅在 current.General 上增量构造新值，保留所有未编辑及隐藏字段
-                    var updatedGeneral = current.General with
-                    {
-                        Theme = snapshot.ThemeDirty ? snapshot.TargetTheme : current.General.Theme,
-                        LaunchAtStartup = snapshot.LaunchAtStartupDirty ? snapshot.TargetLaunchAtStartup : current.General.LaunchAtStartup,
-                        ShowStartupNotification = snapshot.ShowStartupNotificationDirty ? snapshot.TargetShowStartupNotification : current.General.ShowStartupNotification,
-                        LogLevel = snapshot.LogLevelDirty ? snapshot.TargetLogLevel : current.General.LogLevel,
-                    };
-
-                    return current with { General = updatedGeneral };
-                }, linkedCts.Token).ConfigureAwait(false);
-            }
-            catch (GeneralSettingsConflictException ex)
-            {
-                LogConflictDetected(_logger, ex.FieldName);
-                return GeneralSaveResult.Uncommitted(UiText.SettingsStatusConflict, isConflict: true);
-            }
-            catch (OperationCanceledException)
-            {
-                return GeneralSaveResult.Uncommitted(UiText.SettingsStatusCanceled);
-            }
-            catch (Exception ex)
-            {
-                LogSaveSettingsFailed(_logger, ex.GetType().Name);
-                return GeneralSaveResult.Uncommitted(UiText.SettingsStatusFileError);
-            }
-
-            // 4. 提交边界已越过：JSON 已提交成功。提交后不受调用方取消影响。
-            _activePreCommitCts = null;
-
-            // 5. 仅本次明确编辑的 LaunchAtStartup 触发开机启动注册
-            if (snapshot.LaunchAtStartupDirty)
-            {
-                var targetLaunchAtStartup = snapshot.TargetLaunchAtStartup;
-                try
-                {
-                    await Task.Run(() => _autoStartService.SetEnabled(targetLaunchAtStartup), CancellationToken.None).ConfigureAwait(false);
                 }
-                catch (Exception ex)
-                {
-                    LogAutoStartApplicationFailed(_logger, ex.GetType().Name);
-                    return GeneralSaveResult.SavedApplicationPending(UiText.SettingsStatusSavedAutoStartPending);
-                }
-            }
 
-            return GeneralSaveResult.SavedAndApplied();
+                return await SaveAsyncCore(snapshot, preCommitCts).ConfigureAwait(false);
+            }
+            finally
+            {
+                _gate.Release();
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusCanceled);
+        }
+        catch (Exception ex)
+        {
+            LogSaveUnexpectedFailed(_logger, ex.GetType().Name);
+            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusSaveFailed);
         }
         finally
         {
-            _activePreCommitCts = null;
-            _gate.Release();
-            _activeExecutionTask = null;
-            executionTcs.TrySetResult();
+            ExitWork(tcs, preCommitCts);
         }
     }
 
-    public async Task<GeneralSaveResult> RetryAutoStartAsync(CancellationToken cancellationToken = default)
+    private async Task<GeneralSaveResult> SaveAsyncCore(
+        GeneralDraftSnapshot snapshot,
+        CancellationTokenSource preCommitCts)
     {
-        cancellationToken.ThrowIfCancellationRequested();
-
-        if (_isStopped)
-        {
-            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusStopped);
-        }
-
-        await _gate.WaitAsync(cancellationToken).ConfigureAwait(false);
-        if (_isStopped)
-        {
-            _gate.Release();
-            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusStopped);
-        }
-
-        var executionTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        _activeExecutionTask = executionTcs.Task;
-
         try
         {
-            // 独立重试只读取最新已保存的 LaunchAtStartup 意图，不重复写 JSON
-            var target = _settingsService.Current.General.LaunchAtStartup;
+            await _settingsService.UpdateAsync(current =>
+            {
+                if (snapshot.ThemeDirty)
+                {
+                    if (current.General.Theme != snapshot.BaseTheme && current.General.Theme != snapshot.TargetTheme)
+                    {
+                        throw new GeneralSettingsConflictException(nameof(GeneralSettings.Theme));
+                    }
+                }
+
+                if (snapshot.LaunchAtStartupDirty)
+                {
+                    if (current.General.LaunchAtStartup != snapshot.BaseLaunchAtStartup && current.General.LaunchAtStartup != snapshot.TargetLaunchAtStartup)
+                    {
+                        throw new GeneralSettingsConflictException(nameof(GeneralSettings.LaunchAtStartup));
+                    }
+                }
+
+                if (snapshot.ShowStartupNotificationDirty)
+                {
+                    if (current.General.ShowStartupNotification != snapshot.BaseShowStartupNotification && current.General.ShowStartupNotification != snapshot.TargetShowStartupNotification)
+                    {
+                        throw new GeneralSettingsConflictException(nameof(GeneralSettings.ShowStartupNotification));
+                    }
+                }
+
+                if (snapshot.LogLevelDirty)
+                {
+                    if (!string.Equals(current.General.LogLevel, snapshot.BaseLogLevel, StringComparison.OrdinalIgnoreCase) &&
+                        !string.Equals(current.General.LogLevel, snapshot.TargetLogLevel, StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new GeneralSettingsConflictException(nameof(GeneralSettings.LogLevel));
+                    }
+                }
+
+                var themeSame = !snapshot.ThemeDirty || current.General.Theme == snapshot.TargetTheme;
+                var launchSame = !snapshot.LaunchAtStartupDirty || current.General.LaunchAtStartup == snapshot.TargetLaunchAtStartup;
+                var notifSame = !snapshot.ShowStartupNotificationDirty || current.General.ShowStartupNotification == snapshot.TargetShowStartupNotification;
+                var logSame = !snapshot.LogLevelDirty || string.Equals(current.General.LogLevel, snapshot.TargetLogLevel, StringComparison.OrdinalIgnoreCase);
+
+                if (themeSame && launchSame && notifSame && logSame)
+                {
+                    return current;
+                }
+
+                var updatedGeneral = current.General with
+                {
+                    Theme = snapshot.ThemeDirty ? snapshot.TargetTheme : current.General.Theme,
+                    LaunchAtStartup = snapshot.LaunchAtStartupDirty ? snapshot.TargetLaunchAtStartup : current.General.LaunchAtStartup,
+                    ShowStartupNotification = snapshot.ShowStartupNotificationDirty ? snapshot.TargetShowStartupNotification : current.General.ShowStartupNotification,
+                    LogLevel = snapshot.LogLevelDirty ? snapshot.TargetLogLevel : current.General.LogLevel,
+                };
+
+                return current with { General = updatedGeneral };
+            }, preCommitCts.Token).ConfigureAwait(false);
+        }
+        catch (GeneralSettingsConflictException ex)
+        {
+            LogConflictDetected(_logger, ex.FieldName);
+            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusConflict, isConflict: true);
+        }
+        catch (OperationCanceledException)
+        {
+            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusCanceled);
+        }
+        catch (Exception ex)
+        {
+            LogSaveSettingsFailed(_logger, ex.GetType().Name);
+            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusFileError);
+        }
+
+        // 提交边界已越过：JSON 已提交成功，提交后不再受 pre-commit 取消影响
+        lock (_admissionLock)
+        {
+            _preCommitCtsList.Remove(preCommitCts);
+        }
+
+        if (snapshot.LaunchAtStartupDirty)
+        {
+            var targetLaunchAtStartup = snapshot.TargetLaunchAtStartup;
             try
             {
-                await Task.Run(() => _autoStartService.SetEnabled(target), CancellationToken.None).ConfigureAwait(false);
-                return GeneralSaveResult.SavedAndApplied();
+                await Task.Run(() => _autoStartService.SetEnabled(targetLaunchAtStartup), CancellationToken.None).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 LogAutoStartApplicationFailed(_logger, ex.GetType().Name);
-                return GeneralSaveResult.SavedApplicationPending(UiText.SettingsStatusAutoStartRetryFailed);
+                return GeneralSaveResult.SavedApplicationPending(UiText.SettingsStatusSavedAutoStartPending);
             }
+        }
+
+        return GeneralSaveResult.SavedAndApplied();
+    }
+
+    public async Task<GeneralSaveResult> RetryAutoStartAsync(CancellationToken cancellationToken = default)
+    {
+        var (admitted, tcs, preCommitCts) = TryAdmitWork(cancellationToken);
+        if (!admitted || tcs == null || preCommitCts == null)
+        {
+            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusStopped);
+        }
+
+        try
+        {
+            var effectiveCt = preCommitCts.Token;
+            effectiveCt.ThrowIfCancellationRequested();
+
+            await _gate.WaitAsync(effectiveCt).ConfigureAwait(false);
+            try
+            {
+                lock (_admissionLock)
+                {
+                    if (_isStopped || _disposed)
+                    {
+                        return GeneralSaveResult.Uncommitted(UiText.SettingsStatusStopped);
+                    }
+                }
+
+                var target = _settingsService.Current.General.LaunchAtStartup;
+                try
+                {
+                    await Task.Run(() => _autoStartService.SetEnabled(target), CancellationToken.None).ConfigureAwait(false);
+                    return GeneralSaveResult.SavedAndApplied();
+                }
+                catch (Exception ex)
+                {
+                    LogAutoStartApplicationFailed(_logger, ex.GetType().Name);
+                    return GeneralSaveResult.SavedApplicationPending(UiText.SettingsStatusAutoStartRetryFailed);
+                }
+            }
+            finally
+            {
+                _gate.Release();
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusCanceled);
+        }
+        catch (Exception ex)
+        {
+            LogAutoStartApplicationFailed(_logger, ex.GetType().Name);
+            return GeneralSaveResult.SavedApplicationPending(UiText.SettingsStatusAutoStartRetryFailed);
         }
         finally
         {
-            _gate.Release();
-            _activeExecutionTask = null;
-            executionTcs.TrySetResult();
+            ExitWork(tcs, preCommitCts);
         }
     }
 
     public void Dispose()
     {
+        lock (_admissionLock)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+            _disposed = true;
+            _isStopped = true;
+        }
+
         _gate.Dispose();
     }
 
@@ -360,4 +511,7 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
 
     [LoggerMessage(EventId = 3, Level = LogLevel.Warning, Message = "开机自启系统应用失败，异常类型：{ExceptionType}")]
     private static partial void LogAutoStartApplicationFailed(ILogger logger, string exceptionType);
+
+    [LoggerMessage(EventId = 4, Level = LogLevel.Error, Message = "常规设置保存异常失败，异常类型：{ExceptionType}")]
+    private static partial void LogSaveUnexpectedFailed(ILogger logger, string exceptionType);
 }

@@ -579,7 +579,7 @@ IDesktopContext 的 summary 与四个方法注释依次替换/增加为：
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-09-30 |
-| 状态 | **已落地，待 T-018-R1 复审**（注释同步正确，保存/退出/预览/自启与验证边界需返工） |
+| 状态 | **已落地，待 T-018-R2 复审**（注释同步正确；361fb71 的退出所有权、后台查询、失败回滚与验证尚未闭环） |
 | 依据 | SETTINGS_EDITING.md；ARCH v1.22 |
 | 兼容性 | 仅细化 ISettingsWindowPresenter、IAutoStartService 注释，不改签名、默认值或配置字段；保存结果/预览服务保持 App internal |
 

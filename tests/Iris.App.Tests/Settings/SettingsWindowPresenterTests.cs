@@ -1,8 +1,9 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
+using System.Windows.Interop;
 using Iris.App.Hosting;
 using Iris.App.Services;
 using Iris.App.Settings;
@@ -71,6 +72,7 @@ public sealed class SettingsWindowPresenterTests
             }
             finally
             {
+                window.ForceClose = true;
                 window.Close();
             }
             return Task.CompletedTask;
@@ -99,37 +101,42 @@ public sealed class SettingsWindowPresenterTests
             services.AddScoped<SettingsViewModel>();
             services.AddTransient<SettingsWindow>();
 
-            var rootProvider = services.BuildServiceProvider();
+            using var rootProvider = services.BuildServiceProvider();
             var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
 
-            presenter.ActiveSession.ShouldBeNull();
+            try
+            {
+                presenter.ActiveSession.ShouldBeNull();
 
-            // 首次 Show
-            await presenter.ShowAsync("general");
+                // 首次 Show
+                await presenter.ShowAsync("general");
 
-            presenter.ActiveSession.ShouldNotBeNull();
-            presenter.ActiveSession.IsOpen.ShouldBeTrue();
-            var window = presenter.ActiveSession.Window;
-            window.ShouldNotBeNull();
-            window.DataContext.ShouldBeSameAs(presenter.ActiveSession.ViewModel);
+                presenter.ActiveSession.ShouldNotBeNull();
+                presenter.ActiveSession.IsOpen.ShouldBeTrue();
+                var window = presenter.ActiveSession.Window;
+                window.ShouldNotBeNull();
+                window.DataContext.ShouldBeSameAs(presenter.ActiveSession.ViewModel);
 
-            // 重复 Show 保留现有会话与窗口
-            await presenter.ShowAsync("translation");
-            presenter.ActiveSession.ShouldNotBeNull();
-            presenter.ActiveSession.Window.ShouldBeSameAs(window);
+                // 重复 Show 保留现有会话与窗口
+                await presenter.ShowAsync("translation");
+                presenter.ActiveSession.ShouldNotBeNull();
+                presenter.ActiveSession.Window.ShouldBeSameAs(window);
 
-            // 关闭窗口后会话清空
-            window.Close();
-            presenter.ActiveSession.ShouldBeNull();
+                // 关闭窗口后会话清空
+                window.Close();
+                presenter.ActiveSession.ShouldBeNull();
 
-            // 再次 Show 会创建新会话与新窗口
-            await presenter.ShowAsync();
-            presenter.ActiveSession.ShouldNotBeNull();
-            presenter.ActiveSession.Window.ShouldNotBeSameAs(window);
-
-            // 正常关停
-            await presenter.ShutdownAsync();
-            presenter.ActiveSession.ShouldBeNull();
+                // 再次 Show 会创建新会话与新窗口
+                await presenter.ShowAsync();
+                presenter.ActiveSession.ShouldNotBeNull();
+                presenter.ActiveSession.Window.ShouldNotBeSameAs(window);
+            }
+            finally
+            {
+                // 正常关停
+                await presenter.ShutdownAsync();
+                presenter.ActiveSession.ShouldBeNull();
+            }
         });
     }
 
@@ -155,18 +162,25 @@ public sealed class SettingsWindowPresenterTests
             services.AddScoped<SettingsViewModel>();
             services.AddTransient<SettingsWindow>();
 
-            var rootProvider = services.BuildServiceProvider();
+            using var rootProvider = services.BuildServiceProvider();
             var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
 
-            await presenter.ShowAsync("general");
-            presenter.ActiveSession.ShouldNotBeNull();
+            try
+            {
+                await presenter.ShowAsync("general");
+                presenter.ActiveSession.ShouldNotBeNull();
 
-            await presenter.ShutdownAsync();
-            presenter.ActiveSession.ShouldBeNull();
+                await presenter.ShutdownAsync();
+                presenter.ActiveSession.ShouldBeNull();
 
-            // 关停后再调用 ShowAsync 应该被直接忽略
-            await presenter.ShowAsync("general");
-            presenter.ActiveSession.ShouldBeNull();
+                // 关停后再调用 ShowAsync 应该被直接忽略
+                await presenter.ShowAsync("general");
+                presenter.ActiveSession.ShouldBeNull();
+            }
+            finally
+            {
+                await presenter.ShutdownAsync();
+            }
         });
     }
 
@@ -203,15 +217,101 @@ public sealed class SettingsWindowPresenterTests
                 throw new InvalidOperationException("Window factory simulated failure");
             });
 
-            var rootProvider = services.BuildServiceProvider();
+            using var rootProvider = services.BuildServiceProvider();
             var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
 
-            var ex = await Should.ThrowAsync<InvalidOperationException>(() => presenter.ShowAsync("general"));
-            ex.Message.ShouldContain("Window factory simulated failure");
+            try
+            {
+                var ex = await Should.ThrowAsync<InvalidOperationException>(() => presenter.ShowAsync("general"));
+                ex.Message.ShouldContain("Window factory simulated failure");
 
-            presenter.ActiveSession.ShouldBeNull();
-            witness.ShouldNotBeNull();
-            witness!.IsDisposed.ShouldBeTrue("创建失败时 scope 必须回滚并释放已解析的 scoped 资源");
+                presenter.ActiveSession.ShouldBeNull();
+                witness.ShouldNotBeNull();
+                witness!.IsDisposed.ShouldBeTrue("创建失败时 scope 必须回滚并释放已解析的 scoped 资源");
+            }
+            finally
+            {
+                await presenter.ShutdownAsync();
+            }
+        });
+    }
+
+    [Fact]
+    public async Task ShowAsync_WhenSourceInitializedThrows_CleansUpHwndAndWindow()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var services = new ServiceCollection();
+            var settingsService = Substitute.For<ISettingsService>();
+            settingsService.Current.Returns(new AppSettings());
+
+            var autoStartService = Substitute.For<IAutoStartService>();
+            var uiDispatcher = new ImmediateUiDispatcher();
+
+            ScopedDisposableWitness? witness = null;
+            SettingsWindow? windowRef = null;
+
+            services.AddSingleton(settingsService);
+            services.AddSingleton(autoStartService);
+            services.AddSingleton<IUiDispatcher>(uiDispatcher);
+            services.AddSingleton<ThemeService>();
+
+            services.AddScoped<ScopedDisposableWitness>(sp =>
+            {
+                witness = new ScopedDisposableWitness();
+                return witness;
+            });
+            services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
+                new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
+            services.AddScoped<SettingsViewModel>();
+
+            EventHandler failHandler = (_, _) => throw new InvalidOperationException("Injected source initialization failure");
+            services.AddTransient<SettingsWindow>(sp =>
+            {
+                _ = sp.GetRequiredService<ScopedDisposableWitness>();
+                var win = new SettingsWindow
+                {
+                    ShowActivated = false,
+                    ShowInTaskbar = false,
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Left = -10000,
+                    Top = -10000,
+                    Opacity = 0
+                };
+                win.SourceInitialized += failHandler;
+                windowRef = win;
+                return win;
+            });
+
+            using var rootProvider = services.BuildServiceProvider();
+            var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
+
+            try
+            {
+                var ex = await Should.ThrowAsync<InvalidOperationException>(() => presenter.ShowAsync("general"));
+                ex.Message.ShouldContain("Injected source initialization failure");
+
+                presenter.ActiveSession.ShouldBeNull();
+                witness.ShouldNotBeNull();
+                witness!.IsDisposed.ShouldBeTrue("Show 失败时 scope 必须释放");
+
+                windowRef.ShouldNotBeNull();
+                var retained = Application.Current.Windows.Cast<Window>().Contains(windowRef!);
+                retained.ShouldBeFalse("失败的窗口不应残留在 Application.Windows");
+
+                var hasHandle = new WindowInteropHelper(windowRef!).Handle != IntPtr.Zero;
+                hasHandle.ShouldBeFalse("回滚后原生 HWND 必须已被销毁");
+            }
+            finally
+            {
+                if (windowRef != null)
+                {
+                    windowRef.SourceInitialized -= failHandler;
+                    windowRef.ForceClose = true;
+                    windowRef.Close();
+                }
+                await presenter.ShutdownAsync();
+            }
         });
     }
 
@@ -237,19 +337,26 @@ public sealed class SettingsWindowPresenterTests
             services.AddScoped<SettingsViewModel>();
             services.AddTransient<SettingsWindow>();
 
-            var rootProvider = services.BuildServiceProvider();
+            using var rootProvider = services.BuildServiceProvider();
             var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
 
-            await presenter.ShowAsync("general");
-            presenter.ActiveSession.ShouldNotBeNull();
+            try
+            {
+                await presenter.ShowAsync("general");
+                presenter.ActiveSession.ShouldNotBeNull();
 
-            var task1 = presenter.ShutdownAsync();
-            var task2 = presenter.ShutdownAsync();
+                var task1 = presenter.ShutdownAsync();
+                var task2 = presenter.ShutdownAsync();
 
-            task1.ShouldBeSameAs(task2);
+                task1.ShouldBeSameAs(task2);
 
-            await Task.WhenAll(task1, task2);
-            presenter.ActiveSession.ShouldBeNull();
+                await Task.WhenAll(task1, task2);
+                presenter.ActiveSession.ShouldBeNull();
+            }
+            finally
+            {
+                await presenter.ShutdownAsync();
+            }
         });
     }
 
@@ -258,22 +365,30 @@ public sealed class SettingsWindowPresenterTests
     {
         await WpfTestRunner.RunAsync(async () =>
         {
-            var saveEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-            var saveRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var saveStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            using var saveRelease = new ManualResetEventSlim();
 
             var settingsService = Substitute.For<ISettingsService>();
             settingsService.Current.Returns(new AppSettings());
             settingsService.UpdateAsync(Arg.Any<Func<AppSettings, AppSettings>>(), Arg.Any<CancellationToken>())
                 .Returns(async callInfo =>
                 {
-                    saveEntered.TrySetResult();
-                    await saveRelease.Task;
                     var mutate = callInfo.Arg<Func<AppSettings, AppSettings>>();
                     var updated = mutate(settingsService.Current);
                     settingsService.Current.Returns(updated);
+                    await Task.CompletedTask;
                 });
 
             var autoStartService = Substitute.For<IAutoStartService>();
+            autoStartService.When(x => x.SetEnabled(Arg.Any<bool>())).Do(_ =>
+            {
+                saveStarted.TrySetResult();
+                if (!saveRelease.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Save release wait timed out");
+                }
+            });
+
             var uiDispatcher = new ImmediateUiDispatcher();
 
             var services = new ServiceCollection();
@@ -282,41 +397,140 @@ public sealed class SettingsWindowPresenterTests
             services.AddSingleton<IUiDispatcher>(uiDispatcher);
             services.AddSingleton<ThemeService>();
 
+            ScopedDisposableWitness? witness = null;
+            services.AddScoped<ScopedDisposableWitness>(sp =>
+            {
+                witness = new ScopedDisposableWitness();
+                return witness;
+            });
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
-                new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
+            {
+                _ = sp.GetRequiredService<ScopedDisposableWitness>();
+                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+            });
             services.AddScoped<SettingsViewModel>();
             services.AddTransient<SettingsWindow>();
 
-            var rootProvider = services.BuildServiceProvider();
+            using var rootProvider = services.BuildServiceProvider();
             var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
 
-            await presenter.ShowAsync("general");
-            var session = presenter.ActiveSession;
-            session.ShouldNotBeNull();
-            var vm = session!.ViewModel;
-            var window = session.Window;
+            try
+            {
+                await presenter.ShowAsync("general");
+                var session = presenter.ActiveSession;
+                session.ShouldNotBeNull();
+                var vm = session!.ViewModel;
+                var window = session.Window;
+                witness.ShouldNotBeNull();
 
-            // 发起保存，使任务在 UpdateAsync 内等待门闩
-            vm.Theme = AppTheme.Dark;
-            var saveTask = vm.ExecuteSaveAsync();
+                // 发起保存，使任务在 SetEnabled 内等待门闩（此时 JSON 已提交，正在进行后台系统应用）
+                vm.LaunchAtStartup = true;
+                var saveTask = vm.ExecuteSaveAsync();
 
-            await saveEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                await saveStarted.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
-            // 发起关停：由于保存尚未真正完成，关停任务不能提前返回
-            var shutdownTask = presenter.ShutdownAsync();
+                // 发起关停：由于保存尚未真正完成，关停任务必须处于挂起状态，且 scope 与窗口必须存活
+                var shutdownTask = presenter.ShutdownAsync();
 
-            // 放行保存底层任务
-            saveRelease.TrySetResult();
+                shutdownTask.IsCompleted.ShouldBeFalse("关停在保存/收尾进行中不得提前返回完成");
+                witness!.IsDisposed.ShouldBeFalse("关停等待期间 scope 必须存活");
+                window.IsVisible.ShouldBeTrue("关停等待期间窗口必须保持可见与存活");
 
-            // 等待关停完成
-            await shutdownTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                // 放行保存底层任务
+                saveRelease.Set();
 
-            // 观察底层保存任务结果（无 ObjectDisposedException）
-            await saveTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                // 等待保存与关停完成
+                await Task.WhenAll(shutdownTask, saveTask).WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
-            // 断言会话与窗口均已安全退出
-            presenter.ActiveSession.ShouldBeNull();
-            window.IsVisible.ShouldBeFalse();
+                // 断言会话与窗口均已安全退出，scope 释放，且无 ODE
+                presenter.ActiveSession.ShouldBeNull();
+                window.IsVisible.ShouldBeFalse();
+                witness.IsDisposed.ShouldBeTrue();
+            }
+            finally
+            {
+                saveRelease.Set();
+                await presenter.ShutdownAsync();
+            }
+        });
+    }
+
+    [Fact]
+    public async Task ShutdownAsync_WhileRetryAutoStartPending_AwaitsRealRetryTask_AndCleansUp()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var retryStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            using var retryRelease = new ManualResetEventSlim();
+
+            var settingsService = Substitute.For<ISettingsService>();
+            settingsService.Current.Returns(new AppSettings { General = new GeneralSettings { LaunchAtStartup = true } });
+
+            var autoStartService = Substitute.For<IAutoStartService>();
+            autoStartService.When(x => x.SetEnabled(true)).Do(_ =>
+            {
+                retryStarted.TrySetResult();
+                if (!retryRelease.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Retry release wait timed out");
+                }
+            });
+
+            var uiDispatcher = new ImmediateUiDispatcher();
+
+            var services = new ServiceCollection();
+            services.AddSingleton(settingsService);
+            services.AddSingleton(autoStartService);
+            services.AddSingleton<IUiDispatcher>(uiDispatcher);
+            services.AddSingleton<ThemeService>();
+
+            ScopedDisposableWitness? witness = null;
+            services.AddScoped<ScopedDisposableWitness>(sp =>
+            {
+                witness = new ScopedDisposableWitness();
+                return witness;
+            });
+            services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
+            {
+                _ = sp.GetRequiredService<ScopedDisposableWitness>();
+                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+            });
+            services.AddScoped<SettingsViewModel>();
+            services.AddTransient<SettingsWindow>();
+
+            using var rootProvider = services.BuildServiceProvider();
+            var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
+
+            try
+            {
+                await presenter.ShowAsync("general");
+                var session = presenter.ActiveSession;
+                session.ShouldNotBeNull();
+                var vm = session!.ViewModel;
+                var window = session.Window;
+
+                var retryTask = vm.ExecuteRetryAutoStartAsync();
+
+                await retryStarted.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                var shutdownTask = presenter.ShutdownAsync();
+
+                shutdownTask.IsCompleted.ShouldBeFalse("关停在重试收尾进行中不得提前返回完成");
+                witness!.IsDisposed.ShouldBeFalse("关停等待期间 scope 必须存活");
+
+                retryRelease.Set();
+
+                await Task.WhenAll(shutdownTask, retryTask).WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                presenter.ActiveSession.ShouldBeNull();
+                window.IsVisible.ShouldBeFalse();
+                witness.IsDisposed.ShouldBeTrue();
+            }
+            finally
+            {
+                retryRelease.Set();
+                await presenter.ShutdownAsync();
+            }
         });
     }
 }

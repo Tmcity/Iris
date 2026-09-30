@@ -68,18 +68,19 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
                     return Task.CompletedTask;
                 }
 
-                // 首次 Show 或关闭后重新 Show：在 UI 线程创建独立 DI scope
                 var scope = _serviceProvider.CreateScope();
+                SettingsWindow? window = null;
+                SettingsWindowSession? session = null;
                 try
                 {
-                    var window = scope.ServiceProvider.GetRequiredService<SettingsWindow>();
+                    window = scope.ServiceProvider.GetRequiredService<SettingsWindow>();
                     var viewModel = scope.ServiceProvider.GetRequiredService<SettingsViewModel>();
                     var themeService = scope.ServiceProvider.GetRequiredService<ThemeService>();
                     var saveCoordinator = scope.ServiceProvider.GetRequiredService<GeneralSettingsSaveCoordinator>();
 
                     window.DataContext = viewModel;
 
-                    var session = new SettingsWindowSession(scope, window, viewModel, themeService, saveCoordinator);
+                    session = new SettingsWindowSession(scope, window, viewModel, themeService, saveCoordinator);
                     _activeSession = session;
 
                     window.Closed += (sender, args) =>
@@ -100,7 +101,26 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
                 catch
                 {
                     _activeSession = null;
-                    scope.Dispose();
+                    if (window != null)
+                    {
+                        window.ForceClose = true;
+                        try
+                        {
+                            window.Close();
+                        }
+                        catch
+                        {
+                        }
+                    }
+
+                    if (session != null)
+                    {
+                        session.Dispose();
+                    }
+                    else
+                    {
+                        scope.Dispose();
+                    }
                     throw;
                 }
             }

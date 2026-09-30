@@ -306,7 +306,7 @@ public sealed class SettingsViewModelTests
     public async Task ExternalSettingsChanged_DuringSave_UpdatesBaselineFromCurrent_WhenSaveFinishes()
     {
         var saveStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var saveRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var saveRelease = new ManualResetEventSlim();
 
         var (vm, settingsService, _, _, autoStart) = CreateSut();
         using (vm)
@@ -320,10 +320,13 @@ public sealed class SettingsViewModelTests
                     await Task.CompletedTask;
                 });
 
-            autoStart.When(x => x.SetEnabled(true)).Do(async _ =>
+            autoStart.When(x => x.SetEnabled(true)).Do(_ =>
             {
                 saveStarted.TrySetResult();
-                await saveRelease.Task;
+                if (!saveRelease.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Save release wait timed out");
+                }
             });
 
             vm.LogLevel = "Debug";
@@ -339,7 +342,7 @@ public sealed class SettingsViewModelTests
             };
             settingsService.Current.Returns(externalSettings);
 
-            saveRelease.TrySetResult();
+            saveRelease.Set();
             await saveTask;
 
             // 保存完成后从 Current 建立基线，UI 同步反映真实状态

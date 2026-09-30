@@ -173,7 +173,7 @@ internal sealed partial class ThemeService : IDisposable
             {
                 if (_logger != null)
                 {
-                    LogThemeApplyFailed(_logger, theme.ToString(), ex);
+                    LogThemeApplyFailed(_logger, theme.ToString(), ex.GetType().FullName ?? ex.GetType().Name);
                 }
             }
             return;
@@ -190,7 +190,7 @@ internal sealed partial class ThemeService : IDisposable
         {
             if (_logger != null)
             {
-                LogThemeApplyFailed(_logger, theme.ToString(), ex);
+                LogThemeApplyFailed(_logger, theme.ToString(), ex.GetType().FullName ?? ex.GetType().Name);
             }
         }
     }
@@ -215,7 +215,7 @@ internal sealed partial class ThemeService : IDisposable
         {
             if (_logger != null)
             {
-                LogThemeApplyFailed(_logger, "System", ex);
+                LogThemeApplyFailed(_logger, "System", ex.GetType().FullName ?? ex.GetType().Name);
             }
         }
     }
@@ -311,6 +311,6 @@ internal sealed partial class ThemeService : IDisposable
         }
     }
 
-    [Microsoft.Extensions.Logging.LoggerMessage(EventId = 1, Level = Microsoft.Extensions.Logging.LogLevel.Warning, Message = "应用视觉主题 '{ThemeName}' 失败")]
-    private static partial void LogThemeApplyFailed(Microsoft.Extensions.Logging.ILogger logger, string themeName, Exception ex);
+    [Microsoft.Extensions.Logging.LoggerMessage(EventId = 1, Level = Microsoft.Extensions.Logging.LogLevel.Warning, Message = "应用视觉主题 '{ThemeName}' 失败，异常类型: '{ErrorType}'")]
+    private static partial void LogThemeApplyFailed(Microsoft.Extensions.Logging.ILogger logger, string themeName, string errorType);
 }

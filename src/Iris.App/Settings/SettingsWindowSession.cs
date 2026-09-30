@@ -108,11 +108,15 @@ internal sealed class SettingsWindowSession : IDisposable
 
         // 1. 停止接纳新工作并取消提交前工作
         _saveCoordinator.StopAcceptanceAndCancelPreCommit();
+        _viewModel.StopAcceptance();
 
-        // 2. 等待协调器中所有已接纳的后台保存/应用任务完成（直到释放 _gate）
+        // 2. 等待协调器中所有已接纳的后台保存/重试/查询任务完成（直到释放 _gate）
         await _saveCoordinator.WaitForActiveWorkAsync().ConfigureAwait(false);
 
-        // 3. 在 UI 线程安全关闭窗口并释放资源
+        // 3. 等待 ViewModel 中所有已接纳的保存/重试/查询任务及 UI 收尾完成
+        await _viewModel.WaitForActiveWorkAsync().ConfigureAwait(false);
+
+        // 4. 在 UI 线程安全关闭窗口并释放资源
         var dispatcher = _window.Dispatcher;
         if (dispatcher != null && !dispatcher.CheckAccess())
         {
@@ -132,23 +136,22 @@ internal sealed class SettingsWindowSession : IDisposable
             {
                 return;
             }
-            _isClosed = true;
         }
 
         try
         {
             _window.Closed -= OnWindowClosed;
             _window.ForceClose = true;
-            if (_window.IsVisible)
-            {
-                _window.Close();
-            }
+            _window.Close();
         }
-        catch
+        finally
         {
+            lock (_gate)
+            {
+                _isClosed = true;
+            }
+            Dispose();
         }
-
-        Dispose();
     }
 
     public void Dispose()
