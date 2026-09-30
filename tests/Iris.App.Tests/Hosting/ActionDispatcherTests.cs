@@ -987,11 +987,12 @@ public sealed class ActionDispatcherTests
             var firstCallCount = 0;
             var secondCallCount = 0;
 
-            var handler1 = new TestHandler(IrisAction.InputTranslate, async (_, _) =>
+            var handler1 = new TestHandler(IrisAction.InputTranslate, (_, ct) =>
             {
                 Interlocked.Increment(ref firstCallCount);
                 firstCallEntered.TrySetResult();
-                await firstCallRelease.Task;
+                firstCallRelease.Task.Wait(TimeSpan.FromSeconds(5), ct);
+                return Task.CompletedTask;
             });
 
             var handler2 = new TestHandler(IrisAction.OpenSettings, (_, _) =>

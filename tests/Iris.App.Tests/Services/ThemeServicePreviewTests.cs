@@ -122,4 +122,47 @@ public sealed class ThemeServicePreviewTests
         themeService.ClearPreview(sessionOwner);
         themeService.HasActivePreview.ShouldBeFalse();
     }
+
+    [Fact]
+    public async Task VisualThemeApplier_IsInvoked_WhenThemeChanges()
+    {
+        var settingsService = Substitute.For<ISettingsService>();
+        settingsService.Current.Returns(new AppSettings { General = new GeneralSettings { Theme = AppTheme.Light } });
+
+        var appliedTcs = new TaskCompletionSource<Wpf.Ui.Appearance.ApplicationTheme>(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var themeService = new ThemeService(
+            settingsService,
+            logger: null,
+            visualThemeApplier: theme => appliedTcs.TrySetResult(theme));
+
+        var sessionOwner = new object();
+        themeService.SetPreview(sessionOwner, AppTheme.Dark);
+
+        var lastApplied = await appliedTcs.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        lastApplied.ShouldBe(Wpf.Ui.Appearance.ApplicationTheme.Dark);
+
+        appliedTcs = new TaskCompletionSource<Wpf.Ui.Appearance.ApplicationTheme>(TaskCreationOptions.RunContinuationsAsynchronously);
+        themeService.ClearPreview(sessionOwner);
+        var clearedApplied = await appliedTcs.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        clearedApplied.ShouldBe(Wpf.Ui.Appearance.ApplicationTheme.Light);
+    }
+
+    [Fact]
+    public void VisualThemeApplier_WhenThrows_LogsWarningWithoutCrashing()
+    {
+        var settingsService = Substitute.For<ISettingsService>();
+        settingsService.Current.Returns(new AppSettings { General = new GeneralSettings { Theme = AppTheme.Light } });
+
+        var logger = Substitute.For<Microsoft.Extensions.Logging.ILogger<ThemeService>>();
+        logger.IsEnabled(Microsoft.Extensions.Logging.LogLevel.Warning).Returns(true);
+
+        using var themeService = new ThemeService(
+            settingsService,
+            logger: logger,
+            visualThemeApplier: _ => throw new InvalidOperationException("Simulated theme apply failure"));
+
+        var sessionOwner = new object();
+        Should.NotThrow(() => themeService.SetPreview(sessionOwner, AppTheme.Dark));
+        themeService.EffectiveTheme.ShouldBe(AppTheme.Dark);
+    }
 }

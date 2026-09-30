@@ -29,6 +29,7 @@ public sealed class AppBootstrapperTests : IDisposable
     {
         _originalFatalErrorShower = AppBootstrapper.FatalErrorShower;
         _originalAppShutdowner = AppBootstrapper.AppShutdowner;
+        AppBootstrapper.AppShutdowner = _ => { };
     }
 
     public void Dispose()

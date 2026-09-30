@@ -34,8 +34,15 @@ internal partial class SettingsWindow : FluentWindow
         Close();
     }
 
+    internal bool ForceClose { get; set; }
+
     private void OnClosing(object? sender, CancelEventArgs e)
     {
+        if (ForceClose)
+        {
+            return;
+        }
+
         if (DataContext is SettingsViewModel vm && vm.IsSaving)
         {
             // 保存进行中暂不受理普通关闭

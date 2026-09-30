@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Iris.App.Tests.TestSupport;
 using Iris.App.Tray;
 using Iris.Core.Actions;
 using Iris.Core.Presentation;
@@ -17,30 +18,10 @@ namespace Iris.App.Tests.Tray;
 
 public sealed class TrayIconControllerSettingsTests
 {
-    private static async Task RunInStaAsync(Func<Task> action)
-    {
-        var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var thread = new Thread(() =>
-        {
-            try
-            {
-                action().GetAwaiter().GetResult();
-                tcs.SetResult();
-            }
-            catch (Exception ex)
-            {
-                tcs.SetException(ex);
-            }
-        });
-        thread.SetApartmentState(ApartmentState.STA);
-        thread.Start();
-        await tcs.Task;
-    }
-
     [Fact]
     public async Task SettingsMenuItem_Click_DispatchesOpenSettingsAction()
     {
-        await RunInStaAsync(() =>
+        await WpfTestRunner.RunAsync(() =>
         {
             var appLifetime = Substitute.For<IAppLifetime>();
             var settingsService = Substitute.For<ISettingsService>();
@@ -75,7 +56,7 @@ public sealed class TrayIconControllerSettingsTests
     [Fact]
     public async Task SettingsMenuItem_Click_WhenDispatcherThrows_CatchesAndLogsWithoutCrashing()
     {
-        await RunInStaAsync(() =>
+        await WpfTestRunner.RunAsync(() =>
         {
             var appLifetime = Substitute.For<IAppLifetime>();
             var settingsService = Substitute.For<ISettingsService>();

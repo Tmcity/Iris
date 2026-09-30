@@ -70,48 +70,65 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
 
                 // 首次 Show 或关闭后重新 Show：在 UI 线程创建独立 DI scope
                 var scope = _serviceProvider.CreateScope();
-                var window = scope.ServiceProvider.GetRequiredService<SettingsWindow>();
-                var viewModel = scope.ServiceProvider.GetRequiredService<SettingsViewModel>();
-                var themeService = scope.ServiceProvider.GetRequiredService<ThemeService>();
-                var saveCoordinator = scope.ServiceProvider.GetRequiredService<GeneralSettingsSaveCoordinator>();
-
-                window.DataContext = viewModel;
-
-                var session = new SettingsWindowSession(scope, window, viewModel, themeService, saveCoordinator);
-                _activeSession = session;
-
-                window.Closed += (sender, args) =>
+                try
                 {
-                    lock (_gate)
-                    {
-                        if (ReferenceEquals(_activeSession, session))
-                        {
-                            _activeSession = null;
-                        }
-                    }
-                };
+                    var window = scope.ServiceProvider.GetRequiredService<SettingsWindow>();
+                    var viewModel = scope.ServiceProvider.GetRequiredService<SettingsViewModel>();
+                    var themeService = scope.ServiceProvider.GetRequiredService<ThemeService>();
+                    var saveCoordinator = scope.ServiceProvider.GetRequiredService<GeneralSettingsSaveCoordinator>();
 
-                window.Show();
-                session.ActivateAndNavigate(targetPage);
-                return Task.CompletedTask;
+                    window.DataContext = viewModel;
+
+                    var session = new SettingsWindowSession(scope, window, viewModel, themeService, saveCoordinator);
+                    _activeSession = session;
+
+                    window.Closed += (sender, args) =>
+                    {
+                        lock (_gate)
+                        {
+                            if (ReferenceEquals(_activeSession, session))
+                            {
+                                _activeSession = null;
+                            }
+                        }
+                    };
+
+                    window.Show();
+                    session.ActivateAndNavigate(targetPage);
+                    return Task.CompletedTask;
+                }
+                catch
+                {
+                    _activeSession = null;
+                    scope.Dispose();
+                    throw;
+                }
             }
         }, CancellationToken.None).ConfigureAwait(false);
     }
 
-    public async Task ShutdownAsync(CancellationToken cancellationToken = default)
+    private Task? _shutdownTask;
+
+    public Task ShutdownAsync(CancellationToken cancellationToken = default)
     {
-        SettingsWindowSession? sessionToShutdown;
         lock (_gate)
         {
-            if (_isShuttingDown)
+            if (_shutdownTask != null)
             {
-                return;
+                return _shutdownTask;
             }
-            _isShuttingDown = true;
-            sessionToShutdown = _activeSession;
-            _activeSession = null;
-        }
 
+            _isShuttingDown = true;
+            var sessionToShutdown = _activeSession;
+            _activeSession = null;
+
+            _shutdownTask = ShutdownCoreAsync(sessionToShutdown, cancellationToken);
+            return _shutdownTask;
+        }
+    }
+
+    private async Task ShutdownCoreAsync(SettingsWindowSession? sessionToShutdown, CancellationToken cancellationToken)
+    {
         if (sessionToShutdown != null)
         {
             try

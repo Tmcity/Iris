@@ -70,7 +70,7 @@ internal sealed class WindowsAutoStartRegistry : IAutoStartRegistry
 /// 管理 HKCU\Software\Microsoft\Windows\CurrentVersion\Run 的 Iris 值（Platform.Windows 实现）。
 /// 完整规则见 SETTINGS_EDITING.md §6。
 /// </summary>
-public sealed class AutoStartService : IAutoStartService
+internal sealed class AutoStartService : IAutoStartService
 {
     public const string ValueName = "Iris";
     public const int MaxCommandLength = 260;
@@ -192,7 +192,7 @@ public sealed class AutoStartService : IAutoStartService
         }
 
         var trimmedPath = path.Trim();
-        if (!Path.IsPathRooted(trimmedPath) ||
+        if (!Path.IsPathFullyQualified(trimmedPath) ||
             trimmedPath.Contains('\"') ||
             trimmedPath.Contains('\0') ||
             trimmedPath.Contains('\r') ||

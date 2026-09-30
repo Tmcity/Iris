@@ -80,7 +80,23 @@ internal sealed class SettingsWindowSession : IDisposable
         Dispose();
     }
 
-    public async Task ShutdownAsync(CancellationToken cancellationToken)
+    private Task? _shutdownTask;
+
+    public Task ShutdownAsync(CancellationToken cancellationToken)
+    {
+        lock (_gate)
+        {
+            if (_shutdownTask != null)
+            {
+                return _shutdownTask;
+            }
+
+            _shutdownTask = ShutdownCoreAsync(cancellationToken);
+            return _shutdownTask;
+        }
+    }
+
+    private async Task ShutdownCoreAsync(CancellationToken cancellationToken)
     {
         lock (_gate)
         {
@@ -90,22 +106,11 @@ internal sealed class SettingsWindowSession : IDisposable
             }
         }
 
-        // 1. 取消提交前工作
-        _saveCoordinator.CancelPreCommitWork();
+        // 1. 停止接纳新工作并取消提交前工作
+        _saveCoordinator.StopAcceptanceAndCancelPreCommit();
 
-        // 2. 等待已经接纳的保存/应用任务实际退出（禁止超时丢弃原任务后销毁依赖）
-        var activeWork = _saveCoordinator.ActiveWorkTask;
-        if (activeWork != null)
-        {
-            try
-            {
-                await activeWork.ConfigureAwait(false);
-            }
-            catch
-            {
-                // 观察并消化任务结果，继续退出流程
-            }
-        }
+        // 2. 等待协调器中所有已接纳的后台保存/应用任务完成（直到释放 _gate）
+        await _saveCoordinator.WaitForActiveWorkAsync().ConfigureAwait(false);
 
         // 3. 在 UI 线程安全关闭窗口并释放资源
         var dispatcher = _window.Dispatcher;
@@ -133,6 +138,7 @@ internal sealed class SettingsWindowSession : IDisposable
         try
         {
             _window.Closed -= OnWindowClosed;
+            _window.ForceClose = true;
             if (_window.IsVisible)
             {
                 _window.Close();

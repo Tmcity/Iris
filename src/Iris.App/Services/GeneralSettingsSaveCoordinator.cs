@@ -82,8 +82,9 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
 
     private readonly SemaphoreSlim _gate = new(1, 1);
     private readonly Lock _workLock = new();
-    private Task? _activeWorkTask;
-    private CancellationTokenSource? _activePreCommitCts;
+    private volatile Task? _activeExecutionTask;
+    private volatile CancellationTokenSource? _activePreCommitCts;
+    private volatile bool _isStopped;
 
     public GeneralSettingsSaveCoordinator(
         ISettingsService settingsService,
@@ -95,44 +96,85 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
-    internal Task? ActiveWorkTask
+    internal Task? ActiveWorkTask => _activeExecutionTask;
+
+    public bool IsAutoStartPending()
     {
-        get
+        try
         {
-            lock (_workLock)
-            {
-                return _activeWorkTask;
-            }
+            return _autoStartService.IsEnabled() != _settingsService.Current.General.LaunchAtStartup;
+        }
+        catch
+        {
+            return true;
         }
     }
 
     internal void CancelPreCommitWork()
     {
-        lock (_workLock)
+        _isStopped = true;
+        try
         {
+            _activePreCommitCts?.Cancel();
+        }
+        catch (ObjectDisposedException)
+        {
+        }
+    }
+
+    internal void StopAcceptanceAndCancelPreCommit()
+    {
+        _isStopped = true;
+        try
+        {
+            _activePreCommitCts?.Cancel();
+        }
+        catch (ObjectDisposedException)
+        {
+        }
+    }
+
+    internal async Task WaitForActiveWorkAsync()
+    {
+        StopAcceptanceAndCancelPreCommit();
+        while (true)
+        {
+            var work = _activeExecutionTask;
+            if (work == null)
+            {
+                break;
+            }
             try
             {
-                _activePreCommitCts?.Cancel();
+                await work.ConfigureAwait(false);
             }
-            catch (ObjectDisposedException)
+            catch
             {
             }
         }
+
+        await _gate.WaitAsync().ConfigureAwait(false);
+        _gate.Release();
     }
 
     public async Task<GeneralSaveResult> SaveAsync(GeneralDraftSnapshot snapshot, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(snapshot);
 
+        if (_isStopped)
+        {
+            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusStopped);
+        }
+
         // 1. 前置预校验：不依赖 Normalize 静默替换
         if (snapshot.ThemeDirty && !Enum.IsDefined(snapshot.TargetTheme))
         {
-            return GeneralSaveResult.Uncommitted("无效的主题设置");
+            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusInvalidTheme);
         }
 
         if (snapshot.LogLevelDirty && !AllowedLogLevels.Contains(snapshot.TargetLogLevel, StringComparer.OrdinalIgnoreCase))
         {
-            return GeneralSaveResult.Uncommitted("无效的日志级别设置");
+            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusInvalidLogLevel);
         }
 
         // 2. 无 dirty 字段时不写 JSON 或注册表
@@ -144,14 +186,16 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
         cancellationToken.ThrowIfCancellationRequested();
 
         await _gate.WaitAsync(cancellationToken).ConfigureAwait(false);
-        var workTcs = new TaskCompletionSource<GeneralSaveResult>(TaskCreationOptions.RunContinuationsAsynchronously);
-
-        using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        lock (_workLock)
+        if (_isStopped)
         {
-            _activePreCommitCts = linkedCts;
-            _activeWorkTask = workTcs.Task;
+            _gate.Release();
+            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusStopped);
         }
+
+        var executionTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+        _activePreCommitCts = linkedCts;
+        _activeExecutionTask = executionTcs.Task;
 
         try
         {
@@ -220,29 +264,20 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
             catch (GeneralSettingsConflictException ex)
             {
                 LogConflictDetected(_logger, ex.FieldName);
-                var conflictResult = GeneralSaveResult.Uncommitted("保存冲突：设置已被其他操作修改，请重新载入后再次编辑", isConflict: true);
-                workTcs.TrySetResult(conflictResult);
-                return conflictResult;
+                return GeneralSaveResult.Uncommitted(UiText.SettingsStatusConflict, isConflict: true);
             }
             catch (OperationCanceledException)
             {
-                var canceledResult = GeneralSaveResult.Uncommitted("保存已取消");
-                workTcs.TrySetResult(canceledResult);
-                return canceledResult;
+                return GeneralSaveResult.Uncommitted(UiText.SettingsStatusCanceled);
             }
             catch (Exception ex)
             {
                 LogSaveSettingsFailed(_logger, ex.GetType().Name);
-                var failedResult = GeneralSaveResult.Uncommitted("保存设置文件失败");
-                workTcs.TrySetResult(failedResult);
-                return failedResult;
+                return GeneralSaveResult.Uncommitted(UiText.SettingsStatusFileError);
             }
 
             // 4. 提交边界已越过：JSON 已提交成功。提交后不受调用方取消影响。
-            lock (_workLock)
-            {
-                _activePreCommitCts = null;
-            }
+            _activePreCommitCts = null;
 
             // 5. 仅本次明确编辑的 LaunchAtStartup 触发开机启动注册
             if (snapshot.LaunchAtStartupDirty)
@@ -255,24 +290,18 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
                 catch (Exception ex)
                 {
                     LogAutoStartApplicationFailed(_logger, ex.GetType().Name);
-                    var pendingResult = GeneralSaveResult.SavedApplicationPending("开机启动设置未生效（可重试）");
-                    workTcs.TrySetResult(pendingResult);
-                    return pendingResult;
+                    return GeneralSaveResult.SavedApplicationPending(UiText.SettingsStatusSavedAutoStartPending);
                 }
             }
 
-            var successResult = GeneralSaveResult.SavedAndApplied();
-            workTcs.TrySetResult(successResult);
-            return successResult;
+            return GeneralSaveResult.SavedAndApplied();
         }
         finally
         {
-            lock (_workLock)
-            {
-                _activePreCommitCts = null;
-                _activeWorkTask = null;
-            }
+            _activePreCommitCts = null;
             _gate.Release();
+            _activeExecutionTask = null;
+            executionTcs.TrySetResult();
         }
     }
 
@@ -280,13 +309,20 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
     {
         cancellationToken.ThrowIfCancellationRequested();
 
-        await _gate.WaitAsync(cancellationToken).ConfigureAwait(false);
-        var workTcs = new TaskCompletionSource<GeneralSaveResult>(TaskCreationOptions.RunContinuationsAsynchronously);
-
-        lock (_workLock)
+        if (_isStopped)
         {
-            _activeWorkTask = workTcs.Task;
+            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusStopped);
         }
+
+        await _gate.WaitAsync(cancellationToken).ConfigureAwait(false);
+        if (_isStopped)
+        {
+            _gate.Release();
+            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusStopped);
+        }
+
+        var executionTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        _activeExecutionTask = executionTcs.Task;
 
         try
         {
@@ -295,25 +331,19 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
             try
             {
                 await Task.Run(() => _autoStartService.SetEnabled(target), CancellationToken.None).ConfigureAwait(false);
-                var successResult = GeneralSaveResult.SavedAndApplied();
-                workTcs.TrySetResult(successResult);
-                return successResult;
+                return GeneralSaveResult.SavedAndApplied();
             }
             catch (Exception ex)
             {
                 LogAutoStartApplicationFailed(_logger, ex.GetType().Name);
-                var pendingResult = GeneralSaveResult.SavedApplicationPending("重试开机启动设置未生效");
-                workTcs.TrySetResult(pendingResult);
-                return pendingResult;
+                return GeneralSaveResult.SavedApplicationPending(UiText.SettingsStatusAutoStartRetryFailed);
             }
         }
         finally
         {
-            lock (_workLock)
-            {
-                _activeWorkTask = null;
-            }
             _gate.Release();
+            _activeExecutionTask = null;
+            executionTcs.TrySetResult();
         }
     }
 

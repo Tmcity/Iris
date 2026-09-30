@@ -165,6 +165,8 @@ public sealed class AutoStartServiceTests
     [InlineData("   ")]
     [InlineData(null)]
     [InlineData("relative/path/iris.exe")]
+    [InlineData("C:iris.exe")]
+    [InlineData(@"\iris.exe")]
     [InlineData("C:\\path\\has\"quote\\iris.exe")]
     [InlineData("C:\\path\\has\0null\\iris.exe")]
     [InlineData("C:\\path\\has\nnewline\\iris.exe")]
@@ -282,7 +284,7 @@ public sealed class AutoStartServiceTests
         {
             try
             {
-                Registry.CurrentUser.DeleteSubKeyTree(@"Software\IrisTests", throwOnMissingSubKey: false);
+                Registry.CurrentUser.DeleteSubKeyTree(isolatedSubKey, throwOnMissingSubKey: false);
             }
             catch
             {

@@ -37,7 +37,7 @@
                     Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}"
                     Padding="8,16,8,8">
                 <StackPanel>
-                    <TextBlock Text="设置"
+                    <TextBlock Text="{x:Static app:UiText.SettingsTitle}"
                                FontSize="18"
                                FontWeight="SemiBold"
                                Margin="12,0,0,16" />
@@ -57,7 +57,7 @@
                           VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Disabled"
                           Padding="24,16,24,16">
-                <StackPanel MaxWidth="600" HorizontalAlignment="Left">
+                <StackPanel MaxWidth="600" HorizontalAlignment="Left" IsEnabled="{Binding CanEdit}">
                     <!-- 页面标题 -->
                     <TextBlock Text="{x:Static app:UiText.SettingsNavGeneral}"
                                FontSize="22"
@@ -71,12 +71,13 @@
                                        FontWeight="SemiBold"
                                        FontSize="14"
                                        Margin="0,0,0,8" />
-                            <TextBlock Text="选择应用程序的色彩主题模式。"
+                            <TextBlock Text="{x:Static app:UiText.SettingsThemeDescription}"
                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                        FontSize="12"
                                        Margin="0,0,0,12" />
                             <ComboBox SelectedValue="{Binding Theme, Mode=TwoWay}"
                                       SelectedValuePath="Tag"
+                                      IsEnabled="{Binding CanEdit}"
                                       Width="200"
                                       HorizontalAlignment="Left">
                                 <ComboBoxItem Tag="{x:Static settings:AppTheme.System}"
@@ -97,9 +98,11 @@
                                        FontSize="14"
                                        Margin="0,0,0,8" />
                             <CheckBox IsChecked="{Binding LaunchAtStartup, Mode=TwoWay}"
+                                      IsEnabled="{Binding CanEdit}"
                                       Content="{x:Static app:UiText.SettingsLaunchAtStartup}"
                                       Margin="0,4,0,8" />
                             <CheckBox IsChecked="{Binding ShowStartupNotification, Mode=TwoWay}"
+                                      IsEnabled="{Binding CanEdit}"
                                       Content="{x:Static app:UiText.SettingsShowStartupNotification}"
                                       Margin="0,4,0,4" />
                         </StackPanel>
@@ -112,12 +115,13 @@
                                        FontWeight="SemiBold"
                                        FontSize="14"
                                        Margin="0,0,0,8" />
-                            <TextBlock Text="控制应用程序运行时输出的最小日志记录级别。"
+                            <TextBlock Text="{x:Static app:UiText.SettingsLogDescription}"
                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                        FontSize="12"
                                        Margin="0,0,0,12" />
                             <ComboBox SelectedValue="{Binding LogLevel, Mode=TwoWay}"
                                       SelectedValuePath="Content"
+                                      IsEnabled="{Binding CanEdit}"
                                       Width="200"
                                       HorizontalAlignment="Left">
                                 <ComboBoxItem Content="Verbose" />

@@ -11,9 +11,11 @@ namespace Iris.App.Services;
 /// 主题管理服务：响应 AppTheme 设置与窗口会话即时预览，并在 UI 线程上应用 WPF-UI 主题。
 /// 完整规则见 SETTINGS_EDITING.md §5。
 /// </summary>
-internal sealed class ThemeService : IDisposable
+internal sealed partial class ThemeService : IDisposable
 {
     private readonly ISettingsService _settingsService;
+    private readonly Microsoft.Extensions.Logging.ILogger<ThemeService>? _logger;
+    private readonly Action<ApplicationTheme>? _visualThemeApplier;
     private readonly Lock _gate = new();
 
     private object? _previewOwner;
@@ -22,9 +24,14 @@ internal sealed class ThemeService : IDisposable
     private bool _isSystemEventsSubscribed;
     private bool _disposed;
 
-    public ThemeService(ISettingsService settingsService)
+    public ThemeService(
+        ISettingsService settingsService,
+        Microsoft.Extensions.Logging.ILogger<ThemeService>? logger = null,
+        Action<ApplicationTheme>? visualThemeApplier = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
+        _logger = logger;
+        _visualThemeApplier = visualThemeApplier;
         _settingsService.Changed += OnSettingsChanged;
     }
 
@@ -154,8 +161,24 @@ internal sealed class ThemeService : IDisposable
         }
     }
 
-    private static void SafeApplyWpfUiTheme(ApplicationTheme theme)
+    private void SafeApplyWpfUiTheme(ApplicationTheme theme)
     {
+        if (_visualThemeApplier != null)
+        {
+            try
+            {
+                _visualThemeApplier(theme);
+            }
+            catch (Exception ex)
+            {
+                if (_logger != null)
+                {
+                    LogThemeApplyFailed(_logger, theme.ToString(), ex);
+                }
+            }
+            return;
+        }
+
         try
         {
             if (Application.Current != null)
@@ -163,34 +186,37 @@ internal sealed class ThemeService : IDisposable
                 ApplicationThemeManager.Apply(theme);
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // Headless / 非 WPF 环境容错
+            if (_logger != null)
+            {
+                LogThemeApplyFailed(_logger, theme.ToString(), ex);
+            }
         }
     }
 
-    private static void SafeApplySystemTheme()
+    private void SafeApplySystemTheme()
     {
         try
         {
-            if (Application.Current != null)
+            var systemTheme = Application.Current != null ? ApplicationThemeManager.GetSystemTheme() : SystemTheme.Light;
+            var appTheme = systemTheme switch
             {
-                var systemTheme = ApplicationThemeManager.GetSystemTheme();
-                var appTheme = systemTheme switch
-                {
-                    SystemTheme.Dark => ApplicationTheme.Dark,
-                    SystemTheme.Light => ApplicationTheme.Light,
-                    SystemTheme.Glow => ApplicationTheme.Dark,
-                    SystemTheme.CapturedMotion => ApplicationTheme.Dark,
-                    _ => ApplicationTheme.Light,
-                };
+                SystemTheme.Dark => ApplicationTheme.Dark,
+                SystemTheme.Light => ApplicationTheme.Light,
+                SystemTheme.Glow => ApplicationTheme.Dark,
+                SystemTheme.CapturedMotion => ApplicationTheme.Dark,
+                _ => ApplicationTheme.Light,
+            };
 
-                ApplicationThemeManager.Apply(appTheme);
-            }
+            SafeApplyWpfUiTheme(appTheme);
         }
-        catch
+        catch (Exception ex)
         {
-            // Headless / 非 WPF 环境容错
+            if (_logger != null)
+            {
+                LogThemeApplyFailed(_logger, "System", ex);
+            }
         }
     }
 
@@ -284,4 +310,7 @@ internal sealed class ThemeService : IDisposable
             UnsubscribeSystemEvents();
         }
     }
+
+    [Microsoft.Extensions.Logging.LoggerMessage(EventId = 1, Level = Microsoft.Extensions.Logging.LogLevel.Warning, Message = "应用视觉主题 '{ThemeName}' 失败")]
+    private static partial void LogThemeApplyFailed(Microsoft.Extensions.Logging.ILogger logger, string themeName, Exception ex);
 }
