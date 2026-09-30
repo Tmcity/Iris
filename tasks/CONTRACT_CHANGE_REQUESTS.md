@@ -468,7 +468,7 @@ TranslationEvent 之前的顺序注释替换为：
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-09-30 |
-| 状态 | **已落地，待复审** |
+| 状态 | **已结案**（2026-09-30；T-014 提交 e61fb8d 独立复审通过） |
 | 依据 | ARCH v1.19 §6.1；架构审查 A06 的渐进注册问题 |
 | 兼容性 | 只修改 Actions/IrisAction.cs 中两个接口的 XML 注释，不改任何签名、枚举值或默认参数 |
 
@@ -497,3 +497,36 @@ IActionDispatcher 的 summary 替换为：
 ```
 
 不修改 INotificationService、IrisException 或全局异常处理契约。App 的 UI 调度适配器保持 internal。实施后只将 CCR-007 改为“已落地，待复审”，BACKLOG 由架构师结案。
+
+## CCR-008：剪贴板格式、重试与取消边界
+
+| 字段 | 值 |
+|---|---|
+| 批准 | 架构师 Codex，2026-09-30 |
+| 状态 | **已落地，待复审** |
+| 依据 | CLIPBOARD_SERVICE.md；M2 剪贴板前置依赖 |
+| 兼容性 | 只细化尚未实现的 IClipboardService 注释，不改签名、错误码、默认参数或 ImageData |
+
+由 T-021A 同步修改 CONTRACTS.cs 与 src/Iris.Core/Platform/IClipboardService.cs；其它内容保持不变。
+
+接口 summary 替换为：
+
+```csharp
+/// <summary>
+/// 线程安全的 Win32 剪贴板服务，异步操作在后台串行执行；完整规则见 CLIPBOARD_SERVICE.md。
+/// OpenClipboard 最多尝试 10 次，首次立即执行、失败之间等待 30ms；耗尽抛 IrisException(ClipboardBusy)。
+/// 等待和写入提交前可取消；EmptyClipboard 成功后完成发布和清理，不以迟到取消撤销既定结果。
+/// 操作完成前等待真实原生调用退出；不依赖 WPF/STA，不在持有剪贴板时 await。
+/// </summary>
+```
+
+四个方法分别增加以下 summary（按原方法顺序）：
+
+```csharp
+/// <summary>读取 CF_UNICODETEXT；无该格式返回 null，合法空文本返回空串。按原生块边界读取，格式无效抛 InvalidResponse，超限抛 InputTooLong。</summary>
+/// <summary>写入 CF_UNICODETEXT，保留原文；null/内嵌 NUL 抛 InvalidArgument，超过 4,194,304 个 UTF-16 code unit 抛 InputTooLong。</summary>
+/// <summary>解码 PNG/JPEG/BMP 并立即发布 CF_DIBV5；格式/尺寸矛盾抛 ImageInvalid，超出规范预算抛 ImageTooLarge。调用完成前不得修改 Bytes。</summary>
+/// <summary>返回当前窗口站原生 uint 序列号（含 0），不打开剪贴板；可能回绕，只以相等性判断变化。</summary>
+```
+
+其它原生失败按 StorageFailure，且不暴露文本、图像内容或原始异常链。只使用现有 Windows SDK / CsWin32，不批准新增 NuGet 包。实施后将 CCR-008 标为“已落地，待复审”；BACKLOG 只由架构师结案。

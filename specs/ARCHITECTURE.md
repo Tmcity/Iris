@@ -1,6 +1,6 @@
 # Iris 架构设计说明书
 
-> 版本：v1.19 · 2026-09-30 · 状态：**已冻结（首期）**
+> 版本：v1.20 · 2026-09-30 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
@@ -20,7 +20,8 @@
 > 变更记录：v1.17（T-012-R1 通过后，签发前移 T-034）— HISTORY_STORAGE.md / CCR-005 / DB_SCHEMA.sql V2 确定收藏保护、截断结果标记、非收藏容量、摘要分页与按需详情，以及后台 SQLite 初始化/事务/查询。CCR-004 结案。
 > 变更记录：v1.18（T-034-R2 通过后，签发 T-013）— TRANSLATION_ORCHESTRATOR.md / CCR-006 明确显式选择、事件顺序、输出预算、租约清理、取消与正常收尾，以及真实缓存/历史接线；CCR-005 结案。
 > 变更记录：v1.19（T-013-R1 通过后，签发 T-014）— §6.1 固定动作分发的注册、UI 调度、防重入、取消及安全错误边界；CCR-006 结案，CCR-007 批准动作契约注释澄清。BACKLOG 提前安排 M2 必需的桌面/剪贴板能力和设置入口，业务 Handler 仍随对应功能交付。
-> 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json` · `specs/TRANSLATION_EXECUTION.md` · `specs/HISTORY_STORAGE.md` · `specs/TRANSLATION_ORCHESTRATOR.md`
+> 变更记录：v1.20（T-014 通过后，签发 T-021A）— CLIPBOARD_SERVICE.md / CCR-008 固定 Win32 文本/图像格式、重试与取消提交点、原生资源所有权、输入预算及隔离测试方法；CCR-007 结案。C14-1 仅补强 Dispatcher 回归测试与报告，不返工已验收生产实现。
+> 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json` · `specs/TRANSLATION_EXECUTION.md` · `specs/HISTORY_STORAGE.md` · `specs/TRANSLATION_ORCHESTRATOR.md` · `specs/CLIPBOARD_SERVICE.md`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
 ---
@@ -782,6 +783,10 @@ data: {"type":"message_stop"}
 5. 每 15 ms 轮询一次，直到序列号 ≠ seq0 或超过 `ClipboardTimeoutMs`；序列号变化后再等 20 ms（部分应用分多次写入剪贴板）。
 6. 读取 `CF_UNICODETEXT`；`RestoreClipboard` 时写回快照。
 7. 序列号没有变化 → 视为“没有选中文本”，返回 null（不要读取旧的剪贴板内容）。
+
+### 10.4.1 剪贴板基础服务（T-021A）
+
+IClipboardService 的线程、格式、取消和所有权规则以 CLIPBOARD_SERVICE.md / CCR-008 为准。使用后台 Win32 原生调用，单次尝试中的 HWND/Open/Close 始终同线程、不中途 await，重试延迟在关闭剪贴板之后进行；不依赖 WPF 或 STA/OLE Clipboard。文本 CF_UNICODETEXT、图像 CF_DIBV5，先准备数据，再在最后取消检查后清空/发布。写成功的 HGLOBAL 交给系统，借用的读取句柄不释放。正式原生测试使用独立辅助进程中的新建非交互窗口站，避免改写用户的交互剪贴板。上方选区快照/恢复流程尚未实施，A08 的外部更新保护仍须在 T-022 单独定稿，不能直接把旧的无条件恢复步骤落地。
 
 ### 10.5 DPI 与坐标
 

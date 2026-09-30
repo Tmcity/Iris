@@ -6,11 +6,13 @@ using Iris.App.Tests.TestSupport;
 using Iris.Core.Actions;
 using Iris.Core.Common;
 using Iris.Core.Languages;
+using Iris.Core.Platform;
 using Iris.Core.Presentation;
 using Iris.Core.Security;
 using Iris.Core.Settings;
 using Iris.Core.Storage;
 using Iris.Core.Translation;
+using Iris.Platform.Windows.Clipboard;
 using Iris.Providers.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -57,6 +59,7 @@ public sealed class AppHostBuilderTests
         var bootstrapper = host.Services.GetService<AppBootstrapper>();
         var uiDispatcher = host.Services.GetService<IUiDispatcher>();
         var actionDispatcher = host.Services.GetService<IActionDispatcher>();
+        var clipboardService = host.Services.GetService<IClipboardService>();
 
         settingsService.ShouldNotBeNull();
         secretStore.ShouldNotBeNull();
@@ -71,8 +74,27 @@ public sealed class AppHostBuilderTests
         bootstrapper.ShouldNotBeNull();
         uiDispatcher.ShouldNotBeNull();
         actionDispatcher.ShouldNotBeNull();
+        clipboardService.ShouldNotBeNull();
         uiDispatcher.ShouldBeOfType<WpfUiDispatcher>();
         actionDispatcher.ShouldBeOfType<ActionDispatcher>();
+        clipboardService.ShouldBeOfType<Win32ClipboardService>();
+    }
+
+    [Fact]
+    public void Host_ResolvesClipboardService_AsSingleton()
+    {
+        using var tempDir = new TempDirectory();
+        var paths = new FakeAppPaths(tempDir.Path);
+        var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
+
+        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+
+        var clipboard1 = host.Services.GetRequiredService<IClipboardService>();
+        var clipboard2 = host.Services.GetRequiredService<IClipboardService>();
+
+        clipboard1.ShouldNotBeNull();
+        clipboard1.ShouldBeOfType<Win32ClipboardService>();
+        clipboard1.ShouldBeSameAs(clipboard2);
     }
 
     [Fact]

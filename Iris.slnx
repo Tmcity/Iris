@@ -10,6 +10,7 @@
     <Project Path="tests/Iris.App.Tests/Iris.App.Tests.csproj" />
     <Project Path="tests/Iris.ArchitectureTests/Iris.ArchitectureTests.csproj" />
     <Project Path="tests/Iris.Core.Tests/Iris.Core.Tests.csproj" />
+    <Project Path="tests/Iris.Clipboard.IsolatedHelper/Iris.Clipboard.IsolatedHelper.csproj" />
     <Project Path="tests/Iris.Infrastructure.Tests/Iris.Infrastructure.Tests.csproj" />
     <Project Path="tests/Iris.Platform.Windows.Tests/Iris.Platform.Windows.Tests.csproj" />
     <Project Path="tests/Iris.Providers.Tests/Iris.Providers.Tests.csproj" />

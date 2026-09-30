@@ -1,1 +1,15 @@
 MessageBox
+OpenClipboard
+CloseClipboard
+EmptyClipboard
+SetClipboardData
+GetClipboardData
+IsClipboardFormatAvailable
+GetClipboardSequenceNumber
+GlobalAlloc
+GlobalFree
+GlobalLock
+GlobalUnlock
+GlobalSize
+CreateWindowEx
+DestroyWindow

@@ -102,8 +102,8 @@
 
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
-| T-014 | ▶ | ActionDispatcher + App 内部 UI 调度适配器 | T-005 | 1d |
-| T-021A | ☐ | Win32ClipboardService（从 T-021 拆出并前移） | T-005 | 0.5d |
+| T-014 | ☑ | ActionDispatcher + App 内部 UI 调度适配器（C14-1 纯测试补强转入 T-021A） | T-005 | 1d |
+| T-021A | ▶ | Win32ClipboardService + C14-1 测试/报告收尾（从 T-021 拆出并前移） | T-005, T-014 | 1.5d |
 | T-022A | ☐ | DesktopContext + MonitorEnumerator（从 T-022/T-025 拆出并前移） | T-005 | 1d |
 | T-015 | ☐ | TranslateWindow（View + ViewModel + Presenter + WindowPlacementHelper） | T-013, T-014, T-018, T-019, T-021A, T-022A | 2.5d |
 | T-016 | ☐ | InputTranslate / ClipboardTranslate / TranslateText Handler + 托盘菜单 | T-015, T-021A | 0.5d |
@@ -113,7 +113,9 @@
 
 **T-014** 按 ARCH §6.1 / CCR-007 交付 Dispatcher、内部 WPF 调度适配器与单例 DI。只索引实际注册动作，允许空注册；不提前创建未来 Handler 或改托盘行为。验收：UI 排队前原子防重入；等待 Handler 完整 Task；截图组互斥且其它动作可重叠；排队取消/调度失败正确释放；真实 STA Dispatcher 线程测试；安全错误通知与日志。
 
-**T-021A** 交付已有 IClipboardService 的真实 Windows 实现及 STA 调用/占用重试验证，包括文本、图片和序列号；定位于 M2 的复制与剪贴板翻译，不实现键盘模拟或选区兜底。精确平台策略在签发时冻结。
+**T-014 结案** — ☑ e61fb8d 于 2026-09-30 通过，CCR-007 结案。独立构建零警告/零错误、1095 项测试通过；同实例异常恢复与真实 STA 的内部任务/取消/关闭探针通过。C14-1 将正式测试的同实例断言、门闩与线程收尾及报告更正纳入 T-021A，不返工已验收生产逻辑；证据见 tasks/done/T-014.md 末尾。
+
+**T-021A** 已签发，CLIPBOARD_SERVICE.md / CCR-008 固定后台 Win32 调用、CF_UNICODETEXT/CF_DIBV5、原生所有权、取消提交点和输入预算；不依赖 WPF/STA。原生集成验证只能使用独立 helper 的新建非交互窗口站；本机独占创建目前遇到错误 183，无法满足条件时明确报告未验证，不复用现有站或写用户剪贴板。附 C14-1 纯测试/报告补强；不实现键盘模拟或选区恢复。
 
 **T-022A** 交付已有 IDesktopContext 及显示器枚举，统一物理像素、负坐标、多屏和 DPI 边界。M2 的窗口定位使用此实现；UIA/剪贴板选区读取与 GDI 抓屏仍留在 T-022/T-025。签发时先核查平台 API 与混合 DPI 验收条件。
 
