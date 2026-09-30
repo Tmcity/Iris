@@ -28,11 +28,17 @@ internal sealed class FakeNativeClipboardAdapter : INativeClipboardAdapter
     public Func<uint, nint>? OnGetClipboardData { get; set; }
     public Func<uint, bool>? OnIsClipboardFormatAvailable { get; set; }
     public Func<nint>? OnCreateOwnerWindow { get; set; }
+    public Func<nint, bool>? OnDestroyWindow { get; set; }
     public Func<uint, nuint, nint>? OnGlobalAlloc { get; set; }
     public Func<nint, nint>? OnGlobalLock { get; set; }
+    public Func<nint, bool>? OnGlobalUnlock { get; set; }
+    public Func<nint, nint>? OnGlobalFree { get; set; }
 
     public Action? OnBeforeEmptyClipboard { get; set; }
     public Action? OnBeforeSetClipboardData { get; set; }
+
+    public List<int> GlobalAllocThreadIds { get; } = [];
+    public List<int> GlobalLockThreadIds { get; } = [];
 
     public int LastError { get; set; }
     public uint SequenceNumber { get; set; } = 42;
@@ -54,10 +60,15 @@ internal sealed class FakeNativeClipboardAdapter : INativeClipboardAdapter
         return hwnd;
     }
 
-    public void DestroyWindow(nint hwnd)
+    public bool DestroyWindow(nint hwnd)
     {
         CallLog.Enqueue($"DestroyWindow({hwnd})");
         DestroyedWindows.Add(hwnd);
+        if (OnDestroyWindow != null)
+        {
+            return OnDestroyWindow(hwnd);
+        }
+        return true;
     }
 
     public bool OpenClipboard(nint hwnd)
@@ -151,6 +162,7 @@ internal sealed class FakeNativeClipboardAdapter : INativeClipboardAdapter
     public nint GlobalAlloc(uint uFlags, nuint dwBytes)
     {
         CallLog.Enqueue($"GlobalAlloc({uFlags}, {dwBytes})");
+        GlobalAllocThreadIds.Add(Environment.CurrentManagedThreadId);
         if (OnGlobalAlloc != null)
         {
             var custom = OnGlobalAlloc(uFlags, dwBytes);
@@ -169,6 +181,10 @@ internal sealed class FakeNativeClipboardAdapter : INativeClipboardAdapter
         CallLog.Enqueue($"GlobalFree({hMem})");
         FreedHGlobals.Add(hMem);
         MemoryBlocks.Remove(hMem);
+        if (OnGlobalFree != null)
+        {
+            return OnGlobalFree(hMem);
+        }
         return 0;
     }
 
@@ -177,6 +193,7 @@ internal sealed class FakeNativeClipboardAdapter : INativeClipboardAdapter
     public unsafe nint GlobalLock(nint hMem)
     {
         CallLog.Enqueue($"GlobalLock({hMem})");
+        GlobalLockThreadIds.Add(Environment.CurrentManagedThreadId);
         if (OnGlobalLock != null)
         {
             return OnGlobalLock(hMem);
@@ -198,6 +215,10 @@ internal sealed class FakeNativeClipboardAdapter : INativeClipboardAdapter
         if (_pinnedHandles.Remove(hMem, out var handle))
         {
             handle.Free();
+        }
+        if (OnGlobalUnlock != null)
+        {
+            return OnGlobalUnlock(hMem);
         }
         return true;
     }

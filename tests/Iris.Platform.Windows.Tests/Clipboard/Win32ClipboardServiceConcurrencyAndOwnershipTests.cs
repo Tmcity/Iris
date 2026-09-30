@@ -1,9 +1,14 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iris.Core.Errors;
+using Iris.Core.Imaging;
+using Iris.Core.Platform;
 using Iris.Platform.Windows.Clipboard;
 using Iris.Platform.Windows.Tests.Clipboard.TestSupport;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Shouldly;
 using Xunit;
 
@@ -251,5 +256,247 @@ public sealed class Win32ClipboardServiceConcurrencyAndOwnershipTests
         ex.Code.ShouldBe(ErrorCode.StorageFailure);
         ex.Detail.ShouldNotBeNull();
         ex.Detail.ShouldContain("CloseClipboard error 1418");
+    }
+
+    [Fact]
+    public async Task ContainerDisposal_WithActiveAndQueuedOperations_ActiveCompletes_QueuedCancelsCleanly_WithoutObjectDisposedException()
+    {
+        var services = new ServiceCollection();
+        var adapter = new FakeNativeClipboardAdapter();
+        services.AddSingleton<IClipboardService>(_ => new Win32ClipboardService(null, null, adapter));
+        var provider = services.BuildServiceProvider();
+
+        var service = provider.GetRequiredService<IClipboardService>();
+
+        var activeStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var activeRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        adapter.OnBeforeSetClipboardData = () =>
+        {
+            activeStarted.TrySetResult();
+            activeRelease.Task.Wait(TimeSpan.FromSeconds(5));
+        };
+
+        using var queuedCts = new CancellationTokenSource();
+        Task? activeTask = null;
+        Task? queuedTask = null;
+
+        try
+        {
+            // Active task enters SetClipboardData and blocks
+            activeTask = service.SetTextAsync("ActiveRunningText", TestContext.Current.CancellationToken);
+            await activeStarted.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+            // Queued task tries to acquire gate and waits
+            queuedTask = service.GetTextAsync(queuedCts.Token);
+
+            activeTask.IsCompleted.ShouldBeFalse();
+            queuedTask.IsCompleted.ShouldBeFalse();
+
+            // Dispose container - must NOT dispose gate or throw ObjectDisposedException
+            provider.Dispose();
+
+            // Cancel the queued item
+            queuedCts.Cancel();
+
+            // Queued task must cancel cleanly without ObjectDisposedException
+            await Should.ThrowAsync<OperationCanceledException>(() => queuedTask);
+
+            // Release active item
+            activeRelease.TrySetResult();
+
+            // Active task must complete cleanly without ObjectDisposedException
+            await activeTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+            adapter.ClipboardFormats.ContainsKey(DibV5Helper.CF_UNICODETEXT).ShouldBeTrue();
+        }
+        finally
+        {
+            activeRelease.TrySetResult();
+            if (activeTask != null)
+            {
+                try { await activeTask; } catch { }
+            }
+            if (queuedTask != null)
+            {
+                try { await queuedTask; } catch { }
+            }
+        }
+    }
+
+    [Fact]
+    public async Task SetTextAsync_WhenCalledFromStaThread_PerformsGlobalAllocAndLockOnBackgroundThread()
+    {
+        var adapter = new FakeNativeClipboardAdapter();
+        var service = new Win32ClipboardService(null, null, adapter);
+
+        int staThreadId = 0;
+        var staDone = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var staThread = new Thread(() =>
+        {
+            staThreadId = Environment.CurrentManagedThreadId;
+            try
+            {
+                service.SetTextAsync("STAText", TestContext.Current.CancellationToken).GetAwaiter().GetResult();
+                staDone.TrySetResult();
+            }
+            catch (Exception ex)
+            {
+                staDone.TrySetException(ex);
+            }
+        });
+        staThread.SetApartmentState(ApartmentState.STA);
+        staThread.IsBackground = true;
+        staThread.Start();
+
+        try
+        {
+            await staDone.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+            staThread.Join(5000).ShouldBeTrue();
+
+            adapter.GlobalAllocThreadIds.Count.ShouldBeGreaterThan(0);
+            adapter.GlobalLockThreadIds.Count.ShouldBeGreaterThan(0);
+
+            adapter.GlobalAllocThreadIds[0].ShouldNotBe(staThreadId, "GlobalAlloc 严禁在调用方 STA 线程执行");
+            adapter.GlobalLockThreadIds[0].ShouldNotBe(staThreadId, "GlobalLock 严禁在调用方 STA 线程执行");
+        }
+        finally
+        {
+            staThread.Join(1000);
+        }
+    }
+
+    [Fact]
+    public async Task SetImageAsync_WhenQueuedBehindActiveOperation_DoesNotStartDecodingUntilGateAcquired()
+    {
+        var adapter = new FakeNativeClipboardAdapter();
+        var service = new Win32ClipboardService(null, null, adapter);
+
+        var activeStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var activeRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        adapter.OnBeforeSetClipboardData = () =>
+        {
+            activeStarted.TrySetResult();
+            activeRelease.Task.Wait(TimeSpan.FromSeconds(5));
+        };
+
+        using var queuedCts = new CancellationTokenSource();
+        Task? activeTask = null;
+        Task? queuedTask = null;
+
+        try
+        {
+            activeTask = service.SetTextAsync("ActiveFirst", TestContext.Current.CancellationToken);
+            await activeStarted.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+            // Pass invalid image bytes that would throw ImageInvalid if decoding actually started
+            // But because it's queued behind the gate, canceling queued token will cause OCE, NOT ImageInvalid!
+            byte[] invalidBmpBytes = [0x42, 0x4D, 0x00, 0x00];
+            var queuedImage = new ImageData(invalidBmpBytes, ImageFormat.Bmp, 10, 10);
+
+            queuedTask = service.SetImageAsync(queuedImage, queuedCts.Token);
+            queuedTask.IsCompleted.ShouldBeFalse("排队图像调用在串行门放行前不得进入后台解码");
+
+            queuedCts.Cancel();
+
+            // Cancel must throw OperationCanceledException, proving it never reached decoder
+            await Should.ThrowAsync<OperationCanceledException>(() => queuedTask);
+
+            activeRelease.TrySetResult();
+            await activeTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        }
+        finally
+        {
+            activeRelease.TrySetResult();
+            if (activeTask != null) try { await activeTask; } catch { }
+            if (queuedTask != null) try { await queuedTask; } catch { }
+        }
+    }
+
+    [Fact]
+    public async Task Ownership_PrimaryFailureAndCleanupFailure_PreservesPrimaryFailure_AndLogsWarning()
+    {
+        var logger = new MemoryLogger<Win32ClipboardService>();
+        var adapter = new FakeNativeClipboardAdapter
+        {
+            OnSetClipboardData = (_, _) => 0, // Primary failure
+            OnCloseClipboard = () => false,   // Cleanup failure
+            OnDestroyWindow = _ => false,     // Cleanup failure
+            LastError = 5
+        };
+
+        var service = new Win32ClipboardService(null, logger, adapter);
+
+        var ex = await Should.ThrowAsync<IrisException>(() =>
+            service.SetTextAsync("DualFailure", TestContext.Current.CancellationToken));
+
+        // Primary error must be thrown
+        ex.Code.ShouldBe(ErrorCode.StorageFailure);
+        ex.Detail.ShouldNotBeNull();
+        ex.Detail.ShouldContain("SetClipboardData error 5");
+
+        // Cleanup failures must be logged safely
+        logger.Entries.Count(e => e.Level == LogLevel.Warning).ShouldBeGreaterThanOrEqualTo(2);
+        logger.Entries.Any(e => e.Message.Contains("CloseClipboard")).ShouldBeTrue();
+        logger.Entries.Any(e => e.Message.Contains("DestroyWindow")).ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task Ownership_DestroyWindowFailsWithoutPrimaryError_ThrowsStorageFailure()
+    {
+        var adapter = new FakeNativeClipboardAdapter
+        {
+            OnDestroyWindow = _ => false,
+            LastError = 1400 // ERROR_INVALID_WINDOW_HANDLE
+        };
+
+        var service = new Win32ClipboardService(null, null, adapter);
+
+        var ex = await Should.ThrowAsync<IrisException>(() =>
+            service.SetTextAsync("DestroyFail", TestContext.Current.CancellationToken));
+
+        ex.Code.ShouldBe(ErrorCode.StorageFailure);
+        ex.Detail.ShouldNotBeNull();
+        ex.Detail.ShouldContain("DestroyWindow error 1400");
+    }
+
+    [Fact]
+    public async Task Ownership_GlobalUnlock_WhenReturnsFalseWithNoError_Succeeds()
+    {
+        var adapter = new FakeNativeClipboardAdapter();
+        adapter.OnGlobalUnlock = _ =>
+        {
+            // In Win32, GlobalUnlock returning false with GetLastError() == NO_ERROR (0)
+            // indicates lock count decremented to 0, which is normal success.
+            adapter.LastError = 0;
+            return false;
+        };
+
+        var service = new Win32ClipboardService(null, null, adapter);
+
+        await service.SetTextAsync("UnlockZeroError", TestContext.Current.CancellationToken);
+
+        adapter.ClipboardFormats.ContainsKey(DibV5Helper.CF_UNICODETEXT).ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task Ownership_GlobalUnlock_WhenReturnsFalseWithRealError_ThrowsStorageFailure()
+    {
+        var adapter = new FakeNativeClipboardAdapter();
+        adapter.OnGlobalUnlock = _ =>
+        {
+            adapter.LastError = 6; // ERROR_INVALID_HANDLE
+            return false;
+        };
+
+        var service = new Win32ClipboardService(null, null, adapter);
+
+        var ex = await Should.ThrowAsync<IrisException>(() =>
+            service.SetTextAsync("UnlockRealError", TestContext.Current.CancellationToken));
+
+        ex.Code.ShouldBe(ErrorCode.StorageFailure);
+        ex.Detail.ShouldNotBeNull();
+        ex.Detail.ShouldContain("GlobalUnlock error 6");
     }
 }

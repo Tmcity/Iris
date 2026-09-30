@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using global::Windows.Graphics.Imaging;
 using global::Windows.Storage.Streams;
@@ -13,8 +14,10 @@ internal static class WindowsImageDecoder
     public const int MaxDimension = 32_768;
     public const int MaxPixels = 33_554_432;
 
-    public static async Task<byte[]> DecodeToDibV5Async(ImageData image)
+    public static async Task<byte[]> DecodeToDibV5Async(ImageData image, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
+
         if (image == null || image.Bytes == null || image.Bytes.Length == 0)
         {
             throw new IrisException(ErrorCode.ImageInvalid, "Image data or bytes cannot be null or empty.");
@@ -47,21 +50,39 @@ internal static class WindowsImageDecoder
             throw new IrisException(ErrorCode.ImageTooLarge, "Total image pixels exceed maximum limit.");
         }
 
-        var stream = new InMemoryRandomAccessStream();
-        BitmapDecoder decoder;
+        using var stream = new InMemoryRandomAccessStream();
         try
         {
-            var writer = new DataWriter(stream);
-            writer.WriteBytes(image.Bytes);
-            await writer.StoreAsync();
-            writer.DetachStream();
+            using (var writer = new DataWriter(stream))
+            {
+                writer.WriteBytes(image.Bytes);
+                await writer.StoreAsync().AsTask(cancellationToken).ConfigureAwait(false);
+                writer.DetachStream();
+            }
             stream.Seek(0);
-
-            decoder = await BitmapDecoder.CreateAsync(stream);
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
         }
         catch (Exception)
         {
-            stream.Dispose();
+            throw new IrisException(ErrorCode.ImageInvalid, "Failed to write image data to stream.");
+        }
+
+        cancellationToken.ThrowIfCancellationRequested();
+
+        BitmapDecoder decoder;
+        try
+        {
+            decoder = await BitmapDecoder.CreateAsync(stream).AsTask(cancellationToken).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception)
+        {
             throw new IrisException(ErrorCode.ImageInvalid, "Failed to decode image data.");
         }
 
@@ -75,7 +96,6 @@ internal static class WindowsImageDecoder
 
         if (decoder.DecoderInformation.CodecId != expectedCodecId)
         {
-            stream.Dispose();
             throw new IrisException(ErrorCode.ImageInvalid, "Image format does not match actual encoded codec.");
         }
 
@@ -85,37 +105,56 @@ internal static class WindowsImageDecoder
         // Budget check 2: Decoded dimensions from header
         if (actualWidth > (uint)MaxDimension || actualHeight > (uint)MaxDimension)
         {
-            stream.Dispose();
             throw new IrisException(ErrorCode.ImageTooLarge, "Decoded image dimensions exceed maximum limit.");
         }
 
         long actualPixels = checked((long)actualWidth * actualHeight);
         if (actualPixels > MaxPixels)
         {
-            stream.Dispose();
             throw new IrisException(ErrorCode.ImageTooLarge, "Decoded total pixels exceed maximum limit.");
         }
 
         if (actualWidth != (uint)image.PixelWidth || actualHeight != (uint)image.PixelHeight)
         {
-            stream.Dispose();
             throw new IrisException(ErrorCode.ImageInvalid, "Image declared dimensions do not match actual decoded dimensions.");
         }
 
+        cancellationToken.ThrowIfCancellationRequested();
+
         try
         {
-            using var softwareBitmap = await decoder.GetSoftwareBitmapAsync();
-            using var converted = SoftwareBitmap.Convert(softwareBitmap, BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight);
+            // Explicitly ignore EXIF orientation per specification; enforce raw dimensions and straight BGRA8
+            using var softwareBitmap = await decoder.GetSoftwareBitmapAsync(
+                BitmapPixelFormat.Bgra8,
+                BitmapAlphaMode.Straight,
+                new BitmapTransform(),
+                ExifOrientationMode.IgnoreExifOrientation,
+                ColorManagementMode.ColorManageToSRgb
+            ).AsTask(cancellationToken).ConfigureAwait(false);
+
+            if (softwareBitmap.PixelWidth != (int)actualWidth || softwareBitmap.PixelHeight != (int)actualHeight)
+            {
+                throw new IrisException(ErrorCode.ImageInvalid, "Decoded software bitmap dimensions do not match raw decoder dimensions.");
+            }
 
             int imageByteSize = checked((int)(actualWidth * actualHeight * 4));
             var pixelBuffer = new global::Windows.Storage.Streams.Buffer((uint)imageByteSize);
-            converted.CopyToBuffer(pixelBuffer);
+            softwareBitmap.CopyToBuffer(pixelBuffer);
 
-            var dataReader = DataReader.FromBuffer(pixelBuffer);
+            using var dataReader = DataReader.FromBuffer(pixelBuffer);
             byte[] pixelBytes = new byte[pixelBuffer.Length];
             dataReader.ReadBytes(pixelBytes);
 
+            if (pixelBytes.Length != imageByteSize)
+            {
+                throw new IrisException(ErrorCode.ImageInvalid, "Decoded pixel buffer byte length mismatch.");
+            }
+
             return DibV5Helper.CreateDibV5((int)actualWidth, (int)actualHeight, pixelBytes);
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
         }
         catch (IrisException)
         {
@@ -124,10 +163,6 @@ internal static class WindowsImageDecoder
         catch (Exception)
         {
             throw new IrisException(ErrorCode.ImageInvalid, "Failed to decode image pixels.");
-        }
-        finally
-        {
-            stream.Dispose();
         }
     }
 }

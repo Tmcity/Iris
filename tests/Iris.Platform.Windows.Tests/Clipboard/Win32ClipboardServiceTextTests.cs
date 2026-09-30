@@ -43,16 +43,18 @@ public sealed class Win32ClipboardServiceTextTests
     }
 
     [Fact]
-    public async Task GetTextAsync_WhenHandleIsZero_ReturnsNull()
+    public async Task GetTextAsync_WhenHandleIsZero_ThrowsStorageFailure()
     {
         var adapter = new FakeNativeClipboardAdapter();
-        // Format is reported available, but GetClipboardData returns 0
+        // Format is reported available, but GetClipboardData returns 0 (native failure)
         adapter.OnIsClipboardFormatAvailable = _ => true;
         adapter.OnGetClipboardData = _ => 0;
+        adapter.LastError = 5; // ERROR_ACCESS_DENIED
         var service = new Win32ClipboardService(null, null, adapter);
 
-        var result = await service.GetTextAsync(TestContext.Current.CancellationToken);
-        result.ShouldBeNull();
+        var ex = await Should.ThrowAsync<IrisException>(() =>
+            service.GetTextAsync(TestContext.Current.CancellationToken));
+        ex.Code.ShouldBe(ErrorCode.StorageFailure);
     }
 
     [Fact]
@@ -219,7 +221,7 @@ public sealed class Win32ClipboardServiceTextTests
     private sealed class HugeSizeAdapter(INativeClipboardAdapter inner, nuint reportedSize) : INativeClipboardAdapter
     {
         public nint CreateOwnerWindow() => inner.CreateOwnerWindow();
-        public void DestroyWindow(nint hwnd) => inner.DestroyWindow(hwnd);
+        public bool DestroyWindow(nint hwnd) => inner.DestroyWindow(hwnd);
         public bool OpenClipboard(nint hwnd) => inner.OpenClipboard(hwnd);
         public bool CloseClipboard() => inner.CloseClipboard();
         public bool EmptyClipboard() => inner.EmptyClipboard();

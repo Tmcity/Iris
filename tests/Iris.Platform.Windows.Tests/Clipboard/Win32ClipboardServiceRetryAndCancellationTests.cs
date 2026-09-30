@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iris.Core.Errors;
@@ -35,12 +36,12 @@ public sealed class Win32ClipboardServiceRetryAndCancellationTests
             return openAttempts >= 10;
         };
 
-        var timeProvider = new FakeTimeProvider();
+        var timeProvider = new ControllableTimeProvider();
         var service = new Win32ClipboardService(timeProvider, null, adapter);
 
         var task = service.SetTextAsync("RetryTest", TestContext.Current.CancellationToken);
 
-        await AdvanceDelaysAsync(timeProvider, adapter, 9);
+        await AdvanceDelaysAsync(timeProvider, 9);
         await task;
 
         openAttempts.ShouldBe(10);
@@ -59,12 +60,12 @@ public sealed class Win32ClipboardServiceRetryAndCancellationTests
             return false;
         };
 
-        var timeProvider = new FakeTimeProvider();
+        var timeProvider = new ControllableTimeProvider();
         var service = new Win32ClipboardService(timeProvider, null, adapter);
 
         var task = service.SetTextAsync("BusyTest", TestContext.Current.CancellationToken);
 
-        await AdvanceDelaysAsync(timeProvider, adapter, 9);
+        await AdvanceDelaysAsync(timeProvider, 9);
 
         var ex = await Should.ThrowAsync<IrisException>(() => task);
         ex.Code.ShouldBe(ErrorCode.ClipboardBusy);
@@ -81,16 +82,13 @@ public sealed class Win32ClipboardServiceRetryAndCancellationTests
         adapter.OnOpenClipboard = _ => false;
 
         using var cts = new CancellationTokenSource();
-        var timeProvider = new FakeTimeProvider();
+        var timeProvider = new ControllableTimeProvider();
         var service = new Win32ClipboardService(timeProvider, null, adapter);
 
         var task = service.SetTextAsync("CancelTest", cts.Token);
 
-        while (!adapter.CallLog.Any(x => x.StartsWith("OpenClipboard", StringComparison.Ordinal)))
-        {
-            await Task.Delay(5, TestContext.Current.CancellationToken);
-        }
-        await Task.Delay(15, TestContext.Current.CancellationToken);
+        // Wait deterministically until Task.Delay registers its timer
+        await timeProvider.WaitForNextTimerAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
         // Cancel during first delay
         cts.Cancel();
@@ -118,12 +116,12 @@ public sealed class Win32ClipboardServiceRetryAndCancellationTests
             return false;
         };
 
-        var timeProvider = new FakeTimeProvider();
+        var timeProvider = new ControllableTimeProvider();
         var service = new Win32ClipboardService(timeProvider, null, adapter);
 
         var task = service.SetTextAsync("RaceCancelTest", cts.Token);
 
-        await AdvanceDelaysAsync(timeProvider, adapter, 9);
+        await AdvanceDelaysAsync(timeProvider, 9);
 
         await Should.ThrowAsync<OperationCanceledException>(() => task);
         openAttempts.ShouldBe(10);
@@ -157,15 +155,11 @@ public sealed class Win32ClipboardServiceRetryAndCancellationTests
         adapter.FreedHGlobals.ShouldContain(adapter.AllocatedHGlobals[0], "未进入提交阶段取消时，本地必须释放 HGLOBAL");
     }
 
-    private static async Task AdvanceDelaysAsync(FakeTimeProvider timeProvider, FakeNativeClipboardAdapter adapter, int delayCount)
+    private static async Task AdvanceDelaysAsync(ControllableTimeProvider timeProvider, int delayCount)
     {
         for (int i = 1; i <= delayCount; i++)
         {
-            while (adapter.CallLog.Count(x => x.StartsWith("OpenClipboard", StringComparison.Ordinal)) < i)
-            {
-                await Task.Delay(5, TestContext.Current.CancellationToken);
-            }
-            await Task.Delay(15, TestContext.Current.CancellationToken);
+            await timeProvider.WaitForNextTimerAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
             timeProvider.Advance(TimeSpan.FromMilliseconds(30));
         }
     }
@@ -193,5 +187,33 @@ public sealed class Win32ClipboardServiceRetryAndCancellationTests
         // Assert local memory was NOT freed because system took ownership
         adapter.AllocatedHGlobals.Count.ShouldBe(1);
         adapter.FreedHGlobals.ShouldNotContain(adapter.AllocatedHGlobals[0], "系统接管的 HGLOBAL 本地严禁 GlobalFree");
+    }
+
+    private sealed class ControllableTimeProvider : TimeProvider, IDisposable
+    {
+        private readonly FakeTimeProvider _fake = new();
+        private readonly SemaphoreSlim _timerSemaphore = new(0);
+
+        public async Task WaitForNextTimerAsync(TimeSpan timeout, CancellationToken cancellationToken)
+        {
+            bool acquired = await _timerSemaphore.WaitAsync(timeout, cancellationToken).ConfigureAwait(false);
+            acquired.ShouldBeTrue("Timer must be registered within timeout.");
+        }
+
+        public override ITimer CreateTimer(TimerCallback callback, object? state, TimeSpan dueTime, TimeSpan period)
+        {
+            var timer = _fake.CreateTimer(callback, state, dueTime, period);
+            _timerSemaphore.Release();
+            return timer;
+        }
+
+        public void Advance(TimeSpan delta) => _fake.Advance(delta);
+        public override DateTimeOffset GetUtcNow() => _fake.GetUtcNow();
+        public override long GetTimestamp() => _fake.GetTimestamp();
+
+        public void Dispose()
+        {
+            _timerSemaphore.Dispose();
+        }
     }
 }

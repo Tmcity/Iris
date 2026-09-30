@@ -6,7 +6,7 @@ internal interface INativeClipboardAdapter
 {
     nint CreateOwnerWindow();
 
-    void DestroyWindow(nint hwnd);
+    bool DestroyWindow(nint hwnd);
 
     bool OpenClipboard(nint hwnd);
 

@@ -31,12 +31,13 @@ internal unsafe sealed class NativeClipboardAdapter : INativeClipboardAdapter
         }
     }
 
-    public void DestroyWindow(nint hwnd)
+    public bool DestroyWindow(nint hwnd)
     {
         if (hwnd != 0)
         {
-            PInvoke.DestroyWindow(new HWND((void*)hwnd));
+            return PInvoke.DestroyWindow(new HWND((void*)hwnd));
         }
+        return true;
     }
 
     public bool OpenClipboard(nint hwnd)

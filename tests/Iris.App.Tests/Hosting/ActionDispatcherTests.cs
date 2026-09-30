@@ -945,7 +945,7 @@ public sealed class ActionDispatcherTests
             uiCallRelease.TrySetResult();
             if (staDispatcher != null && !staDispatcher.HasShutdownStarted)
             {
-                staDispatcher.InvokeShutdown();
+                staDispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
             }
             staThread.Join(5000).ShouldBeTrue("STA 线程必须在有界时间内退出");
         }
@@ -1034,7 +1034,7 @@ public sealed class ActionDispatcherTests
             firstCallRelease.TrySetResult();
             if (staDispatcher != null && !staDispatcher.HasShutdownStarted)
             {
-                staDispatcher.InvokeShutdown();
+                staDispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
             }
             staThread.Join(5000).ShouldBeTrue("STA 线程应在有界时间内退出");
         }
@@ -1102,7 +1102,7 @@ public sealed class ActionDispatcherTests
             allowShutdown.TrySetResult();
             if (staDispatcher != null && !staDispatcher.HasShutdownStarted)
             {
-                staDispatcher.InvokeShutdown();
+                staDispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
             }
             staThread.Join(5000).ShouldBeTrue("STA 线程应在有界时间内退出");
         }
@@ -1130,7 +1130,7 @@ public sealed class ActionDispatcherTests
             staDispatcher.ShouldNotBeNull();
 
             // 关闭 Dispatcher
-            staDispatcher.InvokeShutdown();
+            staDispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
             staThread.Join(5000).ShouldBeTrue("关闭 Dispatcher 后 STA 线程应在有界时间内退出");
 
             var wpfUiDispatcher = new WpfUiDispatcher(() => staDispatcher);
@@ -1149,9 +1149,9 @@ public sealed class ActionDispatcherTests
         {
             if (staDispatcher != null && !staDispatcher.HasShutdownStarted)
             {
-                staDispatcher.InvokeShutdown();
+                staDispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
             }
-            staThread.Join(1000);
+            staThread.Join(5000).ShouldBeTrue("STA 线程应在有界时间内退出");
         }
     }
 
@@ -1208,7 +1208,7 @@ public sealed class ActionDispatcherTests
         {
             if (staDispatcher != null && !staDispatcher.HasShutdownStarted)
             {
-                staDispatcher.InvokeShutdown();
+                staDispatcher.BeginInvokeShutdown(DispatcherPriority.Normal);
             }
             staThread.Join(5000).ShouldBeTrue("STA 线程应在有界时间内退出");
         }

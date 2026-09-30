@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using global::Windows.Foundation;
 using global::Windows.Graphics.Imaging;
 using global::Windows.Storage.Streams;
 using Iris.Core.Errors;
@@ -128,6 +129,43 @@ public sealed class Win32ClipboardServiceImageTests
         // JPEG has no alpha, decoded straight alpha must be 255 (opaque)
         pixels[3].ShouldBe((byte)255);
         pixels[7].ShouldBe((byte)255);
+    }
+
+    [Theory]
+    [InlineData((ushort)6)]
+    [InlineData((ushort)8)]
+    public async Task SetImageAsync_WithSyntheticNonSquareJpeg_ExifOrientation_IgnoresExifOrientation_AndMatchesDibHeader(ushort exifOrientation)
+    {
+        // 2x3 image: width 2, height 3
+        byte[] rawPixels = [
+            10, 20, 30, 255,  40, 50, 60, 255,   // row 0
+            70, 80, 90, 255,  100, 110, 120, 255, // row 1
+            130, 140, 150, 255, 160, 170, 180, 255 // row 2
+        ];
+
+        byte[] jpegBytes = await EncodeJpegWithExifOrientationAsync(2, 3, rawPixels, exifOrientation);
+
+        var imageData = new ImageData(jpegBytes, ImageFormat.Jpeg, 2, 3);
+        var adapter = new FakeNativeClipboardAdapter();
+        var service = new Win32ClipboardService(null, null, adapter);
+
+        await service.SetImageAsync(imageData, TestContext.Current.CancellationToken);
+
+        nint hMem = adapter.ClipboardFormats[DibV5Helper.CF_DIBV5];
+        byte[] dibBytes = adapter.MemoryBlocks[hMem];
+
+        DibV5Helper.TryParseDibV5(dibBytes, out var header, out var pixels).ShouldBeTrue();
+
+        // Must strictly preserve raw 2x3 dimensions, ignoring EXIF orientation
+        header.bV5Width.ShouldBe(2);
+        header.bV5Height.ShouldBe(-3, "DIB 高度必须为原始高度且为负数 (top-down)");
+        pixels.Length.ShouldBe(2 * 3 * 4);
+
+        // Verify straight alpha is opaque
+        for (int i = 3; i < pixels.Length; i += 4)
+        {
+            pixels[i].ShouldBe((byte)255);
+        }
     }
 
     [Theory]
@@ -284,6 +322,33 @@ public sealed class Win32ClipboardServiceImageTests
             96,
             96,
             bgraPixels);
+        await encoder.FlushAsync();
+
+        byte[] encoded = new byte[(int)stream.Size];
+        var reader = new DataReader(stream.GetInputStreamAt(0));
+        await reader.LoadAsync((uint)stream.Size);
+        reader.ReadBytes(encoded);
+        return encoded;
+    }
+
+    private static async Task<byte[]> EncodeJpegWithExifOrientationAsync(uint width, uint height, byte[] bgraPixels, ushort exifOrientation)
+    {
+        var stream = new InMemoryRandomAccessStream();
+        var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegEncoderId, stream);
+        encoder.SetPixelData(
+            BitmapPixelFormat.Bgra8,
+            BitmapAlphaMode.Ignore,
+            width,
+            height,
+            96,
+            96,
+            bgraPixels);
+
+        var propertySet = new BitmapPropertySet
+        {
+            { "System.Photo.Orientation", new BitmapTypedValue(exifOrientation, PropertyType.UInt16) }
+        };
+        await encoder.BitmapProperties.SetPropertiesAsync(propertySet);
         await encoder.FlushAsync();
 
         byte[] encoded = new byte[(int)stream.Size];
