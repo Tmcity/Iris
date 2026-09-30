@@ -27,6 +27,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
     private readonly Lock _gate = new();
     private SettingsWindowSession? _activeSession;
     private bool _isShuttingDown;
+    private Task? _shutdownTask;
 
     public SettingsWindowPresenter(
         IServiceProvider serviceProvider,
@@ -53,81 +54,106 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
     {
         var targetPage = NormalizePageKey(pageKey);
 
-        await _uiDispatcher.InvokeAsync(() =>
+        await _uiDispatcher.InvokeAsync(async () =>
         {
+            SettingsWindowSession session;
             lock (_gate)
             {
                 if (_isShuttingDown)
                 {
-                    return Task.CompletedTask;
+                    return;
                 }
 
                 if (_activeSession != null && _activeSession.IsOpen)
                 {
                     _activeSession.ActivateAndNavigate(targetPage);
-                    return Task.CompletedTask;
+                    return;
                 }
+            }
 
-                var scope = _serviceProvider.CreateScope();
-                SettingsWindow? window = null;
-                SettingsWindowSession? session = null;
+            SettingsWindowSession? oldSession;
+            lock (_gate)
+            {
+                oldSession = _activeSession;
+            }
+            if (oldSession != null)
+            {
                 try
                 {
-                    window = scope.ServiceProvider.GetRequiredService<SettingsWindow>();
-                    var viewModel = scope.ServiceProvider.GetRequiredService<SettingsViewModel>();
-                    var themeService = scope.ServiceProvider.GetRequiredService<ThemeService>();
-                    var saveCoordinator = scope.ServiceProvider.GetRequiredService<GeneralSettingsSaveCoordinator>();
-
-                    window.DataContext = viewModel;
-
-                    session = new SettingsWindowSession(scope, window, viewModel, themeService, saveCoordinator);
-                    _activeSession = session;
-
-                    window.Closed += (sender, args) =>
-                    {
-                        lock (_gate)
-                        {
-                            if (ReferenceEquals(_activeSession, session))
-                            {
-                                _activeSession = null;
-                            }
-                        }
-                    };
-
-                    window.Show();
-                    session.ActivateAndNavigate(targetPage);
-                    return Task.CompletedTask;
+                    await oldSession.ShutdownAsync().ConfigureAwait(true);
                 }
                 catch
                 {
-                    _activeSession = null;
-                    if (window != null)
-                    {
-                        window.ForceClose = true;
-                        try
-                        {
-                            window.Close();
-                        }
-                        catch
-                        {
-                        }
-                    }
-
-                    if (session != null)
-                    {
-                        session.Dispose();
-                    }
-                    else
-                    {
-                        scope.Dispose();
-                    }
-                    throw;
                 }
+            }
+
+            lock (_gate)
+            {
+                if (_isShuttingDown)
+                {
+                    return;
+                }
+            }
+
+            var scope = _serviceProvider.CreateScope();
+            SettingsWindow? window = null;
+            try
+            {
+                window = scope.ServiceProvider.GetRequiredService<SettingsWindow>();
+                var viewModel = scope.ServiceProvider.GetRequiredService<SettingsViewModel>();
+                var themeService = scope.ServiceProvider.GetRequiredService<ThemeService>();
+                var saveCoordinator = scope.ServiceProvider.GetRequiredService<GeneralSettingsSaveCoordinator>();
+
+                window.DataContext = viewModel;
+
+                session = new SettingsWindowSession(scope, window, viewModel, themeService, saveCoordinator);
+                session.CleanupCompleted += OnSessionCleanupCompleted;
+
+                lock (_gate)
+                {
+                    _activeSession = session;
+                }
+
+                window.Show();
+                session.ActivateAndNavigate(targetPage);
+            }
+            catch
+            {
+                if (window != null)
+                {
+                    window.ForceClose = true;
+                    try
+                    {
+                        window.Close();
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                if (_activeSession != null)
+                {
+                    _ = _activeSession.ShutdownAsync();
+                }
+                else
+                {
+                    scope.Dispose();
+                }
+                throw;
             }
         }, CancellationToken.None).ConfigureAwait(false);
     }
 
-    private Task? _shutdownTask;
+    private void OnSessionCleanupCompleted(SettingsWindowSession session)
+    {
+        lock (_gate)
+        {
+            if (ReferenceEquals(_activeSession, session))
+            {
+                _activeSession = null;
+            }
+        }
+    }
 
     public Task ShutdownAsync(CancellationToken cancellationToken = default)
     {
@@ -135,12 +161,18 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
         {
             if (_shutdownTask != null)
             {
-                return _shutdownTask;
+                if (_shutdownTask.IsCompleted && _activeSession != null && _activeSession.IsOpen)
+                {
+                    _shutdownTask = null;
+                }
+                else
+                {
+                    return _shutdownTask;
+                }
             }
 
             _isShuttingDown = true;
             var sessionToShutdown = _activeSession;
-            _activeSession = null;
 
             _shutdownTask = ShutdownCoreAsync(sessionToShutdown, cancellationToken);
             return _shutdownTask;
@@ -158,6 +190,16 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
             catch (Exception ex)
             {
                 LogSettingsShutdownError(_logger, ex);
+            }
+            finally
+            {
+                lock (_gate)
+                {
+                    if (ReferenceEquals(_activeSession, sessionToShutdown) && !sessionToShutdown.IsOpen)
+                    {
+                        _activeSession = null;
+                    }
+                }
             }
         }
     }

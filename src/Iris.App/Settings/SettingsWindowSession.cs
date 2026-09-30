@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
 using Iris.App.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -22,6 +23,9 @@ internal sealed class SettingsWindowSession : IDisposable
 
     private bool _isClosed;
     private bool _disposed;
+    private Task? _cleanupTask;
+
+    public event Action<SettingsWindowSession>? CleanupCompleted;
 
     public SettingsWindowSession(
         IServiceScope scope,
@@ -77,26 +81,24 @@ internal sealed class SettingsWindowSession : IDisposable
         {
             _isClosed = true;
         }
-        Dispose();
+        _ = ShutdownAsync(CancellationToken.None);
     }
 
-    private Task? _shutdownTask;
-
-    public Task ShutdownAsync(CancellationToken cancellationToken)
+    public Task ShutdownAsync(CancellationToken cancellationToken = default)
     {
         lock (_gate)
         {
-            if (_shutdownTask != null)
+            if (_cleanupTask != null && !_cleanupTask.IsFaulted && !_cleanupTask.IsCanceled)
             {
-                return _shutdownTask;
+                return _cleanupTask;
             }
 
-            _shutdownTask = ShutdownCoreAsync(cancellationToken);
-            return _shutdownTask;
+            _cleanupTask = CleanupCoreAsync(cancellationToken);
+            return _cleanupTask;
         }
     }
 
-    private async Task ShutdownCoreAsync(CancellationToken cancellationToken)
+    private async Task CleanupCoreAsync(CancellationToken cancellationToken)
     {
         lock (_gate)
         {
@@ -110,25 +112,28 @@ internal sealed class SettingsWindowSession : IDisposable
         _saveCoordinator.StopAcceptanceAndCancelPreCommit();
         _viewModel.StopAcceptance();
 
-        // 2. 等待协调器中所有已接纳的后台保存/重试/查询任务完成（直到释放 _gate）
+        // 2. 等待协调器中所有已接纳的后台保存/重试/查询任务完成
         await _saveCoordinator.WaitForActiveWorkAsync().ConfigureAwait(false);
 
         // 3. 等待 ViewModel 中所有已接纳的保存/重试/查询任务及 UI 收尾完成
         await _viewModel.WaitForActiveWorkAsync().ConfigureAwait(false);
 
-        // 4. 在 UI 线程安全关闭窗口并释放资源
+        // 4. 在 UI 线程确保窗口已关闭并检查是否被取消
         var dispatcher = _window.Dispatcher;
         if (dispatcher != null && !dispatcher.CheckAccess())
         {
-            await dispatcher.InvokeAsync(CloseAndCleanupCore).Task.ConfigureAwait(false);
+            await dispatcher.InvokeAsync(EnsureWindowClosedOnUi).Task.ConfigureAwait(false);
         }
         else
         {
-            CloseAndCleanupCore();
+            EnsureWindowClosedOnUi();
         }
+
+        // 5. 窗口确已关闭且全部工作结束后，安全释放资源
+        DisposeInternal();
     }
 
-    private void CloseAndCleanupCore()
+    private void EnsureWindowClosedOnUi()
     {
         lock (_gate)
         {
@@ -136,25 +141,41 @@ internal sealed class SettingsWindowSession : IDisposable
             {
                 return;
             }
+            if (_isClosed)
+            {
+                return;
+            }
         }
 
-        try
+        if (_window.IsVisible || new WindowInteropHelper(_window).Handle != IntPtr.Zero)
         {
-            _window.Closed -= OnWindowClosed;
-            _window.ForceClose = true;
-            _window.Close();
-        }
-        finally
-        {
-            lock (_gate)
+            bool closedFired = false;
+            void OnClosed(object? s, EventArgs e) => closedFired = true;
+
+            _window.Closed += OnClosed;
+            try
             {
-                _isClosed = true;
+                _window.ForceClose = true;
+                _window.Close();
             }
-            Dispose();
+            finally
+            {
+                _window.Closed -= OnClosed;
+            }
+
+            if (!closedFired && _window.IsVisible)
+            {
+                throw new InvalidOperationException("设置窗口关闭被取消或失败，会话保持存活");
+            }
+        }
+
+        lock (_gate)
+        {
+            _isClosed = true;
         }
     }
 
-    public void Dispose()
+    private void DisposeInternal()
     {
         lock (_gate)
         {
@@ -166,8 +187,35 @@ internal sealed class SettingsWindowSession : IDisposable
             _isClosed = true;
         }
 
-        _themeService.ClearPreview(_viewModel.SessionOwner);
-        _viewModel.Dispose();
-        _scope.Dispose();
+        try
+        {
+            _themeService.ClearPreview(_viewModel.SessionOwner);
+        }
+        catch
+        {
+        }
+
+        try
+        {
+            _viewModel.Dispose();
+        }
+        catch
+        {
+        }
+
+        try
+        {
+            _scope.Dispose();
+        }
+        catch
+        {
+        }
+
+        CleanupCompleted?.Invoke(this);
+    }
+
+    public void Dispose()
+    {
+        DisposeInternal();
     }
 }

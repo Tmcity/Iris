@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Iris.App.Hosting;
 using Iris.App.Services;
 using Iris.App.Settings;
+using Iris.App.Tests.TestSupport;
 using Iris.Core.Platform;
 using Iris.Core.Settings;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -447,5 +448,186 @@ public sealed class SettingsViewModelTests
             themeService.HasActivePreview.ShouldBeFalse();
             themeService.EffectiveTheme.ShouldBe(AppTheme.Dark);
         }
+    }
+
+    private sealed class HoldFirstDispatch : IUiDispatcher
+    {
+        private readonly WpfUiDispatcher _real = new();
+        private readonly TaskCompletionSource _released = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private int _first = 1;
+        private Func<Task>? _callback;
+
+        public TaskCompletionSource Queued { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        public bool CheckAccess() => _real.CheckAccess();
+
+        public Task InvokeAsync(Func<Task> callback, CancellationToken ct)
+        {
+            if (Interlocked.Exchange(ref _first, 0) == 1)
+            {
+                _callback = callback;
+                Queued.TrySetResult();
+                return _released.Task;
+            }
+            return _real.InvokeAsync(callback, ct);
+        }
+
+        public async Task DrainAsync()
+        {
+            if (_callback != null)
+            {
+                var work = _callback;
+                _callback = null;
+                await work().ConfigureAwait(true);
+            }
+            _released.TrySetResult();
+        }
+    }
+
+    private sealed class CaptureVmLogger : Microsoft.Extensions.Logging.ILogger<SettingsViewModel>
+    {
+        public int Calls { get; private set; }
+        public bool RawException { get; private set; }
+        public string? LastFormatted { get; private set; }
+
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
+        public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel level) => true;
+
+        public void Log<TState>(
+            Microsoft.Extensions.Logging.LogLevel level,
+            Microsoft.Extensions.Logging.EventId id,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            Calls++;
+            RawException |= exception != null;
+            LastFormatted = formatter(state, exception);
+        }
+    }
+
+    [Fact]
+    public async Task QueryAutoStartStatus_LateInitialQueryCallback_DoesNotOverrideSaveFailure()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var settingsService = Substitute.For<ISettingsService>();
+            settingsService.Current.Returns(new AppSettings { General = new GeneralSettings { LaunchAtStartup = false } });
+            settingsService.UpdateAsync(Arg.Any<Func<AppSettings, AppSettings>>(), Arg.Any<CancellationToken>())
+                .Returns(callInfo =>
+                {
+                    var mutate = callInfo.Arg<Func<AppSettings, AppSettings>>();
+                    settingsService.Current.Returns(mutate(settingsService.Current));
+                    return Task.CompletedTask;
+                });
+
+            var autoStartService = Substitute.For<IAutoStartService>();
+            autoStartService.IsEnabled().Returns(false);
+
+            var dispatcher = new HoldFirstDispatch();
+            using var themeService = new ThemeService(settingsService);
+            using var coordinator = new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+            using var vm = new SettingsViewModel(settingsService, themeService, coordinator, dispatcher);
+
+            try
+            {
+                // 等待初始查询发起并捕获其回调
+                await dispatcher.Queued.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                // 注入保存时的自启应用失败
+                autoStartService.When(x => x.SetEnabled(true)).Do(_ => throw new System.IO.IOException("Injected fake auto start error"));
+
+                vm.LaunchAtStartup = true;
+                await vm.ExecuteSaveAsync().WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                vm.CanRetryAutoStart.ShouldBeTrue("保存失败后应允许重试自启");
+
+                // 放行迟到的初始查询 UI 回调
+                await dispatcher.DrainAsync();
+                await vm.WaitForActiveWorkAsync().WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                vm.CanRetryAutoStart.ShouldBeTrue("迟到的旧查询回调不得覆盖已失败的自启重试资格");
+                settingsService.Current.General.LaunchAtStartup.ShouldBeTrue();
+                autoStartService.Received(1).SetEnabled(true);
+            }
+            finally
+            {
+                await dispatcher.DrainAsync();
+                await coordinator.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
+                await vm.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
+            }
+        });
+    }
+
+    [Fact]
+    public async Task SaveAsync_WithFatalLogLevel_RejectedBeforeUpdateAsync()
+    {
+        var settingsService = Substitute.For<ISettingsService>();
+        settingsService.Current.Returns(new AppSettings { General = new GeneralSettings { LogLevel = "Information" } });
+
+        var autoStartService = Substitute.For<IAutoStartService>();
+        using var coordinator = new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+
+        var draft = new GeneralDraftSnapshot(
+            BaseTheme: AppTheme.System,
+            TargetTheme: AppTheme.System,
+            ThemeDirty: false,
+            BaseLaunchAtStartup: false,
+            TargetLaunchAtStartup: false,
+            LaunchAtStartupDirty: false,
+            BaseShowStartupNotification: false,
+            TargetShowStartupNotification: false,
+            ShowStartupNotificationDirty: false,
+            BaseLogLevel: "Information",
+            TargetLogLevel: "Fatal",
+            LogLevelDirty: true);
+
+        var result = await coordinator.SaveAsync(draft, CancellationToken.None);
+
+        result.Status.ShouldBe(GeneralSaveStatus.Uncommitted);
+        result.FailureReason.ShouldBe(UiText.SettingsStatusInvalidLogLevel);
+        _ = settingsService.DidNotReceiveWithAnyArgs().UpdateAsync(default!, Arg.Any<CancellationToken>());
+        settingsService.Current.General.LogLevel.ShouldBe("Information");
+    }
+
+    [Fact]
+    public async Task Commands_OnUnexpectedException_LogDiagnostics_AndResetIsSavingState()
+    {
+        var settingsService = Substitute.For<ISettingsService>();
+        var injectFailure = false;
+        settingsService.Current.Returns(_ =>
+        {
+            if (injectFailure)
+            {
+                throw new InvalidOperationException("Unexpected storage crash");
+            }
+            return new AppSettings();
+        });
+
+        var autoStartService = Substitute.For<IAutoStartService>();
+        var logger = new CaptureVmLogger();
+        using var themeService = new ThemeService(settingsService);
+        using var coordinator = new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+
+        var uiDispatcher = Substitute.For<IUiDispatcher>();
+        uiDispatcher.CheckAccess().Returns(true);
+        uiDispatcher.InvokeAsync(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>())
+            .Returns(callInfo => callInfo.Arg<Func<Task>>()());
+
+        using var vm = new SettingsViewModel(settingsService, themeService, coordinator, uiDispatcher, logger);
+
+        injectFailure = true;
+        vm.LogLevel = "Debug";
+        await vm.ExecuteSaveAsync();
+
+        vm.IsSaving.ShouldBeFalse("意外异常后必须复位 IsSaving");
+        vm.CanEdit.ShouldBeTrue("意外异常后必须恢复可编辑状态");
+        vm.StatusMessage.ShouldBe(UiText.SettingsStatusSaveFailed);
+
+        logger.Calls.ShouldBe(1);
+        logger.RawException.ShouldBeFalse("意外异常诊断不得传递原始 Exception 对象");
+        logger.LastFormatted.ShouldNotBeNull();
+        logger.LastFormatted!.ShouldContain("Save");
+        logger.LastFormatted!.ShouldContain("InvalidOperationException");
     }
 }

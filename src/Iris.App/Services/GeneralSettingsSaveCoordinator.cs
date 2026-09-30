@@ -76,7 +76,7 @@ internal sealed class GeneralSettingsConflictException : Exception
 /// </summary>
 internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
 {
-    private static readonly string[] AllowedLogLevels = ["Verbose", "Debug", "Information", "Warning", "Error", "Fatal"];
+    private static readonly string[] AllowedLogLevels = ["Verbose", "Debug", "Information", "Warning", "Error"];
 
     private readonly ISettingsService _settingsService;
     private readonly IAutoStartService _autoStartService;
@@ -127,33 +127,22 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
         var (admitted, tcs, preCommitCts) = TryAdmitWork(cancellationToken);
         if (!admitted || tcs == null || preCommitCts == null)
         {
-            return false;
+            throw new OperationCanceledException("Coordinator is stopped or disposed.");
         }
 
         try
         {
             return await Task.Run(() =>
             {
-                try
-                {
-                    preCommitCts.Token.ThrowIfCancellationRequested();
-                    var isEnabled = _autoStartService.IsEnabled();
-                    var shouldBeEnabled = _settingsService.Current.General.LaunchAtStartup;
-                    return isEnabled != shouldBeEnabled;
-                }
-                catch (OperationCanceledException)
-                {
-                    return false;
-                }
-                catch
-                {
-                    return true;
-                }
+                preCommitCts.Token.ThrowIfCancellationRequested();
+                var isEnabled = _autoStartService.IsEnabled();
+                var shouldBeEnabled = _settingsService.Current.General.LaunchAtStartup;
+                return isEnabled != shouldBeEnabled;
             }, preCommitCts.Token).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {
-            return false;
+            throw;
         }
         catch
         {

@@ -533,4 +533,295 @@ public sealed class SettingsWindowPresenterTests
             }
         });
     }
+
+    [Fact]
+    public async Task CloseDuringQuery_NormalClose_ScopeRetainedUntilQueryCompletes_AndShutdownWaits()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var queryEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            using var queryRelease = new ManualResetEventSlim();
+
+            var settingsService = Substitute.For<ISettingsService>();
+            settingsService.Current.Returns(new AppSettings());
+
+            var autoStartService = Substitute.For<IAutoStartService>();
+            autoStartService.IsEnabled().Returns(_ =>
+            {
+                queryEntered.TrySetResult();
+                if (!queryRelease.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Query release wait timed out");
+                }
+                return false;
+            });
+
+            var uiDispatcher = new ImmediateUiDispatcher();
+
+            var services = new ServiceCollection();
+            services.AddSingleton(settingsService);
+            services.AddSingleton(autoStartService);
+            services.AddSingleton<IUiDispatcher>(uiDispatcher);
+            services.AddSingleton<ThemeService>();
+
+            ScopedDisposableWitness? witness = null;
+            GeneralSettingsSaveCoordinator? coordinator = null;
+            services.AddScoped<ScopedDisposableWitness>(sp =>
+            {
+                witness = new ScopedDisposableWitness();
+                return witness;
+            });
+            services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
+            {
+                _ = sp.GetRequiredService<ScopedDisposableWitness>();
+                coordinator = new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+                return coordinator;
+            });
+            services.AddScoped<SettingsViewModel>();
+            services.AddTransient<SettingsWindow>(sp =>
+            {
+                return new SettingsWindow
+                {
+                    ShowActivated = false,
+                    ShowInTaskbar = false,
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Left = -10000,
+                    Top = -10000,
+                    Opacity = 0
+                };
+            });
+
+            using var rootProvider = services.BuildServiceProvider();
+            var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
+
+            try
+            {
+                await presenter.ShowAsync("general");
+                var session = presenter.ActiveSession;
+                session.ShouldNotBeNull();
+                var window = session!.Window;
+
+                // 等待初始查询进入 AutoStartService.IsEnabled
+                await queryEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                var activeQuery = coordinator!.ActiveWorkTask;
+                (activeQuery != null).ShouldBeTrue();
+                activeQuery!.IsCompleted.ShouldBeFalse();
+
+                // 执行正常窗口关闭
+                window.Close();
+
+                // 在查询完成前，scope 必须存活，且 Presenter 仍持有 active session
+                witness!.IsDisposed.ShouldBeFalse("普通关闭在查询完成前不得释放 scope");
+                presenter.ActiveSession.ShouldNotBeNull("普通关闭在清理完成前 Presenter 必须保留 session 引用");
+
+                var shutdownTask = presenter.ShutdownAsync();
+                shutdownTask.IsCompleted.ShouldBeFalse("查询未完成时 ShutdownAsync 必须等待排干");
+
+                // 放行查询
+                queryRelease.Set();
+
+                await Task.WhenAll(shutdownTask, activeQuery).WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                presenter.ActiveSession.ShouldBeNull();
+                window.IsVisible.ShouldBeFalse();
+                witness.IsDisposed.ShouldBeTrue("所有后台工作排干后 scope 最终释放");
+            }
+            finally
+            {
+                queryRelease.Set();
+                await presenter.ShutdownAsync();
+            }
+        });
+    }
+
+    [Fact]
+    public async Task CloseDuringQuery_ShowFailure_ScopeRetainedUntilQueryCompletes_AndShutdownWaits()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var queryEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            using var queryRelease = new ManualResetEventSlim();
+
+            var settingsService = Substitute.For<ISettingsService>();
+            settingsService.Current.Returns(new AppSettings());
+
+            var autoStartService = Substitute.For<IAutoStartService>();
+            autoStartService.IsEnabled().Returns(_ =>
+            {
+                queryEntered.TrySetResult();
+                if (!queryRelease.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Query release wait timed out");
+                }
+                return false;
+            });
+
+            var uiDispatcher = new ImmediateUiDispatcher();
+
+            var services = new ServiceCollection();
+            services.AddSingleton(settingsService);
+            services.AddSingleton(autoStartService);
+            services.AddSingleton<IUiDispatcher>(uiDispatcher);
+            services.AddSingleton<ThemeService>();
+
+            ScopedDisposableWitness? witness = null;
+            GeneralSettingsSaveCoordinator? coordinator = null;
+            services.AddScoped<ScopedDisposableWitness>(sp =>
+            {
+                witness = new ScopedDisposableWitness();
+                return witness;
+            });
+            services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
+            {
+                _ = sp.GetRequiredService<ScopedDisposableWitness>();
+                coordinator = new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+                return coordinator;
+            });
+            services.AddScoped<SettingsViewModel>();
+
+            EventHandler sourceInitializedFailure = (_, _) =>
+            {
+                if (!queryEntered.Task.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Query did not enter before source initialization");
+                }
+                throw new InvalidOperationException("Injected source initialization failure");
+            };
+
+            services.AddTransient<SettingsWindow>(sp =>
+            {
+                var win = new SettingsWindow
+                {
+                    ShowActivated = false,
+                    ShowInTaskbar = false,
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Left = -10000,
+                    Top = -10000,
+                    Opacity = 0
+                };
+                win.SourceInitialized += sourceInitializedFailure;
+                return win;
+            });
+
+            using var rootProvider = services.BuildServiceProvider();
+            var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
+
+            try
+            {
+                var showEx = await Should.ThrowAsync<InvalidOperationException>(() => presenter.ShowAsync("general"));
+                showEx.Message.ShouldContain("Injected source initialization failure");
+
+                var activeQuery = coordinator!.ActiveWorkTask;
+                (activeQuery != null).ShouldBeTrue();
+                activeQuery!.IsCompleted.ShouldBeFalse();
+
+                // Show 失败但异步查询仍挂起时：scope 仍存活，presenter 仍然持有 session 以便追踪清理
+                witness!.IsDisposed.ShouldBeFalse("Show 失败但在查询完成前 scope 必须存活");
+                presenter.ActiveSession.ShouldNotBeNull("Show 失败但清理未完成前 Presenter 必须保留 session 引用");
+
+                var shutdownTask = presenter.ShutdownAsync();
+                shutdownTask.IsCompleted.ShouldBeFalse("Show 失败路径的 ShutdownAsync 必须等待挂起的查询排干");
+
+                // 放行查询
+                queryRelease.Set();
+
+                await Task.WhenAll(shutdownTask, activeQuery).WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                presenter.ActiveSession.ShouldBeNull();
+                witness.IsDisposed.ShouldBeTrue("所有后台工作排干后 scope 最终释放");
+            }
+            finally
+            {
+                queryRelease.Set();
+                await presenter.ShutdownAsync();
+            }
+        });
+    }
+
+    [Fact]
+    public async Task ShutdownAsync_WhenClosingCancelled_PreservesScopeAndWindow_AndObservesError()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var settingsService = Substitute.For<ISettingsService>();
+            settingsService.Current.Returns(new AppSettings());
+
+            var autoStartService = Substitute.For<IAutoStartService>();
+            var uiDispatcher = new ImmediateUiDispatcher();
+
+            var services = new ServiceCollection();
+            services.AddSingleton(settingsService);
+            services.AddSingleton(autoStartService);
+            services.AddSingleton<IUiDispatcher>(uiDispatcher);
+            services.AddSingleton<ThemeService>();
+
+            ScopedDisposableWitness? witness = null;
+            services.AddScoped<ScopedDisposableWitness>(sp =>
+            {
+                witness = new ScopedDisposableWitness();
+                return witness;
+            });
+            services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
+            {
+                _ = sp.GetRequiredService<ScopedDisposableWitness>();
+                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+            });
+            services.AddScoped<SettingsViewModel>();
+            services.AddTransient<SettingsWindow>(sp =>
+            {
+                return new SettingsWindow
+                {
+                    ShowActivated = false,
+                    ShowInTaskbar = false,
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Left = -10000,
+                    Top = -10000,
+                    Opacity = 0
+                };
+            });
+
+            using var rootProvider = services.BuildServiceProvider();
+            var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
+
+            try
+            {
+                await presenter.ShowAsync("general");
+                var session = presenter.ActiveSession;
+                session.ShouldNotBeNull();
+                var window = session!.Window;
+
+                System.ComponentModel.CancelEventHandler cancelHandler = (_, args) => args.Cancel = true;
+                window.Closing += cancelHandler;
+
+                try
+                {
+                    // 第一次 Shutdown：因 Closing 被取消，内部安全记录错误，不抛出崩损
+                    await presenter.ShutdownAsync();
+
+                    // 窗口必须保持可见与存活，scope 不得释放
+                    window.IsVisible.ShouldBeTrue("取消关闭后窗口必须保持可见");
+                    new WindowInteropHelper(window).Handle.ShouldNotBe(IntPtr.Zero);
+                    witness!.IsDisposed.ShouldBeFalse("取消关闭后 scope 必须保持存活");
+                    presenter.ActiveSession.ShouldNotBeNull();
+                }
+                finally
+                {
+                    window.Closing -= cancelHandler;
+                }
+
+                // 取消 Handler 移除后，再次 ShutdownAsync 应该顺利成功
+                await presenter.ShutdownAsync();
+
+                presenter.ActiveSession.ShouldBeNull();
+                window.IsVisible.ShouldBeFalse();
+                witness!.IsDisposed.ShouldBeTrue("关闭完成后 scope 最终释放");
+            }
+            finally
+            {
+                await presenter.ShutdownAsync();
+            }
+        });
+    }
 }
+

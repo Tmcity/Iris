@@ -11,6 +11,9 @@ public static class WpfTestRunner
 {
     private static readonly Thread StaThread;
     private static readonly TaskCompletionSource<Dispatcher> DispatcherTcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    private static readonly Lock Gate = new();
+    private static bool _isShuttingDown;
+    private static Task? _teardownTask;
 
     static WpfTestRunner()
     {
@@ -22,6 +25,8 @@ public static class WpfTestRunner
         StaThread.SetApartmentState(ApartmentState.STA);
         StaThread.Start();
     }
+
+    public static bool IsStaThreadAlive => StaThread.IsAlive;
 
     private static void RunStaThread()
     {
@@ -41,6 +46,14 @@ public static class WpfTestRunner
 
     public static async Task RunAsync(Func<Task> work)
     {
+        lock (Gate)
+        {
+            if (_isShuttingDown)
+            {
+                throw new InvalidOperationException("WPF test runner is shutting down or has completed.");
+            }
+        }
+
         var dispatcher = await DispatcherTcs.Task.ConfigureAwait(false);
         var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -62,6 +75,14 @@ public static class WpfTestRunner
 
     public static async Task RunAsync(Action work)
     {
+        lock (Gate)
+        {
+            if (_isShuttingDown)
+            {
+                throw new InvalidOperationException("WPF test runner is shutting down or has completed.");
+            }
+        }
+
         var dispatcher = await DispatcherTcs.Task.ConfigureAwait(false);
         var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -83,6 +104,14 @@ public static class WpfTestRunner
 
     public static async Task<T> RunAsync<T>(Func<Task<T>> work)
     {
+        lock (Gate)
+        {
+            if (_isShuttingDown)
+            {
+                throw new InvalidOperationException("WPF test runner is shutting down or has completed.");
+            }
+        }
+
         var dispatcher = await DispatcherTcs.Task.ConfigureAwait(false);
         var tcs = new TaskCompletionSource<T>(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -105,26 +134,83 @@ public static class WpfTestRunner
     public static async Task CleanupWindowsAsync()
     {
         var dispatcher = await DispatcherTcs.Task.ConfigureAwait(false);
-        await dispatcher.InvokeAsync(() =>
+        if (!dispatcher.HasShutdownStarted)
         {
-            if (Application.Current != null)
+            await dispatcher.InvokeAsync(CleanupWindowsCore);
+        }
+    }
+
+    private static void CleanupWindowsCore()
+    {
+        if (Application.Current != null)
+        {
+            foreach (var window in Application.Current.Windows.Cast<Window>().ToArray())
             {
-                foreach (var window in Application.Current.Windows.Cast<Window>().ToArray())
+                try
                 {
-                    try
+                    if (window is Iris.App.Settings.SettingsWindow sw)
                     {
-                        if (window is Iris.App.Settings.SettingsWindow sw)
-                        {
-                            sw.ForceClose = true;
-                        }
-                        window.Close();
+                        sw.ForceClose = true;
                     }
-                    catch
-                    {
-                    }
+                    window.Close();
+                }
+                catch
+                {
                 }
             }
-        });
+        }
+    }
+
+    public static Task TeardownAsync(TimeSpan timeout = default)
+    {
+        lock (Gate)
+        {
+            if (_teardownTask != null)
+            {
+                return _teardownTask;
+            }
+            _isShuttingDown = true;
+            _teardownTask = TeardownCoreAsync(timeout);
+            return _teardownTask;
+        }
+    }
+
+    private static async Task TeardownCoreAsync(TimeSpan timeout)
+    {
+        int timeoutMs = timeout > TimeSpan.Zero ? (int)timeout.TotalMilliseconds : 5000;
+
+        if (DispatcherTcs.Task.IsCompletedSuccessfully)
+        {
+            var dispatcher = DispatcherTcs.Task.Result;
+            if (!dispatcher.HasShutdownStarted)
+            {
+                try
+                {
+                    await dispatcher.InvokeAsync(() =>
+                    {
+                        CleanupWindowsCore();
+                        try
+                        {
+                            Application.Current?.Shutdown();
+                        }
+                        catch
+                        {
+                        }
+                    }).Task.WaitAsync(TimeSpan.FromSeconds(2)).ConfigureAwait(false);
+                }
+                catch
+                {
+                }
+
+                dispatcher.InvokeShutdown();
+            }
+        }
+
+        bool exited = await Task.Run(() => StaThread.Join(timeoutMs)).ConfigureAwait(false);
+        if (!exited)
+        {
+            throw new TimeoutException($"WPF STA 线程未能于 {timeoutMs}ms 内退出。");
+        }
     }
 
     private static void EnsureApplication()

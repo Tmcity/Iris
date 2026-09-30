@@ -9,10 +9,12 @@ using System.Windows.Input;
 using Iris.App.Hosting;
 using Iris.App.Services;
 using Iris.Core.Settings;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Iris.App.Settings;
 
-internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
+internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDisposable
 {
     private static readonly IReadOnlyList<AppTheme> _availableThemes = [AppTheme.System, AppTheme.Light, AppTheme.Dark];
     private static readonly IReadOnlyList<string> _availableLogLevels = ["Verbose", "Debug", "Information", "Warning", "Error"];
@@ -21,6 +23,7 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
     private readonly ThemeService _themeService;
     private readonly GeneralSettingsSaveCoordinator _saveCoordinator;
     private readonly IUiDispatcher _uiDispatcher;
+    private readonly ILogger<SettingsViewModel> _logger;
     private readonly object _sessionOwner = new();
 
     private readonly Lock _admissionLock = new();
@@ -59,11 +62,22 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
         ThemeService themeService,
         GeneralSettingsSaveCoordinator saveCoordinator,
         IUiDispatcher uiDispatcher)
+        : this(settingsService, themeService, saveCoordinator, uiDispatcher, null)
+    {
+    }
+
+    public SettingsViewModel(
+        ISettingsService settingsService,
+        ThemeService themeService,
+        GeneralSettingsSaveCoordinator saveCoordinator,
+        IUiDispatcher uiDispatcher,
+        ILogger<SettingsViewModel>? logger)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _themeService = themeService ?? throw new ArgumentNullException(nameof(themeService));
         _saveCoordinator = saveCoordinator ?? throw new ArgumentNullException(nameof(saveCoordinator));
         _uiDispatcher = uiDispatcher ?? throw new ArgumentNullException(nameof(uiDispatcher));
+        _logger = logger ?? NullLogger<SettingsViewModel>.Instance;
 
         // 从当前设置初始化基线与目标
         var general = _settingsService.Current.General;
@@ -81,10 +95,10 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
 
         _canRetryAutoStart = false;
 
-        SaveCommand = new AsyncRelayCommand(ExecuteSaveAsync, () => CanEdit);
+        SaveCommand = new AsyncRelayCommand(ExecuteSaveAsync, () => CanEdit, ex => HandleCommandException("Save", ex));
         CancelCommand = new RelayCommand(ExecuteCancel, () => CanEdit);
         ReloadCommand = new RelayCommand(ExecuteReload, () => CanEdit);
-        RetryAutoStartCommand = new AsyncRelayCommand(ExecuteRetryAutoStartAsync, () => !IsSaving && CanRetryAutoStart && !_disposed && !_isStopped);
+        RetryAutoStartCommand = new AsyncRelayCommand(ExecuteRetryAutoStartAsync, () => !IsSaving && CanRetryAutoStart && !_disposed && !_isStopped, ex => HandleCommandException("RetryAutoStart", ex));
 
         _settingsService.Changed += OnExternalSettingsChanged;
 
@@ -270,6 +284,7 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
         lock (_admissionLock)
         {
             _isStopped = true;
+            ++_queryGeneration;
         }
     }
 
@@ -303,6 +318,7 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
     {
         TaskCompletionSource workTcs;
         long gen;
+        bool expectedStartup;
         lock (_admissionLock)
         {
             if (_disposed || _isStopped)
@@ -310,14 +326,15 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
                 return Task.CompletedTask;
             }
             gen = ++_queryGeneration;
+            expectedStartup = _settingsService.Current.General.LaunchAtStartup;
             workTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
             _activeWork.Add(workTcs.Task);
         }
 
-        return RunQueryAutoStartStatusAsync(gen, workTcs);
+        return RunQueryAutoStartStatusAsync(gen, expectedStartup, workTcs);
     }
 
-    private async Task RunQueryAutoStartStatusAsync(long gen, TaskCompletionSource workTcs)
+    private async Task RunQueryAutoStartStatusAsync(long gen, bool expectedStartup, TaskCompletionSource workTcs)
     {
         try
         {
@@ -332,6 +349,11 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
                         return Task.CompletedTask;
                     }
 
+                    if (_settingsService.Current.General.LaunchAtStartup != expectedStartup)
+                    {
+                        return Task.CompletedTask;
+                    }
+
                     CanRetryAutoStart = isPending;
                     if (isPending && StatusMessage == UiText.SettingsStatusSaved)
                     {
@@ -341,8 +363,22 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
                 return Task.CompletedTask;
             }, CancellationToken.None).ConfigureAwait(false);
         }
+        catch (OperationCanceledException)
+        {
+        }
         catch
         {
+            await _uiDispatcher.InvokeAsync(() =>
+            {
+                lock (_admissionLock)
+                {
+                    if (!_disposed && !_isStopped && gen == _queryGeneration && _settingsService.Current.General.LaunchAtStartup == expectedStartup)
+                    {
+                        CanRetryAutoStart = true;
+                    }
+                }
+                return Task.CompletedTask;
+            }, CancellationToken.None).ConfigureAwait(false);
         }
         finally
         {
@@ -363,6 +399,7 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
             {
                 return;
             }
+            ++_queryGeneration;
             workTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
             _activeWork.Add(workTcs.Task);
             IsSaving = true;
@@ -399,22 +436,22 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
                     // 保存成功后释放预览（持久主题已生效）
                     _themeService.ClearPreview(_sessionOwner);
                     SyncBaselineFromCurrent();
-                    StatusMessage = UiText.SettingsStatusSaved;
                     IsConflict = false;
-                    try
+                    if (snapshot.LaunchAtStartupDirty)
                     {
-                        var isPending = await _saveCoordinator.QueryAutoStartPendingAsync(CancellationToken.None).ConfigureAwait(true);
-                        if (!_disposed && !_isStopped)
-                        {
-                            CanRetryAutoStart = isPending;
-                            if (isPending)
-                            {
-                                StatusMessage = UiText.SettingsStatusSavedAutoStartStillPending;
-                            }
-                        }
+                        CanRetryAutoStart = false;
+                        StatusMessage = UiText.SettingsStatusSaved;
                     }
-                    catch
+                    else
                     {
+                        if (CanRetryAutoStart)
+                        {
+                            StatusMessage = UiText.SettingsStatusSavedAutoStartStillPending;
+                        }
+                        else
+                        {
+                            StatusMessage = UiText.SettingsStatusSaved;
+                        }
                     }
                     OnPropertyChanged(nameof(IsDirty));
                     break;
@@ -436,6 +473,13 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
                     IsConflict = result.IsConflict;
                     break;
             }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            HandleCommandException("Save", ex);
         }
         finally
         {
@@ -517,6 +561,7 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
             {
                 return;
             }
+            ++_queryGeneration;
             workTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
             _activeWork.Add(workTcs.Task);
             IsSaving = true;
@@ -535,23 +580,20 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
             if (result.Status == GeneralSaveStatus.SavedAndApplied)
             {
                 StatusMessage = UiText.SettingsStatusAutoStartApplied;
-                try
-                {
-                    var isPending = await _saveCoordinator.QueryAutoStartPendingAsync(CancellationToken.None).ConfigureAwait(true);
-                    if (!_disposed && !_isStopped)
-                    {
-                        CanRetryAutoStart = isPending;
-                    }
-                }
-                catch
-                {
-                }
+                CanRetryAutoStart = false;
             }
             else
             {
                 StatusMessage = result.FailureReason ?? UiText.SettingsStatusAutoStartRetryFailed;
                 CanRetryAutoStart = true;
             }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            HandleCommandException("RetryAutoStart", ex);
         }
         finally
         {
@@ -574,9 +616,13 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
     {
         _ = _uiDispatcher.InvokeAsync(() =>
         {
-            if (_disposed || _isStopped)
+            lock (_admissionLock)
             {
-                return Task.CompletedTask;
+                if (_disposed || _isStopped)
+                {
+                    return Task.CompletedTask;
+                }
+                ++_queryGeneration;
             }
 
             var current = _settingsService.Current.General;
@@ -598,6 +644,7 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
                 _baseLaunchAtStartup = current.LaunchAtStartup;
                 _targetLaunchAtStartup = current.LaunchAtStartup;
                 OnPropertyChanged(nameof(LaunchAtStartup));
+                _ = QueryAutoStartStatusAsync();
             }
 
             if (!_showStartupNotificationDirty)
@@ -619,6 +666,22 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
         }, CancellationToken.None);
     }
 
+    private void HandleCommandException(string operation, Exception ex)
+    {
+        if (ex is OperationCanceledException)
+        {
+            return;
+        }
+
+        LogCommandUnexpectedFailed(_logger, operation, ex.GetType().Name);
+
+        StatusMessage = operation == "RetryAutoStart"
+            ? UiText.SettingsStatusAutoStartRetryFailed
+            : UiText.SettingsStatusSaveFailed;
+        IsSaving = false;
+        OnPropertyChanged(nameof(CanEdit));
+    }
+
     public void Dispose()
     {
         lock (_admissionLock)
@@ -630,6 +693,7 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
 
             _disposed = true;
             _isStopped = true;
+            ++_queryGeneration;
         }
 
         _settingsService.Changed -= OnExternalSettingsChanged;
@@ -644,4 +708,7 @@ internal sealed class SettingsViewModel : INotifyPropertyChanged, IDisposable
         }
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+
+    [LoggerMessage(EventId = 1, Level = Microsoft.Extensions.Logging.LogLevel.Error, Message = "设置命令 {Operation} 发生意外异常：{ExceptionType}")]
+    private static partial void LogCommandUnexpectedFailed(ILogger logger, string operation, string exceptionType);
 }
