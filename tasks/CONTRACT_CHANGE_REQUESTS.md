@@ -503,7 +503,7 @@ IActionDispatcher 的 summary 替换为：
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-09-30 |
-| 状态 | **已落地，待 T-021A-R2 复审**（生命周期/后台/EXIF 已通过，剩余复合清理与 Helper 验证收尾） |
+| 状态 | **已结案**（2026-09-30；e746382 独立复审通过，原生独占窗口站实机项仍按已批准边界标为未验证） |
 | 依据 | CLIPBOARD_SERVICE.md；M2 剪贴板前置依赖 |
 | 兼容性 | 只细化尚未实现的 IClipboardService 注释，不改签名、错误码、默认参数或 ImageData |
 
@@ -530,3 +530,46 @@ IActionDispatcher 的 summary 替换为：
 ```
 
 其它原生失败按 StorageFailure，且不暴露文本、图像内容或原始异常链。只使用现有 Windows SDK / CsWin32，不批准新增 NuGet 包。实施后将 CCR-008 标为“已落地，待复审”；BACKLOG 只由架构师结案。
+
+## CCR-009：桌面快照、DPI、前台与最近显示器语义
+
+| 字段 | 值 |
+|---|---|
+| 批准 | 架构师 Codex，2026-09-30 |
+| 状态 | **已落地，待复审** |
+| 依据 | DESKTOP_CONTEXT.md；ARCH v1.21；桌面准备稿与官方 API 核查 |
+| 兼容性 | 仅修改 Platform/DesktopModels.cs 中 MonitorInfo、ForegroundAppInfo、IDesktopContext 的注释，不改签名/默认值/类型，不改 IAutoStartService |
+
+T-022A 同步到 CONTRACTS.cs 与 src/Iris.Core/Platform/DesktopModels.cs。签发时两处保持旧定义一致，避免只有规范改动导致契约测试提前漂移。
+
+MonitorInfo 注释替换为：
+
+```csharp
+/// <summary>显示器只读快照；Bounds/WorkArea 均为虚拟桌面物理像素，可含负坐标。</summary>
+/// <param name="DeviceName">当前运行时设备名，如 \\.\DISPLAY1；不保证跨硬件变更稳定。</param>
+/// <param name="DpiScale">本显示器 DPI/96.0，有限且大于零；1.0 = 96 DPI。</param>
+```
+
+ForegroundAppInfo 增加：
+
+```csharp
+/// <summary>短暂的前台窗口快照；后续输入操作须重新确认目标。</summary>
+/// <param name="ProcessName">映像文件名，含实际扩展名（通常 .exe）、不含路径；比较使用 OrdinalIgnoreCase。</param>
+/// <param name="WindowTitle">可空的顶层标题，最多 1,024 字符；不作为日志内容。</param>
+```
+
+IDesktopContext 的 summary 与四个方法注释依次替换/增加为：
+
+```csharp
+/// <summary>线程安全的桌面环境查询（Platform.Windows）；完整规则见 DESKTOP_CONTEXT.md。
+/// 构造不访问桌面；每次采集清理自身资源并恢复线程 DPI context；不变更显示配置或激活窗口。</summary>
+
+/// <summary>取得前台快照；无窗口、来源不可读或两次采样仍不稳定时返回 null。标题可空，不影响已识别进程。</summary>
+/// <summary>取得光标物理像素坐标；失败抛 IrisException(Unknown)。不移动光标。</summary>
+/// <summary>返回新建的只读显示器快照，排除未接入桌面及镜像伪设备，按主屏优先、DeviceName Ordinal 排序。
+/// 不一致快照最多重采一次；仍失败或没有有效显示器抛 IrisException(Unknown)，不伪造默认屏幕/DPI。</summary>
+/// <summary>从同一有效快照选择包含该点或距该点最近的显示器；采用点到矩形所含整数像素的平方距离。
+/// 并列优先主屏，再按 DeviceName Ordinal；边界为半开区间，极端坐标运算不溢出。</summary>
+```
+
+方法声明及 record 参数保持原样，具体失败/清理文案见正式规范。不新增平台错误码或公共原生适配器。实施后将 CCR-009 标为“已落地，待复审”，架构师验收后结案。

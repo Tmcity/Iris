@@ -1,0 +1,238 @@
+using System;
+using System.Collections.Generic;
+using Iris.Core.Errors;
+using Iris.Core.Imaging;
+using Iris.Core.Platform;
+using Microsoft.Extensions.Logging;
+
+namespace Iris.Platform.Windows.Capture;
+
+internal static class MonitorEnumerator
+{
+    private const uint DISPLAY_DEVICE_ATTACHED_TO_DESKTOP = 0x00000001;
+    private const uint DISPLAY_DEVICE_MIRRORING_DRIVER = 0x00000008;
+    private const nint DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2 = -4;
+
+    public static IReadOnlyList<MonitorInfo> EnumerateMonitors(
+        INativeDesktopAdapter adapter,
+        ILogger? logger,
+        Action<ILogger, string, int, Exception?> logCleanupFailure)
+    {
+        ArgumentNullException.ThrowIfNull(adapter);
+
+        for (int attempt = 0; attempt < 2; attempt++)
+        {
+            var (success, monitors) = TryEnumerateOnce(adapter, logger, logCleanupFailure);
+            if (success && monitors != null && monitors.Count > 0)
+            {
+                return monitors;
+            }
+        }
+
+        throw new IrisException(ErrorCode.Unknown, "无法获取显示器信息");
+    }
+
+    private static (bool Success, IReadOnlyList<MonitorInfo>? Monitors) TryEnumerateOnce(
+        INativeDesktopAdapter adapter,
+        ILogger? logger,
+        Action<ILogger, string, int, Exception?> logCleanupFailure)
+    {
+        var allDevices = new Dictionary<string, NativeDisplayDeviceData>(StringComparer.OrdinalIgnoreCase);
+        var attachedNonMirrorDevices = new Dictionary<string, NativeDisplayDeviceData>(StringComparer.OrdinalIgnoreCase);
+        bool deviceConflict = false;
+
+        for (uint index = 0; ; index++)
+        {
+            if (!adapter.EnumDisplayDevice(index, out var devData))
+            {
+                break;
+            }
+
+            if (string.IsNullOrEmpty(devData.DeviceName))
+            {
+                continue;
+            }
+
+            if (allDevices.TryGetValue(devData.DeviceName, out var existing))
+            {
+                if (existing.StateFlags != devData.StateFlags)
+                {
+                    deviceConflict = true;
+                }
+            }
+            else
+            {
+                allDevices[devData.DeviceName] = devData;
+            }
+
+            bool attached = (devData.StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) != 0;
+            bool mirror = (devData.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER) != 0;
+
+            if (attached && !mirror)
+            {
+                attachedNonMirrorDevices[devData.DeviceName] = devData;
+            }
+        }
+
+        if (deviceConflict || allDevices.Count == 0)
+        {
+            return (false, null);
+        }
+
+        if (!adapter.TryEnumDisplayMonitors(out var rawMonitors) || rawMonitors.Count == 0)
+        {
+            return (false, null);
+        }
+
+        var validMonitors = new List<NativeMonitorEntry>();
+        foreach (var m in rawMonitors)
+        {
+            if (string.IsNullOrEmpty(m.DeviceName))
+            {
+                return (false, null);
+            }
+
+            if (!allDevices.TryGetValue(m.DeviceName, out var devData))
+            {
+                // Unmapped monitor in adapter device list -> inconsistent snapshot
+                return (false, null);
+            }
+
+            bool attached = (devData.StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) != 0;
+            bool mirror = (devData.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER) != 0;
+
+            if (attached && !mirror)
+            {
+                validMonitors.Add(m);
+            }
+        }
+
+        if (validMonitors.Count == 0)
+        {
+            return (false, null);
+        }
+
+        nint oldContext = adapter.SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
+        if (oldContext == 0)
+        {
+            return (false, null);
+        }
+
+        bool queryFailed = false;
+        var resultList = new List<MonitorInfo>();
+        var cleanupFailures = new List<(string Action, int ErrorCode)>();
+
+        try
+        {
+            foreach (var m in validMonitors)
+            {
+                long boundsW = (long)m.BoundsRight - m.BoundsLeft;
+                long boundsH = (long)m.BoundsBottom - m.BoundsTop;
+                if (boundsW <= 0 || boundsH <= 0 || boundsW > int.MaxValue || boundsH > int.MaxValue)
+                {
+                    queryFailed = true;
+                    break;
+                }
+
+                int centerX = (int)((long)m.BoundsLeft + boundsW / 2);
+                int centerY = (int)((long)m.BoundsTop + boundsH / 2);
+
+                nint hwnd = adapter.CreateDpiQueryWindow(centerX, centerY);
+                if (hwnd == 0)
+                {
+                    queryFailed = true;
+                    break;
+                }
+
+                try
+                {
+                    nint windowMonitor = adapter.MonitorFromWindow(hwnd, 0);
+                    if (windowMonitor != m.HMonitor)
+                    {
+                        queryFailed = true;
+                        break;
+                    }
+
+                    uint dpi = adapter.GetDpiForWindow(hwnd);
+                    if (dpi == 0)
+                    {
+                        queryFailed = true;
+                        break;
+                    }
+
+                    double dpiScale = dpi / 96.0;
+                    if (!DesktopGeometryHelper.ValidateGeometry(
+                            m.BoundsLeft, m.BoundsTop, m.BoundsRight, m.BoundsBottom,
+                            m.WorkLeft, m.WorkTop, m.WorkRight, m.WorkBottom,
+                            dpiScale))
+                    {
+                        queryFailed = true;
+                        break;
+                    }
+
+                    var bounds = new PixelRect(m.BoundsLeft, m.BoundsTop, (int)boundsW, (int)boundsH);
+                    var workArea = new PixelRect(m.WorkLeft, m.WorkTop, m.WorkRight - m.WorkLeft, m.WorkBottom - m.WorkTop);
+                    resultList.Add(new MonitorInfo(m.DeviceName, bounds, workArea, dpiScale, m.IsPrimary));
+                }
+                finally
+                {
+                    if (!adapter.DestroyWindow(hwnd))
+                    {
+                        cleanupFailures.Add(("DestroyWindow", adapter.GetLastError()));
+                    }
+                }
+            }
+        }
+        catch
+        {
+            queryFailed = true;
+            throw;
+        }
+        finally
+        {
+            nint restored = adapter.SetThreadDpiAwarenessContext(oldContext);
+            if (restored == 0)
+            {
+                cleanupFailures.Add(("SetThreadDpiAwarenessContext", adapter.GetLastError()));
+            }
+        }
+
+        if (queryFailed || resultList.Count == 0)
+        {
+            // Primary failure present; log any cleanup failures safely without overriding
+            if (logger != null)
+            {
+                foreach (var (action, err) in cleanupFailures)
+                {
+                    logCleanupFailure(logger, action, err, null);
+                }
+            }
+            return (false, null);
+        }
+
+        if (cleanupFailures.Count > 0)
+        {
+            // No primary failure, so first cleanup failure becomes the primary error
+            if (logger != null)
+            {
+                for (int i = 1; i < cleanupFailures.Count; i++)
+                {
+                    logCleanupFailure(logger, cleanupFailures[i].Action, cleanupFailures[i].ErrorCode, null);
+                }
+            }
+            throw new IrisException(ErrorCode.Unknown, "桌面查询资源清理失败");
+        }
+
+        // Sort by IsPrimary DESC, then DeviceName Ordinal ASC
+        resultList.Sort((a, b) =>
+        {
+            if (a.IsPrimary != b.IsPrimary)
+            {
+                return a.IsPrimary ? -1 : 1;
+            }
+            return string.Compare(a.DeviceName, b.DeviceName, StringComparison.Ordinal);
+        });
+
+        return (true, resultList.AsReadOnly());
+    }
+}

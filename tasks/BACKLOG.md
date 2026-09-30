@@ -103,8 +103,8 @@
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
 | T-014 | ☑ | ActionDispatcher + App 内部 UI 调度适配器（C14-1 已完成） | T-005 | 1d |
-| T-021A | ▶ | Win32ClipboardService（R2 复合清理错误与 Helper 验证收尾） | T-005, T-014 | 1.5d |
-| T-022A | ☐ | DesktopContext + MonitorEnumerator（从 T-022/T-025 拆出并前移） | T-005 | 1d |
+| T-021A | ☑ | Win32ClipboardService（含 R1/R2；C21-1 测试维护转入 T-022A） | T-005, T-014 | 1.5d |
+| T-022A | ▶ | DesktopContext + MonitorEnumerator（从 T-022/T-025 拆出并前移）+ C21-1 | T-005 | 1d |
 | T-015 | ☐ | TranslateWindow（View + ViewModel + Presenter + WindowPlacementHelper） | T-013, T-014, T-018, T-019, T-021A, T-022A | 2.5d |
 | T-016 | ☐ | InputTranslate / ClipboardTranslate / TranslateText Handler + 托盘菜单 | T-015, T-021A | 0.5d |
 | T-017 | ☐ | HotkeyService + KeyNameMapper + 启动时注册 / 设置变化时重注册 | T-016 | 1.5d |
@@ -121,7 +121,9 @@
 
 **T-021A-R1 复审（2026-09-30）** — d813496 独立构建零警告/零错误、1166 项通过/1 项环境跳过。生命周期、后台/串行执行、EXIF、主要读取/清理错误反例通过，C14-1 代码与计数更正接受；仍有两个复合清理错误漏日志、Helper 自写列表测试未验证实际协议及失败收尾缺口，签发小范围 R2。CCR-008 待 R2 结案，不重做已通过部分。
 
-**T-022A** 交付已有 IDesktopContext 及显示器枚举，统一物理像素、负坐标、多屏和 DPI 边界。M2 的窗口定位使用此实现；UIA/剪贴板选区读取与 GDI 抓屏仍留在 T-022/T-025。签发时先核查平台 API 与混合 DPI 验收条件。
+**T-021A 最终结案（2026-09-30）** — e746382 通过，CCR-008 结案。独立 Release 零警告/零错误，1174 项通过/1 项环境跳过；两条复合清理反例修复，实际 Helper 协议基线通过，提前采样/掩盖恢复失败的隔离变异分别被 1/3 项断言拒绝，恢复基线后全绿。原生独占站实机项仍未验证，报告边界已限定。C21-1 仅维护 Helper 对外部正常复制的误报，随 T-022A 处理。
+
+**T-022A** 已按 DESKTOP_CONTEXT.md / ARCH v1.21 / CCR-009 签发：实现 IDesktopContext、显示器设备关联/筛选、物理坐标、每屏 GetDpiForWindow、最近显示器和安全前台快照。准备阶段已核查官方 API 并验证单屏路径/合成几何；实际多屏/混合 DPI 条件仍须如实记录。仅附 C21-1 Helper 测试维护；UIA/选区与 GDI 抓屏留在 T-022/T-025。
 
 T-015 签发前还须完成 A07 的窗口会话/单卡 attempt 设计，覆盖旧任务后完成、隐藏后迟到回调及单卡重试；Dispatcher 的 Action 防重入不能替代结果归属校验。
 

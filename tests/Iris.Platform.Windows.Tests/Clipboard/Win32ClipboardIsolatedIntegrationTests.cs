@@ -127,6 +127,34 @@ public sealed class Win32ClipboardIsolatedIntegrationTests
     }
 
     [Fact]
+    public void HelperProtocol_OriginalStationSequenceChangedConcurrently_PassesWithDiagnostic()
+    {
+        var env = new FakeIsolatedStationEnvironment();
+        bool bodyExecuted = false;
+
+        int exitCode = IsolatedStationCoordinator.Run(env, _ =>
+        {
+            bodyExecuted = true;
+            // Simulate external update to original interactive station clipboard while body is running
+            env.OriginalStationSequence += 5;
+            return (true, null);
+        });
+
+        exitCode.ShouldBe(IsolatedStationCoordinator.ExitCodeSuccess);
+        bodyExecuted.ShouldBeTrue();
+        env.LoggedLines.Any(l => l.Contains("[ISOLATED_CLIPBOARD] DIAGNOSTIC: Interactive sequence number changed in original station")).ShouldBeTrue();
+        env.LoggedLines.Any(l => l.Contains("[ISOLATED_CLIPBOARD] PASS")).ShouldBeTrue();
+
+        // Restoration order must still hold
+        int restoreStationIdx = env.CallLog.IndexOf("SetProcessWindowStation(100)");
+        int finalSeqIdx = env.CallLog.LastIndexOf("GetClipboardSequenceNumber() -> 1005 (Station=100)");
+
+        restoreStationIdx.ShouldBeGreaterThan(-1);
+        finalSeqIdx.ShouldBeGreaterThan(-1);
+        (restoreStationIdx < finalSeqIdx).ShouldBeTrue("恢复原窗口站必须严格发生在采样原站最终序列号之前");
+    }
+
+    [Fact]
     public void HelperProtocol_CreateWindowStationConflict_ReturnsSkip_AndRestoresCleanly()
     {
         var env = new FakeIsolatedStationEnvironment

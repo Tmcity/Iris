@@ -1,5 +1,6 @@
 using Iris.Core.Platform;
 using Iris.Core.Security;
+using Iris.Platform.Windows.Capture;
 using Iris.Platform.Windows.Clipboard;
 using Iris.Platform.Windows.Security;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +18,7 @@ public static class PlatformWindowsServiceCollectionExtensions
         services.TryAddSingleton(TimeProvider.System);
         services.AddSingleton<ISecretStore, DpapiSecretStore>();
         services.AddSingleton<IClipboardService, Win32ClipboardService>();
+        services.AddSingleton<IDesktopContext, DesktopContext>();
         return services;
     }
 }

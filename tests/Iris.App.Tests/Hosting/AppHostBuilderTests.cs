@@ -60,6 +60,7 @@ public sealed class AppHostBuilderTests
         var uiDispatcher = host.Services.GetService<IUiDispatcher>();
         var actionDispatcher = host.Services.GetService<IActionDispatcher>();
         var clipboardService = host.Services.GetService<IClipboardService>();
+        var desktopContext = host.Services.GetService<IDesktopContext>();
 
         settingsService.ShouldNotBeNull();
         secretStore.ShouldNotBeNull();
@@ -75,9 +76,28 @@ public sealed class AppHostBuilderTests
         uiDispatcher.ShouldNotBeNull();
         actionDispatcher.ShouldNotBeNull();
         clipboardService.ShouldNotBeNull();
+        desktopContext.ShouldNotBeNull();
         uiDispatcher.ShouldBeOfType<WpfUiDispatcher>();
         actionDispatcher.ShouldBeOfType<ActionDispatcher>();
         clipboardService.ShouldBeOfType<Win32ClipboardService>();
+        desktopContext.ShouldBeOfType<Iris.Platform.Windows.Capture.DesktopContext>();
+    }
+
+    [Fact]
+    public void Host_ResolvesDesktopContext_AsSingleton()
+    {
+        using var tempDir = new TempDirectory();
+        var paths = new FakeAppPaths(tempDir.Path);
+        var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
+
+        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+
+        var desktop1 = host.Services.GetRequiredService<IDesktopContext>();
+        var desktop2 = host.Services.GetRequiredService<IDesktopContext>();
+
+        desktop1.ShouldNotBeNull();
+        desktop1.ShouldBeOfType<Iris.Platform.Windows.Capture.DesktopContext>();
+        desktop1.ShouldBeSameAs(desktop2);
     }
 
     [Fact]
