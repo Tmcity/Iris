@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using Iris.Core.Errors;
@@ -299,8 +300,9 @@ public sealed class Win32ClipboardServiceConcurrencyAndOwnershipTests
             // Cancel the queued item
             queuedCts.Cancel();
 
-            // Queued task must cancel cleanly without ObjectDisposedException
-            await Should.ThrowAsync<OperationCanceledException>(() => queuedTask);
+            // Queued task must cancel cleanly within 5 seconds without hanging or ObjectDisposedException
+            await queuedTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken)
+                .ShouldThrowAsync<OperationCanceledException>();
 
             // Release active item
             activeRelease.TrySetResult();
@@ -314,11 +316,11 @@ public sealed class Win32ClipboardServiceConcurrencyAndOwnershipTests
             activeRelease.TrySetResult();
             if (activeTask != null)
             {
-                try { await activeTask; } catch { }
+                try { await activeTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken); } catch { }
             }
             if (queuedTask != null)
             {
-                try { await queuedTask; } catch { }
+                try { await queuedTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken); } catch { }
             }
         }
     }
@@ -400,8 +402,9 @@ public sealed class Win32ClipboardServiceConcurrencyAndOwnershipTests
 
             queuedCts.Cancel();
 
-            // Cancel must throw OperationCanceledException, proving it never reached decoder
-            await Should.ThrowAsync<OperationCanceledException>(() => queuedTask);
+            // Cancel must throw OperationCanceledException within 5 seconds, proving it never reached decoder and does not hang
+            await queuedTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken)
+                .ShouldThrowAsync<OperationCanceledException>();
 
             activeRelease.TrySetResult();
             await activeTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
@@ -409,8 +412,8 @@ public sealed class Win32ClipboardServiceConcurrencyAndOwnershipTests
         finally
         {
             activeRelease.TrySetResult();
-            if (activeTask != null) try { await activeTask; } catch { }
-            if (queuedTask != null) try { await queuedTask; } catch { }
+            if (activeTask != null) try { await activeTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken); } catch { }
+            if (queuedTask != null) try { await queuedTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken); } catch { }
         }
     }
 
@@ -498,5 +501,74 @@ public sealed class Win32ClipboardServiceConcurrencyAndOwnershipTests
         ex.Code.ShouldBe(ErrorCode.StorageFailure);
         ex.Detail.ShouldNotBeNull();
         ex.Detail.ShouldContain("GlobalUnlock error 6");
+    }
+
+    [Fact]
+    public async Task Ownership_GetText_WhenInvalidTextAndGlobalUnlockFails_PreservesInvalidResponse_AndLogsGlobalUnlockCleanupFailure()
+    {
+        var logger = new MemoryLogger<Win32ClipboardService>();
+        var adapter = new FakeNativeClipboardAdapter();
+
+        // Prepare text buffer with no null terminator within bounds -> causes InvalidResponse
+        byte[] noNulBytes = [(byte)'A', 0, (byte)'B', 0];
+        nint hData = adapter.GlobalAlloc(0, (nuint)noNulBytes.Length);
+        nint ptr = adapter.GlobalLock(hData);
+        Marshal.Copy(noNulBytes, 0, ptr, noNulBytes.Length);
+        adapter.GlobalUnlock(hData);
+
+        adapter.ClipboardFormats[DibV5Helper.CF_UNICODETEXT] = hData;
+
+        // When GlobalUnlock is called in finally after read failure, it returns false with error 6
+        adapter.OnGlobalUnlock = _ =>
+        {
+            adapter.LastError = 6; // ERROR_INVALID_HANDLE
+            return false;
+        };
+
+        var service = new Win32ClipboardService(null, logger, adapter);
+
+        var ex = await Should.ThrowAsync<IrisException>(() =>
+            service.GetTextAsync(TestContext.Current.CancellationToken));
+
+        // Primary failure InvalidResponse must NOT be overwritten by StorageFailure
+        ex.Code.ShouldBe(ErrorCode.InvalidResponse);
+        ex.Message.ShouldContain("null terminator");
+
+        // GlobalUnlock cleanup failure must be safely logged with error code
+        logger.Entries.Count(e => e.Level == LogLevel.Warning).ShouldBe(1);
+        logger.Entries[0].Message.ShouldContain("GlobalUnlock");
+        logger.Entries[0].Message.ShouldContain("6");
+    }
+
+    [Fact]
+    public async Task Ownership_SetText_WhenCloseAndDestroyBothFailWithoutPrimaryError_ThrowsCloseError_AndLogsDestroyCleanupFailure()
+    {
+        var logger = new MemoryLogger<Win32ClipboardService>();
+        var adapter = new FakeNativeClipboardAdapter();
+        adapter.OnCloseClipboard = () =>
+        {
+            adapter.LastError = 1418; // ERROR_CLIPBOARD_NOT_OPEN
+            return false;
+        };
+        adapter.OnDestroyWindow = _ =>
+        {
+            adapter.LastError = 1400; // ERROR_INVALID_WINDOW_HANDLE
+            return false;
+        };
+
+        var service = new Win32ClipboardService(null, logger, adapter);
+
+        var ex = await Should.ThrowAsync<IrisException>(() =>
+            service.SetTextAsync("ValidText", TestContext.Current.CancellationToken));
+
+        // First cleanup failure becomes primary error thrown
+        ex.Code.ShouldBe(ErrorCode.StorageFailure);
+        ex.Detail.ShouldNotBeNull();
+        ex.Detail.ShouldContain("CloseClipboard error 1418");
+
+        // Second cleanup failure must be safely logged, NOT lost
+        logger.Entries.Count(e => e.Level == LogLevel.Warning).ShouldBe(1);
+        logger.Entries[0].Message.ShouldContain("DestroyWindow");
+        logger.Entries[0].Message.ShouldContain("1400");
     }
 }

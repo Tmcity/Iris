@@ -102,8 +102,8 @@
 
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
-| T-014 | ☑ | ActionDispatcher + App 内部 UI 调度适配器（C14-1 纯测试补强转入 T-021A） | T-005 | 1d |
-| T-021A | ▶ | Win32ClipboardService（R1 执行/图像边界返工）+ C14-1 收尾 | T-005, T-014 | 1.5d |
+| T-014 | ☑ | ActionDispatcher + App 内部 UI 调度适配器（C14-1 已完成） | T-005 | 1d |
+| T-021A | ▶ | Win32ClipboardService（R2 复合清理错误与 Helper 验证收尾） | T-005, T-014 | 1.5d |
 | T-022A | ☐ | DesktopContext + MonitorEnumerator（从 T-022/T-025 拆出并前移） | T-005 | 1d |
 | T-015 | ☐ | TranslateWindow（View + ViewModel + Presenter + WindowPlacementHelper） | T-013, T-014, T-018, T-019, T-021A, T-022A | 2.5d |
 | T-016 | ☐ | InputTranslate / ClipboardTranslate / TranslateText Handler + 托盘菜单 | T-015, T-021A | 0.5d |
@@ -118,6 +118,8 @@
 **T-021A** 已签发，CLIPBOARD_SERVICE.md / CCR-008 固定后台 Win32 调用、CF_UNICODETEXT/CF_DIBV5、原生所有权、取消提交点和输入预算；不依赖 WPF/STA。原生集成验证只能使用独立 helper 的新建非交互窗口站；本机独占创建目前遇到错误 183，无法满足条件时明确报告未验证，不复用现有站或写用户剪贴板。附 C14-1 纯测试/报告补强；不实现键盘模拟或选区恢复。
 
 **T-021A 复审（2026-09-30）** — da79cc7 独立构建零警告/零错误、1156 项通过/1 项环境跳过。受控探针复现 Dispose 后活动项 ODE/排队项取消仍挂起、STA 上原生准备、解码越过 gate、EXIF 旋转后像素与 DIB 头行宽不一致、读取失败变 null 和清理错误无日志；Helper 与 C14-1 的收尾/报告还有缺口。签发 T-021A-R1，CCR-008 尚不结案；保留格式、预算、写入提交点等正确部分。详见 tasks/done/T-021A.md 末尾。
+
+**T-021A-R1 复审（2026-09-30）** — d813496 独立构建零警告/零错误、1166 项通过/1 项环境跳过。生命周期、后台/串行执行、EXIF、主要读取/清理错误反例通过，C14-1 代码与计数更正接受；仍有两个复合清理错误漏日志、Helper 自写列表测试未验证实际协议及失败收尾缺口，签发小范围 R2。CCR-008 待 R2 结案，不重做已通过部分。
 
 **T-022A** 交付已有 IDesktopContext 及显示器枚举，统一物理像素、负坐标、多屏和 DPI 边界。M2 的窗口定位使用此实现；UIA/剪贴板选区读取与 GDI 抓屏仍留在 T-022/T-025。签发时先核查平台 API 与混合 DPI 验收条件。
 

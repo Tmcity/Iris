@@ -503,7 +503,7 @@ IActionDispatcher 的 summary 替换为：
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-09-30 |
-| 状态 | **已落地，待 T-021A-R1 复审**（注释同步正确，执行/图像/错误边界需返工） |
+| 状态 | **已落地，待 T-021A-R2 复审**（生命周期/后台/EXIF 已通过，剩余复合清理与 Helper 验证收尾） |
 | 依据 | CLIPBOARD_SERVICE.md；M2 剪贴板前置依赖 |
 | 兼容性 | 只细化尚未实现的 IClipboardService 注释，不改签名、错误码、默认参数或 ImageData |
 

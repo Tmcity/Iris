@@ -207,6 +207,7 @@ internal sealed class Win32ClipboardService : IClipboardService
 
             bool unlockFailed = false;
             int unlockError = 0;
+            bool copyFailed = false;
             try
             {
                 unsafe
@@ -218,6 +219,11 @@ internal sealed class Win32ClipboardService : IClipboardService
                     ((char*)ptr)[text.Length] = '\0';
                 }
             }
+            catch
+            {
+                copyFailed = true;
+                throw;
+            }
             finally
             {
                 if (!_adapter.GlobalUnlock(hGlobal))
@@ -225,8 +231,18 @@ internal sealed class Win32ClipboardService : IClipboardService
                     int unlockErr = _adapter.GetLastError();
                     if (unlockErr != 0)
                     {
-                        unlockFailed = true;
-                        unlockError = unlockErr;
+                        if (copyFailed)
+                        {
+                            if (_logger != null)
+                            {
+                                s_logCleanupFailure(_logger, "GlobalUnlock", unlockErr, null);
+                            }
+                        }
+                        else
+                        {
+                            unlockFailed = true;
+                            unlockError = unlockErr;
+                        }
                     }
                 }
             }
@@ -297,6 +313,7 @@ internal sealed class Win32ClipboardService : IClipboardService
 
             bool unlockFailed = false;
             int unlockError = 0;
+            bool copyFailed = false;
             try
             {
                 unsafe
@@ -307,6 +324,11 @@ internal sealed class Win32ClipboardService : IClipboardService
                     }
                 }
             }
+            catch
+            {
+                copyFailed = true;
+                throw;
+            }
             finally
             {
                 if (!_adapter.GlobalUnlock(hGlobal))
@@ -314,8 +336,18 @@ internal sealed class Win32ClipboardService : IClipboardService
                     int unlockErr = _adapter.GetLastError();
                     if (unlockErr != 0)
                     {
-                        unlockFailed = true;
-                        unlockError = unlockErr;
+                        if (copyFailed)
+                        {
+                            if (_logger != null)
+                            {
+                                s_logCleanupFailure(_logger, "GlobalUnlock", unlockErr, null);
+                            }
+                        }
+                        else
+                        {
+                            unlockFailed = true;
+                            unlockError = unlockErr;
+                        }
                     }
                 }
             }
@@ -428,6 +460,7 @@ internal sealed class Win32ClipboardService : IClipboardService
 
                 bool unlockFailed = false;
                 int unlockError = 0;
+                bool readFailed = false;
                 try
                 {
                     int maxChars = (int)(size / 2);
@@ -458,6 +491,11 @@ internal sealed class Win32ClipboardService : IClipboardService
                     string text = nullIndex == 0 ? string.Empty : Marshal.PtrToStringUni(ptr, nullIndex)!;
                     result = (true, false, text);
                 }
+                catch
+                {
+                    readFailed = true;
+                    throw;
+                }
                 finally
                 {
                     if (!_adapter.GlobalUnlock(hData))
@@ -465,8 +503,18 @@ internal sealed class Win32ClipboardService : IClipboardService
                         int unlockErr = _adapter.GetLastError();
                         if (unlockErr != 0)
                         {
-                            unlockFailed = true;
-                            unlockError = unlockErr;
+                            if (readFailed)
+                            {
+                                if (_logger != null)
+                                {
+                                    s_logCleanupFailure(_logger, "GlobalUnlock", unlockErr, null);
+                                }
+                            }
+                            else
+                            {
+                                unlockFailed = true;
+                                unlockError = unlockErr;
+                            }
                         }
                     }
                 }
@@ -575,7 +623,7 @@ internal sealed class Win32ClipboardService : IClipboardService
             {
                 destroyFailed = true;
                 destroyError = _adapter.GetLastError();
-                if (primaryFailed && _logger != null)
+                if ((primaryFailed || closeFailed) && _logger != null)
                 {
                     s_logCleanupFailure(_logger, "DestroyWindow", destroyError, null);
                 }
@@ -587,7 +635,7 @@ internal sealed class Win32ClipboardService : IClipboardService
             throw new IrisException(ErrorCode.StorageFailure, "Failed to close clipboard.", detail: $"CloseClipboard error {closeError}");
         }
 
-        if (destroyFailed && !primaryFailed)
+        if (destroyFailed && !primaryFailed && !closeFailed)
         {
             throw new IrisException(ErrorCode.StorageFailure, "Failed to destroy clipboard owner window.", detail: $"DestroyWindow error {destroyError}");
         }
