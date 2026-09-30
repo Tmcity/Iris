@@ -536,7 +536,7 @@ IActionDispatcher 的 summary 替换为：
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-09-30 |
-| 状态 | **已落地，待复审** |
+| 状态 | **已落地，待 T-022A-R1 复审**（注释同步正确，采集作用域/重试/冲突及清理边界待修复） |
 | 依据 | DESKTOP_CONTEXT.md；ARCH v1.21；桌面准备稿与官方 API 核查 |
 | 兼容性 | 仅修改 Platform/DesktopModels.cs 中 MonitorInfo、ForegroundAppInfo、IDesktopContext 的注释，不改签名/默认值/类型，不改 IAutoStartService |
 

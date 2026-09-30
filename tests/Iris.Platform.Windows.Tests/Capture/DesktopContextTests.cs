@@ -223,4 +223,49 @@ public sealed class DesktopContextTests
         ex.Code.ShouldBe(ErrorCode.Unknown);
         ex.Message.ShouldBe("桌面查询资源清理失败");
     }
+
+    [Fact]
+    public void GetForegroundApp_QueryThrowsException_CloseHandleFails_PreservesPrimaryException_AndLogsCleanup()
+    {
+        var adapter = new FakeNativeDesktopAdapter
+        {
+            ForegroundWindowHandle = 100,
+            ForegroundProcessId = 1234,
+            ForegroundThreadId = 5678,
+            ThrowOnProcessImageQuery = true,
+            CloseHandleFails = true,
+            CloseHandleError = 6
+        };
+
+        var logger = new CaptureTestLogger<DesktopContext>();
+        var context = new DesktopContext(adapter, logger);
+
+        var ex = Should.Throw<IrisException>(() => context.GetForegroundApp());
+
+        ex.Code.ShouldBe(ErrorCode.Unknown);
+        ex.Message.ShouldBe("primary query failure");
+        adapter.CloseHandleCallCount.ShouldBe(1);
+        logger.Lines.Count.ShouldBe(1);
+        logger.Lines[0].ShouldContain("CloseHandle");
+        logger.Lines[0].ShouldContain("6");
+    }
+
+    private sealed class CaptureTestLogger<T> : Microsoft.Extensions.Logging.ILogger<T>
+    {
+        public System.Collections.Generic.List<string> Lines { get; } = [];
+
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
+
+        public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            Microsoft.Extensions.Logging.LogLevel logLevel,
+            Microsoft.Extensions.Logging.EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            Lines.Add(formatter(state, exception));
+        }
+    }
 }

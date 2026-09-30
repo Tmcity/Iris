@@ -74,15 +74,15 @@ internal sealed class DesktopContext : IDesktopContext
                 {
                     closeFailed = true;
                     closeError = _adapter.GetLastError();
+                    if (_logger != null)
+                    {
+                        s_logCleanupFailure(_logger, "CloseHandle", closeError, null);
+                    }
                 }
             }
 
             if (closeFailed)
             {
-                if (_logger != null)
-                {
-                    s_logCleanupFailure(_logger, "CloseHandle", closeError, null);
-                }
                 throw new IrisException(ErrorCode.Unknown, "桌面查询资源清理失败");
             }
 

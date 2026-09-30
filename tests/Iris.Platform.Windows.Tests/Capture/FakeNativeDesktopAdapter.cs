@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Iris.Core.Errors;
 
 namespace Iris.Platform.Windows.Capture;
 
@@ -14,16 +15,25 @@ internal sealed class FakeNativeDesktopAdapter : INativeDesktopAdapter
     public List<string> CallLog { get; } = [];
     public List<(string Action, int ErrorCode)> CleanupFailuresLogged { get; } = [];
 
+    public List<nint> RecordedEnumContexts { get; } = [];
+    public HashSet<nint> LiveWindows { get; } = [];
+    public List<nint> SetThreadDpiContextTargets { get; } = [];
+
     public nint CurrentThreadDpiContext { get; set; } = 1001;
     public nint ExpectedAwarenessContext { get; set; } = -4; // DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2
     public bool RestoreThreadDpiContextFails { get; set; }
+    public bool FailRestoreOnce { get; set; }
     public int RestoreThreadDpiContextError { get; set; } = 1359;
 
     public bool CreateDpiQueryWindowFails { get; set; }
     public int CreateDpiQueryWindowError { get; set; } = 1400;
 
     public bool DestroyWindowFails { get; set; }
+    public bool FailDestroyOnce { get; set; }
     public int DestroyWindowError { get; set; } = 1400;
+
+    public bool FailDpiOnce { get; set; }
+    public int DpiQueryCallCount { get; private set; }
 
     public bool GetPhysicalCursorPosResult { get; set; } = true;
     public int CursorX { get; set; } = 100;
@@ -40,6 +50,7 @@ internal sealed class FakeNativeDesktopAdapter : INativeDesktopAdapter
     public bool OpenProcessFails { get; set; }
     public int OpenProcessError { get; set; } = 5; // Access denied
 
+    public bool ThrowOnProcessImageQuery { get; set; }
     public string? ProcessImagePath { get; set; } = @"C:\Windows\System32\notepad.exe";
     public string? WindowTextResult { get; set; } = "Untitled - Notepad";
 
@@ -58,6 +69,7 @@ internal sealed class FakeNativeDesktopAdapter : INativeDesktopAdapter
 
     public bool EnumDisplayDevice(uint index, out NativeDisplayDeviceData device)
     {
+        RecordedEnumContexts.Add(CurrentThreadDpiContext);
         CallLog.Add($"EnumDisplayDevice({index})");
         if (index < Devices.Count)
         {
@@ -71,6 +83,7 @@ internal sealed class FakeNativeDesktopAdapter : INativeDesktopAdapter
 
     public bool TryEnumDisplayMonitors(out IReadOnlyList<NativeMonitorEntry> monitors)
     {
+        RecordedEnumContexts.Add(CurrentThreadDpiContext);
         CallLog.Add($"TryEnumDisplayMonitors() -> count={Monitors.Count}");
         monitors = Monitors.ToArray();
         return true;
@@ -79,7 +92,14 @@ internal sealed class FakeNativeDesktopAdapter : INativeDesktopAdapter
     public nint SetThreadDpiAwarenessContext(nint dpiContext)
     {
         SetThreadDpiContextCallCount++;
+        SetThreadDpiContextTargets.Add(dpiContext);
         CallLog.Add($"SetThreadDpiAwarenessContext({dpiContext})");
+
+        if (FailRestoreOnce && SetThreadDpiContextCallCount == 2)
+        {
+            LastErrorCode = RestoreThreadDpiContextError;
+            return 0;
+        }
 
         if (SetThreadDpiContextCallCount > 1 && RestoreThreadDpiContextFails)
         {
@@ -103,6 +123,7 @@ internal sealed class FakeNativeDesktopAdapter : INativeDesktopAdapter
 
         // Return pseudo window handle based on coordinate hash
         nint hwnd = (nint)(0x10000 + Math.Abs(x) * 31 + Math.Abs(y));
+        LiveWindows.Add(hwnd);
         return hwnd;
     }
 
@@ -119,7 +140,14 @@ internal sealed class FakeNativeDesktopAdapter : INativeDesktopAdapter
 
     public uint GetDpiForWindow(nint hwnd)
     {
+        DpiQueryCallCount++;
         CallLog.Add($"GetDpiForWindow({hwnd})");
+
+        if (FailDpiOnce && DpiQueryCallCount == 1)
+        {
+            return 0;
+        }
+
         if (WindowDpis.TryGetValue(hwnd, out uint dpi))
         {
             return dpi;
@@ -131,11 +159,20 @@ internal sealed class FakeNativeDesktopAdapter : INativeDesktopAdapter
     {
         DestroyWindowCallCount++;
         CallLog.Add($"DestroyWindow({hwnd})");
+
+        if (FailDestroyOnce && DestroyWindowCallCount == 1)
+        {
+            LastErrorCode = DestroyWindowError;
+            return false;
+        }
+
         if (DestroyWindowFails)
         {
             LastErrorCode = DestroyWindowError;
             return false;
         }
+
+        LiveWindows.Remove(hwnd);
         return true;
     }
 
@@ -199,6 +236,10 @@ internal sealed class FakeNativeDesktopAdapter : INativeDesktopAdapter
     public string? QueryFullProcessImageName(nint hProcess)
     {
         CallLog.Add($"QueryFullProcessImageName({hProcess})");
+        if (ThrowOnProcessImageQuery)
+        {
+            throw new IrisException(ErrorCode.Unknown, "primary query failure");
+        }
         return ProcessImagePath;
     }
 

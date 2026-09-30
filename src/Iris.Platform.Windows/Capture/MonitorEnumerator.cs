@@ -37,155 +37,181 @@ internal static class MonitorEnumerator
         ILogger? logger,
         Action<ILogger, string, int, Exception?> logCleanupFailure)
     {
-        var allDevices = new Dictionary<string, NativeDisplayDeviceData>(StringComparer.OrdinalIgnoreCase);
-        var attachedNonMirrorDevices = new Dictionary<string, NativeDisplayDeviceData>(StringComparer.OrdinalIgnoreCase);
-        bool deviceConflict = false;
-
-        for (uint index = 0; ; index++)
-        {
-            if (!adapter.EnumDisplayDevice(index, out var devData))
-            {
-                break;
-            }
-
-            if (string.IsNullOrEmpty(devData.DeviceName))
-            {
-                continue;
-            }
-
-            if (allDevices.TryGetValue(devData.DeviceName, out var existing))
-            {
-                if (existing.StateFlags != devData.StateFlags)
-                {
-                    deviceConflict = true;
-                }
-            }
-            else
-            {
-                allDevices[devData.DeviceName] = devData;
-            }
-
-            bool attached = (devData.StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) != 0;
-            bool mirror = (devData.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER) != 0;
-
-            if (attached && !mirror)
-            {
-                attachedNonMirrorDevices[devData.DeviceName] = devData;
-            }
-        }
-
-        if (deviceConflict || allDevices.Count == 0)
-        {
-            return (false, null);
-        }
-
-        if (!adapter.TryEnumDisplayMonitors(out var rawMonitors) || rawMonitors.Count == 0)
-        {
-            return (false, null);
-        }
-
-        var validMonitors = new List<NativeMonitorEntry>();
-        foreach (var m in rawMonitors)
-        {
-            if (string.IsNullOrEmpty(m.DeviceName))
-            {
-                return (false, null);
-            }
-
-            if (!allDevices.TryGetValue(m.DeviceName, out var devData))
-            {
-                // Unmapped monitor in adapter device list -> inconsistent snapshot
-                return (false, null);
-            }
-
-            bool attached = (devData.StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) != 0;
-            bool mirror = (devData.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER) != 0;
-
-            if (attached && !mirror)
-            {
-                validMonitors.Add(m);
-            }
-        }
-
-        if (validMonitors.Count == 0)
-        {
-            return (false, null);
-        }
-
         nint oldContext = adapter.SetThreadDpiAwarenessContext(DPI_AWARENESS_CONTEXT_PER_MONITOR_AWARE_V2);
         if (oldContext == 0)
         {
             return (false, null);
         }
 
+        bool primaryExceptionOccurred = false;
+        var cleanupFailures = new List<(string Action, int ErrorCode)>();
         bool queryFailed = false;
         var resultList = new List<MonitorInfo>();
-        var cleanupFailures = new List<(string Action, int ErrorCode)>();
 
         try
         {
-            foreach (var m in validMonitors)
+            var allDevices = new Dictionary<string, NativeDisplayDeviceData>(StringComparer.OrdinalIgnoreCase);
+            bool deviceConflict = false;
+
+            for (uint index = 0; ; index++)
             {
-                long boundsW = (long)m.BoundsRight - m.BoundsLeft;
-                long boundsH = (long)m.BoundsBottom - m.BoundsTop;
-                if (boundsW <= 0 || boundsH <= 0 || boundsW > int.MaxValue || boundsH > int.MaxValue)
+                if (!adapter.EnumDisplayDevice(index, out var devData))
                 {
-                    queryFailed = true;
                     break;
                 }
 
-                int centerX = (int)((long)m.BoundsLeft + boundsW / 2);
-                int centerY = (int)((long)m.BoundsTop + boundsH / 2);
-
-                nint hwnd = adapter.CreateDpiQueryWindow(centerX, centerY);
-                if (hwnd == 0)
+                if (string.IsNullOrEmpty(devData.DeviceName))
                 {
-                    queryFailed = true;
-                    break;
+                    continue;
                 }
 
-                try
+                if (allDevices.TryGetValue(devData.DeviceName, out var existing))
                 {
-                    nint windowMonitor = adapter.MonitorFromWindow(hwnd, 0);
-                    if (windowMonitor != m.HMonitor)
+                    if (existing.StateFlags != devData.StateFlags)
                     {
-                        queryFailed = true;
-                        break;
+                        deviceConflict = true;
                     }
-
-                    uint dpi = adapter.GetDpiForWindow(hwnd);
-                    if (dpi == 0)
-                    {
-                        queryFailed = true;
-                        break;
-                    }
-
-                    double dpiScale = dpi / 96.0;
-                    if (!DesktopGeometryHelper.ValidateGeometry(
-                            m.BoundsLeft, m.BoundsTop, m.BoundsRight, m.BoundsBottom,
-                            m.WorkLeft, m.WorkTop, m.WorkRight, m.WorkBottom,
-                            dpiScale))
-                    {
-                        queryFailed = true;
-                        break;
-                    }
-
-                    var bounds = new PixelRect(m.BoundsLeft, m.BoundsTop, (int)boundsW, (int)boundsH);
-                    var workArea = new PixelRect(m.WorkLeft, m.WorkTop, m.WorkRight - m.WorkLeft, m.WorkBottom - m.WorkTop);
-                    resultList.Add(new MonitorInfo(m.DeviceName, bounds, workArea, dpiScale, m.IsPrimary));
                 }
-                finally
+                else
                 {
-                    if (!adapter.DestroyWindow(hwnd))
+                    allDevices[devData.DeviceName] = devData;
+                }
+            }
+
+            if (deviceConflict || allDevices.Count == 0)
+            {
+                queryFailed = true;
+            }
+
+            IReadOnlyList<NativeMonitorEntry>? rawMonitors = null;
+            if (!queryFailed && (!adapter.TryEnumDisplayMonitors(out rawMonitors) || rawMonitors == null || rawMonitors.Count == 0))
+            {
+                queryFailed = true;
+            }
+
+            var validMonitors = new List<NativeMonitorEntry>();
+            var seenMonitors = new Dictionary<string, NativeMonitorEntry>(StringComparer.OrdinalIgnoreCase);
+
+            if (!queryFailed && rawMonitors != null)
+            {
+                foreach (var m in rawMonitors)
+                {
+                    if (string.IsNullOrEmpty(m.DeviceName))
                     {
-                        cleanupFailures.Add(("DestroyWindow", adapter.GetLastError()));
+                        queryFailed = true;
+                        break;
+                    }
+
+                    if (!allDevices.TryGetValue(m.DeviceName, out var devData))
+                    {
+                        // Unmapped monitor in adapter device list -> inconsistent snapshot
+                        queryFailed = true;
+                        break;
+                    }
+
+                    bool attached = (devData.StateFlags & DISPLAY_DEVICE_ATTACHED_TO_DESKTOP) != 0;
+                    bool mirror = (devData.StateFlags & DISPLAY_DEVICE_MIRRORING_DRIVER) != 0;
+
+                    if (attached && !mirror)
+                    {
+                        if (seenMonitors.TryGetValue(m.DeviceName, out var existing))
+                        {
+                            if (existing.HMonitor != m.HMonitor ||
+                                existing.BoundsLeft != m.BoundsLeft ||
+                                existing.BoundsTop != m.BoundsTop ||
+                                existing.BoundsRight != m.BoundsRight ||
+                                existing.BoundsBottom != m.BoundsBottom ||
+                                existing.WorkLeft != m.WorkLeft ||
+                                existing.WorkTop != m.WorkTop ||
+                                existing.WorkRight != m.WorkRight ||
+                                existing.WorkBottom != m.WorkBottom ||
+                                existing.IsPrimary != m.IsPrimary)
+                            {
+                                // Conflicting monitor information for the same device name -> inconsistent snapshot
+                                queryFailed = true;
+                                break;
+                            }
+
+                            // Exact identical duplicate: de-duplicate
+                            continue;
+                        }
+
+                        seenMonitors[m.DeviceName] = m;
+                        validMonitors.Add(m);
+                    }
+                }
+            }
+
+            if (validMonitors.Count == 0)
+            {
+                queryFailed = true;
+            }
+
+            if (!queryFailed)
+            {
+                foreach (var m in validMonitors)
+                {
+                    long boundsW = (long)m.BoundsRight - m.BoundsLeft;
+                    long boundsH = (long)m.BoundsBottom - m.BoundsTop;
+                    if (boundsW <= 0 || boundsH <= 0 || boundsW > int.MaxValue || boundsH > int.MaxValue)
+                    {
+                        queryFailed = true;
+                        break;
+                    }
+
+                    int centerX = (int)((long)m.BoundsLeft + boundsW / 2);
+                    int centerY = (int)((long)m.BoundsTop + boundsH / 2);
+
+                    nint hwnd = adapter.CreateDpiQueryWindow(centerX, centerY);
+                    if (hwnd == 0)
+                    {
+                        queryFailed = true;
+                        break;
+                    }
+
+                    try
+                    {
+                        nint windowMonitor = adapter.MonitorFromWindow(hwnd, 0);
+                        if (windowMonitor != m.HMonitor)
+                        {
+                            queryFailed = true;
+                            break;
+                        }
+
+                        uint dpi = adapter.GetDpiForWindow(hwnd);
+                        if (dpi == 0)
+                        {
+                            queryFailed = true;
+                            break;
+                        }
+
+                        double dpiScale = dpi / 96.0;
+                        if (!DesktopGeometryHelper.ValidateGeometry(
+                                m.BoundsLeft, m.BoundsTop, m.BoundsRight, m.BoundsBottom,
+                                m.WorkLeft, m.WorkTop, m.WorkRight, m.WorkBottom,
+                                dpiScale))
+                        {
+                            queryFailed = true;
+                            break;
+                        }
+
+                        var bounds = new PixelRect(m.BoundsLeft, m.BoundsTop, (int)boundsW, (int)boundsH);
+                        var workArea = new PixelRect(m.WorkLeft, m.WorkTop, m.WorkRight - m.WorkLeft, m.WorkBottom - m.WorkTop);
+                        resultList.Add(new MonitorInfo(m.DeviceName, bounds, workArea, dpiScale, m.IsPrimary));
+                    }
+                    finally
+                    {
+                        if (!adapter.DestroyWindow(hwnd))
+                        {
+                            cleanupFailures.Add(("DestroyWindow", adapter.GetLastError()));
+                        }
                     }
                 }
             }
         }
         catch
         {
-            queryFailed = true;
+            primaryExceptionOccurred = true;
             throw;
         }
         finally
@@ -195,24 +221,40 @@ internal static class MonitorEnumerator
             {
                 cleanupFailures.Add(("SetThreadDpiAwarenessContext", adapter.GetLastError()));
             }
-        }
 
-        if (queryFailed || resultList.Count == 0)
-        {
-            // Primary failure present; log any cleanup failures safely without overriding
-            if (logger != null)
+            if (primaryExceptionOccurred && logger != null)
             {
                 foreach (var (action, err) in cleanupFailures)
                 {
                     logCleanupFailure(logger, action, err, null);
                 }
             }
+        }
+
+        if (queryFailed || resultList.Count == 0)
+        {
+            if (cleanupFailures.Count > 0)
+            {
+                // Primary query failure present AND cleanup failure occurred.
+                // Log cleanup failures safely and terminate immediately - do NOT mask via retry!
+                if (logger != null)
+                {
+                    foreach (var (action, err) in cleanupFailures)
+                    {
+                        logCleanupFailure(logger, action, err, null);
+                    }
+                }
+                throw new IrisException(ErrorCode.Unknown, "无法获取显示器信息");
+            }
+
+            // Clean failure without cleanup errors -> allow retry
             return (false, null);
         }
 
         if (cleanupFailures.Count > 0)
         {
-            // No primary failure, so first cleanup failure becomes the primary error
+            // Query succeeded, but cleanup failed.
+            // First cleanup failure becomes primary error; remaining are logged.
             if (logger != null)
             {
                 for (int i = 1; i < cleanupFailures.Count; i++)
