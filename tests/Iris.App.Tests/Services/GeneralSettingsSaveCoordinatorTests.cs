@@ -2,6 +2,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Iris.App.Services;
+using Iris.App.Tests.Settings;
 using Iris.Core.Platform;
 using Iris.Core.Settings;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -20,6 +21,7 @@ public sealed class GeneralSettingsSaveCoordinatorTests
         var autoStartService = Substitute.For<IAutoStartService>();
         using var coordinator = new GeneralSettingsSaveCoordinator(
             settingsService,
+            new TestSettingsEditCoordinator(settingsService),
             autoStartService,
             NullLogger<GeneralSettingsSaveCoordinator>.Instance);
 
@@ -74,6 +76,7 @@ public sealed class GeneralSettingsSaveCoordinatorTests
         var autoStartService = Substitute.For<IAutoStartService>();
         using var coordinator = new GeneralSettingsSaveCoordinator(
             settingsService,
+            new TestSettingsEditCoordinator(settingsService),
             autoStartService,
             NullLogger<GeneralSettingsSaveCoordinator>.Instance);
 
@@ -133,6 +136,7 @@ public sealed class GeneralSettingsSaveCoordinatorTests
         var autoStartService = Substitute.For<IAutoStartService>();
         using var coordinator = new GeneralSettingsSaveCoordinator(
             settingsService,
+            new TestSettingsEditCoordinator(settingsService),
             autoStartService,
             NullLogger<GeneralSettingsSaveCoordinator>.Instance);
 
@@ -165,6 +169,7 @@ public sealed class GeneralSettingsSaveCoordinatorTests
         var autoStartService = Substitute.For<IAutoStartService>();
         using var coordinator = new GeneralSettingsSaveCoordinator(
             settingsService,
+            new TestSettingsEditCoordinator(settingsService),
             autoStartService,
             NullLogger<GeneralSettingsSaveCoordinator>.Instance);
 
@@ -241,6 +246,7 @@ public sealed class GeneralSettingsSaveCoordinatorTests
 
         using var coordinator = new GeneralSettingsSaveCoordinator(
             settingsService,
+            new TestSettingsEditCoordinator(settingsService),
             autoStartService,
             NullLogger<GeneralSettingsSaveCoordinator>.Instance);
 
@@ -284,6 +290,7 @@ public sealed class GeneralSettingsSaveCoordinatorTests
 
         using var coordinator = new GeneralSettingsSaveCoordinator(
             settingsService,
+            new TestSettingsEditCoordinator(settingsService),
             autoStartService,
             NullLogger<GeneralSettingsSaveCoordinator>.Instance);
 
@@ -304,6 +311,7 @@ public sealed class GeneralSettingsSaveCoordinatorTests
         var autoStartService = Substitute.For<IAutoStartService>();
         using var coordinator = new GeneralSettingsSaveCoordinator(
             settingsService,
+            new TestSettingsEditCoordinator(settingsService),
             autoStartService,
             NullLogger<GeneralSettingsSaveCoordinator>.Instance);
 

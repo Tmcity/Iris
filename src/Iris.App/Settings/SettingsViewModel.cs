@@ -127,7 +127,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         _canRetryAutoStart = false;
 
         // 初始化翻译服务列表
-        Profiles = [];
+        Profiles = new ControlledProfileCollection(this);
         LoadProfilesFromCurrent();
         RefreshAvailablePrompts();
 
@@ -166,7 +166,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     public static IReadOnlyList<string> AvailableLogLevels => _availableLogLevels;
     public static IReadOnlyList<TranslationProviderPreset> AvailablePresets => TranslationProviderPresets.All;
 
-    public ObservableCollection<TranslationProfileDraftViewModel> Profiles { get; }
+    public ControlledProfileCollection Profiles { get; }
     public ObservableCollection<PromptOptionItem> AvailablePrompts { get; } = [];
 
     public ICommand SaveCommand { get; }
@@ -181,17 +181,39 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     public ICommand TestDraftCommand { get; }
     public ICommand ListModelsCommand { get; }
 
+    internal Action? BeforeSave { get; set; }
+
+    internal void SetSelectedProfileInternal(TranslationProfileDraftViewModel? value)
+    {
+        var old = _selectedProfile;
+        if (!ReferenceEquals(old, value))
+        {
+            _selectedProfile = value;
+            Interlocked.Increment(ref _requestSeq);
+            _operationQueue.CancelInFlight();
+            if (old != null)
+            {
+                if (old.TestStatusMessage == UiText.SettingsTestingDraft)
+                {
+                    old.ClearTestResult();
+                }
+                if (old.ListModelsStatusMessage == UiText.SettingsListingModels)
+                {
+                    old.ListModelsStatusMessage = null;
+                }
+            }
+            OnPropertyChanged(nameof(SelectedProfile));
+            RaiseProfileCommandsCanExecute();
+        }
+    }
+
     public TranslationProfileDraftViewModel? SelectedProfile
     {
         get => _selectedProfile;
         set
         {
-            if (!ReferenceEquals(_selectedProfile, value))
-            {
-                _selectedProfile = value;
-                OnPropertyChanged();
-                RaiseProfileCommandsCanExecute();
-            }
+            if (IsSaving) return;
+            SetSelectedProfileInternal(value);
         }
     }
 
@@ -407,38 +429,163 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
     private void LoadProfilesFromCurrent()
     {
-        foreach (var p in Profiles)
+        using (Profiles.AllowInternalMutation())
         {
-            p.PropertyChanged -= OnProfileDraftPropertyChanged;
+            var oldTargetId = _selectedProfile?.Id;
+
+            foreach (var p in Profiles)
+            {
+                p.OnEdited = null;
+                p.ClearReplacementApiKey();
+                p.PropertyChanged -= OnProfileDraftPropertyChanged;
+            }
+            if (_selectedProfile != null && !Profiles.Contains(_selectedProfile))
+            {
+                _selectedProfile.OnEdited = null;
+                _selectedProfile.ClearReplacementApiKey();
+                _selectedProfile.PropertyChanged -= OnProfileDraftPropertyChanged;
+            }
+
+            Profiles.Clear();
+            foreach (var d in _deletedProfiles)
+            {
+                d.ClearReplacementApiKey();
+            }
+            _deletedProfiles.Clear();
+
+            var existingList = _settingsService.Current.Translation.Providers
+                .OrderBy(p => p.Order)
+                .ToList();
+
+            _baselineProfileIds = existingList.Select(p => p.Id).ToArray();
+
+            foreach (var p in existingList)
+            {
+                var draft = TranslationProfileDraftViewModel.FromExisting(p);
+                draft.OnEdited = OnProfileEdited;
+                draft.PropertyChanged += OnProfileDraftPropertyChanged;
+                Profiles.Add(draft);
+            }
+
+            var nextSelected = oldTargetId != null
+                ? Profiles.FirstOrDefault(p => p.Id == oldTargetId)
+                : null;
+            nextSelected ??= Profiles.FirstOrDefault();
+
+            SetSelectedProfileInternal(nextSelected);
         }
-        Profiles.Clear();
-        _deletedProfiles.Clear();
+    }
 
-        var existingList = _settingsService.Current.Translation.Providers
-            .OrderBy(p => p.Order)
-            .ToList();
-
-        _baselineProfileIds = existingList.Select(p => p.Id).ToArray();
-
-        foreach (var p in existingList)
-        {
-            var draft = TranslationProfileDraftViewModel.FromExisting(p);
-            draft.PropertyChanged += OnProfileDraftPropertyChanged;
-            Profiles.Add(draft);
-        }
-
-        SelectedProfile = Profiles.FirstOrDefault();
+    private void OnProfileEdited(TranslationProfileDraftViewModel p)
+    {
+        _operationQueue.CancelInFlight();
+        Interlocked.Increment(ref _requestSeq);
+        p.ClearTestResult();
+        p.ListModelsStatusMessage = null;
     }
 
     private void RefreshAvailablePrompts()
     {
-        AvailablePrompts.Clear();
-        AvailablePrompts.Add(new PromptOptionItem(null, UiText.SettingsProfilePromptDefault));
-        AvailablePrompts.Add(new PromptOptionItem(BuiltInPrompts.DefaultTemplateId, BuiltInPrompts.Default.Name));
+        var desired = new List<PromptOptionItem>
+        {
+            new(null, UiText.SettingsProfilePromptDefault),
+            new(BuiltInPrompts.DefaultTemplateId, BuiltInPrompts.Default.Name)
+        };
 
         foreach (var custom in _settingsService.Current.Translation.CustomPrompts)
         {
-            AvailablePrompts.Add(new PromptOptionItem(custom.Id, custom.Name));
+            desired.Add(new PromptOptionItem(custom.Id, custom.Name));
+        }
+
+        // 保留草稿中已选中但已被外部删除的模板，以便 ComboBox 保持当前值并不悄悄置空
+        var referencedIds = Profiles.Select(p => p.PromptTemplateId)
+            .Where(id => id != null)
+            .Distinct(StringComparer.Ordinal)
+            .ToList();
+
+        if (SelectedProfile?.PromptTemplateId != null && !referencedIds.Contains(SelectedProfile.PromptTemplateId))
+        {
+            referencedIds.Add(SelectedProfile.PromptTemplateId);
+        }
+
+        foreach (var id in referencedIds)
+        {
+            if (!desired.Any(d => string.Equals(d.Id, id, StringComparison.Ordinal)))
+            {
+                desired.Add(new PromptOptionItem(id, $"[已移除] {id}"));
+            }
+        }
+
+        bool isIdentical = AvailablePrompts.Count == desired.Count;
+        if (isIdentical)
+        {
+            for (int i = 0; i < desired.Count; i++)
+            {
+                if (AvailablePrompts[i].Id != desired[i].Id ||
+                    AvailablePrompts[i].DisplayName != desired[i].DisplayName)
+                {
+                    isIdentical = false;
+                    break;
+                }
+            }
+        }
+
+        if (isIdentical)
+        {
+            return;
+        }
+
+        for (int i = AvailablePrompts.Count - 1; i >= 0; i--)
+        {
+            var cur = AvailablePrompts[i];
+            if (!desired.Any(d => d.Id == cur.Id))
+            {
+                AvailablePrompts.RemoveAt(i);
+            }
+        }
+
+        for (int i = 0; i < desired.Count; i++)
+        {
+            var target = desired[i];
+            if (i < AvailablePrompts.Count)
+            {
+                if (AvailablePrompts[i].Id == target.Id)
+                {
+                    if (AvailablePrompts[i].DisplayName != target.DisplayName)
+                    {
+                        AvailablePrompts[i] = target;
+                    }
+                }
+                else
+                {
+                    var existingIdx = -1;
+                    for (int j = i + 1; j < AvailablePrompts.Count; j++)
+                    {
+                        if (AvailablePrompts[j].Id == target.Id)
+                        {
+                            existingIdx = j;
+                            break;
+                        }
+                    }
+
+                    if (existingIdx >= 0)
+                    {
+                        AvailablePrompts.Move(existingIdx, i);
+                        if (AvailablePrompts[i].DisplayName != target.DisplayName)
+                        {
+                            AvailablePrompts[i] = target;
+                        }
+                    }
+                    else
+                    {
+                        AvailablePrompts.Insert(i, target);
+                    }
+                }
+            }
+            else
+            {
+                AvailablePrompts.Add(target);
+            }
         }
     }
 
@@ -458,6 +605,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         }
 
         var draft = TranslationProfileDraftViewModel.CreateFromPreset(preset);
+        draft.OnEdited = OnProfileEdited;
         draft.PropertyChanged += OnProfileDraftPropertyChanged;
         Profiles.Add(draft);
         SelectedProfile = draft;
@@ -498,6 +646,23 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         RaiseProfileCommandsCanExecute();
     }
 
+    public void MoveProfile(int oldIndex, int newIndex)
+    {
+        if (!CanEdit || IsSaving)
+        {
+            return;
+        }
+
+        if (oldIndex < 0 || oldIndex >= Profiles.Count || newIndex < 0 || newIndex >= Profiles.Count || oldIndex == newIndex)
+        {
+            return;
+        }
+
+        Profiles.Move(oldIndex, newIndex);
+        OnPropertyChanged(nameof(IsDirty));
+        RaiseProfileCommandsCanExecute();
+    }
+
     public void ExecuteMoveUp()
     {
         if (!CanEdit || SelectedProfile == null)
@@ -508,9 +673,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         var idx = Profiles.IndexOf(SelectedProfile);
         if (idx > 0)
         {
-            Profiles.Move(idx, idx - 1);
-            OnPropertyChanged(nameof(IsDirty));
-            RaiseProfileCommandsCanExecute();
+            MoveProfile(idx, idx - 1);
         }
     }
 
@@ -524,9 +687,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         var idx = Profiles.IndexOf(SelectedProfile);
         if (idx >= 0 && idx < Profiles.Count - 1)
         {
-            Profiles.Move(idx, idx + 1);
-            OnPropertyChanged(nameof(IsDirty));
-            RaiseProfileCommandsCanExecute();
+            MoveProfile(idx, idx + 1);
         }
     }
 
@@ -582,7 +743,8 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 }
                 catch (Exception ex)
                 {
-                    result = new ProviderTestResult(false, TimeSpan.Zero, null, new ErrorInfo(ErrorCode.Unknown, ex.Message, null, null, false, null));
+                    LogTestDraftException(_logger, ex.GetType().Name);
+                    result = new ProviderTestResult(false, TimeSpan.Zero, null, new ErrorInfo(ErrorCode.Unknown, UiText.SettingsTestDraftFailed, null, null, false, null));
                 }
 
                 await _uiDispatcher.InvokeAsync(() =>
@@ -593,7 +755,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                     }
 
                     if (!ReferenceEquals(_sessionOwner, sessionId)) return Task.CompletedTask;
-                    if (SelectedProfile?.Id != profileId) return Task.CompletedTask;
+                    if (SelectedProfile != target) return Task.CompletedTask;
                     if (target.Revision != rev || reqSeq != _requestSeq) return Task.CompletedTask;
 
                     target.TestSuccess = result.Success;
@@ -605,7 +767,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                     }
                     else
                     {
-                        target.TestStatusMessage = result.Error?.Message ?? UiText.SettingsTestDraftFailed;
+                        target.TestStatusMessage = UiText.SettingsTestDraftFailed;
                     }
                     return Task.CompletedTask;
                 }, CancellationToken.None).ConfigureAwait(false);
@@ -676,12 +838,14 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 catch (IrisException ex)
                 {
                     models = [];
-                    errorMsg = ex.Message;
+                    LogListModelsException(_logger, ex.GetType().Name);
+                    errorMsg = UiText.SettingsListModelsFailed;
                 }
                 catch (Exception ex)
                 {
                     models = [];
-                    errorMsg = ex.GetType().Name;
+                    LogListModelsException(_logger, ex.GetType().Name);
+                    errorMsg = UiText.SettingsListModelsFailed;
                 }
 
                 await _uiDispatcher.InvokeAsync(() =>
@@ -692,21 +856,26 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                     }
 
                     if (!ReferenceEquals(_sessionOwner, sessionId)) return Task.CompletedTask;
-                    if (SelectedProfile?.Id != profileId) return Task.CompletedTask;
+                    if (SelectedProfile != target) return Task.CompletedTask;
                     if (target.Revision != rev || reqSeq != _requestSeq) return Task.CompletedTask;
 
                     if (errorMsg == null)
                     {
+                        var currentModel = target.Model;
                         target.AvailableModels.Clear();
                         foreach (var m in models)
                         {
                             target.AvailableModels.Add(m);
                         }
+                        if (!string.IsNullOrEmpty(currentModel))
+                        {
+                            target.Model = currentModel;
+                        }
                         target.ListModelsStatusMessage = $"成功获取 {models.Count} 个模型";
                     }
                     else
                     {
-                        target.ListModelsStatusMessage = $"获取模型列表失败: {errorMsg}";
+                        target.ListModelsStatusMessage = errorMsg;
                     }
                     return Task.CompletedTask;
                 }, CancellationToken.None).ConfigureAwait(false);
@@ -859,10 +1028,99 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
     public async Task ExecuteSaveAsync()
     {
-        TaskCompletionSource workTcs;
         lock (_admissionLock)
         {
             if (IsSaving || _disposed || _isStopped)
+            {
+                return;
+            }
+        }
+
+        BeforeSave?.Invoke();
+
+        // 仅校验被编辑或新增的服务；未触及服务不阻止合法保存
+        foreach (var profile in Profiles)
+        {
+            if (profile.IsNew || profile.IsDirty)
+            {
+                var valErr = profile.ValidateForSave();
+                if (valErr != null)
+                {
+                    StatusMessage = $"{profile.DisplayName}: {valErr}";
+                    return;
+                }
+            }
+        }
+
+        // 组装 General 补丁
+        var themeEdit = _themeDirty ? new SettingsFieldEdit<AppTheme>(_baseTheme, _targetTheme) : null;
+        var launchEdit = _launchAtStartupDirty ? new SettingsFieldEdit<bool>(_baseLaunchAtStartup, _targetLaunchAtStartup) : null;
+        var notifEdit = _showStartupNotificationDirty ? new SettingsFieldEdit<bool>(_baseShowStartupNotification, _targetShowStartupNotification) : null;
+        var logEdit = _logLevelDirty ? new SettingsFieldEdit<string>(_baseLogLevel, _targetLogLevel) : null;
+        var generalPatch = new GeneralSettingsPatch(themeEdit, launchEdit, notifEdit, logEdit);
+
+        // 组装 Translation 变更
+        var translationChanges = new List<TranslationProfileChange>();
+
+        foreach (var deleted in _deletedProfiles)
+        {
+            translationChanges.Add(new TranslationProfileChange(
+                TranslationProfileChangeKind.Delete,
+                deleted.BaseProfile,
+                null,
+                new ProviderCredentialEdit(CredentialEditKind.Keep)));
+        }
+
+        for (int i = 0; i < Profiles.Count; i++)
+        {
+            var p = Profiles[i];
+            if (p.IsNew)
+            {
+                translationChanges.Add(new TranslationProfileChange(
+                    TranslationProfileChangeKind.Add,
+                    null,
+                    p.BuildTargetProfile(i),
+                    p.BuildCredentialEdit()));
+            }
+            else if (p.IsDirty)
+            {
+                translationChanges.Add(new TranslationProfileChange(
+                    TranslationProfileChangeKind.Update,
+                    p.BaseProfile,
+                    p.BuildTargetProfile(i),
+                    p.BuildCredentialEdit()));
+            }
+        }
+
+        // 组装顺序变更
+        TranslationOrderChange? orderChange = null;
+        if (IsOrderDirty)
+        {
+            orderChange = new TranslationOrderChange(
+                _baselineProfileIds.ToArray(),
+                Profiles.Select(p => p.Id).ToArray());
+        }
+
+        bool hasGeneralDirty = _themeDirty || _launchAtStartupDirty || _showStartupNotificationDirty || _logLevelDirty;
+        bool hasTranslationDirty = translationChanges.Count > 0 || orderChange != null;
+
+        if (!hasGeneralDirty && !hasTranslationDirty)
+        {
+            _themeService.ClearPreview(_sessionOwner);
+            StatusMessage = UiText.SettingsStatusSaved;
+            IsConflict = false;
+            OnPropertyChanged(nameof(IsDirty));
+            return;
+        }
+
+        bool wasLaunchAtStartupDirty = _launchAtStartupDirty;
+        bool targetLaunchAtStartup = _targetLaunchAtStartup;
+        var plan = new SettingsEditPlan(generalPatch, translationChanges, orderChange);
+
+        TaskCompletionSource workTcs;
+        lock (_admissionLock)
+        {
+            if (_disposed || _isStopped)
             {
                 return;
             }
@@ -870,6 +1128,10 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             workTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
             _activeWork.Add(workTcs.Task);
             IsSaving = true;
+            foreach (var p in Profiles)
+            {
+                p.IsFrozen = true;
+            }
         }
 
         StatusMessage = UiText.SettingsStatusSaving;
@@ -877,7 +1139,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         try
         {
             // 保存前先取消并观察在途草稿测试/模型列表任务退出
-            await _operationQueue.DrainAndCancelAllAsync().ConfigureAwait(false);
+            await _operationQueue.DrainAndCancelInFlightAsync().ConfigureAwait(false);
 
             lock (_admissionLock)
             {
@@ -887,82 +1149,6 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 }
             }
 
-            // 保存前完整校验所有服务
-            foreach (var profile in Profiles)
-            {
-                var valErr = profile.ValidateForSave();
-                if (valErr != null)
-                {
-                    StatusMessage = $"{profile.DisplayName}: {valErr}";
-                    return;
-                }
-            }
-
-            // 组装 General 补丁
-            var themeEdit = _themeDirty ? new SettingsFieldEdit<AppTheme>(_baseTheme, _targetTheme) : null;
-            var launchEdit = _launchAtStartupDirty ? new SettingsFieldEdit<bool>(_baseLaunchAtStartup, _targetLaunchAtStartup) : null;
-            var notifEdit = _showStartupNotificationDirty ? new SettingsFieldEdit<bool>(_baseShowStartupNotification, _targetShowStartupNotification) : null;
-            var logEdit = _logLevelDirty ? new SettingsFieldEdit<string>(_baseLogLevel, _targetLogLevel) : null;
-            var generalPatch = new GeneralSettingsPatch(themeEdit, launchEdit, notifEdit, logEdit);
-
-            // 组装 Translation 变更
-            var translationChanges = new List<TranslationProfileChange>();
-
-            foreach (var deleted in _deletedProfiles)
-            {
-                translationChanges.Add(new TranslationProfileChange(
-                    TranslationProfileChangeKind.Delete,
-                    deleted.BaseProfile,
-                    null,
-                    new ProviderCredentialEdit(CredentialEditKind.Keep)));
-            }
-
-            for (int i = 0; i < Profiles.Count; i++)
-            {
-                var p = Profiles[i];
-                if (p.IsNew)
-                {
-                    translationChanges.Add(new TranslationProfileChange(
-                        TranslationProfileChangeKind.Add,
-                        null,
-                        p.BuildTargetProfile(i),
-                        p.BuildCredentialEdit()));
-                }
-                else if (p.IsDirty)
-                {
-                    translationChanges.Add(new TranslationProfileChange(
-                        TranslationProfileChangeKind.Update,
-                        p.BaseProfile,
-                        p.BuildTargetProfile(i),
-                        p.BuildCredentialEdit()));
-                }
-            }
-
-            // 组装顺序变更
-            TranslationOrderChange? orderChange = null;
-            if (IsOrderDirty)
-            {
-                orderChange = new TranslationOrderChange(
-                    _baselineProfileIds.ToArray(),
-                    Profiles.Select(p => p.Id).ToArray());
-            }
-
-            bool hasGeneralDirty = _themeDirty || _launchAtStartupDirty || _showStartupNotificationDirty || _logLevelDirty;
-            bool hasTranslationDirty = translationChanges.Count > 0 || orderChange != null;
-
-            if (!hasGeneralDirty && !hasTranslationDirty)
-            {
-                _themeService.ClearPreview(_sessionOwner);
-                StatusMessage = UiText.SettingsStatusSaved;
-                IsConflict = false;
-                OnPropertyChanged(nameof(IsDirty));
-                return;
-            }
-
-            bool wasLaunchAtStartupDirty = _launchAtStartupDirty;
-            bool targetLaunchAtStartup = _targetLaunchAtStartup;
-
-            var plan = new SettingsEditPlan(generalPatch, translationChanges, orderChange);
             var result = await _saveCoordinator.CommitPlanAsync(plan, wasLaunchAtStartupDirty, targetLaunchAtStartup, CancellationToken.None).ConfigureAwait(false);
 
             lock (_admissionLock)
@@ -988,47 +1174,67 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                     case GeneralSaveStatus.SavedAndApplied:
                         _themeService.ClearPreview(_sessionOwner);
                         SyncBaselineFromCurrent();
+                        foreach (var p in Profiles)
+                        {
+                            p.ResetCredentialsToKeepAfterSave();
+                        }
+                        foreach (var d in _deletedProfiles)
+                        {
+                            d.ClearReplacementApiKey();
+                        }
+                        _deletedProfiles.Clear();
                         IsConflict = false;
                         if (wasLaunchAtStartupDirty)
                         {
-                            var latestStartup = _settingsService.Current.General.LaunchAtStartup;
-                            if (targetLaunchAtStartup == latestStartup)
-                            {
-                                CanRetryAutoStart = false;
-                                StatusMessage = UiText.SettingsStatusSaved;
-                            }
-                            else
-                            {
-                                CanRetryAutoStart = true;
-                                StatusMessage = UiText.SettingsStatusSavedAutoStartStillPending;
-                            }
+                            CanRetryAutoStart = false;
+                            StatusMessage = UiText.SettingsStatusSaved;
                         }
                         else
                         {
                             StatusMessage = CanRetryAutoStart ? UiText.SettingsStatusSavedAutoStartStillPending : UiText.SettingsStatusSaved;
                         }
+                        _ = QueryAutoStartStatusAsync();
                         OnPropertyChanged(nameof(IsDirty));
                         break;
 
                     case GeneralSaveStatus.SavedApplicationPending:
                         _themeService.ClearPreview(_sessionOwner);
                         SyncBaselineFromCurrent();
+                        foreach (var p in Profiles)
+                        {
+                            p.ResetCredentialsToKeepAfterSave();
+                        }
+                        foreach (var d in _deletedProfiles)
+                        {
+                            d.ClearReplacementApiKey();
+                        }
+                        _deletedProfiles.Clear();
                         StatusMessage = result.FailureReason ?? UiText.SettingsStatusSavedPendingApply;
                         IsConflict = false;
                         if (_receiptManager?.HasPendingReceipts == true)
                         {
                             CanRetryPendingApply = true;
                         }
-                        if (wasLaunchAtStartupDirty || _saveCoordinator.IsAutoStartPending())
+                        if (wasLaunchAtStartupDirty)
                         {
-                            CanRetryAutoStart = true;
+                            CanRetryAutoStart = false;
                         }
+                        _ = QueryAutoStartStatusAsync();
                         OnPropertyChanged(nameof(IsDirty));
                         break;
 
                     case GeneralSaveStatus.SavedPendingApplyAndAutoStart:
                         _themeService.ClearPreview(_sessionOwner);
                         SyncBaselineFromCurrent();
+                        foreach (var p in Profiles)
+                        {
+                            p.ResetCredentialsToKeepAfterSave();
+                        }
+                        foreach (var d in _deletedProfiles)
+                        {
+                            d.ClearReplacementApiKey();
+                        }
+                        _deletedProfiles.Clear();
                         StatusMessage = UiText.SettingsStatusSavedPendingApplyAndAutoStart;
                         IsConflict = false;
                         CanRetryPendingApply = true;
@@ -1059,12 +1265,28 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 await _uiDispatcher.InvokeAsync(() =>
                 {
                     IsSaving = false;
+                    foreach (var p in Profiles)
+                    {
+                        p.IsFrozen = false;
+                    }
+                    if (SelectedProfile != null)
+                    {
+                        SelectedProfile.IsFrozen = false;
+                    }
                     return Task.CompletedTask;
                 }, CancellationToken.None).ConfigureAwait(false);
             }
             catch
             {
                 IsSaving = false;
+                foreach (var p in Profiles)
+                {
+                    p.IsFrozen = false;
+                }
+                if (SelectedProfile != null)
+                {
+                    SelectedProfile.IsFrozen = false;
+                }
             }
             finally
             {
@@ -1117,6 +1339,10 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         {
             p.ClearReplacementApiKey();
         }
+        foreach (var p in _deletedProfiles)
+        {
+            p.ClearReplacementApiKey();
+        }
         _deletedProfiles.Clear();
 
         _themeService.ClearPreview(_sessionOwner);
@@ -1166,42 +1392,69 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
         try
         {
-            var result = await _saveCoordinator.RetryAutoStartAsync();
-            if (_disposed || _isStopped)
-            {
-                return;
-            }
+            var result = await _saveCoordinator.RetryAutoStartAsync().ConfigureAwait(false);
 
-            if (result.Status == GeneralSaveStatus.SavedAndApplied)
+            await _uiDispatcher.InvokeAsync(() =>
             {
-                var latestStartup = _settingsService.Current.General.LaunchAtStartup;
-                if (targetStartup == latestStartup)
+                lock (_admissionLock)
                 {
-                    StatusMessage = UiText.SettingsStatusAutoStartApplied;
-                    CanRetryAutoStart = false;
+                    if (_disposed || _isStopped)
+                    {
+                        return Task.CompletedTask;
+                    }
+                }
+
+                if (result.Status == GeneralSaveStatus.SavedAndApplied)
+                {
+                    var latestStartup = _settingsService.Current.General.LaunchAtStartup;
+                    if (targetStartup == latestStartup)
+                    {
+                        StatusMessage = UiText.SettingsStatusAutoStartApplied;
+                        CanRetryAutoStart = false;
+                    }
+                    else
+                    {
+                        StatusMessage = UiText.SettingsStatusSavedAutoStartStillPending;
+                        CanRetryAutoStart = true;
+                    }
                 }
                 else
                 {
-                    StatusMessage = UiText.SettingsStatusSavedAutoStartStillPending;
+                    StatusMessage = result.FailureReason ?? UiText.SettingsStatusAutoStartRetryFailed;
                     CanRetryAutoStart = true;
                 }
-            }
-            else
-            {
-                StatusMessage = result.FailureReason ?? UiText.SettingsStatusAutoStartRetryFailed;
-                CanRetryAutoStart = true;
-            }
+                return Task.CompletedTask;
+            }, CancellationToken.None).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {
         }
         catch (Exception ex)
         {
-            HandleCommandException("RetryAutoStart", ex);
+            try
+            {
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    HandleCommandException("RetryAutoStart", ex);
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+            }
+            catch
+            {
+                HandleCommandException("RetryAutoStart", ex);
+            }
         }
         finally
         {
             try
+            {
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    IsSaving = false;
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+            }
+            catch
             {
                 IsSaving = false;
             }
@@ -1240,7 +1493,6 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         try
         {
             var pendingSnapshot = _receiptManager.GetPendingReceipts();
-            bool allComplete = true;
             string? lastError = null;
 
             foreach (var entry in pendingSnapshot)
@@ -1252,38 +1504,63 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 }
                 else
                 {
-                    allComplete = false;
                     lastError = applyResult.Error?.Message;
                     _receiptManager.UpdateReceiptError(entry.Receipt, lastError);
                 }
             }
 
-            if (_disposed || _isStopped)
+            await _uiDispatcher.InvokeAsync(() =>
             {
-                return;
-            }
+                lock (_admissionLock)
+                {
+                    if (_disposed || _isStopped)
+                    {
+                        return Task.CompletedTask;
+                    }
+                }
 
-            if (allComplete || !_receiptManager.HasPendingReceipts)
-            {
-                StatusMessage = UiText.SettingsStatusPendingApplyCompleted;
-                CanRetryPendingApply = false;
-            }
-            else
-            {
-                StatusMessage = lastError ?? UiText.SettingsStatusPendingApplyFailed;
-                CanRetryPendingApply = true;
-            }
+                if (_receiptManager != null && _receiptManager.HasPendingReceipts)
+                {
+                    StatusMessage = lastError ?? UiText.SettingsStatusPendingApplyFailed;
+                    CanRetryPendingApply = true;
+                }
+                else
+                {
+                    StatusMessage = UiText.SettingsStatusPendingApplyCompleted;
+                    CanRetryPendingApply = false;
+                }
+                return Task.CompletedTask;
+            }, CancellationToken.None).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {
         }
         catch (Exception ex)
         {
-            HandleCommandException("RetryPendingApply", ex);
+            try
+            {
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    HandleCommandException("RetryPendingApply", ex);
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+            }
+            catch
+            {
+                HandleCommandException("RetryPendingApply", ex);
+            }
         }
         finally
         {
             try
+            {
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    IsSaving = false;
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+            }
+            catch
             {
                 IsSaving = false;
             }
@@ -1366,25 +1643,98 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
             // 外部更新对翻译服务草稿的影响：
             // 未编辑项同步基线与值；已编辑项保留基线供 Core 冲突检测；外部删除不复活
-            var currentProviders = _settingsService.Current.Translation.Providers.ToDictionary(p => p.Id, StringComparer.Ordinal);
+            var externalProviders = _settingsService.Current.Translation.Providers
+                .OrderBy(p => p.Order)
+                .ToList();
+            var externalMap = externalProviders.ToDictionary(p => p.Id, StringComparer.Ordinal);
+
             if (!IsOrderDirty)
             {
-                _baselineProfileIds = _settingsService.Current.Translation.Providers.OrderBy(p => p.Order).Select(p => p.Id).ToArray();
-            }
+                // 1. 本地未修改排序：列表与基线完整同步外部成员
+                _baselineProfileIds = externalProviders.Select(p => p.Id).ToArray();
 
-            foreach (var p in Profiles.ToList())
-            {
-                if (currentProviders.TryGetValue(p.Id, out var updated))
+                // 移除已不存在且未编辑的服务
+                for (int i = Profiles.Count - 1; i >= 0; i--)
                 {
-                    if (!p.IsDirty)
+                    var local = Profiles[i];
+                    if (!externalMap.ContainsKey(local.Id))
                     {
-                        p.SyncBaseline(updated);
+                        if (!local.IsDirty && !local.IsNew)
+                        {
+                            local.ClearReplacementApiKey();
+                            local.PropertyChanged -= OnProfileDraftPropertyChanged;
+                            Profiles.RemoveAt(i);
+                        }
+                    }
+                }
+
+                // 添加外部新增的服务（且未被本地删除标记）
+                foreach (var ext in externalProviders)
+                {
+                    if (!Profiles.Any(p => p.Id == ext.Id) && !_deletedProfiles.Any(d => d.Id == ext.Id))
+                    {
+                        var newDraft = TranslationProfileDraftViewModel.FromExisting(ext);
+                        newDraft.OnEdited = OnProfileEdited;
+                        newDraft.PropertyChanged += OnProfileDraftPropertyChanged;
+                        Profiles.Add(newDraft);
+                    }
+                }
+
+                // 更新未编辑服务的基线
+                foreach (var p in Profiles)
+                {
+                    if (externalMap.TryGetValue(p.Id, out var updated))
+                    {
+                        if (!p.IsDirty)
+                        {
+                            p.SyncBaseline(updated);
+                        }
+                    }
+                }
+
+                // 按照 externalProviders 顺序重排 Profiles
+                var orderedProfiles = Profiles
+                    .OrderBy(p =>
+                    {
+                        var idx = externalProviders.FindIndex(ext => ext.Id == p.Id);
+                        return idx >= 0 ? idx : int.MaxValue;
+                    })
+                    .ToList();
+
+                for (int targetIdx = 0; targetIdx < orderedProfiles.Count; targetIdx++)
+                {
+                    var item = orderedProfiles[targetIdx];
+                    var currentIdx = Profiles.IndexOf(item);
+                    if (currentIdx != targetIdx)
+                    {
+                        Profiles.Move(currentIdx, targetIdx);
+                    }
+                }
+
+                // 确保 SelectedProfile 有效
+                if (SelectedProfile == null || !Profiles.Contains(SelectedProfile))
+                {
+                    SelectedProfile = Profiles.FirstOrDefault();
+                }
+            }
+            else
+            {
+                // 本地已修改排序：保留本地顺序，只同步未编辑服务的基线
+                foreach (var p in Profiles)
+                {
+                    if (externalMap.TryGetValue(p.Id, out var updated))
+                    {
+                        if (!p.IsDirty)
+                        {
+                            p.SyncBaseline(updated);
+                        }
                     }
                 }
             }
 
             RefreshAvailablePrompts();
             OnPropertyChanged(nameof(IsDirty));
+            RaiseAllCommandsCanExecute();
             return Task.CompletedTask;
         }, CancellationToken.None);
     }
@@ -1453,4 +1803,83 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
     [LoggerMessage(EventId = 1, Level = Microsoft.Extensions.Logging.LogLevel.Error, Message = "设置命令 {Operation} 发生意外异常：{ExceptionType}")]
     private static partial void LogCommandUnexpectedFailed(ILogger logger, string operation, string exceptionType);
+
+    [LoggerMessage(EventId = 2, Level = Microsoft.Extensions.Logging.LogLevel.Warning, Message = "草稿测试执行异常，异常类型：{ExceptionType}")]
+    private static partial void LogTestDraftException(ILogger logger, string exceptionType);
+
+    [LoggerMessage(EventId = 3, Level = Microsoft.Extensions.Logging.LogLevel.Warning, Message = "获取模型列表异常，异常类型：{ExceptionType}")]
+    private static partial void LogListModelsException(ILogger logger, string exceptionType);
+
+    internal sealed class ControlledProfileCollection : ObservableCollection<TranslationProfileDraftViewModel>
+    {
+        private readonly SettingsViewModel _owner;
+        private int _internalMutationScope;
+
+        public ControlledProfileCollection(SettingsViewModel owner)
+        {
+            _owner = owner ?? throw new ArgumentNullException(nameof(owner));
+        }
+
+        public IDisposable AllowInternalMutation()
+        {
+            Interlocked.Increment(ref _internalMutationScope);
+            return new MutationScope(this);
+        }
+
+        private bool CanMutate
+        {
+            get
+            {
+                if (_internalMutationScope > 0)
+                {
+                    return true;
+                }
+                return !_owner.IsSaving && !_owner._isStopped && !_owner._disposed && _owner.CanEdit;
+            }
+        }
+
+        protected override void ClearItems()
+        {
+            if (!CanMutate) return;
+            base.ClearItems();
+        }
+
+        protected override void InsertItem(int index, TranslationProfileDraftViewModel item)
+        {
+            if (!CanMutate) return;
+            base.InsertItem(index, item);
+        }
+
+        protected override void RemoveItem(int index)
+        {
+            if (!CanMutate) return;
+            base.RemoveItem(index);
+        }
+
+        protected override void SetItem(int index, TranslationProfileDraftViewModel item)
+        {
+            if (!CanMutate) return;
+            base.SetItem(index, item);
+        }
+
+        protected override void MoveItem(int oldIndex, int newIndex)
+        {
+            if (!CanMutate) return;
+            base.MoveItem(oldIndex, newIndex);
+        }
+
+        private sealed class MutationScope(ControlledProfileCollection collection) : IDisposable
+        {
+            private ControlledProfileCollection? _collection = collection;
+
+            public void Dispose()
+            {
+                var col = Interlocked.Exchange(ref _collection, null);
+                if (col != null)
+                {
+                    Interlocked.Decrement(ref col._internalMutationScope);
+                }
+            }
+        }
+    }
 }

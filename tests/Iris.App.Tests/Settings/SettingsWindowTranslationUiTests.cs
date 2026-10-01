@@ -205,39 +205,45 @@ public sealed class SettingsWindowTranslationUiTests
     [Fact]
     public async Task UnfocusedInput_FlushesFocusedBinding_BeforeSave()
     {
-        await WpfTestRunner.RunAsync(() =>
+        await WpfTestRunner.RunAsync(async () =>
         {
             using var provider = CreateServiceProvider();
             using var scope = provider.CreateScope();
             var vm = scope.ServiceProvider.GetRequiredService<SettingsViewModel>();
             var window = scope.ServiceProvider.GetRequiredService<SettingsWindow>();
             window.DataContext = vm;
-
+            window.Show();
+            vm.CurrentPageKey = "translation";
             vm.AddProfileFromPreset(SettingsViewModel.AvailablePresets[0]);
             var draft = vm.SelectedProfile;
             draft.ShouldNotBeNull();
 
-            // 构造未失焦的 TextBox 模拟输入
-            var tb = new TextBox();
-            var binding = new Binding("DisplayName")
-            {
-                Source = draft,
-                Mode = BindingMode.TwoWay,
-                UpdateSourceTrigger = UpdateSourceTrigger.Explicit
-            };
-            BindingOperations.SetBinding(tb, TextBox.TextProperty, binding);
+            window.UpdateLayout();
 
+            // 查找实际 XAML 窗口中的 DisplayNameTextBox
+            var tb = (TextBox)window.FindName("DisplayNameTextBox");
+            tb.ShouldNotBeNull();
+
+            // 模拟将该 TextBox 设为窗口焦点元素
+            System.Windows.Input.FocusManager.SetFocusedElement(window, tb);
+
+            var beBefore = BindingOperations.GetBindingExpression(tb, TextBox.TextProperty);
+            var focusedEl = System.Windows.Input.FocusManager.GetFocusedElement(window);
+
+            // 用户键入新内容，保持焦点（尚未发生失焦）
             tb.Text = "Unfocused Updated Name";
-            // Explicit trigger 下，尚未 UpdateSource
+
+            // 草稿尚未被失焦事件更新
             draft!.DisplayName.ShouldNotBe("Unfocused Updated Name");
 
-            // 模拟将该 TextBox 视为焦点元素并刷新
-            BindingOperations.GetBindingExpression(tb, TextBox.TextProperty)?.UpdateSource();
+            // 执行实际保存入口：vm.BeforeSave 触发 FlushFocusedBinding
+            await vm.ExecuteSaveAsync();
 
-            // 验证未失焦输入成功刷入草稿
+            // 验证未失焦输入成功在保存前被自动刷入草稿
             draft.DisplayName.ShouldBe("Unfocused Updated Name");
 
-            return Task.CompletedTask;
+            window.DataContext = null;
+            window.Close();
         });
     }
 }

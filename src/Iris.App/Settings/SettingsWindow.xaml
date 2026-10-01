@@ -230,10 +230,16 @@
                     </Grid>
 
                     <!-- 服务列表 -->
-                    <ListBox Grid.Row="1"
+                    <ListBox x:Name="ProfilesListBox"
+                             Grid.Row="1"
                              ItemsSource="{Binding Profiles}"
                              SelectedItem="{Binding SelectedProfile, Mode=TwoWay}"
                              SelectionMode="Single"
+                             AllowDrop="True"
+                             PreviewMouseLeftButtonDown="OnProfilesListPreviewMouseLeftButtonDown"
+                             MouseMove="OnProfilesListMouseMove"
+                             DragOver="OnProfilesListDragOver"
+                             Drop="OnProfilesListDrop"
                              SelectionChanged="OnProfileSelectionChanged">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
@@ -288,7 +294,7 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Text="{x:Static app:UiText.SettingsProfileName}" Width="100" VerticalAlignment="Center" />
-                                    <TextBox Grid.Column="1" Text="{Binding DisplayName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                    <TextBox x:Name="DisplayNameTextBox" Grid.Column="1" Text="{Binding DisplayName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                                 </Grid>
 
                                 <Grid Margin="0,0,0,8">

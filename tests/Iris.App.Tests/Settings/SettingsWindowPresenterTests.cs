@@ -99,7 +99,7 @@ public sealed class SettingsWindowPresenterTests
             services.AddSingleton<ThemeService>();
 
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
-                new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
+                new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
             services.AddScoped<SettingsViewModel>();
             services.AddTransient<SettingsWindow>();
 
@@ -160,7 +160,7 @@ public sealed class SettingsWindowPresenterTests
             services.AddSingleton<ThemeService>();
 
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
-                new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
+                new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
             services.AddScoped<SettingsViewModel>();
             services.AddTransient<SettingsWindow>();
 
@@ -211,7 +211,7 @@ public sealed class SettingsWindowPresenterTests
                 return witness;
             });
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
-                new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
+                new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
             services.AddScoped<SettingsViewModel>();
             services.AddTransient<SettingsWindow>(sp =>
             {
@@ -264,7 +264,7 @@ public sealed class SettingsWindowPresenterTests
                 return witness;
             });
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
-                new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
+                new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
             services.AddScoped<SettingsViewModel>();
 
             EventHandler failHandler = (_, _) => throw new InvalidOperationException("Injected source initialization failure");
@@ -335,7 +335,7 @@ public sealed class SettingsWindowPresenterTests
             services.AddSingleton<ThemeService>();
 
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
-                new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
+                new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
             services.AddScoped<SettingsViewModel>();
             services.AddTransient<SettingsWindow>();
 
@@ -408,7 +408,7 @@ public sealed class SettingsWindowPresenterTests
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
             {
                 _ = sp.GetRequiredService<ScopedDisposableWitness>();
-                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+                return new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
             });
             services.AddScoped<SettingsViewModel>();
             services.AddTransient<SettingsWindow>();
@@ -495,7 +495,7 @@ public sealed class SettingsWindowPresenterTests
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
             {
                 _ = sp.GetRequiredService<ScopedDisposableWitness>();
-                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+                return new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
             });
             services.AddScoped<SettingsViewModel>();
             services.AddTransient<SettingsWindow>();
@@ -576,7 +576,7 @@ public sealed class SettingsWindowPresenterTests
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
             {
                 _ = sp.GetRequiredService<ScopedDisposableWitness>();
-                coordinator = new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+                coordinator = new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
                 return coordinator;
             });
             services.AddScoped<SettingsViewModel>();
@@ -677,7 +677,7 @@ public sealed class SettingsWindowPresenterTests
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
             {
                 _ = sp.GetRequiredService<ScopedDisposableWitness>();
-                coordinator = new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+                coordinator = new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
                 return coordinator;
             });
             services.AddScoped<SettingsViewModel>();
@@ -774,7 +774,7 @@ public sealed class SettingsWindowPresenterTests
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
             {
                 _ = sp.GetRequiredService<ScopedDisposableWitness>();
-                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+                return new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
             });
             services.AddScoped<SettingsViewModel>();
             services.AddTransient<SettingsWindow>(sp =>
@@ -860,7 +860,7 @@ public sealed class SettingsWindowPresenterTests
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
             {
                 _ = sp.GetRequiredService<ScopedDisposableWitness>();
-                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+                return new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
             });
             services.AddScoped<SettingsViewModel>();
             services.AddTransient<SettingsWindow>(sp =>
@@ -960,7 +960,7 @@ public sealed class SettingsWindowPresenterTests
 
             var createdWindows = new System.Collections.Generic.List<SettingsWindow>();
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
-                new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
+                new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
             services.AddScoped<SettingsViewModel>();
             services.AddTransient<SettingsWindow>(sp =>
             {
@@ -1056,7 +1056,7 @@ public sealed class SettingsWindowPresenterTests
 
             var createdWindows = new System.Collections.Generic.List<SettingsWindow>();
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
-                new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
+                new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
             services.AddScoped<SettingsViewModel>();
             services.AddTransient<SettingsWindow>(sp =>
             {
@@ -1145,7 +1145,7 @@ public sealed class SettingsWindowPresenterTests
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
             {
                 _ = sp.GetRequiredService<ScopedDisposableWitness>();
-                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+                return new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
             });
             services.AddScoped<SettingsViewModel>();
 
@@ -1271,7 +1271,7 @@ public sealed class SettingsWindowPresenterTests
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
             {
                 _ = sp.GetRequiredService<ScopedDisposableWitness>();
-                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+                return new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
             });
             services.AddScoped<SettingsViewModel>();
             services.AddTransient<SettingsWindow>(sp =>
@@ -1392,7 +1392,7 @@ public sealed class SettingsWindowPresenterTests
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
             {
                 _ = sp.GetRequiredService<ScopedDisposableWitness>();
-                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+                return new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
             });
             services.AddScoped<SettingsViewModel>();
             services.AddTransient<SettingsWindow>(sp =>
@@ -1508,7 +1508,7 @@ public sealed class SettingsWindowPresenterTests
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
             {
                 _ = sp.GetRequiredService<ScopedDisposableWitness>();
-                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+                return new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
             });
 
             // 注入 ViewModel 解析失败（模拟未组装 Session 阶段的局部回滚）
@@ -1616,7 +1616,7 @@ public sealed class SettingsWindowPresenterTests
             services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
             {
                 _ = sp.GetRequiredService<ScopedDisposableWitness>();
-                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+                return new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
             });
 
             // 注入 ViewModel 解析失败（模拟未组装 Session 阶段的局部回滚）

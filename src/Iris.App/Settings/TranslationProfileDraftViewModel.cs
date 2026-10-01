@@ -162,6 +162,9 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
     public bool IsNew => BaseProfile == null;
 
     public long Revision => _revision;
+    public bool IsFrozen { get; internal set; }
+    internal Action<TranslationProfileDraftViewModel>? OnEdited { get; set; }
+    public string? ReplacementApiKey => _replacementApiKey;
 
     public ObservableCollection<string> AvailableModels { get; } = [];
 
@@ -170,6 +173,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         get => _displayName;
         set
         {
+            if (IsFrozen) return;
             if (_displayName != value)
             {
                 _displayName = value;
@@ -185,6 +189,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         get => _enabled;
         set
         {
+            if (IsFrozen) return;
             if (_enabled != value)
             {
                 _enabled = value;
@@ -200,6 +205,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         get => _baseUrl;
         set
         {
+            if (IsFrozen) return;
             if (_baseUrl != value)
             {
                 _baseUrl = value;
@@ -216,6 +222,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         get => _model;
         set
         {
+            if (IsFrozen) return;
             var trimmed = value ?? string.Empty;
             if (_model != trimmed)
             {
@@ -252,6 +259,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         get => _timeoutText;
         set
         {
+            if (IsFrozen) return;
             if (_timeoutText != value)
             {
                 _timeoutText = value;
@@ -273,6 +281,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         get => _maxOutputTokensText;
         set
         {
+            if (IsFrozen) return;
             if (_maxOutputTokensText != value)
             {
                 _maxOutputTokensText = value;
@@ -300,6 +309,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         get => _temperatureText;
         set
         {
+            if (IsFrozen) return;
             if (_temperatureText != value)
             {
                 _temperatureText = value;
@@ -325,6 +335,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         get => _promptTemplateId;
         set
         {
+            if (IsFrozen) return;
             var val = string.IsNullOrWhiteSpace(value) ? null : value.Trim();
             if (_promptTemplateId != val)
             {
@@ -341,6 +352,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         get => _credentialEditKind;
         set
         {
+            if (IsFrozen) return;
             if (_credentialEditKind != value)
             {
                 _credentialEditKind = value;
@@ -356,6 +368,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
 
     public void SetReplacementApiKey(string? apiKey)
     {
+        if (IsFrozen) return;
         _replacementApiKey = apiKey;
         IncrementRevision();
         OnPropertyChanged(nameof(IsDirty));
@@ -374,6 +387,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         get => _stream;
         set
         {
+            if (IsFrozen) return;
             if (_stream != value)
             {
                 _stream = value;
@@ -389,6 +403,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         get => _includeStreamUsage;
         set
         {
+            if (IsFrozen) return;
             if (_includeStreamUsage != value)
             {
                 _includeStreamUsage = value;
@@ -404,6 +419,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         get => _maxTokensField;
         set
         {
+            if (IsFrozen) return;
             if (_maxTokensField != value)
             {
                 _maxTokensField = value;
@@ -419,6 +435,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         get => _stripThinkTags;
         set
         {
+            if (IsFrozen) return;
             if (_stripThinkTags != value)
             {
                 _stripThinkTags = value;
@@ -434,6 +451,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         get => _chatCompletionsPath;
         set
         {
+            if (IsFrozen) return;
             if (_chatCompletionsPath != value)
             {
                 _chatCompletionsPath = value;
@@ -449,6 +467,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         get => _extraHeadersText;
         set
         {
+            if (IsFrozen) return;
             if (_extraHeadersText != value)
             {
                 _extraHeadersText = value;
@@ -465,6 +484,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         get => _effort;
         set
         {
+            if (IsFrozen) return;
             if (_effort != value)
             {
                 _effort = value;
@@ -480,6 +500,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         get => _refusalFallback;
         set
         {
+            if (IsFrozen) return;
             if (_refusalFallback != value)
             {
                 _refusalFallback = value;
@@ -592,6 +613,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
     public void IncrementRevision()
     {
         Interlocked.Increment(ref _revision);
+        OnEdited?.Invoke(this);
     }
 
     private void UpdateAnthropicWarnings()
@@ -629,12 +651,46 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
             if (!string.Equals(baseNormUrl, currNormUrl, StringComparison.Ordinal)) return true;
 
             if (!string.Equals(_model, BaseProfile.Model, StringComparison.Ordinal)) return true;
-            if (_timeoutSeconds != BaseProfile.TimeoutSeconds) return true;
-            if (_maxOutputTokens != BaseProfile.MaxOutputTokens) return true;
+
+            var baseTimeoutStr = BaseProfile.TimeoutSeconds.ToString(CultureInfo.InvariantCulture);
+            if (int.TryParse(_timeoutText, out var parsedTimeout) && parsedTimeout is >= 5 and <= 600)
+            {
+                if (parsedTimeout != BaseProfile.TimeoutSeconds) return true;
+            }
+            else
+            {
+                if (!string.Equals(_timeoutText?.Trim(), baseTimeoutStr, StringComparison.Ordinal)) return true;
+            }
+
+            var baseMaxTokensStr = BaseProfile.MaxOutputTokens?.ToString(CultureInfo.InvariantCulture) ?? string.Empty;
+            if (string.IsNullOrWhiteSpace(_maxOutputTokensText))
+            {
+                if (BaseProfile.MaxOutputTokens != null) return true;
+            }
+            else if (int.TryParse(_maxOutputTokensText, out var parsedMax) && parsedMax > 0)
+            {
+                if (parsedMax != BaseProfile.MaxOutputTokens) return true;
+            }
+            else
+            {
+                if (!string.Equals(_maxOutputTokensText?.Trim(), baseMaxTokensStr, StringComparison.Ordinal)) return true;
+            }
 
             if (Kind != TranslationProviderKind.Anthropic)
             {
-                if (_temperature != BaseProfile.Temperature) return true;
+                var baseTempStr = BaseProfile.Temperature?.ToString(CultureInfo.InvariantCulture) ?? string.Empty;
+                if (string.IsNullOrWhiteSpace(_temperatureText))
+                {
+                    if (BaseProfile.Temperature != null) return true;
+                }
+                else if (double.TryParse(_temperatureText, out var parsedTemp) && parsedTemp is >= 0.0 and <= 2.0 && !double.IsNaN(parsedTemp) && !double.IsInfinity(parsedTemp))
+                {
+                    if (parsedTemp != BaseProfile.Temperature) return true;
+                }
+                else
+                {
+                    if (!string.Equals(_temperatureText?.Trim(), baseTempStr, StringComparison.Ordinal)) return true;
+                }
             }
 
             if (!string.Equals(_promptTemplateId, BaseProfile.PromptTemplateId, StringComparison.Ordinal)) return true;
@@ -938,7 +994,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
             Model = normModel,
             TimeoutSeconds = _timeoutSeconds,
             MaxOutputTokens = _maxOutputTokens,
-            Temperature = Kind == TranslationProviderKind.Anthropic ? null : _temperature,
+            Temperature = Kind == TranslationProviderKind.Anthropic ? BaseProfile?.Temperature : _temperature,
             PromptTemplateId = _promptTemplateId,
             OpenAIOptions = openAiOpts,
             AnthropicOptions = anthropicOpts,
@@ -1003,11 +1059,25 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
                 ? string.Join(Environment.NewLine, updated.OpenAIOptions.ExtraHeaders.Select(kv => $"{kv.Key}: {kv.Value}"))
                 : string.Empty;
         }
+        else
+        {
+            _stream = true;
+            _includeStreamUsage = false;
+            _maxTokensField = MaxTokensField.MaxTokens;
+            _stripThinkTags = true;
+            _chatCompletionsPath = "chat/completions";
+            _extraHeadersText = string.Empty;
+        }
 
         if (updated.AnthropicOptions != null)
         {
             _effort = updated.AnthropicOptions.Effort;
             _refusalFallback = updated.AnthropicOptions.RefusalFallback;
+        }
+        else
+        {
+            _effort = Kind == TranslationProviderKind.Anthropic ? "low" : null;
+            _refusalFallback = true;
         }
 
         _credentialEditKind = CredentialEditKind.Keep;
@@ -1015,6 +1085,9 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
 
         UpdateAnthropicWarnings();
         ClearTestResult();
+        ListModelsStatusMessage = null;
+
+        IncrementRevision();
 
         OnPropertyChanged(string.Empty);
     }

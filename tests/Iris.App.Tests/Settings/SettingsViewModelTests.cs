@@ -34,7 +34,7 @@ public sealed class SettingsViewModelTests
 
         var themeService = new ThemeService(settingsService);
         var autoStartService = Substitute.For<IAutoStartService>();
-        var coordinator = new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+        var coordinator = new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, null, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
 
         var uiDispatcher = Substitute.For<IUiDispatcher>();
         uiDispatcher.InvokeAsync(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>())
@@ -526,7 +526,7 @@ public sealed class SettingsViewModelTests
 
             var dispatcher = new HoldFirstDispatch();
             using var themeService = new ThemeService(settingsService);
-            using var coordinator = new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+            using var coordinator = new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, null, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
             using var vm = new SettingsViewModel(settingsService, themeService, coordinator, dispatcher);
 
             try
@@ -566,7 +566,7 @@ public sealed class SettingsViewModelTests
         settingsService.Current.Returns(new AppSettings { General = new GeneralSettings { LogLevel = "Information" } });
 
         var autoStartService = Substitute.For<IAutoStartService>();
-        using var coordinator = new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+        using var coordinator = new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, null, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
 
         var draft = new GeneralDraftSnapshot(
             BaseTheme: AppTheme.System,
@@ -607,7 +607,7 @@ public sealed class SettingsViewModelTests
         var autoStartService = Substitute.For<IAutoStartService>();
         var logger = new CaptureVmLogger();
         using var themeService = new ThemeService(settingsService);
-        using var coordinator = new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+        using var coordinator = new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, null, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
 
         var uiDispatcher = Substitute.For<IUiDispatcher>();
         uiDispatcher.CheckAccess().Returns(true);
@@ -691,7 +691,7 @@ public sealed class SettingsViewModelTests
             };
 
             using var theme = new ThemeService(state);
-            using var coordinator = new GeneralSettingsSaveCoordinator(state, auto, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+            using var coordinator = new GeneralSettingsSaveCoordinator(state, new TestSettingsEditCoordinator(state), auto, null, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
             using var vm = new SettingsViewModel(state, theme, coordinator, new WpfUiDispatcher());
 
             vm.LaunchAtStartup = true;
@@ -760,7 +760,7 @@ public sealed class SettingsViewModelTests
             };
 
             using var theme = new ThemeService(state);
-            using var coordinator = new GeneralSettingsSaveCoordinator(state, auto, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+            using var coordinator = new GeneralSettingsSaveCoordinator(state, new TestSettingsEditCoordinator(state), auto, null, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
             using var vm = new SettingsViewModel(state, theme, coordinator, new WpfUiDispatcher());
 
             // 首次保存：由于自启失败获得重试资格

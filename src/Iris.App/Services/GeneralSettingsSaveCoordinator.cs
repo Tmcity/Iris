@@ -93,22 +93,23 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
         ISettingsService settingsService,
         ISettingsEditCoordinator editCoordinator,
         IAutoStartService autoStartService,
-        ISettingsApplyReceiptManager? receiptManager,
         ILogger<GeneralSettingsSaveCoordinator> logger)
+        : this(settingsService, editCoordinator, autoStartService, null, logger)
     {
-        _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
-        _editCoordinator = editCoordinator;
-        _autoStartService = autoStartService ?? throw new ArgumentNullException(nameof(autoStartService));
-        _receiptManager = receiptManager;
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     public GeneralSettingsSaveCoordinator(
         ISettingsService settingsService,
+        ISettingsEditCoordinator editCoordinator,
         IAutoStartService autoStartService,
+        ISettingsApplyReceiptManager? receiptManager,
         ILogger<GeneralSettingsSaveCoordinator> logger)
-        : this(settingsService, new ForwardingSettingsEditCoordinator(settingsService), autoStartService, null, logger)
     {
+        _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
+        _editCoordinator = editCoordinator ?? throw new ArgumentNullException(nameof(editCoordinator));
+        _autoStartService = autoStartService ?? throw new ArgumentNullException(nameof(autoStartService));
+        _receiptManager = receiptManager;
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
     }
 
     internal Task? ActiveWorkTask
@@ -567,79 +568,4 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
 
     [LoggerMessage(EventId = 4, Level = LogLevel.Error, Message = "设置保存异常失败，异常类型：{ExceptionType}")]
     private static partial void LogSaveUnexpectedFailed(ILogger logger, string exceptionType);
-
-    private sealed class ForwardingSettingsEditCoordinator : ISettingsEditCoordinator
-    {
-        private readonly ISettingsService _settingsService;
-
-        public ForwardingSettingsEditCoordinator(ISettingsService settingsService)
-        {
-            _settingsService = settingsService;
-        }
-
-        public async Task<SettingsEditResult> CommitAsync(SettingsEditPlan plan, CancellationToken cancellationToken = default)
-        {
-            ArgumentNullException.ThrowIfNull(plan);
-
-            if (plan.General == null)
-            {
-                return new SettingsEditResult(SettingsEditStatus.Applied);
-            }
-
-            var p = plan.General;
-            try
-            {
-                await _settingsService.UpdateAsync(current =>
-                {
-                    var g = current.General;
-                    if (p.Theme != null && g.Theme != p.Theme.Base && g.Theme != p.Theme.Target)
-                    {
-                        throw new GeneralSettingsConflictException(nameof(GeneralSettings.Theme));
-                    }
-                    if (p.LaunchAtStartup != null && g.LaunchAtStartup != p.LaunchAtStartup.Base && g.LaunchAtStartup != p.LaunchAtStartup.Target)
-                    {
-                        throw new GeneralSettingsConflictException(nameof(GeneralSettings.LaunchAtStartup));
-                    }
-                    if (p.ShowStartupNotification != null && g.ShowStartupNotification != p.ShowStartupNotification.Base && g.ShowStartupNotification != p.ShowStartupNotification.Target)
-                    {
-                        throw new GeneralSettingsConflictException(nameof(GeneralSettings.ShowStartupNotification));
-                    }
-                    if (p.LogLevel != null && !string.Equals(g.LogLevel, p.LogLevel.Base, StringComparison.OrdinalIgnoreCase) && !string.Equals(g.LogLevel, p.LogLevel.Target, StringComparison.OrdinalIgnoreCase))
-                    {
-                        throw new GeneralSettingsConflictException(nameof(GeneralSettings.LogLevel));
-                    }
-
-                    var updated = g with
-                    {
-                        Theme = p.Theme != null ? p.Theme.Target : g.Theme,
-                        LaunchAtStartup = p.LaunchAtStartup != null ? p.LaunchAtStartup.Target : g.LaunchAtStartup,
-                        ShowStartupNotification = p.ShowStartupNotification != null ? p.ShowStartupNotification.Target : g.ShowStartupNotification,
-                        LogLevel = p.LogLevel != null ? p.LogLevel.Target : g.LogLevel,
-                    };
-                    return current with { General = updated };
-                }, cancellationToken).ConfigureAwait(false);
-
-                return new SettingsEditResult(SettingsEditStatus.Applied);
-            }
-            catch (GeneralSettingsConflictException ex)
-            {
-                return new SettingsEditResult(SettingsEditStatus.Uncommitted, IsConflict: true, Error: new Iris.Core.Errors.ErrorInfo(Iris.Core.Errors.ErrorCode.Unknown, "外部修改冲突", ex.FieldName));
-            }
-        }
-
-        public Task<SettingsApplyResult> RetryApplyAsync(ISettingsApplyReceipt receipt, CancellationToken cancellationToken = default)
-            => Task.FromResult(new SettingsApplyResult(true));
-
-        public Task<Iris.Core.Common.ProviderTestResult> TestDraftAsync(TranslationProviderDraft draft, CancellationToken cancellationToken = default)
-            => Task.FromResult(new Iris.Core.Common.ProviderTestResult(true, TimeSpan.FromMilliseconds(10), "sample"));
-
-        public Task<IReadOnlyList<string>> ListDraftModelsAsync(TranslationProviderDraft draft, CancellationToken cancellationToken = default)
-            => Task.FromResult<IReadOnlyList<string>>([]);
-    }
-
-    private sealed class GeneralSettingsConflictException : Exception
-    {
-        public string FieldName { get; }
-        public GeneralSettingsConflictException(string fieldName) : base($"Conflict on field {fieldName}") => FieldName = fieldName;
-    }
 }

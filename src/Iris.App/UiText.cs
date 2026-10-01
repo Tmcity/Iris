@@ -77,6 +77,7 @@ internal static class UiText
     public const string SettingsListingModels = "正在获取模型列表…";
     public const string SettingsTestDraftSuccess = "连接测试成功";
     public const string SettingsTestDraftFailed = "连接测试失败";
+    public const string SettingsListModelsFailed = "获取模型列表失败";
     public const string SettingsHaikuEffortWarning = "Haiku 模型不支持 Effort，已自动清空";
     public const string SettingsAnthropicV1Warning = "官方 SDK 已自动包含 /v1 路径，反代地址通常不需要以 /v1 结尾";
     public const string SettingsExtraHeaders = "附加请求头 (格式: Name: Value 每行一个)";

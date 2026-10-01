@@ -18,7 +18,7 @@ internal sealed class SettingsDraftOperationQueue : IDisposable
 
     private readonly Lock _lock = new();
     private Task? _runningTask;
-    private CancellationTokenSource? _runningCts;
+    private WaitingItem? _runningItem;
     private WaitingItem? _waitingItem;
     private bool _isDisposed;
     private bool _isStopped;
@@ -29,7 +29,7 @@ internal sealed class SettingsDraftOperationQueue : IDisposable
         {
             lock (_lock)
             {
-                return _runningTask != null || _waitingItem != null;
+                return _runningTask != null || _runningItem != null || _waitingItem != null;
             }
         }
     }
@@ -39,8 +39,9 @@ internal sealed class SettingsDraftOperationQueue : IDisposable
         ArgumentNullException.ThrowIfNull(work);
 
         WaitingItem? oldWaiting = null;
+        CancellationTokenSource? ctsToCancel = null;
         WaitingItem newWaiting;
-        CancellationTokenSource linkedCts;
+        bool shouldStart = false;
 
         lock (_lock)
         {
@@ -57,106 +58,140 @@ internal sealed class SettingsDraftOperationQueue : IDisposable
             }
 
             var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-            linkedCts = callerCt.CanBeCanceled
+            var linkedCts = callerCt.CanBeCanceled
                 ? CancellationTokenSource.CreateLinkedTokenSource(callerCt)
                 : new CancellationTokenSource();
 
             newWaiting = new WaitingItem(work, tcs, linkedCts);
 
             // 2. 如果当前有正在运行的任务，请求取消当前运行任务，并将新请求存为唯一等待项
-            if (_runningTask != null && !_runningTask.IsCompleted)
+            if (_runningItem != null)
             {
                 _waitingItem = newWaiting;
-                try
-                {
-                    _runningCts?.Cancel();
-                }
-                catch (ObjectDisposedException)
-                {
-                }
+                ctsToCancel = _runningItem.Cts;
             }
             else
             {
-                StartRunning_Locked(newWaiting);
+                _runningItem = newWaiting;
+                shouldStart = true;
             }
         }
 
+        // 委托与取消回调必须在锁外执行
         if (oldWaiting != null)
         {
             try { oldWaiting.Cts.Cancel(); } catch { }
             oldWaiting.Tcs.TrySetCanceled(oldWaiting.Cts.Token);
-            oldWaiting.Cts.Dispose();
+            try { oldWaiting.Cts.Dispose(); } catch { }
+        }
+
+        if (ctsToCancel != null)
+        {
+            try { ctsToCancel.Cancel(); } catch { }
+        }
+
+        if (shouldStart)
+        {
+            _runningTask = RunLoopAsync(newWaiting);
         }
 
         return newWaiting.Tcs.Task;
     }
 
-    private void StartRunning_Locked(WaitingItem item)
-    {
-        _runningCts = item.Cts;
-        _runningTask = RunWorkAsync(item);
-    }
-
-    private async Task RunWorkAsync(WaitingItem item)
+    private async Task RunLoopAsync(WaitingItem firstItem)
     {
         try
         {
-            item.Cts.Token.ThrowIfCancellationRequested();
-            await item.Work(item.Cts.Token).ConfigureAwait(false);
-            item.Tcs.TrySetResult();
-        }
-        catch (OperationCanceledException)
-        {
-            item.Tcs.TrySetCanceled(item.Cts.Token);
-        }
-        catch (Exception ex)
-        {
-            item.Tcs.TrySetException(ex);
-        }
-        finally
-        {
-            WaitingItem? nextToRun = null;
-            lock (_lock)
+            var currentItem = firstItem;
+            while (currentItem != null)
             {
-                if (ReferenceEquals(_runningCts, item.Cts))
+                try
                 {
-                    _runningCts = null;
+                    currentItem.Cts.Token.ThrowIfCancellationRequested();
+                    await currentItem.Work(currentItem.Cts.Token).ConfigureAwait(false);
+                    currentItem.Tcs.TrySetResult();
+                }
+                catch (OperationCanceledException)
+                {
+                    currentItem.Tcs.TrySetCanceled(currentItem.Cts.Token);
+                }
+                catch (Exception ex)
+                {
+                    currentItem.Tcs.TrySetException(ex);
+                }
+                finally
+                {
+                    try { currentItem.Cts.Dispose(); } catch { }
                 }
 
-                if (_waitingItem != null)
+                WaitingItem? nextItem = null;
+                WaitingItem? droppedItem = null;
+
+                lock (_lock)
                 {
-                    if (!_isDisposed && !_isStopped)
+                    if (_waitingItem != null && !_isDisposed && !_isStopped)
                     {
-                        nextToRun = _waitingItem;
+                        nextItem = _waitingItem;
                         _waitingItem = null;
-                        StartRunning_Locked(nextToRun);
+                        _runningItem = nextItem;
                     }
                     else
                     {
-                        var dropped = _waitingItem;
-                        _waitingItem = null;
-                        try { dropped.Cts.Cancel(); } catch { }
-                        dropped.Tcs.TrySetCanceled(dropped.Cts.Token);
-                        dropped.Cts.Dispose();
+                        _runningItem = null;
+                        if (_waitingItem != null)
+                        {
+                            droppedItem = _waitingItem;
+                            _waitingItem = null;
+                        }
                     }
                 }
-                else
-                {
-                    _runningTask = null;
-                }
-            }
 
-            try
-            {
-                item.Cts.Dispose();
+                if (droppedItem != null)
+                {
+                    try { droppedItem.Cts.Cancel(); } catch { }
+                    droppedItem.Tcs.TrySetCanceled(droppedItem.Cts.Token);
+                    try { droppedItem.Cts.Dispose(); } catch { }
+                }
+
+                currentItem = nextItem;
             }
-            catch
+        }
+        finally
+        {
+            lock (_lock)
             {
+                _runningItem = null;
+                _runningTask = null;
             }
         }
     }
 
-    public async Task DrainAndCancelAllAsync()
+    public void CancelInFlight()
+    {
+        WaitingItem? waitingToCancel;
+        CancellationTokenSource? ctsToCancel;
+
+        lock (_lock)
+        {
+            waitingToCancel = _waitingItem;
+            _waitingItem = null;
+            ctsToCancel = _runningItem?.Cts;
+        }
+
+        if (waitingToCancel != null)
+        {
+            try { waitingToCancel.Cts.Cancel(); } catch { }
+            waitingToCancel.Tcs.TrySetCanceled(waitingToCancel.Cts.Token);
+            try { waitingToCancel.Cts.Dispose(); } catch { }
+        }
+
+        if (ctsToCancel != null)
+        {
+            try { ctsToCancel.Cancel(); } catch { }
+        }
+    }
+
+    public async Task DrainAndCancelInFlightAsync()
     {
         WaitingItem? waitingToCancel;
         Task? taskToWait;
@@ -164,10 +199,9 @@ internal sealed class SettingsDraftOperationQueue : IDisposable
 
         lock (_lock)
         {
-            _isStopped = true;
             waitingToCancel = _waitingItem;
             _waitingItem = null;
-            ctsToCancel = _runningCts;
+            ctsToCancel = _runningItem?.Cts;
             taskToWait = _runningTask;
         }
 
@@ -175,7 +209,7 @@ internal sealed class SettingsDraftOperationQueue : IDisposable
         {
             try { waitingToCancel.Cts.Cancel(); } catch { }
             waitingToCancel.Tcs.TrySetCanceled(waitingToCancel.Cts.Token);
-            waitingToCancel.Cts.Dispose();
+            try { waitingToCancel.Cts.Dispose(); } catch { }
         }
 
         if (ctsToCancel != null)
@@ -195,6 +229,16 @@ internal sealed class SettingsDraftOperationQueue : IDisposable
         }
     }
 
+    public async Task DrainAndCancelAllAsync()
+    {
+        lock (_lock)
+        {
+            _isStopped = true;
+        }
+
+        await DrainAndCancelInFlightAsync().ConfigureAwait(false);
+    }
+
     public void Dispose()
     {
         lock (_lock)
@@ -206,6 +250,7 @@ internal sealed class SettingsDraftOperationQueue : IDisposable
             _isDisposed = true;
             _isStopped = true;
         }
-        _ = DrainAndCancelAllAsync();
+
+        CancelInFlight();
     }
 }
