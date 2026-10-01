@@ -330,6 +330,33 @@ public sealed class SettingsDraftAndSaveRegressionTests
                 peak.ShouldBe(1, "队列同步重入必须保持并发峰值为 1");
             }
 
+            // 队列同步启动与排空屏障断言
+            {
+                using var q = new SettingsDraftOperationQueue();
+                var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                Task? drain = null;
+                bool early = false;
+                var work = q.EnqueueAsync(async ct =>
+                {
+                    drain = q.DrainAndCancelAllAsync();
+                    early = drain.IsCompleted;
+                    await release.Task;
+                });
+                early.ShouldBeFalse("work 同步执行期间 Drain 绝不能提前返回");
+                release.SetResult();
+                await work;
+                await drain!;
+                q.HasActiveWork.ShouldBeFalse("排空完成后 HasActiveWork 必须为 false");
+            }
+
+            // 同步完成路径 HasActiveWork 准确性断言
+            {
+                using var q = new SettingsDraftOperationQueue();
+                await q.EnqueueAsync(ct => Task.CompletedTask);
+                await q.DrainAndCancelAllAsync();
+                q.HasActiveWork.ShouldBeFalse("同步完成且排空后 HasActiveWork 必须为 false");
+            }
+
             // Case 1e: 关停后拒绝新准入
             await using (var f = new TestFixture(CreateSampleProfile("p1")))
             {
@@ -787,6 +814,38 @@ public sealed class SettingsDraftAndSaveRegressionTests
                     window.DataContext = null;
                     window.Close();
                 }
+            }
+
+            // Case 5f: 异步重试期间外部新增服务，内部合并正常同步，不产生伪 dirty 排序
+            await using (var f = new TestFixture(CreateSampleProfile("p1")))
+            {
+                var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                f.Edit.OnRetryApply = async r =>
+                {
+                    entered.SetResult();
+                    await release.Task;
+                    return new SettingsApplyResult(true);
+                };
+                f.Receipts.TryReserveSlot();
+                f.Receipts.ConvertReservationToPending(new TestReceipt(), null);
+                var retryTask = f.Vm.ExecuteRetryPendingApplyAsync();
+                await entered.Task;
+
+                f.Settings.Publish(f.Settings.Current with
+                {
+                    Translation = f.Settings.Current.Translation with
+                    {
+                        Providers = [CreateSampleProfile("p1"), CreateSampleProfile("p2", 1)]
+                    }
+                });
+                release.SetResult();
+                await retryTask;
+                await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+
+                f.Vm.Profiles.Count.ShouldBe(2, "重试期间外部新增项必须被受控安全接纳");
+                f.Vm.Profiles.Select(p => p.Id).ShouldBe(["p1", "p2"]);
+                f.Vm.IsOrderDirty.ShouldBeFalse("重试期间外部更新基线与列表保持一致，不得标记排序脏状态");
             }
         });
     }

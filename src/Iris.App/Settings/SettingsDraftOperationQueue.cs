@@ -22,6 +22,7 @@ internal sealed class SettingsDraftOperationQueue : IDisposable
     private WaitingItem? _waitingItem;
     private bool _isDisposed;
     private bool _isStopped;
+    private int _currentLoopId;
 
     public bool HasActiveWork
     {
@@ -42,6 +43,8 @@ internal sealed class SettingsDraftOperationQueue : IDisposable
         CancellationTokenSource? ctsToCancel = null;
         WaitingItem newWaiting;
         bool shouldStart = false;
+        TaskCompletionSource? loopTcs = null;
+        int loopId = 0;
 
         lock (_lock)
         {
@@ -73,6 +76,9 @@ internal sealed class SettingsDraftOperationQueue : IDisposable
             else
             {
                 _runningItem = newWaiting;
+                loopTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                _runningTask = loopTcs.Task;
+                loopId = ++_currentLoopId;
                 shouldStart = true;
             }
         }
@@ -92,13 +98,13 @@ internal sealed class SettingsDraftOperationQueue : IDisposable
 
         if (shouldStart)
         {
-            _runningTask = RunLoopAsync(newWaiting);
+            _ = RunLoopAsync(newWaiting, loopTcs!, loopId);
         }
 
         return newWaiting.Tcs.Task;
     }
 
-    private async Task RunLoopAsync(WaitingItem firstItem)
+    private async Task RunLoopAsync(WaitingItem firstItem, TaskCompletionSource loopTcs, int loopId)
     {
         try
         {
@@ -160,9 +166,13 @@ internal sealed class SettingsDraftOperationQueue : IDisposable
         {
             lock (_lock)
             {
-                _runningItem = null;
-                _runningTask = null;
+                if (_currentLoopId == loopId)
+                {
+                    _runningItem = null;
+                    _runningTask = null;
+                }
             }
+            loopTcs.TrySetResult();
         }
     }
 

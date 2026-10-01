@@ -18,7 +18,26 @@ using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Iris.App.Settings;
 
-internal sealed record PromptOptionItem(string? Id, string DisplayName);
+internal sealed class PromptOptionItem(string? id, string displayName) : INotifyPropertyChanged
+{
+    public string? Id { get; } = id;
+    private string _displayName = displayName;
+
+    public string DisplayName
+    {
+        get => _displayName;
+        set
+        {
+            if (_displayName != value)
+            {
+                _displayName = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DisplayName)));
+            }
+        }
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+}
 
 internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDisposable
 {
@@ -553,7 +572,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 {
                     if (AvailablePrompts[i].DisplayName != target.DisplayName)
                     {
-                        AvailablePrompts[i] = target;
+                        AvailablePrompts[i].DisplayName = target.DisplayName;
                     }
                 }
                 else
@@ -573,7 +592,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                         AvailablePrompts.Move(existingIdx, i);
                         if (AvailablePrompts[i].DisplayName != target.DisplayName)
                         {
-                            AvailablePrompts[i] = target;
+                            AvailablePrompts[i].DisplayName = target.DisplayName;
                         }
                     }
                     else
@@ -1650,71 +1669,78 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
             if (!IsOrderDirty)
             {
-                // 1. 本地未修改排序：列表与基线完整同步外部成员
-                _baselineProfileIds = externalProviders.Select(p => p.Id).ToArray();
-
-                // 移除已不存在且未编辑的服务
-                for (int i = Profiles.Count - 1; i >= 0; i--)
+                using (Profiles.AllowInternalMutation())
                 {
-                    var local = Profiles[i];
-                    if (!externalMap.ContainsKey(local.Id))
+                    // 1. 本地未修改排序：列表与基线完整同步外部成员
+                    _baselineProfileIds = externalProviders.Select(p => p.Id).ToArray();
+
+                    // 移除已不存在且未编辑的服务
+                    for (int i = Profiles.Count - 1; i >= 0; i--)
                     {
-                        if (!local.IsDirty && !local.IsNew)
+                        var local = Profiles[i];
+                        if (!externalMap.ContainsKey(local.Id))
                         {
-                            local.ClearReplacementApiKey();
-                            local.PropertyChanged -= OnProfileDraftPropertyChanged;
-                            Profiles.RemoveAt(i);
+                            if (!local.IsDirty && !local.IsNew)
+                            {
+                                local.ClearReplacementApiKey();
+                                local.PropertyChanged -= OnProfileDraftPropertyChanged;
+                                Profiles.RemoveAt(i);
+                            }
                         }
                     }
-                }
 
-                // 添加外部新增的服务（且未被本地删除标记）
-                foreach (var ext in externalProviders)
-                {
-                    if (!Profiles.Any(p => p.Id == ext.Id) && !_deletedProfiles.Any(d => d.Id == ext.Id))
+                    // 添加外部新增的服务（且未被本地删除标记）
+                    foreach (var ext in externalProviders)
                     {
-                        var newDraft = TranslationProfileDraftViewModel.FromExisting(ext);
-                        newDraft.OnEdited = OnProfileEdited;
-                        newDraft.PropertyChanged += OnProfileDraftPropertyChanged;
-                        Profiles.Add(newDraft);
-                    }
-                }
-
-                // 更新未编辑服务的基线
-                foreach (var p in Profiles)
-                {
-                    if (externalMap.TryGetValue(p.Id, out var updated))
-                    {
-                        if (!p.IsDirty)
+                        if (!Profiles.Any(p => p.Id == ext.Id) && !_deletedProfiles.Any(d => d.Id == ext.Id))
                         {
-                            p.SyncBaseline(updated);
+                            var newDraft = TranslationProfileDraftViewModel.FromExisting(ext);
+                            if (IsSaving)
+                            {
+                                newDraft.IsFrozen = true;
+                            }
+                            newDraft.OnEdited = OnProfileEdited;
+                            newDraft.PropertyChanged += OnProfileDraftPropertyChanged;
+                            Profiles.Add(newDraft);
                         }
                     }
-                }
 
-                // 按照 externalProviders 顺序重排 Profiles
-                var orderedProfiles = Profiles
-                    .OrderBy(p =>
+                    // 更新未编辑服务的基线
+                    foreach (var p in Profiles)
                     {
-                        var idx = externalProviders.FindIndex(ext => ext.Id == p.Id);
-                        return idx >= 0 ? idx : int.MaxValue;
-                    })
-                    .ToList();
-
-                for (int targetIdx = 0; targetIdx < orderedProfiles.Count; targetIdx++)
-                {
-                    var item = orderedProfiles[targetIdx];
-                    var currentIdx = Profiles.IndexOf(item);
-                    if (currentIdx != targetIdx)
-                    {
-                        Profiles.Move(currentIdx, targetIdx);
+                        if (externalMap.TryGetValue(p.Id, out var updated))
+                        {
+                            if (!p.IsDirty)
+                            {
+                                p.SyncBaseline(updated);
+                            }
+                        }
                     }
-                }
 
-                // 确保 SelectedProfile 有效
-                if (SelectedProfile == null || !Profiles.Contains(SelectedProfile))
-                {
-                    SelectedProfile = Profiles.FirstOrDefault();
+                    // 按照 externalProviders 顺序重排 Profiles
+                    var orderedProfiles = Profiles
+                        .OrderBy(p =>
+                        {
+                            var idx = externalProviders.FindIndex(ext => ext.Id == p.Id);
+                            return idx >= 0 ? idx : int.MaxValue;
+                        })
+                        .ToList();
+
+                    for (int targetIdx = 0; targetIdx < orderedProfiles.Count; targetIdx++)
+                    {
+                        var item = orderedProfiles[targetIdx];
+                        var currentIdx = Profiles.IndexOf(item);
+                        if (currentIdx != targetIdx)
+                        {
+                            Profiles.Move(currentIdx, targetIdx);
+                        }
+                    }
+
+                    // 确保 SelectedProfile 有效
+                    if (SelectedProfile == null || !Profiles.Contains(SelectedProfile))
+                    {
+                        SetSelectedProfileInternal(Profiles.FirstOrDefault());
+                    }
                 }
             }
             else

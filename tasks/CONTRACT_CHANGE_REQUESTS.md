@@ -643,7 +643,7 @@ Platform/DesktopModels.cs 中 IAutoStartService 的 summary 替换为，并分�
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-10-01 |
-| 状态 | **已落地，待复审（T-019B-R2）** |
+| 状态 | **已落地，待复审（T-019B-R3）** |
 | 依据 | PROVIDER_SETTINGS_UI.md §8；T-019B_PRESETS_PREPARATION.md；本日再次读取 DeepSeek 官方入门文档 |
 | 兼容性 | 仅改变新建预设的 BaseUrl/SuggestedModel；不改类型、签名、schemaVersion，不迁移已有 Profile |
 
@@ -664,3 +664,5 @@ new("deepseek", "DeepSeek", TranslationProviderKind.OpenAICompatible, "https://a
 独立复审（2026-10-02）：f8a59ba 的预设声明保持批准值，但设置页存在草稿/凭据丢失、队列永久停止、保存捕获和旧结果隔离等阻断项，签发 T-019B-R1。上述落地说明不等同验收，CCR-012 保持待复审；完整证据见 tasks/done/T-019B.md。
 
 R1 复审补记（2026-10-02）：旧反例通过，保存后绑定、Prompt、队列重入与异步 UI 收尾仍不合格，签发 R2；预设值不变，CCR-012 待完整设置页复审后结案。
+
+R2 复审补记（2026-10-02）：57c954f 的既有对照改善确认；同步启动屏障、模板删除选择与冻结期间外部合并仍未闭合，签发 R3。预设声明不再改动，CCR-012 保持待复审。
