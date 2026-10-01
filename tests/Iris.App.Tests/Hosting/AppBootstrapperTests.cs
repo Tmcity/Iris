@@ -288,4 +288,92 @@ public sealed class AppBootstrapperTests : IDisposable
         await host.Received(1).StopAsync(Arg.Any<CancellationToken>());
         exitCode.ShouldBe(0);
     }
+
+    [Fact]
+    public async Task StopAsync_ConcurrentCallsWhileHostStopPending_ShareOngoingTask_AndAwaitFullExit()
+    {
+        var settingsService = Substitute.For<ISettingsService>();
+        var translationRegistry = Substitute.For<ITranslationProviderRegistry>();
+        var databaseInitializer = Substitute.For<IDatabaseInitializer>();
+        var appLifetime = Substitute.For<IAppLifetime>();
+        var themeService = new ThemeService(settingsService);
+        var logLevelSwitch = new Serilog.Core.LoggingLevelSwitch(Serilog.Events.LogEventLevel.Information);
+        var logLevelController = new LogLevelController(settingsService, logLevelSwitch, NullLogger<LogLevelController>.Instance);
+        var actionDispatcher = Substitute.For<IActionDispatcher>();
+        var trayController = new TrayIconController(appLifetime, settingsService, actionDispatcher, NullLogger<TrayIconController>.Instance)
+        {
+            SuppressIconCreationForTesting = true
+        };
+        var trayNotificationService = new TrayNotificationService(NullLogger<TrayNotificationService>.Instance);
+
+        var host = Substitute.For<IHost>();
+        var hostEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var hostRelease = new ManualResetEventSlim();
+
+        host.StopAsync(Arg.Any<CancellationToken>()).Returns(async _ =>
+        {
+            await Task.Yield();
+            hostEntered.TrySetResult();
+            if (!hostRelease.Wait(TimeSpan.FromSeconds(5)))
+            {
+                throw new TimeoutException("Host release wait timed out");
+            }
+        });
+
+        var shutdownCoordinator = Substitute.For<Iris.App.Settings.ISettingsShutdownCoordinator>();
+        shutdownCoordinator.ShutdownAsync(Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+
+        var exitCalls = 0;
+        var originalShutdown = AppBootstrapper.AppShutdowner;
+        AppBootstrapper.AppShutdowner = _ => Interlocked.Increment(ref exitCalls);
+
+        var bootstrapper = new AppBootstrapper(
+            settingsService,
+            translationRegistry,
+            databaseInitializer,
+            logLevelController,
+            themeService,
+            trayController,
+            trayNotificationService,
+            host,
+            NullLogger<AppBootstrapper>.Instance,
+            new AppStartupInfo(Environment.TickCount64),
+            shutdownCoordinator);
+
+        Task? firstStop = null;
+        Task? secondStop = null;
+
+        try
+        {
+            // 第一次发起 StopAsync，进入 Host.StopAsync 并挂起
+            firstStop = bootstrapper.StopAsync();
+            await hostEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+            // 第二次发起 StopAsync：必须共享本轮正在进行的退出任务，不得提前完成
+            secondStop = bootstrapper.StopAsync();
+
+            firstStop.IsCompleted.ShouldBeFalse("Host.StopAsync 尚未完成时，第一次 StopAsync 必须 pending");
+            secondStop.IsCompleted.ShouldBeFalse("Host.StopAsync 尚未完成时，第二次 StopAsync 必须 pending，不得提前返回");
+            ReferenceEquals(firstStop, secondStop).ShouldBeTrue("并发 StopAsync 必须共享同一个任务实例");
+            exitCalls.ShouldBe(0, "Host 停止完成前不得执行应用退出委托");
+
+            // 放行 Host.StopAsync
+            hostRelease.Set();
+
+            await Task.WhenAll(firstStop, secondStop).WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+            // 验证 Host.StopAsync 与应用退出委托各执行一次
+            await host.Received(1).StopAsync(Arg.Any<CancellationToken>());
+            exitCalls.ShouldBe(1, "完整退出结束后应用退出委托必须恰好执行一次");
+        }
+        finally
+        {
+            hostRelease.Set();
+            AppBootstrapper.AppShutdowner = originalShutdown;
+            if (firstStop != null)
+            {
+                try { await firstStop.WaitAsync(TimeSpan.FromSeconds(2), TestContext.Current.CancellationToken); } catch { }
+            }
+        }
+    }
 }

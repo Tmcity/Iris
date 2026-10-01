@@ -182,26 +182,19 @@ internal sealed partial class AppBootstrapper
 
         lock (_stopGate)
         {
+            if (_stopTask != null && !_stopTask.IsCompleted)
+            {
+                return _stopTask;
+            }
+
             if (_stopped != 0)
             {
                 return Task.CompletedTask;
             }
 
-            if (_stopTask != null)
+            if (_stopTask != null && _stopTask.IsCompletedSuccessfully)
             {
-                if (!_stopTask.IsCompleted)
-                {
-                    return _stopTask;
-                }
-
-                if (_stopTask.IsFaulted || _stopTask.IsCanceled)
-                {
-                    _stopTask = null;
-                }
-                else
-                {
-                    return _stopTask;
-                }
+                return _stopTask;
             }
 
             _stopTask = StopCoreAsync();
@@ -224,11 +217,6 @@ internal sealed partial class AppBootstrapper
             }
         }
 
-        lock (_stopGate)
-        {
-            _stopped = 1;
-        }
-
         StopSynchronousParts();
 
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
@@ -239,6 +227,11 @@ internal sealed partial class AppBootstrapper
         catch (Exception ex)
         {
             LogHostStopFailed(_logger, ex);
+        }
+
+        lock (_stopGate)
+        {
+            _stopped = 1;
         }
 
         AppShutdowner(0);

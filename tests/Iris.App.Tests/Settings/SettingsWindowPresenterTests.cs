@@ -1116,5 +1116,366 @@ public sealed class SettingsWindowPresenterTests
             }
         });
     }
+
+    [Fact]
+    public async Task ShowAsync_WhenShowAndCleanupBothFail_RetainsSession_AndPropagatesShutdownError_ThenAllowsRetry()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var settingsService = Substitute.For<ISettingsService>();
+            settingsService.Current.Returns(new AppSettings());
+
+            var autoStartService = Substitute.For<IAutoStartService>();
+            var uiDispatcher = new WpfUiDispatcher();
+
+            var services = new ServiceCollection();
+            services.AddSingleton(settingsService);
+            services.AddSingleton(autoStartService);
+            services.AddSingleton<IUiDispatcher>(uiDispatcher);
+            services.AddSingleton<ThemeService>();
+
+            ScopedDisposableWitness? witness = null;
+            services.AddScoped<ScopedDisposableWitness>(sp =>
+            {
+                witness = new ScopedDisposableWitness();
+                return witness;
+            });
+            services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
+            {
+                _ = sp.GetRequiredService<ScopedDisposableWitness>();
+                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+            });
+            services.AddScoped<SettingsViewModel>();
+
+            var shouldFailShow = true;
+            var shouldCancelClose = true;
+            SettingsWindow? window = null;
+
+            services.AddTransient<SettingsWindow>(sp =>
+            {
+                var win = new SettingsWindow
+                {
+                    ShowActivated = false,
+                    ShowInTaskbar = false,
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Left = -10000,
+                    Top = -10000,
+                    Opacity = 0
+                };
+                win.SourceInitialized += (_, _) =>
+                {
+                    if (shouldFailShow)
+                    {
+                        throw new InvalidOperationException("Injected Show failure.");
+                    }
+                };
+                win.Closing += (_, e) =>
+                {
+                    if (shouldCancelClose)
+                    {
+                        e.Cancel = true;
+                    }
+                };
+                window = win;
+                return win;
+            });
+
+            using var rootProvider = services.BuildServiceProvider();
+            var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
+
+            try
+            {
+                // 1. 发起 ShowAsync：窗口展示抛错，且回滚被 Closing 取消
+                var showEx = await Should.ThrowAsync<InvalidOperationException>(() => presenter.ShowAsync("general"));
+                showEx.Message.ShouldContain("Injected Show failure.");
+
+                // 2. 断言 Presenter 保留会话所有权、HWND 与 scope 存活
+                presenter.ActiveSession.ShouldNotBeNull("Show 失败且回滚关闭取消时，Presenter 必须保留会话所有权");
+                var session = presenter.ActiveSession!;
+                session.IsOpen.ShouldBeTrue("会话必须处于存活状态");
+
+                window.ShouldNotBeNull();
+                var handle = new WindowInteropHelper(window!).Handle;
+                handle.ShouldNotBe(IntPtr.Zero, "原生 HWND 句柄必须存活");
+                witness.ShouldNotBeNull();
+                witness!.IsDisposed.ShouldBeFalse("Scope 不得被提前释放");
+
+                // 3. 此时调用 ShutdownAsync：因关闭仍被取消，必须向调用方传递失败，不能报告成功
+                var shutdownEx = await Should.ThrowAsync<InvalidOperationException>(() => presenter.ShutdownAsync());
+                shutdownEx.Message.ShouldContain("设置窗口关闭被取消或失败");
+                presenter.ActiveSession.ShouldBe(session, "关闭失败后 Presenter 必须继续保留同一会话");
+                witness.IsDisposed.ShouldBeFalse("关闭失败后 scope 必须保持存活");
+
+                // 4. 移除故障：允许关闭与展示
+                shouldFailShow = false;
+                shouldCancelClose = false;
+
+                // 5. 再次关闭：同一会话关闭且释放一次，所有权解除
+                await session.ShutdownAsync();
+                session.IsOpen.ShouldBeFalse();
+                witness.IsDisposed.ShouldBeTrue("会话成功关闭后 scope 必须被释放");
+                presenter.ActiveSession.ShouldBeNull("会话关闭后所有权必须被清除");
+
+                // 6. 所有权解除后，允许下一次创建新会话
+                await presenter.ShowAsync("general");
+                presenter.ActiveSession.ShouldNotBeNull("所有权解除后允许创建新会话");
+                presenter.ActiveSession.ShouldNotBe(session, "新会话必须是新的实例");
+                presenter.ActiveSession!.IsOpen.ShouldBeTrue();
+            }
+            finally
+            {
+                shouldCancelClose = false;
+                if (window != null)
+                {
+                    window.ForceClose = true;
+                    try { window.Close(); } catch { }
+                }
+                if (presenter.ActiveSession != null)
+                {
+                    await presenter.ShutdownAsync();
+                }
+            }
+        });
+    }
+
+    [Fact]
+    public async Task ShutdownAsync_WhenWindowFactoryInProgress_AwaitsOpenTaskAndDisposesScope()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var factoryEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            using var factoryRelease = new ManualResetEventSlim();
+            var factoryExited = 0;
+
+            var settingsService = Substitute.For<ISettingsService>();
+            settingsService.Current.Returns(new AppSettings());
+
+            var autoStartService = Substitute.For<IAutoStartService>();
+            var uiDispatcher = new WpfUiDispatcher();
+
+            var services = new ServiceCollection();
+            services.AddSingleton(settingsService);
+            services.AddSingleton(autoStartService);
+            services.AddSingleton<IUiDispatcher>(uiDispatcher);
+            services.AddSingleton<ThemeService>();
+
+            ScopedDisposableWitness? witness = null;
+            SettingsWindow? window = null;
+            services.AddScoped<ScopedDisposableWitness>(sp =>
+            {
+                witness = new ScopedDisposableWitness();
+                return witness;
+            });
+            services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
+            {
+                _ = sp.GetRequiredService<ScopedDisposableWitness>();
+                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+            });
+            services.AddScoped<SettingsViewModel>();
+            services.AddTransient<SettingsWindow>(sp =>
+            {
+                witness = sp.GetRequiredService<ScopedDisposableWitness>();
+                window = new SettingsWindow
+                {
+                    ShowActivated = false,
+                    ShowInTaskbar = false,
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Left = -10000,
+                    Top = -10000,
+                    Opacity = 0
+                };
+                factoryEntered.TrySetResult();
+                if (!factoryRelease.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Factory release timed out");
+                }
+                Interlocked.Exchange(ref factoryExited, 1);
+                return window;
+            });
+
+            using var rootProvider = services.BuildServiceProvider();
+            var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
+
+            Task? showTask = null;
+            Task? shutdownTask = null;
+
+            var shutdownCoordinatorTask = Task.Run(async () =>
+            {
+                try
+                {
+                    await factoryEntered.Task.WaitAsync(TimeSpan.FromSeconds(5));
+
+                    // 此时窗口工厂正在执行，ActiveSession 尚未发布
+                    presenter.ActiveSession.ShouldBeNull("窗口工厂进行中，ActiveSession 尚未发布");
+
+                    shutdownTask = presenter.ShutdownAsync();
+
+                    // 在放行工厂前，关停任务必须挂起等待，且 scope 存活
+                    shutdownTask.IsCompleted.ShouldBeFalse("在窗口工厂进行中，关停任务不得提前完成");
+                    Volatile.Read(ref factoryExited).ShouldBe(0, "窗口工厂仍在等待中");
+                    witness.ShouldNotBeNull();
+                    witness!.IsDisposed.ShouldBeFalse("窗口工厂进行中，Scope 必须存活");
+
+                    // 放行工厂
+                    factoryRelease.Set();
+
+                    await shutdownTask.WaitAsync(TimeSpan.FromSeconds(5));
+                }
+                finally
+                {
+                    factoryRelease.Set();
+                }
+            });
+
+            try
+            {
+                showTask = Task.Run(() => presenter.ShowAsync("general"));
+                try
+                {
+                    await showTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                }
+
+                await shutdownCoordinatorTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                // 关停完成后，scope 必须被清理释放，无活跃会话
+                witness.ShouldNotBeNull();
+                witness!.IsDisposed.ShouldBeTrue("关停完成后 scope 必须被清理释放");
+                presenter.ActiveSession.ShouldBeNull();
+            }
+            finally
+            {
+                factoryRelease.Set();
+                await shutdownCoordinatorTask;
+                if (showTask != null) { try { await showTask; } catch { } }
+                if (window != null)
+                {
+                    window.ForceClose = true;
+                    try { window.Close(); } catch { }
+                }
+                await presenter.ShutdownAsync();
+            }
+        });
+    }
+
+    [Fact]
+    public async Task ShutdownAsync_WhenShowQueuedInDispatcherBeforeWindowCreation_AwaitsOpenTaskAndDoesNotLeak()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var gateEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            using var gateRelease = new ManualResetEventSlim();
+            var factoryCalls = 0;
+
+            var settingsService = Substitute.For<ISettingsService>();
+            settingsService.Current.Returns(new AppSettings());
+
+            var autoStartService = Substitute.For<IAutoStartService>();
+            var uiDispatcher = new WpfUiDispatcher();
+
+            var services = new ServiceCollection();
+            services.AddSingleton(settingsService);
+            services.AddSingleton(autoStartService);
+            services.AddSingleton<IUiDispatcher>(uiDispatcher);
+            services.AddSingleton<ThemeService>();
+
+            ScopedDisposableWitness? witness = null;
+            services.AddScoped<ScopedDisposableWitness>(sp =>
+            {
+                witness = new ScopedDisposableWitness();
+                return witness;
+            });
+            services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
+            {
+                _ = sp.GetRequiredService<ScopedDisposableWitness>();
+                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+            });
+            services.AddScoped<SettingsViewModel>();
+            services.AddTransient<SettingsWindow>(sp =>
+            {
+                Interlocked.Increment(ref factoryCalls);
+                return new SettingsWindow
+                {
+                    ShowActivated = false,
+                    ShowInTaskbar = false,
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Left = -10000,
+                    Top = -10000,
+                    Opacity = 0
+                };
+            });
+
+            using var rootProvider = services.BuildServiceProvider();
+            var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
+
+            Task? showTask = null;
+            Task? shutdownTask = null;
+
+            var raceTask = Task.Run(async () =>
+            {
+                try
+                {
+                    await gateEntered.Task.WaitAsync(TimeSpan.FromSeconds(5));
+
+                    // 在后台调用 ShowAsync，派发创建任务入 Dispatcher 队列
+                    showTask = Task.Run(() => presenter.ShowAsync("general"));
+
+                    while (presenter.OpenTask == null)
+                    {
+                        await Task.Yield();
+                    }
+
+                    // 此时创建委托在 Dispatcher 队列中排队，尚未调用窗口工厂
+                    factoryCalls.ShouldBe(0, "ShowCoreAsync 仍在 Dispatcher 队列中排队，尚未调用窗口工厂");
+
+                    // 发起关停：由于 _openTask 排队进行中，关停任务处于挂起状态
+                    shutdownTask = presenter.ShutdownAsync();
+                    shutdownTask.IsCompleted.ShouldBeFalse("创建委托在排队中时，关停任务必须挂起等待");
+
+                    // 放行 UI Dispatcher
+                    gateRelease.Set();
+
+                    try
+                    {
+                        await showTask.WaitAsync(TimeSpan.FromSeconds(5));
+                    }
+                    catch (OperationCanceledException)
+                    {
+                    }
+
+                    await shutdownTask.WaitAsync(TimeSpan.FromSeconds(5));
+
+                    // 验证结果：窗口工厂自始至终未被调用，会话为空
+                    factoryCalls.ShouldBe(0, "关停取消了排队中的创建，未调用窗口工厂");
+                    presenter.ActiveSession.ShouldBeNull();
+                }
+                finally
+                {
+                    gateRelease.Set();
+                }
+            });
+
+            try
+            {
+                gateEntered.TrySetResult();
+                if (!gateRelease.Wait(TimeSpan.FromSeconds(5)))
+                {
+                    throw new TimeoutException("Gate release timed out");
+                }
+
+                await raceTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+            }
+            finally
+            {
+                gateRelease.Set();
+                await raceTask;
+                if (showTask != null) { try { await showTask; } catch { } }
+                if (shutdownTask != null) { try { await shutdownTask; } catch { } }
+                await presenter.ShutdownAsync();
+            }
+        });
+    }
 }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Interop;
 using Iris.App.Hosting;
 using Iris.App.Services;
 using Iris.Core.Presentation;
@@ -47,6 +48,17 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
             lock (_gate)
             {
                 return _activeSession;
+            }
+        }
+    }
+
+    internal Task? OpenTask
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _openTask;
             }
         }
     }
@@ -115,7 +127,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
         {
             if (_isShuttingDown)
             {
-                return;
+                throw new OperationCanceledException("Presenter is shutting down.");
             }
             oldSession = _activeSession;
         }
@@ -138,7 +150,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
         {
             if (_isShuttingDown)
             {
-                return;
+                throw new OperationCanceledException("Presenter is shutting down.");
             }
             if (_activeSession != null && _activeSession.IsOpen)
             {
@@ -162,7 +174,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
             {
                 if (_isShuttingDown)
                 {
-                    return;
+                    throw new OperationCanceledException("Presenter is shutting down.");
                 }
                 if (_activeSession != null && _activeSession.IsOpen)
                 {
@@ -230,12 +242,24 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
                     {
                         try { await viewModel.WaitForActiveWorkAsync().ConfigureAwait(false); } catch { }
                     }
-                    scope?.Dispose();
+                    var handle = window != null ? new WindowInteropHelper(window).Handle : IntPtr.Zero;
+                    if (handle == IntPtr.Zero)
+                    {
+                        scope?.Dispose();
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("设置窗口关闭被取消或失败，资源保持存活");
+                    }
                 }
 
                 lock (_gate)
                 {
-                    if (ReferenceEquals(_activeSession, session))
+                    if (session != null && session.IsOpen)
+                    {
+                        _activeSession = session;
+                    }
+                    else if (ReferenceEquals(_activeSession, session))
                     {
                         _activeSession = null;
                     }
@@ -266,7 +290,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
                 return _shutdownTask;
             }
 
-            if (_activeSession == null)
+            if (_activeSession == null && (_openTask == null || _openTask.IsCompleted))
             {
                 _isShuttingDown = true;
                 _shutdownTask = Task.CompletedTask;
@@ -314,6 +338,10 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
             }
             catch (Exception ex)
             {
+                lock (_gate)
+                {
+                    _isShuttingDown = false;
+                }
                 LogSettingsShutdownError(_logger, ex.GetType().Name);
                 throw;
             }
