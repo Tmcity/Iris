@@ -933,12 +933,56 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         RaiseProfileCommandsCanExecute();
     }
 
+    private void FreezeAllDrafts()
+    {
+        foreach (var p in Profiles)
+        {
+            p.IsFrozen = true;
+        }
+        if (SelectedProfile != null)
+        {
+            SelectedProfile.IsFrozen = true;
+        }
+    }
+
+    private void UnfreezeAllDraftsIfAlive()
+    {
+        bool isAlive = !_disposed && !_isStopped;
+        foreach (var p in Profiles)
+        {
+            p.IsFrozen = !isAlive;
+        }
+        if (SelectedProfile != null)
+        {
+            SelectedProfile.IsFrozen = !isAlive;
+        }
+    }
+
+    private Task CompleteSaveOrRetryOperationAsync()
+    {
+        bool isAlive;
+        lock (_admissionLock)
+        {
+            IsSaving = false;
+            isAlive = !_disposed && !_isStopped;
+            UnfreezeAllDraftsIfAlive();
+        }
+
+        if (isAlive)
+        {
+            OnPropertyChanged(nameof(CanEdit));
+            RaiseAllCommandsCanExecute();
+        }
+        return Task.CompletedTask;
+    }
+
     internal void StopAcceptance()
     {
         lock (_admissionLock)
         {
             _isStopped = true;
             ++_queryGeneration;
+            FreezeAllDrafts();
         }
     }
 
@@ -1147,10 +1191,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             workTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
             _activeWork.Add(workTcs.Task);
             IsSaving = true;
-            foreach (var p in Profiles)
-            {
-                p.IsFrozen = true;
-            }
+            FreezeAllDrafts();
         }
 
         StatusMessage = UiText.SettingsStatusSaving;
@@ -1281,30 +1322,14 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         {
             try
             {
-                await _uiDispatcher.InvokeAsync(() =>
-                {
-                    IsSaving = false;
-                    foreach (var p in Profiles)
-                    {
-                        p.IsFrozen = false;
-                    }
-                    if (SelectedProfile != null)
-                    {
-                        SelectedProfile.IsFrozen = false;
-                    }
-                    return Task.CompletedTask;
-                }, CancellationToken.None).ConfigureAwait(false);
+                await _uiDispatcher.InvokeAsync(CompleteSaveOrRetryOperationAsync, CancellationToken.None).ConfigureAwait(false);
             }
             catch
             {
-                IsSaving = false;
-                foreach (var p in Profiles)
+                lock (_admissionLock)
                 {
-                    p.IsFrozen = false;
-                }
-                if (SelectedProfile != null)
-                {
-                    SelectedProfile.IsFrozen = false;
+                    IsSaving = false;
+                    UnfreezeAllDraftsIfAlive();
                 }
             }
             finally
@@ -1403,6 +1428,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             workTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
             _activeWork.Add(workTcs.Task);
             IsSaving = true;
+            FreezeAllDrafts();
         }
 
         StatusMessage = UiText.SettingsStatusRetryingAutoStart;
@@ -1467,15 +1493,15 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         {
             try
             {
-                await _uiDispatcher.InvokeAsync(() =>
-                {
-                    IsSaving = false;
-                    return Task.CompletedTask;
-                }, CancellationToken.None).ConfigureAwait(false);
+                await _uiDispatcher.InvokeAsync(CompleteSaveOrRetryOperationAsync, CancellationToken.None).ConfigureAwait(false);
             }
             catch
             {
-                IsSaving = false;
+                lock (_admissionLock)
+                {
+                    IsSaving = false;
+                    UnfreezeAllDraftsIfAlive();
+                }
             }
             finally
             {
@@ -1505,6 +1531,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             workTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
             _activeWork.Add(workTcs.Task);
             IsSaving = true;
+            FreezeAllDrafts();
         }
 
         StatusMessage = UiText.SettingsStatusRetryingPendingApply;
@@ -1573,15 +1600,15 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         {
             try
             {
-                await _uiDispatcher.InvokeAsync(() =>
-                {
-                    IsSaving = false;
-                    return Task.CompletedTask;
-                }, CancellationToken.None).ConfigureAwait(false);
+                await _uiDispatcher.InvokeAsync(CompleteSaveOrRetryOperationAsync, CancellationToken.None).ConfigureAwait(false);
             }
             catch
             {
-                IsSaving = false;
+                lock (_admissionLock)
+                {
+                    IsSaving = false;
+                    UnfreezeAllDraftsIfAlive();
+                }
             }
             finally
             {
@@ -1695,7 +1722,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                         if (!Profiles.Any(p => p.Id == ext.Id) && !_deletedProfiles.Any(d => d.Id == ext.Id))
                         {
                             var newDraft = TranslationProfileDraftViewModel.FromExisting(ext);
-                            if (IsSaving)
+                            if (IsSaving || _disposed || _isStopped)
                             {
                                 newDraft.IsFrozen = true;
                             }
@@ -1796,6 +1823,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             _disposed = true;
             _isStopped = true;
             ++_queryGeneration;
+            FreezeAllDrafts();
         }
 
         _settingsService.Changed -= OnExternalSettingsChanged;

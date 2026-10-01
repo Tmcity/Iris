@@ -131,6 +131,8 @@ public sealed class SettingsDraftAndSaveRegressionTests
         private readonly int _uiThreadId = Environment.CurrentManagedThreadId;
         public bool QueriedOnUi { get; private set; }
         public bool Enabled { get; set; }
+        public bool ThrowOnSet { get; set; }
+        public Func<bool, Task>? OnSetEnabled { get; set; }
 
         public bool IsEnabled()
         {
@@ -143,7 +145,48 @@ public sealed class SettingsDraftAndSaveRegressionTests
 
         public void SetEnabled(bool value)
         {
+            if (OnSetEnabled != null)
+            {
+                OnSetEnabled(value).GetAwaiter().GetResult();
+            }
+            if (ThrowOnSet)
+            {
+                throw new InvalidOperationException("Simulated auto start error");
+            }
             Enabled = value;
+        }
+    }
+
+    private sealed class ControlledEditObserver : IProviderConfigurationObserver
+    {
+        public bool FailRefresh { get; set; }
+        public Task RefreshAsync(CancellationToken cancellationToken = default)
+        {
+            if (FailRefresh)
+            {
+                throw new InvalidOperationException("Simulated observer refresh failure");
+            }
+            return Task.CompletedTask;
+        }
+    }
+
+    private sealed class CountingSettingsService : ISettingsService
+    {
+        private readonly ISettingsService _inner;
+        public int UpdateCount { get; private set; }
+
+        public CountingSettingsService(ISettingsService inner) => _inner = inner;
+        public AppSettings Current => _inner.Current;
+        public event EventHandler<SettingsChangedEventArgs>? Changed
+        {
+            add => _inner.Changed += value;
+            remove => _inner.Changed -= value;
+        }
+        public Task LoadAsync(CancellationToken cancellationToken = default) => _inner.LoadAsync(cancellationToken);
+        public async Task UpdateAsync(Func<AppSettings, AppSettings> mutate, CancellationToken cancellationToken = default)
+        {
+            UpdateCount++;
+            await _inner.UpdateAsync(mutate, cancellationToken).ConfigureAwait(false);
         }
     }
 
@@ -794,20 +837,55 @@ public sealed class SettingsDraftAndSaveRegressionTests
                     f.Vm.SelectedProfile.PromptTemplateId.ShouldBe(BuiltInPrompts.DefaultTemplateId,
                         "无关外部更新不得经由 ComboBox 双向绑定将显式 Prompt 冲刷为 null");
 
-                    // 模拟引用了一个已被外部移除的自定义模板
-                    f.Vm.SelectedProfile.PromptTemplateId = "deleted-custom-template-id";
+                    // 真实添加自定义模板，用户显式选中
+                    var custom = new PromptTemplate
+                    {
+                        Id = "custom-test-5e",
+                        Name = "Custom Test 5e",
+                        System = "Translate system",
+                        User = "{{text}}"
+                    };
                     f.Settings.Publish(f.Settings.Current with
                     {
-                        General = f.Settings.Current.General with
+                        Translation = f.Settings.Current.Translation with
                         {
-                            ShowStartupNotification = !f.Settings.Current.General.ShowStartupNotification
+                            CustomPrompts = [custom]
                         }
                     });
                     await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
 
-                    f.Vm.SelectedProfile.PromptTemplateId.ShouldBe("deleted-custom-template-id",
-                        "引用的模板已被删除时必须保留原选择并提示，不得静默置空");
-                    f.Vm.AvailablePrompts.Any(p => p.Id == "deleted-custom-template-id").ShouldBeTrue("失效模板必须包含在下拉占位项中");
+                    f.Vm.SelectedProfile.PromptTemplateId = custom.Id;
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+                    f.Vm.SelectedProfile.PromptTemplateId.ShouldBe(custom.Id);
+
+                    // 外部删除该自定义模板，验证 ComboBox 选中的模板 ID 仍保留且原地更新为 [已移除]
+                    f.Settings.Publish(f.Settings.Current with
+                    {
+                        Translation = f.Settings.Current.Translation with
+                        {
+                            CustomPrompts = []
+                        }
+                    });
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+
+                    f.Vm.SelectedProfile.PromptTemplateId.ShouldBe(custom.Id, "引用的模板已被删除时必须保留原选择并提示，不得静默置空");
+                    var opt = f.Vm.AvailablePrompts.FirstOrDefault(p => p.Id == custom.Id);
+                    opt.ShouldNotBeNull();
+                    opt.DisplayName.ShouldContain("[已移除]");
+
+                    // 外部重新添加并重命名该自定义模板，验证原地更新 DisplayName 且保持选择身份
+                    var renamed = custom with { Name = "Renamed Custom 5e" };
+                    f.Settings.Publish(f.Settings.Current with
+                    {
+                        Translation = f.Settings.Current.Translation with
+                        {
+                            CustomPrompts = [renamed]
+                        }
+                    });
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+
+                    f.Vm.SelectedProfile.PromptTemplateId.ShouldBe(custom.Id);
+                    opt.DisplayName.ShouldBe("Renamed Custom 5e", "模板重命名时必须原地更新 DisplayName 且保持选择身份");
                 }
                 finally
                 {
@@ -816,7 +894,8 @@ public sealed class SettingsDraftAndSaveRegressionTests
                 }
             }
 
-            // Case 5f: 异步重试期间外部新增服务，内部合并正常同步，不产生伪 dirty 排序
+            // Case 5f: 挂起服务重试、自启重试、保存的异步工作，期间外部新增/替换服务，完成/失败后选择新项实际编辑并再次保存；关闭交错不允许新变更
+            // 1. 服务重试挂起期间外部新增服务，完成后新项可编辑并保存
             await using (var f = new TestFixture(CreateSampleProfile("p1")))
             {
                 var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -839,13 +918,106 @@ public sealed class SettingsDraftAndSaveRegressionTests
                         Providers = [CreateSampleProfile("p1"), CreateSampleProfile("p2", 1)]
                     }
                 });
+                await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+
+                var pendingP2 = f.Vm.Profiles.Single(p => p.Id == "p2");
+                pendingP2.IsFrozen.ShouldBeTrue("重试进行中外部新增项必须处于冻结状态");
+
                 release.SetResult();
                 await retryTask;
                 await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
 
-                f.Vm.Profiles.Count.ShouldBe(2, "重试期间外部新增项必须被受控安全接纳");
-                f.Vm.Profiles.Select(p => p.Id).ShouldBe(["p1", "p2"]);
-                f.Vm.IsOrderDirty.ShouldBeFalse("重试期间外部更新基线与列表保持一致，不得标记排序脏状态");
+                f.Vm.CanEdit.ShouldBeTrue();
+                pendingP2.IsFrozen.ShouldBeFalse("重试完成后外部新增项必须解冻");
+                f.Vm.IsOrderDirty.ShouldBeFalse();
+
+                // 实际编辑新项并再次保存
+                f.Vm.SelectedProfile = pendingP2;
+                pendingP2.DisplayName = "p2-edited-after-retry";
+                pendingP2.DisplayName.ShouldBe("p2-edited-after-retry");
+                await f.Vm.ExecuteSaveAsync();
+                f.Edit.LastPlan.ShouldNotBeNull();
+                f.Edit.LastPlan!.TranslationChanges.Any(c => c.TargetProfile?.DisplayName == "p2-edited-after-retry").ShouldBeTrue();
+            }
+
+            // 2. 自启重试挂起期间外部新增服务，完成后新项解冻且可编辑
+            await using (var f = new TestFixture(CreateSampleProfile("p1")))
+            {
+                var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                f.Auto.OnSetEnabled = async val =>
+                {
+                    entered.SetResult();
+                    await release.Task;
+                };
+                var autoRetryTask = f.Vm.ExecuteRetryAutoStartAsync();
+                await entered.Task;
+
+                f.Settings.Publish(f.Settings.Current with
+                {
+                    Translation = f.Settings.Current.Translation with
+                    {
+                        Providers = [CreateSampleProfile("p1"), CreateSampleProfile("p3", 1)]
+                    }
+                });
+                await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+
+                var pendingP3 = f.Vm.Profiles.Single(p => p.Id == "p3");
+                pendingP3.IsFrozen.ShouldBeTrue("自启重试挂起期间外部新增项必须冻结");
+
+                release.SetResult();
+                await autoRetryTask;
+                await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+
+                f.Vm.CanEdit.ShouldBeTrue();
+                pendingP3.IsFrozen.ShouldBeFalse("自启重试完成后新增项必须解冻");
+                pendingP3.DisplayName = "p3-edited-after-autostart";
+                pendingP3.DisplayName.ShouldBe("p3-edited-after-autostart");
+            }
+
+            // 3. 保存挂起期间外部替换服务，完成后解冻且可编辑；会话停止关闭交错后保持冻结拒绝变更
+            await using (var f = new TestFixture(CreateSampleProfile("p1")))
+            {
+                var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                f.Edit.OnCommit = async plan =>
+                {
+                    entered.SetResult();
+                    await release.Task;
+                    return new SettingsEditResult(SettingsEditStatus.Applied);
+                };
+                f.Vm.SelectedProfile!.DisplayName = "p1-dirty";
+                var saveTask = f.Vm.ExecuteSaveAsync();
+                await entered.Task;
+
+                f.Settings.Publish(f.Settings.Current with
+                {
+                    Translation = f.Settings.Current.Translation with
+                    {
+                        Providers = [CreateSampleProfile("p1") with { Model = "external-replaced-model" }, CreateSampleProfile("p4", 1)]
+                    }
+                });
+                await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+
+                var p4 = f.Vm.Profiles.Single(p => p.Id == "p4");
+                p4.IsFrozen.ShouldBeTrue("保存进行中外部新增项必须冻结");
+
+                release.SetResult();
+                await saveTask;
+                await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+
+                f.Vm.CanEdit.ShouldBeTrue();
+                var currentP4 = f.Vm.Profiles.Single(p => p.Id == "p4");
+                currentP4.IsFrozen.ShouldBeFalse("保存完成后新增项解冻");
+                currentP4.DisplayName = "p4-edited";
+                currentP4.DisplayName.ShouldBe("p4-edited");
+
+                // 关闭会话（StopAcceptance）：草稿必须保持冻结，拒绝后续修改
+                f.Vm.StopAcceptance();
+                f.Vm.CanEdit.ShouldBeFalse();
+                currentP4.IsFrozen.ShouldBeTrue("会话停止后必须保持全部草稿冻结");
+                currentP4.DisplayName = "p4-attempt-modify-after-stop";
+                currentP4.DisplayName.ShouldBe("p4-edited", "已停止会话严禁接受属性修改");
             }
         });
     }
@@ -881,127 +1053,307 @@ public sealed class SettingsDraftAndSaveRegressionTests
         });
     }
 
-    // 7. 真实 SettingsWindow + WpfUiDispatcher + Presenter 关闭重开与实际单例回执：删除最后 Profile、32 名额含预留的竞争、取消释放、满额 General-only、双重试互不干扰
+    // 7. 真实 SettingsWindow + WpfUiDispatcher + Presenter 关闭重开与实际单例回执：删除最后 Profile 真实提交、32 名额在途竞争与取消释放、双重试真实失败独立性、回执与停止 UI 交错
     [Fact]
     public async Task Scenario7_RealWindowPresenter_HandlesClosingReopening_AndReceipt32QuotaExhaustion()
     {
         await WpfTestRunner.RunAsync(async () =>
         {
-            var initialSettings = new AppSettings
-            {
-                Translation = new TranslationSettings { Providers = [CreateSampleProfile("p1")] }
-            };
-            var settingsService = new MutableSettingsService(initialSettings);
-            var autoStartService = new TestAutoStartService();
-            var editCoordinator = new TestEditCoordinator();
-            var receiptManager = new SettingsApplyReceiptManager();
-            var dispatcher = Dispatcher.CurrentDispatcher;
-            var uiDispatcher = new WpfUiDispatcher(() => dispatcher);
-
-            var services = new ServiceCollection();
-            services.AddSingleton<ISettingsService>(settingsService);
-            services.AddSingleton<IAutoStartService>(autoStartService);
-            services.AddSingleton<ISettingsEditCoordinator>(editCoordinator);
-            services.AddSingleton<ISettingsApplyReceiptManager>(receiptManager);
-            services.AddSingleton<IUiDispatcher>(uiDispatcher);
-            services.AddSingleton<ThemeService>();
-
-            services.AddScoped<GeneralSettingsSaveCoordinator>(sp => new GeneralSettingsSaveCoordinator(
-                settingsService,
-                editCoordinator,
-                autoStartService,
-                receiptManager,
-                NullLogger<GeneralSettingsSaveCoordinator>.Instance));
-
-            services.AddScoped<SettingsViewModel>(sp => new SettingsViewModel(
-                settingsService,
-                sp.GetRequiredService<ThemeService>(),
-                sp.GetRequiredService<GeneralSettingsSaveCoordinator>(),
-                editCoordinator,
-                receiptManager,
-                uiDispatcher,
-                NullLogger<SettingsViewModel>.Instance));
-
-            services.AddTransient<SettingsWindow>();
-
-            using var rootProvider = services.BuildServiceProvider();
-            var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
-
+            // Case 7a: 删除最后一个已保存服务 → 真实提交写入磁盘/Current → 观察者刷新受控失败返回 ApplyPending → 应用单例保留回执 → 关闭重开后空列表仍有重试入口 → 重试成功且不再触发 UpdateAsync
+            var tempDir = Path.Combine(Path.GetTempPath(), "iris-test-reg7-del-" + Guid.NewGuid().ToString("N"));
+            Directory.CreateDirectory(tempDir);
             try
             {
-                // 打开窗口 1
-                await presenter.ShowAsync("translation");
-                presenter.ActiveSession.ShouldNotBeNull();
-                var session1 = presenter.ActiveSession!;
-                var vm1 = session1.ViewModel;
+                var paths = new TestAppPaths(tempDir);
+                var secretStore = Substitute.For<ISecretStore>();
+                var autoStartService = new TestAutoStartService();
+                var receiptManager = new SettingsApplyReceiptManager();
+                var dispatcher = Dispatcher.CurrentDispatcher;
+                var uiDispatcher = new WpfUiDispatcher(() => dispatcher);
+                var registry = Substitute.For<ITranslationProviderRegistry>();
+                var controlledObserver = new ControlledEditObserver();
 
-                // 填满 31 个回执槽位，预留 1 个名额供在途测试
-                for (int i = 0; i < 31; i++)
+                var services = new ServiceCollection();
+                services.AddLogging();
+                services.AddSingleton<IAppPaths>(paths);
+                services.AddSingleton<ISecretStore>(secretStore);
+                services.AddSingleton<IAutoStartService>(autoStartService);
+                services.AddSingleton<ISettingsApplyReceiptManager>(receiptManager);
+                services.AddSingleton<IUiDispatcher>(uiDispatcher);
+                services.AddSingleton<ThemeService>();
+                services.AddSingleton(registry);
+                services.AddSingleton<IProviderConfigurationObserver>(controlledObserver);
+
+                services.AddIrisInfrastructure();
+                services.AddIrisCore();
+
+                var bootstrapSp = services.BuildServiceProvider();
+                var realSettingsService = bootstrapSp.GetRequiredService<ISettingsService>();
+                await realSettingsService.LoadAsync();
+
+                // 初始保存一个 Provider p1
+                var initialProfile = CreateSampleProfile("p1");
+                await realSettingsService.UpdateAsync(s => s with
                 {
-                    receiptManager.TryReserveSlot().ShouldBeTrue();
-                    receiptManager.ConvertReservationToPending(new TestReceipt(), null);
+                    Translation = s.Translation with { Providers = [initialProfile] }
+                });
+
+                var countingSettingsService = new CountingSettingsService(realSettingsService);
+                services.Remove(services.First(d => d.ServiceType == typeof(ISettingsService)));
+                services.AddSingleton<ISettingsService>(countingSettingsService);
+
+                services.AddScoped<GeneralSettingsSaveCoordinator>();
+                services.AddScoped<SettingsViewModel>();
+                services.AddTransient<SettingsWindow>();
+
+                using var rootProvider = services.BuildServiceProvider();
+                var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
+
+                try
+                {
+                    // 1. 打开窗口 1，显示一个 Profile
+                    await presenter.ShowAsync("translation");
+                    presenter.ActiveSession.ShouldNotBeNull();
+                    var session1 = presenter.ActiveSession!;
+                    var vm1 = session1.ViewModel;
+                    vm1.Profiles.Count.ShouldBe(1);
+
+                    // 删除最后一个服务
+                    vm1.SelectedProfile = vm1.Profiles[0];
+                    vm1.ExecuteDeleteProfile();
+                    vm1.Profiles.Count.ShouldBe(0);
+
+                    // 注入观察者刷新受控失败
+                    controlledObserver.FailRefresh = true;
+
+                    // 实际提交保存！
+                    await vm1.ExecuteSaveAsync();
+
+                    // 断言：Current 与磁盘 settings.json 已真正删除该服务，但由于刷新未完成返回 ApplyPending，单例保留回执
+                    countingSettingsService.Current.Translation.Providers.Count.ShouldBe(0, "实际提交后 Current 中的服务已被删除");
+                    var diskJson = await File.ReadAllTextAsync(paths.SettingsFile);
+                    diskJson.Contains("\"Id\": \"p1\"").ShouldBeFalse("实际提交后磁盘文件已持久化删除");
+                    vm1.StatusMessage.ShouldBe("配置已提交保存，但部分服务提供商刷新未完全完成，旧凭据已保留");
+                    vm1.CanRetryPendingApply.ShouldBeTrue("观察者失败导致返回待办状态");
+                    receiptManager.PendingCount.ShouldBe(1, "单例回执管理器成功记录该回执");
+
+                    // 关闭窗口 1 会话
+                    session1.Window.ForceClose = true;
+                    session1.Window.Close();
+                    await session1.ShutdownAsync();
+
+                    // 重新打开窗口 2：空列表仍有重试入口
+                    await presenter.ShowAsync("translation");
+                    presenter.ActiveSession.ShouldNotBeNull();
+                    var session2 = presenter.ActiveSession!;
+                    var vm2 = session2.ViewModel;
+                    vm2.Profiles.Count.ShouldBe(0, "跨窗口会话重新打开后空列表依然保持");
+                    vm2.CanRetryPendingApply.ShouldBeTrue("跨窗口会话重新打开后空列表依然具备待办重试入口");
+
+                    // 恢复观察者刷新成功，执行重试
+                    controlledObserver.FailRefresh = false;
+                    int updateCountBeforeRetry = countingSettingsService.UpdateCount;
+
+                    await vm2.ExecuteRetryPendingApplyAsync();
+
+                    // 断言：重试成功，待办回执清空，且重试仅做刷新/清理，绝不再触发 UpdateAsync
+                    receiptManager.PendingCount.ShouldBe(0, "重试完成后待办回执清空");
+                    vm2.CanRetryPendingApply.ShouldBeFalse();
+                    countingSettingsService.UpdateCount.ShouldBe(updateCountBeforeRetry, "重试阶段严禁再次调用 UpdateAsync");
+
+                    session2.Window.ForceClose = true;
+                    session2.Window.Close();
+                    await session2.ShutdownAsync();
                 }
-                receiptManager.PendingCount.ShouldBe(31);
-
-                // 在途竞争与取消释放：第 32 个槽位在途预留，保存失败后应释放该预留
-                editCoordinator.CommitResult = new SettingsEditResult(SettingsEditStatus.Uncommitted);
-                vm1.SelectedProfile!.DisplayName = "try-failing-save-with-reservation";
-                await vm1.ExecuteSaveAsync();
-                receiptManager.PendingCount.ShouldBe(31, "保存未提交失败后必须释放已预留的名额");
-
-                // 现在将第 32 个槽位变为正式待处理回执
-                receiptManager.TryReserveSlot().ShouldBeTrue();
-                receiptManager.ConvertReservationToPending(new TestReceipt(), null);
-                receiptManager.PendingCount.ShouldBe(32);
-
-                // 第 33 次包含 Provider 的保存：因满额被拒绝
-                vm1.SelectedProfile.DisplayName = "provider-save-33";
-                await vm1.ExecuteSaveAsync();
-                vm1.StatusMessage.ShouldBe(UiText.SettingsStatusPendingApplyQuotaFull);
-
-                // General-only 保存：无预留名额，允许正常提交
-                vm1.SelectedProfile.DisplayName = "p1"; // 撤销 provider dirty
-                vm1.ShowStartupNotification = !vm1.ShowStartupNotification; // 仅改 general
-                editCoordinator.CommitResult = new SettingsEditResult(SettingsEditStatus.Applied);
-                await vm1.ExecuteSaveAsync();
-                vm1.StatusMessage.ShouldBe(UiText.SettingsStatusSaved);
-
-                // 关闭窗口 1 会话
-                session1.Window.ForceClose = true;
-                session1.Window.Close();
-                await session1.ShutdownAsync();
-
-                // 重新打开窗口 2：回执依然存在，可重试
-                await presenter.ShowAsync("translation");
-                presenter.ActiveSession.ShouldNotBeNull();
-                var vm2 = presenter.ActiveSession!.ViewModel;
-                vm2.CanRetryPendingApply.ShouldBeTrue("跨窗口会话后待办回执依然保留且允许重试");
-
-                // 删除最后 Profile 并保存提交产生清理回执
-                vm2.SelectedProfile = vm2.Profiles[0];
-                vm2.ExecuteDeleteProfile();
-                vm2.Profiles.Count.ShouldBe(0);
-
-                // 双重试独立性：让 pending apply 失败，auto-start 也失败，两者互不干扰
-                editCoordinator.OnRetryApply = r => Task.FromResult(new SettingsApplyResult(false, new Iris.Core.Errors.ErrorInfo(Iris.Core.Errors.ErrorCode.StorageFailure, "retry-failed")));
-                await vm2.ExecuteRetryPendingApplyAsync();
-                vm2.CanRetryPendingApply.ShouldBeTrue("重试失败后必须保持 CanRetryPendingApply = true");
-
-                // 双重试中的开机自启重试
-                autoStartService.Enabled = false;
-                await vm2.ExecuteRetryAutoStartAsync();
-                // 验证自启重试失败不会抹除 pending apply 状态
-                vm2.CanRetryPendingApply.ShouldBeTrue("自启重试状态变更不得干扰待办应用重试入口");
-
-                // 最终重试成功，清理全部回执
-                editCoordinator.OnRetryApply = r => Task.FromResult(new SettingsApplyResult(true));
-                await vm2.ExecuteRetryPendingApplyAsync();
-                receiptManager.PendingCount.ShouldBe(0, "重试完成后待办回执清空");
-                vm2.CanRetryPendingApply.ShouldBeFalse();
+                finally
+                {
+                    await presenter.ShutdownAsync();
+                }
             }
             finally
             {
-                await presenter.ShutdownAsync();
+                try { Directory.Delete(tempDir, recursive: true); } catch { }
+            }
+
+            // Case 7b: 真正的容量在途竞争与取消释放；满额 General-only 对照保持
+            {
+                var receiptManager = new SettingsApplyReceiptManager();
+                var initialSettings = new AppSettings
+                {
+                    Translation = new TranslationSettings { Providers = [CreateSampleProfile("p1")] }
+                };
+                var settingsService = new MutableSettingsService(initialSettings);
+                var autoStartService = new TestAutoStartService();
+                var editCoordinator = new TestEditCoordinator();
+
+                var saveCoordinator = new GeneralSettingsSaveCoordinator(
+                    settingsService,
+                    editCoordinator,
+                    autoStartService,
+                    receiptManager,
+                    NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+
+                // 填入 31 个待办回执，预留 1 个名额
+                var testReceipts = new List<TestReceipt>();
+                for (int i = 0; i < 31; i++)
+                {
+                    var r = new TestReceipt();
+                    testReceipts.Add(r);
+                    receiptManager.TryReserveSlot().ShouldBeTrue();
+                    receiptManager.ConvertReservationToPending(r, null);
+                }
+                receiptManager.PendingCount.ShouldBe(31);
+
+                // 准备挂起保存 A 的 Core CommitAsync
+                var gateAEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                var gateARelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                int coreCommitCalls = 0;
+                editCoordinator.OnCommit = async plan =>
+                {
+                    Interlocked.Increment(ref coreCommitCalls);
+                    gateAEntered.SetResult();
+                    await gateARelease.Task;
+                    return new SettingsEditResult(SettingsEditStatus.Applied);
+                };
+
+                var emptyGeneralPatch = new GeneralSettingsPatch(null, null, null, null);
+                var planA = new SettingsEditPlan(emptyGeneralPatch, [new TranslationProfileChange(TranslationProfileChangeKind.Add, null, CreateSampleProfile("pA"), new ProviderCredentialEdit(CredentialEditKind.Keep))], null);
+                var planB = new SettingsEditPlan(emptyGeneralPatch, [new TranslationProfileChange(TranslationProfileChangeKind.Add, null, CreateSampleProfile("pB"), new ProviderCredentialEdit(CredentialEditKind.Keep))], null);
+
+                using var ctsA = new CancellationTokenSource();
+                var taskA = saveCoordinator.CommitPlanAsync(planA, false, false, ctsA.Token);
+                await gateAEntered.Task;
+
+                // 此时保存 A 持有在途预留：31 pending + 1 in-flight = 32（满额）
+                receiptManager.InFlightReservations.ShouldBe(1, "保存 A 必须持有在途预留名额");
+                receiptManager.PendingCount.ShouldBe(31);
+
+                // 保存 B 竞争第 33 个名额：因满额被直接拒绝，且绝对没有调用 Core
+                var resultB = await saveCoordinator.CommitPlanAsync(planB, false, false, CancellationToken.None);
+                resultB.Status.ShouldBe(GeneralSaveStatus.Uncommitted);
+                resultB.FailureReason.ShouldBe(UiText.SettingsStatusPendingApplyQuotaFull);
+                coreCommitCalls.ShouldBe(1, "容量满额时竞争者必须被拒绝且绝对不得调用 Core CommitAsync");
+
+                // 取消保存 A 并放行退出
+                ctsA.Cancel();
+                gateARelease.SetResult();
+                var resultA = await taskA;
+
+                // 确认在途预留释放且容量可再次预留
+                receiptManager.InFlightReservations.ShouldBe(0, "取消退出后在途预留名额必须归零");
+                receiptManager.PendingCount.ShouldBe(31);
+                (receiptManager.PendingCount + receiptManager.InFlightReservations).ShouldBe(31);
+                receiptManager.TryReserveSlot().ShouldBeTrue("容量释放后名额可再次预留");
+
+                // 满额 General-only 对照：占满第 32 个槽位后，仅修改 General 不受阻断正常提交
+                var r32 = new TestReceipt();
+                receiptManager.ConvertReservationToPending(r32, null);
+                receiptManager.PendingCount.ShouldBe(32);
+
+                var generalPlan = new SettingsEditPlan(new GeneralSettingsPatch(new SettingsFieldEdit<AppTheme>(AppTheme.Light, AppTheme.Dark), null, null, null), [], null);
+                editCoordinator.OnCommit = plan => Task.FromResult(new SettingsEditResult(SettingsEditStatus.Applied));
+                var generalResult = await saveCoordinator.CommitPlanAsync(generalPlan, false, false, CancellationToken.None);
+                generalResult.Status.ShouldBe(GeneralSaveStatus.SavedAndApplied, "满额时 General-only 保存不预留 Provider 槽位正常提交");
+
+                // 清理测试回执
+                foreach (var r in testReceipts) receiptManager.RemoveReceipt(r);
+                receiptManager.RemoveReceipt(r32);
+                saveCoordinator.Dispose();
+            }
+
+            // Case 7c: 两种系统应用真实失败的独立状态与未保存状态保留
+            await using (var f = new TestFixture(CreateSampleProfile("p1")))
+            {
+                // 真实故障注入：SetEnabled 显式抛错，Core 提交返回 ApplyPending
+                f.Auto.ThrowOnSet = true;
+                f.Edit.CommitResult = new SettingsEditResult(SettingsEditStatus.ApplyPending, PendingApply: new TestReceipt());
+
+                f.Vm.LaunchAtStartup = !f.Vm.LaunchAtStartup;
+                f.Vm.SelectedProfile!.DisplayName = "p1-dirty-dual";
+                await f.Vm.ExecuteSaveAsync();
+
+                f.Vm.CanRetryPendingApply.ShouldBeTrue("Provider 处于 ApplyPending");
+                f.Vm.CanRetryAutoStart.ShouldBeTrue("AutoStart 真实显式抛错处于 pending");
+
+                // 用户在界面输入未保存的普通字段（Theme）
+                f.Vm.Theme = AppTheme.Dark;
+                f.Vm.Theme.ShouldBe(AppTheme.Dark);
+
+                // 1. 单独重试 Provider 且受控失败
+                f.Edit.OnRetryApply = _ => Task.FromResult(new SettingsApplyResult(false, new Iris.Core.Errors.ErrorInfo(Iris.Core.Errors.ErrorCode.StorageFailure, "provider-retry-failed")));
+                await f.Vm.ExecuteRetryPendingApplyAsync();
+
+                f.Vm.CanRetryPendingApply.ShouldBeTrue("Provider 重试失败后保持待办");
+                f.Vm.CanRetryAutoStart.ShouldBeTrue("Provider 重试失败不得清除 AutoStart 待办状态");
+                f.Vm.Theme.ShouldBe(AppTheme.Dark, "Provider 重试失败绝不得清除未保存普通字段");
+
+                // 2. 单独重试 AutoStart 且 ThrowOnSet 真实失败
+                await f.Vm.ExecuteRetryAutoStartAsync();
+
+                f.Vm.CanRetryAutoStart.ShouldBeTrue("AutoStart 真实重试失败后保持待办");
+                f.Vm.CanRetryPendingApply.ShouldBeTrue("AutoStart 重试失败不得清除 Provider 待办状态");
+                f.Vm.Theme.ShouldBe(AppTheme.Dark, "AutoStart 重试失败绝不得清除未保存普通字段");
+
+                // 3. 恢复 AutoStart 并重试成功
+                f.Auto.ThrowOnSet = false;
+                await f.Vm.ExecuteRetryAutoStartAsync();
+                f.Vm.CanRetryAutoStart.ShouldBeFalse("AutoStart 重试成功后清除待办");
+                f.Vm.CanRetryPendingApply.ShouldBeTrue("AutoStart 成功不干扰 Provider 待办");
+                f.Vm.Theme.ShouldBe(AppTheme.Dark);
+
+                // 4. 恢复 Provider 并重试成功
+                f.Edit.OnRetryApply = _ => Task.FromResult(new SettingsApplyResult(true));
+                await f.Vm.ExecuteRetryPendingApplyAsync();
+                f.Vm.CanRetryPendingApply.ShouldBeFalse("Provider 重试成功后清除待办");
+                f.Vm.Theme.ShouldBe(AppTheme.Dark);
+            }
+
+            // Case 7d: 回执发布与停止 UI 交错：挂起提交后的返回，停止 VM，再返回 ApplyPending，证明保存服务仍登记回执且新会话可重试
+            await using (var f = new TestFixture(CreateSampleProfile("p1")))
+            {
+                var commitEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                var commitRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                var orphanedReceipt = new TestReceipt();
+
+                f.Edit.OnCommit = async plan =>
+                {
+                    commitEntered.SetResult();
+                    await commitRelease.Task;
+                    return new SettingsEditResult(SettingsEditStatus.ApplyPending, PendingApply: orphanedReceipt);
+                };
+
+                f.Vm.SelectedProfile!.DisplayName = "p1-interleaved";
+                var saveTask = f.Vm.ExecuteSaveAsync();
+                await commitEntered.Task;
+
+                // 在提交在途期间停止当前 VM
+                f.Vm.StopAcceptance();
+                f.Vm.CanEdit.ShouldBeFalse();
+
+                // 放行提交返回
+                commitRelease.SetResult();
+                await saveTask;
+                await f.Vm.WaitForActiveWorkAsync();
+
+                // 证明保存协调器即使在 VM 停止后依然将回执登记到单例 receiptManager
+                f.Receipts.HasPendingReceipts.ShouldBeTrue("VM 停止后保存服务仍必须正确登记回执");
+
+                // 启动新会话，新会话通过单例 receiptManager 能够正常接纳并重试该回执
+                var newTheme = new ThemeService(f.Settings, visualThemeApplier: _ => { });
+                using var vmNew = new SettingsViewModel(
+                    f.Settings,
+                    newTheme,
+                    f.SaveCoordinator,
+                    f.Edit,
+                    f.Receipts,
+                    new WpfUiDispatcher(() => Dispatcher.CurrentDispatcher),
+                    NullLogger<SettingsViewModel>.Instance);
+
+                vmNew.CanRetryPendingApply.ShouldBeTrue("新会话必须能够读取遗留回执并展示重试入口");
+
+                // 清理
+                f.Receipts.RemoveReceipt(orphanedReceipt);
+                newTheme.Dispose();
             }
         });
     }
