@@ -1703,62 +1703,67 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             }
         }
 
-        // Options 校验
-        if (p.Kind == TranslationProviderKind.OpenAICompatible && p.OpenAIOptions != null)
+        // Options 校验：请求头属于两类请求共用的安全约束
+        if (p.Kind == TranslationProviderKind.OpenAICompatible && p.OpenAIOptions?.ExtraHeaders != null)
         {
-            var opt = p.OpenAIOptions;
-            if (!Enum.IsDefined(opt.MaxTokensField))
+            foreach (var (headerName, headerValue) in p.OpenAIOptions.ExtraHeaders)
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "MaxTokensField 未定义");
-            }
-
-            if (string.IsNullOrWhiteSpace(opt.ChatCompletionsPath))
-            {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "ChatCompletionsPath 不能为空");
-            }
-
-            var path = opt.ChatCompletionsPath;
-            if (path.StartsWith("//", StringComparison.Ordinal) ||
-                Uri.TryCreate(path, UriKind.Absolute, out _) ||
-                path.Contains('?') || path.Contains('#'))
-            {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "ChatCompletionsPath 必须为非空相对路径且不包含查询或片段");
-            }
-
-            if (opt.ExtraHeaders != null)
-            {
-                foreach (var (headerName, headerValue) in opt.ExtraHeaders)
+                if (SensitiveHeaderNames.Contains(headerName))
                 {
-                    if (SensitiveHeaderNames.Contains(headerName))
-                    {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "ExtraHeaders 不能包含认证敏感请求头");
-                    }
+                    return new ErrorInfo(ErrorCode.InvalidArgument, "ExtraHeaders 不能包含认证敏感请求头");
+                }
 
-                    if (!IsValidHttpToken(headerName))
-                    {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "ExtraHeaders 包含非法的请求头名称");
-                    }
+                if (!IsValidHttpToken(headerName))
+                {
+                    return new ErrorInfo(ErrorCode.InvalidArgument, "ExtraHeaders 包含非法的请求头名称");
+                }
 
-                    if (headerValue != null && (headerValue.Contains('\r') || headerValue.Contains('\n')))
-                    {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "ExtraHeaders 请求头值不能包含回车或换行");
-                    }
+                if (headerValue != null && (headerValue.Contains('\r') || headerValue.Contains('\n')))
+                {
+                    return new ErrorInfo(ErrorCode.InvalidArgument, "ExtraHeaders 请求头值不能包含回车或换行");
                 }
             }
         }
 
-        if (p.Kind == TranslationProviderKind.Anthropic && p.AnthropicOptions != null)
-        {
-            var opt = p.AnthropicOptions;
-            if (opt.Effort != null && !ValidAnthropicEfforts.Contains(opt.Effort))
-            {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "Anthropic Effort 必须为 low/medium/high/xhigh/max 或 null");
-            }
-        }
-
-        // 仅在翻译测试时校验模型与生成参数
+        // 仅在翻译测试时校验模型、生成参数及不参与模型发现的 Options 字段
         if (isTranslationTest)
         {
+            if (p.Kind == TranslationProviderKind.OpenAICompatible && p.OpenAIOptions != null)
+            {
+                var opt = p.OpenAIOptions;
+                if (!Enum.IsDefined(opt.MaxTokensField))
+                {
+                    return new ErrorInfo(ErrorCode.InvalidArgument, "MaxTokensField 未定义");
+                }
+
+                if (string.IsNullOrWhiteSpace(opt.ChatCompletionsPath))
+                {
+                    return new ErrorInfo(ErrorCode.InvalidArgument, "ChatCompletionsPath 不能为空");
+                }
+
+                var path = opt.ChatCompletionsPath;
+                if (path.StartsWith("//", StringComparison.Ordinal) ||
+                    Uri.TryCreate(path, UriKind.Absolute, out _) ||
+                    path.Contains('?') || path.Contains('#'))
+                {
+                    return new ErrorInfo(ErrorCode.InvalidArgument, "ChatCompletionsPath 必须为非空相对路径且不包含查询或片段");
+                }
+            }
+
+            if (p.Kind == TranslationProviderKind.Anthropic && p.AnthropicOptions != null)
+            {
+                var opt = p.AnthropicOptions;
+                if (opt.Effort != null && !ValidAnthropicEfforts.Contains(opt.Effort))
+                {
+                    return new ErrorInfo(ErrorCode.InvalidArgument, "Anthropic Effort 必须为 low/medium/high/xhigh/max 或 null");
+                }
+
+                if (p.Model != null && p.Model.Contains("haiku", StringComparison.OrdinalIgnoreCase) && opt.Effort != null)
+                {
+                    return new ErrorInfo(ErrorCode.InvalidArgument, "Haiku 模型不支持 Effort 参数，必须显式设置为 null");
+                }
+            }
+
             if (string.IsNullOrWhiteSpace(p.Model))
             {
                 return new ErrorInfo(ErrorCode.NotConfigured, ErrorMessages.GetDefault(ErrorCode.NotConfigured), Detail: "Model 不能为空", ProviderId: p.Id);
@@ -1775,15 +1780,6 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 if (double.IsNaN(t) || double.IsInfinity(t) || t < 0.0 || t > 2.0)
                 {
                     return new ErrorInfo(ErrorCode.InvalidArgument, "Temperature 必须在 0.0 到 2.0 之间");
-                }
-            }
-
-            if (p.Kind == TranslationProviderKind.Anthropic && p.AnthropicOptions != null)
-            {
-                var opt = p.AnthropicOptions;
-                if (p.Model.Contains("haiku", StringComparison.OrdinalIgnoreCase) && opt.Effort != null)
-                {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "Haiku 模型不支持 Effort 参数，必须显式设置为 null");
                 }
             }
 

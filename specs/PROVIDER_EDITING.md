@@ -49,6 +49,8 @@ Add/Delete 必须附 TranslationOrderChange。BaseIds 包含基线全部翻译 P
 
 列表模型的前置校验按操作区分：无需已选模型、Prompt 或生成参数，但需要合法 Profile 身份/Kind、有效超时、端点和显式凭据意图。翻译测试需要有效模型/翻译参数。详细对照和旧实现证据保留在 PROVIDER_FORM_VALIDATION_DRAFT.md。
 
+2026-10-01 / T-019A-R3 澄清：ListDraftModelsAsync 不使用 ChatCompletionsPath、MaxTokensField、Effort，因此这些尚未有效的草稿字段不阻止模型发现；它们仍必须在 Commit/TestDraft 中校验。模型请求实际使用的 BaseUrl、凭据/引用、ExtraHeaders、Timeout 和身份/Kind 校验始终执行，不能为放行列表而整体跳过 Options 中的请求头安全规则。
+
 ## 4. 凭据意图与 staging
 
 ProviderCredentialEdit.Replace 必须带完整 ProviderCredentials 对，Keep/Clear 的 Replacement 必须为 null。密码框为空不能同时表示 Keep/Clear。新 DTO 只用于内存，不写到 settings.json，不记录整个对象/异常正文；不得把原始输入或凭据放进回执。

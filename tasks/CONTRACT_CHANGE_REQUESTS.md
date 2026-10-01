@@ -617,7 +617,7 @@ Platform/DesktopModels.cs 中 IAutoStartService 的 summary 替换为，并分�
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-10-01 |
-| 状态 | **已落地，待 T-019A-R2 复审**（b29ccc3 的完整凭据捕获、错误隐私、字段/操作校验与当前重试屏障未闭环） |
+| 状态 | **已落地，待 T-019A-R3 复审**（5335c57 主要反例通过，模型列表仍校验不参与请求的翻译字段） |
 | 依据 | PROVIDER_EDITING.md；PROVIDER_REGISTRY.md §2.2；ARCH v1.23 |
 | 落地范围 | T-019A 的 Core 协调器与两种 Provider 模型列表 guard；T-019B 再接 UI |
 | 兼容性 | 不改 settings.json/schemaVersion、现有字段/默认值、SecretStore、Registry 或 Provider 方法签名 |

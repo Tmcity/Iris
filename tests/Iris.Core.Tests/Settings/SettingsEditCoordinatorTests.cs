@@ -2777,4 +2777,224 @@ public sealed class SettingsEditCoordinatorTests
         retry3.IsComplete.ShouldBeTrue();
         observer.RefreshCount.ShouldBe(3);
     }
+
+    // =========================================================================
+    // 场景 31: 模型发现校验分流范围收尾 (R3)
+    // 关键断言:
+    // 1. OpenAICompatible 未填写 ChatCompletionsPath 或 MaxTokensField 未定义:
+    //    ListDraftModelsAsync 允许并调用工厂获取模型列表;
+    //    TestDraftAsync 与 CommitAsync 均拒绝为 InvalidArgument;
+    // 2. Anthropic Effort 为非法未支持值:
+    //    ListDraftModelsAsync 允许并调用工厂获取模型列表;
+    //    TestDraftAsync 与 CommitAsync 均拒绝为 InvalidArgument;
+    // 3. 认证敏感请求头或非法 BaseUrl:
+    //    ListDraftModelsAsync, TestDraftAsync 与 CommitAsync 均拒绝为 InvalidArgument, 工厂不被调用;
+    // 4. 所有失败情况设置均无副作用.
+    // =========================================================================
+    [Fact]
+    public async Task Scenario31_CatalogValidationScope_ScopedToCatalogInputs()
+    {
+        var initial = CreateInitialSettings(out _, out _);
+        var settingsService = new TestSettingsService(initial);
+        var secretStore = new TestSecretStore();
+        int factoryCalls = 0;
+        var registry = new TestTranslationProviderRegistry(settingsService)
+        {
+            ProviderFactory = (p, c) =>
+            {
+                Interlocked.Increment(ref factoryCalls);
+                return new TestTranslationProvider(p, c);
+            }
+        };
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        const string validKey = "fake-valid-key";
+        var creds = new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials(validKey, null));
+
+        SettingsEditPlan MakeAddPlan(TranslationProviderProfile profile)
+        {
+            var baseIds = settingsService.Current.Translation.Providers.Select(p => p.Id).ToList();
+            var targetIds = baseIds.Concat(new[] { profile.Id }).ToList();
+            return new SettingsEditPlan(
+                new GeneralSettingsPatch(),
+                new[] { new TranslationProfileChange(TranslationProfileChangeKind.Add, null, profile, creds) },
+                new TranslationOrderChange(baseIds, targetIds));
+        }
+
+        // 1. Valid 对照
+        var validProfile = new TranslationProviderProfile
+        {
+            Id = "tp-000000000031",
+            DisplayName = "Valid OpenAI",
+            Kind = TranslationProviderKind.OpenAICompatible,
+            BaseUrl = "https://api.openai.com/v1",
+            Model = "gpt-4o",
+            OpenAIOptions = new OpenAICompatibleOptions()
+        };
+        var validDraft = new TranslationProviderDraft(validProfile, null, creds);
+        var validModels = await coordinator.ListDraftModelsAsync(validDraft, TestContext.Current.CancellationToken);
+        validModels.Count.ShouldBeGreaterThan(0);
+        factoryCalls.ShouldBe(1);
+
+        var validTest = await coordinator.TestDraftAsync(validDraft, TestContext.Current.CancellationToken);
+        validTest.Success.ShouldBeTrue();
+
+        var validCommit = await coordinator.CommitAsync(MakeAddPlan(validProfile), TestContext.Current.CancellationToken);
+        validCommit.Status.ShouldBe(SettingsEditStatus.Applied);
+
+        // 2. OpenAICompatible: Empty ChatCompletionsPath -> List 放行，Test/Commit 拒绝
+        factoryCalls = 0;
+        var emptyChatPathProfile = new TranslationProviderProfile
+        {
+            Id = "tp-000000000032",
+            DisplayName = "Empty Chat Path",
+            Kind = TranslationProviderKind.OpenAICompatible,
+            BaseUrl = "https://api.openai.com/v1",
+            Model = "gpt-4o",
+            OpenAIOptions = new OpenAICompatibleOptions { ChatCompletionsPath = "" }
+        };
+        var emptyChatPathDraft = new TranslationProviderDraft(emptyChatPathProfile, null, creds);
+
+        var listModelsEmptyChat = await coordinator.ListDraftModelsAsync(emptyChatPathDraft, TestContext.Current.CancellationToken);
+        listModelsEmptyChat.Count.ShouldBeGreaterThan(0);
+        factoryCalls.ShouldBe(1);
+
+        var testEmptyChat = await coordinator.TestDraftAsync(emptyChatPathDraft, TestContext.Current.CancellationToken);
+        testEmptyChat.Success.ShouldBeFalse();
+        testEmptyChat.Error.ShouldNotBeNull();
+        testEmptyChat.Error.Code.ShouldBe(ErrorCode.InvalidArgument);
+        factoryCalls.ShouldBe(1); // 工厂在 Test 中未被调用
+
+        var commitEmptyChat = await coordinator.CommitAsync(MakeAddPlan(emptyChatPathProfile), TestContext.Current.CancellationToken);
+        commitEmptyChat.Status.ShouldBe(SettingsEditStatus.Uncommitted);
+        settingsService.Current.Translation.Providers.Any(p => p.Id == emptyChatPathProfile.Id).ShouldBeFalse();
+
+        // 3. OpenAICompatible: Unknown MaxTokensField -> List 放行，Test/Commit 拒绝
+        factoryCalls = 0;
+        var unknownTokensProfile = new TranslationProviderProfile
+        {
+            Id = "tp-000000000033",
+            DisplayName = "Unknown Tokens Field",
+            Kind = TranslationProviderKind.OpenAICompatible,
+            BaseUrl = "https://api.openai.com/v1",
+            Model = "gpt-4o",
+            OpenAIOptions = new OpenAICompatibleOptions { MaxTokensField = (MaxTokensField)999 }
+        };
+        var unknownTokensDraft = new TranslationProviderDraft(unknownTokensProfile, null, creds);
+
+        var listModelsUnknownTokens = await coordinator.ListDraftModelsAsync(unknownTokensDraft, TestContext.Current.CancellationToken);
+        listModelsUnknownTokens.Count.ShouldBeGreaterThan(0);
+        factoryCalls.ShouldBe(1);
+
+        var testUnknownTokens = await coordinator.TestDraftAsync(unknownTokensDraft, TestContext.Current.CancellationToken);
+        testUnknownTokens.Success.ShouldBeFalse();
+        testUnknownTokens.Error.ShouldNotBeNull();
+        testUnknownTokens.Error.Code.ShouldBe(ErrorCode.InvalidArgument);
+        factoryCalls.ShouldBe(1);
+
+        var commitUnknownTokens = await coordinator.CommitAsync(MakeAddPlan(unknownTokensProfile), TestContext.Current.CancellationToken);
+        commitUnknownTokens.Status.ShouldBe(SettingsEditStatus.Uncommitted);
+        settingsService.Current.Translation.Providers.Any(p => p.Id == unknownTokensProfile.Id).ShouldBeFalse();
+
+        // 4. Anthropic: Invalid Effort -> List 放行，Test/Commit 拒绝
+        factoryCalls = 0;
+        var invalidEffortProfile = new TranslationProviderProfile
+        {
+            Id = "tp-000000000034",
+            DisplayName = "Invalid Effort Anthropic",
+            Kind = TranslationProviderKind.Anthropic,
+            BaseUrl = null,
+            Model = "claude-3-7-sonnet",
+            AnthropicOptions = new AnthropicOptions { Effort = "unfinished-input" }
+        };
+        var invalidEffortDraft = new TranslationProviderDraft(invalidEffortProfile, null, creds);
+
+        var listModelsInvalidEffort = await coordinator.ListDraftModelsAsync(invalidEffortDraft, TestContext.Current.CancellationToken);
+        listModelsInvalidEffort.Count.ShouldBeGreaterThan(0);
+        factoryCalls.ShouldBe(1);
+
+        var testInvalidEffort = await coordinator.TestDraftAsync(invalidEffortDraft, TestContext.Current.CancellationToken);
+        testInvalidEffort.Success.ShouldBeFalse();
+        testInvalidEffort.Error.ShouldNotBeNull();
+        testInvalidEffort.Error.Code.ShouldBe(ErrorCode.InvalidArgument);
+        factoryCalls.ShouldBe(1);
+
+        var commitInvalidEffort = await coordinator.CommitAsync(MakeAddPlan(invalidEffortProfile), TestContext.Current.CancellationToken);
+        commitInvalidEffort.Status.ShouldBe(SettingsEditStatus.Uncommitted);
+        settingsService.Current.Translation.Providers.Any(p => p.Id == invalidEffortProfile.Id).ShouldBeFalse();
+
+        // 5. Forbidden Auth Header -> List 拒绝，Test/Commit 拒绝，工厂不调用
+        factoryCalls = 0;
+        var forbiddenHeaderProfile = new TranslationProviderProfile
+        {
+            Id = "tp-000000000035",
+            DisplayName = "Forbidden Header",
+            Kind = TranslationProviderKind.OpenAICompatible,
+            BaseUrl = "https://api.openai.com/v1",
+            Model = "gpt-4o",
+            OpenAIOptions = new OpenAICompatibleOptions
+            {
+                ExtraHeaders = new Dictionary<string, string> { ["Authorization"] = "fake-token" }
+            }
+        };
+        var forbiddenHeaderDraft = new TranslationProviderDraft(forbiddenHeaderProfile, null, creds);
+
+        var listEx = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await coordinator.ListDraftModelsAsync(forbiddenHeaderDraft, TestContext.Current.CancellationToken);
+        });
+        listEx.Code.ShouldBe(ErrorCode.InvalidArgument);
+        factoryCalls.ShouldBe(0);
+
+        var testForbiddenHeader = await coordinator.TestDraftAsync(forbiddenHeaderDraft, TestContext.Current.CancellationToken);
+        testForbiddenHeader.Success.ShouldBeFalse();
+        testForbiddenHeader.Error.ShouldNotBeNull();
+        testForbiddenHeader.Error.Code.ShouldBe(ErrorCode.InvalidArgument);
+        factoryCalls.ShouldBe(0);
+
+        var commitForbiddenHeader = await coordinator.CommitAsync(MakeAddPlan(forbiddenHeaderProfile), TestContext.Current.CancellationToken);
+        commitForbiddenHeader.Status.ShouldBe(SettingsEditStatus.Uncommitted);
+        settingsService.Current.Translation.Providers.Any(p => p.Id == forbiddenHeaderProfile.Id).ShouldBeFalse();
+
+        // 6. Invalid Endpoint -> List 拒绝，Test/Commit 拒绝，工厂不调用
+        factoryCalls = 0;
+        var invalidEndpointProfile = new TranslationProviderProfile
+        {
+            Id = "tp-000000000036",
+            DisplayName = "Invalid Endpoint",
+            Kind = TranslationProviderKind.OpenAICompatible,
+            BaseUrl = "file:///probe",
+            Model = "gpt-4o",
+            OpenAIOptions = new OpenAICompatibleOptions()
+        };
+        var invalidEndpointDraft = new TranslationProviderDraft(invalidEndpointProfile, null, creds);
+
+        var listEndpointEx = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await coordinator.ListDraftModelsAsync(invalidEndpointDraft, TestContext.Current.CancellationToken);
+        });
+        listEndpointEx.Code.ShouldBe(ErrorCode.InvalidArgument);
+        factoryCalls.ShouldBe(0);
+
+        var testInvalidEndpoint = await coordinator.TestDraftAsync(invalidEndpointDraft, TestContext.Current.CancellationToken);
+        testInvalidEndpoint.Success.ShouldBeFalse();
+        testInvalidEndpoint.Error.ShouldNotBeNull();
+        testInvalidEndpoint.Error.Code.ShouldBe(ErrorCode.InvalidArgument);
+        factoryCalls.ShouldBe(0);
+
+        var commitInvalidEndpoint = await coordinator.CommitAsync(MakeAddPlan(invalidEndpointProfile), TestContext.Current.CancellationToken);
+        commitInvalidEndpoint.Status.ShouldBe(SettingsEditStatus.Uncommitted);
+        settingsService.Current.Translation.Providers.Any(p => p.Id == invalidEndpointProfile.Id).ShouldBeFalse();
+    }
 }
