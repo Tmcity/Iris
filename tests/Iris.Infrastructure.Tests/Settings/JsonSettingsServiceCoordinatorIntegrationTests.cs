@@ -277,4 +277,147 @@ public sealed class JsonSettingsServiceCoordinatorIntegrationTests
             saved.OpenAIOptions.ChatCompletionsPath.ShouldBe("/v1/chat/completions");
         }
     }
+
+    [Fact]
+    public async Task PreserveInactiveOptions_OpenAI_Renamed_RetainsAnthropicOptionsInSavedFile()
+    {
+        using var dir = new TempDirectory();
+        using var settingsService = CreateRealSettingsService(dir);
+        await settingsService.LoadAsync(TestContext.Current.CancellationToken);
+
+        var secretStore = new MemorySecretStore();
+        var (coordinator, sp) = CreateCoordinator(settingsService, secretStore);
+        using (sp)
+        {
+            const string id = "tp-0000000000b1";
+            var initialProfile = new TranslationProviderProfile
+            {
+                Id = id,
+                DisplayName = "Original OpenAI",
+                Kind = TranslationProviderKind.OpenAICompatible,
+                BaseUrl = "https://api.openai.com/v1",
+                Model = "gpt-4o",
+                OpenAIOptions = new OpenAICompatibleOptions(),
+                AnthropicOptions = new AnthropicOptions { Effort = "high", RefusalFallback = false },
+                Enabled = true
+            };
+
+            // 1. 新增初始服务
+            var addPlan = new SettingsEditPlan(
+                General: new GeneralSettingsPatch(),
+                TranslationChanges: new[]
+                {
+                    new TranslationProfileChange(
+                        TranslationProfileChangeKind.Add,
+                        BaseProfile: null,
+                        TargetProfile: initialProfile,
+                        Credentials: new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials("sk-test", null)))
+                },
+                TranslationOrder: new TranslationOrderChange(
+                    BaseIds: Array.Empty<string>(),
+                    TargetIds: new[] { id }));
+
+            var addResult = await coordinator.CommitAsync(addPlan, TestContext.Current.CancellationToken);
+            addResult.Status.ShouldBe(SettingsEditStatus.Applied);
+
+            // 2. 仅修改显示名称，保留既有 Options
+            var savedInitial = settingsService.Current.Translation.Providers.First(p => p.Id == id);
+            var targetProfile = savedInitial with { DisplayName = "Renamed OpenAI" };
+            var updatePlan = new SettingsEditPlan(
+                General: new GeneralSettingsPatch(),
+                TranslationChanges: new[]
+                {
+                    new TranslationProfileChange(
+                        TranslationProfileChangeKind.Update,
+                        BaseProfile: savedInitial,
+                        TargetProfile: targetProfile,
+                        Credentials: new ProviderCredentialEdit(CredentialEditKind.Keep))
+                });
+
+            var updateResult = await coordinator.CommitAsync(updatePlan, TestContext.Current.CancellationToken);
+            updateResult.Status.ShouldBe(SettingsEditStatus.Applied);
+
+            // 3. 从实际磁盘文件重新读取，断言 AnthropicOptions 未被删除
+            var fileContent = await File.ReadAllTextAsync(new FakeAppPaths(dir.Path).SettingsFile, TestContext.Current.CancellationToken);
+            var loaded = JsonSerializer.Deserialize<AppSettings>(fileContent, IrisJson.Options);
+            loaded.ShouldNotBeNull();
+            var saved = loaded.Translation.Providers.FirstOrDefault(p => p.Id == id);
+            saved.ShouldNotBeNull();
+            saved.DisplayName.ShouldBe("Renamed OpenAI");
+            saved.AnthropicOptions.ShouldNotBeNull();
+            saved.AnthropicOptions.Effort.ShouldBe("high");
+            saved.AnthropicOptions.RefusalFallback.ShouldBeFalse();
+        }
+    }
+
+    [Fact]
+    public async Task PreserveInactiveOptions_Anthropic_Renamed_RetainsOpenAIOptionsInSavedFile()
+    {
+        using var dir = new TempDirectory();
+        using var settingsService = CreateRealSettingsService(dir);
+        await settingsService.LoadAsync(TestContext.Current.CancellationToken);
+
+        var secretStore = new MemorySecretStore();
+        var (coordinator, sp) = CreateCoordinator(settingsService, secretStore);
+        using (sp)
+        {
+            const string id = "tp-0000000000b2";
+            var initialProfile = new TranslationProviderProfile
+            {
+                Id = id,
+                DisplayName = "Original Anthropic",
+                Kind = TranslationProviderKind.Anthropic,
+                BaseUrl = "https://api.anthropic.com",
+                Model = "claude-3-5-sonnet-20241022",
+                AnthropicOptions = new AnthropicOptions { Effort = "medium" },
+                OpenAIOptions = new OpenAICompatibleOptions { ChatCompletionsPath = "/v1/custom/chat" },
+                Enabled = true
+            };
+
+            // 1. 新增初始服务
+            var addPlan = new SettingsEditPlan(
+                General: new GeneralSettingsPatch(),
+                TranslationChanges: new[]
+                {
+                    new TranslationProfileChange(
+                        TranslationProfileChangeKind.Add,
+                        BaseProfile: null,
+                        TargetProfile: initialProfile,
+                        Credentials: new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials("sk-ant", null)))
+                },
+                TranslationOrder: new TranslationOrderChange(
+                    BaseIds: Array.Empty<string>(),
+                    TargetIds: new[] { id }));
+
+            var addResult = await coordinator.CommitAsync(addPlan, TestContext.Current.CancellationToken);
+            addResult.Status.ShouldBe(SettingsEditStatus.Applied);
+
+            // 2. 仅修改显示名称，保留既有 Options
+            var savedInitial = settingsService.Current.Translation.Providers.First(p => p.Id == id);
+            var targetProfile = savedInitial with { DisplayName = "Renamed Anthropic" };
+            var updatePlan = new SettingsEditPlan(
+                General: new GeneralSettingsPatch(),
+                TranslationChanges: new[]
+                {
+                    new TranslationProfileChange(
+                        TranslationProfileChangeKind.Update,
+                        BaseProfile: savedInitial,
+                        TargetProfile: targetProfile,
+                        Credentials: new ProviderCredentialEdit(CredentialEditKind.Keep))
+                });
+
+            var updateResult = await coordinator.CommitAsync(updatePlan, TestContext.Current.CancellationToken);
+            updateResult.Status.ShouldBe(SettingsEditStatus.Applied);
+
+            // 3. 从实际磁盘文件重新读取，断言 OpenAIOptions 未被删除
+            var fileContent = await File.ReadAllTextAsync(new FakeAppPaths(dir.Path).SettingsFile, TestContext.Current.CancellationToken);
+            var loaded = JsonSerializer.Deserialize<AppSettings>(fileContent, IrisJson.Options);
+            loaded.ShouldNotBeNull();
+            var saved = loaded.Translation.Providers.FirstOrDefault(p => p.Id == id);
+            saved.ShouldNotBeNull();
+            saved.DisplayName.ShouldBe("Renamed Anthropic");
+            saved.OpenAIOptions.ShouldNotBeNull();
+            saved.OpenAIOptions.ChatCompletionsPath.ShouldBe("/v1/custom/chat");
+        }
+    }
 }

@@ -44,7 +44,8 @@ public sealed class SettingsEditCoordinatorTests
             _current = initial;
         }
 
-        public AppSettings Current => _current;
+        public Exception? CurrentFailure { get; set; }
+        public AppSettings Current => CurrentFailure != null ? throw CurrentFailure : _current;
 
         public Task LoadAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
 
@@ -91,7 +92,9 @@ public sealed class SettingsEditCoordinatorTests
 
         public Func<string, string, bool>? FailOnSet { get; set; }
         public Func<string, bool>? FailOnRemove { get; set; }
+        public Action<string>? FailOnGet { get; set; }
         public Action<string>? OnSetHook { get; set; }
+        public Action<string>? OnGetHook { get; set; }
 
         public string? Get(string key)
         {
@@ -99,6 +102,8 @@ public sealed class SettingsEditCoordinatorTests
             {
                 ReadOnCallerThread = true;
             }
+            OnGetHook?.Invoke(key);
+            FailOnGet?.Invoke(key);
             Storage.TryGetValue(key, out var val);
             return val;
         }
@@ -2105,7 +2110,7 @@ public sealed class SettingsEditCoordinatorTests
             new FakeTimeProvider(),
             logger);
 
-        // 1. AnthropicOptions == null: 补齐默认 Effort="low"，但 Haiku 不支持 Effort，被拒绝
+        // 1. AnthropicOptions == null: 补齐默认 Effort="low"，但 Haiku 不支持 Effort：TestDraft 被拒绝，但 ListDraftModels 允许模型发现 (R2-3)
         var haikuNullOptions = new TranslationProviderDraft(
             Profile: new TranslationProviderProfile
             {
@@ -2119,13 +2124,15 @@ public sealed class SettingsEditCoordinatorTests
             BaseProfile: null,
             Credentials: new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials("sk-ant-test", null)));
 
-        var ex = await Should.ThrowAsync<IrisException>(async () =>
-        {
-            await coordinator.ListDraftModelsAsync(haikuNullOptions, TestContext.Current.CancellationToken);
-        });
-        ex.Code.ShouldBe(ErrorCode.InvalidArgument);
+        var testResult = await coordinator.TestDraftAsync(haikuNullOptions, TestContext.Current.CancellationToken);
+        testResult.Success.ShouldBeFalse();
+        testResult.Error.ShouldNotBeNull();
+        testResult.Error.Code.ShouldBe(ErrorCode.InvalidArgument);
 
-        // 2. 显式指定 Effort = null: 校验通过
+        var listModels = await coordinator.ListDraftModelsAsync(haikuNullOptions, TestContext.Current.CancellationToken);
+        listModels.Count.ShouldBeGreaterThan(0);
+
+        // 2. 显式指定 Effort = null: 翻译测试与模型列表均通过
         var haikuExplicitNullEffort = new TranslationProviderDraft(
             Profile: new TranslationProviderProfile
             {
@@ -2138,6 +2145,9 @@ public sealed class SettingsEditCoordinatorTests
             },
             BaseProfile: null,
             Credentials: new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials("sk-ant-test", null)));
+
+        var testExplicitResult = await coordinator.TestDraftAsync(haikuExplicitNullEffort, TestContext.Current.CancellationToken);
+        testExplicitResult.Success.ShouldBeTrue();
 
         var models = await coordinator.ListDraftModelsAsync(haikuExplicitNullEffort, TestContext.Current.CancellationToken);
         models.Count.ShouldBeGreaterThan(0);
@@ -2419,5 +2429,352 @@ public sealed class SettingsEditCoordinatorTests
         {
             await coordinator.TestDraftAsync(draft, cts.Token);
         });
+    }
+
+    // =========================================================================
+    // 场景 27: Keep 凭据捕获期间持有编辑权，网络阶段释放编辑权 (R2-1)
+    // 关键断言: 密钥读取期间持有 gate 阻止 Commit，网络阶段释放 gate 允许 Commit 完成并删除旧键，草稿测试成功
+    // =========================================================================
+    [Fact]
+    public async Task Scenario27_KeepCapture_SuspendedGet_LocksOutCommit_ReleasesBeforeNetwork()
+    {
+        var initial = CreateInitialSettings(out _, out _);
+        var oldProfile = initial.Translation.Providers[0];
+        const string set = "cs-0123456789abcdef0123456789abcdef";
+        var profileWithSet = oldProfile with { CredentialSetId = set };
+        initial = initial with { Translation = initial.Translation with { Providers = new[] { profileWithSet } } };
+
+        var settingsService = new TestSettingsService(initial);
+        var secretStore = new TestSecretStore();
+        secretStore.Storage[SecretKeys.CredentialSet(set)] = JsonSerializer.Serialize(new { format = "iris-provider-credentials", version = 1, apiKey = "old-api-key", secretKey = (string?)null });
+
+        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var release = new ManualResetEventSlim();
+        var networkEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var networkRelease = new ManualResetEventSlim();
+        int gated = 0;
+
+        secretStore.OnGetHook = key =>
+        {
+            if (key == SecretKeys.CredentialSet(set) && Interlocked.CompareExchange(ref gated, 1, 0) == 0)
+            {
+                entered.TrySetResult();
+                if (!release.Wait(TimeSpan.FromSeconds(5))) throw new TimeoutException();
+            }
+        };
+
+        var registry = new TestTranslationProviderRegistry(settingsService);
+        registry.ProviderFactory = (p, c) =>
+        {
+            var provider = new TestTranslationProvider(p, c);
+            provider.OnTestAsync = async ct =>
+            {
+                await Task.Yield();
+                networkEntered.TrySetResult();
+                if (!networkRelease.Wait(TimeSpan.FromSeconds(5), ct)) throw new TimeoutException();
+                return new ProviderTestResult(true, TimeSpan.FromMilliseconds(5));
+            };
+            return provider;
+        };
+
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        var draft = new TranslationProviderDraft(
+            Profile: profileWithSet,
+            BaseProfile: profileWithSet,
+            Credentials: new ProviderCredentialEdit(CredentialEditKind.Keep));
+
+        var draftTask = coordinator.TestDraftAsync(draft, TestContext.Current.CancellationToken);
+
+        // 1. 等待草稿进入后台读取
+        await entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+        // 2. 发起 Replace 提交
+        var replacePlan = new SettingsEditPlan(
+            General: new GeneralSettingsPatch(),
+            TranslationChanges: new[]
+            {
+                new TranslationProfileChange(
+                    TranslationProfileChangeKind.Update,
+                    BaseProfile: profileWithSet,
+                    TargetProfile: profileWithSet,
+                    Credentials: new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials("new-key", null)))
+            });
+
+        var commitTask = coordinator.CommitAsync(replacePlan, TestContext.Current.CancellationToken);
+
+        // 3. 断言 Commit 在读取结束前被编辑锁阻塞，旧密钥未被删除
+        var completedPrematurely = await Task.WhenAny(commitTask, Task.Delay(100, TestContext.Current.CancellationToken)) == commitTask;
+        completedPrematurely.ShouldBeFalse();
+        secretStore.Storage.ContainsKey(SecretKeys.CredentialSet(set)).ShouldBeTrue();
+
+        // 4. 放行凭据读取，进入网络阶段
+        release.Set();
+
+        // 5. 等待草稿进入网络测试，此时编辑锁已释放，Commit 能够顺利完成并清理旧键
+        await networkEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        var commitResult = await commitTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        commitResult.Status.ShouldBe(SettingsEditStatus.Applied);
+        secretStore.Storage.ContainsKey(SecretKeys.CredentialSet(set)).ShouldBeFalse();
+
+        // 6. 放行网络调用，草稿测试成功
+        networkRelease.Set();
+        var draftResult = await draftTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        draftResult.Success.ShouldBeTrue();
+    }
+
+    // =========================================================================
+    // 场景 28: 草稿错误路径脱敏与安全边界 (R2-2)
+    // 关键断言: 任何下层异常不得在 Message, Detail, InnerException, ToString 中泄露敏感标记
+    // =========================================================================
+    [Fact]
+    public async Task Scenario28_DraftErrors_NeverLeakSensitiveMarkers()
+    {
+        const string marker = "SUPER_SECRET_TOKEN_TO_HIDE_12345";
+        var initial = CreateInitialSettings(out _, out _);
+        var settingsService = new TestSettingsService(initial);
+        var secretStore = new TestSecretStore();
+        var registry = new TestTranslationProviderRegistry(settingsService);
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        // 1. ListDraftModels: Provider 抛出含 marker 异常 -> 封装为安全 IrisException，剥离 InnerException
+        registry.ProviderFactory = (p, c) =>
+        {
+            var provider = new TestTranslationProvider(p, c);
+            provider.OnListModelsAsync = ct => throw new InvalidOperationException($"Failed with key: {marker}");
+            return provider;
+        };
+
+        var draftReplace = new TranslationProviderDraft(
+            Profile: initial.Translation.Providers[0],
+            BaseProfile: null,
+            Credentials: new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials("fake-key", null)));
+
+        var listEx = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await coordinator.ListDraftModelsAsync(draftReplace, TestContext.Current.CancellationToken);
+        });
+        listEx.InnerException.ShouldBeNull();
+        listEx.Message.Contains(marker, StringComparison.Ordinal).ShouldBeFalse();
+        listEx.Detail?.Contains(marker, StringComparison.Ordinal).ShouldNotBe(true);
+        listEx.ToString().Contains(marker, StringComparison.Ordinal).ShouldBeFalse();
+
+        // 2. TestDraft: SecretStore 抛出含 marker 异常 -> ProviderTestResult 包含安全错误信息
+        const string set = "cs-0123456789abcdef0123456789abcdef";
+        var profileWithSet = initial.Translation.Providers[0] with { CredentialSetId = set };
+        initial = initial with { Translation = initial.Translation with { Providers = new[] { profileWithSet } } };
+        var settingsService2 = new TestSettingsService(initial);
+        var secretStore2 = new TestSecretStore();
+        secretStore2.FailOnGet = key => throw new InvalidOperationException($"Secret error with: {marker}");
+        var coordinator2 = new SettingsEditCoordinator(
+            settingsService2,
+            secretStore2,
+            registry,
+            new IProviderConfigurationObserver[] { registry },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        var draftKeep = new TranslationProviderDraft(
+            Profile: profileWithSet,
+            BaseProfile: profileWithSet,
+            Credentials: new ProviderCredentialEdit(CredentialEditKind.Keep));
+
+        var testResult = await coordinator2.TestDraftAsync(draftKeep, TestContext.Current.CancellationToken);
+        testResult.Success.ShouldBeFalse();
+        testResult.Error.ShouldNotBeNull();
+        testResult.Error.Message.Contains(marker, StringComparison.Ordinal).ShouldBeFalse();
+        testResult.Error.Detail?.Contains(marker, StringComparison.Ordinal).ShouldNotBe(true);
+
+        // 3. State.Current 异常时脱敏
+        settingsService2.CurrentFailure = new InvalidOperationException($"Settings error with: {marker}");
+        var testCurrentResult = await coordinator2.TestDraftAsync(draftKeep, TestContext.Current.CancellationToken);
+        testCurrentResult.Success.ShouldBeFalse();
+        testCurrentResult.Error.ShouldNotBeNull();
+        testCurrentResult.Error.Message.Contains(marker, StringComparison.Ordinal).ShouldBeFalse();
+        testCurrentResult.Error.Detail?.Contains(marker, StringComparison.Ordinal).ShouldNotBe(true);
+
+        var listCurrentEx = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await coordinator2.ListDraftModelsAsync(draftKeep, TestContext.Current.CancellationToken);
+        });
+        listCurrentEx.InnerException.ShouldBeNull();
+        listCurrentEx.ToString().Contains(marker, StringComparison.Ordinal).ShouldBeFalse();
+    }
+
+    // =========================================================================
+    // 场景 29: 草稿操作类型区分校验 (R2-3)
+    // 关键断言: 空 ID / 缺失 Prompt / 篡改 CredentialSetId 拦截；模型列表放行 Prompt
+    // =========================================================================
+    [Fact]
+    public async Task Scenario29_ValidateDraft_Operations_RejectionsAndPermissions()
+    {
+        var initial = CreateInitialSettings(out _, out _);
+        var settingsService = new TestSettingsService(initial);
+        var secretStore = new TestSecretStore();
+        int factoryCalls = 0;
+        var registry = new TestTranslationProviderRegistry(settingsService)
+        {
+            ProviderFactory = (p, c) =>
+            {
+                factoryCalls++;
+                return new TestTranslationProvider(p, c);
+            }
+        };
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        // 1. 空 ID 草稿 -> 结构校验拦截，不调用工厂
+        var emptyIdDraft = new TranslationProviderDraft(
+            Profile: initial.Translation.Providers[0] with { Id = "" },
+            BaseProfile: null,
+            Credentials: new ProviderCredentialEdit(CredentialEditKind.Clear));
+
+        var emptyTestResult = await coordinator.TestDraftAsync(emptyIdDraft, TestContext.Current.CancellationToken);
+        emptyTestResult.Success.ShouldBeFalse();
+        emptyTestResult.Error.ShouldNotBeNull();
+        emptyTestResult.Error.Code.ShouldBe(ErrorCode.InvalidArgument);
+        factoryCalls.ShouldBe(0);
+
+        var emptyListEx = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await coordinator.ListDraftModelsAsync(emptyIdDraft, TestContext.Current.CancellationToken);
+        });
+        emptyListEx.Code.ShouldBe(ErrorCode.InvalidArgument);
+        factoryCalls.ShouldBe(0);
+
+        // 2. 缺失 PromptTemplateId -> TestDraft 拦截，ListDraftModels 放行
+        var missingPromptDraft = new TranslationProviderDraft(
+            Profile: initial.Translation.Providers[0] with { Id = "tp-000000000029", CredentialSetId = null, PromptTemplateId = "missing-custom-prompt" },
+            BaseProfile: null,
+            Credentials: new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials("valid-key", null)));
+
+        var promptTestResult = await coordinator.TestDraftAsync(missingPromptDraft, TestContext.Current.CancellationToken);
+        promptTestResult.Success.ShouldBeFalse();
+        promptTestResult.Error.ShouldNotBeNull();
+        promptTestResult.Error.Code.ShouldBe(ErrorCode.InvalidArgument);
+        factoryCalls.ShouldBe(0);
+
+        var models = await coordinator.ListDraftModelsAsync(missingPromptDraft, TestContext.Current.CancellationToken);
+        models.Count.ShouldBeGreaterThan(0);
+        factoryCalls.ShouldBe(1);
+
+        // 3. 已有草稿篡改 CredentialSetId -> 拦截
+        const string set1 = "cs-11111111111111111111111111111111";
+        const string set2 = "cs-22222222222222222222222222222222";
+        var tamperedDraft = new TranslationProviderDraft(
+            Profile: initial.Translation.Providers[0] with { CredentialSetId = set2 },
+            BaseProfile: initial.Translation.Providers[0] with { CredentialSetId = set1 },
+            Credentials: new ProviderCredentialEdit(CredentialEditKind.Keep));
+
+        var tamperedResult = await coordinator.TestDraftAsync(tamperedDraft, TestContext.Current.CancellationToken);
+        tamperedResult.Success.ShouldBeFalse();
+        tamperedResult.Error.ShouldNotBeNull();
+        tamperedResult.Error.Code.ShouldBe(ErrorCode.InvalidArgument);
+    }
+
+    // =========================================================================
+    // 场景 30: 重试未完成时重新建立当前观察者屏障 (R2-4)
+    // 关键断言: 观察者失败阻止删除旧键，恢复后重试成功删除，后续重试幂等
+    // =========================================================================
+    [Fact]
+    public async Task Scenario30_RetryApply_ReEstablishesObserverBarrier_PreventsPrematureCleanup()
+    {
+        const string set = "cs-0123456789abcdef0123456789abcdef";
+        var initial = CreateInitialSettings(out _, out _);
+        var oldProfile = initial.Translation.Providers[0] with { CredentialSetId = set };
+        initial = initial with { Translation = initial.Translation with { Providers = new[] { oldProfile } } };
+
+        var settingsService = new TestSettingsService(initial);
+        var secretStore = new TestSecretStore();
+        secretStore.Storage[SecretKeys.CredentialSet(set)] = JsonSerializer.Serialize(new { format = "iris-provider-credentials", version = 1, apiKey = "old-key" });
+
+        // 初始提交：删除旧键失败
+        secretStore.FailOnRemove = k => k == SecretKeys.CredentialSet(set);
+
+        var observer = new TestConfigurationObserver();
+        var registry = new TestTranslationProviderRegistry(settingsService);
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry, observer },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        var plan = new SettingsEditPlan(
+            General: new GeneralSettingsPatch(),
+            TranslationChanges: new[]
+            {
+                new TranslationProfileChange(
+                    TranslationProfileChangeKind.Update,
+                    BaseProfile: oldProfile,
+                    TargetProfile: oldProfile,
+                    Credentials: new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials("new-key", null)))
+            });
+
+        var initialResult = await coordinator.CommitAsync(plan, TestContext.Current.CancellationToken);
+        initialResult.Status.ShouldBe(SettingsEditStatus.ApplyPending);
+        initialResult.PendingApply.ShouldNotBeNull();
+        observer.RefreshCount.ShouldBe(1);
+
+        // 第一次重试：移除删除拦截，但观察者失败 -> 必须重新刷新观察者并拦截清理
+        secretStore.FailOnRemove = null;
+        observer.Fail = true;
+
+        var retry1 = await coordinator.RetryApplyAsync(initialResult.PendingApply, TestContext.Current.CancellationToken);
+        retry1.IsComplete.ShouldBeFalse();
+        observer.RefreshCount.ShouldBe(2);
+        // 旧密钥不得被删除
+        secretStore.Storage.ContainsKey(SecretKeys.CredentialSet(set)).ShouldBeTrue();
+
+        // 第二次重试：恢复观察者 -> 观察者成功且旧密钥被清理
+        observer.Fail = false;
+        var retry2 = await coordinator.RetryApplyAsync(initialResult.PendingApply, TestContext.Current.CancellationToken);
+        retry2.IsComplete.ShouldBeTrue();
+        observer.RefreshCount.ShouldBe(3);
+        secretStore.Storage.ContainsKey(SecretKeys.CredentialSet(set)).ShouldBeFalse();
+
+        // 第三次重试：回执已完成，幂等返回，不再调用观察者
+        var retry3 = await coordinator.RetryApplyAsync(initialResult.PendingApply, TestContext.Current.CancellationToken);
+        retry3.IsComplete.ShouldBeTrue();
+        observer.RefreshCount.ShouldBe(3);
     }
 }

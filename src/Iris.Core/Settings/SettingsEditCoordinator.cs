@@ -242,17 +242,15 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 return new SettingsApplyResult(true);
             }
 
-            // 重新刷新观察者屏障（如果尚未完成）
-            if (!ourReceipt.ObserversCompleted)
+            // 重新刷新观察者屏障：每次未完成重试必须重新建立当前屏障
+            var observerSuccess = await RefreshObserversAsync().ConfigureAwait(false);
+            if (!observerSuccess)
             {
-                var observerSuccess = await RefreshObserversAsync().ConfigureAwait(false);
-                if (!observerSuccess)
-                {
-                    return new SettingsApplyResult(false, new ErrorInfo(ErrorCode.ProviderUnavailable, "部分服务提供商刷新未完成"));
-                }
-
-                ourReceipt.ObserversCompleted = true;
+                ourReceipt.ObserversCompleted = false;
+                return new SettingsApplyResult(false, new ErrorInfo(ErrorCode.ProviderUnavailable, "部分服务提供商刷新未完成"));
             }
+
+            ourReceipt.ObserversCompleted = true;
 
             // 清理剩余候选
             var cleanupSuccess = await CleanupReceiptCandidatesAsync(ourReceipt).ConfigureAwait(false);
@@ -288,7 +286,23 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         var capturedDraft = CloneDraft(draft);
 
         // 3. 校验草稿（包含翻译测试要求的模型与生成参数校验）
-        var draftError = ValidateDraft(capturedDraft, isTranslationTest: true);
+        AppSettings? currentSettings = null;
+        if (capturedDraft.Profile.PromptTemplateId != null)
+        {
+            try
+            {
+                currentSettings = _settingsService.Current;
+            }
+            catch (Exception ex)
+            {
+                return new ProviderTestResult(
+                    false,
+                    TimeSpan.Zero,
+                    Error: new ErrorInfo(ErrorCode.Unknown, "读取当前配置失败", Detail: ex.GetType().Name, ProviderId: capturedDraft.Profile.Id));
+            }
+        }
+
+        var draftError = ValidateDraft(capturedDraft, isTranslationTest: true, currentSettings: currentSettings);
         if (draftError != null)
         {
             return new ProviderTestResult(
@@ -323,7 +337,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             return new ProviderTestResult(
                 false,
                 TimeSpan.Zero,
-                Error: new ErrorInfo(ErrorCode.Unknown, ex.Message, Detail: ex.GetType().Name, ProviderId: capturedDraft.Profile.Id));
+                Error: new ErrorInfo(ErrorCode.Unknown, "服务凭据解析失败", Detail: ex.GetType().Name, ProviderId: capturedDraft.Profile.Id));
         }
 
         cancellationToken.ThrowIfCancellationRequested();
@@ -376,50 +390,72 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         ArgumentNullException.ThrowIfNull(draft);
         cancellationToken.ThrowIfCancellationRequested();
 
-        // 1. 结构与参数前置校验
-        var structureError = ValidateDraftStructure(draft);
-        if (structureError != null)
-        {
-            throw new IrisException(
-                structureError.Code,
-                structureError.Message,
-                retryable: false,
-                providerId: draft.Profile?.Id ?? string.Empty,
-                detail: structureError.Detail);
-        }
-
-        // 2. 深度克隆并补齐默认 Options
-        var capturedDraft = CloneDraft(draft);
-
-        // 3. 校验草稿（模型列表不要求模型/Prompt/生成参数）
-        var draftError = ValidateDraft(capturedDraft, isTranslationTest: false);
-        if (draftError != null)
-        {
-            throw new IrisException(
-                draftError.Code,
-                draftError.Message,
-                retryable: false,
-                providerId: capturedDraft.Profile.Id,
-                detail: draftError.Detail);
-        }
-
-        // 4. 解析独立凭据
-        var res = await ResolveDraftCredentialsAsync(capturedDraft, cancellationToken).ConfigureAwait(false);
-        if (res.Error != null)
-        {
-            throw new IrisException(
-                res.Error.Code,
-                res.Error.Message,
-                retryable: false,
-                providerId: capturedDraft.Profile.Id,
-                detail: res.Error.Detail);
-        }
-
-        var credentials = res.Credentials ?? ProviderCredentials.None;
-
-        // 5. 创建瞬态快照并在其作用域内调用实际模型获取
         try
         {
+            // 1. 结构与参数前置校验
+            var structureError = ValidateDraftStructure(draft);
+            if (structureError != null)
+            {
+                throw new IrisException(
+                    structureError.Code,
+                    structureError.Message,
+                    innerException: null,
+                    retryable: false,
+                    providerId: draft.Profile?.Id ?? string.Empty,
+                    detail: structureError.Detail);
+            }
+
+            // 2. 深度克隆并补齐默认 Options
+            var capturedDraft = CloneDraft(draft);
+
+            // 3. 校验草稿（模型列表不要求模型/Prompt/生成参数）
+            var draftError = ValidateDraft(capturedDraft, isTranslationTest: false, currentSettings: null);
+            if (draftError != null)
+            {
+                throw new IrisException(
+                    draftError.Code,
+                    draftError.Message,
+                    innerException: null,
+                    retryable: false,
+                    providerId: capturedDraft.Profile.Id,
+                    detail: draftError.Detail);
+            }
+
+            // 4. 解析独立凭据
+            DraftCredentialsResult res;
+            try
+            {
+                res = await ResolveDraftCredentialsAsync(capturedDraft, cancellationToken).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                throw;
+            }
+            catch (Exception ex)
+            {
+                throw new IrisException(
+                    ErrorCode.Unknown,
+                    "服务凭据解析失败",
+                    innerException: null,
+                    retryable: false,
+                    providerId: capturedDraft.Profile.Id,
+                    detail: ex.GetType().Name);
+            }
+
+            if (res.Error != null)
+            {
+                throw new IrisException(
+                    res.Error.Code,
+                    res.Error.Message,
+                    innerException: null,
+                    retryable: false,
+                    providerId: capturedDraft.Profile.Id,
+                    detail: res.Error.Detail);
+            }
+
+            var credentials = res.Credentials ?? ProviderCredentials.None;
+
+            // 5. 创建瞬态快照并在其作用域内调用实际模型获取
             var snapshot = await _providerRegistry.CreateTransientAsync(capturedDraft.Profile, credentials, cancellationToken).ConfigureAwait(false);
             try
             {
@@ -429,8 +465,10 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                     throw new IrisException(
                         ErrorCode.NotConfigured,
                         ErrorMessages.GetDefault(ErrorCode.NotConfigured),
+                        innerException: null,
                         retryable: false,
-                        providerId: capturedDraft.Profile.Id);
+                        providerId: capturedDraft.Profile.Id,
+                        detail: "无法创建服务实例");
                 }
 
                 if (reg.Provider is not IModelCatalogSource catalogSource)
@@ -438,6 +476,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                     throw new IrisException(
                         ErrorCode.NotConfigured,
                         "当前服务不支持获取模型列表",
+                        innerException: null,
                         retryable: false,
                         providerId: capturedDraft.Profile.Id);
                 }
@@ -453,8 +492,19 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         {
             throw;
         }
-        catch (IrisException)
+        catch (IrisException irisEx)
         {
+            if (irisEx.InnerException != null)
+            {
+                throw new IrisException(
+                    irisEx.Code,
+                    irisEx.Message,
+                    innerException: null,
+                    httpStatus: irisEx.HttpStatus,
+                    retryable: irisEx.Retryable,
+                    providerId: irisEx.ProviderId ?? draft.Profile?.Id ?? string.Empty,
+                    detail: irisEx.Detail);
+            }
             throw;
         }
         catch (Exception ex)
@@ -462,9 +512,9 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             throw new IrisException(
                 ErrorCode.ProviderUnavailable,
                 "获取模型列表失败",
-                ex,
+                innerException: null,
                 retryable: false,
-                providerId: capturedDraft.Profile.Id,
+                providerId: draft.Profile?.Id ?? string.Empty,
                 detail: ex.GetType().Name);
         }
     }
@@ -488,12 +538,20 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                     return new DraftCredentialsResult(ProviderCredentials.None);
                 }
 
-                // 已有草稿 Keep：在短串行锁内核对基线配置并捕获当前 Profile
-                TranslationProviderProfile currentMatchingProfile;
+                // 已有草稿 Keep：在短串行锁内核对基线配置并捕获当前 Profile，并持有锁直到读取完成
                 await _gate.WaitAsync(cancellationToken).ConfigureAwait(false);
                 try
                 {
-                    var current = _settingsService.Current;
+                    AppSettings current;
+                    try
+                    {
+                        current = _settingsService.Current;
+                    }
+                    catch (Exception ex)
+                    {
+                        return new DraftCredentialsResult(null, new ErrorInfo(ErrorCode.Unknown, "读取当前配置失败", Detail: ex.GetType().Name, ProviderId: draft.Profile.Id));
+                    }
+
                     var match = current.Translation.Providers.FirstOrDefault(p => string.Equals(p.Id, draft.BaseProfile.Id, StringComparison.Ordinal));
                     if (match == null)
                     {
@@ -510,17 +568,38 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                         return new DraftCredentialsResult(null, new ErrorInfo(ErrorCode.InvalidArgument, "草稿 Profile ID 必须与 BaseProfile ID 一致", Detail: "DraftIdMismatch", ProviderId: draft.Profile.Id));
                     }
 
-                    currentMatchingProfile = match;
-                }
-                finally
-                {
-                    _gate.Release();
-                }
+                    if (!string.Equals(draft.Profile.CredentialSetId, draft.BaseProfile.CredentialSetId, StringComparison.Ordinal))
+                    {
+                        return new DraftCredentialsResult(null, new ErrorInfo(ErrorCode.InvalidArgument, "已有草稿不能修改 CredentialSetId 引用", Detail: "CredentialSetIdMismatch", ProviderId: draft.Profile.Id));
+                    }
 
-                // 在后台线程执行凭据解析，避免在调用线程/UI 线程阻塞执行 SecretStore I/O
-                try
-                {
-                    var resolveResult = await Task.Run(() => ProviderCredentialResolver.Resolve(currentMatchingProfile, _secretStore, _logger), CancellationToken.None).ConfigureAwait(false);
+                    var snapshotProfile = CloneProfile(match);
+
+                    // 在后台线程执行凭据解析，避免在调用线程/UI 线程阻塞执行 SecretStore I/O
+                    var resolveTask = Task.Run(() => ProviderCredentialResolver.Resolve(snapshotProfile, _secretStore, _logger), CancellationToken.None);
+                    CredentialResolutionResult resolveResult;
+                    try
+                    {
+                        resolveResult = await resolveTask.WaitAsync(cancellationToken).ConfigureAwait(false);
+                    }
+                    catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+                    {
+                        // 取消已开始的同步 I/O 时观察它退出后再释放所有权
+                        try
+                        {
+                            await resolveTask.ConfigureAwait(false);
+                        }
+                        catch
+                        {
+                            // 忽略后台任务的非取消异常
+                        }
+                        throw;
+                    }
+                    catch (Exception ex)
+                    {
+                        return new DraftCredentialsResult(null, new ErrorInfo(ErrorCode.StorageFailure, ErrorMessages.GetDefault(ErrorCode.StorageFailure), Detail: ex.GetType().Name, ProviderId: draft.Profile.Id));
+                    }
+
                     if (resolveResult.IsExplicitUnconfigured || resolveResult.Credentials == null)
                     {
                         return new DraftCredentialsResult(null, new ErrorInfo(ErrorCode.NotConfigured, ErrorMessages.GetDefault(ErrorCode.NotConfigured), Detail: "凭据未配置", ProviderId: draft.Profile.Id));
@@ -528,9 +607,9 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
 
                     return new DraftCredentialsResult(resolveResult.Credentials);
                 }
-                catch (Exception ex)
+                finally
                 {
-                    return new DraftCredentialsResult(null, MapStorageException(ex));
+                    _gate.Release();
                 }
 
             default:
@@ -1485,6 +1564,11 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             return new ErrorInfo(ErrorCode.InvalidArgument, "Profile 不能为空");
         }
 
+        if (string.IsNullOrWhiteSpace(draft.Profile.Id))
+        {
+            return new ErrorInfo(ErrorCode.InvalidArgument, "Profile ID 不能为空");
+        }
+
         if (draft.Credentials == null)
         {
             return new ErrorInfo(ErrorCode.InvalidArgument, "Credentials 不能为空");
@@ -1503,9 +1587,39 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         return null;
     }
 
-    private static ErrorInfo? ValidateDraft(TranslationProviderDraft draft, bool isTranslationTest)
+    private static ErrorInfo? ValidateDraft(TranslationProviderDraft draft, bool isTranslationTest, AppSettings? currentSettings)
     {
         var p = draft.Profile;
+
+        if (string.IsNullOrWhiteSpace(p.Id))
+        {
+            return new ErrorInfo(ErrorCode.InvalidArgument, "Profile ID 不能为空");
+        }
+
+        if (draft.BaseProfile == null)
+        {
+            if (!NewProfileIdRegex().IsMatch(p.Id))
+            {
+                return new ErrorInfo(ErrorCode.InvalidArgument, "新增 Profile ID 格式不符合规范");
+            }
+        }
+        else
+        {
+            if (string.IsNullOrWhiteSpace(draft.BaseProfile.Id))
+            {
+                return new ErrorInfo(ErrorCode.InvalidArgument, "BaseProfile ID 不能为空");
+            }
+
+            if (!string.Equals(p.Id, draft.BaseProfile.Id, StringComparison.Ordinal))
+            {
+                return new ErrorInfo(ErrorCode.InvalidArgument, "草稿 Profile ID 必须与 BaseProfile ID 一致");
+            }
+
+            if (!string.Equals(p.CredentialSetId, draft.BaseProfile.CredentialSetId, StringComparison.Ordinal))
+            {
+                return new ErrorInfo(ErrorCode.InvalidArgument, "已有草稿不能修改 CredentialSetId 引用");
+            }
+        }
 
         if (!Enum.IsDefined(p.Kind))
         {
@@ -1520,12 +1634,6 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         if (p.TimeoutSeconds < 5 || p.TimeoutSeconds > 600)
         {
             return new ErrorInfo(ErrorCode.InvalidArgument, "TimeoutSeconds 必须在 5 到 600 之间");
-        }
-
-        // 已有草稿 ID 必须一致
-        if (draft.BaseProfile != null && !string.Equals(p.Id, draft.BaseProfile.Id, StringComparison.Ordinal))
-        {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "草稿 Profile ID 必须与 BaseProfile ID 一致");
         }
 
         // 凭据意图校验
@@ -1646,11 +1754,6 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             {
                 return new ErrorInfo(ErrorCode.InvalidArgument, "Anthropic Effort 必须为 low/medium/high/xhigh/max 或 null");
             }
-
-            if (p.Model != null && p.Model.Contains("haiku", StringComparison.OrdinalIgnoreCase) && opt.Effort != null)
-            {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "Haiku 模型不支持 Effort 参数，必须显式设置为 null");
-            }
         }
 
         // 仅在翻译测试时校验模型与生成参数
@@ -1674,6 +1777,23 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                     return new ErrorInfo(ErrorCode.InvalidArgument, "Temperature 必须在 0.0 到 2.0 之间");
                 }
             }
+
+            if (p.Kind == TranslationProviderKind.Anthropic && p.AnthropicOptions != null)
+            {
+                var opt = p.AnthropicOptions;
+                if (p.Model.Contains("haiku", StringComparison.OrdinalIgnoreCase) && opt.Effort != null)
+                {
+                    return new ErrorInfo(ErrorCode.InvalidArgument, "Haiku 模型不支持 Effort 参数，必须显式设置为 null");
+                }
+            }
+
+            if (p.PromptTemplateId != null)
+            {
+                if (currentSettings != null && !TemplateExists(p.PromptTemplateId, currentSettings))
+                {
+                    return new ErrorInfo(ErrorCode.InvalidArgument, "指定的 PromptTemplateId 不存在", ProviderId: p.Id);
+                }
+            }
         }
 
         return null;
@@ -1689,8 +1809,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 : null;
             return profile with
             {
-                OpenAIOptions = openAi with { ExtraHeaders = headers },
-                AnthropicOptions = null
+                OpenAIOptions = openAi with { ExtraHeaders = headers }
             };
         }
         else if (profile.Kind == TranslationProviderKind.Anthropic)
@@ -1698,8 +1817,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             var anthropic = profile.AnthropicOptions ?? new AnthropicOptions();
             return profile with
             {
-                AnthropicOptions = anthropic,
-                OpenAIOptions = null
+                AnthropicOptions = anthropic
             };
         }
 
