@@ -1477,5 +1477,195 @@ public sealed class SettingsWindowPresenterTests
             }
         });
     }
+
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task ShowAsync_WhenPartialRollbackClosingCancelled_RetainsWindowAndScope_AndShutdownRecoversAfterUncancel(bool createHandle)
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var settingsService = Substitute.For<ISettingsService>();
+            settingsService.Current.Returns(new AppSettings());
+
+            var autoStartService = Substitute.For<IAutoStartService>();
+            var uiDispatcher = new WpfUiDispatcher();
+
+            var services = new ServiceCollection();
+            services.AddSingleton(settingsService);
+            services.AddSingleton(autoStartService);
+            services.AddSingleton<IUiDispatcher>(uiDispatcher);
+            services.AddSingleton<ThemeService>();
+
+            ScopedDisposableWitness? witness = null;
+            services.AddScoped<ScopedDisposableWitness>(sp =>
+            {
+                witness = new ScopedDisposableWitness();
+                return witness;
+            });
+            services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
+            {
+                _ = sp.GetRequiredService<ScopedDisposableWitness>();
+                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+            });
+
+            // 注入 ViewModel 解析失败（模拟未组装 Session 阶段的局部回滚）
+            services.AddScoped<SettingsViewModel>(sp => throw new InvalidOperationException("Injected ViewModel resolution failure."));
+
+            SettingsWindow? window = null;
+            System.ComponentModel.CancelEventHandler cancelHandler = (_, e) => e.Cancel = true;
+
+            services.AddTransient<SettingsWindow>(sp =>
+            {
+                witness = sp.GetRequiredService<ScopedDisposableWitness>();
+                var win = new SettingsWindow
+                {
+                    ShowActivated = false,
+                    ShowInTaskbar = false,
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Left = -10000,
+                    Top = -10000,
+                    Opacity = 0
+                };
+                win.Closing += cancelHandler;
+                if (createHandle)
+                {
+                    new WindowInteropHelper(win).EnsureHandle();
+                }
+                window = win;
+                return win;
+            });
+
+            using var rootProvider = services.BuildServiceProvider();
+            var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
+
+            try
+            {
+                // 1. 发起展示：ViewModel 解析抛错，进入尚未组装 Session 的局部回滚分支，但 Close 被 Closing 取消
+                var showEx = await Should.ThrowAsync<InvalidOperationException>(() => presenter.ShowAsync("general"));
+                showEx.Message.ShouldContain("Injected ViewModel resolution failure.");
+
+                window.ShouldNotBeNull();
+                witness.ShouldNotBeNull();
+
+                // 2. 故障存在时：断言窗口仍存活，scope 未释放，Presenter 保留清理责任
+                Application.Current.Windows.Cast<Window>().Contains(window!).ShouldBeTrue("取消关闭后窗口必须保持存活在 Application.Windows");
+                witness!.IsDisposed.ShouldBeFalse("窗口尚未成功关闭前 scope 绝对不得被提前释放");
+                presenter.HasPendingRollback.ShouldBeTrue("Presenter 必须保留局部回滚的所有权与重试入口");
+
+                if (createHandle)
+                {
+                    new WindowInteropHelper(window!).Handle.ShouldNotBe(IntPtr.Zero);
+                }
+
+                // 3. 故障存在时调用 ShutdownAsync：因关闭取消，必须向调用方传递失败，不能提前报告成功
+                var shutdownEx = await Should.ThrowAsync<InvalidOperationException>(() => presenter.ShutdownAsync());
+                shutdownEx.Message.ShouldContain("设置窗口关闭被取消或失败");
+                witness.IsDisposed.ShouldBeFalse("关停失败后 scope 必须继续存活");
+                presenter.HasPendingRollback.ShouldBeTrue("关停失败后 Presenter 必须继续保留待清理资源");
+
+                // 4. 移除故障：允许窗口正常关闭
+                window!.Closing -= cancelHandler;
+
+                // 5. 解除取消后再次 Shutdown：断言窗口从 Application.Windows 移除，HWND 不再存活，scope 释放一次
+                await presenter.ShutdownAsync();
+
+                Application.Current.Windows.Cast<Window>().Contains(window).ShouldBeFalse("重试成功后窗口必须从 Application.Windows 移除");
+                new WindowInteropHelper(window).Handle.ShouldBe(IntPtr.Zero, "重试成功后窗口原生句柄必须被销毁");
+                witness.IsDisposed.ShouldBeTrue("重试成功后 scope 必须被正确释放");
+                presenter.HasPendingRollback.ShouldBeFalse("清理完成后待回滚状态必须已清空");
+            }
+            finally
+            {
+                if (window != null)
+                {
+                    window.Closing -= cancelHandler;
+                    window.ForceClose = true;
+                    try { window.Close(); } catch { }
+                }
+                await presenter.ShutdownAsync();
+            }
+        });
+    }
+
+    [Fact]
+    public async Task ShowAsync_WhenPartialRollbackSucceedsNormally_DisposesScopeAndCleansUpWindow()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var settingsService = Substitute.For<ISettingsService>();
+            settingsService.Current.Returns(new AppSettings());
+
+            var autoStartService = Substitute.For<IAutoStartService>();
+            var uiDispatcher = new WpfUiDispatcher();
+
+            var services = new ServiceCollection();
+            services.AddSingleton(settingsService);
+            services.AddSingleton(autoStartService);
+            services.AddSingleton<IUiDispatcher>(uiDispatcher);
+            services.AddSingleton<ThemeService>();
+
+            ScopedDisposableWitness? witness = null;
+            services.AddScoped<ScopedDisposableWitness>(sp =>
+            {
+                witness = new ScopedDisposableWitness();
+                return witness;
+            });
+            services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
+            {
+                _ = sp.GetRequiredService<ScopedDisposableWitness>();
+                return new GeneralSettingsSaveCoordinator(settingsService, autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+            });
+
+            // 注入 ViewModel 解析失败（模拟未组装 Session 阶段的局部回滚）
+            services.AddScoped<SettingsViewModel>(sp => throw new InvalidOperationException("Injected ViewModel resolution failure."));
+
+            SettingsWindow? window = null;
+
+            services.AddTransient<SettingsWindow>(sp =>
+            {
+                witness = sp.GetRequiredService<ScopedDisposableWitness>();
+                var win = new SettingsWindow
+                {
+                    ShowActivated = false,
+                    ShowInTaskbar = false,
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Left = -10000,
+                    Top = -10000,
+                    Opacity = 0
+                };
+                window = win;
+                return win;
+            });
+
+            using var rootProvider = services.BuildServiceProvider();
+            var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
+
+            try
+            {
+                // 发起展示：ViewModel 解析抛错，正常执行局部回滚（未取消关闭）
+                var showEx = await Should.ThrowAsync<InvalidOperationException>(() => presenter.ShowAsync("general"));
+                showEx.Message.ShouldContain("Injected ViewModel resolution failure.");
+
+                window.ShouldNotBeNull();
+                witness.ShouldNotBeNull();
+
+                // 断言无 Closing 取消的正常失败回滚：窗口关闭且从 Application.Windows 移除，scope 释放，Presenter 干净
+                Application.Current.Windows.Cast<Window>().Contains(window!).ShouldBeFalse("正常失败回滚必须关闭窗口并脱离 Application.Windows");
+                witness!.IsDisposed.ShouldBeTrue("正常失败回滚必须释放 scope");
+                presenter.HasPendingRollback.ShouldBeFalse("正常失败回滚后 Presenter 无残留待清理项");
+                presenter.ActiveSession.ShouldBeNull();
+            }
+            finally
+            {
+                if (window != null)
+                {
+                    window.ForceClose = true;
+                    try { window.Close(); } catch { }
+                }
+                await presenter.ShutdownAsync();
+            }
+        });
+    }
 }
 

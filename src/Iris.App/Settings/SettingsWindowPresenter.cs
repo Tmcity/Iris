@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Interop;
 using Iris.App.Hosting;
 using Iris.App.Services;
@@ -27,6 +29,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
 
     private readonly Lock _gate = new();
     private SettingsWindowSession? _activeSession;
+    private PartialWindowCleanup? _pendingRollback;
     private bool _isShuttingDown;
     private Task? _shutdownTask;
     private Task? _openTask;
@@ -48,6 +51,17 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
             lock (_gate)
             {
                 return _activeSession;
+            }
+        }
+    }
+
+    internal bool HasPendingRollback
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _pendingRollback != null && _pendingRollback.IsAlive;
             }
         }
     }
@@ -123,6 +137,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
     private async Task ShowCoreAsync(string targetPage)
     {
         SettingsWindowSession? oldSession;
+        PartialWindowCleanup? oldRollback;
         lock (_gate)
         {
             if (_isShuttingDown)
@@ -130,6 +145,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
                 throw new OperationCanceledException("Presenter is shutting down.");
             }
             oldSession = _activeSession;
+            oldRollback = _pendingRollback;
         }
 
         if (oldSession != null)
@@ -142,6 +158,29 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
             {
                 LogSettingsShutdownError(_logger, ex.GetType().Name);
                 throw;
+            }
+        }
+
+        if (oldRollback != null && oldRollback.IsAlive)
+        {
+            try
+            {
+                await _uiDispatcher.InvokeAsync(() => oldRollback.CleanupAsync(CancellationToken.None), CancellationToken.None).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                LogSettingsShutdownError(_logger, ex.GetType().Name);
+                throw;
+            }
+            finally
+            {
+                lock (_gate)
+                {
+                    if (!oldRollback.IsAlive && ReferenceEquals(_pendingRollback, oldRollback))
+                    {
+                        _pendingRollback = null;
+                    }
+                }
             }
         }
 
@@ -181,6 +220,10 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
                     _activeSession.ActivateAndNavigate(targetPage);
                     return;
                 }
+                if (_pendingRollback != null && _pendingRollback.IsAlive)
+                {
+                    throw new InvalidOperationException("前次设置窗口清理尚未完成，无法打开新窗口");
+                }
             }
 
             IServiceScope? scope = null;
@@ -188,14 +231,26 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
             SettingsWindowSession? session = null;
             GeneralSettingsSaveCoordinator? saveCoordinator = null;
             SettingsViewModel? viewModel = null;
+            PartialWindowCleanup? partialCleanup = null;
 
             try
             {
                 scope = _serviceProvider.CreateScope();
+                partialCleanup = new PartialWindowCleanup(scope);
+                lock (_gate)
+                {
+                    _pendingRollback = partialCleanup;
+                }
+
                 window = scope.ServiceProvider.GetRequiredService<SettingsWindow>();
+                partialCleanup.SetWindow(window);
+
                 viewModel = scope.ServiceProvider.GetRequiredService<SettingsViewModel>();
+                partialCleanup.SetViewModel(viewModel);
+
                 var themeService = scope.ServiceProvider.GetRequiredService<ThemeService>();
                 saveCoordinator = scope.ServiceProvider.GetRequiredService<GeneralSettingsSaveCoordinator>();
+                partialCleanup.SetSaveCoordinator(saveCoordinator);
 
                 window.DataContext = viewModel;
 
@@ -209,6 +264,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
                         throw new OperationCanceledException("Presenter is shutting down.");
                     }
                     _activeSession = session;
+                    _pendingRollback = null;
                 }
 
                 window.Show();
@@ -227,29 +283,15 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
                         LogSettingsShutdownError(_logger, cleanupEx.GetType().Name);
                     }
                 }
-                else
+                else if (partialCleanup != null)
                 {
-                    if (window != null)
+                    try
                     {
-                        window.ForceClose = true;
-                        try { window.Close(); } catch { }
+                        await partialCleanup.CleanupAsync(CancellationToken.None).ConfigureAwait(true);
                     }
-                    if (saveCoordinator != null)
+                    catch (Exception cleanupEx)
                     {
-                        try { await saveCoordinator.WaitForActiveWorkAsync().ConfigureAwait(false); } catch { }
-                    }
-                    if (viewModel != null)
-                    {
-                        try { await viewModel.WaitForActiveWorkAsync().ConfigureAwait(false); } catch { }
-                    }
-                    var handle = window != null ? new WindowInteropHelper(window).Handle : IntPtr.Zero;
-                    if (handle == IntPtr.Zero)
-                    {
-                        scope?.Dispose();
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("设置窗口关闭被取消或失败，资源保持存活");
+                        LogSettingsShutdownError(_logger, cleanupEx.GetType().Name);
                     }
                 }
 
@@ -262,6 +304,15 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
                     else if (ReferenceEquals(_activeSession, session))
                     {
                         _activeSession = null;
+                    }
+
+                    if (partialCleanup != null && partialCleanup.IsAlive)
+                    {
+                        _pendingRollback = partialCleanup;
+                    }
+                    else if (ReferenceEquals(_pendingRollback, partialCleanup))
+                    {
+                        _pendingRollback = null;
                     }
                 }
 
@@ -290,7 +341,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
                 return _shutdownTask;
             }
 
-            if (_activeSession == null && (_openTask == null || _openTask.IsCompleted))
+            if (_activeSession == null && _pendingRollback == null && (_openTask == null || _openTask.IsCompleted))
             {
                 _isShuttingDown = true;
                 _shutdownTask = Task.CompletedTask;
@@ -299,13 +350,14 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
 
             _isShuttingDown = true;
             var sessionToShutdown = _activeSession;
+            var rollbackToShutdown = _pendingRollback;
 
-            _shutdownTask = ShutdownCoreAsync(sessionToShutdown, cancellationToken);
+            _shutdownTask = ShutdownCoreAsync(sessionToShutdown, rollbackToShutdown, cancellationToken);
             return _shutdownTask;
         }
     }
 
-    private async Task ShutdownCoreAsync(SettingsWindowSession? sessionToShutdown, CancellationToken cancellationToken)
+    private async Task ShutdownCoreAsync(SettingsWindowSession? sessionToShutdown, PartialWindowCleanup? rollbackToShutdown, CancellationToken cancellationToken)
     {
         Task? openTask;
         lock (_gate)
@@ -325,9 +377,11 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
         }
 
         SettingsWindowSession? currentSession;
+        PartialWindowCleanup? currentRollback;
         lock (_gate)
         {
             currentSession = _activeSession ?? sessionToShutdown;
+            currentRollback = _pendingRollback ?? rollbackToShutdown;
         }
 
         if (currentSession != null)
@@ -355,6 +409,116 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
                     }
                 }
             }
+        }
+
+        if (currentRollback != null && currentRollback.IsAlive)
+        {
+            try
+            {
+                await _uiDispatcher.InvokeAsync(() => currentRollback.CleanupAsync(cancellationToken), cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                lock (_gate)
+                {
+                    _isShuttingDown = false;
+                }
+                LogSettingsShutdownError(_logger, ex.GetType().Name);
+                throw;
+            }
+            finally
+            {
+                lock (_gate)
+                {
+                    if (!currentRollback.IsAlive && ReferenceEquals(_pendingRollback, currentRollback))
+                    {
+                        _pendingRollback = null;
+                    }
+                }
+            }
+        }
+    }
+
+    private sealed class PartialWindowCleanup
+    {
+        private readonly IServiceScope _scope;
+        private SettingsWindow? _window;
+        private SettingsViewModel? _viewModel;
+        private GeneralSettingsSaveCoordinator? _saveCoordinator;
+        private bool _isClosed;
+        private bool _isDisposed;
+
+        public PartialWindowCleanup(IServiceScope scope)
+        {
+            _scope = scope ?? throw new ArgumentNullException(nameof(scope));
+        }
+
+        public IServiceScope Scope => _scope;
+        public SettingsWindow? Window => _window;
+        public bool IsAlive => !_isDisposed;
+
+        public void SetWindow(SettingsWindow window)
+        {
+            _window = window;
+        }
+
+        public void SetViewModel(SettingsViewModel viewModel)
+        {
+            _viewModel = viewModel;
+        }
+
+        public void SetSaveCoordinator(GeneralSettingsSaveCoordinator saveCoordinator)
+        {
+            _saveCoordinator = saveCoordinator;
+        }
+
+        public async Task CleanupAsync(CancellationToken cancellationToken = default)
+        {
+            if (_isDisposed)
+            {
+                return;
+            }
+
+            if (!_isClosed && _window != null)
+            {
+                bool closedFired = false;
+                void OnClosed(object? s, EventArgs e) => closedFired = true;
+
+                _window.Closed += OnClosed;
+                try
+                {
+                    _window.ForceClose = true;
+                    _window.Close();
+                }
+                finally
+                {
+                    _window.Closed -= OnClosed;
+                }
+
+                bool isRetained = (Application.Current != null && Application.Current.Windows.Cast<Window>().Contains(_window))
+                    || new WindowInteropHelper(_window).Handle != IntPtr.Zero;
+
+                if (!closedFired && isRetained)
+                {
+                    throw new InvalidOperationException("设置窗口关闭被取消或失败，资源保持存活");
+                }
+
+                _isClosed = true;
+            }
+
+            if (_saveCoordinator != null)
+            {
+                try { await _saveCoordinator.WaitForActiveWorkAsync().ConfigureAwait(false); } catch { }
+            }
+
+            if (_viewModel != null)
+            {
+                try { await _viewModel.WaitForActiveWorkAsync().ConfigureAwait(false); } catch { }
+                try { _viewModel.Dispose(); } catch { }
+            }
+
+            _scope.Dispose();
+            _isDisposed = true;
         }
     }
 
