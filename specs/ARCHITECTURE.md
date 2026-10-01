@@ -1,6 +1,6 @@
 # Iris 架构设计说明书
 
-> 版本：v1.22 · 2026-09-30 · 状态：**已冻结（首期）**
+> 版本：v1.23 · 2026-10-01 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
@@ -23,7 +23,8 @@
 > 变更记录：v1.20（T-014 通过后，签发 T-021A）— CLIPBOARD_SERVICE.md / CCR-008 固定 Win32 文本/图像格式、重试与取消提交点、原生资源所有权、输入预算及隔离测试方法；CCR-007 结案。C14-1 仅补强 Dispatcher 回归测试与报告，不返工已验收生产实现。
 > 变更记录：v1.21（T-021A-R2 通过后，签发 T-022A）— DESKTOP_CONTEXT.md / CCR-009 定稿显示器筛选、物理坐标、GetDpiForWindow 路径、最近屏幕、前台快照和资源/失败边界；CCR-008 结案。桌面候选稿转为正式规范，会话草案仍留待 T-015。
 > 变更记录：v1.22（T-022A-R1 通过后，签发前移 T-018）— SETTINGS_EDITING.md / CCR-010 定稿设置窗口按需作用域、四项常规草稿/冲突、主题预览、保存/应用状态、开机启动与正常退出等待；CCR-009 结案。Provider 编辑仍由 T-019 后续接入。
-> 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json` · `specs/TRANSLATION_EXECUTION.md` · `specs/HISTORY_STORAGE.md` · `specs/TRANSLATION_ORCHESTRATOR.md` · `specs/CLIPBOARD_SERVICE.md` · `specs/DESKTOP_CONTEXT.md` · `specs/SETTINGS_EDITING.md`
+> 变更记录：v1.23（T-018-R6 通过后）— CCR-010 结案；PROVIDER_EDITING.md / CCR-011 冻结 Core 联合编辑计划、不可变凭据 staging/发布/清理、opaque 重试回执与瞬态草稿操作。模型发现只检查端点/凭据，不再要求已选模型。T-019 拆为 A 协调器与 B 服务页，A 不提前修改 App 接线或预设。
+> 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json` · `specs/TRANSLATION_EXECUTION.md` · `specs/HISTORY_STORAGE.md` · `specs/TRANSLATION_ORCHESTRATOR.md` · `specs/CLIPBOARD_SERVICE.md` · `specs/DESKTOP_CONTEXT.md` · `specs/SETTINGS_EDITING.md` · `specs/PROVIDER_EDITING.md`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
 ---
@@ -491,7 +492,7 @@ return new OcrOutcome(raw, text, usedFallback)
 
 **构造与配置判定**
 - 由 `OpenAICompatibleTranslationProviderFactory`（`ITranslationProviderFactory`，单例，`AddIrisProviders` 中以 `TryAddEnumerable` 注册）创建；依赖 `IHttpClientFactory`、`IPromptTemplateProvider`、`IPromptRenderer`、`ISettingsService`、`TimeProvider`、`ILoggerFactory`。`Create` 时 `profile.Kind` 不是 OpenAICompatible → `ArgumentException`；`OpenAIOptions` 为 null → 使用 `new OpenAICompatibleOptions()`。Provider 实例不可变，设置变化由 Registry 重建实例（T-011）。
-- **`Descriptor.IsConfigured`** = `BaseUrl` 是 scheme 为 http / https 的绝对 URI **且** `Model` 非空白 **且**（`ApiKey` 非空白 **或** BaseUrl 的主机是本地地址——判定复用 `DynamicWebProxy.IsLocalAddress`，覆盖本机与局域网的 Ollama / LM Studio）。未配置时 `TranslateStreamAsync` 在第一次 `MoveNextAsync` 时抛 `IrisException(NotConfigured)`，不发出任何请求；`ListModelsAsync` 同样处理。
+- **`Descriptor.IsConfigured`** = `BaseUrl` 是 scheme 为 http / https 的绝对 URI **且** `Model` 非空白 **且**（`ApiKey` 非空白 **或** BaseUrl 的主机是本地地址——判定复用 `DynamicWebProxy.IsLocalAddress`，覆盖本机与局域网的 Ollama / LM Studio）。未配置时 `TranslateStreamAsync` 在第一次 `MoveNextAsync` 时抛 `IrisException(NotConfigured)`，不发出任何请求。**模型发现（CCR-011 / T-019A）**：`ListModelsAsync` 使用相同端点/凭据条件，但不要求 Model 非空；不得用 Descriptor.IsConfigured 作含模型条件的统一 guard。其它 HTTP/超时/错误规则不变。
 - **公共骨架重构的边界**：上述延迟执行要求适用于 Provider 对外返回的序列，不能仅在 `ProviderCallGuard` 内成立。获取序列、创建枚举器时不做配置失败判断或启动 I/O；`NotConfigured` 在第一次 `MoveNextAsync` 时抛出。同步参数校验（如 request 为 null）与配置失败是两类问题，不得用前者解释后者的提前抛出。
 
 **请求**
@@ -570,6 +571,7 @@ new AnthropicClient
 - `Timeout = Timeout.InfiniteTimeSpan`：超时由 Provider 的 CTS 负责（与 §9.1 相同的无进展超时）。
 - `BaseUrl` 是 `/v1/messages` 之前的部分：实测 `BaseUrl = "http://h/proxy"` → `POST http://h/proxy/v1/messages`。反代地址**不应**以 `/v1` 结尾（设置页 T-019 需提示）。
 - **`Descriptor.IsConfigured`** = `Model` 非空白 **且**（`BaseUrl` 为空白，或为 scheme 为 http / https 的绝对 URI）**且**（`ApiKey` 非空白，或 `BaseUrl` 非空白且主机是本地地址（`DynamicWebProxy.IsLocalAddress`））。未配置 → 与 §9.1 相同，第一次 `MoveNextAsync` 时抛 `NotConfigured`，不发请求。
+- **模型发现（CCR-011 / T-019A）**：ListModelsAsync 只采用上述端点/凭据条件，不要求已选 Model；官方空地址仍需 Key，自定义本地地址继续允许免 Key。Descriptor 与翻译/TestAsync 的模型条件保持不变。
 - `KindName = "Anthropic"`。
 
 **SDK 心跳适配层（T-010-R1）**

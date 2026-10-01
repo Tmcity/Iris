@@ -33,6 +33,8 @@ public static class CoreServiceCollectionExtensions
         services.TryAddSingleton(TimeProvider.System);
         services.TryAddSingleton<ITranslationOrchestrator, TranslationOrchestrator>();
 
+        services.TryAddSingleton<ISettingsEditCoordinator, SettingsEditCoordinator>();
+
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IActionHandler, OpenSettingsHandler>());
 
         return services;

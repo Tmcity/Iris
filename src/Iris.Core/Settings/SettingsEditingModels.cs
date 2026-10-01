@@ -1,0 +1,109 @@
+using System;
+using System.Collections.Generic;
+
+namespace Iris.Core.Settings;
+
+/// <summary>非 null 补丁项表示显式编辑意图；Base 用于冲突检测，Target 为目标值。</summary>
+public sealed record SettingsFieldEdit<T>(T Base, T Target)
+{
+    public override string ToString() => "SettingsFieldEdit";
+}
+
+/// <summary>只编辑 T-018 已开放的四项；null 项保留提交时的最新值。</summary>
+public sealed record GeneralSettingsPatch(
+    SettingsFieldEdit<AppTheme>? Theme = null,
+    SettingsFieldEdit<bool>? LaunchAtStartup = null,
+    SettingsFieldEdit<bool>? ShowStartupNotification = null,
+    SettingsFieldEdit<string>? LogLevel = null);
+
+public enum CredentialEditKind
+{
+    Keep = 0,
+    Replace = 1,
+    Clear = 2,
+}
+
+/// <summary>Replace 必须提供完整凭据对；Keep/Clear 的 Replacement 必须为 null。不得持久化此 DTO。</summary>
+public sealed record ProviderCredentialEdit(
+    CredentialEditKind Kind,
+    Iris.Core.Common.ProviderCredentials? Replacement = null)
+{
+    public override string ToString() => $"ProviderCredentialEdit {{ Kind = {Kind} }}";
+}
+
+public enum TranslationProfileChangeKind
+{
+    Add = 1,
+    Update = 2,
+    Delete = 3,
+}
+
+/// <summary>Add: BaseProfile=null；Update: 同 ID 的 base/target；Delete: TargetProfile=null 且凭据 Keep。
+/// Profile 的凭据引用由协调器管理，调用方不能通过 TargetProfile 任意切换引用。</summary>
+public sealed record TranslationProfileChange(
+    TranslationProfileChangeKind Kind,
+    TranslationProviderProfile? BaseProfile,
+    TranslationProviderProfile? TargetProfile,
+    ProviderCredentialEdit Credentials)
+{
+    public override string ToString() => $"TranslationProfileChange {{ Kind = {Kind} }}";
+}
+
+/// <summary>BaseIds 是基线中全部翻译服务按 Order 稳定排序的 ID；TargetIds 是应用增删后完整的目标顺序。</summary>
+public sealed record TranslationOrderChange(
+    IReadOnlyList<string> BaseIds,
+    IReadOnlyList<string> TargetIds)
+{
+    public override string ToString() => "TranslationOrderChange";
+}
+
+/// <summary>一次联合提交计划。入口同步捕获所有嵌套集合；不允许用整份陈旧 AppSettings 覆盖 Current。</summary>
+public sealed record SettingsEditPlan(
+    GeneralSettingsPatch General,
+    IReadOnlyList<TranslationProfileChange> TranslationChanges,
+    TranslationOrderChange? TranslationOrder = null)
+{
+    public override string ToString() => "SettingsEditPlan";
+}
+
+/// <summary>BaseProfile=null 表示新增草稿；Keep 解析已有凭据时须核对当前 base，网络阶段不持有编辑锁。</summary>
+public sealed record TranslationProviderDraft(
+    TranslationProviderProfile Profile,
+    TranslationProviderProfile? BaseProfile,
+    ProviderCredentialEdit Credentials)
+{
+    public override string ToString() => "TranslationProviderDraft";
+}
+
+public enum SettingsEditStatus
+{
+    Uncommitted = 0,
+    Applied = 1,
+    ApplyPending = 2,
+}
+
+/// <summary>已提交但观察者刷新/旧凭据清理未完成的 opaque 回执；不含原凭据、JSON、Provider 或 UI 引用。
+/// 只能交回创建它的协调器；由调用方持有，不是持久化格式，不代表尚未保存。</summary>
+public interface ISettingsApplyReceipt
+{
+    Guid CommitId { get; }
+}
+
+/// <summary>Applied/ApplyPending 均表示已提交；仅 ApplyPending 带 PendingApply。
+/// IsConflict 仅适用于未提交的并发冲突；Error 必须是安全错误信息。</summary>
+public sealed record SettingsEditResult(
+    SettingsEditStatus Status,
+    bool IsConflict = false,
+    Iris.Core.Errors.ErrorInfo? Error = null,
+    ISettingsApplyReceipt? PendingApply = null)
+{
+    public override string ToString() => $"SettingsEditResult {{ Status = {Status}, IsConflict = {IsConflict} }}";
+}
+
+/// <summary>重试只完成已有提交的刷新/清理；失败仍为已提交，调用方继续持有原回执。</summary>
+public sealed record SettingsApplyResult(
+    bool IsComplete,
+    Iris.Core.Errors.ErrorInfo? Error = null)
+{
+    public override string ToString() => $"SettingsApplyResult {{ IsComplete = {IsComplete} }}";
+}

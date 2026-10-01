@@ -135,7 +135,7 @@ internal sealed partial class AnthropicTranslationProvider : ITranslationProvide
 
     private async Task<IReadOnlyList<string>> ListModelsCoreAsync(CancellationToken token)
     {
-        if (!Descriptor.IsConfigured)
+        if (!CanListModels(_profile, _credentials))
         {
             throw new IrisException(
                 ErrorCode.NotConfigured,
@@ -451,6 +451,26 @@ internal sealed partial class AnthropicTranslationProvider : ITranslationProvide
         }
 
         return null;
+    }
+
+    private static bool CanListModels(TranslationProviderProfile profile, ProviderCredentials credentials)
+    {
+        Uri? uri = null;
+        if (!string.IsNullOrWhiteSpace(profile.BaseUrl))
+        {
+            if (!Uri.TryCreate(profile.BaseUrl, UriKind.Absolute, out uri) ||
+                (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
+            {
+                return false;
+            }
+        }
+
+        if (!string.IsNullOrWhiteSpace(credentials.ApiKey))
+        {
+            return true;
+        }
+
+        return uri != null && DynamicWebProxy.IsLocalAddress(uri);
     }
 
     private static bool ComputeIsConfigured(TranslationProviderProfile profile, ProviderCredentials credentials)

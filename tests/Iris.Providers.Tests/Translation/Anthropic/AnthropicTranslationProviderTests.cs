@@ -1294,6 +1294,48 @@ public sealed class AnthropicTranslationProviderTests
     }
 
     [Fact]
+    public async Task ListModelsAsync_EmptyModel_ReturnsModels_WhileDescriptorNotConfiguredAndTestFailsWithoutRequest()
+    {
+        var profile = new TranslationProviderProfile
+        {
+            Id = "test-anthropic-empty-model",
+            DisplayName = "Test Anthropic Empty Model",
+            Kind = TranslationProviderKind.Anthropic,
+            BaseUrl = "",
+            Model = "", // Empty model
+        };
+
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.Expect(HttpMethod.Get, "https://api.anthropic.com/v1/models")
+            .WithHeaders("x-api-key", "sk-ant-test-key-12345678")
+            .Respond("application/json", "{\"data\":[{\"id\":\"claude-sonnet-5\"}]}");
+
+        var provider = CreateProvider(mockHttp, profile: profile);
+
+        // 1. Descriptor is not configured because Model is empty
+        provider.Descriptor.IsConfigured.ShouldBeFalse();
+
+        // 2. ListModels succeeds and sends GET /models
+        var models = await provider.ListModelsAsync(TestContext.Current.CancellationToken);
+        models.ShouldBe(["claude-sonnet-5"]);
+        mockHttp.VerifyNoOutstandingExpectation();
+
+        // 3. TestAsync fails without making any HTTP request
+        var testResult = await provider.TestAsync(TestContext.Current.CancellationToken);
+        testResult.Success.ShouldBeFalse();
+        testResult.Error.ShouldNotBeNull();
+        testResult.Error.Code.ShouldBe(ErrorCode.NotConfigured);
+
+        // 4. TranslateStreamAsync also throws NotConfigured
+        var req = new ProviderTranslateRequest("hello", "en", "zh-Hans");
+        var ex = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await foreach (var _ in provider.TranslateStreamAsync(req, TestContext.Current.CancellationToken)) { }
+        });
+        ex.Code.ShouldBe(ErrorCode.NotConfigured);
+    }
+
+    [Fact]
     public async Task Privacy_SensitiveInformation_IsNotLogged()
     {
         const string apiKey = "sk-ant-secret-key-99887766";

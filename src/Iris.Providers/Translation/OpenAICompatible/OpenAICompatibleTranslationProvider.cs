@@ -110,7 +110,7 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
 
     private async Task<IReadOnlyList<string>> ListModelsCoreAsync(CancellationToken token)
     {
-        if (!Descriptor.IsConfigured)
+        if (!CanListModels(_profile, _credentials))
         {
             throw new IrisException(
                 ErrorCode.NotConfigured,
@@ -511,6 +511,26 @@ internal sealed partial class OpenAICompatibleTranslationProvider : ITranslation
 
         LogUnknownFinishReason(_logger, _profile.Id, rawReason);
         return TranslationFinishReason.Completed;
+    }
+
+    private static bool CanListModels(TranslationProviderProfile profile, ProviderCredentials credentials)
+    {
+        if (string.IsNullOrWhiteSpace(profile.BaseUrl) || !Uri.TryCreate(profile.BaseUrl, UriKind.Absolute, out var uri))
+        {
+            return false;
+        }
+
+        if (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps)
+        {
+            return false;
+        }
+
+        if (!string.IsNullOrWhiteSpace(credentials.ApiKey))
+        {
+            return true;
+        }
+
+        return DynamicWebProxy.IsLocalAddress(uri);
     }
 
     private static bool ComputeIsConfigured(TranslationProviderProfile profile, ProviderCredentials credentials)

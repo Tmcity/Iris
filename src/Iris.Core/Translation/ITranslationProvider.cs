@@ -21,7 +21,9 @@ public interface ITranslationProvider
     Task<ProviderTestResult> TestAsync(CancellationToken cancellationToken);
 }
 
-/// <summary>可选能力：列出可用模型（设置页下拉框）。OpenAI 兼容：GET {BaseUrl}/models。</summary>
+/// <summary>可选能力：列出可用模型（设置页下拉框）。OpenAI 兼容：GET {BaseUrl}/models。
+/// 按端点/凭据规则判断调用资格，不要求 Model 非空；Descriptor.IsConfigured 仍表示可翻译配置。
+/// 使用既有超时、取消及安全错误规则；无效端点或必需凭据不足时不发请求。</summary>
 public interface IModelCatalogSource
 {
     Task<IReadOnlyList<string>> ListModelsAsync(CancellationToken cancellationToken);

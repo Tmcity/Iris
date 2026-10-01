@@ -19,6 +19,7 @@ using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
+using Iris.Core.Settings;
 
 // =====================================================================================================
 //  PART A — Iris.Core（net10.0，零平台依赖）
@@ -423,7 +424,9 @@ namespace Iris.Core.Translation
         Task<ProviderTestResult> TestAsync(CancellationToken cancellationToken);
     }
 
-    /// <summary>可选能力：列出可用模型（设置页下拉框）。OpenAI 兼容：GET {BaseUrl}/models。</summary>
+    /// <summary>可选能力：列出可用模型（设置页下拉框）。OpenAI 兼容：GET {BaseUrl}/models。
+    /// 按端点/凭据规则判断调用资格，不要求 Model 非空；Descriptor.IsConfigured 仍表示可翻译配置。
+    /// 使用既有超时、取消及安全错误规则；无效端点或必需凭据不足时不发请求。</summary>
     public interface IModelCatalogSource
     {
         Task<IReadOnlyList<string>> ListModelsAsync(CancellationToken cancellationToken);
@@ -1265,6 +1268,140 @@ namespace Iris.Core.Settings
     public interface IProviderConfigurationObserver
     {
         Task RefreshAsync(CancellationToken cancellationToken = default);
+    }
+}
+
+// FILE: src/Iris.Core/Settings/SettingsEditingModels.cs
+namespace Iris.Core.Settings
+{
+    /// <summary>非 null 补丁项表示显式编辑意图；Base 用于冲突检测，Target 为目标值。</summary>
+    public sealed record SettingsFieldEdit<T>(T Base, T Target)
+    {
+        public override string ToString() => "SettingsFieldEdit";
+    }
+
+    /// <summary>只编辑 T-018 已开放的四项；null 项保留提交时的最新值。</summary>
+    public sealed record GeneralSettingsPatch(
+        SettingsFieldEdit<AppTheme>? Theme = null,
+        SettingsFieldEdit<bool>? LaunchAtStartup = null,
+        SettingsFieldEdit<bool>? ShowStartupNotification = null,
+        SettingsFieldEdit<string>? LogLevel = null);
+
+    public enum CredentialEditKind
+    {
+        Keep = 0,
+        Replace = 1,
+        Clear = 2,
+    }
+
+    /// <summary>Replace 必须提供完整凭据对；Keep/Clear 的 Replacement 必须为 null。不得持久化此 DTO。</summary>
+    public sealed record ProviderCredentialEdit(
+        CredentialEditKind Kind,
+        Iris.Core.Common.ProviderCredentials? Replacement = null)
+    {
+        public override string ToString() => $"ProviderCredentialEdit {{ Kind = {Kind} }}";
+    }
+
+    public enum TranslationProfileChangeKind
+    {
+        Add = 1,
+        Update = 2,
+        Delete = 3,
+    }
+
+    /// <summary>Add: BaseProfile=null；Update: 同 ID 的 base/target；Delete: TargetProfile=null 且凭据 Keep。
+    /// Profile 的凭据引用由协调器管理，调用方不能通过 TargetProfile 任意切换引用。</summary>
+    public sealed record TranslationProfileChange(
+        TranslationProfileChangeKind Kind,
+        TranslationProviderProfile? BaseProfile,
+        TranslationProviderProfile? TargetProfile,
+        ProviderCredentialEdit Credentials)
+    {
+        public override string ToString() => $"TranslationProfileChange {{ Kind = {Kind} }}";
+    }
+
+    /// <summary>BaseIds 是基线中全部翻译服务按 Order 稳定排序的 ID；TargetIds 是应用增删后完整的目标顺序。</summary>
+    public sealed record TranslationOrderChange(
+        IReadOnlyList<string> BaseIds,
+        IReadOnlyList<string> TargetIds)
+    {
+        public override string ToString() => "TranslationOrderChange";
+    }
+
+    /// <summary>一次联合提交计划。入口同步捕获所有嵌套集合；不允许用整份陈旧 AppSettings 覆盖 Current。</summary>
+    public sealed record SettingsEditPlan(
+        GeneralSettingsPatch General,
+        IReadOnlyList<TranslationProfileChange> TranslationChanges,
+        TranslationOrderChange? TranslationOrder = null)
+    {
+        public override string ToString() => "SettingsEditPlan";
+    }
+
+    /// <summary>BaseProfile=null 表示新增草稿；Keep 解析已有凭据时须核对当前 base，网络阶段不持有编辑锁。</summary>
+    public sealed record TranslationProviderDraft(
+        TranslationProviderProfile Profile,
+        TranslationProviderProfile? BaseProfile,
+        ProviderCredentialEdit Credentials)
+    {
+        public override string ToString() => "TranslationProviderDraft";
+    }
+
+    public enum SettingsEditStatus
+    {
+        Uncommitted = 0,
+        Applied = 1,
+        ApplyPending = 2,
+    }
+
+    /// <summary>已提交但观察者刷新/旧凭据清理未完成的 opaque 回执；不含原凭据、JSON、Provider 或 UI 引用。
+    /// 只能交回创建它的协调器；由调用方持有，不是持久化格式，不代表尚未保存。</summary>
+    public interface ISettingsApplyReceipt
+    {
+        Guid CommitId { get; }
+    }
+
+    /// <summary>Applied/ApplyPending 均表示已提交；仅 ApplyPending 带 PendingApply。
+    /// IsConflict 仅适用于未提交的并发冲突；Error 必须是安全错误信息。</summary>
+    public sealed record SettingsEditResult(
+        SettingsEditStatus Status,
+        bool IsConflict = false,
+        Iris.Core.Errors.ErrorInfo? Error = null,
+        ISettingsApplyReceipt? PendingApply = null)
+    {
+        public override string ToString() => $"SettingsEditResult {{ Status = {Status}, IsConflict = {IsConflict} }}";
+    }
+
+    /// <summary>重试只完成已有提交的刷新/清理；失败仍为已提交，调用方继续持有原回执。</summary>
+    public sealed record SettingsApplyResult(
+        bool IsComplete,
+        Iris.Core.Errors.ErrorInfo? Error = null)
+    {
+        public override string ToString() => $"SettingsApplyResult {{ IsComplete = {IsComplete} }}";
+    }
+}
+
+// FILE: src/Iris.Core/Settings/ISettingsEditCoordinator.cs
+namespace Iris.Core.Settings
+{
+    /// <summary>Core 配置编辑单例，构造不做 I/O；实现与回执规则见 PROVIDER_EDITING.md。
+    /// 所有 Provider 引用写入经此协调器串行化；方法不遗忘后台任务，调用方等待完整退出后释放其依赖。</summary>
+    public interface ISettingsEditCoordinator
+    {
+        /// <summary>同步捕获计划，stage 新凭据，一次 UpdateAsync 联合提交，刷新全部观察者后清理旧值。
+        /// 提交前取消在清理本次暂存值后抛 OperationCanceledException；提交后忽略迟到取消并返回明确已提交结果。</summary>
+        Task<SettingsEditResult> CommitAsync(SettingsEditPlan plan, CancellationToken cancellationToken = default);
+
+        /// <summary>仅重试回执的刷新/清理，不重新 stage 或发布草稿；对已完成回执幂等。
+        /// 取消不改变原提交事实；未知/其它协调器的回执作为参数错误拒绝。</summary>
+        Task<SettingsApplyResult> RetryApplyAsync(ISettingsApplyReceipt receipt, CancellationToken cancellationToken = default);
+
+        /// <summary>以草稿和显式解析的凭据创建瞬态租约测试翻译，不写设置或密钥；实际工作退出后释放租约。
+        /// 业务失败写入结果，调用方取消抛 OperationCanceledException；测试语言/Prompt 正文取既有已保存配置语义。</summary>
+        Task<Iris.Core.Common.ProviderTestResult> TestDraftAsync(TranslationProviderDraft draft, CancellationToken cancellationToken = default);
+
+        /// <summary>以瞬态租约获取草稿端点的模型；不要求先选模型，不写设置或密钥，工作退出后释放租约。
+        /// 无模型列表能力或配置不足抛安全 IrisException(NotConfigured)；调用方取消抛 OperationCanceledException。</summary>
+        Task<IReadOnlyList<string>> ListDraftModelsAsync(TranslationProviderDraft draft, CancellationToken cancellationToken = default);
     }
 }
 

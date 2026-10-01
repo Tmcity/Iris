@@ -84,6 +84,11 @@ public sealed class CoreRegistrationTests
         orchestrator1.ShouldNotBeNull();
         orchestrator1.ShouldBeSameAs(orchestrator2);
 
+        var coordinator1 = provider.GetService<ISettingsEditCoordinator>();
+        var coordinator2 = provider.GetService<ISettingsEditCoordinator>();
+        coordinator1.ShouldNotBeNull();
+        coordinator1.ShouldBeSameAs(coordinator2);
+
         var actionHandlers = provider.GetServices<Iris.Core.Actions.IActionHandler>().ToList();
         var openSettingsHandler = actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.OpenSettings);
         openSettingsHandler.ShouldNotBeNull();
@@ -119,6 +124,7 @@ public sealed class CoreRegistrationTests
         provider.GetServices<IProviderConfigurationObserver>().Count().ShouldBe(1);
         provider.GetServices<ITranslationCache>().Count().ShouldBe(1);
         provider.GetServices<ITranslationOrchestrator>().Count().ShouldBe(1);
+        provider.GetServices<ISettingsEditCoordinator>().Count().ShouldBe(1);
         provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.OpenSettings).ShouldBe(1);
     }
 }

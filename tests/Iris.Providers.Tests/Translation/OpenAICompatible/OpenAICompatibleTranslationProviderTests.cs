@@ -1501,6 +1501,53 @@ public sealed class OpenAICompatibleTranslationProviderTests
         ex401.Code.ShouldBe(ErrorCode.AuthenticationFailed);
     }
 
+    [Fact]
+    public async Task ListModelsAsync_EmptyModel_ReturnsModels_WhileDescriptorNotConfiguredAndTestFailsWithoutRequest()
+    {
+        var profile = new TranslationProviderProfile
+        {
+            Id = "test-openai-empty-model",
+            DisplayName = "Test OpenAI Empty Model",
+            Kind = TranslationProviderKind.OpenAICompatible,
+            BaseUrl = "https://api.openai.com/v1",
+            Model = "", // Empty model
+            OpenAIOptions = new OpenAICompatibleOptions
+            {
+                Stream = true,
+                StripThinkTags = true,
+            },
+        };
+
+        var mockHttp = new MockHttpMessageHandler();
+        mockHttp.Expect(HttpMethod.Get, "https://api.openai.com/v1/models")
+            .WithHeaders("Authorization", "Bearer sk-test-1234567890")
+            .Respond("application/json", "{\"data\":[{\"id\":\"gpt-4o\"}]}");
+
+        var provider = CreateProvider(mockHttp, profile: profile);
+
+        // 1. Descriptor is not configured because Model is empty
+        provider.Descriptor.IsConfigured.ShouldBeFalse();
+
+        // 2. ListModels succeeds and sends GET /models
+        var models = await provider.ListModelsAsync(TestContext.Current.CancellationToken);
+        models.ShouldBe(["gpt-4o"]);
+        mockHttp.VerifyNoOutstandingExpectation();
+
+        // 3. TestAsync fails without making any HTTP request (mockHttp has no matches)
+        var testResult = await provider.TestAsync(TestContext.Current.CancellationToken);
+        testResult.Success.ShouldBeFalse();
+        testResult.Error.ShouldNotBeNull();
+        testResult.Error.Code.ShouldBe(ErrorCode.NotConfigured);
+
+        // 4. TranslateStreamAsync also throws NotConfigured
+        var req = new ProviderTranslateRequest("hello", "en", "zh-Hans");
+        var ex = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await foreach (var _ in provider.TranslateStreamAsync(req, TestContext.Current.CancellationToken)) { }
+        });
+        ex.Code.ShouldBe(ErrorCode.NotConfigured);
+    }
+
     // ---------------- 10. 隐私 (Privacy) ----------------
 
     [Fact]

@@ -1,7 +1,7 @@
 # T-019 Provider 编辑、凭据发布与草稿操作设计稿
 
 > 2026-09-30，Codex；补充 SETTINGS_EDITING_PREPARATION.md。
-> **未批准的设计稿，不是当前工单。** 当前 T-018 继续原范围。T-019 的公开端口/DTO 与 T-018 保存入口如何接合，须在其验收后正式冻结并批准 CCR。
+> **历史准备稿。** 2026-10-01 已转为正式 PROVIDER_EDITING.md / CCR-011，准确签名以 CONTRACTS.cs 为准；下文保留准备过程和证据，冲突处以正式规范为准。T-019A / T-019B 分期见 BACKLOG。
 
 ## 1. 核心分工与候选端口
 

@@ -579,7 +579,7 @@ IDesktopContext 的 summary 与四个方法注释依次替换/增加为：
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-09-30 |
-| 状态 | **已落地，待 T-018-R6 复审**（注释同步正确；6c33a42 三条主反例通过，未组装会话的局部回滚仍未闭环） |
+| 状态 | **已验收结案**（2026-10-01，11d4ac2；局部回滚和既有退出反例通过，独立全量 1328 成功/1 环境跳过） |
 | 依据 | SETTINGS_EDITING.md；ARCH v1.22 |
 | 兼容性 | 仅细化 ISettingsWindowPresenter、IAutoStartService 注释，不改签名、默认值或配置字段；保存结果/预览服务保持 App internal |
 
@@ -611,3 +611,27 @@ Platform/DesktopModels.cs 中 IAutoStartService 的 summary 替换为，并分�
 ```
 
 不改变 ISettingsService、IActionDispatcher、IAppLifetime；正常退出的设置等待使用 App 内部接线。不批准 T-019 凭据写入端口，本单不实现它。实施后 CCR-010 改为“已落地，待复审”，BACKLOG 由架构师结案。
+
+## CCR-011：配置编辑协调端口、提交回执与模型发现前置条件
+
+| 字段 | 值 |
+|---|---|
+| 批准 | 架构师 Codex，2026-10-01 |
+| 状态 | **已落地，待复审** |
+| 依据 | PROVIDER_EDITING.md；PROVIDER_REGISTRY.md §2.2；ARCH v1.23 |
+| 落地范围 | T-019A 的 Core 协调器与两种 Provider 模型列表 guard；T-019B 再接 UI |
+| 兼容性 | 不改 settings.json/schemaVersion、现有字段/默认值、SecretStore、Registry 或 Provider 方法签名 |
+
+已由架构师将以下纯契约声明同步至 CONTRACTS.cs 和相应 Core 文件，准确签名以 CONTRACTS.cs 为准：
+
+- SettingsEditingModels.cs：SettingsFieldEdit、GeneralSettingsPatch、CredentialEditKind、ProviderCredentialEdit、TranslationProfileChangeKind、TranslationProfileChange、TranslationOrderChange、SettingsEditPlan、TranslationProviderDraft、SettingsEditStatus、ISettingsApplyReceipt、SettingsEditResult、SettingsApplyResult。
+- ISettingsEditCoordinator.cs：CommitAsync、RetryApplyAsync、TestDraftAsync、ListDraftModelsAsync。
+- ITranslationProvider.cs 的 IModelCatalogSource 注释：模型发现只依赖端点/凭据条件，不要求已选 Model；Descriptor.IsConfigured 仍表示翻译配置资格。签名不变，具体 guard 由 T-019A 实现。
+
+协调器构造无 I/O，Core 单例；一次 UpdateAsync 提交常规补丁和 Provider 改动，提交后观察者屏障/清理失败返回已提交回执。回执不持有凭据或配置 JSON，重试只刷新当前配置并清理仍无引用的候选，不能恢复旧草稿。
+
+模型发现不再沿用“缺少模型就是不能列模型”的旧 guard；这解决已有 SuggestedModel=null 的首次配置流程。两种 Provider 继续拒绝非法端点/远程缺 Key，保留本地免 Key、HTTP/SDK、超时/取消、分页与安全错误语义，不修改预设或臆造模型。
+
+实现者不得自行修改这些已批准签名。T-019A 完成后标为“已落地，待复审”；T-019B 的 UI/系统应用接线不等同此单已实现。
+
+声明验证（2026-10-01）：新增声明后的解决方案 Release 构建 0 警告/0 错误（19.82 秒），架构套件 8 成功/0 失败/0 跳过。完整 CONTRACTS.cs 的独立 net10.0/BCL 编译最初暴露既有跨 namespace 的 Settings 类型缺少顶层 using，已补 `using Iris.Core.Settings;`（不改签名）；随后独立编译 0 警告/0 错误（1.95 秒）。项目位于系统临时目录 iris-t019-contract-check，仅编译该契约文件。这些检查不构成尚未实现的编辑协调器业务通过证据。

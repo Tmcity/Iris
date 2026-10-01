@@ -208,7 +208,7 @@ public sealed class AnthropicReworkR1Tests
             Model = "", // 未配置
         };
         var mockHttp = new MockHttpMessageHandler();
-        var provider = CreateProvider(mockHttp, profile: profile);
+        var provider = CreateProvider(mockHttp, profile: profile, credentials: ProviderCredentials.None);
 
         // 调用并等待 Task 时抛出 NotConfigured
         var ex = await Should.ThrowAsync<IrisException>(() => provider.ListModelsAsync(TestContext.Current.CancellationToken));
