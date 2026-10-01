@@ -35,6 +35,9 @@ public sealed class SettingsEditCoordinatorTests
         public int UpdateCallCount { get; private set; }
         public Func<AppSettings, AppSettings>? MutateInterceptor { get; set; }
         public Func<AppSettings, AppSettings>? BeforeMutateHook { get; set; }
+        public Func<CancellationToken, Task>? BeforeUpdateHookAsync { get; set; }
+        public Func<AppSettings, Task>? AfterUpdateHookAsync { get; set; }
+        public bool UpdateTokenCanCancel { get; private set; }
 
         public TestSettingsService(AppSettings initial)
         {
@@ -45,8 +48,15 @@ public sealed class SettingsEditCoordinatorTests
 
         public Task LoadAsync(CancellationToken cancellationToken = default) => Task.CompletedTask;
 
-        public Task UpdateAsync(Func<AppSettings, AppSettings> mutate, CancellationToken cancellationToken = default)
+        public async Task UpdateAsync(Func<AppSettings, AppSettings> mutate, CancellationToken cancellationToken = default)
         {
+            UpdateTokenCanCancel = cancellationToken.CanBeCanceled;
+            if (BeforeUpdateHookAsync != null)
+            {
+                await BeforeUpdateHookAsync(cancellationToken);
+            }
+            cancellationToken.ThrowIfCancellationRequested();
+
             UpdateCallCount++;
             var old = _current;
             if (BeforeMutateHook != null)
@@ -61,7 +71,11 @@ public sealed class SettingsEditCoordinatorTests
             }
             _current = next;
             Changed?.Invoke(this, new SettingsChangedEventArgs(old, _current));
-            return Task.CompletedTask;
+
+            if (AfterUpdateHookAsync != null)
+            {
+                await AfterUpdateHookAsync(_current);
+            }
         }
 
         public event EventHandler<SettingsChangedEventArgs>? Changed;
@@ -72,6 +86,8 @@ public sealed class SettingsEditCoordinatorTests
         public ConcurrentDictionary<string, string> Storage { get; } = new(StringComparer.Ordinal);
         public List<string> SetCalls { get; } = new();
         public List<string> RemoveCalls { get; } = new();
+        public int CallerThreadId { get; set; }
+        public bool ReadOnCallerThread { get; private set; }
 
         public Func<string, string, bool>? FailOnSet { get; set; }
         public Func<string, bool>? FailOnRemove { get; set; }
@@ -79,6 +95,10 @@ public sealed class SettingsEditCoordinatorTests
 
         public string? Get(string key)
         {
+            if (CallerThreadId != 0 && Environment.CurrentManagedThreadId == CallerThreadId)
+            {
+                ReadOnCallerThread = true;
+            }
             Storage.TryGetValue(key, out var val);
             return val;
         }
@@ -116,11 +136,16 @@ public sealed class SettingsEditCoordinatorTests
     private sealed class TestConfigurationObserver : IProviderConfigurationObserver
     {
         public int RefreshCount { get; private set; }
+        public bool Fail { get; set; }
         public Func<CancellationToken, Task>? OnRefreshAsync { get; set; }
 
         public async Task RefreshAsync(CancellationToken cancellationToken = default)
         {
             RefreshCount++;
+            if (Fail)
+            {
+                throw new InvalidOperationException("Simulated observer refresh failure");
+            }
             if (OnRefreshAsync != null)
             {
                 await OnRefreshAsync(cancellationToken);
@@ -1700,5 +1725,699 @@ public sealed class SettingsEditCoordinatorTests
         var result = await coordinator.CommitAsync(plan, TestContext.Current.CancellationToken);
         result.Status.ShouldBe(SettingsEditStatus.Applied);
         settingsService.Current.General.LogLevel.ShouldBe("Warning");
+    }
+
+    // =========================================================================
+    // 场景 14: 写前门闩取消 (R1-1)
+    // 关键断言: 传入有效 token，UpdateAsync 开始前取消抛出 OCE，不写入配置，staged 凭据被回收
+    // =========================================================================
+    [Fact]
+    public async Task Scenario14_CommitAsync_CancelBeforeMutate_ThrowsOCE_DoesNotPublishSettings_RollsBackStaged()
+    {
+        var initial = CreateInitialSettings(out _, out _);
+        var settingsService = new TestSettingsService(initial);
+        var secretStore = new TestSecretStore();
+        var registry = new TestTranslationProviderRegistry(settingsService);
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        using var cts = new CancellationTokenSource();
+        settingsService.BeforeUpdateHookAsync = async _ =>
+        {
+            await Task.Yield();
+            cts.Cancel();
+        };
+
+        var plan = new SettingsEditPlan(
+            General: new GeneralSettingsPatch(),
+            TranslationChanges: new[]
+            {
+                new TranslationProfileChange(
+                    TranslationProfileChangeKind.Add,
+                    BaseProfile: null,
+                    TargetProfile: new TranslationProviderProfile
+                    {
+                        Id = "tp-000000000014",
+                        DisplayName = "Cancel Probe",
+                        Kind = TranslationProviderKind.OpenAICompatible,
+                        BaseUrl = "https://api.openai.com/v1",
+                        Model = "gpt-4o",
+                        Enabled = true
+                    },
+                    Credentials: new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials("fake-key-14", null)))
+            },
+            TranslationOrder: new TranslationOrderChange(
+                BaseIds: new[] { "tp-openai", "tp-anthropic" },
+                TargetIds: new[] { "tp-openai", "tp-anthropic", "tp-000000000014" }));
+
+        await Should.ThrowAsync<OperationCanceledException>(async () =>
+        {
+            await coordinator.CommitAsync(plan, cts.Token);
+        });
+
+        settingsService.UpdateTokenCanCancel.ShouldBeTrue();
+        settingsService.UpdateCallCount.ShouldBe(0);
+        settingsService.Current.Translation.Providers.Count.ShouldBe(2);
+
+        // 验证 staged 临时凭据被回收
+        secretStore.RemoveCalls.Count.ShouldBe(1);
+        secretStore.Storage.Count(kv => kv.Key.StartsWith("credential-set/cs-", StringComparison.Ordinal)).ShouldBe(0);
+    }
+
+    // =========================================================================
+    // 场景 15: UpdateAsync 成功返回后取消 (R1-1)
+    // 关键断言: 越过提交点后承认已提交，正常报告 Applied，不抛 OCE
+    // =========================================================================
+    [Fact]
+    public async Task Scenario15_CommitAsync_CanceledAfterUpdateAsyncSucceeds_AcknowledgesCommit()
+    {
+        var initial = CreateInitialSettings(out _, out _);
+        var settingsService = new TestSettingsService(initial);
+        var secretStore = new TestSecretStore();
+        var registry = new TestTranslationProviderRegistry(settingsService);
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        using var cts = new CancellationTokenSource();
+        settingsService.AfterUpdateHookAsync = _ =>
+        {
+            cts.Cancel();
+            return Task.CompletedTask;
+        };
+
+        var plan = new SettingsEditPlan(
+            General: new GeneralSettingsPatch(LogLevel: new SettingsFieldEdit<string>("Information", "Warning")),
+            TranslationChanges: Array.Empty<TranslationProfileChange>(),
+            TranslationOrder: null);
+
+        var result = await coordinator.CommitAsync(plan, cts.Token);
+        result.Status.ShouldBe(SettingsEditStatus.Applied);
+        settingsService.Current.General.LogLevel.ShouldBe("Warning");
+    }
+
+    // =========================================================================
+    // 场景 16: 零候选观察者失败与重试 (R1-2)
+    // 关键断言: 无旧凭据候选时观察者失败返回 ApplyPending，重试再次调用观察者，成功后才 Complete
+    // =========================================================================
+    [Fact]
+    public async Task Scenario16_EmptyCandidates_ObserverFails_RetrySucceedsOnlyWhenObserverSucceeds()
+    {
+        var initial = CreateInitialSettings(out _, out _);
+        var settingsService = new TestSettingsService(initial);
+        var secretStore = new TestSecretStore();
+        var registry = new TestTranslationProviderRegistry(settingsService);
+        var observer = new TestConfigurationObserver { Fail = true };
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry, observer },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        var plan = new SettingsEditPlan(
+            General: new GeneralSettingsPatch(),
+            TranslationChanges: new[]
+            {
+                new TranslationProfileChange(
+                    TranslationProfileChangeKind.Add,
+                    BaseProfile: null,
+                    TargetProfile: new TranslationProviderProfile
+                    {
+                        Id = "tp-000000000016",
+                        DisplayName = "Add Provider",
+                        Kind = TranslationProviderKind.OpenAICompatible,
+                        BaseUrl = "https://api.openai.com/v1",
+                        Model = "gpt-4o",
+                        Enabled = true
+                    },
+                    Credentials: new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials("fake-key-16", null)))
+            },
+            TranslationOrder: new TranslationOrderChange(
+                BaseIds: new[] { "tp-openai", "tp-anthropic" },
+                TargetIds: new[] { "tp-openai", "tp-anthropic", "tp-000000000016" }));
+
+        var committed = await coordinator.CommitAsync(plan, TestContext.Current.CancellationToken);
+        committed.Status.ShouldBe(SettingsEditStatus.ApplyPending);
+        committed.PendingApply.ShouldNotBeNull();
+        observer.RefreshCount.ShouldBe(1);
+
+        // 第一次重试，观察者依然失败
+        var retry1 = await coordinator.RetryApplyAsync(committed.PendingApply, TestContext.Current.CancellationToken);
+        retry1.IsComplete.ShouldBeFalse();
+        observer.RefreshCount.ShouldBe(2);
+
+        // 第二次重试，解除观察者失败
+        observer.Fail = false;
+        var retry2 = await coordinator.RetryApplyAsync(committed.PendingApply, TestContext.Current.CancellationToken);
+        retry2.IsComplete.ShouldBeTrue();
+        observer.RefreshCount.ShouldBe(3);
+    }
+
+    // =========================================================================
+    // 场景 17: 纯排序走观察者屏障 (R1-2)
+    // 关键断言: 纯排序不能跳过屏障，观察者失败返回 ApplyPending，重试成功后幂等
+    // =========================================================================
+    [Fact]
+    public async Task Scenario17_OrderOnly_ObserverFails_ReturnsApplyPending_RetryIdempotent()
+    {
+        var initial = CreateInitialSettings(out _, out _);
+        var settingsService = new TestSettingsService(initial);
+        var secretStore = new TestSecretStore();
+        var registry = new TestTranslationProviderRegistry(settingsService);
+        var observer = new TestConfigurationObserver { Fail = true };
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry, observer },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        var plan = new SettingsEditPlan(
+            General: new GeneralSettingsPatch(),
+            TranslationChanges: Array.Empty<TranslationProfileChange>(),
+            TranslationOrder: new TranslationOrderChange(
+                BaseIds: new[] { "tp-openai", "tp-anthropic" },
+                TargetIds: new[] { "tp-anthropic", "tp-openai" }));
+
+        var result = await coordinator.CommitAsync(plan, TestContext.Current.CancellationToken);
+        result.Status.ShouldBe(SettingsEditStatus.ApplyPending);
+        result.PendingApply.ShouldNotBeNull();
+        observer.RefreshCount.ShouldBe(1);
+
+        // 配置已按顺序更新
+        settingsService.Current.Translation.Providers[0].Id.ShouldBe("tp-anthropic");
+
+        // 恢复观察者后重试
+        observer.Fail = false;
+        var retried = await coordinator.RetryApplyAsync(result.PendingApply, TestContext.Current.CancellationToken);
+        retried.IsComplete.ShouldBeTrue();
+        observer.RefreshCount.ShouldBe(2);
+
+        // 再次重试保持幂等
+        var idempotent = await coordinator.RetryApplyAsync(result.PendingApply, TestContext.Current.CancellationToken);
+        idempotent.IsComplete.ShouldBeTrue();
+        observer.RefreshCount.ShouldBe(2);
+    }
+
+    // =========================================================================
+    // 场景 18: 非法枚举（CredentialEditKind / TranslationProfileChangeKind）(R1-3)
+    // 关键断言: 999 等未定义枚举被拒绝为 InvalidArgument，绝不走 Clear，无任何持久副作用
+    // =========================================================================
+    [Fact]
+    public async Task Scenario18_InvalidEnums_ReturnsInvalidArgument_NoSideEffects()
+    {
+        var initial = CreateInitialSettings(out var openAiSetId, out _);
+        var settingsService = new TestSettingsService(initial);
+        var secretStore = new TestSecretStore();
+        secretStore.Set(SecretKeys.CredentialSet(openAiSetId), "{\"format\":\"iris-provider-credentials\",\"version\":1,\"apiKey\":\"sk-openai\",\"secretKey\":null}");
+
+        var registry = new TestTranslationProviderRegistry(settingsService);
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        // 1. 非法 CredentialEditKind: 999
+        var targetProfile = initial.Translation.Providers[0] with { DisplayName = "Changed Name" };
+        var plan1 = new SettingsEditPlan(
+            General: new GeneralSettingsPatch(),
+            TranslationChanges: new[]
+            {
+                new TranslationProfileChange(
+                    TranslationProfileChangeKind.Update,
+                    BaseProfile: initial.Translation.Providers[0],
+                    TargetProfile: targetProfile,
+                    Credentials: new ProviderCredentialEdit((CredentialEditKind)999))
+            },
+            TranslationOrder: null);
+
+        var res1 = await coordinator.CommitAsync(plan1, TestContext.Current.CancellationToken);
+        res1.Status.ShouldBe(SettingsEditStatus.Uncommitted);
+        res1.Error.ShouldNotBeNull();
+        res1.Error.Code.ShouldBe(ErrorCode.InvalidArgument);
+
+        // 验证没有副作用：旧密钥完好，未调用 Set/Remove
+        secretStore.Get(SecretKeys.CredentialSet(openAiSetId)).ShouldNotBeNull();
+        secretStore.RemoveCalls.Count.ShouldBe(0);
+
+        // 2. 非法 TranslationProfileChangeKind: 999
+        var plan2 = new SettingsEditPlan(
+            General: new GeneralSettingsPatch(),
+            TranslationChanges: new[]
+            {
+                new TranslationProfileChange(
+                    (TranslationProfileChangeKind)999,
+                    BaseProfile: initial.Translation.Providers[0],
+                    TargetProfile: targetProfile,
+                    Credentials: new ProviderCredentialEdit(CredentialEditKind.Keep))
+            },
+            TranslationOrder: null);
+
+        var res2 = await coordinator.CommitAsync(plan2, TestContext.Current.CancellationToken);
+        res2.Status.ShouldBe(SettingsEditStatus.Uncommitted);
+        res2.Error.ShouldNotBeNull();
+        res2.Error.Code.ShouldBe(ErrorCode.InvalidArgument);
+    }
+
+    // =========================================================================
+    // 场景 19: Null 集合结构拒绝 (R1-3)
+    // 关键断言: 拒绝 null changes、null Credentials 等结构，不静默丢弃
+    // =========================================================================
+    [Fact]
+    public async Task Scenario19_NullStructure_ReturnsInvalidArgument()
+    {
+        var initial = CreateInitialSettings(out _, out _);
+        var settingsService = new TestSettingsService(initial);
+        var secretStore = new TestSecretStore();
+        var registry = new TestTranslationProviderRegistry(settingsService);
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        // 1. null element in TranslationChanges
+        var plan1 = new SettingsEditPlan(
+            General: new GeneralSettingsPatch(),
+            TranslationChanges: new TranslationProfileChange[] { null! },
+            TranslationOrder: null);
+
+        var res1 = await coordinator.CommitAsync(plan1, TestContext.Current.CancellationToken);
+        res1.Status.ShouldBe(SettingsEditStatus.Uncommitted);
+        res1.Error.ShouldNotBeNull();
+        res1.Error.Code.ShouldBe(ErrorCode.InvalidArgument);
+
+        // 2. null Credentials in TranslationProfileChange
+        var plan2 = new SettingsEditPlan(
+            General: new GeneralSettingsPatch(),
+            TranslationChanges: new[]
+            {
+                new TranslationProfileChange(
+                    TranslationProfileChangeKind.Add,
+                    BaseProfile: null,
+                    TargetProfile: new TranslationProviderProfile
+                    {
+                        Id = "tp-000000000019",
+                        DisplayName = "Null Credentials",
+                        Kind = TranslationProviderKind.OpenAICompatible,
+                        BaseUrl = "https://api.openai.com/v1",
+                        Model = "gpt-4o",
+                        Enabled = true
+                    },
+                    Credentials: null!)
+            },
+            TranslationOrder: null);
+
+        var res2 = await coordinator.CommitAsync(plan2, TestContext.Current.CancellationToken);
+        res2.Status.ShouldBe(SettingsEditStatus.Uncommitted);
+        res2.Error.ShouldNotBeNull();
+        res2.Error.Code.ShouldBe(ErrorCode.InvalidArgument);
+    }
+
+    // =========================================================================
+    // 场景 20: Haiku 默认 Options 校验 (R1-3)
+    // 关键断言: Haiku 补齐默认 Effort="low" 时被拒绝为 InvalidArgument，显式 Effort=null 通过
+    // =========================================================================
+    [Fact]
+    public async Task Scenario20_Haiku_DefaultOptionsChecked_RejectsEffortNotNull_AcceptsExplicitNull()
+    {
+        var initial = CreateInitialSettings(out _, out _);
+        var settingsService = new TestSettingsService(initial);
+        var secretStore = new TestSecretStore();
+        var registry = new TestTranslationProviderRegistry(settingsService);
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        // 1. AnthropicOptions == null: 补齐默认 Effort="low"，但 Haiku 不支持 Effort，被拒绝
+        var haikuNullOptions = new TranslationProviderDraft(
+            Profile: new TranslationProviderProfile
+            {
+                Id = "tp-000000000020",
+                DisplayName = "Haiku Provider",
+                Kind = TranslationProviderKind.Anthropic,
+                Model = "claude-3-5-haiku-20241022",
+                AnthropicOptions = null,
+                Enabled = true
+            },
+            BaseProfile: null,
+            Credentials: new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials("sk-ant-test", null)));
+
+        var ex = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await coordinator.ListDraftModelsAsync(haikuNullOptions, TestContext.Current.CancellationToken);
+        });
+        ex.Code.ShouldBe(ErrorCode.InvalidArgument);
+
+        // 2. 显式指定 Effort = null: 校验通过
+        var haikuExplicitNullEffort = new TranslationProviderDraft(
+            Profile: new TranslationProviderProfile
+            {
+                Id = "tp-000000000020",
+                DisplayName = "Haiku Provider",
+                Kind = TranslationProviderKind.Anthropic,
+                Model = "claude-3-5-haiku-20241022",
+                AnthropicOptions = new AnthropicOptions { Effort = null },
+                Enabled = true
+            },
+            BaseProfile: null,
+            Credentials: new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials("sk-ant-test", null)));
+
+        var models = await coordinator.ListDraftModelsAsync(haikuExplicitNullEffort, TestContext.Current.CancellationToken);
+        models.Count.ShouldBeGreaterThan(0);
+    }
+
+    // =========================================================================
+    // 场景 21: 陈旧 Keep 草稿准入拦截 (R1-4)
+    // 关键断言: BaseProfile 与当前配置不一致返回 Conflict，不创建瞬态实例，不使用旧密钥
+    // =========================================================================
+    [Fact]
+    public async Task Scenario21_StaleKeepDraft_ReturnsConflict_DoesNotCreateTransient_DoesNotUseStaleKey()
+    {
+        var initial = CreateInitialSettings(out _, out _);
+        var oldSet = "cs-" + new string('a', 32);
+        var newSet = "cs-" + new string('b', 32);
+
+        var oldProfile = initial.Translation.Providers[0] with { CredentialSetId = oldSet };
+        var newerProfile = oldProfile with { CredentialSetId = newSet, BaseUrl = "https://new.example.com/v1" };
+
+        var settings = initial with
+        {
+            Translation = initial.Translation with
+            {
+                Providers = new List<TranslationProviderProfile> { newerProfile }
+            }
+        };
+
+        var settingsService = new TestSettingsService(settings);
+        var secretStore = new TestSecretStore();
+        secretStore.Set(SecretKeys.CredentialSet(oldSet), "{\"format\":\"iris-provider-credentials\",\"version\":1,\"apiKey\":\"fake-old-key\",\"secretKey\":null}");
+        secretStore.Set(SecretKeys.CredentialSet(newSet), "{\"format\":\"iris-provider-credentials\",\"version\":1,\"apiKey\":\"fake-new-key\",\"secretKey\":null}");
+
+        var registry = new TestTranslationProviderRegistry(settingsService);
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        // 使用陈旧的 oldProfile 作为 BaseProfile 进行 Keep 测试
+        var staleDraft = new TranslationProviderDraft(
+            Profile: oldProfile,
+            BaseProfile: oldProfile,
+            Credentials: new ProviderCredentialEdit(CredentialEditKind.Keep));
+
+        var result = await coordinator.TestDraftAsync(staleDraft, TestContext.Current.CancellationToken);
+        result.Success.ShouldBeFalse();
+        result.Error.ShouldNotBeNull();
+        result.Error.Detail.ShouldBe("BaseProfileConflict");
+
+        // 未调用瞬态工厂创建实例
+        registry.CreatedSnapshots.Count.ShouldBe(0);
+    }
+
+    // =========================================================================
+    // 场景 22: Keep 草稿后台线程读取凭据 (R1-4)
+    // 关键断言: 凭据解析不在调用线程同步执行，不阻塞 UI/调用线程
+    // =========================================================================
+    [Fact]
+    public async Task Scenario22_KeepDraft_SecretReadOnBackgroundThread_DoesNotBlockCaller()
+    {
+        var initial = CreateInitialSettings(out var openAiSetId, out _);
+        var settingsService = new TestSettingsService(initial);
+        var secretStore = new TestSecretStore();
+        secretStore.Set(SecretKeys.CredentialSet(openAiSetId), "{\"format\":\"iris-provider-credentials\",\"version\":1,\"apiKey\":\"sk-openai\",\"secretKey\":null}");
+        secretStore.CallerThreadId = Environment.CurrentManagedThreadId;
+
+        var registry = new TestTranslationProviderRegistry(settingsService);
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        var draft = new TranslationProviderDraft(
+            Profile: initial.Translation.Providers[0],
+            BaseProfile: initial.Translation.Providers[0],
+            Credentials: new ProviderCredentialEdit(CredentialEditKind.Keep));
+
+        var tcs = new TaskCompletionSource<ProviderTestResult>();
+        var thread = new Thread(() =>
+        {
+            secretStore.CallerThreadId = Environment.CurrentManagedThreadId;
+            try
+            {
+                var res = coordinator.TestDraftAsync(draft, CancellationToken.None).GetAwaiter().GetResult();
+                tcs.SetResult(res);
+            }
+            catch (Exception ex)
+            {
+                tcs.SetException(ex);
+            }
+        })
+        {
+            IsBackground = true
+        };
+        thread.Start();
+
+        var result = await tcs.Task;
+        result.Success.ShouldBeTrue();
+        secretStore.ReadOnCallerThread.ShouldBeFalse();
+    }
+
+    // =========================================================================
+    // 场景 23: Replace 修复旧坏引用 (R1-4)
+    // 关键断言: 旧 BaseProfile 的坏引用不阻断 Replace 新密钥测试
+    // =========================================================================
+    [Fact]
+    public async Task Scenario23_Replace_FixesBadOldReference_Succeeds()
+    {
+        var badProfile = new TranslationProviderProfile
+        {
+            Id = "tp-000000000023",
+            DisplayName = "Bad Ref Profile",
+            Kind = TranslationProviderKind.OpenAICompatible,
+            BaseUrl = "https://api.openai.com/v1",
+            Model = "gpt-4o",
+            CredentialSetId = "invalid-reference-string",
+            Enabled = true
+        };
+
+        var settings = new AppSettings
+        {
+            Translation = new TranslationSettings
+            {
+                Providers = new List<TranslationProviderProfile> { badProfile }
+            }
+        };
+
+        var settingsService = new TestSettingsService(settings);
+        var secretStore = new TestSecretStore();
+        var registry = new TestTranslationProviderRegistry(settingsService);
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        var replaceDraft = new TranslationProviderDraft(
+            Profile: badProfile,
+            BaseProfile: badProfile,
+            Credentials: new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials("sk-replacement-key", null)));
+
+        var result = await coordinator.TestDraftAsync(replaceDraft, TestContext.Current.CancellationToken);
+        result.Success.ShouldBeTrue();
+        result.Error.ShouldBeNull();
+        registry.CreatedSnapshots.Count.ShouldBe(1);
+    }
+
+    // =========================================================================
+    // 场景 24: 无效超时等在工厂前拒绝 (R1-4)
+    // 关键断言: TimeoutSeconds=0 拒绝为 InvalidArgument，工厂调用次数为 0
+    // =========================================================================
+    [Fact]
+    public async Task Scenario24_ListDraftModelsAsync_InvalidTimeout_RejectedBeforeFactory()
+    {
+        var initial = CreateInitialSettings(out _, out _);
+        var settingsService = new TestSettingsService(initial);
+        var secretStore = new TestSecretStore();
+        var registry = new TestTranslationProviderRegistry(settingsService);
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        var invalidTimeoutDraft = new TranslationProviderDraft(
+            Profile: initial.Translation.Providers[0] with { TimeoutSeconds = 0 },
+            BaseProfile: null,
+            Credentials: new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials("fake-key", null)));
+
+        var ex = await Should.ThrowAsync<IrisException>(async () =>
+        {
+            await coordinator.ListDraftModelsAsync(invalidTimeoutDraft, TestContext.Current.CancellationToken);
+        });
+        ex.Code.ShouldBe(ErrorCode.InvalidArgument);
+        registry.CreatedSnapshots.Count.ShouldBe(0);
+    }
+
+    // =========================================================================
+    // 场景 25: 瞬态工厂异常安全转换为 ProviderTestResult (R1-5)
+    // 关键断言: 瞬态工厂抛出异常时封装为 ProviderTestResult(Success: false)，不向外漏 IrisException
+    // =========================================================================
+    [Fact]
+    public async Task Scenario25_TestDraftAsync_TransientFactoryThrows_ConvertsToProviderTestResult()
+    {
+        var initial = CreateInitialSettings(out _, out _);
+        var settingsService = new TestSettingsService(initial);
+        var secretStore = new TestSecretStore();
+        var registry = new TestTranslationProviderRegistry(settingsService)
+        {
+            ProviderFactory = (p, c) => throw new IrisException(ErrorCode.Unknown, "Injected factory failure")
+        };
+
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        var draft = new TranslationProviderDraft(
+            Profile: initial.Translation.Providers[0],
+            BaseProfile: null,
+            Credentials: new ProviderCredentialEdit(CredentialEditKind.Clear));
+
+        var result = await coordinator.TestDraftAsync(draft, TestContext.Current.CancellationToken);
+        result.Success.ShouldBeFalse();
+        result.Error.ShouldNotBeNull();
+    }
+
+    // =========================================================================
+    // 场景 26: TestDraftAsync caller 取消抛出 OCE (R1-5)
+    // 关键断言: caller 取消时按契约抛出 OperationCanceledException
+    // =========================================================================
+    [Fact]
+    public async Task Scenario26_TestDraftAsync_CallerCancellation_ThrowsOCE()
+    {
+        var initial = CreateInitialSettings(out _, out _);
+        var settingsService = new TestSettingsService(initial);
+        var secretStore = new TestSecretStore();
+        var registry = new TestTranslationProviderRegistry(settingsService);
+        var logger = new TestLogger<SettingsEditCoordinator>();
+        var promptProvider = Substitute.For<IPromptTemplateProvider>();
+        promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
+
+        var coordinator = new SettingsEditCoordinator(
+            settingsService,
+            secretStore,
+            registry,
+            new IProviderConfigurationObserver[] { registry },
+            promptProvider,
+            new FakeTimeProvider(),
+            logger);
+
+        using var cts = new CancellationTokenSource();
+        cts.Cancel();
+
+        var draft = new TranslationProviderDraft(
+            Profile: initial.Translation.Providers[0],
+            BaseProfile: null,
+            Credentials: new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials("fake-key", null)));
+
+        await Should.ThrowAsync<OperationCanceledException>(async () =>
+        {
+            await coordinator.TestDraftAsync(draft, cts.Token);
+        });
     }
 }

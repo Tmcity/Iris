@@ -46,7 +46,7 @@
 | M1 / T-010 | R2 已提交为 81c0ddd；架构师逐个确认提交中的四个文件与原验收指纹一致 |
 | M1 / T-010A/B | T-010A/R1（587484a）、T-010B（21f6224）均已通过，CCR-001/002 结案 |
 | M1 / T-011–T-013 | T-011/T-012/T-034/T-013-R1（99787b8）全部通过，CCR-003–006 结案，M1 完成 |
-| M2 / T-014–T-017 | T-014/C14-1、T-021A/C21-1、T-022A-R1、T-018-R6（11d4ac2）通过；CCR-010 结案，当前 T-019A 配置/凭据协调器 |
+| M2 / T-014–T-017 | T-014/C14-1、T-021A/C21-1、T-022A-R1、T-018-R6（11d4ac2）通过；CCR-010 结案，当前 T-019A-R1 返工 |
 | M3–M7 | 设置界面、划词、截图/OCR、悬浮球、历史 UI 与发布仍待后续工单；历史仓储已在 T-034 完成 |
 
 目前有托盘外壳和经过自动化测试的翻译 Provider，尚无可供用户输入并显示译文的完整 UI 流程。本次没有验证真实服务连通性、桌面操作或性能，不把自动化通过描述成产品端到端可用。
@@ -70,14 +70,15 @@ T-010B 复审通过：提交 21f6224，独立构建零警告、840 个测试通�
 ## 5. 后续架构工作
 
 1. T-018-R6 / 11d4ac2 已验收，CCR-010 结案。独立 Release 零警告/零错误，全量 1328 成功/1 隔离窗口站环境跳过，cursor 通过；局部失败重试由 Presenter 完成实际窗口/scope 清理，R5 退出反例保持通过。证据见 tasks/done/T-018-R6.md 末尾，两个既有临时探针无需从头重建。
-2. 当前工单为 T-019A，正式规范 ARCH v1.23 / PROVIDER_EDITING.md / CCR-011。架构师已同步新增 Core 纯契约声明与模型发现注释，尚无协调器业务实现；A 只做 Core 发布/凭据/草稿操作及模型列表 guard，B 再做服务页/保存接线。用户手动转交，Antigravity 控制及排障继续暂停，不自动提交/推送。
+2. 当前工单为 T-019A-R1。a1c6570 独立 Release 零警告/零错误、全量 1346 成功/1 隔离窗口站环境跳过，cursor 通过。实际协调器/Registry 探针复现提交前取消仍发布、无效凭据 enum 导致清除、零候选回执假成功、排序无屏障、Keep 陈旧基线/调用线程读取，以及草稿校验/错误结果/默认 Options 遗漏。证据见 tasks/done/T-019A.md 末尾，临时项目 iris-t019a-review；CCR-011 待 R1。规范仍为 ARCH v1.23 / PROVIDER_EDITING.md，签名不变，A 不改 App；B 等验收后再接线。用户手动转交，Antigravity 控制及排障暂停，不自动提交/推送。
 3. 后续顺序为 T-019A → T-019B → T-015 → T-016 → T-017。T-019 保留总单编号，A 通过不能声称服务设置 UI 已可用；B 签发前由架构师核查预设官方依据，并冻结应用层对未完成回执的保留及 UI revision。剩余键盘模拟/选区/抓屏仍在 T-021/T-022/T-025。
 4. T-015 前须定稿 A07 的窗口操作身份、迟到结果拒绝及单卡 attempt；Action 防重入不替代会话取消和结果归属。M2 验收需从设置保存服务/凭据到输入翻译、取消/重试的真实组合根路径，不能声称手工编辑 DPAPI secrets 即可使用。未交付平台/UI/配置任务不提前算完成。
 5. 原生剪贴板测试应在独立 helper 中以 MTA 入口先切换新建非交互窗口站/桌面，再初始化 COM/STA。早期 flags=0 文本探针可运行且交互序列号不变，但不证明独占；最终 CWF_CREATE_ONLY 创建返回 183，当前环境原生独占验证未完成。禁止复用已有站或退回用户剪贴板，不能把跳过写成通过；详见规范 §6。探针位于系统临时目录 iris-clipboard-design-probe，不进入产品。
 6. 三份桌面草案的规则已并入正式 DESKTOP_CONTEXT.md，原稿保留官方来源与探针证据。TRANSLATION_SESSIONS_DRAFT.md 仍是 T-015 前待审方案，不由 T-022A 实施。独立协议变异项目位于临时目录 iris-t021a-r2-mutations，已恢复基线；不要把其中 .cs.txt 变异副本用于产品。
 7. SETTINGS_EDITING_PREPARATION.md 的 T-018 部分和 T-018_WORK_ORDER_CANDIDATE.md 已转为正式规范并验收；原 DI 模型在临时目录 iris-t018-di-prep，不应再代替实际窗口验证。C21-1 最新变异目录 iris-t022a-c21-check 已恢复基线。
 8. PROVIDER_EDITING_DRAFT.md 与 PROVIDER_FORM_VALIDATION_DRAFT.md 已转为正式 PROVIDER_EDITING.md / CCR-011；历史稿保留证据，签名以 CONTRACTS.cs 为准。回执是调用方持有的 opaque 对象，不含凭据/JSON/Provider，不重新发布旧计划；A 实现 Retry，B 接持有与展示策略。
-9. 模型发现旧门槛已批准修订，由 T-019A 实现：空模型可取列表，翻译仍需模型；坏显式引用不能变成有效 None。独立旧行为探针 iris-t019-catalog-prep 只证明反例和假 HTTP 路径，不是新实现验收。新增声明独立编译项目为 iris-t019-contract-check。
+9. 两种 Provider 空模型列表 guard 已在 a1c6570 改动并通过相关测试，R1 保留；Keep 坏引用不能变成有效 None，但 Existing Replace/Clear 使用新显式值，不能因旧引用坏就拒绝合法测试。既有准备探针 iris-t019-catalog-prep / iris-t019-contract-check 分别只证明旧门槛和声明编译，业务复审以 iris-t019a-review 为准。
+10. T-019B_PRESETS_PREPARATION.md 已随 a1c6570 提交：官方证据确认 claude-opus-5 仍 Active、DashScope 旧域名可用且 Key 地域绑定，DeepSeek 新预设值需 B 签发时决策；模型列表/平台域名资料在临时目录 iris-t019b-official-prep。准备稿不授权 R1 修改预设或开始 UI。
 
 架构文件沿用原协作方式由开发随返工提交一起带入 Git；本次接手不自动提交或推送。
 

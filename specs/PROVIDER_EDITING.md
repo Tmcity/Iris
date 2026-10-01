@@ -96,7 +96,7 @@ RetryApplyAsync 在同一串行权内重新刷新当前配置，重验最新全�
 
 先同步捕获草稿。已有 Keep 在短编辑权内核对 BaseProfile 并按现有 ProviderCredentialResolver 读取；得到独立凭据值后释放编辑权，再创建瞬态租约执行网络操作。Replace/Clear 直接用捕获值，不写 SecretStore；新 Keep 使用 ProviderCredentials.None，不访问 legacy。
 
-显式坏引用不能转换成 None 后作为本地免 Key 成功：TestDraft 返回安全 NotConfigured，ListDraftModels 抛安全 NotConfigured；不联网、不回退旧键。所有业务失败/调用方取消语义见端口注释。TestDraft 使用实际 TestAsync 的固定短句、已保存 PrimaryTargetLanguage 与 Prompt 语义，不声称测试未保存模板正文。
+显式坏引用不能转换成 None 后作为本地免 Key 成功：读取持久凭据的 Keep 遇到坏引用时，TestDraft 返回安全 NotConfigured，ListDraftModels 抛安全 NotConfigured；不联网、不回退旧键。2026-10-01 / T-019A-R1 澄清：已有 Profile 的 Replace/Clear 测试使用新显式值，不读取旧引用，因此坏旧引用本身不阻止合法的新凭据测试；新草稿仍禁止任意指定持久引用，所有意图均须先校验结构/身份。所有业务失败/调用方取消语义见端口注释。TestDraft 使用实际 TestAsync 的固定短句、已保存 PrimaryTargetLanguage 与 Prompt 语义，不声称测试未保存模板正文。
 
 从 ITranslationProviderRegistry.CreateTransientAsync 获取租约，选该单项 Provider；操作真正退出后 finally Dispose，不能用 WaitAsync 超时遗忘任务再释放租约。测试/模型列表不修改设置、SecretStore、活动 Registry、缓存或历史。网络阶段不能占住配置编辑串行权。
 
