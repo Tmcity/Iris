@@ -1,6 +1,6 @@
 # Iris 架构设计说明书
 
-> 版本：v1.23 · 2026-10-01 · 状态：**已冻结（首期）**
+> 版本：v1.24 · 2026-10-01 · 状态：**已冻结（首期）**
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
@@ -24,7 +24,8 @@
 > 变更记录：v1.21（T-021A-R2 通过后，签发 T-022A）— DESKTOP_CONTEXT.md / CCR-009 定稿显示器筛选、物理坐标、GetDpiForWindow 路径、最近屏幕、前台快照和资源/失败边界；CCR-008 结案。桌面候选稿转为正式规范，会话草案仍留待 T-015。
 > 变更记录：v1.22（T-022A-R1 通过后，签发前移 T-018）— SETTINGS_EDITING.md / CCR-010 定稿设置窗口按需作用域、四项常规草稿/冲突、主题预览、保存/应用状态、开机启动与正常退出等待；CCR-009 结案。Provider 编辑仍由 T-019 后续接入。
 > 变更记录：v1.23（T-018-R6 通过后）— CCR-010 结案；PROVIDER_EDITING.md / CCR-011 冻结 Core 联合编辑计划、不可变凭据 staging/发布/清理、opaque 重试回执与瞬态草稿操作。模型发现只检查端点/凭据，不再要求已选模型。T-019 拆为 A 协调器与 B 服务页，A 不提前修改 App 接线或预设。
-> 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json` · `specs/TRANSLATION_EXECUTION.md` · `specs/HISTORY_STORAGE.md` · `specs/TRANSLATION_ORCHESTRATOR.md` · `specs/CLIPBOARD_SERVICE.md` · `specs/DESKTOP_CONTEXT.md` · `specs/SETTINGS_EDITING.md` · `specs/PROVIDER_EDITING.md`
+> 变更记录：v1.24（T-019A-R3 通过后）— CCR-011 结案；PROVIDER_SETTINGS_UI.md 冻结服务页草稿/凭据意图、全窗口一次保存、跨窗口待应用回执与容量、操作身份和退出接线。T-019B 实施 UI；CCR-012 只更新 DeepSeek 新建预设为官方基础地址和空建议模型，已有 Profile 不迁移。
+> 配套规范：`specs/CONTRACTS.cs`（契约唯一真相源）· `specs/DB_SCHEMA.sql` · `specs/settings.example.json` · `specs/TRANSLATION_EXECUTION.md` · `specs/HISTORY_STORAGE.md` · `specs/TRANSLATION_ORCHESTRATOR.md` · `specs/CLIPBOARD_SERVICE.md` · `specs/DESKTOP_CONTEXT.md` · `specs/SETTINGS_EDITING.md` · `specs/PROVIDER_EDITING.md` · `specs/PROVIDER_SETTINGS_UI.md`
 > 读者：本地 IDE 开发工程师。**动手写任何代码之前，请完整阅读 §0、§4、§15、§16。**
 
 ---
@@ -1042,6 +1043,8 @@ IClipboardService 的线程、格式、取消和所有权规则以 CLIPBOARD_SER
 | 托盘 | 左键单击 = 输入翻译；右键菜单见 §5.5。 |
 
 **翻译服务设置页**：列表（启用开关、拖拽排序、编辑、删除）；“添加”按钮 → 选择预设（`TranslationProviderPresets`）→ 编辑表单：显示名、BaseUrl、API Key（PasswordBox，保存时写入 SecretStore）、模型（可编辑下拉框 + “获取模型列表”按钮）、超时、最大输出 tokens、温度（Anthropic 隐藏此项）、Prompt 模板、高级选项（OpenAI / Anthropic 各自的 Options）；“测试连接”按钮显示延迟和测试译文，或错误信息。
+
+T-019B 的具体接线以 PROVIDER_SETTINGS_UI.md 为准：API Key 经 Core 协调器落地，UI 不直接写 SecretStore；常规与 Profile 变更一次提交。待应用回执在 App 单例中跨窗口保留，与自启状态独立；未完成回执及预留名额合计上限 32，在 Core 提交前检查容量。所有异步操作遵循 T-018 的真实退出和会话身份规则。
 
 ---
 

@@ -71,6 +71,7 @@ internal static class AppHostBuilder
         builder.Services.AddSingleton<IActionDispatcher, ActionDispatcher>();
 
         // 设置窗口及编辑协调服务
+        builder.Services.AddSingleton<Iris.App.Services.ISettingsApplyReceiptManager, Iris.App.Services.SettingsApplyReceiptManager>();
         builder.Services.AddSingleton<Iris.App.Settings.SettingsWindowPresenter>();
         builder.Services.AddSingleton<ISettingsWindowPresenter>(sp => sp.GetRequiredService<Iris.App.Settings.SettingsWindowPresenter>());
         builder.Services.AddSingleton<Iris.App.Settings.ISettingsShutdownCoordinator>(sp => sp.GetRequiredService<Iris.App.Settings.SettingsWindowPresenter>());

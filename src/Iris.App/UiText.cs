@@ -49,4 +49,51 @@ internal static class UiText
     public const string SettingsStatusFileError = "保存设置文件失败";
     public const string SettingsStatusInvalidTheme = "无效的主题设置";
     public const string SettingsStatusInvalidLogLevel = "无效的日志级别设置";
+
+    // 翻译服务页与凭据
+    public const string SettingsNavTranslation = "翻译服务";
+    public const string SettingsAddProfile = "添加服务";
+    public const string SettingsDeleteProfile = "删除服务";
+    public const string SettingsMoveUp = "上移";
+    public const string SettingsMoveDown = "下移";
+    public const string SettingsProfileName = "服务名称";
+    public const string SettingsProfileKind = "协议类型";
+    public const string SettingsProfileBaseUrl = "API 地址";
+    public const string SettingsProfileModel = "模型名称";
+    public const string SettingsProfileTimeout = "超时时间（秒）";
+    public const string SettingsProfileMaxTokens = "最大输出 Tokens";
+    public const string SettingsProfileTemperature = "采样温度";
+    public const string SettingsProfilePrompt = "Prompt 模板";
+    public const string SettingsProfilePromptDefault = "跟随默认模板";
+    public const string SettingsProfileApiKey = "API Key";
+    public const string SettingsProfileAdvanced = "高级选项";
+    public const string SettingsProfileEnabled = "已启用";
+    public const string SettingsCredKeep = "保持现有凭据（如有）";
+    public const string SettingsCredReplace = "替换 API Key";
+    public const string SettingsCredClear = "保存后清除凭据";
+    public const string SettingsTestDraft = "测试连接";
+    public const string SettingsListDraftModels = "获取模型列表";
+    public const string SettingsTestingDraft = "正在测试连接…";
+    public const string SettingsListingModels = "正在获取模型列表…";
+    public const string SettingsTestDraftSuccess = "连接测试成功";
+    public const string SettingsTestDraftFailed = "连接测试失败";
+    public const string SettingsHaikuEffortWarning = "Haiku 模型不支持 Effort，已自动清空";
+    public const string SettingsAnthropicV1Warning = "官方 SDK 已自动包含 /v1 路径，反代地址通常不需要以 /v1 结尾";
+    public const string SettingsExtraHeaders = "附加请求头 (格式: Name: Value 每行一个)";
+    public const string SettingsChatCompletionsPath = "Completions 相对路径";
+    public const string SettingsStream = "流式响应 (Stream)";
+    public const string SettingsIncludeStreamUsage = "流式 Token 用量统计 (IncludeStreamUsage)";
+    public const string SettingsStripThinkTags = "移除思考标记 (<think> tags)";
+    public const string SettingsRefusalFallback = "服务端拒答回退";
+    public const string SettingsEffort = "推理强度 (Effort)";
+    public const string SettingsMaxTokensField = "Token 上限字段";
+
+    // 进程级待应用状态与重试
+    public const string SettingsRetryPendingApply = "重试服务应用";
+    public const string SettingsStatusPendingApplyQuotaFull = "待应用的服务清理事项过多，请先重试未完成的待应用事项";
+    public const string SettingsStatusSavedPendingApply = "设置已保存，但翻译服务刷新/清理未完成（可重试）";
+    public const string SettingsStatusSavedPendingApplyAndAutoStart = "设置已保存，但服务刷新与开机启动均未完成（可重试）";
+    public const string SettingsStatusRetryingPendingApply = "正在重试翻译服务应用…";
+    public const string SettingsStatusPendingApplyCompleted = "翻译服务应用已完成";
+    public const string SettingsStatusPendingApplyFailed = "重试翻译服务应用未完成";
 }

@@ -51,6 +51,8 @@ UpdateAsync 正常返回是本流程的保存边界；其后的迟到取消不�
 
 T-019 将凭据 staging、完整 Profile 发布和 Registry 屏障接入同一保存入口；不能先单独保存 General、再保存 Providers，却宣称整窗原子保存。本单不提前实现 Provider 或密钥写入。
 
+2026-10-01 更新：Core 协调器已由 T-019A / CCR-011 验收。T-019B 按 PROVIDER_SETTINGS_UI.md 将常规适配重载和服务页统一委托 ISettingsEditCoordinator，沿用本文已验收的冲突/冻结/预览/自启/关闭边界；进程级 Provider 回执保留不依赖窗口 scope 存活。
+
 ## 5. 主题预览
 
 ThemeService 增加 App 内部预览所有权。有效预览覆盖最新持久主题；只有用户实际选择主题时才改变预览，不写 ISettingsService。

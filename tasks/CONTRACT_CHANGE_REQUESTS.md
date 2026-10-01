@@ -617,7 +617,7 @@ Platform/DesktopModels.cs 中 IAutoStartService 的 summary 替换为，并分�
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-10-01 |
-| 状态 | **已落地，待 T-019A-R3 复审**（5335c57 主要反例通过，模型列表仍校验不参与请求的翻译字段） |
+| 状态 | **已验收结案**（2026-10-01，7e993b3；完整回归 1369 成功/1 环境跳过，操作校验与既有安全/捕获反例通过） |
 | 依据 | PROVIDER_EDITING.md；PROVIDER_REGISTRY.md §2.2；ARCH v1.23 |
 | 落地范围 | T-019A 的 Core 协调器与两种 Provider 模型列表 guard；T-019B 再接 UI |
 | 兼容性 | 不改 settings.json/schemaVersion、现有字段/默认值、SecretStore、Registry 或 Provider 方法签名 |
@@ -635,3 +635,28 @@ Platform/DesktopModels.cs 中 IAutoStartService 的 summary 替换为，并分�
 实现者不得自行修改这些已批准签名。T-019A 完成后标为“已落地，待复审”；T-019B 的 UI/系统应用接线不等同此单已实现。
 
 声明验证（2026-10-01）：新增声明后的解决方案 Release 构建 0 警告/0 错误（19.82 秒），架构套件 8 成功/0 失败/0 跳过。完整 CONTRACTS.cs 的独立 net10.0/BCL 编译最初暴露既有跨 namespace 的 Settings 类型缺少顶层 using，已补 `using Iris.Core.Settings;`（不改签名）；随后独立编译 0 警告/0 错误（1.95 秒）。项目位于系统临时目录 iris-t019-contract-check，仅编译该契约文件。这些检查不构成尚未实现的编辑协调器业务通过证据。
+
+实现验收（2026-10-01）：T-019A-R3 / 7e993b3 的业务实现已通过独立回归，CCR-011 结案。App 服务设置页和系统应用合并由 T-019B 继续，不把 A 的完成视为全窗口 UI 已交付。
+
+## CCR-012：DeepSeek 新建预设建议值更新
+
+| 字段 | 值 |
+|---|---|
+| 批准 | 架构师 Codex，2026-10-01 |
+| 状态 | **已批准，预设声明已同步，待 T-019B 接线复审** |
+| 依据 | PROVIDER_SETTINGS_UI.md §8；T-019B_PRESETS_PREPARATION.md；本日再次读取 DeepSeek 官方入门文档 |
+| 兼容性 | 仅改变新建预设的 BaseUrl/SuggestedModel；不改类型、签名、schemaVersion，不迁移已有 Profile |
+
+TranslationProviderPresets.All 中 deepseek 一行批准为：
+
+```csharp
+new("deepseek", "DeepSeek", TranslationProviderKind.OpenAICompatible, "https://api.deepseek.com", null, true),
+```
+
+官方 [DeepSeek 入门](https://api-docs.deepseek.com/) 当前列出 `base_url (OpenAI) https://api.deepseek.com` 和 deepseek-flash 示例。null 建议模型是 Iris 的选择策略：通过已交付的模型发现或手动输入选型号，不把一个会变化的具体型号固定成永久默认。没有据此认定旧 /v1 地址或 deepseek-chat 必然失效，现有用户配置不改。
+
+其余预设不变，claude-opus-5 经官方模型状态表复核仍为 Active。两份预设声明由架构师同步；T-019B 不另建 UI 预设表。App 的回执保留/容量等规则属于内部实现，不新增公开契约。
+
+同步后的验证：`dotnet test tests/Iris.ArchitectureTests/Iris.ArchitectureTests.csproj -c Release` 实际 8 成功、0 失败、0 跳过，包含契约文件与 Core 落地声明一致性。此检查不代表尚未实现的 B 页面已验收。
+
+落地实施（2026-10-02）：已在 T-019B 中接入 UI 预设列表及相关草稿初始逻辑，`ArchitectureTests` 8 项全绿，全量测试已覆盖新建、排序与联合保存。待复审结案。

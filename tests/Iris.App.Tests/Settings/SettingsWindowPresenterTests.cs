@@ -47,7 +47,9 @@ public sealed class SettingsWindowPresenterTests
     [InlineData("general", "general")]
     [InlineData("GENERAL", "general")]
     [InlineData("General", "general")]
-    [InlineData("translation", "general")]
+    [InlineData("translation", "translation")]
+    [InlineData("TRANSLATION", "translation")]
+    [InlineData("Translation", "translation")]
     [InlineData("ocr", "general")]
     [InlineData("unknown_page", "general")]
     public void NormalizePageKey_AlwaysReturnsGeneral(string? input, string expected)

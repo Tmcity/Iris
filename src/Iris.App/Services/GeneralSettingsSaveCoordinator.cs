@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iris.App.Settings;
 using Iris.Core.Platform;
 using Iris.Core.Settings;
+using Iris.Core.Translation;
 using Microsoft.Extensions.Logging;
 
 namespace Iris.App.Services;
@@ -19,23 +19,31 @@ internal enum GeneralSaveStatus
     /// <summary>配置已持久化或本来已相同，开机启动等必要应用已完成。</summary>
     SavedAndApplied,
 
-    /// <summary>配置已持久化，但开机启动注册等后续系统动作失败；保留已保存事实，允许重试应用。</summary>
+    /// <summary>配置已持久化，但开机启动注册或服务刷新等后续系统动作未完成；保留已保存事实，允许重试应用。</summary>
     SavedApplicationPending,
+
+    /// <summary>配置已持久化，但服务刷新与开机启动注册均未完成；允许分别重试。</summary>
+    SavedPendingApplyAndAutoStart,
 }
 
 internal sealed record GeneralSaveResult(
     GeneralSaveStatus Status,
     string? FailureReason = null,
-    bool IsConflict = false)
+    bool IsConflict = false,
+    bool IsQuotaFull = false,
+    ISettingsApplyReceipt? PendingReceipt = null)
 {
-    public static GeneralSaveResult Uncommitted(string reason, bool isConflict = false) =>
-        new(GeneralSaveStatus.Uncommitted, reason, isConflict);
+    public static GeneralSaveResult Uncommitted(string reason, bool isConflict = false, bool isQuotaFull = false) =>
+        new(GeneralSaveStatus.Uncommitted, reason, isConflict, isQuotaFull);
 
     public static GeneralSaveResult SavedAndApplied() =>
         new(GeneralSaveStatus.SavedAndApplied);
 
-    public static GeneralSaveResult SavedApplicationPending(string reason) =>
-        new(GeneralSaveStatus.SavedApplicationPending, reason);
+    public static GeneralSaveResult SavedApplicationPending(string reason, ISettingsApplyReceipt? pendingReceipt = null) =>
+        new(GeneralSaveStatus.SavedApplicationPending, reason, false, false, pendingReceipt);
+
+    public static GeneralSaveResult SavedPendingApplyAndAutoStart(string reason, ISettingsApplyReceipt? pendingReceipt = null) =>
+        new(GeneralSaveStatus.SavedPendingApplyAndAutoStart, reason, false, false, pendingReceipt);
 }
 
 internal sealed record GeneralDraftSnapshot(
@@ -58,28 +66,20 @@ internal sealed record GeneralDraftSnapshot(
     public bool HasAnyDirty => ThemeDirty || LaunchAtStartupDirty || ShowStartupNotificationDirty || LogLevelDirty;
 }
 
-internal sealed class GeneralSettingsConflictException : Exception
-{
-    public string FieldName { get; }
-
-    public GeneralSettingsConflictException(string fieldName)
-        : base($"设置字段 '{fieldName}' 与当前设置发生冲突")
-    {
-        FieldName = fieldName;
-    }
-}
-
 /// <summary>
-/// 常规设置保存协调器：增量合并、冲突检测、开机自启系统应用与状态跟踪。
+/// 设置保存协调器：统一构建 SettingsEditPlan 并委托 ISettingsEditCoordinator。
+/// 处理在途回执配额预留、增量合并、开机自启系统应用与状态跟踪。
 /// Scoped 生命周期，绑定到单次窗口会话。
-/// 完整规则见 SETTINGS_EDITING.md §3、§4、§5。
+/// 完整规则见 SETTINGS_EDITING.md 与 PROVIDER_SETTINGS_UI.md §5、§6。
 /// </summary>
 internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
 {
     private static readonly string[] AllowedLogLevels = ["Verbose", "Debug", "Information", "Warning", "Error"];
 
     private readonly ISettingsService _settingsService;
+    private readonly ISettingsEditCoordinator? _editCoordinator;
     private readonly IAutoStartService _autoStartService;
+    private readonly ISettingsApplyReceiptManager? _receiptManager;
     private readonly ILogger<GeneralSettingsSaveCoordinator> _logger;
 
     private readonly SemaphoreSlim _gate = new(1, 1);
@@ -91,12 +91,24 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
 
     public GeneralSettingsSaveCoordinator(
         ISettingsService settingsService,
+        ISettingsEditCoordinator editCoordinator,
         IAutoStartService autoStartService,
+        ISettingsApplyReceiptManager? receiptManager,
         ILogger<GeneralSettingsSaveCoordinator> logger)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
+        _editCoordinator = editCoordinator;
         _autoStartService = autoStartService ?? throw new ArgumentNullException(nameof(autoStartService));
+        _receiptManager = receiptManager;
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+    }
+
+    public GeneralSettingsSaveCoordinator(
+        ISettingsService settingsService,
+        IAutoStartService autoStartService,
+        ILogger<GeneralSettingsSaveCoordinator> logger)
+        : this(settingsService, new ForwardingSettingsEditCoordinator(settingsService), autoStartService, null, logger)
+    {
     }
 
     internal Task? ActiveWorkTask
@@ -277,9 +289,49 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
             return GeneralSaveResult.Uncommitted(UiText.SettingsStatusInvalidLogLevel);
         }
 
+        var themeEdit = snapshot.ThemeDirty ? new SettingsFieldEdit<AppTheme>(snapshot.BaseTheme, snapshot.TargetTheme) : null;
+        var launchEdit = snapshot.LaunchAtStartupDirty ? new SettingsFieldEdit<bool>(snapshot.BaseLaunchAtStartup, snapshot.TargetLaunchAtStartup) : null;
+        var notifEdit = snapshot.ShowStartupNotificationDirty ? new SettingsFieldEdit<bool>(snapshot.BaseShowStartupNotification, snapshot.TargetShowStartupNotification) : null;
+        var logEdit = snapshot.LogLevelDirty ? new SettingsFieldEdit<string>(snapshot.BaseLogLevel, snapshot.TargetLogLevel) : null;
+
+        var generalPatch = new GeneralSettingsPatch(themeEdit, launchEdit, notifEdit, logEdit);
+        var plan = new SettingsEditPlan(generalPatch, []);
+
+        return await CommitPlanAsync(plan, snapshot.LaunchAtStartupDirty, snapshot.TargetLaunchAtStartup, cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task<GeneralSaveResult> CommitPlanAsync(
+        SettingsEditPlan plan,
+        bool launchAtStartupDirty,
+        bool targetLaunchAtStartup,
+        CancellationToken cancellationToken)
+    {
+        ArgumentNullException.ThrowIfNull(plan);
+
+        if (_editCoordinator == null)
+        {
+            throw new InvalidOperationException("ISettingsEditCoordinator must be provided to commit plans.");
+        }
+
+        bool hasProviderChanges = (plan.TranslationChanges != null && plan.TranslationChanges.Count > 0) || plan.TranslationOrder != null;
+        bool slotReserved = false;
+
+        if (hasProviderChanges && _receiptManager != null)
+        {
+            if (!_receiptManager.TryReserveSlot())
+            {
+                return GeneralSaveResult.Uncommitted(UiText.SettingsStatusPendingApplyQuotaFull, isConflict: false, isQuotaFull: true);
+            }
+            slotReserved = true;
+        }
+
         var (admitted, tcs, preCommitCts) = TryAdmitWork(cancellationToken);
         if (!admitted || tcs == null || preCommitCts == null)
         {
+            if (slotReserved)
+            {
+                _receiptManager?.ReleaseReservation();
+            }
             return GeneralSaveResult.Uncommitted(UiText.SettingsStatusStopped);
         }
 
@@ -295,11 +347,115 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
                 {
                     if (_isStopped || _disposed)
                     {
+                        if (slotReserved)
+                        {
+                            _receiptManager?.ReleaseReservation();
+                            slotReserved = false;
+                        }
                         return GeneralSaveResult.Uncommitted(UiText.SettingsStatusStopped);
                     }
                 }
 
-                return await SaveAsyncCore(snapshot, preCommitCts).ConfigureAwait(false);
+                SettingsEditResult editResult;
+                try
+                {
+                    editResult = await _editCoordinator.CommitAsync(plan, effectiveCt).ConfigureAwait(false);
+                }
+                catch (OperationCanceledException)
+                {
+                    if (slotReserved)
+                    {
+                        _receiptManager?.ReleaseReservation();
+                        slotReserved = false;
+                    }
+                    return GeneralSaveResult.Uncommitted(UiText.SettingsStatusCanceled);
+                }
+                catch (Exception ex)
+                {
+                    if (slotReserved)
+                    {
+                        _receiptManager?.ReleaseReservation();
+                        slotReserved = false;
+                    }
+                    LogSaveUnexpectedFailed(_logger, ex.GetType().Name);
+                    return GeneralSaveResult.Uncommitted(UiText.SettingsStatusSaveFailed);
+                }
+
+                // 提交边界已越过：无论后续如何，不再受 pre-commit 取消影响
+                lock (_admissionLock)
+                {
+                    _preCommitCtsList.Remove(preCommitCts);
+                }
+
+                switch (editResult.Status)
+                {
+                    case SettingsEditStatus.Applied:
+                        if (slotReserved)
+                        {
+                            _receiptManager?.ReleaseReservation();
+                            slotReserved = false;
+                        }
+
+                        if (launchAtStartupDirty)
+                        {
+                            try
+                            {
+                                await Task.Run(() => _autoStartService.SetEnabled(targetLaunchAtStartup), CancellationToken.None).ConfigureAwait(false);
+                            }
+                            catch (Exception ex)
+                            {
+                                LogAutoStartApplicationFailed(_logger, ex.GetType().Name);
+                                return GeneralSaveResult.SavedApplicationPending(UiText.SettingsStatusSavedAutoStartPending);
+                            }
+                        }
+
+                        return GeneralSaveResult.SavedAndApplied();
+
+                    case SettingsEditStatus.ApplyPending:
+                        if (slotReserved)
+                        {
+                            _receiptManager?.ConvertReservationToPending(editResult.PendingApply!, editResult.Error?.Message);
+                            slotReserved = false;
+                        }
+
+                        bool autoStartFailed = false;
+                        if (launchAtStartupDirty)
+                        {
+                            try
+                            {
+                                await Task.Run(() => _autoStartService.SetEnabled(targetLaunchAtStartup), CancellationToken.None).ConfigureAwait(false);
+                            }
+                            catch (Exception ex)
+                            {
+                                LogAutoStartApplicationFailed(_logger, ex.GetType().Name);
+                                autoStartFailed = true;
+                            }
+                        }
+
+                        var reason = editResult.Error?.Message ?? UiText.SettingsStatusSavedPendingApply;
+                        if (autoStartFailed)
+                        {
+                            return GeneralSaveResult.SavedPendingApplyAndAutoStart(UiText.SettingsStatusSavedPendingApplyAndAutoStart, editResult.PendingApply);
+                        }
+                        return GeneralSaveResult.SavedApplicationPending(reason, editResult.PendingApply);
+
+                    case SettingsEditStatus.Uncommitted:
+                    default:
+                        if (slotReserved)
+                        {
+                            _receiptManager?.ReleaseReservation();
+                            slotReserved = false;
+                        }
+
+                        if (editResult.IsConflict)
+                        {
+                            LogConflictDetected(_logger, "SettingsEditPlan");
+                            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusConflict, isConflict: true);
+                        }
+
+                        var errMsg = editResult.Error?.Message ?? UiText.SettingsStatusSaveFailed;
+                        return GeneralSaveResult.Uncommitted(errMsg, isConflict: false);
+                }
             }
             finally
             {
@@ -308,10 +464,18 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
         }
         catch (OperationCanceledException)
         {
+            if (slotReserved)
+            {
+                _receiptManager?.ReleaseReservation();
+            }
             return GeneralSaveResult.Uncommitted(UiText.SettingsStatusCanceled);
         }
         catch (Exception ex)
         {
+            if (slotReserved)
+            {
+                _receiptManager?.ReleaseReservation();
+            }
             LogSaveUnexpectedFailed(_logger, ex.GetType().Name);
             return GeneralSaveResult.Uncommitted(UiText.SettingsStatusSaveFailed);
         }
@@ -319,106 +483,6 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
         {
             ExitWork(tcs, preCommitCts);
         }
-    }
-
-    private async Task<GeneralSaveResult> SaveAsyncCore(
-        GeneralDraftSnapshot snapshot,
-        CancellationTokenSource preCommitCts)
-    {
-        try
-        {
-            await _settingsService.UpdateAsync(current =>
-            {
-                if (snapshot.ThemeDirty)
-                {
-                    if (current.General.Theme != snapshot.BaseTheme && current.General.Theme != snapshot.TargetTheme)
-                    {
-                        throw new GeneralSettingsConflictException(nameof(GeneralSettings.Theme));
-                    }
-                }
-
-                if (snapshot.LaunchAtStartupDirty)
-                {
-                    if (current.General.LaunchAtStartup != snapshot.BaseLaunchAtStartup && current.General.LaunchAtStartup != snapshot.TargetLaunchAtStartup)
-                    {
-                        throw new GeneralSettingsConflictException(nameof(GeneralSettings.LaunchAtStartup));
-                    }
-                }
-
-                if (snapshot.ShowStartupNotificationDirty)
-                {
-                    if (current.General.ShowStartupNotification != snapshot.BaseShowStartupNotification && current.General.ShowStartupNotification != snapshot.TargetShowStartupNotification)
-                    {
-                        throw new GeneralSettingsConflictException(nameof(GeneralSettings.ShowStartupNotification));
-                    }
-                }
-
-                if (snapshot.LogLevelDirty)
-                {
-                    if (!string.Equals(current.General.LogLevel, snapshot.BaseLogLevel, StringComparison.OrdinalIgnoreCase) &&
-                        !string.Equals(current.General.LogLevel, snapshot.TargetLogLevel, StringComparison.OrdinalIgnoreCase))
-                    {
-                        throw new GeneralSettingsConflictException(nameof(GeneralSettings.LogLevel));
-                    }
-                }
-
-                var themeSame = !snapshot.ThemeDirty || current.General.Theme == snapshot.TargetTheme;
-                var launchSame = !snapshot.LaunchAtStartupDirty || current.General.LaunchAtStartup == snapshot.TargetLaunchAtStartup;
-                var notifSame = !snapshot.ShowStartupNotificationDirty || current.General.ShowStartupNotification == snapshot.TargetShowStartupNotification;
-                var logSame = !snapshot.LogLevelDirty || string.Equals(current.General.LogLevel, snapshot.TargetLogLevel, StringComparison.OrdinalIgnoreCase);
-
-                if (themeSame && launchSame && notifSame && logSame)
-                {
-                    return current;
-                }
-
-                var updatedGeneral = current.General with
-                {
-                    Theme = snapshot.ThemeDirty ? snapshot.TargetTheme : current.General.Theme,
-                    LaunchAtStartup = snapshot.LaunchAtStartupDirty ? snapshot.TargetLaunchAtStartup : current.General.LaunchAtStartup,
-                    ShowStartupNotification = snapshot.ShowStartupNotificationDirty ? snapshot.TargetShowStartupNotification : current.General.ShowStartupNotification,
-                    LogLevel = snapshot.LogLevelDirty ? snapshot.TargetLogLevel : current.General.LogLevel,
-                };
-
-                return current with { General = updatedGeneral };
-            }, preCommitCts.Token).ConfigureAwait(false);
-        }
-        catch (GeneralSettingsConflictException ex)
-        {
-            LogConflictDetected(_logger, ex.FieldName);
-            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusConflict, isConflict: true);
-        }
-        catch (OperationCanceledException)
-        {
-            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusCanceled);
-        }
-        catch (Exception ex)
-        {
-            LogSaveSettingsFailed(_logger, ex.GetType().Name);
-            return GeneralSaveResult.Uncommitted(UiText.SettingsStatusFileError);
-        }
-
-        // 提交边界已越过：JSON 已提交成功，提交后不再受 pre-commit 取消影响
-        lock (_admissionLock)
-        {
-            _preCommitCtsList.Remove(preCommitCts);
-        }
-
-        if (snapshot.LaunchAtStartupDirty)
-        {
-            var targetLaunchAtStartup = snapshot.TargetLaunchAtStartup;
-            try
-            {
-                await Task.Run(() => _autoStartService.SetEnabled(targetLaunchAtStartup), CancellationToken.None).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                LogAutoStartApplicationFailed(_logger, ex.GetType().Name);
-                return GeneralSaveResult.SavedApplicationPending(UiText.SettingsStatusSavedAutoStartPending);
-            }
-        }
-
-        return GeneralSaveResult.SavedAndApplied();
     }
 
     public async Task<GeneralSaveResult> RetryAutoStartAsync(CancellationToken cancellationToken = default)
@@ -492,15 +556,90 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
         _gate.Dispose();
     }
 
-    [LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = "常规设置保存冲突：字段 {FieldName}")]
-    private static partial void LogConflictDetected(ILogger logger, string fieldName);
+    [LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = "设置保存冲突：{Detail}")]
+    private static partial void LogConflictDetected(ILogger logger, string detail);
 
-    [LoggerMessage(EventId = 2, Level = LogLevel.Error, Message = "常规设置保存失败，异常类型：{ExceptionType}")]
+    [LoggerMessage(EventId = 2, Level = LogLevel.Error, Message = "设置保存失败，异常类型：{ExceptionType}")]
     private static partial void LogSaveSettingsFailed(ILogger logger, string exceptionType);
 
     [LoggerMessage(EventId = 3, Level = LogLevel.Warning, Message = "开机自启系统应用失败，异常类型：{ExceptionType}")]
     private static partial void LogAutoStartApplicationFailed(ILogger logger, string exceptionType);
 
-    [LoggerMessage(EventId = 4, Level = LogLevel.Error, Message = "常规设置保存异常失败，异常类型：{ExceptionType}")]
+    [LoggerMessage(EventId = 4, Level = LogLevel.Error, Message = "设置保存异常失败，异常类型：{ExceptionType}")]
     private static partial void LogSaveUnexpectedFailed(ILogger logger, string exceptionType);
+
+    private sealed class ForwardingSettingsEditCoordinator : ISettingsEditCoordinator
+    {
+        private readonly ISettingsService _settingsService;
+
+        public ForwardingSettingsEditCoordinator(ISettingsService settingsService)
+        {
+            _settingsService = settingsService;
+        }
+
+        public async Task<SettingsEditResult> CommitAsync(SettingsEditPlan plan, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(plan);
+
+            if (plan.General == null)
+            {
+                return new SettingsEditResult(SettingsEditStatus.Applied);
+            }
+
+            var p = plan.General;
+            try
+            {
+                await _settingsService.UpdateAsync(current =>
+                {
+                    var g = current.General;
+                    if (p.Theme != null && g.Theme != p.Theme.Base && g.Theme != p.Theme.Target)
+                    {
+                        throw new GeneralSettingsConflictException(nameof(GeneralSettings.Theme));
+                    }
+                    if (p.LaunchAtStartup != null && g.LaunchAtStartup != p.LaunchAtStartup.Base && g.LaunchAtStartup != p.LaunchAtStartup.Target)
+                    {
+                        throw new GeneralSettingsConflictException(nameof(GeneralSettings.LaunchAtStartup));
+                    }
+                    if (p.ShowStartupNotification != null && g.ShowStartupNotification != p.ShowStartupNotification.Base && g.ShowStartupNotification != p.ShowStartupNotification.Target)
+                    {
+                        throw new GeneralSettingsConflictException(nameof(GeneralSettings.ShowStartupNotification));
+                    }
+                    if (p.LogLevel != null && !string.Equals(g.LogLevel, p.LogLevel.Base, StringComparison.OrdinalIgnoreCase) && !string.Equals(g.LogLevel, p.LogLevel.Target, StringComparison.OrdinalIgnoreCase))
+                    {
+                        throw new GeneralSettingsConflictException(nameof(GeneralSettings.LogLevel));
+                    }
+
+                    var updated = g with
+                    {
+                        Theme = p.Theme != null ? p.Theme.Target : g.Theme,
+                        LaunchAtStartup = p.LaunchAtStartup != null ? p.LaunchAtStartup.Target : g.LaunchAtStartup,
+                        ShowStartupNotification = p.ShowStartupNotification != null ? p.ShowStartupNotification.Target : g.ShowStartupNotification,
+                        LogLevel = p.LogLevel != null ? p.LogLevel.Target : g.LogLevel,
+                    };
+                    return current with { General = updated };
+                }, cancellationToken).ConfigureAwait(false);
+
+                return new SettingsEditResult(SettingsEditStatus.Applied);
+            }
+            catch (GeneralSettingsConflictException ex)
+            {
+                return new SettingsEditResult(SettingsEditStatus.Uncommitted, IsConflict: true, Error: new Iris.Core.Errors.ErrorInfo(Iris.Core.Errors.ErrorCode.Unknown, "外部修改冲突", ex.FieldName));
+            }
+        }
+
+        public Task<SettingsApplyResult> RetryApplyAsync(ISettingsApplyReceipt receipt, CancellationToken cancellationToken = default)
+            => Task.FromResult(new SettingsApplyResult(true));
+
+        public Task<Iris.Core.Common.ProviderTestResult> TestDraftAsync(TranslationProviderDraft draft, CancellationToken cancellationToken = default)
+            => Task.FromResult(new Iris.Core.Common.ProviderTestResult(true, TimeSpan.FromMilliseconds(10), "sample"));
+
+        public Task<IReadOnlyList<string>> ListDraftModelsAsync(TranslationProviderDraft draft, CancellationToken cancellationToken = default)
+            => Task.FromResult<IReadOnlyList<string>>([]);
+    }
+
+    private sealed class GeneralSettingsConflictException : Exception
+    {
+        public string FieldName { get; }
+        public GeneralSettingsConflictException(string fieldName) : base($"Conflict on field {fieldName}") => FieldName = fieldName;
+    }
 }

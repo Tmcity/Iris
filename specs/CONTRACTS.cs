@@ -955,7 +955,7 @@ namespace Iris.Core.Settings
         [
             new("openai", "OpenAI", TranslationProviderKind.OpenAICompatible, "https://api.openai.com/v1", null, true),
             new("anthropic", "Claude (Anthropic)", TranslationProviderKind.Anthropic, null, "claude-opus-5", true),
-            new("deepseek", "DeepSeek", TranslationProviderKind.OpenAICompatible, "https://api.deepseek.com/v1", "deepseek-chat", true),
+            new("deepseek", "DeepSeek", TranslationProviderKind.OpenAICompatible, "https://api.deepseek.com", null, true),
             new("dashscope", "通义千问 (DashScope)", TranslationProviderKind.OpenAICompatible, "https://dashscope.aliyuncs.com/compatible-mode/v1", null, true),
             new("moonshot", "Kimi (Moonshot)", TranslationProviderKind.OpenAICompatible, "https://api.moonshot.cn/v1", null, true),
             new("zhipu", "智谱 GLM", TranslationProviderKind.OpenAICompatible, "https://open.bigmodel.cn/api/paas/v4", null, true),

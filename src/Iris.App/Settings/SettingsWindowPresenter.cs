@@ -531,8 +531,16 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
 
         var trimmed = pageKey.Trim();
         // 允许的既有集合：general / translation / ocr / hotkeys / selection / screenshot / floatingball / network / history / about
-        // 本单仅开放 general；其它尚未开放项统一回到 general，不抛异常也不记录原始 key
-        return trimmed.Equals("general", StringComparison.OrdinalIgnoreCase) ? "general" : "general";
+        // 本单开放 general 与 translation；其它尚未开放项统一回到 general，不抛异常也不记录原始 key
+        if (trimmed.Equals("general", StringComparison.OrdinalIgnoreCase))
+        {
+            return "general";
+        }
+        if (trimmed.Equals("translation", StringComparison.OrdinalIgnoreCase))
+        {
+            return "translation";
+        }
+        return "general";
     }
 
     [LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = "设置窗口关闭时发生异常：{ExceptionType}")]

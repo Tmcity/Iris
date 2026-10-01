@@ -3,6 +3,8 @@
 > 2026-10-01，Codex；ARCH v1.23 / CCR-011。由 PROVIDER_EDITING_DRAFT.md 与 PROVIDER_FORM_VALIDATION_DRAFT.md 定稿。
 > T-019 拆为 T-019A（Core 协调器与模型发现前置）和 T-019B（设置页与一次保存接线）。T-019B 验收后才结案 T-019。本文不改变已验收的 Registry/租约协议。
 
+> 2026-10-01 更新：T-019A-R3 / 7e993b3 已验收，CCR-011 结案。T-019B 的 App 草稿、保存、回执和操作生命周期以 PROVIDER_SETTINGS_UI.md 为正式补充规范。
+
 ## 1. 分工及端口
 
 `ISettingsEditCoordinator` 是 Core 单例，通过 AddIrisCore 的 TryAddSingleton 注册，重复注册不重复创建。实现默认 internal sealed，仅依赖 Core 端口、BCL 和允许的抽象包。构造不读设置/密钥、不启动任务、不调用 Provider。
