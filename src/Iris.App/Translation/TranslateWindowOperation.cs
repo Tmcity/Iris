@@ -150,9 +150,13 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
         lock (_gate)
         {
             _hasTryShowOwnership = false;
-            if (transferredWorkOwnership && !_isRetired)
+            if (transferredWorkOwnership && !_isRetired && !_cts.IsCancellationRequested)
             {
                 _hasSessionOwnership = true;
+            }
+            else
+            {
+                _hasSessionOwnership = false;
             }
             shouldRetire = TryMarkRetiredLocked();
         }
@@ -167,7 +171,7 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
     {
         lock (_gate)
         {
-            if (_isRetired)
+            if (_isRetired || _cts.IsCancellationRequested)
             {
                 return false;
             }
@@ -339,27 +343,72 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
         return false;
     }
 
+    private Task? _retireTask;
+
     private void FinalizeRetire()
     {
-        _ = Task.Run(async () =>
+        lock (_gate)
         {
+            if (_retireTask != null)
+            {
+                return;
+            }
+
             try
             {
-                await _callerReg.DisposeAsync().ConfigureAwait(false);
+                var vt = _callerReg.DisposeAsync();
+                if (vt.IsCompletedSuccessfully)
+                {
+                    _presenter.OnOperationRetired(this);
+                    try
+                    {
+                        _cts.Dispose();
+                    }
+                    catch
+                    {
+                    }
+                    _retireTask = Task.CompletedTask;
+                    return;
+                }
+
+                _retireTask = CompleteRetireAsync(vt.AsTask());
+            }
+            catch (Exception ex)
+            {
+                _presenter.LogOperationCancelError(ex.GetType().Name);
+                _presenter.OnOperationRetired(this);
+                try
+                {
+                    _cts.Dispose();
+                }
+                catch
+                {
+                }
+                _retireTask = Task.CompletedTask;
+            }
+        }
+    }
+
+    private async Task CompleteRetireAsync(Task disposeTask)
+    {
+        try
+        {
+            await disposeTask.ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            _presenter.LogOperationCancelError(ex.GetType().Name);
+        }
+        finally
+        {
+            _presenter.OnOperationRetired(this);
+            try
+            {
+                _cts.Dispose();
             }
             catch
             {
             }
-        });
-
-        _presenter.OnOperationRetired(this);
-
-        try
-        {
-            _cts.Dispose();
-        }
-        catch
-        {
         }
     }
 }

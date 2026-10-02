@@ -71,6 +71,8 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
     private Task? _inFlightCopyTask;
     private CancellationTokenSource? _inFlightCopyCts;
     private QueuedCopyItem? _pendingCopy;
+    private readonly List<Task> _copyCancelTasks = [];
+    private readonly HashSet<CancellationTokenSource> _cancelingCtsSet = [];
 
     private QueuedMainRequest? _pendingMain;
     private QueuedRetryRequest? _pendingRetry;
@@ -1220,6 +1222,76 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
     private sealed record QueuedCopyItem(string Text, CancellationTokenSource Cts);
 
+    private void RegisterCopyCancelTask(CancellationTokenSource cts)
+    {
+        lock (_copyGate)
+        {
+            if (!_cancelingCtsSet.Add(cts))
+            {
+                return;
+            }
+        }
+
+        Task cancelTask;
+        try
+        {
+            cancelTask = cts.CancelAsync();
+        }
+        catch (Exception ex)
+        {
+            LogClipboardError(_logger, ex.GetType().Name);
+            try { cts.Dispose(); } catch { }
+            lock (_copyGate)
+            {
+                _cancelingCtsSet.Remove(cts);
+            }
+            return;
+        }
+
+        Task? cleanupTask = null;
+        cleanupTask = AwaitCancelAndDisposeCtsAsync(cts, cancelTask, () =>
+        {
+            lock (_copyGate)
+            {
+                _cancelingCtsSet.Remove(cts);
+                if (cleanupTask != null)
+                {
+                    _copyCancelTasks.Remove(cleanupTask);
+                }
+                _copyCancelTasks.RemoveAll(t => t.IsCompleted);
+            }
+        });
+
+        lock (_copyGate)
+        {
+            _copyCancelTasks.RemoveAll(t => t.IsCompleted);
+            _copyCancelTasks.Add(cleanupTask);
+        }
+    }
+
+    private async Task AwaitCancelAndDisposeCtsAsync(CancellationTokenSource cts, Task cancelTask, Action onComplete)
+    {
+        try
+        {
+            await cancelTask.ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            LogClipboardError(_logger, ex.GetType().Name);
+        }
+        finally
+        {
+            try
+            {
+                cts.Dispose();
+            }
+            catch
+            {
+            }
+            onComplete();
+        }
+    }
+
     private void TrackCopy(string text, CancellationToken token)
     {
         CancellationTokenSource cts;
@@ -1250,8 +1322,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
         if (oldCts != null)
         {
-            try { _ = oldCts.CancelAsync(); } catch { }
-            try { oldCts.Dispose(); } catch { }
+            RegisterCopyCancelTask(oldCts);
         }
     }
 
@@ -1288,13 +1359,27 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             }
             finally
             {
-                try { current.Cts.Dispose(); } catch { }
+                bool wasTrackedForCancel;
                 lock (_copyGate)
                 {
                     if (ReferenceEquals(_inFlightCopyCts, current.Cts))
                     {
                         _inFlightCopyCts = null;
                     }
+                    wasTrackedForCancel = _cancelingCtsSet.Contains(current.Cts);
+                    if (!wasTrackedForCancel && current.Cts.IsCancellationRequested)
+                    {
+                        wasTrackedForCancel = true;
+                    }
+                }
+
+                if (wasTrackedForCancel)
+                {
+                    RegisterCopyCancelTask(current.Cts);
+                }
+                else
+                {
+                    try { current.Cts.Dispose(); } catch { }
                 }
             }
         }
@@ -1321,13 +1406,12 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
         if (toCancel1 != null)
         {
-            try { _ = toCancel1.CancelAsync(); } catch { }
-            try { toCancel1.Dispose(); } catch { }
+            RegisterCopyCancelTask(toCancel1);
         }
 
         if (toCancel2 != null)
         {
-            try { _ = toCancel2.CancelAsync(); } catch { }
+            RegisterCopyCancelTask(toCancel2);
         }
     }
 
@@ -1381,9 +1465,11 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 settingsChanged = _settingsChangedTask;
             }
 
+            List<Task> copyCancels;
             lock (_copyGate)
             {
                 copy = _inFlightCopyTask;
+                copyCancels = _copyCancelTasks.ToList();
             }
 
             if (mainCoord != null)
@@ -1416,6 +1502,11 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 try { await copy.ConfigureAwait(false); } catch { }
             }
 
+            foreach (var ct in copyCancels)
+            {
+                try { await ct.ConfigureAwait(false); } catch { }
+            }
+
             if (settings != null)
             {
                 try { await settings.ConfigureAwait(false); } catch { }
@@ -1440,7 +1531,10 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
             lock (_copyGate)
             {
-                allCompleted &= (_inFlightCopyTask == null || _inFlightCopyTask.IsCompleted) && _pendingCopy == null;
+                _copyCancelTasks.RemoveAll(t => t.IsCompleted);
+                allCompleted &= (_inFlightCopyTask == null || _inFlightCopyTask.IsCompleted)
+                             && _pendingCopy == null
+                             && _copyCancelTasks.Count == 0;
             }
 
             if (allCompleted)

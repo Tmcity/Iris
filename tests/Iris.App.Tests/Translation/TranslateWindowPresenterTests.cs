@@ -24,7 +24,8 @@ public sealed class TranslateWindowPresenterTests
 {
     private static (TranslateWindowPresenter Presenter, ITranslationOrchestrator Orchestrator, ISettingsService SettingsService) CreateTestPresenter(
         IUiDispatcher? uiDispatcher = null,
-        INativeWindowPlacementAdapter? placementAdapter = null)
+        INativeWindowPlacementAdapter? placementAdapter = null,
+        IDesktopContext? desktopContext = null)
     {
         var dispatcher = uiDispatcher ?? new WpfUiDispatcher();
         var settingsService = Substitute.For<ISettingsService>();
@@ -33,11 +34,14 @@ public sealed class TranslateWindowPresenterTests
         var orchestrator = Substitute.For<ITranslationOrchestrator>();
         var clipboard = Substitute.For<IClipboardService>();
         var settingsPresenter = Substitute.For<ISettingsWindowPresenter>();
-        var desktopContext = Substitute.For<IDesktopContext>();
-        desktopContext.GetMonitors().Returns([
-            new MonitorInfo(@"\\.\DISPLAY1", new Iris.Core.Imaging.PixelRect(0, 0, 1920, 1080), new Iris.Core.Imaging.PixelRect(0, 0, 1920, 1040), 1.0, true)
-        ]);
-        desktopContext.GetCursorPosition().Returns(new Iris.Core.Imaging.PixelPoint(500, 500));
+        var desktop = desktopContext ?? Substitute.For<IDesktopContext>();
+        if (desktopContext == null)
+        {
+            desktop.GetMonitors().Returns([
+                new MonitorInfo(@"\\.\DISPLAY1", new Iris.Core.Imaging.PixelRect(0, 0, 1920, 1080), new Iris.Core.Imaging.PixelRect(0, 0, 1920, 1040), 1.0, true)
+            ]);
+            desktop.GetCursorPosition().Returns(new Iris.Core.Imaging.PixelPoint(500, 500));
+        }
 
         var textPreprocessor = Substitute.For<ITextPreprocessor>();
         textPreprocessor.Prepare(Arg.Any<string>(), Arg.Any<TextOrigin>())
@@ -48,7 +52,7 @@ public sealed class TranslateWindowPresenterTests
         services.AddSingleton(orchestrator);
         services.AddSingleton(clipboard);
         services.AddSingleton(settingsPresenter);
-        services.AddSingleton(desktopContext);
+        services.AddSingleton(desktop);
         services.AddSingleton(textPreprocessor);
         services.AddSingleton<IUiDispatcher>(dispatcher);
 
@@ -77,7 +81,7 @@ public sealed class TranslateWindowPresenterTests
             provider,
             dispatcher,
             settingsService,
-            desktopContext,
+            desktop,
             NullLogger<TranslateWindowPresenter>.Instance,
             placementAdapter);
 
@@ -211,6 +215,212 @@ public sealed class TranslateWindowPresenterTests
             var internalOp = (TranslateWindowOperation)op!;
             internalOp.CancellationToken.IsCancellationRequested.ShouldBeTrue("定位失败后必须取消该操作");
         });
+    }
+
+    [Fact]
+    public async Task TryShowAsync_WhenSupersededDuringPreparation_DoesNotApplyToVmAndReturnsFalse()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var desktopContext = Substitute.For<IDesktopContext>();
+            var (presenter, _, _) = CreateTestPresenter(desktopContext: desktopContext);
+
+            ITranslateWindowOperation? opB = null;
+            int getMonitorsCallCount = 0;
+
+            // 在旧 A 的 GetMonitors 准备边界接纳意图 B
+            desktopContext.GetMonitors().Returns(_ =>
+            {
+                if (Interlocked.Increment(ref getMonitorsCallCount) == 1)
+                {
+                    opB = presenter.TryBeginOperation(TestContext.Current.CancellationToken);
+                }
+                return [
+                    new MonitorInfo(@"\\.\DISPLAY1", new Iris.Core.Imaging.PixelRect(0, 0, 1920, 1080), new Iris.Core.Imaging.PixelRect(0, 0, 1920, 1040), 1.0, true)
+                ];
+            });
+            desktopContext.GetCursorPosition().Returns(new Iris.Core.Imaging.PixelPoint(500, 500));
+
+            try
+            {
+                using var opA = presenter.TryBeginOperation(TestContext.Current.CancellationToken);
+                opA.ShouldNotBeNull();
+
+                var shownA = await presenter.TryShowAsync(opA!, new TranslateWindowRequest
+                {
+                    Text = "obsolete-show-A",
+                    AutoTranslate = false
+                });
+
+                shownA.ShouldBeFalse("被新意图取代的旧操作在提交 UI 状态前必须失效并返回 false");
+                presenter.ViewModel!.InputText.ShouldNotBe("obsolete-show-A", "已失效的旧发布不得将文本写入 ViewModel");
+
+                // 意图 B 正常发布
+                opB.ShouldNotBeNull();
+                using (opB)
+                {
+                    var shownB = await presenter.TryShowAsync(opB!, new TranslateWindowRequest
+                    {
+                        Text = "active-show-B",
+                        AutoTranslate = false
+                    });
+
+                    shownB.ShouldBeTrue("最新意图 B 必须成功发布");
+                    presenter.ViewModel.InputText.ShouldBe("active-show-B");
+                    presenter.IsVisible.ShouldBeTrue();
+                }
+            }
+            finally
+            {
+                await presenter.ShutdownAsync();
+            }
+        });
+    }
+
+    [Fact]
+    public async Task TryShowAsync_WhenCallerDisposedDuringPreparation_AbortsAndReturnsFalse()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var desktopContext = Substitute.For<IDesktopContext>();
+            var (presenter, _, _) = CreateTestPresenter(desktopContext: desktopContext);
+
+            ITranslateWindowOperation? capturedOp = null;
+            int getMonitorsCallCount = 0;
+
+            desktopContext.GetMonitors().Returns(_ =>
+            {
+                if (Interlocked.Increment(ref getMonitorsCallCount) == 1)
+                {
+                    capturedOp?.Dispose();
+                }
+                return [
+                    new MonitorInfo(@"\\.\DISPLAY1", new Iris.Core.Imaging.PixelRect(0, 0, 1920, 1080), new Iris.Core.Imaging.PixelRect(0, 0, 1920, 1040), 1.0, true)
+                ];
+            });
+            desktopContext.GetCursorPosition().Returns(new Iris.Core.Imaging.PixelPoint(500, 500));
+
+            try
+            {
+                var op = presenter.TryBeginOperation(TestContext.Current.CancellationToken);
+                op.ShouldNotBeNull();
+                capturedOp = op;
+
+                var shown = await presenter.TryShowAsync(op!, new TranslateWindowRequest
+                {
+                    Text = "disposed-during-prep",
+                    AutoTranslate = false
+                });
+
+                shown.ShouldBeFalse("调用方在准备期 Dispose 时，TryShowAsync 必须中止并返回 false");
+                presenter.IsVisible.ShouldBeFalse("未成功发布且无新意图接管时，窗口可见性必须为 false");
+                presenter.ViewModel.ShouldNotBeNull();
+                presenter.ViewModel!.InputText.ShouldNotBe("disposed-during-prep");
+            }
+            finally
+            {
+                await presenter.ShutdownAsync();
+            }
+        });
+    }
+
+    [Fact]
+    public async Task TryShowAsync_WhenUpdateFailsOnAlreadyVisibleWindow_PreservesWindowAndSnapshotMatchesActual()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var mockAdapter = Substitute.For<INativeWindowPlacementAdapter>();
+            mockAdapter.SetWindowBounds(Arg.Any<nint>(), Arg.Any<Iris.Core.Imaging.PixelRect>(), Arg.Any<bool>(), Arg.Any<bool>())
+                .Returns(true);
+
+            var (presenter, _, _) = CreateTestPresenter(placementAdapter: mockAdapter);
+
+            try
+            {
+                // 1. 首次成功发布
+                using (var op1 = presenter.TryBeginOperation(TestContext.Current.CancellationToken))
+                {
+                    op1.ShouldNotBeNull();
+                    var shown1 = await presenter.TryShowAsync(op1!, new TranslateWindowRequest { Text = "First Initial" });
+                    shown1.ShouldBeTrue();
+                    presenter.IsVisible.ShouldBeTrue();
+                    presenter.Window!.IsVisible.ShouldBeTrue();
+                }
+
+                // 2. 原生适配器在后续更新时失败
+                mockAdapter.SetWindowBounds(Arg.Any<nint>(), Arg.Any<Iris.Core.Imaging.PixelRect>(), Arg.Any<bool>(), Arg.Any<bool>())
+                    .Returns(false);
+
+                using (var op2 = presenter.TryBeginOperation(TestContext.Current.CancellationToken))
+                {
+                    op2.ShouldNotBeNull();
+                    var shown2 = await presenter.TryShowAsync(op2!, new TranslateWindowRequest { Text = "Second Update Failed" });
+                    shown2.ShouldBeFalse("底层定位适配器返回 false 时发布必须返回 false");
+
+                    // 核心验证：已有可见窗口必须保留存活，IsVisible 快照必须与实际窗口完全一致
+                    presenter.Window!.IsVisible.ShouldBeTrue("更新失败时已存在的窗口不得被误隐藏");
+                    presenter.IsVisible.ShouldBeTrue("Presenter.IsVisible 快照必须反映实际窗口存活状态");
+                }
+
+                // 3. 再次成功发布，恢复正常更新
+                mockAdapter.SetWindowBounds(Arg.Any<nint>(), Arg.Any<Iris.Core.Imaging.PixelRect>(), Arg.Any<bool>(), Arg.Any<bool>())
+                    .Returns(true);
+
+                using (var op3 = presenter.TryBeginOperation(TestContext.Current.CancellationToken))
+                {
+                    op3.ShouldNotBeNull();
+                    var shown3 = await presenter.TryShowAsync(op3!, new TranslateWindowRequest { Text = "Third Success" });
+                    shown3.ShouldBeTrue();
+                    presenter.IsVisible.ShouldBeTrue();
+                    presenter.ViewModel!.InputText.ShouldBe("Third Success");
+                }
+            }
+            finally
+            {
+                await presenter.ShutdownAsync();
+            }
+        });
+    }
+
+    [Fact]
+    public async Task OperationFinalizeRetire_WhenCallbackBlocked_RetainsOwnershipUntilCallbackExits()
+    {
+        var (presenter, _, _) = CreateTestPresenter();
+        using var callerCts = new CancellationTokenSource();
+        var op = presenter.TryBeginOperation(callerCts.Token);
+        op.ShouldNotBeNull();
+        presenter.ActiveOperationsCount.ShouldBe(1);
+
+        var callbackEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var callbackRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var internalOp = (TranslateWindowOperation)op!;
+        internalOp.CancellationToken.Register(() =>
+        {
+            callbackEntered.TrySetResult();
+            callbackRelease.Task.GetAwaiter().GetResult();
+        });
+
+        // 取消 caller token 触发操作退役
+        callerCts.Cancel();
+        await callbackEntered.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+
+        // Caller Dispose 操作
+        op.Dispose();
+
+        // 验证：在回调退出之前，活跃名额未归还（仍为 1）
+        presenter.ActiveOperationsCount.ShouldBe(1, "在 CancellationTokenRegistration 异步注销回调完全退出前，操作不得从活跃集合移出");
+
+        // 放行回调
+        callbackRelease.TrySetResult();
+
+        // 轮询等待退役完成
+        for (int i = 0; i < 50 && presenter.ActiveOperationsCount > 0; i++)
+        {
+            await Task.Delay(20, TestContext.Current.CancellationToken);
+        }
+
+        presenter.ActiveOperationsCount.ShouldBe(0, "注销回调安全退出后，名额必须归还");
     }
 
     private sealed class BlockingAsyncEnumerable : IAsyncEnumerable<TranslationEvent>

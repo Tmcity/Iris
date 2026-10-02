@@ -146,7 +146,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
         }
 
         bool accepted = false;
-        bool appliedToVm = false;
+        bool wasVisibleBefore = false;
         try
         {
             await _uiDispatcher.InvokeAsync(() =>
@@ -158,44 +158,155 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                         accepted = false;
                         return Task.CompletedTask;
                     }
+                    wasVisibleBefore = _window != null && _window.IsVisible;
                 }
 
-                EnsureWindowCreated();
-
-                ApplyPlacement(request.Anchor, request.FocusInput);
-
-                _window!.Show();
-                if (request.FocusInput)
+                try
                 {
-                    _window.Activate();
-                    _window.FocusInputArea();
+                    EnsureWindowCreated();
+
+                    ApplyPlacement(request.Anchor, request.FocusInput);
+
+                    _window!.Show();
+                    if (request.FocusInput)
+                    {
+                        _window.Activate();
+                        _window.FocusInputArea();
+                    }
+                }
+                catch (Exception prepEx)
+                {
+                    LogShowFailed(_logger, prepEx.GetType().Name);
+                    bool shouldHidePrep = false;
+                    lock (_gate)
+                    {
+                        bool hasNewer = !ReferenceEquals(_latestOperation, op);
+                        if (!hasNewer && !wasVisibleBefore)
+                        {
+                            shouldHidePrep = true;
+                            _isVisibleSnapshot = false;
+                            _isActiveSnapshot = false;
+                        }
+                        else
+                        {
+                            _isVisibleSnapshot = _window != null && _window.IsVisible;
+                            _isActiveSnapshot = _window != null && _window.IsActive;
+                        }
+                    }
+
+                    if (shouldHidePrep && _window != null && _window.IsVisible)
+                    {
+                        try { _window.Hide(); } catch { }
+                    }
+
+                    accepted = false;
+                    return Task.CompletedTask;
                 }
 
+                // 准备工作完成后，在向 ViewModel 提交前再次校验资格与是否被新意图取代
+                bool shouldHideSuperseded = false;
                 lock (_gate)
                 {
-                    _isVisibleSnapshot = true;
+                    if (_isShuttingDown || op.IsCallerDisposed || op.CancellationToken.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
+                    {
+                        accepted = false;
+                        bool hasNewer = !ReferenceEquals(_latestOperation, op);
+                        if (!hasNewer && !wasVisibleBefore)
+                        {
+                            shouldHideSuperseded = true;
+                            _isVisibleSnapshot = false;
+                            _isActiveSnapshot = false;
+                        }
+                        else
+                        {
+                            _isVisibleSnapshot = _window != null && _window.IsVisible;
+                            _isActiveSnapshot = _window != null && _window.IsActive;
+                        }
+                    }
+                    else
+                    {
+                        _isVisibleSnapshot = true;
+                        _isActiveSnapshot = request.FocusInput;
+                        accepted = true;
+                    }
                 }
 
-                _viewModel!.ApplyRequest(request, op);
-                appliedToVm = true;
-                accepted = true;
+                if (!accepted)
+                {
+                    if (shouldHideSuperseded && _window != null && _window.IsVisible)
+                    {
+                        try { _window.Hide(); } catch { }
+                    }
+                    return Task.CompletedTask;
+                }
+
+                try
+                {
+                    _viewModel!.ApplyRequest(request, op);
+                }
+                catch (Exception vmEx)
+                {
+                    LogShowFailed(_logger, vmEx.GetType().Name);
+                    accepted = false;
+
+                    if (_viewModel?.ActiveOperation?.Id == op.Id)
+                    {
+                        _viewModel.RevokeOperation(op.Id);
+                    }
+
+                    bool shouldHideVm = false;
+                    lock (_gate)
+                    {
+                        bool hasNewer = !ReferenceEquals(_latestOperation, op);
+                        if (!hasNewer && !wasVisibleBefore)
+                        {
+                            shouldHideVm = true;
+                            _isVisibleSnapshot = false;
+                            _isActiveSnapshot = false;
+                        }
+                        else
+                        {
+                            _isVisibleSnapshot = _window != null && _window.IsVisible;
+                            _isActiveSnapshot = _window != null && _window.IsActive;
+                        }
+                    }
+
+                    if (shouldHideVm && _window != null && _window.IsVisible)
+                    {
+                        try { _window.Hide(); } catch { }
+                    }
+                }
+
                 return Task.CompletedTask;
             }, CancellationToken.None).ConfigureAwait(false);
+
+            if (!accepted)
+            {
+                op.Cancel();
+            }
 
             return accepted;
         }
         catch (Exception ex)
         {
+            LogShowFailed(_logger, ex.GetType().Name);
+
             lock (_gate)
             {
-                _isVisibleSnapshot = false;
+                bool hasNewer = !ReferenceEquals(_latestOperation, op);
+                if (!hasNewer && !wasVisibleBefore)
+                {
+                    _isVisibleSnapshot = false;
+                    _isActiveSnapshot = false;
+                }
+                else
+                {
+                    _isVisibleSnapshot = _window != null && _window.IsVisible;
+                    _isActiveSnapshot = _window != null && _window.IsActive;
+                }
             }
-            if (appliedToVm)
-            {
-                _viewModel?.RevokeOperation(op.Id);
-            }
+
             op.Cancel();
-            LogShowFailed(_logger, ex.GetType().Name);
             return false;
         }
         finally
