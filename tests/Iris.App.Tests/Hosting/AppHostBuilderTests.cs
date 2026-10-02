@@ -64,6 +64,7 @@ public sealed class AppHostBuilderTests
         var actionDispatcher = host.Services.GetService<IActionDispatcher>();
         var clipboardService = host.Services.GetService<IClipboardService>();
         var desktopContext = host.Services.GetService<IDesktopContext>();
+        var translatePresenter = host.Services.GetService<ITranslateWindowPresenter>();
 
         settingsService.ShouldNotBeNull();
         secretStore.ShouldNotBeNull();
@@ -80,6 +81,7 @@ public sealed class AppHostBuilderTests
         actionDispatcher.ShouldNotBeNull();
         clipboardService.ShouldNotBeNull();
         desktopContext.ShouldNotBeNull();
+        translatePresenter.ShouldNotBeNull();
         uiDispatcher.ShouldBeOfType<WpfUiDispatcher>();
         actionDispatcher.ShouldBeOfType<ActionDispatcher>();
         clipboardService.ShouldBeOfType<Win32ClipboardService>();
@@ -249,5 +251,36 @@ public sealed class AppHostBuilderTests
         var viewModel = scope.ServiceProvider.GetRequiredService<SettingsViewModel>();
         saveCoordinator.ShouldNotBeNull();
         viewModel.ShouldNotBeNull();
+    }
+
+    [Fact]
+    public void Host_ResolvesAllFourActionHandlers_AndTranslatePresenterAsSingleton()
+    {
+        using var tempDir = new TempDirectory();
+        var paths = new FakeAppPaths(tempDir.Path);
+        var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
+
+        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+
+        var handlers = host.Services.GetRequiredService<System.Collections.Generic.IEnumerable<IActionHandler>>().ToList();
+        handlers.Count.ShouldBe(4);
+        handlers.Select(h => h.Action).Distinct().Count().ShouldBe(4);
+
+        handlers.OfType<Iris.Core.Workflows.OpenSettingsHandler>().ShouldHaveSingleItem();
+        handlers.OfType<Iris.Core.Workflows.InputTranslateHandler>().ShouldHaveSingleItem();
+        handlers.OfType<Iris.Core.Workflows.ClipboardTranslateHandler>().ShouldHaveSingleItem();
+        handlers.OfType<Iris.Core.Workflows.TranslateTextHandler>().ShouldHaveSingleItem();
+
+        var presenter = host.Services.GetRequiredService<ITranslateWindowPresenter>();
+        var concretePresenter = host.Services.GetRequiredService<Iris.App.Translation.TranslateWindowPresenter>();
+        var shutdownCoordinator = host.Services.GetRequiredService<Iris.App.Translation.ITranslateWindowShutdownCoordinator>();
+
+        presenter.ShouldNotBeNull();
+        presenter.ShouldBeSameAs(concretePresenter);
+        presenter.ShouldBeSameAs(shutdownCoordinator);
+
+        var dispatcher = host.Services.GetRequiredService<IActionDispatcher>();
+        dispatcher.ShouldNotBeNull();
+        dispatcher.ShouldBeOfType<ActionDispatcher>();
     }
 }

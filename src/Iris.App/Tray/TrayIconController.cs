@@ -2,11 +2,14 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using H.NotifyIcon;
 using H.NotifyIcon.Core;
+using Iris.App.Settings;
+using Iris.Core.Actions;
 using Iris.Core.Presentation;
 using Iris.Core.Settings;
 using Microsoft.Extensions.Logging;
@@ -22,6 +25,7 @@ internal sealed partial class TrayIconController : IDisposable
     private readonly ISettingsService _settingsService;
     private readonly Iris.Core.Actions.IActionDispatcher _actionDispatcher;
     private readonly ILogger<TrayIconController> _logger;
+    private readonly AsyncRelayCommand _leftClickCommand;
 
     private TaskbarIcon? _taskbarIcon;
     private ImageSource? _iconSource;
@@ -31,7 +35,13 @@ internal sealed partial class TrayIconController : IDisposable
     private bool _disposed;
 
     public bool IsCreated => _isCreated;
+    internal MenuItem? InputTranslateMenuItem { get; private set; }
+    internal MenuItem? ClipboardTranslateMenuItem { get; private set; }
     internal MenuItem? SettingsMenuItem { get; private set; }
+    internal ICommand LeftClickCommand => _leftClickCommand;
+    internal Task? LastInputTranslateTask { get; private set; }
+    internal Task? LastClipboardTranslateTask { get; private set; }
+    internal Task? LastOpenSettingsTask { get; private set; }
 
     public event EventHandler? Created;
 
@@ -45,6 +55,11 @@ internal sealed partial class TrayIconController : IDisposable
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _actionDispatcher = actionDispatcher ?? throw new ArgumentNullException(nameof(actionDispatcher));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+        _leftClickCommand = new AsyncRelayCommand(
+            DispatchInputTranslateAsync,
+            () => !_disposed,
+            ex => LogInputTranslateFailed(_logger, ex));
     }
 
     internal bool WasInitialized { get; private set; }
@@ -71,6 +86,7 @@ internal sealed partial class TrayIconController : IDisposable
             ToolTipText = UiText.TrayToolTip,
             IconSource = _iconSource,
             ContextMenu = CreateContextMenu(),
+            LeftClickCommand = _leftClickCommand,
         };
 
         TryCreate();
@@ -194,22 +210,32 @@ internal sealed partial class TrayIconController : IDisposable
     {
         var contextMenu = new ContextMenu();
 
+        var inputTranslateItem = new MenuItem
+        {
+            Header = UiText.TrayMenuInputTranslate,
+            IsEnabled = true,
+        };
+        inputTranslateItem.Click += OnInputTranslateClick;
+        InputTranslateMenuItem = inputTranslateItem;
+        contextMenu.Items.Add(inputTranslateItem);
+
+        var clipboardTranslateItem = new MenuItem
+        {
+            Header = UiText.TrayMenuClipboardTranslate,
+            IsEnabled = true,
+        };
+        clipboardTranslateItem.Click += OnClipboardTranslateClick;
+        ClipboardTranslateMenuItem = clipboardTranslateItem;
+        contextMenu.Items.Add(clipboardTranslateItem);
+
+        contextMenu.Items.Add(new Separator());
+
         var settingsItem = new MenuItem
         {
             Header = UiText.TrayMenuSettings,
             IsEnabled = true,
         };
-        settingsItem.Click += async (_, _) =>
-        {
-            try
-            {
-                await _actionDispatcher.DispatchAsync(Iris.Core.Actions.IrisAction.OpenSettings, new Iris.Core.Actions.ActionContext(Iris.Core.Actions.ActionTrigger.TrayMenu));
-            }
-            catch (Exception ex)
-            {
-                LogOpenSettingsFailed(_logger, ex);
-            }
-        };
+        settingsItem.Click += OnSettingsClick;
         SettingsMenuItem = settingsItem;
         contextMenu.Items.Add(settingsItem);
         contextMenu.Items.Add(new Separator());
@@ -275,6 +301,99 @@ internal sealed partial class TrayIconController : IDisposable
         return contextMenu;
     }
 
+    private async void OnInputTranslateClick(object? sender, RoutedEventArgs e)
+    {
+        await DispatchInputTranslateAsync();
+    }
+
+    private async void OnClipboardTranslateClick(object? sender, RoutedEventArgs e)
+    {
+        await DispatchClipboardTranslateAsync();
+    }
+
+    private async void OnSettingsClick(object? sender, RoutedEventArgs e)
+    {
+        await DispatchOpenSettingsAsync();
+    }
+
+    internal Task DispatchInputTranslateAsync()
+    {
+        var task = ExecuteCoreAsync();
+        LastInputTranslateTask = task;
+        return task;
+
+        async Task ExecuteCoreAsync()
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            try
+            {
+                await _actionDispatcher.DispatchAsync(
+                    IrisAction.InputTranslate,
+                    new ActionContext(ActionTrigger.TrayMenu)).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                LogInputTranslateFailed(_logger, ex);
+            }
+        }
+    }
+
+    internal Task DispatchClipboardTranslateAsync()
+    {
+        var task = ExecuteCoreAsync();
+        LastClipboardTranslateTask = task;
+        return task;
+
+        async Task ExecuteCoreAsync()
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            try
+            {
+                await _actionDispatcher.DispatchAsync(
+                    IrisAction.ClipboardTranslate,
+                    new ActionContext(ActionTrigger.TrayMenu)).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                LogClipboardTranslateFailed(_logger, ex);
+            }
+        }
+    }
+
+    internal Task DispatchOpenSettingsAsync()
+    {
+        var task = ExecuteCoreAsync();
+        LastOpenSettingsTask = task;
+        return task;
+
+        async Task ExecuteCoreAsync()
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            try
+            {
+                await _actionDispatcher.DispatchAsync(
+                    IrisAction.OpenSettings,
+                    new ActionContext(ActionTrigger.TrayMenu)).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                LogOpenSettingsFailed(_logger, ex);
+            }
+        }
+    }
+
     public void Dispose()
     {
         if (_disposed)
@@ -284,8 +403,29 @@ internal sealed partial class TrayIconController : IDisposable
 
         _disposed = true;
         StopRetryTimer();
-        _taskbarIcon?.Dispose();
-        _taskbarIcon = null;
+
+        if (InputTranslateMenuItem != null)
+        {
+            InputTranslateMenuItem.Click -= OnInputTranslateClick;
+        }
+        if (ClipboardTranslateMenuItem != null)
+        {
+            ClipboardTranslateMenuItem.Click -= OnClipboardTranslateClick;
+        }
+        if (SettingsMenuItem != null)
+        {
+            SettingsMenuItem.Click -= OnSettingsClick;
+        }
+
+        if (_taskbarIcon != null)
+        {
+            _taskbarIcon.LeftClickCommand = null;
+            _taskbarIcon.ContextMenu = null;
+            _taskbarIcon.Dispose();
+            _taskbarIcon = null;
+        }
+
+        _leftClickCommand.RaiseCanExecuteChanged();
     }
 
     [LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = "系统托盘图标创建失败，将在 {DelaySeconds:F0} 秒后重试（第 {Attempt} 次尝试）")]
@@ -302,4 +442,10 @@ internal sealed partial class TrayIconController : IDisposable
 
     [LoggerMessage(EventId = 5, Level = LogLevel.Warning, Message = "托盘派发打开设置动作失败")]
     private static partial void LogOpenSettingsFailed(ILogger logger, Exception ex);
+
+    [LoggerMessage(EventId = 6, Level = LogLevel.Warning, Message = "托盘派发输入翻译动作失败")]
+    private static partial void LogInputTranslateFailed(ILogger logger, Exception ex);
+
+    [LoggerMessage(EventId = 7, Level = LogLevel.Warning, Message = "托盘派发剪贴板翻译动作失败")]
+    private static partial void LogClipboardTranslateFailed(ILogger logger, Exception ex);
 }

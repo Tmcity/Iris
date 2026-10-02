@@ -105,8 +105,8 @@
 | T-014 | ☑ | ActionDispatcher + App 内部 UI 调度适配器（C14-1 已完成） | T-005 | 1d |
 | T-021A | ☑ | Win32ClipboardService（含 R1/R2；C21-1 已完成） | T-005, T-014 | 1.5d |
 | T-022A | ☑ | DesktopContext + MonitorEnumerator（含 R1） | T-005 | 1d |
-| T-015 | ▶ | TranslateWindow（913bbf6 / R4 原反例确认，当前 R5；附 C19B-1；ARCH v1.25） | T-013, T-014, T-018, T-019, T-021A, T-022A | 2.5d |
-| T-016 | ☐ | InputTranslate / ClipboardTranslate / TranslateText Handler + 托盘菜单 | T-015, T-021A | 0.5d |
+| T-015 | ☑ | TranslateWindow（5c5f78d / R5 验收通过，含 C19B-1） | T-013, T-014, T-018, T-019, T-021A, T-022A | 2.5d |
+| T-016 | ▶ | InputTranslate / ClipboardTranslate / TranslateText Handler + 托盘菜单（ARCH v1.26） | T-015, T-021A | 0.5d |
 | T-017 | ☐ | HotkeyService + KeyNameMapper + 启动时注册 / 设置变化时重注册 | T-016 | 1.5d |
 
 **当前执行顺序（2026-10-01 架构修订）**：T-014 → T-021A → T-022A → 前移 T-018 → T-019A → T-019B → T-015 → T-016 → T-017。T-019 保留总单编号，拆开 Core 凭据发布与 UI 接线验收；一次仍只签发一单。T-018 已通过，服务配置入口仍须 T-019B 交付，不能要求用户手工编辑 DPAPI 密钥文件。
@@ -129,7 +129,7 @@
 
 **T-022A 最终结案（2026-09-30）** — ecee697 通过，CCR-009 结案。独立构建零警告/零错误、1230 项通过/1 项环境跳过；所有原采集/清理/冲突反例符合要求，几何差分保持通过。多屏/混合 DPI 等实机范围仍按报告限定。下一单进入前移 T-018，提供真实设置入口。
 
-T-015 已于 2026-10-02 按 TRANSLATION_WINDOW.md / ARCH v1.25 / CCR-013 签发，A07 的操作租约、主/重试准入、UI 缓冲/跨重试预算与副作用/退出归属已定稿，行为待实现验收；Dispatcher 的 Action 防重入不能替代结果归属校验。当前通过用户手动转交。
+T-015 已按 TRANSLATION_WINDOW.md / CCR-013 实施并于 2026-10-03 验收；窗口层的操作租约、主/重试准入、UI 缓冲与副作用/退出归属已落地。当前 T-016 按 TRANSLATION_ENTRYPOINTS.md / ARCH v1.26 接入真实入口；Dispatcher 的 Action 防重入不能替代结果归属校验。通过用户手动转交。
 
 **T-015** 交付 ARCH §7.2、§10.5（跟随光标定位）、§14 的 TranslateWindow 部分。验收（手动 + VM 单测）：VM 用假 Orchestrator 测试卡片创建、Delta 节流刷新、Completed 覆盖、失败状态、单卡片重试、新请求取消旧请求；手动验证：在多显示器、混合 DPI 下窗口跟随光标且不超出屏幕、钉住 / 失焦隐藏、Esc 隐藏、Enter / Shift+Enter 行为。
 
@@ -142,6 +142,8 @@ T-015 已于 2026-10-02 按 TRANSLATION_WINDOW.md / ARCH v1.25 / CCR-013 签发�
 **T-015-R3 复审（2026-10-03）** — 55c251f 的原三类反例通过；独立 Release 零警告/零错误，全量 1454 成功/1 环境跳过。R3 要求的隐藏/VM 重入发布仍有反例，取消先退出时 CTS 也早于写入返回释放；签发 R4 仅收尾这两组及同范围失败清理。证据见 tasks/done/T-015-R3.md 末尾；T-015 保持 ▶、CCR-013 待复审，不开始 T-016。
 
 **T-015-R4 复审（2026-10-03）** — 913bbf6 的原隐藏/InputText 重入/双向 CTS 反例通过，独立 Release 零警告/零错误，全量 1459 成功/1 环境跳过。StatusMessage 通知重入后仍写旧 Error，复制待项先标写入结束导致 CTS 早于取消登记释放；签发 R5 仅修这两处。证据见 tasks/done/T-015-R4.md 末尾；状态保持 ▶，不开始 T-016。
+
+**T-015 最终结案 / T-016 签发（2026-10-03）** — 5c5f78d / R5 通过，CCR-013 结案；独立 Release 零警告/零错误，全量 1465 成功/1 环境跳过。状态/错误通知重入及待项取消顺序反例修复，既有诊断保持。完整证据见 tasks/done/T-015-R5.md。当前按 TRANSLATION_ENTRYPOINTS.md / ARCH v1.26 实施三个 Handler 与托盘入口，公开契约不变；用户手动转交。人工 IME/实机多屏、真实服务与性能仍单独验收。
 
 **T-016** 验收：托盘菜单新增“输入翻译 / 剪贴板翻译”；托盘左键单击 = 输入翻译；Handler 单元测试覆盖热键二次按下关闭窗口的逻辑。
 

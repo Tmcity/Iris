@@ -85,6 +85,8 @@ internal sealed class AsyncRelayCommand : ICommand
         return !_isExecuting && (_canExecute?.Invoke(parameter) ?? true);
     }
 
+    public Task? ExecutionTask { get; private set; }
+
     public async void Execute(object? parameter)
     {
         if (!CanExecute(parameter))
@@ -94,6 +96,9 @@ internal sealed class AsyncRelayCommand : ICommand
 
         _isExecuting = true;
         RaiseCanExecuteChanged();
+
+        var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        ExecutionTask = tcs.Task;
 
         try
         {
@@ -110,6 +115,7 @@ internal sealed class AsyncRelayCommand : ICommand
         {
             _isExecuting = false;
             RaiseCanExecuteChanged();
+            tcs.TrySetResult();
         }
     }
 

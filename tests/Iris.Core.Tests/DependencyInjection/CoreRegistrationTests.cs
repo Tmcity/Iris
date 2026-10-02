@@ -23,10 +23,14 @@ public sealed class CoreRegistrationTests
         var secretStoreMock = Substitute.For<Iris.Core.Security.ISecretStore>();
         var historyMock = Substitute.For<ITranslationHistoryRepository>();
         var presenterMock = Substitute.For<Iris.Core.Presentation.ISettingsWindowPresenter>();
+        var translatePresenterMock = Substitute.For<Iris.Core.Presentation.ITranslateWindowPresenter>();
+        var clipboardMock = Substitute.For<Iris.Core.Platform.IClipboardService>();
         services.AddSingleton(settingsMock);
         services.AddSingleton(secretStoreMock);
         services.AddSingleton(historyMock);
         services.AddSingleton(presenterMock);
+        services.AddSingleton(translatePresenterMock);
+        services.AddSingleton(clipboardMock);
         services.AddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
         services.AddSingleton(typeof(ILogger<>), typeof(NullLogger<>));
 
@@ -90,8 +94,11 @@ public sealed class CoreRegistrationTests
         coordinator1.ShouldBeSameAs(coordinator2);
 
         var actionHandlers = provider.GetServices<Iris.Core.Actions.IActionHandler>().ToList();
-        var openSettingsHandler = actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.OpenSettings);
-        openSettingsHandler.ShouldNotBeNull();
+        actionHandlers.Count.ShouldBe(4);
+        actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.OpenSettings).ShouldNotBeNull();
+        actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.InputTranslate).ShouldNotBeNull();
+        actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.ClipboardTranslate).ShouldNotBeNull();
+        actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.TranslateText).ShouldNotBeNull();
     }
 
     [Fact]
@@ -102,10 +109,14 @@ public sealed class CoreRegistrationTests
         var secretStoreMock = Substitute.For<Iris.Core.Security.ISecretStore>();
         var historyMock = Substitute.For<ITranslationHistoryRepository>();
         var presenterMock = Substitute.For<Iris.Core.Presentation.ISettingsWindowPresenter>();
+        var translatePresenterMock = Substitute.For<Iris.Core.Presentation.ITranslateWindowPresenter>();
+        var clipboardMock = Substitute.For<Iris.Core.Platform.IClipboardService>();
         services.AddSingleton(settingsMock);
         services.AddSingleton(secretStoreMock);
         services.AddSingleton(historyMock);
         services.AddSingleton(presenterMock);
+        services.AddSingleton(translatePresenterMock);
+        services.AddSingleton(clipboardMock);
         services.AddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
         services.AddSingleton(typeof(ILogger<>), typeof(NullLogger<>));
 
@@ -126,5 +137,8 @@ public sealed class CoreRegistrationTests
         provider.GetServices<ITranslationOrchestrator>().Count().ShouldBe(1);
         provider.GetServices<ISettingsEditCoordinator>().Count().ShouldBe(1);
         provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.OpenSettings).ShouldBe(1);
+        provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.InputTranslate).ShouldBe(1);
+        provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.ClipboardTranslate).ShouldBe(1);
+        provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.TranslateText).ShouldBe(1);
     }
 }

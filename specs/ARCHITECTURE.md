@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.25 · 2026-10-02 · 状态：**已冻结（首期）**
+> 版本：v1.26 · 2026-10-03 · 状态：**已冻结（首期）**
+> 变更记录：v1.26（T-015-R5 通过，签发 T-016）— TRANSLATION_ENTRYPOINTS.md 定稿三个翻译 Handler、前置剪贴板租约/迟到错误、空输入与 Origin 映射及托盘统一 Dispatcher 入口；公开契约不变。
 > 变更记录：v1.25（T-019B-R6 通过，签发 T-015）— TRANSLATION_WINDOW.md 定稿 A07 的操作租约、迟到结果拒绝、有界主/重试/刷新、复制与完整退出；CCR-013 同步展示端口；§14 输入键行为以契约为准。
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
@@ -274,6 +275,12 @@ Core 程序集禁止引用：`PresentationFramework`、`PresentationCore`、`Win
 1. 若翻译窗口 `IsVisible && IsActive` → `HideAsync()`（热键二次按下即关闭），结束。
 2. 否则用 `TryBeginOperation(cancellationToken)` 接纳意图（使用 Handler.ExecuteAsync 参数），取得租约后 `TryShowAsync(operation, new TranslateWindowRequest { Text = ctx.Payload, Origin = Input, FocusInput = true, AutoTranslate = ctx.Payload != null })`，finally Dispose。没有租约不启动工作；详见 TRANSLATION_WINDOW.md / CCR-013。
 3. 用户在窗口中按 Enter → `TranslateWindowViewModel.TranslateCommand` → Orchestrator（§7）。
+
+### 6.2.1 剪贴板与传入文本入口（T-016）
+
+完整参数、异常及生命周期按 TRANSLATION_ENTRYPOINTS.md。ClipboardTranslate 在读取之前取得操作租约，读取成功/空/失败均用同一租约尝试发布，失效返回 false 不提示旧错误。空剪贴板打开可输入的空白错误状态，不自动翻译保留正文。TranslateText 使用 Payload 原文，空白拒绝；CommandLine、DragDrop/FloatingBall 与其它触发分别映射 CommandLine、FloatingBall、Input 来源。
+
+托盘菜单提供输入翻译/剪贴板翻译，左键单击路由 InputTranslate；全部经 IActionDispatcher，Trigger=TrayMenu。不在本单注册全局热键或命令行解析；后续 OCR/历史需要精确来源时按对应工单使用展示端口，不从文本猜来源。
 
 ### 6.3 划词翻译（`SelectionTranslateHandler`）
 

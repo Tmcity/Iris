@@ -89,6 +89,13 @@ public sealed class OpenSettingsHandlerTests
         var fakePresenter = Substitute.For<ISettingsWindowPresenter>();
         services.AddSingleton(fakePresenter);
 
+        var fakeTranslatePresenter = Substitute.For<ITranslateWindowPresenter>();
+        services.AddSingleton(fakeTranslatePresenter);
+        var fakeClipboard = Substitute.For<Iris.Core.Platform.IClipboardService>();
+        services.AddSingleton(fakeClipboard);
+        services.AddSingleton<Microsoft.Extensions.Logging.ILoggerFactory>(Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
+        services.AddSingleton(typeof(Microsoft.Extensions.Logging.ILogger<>), typeof(Microsoft.Extensions.Logging.Abstractions.NullLogger<>));
+
         services.AddIrisCore();
 
         using var provider = services.BuildServiceProvider();

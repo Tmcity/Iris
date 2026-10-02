@@ -2,7 +2,7 @@
 
 > 2026-10-03 更新；由 Codex 接替 Claude Code 的架构师职责。当前状态以 `tasks/BACKLOG.md` 与 `tasks/current_task.md` 为准；本文件记录交接事实与后续注意事项。
 
-**当前唯一有效状态（T-015-R4 复审，2026-10-03）**：HEAD 913bbf60d6818e331be7630c322f05cd68471bdd 原反例通过，仍未验收；当前工单 T-015-R5。独立 Release 零警告/零错误，全量 1459 成功/1 隔离窗口站环境跳过。仅剩 StatusMessage 通知重入后旧 A 的 Error 覆盖 B，以及复制待项 MarkWriteFinished 先于取消登记导致 CTS 先 Dispose 后 CancelAsync。证据在 tasks/done/T-015-R4.md 末尾，临时探针 iris-t015-r4-review。保留已通过发布/双向 CTS 等修复，CCR-013 待复审，不开始 T-016，用户手动转交。
+**当前唯一有效状态（T-015 结案，2026-10-03）**：HEAD 5c5f78db0884cc1988bddc797fcd4f64dd55479c / T-015-R5 已验收，T-015 / CCR-013 结案。独立 Release 零警告/零错误，全量 1465 成功/1 隔离窗口站环境跳过；状态通知重入与待项取消顺序反例修复，既有诊断保持。证据见 tasks/done/T-015-R5.md，临时探针 iris-t015-r5-review。当前工单 T-016，正式规范 TRANSLATION_ENTRYPOINTS.md / ARCH v1.26，无新公开契约；交付三个 Handler 与托盘入口，之后再 T-017 热键。真实服务、人工 IME/多屏 DPI 与性能仍未验证，不能宣布 M2 或产品完成。用户手动转交，不推送。
 
 **当前协作方式：用户手动转交。** 原对话 `01a0ebd8-da41-7793-966f-76128c69a616` 在 2026-10-02 的最新明确指示是“停止控制，接下来由我传话”；后续仅“继续”，未重新授权控制。接续时从对应本地 JSONL 核实，覆盖本文下面的旧直接控制状态。不要自动操作 Antigravity、不要要求再次确认此选择；提供可直接转交的 current_task。架构师不替 Gemini 编写大段业务代码、不自动提交/推送。
 

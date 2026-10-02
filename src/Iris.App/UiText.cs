@@ -4,6 +4,8 @@ internal static class UiText
 {
     public const string AppName = "Iris";
     public const string TrayToolTip = "Iris";
+    public const string TrayMenuInputTranslate = "输入翻译";
+    public const string TrayMenuClipboardTranslate = "剪贴板翻译";
     public const string TrayMenuSettings = "设置…";
     public const string TrayMenuDebugUiException = "调试：UI 线程异常";
     public const string TrayMenuDebugTaskException = "调试：后台任务异常";
