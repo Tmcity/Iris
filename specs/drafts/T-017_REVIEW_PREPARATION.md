@@ -201,3 +201,68 @@ SCOPE copiedDevelopmentBinary=True finalDelivery=False realNativeCalls=0
 ```
 
 此前 §11 的连续注册残留反例在此开发版已通过；原两项反例仍通过。最终交付的提交指纹、全量回归及跨线程拒绝等完整证据仍需复审，不能仅凭三个探针场景签收整个工单。
+
+## 14. T-017-R1 基线调度失败独立复现
+
+e936216 提交后，独立 Release 构建及全量测试已完成（build 0 警告/0 错误，00:00:06.71；test 总计 1602、成功 1601、失败 0、跳过 1，13s 241ms）。R1 签发后，在不与 Gemini 共享输出的隔离 App 探针目录更新已构建副本，源复制前/后/副本指纹一致：
+
+```text
+Iris.Core.dll SHA256=7F9358141BB323133A272284F077659D5EFC36CBFF8358A5BE7139997FDFA890
+Iris.App.dll SHA256=8593499C98DE07A7F0D01B17360F6BCAFA8D69D73613D2E363030FA21B749FB1
+Iris.Platform.Windows.dll SHA256=A9141C4682F5D8A1BFF0B371C4FD26ED35B088DA95321881CD14E06A5D015B7B
+```
+
+增加受控 IUiDispatcher 单次返回 faulted Task 的场景：启动默认 F 成功；下一次发布 B 的调度失败；再发布 C 时调度器已恢复，但实际协调器未再次调用它，仍保持 F。沿用真实 HotkeyCoordinator，不另写参考状态机；fake settings/原生服务无用户数据或系统热键副作用。
+
+执行 `dotnet run --project C:/Users/28910/AppData/Local/Temp/iris-t017-app-review/Probe.csproj -c Release --no-restore`，退出代码 0（打印期望差异，非全部断言成功）：
+
+```text
+SCHEDULING_RECOVERY lastRegisteredKey=F uiCalls=2 expectedLastKey=C
+PRESSED_INLINE handlerEntered=False insidePressed=False expectedInsidePressed=False
+QUEUED_ENTRY handlerEntered=True insidePressed=False expected=True/False
+EXIT_BARRIER returnedBeforeRelease=False handlerFinished=False nativeStopped=True expectedReturnedBeforeRelease=False
+CLEANUP handlerFinished=True expected=True
+SCOPE copiedDevelopmentBinary=True realCoordinatorDispatcherWpfAdapter=True windowsCreated=0 realHotkeys=0 finalDelivery=False
+```
+
+首行是 R1 调度失败恢复路径的实际反例；后续行是原分发/等待路径的保持验证。探针末行的 development/finalDelivery 是脚本保留的范围标签，此轮 DLL 明确来自 e936216 基线独立构建，不能误称已经验证 R1 交付。消费者空闲交接竞态仍为工单所述静态交错，未将此单次调度故障冒充竞态复现。
+
+## 15. R1 开发中调度完成回调检查
+
+首次 R1 草稿把空闲判断和处理标记清除放进同一锁，方向符合要求；调度故障通过线程池 ContinueWith 清理时仍须核对三个交错（未做该新草稿的运行时复现）：
+
+- 回调执行前调度失败，但完成回调尚未运行；新的 Changed 已到达并保存在 pending，因 processing=true 未调度。完成回调只置 false 会让这份新快照再次失去消费者。要区分失败请求与后来到达的新请求，不能靠“用户再改一次”恢复。
+- ProcessPendingSettingsAsync 自己 catch 先清标记、再让 Task fault；新消费者已启动，旧 Task 的延迟完成回调无条件清 false 会错误释放新消费者的处理资格。完成回调必须只修改自己拥有的调度代次。
+- InvokeAsync 可能以 canceled Task 完成；仅检查 IsFaulted 无法释放未执行回调的调度资格。停止后不重试，正常可恢复场景仍应有明确收尾。
+
+以上均属于 R1-1 的原调度失败收尾要求。验证需操控旧任务完成与后续快照到达的顺序，保持一个消费者/一个最新快照，不通过循环自动重试同一失败快照解决。
+
+### 基线上的延迟故障/取消探针
+
+继续使用 §14 的同一基线 DLL 副本，增加可控制完成时间的 IUiDispatcher：先阻止 B 的调度回调执行，再发布 C，之后将 B 的调度 Task 分别设为 faulted / canceled；两种情况都在受控观察期内检查 C 是否真正进入 Register。代码在 finally 完成测试 Task 并停止协调器，fake 原生服务不创建任何系统资源。
+
+同一隔离 Probe.csproj 的新增实际输出：
+
+```text
+DEFERRED_SCHEDULING cancel=False newestApplied=False lastRegisteredKey=F uiCalls=2 expectedNewestApplied=True
+DEFERRED_SCHEDULING cancel=True newestApplied=False lastRegisteredKey=F uiCalls=2 expectedNewestApplied=True
+```
+
+这是 e936216 基线上的补充反例，不是 R1 草稿的测试结果。R1 交付后更新副本再验证；先发布新快照、再完成旧任务的顺序由探针直接控制，2 秒观察期只用于判断后续处理是否发生，不用于制造交错。
+
+## 16. R1 调度代次开发版探针对照
+
+更新独立副本并校验复制前/后指纹：App 为 `F10AB78C48E2EB9CCC2ABB349EB7B4F4D4441C4353AB0A06F7147B08792A266D`；Core/Platform 同 §14。延迟故障/取消两项首次复跑均已应用 C。原单次故障用例立即打印仍显示 F，这是同步观察早于异步恢复，不可直接归为新版本失败；补入与延迟用例一致的有界完成观察后，执行同一 Probe.csproj（Release / --no-restore），退出代码 0：
+
+```text
+SCHEDULING_RECOVERY recovered=True lastRegisteredKey=C uiCalls=3 expectedLastKey=C
+DEFERRED_SCHEDULING cancel=False newestApplied=True lastRegisteredKey=C uiCalls=3 expectedNewestApplied=True
+DEFERRED_SCHEDULING cancel=True newestApplied=True lastRegisteredKey=C uiCalls=3 expectedNewestApplied=True
+PRESSED_INLINE handlerEntered=False insidePressed=False expectedInsidePressed=False
+QUEUED_ENTRY handlerEntered=True insidePressed=False expected=True/False
+EXIT_BARRIER returnedBeforeRelease=False handlerFinished=False nativeStopped=True expectedReturnedBeforeRelease=False
+CLEANUP handlerFinished=True expected=True
+SCOPE copiedDevelopmentBinary=True realCoordinatorDispatcherWpfAdapter=True windowsCreated=0 realHotkeys=0 finalDelivery=False
+```
+
+这些场景已改善，仍非 R1 最终验收。旧完成回调与新消费者代次交错、实际前置读取/Bootstrapper 退出及完整回归仍需交付证据。

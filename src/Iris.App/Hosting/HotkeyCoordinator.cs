@@ -36,7 +36,10 @@ internal sealed partial class HotkeyCoordinator : IDisposable
     private readonly CancellationTokenSource _shutdownCts = new();
 
     private AppSettings? _pendingSettings;
+    private AppSettings? _dispatchedSettings;
     private bool _isProcessingSettings;
+    private long _dispatchGeneration;
+    private long _lastStartedExecutionGeneration;
     private bool _isStarted;
     private bool _isStopped;
     private Task? _stopNativeTask;
@@ -107,6 +110,9 @@ internal sealed partial class HotkeyCoordinator : IDisposable
 
             _isStopped = true;
             _pendingSettings = null;
+            _dispatchedSettings = null;
+            _isProcessingSettings = false;
+            _dispatchGeneration++;
 
             try
             {
@@ -181,6 +187,9 @@ internal sealed partial class HotkeyCoordinator : IDisposable
         {
             _isStopped = true;
             _pendingSettings = null;
+            _dispatchedSettings = null;
+            _isProcessingSettings = false;
+            _dispatchGeneration++;
         }
 
         try
@@ -234,43 +243,128 @@ internal sealed partial class HotkeyCoordinator : IDisposable
             {
                 return;
             }
-            _isProcessingSettings = true;
-        }
 
-        _ = _uiDispatcher.InvokeAsync(ProcessPendingSettingsAsync, CancellationToken.None);
+            ScheduleProcessingLocked();
+        }
     }
 
-    private Task ProcessPendingSettingsAsync()
+    private void ScheduleProcessingLocked()
     {
+        if (_isStopped || _pendingSettings == null)
+        {
+            return;
+        }
+
+        _isProcessingSettings = true;
+        long generation = ++_dispatchGeneration;
+        _dispatchedSettings = _pendingSettings;
+        Task? dispatchTask = null;
+        try
+        {
+            dispatchTask = _uiDispatcher.InvokeAsync(() => ProcessPendingSettingsAsync(generation), CancellationToken.None);
+        }
+        catch (Exception ex)
+        {
+            _isProcessingSettings = false;
+            _dispatchedSettings = null;
+            LogDispatchSettingsFailed(_logger, ex.GetType().Name);
+            return;
+        }
+
+        if (dispatchTask != null)
+        {
+            _ = dispatchTask.ContinueWith(t => OnDispatchCompleted(generation, t), TaskScheduler.Default);
+        }
+    }
+
+    private void OnDispatchCompleted(long generation, Task task)
+    {
+        if (task.IsCompletedSuccessfully)
+        {
+            return;
+        }
+
+        bool wasExecutionStarted;
+        lock (_gate)
+        {
+            wasExecutionStarted = (_lastStartedExecutionGeneration == generation);
+        }
+
+        if (!wasExecutionStarted)
+        {
+            var ex = task.Exception?.InnerException ?? task.Exception;
+            string exceptionType = task.IsCanceled ? "OperationCanceledException" : (ex?.GetType().Name ?? "Unknown");
+            LogDispatchSettingsFailed(_logger, exceptionType);
+        }
+
+        lock (_gate)
+        {
+            if (_isStopped || _dispatchGeneration != generation)
+            {
+                return;
+            }
+
+            _isProcessingSettings = false;
+
+            if (_pendingSettings != null && !ReferenceEquals(_pendingSettings, _dispatchedSettings))
+            {
+                ScheduleProcessingLocked();
+            }
+            else
+            {
+                _pendingSettings = null;
+                _dispatchedSettings = null;
+            }
+        }
+    }
+
+    private Task ProcessPendingSettingsAsync(long generation)
+    {
+        lock (_gate)
+        {
+            _lastStartedExecutionGeneration = generation;
+        }
+
         try
         {
             while (true)
             {
-                AppSettings? targetSettings;
+                AppSettings targetSettings;
                 lock (_gate)
                 {
-                    if (_isStopped)
+                    if (_isStopped || _dispatchGeneration != generation || _pendingSettings == null)
                     {
+                        if (_dispatchGeneration == generation)
+                        {
+                            _isProcessingSettings = false;
+                            _dispatchedSettings = null;
+                        }
                         return Task.CompletedTask;
                     }
 
                     targetSettings = _pendingSettings;
                     _pendingSettings = null;
-                    if (targetSettings == null)
-                    {
-                        return Task.CompletedTask;
-                    }
                 }
 
                 ApplySettingsCore(targetSettings);
             }
         }
-        finally
+        catch (Exception ex)
         {
             lock (_gate)
             {
-                _isProcessingSettings = false;
+                if (_dispatchGeneration == generation)
+                {
+                    _isProcessingSettings = false;
+                    _dispatchedSettings = null;
+                    if (!_isStopped && _pendingSettings != null)
+                    {
+                        ScheduleProcessingLocked();
+                    }
+                }
             }
+            LogProcessSettingsFailed(_logger, ex.GetType().Name);
+            throw;
         }
     }
 
@@ -559,4 +653,10 @@ internal sealed partial class HotkeyCoordinator : IDisposable
 
     [LoggerMessage(EventId = 5, Level = LogLevel.Error, Message = "热键分发遇到异常: Action={Action}, ExceptionType={ExceptionType}")]
     private static partial void LogDispatchFailed(ILogger logger, IrisAction action, string exceptionType);
+
+    [LoggerMessage(EventId = 6, Level = LogLevel.Warning, Message = "调度设置热键处理任务失败: ExceptionType={ExceptionType}")]
+    private static partial void LogDispatchSettingsFailed(ILogger logger, string exceptionType);
+
+    [LoggerMessage(EventId = 7, Level = LogLevel.Error, Message = "处理设置热键遇到异常: ExceptionType={ExceptionType}")]
+    private static partial void LogProcessSettingsFailed(ILogger logger, string exceptionType);
 }
