@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +13,7 @@ using Iris.App.Tray;
 using Iris.Core.Actions;
 using Iris.Core.Presentation;
 using Iris.Core.Settings;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 using Shouldly;
@@ -20,6 +23,28 @@ namespace Iris.App.Tests.Tray;
 
 public sealed class TrayIconControllerTests
 {
+    private sealed class CapturingTrayLogger : ILogger<TrayIconController>
+    {
+        public List<Exception> LoggedExceptions { get; } = [];
+        public List<(LogLevel Level, EventId Id, string Message)> LoggedMessages { get; } = [];
+
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
+        public bool IsEnabled(LogLevel level) => true;
+
+        public void Log<TState>(
+            LogLevel level,
+            EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            if (exception != null)
+            {
+                LoggedExceptions.Add(exception);
+            }
+            LoggedMessages.Add((level, eventId, formatter(state, exception)));
+        }
+    }
     private static (TrayIconController Controller, IActionDispatcher Dispatcher, ContextMenu Menu) CreateSut()
     {
         var appLifetime = Substitute.For<IAppLifetime>();
@@ -148,7 +173,7 @@ public sealed class TrayIconControllerTests
     }
 
     [Fact]
-    public async Task MenuClicksAndLeftClick_WhenDispatcherThrows_CatchesAndLogsWithoutCrashing()
+    public async Task MenuClicksAndLeftClick_WhenDispatcherThrows_CatchesAndLogsSafeErrorType_WithoutPassingRawException()
     {
         await WpfTestRunner.RunAsync(async () =>
         {
@@ -156,13 +181,15 @@ public sealed class TrayIconControllerTests
             var settingsService = Substitute.For<ISettingsService>();
             var actionDispatcher = Substitute.For<IActionDispatcher>();
             actionDispatcher.DispatchAsync(Arg.Any<IrisAction>(), Arg.Any<ActionContext>(), Arg.Any<CancellationToken>())
-                .Returns<Task>(_ => Task.FromException(new InvalidOperationException("Dispatcher failure")));
+                .Returns<Task>(_ => Task.FromException(new InvalidOperationException("Dispatcher failure secret payload marker sk-12345")));
+
+            var logger = new CapturingTrayLogger();
 
             using var controller = new TrayIconController(
                 appLifetime,
                 settingsService,
                 actionDispatcher,
-                NullLogger<TrayIconController>.Instance);
+                logger);
 
             var createMenuMethod = typeof(TrayIconController).GetMethod("CreateContextMenu", BindingFlags.Instance | BindingFlags.NonPublic);
             createMenuMethod.ShouldNotBeNull();
@@ -170,25 +197,50 @@ public sealed class TrayIconControllerTests
 
             controller.InputTranslateMenuItem.ShouldNotBeNull();
             controller.ClipboardTranslateMenuItem.ShouldNotBeNull();
+            controller.SettingsMenuItem.ShouldNotBeNull();
 
-            // None of these should throw unhandled exception
+            // 1. 输入翻译菜单项
             controller.InputTranslateMenuItem.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
             if (controller.LastInputTranslateTask != null)
             {
                 await controller.LastInputTranslateTask;
             }
 
+            // 2. 剪贴板翻译菜单项
             controller.ClipboardTranslateMenuItem.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
             if (controller.LastClipboardTranslateTask != null)
             {
                 await controller.LastClipboardTranslateTask;
             }
 
+            // 3. 打开设置菜单项
+            controller.SettingsMenuItem.RaiseEvent(new RoutedEventArgs(MenuItem.ClickEvent));
+            if (controller.LastOpenSettingsTask != null)
+            {
+                await controller.LastOpenSettingsTask;
+            }
+
+            // 4. 左击命令
             controller.LeftClickCommand.Execute(null);
             if (controller.LeftClickCommand is AsyncRelayCommand arc && arc.ExecutionTask != null)
             {
                 await arc.ExecutionTask;
             }
+
+            // 断言脱敏：Logger 绝未接收到原始 Exception 对象（防止日志库输出其 Message/堆栈）
+            logger.LoggedExceptions.ShouldBeEmpty();
+
+            // 断言记录了 4 次错误，且消息中包含错误类型名称，但不包含任何敏感载荷
+            logger.LoggedMessages.Count.ShouldBe(4);
+            foreach (var (level, id, message) in logger.LoggedMessages)
+            {
+                level.ShouldBe(LogLevel.Warning);
+                message.ShouldContain(nameof(InvalidOperationException));
+                message.ShouldNotContain("sk-12345");
+                message.ShouldNotContain("Dispatcher failure");
+            }
+
+            logger.LoggedMessages.Select(m => m.Id.Id).ShouldBe([6, 7, 5, 6]);
         });
     }
 

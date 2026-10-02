@@ -59,7 +59,7 @@ internal sealed partial class TrayIconController : IDisposable
         _leftClickCommand = new AsyncRelayCommand(
             DispatchInputTranslateAsync,
             () => !_disposed,
-            ex => LogInputTranslateFailed(_logger, ex));
+            ex => LogInputTranslateFailed(_logger, ex.GetType().Name));
     }
 
     internal bool WasInitialized { get; private set; }
@@ -337,7 +337,7 @@ internal sealed partial class TrayIconController : IDisposable
             }
             catch (Exception ex)
             {
-                LogInputTranslateFailed(_logger, ex);
+                LogInputTranslateFailed(_logger, ex.GetType().Name);
             }
         }
     }
@@ -363,7 +363,7 @@ internal sealed partial class TrayIconController : IDisposable
             }
             catch (Exception ex)
             {
-                LogClipboardTranslateFailed(_logger, ex);
+                LogClipboardTranslateFailed(_logger, ex.GetType().Name);
             }
         }
     }
@@ -389,7 +389,7 @@ internal sealed partial class TrayIconController : IDisposable
             }
             catch (Exception ex)
             {
-                LogOpenSettingsFailed(_logger, ex);
+                LogOpenSettingsFailed(_logger, ex.GetType().Name);
             }
         }
     }
@@ -440,12 +440,12 @@ internal sealed partial class TrayIconController : IDisposable
     [LoggerMessage(EventId = 4, Level = LogLevel.Warning, Message = "展示托盘通知失败")]
     private static partial void LogShowNotificationFailed(ILogger logger, Exception ex);
 
-    [LoggerMessage(EventId = 5, Level = LogLevel.Warning, Message = "托盘派发打开设置动作失败")]
-    private static partial void LogOpenSettingsFailed(ILogger logger, Exception ex);
+    [LoggerMessage(EventId = 5, Level = LogLevel.Warning, Message = "托盘派发打开设置动作失败：{ErrorType}")]
+    private static partial void LogOpenSettingsFailed(ILogger logger, string errorType);
 
-    [LoggerMessage(EventId = 6, Level = LogLevel.Warning, Message = "托盘派发输入翻译动作失败")]
-    private static partial void LogInputTranslateFailed(ILogger logger, Exception ex);
+    [LoggerMessage(EventId = 6, Level = LogLevel.Warning, Message = "托盘派发输入翻译动作失败：{ErrorType}")]
+    private static partial void LogInputTranslateFailed(ILogger logger, string errorType);
 
-    [LoggerMessage(EventId = 7, Level = LogLevel.Warning, Message = "托盘派发剪贴板翻译动作失败")]
-    private static partial void LogClipboardTranslateFailed(ILogger logger, Exception ex);
+    [LoggerMessage(EventId = 7, Level = LogLevel.Warning, Message = "托盘派发剪贴板翻译动作失败：{ErrorType}")]
+    private static partial void LogClipboardTranslateFailed(ILogger logger, string errorType);
 }
