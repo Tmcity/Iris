@@ -65,6 +65,17 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
         }
     }
 
+    internal bool HasSessionOwnership
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _hasSessionOwnership;
+            }
+        }
+    }
+
     internal bool HasWorkOwnership
     {
         get

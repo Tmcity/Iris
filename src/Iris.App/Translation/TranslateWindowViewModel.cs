@@ -69,6 +69,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
     private readonly Lock _copyGate = new();
     private Task? _inFlightCopyTask;
+    private QueuedCopyItem? _inFlightCopyItem;
     private CancellationTokenSource? _inFlightCopyCts;
     private QueuedCopyItem? _pendingCopy;
     private readonly List<Task> _copyCancelTasks = [];
@@ -335,10 +336,40 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         }
     }
 
-    internal void ApplyRequest(TranslateWindowRequest request, TranslateWindowOperation operation)
+    internal bool ApplyRequest(TranslateWindowRequest request, TranslateWindowOperation operation)
     {
         ArgumentNullException.ThrowIfNull(request);
         ArgumentNullException.ThrowIfNull(operation);
+
+        TranslateWindowOperation? oldOp = null;
+        lock (_gate)
+        {
+            if (operation.IsRetired || operation.CancellationToken.IsCancellationRequested)
+            {
+                return false;
+            }
+
+            if (_activeOperation != null && !ReferenceEquals(_activeOperation, operation))
+            {
+                oldOp = _activeOperation;
+            }
+
+            _activeOperation = operation;
+            if (!operation.AttachSession())
+            {
+                if (ReferenceEquals(_activeOperation, operation))
+                {
+                    _activeOperation = null;
+                }
+                return false;
+            }
+        }
+
+        if (oldOp != null)
+        {
+            oldOp.Cancel();
+            oldOp.DetachSession();
+        }
 
         _programmaticTextUpdate = true;
         try
@@ -351,17 +382,24 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 OnPropertyChanged(nameof(CanTranslate));
             }
 
-            if (_activeOperation != null && !ReferenceEquals(_activeOperation, operation))
+            lock (_gate)
             {
-                _activeOperation.Cancel();
-                _activeOperation.DetachSession();
+                if (!ReferenceEquals(_activeOperation, operation) || operation.CancellationToken.IsCancellationRequested)
+                {
+                    return false;
+                }
             }
-
-            _activeOperation = operation;
-            operation.AttachSession();
 
             StatusMessage = request.StatusMessage;
             Error = request.Error != null ? SanitizeErrorInfo(request.Error) : null;
+
+            lock (_gate)
+            {
+                if (!ReferenceEquals(_activeOperation, operation) || operation.CancellationToken.IsCancellationRequested)
+                {
+                    return false;
+                }
+            }
 
             bool isNewMain = request.AutoTranslate
                 && !string.IsNullOrWhiteSpace(request.Text)
@@ -378,6 +416,8 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
                 SubmitMainTranslation(operation, _inputText, request.Origin);
             }
+
+            return true;
         }
         finally
         {
@@ -1220,60 +1260,75 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         }
     }
 
-    private sealed record QueuedCopyItem(string Text, CancellationTokenSource Cts);
-
-    private void RegisterCopyCancelTask(CancellationTokenSource cts)
+    private sealed class QueuedCopyItem
     {
-        lock (_copyGate)
+        private int _writeDone;
+        private int _cancelDone;
+        private int _disposed;
+
+        public string Text { get; }
+        public CancellationTokenSource Cts { get; }
+        public bool CancelRequested { get; set; }
+        public bool IsCancelRegistered { get; set; }
+
+        public QueuedCopyItem(string text, CancellationTokenSource cts)
         {
-            if (!_cancelingCtsSet.Add(cts))
-            {
-                return;
-            }
+            Text = text;
+            Cts = cts;
         }
 
-        Task cancelTask;
-        try
+        public void MarkWriteFinished()
         {
-            cancelTask = cts.CancelAsync();
-        }
-        catch (Exception ex)
-        {
-            LogClipboardError(_logger, ex.GetType().Name);
-            try { cts.Dispose(); } catch { }
-            lock (_copyGate)
-            {
-                _cancelingCtsSet.Remove(cts);
-            }
-            return;
+            Interlocked.Exchange(ref _writeDone, 1);
+            TryDispose();
         }
 
-        Task? cleanupTask = null;
-        cleanupTask = AwaitCancelAndDisposeCtsAsync(cts, cancelTask, () =>
+        public void MarkCancelFinished()
         {
-            lock (_copyGate)
+            Interlocked.Exchange(ref _cancelDone, 1);
+            TryDispose();
+        }
+
+        public void TryDispose()
+        {
+            if (Volatile.Read(ref _writeDone) == 1)
             {
-                _cancelingCtsSet.Remove(cts);
-                if (cleanupTask != null)
+                if (!CancelRequested || Volatile.Read(ref _cancelDone) == 1)
                 {
-                    _copyCancelTasks.Remove(cleanupTask);
+                    if (Interlocked.Exchange(ref _disposed, 1) == 0)
+                    {
+                        try { Cts.Dispose(); } catch { }
+                    }
                 }
-                _copyCancelTasks.RemoveAll(t => t.IsCompleted);
             }
-        });
-
-        lock (_copyGate)
-        {
-            _copyCancelTasks.RemoveAll(t => t.IsCompleted);
-            _copyCancelTasks.Add(cleanupTask);
         }
     }
 
-    private async Task AwaitCancelAndDisposeCtsAsync(CancellationTokenSource cts, Task cancelTask, Action onComplete)
+    private void RegisterCopyCancelTask(QueuedCopyItem item)
+    {
+        TaskCompletionSource cancelTcs;
+        lock (_copyGate)
+        {
+            if (item.IsCancelRegistered)
+            {
+                return;
+            }
+            item.IsCancelRegistered = true;
+            item.CancelRequested = true;
+
+            cancelTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            _copyCancelTasks.Add(cancelTcs.Task);
+            _cancelingCtsSet.Add(item.Cts);
+        }
+
+        _ = RunCancelWorkerAsync(item, cancelTcs);
+    }
+
+    private async Task RunCancelWorkerAsync(QueuedCopyItem item, TaskCompletionSource cancelTcs)
     {
         try
         {
-            await cancelTask.ConfigureAwait(false);
+            await item.Cts.CancelAsync().ConfigureAwait(false);
         }
         catch (Exception ex)
         {
@@ -1281,14 +1336,14 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         }
         finally
         {
-            try
+            item.MarkCancelFinished();
+            lock (_copyGate)
             {
-                cts.Dispose();
+                _cancelingCtsSet.Remove(item.Cts);
+                _copyCancelTasks.Remove(cancelTcs.Task);
+                _copyCancelTasks.RemoveAll(t => t.IsCompleted);
             }
-            catch
-            {
-            }
-            onComplete();
+            cancelTcs.TrySetResult();
         }
     }
 
@@ -1304,15 +1359,17 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             cts = new CancellationTokenSource();
         }
 
-        CancellationTokenSource? oldCts = null;
+        QueuedCopyItem? oldPending = null;
+        var newItem = new QueuedCopyItem(text, cts);
         lock (_copyGate)
         {
             if (_pendingCopy != null)
             {
-                oldCts = _pendingCopy.Cts;
+                oldPending = _pendingCopy;
+                oldPending.MarkWriteFinished();
             }
 
-            _pendingCopy = new QueuedCopyItem(text, cts);
+            _pendingCopy = newItem;
 
             if (_inFlightCopyTask == null || _inFlightCopyTask.IsCompleted)
             {
@@ -1320,9 +1377,9 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             }
         }
 
-        if (oldCts != null)
+        if (oldPending != null)
         {
-            RegisterCopyCancelTask(oldCts);
+            RegisterCopyCancelTask(oldPending);
         }
     }
 
@@ -1338,8 +1395,11 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 if (current == null)
                 {
                     _inFlightCopyTask = null;
+                    _inFlightCopyItem = null;
+                    _inFlightCopyCts = null;
                     return;
                 }
+                _inFlightCopyItem = current;
                 _inFlightCopyCts = current.Cts;
             }
 
@@ -1359,59 +1419,58 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             }
             finally
             {
-                bool wasTrackedForCancel;
+                bool needsCancelTask = false;
                 lock (_copyGate)
                 {
-                    if (ReferenceEquals(_inFlightCopyCts, current.Cts))
+                    if (ReferenceEquals(_inFlightCopyItem, current))
                     {
+                        _inFlightCopyItem = null;
                         _inFlightCopyCts = null;
                     }
-                    wasTrackedForCancel = _cancelingCtsSet.Contains(current.Cts);
-                    if (!wasTrackedForCancel && current.Cts.IsCancellationRequested)
+                    if (!current.IsCancelRegistered && current.Cts.IsCancellationRequested)
                     {
-                        wasTrackedForCancel = true;
+                        needsCancelTask = true;
                     }
                 }
 
-                if (wasTrackedForCancel)
+                if (needsCancelTask)
                 {
-                    RegisterCopyCancelTask(current.Cts);
+                    RegisterCopyCancelTask(current);
                 }
-                else
-                {
-                    try { current.Cts.Dispose(); } catch { }
-                }
+
+                current.MarkWriteFinished();
             }
         }
     }
 
     private void CancelPendingAndActiveCopies()
     {
-        CancellationTokenSource? toCancel1 = null;
-        CancellationTokenSource? toCancel2 = null;
+        QueuedCopyItem? toCancelPending = null;
+        QueuedCopyItem? toCancelInFlight = null;
 
         lock (_copyGate)
         {
             if (_pendingCopy != null)
             {
-                toCancel1 = _pendingCopy.Cts;
+                toCancelPending = _pendingCopy;
                 _pendingCopy = null;
+                toCancelPending.MarkWriteFinished();
             }
 
-            if (_inFlightCopyCts != null)
+            if (_inFlightCopyItem != null)
             {
-                toCancel2 = _inFlightCopyCts;
+                toCancelInFlight = _inFlightCopyItem;
             }
         }
 
-        if (toCancel1 != null)
+        if (toCancelPending != null)
         {
-            RegisterCopyCancelTask(toCancel1);
+            RegisterCopyCancelTask(toCancelPending);
         }
 
-        if (toCancel2 != null)
+        if (toCancelInFlight != null)
         {
-            RegisterCopyCancelTask(toCancel2);
+            RegisterCopyCancelTask(toCancelInFlight);
         }
     }
 
@@ -1534,6 +1593,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 _copyCancelTasks.RemoveAll(t => t.IsCompleted);
                 allCompleted &= (_inFlightCopyTask == null || _inFlightCopyTask.IsCompleted)
                              && _pendingCopy == null
+                             && _inFlightCopyItem == null
                              && _copyCancelTasks.Count == 0;
             }
 

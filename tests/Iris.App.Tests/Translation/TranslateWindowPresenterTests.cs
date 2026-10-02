@@ -395,32 +395,223 @@ public sealed class TranslateWindowPresenterTests
         var callbackRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         var internalOp = (TranslateWindowOperation)op!;
-        internalOp.CancellationToken.Register(() =>
+        using var reg = internalOp.CancellationToken.Register(() =>
         {
             callbackEntered.TrySetResult();
             callbackRelease.Task.GetAwaiter().GetResult();
         });
 
-        // 取消 caller token 触发操作退役
-        callerCts.Cancel();
-        await callbackEntered.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
-
-        // Caller Dispose 操作
-        op.Dispose();
-
-        // 验证：在回调退出之前，活跃名额未归还（仍为 1）
-        presenter.ActiveOperationsCount.ShouldBe(1, "在 CancellationTokenRegistration 异步注销回调完全退出前，操作不得从活跃集合移出");
-
-        // 放行回调
-        callbackRelease.TrySetResult();
-
-        // 轮询等待退役完成
-        for (int i = 0; i < 50 && presenter.ActiveOperationsCount > 0; i++)
+        try
         {
-            await Task.Delay(20, TestContext.Current.CancellationToken);
-        }
+            // 取消 caller token 触发操作退役
+            callerCts.Cancel();
+            await callbackEntered.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
 
-        presenter.ActiveOperationsCount.ShouldBe(0, "注销回调安全退出后，名额必须归还");
+            // Caller Dispose 操作
+            op.Dispose();
+
+            // 验证：在取消回调退出之前，活跃名额未归还（仍为 1）
+            presenter.ActiveOperationsCount.ShouldBe(1, "在取消回调完全退出前，操作不得从活跃集合移出");
+
+            // 放行回调
+            callbackRelease.TrySetResult();
+
+            // 轮询等待退役完成
+            for (int i = 0; i < 50 && presenter.ActiveOperationsCount > 0; i++)
+            {
+                await Task.Delay(20, TestContext.Current.CancellationToken);
+            }
+
+            presenter.ActiveOperationsCount.ShouldBe(0, "取消回调安全退出后，名额必须归还");
+        }
+        finally
+        {
+            callbackRelease.TrySetResult();
+            await presenter.ShutdownAsync(TestContext.Current.CancellationToken);
+        }
+    }
+
+    [Fact]
+    public async Task TryShowAsync_WhenHiddenDuringPreparation_AbortsAndWindowIsNotVisible()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var desktop = Substitute.For<IDesktopContext>();
+            TranslateWindowPresenter? presenterRef = null;
+            Task? hideTask = null;
+            desktop.GetMonitors().Returns(ci =>
+            {
+                if (presenterRef != null && hideTask == null)
+                {
+                    hideTask = presenterRef.HideAsync();
+                }
+                return [
+                    new MonitorInfo(@"\\.\DISPLAY1", new Iris.Core.Imaging.PixelRect(0, 0, 1920, 1080), new Iris.Core.Imaging.PixelRect(0, 0, 1920, 1040), 1.0, true)
+                ];
+            });
+            desktop.GetCursorPosition().Returns(new Iris.Core.Imaging.PixelPoint(500, 500));
+
+            var (presenter, _, _) = CreateTestPresenter(desktopContext: desktop);
+            presenterRef = presenter;
+
+            ITranslateWindowOperation? op = presenter.TryBeginOperation(CancellationToken.None);
+            op.ShouldNotBeNull();
+
+            try
+            {
+                var accepted = await presenter.TryShowAsync(op!, new TranslateWindowRequest { Text = "HiddenDuringPrep", AutoTranslate = false });
+                if (hideTask != null)
+                {
+                    await hideTask;
+                }
+
+                accepted.ShouldBeFalse("准备期隐藏后发布必须被拒绝");
+                presenter.IsVisible.ShouldBeFalse();
+                (presenter.Window?.IsVisible ?? false).ShouldBeFalse("隐藏后不得重新展示窗口");
+            }
+            finally
+            {
+                op?.Dispose();
+                if (hideTask != null)
+                {
+                    await hideTask;
+                }
+                await presenter.ShutdownAsync(TestContext.Current.CancellationToken);
+            }
+        });
+    }
+
+    [Fact]
+    public async Task TryShowAsync_WhenReenteredDuringPropertyChanged_NewerOperationWins()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var (presenter, _, _) = CreateTestPresenter();
+            ITranslateWindowOperation? warmOp = null;
+            ITranslateWindowOperation? a = null;
+            ITranslateWindowOperation? b = null;
+            Task<bool>? publishB = null;
+            bool reentered = false;
+
+            try
+            {
+                // 预热展示器以创建窗口与 ViewModel
+                warmOp = presenter.TryBeginOperation(CancellationToken.None);
+                await presenter.TryShowAsync(warmOp!, new TranslateWindowRequest { Text = "Warmup", AutoTranslate = false });
+
+                var vm = presenter.ViewModel;
+                vm.ShouldNotBeNull();
+
+                vm!.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == nameof(TranslateWindowViewModel.InputText) && !reentered)
+                    {
+                        reentered = true;
+                        b = presenter.TryBeginOperation(CancellationToken.None);
+                        publishB = presenter.TryShowAsync(b!, new TranslateWindowRequest { Text = "NewerIntent", AutoTranslate = false });
+                    }
+                };
+
+                a = presenter.TryBeginOperation(CancellationToken.None);
+                a.ShouldNotBeNull();
+
+                var acceptedA = await presenter.TryShowAsync(a!, new TranslateWindowRequest { Text = "OldIntent", AutoTranslate = false });
+                var acceptedB = publishB != null && await publishB;
+
+                acceptedA.ShouldBeFalse("被新意图重入取代的旧操作 A 必须返回 false");
+                acceptedB.ShouldBeTrue("新意图 B 必须成功发布并接管窗口");
+                vm.InputText.ShouldBe("NewerIntent");
+                ReferenceEquals(vm.ActiveOperation, b).ShouldBeTrue("活跃会话必须为新意图 B");
+                b!.CancellationToken.IsCancellationRequested.ShouldBeFalse("新意图 B 不得被旧 A 的后续流程取消");
+                ((TranslateWindowOperation)b).HasSessionOwnership.ShouldBeTrue();
+                ((TranslateWindowOperation)a!).HasSessionOwnership.ShouldBeFalse();
+            }
+            finally
+            {
+                warmOp?.Dispose();
+                a?.Dispose();
+                b?.Dispose();
+                await presenter.ShutdownAsync(TestContext.Current.CancellationToken);
+            }
+        });
+    }
+
+    [Fact]
+    public async Task TryShowAsync_WhenHiddenDuringPropertyChanged_AbortsCleanly()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var (presenter, _, _) = CreateTestPresenter();
+            ITranslateWindowOperation? warmOp = null;
+            ITranslateWindowOperation? a = null;
+            Task? hideTask = null;
+            bool reentered = false;
+
+            try
+            {
+                warmOp = presenter.TryBeginOperation(CancellationToken.None);
+                await presenter.TryShowAsync(warmOp!, new TranslateWindowRequest { Text = "Warmup", AutoTranslate = false });
+
+                var vm = presenter.ViewModel;
+                vm.ShouldNotBeNull();
+
+                vm!.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == nameof(TranslateWindowViewModel.InputText) && !reentered)
+                    {
+                        reentered = true;
+                        hideTask = presenter.HideAsync();
+                    }
+                };
+
+                a = presenter.TryBeginOperation(CancellationToken.None);
+                var accepted = await presenter.TryShowAsync(a!, new TranslateWindowRequest { Text = "HideDuringPropChanged", AutoTranslate = false });
+                if (hideTask != null)
+                {
+                    await hideTask;
+                }
+
+                accepted.ShouldBeFalse();
+                presenter.IsVisible.ShouldBeFalse();
+                (presenter.Window?.IsVisible ?? false).ShouldBeFalse();
+                vm.ActiveOperation.ShouldBeNull();
+            }
+            finally
+            {
+                warmOp?.Dispose();
+                a?.Dispose();
+                if (hideTask != null)
+                {
+                    await hideTask;
+                }
+                await presenter.ShutdownAsync(TestContext.Current.CancellationToken);
+            }
+        });
+    }
+
+    [Fact]
+    public async Task TryShowAsync_NormalPublication_SnapshotMatchesActualWindowProperties()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var (presenter, _, _) = CreateTestPresenter();
+            ITranslateWindowOperation? op = presenter.TryBeginOperation(CancellationToken.None);
+            op.ShouldNotBeNull();
+
+            try
+            {
+                var accepted = await presenter.TryShowAsync(op!, new TranslateWindowRequest { Text = "Normal", FocusInput = true, AutoTranslate = false });
+                accepted.ShouldBeTrue();
+                presenter.Window.ShouldNotBeNull();
+                presenter.IsVisible.ShouldBe(presenter.Window!.IsVisible);
+                presenter.IsActive.ShouldBe(presenter.Window!.IsActive);
+            }
+            finally
+            {
+                op?.Dispose();
+                await presenter.ShutdownAsync(TestContext.Current.CancellationToken);
+            }
+        });
     }
 
     private sealed class BlockingAsyncEnumerable : IAsyncEnumerable<TranslationEvent>

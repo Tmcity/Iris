@@ -956,32 +956,124 @@ public sealed class TranslateWindowViewModelTests
         orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
             .Returns(Stream());
 
-        vm.ApplyRequest(new TranslateWindowRequest { Text = "Hello", AutoTranslate = true }, op);
+        try
+        {
+            vm.ApplyRequest(new TranslateWindowRequest { Text = "Hello", AutoTranslate = true }, op);
 
-        // 1. 等待写入进入并到达原生提交点
-        await writeEntered.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+            // 1. 等待写入进入并到达原生提交点
+            await writeEntered.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
 
-        // 2. 写入返回（write returned）
-        writeRelease.TrySetResult();
+            // 2. 写入返回（write returned）
+            writeRelease.TrySetResult();
 
-        // 3. 此时取消会话/隐藏窗口，触发取消
-        vm.OnWindowHidden();
+            // 3. 此时取消会话/隐藏窗口，触发取消
+            vm.OnWindowHidden();
 
-        // 4. 等待取消回调进入（callback entered）
-        await callbackEntered.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+            // 4. 等待取消回调进入（callback entered）
+            await callbackEntered.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
 
-        // 5. 核心验证：写入已经返回，但取消回调仍在执行（阻塞在 callbackRelease），WaitForActiveWorkAsync 不得完成！
-        var waitTask = vm.WaitForActiveWorkAsync();
-        var delayCheck = await Task.WhenAny(waitTask, Task.Delay(100, TestContext.Current.CancellationToken));
-        delayCheck.ShouldNotBeSameAs(waitTask, "当取消回调仍在执行挂起时，WaitForActiveWorkAsync 必须等待，不得提前返回！");
+            // 5. 核心验证：写入已经返回，但取消回调仍在执行（阻塞在 callbackRelease），WaitForActiveWorkAsync 不得完成！
+            var waitTask = vm.WaitForActiveWorkAsync();
+            var delayCheck = await Task.WhenAny(waitTask, Task.Delay(100, TestContext.Current.CancellationToken));
+            delayCheck.ShouldNotBeSameAs(waitTask, "当取消回调仍在执行挂起时，WaitForActiveWorkAsync 必须等待，不得提前返回！");
 
-        // 6. 放行取消回调（callback exited）
-        callbackRelease.TrySetResult();
-        await callbackExited.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+            // 6. 放行取消回调（callback exited）
+            callbackRelease.TrySetResult();
+            await callbackExited.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
 
-        // 7. 取消回调完全退出后，所有工作自然完成
-        await waitTask.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
-        waitTask.IsCompletedSuccessfully.ShouldBeTrue();
+            // 7. 取消回调完全退出后，所有工作自然完成
+            await waitTask.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+            waitTask.IsCompletedSuccessfully.ShouldBeTrue();
+        }
+        finally
+        {
+            callbackRelease.TrySetResult();
+            writeRelease.TrySetResult();
+            op?.Dispose();
+            await vm.WaitForActiveWorkAsync();
+            await presenter.ShutdownAsync(TestContext.Current.CancellationToken);
+        }
+    }
+
+    [Fact]
+    public async Task CopyCancellation_WhenCancelCallbackExitsBeforeWriterReturns_TokenRemainsUsableUntilWriterReturns()
+    {
+        var clipboard = Substitute.For<IClipboardService>();
+        var (vm, orchestrator, _, _) = CreateViewModel(clipboard: clipboard);
+
+        var presenter = new TranslateWindowPresenter(
+            Substitute.For<IServiceProvider>(),
+            new ImmediateUiDispatcher(),
+            Substitute.For<ISettingsService>(),
+            Substitute.For<IDesktopContext>(),
+            NullLogger<TranslateWindowPresenter>.Instance);
+        vm.AttachPresenter(presenter);
+
+        var op = (TranslateWindowOperation)presenter.TryBeginOperation(CancellationToken.None)!;
+
+        var writeEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var writeRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var callbackEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        CancellationToken capturedToken = default;
+
+        clipboard.SetTextAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(async ci =>
+            {
+                capturedToken = ci.Arg<CancellationToken>();
+                capturedToken.Register(() => callbackEntered.TrySetResult());
+                writeEntered.TrySetResult();
+                await writeRelease.Task;
+            });
+
+        var reqId = Guid.NewGuid();
+        var p1 = new ProviderDescriptor("p1", "P1", "Kind", null, true);
+        async IAsyncEnumerable<TranslationEvent> Stream()
+        {
+            yield return new TranslationStarted(reqId, new ResolvedLanguagePair("en", "zh-Hans", false), [p1]);
+            yield return new ProviderCompleted(reqId, "p1", "Target Text", TimeSpan.Zero, false, false, null);
+            await Task.Yield();
+        }
+
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(Stream());
+
+        try
+        {
+            vm.ApplyRequest(new TranslateWindowRequest { Text = "Hello", AutoTranslate = true }, op);
+
+            // 1. 等待写入进入并到达原生提交点
+            await writeEntered.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+
+            // 2. 隐藏窗口触发取消，取消回调同步执行并退出
+            vm.OnWindowHidden();
+            await callbackEntered.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+
+            // 3. 验证：此时取消回调已完成，但写入尚未返回，CTS 绝不能被提前释放！
+            writeRelease.Task.IsCompleted.ShouldBeFalse("写入操作尚未返回");
+            bool tokenUsable = true;
+            try
+            {
+                _ = capturedToken.WaitHandle;
+            }
+            catch (ObjectDisposedException)
+            {
+                tokenUsable = false;
+            }
+            tokenUsable.ShouldBeTrue("取消回调先退出时，传给剪贴板服务的 CancellationToken 必须在写入返回前保持有效未释放");
+
+            // 4. 放行写入返回
+            writeRelease.TrySetResult();
+
+            // 5. 等待排空完成
+            await vm.WaitForActiveWorkAsync().WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+        }
+        finally
+        {
+            writeRelease.TrySetResult();
+            op?.Dispose();
+            await vm.WaitForActiveWorkAsync();
+            await presenter.ShutdownAsync(TestContext.Current.CancellationToken);
+        }
     }
 
     [Fact]
@@ -1030,31 +1122,49 @@ public sealed class TranslateWindowViewModelTests
         orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
             .Returns(Stream());
 
-        vm.ApplyRequest(new TranslateWindowRequest { Text = "Hello", AutoTranslate = true }, op);
+        try
+        {
+            vm.ApplyRequest(new TranslateWindowRequest { Text = "Hello", AutoTranslate = true }, op);
 
-        // 1. 等待在途写入进入并注册回调
-        await writeEntered.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+            // 1. 等待在途写入进入并注册回调
+            await writeEntered.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
 
-        // 2. 隐藏窗口触发取消，回调抛出异常
-        vm.OnWindowHidden();
+            // 2. 隐藏窗口触发取消，回调抛出异常
+            vm.OnWindowHidden();
 
-        await callbackExecuted.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+            await callbackExecuted.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
 
-        // 3. 放行写入
-        writeRelease.TrySetResult();
+            // 3. 放行写入
+            writeRelease.TrySetResult();
 
-        // 4. 验证：WaitForActiveWorkAsync 能够安全排空而不向外抛错
-        await vm.WaitForActiveWorkAsync().WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+            // 4. 验证：WaitForActiveWorkAsync 能够安全排空而不向外抛错
+            await vm.WaitForActiveWorkAsync().WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
 
-        // 5. 验证：异常被安全捕获并记录类型，未泄露敏感字符串
-        testLogger.LoggedMessages.ShouldAllBe(m => !m.Contains("SECRET"));
+            // 5. 验证：异常被安全捕获并记录类型，未泄露敏感字符串
+            testLogger.LoggedMessages.ShouldAllBe(m => !m.Contains("SECRET"));
+        }
+        finally
+        {
+            writeRelease.TrySetResult();
+            op?.Dispose();
+            await vm.WaitForActiveWorkAsync();
+            await presenter.ShutdownAsync(TestContext.Current.CancellationToken);
+        }
     }
 
     [Fact]
     public async Task CopyCancellation_PendingReplacement_WaitsForCallbackExit()
     {
         var clipboard = Substitute.For<IClipboardService>();
-        var (vm, orchestrator, _, _) = CreateViewModel(clipboard: clipboard);
+        var appSettings = new AppSettings
+        {
+            Translation = new TranslationSettings
+            {
+                AutoCopy = AutoCopyMode.None,
+                MaxInputChars = 5000
+            }
+        };
+        var (vm, orchestrator, _, _) = CreateViewModel(settings: appSettings, clipboard: clipboard);
 
         var presenter = new TranslateWindowPresenter(
             Substitute.For<IServiceProvider>(),
@@ -1083,10 +1193,6 @@ public sealed class TranslateWindowViewModelTests
         orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
             .Returns(Stream());
 
-        vm.ApplyRequest(new TranslateWindowRequest { Text = "Test", AutoTranslate = true }, op);
-        await vm.WaitForActiveWorkAsync();
-
-        // 模拟手动点击排队复制
         var inFlightStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var inFlightGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -1101,18 +1207,32 @@ public sealed class TranslateWindowViewModelTests
                 }
             });
 
-        // 1. 复制 Card 1（在途）
-        vm.Cards[0].CopyCommand.Execute(null);
-        await inFlightStarted.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+        try
+        {
+            vm.ApplyRequest(new TranslateWindowRequest { Text = "Test", AutoTranslate = true }, op);
+            await vm.WaitForActiveWorkAsync();
 
-        // 2. 连续复制 Card 2 与 Card 3（Card 2 被 Card 3 替换并取消）
-        vm.Cards[1].CopyCommand.Execute(null);
-        vm.Cards[2].CopyCommand.Execute(null);
+            // 1. 复制 Card 1（在途）
+            vm.Cards[0].CopyCommand.Execute(null);
+            await inFlightStarted.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
 
-        // 放行在途任务
-        inFlightGate.TrySetResult();
+            // 2. 连续复制 Card 2 与 Card 3（Card 2 被 Card 3 替换并取消）
+            vm.Cards[1].CopyCommand.Execute(null);
+            vm.Cards[2].CopyCommand.Execute(null);
 
-        await vm.WaitForActiveWorkAsync().WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+            // 放行在途任务
+            inFlightGate.TrySetResult();
+
+            await vm.WaitForActiveWorkAsync().WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        }
+        finally
+        {
+            inFlightGate.TrySetResult();
+            vm.OnWindowHidden();
+            op?.Dispose();
+            await vm.WaitForActiveWorkAsync();
+            await presenter.ShutdownAsync(TestContext.Current.CancellationToken);
+        }
     }
 
     private sealed class ThrowingDisposeAsyncEnumerable : IAsyncEnumerable<TranslationEvent>

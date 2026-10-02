@@ -167,6 +167,44 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
 
                     ApplyPlacement(request.Anchor, request.FocusInput);
 
+                    bool canShow = false;
+                    lock (_gate)
+                    {
+                        if (!_isShuttingDown && !op.IsCallerDisposed && !op.CancellationToken.IsCancellationRequested && ReferenceEquals(_latestOperation, op))
+                        {
+                            canShow = true;
+                        }
+                        else
+                        {
+                            accepted = false;
+                            bool hasNewer = !ReferenceEquals(_latestOperation, op) && _latestOperation != null;
+                            if (!hasNewer && !wasVisibleBefore)
+                            {
+                                _isVisibleSnapshot = false;
+                                _isActiveSnapshot = false;
+                            }
+                            else if (_latestOperation == null)
+                            {
+                                _isVisibleSnapshot = false;
+                                _isActiveSnapshot = false;
+                            }
+                            else
+                            {
+                                _isVisibleSnapshot = _window != null && _window.IsVisible;
+                                _isActiveSnapshot = _window != null && _window.IsActive;
+                            }
+                        }
+                    }
+
+                    if (!canShow)
+                    {
+                        if (_window != null && _window.IsVisible && _latestOperation == null)
+                        {
+                            try { _window.Hide(); } catch { }
+                        }
+                        return Task.CompletedTask;
+                    }
+
                     _window!.Show();
                     if (request.FocusInput)
                     {
@@ -180,8 +218,14 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                     bool shouldHidePrep = false;
                     lock (_gate)
                     {
-                        bool hasNewer = !ReferenceEquals(_latestOperation, op);
+                        bool hasNewer = !ReferenceEquals(_latestOperation, op) && _latestOperation != null;
                         if (!hasNewer && !wasVisibleBefore)
+                        {
+                            shouldHidePrep = true;
+                            _isVisibleSnapshot = false;
+                            _isActiveSnapshot = false;
+                        }
+                        else if (_latestOperation == null)
                         {
                             shouldHidePrep = true;
                             _isVisibleSnapshot = false;
@@ -210,8 +254,14 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                     if (_isShuttingDown || op.IsCallerDisposed || op.CancellationToken.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
                     {
                         accepted = false;
-                        bool hasNewer = !ReferenceEquals(_latestOperation, op);
+                        bool hasNewer = !ReferenceEquals(_latestOperation, op) && _latestOperation != null;
                         if (!hasNewer && !wasVisibleBefore)
+                        {
+                            shouldHideSuperseded = true;
+                            _isVisibleSnapshot = false;
+                            _isActiveSnapshot = false;
+                        }
+                        else if (_latestOperation == null)
                         {
                             shouldHideSuperseded = true;
                             _isVisibleSnapshot = false;
@@ -225,8 +275,8 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                     }
                     else
                     {
-                        _isVisibleSnapshot = true;
-                        _isActiveSnapshot = request.FocusInput;
+                        _isVisibleSnapshot = _window != null && _window.IsVisible;
+                        _isActiveSnapshot = _window != null && _window.IsActive;
                         accepted = true;
                     }
                 }
@@ -240,27 +290,34 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                     return Task.CompletedTask;
                 }
 
+                bool applied = false;
                 try
                 {
-                    _viewModel!.ApplyRequest(request, op);
+                    applied = _viewModel!.ApplyRequest(request, op);
                 }
                 catch (Exception vmEx)
                 {
                     LogShowFailed(_logger, vmEx.GetType().Name);
-                    accepted = false;
+                    applied = false;
+                }
 
-                    if (_viewModel?.ActiveOperation?.Id == op.Id)
+                // ApplyRequest 完成后（经过可能的 PropertyChanged 重入），再次持锁核验资格与实际生效情况
+                bool shouldHideAfterApply = false;
+                lock (_gate)
+                {
+                    if (!applied || _isShuttingDown || op.IsCallerDisposed || op.CancellationToken.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
                     {
-                        _viewModel.RevokeOperation(op.Id);
-                    }
-
-                    bool shouldHideVm = false;
-                    lock (_gate)
-                    {
-                        bool hasNewer = !ReferenceEquals(_latestOperation, op);
+                        accepted = false;
+                        bool hasNewer = !ReferenceEquals(_latestOperation, op) && _latestOperation != null;
                         if (!hasNewer && !wasVisibleBefore)
                         {
-                            shouldHideVm = true;
+                            shouldHideAfterApply = true;
+                            _isVisibleSnapshot = false;
+                            _isActiveSnapshot = false;
+                        }
+                        else if (_latestOperation == null)
+                        {
+                            shouldHideAfterApply = true;
                             _isVisibleSnapshot = false;
                             _isActiveSnapshot = false;
                         }
@@ -270,8 +327,22 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                             _isActiveSnapshot = _window != null && _window.IsActive;
                         }
                     }
+                    else
+                    {
+                        _isVisibleSnapshot = _window != null && _window.IsVisible;
+                        _isActiveSnapshot = _window != null && _window.IsActive;
+                        accepted = true;
+                    }
+                }
 
-                    if (shouldHideVm && _window != null && _window.IsVisible)
+                if (!accepted)
+                {
+                    if (_viewModel?.ActiveOperation?.Id == op.Id)
+                    {
+                        _viewModel.RevokeOperation(op.Id);
+                    }
+
+                    if (shouldHideAfterApply && _window != null && _window.IsVisible)
                     {
                         try { _window.Hide(); } catch { }
                     }
@@ -293,8 +364,13 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
 
             lock (_gate)
             {
-                bool hasNewer = !ReferenceEquals(_latestOperation, op);
+                bool hasNewer = !ReferenceEquals(_latestOperation, op) && _latestOperation != null;
                 if (!hasNewer && !wasVisibleBefore)
+                {
+                    _isVisibleSnapshot = false;
+                    _isActiveSnapshot = false;
+                }
+                else if (_latestOperation == null)
                 {
                     _isVisibleSnapshot = false;
                     _isActiveSnapshot = false;

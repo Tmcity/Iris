@@ -183,9 +183,9 @@ public static class WpfTestRunner
     {
         int timeoutMs = timeout > TimeSpan.Zero ? (int)timeout.TotalMilliseconds : 5000;
 
-        if (DispatcherTcs.Task.IsCompletedSuccessfully)
+        try
         {
-            var dispatcher = DispatcherTcs.Task.Result;
+            var dispatcher = await DispatcherTcs.Task.WaitAsync(TimeSpan.FromSeconds(2)).ConfigureAwait(false);
             if (!dispatcher.HasShutdownStarted)
             {
                 try
@@ -208,6 +208,9 @@ public static class WpfTestRunner
 
                 dispatcher.InvokeShutdown();
             }
+        }
+        catch
+        {
         }
 
         bool exited = await Task.Run(() => StaThread.Join(timeoutMs)).ConfigureAwait(false);
