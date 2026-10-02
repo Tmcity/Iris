@@ -802,7 +802,11 @@ public sealed class TranslateWindowViewModelTests
 
         vm.ApplyRequest(new TranslateWindowRequest { Text = "Hello", AutoTranslate = true }, op);
 
-        await Task.Delay(50, TestContext.Current.CancellationToken);
+        var deadline = Environment.TickCount64 + 3000;
+        while (!clipboard.ReceivedCalls().Any(c => c.GetMethodInfo().Name == nameof(IClipboardService.SetTextAsync)) && Environment.TickCount64 < deadline)
+        {
+            await Task.Delay(10, TestContext.Current.CancellationToken);
+        }
         await clipboard.Received(1).SetTextAsync("P1 First Text", Arg.Any<CancellationToken>());
 
         // 同一会话调用 ApplyRequest 更新状态/重新展示

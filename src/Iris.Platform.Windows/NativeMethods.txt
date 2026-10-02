@@ -29,3 +29,9 @@ GetWindowText
 GetCurrentProcessId
 GetCurrentThreadId
 MONITORINFOEXW
+RegisterHotKey
+UnregisterHotKey
+RegisterClassEx
+UnregisterClass
+DefWindowProc
+GetModuleHandle

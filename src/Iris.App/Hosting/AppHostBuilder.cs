@@ -74,6 +74,7 @@ internal static class AppHostBuilder
         builder.Services.AddSingleton<IAppLifetime, AppLifetime>();
         builder.Services.AddSingleton<IUiDispatcher, WpfUiDispatcher>();
         builder.Services.AddSingleton<IActionDispatcher, ActionDispatcher>();
+        builder.Services.AddSingleton<HotkeyCoordinator>();
 
         // 设置窗口及编辑协调服务
         builder.Services.AddSingleton<Iris.App.Services.ISettingsApplyReceiptManager, Iris.App.Services.SettingsApplyReceiptManager>();

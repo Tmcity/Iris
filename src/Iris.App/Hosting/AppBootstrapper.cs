@@ -35,6 +35,7 @@ internal sealed partial class AppBootstrapper
     private readonly AppStartupInfo _startupInfo;
     private readonly Iris.App.Settings.ISettingsShutdownCoordinator? _settingsShutdownCoordinator;
     private readonly Iris.App.Translation.ITranslateWindowShutdownCoordinator? _translateShutdownCoordinator;
+    private readonly HotkeyCoordinator? _hotkeyCoordinator;
 
     private readonly Lock _stopGate = new();
     private Task? _stopTask;
@@ -54,7 +55,8 @@ internal sealed partial class AppBootstrapper
         ILogger<AppBootstrapper> logger,
         AppStartupInfo startupInfo,
         Iris.App.Settings.ISettingsShutdownCoordinator? settingsShutdownCoordinator = null,
-        Iris.App.Translation.ITranslateWindowShutdownCoordinator? translateShutdownCoordinator = null)
+        Iris.App.Translation.ITranslateWindowShutdownCoordinator? translateShutdownCoordinator = null,
+        HotkeyCoordinator? hotkeyCoordinator = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -68,6 +70,7 @@ internal sealed partial class AppBootstrapper
         _startupInfo = startupInfo ?? throw new ArgumentNullException(nameof(startupInfo));
         _settingsShutdownCoordinator = settingsShutdownCoordinator;
         _translateShutdownCoordinator = translateShutdownCoordinator;
+        _hotkeyCoordinator = hotkeyCoordinator;
     }
 
     internal static Action<string, string> FatalErrorShower { get; set; } = FatalErrorDialog.Show;
@@ -132,7 +135,12 @@ internal sealed partial class AppBootstrapper
             EnsureTrayAttached();
         }
 
-        // TODO(T-017): 注册热键
+        // 注册热键协调器
+        if (_hotkeyCoordinator != null)
+        {
+            await _hotkeyCoordinator.StartAsync().ConfigureAwait(false);
+        }
+
         // TODO(T-024): 鼠标监视
         // TODO(T-033): 悬浮球
         // TODO(T-037): 启动命名管道 IPC 服务
@@ -173,6 +181,7 @@ internal sealed partial class AppBootstrapper
             return;
         }
 
+        _hotkeyCoordinator?.StopSynchronousFallback();
         _trayIconController.Created -= OnTrayIconCreated;
         _themeService.Dispose();
         _logLevelController.Dispose();
@@ -207,6 +216,21 @@ internal sealed partial class AppBootstrapper
 
     private async Task StopCoreAsync()
     {
+        // 1. 先关闭热键/设置重配准入，在 UI 注销/销毁自己的消息窗口并取消待处理动作
+        if (_hotkeyCoordinator != null)
+        {
+            try
+            {
+                await _hotkeyCoordinator.StopAcceptanceAndNativeAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                LogHotkeyShutdownFailed(_logger, ex.GetType().Name);
+                throw;
+            }
+        }
+
+        // 2. 然后配合既有设置/翻译 Presenter 完整退出
         if (_settingsShutdownCoordinator != null)
         {
             try
@@ -233,6 +257,13 @@ internal sealed partial class AppBootstrapper
             }
         }
 
+        // 3. 观察已接纳的分发任务收尾
+        if (_hotkeyCoordinator != null)
+        {
+            await _hotkeyCoordinator.WaitForInFlightDispatchesAsync().ConfigureAwait(false);
+        }
+
+        // 4. 最后停止主题/托盘、Host、Dispatcher
         StopSynchronousParts();
 
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
@@ -270,4 +301,8 @@ internal sealed partial class AppBootstrapper
 
     [LoggerMessage(EventId = 6, Level = LogLevel.Warning, Message = "翻译窗口关闭或活跃任务收尾遇到异常：{ExceptionType}")]
     private static partial void LogTranslateShutdownFailed(ILogger logger, string exceptionType);
+
+    [LoggerMessage(EventId = 7, Level = LogLevel.Warning, Message = "热键服务关闭或注销原生资源遇到异常：{ExceptionType}")]
+    private static partial void LogHotkeyShutdownFailed(ILogger logger, string exceptionType);
+
 }

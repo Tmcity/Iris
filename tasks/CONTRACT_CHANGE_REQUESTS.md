@@ -737,3 +737,31 @@ TranslateWindowRequest 只改 AutoTranslate 文档：本次显式非空白 Text�
 ```
 
 这些检查只证明新声明一致且不破坏已交付代码；T-015 窗口、租约所有权、预算和退出行为尚未实现/验证。
+
+## CCR-014：热键服务的线程、校验与清理语义
+
+| 字段 | 值 |
+|---|---|
+| 批准 | 架构师 Codex，2026-10-03 |
+| 状态 | **已落地，待复审** |
+| 依据 | HOTKEY_SERVICE.md / ARCH v1.27；Microsoft RegisterHotKey / UnregisterHotKey / WM_HOTKEY 文档 |
+| 范围 | CONTRACTS.cs 与 Core/Platform/IHotkeyService.cs 的 summary，无签名/类型/默认设置/JSON 变更 |
+
+明确构造无 I/O、首次有效启用注册由 App 在 UI 线程创建消息窗口/绑定所有者；之后有资源操作同线程，未初始化/已释放 Dispose 幂等。校验先于旧注册变更，F12 禁止注册；注销失败不假装成功或丢失原生资源。Pressed 只来自仍有效的注册。
+
+HotkeyRegistrationResult 继续表达注册结果：非法键/组合为 HotkeyInvalid，系统冲突为 HotkeyConflict，其它原生注册失败为 Unknown。Unregister/UnregisterAll/Dispose 清理失败保留资源供重试并抛 IrisException(Unknown)。完整失败/ID/消息/设置过滤规则见正式规范。
+
+实现尚未验收；T-017 完成后仅标“已落地，待复审”，由架构师结案。不把注释同步或消息窗口准备探针当作真实热键功能通过。
+
+注释同步后的架构验证：`dotnet test tests/Iris.ArchitectureTests/Iris.ArchitectureTests.csproj -c Release` 原始摘要：
+
+```text
+测试运行摘要: 已通过!
+  总计: 8
+  失败: 0
+  成功: 8
+  已跳过: 0
+  持续时间: 1s 732ms
+```
+
+此检查证明注释声明一致及已落地架构约束保持，不代替尚未实现的 T-017 行为验证。

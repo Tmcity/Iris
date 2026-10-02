@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.26 · 2026-10-03 · 状态：**已冻结（首期）**
+> 版本：v1.27 · 2026-10-03 · 状态：**已冻结（首期）**
+> 变更记录：v1.27（T-016-R1 通过，签发 T-017）— HOTKEY_SERVICE.md 固定构造/线程、消息与 ID、F12/非法组合、注册失败保留、已开放动作过滤及两阶段退出；CCR-014 仅同步 IHotkeyService 注释，签名与默认配置不变。
 > 变更记录：v1.26（T-015-R5 通过，签发 T-016）— TRANSLATION_ENTRYPOINTS.md 定稿三个翻译 Handler、前置剪贴板租约/迟到错误、空输入与 Origin 映射及托盘统一 Dispatcher 入口；公开契约不变。
 > 变更记录：v1.25（T-019B-R6 通过，签发 T-015）— TRANSLATION_WINDOW.md 定稿 A07 的操作租约、迟到结果拒绝、有界主/重试/刷新、复制与完整退出；CCR-013 同步展示端口；§14 输入键行为以契约为准。
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
@@ -778,11 +779,12 @@ data: {"type":"message_stop"}
 
 ### 10.3 全局热键
 
-- Platform 用 CsWin32 自行创建消息窗口（`CreateWindowEx(HWND_MESSAGE)` + 自定义 WndProc 处理 `WM_HOTKEY`），不依赖 WPF 的 `HwndSource`。必须在 UI 线程构造，因为 UI 线程有消息循环。
+- 完整规则以 HOTKEY_SERVICE.md / CCR-014 为准。Platform 用 CsWin32 自行创建消息窗口（`CreateWindowEx(HWND_MESSAGE)` + 自定义 WndProc 处理 `WM_HOTKEY`），不依赖 WPF 的 `HwndSource`。构造无 I/O，首次有效启用注册由 App 在 UI 线程创建/绑定所有者，之后有资源操作在同线程。
 - `RegisterHotKey` 加上 `MOD_NOREPEAT`，避免按住不放时重复触发。
 - `GetLastError() == ERROR_HOTKEY_ALREADY_REGISTERED (1409)` → `HotkeyConflict`。
 - Key 名映射表只覆盖：A–Z、D0–D9、F1–F24、NumPad0–9、Space、Enter、Tab、Escape、Insert、Delete、Home、End、PageUp、PageDown、Left/Up/Right/Down、Snapshot（PrintScreen）、Oem 系列（OemTilde、OemMinus、OemPlus、OemOpenBrackets、OemCloseBrackets、OemPipe、OemSemicolon、OemQuotes、OemComma、OemPeriod、OemQuestion）。
 - 至少需要一个修饰键，单独的 Snapshot / F13–F24 除外；不允许仅 Shift + 字母。违反 → `HotkeyInvalid`。
+- F12 可解析但注册拒绝（调试器保留）。App 只注册实际已交付 Handler 的启用绑定；退出先停止热键准入/原生资源，再等待已接纳业务与窗口收尾。注册 ID 不复用，旧排队消息不得触发新绑定。
 
 ### 10.4 选区读取
 

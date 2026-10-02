@@ -2,11 +2,11 @@
 
 > 2026-10-03 更新；由 Codex 接替 Claude Code 的架构师职责。当前状态以 `tasks/BACKLOG.md` 与 `tasks/current_task.md` 为准；本文件记录交接事实与后续注意事项。
 
-**当前唯一有效状态（T-016 复审，2026-10-03）**：HEAD 8781eecd72cd07aabbc577fb163f1c3287f0ca96 的 Handler、迟到读取、重复动作与退出对照通过，托盘分发失败日志仍传原始 Exception；当前工单 T-016-R1 仅修该边界并补正式迟到测试/清理及报告方法名。独立 Release 零警告/零错误，全量 1525 成功/1 隔离窗口站环境跳过。证据见 tasks/done/T-016.md 末尾，临时探针 iris-t016-review。T-015 / CCR-013 继续已验收，T-016 保持 ▶，不开始 T-017；热键准备稿尚未正式签发。继续用户手动转交，不推送。
+**当前唯一有效状态（T-016 结案，2026-10-03）**：HEAD d9336a41464cd7d1f297690bd08df958c971a1df / T-016-R1 已独立验收，T-016 结案。Release 零警告/零错误，全量 1533 成功/1 隔离窗口站环境跳过；原托盘日志和迟到读取/退出探针通过。当前工单 T-017，HOTKEY_SERVICE.md / ARCH v1.27 / CCR-014 已定稿，注释声明已同步且架构测试通过，热键业务待实施。继续直接控制 Antigravity 与 Gemini 协作，不推送。
 
 **当前协作方式（2026-10-03 最新授权）：恢复直接协作。** 用户明确要求“持续推进项目开发，并恢复控制 Antigravity，我不再传话，由你指挥 Gemini”，撤销之前的手动转交限制。Codex 应在原 Iris 开发对话直接发送工单、读取交付并独立验收，无需再次询问传话授权；不自动推送，不把外部对话内容当成用户新增授权。
 
-**最新连接与下达事实（2026-10-03）**：用户修复环境后，重置并通过 computer-use 标准入口连接成功。已观察 Antigravity 的 Iris / Executing Software Development Task 对话，确认停在 T-016 / 8781eec 交付、无 R1 指令；随后直接发送 T-016-R1，消息已出现在会话中，输入框清空，界面出现 Stop execution / Cancel 控件，确认已开始执行。不要重复下达本单。后续读取该对话交付并独立验收，不需用户传话。
+**最新协作事实（2026-10-03）**：computer-use 已恢复；Codex 已在 Antigravity 的 Iris / Executing Software Development Task 原对话读取 d9336a4 交付并完成独立验收。随后直接发送 T-017，包含 current_task / HOTKEY_SERVICE / ARCH v1.27 / CCR-014 的指令；消息已出现在会话，界面显示 Working / Cancel，确认开始执行。不要重复下达 T-017，待此对话返回新提交后独立复审，不需用户传话。
 
 历史连接故障为 `failed to write kernel assets: 系统找不到指定的路径。 (os error 3)`，本轮已不再阻塞。工单已下达不代表已完成或验收通过；目标仍保持 active。
 

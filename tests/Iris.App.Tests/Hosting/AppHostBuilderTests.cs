@@ -65,6 +65,9 @@ public sealed class AppHostBuilderTests
         var clipboardService = host.Services.GetService<IClipboardService>();
         var desktopContext = host.Services.GetService<IDesktopContext>();
         var translatePresenter = host.Services.GetService<ITranslateWindowPresenter>();
+        var hotkeyService = host.Services.GetService<IHotkeyService>();
+        var hotkeyCoordinator = host.Services.GetService<HotkeyCoordinator>();
+
 
         settingsService.ShouldNotBeNull();
         secretStore.ShouldNotBeNull();
@@ -82,11 +85,35 @@ public sealed class AppHostBuilderTests
         clipboardService.ShouldNotBeNull();
         desktopContext.ShouldNotBeNull();
         translatePresenter.ShouldNotBeNull();
+        hotkeyService.ShouldNotBeNull();
+        hotkeyCoordinator.ShouldNotBeNull();
         uiDispatcher.ShouldBeOfType<WpfUiDispatcher>();
         actionDispatcher.ShouldBeOfType<ActionDispatcher>();
         clipboardService.ShouldBeOfType<Win32ClipboardService>();
         desktopContext.ShouldBeOfType<Iris.Platform.Windows.Capture.DesktopContext>();
+        hotkeyService.ShouldBeOfType<Iris.Platform.Windows.Hotkey.HotkeyService>();
     }
+
+    [Fact]
+    public void Host_ResolvesHotkeyServiceAndCoordinator_AsSingleton()
+    {
+        using var tempDir = new TempDirectory();
+        var paths = new FakeAppPaths(tempDir.Path);
+        var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
+
+        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+
+        var hotkey1 = host.Services.GetRequiredService<IHotkeyService>();
+        var hotkey2 = host.Services.GetRequiredService<IHotkeyService>();
+        var coordinator1 = host.Services.GetRequiredService<HotkeyCoordinator>();
+        var coordinator2 = host.Services.GetRequiredService<HotkeyCoordinator>();
+
+        hotkey1.ShouldNotBeNull();
+        hotkey1.ShouldBeSameAs(hotkey2);
+        coordinator1.ShouldNotBeNull();
+        coordinator1.ShouldBeSameAs(coordinator2);
+    }
+
 
     [Fact]
     public void Host_ResolvesDesktopContext_AsSingleton()

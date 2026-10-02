@@ -8,13 +8,16 @@ using Iris.App.Tray;
 using Iris.Core.Actions;
 using Iris.Core.Common;
 using Iris.Core.Errors;
+using Iris.Core.Platform;
 using Iris.Core.Presentation;
 using Iris.Core.Settings;
 using Iris.Core.Storage;
 using Iris.Core.Translation;
+using Iris.Core.Workflows;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
+
 using Shouldly;
 using Xunit;
 
@@ -376,4 +379,172 @@ public sealed class AppBootstrapperTests : IDisposable
             }
         }
     }
+
+    [Fact]
+    public async Task StartAsync_StartsHotkeyCoordinator_InCorrectOrder()
+    {
+        var callOrder = new List<string>();
+
+        var settingsService = Substitute.For<ISettingsService>();
+        settingsService.Current.Returns(new AppSettings());
+        settingsService.LoadAsync(Arg.Any<CancellationToken>())
+            .Returns(Task.CompletedTask)
+            .AndDoes(_ => callOrder.Add("settings"));
+
+        var translationRegistry = Substitute.For<ITranslationProviderRegistry>();
+        translationRegistry.RefreshAsync(Arg.Any<CancellationToken>())
+            .Returns(Task.CompletedTask)
+            .AndDoes(_ => callOrder.Add("registry"));
+
+        var databaseInitializer = Substitute.For<IDatabaseInitializer>();
+        databaseInitializer.InitializeAsync(Arg.Any<CancellationToken>())
+            .Returns(Task.CompletedTask)
+            .AndDoes(_ => callOrder.Add("database"));
+
+        var appLifetime = Substitute.For<IAppLifetime>();
+        var themeService = new ThemeService(settingsService);
+        var logLevelSwitch = new Serilog.Core.LoggingLevelSwitch(Serilog.Events.LogEventLevel.Information);
+        var logLevelController = new LogLevelController(settingsService, logLevelSwitch, NullLogger<LogLevelController>.Instance);
+
+        var actionDispatcher = Substitute.For<IActionDispatcher>();
+        var trayController = new TrayIconController(appLifetime, settingsService, actionDispatcher, NullLogger<TrayIconController>.Instance)
+        {
+            SuppressIconCreationForTesting = true
+        };
+        var trayNotificationService = new TrayNotificationService(NullLogger<TrayNotificationService>.Instance);
+
+        var host = Substitute.For<IHost>();
+        host.StartAsync(Arg.Any<CancellationToken>())
+            .Returns(Task.CompletedTask)
+            .AndDoes(_ => callOrder.Add("host"));
+
+        var hotkeyService = Substitute.For<IHotkeyService>();
+        hotkeyService.Register(Arg.Any<IrisAction>(), Arg.Any<HotkeyBinding>())
+            .Returns(callInfo =>
+            {
+                callOrder.Add("hotkeys");
+                return new HotkeyRegistrationResult(callInfo.Arg<IrisAction>(), true);
+            });
+
+        var uiDispatcher = Substitute.For<IUiDispatcher>();
+        uiDispatcher.InvokeAsync(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>())
+            .Returns(async callInfo => await callInfo.Arg<Func<Task>>()());
+
+        var coordinator = new HotkeyCoordinator(
+            settingsService,
+            hotkeyService,
+            actionDispatcher,
+            [new InputTranslateHandler(Substitute.For<ITranslateWindowPresenter>())],
+            uiDispatcher,
+            Substitute.For<INotificationService>(),
+            NullLogger<HotkeyCoordinator>.Instance);
+
+        var bootstrapper = new AppBootstrapper(
+            settingsService,
+            translationRegistry,
+            databaseInitializer,
+            logLevelController,
+            themeService,
+            trayController,
+            trayNotificationService,
+            host,
+            NullLogger<AppBootstrapper>.Instance,
+            new AppStartupInfo(Environment.TickCount64),
+            hotkeyCoordinator: coordinator);
+
+        await bootstrapper.StartAsync();
+
+        callOrder.ShouldBe(["settings", "registry", "database", "hotkeys", "host"]);
+    }
+
+    [Fact]
+    public async Task StopAsync_StopsHotkeyCoordinatorFirst_AndDrainsDispatchesBeforeHostStop()
+    {
+        var callOrder = new List<string>();
+
+        var settingsService = Substitute.For<ISettingsService>();
+        settingsService.Current.Returns(new AppSettings());
+
+        var translationRegistry = Substitute.For<ITranslationProviderRegistry>();
+        var databaseInitializer = Substitute.For<IDatabaseInitializer>();
+        var appLifetime = Substitute.For<IAppLifetime>();
+        var themeService = new ThemeService(settingsService);
+        var logLevelSwitch = new Serilog.Core.LoggingLevelSwitch(Serilog.Events.LogEventLevel.Information);
+        var logLevelController = new LogLevelController(settingsService, logLevelSwitch, NullLogger<LogLevelController>.Instance);
+
+        var actionDispatcher = Substitute.For<IActionDispatcher>();
+        var trayController = new TrayIconController(appLifetime, settingsService, actionDispatcher, NullLogger<TrayIconController>.Instance)
+        {
+            SuppressIconCreationForTesting = true
+        };
+        var trayNotificationService = new TrayNotificationService(NullLogger<TrayNotificationService>.Instance);
+
+        var host = Substitute.For<IHost>();
+        host.StopAsync(Arg.Any<CancellationToken>())
+            .Returns(Task.CompletedTask)
+            .AndDoes(_ => callOrder.Add("host_stop"));
+
+        var settingsShutdown = Substitute.For<Iris.App.Settings.ISettingsShutdownCoordinator>();
+        settingsShutdown.ShutdownAsync(Arg.Any<CancellationToken>())
+            .Returns(Task.CompletedTask)
+            .AndDoes(_ => callOrder.Add("settings_shutdown"));
+
+        var translateShutdown = Substitute.For<Iris.App.Translation.ITranslateWindowShutdownCoordinator>();
+        translateShutdown.ShutdownAsync(Arg.Any<CancellationToken>())
+            .Returns(Task.CompletedTask)
+            .AndDoes(_ => callOrder.Add("translate_shutdown"));
+
+
+        var hotkeyService = Substitute.For<IHotkeyService>();
+        hotkeyService.When(x => x.Dispose())
+            .Do(_ => callOrder.Add("hotkey_native_dispose"));
+
+        var uiDispatcher = Substitute.For<IUiDispatcher>();
+        uiDispatcher.InvokeAsync(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>())
+            .Returns(async callInfo => await callInfo.Arg<Func<Task>>()());
+
+        var coordinator = new HotkeyCoordinator(
+            settingsService,
+            hotkeyService,
+            actionDispatcher,
+            [new InputTranslateHandler(Substitute.For<ITranslateWindowPresenter>())],
+            uiDispatcher,
+            Substitute.For<INotificationService>(),
+            NullLogger<HotkeyCoordinator>.Instance);
+
+        var bootstrapper = new AppBootstrapper(
+            settingsService,
+            translationRegistry,
+            databaseInitializer,
+            logLevelController,
+            themeService,
+            trayController,
+            trayNotificationService,
+            host,
+            NullLogger<AppBootstrapper>.Instance,
+            new AppStartupInfo(Environment.TickCount64),
+            settingsShutdownCoordinator: settingsShutdown,
+            translateShutdownCoordinator: translateShutdown,
+            hotkeyCoordinator: coordinator);
+
+        var originalShutdown = AppBootstrapper.AppShutdowner;
+        try
+        {
+            AppBootstrapper.AppShutdowner = _ => callOrder.Add("app_shutdown");
+            await bootstrapper.StopAsync();
+
+            callOrder.ShouldBe([
+                "hotkey_native_dispose",
+                "settings_shutdown",
+                "translate_shutdown",
+                "host_stop",
+                "app_shutdown"
+            ]);
+        }
+        finally
+        {
+            AppBootstrapper.AppShutdowner = originalShutdown;
+        }
+    }
 }
+

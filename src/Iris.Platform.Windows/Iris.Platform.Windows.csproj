@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="Iris.Platform.Windows.Tests" />
+    <InternalsVisibleTo Include="Iris.App" />
     <InternalsVisibleTo Include="Iris.App.Tests" />
     <InternalsVisibleTo Include="Iris.Clipboard.IsolatedHelper" />
     <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
