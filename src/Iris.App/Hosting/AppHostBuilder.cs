@@ -20,7 +20,12 @@ namespace Iris.App.Hosting;
 /// </summary>
 internal static class AppHostBuilder
 {
-    public static IHost Build(string[] args, IAppPaths paths, LoggingLevelSwitch levelSwitch, long startTimestamp)
+    public static IHost Build(
+        string[] args,
+        IAppPaths paths,
+        LoggingLevelSwitch levelSwitch,
+        long startTimestamp,
+        Action<IServiceCollection>? configureTestOverrides = null)
     {
         ArgumentNullException.ThrowIfNull(args);
         ArgumentNullException.ThrowIfNull(paths);
@@ -91,6 +96,8 @@ internal static class AppHostBuilder
 
         // 主机生命周期：使用 WpfHostLifetime 替换默认的 ConsoleLifetime
         builder.Services.AddSingleton<IHostLifetime, WpfHostLifetime>();
+
+        configureTestOverrides?.Invoke(builder.Services);
 
         return builder.Build();
     }

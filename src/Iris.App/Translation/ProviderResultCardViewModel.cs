@@ -46,8 +46,8 @@ internal sealed class ProviderResultCardViewModel : INotifyPropertyChanged
     {
         OperationId = operationId;
         ProviderId = providerId ?? throw new ArgumentNullException(nameof(providerId));
-        DisplayName = displayName ?? providerId;
-        Model = model;
+        _displayName = displayName ?? providerId;
+        _model = model;
         _requestId = requestId;
         _canRetryPredicate = canRetryPredicate ?? throw new ArgumentNullException(nameof(canRetryPredicate));
 
@@ -56,10 +56,29 @@ internal sealed class ProviderResultCardViewModel : INotifyPropertyChanged
         GoToSettingsCommand = new RelayCommand(() => onGoToSettings(this));
     }
 
+    private string _displayName;
+    private string? _model;
+
     public Guid OperationId { get; }
     public string ProviderId { get; }
-    public string DisplayName { get; }
-    public string? Model { get; }
+
+    public string DisplayName
+    {
+        get => _displayName;
+        private set => SetField(ref _displayName, value);
+    }
+
+    public string? Model
+    {
+        get => _model;
+        private set => SetField(ref _model, value);
+    }
+
+    internal void UpdateDescriptor(string displayName, string? model)
+    {
+        DisplayName = displayName ?? ProviderId;
+        Model = model;
+    }
 
     public Guid RequestId
     {

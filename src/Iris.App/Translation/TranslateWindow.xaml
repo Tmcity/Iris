@@ -15,7 +15,10 @@
                   WindowStartupLocation="Manual"
                   ShowInTaskbar="False"
                   Closing="OnWindowClosing"
+                  Activated="OnWindowActivated"
                   Deactivated="OnWindowDeactivated"
+                  IsVisibleChanged="OnWindowIsVisibleChanged"
+                  PreviewKeyDown="OnWindowPreviewKeyDown"
                   LocationChanged="OnWindowLocationChanged"
                   SizeChanged="OnWindowSizeChanged">
     <Window.Resources>
@@ -78,10 +81,9 @@
         <!-- 语言选择与操作行 -->
         <Grid Grid.Row="1" Margin="0,0,0,8">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MinWidth="48" MaxWidth="150" />
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" MinWidth="48" MaxWidth="150" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
@@ -92,8 +94,7 @@
                       SelectedValue="{Binding SourceLanguage, Mode=TwoWay}"
                       SelectedValuePath="Code"
                       DisplayMemberPath="DisplayName"
-                      MinWidth="90"
-                      MaxWidth="130" />
+                      HorizontalAlignment="Stretch" />
 
             <!-- 交换按钮 -->
             <ui:Button x:Name="SwapLanguagesButton"
@@ -102,7 +103,7 @@
                        Command="{Binding SwapLanguagesCommand}"
                        ToolTip="{x:Static app:UiText.TranslateSwapLanguages}"
                        Margin="4,0"
-                       Padding="6,2" />
+                       Padding="4,2" />
 
             <!-- 目标语言 -->
             <ComboBox x:Name="TargetLangComboBox"
@@ -111,22 +112,21 @@
                       SelectedValue="{Binding TargetLanguage, Mode=TwoWay}"
                       SelectedValuePath="Code"
                       DisplayMemberPath="DisplayName"
-                      MinWidth="90"
-                      MaxWidth="130" />
+                      HorizontalAlignment="Stretch" />
 
             <!-- 翻译 / 停止 按钮 -->
-            <StackPanel Grid.Column="4" Orientation="Horizontal">
+            <StackPanel Grid.Column="3" Orientation="Horizontal" Margin="4,0,0,0">
                 <ui:Button x:Name="StopButton"
                            Content="{x:Static app:UiText.TranslateStopButton}"
                            Command="{Binding StopCommand}"
                            Visibility="{Binding IsTranslating, Converter={StaticResource BoolToVis}}"
                            Appearance="Caution"
-                           Padding="12,4" />
+                           Padding="8,3" />
                 <ui:Button x:Name="TranslateButton"
                            Content="{x:Static app:UiText.TranslateButton}"
                            Command="{Binding TranslateCommand}"
                            Appearance="Primary"
-                           Padding="12,4">
+                           Padding="8,3">
                     <ui:Button.Style>
                         <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
                             <Setter Property="Visibility" Value="Visible" />

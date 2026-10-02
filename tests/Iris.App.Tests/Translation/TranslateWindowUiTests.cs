@@ -10,6 +10,8 @@ using Iris.App.Services;
 using Iris.App.Settings;
 using Iris.App.Tests.TestSupport;
 using Iris.App.Translation;
+using Iris.Core.Common;
+using Iris.Core.Languages;
 using Iris.Core.Platform;
 using Iris.Core.Presentation;
 using Iris.Core.Settings;
@@ -40,6 +42,7 @@ public sealed class TranslateWindowUiTests
         desktopContext.GetCursorPosition().Returns(new Iris.Core.Imaging.PixelPoint(500, 500));
 
         var services = new ServiceCollection();
+        services.AddLogging();
         services.AddSingleton(settingsService);
         services.AddSingleton(orchestrator);
         services.AddSingleton(clipboard);
@@ -47,6 +50,10 @@ public sealed class TranslateWindowUiTests
         services.AddSingleton(desktopContext);
         services.AddSingleton<IUiDispatcher, ImmediateUiDispatcher>();
         services.AddSingleton<ThemeService>();
+
+        services.AddSingleton<TranslateWindowPresenter>();
+        services.AddSingleton<ITranslateWindowPresenter>(sp => sp.GetRequiredService<TranslateWindowPresenter>());
+        services.AddSingleton<ITranslateWindowShutdownCoordinator>(sp => sp.GetRequiredService<TranslateWindowPresenter>());
 
         services.AddScoped<TranslateWindowViewModel>(sp => new TranslateWindowViewModel(
             settingsService,
@@ -136,6 +143,14 @@ public sealed class TranslateWindowUiTests
                 sourceCombo.ActualWidth.ShouldBeGreaterThan(40);
                 targetCombo.ActualWidth.ShouldBeGreaterThan(40);
                 translateBtn.ActualWidth.ShouldBeGreaterThan(30);
+
+                var swapBtn = (Wpf.Ui.Controls.Button)window.FindName("SwapLanguagesButton");
+                foreach (var element in new FrameworkElement[] { sourceCombo, swapBtn, targetCombo, translateBtn })
+                {
+                    var rect = element.TransformToAncestor(window).TransformBounds(new Rect(element.RenderSize));
+                    rect.Left.ShouldBeGreaterThanOrEqualTo(0, $"{element.Name} 左边缘越界");
+                    rect.Right.ShouldBeLessThanOrEqualTo(window.ActualWidth + 0.5, $"{element.Name} 右边缘超出窗口可视宽度");
+                }
             }
             finally
             {
@@ -153,37 +168,95 @@ public sealed class TranslateWindowUiTests
     [Fact]
     public async Task KeyHandling_ImeCompositionAndShiftEnter_DoNotTriggerTranslate()
     {
-        await WpfTestRunner.RunAsync(() =>
+        await WpfTestRunner.RunAsync(async () =>
         {
+            var streamGate = new TaskCompletionSource();
+            async IAsyncEnumerable<TranslationEvent> PendingStream()
+            {
+                var p1 = new ProviderDescriptor("p1", "P1", "Kind", null, true);
+                yield return new TranslationStarted(Guid.NewGuid(), new ResolvedLanguagePair("en", "zh-Hans", false), [p1]);
+                await streamGate.Task;
+            }
+
             using var provider = CreateServiceProvider();
+            var orchestrator = provider.GetRequiredService<ITranslationOrchestrator>();
+            orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+                .Returns(PendingStream());
+
             using var scope = provider.CreateScope();
+            var presenter = scope.ServiceProvider.GetRequiredService<TranslateWindowPresenter>();
             var vm = scope.ServiceProvider.GetRequiredService<TranslateWindowViewModel>();
             var window = scope.ServiceProvider.GetRequiredService<TranslateWindow>();
+            using var hwndSource = new System.Windows.Interop.HwndSource(0, 0, 0, 0, 0, "TestHwnd", IntPtr.Zero);
 
             try
             {
                 window.DataContext = vm;
+                window.AttachPresenter(presenter);
+                vm.AttachPresenter(presenter);
                 window.Show();
                 vm.InputText = "Sample Text";
                 window.UpdateLayout();
 
-                // 模拟 IME 组合输入确认 Enter
+                var inputTb = (TextBox)window.FindName("InputTextBox");
+                inputTb.ShouldNotBeNull();
+
+                // 1. 模拟 IME 组合输入确认发往 InputTextBox，不触发翻译
                 var imeEventArgs = new KeyEventArgs(
                     Keyboard.PrimaryDevice,
-                    new System.Windows.Interop.HwndSource(0, 0, 0, 0, 0, "", IntPtr.Zero),
+                    hwndSource,
                     0,
                     Key.ImeProcessed)
                 {
                     RoutedEvent = UIElement.PreviewKeyDownEvent
                 };
 
-                window.RaiseEvent(imeEventArgs);
+                inputTb.RaiseEvent(imeEventArgs);
+                vm.IsTranslating.ShouldBeFalse("IME 组合确认不应触发翻译");
 
-                // 验证 IME 确认没有触发翻译
+                // 2. 模拟 Shift+Enter 发往 InputTextBox（多行换行），不触发翻译且不拦截
+                TranslateWindow.TestKeyboardModifiersProvider = () => ModifierKeys.Shift;
+                try
+                {
+                    var shiftEnterEventArgs = new KeyEventArgs(
+                        Keyboard.PrimaryDevice,
+                        hwndSource,
+                        0,
+                        Key.Enter)
+                    {
+                        RoutedEvent = UIElement.PreviewKeyDownEvent
+                    };
+
+                    inputTb.RaiseEvent(shiftEnterEventArgs);
+                    shiftEnterEventArgs.Handled.ShouldBeFalse("Shift+Enter 不应被翻译拦截，保留换行能力");
+                    vm.IsTranslating.ShouldBeFalse("Shift+Enter 不应触发翻译");
+                }
+                finally
+                {
+                    TranslateWindow.TestKeyboardModifiersProvider = null;
+                }
+
+                // 3. 模拟普通 Enter 发往 InputTextBox，触发翻译并进入流式中
+                var enterEventArgs = new KeyEventArgs(
+                    Keyboard.PrimaryDevice,
+                    hwndSource,
+                    0,
+                    Key.Enter)
+                {
+                    RoutedEvent = UIElement.PreviewKeyDownEvent
+                };
+
+                inputTb.RaiseEvent(enterEventArgs);
+                vm.IsTranslating.ShouldBeTrue("默认 EnterToTranslate=true 时 Enter 触发翻译");
+
+                // 4. 放行流式任务闸门并等待收尾
+                streamGate.SetResult();
+                await vm.WaitForActiveWorkAsync();
                 vm.IsTranslating.ShouldBeFalse();
             }
             finally
             {
+                streamGate.TrySetResult();
                 window.DataContext = null;
                 window.Close();
             }

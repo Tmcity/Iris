@@ -312,7 +312,7 @@ public sealed class TranslateWindowIntegrationTests
             };
 
             // 4. 展示器启动翻译：通过真实 TranslationOrchestrator 并发流式输出
-            using var op = presenter.TryBeginOperation(TestContext.Current.CancellationToken);
+            var op = presenter.TryBeginOperation(TestContext.Current.CancellationToken);
             op.ShouldNotBeNull();
 
             var shown = await presenter.TryShowAsync(op!, new TranslateWindowRequest
@@ -321,6 +321,7 @@ public sealed class TranslateWindowIntegrationTests
                 AutoTranslate = true
             });
             shown.ShouldBeTrue();
+            op!.Dispose();
 
             var vm = presenter.ViewModel;
             vm.ShouldNotBeNull();
@@ -424,12 +425,13 @@ public sealed class TranslateWindowIntegrationTests
                 return Stream();
             };
 
-            using var op = presenter.TryBeginOperation(TestContext.Current.CancellationToken);
+            var op = presenter.TryBeginOperation(TestContext.Current.CancellationToken);
             await presenter.TryShowAsync(op!, new TranslateWindowRequest
             {
                 Text = "Hello world",
                 AutoTranslate = true
             });
+            op!.Dispose();
 
             var vm = presenter.ViewModel;
             await vm!.WaitForActiveWorkAsync();
@@ -445,6 +447,134 @@ public sealed class TranslateWindowIntegrationTests
             vm.Cards[1].Text.ShouldBe("Healthy output");
 
             await presenter.ShutdownAsync(TestContext.Current.CancellationToken);
+        });
+    }
+
+    [Fact]
+    public async Task RealCompositionRoot_AppHostBuilder_ResolvesSameInstance_AndAppBootstrapperStopAsync_DrivesTranslateWindowShutdown()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            using var tempDir = new TempDirectory();
+            var paths = new TestAppPaths(tempDir.Path);
+            var levelSwitch = new Serilog.Core.LoggingLevelSwitch();
+            var clipboard = Substitute.For<IClipboardService>();
+            var desktopContext = Substitute.For<IDesktopContext>();
+            desktopContext.GetMonitors().Returns([
+                new MonitorInfo(@"\\.\DISPLAY1", new PixelRect(0, 0, 1920, 1080), new PixelRect(0, 0, 1920, 1040), 1.0, true)
+            ]);
+            desktopContext.GetCursorPosition().Returns(new PixelPoint(500, 500));
+
+            var fakeAutoStart = new FakeAutoStartService();
+            var memorySecretStore = new MemorySecretStore();
+            var testFactory = new TestTranslationProviderFactory();
+
+            var host = AppHostBuilder.Build(
+                args: [],
+                paths: paths,
+                levelSwitch: levelSwitch,
+                startTimestamp: System.Diagnostics.Stopwatch.GetTimestamp(),
+                configureTestOverrides: services =>
+                {
+                    var existingFactories = services.Where(d => d.ServiceType == typeof(ITranslationProviderFactory)).ToList();
+                    foreach (var d in existingFactories)
+                    {
+                        services.Remove(d);
+                    }
+                    services.AddSingleton<ITranslationProviderFactory>(testFactory);
+
+                    var existingSecrets = services.Where(d => d.ServiceType == typeof(ISecretStore)).ToList();
+                    foreach (var d in existingSecrets)
+                    {
+                        services.Remove(d);
+                    }
+                    services.AddSingleton<ISecretStore>(memorySecretStore);
+
+                    var existingAutoStart = services.Where(d => d.ServiceType == typeof(IAutoStartService)).ToList();
+                    foreach (var d in existingAutoStart)
+                    {
+                        services.Remove(d);
+                    }
+                    services.AddSingleton<IAutoStartService>(fakeAutoStart);
+
+                    var existingClipboard = services.Where(d => d.ServiceType == typeof(IClipboardService)).ToList();
+                    foreach (var d in existingClipboard)
+                    {
+                        services.Remove(d);
+                    }
+                    services.AddSingleton(clipboard);
+
+                    var existingDesktop = services.Where(d => d.ServiceType == typeof(IDesktopContext)).ToList();
+                    foreach (var d in existingDesktop)
+                    {
+                        services.Remove(d);
+                    }
+                    services.AddSingleton(desktopContext);
+
+                    var existingWindow = services.Where(d => d.ServiceType == typeof(TranslateWindow)).ToList();
+                    foreach (var d in existingWindow)
+                    {
+                        services.Remove(d);
+                    }
+                    services.AddTransient<TranslateWindow>(sp => new TranslateWindow
+                    {
+                        ShowActivated = false,
+                        ShowInTaskbar = false,
+                        WindowStartupLocation = WindowStartupLocation.Manual,
+                        Left = -10000,
+                        Top = -10000,
+                        Opacity = 0
+                    });
+                });
+
+            var originalShutdown = AppBootstrapper.AppShutdowner;
+            AppBootstrapper.AppShutdowner = _ => { };
+
+            try
+            {
+                using (host)
+                {
+                    var sp = host.Services;
+
+                    // 1. 验证同实例解析：TranslateWindowPresenter, ITranslateWindowPresenter, ITranslateWindowShutdownCoordinator
+                    var presenter = sp.GetRequiredService<TranslateWindowPresenter>();
+                    var iPresenter = sp.GetRequiredService<ITranslateWindowPresenter>();
+                    var shutdownCoordinator = sp.GetRequiredService<ITranslateWindowShutdownCoordinator>();
+
+                    ReferenceEquals(presenter, iPresenter).ShouldBeTrue();
+                    ReferenceEquals(presenter, shutdownCoordinator).ShouldBeTrue();
+
+                    // 2. 初始化设置并展示窗口
+                    var settingsService = sp.GetRequiredService<ISettingsService>();
+                    await settingsService.LoadAsync();
+
+                    var op = presenter.TryBeginOperation(TestContext.Current.CancellationToken);
+                    op.ShouldNotBeNull();
+
+                    var shown = await presenter.TryShowAsync(op!, new TranslateWindowRequest
+                    {
+                        Text = "Hello HostBuilder",
+                        AutoTranslate = false
+                    });
+                    shown.ShouldBeTrue();
+                    op!.Dispose();
+
+                    presenter.Window.ShouldNotBeNull();
+                    presenter.ViewModel.ShouldNotBeNull();
+
+                    // 3. 解析 AppBootstrapper 并调用 StopAsync()
+                    var bootstrapper = sp.GetRequiredService<AppBootstrapper>();
+                    await bootstrapper.StopAsync();
+
+                    // 4. 验证 Bootstrapper.StopAsync 驱动了 ITranslateWindowShutdownCoordinator.ShutdownAsync 收尾
+                    presenter.Window.ShouldBeNull();
+                    presenter.ViewModel.ShouldBeNull();
+                }
+            }
+            finally
+            {
+                AppBootstrapper.AppShutdowner = originalShutdown;
+            }
         });
     }
 }

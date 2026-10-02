@@ -103,6 +103,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
         cancellationToken.ThrowIfCancellationRequested();
 
         TranslateWindowOperation op;
+        TranslateWindowOperation? oldOp;
         lock (_gate)
         {
             if (_isShuttingDown)
@@ -117,9 +118,12 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
 
             op = new TranslateWindowOperation(this, cancellationToken);
             _activeOperations.Add(op);
+            oldOp = _latestOperation;
             _latestOperation = op;
         }
 
+        // 接纳新操作后，旧操作立即失效并请求取消（在锁外调用）
+        oldOp?.Cancel();
         return op;
     }
 
@@ -179,13 +183,13 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
         }
         finally
         {
-            bool transferredWork = accepted && (_viewModel?.ActiveOperation != null && ReferenceEquals(_viewModel.ActiveOperation, op));
-            op.EndTryShow(transferredWork);
+            op.EndTryShow();
         }
     }
 
     public async Task HideAsync()
     {
+        TranslateWindowOperation? opToCancel = null;
         await _uiDispatcher.InvokeAsync(() =>
         {
             if (_window != null && _window.IsVisible)
@@ -197,11 +201,16 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
             {
                 _isVisibleSnapshot = false;
                 _isActiveSnapshot = false;
+                opToCancel = _latestOperation;
                 _latestOperation = null;
             }
 
+            _viewModel?.OnWindowHidden();
+
             return Task.CompletedTask;
         }, CancellationToken.None).ConfigureAwait(false);
+
+        opToCancel?.Cancel();
     }
 
     private void EnsureWindowCreated()
@@ -223,6 +232,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
 
             window.DataContext = vm;
             window.AttachPresenter(this);
+            vm.AttachPresenter(this);
 
             _scope = scope;
             _window = window;
@@ -360,17 +370,39 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
         }
     }
 
+    internal void OnWindowActivated()
+    {
+        lock (_gate)
+        {
+            _isActiveSnapshot = true;
+        }
+    }
+
     internal Task OnWindowDeactivated()
     {
         lock (_gate)
         {
+            _isActiveSnapshot = false;
             if (_deactivationSuppressionCount > 0)
             {
                 return Task.CompletedTask;
             }
         }
 
-        return HideAsync();
+        if (!_isShuttingDown && _viewModel != null && !_viewModel.IsPinned && _viewModel.HideOnDeactivate)
+        {
+            return HideAsync();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    internal void OnWindowIsVisibleChanged(bool isVisible)
+    {
+        lock (_gate)
+        {
+            _isVisibleSnapshot = isVisible;
+        }
     }
 
     internal IDisposable BeginCaptureSuppression()
@@ -415,7 +447,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
             }
 
             _isShuttingDown = true;
-            _shutdownTask = ShutdownCoreAsync(cancellationToken);
+            _shutdownTask = Task.Run(() => ShutdownCoreAsync(cancellationToken), CancellationToken.None);
             return _shutdownTask;
         }
     }
@@ -448,6 +480,12 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
 
         if (_viewModel != null)
         {
+            await _uiDispatcher.InvokeAsync(() =>
+            {
+                _viewModel.OnWindowHidden();
+                return Task.CompletedTask;
+            }, CancellationToken.None).ConfigureAwait(false);
+
             try
             {
                 await _viewModel.WaitForActiveWorkAsync().ConfigureAwait(false);
@@ -457,6 +495,20 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                 LogShutdownError(_logger, ex.GetType().Name);
                 throw;
             }
+        }
+
+        // 退出屏障：等待所有租约（包括 caller 仍持有的）被释放归还
+        while (true)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            lock (_gate)
+            {
+                if (_activeOperations.Count == 0)
+                {
+                    break;
+                }
+            }
+            await Task.Delay(20, cancellationToken).ConfigureAwait(false);
         }
 
         await _uiDispatcher.InvokeAsync(() =>

@@ -10,7 +10,6 @@ namespace Iris.App.Translation;
 internal partial class TranslateWindow : Wpf.Ui.Controls.FluentWindow
 {
     private TranslateWindowPresenter? _presenter;
-    private bool _isUserMovingOrResizing;
     private bool _isUpdatingPlacement;
 
     public TranslateWindow()
@@ -38,14 +37,12 @@ internal partial class TranslateWindow : Wpf.Ui.Controls.FluentWindow
     {
         if (e.LeftButton == MouseButtonState.Pressed)
         {
-            _isUserMovingOrResizing = true;
             try
             {
                 DragMove();
             }
             finally
             {
-                _isUserMovingOrResizing = false;
                 NotifyUserPlacementChanged();
             }
         }
@@ -65,20 +62,31 @@ internal partial class TranslateWindow : Wpf.Ui.Controls.FluentWindow
         }
     }
 
+    private void OnWindowActivated(object? sender, EventArgs e)
+    {
+        _presenter?.OnWindowActivated();
+    }
+
     private void OnWindowDeactivated(object? sender, EventArgs e)
     {
-        if (ViewModel == null || ViewModel.IsPinned || !ViewModel.HideOnDeactivate)
-        {
-            return;
-        }
-
-        if (SourceLangComboBox.IsDropDownOpen || TargetLangComboBox.IsDropDownOpen)
-        {
-            return;
-        }
-
-        _ = _presenter?.OnWindowDeactivated();
+        _presenter?.OnWindowDeactivated();
     }
+
+    private void OnWindowIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+    {
+        _presenter?.OnWindowIsVisibleChanged(IsVisible);
+    }
+
+    private void OnWindowPreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Escape)
+        {
+            e.Handled = true;
+            _ = _presenter?.HideAsync();
+        }
+    }
+
+    internal static Func<ModifierKeys>? TestKeyboardModifiersProvider { get; set; }
 
     private void OnInputTextBoxPreviewKeyDown(object sender, KeyEventArgs e)
     {
@@ -100,8 +108,9 @@ internal partial class TranslateWindow : Wpf.Ui.Controls.FluentWindow
             var vm = ViewModel;
             if (vm == null) return;
 
-            bool isCtrl = (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control;
-            bool isShift = (Keyboard.Modifiers & ModifierKeys.Shift) == ModifierKeys.Shift;
+            var modifiers = TestKeyboardModifiersProvider != null ? TestKeyboardModifiersProvider() : Keyboard.Modifiers;
+            bool isCtrl = (modifiers & ModifierKeys.Control) == ModifierKeys.Control;
+            bool isShift = (modifiers & ModifierKeys.Shift) == ModifierKeys.Shift;
 
             if (vm.EnterToTranslate)
             {
@@ -124,7 +133,7 @@ internal partial class TranslateWindow : Wpf.Ui.Controls.FluentWindow
 
     private void OnWindowLocationChanged(object? sender, EventArgs e)
     {
-        if (!_isUpdatingPlacement && _isUserMovingOrResizing)
+        if (!_isUpdatingPlacement && IsLoaded)
         {
             NotifyUserPlacementChanged();
         }
@@ -132,7 +141,7 @@ internal partial class TranslateWindow : Wpf.Ui.Controls.FluentWindow
 
     private void OnWindowSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (!_isUpdatingPlacement && _isUserMovingOrResizing)
+        if (!_isUpdatingPlacement && IsLoaded)
         {
             NotifyUserPlacementChanged();
         }

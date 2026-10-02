@@ -121,4 +121,5 @@ internal static class UiText
     public const string TranslateBusy = "系统忙碌，请稍后再试";
     public const string TranslateNoConfiguredProviders = "未配置任何可用的翻译服务，请前往设置配置。";
     public const string TranslateInputTooLong = "输入文本超出最大字符限制";
+    public const string ErrorUnknown = "发生未知错误，详情请查看日志";
 }

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -38,7 +39,6 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
     private readonly Lock _gate = new();
     private bool _disposed;
-    private bool _isStopped;
     private bool _programmaticTextUpdate;
 
     private string _inputText = string.Empty;
@@ -55,6 +55,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
     private TranslateWindowOperation? _activeOperation;
     private string _sessionOriginalText = string.Empty;
     private TextOrigin _sessionOrigin = TextOrigin.Input;
+    private AutoCopyMode _sessionAutoCopyMode = AutoCopyMode.None;
     private int _autoCopyClaimed;
 
     private Task? _activeMainTask;
@@ -62,7 +63,11 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
     private Task? _processMainQueueTask;
     private Task? _processRetryQueueTask;
     private Task? _flushTask;
-    private readonly List<Task> _copyTasks = [];
+
+    private readonly Lock _copyGate = new();
+    private Task? _inFlightCopyTask;
+    private CancellationTokenSource? _inFlightCopyCts;
+    private QueuedCopyItem? _pendingCopy;
 
     private QueuedMainRequest? _pendingMain;
     private QueuedRetryRequest? _pendingRetry;
@@ -92,7 +97,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         StopCommand = new RelayCommand(ExecuteStop, () => IsTranslating);
         SwapLanguagesCommand = new RelayCommand(ExecuteSwapLanguages, () => CanSwapLanguages);
         PinCommand = new RelayCommand(() => IsPinned = !IsPinned);
-        GoToSettingsCommand = new RelayCommand(() => _settingsPresenter.ShowAsync("translation"));
+        GoToSettingsCommand = new RelayCommand(() => _ = _settingsPresenter.ShowAsync("translation"));
 
         _settingsService.Changed += OnSettingsChanged;
     }
@@ -231,7 +236,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         }
     }
 
-    public bool CanTranslate => !string.IsNullOrWhiteSpace(_inputText) && !IsTranslating && !_disposed && !_isStopped;
+    public bool CanTranslate => !string.IsNullOrWhiteSpace(_inputText) && !_disposed;
 
     public bool IsPinned
     {
@@ -312,9 +317,18 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 OnPropertyChanged(nameof(CanTranslate));
             }
 
+            if (_activeOperation != null && !ReferenceEquals(_activeOperation, operation))
+            {
+                _activeOperation.Cancel();
+                _activeOperation.DetachSession();
+            }
+
             _activeOperation = operation;
+            operation.AttachSession();
+
             _sessionOriginalText = _inputText;
             _sessionOrigin = request.Origin;
+            _sessionAutoCopyMode = _settingsService.Current.Translation.AutoCopy;
             _autoCopyClaimed = 0;
 
             StatusMessage = request.StatusMessage;
@@ -322,7 +336,10 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
             if (request.AutoTranslate && !string.IsNullOrWhiteSpace(request.Text) && request.Error == null && string.IsNullOrWhiteSpace(request.StatusMessage))
             {
-                SubmitMainTranslation(operation, _inputText, request.Origin);
+                if (operation.TryClaimAutoTranslate())
+                {
+                    SubmitMainTranslation(operation, _inputText, request.Origin);
+                }
             }
         }
         finally
@@ -331,15 +348,44 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         }
     }
 
-    private void OnUserInputChanged()
+    internal void OnWindowHidden()
     {
-        // 用户手动修改撤销旧操作资格与正在进行的请求
+        TranslateWindowOperation? opToCancel = null;
         lock (_gate)
         {
-            _activeOperation?.Cancel();
+            _pendingMain = null;
+            _pendingRetry = null;
+            opToCancel = _activeOperation;
+            _activeOperation = null;
+        }
+
+        opToCancel?.Cancel();
+        opToCancel?.DetachSession();
+        CancelPendingAndActiveCopies();
+        _deltaBuffer.Reset();
+
+        _ = _uiDispatcher.InvokeAsync(() =>
+        {
+            _isTranslating = false;
+            foreach (var card in Cards.Where(c => c.IsStreaming))
+            {
+                card.SetCanceled();
+            }
+            return Task.CompletedTask;
+        }, CancellationToken.None);
+    }
+
+    private void OnUserInputChanged()
+    {
+        TranslateWindowOperation? opToCancel;
+        lock (_gate)
+        {
+            opToCancel = _activeOperation;
             _pendingMain = null;
             _pendingRetry = null;
         }
+
+        opToCancel?.Cancel();
 
         StatusMessage = null;
         Error = null;
@@ -364,32 +410,45 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             return;
         }
 
-        var op = _presenterRef?.TryBeginOperation();
-        if (op == null)
+        var opObj = _presenterRef?.TryBeginOperation();
+        if (opObj == null)
         {
             StatusMessage = UiText.TranslateBusy;
             return;
         }
 
-        _activeOperation = (TranslateWindowOperation)op;
+        var op = (TranslateWindowOperation)opObj;
+        if (_activeOperation != null && !ReferenceEquals(_activeOperation, op))
+        {
+            _activeOperation.Cancel();
+            _activeOperation.DetachSession();
+        }
+
+        _activeOperation = op;
+        op.AttachSession();
+        op.Dispose(); // Releases caller ownership so VM session owns it
+
         _sessionOriginalText = _inputText;
         _sessionOrigin = TextOrigin.Input;
+        _sessionAutoCopyMode = _settingsService.Current.Translation.AutoCopy;
         _autoCopyClaimed = 0;
         StatusMessage = null;
         Error = null;
 
-        SubmitMainTranslation((TranslateWindowOperation)op, _inputText, TextOrigin.Input);
+        SubmitMainTranslation(op, _inputText, TextOrigin.Input);
     }
 
     private void ExecuteStop()
     {
+        TranslateWindowOperation? opToCancel;
         lock (_gate)
         {
-            _activeOperation?.Cancel();
+            opToCancel = _activeOperation;
             _pendingMain = null;
             _pendingRetry = null;
         }
 
+        opToCancel?.Cancel();
         _deltaBuffer.Reset();
         StatusMessage = UiText.TranslateStopped;
         IsTranslating = false;
@@ -446,11 +505,6 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
         lock (_gate)
         {
-            if (_activeOperation != null && !ReferenceEquals(_activeOperation, operation))
-            {
-                _activeOperation.Cancel();
-            }
-            _activeOperation = operation;
             _pendingMain = new QueuedMainRequest(operation, req);
             _pendingRetry = null;
             _processMainQueueTask = ProcessMainQueueAsync();
@@ -514,8 +568,13 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
     private async Task RunMainTranslationAsync(TranslateWindowOperation operation, TranslationRequest request)
     {
+        operation.IncrementWork();
         await _uiDispatcher.InvokeAsync(() =>
         {
+            if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.CancellationToken.IsCancellationRequested)
+            {
+                return Task.CompletedTask;
+            }
             IsTranslating = true;
             Cards.Clear();
             StatusMessage = null;
@@ -533,6 +592,10 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
             while (await enumerator.MoveNextAsync().ConfigureAwait(false))
             {
+                if (token.IsCancellationRequested || _activeOperation == null || _activeOperation.Id != operation.Id)
+                {
+                    break;
+                }
                 var evt = enumerator.Current;
                 await HandleTranslationEventAsync(operation, evt).ConfigureAwait(false);
             }
@@ -541,9 +604,12 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         {
             await _uiDispatcher.InvokeAsync(() =>
             {
-                foreach (var card in Cards.Where(c => c.IsStreaming))
+                if (_activeOperation != null && _activeOperation.Id == operation.Id)
                 {
-                    card.SetCanceled();
+                    foreach (var card in Cards.Where(c => c.IsStreaming))
+                    {
+                        card.SetCanceled();
+                    }
                 }
                 return Task.CompletedTask;
             }, CancellationToken.None).ConfigureAwait(false);
@@ -552,15 +618,22 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         {
             await _uiDispatcher.InvokeAsync(() =>
             {
-                Error = ex.ToErrorInfo();
+                if (_activeOperation != null && _activeOperation.Id == operation.Id && !operation.CancellationToken.IsCancellationRequested)
+                {
+                    Error = ex.ToErrorInfo();
+                }
                 return Task.CompletedTask;
             }, CancellationToken.None).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
+            LogTranslationUnexpectedError(_logger, ex, ex.GetType().Name);
             await _uiDispatcher.InvokeAsync(() =>
             {
-                Error = new ErrorInfo(ErrorCode.Unknown, ex.Message);
+                if (_activeOperation != null && _activeOperation.Id == operation.Id && !operation.CancellationToken.IsCancellationRequested)
+                {
+                    Error = new ErrorInfo(ErrorCode.Unknown, UiText.ErrorUnknown);
+                }
                 return Task.CompletedTask;
             }, CancellationToken.None).ConfigureAwait(false);
         }
@@ -580,15 +653,24 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             await _uiDispatcher.InvokeAsync(() =>
             {
                 FlushDeltaBufferToUi();
-                IsTranslating = false;
-                operation.EndWorkOwnership();
+                if (_activeOperation != null && _activeOperation.Id == operation.Id)
+                {
+                    IsTranslating = false;
+                }
                 return Task.CompletedTask;
             }, CancellationToken.None).ConfigureAwait(false);
+
+            operation.DecrementWork();
         }
     }
 
     private async Task HandleTranslationEventAsync(TranslateWindowOperation operation, TranslationEvent evt, bool isRetry = false)
     {
+        if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.CancellationToken.IsCancellationRequested)
+        {
+            return;
+        }
+
         switch (evt)
         {
             case TranslationStarted started:
@@ -597,6 +679,11 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
                 await _uiDispatcher.InvokeAsync(() =>
                 {
+                    if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.CancellationToken.IsCancellationRequested)
+                    {
+                        return Task.CompletedTask;
+                    }
+
                     OnPropertyChanged(nameof(CanSwapLanguages));
                     if (!isRetry)
                     {
@@ -616,6 +703,17 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                             Cards.Add(card);
                         }
                     }
+                    else
+                    {
+                        foreach (var p in started.Providers)
+                        {
+                            var card = Cards.FirstOrDefault(c => c.OperationId == operation.Id && c.ProviderId == p.Id);
+                            if (card != null)
+                            {
+                                card.UpdateDescriptor(p.DisplayName, p.Model);
+                            }
+                        }
+                    }
                     return Task.CompletedTask;
                 }, CancellationToken.None).ConfigureAwait(false);
                 break;
@@ -623,6 +721,11 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             case ProviderStarted ps:
                 await _uiDispatcher.InvokeAsync(() =>
                 {
+                    if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.CancellationToken.IsCancellationRequested)
+                    {
+                        return Task.CompletedTask;
+                    }
+
                     var card = FindCard(operation.Id, ps.ProviderId, ps.RequestId);
                     if (card != null && !card.IsTerminal)
                     {
@@ -633,14 +736,22 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 break;
 
             case ProviderDelta pd:
-                await _deltaBuffer.EnqueueAsync(new QueuedDelta(operation.Id, pd.ProviderId, pd.RequestId, pd.Delta), operation.CancellationToken).ConfigureAwait(false);
-                ScheduleUiFlush();
+                if (_activeOperation != null && _activeOperation.Id == operation.Id && !operation.CancellationToken.IsCancellationRequested)
+                {
+                    await _deltaBuffer.EnqueueAsync(new QueuedDelta(operation.Id, pd.ProviderId, pd.RequestId, pd.Delta), operation.CancellationToken).ConfigureAwait(false);
+                    ScheduleUiFlush();
+                }
                 break;
 
             case ProviderCompleted pc:
                 _deltaBuffer.DiscardForCard(operation.Id, pc.ProviderId, pc.RequestId);
                 await _uiDispatcher.InvokeAsync(() =>
                 {
+                    if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.CancellationToken.IsCancellationRequested)
+                    {
+                        return Task.CompletedTask;
+                    }
+
                     var card = FindCard(operation.Id, pc.ProviderId, pc.RequestId);
                     if (card != null)
                     {
@@ -656,7 +767,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                         card.SetCompleted(safeText, pc.Elapsed, pc.FromCache, pc.Truncated, locallyTruncated);
 
                         // 自动复制：仅初始主请求首个有效完整（非截断）结果参与一次，重试不参与
-                        if (!isRetry && !locallyTruncated && !pc.Truncated && _settingsService.Current.Translation.AutoCopy == AutoCopyMode.FirstResult)
+                        if (!isRetry && !locallyTruncated && !pc.Truncated && _sessionAutoCopyMode == AutoCopyMode.FirstResult)
                         {
                             if (Interlocked.CompareExchange(ref _autoCopyClaimed, 1, 0) == 0)
                             {
@@ -672,6 +783,11 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 _deltaBuffer.DiscardForCard(operation.Id, pf.ProviderId, pf.RequestId);
                 await _uiDispatcher.InvokeAsync(() =>
                 {
+                    if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.CancellationToken.IsCancellationRequested)
+                    {
+                        return Task.CompletedTask;
+                    }
+
                     var card = FindCard(operation.Id, pf.ProviderId, pf.RequestId);
                     if (card != null)
                     {
@@ -716,13 +832,21 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             return;
         }
 
-        foreach (var d in deltas)
+        var groups = deltas.GroupBy(d => (d.OperationId, d.ProviderId, d.RequestId));
+        foreach (var group in groups)
         {
-            var card = FindCard(d.OperationId, d.ProviderId, d.RequestId);
+            var card = FindCard(group.Key.OperationId, group.Key.ProviderId, group.Key.RequestId);
             if (card == null || card.IsTerminal || card.IsLocallyTruncated)
             {
                 continue;
             }
+
+            var sb = new StringBuilder();
+            foreach (var d in group)
+            {
+                sb.Append(d.Delta);
+            }
+            string combinedDelta = sb.ToString();
 
             int currentTotal = Cards.Sum(c => c.Text.Length);
             int remainingTotal = Math.Max(0, TextBudgetManager.MaxTotalChars - currentTotal);
@@ -734,15 +858,15 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 continue;
             }
 
-            if (d.Delta.Length > allowedForCard)
+            if (combinedDelta.Length > allowedForCard)
             {
-                string safe = TextBudgetManager.TruncateSurrogateSafe(d.Delta, allowedForCard);
+                string safe = TextBudgetManager.TruncateSurrogateSafe(combinedDelta, allowedForCard);
                 card.AppendText(safe);
                 card.IsLocallyTruncated = true;
             }
             else
             {
-                card.AppendText(d.Delta);
+                card.AppendText(combinedDelta);
             }
         }
     }
@@ -764,6 +888,11 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             if (_pendingRetry?.Card.ProviderId == card.ProviderId)
             {
                 return; // 同卡正在等待，忽略
+            }
+
+            if (_pendingRetry != null && _pendingRetry.Card.ProviderId != card.ProviderId)
+            {
+                _pendingRetry.Card.SetCanceled();
             }
 
             var newReqId = Guid.NewGuid();
@@ -836,6 +965,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
     private async Task RunRetryTranslationAsync(TranslateWindowOperation operation, ProviderResultCardViewModel card, TranslationRequest request)
     {
+        operation.IncrementWork();
         var token = operation.CancellationToken;
         IAsyncEnumerator<TranslationEvent>? enumerator = null;
 
@@ -846,6 +976,10 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
             while (await enumerator.MoveNextAsync().ConfigureAwait(false))
             {
+                if (token.IsCancellationRequested || _activeOperation == null || _activeOperation.Id != operation.Id)
+                {
+                    break;
+                }
                 var evt = enumerator.Current;
                 await HandleTranslationEventAsync(operation, evt, isRetry: true).ConfigureAwait(false);
             }
@@ -874,11 +1008,12 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         }
         catch (Exception ex)
         {
+            LogRetryUnexpectedError(_logger, ex, ex.GetType().Name);
             await _uiDispatcher.InvokeAsync(() =>
             {
                 if (card.RequestId == request.RequestId)
                 {
-                    card.SetFailed(ex.Message, false, TimeSpan.Zero);
+                    card.SetFailed(UiText.ErrorUnknown, false, TimeSpan.Zero);
                 }
                 return Task.CompletedTask;
             }, CancellationToken.None).ConfigureAwait(false);
@@ -896,12 +1031,18 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 card.RefreshCanRetry();
                 return Task.CompletedTask;
             }, CancellationToken.None).ConfigureAwait(false);
+
+            operation.DecrementWork();
         }
     }
 
     private bool CanRetryCard(TranslateWindowOperation operation)
     {
-        return !IsTranslating && _activeOperation != null && _activeOperation.Id == operation.Id && !operation.IsRetired && !operation.CancellationToken.IsCancellationRequested;
+        return _activeOperation != null
+            && _activeOperation.Id == operation.Id
+            && !operation.IsRetired
+            && !operation.CancellationToken.IsCancellationRequested
+            && !_disposed;
     }
 
     private void OnCardCopy(ProviderResultCardViewModel card)
@@ -914,35 +1055,100 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
     private void OnCardGoToSettings(ProviderResultCardViewModel card)
     {
-        _settingsPresenter.ShowAsync("translation");
+        _ = _settingsPresenter.ShowAsync("translation");
     }
+
+    private sealed record QueuedCopyItem(string Text, CancellationTokenSource Cts);
 
     private void TrackCopy(string text, CancellationToken token)
     {
-        var task = Task.Run(async () =>
+        CancellationTokenSource cts;
+        if (token.CanBeCanceled)
         {
+            cts = CancellationTokenSource.CreateLinkedTokenSource(token);
+        }
+        else
+        {
+            cts = new CancellationTokenSource();
+        }
+
+        lock (_copyGate)
+        {
+            if (_pendingCopy != null)
+            {
+                try { _pendingCopy.Cts.Cancel(); } catch { }
+                try { _pendingCopy.Cts.Dispose(); } catch { }
+            }
+
+            _pendingCopy = new QueuedCopyItem(text, cts);
+
+            if (_inFlightCopyTask == null || _inFlightCopyTask.IsCompleted)
+            {
+                _inFlightCopyTask = Task.Run(ProcessCopyQueueAsync, CancellationToken.None);
+            }
+        }
+    }
+
+    private async Task ProcessCopyQueueAsync()
+    {
+        while (true)
+        {
+            QueuedCopyItem? current;
+            lock (_copyGate)
+            {
+                current = _pendingCopy;
+                _pendingCopy = null;
+                if (current == null)
+                {
+                    return;
+                }
+                _inFlightCopyCts = current.Cts;
+            }
+
             try
             {
-                await _clipboardService.SetTextAsync(text, token).ConfigureAwait(false);
+                if (!current.Cts.IsCancellationRequested)
+                {
+                    await _clipboardService.SetTextAsync(current.Text, current.Cts.Token).ConfigureAwait(false);
+                }
+            }
+            catch (OperationCanceledException)
+            {
             }
             catch (Exception ex)
             {
                 LogClipboardError(_logger, ex.GetType().Name);
             }
-        }, token);
-
-        lock (_gate)
-        {
-            _copyTasks.Add(task);
-        }
-
-        task.ContinueWith(t =>
-        {
-            lock (_gate)
+            finally
             {
-                _copyTasks.Remove(t);
+                try { current.Cts.Dispose(); } catch { }
+                lock (_copyGate)
+                {
+                    if (ReferenceEquals(_inFlightCopyCts, current.Cts))
+                    {
+                        _inFlightCopyCts = null;
+                    }
+                }
             }
-        }, TaskScheduler.Default);
+        }
+    }
+
+    private void CancelPendingAndActiveCopies()
+    {
+        lock (_copyGate)
+        {
+            if (_pendingCopy != null)
+            {
+                try { _pendingCopy.Cts.Cancel(); } catch { }
+                try { _pendingCopy.Cts.Dispose(); } catch { }
+                _pendingCopy = null;
+            }
+
+            if (_inFlightCopyCts != null)
+            {
+                try { _inFlightCopyCts.Cancel(); } catch { }
+            }
+        }
     }
 
     private ProviderResultCardViewModel? FindCard(Guid opId, string providerId, Guid reqId)
@@ -952,12 +1158,17 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
     private void OnSettingsChanged(object? sender, SettingsChangedEventArgs e)
     {
-        OnPropertyChanged(nameof(Topmost));
-        OnPropertyChanged(nameof(WindowWidth));
-        OnPropertyChanged(nameof(FontSize));
-        OnPropertyChanged(nameof(EnterToTranslate));
-        OnPropertyChanged(nameof(HideOnDeactivate));
-        OnPropertyChanged(nameof(MaxInputChars));
+        _ = _uiDispatcher.InvokeAsync(() =>
+        {
+            if (_disposed) return Task.CompletedTask;
+            OnPropertyChanged(nameof(Topmost));
+            OnPropertyChanged(nameof(WindowWidth));
+            OnPropertyChanged(nameof(FontSize));
+            OnPropertyChanged(nameof(EnterToTranslate));
+            OnPropertyChanged(nameof(HideOnDeactivate));
+            OnPropertyChanged(nameof(MaxInputChars));
+            return Task.CompletedTask;
+        }, CancellationToken.None);
     }
 
     private TranslateWindowPresenter? _presenterRef;
@@ -971,7 +1182,8 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             Task? retryQueueTask;
             Task? main;
             Task? retry;
-            Task[] copies;
+            Task? flush;
+            Task? copy;
 
             lock (_gate)
             {
@@ -979,7 +1191,12 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 retryQueueTask = _processRetryQueueTask;
                 main = _activeMainTask;
                 retry = _activeRetryTask;
-                copies = _copyTasks.ToArray();
+                flush = _flushTask;
+            }
+
+            lock (_copyGate)
+            {
+                copy = _inFlightCopyTask;
             }
 
             if (queueTask != null)
@@ -1002,34 +1219,52 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 try { await retry.ConfigureAwait(false); } catch { }
             }
 
-            if (copies.Length > 0)
+            if (flush != null)
             {
-                try { await Task.WhenAll(copies).ConfigureAwait(false); } catch { }
+                try { await flush.ConfigureAwait(false); } catch { }
             }
 
+            if (copy != null)
+            {
+                try { await copy.ConfigureAwait(false); } catch { }
+            }
+
+            bool allCompleted;
             lock (_gate)
             {
-                if ((_processMainQueueTask == null || _processMainQueueTask.IsCompleted) &&
-                    (_processRetryQueueTask == null || _processRetryQueueTask.IsCompleted) &&
-                    (_activeMainTask == null || _activeMainTask.IsCompleted) &&
-                    (_activeRetryTask == null || _activeRetryTask.IsCompleted) &&
-                    _copyTasks.All(c => c.IsCompleted))
-                {
-                    break;
-                }
+                allCompleted = (_processMainQueueTask == null || _processMainQueueTask.IsCompleted) &&
+                               (_processRetryQueueTask == null || _processRetryQueueTask.IsCompleted) &&
+                               (_activeMainTask == null || _activeMainTask.IsCompleted) &&
+                               (_activeRetryTask == null || _activeRetryTask.IsCompleted) &&
+                               (_flushTask == null || _flushTask.IsCompleted);
+            }
+
+            lock (_copyGate)
+            {
+                allCompleted &= (_inFlightCopyTask == null || _inFlightCopyTask.IsCompleted) && _pendingCopy == null;
+            }
+
+            if (allCompleted)
+            {
+                break;
             }
         }
     }
 
     public void Dispose()
     {
+        TranslateWindowOperation? opToCancel;
         lock (_gate)
         {
             if (_disposed) return;
             _disposed = true;
-            _isStopped = true;
-            _activeOperation?.Cancel();
+            opToCancel = _activeOperation;
+            _activeOperation = null;
         }
+
+        opToCancel?.Cancel();
+        opToCancel?.DetachSession();
+        CancelPendingAndActiveCopies();
 
         _settingsService.Changed -= OnSettingsChanged;
         _deltaBuffer.Dispose();
@@ -1055,4 +1290,10 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
     [LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = "剪贴板复制失败：{ErrorType}")]
     private static partial void LogClipboardError(ILogger logger, string errorType);
+
+    [LoggerMessage(EventId = 2, Level = LogLevel.Error, Message = "翻译过程发生未预期异常：{ExceptionType}")]
+    private static partial void LogTranslationUnexpectedError(ILogger logger, Exception ex, string exceptionType);
+
+    [LoggerMessage(EventId = 3, Level = LogLevel.Error, Message = "重试翻译过程发生未预期异常：{ExceptionType}")]
+    private static partial void LogRetryUnexpectedError(ILogger logger, Exception ex, string exceptionType);
 }

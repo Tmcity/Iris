@@ -101,8 +101,9 @@ public sealed class TranslateWindowPresenterTests
                 orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
                     .Returns(blockingEnumerable);
 
-                using var op = presenter.TryBeginOperation(TestContext.Current.CancellationToken);
+                var op = presenter.TryBeginOperation(TestContext.Current.CancellationToken);
                 await presenter.TryShowAsync(op!, new TranslateWindowRequest { Text = "Long Running Work", AutoTranslate = true });
+                op!.Dispose();
 
                 // 启动关闭流程
                 var shutdownTask = presenter.ShutdownAsync(TestContext.Current.CancellationToken);
@@ -137,8 +138,9 @@ public sealed class TranslateWindowPresenterTests
                 orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
                     .Returns(new BlockingAsyncEnumerable(gate));
 
-                using var op = presenter.TryBeginOperation(TestContext.Current.CancellationToken);
+                var op = presenter.TryBeginOperation(TestContext.Current.CancellationToken);
                 await presenter.TryShowAsync(op!, new TranslateWindowRequest { Text = "Work", AutoTranslate = true });
+                op!.Dispose();
 
                 var shutdownTask1 = presenter.ShutdownAsync(TestContext.Current.CancellationToken);
                 var shutdownTask2 = presenter.ShutdownAsync(TestContext.Current.CancellationToken);

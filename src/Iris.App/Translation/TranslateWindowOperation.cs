@@ -1,12 +1,13 @@
 using System;
 using System.Threading;
+using System.Threading.Tasks;
 using Iris.Core.Presentation;
 
 namespace Iris.App.Translation;
 
 /// <summary>
 /// 翻译窗口操作租约。
-/// 租约具有独立 Id 与取消令牌，维护调用方持有、TryShow 移交与后台工作所有权。
+/// 租约具有独立 Id 与取消令牌，维护调用方持有、TryShow 移交、窗口活跃会话与后台工作所有权。
 /// 完整所有权与回收规则见 TRANSLATION_WINDOW.md §2 与 CCR-013。
 /// </summary>
 internal sealed class TranslateWindowOperation : ITranslateWindowOperation
@@ -15,10 +16,13 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
     private readonly CancellationTokenSource _cts = new();
     private readonly Lock _gate = new();
     private readonly CancellationTokenRegistration _callerReg;
+
     private bool _hasCallerOwnership = true;
     private bool _hasTryShowOwnership;
-    private bool _hasWorkOwnership;
+    private bool _hasSessionOwnership;
+    private int _activeWorkCount;
     private int _activeCancelCallbacks;
+    private int _autoTranslateClaimed;
     private bool _isRetired;
 
     public TranslateWindowOperation(TranslateWindowPresenter presenter, CancellationToken callerToken)
@@ -66,7 +70,18 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
         {
             lock (_gate)
             {
-                return _hasWorkOwnership;
+                return _hasSessionOwnership || _activeWorkCount > 0;
+            }
+        }
+    }
+
+    internal int ActiveWorkCount
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _activeWorkCount;
             }
         }
     }
@@ -80,6 +95,11 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
                 return _isRetired;
             }
         }
+    }
+
+    internal bool TryClaimAutoTranslate()
+    {
+        return Interlocked.CompareExchange(ref _autoTranslateClaimed, 1, 0) == 0;
     }
 
     internal bool BeginTryShow()
@@ -101,7 +121,7 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
         }
     }
 
-    internal void EndTryShow(bool transferredWorkOwnership)
+    internal void EndTryShow(bool transferredWorkOwnership = false)
     {
         bool shouldRetire = false;
         lock (_gate)
@@ -109,8 +129,36 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
             _hasTryShowOwnership = false;
             if (transferredWorkOwnership)
             {
-                _hasWorkOwnership = true;
+                _hasSessionOwnership = true;
             }
+            shouldRetire = CheckCanRetireLocked();
+        }
+
+        if (shouldRetire)
+        {
+            Retire();
+        }
+    }
+
+    internal void AttachSession()
+    {
+        lock (_gate)
+        {
+            _hasSessionOwnership = true;
+        }
+    }
+
+    internal void DetachSession()
+    {
+        bool shouldRetire = false;
+        lock (_gate)
+        {
+            if (!_hasSessionOwnership)
+            {
+                return;
+            }
+
+            _hasSessionOwnership = false;
             shouldRetire = CheckCanRetireLocked();
         }
 
@@ -125,7 +173,31 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
         bool shouldRetire = false;
         lock (_gate)
         {
-            _hasWorkOwnership = false;
+            _hasSessionOwnership = false;
+            _activeWorkCount = 0;
+            shouldRetire = CheckCanRetireLocked();
+        }
+
+        if (shouldRetire)
+        {
+            Retire();
+        }
+    }
+
+    internal void IncrementWork()
+    {
+        lock (_gate)
+        {
+            _activeWorkCount++;
+        }
+    }
+
+    internal void DecrementWork()
+    {
+        bool shouldRetire = false;
+        lock (_gate)
+        {
+            _activeWorkCount--;
             shouldRetire = CheckCanRetireLocked();
         }
 
@@ -164,6 +236,9 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
         catch (ObjectDisposedException)
         {
         }
+        catch
+        {
+        }
     }
 
     private void OnCallerTokenCanceled()
@@ -175,11 +250,7 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
 
         try
         {
-            // 取消回调不在锁内执行，防止与 Presenter/UI 死锁
-            _cts.Cancel();
-        }
-        catch (ObjectDisposedException)
-        {
+            Cancel();
         }
         finally
         {
@@ -204,7 +275,11 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
             return false;
         }
 
-        return !_hasCallerOwnership && !_hasTryShowOwnership && !_hasWorkOwnership && _activeCancelCallbacks == 0;
+        return !_hasCallerOwnership
+            && !_hasTryShowOwnership
+            && !_hasSessionOwnership
+            && _activeWorkCount <= 0
+            && _activeCancelCallbacks <= 0;
     }
 
     private void Retire()
