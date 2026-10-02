@@ -123,6 +123,8 @@ Changed 回调只入队更新，不在设置写锁内执行耗时的 Provider �
 
 ### A07 · P1 · 整个用户操作缺少统一身份与结果归属
 
+**2026-10-02 更新**：T-019 已结案，TRANSLATION_WINDOW.md / ARCH v1.25 / CCR-013 正式批准操作租约、受界限约束的主/重试/刷新、跨重试正文预算及取消/复制/退出所有权，当前交由 T-015 实施。设计已定稿不代表 A07 行为已验收；实际窗口实现及未来各入口消费者仍需按工单验证。
+
 **依据**：ARCH §6.4、§6.5、§7.2；TranslationRequest 有 RequestId，但 TranslateWindowRequest/OcrResultViewRequest 没有操作标识，也没有取消参数。
 
 **契约反例**：截图后 OCR 尚未返回，用户开始输入翻译；旧 OCR 完成后再次 ShowAsync，覆盖新文本并启动过期翻译。关闭窗口后迟到结果也可能重新打开它。取消 ViewModel 的上一条翻译 CTS 并不能取消此前在 Handler 中运行的 OCR。

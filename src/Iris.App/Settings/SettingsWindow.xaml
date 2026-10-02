@@ -227,17 +227,20 @@
 
                         <!-- 操作按钮：上移、下移、删除 -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <ui:Button Content="{x:Static app:UiText.SettingsMoveUp}"
+                            <ui:Button x:Name="MoveUpProfileButton"
+                                       Content="{x:Static app:UiText.SettingsMoveUp}"
                                        Command="{Binding MoveUpCommand}"
                                        MinWidth="0"
                                        Padding="3,2"
                                        Margin="0,0,2,0" />
-                            <ui:Button Content="{x:Static app:UiText.SettingsMoveDown}"
+                            <ui:Button x:Name="MoveDownProfileButton"
+                                       Content="{x:Static app:UiText.SettingsMoveDown}"
                                        Command="{Binding MoveDownCommand}"
                                        MinWidth="0"
                                        Padding="3,2"
                                        Margin="0,0,2,0" />
-                            <ui:Button Content="{x:Static app:UiText.SettingsDeleteProfile}"
+                            <ui:Button x:Name="DeleteProfileButton"
+                                       Content="{x:Static app:UiText.SettingsDeleteProfile}"
                                        Command="{Binding DeleteProfileCommand}"
                                        MinWidth="0"
                                        Padding="4,2" />
@@ -484,7 +487,7 @@
                         </ui:Card>
 
                         <!-- 高级选项卡片 -->
-                        <Expander Header="{x:Static app:UiText.SettingsProfileAdvanced}" Margin="0,0,0,16">
+                        <Expander x:Name="AdvancedOptionsExpander" Header="{x:Static app:UiText.SettingsProfileAdvanced}" Margin="0,0,0,16">
                             <StackPanel Margin="0,8,0,0">
                                 <!-- OpenAI 兼容高级项 -->
                                 <StackPanel>
@@ -532,7 +535,11 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{x:Static app:UiText.SettingsChatCompletionsPath}" Width="120" VerticalAlignment="Center" />
+                                        <TextBlock Text="{x:Static app:UiText.SettingsChatCompletionsPath}"
+                                                   Width="120"
+                                                   VerticalAlignment="Center"
+                                                   TextWrapping="Wrap"
+                                                   ToolTip="{x:Static app:UiText.SettingsChatCompletionsPath}" />
                                         <TextBox Grid.Column="1" Text="{Binding ChatCompletionsPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </Grid>
 
@@ -615,7 +622,8 @@
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0"
+                    <TextBlock x:Name="StatusMessageTextBlock"
+                               Grid.Column="0"
                                Text="{Binding StatusMessage}"
                                VerticalAlignment="Center"
                                TextTrimming="CharacterEllipsis"

@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.24 · 2026-10-01 · 状态：**已冻结（首期）**
+> 版本：v1.25 · 2026-10-02 · 状态：**已冻结（首期）**
+> 变更记录：v1.25（T-019B-R6 通过，签发 T-015）— TRANSLATION_WINDOW.md 定稿 A07 的操作租约、迟到结果拒绝、有界主/重试/刷新、复制与完整退出；CCR-013 同步展示端口；§14 输入键行为以契约为准。
 > 变更记录：v1.1（T-001 评审）— §3 测试运行器改为 Microsoft.Testing.Platform；§4.2 明确 `Microsoft.Extensions.*.Abstractions` 各层均可引用，并由架构测试维护包白名单；新增 `Iris.Core.Diagnostics.LogText`（§5.1、§12.5）。
 > 变更记录：v1.2（T-002 评审）— §12.2 新增设置加载管道：挽救规则、规范化不变量 N1-N11、写入细节；同步更新 ISettingsService 契约注释。
 > 变更记录：v1.3（T-003 评审）— §12.2 解析后完整展开以捕获重复属性名；迁移链不完整时跳过迁移而非抛出；LoadAsync 异常范围；N2 明确 null 条目处理；新增 N12 枚举、N13 空值、N14 引用规范化；加载阶段文件操作统一重试。
@@ -271,15 +272,15 @@ Core 程序集禁止引用：`PresentationFramework`、`PresentationCore`、`Win
 ### 6.2 输入翻译（`InputTranslateHandler`）
 
 1. 若翻译窗口 `IsVisible && IsActive` → `HideAsync()`（热键二次按下即关闭），结束。
-2. 否则 `ShowAsync(new TranslateWindowRequest { Text = ctx.Payload, Origin = Input, FocusInput = true, AutoTranslate = ctx.Payload != null })`。
+2. 否则用 `TryBeginOperation(cancellationToken)` 接纳意图（使用 Handler.ExecuteAsync 参数），取得租约后 `TryShowAsync(operation, new TranslateWindowRequest { Text = ctx.Payload, Origin = Input, FocusInput = true, AutoTranslate = ctx.Payload != null })`，finally Dispose。没有租约不启动工作；详见 TRANSLATION_WINDOW.md / CCR-013。
 3. 用户在窗口中按 Enter → `TranslateWindowViewModel.TranslateCommand` → Orchestrator（§7）。
 
 ### 6.3 划词翻译（`SelectionTranslateHandler`）
 
-1. `app = IDesktopContext.GetForegroundApp()`；若是 Iris 自身进程 → 按输入翻译处理。
+1. 先取得翻译 operation 租约，再 `app = IDesktopContext.GetForegroundApp()`；若是 Iris 自身进程 → 按输入翻译处理，归还本次不再使用的租约。
 2. `result = await ISelectionTextReader.ReadAsync(options from Settings.Selection)`。
 3. `result == null` → `OpenInputWhenEmpty ? 打开空输入窗口 : Notify(Warning, "未检测到选中文本")`。
-4. 否则 `ShowAsync(Text = result.Text, Origin = Selection, Anchor = ctx.Anchor ?? 光标, AutoTranslate = true)`。
+4. 否则用同一租约 `TryShowAsync(operation, Text = result.Text, Origin = Selection, Anchor = ctx.Anchor ?? 光标, AutoTranslate = true)`；读取使用租约取消令牌，finally Dispose。迟到结果返回 false，不重新显示窗口。
 
 **鼠标划词（可选）**：`SelectionIconController`（App）在 `MouseMode != Off` 时启动 `IMouseSelectionMonitor`。收到 `SelectionGestureDetected` 后：
 - 若进程在 `ExcludedProcesses` 中，或前台是 Iris 自身 → 忽略；
@@ -289,11 +290,12 @@ Core 程序集禁止引用：`PresentationFramework`、`PresentationCore`、`Win
 ### 6.4 截图翻译（`ScreenshotTranslateHandler`）
 
 ```
-shot = await IScreenshotService.CaptureRegionAsync(Translate)        // null = 用户取消 → return
-await presenter.ShowAsync({ Text=null, Origin=Screenshot, Anchor=选区右下角, StatusMessage="正在识别文字…", AutoTranslate=false })
-try   outcome = await IOcrService.RecognizeAsync(shot.Image)
-catch IrisException e → await presenter.ShowAsync({ Error = e.ToErrorInfo() }); return
-await presenter.ShowAsync({ Text=outcome.Text, Origin=Screenshot, AutoTranslate=true })
+using operation = presenter.TryBeginOperation(调用方取消令牌)            // null = 不启动工作
+shot = await IScreenshotService.CaptureRegionAsync(Translate, operation.CancellationToken) // null = 用户取消 → return
+if !await presenter.TryShowAsync(operation, { Text=null, Origin=Screenshot, Anchor=选区右下角, StatusMessage="正在识别文字…", AutoTranslate=false }) → return
+try   outcome = await IOcrService.RecognizeAsync(shot.Image, operation.CancellationToken)
+catch IrisException e → await presenter.TryShowAsync(operation, { Error = e.ToErrorInfo() }); return
+if !await presenter.TryShowAsync(operation, { Text=outcome.Text, Origin=Screenshot, AutoTranslate=true }) → return
 if outcome.UsedFallback → Notify(Info, "已使用备用 OCR", ...)（每次会话仅提示一次）
 ```
 
@@ -304,7 +306,7 @@ if outcome.UsedFallback → Notify(Info, "已使用备用 OCR", ...)（每次会
 
 ### 6.6 截图服务（`ScreenshotService`，App）
 
-1. `HideIrisWindows` 时隐藏翻译窗与悬浮球，等待 1 帧（~16 ms），让 DWM 完成重绘。
+1. `HideIrisWindows` 时以 App 内部 CaptureSuppression 暂时隐藏翻译窗与悬浮球，不能调用会取消操作的普通 HideAsync；恢复校验意图及可见性代次。等待 1 帧（~16 ms），让 DWM 完成重绘。
 2. `frame = await IScreenCapturer.CaptureVirtualScreenAsync()`（GDI BitBlt 整个虚拟桌面，物理像素）。
 3. 为 `frame.Monitors` 中的每个显示器创建一个 `ScreenshotOverlayWindow`：无边框、置顶、`ShowInTaskbar=false`，窗口大小与位置 = 该显示器的物理 Bounds（按该显示器 DPI 换算为 DIP）；背景为 frame 中对应区域的 `BitmapSource`，上面叠加半透明遮罩（`MaskOpacity`）。
 4. 用户在任一覆盖窗口内拖拽框选（选区不跨屏）：实时显示选区尺寸（物理像素）；`ShowMagnifier` 时在光标旁显示 8× 放大镜与像素坐标。
@@ -365,12 +367,11 @@ TranslateAsync(request, ct)
 
 ### 7.2 ViewModel 消费规范（`TranslateWindowViewModel`）
 
-- 每次翻译前取消上一次的 CTS（新请求立即取代旧请求）。
-- `TranslationStarted` → 按 Providers 创建 `ProviderResultCardViewModel`（状态：等待中）。
-- `ProviderDelta` → 追加到对应卡片的 StringBuilder；**以约 30 fps 节流刷新 UI**（`DispatcherTimer`，或累积 ≥ 33 ms 再赋值），避免高频 PropertyChanged。
-- `ProviderCompleted` → 用 `Text` 覆盖内容（权威值），显示耗时；`Truncated` 时显示“结果可能不完整”；`AutoCopy == FirstResult` 时第一个完成的结果写入剪贴板。
-- `ProviderFailed` → 卡片显示 `Error.Message` + 重试按钮；`NotConfigured` / `AuthenticationFailed` 附带“去设置”链接（`ISettingsWindowPresenter.ShowAsync("translation")`）。
-- 单卡片重试：`TranslationRequest { ProviderIds = [id], BypassCache = true, RecordHistory = false }`。
+- 完整行为以 TRANSLATION_WINDOW.md 为准。新意图立即撤销旧资格，实际调用槽位直到 EOF/DisposeAsync/App 收尾结束才释放；最多一个主调用、一个重试及各一个最新等待项。
+- 主 `TranslationStarted` 按 Providers 创建卡片；重试只更新目标卡，所有事件/排队刷新在 UI 执行时检查 (OperationId, ProviderId, RequestId)。
+- `ProviderDelta` 使用有界缓冲与全窗口唯一约 33ms 刷新；`ProviderCompleted` 清除旧缓冲并应用权威正文。跨重试共同遵守正文预算，本地显示截断与模型 Truncated 分开。
+- `AutoCopy == FirstResult` 只接纳初始主请求的首个完整且未截断有效结果，重试不参与；复制任务由退出屏障持有。
+- 失败展示安全错误及重试；`NotConfigured` / `AuthenticationFailed` 链接 `ISettingsWindowPresenter.ShowAsync("translation")`。单卡重试继续使用 `ProviderIds=[id], BypassCache=true, RecordHistory=false`。
 
 ### 7.3 语言
 
@@ -1023,7 +1024,7 @@ IClipboardService 的线程、格式、取消和所有权规则以 CLIPBOARD_SER
 ## 13. 依赖注入约定
 
 - 每层暴露一个扩展方法：`AddIrisCore()`、`AddIrisProviders()`、`AddIrisInfrastructure()`、`AddIrisPlatformWindows()`、`AddIrisApp()`，由 `AppHostBuilder` 按此顺序调用。
-- 生命周期：服务、Registry、Presenter、Controller 均为 **Singleton**；`IActionHandler` 为 Singleton，通过 `IEnumerable<IActionHandler>` 注入 Dispatcher；Provider 实例由 Registry 管理（不注册到容器）；`TranslateWindow` 为 Singleton（关闭 = 隐藏）；`SettingsWindow`、`HistoryWindow`、`OcrResultWindow` 同一时间只有一个实例（由 Presenter 管理，关闭即释放）。
+- 生命周期：服务、Registry、Presenter、Controller 均为 **Singleton**；`IActionHandler` 为 Singleton，通过 `IEnumerable<IActionHandler>` 注入 Dispatcher；Provider 实例由 Registry 管理（不注册到容器）；`TranslateWindow` 由单例 Presenter 按需持有一个实例（普通关闭 = 隐藏，应用退出等待工作后释放；不得启动时创建）；`SettingsWindow`、`HistoryWindow`、`OcrResultWindow` 同一时间只有一个实例（由 Presenter 管理，关闭即释放）。
 - Provider 可以有多代同时存活，退休后由最后一个快照使用者触发清理。IProviderConfigurationObserver 的翻译适配器必须转发到唯一的 ITranslationProviderRegistry，不创建第二份注册表；详细并发/Dispose 约定见 PROVIDER_REGISTRY.md。
 - ViewModel 通过构造函数注入，View 在构造函数中接收 ViewModel 并设为 `DataContext`。
 
@@ -1033,7 +1034,7 @@ IClipboardService 的线程、格式、取消和所有权规则以 CLIPBOARD_SER
 
 | 窗口 | 要点 |
 |---|---|
-| `TranslateWindow` | 无边框 Fluent 窗口，可拖动。顶部栏：钉住 / 设置 / 关闭。原文输入框（多行，最大高度 200 DIP 后出现滚动条；Enter 翻译，Shift+Enter 换行，或按 `EnterToTranslate` 设置反过来）。语言栏：源语言（含“自动检测”，检测结果以灰字显示）⇄ 目标语言（含“自动”）。结果区：`ProviderResultCard` 列表（服务名 · 模型 · 耗时；可选中的只读文本；复制 / 重试；错误状态）。Esc 隐藏。 |
+| `TranslateWindow` | 无边框 Fluent 窗口，可拖动。顶部栏：钉住 / 设置 / 关闭。原文输入框（多行，最大高度 200 DIP 后滚动；EnterToTranslate=true 时 Enter 翻译、Shift+Enter 换行，false 时 Ctrl+Enter 翻译、Enter 换行；IME 确认不提交）。语言栏：源语言（含“自动检测”，检测结果以灰字显示）⇄ 目标语言（含“自动”）。翻译/停止按钮、结果卡片列表（服务名 · 模型 · 耗时；可选只读文本；复制 / 重试；错误/截断状态）。Esc 隐藏。完整生命周期与预算见 TRANSLATION_WINDOW.md。 |
 | `ScreenshotOverlayWindow` | 每个显示器一个；冻结背景 + 遮罩 + 选区；尺寸标签；放大镜；Esc / 右键取消。 |
 | `OcrResultWindow` | 左侧图片预览（可缩放），右侧可编辑文本；按钮：复制、翻译（→ TranslateText）、换一个服务重新识别（下拉选择 OCR Provider）。 |
 | `FloatingBallWindow` | 见 §6.7。 |

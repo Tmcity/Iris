@@ -152,6 +152,10 @@ public static class WpfTestRunner
                     {
                         sw.ForceClose = true;
                     }
+                    if (window is Iris.App.Translation.TranslateWindow tw)
+                    {
+                        tw.ForceClose = true;
+                    }
                     window.Close();
                 }
                 catch

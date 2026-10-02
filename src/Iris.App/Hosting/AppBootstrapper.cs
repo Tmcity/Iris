@@ -34,6 +34,7 @@ internal sealed partial class AppBootstrapper
     private readonly ILogger<AppBootstrapper> _logger;
     private readonly AppStartupInfo _startupInfo;
     private readonly Iris.App.Settings.ISettingsShutdownCoordinator? _settingsShutdownCoordinator;
+    private readonly Iris.App.Translation.ITranslateWindowShutdownCoordinator? _translateShutdownCoordinator;
 
     private readonly Lock _stopGate = new();
     private Task? _stopTask;
@@ -52,7 +53,8 @@ internal sealed partial class AppBootstrapper
         IHost host,
         ILogger<AppBootstrapper> logger,
         AppStartupInfo startupInfo,
-        Iris.App.Settings.ISettingsShutdownCoordinator? settingsShutdownCoordinator = null)
+        Iris.App.Settings.ISettingsShutdownCoordinator? settingsShutdownCoordinator = null,
+        Iris.App.Translation.ITranslateWindowShutdownCoordinator? translateShutdownCoordinator = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -65,6 +67,7 @@ internal sealed partial class AppBootstrapper
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _startupInfo = startupInfo ?? throw new ArgumentNullException(nameof(startupInfo));
         _settingsShutdownCoordinator = settingsShutdownCoordinator;
+        _translateShutdownCoordinator = translateShutdownCoordinator;
     }
 
     internal static Action<string, string> FatalErrorShower { get; set; } = FatalErrorDialog.Show;
@@ -217,6 +220,19 @@ internal sealed partial class AppBootstrapper
             }
         }
 
+        if (_translateShutdownCoordinator != null)
+        {
+            try
+            {
+                await _translateShutdownCoordinator.ShutdownAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                LogTranslateShutdownFailed(_logger, ex.GetType().Name);
+                throw;
+            }
+        }
+
         StopSynchronousParts();
 
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
@@ -251,4 +267,7 @@ internal sealed partial class AppBootstrapper
 
     [LoggerMessage(EventId = 5, Level = LogLevel.Warning, Message = "设置窗口关闭或持久化任务收尾遇到异常：{ExceptionType}")]
     private static partial void LogSettingsShutdownFailed(ILogger logger, string exceptionType);
+
+    [LoggerMessage(EventId = 6, Level = LogLevel.Warning, Message = "翻译窗口关闭或活跃任务收尾遇到异常：{ExceptionType}")]
+    private static partial void LogTranslateShutdownFailed(ILogger logger, string exceptionType);
 }

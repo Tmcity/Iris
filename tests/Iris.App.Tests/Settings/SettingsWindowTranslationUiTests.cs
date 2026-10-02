@@ -258,14 +258,17 @@ public sealed class SettingsWindowTranslationUiTests
     {
         await WpfTestRunner.RunAsync(() =>
         {
+            var appTheme = theme == Wpf.Ui.Appearance.ApplicationTheme.Dark ? AppTheme.Dark : AppTheme.Light;
             var themeDict = System.Windows.Application.Current.Resources.MergedDictionaries.OfType<Wpf.Ui.Markup.ThemesDictionary>().FirstOrDefault();
             if (themeDict != null)
             {
                 themeDict.Theme = theme;
             }
+            Wpf.Ui.Appearance.ApplicationThemeManager.Apply(theme);
 
             var initialSettings = new AppSettings
             {
+                General = new GeneralSettings { Theme = appTheme },
                 Translation = new TranslationSettings
                 {
                     Providers =
@@ -286,6 +289,9 @@ public sealed class SettingsWindowTranslationUiTests
 
             using var provider = CreateServiceProvider(initialSettings);
             using var scope = provider.CreateScope();
+            var themeService = scope.ServiceProvider.GetRequiredService<ThemeService>();
+            themeService.Apply(appTheme);
+
             var vm = scope.ServiceProvider.GetRequiredService<SettingsViewModel>();
             var window = scope.ServiceProvider.GetRequiredService<SettingsWindow>();
 
@@ -302,6 +308,22 @@ public sealed class SettingsWindowTranslationUiTests
                 vm.CurrentPageKey = "translation";
                 vm.SelectedProfile = vm.Profiles[0];
                 window.UpdateLayout();
+
+                // 验证实际主题资源与前景色/背景色对比度
+                var textBrush = (window.TryFindResource("TextFillColorPrimaryBrush") as SolidColorBrush)
+                    ?? (System.Windows.Application.Current.TryFindResource("TextFillColorPrimaryBrush") as SolidColorBrush);
+                textBrush.ShouldNotBeNull();
+                var bgBrush = (window.TryFindResource("ApplicationBackgroundBrush") as SolidColorBrush)
+                    ?? (System.Windows.Application.Current.TryFindResource("ApplicationBackgroundBrush") as SolidColorBrush);
+                bgBrush.ShouldNotBeNull();
+                if (theme == Wpf.Ui.Appearance.ApplicationTheme.Dark)
+                {
+                    textBrush.Color.R.ShouldBeGreaterThan(bgBrush.Color.R, "暗色主题下前景色亮度高于背景色");
+                }
+                else
+                {
+                    bgBrush.Color.R.ShouldBeGreaterThan(textBrush.Color.R, "亮色主题下背景色亮度高于前景色");
+                }
 
                 // 1. 验证响应式网格布局根据阈值正确切换
                 var profilesCol = (ColumnDefinition)window.FindName("ProfilesColDef");
@@ -328,11 +350,25 @@ public sealed class SettingsWindowTranslationUiTests
                     detailsRow.Height.Value.ShouldBe(0, "宽窗口下详情行高度折叠为0");
                 }
 
-                // 2. 验证工具栏操作按钮（添加、上移、下移、删除）文字与边界完整且均可见
+                // 2. 验证工具栏全部操作按钮（添加、上移、下移、删除）文字与边界完整且均可见
                 var addBtn = (Wpf.Ui.Controls.Button)window.FindName("AddProfileButton");
+                var moveUpBtn = (Wpf.Ui.Controls.Button)window.FindName("MoveUpProfileButton");
+                var moveDownBtn = (Wpf.Ui.Controls.Button)window.FindName("MoveDownProfileButton");
+                var deleteBtn = (Wpf.Ui.Controls.Button)window.FindName("DeleteProfileButton");
+
                 addBtn.ShouldNotBeNull();
+                moveUpBtn.ShouldNotBeNull();
+                moveDownBtn.ShouldNotBeNull();
+                deleteBtn.ShouldNotBeNull();
+
                 addBtn.ActualWidth.ShouldBeGreaterThan(40);
                 addBtn.Visibility.ShouldBe(System.Windows.Visibility.Visible);
+                moveUpBtn.ActualWidth.ShouldBeGreaterThan(0);
+                moveUpBtn.Visibility.ShouldBe(System.Windows.Visibility.Visible);
+                moveDownBtn.ActualWidth.ShouldBeGreaterThan(0);
+                moveDownBtn.Visibility.ShouldBe(System.Windows.Visibility.Visible);
+                deleteBtn.ActualWidth.ShouldBeGreaterThan(0);
+                deleteBtn.Visibility.ShouldBe(System.Windows.Visibility.Visible);
 
                 // 3. 验证主要详情输入框在两种尺寸下均具有充足可编辑宽度（>= 150px）
                 var nameBox = (TextBox)window.FindName("DisplayNameTextBox");
@@ -360,12 +396,10 @@ public sealed class SettingsWindowTranslationUiTests
                 var testTransform = testDraftBtn.TransformToAncestor(window).Transform(new System.Windows.Point(testDraftBtn.ActualWidth, 0));
                 testTransform.X.ShouldBeLessThanOrEqualTo(window.ActualWidth + 1.0, "测试连接按钮未被窗口右边缘裁切");
 
-                // 5. 验证底部状态栏与保存/取消按钮在极长文案下依然完整展示
-                var statusTb = FindVisualChild<TextBlock>(window, tb => tb.TextTrimming == TextTrimming.CharacterEllipsis);
-                if (statusTb != null)
-                {
-                    statusTb.Text = "这是一个非常冗长的外部状态提示或保存冲突错误回执消息，用于验证 TextTrimming 是否生效以及是否会挤压右侧操作按钮";
-                }
+                // 5. 准确定位底部状态栏并验证长文案下与保存/取消按钮完整展示
+                var statusTb = (TextBlock)window.FindName("StatusMessageTextBlock");
+                statusTb.ShouldNotBeNull();
+                statusTb.Text = "这是一个非常冗长的外部状态提示或保存冲突错误回执消息，用于验证 TextTrimming 是否生效以及是否会挤压右侧操作按钮";
                 window.UpdateLayout();
 
                 var cancelBtn = FindVisualChild<Wpf.Ui.Controls.Button>(window, b => (b.Content as string) == UiText.SettingsCancel);
@@ -379,11 +413,20 @@ public sealed class SettingsWindowTranslationUiTests
                 var saveTransform = saveBtn.TransformToAncestor(window).Transform(new System.Windows.Point(saveBtn.ActualWidth, 0));
                 saveTransform.X.ShouldBeLessThanOrEqualTo(window.ActualWidth + 1.0, "保存按钮未被窗口右边缘挤出或裁切");
 
-                // 6. 验证详情滚动视图滚动到最底部后，高级选项与生成参数均可正常显示
+                // 6. 展开高级项并滚动验证祖先视口与生成参数正常显示
                 var detailsScrollViewer = (ScrollViewer)window.FindName("DetailsPane");
                 detailsScrollViewer.ShouldNotBeNull();
+
+                var advancedExpander = (Expander)window.FindName("AdvancedOptionsExpander");
+                advancedExpander.ShouldNotBeNull();
+                advancedExpander.IsExpanded = true;
+                window.UpdateLayout();
+
                 detailsScrollViewer.ScrollToBottom();
                 window.UpdateLayout();
+
+                detailsScrollViewer.ViewportHeight.ShouldBeGreaterThan(0, "祖先视口应具有有效高度");
+                detailsScrollViewer.ExtentHeight.ShouldBeGreaterThan(detailsScrollViewer.ViewportHeight, "展开高级项后内容总高应超出视口高度");
 
                 var timeoutBox = FindVisualChild<TextBox>(detailsScrollViewer, t => t.Text == vm.SelectedProfile.TimeoutText);
                 timeoutBox.ShouldNotBeNull();

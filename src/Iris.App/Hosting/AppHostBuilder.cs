@@ -79,6 +79,13 @@ internal static class AppHostBuilder
         builder.Services.AddScoped<Iris.App.Settings.SettingsViewModel>();
         builder.Services.AddTransient<Iris.App.Settings.SettingsWindow>();
 
+        // 翻译窗口及展示器服务
+        builder.Services.AddSingleton<Iris.App.Translation.TranslateWindowPresenter>();
+        builder.Services.AddSingleton<ITranslateWindowPresenter>(sp => sp.GetRequiredService<Iris.App.Translation.TranslateWindowPresenter>());
+        builder.Services.AddSingleton<Iris.App.Translation.ITranslateWindowShutdownCoordinator>(sp => sp.GetRequiredService<Iris.App.Translation.TranslateWindowPresenter>());
+        builder.Services.AddScoped<Iris.App.Translation.TranslateWindowViewModel>();
+        builder.Services.AddTransient<Iris.App.Translation.TranslateWindow>();
+
         builder.Services.AddSingleton<AppBootstrapper>();
         builder.Services.AddSingleton<App>();
 

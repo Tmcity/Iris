@@ -97,4 +97,28 @@ internal static class UiText
     public const string SettingsStatusRetryingPendingApply = "正在重试翻译服务应用…";
     public const string SettingsStatusPendingApplyCompleted = "翻译服务应用已完成";
     public const string SettingsStatusPendingApplyFailed = "重试翻译服务应用未完成";
+
+    // 翻译窗口
+    public const string TranslateWindowTitle = "Iris 翻译";
+    public const string TranslatePinWindow = "钉住窗口";
+    public const string TranslateUnpinWindow = "取消钉住";
+    public const string TranslateSettings = "设置";
+    public const string TranslateClose = "关闭";
+    public const string TranslateInputPlaceholder = "输入文本，按 Enter 翻译…";
+    public const string TranslateButton = "翻译";
+    public const string TranslateStopButton = "停止";
+    public const string TranslateSwapLanguages = "交换语言";
+    public const string TranslateCopy = "复制";
+    public const string TranslateCopyVisible = "复制可见内容";
+    public const string TranslateRetry = "重试";
+    public const string TranslateGoToSettings = "去设置";
+    public const string TranslateLocalTruncated = "本地显示已截断";
+    public const string TranslateModelTruncated = "结果不完整 (模型截断)";
+    public const string TranslateFromCache = "缓存";
+    public const string TranslateEmptyPrompt = "请输入要翻译的文本";
+    public const string TranslateStopped = "翻译已停止";
+    public const string TranslateLastResult = "上次结果";
+    public const string TranslateBusy = "系统忙碌，请稍后再试";
+    public const string TranslateNoConfiguredProviders = "未配置任何可用的翻译服务，请前往设置配置。";
+    public const string TranslateInputTooLong = "输入文本超出最大字符限制";
 }

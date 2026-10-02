@@ -1,0 +1,334 @@
+<ui:FluentWindow x:Class="Iris.App.Translation.TranslateWindow"
+                  x:ClassModifier="internal"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                  xmlns:app="clr-namespace:Iris.App"
+                  xmlns:local="clr-namespace:Iris.App.Translation"
+                  Title="{x:Static app:UiText.TranslateWindowTitle}"
+                  Width="{Binding WindowWidth, FallbackValue=460}"
+                  MinWidth="280"
+                  MaxWidth="1200"
+                  Height="480"
+                  MinHeight="300"
+                  Topmost="{Binding Topmost, FallbackValue=True}"
+                  WindowStartupLocation="Manual"
+                  ShowInTaskbar="False"
+                  Closing="OnWindowClosing"
+                  Deactivated="OnWindowDeactivated"
+                  LocationChanged="OnWindowLocationChanged"
+                  SizeChanged="OnWindowSizeChanged">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Window.Resources>
+
+    <Grid Margin="12,8,12,12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- 顶栏：拖拽手柄、钉住、设置、关闭 -->
+        <Grid Grid.Row="0" Margin="0,0,0,8" MouseLeftButtonDown="OnTitleBarMouseDown" Background="Transparent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="{x:Static app:UiText.TranslateWindowTitle}"
+                           FontWeight="SemiBold"
+                           FontSize="12"
+                           Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            </StackPanel>
+
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <!-- 钉住按钮 -->
+                <ui:Button x:Name="PinButton"
+                           Content="📌"
+                           Command="{Binding PinCommand}"
+                           ToolTip="{x:Static app:UiText.TranslatePinWindow}"
+                           Appearance="{Binding IsPinned, Converter={x:Null}}"
+                           Padding="6,2"
+                           Margin="0,0,4,0"
+                           MinWidth="28" />
+
+                <!-- 设置按钮 -->
+                <ui:Button x:Name="SettingsButton"
+                           Content="⚙"
+                           Command="{Binding GoToSettingsCommand}"
+                           ToolTip="{x:Static app:UiText.TranslateSettings}"
+                           Padding="6,2"
+                           Margin="0,0,4,0"
+                           MinWidth="28" />
+
+                <!-- 关闭按钮 -->
+                <ui:Button x:Name="CloseButton"
+                           Content="✕"
+                           Click="OnCloseButtonClick"
+                           ToolTip="{x:Static app:UiText.TranslateClose}"
+                           Padding="6,2"
+                           MinWidth="28" />
+            </StackPanel>
+        </Grid>
+
+        <!-- 语言选择与操作行 -->
+        <Grid Grid.Row="1" Margin="0,0,0,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <!-- 源语言 -->
+            <ComboBox x:Name="SourceLangComboBox"
+                      Grid.Column="0"
+                      ItemsSource="{Binding AvailableSourceLanguages}"
+                      SelectedValue="{Binding SourceLanguage, Mode=TwoWay}"
+                      SelectedValuePath="Code"
+                      DisplayMemberPath="DisplayName"
+                      MinWidth="90"
+                      MaxWidth="130" />
+
+            <!-- 交换按钮 -->
+            <ui:Button x:Name="SwapLanguagesButton"
+                       Grid.Column="1"
+                       Content="⇄"
+                       Command="{Binding SwapLanguagesCommand}"
+                       ToolTip="{x:Static app:UiText.TranslateSwapLanguages}"
+                       Margin="4,0"
+                       Padding="6,2" />
+
+            <!-- 目标语言 -->
+            <ComboBox x:Name="TargetLangComboBox"
+                      Grid.Column="2"
+                      ItemsSource="{Binding AvailableTargetLanguages}"
+                      SelectedValue="{Binding TargetLanguage, Mode=TwoWay}"
+                      SelectedValuePath="Code"
+                      DisplayMemberPath="DisplayName"
+                      MinWidth="90"
+                      MaxWidth="130" />
+
+            <!-- 翻译 / 停止 按钮 -->
+            <StackPanel Grid.Column="4" Orientation="Horizontal">
+                <ui:Button x:Name="StopButton"
+                           Content="{x:Static app:UiText.TranslateStopButton}"
+                           Command="{Binding StopCommand}"
+                           Visibility="{Binding IsTranslating, Converter={StaticResource BoolToVis}}"
+                           Appearance="Caution"
+                           Padding="12,4" />
+                <ui:Button x:Name="TranslateButton"
+                           Content="{x:Static app:UiText.TranslateButton}"
+                           Command="{Binding TranslateCommand}"
+                           Appearance="Primary"
+                           Padding="12,4">
+                    <ui:Button.Style>
+                        <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsTranslating}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ui:Button.Style>
+                </ui:Button>
+            </StackPanel>
+        </Grid>
+
+        <!-- 原文输入区 -->
+        <Border Grid.Row="2"
+                Margin="0,0,0,8"
+                BorderThickness="1"
+                BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
+                CornerRadius="4"
+                Padding="4">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBox x:Name="InputTextBox"
+                         Grid.Row="0"
+                         Text="{Binding InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         MaxHeight="200"
+                         MinHeight="48"
+                         VerticalScrollBarVisibility="Auto"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         FontSize="{Binding FontSize, FallbackValue=14}"
+                         BorderThickness="0"
+                         Background="Transparent"
+                         PreviewKeyDown="OnInputTextBoxPreviewKeyDown" />
+
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Right"
+                           FontSize="10"
+                           Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                           Margin="0,2,4,0">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} / {1}">
+                            <Binding Path="InputLength" />
+                            <Binding Path="MaxInputChars" />
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </Grid>
+        </Border>
+
+        <!-- 状态与错误条 -->
+        <StackPanel Grid.Row="3" Margin="0,0,0,6">
+            <!-- 状态信息 -->
+            <TextBlock x:Name="StatusMessageTextBlock"
+                       Text="{Binding StatusMessage}"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                       FontSize="11"
+                       Visibility="{Binding HasStatus, Converter={StaticResource BoolToVis}}"
+                       Margin="2,0,0,4" />
+
+            <!-- 错误信息 -->
+            <Border BorderBrush="{DynamicResource SystemFillColorCautionBrush}"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Padding="6,4"
+                    Visibility="{Binding HasError, Converter={StaticResource BoolToVis}}"
+                    Margin="0,0,0,4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{Binding Error.Message}"
+                               Foreground="{DynamicResource SystemFillColorCautionBrush}"
+                               FontSize="11"
+                               VerticalAlignment="Center"
+                               TextWrapping="Wrap" />
+                    <ui:Button Grid.Column="1"
+                               Content="{x:Static app:UiText.TranslateGoToSettings}"
+                               Command="{Binding GoToSettingsCommand}"
+                               Visibility="{Binding ShowGoToSettingsForError, Converter={StaticResource BoolToVis}}"
+                               Padding="6,2"
+                               FontSize="11" />
+                </Grid>
+            </Border>
+        </StackPanel>
+
+        <!-- 结果卡片列表 -->
+        <ScrollViewer Grid.Row="4"
+                      x:Name="CardsScrollViewer"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl ItemsSource="{Binding Cards}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type local:ProviderResultCardViewModel}">
+                        <ui:Card Margin="0,0,0,8" Padding="10">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+
+                                <!-- 卡片顶栏 -->
+                                <Grid Grid.Row="0" Margin="0,0,0,6">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- 服务名称与模型 -->
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding DisplayName}"
+                                                   FontWeight="SemiBold"
+                                                   FontSize="12"
+                                                   Margin="0,0,6,0" />
+                                        <TextBlock Text="{Binding Model}"
+                                                   FontSize="11"
+                                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                                   VerticalAlignment="Center" />
+                                    </StackPanel>
+
+                                    <!-- 耗时、徽章与操作按钮 -->
+                                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                        <!-- 耗时 -->
+                                        <TextBlock Text="{Binding ElapsedText}"
+                                                   FontSize="10"
+                                                   Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                                                   VerticalAlignment="Center"
+                                                   Margin="0,0,6,0" />
+
+                                        <!-- 缓存徽章 -->
+                                        <Border Background="{DynamicResource SubtleFillColorSecondaryBrush}"
+                                                CornerRadius="3"
+                                                Padding="4,1"
+                                                Margin="0,0,4,0"
+                                                Visibility="{Binding FromCache, Converter={StaticResource BoolToVis}}">
+                                            <TextBlock Text="{x:Static app:UiText.TranslateFromCache}" FontSize="10" />
+                                        </Border>
+
+                                        <!-- 复制按钮 -->
+                                        <ui:Button Content="{x:Static app:UiText.TranslateCopy}"
+                                                   Command="{Binding CopyCommand}"
+                                                   ToolTip="{Binding CopyTooltip}"
+                                                   Padding="6,2"
+                                                   FontSize="11"
+                                                   Margin="0,0,4,0"
+                                                   IsEnabled="{Binding CanCopy}" />
+
+                                        <!-- 重试按钮 -->
+                                        <ui:Button Content="{x:Static app:UiText.TranslateRetry}"
+                                                   Command="{Binding RetryCommand}"
+                                                   ToolTip="{x:Static app:UiText.TranslateRetry}"
+                                                   Padding="6,2"
+                                                   FontSize="11"
+                                                   Margin="0,0,4,0"
+                                                   Visibility="{Binding CanRetry, Converter={StaticResource BoolToVis}}" />
+
+                                        <!-- 去设置按钮 -->
+                                        <ui:Button Content="{x:Static app:UiText.TranslateGoToSettings}"
+                                                   Command="{Binding GoToSettingsCommand}"
+                                                   Padding="6,2"
+                                                   FontSize="11"
+                                                   Visibility="{Binding ShowGoToSettings, Converter={StaticResource BoolToVis}}" />
+                                    </StackPanel>
+                                </Grid>
+
+                                <!-- 截断提示或错误提示 -->
+                                <StackPanel Grid.Row="1" Margin="0,0,0,4">
+                                    <TextBlock Text="{x:Static app:UiText.TranslateLocalTruncated}"
+                                               Foreground="{DynamicResource SystemFillColorCautionBrush}"
+                                               FontSize="11"
+                                               Visibility="{Binding IsLocallyTruncated, Converter={StaticResource BoolToVis}}" />
+                                    <TextBlock Text="{x:Static app:UiText.TranslateModelTruncated}"
+                                               Foreground="{DynamicResource SystemFillColorCautionBrush}"
+                                               FontSize="11"
+                                               Visibility="{Binding IsModelTruncated, Converter={StaticResource BoolToVis}}" />
+                                    <TextBlock Text="{Binding ErrorMessage}"
+                                               Foreground="{DynamicResource SystemFillColorCautionBrush}"
+                                               FontSize="11"
+                                               TextWrapping="Wrap" />
+                                </StackPanel>
+
+                                <!-- 译文正文（只读、可选、关闭 Undo） -->
+                                <TextBox Grid.Row="2"
+                                         Text="{Binding Text, Mode=OneWay}"
+                                         IsReadOnly="True"
+                                         TextWrapping="Wrap"
+                                         UndoLimit="0"
+                                         BorderThickness="0"
+                                         Background="Transparent"
+                                         FontSize="{Binding DataContext.FontSize, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" />
+                            </Grid>
+                        </ui:Card>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</ui:FluentWindow>

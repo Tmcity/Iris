@@ -643,7 +643,7 @@ Platform/DesktopModels.cs 中 IAutoStartService 的 summary 替换为，并分�
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-10-01 |
-| 状态 | **已落地，待复审（T-019B-R6）** |
+| 状态 | **已验收结案**（2026-10-02，e55695a；T-019B-R6 独立复审通过） |
 | 依据 | PROVIDER_SETTINGS_UI.md §8；T-019B_PRESETS_PREPARATION.md；本日再次读取 DeepSeek 官方入门文档 |
 | 兼容性 | 仅改变新建预设的 BaseUrl/SuggestedModel；不改类型、签名、schemaVersion，不迁移已有 Profile |
 
@@ -666,3 +666,74 @@ new("deepseek", "DeepSeek", TranslationProviderKind.OpenAICompatible, "https://a
 R1 复审补记（2026-10-02）：旧反例通过，保存后绑定、Prompt、队列重入与异步 UI 收尾仍不合格，签发 R2；预设值不变，CCR-012 待完整设置页复审后结案。
 
 R2 复审补记（2026-10-02）：57c954f 的既有对照改善确认；同步启动屏障、模板删除选择与冻结期间外部合并仍未闭合，签发 R3。预设声明不再改动，CCR-012 保持待复审。
+
+最终复审（2026-10-02）：e55695a / T-019B-R6 通过，预设仍为批准值，CCR-012 结案；完整独立证据见 tasks/done/T-019B-R6.md §6。
+
+## CCR-013：翻译窗口操作租约与有效发布
+
+| 字段 | 值 |
+|---|---|
+| 批准 | 架构师 Codex，2026-10-02 |
+| 状态 | **已落地，待复审** |
+| 依据 | ARCH v1.25 / TRANSLATION_WINDOW.md；A07 的迟到结果、隐藏后重开及重试归属问题 |
+| 范围 | 仅 PresentationPorts.cs 中翻译窗口相关端口，准确声明同步 CONTRACTS.cs |
+| 兼容性 | 仓库目前没有 ITranslateWindowPresenter 实现或调用方，移除匿名 ShowAsync；不改配置/事件/Provider/动作契约 |
+
+新增：
+
+```csharp
+public interface ITranslateWindowOperation : IDisposable
+{
+    Guid Id { get; }
+    CancellationToken CancellationToken { get; }
+}
+```
+
+ITranslateWindowPresenter 保留 IsVisible、IsActive、HideAsync；以以下方法替代匿名 ShowAsync：
+
+```csharp
+ITranslateWindowOperation? TryBeginOperation(CancellationToken cancellationToken = default);
+Task<bool> TryShowAsync(ITranslateWindowOperation operation, TranslateWindowRequest request);
+```
+
+TryBeginOperation 在已取消令牌下抛 OCE 且不淘汰当前意图；关闭/容量耗尽返回 null。操作状态（含失效但未回收）最多 8 个；不在状态锁内调用取消回调。TryShowAsync 只接受所属 Presenter 的原租约，UI 实际执行时校验；失效/取消/已 Dispose 返回 false，null/外来参数抛 ArgumentException，同操作并发发布抛 InvalidOperationException。true 只表示发布接受。
+
+租约 Dispose 归还调用方持有，不能取消已由 VM 接管的工作；调用方令牌继续生效。真实任务、取消回调和 registration 全部退出后才能释放状态。准确引用计数/取消实现属于 App internal，必须经 T-015 实际实现的受控竞态测试验证，不能用接口编译代替。
+
+TranslateWindowRequest 只改 AutoTranslate 文档：本次显式非空白 Text、无 Error/加载状态才可自动翻译，同操作至多一次；null 保留但不自动提交，空字符串清空。默认值、字段、JSON schema 不变。HideAsync 不等待不合作 I/O，应用退出使用内部完整屏障。
+
+这是签发阶段的设计批准和声明同步；待业务实施后改“已落地，待复审”，只有架构师独立验收才能结案。
+
+签发阶段验证（2026-10-02，声明同步后的工作区）：
+
+`dotnet build Iris.slnx -c Release` 原始摘要：
+
+```text
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:15.54
+```
+
+`dotnet test Iris.slnx -c Release` 原始摘要（包含契约一致性检查）：
+
+```text
+  总计: 1402
+  失败: 0
+  成功: 1401
+  已跳过: 1
+  持续时间: 14s 173ms
+```
+
+跳过仍为隔离剪贴板窗口站 error=183。另 `dotnet build C:/Users/28910/AppData/Local/Temp/iris-t019-contract-check/Contracts.csproj -c Release` 单独编译完整 CONTRACTS.cs（net10.0 / BCL）原始摘要：
+
+```text
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:01.86
+```
+
+这些检查只证明新声明一致且不破坏已交付代码；T-015 窗口、租约所有权、预算和退出行为尚未实现/验证。

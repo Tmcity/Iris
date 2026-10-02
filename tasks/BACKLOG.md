@@ -105,7 +105,7 @@
 | T-014 | ☑ | ActionDispatcher + App 内部 UI 调度适配器（C14-1 已完成） | T-005 | 1d |
 | T-021A | ☑ | Win32ClipboardService（含 R1/R2；C21-1 已完成） | T-005, T-014 | 1.5d |
 | T-022A | ☑ | DesktopContext + MonitorEnumerator（含 R1） | T-005 | 1d |
-| T-015 | ☐ | TranslateWindow（View + ViewModel + Presenter + WindowPlacementHelper） | T-013, T-014, T-018, T-019, T-021A, T-022A | 2.5d |
+| T-015 | ▶ | TranslateWindow（会话/卡片/Presenter/定位/退出，附 C19B-1；ARCH v1.25） | T-013, T-014, T-018, T-019, T-021A, T-022A | 2.5d |
 | T-016 | ☐ | InputTranslate / ClipboardTranslate / TranslateText Handler + 托盘菜单 | T-015, T-021A | 0.5d |
 | T-017 | ☐ | HotkeyService + KeyNameMapper + 启动时注册 / 设置变化时重注册 | T-016 | 1.5d |
 
@@ -129,7 +129,7 @@
 
 **T-022A 最终结案（2026-09-30）** — ecee697 通过，CCR-009 结案。独立构建零警告/零错误、1230 项通过/1 项环境跳过；所有原采集/清理/冲突反例符合要求，几何差分保持通过。多屏/混合 DPI 等实机范围仍按报告限定。下一单进入前移 T-018，提供真实设置入口。
 
-T-015 签发前还须完成 A07 的窗口会话/单卡 attempt 设计，覆盖旧任务后完成、隐藏后迟到回调及单卡重试；Dispatcher 的 Action 防重入不能替代结果归属校验。
+T-015 已于 2026-10-02 按 TRANSLATION_WINDOW.md / ARCH v1.25 / CCR-013 签发，A07 的操作租约、主/重试准入、UI 缓冲/跨重试预算与副作用/退出归属已定稿，行为待实现验收；Dispatcher 的 Action 防重入不能替代结果归属校验。当前通过用户手动转交。
 
 **T-015** 交付 ARCH §7.2、§10.5（跟随光标定位）、§14 的 TranslateWindow 部分。验收（手动 + VM 单测）：VM 用假 Orchestrator 测试卡片创建、Delta 节流刷新、Completed 覆盖、失败状态、单卡片重试、新请求取消旧请求；手动验证：在多显示器、混合 DPI 下窗口跟随光标且不超出屏幕、钉住 / 失焦隐藏、Esc 隐藏、Enter / Shift+Enter 行为。
 
@@ -145,9 +145,9 @@ T-015 签发前还须完成 A07 的窗口会话/单卡 attempt 设计，覆盖�
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
 | T-018 | ☑ | SettingsWindow、常规草稿/主题预览 + AutoStartService（11d4ac2 / R6 验收通过） | T-005, T-014 | 1.5d |
-| T-019 | ▶ | 翻译服务设置总单（A 配置/凭据协调器 → B 服务页接线，两单完成后结案） | T-018, T-011, T-012 | 2d |
+| T-019 | ☑ | 翻译服务设置总单（A / B 均验收通过，e55695a 收尾） | T-018, T-011, T-012 | 2d |
 | T-019A | ☑ | Core 配置发布、凭据 staging/回收、重试回执、草稿测试/模型发现（7e993b3 / R3 通过） | T-018, T-011, T-012 | — |
-| T-019B | ▶ | 翻译服务页、预设/Key/模型/Prompt/排序及全窗口一次保存接线 | T-019A | — |
+| T-019B | ☑ | 翻译服务页与全窗口保存接线（e55695a / R6 验收通过） | T-019A | — |
 | T-020 | ☐ | 快捷键页 + HotkeyRecorderBox | T-018, T-017 | 1d |
 
 **T-018** 已按 SETTINGS_EDITING.md / ARCH v1.22 / CCR-010 签发。交付按需窗口 scope、OpenSettingsHandler/托盘接线、四项常规草稿与增量冲突、主题预览、开机启动应用状态及正常退出等待；首期不开放未生效的语言/更新控件。验收包含实际组合根无环、打开/取消/保存与预览归属、注册表隔离测试及真实 WPF 基本交互的准确记录。
@@ -186,6 +186,8 @@ T-015 签发前还须完成 A07 的窗口会话/单卡 attempt 设计，覆盖�
 **T-019B-R4 复审（2026-10-02）** — 14f92b2 的统一解冻与全部 25 项独立诊断通过，Release 零警告/零错误，全量 1396 成功/1 环境跳过。Case7 仍以 fake Registry 代替真实接线、取消后 fake 返回 Applied、第二 VM 复用旧 scope 且未实际重试；签发测试/证据收尾 R5，保留已通过生产成果，不扩大功能。T-019 / T-019B 保持 ▶，CCR-012 待复审。
 
 **T-019B-R5 复审（2026-10-02）** — 2349714 的真实 Registry、取消结果、独立 scope 重试证据确认，Release 零警告/零错误，全量 1396 成功/1 环境跳过。真实 Light 资源离屏渲染发现 600×440 详情大面积水平裁切、默认尺寸按钮边缘裁切；Case7b/7d 断言失败清理有缺口。签发 R6，仅处理原尺寸可用性与测试异常收尾；保留生产成果，状态保持 ▶。
+
+**T-019B / T-019 最终结案（2026-10-02）** — e55695a / R6 通过；独立 Release 零警告/零错误，全量 1401 成功/1 隔离窗口站环境跳过。独立两种主题离屏渲染和滚动边界检查确认详情控件可用、缩放保留草稿/密码；Case7b/7d 失败清理与故障注入通过。CCR-012 结案。非阻断 C19B-1（高级标签完整显示及正式布局断言补强）随 T-015 收尾；证据见 tasks/done/T-019B-R6.md §6。结果卡片顺序/完整输入热键流程仍待 T-015–T-017。用户最新要求手动转述，早先直接控制授权已撤销。
 
 前移后由 T-018 同时接入 OpenSettingsHandler 与真实设置入口；尚未交付的设置页不开放。T-019 的服务排序先验证保存/Registry 读取顺序，待 T-015 交付后再验收实际结果卡片顺序，不把后者冒充已完成。
 **T-019** 验收：从预设填入 BaseUrl 和非 null SuggestedModel；建议模型为 null 时保持待选/手输，不能捏造型号。Key 经 Core 保存到 SecretStore（settings.json 中找不到 Key）；删除 Profile 后按共享引用/屏障规则清理凭据；测试连接显示延迟和测试译文或安全错误；模型列表和手输入口可用；模型名含 haiku 时在草稿中清 Effort 并提示；Anthropic 反代 `/v1` 尾缀提示遵循 ARCH §9.2。B 验收保存/Registry 顺序，结果卡片顺序待 T-015。完整接线及回执生命周期见 PROVIDER_SETTINGS_UI.md。
