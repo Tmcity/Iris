@@ -105,7 +105,7 @@
 | T-014 | ☑ | ActionDispatcher + App 内部 UI 调度适配器（C14-1 已完成） | T-005 | 1d |
 | T-021A | ☑ | Win32ClipboardService（含 R1/R2；C21-1 已完成） | T-005, T-014 | 1.5d |
 | T-022A | ☑ | DesktopContext + MonitorEnumerator（含 R1） | T-005 | 1d |
-| T-015 | ▶ | TranslateWindow（55c251f / R3 原反例确认，当前 R4；附 C19B-1；ARCH v1.25） | T-013, T-014, T-018, T-019, T-021A, T-022A | 2.5d |
+| T-015 | ▶ | TranslateWindow（913bbf6 / R4 原反例确认，当前 R5；附 C19B-1；ARCH v1.25） | T-013, T-014, T-018, T-019, T-021A, T-022A | 2.5d |
 | T-016 | ☐ | InputTranslate / ClipboardTranslate / TranslateText Handler + 托盘菜单 | T-015, T-021A | 0.5d |
 | T-017 | ☐ | HotkeyService + KeyNameMapper + 启动时注册 / 设置变化时重注册 | T-016 | 1.5d |
 
@@ -140,6 +140,8 @@ T-015 已于 2026-10-02 按 TRANSLATION_WINDOW.md / ARCH v1.25 / CCR-013 签发�
 **T-015-R2 复审（2026-10-02）** — cd3eacd 的原取消回收/隐私/失败展示/复制资格/按钮/输入/几何反例通过，独立 Release 零警告/零错误，全量 1447 成功/1 环境跳过。发布进行中被新意图取代、可见窗口更新失败快照分离、复制取消回调晚于写入结束时提前退出仍有实测反例；签发范围收敛的 R3，保留 R2 成果，CCR-013 待复审、不进入 T-016。证据见 tasks/done/T-015-R2.md 末尾。
 
 **T-015-R3 复审（2026-10-03）** — 55c251f 的原三类反例通过；独立 Release 零警告/零错误，全量 1454 成功/1 环境跳过。R3 要求的隐藏/VM 重入发布仍有反例，取消先退出时 CTS 也早于写入返回释放；签发 R4 仅收尾这两组及同范围失败清理。证据见 tasks/done/T-015-R3.md 末尾；T-015 保持 ▶、CCR-013 待复审，不开始 T-016。
+
+**T-015-R4 复审（2026-10-03）** — 913bbf6 的原隐藏/InputText 重入/双向 CTS 反例通过，独立 Release 零警告/零错误，全量 1459 成功/1 环境跳过。StatusMessage 通知重入后仍写旧 Error，复制待项先标写入结束导致 CTS 早于取消登记释放；签发 R5 仅修这两处。证据见 tasks/done/T-015-R4.md 末尾；状态保持 ▶，不开始 T-016。
 
 **T-016** 验收：托盘菜单新增“输入翻译 / 剪贴板翻译”；托盘左键单击 = 输入翻译；Handler 单元测试覆盖热键二次按下关闭窗口的逻辑。
 

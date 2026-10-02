@@ -40,7 +40,8 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
     private readonly Lock _gate = new();
     private bool _disposed;
-    private bool _programmaticTextUpdate;
+    private int _programmaticTextUpdateDepth;
+    private bool _programmaticTextUpdate => _programmaticTextUpdateDepth > 0;
 
     private string _inputText = string.Empty;
     private string _sourceLanguage = LanguageCodes.Auto;
@@ -336,15 +337,29 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         }
     }
 
+    private bool IsCurrentOperation(TranslateWindowOperation operation)
+    {
+        lock (_gate)
+        {
+            return !_disposed
+                && ReferenceEquals(_activeOperation, operation)
+                && !operation.CancellationToken.IsCancellationRequested;
+        }
+    }
+
     internal bool ApplyRequest(TranslateWindowRequest request, TranslateWindowOperation operation)
     {
         ArgumentNullException.ThrowIfNull(request);
         ArgumentNullException.ThrowIfNull(operation);
 
         TranslateWindowOperation? oldOp = null;
+        bool updateText = request.Text != null;
+        bool statusChanged;
+        bool errorChanged;
+
         lock (_gate)
         {
-            if (operation.IsRetired || operation.CancellationToken.IsCancellationRequested)
+            if (operation.IsRetired || operation.CancellationToken.IsCancellationRequested || _disposed)
             {
                 return false;
             }
@@ -363,6 +378,19 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 }
                 return false;
             }
+
+            if (updateText)
+            {
+                _inputText = request.Text!;
+            }
+
+            string? newStatus = request.StatusMessage;
+            statusChanged = !string.Equals(_statusMessage, newStatus, StringComparison.Ordinal);
+            _statusMessage = newStatus;
+
+            ErrorInfo? newError = request.Error != null ? SanitizeErrorInfo(request.Error) : null;
+            errorChanged = !Equals(_error, newError);
+            _error = newError;
         }
 
         if (oldOp != null)
@@ -371,35 +399,48 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             oldOp.DetachSession();
         }
 
-        _programmaticTextUpdate = true;
+        if (!IsCurrentOperation(operation))
+        {
+            return false;
+        }
+
+        _programmaticTextUpdateDepth++;
         try
         {
-            if (request.Text != null)
+            if (updateText)
             {
-                _inputText = request.Text;
+                if (!IsCurrentOperation(operation)) return false;
                 OnPropertyChanged(nameof(InputText));
+
+                if (!IsCurrentOperation(operation)) return false;
                 OnPropertyChanged(nameof(InputLength));
+
+                if (!IsCurrentOperation(operation)) return false;
                 OnPropertyChanged(nameof(CanTranslate));
             }
 
-            lock (_gate)
+            if (statusChanged)
             {
-                if (!ReferenceEquals(_activeOperation, operation) || operation.CancellationToken.IsCancellationRequested)
-                {
-                    return false;
-                }
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(StatusMessage));
+
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(HasStatus));
             }
 
-            StatusMessage = request.StatusMessage;
-            Error = request.Error != null ? SanitizeErrorInfo(request.Error) : null;
-
-            lock (_gate)
+            if (errorChanged)
             {
-                if (!ReferenceEquals(_activeOperation, operation) || operation.CancellationToken.IsCancellationRequested)
-                {
-                    return false;
-                }
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(Error));
+
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(HasError));
+
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(ShowGoToSettingsForError));
             }
+
+            if (!IsCurrentOperation(operation)) return false;
 
             bool isNewMain = request.AutoTranslate
                 && !string.IsNullOrWhiteSpace(request.Text)
@@ -421,7 +462,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         }
         finally
         {
-            _programmaticTextUpdate = false;
+            _programmaticTextUpdateDepth--;
         }
     }
 
@@ -563,7 +604,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         string newTarget = _sourceLanguage == LanguageCodes.Auto ? (_resolvedSourceLanguage ?? LanguageCodes.English) : _sourceLanguage;
         string newSource = _targetLanguage == LanguageCodes.Auto ? (_resolvedTargetLanguage ?? LanguageCodes.Auto) : _targetLanguage;
 
-        _programmaticTextUpdate = true;
+        _programmaticTextUpdateDepth++;
         try
         {
             SourceLanguage = newSource;
@@ -573,7 +614,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         }
         finally
         {
-            _programmaticTextUpdate = false;
+            _programmaticTextUpdateDepth--;
         }
 
         OnUserInputChanged();
@@ -1264,11 +1305,16 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
     {
         private int _writeDone;
         private int _cancelDone;
+        private int _cancelRequested;
         private int _disposed;
 
         public string Text { get; }
         public CancellationTokenSource Cts { get; }
-        public bool CancelRequested { get; set; }
+        public bool CancelRequested
+        {
+            get => Volatile.Read(ref _cancelRequested) == 1;
+            set => Volatile.Write(ref _cancelRequested, value ? 1 : 0);
+        }
         public bool IsCancelRegistered { get; set; }
 
         public QueuedCopyItem(string text, CancellationTokenSource cts)
@@ -1304,24 +1350,19 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         }
     }
 
-    private void RegisterCopyCancelTask(QueuedCopyItem item)
+    private TaskCompletionSource? TryRegisterCopyCancelUnderLock(QueuedCopyItem item)
     {
-        TaskCompletionSource cancelTcs;
-        lock (_copyGate)
+        if (item.IsCancelRegistered)
         {
-            if (item.IsCancelRegistered)
-            {
-                return;
-            }
-            item.IsCancelRegistered = true;
-            item.CancelRequested = true;
-
-            cancelTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-            _copyCancelTasks.Add(cancelTcs.Task);
-            _cancelingCtsSet.Add(item.Cts);
+            return null;
         }
+        item.IsCancelRegistered = true;
+        item.CancelRequested = true;
 
-        _ = RunCancelWorkerAsync(item, cancelTcs);
+        var cancelTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        _copyCancelTasks.Add(cancelTcs.Task);
+        _cancelingCtsSet.Add(item.Cts);
+        return cancelTcs;
     }
 
     private async Task RunCancelWorkerAsync(QueuedCopyItem item, TaskCompletionSource cancelTcs)
@@ -1360,12 +1401,14 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         }
 
         QueuedCopyItem? oldPending = null;
+        TaskCompletionSource? cancelTcs = null;
         var newItem = new QueuedCopyItem(text, cts);
         lock (_copyGate)
         {
             if (_pendingCopy != null)
             {
                 oldPending = _pendingCopy;
+                cancelTcs = TryRegisterCopyCancelUnderLock(oldPending);
                 oldPending.MarkWriteFinished();
             }
 
@@ -1377,9 +1420,9 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             }
         }
 
-        if (oldPending != null)
+        if (oldPending != null && cancelTcs != null)
         {
-            RegisterCopyCancelTask(oldPending);
+            _ = RunCancelWorkerAsync(oldPending, cancelTcs);
         }
     }
 
@@ -1419,7 +1462,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             }
             finally
             {
-                bool needsCancelTask = false;
+                TaskCompletionSource? cancelTcs = null;
                 lock (_copyGate)
                 {
                     if (ReferenceEquals(_inFlightCopyItem, current))
@@ -1429,13 +1472,13 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                     }
                     if (!current.IsCancelRegistered && current.Cts.IsCancellationRequested)
                     {
-                        needsCancelTask = true;
+                        cancelTcs = TryRegisterCopyCancelUnderLock(current);
                     }
                 }
 
-                if (needsCancelTask)
+                if (cancelTcs != null)
                 {
-                    RegisterCopyCancelTask(current);
+                    _ = RunCancelWorkerAsync(current, cancelTcs);
                 }
 
                 current.MarkWriteFinished();
@@ -1446,7 +1489,9 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
     private void CancelPendingAndActiveCopies()
     {
         QueuedCopyItem? toCancelPending = null;
+        TaskCompletionSource? cancelPendingTcs = null;
         QueuedCopyItem? toCancelInFlight = null;
+        TaskCompletionSource? cancelInFlightTcs = null;
 
         lock (_copyGate)
         {
@@ -1454,23 +1499,25 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             {
                 toCancelPending = _pendingCopy;
                 _pendingCopy = null;
+                cancelPendingTcs = TryRegisterCopyCancelUnderLock(toCancelPending);
                 toCancelPending.MarkWriteFinished();
             }
 
             if (_inFlightCopyItem != null)
             {
                 toCancelInFlight = _inFlightCopyItem;
+                cancelInFlightTcs = TryRegisterCopyCancelUnderLock(toCancelInFlight);
             }
         }
 
-        if (toCancelPending != null)
+        if (toCancelPending != null && cancelPendingTcs != null)
         {
-            RegisterCopyCancelTask(toCancelPending);
+            _ = RunCancelWorkerAsync(toCancelPending, cancelPendingTcs);
         }
 
-        if (toCancelInFlight != null)
+        if (toCancelInFlight != null && cancelInFlightTcs != null)
         {
-            RegisterCopyCancelTask(toCancelInFlight);
+            _ = RunCancelWorkerAsync(toCancelInFlight, cancelInFlightTcs);
         }
     }
 

@@ -674,7 +674,7 @@ R2 复审补记（2026-10-02）：57c954f 的既有对照改善确认；同步�
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-10-02 |
-| 状态 | **已落地，待复审（T-015-R4）** |
+| 状态 | **已落地，待复审（T-015-R5）** |
 | 依据 | ARCH v1.25 / TRANSLATION_WINDOW.md；A07 的迟到结果、隐藏后重开及重试归属问题 |
 | 范围 | 仅 PresentationPorts.cs 中翻译窗口相关端口，准确声明同步 CONTRACTS.cs |
 | 兼容性 | 仓库目前没有 ITranslateWindowPresenter 实现或调用方，移除匿名 ShowAsync；不改配置/事件/Provider/动作契约 |

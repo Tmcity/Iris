@@ -1235,6 +1235,193 @@ public sealed class TranslateWindowViewModelTests
         }
     }
 
+    [Fact]
+    public async Task CopyCancellation_PendingReplacement_DoesNotThrowOrLogObjectDisposedException()
+    {
+        var testLogger = new TestDiagnosticLogger<TranslateWindowViewModel>();
+        var clipboard = Substitute.For<IClipboardService>();
+        var appSettings = new AppSettings
+        {
+            Translation = new TranslationSettings
+            {
+                AutoCopy = AutoCopyMode.None,
+                MaxInputChars = 5000
+            }
+        };
+        var (vm, orchestrator, _, _) = CreateViewModel(settings: appSettings, clipboard: clipboard, logger: testLogger);
+
+        var presenter = new TranslateWindowPresenter(
+            Substitute.For<IServiceProvider>(),
+            new ImmediateUiDispatcher(),
+            Substitute.For<ISettingsService>(),
+            Substitute.For<IDesktopContext>(),
+            NullLogger<TranslateWindowPresenter>.Instance);
+        vm.AttachPresenter(presenter);
+
+        var op = (TranslateWindowOperation)presenter.TryBeginOperation(CancellationToken.None)!;
+        var reqId = Guid.NewGuid();
+
+        var p1 = new ProviderDescriptor("p1", "P1", "Kind", null, true);
+        var p2 = new ProviderDescriptor("p2", "P2", "Kind", null, true);
+        var p3 = new ProviderDescriptor("p3", "P3", "Kind", null, true);
+
+        async IAsyncEnumerable<TranslationEvent> Stream()
+        {
+            yield return new TranslationStarted(reqId, new ResolvedLanguagePair("en", "zh-Hans", false), [p1, p2, p3]);
+            yield return new ProviderCompleted(reqId, "p1", "Text1", TimeSpan.Zero, false, false, null);
+            yield return new ProviderCompleted(reqId, "p2", "Text2", TimeSpan.Zero, false, false, null);
+            yield return new ProviderCompleted(reqId, "p3", "Text3", TimeSpan.Zero, false, false, null);
+            await Task.Yield();
+        }
+
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(Stream());
+
+        var inFlightStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var inFlightGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        clipboard.SetTextAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(async ci =>
+            {
+                var text = ci.Arg<string>();
+                if (text == "Text1")
+                {
+                    inFlightStarted.TrySetResult();
+                    await inFlightGate.Task;
+                }
+            });
+
+        try
+        {
+            vm.ApplyRequest(new TranslateWindowRequest { Text = "Test", AutoTranslate = true }, op);
+            await vm.WaitForActiveWorkAsync();
+
+            // 1. 首个复制在途挂起
+            vm.Cards[0].CopyCommand.Execute(null);
+            await inFlightStarted.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+
+            // 2. 连续触发两次复制形成待项替换
+            vm.Cards[1].CopyCommand.Execute(null);
+            vm.Cards[2].CopyCommand.Execute(null);
+
+            // 此时待项已替换，验证未发生 ObjectDisposedException
+            testLogger.LoggedMessages.ShouldNotContain(m => m.Contains("ObjectDisposedException"));
+            testLogger.LoggedExceptions.ShouldNotContain(e => e is ObjectDisposedException);
+
+            // 3. 放行在途任务并等待全部完成
+            inFlightGate.TrySetResult();
+            await vm.WaitForActiveWorkAsync().WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+            // 4. 再次验证全流程无 ObjectDisposedException
+            testLogger.LoggedMessages.ShouldNotContain(m => m.Contains("ObjectDisposedException"));
+            testLogger.LoggedExceptions.ShouldNotContain(e => e is ObjectDisposedException);
+
+            // 验证最终仅首项与最新合法待项执行了剪贴板写入
+            await clipboard.Received(1).SetTextAsync("Text1", Arg.Any<CancellationToken>());
+            await clipboard.Received(0).SetTextAsync("Text2", Arg.Any<CancellationToken>());
+            await clipboard.Received(1).SetTextAsync("Text3", Arg.Any<CancellationToken>());
+        }
+        finally
+        {
+            inFlightGate.TrySetResult();
+            vm.OnWindowHidden();
+            op?.Dispose();
+            await vm.WaitForActiveWorkAsync();
+            await presenter.ShutdownAsync(TestContext.Current.CancellationToken);
+        }
+    }
+
+    [Fact]
+    public async Task CopyCancellation_PendingHide_DoesNotThrowOrLogObjectDisposedException()
+    {
+        var testLogger = new TestDiagnosticLogger<TranslateWindowViewModel>();
+        var clipboard = Substitute.For<IClipboardService>();
+        var appSettings = new AppSettings
+        {
+            Translation = new TranslationSettings
+            {
+                AutoCopy = AutoCopyMode.None,
+                MaxInputChars = 5000
+            }
+        };
+        var (vm, orchestrator, _, _) = CreateViewModel(settings: appSettings, clipboard: clipboard, logger: testLogger);
+
+        var presenter = new TranslateWindowPresenter(
+            Substitute.For<IServiceProvider>(),
+            new ImmediateUiDispatcher(),
+            Substitute.For<ISettingsService>(),
+            Substitute.For<IDesktopContext>(),
+            NullLogger<TranslateWindowPresenter>.Instance);
+        vm.AttachPresenter(presenter);
+
+        var op = (TranslateWindowOperation)presenter.TryBeginOperation(CancellationToken.None)!;
+        var reqId = Guid.NewGuid();
+
+        var p1 = new ProviderDescriptor("p1", "P1", "Kind", null, true);
+        var p2 = new ProviderDescriptor("p2", "P2", "Kind", null, true);
+
+        async IAsyncEnumerable<TranslationEvent> Stream()
+        {
+            yield return new TranslationStarted(reqId, new ResolvedLanguagePair("en", "zh-Hans", false), [p1, p2]);
+            yield return new ProviderCompleted(reqId, "p1", "Text1", TimeSpan.Zero, false, false, null);
+            yield return new ProviderCompleted(reqId, "p2", "Text2", TimeSpan.Zero, false, false, null);
+            await Task.Yield();
+        }
+
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(Stream());
+
+        var inFlightStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var inFlightGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        clipboard.SetTextAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+            .Returns(async ci =>
+            {
+                var text = ci.Arg<string>();
+                if (text == "Text1")
+                {
+                    inFlightStarted.TrySetResult();
+                    await inFlightGate.Task;
+                }
+            });
+
+        try
+        {
+            vm.ApplyRequest(new TranslateWindowRequest { Text = "Test", AutoTranslate = true }, op);
+            await vm.WaitForActiveWorkAsync();
+
+            // 1. 首个复制在途挂起
+            vm.Cards[0].CopyCommand.Execute(null);
+            await inFlightStarted.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+
+            // 2. 排队待项
+            vm.Cards[1].CopyCommand.Execute(null);
+
+            // 3. 隐藏窗口取消待项与在途项
+            vm.OnWindowHidden();
+
+            // 验证未发生 ObjectDisposedException
+            testLogger.LoggedMessages.ShouldNotContain(m => m.Contains("ObjectDisposedException"));
+            testLogger.LoggedExceptions.ShouldNotContain(e => e is ObjectDisposedException);
+
+            // 4. 放行在途任务并等待全部完成
+            inFlightGate.TrySetResult();
+            await vm.WaitForActiveWorkAsync().WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+            // 5. 再次验证全流程无 ObjectDisposedException
+            testLogger.LoggedMessages.ShouldNotContain(m => m.Contains("ObjectDisposedException"));
+            testLogger.LoggedExceptions.ShouldNotContain(e => e is ObjectDisposedException);
+        }
+        finally
+        {
+            inFlightGate.TrySetResult();
+            vm.OnWindowHidden();
+            op?.Dispose();
+            await vm.WaitForActiveWorkAsync();
+            await presenter.ShutdownAsync(TestContext.Current.CancellationToken);
+        }
+    }
+
     private sealed class ThrowingDisposeAsyncEnumerable : IAsyncEnumerable<TranslationEvent>
     {
         private readonly Guid _reqId;

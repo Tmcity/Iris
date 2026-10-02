@@ -8,6 +8,7 @@ using Iris.App.Tests.TestSupport;
 using Iris.App.Translation;
 using Iris.Core.Common;
 using Iris.Core.Languages;
+using Iris.Core.Errors;
 using Iris.Core.Platform;
 using Iris.Core.Presentation;
 using Iris.Core.Settings;
@@ -566,6 +567,254 @@ public sealed class TranslateWindowPresenterTests
 
                 a = presenter.TryBeginOperation(CancellationToken.None);
                 var accepted = await presenter.TryShowAsync(a!, new TranslateWindowRequest { Text = "HideDuringPropChanged", AutoTranslate = false });
+                if (hideTask != null)
+                {
+                    await hideTask;
+                }
+
+                accepted.ShouldBeFalse();
+                presenter.IsVisible.ShouldBeFalse();
+                (presenter.Window?.IsVisible ?? false).ShouldBeFalse();
+                vm.ActiveOperation.ShouldBeNull();
+            }
+            finally
+            {
+                warmOp?.Dispose();
+                a?.Dispose();
+                if (hideTask != null)
+                {
+                    await hideTask;
+                }
+                await presenter.ShutdownAsync(TestContext.Current.CancellationToken);
+            }
+        });
+    }
+
+    [Fact]
+    public async Task TryShowAsync_WhenReenteredDuringStatusMessage_NewerOperationWinsAndErrorNotOverwritten()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var (presenter, _, _) = CreateTestPresenter();
+            ITranslateWindowOperation? warmOp = null;
+            ITranslateWindowOperation? a = null;
+            ITranslateWindowOperation? b = null;
+            Task<bool>? publishB = null;
+            bool reentered = false;
+
+            try
+            {
+                warmOp = presenter.TryBeginOperation(CancellationToken.None);
+                await presenter.TryShowAsync(warmOp!, new TranslateWindowRequest { Text = "Warmup", AutoTranslate = false });
+
+                var vm = presenter.ViewModel;
+                vm.ShouldNotBeNull();
+
+                vm!.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == nameof(TranslateWindowViewModel.StatusMessage) && !reentered)
+                    {
+                        reentered = true;
+                        b = presenter.TryBeginOperation(CancellationToken.None);
+                        publishB = presenter.TryShowAsync(b!, new TranslateWindowRequest
+                        {
+                            Text = "NewerIntent",
+                            AutoTranslate = false,
+                            Error = null,
+                            StatusMessage = null
+                        });
+                    }
+                };
+
+                a = presenter.TryBeginOperation(CancellationToken.None);
+                a.ShouldNotBeNull();
+
+                var acceptedA = await presenter.TryShowAsync(a!, new TranslateWindowRequest
+                {
+                    Text = "OldIntent",
+                    StatusMessage = "OldStatus",
+                    Error = new ErrorInfo(ErrorCode.NetworkUnavailable, "Network failed"),
+                    AutoTranslate = false
+                });
+                var acceptedB = publishB != null && await publishB;
+
+                acceptedA.ShouldBeFalse("被新意图重入取代的旧操作 A 必须返回 false");
+                acceptedB.ShouldBeTrue("新意图 B 必须成功发布并接管窗口");
+                vm.InputText.ShouldBe("NewerIntent");
+                vm.StatusMessage.ShouldBeNull();
+                vm.Error.ShouldBeNull("旧 A 的错误绝不能覆盖新会话 B 的界面");
+                ReferenceEquals(vm.ActiveOperation, b).ShouldBeTrue("活跃会话必须为新意图 B");
+                b!.CancellationToken.IsCancellationRequested.ShouldBeFalse();
+                ((TranslateWindowOperation)b).HasSessionOwnership.ShouldBeTrue();
+                ((TranslateWindowOperation)a!).HasSessionOwnership.ShouldBeFalse();
+            }
+            finally
+            {
+                warmOp?.Dispose();
+                a?.Dispose();
+                b?.Dispose();
+                await presenter.ShutdownAsync(TestContext.Current.CancellationToken);
+            }
+        });
+    }
+
+    [Fact]
+    public async Task TryShowAsync_WhenReenteredDuringHasStatus_NewerOperationWins()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var (presenter, _, _) = CreateTestPresenter();
+            ITranslateWindowOperation? warmOp = null;
+            ITranslateWindowOperation? a = null;
+            ITranslateWindowOperation? b = null;
+            Task<bool>? publishB = null;
+            bool reentered = false;
+
+            try
+            {
+                warmOp = presenter.TryBeginOperation(CancellationToken.None);
+                await presenter.TryShowAsync(warmOp!, new TranslateWindowRequest { Text = "Warmup", AutoTranslate = false });
+
+                var vm = presenter.ViewModel;
+                vm.ShouldNotBeNull();
+
+                vm!.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == nameof(TranslateWindowViewModel.HasStatus) && !reentered)
+                    {
+                        reentered = true;
+                        b = presenter.TryBeginOperation(CancellationToken.None);
+                        publishB = presenter.TryShowAsync(b!, new TranslateWindowRequest
+                        {
+                            Text = "WinnerB",
+                            AutoTranslate = false,
+                            Error = null
+                        });
+                    }
+                };
+
+                a = presenter.TryBeginOperation(CancellationToken.None);
+                var acceptedA = await presenter.TryShowAsync(a!, new TranslateWindowRequest
+                {
+                    Text = "OldA",
+                    StatusMessage = "StatusA",
+                    Error = new ErrorInfo(ErrorCode.Unknown, "Unknown error"),
+                    AutoTranslate = false
+                });
+                var acceptedB = publishB != null && await publishB;
+
+                acceptedA.ShouldBeFalse();
+                acceptedB.ShouldBeTrue();
+                vm.InputText.ShouldBe("WinnerB");
+                vm.Error.ShouldBeNull();
+                ReferenceEquals(vm.ActiveOperation, b).ShouldBeTrue();
+            }
+            finally
+            {
+                warmOp?.Dispose();
+                a?.Dispose();
+                b?.Dispose();
+                await presenter.ShutdownAsync(TestContext.Current.CancellationToken);
+            }
+        });
+    }
+
+    [Fact]
+    public async Task TryShowAsync_WhenReenteredDuringError_NewerOperationWins()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var (presenter, _, _) = CreateTestPresenter();
+            ITranslateWindowOperation? warmOp = null;
+            ITranslateWindowOperation? a = null;
+            ITranslateWindowOperation? b = null;
+            Task<bool>? publishB = null;
+            bool reentered = false;
+
+            try
+            {
+                warmOp = presenter.TryBeginOperation(CancellationToken.None);
+                await presenter.TryShowAsync(warmOp!, new TranslateWindowRequest { Text = "Warmup", AutoTranslate = false });
+
+                var vm = presenter.ViewModel;
+                vm.ShouldNotBeNull();
+
+                vm!.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == nameof(TranslateWindowViewModel.Error) && !reentered)
+                    {
+                        reentered = true;
+                        b = presenter.TryBeginOperation(CancellationToken.None);
+                        publishB = presenter.TryShowAsync(b!, new TranslateWindowRequest
+                        {
+                            Text = "WinnerAfterError",
+                            AutoTranslate = false,
+                            Error = null
+                        });
+                    }
+                };
+
+                a = presenter.TryBeginOperation(CancellationToken.None);
+                var acceptedA = await presenter.TryShowAsync(a!, new TranslateWindowRequest
+                {
+                    Text = "OldWithError",
+                    Error = new ErrorInfo(ErrorCode.NetworkUnavailable, "network err"),
+                    AutoTranslate = false
+                });
+                var acceptedB = publishB != null && await publishB;
+
+                acceptedA.ShouldBeFalse();
+                acceptedB.ShouldBeTrue();
+                vm.InputText.ShouldBe("WinnerAfterError");
+                vm.Error.ShouldBeNull();
+                ReferenceEquals(vm.ActiveOperation, b).ShouldBeTrue();
+            }
+            finally
+            {
+                warmOp?.Dispose();
+                a?.Dispose();
+                b?.Dispose();
+                await presenter.ShutdownAsync(TestContext.Current.CancellationToken);
+            }
+        });
+    }
+
+    [Fact]
+    public async Task TryShowAsync_WhenHiddenDuringStatusMessage_AbortsCleanly()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var (presenter, _, _) = CreateTestPresenter();
+            ITranslateWindowOperation? warmOp = null;
+            ITranslateWindowOperation? a = null;
+            Task? hideTask = null;
+            bool reentered = false;
+
+            try
+            {
+                warmOp = presenter.TryBeginOperation(CancellationToken.None);
+                await presenter.TryShowAsync(warmOp!, new TranslateWindowRequest { Text = "Warmup", AutoTranslate = false });
+
+                var vm = presenter.ViewModel;
+                vm.ShouldNotBeNull();
+
+                vm!.PropertyChanged += (s, e) =>
+                {
+                    if (e.PropertyName == nameof(TranslateWindowViewModel.StatusMessage) && !reentered)
+                    {
+                        reentered = true;
+                        hideTask = presenter.HideAsync();
+                    }
+                };
+
+                a = presenter.TryBeginOperation(CancellationToken.None);
+                var accepted = await presenter.TryShowAsync(a!, new TranslateWindowRequest
+                {
+                    Text = "HideDuringStatus",
+                    StatusMessage = "SomeStatus",
+                    Error = new ErrorInfo(ErrorCode.NetworkUnavailable, "error"),
+                    AutoTranslate = false
+                });
                 if (hideTask != null)
                 {
                     await hideTask;
