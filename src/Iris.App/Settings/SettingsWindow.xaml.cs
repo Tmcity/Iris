@@ -14,6 +14,8 @@ namespace Iris.App.Settings;
 
 internal partial class SettingsWindow : FluentWindow
 {
+    private const double CompactLayoutThreshold = 680.0;
+    private bool? _isCompactMode;
     private bool _suppressPasswordChanged;
     private Point _dragStartPoint;
     private bool _isDragging;
@@ -24,6 +26,73 @@ internal partial class SettingsWindow : FluentWindow
         DataContextChanged += OnDataContextChanged;
         Closing += OnClosing;
         KeyDown += OnKeyDown;
+        SizeChanged += (s, e) => ApplyAdaptiveLayout(e.NewSize.Width);
+        Loaded += (s, e) => ApplyAdaptiveLayout(ActualWidth > 0 ? ActualWidth : Width);
+        ApplyAdaptiveLayout(Width);
+    }
+
+    protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+    {
+        base.OnPropertyChanged(e);
+        if (e.Property == WidthProperty && e.NewValue is double newWidth && !double.IsNaN(newWidth) && newWidth > 0)
+        {
+            ApplyAdaptiveLayout(newWidth);
+        }
+    }
+
+    protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo)
+    {
+        base.OnRenderSizeChanged(sizeInfo);
+        if (sizeInfo.WidthChanged)
+        {
+            ApplyAdaptiveLayout(sizeInfo.NewSize.Width);
+        }
+    }
+
+    internal void ApplyAdaptiveLayout(double width)
+    {
+        if (TranslationLayoutGrid == null || ProfilesPane == null || DetailsPane == null)
+        {
+            return;
+        }
+
+        bool compact = width < CompactLayoutThreshold;
+        if (_isCompactMode == compact)
+        {
+            return;
+        }
+        _isCompactMode = compact;
+
+        if (compact)
+        {
+            ProfilesColDef.Width = new GridLength(1, GridUnitType.Star);
+            DetailsColDef.Width = new GridLength(0);
+            ProfilesRowDef.Height = new GridLength(96);
+            DetailsRowDef.Height = new GridLength(1, GridUnitType.Star);
+
+            Grid.SetRow(ProfilesPane, 0);
+            Grid.SetColumn(ProfilesPane, 0);
+            ProfilesPane.Margin = new Thickness(0, 0, 0, 8);
+
+            Grid.SetRow(DetailsPane, 1);
+            Grid.SetColumn(DetailsPane, 0);
+            DetailsPane.Margin = new Thickness(0);
+        }
+        else
+        {
+            ProfilesColDef.Width = new GridLength(220);
+            DetailsColDef.Width = new GridLength(1, GridUnitType.Star);
+            ProfilesRowDef.Height = new GridLength(1, GridUnitType.Star);
+            DetailsRowDef.Height = new GridLength(0);
+
+            Grid.SetRow(ProfilesPane, 0);
+            Grid.SetColumn(ProfilesPane, 0);
+            ProfilesPane.Margin = new Thickness(0, 0, 10, 0);
+
+            Grid.SetRow(DetailsPane, 0);
+            Grid.SetColumn(DetailsPane, 1);
+            DetailsPane.Margin = new Thickness(0);
+        }
     }
 
     private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)

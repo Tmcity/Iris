@@ -29,7 +29,7 @@
         <!-- 主体区域：左侧导航与右侧内容 -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="180" />
+                <ColumnDefinition Width="140" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
@@ -38,15 +38,15 @@
                     BorderThickness="0,0,1,0"
                     BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                     Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}"
-                    Padding="8,16,8,8">
+                    Padding="6,12,6,8">
                 <StackPanel>
                     <TextBlock Text="{x:Static app:UiText.SettingsTitle}"
                                FontSize="18"
                                FontWeight="SemiBold"
-                               Margin="12,0,0,16" />
+                               Margin="8,0,0,12" />
 
                     <!-- 导航项：常规 -->
-                    <Border CornerRadius="4" Padding="12,8" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavGeneralClick">
+                    <Border CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavGeneralClick">
                         <Border.Style>
                             <Style TargetType="Border">
                                 <Setter Property="Background" Value="Transparent" />
@@ -63,7 +63,7 @@
                     </Border>
 
                     <!-- 导航项：翻译服务 -->
-                    <Border CornerRadius="4" Padding="12,8" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavTranslationClick">
+                    <Border CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavTranslationClick">
                         <Border.Style>
                             <Style TargetType="Border">
                                 <Setter Property="Background" Value="Transparent" />
@@ -175,7 +175,9 @@
             </ScrollViewer>
 
             <!-- 右侧翻译服务设置内容 -->
-            <Grid Grid.Column="1" Margin="16,16,16,16">
+            <Grid x:Name="TranslationLayoutGrid"
+                  Grid.Column="1"
+                  Margin="12,12,12,12">
                 <Grid.Style>
                     <Style TargetType="Grid">
                         <Setter Property="Visibility" Value="Collapsed" />
@@ -187,12 +189,20 @@
                     </Style>
                 </Grid.Style>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="220" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition x:Name="ProfilesColDef" Width="220" />
+                    <ColumnDefinition x:Name="DetailsColDef" Width="*" />
                 </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition x:Name="ProfilesRowDef" Height="*" />
+                    <RowDefinition x:Name="DetailsRowDef" Height="0" />
+                </Grid.RowDefinitions>
 
                 <!-- 服务列表列 -->
-                <Grid Grid.Column="0" Margin="0,0,12,0" IsEnabled="{Binding CanEdit}">
+                <Grid x:Name="ProfilesPane"
+                      Grid.Row="0"
+                      Grid.Column="0"
+                      Margin="0,0,10,0"
+                      IsEnabled="{Binding CanEdit}">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
@@ -211,20 +221,25 @@
                                    Content="{x:Static app:UiText.SettingsAddProfile}"
                                    Click="OnAddProfileButtonClick"
                                    HorizontalAlignment="Stretch"
+                                   MinWidth="0"
+                                   Padding="4,2"
                                    Margin="0,0,4,0" />
 
                         <!-- 操作按钮：上移、下移、删除 -->
                         <StackPanel Grid.Column="1" Orientation="Horizontal">
                             <ui:Button Content="{x:Static app:UiText.SettingsMoveUp}"
                                        Command="{Binding MoveUpCommand}"
-                                       Padding="4,2"
+                                       MinWidth="0"
+                                       Padding="3,2"
                                        Margin="0,0,2,0" />
                             <ui:Button Content="{x:Static app:UiText.SettingsMoveDown}"
                                        Command="{Binding MoveDownCommand}"
-                                       Padding="4,2"
+                                       MinWidth="0"
+                                       Padding="3,2"
                                        Margin="0,0,2,0" />
                             <ui:Button Content="{x:Static app:UiText.SettingsDeleteProfile}"
                                        Command="{Binding DeleteProfileCommand}"
+                                       MinWidth="0"
                                        Padding="4,2" />
                         </StackPanel>
                     </Grid>
@@ -267,10 +282,12 @@
                 </Grid>
 
                 <!-- 选定服务详情列 -->
-                <ScrollViewer Grid.Column="1"
+                <ScrollViewer x:Name="DetailsPane"
+                              Grid.Row="0"
+                              Grid.Column="1"
                               VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Disabled"
-                              Padding="8,0,8,0">
+                              Padding="4,0,4,0">
                     <StackPanel DataContext="{Binding SelectedProfile}"
                                 IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Window}}">
                         <StackPanel.Style>
@@ -284,7 +301,7 @@
                         </StackPanel.Style>
 
                         <!-- 基本配置卡片 -->
-                        <ui:Card Margin="0,0,0,12" Padding="14">
+                        <ui:Card Margin="0,0,0,12" Padding="12">
                             <StackPanel>
                                 <TextBlock Text="基本信息" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8" />
 
@@ -293,7 +310,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileName}" Width="100" VerticalAlignment="Center" />
+                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileName}" Width="75" VerticalAlignment="Center" />
                                     <TextBox x:Name="DisplayNameTextBox" Grid.Column="1" Text="{Binding DisplayName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                                 </Grid>
 
@@ -302,7 +319,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileKind}" Width="100" VerticalAlignment="Center" />
+                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileKind}" Width="75" VerticalAlignment="Center" />
                                     <TextBlock Grid.Column="1" Text="{Binding Kind}" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                                 </Grid>
 
@@ -311,7 +328,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileBaseUrl}" Width="100" VerticalAlignment="Center" />
+                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileBaseUrl}" Width="75" VerticalAlignment="Center" />
                                     <TextBox Grid.Column="1" Text="{Binding BaseUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
 
@@ -319,7 +336,7 @@
                                 <TextBlock Text="{x:Static app:UiText.SettingsAnthropicV1Warning}"
                                            Foreground="{DynamicResource SystemFillColorCautionBrush}"
                                            FontSize="11"
-                                           Margin="100,0,0,8"
+                                           Margin="75,0,0,8"
                                            Visibility="{Binding HasAnthropicV1Warning, Converter={StaticResource BoolToVis}}"
                                            TextWrapping="Wrap" />
 
@@ -328,7 +345,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileModel}" Width="100" VerticalAlignment="Center" />
+                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileModel}" Width="75" VerticalAlignment="Center" />
                                     <Grid Grid.Column="1">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
@@ -344,22 +361,25 @@
                                 </Grid>
 
                                 <!-- 测试与获取模型按钮 -->
-                                <StackPanel Orientation="Horizontal" Margin="100,4,0,4">
+                                <WrapPanel Orientation="Horizontal" Margin="75,4,0,4">
                                     <ui:Button Content="{x:Static app:UiText.SettingsListDraftModels}"
                                                Command="{Binding DataContext.ListModelsCommand, RelativeSource={RelativeSource AncestorType=Window}}"
-                                               Margin="0,0,8,0" />
+                                               Margin="0,0,8,4" />
                                     <ui:Button Content="{x:Static app:UiText.SettingsTestDraft}"
-                                               Command="{Binding DataContext.TestDraftCommand, RelativeSource={RelativeSource AncestorType=Window}}" />
-                                </StackPanel>
+                                               Command="{Binding DataContext.TestDraftCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                               Margin="0,0,0,4" />
+                                </WrapPanel>
 
                                 <!-- 测试与列表状态展示 -->
-                                <StackPanel Margin="100,4,0,0">
+                                <StackPanel Margin="75,4,0,0">
                                     <TextBlock Text="{Binding ListModelsStatusMessage}"
                                                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                                FontSize="11"
+                                               TextWrapping="Wrap"
                                                Margin="0,0,0,2" />
                                     <TextBlock Text="{Binding TestStatusMessage}"
                                                FontSize="11"
+                                               TextWrapping="Wrap"
                                                Margin="0,0,0,2">
                                         <TextBlock.Style>
                                             <Style TargetType="TextBlock">
@@ -384,13 +404,13 @@
                         </ui:Card>
 
                         <!-- 凭据设置卡片 -->
-                        <ui:Card Margin="0,0,0,12" Padding="14">
+                        <ui:Card Margin="0,0,0,12" Padding="12">
                             <StackPanel>
                                 <TextBlock Text="凭据管理" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8" />
 
                                 <ComboBox SelectedValue="{Binding CredentialEditKind, Mode=TwoWay}"
                                           SelectedValuePath="Tag"
-                                          Width="260"
+                                          MaxWidth="260"
                                           HorizontalAlignment="Left"
                                           Margin="0,0,0,8">
                                     <ComboBoxItem Tag="{x:Static settings:CredentialEditKind.Keep}"
@@ -406,7 +426,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileApiKey}" Width="100" VerticalAlignment="Center" />
+                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileApiKey}" Width="75" VerticalAlignment="Center" />
                                     <PasswordBox Grid.Column="1"
                                                  x:Name="ApiKeyPasswordBox"
                                                  PasswordChanged="OnApiKeyPasswordChanged" />
@@ -415,7 +435,7 @@
                         </ui:Card>
 
                         <!-- 生成参数卡片 -->
-                        <ui:Card Margin="0,0,0,12" Padding="14">
+                        <ui:Card Margin="0,0,0,12" Padding="12">
                             <StackPanel>
                                 <TextBlock Text="请求参数" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8" />
 
@@ -424,7 +444,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileTimeout}" Width="100" VerticalAlignment="Center" />
+                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileTimeout}" Width="95" VerticalAlignment="Center" />
                                     <TextBox Grid.Column="1" Text="{Binding TimeoutText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="120" HorizontalAlignment="Left" />
                                 </Grid>
 
@@ -433,7 +453,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileMaxTokens}" Width="100" VerticalAlignment="Center" />
+                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileMaxTokens}" Width="95" VerticalAlignment="Center" />
                                     <TextBox Grid.Column="1" Text="{Binding MaxOutputTokensText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="120" HorizontalAlignment="Left" />
                                 </Grid>
 
@@ -442,7 +462,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileTemperature}" Width="100" VerticalAlignment="Center" />
+                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileTemperature}" Width="95" VerticalAlignment="Center" />
                                     <TextBox Grid.Column="1" Text="{Binding TemperatureText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="120" HorizontalAlignment="Left" />
                                 </Grid>
 
@@ -451,13 +471,13 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfilePrompt}" Width="100" VerticalAlignment="Center" />
+                                    <TextBlock Text="{x:Static app:UiText.SettingsProfilePrompt}" Width="95" VerticalAlignment="Center" />
                                     <ComboBox Grid.Column="1"
                                               ItemsSource="{Binding DataContext.AvailablePrompts, RelativeSource={RelativeSource AncestorType=Window}}"
                                               SelectedValue="{Binding PromptTemplateId, Mode=TwoWay}"
                                               SelectedValuePath="Id"
                                               DisplayMemberPath="DisplayName"
-                                              Width="240"
+                                              MaxWidth="240"
                                               HorizontalAlignment="Left" />
                                 </Grid>
                             </StackPanel>
@@ -494,11 +514,11 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{x:Static app:UiText.SettingsMaxTokensField}" Width="140" VerticalAlignment="Center" />
+                                        <TextBlock Text="{x:Static app:UiText.SettingsMaxTokensField}" Width="120" VerticalAlignment="Center" />
                                         <ComboBox Grid.Column="1"
                                                   SelectedValue="{Binding MaxTokensField, Mode=TwoWay}"
                                                   SelectedValuePath="Tag"
-                                                  Width="200"
+                                                  MaxWidth="200"
                                                   HorizontalAlignment="Left">
                                             <ComboBoxItem Tag="{x:Static settings:MaxTokensField.MaxTokens}"
                                                           Content="max_tokens (默认)" />
@@ -512,7 +532,7 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{x:Static app:UiText.SettingsChatCompletionsPath}" Width="140" VerticalAlignment="Center" />
+                                        <TextBlock Text="{x:Static app:UiText.SettingsChatCompletionsPath}" Width="120" VerticalAlignment="Center" />
                                         <TextBox Grid.Column="1" Text="{Binding ChatCompletionsPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </Grid>
 
@@ -542,11 +562,11 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{x:Static app:UiText.SettingsEffort}" Width="140" VerticalAlignment="Center" />
+                                        <TextBlock Text="{x:Static app:UiText.SettingsEffort}" Width="120" VerticalAlignment="Center" />
                                         <ComboBox Grid.Column="1"
                                                   SelectedValue="{Binding Effort, Mode=TwoWay}"
                                                   SelectedValuePath="Tag"
-                                                  Width="140"
+                                                  MaxWidth="140"
                                                   HorizontalAlignment="Left">
                                             <ComboBoxItem Tag="{x:Null}" Content="默认 (null)" />
                                             <ComboBoxItem Tag="low" Content="low" />
@@ -561,7 +581,7 @@
                                     <TextBlock Text="{x:Static app:UiText.SettingsHaikuEffortWarning}"
                                                Foreground="{DynamicResource SystemFillColorCautionBrush}"
                                                FontSize="11"
-                                               Margin="140,0,0,8"
+                                               Margin="120,0,0,8"
                                                Visibility="{Binding HasHaikuEffortWarning, Converter={StaticResource BoolToVis}}"
                                                TextWrapping="Wrap" />
 
@@ -581,7 +601,7 @@
                 BorderThickness="0,1,0,0"
                 BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                 Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}"
-                Padding="20,12">
+                Padding="16,10">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -589,13 +609,17 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- 状态与异常重试提示 -->
-                <StackPanel Grid.Column="0"
-                            Orientation="Horizontal"
-                            VerticalAlignment="Center">
-                    <TextBlock Text="{Binding StatusMessage}"
+                <Grid Grid.Column="0" Margin="0,0,12,0" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               Text="{Binding StatusMessage}"
                                VerticalAlignment="Center"
                                TextTrimming="CharacterEllipsis"
-                               Margin="0,0,12,0">
+                               Margin="0,0,8,0">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
@@ -608,54 +632,55 @@
                         </TextBlock.Style>
                     </TextBlock>
 
-                    <!-- 保存冲突时展示“重新载入”按钮 -->
-                    <Button Content="{x:Static app:UiText.SettingsReload}"
-                            Command="{Binding ReloadCommand}"
-                            Margin="0,0,8,0">
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsConflict}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <!-- 保存冲突时展示“重新载入”按钮 -->
+                        <Button Content="{x:Static app:UiText.SettingsReload}"
+                                Command="{Binding ReloadCommand}"
+                                Margin="0,0,6,0">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsConflict}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
 
-                    <!-- 开机启动写入失败时展示“重试应用”按钮 -->
-                    <Button Content="{x:Static app:UiText.SettingsRetry}"
-                            Command="{Binding RetryAutoStartCommand}"
-                            Margin="0,0,8,0">
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CanRetryAutoStart}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                        <!-- 开机启动写入失败时展示“重试应用”按钮 -->
+                        <Button Content="{x:Static app:UiText.SettingsRetry}"
+                                Command="{Binding RetryAutoStartCommand}"
+                                Margin="0,0,6,0">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding CanRetryAutoStart}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
 
-                    <!-- 服务待应用刷新/清理失败时展示“重试服务应用”按钮 -->
-                    <Button Content="{x:Static app:UiText.SettingsRetryPendingApply}"
-                            Command="{Binding RetryPendingApplyCommand}"
-                            Margin="0,0,8,0">
-                        <Button.Style>
-                            <Style TargetType="Button">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding CanRetryPendingApply}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                </StackPanel>
+                        <!-- 服务待应用刷新/清理失败时展示“重试服务应用”按钮 -->
+                        <Button Content="{x:Static app:UiText.SettingsRetryPendingApply}"
+                                Command="{Binding RetryPendingApplyCommand}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding CanRetryPendingApply}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </StackPanel>
+                </Grid>
 
                 <!-- 操作按钮区 -->
                 <StackPanel Grid.Column="1"
@@ -664,14 +689,14 @@
                     <ui:Button Content="{x:Static app:UiText.SettingsCancel}"
                                Command="{Binding CancelCommand}"
                                IsCancel="True"
-                               Width="84"
+                               Width="80"
                                Margin="0,0,8,0" />
                     <ui:Button Content="{x:Static app:UiText.SettingsSave}"
                                Command="{Binding SaveCommand}"
                                Click="OnSaveButtonClick"
                                IsDefault="True"
                                Appearance="Primary"
-                               Width="84" />
+                               Width="80" />
                 </StackPanel>
             </Grid>
         </Border>

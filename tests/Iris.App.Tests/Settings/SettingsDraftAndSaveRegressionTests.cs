@@ -600,46 +600,53 @@ public sealed class SettingsDraftAndSaveRegressionTests
                 var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
                 var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
-                f.Edit.OnTestDraft = async (d, ct) =>
+                try
                 {
-                    entered.TrySetResult();
-                    await release.Task;
-                    return new ProviderTestResult(true, TimeSpan.Zero, "ok");
-                };
-
-                var testTask = f.Vm.ExecuteTestDraftAsync();
-                await entered.Task;
-
-                f.Vm.SelectedProfile!.DisplayName = "captured-display-name";
-
-                int uiThreadId = Environment.CurrentManagedThreadId;
-                bool offUiThreadNotification = false;
-                f.Vm.PropertyChanged += (s, e) =>
-                {
-                    if (Environment.CurrentManagedThreadId != uiThreadId)
+                    f.Edit.OnTestDraft = async (d, ct) =>
                     {
-                        offUiThreadNotification = true;
-                    }
-                };
+                        entered.TrySetResult();
+                        await release.Task;
+                        return new ProviderTestResult(true, TimeSpan.Zero, "ok");
+                    };
 
-                // 发起保存：在进入 Drain 等待前已固化计划并冻结
-                var saveTask = f.Vm.ExecuteSaveAsync();
+                    var testTask = f.Vm.ExecuteTestDraftAsync();
+                    await entered.Task;
 
-                // 尝试在等待期间篡改属性与集合
-                f.Vm.SelectedProfile.DisplayName = "modified-during-save";
-                f.Vm.SelectedProfile.CredentialEditKind = CredentialEditKind.Replace;
-                f.Vm.Profiles.Clear(); // 尝试绕过冻结修改集合
+                    f.Vm.SelectedProfile!.DisplayName = "captured-display-name";
 
-                f.Vm.Profiles.Count.ShouldBe(1, "保存冻结期间受控集合拒绝修改");
+                    int uiThreadId = Environment.CurrentManagedThreadId;
+                    bool offUiThreadNotification = false;
+                    f.Vm.PropertyChanged += (s, e) =>
+                    {
+                        if (Environment.CurrentManagedThreadId != uiThreadId)
+                        {
+                            offUiThreadNotification = true;
+                        }
+                    };
 
-                release.SetResult();
-                await testTask;
-                await saveTask;
+                    // 发起保存：在进入 Drain 等待前已固化计划并冻结
+                    var saveTask = f.Vm.ExecuteSaveAsync();
 
-                f.Edit.LastPlan.ShouldNotBeNull();
-                f.Edit.LastPlan!.TranslationChanges.Single().TargetProfile?.DisplayName.ShouldBe("captured-display-name",
-                    "实际提交的计划必须是点击保存时固化的捕获值，不得受等待期间修改的影响");
-                offUiThreadNotification.ShouldBeFalse("所有通知必须在 UI 线程发出");
+                    // 尝试在等待期间篡改属性与集合
+                    f.Vm.SelectedProfile.DisplayName = "modified-during-save";
+                    f.Vm.SelectedProfile.CredentialEditKind = CredentialEditKind.Replace;
+                    f.Vm.Profiles.Clear(); // 尝试绕过冻结修改集合
+
+                    f.Vm.Profiles.Count.ShouldBe(1, "保存冻结期间受控集合拒绝修改");
+
+                    release.SetResult();
+                    await testTask;
+                    await saveTask;
+
+                    f.Edit.LastPlan.ShouldNotBeNull();
+                    f.Edit.LastPlan!.TranslationChanges.Single().TargetProfile?.DisplayName.ShouldBe("captured-display-name",
+                        "实际提交的计划必须是点击保存时固化的捕获值，不得受等待期间修改的影响");
+                    offUiThreadNotification.ShouldBeFalse("所有通知必须在 UI 线程发出");
+                }
+                finally
+                {
+                    release.TrySetResult();
+                }
             }
 
             // Case 3b: 保存等待期间关停产生零 Commit
@@ -648,28 +655,35 @@ public sealed class SettingsDraftAndSaveRegressionTests
                 var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
                 var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
-                fStop.Edit.OnTestDraft = async (d, ct) =>
+                try
                 {
-                    entered.TrySetResult();
-                    await release.Task;
-                    return new ProviderTestResult(true, TimeSpan.Zero, "ok");
-                };
+                    fStop.Edit.OnTestDraft = async (d, ct) =>
+                    {
+                        entered.TrySetResult();
+                        await release.Task;
+                        return new ProviderTestResult(true, TimeSpan.Zero, "ok");
+                    };
 
-                var testTask = fStop.Vm.ExecuteTestDraftAsync();
-                await entered.Task;
+                    var testTask = fStop.Vm.ExecuteTestDraftAsync();
+                    await entered.Task;
 
-                fStop.Vm.SelectedProfile!.DisplayName = "captured-to-abort";
-                var saveTask = fStop.Vm.ExecuteSaveAsync();
+                    fStop.Vm.SelectedProfile!.DisplayName = "captured-to-abort";
+                    var saveTask = fStop.Vm.ExecuteSaveAsync();
 
-                // 保存等待测试退出期间请求关停
-                fStop.SaveCoordinator.StopAcceptanceAndCancelPreCommit();
-                fStop.Vm.StopAcceptance();
+                    // 保存等待测试退出期间请求关停
+                    fStop.SaveCoordinator.StopAcceptanceAndCancelPreCommit();
+                    fStop.Vm.StopAcceptance();
 
-                release.SetResult();
-                await testTask;
-                await saveTask;
+                    release.SetResult();
+                    await testTask;
+                    await saveTask;
 
-                fStop.Edit.LastPlan.ShouldBeNull("保存等待测试排干期间触发关停，绝不得向 ISettingsEditCoordinator 提交任何计划");
+                    fStop.Edit.LastPlan.ShouldBeNull("保存等待测试排干期间触发关停，绝不得向 ISettingsEditCoordinator 提交任何计划");
+                }
+                finally
+                {
+                    release.TrySetResult();
+                }
             }
         });
     }
@@ -687,33 +701,40 @@ public sealed class SettingsDraftAndSaveRegressionTests
                 var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
                 bool ctsCancelled = false;
 
-                f.Edit.OnTestDraft = async (d, ct) =>
+                try
                 {
-                    using var reg = ct.Register(() => ctsCancelled = true);
-                    entered.TrySetResult();
-                    await release.Task;
-                    return new ProviderTestResult(true, TimeSpan.Zero, "old-p1-result");
-                };
+                    f.Edit.OnTestDraft = async (d, ct) =>
+                    {
+                        using var reg = ct.Register(() => ctsCancelled = true);
+                        entered.TrySetResult();
+                        await release.Task;
+                        return new ProviderTestResult(true, TimeSpan.Zero, "old-p1-result");
+                    };
 
-                var p1 = f.Vm.Profiles[0];
-                var p2 = f.Vm.Profiles[1];
+                    var p1 = f.Vm.Profiles[0];
+                    var p2 = f.Vm.Profiles[1];
 
-                f.Vm.SelectedProfile = p1;
-                var testTask = f.Vm.ExecuteTestDraftAsync();
-                await entered.Task;
+                    f.Vm.SelectedProfile = p1;
+                    var testTask = f.Vm.ExecuteTestDraftAsync();
+                    await entered.Task;
 
-                // 切到 p2
-                f.Vm.SelectedProfile = p2;
-                ctsCancelled.ShouldBeTrue("切出当前 Profile 必须请求取消在途测试");
+                    // 切到 p2
+                    f.Vm.SelectedProfile = p2;
+                    ctsCancelled.ShouldBeTrue("切出当前 Profile 必须请求取消在途测试");
 
-                // 切回 p1
-                f.Vm.SelectedProfile = p1;
+                    // 切回 p1
+                    f.Vm.SelectedProfile = p1;
 
-                // 放行旧测试
-                release.SetResult();
-                await testTask;
+                    // 放行旧测试
+                    release.SetResult();
+                    await testTask;
 
-                p1.TestStatusMessage.ShouldBeNull("往返切换后旧测试结果必须被拒绝，不得回写当前项");
+                    p1.TestStatusMessage.ShouldBeNull("往返切换后旧测试结果必须被拒绝，不得回写当前项");
+                }
+                finally
+                {
+                    release.TrySetResult();
+                }
             }
 
             // Case 4b: 外部更换 endpoint 递增 revision，旧模型列表结果被拒绝
@@ -722,31 +743,38 @@ public sealed class SettingsDraftAndSaveRegressionTests
                 var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
                 var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
-                f.Edit.OnListDraftModels = async (d, ct) =>
+                try
                 {
-                    entered.TrySetResult();
-                    await release.Task;
-                    return ["old-endpoint-model"];
-                };
-
-                var listTask = f.Vm.ExecuteListModelsAsync();
-                await entered.Task;
-
-                // 外部配置更新，修改 BaseUrl
-                var oldRev = f.Vm.SelectedProfile!.Revision;
-                f.Settings.Publish(f.Settings.Current with
-                {
-                    Translation = f.Settings.Current.Translation with
+                    f.Edit.OnListDraftModels = async (d, ct) =>
                     {
-                        Providers = [CreateSampleProfile("p1") with { BaseUrl = "https://new-endpoint.invalid/v1" }]
-                    }
-                });
-                f.Vm.SelectedProfile.Revision.ShouldNotBe(oldRev);
+                        entered.TrySetResult();
+                        await release.Task;
+                        return ["old-endpoint-model"];
+                    };
 
-                release.SetResult();
-                await listTask;
+                    var listTask = f.Vm.ExecuteListModelsAsync();
+                    await entered.Task;
 
-                f.Vm.SelectedProfile.AvailableModels.ShouldNotContain("old-endpoint-model", "端点变更后陈旧模型结果必须被拒绝");
+                    // 外部配置更新，修改 BaseUrl
+                    var oldRev = f.Vm.SelectedProfile!.Revision;
+                    f.Settings.Publish(f.Settings.Current with
+                    {
+                        Translation = f.Settings.Current.Translation with
+                        {
+                            Providers = [CreateSampleProfile("p1") with { BaseUrl = "https://new-endpoint.invalid/v1" }]
+                        }
+                    });
+                    f.Vm.SelectedProfile.Revision.ShouldNotBe(oldRev);
+
+                    release.SetResult();
+                    await listTask;
+
+                    f.Vm.SelectedProfile.AvailableModels.ShouldNotContain("old-endpoint-model", "端点变更后陈旧模型结果必须被拒绝");
+                }
+                finally
+                {
+                    release.TrySetResult();
+                }
             }
 
             // Case 4c: 测试进行中编辑草稿，触发在途取消
@@ -756,22 +784,29 @@ public sealed class SettingsDraftAndSaveRegressionTests
                 var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
                 bool canceled = false;
 
-                f.Edit.OnTestDraft = async (d, ct) =>
+                try
                 {
-                    using var reg = ct.Register(() => canceled = true);
-                    entered.TrySetResult();
-                    await release.Task;
-                    return new ProviderTestResult(true, TimeSpan.Zero, "ok");
-                };
+                    f.Edit.OnTestDraft = async (d, ct) =>
+                    {
+                        using var reg = ct.Register(() => canceled = true);
+                        entered.TrySetResult();
+                        await release.Task;
+                        return new ProviderTestResult(true, TimeSpan.Zero, "ok");
+                    };
 
-                var testTask = f.Vm.ExecuteTestDraftAsync();
-                await entered.Task;
+                    var testTask = f.Vm.ExecuteTestDraftAsync();
+                    await entered.Task;
 
-                f.Vm.SelectedProfile!.DisplayName = "edited-name-during-test";
-                canceled.ShouldBeTrue("编辑草稿属性时必须触发在途操作取消");
+                    f.Vm.SelectedProfile!.DisplayName = "edited-name-during-test";
+                    canceled.ShouldBeTrue("编辑草稿属性时必须触发在途操作取消");
 
-                release.SetResult();
-                await testTask;
+                    release.SetResult();
+                    await testTask;
+                }
+                finally
+                {
+                    release.TrySetResult();
+                }
             }
 
             // Case 4d: 测试进行中删除草稿，取消旧任务并丢弃结果
@@ -781,25 +816,32 @@ public sealed class SettingsDraftAndSaveRegressionTests
                 var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
                 bool canceled = false;
 
-                f.Edit.OnTestDraft = async (d, ct) =>
+                try
                 {
-                    using var reg = ct.Register(() => canceled = true);
-                    entered.TrySetResult();
-                    await release.Task;
-                    return new ProviderTestResult(true, TimeSpan.Zero, "ok-deleted");
-                };
+                    f.Edit.OnTestDraft = async (d, ct) =>
+                    {
+                        using var reg = ct.Register(() => canceled = true);
+                        entered.TrySetResult();
+                        await release.Task;
+                        return new ProviderTestResult(true, TimeSpan.Zero, "ok-deleted");
+                    };
 
-                var target = f.Vm.Profiles[0];
-                f.Vm.SelectedProfile = target;
-                var testTask = f.Vm.ExecuteTestDraftAsync();
-                await entered.Task;
+                    var target = f.Vm.Profiles[0];
+                    f.Vm.SelectedProfile = target;
+                    var testTask = f.Vm.ExecuteTestDraftAsync();
+                    await entered.Task;
 
-                f.Vm.ExecuteDeleteProfile();
-                canceled.ShouldBeTrue("删除草稿必须取消在途测试任务");
+                    f.Vm.ExecuteDeleteProfile();
+                    canceled.ShouldBeTrue("删除草稿必须取消在途测试任务");
 
-                release.SetResult();
-                await testTask;
-                target.TestStatusMessage.ShouldBeNull("已删除草稿不得接受旧测试结果");
+                    release.SetResult();
+                    await testTask;
+                    target.TestStatusMessage.ShouldBeNull("已删除草稿不得接受旧测试结果");
+                }
+                finally
+                {
+                    release.TrySetResult();
+                }
             }
 
             // Case 4e: 列模型进行中执行 Reload，取消旧任务并丢弃结果
@@ -809,23 +851,30 @@ public sealed class SettingsDraftAndSaveRegressionTests
                 var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
                 bool canceled = false;
 
-                f.Edit.OnListDraftModels = async (d, ct) =>
+                try
                 {
-                    using var reg = ct.Register(() => canceled = true);
-                    entered.TrySetResult();
-                    await release.Task;
-                    return ["stale-after-reload"];
-                };
+                    f.Edit.OnListDraftModels = async (d, ct) =>
+                    {
+                        using var reg = ct.Register(() => canceled = true);
+                        entered.TrySetResult();
+                        await release.Task;
+                        return ["stale-after-reload"];
+                    };
 
-                var listTask = f.Vm.ExecuteListModelsAsync();
-                await entered.Task;
+                    var listTask = f.Vm.ExecuteListModelsAsync();
+                    await entered.Task;
 
-                f.Vm.ExecuteReload();
-                canceled.ShouldBeTrue("Reload 必须取消在途模型请求");
+                    f.Vm.ExecuteReload();
+                    canceled.ShouldBeTrue("Reload 必须取消在途模型请求");
 
-                release.SetResult();
-                await listTask;
-                f.Vm.SelectedProfile!.AvailableModels.ShouldNotContain("stale-after-reload", "Reload 后陈旧模型列表必须被丢弃");
+                    release.SetResult();
+                    await listTask;
+                    f.Vm.SelectedProfile!.AvailableModels.ShouldNotContain("stale-after-reload", "Reload 后陈旧模型列表必须被丢弃");
+                }
+                finally
+                {
+                    release.TrySetResult();
+                }
             }
         });
     }
@@ -990,44 +1039,56 @@ public sealed class SettingsDraftAndSaveRegressionTests
             {
                 var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
                 var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-                f.Edit.OnRetryApply = async r =>
+                Task? retryTask = null;
+                try
                 {
-                    entered.SetResult();
-                    await release.Task;
-                    return new SettingsApplyResult(true);
-                };
-                f.Receipts.TryReserveSlot();
-                f.Receipts.ConvertReservationToPending(new TestReceipt(), null);
-                var retryTask = f.Vm.ExecuteRetryPendingApplyAsync();
-                await entered.Task;
-
-                f.Settings.Publish(f.Settings.Current with
-                {
-                    Translation = f.Settings.Current.Translation with
+                    f.Edit.OnRetryApply = async r =>
                     {
-                        Providers = [CreateSampleProfile("p1"), CreateSampleProfile("p2", 1)]
+                        entered.SetResult();
+                        await release.Task;
+                        return new SettingsApplyResult(true);
+                    };
+                    f.Receipts.TryReserveSlot();
+                    f.Receipts.ConvertReservationToPending(new TestReceipt(), null);
+                    retryTask = f.Vm.ExecuteRetryPendingApplyAsync();
+                    await entered.Task;
+
+                    f.Settings.Publish(f.Settings.Current with
+                    {
+                        Translation = f.Settings.Current.Translation with
+                        {
+                            Providers = [CreateSampleProfile("p1"), CreateSampleProfile("p2", 1)]
+                        }
+                    });
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+
+                    var pendingP2 = f.Vm.Profiles.Single(p => p.Id == "p2");
+                    pendingP2.IsFrozen.ShouldBeTrue("重试进行中外部新增项必须处于冻结状态");
+
+                    release.SetResult();
+                    await retryTask;
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+
+                    f.Vm.CanEdit.ShouldBeTrue();
+                    pendingP2.IsFrozen.ShouldBeFalse("重试完成后外部新增项必须解冻");
+                    f.Vm.IsOrderDirty.ShouldBeFalse();
+
+                    // 实际编辑新项并再次保存
+                    f.Vm.SelectedProfile = pendingP2;
+                    pendingP2.DisplayName = "p2-edited-after-retry";
+                    pendingP2.DisplayName.ShouldBe("p2-edited-after-retry");
+                    await f.Vm.ExecuteSaveAsync();
+                    f.Edit.LastPlan.ShouldNotBeNull();
+                    f.Edit.LastPlan!.TranslationChanges.Any(c => c.TargetProfile?.DisplayName == "p2-edited-after-retry").ShouldBeTrue();
+                }
+                finally
+                {
+                    release.TrySetResult();
+                    if (retryTask != null)
+                    {
+                        try { await retryTask; } catch { }
                     }
-                });
-                await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-
-                var pendingP2 = f.Vm.Profiles.Single(p => p.Id == "p2");
-                pendingP2.IsFrozen.ShouldBeTrue("重试进行中外部新增项必须处于冻结状态");
-
-                release.SetResult();
-                await retryTask;
-                await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-
-                f.Vm.CanEdit.ShouldBeTrue();
-                pendingP2.IsFrozen.ShouldBeFalse("重试完成后外部新增项必须解冻");
-                f.Vm.IsOrderDirty.ShouldBeFalse();
-
-                // 实际编辑新项并再次保存
-                f.Vm.SelectedProfile = pendingP2;
-                pendingP2.DisplayName = "p2-edited-after-retry";
-                pendingP2.DisplayName.ShouldBe("p2-edited-after-retry");
-                await f.Vm.ExecuteSaveAsync();
-                f.Edit.LastPlan.ShouldNotBeNull();
-                f.Edit.LastPlan!.TranslationChanges.Any(c => c.TargetProfile?.DisplayName == "p2-edited-after-retry").ShouldBeTrue();
+                }
             }
 
             // 2. 自启重试挂起期间外部新增服务，完成后新项解冻且可编辑
@@ -1035,34 +1096,46 @@ public sealed class SettingsDraftAndSaveRegressionTests
             {
                 var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
                 var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-                f.Auto.OnSetEnabled = async val =>
+                Task? autoRetryTask = null;
+                try
                 {
-                    entered.SetResult();
-                    await release.Task;
-                };
-                var autoRetryTask = f.Vm.ExecuteRetryAutoStartAsync();
-                await entered.Task;
-
-                f.Settings.Publish(f.Settings.Current with
-                {
-                    Translation = f.Settings.Current.Translation with
+                    f.Auto.OnSetEnabled = async val =>
                     {
-                        Providers = [CreateSampleProfile("p1"), CreateSampleProfile("p3", 1)]
+                        entered.SetResult();
+                        await release.Task;
+                    };
+                    autoRetryTask = f.Vm.ExecuteRetryAutoStartAsync();
+                    await entered.Task;
+
+                    f.Settings.Publish(f.Settings.Current with
+                    {
+                        Translation = f.Settings.Current.Translation with
+                        {
+                            Providers = [CreateSampleProfile("p1"), CreateSampleProfile("p3", 1)]
+                        }
+                    });
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+
+                    var pendingP3 = f.Vm.Profiles.Single(p => p.Id == "p3");
+                    pendingP3.IsFrozen.ShouldBeTrue("自启重试挂起期间外部新增项必须冻结");
+
+                    release.SetResult();
+                    await autoRetryTask;
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+
+                    f.Vm.CanEdit.ShouldBeTrue();
+                    pendingP3.IsFrozen.ShouldBeFalse("自启重试完成后新增项必须解冻");
+                    pendingP3.DisplayName = "p3-edited-after-autostart";
+                    pendingP3.DisplayName.ShouldBe("p3-edited-after-autostart");
+                }
+                finally
+                {
+                    release.TrySetResult();
+                    if (autoRetryTask != null)
+                    {
+                        try { await autoRetryTask; } catch { }
                     }
-                });
-                await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-
-                var pendingP3 = f.Vm.Profiles.Single(p => p.Id == "p3");
-                pendingP3.IsFrozen.ShouldBeTrue("自启重试挂起期间外部新增项必须冻结");
-
-                release.SetResult();
-                await autoRetryTask;
-                await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-
-                f.Vm.CanEdit.ShouldBeTrue();
-                pendingP3.IsFrozen.ShouldBeFalse("自启重试完成后新增项必须解冻");
-                pendingP3.DisplayName = "p3-edited-after-autostart";
-                pendingP3.DisplayName.ShouldBe("p3-edited-after-autostart");
+                }
             }
 
             // 3. 保存挂起期间外部替换服务，完成后解冻且可编辑；会话停止关闭交错后保持冻结拒绝变更
@@ -1070,44 +1143,56 @@ public sealed class SettingsDraftAndSaveRegressionTests
             {
                 var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
                 var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-                f.Edit.OnCommit = async plan =>
+                Task? saveTask = null;
+                try
                 {
-                    entered.SetResult();
-                    await release.Task;
-                    return new SettingsEditResult(SettingsEditStatus.Applied);
-                };
-                f.Vm.SelectedProfile!.DisplayName = "p1-dirty";
-                var saveTask = f.Vm.ExecuteSaveAsync();
-                await entered.Task;
-
-                f.Settings.Publish(f.Settings.Current with
-                {
-                    Translation = f.Settings.Current.Translation with
+                    f.Edit.OnCommit = async plan =>
                     {
-                        Providers = [CreateSampleProfile("p1") with { Model = "external-replaced-model" }, CreateSampleProfile("p4", 1)]
+                        entered.SetResult();
+                        await release.Task;
+                        return new SettingsEditResult(SettingsEditStatus.Applied);
+                    };
+                    f.Vm.SelectedProfile!.DisplayName = "p1-dirty";
+                    saveTask = f.Vm.ExecuteSaveAsync();
+                    await entered.Task;
+
+                    f.Settings.Publish(f.Settings.Current with
+                    {
+                        Translation = f.Settings.Current.Translation with
+                        {
+                            Providers = [CreateSampleProfile("p1") with { Model = "external-replaced-model" }, CreateSampleProfile("p4", 1)]
+                        }
+                    });
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+
+                    var p4 = f.Vm.Profiles.Single(p => p.Id == "p4");
+                    p4.IsFrozen.ShouldBeTrue("保存进行中外部新增项必须冻结");
+
+                    release.SetResult();
+                    await saveTask;
+                    await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
+
+                    f.Vm.CanEdit.ShouldBeTrue();
+                    var currentP4 = f.Vm.Profiles.Single(p => p.Id == "p4");
+                    currentP4.IsFrozen.ShouldBeFalse("保存完成后新增项解冻");
+                    currentP4.DisplayName = "p4-edited";
+                    currentP4.DisplayName.ShouldBe("p4-edited");
+
+                    // 关闭会话（StopAcceptance）：草稿必须保持冻结，拒绝后续修改
+                    f.Vm.StopAcceptance();
+                    f.Vm.CanEdit.ShouldBeFalse();
+                    currentP4.IsFrozen.ShouldBeTrue("会话停止后必须保持全部草稿冻结");
+                    currentP4.DisplayName = "p4-attempt-modify-after-stop";
+                    currentP4.DisplayName.ShouldBe("p4-edited", "已停止会话严禁接受属性修改");
+                }
+                finally
+                {
+                    release.TrySetResult();
+                    if (saveTask != null)
+                    {
+                        try { await saveTask; } catch { }
                     }
-                });
-                await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-
-                var p4 = f.Vm.Profiles.Single(p => p.Id == "p4");
-                p4.IsFrozen.ShouldBeTrue("保存进行中外部新增项必须冻结");
-
-                release.SetResult();
-                await saveTask;
-                await Dispatcher.Yield(DispatcherPriority.ApplicationIdle);
-
-                f.Vm.CanEdit.ShouldBeTrue();
-                var currentP4 = f.Vm.Profiles.Single(p => p.Id == "p4");
-                currentP4.IsFrozen.ShouldBeFalse("保存完成后新增项解冻");
-                currentP4.DisplayName = "p4-edited";
-                currentP4.DisplayName.ShouldBe("p4-edited");
-
-                // 关闭会话（StopAcceptance）：草稿必须保持冻结，拒绝后续修改
-                f.Vm.StopAcceptance();
-                f.Vm.CanEdit.ShouldBeFalse();
-                currentP4.IsFrozen.ShouldBeTrue("会话停止后必须保持全部草稿冻结");
-                currentP4.DisplayName = "p4-attempt-modify-after-stop";
-                currentP4.DisplayName.ShouldBe("p4-edited", "已停止会话严禁接受属性修改");
+                }
             }
         });
     }
@@ -1344,6 +1429,7 @@ public sealed class SettingsDraftAndSaveRegressionTests
                 var taskA = saveCoordinator.CommitPlanAsync(planA, false, false, ctsA.Token);
                 await gateAEntered.Task;
 
+                TestReceipt? r32 = null;
                 try
                 {
                     // 此时保存 A 持有在途预留：31 pending + 1 in-flight = 32（满额）
@@ -1385,7 +1471,7 @@ public sealed class SettingsDraftAndSaveRegressionTests
                     receiptManager.PendingCount.ShouldBe(31);
 
                     // 满额 General-only 对照：占满第 32 个槽位后，仅修改 General 不受阻断正常提交
-                    var r32 = new TestReceipt();
+                    r32 = new TestReceipt();
                     receiptManager.TryReserveSlot().ShouldBeTrue();
                     receiptManager.ConvertReservationToPending(r32, null);
                     receiptManager.PendingCount.ShouldBe(32);
@@ -1393,15 +1479,23 @@ public sealed class SettingsDraftAndSaveRegressionTests
                     var generalPlan = new SettingsEditPlan(new GeneralSettingsPatch(new SettingsFieldEdit<AppTheme>(AppTheme.Light, AppTheme.Dark), null, null, null), [], null);
                     var generalResult = await saveCoordinator.CommitPlanAsync(generalPlan, false, false, CancellationToken.None);
                     generalResult.Status.ShouldBe(GeneralSaveStatus.SavedAndApplied, "满额时 General-only 保存不预留 Provider 槽位正常提交");
-
-                    // 清理测试回执
-                    foreach (var r in testReceipts) receiptManager.RemoveReceipt(r);
-                    receiptManager.RemoveReceipt(r32);
                 }
                 finally
                 {
+                    ctsA.Cancel();
                     gateARelease.TrySetResult();
+                    try
+                    {
+                        await taskA;
+                    }
+                    catch
+                    {
+                        // 忽略测试失败时 taskA 抛出的取消或其它异常，保证其完全退出
+                    }
+                    await saveCoordinator.WaitForActiveWorkAsync();
                     saveCoordinator.Dispose();
+                    foreach (var r in testReceipts) receiptManager.RemoveReceipt(r);
+                    if (r32 != null) receiptManager.RemoveReceipt(r32);
                 }
             }
 
@@ -1521,10 +1615,13 @@ public sealed class SettingsDraftAndSaveRegressionTests
                 using var rootProvider = services.BuildServiceProvider();
                 var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
 
+                var commitEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                var commitRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                Task? saveTask = null;
+                Task? shutdownTask = null;
+
                 try
                 {
-                    var commitEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-                    var commitRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
                     var orphanedReceipt = new TestReceipt();
                     int coreCommitCalls = 0;
 
@@ -1551,13 +1648,13 @@ public sealed class SettingsDraftAndSaveRegressionTests
                     witness1.IsDisposed.ShouldBeFalse("会话 1 进行中 scope 未释放");
 
                     vm1.SelectedProfile!.DisplayName = "p1-interleaved";
-                    var saveTask = vm1.ExecuteSaveAsync();
+                    saveTask = vm1.ExecuteSaveAsync();
                     await commitEntered.Task;
 
                     // 在提交在途期间关闭窗口并请求停止
                     session1.Window.ForceClose = true;
                     session1.Window.Close();
-                    var shutdownTask = session1.ShutdownAsync();
+                    shutdownTask = session1.ShutdownAsync();
 
                     // 证明在提交返回前，旧 scope 尚未被释放（等待提交及 UI 收尾）
                     witness1.IsDisposed.ShouldBeFalse("提交在途未返回时旧 scope 绝不得被提前释放");
@@ -1616,6 +1713,15 @@ public sealed class SettingsDraftAndSaveRegressionTests
                 }
                 finally
                 {
+                    commitRelease.TrySetResult();
+                    if (saveTask != null)
+                    {
+                        try { await saveTask; } catch { }
+                    }
+                    if (shutdownTask != null)
+                    {
+                        try { await shutdownTask; } catch { }
+                    }
                     await presenter.ShutdownAsync();
                 }
             }
@@ -1712,6 +1818,166 @@ public sealed class SettingsDraftAndSaveRegressionTests
                 if (Directory.Exists(tempDir))
                 {
                     try { Directory.Delete(tempDir, true); } catch { }
+                }
+            }
+        });
+    }
+
+    // 9. 受控故障注入验证：在放行闸门前注入测试失败异常，验证 finally 路径成功退出在途任务、释放窗口并完成收尾，无挂起与死锁
+    [Fact]
+    public async Task Scenario9_FaultInjection_CleansUpTasksAndWindows_WhenAssertionFailsBeforeGateRelease()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            // 9a: Case 7b 清理路径受控故障注入验证
+            await using (var f = new TestFixture(CreateSampleProfile("p1")))
+            {
+                var gateAEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                var gateARelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                using var ctsA = new CancellationTokenSource();
+                f.Edit.OnCommitWithToken = async (plan, ct) =>
+                {
+                    gateAEntered.SetResult();
+                    await gateARelease.Task;
+                    ct.ThrowIfCancellationRequested();
+                    return new SettingsEditResult(SettingsEditStatus.Applied);
+                };
+
+                var planA = new SettingsEditPlan(new GeneralSettingsPatch(null, null, null, null), [new TranslationProfileChange(TranslationProfileChangeKind.Add, null, CreateSampleProfile("pA"), new ProviderCredentialEdit(CredentialEditKind.Keep))], null);
+                var taskA = f.SaveCoordinator.CommitPlanAsync(planA, false, false, ctsA.Token);
+                await gateAEntered.Task;
+
+                bool injectedExceptionCaught = false;
+                try
+                {
+                    try
+                    {
+                        // 注入受控断言失败异常（在放行 gateARelease 之前）
+                        throw new InvalidOperationException("INJECTED_ASSERTION_FAILURE_BEFORE_GATE_A_RELEASE");
+                    }
+                    finally
+                    {
+                        ctsA.Cancel();
+                        gateARelease.TrySetResult();
+                        try
+                        {
+                            await taskA;
+                        }
+                        catch
+                        {
+                        }
+                        await f.SaveCoordinator.WaitForActiveWorkAsync();
+                    }
+                }
+                catch (InvalidOperationException ex) when (ex.Message == "INJECTED_ASSERTION_FAILURE_BEFORE_GATE_A_RELEASE")
+                {
+                    injectedExceptionCaught = true;
+                }
+
+                injectedExceptionCaught.ShouldBeTrue("受控注入异常成功触发");
+                taskA.IsCompleted.ShouldBeTrue("finally 清理后 taskA 必须已经完成退出");
+            }
+
+            // 9b: Case 7d 清理路径受控故障注入验证
+            var tempDir9b = Path.Combine(Path.GetTempPath(), "iris-test-reg9b-" + Guid.NewGuid().ToString("N"));
+            Directory.CreateDirectory(tempDir9b);
+            try
+            {
+                var paths = new TestAppPaths(tempDir9b);
+                var secretStore = new MemorySecretStore();
+                var autoStartService = new TestAutoStartService();
+                var receiptManager = new SettingsApplyReceiptManager();
+                var dispatcher = Dispatcher.CurrentDispatcher;
+                var uiDispatcher = new WpfUiDispatcher(() => dispatcher);
+                var editCoordinator = new TestEditCoordinator();
+                var initialProfile = CreateSampleProfile("p1");
+
+                var initialSettings = new AppSettings
+                {
+                    Translation = new TranslationSettings { Providers = [initialProfile] }
+                };
+                var settingsService = new MutableSettingsService(initialSettings);
+
+                var services = new ServiceCollection();
+                services.AddLogging();
+                services.AddSingleton<IAppPaths>(paths);
+                services.AddSingleton<ISecretStore>(secretStore);
+                services.AddSingleton<IAutoStartService>(autoStartService);
+                services.AddSingleton<ISettingsApplyReceiptManager>(receiptManager);
+                services.AddSingleton<IUiDispatcher>(uiDispatcher);
+                services.AddSingleton<ThemeService>();
+                services.AddSingleton<ISettingsService>(settingsService);
+                services.AddSingleton<ISettingsEditCoordinator>(editCoordinator);
+
+                services.AddScoped<GeneralSettingsSaveCoordinator>();
+                services.AddScoped<SettingsViewModel>();
+                services.AddTransient<SettingsWindow>();
+
+                using var rootProvider = services.BuildServiceProvider();
+                var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
+
+                var commitEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                var commitRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                Task? saveTask = null;
+                Task? shutdownTask = null;
+                bool injectedExceptionCaught7d = false;
+
+                editCoordinator.OnCommitWithToken = async (plan, ct) =>
+                {
+                    commitEntered.SetResult();
+                    await commitRelease.Task;
+                    return new SettingsEditResult(SettingsEditStatus.ApplyPending, PendingApply: new TestReceipt());
+                };
+
+                try
+                {
+                    try
+                    {
+                        await presenter.ShowAsync("translation");
+                        var session = presenter.ActiveSession!;
+                        var vm = session.ViewModel;
+                        vm.SelectedProfile!.DisplayName = "p1-injected";
+                        saveTask = vm.ExecuteSaveAsync();
+                        await commitEntered.Task;
+
+                        session.Window.ForceClose = true;
+                        session.Window.Close();
+                        shutdownTask = session.ShutdownAsync();
+
+                        // 注入受控断言失败异常（在放行 commitRelease 之前）
+                        throw new InvalidOperationException("INJECTED_ASSERTION_FAILURE_BEFORE_COMMIT_RELEASE");
+                    }
+                    finally
+                    {
+                        commitRelease.TrySetResult();
+                        if (saveTask != null)
+                        {
+                            try { await saveTask; } catch { }
+                        }
+                        if (shutdownTask != null)
+                        {
+                            try { await shutdownTask; } catch { }
+                        }
+                        await presenter.ShutdownAsync();
+                    }
+                }
+                catch (InvalidOperationException ex) when (ex.Message == "INJECTED_ASSERTION_FAILURE_BEFORE_COMMIT_RELEASE")
+                {
+                    injectedExceptionCaught7d = true;
+                }
+
+                injectedExceptionCaught7d.ShouldBeTrue("受控注入异常成功触发");
+                (saveTask != null).ShouldBeTrue("saveTask 必须已初始化");
+                saveTask!.IsCompleted.ShouldBeTrue("finally 清理后 saveTask 必须已经完成退出");
+                (shutdownTask != null).ShouldBeTrue("shutdownTask 必须已初始化");
+                shutdownTask!.IsCompleted.ShouldBeTrue("finally 清理后 shutdownTask 必须已经完成退出");
+                presenter.ActiveSession.ShouldBeNull("finally 清理后 presenter 活跃会话必须已关闭归零");
+            }
+            finally
+            {
+                if (Directory.Exists(tempDir9b))
+                {
+                    try { Directory.Delete(tempDir9b, recursive: true); } catch { }
                 }
             }
         });

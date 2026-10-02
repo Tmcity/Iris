@@ -643,7 +643,7 @@ Platform/DesktopModels.cs 中 IAutoStartService 的 summary 替换为，并分�
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-10-01 |
-| 状态 | **已落地，待复审（T-019B-R5）** |
+| 状态 | **已落地，待复审（T-019B-R6）** |
 | 依据 | PROVIDER_SETTINGS_UI.md §8；T-019B_PRESETS_PREPARATION.md；本日再次读取 DeepSeek 官方入门文档 |
 | 兼容性 | 仅改变新建预设的 BaseUrl/SuggestedModel；不改类型、签名、schemaVersion，不迁移已有 Profile |
 
