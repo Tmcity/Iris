@@ -193,4 +193,40 @@ public sealed class TranslateWindowPlacementTests
 
         targetMonitor.ShouldNotBeNull();
     }
+
+    [Fact]
+    public void FindNearestMonitor_WithIntCoordSpansExceedingLong_CalculatesInt128DistanceAccurately()
+    {
+        // 显示器 A 在原点，显示器 B 在 20 亿位置
+        var monitorA = new MonitorInfo(@"\\.\DISPLAY_A", new PixelRect(0, 0, 100, 100), new PixelRect(0, 0, 100, 100), 1.0, true);
+        var monitorB = new MonitorInfo(@"\\.\DISPLAY_B", new PixelRect(2_000_000_000, 0, 100, 100), new PixelRect(2_000_000_000, 0, 100, 100), 1.0, false);
+
+        // 点在 -21 亿位置，距离 A 为 21 亿 (dx^2 ≈ 4.41e18)，距离 B 为 41 亿 (dx^2 ≈ 1.681e19 > long.MaxValue)
+        var farPoint = new PixelPoint(-2_100_000_000, 0);
+
+        var nearest = WindowPlacementHelper.FindNearestMonitor(farPoint, [monitorB, monitorA]);
+        nearest.ShouldNotBeNull();
+        nearest!.DeviceName.ShouldBe(monitorA.DeviceName, "Int128 距离计算不应发生 64 位溢出，必须正确选出距离更近的显示器 A");
+    }
+
+    [Fact]
+    public void FindNearestMonitor_TiedDistance_PrimaryMonitorWins_ThenDeviceNameOrdinal()
+    {
+        // 场景 1：距离并列，主显示器优先决胜
+        var mon1 = new MonitorInfo(@"\\.\DISPLAY2", new PixelRect(0, 0, 100, 100), new PixelRect(0, 0, 100, 100), 1.0, false);
+        var mon2 = new MonitorInfo(@"\\.\DISPLAY1", new PixelRect(200, 0, 100, 100), new PixelRect(200, 0, 100, 100), 1.0, true);
+
+        var midPoint = new PixelPoint(150, 0); // 距 mon1.Right(100) 为 50，距 mon2.X(200) 为 50
+        var nearest1 = WindowPlacementHelper.FindNearestMonitor(midPoint, [mon1, mon2]);
+        nearest1.ShouldNotBeNull();
+        nearest1!.DeviceName.ShouldBe(mon2.DeviceName, "并列时主显示器优先");
+
+        // 场景 2：均非主显示器，按 DeviceName Ordinal 升序决胜
+        var monA = new MonitorInfo(@"\\.\DISPLAY_B", new PixelRect(0, 0, 100, 100), new PixelRect(0, 0, 100, 100), 1.0, false);
+        var monB = new MonitorInfo(@"\\.\DISPLAY_A", new PixelRect(200, 0, 100, 100), new PixelRect(200, 0, 100, 100), 1.0, false);
+
+        var nearest2 = WindowPlacementHelper.FindNearestMonitor(midPoint, [monA, monB]);
+        nearest2.ShouldNotBeNull();
+        nearest2!.DeviceName.ShouldBe(monB.DeviceName, "均非主屏并列时，DeviceName Ordinal 较小的 DISPLAY_A 优先");
+    }
 }

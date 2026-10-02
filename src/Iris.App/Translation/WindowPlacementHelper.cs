@@ -140,27 +140,70 @@ internal static partial class WindowPlacementHelper
         return a.X < b.Right && a.Right > b.X && a.Y < b.Bottom && a.Bottom > b.Y;
     }
 
-    private static MonitorInfo? FindNearestMonitor(PixelPoint pt, IReadOnlyList<MonitorInfo> monitors)
+    internal static MonitorInfo? FindNearestMonitor(PixelPoint pt, IReadOnlyList<MonitorInfo> monitors)
     {
-        MonitorInfo? best = null;
-        long bestDistSq = long.MaxValue;
-
-        foreach (var m in monitors)
+        if (monitors == null || monitors.Count == 0)
         {
-            long clampedX = Math.Clamp((long)pt.X, (long)m.Bounds.X, (long)m.Bounds.Right - 1);
-            long clampedY = Math.Clamp((long)pt.Y, (long)m.Bounds.Y, (long)m.Bounds.Bottom - 1);
-            long dx = (long)pt.X - clampedX;
-            long dy = (long)pt.Y - clampedY;
-            long distSq = dx * dx + dy * dy;
+            return null;
+        }
 
-            if (distSq < bestDistSq)
+        MonitorInfo? best = null;
+        Int128 bestDistSq = 0;
+
+        for (int i = 0; i < monitors.Count; i++)
+        {
+            var m = monitors[i];
+            long right = (long)m.Bounds.X + m.Bounds.Width - 1;
+            long bottom = (long)m.Bounds.Y + m.Bounds.Height - 1;
+
+            long dx = 0;
+            if (pt.X < m.Bounds.X)
             {
-                bestDistSq = distSq;
-                best = m;
+                dx = (long)m.Bounds.X - pt.X;
             }
-            else if (distSq == bestDistSq && m.IsPrimary)
+            else if (pt.X > right)
+            {
+                dx = (long)pt.X - right;
+            }
+
+            long dy = 0;
+            if (pt.Y < m.Bounds.Y)
+            {
+                dy = (long)m.Bounds.Y - pt.Y;
+            }
+            else if (pt.Y > bottom)
+            {
+                dy = (long)pt.Y - bottom;
+            }
+
+            Int128 distSq = (Int128)dx * (Int128)dx + (Int128)dy * (Int128)dy;
+
+            if (best == null)
             {
                 best = m;
+                bestDistSq = distSq;
+            }
+            else if (distSq < bestDistSq)
+            {
+                best = m;
+                bestDistSq = distSq;
+            }
+            else if (distSq == bestDistSq)
+            {
+                // Tie breaking: primary monitor first, then DeviceName Ordinal
+                if (m.IsPrimary && !best.IsPrimary)
+                {
+                    best = m;
+                    bestDistSq = distSq;
+                }
+                else if (m.IsPrimary == best.IsPrimary)
+                {
+                    if (string.Compare(m.DeviceName, best.DeviceName, StringComparison.Ordinal) < 0)
+                    {
+                        best = m;
+                        bestDistSq = distSq;
+                    }
+                }
             }
         }
 

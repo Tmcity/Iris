@@ -9,11 +9,13 @@ using Iris.App.Services;
 using Iris.App.Tests.TestSupport;
 using Iris.App.Translation;
 using Iris.Core.Common;
+using Iris.Core.Errors;
 using Iris.Core.Languages;
 using Iris.Core.Platform;
 using Iris.Core.Presentation;
 using Iris.Core.Settings;
 using Iris.Core.Translation;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 using Shouldly;
@@ -23,7 +25,11 @@ namespace Iris.App.Tests.Translation;
 
 public sealed class TranslateWindowViewModelTests
 {
-    private static (TranslateWindowViewModel ViewModel, ITranslationOrchestrator Orchestrator, IClipboardService Clipboard, ISettingsService SettingsService) CreateViewModel(AppSettings? settings = null)
+    private static (TranslateWindowViewModel ViewModel, ITranslationOrchestrator Orchestrator, IClipboardService Clipboard, ISettingsService SettingsService) CreateViewModel(
+        AppSettings? settings = null,
+        IUiDispatcher? uiDispatcher = null,
+        ITextPreprocessor? textPreprocessor = null,
+        ILogger<TranslateWindowViewModel>? logger = null)
     {
         var appSettings = settings ?? new AppSettings
         {
@@ -40,7 +46,14 @@ public sealed class TranslateWindowViewModelTests
         var orchestrator = Substitute.For<ITranslationOrchestrator>();
         var clipboard = Substitute.For<IClipboardService>();
         var settingsPresenter = Substitute.For<ISettingsWindowPresenter>();
-        var dispatcher = new ImmediateUiDispatcher();
+        var dispatcher = uiDispatcher ?? new ImmediateUiDispatcher();
+
+        var preprocessor = textPreprocessor ?? Substitute.For<ITextPreprocessor>();
+        if (textPreprocessor == null)
+        {
+            preprocessor.Prepare(Arg.Any<string>(), Arg.Any<TextOrigin>())
+                .Returns(ci => ci.Arg<string>()?.Trim() ?? string.Empty);
+        }
 
         var vm = new TranslateWindowViewModel(
             settingsService,
@@ -48,7 +61,8 @@ public sealed class TranslateWindowViewModelTests
             clipboard,
             settingsPresenter,
             dispatcher,
-            NullLogger<TranslateWindowViewModel>.Instance);
+            logger ?? NullLogger<TranslateWindowViewModel>.Instance,
+            preprocessor);
 
         return (vm, orchestrator, clipboard, settingsService);
     }
@@ -212,20 +226,35 @@ public sealed class TranslateWindowViewModelTests
     [Fact]
     public async Task MainTranslation_EofDisposeAsyncAndUiFinallyGate_HoldsOperationUntilReleased()
     {
-        var (vm, orchestrator, _, _) = CreateViewModel();
+        var disposeStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var disposeGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var uiFinallyStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var uiFinallyGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        var gatingDispatcher = Substitute.For<IUiDispatcher>();
+        gatingDispatcher.InvokeAsync(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>())
+            .Returns(async call =>
+            {
+                var callback = call.Arg<Func<Task>>();
+                if (disposeStarted.Task.IsCompleted)
+                {
+                    uiFinallyStarted.TrySetResult();
+                    await uiFinallyGate.Task;
+                }
+                await callback();
+            });
+
+        var (vm, orchestrator, _, _) = CreateViewModel(uiDispatcher: gatingDispatcher);
 
         var presenter = new TranslateWindowPresenter(
             Substitute.For<IServiceProvider>(),
-            new ImmediateUiDispatcher(),
+            gatingDispatcher,
             Substitute.For<ISettingsService>(),
             Substitute.For<IDesktopContext>(),
             NullLogger<TranslateWindowPresenter>.Instance);
 
         var op = (TranslateWindowOperation)presenter.TryBeginOperation(CancellationToken.None)!;
         var reqId = Guid.NewGuid();
-
-        var disposeStarted = new TaskCompletionSource();
-        var disposeGate = new TaskCompletionSource();
 
         var stream = new BlockingDisposeAsyncEnumerable(reqId, disposeStarted, disposeGate);
         orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
@@ -238,15 +267,25 @@ public sealed class TranslateWindowViewModelTests
             // 调用方模拟展示完成，立即释放前置调用方租约
             op!.Dispose();
 
-            // 等待流执行完 EOF 并进入 DisposeAsync 阶段
+            // 1. 等待流执行完 EOF 并进入 DisposeAsync 阶段
             await disposeStarted.Task;
 
-            // 此时 DisposeAsync 处于挂起阻塞中，操作租约由于活跃工作未结束，必须保留且不得提前退休
+            // 闸门 1：DisposeAsync 处于挂起阻塞中，操作租约由于活跃工作未结束，必须保留且不得提前退休
             op.IsRetired.ShouldBeFalse();
             op.ActiveWorkCount.ShouldBeGreaterThan(0);
 
             // 放行 DisposeAsync 闸门
             disposeGate.SetResult();
+
+            // 2. 等待进入末尾 UI finally 阶段
+            await uiFinallyStarted.Task;
+
+            // 闸门 2：UI finally 处于挂起阻塞中，操作租约仍在保护中，不得提前退休
+            op.IsRetired.ShouldBeFalse();
+            op.ActiveWorkCount.ShouldBeGreaterThan(0);
+
+            // 放行 UI finally 闸门
+            uiFinallyGate.SetResult();
 
             // 等待 VM 全部工作完成
             await vm.WaitForActiveWorkAsync();
@@ -264,6 +303,7 @@ public sealed class TranslateWindowViewModelTests
         finally
         {
             disposeGate.TrySetResult();
+            uiFinallyGate.TrySetResult();
         }
     }
 
@@ -376,25 +416,29 @@ public sealed class TranslateWindowViewModelTests
         var op = (TranslateWindowOperation)presenter.TryBeginOperation(CancellationToken.None)!;
         var reqId = Guid.NewGuid();
 
-        // 构造 4 张卡片：
+        // 构造 5 张卡片：
         // P1: 1,000,000 字符
         // P2: 1,000,000 字符
         // P3: 1,000,000 字符
-        // P4: 超出剩余预算并以代理对结尾
+        // P4: 1,000,000 字符
+        // 前 4 张合计 4,000,000 字符。
+        // 全局总预算 MaxTotalChars = 4,194,304。
+        // 剩余全局总预算 = 4,194,304 - 4,000,000 = 194,304。
+        // 单卡上限 MaxCardChars = 1,048,576。
+        // 因 194,304 < 1,048,576，全局总预算成为决定性约束！
         int p1Len = 1_000_000;
         int p2Len = 1_000_000;
         int p3Len = 1_000_000;
+        int p4Len = 1_000_000;
         string p1Text = new('A', p1Len);
         string p2Text = new('B', p2Len);
         string p3Text = new('C', p3Len);
+        string p4Text = new('D', p4Len);
 
-        // 剩余全局总预算 = MaxTotalChars (4,194,304) - 3,000,000 = 1,194,304
-        // 单卡上限 = MaxCardChars = 1,048,576
-        // P4 允许长度 = min(1,048,576, 1,194,304) = 1,048,576
-        // 构造 P4 文本：刚好在允许边界 1,048,576 上卡在高代理项 '\uD83D'
+        // 构造 P5 文本：长度 194,305，刚好在全局允许边界 194,304 上卡在高代理项 '\uD83D'
         string emoji = "\uD83D\uDE0A";
-        string p4Base = new('D', 1_048_575); // 长度 1,048,575
-        string p4Text = p4Base + emoji;       // 长度 1,048,577。索引 1,048,575 是 '\uD83D'，索引 1,048,576 是 '\uDE0A'
+        string p5Base = new('E', 194_303); // 长度 194,303
+        string p5Text = p5Base + emoji;       // 长度 194,305。索引 194,303 是 '\uD83D'，索引 194,304 是 '\uDE0A'
 
         async IAsyncEnumerable<TranslationEvent> MainStream()
         {
@@ -402,11 +446,13 @@ public sealed class TranslateWindowViewModelTests
             var p2 = new ProviderDescriptor("p2", "P2", "Kind", null, true);
             var p3 = new ProviderDescriptor("p3", "P3", "Kind", null, true);
             var p4 = new ProviderDescriptor("p4", "P4", "Kind", null, true);
-            yield return new TranslationStarted(reqId, new ResolvedLanguagePair("en", "zh-Hans", false), [p1, p2, p3, p4]);
+            var p5 = new ProviderDescriptor("p5", "P5", "Kind", null, true);
+            yield return new TranslationStarted(reqId, new ResolvedLanguagePair("en", "zh-Hans", false), [p1, p2, p3, p4, p5]);
             yield return new ProviderCompleted(reqId, "p1", p1Text, TimeSpan.Zero, false, false, null);
             yield return new ProviderCompleted(reqId, "p2", p2Text, TimeSpan.Zero, false, false, null);
             yield return new ProviderCompleted(reqId, "p3", p3Text, TimeSpan.Zero, false, false, null);
             yield return new ProviderCompleted(reqId, "p4", p4Text, TimeSpan.Zero, false, false, null);
+            yield return new ProviderCompleted(reqId, "p5", p5Text, TimeSpan.Zero, false, false, null);
         }
 
         orchestrator.TranslateAsync(Arg.Is<TranslationRequest>(r => r.ProviderIds == null), Arg.Any<CancellationToken>())
@@ -415,24 +461,25 @@ public sealed class TranslateWindowViewModelTests
         vm.ApplyRequest(new TranslateWindowRequest { Text = "Test", AutoTranslate = true }, op!);
         await vm.WaitForActiveWorkAsync();
 
-        vm.Cards.Count.ShouldBe(4);
+        vm.Cards.Count.ShouldBe(5);
         vm.Cards[0].IsLocallyTruncated.ShouldBeFalse();
         vm.Cards[1].IsLocallyTruncated.ShouldBeFalse();
         vm.Cards[2].IsLocallyTruncated.ShouldBeFalse();
+        vm.Cards[3].IsLocallyTruncated.ShouldBeFalse();
 
-        // P4 被本地截断并安全规避孤立高代理项（长度回退至 1,048,575）
-        vm.Cards[3].IsLocallyTruncated.ShouldBeTrue();
-        vm.Cards[3].Text.Length.ShouldBe(1_048_575);
-        vm.Cards[3].Text.ShouldBe(p4Base);
-        vm.Cards[3].CopyTooltip.ShouldBe(UiText.TranslateCopyVisible);
+        // P5 受全局总预算 (194,304 < MaxCardChars) 决定性截断，并安全规避孤立高代理项（长度回退至 194,303）
+        vm.Cards[4].IsLocallyTruncated.ShouldBeTrue();
+        vm.Cards[4].Text.Length.ShouldBe(194_303);
+        vm.Cards[4].Text.ShouldBe(p5Base);
+        vm.Cards[4].CopyTooltip.ShouldBe(UiText.TranslateCopyVisible);
 
-        // 跨重试预算：重试 P1，返回超长文本
+        // 跨重试预算：重试 P1，返回 2,000,000 字符超长文本
+        // 其它卡片占用：P2(1,000,000) + P3(1,000,000) + P4(1,000,000) + P5(194,303) = 3,194,303
+        // 剩余全局总预算 = 4,194,304 - 3,194,303 = 1,000,001
+        // 单卡上限 = 1,048,576
+        // 因 1,000,001 < 1,048,576，全局总预算再次成为决定性约束！
         async IAsyncEnumerable<TranslationEvent> P1RetryStream(Guid retryId)
         {
-            // 其它卡片占用：P2 (1,000,000) + P3 (1,000,000) + P4 (1,048,575) = 3,048,575
-            // 剩余总预算 = 4,194,304 - 3,048,575 = 1,145,729
-            // 单卡上限 = 1,048,576
-            // 传入 2,000,000 字符，应被截断为 1,048,576
             yield return new ProviderStarted(retryId, "p1");
             yield return new ProviderCompleted(retryId, "p1", new string('Z', 2_000_000), TimeSpan.Zero, false, false, null);
         }
@@ -444,7 +491,7 @@ public sealed class TranslateWindowViewModelTests
         await vm.WaitForActiveWorkAsync();
 
         vm.Cards[0].IsLocallyTruncated.ShouldBeTrue();
-        vm.Cards[0].Text.Length.ShouldBe(TextBudgetManager.MaxCardChars);
+        vm.Cards[0].Text.Length.ShouldBe(1_000_001, "跨重试时全局剩余总预算 1,000,001 < MaxCardChars 成为截断决定因素");
         vm.Cards[0].CopyTooltip.ShouldBe(UiText.TranslateCopyVisible);
     }
 
@@ -608,6 +655,302 @@ public sealed class TranslateWindowViewModelTests
                 _disposeStarted.TrySetResult();
                 await _disposeGate.Task;
             }
+        }
+    }
+
+    [Fact]
+    public async Task MainTranslation_FirstUiDispatchThrows_DecrementsWorkAndReclaimsOperation()
+    {
+        int invokeCount = 0;
+        var throwingDispatcher = Substitute.For<IUiDispatcher>();
+        throwingDispatcher.InvokeAsync(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>())
+            .Returns(async call =>
+            {
+                if (Interlocked.Increment(ref invokeCount) == 1)
+                {
+                    throw new InvalidOperationException("First UI dispatch failed");
+                }
+                await call.Arg<Func<Task>>()();
+            });
+
+        var (vm, orchestrator, _, _) = CreateViewModel(uiDispatcher: throwingDispatcher);
+        var presenter = new TranslateWindowPresenter(
+            Substitute.For<IServiceProvider>(),
+            throwingDispatcher,
+            Substitute.For<ISettingsService>(),
+            Substitute.For<IDesktopContext>(),
+            NullLogger<TranslateWindowPresenter>.Instance);
+
+        var op = (TranslateWindowOperation)presenter.TryBeginOperation(CancellationToken.None)!;
+
+        vm.ApplyRequest(new TranslateWindowRequest { Text = "Test", AutoTranslate = true }, op);
+        op.Dispose();
+
+        await vm.WaitForActiveWorkAsync();
+
+        op.ActiveWorkCount.ShouldBe(0, "首个 UI 调度失败后，ActiveWorkCount 必须在 finally 中正常清零");
+
+        vm.OnWindowHidden();
+        op.IsRetired.ShouldBeTrue("首个 UI 调度失败且调用方释放后，操作必须能正常退休回收");
+    }
+
+    [Fact]
+    public async Task MainTranslation_EnumeratorDisposeAsyncThrows_CatchesSafelyAndDecrementsWork()
+    {
+        var (vm, orchestrator, _, _) = CreateViewModel();
+        var presenter = new TranslateWindowPresenter(
+            Substitute.For<IServiceProvider>(),
+            new ImmediateUiDispatcher(),
+            Substitute.For<ISettingsService>(),
+            Substitute.For<IDesktopContext>(),
+            NullLogger<TranslateWindowPresenter>.Instance);
+
+        var op = (TranslateWindowOperation)presenter.TryBeginOperation(CancellationToken.None)!;
+        var reqId = Guid.NewGuid();
+
+        var stream = new ThrowingDisposeAsyncEnumerable(reqId);
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(stream);
+
+        vm.ApplyRequest(new TranslateWindowRequest { Text = "Test", AutoTranslate = true }, op);
+        op.Dispose();
+
+        await vm.WaitForActiveWorkAsync();
+
+        op.ActiveWorkCount.ShouldBe(0);
+        vm.IsTranslating.ShouldBeFalse();
+
+        vm.OnWindowHidden();
+        op.IsRetired.ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task MainTranslation_TrailingUiInvocationThrows_CatchesSafelyAndDecrementsWork()
+    {
+        int invokeCount = 0;
+        var throwingTrailingDispatcher = Substitute.For<IUiDispatcher>();
+        throwingTrailingDispatcher.InvokeAsync(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>())
+            .Returns(async call =>
+            {
+                if (Interlocked.Increment(ref invokeCount) == 2)
+                {
+                    throw new InvalidOperationException("Trailing UI failed");
+                }
+                await call.Arg<Func<Task>>()();
+            });
+
+        var (vm, orchestrator, _, _) = CreateViewModel(uiDispatcher: throwingTrailingDispatcher);
+        var presenter = new TranslateWindowPresenter(
+            Substitute.For<IServiceProvider>(),
+            throwingTrailingDispatcher,
+            Substitute.For<ISettingsService>(),
+            Substitute.For<IDesktopContext>(),
+            NullLogger<TranslateWindowPresenter>.Instance);
+
+        var op = (TranslateWindowOperation)presenter.TryBeginOperation(CancellationToken.None)!;
+        var reqId = Guid.NewGuid();
+
+        async IAsyncEnumerable<TranslationEvent> SimpleStream()
+        {
+            yield return new TranslationStarted(reqId, new ResolvedLanguagePair("en", "zh-Hans", false), []);
+            yield return new TranslationFinished(reqId, 0, 0);
+        }
+
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(SimpleStream());
+
+        vm.ApplyRequest(new TranslateWindowRequest { Text = "Test", AutoTranslate = true }, op);
+        op.Dispose();
+
+        await vm.WaitForActiveWorkAsync();
+
+        op.ActiveWorkCount.ShouldBe(0, "末尾 UI 回调失败后，ActiveWorkCount 仍必须清零");
+        vm.OnWindowHidden();
+        op.IsRetired.ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task AutoCopy_SameSessionStatusUpdate_DoesNotTriggerSecondAutoCopy_ManualCopyStillWorks()
+    {
+        var (vm, orchestrator, clipboard, _) = CreateViewModel();
+        var presenter = new TranslateWindowPresenter(
+            Substitute.For<IServiceProvider>(),
+            new ImmediateUiDispatcher(),
+            Substitute.For<ISettingsService>(),
+            Substitute.For<IDesktopContext>(),
+            NullLogger<TranslateWindowPresenter>.Instance);
+
+        var op = (TranslateWindowOperation)presenter.TryBeginOperation(CancellationToken.None)!;
+        var reqId = Guid.NewGuid();
+
+        var card2Gate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        async IAsyncEnumerable<TranslationEvent> TwoCardStream()
+        {
+            var p1 = new ProviderDescriptor("p1", "P1", "Kind", null, true);
+            var p2 = new ProviderDescriptor("p2", "P2", "Kind", null, true);
+            yield return new TranslationStarted(reqId, new ResolvedLanguagePair("en", "zh-Hans", false), [p1, p2]);
+            yield return new ProviderCompleted(reqId, "p1", "P1 First Text", TimeSpan.Zero, false, false, null);
+
+            await card2Gate.Task;
+            yield return new ProviderCompleted(reqId, "p2", "P2 Second Text", TimeSpan.Zero, false, false, null);
+        }
+
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(TwoCardStream());
+
+        vm.ApplyRequest(new TranslateWindowRequest { Text = "Hello", AutoTranslate = true }, op);
+
+        await Task.Delay(50, TestContext.Current.CancellationToken);
+        await clipboard.Received(1).SetTextAsync("P1 First Text", Arg.Any<CancellationToken>());
+
+        // 同一会话调用 ApplyRequest 更新状态/重新展示
+        vm.ApplyRequest(new TranslateWindowRequest { Text = "Hello", AutoTranslate = false, StatusMessage = "Status Updated" }, op);
+
+        // 放行第 2 张卡
+        card2Gate.SetResult();
+        await vm.WaitForActiveWorkAsync();
+
+        // 核心验证：自动复制仅发生一次，第 2 张卡不会因为状态更新重置了资格而再次自动复制
+        await clipboard.Received(1).SetTextAsync(Arg.Any<string>(), Arg.Any<CancellationToken>());
+        await clipboard.DidNotReceive().SetTextAsync("P2 Second Text", Arg.Any<CancellationToken>());
+
+        // 手动复制第 2 张卡仍正常工作
+        vm.Cards[1].CopyCommand.Execute(null);
+        await vm.WaitForActiveWorkAsync();
+        await clipboard.Received(1).SetTextAsync("P2 Second Text", Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task ExecuteTranslateFromUser_WithWhitespacePadding_UsesPreprocessedLengthForValidation()
+    {
+        var settings = new AppSettings
+        {
+            Translation = new TranslationSettings
+            {
+                MaxInputChars = 3
+            }
+        };
+
+        var textPreprocessor = Substitute.For<ITextPreprocessor>();
+        textPreprocessor.Prepare(Arg.Any<string>(), Arg.Any<TextOrigin>())
+            .Returns("hi");
+
+        var (vm, orchestrator, _, _) = CreateViewModel(settings, textPreprocessor: textPreprocessor);
+
+        var presenter = new TranslateWindowPresenter(
+            Substitute.For<IServiceProvider>(),
+            new ImmediateUiDispatcher(),
+            Substitute.For<ISettingsService>(),
+            Substitute.For<IDesktopContext>(),
+            NullLogger<TranslateWindowPresenter>.Instance);
+        vm.AttachPresenter(presenter);
+
+        vm.InputText = "  hi  ";
+        vm.ExecuteTranslateFromUser();
+
+        await vm.WaitForActiveWorkAsync();
+
+        vm.Error.ShouldBeNull("经 ITextPreprocessor 预处理后的文本长度为 2 <= 3，不得报 InputTooLong");
+        orchestrator.Received(1).TranslateAsync(Arg.Is<TranslationRequest>(r => r.Text == "  hi  "), Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task ErrorSanitizationAndLogging_DoesNotLeakRawExceptionOrSensitiveInfo()
+    {
+        var testLogger = new TestDiagnosticLogger<TranslateWindowViewModel>();
+        var (vm, orchestrator, _, _) = CreateViewModel(logger: testLogger);
+
+        var presenter = new TranslateWindowPresenter(
+            Substitute.For<IServiceProvider>(),
+            new ImmediateUiDispatcher(),
+            Substitute.For<ISettingsService>(),
+            Substitute.For<IDesktopContext>(),
+            NullLogger<TranslateWindowPresenter>.Instance);
+
+        var op = (TranslateWindowOperation)presenter.TryBeginOperation(CancellationToken.None)!;
+
+        // 1. 测试前置 request.Error：包含敏感标识
+        var sensitiveError = new ErrorInfo(ErrorCode.ProviderUnavailable, "SECRET_API_KEY_IN_ERROR_MSG", Detail: "SECRET_ACCESS_TOKEN_DETAIL");
+        vm.ApplyRequest(new TranslateWindowRequest { Error = sensitiveError }, op);
+
+        vm.Error.ShouldNotBeNull();
+        vm.Error.Message.ShouldNotContain("SECRET");
+        vm.Error.Detail.ShouldBeNull("敏感 Detail 必须被清空");
+
+        // 2. 测试流中未知异常：包含敏感堆栈/消息
+        static async IAsyncEnumerable<TranslationEvent> FailingStream()
+        {
+            await Task.Yield();
+            throw new InvalidOperationException("SECRET_INTERNAL_DB_PASSWORD");
+#pragma warning disable CS0162
+            yield break;
+#pragma warning restore CS0162
+        }
+
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(FailingStream());
+
+        vm.ApplyRequest(new TranslateWindowRequest { Text = "Test", AutoTranslate = true }, op);
+        await vm.WaitForActiveWorkAsync();
+
+        vm.Error.ShouldNotBeNull();
+        vm.Error.Message.ShouldBe(UiText.ErrorUnknown);
+        vm.Error.Message.ShouldNotContain("SECRET");
+
+        // 3. 验证日志记录：异常参数必须为 null，且日志消息不得包含原始敏感信息
+        testLogger.LoggedExceptions.ShouldAllBe(e => e == null, "ILogger 调用的 Exception 参数本身必须为 null");
+        foreach (var msg in testLogger.LoggedMessages)
+        {
+            msg.ShouldNotContain("SECRET_INTERNAL_DB_PASSWORD");
+        }
+    }
+
+    private sealed class ThrowingDisposeAsyncEnumerable : IAsyncEnumerable<TranslationEvent>
+    {
+        private readonly Guid _reqId;
+        public ThrowingDisposeAsyncEnumerable(Guid reqId) => _reqId = reqId;
+
+        public IAsyncEnumerator<TranslationEvent> GetAsyncEnumerator(CancellationToken cancellationToken = default)
+            => new ThrowingEnumerator(_reqId);
+
+        private sealed class ThrowingEnumerator : IAsyncEnumerator<TranslationEvent>
+        {
+            private readonly Guid _reqId;
+            private int _state;
+            public ThrowingEnumerator(Guid reqId) => _reqId = reqId;
+            public TranslationEvent Current { get; private set; } = null!;
+            public ValueTask<bool> MoveNextAsync()
+            {
+                if (_state == 0)
+                {
+                    _state = 1;
+                    Current = new TranslationStarted(_reqId, new ResolvedLanguagePair("en", "zh-Hans", false), []);
+                    return ValueTask.FromResult(true);
+                }
+                return ValueTask.FromResult(false);
+            }
+            public ValueTask DisposeAsync() => throw new InvalidOperationException("DisposeAsync failed");
+        }
+    }
+
+    private sealed class TestDiagnosticLogger<T> : Microsoft.Extensions.Logging.ILogger<T>
+    {
+        public List<Exception?> LoggedExceptions { get; } = [];
+        public List<string> LoggedMessages { get; } = [];
+
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
+        public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel) => true;
+
+        public void Log<TState>(
+            Microsoft.Extensions.Logging.LogLevel logLevel,
+            Microsoft.Extensions.Logging.EventId eventId,
+            TState state,
+            Exception? exception,
+            Func<TState, Exception?, string> formatter)
+        {
+            LoggedExceptions.Add(exception);
+            LoggedMessages.Add(formatter(state, exception));
         }
     }
 }

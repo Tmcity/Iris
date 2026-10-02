@@ -48,12 +48,16 @@ public sealed class TranslateWindowUiTests
         services.AddSingleton(clipboard);
         services.AddSingleton(settingsPresenter);
         services.AddSingleton(desktopContext);
-        services.AddSingleton<IUiDispatcher, ImmediateUiDispatcher>();
+        services.AddSingleton<IUiDispatcher, WpfUiDispatcher>();
         services.AddSingleton<ThemeService>();
 
         services.AddSingleton<TranslateWindowPresenter>();
         services.AddSingleton<ITranslateWindowPresenter>(sp => sp.GetRequiredService<TranslateWindowPresenter>());
         services.AddSingleton<ITranslateWindowShutdownCoordinator>(sp => sp.GetRequiredService<TranslateWindowPresenter>());
+        var textPreprocessor = Substitute.For<ITextPreprocessor>();
+        textPreprocessor.Prepare(Arg.Any<string>(), Arg.Any<TextOrigin>())
+            .Returns(ci => ci.Arg<string>()?.Trim() ?? string.Empty);
+        services.AddSingleton(textPreprocessor);
 
         services.AddScoped<TranslateWindowViewModel>(sp => new TranslateWindowViewModel(
             settingsService,
@@ -61,7 +65,8 @@ public sealed class TranslateWindowUiTests
             clipboard,
             settingsPresenter,
             sp.GetRequiredService<IUiDispatcher>(),
-            NullLogger<TranslateWindowViewModel>.Instance));
+            NullLogger<TranslateWindowViewModel>.Instance,
+            textPreprocessor));
 
         services.AddTransient<TranslateWindow>();
 
@@ -253,6 +258,72 @@ public sealed class TranslateWindowUiTests
                 streamGate.SetResult();
                 await vm.WaitForActiveWorkAsync();
                 vm.IsTranslating.ShouldBeFalse();
+            }
+            finally
+            {
+                streamGate.TrySetResult();
+                window.DataContext = null;
+                window.Close();
+            }
+        });
+    }
+
+    [Fact]
+    public async Task OnWindowHidden_RestoresTranslateAndStopButtonVisibilityAndCanExecute()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            using var provider = CreateServiceProvider();
+            using var scope = provider.CreateScope();
+
+            var orchestrator = scope.ServiceProvider.GetRequiredService<ITranslationOrchestrator>();
+            var streamGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            async IAsyncEnumerable<TranslationEvent> HangingStream()
+            {
+                var p1 = new ProviderDescriptor("p1", "P1", "Kind", null, true);
+                yield return new TranslationStarted(Guid.NewGuid(), new ResolvedLanguagePair("en", "zh-Hans", false), [p1]);
+                yield return new ProviderStarted(Guid.NewGuid(), "p1");
+                await streamGate.Task;
+                yield return new TranslationFinished(Guid.NewGuid(), 1, 0);
+            }
+
+            orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+                .Returns(HangingStream());
+
+            var presenter = scope.ServiceProvider.GetRequiredService<TranslateWindowPresenter>();
+            var vm = scope.ServiceProvider.GetRequiredService<TranslateWindowViewModel>();
+            var window = scope.ServiceProvider.GetRequiredService<TranslateWindow>();
+            window.DataContext = vm;
+            window.AttachPresenter(presenter);
+            vm.AttachPresenter(presenter);
+            window.Show();
+
+            try
+            {
+                var translateBtn = (Wpf.Ui.Controls.Button)window.FindName("TranslateButton");
+                var stopBtn = (Wpf.Ui.Controls.Button)window.FindName("StopButton");
+
+                vm.InputText = "Test";
+                vm.ExecuteTranslateFromUser();
+
+                // 翻译进行中：TranslateButton 应隐藏，StopButton 应可见
+                vm.IsTranslating.ShouldBeTrue();
+                translateBtn.Visibility.ShouldBe(Visibility.Collapsed);
+                stopBtn.Visibility.ShouldBe(Visibility.Visible);
+                vm.StopCommand.CanExecute(null).ShouldBeTrue();
+
+                // 模拟窗口隐藏
+                vm.OnWindowHidden();
+                await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.Background);
+                window.UpdateLayout();
+
+                // 隐藏后状态恢复：IsTranslating=false，TranslateButton 应可见，StopButton 应隐藏
+                vm.IsTranslating.ShouldBeFalse();
+                translateBtn.Visibility.ShouldBe(Visibility.Visible);
+                stopBtn.Visibility.ShouldBe(Visibility.Collapsed);
+                vm.TranslateCommand.CanExecute(null).ShouldBeTrue();
+                vm.StopCommand.CanExecute(null).ShouldBeFalse();
             }
             finally
             {

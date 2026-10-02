@@ -15,6 +15,7 @@ internal partial class TranslateWindow : Wpf.Ui.Controls.FluentWindow
     public TranslateWindow()
     {
         InitializeComponent();
+        DpiChanged += (s, e) => _presenter?.ReconstrainWindowPlacement();
     }
 
     internal bool ForceClose { get; set; }
@@ -143,7 +144,7 @@ internal partial class TranslateWindow : Wpf.Ui.Controls.FluentWindow
     {
         if (!_isUpdatingPlacement && IsLoaded)
         {
-            NotifyUserPlacementChanged();
+            _presenter?.ReconstrainWindowPlacement();
         }
     }
 

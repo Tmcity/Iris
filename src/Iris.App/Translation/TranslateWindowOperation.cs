@@ -24,6 +24,7 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
     private int _activeCancelCallbacks;
     private int _autoTranslateClaimed;
     private bool _isRetired;
+    private Task? _cancelTask;
 
     public TranslateWindowOperation(TranslateWindowPresenter presenter, CancellationToken callerToken)
     {
@@ -86,6 +87,17 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
         }
     }
 
+    internal int ActiveCancelCallbacks
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _activeCancelCallbacks;
+            }
+        }
+    }
+
     internal bool IsRetired
     {
         get
@@ -93,6 +105,17 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
             lock (_gate)
             {
                 return _isRetired;
+            }
+        }
+    }
+
+    internal Task? CancelTask
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _cancelTask;
             }
         }
     }
@@ -127,24 +150,29 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
         lock (_gate)
         {
             _hasTryShowOwnership = false;
-            if (transferredWorkOwnership)
+            if (transferredWorkOwnership && !_isRetired)
             {
                 _hasSessionOwnership = true;
             }
-            shouldRetire = CheckCanRetireLocked();
+            shouldRetire = TryMarkRetiredLocked();
         }
 
         if (shouldRetire)
         {
-            Retire();
+            FinalizeRetire();
         }
     }
 
-    internal void AttachSession()
+    internal bool AttachSession()
     {
         lock (_gate)
         {
+            if (_isRetired)
+            {
+                return false;
+            }
             _hasSessionOwnership = true;
+            return true;
         }
     }
 
@@ -159,12 +187,12 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
             }
 
             _hasSessionOwnership = false;
-            shouldRetire = CheckCanRetireLocked();
+            shouldRetire = TryMarkRetiredLocked();
         }
 
         if (shouldRetire)
         {
-            Retire();
+            FinalizeRetire();
         }
     }
 
@@ -175,20 +203,25 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
         {
             _hasSessionOwnership = false;
             _activeWorkCount = 0;
-            shouldRetire = CheckCanRetireLocked();
+            shouldRetire = TryMarkRetiredLocked();
         }
 
         if (shouldRetire)
         {
-            Retire();
+            FinalizeRetire();
         }
     }
 
-    internal void IncrementWork()
+    internal bool IncrementWork()
     {
         lock (_gate)
         {
+            if (_isRetired)
+            {
+                return false;
+            }
             _activeWorkCount++;
+            return true;
         }
     }
 
@@ -198,12 +231,12 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
         lock (_gate)
         {
             _activeWorkCount--;
-            shouldRetire = CheckCanRetireLocked();
+            shouldRetire = TryMarkRetiredLocked();
         }
 
         if (shouldRetire)
         {
-            Retire();
+            FinalizeRetire();
         }
     }
 
@@ -218,39 +251,52 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
             }
 
             _hasCallerOwnership = false;
-            shouldRetire = CheckCanRetireLocked();
+            shouldRetire = TryMarkRetiredLocked();
         }
 
         if (shouldRetire)
         {
-            Retire();
+            FinalizeRetire();
         }
     }
 
     internal void Cancel()
     {
-        try
-        {
-            _cts.Cancel();
-        }
-        catch (ObjectDisposedException)
-        {
-        }
-        catch
-        {
-        }
+        _ = CancelAsync();
     }
 
-    private void OnCallerTokenCanceled()
+    internal Task CancelAsync()
     {
+        Task? taskToRun = null;
         lock (_gate)
         {
+            if (_isRetired)
+            {
+                return Task.CompletedTask;
+            }
+
+            if (_cancelTask != null)
+            {
+                return _cancelTask;
+            }
+
             _activeCancelCallbacks++;
+            taskToRun = ExecuteCancellationCoreAsync();
+            _cancelTask = taskToRun;
         }
 
+        return taskToRun;
+    }
+
+    private async Task ExecuteCancellationCoreAsync()
+    {
         try
         {
-            Cancel();
+            await _cts.CancelAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            _presenter.LogOperationCancelError(ex.GetType().Name);
         }
         finally
         {
@@ -258,48 +304,53 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
             lock (_gate)
             {
                 _activeCancelCallbacks--;
-                shouldRetire = CheckCanRetireLocked();
+                shouldRetire = TryMarkRetiredLocked();
             }
 
             if (shouldRetire)
             {
-                Retire();
+                FinalizeRetire();
             }
         }
     }
 
-    private bool CheckCanRetireLocked()
+    private void OnCallerTokenCanceled()
+    {
+        _ = CancelAsync();
+    }
+
+    private bool TryMarkRetiredLocked()
     {
         if (_isRetired)
         {
             return false;
         }
 
-        return !_hasCallerOwnership
+        if (!_hasCallerOwnership
             && !_hasTryShowOwnership
             && !_hasSessionOwnership
             && _activeWorkCount <= 0
-            && _activeCancelCallbacks <= 0;
+            && _activeCancelCallbacks <= 0)
+        {
+            _isRetired = true;
+            return true;
+        }
+
+        return false;
     }
 
-    private void Retire()
+    private void FinalizeRetire()
     {
-        lock (_gate)
+        _ = Task.Run(async () =>
         {
-            if (_isRetired)
+            try
             {
-                return;
+                await _callerReg.DisposeAsync().ConfigureAwait(false);
             }
-            _isRetired = true;
-        }
-
-        try
-        {
-            _callerReg.Dispose();
-        }
-        catch
-        {
-        }
+            catch
+            {
+            }
+        });
 
         _presenter.OnOperationRetired(this);
 

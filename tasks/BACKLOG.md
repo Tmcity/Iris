@@ -105,7 +105,7 @@
 | T-014 | ☑ | ActionDispatcher + App 内部 UI 调度适配器（C14-1 已完成） | T-005 | 1d |
 | T-021A | ☑ | Win32ClipboardService（含 R1/R2；C21-1 已完成） | T-005, T-014 | 1.5d |
 | T-022A | ☑ | DesktopContext + MonitorEnumerator（含 R1） | T-005 | 1d |
-| T-015 | ▶ | TranslateWindow（e753762 未验收，当前 R1；附 C19B-1；ARCH v1.25） | T-013, T-014, T-018, T-019, T-021A, T-022A | 2.5d |
+| T-015 | ▶ | TranslateWindow（b99ac6f / R1 部分确认，当前 R2；附 C19B-1；ARCH v1.25） | T-013, T-014, T-018, T-019, T-021A, T-022A | 2.5d |
 | T-016 | ☐ | InputTranslate / ClipboardTranslate / TranslateText Handler + 托盘菜单 | T-015, T-021A | 0.5d |
 | T-017 | ☐ | HotkeyService + KeyNameMapper + 启动时注册 / 设置变化时重注册 | T-016 | 1.5d |
 
@@ -134,6 +134,8 @@ T-015 已于 2026-10-02 按 TRANSLATION_WINDOW.md / ARCH v1.25 / CCR-013 签发�
 **T-015** 交付 ARCH §7.2、§10.5（跟随光标定位）、§14 的 TranslateWindow 部分。验收（手动 + VM 单测）：VM 用假 Orchestrator 测试卡片创建、Delta 节流刷新、Completed 覆盖、失败状态、单卡片重试、新请求取消旧请求；手动验证：在多显示器、混合 DPI 下窗口跟随光标且不超出屏幕、钉住 / 失焦隐藏、Esc 隐藏、Enter / Shift+Enter 行为。
 
 **T-015 复审（2026-10-02）** — e753762 不通过。独立 Release 零警告/零错误，全量 1430 成功/1 环境跳过；实际 App/Dispatcher 探针确认隐藏后旧结果/复制、手动名额耗尽、重试禁用/过早退休、Show 失败所有权、锁/UI 同步取消、退出遗漏前置租约与刷新、复制无界、错误原文回显、后台 UI 通知、最小宽度裁切及极端坐标溢出。签发 T-015-R1 修原工单缺口和报告证据；保留窗口/Core 接线成果，CCR-013 待复审，不开始 T-016。用户手动转交。
+
+**T-015-R1 复审（2026-10-02）** — b99ac6f 的隐藏拒绝旧结果、手动容量、单卡重试、复制串行、刷新等待/合并、设置通知、窄布局/Esc 和坐标加减修复已确认；独立 Release 零警告/零错误，全量 1435 成功/1 环境跳过。残留同步取消/回调回收、调度失败计数、发布失败/状态更新的复制资格、隐藏重开 UI、日志/已知错误隐私、输入计数及距离平方溢出；原队列/原生接线与部分强制断言未落实。签发 R2 收尾原范围，保持 ▶，不开始 T-016；证据见 tasks/done/T-015-R1.md 末尾，用户手动转交。
 
 **T-016** 验收：托盘菜单新增“输入翻译 / 剪贴板翻译”；托盘左键单击 = 输入翻译；Handler 单元测试覆盖热键二次按下关闭窗口的逻辑。
 

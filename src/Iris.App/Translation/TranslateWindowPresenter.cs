@@ -29,6 +29,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
     private readonly ISettingsService _settingsService;
     private readonly IDesktopContext _desktopContext;
     private readonly ILogger<TranslateWindowPresenter> _logger;
+    private readonly INativeWindowPlacementAdapter _nativePlacementAdapter;
 
     private readonly Lock _gate = new();
     private readonly List<TranslateWindowOperation> _activeOperations = [];
@@ -52,13 +53,15 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
         IUiDispatcher uiDispatcher,
         ISettingsService settingsService,
         IDesktopContext desktopContext,
-        ILogger<TranslateWindowPresenter> logger)
+        ILogger<TranslateWindowPresenter> logger,
+        INativeWindowPlacementAdapter? nativePlacementAdapter = null)
     {
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         _uiDispatcher = uiDispatcher ?? throw new ArgumentNullException(nameof(uiDispatcher));
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _desktopContext = desktopContext ?? throw new ArgumentNullException(nameof(desktopContext));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _nativePlacementAdapter = nativePlacementAdapter ?? NativeWindowPlacementAdapter.Instance;
     }
 
     public bool IsVisible
@@ -143,6 +146,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
         }
 
         bool accepted = false;
+        bool appliedToVm = false;
         try
         {
             await _uiDispatcher.InvokeAsync(() =>
@@ -158,8 +162,6 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
 
                 EnsureWindowCreated();
 
-                _viewModel!.ApplyRequest(request, op);
-
                 ApplyPlacement(request.Anchor, request.FocusInput);
 
                 _window!.Show();
@@ -172,18 +174,33 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                 lock (_gate)
                 {
                     _isVisibleSnapshot = true;
-                    _isActiveSnapshot = request.FocusInput;
                 }
 
+                _viewModel!.ApplyRequest(request, op);
+                appliedToVm = true;
                 accepted = true;
                 return Task.CompletedTask;
             }, CancellationToken.None).ConfigureAwait(false);
 
             return accepted;
         }
+        catch (Exception ex)
+        {
+            lock (_gate)
+            {
+                _isVisibleSnapshot = false;
+            }
+            if (appliedToVm)
+            {
+                _viewModel?.RevokeOperation(op.Id);
+            }
+            op.Cancel();
+            LogShowFailed(_logger, ex.GetType().Name);
+            return false;
+        }
         finally
         {
-            op.EndTryShow();
+            op.EndTryShow(transferredWorkOwnership: accepted);
         }
     }
 
@@ -297,7 +314,10 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
             _window.BeginPlacementUpdate();
             try
             {
-                WindowPlacementHelper.ApplyWindowPos(helper.Handle, bounds, focusInput);
+                if (!_nativePlacementAdapter.SetWindowBounds(helper.Handle, bounds, show: true, activate: focusInput))
+                {
+                    throw new InvalidOperationException("设置窗口物理位置失败。");
+                }
             }
             finally
             {
@@ -315,7 +335,10 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                     _window.BeginPlacementUpdate();
                     try
                     {
-                        WindowPlacementHelper.ApplyWindowPos(h, bounds, focusInput);
+                        if (!_nativePlacementAdapter.SetWindowBounds(h, bounds, show: true, activate: focusInput))
+                        {
+                            throw new InvalidOperationException("设置窗口物理位置失败。");
+                        }
                     }
                     finally
                     {
@@ -325,6 +348,69 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
             }
 
             _window.SourceInitialized += OnSourceInitialized;
+        }
+    }
+
+    internal void ReconstrainWindowPlacement()
+    {
+        if (_window == null || !_window.IsVisible)
+        {
+            return;
+        }
+
+        var helper = new WindowInteropHelper(_window);
+        if (helper.Handle == IntPtr.Zero)
+        {
+            return;
+        }
+
+        if (!_nativePlacementAdapter.TryGetWindowBounds(helper.Handle, out var currentBounds))
+        {
+            return;
+        }
+
+        var monitors = _desktopContext.GetMonitors();
+        if (monitors.Count == 0)
+        {
+            return;
+        }
+
+        var targetMonitor = WindowPlacementHelper.FindTargetMonitor(
+            _settingsService.Current.TranslateWindow.Placement,
+            null,
+            currentBounds,
+            monitors,
+            _desktopContext.GetCursorPosition());
+
+        if (targetMonitor == null)
+        {
+            return;
+        }
+
+        var workArea = targetMonitor.WorkArea;
+        int clampedWidth = Math.Max(1, Math.Min(currentBounds.Width, workArea.Width));
+        int clampedHeight = Math.Max(1, Math.Min(currentBounds.Height, workArea.Height));
+
+        long workAreaLeft = workArea.X;
+        long workAreaTop = workArea.Y;
+        long workAreaRight = (long)workArea.X + workArea.Width;
+        long workAreaBottom = (long)workArea.Y + workArea.Height;
+
+        long clampedX = Math.Clamp((long)currentBounds.X, workAreaLeft, Math.Max(workAreaLeft, workAreaRight - clampedWidth));
+        long clampedY = Math.Clamp((long)currentBounds.Y, workAreaTop, Math.Max(workAreaTop, workAreaBottom - clampedHeight));
+
+        var newBounds = new PixelRect((int)clampedX, (int)clampedY, clampedWidth, clampedHeight);
+        if (newBounds != currentBounds)
+        {
+            _window.BeginPlacementUpdate();
+            try
+            {
+                _nativePlacementAdapter.SetWindowBounds(helper.Handle, newBounds, show: true, activate: false);
+            }
+            finally
+            {
+                _window.EndPlacementUpdate();
+            }
         }
     }
 
@@ -568,4 +654,12 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
 
     [LoggerMessage(EventId = 2, Level = LogLevel.Warning, Message = "翻译窗口退出收尾异常：{ErrorType}")]
     private static partial void LogShutdownError(ILogger logger, string errorType);
+
+    internal void LogOperationCancelError(string errorType) => LogOperationCancelError(_logger, errorType);
+
+    [LoggerMessage(EventId = 3, Level = LogLevel.Warning, Message = "操作租约取消异常：{ErrorType}")]
+    private static partial void LogOperationCancelError(ILogger logger, string errorType);
+
+    [LoggerMessage(EventId = 4, Level = LogLevel.Warning, Message = "展示翻译窗口失败：{ErrorType}")]
+    private static partial void LogShowFailed(ILogger logger, string errorType);
 }

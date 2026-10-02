@@ -22,7 +22,9 @@ namespace Iris.App.Tests.Translation;
 
 public sealed class TranslateWindowPresenterTests
 {
-    private static (TranslateWindowPresenter Presenter, ITranslationOrchestrator Orchestrator, ISettingsService SettingsService) CreateTestPresenter(IUiDispatcher? uiDispatcher = null)
+    private static (TranslateWindowPresenter Presenter, ITranslationOrchestrator Orchestrator, ISettingsService SettingsService) CreateTestPresenter(
+        IUiDispatcher? uiDispatcher = null,
+        INativeWindowPlacementAdapter? placementAdapter = null)
     {
         var dispatcher = uiDispatcher ?? new WpfUiDispatcher();
         var settingsService = Substitute.For<ISettingsService>();
@@ -37,12 +39,17 @@ public sealed class TranslateWindowPresenterTests
         ]);
         desktopContext.GetCursorPosition().Returns(new Iris.Core.Imaging.PixelPoint(500, 500));
 
+        var textPreprocessor = Substitute.For<ITextPreprocessor>();
+        textPreprocessor.Prepare(Arg.Any<string>(), Arg.Any<TextOrigin>())
+            .Returns(ci => ci.Arg<string>()?.Trim() ?? string.Empty);
+
         var services = new ServiceCollection();
         services.AddSingleton(settingsService);
         services.AddSingleton(orchestrator);
         services.AddSingleton(clipboard);
         services.AddSingleton(settingsPresenter);
         services.AddSingleton(desktopContext);
+        services.AddSingleton(textPreprocessor);
         services.AddSingleton<IUiDispatcher>(dispatcher);
 
         services.AddScoped<TranslateWindowViewModel>(sp => new TranslateWindowViewModel(
@@ -51,7 +58,8 @@ public sealed class TranslateWindowPresenterTests
             clipboard,
             settingsPresenter,
             dispatcher,
-            NullLogger<TranslateWindowViewModel>.Instance));
+            NullLogger<TranslateWindowViewModel>.Instance,
+            textPreprocessor));
 
         services.AddTransient<TranslateWindow>(sp => new TranslateWindow
         {
@@ -70,7 +78,8 @@ public sealed class TranslateWindowPresenterTests
             dispatcher,
             settingsService,
             desktopContext,
-            NullLogger<TranslateWindowPresenter>.Instance);
+            NullLogger<TranslateWindowPresenter>.Instance,
+            placementAdapter);
 
         return (presenter, orchestrator, settingsService);
     }
@@ -177,6 +186,30 @@ public sealed class TranslateWindowPresenterTests
             // 尝试用旧操作重新发布，必须被拒绝
             var result = await presenter.TryShowAsync(op1!, new TranslateWindowRequest { Text = "Late Overwrite", AutoTranslate = false });
             result.ShouldBeFalse();
+        });
+    }
+
+    [Fact]
+    public async Task TryShowAsync_WhenPlacementFails_RevokesOperationAndCancelsWork()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var mockAdapter = Substitute.For<INativeWindowPlacementAdapter>();
+            mockAdapter.SetWindowBounds(Arg.Any<nint>(), Arg.Any<Iris.Core.Imaging.PixelRect>(), Arg.Any<bool>(), Arg.Any<bool>()).Returns(false);
+
+            var (presenter, _, _) = CreateTestPresenter(placementAdapter: mockAdapter);
+            using var op = presenter.TryBeginOperation(TestContext.Current.CancellationToken);
+            op.ShouldNotBeNull();
+
+            var shown = await presenter.TryShowAsync(op!, new TranslateWindowRequest
+            {
+                Text = "Placement Fail Test",
+                AutoTranslate = true
+            });
+
+            shown.ShouldBeFalse("当底层适配器定位失败时，TryShowAsync 必须返回 false");
+            var internalOp = (TranslateWindowOperation)op!;
+            internalOp.CancellationToken.IsCancellationRequested.ShouldBeTrue("定位失败后必须取消该操作");
         });
     }
 

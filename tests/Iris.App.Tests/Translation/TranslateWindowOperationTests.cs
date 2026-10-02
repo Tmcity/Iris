@@ -34,12 +34,17 @@ public sealed class TranslateWindowOperationTests
         ]);
         desktopContext.GetCursorPosition().Returns(new Iris.Core.Imaging.PixelPoint(500, 500));
 
+        var textPreprocessor = Substitute.For<ITextPreprocessor>();
+        textPreprocessor.Prepare(Arg.Any<string>(), Arg.Any<TextOrigin>())
+            .Returns(ci => ci.Arg<string>()?.Trim() ?? string.Empty);
+
         var services = new ServiceCollection();
         services.AddSingleton(settingsService);
         services.AddSingleton(orchestrator);
         services.AddSingleton(clipboard);
         services.AddSingleton(settingsPresenter);
         services.AddSingleton(desktopContext);
+        services.AddSingleton(textPreprocessor);
         services.AddSingleton<IUiDispatcher>(dispatcher);
 
         services.AddScoped<TranslateWindowViewModel>(sp => new TranslateWindowViewModel(
@@ -48,7 +53,8 @@ public sealed class TranslateWindowOperationTests
             clipboard,
             settingsPresenter,
             dispatcher,
-            NullLogger<TranslateWindowViewModel>.Instance));
+            NullLogger<TranslateWindowViewModel>.Instance,
+            textPreprocessor));
 
         services.AddTransient<TranslateWindow>(sp => new TranslateWindow
         {
@@ -254,5 +260,64 @@ public sealed class TranslateWindowOperationTests
         // 工作收尾释放
         internalOp.EndWorkOwnership();
         internalOp.IsRetired.ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task CancellationCallback_WhenSuspended_HoldsOperationAndDoesNotBlockUiHeartbeat()
+    {
+        var dispatcher = new ImmediateUiDispatcher();
+        var (presenter, _, _) = CreateTestPresenter(dispatcher);
+
+        using var callerCts = new CancellationTokenSource();
+        var op = presenter.TryBeginOperation(callerCts.Token);
+        op.ShouldNotBeNull();
+        var internalOp = (TranslateWindowOperation)op!;
+
+        var callbackEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var callbackGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        int callbackThreadId = -1;
+
+        internalOp.CancellationToken.Register(() =>
+        {
+            callbackThreadId = Environment.CurrentManagedThreadId;
+            callbackEntered.TrySetResult();
+            callbackGate.Task.GetAwaiter().GetResult();
+        });
+
+        // 1. 触发取消（通过调用方令牌）
+        callerCts.Cancel();
+
+        // 2. 证明取消回调已实际进入并被阻塞
+        await callbackEntered.Task;
+        callbackThreadId.ShouldNotBe(-1);
+
+        // 3. 验证 UI 心跳正常，未被取消回调阻塞
+        bool uiHeartbeatRan = false;
+        await dispatcher.InvokeAsync(() =>
+        {
+            uiHeartbeatRan = true;
+            return Task.CompletedTask;
+        }, CancellationToken.None);
+        uiHeartbeatRan.ShouldBeTrue("UI 心跳必须能够正常执行，证明取消回调未阻塞 UI 线程");
+
+        // 4. 调用方 Dispose (尝试释放租约)
+        internalOp.Dispose();
+        internalOp.IsCallerDisposed.ShouldBeTrue();
+
+        // 5. 核心断言：回调仍处于阻塞挂起中（_activeCancelCallbacks > 0），操作不得提前退休，名额不得提前释放
+        internalOp.IsRetired.ShouldBeFalse();
+        presenter.ActiveOperationsCount.ShouldBe(1, "取消回调挂起期间，操作名额不得提前释放");
+
+        // 6. 放行取消回调闸门
+        callbackGate.SetResult();
+
+        // 7. 取消回调完全退出后，操作正常退休并归还名额
+        for (int i = 0; i < 50 && !internalOp.IsRetired; i++)
+        {
+            await Task.Delay(10, TestContext.Current.CancellationToken);
+        }
+
+        internalOp.IsRetired.ShouldBeTrue();
+        presenter.ActiveOperationsCount.ShouldBe(0, "取消回调退出后，操作必须退休且名额正常归还");
     }
 }

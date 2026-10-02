@@ -577,4 +577,121 @@ public sealed class TranslateWindowIntegrationTests
             }
         });
     }
+
+    [Fact]
+    public async Task AppBootstrapper_StopAsync_WithInFlightConsumerAndCopy_GracefullyShutsDown()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            using var tempDir = new TempDirectory();
+            var appPaths = new TestAppPaths(tempDir.Path);
+            var secretStore = new MemorySecretStore();
+
+            var orchestrator = Substitute.For<ITranslationOrchestrator>();
+            var clipboard = Substitute.For<IClipboardService>();
+            var desktopContext = Substitute.For<IDesktopContext>();
+            desktopContext.GetMonitors().Returns([
+                new MonitorInfo(@"\\.\DISPLAY1", new PixelRect(0, 0, 1920, 1080), new PixelRect(0, 0, 1920, 1040), 1.0, true)
+            ]);
+            desktopContext.GetCursorPosition().Returns(new PixelPoint(500, 500));
+
+            var inFlightStreamGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var inFlightCopyGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            async IAsyncEnumerable<TranslationEvent> HangingTranslationStream()
+            {
+                var p1 = new ProviderDescriptor("p1", "P1", "Kind", null, true);
+                yield return new TranslationStarted(Guid.NewGuid(), new Iris.Core.Languages.ResolvedLanguagePair("en", "zh-Hans", false), [p1]);
+                yield return new ProviderStarted(Guid.NewGuid(), "p1");
+                await inFlightStreamGate.Task;
+                yield return new ProviderCompleted(Guid.NewGuid(), "p1", "Done", TimeSpan.Zero, false, false, null);
+            }
+
+            orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+                .Returns(HangingTranslationStream());
+
+            clipboard.SetTextAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
+                .Returns(async call =>
+                {
+                    await inFlightCopyGate.Task;
+                });
+
+            var levelSwitch = new Serilog.Core.LoggingLevelSwitch();
+            var host = AppHostBuilder.Build(
+                args: [],
+                paths: appPaths,
+                levelSwitch: levelSwitch,
+                startTimestamp: System.Diagnostics.Stopwatch.GetTimestamp(),
+                configureTestOverrides: services =>
+                {
+                    var existingOrch = services.Where(d => d.ServiceType == typeof(ITranslationOrchestrator)).ToList();
+                    foreach (var d in existingOrch) services.Remove(d);
+                    services.AddSingleton(orchestrator);
+
+                    var existingClipboard = services.Where(d => d.ServiceType == typeof(IClipboardService)).ToList();
+                    foreach (var d in existingClipboard) services.Remove(d);
+                    services.AddSingleton(clipboard);
+
+                    var existingDesktop = services.Where(d => d.ServiceType == typeof(IDesktopContext)).ToList();
+                    foreach (var d in existingDesktop) services.Remove(d);
+                    services.AddSingleton(desktopContext);
+
+                    var existingWindow = services.Where(d => d.ServiceType == typeof(TranslateWindow)).ToList();
+                    foreach (var d in existingWindow) services.Remove(d);
+                    services.AddTransient<TranslateWindow>(sp => new TranslateWindow
+                    {
+                        ShowActivated = false,
+                        ShowInTaskbar = false,
+                        WindowStartupLocation = WindowStartupLocation.Manual,
+                        Left = -10000,
+                        Top = -10000,
+                        Opacity = 0
+                    });
+                });
+
+            var originalShutdown = AppBootstrapper.AppShutdowner;
+            AppBootstrapper.AppShutdowner = _ => { };
+
+            try
+            {
+                using (host)
+                {
+                    var sp = host.Services;
+                    var settingsService = sp.GetRequiredService<ISettingsService>();
+                    await settingsService.LoadAsync();
+
+                    var presenter = sp.GetRequiredService<TranslateWindowPresenter>();
+                    var op = presenter.TryBeginOperation(TestContext.Current.CancellationToken);
+                    op.ShouldNotBeNull();
+
+                    await presenter.TryShowAsync(op!, new TranslateWindowRequest
+                    {
+                        Text = "Testing in-flight shutdown",
+                        AutoTranslate = true
+                    });
+                    op!.Dispose();
+
+                    // 启动关闭任务
+                    var bootstrapper = sp.GetRequiredService<AppBootstrapper>();
+                    var stopTask = bootstrapper.StopAsync();
+
+                    // 放行在途闸门
+                    inFlightStreamGate.TrySetResult();
+                    inFlightCopyGate.TrySetResult();
+
+                    await stopTask;
+
+                    // 验证窗口与 ViewModel 均已释放
+                    presenter.Window.ShouldBeNull();
+                    presenter.ViewModel.ShouldBeNull();
+                }
+            }
+            finally
+            {
+                inFlightStreamGate.TrySetResult();
+                inFlightCopyGate.TrySetResult();
+                AppBootstrapper.AppShutdowner = originalShutdown;
+            }
+        });
+    }
 }
