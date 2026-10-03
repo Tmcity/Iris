@@ -32,6 +32,7 @@ using Xunit;
 
 namespace Iris.App.Tests.Translation;
 
+[Collection("AppShutdownerSharedState")]
 public sealed class TranslateWindowIntegrationTests
 {
     #region Controlled Test Doubles

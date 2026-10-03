@@ -686,7 +686,7 @@ public sealed class HotkeyCoordinatorTests
     }
 
     [Fact]
-    public async Task SettingsQueue_BackgroundSubmitWhenConsumerAboutToIdle_DoesNotLoseUpdate()
+    public async Task SettingsQueue_BackgroundSubmitWhileDispatchQueued_DoesNotLoseUpdate()
     {
         var fakeNative = new FakeNativeHotkeyAdapter();
         using var hotkeyService = new HotkeyService(NullLogger<HotkeyService>.Instance, fakeNative);
@@ -746,7 +746,7 @@ public sealed class HotkeyCoordinatorTests
 
             await enteredFirstApply.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
-            // While consumer is processing S1, post S2 (key C)
+            // While consumer is queued before callback, post S2 (key C)
             var settingsC = CreateSettingsWithInputKey("C");
             var oldB = settingsB;
             settings = settingsC;
@@ -767,6 +767,7 @@ public sealed class HotkeyCoordinatorTests
             await coordinator.StopAcceptanceAndNativeAsync();
         }
     }
+
 
     [Fact]
     public async Task SettingsQueue_MultipleRapidUpdates_OnlyLatestSnapshotTakesEffect()
@@ -1151,22 +1152,183 @@ public sealed class HotkeyCoordinatorTests
         settingsService.Current.Returns(settings);
 
         var uiDispatcher = new ImmediateUiDispatcher();
-        var delayCallback1 = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var bCallbackFinished = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var holdBTaskCompletion = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var enteredCInvoke = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var holdCExecution = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
         int invokeCount = 0;
+        int activeInvocations = 0;
+        int maxConcurrentInvocations = 0;
 
         uiDispatcher.CustomInvoke = async callback =>
         {
-            invokeCount++;
-            if (invokeCount == 2)
+            int currentActive = Interlocked.Increment(ref activeInvocations);
+            lock (uiDispatcher)
             {
-                var faultTask = Task.FromException(new InvalidOperationException("Injected dispatch failure for B"));
-                _ = Task.Run(async () =>
+                if (currentActive > maxConcurrentInvocations)
                 {
-                    await delayCallback1.Task;
-                }, TestContext.Current.CancellationToken);
-                await faultTask;
+                    maxConcurrentInvocations = currentActive;
+                }
             }
-            await callback();
+            int currentInvoke = Interlocked.Increment(ref invokeCount);
+
+            try
+            {
+                if (currentInvoke == 2) // B's dispatch
+                {
+                    // 1. Run B's callback so B completes its apply and exits ProcessPendingSettingsAsync
+                    await callback();
+                    bCallbackFinished.TrySetResult();
+
+                    // 2. Hold the task returned to the coordinator for B
+                    await holdBTaskCompletion.Task;
+                    throw new InvalidOperationException("Injected dispatch failure for B");
+                }
+
+                if (currentInvoke == 3) // C's dispatch
+                {
+                    // Hold C before executing its callback
+                    enteredCInvoke.TrySetResult();
+                    await holdCExecution.Task;
+                    await callback();
+                    return;
+                }
+
+                await callback();
+            }
+            finally
+            {
+                Interlocked.Decrement(ref activeInvocations);
+            }
+        };
+
+        using var coordinator = new HotkeyCoordinator(
+            settingsService,
+            hotkeyService,
+            Substitute.For<IActionDispatcher>(),
+            [new TestActionHandler(IrisAction.InputTranslate)],
+            uiDispatcher,
+            new FakeNotificationService(),
+            NullLogger<HotkeyCoordinator>.Instance);
+
+        try
+        {
+            await coordinator.StartAsync();
+            fakeNative.RegisteredHotkeys.Last().Vk.ShouldBe(0x46u); // Initial F, invokeCount = 1
+
+            // 1. Trigger B -> invokes CustomInvoke #2
+            var settingsB = CreateSettingsWithInputKey("B");
+            settingsService.Current.Returns(settingsB);
+            settingsService.Changed += Raise.Event<EventHandler<SettingsChangedEventArgs>>(
+                settingsService, new SettingsChangedEventArgs(settings, settingsB));
+
+            // Wait until B's callback has finished executing and set _isProcessingSettings = false
+            await bCallbackFinished.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+            // 2. Trigger C -> coordinator sees _isProcessingSettings == false, schedules C (invokeCount = 3)
+            var settingsC = CreateSettingsWithInputKey("C");
+            settingsService.Current.Returns(settingsC);
+            settingsService.Changed += Raise.Event<EventHandler<SettingsChangedEventArgs>>(
+                settingsService, new SettingsChangedEventArgs(settingsB, settingsC));
+
+            // Wait until C has entered CustomInvoke and is held before callback
+            await enteredCInvoke.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+            // 3. Now fault B's task completion -> OnDispatchCompleted(generation 2) runs on threadpool
+            holdBTaskCompletion.TrySetResult();
+
+            // Give ThreadPool a moment to run OnDispatchCompleted for B
+            await Task.Delay(50, TestContext.Current.CancellationToken);
+
+            activeInvocations.ShouldBe(1, "B 已结束并抛出，当前应只有 C 仍在等待");
+
+            // 4. Trigger D while C is still held!
+            // If generation protection works: D is buffered into _pendingSettings, no 4th invoke is started!
+            // If generation protection were missing: B's completion would have cleared _isProcessingSettings,
+            // launching a 4th invoke concurrently with C!
+            var settingsD = CreateSettingsWithInputKey("D");
+            settingsService.Current.Returns(settingsD);
+            settingsService.Changed += Raise.Event<EventHandler<SettingsChangedEventArgs>>(
+                settingsService, new SettingsChangedEventArgs(settingsC, settingsD));
+
+            await Task.Delay(50, TestContext.Current.CancellationToken);
+
+            // Verify no concurrent invocation occurred while C is held
+            activeInvocations.ShouldBe(1, "代次保护应阻止旧故障回调清除新消费者的处理标记，绝不得产生并发消费者");
+            invokeCount.ShouldBe(3, "D 必须作为待处理快照排队，不得启动第 4 次调用");
+
+            // 5. Release C -> C executes callback, loops and picks up D!
+            holdCExecution.TrySetResult();
+
+            await SpinWaitUntilAsync(() => fakeNative.RegisteredHotkeys.LastOrDefault().Vk == 0x44u, TimeSpan.FromSeconds(3));
+            fakeNative.RegisteredHotkeys.Last().Vk.ShouldBe(0x44u, "C 顺利完成自身处理并继续消费待处理的 D");
+        }
+        finally
+        {
+            holdBTaskCompletion.TrySetResult();
+            holdCExecution.TrySetResult();
+            await coordinator.StopAcceptanceAndNativeAsync();
+        }
+    }
+
+    [Fact]
+    public async Task SettingsQueue_DelayedCanceledCallback_DoesNotClearNewConsumersProcessingFlag()
+    {
+        var fakeNative = new FakeNativeHotkeyAdapter();
+        using var hotkeyService = new HotkeyService(NullLogger<HotkeyService>.Instance, fakeNative);
+
+        var settings = new AppSettings();
+        var settingsService = Substitute.For<ISettingsService>();
+        settingsService.Current.Returns(settings);
+
+        var uiDispatcher = new ImmediateUiDispatcher();
+        var bCallbackFinished = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var holdBTaskCompletion = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var enteredCInvoke = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var holdCExecution = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        int invokeCount = 0;
+        int activeInvocations = 0;
+        int maxConcurrentInvocations = 0;
+
+        uiDispatcher.CustomInvoke = async callback =>
+        {
+            int currentActive = Interlocked.Increment(ref activeInvocations);
+            lock (uiDispatcher)
+            {
+                if (currentActive > maxConcurrentInvocations)
+                {
+                    maxConcurrentInvocations = currentActive;
+                }
+            }
+            int currentInvoke = Interlocked.Increment(ref invokeCount);
+
+            try
+            {
+                if (currentInvoke == 2)
+                {
+                    await callback();
+                    bCallbackFinished.TrySetResult();
+
+                    await holdBTaskCompletion.Task;
+                    throw new OperationCanceledException("Injected dispatch cancellation for B");
+                }
+
+                if (currentInvoke == 3)
+                {
+                    enteredCInvoke.TrySetResult();
+                    await holdCExecution.Task;
+                    await callback();
+                    return;
+                }
+
+                await callback();
+            }
+            finally
+            {
+                Interlocked.Decrement(ref activeInvocations);
+            }
         };
 
         using var coordinator = new HotkeyCoordinator(
@@ -1182,42 +1344,45 @@ public sealed class HotkeyCoordinatorTests
         {
             await coordinator.StartAsync();
 
-            // Fire B -> fails
             var settingsB = CreateSettingsWithInputKey("B");
             settingsService.Current.Returns(settingsB);
-            try
-            {
-                settingsService.Changed += Raise.Event<EventHandler<SettingsChangedEventArgs>>(
-                    settingsService, new SettingsChangedEventArgs(settings, settingsB));
-            }
-            catch
-            {
-            }
+            settingsService.Changed += Raise.Event<EventHandler<SettingsChangedEventArgs>>(
+                settingsService, new SettingsChangedEventArgs(settings, settingsB));
 
-            // Fire C -> new consumer generation 2 starts and succeeds
+            await bCallbackFinished.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
             var settingsC = CreateSettingsWithInputKey("C");
             settingsService.Current.Returns(settingsC);
             settingsService.Changed += Raise.Event<EventHandler<SettingsChangedEventArgs>>(
                 settingsService, new SettingsChangedEventArgs(settingsB, settingsC));
 
-            await SpinWaitUntilAsync(() => fakeNative.RegisteredHotkeys.LastOrDefault().Vk == 0x43u, TimeSpan.FromSeconds(3));
-            fakeNative.RegisteredHotkeys.Last().Vk.ShouldBe(0x43u);
+            await enteredCInvoke.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
-            // Now release delayed callback 1
-            delayCallback1.TrySetResult();
+            // Cancel B's dispatch task
+            holdBTaskCompletion.TrySetResult();
+            await Task.Delay(50, TestContext.Current.CancellationToken);
 
-            // Next change D can still be accepted because generation tracking prevented stale callback from corrupting state
+            activeInvocations.ShouldBe(1, "B 已经取消并抛出，当前应只有 C 仍在等待");
+
             var settingsD = CreateSettingsWithInputKey("D");
             settingsService.Current.Returns(settingsD);
             settingsService.Changed += Raise.Event<EventHandler<SettingsChangedEventArgs>>(
                 settingsService, new SettingsChangedEventArgs(settingsC, settingsD));
+
+            await Task.Delay(50, TestContext.Current.CancellationToken);
+
+            activeInvocations.ShouldBe(1, "代次保护应阻止旧取消回调清除新消费者的处理标记，绝不得产生并发消费者");
+            invokeCount.ShouldBe(3, "D 必须作为待处理快照排队，不得启动第 4 次调用");
+
+            holdCExecution.TrySetResult();
 
             await SpinWaitUntilAsync(() => fakeNative.RegisteredHotkeys.LastOrDefault().Vk == 0x44u, TimeSpan.FromSeconds(3));
             fakeNative.RegisteredHotkeys.Last().Vk.ShouldBe(0x44u);
         }
         finally
         {
-            delayCallback1.TrySetResult();
+            holdBTaskCompletion.TrySetResult();
+            holdCExecution.TrySetResult();
             await coordinator.StopAcceptanceAndNativeAsync();
         }
     }

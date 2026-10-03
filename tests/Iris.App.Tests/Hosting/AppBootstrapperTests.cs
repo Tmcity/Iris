@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using Iris.App.Hosting;
 using Iris.App.Services;
 using Iris.App.Tray;
@@ -28,6 +29,7 @@ using Xunit;
 
 namespace Iris.App.Tests.Hosting;
 
+[Collection("AppShutdownerSharedState")]
 public sealed class AppBootstrapperTests : IDisposable
 {
     private readonly Action<string, string> _originalFatalErrorShower;
@@ -665,7 +667,7 @@ public sealed class AppBootstrapperTests : IDisposable
                 Opacity = 0
             });
 
-            var provider = services.BuildServiceProvider();
+            using var provider = services.BuildServiceProvider();
 
             var presenter = new TranslateWindowPresenter(
                 provider,
@@ -742,48 +744,262 @@ public sealed class AppBootstrapperTests : IDisposable
             try
             {
                 AppBootstrapper.AppShutdowner = _ => { };
+                try
+                {
+                    await bootstrapper.StartAsync();
 
-                await bootstrapper.StartAsync();
+                    // 1. 合成 WM_HOTKEY 触发剪贴板翻译
+                    fakeNative.RegisteredHotkeys.Count.ShouldBeGreaterThan(0);
+                    int hotkeyId = fakeNative.RegisteredHotkeys[0].Id;
+                    fakeNative.SendWmHotkey(hotkeyId, (uint)(HotkeyModifiers.Control | HotkeyModifiers.Alt), 0x56u);
 
-                // 1. 合成 WM_HOTKEY 触发剪贴板翻译
-                fakeNative.RegisteredHotkeys.Count.ShouldBeGreaterThan(0);
-                int hotkeyId = fakeNative.RegisteredHotkeys[0].Id;
-                fakeNative.SendWmHotkey(hotkeyId, (uint)(HotkeyModifiers.Control | HotkeyModifiers.Alt), 0x56u);
+                    // 2. 确认剪贴板读取已进入并挂起
+                    await clipboardEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
-                // 2. 确认剪贴板读取已进入并挂起
-                await clipboardEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                    // 3. 启动退出
+                    stopTask = bootstrapper.StopAsync();
 
-                // 3. 启动退出
-                stopTask = bootstrapper.StopAsync();
+                    // 4. 等待一段时间，确认 native 准入已关闭，但由于剪贴板未放行，Host 绝对不能停止
+                    await Task.Delay(50, TestContext.Current.CancellationToken);
+                    fakeNative.UnregisteredHotkeys.Count.ShouldBeGreaterThan(0, "退出首阶段必须先注销原生热键");
+                    hostStopStarted.ShouldBeFalse("剪贴板读取未放行前，Host 绝不能停止");
+                    stopTask.IsCompleted.ShouldBeFalse("剪贴板读取未放行前，Bootstrapper.StopAsync 绝不能完成");
 
-                // 4. 等待一段时间，确认 native 准入已关闭，但由于剪贴板未放行，Host 绝对不能停止
-                await Task.Delay(50, TestContext.Current.CancellationToken);
-                fakeNative.UnregisteredHotkeys.Count.ShouldBeGreaterThan(0, "退出首阶段必须先注销原生热键");
-                hostStopStarted.ShouldBeFalse("剪贴板读取未放行前，Host 绝不能停止");
-                stopTask.IsCompleted.ShouldBeFalse("剪贴板读取未放行前，Bootstrapper.StopAsync 绝不能完成");
+                    // 5. 验证已排队/迟到的动作不能重开窗口
+                    var lateOp = presenter.TryBeginOperation(CancellationToken.None);
+                    lateOp.ShouldBeNull("Presenter 处于退出阶段时，TryBeginOperation 必须拒绝并返回 null");
 
-                // 5. 验证已排队/迟到的动作不能重开窗口
-                var lateOp = presenter.TryBeginOperation(CancellationToken.None);
-                lateOp.ShouldBeNull("Presenter 处于退出阶段时，TryBeginOperation 必须拒绝并返回 null");
+                    // 6. 放行剪贴板
+                    clipboardRelease.TrySetResult();
 
-                // 6. 放行剪贴板
-                clipboardRelease.TrySetResult();
+                    // 7. 完整退出顺利完成
+                    await stopTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                    hostStopFinished.ShouldBeTrue("放行后 Host 必须成功停止");
+                    stopTask.IsCompletedSuccessfully.ShouldBeTrue();
+                    presenter.IsVisible.ShouldBeFalse();
+                }
+                finally
+                {
+                    // 1. 首先放行自身剪贴板闸门
+                    clipboardRelease.TrySetResult();
 
-                // 7. 完整退出顺利完成
-                await stopTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
-                hostStopFinished.ShouldBeTrue("放行后 Host 必须成功停止");
-                stopTask.IsCompletedSuccessfully.ShouldBeTrue();
-                presenter.IsVisible.ShouldBeFalse();
+                    // 2. 发起/完整等待自身停止和 presenter/coordinator 在途工作（使用独立超时，不使用可能已取消的测试令牌）
+                    stopTask ??= bootstrapper.StopAsync();
+                    await stopTask.WaitAsync(TimeSpan.FromSeconds(5), CancellationToken.None);
+                    await coordinator.WaitForInFlightDispatchesAsync();
+                    await presenter.ShutdownAsync(CancellationToken.None);
+                }
             }
             finally
             {
-                clipboardRelease.TrySetResult();
+                // 3. 最外层 finally 恢复全局委托（即使内部收尾抛错也必定恢复）
                 AppBootstrapper.AppShutdowner = originalShutdown;
-                if (stopTask != null)
+            }
+        });
+    }
+
+    [Fact]
+    public async Task StopAsync_WhenTestFailsMidwayAfterClipboardEntered_FinallyReleasesLatchAndDrains_WithoutClosingOtherTestWindows()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            Window? otherTestWindow = null;
+            try
+            {
+                // 创建一个模拟其它测试用例（如 TranslationWorkflowLateArrivalTests）的独立测试窗口
+                otherTestWindow = new TranslateWindow
                 {
-                    try { await stopTask.WaitAsync(TimeSpan.FromSeconds(2), TestContext.Current.CancellationToken); } catch { }
+                    ShowActivated = false,
+                    ShowInTaskbar = false,
+                    WindowStartupLocation = System.Windows.WindowStartupLocation.Manual,
+                    Left = -10000,
+                    Top = -10000,
+                    Opacity = 0
+                };
+                otherTestWindow.Show();
+                otherTestWindow.IsVisible.ShouldBeTrue("其它测试窗口初始应可见");
+
+                var uiDispatcher = new WpfUiDispatcher();
+                var hotkeys = HotkeyDefaults.Create().ToDictionary();
+                hotkeys[IrisAction.ClipboardTranslate] = new HotkeyBinding(HotkeyModifiers.Control | HotkeyModifiers.Alt, "V", true);
+                var settings = new AppSettings { Hotkeys = hotkeys };
+
+                var settingsService = Substitute.For<ISettingsService>();
+                settingsService.Current.Returns(settings);
+
+                var clipboardEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                var clipboardRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+                var clipboardService = Substitute.For<IClipboardService>();
+                clipboardService.GetTextAsync(Arg.Any<CancellationToken>()).Returns<Task<string?>>(async _ =>
+                {
+                    clipboardEntered.TrySetResult();
+                    await clipboardRelease.Task;
+                    return "uncooperative text";
+                });
+
+                var orchestrator = Substitute.For<ITranslationOrchestrator>();
+                var settingsPresenter = Substitute.For<ISettingsWindowPresenter>();
+                var desktopContext = Substitute.For<IDesktopContext>();
+                desktopContext.GetMonitors().Returns([
+                    new MonitorInfo(@"\\.\DISPLAY1", new PixelRect(0, 0, 1920, 1080), new PixelRect(0, 0, 1920, 1040), 1.0, true)
+                ]);
+                desktopContext.GetCursorPosition().Returns(new PixelPoint(500, 500));
+
+                var textPreprocessor = Substitute.For<ITextPreprocessor>();
+                textPreprocessor.Prepare(Arg.Any<string>(), Arg.Any<TextOrigin>())
+                    .Returns(ci => ci.Arg<string>()?.Trim() ?? string.Empty);
+
+                var services = new ServiceCollection();
+                services.AddSingleton(settingsService);
+                services.AddSingleton(orchestrator);
+                services.AddSingleton(clipboardService);
+                services.AddSingleton(settingsPresenter);
+                services.AddSingleton(desktopContext);
+                services.AddSingleton(textPreprocessor);
+                services.AddSingleton<IUiDispatcher>(uiDispatcher);
+
+                services.AddScoped<TranslateWindowViewModel>(sp => new TranslateWindowViewModel(
+                    settingsService,
+                    orchestrator,
+                    clipboardService,
+                    settingsPresenter,
+                    uiDispatcher,
+                    NullLogger<TranslateWindowViewModel>.Instance,
+                    textPreprocessor));
+
+                services.AddTransient<TranslateWindow>(sp => new TranslateWindow
+                {
+                    ShowActivated = false,
+                    ShowInTaskbar = false,
+                    WindowStartupLocation = System.Windows.WindowStartupLocation.Manual,
+                    Left = -10000,
+                    Top = -10000,
+                    Opacity = 0
+                });
+
+                using var provider = services.BuildServiceProvider();
+
+                var presenter = new TranslateWindowPresenter(
+                    provider,
+                    uiDispatcher,
+                    settingsService,
+                    desktopContext,
+                    NullLogger<TranslateWindowPresenter>.Instance);
+
+                var clipboardHandler = new ClipboardTranslateHandler(
+                    presenter,
+                    clipboardService,
+                    NullLogger<ClipboardTranslateHandler>.Instance);
+
+                var notificationService = Substitute.For<INotificationService>();
+                var actionDispatcher = new ActionDispatcher(
+                    [clipboardHandler],
+                    uiDispatcher,
+                    notificationService,
+                    NullLogger<ActionDispatcher>.Instance);
+
+                var fakeNative = new FakeNativeHotkeyAdapter
+                {
+                    CurrentThreadId = (uint)Environment.CurrentManagedThreadId
+                };
+                using var hotkeyService = new HotkeyService(NullLogger<HotkeyService>.Instance, fakeNative);
+
+                using var coordinator = new HotkeyCoordinator(
+                    settingsService,
+                    hotkeyService,
+                    actionDispatcher,
+                    [clipboardHandler],
+                    uiDispatcher,
+                    notificationService,
+                    NullLogger<HotkeyCoordinator>.Instance);
+
+                var host = Substitute.For<IHost>();
+                var translationRegistry = Substitute.For<ITranslationProviderRegistry>();
+                var databaseInitializer = Substitute.For<IDatabaseInitializer>();
+                var appLifetime = Substitute.For<IAppLifetime>();
+                var themeService = new ThemeService(settingsService);
+                var logLevelSwitch = new Serilog.Core.LoggingLevelSwitch(Serilog.Events.LogEventLevel.Information);
+                var logLevelController = new LogLevelController(settingsService, logLevelSwitch, NullLogger<LogLevelController>.Instance);
+                var trayController = new TrayIconController(appLifetime, settingsService, actionDispatcher, NullLogger<TrayIconController>.Instance)
+                {
+                    SuppressIconCreationForTesting = true
+                };
+                var trayNotificationService = new TrayNotificationService(NullLogger<TrayNotificationService>.Instance);
+
+                var bootstrapper = new AppBootstrapper(
+                    settingsService,
+                    translationRegistry,
+                    databaseInitializer,
+                    logLevelController,
+                    themeService,
+                    trayController,
+                    trayNotificationService,
+                    host,
+                    NullLogger<AppBootstrapper>.Instance,
+                    new AppStartupInfo(Environment.TickCount64),
+                    translateShutdownCoordinator: presenter,
+                    hotkeyCoordinator: coordinator);
+
+                var originalShutdown = AppBootstrapper.AppShutdowner;
+                Task? stopTask = null;
+                bool simulatedFailureCaught = false;
+
+                try
+                {
+                    AppBootstrapper.AppShutdowner = _ => { };
+                    try
+                    {
+                        await bootstrapper.StartAsync();
+
+                        int hotkeyId = fakeNative.RegisteredHotkeys[0].Id;
+                        fakeNative.SendWmHotkey(hotkeyId, (uint)(HotkeyModifiers.Control | HotkeyModifiers.Alt), 0x56u);
+
+                        // 等待剪贴板读取进入并挂起
+                        await clipboardEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                        // 模拟测试在 clipboard entered 后中途发生断言/未处理异常
+                        try
+                        {
+                            throw new InvalidOperationException("Simulated mid-way assertion failure after clipboard entered");
+                        }
+                        catch (InvalidOperationException)
+                        {
+                            simulatedFailureCaught = true;
+                        }
+                    }
+                    finally
+                    {
+                        // 1. 放行自身剪贴板闸门
+                        clipboardRelease.TrySetResult();
+
+                        // 2. 发起并完整等待自身停止
+                        stopTask ??= bootstrapper.StopAsync();
+                        await stopTask.WaitAsync(TimeSpan.FromSeconds(5), CancellationToken.None);
+                        await coordinator.WaitForInFlightDispatchesAsync();
+                        await presenter.ShutdownAsync(CancellationToken.None);
+                    }
                 }
-                await WpfTestRunner.CleanupWindowsAsync();
+                finally
+                {
+                    // 3. 恢复全局委托，即使等待/收尾抛错也必定恢复
+                    AppBootstrapper.AppShutdowner = originalShutdown;
+                }
+
+                // 确认中途故障被执行
+                simulatedFailureCaught.ShouldBeTrue();
+
+                // 确认自身已干净退出
+                fakeNative.UnregisteredHotkeys.Count.ShouldBeGreaterThan(0, "退出阶段自身原生热键必须已注销");
+                presenter.IsVisible.ShouldBeFalse("自身 Presenter 必须已隐藏关闭");
+
+                // 核心验证：独立测试窗口绝对没有被全局清理关闭！
+                otherTestWindow.IsVisible.ShouldBeTrue("移除全局 CleanupWindowsAsync 后，中途失败清理不得关闭其它测试窗口");
+            }
+            finally
+            {
+                // 最外层 finally 必定关闭自有旁观窗口，即使断言或内部收尾抛错也必定执行
+                otherTestWindow?.Close();
             }
         });
     }

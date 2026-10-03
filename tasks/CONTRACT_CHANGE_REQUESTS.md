@@ -743,7 +743,7 @@ TranslateWindowRequest 只改 AutoTranslate 文档：本次显式非空白 Text�
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-10-03 |
-| 状态 | **已落地，待复审（T-017-R1）** |
+| 状态 | **已落地，待复审（T-017-R2）** |
 | 依据 | HOTKEY_SERVICE.md / ARCH v1.27；Microsoft RegisterHotKey / UnregisterHotKey / WM_HOTKEY 文档 |
 | 范围 | CONTRACTS.cs 与 Core/Platform/IHotkeyService.cs 的 summary，无签名/类型/默认设置/JSON 变更 |
 
