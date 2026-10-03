@@ -540,6 +540,10 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
         {
             return "translation";
         }
+        if (trimmed.Equals("hotkeys", StringComparison.OrdinalIgnoreCase))
+        {
+            return "hotkeys";
+        }
         return "general";
     }
 

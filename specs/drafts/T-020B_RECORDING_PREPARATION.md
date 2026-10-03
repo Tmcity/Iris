@@ -2,6 +2,8 @@
 
 > 2026-10-03，Codex。T-020A 正在由 Gemini 实施。本稿只准备 B 单，不批准新的平台端口/全局钩子，不改变 A 工单范围。正式实施仍需 A 验收后定稿。
 
+> 后续状态覆盖：A 已验收，B 已按 HOTKEY_RECORDING_UI.md / ARCH v1.29 / CCR-016 正式签发；下文“待定稿/未批准”为历史准备记录，新的端口和生命周期以正式规范为准。原文依据与未实机验证范围继续保留。
+
 ## 1. 实际读取的官方材料
 
 已下载并读取以下 Microsoft Learn 页面正文，本地缓存位于 `C:/Users/28910/AppData/Local/Temp/iris-t020b-official-prep`：

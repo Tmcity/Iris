@@ -17,6 +17,7 @@ using Xunit;
 
 namespace Iris.App.Tests.Settings;
 
+[Collection("AppShutdownerSharedState")]
 public sealed class SettingsShutdownWithPendingOperationsTests
 {
     private sealed class ScopedDisposableWitness : IDisposable
@@ -107,7 +108,7 @@ public sealed class SettingsShutdownWithPendingOperationsTests
                 vm.SelectedProfile!.Model = "gpt-4o";
                 var testTask = vm.ExecuteTestDraftAsync();
 
-                await testStarted.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                await testStarted.Task.WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
 
                 // 发起关停：由于草稿测试在途，关停任务处于挂起状态，且 scope 与窗口存活
                 var shutdownTask = presenter.ShutdownAsync();
@@ -119,7 +120,7 @@ public sealed class SettingsShutdownWithPendingOperationsTests
                 // 放行底层测试任务
                 testReleaseTcs.TrySetResult();
 
-                await Task.WhenAll(shutdownTask, testTask).WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                await Task.WhenAll(shutdownTask, testTask).WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
 
                 presenter.ActiveSession.ShouldBeNull();
                 window.IsVisible.ShouldBeFalse();

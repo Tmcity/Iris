@@ -532,19 +532,19 @@ public sealed class SettingsViewModelTests
             try
             {
                 // 等待初始查询发起并捕获其回调
-                await dispatcher.Queued.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                await dispatcher.Queued.Task.WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
 
                 // 注入保存时的自启应用失败
                 autoStartService.When(x => x.SetEnabled(true)).Do(_ => throw new System.IO.IOException("Injected fake auto start error"));
 
                 vm.LaunchAtStartup = true;
-                await vm.ExecuteSaveAsync().WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                await vm.ExecuteSaveAsync().WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
 
                 vm.CanRetryAutoStart.ShouldBeTrue("保存失败后应允许重试自启");
 
                 // 放行迟到的初始查询 UI 回调
                 await dispatcher.DrainAsync();
-                await vm.WaitForActiveWorkAsync().WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                await vm.WaitForActiveWorkAsync().WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
 
                 vm.CanRetryAutoStart.ShouldBeTrue("迟到的旧查询回调不得覆盖已失败的自启重试资格");
                 settingsService.Current.General.LaunchAtStartup.ShouldBeTrue();

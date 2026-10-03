@@ -1,5 +1,7 @@
 # 全局热键、注册归属与生命周期
 
+> T-020B 补充：短时键盘捕获、录入暂停/恢复和设置页运行状态以 HOTKEY_RECORDING_UI.md / CCR-016 为准。IHotkeyService 签名、owner UI 线程、ID 不复用和原生清理规则保持；临时暂停不等同于永久 Dispose。
+
 > 2026-10-03，Codex；T-017 / ARCH v1.27 / CCR-014 正式规范。
 > 复用 IHotkeyService；仅澄清契约注释，不新增公开签名、配置字段、错误码或 NuGet 包。
 

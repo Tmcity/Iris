@@ -2,17 +2,22 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Iris.App.Hosting;
 using Iris.App.Services;
+using Iris.Core.Actions;
 using Iris.Core.Common;
 using Iris.Core.Errors;
+using Iris.Core.Platform;
 using Iris.Core.Settings;
 using Iris.Core.Translation;
+using Iris.Platform.Windows.Hotkey;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 
@@ -43,6 +48,8 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 {
     private static readonly IReadOnlyList<AppTheme> _availableThemes = [AppTheme.System, AppTheme.Light, AppTheme.Dark];
     private static readonly IReadOnlyList<string> _availableLogLevels = ["Verbose", "Debug", "Information", "Warning", "Error"];
+    private static readonly CompositeFormat s_hotkeyDuplicateConflictFormat = CompositeFormat.Parse(UiText.SettingsHotkeyDuplicateConflict);
+    private static readonly CompositeFormat s_hotkeyReservedConflictFormat = CompositeFormat.Parse(UiText.SettingsHotkeyReservedConflict);
 
     private readonly ISettingsService _settingsService;
     private readonly ThemeService _themeService;
@@ -88,7 +95,16 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     private bool _isConflict;
     private bool _canRetryAutoStart;
     private bool _canRetryPendingApply;
+    private bool _canRetryHotkeys;
     private bool _disposed;
+
+    // 快捷键草稿与协调
+    private readonly IHotkeyBindingPolicy _hotkeyBindingPolicy;
+    private readonly HotkeyCoordinator? _hotkeyCoordinator;
+    private readonly HotkeyRecordingCoordinator? _recordingCoordinator;
+    private Func<nint>? _windowHandleProvider;
+    private HotkeyItemDraftViewModel? _activeRecordingItem;
+    private Task? _activeRecordingTask;
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public event Action? RequestClose;
@@ -98,7 +114,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         ThemeService themeService,
         GeneralSettingsSaveCoordinator saveCoordinator,
         IUiDispatcher uiDispatcher)
-        : this(settingsService, themeService, saveCoordinator, null, null, uiDispatcher, null)
+        : this(settingsService, themeService, saveCoordinator, null, null, uiDispatcher, null, null, null, null)
     {
     }
 
@@ -108,7 +124,18 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         GeneralSettingsSaveCoordinator saveCoordinator,
         IUiDispatcher uiDispatcher,
         ILogger<SettingsViewModel>? logger)
-        : this(settingsService, themeService, saveCoordinator, null, null, uiDispatcher, logger)
+        : this(settingsService, themeService, saveCoordinator, null, null, uiDispatcher, null, null, null, logger)
+    {
+    }
+
+    public SettingsViewModel(
+        ISettingsService settingsService,
+        ThemeService themeService,
+        GeneralSettingsSaveCoordinator saveCoordinator,
+        ISettingsEditCoordinator? editCoordinator,
+        ISettingsApplyReceiptManager? receiptManager,
+        IUiDispatcher uiDispatcher)
+        : this(settingsService, themeService, saveCoordinator, editCoordinator, receiptManager, uiDispatcher, null, null, null, null)
     {
     }
 
@@ -119,6 +146,21 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         ISettingsEditCoordinator? editCoordinator,
         ISettingsApplyReceiptManager? receiptManager,
         IUiDispatcher uiDispatcher,
+        ILogger<SettingsViewModel>? logger)
+        : this(settingsService, themeService, saveCoordinator, editCoordinator, receiptManager, uiDispatcher, null, null, null, logger)
+    {
+    }
+
+    public SettingsViewModel(
+        ISettingsService settingsService,
+        ThemeService themeService,
+        GeneralSettingsSaveCoordinator saveCoordinator,
+        ISettingsEditCoordinator? editCoordinator,
+        ISettingsApplyReceiptManager? receiptManager,
+        IUiDispatcher uiDispatcher,
+        IHotkeyBindingPolicy? hotkeyBindingPolicy,
+        HotkeyCoordinator? hotkeyCoordinator = null,
+        HotkeyRecordingCoordinator? recordingCoordinator = null,
         ILogger<SettingsViewModel>? logger = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
@@ -127,6 +169,9 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         _editCoordinator = editCoordinator;
         _receiptManager = receiptManager;
         _uiDispatcher = uiDispatcher ?? throw new ArgumentNullException(nameof(uiDispatcher));
+        _hotkeyBindingPolicy = hotkeyBindingPolicy ?? new DefaultHotkeyBindingPolicy();
+        _hotkeyCoordinator = hotkeyCoordinator;
+        _recordingCoordinator = recordingCoordinator;
         _logger = logger ?? NullLogger<SettingsViewModel>.Instance;
 
         // 从当前设置初始化常规基线与目标
@@ -150,10 +195,18 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         LoadProfilesFromCurrent();
         RefreshAvailablePrompts();
 
+        // 初始化快捷键列表
+        LoadHotkeysFromCurrent();
+
         if (_receiptManager != null)
         {
             _canRetryPendingApply = _receiptManager.HasPendingReceipts;
             _receiptManager.Changed += OnReceiptManagerChanged;
+        }
+
+        if (_hotkeyCoordinator != null)
+        {
+            _hotkeyCoordinator.RuntimeSnapshotChanged += OnHotkeyRuntimeSnapshotChanged;
         }
 
         SaveCommand = new AsyncRelayCommand(ExecuteSaveAsync, () => CanEdit, ex => HandleCommandException("Save", ex));
@@ -161,6 +214,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         ReloadCommand = new RelayCommand(ExecuteReload, () => CanEdit);
         RetryAutoStartCommand = new AsyncRelayCommand(ExecuteRetryAutoStartAsync, () => !IsSaving && CanRetryAutoStart && !_disposed && !_isStopped, ex => HandleCommandException("RetryAutoStart", ex));
         RetryPendingApplyCommand = new AsyncRelayCommand(ExecuteRetryPendingApplyAsync, () => !IsSaving && CanRetryPendingApply && !_disposed && !_isStopped, ex => HandleCommandException("RetryPendingApply", ex));
+        RetryHotkeysCommand = new AsyncRelayCommand(ExecuteRetryHotkeysAsync, () => !IsSaving && CanRetryHotkeys && !_disposed && !_isStopped, ex => HandleCommandException("RetryHotkeys", ex));
 
         AddProfileCommand = new RelayCommand(p =>
         {
@@ -187,18 +241,36 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
     public ControlledProfileCollection Profiles { get; }
     public ObservableCollection<PromptOptionItem> AvailablePrompts { get; } = [];
+    public ObservableCollection<HotkeyItemDraftViewModel> Hotkeys { get; } = [];
 
     public ICommand SaveCommand { get; }
     public ICommand CancelCommand { get; }
     public ICommand ReloadCommand { get; }
     public ICommand RetryAutoStartCommand { get; }
     public ICommand RetryPendingApplyCommand { get; }
+    public ICommand RetryHotkeysCommand { get; }
     public ICommand AddProfileCommand { get; }
     public ICommand DeleteProfileCommand { get; }
     public ICommand MoveUpCommand { get; }
     public ICommand MoveDownCommand { get; }
     public ICommand TestDraftCommand { get; }
     public ICommand ListModelsCommand { get; }
+
+    public bool CanRetryHotkeys
+    {
+        get => _canRetryHotkeys;
+        private set
+        {
+            if (_canRetryHotkeys != value)
+            {
+                _canRetryHotkeys = value;
+                OnPropertyChanged();
+                (RetryHotkeysCommand as AsyncRelayCommand)?.RaiseCanExecuteChanged();
+            }
+        }
+    }
+
+    public bool IsAnyRecording => _activeRecordingItem != null;
 
     internal Action? BeforeSave { get; set; }
 
@@ -247,6 +319,10 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             var normalized = SettingsWindowPresenter.NormalizePageKey(value);
             if (_currentPageKey != normalized)
             {
+                if (IsAnyRecording)
+                {
+                    _ = CancelRecordingAsync();
+                }
                 _currentPageKey = normalized;
                 OnPropertyChanged();
             }
@@ -371,7 +447,12 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 return true;
             }
 
-            return Profiles.Any(p => p.IsDirty);
+            if (Profiles.Any(p => p.IsDirty))
+            {
+                return true;
+            }
+
+            return Hotkeys.Any(h => h.IsDirty);
         }
     }
 
@@ -929,8 +1010,13 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         (ReloadCommand as RelayCommand)?.RaiseCanExecuteChanged();
         (RetryAutoStartCommand as AsyncRelayCommand)?.RaiseCanExecuteChanged();
         (RetryPendingApplyCommand as AsyncRelayCommand)?.RaiseCanExecuteChanged();
+        (RetryHotkeysCommand as AsyncRelayCommand)?.RaiseCanExecuteChanged();
         (AddProfileCommand as RelayCommand)?.RaiseCanExecuteChanged();
         RaiseProfileCommandsCanExecute();
+        foreach (var h in Hotkeys)
+        {
+            h.RaiseCanRecordChanged();
+        }
     }
 
     private void FreezeAllDrafts()
@@ -942,6 +1028,10 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         if (SelectedProfile != null)
         {
             SelectedProfile.IsFrozen = true;
+        }
+        foreach (var h in Hotkeys)
+        {
+            h.IsFrozen = true;
         }
     }
 
@@ -955,6 +1045,10 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         if (SelectedProfile != null)
         {
             SelectedProfile.IsFrozen = !isAlive;
+        }
+        foreach (var h in Hotkeys)
+        {
+            h.IsFrozen = !isAlive;
         }
     }
 
@@ -983,6 +1077,10 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             _isStopped = true;
             ++_queryGeneration;
             FreezeAllDrafts();
+        }
+        if (IsAnyRecording)
+        {
+            _ = CancelRecordingAsync();
         }
     }
 
@@ -1099,6 +1197,17 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             }
         }
 
+        SettingsEditPlan plan;
+        bool wasLaunchAtStartupDirty;
+        bool targetLaunchAtStartup;
+
+        try
+        {
+            if (IsAnyRecording)
+        {
+            await CancelRecordingAsync().ConfigureAwait(false);
+        }
+
         BeforeSave?.Invoke();
 
         // 仅校验被编辑或新增的服务；未触及服务不阻止合法保存
@@ -1113,6 +1222,14 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                     return;
                 }
             }
+        }
+
+        // 校验快捷键草稿
+        ValidateHotkeyDrafts();
+        if (Hotkeys.Any(h => h.HasDraftError))
+        {
+            StatusMessage = "请先修正快捷键冲突或错误";
+            return;
         }
 
         // 组装 General 补丁
@@ -1164,10 +1281,22 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 Profiles.Select(p => p.Id).ToArray());
         }
 
+        // 组装 Hotkey 增量变更
+        var hotkeyChanges = new List<HotkeyBindingChange>();
+        foreach (var h in Hotkeys)
+        {
+            if (h.IsDirty)
+            {
+                var target = h.TargetBinding ?? new HotkeyBinding(HotkeyModifiers.None, string.Empty, false);
+                hotkeyChanges.Add(new HotkeyBindingChange(h.Action, h.BaseBinding, target));
+            }
+        }
+
         bool hasGeneralDirty = _themeDirty || _launchAtStartupDirty || _showStartupNotificationDirty || _logLevelDirty;
         bool hasTranslationDirty = translationChanges.Count > 0 || orderChange != null;
+        bool hasHotkeyDirty = hotkeyChanges.Count > 0;
 
-        if (!hasGeneralDirty && !hasTranslationDirty)
+        if (!hasGeneralDirty && !hasTranslationDirty && !hasHotkeyDirty)
         {
             _themeService.ClearPreview(_sessionOwner);
             StatusMessage = UiText.SettingsStatusSaved;
@@ -1176,11 +1305,24 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             return;
         }
 
-        bool wasLaunchAtStartupDirty = _launchAtStartupDirty;
-        bool targetLaunchAtStartup = _targetLaunchAtStartup;
-        var plan = new SettingsEditPlan(generalPatch, translationChanges, orderChange);
+        wasLaunchAtStartupDirty = _launchAtStartupDirty;
+        targetLaunchAtStartup = _targetLaunchAtStartup;
+        plan = new SettingsEditPlan(generalPatch, translationChanges, orderChange)
+        {
+            HotkeyChanges = hotkeyChanges
+        };
+    }
+    catch (OperationCanceledException)
+    {
+        return;
+    }
+    catch (Exception ex)
+    {
+        HandleCommandException("Save", ex);
+        return;
+    }
 
-        TaskCompletionSource workTcs;
+    TaskCompletionSource workTcs;
         lock (_admissionLock)
         {
             if (_disposed || _isStopped)
@@ -1243,6 +1385,10 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                             d.ClearReplacementApiKey();
                         }
                         _deletedProfiles.Clear();
+                        foreach (var h in Hotkeys)
+                        {
+                            h.SyncBaseline(h.TargetBinding);
+                        }
                         IsConflict = false;
                         if (wasLaunchAtStartupDirty)
                         {
@@ -1252,6 +1398,16 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                         else
                         {
                             StatusMessage = CanRetryAutoStart ? UiText.SettingsStatusSavedAutoStartStillPending : UiText.SettingsStatusSaved;
+                        }
+                        var snapshot = _hotkeyCoordinator?.GetRuntimeSnapshot();
+                        if (snapshot != null && snapshot.HasAnyFailure)
+                        {
+                            CanRetryHotkeys = true;
+                            StatusMessage = UiText.SettingsHotkeyStatusSavedPartialFailed;
+                        }
+                        else if (snapshot != null && snapshot.IsPaused)
+                        {
+                            StatusMessage = UiText.SettingsHotkeyStatusSavedPending;
                         }
                         _ = QueryAutoStartStatusAsync();
                         OnPropertyChanged(nameof(IsDirty));
@@ -1269,6 +1425,10 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                             d.ClearReplacementApiKey();
                         }
                         _deletedProfiles.Clear();
+                        foreach (var h in Hotkeys)
+                        {
+                            h.SyncBaseline(h.TargetBinding);
+                        }
                         StatusMessage = result.FailureReason ?? UiText.SettingsStatusSavedPendingApply;
                         IsConflict = false;
                         if (_receiptManager?.HasPendingReceipts == true)
@@ -1278,6 +1438,11 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                         if (wasLaunchAtStartupDirty)
                         {
                             CanRetryAutoStart = false;
+                        }
+                        var snapshotPending = _hotkeyCoordinator?.GetRuntimeSnapshot();
+                        if (snapshotPending != null && snapshotPending.HasAnyFailure)
+                        {
+                            CanRetryHotkeys = true;
                         }
                         _ = QueryAutoStartStatusAsync();
                         OnPropertyChanged(nameof(IsDirty));
@@ -1295,10 +1460,19 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                             d.ClearReplacementApiKey();
                         }
                         _deletedProfiles.Clear();
+                        foreach (var h in Hotkeys)
+                        {
+                            h.SyncBaseline(h.TargetBinding);
+                        }
                         StatusMessage = UiText.SettingsStatusSavedPendingApplyAndAutoStart;
                         IsConflict = false;
                         CanRetryPendingApply = true;
                         CanRetryAutoStart = true;
+                        var snapshotBoth = _hotkeyCoordinator?.GetRuntimeSnapshot();
+                        if (snapshotBoth != null && snapshotBoth.HasAnyFailure)
+                        {
+                            CanRetryHotkeys = true;
+                        }
                         OnPropertyChanged(nameof(IsDirty));
                         break;
 
@@ -1370,6 +1544,28 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         // 重建 Translation 基线
         LoadProfilesFromCurrent();
         RefreshAvailablePrompts();
+
+        // 重建 Hotkeys 基线
+        SyncHotkeysFromCurrent();
+    }
+
+    private void SyncHotkeysFromCurrent()
+    {
+        if (Hotkeys.Count == 0)
+        {
+            LoadHotkeysFromCurrent();
+            return;
+        }
+
+        var currentHotkeys = _settingsService.Current.Hotkeys;
+        foreach (var item in Hotkeys)
+        {
+            currentHotkeys.TryGetValue(item.Action, out var binding);
+            item.SyncBaseline(binding);
+        }
+
+        SyncRuntimeStatesFromCoordinator();
+        ValidateHotkeyDrafts();
     }
 
     public void ExecuteCancel()
@@ -1377,6 +1573,11 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         if (IsSaving || _disposed || _isStopped)
         {
             return;
+        }
+
+        if (IsAnyRecording)
+        {
+            _ = CancelRecordingAsync();
         }
 
         foreach (var p in Profiles)
@@ -1389,6 +1590,12 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         }
         _deletedProfiles.Clear();
 
+        foreach (var h in Hotkeys)
+        {
+            h.RevertToBaseline();
+        }
+        ValidateHotkeyDrafts();
+
         _themeService.ClearPreview(_sessionOwner);
         RequestClose?.Invoke();
     }
@@ -1398,6 +1605,11 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         if (IsSaving || _disposed || _isStopped)
         {
             return;
+        }
+
+        if (IsAnyRecording)
+        {
+            _ = CancelRecordingAsync();
         }
 
         SyncBaselineFromCurrent();
@@ -1413,6 +1625,442 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         }
 
         OnPropertyChanged(nameof(IsDirty));
+    }
+
+    internal void SetWindowHandleProvider(Func<nint> provider)
+    {
+        _windowHandleProvider = provider;
+    }
+
+    private void LoadHotkeysFromCurrent()
+    {
+        Hotkeys.Clear();
+
+        var currentHotkeys = _settingsService.Current.Hotkeys;
+
+        // 1. InputTranslate
+        currentHotkeys.TryGetValue(IrisAction.InputTranslate, out var inputBinding);
+        var inputItem = new HotkeyItemDraftViewModel(
+            IrisAction.InputTranslate,
+            UiText.TrayMenuInputTranslate,
+            "打开输入翻译窗口快速翻译文本",
+            inputBinding,
+            this);
+        Hotkeys.Add(inputItem);
+
+        // 2. ClipboardTranslate
+        currentHotkeys.TryGetValue(IrisAction.ClipboardTranslate, out var clipBinding);
+        var clipItem = new HotkeyItemDraftViewModel(
+            IrisAction.ClipboardTranslate,
+            UiText.TrayMenuClipboardTranslate,
+            "读取剪贴板内容并进行翻译",
+            clipBinding,
+            this);
+        Hotkeys.Add(clipItem);
+
+        // 3. OpenSettings (若无配置则 BaseBinding = null，显示未设置/禁用，不能在打开页面时写入默认值)
+        currentHotkeys.TryGetValue(IrisAction.OpenSettings, out var settingsBinding);
+        var settingsItem = new HotkeyItemDraftViewModel(
+            IrisAction.OpenSettings,
+            UiText.SettingsTitle,
+            "打开 Iris 设置界面",
+            settingsBinding,
+            this);
+        Hotkeys.Add(settingsItem);
+
+        SyncRuntimeStatesFromCoordinator();
+        ValidateHotkeyDrafts();
+    }
+
+    private void ValidateHotkeyDrafts()
+    {
+        var currentHotkeys = _settingsService.Current.Hotkeys;
+
+        foreach (var item in Hotkeys)
+        {
+            var target = item.TargetBinding;
+            if (target == null || !target.Enabled || string.IsNullOrWhiteSpace(target.Key))
+            {
+                item.DraftError = null;
+                continue;
+            }
+
+            // 1. Policy 规范校验
+            if (!_hotkeyBindingPolicy.TryNormalize(target, out _))
+            {
+                item.DraftError = UiText.SettingsHotkeyStatusInvalid;
+                continue;
+            }
+
+            // 2. 检查与其他草稿项冲突
+            bool conflictFound = false;
+            foreach (var other in Hotkeys)
+            {
+                if (ReferenceEquals(item, other)) continue;
+                var otherTarget = other.TargetBinding;
+                if (otherTarget != null && otherTarget.Enabled && !string.IsNullOrWhiteSpace(otherTarget.Key))
+                {
+                    if (otherTarget.Modifiers == target.Modifiers &&
+                        string.Equals(otherTarget.Key?.Trim(), target.Key?.Trim(), StringComparison.OrdinalIgnoreCase))
+                    {
+                        item.DraftError = string.Format(CultureInfo.CurrentCulture, s_hotkeyDuplicateConflictFormat, other.DisplayName);
+                        conflictFound = true;
+                        break;
+                    }
+                }
+            }
+
+            if (conflictFound) continue;
+
+            // 3. 检查与尚未开放动作的预留配置冲突
+            foreach (var (reservedAction, reservedBinding) in currentHotkeys)
+            {
+                if (reservedAction is IrisAction.InputTranslate or IrisAction.ClipboardTranslate or IrisAction.OpenSettings)
+                {
+                    continue;
+                }
+
+                if (reservedBinding.Enabled && !string.IsNullOrWhiteSpace(reservedBinding.Key))
+                {
+                    if (reservedBinding.Modifiers == target.Modifiers &&
+                        string.Equals(reservedBinding.Key?.Trim(), target.Key?.Trim(), StringComparison.OrdinalIgnoreCase))
+                    {
+                        string reservedName = GetActionDisplayName(reservedAction);
+                        item.DraftError = string.Format(CultureInfo.CurrentCulture, s_hotkeyReservedConflictFormat, reservedName);
+                        conflictFound = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!conflictFound)
+            {
+                item.DraftError = null;
+            }
+        }
+    }
+
+    internal void OnHotkeyDraftChanged(HotkeyItemDraftViewModel item)
+    {
+        ValidateHotkeyDrafts();
+        OnPropertyChanged(nameof(IsDirty));
+        RaiseAllCommandsCanExecute();
+    }
+
+    public async Task StartRecordingAsync(HotkeyItemDraftViewModel item)
+    {
+        if (!CanEdit || IsSaving || _activeRecordingItem != null || item.IsFrozen)
+        {
+            return;
+        }
+
+        nint hwnd = _windowHandleProvider?.Invoke() ?? 0;
+        if (hwnd == 0)
+        {
+            return;
+        }
+
+        _activeRecordingItem = item;
+        item.SetRecordingState(true, true, UiText.SettingsHotkeyPreparing, null);
+        foreach (var h in Hotkeys)
+        {
+            h.RaiseCanRecordChanged();
+        }
+
+        TaskCompletionSource workTcs;
+        lock (_admissionLock)
+        {
+            if (_disposed || _isStopped) return;
+            workTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            _activeRecordingTask = workTcs.Task;
+            _activeWork.Add(workTcs.Task);
+        }
+
+        try
+        {
+            if (_recordingCoordinator != null)
+            {
+                var result = await _recordingCoordinator.RecordAsync(
+                    _sessionOwner.ToString()!,
+                    hwnd,
+                    progress =>
+                    {
+                        _ = _uiDispatcher.InvokeAsync(() =>
+                        {
+                            if (ReferenceEquals(_activeRecordingItem, item))
+                            {
+                                if (!progress.IsReady)
+                                {
+                                    item.SetRecordingState(true, true, UiText.SettingsHotkeyReleasePrompt, null);
+                                }
+                                else
+                                {
+                                    string preview = HotkeyCoordinator.FormatKeyCombo(progress.Modifiers, progress.Key);
+                                    item.SetRecordingState(true, false, UiText.SettingsHotkeyRecordingPrompt, preview);
+                                }
+                            }
+                            return Task.CompletedTask;
+                        }, CancellationToken.None);
+                    },
+                    CancellationToken.None);
+
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    if (ReferenceEquals(_activeRecordingItem, item))
+                    {
+                        switch (result.Outcome)
+                        {
+                            case HotkeyCaptureOutcome.Captured:
+                                if (result.Binding != null)
+                                {
+                                    item.ApplyCapturedBinding(result.Binding);
+                                }
+                                break;
+                            case HotkeyCaptureOutcome.Cleared:
+                                item.Clear();
+                                break;
+                            case HotkeyCaptureOutcome.Failed:
+                                item.DraftError = result.Error?.Message ?? UiText.SettingsHotkeyStatusFailed;
+                                break;
+                            case HotkeyCaptureOutcome.Canceled:
+                            default:
+                                break;
+                        }
+                    }
+                    return Task.CompletedTask;
+                }, CancellationToken.None);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception)
+        {
+            await _uiDispatcher.InvokeAsync(() =>
+            {
+                if (ReferenceEquals(_activeRecordingItem, item))
+                {
+                    item.DraftError = UiText.SettingsHotkeyCleanupFailed;
+                }
+                return Task.CompletedTask;
+            }, CancellationToken.None);
+        }
+        finally
+        {
+            try
+            {
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    item.SetRecordingState(false, false, null, null);
+                    _activeRecordingItem = null;
+                    ValidateHotkeyDrafts();
+                    foreach (var h in Hotkeys)
+                    {
+                        h.RaiseCanRecordChanged();
+                    }
+                    OnPropertyChanged(nameof(IsDirty));
+                    return Task.CompletedTask;
+                }, CancellationToken.None);
+            }
+            finally
+            {
+                _activeRecordingItem = null;
+                _activeRecordingTask = null;
+                lock (_admissionLock)
+                {
+                    _activeWork.Remove(workTcs.Task);
+                }
+                workTcs.TrySetResult();
+            }
+        }
+    }
+
+    public async Task CancelRecordingAsync()
+    {
+        if (_recordingCoordinator != null)
+        {
+            await _recordingCoordinator.CancelRecordingAsync().ConfigureAwait(false);
+        }
+    }
+
+    internal async Task WaitForActiveRecordingAsync()
+    {
+        var task = _activeRecordingTask;
+        if (task != null)
+        {
+            try
+            {
+                await task.ConfigureAwait(false);
+            }
+            catch
+            {
+            }
+        }
+    }
+
+    public async Task ExecuteRetryHotkeysAsync()
+    {
+        if (!CanEdit || IsSaving || _hotkeyCoordinator == null)
+        {
+            return;
+        }
+
+        TaskCompletionSource workTcs;
+        lock (_admissionLock)
+        {
+            if (_disposed || _isStopped) return;
+            workTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            _activeWork.Add(workTcs.Task);
+            IsSaving = true;
+            FreezeAllDrafts();
+        }
+
+        StatusMessage = UiText.SettingsStatusRetryingHotkeys;
+
+        try
+        {
+            var snapshot = await _hotkeyCoordinator.RetryApplyAsync().ConfigureAwait(false);
+
+            await _uiDispatcher.InvokeAsync(() =>
+            {
+                lock (_admissionLock)
+                {
+                    if (_disposed || _isStopped) return Task.CompletedTask;
+                }
+
+                foreach (var item in Hotkeys)
+                {
+                    if (snapshot.Items.TryGetValue(item.Action, out var state))
+                    {
+                        item.RuntimeState = state;
+                    }
+                }
+
+                if (snapshot.HasAnyFailure)
+                {
+                    StatusMessage = UiText.SettingsStatusHotkeysRetryFailed;
+                    CanRetryHotkeys = true;
+                }
+                else
+                {
+                    StatusMessage = UiText.SettingsStatusHotkeysApplied;
+                    CanRetryHotkeys = false;
+                }
+                return Task.CompletedTask;
+            }, CancellationToken.None).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            HandleCommandException("RetryHotkeys", ex);
+        }
+        finally
+        {
+            try
+            {
+                await _uiDispatcher.InvokeAsync(CompleteSaveOrRetryOperationAsync, CancellationToken.None).ConfigureAwait(false);
+            }
+            catch
+            {
+                lock (_admissionLock)
+                {
+                    IsSaving = false;
+                    UnfreezeAllDraftsIfAlive();
+                }
+            }
+            finally
+            {
+                lock (_admissionLock)
+                {
+                    _activeWork.Remove(workTcs.Task);
+                }
+                workTcs.TrySetResult();
+            }
+        }
+    }
+
+    private void OnHotkeyRuntimeSnapshotChanged(object? sender, HotkeyRuntimeSnapshot snapshot)
+    {
+        _ = _uiDispatcher.InvokeAsync(() =>
+        {
+            lock (_admissionLock)
+            {
+                if (_disposed || _isStopped) return Task.CompletedTask;
+            }
+
+            foreach (var item in Hotkeys)
+            {
+                if (snapshot.Items.TryGetValue(item.Action, out var state))
+                {
+                    item.RuntimeState = state;
+                }
+            }
+
+            CanRetryHotkeys = snapshot.HasAnyFailure;
+            return Task.CompletedTask;
+        }, CancellationToken.None);
+    }
+
+    private void SyncRuntimeStatesFromCoordinator()
+    {
+        if (_hotkeyCoordinator == null) return;
+        var snapshot = _hotkeyCoordinator.GetRuntimeSnapshot();
+        foreach (var item in Hotkeys)
+        {
+            if (snapshot.Items.TryGetValue(item.Action, out var state))
+            {
+                item.RuntimeState = state;
+            }
+        }
+        CanRetryHotkeys = snapshot.HasAnyFailure;
+    }
+
+    private void OnExternalHotkeysChanged(IReadOnlyDictionary<IrisAction, HotkeyBinding> newHotkeys)
+    {
+        foreach (var item in Hotkeys)
+        {
+            newHotkeys.TryGetValue(item.Action, out var newBase);
+            item.UpdateBaselineFromExternal(newBase);
+        }
+        ValidateHotkeyDrafts();
+        OnPropertyChanged(nameof(IsDirty));
+    }
+
+    private static string GetActionDisplayName(IrisAction action) => action switch
+    {
+        IrisAction.InputTranslate => UiText.TrayMenuInputTranslate,
+        IrisAction.ClipboardTranslate => UiText.TrayMenuClipboardTranslate,
+        IrisAction.TranslateText => "翻译文本",
+        IrisAction.OpenSettings => UiText.SettingsTitle,
+        IrisAction.SelectionTranslate => "划词翻译",
+        IrisAction.ScreenshotTranslate => "截图翻译",
+        IrisAction.ScreenshotOcr => "截图 OCR",
+        IrisAction.SilentScreenshotOcr => "静默截图 OCR",
+        IrisAction.ToggleFloatingBall => "悬浮球",
+        _ => action.ToString(),
+    };
+
+    private sealed class DefaultHotkeyBindingPolicy : IHotkeyBindingPolicy
+    {
+        public bool TryNormalize(HotkeyBinding? binding, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out HotkeyBinding? normalized)
+        {
+            normalized = null;
+            if (binding == null) return false;
+            if (!binding.Enabled && string.IsNullOrWhiteSpace(binding.Key) && binding.Modifiers == HotkeyModifiers.None)
+            {
+                normalized = new HotkeyBinding(HotkeyModifiers.None, string.Empty, false);
+                return true;
+            }
+            if (KeyNameMapper.ValidateBinding(binding, out _) &&
+                KeyNameMapper.TryGetCanonicalKeyName(binding.Key, out var canonicalKey))
+            {
+                normalized = new HotkeyBinding(binding.Modifiers, canonicalKey, binding.Enabled);
+                return true;
+            }
+            return false;
+        }
     }
 
     public async Task ExecuteRetryAutoStartAsync()
@@ -1786,6 +2434,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             }
 
             RefreshAvailablePrompts();
+            OnExternalHotkeysChanged(_settingsService.Current.Hotkeys);
             OnPropertyChanged(nameof(IsDirty));
             RaiseAllCommandsCanExecute();
             return Task.CompletedTask;
@@ -1830,6 +2479,10 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         if (_receiptManager != null)
         {
             _receiptManager.Changed -= OnReceiptManagerChanged;
+        }
+        if (_hotkeyCoordinator != null)
+        {
+            _hotkeyCoordinator.RuntimeSnapshotChanged -= OnHotkeyRuntimeSnapshotChanged;
         }
 
         foreach (var p in Profiles)

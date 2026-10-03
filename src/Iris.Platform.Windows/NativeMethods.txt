@@ -35,3 +35,17 @@ RegisterClassEx
 UnregisterClass
 DefWindowProc
 GetModuleHandle
+SetWindowsHookEx
+UnhookWindowsHookEx
+CallNextHookEx
+PostThreadMessage
+GetMessage
+TranslateMessage
+DispatchMessage
+GetAsyncKeyState
+GetKeyState
+IsWindow
+HOOKPROC
+KBDLLHOOKSTRUCT
+WINDOWS_HOOK_ID
+MSG

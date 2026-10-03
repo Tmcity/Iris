@@ -36,6 +36,7 @@ internal sealed partial class AppBootstrapper
     private readonly Iris.App.Settings.ISettingsShutdownCoordinator? _settingsShutdownCoordinator;
     private readonly Iris.App.Translation.ITranslateWindowShutdownCoordinator? _translateShutdownCoordinator;
     private readonly HotkeyCoordinator? _hotkeyCoordinator;
+    private readonly Iris.Core.Platform.IHotkeyCaptureService? _captureService;
 
     private readonly Lock _stopGate = new();
     private Task? _stopTask;
@@ -56,7 +57,8 @@ internal sealed partial class AppBootstrapper
         AppStartupInfo startupInfo,
         Iris.App.Settings.ISettingsShutdownCoordinator? settingsShutdownCoordinator = null,
         Iris.App.Translation.ITranslateWindowShutdownCoordinator? translateShutdownCoordinator = null,
-        HotkeyCoordinator? hotkeyCoordinator = null)
+        HotkeyCoordinator? hotkeyCoordinator = null,
+        Iris.Core.Platform.IHotkeyCaptureService? captureService = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -71,6 +73,7 @@ internal sealed partial class AppBootstrapper
         _settingsShutdownCoordinator = settingsShutdownCoordinator;
         _translateShutdownCoordinator = translateShutdownCoordinator;
         _hotkeyCoordinator = hotkeyCoordinator;
+        _captureService = captureService;
     }
 
     internal static Action<string, string> FatalErrorShower { get; set; } = FatalErrorDialog.Show;
@@ -182,6 +185,7 @@ internal sealed partial class AppBootstrapper
         }
 
         _hotkeyCoordinator?.StopSynchronousFallback();
+        _captureService?.Dispose();
         _trayIconController.Created -= OnTrayIconCreated;
         _themeService.Dispose();
         _logLevelController.Dispose();
@@ -230,7 +234,21 @@ internal sealed partial class AppBootstrapper
             }
         }
 
-        // 2. 然后配合既有设置/翻译 Presenter 完整退出
+        // 2. 撤销录入资格与清理 hook
+        if (_captureService != null)
+        {
+            try
+            {
+                await _captureService.StopAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                LogCaptureShutdownFailed(_logger, ex.GetType().Name);
+                throw;
+            }
+        }
+
+        // 3. 然后配合既有设置/翻译 Presenter 完整退出
         if (_settingsShutdownCoordinator != null)
         {
             try
@@ -305,4 +323,6 @@ internal sealed partial class AppBootstrapper
     [LoggerMessage(EventId = 7, Level = LogLevel.Warning, Message = "热键服务关闭或注销原生资源遇到异常：{ExceptionType}")]
     private static partial void LogHotkeyShutdownFailed(ILogger logger, string exceptionType);
 
+    [LoggerMessage(EventId = 8, Level = LogLevel.Warning, Message = "热键捕获服务关闭或卸载原生资源遇到异常：{ExceptionType}")]
+    private static partial void LogCaptureShutdownFailed(ILogger logger, string exceptionType);
 }

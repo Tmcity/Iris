@@ -24,6 +24,7 @@ using Xunit;
 
 namespace Iris.App.Tests.Translation;
 
+[Collection("AppShutdownerSharedState")]
 public sealed class TranslateWindowUiTests
 {
     private static ServiceProvider CreateServiceProvider(AppSettings? initialSettings = null)

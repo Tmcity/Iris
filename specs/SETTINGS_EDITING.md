@@ -55,6 +55,8 @@ T-019 将凭据 staging、完整 Profile 发布和 Registry 屏障接入同一�
 
 2026-10-03 更新：T-020A 按 HOTKEY_SETTINGS_EDITING.md / CCR-015 给同一 SettingsEditPlan 增加快捷键增量；一次提交、未编辑字段跟随最新配置和提交后状态语义保持。T-020B 才接快捷键页，禁止以单独 UpdateAsync 绕过全窗口联合保存。
 
+2026-10-03 / T-020B：HOTKEY_RECORDING_UI.md / CCR-016 现为快捷键页、录入/关闭和应用状态的正式补充。设置会话释放前须完成短时录入的物理清理；保存计划包含 HotkeyChanges，并保留 Provider 回执与自启状态各自语义。不得同步等待录入线程或用窗口 Dispose 代替异步清理屏障。
+
 ## 5. 主题预览
 
 ThemeService 增加 App 内部预览所有权。有效预览覆盖最新持久主题；只有用户实际选择主题时才改变预览，不写 ISettingsService。

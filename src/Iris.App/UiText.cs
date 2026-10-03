@@ -100,6 +100,35 @@ internal static class UiText
     public const string SettingsStatusPendingApplyCompleted = "翻译服务应用已完成";
     public const string SettingsStatusPendingApplyFailed = "重试翻译服务应用未完成";
 
+    // 快捷键页与录入
+    public const string SettingsNavHotkeys = "快捷键";
+    public const string SettingsHotkeysGroup = "全局快捷键";
+    public const string SettingsHotkeysDescription = "配置触发常用功能的全局快捷键。支持包含 Win 键的组合键。";
+    public const string SettingsHotkeyEnable = "启用";
+    public const string SettingsHotkeyRecord = "录入";
+    public const string SettingsHotkeyClear = "清除";
+    public const string SettingsHotkeyCancel = "取消";
+    public const string SettingsHotkeyDisabled = "未设置 / 已禁用";
+    public const string SettingsHotkeyPreparing = "正在准备录入…";
+    public const string SettingsHotkeyRecordingPrompt = "请按下快捷键组合…";
+    public const string SettingsHotkeyReleasePrompt = "请松开按键…";
+    public const string SettingsHotkeyEnding = "正在结束录入…";
+    public const string SettingsHotkeyCleanupFailed = "结束录入失败，可重试";
+    public const string SettingsHotkeyDuplicateConflict = "快捷键冲突：与【{0}】重复";
+    public const string SettingsHotkeyReservedConflict = "快捷键冲突：与预留功能【{0}】重复";
+    public const string SettingsHotkeyStatusApplying = "正在应用…";
+    public const string SettingsHotkeyStatusRegistered = "已生效";
+    public const string SettingsHotkeyStatusConflict = "系统冲突（已被其他程序占用）";
+    public const string SettingsHotkeyStatusInvalid = "无效的快捷键组合";
+    public const string SettingsHotkeyStatusFailed = "应用失败";
+    public const string SettingsHotkeyStatusPaused = "录入中（已暂停）";
+    public const string SettingsHotkeyStatusSavedPending = "已保存，录入结束后应用";
+    public const string SettingsHotkeyStatusSavedPartialFailed = "已保存，部分快捷键未应用（可重试）";
+    public const string SettingsRetryHotkeys = "重试快捷键应用";
+    public const string SettingsStatusRetryingHotkeys = "正在重试快捷键应用…";
+    public const string SettingsStatusHotkeysApplied = "快捷键应用已生效";
+    public const string SettingsStatusHotkeysRetryFailed = "重试快捷键应用未完成";
+
     // 翻译窗口
     public const string TranslateWindowTitle = "Iris 翻译";
     public const string TranslatePinWindow = "钉住窗口";

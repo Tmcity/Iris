@@ -24,6 +24,8 @@ public static class PlatformWindowsServiceCollectionExtensions
         services.AddSingleton<IAutoStartService, AutoStartService>();
         services.AddSingleton<INativeHotkeyAdapter>(NativeHotkeyAdapter.Instance);
         services.AddSingleton<IHotkeyService, HotkeyService>();
+        services.TryAddSingleton<INativeKeyboardHookAdapter>(NativeKeyboardHookAdapter.Instance);
+        services.TryAddSingleton<IHotkeyCaptureService, HotkeyCaptureService>();
         return services;
     }
 }

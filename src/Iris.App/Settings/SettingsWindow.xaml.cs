@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Interop;
 using Iris.Core.Settings;
 using Wpf.Ui.Controls;
 using TextBox = System.Windows.Controls.TextBox;
@@ -112,6 +113,7 @@ internal partial class SettingsWindow : FluentWindow
             newVm.RequestClose += OnRequestClose;
             newVm.PropertyChanged += OnViewModelPropertyChanged;
             newVm.BeforeSave = FlushFocusedBinding;
+            newVm.SetWindowHandleProvider(() => new WindowInteropHelper(this).Handle);
             SyncPasswordBoxWithDraft(newVm.SelectedProfile);
         }
     }
@@ -166,10 +168,18 @@ internal partial class SettingsWindow : FluentWindow
             return;
         }
 
-        if (DataContext is SettingsViewModel vm && vm.IsSaving)
+        if (DataContext is SettingsViewModel vm)
         {
-            // 保存进行中暂不受理普通关闭
-            e.Cancel = true;
+            if (vm.IsAnyRecording)
+            {
+                _ = vm.CancelRecordingAsync();
+            }
+
+            if (vm.IsSaving)
+            {
+                // 保存进行中暂不受理普通关闭
+                e.Cancel = true;
+            }
         }
     }
 
@@ -179,6 +189,13 @@ internal partial class SettingsWindow : FluentWindow
         {
             if (DataContext is SettingsViewModel vm && !vm.IsSaving)
             {
+                if (vm.IsAnyRecording)
+                {
+                    _ = vm.CancelRecordingAsync();
+                    e.Handled = true;
+                    return;
+                }
+
                 vm.ExecuteCancel();
                 e.Handled = true;
             }
@@ -189,6 +206,10 @@ internal partial class SettingsWindow : FluentWindow
     {
         if (DataContext is SettingsViewModel vm)
         {
+            if (vm.IsAnyRecording)
+            {
+                _ = vm.CancelRecordingAsync();
+            }
             vm.CurrentPageKey = "general";
         }
     }
@@ -197,7 +218,23 @@ internal partial class SettingsWindow : FluentWindow
     {
         if (DataContext is SettingsViewModel vm)
         {
+            if (vm.IsAnyRecording)
+            {
+                _ = vm.CancelRecordingAsync();
+            }
             vm.CurrentPageKey = "translation";
+        }
+    }
+
+    private void OnNavHotkeysClick(object sender, MouseButtonEventArgs e)
+    {
+        if (DataContext is SettingsViewModel vm)
+        {
+            if (vm.IsAnyRecording)
+            {
+                _ = vm.CancelRecordingAsync();
+            }
+            vm.CurrentPageKey = "hotkeys";
         }
     }
 

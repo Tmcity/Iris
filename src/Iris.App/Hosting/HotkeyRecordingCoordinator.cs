@@ -1,0 +1,228 @@
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Iris.Core.Platform;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+
+namespace Iris.App.Hosting;
+
+/// <summary>
+/// 快捷键短时录入协调器（App 层）。
+/// 协调 HotkeyCoordinator 的暂停租约与 IHotkeyCaptureService 的底层键盘捕获会话。
+/// 规则见 HOTKEY_RECORDING_UI.md §5、§8。
+/// </summary>
+internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
+{
+    private readonly HotkeyCoordinator? _hotkeyCoordinator;
+    private readonly IHotkeyCaptureService? _captureService;
+    private readonly ILogger<HotkeyRecordingCoordinator> _logger;
+
+    private readonly Lock _gate = new();
+    private ActiveRecordingContext? _activeContext;
+    private bool _isStopped;
+
+    public HotkeyRecordingCoordinator(
+        HotkeyCoordinator? hotkeyCoordinator = null,
+        IHotkeyCaptureService? captureService = null,
+        ILogger<HotkeyRecordingCoordinator>? logger = null)
+    {
+        _hotkeyCoordinator = hotkeyCoordinator;
+        _captureService = captureService;
+        _logger = logger ?? NullLogger<HotkeyRecordingCoordinator>.Instance;
+    }
+
+    public bool IsRecording
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _activeContext != null && !_activeContext.IsCompleted;
+            }
+        }
+    }
+
+    public async Task<HotkeyCaptureResult> RecordAsync(
+        string owner,
+        nint windowHandle,
+        Action<HotkeyCaptureProgress>? onProgress,
+        CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(owner);
+        if (windowHandle == 0)
+        {
+            throw new ArgumentException("Window handle must not be zero.", nameof(windowHandle));
+        }
+
+        ActiveRecordingContext context;
+        lock (_gate)
+        {
+            if (_isStopped)
+            {
+                throw new InvalidOperationException("HotkeyRecordingCoordinator is stopped.");
+            }
+            if (_activeContext != null && !_activeContext.IsCompleted)
+            {
+                throw new InvalidOperationException("An active recording session is already in progress.");
+            }
+
+            context = new ActiveRecordingContext(owner, cancellationToken);
+            _activeContext = context;
+        }
+
+        IHotkeyPauseLease? pauseLease = null;
+        IHotkeyCaptureSession? captureSession = null;
+        HotkeyCaptureResult? result = null;
+        Exception? cleanupException = null;
+
+        try
+        {
+            // 步骤 1: 取得唯一暂停资格并暂停全局热键
+            if (_hotkeyCoordinator != null)
+            {
+                pauseLease = await _hotkeyCoordinator.PauseAsync(owner, context.LinkedToken).ConfigureAwait(false);
+                context.SetPauseLease(pauseLease);
+            }
+
+            // 步骤 2: 启动底层键盘捕获会话
+            if (_captureService == null)
+            {
+                throw new InvalidOperationException("IHotkeyCaptureService is not available.");
+            }
+
+            captureSession = await _captureService.BeginAsync(windowHandle, context.LinkedToken).ConfigureAwait(false);
+            context.SetCaptureSession(captureSession);
+
+            if (onProgress != null)
+            {
+                captureSession.ProgressChanged += (_, _) =>
+                {
+                    if (!context.IsCompleted)
+                    {
+                        onProgress(captureSession.Current);
+                    }
+                };
+            }
+
+            // 步骤 3: 等待逻辑结果完成
+            result = await captureSession.Completion.ConfigureAwait(false);
+        }
+        finally
+        {
+            // 步骤 4: 结束先清理捕获，再释放暂停租约按最新持久目标恢复
+            if (captureSession != null)
+            {
+                try
+                {
+                    await captureSession.DisposeAsync().ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    cleanupException = ex;
+                }
+            }
+
+            if (cleanupException == null && pauseLease != null)
+            {
+                try
+                {
+                    await pauseLease.DisposeAsync().ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    cleanupException = ex;
+                }
+            }
+
+            lock (_gate)
+            {
+                if (ReferenceEquals(_activeContext, context))
+                {
+                    _activeContext = null;
+                }
+            }
+
+            context.MarkCompleted();
+        }
+
+        if (cleanupException != null)
+        {
+            throw new InvalidOperationException("结束录入清理失败", cleanupException);
+        }
+
+        return result!;
+    }
+
+    public Task CancelRecordingAsync()
+    {
+        ActiveRecordingContext? context;
+        lock (_gate)
+        {
+            context = _activeContext;
+        }
+
+        context?.Cancel();
+        return Task.CompletedTask;
+    }
+
+    public async Task StopAsync()
+    {
+        lock (_gate)
+        {
+            _isStopped = true;
+        }
+
+        await CancelRecordingAsync().ConfigureAwait(false);
+
+        if (_captureService != null)
+        {
+            await _captureService.StopAsync().ConfigureAwait(false);
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await StopAsync().ConfigureAwait(false);
+    }
+
+    private sealed class ActiveRecordingContext
+    {
+        private readonly CancellationTokenSource _linkedCts;
+        private readonly TaskCompletionSource _completionTcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private int _completed;
+
+        public string Owner { get; }
+        public CancellationToken LinkedToken => _linkedCts.Token;
+        public IHotkeyPauseLease? PauseLease { get; private set; }
+        public IHotkeyCaptureSession? CaptureSession { get; private set; }
+        public bool IsCompleted => Volatile.Read(ref _completed) != 0;
+        public Task CompletionTask => _completionTcs.Task;
+
+        public ActiveRecordingContext(string owner, CancellationToken externalToken)
+        {
+            Owner = owner;
+            _linkedCts = CancellationTokenSource.CreateLinkedTokenSource(externalToken);
+        }
+
+        public void SetPauseLease(IHotkeyPauseLease lease) => PauseLease = lease;
+        public void SetCaptureSession(IHotkeyCaptureSession session) => CaptureSession = session;
+
+        public void Cancel()
+        {
+            try
+            {
+                _linkedCts.Cancel();
+            }
+            catch
+            {
+            }
+        }
+
+        public void MarkCompleted()
+        {
+            Interlocked.Exchange(ref _completed, 1);
+            _completionTcs.TrySetResult();
+        }
+    }
+}

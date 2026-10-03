@@ -5,6 +5,7 @@
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                  xmlns:app="clr-namespace:Iris.App"
                  xmlns:settings="clr-namespace:Iris.Core.Settings;assembly=Iris.Core"
+                 xmlns:local="clr-namespace:Iris.App.Settings"
                  Title="{x:Static app:UiText.SettingsWindowTitle}"
                  Width="760"
                  Height="520"
@@ -75,6 +76,23 @@
                             </Style>
                         </Border.Style>
                         <TextBlock Text="{x:Static app:UiText.SettingsNavTranslation}"
+                                   FontWeight="Medium"
+                                   VerticalAlignment="Center" />
+                    </Border>
+
+                    <!-- 导航项：快捷键 -->
+                    <Border CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavHotkeysClick">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentPageKey}" Value="hotkeys">
+                                        <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock Text="{x:Static app:UiText.SettingsNavHotkeys}"
                                    FontWeight="Medium"
                                    VerticalAlignment="Center" />
                     </Border>
@@ -601,6 +619,116 @@
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
+
+            <!-- 右侧快捷键设置内容 -->
+            <ScrollViewer Grid.Column="1"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled"
+                          Padding="24,16,24,16">
+                <ScrollViewer.Style>
+                    <Style TargetType="ScrollViewer">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CurrentPageKey}" Value="hotkeys">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ScrollViewer.Style>
+                <StackPanel MaxWidth="600" HorizontalAlignment="Left" IsEnabled="{Binding CanEdit}">
+                    <!-- 页面标题 -->
+                    <TextBlock Text="{x:Static app:UiText.SettingsNavHotkeys}"
+                               FontSize="22"
+                               FontWeight="SemiBold"
+                               Margin="0,0,0,8" />
+                    <TextBlock Text="{x:Static app:UiText.SettingsHotkeysDescription}"
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                               FontSize="12"
+                               Margin="0,0,0,16" />
+
+                    <!-- 快捷键卡片列表 -->
+                    <ItemsControl ItemsSource="{Binding Hotkeys}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate DataType="{x:Type local:HotkeyItemDraftViewModel}">
+                                <ui:Card Margin="0,0,0,12" Padding="14">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+
+                                        <!-- 第一行：名称、描述与启用复选框 -->
+                                        <Grid Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding DisplayName}"
+                                                           FontWeight="SemiBold"
+                                                           FontSize="14" />
+                                                <TextBlock Text="{Binding Description}"
+                                                           Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                                           FontSize="12"
+                                                           Margin="0,2,0,0" />
+                                            </StackPanel>
+                                            <CheckBox Grid.Column="1"
+                                                      IsChecked="{Binding Enabled, Mode=TwoWay}"
+                                                      IsEnabled="{Binding CanEdit}"
+                                                      Content="{x:Static app:UiText.SettingsHotkeyEnable}"
+                                                      VerticalAlignment="Center" />
+                                        </Grid>
+
+                                        <!-- 第二行：录入控件 -->
+                                        <Grid Grid.Row="1" Margin="0,10,0,0">
+                                            <local:HotkeyRecorderBox Width="280" HorizontalAlignment="Left" />
+                                        </Grid>
+
+                                        <!-- 第三行：错误与状态提示 -->
+                                        <StackPanel Grid.Row="2" Margin="0,6,0,0">
+                                            <!-- 草稿错误（冲突、非法键） -->
+                                            <TextBlock Text="{Binding DraftError}"
+                                                       Foreground="{DynamicResource SystemFillColorCriticalBrush}"
+                                                       FontSize="12"
+                                                       TextWrapping="Wrap">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding HasDraftError}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+
+                                            <!-- 运行时注册状态 -->
+                                            <TextBlock Text="{Binding RuntimeStatusText}"
+                                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                                       FontSize="12"
+                                                       Margin="0,2,0,0"
+                                                       TextWrapping="Wrap">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding HasRuntimeStatus}" Value="True">
+                                                                <Setter Property="Visibility" Value="Visible" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </StackPanel>
+                                    </Grid>
+                                </ui:Card>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
         </Grid>
 
         <!-- 底部状态与操作栏 -->
@@ -675,12 +803,28 @@
 
                         <!-- 服务待应用刷新/清理失败时展示“重试服务应用”按钮 -->
                         <Button Content="{x:Static app:UiText.SettingsRetryPendingApply}"
-                                Command="{Binding RetryPendingApplyCommand}">
+                                Command="{Binding RetryPendingApplyCommand}"
+                                Margin="0,0,6,0">
                             <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Visibility" Value="Collapsed" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding CanRetryPendingApply}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+
+                        <!-- 快捷键系统注册失败时展示“重试快捷键应用”按钮 -->
+                        <Button Content="{x:Static app:UiText.SettingsRetryHotkeys}"
+                                Command="{Binding RetryHotkeysCommand}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding CanRetryHotkeys}" Value="True">
                                             <Setter Property="Visibility" Value="Visible" />
                                         </DataTrigger>
                                     </Style.Triggers>

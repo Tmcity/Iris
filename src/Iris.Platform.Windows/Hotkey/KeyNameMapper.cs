@@ -17,6 +17,7 @@ internal static class KeyNameMapper
 
     private static readonly FrozenDictionary<string, uint> s_keyMap = CreateKeyMap();
     private static readonly FrozenDictionary<string, string> s_canonicalNames = CreateCanonicalNames();
+    private static readonly FrozenDictionary<uint, string> s_vkMap = CreateVkMap();
 
     private static FrozenDictionary<string, uint> CreateKeyMap()
     {
@@ -88,6 +89,25 @@ internal static class KeyNameMapper
             dict.Add(key, key);
         }
         return dict.ToFrozenDictionary(StringComparer.OrdinalIgnoreCase);
+    }
+
+    private static FrozenDictionary<uint, string> CreateVkMap()
+    {
+        var dict = new Dictionary<uint, string>(s_keyMap.Count);
+        foreach (var (key, vk) in s_keyMap)
+        {
+            dict[vk] = key;
+        }
+        return dict.ToFrozenDictionary();
+    }
+
+    /// <summary>
+    /// 尝试将 Win32 Virtual-Key Code 映射为 96 键白名单中的规范化键名。
+    /// 未知键返回 false，不回显原始数字。
+    /// </summary>
+    public static bool TryMapFromVk(uint vk, [NotNullWhen(true)] out string? canonicalKey)
+    {
+        return s_vkMap.TryGetValue(vk, out canonicalKey);
     }
 
     /// <summary>

@@ -790,3 +790,25 @@ HotkeyRegistrationResult 继续表达注册结果：非法键/组合为 HotkeyIn
 声明同步后独立运行 `dotnet test tests/Iris.ArchitectureTests/Iris.ArchitectureTests.csproj -c Release`：总计 8、成功 8、失败 0、跳过 0，持续 1s 622ms。只证明声明一致/依赖架构保持，不是快捷键编辑实现验收。
 
 2026-10-03 最终状态覆盖上述签发时的“待实施”：6303d29 完成 A 生产实现，9d12449 / 3e892af 完成测试与证据修正；3e892af 独立 Release 零警告、全量 1668 项（1667 成功/1 环境跳过）及关闭故障独立对照通过，CCR-015 结案。具体证据见 tasks/done/T-020A-R2.md 文末。T-020B 的录入暂停/恢复和 UI 状态端口仍须单独定稿，父任务 T-020 未完成。
+
+## CCR-016：短时快捷键录入端口与 App 暂停/应用状态
+
+| 字段 | 内容 |
+|---|---|
+| 日期 / 批准 | 2026-10-03，Codex 架构师 |
+| 关联 | T-020B；HOTKEY_RECORDING_UI.md；ARCH v1.29 |
+| 状态 | **已落地，待复审（T-020B）** |
+
+录入当前 Iris 热键时，焦点控件不能只依赖 WPF Handled 阻止已注册的 WM_HOTKEY；完整 Win 修饰键录入还需要明确系统键路径和短时原生资源所有权。新增 Core/Platform/IHotkeyCaptureService.cs 的唯一公开声明组：
+
+- HotkeyCaptureOutcome（Captured/Cleared/Canceled/Failed）；HotkeyCaptureProgress（Revision、IsReady、Modifiers、规范 Key、安全 Error）；HotkeyCaptureResult（Outcome、可空 Binding/Error）。
+- IHotkeyCaptureSession：Id、Current、Completion、ProgressChanged、IAsyncDisposable。逻辑结果与物理清理分开，App 等待 DisposeAsync 成功后才应用结果。
+- IHotkeyCaptureService：BeginAsync(ownerWindowHandle, cancellationToken)、StopAsync、同步/异步 Dispose；单会话、构造无 I/O，失败资源保留在服务内可重试。
+
+Platform 使用专用消息线程及 CsWin32 WH_KEYBOARD_LL；回调仅做有界状态更新，停止新捕获、native 卸载、回调/线程退出和委托释放均有明确屏障。仅显式录入且本进程设置窗口为前台时收集组合；不收集文本，不保存其它应用输入，不改变系统保留键/权限。
+
+App internal 录入控制器与 HotkeyCoordinator 暂停 lease 负责先撤销 Iris 注册、拒绝旧排队消息、等待已开始前置动作，录入结束后按最新持久配置恢复；永久退出阻止恢复。运行时逐动作结果、状态通知与重试均保持 internal，不塞入 Provider 回执。
+
+不修改既有 IHotkeyService、IActionDispatcher、ISettingsEditCoordinator 签名，不新增 ErrorCode、JSON 字段或默认绑定。Core 只同步 DTO/端口声明，业务由 T-020B 实施；自动化用 fake native，不安装真实全局键盘 hook/注册用户键/发按键。真实 Windows 保留组合、IME 与物理输入未执行时明确未验证。
+
+声明同步后执行 `dotnet test tests/Iris.ArchitectureTests/Iris.ArchitectureTests.csproj -c Release`：总计 8、成功 8、失败 0、跳过 0，持续时间 1s 728ms。仅证明契约文件一致及现有架构约束保持，不是捕获实现或 UI 验收。
