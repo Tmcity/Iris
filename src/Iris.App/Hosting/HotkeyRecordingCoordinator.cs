@@ -20,6 +20,7 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
 
     private readonly Lock _gate = new();
     private ActiveRecordingContext? _activeContext;
+    private HotkeyCaptureResult? _lastCapturedResult;
     private bool _isStopped;
 
     public HotkeyRecordingCoordinator(
@@ -39,6 +40,39 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
             lock (_gate)
             {
                 return _activeContext != null && !_activeContext.IsCompleted;
+            }
+        }
+    }
+
+    public bool HasFailedCleanup
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _activeContext?.HasFailedCleanup == true;
+            }
+        }
+    }
+
+    public HotkeyCaptureResult? LastCapturedResult
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _activeContext?.CapturedResult ?? _lastCapturedResult;
+            }
+        }
+    }
+
+    public string? ActiveOwner
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _activeContext?.Owner;
             }
         }
     }
@@ -107,6 +141,8 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
 
             // 步骤 3: 等待逻辑结果完成
             result = await captureSession.Completion.ConfigureAwait(false);
+            _lastCapturedResult = result;
+            context.SetResult(result);
         }
         finally
         {
@@ -128,6 +164,7 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
                 try
                 {
                     await pauseLease.DisposeAsync().ConfigureAwait(false);
+                    pauseLease = null;
                 }
                 catch (Exception ex)
                 {
@@ -135,15 +172,22 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
                 }
             }
 
-            lock (_gate)
+            if (cleanupException == null)
             {
-                if (ReferenceEquals(_activeContext, context))
+                lock (_gate)
                 {
-                    _activeContext = null;
+                    if (ReferenceEquals(_activeContext, context))
+                    {
+                        _activeContext = null;
+                    }
                 }
-            }
 
-            context.MarkCompleted();
+                context.MarkCompleted();
+            }
+            else
+            {
+                context.SetCleanupFailed(cleanupException);
+            }
         }
 
         if (cleanupException != null)
@@ -154,7 +198,7 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
         return result!;
     }
 
-    public Task CancelRecordingAsync()
+    public async Task<HotkeyCaptureResult?> RetryCleanupAsync()
     {
         ActiveRecordingContext? context;
         lock (_gate)
@@ -162,8 +206,70 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
             context = _activeContext;
         }
 
-        context?.Cancel();
-        return Task.CompletedTask;
+        if (context == null || !context.HasFailedCleanup)
+        {
+            return _lastCapturedResult;
+        }
+
+        Exception? cleanupException = null;
+        if (context.CaptureSession != null)
+        {
+            try
+            {
+                await context.CaptureSession.DisposeAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                cleanupException = ex;
+            }
+        }
+
+        if (cleanupException == null && context.PauseLease != null)
+        {
+            try
+            {
+                await context.PauseLease.DisposeAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                cleanupException = ex;
+            }
+        }
+
+        if (cleanupException == null)
+        {
+            var res = context.CapturedResult ?? _lastCapturedResult;
+            lock (_gate)
+            {
+                if (ReferenceEquals(_activeContext, context))
+                {
+                    _activeContext = null;
+                }
+            }
+
+            context.MarkCompleted();
+            return res;
+        }
+        else
+        {
+            context.SetCleanupFailed(cleanupException);
+            throw new InvalidOperationException("重试结束录入清理失败", cleanupException);
+        }
+    }
+
+    public async Task CancelRecordingAsync()
+    {
+        ActiveRecordingContext? context;
+        lock (_gate)
+        {
+            context = _activeContext;
+        }
+
+        if (context != null)
+        {
+            context.Cancel();
+            await context.CompletionTask.ConfigureAwait(false);
+        }
     }
 
     public async Task StopAsync()
@@ -196,6 +302,10 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
         public CancellationToken LinkedToken => _linkedCts.Token;
         public IHotkeyPauseLease? PauseLease { get; private set; }
         public IHotkeyCaptureSession? CaptureSession { get; private set; }
+        public HotkeyCaptureResult? CapturedResult { get; private set; }
+        public bool HasFailedCleanup { get; private set; }
+        public Exception? CleanupException { get; private set; }
+
         public bool IsCompleted => Volatile.Read(ref _completed) != 0;
         public Task CompletionTask => _completionTcs.Task;
 
@@ -207,6 +317,13 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
 
         public void SetPauseLease(IHotkeyPauseLease lease) => PauseLease = lease;
         public void SetCaptureSession(IHotkeyCaptureSession session) => CaptureSession = session;
+        public void SetResult(HotkeyCaptureResult result) => CapturedResult = result;
+
+        public void SetCleanupFailed(Exception ex)
+        {
+            HasFailedCleanup = true;
+            CleanupException = ex;
+        }
 
         public void Cancel()
         {
@@ -221,6 +338,8 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
 
         public void MarkCompleted()
         {
+            HasFailedCleanup = false;
+            CleanupException = null;
             Interlocked.Exchange(ref _completed, 1);
             _completionTcs.TrySetResult();
         }

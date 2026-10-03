@@ -288,6 +288,12 @@ internal sealed class HotkeyItemDraftViewModel : INotifyPropertyChanged
         TargetBinding = binding with { Enabled = true };
     }
 
+    public void ApplyClearedBinding()
+    {
+        // 成功清空内部应用为禁用空键，绕过交互 guard
+        TargetBinding = new HotkeyBinding(HotkeyModifiers.None, string.Empty, false);
+    }
+
     public void Clear()
     {
         if (_isFrozen || _isRecording)
@@ -324,12 +330,7 @@ internal sealed class HotkeyItemDraftViewModel : INotifyPropertyChanged
         {
             SyncBaseline(newBase);
         }
-        else
-        {
-            _baseBinding = newBase;
-            OnPropertyChanged(nameof(BaseBinding));
-            OnPropertyChanged(nameof(IsDirty));
-        }
+        // 已编辑行保留原 base 与 target，交由 Core 乐观并发检查报冲突
     }
 
     public void SetRecordingState(bool isRecording, bool isPreparing, string? prompt, string? previewText)

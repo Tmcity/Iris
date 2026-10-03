@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -165,6 +166,8 @@ public sealed class SettingsHotkeysIntegrationTests
         public int StopCallCount { get; set; }
         public bool FailBegin { get; set; }
         public bool FailUnhookOnDispose { get; set; }
+        public TaskCompletionSource? CleanupGate { get; set; }
+        public TaskCompletionSource? CleanupEntered { get; set; }
         public FakeCaptureSession? CurrentSession { get; private set; }
 
         public Task<IHotkeyCaptureSession> BeginAsync(nint windowHandle, CancellationToken cancellationToken = default)
@@ -219,19 +222,24 @@ public sealed class SettingsHotkeysIntegrationTests
         public void Complete(HotkeyCaptureResult result) => _completionTcs.TrySetResult(result);
         public void Cancel() => _completionTcs.TrySetResult(new HotkeyCaptureResult(HotkeyCaptureOutcome.Canceled));
 
-        public ValueTask DisposeAsync()
+        public async ValueTask DisposeAsync()
         {
             Cancel();
+            _service.CleanupEntered?.TrySetResult();
+            if (_service.CleanupGate != null)
+            {
+                await _service.CleanupGate.Task;
+            }
             if (_service.FailUnhookOnDispose)
             {
                 throw new IrisException(ErrorCode.Unknown, "卸载失败");
             }
-            return ValueTask.CompletedTask;
         }
     }
 
     private sealed class IntegrationEnvironment : IAsyncDisposable
     {
+        private readonly ServiceProvider _bootstrapSp;
         public TempDirectory TempDir { get; } = new();
         public ServiceProvider ServiceProvider { get; }
         public CountingSettingsService SettingsService { get; }
@@ -271,8 +279,8 @@ public sealed class SettingsHotkeysIntegrationTests
             services.AddIrisInfrastructure();
             services.AddIrisCore();
 
-            var bootstrapSp = services.BuildServiceProvider();
-            var rawSettingsService = bootstrapSp.GetRequiredService<ISettingsService>();
+            _bootstrapSp = services.BuildServiceProvider();
+            var rawSettingsService = _bootstrapSp.GetRequiredService<ISettingsService>();
             rawSettingsService.LoadAsync().GetAwaiter().GetResult();
             if (initialSettings != null)
             {
@@ -337,6 +345,7 @@ public sealed class SettingsHotkeysIntegrationTests
             await Coordinator.StopAcceptanceAndNativeAsync().WaitAsync(TimeSpan.FromSeconds(5));
             HotkeyService.Dispose();
             await ServiceProvider.DisposeAsync();
+            await _bootstrapSp.DisposeAsync();
             TempDir.Dispose();
         }
     }
@@ -442,6 +451,7 @@ public sealed class SettingsHotkeysIntegrationTests
 
         var inputItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.InputTranslate);
         var clipItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.ClipboardTranslate);
+        var originalClip = clipItem.BaseBinding;
 
         // 用户编辑了 ClipboardTranslate，保留未编辑的 InputTranslate
         var userClipBinding = new HotkeyBinding(HotkeyModifiers.Control | HotkeyModifiers.Shift, "X", true);
@@ -465,10 +475,16 @@ public sealed class SettingsHotkeysIntegrationTests
         inputItem.TargetBinding.ShouldBe(extInput);
         inputItem.IsDirty.ShouldBeFalse();
 
-        // 验证：已编辑行保留用户草稿目标，但基线更新
+        // 验证：已编辑行保留用户草稿目标与原基线，交给 Core 做乐观冲突校验，绝不静默覆盖基线
         clipItem.TargetBinding.ShouldBe(userClipBinding);
-        clipItem.BaseBinding.ShouldBe(extClip);
+        clipItem.BaseBinding.ShouldBe(originalClip);
         clipItem.IsDirty.ShouldBeTrue();
+
+        // 保存时 Core 检测到乐观并发冲突并拒绝保存
+        await env.ViewModel.ExecuteSaveAsync();
+        env.ViewModel.IsConflict.ShouldBeTrue("检测到乐观并发冲突");
+        env.ViewModel.StatusMessage.ShouldNotBeNull();
+        env.ViewModel.StatusMessage!.ShouldContain("保存冲突");
 
         // 再次外部更新：外部把 InputTranslate 改为与 clipItem 的草稿重复组合 Control+Shift+X
         await env.SettingsService.UpdateAsync(s => s with
@@ -494,6 +510,13 @@ public sealed class SettingsHotkeysIntegrationTests
         env.ViewModel.Theme = AppTheme.Dark;
 
         var inputItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.InputTranslate);
+
+        // 设置清理闸门以验证真实清理阻塞时不能提前写入设置
+        var cleanupGate = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var cleanupEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        env.CaptureService.CleanupGate = cleanupGate;
+        env.CaptureService.CleanupEntered = cleanupEntered;
+
         var recordingTask = env.ViewModel.StartRecordingAsync(inputItem);
 
         env.ViewModel.IsAnyRecording.ShouldBeTrue();
@@ -513,9 +536,20 @@ public sealed class SettingsHotkeysIntegrationTests
         // 录入中执行 ExecuteSaveAsync：必须先等待录入取消/清理完成再提交
         var saveTask = env.ViewModel.ExecuteSaveAsync();
 
+        // 等待清理进入阻塞
+        await cleanupEntered.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+
+        // 清理阻塞期间：尚未写入 JSON/Settings，Save 按钮禁用
+        env.SettingsService.UpdateCount.ShouldBe(0, "清理未完成时绝不能提前写入持久化设置");
+        env.ViewModel.CanSave.ShouldBeFalse("清理未完成时禁止再次保存");
+
+        // 放行清理闸门
+        cleanupGate.TrySetResult();
+
         await saveTask;
         await recordingTask;
 
+        env.SettingsService.UpdateCount.ShouldBe(1, "清理完成后正常提交持久化设置");
         wasFrozenDuringSave.ShouldBeTrue("保存提交期间快捷键草稿必须被冻结");
         attemptedEditDuringFreezeSucceeded.ShouldBeFalse("保存提交冻结期间禁止编辑草稿");
 
@@ -778,6 +812,11 @@ public sealed class SettingsHotkeysIntegrationTests
                     RoutedEvent = Keyboard.KeyDownEvent
                 });
                 env.ViewModel.IsAnyRecording.ShouldBeTrue("按 Enter 必须开始录入");
+                window.UpdateLayout();
+
+                var cancelBtn = FindVisualChild<Wpf.Ui.Controls.Button>(recorderBox, b => (b.Content as string) == UiText.SettingsHotkeyCancel);
+                cancelBtn.ShouldNotBeNull("录入时录入按钮必须由 Style Trigger 切换为取消按钮");
+                cancelBtn.Command.ShouldBe(inputItem.CancelRecordCommand, "取消按钮的 Command 必须为 CancelRecordCommand");
 
                 // 3. 窗口按 Esc 取消录入且窗口存活
                 window.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, source, 0, Key.Escape)
@@ -787,6 +826,10 @@ public sealed class SettingsHotkeysIntegrationTests
                 await env.ViewModel.WaitForActiveRecordingAsync().WaitAsync(TimeSpan.FromSeconds(3));
                 env.ViewModel.IsAnyRecording.ShouldBeFalse("按 Esc 必须取消录入");
                 window.IsLoaded.ShouldBeTrue("按 Esc 取消录入不得关闭设置窗口");
+                window.UpdateLayout();
+
+                var recNormalBtn = FindVisualChild<Wpf.Ui.Controls.Button>(recorderBox, b => (b.Content as string) == UiText.SettingsHotkeyRecord);
+                recNormalBtn.ShouldNotBeNull("录入取消后按钮必须切回“录入”");
 
                 // 4. Backspace 清空测试
                 recorderBox.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, source, 0, Key.Back)
@@ -820,31 +863,64 @@ public sealed class SettingsHotkeysIntegrationTests
             await using var env = new IntegrationEnvironment();
             await env.Coordinator.StartAsync();
 
+            bool isScopeDisposed = false;
+            var scope = Substitute.For<IServiceScope>();
+            scope.When(s => s.Dispose()).Do(_ => isScopeDisposed = true);
+
             var window = new SettingsWindow
             {
                 DataContext = env.ViewModel,
                 Width = 760,
                 Height = 520,
                 Left = -20000,
-                Top = -20000
+                Top = -20000,
+                ShowActivated = false,
+                ShowInTaskbar = false
             };
 
-            var inputItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.InputTranslate);
-            var recTask = env.ViewModel.StartRecordingAsync(inputItem);
+            var themeService = env.ServiceProvider.GetRequiredService<ThemeService>();
+            var session = new SettingsWindowSession(scope, window, env.ViewModel, themeService, env.SaveCoordinator);
 
-            // 模拟卸载失败
-            env.CaptureService.FailUnhookOnDispose = true;
+            try
+            {
+                window.Show();
+                env.ViewModel.CurrentPageKey = "hotkeys";
+                window.UpdateLayout();
 
-            // 尝试关闭窗口：录入控制器清理失败，保留资源
-            window.Close();
+                var inputItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.InputTranslate);
+                var recTask = env.ViewModel.StartRecordingAsync(inputItem);
 
-            // 恢复卸载并重试清理
-            env.CaptureService.FailUnhookOnDispose = false;
-            await env.ViewModel.CancelRecordingAsync();
-            await recTask;
+                // 确认已真实进入录入并调用 BeginAsync
+                env.CaptureService.BeginCallCount.ShouldBeGreaterThan(0, "录入必须真实调用了 BeginAsync");
 
-            window.ForceClose = true;
-            window.Close();
+                // 模拟卸载失败
+                env.CaptureService.FailUnhookOnDispose = true;
+
+                // 尝试关闭窗口：录入控制器清理失败，保留资源与作用域
+                await Should.ThrowAsync<InvalidOperationException>(() => session.ShutdownAsync());
+
+                isScopeDisposed.ShouldBeFalse("清理失败时必须保留 DI 作用域与会话");
+                session.IsOpen.ShouldBeTrue("清理失败时会话保持开启");
+                env.ViewModel.HasFailedRecordingCleanup.ShouldBeTrue("清理失败必须在 ViewModel 中可见");
+                inputItem.DraftError.ShouldBe(UiText.SettingsHotkeyCleanupFailed);
+                env.Coordinator.GetRuntimeSnapshot().IsPaused.ShouldBeTrue("清理未完成前热键必须保持暂停");
+
+                // 恢复卸载并重试清理
+                env.CaptureService.FailUnhookOnDispose = false;
+                await env.ViewModel.ExecuteRetryHotkeysAsync();
+
+                env.ViewModel.HasFailedRecordingCleanup.ShouldBeFalse("重试成功后清理失败标志清除");
+                env.Coordinator.GetRuntimeSnapshot().IsPaused.ShouldBeFalse("清理成功后热键成功恢复");
+
+                // 现在可以安全关闭会话与释放作用域
+                await session.ShutdownAsync();
+                isScopeDisposed.ShouldBeTrue("清理成功后会话关闭并释放 DI 作用域");
+            }
+            finally
+            {
+                window.ForceClose = true;
+                window.Close();
+            }
         });
     }
 
@@ -920,11 +996,15 @@ public sealed class SettingsHotkeysIntegrationTests
             var themes = new[] { AppTheme.Light, AppTheme.Dark };
             var sizes = new[] { (Width: 760.0, Height: 520.0), (Width: 600.0, Height: 440.0) };
             var scales = new[] { 1.0, 1.5 };
+            var hashes = new Dictionary<(double Width, double Height, double Scale, AppTheme Theme), string>();
 
             int renderCount = 0;
 
             foreach (var theme in themes)
             {
+                var wpfTheme = theme == AppTheme.Light ? Wpf.Ui.Appearance.ApplicationTheme.Light : Wpf.Ui.Appearance.ApplicationTheme.Dark;
+                Wpf.Ui.Appearance.ApplicationThemeManager.Apply(wpfTheme);
+
                 foreach (var (width, height) in sizes)
                 {
                     foreach (var scale in scales)
@@ -937,14 +1017,18 @@ public sealed class SettingsHotkeysIntegrationTests
 
                         // 填充长组合与模拟错误状态以测试极端布局无裁切
                         var inputItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.InputTranslate);
+                        var longBinding = new HotkeyBinding(HotkeyModifiers.Control | HotkeyModifiers.Shift | HotkeyModifiers.Alt | HotkeyModifiers.Win, "F10", true);
+                        inputItem.ApplyCapturedBinding(longBinding);
                         inputItem.DraftError = "与系统预留快捷键冲突，请更换其他组合";
                         inputItem.RuntimeState = new HotkeyRuntimeItemState(
                             IrisAction.InputTranslate,
-                            new HotkeyBinding(HotkeyModifiers.Control | HotkeyModifiers.Shift | HotkeyModifiers.Alt | HotkeyModifiers.Win, "F10", true),
+                            longBinding,
                             HotkeyRuntimeActionStatus.Failed,
-                            "Ctrl+Shift+Alt+Win+F10",
+                            "Ctrl+Alt+Shift+Win+F10",
                             "系统热键占用冲突",
                             1);
+
+                        inputItem.KeyComboText.ShouldBe("Ctrl+Alt+Shift+Win+F10");
 
                         var window = new SettingsWindow
                         {
@@ -969,6 +1053,11 @@ public sealed class SettingsHotkeysIntegrationTests
                             recorderBox.ActualWidth.ShouldBeGreaterThan(100);
                             recorderBox.ActualHeight.ShouldBeGreaterThan(20);
 
+                            var comboTextBlock = FindVisualChild<TextBlock>(recorderBox, tb => tb.Text == "Ctrl+Alt+Shift+Win+F10");
+                            comboTextBlock.ShouldNotBeNull();
+                            comboTextBlock.ActualWidth.ShouldBeGreaterThan(50);
+                            comboTextBlock.ActualHeight.ShouldBeGreaterThan(10);
+
                             var saveBtn = FindVisualChild<Wpf.Ui.Controls.Button>(window, b => (b.Content as string) == UiText.SettingsSave);
                             saveBtn.ShouldNotBeNull();
                             var saveRight = saveBtn.TransformToAncestor(window).Transform(new Point(saveBtn.ActualWidth, 0)).X;
@@ -992,6 +1081,14 @@ public sealed class SettingsHotkeysIntegrationTests
 
                             File.Exists(filePath).ShouldBeTrue();
                             new FileInfo(filePath).Length.ShouldBeGreaterThan(0);
+
+                            using (var sha = SHA256.Create())
+                            using (var stream = File.OpenRead(filePath))
+                            {
+                                var hash = Convert.ToHexString(sha.ComputeHash(stream));
+                                hashes[(width, height, scale, theme)] = hash;
+                            }
+
                             renderCount++;
                         }
                         finally
@@ -1004,6 +1101,16 @@ public sealed class SettingsHotkeysIntegrationTests
             }
 
             renderCount.ShouldBe(8, "必须成功生成并验证全部 8 组离屏渲染图片");
+
+            foreach (var (width, height) in sizes)
+            {
+                foreach (var scale in scales)
+                {
+                    var lightHash = hashes[(width, height, scale, AppTheme.Light)];
+                    var darkHash = hashes[(width, height, scale, AppTheme.Dark)];
+                    lightHash.ShouldNotBe(darkHash, $"在尺寸 {width}x{height} 缩放 {scale} 下，Light 与 Dark 主题的渲染图片 SHA256 哈希必须不同");
+                }
+            }
         });
     }
 

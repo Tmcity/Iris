@@ -47,6 +47,7 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
 
     private readonly HashSet<uint> _heldKeysAtStart = [];
     private readonly HashSet<uint> _heldModifiers = [];
+    private readonly HashSet<uint> _heldNonModifierKeys = [];
     private readonly HashSet<uint> _awaitingReleaseVks = [];
 
     private readonly Lock _stateLock = new();
@@ -58,6 +59,8 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
     private nint _hookHandle;
     private uint _threadId;
     private bool _isStopped;
+    private bool _isHookUnhooked;
+    private IDisposable? _cancellationRegistration;
 
     private uint _candidateKeyVk;
     private HotkeyModifiers _candidateModifiers;
@@ -84,6 +87,19 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
     internal Task<bool> ThreadExitTask => _threadExitTcs.Task;
     internal nint HookHandle => _hookHandle;
     internal uint ThreadId => _threadId;
+    internal bool IsHookUnhooked => Volatile.Read(ref _isHookUnhooked);
+    internal bool IsThreadExited => _threadExitTcs.Task.IsCompleted;
+
+    internal bool IsStopRequested
+    {
+        get
+        {
+            lock (_stateLock)
+            {
+                return _isStopped;
+            }
+        }
+    }
 
     public HotkeyCaptureSession(
         nint ownerWindowHandle,
@@ -100,13 +116,19 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
         _ = RunProgressWorkerAsync();
     }
 
-    internal void AttachHook(nint hookHandle, uint threadId, HashSet<uint> initialHeldKeys)
+    internal void SetHookHandle(nint hookHandle, uint threadId)
     {
         lock (_stateLock)
         {
             _hookHandle = hookHandle;
             _threadId = threadId;
+        }
+    }
 
+    internal void InitializeHeldKeys(HashSet<uint> initialHeldKeys)
+    {
+        lock (_stateLock)
+        {
             if (initialHeldKeys.Count > 0)
             {
                 foreach (var k in initialHeldKeys)
@@ -124,6 +146,24 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
         }
 
         _progressChannel.Writer.TryWrite(1);
+    }
+
+    internal void MarkHookUnhooked()
+    {
+        Volatile.Write(ref _isHookUnhooked, true);
+    }
+
+    internal void RegisterCancellationRegistration(IDisposable registration)
+    {
+        lock (_stateLock)
+        {
+            if (_completionTcs.Task.IsCompleted || _isStopped)
+            {
+                registration.Dispose();
+                return;
+            }
+            _cancellationRegistration = registration;
+        }
     }
 
     internal void SignalThreadExit()
@@ -161,10 +201,7 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
             _isStopped = true;
         }
 
-        if (!_completionTcs.Task.IsCompleted)
-        {
-            Complete(new HotkeyCaptureResult(HotkeyCaptureOutcome.Canceled));
-        }
+        Complete(new HotkeyCaptureResult(HotkeyCaptureOutcome.Canceled));
     }
 
     internal void Cancel()
@@ -188,6 +225,7 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
         if (completedHere)
         {
             _progressChannel.Writer.TryComplete();
+            _cancellationRegistration?.Dispose();
             var task = EnsureCleanupStarted();
             _ = task.ContinueWith(static t => { _ = t.Exception; }, TaskContinuationOptions.OnlyOnFaulted);
         }
@@ -240,265 +278,269 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
 
     internal unsafe nint LowLevelKeyboardProc(int nCode, nuint wParam, nint lParam)
     {
-        if (nCode < 0)
+        try
         {
-            return _nativeAdapter.CallNextHook(_hookHandle, nCode, wParam, lParam);
-        }
-
-        // 窗口丢失前台校验：若前台不再是目标设置窗口，立即停止捕获并取消会话，新按键不消费、按原链传递
-        var fg = _nativeAdapter.GetForegroundWindow();
-        if (fg != _ownerWindowHandle)
-        {
-            Cancel();
-            return _nativeAdapter.CallNextHook(_hookHandle, nCode, wParam, lParam);
-        }
-
-        bool stopped;
-        lock (_stateLock)
-        {
-            stopped = _isStopped || _completionTcs.Task.IsCompleted;
-        }
-
-        if (stopped)
-        {
-            return _nativeAdapter.CallNextHook(_hookHandle, nCode, wParam, lParam);
-        }
-
-        if (lParam == 0)
-        {
-            return _nativeAdapter.CallNextHook(_hookHandle, nCode, wParam, lParam);
-        }
-
-        var pKbd = (KbdLlHookStruct*)(void*)lParam;
-        uint vk = pKbd->vkCode;
-
-        bool isKeyDown = (wParam == 0x0100 || wParam == 0x0104);
-        bool isKeyUp = (wParam == 0x0101 || wParam == 0x0105);
-
-        if (!isKeyDown && !isKeyUp)
-        {
-            return _nativeAdapter.CallNextHook(_hookHandle, nCode, wParam, lParam);
-        }
-
-        bool isModifier = IsModifierKey(vk, out var modFlag);
-
-        bool notifyChanged = false;
-        bool shouldConsume = false;
-
-        lock (_stateLock)
-        {
-            // 1. 准备阶段（请松开启动键）
-            if (!_isReady)
+            if (nCode < 0)
             {
-                if (isKeyUp)
-                {
-                    _heldKeysAtStart.Remove(vk);
-                    if (_heldKeysAtStart.Count == 0)
-                    {
-                        _isReady = true;
-                        _current = new HotkeyCaptureProgress(++_revision, true, HotkeyModifiers.None);
-                        notifyChanged = true;
-                    }
-                    shouldConsume = true;
-                }
-                else
-                {
-                    // 准备阶段按下的新键不生成候选，且消耗该按键事件
-                    shouldConsume = true;
-                }
+                return _nativeAdapter.CallNextHook(_hookHandle, nCode, wParam, lParam);
             }
-            // 2. 正常录入阶段
-            else
-            {
-                if (isKeyDown)
-                {
-                    if (isModifier)
-                    {
-                        _heldModifiers.Add(vk);
-                        _activeModifiers |= modFlag;
 
-                        if (_candidateBinding == null)
+            // 窗口丢失前台校验：若前台不再是目标设置窗口，立即停止捕获并取消会话，新按键不消费、按原链传递
+            var fg = _nativeAdapter.GetForegroundWindow();
+            if (fg != _ownerWindowHandle)
+            {
+                Cancel();
+                return _nativeAdapter.CallNextHook(_hookHandle, nCode, wParam, lParam);
+            }
+
+            bool stopped;
+            lock (_stateLock)
+            {
+                stopped = _isStopped || _completionTcs.Task.IsCompleted;
+            }
+
+            if (stopped || lParam == 0)
+            {
+                return _nativeAdapter.CallNextHook(_hookHandle, nCode, wParam, lParam);
+            }
+
+            var pKbd = (KbdLlHookStruct*)(void*)lParam;
+            uint vk = pKbd->vkCode;
+
+            bool isKeyDown = (wParam == 0x0100 || wParam == 0x0104);
+            bool isKeyUp = (wParam == 0x0101 || wParam == 0x0105);
+
+            if (!isKeyDown && !isKeyUp)
+            {
+                return _nativeAdapter.CallNextHook(_hookHandle, nCode, wParam, lParam);
+            }
+
+            bool isModifier = IsModifierKey(vk, out var modFlag);
+            bool notifyChanged = false;
+            bool shouldConsume = false;
+
+            lock (_stateLock)
+            {
+                // 1. 准备阶段（请松开启动键）
+                if (!_isReady)
+                {
+                    if (isKeyUp)
+                    {
+                        _heldKeysAtStart.Remove(vk);
+                        if (_heldKeysAtStart.Count == 0)
                         {
-                            _current = new HotkeyCaptureProgress(++_revision, true, _activeModifiers, Key: null);
+                            _isReady = true;
+                            _current = new HotkeyCaptureProgress(++_revision, true, HotkeyModifiers.None);
                             notifyChanged = true;
                         }
-
                         shouldConsume = true;
                     }
                     else
                     {
-                        // 无修饰 Escape 取消本次录入
-                        if (vk == 0x1B && _activeModifiers == HotkeyModifiers.None)
+                        // 准备期间新按下的键不生成候选，消费处理
+                        shouldConsume = true;
+                    }
+                }
+                // 2. 正常录入阶段
+                else
+                {
+                    if (isKeyDown)
+                    {
+                        if (isModifier)
                         {
-                            shouldConsume = true;
-                            _completionTcs.TrySetResult(new HotkeyCaptureResult(HotkeyCaptureOutcome.Canceled));
-                            _isStopped = true;
-                            EnsureCleanupStarted();
-                            return 1;
-                        }
+                            _heldModifiers.Add(vk);
+                            _activeModifiers = CalculateModifiersFromHeld(_heldModifiers);
 
-                        // 无修饰 Backspace 清除为禁用空键
-                        if (vk == 0x08 && _activeModifiers == HotkeyModifiers.None)
-                        {
-                            shouldConsume = true;
-                            _completionTcs.TrySetResult(new HotkeyCaptureResult(
-                                HotkeyCaptureOutcome.Cleared,
-                                new HotkeyBinding(HotkeyModifiers.None, "", false)));
-                            _isStopped = true;
-                            EnsureCleanupStarted();
-                            return 1;
-                        }
+                            if (_candidateBinding == null && !_hasConflictInput)
+                            {
+                                _current = new HotkeyCaptureProgress(++_revision, true, _activeModifiers, Key: null);
+                                notifyChanged = true;
+                            }
 
-                        // 多个非修饰键同时按下检测
-                        if (_candidateKeyVk != 0 && _candidateKeyVk != vk)
-                        {
-                            _hasConflictInput = true;
-                            _candidateBinding = null;
-                            _current = new HotkeyCaptureProgress(
-                                ++_revision,
-                                true,
-                                _activeModifiers,
-                                Key: null,
-                                Error: new ErrorInfo(ErrorCode.HotkeyInvalid, "多个按键同时按下，请松开后重试"));
-                            notifyChanged = true;
                             shouldConsume = true;
                         }
                         else
                         {
-                            // 首次按下主键，锁定此刻的修饰键快照
-                            _candidateKeyVk = vk;
-                            _candidateModifiers = _activeModifiers;
-
-                            _awaitingReleaseVks.Clear();
-                            _awaitingReleaseVks.Add(vk);
-                            foreach (var m in _heldModifiers)
+                            // 无修饰 Escape 取消本次录入
+                            if (vk == 0x1B && _activeModifiers == HotkeyModifiers.None)
                             {
-                                _awaitingReleaseVks.Add(m);
+                                Complete(new HotkeyCaptureResult(HotkeyCaptureOutcome.Canceled));
+                                return 1;
                             }
 
-                            if (KeyNameMapper.TryMapFromVk(vk, out var canonicalKey))
+                            // 无修饰 Backspace 清除为禁用空键
+                            if (vk == 0x08 && _activeModifiers == HotkeyModifiers.None)
                             {
-                                var rawBinding = new HotkeyBinding(_candidateModifiers, canonicalKey, true);
-                                if (_policy.TryNormalize(rawBinding, out var normalized))
-                                {
-                                    _candidateBinding = normalized;
-                                    _current = new HotkeyCaptureProgress(
-                                        ++_revision,
-                                        true,
-                                        normalized.Modifiers,
-                                        Key: normalized.Key,
-                                        Error: null);
-                                }
-                                else
-                                {
-                                    _candidateBinding = null;
-                                    _current = new HotkeyCaptureProgress(
-                                        ++_revision,
-                                        true,
-                                        _candidateModifiers,
-                                        Key: null,
-                                        Error: new ErrorInfo(ErrorCode.HotkeyInvalid, "无效的快捷键组合"));
-                                }
+                                Complete(new HotkeyCaptureResult(
+                                    HotkeyCaptureOutcome.Cleared,
+                                    new HotkeyBinding(HotkeyModifiers.None, string.Empty, false)));
+                                return 1;
+                            }
+
+                            // 重复按键去重：若是当前候选主键的 auto-repeat，直接去重忽略并消费
+                            if (_candidateKeyVk == vk)
+                            {
+                                shouldConsume = true;
                             }
                             else
                             {
-                                _candidateBinding = null;
-                                _current = new HotkeyCaptureProgress(
-                                    ++_revision,
-                                    true,
-                                    _candidateModifiers,
-                                    Key: null,
-                                    Error: new ErrorInfo(ErrorCode.HotkeyInvalid, "未知按键"));
+                                _heldNonModifierKeys.Add(vk);
+
+                                if (_candidateKeyVk != 0 || _heldNonModifierKeys.Count > 1)
+                                {
+                                    _hasConflictInput = true;
+                                    _candidateBinding = null;
+                                    _candidateKeyVk = 0;
+                                    _awaitingReleaseVks.Clear();
+                                    _current = new HotkeyCaptureProgress(
+                                        ++_revision,
+                                        true,
+                                        _activeModifiers,
+                                        Key: null,
+                                        Error: new ErrorInfo(ErrorCode.HotkeyInvalid, "多个按键同时按下，请松开后重试"));
+                                    notifyChanged = true;
+                                    shouldConsume = true;
+                                }
+                                else if (_hasConflictInput)
+                                {
+                                    shouldConsume = true;
+                                }
+                                else
+                                {
+                                    // 首次按下主键，锁定此刻的修饰键快照
+                                    _candidateKeyVk = vk;
+                                    _candidateModifiers = _activeModifiers;
+
+                                    _awaitingReleaseVks.Clear();
+                                    _awaitingReleaseVks.Add(vk);
+                                    foreach (var m in _heldModifiers)
+                                    {
+                                        _awaitingReleaseVks.Add(m);
+                                    }
+
+                                    if (KeyNameMapper.TryMapFromVk(vk, out var canonicalKey))
+                                    {
+                                        var rawBinding = new HotkeyBinding(_candidateModifiers, canonicalKey, true);
+                                        if (_policy.TryNormalize(rawBinding, out var normalized))
+                                        {
+                                            _candidateBinding = normalized;
+                                            _current = new HotkeyCaptureProgress(
+                                                ++_revision,
+                                                true,
+                                                normalized.Modifiers,
+                                                Key: normalized.Key,
+                                                Error: null);
+                                        }
+                                        else
+                                        {
+                                            _candidateBinding = null;
+                                            _current = new HotkeyCaptureProgress(
+                                                ++_revision,
+                                                true,
+                                                _candidateModifiers,
+                                                Key: null,
+                                                Error: new ErrorInfo(ErrorCode.HotkeyInvalid, "无效的快捷键组合"));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        _candidateBinding = null;
+                                        _current = new HotkeyCaptureProgress(
+                                            ++_revision,
+                                            true,
+                                            _candidateModifiers,
+                                            Key: null,
+                                            Error: new ErrorInfo(ErrorCode.HotkeyInvalid, "未知按键"));
+                                    }
+
+                                    notifyChanged = true;
+                                    shouldConsume = true;
+                                }
+                            }
+                        }
+                    }
+                    else if (isKeyUp)
+                    {
+                        if (isModifier)
+                        {
+                            _heldModifiers.Remove(vk);
+                            _activeModifiers = CalculateModifiersFromHeld(_heldModifiers);
+
+                            if (_hasConflictInput)
+                            {
+                                if (_heldModifiers.Count == 0 && _heldNonModifierKeys.Count == 0)
+                                {
+                                    _hasConflictInput = false;
+                                    _current = new HotkeyCaptureProgress(++_revision, true, HotkeyModifiers.None);
+                                    notifyChanged = true;
+                                }
+                            }
+                            else if (_candidateBinding != null)
+                            {
+                                _awaitingReleaseVks.Remove(vk);
+                                if (_awaitingReleaseVks.Count == 0)
+                                {
+                                    var captured = _candidateBinding;
+                                    Complete(new HotkeyCaptureResult(HotkeyCaptureOutcome.Captured, Binding: captured));
+                                    return 1;
+                                }
                             }
 
-                            notifyChanged = true;
+                            shouldConsume = true;
+                        }
+                        else
+                        {
+                            _heldNonModifierKeys.Remove(vk);
+
+                            if (vk == _candidateKeyVk)
+                            {
+                                _awaitingReleaseVks.Remove(vk);
+
+                                if (_candidateBinding != null && _awaitingReleaseVks.Count == 0)
+                                {
+                                    var captured = _candidateBinding;
+                                    Complete(new HotkeyCaptureResult(HotkeyCaptureOutcome.Captured, Binding: captured));
+                                    return 1;
+                                }
+
+                                if (_candidateBinding == null)
+                                {
+                                    _candidateKeyVk = 0;
+                                }
+                            }
+
+                            if (_hasConflictInput)
+                            {
+                                if (_heldModifiers.Count == 0 && _heldNonModifierKeys.Count == 0)
+                                {
+                                    _hasConflictInput = false;
+                                    _current = new HotkeyCaptureProgress(++_revision, true, HotkeyModifiers.None);
+                                    notifyChanged = true;
+                                }
+                            }
+
                             shouldConsume = true;
                         }
                     }
                 }
-                else if (isKeyUp)
-                {
-                    if (isModifier)
-                    {
-                        _heldModifiers.Remove(vk);
-                        _activeModifiers = CalculateModifiersFromHeld(_heldModifiers);
-
-                        if (_hasConflictInput)
-                        {
-                            if (_heldModifiers.Count == 0 && _candidateKeyVk == 0)
-                            {
-                                _hasConflictInput = false;
-                                _current = new HotkeyCaptureProgress(++_revision, true, HotkeyModifiers.None);
-                                notifyChanged = true;
-                            }
-                        }
-
-                        if (_candidateBinding != null)
-                        {
-                            _awaitingReleaseVks.Remove(vk);
-                            if (_awaitingReleaseVks.Count == 0)
-                            {
-                                var captured = _candidateBinding;
-                                shouldConsume = true;
-                                _completionTcs.TrySetResult(new HotkeyCaptureResult(
-                                    HotkeyCaptureOutcome.Captured,
-                                    Binding: captured));
-                                _isStopped = true;
-                                EnsureCleanupStarted();
-                                return 1;
-                            }
-                        }
-
-                        shouldConsume = true;
-                    }
-                    else
-                    {
-                        if (vk == _candidateKeyVk)
-                        {
-                            _awaitingReleaseVks.Remove(vk);
-
-                            if (_candidateBinding != null && _awaitingReleaseVks.Count == 0)
-                            {
-                                var captured = _candidateBinding;
-                                shouldConsume = true;
-                                _completionTcs.TrySetResult(new HotkeyCaptureResult(
-                                    HotkeyCaptureOutcome.Captured,
-                                    Binding: captured));
-                                _isStopped = true;
-                                EnsureCleanupStarted();
-                                return 1;
-                            }
-
-                            _candidateKeyVk = 0;
-                        }
-
-                        if (_hasConflictInput)
-                        {
-                            if (_heldModifiers.Count == 0 && _candidateKeyVk == 0)
-                            {
-                                _hasConflictInput = false;
-                                _current = new HotkeyCaptureProgress(++_revision, true, HotkeyModifiers.None);
-                                notifyChanged = true;
-                            }
-                        }
-
-                        shouldConsume = true;
-                    }
-                }
             }
-        }
 
-        if (notifyChanged)
+            if (notifyChanged)
+            {
+                _progressChannel.Writer.TryWrite(1);
+            }
+
+            if (shouldConsume)
+            {
+                return 1;
+            }
+
+            return _nativeAdapter.CallNextHook(_hookHandle, nCode, wParam, lParam);
+        }
+        catch (Exception)
         {
-            _progressChannel.Writer.TryWrite(1);
+            return _nativeAdapter.CallNextHook(_hookHandle, nCode, wParam, lParam);
         }
-
-        if (shouldConsume)
-        {
-            return 1;
-        }
-
-        return _nativeAdapter.CallNextHook(_hookHandle, nCode, wParam, lParam);
     }
 
     private static bool IsModifierKey(uint vk, out HotkeyModifiers mod)

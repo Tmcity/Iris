@@ -552,21 +552,25 @@ internal sealed partial class HotkeyCoordinator : IDisposable
 
         lock (_gate)
         {
-            if (_isStopped || _dispatchGeneration != generation)
+            if (_dispatchGeneration != generation)
             {
+                // 代次保护：旧代次的完成（失败或取消）绝不得清除更新代次的 _isProcessingSettings
                 return;
             }
 
             _isProcessingSettings = false;
+            bool hasNewPending = _pendingSettings != null && !ReferenceEquals(_pendingSettings, _dispatchedSettings);
+            _dispatchedSettings = null;
 
-            if (_pendingSettings != null && !ReferenceEquals(_pendingSettings, _dispatchedSettings))
+            if (!_isStopped && !_isPaused && hasNewPending)
             {
+                // 在故障调度执行期间到达了新的配置快照，转交启动消费新快照
                 ScheduleProcessingLocked();
             }
             else
             {
+                // 仅本次调度自身失败且无更新快照排队时丢弃，避免无限重试相同失败项
                 _pendingSettings = null;
-                _dispatchedSettings = null;
             }
         }
     }
@@ -587,10 +591,14 @@ internal sealed partial class HotkeyCoordinator : IDisposable
                 {
                     if (_isStopped || _isPaused || _dispatchGeneration != generation || _pendingSettings == null)
                     {
-                        if (_dispatchGeneration == generation)
+                        if (_dispatchGeneration == generation || _isPaused)
                         {
                             _isProcessingSettings = false;
                             _dispatchedSettings = null;
+                        }
+                        if (!_isStopped && !_isPaused && _pendingSettings != null && !_isProcessingSettings)
+                        {
+                            ScheduleProcessingLocked();
                         }
                         return Task.CompletedTask;
                     }
@@ -606,14 +614,14 @@ internal sealed partial class HotkeyCoordinator : IDisposable
         {
             lock (_gate)
             {
-                if (_dispatchGeneration == generation)
+                if (_dispatchGeneration == generation || _isPaused)
                 {
                     _isProcessingSettings = false;
                     _dispatchedSettings = null;
-                    if (!_isStopped && !_isPaused && _pendingSettings != null)
-                    {
-                        ScheduleProcessingLocked();
-                    }
+                }
+                if (!_isStopped && !_isPaused && _pendingSettings != null && !_isProcessingSettings)
+                {
+                    ScheduleProcessingLocked();
                 }
             }
             LogProcessSettingsFailed(_logger, ex.GetType().Name);
@@ -643,6 +651,7 @@ internal sealed partial class HotkeyCoordinator : IDisposable
                 {
                     _hotkeyService.Unregister(failedAction);
                     _failedUnregisteredBindings.Remove(failedAction);
+                    _activeBindings.Remove(failedAction);
                 }
                 catch (Exception ex)
                 {

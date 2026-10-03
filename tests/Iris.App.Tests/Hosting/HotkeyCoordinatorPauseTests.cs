@@ -11,6 +11,7 @@ using Iris.Core.Errors;
 using Iris.Core.Platform;
 using Iris.Core.Presentation;
 using Iris.Core.Settings;
+using Iris.Core.Workflows;
 using Iris.Platform.Windows.Hotkey;
 using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
@@ -347,15 +348,32 @@ public sealed class HotkeyCoordinatorPauseTests
             var handlerEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
             var handlerRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
-            var handler = new TestActionHandler(IrisAction.ClipboardTranslate, async (_, ct) =>
+            var presenter = Substitute.For<ITranslateWindowPresenter>();
+            var operation = Substitute.For<ITranslateWindowOperation>();
+            using var userWorkCts = new CancellationTokenSource();
+            operation.CancellationToken.Returns(userWorkCts.Token);
+            presenter.TryBeginOperation(Arg.Any<CancellationToken>()).Returns(operation);
+            presenter.TryShowAsync(Arg.Any<ITranslateWindowOperation>(), Arg.Any<TranslateWindowRequest>()).Returns(Task.FromResult(true));
+
+            var clipboard = Substitute.For<IClipboardService>();
+            bool wasCanceled = false;
+            clipboard.GetTextAsync(Arg.Any<CancellationToken>()).Returns(async callInfo =>
             {
                 handlerEntered.TrySetResult();
-                // 模拟外部耗时读取（在异步任务中等待，不阻塞 UI 消息循环，且忽略取消以证明不是通过强制终止来结束）
-                await Task.Run(async () =>
+                try
                 {
+                    // 模拟外部耗时读取（在异步任务中等待，不阻塞 UI 消息循环，且忽略取消以证明不是通过强制终止来结束）
                     await handlerRelease.Task.WaitAsync(TestContext.Current.CancellationToken);
-                }, ct);
+                }
+                catch (OperationCanceledException)
+                {
+                    wasCanceled = true;
+                    throw;
+                }
+                return (string?)"sample text";
             });
+
+            var handler = new ClipboardTranslateHandler(presenter, clipboard, NullLogger<ClipboardTranslateHandler>.Instance);
 
             var actionDispatcher = new ActionDispatcher([handler], uiDispatcher, Substitute.For<INotificationService>(), NullLogger<ActionDispatcher>.Instance);
 
@@ -376,12 +394,14 @@ public sealed class HotkeyCoordinatorPauseTests
             fakeNative.SendWmHotkey(registered.Id, registered.Modifiers, registered.Vk);
             await handlerEntered.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
 
-            // 此时 Handler 正在执行中。请求 PauseAsync，它必须等待 Handler 完成
+            // 此时 Handler 正在执行中。请求 PauseAsync，它必须等待 Handler 完成，且不取消用户正在执行的工作
             var pauseTask = coordinator.PauseAsync("TestOwner", TestContext.Current.CancellationToken);
 
-            // PauseAsync 尚未完成
+            // PauseAsync 尚未完成，录入尚未 Begin，用户工作未被取消
             await Task.Delay(100, TestContext.Current.CancellationToken);
             pauseTask.IsCompleted.ShouldBeFalse();
+            wasCanceled.ShouldBeFalse();
+            userWorkCts.IsCancellationRequested.ShouldBeFalse();
 
             // 放行 Handler
             handlerRelease.TrySetResult();
@@ -606,7 +626,18 @@ public sealed class HotkeyCoordinatorPauseTests
             coordinator.GetRuntimeSnapshot().IsPaused.ShouldBeTrue();
 
             // 此时不能开启新的录入
+            recorder.HasFailedCleanup.ShouldBeTrue();
+            await Should.ThrowAsync<InvalidOperationException>(() =>
+                recorder.RecordAsync("AnotherOwner", 0x1000, null, TestContext.Current.CancellationToken));
+
+            // 修复原生卸载并重试恢复
             fakeCapture.FailUnhookOnDispose = false;
+            await recorder.RetryCleanupAsync();
+            recorder.LastCapturedResult.ShouldNotBeNull();
+            recorder.LastCapturedResult.Outcome.ShouldBe(HotkeyCaptureOutcome.Captured);
+            recorder.LastCapturedResult.Binding!.Key.ShouldBe("F");
+            recorder.HasFailedCleanup.ShouldBeFalse();
+            coordinator.GetRuntimeSnapshot().IsPaused.ShouldBeFalse();
         }
         finally
         {

@@ -87,12 +87,12 @@
 
         <!-- 录入 / 取消 按钮 -->
         <ui:Button Grid.Column="1"
-                   Content="{x:Static app:UiText.SettingsHotkeyRecord}"
-                   Command="{Binding StartRecordCommand}"
                    MinWidth="56"
                    Margin="0,0,4,0">
             <ui:Button.Style>
                 <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                    <Setter Property="Content" Value="{x:Static app:UiText.SettingsHotkeyRecord}" />
+                    <Setter Property="Command" Value="{Binding StartRecordCommand}" />
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsRecording}" Value="True">
                             <Setter Property="Content" Value="{x:Static app:UiText.SettingsHotkeyCancel}" />

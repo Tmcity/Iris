@@ -32,7 +32,11 @@ internal interface INativeKeyboardHookAdapter
 
     bool PostThreadQuitMessage(uint threadId);
 
-    bool GetMessage(out NativeMsg msg);
+    void EnsureThreadMessageQueueCreated();
+
+    void ReleaseHookResources(nint hookHandle);
+
+    int GetMessage(out NativeMsg msg);
 
     int GetLastError();
 }

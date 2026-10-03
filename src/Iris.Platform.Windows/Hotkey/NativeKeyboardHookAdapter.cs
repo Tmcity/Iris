@@ -48,13 +48,15 @@ internal sealed unsafe class NativeKeyboardHookAdapter : INativeKeyboardHookAdap
             return true;
         }
 
-        bool success = PInvoke.UnhookWindowsHookEx(new HHOOK((void*)hookHandle));
-        if (success)
+        return PInvoke.UnhookWindowsHookEx(new HHOOK((void*)hookHandle));
+    }
+
+    public void ReleaseHookResources(nint hookHandle)
+    {
+        if (hookHandle != 0)
         {
             _activeDelegates.TryRemove(hookHandle, out _);
         }
-
-        return success;
     }
 
     public nint CallNextHook(nint hookHandle, int nCode, nuint wParam, nint lParam)
@@ -111,18 +113,27 @@ internal sealed unsafe class NativeKeyboardHookAdapter : INativeKeyboardHookAdap
         return PInvoke.PostThreadMessage(threadId, WM_QUIT, default, default);
     }
 
-    public bool GetMessage(out NativeMsg msg)
+    public void EnsureThreadMessageQueueCreated()
+    {
+        PInvoke.PeekMessage(out _, default, 0, 0, PEEK_MESSAGE_REMOVE_TYPE.PM_NOREMOVE);
+    }
+
+    public int GetMessage(out NativeMsg msg)
     {
         BOOL ret = PInvoke.GetMessage(out var m, default, 0, 0);
         msg = new NativeMsg(m.message, (nuint)m.wParam.Value, (nint)m.lParam.Value);
-        if (ret)
+        if (ret.Value == -1)
         {
-            PInvoke.TranslateMessage(in m);
-            PInvoke.DispatchMessage(in m);
-            return true;
+            return -1;
+        }
+        if (ret.Value == 0)
+        {
+            return 0;
         }
 
-        return false;
+        PInvoke.TranslateMessage(in m);
+        PInvoke.DispatchMessage(in m);
+        return 1;
     }
 
     public int GetLastError()

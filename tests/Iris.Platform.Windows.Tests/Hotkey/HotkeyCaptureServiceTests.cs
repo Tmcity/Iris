@@ -34,10 +34,15 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
         public int UnhookWindowsHookCallCount { get; set; }
         public int CallNextHookCallCount { get; set; }
         public int PostQuitCallCount { get; set; }
+        public int EnsureQueueCallCount { get; set; }
+        public int ReleaseResourcesCallCount { get; set; }
 
         public bool FailSetHook { get; set; }
         public bool FailUnhook { get; set; }
         public int LastError { get; set; }
+        public TaskCompletionSource? SetWindowsHookBlockTcs { get; set; }
+        public bool ThrowOnDetectInitialHeldKeys { get; set; }
+        public bool ThrowOnForegroundWindow { get; set; }
 
         public NativeKeyboardHookProc? CapturedHookProc { get; private set; }
         public HashSet<uint> InitialHeldKeys { get; } = [];
@@ -46,6 +51,10 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
         {
             SetWindowsHookCallCount++;
             CapturedHookProc = proc;
+            if (SetWindowsHookBlockTcs != null)
+            {
+                SetWindowsHookBlockTcs.Task.GetAwaiter().GetResult();
+            }
             if (FailSetHook)
             {
                 LastError = 1400; // ERROR_INVALID_HOOK_HANDLE
@@ -65,6 +74,16 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
             return true;
         }
 
+        public void ReleaseHookResources(nint hookHandle)
+        {
+            ReleaseResourcesCallCount++;
+        }
+
+        public void EnsureThreadMessageQueueCreated()
+        {
+            EnsureQueueCallCount++;
+        }
+
         public nint CallNextHook(nint hookHandle, int nCode, nuint wParam, nint lParam)
         {
             CallNextHookCallCount++;
@@ -72,11 +91,25 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
         }
 
         public uint? CustomWindowProcessId { get; set; }
-        public nint GetForegroundWindow() => ForegroundWindowHandle;
+        public nint GetForegroundWindow()
+        {
+            if (ThrowOnForegroundWindow)
+            {
+                throw new InvalidOperationException("Simulated GetForegroundWindow crash.");
+            }
+            return ForegroundWindowHandle;
+        }
         public uint GetWindowProcessId(nint windowHandle) => CustomWindowProcessId ?? (windowHandle == ValidWindowHandle ? CurrentProcessId : 9999);
         public uint GetCurrentProcessId() => CurrentProcessId;
         public bool IsWindow(nint windowHandle) => windowHandle == ValidWindowHandle;
-        public bool IsKeyDown(int virtualKey) => InitialHeldKeys.Contains((uint)virtualKey);
+        public bool IsKeyDown(int virtualKey)
+        {
+            if (ThrowOnDetectInitialHeldKeys)
+            {
+                throw new InvalidOperationException("Simulated IsKeyDown failure.");
+            }
+            return InitialHeldKeys.Contains((uint)virtualKey);
+        }
         public uint GetCurrentThreadId() => (uint)Environment.CurrentManagedThreadId;
 
         public bool PostThreadQuitMessage(uint threadId)
@@ -86,17 +119,17 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
             return true;
         }
 
-        public bool GetMessage(out NativeMsg msg)
+        public int GetMessage(out NativeMsg msg)
         {
             try
             {
                 msg = _messageQueue.Take();
-                return msg.Message != WM_QUIT;
+                return msg.Message == WM_QUIT ? 0 : 1;
             }
             catch (InvalidOperationException)
             {
                 msg = new NativeMsg(WM_QUIT, 0, 0);
-                return false;
+                return 0;
             }
         }
 
@@ -229,6 +262,93 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
     }
 
     [Fact]
+    public async Task BeginAsync_CancellationAfterReturn_CancelsSubsequentKeyInputs()
+    {
+        using var cts = new CancellationTokenSource();
+        var session = await _service.BeginAsync(_adapter.ValidWindowHandle, cts.Token);
+        session.Current.IsReady.ShouldBeTrue();
+
+        // Begin 返回后取消 token
+        cts.Cancel();
+
+        // 继续输入 Ctrl+F
+        _adapter.SendKeyDown(0xA2); // LCtrl
+        _adapter.SendKeyDown(0x46); // F
+        _adapter.SendKeyUp(0x46);
+        _adapter.SendKeyUp(0xA2);
+
+        var result = await session.Completion;
+        result.Outcome.ShouldBe(HotkeyCaptureOutcome.Canceled);
+        result.Binding.ShouldBeNull();
+
+        await session.DisposeAsync();
+    }
+
+    [Fact]
+    public async Task StopAsync_WhileSetWindowsHookInFlight_WaitsForInitializationAndCleansUpHook()
+    {
+        var hookEnteredTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var hookReleaseTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        _adapter.SetWindowsHookBlockTcs = hookReleaseTcs;
+
+        var beginTask = Task.Run(async () =>
+        {
+            hookEnteredTcs.TrySetResult();
+            return await _service.BeginAsync(_adapter.ValidWindowHandle, CancellationToken.None);
+        });
+
+        await hookEnteredTcs.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+        await Task.Delay(50, TestContext.Current.CancellationToken);
+
+        // 调用 StopAsync，它不能提前成功，必须等待初始化并清理 hook
+        var stopTask = _service.StopAsync();
+        stopTask.IsCompleted.ShouldBeFalse("初始化尚未放行时 StopAsync 绝不能提前返回成功");
+
+        // 放行 SetWindowsHook
+        hookReleaseTcs.TrySetResult();
+
+        await stopTask.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+        _adapter.UnhookWindowsHookCallCount.ShouldBe(1);
+
+        try
+        {
+            var s = await beginTask;
+            await s.DisposeAsync();
+        }
+        catch
+        {
+        }
+    }
+
+    [Fact]
+    public async Task InitialHeldKeysReadThrows_HookIsStillUnhookedWithoutLeaking()
+    {
+        _adapter.ThrowOnDetectInitialHeldKeys = true;
+
+        await Should.ThrowAsync<Exception>(() => _service.BeginAsync(_adapter.ValidWindowHandle, TestContext.Current.CancellationToken));
+
+        // 即使初始键读取异常，hookHandle 也已安全附加并成功卸载
+        _adapter.UnhookWindowsHookCallCount.ShouldBe(1);
+    }
+
+    [Fact]
+    public async Task LowLevelKeyboardProc_ExceptionDoesNotLeakAcrossNativeBoundary()
+    {
+        var session = await _service.BeginAsync(_adapter.ValidWindowHandle, TestContext.Current.CancellationToken);
+
+        _adapter.ThrowOnForegroundWindow = true;
+
+        // 发送按键事件，托管异常应被安全捕获转为 CallNextHook，绝不向 native 调用方抛出
+        Should.NotThrow(() =>
+        {
+            var ret = _adapter.SendKeyDown(0x41);
+            ret.ShouldBe(0);
+        });
+
+        await session.DisposeAsync();
+    }
+
+    [Fact]
     public async Task Capture_RequiresHeldKeysToReleaseBeforeBecomingReady()
     {
         // 模拟用户按下 Enter 启动录入，Enter (0x0D) 在启动瞬间处于按下状态
@@ -296,31 +416,34 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
     }
 
     [Fact]
-    public async Task Capture_IgnoresRepeatedKeyDown_AndLocksModifiersOnFirstMainKeyDown()
+    public async Task Capture_CtrlDown_FDown_CtrlUp_FRepeat_FUp_RetainsControlSnapshotAndCompletesCaptured()
     {
         var session = await _service.BeginAsync(_adapter.ValidWindowHandle, TestContext.Current.CancellationToken);
 
-        // 按下 Ctrl (0xA2)
-        _adapter.SendKeyDown(0xA2);
-        // 按下主键 C (0x43)
-        _adapter.SendKeyDown(0x43);
+        // Ctrl down
+        _adapter.SendKeyDown(0xA2); // LCtrl
+        // F down
+        _adapter.SendKeyDown(0x46); // F
         session.Current.Modifiers.ShouldBe(HotkeyModifiers.Control);
-        session.Current.Key.ShouldBe("C");
+        session.Current.Key.ShouldBe("F");
 
-        // 重复 KeyDown 事件（长按触发）
-        _adapter.SendKeyDown(0x43);
-        session.Current.Key.ShouldBe("C");
-
-        // 先释放 Ctrl，再释放 C：修饰键位不能被释放改变
+        // Ctrl up
         _adapter.SendKeyUp(0xA2);
+        // 此时修饰键物理已释放，但候选已锁定
         session.Current.Modifiers.ShouldBe(HotkeyModifiers.Control);
 
-        _adapter.SendKeyUp(0x43);
+        // F repeat (物理长按导致 repeated keydown)
+        _adapter.SendKeyDown(0x46);
+        session.Current.Modifiers.ShouldBe(HotkeyModifiers.Control);
+        session.Current.Key.ShouldBe("F");
+
+        // F up
+        _adapter.SendKeyUp(0x46);
 
         var result = await session.Completion;
         result.Outcome.ShouldBe(HotkeyCaptureOutcome.Captured);
         result.Binding!.Modifiers.ShouldBe(HotkeyModifiers.Control);
-        result.Binding.Key.ShouldBe("C");
+        result.Binding.Key.ShouldBe("F");
 
         await session.DisposeAsync();
     }
@@ -437,6 +560,7 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
         result.Outcome.ShouldBe(HotkeyCaptureOutcome.Canceled);
         _adapter.PostQuitCallCount.ShouldBeGreaterThan(0);
         _adapter.UnhookWindowsHookCallCount.ShouldBeGreaterThan(0);
+        _adapter.ReleaseResourcesCallCount.ShouldBeGreaterThan(0);
     }
 
     [Fact]

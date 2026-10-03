@@ -37,6 +37,7 @@ internal sealed partial class AppBootstrapper
     private readonly Iris.App.Translation.ITranslateWindowShutdownCoordinator? _translateShutdownCoordinator;
     private readonly HotkeyCoordinator? _hotkeyCoordinator;
     private readonly Iris.Core.Platform.IHotkeyCaptureService? _captureService;
+    private readonly HotkeyRecordingCoordinator? _recordingCoordinator;
 
     private readonly Lock _stopGate = new();
     private Task? _stopTask;
@@ -58,7 +59,8 @@ internal sealed partial class AppBootstrapper
         Iris.App.Settings.ISettingsShutdownCoordinator? settingsShutdownCoordinator = null,
         Iris.App.Translation.ITranslateWindowShutdownCoordinator? translateShutdownCoordinator = null,
         HotkeyCoordinator? hotkeyCoordinator = null,
-        Iris.Core.Platform.IHotkeyCaptureService? captureService = null)
+        Iris.Core.Platform.IHotkeyCaptureService? captureService = null,
+        HotkeyRecordingCoordinator? recordingCoordinator = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -74,6 +76,7 @@ internal sealed partial class AppBootstrapper
         _translateShutdownCoordinator = translateShutdownCoordinator;
         _hotkeyCoordinator = hotkeyCoordinator;
         _captureService = captureService;
+        _recordingCoordinator = recordingCoordinator;
     }
 
     internal static Action<string, string> FatalErrorShower { get; set; } = FatalErrorDialog.Show;
@@ -185,6 +188,7 @@ internal sealed partial class AppBootstrapper
         }
 
         _hotkeyCoordinator?.StopSynchronousFallback();
+        _recordingCoordinator?.DisposeAsync().AsTask().GetAwaiter().GetResult();
         _captureService?.Dispose();
         _trayIconController.Created -= OnTrayIconCreated;
         _themeService.Dispose();
@@ -234,8 +238,20 @@ internal sealed partial class AppBootstrapper
             }
         }
 
-        // 2. 撤销录入资格与清理 hook
-        if (_captureService != null)
+        // 2. 撤销录入准入并结束录入控制器（含等待捕获和原生清理）
+        if (_recordingCoordinator != null)
+        {
+            try
+            {
+                await _recordingCoordinator.StopAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                LogCaptureShutdownFailed(_logger, ex.GetType().Name);
+                throw;
+            }
+        }
+        else if (_captureService != null)
         {
             try
             {

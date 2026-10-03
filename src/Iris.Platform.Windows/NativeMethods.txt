@@ -40,6 +40,7 @@ UnhookWindowsHookEx
 CallNextHookEx
 PostThreadMessage
 GetMessage
+PeekMessage
 TranslateMessage
 DispatchMessage
 GetAsyncKeyState
@@ -49,3 +50,4 @@ HOOKPROC
 KBDLLHOOKSTRUCT
 WINDOWS_HOOK_ID
 MSG
+PEEK_MESSAGE_REMOVE_TYPE

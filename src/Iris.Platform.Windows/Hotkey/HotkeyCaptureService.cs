@@ -76,6 +76,8 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
             throw new IrisException(ErrorCode.InvalidArgument, "设置窗口不是当前前台活动窗口。");
         }
 
+        cancellationToken.ThrowIfCancellationRequested();
+
         HotkeyCaptureSession session;
         TaskCompletionSource<bool> initTcs;
 
@@ -100,7 +102,17 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
             _activeSession = session;
         }
 
-        var thread = new Thread(() => RunMessageThread(session, ownerWindowHandle, initTcs))
+        if (cancellationToken.CanBeCanceled)
+        {
+            var reg = cancellationToken.Register(() =>
+            {
+                initTcs.TrySetCanceled(cancellationToken);
+                session.Cancel();
+            });
+            session.RegisterCancellationRegistration(reg);
+        }
+
+        var thread = new Thread(() => RunMessageThread(session, initTcs))
         {
             IsBackground = true,
             Name = "Iris.HotkeyCaptureMessageThread"
@@ -110,17 +122,11 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
 
         try
         {
-            using var reg = cancellationToken.Register(() =>
-            {
-                initTcs.TrySetCanceled(cancellationToken);
-            });
-
             await initTcs.Task.ConfigureAwait(false);
             return session;
         }
         catch (OperationCanceledException)
         {
-            // 初始化阶段被取消，同步启动原生回滚并完整等待
             session.RequestStop();
             try
             {
@@ -128,14 +134,14 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
             }
             catch (Exception ex)
             {
-                LogRollbackFailed(_logger, ex);
+                LogRollbackFailed(_logger, ex.GetType().Name);
                 throw;
             }
             throw;
         }
         catch (Exception ex)
         {
-            LogInitFailed(_logger, ex);
+            LogInitFailed(_logger, ex.GetType().Name);
             session.RequestStop();
             try
             {
@@ -150,14 +156,16 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
         {
             lock (_gate)
             {
-                _initTask = null;
+                if (ReferenceEquals(_initTask, initTcs.Task))
+                {
+                    _initTask = null;
+                }
             }
         }
     }
 
     private void RunMessageThread(
         HotkeyCaptureSession session,
-        nint ownerWindowHandle,
         TaskCompletionSource<bool> initTcs)
     {
         uint threadId = _nativeAdapter.GetCurrentThreadId();
@@ -165,6 +173,8 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
 
         try
         {
+            _nativeAdapter.EnsureThreadMessageQueueCreated();
+
             hookHandle = _nativeAdapter.SetWindowsHook(session.LowLevelKeyboardProc);
             if (hookHandle == 0)
             {
@@ -174,8 +184,17 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
                 return;
             }
 
+            session.SetHookHandle(hookHandle, threadId);
+
+            if (session.IsStopRequested)
+            {
+                initTcs.TrySetCanceled();
+                session.SignalThreadExit();
+                return;
+            }
+
             var initialHeld = DetectInitialHeldKeys();
-            session.AttachHook(hookHandle, threadId, initialHeld);
+            session.InitializeHeldKeys(initialHeld);
             initTcs.TrySetResult(true);
         }
         catch (Exception ex)
@@ -187,13 +206,22 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
 
         try
         {
-            while (_nativeAdapter.GetMessage(out var msg))
+            while (true)
             {
+                int ret = _nativeAdapter.GetMessage(out var msg);
+                if (ret <= 0)
+                {
+                    break;
+                }
                 if (msg.Message == 0x0012) // WM_QUIT
                 {
                     break;
                 }
             }
+        }
+        catch (Exception ex)
+        {
+            LogMessageLoopError(_logger, ex.GetType().Name);
         }
         finally
         {
@@ -203,17 +231,17 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
 
     private HashSet<uint> DetectInitialHeldKeys()
     {
-        uint[] candidateVks =
+        uint[] candidatePhysicalVks =
         [
-            0x11, 0xA2, 0xA3, // Ctrl
-            0x12, 0xA4, 0xA5, // Alt
-            0x10, 0xA0, 0xA1, // Shift
-            0x5B, 0x5C,       // Win
-            0x0D, 0x20        // Enter, Space (常用录入启动触发键)
+            0xA2, 0xA3, // VK_LCONTROL, VK_RCONTROL
+            0xA4, 0xA5, // VK_LMENU, VK_RMENU
+            0xA0, 0xA1, // VK_LSHIFT, VK_RSHIFT
+            0x5B, 0x5C, // VK_LWIN, VK_RWIN
+            0x0D, 0x20  // VK_RETURN, VK_SPACE
         ];
 
         var held = new HashSet<uint>();
-        foreach (var vk in candidateVks)
+        foreach (var vk in candidatePhysicalVks)
         {
             if (_nativeAdapter.IsKeyDown((int)vk))
             {
@@ -223,73 +251,89 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
         return held;
     }
 
-    public Task StopAsync()
+    public async Task StopAsync()
     {
+        Task? initTask;
         HotkeyCaptureSession? session;
+        lock (_gate)
+        {
+            initTask = _initTask;
+            session = _activeSession;
+        }
+
+        if (session == null && initTask == null && !_hasFailedCleanup)
+        {
+            return;
+        }
+
+        session?.RequestStop();
+
+        if (initTask != null)
+        {
+            try
+            {
+                await initTask.ConfigureAwait(false);
+            }
+            catch
+            {
+            }
+        }
+
         lock (_gate)
         {
             session = _activeSession;
         }
 
-        if (session == null)
+        if (session != null)
         {
-            return Task.CompletedTask;
+            await CleanupSessionAsync(session).ConfigureAwait(false);
         }
-
-        session.RequestStop();
-        return CleanupSessionAsync(session);
     }
 
     private Task CleanupSessionAsync(HotkeyCaptureSession session)
     {
         lock (_gate)
         {
-            if (_cleanupTask != null && !_cleanupTask.IsFaulted)
+            if (_cleanupTask != null && !_cleanupTask.IsCompleted)
             {
                 return _cleanupTask;
             }
 
             var task = PerformCleanupAsync(session);
             _cleanupTask = task;
-            _ = task.ContinueWith(t =>
-            {
-                if (t.IsFaulted)
-                {
-                    lock (_gate)
-                    {
-                        if (ReferenceEquals(_cleanupTask, task))
-                        {
-                            _cleanupTask = null;
-                        }
-                    }
-                }
-            }, TaskContinuationOptions.ExecuteSynchronously);
-            _ = task.ContinueWith(static t => { _ = t.Exception; }, TaskContinuationOptions.OnlyOnFaulted);
             return task;
         }
     }
 
     private async Task PerformCleanupAsync(HotkeyCaptureSession session)
     {
+        nint hookHandle = session.HookHandle;
         try
         {
             // 1. 卸载钩子
-            if (session.HookHandle != 0)
+            if (hookHandle != 0 && !session.IsHookUnhooked)
             {
-                bool unhooked = _nativeAdapter.UnhookWindowsHook(session.HookHandle);
+                bool unhooked = _nativeAdapter.UnhookWindowsHook(hookHandle);
                 if (!unhooked)
                 {
                     int err = _nativeAdapter.GetLastError();
                     _hasFailedCleanup = true;
                     throw new IrisException(ErrorCode.Unknown, $"卸载键盘钩子失败 (Win32Error={err})。");
                 }
+                session.MarkHookUnhooked();
             }
 
-            // 2. 发送退出消息终止专用消息线程
-            if (session.ThreadId != 0)
+            // 2. 发送退出消息终止专用消息线程并等待其退出
+            if (session.ThreadId != 0 && !session.IsThreadExited)
             {
                 _nativeAdapter.PostThreadQuitMessage(session.ThreadId);
                 await session.ThreadExitTask.ConfigureAwait(false);
+            }
+
+            // 3. 线程退出屏障完成后，才释放托管委托根
+            if (hookHandle != 0)
+            {
+                _nativeAdapter.ReleaseHookResources(hookHandle);
             }
 
             lock (_gate)
@@ -303,11 +347,10 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
         }
         catch (Exception ex)
         {
-            LogCleanupFailed(_logger, ex);
+            LogCleanupFailed(_logger, ex.GetType().Name);
             lock (_gate)
             {
                 _hasFailedCleanup = true;
-                _cleanupTask = null; // 允许下次重试
                 session.ResetCleanupForRetry();
             }
             throw;
@@ -333,7 +376,7 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
                 return;
             }
 
-            if (_activeSession != null || _hasFailedCleanup)
+            if (_activeSession != null || _hasFailedCleanup || _initTask != null)
             {
                 throw new InvalidOperationException("录入服务仍持有活跃或未完成清理的原生资源，禁止同步 Dispose，请先调用 StopAsync。");
             }
@@ -344,20 +387,23 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
 
     public async ValueTask DisposeAsync()
     {
-        await StopAsync().ConfigureAwait(false);
-
         lock (_gate)
         {
             _isDisposed = true;
         }
+
+        await StopAsync().ConfigureAwait(false);
     }
 
-    [LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = "BeginAsync 取消后的原生回滚失败")]
-    private static partial void LogRollbackFailed(ILogger logger, Exception ex);
+    [LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = "BeginAsync 取消后的原生回滚失败 (ExceptionType={ExceptionType})")]
+    private static partial void LogRollbackFailed(ILogger logger, string exceptionType);
 
-    [LoggerMessage(EventId = 2, Level = LogLevel.Error, Message = "按键录入消息线程初始化失败")]
-    private static partial void LogInitFailed(ILogger logger, Exception ex);
+    [LoggerMessage(EventId = 2, Level = LogLevel.Error, Message = "按键录入消息线程初始化失败 (ExceptionType={ExceptionType})")]
+    private static partial void LogInitFailed(ILogger logger, string exceptionType);
 
-    [LoggerMessage(EventId = 3, Level = LogLevel.Error, Message = "按键录入原生清理失败")]
-    private static partial void LogCleanupFailed(ILogger logger, Exception ex);
+    [LoggerMessage(EventId = 3, Level = LogLevel.Error, Message = "按键录入原生清理失败 (ExceptionType={ExceptionType})")]
+    private static partial void LogCleanupFailed(ILogger logger, string exceptionType);
+
+    [LoggerMessage(EventId = 4, Level = LogLevel.Warning, Message = "按键录入消息循环退出异常 (ExceptionType={ExceptionType})")]
+    private static partial void LogMessageLoopError(ILogger logger, string exceptionType);
 }
