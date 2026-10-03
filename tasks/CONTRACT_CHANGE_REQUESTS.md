@@ -743,7 +743,7 @@ TranslateWindowRequest 只改 AutoTranslate 文档：本次显式非空白 Text�
 | 字段 | 值 |
 |---|---|
 | 批准 | 架构师 Codex，2026-10-03 |
-| 状态 | **已落地，待复审（T-017-R2）** |
+| 状态 | **已结案（2026-10-03，T-017-R2 / cec13f0 独立验收通过）** |
 | 依据 | HOTKEY_SERVICE.md / ARCH v1.27；Microsoft RegisterHotKey / UnregisterHotKey / WM_HOTKEY 文档 |
 | 范围 | CONTRACTS.cs 与 Core/Platform/IHotkeyService.cs 的 summary，无签名/类型/默认设置/JSON 变更 |
 
@@ -752,6 +752,8 @@ TranslateWindowRequest 只改 AutoTranslate 文档：本次显式非空白 Text�
 HotkeyRegistrationResult 继续表达注册结果：非法键/组合为 HotkeyInvalid，系统冲突为 HotkeyConflict，其它原生注册失败为 Unknown。Unregister/UnregisterAll/Dispose 清理失败保留资源供重试并抛 IrisException(Unknown)。完整失败/ID/消息/设置过滤规则见正式规范。
 
 实现尚未验收；T-017 完成后仅标“已落地，待复审”，由架构师结案。不把注释同步或消息窗口准备探针当作真实热键功能通过。
+
+2026-10-03 最终状态覆盖上述签发时描述：cec13f0 经独立构建、全量 1612 项测试与最终程序集故障探针对照验收通过，CCR-014 结案。接口签名保持原样；物理按键、系统实机冲突等未验证范围仍保留，详见 tasks/done/T-017-R2.md 架构师验收追加。
 
 注释同步后的架构验证：`dotnet test tests/Iris.ArchitectureTests/Iris.ArchitectureTests.csproj -c Release` 原始摘要：
 
