@@ -22,20 +22,44 @@ internal sealed class FakeNativeKeyboardInputAdapter : INativeKeyboardInputAdapt
     public int LastErrorCode { get; set; }
 
     public Func<uint, INPUT[], int, uint>? CustomSendInputHandler { get; set; }
+    public Func<nint>? CustomGetForegroundWindowHandler { get; set; }
 
     public TaskCompletionSource? SendInputEnteredTcs { get; set; }
     public TaskCompletionSource? SendInputReleaseTcs { get; set; }
+
+    private readonly object _queryLock = new();
+    private TaskCompletionSource _nextQueryTcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
+
+    public Task WaitForNextKeyQueryAsync(CancellationToken ct = default)
+    {
+        lock (_queryLock)
+        {
+            return _nextQueryTcs.Task.WaitAsync(ct);
+        }
+    }
 
     public short GetAsyncKeyState(int vKey)
     {
         TotalNativeCalls++;
         AsyncKeyQueries.Add(vKey);
+
+        lock (_queryLock)
+        {
+            var old = _nextQueryTcs;
+            _nextQueryTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            old.TrySetResult();
+        }
+
         return KeyStates.TryGetValue(vKey, out var state) ? state : (short)0;
     }
 
     public nint GetForegroundWindow()
     {
         TotalNativeCalls++;
+        if (CustomGetForegroundWindowHandler != null)
+        {
+            return CustomGetForegroundWindowHandler();
+        }
         return ForegroundWindow;
     }
 

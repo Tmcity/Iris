@@ -51,7 +51,8 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
     private int _disposed;
 
     private CancellationTokenSource? _activeWaitCts;
-    private Task? _activeOperationTask;
+    private Task<KeyboardCopyResult>? _activeCopyTask;
+    private Task? _activeCleanupTask;
     private Task? _activeStopTask;
 
     public KeyboardSimulator(
@@ -85,7 +86,7 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
     public Task<KeyboardCopyResult> CopyAsync(KeyboardCopyTarget target, CancellationToken cancellationToken = default)
     {
         CancellationTokenSource waitCts;
-        TaskCompletionSource<KeyboardCopyResult> tcs;
+        Task<KeyboardCopyResult> copyTask;
 
         lock (_syncRoot)
         {
@@ -98,51 +99,57 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
 
             if (target.WindowHandle == 0 || target.ProcessId == 0)
             {
-                throw new ArgumentException("Target WindowHandle and ProcessId must be non-zero.", nameof(target));
+                throw new IrisException(ErrorCode.InvalidArgument, "Target WindowHandle and ProcessId must be non-zero.");
             }
 
-            if (_pendingReleaseKeys.Count > 0 || (_activeOperationTask != null && !_activeOperationTask.IsCompleted))
+            if (_pendingReleaseKeys.Count > 0 ||
+                (_activeCopyTask != null && !_activeCopyTask.IsCompleted) ||
+                (_activeCleanupTask != null && !_activeCleanupTask.IsCompleted) ||
+                (_activeStopTask != null && !_activeStopTask.IsCompleted))
             {
                 return Task.FromResult(new KeyboardCopyResult(KeyboardCopyOutcome.Busy));
             }
 
             waitCts = new CancellationTokenSource();
             _activeWaitCts = waitCts;
-            tcs = new TaskCompletionSource<KeyboardCopyResult>(TaskCreationOptions.RunContinuationsAsynchronously);
-            _activeOperationTask = tcs.Task;
+            copyTask = RunCopyWorkflowAsync(target, waitCts, cancellationToken);
+            _activeCopyTask = copyTask;
         }
 
-        // 脱离调用方/UI 线程执行原生检查与等待
-        _ = Task.Run(async () =>
-        {
-            try
-            {
-                var result = await ExecuteCopyCoreAsync(target, cancellationToken, waitCts.Token).ConfigureAwait(false);
-                tcs.TrySetResult(result);
-            }
-            catch (OperationCanceledException ex)
-            {
-                tcs.TrySetCanceled(ex.CancellationToken);
-            }
-            catch (Exception ex)
-            {
-                LogCopyExecutionError(_logger, ex.GetType().Name, ex);
-                tcs.TrySetException(ex);
-            }
-            finally
-            {
-                lock (_syncRoot)
-                {
-                    if (ReferenceEquals(_activeWaitCts, waitCts))
-                    {
-                        _activeWaitCts = null;
-                    }
-                }
-                waitCts.Dispose();
-            }
-        }, CancellationToken.None);
+        return copyTask;
+    }
 
-        return tcs.Task;
+    private async Task<KeyboardCopyResult> RunCopyWorkflowAsync(
+        KeyboardCopyTarget target,
+        CancellationTokenSource waitCts,
+        CancellationToken cancellationToken)
+    {
+        await Task.Yield();
+
+        try
+        {
+            return await ExecuteCopyCoreAsync(target, cancellationToken, waitCts.Token).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch (Exception ex)
+        {
+            LogCopyExecutionError(_logger, ex.GetType().Name);
+            throw;
+        }
+        finally
+        {
+            lock (_syncRoot)
+            {
+                if (ReferenceEquals(_activeWaitCts, waitCts))
+                {
+                    _activeWaitCts = null;
+                }
+            }
+            waitCts.Dispose();
+        }
     }
 
     private async Task<KeyboardCopyResult> ExecuteCopyCoreAsync(
@@ -219,89 +226,122 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
             return new KeyboardCopyResult(KeyboardCopyOutcome.Failed, MayHaveCopied: mayHaveCopied, CreateErrorInfo(err, null));
         }
 
-        // Step 2: C down 前复核目标身份
-        if (!IsTargetValidAndForeground(target))
+        try
         {
-            bool compOk = CompensatePendingKeys();
-            if (!compOk)
+            // Step 2: C down 前复核目标身份
+            bool targetValid;
+            try
             {
-                return new KeyboardCopyResult(KeyboardCopyOutcome.Failed, MayHaveCopied: mayHaveCopied, CreateErrorInfo(0, null));
+                targetValid = IsTargetValidAndForeground(target);
             }
-            return new KeyboardCopyResult(KeyboardCopyOutcome.TargetChanged, MayHaveCopied: mayHaveCopied);
-        }
+            catch (Exception exTarget)
+            {
+                CompensatePendingKeys();
+                return new KeyboardCopyResult(KeyboardCopyOutcome.Failed, MayHaveCopied: mayHaveCopied, CreateErrorInfo(0, exTarget));
+            }
 
-        sendResult = TrySendInput(VK_C, isKeyUp: false, out err, out ex);
-        if (sendResult == SingleSendResult.Success)
-        {
-            mayHaveCopied = true;
-            TrackKeyDown(VK_C);
-        }
-        else if (sendResult == SingleSendResult.Faulted)
-        {
-            mayHaveCopied = true;
-            TrackKeyDown(VK_C);
-            CompensatePendingKeys();
-            return new KeyboardCopyResult(KeyboardCopyOutcome.Failed, MayHaveCopied: mayHaveCopied, CreateErrorInfo(err, ex));
-        }
-        else
-        {
-            CompensatePendingKeys();
-            return new KeyboardCopyResult(KeyboardCopyOutcome.Failed, MayHaveCopied: mayHaveCopied, CreateErrorInfo(err, null));
-        }
+            if (!targetValid)
+            {
+                bool compOk = CompensatePendingKeys();
+                if (!compOk)
+                {
+                    return new KeyboardCopyResult(KeyboardCopyOutcome.Failed, MayHaveCopied: mayHaveCopied, CreateErrorInfo(0, null));
+                }
+                return new KeyboardCopyResult(KeyboardCopyOutcome.TargetChanged, MayHaveCopied: mayHaveCopied);
+            }
 
-        // Step 3: C up
-        sendResult = TrySendInput(VK_C, isKeyUp: true, out err, out ex);
-        if (sendResult == SingleSendResult.Success)
-        {
-            TrackKeyUp(VK_C);
-        }
-        else
-        {
-            CompensatePendingKeys();
-            return new KeyboardCopyResult(KeyboardCopyOutcome.Failed, MayHaveCopied: mayHaveCopied, CreateErrorInfo(err, ex));
-        }
+            sendResult = TrySendInput(VK_C, isKeyUp: false, out err, out ex);
+            if (sendResult == SingleSendResult.Success)
+            {
+                mayHaveCopied = true;
+                TrackKeyDown(VK_C);
+            }
+            else if (sendResult == SingleSendResult.Faulted)
+            {
+                mayHaveCopied = true;
+                TrackKeyDown(VK_C);
+                CompensatePendingKeys();
+                return new KeyboardCopyResult(KeyboardCopyOutcome.Failed, MayHaveCopied: mayHaveCopied, CreateErrorInfo(err, ex));
+            }
+            else
+            {
+                CompensatePendingKeys();
+                return new KeyboardCopyResult(KeyboardCopyOutcome.Failed, MayHaveCopied: mayHaveCopied, CreateErrorInfo(err, null));
+            }
 
-        // Step 4: LCtrl up
-        sendResult = TrySendInput(VK_LCONTROL, isKeyUp: true, out err, out ex);
-        if (sendResult == SingleSendResult.Success)
-        {
-            TrackKeyUp(VK_LCONTROL);
-            return new KeyboardCopyResult(KeyboardCopyOutcome.Injected, MayHaveCopied: mayHaveCopied, Error: null);
+            // Step 3: C up
+            sendResult = TrySendInput(VK_C, isKeyUp: true, out err, out ex);
+            if (sendResult == SingleSendResult.Success)
+            {
+                TrackKeyUp(VK_C);
+            }
+            else
+            {
+                CompensatePendingKeys();
+                return new KeyboardCopyResult(KeyboardCopyOutcome.Failed, MayHaveCopied: mayHaveCopied, CreateErrorInfo(err, ex));
+            }
+
+            // Step 4: LCtrl up
+            sendResult = TrySendInput(VK_LCONTROL, isKeyUp: true, out err, out ex);
+            if (sendResult == SingleSendResult.Success)
+            {
+                TrackKeyUp(VK_LCONTROL);
+                return new KeyboardCopyResult(KeyboardCopyOutcome.Injected, MayHaveCopied: mayHaveCopied, Error: null);
+            }
+            else
+            {
+                CompensatePendingKeys();
+                return new KeyboardCopyResult(KeyboardCopyOutcome.Failed, MayHaveCopied: mayHaveCopied, CreateErrorInfo(err, ex));
+            }
         }
-        else
+        catch (Exception exSend)
         {
             CompensatePendingKeys();
-            return new KeyboardCopyResult(KeyboardCopyOutcome.Failed, MayHaveCopied: mayHaveCopied, CreateErrorInfo(err, ex));
+            return new KeyboardCopyResult(KeyboardCopyOutcome.Failed, MayHaveCopied: mayHaveCopied, CreateErrorInfo(0, exSend));
         }
     }
 
     /// <summary>
     /// 重试清理尚待释放的原生按键。
     /// 无待释放按键时幂等且零 native 调用。
+    /// 多个并发调用共享已登记的清理活动，防止重复发送 KeyUp。
     /// </summary>
-    public async Task RetryCleanupAsync()
+    public Task RetryCleanupAsync()
     {
         ObjectDisposedException.ThrowIf(_disposed != 0, typeof(KeyboardSimulator));
 
-        Task? activeToWait = null;
         lock (_syncRoot)
         {
             if (_pendingReleaseKeys.Count == 0)
             {
-                return;
+                return Task.CompletedTask;
             }
 
-            if (_activeOperationTask != null && !_activeOperationTask.IsCompleted)
+            if (_activeCleanupTask != null && !_activeCleanupTask.IsCompleted)
             {
-                activeToWait = _activeOperationTask;
+                return _activeCleanupTask;
             }
+
+            _activeCleanupTask = RunCleanupWorkflowAsync();
+            return _activeCleanupTask;
+        }
+    }
+
+    private async Task RunCleanupWorkflowAsync()
+    {
+        await Task.Yield();
+
+        Task? copyToWait;
+        lock (_syncRoot)
+        {
+            copyToWait = _activeCopyTask;
         }
 
-        if (activeToWait != null)
+        if (copyToWait != null)
         {
             try
             {
-                await activeToWait.ConfigureAwait(false);
+                await copyToWait.ConfigureAwait(false);
             }
             catch
             {
@@ -313,6 +353,7 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
 
     /// <summary>
     /// 永久停止模拟器，拒绝后续复制请求，取消等待并收尾残留按键。
+    /// 失败时保留责任并允许再次调用重试。
     /// </summary>
     public Task StopAsync()
     {
@@ -326,39 +367,69 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
                 return _activeStopTask;
             }
 
-            _activeStopTask = ExecuteStopCoreAsync();
+            if (_activeStopTask != null && _activeStopTask.IsCompletedSuccessfully && _pendingReleaseKeys.Count == 0)
+            {
+                return _activeStopTask;
+            }
+
+            _activeStopTask = RunStopWorkflowAsync();
             return _activeStopTask;
         }
     }
 
-    private async Task ExecuteStopCoreAsync()
+    private async Task RunStopWorkflowAsync()
     {
-        Task? activeToWait;
+        await Task.Yield();
+
+        Task? copyToWait;
         lock (_syncRoot)
         {
-            activeToWait = _activeOperationTask;
+            copyToWait = _activeCopyTask;
         }
 
-        if (activeToWait != null)
+        if (copyToWait != null)
         {
             try
             {
-                await activeToWait.ConfigureAwait(false);
+                await copyToWait.ConfigureAwait(false);
             }
             catch
             {
             }
         }
 
-        await ExecuteCleanupCoreAsync().ConfigureAwait(false);
+        Task? cleanupTask;
+        lock (_syncRoot)
+        {
+            if (_pendingReleaseKeys.Count == 0)
+            {
+                return;
+            }
+
+            if (_activeCleanupTask == null || _activeCleanupTask.IsCompleted)
+            {
+                _activeCleanupTask = ExecuteCleanupCoreAsync();
+            }
+            cleanupTask = _activeCleanupTask;
+        }
+
+        if (cleanupTask != null)
+        {
+            await cleanupTask.ConfigureAwait(false);
+        }
     }
 
     private async Task ExecuteCleanupCoreAsync()
     {
-        await Task.Run(() =>
+        bool success = await Task.Run(() =>
         {
-            CompensatePendingKeys();
+            return CompensatePendingKeys();
         }).ConfigureAwait(false);
+
+        if (!success)
+        {
+            throw new IrisException(ErrorCode.Unknown, "键盘按键释放清理失败，部分按键未能成功释放。");
+        }
     }
 
     private bool CompensatePendingKeys()
@@ -531,7 +602,7 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
     }
 
     [LoggerMessage(EventId = 1, Level = LogLevel.Error, Message = "Unexpected error during KeyboardSimulator.CopyAsync execution: {ExceptionType}")]
-    private static partial void LogCopyExecutionError(ILogger logger, string exceptionType, Exception ex);
+    private static partial void LogCopyExecutionError(ILogger logger, string exceptionType);
 
     public void Dispose()
     {
@@ -542,7 +613,9 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
                 return;
             }
 
-            bool hasActiveOperation = _activeOperationTask != null && !_activeOperationTask.IsCompleted;
+            bool hasActiveOperation = (_activeCopyTask != null && !_activeCopyTask.IsCompleted)
+                                   || (_activeCleanupTask != null && !_activeCleanupTask.IsCompleted)
+                                   || (_activeStopTask != null && !_activeStopTask.IsCompleted);
             bool hasPending = _pendingReleaseKeys.Count > 0;
 
             if (hasActiveOperation || hasPending)
@@ -561,6 +634,10 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
         await StopAsync().ConfigureAwait(false);
         lock (_syncRoot)
         {
+            if (_pendingReleaseKeys.Count > 0)
+            {
+                throw new InvalidOperationException("KeyboardSimulator cannot be disposed with pending key releases.");
+            }
             _disposed = 1;
         }
     }

@@ -13,10 +13,15 @@ using Xunit;
 
 namespace Iris.Platform.Windows.Tests.Selection;
 
-public sealed class KeyboardSimulatorTests
+public sealed class KeyboardSimulatorTests : IDisposable
 {
     private readonly FakeNativeKeyboardInputAdapter _fakeNative = new();
-    private readonly FakeTimeProvider _fakeTime = new();
+    private readonly TrackingFakeTimeProvider _fakeTime = new();
+
+    public void Dispose()
+    {
+        _fakeTime.Dispose();
+    }
 
     private KeyboardSimulator CreateSimulator()
     {
@@ -57,12 +62,13 @@ public sealed class KeyboardSimulatorTests
     [InlineData(0, 5000)]
     [InlineData(0x1234, 0)]
     [InlineData(0, 0)]
-    public async Task TargetValidation_ZeroHwndOrPid_ThrowsArgumentException(nint hwnd, uint pid)
+    public async Task TargetValidation_ZeroHwndOrPid_ThrowsIrisException_InvalidArgument(nint hwnd, uint pid)
     {
         var simulator = CreateSimulator();
         var target = new KeyboardCopyTarget(hwnd, pid);
 
-        var ex = await Should.ThrowAsync<ArgumentException>(() => simulator.CopyAsync(target, TestContext.Current.CancellationToken));
+        var ex = await Should.ThrowAsync<IrisException>(() => simulator.CopyAsync(target, TestContext.Current.CancellationToken));
+        ex.Code.ShouldBe(ErrorCode.InvalidArgument);
         ex.Message.ShouldContain("non-zero");
         _fakeNative.RecordedInputs.Count.ShouldBe(0);
     }
@@ -137,17 +143,18 @@ public sealed class KeyboardSimulatorTests
 
         var copyTask = simulator.CopyAsync(target, TestContext.Current.CancellationToken);
 
-        // 前 20ms 仍按住
-        for (int i = 0; i < 2; i++)
-        {
-            await Task.Delay(5, TestContext.Current.CancellationToken);
-            _fakeTime.Advance(TimeSpan.FromMilliseconds(10));
-        }
+        // 前 10ms 仍按住：确认计时器已进入并推进 10ms
+        await _fakeTime.WaitForTimerCreatedAsync(TestContext.Current.CancellationToken);
+        _fakeTime.Advance(TimeSpan.FromMilliseconds(10));
         _fakeNative.RecordedInputs.Count.ShouldBe(0);
 
-        // 用户释放左 Ctrl
+        // 进入第二个 10ms 延迟
+        await _fakeTime.WaitForTimerCreatedAsync(TestContext.Current.CancellationToken);
+
+        // 在第二个延迟期间，用户释放了左 Ctrl
         _fakeNative.KeyStates[0xA2] = 0;
-        await Task.Delay(5, TestContext.Current.CancellationToken);
+
+        // 推进时间，Timer 到期唤醒并检测到按键已释放
         _fakeTime.Advance(TimeSpan.FromMilliseconds(10));
 
         var result = await copyTask;
@@ -167,10 +174,10 @@ public sealed class KeyboardSimulatorTests
 
         var copyTask = simulator.CopyAsync(target, TestContext.Current.CancellationToken);
 
-        // 逐步推进超过 500ms
-        for (int i = 0; i < 55 && !copyTask.IsCompleted; i++)
+        // 逐步推进超过 500ms（每次循环由计时器触发推进 10ms，50 次达到 500ms 超时）
+        for (int i = 0; i < 50; i++)
         {
-            await Task.Delay(5, TestContext.Current.CancellationToken);
+            await _fakeTime.WaitForTimerCreatedAsync(TestContext.Current.CancellationToken);
             _fakeTime.Advance(TimeSpan.FromMilliseconds(10));
         }
 
@@ -195,8 +202,7 @@ public sealed class KeyboardSimulatorTests
         using var cts = CancellationTokenSource.CreateLinkedTokenSource(TestContext.Current.CancellationToken);
         var copyTask = simulator.CopyAsync(target, cts.Token);
 
-        await Task.Delay(5, TestContext.Current.CancellationToken);
-        _fakeTime.Advance(TimeSpan.FromMilliseconds(20));
+        await _fakeTime.WaitForTimerCreatedAsync(TestContext.Current.CancellationToken);
         cts.Cancel();
 
         await Should.ThrowAsync<OperationCanceledException>(() => copyTask);
@@ -213,13 +219,14 @@ public sealed class KeyboardSimulatorTests
 
         var copyTask = simulator.CopyAsync(target, TestContext.Current.CancellationToken);
 
-        await Task.Delay(5, TestContext.Current.CancellationToken);
-        _fakeTime.Advance(TimeSpan.FromMilliseconds(20));
+        // 进入延迟等待
+        await _fakeTime.WaitForTimerCreatedAsync(TestContext.Current.CancellationToken);
 
-        // 目标切换
+        // 在等待期间目标切换
         _fakeNative.ForegroundWindow = 0x8888;
-        await Task.Delay(5, TestContext.Current.CancellationToken);
-        _fakeTime.Advance(TimeSpan.FromMilliseconds(20));
+
+        // 推进时间，Delay 唤醒后检测到目标已切换
+        _fakeTime.Advance(TimeSpan.FromMilliseconds(10));
 
         var result = await copyTask;
         result.Outcome.ShouldBe(KeyboardCopyOutcome.TargetChanged);
@@ -648,9 +655,10 @@ public sealed class KeyboardSimulatorTests
         _fakeNative.SendInputEnteredTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         _fakeNative.SendInputReleaseTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
+        Task<KeyboardCopyResult>? copyTask1 = null;
         try
         {
-            var copyTask1 = simulator.CopyAsync(target, TestContext.Current.CancellationToken);
+            copyTask1 = simulator.CopyAsync(target, TestContext.Current.CancellationToken);
 
             // 等待第一个调用进入 SendInput 原生阻塞点
             await _fakeNative.SendInputEnteredTcs.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
@@ -668,6 +676,10 @@ public sealed class KeyboardSimulatorTests
         finally
         {
             _fakeNative.SendInputReleaseTcs?.TrySetResult();
+            if (copyTask1 != null)
+            {
+                try { await copyTask1; } catch { }
+            }
         }
     }
 
@@ -692,8 +704,8 @@ public sealed class KeyboardSimulatorTests
 
         var copyTask = simulator.CopyAsync(target, TestContext.Current.CancellationToken);
 
-        await Task.Delay(5, TestContext.Current.CancellationToken);
-        _fakeTime.Advance(TimeSpan.FromMilliseconds(50));
+        // 等待进入延迟
+        await _fakeTime.WaitForTimerCreatedAsync(TestContext.Current.CancellationToken);
 
         // 在等待期间停止
         var stopTask = simulator.StopAsync();
@@ -714,15 +726,17 @@ public sealed class KeyboardSimulatorTests
         _fakeNative.SendInputEnteredTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         _fakeNative.SendInputReleaseTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
+        Task<KeyboardCopyResult>? copyTask = null;
+        Task? stopTask = null;
         try
         {
-            var copyTask = simulator.CopyAsync(target, TestContext.Current.CancellationToken);
+            copyTask = simulator.CopyAsync(target, TestContext.Current.CancellationToken);
 
             // 等待进入 LCtrl down
             await _fakeNative.SendInputEnteredTcs.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
             // 发起 StopAsync
-            var stopTask = simulator.StopAsync();
+            stopTask = simulator.StopAsync();
             stopTask.IsCompleted.ShouldBeFalse("StopAsync 必须等待在途活动工作完成");
 
             // 放行并让其完成
@@ -736,6 +750,14 @@ public sealed class KeyboardSimulatorTests
         finally
         {
             _fakeNative.SendInputReleaseTcs?.TrySetResult();
+            if (copyTask != null)
+            {
+                try { await copyTask; } catch { }
+            }
+            if (stopTask != null)
+            {
+                try { await stopTask; } catch { }
+            }
         }
     }
 
@@ -758,9 +780,10 @@ public sealed class KeyboardSimulatorTests
         _fakeNative.SendInputEnteredTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         _fakeNative.SendInputReleaseTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
+        Task<KeyboardCopyResult>? copyTask = null;
         try
         {
-            var copyTask = simulator.CopyAsync(target, TestContext.Current.CancellationToken);
+            copyTask = simulator.CopyAsync(target, TestContext.Current.CancellationToken);
             await _fakeNative.SendInputEnteredTcs.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
 
             // 活动期间同步 Dispose 绝不可阻塞 UI，必须明确抛出 InvalidOperationException
@@ -772,6 +795,10 @@ public sealed class KeyboardSimulatorTests
         finally
         {
             _fakeNative.SendInputReleaseTcs?.TrySetResult();
+            if (copyTask != null)
+            {
+                try { await copyTask; } catch { }
+            }
         }
     }
 
@@ -784,6 +811,236 @@ public sealed class KeyboardSimulatorTests
         await simulator.DisposeAsync();
 
         await Should.ThrowAsync<ObjectDisposedException>(() => simulator.CopyAsync(target, TestContext.Current.CancellationToken));
+    }
+
+    [Fact]
+    public async Task RetryCleanupAsync_WhenCompensateFails_ThrowsIrisException_RetainsPendingRelease()
+    {
+        var simulator = CreateSimulator();
+        var target = new KeyboardCopyTarget(0x1234, 5000);
+
+        bool failCUp = true;
+        _fakeNative.CustomSendInputHandler = (c, inputs, sz) =>
+        {
+            var vk = (ushort)inputs[0].Anonymous.ki.wVk;
+            var flags = inputs[0].Anonymous.ki.dwFlags;
+            if (failCUp && vk == 0x43 && flags == KEYBD_EVENT_FLAGS.KEYEVENTF_KEYUP)
+            {
+                return 0;
+            }
+            return 1;
+        };
+
+        var result = await simulator.CopyAsync(target, TestContext.Current.CancellationToken);
+        result.Outcome.ShouldBe(KeyboardCopyOutcome.Failed);
+        simulator.HasPendingRelease.ShouldBeTrue();
+
+        var ex = await Should.ThrowAsync<IrisException>(() => simulator.RetryCleanupAsync());
+        ex.Message.ShouldContain("清理失败");
+        simulator.HasPendingRelease.ShouldBeTrue("清理失败必须保留待释放按键责任");
+
+        failCUp = false;
+        await simulator.RetryCleanupAsync();
+        simulator.HasPendingRelease.ShouldBeFalse();
+    }
+
+    [Fact]
+    public async Task StopAsync_WhenCleanupFails_ThrowsIrisException_RetainsPendingRelease_AllowsRetry()
+    {
+        var simulator = CreateSimulator();
+        var target = new KeyboardCopyTarget(0x1234, 5000);
+
+        bool failCUp = true;
+        _fakeNative.CustomSendInputHandler = (c, inputs, sz) =>
+        {
+            var vk = (ushort)inputs[0].Anonymous.ki.wVk;
+            var flags = inputs[0].Anonymous.ki.dwFlags;
+            if (failCUp && vk == 0x43 && flags == KEYBD_EVENT_FLAGS.KEYEVENTF_KEYUP)
+            {
+                return 0;
+            }
+            return 1;
+        };
+
+        var result = await simulator.CopyAsync(target, TestContext.Current.CancellationToken);
+        result.Outcome.ShouldBe(KeyboardCopyOutcome.Failed);
+        simulator.HasPendingRelease.ShouldBeTrue();
+
+        await Should.ThrowAsync<IrisException>(() => simulator.StopAsync());
+        simulator.HasPendingRelease.ShouldBeTrue("StopAsync 清理失败必须保留按键释放责任");
+
+        await Should.ThrowAsync<InvalidOperationException>(() => simulator.CopyAsync(target, TestContext.Current.CancellationToken));
+
+        failCUp = false;
+        await simulator.StopAsync();
+        simulator.HasPendingRelease.ShouldBeFalse("重试 StopAsync 成功清理残留按键");
+    }
+
+    [Fact]
+    public async Task DisposeAsync_WhenCleanupFails_ThrowsAndDoesNotMarkDisposed()
+    {
+        var simulator = CreateSimulator();
+        var target = new KeyboardCopyTarget(0x1234, 5000);
+
+        _fakeNative.CustomSendInputHandler = (c, inputs, sz) =>
+        {
+            var vk = (ushort)inputs[0].Anonymous.ki.wVk;
+            var flags = inputs[0].Anonymous.ki.dwFlags;
+            if (vk == 0x43 && flags == KEYBD_EVENT_FLAGS.KEYEVENTF_KEYUP)
+            {
+                return 0;
+            }
+            return 1;
+        };
+
+        var result = await simulator.CopyAsync(target, TestContext.Current.CancellationToken);
+        result.Outcome.ShouldBe(KeyboardCopyOutcome.Failed);
+        simulator.HasPendingRelease.ShouldBeTrue();
+
+        await Should.ThrowAsync<IrisException>(async () => await simulator.DisposeAsync());
+        simulator.HasPendingRelease.ShouldBeTrue("带 pending keys 失败后必须保留责任，不能标为已 disposed");
+
+        var ex = await Should.ThrowAsync<InvalidOperationException>(() => simulator.CopyAsync(target, TestContext.Current.CancellationToken));
+        ex.Message.ShouldContain("stopped");
+    }
+
+    [Fact]
+    public async Task SynchronousDispose_WhenPendingKeysExist_ThrowsInvalidOperationException_DoesNotMarkDisposed()
+    {
+        var simulator = CreateSimulator();
+        var target = new KeyboardCopyTarget(0x1234, 5000);
+
+        _fakeNative.CustomSendInputHandler = (c, inputs, sz) =>
+        {
+            var vk = (ushort)inputs[0].Anonymous.ki.wVk;
+            var flags = inputs[0].Anonymous.ki.dwFlags;
+            if (vk == 0x43 && flags == KEYBD_EVENT_FLAGS.KEYEVENTF_KEYUP)
+            {
+                return 0;
+            }
+            return 1;
+        };
+
+        var result = await simulator.CopyAsync(target, TestContext.Current.CancellationToken);
+        result.Outcome.ShouldBe(KeyboardCopyOutcome.Failed);
+        simulator.HasPendingRelease.ShouldBeTrue();
+
+        Should.Throw<InvalidOperationException>(() => simulator.Dispose());
+        simulator.HasPendingRelease.ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task LCtrlDown_Succeeds_ThenIsTargetValidThrows_CompensatesCtrl_ReturnsFailed()
+    {
+        var simulator = CreateSimulator();
+        var target = new KeyboardCopyTarget(0x1234, 5000);
+
+        bool lctrlDownHappened = false;
+        _fakeNative.CustomSendInputHandler = (c, inputs, sz) =>
+        {
+            var vk = (ushort)inputs[0].Anonymous.ki.wVk;
+            var flags = inputs[0].Anonymous.ki.dwFlags;
+            if (vk == 0xA2 && flags == 0)
+            {
+                lctrlDownHappened = true;
+            }
+            return 1;
+        };
+
+        _fakeNative.CustomGetForegroundWindowHandler = () =>
+        {
+            if (lctrlDownHappened)
+            {
+                throw new InvalidOperationException("Simulated Win32 fault in foreground verification");
+            }
+            return 0x1234;
+        };
+
+        var result = await simulator.CopyAsync(target, TestContext.Current.CancellationToken);
+
+        result.Outcome.ShouldBe(KeyboardCopyOutcome.Failed);
+        simulator.HasPendingRelease.ShouldBeFalse("必须在异常发生时补偿释放 LCtrl");
+
+        _fakeNative.RecordedInputs.Count.ShouldBe(2);
+        ((ushort)_fakeNative.RecordedInputs[0].Input.Anonymous.ki.wVk).ShouldBe((ushort)0xA2);
+        _fakeNative.RecordedInputs[0].Input.Anonymous.ki.dwFlags.ShouldBe((KEYBD_EVENT_FLAGS)0);
+        ((ushort)_fakeNative.RecordedInputs[1].Input.Anonymous.ki.wVk).ShouldBe((ushort)0xA2);
+        _fakeNative.RecordedInputs[1].Input.Anonymous.ki.dwFlags.ShouldBe(KEYBD_EVENT_FLAGS.KEYEVENTF_KEYUP);
+    }
+
+    [Fact]
+    public async Task Concurrent_RetryCleanup_SharesActiveCleanupTask_NoDuplicateKeyUp()
+    {
+        var simulator = CreateSimulator();
+        var target = new KeyboardCopyTarget(0x1234, 5000);
+
+        _fakeNative.CustomSendInputHandler = (c, inputs, sz) =>
+        {
+            var vk = (ushort)inputs[0].Anonymous.ki.wVk;
+            var flags = inputs[0].Anonymous.ki.dwFlags;
+            if (vk == 0x43 && flags == 0) return 0; // C down 失败
+            if (vk == 0xA2 && flags == KEYBD_EVENT_FLAGS.KEYEVENTF_KEYUP) return 0; // 初次补偿 LCtrl up 失败
+            return 1;
+        };
+
+        var result = await simulator.CopyAsync(target, TestContext.Current.CancellationToken);
+        result.Outcome.ShouldBe(KeyboardCopyOutcome.Failed);
+        simulator.HasPendingRelease.ShouldBeTrue();
+
+        _fakeNative.RecordedInputs.Clear();
+        _fakeNative.CustomSendInputHandler = null; // 后续发送允许成功
+        _fakeNative.SendInputEnteredTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        _fakeNative.SendInputReleaseTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        Task? retryTask1 = null;
+        Task? retryTask2 = null;
+        try
+        {
+            retryTask1 = simulator.RetryCleanupAsync();
+
+            await _fakeNative.SendInputEnteredTcs.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+            retryTask2 = simulator.RetryCleanupAsync();
+            retryTask2.ShouldBe(retryTask1, "并发调用 RetryCleanup 必须共享登记的同一个清理 Task");
+
+            var copyDuringCleanup = await simulator.CopyAsync(target, TestContext.Current.CancellationToken);
+            copyDuringCleanup.Outcome.ShouldBe(KeyboardCopyOutcome.Busy, "清理期间严禁接纳 Copy");
+
+            _fakeNative.SendInputReleaseTcs.TrySetResult();
+
+            await retryTask1;
+            await retryTask2;
+
+            simulator.HasPendingRelease.ShouldBeFalse();
+
+            var upInputs = _fakeNative.RecordedInputs.FindAll(r => (ushort)r.Input.Anonymous.ki.wVk == 0xA2 && r.Input.Anonymous.ki.dwFlags == KEYBD_EVENT_FLAGS.KEYEVENTF_KEYUP);
+            upInputs.Count.ShouldBe(1, "并发清理不得遍历产生重复的 KeyUp 事件");
+        }
+        finally
+        {
+            _fakeNative.SendInputReleaseTcs?.TrySetResult();
+            if (retryTask1 != null)
+            {
+                try { await retryTask1; } catch { }
+            }
+            if (retryTask2 != null)
+            {
+                try { await retryTask2; } catch { }
+            }
+        }
+    }
+
+    [Fact]
+    public async Task CopyAsync_CompletedTask_EncompassesOwnFinallyBlock()
+    {
+        var simulator = CreateSimulator();
+        var target = new KeyboardCopyTarget(0x1234, 5000);
+
+        var res1 = await simulator.CopyAsync(target, TestContext.Current.CancellationToken);
+        res1.Outcome.ShouldBe(KeyboardCopyOutcome.Injected);
+
+        var res2 = await simulator.CopyAsync(target, TestContext.Current.CancellationToken);
+        res2.Outcome.ShouldBe(KeyboardCopyOutcome.Injected);
     }
 
     #endregion
