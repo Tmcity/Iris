@@ -797,7 +797,7 @@ HotkeyRegistrationResult 继续表达注册结果：非法键/组合为 HotkeyIn
 |---|---|
 | 日期 / 批准 | 2026-10-03，Codex 架构师 |
 | 关联 | T-020B；HOTKEY_RECORDING_UI.md；ARCH v1.29 |
-| 状态 | **已落地，待复审（T-020B-R4）** |
+| 状态 | **已验收结案（2026-10-04，ac3b02bd / T-020B-R4）** |
 
 录入当前 Iris 热键时，焦点控件不能只依赖 WPF Handled 阻止已注册的 WM_HOTKEY；完整 Win 修饰键录入还需要明确系统键路径和短时原生资源所有权。新增 Core/Platform/IHotkeyCaptureService.cs 的唯一公开声明组：
 
