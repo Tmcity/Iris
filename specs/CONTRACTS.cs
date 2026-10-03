@@ -793,6 +793,17 @@ namespace Iris.Core.Settings
     public sealed record HotkeyBinding(HotkeyModifiers Modifiers, string Key, bool Enabled = true);
 }
 
+// FILE: src/Iris.Core/Settings/IHotkeyBindingPolicy.cs
+namespace Iris.Core.Settings
+{
+    /// <summary>纯输入规则，无 I/O 或原生调用；完整语义见 HOTKEY_SETTINGS_EDITING.md。</summary>
+    public interface IHotkeyBindingPolicy
+    {
+        /// <summary>成功返回规范化绑定；禁用空键输出 (None, "", false)。非法输入返回 false 和 null。</summary>
+        bool TryNormalize(HotkeyBinding? binding, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out HotkeyBinding? normalized);
+    }
+}
+
 // FILE: src/Iris.Core/Settings/ProviderProfiles.cs
 namespace Iris.Core.Settings
 {
@@ -1334,7 +1345,19 @@ namespace Iris.Core.Settings
         IReadOnlyList<TranslationProfileChange> TranslationChanges,
         TranslationOrderChange? TranslationOrder = null)
     {
+        /// <summary>快捷键增量；默认无编辑。入口复制列表，未编辑 Action 保留提交时最新配置。</summary>
+        public IReadOnlyList<HotkeyBindingChange> HotkeyChanges { get; init; } = [];
+
         public override string ToString() => "SettingsEditPlan";
+    }
+
+    /// <summary>BaseBinding=null 表示基线无此 Action；TargetBinding 不得为 null，清除用禁用空绑定。</summary>
+    public sealed record HotkeyBindingChange(
+        Iris.Core.Actions.IrisAction Action,
+        HotkeyBinding? BaseBinding,
+        HotkeyBinding TargetBinding)
+    {
+        public override string ToString() => $"HotkeyBindingChange {{ Action = {Action} }}";
     }
 
     /// <summary>BaseProfile=null 表示新增草稿；Keep 解析已有凭据时须核对当前 base，网络阶段不持有编辑锁。</summary>

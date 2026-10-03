@@ -55,6 +55,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
     private readonly IPromptTemplateProvider _promptTemplateProvider;
     private readonly TimeProvider _timeProvider;
     private readonly ILogger<SettingsEditCoordinator> _logger;
+    private readonly IHotkeyBindingPolicy _hotkeyBindingPolicy;
 
     private readonly SemaphoreSlim _gate = new(1, 1);
     private readonly Guid _instanceId = Guid.NewGuid();
@@ -66,7 +67,8 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         IEnumerable<IProviderConfigurationObserver> configurationObservers,
         IPromptTemplateProvider promptTemplateProvider,
         TimeProvider timeProvider,
-        ILogger<SettingsEditCoordinator> logger)
+        ILogger<SettingsEditCoordinator> logger,
+        IHotkeyBindingPolicy? hotkeyBindingPolicy = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _secretStore = secretStore ?? throw new ArgumentNullException(nameof(secretStore));
@@ -75,6 +77,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         _promptTemplateProvider = promptTemplateProvider ?? throw new ArgumentNullException(nameof(promptTemplateProvider));
         _timeProvider = timeProvider ?? throw new ArgumentNullException(nameof(timeProvider));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _hotkeyBindingPolicy = hotkeyBindingPolicy ?? new HotkeyBindingPolicy();
     }
 
     public async Task<SettingsEditResult> CommitAsync(SettingsEditPlan plan, CancellationToken cancellationToken = default)
@@ -767,7 +770,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         }
     }
 
-    private static StagingPlan PrepareStagingAndCheckConflicts(SettingsEditPlan plan, AppSettings current)
+    private StagingPlan PrepareStagingAndCheckConflicts(SettingsEditPlan plan, AppSettings current)
     {
         var credentialsToStage = new List<(string NewSetId, string? ApiKey, string? SecretKey)>();
         var newCredentialSetMap = new Dictionary<string, string>(StringComparer.Ordinal);
@@ -896,10 +899,35 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             }
         }
 
+        // 4. Hotkey 补丁冲突初检
+        if (plan.HotkeyChanges.Count > 0)
+        {
+            var candidateHotkeys = new Dictionary<Iris.Core.Actions.IrisAction, HotkeyBinding>(current.Hotkeys);
+            foreach (var change in plan.HotkeyChanges)
+            {
+                var currentBinding = current.Hotkeys.TryGetValue(change.Action, out var cb) ? cb : null;
+                _hotkeyBindingPolicy.TryNormalize(change.TargetBinding, out var normalizedTarget);
+                if (normalizedTarget == null ||
+                    (!AreBindingsEqual(currentBinding, change.BaseBinding) &&
+                     !AreBindingsEqual(currentBinding, normalizedTarget)))
+                {
+                    return StagingPlan.Conflict(new ErrorInfo(ErrorCode.Unknown, ConflictMessage));
+                }
+
+                candidateHotkeys[change.Action] = normalizedTarget;
+            }
+
+            var duplicateErr = CheckCandidateHotkeyDuplicates(plan.HotkeyChanges, candidateHotkeys);
+            if (duplicateErr != null)
+            {
+                return StagingPlan.Conflict(new ErrorInfo(ErrorCode.Unknown, ConflictMessage));
+            }
+        }
+
         return new StagingPlan(credentialsToStage, newCredentialSetMap, candidateSetIds, candidateLegacyProfileIds);
     }
 
-    private static AppSettings MutateSettings(
+    private AppSettings MutateSettings(
         AppSettings current,
         SettingsEditPlan plan,
         Dictionary<string, string> newCredentialSetMap)
@@ -919,17 +947,23 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             var notification = plan.General.ShowStartupNotification != null ? plan.General.ShowStartupNotification.Target : g.ShowStartupNotification;
             var logLevel = plan.General.LogLevel != null ? plan.General.LogLevel.Target : g.LogLevel;
 
-            newGeneral = g with
+            if (theme != g.Theme || launch != g.LaunchAtStartup || notification != g.ShowStartupNotification || logLevel != g.LogLevel)
             {
-                Theme = theme,
-                LaunchAtStartup = launch,
-                ShowStartupNotification = notification,
-                LogLevel = logLevel
-            };
+                newGeneral = g with
+                {
+                    Theme = theme,
+                    LaunchAtStartup = launch,
+                    ShowStartupNotification = notification,
+                    LogLevel = logLevel
+                };
+            }
         }
 
         // 2. Profile Changes 应用与冲突复验
-        var profilesMap = current.Translation.Providers.ToDictionary(p => p.Id, StringComparer.Ordinal);
+        var newTranslation = current.Translation;
+        if (plan.TranslationChanges.Count > 0 || plan.TranslationOrder != null)
+        {
+            var profilesMap = current.Translation.Providers.ToDictionary(p => p.Id, StringComparer.Ordinal);
         var addedProfiles = new List<TranslationProviderProfile>();
         var updatedProfiles = new Dictionary<string, TranslationProviderProfile>(StringComparer.Ordinal);
         var deletedProfileIds = new HashSet<string>(StringComparer.Ordinal);
@@ -1043,16 +1077,139 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             }
         }
 
-        var newTranslation = current.Translation with
+            newTranslation = current.Translation with
+            {
+                Providers = resultProfiles
+            };
+        }
+
+        // 6. Hotkeys 补丁应用与冲突复验
+        var newHotkeys = current.Hotkeys;
+        if (plan.HotkeyChanges.Count > 0)
         {
-            Providers = resultProfiles
-        };
+            var candidateHotkeys = new Dictionary<Iris.Core.Actions.IrisAction, HotkeyBinding>(current.Hotkeys);
+            foreach (var change in plan.HotkeyChanges)
+            {
+                var currentBinding = current.Hotkeys.TryGetValue(change.Action, out var cb) ? cb : null;
+                _hotkeyBindingPolicy.TryNormalize(change.TargetBinding, out var normalizedTarget);
+                if (normalizedTarget == null ||
+                    (!AreBindingsEqual(currentBinding, change.BaseBinding) &&
+                     !AreBindingsEqual(currentBinding, normalizedTarget)))
+                {
+                    throw new StagingConflictException(new ErrorInfo(ErrorCode.Unknown, ConflictMessage));
+                }
+
+                candidateHotkeys[change.Action] = normalizedTarget;
+            }
+
+            var duplicateErr = CheckCandidateHotkeyDuplicates(plan.HotkeyChanges, candidateHotkeys);
+            if (duplicateErr != null)
+            {
+                throw new StagingConflictException(new ErrorInfo(ErrorCode.Unknown, ConflictMessage));
+            }
+
+            if (!AreHotkeyDictionariesEqual(current.Hotkeys, candidateHotkeys))
+            {
+                newHotkeys = candidateHotkeys;
+            }
+        }
+
+        if (ReferenceEquals(newGeneral, current.General) &&
+            ReferenceEquals(newTranslation, current.Translation) &&
+            ReferenceEquals(newHotkeys, current.Hotkeys))
+        {
+            return current;
+        }
 
         return current with
         {
             General = newGeneral,
-            Translation = newTranslation
+            Translation = newTranslation,
+            Hotkeys = newHotkeys
         };
+    }
+
+    private ErrorInfo? CheckCandidateHotkeyDuplicates(
+        IReadOnlyList<HotkeyBindingChange> changes,
+        Dictionary<Iris.Core.Actions.IrisAction, HotkeyBinding> candidateHotkeys)
+    {
+        foreach (var change in changes)
+        {
+            if (!candidateHotkeys.TryGetValue(change.Action, out var targetBinding))
+            {
+                continue;
+            }
+
+            if (!_hotkeyBindingPolicy.TryNormalize(targetBinding, out var targetNorm) || !targetNorm.Enabled)
+            {
+                continue;
+            }
+
+            foreach (var (otherAction, otherBinding) in candidateHotkeys)
+            {
+                if (otherAction == change.Action)
+                {
+                    continue;
+                }
+
+                if (_hotkeyBindingPolicy.TryNormalize(otherBinding, out var otherNorm) && otherNorm.Enabled)
+                {
+                    if (otherNorm.Modifiers == targetNorm.Modifiers &&
+                        string.Equals(otherNorm.Key, targetNorm.Key, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return new ErrorInfo(ErrorCode.InvalidArgument, "快捷键组合已分配给其他动作，不能重复使用");
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private static bool AreBindingsEqual(HotkeyBinding? a, HotkeyBinding? b)
+    {
+        if (a == null && b == null) return true;
+        if (a == null || b == null) return false;
+
+        bool aDisabledEmpty = !a.Enabled && string.IsNullOrWhiteSpace(a.Key);
+        bool bDisabledEmpty = !b.Enabled && string.IsNullOrWhiteSpace(b.Key);
+
+        if (aDisabledEmpty && bDisabledEmpty)
+        {
+            return true;
+        }
+
+        if (aDisabledEmpty || bDisabledEmpty)
+        {
+            return false;
+        }
+
+        return a.Enabled == b.Enabled &&
+               a.Modifiers == b.Modifiers &&
+               string.Equals(a.Key.Trim(), b.Key.Trim(), StringComparison.OrdinalIgnoreCase);
+    }
+
+    private static bool AreHotkeyDictionariesEqual(
+        IReadOnlyDictionary<Iris.Core.Actions.IrisAction, HotkeyBinding> a,
+        Dictionary<Iris.Core.Actions.IrisAction, HotkeyBinding> b)
+    {
+        if (ReferenceEquals(a, b)) return true;
+        if (a.Count != b.Count) return false;
+
+        foreach (var (action, bindingA) in a)
+        {
+            if (!b.TryGetValue(action, out var bindingB))
+            {
+                return false;
+            }
+
+            if (!AreBindingsEqual(bindingA, bindingB))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static bool TemplateExists(string templateId, AppSettings settings)
@@ -1156,7 +1313,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         return true;
     }
 
-    private static ErrorInfo? ValidatePlan(SettingsEditPlan plan, AppSettings current)
+    private ErrorInfo? ValidatePlan(SettingsEditPlan plan, AppSettings current)
     {
         // 1. General 校验
         if (plan.General != null)
@@ -1328,6 +1485,33 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             if (!targetIdSet.SetEquals(expectedIds))
             {
                 return new ErrorInfo(ErrorCode.InvalidArgument, "TargetIds 与预期的 Profile ID 集合不匹配");
+            }
+        }
+
+        // 4. HotkeyChanges 校验与候选字典显式目标重复检测
+        if (plan.HotkeyChanges.Count > 0)
+        {
+            // (a) 规范化目标绑定校验
+            foreach (var change in plan.HotkeyChanges)
+            {
+                if (!_hotkeyBindingPolicy.TryNormalize(change.TargetBinding, out _))
+                {
+                    return new ErrorInfo(ErrorCode.InvalidArgument, "快捷键目标绑定无效");
+                }
+            }
+
+            // (b) 候选字典显式启用目标重复检测
+            var candidateHotkeys = new Dictionary<Iris.Core.Actions.IrisAction, HotkeyBinding>(current.Hotkeys);
+            foreach (var change in plan.HotkeyChanges)
+            {
+                _hotkeyBindingPolicy.TryNormalize(change.TargetBinding, out var norm);
+                candidateHotkeys[change.Action] = norm!;
+            }
+
+            var duplicateErr = CheckCandidateHotkeyDuplicates(plan.HotkeyChanges, candidateHotkeys);
+            if (duplicateErr != null)
+            {
+                return duplicateErr;
             }
         }
 
@@ -1551,6 +1735,35 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             if (plan.TranslationOrder.BaseIds.Any(id => id == null) || plan.TranslationOrder.TargetIds.Any(id => id == null))
             {
                 return new ErrorInfo(ErrorCode.InvalidArgument, "TranslationOrderChange 不能包含 null ID");
+            }
+        }
+
+        if (plan.HotkeyChanges == null)
+        {
+            return new ErrorInfo(ErrorCode.InvalidArgument, "HotkeyChanges 不能为 null");
+        }
+
+        var seenHotkeyActions = new HashSet<Iris.Core.Actions.IrisAction>();
+        foreach (var change in plan.HotkeyChanges)
+        {
+            if (change == null)
+            {
+                return new ErrorInfo(ErrorCode.InvalidArgument, "HotkeyChanges 不能包含 null 元素");
+            }
+
+            if (!Enum.IsDefined(change.Action))
+            {
+                return new ErrorInfo(ErrorCode.InvalidArgument, "HotkeyChanges 包含未知的 Action");
+            }
+
+            if (change.TargetBinding == null)
+            {
+                return new ErrorInfo(ErrorCode.InvalidArgument, "TargetBinding 不能为空");
+            }
+
+            if (!seenHotkeyActions.Add(change.Action))
+            {
+                return new ErrorInfo(ErrorCode.InvalidArgument, "HotkeyChanges 包含重复的 Action 变更");
             }
         }
 
@@ -1849,6 +2062,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
     {
         if (plan.TranslationChanges.Count > 0) return false;
         if (plan.TranslationOrder != null) return false;
+        if (plan.HotkeyChanges.Count > 0) return false;
 
         if (plan.General != null)
         {
@@ -1924,7 +2138,22 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 plan.TranslationOrder.TargetIds?.ToList() ?? []);
         }
 
-        return new SettingsEditPlan(general, changes, order);
+        var hotkeyChanges = new List<HotkeyBindingChange>();
+        if (plan.HotkeyChanges != null)
+        {
+            foreach (var ch in plan.HotkeyChanges)
+            {
+                if (ch == null) continue;
+                var baseBinding = ch.BaseBinding != null ? ch.BaseBinding with { } : null;
+                var targetBinding = ch.TargetBinding != null ? ch.TargetBinding with { } : null!;
+                hotkeyChanges.Add(new HotkeyBindingChange(ch.Action, baseBinding, targetBinding));
+            }
+        }
+
+        return new SettingsEditPlan(general, changes, order)
+        {
+            HotkeyChanges = hotkeyChanges
+        };
     }
 
     private static TranslationProviderDraft CloneDraft(TranslationProviderDraft draft)

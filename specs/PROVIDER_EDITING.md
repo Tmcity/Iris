@@ -5,6 +5,8 @@
 
 > 2026-10-01 更新：T-019A-R3 / 7e993b3 已验收，CCR-011 结案。T-019B 的 App 草稿、保存、回执和操作生命周期以 PROVIDER_SETTINGS_UI.md 为正式补充规范。
 
+> 2026-10-03 更新：T-020A / CCR-015 按 HOTKEY_SETTINGS_EDITING.md 增加 HotkeyChanges，保留现有凭据和回执协议。快捷键-only / General+快捷键不触发 Provider 屏障；混合 Provider 编辑仍走本文完整 staging/一次提交/清理流程。
+
 ## 1. 分工及端口
 
 `ISettingsEditCoordinator` 是 Core 单例，通过 AddIrisCore 的 TryAddSingleton 注册，重复注册不重复创建。实现默认 internal sealed，仅依赖 Core 端口、BCL 和允许的抽象包。构造不读设置/密钥、不启动任务、不调用 Provider。

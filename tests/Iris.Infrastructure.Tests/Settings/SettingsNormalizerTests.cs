@@ -110,6 +110,29 @@ public sealed class SettingsNormalizerTests
     }
 
     [Fact]
+    public void N2_Hotkeys_DisabledBlankKey_PreservedAsCanonicalDisabledEmpty()
+    {
+        var hotkeys = new Dictionary<IrisAction, HotkeyBinding>
+        {
+            [IrisAction.SelectionTranslate] = new(HotkeyModifiers.None, "", Enabled: false),
+            [IrisAction.InputTranslate] = new(HotkeyModifiers.Control, "  ", Enabled: false),
+            [IrisAction.OpenSettings] = new(HotkeyModifiers.Alt, "", Enabled: false),
+        };
+        var settings = new AppSettings { Hotkeys = hotkeys };
+        var fixes = new List<string>();
+
+        var normalized = SettingsNormalizer.Normalize(settings, fixes);
+
+        normalized.Hotkeys[IrisAction.SelectionTranslate].ShouldBe(new HotkeyBinding(HotkeyModifiers.None, string.Empty, false));
+        normalized.Hotkeys[IrisAction.InputTranslate].ShouldBe(new HotkeyBinding(HotkeyModifiers.None, string.Empty, false));
+        normalized.Hotkeys[IrisAction.OpenSettings].ShouldBe(new HotkeyBinding(HotkeyModifiers.None, string.Empty, false));
+
+        fixes.ShouldNotContain(f => f.Contains("Hotkeys[SelectionTranslate]"));
+        fixes.ShouldContain("Hotkeys[InputTranslate]: 禁用空白键名 → 规范化");
+        fixes.ShouldContain("Hotkeys[OpenSettings]: 禁用空白键名 → 规范化");
+    }
+
+    [Fact]
     public void N3_Translation_ProvidersDuplicateIdAndBlankDisplayName_Normalized()
     {
         var p1 = new TranslationProviderProfile

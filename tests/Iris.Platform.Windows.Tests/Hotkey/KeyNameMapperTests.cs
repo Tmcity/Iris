@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.Json;
 using Iris.Core.Settings;
 using Iris.Platform.Windows.Hotkey;
+using Microsoft.Extensions.DependencyInjection;
 using Shouldly;
 using Xunit;
 
@@ -11,7 +12,28 @@ namespace Iris.Platform.Windows.Tests.Hotkey;
 
 public sealed class KeyNameMapperTests
 {
-    private const string ExpectedVectorsPath = @"C:\Users\28910\AppData\Local\Temp\iris-t017-review-prep\hotkey-expected-vectors.json";
+    private static string ResolveFixturePath(string fileName)
+    {
+        var candidates = new[]
+        {
+            Path.Combine(AppContext.BaseDirectory, "Fixtures", fileName),
+            Path.Combine(AppContext.BaseDirectory, fileName),
+            Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\..\..\Fixtures", fileName)),
+            Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\..\Fixtures", fileName)),
+            Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, @"..\..\Fixtures", fileName)),
+            Path.Combine(Path.GetTempPath(), "iris-t017-review-prep", fileName),
+        };
+
+        foreach (var candidate in candidates)
+        {
+            if (File.Exists(candidate))
+            {
+                return candidate;
+            }
+        }
+
+        throw new FileNotFoundException($"Required test fixture '{fileName}' not found in candidates:\n{string.Join(Environment.NewLine, candidates)}");
+    }
 
     [Fact]
     public void CanonicalKeys_All96WhitelistKeys_MapToExactVk()
@@ -188,14 +210,12 @@ public sealed class KeyNameMapperTests
     }
 
     [Fact]
-    public void CrossVerify_WithExpectedVectorsJson_IfPresent()
+    public void CrossVerify_WithExpectedVectorsJson()
     {
-        if (!File.Exists(ExpectedVectorsPath))
-        {
-            return;
-        }
+        string path = ResolveFixturePath("hotkey-expected-vectors.json");
+        File.Exists(path).ShouldBeTrue($"Required test fixture '{path}' must exist.");
 
-        string json = File.ReadAllText(ExpectedVectorsPath);
+        string json = File.ReadAllText(path);
         using var doc = JsonDocument.Parse(json);
         var root = doc.RootElement;
 
@@ -251,6 +271,35 @@ public sealed class KeyNameMapperTests
             int mask = item.GetInt32();
             var binding = new HotkeyBinding((HotkeyModifiers)mask, "A");
             KeyNameMapper.ValidateBinding(binding, out _).ShouldBeFalse();
+        }
+    }
+
+    [Fact]
+    public void HotkeyBindingPolicy_MatchesKeyNameMapper_OnAll1536Combinations()
+    {
+        var services = new Microsoft.Extensions.DependencyInjection.ServiceCollection();
+        Iris.Core.DependencyInjection.CoreServiceCollectionExtensions.AddIrisCore(services);
+        using var sp = services.BuildServiceProvider();
+        var policy = Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService<IHotkeyBindingPolicy>(sp);
+
+        string path = ResolveFixturePath("hotkey-expected-vectors.json");
+        File.Exists(path).ShouldBeTrue($"Required test fixture '{path}' must exist.");
+
+        var json = File.ReadAllText(path);
+        using var doc = JsonDocument.Parse(json);
+        var validationArray = doc.RootElement.GetProperty("enabledValidation");
+
+        foreach (var item in validationArray.EnumerateArray())
+        {
+            string key = item.GetProperty("key").GetString()!;
+            int modifiers = item.GetProperty("modifiers").GetInt32();
+
+            var binding = new HotkeyBinding((HotkeyModifiers)modifiers, key, Enabled: true);
+
+            bool policyResult = policy.TryNormalize(binding, out _);
+            bool platformResult = KeyNameMapper.ValidateBinding(binding, out _);
+
+            policyResult.ShouldBe(platformResult, $"Mismatch at Key={key}, Modifiers={modifiers}");
         }
     }
 }

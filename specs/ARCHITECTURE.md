@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.27 · 2026-10-03 · 状态：**已冻结（首期）**
+> 版本：v1.28 · 2026-10-03 · 状态：**已冻结（首期）**
+> 变更记录：v1.28（T-017-R2 通过，签发 T-020A）— HOTKEY_SETTINGS_EDITING.md / CCR-015 固定快捷键增量联合提交、纯 Core 规则端口和禁用空键 N2；T-020 拆为 A 保存基础与 B 录入/设置接线，B 另行定稿。
 > 变更记录：v1.27（T-016-R1 通过，签发 T-017）— HOTKEY_SERVICE.md 固定构造/线程、消息与 ID、F12/非法组合、注册失败保留、已开放动作过滤及两阶段退出；CCR-014 仅同步 IHotkeyService 注释，签名与默认配置不变。
 > 变更记录：v1.26（T-015-R5 通过，签发 T-016）— TRANSLATION_ENTRYPOINTS.md 定稿三个翻译 Handler、前置剪贴板租约/迟到错误、空输入与 Origin 映射及托盘统一 Dispatcher 入口；公开契约不变。
 > 变更记录：v1.25（T-019B-R6 通过，签发 T-015）— TRANSLATION_WINDOW.md 定稿 A07 的操作租约、迟到结果拒绝、有界主/重试/刷新、复制与完整退出；CCR-013 同步展示端口；§14 输入键行为以契约为准。
@@ -955,7 +956,7 @@ IClipboardService 的线程、格式、取消和所有权规则以 CLIPBOARD_SER
 | # | 范围 | 规则 |
 |---|---|---|
 | N1 | 顶层 | 任何为 null 的节 / `Hotkeys` 字典 → 默认值；`SchemaVersion` → 当前版本 |
-| N2 | Hotkeys | 值为 null 的条目：动作有默认绑定 → 替换为默认绑定；没有默认绑定 → **移除**；两种情况都要记修复。`HotkeyDefaults` 中有、字典中缺失的动作 → 补默认绑定；`Key` 为空白的条目 → 有默认绑定则替换为默认绑定，否则移除。注意：JSON 中只要出现 `hotkeys` 对象，反序列化结果就**只包含**文件中列出的条目（不会与默认值合并），因此本规则是必需的 |
+| N2 | Hotkeys | 值为 null 的条目：动作有默认绑定 → 替换为默认绑定；没有默认绑定 → **移除**；两种情况都要记修复。`HotkeyDefaults` 中有、字典中缺失的动作 → 补默认绑定。非 null 条目明确 `Enabled=false` 且 `Key` 为空白时，保留为 `(HotkeyModifiers.None, "", false)`，不回填默认（CCR-015 / HOTKEY_SETTINGS_EDITING.md）。其它空白 Key 条目 → 有默认绑定则替换为默认绑定，否则移除。JSON 中只要出现 `hotkeys` 对象，反序列化结果就只包含文件列出的条目，因此缺失默认项的补齐规则仍必需 |
 | N3 | Translation | null 列表 → 空列表；Profile：`Id` 空白 → 移除，`Id` 重复 → 保留第一个；`DisplayName` 空白 → 用 `Id`；`TimeoutSeconds` ∈ [5, 600]；`MaxOutputTokens` 为 null 或 ≥ 1（否则置 null）；`Temperature` 为 null 或 ∈ [0, 2]；OpenAICompatible 且 `BaseUrl` 空白 → `Enabled = false`；按 Kind 补齐 null 的 `OpenAIOptions` / `AnthropicOptions`。`MaxConcurrentProviders` ∈ [1, 8]；`MaxInputChars` ∈ [100, 100000]；`CacheCapacity` ∈ [0, 10000]；`PrimaryTargetLanguage` / `SecondaryTargetLanguage` 为空白或 `auto` → 各自默认值；`DefaultSourceLanguage` 空白 → `auto`；`CustomPrompts`：`Id` 空白、重复、或与内置模板 Id 相同 → 移除；`DefaultPromptTemplateId` 不存在于内置 + 自定义模板中 → 内置默认 |
 | N4 | Ocr | null 列表 → 默认列表；缺失的内置 Profile（`ocr-baidu`、`ocr-windows`）→ 按默认值追加；`Id` 空白 / 重复规则同 N3；`TimeoutSeconds` ∈ [5, 120]；按 Kind 补齐 null 的 `BaiduOptions` / `WindowsOptions`；`ActiveProviderId` 不存在 → `ocr-baidu`；`FallbackProviderId` 不存在或等于 Active → null；`LanguageHint` 空白 → `auto` |
 | N5 | Selection | `ReadOrder` 为 null 或空 → 默认顺序，并去除重复项；`ClipboardTimeoutMs` ∈ [100, 2000]；`MinDragDistancePx` ∈ [2, 50]；`IconAutoHideMs` ∈ [500, 10000]；`ExcludedProcesses` 为 null → 空列表；`ClipboardUnsafeProcesses` 为 null → 默认列表 |

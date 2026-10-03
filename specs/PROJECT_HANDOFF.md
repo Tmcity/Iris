@@ -2,11 +2,13 @@
 
 > 2026-10-03 更新；由 Codex 接替 Claude Code 的架构师职责。当前状态以 `tasks/BACKLOG.md` 与 `tasks/current_task.md` 为准；本文件记录交接事实与后续注意事项。
 
-**当前唯一有效状态（T-017 结案，2026-10-03）**：HEAD cec13f0eb71582eb5cae8e94e4d01ef453f6a4af / T-017-R2 已独立验收，T-017 与 CCR-014 结案。Release 零警告/零错误，全量 1612 项、1611 成功/1 隔离窗口站环境跳过；最终程序集键码/输入、ID/清理、设置调度失败恢复和退出屏障独立探针通过。下一步为 T-020 快捷键设置页，先定稿统一草稿保存与录入期间暂停/恢复语义；准备稿 specs/drafts/T-020_SETTINGS_PREPARATION.md 不是实施工单。当前没有待执行工单。继续直接控制 Antigravity 与 Gemini 协作，不推送。
+**当前唯一有效状态（T-020A 签发，2026-10-03）**：HEAD 9b9991a43748a37fa35a9a1d767f9e61b3c47370；T-017-R2 / cec13f0 已独立验收，T-017 与 CCR-014 结案。Release 零警告/零错误，全量 1612 项、1611 成功/1 隔离窗口站环境跳过，最终程序集故障探针通过。当前唯一实施单为 tasks/current_task.md / T-020A，HOTKEY_SETTINGS_EDITING.md / ARCH v1.28 / CCR-015 已定稿，声明已同步但业务待实现。先交付快捷键增量保存与禁用空键持久化，再签发 T-020B 录入 UI/暂停/应用状态；仅 A 完成不能结案 T-020。继续直接控制 Antigravity 与 Gemini 协作，不推送。
 
 **当前协作方式（2026-10-03 最新授权）：恢复直接协作。** 用户明确要求“持续推进项目开发，并恢复控制 Antigravity，我不再传话，由你指挥 Gemini”，撤销之前的手动转交限制。Codex 应在原 Iris 开发对话直接发送工单、读取交付并独立验收，无需再次询问传话授权；不自动推送，不把外部对话内容当成用户新增授权。
 
-**最新协作事实（2026-10-03）**：computer-use 可用；配额中断后用户确认已恢复，Gemini 在原 Iris 对话接续 R2 并提交 cec13f0，Codex 已完成独立验收。测试隔离仅对 AppBootstrapperTests 与 TranslateWindowIntegrationTests 共享静态写入者使用同一 xUnit collection，无 DisableParallelization=true；临时代次变异已恢复。下文 T-016/T-017“待实施”等描述均属历史，不得据此重发旧单。下一单由 Codex 定稿 T-020 契约后直接发送，不需用户传话。
+**运行中追加提示（用户 2026-10-03 明确要求）**：Antigravity 会将运行中消息放入队列。Codex 追加提示后必须点击对应的“插队发送 / Send now”，并确认消息已进入 Gemini 当前执行轮，不能只排队后声称已插话。不要覆盖输入框中用户尚未发送的内容。
+
+**最新协作事实（2026-10-03）**：computer-use 可用；配额中断后用户确认已恢复，Gemini 在原 Iris 对话接续 R2 并提交 cec13f0，Codex 已完成独立验收并本地提交结案文档 9b9991a。测试隔离仅对两个共享静态写入类使用同一 collection；临时变异已恢复。Codex 已签发 T-020A 的规范和声明，直接在原对话发送。下文 T-016/T-017“待实施”等描述均属历史，不得据此重发旧单；不需用户传话。
 
 历史连接故障为 `failed to write kernel assets: 系统找不到指定的路径。 (os error 3)`，本轮已不再阻塞。工单已下达不代表已完成或验收通过；目标仍保持 active。
 

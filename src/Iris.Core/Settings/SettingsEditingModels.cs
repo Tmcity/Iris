@@ -63,7 +63,19 @@ public sealed record SettingsEditPlan(
     IReadOnlyList<TranslationProfileChange> TranslationChanges,
     TranslationOrderChange? TranslationOrder = null)
 {
+    /// <summary>快捷键增量；默认无编辑。入口复制列表，未编辑 Action 保留提交时最新配置。</summary>
+    public IReadOnlyList<HotkeyBindingChange> HotkeyChanges { get; init; } = [];
+
     public override string ToString() => "SettingsEditPlan";
+}
+
+/// <summary>BaseBinding=null 表示基线无此 Action；TargetBinding 不得为 null，清除用禁用空绑定。</summary>
+public sealed record HotkeyBindingChange(
+    Iris.Core.Actions.IrisAction Action,
+    HotkeyBinding? BaseBinding,
+    HotkeyBinding TargetBinding)
+{
+    public override string ToString() => $"HotkeyBindingChange {{ Action = {Action} }}";
 }
 
 /// <summary>BaseProfile=null 表示新增草稿；Keep 解析已有凭据时须核对当前 base，网络阶段不持有编辑锁。</summary>

@@ -196,7 +196,16 @@ internal static class SettingsNormalizer
                 // N2: Key 为空白
                 if (string.IsNullOrWhiteSpace(currentBinding.Key))
                 {
-                    if (defaults.TryGetValue(action, out var defaultBinding))
+                    if (!currentBinding.Enabled)
+                    {
+                        var canonicalEmpty = new HotkeyBinding(HotkeyModifiers.None, string.Empty, false);
+                        if (currentBinding != canonicalEmpty)
+                        {
+                            fixes.Add($"Hotkeys[{action}]: 禁用空白键名 → 规范化");
+                        }
+                        result[action] = canonicalEmpty;
+                    }
+                    else if (defaults.TryGetValue(action, out var defaultBinding))
                     {
                         result[action] = defaultBinding;
                         fixes.Add($"Hotkeys[{action}]: 空白键名 → 默认绑定");

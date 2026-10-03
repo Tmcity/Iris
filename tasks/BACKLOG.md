@@ -166,7 +166,9 @@ T-015 已按 TRANSLATION_WINDOW.md / CCR-013 实施并于 2026-10-03 验收；�
 | T-019 | ☑ | 翻译服务设置总单（A / B 均验收通过，e55695a 收尾） | T-018, T-011, T-012 | 2d |
 | T-019A | ☑ | Core 配置发布、凭据 staging/回收、重试回执、草稿测试/模型发现（7e993b3 / R3 通过） | T-018, T-011, T-012 | — |
 | T-019B | ☑ | 翻译服务页与全窗口保存接线（e55695a / R6 验收通过） | T-019A | — |
-| T-020 | ☐ | 快捷键页 + HotkeyRecorderBox | T-018, T-017 | 1d |
+| T-020 | ▶ | 快捷键页 + HotkeyRecorderBox（A 保存基础 / B 录入接线顺序交付） | T-018, T-017 | 1d |
+| T-020A | ▶ | 快捷键增量联合提交、纯规则校验与禁用空键持久化 | T-017 | — |
+| T-020B | ☐ | 快捷键草稿页、HotkeyRecorderBox、录入暂停/恢复与应用状态 | T-020A | — |
 
 **T-018** 已按 SETTINGS_EDITING.md / ARCH v1.22 / CCR-010 签发。交付按需窗口 scope、OpenSettingsHandler/托盘接线、四项常规草稿与增量冲突、主题预览、开机启动应用状态及正常退出等待；首期不开放未生效的语言/更新控件。验收包含实际组合根无环、打开/取消/保存与预览归属、注册表隔离测试及真实 WPF 基本交互的准确记录。
 
@@ -211,6 +213,8 @@ T-015 已按 TRANSLATION_WINDOW.md / CCR-013 实施并于 2026-10-03 验收；�
 **T-019** 验收：从预设填入 BaseUrl 和非 null SuggestedModel；建议模型为 null 时保持待选/手输，不能捏造型号。Key 经 Core 保存到 SecretStore（settings.json 中找不到 Key）；删除 Profile 后按共享引用/屏障规则清理凭据；测试连接显示延迟和测试译文或安全错误；模型列表和手输入口可用；模型名含 haiku 时在草稿中清 Effort 并提示；Anthropic 反代 `/v1` 尾缀提示遵循 ARCH §9.2。B 验收保存/Registry 顺序，结果卡片顺序待 T-015。完整接线及回执生命周期见 PROVIDER_SETTINGS_UI.md。
 T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器：整组凭据先写入新引用，再原子切换 Profile，刷新观察者后清理旧值；禁止直接复写活动凭据集或以多次 legacy Set 模拟事务。单卡测试连接/模型列表使用瞬态快照并及时释放。
 **T-020** 验收：录入框能捕获组合键（包括 Win 键），Esc 取消，Backspace 清除；实时检测冲突并提示；保存后立即重新注册。
+
+**T-020 顺序拆单（2026-10-03）**：先按 HOTKEY_SETTINGS_EDITING.md / ARCH v1.28 / CCR-015 交付 A，再定稿 B 的录入与运行时暂停接口。A 扩展既有一次提交，禁用空键可持久化；B 完成原 T-020 全部 UI/录入目标，仅 A 通过不能结案父任务。不在 A 开放未交付功能或操作系统热键。
 
 ---
 

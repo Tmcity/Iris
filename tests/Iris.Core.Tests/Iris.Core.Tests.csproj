@@ -23,5 +23,7 @@
 
   <ItemGroup>
     <None Include="..\..\specs\settings.example.json" Link="Fixtures\settings.example.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Fixtures\hotkey-expected-vectors.json" Link="Fixtures\hotkey-expected-vectors.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\Fixtures\hotkey-edit-expected-vectors.json" Link="Fixtures\hotkey-edit-expected-vectors.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

@@ -1,0 +1,8284 @@
+{
+  "scope": "Expected data only; no production implementation or native hotkey registration executed",
+  "source": "https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes",
+  "keyMap": [
+    {
+      "key": "A",
+      "vk": 65,
+      "officialSymbol": "A",
+      "normalizationVariant": " a "
+    },
+    {
+      "key": "B",
+      "vk": 66,
+      "officialSymbol": "B",
+      "normalizationVariant": " b "
+    },
+    {
+      "key": "C",
+      "vk": 67,
+      "officialSymbol": "C",
+      "normalizationVariant": " c "
+    },
+    {
+      "key": "D",
+      "vk": 68,
+      "officialSymbol": "D",
+      "normalizationVariant": " d "
+    },
+    {
+      "key": "E",
+      "vk": 69,
+      "officialSymbol": "E",
+      "normalizationVariant": " e "
+    },
+    {
+      "key": "F",
+      "vk": 70,
+      "officialSymbol": "F",
+      "normalizationVariant": " f "
+    },
+    {
+      "key": "G",
+      "vk": 71,
+      "officialSymbol": "G",
+      "normalizationVariant": " g "
+    },
+    {
+      "key": "H",
+      "vk": 72,
+      "officialSymbol": "H",
+      "normalizationVariant": " h "
+    },
+    {
+      "key": "I",
+      "vk": 73,
+      "officialSymbol": "I",
+      "normalizationVariant": " i "
+    },
+    {
+      "key": "J",
+      "vk": 74,
+      "officialSymbol": "J",
+      "normalizationVariant": " j "
+    },
+    {
+      "key": "K",
+      "vk": 75,
+      "officialSymbol": "K",
+      "normalizationVariant": " k "
+    },
+    {
+      "key": "L",
+      "vk": 76,
+      "officialSymbol": "L",
+      "normalizationVariant": " l "
+    },
+    {
+      "key": "M",
+      "vk": 77,
+      "officialSymbol": "M",
+      "normalizationVariant": " m "
+    },
+    {
+      "key": "N",
+      "vk": 78,
+      "officialSymbol": "N",
+      "normalizationVariant": " n "
+    },
+    {
+      "key": "O",
+      "vk": 79,
+      "officialSymbol": "O",
+      "normalizationVariant": " o "
+    },
+    {
+      "key": "P",
+      "vk": 80,
+      "officialSymbol": "P",
+      "normalizationVariant": " p "
+    },
+    {
+      "key": "Q",
+      "vk": 81,
+      "officialSymbol": "Q",
+      "normalizationVariant": " q "
+    },
+    {
+      "key": "R",
+      "vk": 82,
+      "officialSymbol": "R",
+      "normalizationVariant": " r "
+    },
+    {
+      "key": "S",
+      "vk": 83,
+      "officialSymbol": "S",
+      "normalizationVariant": " s "
+    },
+    {
+      "key": "T",
+      "vk": 84,
+      "officialSymbol": "T",
+      "normalizationVariant": " t "
+    },
+    {
+      "key": "U",
+      "vk": 85,
+      "officialSymbol": "U",
+      "normalizationVariant": " u "
+    },
+    {
+      "key": "V",
+      "vk": 86,
+      "officialSymbol": "V",
+      "normalizationVariant": " v "
+    },
+    {
+      "key": "W",
+      "vk": 87,
+      "officialSymbol": "W",
+      "normalizationVariant": " w "
+    },
+    {
+      "key": "X",
+      "vk": 88,
+      "officialSymbol": "X",
+      "normalizationVariant": " x "
+    },
+    {
+      "key": "Y",
+      "vk": 89,
+      "officialSymbol": "Y",
+      "normalizationVariant": " y "
+    },
+    {
+      "key": "Z",
+      "vk": 90,
+      "officialSymbol": "Z",
+      "normalizationVariant": " z "
+    },
+    {
+      "key": "D0",
+      "vk": 48,
+      "officialSymbol": "0",
+      "normalizationVariant": " d0 "
+    },
+    {
+      "key": "D1",
+      "vk": 49,
+      "officialSymbol": "1",
+      "normalizationVariant": " d1 "
+    },
+    {
+      "key": "D2",
+      "vk": 50,
+      "officialSymbol": "2",
+      "normalizationVariant": " d2 "
+    },
+    {
+      "key": "D3",
+      "vk": 51,
+      "officialSymbol": "3",
+      "normalizationVariant": " d3 "
+    },
+    {
+      "key": "D4",
+      "vk": 52,
+      "officialSymbol": "4",
+      "normalizationVariant": " d4 "
+    },
+    {
+      "key": "D5",
+      "vk": 53,
+      "officialSymbol": "5",
+      "normalizationVariant": " d5 "
+    },
+    {
+      "key": "D6",
+      "vk": 54,
+      "officialSymbol": "6",
+      "normalizationVariant": " d6 "
+    },
+    {
+      "key": "D7",
+      "vk": 55,
+      "officialSymbol": "7",
+      "normalizationVariant": " d7 "
+    },
+    {
+      "key": "D8",
+      "vk": 56,
+      "officialSymbol": "8",
+      "normalizationVariant": " d8 "
+    },
+    {
+      "key": "D9",
+      "vk": 57,
+      "officialSymbol": "9",
+      "normalizationVariant": " d9 "
+    },
+    {
+      "key": "F1",
+      "vk": 112,
+      "officialSymbol": "VK_F1",
+      "normalizationVariant": " f1 "
+    },
+    {
+      "key": "F2",
+      "vk": 113,
+      "officialSymbol": "VK_F2",
+      "normalizationVariant": " f2 "
+    },
+    {
+      "key": "F3",
+      "vk": 114,
+      "officialSymbol": "VK_F3",
+      "normalizationVariant": " f3 "
+    },
+    {
+      "key": "F4",
+      "vk": 115,
+      "officialSymbol": "VK_F4",
+      "normalizationVariant": " f4 "
+    },
+    {
+      "key": "F5",
+      "vk": 116,
+      "officialSymbol": "VK_F5",
+      "normalizationVariant": " f5 "
+    },
+    {
+      "key": "F6",
+      "vk": 117,
+      "officialSymbol": "VK_F6",
+      "normalizationVariant": " f6 "
+    },
+    {
+      "key": "F7",
+      "vk": 118,
+      "officialSymbol": "VK_F7",
+      "normalizationVariant": " f7 "
+    },
+    {
+      "key": "F8",
+      "vk": 119,
+      "officialSymbol": "VK_F8",
+      "normalizationVariant": " f8 "
+    },
+    {
+      "key": "F9",
+      "vk": 120,
+      "officialSymbol": "VK_F9",
+      "normalizationVariant": " f9 "
+    },
+    {
+      "key": "F10",
+      "vk": 121,
+      "officialSymbol": "VK_F10",
+      "normalizationVariant": " f10 "
+    },
+    {
+      "key": "F11",
+      "vk": 122,
+      "officialSymbol": "VK_F11",
+      "normalizationVariant": " f11 "
+    },
+    {
+      "key": "F12",
+      "vk": 123,
+      "officialSymbol": "VK_F12",
+      "normalizationVariant": " f12 "
+    },
+    {
+      "key": "F13",
+      "vk": 124,
+      "officialSymbol": "VK_F13",
+      "normalizationVariant": " f13 "
+    },
+    {
+      "key": "F14",
+      "vk": 125,
+      "officialSymbol": "VK_F14",
+      "normalizationVariant": " f14 "
+    },
+    {
+      "key": "F15",
+      "vk": 126,
+      "officialSymbol": "VK_F15",
+      "normalizationVariant": " f15 "
+    },
+    {
+      "key": "F16",
+      "vk": 127,
+      "officialSymbol": "VK_F16",
+      "normalizationVariant": " f16 "
+    },
+    {
+      "key": "F17",
+      "vk": 128,
+      "officialSymbol": "VK_F17",
+      "normalizationVariant": " f17 "
+    },
+    {
+      "key": "F18",
+      "vk": 129,
+      "officialSymbol": "VK_F18",
+      "normalizationVariant": " f18 "
+    },
+    {
+      "key": "F19",
+      "vk": 130,
+      "officialSymbol": "VK_F19",
+      "normalizationVariant": " f19 "
+    },
+    {
+      "key": "F20",
+      "vk": 131,
+      "officialSymbol": "VK_F20",
+      "normalizationVariant": " f20 "
+    },
+    {
+      "key": "F21",
+      "vk": 132,
+      "officialSymbol": "VK_F21",
+      "normalizationVariant": " f21 "
+    },
+    {
+      "key": "F22",
+      "vk": 133,
+      "officialSymbol": "VK_F22",
+      "normalizationVariant": " f22 "
+    },
+    {
+      "key": "F23",
+      "vk": 134,
+      "officialSymbol": "VK_F23",
+      "normalizationVariant": " f23 "
+    },
+    {
+      "key": "F24",
+      "vk": 135,
+      "officialSymbol": "VK_F24",
+      "normalizationVariant": " f24 "
+    },
+    {
+      "key": "NumPad0",
+      "vk": 96,
+      "officialSymbol": "VK_NUMPAD0",
+      "normalizationVariant": " numpad0 "
+    },
+    {
+      "key": "NumPad1",
+      "vk": 97,
+      "officialSymbol": "VK_NUMPAD1",
+      "normalizationVariant": " numpad1 "
+    },
+    {
+      "key": "NumPad2",
+      "vk": 98,
+      "officialSymbol": "VK_NUMPAD2",
+      "normalizationVariant": " numpad2 "
+    },
+    {
+      "key": "NumPad3",
+      "vk": 99,
+      "officialSymbol": "VK_NUMPAD3",
+      "normalizationVariant": " numpad3 "
+    },
+    {
+      "key": "NumPad4",
+      "vk": 100,
+      "officialSymbol": "VK_NUMPAD4",
+      "normalizationVariant": " numpad4 "
+    },
+    {
+      "key": "NumPad5",
+      "vk": 101,
+      "officialSymbol": "VK_NUMPAD5",
+      "normalizationVariant": " numpad5 "
+    },
+    {
+      "key": "NumPad6",
+      "vk": 102,
+      "officialSymbol": "VK_NUMPAD6",
+      "normalizationVariant": " numpad6 "
+    },
+    {
+      "key": "NumPad7",
+      "vk": 103,
+      "officialSymbol": "VK_NUMPAD7",
+      "normalizationVariant": " numpad7 "
+    },
+    {
+      "key": "NumPad8",
+      "vk": 104,
+      "officialSymbol": "VK_NUMPAD8",
+      "normalizationVariant": " numpad8 "
+    },
+    {
+      "key": "NumPad9",
+      "vk": 105,
+      "officialSymbol": "VK_NUMPAD9",
+      "normalizationVariant": " numpad9 "
+    },
+    {
+      "key": "Space",
+      "vk": 32,
+      "officialSymbol": "VK_SPACE",
+      "normalizationVariant": " space "
+    },
+    {
+      "key": "Enter",
+      "vk": 13,
+      "officialSymbol": "VK_RETURN",
+      "normalizationVariant": " enter "
+    },
+    {
+      "key": "Tab",
+      "vk": 9,
+      "officialSymbol": "VK_TAB",
+      "normalizationVariant": " tab "
+    },
+    {
+      "key": "Escape",
+      "vk": 27,
+      "officialSymbol": "VK_ESCAPE",
+      "normalizationVariant": " escape "
+    },
+    {
+      "key": "Insert",
+      "vk": 45,
+      "officialSymbol": "VK_INSERT",
+      "normalizationVariant": " insert "
+    },
+    {
+      "key": "Delete",
+      "vk": 46,
+      "officialSymbol": "VK_DELETE",
+      "normalizationVariant": " delete "
+    },
+    {
+      "key": "Home",
+      "vk": 36,
+      "officialSymbol": "VK_HOME",
+      "normalizationVariant": " home "
+    },
+    {
+      "key": "End",
+      "vk": 35,
+      "officialSymbol": "VK_END",
+      "normalizationVariant": " end "
+    },
+    {
+      "key": "PageUp",
+      "vk": 33,
+      "officialSymbol": "VK_PRIOR",
+      "normalizationVariant": " pageup "
+    },
+    {
+      "key": "PageDown",
+      "vk": 34,
+      "officialSymbol": "VK_NEXT",
+      "normalizationVariant": " pagedown "
+    },
+    {
+      "key": "Left",
+      "vk": 37,
+      "officialSymbol": "VK_LEFT",
+      "normalizationVariant": " left "
+    },
+    {
+      "key": "Up",
+      "vk": 38,
+      "officialSymbol": "VK_UP",
+      "normalizationVariant": " up "
+    },
+    {
+      "key": "Right",
+      "vk": 39,
+      "officialSymbol": "VK_RIGHT",
+      "normalizationVariant": " right "
+    },
+    {
+      "key": "Down",
+      "vk": 40,
+      "officialSymbol": "VK_DOWN",
+      "normalizationVariant": " down "
+    },
+    {
+      "key": "Snapshot",
+      "vk": 44,
+      "officialSymbol": "VK_SNAPSHOT",
+      "normalizationVariant": " snapshot "
+    },
+    {
+      "key": "OemTilde",
+      "vk": 192,
+      "officialSymbol": "VK_OEM_3",
+      "normalizationVariant": " oemtilde "
+    },
+    {
+      "key": "OemMinus",
+      "vk": 189,
+      "officialSymbol": "VK_OEM_MINUS",
+      "normalizationVariant": " oemminus "
+    },
+    {
+      "key": "OemPlus",
+      "vk": 187,
+      "officialSymbol": "VK_OEM_PLUS",
+      "normalizationVariant": " oemplus "
+    },
+    {
+      "key": "OemOpenBrackets",
+      "vk": 219,
+      "officialSymbol": "VK_OEM_4",
+      "normalizationVariant": " oemopenbrackets "
+    },
+    {
+      "key": "OemCloseBrackets",
+      "vk": 221,
+      "officialSymbol": "VK_OEM_6",
+      "normalizationVariant": " oemclosebrackets "
+    },
+    {
+      "key": "OemPipe",
+      "vk": 220,
+      "officialSymbol": "VK_OEM_5",
+      "normalizationVariant": " oempipe "
+    },
+    {
+      "key": "OemSemicolon",
+      "vk": 186,
+      "officialSymbol": "VK_OEM_1",
+      "normalizationVariant": " oemsemicolon "
+    },
+    {
+      "key": "OemQuotes",
+      "vk": 222,
+      "officialSymbol": "VK_OEM_7",
+      "normalizationVariant": " oemquotes "
+    },
+    {
+      "key": "OemComma",
+      "vk": 188,
+      "officialSymbol": "VK_OEM_COMMA",
+      "normalizationVariant": " oemcomma "
+    },
+    {
+      "key": "OemPeriod",
+      "vk": 190,
+      "officialSymbol": "VK_OEM_PERIOD",
+      "normalizationVariant": " oemperiod "
+    },
+    {
+      "key": "OemQuestion",
+      "vk": 191,
+      "officialSymbol": "VK_OEM_2",
+      "normalizationVariant": " oemquestion "
+    }
+  ],
+  "enabledValidation": [
+    {
+      "key": "A",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "A",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "A",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "A",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "A",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "A",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "A",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "A",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "A",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "A",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "A",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "A",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "A",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "A",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "A",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "A",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "B",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "B",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "B",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "B",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "B",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "B",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "B",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "B",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "B",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "B",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "B",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "B",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "B",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "B",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "B",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "B",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "C",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "C",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "C",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "C",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "C",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "C",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "C",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "C",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "C",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "C",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "C",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "C",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "C",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "C",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "C",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "C",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "D",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "D",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "E",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "E",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "E",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "E",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "E",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "E",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "E",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "E",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "E",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "E",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "E",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "E",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "E",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "E",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "E",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "E",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "G",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "G",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "G",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "G",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "G",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "G",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "G",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "G",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "G",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "G",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "G",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "G",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "G",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "G",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "G",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "G",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "H",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "H",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "H",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "H",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "H",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "H",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "H",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "H",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "H",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "H",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "H",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "H",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "H",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "H",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "H",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "H",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "I",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "I",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "I",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "I",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "I",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "I",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "I",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "I",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "I",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "I",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "I",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "I",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "I",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "I",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "I",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "I",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "J",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "J",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "J",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "J",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "J",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "J",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "J",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "J",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "J",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "J",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "J",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "J",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "J",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "J",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "J",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "J",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "K",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "K",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "K",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "K",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "K",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "K",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "K",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "K",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "K",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "K",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "K",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "K",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "K",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "K",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "K",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "K",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "L",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "L",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "L",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "L",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "L",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "L",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "L",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "L",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "L",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "L",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "L",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "L",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "L",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "L",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "L",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "L",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "M",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "M",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "M",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "M",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "M",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "M",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "M",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "M",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "M",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "M",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "M",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "M",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "M",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "M",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "M",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "M",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "N",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "N",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "N",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "N",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "N",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "N",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "N",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "N",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "N",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "N",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "N",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "N",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "N",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "N",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "N",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "N",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "O",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "O",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "O",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "O",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "O",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "O",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "O",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "O",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "O",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "O",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "O",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "O",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "O",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "O",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "O",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "O",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "P",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "P",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "P",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "P",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "P",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "P",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "P",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "P",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "P",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "P",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "P",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "P",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "P",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "P",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "P",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "P",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Q",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "Q",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Q",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Q",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Q",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "Q",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Q",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Q",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Q",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Q",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Q",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Q",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Q",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Q",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Q",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Q",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "R",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "R",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "R",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "R",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "R",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "R",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "R",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "R",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "R",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "R",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "R",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "R",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "R",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "R",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "R",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "R",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "S",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "S",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "S",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "S",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "S",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "S",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "S",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "S",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "S",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "S",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "S",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "S",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "S",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "S",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "S",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "S",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "T",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "T",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "T",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "T",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "T",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "T",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "T",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "T",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "T",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "T",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "T",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "T",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "T",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "T",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "T",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "T",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "U",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "U",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "U",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "U",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "U",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "U",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "U",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "U",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "U",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "U",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "U",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "U",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "U",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "U",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "U",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "U",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "V",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "V",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "V",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "V",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "V",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "V",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "V",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "V",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "V",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "V",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "V",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "V",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "V",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "V",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "V",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "V",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "W",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "W",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "W",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "W",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "W",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "W",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "W",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "W",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "W",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "W",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "W",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "W",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "W",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "W",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "W",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "W",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "X",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "X",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "X",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "X",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "X",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "X",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "X",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "X",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "X",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "X",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "X",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "X",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "X",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "X",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "X",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "X",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Y",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "Y",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Y",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Y",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Y",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "Y",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Y",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Y",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Y",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Y",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Y",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Y",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Y",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Y",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Y",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Y",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Z",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "Z",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Z",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Z",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Z",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "Z",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Z",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Z",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Z",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Z",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Z",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Z",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Z",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Z",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Z",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Z",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D0",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "D0",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D0",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D0",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D0",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D0",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D0",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D0",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D0",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D0",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D0",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D0",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D0",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D0",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D0",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D0",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D1",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "D1",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D1",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D1",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D1",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D1",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D1",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D1",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D1",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D1",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D1",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D1",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D1",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D1",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D1",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D1",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D2",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "D2",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D2",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D2",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D2",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D2",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D2",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D2",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D2",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D2",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D2",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D2",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D2",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D2",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D2",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D2",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D3",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "D3",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D3",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D3",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D3",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D3",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D3",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D3",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D3",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D3",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D3",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D3",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D3",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D3",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D3",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D3",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D4",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "D4",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D4",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D4",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D4",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D4",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D4",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D4",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D4",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D4",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D4",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D4",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D4",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D4",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D4",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D4",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D5",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "D5",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D5",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D5",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D5",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D5",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D5",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D5",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D5",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D5",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D5",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D5",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D5",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D5",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D5",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D5",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D6",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "D6",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D6",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D6",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D6",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D6",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D6",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D6",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D6",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D6",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D6",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D6",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D6",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D6",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D6",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D6",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D7",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "D7",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D7",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D7",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D7",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D7",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D7",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D7",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D7",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D7",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D7",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D7",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D7",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D7",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D7",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D7",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D8",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "D8",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D8",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D8",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D8",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D8",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D8",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D8",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D8",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D8",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D8",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D8",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D8",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D8",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D8",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D8",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D9",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "D9",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D9",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D9",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D9",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D9",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D9",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D9",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D9",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D9",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D9",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D9",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D9",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D9",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D9",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "D9",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F1",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F1",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F1",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F1",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F1",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F1",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F1",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F1",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F1",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F1",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F1",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F1",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F1",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F1",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F1",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F1",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F2",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F2",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F2",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F2",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F2",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F2",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F2",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F2",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F2",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F2",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F2",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F2",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F2",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F2",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F2",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F2",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F3",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F3",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F3",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F3",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F3",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F3",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F3",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F3",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F3",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F3",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F3",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F3",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F3",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F3",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F3",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F3",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F4",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F4",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F4",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F4",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F4",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F4",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F4",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F4",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F4",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F4",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F4",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F4",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F4",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F4",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F4",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F4",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F5",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F5",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F5",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F5",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F5",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F5",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F5",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F5",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F5",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F5",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F5",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F5",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F5",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F5",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F5",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F5",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F6",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F6",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F6",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F6",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F6",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F6",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F6",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F6",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F6",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F6",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F6",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F6",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F6",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F6",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F6",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F6",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F7",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F7",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F7",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F7",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F7",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F7",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F7",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F7",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F7",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F7",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F7",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F7",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F7",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F7",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F7",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F7",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F8",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F8",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F8",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F8",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F8",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F8",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F8",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F8",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F8",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F8",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F8",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F8",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F8",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F8",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F8",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F8",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F9",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F9",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F9",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F9",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F9",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F9",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F9",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F9",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F9",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F9",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F9",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F9",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F9",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F9",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F9",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F9",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F10",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F10",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F10",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F10",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F10",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F10",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F10",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F10",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F10",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F10",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F10",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F10",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F10",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F10",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F10",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F10",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F11",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F11",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F11",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F11",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F11",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F11",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F11",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F11",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F11",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F11",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F11",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F11",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F11",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F11",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F11",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F11",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F12",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F12",
+      "modifiers": 1,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F12",
+      "modifiers": 2,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F12",
+      "modifiers": 3,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F12",
+      "modifiers": 4,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F12",
+      "modifiers": 5,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F12",
+      "modifiers": 6,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F12",
+      "modifiers": 7,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F12",
+      "modifiers": 8,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F12",
+      "modifiers": 9,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F12",
+      "modifiers": 10,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F12",
+      "modifiers": 11,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F12",
+      "modifiers": 12,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F12",
+      "modifiers": 13,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F12",
+      "modifiers": 14,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F12",
+      "modifiers": 15,
+      "passesInputValidation": false
+    },
+    {
+      "key": "F13",
+      "modifiers": 0,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F13",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F13",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F13",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F13",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F13",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F13",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F13",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F13",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F13",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F13",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F13",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F13",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F13",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F13",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F13",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F14",
+      "modifiers": 0,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F14",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F14",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F14",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F14",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F14",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F14",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F14",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F14",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F14",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F14",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F14",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F14",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F14",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F14",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F14",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F15",
+      "modifiers": 0,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F15",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F15",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F15",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F15",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F15",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F15",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F15",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F15",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F15",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F15",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F15",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F15",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F15",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F15",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F15",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F16",
+      "modifiers": 0,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F16",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F16",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F16",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F16",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F16",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F16",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F16",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F16",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F16",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F16",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F16",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F16",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F16",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F16",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F16",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F17",
+      "modifiers": 0,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F17",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F17",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F17",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F17",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F17",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F17",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F17",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F17",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F17",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F17",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F17",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F17",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F17",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F17",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F17",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F18",
+      "modifiers": 0,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F18",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F18",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F18",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F18",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F18",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F18",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F18",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F18",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F18",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F18",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F18",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F18",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F18",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F18",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F18",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F19",
+      "modifiers": 0,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F19",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F19",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F19",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F19",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F19",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F19",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F19",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F19",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F19",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F19",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F19",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F19",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F19",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F19",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F19",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F20",
+      "modifiers": 0,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F20",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F20",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F20",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F20",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F20",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F20",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F20",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F20",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F20",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F20",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F20",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F20",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F20",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F20",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F20",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F21",
+      "modifiers": 0,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F21",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F21",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F21",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F21",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F21",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F21",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F21",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F21",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F21",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F21",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F21",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F21",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F21",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F21",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F21",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F22",
+      "modifiers": 0,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F22",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F22",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F22",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F22",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F22",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F22",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F22",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F22",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F22",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F22",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F22",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F22",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F22",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F22",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F22",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F23",
+      "modifiers": 0,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F23",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F23",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F23",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F23",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F23",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F23",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F23",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F23",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F23",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F23",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F23",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F23",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F23",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F23",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F23",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F24",
+      "modifiers": 0,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F24",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F24",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F24",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F24",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F24",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F24",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F24",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F24",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F24",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F24",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F24",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F24",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F24",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F24",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "F24",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad0",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "NumPad0",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad0",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad0",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad0",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad0",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad0",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad0",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad0",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad0",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad0",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad0",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad0",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad0",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad0",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad0",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad1",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "NumPad1",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad1",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad1",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad1",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad1",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad1",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad1",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad1",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad1",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad1",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad1",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad1",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad1",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad1",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad1",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad2",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "NumPad2",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad2",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad2",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad2",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad2",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad2",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad2",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad2",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad2",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad2",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad2",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad2",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad2",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad2",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad2",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad3",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "NumPad3",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad3",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad3",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad3",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad3",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad3",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad3",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad3",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad3",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad3",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad3",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad3",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad3",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad3",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad3",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad4",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "NumPad4",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad4",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad4",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad4",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad4",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad4",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad4",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad4",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad4",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad4",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad4",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad4",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad4",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad4",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad4",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad5",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "NumPad5",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad5",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad5",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad5",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad5",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad5",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad5",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad5",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad5",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad5",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad5",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad5",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad5",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad5",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad5",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad6",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "NumPad6",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad6",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad6",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad6",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad6",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad6",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad6",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad6",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad6",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad6",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad6",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad6",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad6",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad6",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad6",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad7",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "NumPad7",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad7",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad7",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad7",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad7",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad7",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad7",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad7",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad7",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad7",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad7",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad7",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad7",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad7",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad7",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad8",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "NumPad8",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad8",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad8",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad8",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad8",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad8",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad8",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad8",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad8",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad8",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad8",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad8",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad8",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad8",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad8",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad9",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "NumPad9",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad9",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad9",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad9",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad9",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad9",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad9",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad9",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad9",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad9",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad9",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad9",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad9",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad9",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "NumPad9",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Space",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "Space",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Space",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Space",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Space",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Space",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Space",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Space",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Space",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Space",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Space",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Space",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Space",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Space",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Space",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Space",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Enter",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "Enter",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Enter",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Enter",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Enter",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Enter",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Enter",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Enter",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Enter",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Enter",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Enter",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Enter",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Enter",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Enter",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Enter",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Enter",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Tab",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "Tab",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Tab",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Tab",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Tab",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Tab",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Tab",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Tab",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Tab",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Tab",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Tab",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Tab",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Tab",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Tab",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Tab",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Tab",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Escape",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "Escape",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Escape",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Escape",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Escape",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Escape",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Escape",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Escape",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Escape",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Escape",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Escape",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Escape",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Escape",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Escape",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Escape",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Escape",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Insert",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "Insert",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Insert",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Insert",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Insert",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Insert",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Insert",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Insert",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Insert",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Insert",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Insert",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Insert",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Insert",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Insert",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Insert",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Insert",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Delete",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "Delete",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Delete",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Delete",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Delete",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Delete",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Delete",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Delete",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Delete",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Delete",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Delete",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Delete",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Delete",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Delete",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Delete",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Delete",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Home",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "Home",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Home",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Home",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Home",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Home",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Home",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Home",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Home",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Home",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Home",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Home",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Home",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Home",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Home",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Home",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "End",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "End",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "End",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "End",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "End",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "End",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "End",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "End",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "End",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "End",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "End",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "End",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "End",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "End",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "End",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "End",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageUp",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "PageUp",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageUp",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageUp",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageUp",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageUp",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageUp",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageUp",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageUp",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageUp",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageUp",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageUp",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageUp",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageUp",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageUp",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageUp",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageDown",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "PageDown",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageDown",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageDown",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageDown",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageDown",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageDown",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageDown",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageDown",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageDown",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageDown",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageDown",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageDown",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageDown",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageDown",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "PageDown",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Left",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "Left",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Left",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Left",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Left",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Left",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Left",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Left",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Left",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Left",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Left",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Left",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Left",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Left",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Left",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Left",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Up",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "Up",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Up",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Up",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Up",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Up",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Up",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Up",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Up",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Up",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Up",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Up",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Up",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Up",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Up",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Up",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Right",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "Right",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Right",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Right",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Right",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Right",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Right",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Right",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Right",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Right",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Right",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Right",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Right",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Right",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Right",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Right",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Down",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "Down",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Down",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Down",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Down",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Down",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Down",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Down",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Down",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Down",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Down",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Down",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Down",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Down",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Down",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Down",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Snapshot",
+      "modifiers": 0,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Snapshot",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Snapshot",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Snapshot",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Snapshot",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Snapshot",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Snapshot",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Snapshot",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Snapshot",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Snapshot",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Snapshot",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Snapshot",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Snapshot",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Snapshot",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Snapshot",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "Snapshot",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemTilde",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "OemTilde",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemTilde",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemTilde",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemTilde",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemTilde",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemTilde",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemTilde",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemTilde",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemTilde",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemTilde",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemTilde",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemTilde",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemTilde",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemTilde",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemTilde",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemMinus",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "OemMinus",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemMinus",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemMinus",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemMinus",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemMinus",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemMinus",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemMinus",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemMinus",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemMinus",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemMinus",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemMinus",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemMinus",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemMinus",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemMinus",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemMinus",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPlus",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "OemPlus",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPlus",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPlus",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPlus",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPlus",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPlus",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPlus",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPlus",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPlus",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPlus",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPlus",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPlus",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPlus",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPlus",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPlus",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemOpenBrackets",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "OemOpenBrackets",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemOpenBrackets",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemOpenBrackets",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemOpenBrackets",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemOpenBrackets",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemOpenBrackets",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemOpenBrackets",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemOpenBrackets",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemOpenBrackets",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemOpenBrackets",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemOpenBrackets",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemOpenBrackets",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemOpenBrackets",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemOpenBrackets",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemOpenBrackets",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemCloseBrackets",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "OemCloseBrackets",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemCloseBrackets",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemCloseBrackets",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemCloseBrackets",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemCloseBrackets",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemCloseBrackets",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemCloseBrackets",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemCloseBrackets",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemCloseBrackets",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemCloseBrackets",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemCloseBrackets",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemCloseBrackets",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemCloseBrackets",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemCloseBrackets",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemCloseBrackets",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPipe",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "OemPipe",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPipe",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPipe",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPipe",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPipe",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPipe",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPipe",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPipe",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPipe",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPipe",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPipe",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPipe",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPipe",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPipe",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPipe",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemSemicolon",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "OemSemicolon",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemSemicolon",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemSemicolon",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemSemicolon",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemSemicolon",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemSemicolon",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemSemicolon",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemSemicolon",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemSemicolon",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemSemicolon",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemSemicolon",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemSemicolon",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemSemicolon",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemSemicolon",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemSemicolon",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuotes",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "OemQuotes",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuotes",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuotes",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuotes",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuotes",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuotes",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuotes",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuotes",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuotes",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuotes",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuotes",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuotes",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuotes",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuotes",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuotes",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemComma",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "OemComma",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemComma",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemComma",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemComma",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemComma",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemComma",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemComma",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemComma",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemComma",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemComma",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemComma",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemComma",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemComma",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemComma",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemComma",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPeriod",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "OemPeriod",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPeriod",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPeriod",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPeriod",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPeriod",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPeriod",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPeriod",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPeriod",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPeriod",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPeriod",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPeriod",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPeriod",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPeriod",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPeriod",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemPeriod",
+      "modifiers": 15,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuestion",
+      "modifiers": 0,
+      "passesInputValidation": false
+    },
+    {
+      "key": "OemQuestion",
+      "modifiers": 1,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuestion",
+      "modifiers": 2,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuestion",
+      "modifiers": 3,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuestion",
+      "modifiers": 4,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuestion",
+      "modifiers": 5,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuestion",
+      "modifiers": 6,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuestion",
+      "modifiers": 7,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuestion",
+      "modifiers": 8,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuestion",
+      "modifiers": 9,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuestion",
+      "modifiers": 10,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuestion",
+      "modifiers": 11,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuestion",
+      "modifiers": 12,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuestion",
+      "modifiers": 13,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuestion",
+      "modifiers": 14,
+      "passesInputValidation": true
+    },
+    {
+      "key": "OemQuestion",
+      "modifiers": 15,
+      "passesInputValidation": true
+    }
+  ],
+  "rejectedKeyStrings": [
+    "",
+    " ",
+    "65",
+    "0x41",
+    "Ctrl+A",
+    "F0",
+    "F25",
+    "NumPad10",
+    "Return",
+    "PrintScreen",
+    "Oem8"
+  ],
+  "rejectedModifierMasks": [
+    16,
+    32,
+    64,
+    16384,
+    -1
+  ]
+}

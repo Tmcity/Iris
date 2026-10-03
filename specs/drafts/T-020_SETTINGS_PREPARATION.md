@@ -2,6 +2,8 @@
 
 > 2026-10-03，Codex；T-017 仍在开发。本稿只定位后续设计依赖，未签发 T-020、未批准契约变更，也不要求当前开发提前实现。
 
+> 后续状态覆盖：T-017 已验收，T-020A 按 HOTKEY_SETTINGS_EDITING.md / CCR-015 签发；本稿 §1–§2 的选择已定为按 Action 增量与明确禁用空键。§3–§4 继续作为 T-020B 录入/应用状态的设计输入，不能当作 A 单实施要求。下文“未批准/待 T-017”均为原准备记录。
+
 ## 1. 现有保存端口不包含快捷键编辑
 
 当前 SettingsEditPlan 仅包含 GeneralSettingsPatch、TranslationChanges、TranslationOrder。T-020 不能为了增加快捷键页，绕过已验收的整窗保存而直接调用 ISettingsService.UpdateAsync 保存另一份草稿。

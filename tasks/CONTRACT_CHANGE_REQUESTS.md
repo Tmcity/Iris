@@ -767,3 +767,24 @@ HotkeyRegistrationResult 继续表达注册结果：非法键/组合为 HotkeyIn
 ```
 
 此检查证明注释声明一致及已落地架构约束保持，不代替尚未实现的 T-017 行为验证。
+
+## CCR-015：快捷键增量编辑与明确清除的持久化语义
+
+| 字段 | 内容 |
+|---|---|
+| 日期 / 提出与批准 | 2026-10-03，Codex 架构师 |
+| 关联 | T-020A / T-020B；HOTKEY_SETTINGS_EDITING.md；ARCH v1.28 |
+| 状态 | **已落地，待复审（T-020A）** |
+
+现有 SettingsEditPlan 只包含常规与 Provider 意图，Hotkeys 不能绕过全窗口提交；旧 N2 会把清空的默认键恢复启用绑定。此次新增：
+
+1. SettingsEditPlan 的 `IReadOnlyList<HotkeyBindingChange> HotkeyChanges { get; init; } = []`，保留原位置参数构造签名。
+2. `HotkeyBindingChange(IrisAction Action, HotkeyBinding? BaseBinding, HotkeyBinding TargetBinding)`；null base 表示缺失，target 禁止 null；清除用禁用空绑定，ToString 只含 Action。
+3. 纯 Core `IHotkeyBindingPolicy.TryNormalize(HotkeyBinding? binding, [NotNullWhen(true)] out HotkeyBinding? normalized)`；纯规则、无 I/O，供统一保存与后续录入页使用。
+4. N2 保留明确禁用的空键为 `(None, "", false)`，其它缺失/null/启用空键修复语义不变。SchemaVersion、JSON 字段、默认绑定和 IHotkeyService 签名不变。
+
+增量列表同步捕获、按 Action base/current/target 语义冲突检查；所有页面仍一次 UpdateAsync，staging 后重新检查并按既有协议回滚。只检查涉及新启用编辑目标的最终候选组合重复，不让未编辑历史错误阻止无关保存。Core Applied 不保证系统热键注册，Provider 回执不混入 HWND 状态。
+
+本次仅同步 CONTRACTS.cs 与 Core 的声明，不声称当前 SettingsEditCoordinator 已处理新增字段；实现与回归由唯一工单 T-020A 完成。B 单须在 A 通过后定稿录入暂停/恢复接口，仍完成父任务的 Win 键录入、取消、清除、冲突提示和即时应用全部目标。
+
+声明同步后独立运行 `dotnet test tests/Iris.ArchitectureTests/Iris.ArchitectureTests.csproj -c Release`：总计 8、成功 8、失败 0、跳过 0，持续 1s 622ms。只证明声明一致/依赖架构保持，不是快捷键编辑实现验收。

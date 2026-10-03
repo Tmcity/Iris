@@ -53,6 +53,8 @@ T-019 将凭据 staging、完整 Profile 发布和 Registry 屏障接入同一�
 
 2026-10-01 更新：Core 协调器已由 T-019A / CCR-011 验收。T-019B 按 PROVIDER_SETTINGS_UI.md 将常规适配重载和服务页统一委托 ISettingsEditCoordinator，沿用本文已验收的冲突/冻结/预览/自启/关闭边界；进程级 Provider 回执保留不依赖窗口 scope 存活。
 
+2026-10-03 更新：T-020A 按 HOTKEY_SETTINGS_EDITING.md / CCR-015 给同一 SettingsEditPlan 增加快捷键增量；一次提交、未编辑字段跟随最新配置和提交后状态语义保持。T-020B 才接快捷键页，禁止以单独 UpdateAsync 绕过全窗口联合保存。
+
 ## 5. 主题预览
 
 ThemeService 增加 App 内部预览所有权。有效预览覆盖最新持久主题；只有用户实际选择主题时才改变预览，不写 ISettingsService。

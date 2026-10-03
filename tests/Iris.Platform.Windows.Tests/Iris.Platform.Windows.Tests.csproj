@@ -28,4 +28,8 @@
   <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\Fixtures\hotkey-expected-vectors.json" Link="Fixtures\hotkey-expected-vectors.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>
