@@ -282,6 +282,50 @@ public sealed class SettingsHotkeysIntegrationTests
         }
     }
 
+    private sealed class TestNativeHookAdapter : INativeKeyboardHookAdapter
+    {
+        private readonly BlockingCollection<NativeMsg> _queue = [];
+        public nint ValidHwnd { get; set; } = 0x1234;
+        public nint ForegroundHwnd { get; set; } = 0x1234;
+        public uint Pid { get; set; } = 4000;
+        public bool SimulateGetMessageError { get; set; }
+
+        public nint SetWindowsHook(NativeKeyboardHookProc proc) => 0x9999;
+        public bool UnhookWindowsHook(nint hookHandle) => true;
+        public nint CallNextHook(nint hookHandle, int nCode, nuint wParam, nint lParam) => 0;
+        public nint GetForegroundWindow() => ForegroundHwnd;
+        public uint GetWindowProcessId(nint windowHandle) => windowHandle == ValidHwnd ? Pid : 9999;
+        public uint GetCurrentProcessId() => Pid;
+        public bool IsWindow(nint windowHandle) => windowHandle == ValidHwnd;
+        public bool IsKeyDown(int virtualKey) => false;
+        public uint GetCurrentThreadId() => (uint)Environment.CurrentManagedThreadId;
+        public bool PostThreadQuitMessage(uint threadId)
+        {
+            try { _queue.TryAdd(new NativeMsg(0x0012, 0, 0)); return true; } catch { return false; }
+        }
+        public void EnsureThreadMessageQueueCreated() { while (_queue.TryTake(out _)) { } }
+        public void ReleaseHookResources(nint hookHandle) { }
+        public int GetMessage(out NativeMsg msg)
+        {
+            if (SimulateGetMessageError)
+            {
+                msg = default;
+                return -1;
+            }
+            try
+            {
+                msg = _queue.Take();
+                return msg.Message == 0x0012 ? 0 : 1;
+            }
+            catch
+            {
+                msg = new NativeMsg(0x0012, 0, 0);
+                return 0;
+            }
+        }
+        public int GetLastError() => 1400;
+    }
+
     private sealed class IntegrationEnvironment : IAsyncDisposable
     {
         private readonly ServiceProvider _bootstrapSp;
@@ -299,7 +343,7 @@ public sealed class SettingsHotkeysIntegrationTests
         public GeneralSettingsSaveCoordinator SaveCoordinator { get; }
         public SettingsViewModel ViewModel { get; }
 
-        public IntegrationEnvironment(AppSettings? initialSettings = null, IUiDispatcher? uiDispatcher = null)
+        public IntegrationEnvironment(AppSettings? initialSettings = null, IUiDispatcher? uiDispatcher = null, IHotkeyCaptureService? captureService = null)
         {
             var effectiveUiDispatcher = uiDispatcher ?? new ImmediateUiDispatcher();
             var paths = new TestAppPaths(TempDir.Path);
@@ -307,7 +351,8 @@ public sealed class SettingsHotkeysIntegrationTests
             AutoStart = new FakeAutoStartService();
             ReceiptManager = new SettingsApplyReceiptManager();
             FakeNative = new FakeNativeHotkeyAdapter();
-            CaptureService = new FakeCaptureService();
+            CaptureService = (captureService as FakeCaptureService) ?? new FakeCaptureService();
+            var effectiveCapture = captureService ?? CaptureService;
 
             var services = new ServiceCollection();
             services.AddLogging();
@@ -356,7 +401,7 @@ public sealed class SettingsHotkeysIntegrationTests
                 Substitute.For<INotificationService>(),
                 NullLogger<HotkeyCoordinator>.Instance);
 
-            RecordingCoordinator = new HotkeyRecordingCoordinator(Coordinator, CaptureService, NullLogger<HotkeyRecordingCoordinator>.Instance);
+            RecordingCoordinator = new HotkeyRecordingCoordinator(Coordinator, effectiveCapture, NullLogger<HotkeyRecordingCoordinator>.Instance);
 
             services.AddSingleton(Coordinator);
             services.AddSingleton(RecordingCoordinator);
@@ -1100,41 +1145,26 @@ public sealed class SettingsHotkeysIntegrationTests
                         });
                         await env.Coordinator.StartAsync();
 
-                        // 填充长组合、录入态与清理失败状态以测试极端布局无裁切
+                        // 1. 第一行：设置静态最长组合键 Ctrl+Alt+Shift+Win+F10
                         var inputItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.InputTranslate);
                         var longBinding = new HotkeyBinding(HotkeyModifiers.Control | HotkeyModifiers.Shift | HotkeyModifiers.Alt | HotkeyModifiers.Win, "F10", true);
                         inputItem.ApplyCapturedBinding(longBinding);
                         inputItem.KeyComboText.ShouldBe("Ctrl+Alt+Shift+Win+F10");
 
-                        // 设置第二行为正在录入状态
-                        var clipItem = env.ViewModel.Hotkeys.FirstOrDefault(h => h.Action == IrisAction.ClipboardTranslate);
-                        clipItem?.SetRecordingState(true, false, "请按下快捷键组合...", "Ctrl+Shift+");
+                        // 2. 第二行：通过实际录入接线触发正在录入态，并推送最长候选组合 Ctrl+Alt+Shift+Win+F10
+                        var clipItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.ClipboardTranslate);
+                        var recTask = env.ViewModel.StartRecordingAsync(clipItem);
+                        var session = env.CaptureService.CurrentSession;
+                        session.ShouldNotBeNull();
+                        session.RaiseProgress(new HotkeyCaptureProgress(
+                            Revision: 2,
+                            IsReady: true,
+                            Modifiers: HotkeyModifiers.Control | HotkeyModifiers.Shift | HotkeyModifiers.Alt | HotkeyModifiers.Win,
+                            Key: "F10"));
 
-                        // 设置第三行为清理失败错误态，展示重试按钮
-                        var openItem = env.ViewModel.Hotkeys.FirstOrDefault(h => h.Action == IrisAction.OpenSettings);
-                        if (openItem != null)
-                        {
-                            env.CaptureService.FailUnhookOnDispose = true;
-                            env.CaptureService.FailStop = true;
-                            var openRec = env.ViewModel.StartRecordingAsync(openItem);
-                            try
-                            {
-                                await env.ViewModel.CancelRecordingAsync();
-                            }
-                            catch (IrisException)
-                            {
-                            }
-                            try
-                            {
-                                await openRec;
-                            }
-                            catch
-                            {
-                            }
-                            openItem.DraftError.ShouldBe(UiText.SettingsHotkeyCleanupFailed);
-                        }
-
-                        env.ViewModel.HasFailedRecordingCleanup.ShouldBeTrue("录入清理失败必须在 ViewModel 中标记");
+                        clipItem.IsRecording.ShouldBeTrue("第二行必须处于真实接线的正在录入态");
+                        clipItem.KeyComboText.ShouldBe("Ctrl+Alt+Shift+Win+F10");
+                        clipItem.RecordingPrompt.ShouldBe(UiText.SettingsHotkeyRecordingPrompt);
 
                         var window = new SettingsWindow
                         {
@@ -1146,45 +1176,68 @@ public sealed class SettingsHotkeysIntegrationTests
                             ShowActivated = false,
                             ShowInTaskbar = false
                         };
-                        window.Resources.MergedDictionaries.Add(new Wpf.Ui.Markup.ThemesDictionary { Theme = wpfTheme });
 
                         try
                         {
                             window.Show();
+                            wpfTheme = theme == AppTheme.Dark ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light;
+                            Wpf.Ui.Appearance.ApplicationThemeManager.Apply(wpfTheme);
                             Wpf.Ui.Appearance.ApplicationThemeManager.Apply(window);
                             env.ViewModel.CurrentPageKey = "hotkeys";
                             window.UpdateLayout();
 
                             // 验证视觉树主要控件尺寸与边界
-                            var recorderBox = FindVisualChild<HotkeyRecorderBox>(window);
-                            recorderBox.ShouldNotBeNull();
-                            recorderBox.ActualWidth.ShouldBeGreaterThan(100);
-                            recorderBox.ActualHeight.ShouldBeGreaterThan(20);
+                            var recorderBoxes = FindVisualChildren<HotkeyRecorderBox>(window);
+                            recorderBoxes.Count.ShouldBeGreaterThanOrEqualTo(2);
 
-                            var border = FindVisualChild<Border>(recorderBox);
-                            border.ShouldNotBeNull();
+                            // 第一行（静态展示态）断言
+                            var recorderBox1 = recorderBoxes[0];
+                            var border1 = FindVisualChild<Border>(recorderBox1);
+                            border1.ShouldNotBeNull();
+                            var comboTextBlock1 = FindVisualChild<TextBlock>(recorderBox1, tb => tb.Text == "Ctrl+Alt+Shift+Win+F10" && tb.Visibility == Visibility.Visible);
+                            comboTextBlock1.ShouldNotBeNull();
+                            comboTextBlock1.ActualWidth.ShouldBeLessThanOrEqualTo(border1.ActualWidth - 12.0, "静态最长热键组合必须完全在 Border 内部显示，绝无裁切");
 
-                            var comboTextBlock = FindVisualChild<TextBlock>(recorderBox, tb => tb.Text == "Ctrl+Alt+Shift+Win+F10");
-                            comboTextBlock.ShouldNotBeNull();
-                            comboTextBlock.ActualWidth.ShouldBeGreaterThan(50);
-                            comboTextBlock.ActualHeight.ShouldBeGreaterThan(10);
+                            // 第二行（正在录入态）断言：垂直分行后，提示与组合互不挤压，完整组合与主键 F10 绝无裁切
+                            var recorderBox2 = recorderBoxes[1];
+                            var border2 = FindVisualChild<Border>(recorderBox2);
+                            border2.ShouldNotBeNull();
+                            double innerBorderWidth2 = border2.ActualWidth - 12.0;
 
-                            // 核心断言：最长组合的 TextBlock 宽度绝不能超过 Border 内部可用宽度，主键 F10 绝无裁切
-                            comboTextBlock.ActualWidth.ShouldBeLessThanOrEqualTo(border.ActualWidth - 12.0, "最长热键组合必须完全在 Border 内部显示，绝无裁切");
+                            var promptTb = FindVisualChild<TextBlock>(recorderBox2, tb => tb.Text == UiText.SettingsHotkeyRecordingPrompt && tb.Visibility == Visibility.Visible);
+                            promptTb.ShouldNotBeNull();
+                            promptTb.ActualWidth.ShouldBeLessThanOrEqualTo(innerBorderWidth2, "录入提示文本必须完全在 Border 内部显示，绝无裁切");
+
+                            var comboTextBlock2 = FindVisualChild<TextBlock>(recorderBox2, tb => tb.Text == "Ctrl+Alt+Shift+Win+F10" && tb.Visibility == Visibility.Visible);
+                            comboTextBlock2.ShouldNotBeNull();
+                            comboTextBlock2.ActualWidth.ShouldBeGreaterThan(50);
+                            comboTextBlock2.ActualWidth.ShouldBeLessThanOrEqualTo(innerBorderWidth2, "录入态最长热键组合必须完全在 Border 内部显示，主键 F10 绝无裁切");
+
+                            var cancelBtn = FindVisualChild<Wpf.Ui.Controls.Button>(recorderBox2, b => (b.Content as string) == UiText.SettingsHotkeyCancel);
+                            cancelBtn.ShouldNotBeNull();
+                            cancelBtn.Visibility.ShouldBe(Visibility.Visible, "录入态取消按钮必须可见");
+                            cancelBtn.IsEnabled.ShouldBeTrue("录入态取消按钮必须保持可操作");
+                            var cancelRight = cancelBtn.TransformToAncestor(window).Transform(new Point(cancelBtn.ActualWidth, 0)).X;
+                            cancelRight.ShouldBeLessThanOrEqualTo(width + 2.0, "取消按钮未被窗口右边缘挤出或裁切");
 
                             var saveBtn = FindVisualChild<Wpf.Ui.Controls.Button>(window, b => (b.Content as string) == UiText.SettingsSave);
                             saveBtn.ShouldNotBeNull();
                             var saveRight = saveBtn.TransformToAncestor(window).Transform(new Point(saveBtn.ActualWidth, 0)).X;
                             saveRight.ShouldBeLessThanOrEqualTo(width + 2.0, "保存按钮未被窗口右边缘挤出或裁切");
 
-                            var retryBtn = FindVisualChild<Button>(window, b => (b.Content as string) == UiText.SettingsRetryHotkeys);
-                            retryBtn.ShouldNotBeNull();
-                            retryBtn.Visibility.ShouldBe(Visibility.Visible, "清理失败态下重试按钮必须可见");
-
-                            // 离屏渲染为 PNG
+                            // 离屏渲染为 PNG：模拟真实操作系统桌面窗口背景，避免 Mica 半透明 Alpha 导致像素黑透
                             int pixelWidth = (int)(width * scale);
                             int pixelHeight = (int)(height * scale);
                             var rtb = new RenderTargetBitmap(pixelWidth, pixelHeight, 96.0 * scale, 96.0 * scale, PixelFormats.Pbgra32);
+                            var bgVisual = new DrawingVisual();
+                            using (var dc = bgVisual.RenderOpen())
+                            {
+                                var windowBg = theme == AppTheme.Light
+                                    ? new SolidColorBrush(Color.FromRgb(0xFA, 0xFA, 0xFA))
+                                    : new SolidColorBrush(Color.FromRgb(0x20, 0x20, 0x20));
+                                dc.DrawRectangle(windowBg, null, new Rect(0, 0, width, height));
+                            }
+                            rtb.Render(bgVisual);
                             rtb.Render(window);
 
                             var fileName = $"hotkeys_{theme}_{width}x{height}_{(int)(scale * 100)}pct.png";
@@ -1207,13 +1260,41 @@ public sealed class SettingsHotkeysIntegrationTests
                                 hashes[(width, height, scale, theme)] = hash;
                             }
 
+                            // 像素对比度检查：验证录入框背景在 Light 下为浅色、Dark 下为深色，绝无近白字叠近白底
+                            int stride = pixelWidth * 4;
+                            byte[] pixels = new byte[stride * pixelHeight];
+                            rtb.CopyPixels(pixels, stride, 0);
+
+                            var borderPoint = border2.TransformToAncestor(window).Transform(new Point(border2.ActualWidth - 6, border2.ActualHeight / 2));
+                            int sampleX = Math.Clamp((int)(borderPoint.X * scale), 0, pixelWidth - 1);
+                            int sampleY = Math.Clamp((int)(borderPoint.Y * scale), 0, pixelHeight - 1);
+                            int bgIndex = sampleY * stride + sampleX * 4;
+                            byte bgB = pixels[bgIndex];
+                            byte bgG = pixels[bgIndex + 1];
+                            byte bgR = pixels[bgIndex + 2];
+                            double bgLuminance = 0.299 * bgR + 0.587 * bgG + 0.114 * bgB;
+
+                            if (theme == AppTheme.Light)
+                            {
+                                bgLuminance.ShouldBeGreaterThan(130, "Light 主题下录入区域背景应为浅色");
+                            }
+                            else
+                            {
+                                bgLuminance.ShouldBeLessThan(120, "Dark 主题下录入区域背景应为深色");
+                            }
+
                             renderCount++;
                         }
                         finally
                         {
-                            env.CaptureService.FailUnhookOnDispose = false;
-                            env.CaptureService.FailStop = false;
-                            await env.RecordingCoordinator.RetryCleanupAsync();
+                            await env.ViewModel.CancelRecordingAsync();
+                            try
+                            {
+                                await recTask;
+                            }
+                            catch
+                            {
+                            }
                             window.ForceClose = true;
                             window.Close();
                         }
@@ -1231,6 +1312,78 @@ public sealed class SettingsHotkeysIntegrationTests
                     var darkHash = hashes[(width, height, scale, AppTheme.Dark)];
                     lightHash.ShouldNotBe(darkHash, $"在尺寸 {width}x{height} 缩放 {scale} 下，Light 与 Dark 主题的渲染图片 SHA256 哈希必须不同");
                 }
+            }
+        });
+    }
+
+    [Fact]
+    public async Task W04B_OffScreenRendering_FailedCleanupState_ShowsRetryButtonAndDraftError()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            await using var env = new IntegrationEnvironment();
+            await env.Coordinator.StartAsync();
+
+            var openItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.OpenSettings);
+            env.CaptureService.FailUnhookOnDispose = true;
+            env.CaptureService.FailStop = true;
+            var openRec = env.ViewModel.StartRecordingAsync(openItem);
+            try
+            {
+                await env.ViewModel.CancelRecordingAsync();
+            }
+            catch (IrisException)
+            {
+            }
+            try
+            {
+                await openRec;
+            }
+            catch
+            {
+            }
+
+            env.ViewModel.HasFailedRecordingCleanup.ShouldBeTrue("录入清理失败必须在 ViewModel 中标记");
+            openItem.DraftError.ShouldBe(UiText.SettingsHotkeyCleanupFailed);
+
+            var window = new SettingsWindow
+            {
+                DataContext = env.ViewModel,
+                Width = 600,
+                Height = 440,
+                Left = -20000,
+                Top = -20000,
+                ShowActivated = false,
+                ShowInTaskbar = false
+            };
+
+            try
+            {
+                window.Show();
+                env.ViewModel.CurrentPageKey = "hotkeys";
+                window.UpdateLayout();
+
+                var retryBtn = FindVisualChild<Button>(window, b => (b.Content as string) == UiText.SettingsRetryHotkeys);
+                retryBtn.ShouldNotBeNull();
+                retryBtn.Visibility.ShouldBe(Visibility.Visible, "清理失败态下重试按钮必须可见");
+
+                var errorTb = FindVisualChild<TextBlock>(window, tb => tb.Text == UiText.SettingsHotkeyCleanupFailed);
+                errorTb.ShouldNotBeNull();
+                errorTb.Visibility.ShouldBe(Visibility.Visible, "清理失败错误提示必须可见");
+
+                // 恢复服务并执行重试
+                env.CaptureService.FailUnhookOnDispose = false;
+                env.CaptureService.FailStop = false;
+                await env.ViewModel.ExecuteRetryHotkeysAsync();
+                window.UpdateLayout();
+
+                env.ViewModel.HasFailedRecordingCleanup.ShouldBeFalse();
+                retryBtn.Visibility.ShouldBe(Visibility.Collapsed, "重试成功后重试按钮必须隐藏");
+            }
+            finally
+            {
+                window.ForceClose = true;
+                window.Close();
             }
         });
     }
@@ -1393,7 +1546,191 @@ public sealed class SettingsHotkeysIntegrationTests
 
     #endregion
 
+    #region R3: 录入失败恢复、结果归属与终态验证
+
+    [Fact]
+    public async Task R301_BeginOrdinaryFailure_RollbackSucceeded_DoesNotLockSettings_AllowsImmediateRecordingInSameWindow()
+    {
+        await using var env = new IntegrationEnvironment();
+        await env.Coordinator.StartAsync();
+
+        var inputItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.InputTranslate);
+        var originalBinding = inputItem.TargetBinding;
+
+        // 模拟 Begin 失败但回滚成功 (普通失败)
+        env.CaptureService.FailBegin = true;
+        env.CaptureService.FailStop = false;
+
+        await env.ViewModel.StartRecordingAsync(inputItem);
+
+        // 断言：清理成功后释放活动状态，不锁死设置窗口
+        env.ViewModel.HasFailedRecordingCleanup.ShouldBeFalse("回滚成功时不应标记为清理失败");
+        env.ViewModel.IsAnyRecording.ShouldBeFalse("普通失败后活动录入项必须清空");
+        env.ViewModel.CanEdit.ShouldBeTrue("普通失败后同一窗口中 CanEdit 必须为 true，用户可立即再次录入");
+        env.ViewModel.CanRetryHotkeysOrCleanup.ShouldBeFalse("普通失败非物理清理失败，不应展示重试命令");
+        inputItem.IsRecording.ShouldBeFalse();
+        inputItem.DraftError.ShouldNotBeNull();
+        inputItem.DraftError.ShouldContain("Hook 安装失败");
+        inputItem.TargetBinding.ShouldBe(originalBinding, "普通失败时原草稿必须保持不变");
+
+        // 撤除故障，在同一窗口立即录入第二项 ClipboardTranslate
+        env.CaptureService.FailBegin = false;
+        var clipItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.ClipboardTranslate);
+        var recTask = env.ViewModel.StartRecordingAsync(clipItem);
+        clipItem.IsRecording.ShouldBeTrue();
+
+        var session = env.CaptureService.CurrentSession;
+        session.ShouldNotBeNull();
+        var newBinding = new HotkeyBinding(HotkeyModifiers.Control | HotkeyModifiers.Shift, "U", true);
+        session.Complete(new HotkeyCaptureResult(HotkeyCaptureOutcome.Captured, newBinding));
+        await recTask;
+
+        clipItem.IsRecording.ShouldBeFalse();
+        clipItem.TargetBinding.ShouldBe(newBinding, "同窗口后续录入应成功应用");
+        clipItem.DraftError.ShouldBeNull();
+        env.ViewModel.CanEdit.ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task R301_PlatformLogicFailedOutcome_WithRealCaptureServiceAndFakeNative_ReleasesActiveRecordingState()
+    {
+        var adapter = new TestNativeHookAdapter();
+        var realService = new HotkeyCaptureService(adapter, null, NullLogger<HotkeyCaptureService>.Instance);
+        await using var env = new IntegrationEnvironment(captureService: realService);
+        await env.Coordinator.StartAsync();
+
+        var item = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.InputTranslate);
+        var originalBinding = item.TargetBinding;
+
+        // 1. 模拟前台窗口校验失败 (Begin 阶段)
+        adapter.ForegroundHwnd = 0x8888; // 目标为 0x1234
+        await env.ViewModel.StartRecordingAsync(item);
+
+        env.ViewModel.HasFailedRecordingCleanup.ShouldBeFalse();
+        env.ViewModel.IsAnyRecording.ShouldBeFalse();
+        env.ViewModel.CanEdit.ShouldBeTrue("前台校验失败释放后 CanEdit 必须恢复");
+        item.DraftError.ShouldNotBeNull();
+        item.TargetBinding.ShouldBe(originalBinding);
+
+        // 2. 模拟录入中逻辑失败 (GetMessage 异常终止 -> Outcome=Failed)
+        adapter.ForegroundHwnd = 0x1234;
+        adapter.SimulateGetMessageError = true;
+
+        var recTask = env.ViewModel.StartRecordingAsync(item);
+        adapter.PostThreadQuitMessage(1); // 唤醒 GetMessage 使其返回 -1
+        await recTask;
+
+        env.ViewModel.HasFailedRecordingCleanup.ShouldBeFalse();
+        env.ViewModel.IsAnyRecording.ShouldBeFalse();
+        env.ViewModel.CanEdit.ShouldBeTrue("逻辑 Failed 结果后活动项释放，CanEdit 恢复");
+        item.DraftError.ShouldNotBeNull();
+        item.TargetBinding.ShouldBe(originalBinding);
+    }
+
+    [Fact]
+    public async Task R302_TwoActionsTwoContexts_FirstSuccess_SecondBeginAndRollbackFailed_RetryDoesNotReplayFirstResult()
+    {
+        await using var env = new IntegrationEnvironment();
+        await env.Coordinator.StartAsync();
+
+        var inputItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.InputTranslate);
+        var clipItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.ClipboardTranslate);
+        var originalClipBinding = clipItem.TargetBinding;
+
+        // 1. InputTranslate 成功录入 Ctrl+Shift+X
+        var rec1 = env.ViewModel.StartRecordingAsync(inputItem);
+        var session1 = env.CaptureService.CurrentSession;
+        session1.ShouldNotBeNull();
+        var inputBinding = new HotkeyBinding(HotkeyModifiers.Control | HotkeyModifiers.Shift, "X", true);
+        session1.Complete(new HotkeyCaptureResult(HotkeyCaptureOutcome.Captured, inputBinding));
+        await rec1;
+
+        inputItem.KeyComboText.ShouldBe("Ctrl+Shift+X");
+        inputItem.TargetBinding.ShouldBe(inputBinding);
+
+        // 2. ClipboardTranslate 发生 Begin 失败且回滚失败
+        env.CaptureService.FailBegin = true;
+        env.CaptureService.FailStop = true;
+
+        await env.ViewModel.StartRecordingAsync(clipItem);
+
+        env.ViewModel.HasFailedRecordingCleanup.ShouldBeTrue("Begin+Stop 均失败应标记为清理失败");
+        env.ViewModel.CanRetryHotkeysOrCleanup.ShouldBeTrue();
+        clipItem.DraftError.ShouldBe(UiText.SettingsHotkeyCleanupFailed);
+        clipItem.TargetBinding.ShouldBe(originalClipBinding, "失败期间 ClipboardTranslate 原草稿不得被修改");
+
+        // 3. 撤除故障并执行重试命令
+        env.CaptureService.FailBegin = false;
+        env.CaptureService.FailStop = false;
+
+        await env.ViewModel.ExecuteRetryHotkeysAsync();
+
+        // 4. 核心断言：重试成功后，Action 2 绝不能被写为 Action 1 的 Ctrl+Shift+X！
+        env.ViewModel.HasFailedRecordingCleanup.ShouldBeFalse("重试成功后清理失败标记必须清除");
+        clipItem.DraftError.ShouldBeNull();
+        clipItem.TargetBinding.ShouldBe(originalClipBinding, "重试成功后，无本次 captured 结果的 Action 2 原草稿必须保持不变，绝不回放 Action 1 的旧值");
+        clipItem.KeyComboText.ShouldNotBe("Ctrl+Shift+X");
+        env.ViewModel.CanEdit.ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task R302_SingleContext_CapturedResult_AppliedOnceOnRetryCleanup()
+    {
+        await using var env = new IntegrationEnvironment();
+        await env.Coordinator.StartAsync();
+
+        var inputItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.InputTranslate);
+
+        // 录入时捕获有效组合 Ctrl+Alt+Shift+Y，但清理时发生 unhook 失败
+        env.CaptureService.FailUnhookOnDispose = true;
+
+        var recTask = env.ViewModel.StartRecordingAsync(inputItem);
+        var session = env.CaptureService.CurrentSession;
+        session.ShouldNotBeNull();
+        var yBinding = new HotkeyBinding(HotkeyModifiers.Control | HotkeyModifiers.Alt | HotkeyModifiers.Shift, "Y", true);
+        session.Complete(new HotkeyCaptureResult(HotkeyCaptureOutcome.Captured, yBinding));
+
+        try
+        {
+            await recTask;
+        }
+        catch
+        {
+        }
+
+        env.ViewModel.HasFailedRecordingCleanup.ShouldBeTrue();
+        inputItem.DraftError.ShouldBe(UiText.SettingsHotkeyCleanupFailed);
+
+        // 撤除故障并重试
+        env.CaptureService.FailUnhookOnDispose = false;
+        await env.ViewModel.ExecuteRetryHotkeysAsync();
+
+        // 核心断言：同一 context 的有效 Captured 结果在重试清理成功后被正确应用一次
+        env.ViewModel.HasFailedRecordingCleanup.ShouldBeFalse();
+        inputItem.DraftError.ShouldBeNull();
+        inputItem.TargetBinding.ShouldBe(yBinding);
+        inputItem.KeyComboText.ShouldBe("Ctrl+Alt+Shift+Y");
+    }
+
+    #endregion
+
     #region Helper Methods
+
+    private static List<T> FindVisualChildren<T>(DependencyObject parent, Func<T, bool>? predicate = null) where T : DependencyObject
+    {
+        var list = new List<T>();
+        int count = VisualTreeHelper.GetChildrenCount(parent);
+        for (int i = 0; i < count; i++)
+        {
+            var child = VisualTreeHelper.GetChild(parent, i);
+            if (child is T typedChild && (predicate == null || predicate(typedChild)))
+            {
+                list.Add(typedChild);
+            }
+            list.AddRange(FindVisualChildren(child, predicate));
+        }
+        return list;
+    }
 
     private static T? FindVisualChild<T>(DependencyObject parent, Func<T, bool>? predicate = null) where T : DependencyObject
     {

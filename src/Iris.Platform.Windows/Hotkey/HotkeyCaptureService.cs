@@ -85,7 +85,7 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
         {
             ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-            if (_activeSession != null || _initTask != null || _hasFailedCleanup)
+            if (_activeSession != null || _initTask != null || _hasFailedCleanup || (_cleanupTask != null && !_cleanupTask.IsCompleted))
             {
                 throw new IrisException(ErrorCode.HotkeyConflict, "当前已有正在进行的按键录入会话。");
             }
@@ -221,12 +221,18 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
                 {
                     int err = _nativeAdapter.GetLastError();
                     LogMessageLoopError(_logger, $"GetMessage failed (Win32Error={err})");
-                    session.Fail(new IrisException(ErrorCode.Unknown, $"消息循环异常终止 (Win32Error={err})。"));
+                    session.Fail(new IrisException(ErrorCode.Unknown, "消息循环异常终止。"));
                     _ = CleanupSessionAsync(session);
                     break;
                 }
                 if (ret == 0 || msg.Message == 0x0012) // WM_QUIT
                 {
+                    if (!session.IsStopRequested)
+                    {
+                        LogMessageLoopError(_logger, "Unexpected WM_QUIT received before stop requested");
+                        session.Fail(new IrisException(ErrorCode.Unknown, "录入消息循环意外退出。"));
+                        _ = CleanupSessionAsync(session);
+                    }
                     break;
                 }
             }
@@ -234,7 +240,7 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
         catch (Exception ex)
         {
             LogMessageLoopError(_logger, ex.GetType().Name);
-            session.Fail(ex);
+            session.Fail(new IrisException(ErrorCode.Unknown, "录入消息循环发生异常。"));
             _ = CleanupSessionAsync(session);
         }
         finally
@@ -374,6 +380,9 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
                 _nativeAdapter.ReleaseHookResources(hookHandle);
                 session.MarkHookResourcesReleased();
             }
+
+            // 4. 等待通知 worker 和进度订阅者完成退出
+            await session.WaitForProgressWorkerAsync().ConfigureAwait(false);
 
             lock (_gate)
             {

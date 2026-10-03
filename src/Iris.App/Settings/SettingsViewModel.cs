@@ -1916,7 +1916,14 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             {
                 if (_recordingSessionSeq == currentSeq && ReferenceEquals(_activeRecordingItem, item))
                 {
-                    item.DraftError = UiText.SettingsHotkeyCleanupFailed;
+                    if (HasFailedRecordingCleanup)
+                    {
+                        item.DraftError = UiText.SettingsHotkeyCleanupFailed;
+                    }
+                    else
+                    {
+                        item.DraftError = (ex as IrisException)?.Message ?? UiText.SettingsHotkeyStatusFailed;
+                    }
                 }
                 return Task.CompletedTask;
             }, CancellationToken.None);
@@ -1930,7 +1937,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                     if (_recordingSessionSeq == currentSeq)
                     {
                         item.SetRecordingState(false, false, null, null);
-                        if (caughtEx == null)
+                        if (!HasFailedRecordingCleanup)
                         {
                             _activeRecordingItem = null;
                             if (item.DraftError == null)
@@ -1939,6 +1946,9 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                             }
                         }
                         RaiseAllCommandsCanExecute();
+                        OnPropertyChanged(nameof(CanEdit));
+                        OnPropertyChanged(nameof(CanSave));
+                        OnPropertyChanged(nameof(IsAnyRecording));
                         OnPropertyChanged(nameof(CanAccessHotkeysTab));
                         OnPropertyChanged(nameof(CanRetryHotkeysOrCleanup));
                         OnPropertyChanged(nameof(HasFailedRecordingCleanup));
@@ -1954,14 +1964,14 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                     _activeWork.Remove(workTcs.Task);
                 }
 
-                if (caughtEx == null)
+                if (!HasFailedRecordingCleanup)
                 {
                     _activeRecordingTask = null;
                     workTcs.TrySetResult();
                 }
                 else
                 {
-                    workTcs.TrySetException(caughtEx);
+                    workTcs.TrySetException(caughtEx ?? new InvalidOperationException("结束录入清理失败"));
                 }
             }
         }
@@ -2013,26 +2023,52 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         {
             if (_recordingCoordinator != null && _recordingCoordinator.HasFailedCleanup)
             {
-                await _recordingCoordinator.RetryCleanupAsync().ConfigureAwait(false);
+                var targetItem = _activeRecordingItem;
+                long targetSeq = _recordingSessionSeq;
+                var retryResult = await _recordingCoordinator.RetryCleanupAsync().ConfigureAwait(false);
                 await _uiDispatcher.InvokeAsync(() =>
                 {
-                    if (_activeRecordingItem != null)
+                    lock (_admissionLock)
                     {
-                        var lastResult = _recordingCoordinator.LastCapturedResult;
-                        if (lastResult?.Outcome == HotkeyCaptureOutcome.Captured && lastResult.Binding != null)
+                        if (_disposed) return Task.CompletedTask;
+                        _isStopped = false;
+                    }
+
+                    if (_recordingSessionSeq == targetSeq && ReferenceEquals(_activeRecordingItem, targetItem) && targetItem != null)
+                    {
+                        if (retryResult?.Outcome == HotkeyCaptureOutcome.Captured && retryResult.Binding != null)
                         {
-                            _activeRecordingItem.ApplyCapturedBinding(lastResult.Binding);
+                            targetItem.ApplyCapturedBinding(retryResult.Binding);
                         }
-                        else if (lastResult?.Outcome == HotkeyCaptureOutcome.Cleared)
+                        else if (retryResult?.Outcome == HotkeyCaptureOutcome.Cleared)
                         {
-                            _activeRecordingItem.ApplyClearedBinding();
+                            targetItem.ApplyClearedBinding();
                         }
-                        _activeRecordingItem.DraftError = null;
+                        targetItem.DraftError = null;
+                        targetItem.SetRecordingState(false, false, null, null);
                         _activeRecordingItem = null;
                     }
+                    else if (targetItem != null)
+                    {
+                        targetItem.SetRecordingState(false, false, null, null);
+                    }
+
+                    if (_activeRecordingItem != null)
+                    {
+                        _activeRecordingItem.SetRecordingState(false, false, null, null);
+                        _activeRecordingItem = null;
+                    }
+
                     _activeRecordingTask = null;
                     ValidateHotkeyDrafts();
                     RaiseAllCommandsCanExecute();
+                    OnPropertyChanged(nameof(CanEdit));
+                    OnPropertyChanged(nameof(CanSave));
+                    OnPropertyChanged(nameof(IsAnyRecording));
+                    OnPropertyChanged(nameof(CanAccessHotkeysTab));
+                    OnPropertyChanged(nameof(CanRetryHotkeysOrCleanup));
+                    OnPropertyChanged(nameof(HasFailedRecordingCleanup));
+                    OnPropertyChanged(nameof(IsDirty));
                     return Task.CompletedTask;
                 }, CancellationToken.None).ConfigureAwait(false);
             }
@@ -2045,7 +2081,8 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 {
                     lock (_admissionLock)
                     {
-                        if (_disposed || _isStopped) return Task.CompletedTask;
+                        if (_disposed) return Task.CompletedTask;
+                        _isStopped = false;
                     }
 
                     if (snapshot.SnapshotId >= _lastAppliedHotkeySnapshotId)

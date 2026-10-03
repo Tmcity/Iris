@@ -86,6 +86,7 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
         public void EnsureThreadMessageQueueCreated()
         {
             EnsureQueueCallCount++;
+            while (_messageQueue.TryTake(out _)) { }
         }
 
         public nint CallNextHook(nint hookHandle, int nCode, nuint wParam, nint lParam)
@@ -774,12 +775,115 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
         _adapter.SimulateGetMessageError = true;
         _adapter.PostThreadQuitMessage(1); // 触发一次唤醒使 GetMessage 运行
 
-        var ex = await Should.ThrowAsync<IrisException>(async () => await session.Completion);
-        ex.Message.ShouldContain("消息循环异常终止");
+        var result = await session.Completion;
+        result.Outcome.ShouldBe(HotkeyCaptureOutcome.Failed);
+        result.Binding.ShouldBeNull();
+        result.Error.ShouldNotBeNull();
+        result.Error!.Message.ShouldContain("消息循环异常终止");
 
         // 验证 hook 已被清理卸载
         await Task.Delay(100, TestContext.Current.CancellationToken);
         _adapter.UnhookWindowsHookCallCount.ShouldBeGreaterThan(0);
+    }
+
+    [Fact]
+    public async Task MessageLoop_UnexpectedLoopZero_BeforeStopRequested_FailsSessionAndCleansUp()
+    {
+        var session = await _service.BeginAsync(_adapter.ValidWindowHandle, TestContext.Current.CancellationToken);
+
+        // 未请求停止前收到 WM_QUIT (GetMessage 返回 0)
+        _adapter.PostThreadQuitMessage(1);
+
+        var result = await session.Completion;
+        result.Outcome.ShouldBe(HotkeyCaptureOutcome.Failed);
+        result.Binding.ShouldBeNull();
+        result.Error.ShouldNotBeNull();
+        result.Error!.Message.ShouldContain("录入消息循环意外退出");
+
+        // 验证 hook 已被清理卸载并等待完整收尾屏障
+        await _service.StopAsync();
+        _adapter.UnhookWindowsHookCallCount.ShouldBeGreaterThan(0);
+
+        // 之后服务能够正常接纳新会话
+        var session2 = await _service.BeginAsync(_adapter.ValidWindowHandle, TestContext.Current.CancellationToken);
+        session2.ShouldNotBeNull();
+        await session2.DisposeAsync();
+    }
+
+    [Fact]
+    public async Task ServiceStopAsync_And_DisposeAsync_WaitForSlowProgressSubscriber_AndRejectsNewBeginWhileBlocked()
+    {
+        // 1. 测试 StopAsync 等待慢订阅者且期间拒绝新 BeginAsync
+        var session1 = await _service.BeginAsync(_adapter.ValidWindowHandle, TestContext.Current.CancellationToken);
+
+        var subscriberEnteredTcs1 = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var subscriberReleaseTcs1 = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        bool subscriberFinished1 = false;
+
+        session1.ProgressChanged += (_, _) =>
+        {
+            subscriberEnteredTcs1.TrySetResult();
+            subscriberReleaseTcs1.Task.GetAwaiter().GetResult();
+            subscriberFinished1 = true;
+        };
+
+        try
+        {
+            // 触发进度更新
+            _adapter.SendKeyDown(0xA2); // LCtrl
+            await subscriberEnteredTcs1.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+
+            // 服务级 StopAsync: 此时 subscriber 正在阻塞，StopAsync 必须 pending
+            var stopTask = _service.StopAsync();
+            stopTask.IsCompleted.ShouldBeFalse("subscriber 阻塞期间服务 StopAsync 绝不能提前返回");
+
+            // 期间新 BeginAsync 必须被拒绝
+            await Should.ThrowAsync<IrisException>(() => _service.BeginAsync(_adapter.ValidWindowHandle, TestContext.Current.CancellationToken));
+        }
+        finally
+        {
+            // 放行 subscriber
+            subscriberReleaseTcs1.TrySetResult();
+        }
+
+        await _service.StopAsync();
+        subscriberFinished1.ShouldBeTrue();
+
+        // 2. 释放后可以开始新会话，并测试 DisposeAsync 也等待慢订阅者
+        var service2 = new HotkeyCaptureService(
+            _adapter,
+            null,
+            NullLogger<HotkeyCaptureService>.Instance);
+
+        var session2 = await service2.BeginAsync(_adapter.ValidWindowHandle, TestContext.Current.CancellationToken);
+
+        var subscriberEnteredTcs2 = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var subscriberReleaseTcs2 = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        bool subscriberFinished2 = false;
+
+        session2.ProgressChanged += (_, _) =>
+        {
+            subscriberEnteredTcs2.TrySetResult();
+            subscriberReleaseTcs2.Task.GetAwaiter().GetResult();
+            subscriberFinished2 = true;
+        };
+
+        Task disposeTask;
+        try
+        {
+            _adapter.SendKeyDown(0xA2); // LCtrl
+            await subscriberEnteredTcs2.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+
+            disposeTask = service2.DisposeAsync().AsTask();
+            disposeTask.IsCompleted.ShouldBeFalse("subscriber 阻塞期间服务 DisposeAsync 绝不能提前返回");
+        }
+        finally
+        {
+            subscriberReleaseTcs2.TrySetResult();
+        }
+
+        await disposeTask.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+        subscriberFinished2.ShouldBeTrue();
     }
 
     [Fact]
@@ -798,17 +902,23 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
             subscriberFinished = true;
         };
 
-        // 触发一次进度更新
-        _adapter.SendKeyDown(0xA2); // LCtrl
-        await subscriberEnteredTcs.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+        try
+        {
+            // 触发一次进度更新
+            _adapter.SendKeyDown(0xA2); // LCtrl
+            await subscriberEnteredTcs.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
 
-        // 调用 session.DisposeAsync()，此时 subscriber 正在阻塞
-        var disposeTask = session.DisposeAsync().AsTask();
-        disposeTask.IsCompleted.ShouldBeFalse("subscriber 阻塞期间 DisposeAsync 绝不能提前返回");
+            // 调用 session.DisposeAsync()，此时 subscriber 正在阻塞
+            var disposeTask = session.DisposeAsync().AsTask();
+            disposeTask.IsCompleted.ShouldBeFalse("subscriber 阻塞期间 DisposeAsync 绝不能提前返回");
+        }
+        finally
+        {
+            // 放行 subscriber
+            subscriberReleaseTcs.TrySetResult();
+        }
 
-        // 放行 subscriber
-        subscriberReleaseTcs.TrySetResult();
-        await disposeTask.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+        await session.DisposeAsync();
         subscriberFinished.ShouldBeTrue();
     }
 }

@@ -237,7 +237,7 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
 
         if (context == null || !context.HasFailedCleanup)
         {
-            return _lastCapturedResult;
+            return null;
         }
 
         context.ResetForRetry();

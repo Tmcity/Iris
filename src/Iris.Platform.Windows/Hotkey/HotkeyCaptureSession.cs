@@ -249,11 +249,21 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
     internal void Fail(Exception ex)
     {
         bool completedHere = false;
+        ErrorInfo errorInfo;
+        if (ex is IrisException irisEx)
+        {
+            errorInfo = new ErrorInfo(irisEx.Code, irisEx.Message);
+        }
+        else
+        {
+            errorInfo = new ErrorInfo(ErrorCode.Unknown, "快捷键录入异常终止。");
+        }
+
         lock (_stateLock)
         {
             if (!_completionTcs.Task.IsCompleted)
             {
-                _completionTcs.TrySetException(ex);
+                _completionTcs.TrySetResult(new HotkeyCaptureResult(HotkeyCaptureOutcome.Failed, Binding: null, Error: errorInfo));
                 completedHere = true;
                 _isStopped = true;
             }
@@ -328,9 +338,8 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
         }
     }
 
-    public async ValueTask DisposeAsync()
+    internal async Task WaitForProgressWorkerAsync()
     {
-        RequestStop();
         _progressChannel.Writer.TryComplete();
         try
         {
@@ -339,6 +348,11 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
         catch
         {
         }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        RequestStop();
         var task = EnsureCleanupStarted();
         await task.ConfigureAwait(false);
     }
