@@ -774,7 +774,7 @@ HotkeyRegistrationResult 继续表达注册结果：非法键/组合为 HotkeyIn
 |---|---|
 | 日期 / 提出与批准 | 2026-10-03，Codex 架构师 |
 | 关联 | T-020A / T-020B；HOTKEY_SETTINGS_EDITING.md；ARCH v1.28 |
-| 状态 | **已落地，待复审（T-020A-R2）** |
+| 状态 | **已结案（2026-10-03，T-020A-R2 / 3e892af 独立验收通过）** |
 
 现有 SettingsEditPlan 只包含常规与 Provider 意图，Hotkeys 不能绕过全窗口提交；旧 N2 会把清空的默认键恢复启用绑定。此次新增：
 
@@ -788,3 +788,5 @@ HotkeyRegistrationResult 继续表达注册结果：非法键/组合为 HotkeyIn
 本次仅同步 CONTRACTS.cs 与 Core 的声明，不声称当前 SettingsEditCoordinator 已处理新增字段；实现与回归由唯一工单 T-020A 完成。B 单须在 A 通过后定稿录入暂停/恢复接口，仍完成父任务的 Win 键录入、取消、清除、冲突提示和即时应用全部目标。
 
 声明同步后独立运行 `dotnet test tests/Iris.ArchitectureTests/Iris.ArchitectureTests.csproj -c Release`：总计 8、成功 8、失败 0、跳过 0，持续 1s 622ms。只证明声明一致/依赖架构保持，不是快捷键编辑实现验收。
+
+2026-10-03 最终状态覆盖上述签发时的“待实施”：6303d29 完成 A 生产实现，9d12449 / 3e892af 完成测试与证据修正；3e892af 独立 Release 零警告、全量 1668 项（1667 成功/1 环境跳过）及关闭故障独立对照通过，CCR-015 结案。具体证据见 tasks/done/T-020A-R2.md 文末。T-020B 的录入暂停/恢复和 UI 状态端口仍须单独定稿，父任务 T-020 未完成。

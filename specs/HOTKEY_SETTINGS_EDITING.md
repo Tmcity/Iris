@@ -2,6 +2,8 @@
 
 > 2026-10-03，Codex；ARCH v1.28 / CCR-015。T-020 分 A/B 顺序交付；§1–§6 为 T-020A 正式规范，§7 为 B 单设计边界，尚不签发 UI 实施。
 
+> 验收更新：T-020A-R2 / 3e892af 已独立验收，CCR-015 结案。A 保存基础已完成；§7 的 B 单仍待正式设计与实施，不代表录入 UI 已交付。
+
 ## 1. 范围与端口
 
 T-020A 扩展 ISettingsEditCoordinator 的一次联合提交，增加快捷键增量、纯 Core IHotkeyBindingPolicy 及禁用空键持久化。T-020B 在 A 验收后接入设置页、HotkeyRecorderBox、录入暂停/恢复和注册状态；仅 A 通过不能结案 T-020。
