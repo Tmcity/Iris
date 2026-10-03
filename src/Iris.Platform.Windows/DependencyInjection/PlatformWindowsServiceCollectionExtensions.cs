@@ -4,6 +4,7 @@ using Iris.Platform.Windows.Capture;
 using Iris.Platform.Windows.Clipboard;
 using Iris.Platform.Windows.Hotkey;
 using Iris.Platform.Windows.Security;
+using Iris.Platform.Windows.Selection;
 using Iris.Platform.Windows.SystemIntegration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -26,6 +27,8 @@ public static class PlatformWindowsServiceCollectionExtensions
         services.AddSingleton<IHotkeyService, HotkeyService>();
         services.TryAddSingleton<INativeKeyboardHookAdapter>(NativeKeyboardHookAdapter.Instance);
         services.TryAddSingleton<IHotkeyCaptureService, HotkeyCaptureService>();
+        services.TryAddSingleton<INativeKeyboardInputAdapter>(Win32KeyboardInputAdapter.Instance);
+        services.TryAddSingleton<KeyboardSimulator>();
         return services;
     }
 }

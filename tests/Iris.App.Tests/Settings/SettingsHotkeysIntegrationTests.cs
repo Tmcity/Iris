@@ -1085,6 +1085,11 @@ public sealed class SettingsHotkeysIntegrationTests
             var themeService = env.ServiceProvider.GetRequiredService<ThemeService>();
             var session = new SettingsWindowSession(scope, window, env.ViewModel, themeService, env.SaveCoordinator);
 
+            Task? recTask = null;
+            SettingsViewModel? newVm = null;
+            GeneralSettingsSaveCoordinator? newSaveCoord = null;
+            IServiceScope? newScope = null;
+
             try
             {
                 window.Show();
@@ -1092,7 +1097,7 @@ public sealed class SettingsHotkeysIntegrationTests
                 window.UpdateLayout();
 
                 var inputItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.InputTranslate);
-                var recTask = env.ViewModel.StartRecordingAsync(inputItem);
+                recTask = env.ViewModel.StartRecordingAsync(inputItem);
 
                 // 模拟卸载与停止失败
                 env.CaptureService.FailUnhookOnDispose = true;
@@ -1130,9 +1135,9 @@ public sealed class SettingsHotkeysIntegrationTests
                 isScopeDisposed.ShouldBeTrue("关闭完成后旧作用域应被释放");
 
                 // 打开全新作用域的设置窗口，验证正常编辑并保存至真实临时 JSON
-                using var newScope = env.ServiceProvider.CreateScope();
-                var newSaveCoord = newScope.ServiceProvider.GetRequiredService<GeneralSettingsSaveCoordinator>();
-                var newVm = newScope.ServiceProvider.GetRequiredService<SettingsViewModel>();
+                newScope = env.ServiceProvider.CreateScope();
+                newSaveCoord = newScope.ServiceProvider.GetRequiredService<GeneralSettingsSaveCoordinator>();
+                newVm = newScope.ServiceProvider.GetRequiredService<SettingsViewModel>();
                 newVm.SetWindowHandleProvider(() => 0x5678);
 
                 newVm.CanEdit.ShouldBeTrue("新窗口作用域应处于可编辑状态");
@@ -1154,11 +1159,49 @@ public sealed class SettingsHotkeysIntegrationTests
             }
             finally
             {
+                env.CaptureService.FailUnhookOnDispose = false;
+                env.CaptureService.FailStop = false;
+
+                if (newVm != null)
+                {
+                    newVm.StopAcceptance();
+                    if (newSaveCoord != null)
+                    {
+                        await newSaveCoord.WaitForActiveWorkAsync();
+                    }
+                    await newVm.WaitForActiveWorkAsync();
+                }
+                newScope?.Dispose();
+
                 if (session.IsOpen)
                 {
                     window.ForceClose = true;
                     window.Close();
                 }
+
+                if (session.CurrentCleanupTask != null)
+                {
+                    try
+                    {
+                        await session.CurrentCleanupTask;
+                    }
+                    catch
+                    {
+                    }
+                }
+
+                if (recTask != null)
+                {
+                    try
+                    {
+                        await recTask;
+                    }
+                    catch (OperationCanceledException)
+                    {
+                    }
+                }
+
+                await env.ViewModel.WaitForActiveWorkAsync();
             }
         });
     }
@@ -1184,6 +1227,7 @@ public sealed class SettingsHotkeysIntegrationTests
 
             var themeService = env.ServiceProvider.GetRequiredService<ThemeService>();
             var session = new SettingsWindowSession(Substitute.For<IServiceScope>(), window, env.ViewModel, themeService, env.SaveCoordinator);
+            Task? recTask = null;
 
             try
             {
@@ -1192,26 +1236,15 @@ public sealed class SettingsHotkeysIntegrationTests
                 window.UpdateLayout();
 
                 var inputItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.InputTranslate);
-                var recTask = env.ViewModel.StartRecordingAsync(inputItem);
+                recTask = env.ViewModel.StartRecordingAsync(inputItem);
 
                 // 模拟取消录入时清理失败（此时未请求关闭窗口）
                 env.CaptureService.FailUnhookOnDispose = true;
                 env.CaptureService.FailStop = true;
 
-                try
-                {
-                    await env.ViewModel.CancelRecordingAsync();
-                }
-                catch
-                {
-                }
-                try
-                {
-                    await recTask;
-                }
-                catch
-                {
-                }
+                var cancelEx = await Should.ThrowAsync<IrisException>(() => env.ViewModel.CancelRecordingAsync());
+                cancelEx.ShouldNotBeNull();
+                await recTask;
 
                 // 验证清理失败状态
                 env.ViewModel.HasFailedRecordingCleanup.ShouldBeTrue("取消录入清理失败必须反映在 ViewModel");
@@ -1242,9 +1275,15 @@ public sealed class SettingsHotkeysIntegrationTests
             }
             finally
             {
-                window.ForceClose = true;
-                window.Close();
-                await session.ShutdownAsync(CancellationToken.None);
+                env.CaptureService.FailUnhookOnDispose = false;
+                env.CaptureService.FailStop = false;
+                if (session.IsOpen)
+                {
+                    window.ForceClose = true;
+                    window.Close();
+                    await session.ShutdownAsync(CancellationToken.None);
+                }
+                await env.ViewModel.WaitForActiveWorkAsync();
             }
         });
     }
@@ -1259,24 +1298,38 @@ public sealed class SettingsHotkeysIntegrationTests
         // 开启闸门，在重试回调被调度至 UI 之前拦截
         gatedDispatcher.GateEnabled = true;
 
-        var retryTask = env.ViewModel.ExecuteRetryHotkeysAsync();
+        Task? retryTask = null;
+        try
+        {
+            retryTask = env.ViewModel.ExecuteRetryHotkeysAsync();
 
-        // 等待回调抵达 UI 调度器闸门
-        await gatedDispatcher.CallbackEnteredTcs.Task.WaitAsync(TestContext.Current.CancellationToken);
+            // 等待回调抵达 UI 调度器闸门
+            await gatedDispatcher.CallbackEnteredTcs.Task.WaitAsync(TestContext.Current.CancellationToken);
 
-        // 在迟到回调执行前，窗口/Host 主动停止会话
-        env.ViewModel.StopAcceptance();
-        env.ViewModel.IsStopped.ShouldBeTrue("StopAcceptance 应使会话进入停止态");
-        env.ViewModel.CanEdit.ShouldBeFalse("停止态下 CanEdit 应为 false");
+            // 在迟到回调执行前，窗口/Host 主动停止会话
+            env.ViewModel.StopAcceptance();
+            env.ViewModel.IsStopped.ShouldBeTrue("StopAcceptance 应使会话进入停止态");
+            env.ViewModel.CanEdit.ShouldBeFalse("停止态下 CanEdit 应为 false");
 
-        // 放行迟到回调并等待任务结束
-        gatedDispatcher.CallbackReleaseTcs.TrySetResult();
-        await retryTask.WaitAsync(TestContext.Current.CancellationToken);
-        await env.ViewModel.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
+            // 放行迟到回调并等待任务结束
+            gatedDispatcher.CallbackReleaseTcs.TrySetResult();
+            await retryTask.WaitAsync(TestContext.Current.CancellationToken);
+            await env.ViewModel.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
 
-        // 验证迟到回调绝不能撤销停止态，绝不能恢复可编辑
-        env.ViewModel.IsStopped.ShouldBeTrue("迟到回调绝不能撤销 _isStopped");
-        env.ViewModel.CanEdit.ShouldBeFalse("迟到回调绝不能使 CanEdit 重新变为 true");
+            // 验证迟到回调绝不能撤销停止态，绝不能恢复可编辑
+            env.ViewModel.IsStopped.ShouldBeTrue("迟到回调绝不能撤销 _isStopped");
+            env.ViewModel.CanEdit.ShouldBeFalse("迟到回调绝不能使 CanEdit 重新变为 true");
+        }
+        finally
+        {
+            gatedDispatcher.GateEnabled = false;
+            gatedDispatcher.CallbackReleaseTcs.TrySetResult();
+            if (retryTask != null)
+            {
+                await retryTask.WaitAsync(TestContext.Current.CancellationToken);
+            }
+            await env.ViewModel.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
+        }
     }
 
     [Fact]
@@ -1286,52 +1339,68 @@ public sealed class SettingsHotkeysIntegrationTests
         await using var env = new IntegrationEnvironment(uiDispatcher: gatedDispatcher);
         await env.Coordinator.StartAsync();
 
-        var inputItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.InputTranslate);
-        var recTask = env.ViewModel.StartRecordingAsync(inputItem);
-
-        env.CaptureService.FailUnhookOnDispose = true;
-        env.CaptureService.FailStop = true;
-
+        Task? recTask = null;
+        Task? retryTask = null;
         try
         {
-            await env.ViewModel.CancelRecordingAsync();
-        }
-        catch
-        {
-        }
-        try
-        {
+            var inputItem = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.InputTranslate);
+            recTask = env.ViewModel.StartRecordingAsync(inputItem);
+
+            env.CaptureService.FailUnhookOnDispose = true;
+            env.CaptureService.FailStop = true;
+
+            var cancelEx = await Should.ThrowAsync<IrisException>(() => env.ViewModel.CancelRecordingAsync());
+            cancelEx.ShouldNotBeNull();
             await recTask;
+
+            env.ViewModel.HasFailedRecordingCleanup.ShouldBeTrue();
+
+            // 准备重试清理，开启闸门暂存 UI 回调
+            env.CaptureService.FailUnhookOnDispose = false;
+            env.CaptureService.FailStop = false;
+            gatedDispatcher.GateEnabled = true;
+
+            retryTask = env.ViewModel.ExecuteRetryHotkeysAsync();
+
+            // 等待重试清理完成并抵达 UI 回调闸门
+            await gatedDispatcher.CallbackEnteredTcs.Task.WaitAsync(TestContext.Current.CancellationToken);
+
+            // 在回调执行前，外部关闭/停止会话
+            env.ViewModel.StopAcceptance();
+            env.ViewModel.IsStopped.ShouldBeTrue();
+            env.ViewModel.CanEdit.ShouldBeFalse();
+
+            // 放行迟到回调并等待任务结束
+            gatedDispatcher.CallbackReleaseTcs.TrySetResult();
+            await retryTask.WaitAsync(TestContext.Current.CancellationToken);
+            await env.ViewModel.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
+
+            // 验证清理重试迟到回调绝不能撤销停止态，绝不能重新开放 CanEdit，且不回写草稿
+            env.ViewModel.IsStopped.ShouldBeTrue("清理重试迟到回调绝不能撤销 _isStopped");
+            env.ViewModel.CanEdit.ShouldBeFalse("清理重试迟到回调绝不能恢复 CanEdit");
         }
-        catch
+        finally
         {
+            env.CaptureService.FailUnhookOnDispose = false;
+            env.CaptureService.FailStop = false;
+            gatedDispatcher.GateEnabled = false;
+            gatedDispatcher.CallbackReleaseTcs.TrySetResult();
+            if (recTask != null)
+            {
+                try
+                {
+                    await recTask;
+                }
+                catch (IrisException)
+                {
+                }
+            }
+            if (retryTask != null)
+            {
+                await retryTask.WaitAsync(TestContext.Current.CancellationToken);
+            }
+            await env.ViewModel.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
         }
-
-        env.ViewModel.HasFailedRecordingCleanup.ShouldBeTrue();
-
-        // 准备重试清理，开启闸门暂存 UI 回调
-        env.CaptureService.FailUnhookOnDispose = false;
-        env.CaptureService.FailStop = false;
-        gatedDispatcher.GateEnabled = true;
-
-        var retryTask = env.ViewModel.ExecuteRetryHotkeysAsync();
-
-        // 等待重试清理完成并抵达 UI 回调闸门
-        await gatedDispatcher.CallbackEnteredTcs.Task.WaitAsync(TestContext.Current.CancellationToken);
-
-        // 在回调执行前，外部关闭/停止会话
-        env.ViewModel.StopAcceptance();
-        env.ViewModel.IsStopped.ShouldBeTrue();
-        env.ViewModel.CanEdit.ShouldBeFalse();
-
-        // 放行迟到回调并等待任务结束
-        gatedDispatcher.CallbackReleaseTcs.TrySetResult();
-        await retryTask.WaitAsync(TestContext.Current.CancellationToken);
-        await env.ViewModel.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
-
-        // 验证清理重试迟到回调绝不能撤销停止态，绝不能重新开放 CanEdit，且不回写草稿
-        env.ViewModel.IsStopped.ShouldBeTrue("清理重试迟到回调绝不能撤销 _isStopped");
-        env.ViewModel.CanEdit.ShouldBeFalse("清理重试迟到回调绝不能恢复 CanEdit");
     }
 
     [Fact]

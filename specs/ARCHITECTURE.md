@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.29 · 2026-10-03 · 状态：**已冻结（首期）**
+> 版本：v1.30 · 2026-10-04 · 状态：**已冻结（首期）**
+> 变更记录：v1.30（T-020/B-R4 通过，签发 T-021）— KEYBOARD_SIMULATION.md 定稿内部 KeyboardSimulator、单事件输入确认、目标复核、起始释放等待、失败 KeyUp 责任及停止；超时不再强行释放用户按住的键。公开契约/默认配置不变，A08 选区读取与剪贴板恢复仍由 T-022 定稿。
 > 变更记录：v1.29（T-020A-R2 通过，签发 T-020B）— HOTKEY_RECORDING_UI.md / CCR-016 定稿短时键盘捕获端口、专用消息线程、录入暂停/最新配置恢复、运行时状态及全窗口联合保存；只新增批准的录入契约，既有公共签名与默认配置保持。
 > 变更记录：v1.28（T-017-R2 通过，签发 T-020A）— HOTKEY_SETTINGS_EDITING.md / CCR-015 固定快捷键增量联合提交、纯 Core 规则端口和禁用空键 N2；T-020 拆为 A 保存基础与 B 录入/设置接线，B 另行定稿。
 > 变更记录：v1.27（T-016-R1 通过，签发 T-017）— HOTKEY_SERVICE.md 固定构造/线程、消息与 ID、F12/非法组合、注册失败保留、已开放动作过滤及两阶段退出；CCR-014 仅同步 IHotkeyService 注释，签名与默认配置不变。
@@ -794,7 +795,7 @@ data: {"type":"message_stop"}
 
 **剪贴板兜底**（按顺序，全部在后台线程执行）：
 1. 前台进程在 `ClipboardUnsafeProcesses` 中 → 跳过（**在终端里 Ctrl+C 是中断信号，会杀掉用户正在运行的程序**）。
-2. 等待用户松开热键修饰键：轮询 `GetAsyncKeyState(VK_CONTROL/VK_MENU/VK_SHIFT/VK_LWIN/VK_RWIN)`，间隔 10 ms，最多 500 ms。**否则模拟的 Ctrl+C 会叠加用户仍按着的 Alt，变成 Ctrl+Alt+C。** 超时仍未松开 → 用 `SendInput` 补发这些键的 KeyUp。
+2. 按 KEYBOARD_SIMULATION.md 等待左右 Ctrl/Alt/Shift/Win 及 C 释放，10 ms 轮询、最多 500 ms；超时返回 NotReady，不发送 Ctrl+C，也不补发用户起始仍按住键的 KeyUp。防止叠加 Alt 变成 Ctrl+Alt+C；本次可由 UIA 取得选区或按上层无结果策略处理。只有本次实际注入产生的释放责任才允许补偿。
 3. 快照剪贴板：枚举格式（`EnumClipboardFormats`），保存 `CF_UNICODETEXT`、`CF_HDROP`、`CF_DIB`、`HTML Format`、`Rich Text Format` 的数据；其余格式不保证恢复（这是已知限制）。
 4. 记录 `seq0 = GetClipboardSequenceNumber()` → `SendInput`（Ctrl 按下、C 按下、C 抬起、Ctrl 抬起）。
 5. 每 15 ms 轮询一次，直到序列号 ≠ seq0 或超过 `ClipboardTimeoutMs`；序列号变化后再等 20 ms（部分应用分多次写入剪贴板）。
@@ -808,6 +809,10 @@ IClipboardService 的线程、格式、取消和所有权规则以 CLIPBOARD_SER
 ### 10.4.2 桌面环境查询（T-022A）
 
 完整规则见 DESKTOP_CONTEXT.md / CCR-009。以显示设备表关联显示器快照，排除未接入桌面与镜像伪设备，保留真正使用的远程/虚拟桌面；集合只读，坐标全为物理像素。DPI 用对应显示器上不可见的 PerMonitorV2 窗口调用 GetDpiForWindow，采集后销毁并恢复线程 context，不使用 per-monitor-aware 线程上的 GetDpiForMonitor。前台信息返回实际进程文件名、可空有界标题和短暂 HWND/PID 快照；无法确认来源时返回 null，不把它当作后续输入授权。构造不访问桌面，业务 Handler/定位与选区仍由后续工单接线。
+
+### 10.4.3 键盘模拟（T-021）
+
+KEYBOARD_SIMULATION.md 为正式规范。KeyboardSimulator/窄 native adapter/目标及结果均为 Platform.Windows 内部类型，构造零 I/O，不新增公开 Core 接口。一次活动 Copy/清理；单 INPUT 确认 LCtrl down、C down、C up、LCtrl up，检查返回值并保留本次未释放键责任，失败重试仅补 KeyUp。发送前确认目标身份，停止永久撤销准入并等待真实工作。Injected/MayHaveCopied 不证明取得选区；单事件间输入/前台竞争、UIPI 与键状态查询限制须明示。T-022 负责终端/焦点控件安全、UIA、快照/序列归属及生命周期接线，T-021 不开放业务入口。
 
 ### 10.5 DPI 与坐标
 

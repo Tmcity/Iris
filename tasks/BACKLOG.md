@@ -236,13 +236,13 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
-| T-021 | ☐ | KeyboardSimulator（剪贴板服务已拆至 T-021A） | T-021A | 0.5d |
+| T-021 | ▶ | KeyboardSimulator：受控 Ctrl+C、释放责任与停止（含 C20B-1 测试维护） | T-021A | 0.5d |
 | T-022 | ☐ | UIA / 剪贴板 / 组合选区读取器（DesktopContext 已拆至 T-022A） | T-021, T-022A | 1.5d |
 | T-023 | ☐ | SelectionTranslateHandler + 划词设置页（基础部分） | T-022, T-018 | 0.5d |
 | T-024 | ☐ | MouseSelectionMonitor + GestureRecognizer + SelectionIconWindow / Controller | T-023 | 2d |
 
-**T-021** 验收：修饰键释放逻辑有单元测试（抽象出按键状态的读取接口）；剪贴板占用重试、文本和图片写入的验收移至 T-021A，不重复实现。
-**T-022** 交付 ARCH §10.4 全部步骤。手动验收清单：记事本、Word、Chrome、Edge、VS Code、微信 / QQ、PDF 阅读器、Windows Terminal（**不得触发 Ctrl+C**）；剪贴板中原有的文本或图片在读取后被恢复；没有选中文本时返回 null，而不是返回旧的剪贴板内容；按住 Ctrl+Alt+D 不放时也能正确读取。
+**T-021** 已按 KEYBOARD_SIMULATION.md / ARCH v1.30 签发，基线 361e2c1。实现实际 KeyboardSimulator + fake native/time 回归：起始释放等待、目标复核、单事件确认、失败释放责任与 Stop；不执行真实输入，不接选区业务入口。含 C20B-1 仅四个 R4 测试失败收尾维护；不重复已验收剪贴板服务。公开契约与默认配置不变，由 Codex 直接在 Antigravity 下达。
+**T-022** 在签发时统一 ARCH §10.4 与 A08 的终端/焦点控件、UIA 有界等待、剪贴板快照/序列归属和外部更新保护。手动验收清单含记事本、Word、Chrome、Edge、VS Code、微信/QQ、PDF 阅读器、Windows Terminal（**不得触发 Ctrl+C**）；没有新复制时不得返回旧文本，恢复不得覆盖外部新复制。修饰键仍按住时遵守 T-021 的等待/NotReady，使用 UIA 或无结果策略，不强制松开用户按键；最终验收细则随 T-022 正式工单定稿。
 **T-023** 验收：Handler 单元测试覆盖三个分支（有文本 / 无文本且打开输入窗 / 无文本且只提示）；设置页可以编辑 ReadOrder、RestoreClipboard、排除进程列表。
 **T-024** 交付 ARCH §6.3（鼠标划词）、§10.2（钩子线程）、§10.6（不激活窗口）。验收：GestureRecognizer 纯逻辑单测（拖动阈值、双击 / 三击时间窗、Shift+单击、I 型光标条件）；钩子回调耗时 < 1 ms（Debug 日志统计）；图标出现时不抢焦点，点击图标后翻译的是原窗口中选中的文本；排除列表生效；模式切换后立即生效；在文件资源管理器里拖动文件不会触发。
 
