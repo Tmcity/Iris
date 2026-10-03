@@ -42,6 +42,12 @@ internal sealed class SettingsWindowSession : IDisposable
 
         _window.Closing += OnWindowClosing;
         _window.Closed += OnWindowClosed;
+        _viewModel.RequestClose += OnViewModelRequestClose;
+    }
+
+    private void OnViewModelRequestClose()
+    {
+        _ = ShutdownAsync(CancellationToken.None);
     }
 
     public bool IsOpen
@@ -213,6 +219,7 @@ internal sealed class SettingsWindowSession : IDisposable
 
         _window.Closing -= OnWindowClosing;
         _window.Closed -= OnWindowClosed;
+        _viewModel.RequestClose -= OnViewModelRequestClose;
 
         try
         {

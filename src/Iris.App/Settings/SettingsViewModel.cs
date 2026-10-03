@@ -65,6 +65,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     private readonly Lock _admissionLock = new();
     private readonly HashSet<Task> _activeWork = [];
     private bool _isStopped;
+    internal bool IsStopped => _isStopped;
     private long _queryGeneration;
     private long _requestSeq;
 
@@ -2008,9 +2009,11 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         }
 
         TaskCompletionSource workTcs;
+        bool wasStoppedInitially;
         lock (_admissionLock)
         {
             if (_disposed || (_isStopped && !HasFailedRecordingCleanup)) return;
+            wasStoppedInitially = _isStopped;
             workTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
             _activeWork.Add(workTcs.Task);
             IsSaving = true;
@@ -2031,18 +2034,20 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                     lock (_admissionLock)
                     {
                         if (_disposed) return Task.CompletedTask;
-                        _isStopped = false;
                     }
 
                     if (_recordingSessionSeq == targetSeq && ReferenceEquals(_activeRecordingItem, targetItem) && targetItem != null)
                     {
-                        if (retryResult?.Outcome == HotkeyCaptureOutcome.Captured && retryResult.Binding != null)
+                        if (!_isStopped)
                         {
-                            targetItem.ApplyCapturedBinding(retryResult.Binding);
-                        }
-                        else if (retryResult?.Outcome == HotkeyCaptureOutcome.Cleared)
-                        {
-                            targetItem.ApplyClearedBinding();
+                            if (retryResult?.Outcome == HotkeyCaptureOutcome.Captured && retryResult.Binding != null)
+                            {
+                                targetItem.ApplyCapturedBinding(retryResult.Binding);
+                            }
+                            else if (retryResult?.Outcome == HotkeyCaptureOutcome.Cleared)
+                            {
+                                targetItem.ApplyClearedBinding();
+                            }
                         }
                         targetItem.DraftError = null;
                         targetItem.SetRecordingState(false, false, null, null);
@@ -2081,8 +2086,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 {
                     lock (_admissionLock)
                     {
-                        if (_disposed) return Task.CompletedTask;
-                        _isStopped = false;
+                        if (_disposed || _isStopped) return Task.CompletedTask;
                     }
 
                     if (snapshot.SnapshotId >= _lastAppliedHotkeySnapshotId)
@@ -2134,11 +2138,22 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             }
             finally
             {
+                bool shouldResumeClose;
                 lock (_admissionLock)
                 {
                     _activeWork.Remove(workTcs.Task);
+                    shouldResumeClose = wasStoppedInitially && !HasFailedRecordingCleanup && !_disposed;
                 }
                 workTcs.TrySetResult();
+
+                if (shouldResumeClose)
+                {
+                    _ = _uiDispatcher.InvokeAsync(() =>
+                    {
+                        RequestClose?.Invoke();
+                        return Task.CompletedTask;
+                    }, CancellationToken.None);
+                }
             }
         }
     }
