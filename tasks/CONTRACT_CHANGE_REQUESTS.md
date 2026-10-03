@@ -774,7 +774,7 @@ HotkeyRegistrationResult 继续表达注册结果：非法键/组合为 HotkeyIn
 |---|---|
 | 日期 / 提出与批准 | 2026-10-03，Codex 架构师 |
 | 关联 | T-020A / T-020B；HOTKEY_SETTINGS_EDITING.md；ARCH v1.28 |
-| 状态 | **已落地，待复审（T-020A-R1）** |
+| 状态 | **已落地，待复审（T-020A-R2）** |
 
 现有 SettingsEditPlan 只包含常规与 Provider 意图，Hotkeys 不能绕过全窗口提交；旧 N2 会把清空的默认键恢复启用绑定。此次新增：
 
