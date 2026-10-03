@@ -499,6 +499,7 @@ public sealed class SettingsEditCoordinatorHotkeyTests
         };
 
         var commitTask = coordinator.CommitAsync(plan, TestContext.Current.CancellationToken);
+        SettingsEditResult? result = null;
 
         try
         {
@@ -512,11 +513,19 @@ public sealed class SettingsEditCoordinatorHotkeyTests
         }
         finally
         {
+            // 无论断言是否失败，必须先放行闸门并等待任务退出收尾，不遗漏在途任务
             mutateRelease.TrySetResult(true);
+            try
+            {
+                result = await commitTask;
+            }
+            catch
+            {
+                // 若 try 块抛出断言异常，保留原始异常
+            }
         }
 
-        var result = await commitTask;
-
+        result.ShouldNotBeNull();
         result.Status.ShouldBe(SettingsEditStatus.Applied);
         settingsService.Current.Hotkeys[IrisAction.SelectionTranslate].ShouldBe(
             new HotkeyBinding(HotkeyModifiers.Alt, "S", Enabled: true));
