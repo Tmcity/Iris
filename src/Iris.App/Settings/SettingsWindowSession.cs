@@ -40,6 +40,7 @@ internal sealed class SettingsWindowSession : IDisposable
         _themeService = themeService ?? throw new ArgumentNullException(nameof(themeService));
         _saveCoordinator = saveCoordinator ?? throw new ArgumentNullException(nameof(saveCoordinator));
 
+        _window.Closing += OnWindowClosing;
         _window.Closed += OnWindowClosed;
     }
 
@@ -57,6 +58,17 @@ internal sealed class SettingsWindowSession : IDisposable
     public SettingsWindow Window => _window;
     public SettingsViewModel ViewModel => _viewModel;
 
+    public Task? CurrentCleanupTask
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _cleanupTask;
+            }
+        }
+    }
+
     public void ActivateAndNavigate(string pageKey)
     {
         lock (_gate)
@@ -73,6 +85,21 @@ internal sealed class SettingsWindowSession : IDisposable
         }
         _window.Activate();
         _viewModel.CurrentPageKey = pageKey;
+    }
+
+    private void OnWindowClosing(object? sender, System.ComponentModel.CancelEventArgs e)
+    {
+        if (_window.ForceClose)
+        {
+            return;
+        }
+
+        // 仅当存在活跃录入、录入清理失败、正在保存、或已有异步清理进行中时，拦截立即销毁以保护界面与重试
+        if (_viewModel.IsAnyRecording || _viewModel.HasFailedRecordingCleanup || _viewModel.IsSaving || (_cleanupTask != null && !_cleanupTask.IsCompleted))
+        {
+            e.Cancel = true;
+            _ = ShutdownAsync(CancellationToken.None);
+        }
     }
 
     private void OnWindowClosed(object? sender, EventArgs e)
@@ -183,6 +210,9 @@ internal sealed class SettingsWindowSession : IDisposable
             _disposed = true;
             _isClosed = true;
         }
+
+        _window.Closing -= OnWindowClosing;
+        _window.Closed -= OnWindowClosed;
 
         try
         {

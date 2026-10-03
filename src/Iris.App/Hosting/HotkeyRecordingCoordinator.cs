@@ -158,6 +158,18 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
                     cleanupException = ex;
                 }
             }
+            else if (_captureService != null)
+            {
+                // Begin 失败且未返回 session 时，仍调用并等待服务 StopAsync 的真实回滚
+                try
+                {
+                    await _captureService.StopAsync().ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    cleanupException = ex;
+                }
+            }
 
             if (cleanupException == null && pauseLease != null)
             {
@@ -198,7 +210,24 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
         return result!;
     }
 
-    public async Task<HotkeyCaptureResult?> RetryCleanupAsync()
+    private Task<HotkeyCaptureResult?>? _retryCleanupTask;
+
+    public Task<HotkeyCaptureResult?> RetryCleanupAsync()
+    {
+        lock (_gate)
+        {
+            if (_retryCleanupTask != null && !_retryCleanupTask.IsCompleted)
+            {
+                return _retryCleanupTask;
+            }
+
+            var task = PerformRetryCleanupAsync();
+            _retryCleanupTask = task;
+            return task;
+        }
+    }
+
+    private async Task<HotkeyCaptureResult?> PerformRetryCleanupAsync()
     {
         ActiveRecordingContext? context;
         lock (_gate)
@@ -211,12 +240,25 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
             return _lastCapturedResult;
         }
 
+        context.ResetForRetry();
+
         Exception? cleanupException = null;
         if (context.CaptureSession != null)
         {
             try
             {
                 await context.CaptureSession.DisposeAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                cleanupException = ex;
+            }
+        }
+        else if (_captureService != null)
+        {
+            try
+            {
+                await _captureService.StopAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -238,7 +280,7 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
 
         if (cleanupException == null)
         {
-            var res = context.CapturedResult ?? _lastCapturedResult;
+            var res = context.CapturedResult;
             lock (_gate)
             {
                 if (ReferenceEquals(_activeContext, context))
@@ -295,7 +337,7 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
     private sealed class ActiveRecordingContext
     {
         private readonly CancellationTokenSource _linkedCts;
-        private readonly TaskCompletionSource _completionTcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        private TaskCompletionSource _completionTcs = new(TaskCreationOptions.RunContinuationsAsynchronously);
         private int _completed;
 
         public string Owner { get; }
@@ -323,6 +365,12 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
         {
             HasFailedCleanup = true;
             CleanupException = ex;
+            _completionTcs.TrySetException(ex);
+        }
+
+        public void ResetForRetry()
+        {
+            _completionTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         }
 
         public void Cancel()

@@ -39,7 +39,10 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
 
         public bool FailSetHook { get; set; }
         public bool FailUnhook { get; set; }
+        public bool FailPostQuit { get; set; }
+        public bool SimulateGetMessageError { get; set; }
         public int LastError { get; set; }
+        public TaskCompletionSource? SetWindowsHookEnteredTcs { get; set; }
         public TaskCompletionSource? SetWindowsHookBlockTcs { get; set; }
         public bool ThrowOnDetectInitialHeldKeys { get; set; }
         public bool ThrowOnForegroundWindow { get; set; }
@@ -51,6 +54,7 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
         {
             SetWindowsHookCallCount++;
             CapturedHookProc = proc;
+            SetWindowsHookEnteredTcs?.TrySetResult();
             if (SetWindowsHookBlockTcs != null)
             {
                 SetWindowsHookBlockTcs.Task.GetAwaiter().GetResult();
@@ -115,18 +119,42 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
         public bool PostThreadQuitMessage(uint threadId)
         {
             PostQuitCallCount++;
-            _messageQueue.TryAdd(new NativeMsg(WM_QUIT, 0, 0));
-            return true;
+            if (FailPostQuit)
+            {
+                LastError = 1444; // ERROR_INVALID_THREAD_ID
+                return false;
+            }
+            try
+            {
+                _messageQueue.TryAdd(new NativeMsg(WM_QUIT, 0, 0));
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public int GetMessage(out NativeMsg msg)
         {
+            if (SimulateGetMessageError)
+            {
+                LastError = 1400;
+                msg = default;
+                return -1;
+            }
             try
             {
                 msg = _messageQueue.Take();
+                if (SimulateGetMessageError)
+                {
+                    LastError = 1400;
+                    msg = default;
+                    return -1;
+                }
                 return msg.Message == WM_QUIT ? 0 : 1;
             }
-            catch (InvalidOperationException)
+            catch (Exception)
             {
                 msg = new NativeMsg(WM_QUIT, 0, 0);
                 return 0;
@@ -177,8 +205,13 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
 
         public void Dispose()
         {
-            _messageQueue.CompleteAdding();
-            _messageQueue.Dispose();
+            try
+            {
+                _messageQueue.CompleteAdding();
+            }
+            catch
+            {
+            }
         }
     }
 
@@ -289,16 +322,15 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
     {
         var hookEnteredTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var hookReleaseTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        _adapter.SetWindowsHookEnteredTcs = hookEnteredTcs;
         _adapter.SetWindowsHookBlockTcs = hookReleaseTcs;
 
         var beginTask = Task.Run(async () =>
         {
-            hookEnteredTcs.TrySetResult();
             return await _service.BeginAsync(_adapter.ValidWindowHandle, CancellationToken.None);
         });
 
         await hookEnteredTcs.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
-        await Task.Delay(50, TestContext.Current.CancellationToken);
 
         // 调用 StopAsync，它不能提前成功，必须等待初始化并清理 hook
         var stopTask = _service.StopAsync();
@@ -318,6 +350,43 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
         catch
         {
         }
+    }
+
+    [Fact]
+    public async Task BeginAsync_CanceledWhileSetWindowsHookInFlight_DoesNotLeakHookAndRollsBack()
+    {
+        var hookEnteredTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var hookReleaseTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        _adapter.SetWindowsHookEnteredTcs = hookEnteredTcs;
+        _adapter.SetWindowsHookBlockTcs = hookReleaseTcs;
+
+        using var cts = new CancellationTokenSource();
+        var beginTask = Task.Run(async () =>
+        {
+            return await _service.BeginAsync(_adapter.ValidWindowHandle, cts.Token);
+        });
+
+        await hookEnteredTcs.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+
+        // 在 SetWindowsHook 阻塞内部取消 token
+        cts.Cancel();
+
+        // 物理初始化未放行前，BeginAsync 绝不能提前退出
+        beginTask.IsCompleted.ShouldBeFalse("物理初始化未放行前，BeginAsync 绝不能因取消提前返回");
+
+        // 放行安装
+        hookReleaseTcs.TrySetResult();
+
+        await Should.ThrowAsync<OperationCanceledException>(async () => await beginTask);
+
+        // 验证 hook 必须被回滚卸载，无残留
+        _adapter.UnhookWindowsHookCallCount.ShouldBe(1);
+        _adapter.ReleaseResourcesCallCount.ShouldBe(1);
+
+        // 之后可以再次正常开启录入
+        var session2 = await _service.BeginAsync(_adapter.ValidWindowHandle, TestContext.Current.CancellationToken);
+        session2.ShouldNotBeNull();
+        await session2.DisposeAsync();
     }
 
     [Fact]
@@ -357,13 +426,17 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
         var session = await _service.BeginAsync(_adapter.ValidWindowHandle, TestContext.Current.CancellationToken);
         session.Current.IsReady.ShouldBeFalse();
 
-        // 尝试在准备阶段按下其他键，不应生成候选
+        // 尝试在准备阶段按下其他键，新按键进入等待释放集合，不应生成候选
         _adapter.SendKeyDown(0x41); // A
         session.Current.IsReady.ShouldBeFalse();
         session.Current.Key.ShouldBeNull();
 
-        // 松开启动键 Enter
+        // 松开启动键 Enter，但 A 仍未释放，必须保持未 Ready
         _adapter.SendKeyUp(0x0D);
+        session.Current.IsReady.ShouldBeFalse();
+
+        // 松开 A，所有准备期按键全部释放，才变为 Ready
+        _adapter.SendKeyUp(0x41);
         session.Current.IsReady.ShouldBeTrue();
 
         // 准备完成，此时按下组合键有效
@@ -666,5 +739,76 @@ public sealed class HotkeyCaptureServiceTests : IDisposable
 
         // 3. 处置后再次 BeginAsync 抛出 ObjectDisposedException
         await Should.ThrowAsync<ObjectDisposedException>(() => _service.BeginAsync(_adapter.ValidWindowHandle, TestContext.Current.CancellationToken));
+    }
+
+    [Fact]
+    public async Task StopAsync_WhenPostQuitMessageFails_ThrowsAndSetsFailedCleanup_AndCanRetry()
+    {
+        var session = await _service.BeginAsync(_adapter.ValidWindowHandle, TestContext.Current.CancellationToken);
+
+        _adapter.FailPostQuit = true;
+
+        // StopAsync 检查 bool 返回，失败应抛出异常并不死等
+        await Should.ThrowAsync<IrisException>(() => _service.StopAsync());
+
+        // 再次 BeginAsync 应当由于 cleanup 失败被阻止
+        await Should.ThrowAsync<IrisException>(() => _service.BeginAsync(_adapter.ValidWindowHandle, TestContext.Current.CancellationToken));
+
+        // 恢复并重试 StopAsync，且不重复卸载已 unhook 的句柄
+        _adapter.FailPostQuit = false;
+        int unhookCountBefore = _adapter.UnhookWindowsHookCallCount;
+        await _service.StopAsync();
+        _adapter.UnhookWindowsHookCallCount.ShouldBe(unhookCountBefore, "重试时不应重复卸载已 unhook 的句柄");
+
+        // 之后可以开启新会话
+        var session2 = await _service.BeginAsync(_adapter.ValidWindowHandle, TestContext.Current.CancellationToken);
+        session2.ShouldNotBeNull();
+        await session2.DisposeAsync();
+    }
+
+    [Fact]
+    public async Task MessageLoop_GetMessageError_FailsSessionAndCleansUp()
+    {
+        var session = await _service.BeginAsync(_adapter.ValidWindowHandle, TestContext.Current.CancellationToken);
+
+        _adapter.SimulateGetMessageError = true;
+        _adapter.PostThreadQuitMessage(1); // 触发一次唤醒使 GetMessage 运行
+
+        var ex = await Should.ThrowAsync<IrisException>(async () => await session.Completion);
+        ex.Message.ShouldContain("消息循环异常终止");
+
+        // 验证 hook 已被清理卸载
+        await Task.Delay(100, TestContext.Current.CancellationToken);
+        _adapter.UnhookWindowsHookCallCount.ShouldBeGreaterThan(0);
+    }
+
+    [Fact]
+    public async Task DisposeAsync_WaitsForSlowProgressSubscriberToComplete()
+    {
+        var session = await _service.BeginAsync(_adapter.ValidWindowHandle, TestContext.Current.CancellationToken);
+
+        var subscriberEnteredTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var subscriberReleaseTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        bool subscriberFinished = false;
+
+        session.ProgressChanged += (_, _) =>
+        {
+            subscriberEnteredTcs.TrySetResult();
+            subscriberReleaseTcs.Task.GetAwaiter().GetResult();
+            subscriberFinished = true;
+        };
+
+        // 触发一次进度更新
+        _adapter.SendKeyDown(0xA2); // LCtrl
+        await subscriberEnteredTcs.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+
+        // 调用 session.DisposeAsync()，此时 subscriber 正在阻塞
+        var disposeTask = session.DisposeAsync().AsTask();
+        disposeTask.IsCompleted.ShouldBeFalse("subscriber 阻塞期间 DisposeAsync 绝不能提前返回");
+
+        // 放行 subscriber
+        subscriberReleaseTcs.TrySetResult();
+        await disposeTask.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+        subscriberFinished.ShouldBeTrue();
     }
 }

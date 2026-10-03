@@ -188,7 +188,6 @@ internal sealed partial class AppBootstrapper
         }
 
         _hotkeyCoordinator?.StopSynchronousFallback();
-        _recordingCoordinator?.DisposeAsync().AsTask().GetAwaiter().GetResult();
         _captureService?.Dispose();
         _trayIconController.Created -= OnTrayIconCreated;
         _themeService.Dispose();

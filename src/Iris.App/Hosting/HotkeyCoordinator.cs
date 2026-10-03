@@ -40,6 +40,7 @@ internal sealed partial class HotkeyCoordinator : IDisposable
     private AppSettings? _dispatchedSettings;
     private bool _isProcessingSettings;
     private long _dispatchGeneration;
+    private long _processingGeneration;
     private long _lastStartedExecutionGeneration;
     private long _snapshotId;
     private bool _isStarted;
@@ -333,6 +334,7 @@ internal sealed partial class HotkeyCoordinator : IDisposable
             _pendingSettings = null;
             _dispatchedSettings = null;
             _isProcessingSettings = false;
+            _processingGeneration = 0;
             _dispatchGeneration++;
 
             try
@@ -416,6 +418,7 @@ internal sealed partial class HotkeyCoordinator : IDisposable
             _pendingSettings = null;
             _dispatchedSettings = null;
             _isProcessingSettings = false;
+            _processingGeneration = 0;
             _dispatchGeneration++;
         }
 
@@ -510,6 +513,7 @@ internal sealed partial class HotkeyCoordinator : IDisposable
 
         _isProcessingSettings = true;
         long generation = ++_dispatchGeneration;
+        _processingGeneration = generation;
         _dispatchedSettings = _pendingSettings;
         Task? dispatchTask = null;
         try
@@ -518,8 +522,11 @@ internal sealed partial class HotkeyCoordinator : IDisposable
         }
         catch (Exception ex)
         {
-            _isProcessingSettings = false;
-            _dispatchedSettings = null;
+            if (_processingGeneration == generation)
+            {
+                _isProcessingSettings = false;
+                _dispatchedSettings = null;
+            }
             LogDispatchSettingsFailed(_logger, ex.GetType().Name);
             return;
         }
@@ -552,7 +559,7 @@ internal sealed partial class HotkeyCoordinator : IDisposable
 
         lock (_gate)
         {
-            if (_dispatchGeneration != generation)
+            if (_processingGeneration != generation)
             {
                 // 代次保护：旧代次的完成（失败或取消）绝不得清除更新代次的 _isProcessingSettings
                 return;
@@ -591,7 +598,7 @@ internal sealed partial class HotkeyCoordinator : IDisposable
                 {
                     if (_isStopped || _isPaused || _dispatchGeneration != generation || _pendingSettings == null)
                     {
-                        if (_dispatchGeneration == generation || _isPaused)
+                        if (_processingGeneration == generation)
                         {
                             _isProcessingSettings = false;
                             _dispatchedSettings = null;
@@ -614,7 +621,7 @@ internal sealed partial class HotkeyCoordinator : IDisposable
         {
             lock (_gate)
             {
-                if (_dispatchGeneration == generation || _isPaused)
+                if (_processingGeneration == generation)
                 {
                     _isProcessingSettings = false;
                     _dispatchedSettings = null;

@@ -79,7 +79,7 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
         cancellationToken.ThrowIfCancellationRequested();
 
         HotkeyCaptureSession session;
-        TaskCompletionSource<bool> initTcs;
+        TaskCompletionSource<bool> physicalInitTcs;
 
         lock (_gate)
         {
@@ -90,8 +90,8 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
                 throw new IrisException(ErrorCode.HotkeyConflict, "当前已有正在进行的按键录入会话。");
             }
 
-            initTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
-            _initTask = initTcs.Task;
+            physicalInitTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
+            _initTask = physicalInitTcs.Task;
 
             session = new HotkeyCaptureSession(
                 ownerWindowHandle,
@@ -106,13 +106,13 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
         {
             var reg = cancellationToken.Register(() =>
             {
-                initTcs.TrySetCanceled(cancellationToken);
                 session.Cancel();
+                session.RequestStop();
             });
             session.RegisterCancellationRegistration(reg);
         }
 
-        var thread = new Thread(() => RunMessageThread(session, initTcs))
+        var thread = new Thread(() => RunMessageThread(session, physicalInitTcs))
         {
             IsBackground = true,
             Name = "Iris.HotkeyCaptureMessageThread"
@@ -122,7 +122,14 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
 
         try
         {
-            await initTcs.Task.ConfigureAwait(false);
+            // 物理初始化屏障：等待线程真实完成 SetWindowsHook 并登记句柄（或失败）
+            await physicalInitTcs.Task.ConfigureAwait(false);
+
+            if (cancellationToken.IsCancellationRequested || session.IsStopRequested)
+            {
+                throw new OperationCanceledException(cancellationToken);
+            }
+
             return session;
         }
         catch (OperationCanceledException)
@@ -156,7 +163,7 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
         {
             lock (_gate)
             {
-                if (ReferenceEquals(_initTask, initTcs.Task))
+                if (ReferenceEquals(_initTask, physicalInitTcs.Task))
                 {
                     _initTask = null;
                 }
@@ -166,7 +173,7 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
 
     private void RunMessageThread(
         HotkeyCaptureSession session,
-        TaskCompletionSource<bool> initTcs)
+        TaskCompletionSource<bool> physicalInitTcs)
     {
         uint threadId = _nativeAdapter.GetCurrentThreadId();
         nint hookHandle = 0;
@@ -179,7 +186,7 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
             if (hookHandle == 0)
             {
                 int err = _nativeAdapter.GetLastError();
-                initTcs.TrySetException(new IrisException(ErrorCode.Unknown, $"安装键盘钩子失败 (Win32Error={err})。"));
+                physicalInitTcs.TrySetException(new IrisException(ErrorCode.Unknown, $"安装键盘钩子失败 (Win32Error={err})。"));
                 session.SignalThreadExit();
                 return;
             }
@@ -188,18 +195,19 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
 
             if (session.IsStopRequested)
             {
-                initTcs.TrySetCanceled();
+                // 已请求停止或取消：登记句柄后完成物理屏障，由后续清理协议执行回滚
+                physicalInitTcs.TrySetResult(true);
                 session.SignalThreadExit();
                 return;
             }
 
             var initialHeld = DetectInitialHeldKeys();
             session.InitializeHeldKeys(initialHeld);
-            initTcs.TrySetResult(true);
+            physicalInitTcs.TrySetResult(true);
         }
         catch (Exception ex)
         {
-            initTcs.TrySetException(ex);
+            physicalInitTcs.TrySetException(ex);
             session.SignalThreadExit();
             return;
         }
@@ -209,11 +217,15 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
             while (true)
             {
                 int ret = _nativeAdapter.GetMessage(out var msg);
-                if (ret <= 0)
+                if (ret < 0)
                 {
+                    int err = _nativeAdapter.GetLastError();
+                    LogMessageLoopError(_logger, $"GetMessage failed (Win32Error={err})");
+                    session.Fail(new IrisException(ErrorCode.Unknown, $"消息循环异常终止 (Win32Error={err})。"));
+                    _ = CleanupSessionAsync(session);
                     break;
                 }
-                if (msg.Message == 0x0012) // WM_QUIT
+                if (ret == 0 || msg.Message == 0x0012) // WM_QUIT
                 {
                     break;
                 }
@@ -222,6 +234,8 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
         catch (Exception ex)
         {
             LogMessageLoopError(_logger, ex.GetType().Name);
+            session.Fail(ex);
+            _ = CleanupSessionAsync(session);
         }
         finally
         {
@@ -307,6 +321,24 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
 
     private async Task PerformCleanupAsync(HotkeyCaptureSession session)
     {
+        // 物理初始化屏障：必须先等待初始化真实结束（无论成功或失败），确保句柄与线程完整登记
+        Task? initTask;
+        lock (_gate)
+        {
+            initTask = _initTask;
+        }
+
+        if (initTask != null)
+        {
+            try
+            {
+                await initTask.ConfigureAwait(false);
+            }
+            catch
+            {
+            }
+        }
+
         nint hookHandle = session.HookHandle;
         try
         {
@@ -326,14 +358,21 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
             // 2. 发送退出消息终止专用消息线程并等待其退出
             if (session.ThreadId != 0 && !session.IsThreadExited)
             {
-                _nativeAdapter.PostThreadQuitMessage(session.ThreadId);
+                bool posted = _nativeAdapter.PostThreadQuitMessage(session.ThreadId);
+                if (!posted)
+                {
+                    int err = _nativeAdapter.GetLastError();
+                    _hasFailedCleanup = true;
+                    throw new IrisException(ErrorCode.Unknown, $"向录入消息线程发送退出消息失败 (Win32Error={err})。");
+                }
                 await session.ThreadExitTask.ConfigureAwait(false);
             }
 
             // 3. 线程退出屏障完成后，才释放托管委托根
-            if (hookHandle != 0)
+            if (hookHandle != 0 && !session.IsHookResourcesReleased)
             {
                 _nativeAdapter.ReleaseHookResources(hookHandle);
+                session.MarkHookResourcesReleased();
             }
 
             lock (_gate)
@@ -351,8 +390,8 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
             lock (_gate)
             {
                 _hasFailedCleanup = true;
-                session.ResetCleanupForRetry();
             }
+            session.ResetCleanupForRetry();
             throw;
         }
         finally

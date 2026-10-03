@@ -168,18 +168,10 @@ internal partial class SettingsWindow : FluentWindow
             return;
         }
 
-        if (DataContext is SettingsViewModel vm)
+        if (DataContext is SettingsViewModel vm && vm.IsSaving)
         {
-            if (vm.IsAnyRecording)
-            {
-                _ = vm.CancelRecordingAsync();
-            }
-
-            if (vm.IsSaving)
-            {
-                // 保存进行中暂不受理普通关闭
-                e.Cancel = true;
-            }
+            // 保存进行中暂不受理普通关闭
+            e.Cancel = true;
         }
     }
 

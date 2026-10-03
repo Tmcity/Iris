@@ -52,6 +52,8 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
 
     private readonly Lock _stateLock = new();
 
+    private readonly Task _progressWorkerTask;
+
     private long _revision;
     private bool _isReady;
     private HotkeyModifiers _activeModifiers;
@@ -60,6 +62,7 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
     private uint _threadId;
     private bool _isStopped;
     private bool _isHookUnhooked;
+    private bool _isHookResourcesReleased;
     private IDisposable? _cancellationRegistration;
 
     private uint _candidateKeyVk;
@@ -88,7 +91,10 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
     internal nint HookHandle => _hookHandle;
     internal uint ThreadId => _threadId;
     internal bool IsHookUnhooked => Volatile.Read(ref _isHookUnhooked);
+    internal bool IsHookResourcesReleased => Volatile.Read(ref _isHookResourcesReleased);
     internal bool IsThreadExited => _threadExitTcs.Task.IsCompleted;
+
+    internal void MarkHookResourcesReleased() => Volatile.Write(ref _isHookResourcesReleased, true);
 
     internal bool IsStopRequested
     {
@@ -113,7 +119,7 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
         _cleanupStarter = cleanupStarter;
 
         _current = new HotkeyCaptureProgress(0, false, HotkeyModifiers.None);
-        _ = RunProgressWorkerAsync();
+        _progressWorkerTask = RunProgressWorkerAsync();
     }
 
     internal void SetHookHandle(nint hookHandle, uint threadId)
@@ -225,9 +231,49 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
         if (completedHere)
         {
             _progressChannel.Writer.TryComplete();
-            _cancellationRegistration?.Dispose();
-            var task = EnsureCleanupStarted();
-            _ = task.ContinueWith(static t => { _ = t.Exception; }, TaskContinuationOptions.OnlyOnFaulted);
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                try
+                {
+                    _cancellationRegistration?.Dispose();
+                }
+                catch
+                {
+                }
+                var task = EnsureCleanupStarted();
+                _ = task.ContinueWith(static t => { var ignored = t.Exception; }, TaskContinuationOptions.OnlyOnFaulted);
+            });
+        }
+    }
+
+    internal void Fail(Exception ex)
+    {
+        bool completedHere = false;
+        lock (_stateLock)
+        {
+            if (!_completionTcs.Task.IsCompleted)
+            {
+                _completionTcs.TrySetException(ex);
+                completedHere = true;
+                _isStopped = true;
+            }
+        }
+
+        if (completedHere)
+        {
+            _progressChannel.Writer.TryComplete();
+            ThreadPool.QueueUserWorkItem(_ =>
+            {
+                try
+                {
+                    _cancellationRegistration?.Dispose();
+                }
+                catch
+                {
+                }
+                var task = EnsureCleanupStarted();
+                _ = task.ContinueWith(static t => { var ignored = t.Exception; }, TaskContinuationOptions.OnlyOnFaulted);
+            });
         }
     }
 
@@ -241,24 +287,37 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
             {
                 return _cleanupTask;
             }
+        }
 
-            var task = _cleanupStarter(this);
-            _cleanupTask = task;
-            _ = task.ContinueWith(t =>
+        var task = _cleanupStarter(this);
+
+        lock (_stateLock)
+        {
+            if (_cleanupTask == null || _cleanupTask.IsFaulted)
             {
-                if (t.IsFaulted)
+                _cleanupTask = task;
+            }
+            else
+            {
+                return _cleanupTask;
+            }
+        }
+
+        _ = task.ContinueWith(t =>
+        {
+            if (t.IsFaulted)
+            {
+                lock (_stateLock)
                 {
-                    lock (_stateLock)
+                    if (ReferenceEquals(_cleanupTask, task))
                     {
-                        if (ReferenceEquals(_cleanupTask, task))
-                        {
-                            _cleanupTask = null;
-                        }
+                        _cleanupTask = null;
                     }
                 }
-            }, TaskContinuationOptions.ExecuteSynchronously);
-            return task;
-        }
+            }
+        }, TaskContinuationOptions.ExecuteSynchronously);
+
+        return task;
     }
 
     internal void ResetCleanupForRetry()
@@ -272,6 +331,14 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
     public async ValueTask DisposeAsync()
     {
         RequestStop();
+        _progressChannel.Writer.TryComplete();
+        try
+        {
+            await _progressWorkerTask.ConfigureAwait(false);
+        }
+        catch
+        {
+        }
         var task = EnsureCleanupStarted();
         await task.ConfigureAwait(false);
     }
@@ -337,7 +404,8 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
                     }
                     else
                     {
-                        // 准备期间新按下的键不生成候选，消费处理
+                        // 准备期新按下的键记入等待释放集合，不生成候选，消费处理
+                        _heldKeysAtStart.Add(vk);
                         shouldConsume = true;
                     }
                 }

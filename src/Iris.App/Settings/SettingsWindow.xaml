@@ -635,7 +635,7 @@
                         </Style.Triggers>
                     </Style>
                 </ScrollViewer.Style>
-                <StackPanel MaxWidth="600" HorizontalAlignment="Left" IsEnabled="{Binding CanEdit}">
+                <StackPanel MaxWidth="600" HorizontalAlignment="Left" IsEnabled="{Binding CanAccessHotkeysTab}">
                     <!-- 页面标题 -->
                     <TextBlock Text="{x:Static app:UiText.SettingsNavHotkeys}"
                                FontSize="22"
@@ -682,7 +682,7 @@
 
                                         <!-- 第二行：录入控件 -->
                                         <Grid Grid.Row="1" Margin="0,10,0,0">
-                                            <local:HotkeyRecorderBox Width="280" HorizontalAlignment="Left" />
+                                            <local:HotkeyRecorderBox MinWidth="360" MaxWidth="500" HorizontalAlignment="Left" />
                                         </Grid>
 
                                         <!-- 第三行：错误与状态提示 -->
@@ -817,14 +817,14 @@
                             </Button.Style>
                         </Button>
 
-                        <!-- 快捷键系统注册失败时展示“重试快捷键应用”按钮 -->
+                        <!-- 快捷键系统注册或录入清理失败时展示“重试快捷键应用”按钮 -->
                         <Button Content="{x:Static app:UiText.SettingsRetryHotkeys}"
                                 Command="{Binding RetryHotkeysCommand}">
                             <Button.Style>
                                 <Style TargetType="Button">
                                     <Setter Property="Visibility" Value="Collapsed" />
                                     <Style.Triggers>
-                                        <DataTrigger Binding="{Binding CanRetryHotkeys}" Value="True">
+                                        <DataTrigger Binding="{Binding CanRetryHotkeysOrCleanup}" Value="True">
                                             <Setter Property="Visibility" Value="Visible" />
                                         </DataTrigger>
                                     </Style.Triggers>

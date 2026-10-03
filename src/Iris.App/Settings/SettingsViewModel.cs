@@ -106,6 +106,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     private Func<nint>? _windowHandleProvider;
     private HotkeyItemDraftViewModel? _activeRecordingItem;
     private Task? _activeRecordingTask;
+    private long _recordingSessionSeq;
 
     public event PropertyChangedEventHandler? PropertyChanged;
     public event Action? RequestClose;
@@ -266,10 +267,14 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             {
                 _canRetryHotkeys = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(CanRetryHotkeysOrCleanup));
                 (RetryHotkeysCommand as AsyncRelayCommand)?.RaiseCanExecuteChanged();
             }
         }
     }
+
+    public bool CanRetryHotkeysOrCleanup => CanRetryHotkeys || HasFailedRecordingCleanup;
+    public bool CanAccessHotkeysTab => !IsSaving && !_disposed && !_isStopped;
 
     public bool IsAnyRecording => _activeRecordingItem != null;
 
@@ -1010,6 +1015,9 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     {
         OnPropertyChanged(nameof(CanEdit));
         OnPropertyChanged(nameof(CanSave));
+        OnPropertyChanged(nameof(CanAccessHotkeysTab));
+        OnPropertyChanged(nameof(CanRetryHotkeysOrCleanup));
+        OnPropertyChanged(nameof(HasFailedRecordingCleanup));
         (SaveCommand as AsyncRelayCommand)?.RaiseCanExecuteChanged();
         (CancelCommand as RelayCommand)?.RaiseCanExecuteChanged();
         (ReloadCommand as RelayCommand)?.RaiseCanExecuteChanged();
@@ -1215,9 +1223,10 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             }
         }
 
-        SettingsEditPlan plan;
-        bool wasLaunchAtStartupDirty;
-        bool targetLaunchAtStartup;
+        SettingsEditPlan? plan = null;
+        bool wasLaunchAtStartupDirty = false;
+        bool targetLaunchAtStartup = false;
+        TaskCompletionSource? workTcs = null;
 
         try
         {
@@ -1230,139 +1239,165 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
             if (HasFailedRecordingCleanup)
             {
-                StatusMessage = "快捷键录入清理未完成，无法保存";
-                return;
-            }
-
-        BeforeSave?.Invoke();
-
-        // 仅校验被编辑或新增的服务；未触及服务不阻止合法保存
-        foreach (var profile in Profiles)
-        {
-            if (profile.IsNew || profile.IsDirty)
-            {
-                var valErr = profile.ValidateForSave();
-                if (valErr != null)
+                await _uiDispatcher.InvokeAsync(() =>
                 {
-                    StatusMessage = $"{profile.DisplayName}: {valErr}";
-                    return;
+                    StatusMessage = "快捷键录入清理未完成，无法保存";
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+                return;
+            }
+
+            bool shouldReturn = false;
+            await _uiDispatcher.InvokeAsync(() =>
+            {
+                lock (_admissionLock)
+                {
+                    if (_disposed || _isStopped || IsSaving)
+                    {
+                        shouldReturn = true;
+                        return Task.CompletedTask;
+                    }
                 }
-            }
-        }
 
-        // 校验快捷键草稿
-        ValidateHotkeyDrafts();
-        if (Hotkeys.Any(h => h.HasDraftError))
-        {
-            StatusMessage = "请先修正快捷键冲突或错误";
-            return;
-        }
+                BeforeSave?.Invoke();
 
-        // 组装 General 补丁
-        var themeEdit = _themeDirty ? new SettingsFieldEdit<AppTheme>(_baseTheme, _targetTheme) : null;
-        var launchEdit = _launchAtStartupDirty ? new SettingsFieldEdit<bool>(_baseLaunchAtStartup, _targetLaunchAtStartup) : null;
-        var notifEdit = _showStartupNotificationDirty ? new SettingsFieldEdit<bool>(_baseShowStartupNotification, _targetShowStartupNotification) : null;
-        var logEdit = _logLevelDirty ? new SettingsFieldEdit<string>(_baseLogLevel, _targetLogLevel) : null;
-        var generalPatch = new GeneralSettingsPatch(themeEdit, launchEdit, notifEdit, logEdit);
+                // 仅校验被编辑或新增的服务；未触及服务不阻止合法保存
+                foreach (var profile in Profiles)
+                {
+                    if (profile.IsNew || profile.IsDirty)
+                    {
+                        var valErr = profile.ValidateForSave();
+                        if (valErr != null)
+                        {
+                            StatusMessage = $"{profile.DisplayName}: {valErr}";
+                            shouldReturn = true;
+                            return Task.CompletedTask;
+                        }
+                    }
+                }
 
-        // 组装 Translation 变更
-        var translationChanges = new List<TranslationProfileChange>();
+                // 校验快捷键草稿
+                ValidateHotkeyDrafts();
+                if (Hotkeys.Any(h => h.HasDraftError))
+                {
+                    StatusMessage = "请先修正快捷键冲突或错误";
+                    shouldReturn = true;
+                    return Task.CompletedTask;
+                }
 
-        foreach (var deleted in _deletedProfiles)
-        {
-            translationChanges.Add(new TranslationProfileChange(
-                TranslationProfileChangeKind.Delete,
-                deleted.BaseProfile,
-                null,
-                new ProviderCredentialEdit(CredentialEditKind.Keep)));
-        }
+                // 组装 General 补丁
+                var themeEdit = _themeDirty ? new SettingsFieldEdit<AppTheme>(_baseTheme, _targetTheme) : null;
+                var launchEdit = _launchAtStartupDirty ? new SettingsFieldEdit<bool>(_baseLaunchAtStartup, _targetLaunchAtStartup) : null;
+                var notifEdit = _showStartupNotificationDirty ? new SettingsFieldEdit<bool>(_baseShowStartupNotification, _targetShowStartupNotification) : null;
+                var logEdit = _logLevelDirty ? new SettingsFieldEdit<string>(_baseLogLevel, _targetLogLevel) : null;
+                var generalPatch = new GeneralSettingsPatch(themeEdit, launchEdit, notifEdit, logEdit);
 
-        for (int i = 0; i < Profiles.Count; i++)
-        {
-            var p = Profiles[i];
-            if (p.IsNew)
-            {
-                translationChanges.Add(new TranslationProfileChange(
-                    TranslationProfileChangeKind.Add,
-                    null,
-                    p.BuildTargetProfile(i),
-                    p.BuildCredentialEdit()));
-            }
-            else if (p.IsDirty)
-            {
-                translationChanges.Add(new TranslationProfileChange(
-                    TranslationProfileChangeKind.Update,
-                    p.BaseProfile,
-                    p.BuildTargetProfile(i),
-                    p.BuildCredentialEdit()));
-            }
-        }
+                // 组装 Translation 变更
+                var translationChanges = new List<TranslationProfileChange>();
 
-        // 组装顺序变更
-        TranslationOrderChange? orderChange = null;
-        if (IsOrderDirty)
-        {
-            orderChange = new TranslationOrderChange(
-                _baselineProfileIds.ToArray(),
-                Profiles.Select(p => p.Id).ToArray());
-        }
+                foreach (var deleted in _deletedProfiles)
+                {
+                    translationChanges.Add(new TranslationProfileChange(
+                        TranslationProfileChangeKind.Delete,
+                        deleted.BaseProfile,
+                        null,
+                        new ProviderCredentialEdit(CredentialEditKind.Keep)));
+                }
 
-        // 组装 Hotkey 增量变更
-        var hotkeyChanges = new List<HotkeyBindingChange>();
-        foreach (var h in Hotkeys)
-        {
-            if (h.IsDirty)
-            {
-                var target = h.TargetBinding ?? new HotkeyBinding(HotkeyModifiers.None, string.Empty, false);
-                hotkeyChanges.Add(new HotkeyBindingChange(h.Action, h.BaseBinding, target));
-            }
-        }
+                for (int i = 0; i < Profiles.Count; i++)
+                {
+                    var p = Profiles[i];
+                    if (p.IsNew)
+                    {
+                        translationChanges.Add(new TranslationProfileChange(
+                            TranslationProfileChangeKind.Add,
+                            null,
+                            p.BuildTargetProfile(i),
+                            p.BuildCredentialEdit()));
+                    }
+                    else if (p.IsDirty)
+                    {
+                        translationChanges.Add(new TranslationProfileChange(
+                            TranslationProfileChangeKind.Update,
+                            p.BaseProfile,
+                            p.BuildTargetProfile(i),
+                            p.BuildCredentialEdit()));
+                    }
+                }
 
-        bool hasGeneralDirty = _themeDirty || _launchAtStartupDirty || _showStartupNotificationDirty || _logLevelDirty;
-        bool hasTranslationDirty = translationChanges.Count > 0 || orderChange != null;
-        bool hasHotkeyDirty = hotkeyChanges.Count > 0;
+                // 组装顺序变更
+                TranslationOrderChange? orderChange = null;
+                if (IsOrderDirty)
+                {
+                    orderChange = new TranslationOrderChange(
+                        _baselineProfileIds.ToArray(),
+                        Profiles.Select(p => p.Id).ToArray());
+                }
 
-        if (!hasGeneralDirty && !hasTranslationDirty && !hasHotkeyDirty)
-        {
-            _themeService.ClearPreview(_sessionOwner);
-            StatusMessage = UiText.SettingsStatusSaved;
-            IsConflict = false;
-            OnPropertyChanged(nameof(IsDirty));
-            return;
-        }
+                // 组装 Hotkey 增量变更
+                var hotkeyChanges = new List<HotkeyBindingChange>();
+                foreach (var h in Hotkeys)
+                {
+                    if (h.IsDirty)
+                    {
+                        var target = h.TargetBinding ?? new HotkeyBinding(HotkeyModifiers.None, string.Empty, false);
+                        hotkeyChanges.Add(new HotkeyBindingChange(h.Action, h.BaseBinding, target));
+                    }
+                }
 
-        wasLaunchAtStartupDirty = _launchAtStartupDirty;
-        targetLaunchAtStartup = _targetLaunchAtStartup;
-        plan = new SettingsEditPlan(generalPatch, translationChanges, orderChange)
-        {
-            HotkeyChanges = hotkeyChanges
-        };
-    }
-    catch (OperationCanceledException)
-    {
-        return;
-    }
-    catch (Exception ex)
-    {
-        HandleCommandException("Save", ex);
-        return;
-    }
+                bool hasGeneralDirty = _themeDirty || _launchAtStartupDirty || _showStartupNotificationDirty || _logLevelDirty;
+                bool hasTranslationDirty = translationChanges.Count > 0 || orderChange != null;
+                bool hasHotkeyDirty = hotkeyChanges.Count > 0;
 
-    TaskCompletionSource workTcs;
-        lock (_admissionLock)
-        {
-            if (_disposed || _isStopped)
+                if (!hasGeneralDirty && !hasTranslationDirty && !hasHotkeyDirty)
+                {
+                    _themeService.ClearPreview(_sessionOwner);
+                    StatusMessage = UiText.SettingsStatusSaved;
+                    IsConflict = false;
+                    OnPropertyChanged(nameof(IsDirty));
+                    shouldReturn = true;
+                    return Task.CompletedTask;
+                }
+
+                wasLaunchAtStartupDirty = _launchAtStartupDirty;
+                targetLaunchAtStartup = _targetLaunchAtStartup;
+                plan = new SettingsEditPlan(generalPatch, translationChanges, orderChange)
+                {
+                    HotkeyChanges = hotkeyChanges
+                };
+
+                lock (_admissionLock)
+                {
+                    if (_disposed || _isStopped)
+                    {
+                        shouldReturn = true;
+                        return Task.CompletedTask;
+                    }
+                    ++_queryGeneration;
+                    workTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                    _activeWork.Add(workTcs.Task);
+                    IsSaving = true;
+                    FreezeAllDrafts();
+                }
+
+                StatusMessage = UiText.SettingsStatusSaving;
+                return Task.CompletedTask;
+            }, CancellationToken.None).ConfigureAwait(false);
+
+            if (shouldReturn || workTcs == null || plan == null)
             {
                 return;
             }
-            ++_queryGeneration;
-            workTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-            _activeWork.Add(workTcs.Task);
-            IsSaving = true;
-            FreezeAllDrafts();
         }
-
-        StatusMessage = UiText.SettingsStatusSaving;
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        catch (Exception ex)
+        {
+            HandleCommandException("Save", ex);
+            return;
+        }
 
         try
         {
@@ -1786,6 +1821,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             return;
         }
 
+        long currentSeq = Interlocked.Increment(ref _recordingSessionSeq);
         _activeRecordingItem = item;
         item.SetRecordingState(true, true, UiText.SettingsHotkeyPreparing, null);
         RaiseAllCommandsCanExecute();
@@ -1811,8 +1847,18 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                     {
                         _ = _uiDispatcher.InvokeAsync(() =>
                         {
+                            if (_recordingSessionSeq != currentSeq || _disposed || _isStopped)
+                            {
+                                return Task.CompletedTask;
+                            }
+
                             if (ReferenceEquals(_activeRecordingItem, item))
                             {
+                                if (progress.Error != null)
+                                {
+                                    item.DraftError = progress.Error.Message;
+                                }
+
                                 if (!progress.IsReady)
                                 {
                                     item.SetRecordingState(true, true, UiText.SettingsHotkeyReleasePrompt, null);
@@ -1830,7 +1876,12 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
                 await _uiDispatcher.InvokeAsync(() =>
                 {
-                    if (ReferenceEquals(_activeRecordingItem, item))
+                    if (_recordingSessionSeq != currentSeq || _disposed || _isStopped)
+                    {
+                        return Task.CompletedTask;
+                    }
+
+                    if (_activeRecordingItem == null || ReferenceEquals(_activeRecordingItem, item))
                     {
                         switch (result.Outcome)
                         {
@@ -1863,7 +1914,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             caughtEx = ex;
             await _uiDispatcher.InvokeAsync(() =>
             {
-                if (ReferenceEquals(_activeRecordingItem, item))
+                if (_recordingSessionSeq == currentSeq && ReferenceEquals(_activeRecordingItem, item))
                 {
                     item.DraftError = UiText.SettingsHotkeyCleanupFailed;
                 }
@@ -1876,14 +1927,23 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             {
                 await _uiDispatcher.InvokeAsync(() =>
                 {
-                    item.SetRecordingState(false, false, null, null);
-                    if (caughtEx == null)
+                    if (_recordingSessionSeq == currentSeq)
                     {
-                        _activeRecordingItem = null;
-                        ValidateHotkeyDrafts();
+                        item.SetRecordingState(false, false, null, null);
+                        if (caughtEx == null)
+                        {
+                            _activeRecordingItem = null;
+                            if (item.DraftError == null)
+                            {
+                                ValidateHotkeyDrafts();
+                            }
+                        }
+                        RaiseAllCommandsCanExecute();
+                        OnPropertyChanged(nameof(CanAccessHotkeysTab));
+                        OnPropertyChanged(nameof(CanRetryHotkeysOrCleanup));
+                        OnPropertyChanged(nameof(HasFailedRecordingCleanup));
+                        OnPropertyChanged(nameof(IsDirty));
                     }
-                    RaiseAllCommandsCanExecute();
-                    OnPropertyChanged(nameof(IsDirty));
                     return Task.CompletedTask;
                 }, CancellationToken.None);
             }
@@ -1896,7 +1956,6 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
                 if (caughtEx == null)
                 {
-                    _activeRecordingItem = null;
                     _activeRecordingTask = null;
                     workTcs.TrySetResult();
                 }
