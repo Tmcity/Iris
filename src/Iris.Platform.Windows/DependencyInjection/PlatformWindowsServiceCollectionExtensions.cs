@@ -29,6 +29,9 @@ public static class PlatformWindowsServiceCollectionExtensions
         services.TryAddSingleton<IHotkeyCaptureService, HotkeyCaptureService>();
         services.TryAddSingleton<INativeKeyboardInputAdapter>(Win32KeyboardInputAdapter.Instance);
         services.TryAddSingleton<KeyboardSimulator>();
+        services.TryAddSingleton<ITargetWindowValidator>(RealTargetWindowValidator.Instance);
+        services.TryAddSingleton<IUiaProcessRunner>(RealUiaProcessRunner.Instance);
+        services.TryAddSingleton<UiaSelectionReader>();
         return services;
     }
 }

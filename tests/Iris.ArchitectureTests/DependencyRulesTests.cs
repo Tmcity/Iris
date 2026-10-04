@@ -82,7 +82,8 @@ public class DependencyRulesTests
             ["src/Iris.Providers/Iris.Providers.csproj"] = ["Iris.Core"],
             ["src/Iris.Infrastructure/Iris.Infrastructure.csproj"] = ["Iris.Core"],
             ["src/Iris.Platform.Windows/Iris.Platform.Windows.csproj"] = ["Iris.Core"],
-            ["src/Iris.App/Iris.App.csproj"] = ["Iris.Core", "Iris.Providers", "Iris.Infrastructure", "Iris.Platform.Windows"]
+            ["src/Iris.UiaHost/Iris.UiaHost.csproj"] = ["Iris.Core", "Iris.Platform.Windows"],
+            ["src/Iris.App/Iris.App.csproj"] = ["Iris.Core", "Iris.Providers", "Iris.Infrastructure", "Iris.Platform.Windows", "Iris.UiaHost"]
         };
 
         foreach (var (relPath, expectedRefs) in projects)
@@ -98,6 +99,28 @@ public class DependencyRulesTests
                 .ToArray();
 
             actualRefs.ShouldBe(expectedRefs.OrderBy(x => x).ToArray(), $"Mismatch in {relPath}");
+        }
+    }
+
+    [Fact]
+    public void UiaHost_ReferencesOnlyCoreAndPlatformWindows()
+    {
+        var root = FindRepoRoot();
+        var hostDir = Path.Combine(root, "src", "Iris.UiaHost", "bin");
+        var dllFiles = Directory.Exists(hostDir)
+            ? Directory.GetFiles(hostDir, "Iris.UiaHost.dll", SearchOption.AllDirectories)
+            : [];
+
+        if (dllFiles.Length > 0)
+        {
+            var assembly = Assembly.LoadFrom(dllFiles[0]);
+            var irisRefs = assembly.GetReferencedAssemblies()
+                .Select(a => a.Name!)
+                .Where(name => name.StartsWith("Iris.", StringComparison.OrdinalIgnoreCase))
+                .OrderBy(name => name)
+                .ToList();
+
+            irisRefs.ShouldBe(["Iris.Core", "Iris.Platform.Windows"]);
         }
     }
 
@@ -123,5 +146,24 @@ public class DependencyRulesTests
 
         doc.Descendants("UseWPF").ShouldBeEmpty();
         doc.Descendants("UseWindowsForms").ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void UiaHost_ProjectSettings()
+    {
+        var root = FindRepoRoot();
+        var projPath = Path.Combine(root, "src/Iris.UiaHost/Iris.UiaHost.csproj");
+        var doc = XDocument.Load(projPath);
+        var tfm = doc.Descendants("TargetFramework").FirstOrDefault()?.Value;
+        tfm.ShouldBe("net10.0-windows10.0.19041.0");
+
+        var outputType = doc.Descendants("OutputType").FirstOrDefault()?.Value;
+        outputType.ShouldBe("Exe");
+
+        var useWpf = doc.Descendants("UseWPF").FirstOrDefault()?.Value;
+        useWpf.ShouldBe("false");
+
+        var useWinForms = doc.Descendants("UseWindowsForms").FirstOrDefault()?.Value;
+        useWinForms.ShouldBe("false");
     }
 }

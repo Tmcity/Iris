@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.30 · 2026-10-04 · 状态：**已冻结（首期）**
+> 版本：v1.31 · 2026-10-04 · 状态：**已冻结（首期）**
+> 变更记录：v1.31（T-021/R2 通过，签发 T-022B）— UIA_SELECTION_READING.md 定稿按需隔离 UIA 宿主、无窗口 MTA、有限文本/协议预算、父端超时与真实进程退出。T-022 拆 B（UIA）和 C（剪贴板事务/组合），新增 Iris.UiaHost 及 App 的仅构建/部署依赖；公开 Core 契约与默认设置不变。
 > 变更记录：v1.30（T-020/B-R4 通过，签发 T-021）— KEYBOARD_SIMULATION.md 定稿内部 KeyboardSimulator、单事件输入确认、目标复核、起始释放等待、失败 KeyUp 责任及停止；超时不再强行释放用户按住的键。公开契约/默认配置不变，A08 选区读取与剪贴板恢复仍由 T-022 定稿。
 > 变更记录：v1.29（T-020A-R2 通过，签发 T-020B）— HOTKEY_RECORDING_UI.md / CCR-016 定稿短时键盘捕获端口、专用消息线程、录入暂停/最新配置恢复、运行时状态及全窗口联合保存；只新增批准的录入契约，既有公共签名与默认配置保持。
 > 变更记录：v1.28（T-017-R2 通过，签发 T-020A）— HOTKEY_SETTINGS_EDITING.md / CCR-015 固定快捷键增量联合提交、纯 Core 规则端口和禁用空键 N2；T-020 拆为 A 保存基础与 B 录入/设置接线，B 另行定稿。
@@ -169,7 +170,10 @@ Iris 是一个 Windows 桌面翻译工具（对标 TTime / Pot），常驻系统
 | `Iris.Providers` | `net10.0` | Core | Microsoft.Extensions.Http(.Resilience)、Anthropic |
 | `Iris.Infrastructure` | `net10.0` | Core | Microsoft.Data.Sqlite、Dapper |
 | `Iris.Platform.Windows` | `net10.0-windows10.0.19041.0` | Core | CsWin32、UIAutomation、System.Security.Cryptography.ProtectedData；**不启用 UseWPF / UseWindowsForms** |
+| `Iris.UiaHost`（T-022B 新增） | `net10.0-windows10.0.19041.0`，Console/MTA | Core、Platform.Windows | 无新增 NuGet 包；不启用 WPF/WinForms，仅执行一个受控 UIA 请求 |
 | `Iris.App` | `net10.0-windows10.0.19041.0`，`UseWPF`，`WinExe` | 全部 | WPF-UI、CommunityToolkit.Mvvm、H.NotifyIcon.Wpf、Hosting、Serilog、Velopack |
+
+T-022B 允许 App 对 Iris.UiaHost 增加 ReferenceOutputAssembly=false 的构建/部署引用，发布到 uia/ 子目录；不在 App 进程内加载宿主程序集。Platform.Windows 仍只引用 Core，不能反向引用宿主。架构测试须明确覆盖这一新工程及其空包白名单，不使用 unrestricted 例外绕过检查。该隔离宿主为上方主程序分层图的附属进程，通信仅使用受控 stdin/stdout 协议。
 
 `Microsoft.Extensions.*.Abstractions` 在所有层均可引用（各层的 `AddIris*` 扩展方法需要）。除此之外，每个项目的 NuGet 依赖以 `Iris.ArchitectureTests` 中的**包白名单**为准；新增依赖须经架构师批准后同时更新本表与白名单。
 
@@ -774,7 +778,7 @@ data: {"type":"message_stop"}
 |---|---|
 | WPF UI 线程 | 所有窗口；`HotkeyService`（热键绑定在注册线程的消息窗口上）；`ActionDispatcher` 在此启动 Handler |
 | 鼠标钩子线程（专用，后台，自带 `GetMessage` 消息循环） | 只运行 `LowLevelMouseProc`：把事件写入 `Channel`，立即 `CallNextHookEx` 返回 |
-| 线程池 | 手势识别消费者、网络、OCR、磁盘、UIAutomation 调用 |
+| 线程池 | 手势识别消费者、网络、OCR、磁盘、UIA 父端进程/管道协调（COM 调用在隔离宿主 MTA） |
 
 - **低级钩子必须在几毫秒内返回**：超过系统的 `LowLevelHooksTimeout` 后，Windows 会**静默卸载钩子**。回调中禁止日志 I/O、禁止跨线程同步调用。
 - 在 Core / Providers / Infrastructure / Platform 中 `await` 一律加 `ConfigureAwait(false)`；App 层（ViewModel）不加。
@@ -791,7 +795,7 @@ data: {"type":"message_stop"}
 
 ### 10.4 选区读取
 
-**UIAutomation**：`IUIAutomation.GetFocusedElement()` → `TextPattern` / `TextPattern2` → `GetSelection()` → 拼接各 range 的 `GetText(-1)`。整体超时 300 ms（UIA 调用放在 `Task.Run` 中执行，用 `WaitAsync` 限时）。很多应用（Chromium 系需要开启无障碍，部分 Electron / Qt 应用）不支持，返回空即可，交给下一个方法。
+**UIAutomation**：按 UIA_SELECTION_READING.md / T-022B 由按需隔离宿主的无窗口 MTA 执行 FocusedElement → TextPattern2/1 → GetSelection → 有界 GetText。最多 32 ranges、65,536 UTF-16 code units；禁止以 DocumentRange/Name/Value 代替选区。父端启动/Ready 预算 1500ms，Ready 后 UIA 请求预算 300ms，取消/超时需终止并等待自有宿主真实退出；不再以 Task.Run(...).WaitAsync(300ms) 冒充底层调用已结束。Sensitive/TooLong/TargetChanged 等结果不应盲目降级成键盘复制，T-022C 再定稿组合规则。
 
 **剪贴板兜底**（按顺序，全部在后台线程执行）：
 1. 前台进程在 `ClipboardUnsafeProcesses` 中 → 跳过（**在终端里 Ctrl+C 是中断信号，会杀掉用户正在运行的程序**）。

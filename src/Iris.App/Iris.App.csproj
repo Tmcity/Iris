@@ -13,7 +13,22 @@
     <ProjectReference Include="..\Iris.Providers\Iris.Providers.csproj" />
     <ProjectReference Include="..\Iris.Infrastructure\Iris.Infrastructure.csproj" />
     <ProjectReference Include="..\Iris.Platform.Windows\Iris.Platform.Windows.csproj" />
+    <ProjectReference Include="..\Iris.UiaHost\Iris.UiaHost.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
+
+  <Target Name="CopyUiaHostToOutput" AfterTargets="Build">
+    <ItemGroup>
+      <_UiaHostFiles Include="..\Iris.UiaHost\bin\$(Configuration)\$(TargetFramework)\**\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_UiaHostFiles)" DestinationFolder="$(TargetDir)uia\%(RecursiveDir)" SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target Name="CopyUiaHostToPublish" AfterTargets="Publish">
+    <ItemGroup>
+      <_UiaHostPublishFiles Include="..\Iris.UiaHost\bin\$(Configuration)\$(TargetFramework)\**\*.*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_UiaHostPublishFiles)" DestinationFolder="$(PublishDir)uia\%(RecursiveDir)" SkipUnchangedFiles="true" />
+  </Target>
 
   <ItemGroup>
     <!-- 使用自定义 Program.Main：App.xaml 不再作为 ApplicationDefinition 自动生成 Main -->

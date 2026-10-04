@@ -35,6 +35,7 @@ public class PackageRulesTests
             "Microsoft.Windows.CsWin32",
             "System.Security.Cryptography.ProtectedData",
         },
+        ["Iris.UiaHost"] = new HashSet<string>(StringComparer.OrdinalIgnoreCase),
     };
 
     private static string FindRepoRoot()

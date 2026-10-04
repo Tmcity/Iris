@@ -5,6 +5,7 @@
     <Project Path="src/Iris.Infrastructure/Iris.Infrastructure.csproj" />
     <Project Path="src/Iris.Platform.Windows/Iris.Platform.Windows.csproj" />
     <Project Path="src/Iris.Providers/Iris.Providers.csproj" />
+    <Project Path="src/Iris.UiaHost/Iris.UiaHost.csproj" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Iris.App.Tests/Iris.App.Tests.csproj" />

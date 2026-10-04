@@ -237,7 +237,9 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
 | T-021 | ☑ | KeyboardSimulator：受控 Ctrl+C、释放责任与停止（4976109 / R2 已验收，C20B-1 完成） | T-021A | 0.5d |
-| T-022 | ☐ | UIA / 剪贴板 / 组合选区读取器（DesktopContext 已拆至 T-022A） | T-021, T-022A | 1.5d |
+| T-022 | ▶ | 选区读取总单：B UIA / C 剪贴板事务与组合（A 桌面上下文已验收） | T-021, T-022A | — |
+| T-022B | ▶ | UIA 选区读取、隔离宿主、有界协议与真实退出（ARCH v1.31） | T-021, T-022A | — |
+| T-022C | ☐ | 剪贴板快照/归属/恢复、输入安全与组合读取器及退出接线 | T-022B, T-021A | — |
 | T-023 | ☐ | SelectionTranslateHandler + 划词设置页（基础部分） | T-022, T-018 | 0.5d |
 | T-024 | ☐ | MouseSelectionMonitor + GestureRecognizer + SelectionIconWindow / Controller | T-023 | 2d |
 
@@ -250,6 +252,8 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 **T-021 最终结案（2026-10-04）** — 49761091339de57bff48a824bc568444a46eba2b 通过，R2 的 src/ 与公开契约相对 R1 零差异。独立 Release 零警告/零错误，全量 1775 项（1774 成功/1 独占窗口站环境跳过）；真实测试副本在 native 闸门进入后抛错，返回原 InvalidOperationException，finally 已执行且 STA 已退出，原死锁消失。协议、后台执行和取消/Stop 反例保持通过，C20B-1 维护完成。下一步进入 T-022；详细证据见 tasks/done/T-021-R2.md 第四节。
 
 **T-022** 在签发时统一 ARCH §10.4 与 A08 的终端/焦点控件、UIA 有界等待、剪贴板快照/序列归属和外部更新保护。手动验收清单含记事本、Word、Chrome、Edge、VS Code、微信/QQ、PDF 阅读器、Windows Terminal（**不得触发 Ctrl+C**）；没有新复制时不得返回旧文本，恢复不得覆盖外部新复制。修饰键仍按住时遵守 T-021 的等待/NotReady，使用 UIA 或无结果策略，不强制松开用户按键；最终验收细则随 T-022 正式工单定稿。
+
+**T-022B 签发（2026-10-04）** — 基线 ed8f325，按 UIA_SELECTION_READING.md / ARCH v1.31 实施真实 UIA worker、每请求隔离宿主、父端有界 IPC/取消/退出与 App 部署；不触发真实用户 UIA/clipboard/input。UIA 线程/默认连接与事务超时/GetSelection/GetText/Process.Kill 已由架构师核查官方依据。B 通过后再签 C 统一 A08 剪贴板安全事务与公开 ISelectionTextReader 接线，总单在 B/C 均通过后结案，不缩减划词目标。用户手动转交，控制暂停，不推送。
 **T-023** 验收：Handler 单元测试覆盖三个分支（有文本 / 无文本且打开输入窗 / 无文本且只提示）；设置页可以编辑 ReadOrder、RestoreClipboard、排除进程列表。
 **T-024** 交付 ARCH §6.3（鼠标划词）、§10.2（钩子线程）、§10.6（不激活窗口）。验收：GestureRecognizer 纯逻辑单测（拖动阈值、双击 / 三击时间窗、Shift+单击、I 型光标条件）；钩子回调耗时 < 1 ms（Debug 日志统计）；图标出现时不抢焦点，点击图标后翻译的是原窗口中选中的文本；排除列表生效；模式切换后立即生效；在文件资源管理器里拖动文件不会触发。
 
