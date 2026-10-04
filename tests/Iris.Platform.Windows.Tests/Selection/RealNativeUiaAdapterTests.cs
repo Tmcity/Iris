@@ -111,4 +111,133 @@ public sealed class RealNativeUiaAdapterTests
         threadEx.ShouldBeOfType<InvalidOperationException>();
         threadEx.Message.ShouldContain("must be executed on an MTA thread");
     }
+
+    [Fact]
+    public void RealUiaAutomationSession_Dispose_WhenCalledOnDifferentThread_DoesNotConsumeDisposalResponsibility_AndAllowsOwnerThreadToRetry()
+    {
+        var mockUia = Substitute.For<IUIAutomation>();
+        bool releasedCom = false;
+        bool coUninited = false;
+
+        int ownerThreadId = Environment.CurrentManagedThreadId;
+        var session = new RealUiaAutomationSession(
+            mockUia,
+            ownerThreadId: ownerThreadId,
+            coInitSucceeded: true,
+            coUninitAction: () => coUninited = true,
+            releaseComAction: obj => releasedCom = true);
+
+        // Call Dispose on wrong thread
+        Exception? wrongThreadEx = null;
+        var backgroundThread = new Thread(() =>
+        {
+            try
+            {
+                session.Dispose();
+            }
+            catch (Exception ex)
+            {
+                wrongThreadEx = ex;
+            }
+        });
+        backgroundThread.Start();
+        backgroundThread.Join(TimeSpan.FromSeconds(5)).ShouldBeTrue();
+
+        wrongThreadEx.ShouldNotBeNull();
+        wrongThreadEx.ShouldBeOfType<InvalidOperationException>();
+        releasedCom.ShouldBeFalse();
+        coUninited.ShouldBeFalse();
+
+        // Now call Dispose on the owner thread: must succeed and release resources!
+        session.Dispose();
+        releasedCom.ShouldBeTrue();
+        coUninited.ShouldBeTrue();
+    }
+
+    [Theory]
+    [InlineData(0)] // S_OK
+    [InlineData(1)] // S_FALSE
+    public void RealNativeUiaAdapter_CreateSession_WhenCoInitializeExSucceeds_EntersMtaAndTracksCoUninitialize(int hrValue)
+    {
+        var mockUia = Substitute.For<IUIAutomation>();
+        bool coUninited = false;
+        bool releasedCom = false;
+
+        var adapter = new RealNativeUiaAdapter(
+            coInitFunc: () => new HRESULT(hrValue),
+            coUninitAction: () => coUninited = true,
+            createUiaFunc: () => mockUia,
+            releaseComAction: obj => releasedCom = true);
+
+        var session = adapter.CreateSession(300, 300);
+        session.ShouldNotBeNull();
+
+        session.Dispose();
+        coUninited.ShouldBeTrue();
+        releasedCom.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void RealNativeUiaAdapter_CreateSession_WhenCoInitializeExFailsRpcEChangedMode_ThrowsImmediatelyWithoutCreatingUiaOrCallingCoUninitialize()
+    {
+        bool uiaFactoryCalled = false;
+        bool coUninited = false;
+
+        var adapter = new RealNativeUiaAdapter(
+            coInitFunc: () => new HRESULT(unchecked((int)0x80010106)), // RPC_E_CHANGED_MODE
+            coUninitAction: () => coUninited = true,
+            createUiaFunc: () => { uiaFactoryCalled = true; return Substitute.For<IUIAutomation>(); },
+            releaseComAction: obj => { });
+
+        var ex = Should.Throw<COMException>(() => adapter.CreateSession(300, 300));
+        ex.HResult.ShouldBe(unchecked((int)0x80010106));
+
+        uiaFactoryCalled.ShouldBeFalse();
+        coUninited.ShouldBeFalse();
+    }
+
+    [Fact]
+    public void RealNativeUiaAdapter_CreateSession_WhenUiaCreationFails_RollsBackCoUninitialize()
+    {
+        bool coUninited = false;
+
+        var adapter = new RealNativeUiaAdapter(
+            coInitFunc: () => new HRESULT(0),
+            coUninitAction: () => coUninited = true,
+            createUiaFunc: () => throw new InvalidOperationException("UIA creation failed midway."),
+            releaseComAction: obj => { });
+
+        var ex = Should.Throw<Exception>(() => adapter.CreateSession(300, 300));
+        ex.Message.ShouldContain("UIA creation failed midway.");
+
+        coUninited.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void RealUiaTextPattern_GetSelection_WhenRangeCreationFailsMidway_DisposesAlreadyCreatedRanges_AndReleasesArray()
+    {
+        var mockPattern = Substitute.For<IUIAutomationTextPattern>();
+        var mockArray = Substitute.For<IUIAutomationTextRangeArray>();
+        var mockRange0 = Substitute.For<IUIAutomationTextRange>();
+        var mockRange1 = Substitute.For<IUIAutomationTextRange>();
+
+        mockArray.Length.Returns(3);
+        mockArray.GetElement(0).Returns(mockRange0);
+        mockArray.GetElement(1).Returns(mockRange1);
+        mockArray.GetElement(2).Returns(_ => throw new InvalidOperationException("Range 2 creation failed."));
+        mockPattern.GetSelection().Returns(mockArray);
+
+        var releasedObjects = new List<object>();
+        using var pattern = new RealUiaTextPattern(mockPattern, releaseComAction: obj => releasedObjects.Add(obj));
+
+        var ex = Should.Throw<Exception>(() => pattern.GetSelection());
+        ex.Message.ShouldContain("Range 2 creation failed.");
+
+        // The already created ranges (range 0 and 1) must be disposed during rollback
+        releasedObjects.ShouldContain(mockRange0);
+        releasedObjects.ShouldContain(mockRange1);
+
+        // The array must be released in finally
+        releasedObjects.ShouldContain(mockArray);
+    }
 }

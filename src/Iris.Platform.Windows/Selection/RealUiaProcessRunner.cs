@@ -72,13 +72,13 @@ internal sealed class RealUiaProcessRunner : IUiaProcessRunner
                         totalRead += read;
                     }
                 }
-                catch (IOException)
+                catch (IOException ex) when (UiaProtocolFrameReader.IsPipeClosedException(ex))
                 {
-                    // Pipe broken / closed
+                    // 平台管道正常关闭
                 }
                 catch (ObjectDisposedException)
                 {
-                    // Stream disposed
+                    // 流已由本进程主动关闭
                 }
             }, CancellationToken.None);
 
@@ -86,7 +86,15 @@ internal sealed class RealUiaProcessRunner : IUiaProcessRunner
         }
         catch
         {
-            try { process.Kill(); } catch { }
+            try
+            {
+                if (!process.HasExited)
+                {
+                    process.Kill();
+                    process.WaitForExit(1000);
+                }
+            }
+            catch { }
             try { process.Dispose(); } catch { }
             throw;
         }
@@ -95,34 +103,79 @@ internal sealed class RealUiaProcessRunner : IUiaProcessRunner
 
 internal sealed class RealUiaProcessSession : IUiaProcessSession
 {
-    private readonly Process _process;
+    private readonly Process? _process;
     private readonly Task _stderrDrainTask;
+    private readonly Stream _stdinStream;
+    private readonly IDisposable _stdinDisposable;
+    private readonly Stream _stdoutStream;
+    private readonly IDisposable _stdoutDisposable;
+    private readonly IDisposable? _processDisposable;
     private readonly object _disposeGate = new();
     private Task? _disposeTask;
     private bool _stdinDisposed;
     private bool _stdoutDisposed;
-    private bool _stderrDrained;
+    private bool _stderrDrainObserved;
     private bool _processDisposed;
+    private bool _isFullyDisposed;
     private bool _hasExited;
     private int _exitCode = -1;
 
     public RealUiaProcessSession(Process process, Task stderrDrainTask)
+        : this(
+            process ?? throw new ArgumentNullException(nameof(process)),
+            stderrDrainTask,
+            process.StandardInput.BaseStream,
+            process.StandardInput,
+            process.StandardOutput.BaseStream,
+            process.StandardOutput,
+            process)
     {
-        _process = process ?? throw new ArgumentNullException(nameof(process));
-        _stderrDrainTask = stderrDrainTask ?? throw new ArgumentNullException(nameof(stderrDrainTask));
     }
 
-    public Stream StandardInput => _process.StandardInput.BaseStream;
-    public Stream StandardOutput => _process.StandardOutput.BaseStream;
+    internal RealUiaProcessSession(
+        Process? process,
+        Task stderrDrainTask,
+        Stream stdinStream,
+        IDisposable stdinDisposable,
+        Stream stdoutStream,
+        IDisposable stdoutDisposable,
+        IDisposable? processDisposable = null)
+    {
+        _process = process;
+        _stderrDrainTask = stderrDrainTask ?? throw new ArgumentNullException(nameof(stderrDrainTask));
+        _stdinStream = stdinStream ?? throw new ArgumentNullException(nameof(stdinStream));
+        _stdinDisposable = stdinDisposable ?? throw new ArgumentNullException(nameof(stdinDisposable));
+        _stdoutStream = stdoutStream ?? throw new ArgumentNullException(nameof(stdoutStream));
+        _stdoutDisposable = stdoutDisposable ?? throw new ArgumentNullException(nameof(stdoutDisposable));
+        _processDisposable = processDisposable;
+    }
+
+    public Stream StandardInput => _stdinStream;
+    public Stream StandardOutput => _stdoutStream;
 
     public async Task WaitForExitAsync(CancellationToken cancellationToken)
     {
-        await _process.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
-        _hasExited = true;
-        _exitCode = _process.ExitCode;
+        if (_process != null)
+        {
+            await _process.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
+            _hasExited = true;
+            _exitCode = _process.ExitCode;
+        }
 
-        await _stderrDrainTask.WaitAsync(cancellationToken).ConfigureAwait(false);
-        _stderrDrained = true;
+        try
+        {
+            await _stderrDrainTask.WaitAsync(cancellationToken).ConfigureAwait(false);
+            _stderrDrainObserved = true;
+        }
+        catch (OperationCanceledException)
+        {
+            throw;
+        }
+        catch
+        {
+            _stderrDrainObserved = true;
+            throw;
+        }
     }
 
     public bool HasExited
@@ -130,6 +183,7 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
         get
         {
             if (_hasExited) return true;
+            if (_process == null) return false;
             try
             {
                 if (_process.HasExited)
@@ -152,6 +206,7 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
         get
         {
             if (_hasExited) return _exitCode;
+            if (_process == null) return _exitCode;
             try
             {
                 return _process.ExitCode;
@@ -165,7 +220,7 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
 
     public void Kill()
     {
-        if (HasExited) return;
+        if (HasExited || _process == null) return;
 
         try
         {
@@ -182,20 +237,25 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
         Task task;
         lock (_disposeGate)
         {
-            if (_disposeTask != null)
+            if (_isFullyDisposed)
             {
-                task = _disposeTask;
+                return ValueTask.CompletedTask;
             }
-            else
+
+            if (_disposeTask != null && !_disposeTask.IsCompleted)
             {
-                task = DoDisposeAsyncCore();
-                _disposeTask = task;
+                return new ValueTask(_disposeTask);
             }
+
+            var tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            _disposeTask = tcs.Task;
+            _ = DoDisposeAsyncCore(tcs);
+            task = tcs.Task;
         }
         return new ValueTask(task);
     }
 
-    private async Task DoDisposeAsyncCore()
+    private async Task DoDisposeAsyncCore(TaskCompletionSource tcs)
     {
         List<Exception>? exceptions = null;
 
@@ -203,7 +263,7 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
         {
             try
             {
-                _process.StandardInput.Dispose();
+                _stdinDisposable.Dispose();
                 _stdinDisposed = true;
             }
             catch (ObjectDisposedException)
@@ -212,7 +272,7 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
             }
             catch (Exception ex)
             {
-                (exceptions ??= new()).Add(ex);
+                (exceptions ??= []).Add(ex);
             }
         }
 
@@ -220,7 +280,7 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
         {
             try
             {
-                _process.StandardOutput.Dispose();
+                _stdoutDisposable.Dispose();
                 _stdoutDisposed = true;
             }
             catch (ObjectDisposedException)
@@ -229,20 +289,21 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
             }
             catch (Exception ex)
             {
-                (exceptions ??= new()).Add(ex);
+                (exceptions ??= []).Add(ex);
             }
         }
 
-        if (!_stderrDrained)
+        if (!_stderrDrainObserved)
         {
             try
             {
                 await _stderrDrainTask.ConfigureAwait(false);
-                _stderrDrained = true;
+                _stderrDrainObserved = true;
             }
             catch (Exception ex)
             {
-                (exceptions ??= new()).Add(ex);
+                _stderrDrainObserved = true;
+                (exceptions ??= []).Add(ex);
             }
         }
 
@@ -250,7 +311,7 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
         {
             try
             {
-                if (!_hasExited && _process.HasExited)
+                if (!_hasExited && _process != null && _process.HasExited)
                 {
                     _hasExited = true;
                     _exitCode = _process.ExitCode;
@@ -258,12 +319,12 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
             }
             catch (Exception ex)
             {
-                (exceptions ??= new()).Add(ex);
+                (exceptions ??= []).Add(ex);
             }
 
             try
             {
-                _process.Dispose();
+                _processDisposable?.Dispose();
                 _processDisposed = true;
             }
             catch (ObjectDisposedException)
@@ -272,17 +333,30 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
             }
             catch (Exception ex)
             {
-                (exceptions ??= new()).Add(ex);
+                (exceptions ??= []).Add(ex);
             }
         }
 
-        if (exceptions != null && exceptions.Count > 0)
+        bool hasFailures = exceptions != null && exceptions.Count > 0;
+        lock (_disposeGate)
         {
-            lock (_disposeGate)
+            if (hasFailures)
             {
                 _disposeTask = null; // 允许重试未完成的释放阶段
             }
-            throw new AggregateException("Failed to dispose one or more process session resources.", exceptions);
+            else
+            {
+                _isFullyDisposed = true;
+            }
+        }
+
+        if (hasFailures)
+        {
+            tcs.TrySetException(new AggregateException("Failed to dispose one or more process session resources.", exceptions!));
+        }
+        else
+        {
+            tcs.TrySetResult();
         }
     }
 }

@@ -166,6 +166,53 @@ public sealed class UiaProtocolCodecTests
             await UiaProtocolFrameReader.ReadLineWithLimitAsync(throwingStream, 1024, CancellationToken.None));
     }
 
+    [Fact]
+    public async Task FrameReader_WhenCleanEofWithBrokenPipe_ReturnsNull()
+    {
+        var cleanBrokenPipeStream = new ThrowingReadStream(new IOException("Broken pipe", unchecked((int)0x8007006D)));
+        var line = await UiaProtocolFrameReader.ReadLineWithLimitAsync(cleanBrokenPipeStream, 1024, CancellationToken.None);
+        line.ShouldBeNull();
+    }
+
+    [Fact]
+    public async Task FrameReader_WhenCleanEofWithPipeNotConnected_ReturnsNull()
+    {
+        var cleanPipeNotConnectedStream = new ThrowingReadStream(new IOException("Pipe not connected", unchecked((int)0x800700E8)));
+        var line = await UiaProtocolFrameReader.ReadLineWithLimitAsync(cleanPipeNotConnectedStream, 1024, CancellationToken.None);
+        line.ShouldBeNull();
+    }
+
+    [Fact]
+    public async Task FrameReader_WhenPartialBytesThenBrokenPipe_ThrowsIOException()
+    {
+        using var baseStream = new MemoryStream(Encoding.UTF8.GetBytes("{\"status\":"));
+        var hybridStream = new FaultingAfterBytesStream(baseStream, new IOException("Broken pipe", unchecked((int)0x8007006D)));
+
+        var ex = await Should.ThrowAsync<IOException>(async () =>
+            await UiaProtocolFrameReader.ReadLineWithLimitAsync(hybridStream, 1024, CancellationToken.None));
+        ex.HResult.ShouldBe(unchecked((int)0x8007006D));
+    }
+
+    [Fact]
+    public async Task FrameReader_WhenPartialBytesThenPipeNotConnected_ThrowsIOException()
+    {
+        using var baseStream = new MemoryStream(Encoding.UTF8.GetBytes("{\"status\":"));
+        var hybridStream = new FaultingAfterBytesStream(baseStream, new IOException("Pipe not connected", unchecked((int)0x800700E8)));
+
+        var ex = await Should.ThrowAsync<IOException>(async () =>
+            await UiaProtocolFrameReader.ReadLineWithLimitAsync(hybridStream, 1024, CancellationToken.None));
+        ex.HResult.ShouldBe(unchecked((int)0x800700E8));
+    }
+
+    [Fact]
+    public async Task FrameReader_WhenPartialBytesThenCleanEof_ThrowsEndOfStreamException()
+    {
+        using var baseStream = new MemoryStream(Encoding.UTF8.GetBytes("{\"status\":"));
+
+        await Should.ThrowAsync<EndOfStreamException>(async () =>
+            await UiaProtocolFrameReader.ReadLineWithLimitAsync(baseStream, 1024, CancellationToken.None));
+    }
+
     private sealed class ThrowingReadStream : Stream
     {
         private readonly Exception _toThrow;

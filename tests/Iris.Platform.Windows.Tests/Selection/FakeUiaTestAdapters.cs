@@ -179,11 +179,16 @@ internal sealed class FakeUiaProcessSession : IUiaProcessSession
     private readonly System.IO.Pipelines.Pipe _stdinPipe = new();
     private readonly System.IO.Pipelines.Pipe _stdoutPipe = new();
     private readonly SemaphoreSlim _exitGate = new(0);
-    private readonly Stream _standardOutput;
+    private Stream _standardOutput;
 
     public FakeUiaProcessSession()
     {
         _standardOutput = new ObservableReadStream(_stdoutPipe.Reader.AsStream(), () => StdoutReadStarted.TrySetResult());
+    }
+
+    public void AppendTrailingStreamFault(Exception faultException)
+    {
+        _standardOutput = new FaultingAfterBytesStream(_standardOutput, faultException);
     }
 
     public TaskCompletionSource StdoutReadStarted { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -220,10 +225,10 @@ internal sealed class FakeUiaProcessSession : IUiaProcessSession
         EnqueueLine(UiaProtocolCodec.SerializeReply(reply));
     }
 
-    public void SignalExit()
+    public void SignalExit(Exception? stdoutException = null)
     {
         HasExited = true;
-        _stdoutPipe.Writer.Complete();
+        _stdoutPipe.Writer.Complete(stdoutException);
         _stdinPipe.Writer.Complete();
         if (_exitGate.CurrentCount == 0)
         {
@@ -357,3 +362,51 @@ internal sealed class FakeUiaProcessSession : IUiaProcessSession
         }
     }
 }
+
+internal sealed class FaultingAfterBytesStream(Stream inner, Exception faultException) : Stream
+{
+        private bool _faulted;
+
+        public override bool CanRead => inner.CanRead;
+        public override bool CanSeek => inner.CanSeek;
+        public override bool CanWrite => inner.CanWrite;
+        public override long Length => inner.Length;
+        public override long Position { get => inner.Position; set => inner.Position = value; }
+        public override void Flush() => inner.Flush();
+
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            int read = inner.Read(buffer, offset, count);
+            if (read == 0 && !_faulted)
+            {
+                _faulted = true;
+                throw faultException;
+            }
+            return read;
+        }
+
+        public override async ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
+        {
+            int read = await inner.ReadAsync(buffer, cancellationToken).ConfigureAwait(false);
+            if (read == 0 && !_faulted)
+            {
+                _faulted = true;
+                throw faultException;
+            }
+            return read;
+        }
+
+        public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+        {
+            return ReadAsync(buffer.AsMemory(offset, count), cancellationToken).AsTask();
+        }
+
+        public override long Seek(long offset, SeekOrigin origin) => inner.Seek(offset, origin);
+        public override void SetLength(long value) => inner.SetLength(value);
+        public override void Write(byte[] buffer, int offset, int count) => inner.Write(buffer, offset, count);
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing) inner.Dispose();
+            base.Dispose(disposing);
+        }
+    }

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Iris.Core.Errors;
@@ -310,30 +311,42 @@ public sealed class UiaSelectionReaderTests
                     return Task.FromResult<IUiaProcessSession>(session);
                 };
 
-                using var reader = CreateReader();
-                var readTask = reader.ReadAsync(0x1000, 4242, CancellationToken.None);
-
-                // Drain request on background
-                var drainTask = Task.Run(async () =>
+                UiaSelectionReader? reader = null;
+                try
                 {
-                    var reqLine = await UiaProtocolFrameReader.ReadLineWithLimitAsync(session.TestStdinReader, UiaProtocolConstants.MaxFrameBytes, CancellationToken.None);
-                    var req = UiaProtocolCodec.DeserializeRequest(reqLine!);
-                    session.EnqueueReply(new UiaReplyFrame
+                    reader = CreateReader();
+                    var readTask = reader.ReadAsync(0x1000, 4242, CancellationToken.None);
+
+                    // Drain request on background
+                    var drainTask = Task.Run(async () =>
                     {
-                        ProtocolVersion = 1,
-                        Kind = "Reply",
-                        RequestId = req!.RequestId,
-                        Status = UiaSelectionStatus.Success,
-                        Text = "STA Safe Text"
+                        var reqLine = await UiaProtocolFrameReader.ReadLineWithLimitAsync(session.TestStdinReader, UiaProtocolConstants.MaxFrameBytes, CancellationToken.None);
+                        var req = UiaProtocolCodec.DeserializeRequest(reqLine!);
+                        session.EnqueueReply(new UiaReplyFrame
+                        {
+                            ProtocolVersion = 1,
+                            Kind = "Reply",
+                            RequestId = req!.RequestId,
+                            Status = UiaSelectionStatus.Success,
+                            Text = "STA Safe Text"
+                        });
+                        session.SignalExit();
                     });
-                    session.SignalExit();
-                });
 
-                var result = readTask.GetAwaiter().GetResult();
-                drainTask.GetAwaiter().GetResult();
+                    var result = readTask.GetAwaiter().GetResult();
+                    drainTask.GetAwaiter().GetResult();
 
-                result.Status.ShouldBe(UiaSelectionStatus.Success);
-                result.Text.ShouldBe("STA Safe Text");
+                    result.Status.ShouldBe(UiaSelectionStatus.Success);
+                    result.Text.ShouldBe("STA Safe Text");
+                }
+                catch (Exception ex)
+                {
+                    threadEx = ex;
+                }
+                finally
+                {
+                    reader?.DisposeAsync().AsTask().GetAwaiter().GetResult();
+                }
             }
             catch (Exception ex)
             {
@@ -344,6 +357,7 @@ public sealed class UiaSelectionReaderTests
         thread.SetApartmentState(ApartmentState.STA);
         thread.Start();
         thread.Join(TimeSpan.FromSeconds(5)).ShouldBeTrue();
+        thread.IsAlive.ShouldBeFalse();
 
         if (threadEx != null) throw threadEx;
 
@@ -367,29 +381,37 @@ public sealed class UiaSelectionReaderTests
                 callerThreadId = Environment.CurrentManagedThreadId;
                 var session = new FakeUiaProcessSession { RefuseToExit = true };
                 _processRunner.Session = session;
-                using var reader = CreateReader();
-
-                // Start a read that fails cleanup to retain a failed coordinator
-                var readTask = reader.ReadAsync(0x1000, 4242, CancellationToken.None);
-                session.StdoutReadStarted.Task.Wait(TimeSpan.FromSeconds(2));
-                _timeProvider.Advance(TimeSpan.FromMilliseconds(1600)); // Ready timeout
-                session.WaitForExitStarted.Task.Wait(TimeSpan.FromSeconds(2));
-                _timeProvider.Advance(TimeSpan.FromMilliseconds(1100)); // Kill confirmation timeout
-
-                Should.Throw<IrisException>(() => readTask.GetAwaiter().GetResult());
-
-                // Hook OnKill on session to capture thread during Retry
-                session.RefuseToExit = false;
-                session.OnKill = () =>
+                UiaSelectionReader? reader = null;
+                try
                 {
-                    retryThreadId = Environment.CurrentManagedThreadId;
-                };
+                    reader = CreateReader();
 
-                // RetryCleanupAsync from STA thread
-                reader.RetryCleanupAsync(CancellationToken.None).GetAwaiter().GetResult();
+                    // Start a read that fails cleanup to retain a failed coordinator
+                    var readTask = reader.ReadAsync(0x1000, 4242, CancellationToken.None);
+                    session.StdoutReadStarted.Task.Wait(TimeSpan.FromSeconds(2)).ShouldBeTrue();
+                    _timeProvider.Advance(TimeSpan.FromMilliseconds(1600)); // Ready timeout
+                    session.WaitForExitStarted.Task.Wait(TimeSpan.FromSeconds(2)).ShouldBeTrue();
+                    _timeProvider.Advance(TimeSpan.FromMilliseconds(1100)); // Kill confirmation timeout
 
-                // StopAsync from STA thread
-                reader.StopAsync(CancellationToken.None).GetAwaiter().GetResult();
+                    Should.Throw<IrisException>(() => readTask.GetAwaiter().GetResult());
+
+                    // Hook OnKill on session to capture thread during Retry
+                    session.RefuseToExit = false;
+                    session.OnKill = () =>
+                    {
+                        retryThreadId = Environment.CurrentManagedThreadId;
+                    };
+
+                    // RetryCleanupAsync from STA thread
+                    reader.RetryCleanupAsync(CancellationToken.None).GetAwaiter().GetResult();
+
+                    // StopAsync from STA thread
+                    reader.StopAsync(CancellationToken.None).GetAwaiter().GetResult();
+                }
+                finally
+                {
+                    reader?.DisposeAsync().AsTask().GetAwaiter().GetResult();
+                }
             }
             catch (Exception ex)
             {
@@ -400,6 +422,7 @@ public sealed class UiaSelectionReaderTests
         thread.SetApartmentState(ApartmentState.STA);
         thread.Start();
         thread.Join(TimeSpan.FromSeconds(5)).ShouldBeTrue();
+        thread.IsAlive.ShouldBeFalse();
 
         if (threadEx != null) throw threadEx;
 
@@ -433,12 +456,17 @@ public sealed class UiaSelectionReaderTests
         // Start is still in-flight: readTask must NOT complete prematurely
         readTask.IsCompleted.ShouldBeFalse();
 
-        // While delayed start is in-flight, reader holds responsibility and rejects concurrent read with Busy
-        var busyResult = await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken);
-        busyResult.Status.ShouldBe(UiaSelectionStatus.Busy);
-
-        // Later, the delayed child process finishes starting
-        startTcs.SetResult(session);
+        try
+        {
+            // While delayed start is in-flight, reader holds responsibility and rejects concurrent read with Busy
+            var busyResult = await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken);
+            busyResult.Status.ShouldBe(UiaSelectionStatus.Busy);
+        }
+        finally
+        {
+            // Must always release Start gate in finally so delayed child process starts and reader can clean up
+            startTcs.TrySetResult(session);
+        }
 
         // Await the readTask which completes physical cleanup and returns TimedOut
         var result = await readTask;
@@ -710,5 +738,240 @@ public sealed class UiaSelectionReaderTests
         var result = UiaSelectionResult.CreateFailed("req-1", inputCode);
         result.ErrorCode.ShouldBe(expectedCode);
         result.ToString().ShouldContain($"ErrorCode={expectedCode}");
+    }
+
+    [Fact]
+    public async Task ReadAsync_WhenPreflightValidationExhaustsReadyBudget_TimesOutWithoutStartingRunner()
+    {
+        await using var reader = CreateReader();
+
+        _targetValidator.DefaultIsValid = true;
+        _targetValidator.OnCall = (hwnd, pid) =>
+        {
+            // Advance time past 1500ms Ready budget during preflight target validation
+            _timeProvider.Advance(TimeSpan.FromMilliseconds(1600));
+        };
+
+        var result = await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken);
+
+        result.Status.ShouldBe(UiaSelectionStatus.TimedOut);
+        _processRunner.TotalStartCalls.ShouldBe(0);
+    }
+
+    [Fact]
+    public async Task ReadAsync_WhenTargetValidationThrows_SanitizesMessageAndDoesNotLeakInnerException()
+    {
+        await using var reader = CreateReader();
+
+        _targetValidator.OnCall = (hwnd, pid) =>
+        {
+            throw new InvalidOperationException("review-private-target-detail-sensitive-window-content");
+        };
+
+        var ex = await Should.ThrowAsync<IrisException>(() => reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken));
+
+        ex.Code.ShouldBe(ErrorCode.CaptureFailed);
+        ex.InnerException.ShouldBeNull();
+        ex.Message.ShouldNotContain("review-private-target-detail-sensitive-window-content");
+        ex.ToString().ShouldNotContain("review-private-target-detail-sensitive-window-content");
+    }
+
+    [Fact]
+    public async Task StopAsync_ExecutesCancellationCallbacks_OffCallerThreadAndOutsideGate()
+    {
+        int callerThreadId = Environment.CurrentManagedThreadId;
+        int callbackThreadId = 0;
+        bool? callbackLockHeld = null;
+
+        await using var reader = CreateReader();
+
+        var session = new FakeUiaProcessSession();
+        var startEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var startTcs = new TaskCompletionSource<IUiaProcessSession>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        _processRunner.StartAsyncFunc = ct =>
+        {
+            ct.Register(() =>
+            {
+                callbackThreadId = Environment.CurrentManagedThreadId;
+                var gateField = typeof(UiaSelectionReader).GetField("_gate", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+                var gateObj = gateField!.GetValue(reader);
+                callbackLockHeld = Monitor.IsEntered(gateObj!);
+                startTcs.TrySetCanceled(ct);
+            });
+            startEntered.TrySetResult();
+            return startTcs.Task;
+        };
+
+        var readTask = Task.Run(async () => await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken), TestContext.Current.CancellationToken);
+
+        await startEntered.Task.WaitAsync(TestContext.Current.CancellationToken);
+
+        try
+        {
+            var stopTask = reader.StopAsync(TestContext.Current.CancellationToken);
+            await stopTask;
+        }
+        finally
+        {
+            startTcs.TrySetResult(session);
+        }
+
+        await Should.ThrowAsync<OperationCanceledException>(async () => await readTask);
+
+        callbackThreadId.ShouldNotBe(0);
+        callbackThreadId.ShouldNotBe(callerThreadId);
+        callbackLockHeld.ShouldBe(false);
+    }
+
+    [Fact]
+    public async Task ReadAsync_WhenTailStreamTruncatedWithBrokenPipe_ReturnsProtocolError()
+    {
+        await using var reader = CreateReader();
+
+        var session = new FakeUiaProcessSession();
+        _processRunner.Session = session;
+        session.EnqueueReady();
+
+        var readTask = Task.Run(async () => await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken), TestContext.Current.CancellationToken);
+
+        var reqLine = await UiaProtocolFrameReader.ReadLineWithLimitAsync(session.TestStdinReader, UiaProtocolConstants.MaxFrameBytes, TestContext.Current.CancellationToken);
+        var req = UiaProtocolCodec.DeserializeRequest(reqLine!);
+
+        session.EnqueueReply(new UiaReplyFrame
+        {
+            ProtocolVersion = 1,
+            Kind = "Reply",
+            RequestId = req!.RequestId,
+            Status = UiaSelectionStatus.Success,
+            Text = "Valid text"
+        });
+
+        // Ensure reply was read and reader entered cleanup exit wait
+        await session.WaitForExitStarted.Task.WaitAsync(TestContext.Current.CancellationToken);
+
+        // Write partial bytes without newline followed by broken pipe error (0x8007006D)
+        session.TestStdoutWriter.Write(Encoding.UTF8.GetBytes("{\"status\":"));
+        session.TestStdoutWriter.Flush();
+        session.AppendTrailingStreamFault(new IOException("Pipe broken", unchecked((int)0x8007006D)));
+        session.SignalExit();
+
+        var result = await readTask;
+
+        result.Status.ShouldBe(UiaSelectionStatus.Failed);
+        result.ErrorCode.ShouldBe("PROTOCOL_ERROR");
+        result.Text.ShouldBeNull();
+    }
+
+    [Fact]
+    public async Task ReadAsync_WhenTailStreamTruncatedWithPipeNotConnected_ReturnsProtocolError()
+    {
+        await using var reader = CreateReader();
+
+        var session = new FakeUiaProcessSession();
+        _processRunner.Session = session;
+        session.EnqueueReady();
+
+        var readTask = Task.Run(async () => await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken), TestContext.Current.CancellationToken);
+
+        var reqLine = await UiaProtocolFrameReader.ReadLineWithLimitAsync(session.TestStdinReader, UiaProtocolConstants.MaxFrameBytes, TestContext.Current.CancellationToken);
+        var req = UiaProtocolCodec.DeserializeRequest(reqLine!);
+
+        session.EnqueueReply(new UiaReplyFrame
+        {
+            ProtocolVersion = 1,
+            Kind = "Reply",
+            RequestId = req!.RequestId,
+            Status = UiaSelectionStatus.Success,
+            Text = "Valid text"
+        });
+
+        // Ensure reply was read and reader entered cleanup exit wait
+        await session.WaitForExitStarted.Task.WaitAsync(TestContext.Current.CancellationToken);
+
+        // Write partial bytes without newline followed by pipe not connected error (0x800700E8)
+        session.TestStdoutWriter.Write(Encoding.UTF8.GetBytes("{\"status\":"));
+        session.TestStdoutWriter.Flush();
+        session.AppendTrailingStreamFault(new IOException("Pipe not connected", unchecked((int)0x800700E8)));
+        session.SignalExit();
+
+        var result = await readTask;
+
+        result.Status.ShouldBe(UiaSelectionStatus.Failed);
+        result.ErrorCode.ShouldBe("PROTOCOL_ERROR");
+        result.Text.ShouldBeNull();
+    }
+
+    [Fact]
+    public async Task ReadAsync_WhenTailStreamTruncatedEofWithoutPipeError_ReturnsProtocolError()
+    {
+        await using var reader = CreateReader();
+
+        var session = new FakeUiaProcessSession();
+        _processRunner.Session = session;
+        session.EnqueueReady();
+
+        var readTask = Task.Run(async () => await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken), TestContext.Current.CancellationToken);
+
+        var reqLine = await UiaProtocolFrameReader.ReadLineWithLimitAsync(session.TestStdinReader, UiaProtocolConstants.MaxFrameBytes, TestContext.Current.CancellationToken);
+        var req = UiaProtocolCodec.DeserializeRequest(reqLine!);
+
+        session.EnqueueReply(new UiaReplyFrame
+        {
+            ProtocolVersion = 1,
+            Kind = "Reply",
+            RequestId = req!.RequestId,
+            Status = UiaSelectionStatus.Success,
+            Text = "Valid text"
+        });
+
+        // Ensure reply was read and reader entered cleanup exit wait
+        await session.WaitForExitStarted.Task.WaitAsync(TestContext.Current.CancellationToken);
+
+        // Write partial bytes without newline and clean EOF (no pipe exception)
+        session.TestStdoutWriter.Write(Encoding.UTF8.GetBytes("{\"status\":"));
+        session.TestStdoutWriter.Flush();
+        session.SignalExit();
+
+        var result = await readTask;
+
+        result.Status.ShouldBe(UiaSelectionStatus.Failed);
+        result.ErrorCode.ShouldBe("PROTOCOL_ERROR");
+        result.Text.ShouldBeNull();
+    }
+
+    [Fact]
+    public async Task ReadAsync_WhenTailStreamCleanEofWithBrokenPipe_ReturnsSuccess()
+    {
+        await using var reader = CreateReader();
+
+        var session = new FakeUiaProcessSession();
+        _processRunner.Session = session;
+        session.EnqueueReady();
+
+        var readTask = Task.Run(async () => await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken), TestContext.Current.CancellationToken);
+
+        var reqLine = await UiaProtocolFrameReader.ReadLineWithLimitAsync(session.TestStdinReader, UiaProtocolConstants.MaxFrameBytes, TestContext.Current.CancellationToken);
+        var req = UiaProtocolCodec.DeserializeRequest(reqLine!);
+
+        session.EnqueueReply(new UiaReplyFrame
+        {
+            ProtocolVersion = 1,
+            Kind = "Reply",
+            RequestId = req!.RequestId,
+            Status = UiaSelectionStatus.Success,
+            Text = "Valid text"
+        });
+
+        // Ensure reply was read and reader entered cleanup exit wait
+        await session.WaitForExitStarted.Task.WaitAsync(TestContext.Current.CancellationToken);
+
+        // Zero bytes after reply frame, followed by clean broken pipe EOF
+        session.SignalExit(new IOException("Clean broken pipe", unchecked((int)0x8007006D)));
+
+        var result = await readTask;
+
+        result.Status.ShouldBe(UiaSelectionStatus.Success);
+        result.Text.ShouldBe("Valid text");
     }
 }
