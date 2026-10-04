@@ -2,7 +2,7 @@
 
 > 2026-10-05 更新；由 Codex 接替 Claude Code 的架构师职责。当前状态以 `tasks/BACKLOG.md` 与 `tasks/current_task.md` 为准；本文件记录交接事实与后续注意事项。
 
-**当前唯一有效状态（T-022B 已结案，2026-10-05）**：HEAD 43fcf47a455063a483d563c01b78127653e321fa，R6 独立验收通过。Release 零警告/零错误，全量 1923 项（1922 成功/1 环境跳过），相对 R5 生产/契约/配置/包/部署零差异。测试失败收尾和真实路径覆盖已补齐，开发阶段失败记录保留。B 结案不代表总单或真实划词兼容性完成。当前唯一工单 tasks/current_task.md / T-022C1，按 CLIPBOARD_SNAPSHOTS.md / ARCH v1.32 实施原生快照/条件清空恢复底座；C2 后续完成复制安全、组合读取和 App 退出，范围不缩减。T-022/T-022C/C1 保持 ▶，不开始 C2/T-023。架构师文档尚未提交，由开发随 C1 保留带入。.codex/ 用户工具保持未跟踪。直接协调 Codex 开发会话，严禁推送。
+**当前唯一有效状态（T-022C1 首次复审，2026-10-05）**：HEAD 85c6d8c072053ae66ad36b1a189bd134d90046a3。独立 Release 零警告/零错误，全量 1977 项（1975 成功/2 独占窗口站环境跳过），主体现有快照/条件写入/原生生命周期和隔离 helper 成果保留。仅注册格式名大小写比较不符合 Windows 同名语义，已通过官方文档与实际服务探针确认；当前唯一工单 tasks/current_task.md / T-022C1-R1，证据在 tasks/done/T-022C1.md 第 7 节与临时目录 iris-t022c1-independent-review。T-022B 已结案，C1/T-022C/T-022 继续 ▶，不开始 C2/T-023。C2 准备稿暂存系统临时目录 iris-t022c2-design-preparation.md，未签发。架构师文档未提交，由开发随 R1 保留带入，.codex/ 用户工具保持未跟踪。直接协调指定 Codex 开发会话，严禁推送。
 
 **当前协作方式（2026-10-05 最新用户指令）：直接协调 Codex 开发会话。** Gemini 额度耗尽，用户将开发职责交给会话 01a1088c-7a7f-7db3-a153-7fae5cfedf4d，由本架构师直接说明角色、下达工单并读取交付，用户不再传话。使用用户提供的 .codex/codex_threads.py 与官方 App Server；运行中追加要求需确认插队生效。旧手动转交/Antigravity 控制记录均属历史。角色说明已被开发会话确认（turn 01a10897-8592-7e32-b35a-3595727df562 completed），R6 已在 turn 01a10899-0c31-71b1-88cc-818fb3571432 completed 后交付并通过独立复审，C1 已正式下达并在 turn 01a108b3-126b-78b3-b9df-c11a40bf2246 进入执行，当前等待实际交付后独立复审。详细职责见 specs/DEVELOPER_HANDOFF.md。不推送。
 

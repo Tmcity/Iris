@@ -32,7 +32,7 @@ Capture 可明确返回 UnsupportedFormat、TooLarge、Changed（捕获中版本
 
 遇任何不支持格式（包括 CF_BITMAP、调色板/元文件、owner-display、私有/GDI 对象范围、其它注册格式）时返回 UnsupportedFormat，不进行本程序的清空或写入。该底座不宣称能恢复任意 OLE/应用私有对象。C2 将决定不能完整保存时的复制策略；不得在 C1 静默丢弃不支持格式。
 
-枚举不先 Get 全部无界内容；超过数量预算立刻终止。先验证全部格式属于支持集，再读取数据。注册格式用系统返回的有界名字匹配，不相信外部任意名称意味着数据可执行或可访问路径。
+枚举不先 Get 全部无界内容；超过数量预算立刻终止。先验证全部格式属于支持集，再读取数据。注册格式用系统返回的有界名字按 Windows 的不区分大小写语义完整匹配（OrdinalIgnoreCase）；空格/前后缀仍属于名称，不做 Trim 或模糊匹配。不相信外部任意名称意味着数据可执行或可访问路径。
 
 GetClipboardData 句柄为借用，绝不 GlobalFree，Close 后不再访问。GlobalLock 后按 GlobalSize 复制；GlobalUnlock 的返回值与错误码按 Win32 约定判定。快照持有独立托管副本，不保存借用句柄。
 

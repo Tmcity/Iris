@@ -158,7 +158,10 @@ internal sealed partial class ClipboardSnapshotService : IDisposable, IAsyncDisp
     {
         if (format is 1 or 7 or 8 or 13 or 15 or 16 or 17) return true;
         if (format < 0xC000 || format > 0xFFFF) return false;
-        return _native.GetFormatName(format) is "HTML Format" or "Rich Text Format" or "PNG";
+        string name = _native.GetFormatName(format);
+        return string.Equals(name, "HTML Format", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(name, "Rich Text Format", StringComparison.OrdinalIgnoreCase)
+            || string.Equals(name, "PNG", StringComparison.OrdinalIgnoreCase);
     }
 
     private void Unlock(MemoryBlock block)

@@ -51,6 +51,59 @@ public sealed class ClipboardSnapshotServiceTests
     });
 
     [Theory]
+    [InlineData("html format", "rich text format", "png")]
+    [InlineData("HTML FORMAT", "RICH TEXT FORMAT", "PNG")]
+    [InlineData("hTmL fOrMaT", "RiCh TeXt FoRmAt", "pNg")]
+    public Task RegisteredFormats_CaseVariants_PreserveIdsBytesAndOrder(string html, string rtf, string png) => Run(async s =>
+    {
+        uint[] formats = [0xC003, 0xC001, 0xC002];
+        string[] names = [html, rtf, png];
+        byte[][] payloads = [[0, 255, 1], [128, 0, 2, 3], [7, 0, 0, 4, 5]];
+        for (int i = 0; i < formats.Length; i++)
+        {
+            s.Native.Names[formats[i]] = names[i];
+            s.Native.Add(formats[i], payloads[i]);
+        }
+        var snapshot = await s.Capture();
+        using (var lease = snapshot.Borrow(s.Service))
+        {
+            lease.Count.ShouldBe(formats.Length);
+            for (int i = 0; i < formats.Length; i++)
+            {
+                lease.FormatAt(i).ShouldBe(formats[i]);
+                lease.BytesAt(i).ToArray().ShouldBe(payloads[i]);
+            }
+        }
+        var restored = await s.Service.TryRestoreAsync(snapshot, snapshot.Version);
+        restored.Status.ShouldBe(ClipboardSnapshotStatus.Applied);
+        s.Native.Formats.Select(f => f.Format).ShouldBe(formats);
+        for (int i = 0; i < formats.Length; i++)
+            s.Native.Memory[s.Native.Formats[i].Handle].Bytes.ShouldBe(payloads[i]);
+    });
+
+    [Theory]
+    [InlineData("HTML Formats")]
+    [InlineData(" HTML Format")]
+    [InlineData("HTML Format ")]
+    [InlineData("HTML  Format")]
+    [InlineData("Rich Text Format ")]
+    [InlineData("PNG ")]
+    [InlineData("xPNG")]
+    [InlineData("PNGx")]
+    public Task RegisteredFormats_NearNames_AreRejectedWithoutGetEmptyOrSet(string name) => Run(async s =>
+    {
+        s.Native.Add(13, [1, 2]);
+        s.Native.Names[0xC001] = name;
+        s.Native.Add(0xC001, [3, 4]);
+        var result = await s.Service.CaptureSnapshotAsync();
+        result.Status.ShouldBe(ClipboardSnapshotStatus.UnsupportedFormat);
+        result.Snapshot.ShouldBeNull();
+        s.Native.Count("Get").ShouldBe(0);
+        s.Native.Count("Empty").ShouldBe(0);
+        s.Native.Count("Set").ShouldBe(0);
+    });
+
+    [Theory]
     [InlineData(0u)]
     [InlineData(uint.MaxValue)]
     public Task EmptySnapshot_AndSequenceWrap_AreLegal(uint sequence) => Run(async s =>
