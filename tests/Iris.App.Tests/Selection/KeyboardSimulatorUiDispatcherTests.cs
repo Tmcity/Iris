@@ -21,6 +21,7 @@ public sealed class KeyboardSimulatorUiDispatcherTests
         int sendCallsOnUi = -1;
         int totalSends = -1;
         KeyboardCopyOutcome? outcome = null;
+        ThreadTrackingFakeNativeAdapter? fakeNativeRef = null;
 
         var thread = new Thread(() =>
         {
@@ -30,14 +31,19 @@ public sealed class KeyboardSimulatorUiDispatcherTests
 
             dispatcher.InvokeAsync(async () =>
             {
+                ThreadTrackingFakeNativeAdapter? fakeNative = null;
+                KeyboardSimulator? simulator = null;
+                Task<KeyboardCopyResult>? copyTask = null;
                 try
                 {
                     int uiThreadId = Environment.CurrentManagedThreadId;
-                    var fakeNative = new ThreadTrackingFakeNativeAdapter(uiThreadId);
+                    fakeNative = new ThreadTrackingFakeNativeAdapter(uiThreadId);
+                    fakeNativeRef = fakeNative;
                     fakeNative.SendReleaseTcs.TrySetResult(); // 不阻塞发送
 
-                    await using var simulator = new KeyboardSimulator(fakeNative);
-                    var result = await simulator.CopyAsync(Target, TestContext.Current.CancellationToken);
+                    simulator = new KeyboardSimulator(fakeNative);
+                    copyTask = simulator.CopyAsync(Target, TestContext.Current.CancellationToken);
+                    var result = await copyTask;
 
                     outcome = result.Outcome;
                     nativeCallsOnUi = fakeNative.UiCalls;
@@ -50,6 +56,22 @@ public sealed class KeyboardSimulatorUiDispatcherTests
                 }
                 finally
                 {
+                    fakeNative?.SendReleaseTcs.TrySetResult();
+                    if (copyTask != null)
+                    {
+                        try { await copyTask.ConfigureAwait(false); } catch { }
+                    }
+                    if (simulator != null)
+                    {
+                        try
+                        {
+                            await simulator.DisposeAsync().ConfigureAwait(false);
+                        }
+                        catch (Exception ex)
+                        {
+                            caughtEx = caughtEx == null ? ex : new AggregateException(caughtEx, ex);
+                        }
+                    }
                     dispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
                 }
             });
@@ -73,7 +95,6 @@ public sealed class KeyboardSimulatorUiDispatcherTests
         try
         {
             await done.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
-            thread.Join(3000).ShouldBeTrue("WPF STA 线程应在完成调度后正常退出");
 
             outcome.ShouldBe(KeyboardCopyOutcome.Injected);
             nativeCallsOnUi.ShouldBe(0, "所有原生状态/目标查询必须完全离开 UI 线程");
@@ -82,10 +103,8 @@ public sealed class KeyboardSimulatorUiDispatcherTests
         }
         finally
         {
-            if (thread.IsAlive)
-            {
-                thread.Join(1000);
-            }
+            fakeNativeRef?.SendReleaseTcs.TrySetResult();
+            thread.Join(3000).ShouldBeTrue("WPF STA 线程应在完成调度后正常退出");
         }
     }
 
@@ -96,6 +115,7 @@ public sealed class KeyboardSimulatorUiDispatcherTests
         bool independentCallbackProcessed = false;
         int nativeCallsOnUi = -1;
         int sendCallsOnUi = -1;
+        ThreadTrackingFakeNativeAdapter? fakeNativeRef = null;
 
         var thread = new Thread(() =>
         {
@@ -106,13 +126,15 @@ public sealed class KeyboardSimulatorUiDispatcherTests
             dispatcher.InvokeAsync(async () =>
             {
                 ThreadTrackingFakeNativeAdapter? fakeNative = null;
+                KeyboardSimulator? simulator = null;
                 Task<KeyboardCopyResult>? copyTask = null;
                 try
                 {
                     int uiThreadId = Environment.CurrentManagedThreadId;
                     fakeNative = new ThreadTrackingFakeNativeAdapter(uiThreadId);
+                    fakeNativeRef = fakeNative;
 
-                    await using var simulator = new KeyboardSimulator(fakeNative);
+                    simulator = new KeyboardSimulator(fakeNative);
 
                     // 在 UI 线程启动 CopyAsync
                     copyTask = simulator.CopyAsync(Target, TestContext.Current.CancellationToken);
@@ -141,10 +163,22 @@ public sealed class KeyboardSimulatorUiDispatcherTests
                 }
                 finally
                 {
+                    // 先放行闸门，再收尾任务与模拟器，杜绝 DisposeAsync 与闸门形成死锁
                     fakeNative?.SendReleaseTcs.TrySetResult();
                     if (copyTask != null)
                     {
-                        try { await copyTask; } catch { }
+                        try { await copyTask.ConfigureAwait(false); } catch { }
+                    }
+                    if (simulator != null)
+                    {
+                        try
+                        {
+                            await simulator.DisposeAsync().ConfigureAwait(false);
+                        }
+                        catch (Exception ex)
+                        {
+                            caughtEx = caughtEx == null ? ex : new AggregateException(caughtEx, ex);
+                        }
                     }
                     dispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
                 }
@@ -169,7 +203,6 @@ public sealed class KeyboardSimulatorUiDispatcherTests
         try
         {
             await done.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
-            thread.Join(3000).ShouldBeTrue("WPF STA 线程应正常退出");
 
             independentCallbackProcessed.ShouldBeTrue("原生调用阻塞期间 UI 线程必须仍能处理独立事件回调");
             nativeCallsOnUi.ShouldBe(0);
@@ -177,10 +210,8 @@ public sealed class KeyboardSimulatorUiDispatcherTests
         }
         finally
         {
-            if (thread.IsAlive)
-            {
-                thread.Join(1000);
-            }
+            fakeNativeRef?.SendReleaseTcs.TrySetResult();
+            thread.Join(3000).ShouldBeTrue("WPF STA 线程应正常退出");
         }
     }
 
@@ -189,6 +220,7 @@ public sealed class KeyboardSimulatorUiDispatcherTests
     {
         var done = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         bool stopCompletedCleanly = false;
+        ThreadTrackingFakeNativeAdapter? fakeNativeRef = null;
 
         var thread = new Thread(() =>
         {
@@ -199,14 +231,16 @@ public sealed class KeyboardSimulatorUiDispatcherTests
             dispatcher.InvokeAsync(async () =>
             {
                 ThreadTrackingFakeNativeAdapter? fakeNative = null;
+                KeyboardSimulator? simulator = null;
                 Task<KeyboardCopyResult>? copyTask = null;
                 Task? stopTask = null;
                 try
                 {
                     int uiThreadId = Environment.CurrentManagedThreadId;
                     fakeNative = new ThreadTrackingFakeNativeAdapter(uiThreadId);
+                    fakeNativeRef = fakeNative;
 
-                    await using var simulator = new KeyboardSimulator(fakeNative);
+                    simulator = new KeyboardSimulator(fakeNative);
 
                     copyTask = simulator.CopyAsync(Target, TestContext.Current.CancellationToken);
 
@@ -230,14 +264,26 @@ public sealed class KeyboardSimulatorUiDispatcherTests
                 }
                 finally
                 {
+                    // 先放行闸门，再收尾任务与模拟器，杜绝 DisposeAsync 与闸门形成死锁
                     fakeNative?.SendReleaseTcs.TrySetResult();
                     if (copyTask != null)
                     {
-                        try { await copyTask; } catch { }
+                        try { await copyTask.ConfigureAwait(false); } catch { }
                     }
                     if (stopTask != null)
                     {
-                        try { await stopTask; } catch { }
+                        try { await stopTask.ConfigureAwait(false); } catch { }
+                    }
+                    if (simulator != null)
+                    {
+                        try
+                        {
+                            await simulator.DisposeAsync().ConfigureAwait(false);
+                        }
+                        catch (Exception ex)
+                        {
+                            caughtEx = caughtEx == null ? ex : new AggregateException(caughtEx, ex);
+                        }
                     }
                     dispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
                 }
@@ -262,16 +308,201 @@ public sealed class KeyboardSimulatorUiDispatcherTests
         try
         {
             await done.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
-            thread.Join(3000).ShouldBeTrue("WPF STA 线程应正常退出");
 
             stopCompletedCleanly.ShouldBeTrue("在途 Native 阻塞时 StopAsync 必须等待后台在途工作并干净收尾");
         }
         finally
         {
-            if (thread.IsAlive)
+            fakeNativeRef?.SendReleaseTcs.TrySetResult();
+            thread.Join(3000).ShouldBeTrue("WPF STA 线程应正常退出");
+        }
+    }
+
+    [Fact]
+    public async Task CopyAsync_WhenTestBodyFailsWhileNativeSendBlocked_ReleasesGateAndExitsCleanlyWithoutDeadlock()
+    {
+        var done = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        ThreadTrackingFakeNativeAdapter? fakeNativeRef = null;
+
+        var thread = new Thread(() =>
+        {
+            var dispatcher = Dispatcher.CurrentDispatcher;
+            SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(dispatcher));
+            Exception? caughtEx = null;
+
+            dispatcher.InvokeAsync(async () =>
             {
-                thread.Join(1000);
+                ThreadTrackingFakeNativeAdapter? fakeNative = null;
+                KeyboardSimulator? simulator = null;
+                Task<KeyboardCopyResult>? copyTask = null;
+                try
+                {
+                    int uiThreadId = Environment.CurrentManagedThreadId;
+                    fakeNative = new ThreadTrackingFakeNativeAdapter(uiThreadId);
+                    fakeNativeRef = fakeNative;
+
+                    simulator = new KeyboardSimulator(fakeNative);
+
+                    // 在 UI 线程启动 CopyAsync
+                    copyTask = simulator.CopyAsync(Target, TestContext.Current.CancellationToken);
+
+                    // 等待后台进入 SendInput 阻塞点（此时 SendReleaseTcs 仍未放行）
+                    await fakeNative.SendEnteredTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
+
+                    // 故意注入受控测试体异常，验证在闸门未打开时异常展开不发生死锁
+                    throw new InvalidOperationException("Simulated test body failure during blocked send");
+                }
+                catch (Exception ex)
+                {
+                    caughtEx = ex;
+                }
+                finally
+                {
+                    // 核心修复验证：先放行闸门，再收尾任务与模拟器
+                    fakeNative?.SendReleaseTcs.TrySetResult();
+                    if (copyTask != null)
+                    {
+                        try { await copyTask.ConfigureAwait(false); } catch { }
+                    }
+                    if (simulator != null)
+                    {
+                        try
+                        {
+                            await simulator.DisposeAsync().ConfigureAwait(false);
+                        }
+                        catch (Exception ex)
+                        {
+                            caughtEx = caughtEx == null ? ex : new AggregateException(caughtEx, ex);
+                        }
+                    }
+                    dispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
+                }
+            });
+
+            Dispatcher.Run();
+
+            if (caughtEx != null)
+            {
+                done.TrySetException(caughtEx);
             }
+            else
+            {
+                done.TrySetResult();
+            }
+        });
+
+        thread.IsBackground = true;
+        thread.SetApartmentState(ApartmentState.STA);
+        thread.Start();
+
+        try
+        {
+            // 断言异常直接可见且不被 TimeoutException 替代
+            var ex = await Should.ThrowAsync<InvalidOperationException>(() =>
+                done.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken));
+            ex.Message.ShouldBe("Simulated test body failure during blocked send");
+        }
+        finally
+        {
+            fakeNativeRef?.SendReleaseTcs.TrySetResult();
+            thread.Join(3000).ShouldBeTrue("STA 线程必须在发生测试体异常后正常收尾退出，不得悬挂或死锁");
+        }
+    }
+
+    [Fact]
+    public async Task StopAsync_WhenTestBodyFailsWhileNativeSendBlocked_ReleasesGateAndExitsCleanlyWithoutDeadlock()
+    {
+        var done = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        ThreadTrackingFakeNativeAdapter? fakeNativeRef = null;
+
+        var thread = new Thread(() =>
+        {
+            var dispatcher = Dispatcher.CurrentDispatcher;
+            SynchronizationContext.SetSynchronizationContext(new DispatcherSynchronizationContext(dispatcher));
+            Exception? caughtEx = null;
+
+            dispatcher.InvokeAsync(async () =>
+            {
+                ThreadTrackingFakeNativeAdapter? fakeNative = null;
+                KeyboardSimulator? simulator = null;
+                Task<KeyboardCopyResult>? copyTask = null;
+                Task? stopTask = null;
+                try
+                {
+                    int uiThreadId = Environment.CurrentManagedThreadId;
+                    fakeNative = new ThreadTrackingFakeNativeAdapter(uiThreadId);
+                    fakeNativeRef = fakeNative;
+
+                    simulator = new KeyboardSimulator(fakeNative);
+
+                    copyTask = simulator.CopyAsync(Target, TestContext.Current.CancellationToken);
+
+                    // 等待进入 SendInput
+                    await fakeNative.SendEnteredTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
+
+                    stopTask = simulator.StopAsync();
+
+                    // 故意注入受控测试体异常，验证在 StopAsync 正在等待时异常展开不发生死锁
+                    throw new InvalidOperationException("Simulated test body failure during blocked stop");
+                }
+                catch (Exception ex)
+                {
+                    caughtEx = ex;
+                }
+                finally
+                {
+                    // 核心修复验证：先放行闸门，再收尾任务与模拟器
+                    fakeNative?.SendReleaseTcs.TrySetResult();
+                    if (copyTask != null)
+                    {
+                        try { await copyTask.ConfigureAwait(false); } catch { }
+                    }
+                    if (stopTask != null)
+                    {
+                        try { await stopTask.ConfigureAwait(false); } catch { }
+                    }
+                    if (simulator != null)
+                    {
+                        try
+                        {
+                            await simulator.DisposeAsync().ConfigureAwait(false);
+                        }
+                        catch (Exception ex)
+                        {
+                            caughtEx = caughtEx == null ? ex : new AggregateException(caughtEx, ex);
+                        }
+                    }
+                    dispatcher.BeginInvokeShutdown(DispatcherPriority.Background);
+                }
+            });
+
+            Dispatcher.Run();
+
+            if (caughtEx != null)
+            {
+                done.TrySetException(caughtEx);
+            }
+            else
+            {
+                done.TrySetResult();
+            }
+        });
+
+        thread.IsBackground = true;
+        thread.SetApartmentState(ApartmentState.STA);
+        thread.Start();
+
+        try
+        {
+            // 断言异常直接可见且不被 TimeoutException 替代
+            var ex = await Should.ThrowAsync<InvalidOperationException>(() =>
+                done.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken));
+            ex.Message.ShouldBe("Simulated test body failure during blocked stop");
+        }
+        finally
+        {
+            fakeNativeRef?.SendReleaseTcs.TrySetResult();
+            thread.Join(3000).ShouldBeTrue("STA 线程必须在发生测试体异常后正常收尾退出，不得悬挂或死锁");
         }
     }
 
