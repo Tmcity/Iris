@@ -83,10 +83,18 @@ internal sealed unsafe class RealNativeUiaAdapter : INativeUiaAdapter
             PInvoke.CoCreateInstance(&clsid, null, CLSCTX.CLSCTX_INPROC_SERVER, &iid, out comObj).ThrowOnFailure();
         }
 
-        if (comObj is IUIAutomation2 uia2)
+        try
         {
-            uia2.ConnectionTimeout = (uint)connectionTimeoutMs;
-            uia2.TransactionTimeout = (uint)transactionTimeoutMs;
+            if (comObj is IUIAutomation2 uia2)
+            {
+                uia2.ConnectionTimeout = (uint)connectionTimeoutMs;
+                uia2.TransactionTimeout = (uint)transactionTimeoutMs;
+            }
+        }
+        catch
+        {
+            try { Marshal.ReleaseComObject(comObj); } catch { }
+            throw;
         }
 
         return new RealUiaAutomationSession((IUIAutomation)comObj!);
@@ -123,7 +131,10 @@ internal sealed class RealUiaAutomationSession : IUiaAutomationSession
         _disposed = true;
         try
         {
-            Marshal.ReleaseComObject(_uia);
+            if (Marshal.IsComObject(_uia))
+            {
+                Marshal.ReleaseComObject(_uia);
+            }
         }
         catch
         {
@@ -151,9 +162,10 @@ internal sealed class RealUiaElement : IUiaElement
     public IUiaElement? GetParent(int maxDepth)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
+        IUIAutomationTreeWalker? walker = null;
         try
         {
-            var walker = _uia.ControlViewWalker;
+            walker = _uia.ControlViewWalker;
             var parent = walker?.GetParentElement(_element);
             return parent != null ? new RealUiaElement(parent, _uia) : null;
         }
@@ -161,44 +173,63 @@ internal sealed class RealUiaElement : IUiaElement
         {
             return null;
         }
+        finally
+        {
+            if (walker != null && Marshal.IsComObject(walker))
+            {
+                try { Marshal.ReleaseComObject(walker); } catch { }
+            }
+        }
     }
 
     public IUiaTextPattern? GetTextPattern()
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
+        object? patternObj = null;
+
+        // 优先 TextPattern2
         try
         {
-            // 优先 TextPattern2
-            var patternObj = _element.GetCurrentPattern((UIA_PATTERN_ID)UIA_PATTERN_ID.UIA_TextPattern2Id);
-            if (patternObj == null)
-            {
-                patternObj = _element.GetCurrentPattern((UIA_PATTERN_ID)UIA_PATTERN_ID.UIA_TextPatternId);
-            }
-
-            if (patternObj is IUIAutomationTextPattern pattern)
-            {
-                return new RealUiaTextPattern(pattern);
-            }
-
-            return null;
+            patternObj = _element.GetCurrentPattern((UIA_PATTERN_ID)UIA_PATTERN_ID.UIA_TextPattern2Id);
         }
         catch (COMException)
         {
-            return null;
+            patternObj = null;
         }
+
+        // 降级经典 TextPattern
+        if (patternObj == null)
+        {
+            try
+            {
+                patternObj = _element.GetCurrentPattern((UIA_PATTERN_ID)UIA_PATTERN_ID.UIA_TextPatternId);
+            }
+            catch (COMException)
+            {
+                patternObj = null;
+            }
+        }
+
+        if (patternObj is IUIAutomationTextPattern pattern)
+        {
+            return new RealUiaTextPattern(pattern);
+        }
+
+        if (patternObj != null && Marshal.IsComObject(patternObj))
+        {
+            try { Marshal.ReleaseComObject(patternObj); } catch { }
+        }
+
+        return null;
     }
 
     public void Dispose()
     {
         if (_disposed) return;
         _disposed = true;
-        try
+        if (Marshal.IsComObject(_element))
         {
             Marshal.ReleaseComObject(_element);
-        }
-        catch
-        {
-            // ignore
         }
     }
 }
@@ -217,45 +248,59 @@ internal sealed class RealUiaTextPattern : IUiaTextPattern
     {
         get
         {
-            try
-            {
-                return _pattern.SupportedTextSelection != SupportedTextSelection.SupportedTextSelection_None;
-            }
-            catch (COMException)
-            {
-                return false;
-            }
+            return _pattern.SupportedTextSelection != SupportedTextSelection.SupportedTextSelection_None;
         }
     }
 
     public IReadOnlyList<IUiaTextRange> GetSelection()
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
+        IUIAutomationTextRangeArray? arr = null;
         try
         {
-            var arr = _pattern.GetSelection();
+            arr = _pattern.GetSelection();
             if (arr == null)
             {
                 return [];
             }
 
             int len = arr.Length;
-            var list = new List<IUiaTextRange>(len);
-            for (int i = 0; i < len; i++)
+            if (len > UiaProtocolConstants.MaxRanges)
             {
-                var r = arr.GetElement(i);
-                if (r != null)
-                {
-                    list.Add(new RealUiaTextRange(r));
-                }
+                if (Marshal.IsComObject(arr)) Marshal.ReleaseComObject(arr);
+                arr = null;
+                throw new InvalidOperationException("RANGE_COUNT_EXCEEDED");
             }
 
-            Marshal.ReleaseComObject(arr);
-            return list;
+            var list = new List<IUiaTextRange>(len);
+            try
+            {
+                for (int i = 0; i < len; i++)
+                {
+                    var r = arr.GetElement(i);
+                    if (r != null)
+                    {
+                        list.Add(new RealUiaTextRange(r));
+                    }
+                }
+                return list;
+            }
+            catch
+            {
+                foreach (var r in list)
+                {
+                    try { r.Dispose(); } catch { }
+                }
+                list.Clear();
+                throw;
+            }
         }
-        catch (COMException)
+        finally
         {
-            return [];
+            if (arr != null && Marshal.IsComObject(arr))
+            {
+                try { Marshal.ReleaseComObject(arr); } catch { }
+            }
         }
     }
 
@@ -263,18 +308,14 @@ internal sealed class RealUiaTextPattern : IUiaTextPattern
     {
         if (_disposed) return;
         _disposed = true;
-        try
+        if (Marshal.IsComObject(_pattern))
         {
             Marshal.ReleaseComObject(_pattern);
-        }
-        catch
-        {
-            // ignore
         }
     }
 }
 
-internal sealed class RealUiaTextRange : IUiaTextRange
+internal sealed unsafe class RealUiaTextRange : IUiaTextRange
 {
     private readonly IUIAutomationTextRange _range;
     private bool _disposed;
@@ -287,14 +328,17 @@ internal sealed class RealUiaTextRange : IUiaTextRange
     public string? GetText(int maxLength)
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
+        var bstr = _range.GetText(maxLength);
         try
         {
-            var bstr = _range.GetText(maxLength);
             return bstr.ToString();
         }
-        catch (COMException)
+        finally
         {
-            return null;
+            if (bstr.Value != null)
+            {
+                Marshal.FreeBSTR((nint)bstr.Value);
+            }
         }
     }
 
@@ -302,13 +346,9 @@ internal sealed class RealUiaTextRange : IUiaTextRange
     {
         if (_disposed) return;
         _disposed = true;
-        try
+        if (Marshal.IsComObject(_range))
         {
             Marshal.ReleaseComObject(_range);
-        }
-        catch
-        {
-            // ignore
         }
     }
 }

@@ -7,12 +7,40 @@ namespace Iris.Platform.Windows.Selection;
 /// 仅在 Success 时携带非空白文本；其他状态 Text 一律为 null。
 /// ToString / 日志仅包含状态、阶段和安全错误码，绝不暴露选区文本、窗口标题、协议正文或原始异常。
 /// </summary>
-internal sealed record UiaSelectionResult(
-    UiaSelectionStatus Status,
-    string? Text,
-    string? ErrorCode,
-    string RequestId)
+internal sealed record UiaSelectionResult
 {
+    public UiaSelectionStatus Status { get; }
+    public string? Text { get; }
+    public string? ErrorCode { get; }
+    public string RequestId { get; }
+
+    public UiaSelectionResult(
+        UiaSelectionStatus status,
+        string? text,
+        string? errorCode,
+        string requestId)
+    {
+        Status = status;
+        Text = status == UiaSelectionStatus.Success ? text : null;
+        ErrorCode = SanitizeErrorCode(errorCode);
+        RequestId = requestId ?? string.Empty;
+    }
+
+    public static string? SanitizeErrorCode(string? rawCode)
+    {
+        if (string.IsNullOrEmpty(rawCode)) return null;
+        if (rawCode.Length > 32) return "INVALID_ERROR_CODE";
+        for (int i = 0; i < rawCode.Length; i++)
+        {
+            char c = rawCode[i];
+            if (!((c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == 'x' || (c >= 'a' && c <= 'f')))
+            {
+                return "INVALID_ERROR_CODE";
+            }
+        }
+        return rawCode;
+    }
+
     public static UiaSelectionResult CreateSuccess(string requestId, string text)
     {
         if (string.IsNullOrWhiteSpace(text))

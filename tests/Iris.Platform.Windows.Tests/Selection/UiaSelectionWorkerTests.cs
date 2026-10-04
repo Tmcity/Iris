@@ -404,4 +404,80 @@ public sealed class UiaSelectionWorkerTests
             reply.Text.ShouldBeNull();
         });
     }
+
+    [Fact]
+    public void Execute_WhenRangeDisposalFails_ReturnsFailedComCleanupFailed_AndDiscardsText()
+    {
+        RunOnMta(() =>
+        {
+            var range = new FakeUiaTextRange("Secret Data");
+            range.ThrowOnDisposeException = Marshal.GetExceptionForHR(unchecked((int)0x80004005));
+
+            var element = new FakeUiaElement
+            {
+                ProcessId = 4242,
+                NativeWindowHandle = 0x1000,
+                TextPattern = new FakeUiaTextPattern { Ranges = [range] }
+            };
+            _adapter.Session.FocusedElement = element;
+
+            var reply = UiaSelectionWorker.Execute(_validRequest, _adapter);
+
+            reply.Status.ShouldBe(UiaSelectionStatus.Failed);
+            reply.ErrorCode.ShouldBe("COM_CLEANUP_FAILED");
+            reply.Text.ShouldBeNull();
+            element.IsDisposed.ShouldBeTrue();
+            _adapter.Session.IsDisposed.ShouldBeTrue();
+        });
+    }
+
+    [Fact]
+    public void Execute_WhenRangeThrowsComExceptionOnGetText_PropagatesComErrorStatus()
+    {
+        RunOnMta(() =>
+        {
+            var range = new FakeUiaTextRange();
+            range.GetTextCallback = _ => throw Marshal.GetExceptionForHR(unchecked((int)0x80010108))!;
+
+            var element = new FakeUiaElement
+            {
+                ProcessId = 4242,
+                NativeWindowHandle = 0x1000,
+                TextPattern = new FakeUiaTextPattern { Ranges = [range] }
+            };
+            _adapter.Session.FocusedElement = element;
+
+            var reply = UiaSelectionWorker.Execute(_validRequest, _adapter);
+
+            reply.Status.ShouldBe(UiaSelectionStatus.Failed);
+            reply.ErrorCode.ShouldBe("COM_0x80010108");
+            reply.Text.ShouldBeNull();
+        });
+    }
+
+    [Fact]
+    public void Execute_WhenEmptyRangesPresent_DoesNotAddLeadingTrailingOrDoubleNewlines()
+    {
+        RunOnMta(() =>
+        {
+            var r1 = new FakeUiaTextRange("");
+            var r2 = new FakeUiaTextRange("First Line");
+            var r3 = new FakeUiaTextRange("   ");
+            var r4 = new FakeUiaTextRange("Second Line");
+            var r5 = new FakeUiaTextRange("");
+
+            var element = new FakeUiaElement
+            {
+                ProcessId = 4242,
+                NativeWindowHandle = 0x1000,
+                TextPattern = new FakeUiaTextPattern { Ranges = [r1, r2, r3, r4, r5] }
+            };
+            _adapter.Session.FocusedElement = element;
+
+            var reply = UiaSelectionWorker.Execute(_validRequest, _adapter);
+
+            reply.Status.ShouldBe(UiaSelectionStatus.Success);
+            reply.Text.ShouldBe("First Line\n   \nSecond Line");
+        });
+    }
 }

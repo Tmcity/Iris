@@ -21,9 +21,9 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
     private readonly ILogger<UiaSelectionReader>? _logger;
 
     private readonly object _gate = new();
+    private readonly CancellationTokenSource _stopCts = new();
     private bool _isStopped;
-    private Task<UiaSelectionResult>? _activeReadTask;
-    private IUiaProcessSession? _activeSession;
+    private ReadOperationContext? _activeOperation;
     private IUiaProcessSession? _failedCleanupSession;
     private Task? _activeStopTask;
 
@@ -41,13 +41,16 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
 
     public async Task<UiaSelectionResult> ReadAsync(nint sourceWindow, uint sourceProcessId, CancellationToken cancellationToken = default)
     {
+        // 0. 调用线程纯参数同步校验
         if (sourceWindow == 0 || sourceProcessId == 0)
         {
             throw new IrisException(ErrorCode.InvalidArgument, "Source window and process ID must be non-zero.");
         }
 
         string requestId = Guid.NewGuid().ToString("N");
+        ReadOperationContext operation;
 
+        // 1. 原子准入：在任何 native/进程操作之前取得唯一活动槽
         lock (_gate)
         {
             if (_isStopped)
@@ -60,214 +63,260 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
                 throw new IrisException(ErrorCode.CaptureFailed, "Previous child process cleanup failed and requires retry before new reads.");
             }
 
-            if (_activeReadTask != null && !_activeReadTask.IsCompleted)
+            if (_activeOperation != null && !_activeOperation.ExecutionTask.IsCompleted)
             {
                 return UiaSelectionResult.CreateBusy(requestId);
             }
+
+            var linkedCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, _stopCts.Token);
+            operation = new ReadOperationContext(requestId, sourceWindow, sourceProcessId, linkedCts, cancellationToken);
+            _activeOperation = operation;
         }
 
-        // 进程启动前复核前台目标
-        if (!_targetValidator.IsTargetValidAndForeground(sourceWindow, sourceProcessId))
-        {
-            return UiaSelectionResult.CreateTargetChanged(requestId);
-        }
-
-        Task<UiaSelectionResult> executionTask;
-        lock (_gate)
-        {
-            if (_isStopped)
-            {
-                throw new InvalidOperationException("UiaSelectionReader is permanently stopped.");
-            }
-
-            executionTask = ExecuteReadCoreAsync(requestId, sourceWindow, sourceProcessId, cancellationToken);
-            _activeReadTask = executionTask;
-        }
+        // 2. 全部目标校验、进程启动、I/O 与退出等待必须离开 UI 线程执行
+        var executionTask = Task.Run(() => ExecuteReadCoreAsync(operation), CancellationToken.None);
+        operation.SetExecutionTask(executionTask);
 
         return await executionTask.ConfigureAwait(false);
     }
 
-    private async Task<UiaSelectionResult> ExecuteReadCoreAsync(
-        string requestId,
-        nint sourceWindow,
-        uint sourceProcessId,
-        CancellationToken cancellationToken)
+    private async Task<UiaSelectionResult> ExecuteReadCoreAsync(ReadOperationContext op)
     {
-        IUiaProcessSession? session = null;
         try
         {
-            cancellationToken.ThrowIfCancellationRequested();
+            // 1. 后台线程前置目标校验
+            if (!_targetValidator.IsTargetValidAndForeground(op.SourceWindow, op.SourceProcessId))
+            {
+                return UiaSelectionResult.CreateTargetChanged(op.RequestId);
+            }
 
-            // 1. 启动子进程
+            if (op.LinkedCts.IsCancellationRequested || _isStopped)
+            {
+                op.CallerToken.ThrowIfCancellationRequested();
+                throw new OperationCanceledException("Reader was canceled or stopped during target validation.");
+            }
+
+            // 2. Ready 预算 1500ms：从本次实际接纳/启动阶段开始计时，包含启动和握手
+            using var readyBudgetCts = new CancellationTokenSource(TimeSpan.FromMilliseconds(UiaProtocolConstants.ReadyTimeoutMs), _timeProvider);
+            using var readyLinkedCts = CancellationTokenSource.CreateLinkedTokenSource(op.LinkedCts.Token, readyBudgetCts.Token);
+
+            Task<IUiaProcessSession> startTask;
             try
             {
-                session = await _processRunner.StartAsync(cancellationToken).ConfigureAwait(false);
-                lock (_gate)
-                {
-                    if (_isStopped)
-                    {
-                        throw new OperationCanceledException("Reader was stopped during process startup.");
-                    }
-                    _activeSession = session;
-                }
+                startTask = _processRunner.StartAsync(readyLinkedCts.Token);
             }
             catch (FileNotFoundException)
             {
-                return UiaSelectionResult.CreateFailed(requestId, "HOST_EXECUTABLE_NOT_FOUND");
-            }
-            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-            {
-                if (session != null)
-                {
-                    await CleanupSessionAsync(session, CancellationToken.None, normalExitGraceMs: 0).ConfigureAwait(false);
-                }
-                throw;
+                return UiaSelectionResult.CreateFailed(op.RequestId, "HOST_EXECUTABLE_NOT_FOUND");
             }
             catch (Exception)
             {
-                if (session != null)
-                {
-                    await CleanupSessionAsync(session, CancellationToken.None, normalExitGraceMs: 0).ConfigureAwait(false);
-                }
-                return UiaSelectionResult.CreateFailed(requestId, "PROCESS_START_FAILED");
+                return UiaSelectionResult.CreateFailed(op.RequestId, "PROCESS_START_FAILED");
             }
 
-            // 2. 接收 Ready 帧 (预算 1500ms)
-            using var readyTimeoutCts = new CancellationTokenSource(TimeSpan.FromMilliseconds(UiaProtocolConstants.ReadyTimeoutMs), _timeProvider);
-            using var readyCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, readyTimeoutCts.Token);
+            IUiaProcessSession? session = null;
+            try
+            {
+                session = await startTask.WaitAsync(readyLinkedCts.Token).ConfigureAwait(false);
+                lock (_gate)
+                {
+                    op.Session = session;
+                }
+            }
+            catch (OperationCanceledException) when (readyBudgetCts.IsCancellationRequested && !op.CallerToken.IsCancellationRequested && !_isStopped)
+            {
+                _ = CleanupDelayedStartAsync(startTask, op);
+                return UiaSelectionResult.CreateTimedOut(op.RequestId);
+            }
+            catch (OperationCanceledException)
+            {
+                _ = CleanupDelayedStartAsync(startTask, op);
+                throw;
+            }
+            catch (FileNotFoundException)
+            {
+                return UiaSelectionResult.CreateFailed(op.RequestId, "HOST_EXECUTABLE_NOT_FOUND");
+            }
+            catch (Exception)
+            {
+                return UiaSelectionResult.CreateFailed(op.RequestId, "PROCESS_START_FAILED");
+            }
 
+            // 3. 读取 Ready 帧（共享剩余的 1500ms 启动握手预算）
             string? readyLine;
             try
             {
                 readyLine = await UiaProtocolFrameReader.ReadLineWithLimitAsync(
                     session.StandardOutput,
                     UiaProtocolConstants.MaxFrameBytes,
-                    readyCts.Token).ConfigureAwait(false);
+                    readyLinkedCts.Token).ConfigureAwait(false);
             }
-            catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+            catch (OperationCanceledException) when (readyBudgetCts.IsCancellationRequested && !op.CallerToken.IsCancellationRequested && !_isStopped)
             {
-                // 启动 / Ready 超时
-                await CleanupSessionAsync(session, CancellationToken.None, normalExitGraceMs: 0).ConfigureAwait(false);
-                return UiaSelectionResult.CreateTimedOut(requestId);
+                await PerformCleanupAsync(session, normalExitGraceMs: 0, op).ConfigureAwait(false);
+                return UiaSelectionResult.CreateTimedOut(op.RequestId);
             }
             catch (OperationCanceledException)
             {
-                await CleanupSessionAsync(session, CancellationToken.None, normalExitGraceMs: 0).ConfigureAwait(false);
+                await PerformCleanupAsync(session, normalExitGraceMs: 0, op).ConfigureAwait(false);
                 throw;
             }
             catch (Exception)
             {
-                await CleanupSessionAsync(session, CancellationToken.None, normalExitGraceMs: 0).ConfigureAwait(false);
-                return UiaSelectionResult.CreateFailed(requestId, "READY_READ_FAILED");
+                await PerformCleanupAsync(session, normalExitGraceMs: 0, op).ConfigureAwait(false);
+                return UiaSelectionResult.CreateFailed(op.RequestId, "READY_READ_FAILED");
             }
 
             var ready = readyLine != null ? UiaProtocolCodec.DeserializeReady(readyLine) : null;
             if (ready == null || ready.ProtocolVersion != UiaProtocolConstants.CurrentVersion || ready.Kind != "Ready")
             {
-                await CleanupSessionAsync(session, CancellationToken.None, normalExitGraceMs: 0).ConfigureAwait(false);
-                return UiaSelectionResult.CreateFailed(requestId, "INVALID_READY_FRAME");
+                await PerformCleanupAsync(session, normalExitGraceMs: 0, op).ConfigureAwait(false);
+                return UiaSelectionResult.CreateFailed(op.RequestId, "INVALID_READY_FRAME");
             }
 
-            // 3. 发送 Request 帧并接收 Reply 帧 (单调请求响应预算 300ms)
-            using var requestTimeoutCts = new CancellationTokenSource(TimeSpan.FromMilliseconds(UiaProtocolConstants.RequestTimeoutMs), _timeProvider);
-            using var requestCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, requestTimeoutCts.Token);
+            // 4. 发送 Request 帧并接收 Reply 帧（单调请求响应预算 300ms）
+            using var requestBudgetCts = new CancellationTokenSource(TimeSpan.FromMilliseconds(UiaProtocolConstants.RequestTimeoutMs), _timeProvider);
+            using var requestLinkedCts = CancellationTokenSource.CreateLinkedTokenSource(op.LinkedCts.Token, requestBudgetCts.Token);
 
             var requestFrame = new UiaRequestFrame
             {
                 ProtocolVersion = UiaProtocolConstants.CurrentVersion,
                 Kind = "Request",
-                RequestId = requestId,
-                Hwnd = sourceWindow,
-                ProcessId = sourceProcessId
+                RequestId = op.RequestId,
+                Hwnd = op.SourceWindow,
+                ProcessId = op.SourceProcessId
             };
 
             string? replyLine;
             try
             {
-                await UiaProtocolCodec.WriteFrameAsync(session.StandardInput, requestFrame, requestCts.Token).ConfigureAwait(false);
+                await UiaProtocolCodec.WriteFrameAsync(session.StandardInput, requestFrame, requestLinkedCts.Token).ConfigureAwait(false);
 
                 replyLine = await UiaProtocolFrameReader.ReadLineWithLimitAsync(
                     session.StandardOutput,
                     UiaProtocolConstants.MaxFrameBytes,
-                    requestCts.Token).ConfigureAwait(false);
+                    requestLinkedCts.Token).ConfigureAwait(false);
             }
-            catch (OperationCanceledException) when (!cancellationToken.IsCancellationRequested)
+            catch (OperationCanceledException) when (requestBudgetCts.IsCancellationRequested && !op.CallerToken.IsCancellationRequested && !_isStopped)
             {
-                // UIA 请求 300ms 超时
-                await CleanupSessionAsync(session, CancellationToken.None, normalExitGraceMs: 0).ConfigureAwait(false);
-                return UiaSelectionResult.CreateTimedOut(requestId);
+                await PerformCleanupAsync(session, normalExitGraceMs: 0, op).ConfigureAwait(false);
+                return UiaSelectionResult.CreateTimedOut(op.RequestId);
             }
             catch (OperationCanceledException)
             {
-                await CleanupSessionAsync(session, CancellationToken.None, normalExitGraceMs: 0).ConfigureAwait(false);
+                await PerformCleanupAsync(session, normalExitGraceMs: 0, op).ConfigureAwait(false);
                 throw;
             }
             catch (Exception)
             {
-                await CleanupSessionAsync(session, CancellationToken.None, normalExitGraceMs: 0).ConfigureAwait(false);
-                return UiaSelectionResult.CreateFailed(requestId, "REPLY_READ_FAILED");
+                await PerformCleanupAsync(session, normalExitGraceMs: 0, op).ConfigureAwait(false);
+                return UiaSelectionResult.CreateFailed(op.RequestId, "REPLY_READ_FAILED");
             }
 
             var reply = replyLine != null ? UiaProtocolCodec.DeserializeReply(replyLine) : null;
             if (reply == null ||
                 reply.ProtocolVersion != UiaProtocolConstants.CurrentVersion ||
                 reply.Kind != "Reply" ||
-                reply.RequestId != requestId)
+                reply.RequestId != op.RequestId)
             {
-                await CleanupSessionAsync(session, CancellationToken.None, normalExitGraceMs: 0).ConfigureAwait(false);
-                return UiaSelectionResult.CreateFailed(requestId, "INVALID_REPLY_FRAME");
+                await PerformCleanupAsync(session, normalExitGraceMs: 0, op).ConfigureAwait(false);
+                return UiaSelectionResult.CreateFailed(op.RequestId, "INVALID_REPLY_FRAME");
             }
 
-            // 4. 响应成功也必须等待宿主进程退出 (宽限 1000ms)，未退出则终止并确认
-            await CleanupSessionAsync(session, CancellationToken.None, normalExitGraceMs: UiaProtocolConstants.ExitGraceMs).ConfigureAwait(false);
+            // 5. 响应成功也必须等待宿主进程正常退出（宽限 1000ms），排空并校验尾部 EOF，物理收尾必须完整覆盖
+            await PerformCleanupAsync(session, normalExitGraceMs: UiaProtocolConstants.ExitGraceMs, op).ConfigureAwait(false);
 
-            // 5. 结果发布前复核前台目标
-            if (!_targetValidator.IsTargetValidAndForeground(sourceWindow, sourceProcessId))
+            if (op.ExtraLineDetected)
             {
-                return UiaSelectionResult.CreateTargetChanged(requestId);
+                return UiaSelectionResult.CreateFailed(op.RequestId, "PROTOCOL_ERROR");
             }
 
-            // 6. 根据 Reply 状态构建最终安全结果
+            if (session.ExitCode != 0)
+            {
+                return UiaSelectionResult.CreateFailed(op.RequestId, "PROCESS_EXIT_UNEXPECTED");
+            }
+
+            // 7. 响应已到但进程退出等待期间发生 Cancel/Stop 门闩
+            op.CallerToken.ThrowIfCancellationRequested();
+            if (_isStopped)
+            {
+                throw new OperationCanceledException("Reader was stopped before result publication.");
+            }
+
+            // 8. 结果发布前复核前台目标
+            if (!_targetValidator.IsTargetValidAndForeground(op.SourceWindow, op.SourceProcessId))
+            {
+                return UiaSelectionResult.CreateTargetChanged(op.RequestId);
+            }
+
+            lock (_gate)
+            {
+                if (_isStopped)
+                {
+                    throw new OperationCanceledException("Reader was stopped before result publication.");
+                }
+            }
+
+            // 9. 根据 Reply 状态发布安全结果
             return reply.Status switch
             {
-                UiaSelectionStatus.Success => UiaSelectionResult.CreateSuccess(requestId, reply.Text ?? string.Empty),
-                UiaSelectionStatus.Empty => UiaSelectionResult.CreateEmpty(requestId),
-                UiaSelectionStatus.Unsupported => UiaSelectionResult.CreateUnsupported(requestId, reply.ErrorCode),
-                UiaSelectionStatus.Sensitive => UiaSelectionResult.CreateSensitive(requestId),
-                UiaSelectionStatus.TooLong => UiaSelectionResult.CreateTooLong(requestId, reply.ErrorCode),
-                UiaSelectionStatus.TargetChanged => UiaSelectionResult.CreateTargetChanged(requestId),
-                _ => UiaSelectionResult.CreateFailed(requestId, reply.ErrorCode)
+                UiaSelectionStatus.Success => UiaSelectionResult.CreateSuccess(op.RequestId, reply.Text ?? string.Empty),
+                UiaSelectionStatus.Empty => UiaSelectionResult.CreateEmpty(op.RequestId),
+                UiaSelectionStatus.Unsupported => UiaSelectionResult.CreateUnsupported(op.RequestId, reply.ErrorCode),
+                UiaSelectionStatus.Sensitive => UiaSelectionResult.CreateSensitive(op.RequestId),
+                UiaSelectionStatus.TooLong => UiaSelectionResult.CreateTooLong(op.RequestId, reply.ErrorCode),
+                UiaSelectionStatus.TargetChanged => UiaSelectionResult.CreateTargetChanged(op.RequestId),
+                _ => UiaSelectionResult.CreateFailed(op.RequestId, reply.ErrorCode)
             };
         }
         finally
         {
             lock (_gate)
             {
-                if (_activeSession == session)
+                if (_activeOperation == op)
                 {
-                    _activeSession = null;
+                    _activeOperation = null;
                 }
-                _activeReadTask = null;
             }
         }
     }
 
-    private async Task CleanupSessionAsync(IUiaProcessSession session, CancellationToken ct, int normalExitGraceMs = 0)
+    private Task PerformCleanupAsync(IUiaProcessSession session, int normalExitGraceMs, ReadOperationContext? op)
+    {
+        lock (_gate)
+        {
+            if (op != null)
+            {
+                if (op.CleanupTask != null)
+                {
+                    return op.CleanupTask;
+                }
+                op.CleanupTask = DoCleanupSessionCoreAsync(session, normalExitGraceMs, op);
+                return op.CleanupTask;
+            }
+        }
+
+        return DoCleanupSessionCoreAsync(session, normalExitGraceMs, op);
+    }
+
+    private async Task DoCleanupSessionCoreAsync(IUiaProcessSession session, int normalExitGraceMs, ReadOperationContext? op = null)
     {
         bool exited = false;
+        Exception? cleanupFailure = null;
 
-        // 1. 若配置了正常退出宽限时间，先等待正常退出
+        // 阶段 1：宽限等待正常退出
         if (normalExitGraceMs > 0 && !session.HasExited)
         {
-            using var graceCts = new CancellationTokenSource(TimeSpan.FromMilliseconds(normalExitGraceMs), _timeProvider);
+            using var timeoutCts = new CancellationTokenSource(TimeSpan.FromMilliseconds(normalExitGraceMs), _timeProvider);
+            using var graceCts = op != null
+                ? CancellationTokenSource.CreateLinkedTokenSource(op.LinkedCts.Token, timeoutCts.Token)
+                : null;
+            var tokenToUse = graceCts?.Token ?? timeoutCts.Token;
+
             try
             {
-                await session.WaitForExitAsync(graceCts.Token).ConfigureAwait(false);
+                await session.WaitForExitAsync(tokenToUse).ConfigureAwait(false);
                 exited = true;
-            }
-            catch (OperationCanceledException)
-            {
-                exited = false;
             }
             catch
             {
@@ -279,10 +328,17 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
             exited = session.HasExited;
         }
 
-        // 2. 未能正常退出时，终止子进程并等待物理退出确认 (预算 1000ms)
+        // 阶段 2：未正常退出时强制 Kill 并等待物理确认（预算 1000ms）
         if (!exited && !session.HasExited)
         {
-            session.Kill();
+            try
+            {
+                session.Kill();
+            }
+            catch (Exception ex)
+            {
+                cleanupFailure = ex;
+            }
 
             using var killCts = new CancellationTokenSource(TimeSpan.FromMilliseconds(UiaProtocolConstants.KillConfirmationMs), _timeProvider);
             try
@@ -290,13 +346,10 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
                 await session.WaitForExitAsync(killCts.Token).ConfigureAwait(false);
                 exited = true;
             }
-            catch (OperationCanceledException)
+            catch (Exception ex)
             {
                 exited = false;
-            }
-            catch
-            {
-                exited = false;
+                cleanupFailure ??= ex;
             }
         }
         else
@@ -304,17 +357,70 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
             exited = true;
         }
 
-        // 3. 若仍无法确认退出，保留清理责任
+        // 阶段 3：若仍未退出，保留清理责任，禁止后续 Read
         if (!exited && !session.HasExited)
         {
             lock (_gate)
             {
                 _failedCleanupSession = session;
             }
-            throw new IrisException(ErrorCode.CaptureFailed, "Failed to confirm physical exit of Iris.UiaHost process within confirmation budget.");
+            throw new IrisException(ErrorCode.CaptureFailed, "Failed to confirm physical exit of Iris.UiaHost process within confirmation budget.", cleanupFailure);
         }
 
-        await session.DisposeAsync().ConfigureAwait(false);
+        // 阶段 3.5：尾部输出校验与排空（仅在正常退出且未发生清理失败时，防止额外 Reply/坏帧）
+        if (op != null && exited && cleanupFailure == null)
+        {
+            try
+            {
+                using var eofDrainCts = new CancellationTokenSource(100);
+                string? extraLine = await UiaProtocolFrameReader.ReadLineWithLimitAsync(
+                    session.StandardOutput,
+                    UiaProtocolConstants.MaxFrameBytes,
+                    eofDrainCts.Token).ConfigureAwait(false);
+                if (extraLine != null)
+                {
+                    op.ExtraLineDetected = true;
+                }
+            }
+            catch
+            {
+                op.ExtraLineDetected = true;
+            }
+        }
+
+        // 阶段 4：处置会话及流
+        try
+        {
+            await session.DisposeAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            lock (_gate)
+            {
+                _failedCleanupSession = session;
+            }
+            throw new IrisException(ErrorCode.CaptureFailed, "Failed to dispose Iris.UiaHost process session.", ex);
+        }
+    }
+
+    private async Task CleanupDelayedStartAsync(Task<IUiaProcessSession> startTask, ReadOperationContext op)
+    {
+        try
+        {
+            var session = await startTask.ConfigureAwait(false);
+            if (session != null)
+            {
+                lock (_gate)
+                {
+                    op.Session = session;
+                }
+                await PerformCleanupAsync(session, normalExitGraceMs: 0, op).ConfigureAwait(false);
+            }
+        }
+        catch
+        {
+            // 启动失败，无需收尾
+        }
     }
 
     public async Task RetryCleanupAsync(CancellationToken cancellationToken = default)
@@ -330,7 +436,8 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
             return;
         }
 
-        await CleanupSessionAsync(session, cancellationToken, normalExitGraceMs: 0).ConfigureAwait(false);
+        await DoCleanupSessionCoreAsync(session, normalExitGraceMs: 0).ConfigureAwait(false);
+
         lock (_gate)
         {
             if (_failedCleanupSession == session)
@@ -345,6 +452,7 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
         lock (_gate)
         {
             _isStopped = true;
+            _stopCts.Cancel();
 
             if (_activeStopTask != null && !_activeStopTask.IsCompleted)
             {
@@ -358,53 +466,74 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
 
     private async Task ExecuteStopCoreAsync(CancellationToken cancellationToken)
     {
-        // 观察在途读取任务
-        Task? readTask;
-        IUiaProcessSession? session;
+        ReadOperationContext? op;
         IUiaProcessSession? failedSession;
         lock (_gate)
         {
-            readTask = _activeReadTask;
-            session = _activeSession;
+            op = _activeOperation;
             failedSession = _failedCleanupSession;
         }
 
-        if (session != null)
+        Exception? stopException = null;
+
+        if (op != null)
         {
+            if (op.Session != null)
+            {
+                try
+                {
+                    await PerformCleanupAsync(op.Session, normalExitGraceMs: 0, op).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    stopException = ex;
+                }
+            }
+
             try
             {
-                session.Kill();
+                await op.ExecutionTask.ConfigureAwait(false);
             }
-            catch
+            catch (OperationCanceledException)
             {
-                // ignore
+                // Expected cancellation
             }
-        }
-
-        if (readTask != null)
-        {
-            try
+            catch (Exception ex)
             {
-                await readTask.ConfigureAwait(false);
+                stopException ??= ex;
             }
-            catch
-            {
-                // ignore in-flight read task exception during stop
-            }
-        }
-
-        if (session != null)
-        {
-            await CleanupSessionAsync(session, cancellationToken, normalExitGraceMs: 0).ConfigureAwait(false);
         }
 
         if (failedSession != null)
         {
-            await CleanupSessionAsync(failedSession, cancellationToken, normalExitGraceMs: 0).ConfigureAwait(false);
-            lock (_gate)
+            try
             {
-                _failedCleanupSession = null;
+                await DoCleanupSessionCoreAsync(failedSession, normalExitGraceMs: 0).ConfigureAwait(false);
+                lock (_gate)
+                {
+                    if (_failedCleanupSession == failedSession)
+                    {
+                        _failedCleanupSession = null;
+                    }
+                }
             }
+            catch (Exception ex)
+            {
+                stopException ??= ex;
+            }
+        }
+
+        lock (_gate)
+        {
+            if (_failedCleanupSession != null && stopException == null)
+            {
+                stopException = new IrisException(ErrorCode.CaptureFailed, "Child process cleanup failed.");
+            }
+        }
+
+        if (stopException != null)
+        {
+            throw stopException;
         }
     }
 
@@ -417,19 +546,47 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
     {
         lock (_gate)
         {
+            if (_activeOperation != null && !_activeOperation.ExecutionTask.IsCompleted)
+            {
+                throw new InvalidOperationException("Cannot synchronously dispose UiaSelectionReader while a read operation is active.");
+            }
+
+            if (_failedCleanupSession != null)
+            {
+                throw new InvalidOperationException("Cannot synchronously dispose UiaSelectionReader while a failed cleanup is pending.");
+            }
+
             _isStopped = true;
-
-            if (_activeSession != null && _activeSession.HasExited)
-            {
-                _activeSession.DisposeAsync().AsTask().GetAwaiter().GetResult();
-                _activeSession = null;
-            }
-
-            if (_failedCleanupSession != null && _failedCleanupSession.HasExited)
-            {
-                _failedCleanupSession.DisposeAsync().AsTask().GetAwaiter().GetResult();
-                _failedCleanupSession = null;
-            }
+            _stopCts.Cancel();
         }
+    }
+
+    private sealed class ReadOperationContext
+    {
+        public string RequestId { get; }
+        public nint SourceWindow { get; }
+        public uint SourceProcessId { get; }
+        public CancellationTokenSource LinkedCts { get; }
+        public CancellationToken CallerToken { get; }
+        public Task<UiaSelectionResult> ExecutionTask { get; private set; } = null!;
+        public IUiaProcessSession? Session { get; set; }
+        public Task? CleanupTask { get; set; }
+        public bool ExtraLineDetected { get; set; }
+
+        public ReadOperationContext(
+            string requestId,
+            nint sourceWindow,
+            uint sourceProcessId,
+            CancellationTokenSource linkedCts,
+            CancellationToken callerToken)
+        {
+            RequestId = requestId;
+            SourceWindow = sourceWindow;
+            SourceProcessId = sourceProcessId;
+            LinkedCts = linkedCts;
+            CallerToken = callerToken;
+        }
+
+        public void SetExecutionTask(Task<UiaSelectionResult> task) => ExecutionTask = task;
     }
 }

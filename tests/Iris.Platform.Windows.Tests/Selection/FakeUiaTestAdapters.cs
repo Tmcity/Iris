@@ -51,6 +51,7 @@ internal sealed class FakeUiaAutomationSession : IUiaAutomationSession
 {
     public FakeUiaElement? FocusedElement { get; set; }
     public Exception? ThrowOnGetFocused { get; set; }
+    public Exception? ThrowOnDisposeException { get; set; }
     public bool IsDisposed { get; private set; }
 
     public IUiaElement? GetFocusedElement()
@@ -62,6 +63,7 @@ internal sealed class FakeUiaAutomationSession : IUiaAutomationSession
     public void Dispose()
     {
         IsDisposed = true;
+        if (ThrowOnDisposeException != null) throw ThrowOnDisposeException;
     }
 }
 
@@ -72,6 +74,7 @@ internal sealed class FakeUiaElement : IUiaElement
     public bool IsPassword { get; set; }
     public FakeUiaElement? Parent { get; set; }
     public FakeUiaTextPattern? TextPattern { get; set; } = new();
+    public Exception? ThrowOnDisposeException { get; set; }
     public bool IsDisposed { get; private set; }
 
     public IUiaElement? GetParent(int maxDepth) => Parent;
@@ -81,6 +84,7 @@ internal sealed class FakeUiaElement : IUiaElement
     public void Dispose()
     {
         IsDisposed = true;
+        if (ThrowOnDisposeException != null) throw ThrowOnDisposeException;
     }
 }
 
@@ -88,6 +92,7 @@ internal sealed class FakeUiaTextPattern : IUiaTextPattern
 {
     public bool SupportsSelection { get; set; } = true;
     public List<FakeUiaTextRange> Ranges { get; set; } = [];
+    public Exception? ThrowOnDisposeException { get; set; }
     public bool IsDisposed { get; private set; }
 
     public IReadOnlyList<IUiaTextRange> GetSelection() => Ranges;
@@ -95,6 +100,7 @@ internal sealed class FakeUiaTextPattern : IUiaTextPattern
     public void Dispose()
     {
         IsDisposed = true;
+        if (ThrowOnDisposeException != null) throw ThrowOnDisposeException;
     }
 }
 
@@ -102,6 +108,7 @@ internal sealed class FakeUiaTextRange : IUiaTextRange
 {
     public string? Text { get; set; }
     public Func<int, string?>? GetTextCallback { get; set; }
+    public Exception? ThrowOnDisposeException { get; set; }
     public bool IsDisposed { get; private set; }
     public int LastRequestedMaxLength { get; private set; }
 
@@ -119,6 +126,7 @@ internal sealed class FakeUiaTextRange : IUiaTextRange
     public void Dispose()
     {
         IsDisposed = true;
+        if (ThrowOnDisposeException != null) throw ThrowOnDisposeException;
     }
 }
 
@@ -127,10 +135,12 @@ internal sealed class FakeTargetWindowValidator : ITargetWindowValidator
     public bool DefaultIsValid { get; set; } = true;
     public Queue<bool> Responses { get; } = new();
     public int TotalCalls { get; private set; }
+    public Action<nint, uint>? OnCall { get; set; }
 
     public bool IsTargetValidAndForeground(nint expectedWindow, uint expectedProcessId)
     {
         TotalCalls++;
+        OnCall?.Invoke(expectedWindow, expectedProcessId);
         if (Responses.Count > 0)
         {
             return Responses.Dequeue();
@@ -143,12 +153,18 @@ internal sealed class FakeUiaProcessRunner : IUiaProcessRunner
 {
     public FakeUiaProcessSession Session { get; set; } = new();
     public Exception? ThrowOnStart { get; set; }
+    public Func<CancellationToken, Task<IUiaProcessSession>>? StartAsyncFunc { get; set; }
     public int TotalStartCalls { get; private set; }
 
     public Task<IUiaProcessSession> StartAsync(CancellationToken cancellationToken)
     {
         TotalStartCalls++;
         cancellationToken.ThrowIfCancellationRequested();
+        if (StartAsyncFunc != null)
+        {
+            return StartAsyncFunc(cancellationToken);
+        }
+
         if (ThrowOnStart != null)
         {
             throw ThrowOnStart;
@@ -182,6 +198,7 @@ internal sealed class FakeUiaProcessSession : IUiaProcessSession
     public bool HasExited { get; set; }
     public int ExitCode { get; set; }
     public bool KillCalled { get; private set; }
+    public Exception? ThrowOnKillException { get; set; }
     public bool Disposed { get; private set; }
     public bool RefuseToExit { get; set; }
     public TimeSpan ExitDelay { get; set; } = TimeSpan.Zero;
@@ -233,16 +250,22 @@ internal sealed class FakeUiaProcessSession : IUiaProcessSession
         {
             await Task.Delay(ExitDelay, cancellationToken).ConfigureAwait(false);
             HasExited = true;
+            _stdoutPipe.Writer.Complete();
             return;
         }
 
         await _exitGate.WaitAsync(cancellationToken).ConfigureAwait(false);
         HasExited = true;
+        _stdoutPipe.Writer.Complete();
     }
 
     public void Kill()
     {
         KillCalled = true;
+        if (ThrowOnKillException != null)
+        {
+            throw ThrowOnKillException;
+        }
         if (!RefuseToExit)
         {
             HasExited = true;

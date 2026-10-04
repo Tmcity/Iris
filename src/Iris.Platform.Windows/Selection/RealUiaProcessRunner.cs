@@ -48,7 +48,7 @@ internal sealed class RealUiaProcessRunner : IUiaProcessRunner
         }
 
         // 持续在后台排空 stderr，上限至多 4KiB 诊断预算，不回显内容
-        _ = Task.Run(async () =>
+        var stderrDrainTask = Task.Run(async () =>
         {
             try
             {
@@ -70,51 +70,148 @@ internal sealed class RealUiaProcessRunner : IUiaProcessRunner
                     totalRead += read;
                 }
             }
-            catch
+            catch (IOException)
             {
-                // 静默忽略 stderr 读取异常
+                // Pipe broken / closed
+            }
+            catch (ObjectDisposedException)
+            {
+                // Stream disposed
             }
         }, CancellationToken.None);
 
-        return Task.FromResult<IUiaProcessSession>(new RealUiaProcessSession(process));
+        return Task.FromResult<IUiaProcessSession>(new RealUiaProcessSession(process, stderrDrainTask));
     }
 }
 
 internal sealed class RealUiaProcessSession : IUiaProcessSession
 {
     private readonly Process _process;
+    private readonly Task _stderrDrainTask;
+    private int _disposed;
+    private bool _hasExited;
+    private int _exitCode = -1;
 
-    public RealUiaProcessSession(Process process)
+    public RealUiaProcessSession(Process process, Task stderrDrainTask)
     {
         _process = process ?? throw new ArgumentNullException(nameof(process));
+        _stderrDrainTask = stderrDrainTask ?? throw new ArgumentNullException(nameof(stderrDrainTask));
     }
 
     public Stream StandardInput => _process.StandardInput.BaseStream;
     public Stream StandardOutput => _process.StandardOutput.BaseStream;
 
-    public Task WaitForExitAsync(CancellationToken cancellationToken) =>
-        _process.WaitForExitAsync(cancellationToken);
-
-    public bool HasExited => _process.HasExited;
-    public int ExitCode => _process.ExitCode;
-
-    public void Kill()
+    public async Task WaitForExitAsync(CancellationToken cancellationToken)
     {
+        await _process.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
+        _hasExited = true;
+        _exitCode = _process.ExitCode;
+
         try
         {
-            if (!_process.HasExited)
-            {
-                _process.Kill();
-            }
+            await _stderrDrainTask.WaitAsync(cancellationToken).ConfigureAwait(false);
         }
-        catch (InvalidOperationException)
+        catch (OperationCanceledException)
         {
-            // 进程已提前退出
+            throw;
+        }
+        catch
+        {
+            // ignore stderr task errors during normal exit
         }
     }
 
-    public ValueTask DisposeAsync()
+    public bool HasExited
     {
+        get
+        {
+            if (_hasExited) return true;
+            try
+            {
+                if (_process.HasExited)
+                {
+                    _hasExited = true;
+                    _exitCode = _process.ExitCode;
+                    return true;
+                }
+            }
+            catch
+            {
+                // ignore
+            }
+            return false;
+        }
+    }
+
+    public int ExitCode
+    {
+        get
+        {
+            if (_hasExited) return _exitCode;
+            try
+            {
+                return _process.ExitCode;
+            }
+            catch
+            {
+                return _exitCode;
+            }
+        }
+    }
+
+    public void Kill()
+    {
+        if (HasExited) return;
+
+        try
+        {
+            _process.Kill();
+        }
+        catch (InvalidOperationException)
+        {
+            // Process exited between check and kill
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (Interlocked.Exchange(ref _disposed, 1) != 0)
+        {
+            return;
+        }
+
+        try
+        {
+            if (!_hasExited && _process.HasExited)
+            {
+                _hasExited = true;
+                _exitCode = _process.ExitCode;
+            }
+        }
+        catch
+        {
+            // ignore
+        }
+
+        try
+        {
+            _process.StandardInput.Dispose();
+            _process.StandardOutput.Dispose();
+        }
+        catch
+        {
+            // ignore
+        }
+
+        try
+        {
+            await _stderrDrainTask.ConfigureAwait(false);
+        }
+        catch
+        {
+            // ignore
+        }
+
         try
         {
             _process.Dispose();
@@ -123,6 +220,5 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
         {
             // ignore
         }
-        return ValueTask.CompletedTask;
     }
 }

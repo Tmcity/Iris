@@ -17,221 +17,64 @@ internal static class UiaSelectionWorker
         ArgumentNullException.ThrowIfNull(request);
         ArgumentNullException.ThrowIfNull(adapter);
 
+        IUiaAutomationSession? session = null;
+        IUiaElement? focused = null;
+        IUiaTextPattern? pattern = null;
+        IReadOnlyList<IUiaTextRange>? ranges = null;
+        bool disposalFailed = false;
+
         try
         {
-            // 1. 验证预期前台 HWND/PID
-            var fgHwnd = adapter.GetForegroundWindow();
-            if (fgHwnd != (nint)request.Hwnd || adapter.GetWindowProcessId(fgHwnd) != request.ProcessId)
-            {
-                return new UiaReplyFrame
-                {
-                    ProtocolVersion = UiaProtocolConstants.CurrentVersion,
-                    RequestId = request.RequestId,
-                    Status = UiaSelectionStatus.TargetChanged,
-                    ErrorCode = "TARGET_CHANGED"
-                };
-            }
-
-            // 2. 验证非 Iris 自身
-            if (request.ProcessId == adapter.GetCurrentProcessId())
-            {
-                return new UiaReplyFrame
-                {
-                    ProtocolVersion = UiaProtocolConstants.CurrentVersion,
-                    RequestId = request.RequestId,
-                    Status = UiaSelectionStatus.TargetChanged,
-                    ErrorCode = "TARGET_IS_IRIS"
-                };
-            }
-
-            // 3. 在本 MTA 创建 UIA 会话
-            using var session = adapter.CreateSession(UiaProtocolConstants.RequestTimeoutMs, UiaProtocolConstants.RequestTimeoutMs);
-            using var focused = session.GetFocusedElement();
-            if (focused == null)
-            {
-                return new UiaReplyFrame
-                {
-                    ProtocolVersion = UiaProtocolConstants.CurrentVersion,
-                    RequestId = request.RequestId,
-                    Status = UiaSelectionStatus.Unsupported,
-                    ErrorCode = "NO_FOCUSED_ELEMENT"
-                };
-            }
-
-            // 4. 验证 FocusedElement 所属来源
-            if (!IsElementFromExpectedSource(focused, (nint)request.Hwnd, request.ProcessId, adapter))
-            {
-                return new UiaReplyFrame
-                {
-                    ProtocolVersion = UiaProtocolConstants.CurrentVersion,
-                    RequestId = request.RequestId,
-                    Status = UiaSelectionStatus.Unsupported,
-                    ErrorCode = "ELEMENT_SOURCE_MISMATCH"
-                };
-            }
-
-            // 5. 检查是否为密码/敏感控件
-            if (focused.IsPassword)
-            {
-                return new UiaReplyFrame
-                {
-                    ProtocolVersion = UiaProtocolConstants.CurrentVersion,
-                    RequestId = request.RequestId,
-                    Status = UiaSelectionStatus.Sensitive,
-                    ErrorCode = "PASSWORD_CONTROL"
-                };
-            }
-
-            // 6. 获取文本模式 (优先 TextPattern2, 降级 TextPattern)
-            using var pattern = focused.GetTextPattern();
-            if (pattern == null || !pattern.SupportsSelection)
-            {
-                return new UiaReplyFrame
-                {
-                    ProtocolVersion = UiaProtocolConstants.CurrentVersion,
-                    RequestId = request.RequestId,
-                    Status = UiaSelectionStatus.Unsupported,
-                    ErrorCode = "TEXT_PATTERN_UNSUPPORTED"
-                };
-            }
-
-            // 7. 读取选区
-            var ranges = pattern.GetSelection();
+            UiaReplyFrame reply;
             try
             {
-                if (ranges.Count == 0)
-                {
-                    return new UiaReplyFrame
-                    {
-                        ProtocolVersion = UiaProtocolConstants.CurrentVersion,
-                        RequestId = request.RequestId,
-                        Status = UiaSelectionStatus.Empty
-                    };
-                }
-
-                if (ranges.Count > UiaProtocolConstants.MaxRanges)
-                {
-                    return new UiaReplyFrame
-                    {
-                        ProtocolVersion = UiaProtocolConstants.CurrentVersion,
-                        RequestId = request.RequestId,
-                        Status = UiaSelectionStatus.TooLong,
-                        ErrorCode = "RANGE_COUNT_EXCEEDED"
-                    };
-                }
-
-                var sb = new StringBuilder();
-                int totalUnits = 0;
-                bool hasNonWhitespace = false;
-
-                for (int i = 0; i < ranges.Count; i++)
-                {
-                    if (i > 0)
-                    {
-                        if (totalUnits + 1 > UiaProtocolConstants.MaxTextUnits)
-                        {
-                            return new UiaReplyFrame
-                            {
-                                ProtocolVersion = UiaProtocolConstants.CurrentVersion,
-                                RequestId = request.RequestId,
-                                Status = UiaSelectionStatus.TooLong,
-                                ErrorCode = "LENGTH_EXCEEDED"
-                            };
-                        }
-                        totalUnits += 1;
-                    }
-
-                    int remaining = UiaProtocolConstants.MaxTextUnits - totalUnits;
-                    if (remaining <= 0)
-                    {
-                        return new UiaReplyFrame
-                        {
-                            ProtocolVersion = UiaProtocolConstants.CurrentVersion,
-                            RequestId = request.RequestId,
-                            Status = UiaSelectionStatus.TooLong,
-                            ErrorCode = "LENGTH_EXCEEDED"
-                        };
-                    }
-
-                    var text = ranges[i].GetText(remaining + 1);
-                    if (string.IsNullOrEmpty(text))
-                    {
-                        continue;
-                    }
-
-                    if (text.Length > remaining)
-                    {
-                        return new UiaReplyFrame
-                        {
-                            ProtocolVersion = UiaProtocolConstants.CurrentVersion,
-                            RequestId = request.RequestId,
-                            Status = UiaSelectionStatus.TooLong,
-                            ErrorCode = "LENGTH_EXCEEDED"
-                        };
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(text))
-                    {
-                        hasNonWhitespace = true;
-                    }
-
-                    totalUnits += text.Length;
-                    if (totalUnits > UiaProtocolConstants.MaxTextUnits)
-                    {
-                        return new UiaReplyFrame
-                        {
-                            ProtocolVersion = UiaProtocolConstants.CurrentVersion,
-                            RequestId = request.RequestId,
-                            Status = UiaSelectionStatus.TooLong,
-                            ErrorCode = "LENGTH_EXCEEDED"
-                        };
-                    }
-
-                    if (i > 0)
-                    {
-                        sb.Append('\n');
-                    }
-                    sb.Append(text);
-                }
-
-                if (!hasNonWhitespace || sb.Length == 0)
-                {
-                    return new UiaReplyFrame
-                    {
-                        ProtocolVersion = UiaProtocolConstants.CurrentVersion,
-                        RequestId = request.RequestId,
-                        Status = UiaSelectionStatus.Empty
-                    };
-                }
-
-                // 8. 选区读取结束，再次核对预期前台来源，变化则丢弃文本
-                var fgFinal = adapter.GetForegroundWindow();
-                if (fgFinal != (nint)request.Hwnd || adapter.GetWindowProcessId(fgFinal) != request.ProcessId)
-                {
-                    return new UiaReplyFrame
-                    {
-                        ProtocolVersion = UiaProtocolConstants.CurrentVersion,
-                        RequestId = request.RequestId,
-                        Status = UiaSelectionStatus.TargetChanged,
-                        ErrorCode = "TARGET_CHANGED"
-                    };
-                }
-
-                return new UiaReplyFrame
+                reply = ReadSelectionCore(request, adapter, ref session, ref focused, ref pattern, ref ranges);
+            }
+            catch (InvalidOperationException ex) when (ex.Message == "RANGE_COUNT_EXCEEDED")
+            {
+                reply = new UiaReplyFrame
                 {
                     ProtocolVersion = UiaProtocolConstants.CurrentVersion,
                     RequestId = request.RequestId,
-                    Status = UiaSelectionStatus.Success,
-                    Text = sb.ToString()
+                    Status = UiaSelectionStatus.TooLong,
+                    ErrorCode = "RANGE_COUNT_EXCEEDED"
                 };
             }
             finally
             {
-                foreach (var r in ranges)
+                if (ranges != null)
                 {
-                    r.Dispose();
+                    foreach (var r in ranges)
+                    {
+                        try { r.Dispose(); } catch { disposalFailed = true; }
+                    }
+                }
+                if (pattern != null)
+                {
+                    try { pattern.Dispose(); } catch { disposalFailed = true; }
+                }
+                if (focused != null)
+                {
+                    try { focused.Dispose(); } catch { disposalFailed = true; }
+                }
+                if (session != null)
+                {
+                    try { session.Dispose(); } catch { disposalFailed = true; }
+                }
+
+                if (disposalFailed)
+                {
+                    reply = new UiaReplyFrame
+                    {
+                        ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                        RequestId = request.RequestId,
+                        Status = UiaSelectionStatus.Failed,
+                        ErrorCode = "COM_CLEANUP_FAILED"
+                    };
                 }
             }
+
+            return reply;
         }
         catch (COMException ex)
         {
@@ -263,6 +106,209 @@ internal static class UiaSelectionWorker
                 ErrorCode = "INTERNAL_WORKER_ERROR"
             };
         }
+    }
+
+    private static UiaReplyFrame ReadSelectionCore(
+        UiaRequestFrame request,
+        INativeUiaAdapter adapter,
+        ref IUiaAutomationSession? session,
+        ref IUiaElement? focused,
+        ref IUiaTextPattern? pattern,
+        ref IReadOnlyList<IUiaTextRange>? ranges)
+    {
+        // 1. 验证预期前台 HWND/PID
+        var fgHwnd = adapter.GetForegroundWindow();
+        if (fgHwnd != (nint)request.Hwnd || adapter.GetWindowProcessId(fgHwnd) != request.ProcessId)
+        {
+            return new UiaReplyFrame
+            {
+                ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                RequestId = request.RequestId,
+                Status = UiaSelectionStatus.TargetChanged,
+                ErrorCode = "TARGET_CHANGED"
+            };
+        }
+
+        // 2. 验证非 Iris 自身
+        if (request.ProcessId == adapter.GetCurrentProcessId())
+        {
+            return new UiaReplyFrame
+            {
+                ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                RequestId = request.RequestId,
+                Status = UiaSelectionStatus.TargetChanged,
+                ErrorCode = "TARGET_IS_IRIS"
+            };
+        }
+
+        // 3. 在本 MTA 创建 UIA 会话
+        session = adapter.CreateSession(UiaProtocolConstants.RequestTimeoutMs, UiaProtocolConstants.RequestTimeoutMs);
+        focused = session.GetFocusedElement();
+        if (focused == null)
+        {
+            return new UiaReplyFrame
+            {
+                ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                RequestId = request.RequestId,
+                Status = UiaSelectionStatus.Unsupported,
+                ErrorCode = "NO_FOCUSED_ELEMENT"
+            };
+        }
+
+        // 4. 验证 FocusedElement 所属来源
+        if (!IsElementFromExpectedSource(focused, (nint)request.Hwnd, request.ProcessId, adapter))
+        {
+            return new UiaReplyFrame
+            {
+                ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                RequestId = request.RequestId,
+                Status = UiaSelectionStatus.Unsupported,
+                ErrorCode = "ELEMENT_SOURCE_MISMATCH"
+            };
+        }
+
+        // 5. 检查是否为密码/敏感控件
+        if (focused.IsPassword)
+        {
+            return new UiaReplyFrame
+            {
+                ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                RequestId = request.RequestId,
+                Status = UiaSelectionStatus.Sensitive,
+                ErrorCode = "PASSWORD_CONTROL"
+            };
+        }
+
+        // 6. 获取文本模式 (优先 TextPattern2, 降级 TextPattern)
+        pattern = focused.GetTextPattern();
+        if (pattern == null || !pattern.SupportsSelection)
+        {
+            return new UiaReplyFrame
+            {
+                ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                RequestId = request.RequestId,
+                Status = UiaSelectionStatus.Unsupported,
+                ErrorCode = "TEXT_PATTERN_UNSUPPORTED"
+            };
+        }
+
+        // 7. 读取选区
+        ranges = pattern.GetSelection();
+        if (ranges.Count == 0)
+        {
+            return new UiaReplyFrame
+            {
+                ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                RequestId = request.RequestId,
+                Status = UiaSelectionStatus.Empty
+            };
+        }
+
+        if (ranges.Count > UiaProtocolConstants.MaxRanges)
+        {
+            return new UiaReplyFrame
+            {
+                ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                RequestId = request.RequestId,
+                Status = UiaSelectionStatus.TooLong,
+                ErrorCode = "RANGE_COUNT_EXCEEDED"
+            };
+        }
+
+        var sb = new StringBuilder();
+        int totalUnits = 0;
+        bool hasNonWhitespace = false;
+        bool isFirstNonEmpty = true;
+
+        for (int i = 0; i < ranges.Count; i++)
+        {
+            int delimiterCost = isFirstNonEmpty ? 0 : 1;
+            int remainingForText = UiaProtocolConstants.MaxTextUnits - totalUnits - delimiterCost;
+            if (remainingForText <= 0)
+            {
+                return new UiaReplyFrame
+                {
+                    ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                    RequestId = request.RequestId,
+                    Status = UiaSelectionStatus.TooLong,
+                    ErrorCode = "LENGTH_EXCEEDED"
+                };
+            }
+
+            var text = ranges[i].GetText(remainingForText + 1);
+            if (string.IsNullOrEmpty(text))
+            {
+                continue;
+            }
+
+            if (text.Length > remainingForText)
+            {
+                return new UiaReplyFrame
+                {
+                    ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                    RequestId = request.RequestId,
+                    Status = UiaSelectionStatus.TooLong,
+                    ErrorCode = "LENGTH_EXCEEDED"
+                };
+            }
+
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                hasNonWhitespace = true;
+            }
+
+            if (!isFirstNonEmpty)
+            {
+                sb.Append('\n');
+                totalUnits += 1;
+            }
+
+            sb.Append(text);
+            totalUnits += text.Length;
+            isFirstNonEmpty = false;
+
+            if (totalUnits > UiaProtocolConstants.MaxTextUnits)
+            {
+                return new UiaReplyFrame
+                {
+                    ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                    RequestId = request.RequestId,
+                    Status = UiaSelectionStatus.TooLong,
+                    ErrorCode = "LENGTH_EXCEEDED"
+                };
+            }
+        }
+
+        if (!hasNonWhitespace || sb.Length == 0)
+        {
+            return new UiaReplyFrame
+            {
+                ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                RequestId = request.RequestId,
+                Status = UiaSelectionStatus.Empty
+            };
+        }
+
+        // 8. 选区读取结束，再次核对预期前台来源，变化则丢弃文本
+        var fgFinal = adapter.GetForegroundWindow();
+        if (fgFinal != (nint)request.Hwnd || adapter.GetWindowProcessId(fgFinal) != request.ProcessId)
+        {
+            return new UiaReplyFrame
+            {
+                ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                RequestId = request.RequestId,
+                Status = UiaSelectionStatus.TargetChanged,
+                ErrorCode = "TARGET_CHANGED"
+            };
+        }
+
+        return new UiaReplyFrame
+        {
+            ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+            RequestId = request.RequestId,
+            Status = UiaSelectionStatus.Success,
+            Text = sb.ToString()
+        };
     }
 
     private static bool IsElementFromExpectedSource(IUiaElement element, nint expectedHwnd, uint expectedPid, INativeUiaAdapter adapter)

@@ -97,9 +97,32 @@ internal static class UiaProtocolCodec
 
     public static UiaReadyFrame? DeserializeReady(string json)
     {
+        if (string.IsNullOrWhiteSpace(json)) return null;
         try
         {
-            return JsonSerializer.Deserialize<UiaReadyFrame>(json, JsonOptions);
+            using var doc = JsonDocument.Parse(json);
+            var root = doc.RootElement;
+            if (root.ValueKind != JsonValueKind.Object) return null;
+
+            if (!root.TryGetProperty("protocolVersion", out var pvProp) ||
+                pvProp.ValueKind != JsonValueKind.Number ||
+                pvProp.GetInt32() != UiaProtocolConstants.CurrentVersion)
+            {
+                return null;
+            }
+
+            if (!root.TryGetProperty("kind", out var kindProp) ||
+                kindProp.ValueKind != JsonValueKind.String ||
+                kindProp.GetString() != "Ready")
+            {
+                return null;
+            }
+
+            return new UiaReadyFrame
+            {
+                ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                Kind = "Ready"
+            };
         }
         catch
         {
@@ -109,9 +132,60 @@ internal static class UiaProtocolCodec
 
     public static UiaRequestFrame? DeserializeRequest(string json)
     {
+        if (string.IsNullOrWhiteSpace(json)) return null;
         try
         {
-            return JsonSerializer.Deserialize<UiaRequestFrame>(json, JsonOptions);
+            using var doc = JsonDocument.Parse(json);
+            var root = doc.RootElement;
+            if (root.ValueKind != JsonValueKind.Object) return null;
+
+            if (!root.TryGetProperty("protocolVersion", out var pvProp) ||
+                pvProp.ValueKind != JsonValueKind.Number ||
+                pvProp.GetInt32() != UiaProtocolConstants.CurrentVersion)
+            {
+                return null;
+            }
+
+            if (!root.TryGetProperty("kind", out var kindProp) ||
+                kindProp.ValueKind != JsonValueKind.String ||
+                kindProp.GetString() != "Request")
+            {
+                return null;
+            }
+
+            if (!root.TryGetProperty("requestId", out var reqIdProp) ||
+                reqIdProp.ValueKind != JsonValueKind.String)
+            {
+                return null;
+            }
+            var reqId = reqIdProp.GetString();
+            if (string.IsNullOrWhiteSpace(reqId) || reqId.Length > 64)
+            {
+                return null;
+            }
+
+            if (!root.TryGetProperty("hwnd", out var hwndProp) ||
+                hwndProp.ValueKind != JsonValueKind.Number ||
+                !hwndProp.TryGetInt64(out var hwnd) || hwnd == 0)
+            {
+                return null;
+            }
+
+            if (!root.TryGetProperty("processId", out var pidProp) ||
+                pidProp.ValueKind != JsonValueKind.Number ||
+                !pidProp.TryGetUInt32(out var pid) || pid == 0)
+            {
+                return null;
+            }
+
+            return new UiaRequestFrame
+            {
+                ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                Kind = "Request",
+                RequestId = reqId,
+                Hwnd = hwnd,
+                ProcessId = pid
+            };
         }
         catch
         {
@@ -121,14 +195,130 @@ internal static class UiaProtocolCodec
 
     public static UiaReplyFrame? DeserializeReply(string json)
     {
+        if (string.IsNullOrWhiteSpace(json)) return null;
         try
         {
-            return JsonSerializer.Deserialize<UiaReplyFrame>(json, JsonOptions);
+            using var doc = JsonDocument.Parse(json);
+            var root = doc.RootElement;
+            if (root.ValueKind != JsonValueKind.Object) return null;
+
+            if (!root.TryGetProperty("protocolVersion", out var pvProp) ||
+                pvProp.ValueKind != JsonValueKind.Number ||
+                pvProp.GetInt32() != UiaProtocolConstants.CurrentVersion)
+            {
+                return null;
+            }
+
+            if (!root.TryGetProperty("kind", out var kindProp) ||
+                kindProp.ValueKind != JsonValueKind.String ||
+                kindProp.GetString() != "Reply")
+            {
+                return null;
+            }
+
+            if (!root.TryGetProperty("requestId", out var reqIdProp) ||
+                reqIdProp.ValueKind != JsonValueKind.String)
+            {
+                return null;
+            }
+            var reqId = reqIdProp.GetString();
+            if (reqId == null || reqId.Length > 64)
+            {
+                return null;
+            }
+
+            if (!root.TryGetProperty("status", out var statusProp) ||
+                statusProp.ValueKind != JsonValueKind.String)
+            {
+                return null;
+            }
+            var statusStr = statusProp.GetString();
+            if (!Enum.TryParse<UiaSelectionStatus>(statusStr, ignoreCase: false, out var status))
+            {
+                return null;
+            }
+
+            string? text = null;
+            if (root.TryGetProperty("text", out var textProp))
+            {
+                if (textProp.ValueKind == JsonValueKind.String)
+                {
+                    text = textProp.GetString();
+                }
+                else if (textProp.ValueKind != JsonValueKind.Null)
+                {
+                    return null;
+                }
+            }
+
+            string? errorCode = null;
+            if (root.TryGetProperty("errorCode", out var errProp))
+            {
+                if (errProp.ValueKind == JsonValueKind.String)
+                {
+                    errorCode = errProp.GetString();
+                }
+                else if (errProp.ValueKind != JsonValueKind.Null)
+                {
+                    return null;
+                }
+            }
+
+            if (status == UiaSelectionStatus.Success)
+            {
+                if (string.IsNullOrWhiteSpace(reqId))
+                {
+                    return null;
+                }
+                if (string.IsNullOrWhiteSpace(text) || text.Length > UiaProtocolConstants.MaxTextUnits)
+                {
+                    return null;
+                }
+                if (!string.IsNullOrEmpty(errorCode))
+                {
+                    return null;
+                }
+            }
+            else
+            {
+                if (text != null)
+                {
+                    return null;
+                }
+                if (!string.IsNullOrEmpty(errorCode) && !IsValidErrorCode(errorCode))
+                {
+                    return null;
+                }
+            }
+
+            return new UiaReplyFrame
+            {
+                ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                Kind = "Reply",
+                RequestId = reqId,
+                Status = status,
+                Text = text,
+                ErrorCode = errorCode
+            };
         }
         catch
         {
             return null;
         }
+    }
+
+    public static bool IsValidErrorCode(string code)
+    {
+        if (string.IsNullOrEmpty(code) || code.Length > 32) return false;
+        for (int i = 0; i < code.Length; i++)
+        {
+            char c = code[i];
+            if (!((c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == 'x' || (c >= 'a' && c <= 'f')))
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static async Task WriteFrameAsync(Stream stream, object frame, CancellationToken ct)
@@ -142,10 +332,13 @@ internal static class UiaProtocolCodec
 
 internal static class UiaProtocolFrameReader
 {
+    private static readonly UTF8Encoding StrictUtf8 = new(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true);
+
     public static async Task<string?> ReadLineWithLimitAsync(Stream stream, int maxBytes, CancellationToken ct)
     {
         using var ms = new MemoryStream();
         var buffer = new byte[1];
+        int totalWireBytes = 0;
 
         while (true)
         {
@@ -156,16 +349,22 @@ internal static class UiaProtocolFrameReader
             }
             catch (IOException) when (IsCleanEof(ms))
             {
-                return null; // Clean EOF on pipe broken/closed
+                return null;
             }
 
             if (read == 0)
             {
                 if (IsCleanEof(ms))
                 {
-                    return null; // Clean EOF
+                    return null;
                 }
                 throw new EndOfStreamException("Unexpected end of stream before newline delimiter.");
+            }
+
+            totalWireBytes++;
+            if (totalWireBytes > maxBytes)
+            {
+                throw new InvalidDataException($"Protocol frame exceeded maximum size of {maxBytes} bytes.");
             }
 
             byte b = buffer[0];
@@ -174,17 +373,12 @@ internal static class UiaProtocolFrameReader
                 break;
             }
 
-            if (b == (byte)'\r')
-            {
-                continue; // Ignore CR
-            }
-
-            if (ms.Length >= maxBytes)
-            {
-                throw new InvalidDataException($"Protocol frame exceeded maximum size of {maxBytes} bytes.");
-            }
-
             ms.WriteByte(b);
+        }
+
+        if (ms.Length > 0 && ms.GetBuffer()[ms.Length - 1] == (byte)'\r')
+        {
+            ms.SetLength(ms.Length - 1);
         }
 
         return DecodeFrameBytes(ms);
@@ -193,6 +387,8 @@ internal static class UiaProtocolFrameReader
     public static string? ReadLineWithLimit(Stream stream, int maxBytes)
     {
         using var ms = new MemoryStream();
+        int totalWireBytes = 0;
+
         while (true)
         {
             int b;
@@ -202,16 +398,22 @@ internal static class UiaProtocolFrameReader
             }
             catch (IOException) when (IsCleanEof(ms))
             {
-                return null; // Clean EOF on pipe broken/closed
+                return null;
             }
 
             if (b == -1)
             {
                 if (IsCleanEof(ms))
                 {
-                    return null; // Clean EOF
+                    return null;
                 }
                 throw new EndOfStreamException("Unexpected end of stream before newline delimiter.");
+            }
+
+            totalWireBytes++;
+            if (totalWireBytes > maxBytes)
+            {
+                throw new InvalidDataException($"Protocol frame exceeded maximum size of {maxBytes} bytes.");
             }
 
             if (b == '\n')
@@ -219,17 +421,12 @@ internal static class UiaProtocolFrameReader
                 break;
             }
 
-            if (b == '\r')
-            {
-                continue; // Ignore CR
-            }
-
-            if (ms.Length >= maxBytes)
-            {
-                throw new InvalidDataException($"Protocol frame exceeded maximum size of {maxBytes} bytes.");
-            }
-
             ms.WriteByte((byte)b);
+        }
+
+        if (ms.Length > 0 && ms.GetBuffer()[ms.Length - 1] == (byte)'\r')
+        {
+            ms.SetLength(ms.Length - 1);
         }
 
         return DecodeFrameBytes(ms);
@@ -259,6 +456,14 @@ internal static class UiaProtocolFrameReader
             offset = 3;
             count -= 3;
         }
-        return Encoding.UTF8.GetString(array, offset, count);
+
+        try
+        {
+            return StrictUtf8.GetString(array, offset, count);
+        }
+        catch (DecoderFallbackException ex)
+        {
+            throw new InvalidDataException("Invalid UTF-8 sequence in protocol frame.", ex);
+        }
     }
 }
