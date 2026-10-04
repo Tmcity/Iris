@@ -236,7 +236,7 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
-| T-021 | ▶ | KeyboardSimulator：受控 Ctrl+C、释放责任与停止（含 C20B-1 测试维护） | T-021A | 0.5d |
+| T-021 | ☑ | KeyboardSimulator：受控 Ctrl+C、释放责任与停止（4976109 / R2 已验收，C20B-1 完成） | T-021A | 0.5d |
 | T-022 | ☐ | UIA / 剪贴板 / 组合选区读取器（DesktopContext 已拆至 T-022A） | T-021, T-022A | 1.5d |
 | T-023 | ☐ | SelectionTranslateHandler + 划词设置页（基础部分） | T-022, T-018 | 0.5d |
 | T-024 | ☐ | MouseSelectionMonitor + GestureRecognizer + SelectionIconWindow / Controller | T-023 | 2d |
@@ -246,6 +246,8 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 **T-021 首次复审（2026-10-04）** — 81e6d40 未通过，初交 689a591 保留。独立 Release 零警告/零错误，1767 项（1766 成功/1 环境跳过）；正常/补偿/清理重试等成果保留，C20B-1 已落实。两个独立反例为 Task.Yield 捕获 UI 导致全部 native 调用在 UI 执行，以及最后目标查询期间取消/Stop 后仍发送 Ctrl+C。签发 T-021-R1，仅修两项；由用户手动转交，控制暂停，T-021 继续 ▶，不进入 T-022。
 
 **T-021-R1 复审（2026-10-04）** — 58eb9bd 的两项生产修复通过；独立 Release 零警告/零错误，1773 项（1772 成功/1 环境跳过），原协议/补偿探针保持。新增 UI 测试的异常展开会先 await Dispose 再进入放行闸门的 finally，已复现 Timeout 与遗留 STA；签发仅测试/报告的 T-021-R2，生产代码严格不改，不泛化返工，不进入 T-022。
+
+**T-021 最终结案（2026-10-04）** — 49761091339de57bff48a824bc568444a46eba2b 通过，R2 的 src/ 与公开契约相对 R1 零差异。独立 Release 零警告/零错误，全量 1775 项（1774 成功/1 独占窗口站环境跳过）；真实测试副本在 native 闸门进入后抛错，返回原 InvalidOperationException，finally 已执行且 STA 已退出，原死锁消失。协议、后台执行和取消/Stop 反例保持通过，C20B-1 维护完成。下一步进入 T-022；详细证据见 tasks/done/T-021-R2.md 第四节。
 
 **T-022** 在签发时统一 ARCH §10.4 与 A08 的终端/焦点控件、UIA 有界等待、剪贴板快照/序列归属和外部更新保护。手动验收清单含记事本、Word、Chrome、Edge、VS Code、微信/QQ、PDF 阅读器、Windows Terminal（**不得触发 Ctrl+C**）；没有新复制时不得返回旧文本，恢复不得覆盖外部新复制。修饰键仍按住时遵守 T-021 的等待/NotReady，使用 UIA 或无结果策略，不强制松开用户按键；最终验收细则随 T-022 正式工单定稿。
 **T-023** 验收：Handler 单元测试覆盖三个分支（有文本 / 无文本且打开输入窗 / 无文本且只提示）；设置页可以编辑 ReadOrder、RestoreClipboard、排除进程列表。
