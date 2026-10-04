@@ -24,6 +24,23 @@ internal sealed partial class ActionDispatcher : IActionDispatcher
 
     private readonly Lock _gate = new();
     private readonly HashSet<IrisAction> _executingActions = [];
+    private bool _stopping;
+    private TaskCompletionSource? _drained;
+
+    internal void StopAcceptance()
+    {
+        lock (_gate)
+        {
+            _stopping = true;
+            _drained ??= new(TaskCreationOptions.RunContinuationsAsynchronously);
+            if (_executingActions.Count == 0) _drained.TrySetResult();
+        }
+    }
+
+    internal Task WaitForInFlightAsync()
+    {
+        lock (_gate) return _drained?.Task ?? Task.CompletedTask;
+    }
 
     public ActionDispatcher(
         IEnumerable<IActionHandler> handlers,
@@ -90,6 +107,7 @@ internal sealed partial class ActionDispatcher : IActionDispatcher
         {
             await _uiDispatcher.InvokeAsync(async () =>
             {
+                lock (_gate) { if (_stopping) return; }
                 if (cancellationToken.IsCancellationRequested)
                 {
                     return;
@@ -127,6 +145,7 @@ internal sealed partial class ActionDispatcher : IActionDispatcher
     {
         lock (_gate)
         {
+            if (_stopping) return false;
             if (IsScreenshotAction(action))
             {
                 if (_executingActions.Contains(IrisAction.ScreenshotTranslate) ||
@@ -154,6 +173,7 @@ internal sealed partial class ActionDispatcher : IActionDispatcher
         lock (_gate)
         {
             _executingActions.Remove(action);
+            if (_stopping && _executingActions.Count == 0) _drained?.TrySetResult();
         }
     }
 

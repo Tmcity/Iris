@@ -122,7 +122,7 @@ internal sealed class FakeClipboardSnapshotNative : IClipboardSnapshotNative
     public void CopyFrom(nint pointer, Span<byte> destination)
     {
         if (!Call("CopyFrom")) throw new IOException("private payload path");
-        Memory[pointer].Bytes.AsSpan().CopyTo(destination);
+        Memory[pointer].Bytes.AsSpan(0, Math.Min(Memory[pointer].Bytes.Length, destination.Length)).CopyTo(destination);
         After?.Invoke("CopyFrom");
     }
     public void CopyTo(ReadOnlySpan<byte> source, nint pointer)

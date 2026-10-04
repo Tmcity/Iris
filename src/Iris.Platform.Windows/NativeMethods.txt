@@ -26,6 +26,10 @@ GetDpiForWindow
 MonitorFromWindow
 GetPhysicalCursorPos
 GetForegroundWindow
+GetGUIThreadInfo
+GetClassName
+IsWindowVisible
+IsWindowEnabled
 GetWindowThreadProcessId
 OpenProcess
 QueryFullProcessImageName

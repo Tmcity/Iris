@@ -38,6 +38,8 @@ internal sealed partial class AppBootstrapper
     private readonly HotkeyCoordinator? _hotkeyCoordinator;
     private readonly Iris.Core.Platform.IHotkeyCaptureService? _captureService;
     private readonly HotkeyRecordingCoordinator? _recordingCoordinator;
+    private readonly Iris.Platform.Windows.Selection.CompositeSelectionReader? _selectionReader;
+    private readonly ActionDispatcher? _actionDispatcher;
 
     private readonly Lock _stopGate = new();
     private Task? _stopTask;
@@ -60,7 +62,9 @@ internal sealed partial class AppBootstrapper
         Iris.App.Translation.ITranslateWindowShutdownCoordinator? translateShutdownCoordinator = null,
         HotkeyCoordinator? hotkeyCoordinator = null,
         Iris.Core.Platform.IHotkeyCaptureService? captureService = null,
-        HotkeyRecordingCoordinator? recordingCoordinator = null)
+        HotkeyRecordingCoordinator? recordingCoordinator = null,
+        Iris.Platform.Windows.Selection.CompositeSelectionReader? selectionReader = null,
+        Iris.Core.Actions.IActionDispatcher? actionDispatcher = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -77,6 +81,8 @@ internal sealed partial class AppBootstrapper
         _hotkeyCoordinator = hotkeyCoordinator;
         _captureService = captureService;
         _recordingCoordinator = recordingCoordinator;
+        _selectionReader = selectionReader;
+        _actionDispatcher = actionDispatcher as ActionDispatcher;
     }
 
     internal static Action<string, string> FatalErrorShower { get; set; } = FatalErrorDialog.Show;
@@ -198,6 +204,7 @@ internal sealed partial class AppBootstrapper
     public Task StopAsync()
     {
         LogStopping(_logger);
+        _actionDispatcher?.StopAcceptance();
 
         lock (_stopGate)
         {
@@ -263,6 +270,9 @@ internal sealed partial class AppBootstrapper
             }
         }
 
+        // Selection Stop includes conditional restoration before stopping its clipboard worker.
+        if (_selectionReader != null) await _selectionReader.StopAsync().ConfigureAwait(false);
+
         // 3. 然后配合既有设置/翻译 Presenter 完整退出
         if (_settingsShutdownCoordinator != null)
         {
@@ -297,6 +307,7 @@ internal sealed partial class AppBootstrapper
         }
 
         // 4. 最后停止主题/托盘、Host、Dispatcher
+        if (_actionDispatcher != null) await _actionDispatcher.WaitForInFlightAsync().ConfigureAwait(false);
         StopSynchronousParts();
 
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));

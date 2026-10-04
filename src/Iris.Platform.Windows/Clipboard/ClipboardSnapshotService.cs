@@ -82,7 +82,7 @@ internal sealed partial class ClipboardSnapshotService : IDisposable, IAsyncDisp
         }
     }
 
-    private ClipboardSnapshotResult Commit(ClipboardSnapshot.Lease? lease, ClipboardVersion expected, CancellationToken token)
+    private ClipboardSnapshotResult Commit(ClipboardSnapshot.Lease? lease, ClipboardVersion expected, CancellationToken token, ClipboardWriteReceipt? receipt = null)
     {
         var prepared = new List<(uint Format, MemoryBlock Block)>();
         if (lease != null)
@@ -109,13 +109,17 @@ internal sealed partial class ClipboardSnapshotService : IDisposable, IAsyncDisp
         CheckCancellation(token);
         Check(_native.EmptyClipboard(), "EMPTY");
         _commitStarted = true;
+        if (receipt != null) { receipt.Written = true; receipt.Version = ReadVersion(); }
         // Past the commit point: cancellation cannot abandon remaining Set/cleanup.
         foreach (var (format, block) in prepared)
         {
             Check(_native.SetClipboardData(format, block.Handle) != 0, "SET_DATA");
             _blocks.Remove(block); // Ownership transferred; never touch this handle again.
+            if (receipt != null) receipt.Version = ReadVersion();
         }
-        return new(ClipboardSnapshotStatus.Applied, ReadVersion());
+        var applied = ReadVersion();
+        if (receipt != null) { receipt.Version = applied; receipt.Applied = true; }
+        return new(ClipboardSnapshotStatus.Applied, applied);
     }
 
     private void Open(CancellationToken token)

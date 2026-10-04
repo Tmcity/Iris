@@ -84,6 +84,18 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
     /// 一次仅接纳一个活动调用；忙时立即返回 Busy。
     /// </summary>
     public Task<KeyboardCopyResult> CopyAsync(KeyboardCopyTarget target, CancellationToken cancellationToken = default)
+        => StartCopy(target, null, null, cancellationToken);
+
+    public Task<KeyboardCopyResult> CopyWithPreparationAsync(KeyboardCopyTarget target,
+        Func<CancellationToken, Task<bool>> beforeSend, Func<bool> guard, CancellationToken cancellationToken = default)
+    {
+        ArgumentNullException.ThrowIfNull(beforeSend);
+        ArgumentNullException.ThrowIfNull(guard);
+        return StartCopy(target, beforeSend, guard, cancellationToken);
+    }
+
+    private Task<KeyboardCopyResult> StartCopy(KeyboardCopyTarget target, Func<CancellationToken, Task<bool>>? beforeSend,
+        Func<bool>? guard, CancellationToken cancellationToken)
     {
         CancellationTokenSource waitCts;
         Task<KeyboardCopyResult> copyTask;
@@ -113,7 +125,7 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
             waitCts = new CancellationTokenSource();
             _activeWaitCts = waitCts;
             copyTask = Task.Run(
-                () => RunCopyWorkflowAsync(target, waitCts, cancellationToken),
+                () => RunCopyWorkflowAsync(target, waitCts, beforeSend, guard, cancellationToken),
                 CancellationToken.None);
             _activeCopyTask = copyTask;
         }
@@ -124,11 +136,11 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
     private async Task<KeyboardCopyResult> RunCopyWorkflowAsync(
         KeyboardCopyTarget target,
         CancellationTokenSource waitCts,
-        CancellationToken cancellationToken)
+        Func<CancellationToken, Task<bool>>? beforeSend, Func<bool>? guard, CancellationToken cancellationToken)
     {
         try
         {
-            return await ExecuteCopyCoreAsync(target, cancellationToken, waitCts.Token).ConfigureAwait(false);
+            return await ExecuteCopyCoreAsync(target, beforeSend, guard, cancellationToken, waitCts.Token).ConfigureAwait(false);
         }
         catch (OperationCanceledException)
         {
@@ -137,6 +149,7 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
         catch (Exception ex)
         {
             LogCopyExecutionError(_logger, ex.GetType().Name);
+            if (beforeSend != null) throw new IrisException(ErrorCode.CaptureFailed, $"COPY_PREPARATION_FAILED hr=0x{ex.HResult:X8}");
             throw;
         }
         finally
@@ -154,6 +167,7 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
 
     private async Task<KeyboardCopyResult> ExecuteCopyCoreAsync(
         KeyboardCopyTarget target,
+        Func<CancellationToken, Task<bool>>? beforeSend, Func<bool>? guard,
         CancellationToken callerToken,
         CancellationToken stopToken)
     {
@@ -188,6 +202,14 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
             }
         }
 
+        if (beforeSend != null)
+        {
+            token.ThrowIfCancellationRequested();
+            if (_isStopped) throw new OperationCanceledException(token);
+            if (guard != null && !guard()) return new KeyboardCopyResult(KeyboardCopyOutcome.TargetChanged);
+            if (!await beforeSend(token).ConfigureAwait(false)) return new KeyboardCopyResult(KeyboardCopyOutcome.NotReady);
+        }
+
         // 3. 进入发送前的最终检查
         token.ThrowIfCancellationRequested();
 
@@ -201,6 +223,8 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
             return new KeyboardCopyResult(KeyboardCopyOutcome.TargetChanged, MayHaveCopied: false);
         }
 
+        if (guard != null && !guard()) return new KeyboardCopyResult(KeyboardCopyOutcome.TargetChanged);
+
         // 发送前复核：最后一次原生按键与目标查询完成后，在开始第一个 SendInput 之前，重新确认本次取消与停止状态
         lock (_syncRoot)
         {
@@ -213,10 +237,10 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
         token.ThrowIfCancellationRequested();
 
         // 4. 发送阶段：不可被晚到取消打断，不插入 await/Delay
-        return ExecuteSendSequence(target);
+        return ExecuteSendSequence(target, guard);
     }
 
-    private KeyboardCopyResult ExecuteSendSequence(KeyboardCopyTarget target)
+    private KeyboardCopyResult ExecuteSendSequence(KeyboardCopyTarget target, Func<bool>? guard)
     {
         bool mayHaveCopied = false;
 
@@ -243,7 +267,7 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
             bool targetValid;
             try
             {
-                targetValid = IsTargetValidAndForeground(target);
+                targetValid = IsTargetValidAndForeground(target) && (guard == null || guard());
             }
             catch (Exception exTarget)
             {
@@ -369,7 +393,6 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
         lock (_syncRoot)
         {
             _isStopped = true;
-            _activeWaitCts?.Cancel();
 
             if (_activeStopTask != null && !_activeStopTask.IsCompleted)
             {
@@ -389,9 +412,24 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
     private async Task RunStopWorkflowAsync()
     {
         Task? copyToWait;
+        CancellationTokenSource? waitToCancel;
+        IrisException? cancellationFailure = null;
         lock (_syncRoot)
         {
             copyToWait = _activeCopyTask;
+            waitToCancel = _activeWaitCts;
+        }
+        if (waitToCancel != null)
+        {
+            try { await waitToCancel.CancelAsync().ConfigureAwait(false); }
+            catch (ObjectDisposedException)
+            {
+                lock (_syncRoot) { if (ReferenceEquals(_activeWaitCts, waitToCancel)) throw; }
+            }
+            catch (Exception ex)
+            {
+                cancellationFailure = new IrisException(ErrorCode.CaptureFailed, $"COPY_CANCEL_CALLBACK_FAILED hr=0x{ex.HResult:X8}");
+            }
         }
 
         if (copyToWait != null)
@@ -410,6 +448,7 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
         {
             if (_pendingReleaseKeys.Count == 0)
             {
+                if (cancellationFailure != null) throw cancellationFailure;
                 return;
             }
 
@@ -424,6 +463,7 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
         {
             await cleanupTask.ConfigureAwait(false);
         }
+        if (cancellationFailure != null) throw cancellationFailure;
     }
 
     private async Task ExecuteCleanupCoreAsync()

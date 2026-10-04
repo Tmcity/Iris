@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.32 · 2026-10-05 · 状态：**已冻结（首期）**
+> 版本：v1.33 · 2026-10-05 · 状态：**已冻结（首期）**
+> 变更记录：v1.33（T-022C1/R1 通过，签发 T-022C2）— SELECTION_READING.md 固定复制安全焦点、等待后准备、候选版本/来源与条件恢复、组合读取和 App 退出。CCR-017 仅同步选区端口注释与结果安全 ToString，字段/签名/默认配置不变；T-023 才开放入口。
 > 变更记录：v1.32（T-022B/R6 通过，签发 T-022C1）— CLIPBOARD_SNAPSHOTS.md 固定内部多格式快照、版本条件清空/恢复与原生线程/资源生命周期；C 拆为 C1 底座和 C2 复制安全/组合/退出接线，完整划词范围不缩减。公开 Core 契约、默认配置与包版本不变。
 > 变更记录：v1.31（T-021/R2 通过，签发 T-022B）— UIA_SELECTION_READING.md 定稿按需隔离 UIA 宿主、无窗口 MTA、有限文本/协议预算、父端超时与真实进程退出。T-022 拆 B（UIA）和 C（剪贴板事务/组合），新增 Iris.UiaHost 及 App 的仅构建/部署依赖；公开 Core 契约与默认设置不变。
 > 变更记录：v1.30（T-020/B-R4 通过，签发 T-021）— KEYBOARD_SIMULATION.md 定稿内部 KeyboardSimulator、单事件输入确认、目标复核、起始释放等待、失败 KeyUp 责任及停止；超时不再强行释放用户按住的键。公开契约/默认配置不变，A08 选区读取与剪贴板恢复仍由 T-022 定稿。
@@ -798,14 +799,7 @@ data: {"type":"message_stop"}
 
 **UIAutomation**：按 UIA_SELECTION_READING.md / T-022B 由按需隔离宿主的无窗口 MTA 执行 FocusedElement → TextPattern2/1 → GetSelection → 有界 GetText。最多 32 ranges、65,536 UTF-16 code units；禁止以 DocumentRange/Name/Value 代替选区。父端启动/Ready 预算 1500ms，Ready 后 UIA 请求预算 300ms，取消/超时需终止并等待自有宿主真实退出；不再以 Task.Run(...).WaitAsync(300ms) 冒充底层调用已结束。Sensitive/TooLong/TargetChanged 等结果不应盲目降级成键盘复制，T-022C 再定稿组合规则。
 
-**剪贴板兜底旧组合草案**（以下在 C2 定稿前不直接实施；C1 原生底座以 CLIPBOARD_SNAPSHOTS.md 为准，禁止无条件恢复）：
-1. 前台进程在 `ClipboardUnsafeProcesses` 中 → 跳过（**在终端里 Ctrl+C 是中断信号，会杀掉用户正在运行的程序**）。
-2. 按 KEYBOARD_SIMULATION.md 等待左右 Ctrl/Alt/Shift/Win 及 C 释放，10 ms 轮询、最多 500 ms；超时返回 NotReady，不发送 Ctrl+C，也不补发用户起始仍按住键的 KeyUp。防止叠加 Alt 变成 Ctrl+Alt+C；本次可由 UIA 取得选区或按上层无结果策略处理。只有本次实际注入产生的释放责任才允许补偿。
-3. 快照剪贴板：枚举格式（`EnumClipboardFormats`），保存 `CF_UNICODETEXT`、`CF_HDROP`、`CF_DIB`、`HTML Format`、`Rich Text Format` 的数据；其余格式不保证恢复（这是已知限制）。
-4. 记录 `seq0 = GetClipboardSequenceNumber()` → `SendInput`（Ctrl 按下、C 按下、C 抬起、Ctrl 抬起）。
-5. 每 15 ms 轮询一次，直到序列号 ≠ seq0 或超过 `ClipboardTimeoutMs`；序列号变化后再等 20 ms（部分应用分多次写入剪贴板）。
-6. 读取 `CF_UNICODETEXT`；`RestoreClipboard` 时写回快照。
-7. 序列号没有变化 → 视为“没有选中文本”，返回 null（不要读取旧的剪贴板内容）。
+**剪贴板与组合读取**：以 SELECTION_READING.md / CCR-017 为准。一个来源/操作上下文按 Order 尝试 UIA/Clipboard；敏感、来源变化、超限与清理失败不盲目降级。Clipboard 需进程排除和原生安全焦点许可，先等修饰键再执行一次性快照/条件清空准备，准备后及 C down 前再次确认焦点。自身 Clear 的版本不是复制响应；观察来源/稳定窗口后按 expectedVersion 条件读取有界文本，最后按版本条件恢复，外部变化零覆盖。Stop 等待按键、UIA、快照恢复及 C1 原生线程后再释放 App 根资源。未知自定义控件仍可使用 UIA；不承诺任意应用 Ctrl+C 安全、严格按键因果证明或同步 GetClipboardData 硬终止。T-023 才接 Handler/UI，T-024 才接鼠标入口。
 
 ### 10.4.1 剪贴板基础服务（T-021A）
 

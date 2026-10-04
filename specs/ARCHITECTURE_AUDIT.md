@@ -146,6 +146,8 @@ Changed 回调只入队更新，不在设置写锁内执行耗时的 Provider �
 
 **2026-10-05 进度**：T-022B / 43fcf47（R6）已验收，隔离 UIA 与实际退出分支完成。A08 整体仍开放：CLIPBOARD_SNAPSHOTS.md / T-022C1 已定稿原生有界快照和同一 Open 帧内的版本条件清空/恢复；T-022C2 再定稿复制候选、终端/焦点安全、组合读取和退出。owner/sequence 不提供按键因果证明，不把本底座的条件比较冒称跨进程通用事务隔离。
 
+**C2 签发更新**：C1/R1 / 8c68a4d 已验收。SELECTION_READING.md / ARCH v1.33 已定稿复制许可、按键释放后的准备回调、候选归属/条件文本/恢复与正常退出，CCR-017 同步公共语义和结果隐私。A08 仍待 C2 实施复审与后续真实应用验收；既有系统输入/同来源并发复制的不可原子识别限制保持明示。
+
 **依据**：ARCH §10.4；ISelectionTextReader/ActionContext；GetClipboardSequenceNumber 官方说明；UIA 线程官方建议。
 
 **契约反例**：

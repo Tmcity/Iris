@@ -34,6 +34,10 @@ public static class PlatformWindowsServiceCollectionExtensions
         services.TryAddSingleton<ITargetWindowValidator>(RealTargetWindowValidator.Instance);
         services.TryAddSingleton<IUiaProcessRunner>(RealUiaProcessRunner.Instance);
         services.TryAddSingleton<UiaSelectionReader>();
+        services.TryAddSingleton<ICopySafetyNative>(NativeCopySafetyAdapter.Instance);
+        services.TryAddSingleton<CopySafetyPolicy>();
+        services.TryAddSingleton<CompositeSelectionReader>();
+        services.TryAddSingleton<ISelectionTextReader>(provider => provider.GetRequiredService<CompositeSelectionReader>());
         return services;
     }
 }

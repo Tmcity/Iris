@@ -812,3 +812,19 @@ App internal 录入控制器与 HotkeyCoordinator 暂停 lease 负责先撤销 I
 不修改既有 IHotkeyService、IActionDispatcher、ISettingsEditCoordinator 签名，不新增 ErrorCode、JSON 字段或默认绑定。Core 只同步 DTO/端口声明，业务由 T-020B 实施；自动化用 fake native，不安装真实全局键盘 hook/注册用户键/发按键。真实 Windows 保留组合、IME 与物理输入未执行时明确未验证。
 
 声明同步后执行 `dotnet test tests/Iris.ArchitectureTests/Iris.ArchitectureTests.csproj -c Release`：总计 8、成功 8、失败 0、跳过 0，持续时间 1s 728ms。仅证明契约文件一致及现有架构约束保持，不是捕获实现或 UI 验收。
+
+## CCR-017：选区读取的安全结果说明与 ToString
+
+| 字段 | 内容 |
+|---|---|
+| 日期 / 批准 | 2026-10-05，Codex 架构师 |
+| 关联 | T-022C2；SELECTION_READING.md；ARCH v1.33 |
+| 状态 | **已落地待复审（T-022C2）** |
+
+原 ISelectionTextReader 注释“全部失败返回 null”不能覆盖已定稿的清理失败责任；旧快照/清空/复制/恢复概述也缺少来源、焦点和条件恢复限定。同步 specs/CONTRACTS.cs 与 src/Iris.Core/Platform/ISelectionTextReader.cs 的注释：普通无结果为 null，取消等待真实收尾，清理失败/忙/超限等用安全异常，fallback 不绕过敏感/未知焦点，response budget 不冒充任意 native 调用硬终止。
+
+SelectionReadResult 字段、构造、相等性、解构以及 ISelectionTextReader 方法签名不变；增加安全 ToString override，仅打印 Method，防止默认 record 格式输出 Text 与 SourceApp.WindowTitle。SelectionSettings/JSON/default ReadOrder、RestoreClipboard、ClipboardTimeoutMs 不变；不新增 Core 停止接口或 ErrorCode。
+
+架构师已同步上述两份声明与格式化实现；组合读取、keyboard 内部准备/guard、条件文本读取和 App 退出由 C2 工单实施。该声明同步不等于完整选区业务已验收，真实输入/用户剪贴板仍不得用于自动化验证。
+
+声明同步后独立执行 dotnet test tests/Iris.ArchitectureTests/Iris.ArchitectureTests.csproj -c Release：10 项成功，0 失败/跳过，持续 1s 740ms；日志 iris-t022c2-contract-check.log。独立 Core DTO 探针实际输出 `CCR017 safeToString=True fieldsAndDeconstructionPreserved=True`，位于系统临时目录 iris-t022c2-contract-review/result.log。仅证明声明编译/依赖规则与格式化、字段解构保持，不是 C2 业务实现验收。
