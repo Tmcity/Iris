@@ -415,10 +415,12 @@ internal sealed class TrackedDisposable : IDisposable
 {
     public int DisposeCallCount { get; private set; }
     public Exception? ThrowOnDispose { get; set; }
+    public Action? OnDispose { get; set; }
 
     public void Dispose()
     {
         DisposeCallCount++;
+        OnDispose?.Invoke();
         if (ThrowOnDispose != null) throw ThrowOnDispose;
     }
 }
@@ -438,6 +440,8 @@ internal sealed class FakeProcessAdapter : IProcessAdapter
     public Exception? ThrowOnWaitForExit { get; set; }
     public Exception? ThrowOnKill { get; set; }
     public Exception? ThrowOnDispose { get; set; }
+    public Stream? StandardErrorOverride { get; set; }
+    public Action? OnWaitForExit { get; set; }
 
     public int StartCallCount { get; private set; }
     public int KillCallCount { get; private set; }
@@ -446,7 +450,7 @@ internal sealed class FakeProcessAdapter : IProcessAdapter
 
     public Stream StandardInput => _stdinPipe.Writer.AsStream();
     public Stream StandardOutput => _stdoutPipe.Reader.AsStream();
-    public Stream StandardError => _stderrPipe.Reader.AsStream();
+    public Stream StandardError => StandardErrorOverride ?? _stderrPipe.Reader.AsStream();
 
     public Stream TestStdinReader => _stdinPipe.Reader.AsStream();
     public Stream TestStdoutWriter => _stdoutPipe.Writer.AsStream();
@@ -481,6 +485,7 @@ internal sealed class FakeProcessAdapter : IProcessAdapter
     public void SignalExit()
     {
         HasExited = true;
+        StandardErrorOverride?.Close();
         _stdoutPipe.Writer.Complete();
         _stdinPipe.Writer.Complete();
         _stderrPipe.Writer.Complete();
@@ -501,6 +506,7 @@ internal sealed class FakeProcessAdapter : IProcessAdapter
     {
         KillCallCount++;
         if (ThrowOnKill != null) throw ThrowOnKill;
+        StandardErrorOverride?.Close();
         HasExited = true;
         ExitCode = -1;
         _stdoutPipe.Writer.Complete();
@@ -523,10 +529,10 @@ internal sealed class FakeProcessAdapter : IProcessAdapter
     public async Task WaitForExitAsync(CancellationToken cancellationToken)
     {
         WaitForExitCallCount++;
+        OnWaitForExit?.Invoke();
         if (ThrowOnWaitForExit != null) throw ThrowOnWaitForExit;
         if (!WaitForExitResult)
         {
-            await Task.Delay(50, cancellationToken).ConfigureAwait(false);
             throw new OperationCanceledException("Process exit wait timed out.", cancellationToken);
         }
         if (HasExited) return;
@@ -541,6 +547,7 @@ internal sealed class FakeProcessAdapter : IProcessAdapter
     public void Dispose()
     {
         DisposeCallCount++;
+        StandardErrorOverride?.Dispose();
         _stdoutPipe.Writer.Complete();
         _stdinPipe.Writer.Complete();
         _stderrPipe.Writer.Complete();
@@ -551,4 +558,3 @@ internal sealed class FakeProcessAdapter : IProcessAdapter
         if (ThrowOnDispose != null) throw ThrowOnDispose;
     }
 }
-
