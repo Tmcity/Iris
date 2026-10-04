@@ -47,40 +47,49 @@ internal sealed class RealUiaProcessRunner : IUiaProcessRunner
             throw new InvalidOperationException("Failed to start Iris.UiaHost process.");
         }
 
-        // 持续在后台排空 stderr，上限至多 4KiB 诊断预算，不回显内容
-        var stderrDrainTask = Task.Run(async () =>
+        try
         {
-            try
+            // 持续在后台排空 stderr，上限至多 4KiB 诊断预算，不回显内容
+            var stderrDrainTask = Task.Run(async () =>
             {
-                var buffer = new byte[512];
-                int totalRead = 0;
-                var stream = process.StandardError.BaseStream;
-                while (true)
+                try
                 {
-                    int toRead = Math.Min(buffer.Length, UiaProtocolConstants.MaxStderrDrainBytes - totalRead);
-                    if (toRead <= 0)
+                    var buffer = new byte[512];
+                    int totalRead = 0;
+                    var stream = process.StandardError.BaseStream;
+                    while (true)
                     {
-                        // 超过 4KiB 预算后继续排空但不保留
-                        while (await stream.ReadAsync(buffer, CancellationToken.None).ConfigureAwait(false) > 0) { }
-                        break;
+                        int toRead = Math.Min(buffer.Length, UiaProtocolConstants.MaxStderrDrainBytes - totalRead);
+                        if (toRead <= 0)
+                        {
+                            // 超过 4KiB 预算后继续排空但不保留
+                            while (await stream.ReadAsync(buffer, CancellationToken.None).ConfigureAwait(false) > 0) { }
+                            break;
+                        }
+
+                        int read = await stream.ReadAsync(buffer.AsMemory(0, toRead), CancellationToken.None).ConfigureAwait(false);
+                        if (read <= 0) break;
+                        totalRead += read;
                     }
-
-                    int read = await stream.ReadAsync(buffer.AsMemory(0, toRead), CancellationToken.None).ConfigureAwait(false);
-                    if (read <= 0) break;
-                    totalRead += read;
                 }
-            }
-            catch (IOException)
-            {
-                // Pipe broken / closed
-            }
-            catch (ObjectDisposedException)
-            {
-                // Stream disposed
-            }
-        }, CancellationToken.None);
+                catch (IOException)
+                {
+                    // Pipe broken / closed
+                }
+                catch (ObjectDisposedException)
+                {
+                    // Stream disposed
+                }
+            }, CancellationToken.None);
 
-        return Task.FromResult<IUiaProcessSession>(new RealUiaProcessSession(process, stderrDrainTask));
+            return Task.FromResult<IUiaProcessSession>(new RealUiaProcessSession(process, stderrDrainTask));
+        }
+        catch
+        {
+            try { process.Kill(); } catch { }
+            try { process.Dispose(); } catch { }
+            throw;
+        }
     }
 }
 
@@ -88,7 +97,12 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
 {
     private readonly Process _process;
     private readonly Task _stderrDrainTask;
-    private int _disposed;
+    private readonly object _disposeGate = new();
+    private Task? _disposeTask;
+    private bool _stdinDisposed;
+    private bool _stdoutDisposed;
+    private bool _stderrDrained;
+    private bool _processDisposed;
     private bool _hasExited;
     private int _exitCode = -1;
 
@@ -107,18 +121,8 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
         _hasExited = true;
         _exitCode = _process.ExitCode;
 
-        try
-        {
-            await _stderrDrainTask.WaitAsync(cancellationToken).ConfigureAwait(false);
-        }
-        catch (OperationCanceledException)
-        {
-            throw;
-        }
-        catch
-        {
-            // ignore stderr task errors during normal exit
-        }
+        await _stderrDrainTask.WaitAsync(cancellationToken).ConfigureAwait(false);
+        _stderrDrained = true;
     }
 
     public bool HasExited
@@ -173,52 +177,112 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
         }
     }
 
-    public async ValueTask DisposeAsync()
+    public ValueTask DisposeAsync()
     {
-        if (Interlocked.Exchange(ref _disposed, 1) != 0)
+        Task task;
+        lock (_disposeGate)
         {
-            return;
-        }
-
-        try
-        {
-            if (!_hasExited && _process.HasExited)
+            if (_disposeTask != null)
             {
-                _hasExited = true;
-                _exitCode = _process.ExitCode;
+                task = _disposeTask;
+            }
+            else
+            {
+                task = DoDisposeAsyncCore();
+                _disposeTask = task;
             }
         }
-        catch
+        return new ValueTask(task);
+    }
+
+    private async Task DoDisposeAsyncCore()
+    {
+        List<Exception>? exceptions = null;
+
+        if (!_stdinDisposed)
         {
-            // ignore
+            try
+            {
+                _process.StandardInput.Dispose();
+                _stdinDisposed = true;
+            }
+            catch (ObjectDisposedException)
+            {
+                _stdinDisposed = true;
+            }
+            catch (Exception ex)
+            {
+                (exceptions ??= new()).Add(ex);
+            }
         }
 
-        try
+        if (!_stdoutDisposed)
         {
-            _process.StandardInput.Dispose();
-            _process.StandardOutput.Dispose();
-        }
-        catch
-        {
-            // ignore
-        }
-
-        try
-        {
-            await _stderrDrainTask.ConfigureAwait(false);
-        }
-        catch
-        {
-            // ignore
+            try
+            {
+                _process.StandardOutput.Dispose();
+                _stdoutDisposed = true;
+            }
+            catch (ObjectDisposedException)
+            {
+                _stdoutDisposed = true;
+            }
+            catch (Exception ex)
+            {
+                (exceptions ??= new()).Add(ex);
+            }
         }
 
-        try
+        if (!_stderrDrained)
         {
-            _process.Dispose();
+            try
+            {
+                await _stderrDrainTask.ConfigureAwait(false);
+                _stderrDrained = true;
+            }
+            catch (Exception ex)
+            {
+                (exceptions ??= new()).Add(ex);
+            }
         }
-        catch
+
+        if (!_processDisposed)
         {
-            // ignore
+            try
+            {
+                if (!_hasExited && _process.HasExited)
+                {
+                    _hasExited = true;
+                    _exitCode = _process.ExitCode;
+                }
+            }
+            catch (Exception ex)
+            {
+                (exceptions ??= new()).Add(ex);
+            }
+
+            try
+            {
+                _process.Dispose();
+                _processDisposed = true;
+            }
+            catch (ObjectDisposedException)
+            {
+                _processDisposed = true;
+            }
+            catch (Exception ex)
+            {
+                (exceptions ??= new()).Add(ex);
+            }
+        }
+
+        if (exceptions != null && exceptions.Count > 0)
+        {
+            lock (_disposeGate)
+            {
+                _disposeTask = null; // 允许重试未完成的释放阶段
+            }
+            throw new AggregateException("Failed to dispose one or more process session resources.", exceptions);
         }
     }
 }

@@ -29,16 +29,7 @@ internal sealed record UiaSelectionResult
     public static string? SanitizeErrorCode(string? rawCode)
     {
         if (string.IsNullOrEmpty(rawCode)) return null;
-        if (rawCode.Length > 32) return "INVALID_ERROR_CODE";
-        for (int i = 0; i < rawCode.Length; i++)
-        {
-            char c = rawCode[i];
-            if (!((c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == 'x' || (c >= 'a' && c <= 'f')))
-            {
-                return "INVALID_ERROR_CODE";
-            }
-        }
-        return rawCode;
+        return UiaProtocolCodec.IsValidErrorCode(rawCode) ? rawCode : "INVALID_ERROR_CODE";
     }
 
     public static UiaSelectionResult CreateSuccess(string requestId, string text)

@@ -285,6 +285,7 @@ public sealed class UiaSelectionReaderTests
     public void ReadAsync_WhenCalledFromStaThread_ExecutesTargetValidationAndProcessStartOffStaThread()
     {
         int callerThreadId = 0;
+        int targetValidationThreadId = 0;
         int startThreadId = 0;
         Exception? threadEx = null;
 
@@ -298,8 +299,10 @@ public sealed class UiaSelectionReaderTests
                 session.EnqueueReady();
 
                 _targetValidator.DefaultIsValid = true;
-                _targetValidator.Responses.Enqueue(true); // preflight
-                _targetValidator.Responses.Enqueue(true); // post-reply
+                _targetValidator.OnCall = (hwnd, pid) =>
+                {
+                    targetValidationThreadId = Environment.CurrentManagedThreadId;
+                };
 
                 _processRunner.StartAsyncFunc = ct =>
                 {
@@ -307,11 +310,11 @@ public sealed class UiaSelectionReaderTests
                     return Task.FromResult<IUiaProcessSession>(session);
                 };
 
-                var reader = CreateReader();
+                using var reader = CreateReader();
                 var readTask = reader.ReadAsync(0x1000, 4242, CancellationToken.None);
 
                 // Drain request on background
-                Task.Run(async () =>
+                var drainTask = Task.Run(async () =>
                 {
                     var reqLine = await UiaProtocolFrameReader.ReadLineWithLimitAsync(session.TestStdinReader, UiaProtocolConstants.MaxFrameBytes, CancellationToken.None);
                     var req = UiaProtocolCodec.DeserializeRequest(reqLine!);
@@ -327,6 +330,8 @@ public sealed class UiaSelectionReaderTests
                 });
 
                 var result = readTask.GetAwaiter().GetResult();
+                drainTask.GetAwaiter().GetResult();
+
                 result.Status.ShouldBe(UiaSelectionStatus.Success);
                 result.Text.ShouldBe("STA Safe Text");
             }
@@ -338,12 +343,68 @@ public sealed class UiaSelectionReaderTests
 
         thread.SetApartmentState(ApartmentState.STA);
         thread.Start();
-        thread.Join();
+        thread.Join(TimeSpan.FromSeconds(5)).ShouldBeTrue();
 
         if (threadEx != null) throw threadEx;
 
+        targetValidationThreadId.ShouldNotBe(0);
+        targetValidationThreadId.ShouldNotBe(callerThreadId);
         startThreadId.ShouldNotBe(0);
         startThreadId.ShouldNotBe(callerThreadId);
+    }
+
+    [Fact]
+    public void StopAsync_And_RetryCleanupAsync_WhenCalledFromStaThread_ExecuteOffStaThread()
+    {
+        int callerThreadId = 0;
+        int retryThreadId = 0;
+        Exception? threadEx = null;
+
+        var thread = new Thread(() =>
+        {
+            try
+            {
+                callerThreadId = Environment.CurrentManagedThreadId;
+                var session = new FakeUiaProcessSession { RefuseToExit = true };
+                _processRunner.Session = session;
+                using var reader = CreateReader();
+
+                // Start a read that fails cleanup to retain a failed coordinator
+                var readTask = reader.ReadAsync(0x1000, 4242, CancellationToken.None);
+                session.StdoutReadStarted.Task.Wait(TimeSpan.FromSeconds(2));
+                _timeProvider.Advance(TimeSpan.FromMilliseconds(1600)); // Ready timeout
+                session.WaitForExitStarted.Task.Wait(TimeSpan.FromSeconds(2));
+                _timeProvider.Advance(TimeSpan.FromMilliseconds(1100)); // Kill confirmation timeout
+
+                Should.Throw<IrisException>(() => readTask.GetAwaiter().GetResult());
+
+                // Hook OnKill on session to capture thread during Retry
+                session.RefuseToExit = false;
+                session.OnKill = () =>
+                {
+                    retryThreadId = Environment.CurrentManagedThreadId;
+                };
+
+                // RetryCleanupAsync from STA thread
+                reader.RetryCleanupAsync(CancellationToken.None).GetAwaiter().GetResult();
+
+                // StopAsync from STA thread
+                reader.StopAsync(CancellationToken.None).GetAwaiter().GetResult();
+            }
+            catch (Exception ex)
+            {
+                threadEx = ex;
+            }
+        });
+
+        thread.SetApartmentState(ApartmentState.STA);
+        thread.Start();
+        thread.Join(TimeSpan.FromSeconds(5)).ShouldBeTrue();
+
+        if (threadEx != null) throw threadEx;
+
+        retryThreadId.ShouldNotBe(0);
+        retryThreadId.ShouldNotBe(callerThreadId);
     }
 
     [Fact]
@@ -369,18 +430,24 @@ public sealed class UiaSelectionReaderTests
         // Advance time past 1500ms Ready budget while StartAsync is still in-flight
         _timeProvider.Advance(TimeSpan.FromMilliseconds(1600));
 
-        var result = await readTask;
+        // Start is still in-flight: readTask must NOT complete prematurely
+        readTask.IsCompleted.ShouldBeFalse();
 
-        result.Status.ShouldBe(UiaSelectionStatus.TimedOut);
+        // While delayed start is in-flight, reader holds responsibility and rejects concurrent read with Busy
+        var busyResult = await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken);
+        busyResult.Status.ShouldBe(UiaSelectionStatus.Busy);
 
         // Later, the delayed child process finishes starting
         startTcs.SetResult(session);
 
-        // Await the asynchronous cleanup task to reach exit wait
-        await session.WaitForExitStarted.Task.WaitAsync(TestContext.Current.CancellationToken);
+        // Await the readTask which completes physical cleanup and returns TimedOut
+        var result = await readTask;
 
-        // Ensure delayed child session is cleaned up
+        result.Status.ShouldBe(UiaSelectionStatus.TimedOut);
+
+        // Ensure delayed child session is killed and disposed
         session.KillCalled.ShouldBeTrue();
+        session.Disposed.ShouldBeTrue();
     }
 
     [Fact]
@@ -405,16 +472,21 @@ public sealed class UiaSelectionReaderTests
 
         var firstTask = Task.Run(async () => await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken), TestContext.Current.CancellationToken);
 
-        await firstCallEnteredPreflight.Task.WaitAsync(TestContext.Current.CancellationToken);
+        try
+        {
+            await firstCallEnteredPreflight.Task.WaitAsync(TestContext.Current.CancellationToken);
 
-        // Second call while first call is in preflight
-        var secondResult = await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken);
+            // Second call while first call is in preflight
+            var secondResult = await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken);
 
-        secondResult.Status.ShouldBe(UiaSelectionStatus.Busy);
-        secondResult.Text.ShouldBeNull();
-
-        // Release first call preflight
-        releasePreflight.Set();
+            secondResult.Status.ShouldBe(UiaSelectionStatus.Busy);
+            secondResult.Text.ShouldBeNull();
+        }
+        finally
+        {
+            // Always release preflight gate before reader disposal / stop to prevent deadlock
+            releasePreflight.Set();
+        }
 
         // Wait until first call starts reading stdout
         await session.StdoutReadStarted.Task.WaitAsync(TestContext.Current.CancellationToken);
@@ -458,6 +530,8 @@ public sealed class UiaSelectionReaderTests
         cts.Cancel();
 
         await Should.ThrowAsync<OperationCanceledException>(async () => await readTask);
+        session.KillCalled.ShouldBeTrue();
+        session.ExitCode.ShouldBe(-1);
     }
 
     [Fact]
@@ -491,6 +565,8 @@ public sealed class UiaSelectionReaderTests
 
         await Should.ThrowAsync<OperationCanceledException>(async () => await readTask);
         await stopTask;
+        session.KillCalled.ShouldBeTrue();
+        session.ExitCode.ShouldBe(-1);
     }
 
     [Fact]

@@ -28,7 +28,7 @@ internal static class UiaSelectionWorker
             UiaReplyFrame reply;
             try
             {
-                reply = ReadSelectionCore(request, adapter, ref session, ref focused, ref pattern, ref ranges);
+                reply = ReadSelectionCore(request, adapter, ref session, ref focused, ref pattern, ref ranges, ref disposalFailed);
             }
             catch (InvalidOperationException ex) when (ex.Message == "RANGE_COUNT_EXCEEDED")
             {
@@ -114,7 +114,8 @@ internal static class UiaSelectionWorker
         ref IUiaAutomationSession? session,
         ref IUiaElement? focused,
         ref IUiaTextPattern? pattern,
-        ref IReadOnlyList<IUiaTextRange>? ranges)
+        ref IReadOnlyList<IUiaTextRange>? ranges,
+        ref bool disposalFailed)
     {
         // 1. 验证预期前台 HWND/PID
         var fgHwnd = adapter.GetForegroundWindow();
@@ -156,7 +157,7 @@ internal static class UiaSelectionWorker
         }
 
         // 4. 验证 FocusedElement 所属来源
-        if (!IsElementFromExpectedSource(focused, (nint)request.Hwnd, request.ProcessId, adapter))
+        if (!IsElementFromExpectedSource(focused, (nint)request.Hwnd, request.ProcessId, adapter, ref disposalFailed))
         {
             return new UiaReplyFrame
             {
@@ -223,25 +224,19 @@ internal static class UiaSelectionWorker
         for (int i = 0; i < ranges.Count; i++)
         {
             int delimiterCost = isFirstNonEmpty ? 0 : 1;
-            int remainingForText = UiaProtocolConstants.MaxTextUnits - totalUnits - delimiterCost;
-            if (remainingForText <= 0)
-            {
-                return new UiaReplyFrame
-                {
-                    ProtocolVersion = UiaProtocolConstants.CurrentVersion,
-                    RequestId = request.RequestId,
-                    Status = UiaSelectionStatus.TooLong,
-                    ErrorCode = "LENGTH_EXCEEDED"
-                };
-            }
+            int availableIfNonEmpty = UiaProtocolConstants.MaxTextUnits - totalUnits - delimiterCost;
 
-            var text = ranges[i].GetText(remainingForText + 1);
+            // 有界预读：空 range 不消耗分隔符预算
+            int queryLimit = availableIfNonEmpty > 0 ? availableIfNonEmpty + 1 : 1;
+            var text = ranges[i].GetText(queryLimit);
+
             if (string.IsNullOrEmpty(text))
             {
+                // 空 range 不消耗分隔符预算与文本预算
                 continue;
             }
 
-            if (text.Length > remainingForText)
+            if (availableIfNonEmpty < 0 || text.Length > availableIfNonEmpty)
             {
                 return new UiaReplyFrame
                 {
@@ -311,7 +306,12 @@ internal static class UiaSelectionWorker
         };
     }
 
-    private static bool IsElementFromExpectedSource(IUiaElement element, nint expectedHwnd, uint expectedPid, INativeUiaAdapter adapter)
+    private static bool IsElementFromExpectedSource(
+        IUiaElement element,
+        nint expectedHwnd,
+        uint expectedPid,
+        INativeUiaAdapter adapter,
+        ref bool disposalFailed)
     {
         // 进程 ID 必须匹配
         if (element.ProcessId != expectedPid)
@@ -353,7 +353,14 @@ internal static class UiaSelectionWorker
         {
             foreach (var a in ancestors)
             {
-                a.Dispose();
+                try
+                {
+                    a.Dispose();
+                }
+                catch
+                {
+                    disposalFailed = true;
+                }
             }
         }
     }

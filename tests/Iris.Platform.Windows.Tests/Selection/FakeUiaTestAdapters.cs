@@ -254,14 +254,33 @@ internal sealed class FakeUiaProcessSession : IUiaProcessSession
             return;
         }
 
-        await _exitGate.WaitAsync(cancellationToken).ConfigureAwait(false);
+        if (WaitForExitFunc != null)
+        {
+            await WaitForExitFunc(cancellationToken).ConfigureAwait(false);
+            return;
+        }
+
+        try
+        {
+            await _exitGate.WaitAsync(cancellationToken).ConfigureAwait(false);
+        }
+        catch (ObjectDisposedException)
+        {
+            // Gate already disposed
+        }
         HasExited = true;
         _stdoutPipe.Writer.Complete();
     }
 
+    public Func<CancellationToken, Task>? WaitForExitFunc { get; set; }
+    public Action? OnKill { get; set; }
+    public Action? OnDispose { get; set; }
+
     public void Kill()
     {
         KillCalled = true;
+        ExitCode = -1; // Terminated by kill gives non-zero exit code -1 like real Windows Process.Kill
+        OnKill?.Invoke();
         if (ThrowOnKillException != null)
         {
             throw ThrowOnKillException;
@@ -271,9 +290,16 @@ internal sealed class FakeUiaProcessSession : IUiaProcessSession
             HasExited = true;
             _stdoutPipe.Writer.Complete();
             _stdinPipe.Writer.Complete();
-            if (_exitGate.CurrentCount == 0)
+            try
             {
-                _exitGate.Release();
+                if (_exitGate.CurrentCount == 0)
+                {
+                    _exitGate.Release();
+                }
+            }
+            catch (ObjectDisposedException)
+            {
+                // Gate already disposed
             }
         }
     }
@@ -281,11 +307,19 @@ internal sealed class FakeUiaProcessSession : IUiaProcessSession
     public ValueTask DisposeAsync()
     {
         Disposed = true;
+        OnDispose?.Invoke();
         _stdoutPipe.Writer.Complete();
         _stdinPipe.Writer.Complete();
         _stdoutPipe.Reader.Complete();
         _stdinPipe.Reader.Complete();
-        _exitGate.Dispose();
+        try
+        {
+            _exitGate.Dispose();
+        }
+        catch (ObjectDisposedException)
+        {
+            // Gate already disposed
+        }
         return ValueTask.CompletedTask;
     }
 

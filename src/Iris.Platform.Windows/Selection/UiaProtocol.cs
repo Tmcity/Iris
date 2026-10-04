@@ -233,7 +233,18 @@ internal static class UiaProtocolCodec
                 return null;
             }
             var statusStr = statusProp.GetString();
-            if (!Enum.TryParse<UiaSelectionStatus>(statusStr, ignoreCase: false, out var status))
+            UiaSelectionStatus status = statusStr switch
+            {
+                "Success" => UiaSelectionStatus.Success,
+                "Empty" => UiaSelectionStatus.Empty,
+                "Unsupported" => UiaSelectionStatus.Unsupported,
+                "Sensitive" => UiaSelectionStatus.Sensitive,
+                "TooLong" => UiaSelectionStatus.TooLong,
+                "TargetChanged" => UiaSelectionStatus.TargetChanged,
+                "Failed" => UiaSelectionStatus.Failed,
+                _ => (UiaSelectionStatus)(-1)
+            };
+            if ((int)status == -1)
             {
                 return null;
             }
@@ -310,10 +321,37 @@ internal static class UiaProtocolCodec
     public static bool IsValidErrorCode(string code)
     {
         if (string.IsNullOrEmpty(code) || code.Length > 32) return false;
+
+        if (code.StartsWith("COM_0x", StringComparison.Ordinal) && code.Length == 14)
+        {
+            for (int i = 6; i < 14; i++)
+            {
+                char c = code[i];
+                if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f')))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        if (code.StartsWith("0x", StringComparison.Ordinal) && code.Length == 10)
+        {
+            for (int i = 2; i < 10; i++)
+            {
+                char c = code[i];
+                if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f')))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         for (int i = 0; i < code.Length; i++)
         {
             char c = code[i];
-            if (!((c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_' || c == 'x' || (c >= 'a' && c <= 'f')))
+            if (!((c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_'))
             {
                 return false;
             }
@@ -347,7 +385,7 @@ internal static class UiaProtocolFrameReader
             {
                 read = await stream.ReadAsync(buffer.AsMemory(0, 1), ct).ConfigureAwait(false);
             }
-            catch (IOException) when (IsCleanEof(ms))
+            catch (IOException ex) when (IsCleanEof(ms) && IsPipeClosedException(ex))
             {
                 return null;
             }
@@ -396,7 +434,7 @@ internal static class UiaProtocolFrameReader
             {
                 b = stream.ReadByte();
             }
-            catch (IOException) when (IsCleanEof(ms))
+            catch (IOException ex) when (IsCleanEof(ms) && IsPipeClosedException(ex))
             {
                 return null;
             }
@@ -430,6 +468,13 @@ internal static class UiaProtocolFrameReader
         }
 
         return DecodeFrameBytes(ms);
+    }
+
+    public static bool IsPipeClosedException(IOException ex)
+    {
+        const int ERROR_BROKEN_PIPE = unchecked((int)0x8007006D);
+        const int ERROR_PIPE_NOT_CONNECTED = unchecked((int)0x800700E8);
+        return ex.HResult == ERROR_BROKEN_PIPE || ex.HResult == ERROR_PIPE_NOT_CONNECTED;
     }
 
     private static bool IsCleanEof(MemoryStream ms)

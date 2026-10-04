@@ -68,3 +68,6 @@ CLSCTX
 UIA_PATTERN_ID
 UIA_PROPERTY_ID
 SupportedTextSelection
+CoInitializeEx
+CoUninitialize
+COINIT

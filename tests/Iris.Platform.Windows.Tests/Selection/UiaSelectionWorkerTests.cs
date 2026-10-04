@@ -480,4 +480,92 @@ public sealed class UiaSelectionWorkerTests
             reply.Text.ShouldBe("First Line\n   \nSecond Line");
         });
     }
+
+    [Fact]
+    public void Execute_WhenTextReaches65535_FollowedByEmptyRange_DoesNotFailTooLong()
+    {
+        RunOnMta(() =>
+        {
+            var r1 = new FakeUiaTextRange(new string('A', 65535));
+            var r2 = new FakeUiaTextRange(""); // empty range: must not consume delimiter or trigger TooLong
+
+            var element = new FakeUiaElement
+            {
+                ProcessId = 4242,
+                NativeWindowHandle = 0x1000,
+                TextPattern = new FakeUiaTextPattern { Ranges = [r1, r2] }
+            };
+            _adapter.Session.FocusedElement = element;
+
+            var reply = UiaSelectionWorker.Execute(_validRequest, _adapter);
+
+            reply.Status.ShouldBe(UiaSelectionStatus.Success);
+            reply.Text.ShouldBe(new string('A', 65535));
+        });
+    }
+
+    [Fact]
+    public void Execute_WhenTextReaches65536_FollowedByEmptyRange_DoesNotFailTooLong()
+    {
+        RunOnMta(() =>
+        {
+            var r1 = new FakeUiaTextRange(new string('B', 65536));
+            var r2 = new FakeUiaTextRange(""); // empty range: must not trigger TooLong
+
+            var element = new FakeUiaElement
+            {
+                ProcessId = 4242,
+                NativeWindowHandle = 0x1000,
+                TextPattern = new FakeUiaTextPattern { Ranges = [r1, r2] }
+            };
+            _adapter.Session.FocusedElement = element;
+
+            var reply = UiaSelectionWorker.Execute(_validRequest, _adapter);
+
+            reply.Status.ShouldBe(UiaSelectionStatus.Success);
+            reply.Text.ShouldBe(new string('B', 65536));
+        });
+    }
+
+    [Fact]
+    public void Execute_WhenAncestorDisposalFails_DisposesRemainingAncestors_AndReturnsComCleanupFailed()
+    {
+        RunOnMta(() =>
+        {
+            var ancestor2 = new FakeUiaElement
+            {
+                ProcessId = 4242,
+                NativeWindowHandle = 0x1000,
+                Parent = null
+            };
+
+            var ancestor1 = new FakeUiaElement
+            {
+                ProcessId = 4242,
+                NativeWindowHandle = 0,
+                Parent = ancestor2,
+                ThrowOnDisposeException = Marshal.GetExceptionForHR(unchecked((int)0x80004005))
+            };
+
+            var virtualElement = new FakeUiaElement
+            {
+                ProcessId = 4242,
+                NativeWindowHandle = 0,
+                Parent = ancestor1,
+                TextPattern = new FakeUiaTextPattern { Ranges = [new FakeUiaTextRange("Some text")] }
+            };
+
+            _adapter.Session.FocusedElement = virtualElement;
+
+            var reply = UiaSelectionWorker.Execute(_validRequest, _adapter);
+
+            // Even though ancestor 1 threw during disposal, ancestor 2 MUST still be disposed!
+            ancestor2.IsDisposed.ShouldBeTrue();
+            ancestor1.IsDisposed.ShouldBeTrue();
+
+            // And disposal failure must be reported
+            reply.Status.ShouldBe(UiaSelectionStatus.Failed);
+            reply.ErrorCode.ShouldBe("COM_CLEANUP_FAILED");
+        });
+    }
 }

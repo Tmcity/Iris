@@ -57,6 +57,19 @@ internal sealed unsafe class RealNativeUiaAdapter : INativeUiaAdapter
 
     public IUiaAutomationSession CreateSession(int connectionTimeoutMs, int transactionTimeoutMs)
     {
+        if (Thread.CurrentThread.GetApartmentState() == ApartmentState.STA)
+        {
+            throw new InvalidOperationException("RealNativeUiaAdapter must be executed on an MTA thread.");
+        }
+
+        var hrCoInit = PInvoke.CoInitializeEx(null, COINIT.COINIT_MULTITHREADED);
+        if (hrCoInit.Failed && hrCoInit.Value != unchecked((int)0x80010106)) // RPC_E_CHANGED_MODE
+        {
+            hrCoInit.ThrowOnFailure();
+        }
+        bool coInitSucceeded = !hrCoInit.Failed;
+        int ownerThreadId = Environment.CurrentManagedThreadId;
+
         object? comObj = null;
 
         // 优先使用 CUIAutomation8 / IUIAutomation2 以便配置 300ms 事务与连接超时
@@ -78,9 +91,20 @@ internal sealed unsafe class RealNativeUiaAdapter : INativeUiaAdapter
         // 回退至 CUIAutomation / IUIAutomation
         if (comObj == null)
         {
-            Guid clsid = typeof(CUIAutomation).GUID;
-            Guid iid = typeof(IUIAutomation).GUID;
-            PInvoke.CoCreateInstance(&clsid, null, CLSCTX.CLSCTX_INPROC_SERVER, &iid, out comObj).ThrowOnFailure();
+            try
+            {
+                Guid clsid = typeof(CUIAutomation).GUID;
+                Guid iid = typeof(IUIAutomation).GUID;
+                PInvoke.CoCreateInstance(&clsid, null, CLSCTX.CLSCTX_INPROC_SERVER, &iid, out comObj).ThrowOnFailure();
+            }
+            catch
+            {
+                if (coInitSucceeded)
+                {
+                    try { PInvoke.CoUninitialize(); } catch { }
+                }
+                throw;
+            }
         }
 
         try
@@ -94,41 +118,49 @@ internal sealed unsafe class RealNativeUiaAdapter : INativeUiaAdapter
         catch
         {
             try { Marshal.ReleaseComObject(comObj); } catch { }
+            if (coInitSucceeded)
+            {
+                try { PInvoke.CoUninitialize(); } catch { }
+            }
             throw;
         }
 
-        return new RealUiaAutomationSession((IUIAutomation)comObj!);
+        return new RealUiaAutomationSession((IUIAutomation)comObj!, ownerThreadId, coInitSucceeded);
     }
 }
 
 internal sealed class RealUiaAutomationSession : IUiaAutomationSession
 {
     private readonly IUIAutomation _uia;
+    private readonly int _ownerThreadId;
+    private readonly bool _coInitSucceeded;
     private bool _disposed;
 
-    public RealUiaAutomationSession(IUIAutomation uia)
+    public RealUiaAutomationSession(IUIAutomation uia, int ownerThreadId = 0, bool coInitSucceeded = false)
     {
         _uia = uia ?? throw new ArgumentNullException(nameof(uia));
+        _ownerThreadId = ownerThreadId != 0 ? ownerThreadId : Environment.CurrentManagedThreadId;
+        _coInitSucceeded = coInitSucceeded;
     }
 
     public IUiaElement? GetFocusedElement()
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
-        try
-        {
-            var element = _uia.GetFocusedElement();
-            return element != null ? new RealUiaElement(element, _uia) : null;
-        }
-        catch (COMException)
-        {
-            return null;
-        }
+        var element = _uia.GetFocusedElement();
+        return element != null ? new RealUiaElement(element, _uia) : null;
     }
 
     public void Dispose()
     {
         if (_disposed) return;
         _disposed = true;
+
+        if (Environment.CurrentManagedThreadId != _ownerThreadId)
+        {
+            throw new InvalidOperationException("RealUiaAutomationSession must be disposed on the same thread it was created on.");
+        }
+
+        Exception? releaseEx = null;
         try
         {
             if (Marshal.IsComObject(_uia))
@@ -136,9 +168,26 @@ internal sealed class RealUiaAutomationSession : IUiaAutomationSession
                 Marshal.ReleaseComObject(_uia);
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // ignore
+            releaseEx = ex;
+        }
+
+        if (_coInitSucceeded)
+        {
+            try
+            {
+                PInvoke.CoUninitialize();
+            }
+            catch (Exception ex)
+            {
+                releaseEx ??= ex;
+            }
+        }
+
+        if (releaseEx != null)
+        {
+            throw releaseEx;
         }
     }
 }
@@ -169,7 +218,7 @@ internal sealed class RealUiaElement : IUiaElement
             var parent = walker?.GetParentElement(_element);
             return parent != null ? new RealUiaElement(parent, _uia) : null;
         }
-        catch (COMException)
+        catch (COMException ex) when (ex.HResult == unchecked((int)0x80040201)) // UIA_E_ELEMENTNOTAVAILABLE
         {
             return null;
         }
@@ -177,7 +226,7 @@ internal sealed class RealUiaElement : IUiaElement
         {
             if (walker != null && Marshal.IsComObject(walker))
             {
-                try { Marshal.ReleaseComObject(walker); } catch { }
+                Marshal.ReleaseComObject(walker);
             }
         }
     }
@@ -187,12 +236,12 @@ internal sealed class RealUiaElement : IUiaElement
         ObjectDisposedException.ThrowIf(_disposed, this);
         object? patternObj = null;
 
-        // 优先 TextPattern2
+        // 优先 TextPattern2：仅在显式不受支持时降级，断连等其它错误不可吞没
         try
         {
             patternObj = _element.GetCurrentPattern((UIA_PATTERN_ID)UIA_PATTERN_ID.UIA_TextPattern2Id);
         }
-        catch (COMException)
+        catch (COMException ex) when (IsPatternNotSupported(ex))
         {
             patternObj = null;
         }
@@ -204,7 +253,7 @@ internal sealed class RealUiaElement : IUiaElement
             {
                 patternObj = _element.GetCurrentPattern((UIA_PATTERN_ID)UIA_PATTERN_ID.UIA_TextPatternId);
             }
-            catch (COMException)
+            catch (COMException ex) when (IsPatternNotSupported(ex))
             {
                 patternObj = null;
             }
@@ -217,10 +266,18 @@ internal sealed class RealUiaElement : IUiaElement
 
         if (patternObj != null && Marshal.IsComObject(patternObj))
         {
-            try { Marshal.ReleaseComObject(patternObj); } catch { }
+            Marshal.ReleaseComObject(patternObj);
         }
 
         return null;
+    }
+
+    private static bool IsPatternNotSupported(COMException ex)
+    {
+        const int UIA_E_NOTSUPPORTED = unchecked((int)0x80040204);
+        const int E_NOTIMPL = unchecked((int)0x80004001);
+        const int E_NOINTERFACE = unchecked((int)0x80004002);
+        return ex.HResult == UIA_E_NOTSUPPORTED || ex.HResult == E_NOTIMPL || ex.HResult == E_NOINTERFACE;
     }
 
     public void Dispose()
