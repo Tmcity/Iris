@@ -5,7 +5,7 @@
 ## 当前状态
 
 - 项目为 .NET 10 / WPF Windows 常驻翻译工具 Iris，完整目标含输入/剪贴板/划词翻译、截图/OCR、悬浮球、设置/历史/代理与发布，尚未整体完成。
-- 基线为 master / 8c68a4d9d48d69803911c83afc2593c00872e712。T-022B 与 C1/R1 已验收；当前唯一工单为 `tasks/current_task.md` / T-022C2，实施复制安全、组合读取和 App 退出。
+- 基线为 master / 65cafb1e9e32eacb77eb3f2414ac6ebadec1dbbe。T-022B 与 C1/R1 已验收；当前唯一工单为 `tasks/current_task.md` / T-022C2-R1，仅修恢复回执版本与延迟呈现重观察，保留其它 C2 成果。
 - 正式依据为 SELECTION_READING.md / ARCH v1.33 / CCR-017。架构师预置的 Core/specs 选区注释及安全 ToString 同步须保留，字段/签名/默认配置/包不变；T-023/T-024 尚未签发，不提前开放 Handler/UI/鼠标入口。
 
 ## 协作与约束

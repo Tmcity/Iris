@@ -86,7 +86,7 @@ internal sealed class FakeClipboardSnapshotNative : IClipboardSnapshotNative
     public bool IsClipboardFormatAvailable(uint format) => Formats.Any(f => f.Format == format);
     public uint GetClipboardSequenceNumber() { Call("Sequence"); RequireOpen(); return Version.Sequence; }
     public nint GetOwner() { Call("Owner"); RequireOpen(); return Version.Owner; }
-    public uint GetOwnerProcessId(nint owner) { bool ok = Call("OwnerPid"); RequireOpen(); return ok ? Version.OwnerProcessId : 0; }
+    public uint GetOwnerProcessId(nint owner) { bool ok = Call("OwnerPid"); RequireOpen(); return ok ? owner == 900 ? 42u : Version.OwnerProcessId : 0; }
     private void RequireOpen() { if (!IsOpen) throw new InvalidOperationException("version outside Open"); }
     public uint EnumFormats(uint previous)
     {

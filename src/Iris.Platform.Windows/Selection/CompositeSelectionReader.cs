@@ -186,7 +186,11 @@ internal sealed class CompositeSelectionReader(
                     var text = await clipboard.ReadTextIfVersionAsync(version, token).ConfigureAwait(false);
                     if (Expired()) return null;
                     if (text.Status == ClipboardTextStatus.TooLong) throw Failure("TOO_LONG", code: ErrorCode.InputTooLong);
-                    if (text.Status == ClipboardTextStatus.Changed) return null;
+                    if (text.Status == ClipboardTextStatus.Changed)
+                    {
+                        if (text.Version.Owner == 0 || text.Version.OwnerProcessId != op.Source!.ProcessId) return null;
+                        continue; // Same response budget; re-observe identity and stability, never re-copy.
+                    }
                     return text.Status == ClipboardTextStatus.Success ? text.Text : null;
                 }
             }
@@ -241,7 +245,7 @@ internal sealed class CompositeSelectionReader(
         if (failures.Count != 0) throw new IrisException(ErrorCode.CaptureFailed, $"SELECTION_CLEANUP {string.Join(',', failures)}");
         if (op.Snapshot != null && op.Clear.Written && !op.Restored)
         {
-            if (!op.Restore.Applied)
+            if (!op.Restore.AllFormatsPublished)
             {
                 var expected = op.Restore.Written ? op.Restore.Version : op.Candidate ?? op.Clear.Version;
                 if (expected == null) throw Failure("RESTORE_VERSION_UNKNOWN");

@@ -106,19 +106,37 @@ internal sealed partial class ClipboardSnapshotService : IDisposable, IAsyncDisp
         Open(token);
         var current = ReadVersion();
         if (current != expected) return new(ClipboardSnapshotStatus.Changed, current);
+        // EmptyClipboard makes this Open frame's own HWND the owner. Resolve its
+        // identity before any destructive write, never from the previous owner.
+        uint writingPid = 0;
+        if (receipt != null)
+        {
+            writingPid = _native.GetOwnerProcessId(_window);
+            Check(writingPid != 0, "WRITE_OWNER_ID");
+        }
         CheckCancellation(token);
         Check(_native.EmptyClipboard(), "EMPTY");
         _commitStarted = true;
-        if (receipt != null) { receipt.Written = true; receipt.Version = ReadVersion(); }
+        if (receipt != null)
+        {
+            receipt.Written = true;
+            receipt.Version = null;
+            receipt.AllFormatsPublished = prepared.Count == 0;
+            receipt.Version = new(_native.GetClipboardSequenceNumber(), _window, writingPid);
+        }
         // Past the commit point: cancellation cannot abandon remaining Set/cleanup.
         foreach (var (format, block) in prepared)
         {
             Check(_native.SetClipboardData(format, block.Handle) != 0, "SET_DATA");
             _blocks.Remove(block); // Ownership transferred; never touch this handle again.
-            if (receipt != null) receipt.Version = ReadVersion();
+            if (receipt != null)
+            {
+                receipt.Version = null;
+                receipt.AllFormatsPublished = ReferenceEquals(block, prepared[^1].Block);
+                receipt.Version = new(_native.GetClipboardSequenceNumber(), _window, writingPid);
+            }
         }
-        var applied = ReadVersion();
-        if (receipt != null) { receipt.Version = applied; receipt.Applied = true; }
+        var applied = receipt == null ? ReadVersion() : receipt.Version!.Value;
         return new(ClipboardSnapshotStatus.Applied, applied);
     }
 

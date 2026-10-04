@@ -15,8 +15,9 @@ internal sealed class ClipboardWriteReceipt
 {
     public bool Written { get; set; }
     public ClipboardVersion? Version { get; set; }
-    public bool Applied { get; set; }
-    public override string ToString() => $"ClipboardWriteReceipt Applied={Applied}";
+    // Publication is a fact independent of version observation and frame cleanup.
+    public bool AllFormatsPublished { get; set; }
+    public override string ToString() => $"ClipboardWriteReceipt Published={AllFormatsPublished}";
 }
 
 internal sealed partial class ClipboardSnapshotService
