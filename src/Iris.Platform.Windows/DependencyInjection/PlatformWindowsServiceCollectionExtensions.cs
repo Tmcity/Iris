@@ -21,6 +21,8 @@ public static class PlatformWindowsServiceCollectionExtensions
         services.TryAddSingleton(TimeProvider.System);
         services.AddSingleton<ISecretStore, DpapiSecretStore>();
         services.AddSingleton<IClipboardService, Win32ClipboardService>();
+        services.TryAddSingleton<IClipboardSnapshotNative>(NativeClipboardSnapshotAdapter.Instance);
+        services.TryAddSingleton<ClipboardSnapshotService>();
         services.AddSingleton<IDesktopContext, DesktopContext>();
         services.AddSingleton<IAutoStartService, AutoStartService>();
         services.AddSingleton<INativeHotkeyAdapter>(NativeHotkeyAdapter.Instance);
@@ -35,4 +37,3 @@ public static class PlatformWindowsServiceCollectionExtensions
         return services;
     }
 }
-

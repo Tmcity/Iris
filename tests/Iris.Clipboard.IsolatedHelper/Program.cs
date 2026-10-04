@@ -121,7 +121,9 @@ internal static class Program
         var thread = new Thread(() =>
         {
             var env = new RealIsolatedStationEnvironment();
-            exitCode = IsolatedStationCoordinator.Run(env, RunIsolatedBody);
+            bool snapshots = Array.IndexOf(args, "--snapshots") >= 0;
+            exitCode = IsolatedStationCoordinator.Run(env, snapshots ? SnapshotValidation.Run : RunIsolatedBody);
+            if (snapshots && SnapshotValidation.Skipped && exitCode == 0) exitCode = IsolatedStationCoordinator.ExitCodeSkip;
         });
         thread.SetApartmentState(ApartmentState.MTA);
         thread.Start();

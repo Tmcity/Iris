@@ -6,6 +6,11 @@ SetClipboardData
 GetClipboardData
 IsClipboardFormatAvailable
 GetClipboardSequenceNumber
+GetClipboardOwner
+EnumClipboardFormats
+GetClipboardFormatName
+SetLastError
+MsgWaitForMultipleObjectsEx
 GlobalAlloc
 GlobalFree
 GlobalLock

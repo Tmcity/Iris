@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.31 · 2026-10-04 · 状态：**已冻结（首期）**
+> 版本：v1.32 · 2026-10-05 · 状态：**已冻结（首期）**
+> 变更记录：v1.32（T-022B/R6 通过，签发 T-022C1）— CLIPBOARD_SNAPSHOTS.md 固定内部多格式快照、版本条件清空/恢复与原生线程/资源生命周期；C 拆为 C1 底座和 C2 复制安全/组合/退出接线，完整划词范围不缩减。公开 Core 契约、默认配置与包版本不变。
 > 变更记录：v1.31（T-021/R2 通过，签发 T-022B）— UIA_SELECTION_READING.md 定稿按需隔离 UIA 宿主、无窗口 MTA、有限文本/协议预算、父端超时与真实进程退出。T-022 拆 B（UIA）和 C（剪贴板事务/组合），新增 Iris.UiaHost 及 App 的仅构建/部署依赖；公开 Core 契约与默认设置不变。
 > 变更记录：v1.30（T-020/B-R4 通过，签发 T-021）— KEYBOARD_SIMULATION.md 定稿内部 KeyboardSimulator、单事件输入确认、目标复核、起始释放等待、失败 KeyUp 责任及停止；超时不再强行释放用户按住的键。公开契约/默认配置不变，A08 选区读取与剪贴板恢复仍由 T-022 定稿。
 > 变更记录：v1.29（T-020A-R2 通过，签发 T-020B）— HOTKEY_RECORDING_UI.md / CCR-016 定稿短时键盘捕获端口、专用消息线程、录入暂停/最新配置恢复、运行时状态及全窗口联合保存；只新增批准的录入契约，既有公共签名与默认配置保持。
@@ -797,7 +798,7 @@ data: {"type":"message_stop"}
 
 **UIAutomation**：按 UIA_SELECTION_READING.md / T-022B 由按需隔离宿主的无窗口 MTA 执行 FocusedElement → TextPattern2/1 → GetSelection → 有界 GetText。最多 32 ranges、65,536 UTF-16 code units；禁止以 DocumentRange/Name/Value 代替选区。父端启动/Ready 预算 1500ms，Ready 后 UIA 请求预算 300ms，取消/超时需终止并等待自有宿主真实退出；不再以 Task.Run(...).WaitAsync(300ms) 冒充底层调用已结束。Sensitive/TooLong/TargetChanged 等结果不应盲目降级成键盘复制，T-022C 再定稿组合规则。
 
-**剪贴板兜底**（按顺序，全部在后台线程执行）：
+**剪贴板兜底旧组合草案**（以下在 C2 定稿前不直接实施；C1 原生底座以 CLIPBOARD_SNAPSHOTS.md 为准，禁止无条件恢复）：
 1. 前台进程在 `ClipboardUnsafeProcesses` 中 → 跳过（**在终端里 Ctrl+C 是中断信号，会杀掉用户正在运行的程序**）。
 2. 按 KEYBOARD_SIMULATION.md 等待左右 Ctrl/Alt/Shift/Win 及 C 释放，10 ms 轮询、最多 500 ms；超时返回 NotReady，不发送 Ctrl+C，也不补发用户起始仍按住键的 KeyUp。防止叠加 Alt 变成 Ctrl+Alt+C；本次可由 UIA 取得选区或按上层无结果策略处理。只有本次实际注入产生的释放责任才允许补偿。
 3. 快照剪贴板：枚举格式（`EnumClipboardFormats`），保存 `CF_UNICODETEXT`、`CF_HDROP`、`CF_DIB`、`HTML Format`、`Rich Text Format` 的数据；其余格式不保证恢复（这是已知限制）。
@@ -817,6 +818,10 @@ IClipboardService 的线程、格式、取消和所有权规则以 CLIPBOARD_SER
 ### 10.4.3 键盘模拟（T-021）
 
 KEYBOARD_SIMULATION.md 为正式规范。KeyboardSimulator/窄 native adapter/目标及结果均为 Platform.Windows 内部类型，构造零 I/O，不新增公开 Core 接口。一次活动 Copy/清理；单 INPUT 确认 LCtrl down、C down、C up、LCtrl up，检查返回值并保留本次未释放键责任，失败重试仅补 KeyUp。发送前确认目标身份，停止永久撤销准入并等待真实工作。Injected/MayHaveCopied 不证明取得选区；单事件间输入/前台竞争、UIPI 与键状态查询限制须明示。T-022 负责终端/焦点控件安全、UIA、快照/序列归属及生命周期接线，T-021 不开放业务入口。
+
+### 10.4.4 剪贴板快照与条件写入（T-022C1）
+
+CLIPBOARD_SNAPSHOTS.md 为正式规范。内部 ClipboardSnapshotService 在单个惰性后台 MTA 上维护 owner HWND/原生帧与失败清理，提供有界完整快照、版本读取、条件清空和恢复；条件比较与 Empty/Set 必须在同一 Open 帧，外部版本变化零写入。支持集、内存预算与逐块系统所有权固定，未知格式不以部分保存冒充完整恢复。构造/DI 零副作用，Stop/重试须保留原生线程与资源。C1 不发送按键、不接公开组合读取器；C2 才统一终端/焦点安全、来源候选与应用退出。sequence/owner 不是按键因果证明，GetClipboardData 延迟呈现也没有本层硬终止承诺。
 
 ### 10.5 DPI 与坐标
 

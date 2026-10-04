@@ -144,6 +144,8 @@ Changed 回调只入队更新，不在设置写锁内执行耗时的 Provider �
 
 ### A08 · P1 · 划词兜底可能破坏剪贴板或向错误窗口发送 Ctrl+C
 
+**2026-10-05 进度**：T-022B / 43fcf47（R6）已验收，隔离 UIA 与实际退出分支完成。A08 整体仍开放：CLIPBOARD_SNAPSHOTS.md / T-022C1 已定稿原生有界快照和同一 Open 帧内的版本条件清空/恢复；T-022C2 再定稿复制候选、终端/焦点安全、组合读取和退出。owner/sequence 不提供按键因果证明，不把本底座的条件比较冒称跨进程通用事务隔离。
+
 **依据**：ARCH §10.4；ISelectionTextReader/ActionContext；GetClipboardSequenceNumber 官方说明；UIA 线程官方建议。
 
 **契约反例**：
