@@ -7,15 +7,72 @@ using System.Threading.Tasks;
 
 namespace Iris.Platform.Windows.Selection;
 
+internal interface IProcessAdapter : IDisposable
+{
+    bool Start();
+    void Kill();
+    bool WaitForExit(int milliseconds);
+    Task WaitForExitAsync(CancellationToken cancellationToken);
+    bool HasExited { get; }
+    int ExitCode { get; }
+    Stream StandardInput { get; }
+    Stream StandardOutput { get; }
+    Stream StandardError { get; }
+    IDisposable StandardInputDisposable { get; }
+    IDisposable StandardOutputDisposable { get; }
+}
+
+internal sealed class RealProcessAdapter : IProcessAdapter
+{
+    private readonly Process _process;
+    public RealProcessAdapter(Process process) => _process = process ?? throw new ArgumentNullException(nameof(process));
+
+    public bool Start() => _process.Start();
+    public void Kill() => _process.Kill();
+    public bool WaitForExit(int milliseconds) => _process.WaitForExit(milliseconds);
+    public Task WaitForExitAsync(CancellationToken cancellationToken) => _process.WaitForExitAsync(cancellationToken);
+    public bool HasExited => _process.HasExited;
+    public int ExitCode => _process.ExitCode;
+    public Stream StandardInput => _process.StandardInput.BaseStream;
+    public Stream StandardOutput => _process.StandardOutput.BaseStream;
+    public Stream StandardError => _process.StandardError.BaseStream;
+    public IDisposable StandardInputDisposable => _process.StandardInput;
+    public IDisposable StandardOutputDisposable => _process.StandardOutput;
+    public void Dispose() => _process.Dispose();
+}
+
+internal sealed class ProcessStartupCleanupException : Exception
+{
+    public IUiaProcessSession UnconfirmedSession { get; }
+
+    public ProcessStartupCleanupException(IUiaProcessSession unconfirmedSession, string message, Exception? innerException = null)
+        : base(message, innerException)
+    {
+        UnconfirmedSession = unconfirmedSession ?? throw new ArgumentNullException(nameof(unconfirmedSession));
+    }
+}
+
 internal sealed class RealUiaProcessRunner : IUiaProcessRunner
 {
     public static readonly RealUiaProcessRunner Instance = new();
 
     private readonly string _executablePath;
+    private readonly Func<ProcessStartInfo, IProcessAdapter>? _processFactory;
+    private readonly Func<IProcessAdapter, Task, IUiaProcessSession>? _sessionFactory;
 
     public RealUiaProcessRunner(string? executablePath = null)
+        : this(executablePath, null, null)
+    {
+    }
+
+    internal RealUiaProcessRunner(
+        string? executablePath,
+        Func<ProcessStartInfo, IProcessAdapter>? processFactory,
+        Func<IProcessAdapter, Task, IUiaProcessSession>? sessionFactory = null)
     {
         _executablePath = executablePath ?? Path.Combine(AppContext.BaseDirectory, "uia", "Iris.UiaHost.exe");
+        _processFactory = processFactory;
+        _sessionFactory = sessionFactory;
     }
 
     public Task<IUiaProcessSession> StartAsync(CancellationToken cancellationToken)
@@ -41,22 +98,39 @@ internal sealed class RealUiaProcessRunner : IUiaProcessRunner
             StandardErrorEncoding = new UTF8Encoding(false),
         };
 
-        var process = new Process { StartInfo = psi };
-        if (!process.Start())
+        var process = _processFactory != null
+            ? _processFactory(psi)
+            : new RealProcessAdapter(new Process { StartInfo = psi });
+
+        bool started = false;
+        try
         {
-            throw new InvalidOperationException("Failed to start Iris.UiaHost process.");
+            started = process.Start();
+            if (!started)
+            {
+                throw new InvalidOperationException("Failed to start Iris.UiaHost process.");
+            }
+        }
+        catch
+        {
+            if (!started)
+            {
+                try { process.Dispose(); } catch { }
+            }
+            throw;
         }
 
+        Task? stderrDrainTask = null;
         try
         {
             // 持续在后台排空 stderr，上限至多 4KiB 诊断预算，不回显内容
-            var stderrDrainTask = Task.Run(async () =>
+            stderrDrainTask = Task.Run(async () =>
             {
                 try
                 {
                     var buffer = new byte[512];
                     int totalRead = 0;
-                    var stream = process.StandardError.BaseStream;
+                    var stream = process.StandardError;
                     while (true)
                     {
                         int toRead = Math.Min(buffer.Length, UiaProtocolConstants.MaxStderrDrainBytes - totalRead);
@@ -82,28 +156,75 @@ internal sealed class RealUiaProcessRunner : IUiaProcessRunner
                 }
             }, CancellationToken.None);
 
-            return Task.FromResult<IUiaProcessSession>(new RealUiaProcessSession(process, stderrDrainTask));
+            var session = _sessionFactory != null
+                ? _sessionFactory(process, stderrDrainTask)
+                : new RealUiaProcessSession(process, stderrDrainTask);
+
+            return Task.FromResult(session);
         }
-        catch
+        catch (Exception wrapEx)
         {
+            bool exited = false;
+            Exception? cleanupEx = null;
             try
             {
                 if (!process.HasExited)
                 {
                     process.Kill();
-                    process.WaitForExit(1000);
+                }
+                exited = process.WaitForExit(1000);
+            }
+            catch (Exception ex)
+            {
+                cleanupEx = ex;
+            }
+
+            if (exited && cleanupEx == null)
+            {
+                try
+                {
+                    process.Dispose();
+                }
+                catch (Exception ex)
+                {
+                    cleanupEx = ex;
                 }
             }
-            catch { }
-            try { process.Dispose(); } catch { }
-            throw;
+
+            if (exited && cleanupEx == null)
+            {
+                throw;
+            }
+
+            var unconfirmedSession = CreateUnconfirmedSession(process, stderrDrainTask);
+            throw new ProcessStartupCleanupException(unconfirmedSession, "PROCESS_STARTUP_CLEANUP_FAILED", cleanupEx ?? wrapEx);
         }
+    }
+
+    private static RealUiaProcessSession CreateUnconfirmedSession(IProcessAdapter process, Task? stderrDrainTask)
+    {
+        Stream stdin = Stream.Null;
+        IDisposable stdinDisp = new MemoryStream();
+        Stream stdout = Stream.Null;
+        IDisposable stdoutDisp = new MemoryStream();
+
+        try { stdin = process.StandardInput; stdinDisp = process.StandardInputDisposable; } catch { }
+        try { stdout = process.StandardOutput; stdoutDisp = process.StandardOutputDisposable; } catch { }
+
+        return new RealUiaProcessSession(
+            process,
+            stderrDrainTask ?? Task.CompletedTask,
+            stdin,
+            stdinDisp,
+            stdout,
+            stdoutDisp,
+            process);
     }
 }
 
 internal sealed class RealUiaProcessSession : IUiaProcessSession
 {
-    private readonly Process? _process;
+    private readonly IProcessAdapter? _process;
     private readonly Task _stderrDrainTask;
     private readonly Stream _stdinStream;
     private readonly IDisposable _stdinDisposable;
@@ -122,18 +243,25 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
 
     public RealUiaProcessSession(Process process, Task stderrDrainTask)
         : this(
+            new RealProcessAdapter(process ?? throw new ArgumentNullException(nameof(process))),
+            stderrDrainTask)
+    {
+    }
+
+    internal RealUiaProcessSession(IProcessAdapter process, Task stderrDrainTask)
+        : this(
             process ?? throw new ArgumentNullException(nameof(process)),
             stderrDrainTask,
-            process.StandardInput.BaseStream,
             process.StandardInput,
-            process.StandardOutput.BaseStream,
+            process.StandardInputDisposable,
             process.StandardOutput,
+            process.StandardOutputDisposable,
             process)
     {
     }
 
     internal RealUiaProcessSession(
-        Process? process,
+        IProcessAdapter? process,
         Task stderrDrainTask,
         Stream stdinStream,
         IDisposable stdinDisposable,

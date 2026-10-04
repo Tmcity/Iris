@@ -135,6 +135,12 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
                 startTask = _processRunner.StartAsync(readyLinkedCts.Token);
                 op.StartTask = startTask;
             }
+            catch (ProcessStartupCleanupException pce)
+            {
+                RegisterUnconfirmedCleanupSession(op, pce.UnconfirmedSession);
+                outcomeResult = UiaSelectionResult.CreateFailed(op.RequestId, "PROCESS_START_FAILED");
+                return;
+            }
             catch (FileNotFoundException)
             {
                 outcomeResult = UiaSelectionResult.CreateFailed(op.RequestId, "HOST_EXECUTABLE_NOT_FOUND");
@@ -167,6 +173,12 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
             {
                 startCanceled = true;
             }
+            catch (ProcessStartupCleanupException pce)
+            {
+                RegisterUnconfirmedCleanupSession(op, pce.UnconfirmedSession);
+                outcomeResult = UiaSelectionResult.CreateFailed(op.RequestId, "PROCESS_START_FAILED");
+                return;
+            }
             catch (FileNotFoundException)
             {
                 outcomeResult = UiaSelectionResult.CreateFailed(op.RequestId, "HOST_EXECUTABLE_NOT_FOUND");
@@ -185,6 +197,10 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
                 try
                 {
                     delayedSession = await startTask.ConfigureAwait(false);
+                }
+                catch (ProcessStartupCleanupException pce)
+                {
+                    RegisterUnconfirmedCleanupSession(op, pce.UnconfirmedSession);
                 }
                 catch
                 {
@@ -425,6 +441,16 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
                 _failedCleanupCoordinator = coordinator;
             }
             throw;
+        }
+    }
+
+    private void RegisterUnconfirmedCleanupSession(ReadOperationContext op, IUiaProcessSession unconfirmedSession)
+    {
+        lock (_gate)
+        {
+            op.Session = unconfirmedSession;
+            op.Coordinator = new SessionCleanupCoordinator(unconfirmedSession, op, _timeProvider);
+            _failedCleanupCoordinator = op.Coordinator;
         }
     }
 

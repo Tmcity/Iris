@@ -240,4 +240,183 @@ public sealed class RealNativeUiaAdapterTests
         // The array must be released in finally
         releasedObjects.ShouldContain(mockArray);
     }
+
+    [Fact]
+    public void RealUiaTextPattern_GetSelection_WhenArrayReleaseFails_RollsBackAcquiredRanges_AndAggregatesException()
+    {
+        var mockPattern = Substitute.For<IUIAutomationTextPattern>();
+        var mockArray = Substitute.For<IUIAutomationTextRangeArray>();
+        var mockRange = Substitute.For<IUIAutomationTextRange>();
+
+        mockArray.Length.Returns(1);
+        mockArray.GetElement(0).Returns(mockRange);
+        mockPattern.GetSelection().Returns(mockArray);
+
+        var releasedObjects = new List<object>();
+        using var pattern = new RealUiaTextPattern(mockPattern, releaseComAction: obj =>
+        {
+            releasedObjects.Add(obj);
+            if (ReferenceEquals(obj, mockArray))
+            {
+                throw new InvalidOperationException("Array release failed.");
+            }
+        });
+
+        var ex = Should.Throw<Exception>(() => pattern.GetSelection());
+        ex.Message.ShouldContain("Array release failed.");
+
+        // The acquired range must be rolled back and disposed
+        releasedObjects.ShouldContain(mockRange);
+    }
+
+    [Fact]
+    public void RealUiaTextPattern_GetSelection_WhenArrayExceedsMaxRanges_AndArrayReleaseThrows_DoesNotDoubleRelease_AndAggregatesException()
+    {
+        var mockPattern = Substitute.For<IUIAutomationTextPattern>();
+        var mockArray = Substitute.For<IUIAutomationTextRangeArray>();
+
+        mockArray.Length.Returns(33);
+        mockPattern.GetSelection().Returns(mockArray);
+
+        int arrayReleaseAttempts = 0;
+        using var pattern = new RealUiaTextPattern(mockPattern, releaseComAction: obj =>
+        {
+            if (ReferenceEquals(obj, mockArray))
+            {
+                arrayReleaseAttempts++;
+                throw new InvalidOperationException("Array release failed on oversized branch.");
+            }
+        });
+
+        var ex = Should.Throw<Exception>(() => pattern.GetSelection());
+        ex.Message.ShouldContain("RANGE_COUNT_EXCEEDED");
+        arrayReleaseAttempts.ShouldBe(1);
+    }
+
+    [Fact]
+    public void RealUiaElement_GetParent_WhenWalkerReleaseFails_RollsBackAcquiredParent()
+    {
+        var mockElement = Substitute.For<IUIAutomationElement>();
+        var mockUia = Substitute.For<IUIAutomation>();
+        var mockWalker = Substitute.For<IUIAutomationTreeWalker>();
+        var mockParent = Substitute.For<IUIAutomationElement>();
+
+        mockUia.ControlViewWalker.Returns(mockWalker);
+        mockWalker.GetParentElement(mockElement).Returns(mockParent);
+
+        var releasedObjects = new List<object>();
+        using var element = new RealUiaElement(mockElement, mockUia, releaseComAction: obj =>
+        {
+            releasedObjects.Add(obj);
+            if (ReferenceEquals(obj, mockWalker))
+            {
+                throw new InvalidOperationException("Walker release failed.");
+            }
+        });
+
+        var ex = Should.Throw<Exception>(() => element.GetParent(5));
+        ex.Message.ShouldContain("Walker release failed.");
+
+        // Acquired parent element must be rolled back and disposed
+        releasedObjects.ShouldContain(mockParent);
+    }
+
+    [Fact]
+    public void RealUiaElement_Dispose_WhenReleaseFailsFirstTime_AllowsRetryAndSucceedsOnSecondAttempt()
+    {
+        var mockElement = Substitute.For<IUIAutomationElement>();
+        var mockUia = Substitute.For<IUIAutomation>();
+
+        int attempts = 0;
+        var element = new RealUiaElement(mockElement, mockUia, releaseComAction: obj =>
+        {
+            attempts++;
+            if (attempts == 1)
+            {
+                throw new InvalidOperationException("Simulated transient release error.");
+            }
+        });
+
+        // First attempt throws
+        Should.Throw<InvalidOperationException>(() => element.Dispose());
+        attempts.ShouldBe(1);
+
+        // Second attempt retries and succeeds
+        element.Dispose();
+        attempts.ShouldBe(2);
+
+        // Third attempt is already disposed (no-op)
+        element.Dispose();
+        attempts.ShouldBe(2);
+    }
+
+    [Fact]
+    public void RealUiaTextPattern_Dispose_WhenReleaseFailsFirstTime_AllowsRetryAndSucceedsOnSecondAttempt()
+    {
+        var mockPattern = Substitute.For<IUIAutomationTextPattern>();
+
+        int attempts = 0;
+        var pattern = new RealUiaTextPattern(mockPattern, releaseComAction: obj =>
+        {
+            attempts++;
+            if (attempts == 1)
+            {
+                throw new InvalidOperationException("Simulated transient release error.");
+            }
+        });
+
+        Should.Throw<InvalidOperationException>(() => pattern.Dispose());
+        attempts.ShouldBe(1);
+
+        pattern.Dispose();
+        attempts.ShouldBe(2);
+
+        pattern.Dispose();
+        attempts.ShouldBe(2);
+    }
+
+    [Fact]
+    public void RealUiaTextRange_Dispose_WhenReleaseFailsFirstTime_AllowsRetryAndSucceedsOnSecondAttempt()
+    {
+        var mockRange = Substitute.For<IUIAutomationTextRange>();
+
+        int attempts = 0;
+        var range = new RealUiaTextRange(mockRange, releaseComAction: obj =>
+        {
+            attempts++;
+            if (attempts == 1)
+            {
+                throw new InvalidOperationException("Simulated transient release error.");
+            }
+        });
+
+        Should.Throw<InvalidOperationException>(() => range.Dispose());
+        attempts.ShouldBe(1);
+
+        range.Dispose();
+        attempts.ShouldBe(2);
+
+        range.Dispose();
+        attempts.ShouldBe(2);
+    }
+
+    [Fact]
+    public void RealNativeUiaAdapter_CreateSession_WhenCreatedObjectFailsIUIAutomationCast_RollsBackComReleaseAndCoUninitialize()
+    {
+        bool coUninited = false;
+        object? releasedObject = null;
+        var nonUiaObject = new object();
+
+        var adapter = new RealNativeUiaAdapter(
+            coInitFunc: () => new HRESULT(0),
+            coUninitAction: () => coUninited = true,
+            createUiaFunc: () => nonUiaObject,
+            releaseComAction: obj => releasedObject = obj);
+
+        var ex = Should.Throw<Exception>(() => adapter.CreateSession(300, 300));
+        ex.Message.ShouldContain("does not implement IUIAutomation");
+
+        ReferenceEquals(releasedObject, nonUiaObject).ShouldBeTrue();
+        coUninited.ShouldBeTrue();
+    }
 }

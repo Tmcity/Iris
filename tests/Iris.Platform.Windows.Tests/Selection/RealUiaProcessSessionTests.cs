@@ -170,4 +170,149 @@ public sealed class RealUiaProcessSessionTests
         trackedStdin.DisposeCallCount.ShouldBe(1);
         trackedStdout.DisposeCallCount.ShouldBe(1);
     }
+
+    private sealed class FakeProcessAdapter : IProcessAdapter
+    {
+        public bool StartResult { get; set; } = true;
+        public Exception? ThrowOnStart { get; set; }
+        public bool HasExited { get; set; }
+        public int ExitCode { get; set; }
+        public bool WaitForExitResult { get; set; } = true;
+        public Exception? ThrowOnWaitForExit { get; set; }
+        public Exception? ThrowOnKill { get; set; }
+        public Exception? ThrowOnDispose { get; set; }
+
+        public int StartCallCount { get; private set; }
+        public int KillCallCount { get; private set; }
+        public int WaitForExitCallCount { get; private set; }
+        public int DisposeCallCount { get; private set; }
+
+        public Stream StandardInput { get; set; } = new MemoryStream();
+        public Stream StandardOutput { get; set; } = new MemoryStream();
+        public Stream StandardError { get; set; } = new MemoryStream();
+        public IDisposable StandardInputDisposable { get; set; } = new TrackedDisposable();
+        public IDisposable StandardOutputDisposable { get; set; } = new TrackedDisposable();
+
+        public bool Start()
+        {
+            StartCallCount++;
+            if (ThrowOnStart != null) throw ThrowOnStart;
+            return StartResult;
+        }
+
+        public void Kill()
+        {
+            KillCallCount++;
+            if (ThrowOnKill != null) throw ThrowOnKill;
+        }
+
+        public bool WaitForExit(int milliseconds)
+        {
+            WaitForExitCallCount++;
+            if (ThrowOnWaitForExit != null) throw ThrowOnWaitForExit;
+            if (WaitForExitResult) HasExited = true;
+            return WaitForExitResult;
+        }
+
+        public Task WaitForExitAsync(CancellationToken cancellationToken)
+        {
+            WaitForExitCallCount++;
+            if (ThrowOnWaitForExit != null) throw ThrowOnWaitForExit;
+            if (WaitForExitResult) HasExited = true;
+            return Task.CompletedTask;
+        }
+
+        public void Dispose()
+        {
+            DisposeCallCount++;
+            if (ThrowOnDispose != null) throw ThrowOnDispose;
+        }
+    }
+
+    [Fact]
+    public async Task RealUiaProcessRunner_StartAsync_WhenStartReturnsFalse_DisposesProcess_AndThrows()
+    {
+        var dummyPath = typeof(RealUiaProcessRunner).Assembly.Location;
+        var fakeProcess = new FakeProcessAdapter { StartResult = false };
+        var runner = new RealUiaProcessRunner(dummyPath, psi => fakeProcess);
+
+        var ex = await Should.ThrowAsync<InvalidOperationException>(async () => await runner.StartAsync(CancellationToken.None));
+        ex.Message.ShouldContain("Failed to start Iris.UiaHost process.");
+
+        fakeProcess.StartCallCount.ShouldBe(1);
+        fakeProcess.DisposeCallCount.ShouldBe(1);
+    }
+
+    [Fact]
+    public async Task RealUiaProcessRunner_StartAsync_WhenStartThrows_DisposesProcess_AndThrows()
+    {
+        var dummyPath = typeof(RealUiaProcessRunner).Assembly.Location;
+        var fakeProcess = new FakeProcessAdapter { ThrowOnStart = new InvalidOperationException("Process start failed at OS level.") };
+        var runner = new RealUiaProcessRunner(dummyPath, psi => fakeProcess);
+
+        var ex = await Should.ThrowAsync<InvalidOperationException>(async () => await runner.StartAsync(CancellationToken.None));
+        ex.Message.ShouldContain("Process start failed at OS level.");
+
+        fakeProcess.StartCallCount.ShouldBe(1);
+        fakeProcess.DisposeCallCount.ShouldBe(1);
+    }
+
+    [Fact]
+    public async Task RealUiaProcessRunner_StartAsync_WhenWrappingFails_AndProcessExitsCleanly_KillsAndDisposesProcess()
+    {
+        var dummyPath = typeof(RealUiaProcessRunner).Assembly.Location;
+        var fakeProcess = new FakeProcessAdapter { StartResult = true, WaitForExitResult = true };
+        var runner = new RealUiaProcessRunner(
+            dummyPath,
+            psi => fakeProcess,
+            (proc, task) => throw new InvalidOperationException("Session wrapping failed."));
+
+        var ex = await Should.ThrowAsync<InvalidOperationException>(async () => await runner.StartAsync(CancellationToken.None));
+        ex.Message.ShouldContain("Session wrapping failed.");
+
+        fakeProcess.KillCallCount.ShouldBe(1);
+        fakeProcess.WaitForExitCallCount.ShouldBe(1);
+        fakeProcess.DisposeCallCount.ShouldBe(1);
+    }
+
+    [Fact]
+    public async Task RealUiaProcessRunner_StartAsync_WhenWrappingFails_AndProcessWaitTimesOut_ThrowsProcessStartupCleanupException_WithRetainedSession()
+    {
+        var dummyPath = typeof(RealUiaProcessRunner).Assembly.Location;
+        var fakeProcess = new FakeProcessAdapter { StartResult = true, WaitForExitResult = false }; // WaitForExit returns false (timeout)
+        var runner = new RealUiaProcessRunner(
+            dummyPath,
+            psi => fakeProcess,
+            (proc, task) => throw new InvalidOperationException("Session wrapping failed."));
+
+        var ex = await Should.ThrowAsync<ProcessStartupCleanupException>(async () => await runner.StartAsync(CancellationToken.None));
+        ex.UnconfirmedSession.ShouldNotBeNull();
+
+        fakeProcess.KillCallCount.ShouldBe(1);
+        fakeProcess.WaitForExitCallCount.ShouldBe(1);
+        fakeProcess.DisposeCallCount.ShouldBe(0); // Not disposed, retained in UnconfirmedSession
+    }
+
+    [Fact]
+    public async Task RealUiaProcessRunner_StartAsync_WhenWrappingFails_AndKillThrows_ThrowsProcessStartupCleanupException_WithRetainedSession()
+    {
+        var dummyPath = typeof(RealUiaProcessRunner).Assembly.Location;
+        var fakeProcess = new FakeProcessAdapter
+        {
+            StartResult = true,
+            ThrowOnKill = new InvalidOperationException("Kill access denied.")
+        };
+        var runner = new RealUiaProcessRunner(
+            dummyPath,
+            psi => fakeProcess,
+            (proc, task) => throw new InvalidOperationException("Session wrapping failed."));
+
+        var ex = await Should.ThrowAsync<ProcessStartupCleanupException>(async () => await runner.StartAsync(CancellationToken.None));
+        ex.UnconfirmedSession.ShouldNotBeNull();
+        ex.InnerException.ShouldNotBeNull();
+        ex.InnerException.Message.ShouldContain("Kill access denied.");
+
+        fakeProcess.KillCallCount.ShouldBe(1);
+        fakeProcess.DisposeCallCount.ShouldBe(0);
+    }
 }
