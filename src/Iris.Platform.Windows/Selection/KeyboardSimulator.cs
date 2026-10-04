@@ -112,7 +112,9 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
 
             waitCts = new CancellationTokenSource();
             _activeWaitCts = waitCts;
-            copyTask = RunCopyWorkflowAsync(target, waitCts, cancellationToken);
+            copyTask = Task.Run(
+                () => RunCopyWorkflowAsync(target, waitCts, cancellationToken),
+                CancellationToken.None);
             _activeCopyTask = copyTask;
         }
 
@@ -124,8 +126,6 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
         CancellationTokenSource waitCts,
         CancellationToken cancellationToken)
     {
-        await Task.Yield();
-
         try
         {
             return await ExecuteCopyCoreAsync(target, cancellationToken, waitCts.Token).ConfigureAwait(false);
@@ -200,6 +200,17 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
         {
             return new KeyboardCopyResult(KeyboardCopyOutcome.TargetChanged, MayHaveCopied: false);
         }
+
+        // 发送前复核：最后一次原生按键与目标查询完成后，在开始第一个 SendInput 之前，重新确认本次取消与停止状态
+        lock (_syncRoot)
+        {
+            if (_isStopped)
+            {
+                throw new OperationCanceledException(token);
+            }
+        }
+
+        token.ThrowIfCancellationRequested();
 
         // 4. 发送阶段：不可被晚到取消打断，不插入 await/Delay
         return ExecuteSendSequence(target);
@@ -322,15 +333,13 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
                 return _activeCleanupTask;
             }
 
-            _activeCleanupTask = RunCleanupWorkflowAsync();
+            _activeCleanupTask = Task.Run(() => RunCleanupWorkflowAsync(), CancellationToken.None);
             return _activeCleanupTask;
         }
     }
 
     private async Task RunCleanupWorkflowAsync()
     {
-        await Task.Yield();
-
         Task? copyToWait;
         lock (_syncRoot)
         {
@@ -372,15 +381,13 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
                 return _activeStopTask;
             }
 
-            _activeStopTask = RunStopWorkflowAsync();
+            _activeStopTask = Task.Run(() => RunStopWorkflowAsync(), CancellationToken.None);
             return _activeStopTask;
         }
     }
 
     private async Task RunStopWorkflowAsync()
     {
-        await Task.Yield();
-
         Task? copyToWait;
         lock (_syncRoot)
         {

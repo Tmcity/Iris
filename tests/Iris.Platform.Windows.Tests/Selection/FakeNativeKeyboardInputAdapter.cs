@@ -23,6 +23,8 @@ internal sealed class FakeNativeKeyboardInputAdapter : INativeKeyboardInputAdapt
 
     public Func<uint, INPUT[], int, uint>? CustomSendInputHandler { get; set; }
     public Func<nint>? CustomGetForegroundWindowHandler { get; set; }
+    public Func<nint, uint>? CustomGetWindowProcessIdHandler { get; set; }
+    public Func<nint, bool>? CustomIsWindowHandler { get; set; }
 
     public TaskCompletionSource? SendInputEnteredTcs { get; set; }
     public TaskCompletionSource? SendInputReleaseTcs { get; set; }
@@ -66,6 +68,10 @@ internal sealed class FakeNativeKeyboardInputAdapter : INativeKeyboardInputAdapt
     public uint GetWindowProcessId(nint windowHandle)
     {
         TotalNativeCalls++;
+        if (CustomGetWindowProcessIdHandler != null)
+        {
+            return CustomGetWindowProcessIdHandler(windowHandle);
+        }
         return TargetProcessId;
     }
 
@@ -78,6 +84,10 @@ internal sealed class FakeNativeKeyboardInputAdapter : INativeKeyboardInputAdapt
     public bool IsWindow(nint windowHandle)
     {
         TotalNativeCalls++;
+        if (CustomIsWindowHandler != null)
+        {
+            return CustomIsWindowHandler(windowHandle);
+        }
         return WindowIsValid;
     }
 

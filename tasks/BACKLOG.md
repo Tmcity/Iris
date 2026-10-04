@@ -242,6 +242,9 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 | T-024 | ☐ | MouseSelectionMonitor + GestureRecognizer + SelectionIconWindow / Controller | T-023 | 2d |
 
 **T-021** 已按 KEYBOARD_SIMULATION.md / ARCH v1.30 签发，基线 361e2c1。实现实际 KeyboardSimulator + fake native/time 回归：起始释放等待、目标复核、单事件确认、失败释放责任与 Stop；不执行真实输入，不接选区业务入口。含 C20B-1 仅四个 R4 测试失败收尾维护；不重复已验收剪贴板服务。公开契约与默认配置不变，由 Codex 直接在 Antigravity 下达。
+
+**T-021 首次复审（2026-10-04）** — 81e6d40 未通过，初交 689a591 保留。独立 Release 零警告/零错误，1767 项（1766 成功/1 环境跳过）；正常/补偿/清理重试等成果保留，C20B-1 已落实。两个独立反例为 Task.Yield 捕获 UI 导致全部 native 调用在 UI 执行，以及最后目标查询期间取消/Stop 后仍发送 Ctrl+C。签发 T-021-R1，仅修两项；由用户手动转交，控制暂停，T-021 继续 ▶，不进入 T-022。
+
 **T-022** 在签发时统一 ARCH §10.4 与 A08 的终端/焦点控件、UIA 有界等待、剪贴板快照/序列归属和外部更新保护。手动验收清单含记事本、Word、Chrome、Edge、VS Code、微信/QQ、PDF 阅读器、Windows Terminal（**不得触发 Ctrl+C**）；没有新复制时不得返回旧文本，恢复不得覆盖外部新复制。修饰键仍按住时遵守 T-021 的等待/NotReady，使用 UIA 或无结果策略，不强制松开用户按键；最终验收细则随 T-022 正式工单定稿。
 **T-023** 验收：Handler 单元测试覆盖三个分支（有文本 / 无文本且打开输入窗 / 无文本且只提示）；设置页可以编辑 ReadOrder、RestoreClipboard、排除进程列表。
 **T-024** 交付 ARCH §6.3（鼠标划词）、§10.2（钩子线程）、§10.6（不激活窗口）。验收：GestureRecognizer 纯逻辑单测（拖动阈值、双击 / 三击时间窗、Shift+单击、I 型光标条件）；钩子回调耗时 < 1 ms（Debug 日志统计）；图标出现时不抢焦点，点击图标后翻译的是原窗口中选中的文本；排除列表生效；模式切换后立即生效；在文件资源管理器里拖动文件不会触发。

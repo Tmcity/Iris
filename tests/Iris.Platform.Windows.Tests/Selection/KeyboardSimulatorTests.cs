@@ -1043,5 +1043,139 @@ public sealed class KeyboardSimulatorTests : IDisposable
         res2.Outcome.ShouldBe(KeyboardCopyOutcome.Injected);
     }
 
+    [Fact]
+    public async Task Cancel_DuringFinalTargetVerification_DoesNotSendAnyInput_CompletesCleanly()
+    {
+        var simulator = CreateSimulator();
+        var target = new KeyboardCopyTarget(0x1234, 5000);
+        using var cts = new CancellationTokenSource();
+
+        int pidReads = 0;
+        var enteredTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        _fakeNative.CustomGetWindowProcessIdHandler = _ =>
+        {
+            if (++pidReads == 4)
+            {
+                enteredTcs.TrySetResult();
+                releaseTcs.Task.GetAwaiter().GetResult();
+            }
+            return 5000;
+        };
+
+        Task<KeyboardCopyResult>? copyTask = null;
+        try
+        {
+            copyTask = simulator.CopyAsync(target, cts.Token);
+
+            await enteredTcs.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+            _fakeNative.RecordedInputs.Count.ShouldBe(0, "取消触发前尚未发送任何按键");
+            cts.Cancel();
+            releaseTcs.TrySetResult();
+
+            await Should.ThrowAsync<OperationCanceledException>(() => copyTask);
+
+            _fakeNative.RecordedInputs.Count.ShouldBe(0, "最终目标检查期间取消后绝对不能调用 SendInput");
+            simulator.HasPendingRelease.ShouldBeFalse();
+        }
+        finally
+        {
+            releaseTcs.TrySetResult();
+            if (copyTask != null)
+            {
+                try { await copyTask; } catch { }
+            }
+        }
+    }
+
+    [Fact]
+    public async Task StopAsync_DuringFinalTargetVerification_DoesNotSendAnyInput_CompletesCleanly()
+    {
+        var simulator = CreateSimulator();
+        var target = new KeyboardCopyTarget(0x1234, 5000);
+
+        int pidReads = 0;
+        var enteredTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        _fakeNative.CustomGetWindowProcessIdHandler = _ =>
+        {
+            if (++pidReads == 4)
+            {
+                enteredTcs.TrySetResult();
+                releaseTcs.Task.GetAwaiter().GetResult();
+            }
+            return 5000;
+        };
+
+        Task<KeyboardCopyResult>? copyTask = null;
+        Task? stopTask = null;
+        try
+        {
+            copyTask = simulator.CopyAsync(target, TestContext.Current.CancellationToken);
+
+            await enteredTcs.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+            _fakeNative.RecordedInputs.Count.ShouldBe(0, "StopAsync 触发前尚未发送任何按键");
+            stopTask = simulator.StopAsync();
+            releaseTcs.TrySetResult();
+
+            await Should.ThrowAsync<OperationCanceledException>(() => copyTask);
+            await stopTask;
+
+            _fakeNative.RecordedInputs.Count.ShouldBe(0, "最终目标检查期间停止后绝对不能调用 SendInput");
+            simulator.HasPendingRelease.ShouldBeFalse();
+        }
+        finally
+        {
+            releaseTcs.TrySetResult();
+            if (copyTask != null)
+            {
+                try { await copyTask; } catch { }
+            }
+            if (stopTask != null)
+            {
+                try { await stopTask; } catch { }
+            }
+        }
+    }
+
+    [Fact]
+    public async Task Cancel_AfterFirstSendInputEntered_ObservesReturnAndReleasesKeys_DoesNotThrowUnsent()
+    {
+        var simulator = CreateSimulator();
+        var target = new KeyboardCopyTarget(0x1234, 5000);
+        using var cts = new CancellationTokenSource();
+
+        _fakeNative.SendInputEnteredTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        _fakeNative.SendInputReleaseTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        Task<KeyboardCopyResult>? copyTask = null;
+        try
+        {
+            copyTask = simulator.CopyAsync(target, cts.Token);
+
+            await _fakeNative.SendInputEnteredTcs.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+            cts.Cancel();
+            _fakeNative.SendInputReleaseTcs.TrySetResult();
+
+            var result = await copyTask;
+            result.Outcome.ShouldBe(KeyboardCopyOutcome.Injected);
+            simulator.HasPendingRelease.ShouldBeFalse("首个 SendInput 已进入后取消，必须完整释放已确认按键，不得遗失释放责任");
+            _fakeNative.RecordedInputs.Count.ShouldBe(4);
+        }
+        finally
+        {
+            _fakeNative.SendInputReleaseTcs?.TrySetResult();
+            if (copyTask != null)
+            {
+                try { await copyTask; } catch { }
+            }
+        }
+    }
+
     #endregion
 }
