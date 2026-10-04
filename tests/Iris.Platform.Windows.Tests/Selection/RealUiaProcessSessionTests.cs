@@ -25,16 +25,6 @@ public sealed class RealUiaProcessSessionTests
         }
     }
 
-    private sealed class TrackedDisposable : IDisposable
-    {
-        public int DisposeCallCount { get; private set; }
-
-        public void Dispose()
-        {
-            DisposeCallCount++;
-        }
-    }
-
     [Fact]
     public async Task DisposeAsync_WhenFirstAttemptFailsSynchronously_AllowsRetryAfterFaultCleared()
     {
@@ -171,64 +161,6 @@ public sealed class RealUiaProcessSessionTests
         trackedStdout.DisposeCallCount.ShouldBe(1);
     }
 
-    private sealed class FakeProcessAdapter : IProcessAdapter
-    {
-        public bool StartResult { get; set; } = true;
-        public Exception? ThrowOnStart { get; set; }
-        public bool HasExited { get; set; }
-        public int ExitCode { get; set; }
-        public bool WaitForExitResult { get; set; } = true;
-        public Exception? ThrowOnWaitForExit { get; set; }
-        public Exception? ThrowOnKill { get; set; }
-        public Exception? ThrowOnDispose { get; set; }
-
-        public int StartCallCount { get; private set; }
-        public int KillCallCount { get; private set; }
-        public int WaitForExitCallCount { get; private set; }
-        public int DisposeCallCount { get; private set; }
-
-        public Stream StandardInput { get; set; } = new MemoryStream();
-        public Stream StandardOutput { get; set; } = new MemoryStream();
-        public Stream StandardError { get; set; } = new MemoryStream();
-        public IDisposable StandardInputDisposable { get; set; } = new TrackedDisposable();
-        public IDisposable StandardOutputDisposable { get; set; } = new TrackedDisposable();
-
-        public bool Start()
-        {
-            StartCallCount++;
-            if (ThrowOnStart != null) throw ThrowOnStart;
-            return StartResult;
-        }
-
-        public void Kill()
-        {
-            KillCallCount++;
-            if (ThrowOnKill != null) throw ThrowOnKill;
-        }
-
-        public bool WaitForExit(int milliseconds)
-        {
-            WaitForExitCallCount++;
-            if (ThrowOnWaitForExit != null) throw ThrowOnWaitForExit;
-            if (WaitForExitResult) HasExited = true;
-            return WaitForExitResult;
-        }
-
-        public Task WaitForExitAsync(CancellationToken cancellationToken)
-        {
-            WaitForExitCallCount++;
-            if (ThrowOnWaitForExit != null) throw ThrowOnWaitForExit;
-            if (WaitForExitResult) HasExited = true;
-            return Task.CompletedTask;
-        }
-
-        public void Dispose()
-        {
-            DisposeCallCount++;
-            if (ThrowOnDispose != null) throw ThrowOnDispose;
-        }
-    }
-
     [Fact]
     public async Task RealUiaProcessRunner_StartAsync_WhenStartReturnsFalse_DisposesProcess_AndThrows()
     {
@@ -241,6 +173,27 @@ public sealed class RealUiaProcessSessionTests
 
         fakeProcess.StartCallCount.ShouldBe(1);
         fakeProcess.DisposeCallCount.ShouldBe(1);
+    }
+
+    [Fact]
+    public async Task RealUiaProcessRunner_StartAsync_WhenStartReturnsFalse_AndDisposeThrows_ThrowsProcessStartupCleanupException_WithUnstartedSession()
+    {
+        var dummyPath = typeof(RealUiaProcessRunner).Assembly.Location;
+        var fakeProcess = new FakeProcessAdapter
+        {
+            StartResult = false,
+            ThrowOnDispose = new InvalidOperationException("OS handle dispose failed.")
+        };
+        var runner = new RealUiaProcessRunner(dummyPath, psi => fakeProcess);
+
+        var ex = await Should.ThrowAsync<ProcessStartupCleanupException>(async () => await runner.StartAsync(CancellationToken.None));
+        ex.UnconfirmedSession.ShouldNotBeNull();
+        ex.UnconfirmedSession.HasExited.ShouldBeTrue(); // Unstarted session has HasExited = true
+
+        fakeProcess.StartCallCount.ShouldBe(1);
+        fakeProcess.DisposeCallCount.ShouldBe(1);
+        fakeProcess.KillCallCount.ShouldBe(0); // No useless Kill
+        fakeProcess.WaitForExitCallCount.ShouldBe(0); // No useless Wait
     }
 
     [Fact]

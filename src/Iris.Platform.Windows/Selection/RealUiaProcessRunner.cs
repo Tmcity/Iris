@@ -31,7 +31,14 @@ internal sealed class RealProcessAdapter : IProcessAdapter
     public void Kill() => _process.Kill();
     public bool WaitForExit(int milliseconds) => _process.WaitForExit(milliseconds);
     public Task WaitForExitAsync(CancellationToken cancellationToken) => _process.WaitForExitAsync(cancellationToken);
-    public bool HasExited => _process.HasExited;
+    public bool HasExited
+    {
+        get
+        {
+            try { return _process.HasExited; }
+            catch { return false; }
+        }
+    }
     public int ExitCode => _process.ExitCode;
     public Stream StandardInput => _process.StandardInput.BaseStream;
     public Stream StandardOutput => _process.StandardOutput.BaseStream;
@@ -75,7 +82,7 @@ internal sealed class RealUiaProcessRunner : IUiaProcessRunner
         _sessionFactory = sessionFactory;
     }
 
-    public Task<IUiaProcessSession> StartAsync(CancellationToken cancellationToken)
+    public async Task<IUiaProcessSession> StartAsync(CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -111,11 +118,19 @@ internal sealed class RealUiaProcessRunner : IUiaProcessRunner
                 throw new InvalidOperationException("Failed to start Iris.UiaHost process.");
             }
         }
-        catch
+        catch (Exception startEx)
         {
             if (!started)
             {
-                try { process.Dispose(); } catch { }
+                try
+                {
+                    process.Dispose();
+                }
+                catch (Exception dispEx)
+                {
+                    var unstartedSession = CreateUnstartedSession(process);
+                    throw new ProcessStartupCleanupException(unstartedSession, "PROCESS_STARTUP_CLEANUP_FAILED", new AggregateException(startEx, dispEx));
+                }
             }
             throw;
         }
@@ -160,30 +175,35 @@ internal sealed class RealUiaProcessRunner : IUiaProcessRunner
                 ? _sessionFactory(process, stderrDrainTask)
                 : new RealUiaProcessSession(process, stderrDrainTask);
 
-            return Task.FromResult(session);
+            return session;
         }
         catch (Exception wrapEx)
         {
-            bool exited = false;
+            var unconfirmedSession = CreateUnconfirmedSession(process, stderrDrainTask);
+            bool cleanExit = false;
             Exception? cleanupEx = null;
+
             try
             {
-                if (!process.HasExited)
+                if (!unconfirmedSession.HasExited)
                 {
-                    process.Kill();
+                    unconfirmedSession.Kill();
                 }
-                exited = process.WaitForExit(1000);
+
+                using var waitCts = new CancellationTokenSource(1000);
+                await unconfirmedSession.WaitForExitAsync(waitCts.Token).ConfigureAwait(false);
+                cleanExit = true;
             }
             catch (Exception ex)
             {
                 cleanupEx = ex;
             }
 
-            if (exited && cleanupEx == null)
+            if (cleanExit && cleanupEx == null)
             {
                 try
                 {
-                    process.Dispose();
+                    await unconfirmedSession.DisposeAsync().ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -191,12 +211,11 @@ internal sealed class RealUiaProcessRunner : IUiaProcessRunner
                 }
             }
 
-            if (exited && cleanupEx == null)
+            if (cleanExit && cleanupEx == null && unconfirmedSession.IsFullyDisposed)
             {
                 throw;
             }
 
-            var unconfirmedSession = CreateUnconfirmedSession(process, stderrDrainTask);
             throw new ProcessStartupCleanupException(unconfirmedSession, "PROCESS_STARTUP_CLEANUP_FAILED", cleanupEx ?? wrapEx);
         }
     }
@@ -211,6 +230,9 @@ internal sealed class RealUiaProcessRunner : IUiaProcessRunner
         try { stdin = process.StandardInput; stdinDisp = process.StandardInputDisposable; } catch { }
         try { stdout = process.StandardOutput; stdoutDisp = process.StandardOutputDisposable; } catch { }
 
+        bool hasExited = false;
+        try { hasExited = process.HasExited; } catch { }
+
         return new RealUiaProcessSession(
             process,
             stderrDrainTask ?? Task.CompletedTask,
@@ -218,7 +240,23 @@ internal sealed class RealUiaProcessRunner : IUiaProcessRunner
             stdinDisp,
             stdout,
             stdoutDisp,
-            process);
+            process,
+            isUnstarted: false,
+            hasExited: hasExited);
+    }
+
+    private static RealUiaProcessSession CreateUnstartedSession(IProcessAdapter process)
+    {
+        return new RealUiaProcessSession(
+            process,
+            Task.CompletedTask,
+            Stream.Null,
+            new MemoryStream(),
+            Stream.Null,
+            new MemoryStream(),
+            process,
+            isUnstarted: true,
+            hasExited: true);
     }
 }
 
@@ -240,6 +278,18 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
     private bool _isFullyDisposed;
     private bool _hasExited;
     private int _exitCode = -1;
+    private readonly bool _isUnstarted;
+
+    public bool IsFullyDisposed
+    {
+        get
+        {
+            lock (_disposeGate)
+            {
+                return _isFullyDisposed;
+            }
+        }
+    }
 
     public RealUiaProcessSession(Process process, Task stderrDrainTask)
         : this(
@@ -267,7 +317,9 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
         IDisposable stdinDisposable,
         Stream stdoutStream,
         IDisposable stdoutDisposable,
-        IDisposable? processDisposable = null)
+        IDisposable? processDisposable = null,
+        bool isUnstarted = false,
+        bool hasExited = false)
     {
         _process = process;
         _stderrDrainTask = stderrDrainTask ?? throw new ArgumentNullException(nameof(stderrDrainTask));
@@ -276,6 +328,14 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
         _stdoutStream = stdoutStream ?? throw new ArgumentNullException(nameof(stdoutStream));
         _stdoutDisposable = stdoutDisposable ?? throw new ArgumentNullException(nameof(stdoutDisposable));
         _processDisposable = processDisposable;
+        _isUnstarted = isUnstarted;
+        _hasExited = hasExited || isUnstarted;
+        if (isUnstarted)
+        {
+            _stdinDisposed = true;
+            _stdoutDisposed = true;
+            _stderrDrainObserved = true;
+        }
     }
 
     public Stream StandardInput => _stdinStream;
@@ -283,7 +343,7 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
 
     public async Task WaitForExitAsync(CancellationToken cancellationToken)
     {
-        if (_process != null)
+        if (_process != null && !_isUnstarted)
         {
             await _process.WaitForExitAsync(cancellationToken).ConfigureAwait(false);
             _hasExited = true;
@@ -311,6 +371,7 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
         get
         {
             if (_hasExited) return true;
+            if (_isUnstarted) return true;
             if (_process == null) return false;
             try
             {
@@ -348,13 +409,13 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
 
     public void Kill()
     {
-        if (HasExited || _process == null) return;
+        if (_isUnstarted || HasExited || _process == null) return;
 
         try
         {
             _process.Kill();
         }
-        catch (InvalidOperationException)
+        catch (InvalidOperationException) when (HasExited)
         {
             // Process exited between check and kill
         }
@@ -439,7 +500,7 @@ internal sealed class RealUiaProcessSession : IUiaProcessSession
         {
             try
             {
-                if (!_hasExited && _process != null && _process.HasExited)
+                if (!_hasExited && _process != null && !_isUnstarted && _process.HasExited)
                 {
                     _hasExited = true;
                     _exitCode = _process.ExitCode;

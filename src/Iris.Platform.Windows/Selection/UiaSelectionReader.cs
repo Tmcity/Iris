@@ -138,7 +138,7 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
             catch (ProcessStartupCleanupException pce)
             {
                 RegisterUnconfirmedCleanupSession(op, pce.UnconfirmedSession);
-                outcomeResult = UiaSelectionResult.CreateFailed(op.RequestId, "PROCESS_START_FAILED");
+                outcomeException = new IrisException(ErrorCode.CaptureFailed, "Child process startup cleanup failed and requires retry before new reads.");
                 return;
             }
             catch (FileNotFoundException)
@@ -176,7 +176,7 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
             catch (ProcessStartupCleanupException pce)
             {
                 RegisterUnconfirmedCleanupSession(op, pce.UnconfirmedSession);
-                outcomeResult = UiaSelectionResult.CreateFailed(op.RequestId, "PROCESS_START_FAILED");
+                outcomeException = new IrisException(ErrorCode.CaptureFailed, "Child process startup cleanup failed and requires retry before new reads.");
                 return;
             }
             catch (FileNotFoundException)
@@ -201,10 +201,12 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
                 catch (ProcessStartupCleanupException pce)
                 {
                     RegisterUnconfirmedCleanupSession(op, pce.UnconfirmedSession);
+                    outcomeException = new IrisException(ErrorCode.CaptureFailed, "Child process startup cleanup failed and requires retry before new reads.");
+                    return;
                 }
                 catch
                 {
-                    // 启动抛错，无物理会话产生
+                    // 启动抛错，无物理会话产生且清理无残留
                 }
 
                 if (delayedSession != null)
@@ -215,7 +217,15 @@ internal sealed class UiaSelectionReader : IAsyncDisposable, IDisposable
                         op.Coordinator = new SessionCleanupCoordinator(delayedSession, op, _timeProvider);
                     }
                     op.WasKilledDueToCancelOrStop = true;
-                    await PerformCleanupAsync(op.Coordinator, normalExitGraceMs: 0).ConfigureAwait(false);
+                    try
+                    {
+                        await PerformCleanupAsync(op.Coordinator, normalExitGraceMs: 0).ConfigureAwait(false);
+                    }
+                    catch (Exception ex)
+                    {
+                        outcomeException = ex;
+                        return;
+                    }
                 }
 
                 if (startCanceled)

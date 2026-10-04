@@ -1172,10 +1172,10 @@ public sealed class UiaSelectionReaderTests
         var unconfirmedSession = new FakeUiaProcessSession();
         _processRunner.StartAsyncFunc = ct => throw new ProcessStartupCleanupException(unconfirmedSession, "Simulated unconfirmed process start failure.");
 
-        // First call fails with PROCESS_START_FAILED
-        var result1 = await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken);
-        result1.Status.ShouldBe(UiaSelectionStatus.Failed);
-        result1.ErrorCode.ShouldBe("PROCESS_START_FAILED");
+        // First call fails with safe cleanup exception (not ordinary Failed)
+        var ex1 = await Should.ThrowAsync<IrisException>(async () => await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken));
+        ex1.Code.ShouldBe(ErrorCode.CaptureFailed);
+        ex1.Message.ShouldContain("Child process startup cleanup failed and requires retry before new reads.");
 
         // Next read is blocked because failed coordinator holds the unconfirmed session
         var ex = await Should.ThrowAsync<IrisException>(async () => await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken));
@@ -1210,4 +1210,278 @@ public sealed class UiaSelectionReaderTests
         result2.Status.ShouldBe(UiaSelectionStatus.Success);
         result2.Text.ShouldBe("Recovered text");
     }
+
+    [Fact]
+    public async Task ReadAsync_WhenStartFails_AndDisposeSucceeds_ReturnsOrdinaryFailed_AndNoResidualResponsibility()
+    {
+        var dummyPath = typeof(RealUiaProcessRunner).Assembly.Location;
+        var fakeProcess = new FakeProcessAdapter { StartResult = false };
+        var runner = new RealUiaProcessRunner(dummyPath, _ => fakeProcess);
+        await using var reader = new UiaSelectionReader(runner, _targetValidator, _timeProvider);
+
+        var result = await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken);
+
+        result.Status.ShouldBe(UiaSelectionStatus.Failed);
+        result.ErrorCode.ShouldBe("PROCESS_START_FAILED");
+        fakeProcess.StartCallCount.ShouldBe(1);
+        fakeProcess.DisposeCallCount.ShouldBe(1);
+        fakeProcess.KillCallCount.ShouldBe(0);
+        fakeProcess.WaitForExitCallCount.ShouldBe(0);
+
+        // Next read is immediately admitted and not blocked by residual cleanup
+        fakeProcess.StartResult = false;
+        var result2 = await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken);
+        result2.Status.ShouldBe(UiaSelectionStatus.Failed);
+        result2.ErrorCode.ShouldBe("PROCESS_START_FAILED");
+    }
+
+    [Fact]
+    public async Task ReadAsync_WhenStartFails_AndDisposeFails_ThrowsSafeCleanupException_AndRetryCleansUpWithoutKillOrWait()
+    {
+        var dummyPath = typeof(RealUiaProcessRunner).Assembly.Location;
+        var fakeProcess = new FakeProcessAdapter
+        {
+            StartResult = false,
+            ThrowOnDispose = new InvalidOperationException("Initial dispose failed.")
+        };
+        var runner = new RealUiaProcessRunner(dummyPath, _ => fakeProcess);
+        await using var reader = new UiaSelectionReader(runner, _targetValidator, _timeProvider);
+
+        // First call fails with safe cleanup exception (not ordinary Failed)
+        var ex1 = await Should.ThrowAsync<IrisException>(async () => await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken));
+        ex1.Code.ShouldBe(ErrorCode.CaptureFailed);
+        ex1.Message.ShouldContain("Child process startup cleanup failed");
+
+        fakeProcess.StartCallCount.ShouldBe(1);
+        fakeProcess.DisposeCallCount.ShouldBe(1);
+        fakeProcess.KillCallCount.ShouldBe(0);
+        fakeProcess.WaitForExitCallCount.ShouldBe(0);
+
+        // Next read is blocked because failed coordinator holds the unstarted session
+        var ex2 = await Should.ThrowAsync<IrisException>(async () => await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken));
+        ex2.Code.ShouldBe(ErrorCode.CaptureFailed);
+        ex2.Message.ShouldContain("Previous child process cleanup failed");
+
+        // Clear dispose fault and perform retry cleanup
+        fakeProcess.ThrowOnDispose = null;
+        await reader.RetryCleanupAsync(TestContext.Current.CancellationToken);
+
+        // Process dispose is retried, but NO meaningless Kill or WaitForExit on unstarted process
+        fakeProcess.DisposeCallCount.ShouldBe(2);
+        fakeProcess.KillCallCount.ShouldBe(0);
+        fakeProcess.WaitForExitCallCount.ShouldBe(0);
+
+        // Subsequent read can now proceed
+        fakeProcess.StartResult = false;
+        var result = await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken);
+        result.Status.ShouldBe(UiaSelectionStatus.Failed);
+        result.ErrorCode.ShouldBe("PROCESS_START_FAILED");
+    }
+
+    [Fact]
+    public async Task ReadAsync_WhenWrappingFails_AndKillOrWaitFails_ThrowsSafeCleanupException_BlocksNextRead_AndRecoversAfterRetry()
+    {
+        var dummyPath = typeof(RealUiaProcessRunner).Assembly.Location;
+        var fakeProcess = new FakeProcessAdapter
+        {
+            StartResult = true,
+            WaitForExitResult = false // Simulates exit wait timeout during wrap rollback
+        };
+        bool wrapShouldFail = true;
+        var runner = new RealUiaProcessRunner(
+            dummyPath,
+            _ => fakeProcess,
+            (proc, task) => wrapShouldFail
+                ? throw new InvalidOperationException("Session wrapping failed.")
+                : new RealUiaProcessSession(proc, task));
+        await using var reader = new UiaSelectionReader(runner, _targetValidator, _timeProvider);
+
+        // First call fails with safe cleanup exception, owner is retained
+        var ex1 = await Should.ThrowAsync<IrisException>(async () => await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken));
+        ex1.Code.ShouldBe(ErrorCode.CaptureFailed);
+        ex1.Message.ShouldContain("Child process startup cleanup failed");
+
+        fakeProcess.KillCallCount.ShouldBe(1);
+        fakeProcess.DisposeCallCount.ShouldBe(0); // Not disposed, retained in failed cleanup coordinator
+
+        // Next read is blocked
+        var ex2 = await Should.ThrowAsync<IrisException>(async () => await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken));
+        ex2.Code.ShouldBe(ErrorCode.CaptureFailed);
+        ex2.Message.ShouldContain("Previous child process cleanup failed");
+
+        // Clear exit wait failure and retry cleanup
+        fakeProcess.WaitForExitResult = true;
+        fakeProcess.SignalExit();
+        await reader.RetryCleanupAsync(TestContext.Current.CancellationToken);
+
+        fakeProcess.DisposeCallCount.ShouldBe(1); // Now cleanly disposed
+
+        // Subsequent read can now proceed without wrap failure
+        wrapShouldFail = false;
+        var fakeProcess2 = new FakeProcessAdapter { StartResult = false };
+        var runner2 = new RealUiaProcessRunner(dummyPath, _ => fakeProcess2);
+        await using var reader2 = new UiaSelectionReader(runner2, _targetValidator, _timeProvider);
+        var result2 = await reader2.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken);
+        result2.Status.ShouldBe(UiaSelectionStatus.Failed);
+    }
+
+    [Fact]
+    public async Task ReadAsync_WhenDelayedStartThrowsProcessStartupCleanupException_ThrowsSafeCleanupException_NotMaskedByTimeout()
+    {
+        await using var reader = CreateReader();
+
+        var unconfirmedSession = new FakeUiaProcessSession();
+        var startTcs = new TaskCompletionSource<IUiaProcessSession>(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        _processRunner.StartAsyncFunc = ct => startTcs.Task;
+
+        var readTask = Task.Run(async () => await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken), TestContext.Current.CancellationToken);
+
+        // Advance past Ready budget (1500ms) to trigger timeout in read loop
+        _timeProvider.Advance(TimeSpan.FromMilliseconds(1600));
+
+        // Delayed start completes with ProcessStartupCleanupException
+        startTcs.SetException(new ProcessStartupCleanupException(unconfirmedSession, "Delayed start cleanup failure."));
+
+        // Must throw safe CaptureFailed, NOT masked by TimedOut
+        var ex1 = await Should.ThrowAsync<IrisException>(async () => await readTask);
+        ex1.Code.ShouldBe(ErrorCode.CaptureFailed);
+        ex1.Message.ShouldContain("Child process startup cleanup failed");
+
+        // Next read is blocked
+        var ex2 = await Should.ThrowAsync<IrisException>(() => reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken));
+        ex2.Code.ShouldBe(ErrorCode.CaptureFailed);
+
+        // Retry cleanup clears the unconfirmed session
+        await reader.RetryCleanupAsync(TestContext.Current.CancellationToken);
+        unconfirmedSession.Disposed.ShouldBeTrue();
+    }
+
+    [Fact]
+    public async Task ReadAsync_And_StopAsync_WhenStderrDrainPending_DoNotClaimCompletionUntilDrainObserved()
+    {
+        var dummyPath = typeof(RealUiaProcessRunner).Assembly.Location;
+        var drainTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var fakeProcess = new FakeProcessAdapter();
+
+        var runner = new RealUiaProcessRunner(
+            dummyPath,
+            _ => fakeProcess,
+            (p, task) => new RealUiaProcessSession(p, drainTcs.Task, p.StandardInput, p.StandardInputDisposable, p.StandardOutput, p.StandardOutputDisposable, p));
+
+        await using var reader = new UiaSelectionReader(runner, _targetValidator, _timeProvider);
+
+        var readTask = Task.Run(async () => await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken), TestContext.Current.CancellationToken);
+
+        fakeProcess.EnqueueReady();
+        var reqLine = await UiaProtocolFrameReader.ReadLineWithLimitAsync(fakeProcess.TestStdinReader, UiaProtocolConstants.MaxFrameBytes, TestContext.Current.CancellationToken);
+        var req = UiaProtocolCodec.DeserializeRequest(reqLine!);
+
+        fakeProcess.EnqueueReply(new UiaReplyFrame
+        {
+            ProtocolVersion = 1,
+            Kind = "Reply",
+            RequestId = req!.RequestId,
+            Status = UiaSelectionStatus.Success,
+            Text = "Drained text"
+        });
+        fakeProcess.SignalExit();
+
+        // Process has exited, streams closed, but stderr drain task is still pending
+        await Task.Delay(50, TestContext.Current.CancellationToken);
+        readTask.IsCompleted.ShouldBeFalse(); // Does not claim clean completion prematurely!
+
+        // Release drain task
+        drainTcs.SetResult();
+
+        var result = await readTask;
+        result.Status.ShouldBe(UiaSelectionStatus.Success);
+        result.Text.ShouldBe("Drained text");
+        fakeProcess.DisposeCallCount.ShouldBe(1);
+
+        // Also verify StopAsync with pending drain task
+        var drainTcs2 = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var fakeProcess2 = new FakeProcessAdapter();
+        var runner2 = new RealUiaProcessRunner(
+            dummyPath,
+            _ => fakeProcess2,
+            (p, task) => new RealUiaProcessSession(p, drainTcs2.Task, p.StandardInput, p.StandardInputDisposable, p.StandardOutput, p.StandardOutputDisposable, p));
+
+        await using var reader2 = new UiaSelectionReader(runner2, _targetValidator, _timeProvider);
+
+        var readTask2 = Task.Run(async () => await reader2.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken), TestContext.Current.CancellationToken);
+        fakeProcess2.EnqueueReady();
+        var reqLine2 = await UiaProtocolFrameReader.ReadLineWithLimitAsync(fakeProcess2.TestStdinReader, UiaProtocolConstants.MaxFrameBytes, TestContext.Current.CancellationToken);
+        reqLine2.ShouldNotBeNull();
+
+        var stopTask = reader2.StopAsync(TestContext.Current.CancellationToken);
+        await Task.Delay(50, TestContext.Current.CancellationToken);
+        stopTask.IsCompleted.ShouldBeFalse(); // Stop does not claim completion until drain observed!
+
+        fakeProcess2.SignalExit();
+        drainTcs2.SetResult();
+
+        await stopTask;
+        await Should.ThrowAsync<OperationCanceledException>(async () => await readTask2);
+        fakeProcess2.DisposeCallCount.ShouldBe(1);
+    }
+
+    [Fact]
+    public async Task DisposeAsync_WhenStderrDrainFaults_IsSafelyVisible_AndConcurrentRetryDoesNotRepeatSuccessfulDisposals()
+    {
+        var dummyPath = typeof(RealUiaProcessRunner).Assembly.Location;
+        var drainTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        drainTcs.SetException(new IOException("Stderr stream faulted during capture."));
+
+        var fakeProcess = new FakeProcessAdapter();
+        var trackedStdin = new TrackedDisposable();
+        var trackedStdout = new TrackedDisposable();
+        fakeProcess.StandardInputDisposable = trackedStdin;
+        fakeProcess.StandardOutputDisposable = trackedStdout;
+
+        var runner = new RealUiaProcessRunner(
+            dummyPath,
+            _ => fakeProcess,
+            (p, task) => new RealUiaProcessSession(p, drainTcs.Task, p.StandardInput, p.StandardInputDisposable, p.StandardOutput, p.StandardOutputDisposable, p));
+
+        await using var reader = new UiaSelectionReader(runner, _targetValidator, _timeProvider);
+
+        var readTask = Task.Run(async () => await reader.ReadAsync(0x1000, 4242, TestContext.Current.CancellationToken), TestContext.Current.CancellationToken);
+
+        fakeProcess.EnqueueReady();
+        var reqLine = await UiaProtocolFrameReader.ReadLineWithLimitAsync(fakeProcess.TestStdinReader, UiaProtocolConstants.MaxFrameBytes, TestContext.Current.CancellationToken);
+        var req = UiaProtocolCodec.DeserializeRequest(reqLine!);
+
+        fakeProcess.EnqueueReply(new UiaReplyFrame
+        {
+            ProtocolVersion = 1,
+            Kind = "Reply",
+            RequestId = req!.RequestId,
+            Status = UiaSelectionStatus.Success,
+            Text = "Faulted drain test"
+        });
+        fakeProcess.SignalExit();
+
+        // Reading completion triggers cleanup where stderr drain task faults
+        var ex = await Should.ThrowAsync<IrisException>(async () => await readTask);
+        ex.Code.ShouldBe(ErrorCode.CaptureFailed);
+        ex.Message.ShouldContain("CLEANUP_FAILED phase=DISPOSE");
+
+        // Stdin, stdout, and process were already disposed during the first cleanup attempt
+        trackedStdin.DisposeCallCount.ShouldBe(1);
+        trackedStdout.DisposeCallCount.ShouldBe(1);
+        fakeProcess.DisposeCallCount.ShouldBe(1);
+
+        // Concurrent cleanup retry: both callers share the attempt
+        var retry1 = reader.RetryCleanupAsync(TestContext.Current.CancellationToken);
+        var retry2 = reader.RetryCleanupAsync(TestContext.Current.CancellationToken);
+
+        await Task.WhenAll(retry1, retry2);
+
+        // Terminal drain state was observed, and successful disposals are NOT repeated!
+        trackedStdin.DisposeCallCount.ShouldBe(1);
+        trackedStdout.DisposeCallCount.ShouldBe(1);
+        fakeProcess.DisposeCallCount.ShouldBe(1);
+    }
 }
+

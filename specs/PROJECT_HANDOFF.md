@@ -2,7 +2,7 @@
 
 > 2026-10-05 更新；由 Codex 接替 Claude Code 的架构师职责。当前状态以 `tasks/BACKLOG.md` 与 `tasks/current_task.md` 为准；本文件记录交接事实与后续注意事项。
 
-**当前唯一有效状态（T-022B-R3 复审，2026-10-05）**：HEAD b47a66a4f3aa08d711b0f1c352c02bf97a176a6f，R3 未通过。独立 Release 零警告/零错误，全量 1891 项（1890 成功/1 环境跳过），新发布实际宿主 Ready/无效请求/EOF/Kill 通过。原真实 session 重试/stderr 终态、Stop 回调/预算/隐私、截断及 COM session owner/初始化结果反例通过。当前仅剩 COM 已取得对象尚未移交时回滚与 wrapper 重试、runner 启动失败真实退出确认、慢启动较早失败与 STA 失败收尾三组。当前唯一工单 tasks/current_task.md / T-022B-R4；完整原始证据和静态边界在 tasks/done/T-022B-R3.md 第 15 节，探针/日志/指纹在系统临时目录 iris-t022b-r3-independent-review；本轮工具进程、自有宿主与 STA 已结束。正式依据 UIA_SELECTION_READING.md / ARCH v1.31，公开契约不变。T-021-R2 / 4976109 已验收，C20B-1 完成，不重开。T-022/T-022B 保持 ▶，不开始 C/T-023。架构师本轮仅修改文档，未提交，由开发随修正保留带入。用户手动转交，控制暂停，不推送。
+**当前唯一有效状态（T-022B-R4 复审，2026-10-05）**：HEAD 2c25df7ffb9e2542e3cab5a08e6ee80c4c626f35，R4 未通过。独立 Release 零警告/零错误，全量 1906 项（1905 成功/1 环境跳过），新 App 发布及实际宿主 Ready/无效请求/EOF/Kill 通过。R4-01 COM 移交/重试/类型失败回滚、R4-03 测试失败收尾通过；此前 reader/协议/取消/session 成果保持。仅 R4-02 启动失败清理剩余：未完成清理仍首次返回 Failed/TimedOut，启动前 Dispose 故障丢责任，包装失败回滚的 stderr Task 未结束而 Read/Stop 已返回。当前唯一工单 tasks/current_task.md / T-022B-R5；证据见 tasks/done/T-022B-R4.md 第十节，探针/日志/指纹位于系统临时目录 iris-t022b-r4-independent-review。本轮所有验证任务、自有宿主与 STA 已结束。正式依据 UIA_SELECTION_READING.md / ARCH v1.31；公开契约不变，T-021 与 C20B-1 不重开。T-022/T-022B 保持 ▶，不开始 C/T-023。架构师只修改文档，未提交，由开发随修正保留带入。用户手动转交，控制暂停，不推送。
 
 **当前协作方式（2026-10-04 最新用户指令）：由用户传话，暂停控制。** 用户明确说“接下来由我传话，先暂停控制”。已停止 Antigravity 的读取/点击/输入/发送；继续授权范围内的本地审查、测试和工单准备，待转交内容由用户发送。下方直接控制记录及旧目标中的恢复控制文字属于此前授权，不覆盖本条；单独“继续”不恢复 UI 控制，须新的明确恢复指令。不推送。
 

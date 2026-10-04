@@ -410,3 +410,145 @@ internal sealed class FaultingAfterBytesStream(Stream inner, Exception faultExce
             base.Dispose(disposing);
         }
     }
+
+internal sealed class TrackedDisposable : IDisposable
+{
+    public int DisposeCallCount { get; private set; }
+    public Exception? ThrowOnDispose { get; set; }
+
+    public void Dispose()
+    {
+        DisposeCallCount++;
+        if (ThrowOnDispose != null) throw ThrowOnDispose;
+    }
+}
+
+internal sealed class FakeProcessAdapter : IProcessAdapter
+{
+    private readonly System.IO.Pipelines.Pipe _stdinPipe = new();
+    private readonly System.IO.Pipelines.Pipe _stdoutPipe = new();
+    private readonly System.IO.Pipelines.Pipe _stderrPipe = new();
+    private readonly SemaphoreSlim _exitGate = new(0);
+
+    public bool StartResult { get; set; } = true;
+    public Exception? ThrowOnStart { get; set; }
+    public bool HasExited { get; set; }
+    public int ExitCode { get; set; }
+    public bool WaitForExitResult { get; set; } = true;
+    public Exception? ThrowOnWaitForExit { get; set; }
+    public Exception? ThrowOnKill { get; set; }
+    public Exception? ThrowOnDispose { get; set; }
+
+    public int StartCallCount { get; private set; }
+    public int KillCallCount { get; private set; }
+    public int WaitForExitCallCount { get; private set; }
+    public int DisposeCallCount { get; private set; }
+
+    public Stream StandardInput => _stdinPipe.Writer.AsStream();
+    public Stream StandardOutput => _stdoutPipe.Reader.AsStream();
+    public Stream StandardError => _stderrPipe.Reader.AsStream();
+
+    public Stream TestStdinReader => _stdinPipe.Reader.AsStream();
+    public Stream TestStdoutWriter => _stdoutPipe.Writer.AsStream();
+    public Stream TestStderrWriter => _stderrPipe.Writer.AsStream();
+
+    public IDisposable StandardInputDisposable { get; set; }
+    public IDisposable StandardOutputDisposable { get; set; }
+
+    public FakeProcessAdapter()
+    {
+        StandardInputDisposable = new TrackedDisposable();
+        StandardOutputDisposable = new TrackedDisposable();
+    }
+
+    public void EnqueueLine(string line)
+    {
+        var bytes = Encoding.UTF8.GetBytes(line + "\n");
+        TestStdoutWriter.Write(bytes);
+        TestStdoutWriter.Flush();
+    }
+
+    public void EnqueueReady()
+    {
+        EnqueueLine(UiaProtocolCodec.SerializeReady());
+    }
+
+    public void EnqueueReply(UiaReplyFrame reply)
+    {
+        EnqueueLine(UiaProtocolCodec.SerializeReply(reply));
+    }
+
+    public void SignalExit()
+    {
+        HasExited = true;
+        _stdoutPipe.Writer.Complete();
+        _stdinPipe.Writer.Complete();
+        _stderrPipe.Writer.Complete();
+        if (_exitGate.CurrentCount == 0)
+        {
+            _exitGate.Release();
+        }
+    }
+
+    public bool Start()
+    {
+        StartCallCount++;
+        if (ThrowOnStart != null) throw ThrowOnStart;
+        return StartResult;
+    }
+
+    public void Kill()
+    {
+        KillCallCount++;
+        if (ThrowOnKill != null) throw ThrowOnKill;
+        HasExited = true;
+        ExitCode = -1;
+        _stdoutPipe.Writer.Complete();
+        _stdinPipe.Writer.Complete();
+        _stderrPipe.Writer.Complete();
+        if (_exitGate.CurrentCount == 0)
+        {
+            _exitGate.Release();
+        }
+    }
+
+    public bool WaitForExit(int milliseconds)
+    {
+        WaitForExitCallCount++;
+        if (ThrowOnWaitForExit != null) throw ThrowOnWaitForExit;
+        if (WaitForExitResult) HasExited = true;
+        return WaitForExitResult;
+    }
+
+    public async Task WaitForExitAsync(CancellationToken cancellationToken)
+    {
+        WaitForExitCallCount++;
+        if (ThrowOnWaitForExit != null) throw ThrowOnWaitForExit;
+        if (!WaitForExitResult)
+        {
+            await Task.Delay(50, cancellationToken).ConfigureAwait(false);
+            throw new OperationCanceledException("Process exit wait timed out.", cancellationToken);
+        }
+        if (HasExited) return;
+        try
+        {
+            await _exitGate.WaitAsync(cancellationToken).ConfigureAwait(false);
+        }
+        catch (ObjectDisposedException) { }
+        HasExited = true;
+    }
+
+    public void Dispose()
+    {
+        DisposeCallCount++;
+        _stdoutPipe.Writer.Complete();
+        _stdinPipe.Writer.Complete();
+        _stderrPipe.Writer.Complete();
+        _stdoutPipe.Reader.Complete();
+        _stdinPipe.Reader.Complete();
+        _stderrPipe.Reader.Complete();
+        try { _exitGate.Dispose(); } catch { }
+        if (ThrowOnDispose != null) throw ThrowOnDispose;
+    }
+}
+
