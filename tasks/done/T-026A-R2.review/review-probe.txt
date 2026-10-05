@@ -1,0 +1,192 @@
+C:\Users\28910\AppData\Local\Temp\iris-t026a-r2-independent-review\MouseTestBoundary.cs(47,25): warning CS0649: 从未对字段“FakeMouseHookApi.InstallGate”赋值，字段将一直保持其默认值 null [C:\Users\28910\AppData\Local\Temp\iris-t026a-r2-independent-review\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t026a-r2-independent-review\MouseTestBoundary.cs(45,19): warning CS0649: 从未对字段“FakeMouseHookApi.InstallFailure”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t026a-r2-independent-review\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t026a-r2-independent-review\MouseInteractionTestScope.cs(203,23): warning CS0649: 从未对字段“MouseInteractionTestScope.FakeProvider.HoldFirst”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t026a-r2-independent-review\Review.csproj]
+SHOW_THEN_PENDING entered=True accepted=True pendingAdmitted=True visibleBeforeOldShow=True finalVisible=True
+CHECK NEW_SHOW_THEN_PENDING_OPERATION_PRESERVES_VISIBLE_OWNER=PASS
+FAILED_NEW_SHOW entered=True rejected=True hiddenBeforeOldShow=True finalVisible=False reason=DisplayIntent
+CHECK FAILED_NEW_SHOW_CANNOT_BE_RESURRECTED_BY_OLD_RESTORE=PASS
+SEQUENCE B expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_B=PASS
+SEQUENCE BB expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BB=PASS
+SEQUENCE BBB expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BBB=PASS
+SEQUENCE BBS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BBS=PASS
+SEQUENCE BBH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BBH=PASS
+SEQUENCE BBF expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BBF=PASS
+SEQUENCE BS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BS=PASS
+SEQUENCE BSB expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BSB=PASS
+SEQUENCE BSS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BSS=PASS
+SEQUENCE BSH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BSH=PASS
+SEQUENCE BSF expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BSF=PASS
+SEQUENCE BH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BH=PASS
+SEQUENCE BHB expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BHB=PASS
+SEQUENCE BHS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BHS=PASS
+SEQUENCE BHH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BHH=PASS
+SEQUENCE BHF expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BHF=PASS
+SEQUENCE BF expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BF=PASS
+SEQUENCE BFB expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BFB=PASS
+SEQUENCE BFS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BFS=PASS
+SEQUENCE BFH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BFH=PASS
+SEQUENCE BFF expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_BFF=PASS
+SEQUENCE S expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_S=PASS
+SEQUENCE SB expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SB=PASS
+SEQUENCE SBB expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SBB=PASS
+SEQUENCE SBS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SBS=PASS
+SEQUENCE SBH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SBH=PASS
+SEQUENCE SBF expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SBF=PASS
+SEQUENCE SS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SS=PASS
+SEQUENCE SSB expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SSB=PASS
+SEQUENCE SSS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SSS=PASS
+SEQUENCE SSH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SSH=PASS
+SEQUENCE SSF expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SSF=PASS
+SEQUENCE SH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SH=PASS
+SEQUENCE SHB expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SHB=PASS
+SEQUENCE SHS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SHS=PASS
+SEQUENCE SHH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SHH=PASS
+SEQUENCE SHF expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SHF=PASS
+SEQUENCE SF expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SF=PASS
+SEQUENCE SFB expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SFB=PASS
+SEQUENCE SFS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SFS=PASS
+SEQUENCE SFH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SFH=PASS
+SEQUENCE SFF expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_SFF=PASS
+SEQUENCE H expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_H=PASS
+SEQUENCE HB expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HB=PASS
+SEQUENCE HBB expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HBB=PASS
+SEQUENCE HBS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HBS=PASS
+SEQUENCE HBH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HBH=PASS
+SEQUENCE HBF expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HBF=PASS
+SEQUENCE HS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HS=PASS
+SEQUENCE HSB expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HSB=PASS
+SEQUENCE HSS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HSS=PASS
+SEQUENCE HSH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HSH=PASS
+SEQUENCE HSF expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HSF=PASS
+SEQUENCE HH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HH=PASS
+SEQUENCE HHB expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HHB=PASS
+SEQUENCE HHS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HHS=PASS
+SEQUENCE HHH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HHH=PASS
+SEQUENCE HHF expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HHF=PASS
+SEQUENCE HF expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HF=PASS
+SEQUENCE HFB expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HFB=PASS
+SEQUENCE HFS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HFS=PASS
+SEQUENCE HFH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HFH=PASS
+SEQUENCE HFF expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_HFF=PASS
+SEQUENCE F expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_F=PASS
+SEQUENCE FB expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FB=PASS
+SEQUENCE FBB expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FBB=PASS
+SEQUENCE FBS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FBS=PASS
+SEQUENCE FBH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FBH=PASS
+SEQUENCE FBF expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FBF=PASS
+SEQUENCE FS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FS=PASS
+SEQUENCE FSB expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FSB=PASS
+SEQUENCE FSS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FSS=PASS
+SEQUENCE FSH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FSH=PASS
+SEQUENCE FSF expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FSF=PASS
+SEQUENCE FH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FH=PASS
+SEQUENCE FHB expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FHB=PASS
+SEQUENCE FHS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FHS=PASS
+SEQUENCE FHH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FHH=PASS
+SEQUENCE FHF expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FHF=PASS
+SEQUENCE FF expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FF=PASS
+SEQUENCE FFB expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FFB=PASS
+SEQUENCE FFS expectedVisible=True actualVisible=True reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FFS=PASS
+SEQUENCE FFH expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FFH=PASS
+SEQUENCE FFF expectedVisible=False actualVisible=False reason=DisplayIntent
+CHECK VISIBILITY_SEQUENCE_FFF=PASS
+SEQUENCE_COUNT=84; B=begin S=successful_show H=hide F=failed_native_show
+CHECK NORMAL_RESTORE=PASS
+NATIVE_SHOW entered=True invalidatedBeforeShowFlag=True newerWindowVisible=True
+CHECK INTENT_BEFORE_NATIVE_PLACEMENT=PASS
+RESTORE_NEW_HIDE entered=True visibleAfterReturn=False
+CHECK NEW_HIDE_DURING_RESTORE=PASS
+CHECK STOP_DURING_RESTORE=PASS
+CHECK NEW_SHOW_DURING_RESTORE_IS_PRESERVED=PASS
+RESTORE_SHOW_THEN_HIDE entered=True newerShowAccepted=True hiddenBeforeOldShow=True finalVisible=False
+CHECK SHOW_THEN_HIDE_DURING_RESTORE=PASS
+NOTIFY_FAILURE sync=True originalObserved=True cleanupHadFailure=False admissionRestored=True
+CHECK PAUSE_NOTIFICATION_SYNC_FAILURE=PASS
+NOTIFY_FAILURE sync=False originalObserved=True cleanupHadFailure=False admissionRestored=True
+CHECK PAUSE_NOTIFICATION_ASYNC_FAILURE=PASS
+FAILED_CLOSE_OWNER prepareSucceeded=False contentStillVisible=True
+CHECK VISIBLE_OWNER_WITH_FAILED_CLOSE=PASS
+SCOPE actualOwnersAndCoordinator=True fakeNativeStorageProvider=True userContent=False screenshot=False staAlive=False failures=0

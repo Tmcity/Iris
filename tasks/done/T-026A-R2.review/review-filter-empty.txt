@@ -1,0 +1,13 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 运行了零个测试 (1s 588ms)
+退出代码: 8
+
+测试运行摘要: 运行了零个测试
+  错误: 1
+
+  总计: 0
+  失败: 0
+  成功: 0
+  已跳过: 0
+  持续时间: 1s 937ms
+已完成测试运行，但显示非成功退出代码: 8 (请参阅: https://aka.ms/testingplatform/exitcodes)

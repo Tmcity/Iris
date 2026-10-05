@@ -453,34 +453,45 @@ public sealed class SettingsViewModelTests
     private sealed class HoldFirstDispatch : IUiDispatcher
     {
         private readonly WpfUiDispatcher _real = new();
+        private readonly object _gate = new();
         private readonly TaskCompletionSource _released = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        private int _first = 1;
+        private bool _first = true, _drained;
         private Func<Task>? _callback;
 
         public TaskCompletionSource Queued { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        public bool Released => _released.Task.IsCompleted;
 
         public bool CheckAccess() => _real.CheckAccess();
 
         public Task InvokeAsync(Func<Task> callback, CancellationToken ct)
         {
-            if (Interlocked.Exchange(ref _first, 0) == 1)
+            lock (_gate)
             {
-                _callback = callback;
-                Queued.TrySetResult();
-                return _released.Task;
+                if (_first && !_drained)
+                {
+                    _first = false;
+                    _callback = callback;
+                    Queued.TrySetResult();
+                    return _released.Task;
+                }
             }
             return _real.InvokeAsync(callback, ct);
         }
 
         public async Task DrainAsync()
         {
-            if (_callback != null)
+            Func<Task>? work;
+            lock (_gate)
             {
-                var work = _callback;
+                _drained = true; // A callback arriving after cleanup starts must not become held work.
+                work = _callback;
                 _callback = null;
-                await work().ConfigureAwait(true);
             }
-            _released.TrySetResult();
+            try
+            {
+                if (work != null) await _real.InvokeAsync(work, CancellationToken.None).ConfigureAwait(false);
+            }
+            finally { _released.TrySetResult(); }
         }
     }
 
@@ -521,41 +532,85 @@ public sealed class SettingsViewModelTests
                     return Task.CompletedTask;
                 });
 
+            using var releaseFreshQuery = new ManualResetEventSlim();
+            var freshQueryEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var freshUiState = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            int queries = 0;
             var autoStartService = Substitute.For<IAutoStartService>();
-            autoStartService.IsEnabled().Returns(false);
+            autoStartService.IsEnabled().Returns(_ =>
+            {
+                if (Interlocked.Increment(ref queries) > 1)
+                {
+                    freshQueryEntered.TrySetResult();
+                    releaseFreshQuery.Wait(); // Fake external synchronous query; finally always releases it.
+                }
+                return false;
+            });
+            autoStartService.When(x => x.SetEnabled(true)).Do(_ => throw new System.IO.IOException("Injected fake auto start error"));
 
             var dispatcher = new HoldFirstDispatch();
             using var themeService = new ThemeService(settingsService);
             using var coordinator = new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, null, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
-            using var vm = new SettingsViewModel(settingsService, themeService, coordinator, dispatcher);
-
+            SettingsViewModel? vm = null;
+            Task? save = null;
+            System.ComponentModel.PropertyChangedEventHandler? changed = null;
+            Exception? primary = null;
+            var cleanupErrors = new System.Collections.Generic.List<Exception>();
             try
             {
-                // 等待初始查询发起并捕获其回调
+                vm = new SettingsViewModel(settingsService, themeService, coordinator, dispatcher);
+                changed = (_, args) =>
+                {
+                    if (args.PropertyName == nameof(vm.CanRetryAutoStart) && vm.CanRetryAutoStart)
+                    {
+                        dispatcher.CheckAccess().ShouldBeTrue();
+                        freshUiState.TrySetResult();
+                    }
+                };
+                vm.PropertyChanged += changed; // Observe before saving can schedule the fresh query.
                 await dispatcher.Queued.Task.WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
-
-                // 注入保存时的自启应用失败
-                autoStartService.When(x => x.SetEnabled(true)).Do(_ => throw new System.IO.IOException("Injected fake auto start error"));
+                dispatcher.Released.ShouldBeFalse();
 
                 vm.LaunchAtStartup = true;
-                await vm.ExecuteSaveAsync().WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
+                save = vm.ExecuteSaveAsync();
+                await freshQueryEntered.Task.WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
+                await save.WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
+                save.IsCompletedSuccessfully.ShouldBeTrue();
+                dispatcher.Released.ShouldBeFalse("the old query callback must remain queued after save");
+                freshUiState.Task.IsCompleted.ShouldBeFalse("the fresh external query is still blocked");
+                settingsService.Current.General.LaunchAtStartup.ShouldBeTrue();
+                autoStartService.Received(1).SetEnabled(true);
 
-                vm.CanRetryAutoStart.ShouldBeTrue("保存失败后应允许重试自启");
+                releaseFreshQuery.Set();
+                await freshUiState.Task.WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
+                vm.CanRetryAutoStart.ShouldBeTrue("保存失败且最新查询UI状态完成后应允许重试自启");
+                dispatcher.Released.ShouldBeFalse("observe the latest UI state before releasing the old callback");
 
-                // 放行迟到的初始查询 UI 回调
                 await dispatcher.DrainAsync();
+                await coordinator.WaitForActiveWorkAsync().WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
                 await vm.WaitForActiveWorkAsync().WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
-
                 vm.CanRetryAutoStart.ShouldBeTrue("迟到的旧查询回调不得覆盖已失败的自启重试资格");
                 settingsService.Current.General.LaunchAtStartup.ShouldBeTrue();
                 autoStartService.Received(1).SetEnabled(true);
+                Volatile.Read(ref queries).ShouldBe(2);
             }
+            catch (Exception ex) { primary = ex; }
             finally
             {
-                await dispatcher.DrainAsync();
-                await coordinator.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
-                await vm.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
+                releaseFreshQuery.Set();
+                try { await dispatcher.DrainAsync(); } catch (Exception ex) { cleanupErrors.Add(ex); }
+                if (save != null) try { await save; } catch (Exception ex) { cleanupErrors.Add(ex); }
+                try { await coordinator.WaitForActiveWorkAsync(); } catch (Exception ex) { cleanupErrors.Add(ex); }
+                if (vm != null)
+                {
+                    try { await vm.WaitForActiveWorkAsync(); } catch (Exception ex) { cleanupErrors.Add(ex); }
+                    if (changed != null) vm.PropertyChanged -= changed;
+                    try { vm.Dispose(); } catch (Exception ex) { cleanupErrors.Add(ex); }
+                }
             }
+            if (primary != null && cleanupErrors.Count == 0) System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(primary).Throw();
+            if (primary != null) cleanupErrors.Insert(0, primary);
+            if (cleanupErrors.Count != 0) throw new AggregateException(cleanupErrors);
         });
     }
 

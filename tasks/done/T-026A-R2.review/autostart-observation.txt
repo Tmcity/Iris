@@ -1,0 +1,5 @@
+C:\Users\28910\AppData\Local\Temp\iris-t026a-r2-autostart-observation\MouseInteractionTestScope.cs(203,23): warning CS0649: 从未对字段“MouseInteractionTestScope.FakeProvider.HoldFirst”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t026a-r2-autostart-observation\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t026a-r2-autostart-observation\MouseTestBoundary.cs(47,25): warning CS0649: 从未对字段“FakeMouseHookApi.InstallGate”赋值，字段将一直保持其默认值 null [C:\Users\28910\AppData\Local\Temp\iris-t026a-r2-autostart-observation\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t026a-r2-autostart-observation\MouseTestBoundary.cs(45,19): warning CS0649: 从未对字段“FakeMouseHookApi.InstallFailure”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t026a-r2-autostart-observation\Review.csproj]
+AUTOSTART_TIMING saveCompleted=True oldQueryHeldAtSave=True retryBeforeFreshQuery=False retryAfterFreshQuery=True retryAfterOldQuery=True queries=2 applies=1 persisted=True
+AUTOSTART_SCOPE actualVmAndCoordinator=True nativeAndSettingsFake=True autostartRegistryAccess=False staAlive=False

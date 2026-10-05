@@ -1,0 +1,120 @@
+using System.ComponentModel;
+using System.Runtime.ExceptionServices;
+using Iris.App.Hosting;
+using Iris.App.Services;
+using Iris.App.Settings;
+using Iris.App.Tests.Settings;
+using Iris.App.Tests.TestSupport;
+using Iris.Core.Platform;
+using Iris.Core.Settings;
+using Microsoft.Extensions.Logging.Abstractions;
+
+try
+{
+    await WpfTestRunner.RunAsync(async () =>
+    {
+        var store = new Store();
+        using var native = new AutoStart();
+        var ui = new HoldInitialQuery();
+        using var theme = new ThemeService(store);
+        using var coordinator = new GeneralSettingsSaveCoordinator(store, new TestSettingsEditCoordinator(store), native, null, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+        using var vm = new SettingsViewModel(store, theme, coordinator, ui);
+        var freshState = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        PropertyChangedEventHandler changed = (_, args) =>
+        {
+            if (args.PropertyName == nameof(vm.CanRetryAutoStart) && vm.CanRetryAutoStart) freshState.TrySetResult();
+        };
+        vm.PropertyChanged += changed;
+        Exception? primary = null;
+        var errors = new List<Exception>();
+        Task? save = null;
+        try
+        {
+            await ui.Queued.Task.WaitAsync(TimeSpan.FromSeconds(15));
+            vm.LaunchAtStartup = true;
+            save = vm.ExecuteSaveAsync();
+            await native.FreshQueryEntered.Task.WaitAsync(TimeSpan.FromSeconds(15));
+            await save.WaitAsync(TimeSpan.FromSeconds(15));
+            bool beforeFresh = vm.CanRetryAutoStart;
+            bool oldStillHeld = !ui.Released;
+            native.Release.Set();
+            await freshState.Task.WaitAsync(TimeSpan.FromSeconds(15));
+            bool afterFresh = vm.CanRetryAutoStart;
+            await ui.DrainAsync();
+            await coordinator.WaitForActiveWorkAsync();
+            await vm.WaitForActiveWorkAsync();
+            bool afterOld = vm.CanRetryAutoStart;
+            Console.WriteLine($"AUTOSTART_TIMING saveCompleted={save.IsCompletedSuccessfully} oldQueryHeldAtSave={oldStillHeld} retryBeforeFreshQuery={beforeFresh} retryAfterFreshQuery={afterFresh} retryAfterOldQuery={afterOld} queries={native.Queries} applies={native.Applies} persisted={store.Current.General.LaunchAtStartup}");
+            if (beforeFresh || !oldStillHeld || !afterFresh || !afterOld || native.Applies != 1 || !store.Current.General.LaunchAtStartup)
+                throw new InvalidOperationException("Autostart timing observation did not match the actual asynchronous query path.");
+        }
+        catch (Exception ex) { primary = ex; }
+        finally
+        {
+            native.Release.Set();
+            try { await ui.DrainAsync(); } catch (Exception ex) { errors.Add(ex); }
+            if (save != null) try { await save; } catch (Exception ex) { errors.Add(ex); }
+            try { await coordinator.WaitForActiveWorkAsync(); } catch (Exception ex) { errors.Add(ex); }
+            try { await vm.WaitForActiveWorkAsync(); } catch (Exception ex) { errors.Add(ex); }
+            vm.PropertyChanged -= changed;
+        }
+        if (primary != null && errors.Count == 0) ExceptionDispatchInfo.Capture(primary).Throw();
+        if (primary != null) errors.Insert(0, primary);
+        if (errors.Count > 0) throw new AggregateException(errors);
+    });
+}
+finally { await WpfTestRunner.TeardownAsync(); }
+Console.WriteLine($"AUTOSTART_SCOPE actualVmAndCoordinator=True nativeAndSettingsFake=True autostartRegistryAccess=False staAlive={WpfTestRunner.IsStaThreadAlive}");
+
+internal sealed class Store : ISettingsService
+{
+    public AppSettings Current { get; private set; } = new() { General = new() { LaunchAtStartup = false, Theme = AppTheme.Light } };
+    public event EventHandler<SettingsChangedEventArgs>? Changed { add { } remove { } }
+    public Task LoadAsync(CancellationToken token = default) => Task.CompletedTask;
+    public Task UpdateAsync(Func<AppSettings, AppSettings> mutate, CancellationToken token = default)
+    {
+        Current = mutate(Current);
+        return Task.CompletedTask;
+    }
+}
+internal sealed class AutoStart : IAutoStartService, IDisposable
+{
+    internal readonly ManualResetEventSlim Release = new();
+    internal readonly TaskCompletionSource FreshQueryEntered = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    internal int Queries, Applies;
+    public bool IsEnabled()
+    {
+        if (Interlocked.Increment(ref Queries) > 1)
+        {
+            FreshQueryEntered.TrySetResult();
+            Release.Wait();
+        }
+        return false;
+    }
+    public void SetEnabled(bool value) { Interlocked.Increment(ref Applies); throw new IOException("synthetic application failure"); }
+    public void Dispose() => Release.Dispose();
+}
+internal sealed class HoldInitialQuery : IUiDispatcher
+{
+    private readonly WpfUiDispatcher _real = new();
+    private readonly TaskCompletionSource _release = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    private Func<Task>? _initial;
+    private int _first = 1;
+    internal bool Released => _release.Task.IsCompleted;
+    internal readonly TaskCompletionSource Queued = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    public bool CheckAccess() => _real.CheckAccess();
+    public Task InvokeAsync(Func<Task> callback, CancellationToken token)
+    {
+        if (Interlocked.Exchange(ref _first, 0) == 1)
+        {
+            _initial = callback; Queued.TrySetResult(); return _release.Task;
+        }
+        return _real.InvokeAsync(callback, token);
+    }
+    internal async Task DrainAsync()
+    {
+        var work = _initial; _initial = null;
+        try { if (work != null) await work(); }
+        finally { _release.TrySetResult(); }
+    }
+}

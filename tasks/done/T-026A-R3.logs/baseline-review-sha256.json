@@ -1,0 +1,20 @@
+{
+  "autostart-observation-manifest.json": "3d657b0e238839f230e938b3dc603583620bbe86b6e095bcd39d4246d10ecd83",
+  "autostart-observation-Program.cs.txt": "6f2ff3621f6f15391234e8c9ada54f9b9693240faa60abc9a2168b668076c942",
+  "autostart-observation-project.csproj.txt": "c15feb387aca3fcdc1a603176eef4c661692cf0f2e4b2309d3d075ca85df7b5a",
+  "autostart-observation.txt": "ae2d6b32df7301095387b163d5d1a875059cacda0b448a879ab1e28b77513a49",
+  "GlobalUsings.cs.txt": "3627f3a059e0e835ea646b982c72f640e66dfae15ed17e0af3695264c004d32c",
+  "manifest.json": "a87a17c8b703f69213e9abe5414edc702e356427e36ef883855e25910fcca771",
+  "prepare.py.txt": "829d3496bf9746da3469a37fe30e17464fdac56a59464aa83ffb3e3745ae12b9",
+  "Program.cs.txt": "87fe560cf84f88beececb2a0568d49acb0b1f6d56078d55802ec4d6f75d04e99",
+  "R1VisibilityChecks.cs.txt": "51d99da8619de6b449c223afd736271883c92ea9ce53c8958d55776aafca893c",
+  "README.md": "bc12d731da97f7e869b312cb84fda6e244610d31f521dbd818718963904e7b81",
+  "review-build.txt": "9a5772bca2748f0c701a38d389870222c5f238fef2bca1a0ed3b9d6c5434041a",
+  "review-filter-empty.txt": "a3fe816b38702ac8c78801e916718f49e8efd18832ce838fa6a88d08a96b83cb",
+  "review-full-failed.txt": "eafbd020397f9341136ecb132ffdf91b18b04854dc44511bd7cb14f079f3c911",
+  "review-probe.txt": "a951f8bd4e3662c04e36e4b3392420db7a84a3cd0084cc4879276475689ceb0b",
+  "review-targeted-autostart.txt": "eee475dff76f68551ced536d6f03e789dd083377cbb429f9f21368dfe89cb0be",
+  "Review.csproj.txt": "c15feb387aca3fcdc1a603176eef4c661692cf0f2e4b2309d3d075ca85df7b5a",
+  "TestSettingsEditCoordinator.cs.txt": "7abd00b21f820d328cfecf930c78e762bdb4221715d9a870013142af4547f018",
+  "VisibilitySequenceChecks.cs.txt": "7673ae0893f56d7cfa6f1516fe5caefe5eedeb969a80108dea8bbcd7f833e574"
+}
