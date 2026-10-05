@@ -1,0 +1,36 @@
+{
+  "commit": "cb5981e7877bcdb3bad127934096b3f1290e18b3",
+  "sources": {
+    "src\\Iris.App\\Capture\\ScreenshotPreparationCoordinator.cs": "f361f4fbfb064d820f6bf1eb448f3998021666f98cd300669603706a7f2a873f",
+    "src\\Iris.App\\Capture\\WindowPreparationIntent.cs": "6029cef92e435b42a3d6235cafae548f921bb2cd23b8f0dd6666f95e1cb4e28c"
+  },
+  "appDll": "c6310823abb65e0e50d10f206e69ff4f1a0497f7f9401f3e5dd8722a07dca259",
+  "sourceChecks": {
+    "src/Iris.App/Capture/ScreenshotPreparationCoordinator.cs": "f361f4fbfb064d820f6bf1eb448f3998021666f98cd300669603706a7f2a873f",
+    "src/Iris.App/Capture/WindowPreparationIntent.cs": "6029cef92e435b42a3d6235cafae548f921bb2cd23b8f0dd6666f95e1cb4e28c",
+    "src/Iris.App/Hosting/AppBootstrapper.cs": "91b8eb90efdc80513e9442177aee825eb26f28ea14bbf6d9159f9afa3905c63c",
+    "src/Iris.App/Hosting/AppHostBuilder.cs": "3caea1e531172e3664bedf8c0886cd5df25746d09ea880220dc9d17020a5e6db",
+    "src/Iris.App/Hosting/HotkeyRecordingCoordinator.cs": "7f0706853be9f4b1c8dee25b798e238b1eb4d78b4e84870011e0625659a3cc19",
+    "src/Iris.App/Selection/SelectionIconController.cs": "119d68c6d2e91868e97a848a1e6cda7d15db9ab669dfa939e418b5dc6d0d2e52",
+    "src/Iris.App/Settings/HotkeyItemDraftViewModel.cs": "6bee4b81247d458851778ceab7007c26f30a38fb297e4cb6aaddbfabfc207351",
+    "src/Iris.App/Settings/SettingsViewModel.cs": "4bfa1d6cf8977b7ae9988aa967cf6ab321f811bb3c15022049211436ca21949f",
+    "src/Iris.App/Settings/SettingsWindowPresenter.cs": "681126e45a68537cb8c2647f9edd462434a94fcc73c66e535e57fab493b4f014",
+    "src/Iris.App/Settings/SettingsWindowSession.cs": "b7c6c5588d420061261efbd87ec325aa4ac6cae8d7ac180f04583d8f34768bee",
+    "src/Iris.App/Translation/TranslateWindowPresenter.cs": "78512ccaec4bd782925d8ae55c3cc2a0a5a32e9f6dd18a6932dd84ef49207ca7",
+    "src/Iris.Core/Settings/AppSettings.cs": "60a909218c255b27acd487940a85464885b59492aa643d39fbf7d13e04b1bd94"
+  },
+  "artifacts": {
+    "GlobalUsings.cs.txt": "3627f3a059e0e835ea646b982c72f640e66dfae15ed17e0af3695264c004d32c",
+    "prepare.py.txt": "829d3496bf9746da3469a37fe30e17464fdac56a59464aa83ffb3e3745ae12b9",
+    "Program.cs.txt": "1a70532e4c37f6decf8d408dcdfa426946a698e16ffd2cef1687c02f32b2a23e",
+    "review-build.txt": "f5b49424ce2c14db13de24f532b05f991c8cbf533be48a453abb0995f2af99c0",
+    "review-full.txt": "c7f4777dc9f4cac2724b4e7259917bc8165313aed5c3b0e36dd5b7aed3a757d4",
+    "review-probe.txt": "3096ed3ff22b38438a87e71bed4c40aef9efaf473fb93a26651a40ad6da1cec3",
+    "Review.csproj.txt": "c15feb387aca3fcdc1a603176eef4c661692cf0f2e4b2309d3d075ca85df7b5a"
+  },
+  "exitCodes": {
+    "releaseBuild": 0,
+    "fullTest": 0,
+    "independentProbe": 2
+  }
+}

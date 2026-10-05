@@ -166,6 +166,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
         {
             await _uiDispatcher.InvokeAsync(() =>
             {
+                Action notifyShow;
                 lock (_gate)
                 {
                     if (_isShuttingDown || op.IsCallerDisposed || op.CancellationToken.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
@@ -174,7 +175,11 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                         return Task.CompletedTask;
                     }
                     wasVisibleBefore = _window != null && _window.IsVisible;
+                    // ApplyPlacement can show/activate an existing HWND. Accept the display intent
+                    // before that first native side effect, not merely before Window.Show.
+                    notifyShow = _preparationIntent.AdvanceLocked(showing: true);
                 }
+                notifyShow();
 
                 try
                 {
@@ -183,13 +188,11 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                     ApplyPlacement(request.Anchor, request.FocusInput);
 
                     bool canShow = false;
-                    Action? notifyShow = null;
                     lock (_gate)
                     {
                         if (!_isShuttingDown && !op.IsCallerDisposed && !op.CancellationToken.IsCancellationRequested && ReferenceEquals(_latestOperation, op))
                         {
                             canShow = true;
-                            notifyShow = _preparationIntent.AdvanceLocked(showing: true);
                         }
                         else
                         {
@@ -222,7 +225,6 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                         return Task.CompletedTask;
                     }
 
-                    notifyShow?.Invoke();
                     _window!.Show();
                     if (request.FocusInput)
                     {

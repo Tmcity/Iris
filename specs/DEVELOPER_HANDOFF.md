@@ -4,9 +4,9 @@
 
 ## 当前状态
 
-- **用户已于2026-10-06明确“继续推进吧”，此前T-025后暂停已解除。** 继续原开发工程师角色，当前唯一工单为tasks/current_task.md / T-026A。
-- 基线master / 5ceb182f0fbb3cfb536a81befe5e6f433cbf7473；T-025实现1418e0d与CCR-023已验收，2509项（2507成功/2环境跳过），证据保持。
-- 按SCREENSHOT_PREPARATION.md / ARCH v1.40 / CCR-024完成窗口临时隐藏/新意图/恢复、录入取消清理、鼠标暂停与退出；含C25-1仅两项测试维护。A不做overlay/截图服务占位、OCR/Handler/新入口，不提前开始B或T-027。
+- **用户已于2026-10-06明确“继续推进吧”，此前T-025后暂停已解除。** 继续原开发工程师角色，当前唯一工单为tasks/current_task.md / T-026A-R1。
+- 基线master / cb5981e7877bcdb3bad127934096b3f1290e18b3；T-026A独立Release零警告/错误，全量2547（2545成功/2环境跳过），但实际探针复现三项问题，尚未验收。详见T-026A.md第8节与T-026A.review；只修R1三项，保留C25-1和已确认成果。T-025/CCR-023仍已验收。
+- 按SCREENSHOT_PREPARATION.md / ARCH v1.40 / CCR-024保留A已交付成果，只修R1的原生显示前通知、最新Hide保护及关闭失败准入。C25-1已确认，不重复返工。A不做overlay/截图服务占位、OCR/Handler/新入口，不提前开始B或T-027。
 - 仅同步CCR-024的HideIrisWindows注释，其他Core契约/default/JSON/schema/包与T-025生产保持。真实桌面/物理输入/混合DPI/NFR未验证，新增测试继续使用fake外部边界和自有WPF窗口。
 - 工作区现有架构师规范/注释/恢复交接/工单与BACKLOG由本单保留提交；`.codex/`原样未跟踪不动。旧停工消息由本次用户恢复及新工单覆盖，不索要重复批准。
 

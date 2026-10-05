@@ -49,15 +49,20 @@ internal sealed class WindowPreparationIntent(Lock ownerGate)
         private bool _restore, _undoRestore, _disposed;
         internal Action Invalidated { get; } = invalidated;
         internal bool IsCurrent { get { lock (owner._gate) return !_disposed && version == owner._version; } }
-        private bool HasNewShow { get { lock (owner._gate) return owner._showVersion > version; } }
+        // Only the latest intent can own the visible window. A later Hide/close/operation
+        // supersedes a Show, including while retrying a failed late-restoration undo.
+        private bool HasNewShow { get { lock (owner._gate) return owner._showVersion > version && owner._showVersion == owner._version; } }
         // Tests replace only visibility calls; identity/version and all lifecycle decisions stay here.
         internal IPreparationVisibility Visibility { get; set; } = PreparationVisibility.Instance;
 
         internal Task HideAsync() => ui.InvokeAsync(() =>
         {
-            if (!IsCurrent || !alive()) return Task.CompletedTask;
+            if (!IsCurrent) return Task.CompletedTask;
             _window = getWindow();
             if (_window == null || !_window.IsVisible) return Task.CompletedTask;
+            // A closing/failed-close owner is ineligible for restoration, but its visible
+            // content still prevents preparation. Leave its cleanup with the original owner.
+            if (!alive()) throw new InvalidOperationException("Visible preparation owner is closing.");
             _suppression = suppress?.Invoke();
             _restore = true; // Hide may have taken effect before throwing.
             Visibility.Hide(_window);

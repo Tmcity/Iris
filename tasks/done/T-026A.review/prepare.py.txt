@@ -1,0 +1,20 @@
+from pathlib import Path
+from xml.sax.saxutils import escape
+import hashlib,json,subprocess,shutil
+root=Path('F:/Iris'); directory=Path(__file__).parent
+output=root/'tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0'
+refs='\n'.join('<Reference Include="'+escape(p.stem)+'"><HintPath>'+escape(str(p))+'</HintPath></Reference>' for p in output.glob('*.dll') if not p.name.endswith('.Tests.dll'))
+(directory/'Review.csproj').write_text('<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><TargetFramework>net10.0-windows10.0.19041.0</TargetFramework><UseWPF>true</UseWPF><OutputType>Exe</OutputType><AssemblyName>Iris.App.Tests</AssemblyName><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><AllowUnsafeBlocks>true</AllowUnsafeBlocks></PropertyGroup><ItemGroup>'+refs+'</ItemGroup></Project>',encoding='utf-8')
+files=['Iris.App.Tests/Capture/PreparationTestScope.cs','Iris.App.Tests/Selection/MouseInteractionTestScope.cs',
+ 'Iris.App.Tests/Settings/SelectionSettingsTestScope.cs','Iris.App.Tests/TestSupport/FakeNativeHotkeyAdapter.cs',
+ 'Iris.App.Tests/TestSupport/WpfTestRunner.cs','Iris.Platform.Windows.Tests/Hooks/MouseTestBoundary.cs',
+ 'Iris.Platform.Windows.Tests/Clipboard/TestSupport/FakeClipboardSnapshotNative.cs',
+ 'Iris.Platform.Windows.Tests/Selection/FakeNativeKeyboardInputAdapter.cs','Iris.Platform.Windows.Tests/Selection/FakeCopySafetyNative.cs',
+ 'Iris.Platform.Windows.Tests/Selection/FakeUiaTestAdapters.cs','Iris.Platform.Windows.Tests/Selection/SelectionTestScope.cs',
+ 'Iris.Platform.Windows.Tests/Selection/SelectionTimeProvider.cs']
+for path in files: shutil.copyfile(root/'tests'/path,directory/Path(path).name)
+manifest={'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),
+ 'sources':{str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (root/'src/Iris.App/Capture').glob('*.cs')},
+ 'appDll':hashlib.sha256((output/'Iris.App.dll').read_bytes()).hexdigest()}
+(directory/'manifest.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
+print('References and external fixtures refreshed; no probe executed.')

@@ -1,0 +1,204 @@
+using System.Windows;
+using Iris.App.Capture;
+using Iris.App.Hosting;
+using Iris.App.Tests.Capture;
+using Iris.App.Tests.TestSupport;
+
+// Preparation only: adapt final signatures and run against the delivered commit, never substitute the owner state machine.
+var errors = new List<Exception>();
+async Task Case(string name, Func<Task> run)
+{
+    try { await run(); Console.WriteLine($"CHECK {name}=PASS"); }
+    catch (Exception ex) { errors.Add(ex); Console.WriteLine($"CHECK {name}=FAIL {ex}"); }
+}
+try
+{
+    await Case("NORMAL_RESTORE", () => PreparationTestScope.Run(async f =>
+    {
+        await f.OpenSettings(); var session = f.Settings.ActiveSession!;
+        session.ViewModel.Selection.ClipboardTimeoutText = "731";
+        using var operation = f.Mouse.Presenter.TryBeginOperation()!;
+        await f.Mouse.Presenter.TryShowAsync(operation, new() { Text = "synthetic source", AutoTranslate = false, FocusInput = false });
+        var window = f.Mouse.Presenter.Window!;
+        var lease = await f.Preparation.PrepareAsync(true);
+        Require(!window.IsVisible && !session.Window.IsVisible && !operation.CancellationToken.IsCancellationRequested, "temporary hide changed intent or visibility");
+        await lease.DisposeAsync(); await lease.DisposeAsync();
+        Require(window.IsVisible && session.Window.IsVisible && ReferenceEquals(session, f.Settings.ActiveSession), "restore replaced or lost session");
+        Require(session.ViewModel.Selection.ClipboardTimeoutText == "731" && !operation.CancellationToken.IsCancellationRequested, "restore lost draft or operation");
+    }));
+
+    await Case("INTENT_BEFORE_NATIVE_PLACEMENT", () => PreparationTestScope.Run(async f =>
+    {
+        using var operation = f.Mouse.Presenter.TryBeginOperation()!;
+        await f.Mouse.Presenter.TryShowAsync(operation, new() { AutoTranslate = false, FocusInput = false });
+        var lease = await f.Preparation.PrepareAsync(true);
+        bool entered = false, invalidated = false;
+        f.Mouse.Position.Result = show =>
+        {
+            if (show && !entered) { entered = true; invalidated = lease.Reason != PreparationRevocation.None; }
+            return true;
+        };
+        try
+        {
+            await f.Mouse.Presenter.TryShowAsync(operation, new() { Text = "later valid publish", AutoTranslate = false, FocusInput = false });
+            await lease.DisposeAsync();
+            Console.WriteLine($"NATIVE_SHOW entered={entered} invalidatedBeforeShowFlag={invalidated} newerWindowVisible={f.Mouse.Presenter.Window!.IsVisible}");
+            Require(entered && invalidated && f.Mouse.Presenter.Window.IsVisible, "display invalidation came after native show or erased newer view");
+        }
+        finally { f.Mouse.Position.Result = null; } // Outer owned fixture stops/drains the actual coordinator on failure.
+    }));
+
+    await Case("NEW_HIDE_DURING_RESTORE", () => PreparationTestScope.Run(async f =>
+    {
+        using var operation = f.Mouse.Presenter.TryBeginOperation()!;
+        await f.Mouse.Presenter.TryShowAsync(operation, new() { AutoTranslate = false, FocusInput = false });
+        var visibility = new Visibility(); f.Preparation.Visibility = visibility;
+        var lease = await f.Preparation.PrepareAsync(true);
+        bool entered = false;
+        visibility.BeforeShow = _ =>
+        {
+            if (entered) return;
+            entered = true; f.Work.Add(f.Mouse.Presenter.HideAsync());
+        };
+        try
+        {
+            await lease.DisposeAsync();
+            bool visible = f.Mouse.Presenter.Window!.IsVisible;
+            Console.WriteLine($"RESTORE_NEW_HIDE entered={entered} visibleAfterReturn={visible}");
+            Require(entered && !visible, "old restore overrode a newer Hide");
+        }
+        finally { visibility.BeforeShow = null; }
+    }));
+
+    await Case("STOP_DURING_RESTORE", () => PreparationTestScope.Run(async f =>
+    {
+        await f.OpenSettings(); var window = f.Settings.ActiveSession!.Window;
+        var visibility = new Visibility(); f.Preparation.Visibility = visibility;
+        var lease = await f.Preparation.PrepareAsync(true);
+        bool entered = false;
+        visibility.BeforeShow = _ => { entered = true; f.Preparation.StopAcceptance(); };
+        try
+        {
+            await lease.DisposeAsync(); await f.Preparation.StopAsync();
+            Require(entered && !window.IsVisible && !f.Recording.CanStartRecording, "shutdown restored a view or reopened recording");
+        }
+        finally { visibility.BeforeShow = null; }
+    }));
+
+    await Case("NEW_SHOW_DURING_RESTORE_IS_PRESERVED", () => PreparationTestScope.Run(async f =>
+    {
+        using var operation = f.Mouse.Presenter.TryBeginOperation()!;
+        await f.Mouse.Presenter.TryShowAsync(operation, new() { AutoTranslate = false, FocusInput = false });
+        var visibility = new Visibility(); f.Preparation.Visibility = visibility;
+        var lease = await f.Preparation.PrepareAsync(true);
+        bool entered = false;
+        visibility.BeforeShow = _ =>
+        {
+            if (entered) return;
+            entered = true;
+            f.Work.Add(f.Mouse.Presenter.TryShowAsync(operation, new() { Text = "latest display", AutoTranslate = false, FocusInput = false }));
+        };
+        try
+        {
+            await lease.DisposeAsync();
+            foreach (var work in f.Work) await work;
+            Require(entered && f.Mouse.Presenter.Window!.IsVisible, "old restoration erased a newer valid Show");
+        }
+        finally { visibility.BeforeShow = null; }
+    }));
+
+    await Case("SHOW_THEN_HIDE_DURING_RESTORE", () => PreparationTestScope.Run(async f =>
+    {
+        using var operation = f.Mouse.Presenter.TryBeginOperation()!;
+        await f.Mouse.Presenter.TryShowAsync(operation, new() { AutoTranslate = false, FocusInput = false });
+        var visibility = new Visibility(); f.Preparation.Visibility = visibility;
+        var lease = await f.Preparation.PrepareAsync(true);
+        bool entered = false, newerShowAccepted = false, hiddenBeforeOldShow = false;
+        visibility.BeforeShow = _ =>
+        {
+            if (entered) return;
+            entered = true;
+            var show = f.Mouse.Presenter.TryShowAsync(operation, new() { Text = "newer display then hide", AutoTranslate = false, FocusInput = false });
+            f.Work.Add(show);
+            newerShowAccepted = show.IsCompletedSuccessfully && show.Result;
+            f.Work.Add(f.Mouse.Presenter.HideAsync());
+            hiddenBeforeOldShow = !f.Mouse.Presenter.Window!.IsVisible;
+        };
+        try
+        {
+            await lease.DisposeAsync();
+            foreach (var work in f.Work) await work;
+            bool visible = f.Mouse.Presenter.Window!.IsVisible;
+            Console.WriteLine($"RESTORE_SHOW_THEN_HIDE entered={entered} newerShowAccepted={newerShowAccepted} hiddenBeforeOldShow={hiddenBeforeOldShow} finalVisible={visible}");
+            Require(entered && newerShowAccepted && hiddenBeforeOldShow, "show/hide injection did not finish at the owned native visibility boundary");
+            Require(!visible, "historical newer Show overrode the final Hide intention");
+        }
+        finally { visibility.BeforeShow = null; }
+    }));
+
+    await Case("PAUSE_NOTIFICATION_SYNC_FAILURE", () => RecordingNotificationFailureAsync(true));
+    await Case("PAUSE_NOTIFICATION_ASYNC_FAILURE", () => RecordingNotificationFailureAsync(false));
+
+    await Case("VISIBLE_OWNER_WITH_FAILED_CLOSE", () => PreparationTestScope.Run(async f =>
+    {
+        await f.OpenSettings();
+        var session = f.Settings.ActiveSession!;
+        System.ComponentModel.CancelEventHandler refuseClose = (_, args) => args.Cancel = true;
+        session.Window.Closing += refuseClose;
+        try
+        {
+            bool failedClose = false;
+            try { await session.ShutdownAsync(); } catch (Exception) { failedClose = true; }
+            Require(failedClose && session.Window.IsVisible, "failed-close fixture was not established");
+            bool succeeded = false;
+            try { _ = await f.Preparation.PrepareAsync(true); succeeded = true; }
+            catch (Iris.Core.Errors.IrisException) { }
+            bool visible = session.Window.IsVisible;
+            Console.WriteLine($"FAILED_CLOSE_OWNER prepareSucceeded={succeeded} contentStillVisible={visible}");
+            Require(!succeeded || !visible, "preparation succeeded while an existing Iris content window remained visible");
+        }
+        finally { session.Window.Closing -= refuseClose; }
+    }));
+}
+finally { await WpfTestRunner.TeardownAsync(); }
+Console.WriteLine($"SCOPE actualOwnersAndCoordinator=True fakeNativeStorageProvider=True userContent=False screenshot=False staAlive={WpfTestRunner.IsStaThreadAlive} failures={errors.Count}");
+Environment.ExitCode = errors.Count == 0 && !WpfTestRunner.IsStaThreadAlive ? 0 : 2;
+
+static async Task RecordingNotificationFailureAsync(bool synchronous)
+{
+    var owner = new HotkeyRecordingCoordinator();
+    Func<Task> fail = () => synchronous ? throw new IOException("synthetic notification failure") : Task.FromException(new IOException("synthetic notification failure"));
+    HotkeyRecordingCoordinator.PreparationPause? pause = null;
+    owner.AdmissionChanged += fail;
+    bool initialError = false, cleanupError = false;
+    try
+    {
+        try { pause = owner.PauseForPreparation(); await pause.Ready; } catch (Exception) { initialError = true; }
+        owner.AdmissionChanged -= fail;
+        if (pause != null)
+        {
+            try { await pause.DisposeAsync(); }
+            catch (Exception)
+            {
+                cleanupError = true;
+                try { await pause.DisposeAsync(); } catch (Exception) { }
+            }
+        }
+        bool open = owner.CanStartRecording;
+        Console.WriteLine($"NOTIFY_FAILURE sync={synchronous} originalObserved={initialError} cleanupHadFailure={cleanupError} admissionRestored={open}");
+        Require(open, "notification failure permanently leaked recording pause");
+    }
+    finally
+    {
+        owner.AdmissionChanged -= fail;
+        await owner.DisposeAsync();
+    }
+}
+static void Require(bool condition, string message) { if (!condition) throw new InvalidOperationException(message); }
+
+internal sealed class Visibility : IPreparationVisibility
+{
+    internal Action<Window>? BeforeShow;
+    public void Hide(Window window) => window.Hide();
+    public void Show(Window window) { BeforeShow?.Invoke(window); window.Show(); }
+}

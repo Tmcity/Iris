@@ -1,0 +1,8 @@
+{
+  "baseline": "cb5981e7877bcdb3bad127934096b3f1290e18b3",
+  "files": {
+    "src\\Iris.App\\Translation\\TranslateWindowPresenter.cs": "e7dc71f24e9185608eca4cd8b116890e9f35c0c6e61c0c89355951eb47349a90",
+    "src\\Iris.App\\Capture\\WindowPreparationIntent.cs": "fb6d72f1f44bd056a0bad8b5c35fb4e66f242585a8c41bcb6aef0b0c0ae23407",
+    "tests\\Iris.App.Tests\\Capture\\ScreenshotPreparationR1Tests.cs": "7563defcbf5af6cbadb66818404590d3a652f1c3bcb7341c0b8b423f503bd4fc"
+  }
+}

@@ -1,0 +1,19 @@
+C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-replay-xo1bsqvc\MouseInteractionTestScope.cs(203,23): warning CS0649: 从未对字段“MouseInteractionTestScope.FakeProvider.HoldFirst”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-replay-xo1bsqvc\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-replay-xo1bsqvc\MouseTestBoundary.cs(45,19): warning CS0649: 从未对字段“FakeMouseHookApi.InstallFailure”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-replay-xo1bsqvc\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-replay-xo1bsqvc\MouseTestBoundary.cs(47,25): warning CS0649: 从未对字段“FakeMouseHookApi.InstallGate”赋值，字段将一直保持其默认值 null [C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-replay-xo1bsqvc\Review.csproj]
+CHECK NORMAL_RESTORE=PASS
+NATIVE_SHOW entered=True invalidatedBeforeShowFlag=True newerWindowVisible=True
+CHECK INTENT_BEFORE_NATIVE_PLACEMENT=PASS
+RESTORE_NEW_HIDE entered=True visibleAfterReturn=False
+CHECK NEW_HIDE_DURING_RESTORE=PASS
+CHECK STOP_DURING_RESTORE=PASS
+CHECK NEW_SHOW_DURING_RESTORE_IS_PRESERVED=PASS
+RESTORE_SHOW_THEN_HIDE entered=True newerShowAccepted=True hiddenBeforeOldShow=True finalVisible=False
+CHECK SHOW_THEN_HIDE_DURING_RESTORE=PASS
+NOTIFY_FAILURE sync=True originalObserved=True cleanupHadFailure=False admissionRestored=True
+CHECK PAUSE_NOTIFICATION_SYNC_FAILURE=PASS
+NOTIFY_FAILURE sync=False originalObserved=True cleanupHadFailure=False admissionRestored=True
+CHECK PAUSE_NOTIFICATION_ASYNC_FAILURE=PASS
+FAILED_CLOSE_OWNER prepareSucceeded=False contentStillVisible=True
+CHECK VISIBLE_OWNER_WITH_FAILED_CLOSE=PASS
+SCOPE actualOwnersAndCoordinator=True fakeNativeStorageProvider=True userContent=False screenshot=False staAlive=False failures=0
