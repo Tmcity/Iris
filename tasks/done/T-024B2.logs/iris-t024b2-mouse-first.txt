@@ -1,0 +1,10 @@
+F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs(73,27): error CS9035: 必须在对象初始值设定项或属性构造函数中设置所需的成员'TranslationProviderProfile.Kind'。 [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs(202,61): error CS1503: 参数 2: 无法从“bool”转换为“Iris.Core.Translation.TokenUsage?” [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.Platform.Windows.Tests\Hooks\MouseTestBoundary.cs(40,20): error CS0649: 从未对字段“FakeMouseHookApi.Shift”赋值，字段将一直保持其默认值 0 [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.Platform.Windows.Tests\Hooks\MouseTestBoundary.cs(186,22): error CS0649: 从未对字段“FakeMouseDesktop.AfterSource”赋值，字段将一直保持其默认值 null [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.Platform.Windows.Tests\Hooks\MouseTestBoundary.cs(48,25): error CS0649: 从未对字段“FakeMouseHookApi.NextGate”赋值，字段将一直保持其默认值 null [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.Platform.Windows.Tests\Hooks\MouseTestBoundary.cs(50,25): error CS0649: 从未对字段“FakeMouseHookApi.UnhookGate”赋值，字段将一直保持其默认值 null [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.Platform.Windows.Tests\Hooks\MouseTestBoundary.cs(188,19): error CS0649: 从未对字段“FakeMouseDesktop.ThrowSource”赋值，字段将一直保持其默认值 false [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.Platform.Windows.Tests\Hooks\MouseTestBoundary.cs(185,25): error CS0649: 从未对字段“FakeMouseDesktop.SourceGate”赋值，字段将一直保持其默认值 null [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.Platform.Windows.Tests\Hooks\MouseTestBoundary.cs(49,25): error CS0649: 从未对字段“FakeMouseHookApi.ExitGate”赋值，字段将一直保持其默认值 null [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+生成失败，退出代码: 1。

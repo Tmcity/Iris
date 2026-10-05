@@ -164,7 +164,8 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         IHotkeyBindingPolicy? hotkeyBindingPolicy,
         HotkeyCoordinator? hotkeyCoordinator = null,
         HotkeyRecordingCoordinator? recordingCoordinator = null,
-        ILogger<SettingsViewModel>? logger = null)
+        ILogger<SettingsViewModel>? logger = null,
+        Iris.App.Selection.SelectionIconController? mouseController = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _themeService = themeService ?? throw new ArgumentNullException(nameof(themeService));
@@ -223,6 +224,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         RetryAutoStartCommand = new AsyncRelayCommand(ExecuteRetryAutoStartAsync, () => !IsSaving && CanRetryAutoStart && !_disposed && !_isStopped, ex => HandleCommandException("RetryAutoStart", ex));
         RetryPendingApplyCommand = new AsyncRelayCommand(ExecuteRetryPendingApplyAsync, () => !IsSaving && CanRetryPendingApply && !_disposed && !_isStopped, ex => HandleCommandException("RetryPendingApply", ex));
         RetryHotkeysCommand = new AsyncRelayCommand(ExecuteRetryHotkeysAsync, () => !IsSaving && (CanRetryHotkeys || HasFailedRecordingCleanup) && !_disposed && (!_isStopped || HasFailedRecordingCleanup), ex => HandleCommandException("RetryHotkeys", ex));
+        InitializeMouse(mouseController);
 
         AddProfileCommand = new RelayCommand(p =>
         {
@@ -1031,6 +1033,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         (RetryAutoStartCommand as AsyncRelayCommand)?.RaiseCanExecuteChanged();
         (RetryPendingApplyCommand as AsyncRelayCommand)?.RaiseCanExecuteChanged();
         (RetryHotkeysCommand as AsyncRelayCommand)?.RaiseCanExecuteChanged();
+        (RetryMouseCommand as AsyncRelayCommand)?.RaiseCanExecuteChanged();
         (AddProfileCommand as RelayCommand)?.RaiseCanExecuteChanged();
         RaiseProfileCommandsCanExecute();
         foreach (var h in Hotkeys)
@@ -1429,6 +1432,8 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             }
 
             var result = await _saveCoordinator.CommitPlanAsync(plan, wasLaunchAtStartupDirty, targetLaunchAtStartup, CancellationToken.None).ConfigureAwait(false);
+            if (result.Status != GeneralSaveStatus.Uncommitted && _mouseController != null)
+                await _mouseController.WaitForApplyAsync().ConfigureAwait(false);
 
             lock (_admissionLock)
             {
@@ -1749,6 +1754,9 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         currentHotkeys.TryGetValue(IrisAction.SelectionTranslate, out var selectionBinding);
         Hotkeys.Add(new HotkeyItemDraftViewModel(IrisAction.SelectionTranslate, UiText.SettingsNavSelection,
             UiText.SelectionHotkeyDescription, selectionBinding, this));
+        currentHotkeys.TryGetValue(IrisAction.ToggleMouseSelection, out var toggleBinding);
+        Hotkeys.Add(new HotkeyItemDraftViewModel(IrisAction.ToggleMouseSelection, UiText.MouseToggle,
+            UiText.MouseToggleDescription, toggleBinding, this));
 
         SyncRuntimeStatesFromCoordinator();
         ValidateHotkeyDrafts();
@@ -1797,7 +1805,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             // 3. 检查与尚未开放动作的预留配置冲突
             foreach (var (reservedAction, reservedBinding) in currentHotkeys)
             {
-                if (reservedAction is IrisAction.InputTranslate or IrisAction.ClipboardTranslate or IrisAction.OpenSettings or IrisAction.SelectionTranslate)
+                if (Hotkeys.Any(item => item.Action == reservedAction))
                 {
                     continue;
                 }
@@ -2688,6 +2696,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         }
 
         _settingsService.Changed -= OnExternalSettingsChanged;
+        if (_mouseController != null) _mouseController.RuntimeChanged -= OnMouseRuntimeChanged;
         if (_receiptManager != null)
         {
             _receiptManager.Changed -= OnReceiptManagerChanged;

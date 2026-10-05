@@ -879,10 +879,28 @@ specs/CONTRACTS.cs 已预置精确声明，本单开发同步 Core 并实现。�
 |---|---|
 | 日期 / 批准 | 2026-10-05，Codex 架构师 |
 | 关联 | T-024B1；SELECTION_READ_COORDINATION.md；ARCH v1.37 |
-| 状态 | **已落地，待复审（T-024B1）** |
+| 状态 | **已验收结案（T-024B1，29bc38e，2026-10-05）** |
 
 鼠标手势到 settle/排队后，当前前台可能已变化。批准 SelectionReadOptions 增加 ForegroundAppInfo? ExpectedSource init 属性（默认 null），原四参数构造/解构、ReadAsync 和结果字段保持；新增固定安全 ToString，避免 record 自动打印来源/标题/列表。同步端口注释说明来源约束和 App 的显式/被动读取协调，不改变持久化设置/default/schema/包。
 
 specs/CONTRACTS.cs 已预置，开发同步 Core。非 null 身份在首次等待前捕获，仅比较 HWND/PID/OrdinalIgnoreCase 实际进程名；标题丢弃。Composite 在新平台操作前必须匹配，不能读取后来另一前台；已有 pending cleanup 仍需真实完成，失配不能吞清理错误。默认 null 的已验收行为保持。
 
 App internal SelectionReadCoordinator 用原公开 ISelectionTextReader 服务显式读，ReadPassiveAsync 仅为内部方法，不新增公共优先级类型。最多一个实际读和一个显式待办；抢占被动后完整等待其退出；DI 包装同一个 Composite，退出先排空本层再由原 Composite 完成 native Stop。B2 的 ActionContext/缓存/图标/设置尚未批准，不提前修改。详细规则及关键真实底层测试见正式规范。
+
+## CCR-022：鼠标缓存入口、设置增量与安全文案
+
+| 字段 | 内容 |
+|---|---|
+| 日期 / 批准 | 2026-10-05，Codex 架构师 |
+| 关联 | T-024B2；MOUSE_SELECTION_INTERACTION.md；ARCH v1.38 |
+| 状态 | **已落地，待复审（T-024B2）** |
+
+批准 ActionContext 增加可空 init ExpectedSelectionSource（ForegroundAppInfo），原三参数构造/解构保持；ToString 仅显示 Trigger。SelectionIcon+非空 Payload 明确表示缓存原文，必须带合法原来源；MouseSelection 自动分支必须带原来源且无 Payload，普通热键默认行为保持。点击不再次调用 Reader，不用旧 lease token 创建新 lease。
+
+批准 SelectionSettingsPatch 新增 MouseMode、RequireIBeamCursor、MinDragDistancePx、IconAutoHideMs、ExcludedProcesses 五个可空 SettingsFieldEdit init 属性，原五参数构造/解构保持。共享现有一次联合提交、列表同步捕获/三方冲突/未编辑保留与安全 ToString，范围见正式规范。持久化 SelectionSettings/JSON/default/schema/包和 ErrorCode 数值保持。
+
+另批准唯一默认错误文案更正：ErrorMessages.GetDefault(CaptureFailed) 从“截图失败”改为“内容获取失败，请稍后重试”，使已经用于选区且后续用于截图的错误不误指另一功能；不改其它错误、异常签名或代码值。
+
+specs/CONTRACTS.cs 已预置精确声明，由开发同步 Core/实现。App Controller/window/runtime snapshot/重试保持 internal。ToggleMouseSelection 使用一次原子 ISettingsService.UpdateAsync 相对最新持久值切换；本次运行的最后非 Off 记忆不持久化，不新增默认热键。设置页仍必须通过编辑协调器，不借 Toggle 规则增加旁路。
+
+完整模式/缓存/非激活/副作用/已保存待应用/退出与测试规则见 MOUSE_SELECTION_INTERACTION.md。批准声明不代表用户流程已验收，真实鼠标/窗口内容/输入和 NFR 不在自动化冒称通过。

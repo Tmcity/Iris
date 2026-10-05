@@ -732,7 +732,14 @@ namespace Iris.Core.Actions
     }
 
     /// <param name="Anchor">窗口定位参考点（物理像素）；null 时由 Presenter 取当前光标位置。</param>
-    public sealed record ActionContext(ActionTrigger Trigger, PixelPoint? Anchor = null, string? Payload = null);
+    public sealed record ActionContext(ActionTrigger Trigger, PixelPoint? Anchor = null, string? Payload = null)
+    {
+        /// <summary>SelectionTranslate 的可选原来源；鼠标自动/缓存点击必须提供，标题不参与身份。
+        /// SelectionIcon 的 Payload 为缓存原文，MouseSelection 为空；完整规则见 MOUSE_SELECTION_INTERACTION.md。</summary>
+        public Iris.Core.Platform.ForegroundAppInfo? ExpectedSelectionSource { get; init; }
+
+        public override string ToString() => $"ActionContext {{ Trigger={Trigger} }}";
+    }
 
     /// <summary>每个已开放的 IrisAction 恰好一个 Handler；允许只注册当前已实现的动作，禁止重复或未定义的 Action。
     /// DI 注册多个 IActionHandler，Dispatcher 按 Action 建索引；业务 Handler 在 Core/Workflows 实现。</summary>
@@ -1298,8 +1305,8 @@ namespace Iris.Core.Settings
         SettingsFieldEdit<bool>? ShowStartupNotification = null,
         SettingsFieldEdit<string>? LogLevel = null);
 
-    /// <summary>划词基础设置增量。null 项保留最新值；Base 只用于冲突比较，显式 Target 按 SELECTION_SETTINGS_UI.md 验证。
-    /// 两个列表的 Base/Target 均须在 Commit 入口同步独立复制；不包含鼠标设置。</summary>
+    /// <summary>划词设置增量。null 项保留最新值；Base 只用于冲突比较，显式 Target 按 SELECTION_SETTINGS_UI.md / MOUSE_SELECTION_INTERACTION.md 验证。
+    /// 所有列表的 Base/Target 均须在 Commit 入口同步独立复制；原五参数构造/解构保持。</summary>
     public sealed record SelectionSettingsPatch(
         SettingsFieldEdit<IReadOnlyList<SelectionReadMethod>>? ReadOrder = null,
         SettingsFieldEdit<bool>? RestoreClipboard = null,
@@ -1307,6 +1314,12 @@ namespace Iris.Core.Settings
         SettingsFieldEdit<IReadOnlyList<string>>? ClipboardUnsafeProcesses = null,
         SettingsFieldEdit<bool>? OpenInputWhenEmpty = null)
     {
+        public SettingsFieldEdit<MouseSelectionMode>? MouseMode { get; init; }
+        public SettingsFieldEdit<bool>? RequireIBeamCursor { get; init; }
+        public SettingsFieldEdit<int>? MinDragDistancePx { get; init; }
+        public SettingsFieldEdit<int>? IconAutoHideMs { get; init; }
+        public SettingsFieldEdit<IReadOnlyList<string>>? ExcludedProcesses { get; init; }
+
         public override string ToString() => "SelectionSettingsPatch";
     }
 

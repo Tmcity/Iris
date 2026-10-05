@@ -5,8 +5,8 @@
 ## 当前状态
 
 - 项目为 .NET 10 / WPF Windows 常驻翻译工具 Iris，完整目标含输入/剪贴板/划词翻译、截图/OCR、悬浮球、设置/历史/代理与发布，尚未整体完成。
-- 基线为 master / ac4ff5886296d29ce445bff59534cc9eec32fcb0。T-024A 及此前 T-023 已验收；当前唯一工单 tasks/current_task.md / T-024B1，完成原来源约束、被动/显式读协调与 App DI/退出。
-- 正式依据为 SELECTION_READ_COORDINATION.md / ARCH v1.37 / CCR-021。specs/CONTRACTS.cs 预置 ExpectedSource 与安全 ToString，本单同步 Core/实现；原构造/方法、持久化设置/default/包不变。B2 缓存图标/自动翻译/鼠标设置、ActionContext 扩展与 T-025 均未开始。
+- 基线为 master / 29bc38e00b59aeaa8f47b0ff806dc3ede4e3fc2a。T-024A/B1 已验收；当前唯一工单 tasks/current_task.md / T-024B2，交付图标/缓存点击/自动翻译/鼠标设置/运行状态重试/Toggle与退出。
+- 正式依据为 MOUSE_SELECTION_INTERACTION.md / ARCH v1.38 / CCR-022。specs/CONTRACTS.cs 预置 ActionContext 原来源与 patch 鼠标字段，本单同步 Core；原构造、持久化设置/default/包不变。唯一错误文案更正在正式规范明确，T-025 未开始。
 
 ## 协作与约束
 

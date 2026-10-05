@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.App.Tests\Selection\MouseRenderingTests.cs(19,21): error CA1711: 重命名类型名称 MouseSelectionRenderingCollection，使其不以“Collection”结尾 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1711) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+生成失败，退出代码: 1。

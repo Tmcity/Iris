@@ -35,5 +35,6 @@
     <Compile Include="..\Iris.Platform.Windows.Tests\Selection\FakeNativeKeyboardInputAdapter.cs" Link="Selection\Boundaries\FakeNativeKeyboardInputAdapter.cs" />
     <Compile Include="..\Iris.Platform.Windows.Tests\Selection\FakeCopySafetyNative.cs" Link="Selection\Boundaries\FakeCopySafetyNative.cs" />
     <Compile Include="..\Iris.Platform.Windows.Tests\Clipboard\TestSupport\FakeClipboardSnapshotNative.cs" Link="Selection\Boundaries\FakeClipboardSnapshotNative.cs" />
+    <Compile Include="..\Iris.Platform.Windows.Tests\Hooks\MouseTestBoundary.cs" Link="Selection\Boundaries\MouseTestBoundary.cs" />
   </ItemGroup>
 </Project>

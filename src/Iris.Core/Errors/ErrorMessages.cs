@@ -36,7 +36,7 @@ public static class ErrorMessages
         ErrorCode.HotkeyInvalid => "快捷键组合无效",
         ErrorCode.SelectionEmpty => "未检测到选中的文本",
         ErrorCode.ClipboardBusy => "剪贴板正被其他程序占用，请稍后重试",
-        ErrorCode.CaptureFailed => "截图失败",
+        ErrorCode.CaptureFailed => "内容获取失败，请稍后重试",
         ErrorCode.HookInstallFailed => "鼠标监听启动失败，划词功能不可用",
         ErrorCode.SettingsCorrupted => "设置文件已损坏，已恢复为默认设置（原文件已备份）",
         ErrorCode.SecretUnavailable => "无法读取已保存的密钥，请重新填写",

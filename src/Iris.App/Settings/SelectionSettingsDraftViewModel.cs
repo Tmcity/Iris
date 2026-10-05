@@ -6,7 +6,7 @@ namespace Iris.App.Settings;
 
 internal sealed record SelectionOrderOption(int Id, string Label);
 
-internal sealed class SelectionSettingsDraftViewModel : INotifyPropertyChanged
+internal sealed partial class SelectionSettingsDraftViewModel : INotifyPropertyChanged
 {
     private readonly Func<bool> _canEdit;
     private readonly Action _changed;
@@ -60,7 +60,7 @@ internal sealed class SelectionSettingsDraftViewModel : INotifyPropertyChanged
     }
     public string? ErrorMessage => _error;
     public bool HasError => _error != null;
-    public bool IsDirty => _orderDirty || _processesDirty || TimeoutDirty || _restore != _baseRestore || _input != _baseInput;
+    public bool IsDirty => _orderDirty || _processesDirty || TimeoutDirty || _restore != _baseRestore || _input != _baseInput || MouseIsDirty;
     private bool TimeoutDirty => _timeout != _baseTimeout.ToString(CultureInfo.InvariantCulture);
     private bool CanChange => !IsFrozen && _canEdit();
 
@@ -79,6 +79,7 @@ internal sealed class SelectionSettingsDraftViewModel : INotifyPropertyChanged
             return name.Length is < 1 or > 255 || name is "." or ".." || name.EndsWith('.')
                 || name.Any(c => char.IsControl(c) || "<>:\"/\\|?*".Contains(c));
         }))) return Invalid(UiText.SelectionProcessesError);
+        if (!CaptureMouse(out var mouse)) return false;
         SetError(null);
         if (!IsDirty) return true;
         patch = new(
@@ -86,12 +87,17 @@ internal sealed class SelectionSettingsDraftViewModel : INotifyPropertyChanged
             _restore != _baseRestore ? new(_baseRestore, _restore) : null,
             TimeoutDirty ? new(_baseTimeout, timeout) : null,
             _processesDirty ? new(_baseProcesses?.ToArray()!, names) : null,
-            _input != _baseInput ? new(_baseInput, _input) : null);
+            _input != _baseInput ? new(_baseInput, _input) : null)
+        {
+            MouseMode = mouse.MouseMode, RequireIBeamCursor = mouse.RequireIBeamCursor,
+            MinDragDistancePx = mouse.MinDragDistancePx, IconAutoHideMs = mouse.IconAutoHideMs, ExcludedProcesses = mouse.ExcludedProcesses,
+        };
         return true;
     }
 
     public void Merge(SelectionSettings current, bool reset = false, bool notify = true)
     {
+        MergeMouse(current, reset);
         if (reset || !_orderDirty) { _baseOrder = current.ReadOrder?.ToArray(); _order = FromOrder(_baseOrder); _orderDirty = false; }
         if (reset || !_processesDirty)
         {

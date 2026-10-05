@@ -84,6 +84,7 @@ public sealed class OpenSettingsHandlerTests
     {
         var services = new ServiceCollection();
         var fakeSettings = Substitute.For<ISettingsService>();
+        fakeSettings.Current.Returns(new AppSettings());
         services.AddSingleton(fakeSettings);
 
         var fakePresenter = Substitute.For<ISettingsWindowPresenter>();

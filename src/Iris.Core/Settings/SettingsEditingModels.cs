@@ -16,8 +16,8 @@ public sealed record GeneralSettingsPatch(
     SettingsFieldEdit<bool>? ShowStartupNotification = null,
     SettingsFieldEdit<string>? LogLevel = null);
 
-/// <summary>划词基础设置增量。null 项保留最新值；Base 只用于冲突比较，显式 Target 按 SELECTION_SETTINGS_UI.md 验证。
-/// 两个列表的 Base/Target 均须在 Commit 入口同步独立复制；不包含鼠标设置。</summary>
+/// <summary>划词设置增量。null 项保留最新值；Base 只用于冲突比较，显式 Target 按 SELECTION_SETTINGS_UI.md / MOUSE_SELECTION_INTERACTION.md 验证。
+/// 所有列表的 Base/Target 均须在 Commit 入口同步独立复制；原五参数构造/解构保持。</summary>
 public sealed record SelectionSettingsPatch(
     SettingsFieldEdit<IReadOnlyList<SelectionReadMethod>>? ReadOrder = null,
     SettingsFieldEdit<bool>? RestoreClipboard = null,
@@ -25,6 +25,12 @@ public sealed record SelectionSettingsPatch(
     SettingsFieldEdit<IReadOnlyList<string>>? ClipboardUnsafeProcesses = null,
     SettingsFieldEdit<bool>? OpenInputWhenEmpty = null)
 {
+    public SettingsFieldEdit<MouseSelectionMode>? MouseMode { get; init; }
+    public SettingsFieldEdit<bool>? RequireIBeamCursor { get; init; }
+    public SettingsFieldEdit<int>? MinDragDistancePx { get; init; }
+    public SettingsFieldEdit<int>? IconAutoHideMs { get; init; }
+    public SettingsFieldEdit<IReadOnlyList<string>>? ExcludedProcesses { get; init; }
+
     public override string ToString() => "SelectionSettingsPatch";
 }
 

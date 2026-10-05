@@ -3,6 +3,27 @@ namespace Iris.App;
 internal static class UiText
 {
     public const string AppName = "Iris";
+    public const string MouseModeOff = "关闭鼠标划词";
+    public const string MouseModeIcon = "显示翻译图标";
+    public const string MouseModeAuto = "自动翻译";
+    public const string MouseModeLabel = "鼠标划词模式";
+    public const string MouseModeError = "请选择有效的鼠标划词模式。";
+    public const string MouseBeamLabel = "仅在文本光标下识别选区";
+    public const string MouseDragLabel = "最小拖动距离（物理像素）";
+    public const string MouseDragError = "拖动距离须为 2–50 的整数。";
+    public const string MouseHideLabel = "图标停留时间（毫秒）";
+    public const string MouseHideError = "图标停留时间须为 500–10000 的整数。";
+    public const string MouseExcludedLabel = "完全排除鼠标划词的进程";
+    public const string MouseExplanation = "显示图标时会预读选区，点击后翻译已读取的文本。关闭剪贴板恢复可能改变剪贴板内容。";
+    public const string MouseRetry = "重试鼠标监听";
+    public const string MouseApplying = "鼠标设置已保存，正在应用…";
+    public const string MouseApplyFailed = "鼠标设置已保存，应用未完成。请重试鼠标监听。";
+    public const string MouseRunning = "鼠标监听已启用";
+    public const string MouseStopped = "鼠标监听已关闭";
+    public const string MouseReadFailed = "选区预读未完成，请重新选择文本。";
+    public const string MouseToggle = "切换鼠标划词";
+    public const string MouseToggleDescription = "切换鼠标划词的启用状态（默认未设置快捷键）";
+    public const string MouseIconTranslate = "翻译选中的文本";
     public const string TrayToolTip = "Iris";
     public const string TrayMenuInputTranslate = "输入翻译";
     public const string TrayMenuClipboardTranslate = "剪贴板翻译";

@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTests.cs(171,49): error CS8604: “void ShouldBeStringTestExtensions.ShouldContain(string actual, string expected, Case caseSensitivity = Case.Insensitive, string? customMessage = null)”中的形参“actual”可能传入 null 引用实参。 [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+生成失败，退出代码: 1。

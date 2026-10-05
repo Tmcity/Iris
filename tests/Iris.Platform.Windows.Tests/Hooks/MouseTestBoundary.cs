@@ -37,7 +37,7 @@ internal sealed class FakeMouseHookApi : IMouseHookApi, IDisposable
     internal uint CursorFlags = 1;
     internal nint CursorHandle = 900;
     internal nint LoadedCursor = 900;
-    internal short Shift;
+    internal short Shift { get; set; }
     internal bool PidSuccess = true;
     internal int UnhookFailures;
     internal int PostFailures;
@@ -45,9 +45,9 @@ internal sealed class FakeMouseHookApi : IMouseHookApi, IDisposable
     internal bool InstallFailure;
     internal string? ThrowAt;
     internal MouseGate? InstallGate;
-    internal MouseGate? NextGate;
-    internal MouseGate? ExitGate;
-    internal MouseGate? UnhookGate;
+    internal MouseGate? NextGate { get; set; }
+    internal MouseGate? ExitGate { get; set; }
+    internal MouseGate? UnhookGate { get; set; }
     internal Action? OnPost { get; set; }
     internal ConcurrentQueue<(string Name, int Thread)> Calls { get; } = new();
     internal ConcurrentQueue<(int Metric, uint Dpi)> MetricCalls { get; } = new();
@@ -182,10 +182,10 @@ internal sealed class FakeMouseDesktop : IDesktopContext
 {
     internal ForegroundAppInfo? App = new("editor.exe", 42, "PRIVATE_TITLE_AND_SOURCE", 1000);
     internal double Dpi = 1.5;
-    internal MouseGate? SourceGate;
-    internal Action? AfterSource;
+    internal MouseGate? SourceGate { get; set; }
+    internal Action? AfterSource { get; set; }
     internal ConcurrentQueue<int> Threads { get; } = new();
-    internal bool ThrowSource;
+    internal bool ThrowSource { get; set; }
     public ForegroundAppInfo? GetForegroundApp()
     {
         Threads.Enqueue(Environment.CurrentManagedThreadId);

@@ -1,5 +1,6 @@
 using System;
 using Iris.App.Services;
+using Iris.App.Selection;
 using Iris.App.Tray;
 using Iris.Core.Actions;
 using Iris.Core.Platform;
@@ -80,6 +81,10 @@ internal static class AppHostBuilder
         builder.Services.AddSingleton<HotkeyRecordingCoordinator>();
         builder.Services.AddSingleton<SelectionReadCoordinator>();
         builder.Services.Replace(ServiceDescriptor.Singleton<ISelectionTextReader>(sp => sp.GetRequiredService<SelectionReadCoordinator>()));
+        builder.Services.AddSingleton<ISelectionIconSystem, SelectionIconSystem>();
+        builder.Services.AddSingleton<SelectionIconNative>();
+        builder.Services.AddSingleton<ISelectionIconViewFactory, SelectionIconViewFactory>();
+        builder.Services.AddSingleton<SelectionIconController>();
 
         // 设置窗口及编辑协调服务
         builder.Services.AddSingleton<Iris.App.Services.ISettingsApplyReceiptManager, Iris.App.Services.SettingsApplyReceiptManager>();

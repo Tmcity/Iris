@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Iris.App.Services;
+using Iris.App.Selection;
 using Iris.App.Tray;
 using Iris.Core.Errors;
 using Iris.Core.Presentation;
@@ -41,6 +42,7 @@ internal sealed partial class AppBootstrapper
     private readonly Iris.Platform.Windows.Selection.CompositeSelectionReader? _selectionReader;
     private readonly ActionDispatcher? _actionDispatcher;
     private readonly SelectionReadCoordinator? _selectionReadCoordinator;
+    private readonly SelectionIconController? _selectionIconController;
 
     private readonly Lock _stopGate = new();
     private Task? _stopTask;
@@ -66,7 +68,8 @@ internal sealed partial class AppBootstrapper
         HotkeyRecordingCoordinator? recordingCoordinator = null,
         Iris.Platform.Windows.Selection.CompositeSelectionReader? selectionReader = null,
         Iris.Core.Actions.IActionDispatcher? actionDispatcher = null,
-        SelectionReadCoordinator? selectionReadCoordinator = null)
+        SelectionReadCoordinator? selectionReadCoordinator = null,
+        SelectionIconController? selectionIconController = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -86,6 +89,7 @@ internal sealed partial class AppBootstrapper
         _selectionReader = selectionReader;
         _actionDispatcher = actionDispatcher as ActionDispatcher;
         _selectionReadCoordinator = selectionReadCoordinator;
+        _selectionIconController = selectionIconController;
     }
 
     internal static Action<string, string> FatalErrorShower { get; set; } = FatalErrorDialog.Show;
@@ -156,7 +160,7 @@ internal sealed partial class AppBootstrapper
             await _hotkeyCoordinator.StartAsync().ConfigureAwait(false);
         }
 
-        // TODO(T-024): 鼠标监视
+        if (_selectionIconController != null) await _selectionIconController.StartAsync().ConfigureAwait(false);
         // TODO(T-033): 悬浮球
         // TODO(T-037): 启动命名管道 IPC 服务
 
@@ -208,6 +212,7 @@ internal sealed partial class AppBootstrapper
     {
         LogStopping(_logger);
         _actionDispatcher?.StopAcceptance();
+        _selectionIconController?.StopAcceptance();
         _selectionReadCoordinator?.StopAcceptance();
 
         lock (_stopGate)
@@ -275,8 +280,24 @@ internal sealed partial class AppBootstrapper
         }
 
         // Selection Stop includes conditional restoration before stopping its clipboard worker.
-        if (_selectionReadCoordinator != null) await _selectionReadCoordinator.StopAsync().ConfigureAwait(false);
-        if (_selectionReader != null) await _selectionReader.StopAsync().ConfigureAwait(false);
+        var selectionFailures = new System.Collections.Generic.List<string>();
+        ErrorCode selectionError = ErrorCode.CaptureFailed;
+        if (_selectionIconController != null)
+        {
+            try { await _selectionIconController.StopAsync().ConfigureAwait(false); }
+            catch (Exception ex) { selectionError = ErrorCode.HookInstallFailed; selectionFailures.Add($"MOUSE:0x{ex.HResult:X8}"); }
+        }
+        if (_selectionReadCoordinator != null)
+        {
+            try { await _selectionReadCoordinator.StopAsync().ConfigureAwait(false); }
+            catch (Exception ex) { selectionFailures.Add($"COORDINATOR:0x{ex.HResult:X8}"); }
+        }
+        if (_selectionReader != null)
+        {
+            try { await _selectionReader.StopAsync().ConfigureAwait(false); }
+            catch (Exception ex) { selectionFailures.Add($"COMPOSITE:0x{ex.HResult:X8}"); }
+        }
+        if (selectionFailures.Count != 0) throw new IrisException(selectionError, ErrorMessages.GetDefault(selectionError), detail: string.Join(';', selectionFailures));
 
         // 3. 然后配合既有设置/翻译 Presenter 完整退出
         if (_settingsShutdownCoordinator != null)

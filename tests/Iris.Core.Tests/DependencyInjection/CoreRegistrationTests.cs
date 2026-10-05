@@ -20,6 +20,7 @@ public sealed class CoreRegistrationTests
     {
         var services = new ServiceCollection();
         var settingsMock = Substitute.For<ISettingsService>();
+        settingsMock.Current.Returns(new AppSettings());
         var secretStoreMock = Substitute.For<Iris.Core.Security.ISecretStore>();
         var historyMock = Substitute.For<ITranslationHistoryRepository>();
         var presenterMock = Substitute.For<Iris.Core.Presentation.ISettingsWindowPresenter>();
@@ -96,12 +97,13 @@ public sealed class CoreRegistrationTests
         coordinator1.ShouldBeSameAs(coordinator2);
 
         var actionHandlers = provider.GetServices<Iris.Core.Actions.IActionHandler>().ToList();
-        actionHandlers.Count.ShouldBe(5);
+        actionHandlers.Count.ShouldBe(6);
         actionHandlers.Single(h => h.Action == Iris.Core.Actions.IrisAction.SelectionTranslate).ShouldBeSameAs(provider.GetServices<Iris.Core.Actions.IActionHandler>().Single(h => h.Action == Iris.Core.Actions.IrisAction.SelectionTranslate));
         actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.OpenSettings).ShouldNotBeNull();
         actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.InputTranslate).ShouldNotBeNull();
         actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.ClipboardTranslate).ShouldNotBeNull();
         actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.TranslateText).ShouldNotBeNull();
+        actionHandlers.Single(h => h.Action == Iris.Core.Actions.IrisAction.ToggleMouseSelection).ShouldBeSameAs(provider.GetServices<Iris.Core.Actions.IActionHandler>().Single(h => h.Action == Iris.Core.Actions.IrisAction.ToggleMouseSelection));
     }
 
     [Fact]
@@ -109,6 +111,7 @@ public sealed class CoreRegistrationTests
     {
         var services = new ServiceCollection();
         var settingsMock = Substitute.For<ISettingsService>();
+        settingsMock.Current.Returns(new AppSettings());
         var secretStoreMock = Substitute.For<Iris.Core.Security.ISecretStore>();
         var historyMock = Substitute.For<ITranslationHistoryRepository>();
         var presenterMock = Substitute.For<Iris.Core.Presentation.ISettingsWindowPresenter>();
@@ -146,5 +149,6 @@ public sealed class CoreRegistrationTests
         provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.ClipboardTranslate).ShouldBe(1);
         provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.TranslateText).ShouldBe(1);
         provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.SelectionTranslate).ShouldBe(1);
+        provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.ToggleMouseSelection).ShouldBe(1);
     }
 }

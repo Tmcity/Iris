@@ -1,6 +1,14 @@
 # Iris 架构师接手记录
 
-T-024B1 独立复审准备：系统临时目录 iris-t024b1-independent-review 已准备实际 Coordinator→Composite→C1/Keyboard/UIA 探针，尚未编译或运行。交付后执行 prepare.py 刷新实际 App DLL 引用及外部 fake；Program.cs 覆盖 HWND/PID/名字失配与标题/大小写对照，以及被动文本读取/恢复 Close 两道门闩下的显式抢占和待办取消，预期零提前 UIA、原剪贴板恢复。不得把准备稿当作通过证据。
+T-024B2 独立探针模板已准备在系统临时目录 iris-t024b2-independent-review，尚未编译/执行。prepare.py 在最终交付后复制现有服务链 fixture/外部 fake，并仅给外部 placement 增加“Show后的第二次定位失败”开关；Program.cs 使用实际Controller/monitor/Coordinator/Composite/Window观察失败后的可见性与重试/停止，不把准备稿当产品反例。最终fixture如变动须先适配，保持产品状态机不替换。
+
+T-024B2 复审准备（实施中，非结论）：系统临时 iris-t024b2-review-preparation.md 记录当前草稿中待最终复核的部分显示失败、取消与dispatch完成、多清理错误、timer持有及视觉失效场景。尚未运行产品反例，不能据草稿直接判返工；完整交付后重读最终代码并做实际Window/native边界验证。
+
+T-025 准备（T-024B2 实施期间，未签发）：系统临时目录 iris-t025-preparation.md 记录原始截图/GDI资源/异步编码候选，iris-t025-official-docs 保存已实际读取的13页微软文档。已确认 ReleaseDC 同线程、DIB bits 访问前 GdiFlush、GetDIBits 不能用于仍选入DC的bitmap、WinRT BitmapEncoder 的异步完成/stream顺序。CropAsync/预算/捕获worker生命周期仍待本轮鼠标闭环验收后正式 CCR，不授权提前实现。
+
+补充可执行依据：iris-t025-codec-probe 已用合成2×2像素验证内建PNG/JPEG/BMP内存编码/解码，退出0，无新NuGet/真实屏幕/用户文件；PNG/BMP逐像素一致，JPEG符合有损性质。结果仅支持技术选型，未验证截图或大图/取消/NFR。
+
+历史 T-024B1 独立复审准备（现已执行通过，见归档第 9 节）：系统临时目录 iris-t024b1-independent-review 已准备实际 Coordinator→Composite→C1/Keyboard/UIA 探针，尚未编译或运行。交付后执行 prepare.py 刷新实际 App DLL 引用及外部 fake；Program.cs 覆盖 HWND/PID/名字失配与标题/大小写对照，以及被动文本读取/恢复 Close 两道门闩下的显式抢占和待办取消，预期零提前 UIA、原剪贴板恢复。不得把准备稿当作通过证据。
 
 全量回归范围澄清（2026-10-05，T-024A 归档审计）：DesktopContextNativeReadOnlyTests 自 3147224 / T-022A 起已存在且已验收，实际调用 GetCursorPosition/GetMonitors/GetMonitorAt，T-022A 归档也明确记录光标用例通过。后续全量测试保留这两项既有只读 smoke；不得把“新增测试只用 fake”扩大成“全套没有任何 native 桌面查询”。它们不读取真实前台进程/窗口标题、选区或剪贴板，不输入/装 hook；新增鼠标测试禁真实交互仍保持。此前未验证真实应用/桌面兼容性的声明指功能端到端，不等于没有运行该只读回归。具体边界已同步 MOUSE_SELECTION_MONITOR.md §6 与 DEVELOPER_HANDOFF。
 
@@ -10,6 +18,8 @@ T-024B1 独立复审准备：系统临时目录 iris-t024b1-independent-review �
 
 > 2026-10-05 更新；由 Codex 接替 Claude Code 的架构师职责。当前状态以 `tasks/BACKLOG.md` 与 `tasks/current_task.md` 为准；本文件记录交接事实与后续注意事项。
 
+**T-024B2 实际下达记录（2026-10-05）**：消息 01a10ae5-0cce-7ee0-ad80-608025beec95 已进入指定开发会话，执行轮 01a10ae5-0d9f-7872-9266-ac89717f3f7a。开发确认开始读取完整工单/交互规范并实施图标、缓存、自动翻译、联合设置和退出接线。当前进行中，未交付/未验收，不重复下发；候选设计以已签署 MOUSE_SELECTION_INTERACTION.md / CCR-022 为准。
+
 **T-024B1 实际下达记录（2026-10-05）**：消息 01a10abb-dbb9-7bf1-a3bd-b612c41c8e43 已进入指定开发会话，执行轮 01a10abc-01ce-7e63-881b-85be61fc4e75。开发确认开始读取工单/协调规范并实施，同时确认全量保留两项既有只读桌面回归、新增测试使用 fake 外部边界。B1 正在进行，未交付/未验收，不重复下发。B2 的候选方案在系统临时目录 iris-t024b-design-preparation.md；其中 ActionContext、缓存/图标、自动模式、鼠标设置与 Toggle 尚未签发。
 
 **T-024A 实际下达记录（2026-10-05）**：队列消息 01a10a93-944b-7363-8122-e609dc71a494 已进入指定开发会话，执行轮 01a10a93-b94d-7413-8c5a-a9936c347776；开发已确认完整读取当前工单/鼠标规范并按 A 范围实施。正在进行，未交付/未验收，不重复下发。原临时 T-024A 候选稿被已签发 MOUSE_SELECTION_MONITOR.md / CCR-020 取代；B 的缓存来源/操作移交仍需后续正式定稿。
@@ -18,7 +28,7 @@ T-024B1 独立复审准备：系统临时目录 iris-t024b1-independent-review �
 
 **T-023A 实际下达记录（2026-10-05）**：队列消息 01a10960-04a3-7b93-b8d3-07237eed5322 已进入指定开发会话，执行轮 01a10960-1b4d-71b3-8a64-3578f5a0ceb4。开发已确认读取正式工单，并说明使用实际 UI 通知接受点与共享发布/退出屏障；正在实施，尚未交付或验收。不要因 bridge 的 notLoaded/interrupted 暂态或等待超时重发。下一阶段准备稿 iris-t023b-preparation.md、iris-t024-preparation.md 及官方鼠标 API 原文均在系统临时目录，未签发。
 
-**当前唯一有效状态（2026-10-05）**：HEAD ac4ff5886296d29ce445bff59534cc9eec32fcb0，T-024A 与 CCR-020 已独立验收结案；Release 零警告/错误，全量 2313（2311 成功/2 error=183 跳过），实际 monitor/adapter/recognizer 六组独立探针通过，详细 A 报告第 9 节。两项既有 T-022A 只读 cursor/monitor smoke 已明确继续纳入全量，新增真实 hook/交互仍禁止。当前唯一工单 tasks/current_task.md / T-024B1，按 SELECTION_READ_COORDINATION.md / ARCH v1.37 / CCR-021 实施 ExpectedSource、App 被动/显式读取协调和退出；specs 已预置批准声明，开发同步 Core。B2 图标/缓存/自动翻译/鼠标设置未开始，候选准备 iris-t024b-design-preparation.md 在系统临时目录。父 T-024/B/B1 为 ▶；直接协调开发会话，不推送，.codex/ 未跟踪保留，架构师文档随单提交。真实鼠标/兼容性/NFR 未验证。
+**当前唯一有效状态（2026-10-05）**：HEAD 29bc38e00b59aeaa8f47b0ff806dc3ede4e3fc2a，T-024B1 / CCR-021 独立验收结案。Release 零警告/错误，全量 2355（2353 成功/2 error=183 跳过）；实际六组来源/双门闩抢占与取消探针通过，详见 B1 报告第 9 节。当前唯一工单 tasks/current_task.md / T-024B2，按 MOUSE_SELECTION_INTERACTION.md / ARCH v1.38 / CCR-022 实施完整图标/缓存点击/自动翻译/鼠标设置/运行状态重试/Toggle与退出。specs预置ActionContext原来源及patch字段，开发同步Core；父T-024/B/B2为▶，T-025未开始。旧临时B2候选被正式规范取代。保留两项既有只读桌面smoke，新增交互测试fake；真实鼠标/兼容性/NFR未验证。直接协调开发会话，不推送，.codex/未跟踪保留，架构师文档随单提交。
 
 **当前协作方式（2026-10-05 最新用户指令）：直接协调 Codex 开发会话。** Gemini 额度耗尽，用户将开发职责交给会话 01a1088c-7a7f-7db3-a153-7fae5cfedf4d，由本架构师直接说明角色、下达工单并读取交付，用户不再传话。使用用户提供的 .codex/codex_threads.py 与官方 App Server；运行中追加要求需确认插队生效。旧手动转交/Antigravity 控制记录均属历史。角色说明已被开发会话确认（turn 01a10897-8592-7e32-b35a-3595727df562 completed），R6 已在 turn 01a10899-0c31-71b1-88cc-818fb3571432 completed 后交付并通过独立复审，C1 与 R1 已交付并通过独立复审（最后交付 turn 01a108dc-ba80-73b3-98a3-2af688007ae9 completed）；C2 已在 turn 01a108f2-da8d-7653-a3cb-fc17f0e9d0b9 completed 后交付；首次复审已完成，接下来直接下达 R1。详细职责见 specs/DEVELOPER_HANDOFF.md。不推送。
 

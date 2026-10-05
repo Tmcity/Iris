@@ -1,5 +1,7 @@
 # 划词翻译入口与操作通知
 
+> T-024B2 / ARCH v1.38 补充：SelectionIcon 的缓存 Payload、MouseSelection 自动读取及 ExpectedSelectionSource 按 MOUSE_SELECTION_INTERACTION.md / CCR-022 扩展。本文件的 A 范围描述保留为原交付记录；默认非鼠标入口与操作通知协议不变。
+
 > 2026-10-05，Codex；T-023A / ARCH v1.34 / CCR-018 正式规范。T-022C2-R1 / ceda922 已独立验收。
 > T-023 总范围保持 Handler + 基础设置；本单 A 实施入口与通知，B 后续实施联合保存与设置 UI。T-024 鼠标入口不提前实施。
 

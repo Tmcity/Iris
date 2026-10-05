@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.37 · 2026-10-05 · 状态：**已冻结（首期）**
+> 版本：v1.38 · 2026-10-05 · 状态：**已冻结（首期）**
+> 变更记录：v1.38（T-024B1 通过，签发 T-024B2）— MOUSE_SELECTION_INTERACTION.md / CCR-022 定稿被动缓存图标、唯一点击/自动翻译 Dispatcher 语义、鼠标设置与运行状态/Toggle及完整退出。ActionContext 增加可选原来源，SelectionSettingsPatch 增加鼠标字段；原构造/JSON/default/包保持，CaptureFailed 文案统一为内容获取失败。
 > 变更记录：v1.37（T-024A 通过，签发 T-024B1）— SELECTION_READ_COORDINATION.md / CCR-021 增加可选原来源约束及 App 单实例读协调，显式请求可取消并完整等待被动读；B1 交付底座/退出，B2 后续图标、缓存点击与鼠标设置。默认配置/包不变，保留既有只读桌面 smoke 的明确测试边界。
 > 变更记录：v1.36（T-023B 通过，签发 T-024A）— MOUSE_SELECTION_MONITOR.md / CCR-020 将未实现的鼠标监控端口定为异步启停、代次事件及完整重试清理，固定获批快照/有界队列与纯手势规则。T-024 拆 A 监控底座与 B 图标/缓存/设置接线，总范围不缩减，默认 MouseMode.Off/包不变。
 > 变更记录：v1.35（T-023A 通过，签发 T-023B）— SELECTION_SETTINGS_UI.md / CCR-019 定稿五项基础划词设置补丁、同步列表捕获/三方冲突、全窗口一次联合保存及 settings selection 页；快捷键页增加已交付的划词动作行。公开设置/JSON/默认配置/包不变，T-024 鼠标范围仍未开始。
@@ -301,12 +302,13 @@ Core 程序集禁止引用：`PresentationFramework`、`PresentationCore`、`Win
 1. 正式规则见 SELECTION_ENTRYPOINTS.md / CCR-018。先取得 operation，再深捕获一次 Settings.Selection；确认前台为 Iris 自身时，用同一租约显示输入界面（保留原文、不重译、不隐藏），不读取选区、不另开意图。
 2. 其它来源 `result = await ISelectionTextReader.ReadAsync(frozenOptions, operation.CancellationToken)`，实际来源/焦点安全由已验收 Reader 确认。
 3. null/空白 → OpenInputWhenEmpty 为 true 时同租约显式清空并聚焦输入，false 时 TryNotifyAsync(operation, Warning, SelectionEmpty)，实际 UI 接受时验证身份，不进入普通通知队列。
-4. 非空文本原样以同租约 TryShowAsync，Origin=Selection、Anchor=ctx.Anchor、AutoTranslate=true、FocusInput=false；旧成功/空结果/错误均拒绝，finally 在实际工作结束后 Dispose。下列鼠标段为 T-024 待定稿范围，不能据此提前实施或点击后重读前台。
+4. 非空文本原样以同租约 TryShowAsync，Origin=Selection、Anchor=ctx.Anchor、AutoTranslate=true、FocusInput=false；旧成功/空结果/错误均拒绝，finally 在实际工作结束后 Dispose。鼠标扩展以 MOUSE_SELECTION_INTERACTION.md / CCR-022 为准，默认热键行为保持。
 
-**鼠标划词（可选）**：`SelectionIconController`（App）在 `MouseMode != Off` 时启动 `IMouseSelectionMonitor`。收到 `SelectionGestureDetected` 后：
-- 若进程在 `ExcludedProcesses` 中，或前台是 Iris 自身 → 忽略；
-- `ShowIcon`：在光标右下 (+12, +12) DIP 处显示 `SelectionIconWindow`（**不激活**），`IconAutoHideMs` 后或收到 `MouseDown`（点在图标外）时隐藏；点击图标 → `Dispatch(SelectionTranslate, Trigger=SelectionIcon, Anchor=图标位置)`；
-- `AutoTranslate`：延迟 120 ms 后直接 Dispatch。
+**鼠标划词（可选）**：SelectionIconController 在保存模式非 Off 时按 A 的异步生命周期启动 monitor，事件/来源/配置代次均复核。
+- ShowIcon：120ms settle 后用 B1 被动读取捕获原来源文本，不分配 Presenter lease、不打断已有翻译。非空才显示 24 DIP 非激活图标，偏移 12 DIP；到期/外部 MouseDown/失效清缓存。
+- 点击：统一 Dispatch(SelectionTranslate, Trigger=SelectionIcon, Payload=缓存原文, ExpectedSelectionSource=原来源, Anchor=图标位置)，同一次新 lease 验源后显示，零重读。
+- AutoTranslate：120ms settle 后统一 Dispatch(SelectionTranslate, Trigger=MouseSelection, ExpectedSelectionSource=原来源)，一次读取；空结果静默，非空/错误按原 lease 身份发布。
+- 鼠标配置经联合编辑提交后应用，失败仍承认已保存并可重试；ToggleMouseSelection 无默认键，按最新值切换 Off/本次运行最后非 Off 模式。完整关闭顺序和无激活样式见正式规范。
 
 ### 6.4 截图翻译（`ScreenshotTranslateHandler`）
 

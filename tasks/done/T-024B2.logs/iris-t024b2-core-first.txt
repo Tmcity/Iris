@@ -1,0 +1,3 @@
+F:\Iris\tests\Iris.Core.Tests\Workflows\MouseSelectionWorkflowTests.cs(52,59): error CS8122: 表达式树不能包含 "is" 模式匹配运算符。 [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+F:\Iris\tests\Iris.Core.Tests\Workflows\MouseSelectionWorkflowTests.cs(65,59): error CS8122: 表达式树不能包含 "is" 模式匹配运算符。 [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+生成失败，退出代码: 1。

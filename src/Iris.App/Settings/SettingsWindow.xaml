@@ -652,6 +652,25 @@
                                Foreground="{DynamicResource SystemFillColorCriticalBrush}" Margin="0,0,0,12" />
                     <ui:Card Padding="16" Margin="0,0,0,12">
                         <StackPanel>
+                            <TextBlock Text="{x:Static app:UiText.MouseModeLabel}" FontWeight="SemiBold" Margin="0,0,0,8" />
+                            <ComboBox x:Name="MouseModeComboBox" ItemsSource="{x:Static local:SelectionSettingsDraftViewModel.MouseModes}"
+                                      DisplayMemberPath="Label" SelectedValuePath="Mode" SelectedValue="{Binding Selection.MouseMode, Mode=TwoWay}" />
+                            <TextBlock Text="{x:Static app:UiText.MouseExplanation}" TextWrapping="Wrap" FontSize="12" Margin="0,8,0,12"
+                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                            <CheckBox Content="{x:Static app:UiText.MouseBeamLabel}" IsChecked="{Binding Selection.RequireIBeamCursor, Mode=TwoWay}" Margin="0,0,0,12" />
+                            <TextBlock Text="{x:Static app:UiText.MouseDragLabel}" Margin="0,0,0,6" />
+                            <TextBox x:Name="MouseDragTextBox" Text="{Binding Selection.MinDragDistanceText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Width="140" HorizontalAlignment="Left" Margin="0,0,0,12" />
+                            <TextBlock Text="{x:Static app:UiText.MouseHideLabel}" Margin="0,0,0,6" />
+                            <TextBox x:Name="MouseHideTextBox" Text="{Binding Selection.IconAutoHideText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Width="140" HorizontalAlignment="Left" Margin="0,0,0,12" />
+                            <TextBlock Text="{x:Static app:UiText.MouseExcludedLabel}" FontWeight="SemiBold" Margin="0,0,0,6" />
+                            <TextBox x:Name="MouseExcludedTextBox" Text="{Binding Selection.ExcludedProcessesText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Height="130" />
+                        </StackPanel>
+                    </ui:Card>
+                    <ui:Card Padding="16" Margin="0,0,0,12">
+                        <StackPanel>
                             <TextBlock Text="{x:Static app:UiText.SelectionOrderLabel}" FontWeight="SemiBold" Margin="0,0,0,8" />
                             <ComboBox x:Name="SelectionOrderComboBox" ItemsSource="{x:Static local:SelectionSettingsDraftViewModel.Orders}"
                                       DisplayMemberPath="Label" SelectedValuePath="Id" SelectedValue="{Binding Selection.ReadOrderChoice, Mode=TwoWay}" />
@@ -804,23 +823,28 @@
                 Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}"
                 Padding="16,10">
             <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <!-- 状态与异常重试提示 -->
-                <Grid Grid.Column="0" Margin="0,0,12,0" VerticalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
+                <Grid Grid.ColumnSpan="2" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
 
                     <TextBlock x:Name="StatusMessageTextBlock"
                                Grid.Column="0"
                                Text="{Binding StatusMessage}"
                                VerticalAlignment="Center"
-                               TextTrimming="CharacterEllipsis"
+                               TextWrapping="Wrap"
                                Margin="0,0,8,0">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
@@ -834,74 +858,35 @@
                         </TextBlock.Style>
                     </TextBlock>
 
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock x:Name="MouseRuntimeStatusTextBlock" Grid.Row="1" Text="{Binding MouseRuntimeStatus}" TextWrapping="Wrap"
+                               Margin="0,4,0,4" Visibility="{Binding HasMouseRuntimeStatus, Converter={StaticResource BoolToVis}}"
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    <WrapPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
                         <!-- 保存冲突时展示“重新载入”按钮 -->
                         <Button Content="{x:Static app:UiText.SettingsReload}"
                                 Command="{Binding ReloadCommand}"
-                                Margin="0,0,6,0">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding IsConflict}" Value="True">
-                                            <Setter Property="Visibility" Value="Visible" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
+                                Margin="0,0,6,0" Visibility="{Binding IsConflict, Converter={StaticResource BoolToVis}}" />
 
                         <!-- 开机启动写入失败时展示“重试应用”按钮 -->
                         <Button Content="{x:Static app:UiText.SettingsRetry}"
                                 Command="{Binding RetryAutoStartCommand}"
-                                Margin="0,0,6,0">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding CanRetryAutoStart}" Value="True">
-                                            <Setter Property="Visibility" Value="Visible" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
+                                Margin="0,0,6,0" Visibility="{Binding CanRetryAutoStart, Converter={StaticResource BoolToVis}}" />
 
                         <!-- 服务待应用刷新/清理失败时展示“重试服务应用”按钮 -->
                         <Button Content="{x:Static app:UiText.SettingsRetryPendingApply}"
                                 Command="{Binding RetryPendingApplyCommand}"
-                                Margin="0,0,6,0">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding CanRetryPendingApply}" Value="True">
-                                            <Setter Property="Visibility" Value="Visible" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
+                                Margin="0,0,6,0" Visibility="{Binding CanRetryPendingApply, Converter={StaticResource BoolToVis}}" />
 
                         <!-- 快捷键系统注册或录入清理失败时展示“重试快捷键应用”按钮 -->
                         <Button Content="{x:Static app:UiText.SettingsRetryHotkeys}"
-                                Command="{Binding RetryHotkeysCommand}">
-                            <Button.Style>
-                                <Style TargetType="Button">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding CanRetryHotkeysOrCleanup}" Value="True">
-                                            <Setter Property="Visibility" Value="Visible" />
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Button.Style>
-                        </Button>
-                    </StackPanel>
+                                Command="{Binding RetryHotkeysCommand}" Visibility="{Binding CanRetryHotkeysOrCleanup, Converter={StaticResource BoolToVis}}" />
+                        <Button Content="{x:Static app:UiText.MouseRetry}" Command="{Binding RetryMouseCommand}" Margin="6,0,0,0"
+                                Visibility="{Binding CanRetryMouse, Converter={StaticResource BoolToVis}}" />
+                    </WrapPanel>
                 </Grid>
 
                 <!-- 操作按钮区 -->
-                <StackPanel Grid.Column="1"
+                <StackPanel Grid.Column="1" Grid.Row="1" Margin="0,8,0,0"
                             Orientation="Horizontal"
                             HorizontalAlignment="Right">
                     <ui:Button Content="{x:Static app:UiText.SettingsCancel}"
