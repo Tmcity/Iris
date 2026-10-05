@@ -16,6 +16,18 @@ public sealed record GeneralSettingsPatch(
     SettingsFieldEdit<bool>? ShowStartupNotification = null,
     SettingsFieldEdit<string>? LogLevel = null);
 
+/// <summary>划词基础设置增量。null 项保留最新值；Base 只用于冲突比较，显式 Target 按 SELECTION_SETTINGS_UI.md 验证。
+/// 两个列表的 Base/Target 均须在 Commit 入口同步独立复制；不包含鼠标设置。</summary>
+public sealed record SelectionSettingsPatch(
+    SettingsFieldEdit<IReadOnlyList<SelectionReadMethod>>? ReadOrder = null,
+    SettingsFieldEdit<bool>? RestoreClipboard = null,
+    SettingsFieldEdit<int>? ClipboardTimeoutMs = null,
+    SettingsFieldEdit<IReadOnlyList<string>>? ClipboardUnsafeProcesses = null,
+    SettingsFieldEdit<bool>? OpenInputWhenEmpty = null)
+{
+    public override string ToString() => "SelectionSettingsPatch";
+}
+
 public enum CredentialEditKind
 {
     Keep = 0,
@@ -65,6 +77,9 @@ public sealed record SettingsEditPlan(
 {
     /// <summary>快捷键增量；默认无编辑。入口复制列表，未编辑 Action 保留提交时最新配置。</summary>
     public IReadOnlyList<HotkeyBindingChange> HotkeyChanges { get; init; } = [];
+
+    /// <summary>划词基础字段补丁；默认 null 表示无编辑，不覆盖未编辑的鼠标或其它设置。</summary>
+    public SelectionSettingsPatch? Selection { get; init; }
 
     public override string ToString() => "SettingsEditPlan";
 }

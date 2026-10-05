@@ -5,8 +5,8 @@
 ## 当前状态
 
 - 项目为 .NET 10 / WPF Windows 常驻翻译工具 Iris，完整目标含输入/剪贴板/划词翻译、截图/OCR、悬浮球、设置/历史/代理与发布，尚未整体完成。
-- 基线为 master / ceda9229171c620d2cabf047c7b8aa63c9d95d04。T-022B、C1/R1、C2/R1 已验收；当前唯一工单为 tasks/current_task.md / T-023A，实施划词 Handler、操作通知及已有默认快捷键开放。
-- 正式依据为 SELECTION_ENTRYPOINTS.md / ARCH v1.34 / CCR-018。specs/CONTRACTS.cs 已预置唯一 TryNotifyAsync 声明，本单同步 Core 与实际实现；其它字段/签名/默认配置/包不变。T-023B 设置与 T-024 尚未开始。
+- 基线为 master / 3bbd00971eb2191dad309c5ff77a40f71b46e9a2。T-022 全部实现与 T-023A 已验收；当前唯一工单 tasks/current_task.md / T-023B，完成基础划词设置增量联合提交/UI及划词快捷键编辑行。
+- 正式依据为 SELECTION_SETTINGS_UI.md / ARCH v1.35 / CCR-019。specs/CONTRACTS.cs 预置 SelectionSettingsPatch 与 SettingsEditPlan.Selection，本单同步 Core/实现；其它公开签名、持久化设置/默认配置/normalizer/包不变。T-024 未开始。
 
 ## 协作与约束
 

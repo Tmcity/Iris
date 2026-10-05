@@ -96,6 +96,19 @@
                                    FontWeight="Medium"
                                    VerticalAlignment="Center" />
                     </Border>
+                    <Border CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavSelectionClick">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentPageKey}" Value="selection">
+                                        <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock Text="{x:Static app:UiText.SettingsNavSelection}" FontWeight="Medium" VerticalAlignment="Center" />
+                    </Border>
                 </StackPanel>
             </Border>
 
@@ -619,6 +632,59 @@
                     </StackPanel>
                 </ScrollViewer>
             </Grid>
+
+            <ScrollViewer x:Name="SelectionScrollViewer" Grid.Column="1" VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled" Padding="24,16">
+                <ScrollViewer.Style>
+                    <Style TargetType="ScrollViewer">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CurrentPageKey}" Value="selection">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ScrollViewer.Style>
+                <StackPanel IsEnabled="{Binding CanEdit}">
+                    <TextBlock Text="{x:Static app:UiText.SettingsNavSelection}" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,12" />
+                    <TextBlock x:Name="SelectionErrorTextBlock" Text="{Binding Selection.ErrorMessage}" TextWrapping="Wrap"
+                               Visibility="{Binding Selection.HasError, Converter={StaticResource BoolToVis}}"
+                               Foreground="{DynamicResource SystemFillColorCriticalBrush}" Margin="0,0,0,12" />
+                    <ui:Card Padding="16" Margin="0,0,0,12">
+                        <StackPanel>
+                            <TextBlock Text="{x:Static app:UiText.SelectionOrderLabel}" FontWeight="SemiBold" Margin="0,0,0,8" />
+                            <ComboBox x:Name="SelectionOrderComboBox" ItemsSource="{x:Static local:SelectionSettingsDraftViewModel.Orders}"
+                                      DisplayMemberPath="Label" SelectedValuePath="Id" SelectedValue="{Binding Selection.ReadOrderChoice, Mode=TwoWay}" />
+                            <TextBlock Text="{x:Static app:UiText.SelectionSafetyDescription}" TextWrapping="Wrap" FontSize="12"
+                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,8,0,12" />
+                            <TextBlock Text="{x:Static app:UiText.SelectionTimeoutLabel}" FontWeight="SemiBold" Margin="0,0,0,8" />
+                            <TextBox x:Name="SelectionTimeoutTextBox" Text="{Binding Selection.ClipboardTimeoutText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Width="140" HorizontalAlignment="Left" />
+                            <TextBlock Text="{x:Static app:UiText.SelectionTimeoutDescription}" TextWrapping="Wrap" FontSize="12"
+                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,8,0,0" />
+                        </StackPanel>
+                    </ui:Card>
+                    <ui:Card Padding="16" Margin="0,0,0,12">
+                        <StackPanel>
+                            <CheckBox Content="{x:Static app:UiText.SelectionRestoreLabel}" IsChecked="{Binding Selection.RestoreClipboard, Mode=TwoWay}" />
+                            <TextBlock Text="{x:Static app:UiText.SelectionRestoreDescription}" TextWrapping="Wrap" FontSize="12"
+                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,6,0,16" />
+                            <CheckBox Content="{x:Static app:UiText.SelectionEmptyLabel}" IsChecked="{Binding Selection.OpenInputWhenEmpty, Mode=TwoWay}" />
+                            <TextBlock Text="{x:Static app:UiText.SelectionEmptyDescription}" TextWrapping="Wrap" FontSize="12"
+                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,6,0,0" />
+                        </StackPanel>
+                    </ui:Card>
+                    <ui:Card Padding="16" Margin="0,0,0,12">
+                        <StackPanel>
+                            <TextBlock Text="{x:Static app:UiText.SelectionProcessesLabel}" FontWeight="SemiBold" Margin="0,0,0,8" />
+                            <TextBlock Text="{x:Static app:UiText.SelectionProcessesDescription}" TextWrapping="Wrap" FontSize="12"
+                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,0,0,10" />
+                            <TextBox x:Name="SelectionProcessesTextBox" Text="{Binding Selection.ClipboardUnsafeProcessesText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Height="130" />
+                        </StackPanel>
+                    </ui:Card>
+                </StackPanel>
+            </ScrollViewer>
 
             <!-- 右侧快捷键设置内容 -->
             <ScrollViewer Grid.Column="1"

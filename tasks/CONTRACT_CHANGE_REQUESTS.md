@@ -835,10 +835,24 @@ SelectionReadResult 字段、构造、相等性、解构以及 ISelectionTextRea
 |---|---|
 | 日期 / 批准 | 2026-10-05，Codex 架构师 |
 | 关联 | T-023A；SELECTION_ENTRYPOINTS.md；ARCH v1.34 |
-| 状态 | **已落地，待复审（T-023A）** |
+| 状态 | **已验收结案（T-023A，3bbd009，2026-10-05）** |
 
 普通 INotificationService.Notify 无 operation 且 TrayNotificationService 会延迟排队，不能保证“无选区且不打开输入窗”的迟到提示不覆盖新意图。批准在 ITranslateWindowPresenter 唯一增加 Task<bool> TryNotifyAsync(ITranslateWindowOperation operation, NotificationLevel level, ErrorCode code)，精确行为见 SELECTION_ENTRYPOINTS.md §3。
 
 specs/CONTRACTS.cs 已由架构师预置声明；本单开发同步 Core 和全部实现/测试替身。UI 实际接受点验证所属操作，共享 Show/Notify 发布持有与退出屏障，正文只取既有 ErrorMessages 默认文案，SelectionEmpty 已存在；托盘不可用/原生失败返回 false，不创建窗口、不进入旧无身份队列。通知结束不得释放它未取得的既有 VM session ownership。
 
 不新增 ErrorCode/ActionContext 字段/Selection DTO/默认配置或包，不改普通 Notify 队列。App internal 实际即时路径由本单实施并验证，不能用 default interface implementation 返回 false 代替交付。批准与声明预置不等于实现验收；架构契约一致性在本单完成同步后随全量测试核对。
+
+## CCR-019：划词基础设置增量编辑计划
+
+| 字段 | 内容 |
+|---|---|
+| 日期 / 批准 | 2026-10-05，Codex 架构师 |
+| 关联 | T-023B；SELECTION_SETTINGS_UI.md；ARCH v1.35 |
+| 状态 | **已落地待复审（T-023B）** |
+
+批准新增非持久化 SelectionSettingsPatch（ReadOrder、RestoreClipboard、ClipboardTimeoutMs、ClipboardUnsafeProcesses、OpenInputWhenEmpty 五个可空 SettingsFieldEdit），及 SettingsEditPlan.Selection 可空 init 属性。原计划 positional 构造/解构、各公开方法和已落地 AppSettings/SelectionSettings DTO/JSON 不变；不新增 ErrorCode/默认绑定/schema 或包版本。
+
+精确声明已预置 specs/CONTRACTS.cs，本单开发同步 Core SettingsEditingModels 与实际协调器/App。两个列表的 Base/Target 首次 await 前深复制；只验证显式 Target，Base 保留历史真实匹配语义。ReadOrder 非空有序合法，复制预算 [100,2000]，进程列表可空、忽略大小写去重、严格文件名验证及编辑上限见正式规范。字段冲突在 staging 前及 mutate 内均复验，五项与其它页面一次 UpdateAsync，只替换明确编辑字段。
+
+Selection-only 不触碰凭据/Provider 观察者/回执配额或 native 读取。App 纳入全窗口冻结、失败保留、已保存基线推进、外部合并与完整关闭；设置页并补已由 A 开放的 SelectionTranslate 快捷键行。T-024 鼠标字段不在本补丁范围。批准与声明预置不是功能验收，完成同步后由正式测试及独立复审核对。

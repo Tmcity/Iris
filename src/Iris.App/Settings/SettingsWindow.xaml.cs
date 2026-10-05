@@ -230,6 +230,11 @@ internal partial class SettingsWindow : FluentWindow
         }
     }
 
+    private void OnNavSelectionClick(object sender, MouseButtonEventArgs e)
+    {
+        if (DataContext is SettingsViewModel vm) vm.CurrentPageKey = "selection";
+    }
+
     private void OnAddProfileButtonClick(object sender, RoutedEventArgs e)
     {
         if (DataContext is not SettingsViewModel vm)
@@ -287,11 +292,20 @@ internal partial class SettingsWindow : FluentWindow
 
     internal void FlushFocusedBinding()
     {
+        FlushSelectionText(SelectionTimeoutTextBox);
+        FlushSelectionText(SelectionProcessesTextBox);
         var focused = FocusManager.GetFocusedElement(this) ?? Keyboard.FocusedElement;
-        if (focused is TextBox tb)
+        if (focused is TextBox tb && tb != SelectionTimeoutTextBox && tb != SelectionProcessesTextBox)
         {
             BindingOperations.GetBindingExpression(tb, TextBox.TextProperty)?.UpdateSource();
         }
+    }
+
+    private static void FlushSelectionText(TextBox textBox)
+    {
+        var binding = textBox.GetBindingExpression(TextBox.TextProperty);
+        // Do not overwrite a newly updated draft with a target awaiting data binding.
+        if (binding?.IsDirty == true) binding.UpdateSource();
     }
 
     private void OnProfilesListPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

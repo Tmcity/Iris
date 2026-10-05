@@ -93,6 +93,9 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
 
         // 2. 同步防御性捕获并克隆所有输入集合（按 Kind 补齐必需默认 Options）
         var capturedPlan = ClonePlan(plan);
+        var selectionError = ValidateSelection(capturedPlan.Selection);
+        if (selectionError != null) return new SettingsEditResult(SettingsEditStatus.Uncommitted, Error: selectionError);
+        capturedPlan = capturedPlan with { Selection = NormalizeSelection(capturedPlan.Selection) };
 
         // 3. 无操作检查（不制造无谓设置版本）
         if (IsNoOp(capturedPlan))
@@ -787,6 +790,8 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         }
 
         // 2. Profile Changes 冲突初检与凭据规划
+        if (HasSelectionConflict(plan.Selection, current.Selection))
+            return StagingPlan.Conflict(new ErrorInfo(ErrorCode.Unknown, ConflictMessage));
         var currentProfilesMap = current.Translation.Providers.ToDictionary(p => p.Id, StringComparer.Ordinal);
         foreach (var change in plan.TranslationChanges)
         {
@@ -1114,7 +1119,8 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             }
         }
 
-        if (ReferenceEquals(newGeneral, current.General) &&
+        var newSelection = ApplySelection(plan.Selection, current.Selection);
+        if (ReferenceEquals(newSelection, current.Selection) && ReferenceEquals(newGeneral, current.General) &&
             ReferenceEquals(newTranslation, current.Translation) &&
             ReferenceEquals(newHotkeys, current.Hotkeys))
         {
@@ -1125,7 +1131,8 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         {
             General = newGeneral,
             Translation = newTranslation,
-            Hotkeys = newHotkeys
+            Hotkeys = newHotkeys,
+            Selection = newSelection
         };
     }
 
@@ -2063,6 +2070,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         if (plan.TranslationChanges.Count > 0) return false;
         if (plan.TranslationOrder != null) return false;
         if (plan.HotkeyChanges.Count > 0) return false;
+        if (HasSelectionEdits(plan.Selection)) return false;
 
         if (plan.General != null)
         {
@@ -2152,7 +2160,8 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
 
         return new SettingsEditPlan(general, changes, order)
         {
-            HotkeyChanges = hotkeyChanges
+            HotkeyChanges = hotkeyChanges,
+            Selection = CloneSelection(plan.Selection)
         };
     }
 

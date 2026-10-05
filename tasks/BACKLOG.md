@@ -243,8 +243,8 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 | T-022C1 | ☑ | 剪贴板完整快照、条件写入与原生生命周期（8c68a4d / R1 已验收） | T-022B, T-021A | — |
 | T-022C2 | ☑ | 复制/焦点安全、来源归属、CompositeSelectionReader 与 App 退出（ceda922 / R1 已验收） | T-022C1, T-021, T-022A | — |
 | T-023 | ▶ | 划词入口与基础设置总单：A Handler/通知 + B 联合编辑/UI | T-022, T-018 | — |
-| T-023A | ▶ | SelectionTranslateHandler、带身份通知与既有快捷键开放 | T-022, T-015 | — |
-| T-023B | ☐ | 划词基础设置增量联合提交与设置页 | T-023A, T-020B | — |
+| T-023A | ☑ | SelectionTranslateHandler、带身份通知与既有快捷键开放（3bbd009 已验收） | T-022, T-015 | — |
+| T-023B | ▶ | 划词基础设置增量联合提交、设置页与划词快捷键编辑行 | T-023A, T-020B | — |
 | T-024 | ☐ | MouseSelectionMonitor + GestureRecognizer + SelectionIconWindow / Controller | T-023 | 2d |
 
 **T-021** 已按 KEYBOARD_SIMULATION.md / ARCH v1.30 签发，基线 361e2c1。实现实际 KeyboardSimulator + fake native/time 回归：起始释放等待、目标复核、单事件确认、失败释放责任与 Stop；不执行真实输入，不接选区业务入口。含 C20B-1 仅四个 R4 测试失败收尾维护；不重复已验收剪贴板服务。公开契约与默认配置不变，由 Codex 直接在 Antigravity 下达。
@@ -287,6 +287,10 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 **T-023A 签发（2026-10-05）** — 基线 ceda922，按 SELECTION_ENTRYPOINTS.md / ARCH v1.34 / CCR-018 实施入口、操作通知和默认快捷键开放；B 后续完成基础设置与联合保存。T-023 总范围不缩减，一次一单，T-024 不提前开始；直接协调 Codex 开发会话，不推送。
 
 **T-023** 验收：A 覆盖成功/空输入/仅提示、过期发布、通知完整生命周期与实际快捷键接线；B 设置页编辑 ReadOrder、RestoreClipboard、ClipboardTimeoutMs、ClipboardUnsafeProcesses、OpenInputWhenEmpty，经同一联合保存且有字段冲突/冻结/退出测试。两单均通过才结案。
+
+**T-023A 最终结案（2026-10-05）** — 3bbd00971eb2191dad309c5ff77a40f71b46e9a2 通过。独立 Release 零警告/零错误，全量 2146（2144 成功/2 环境跳过），实际 Handler/Presenter/通知链独立探针通过；H.NotifyIcon 2.4.1 对应源提交确认即时 Shell 调用，无第二次 UI 排队。CCR-018 结案，详细证据见 T-023A 报告第 8 节。真实物理输入/气泡/性能未验证；T-023 父单继续 ▶。
+
+**T-023B 签发（2026-10-05）** — 基线 3bbd009，按 SELECTION_SETTINGS_UI.md / ARCH v1.35 / CCR-019 实施五字段增量联合保存、基础设置页及划词快捷键编辑行；不改默认设置/包、不重做已验收底座、不开始 T-024。架构师继续直接协调开发会话，不推送。
 **T-024** 交付 ARCH §6.3（鼠标划词）、§10.2（钩子线程）、§10.6（不激活窗口）。验收：GestureRecognizer 纯逻辑单测（拖动阈值、双击 / 三击时间窗、Shift+单击、I 型光标条件）；钩子回调耗时 < 1 ms（Debug 日志统计）；图标出现时不抢焦点，点击图标后翻译的是原窗口中选中的文本；排除列表生效；模式切换后立即生效；在文件资源管理器里拖动文件不会触发。
 
 ---

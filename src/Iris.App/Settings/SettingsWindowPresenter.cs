@@ -530,6 +530,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
         }
 
         var trimmed = pageKey.Trim();
+        if (trimmed.Equals("selection", StringComparison.OrdinalIgnoreCase)) return "selection";
         // 允许的既有集合：general / translation / ocr / hotkeys / selection / screenshot / floatingball / network / history / about
         // 本单开放 general 与 translation；其它尚未开放项统一回到 general，不抛异常也不记录原始 key
         if (trimmed.Equals("general", StringComparison.OrdinalIgnoreCase))

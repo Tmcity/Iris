@@ -176,6 +176,11 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         _hotkeyCoordinator = hotkeyCoordinator;
         _recordingCoordinator = recordingCoordinator;
         _logger = logger ?? NullLogger<SettingsViewModel>.Instance;
+        Selection = new SelectionSettingsDraftViewModel(_settingsService.Current.Selection, () => CanEdit, () =>
+        {
+            OnPropertyChanged(nameof(IsDirty));
+            RaiseAllCommandsCanExecute();
+        });
 
         // 从当前设置初始化常规基线与目标
         var general = _settingsService.Current.General;
@@ -245,6 +250,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     public ControlledProfileCollection Profiles { get; }
     public ObservableCollection<PromptOptionItem> AvailablePrompts { get; } = [];
     public ObservableCollection<HotkeyItemDraftViewModel> Hotkeys { get; } = [];
+    public SelectionSettingsDraftViewModel Selection { get; }
 
     public ICommand SaveCommand { get; }
     public ICommand CancelCommand { get; }
@@ -461,7 +467,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 return true;
             }
 
-            return Hotkeys.Any(h => h.IsDirty);
+            return Selection.IsDirty || Hotkeys.Any(h => h.IsDirty);
         }
     }
 
@@ -1035,6 +1041,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
     private void FreezeAllDrafts()
     {
+        Selection.IsFrozen = true;
         foreach (var p in Profiles)
         {
             p.IsFrozen = true;
@@ -1052,6 +1059,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     private void UnfreezeAllDraftsIfAlive()
     {
         bool isAlive = !_disposed && !_isStopped;
+        Selection.IsFrozen = !isAlive;
         foreach (var p in Profiles)
         {
             p.IsFrozen = !isAlive;
@@ -1261,6 +1269,12 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 }
 
                 BeforeSave?.Invoke();
+                if (!Selection.TryCapture(out var selectionPatch))
+                {
+                    StatusMessage = Selection.ErrorMessage;
+                    shouldReturn = true;
+                    return Task.CompletedTask;
+                }
 
                 // 仅校验被编辑或新增的服务；未触及服务不阻止合法保存
                 foreach (var profile in Profiles)
@@ -1350,7 +1364,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 bool hasTranslationDirty = translationChanges.Count > 0 || orderChange != null;
                 bool hasHotkeyDirty = hotkeyChanges.Count > 0;
 
-                if (!hasGeneralDirty && !hasTranslationDirty && !hasHotkeyDirty)
+                if (!hasGeneralDirty && !hasTranslationDirty && !hasHotkeyDirty && selectionPatch == null)
                 {
                     _themeService.ClearPreview(_sessionOwner);
                     StatusMessage = UiText.SettingsStatusSaved;
@@ -1364,7 +1378,8 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 targetLaunchAtStartup = _targetLaunchAtStartup;
                 plan = new SettingsEditPlan(generalPatch, translationChanges, orderChange)
                 {
-                    HotkeyChanges = hotkeyChanges
+                    HotkeyChanges = hotkeyChanges,
+                    Selection = selectionPatch
                 };
 
                 lock (_admissionLock)
@@ -1581,6 +1596,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
     private void SyncBaselineFromCurrent()
     {
+        Selection.Merge(_settingsService.Current.Selection, reset: true);
         var current = _settingsService.Current.General;
 
         _themeDirty = false;
@@ -1730,6 +1746,10 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             this);
         Hotkeys.Add(settingsItem);
 
+        currentHotkeys.TryGetValue(IrisAction.SelectionTranslate, out var selectionBinding);
+        Hotkeys.Add(new HotkeyItemDraftViewModel(IrisAction.SelectionTranslate, UiText.SettingsNavSelection,
+            UiText.SelectionHotkeyDescription, selectionBinding, this));
+
         SyncRuntimeStatesFromCoordinator();
         ValidateHotkeyDrafts();
     }
@@ -1777,7 +1797,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             // 3. 检查与尚未开放动作的预留配置冲突
             foreach (var (reservedAction, reservedBinding) in currentHotkeys)
             {
-                if (reservedAction is IrisAction.InputTranslate or IrisAction.ClipboardTranslate or IrisAction.OpenSettings)
+                if (reservedAction is IrisAction.InputTranslate or IrisAction.ClipboardTranslate or IrisAction.OpenSettings or IrisAction.SelectionTranslate)
                 {
                     continue;
                 }
@@ -2626,6 +2646,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
             RefreshAvailablePrompts();
             OnExternalHotkeysChanged(_settingsService.Current.Hotkeys);
+            Selection.Merge(_settingsService.Current.Selection);
             OnPropertyChanged(nameof(IsDirty));
             RaiseAllCommandsCanExecute();
             return Task.CompletedTask;
