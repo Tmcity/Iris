@@ -55,6 +55,11 @@ public interface ITranslateWindowPresenter
     /// true 表示本次发布已接受，不等待翻译完成；接受翻译后窗口持有独立工作所有权。</summary>
     Task<bool> TryShowAsync(ITranslateWindowOperation operation, TranslateWindowRequest request);
 
+    /// <summary>以同一操作身份发布安全默认通知，不创建翻译窗口。UI 实际接受时校验，过期/取消/已释放/退出或托盘不可用返回 false。
+    /// 正文仅来自 ErrorMessages.GetDefault(code)；null/外来操作抛 ArgumentException，非法枚举抛 ArgumentOutOfRangeException。
+    /// 与 TryShow 共用进行中发布所有权，同操作并发发布抛 InvalidOperationException；完整规则见 SELECTION_ENTRYPOINTS.md。</summary>
+    Task<bool> TryNotifyAsync(ITranslateWindowOperation operation, NotificationLevel level, ErrorCode code);
+
     /// <summary>隐藏并撤销发布/自动复制资格；不等待底层 I/O，应用退出通过 App 内部完整屏障等待。</summary>
     Task HideAsync();
 }

@@ -207,6 +207,7 @@ public sealed class TranslateWindowIntegrationTests
         // 基础设施与核心层服务（真实实现）
         services.AddIrisInfrastructure();
         services.AddIrisCore();
+            services.AddSingleton(Substitute.For<ISelectionTextReader>());
 
         // 注册测试工厂以响应 OpenAICompatible 类型的创建
         services.AddSingleton<ITranslationProviderFactory>(testFactory);

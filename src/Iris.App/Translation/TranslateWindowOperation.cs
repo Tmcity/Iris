@@ -147,7 +147,7 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
 
             if (_hasTryShowOwnership)
             {
-                throw new InvalidOperationException("同一操作已有在途的 TryShowAsync 正在执行。");
+                throw new InvalidOperationException("同一操作已有在途的发布正在执行。");
             }
 
             _hasTryShowOwnership = true;
@@ -176,6 +176,18 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
         {
             FinalizeRetire();
         }
+    }
+
+    internal void EndTryNotify()
+    {
+        bool shouldRetire;
+        lock (_gate)
+        {
+            _hasTryShowOwnership = false;
+            // Notify did not acquire or replace the VM's session ownership.
+            shouldRetire = TryMarkRetiredLocked();
+        }
+        if (shouldRetire) FinalizeRetire();
     }
 
     internal bool AttachSession()

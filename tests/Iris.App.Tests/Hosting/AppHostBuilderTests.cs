@@ -281,7 +281,7 @@ public sealed class AppHostBuilderTests
     }
 
     [Fact]
-    public void Host_ResolvesAllFourActionHandlers_AndTranslatePresenterAsSingleton()
+    public void Host_ResolvesAllFiveActionHandlers_AndTranslatePresenterAsSingleton()
     {
         using var tempDir = new TempDirectory();
         var paths = new FakeAppPaths(tempDir.Path);
@@ -290,8 +290,9 @@ public sealed class AppHostBuilderTests
         using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
 
         var handlers = host.Services.GetRequiredService<System.Collections.Generic.IEnumerable<IActionHandler>>().ToList();
-        handlers.Count.ShouldBe(4);
-        handlers.Select(h => h.Action).Distinct().Count().ShouldBe(4);
+        handlers.Count.ShouldBe(5);
+        handlers.Count(h => h.Action == IrisAction.SelectionTranslate).ShouldBe(1);
+        handlers.Select(h => h.Action).Distinct().Count().ShouldBe(5);
 
         handlers.OfType<Iris.Core.Workflows.OpenSettingsHandler>().ShouldHaveSingleItem();
         handlers.OfType<Iris.Core.Workflows.InputTranslateHandler>().ShouldHaveSingleItem();

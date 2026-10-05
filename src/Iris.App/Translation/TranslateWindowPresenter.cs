@@ -7,6 +7,7 @@ using System.Windows.Interop;
 using Iris.App.Hosting;
 using Iris.App.Services;
 using Iris.Core.Imaging;
+using Iris.Core.Errors;
 using Iris.Core.Platform;
 using Iris.Core.Presentation;
 using Iris.Core.Settings;
@@ -30,6 +31,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
     private readonly IDesktopContext _desktopContext;
     private readonly ILogger<TranslateWindowPresenter> _logger;
     private readonly INativeWindowPlacementAdapter _nativePlacementAdapter;
+    private readonly TrayNotificationService? _notificationService;
 
     private readonly Lock _gate = new();
     private readonly List<TranslateWindowOperation> _activeOperations = [];
@@ -54,7 +56,8 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
         ISettingsService settingsService,
         IDesktopContext desktopContext,
         ILogger<TranslateWindowPresenter> logger,
-        INativeWindowPlacementAdapter? nativePlacementAdapter = null)
+        INativeWindowPlacementAdapter? nativePlacementAdapter = null,
+        TrayNotificationService? notificationService = null)
     {
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         _uiDispatcher = uiDispatcher ?? throw new ArgumentNullException(nameof(uiDispatcher));
@@ -62,6 +65,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
         _desktopContext = desktopContext ?? throw new ArgumentNullException(nameof(desktopContext));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _nativePlacementAdapter = nativePlacementAdapter ?? NativeWindowPlacementAdapter.Instance;
+        _notificationService = notificationService;
     }
 
     public bool IsVisible
@@ -415,6 +419,38 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
         }, CancellationToken.None).ConfigureAwait(false);
 
         opToCancel?.Cancel();
+    }
+
+    public async Task<bool> TryNotifyAsync(ITranslateWindowOperation operation, NotificationLevel level, ErrorCode code)
+    {
+        ArgumentNullException.ThrowIfNull(operation);
+        if (operation is not TranslateWindowOperation op || !ReferenceEquals(op.Presenter, this))
+            throw new ArgumentException("Operation does not belong to this presenter.", nameof(operation));
+        if (!Enum.IsDefined(level)) throw new ArgumentOutOfRangeException(nameof(level));
+        if (!Enum.IsDefined(code)) throw new ArgumentOutOfRangeException(nameof(code));
+        if (!op.BeginTryShow()) return false;
+        bool accepted = false;
+        try
+        {
+            await _uiDispatcher.InvokeAsync(() =>
+            {
+                lock (_gate)
+                {
+                    if (_isShuttingDown || op.IsCallerDisposed || op.CancellationToken.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
+                        return Task.CompletedTask;
+                    // This is the intent's UI commit point. No second anonymous queue.
+                    accepted = _notificationService?.TryNotifyNow(level, code) ?? false;
+                }
+                return Task.CompletedTask;
+            }, CancellationToken.None).ConfigureAwait(false);
+            return accepted;
+        }
+        catch (Exception ex)
+        {
+            LogShowFailed(_logger, ex.GetType().Name);
+            throw new IrisException(ErrorCode.Unknown, ErrorMessages.GetDefault(ErrorCode.Unknown));
+        }
+        finally { op.EndTryNotify(); }
     }
 
     private void EnsureWindowCreated()

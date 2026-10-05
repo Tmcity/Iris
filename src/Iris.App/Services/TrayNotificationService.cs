@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Windows;
 using Iris.App.Tray;
 using Iris.Core.Presentation;
+using Iris.Core.Errors;
+using Iris.App.Settings;
 using Microsoft.Extensions.Logging;
 
 namespace Iris.App.Services;
@@ -65,6 +67,15 @@ internal sealed partial class TrayNotificationService : INotificationService
         {
             DispatchNotification(tray, item.Title, item.Message, item.Level);
         }
+    }
+
+    internal bool TryNotifyNow(NotificationLevel level, ErrorCode code)
+    {
+        if (!Enum.IsDefined(level)) throw new ArgumentOutOfRangeException(nameof(level));
+        if (!Enum.IsDefined(code)) throw new ArgumentOutOfRangeException(nameof(code));
+        TrayIconController? tray;
+        lock (_gate) tray = _tray;
+        return tray?.TryShowNotificationNow(UiText.AppName, ErrorMessages.GetDefault(code), level) ?? false;
     }
 
     private static void DispatchNotification(TrayIconController tray, string title, string message, NotificationLevel level)

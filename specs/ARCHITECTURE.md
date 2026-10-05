@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.33 · 2026-10-05 · 状态：**已冻结（首期）**
+> 版本：v1.34 · 2026-10-05 · 状态：**已冻结（首期）**
+> 变更记录：v1.34（T-022C2/R1 通过，签发 T-023A）— SELECTION_ENTRYPOINTS.md 固定划词 Handler、一次设置捕获、自身前台输入特例与操作通知 UI 接受点。CCR-018 仅新增 Presenter.TryNotifyAsync；T-023 拆 A 入口/通知和 B 基础设置，总范围不缩减，默认设置/包不变。
 > 变更记录：v1.33（T-022C1/R1 通过，签发 T-022C2）— SELECTION_READING.md 固定复制安全焦点、等待后准备、候选版本/来源与条件恢复、组合读取和 App 退出。CCR-017 仅同步选区端口注释与结果安全 ToString，字段/签名/默认配置不变；T-023 才开放入口。
 > 变更记录：v1.32（T-022B/R6 通过，签发 T-022C1）— CLIPBOARD_SNAPSHOTS.md 固定内部多格式快照、版本条件清空/恢复与原生线程/资源生命周期；C 拆为 C1 底座和 C2 复制安全/组合/退出接线，完整划词范围不缩减。公开 Core 契约、默认配置与包版本不变。
 > 变更记录：v1.31（T-021/R2 通过，签发 T-022B）— UIA_SELECTION_READING.md 定稿按需隔离 UIA 宿主、无窗口 MTA、有限文本/协议预算、父端超时与真实进程退出。T-022 拆 B（UIA）和 C（剪贴板事务/组合），新增 Iris.UiaHost 及 App 的仅构建/部署依赖；公开 Core 契约与默认设置不变。
@@ -294,10 +295,10 @@ Core 程序集禁止引用：`PresentationFramework`、`PresentationCore`、`Win
 
 ### 6.3 划词翻译（`SelectionTranslateHandler`）
 
-1. 先取得翻译 operation 租约，再 `app = IDesktopContext.GetForegroundApp()`；若是 Iris 自身进程 → 按输入翻译处理，归还本次不再使用的租约。
-2. `result = await ISelectionTextReader.ReadAsync(options from Settings.Selection)`。
-3. `result == null` → `OpenInputWhenEmpty ? 打开空输入窗口 : Notify(Warning, "未检测到选中文本")`。
-4. 否则用同一租约 `TryShowAsync(operation, Text = result.Text, Origin = Selection, Anchor = ctx.Anchor ?? 光标, AutoTranslate = true)`；读取使用租约取消令牌，finally Dispose。迟到结果返回 false，不重新显示窗口。
+1. 正式规则见 SELECTION_ENTRYPOINTS.md / CCR-018。先取得 operation，再深捕获一次 Settings.Selection；确认前台为 Iris 自身时，用同一租约显示输入界面（保留原文、不重译、不隐藏），不读取选区、不另开意图。
+2. 其它来源 `result = await ISelectionTextReader.ReadAsync(frozenOptions, operation.CancellationToken)`，实际来源/焦点安全由已验收 Reader 确认。
+3. null/空白 → OpenInputWhenEmpty 为 true 时同租约显式清空并聚焦输入，false 时 TryNotifyAsync(operation, Warning, SelectionEmpty)，实际 UI 接受时验证身份，不进入普通通知队列。
+4. 非空文本原样以同租约 TryShowAsync，Origin=Selection、Anchor=ctx.Anchor、AutoTranslate=true、FocusInput=false；旧成功/空结果/错误均拒绝，finally 在实际工作结束后 Dispose。下列鼠标段为 T-024 待定稿范围，不能据此提前实施或点击后重读前台。
 
 **鼠标划词（可选）**：`SelectionIconController`（App）在 `MouseMode != Off` 时启动 `IMouseSelectionMonitor`。收到 `SelectionGestureDetected` 后：
 - 若进程在 `ExcludedProcesses` 中，或前台是 Iris 自身 → 忽略；

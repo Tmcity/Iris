@@ -819,7 +819,7 @@ App internal 录入控制器与 HotkeyCoordinator 暂停 lease 负责先撤销 I
 |---|---|
 | 日期 / 批准 | 2026-10-05，Codex 架构师 |
 | 关联 | T-022C2；SELECTION_READING.md；ARCH v1.33 |
-| 状态 | **已落地待复审（T-022C2）** |
+| 状态 | **已验收结案（T-022C2-R1，ceda922，2026-10-05）** |
 
 原 ISelectionTextReader 注释“全部失败返回 null”不能覆盖已定稿的清理失败责任；旧快照/清空/复制/恢复概述也缺少来源、焦点和条件恢复限定。同步 specs/CONTRACTS.cs 与 src/Iris.Core/Platform/ISelectionTextReader.cs 的注释：普通无结果为 null，取消等待真实收尾，清理失败/忙/超限等用安全异常，fallback 不绕过敏感/未知焦点，response budget 不冒充任意 native 调用硬终止。
 
@@ -828,3 +828,17 @@ SelectionReadResult 字段、构造、相等性、解构以及 ISelectionTextRea
 架构师已同步上述两份声明与格式化实现；组合读取、keyboard 内部准备/guard、条件文本读取和 App 退出由 C2 工单实施。该声明同步不等于完整选区业务已验收，真实输入/用户剪贴板仍不得用于自动化验证。
 
 声明同步后独立执行 dotnet test tests/Iris.ArchitectureTests/Iris.ArchitectureTests.csproj -c Release：10 项成功，0 失败/跳过，持续 1s 740ms；日志 iris-t022c2-contract-check.log。独立 Core DTO 探针实际输出 `CCR017 safeToString=True fieldsAndDeconstructionPreserved=True`，位于系统临时目录 iris-t022c2-contract-review/result.log。仅证明声明编译/依赖规则与格式化、字段解构保持，不是 C2 业务实现验收。
+
+## CCR-018：操作租约内的安全通知发布
+
+| 字段 | 内容 |
+|---|---|
+| 日期 / 批准 | 2026-10-05，Codex 架构师 |
+| 关联 | T-023A；SELECTION_ENTRYPOINTS.md；ARCH v1.34 |
+| 状态 | **已落地，待复审（T-023A）** |
+
+普通 INotificationService.Notify 无 operation 且 TrayNotificationService 会延迟排队，不能保证“无选区且不打开输入窗”的迟到提示不覆盖新意图。批准在 ITranslateWindowPresenter 唯一增加 Task<bool> TryNotifyAsync(ITranslateWindowOperation operation, NotificationLevel level, ErrorCode code)，精确行为见 SELECTION_ENTRYPOINTS.md §3。
+
+specs/CONTRACTS.cs 已由架构师预置声明；本单开发同步 Core 和全部实现/测试替身。UI 实际接受点验证所属操作，共享 Show/Notify 发布持有与退出屏障，正文只取既有 ErrorMessages 默认文案，SelectionEmpty 已存在；托盘不可用/原生失败返回 false，不创建窗口、不进入旧无身份队列。通知结束不得释放它未取得的既有 VM session ownership。
+
+不新增 ErrorCode/ActionContext 字段/Selection DTO/默认配置或包，不改普通 Notify 队列。App internal 实际即时路径由本单实施并验证，不能用 default interface implementation 返回 false 代替交付。批准与声明预置不等于实现验收；架构契约一致性在本单完成同步后随全量测试核对。

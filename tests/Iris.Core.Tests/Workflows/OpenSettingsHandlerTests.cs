@@ -93,6 +93,8 @@ public sealed class OpenSettingsHandlerTests
         services.AddSingleton(fakeTranslatePresenter);
         var fakeClipboard = Substitute.For<Iris.Core.Platform.IClipboardService>();
         services.AddSingleton(fakeClipboard);
+        services.AddSingleton(Substitute.For<Iris.Core.Platform.ISelectionTextReader>());
+        services.AddSingleton(Substitute.For<Iris.Core.Platform.IDesktopContext>());
         services.AddSingleton<Microsoft.Extensions.Logging.ILoggerFactory>(Microsoft.Extensions.Logging.Abstractions.NullLoggerFactory.Instance);
         services.AddSingleton(typeof(Microsoft.Extensions.Logging.ILogger<>), typeof(Microsoft.Extensions.Logging.Abstractions.NullLogger<>));
 

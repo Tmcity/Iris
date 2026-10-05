@@ -31,6 +31,8 @@ public sealed class CoreRegistrationTests
         services.AddSingleton(presenterMock);
         services.AddSingleton(translatePresenterMock);
         services.AddSingleton(clipboardMock);
+        services.AddSingleton(Substitute.For<Iris.Core.Platform.ISelectionTextReader>());
+        services.AddSingleton(Substitute.For<Iris.Core.Platform.IDesktopContext>());
         services.AddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
         services.AddSingleton(typeof(ILogger<>), typeof(NullLogger<>));
 
@@ -94,7 +96,8 @@ public sealed class CoreRegistrationTests
         coordinator1.ShouldBeSameAs(coordinator2);
 
         var actionHandlers = provider.GetServices<Iris.Core.Actions.IActionHandler>().ToList();
-        actionHandlers.Count.ShouldBe(4);
+        actionHandlers.Count.ShouldBe(5);
+        actionHandlers.Single(h => h.Action == Iris.Core.Actions.IrisAction.SelectionTranslate).ShouldBeSameAs(provider.GetServices<Iris.Core.Actions.IActionHandler>().Single(h => h.Action == Iris.Core.Actions.IrisAction.SelectionTranslate));
         actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.OpenSettings).ShouldNotBeNull();
         actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.InputTranslate).ShouldNotBeNull();
         actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.ClipboardTranslate).ShouldNotBeNull();
@@ -117,6 +120,8 @@ public sealed class CoreRegistrationTests
         services.AddSingleton(presenterMock);
         services.AddSingleton(translatePresenterMock);
         services.AddSingleton(clipboardMock);
+        services.AddSingleton(Substitute.For<Iris.Core.Platform.ISelectionTextReader>());
+        services.AddSingleton(Substitute.For<Iris.Core.Platform.IDesktopContext>());
         services.AddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
         services.AddSingleton(typeof(ILogger<>), typeof(NullLogger<>));
 
@@ -140,5 +145,6 @@ public sealed class CoreRegistrationTests
         provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.InputTranslate).ShouldBe(1);
         provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.ClipboardTranslate).ShouldBe(1);
         provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.TranslateText).ShouldBe(1);
+        provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.SelectionTranslate).ShouldBe(1);
     }
 }

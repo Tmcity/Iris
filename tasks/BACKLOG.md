@@ -237,12 +237,14 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
 | T-021 | ☑ | KeyboardSimulator：受控 Ctrl+C、释放责任与停止（4976109 / R2 已验收，C20B-1 完成） | T-021A | 0.5d |
-| T-022 | ▶ | 选区读取总单：B UIA / C 剪贴板事务与组合（A 桌面上下文已验收） | T-021, T-022A | — |
+| T-022 | ☑ | 选区读取总单：B / C 已验收；真实应用兼容性待手动验收 | T-021, T-022A | — |
 | T-022B | ☑ | UIA 选区读取、隔离宿主、有界协议与真实退出（43fcf47 / R6 已验收） | T-021, T-022A | — |
-| T-022C | ▶ | 剪贴板事务与组合总单：C1 原生底座 / C2 安全与接线 | T-022B, T-021A | — |
+| T-022C | ☑ | 剪贴板事务与组合总单：C1 / C2 已验收 | T-022B, T-021A | — |
 | T-022C1 | ☑ | 剪贴板完整快照、条件写入与原生生命周期（8c68a4d / R1 已验收） | T-022B, T-021A | — |
-| T-022C2 | ▶ | 复制/焦点安全、来源归属、CompositeSelectionReader 与 App 退出接线 | T-022C1, T-021, T-022A | — |
-| T-023 | ☐ | SelectionTranslateHandler + 划词设置页（基础部分） | T-022, T-018 | 0.5d |
+| T-022C2 | ☑ | 复制/焦点安全、来源归属、CompositeSelectionReader 与 App 退出（ceda922 / R1 已验收） | T-022C1, T-021, T-022A | — |
+| T-023 | ▶ | 划词入口与基础设置总单：A Handler/通知 + B 联合编辑/UI | T-022, T-018 | — |
+| T-023A | ▶ | SelectionTranslateHandler、带身份通知与既有快捷键开放 | T-022, T-015 | — |
+| T-023B | ☐ | 划词基础设置增量联合提交与设置页 | T-023A, T-020B | — |
 | T-024 | ☐ | MouseSelectionMonitor + GestureRecognizer + SelectionIconWindow / Controller | T-023 | 2d |
 
 **T-021** 已按 KEYBOARD_SIMULATION.md / ARCH v1.30 签发，基线 361e2c1。实现实际 KeyboardSimulator + fake native/time 回归：起始释放等待、目标复核、单事件确认、失败释放责任与 Stop；不执行真实输入，不接选区业务入口。含 C20B-1 仅四个 R4 测试失败收尾维护；不重复已验收剪贴板服务。公开契约与默认配置不变，由 Codex 直接在 Antigravity 下达。
@@ -280,7 +282,11 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 
 **T-022C2 首次复审（2026-10-05）** — 65cafb1e9e32eacb77eb3f2414ac6ebadec1dbbe 未通过。独立 Release 零警告/零错误，首次全量 2067 项（2064 成功/1 既有设置测试失败/2 环境跳过），设置测试所属类复跑 17 项通过，首次失败保留。实际组合器探针确认部分恢复写后的旧 stamp 被当外部变化而丢快照，以及条件文本 Changed 在剩余预算内过早结束。签发 T-022C2-R1，保留其它成果；证据见 tasks/done/T-022C2.md 第 9 节。C2/父单继续 ▶，CCR-017 不结案，不开始 T-023/T-024，直接协调开发会话，不推送。
 
-**T-023** 验收：Handler 单元测试覆盖三个分支（有文本 / 无文本且打开输入窗 / 无文本且只提示）；设置页可以编辑 ReadOrder、RestoreClipboard、排除进程列表。
+**T-022C2/R1 最终结案（2026-10-05）** — ceda9229171c620d2cabf047c7b8aa63c9d95d04 通过。独立 Release 零警告/零错误，全量 2090（2088 成功/2 环境跳过）；原恢复探针富文本保持且零重复写，延迟呈现于同一 100ms 预算内 40ms 成功并恢复、copies=1。C2/C/T-022 实现结案，CCR-017 结案；首次 C2 设置失败仍保留，真实应用/原生隔离成功路径/性能未验证。详见 R1 报告第 7 节。
+
+**T-023A 签发（2026-10-05）** — 基线 ceda922，按 SELECTION_ENTRYPOINTS.md / ARCH v1.34 / CCR-018 实施入口、操作通知和默认快捷键开放；B 后续完成基础设置与联合保存。T-023 总范围不缩减，一次一单，T-024 不提前开始；直接协调 Codex 开发会话，不推送。
+
+**T-023** 验收：A 覆盖成功/空输入/仅提示、过期发布、通知完整生命周期与实际快捷键接线；B 设置页编辑 ReadOrder、RestoreClipboard、ClipboardTimeoutMs、ClipboardUnsafeProcesses、OpenInputWhenEmpty，经同一联合保存且有字段冲突/冻结/退出测试。两单均通过才结案。
 **T-024** 交付 ARCH §6.3（鼠标划词）、§10.2（钩子线程）、§10.6（不激活窗口）。验收：GestureRecognizer 纯逻辑单测（拖动阈值、双击 / 三击时间窗、Shift+单击、I 型光标条件）；钩子回调耗时 < 1 ms（Debug 日志统计）；图标出现时不抢焦点，点击图标后翻译的是原窗口中选中的文本；排除列表生效；模式切换后立即生效；在文件资源管理器里拖动文件不会触发。
 
 ---

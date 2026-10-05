@@ -25,6 +25,7 @@ internal sealed partial class TrayIconController : IDisposable
     private readonly ISettingsService _settingsService;
     private readonly Iris.Core.Actions.IActionDispatcher _actionDispatcher;
     private readonly ILogger<TrayIconController> _logger;
+    private readonly ITrayNotificationNative? _notificationNative;
     private readonly AsyncRelayCommand _leftClickCommand;
 
     private TaskbarIcon? _taskbarIcon;
@@ -49,12 +50,14 @@ internal sealed partial class TrayIconController : IDisposable
         IAppLifetime appLifetime,
         ISettingsService settingsService,
         Iris.Core.Actions.IActionDispatcher actionDispatcher,
-        ILogger<TrayIconController> logger)
+        ILogger<TrayIconController> logger,
+        ITrayNotificationNative? notificationNative = null)
     {
         _appLifetime = appLifetime ?? throw new ArgumentNullException(nameof(appLifetime));
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _actionDispatcher = actionDispatcher ?? throw new ArgumentNullException(nameof(actionDispatcher));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _notificationNative = notificationNative;
 
         _leftClickCommand = new AsyncRelayCommand(
             DispatchInputTranslateAsync,
@@ -203,6 +206,36 @@ internal sealed partial class TrayIconController : IDisposable
         catch (Exception ex)
         {
             LogShowNotificationFailed(_logger, ex);
+        }
+    }
+
+    internal bool TryShowNotificationNow(string title, string message, NotificationLevel level)
+    {
+        if (_disposed) return false;
+        try
+        {
+            if (_notificationNative != null)
+            {
+                if (!_notificationNative.IsCreated) return false;
+                _notificationNative.Show(title, message, level);
+            }
+            else
+            {
+                if (_taskbarIcon == null || !_isCreated) return false;
+                var icon = level switch
+                {
+                    NotificationLevel.Warning => NotificationIcon.Warning,
+                    NotificationLevel.Error => NotificationIcon.Error,
+                    _ => NotificationIcon.Info
+                };
+                _taskbarIcon.ShowNotification(title, message, icon);
+            }
+            return true;
+        }
+        catch (Exception ex)
+        {
+            LogImmediateNotificationFailed(_logger, ex.GetType().Name);
+            return false;
         }
     }
 
@@ -439,6 +472,9 @@ internal sealed partial class TrayIconController : IDisposable
 
     [LoggerMessage(EventId = 4, Level = LogLevel.Warning, Message = "展示托盘通知失败")]
     private static partial void LogShowNotificationFailed(ILogger logger, Exception ex);
+
+    [LoggerMessage(EventId = 8, Level = LogLevel.Warning, Message = "即时托盘通知失败: {ExceptionType}")]
+    private static partial void LogImmediateNotificationFailed(ILogger logger, string exceptionType);
 
     [LoggerMessage(EventId = 5, Level = LogLevel.Warning, Message = "托盘派发打开设置动作失败：{ErrorType}")]
     private static partial void LogOpenSettingsFailed(ILogger logger, string errorType);

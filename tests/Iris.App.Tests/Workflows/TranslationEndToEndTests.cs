@@ -171,6 +171,7 @@ public sealed class TranslationEndToEndTests
             // 注册基础设施与核心服务
             services.AddIrisInfrastructure();
             services.AddIrisCore();
+            services.AddSingleton(Substitute.For<ISelectionTextReader>());
 
             // 注册设置层 Scoped 服务
             services.AddScoped<GeneralSettingsSaveCoordinator>();

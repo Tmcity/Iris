@@ -2,7 +2,9 @@
 
 > 2026-10-05 更新；由 Codex 接替 Claude Code 的架构师职责。当前状态以 `tasks/BACKLOG.md` 与 `tasks/current_task.md` 为准；本文件记录交接事实与后续注意事项。
 
-**当前唯一有效状态（T-022C2 首次复审，2026-10-05）**：HEAD 65cafb1e9e32eacb77eb3f2414ac6ebadec1dbbe，C2 尚未通过。独立 Release 零警告/零错误；首次全量 2067 项（2064 成功/1 未改动设置测试失败/2 环境跳过），该设置类定向复跑 17 项通过，首次失败保留。实际组合器探针确认两项：部分恢复写后观测失败仍保留旧 stamp，Retry 误判外部变化并丢失原富文本快照；同来源延迟呈现令条件文本 Changed 后，在预算仍充足时立即返回空。当前唯一工单 tasks/current_task.md / T-022C2-R1，保留其它成果，证据在 C2 报告第 9 节和临时目录 iris-t022c2-independent-review。CCR-017 已落地待复审，不结案；T-022B/C1 已验收，T-022/T-022C/C2 继续 ▶，不开始 T-023/T-024。后续入口/设置准备在临时目录 iris-t023-preparation.md，尚未签发。全部独立验证任务已结束；架构师仅修改文档，未提交。直接协调开发会话，严禁推送，.codex/ 用户工具保持未跟踪。
+**T-023A 实际下达记录（2026-10-05）**：队列消息 01a10960-04a3-7b93-b8d3-07237eed5322 已进入指定开发会话，执行轮 01a10960-1b4d-71b3-8a64-3578f5a0ceb4。开发已确认读取正式工单，并说明使用实际 UI 通知接受点与共享发布/退出屏障；正在实施，尚未交付或验收。不要因 bridge 的 notLoaded/interrupted 暂态或等待超时重发。下一阶段准备稿 iris-t023b-preparation.md、iris-t024-preparation.md 及官方鼠标 API 原文均在系统临时目录，未签发。
+
+**当前唯一有效状态（2026-10-05）**：HEAD ceda9229171c620d2cabf047c7b8aa63c9d95d04，T-022C2/R1 独立验收通过，C2/C/T-022 与 CCR-017 结案。独立 Release 零警告/零错误，全量 2090（2088 成功/2 error=183 环境跳过）；原恢复/延迟呈现探针通过，完整证据 R1 报告第 7 节，首次 C2 设置失败保留。当前唯一工单 tasks/current_task.md / T-023A，按 SELECTION_ENTRYPOINTS.md / ARCH v1.34 / CCR-018 实施划词 Handler、身份通知与默认热键开放；B 后续基础设置，T-024 未开始。仅 specs 预置新契约声明，开发须同步 Core/实现。直接协调 Codex 开发会话，下一步发送该完整工单；保留架构师未提交文档随单提交，.codex/ 原样未跟踪，不推送。真实应用/物理输入/性能未验证。
 
 **当前协作方式（2026-10-05 最新用户指令）：直接协调 Codex 开发会话。** Gemini 额度耗尽，用户将开发职责交给会话 01a1088c-7a7f-7db3-a153-7fae5cfedf4d，由本架构师直接说明角色、下达工单并读取交付，用户不再传话。使用用户提供的 .codex/codex_threads.py 与官方 App Server；运行中追加要求需确认插队生效。旧手动转交/Antigravity 控制记录均属历史。角色说明已被开发会话确认（turn 01a10897-8592-7e32-b35a-3595727df562 completed），R6 已在 turn 01a10899-0c31-71b1-88cc-818fb3571432 completed 后交付并通过独立复审，C1 与 R1 已交付并通过独立复审（最后交付 turn 01a108dc-ba80-73b3-98a3-2af688007ae9 completed）；C2 已在 turn 01a108f2-da8d-7653-a3cb-fc17f0e9d0b9 completed 后交付；首次复审已完成，接下来直接下达 R1。详细职责见 specs/DEVELOPER_HANDOFF.md。不推送。
 
