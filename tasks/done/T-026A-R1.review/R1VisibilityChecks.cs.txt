@@ -1,0 +1,72 @@
+using Iris.App.Capture;
+using Iris.App.Tests.Capture;
+using Iris.Core.Presentation;
+
+internal static class R1VisibilityChecks
+{
+    internal static async Task Run(Func<string, Func<Task>, Task> run)
+    {
+        await run("NEW_SHOW_THEN_PENDING_OPERATION_PRESERVES_VISIBLE_OWNER", () => PreparationTestScope.Run(async f =>
+        {
+            using var operation = f.Mouse.Presenter.TryBeginOperation()!;
+            await f.Mouse.Presenter.TryShowAsync(operation, new() { AutoTranslate = false, FocusInput = false });
+            var native = new Visibility(); f.Preparation.Visibility = native;
+            var lease = await f.Preparation.PrepareAsync(true);
+            bool entered = false, newShowAccepted = false, visibleBeforeOldShow = false;
+            ITranslateWindowOperation? pending = null;
+            native.BeforeShow = _ =>
+            {
+                if (entered) return;
+                entered = true;
+                var show = f.Mouse.Presenter.TryShowAsync(operation, new() { Text = "new displayed content", AutoTranslate = false, FocusInput = false });
+                f.Work.Add(show);
+                newShowAccepted = show.IsCompletedSuccessfully && show.Result;
+                pending = f.Mouse.Presenter.TryBeginOperation(); // No Hide, Close or later Show.
+                visibleBeforeOldShow = f.Mouse.Presenter.Window!.IsVisible;
+            };
+            try
+            {
+                await lease.DisposeAsync();
+                var finalVisible = f.Mouse.Presenter.Window!.IsVisible;
+                Console.WriteLine($"SHOW_THEN_PENDING entered={entered} accepted={newShowAccepted} pendingAdmitted={pending != null} visibleBeforeOldShow={visibleBeforeOldShow} finalVisible={finalVisible}");
+                Require(entered && newShowAccepted && pending != null && visibleBeforeOldShow, "display/pending operation fixture not established");
+                Require(finalVisible, "old restore hid a newer displayed window although no later Hide or Close occurred");
+            }
+            finally { native.BeforeShow = null; pending?.Dispose(); }
+        }));
+
+        await run("FAILED_NEW_SHOW_CANNOT_BE_RESURRECTED_BY_OLD_RESTORE", () => PreparationTestScope.Run(async f =>
+        {
+            using var operation = f.Mouse.Presenter.TryBeginOperation()!;
+            await f.Mouse.Presenter.TryShowAsync(operation, new() { AutoTranslate = false, FocusInput = false });
+            var native = new Visibility(); f.Preparation.Visibility = native;
+            var lease = await f.Preparation.PrepareAsync(true);
+            bool entered = false, showRejected = false, hiddenBeforeOldShow = false;
+            native.BeforeShow = _ =>
+            {
+                if (entered) return;
+                entered = true;
+                f.Mouse.Position.Result = _ => false;
+                var show = f.Mouse.Presenter.TryShowAsync(operation, new() { Text = "failed display", AutoTranslate = false, FocusInput = false });
+                f.Work.Add(show);
+                showRejected = show.IsCompletedSuccessfully && !show.Result;
+                hiddenBeforeOldShow = !f.Mouse.Presenter.Window!.IsVisible;
+                f.Mouse.Position.Result = null;
+            };
+            try
+            {
+                await lease.DisposeAsync();
+                var finalVisible = f.Mouse.Presenter.Window!.IsVisible;
+                Console.WriteLine($"FAILED_NEW_SHOW entered={entered} rejected={showRejected} hiddenBeforeOldShow={hiddenBeforeOldShow} finalVisible={finalVisible} reason={lease.Reason}");
+                Require(entered && showRejected && hiddenBeforeOldShow, "native failed-display fixture not established");
+                Require(!finalVisible, "old restoration revived a new publication whose native show failed and was cleaned up");
+            }
+            finally { native.BeforeShow = null; f.Mouse.Position.Result = null; }
+        }));
+    }
+
+    private static void Require(bool value, string message)
+    {
+        if (!value) throw new InvalidOperationException(message);
+    }
+}

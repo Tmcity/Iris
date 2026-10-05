@@ -268,10 +268,9 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
 
                 window.DataContext = viewModel;
 
-                session = new SettingsWindowSession(scope, window, viewModel, themeService, saveCoordinator);
+                session = new SettingsWindowSession(scope, window, viewModel, themeService, saveCoordinator, _preparationIntent);
                 session.CleanupCompleted += OnSessionCleanupCompleted;
-                session.DisplayIntent += () => _preparationIntent.Advance();
-                session.ShowIntent += () => _preparationIntent.Advance(showing: true);
+                session.DisplayIntent += () => _preparationIntent.Advance(hiding: true);
 
                 lock (_gate)
                 {
@@ -283,8 +282,10 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
                     _pendingRollback = null;
                 }
 
-                _preparationIntent.Advance(showing: true);
-                window.Show();
+                var initialShow = _preparationIntent.BeginShow();
+                bool shown = false;
+                try { window.Show(); shown = true; }
+                finally { initialShow.Complete(window, shown); }
                 session.ActivateAndNavigate(targetPage);
             }
             catch
@@ -351,7 +352,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
 
     public Task ShutdownAsync(CancellationToken cancellationToken = default)
     {
-        _preparationIntent.Advance();
+        _preparationIntent.Advance(hiding: true);
         lock (_gate)
         {
             if (_shutdownTask != null && !_shutdownTask.IsCompleted)

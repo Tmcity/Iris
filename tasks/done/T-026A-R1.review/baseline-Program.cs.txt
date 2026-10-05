@@ -1,0 +1,21 @@
+using System.Windows;
+using Iris.App.Capture;
+using Iris.App.Tests.TestSupport;
+int failures=0;
+try
+{
+    await R1VisibilityChecks.Run(async (name,run) =>
+    {
+        try { await run(); Console.WriteLine($"CHECK {name}=PASS"); }
+        catch(Exception ex) { failures++; Console.WriteLine($"CHECK {name}=FAIL {ex}"); }
+    });
+}
+finally { await WpfTestRunner.TeardownAsync(); }
+Console.WriteLine($"BASELINE cb5981e staAlive={WpfTestRunner.IsStaThreadAlive} failures={failures}");
+Environment.ExitCode=failures==0?0:2;
+internal sealed class Visibility:IPreparationVisibility
+{
+    internal Action<Window>? BeforeShow;
+    public void Hide(Window window)=>window.Hide();
+    public void Show(Window window) { BeforeShow?.Invoke(window); window.Show(); }
+}

@@ -166,7 +166,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
         {
             await _uiDispatcher.InvokeAsync(() =>
             {
-                Action notifyShow;
+                Iris.App.Capture.WindowPreparationIntent.ShowAttempt showAttempt;
                 lock (_gate)
                 {
                     if (_isShuttingDown || op.IsCallerDisposed || op.CancellationToken.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
@@ -177,34 +177,79 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                     wasVisibleBefore = _window != null && _window.IsVisible;
                     // ApplyPlacement can show/activate an existing HWND. Accept the display intent
                     // before that first native side effect, not merely before Window.Show.
-                    notifyShow = _preparationIntent.AdvanceLocked(showing: true);
+                    showAttempt = _preparationIntent.BeginShowLocked();
                 }
-                notifyShow();
-
+                showAttempt.Notify();
                 try
                 {
-                    EnsureWindowCreated();
 
-                    ApplyPlacement(request.Anchor, request.FocusInput);
-
-                    bool canShow = false;
-                    lock (_gate)
+                    try
                     {
-                        if (!_isShuttingDown && !op.IsCallerDisposed && !op.CancellationToken.IsCancellationRequested && ReferenceEquals(_latestOperation, op))
+                        EnsureWindowCreated();
+
+                        ApplyPlacement(request.Anchor, request.FocusInput);
+
+                        bool canShow = false;
+                        lock (_gate)
                         {
-                            canShow = true;
+                            if (!_isShuttingDown && !op.IsCallerDisposed && !op.CancellationToken.IsCancellationRequested && ReferenceEquals(_latestOperation, op))
+                            {
+                                canShow = true;
+                            }
+                            else
+                            {
+                                accepted = false;
+                                bool hasNewer = !ReferenceEquals(_latestOperation, op) && _latestOperation != null;
+                                if (!hasNewer && !wasVisibleBefore)
+                                {
+                                    _isVisibleSnapshot = false;
+                                    _isActiveSnapshot = false;
+                                }
+                                else if (_latestOperation == null)
+                                {
+                                    _isVisibleSnapshot = false;
+                                    _isActiveSnapshot = false;
+                                }
+                                else
+                                {
+                                    _isVisibleSnapshot = _window != null && _window.IsVisible;
+                                    _isActiveSnapshot = _window != null && _window.IsActive;
+                                }
+                            }
                         }
-                        else
+
+                        if (!canShow)
                         {
-                            accepted = false;
+                            if (_window != null && _window.IsVisible && _latestOperation == null)
+                            {
+                                try { _window.Hide(); } catch { }
+                            }
+                            return Task.CompletedTask;
+                        }
+
+                        _window!.Show();
+                        if (request.FocusInput)
+                        {
+                            _window.Activate();
+                            _window.FocusInputArea();
+                        }
+                    }
+                    catch (Exception prepEx)
+                    {
+                        LogShowFailed(_logger, prepEx.GetType().Name);
+                        bool shouldHidePrep = false;
+                        lock (_gate)
+                        {
                             bool hasNewer = !ReferenceEquals(_latestOperation, op) && _latestOperation != null;
                             if (!hasNewer && !wasVisibleBefore)
                             {
+                                shouldHidePrep = true;
                                 _isVisibleSnapshot = false;
                                 _isActiveSnapshot = false;
                             }
                             else if (_latestOperation == null)
                             {
+                                shouldHidePrep = true;
                                 _isVisibleSnapshot = false;
                                 _isActiveSnapshot = false;
                             }
@@ -214,161 +259,120 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                                 _isActiveSnapshot = _window != null && _window.IsActive;
                             }
                         }
+
+                        if (shouldHidePrep && _window != null && _window.IsVisible)
+                        {
+                            try { _window.Hide(); } catch { }
+                        }
+
+                        accepted = false;
+                        return Task.CompletedTask;
                     }
 
-                    if (!canShow)
+                    // 准备工作完成后，在向 ViewModel 提交前再次校验资格与是否被新意图取代
+                    bool shouldHideSuperseded = false;
+                    lock (_gate)
                     {
-                        if (_window != null && _window.IsVisible && _latestOperation == null)
+                        if (_isShuttingDown || op.IsCallerDisposed || op.CancellationToken.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
+                        {
+                            accepted = false;
+                            bool hasNewer = !ReferenceEquals(_latestOperation, op) && _latestOperation != null;
+                            if (!hasNewer && !wasVisibleBefore)
+                            {
+                                shouldHideSuperseded = true;
+                                _isVisibleSnapshot = false;
+                                _isActiveSnapshot = false;
+                            }
+                            else if (_latestOperation == null)
+                            {
+                                shouldHideSuperseded = true;
+                                _isVisibleSnapshot = false;
+                                _isActiveSnapshot = false;
+                            }
+                            else
+                            {
+                                _isVisibleSnapshot = _window != null && _window.IsVisible;
+                                _isActiveSnapshot = _window != null && _window.IsActive;
+                            }
+                        }
+                        else
+                        {
+                            _isVisibleSnapshot = _window != null && _window.IsVisible;
+                            _isActiveSnapshot = _window != null && _window.IsActive;
+                            accepted = true;
+                        }
+                    }
+
+                    if (!accepted)
+                    {
+                        if (shouldHideSuperseded && _window != null && _window.IsVisible)
                         {
                             try { _window.Hide(); } catch { }
                         }
                         return Task.CompletedTask;
                     }
 
-                    _window!.Show();
-                    if (request.FocusInput)
+                    bool applied = false;
+                    try
                     {
-                        _window.Activate();
-                        _window.FocusInputArea();
+                        applied = _viewModel!.ApplyRequest(request, op);
                     }
-                }
-                catch (Exception prepEx)
-                {
-                    LogShowFailed(_logger, prepEx.GetType().Name);
-                    bool shouldHidePrep = false;
+                    catch (Exception vmEx)
+                    {
+                        LogShowFailed(_logger, vmEx.GetType().Name);
+                        applied = false;
+                    }
+
+                    // ApplyRequest 完成后（经过可能的 PropertyChanged 重入），再次持锁核验资格与实际生效情况
+                    bool shouldHideAfterApply = false;
                     lock (_gate)
                     {
-                        bool hasNewer = !ReferenceEquals(_latestOperation, op) && _latestOperation != null;
-                        if (!hasNewer && !wasVisibleBefore)
+                        if (!applied || _isShuttingDown || op.IsCallerDisposed || op.CancellationToken.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
                         {
-                            shouldHidePrep = true;
-                            _isVisibleSnapshot = false;
-                            _isActiveSnapshot = false;
-                        }
-                        else if (_latestOperation == null)
-                        {
-                            shouldHidePrep = true;
-                            _isVisibleSnapshot = false;
-                            _isActiveSnapshot = false;
+                            accepted = false;
+                            bool hasNewer = !ReferenceEquals(_latestOperation, op) && _latestOperation != null;
+                            if (!hasNewer && !wasVisibleBefore)
+                            {
+                                shouldHideAfterApply = true;
+                                _isVisibleSnapshot = false;
+                                _isActiveSnapshot = false;
+                            }
+                            else if (_latestOperation == null)
+                            {
+                                shouldHideAfterApply = true;
+                                _isVisibleSnapshot = false;
+                                _isActiveSnapshot = false;
+                            }
+                            else
+                            {
+                                _isVisibleSnapshot = _window != null && _window.IsVisible;
+                                _isActiveSnapshot = _window != null && _window.IsActive;
+                            }
                         }
                         else
                         {
                             _isVisibleSnapshot = _window != null && _window.IsVisible;
                             _isActiveSnapshot = _window != null && _window.IsActive;
+                            accepted = true;
                         }
                     }
 
-                    if (shouldHidePrep && _window != null && _window.IsVisible)
+                    if (!accepted)
                     {
-                        try { _window.Hide(); } catch { }
+                        if (_viewModel?.ActiveOperation?.Id == op.Id)
+                        {
+                            _viewModel.RevokeOperation(op.Id);
+                        }
+
+                        if (shouldHideAfterApply && _window != null && _window.IsVisible)
+                        {
+                            try { _window.Hide(); } catch { }
+                        }
                     }
 
-                    accepted = false;
                     return Task.CompletedTask;
                 }
-
-                // 准备工作完成后，在向 ViewModel 提交前再次校验资格与是否被新意图取代
-                bool shouldHideSuperseded = false;
-                lock (_gate)
-                {
-                    if (_isShuttingDown || op.IsCallerDisposed || op.CancellationToken.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
-                    {
-                        accepted = false;
-                        bool hasNewer = !ReferenceEquals(_latestOperation, op) && _latestOperation != null;
-                        if (!hasNewer && !wasVisibleBefore)
-                        {
-                            shouldHideSuperseded = true;
-                            _isVisibleSnapshot = false;
-                            _isActiveSnapshot = false;
-                        }
-                        else if (_latestOperation == null)
-                        {
-                            shouldHideSuperseded = true;
-                            _isVisibleSnapshot = false;
-                            _isActiveSnapshot = false;
-                        }
-                        else
-                        {
-                            _isVisibleSnapshot = _window != null && _window.IsVisible;
-                            _isActiveSnapshot = _window != null && _window.IsActive;
-                        }
-                    }
-                    else
-                    {
-                        _isVisibleSnapshot = _window != null && _window.IsVisible;
-                        _isActiveSnapshot = _window != null && _window.IsActive;
-                        accepted = true;
-                    }
-                }
-
-                if (!accepted)
-                {
-                    if (shouldHideSuperseded && _window != null && _window.IsVisible)
-                    {
-                        try { _window.Hide(); } catch { }
-                    }
-                    return Task.CompletedTask;
-                }
-
-                bool applied = false;
-                try
-                {
-                    applied = _viewModel!.ApplyRequest(request, op);
-                }
-                catch (Exception vmEx)
-                {
-                    LogShowFailed(_logger, vmEx.GetType().Name);
-                    applied = false;
-                }
-
-                // ApplyRequest 完成后（经过可能的 PropertyChanged 重入），再次持锁核验资格与实际生效情况
-                bool shouldHideAfterApply = false;
-                lock (_gate)
-                {
-                    if (!applied || _isShuttingDown || op.IsCallerDisposed || op.CancellationToken.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
-                    {
-                        accepted = false;
-                        bool hasNewer = !ReferenceEquals(_latestOperation, op) && _latestOperation != null;
-                        if (!hasNewer && !wasVisibleBefore)
-                        {
-                            shouldHideAfterApply = true;
-                            _isVisibleSnapshot = false;
-                            _isActiveSnapshot = false;
-                        }
-                        else if (_latestOperation == null)
-                        {
-                            shouldHideAfterApply = true;
-                            _isVisibleSnapshot = false;
-                            _isActiveSnapshot = false;
-                        }
-                        else
-                        {
-                            _isVisibleSnapshot = _window != null && _window.IsVisible;
-                            _isActiveSnapshot = _window != null && _window.IsActive;
-                        }
-                    }
-                    else
-                    {
-                        _isVisibleSnapshot = _window != null && _window.IsVisible;
-                        _isActiveSnapshot = _window != null && _window.IsActive;
-                        accepted = true;
-                    }
-                }
-
-                if (!accepted)
-                {
-                    if (_viewModel?.ActiveOperation?.Id == op.Id)
-                    {
-                        _viewModel.RevokeOperation(op.Id);
-                    }
-
-                    if (shouldHideAfterApply && _window != null && _window.IsVisible)
-                    {
-                        try { _window.Hide(); } catch { }
-                    }
-                }
-
-                return Task.CompletedTask;
+                finally { showAttempt.Complete(_window, accepted); }
             }, CancellationToken.None).ConfigureAwait(false);
 
             if (!accepted)
@@ -413,10 +417,13 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
 
     public async Task HideAsync()
     {
-        _preparationIntent.Advance();
+        _preparationIntent.Advance(hiding: true);
         TranslateWindowOperation? opToCancel = null;
         await _uiDispatcher.InvokeAsync(() =>
         {
+            // A queued Hide can reach the UI after a later Show. Its actual acceptance
+            // must also retire that display's visibility ownership.
+            _preparationIntent.Advance(hiding: true);
             if (_window != null && _window.IsVisible)
             {
                 _window.Hide();
@@ -765,7 +772,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
 
     public Task ShutdownAsync(CancellationToken cancellationToken = default)
     {
-        _preparationIntent.Advance();
+        _preparationIntent.Advance(hiding: true);
         lock (_gate)
         {
             if (_shutdownTask != null && !_shutdownTask.IsCompleted)

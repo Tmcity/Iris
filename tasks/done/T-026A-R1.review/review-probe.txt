@@ -1,0 +1,53 @@
+C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\MouseInteractionTestScope.cs(203,23): warning CS0649: 从未对字段“MouseInteractionTestScope.FakeProvider.HoldFirst”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\MouseTestBoundary.cs(45,19): warning CS0649: 从未对字段“FakeMouseHookApi.InstallFailure”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\MouseTestBoundary.cs(47,25): warning CS0649: 从未对字段“FakeMouseHookApi.InstallGate”赋值，字段将一直保持其默认值 null [C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\Review.csproj]
+SHOW_THEN_PENDING entered=True accepted=True pendingAdmitted=True visibleBeforeOldShow=True finalVisible=False
+CHECK NEW_SHOW_THEN_PENDING_OPERATION_PRESERVES_VISIBLE_OWNER=FAIL System.InvalidOperationException: old restore hid a newer displayed window although no later Hide or Close occurred
+   at R1VisibilityChecks.Require(Boolean value, String message) in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\R1VisibilityChecks.cs:line 70
+   at R1VisibilityChecks.<>c.<<Run>b__0_2>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\R1VisibilityChecks.cs:line 33
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\PreparationTestScope.cs:line 40
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\PreparationTestScope.cs:line 60
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\MouseInteractionTestScope.cs:line 126
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\MouseInteractionTestScope.cs:line 146
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\WpfTestRunner.cs:line 64
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\WpfTestRunner.cs:line 73
+   at Program.<>c__DisplayClass0_0.<<<Main>$>g__Case|0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\Program.cs:line 11
+FAILED_NEW_SHOW entered=True rejected=True hiddenBeforeOldShow=True finalVisible=True reason=DisplayIntent
+CHECK FAILED_NEW_SHOW_CANNOT_BE_RESURRECTED_BY_OLD_RESTORE=FAIL System.InvalidOperationException: old restoration revived a new publication whose native show failed and was cleaned up
+   at R1VisibilityChecks.Require(Boolean value, String message) in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\R1VisibilityChecks.cs:line 70
+   at R1VisibilityChecks.<>c.<<Run>b__0_4>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\R1VisibilityChecks.cs:line 62
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\PreparationTestScope.cs:line 40
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\PreparationTestScope.cs:line 60
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\MouseInteractionTestScope.cs:line 126
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\MouseInteractionTestScope.cs:line 146
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\WpfTestRunner.cs:line 64
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\WpfTestRunner.cs:line 73
+   at Program.<>c__DisplayClass0_0.<<<Main>$>g__Case|0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-independent-review\Program.cs:line 11
+CHECK NORMAL_RESTORE=PASS
+NATIVE_SHOW entered=True invalidatedBeforeShowFlag=True newerWindowVisible=True
+CHECK INTENT_BEFORE_NATIVE_PLACEMENT=PASS
+RESTORE_NEW_HIDE entered=True visibleAfterReturn=False
+CHECK NEW_HIDE_DURING_RESTORE=PASS
+CHECK STOP_DURING_RESTORE=PASS
+CHECK NEW_SHOW_DURING_RESTORE_IS_PRESERVED=PASS
+RESTORE_SHOW_THEN_HIDE entered=True newerShowAccepted=True hiddenBeforeOldShow=True finalVisible=False
+CHECK SHOW_THEN_HIDE_DURING_RESTORE=PASS
+NOTIFY_FAILURE sync=True originalObserved=True cleanupHadFailure=False admissionRestored=True
+CHECK PAUSE_NOTIFICATION_SYNC_FAILURE=PASS
+NOTIFY_FAILURE sync=False originalObserved=True cleanupHadFailure=False admissionRestored=True
+CHECK PAUSE_NOTIFICATION_ASYNC_FAILURE=PASS
+FAILED_CLOSE_OWNER prepareSucceeded=False contentStillVisible=True
+CHECK VISIBLE_OWNER_WITH_FAILED_CLOSE=PASS
+SCOPE actualOwnersAndCoordinator=True fakeNativeStorageProvider=True userContent=False screenshot=False staAlive=False failures=2

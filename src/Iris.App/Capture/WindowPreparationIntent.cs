@@ -13,7 +13,8 @@ internal interface IScreenshotPreparationParticipant
 internal sealed class WindowPreparationIntent(Lock ownerGate)
 {
     private readonly Lock _gate = ownerGate;
-    private long _version, _showVersion;
+    private long _version, _visibilityVersion, _shownVersion;
+    private Window? _shownWindow;
     private readonly HashSet<Receipt> _receipts = [];
 
     internal Receipt Observe(Action invalidated, IUiDispatcher ui, Func<Window?> window,
@@ -27,18 +28,63 @@ internal sealed class WindowPreparationIntent(Lock ownerGate)
         }
     }
 
-    internal Action AdvanceLocked(bool showing = false)
+    internal Action AdvanceLocked(bool hiding = false)
     {
         _version++;
-        if (showing) _showVersion = _version;
+        if (hiding)
+        {
+            _visibilityVersion = _version;
+            _shownVersion = 0;
+            _shownWindow = null;
+        }
         var receipts = _receipts.ToArray();
         return () => { foreach (var receipt in receipts) receipt.Invalidated(); };
     }
-    internal void Advance(bool showing = false)
+    internal void Advance(bool hiding = false)
     {
         Action notify;
-        lock (_gate) notify = AdvanceLocked(showing);
+        lock (_gate) notify = AdvanceLocked(hiding);
         notify();
+    }
+
+    internal ShowAttempt BeginShowLocked()
+    {
+        var notify = AdvanceLocked();
+        return new(this, _version, notify);
+    }
+
+    internal ShowAttempt BeginShow()
+    {
+        ShowAttempt attempt;
+        lock (_gate) attempt = BeginShowLocked();
+        attempt.Notify();
+        return attempt;
+    }
+
+    /// <summary>Intent acceptance is not evidence of successful visibility.</summary>
+    internal sealed class ShowAttempt(WindowPreparationIntent owner, long version, Action notify)
+    {
+        internal void Notify() => notify();
+        internal void Complete(Window? window, bool succeeded)
+        {
+            bool visible = window?.IsVisible == true; // Called on the window's dispatcher, after cleanup.
+            lock (owner._gate)
+            {
+                // A late attempt cannot revoke a newer successful display or explicit Hide.
+                if (version < owner._visibilityVersion) return;
+                if (succeeded && visible)
+                {
+                    owner._visibilityVersion = owner._shownVersion = version;
+                    owner._shownWindow = window;
+                }
+                else if (!visible)
+                {
+                    owner._visibilityVersion = version;
+                    owner._shownVersion = 0;
+                    owner._shownWindow = null;
+                }
+            }
+        }
     }
 
     internal sealed class Receipt(WindowPreparationIntent owner, long version, Action invalidated,
@@ -49,9 +95,9 @@ internal sealed class WindowPreparationIntent(Lock ownerGate)
         private bool _restore, _undoRestore, _disposed;
         internal Action Invalidated { get; } = invalidated;
         internal bool IsCurrent { get { lock (owner._gate) return !_disposed && version == owner._version; } }
-        // Only the latest intent can own the visible window. A later Hide/close/operation
-        // supersedes a Show, including while retrying a failed late-restoration undo.
-        private bool HasNewShow { get { lock (owner._gate) return owner._showVersion > version && owner._showVersion == owner._version; } }
+        // BeginOperation revokes preparation without erasing someone else's successful display.
+        // Hide and settled display failures revoke visibility separately from intent notifications.
+        private bool HasNewShow { get { lock (owner._gate) return owner._shownVersion > version && ReferenceEquals(owner._shownWindow, _window); } }
         // Tests replace only visibility calls; identity/version and all lifecycle decisions stay here.
         internal IPreparationVisibility Visibility { get; set; } = PreparationVisibility.Instance;
 

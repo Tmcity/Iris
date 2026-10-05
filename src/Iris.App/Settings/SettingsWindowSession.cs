@@ -27,15 +27,17 @@ internal sealed class SettingsWindowSession : IDisposable
 
     public event Action<SettingsWindowSession>? CleanupCompleted;
     internal event Action? DisplayIntent;
-    internal event Action? ShowIntent;
+    private readonly Iris.App.Capture.WindowPreparationIntent? _preparationIntent;
 
     public SettingsWindowSession(
         IServiceScope scope,
         SettingsWindow window,
         SettingsViewModel viewModel,
         ThemeService themeService,
-        GeneralSettingsSaveCoordinator saveCoordinator)
+        GeneralSettingsSaveCoordinator saveCoordinator,
+        Iris.App.Capture.WindowPreparationIntent? preparationIntent = null)
     {
+        _preparationIntent = preparationIntent;
         _scope = scope ?? throw new ArgumentNullException(nameof(scope));
         _window = window ?? throw new ArgumentNullException(nameof(window));
         _viewModel = viewModel ?? throw new ArgumentNullException(nameof(viewModel));
@@ -87,14 +89,20 @@ internal sealed class SettingsWindowSession : IDisposable
             }
         }
 
-        ShowIntent?.Invoke();
-        _window.Show();
-        if (_window.WindowState == WindowState.Minimized)
+        var attempt = _preparationIntent?.BeginShow();
+        bool shown = false;
+        try
         {
-            _window.WindowState = WindowState.Normal;
+            _window.Show();
+            if (_window.WindowState == WindowState.Minimized)
+            {
+                _window.WindowState = WindowState.Normal;
+            }
+            _window.Activate();
+            _viewModel.CurrentPageKey = pageKey;
+            shown = true;
         }
-        _window.Activate();
-        _viewModel.CurrentPageKey = pageKey;
+        finally { attempt?.Complete(_window, shown); }
     }
 
     private void OnWindowClosing(object? sender, System.ComponentModel.CancelEventArgs e)
@@ -255,7 +263,7 @@ internal sealed class SettingsWindowSession : IDisposable
         }
 
         CleanupCompleted?.Invoke(this);
-        DisplayIntent = null; ShowIntent = null;
+        DisplayIntent = null;
     }
 
     public void Dispose()

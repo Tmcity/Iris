@@ -1,0 +1,7 @@
+{
+  "src/Iris.App/Capture/WindowPreparationIntent.cs": "7315086cc36e6b089d0a06c90895e5108f0492d39cd6affb31b4b674ba9e7342",
+  "src/Iris.App/Translation/TranslateWindowPresenter.cs": "9a815d872ea50487492f784f8670f13fa1b0814407d14b85b43dfee6a83d3eb8",
+  "src/Iris.App/Settings/SettingsWindowPresenter.cs": "afef203adbd2f1efb74e104575a03b39249080314489bc0715b443dcc1478db1",
+  "src/Iris.App/Settings/SettingsWindowSession.cs": "7280d2ef261f2e6b6bf23a5f38ffaadd87a9e5b4f1a4593442c5a11c648541b3",
+  "tests/Iris.App.Tests/Capture/ScreenshotPreparationR2Tests.cs": "f10e08f2552068215985147f450043627149e5f1cb9903bc2707b5f9a6daa69e"
+}

@@ -929,7 +929,7 @@ CCR-023结案补充（2026-10-05）：获批声明与Core同步，独立构建/�
 |---|---|
 | 日期 / 批准 | 2026-10-06，Codex架构师 |
 | 关联 | T-026A；SCREENSHOT_PREPARATION.md；ARCH v1.40 |
-| 状态 | **已落地待复审（T-026A-R1，2026-10-06）** |
+| 状态 | **已落地待复审（T-026A-R2，2026-10-06）** |
 
 仅澄清ScreenshotSettings.HideIrisWindows的注释：临时隐藏已有翻译窗、设置窗及已存在的悬浮球，保留其session/草稿；旧录入与被动划词的停止由截图准备规范管理，不依赖隐藏开关。字段、签名、默认true、JSON/schema、包及其它公开契约均不改。specs/CONTRACTS.cs已预置精确注释，由A同步Core同一注释。
 

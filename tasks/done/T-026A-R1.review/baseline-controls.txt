@@ -1,0 +1,23 @@
+C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-baseline-controls\MouseTestBoundary.cs(45,19): warning CS0649: 从未对字段“FakeMouseHookApi.InstallFailure”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-baseline-controls\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-baseline-controls\MouseInteractionTestScope.cs(203,23): warning CS0649: 从未对字段“MouseInteractionTestScope.FakeProvider.HoldFirst”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-baseline-controls\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-baseline-controls\MouseTestBoundary.cs(47,25): warning CS0649: 从未对字段“FakeMouseHookApi.InstallGate”赋值，字段将一直保持其默认值 null [C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-baseline-controls\Review.csproj]
+SHOW_THEN_PENDING entered=True accepted=True pendingAdmitted=True visibleBeforeOldShow=True finalVisible=True
+CHECK NEW_SHOW_THEN_PENDING_OPERATION_PRESERVES_VISIBLE_OWNER=PASS
+FAILED_NEW_SHOW entered=True rejected=True hiddenBeforeOldShow=True finalVisible=True reason=None
+CHECK FAILED_NEW_SHOW_CANNOT_BE_RESURRECTED_BY_OLD_RESTORE=FAIL System.InvalidOperationException: old restoration revived a new publication whose native show failed and was cleaned up
+   at R1VisibilityChecks.Require(Boolean value, String message) in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-baseline-controls\R1VisibilityChecks.cs:line 70
+   at R1VisibilityChecks.<>c.<<Run>b__0_4>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-baseline-controls\R1VisibilityChecks.cs:line 62
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-baseline-controls\PreparationTestScope.cs:line 40
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-baseline-controls\PreparationTestScope.cs:line 60
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-baseline-controls\MouseInteractionTestScope.cs:line 126
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-baseline-controls\MouseInteractionTestScope.cs:line 146
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-baseline-controls\WpfTestRunner.cs:line 64
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-baseline-controls\WpfTestRunner.cs:line 73
+   at Program.<>c__DisplayClass0_0.<<<Main>$>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026a-r1-baseline-controls\Program.cs:line 9
+BASELINE cb5981e staAlive=False failures=1
