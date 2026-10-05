@@ -3,6 +3,7 @@ using Iris.Core.Security;
 using Iris.Platform.Windows.Capture;
 using Iris.Platform.Windows.Clipboard;
 using Iris.Platform.Windows.Hotkey;
+using Iris.Platform.Windows.Hooks;
 using Iris.Platform.Windows.Security;
 using Iris.Platform.Windows.Selection;
 using Iris.Platform.Windows.SystemIntegration;
@@ -38,6 +39,10 @@ public static class PlatformWindowsServiceCollectionExtensions
         services.TryAddSingleton<CopySafetyPolicy>();
         services.TryAddSingleton<CompositeSelectionReader>();
         services.TryAddSingleton<ISelectionTextReader>(provider => provider.GetRequiredService<CompositeSelectionReader>());
+        services.TryAddSingleton<IMouseHookApi, Win32MouseHookApi>();
+        services.TryAddSingleton<NativeMouseAdapter>();
+        services.TryAddSingleton<IMouseThreadFactory, MouseThreadFactory>();
+        services.TryAddSingleton<IMouseSelectionMonitor, MouseSelectionMonitor>();
         return services;
     }
 }

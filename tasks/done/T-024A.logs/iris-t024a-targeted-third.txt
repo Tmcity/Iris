@@ -1,0 +1,34 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+失败 Iris.Platform.Windows.Tests.Hooks.MouseSelectionMonitorTests.StaleAfterSourceQuery_AndOutOfOrderCannotCreateGesture (10s 001ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.AggregateException : One or more errors occurred. (The operation has timed out.)
+  ---- System.TimeoutException : The operation has timed out.
+    在 Iris.Platform.Windows.Tests.Hooks.MouseTestRig.Use(Func`2 body, IMouseThreadFactory factory) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Hooks\MouseTestBoundary.cs:254
+    --- End of stack trace from previous location ---
+    ----- Inner Stack Trace -----
+    在 Iris.Platform.Windows.Tests.Hooks.MouseTestRig.DrainAsync() 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Hooks\MouseTestBoundary.cs:226
+    在 Iris.Platform.Windows.Tests.Hooks.MouseSelectionMonitorTests.<>c.<<StaleAfterSourceQuery_AndOutOfOrderCannotCreateGesture>b__17_0>d.MoveNext() 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Hooks\MouseSelectionMonitorTests.cs:293
+    --- End of stack trace from previous location ---
+    在 Iris.Platform.Windows.Tests.Hooks.MouseTestRig.Use(Func`2 body, IMouseThreadFactory factory) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Hooks\MouseTestBoundary.cs:252
+失败 Iris.Platform.Windows.Tests.Hooks.MouseSelectionMonitorTests.RuntimePumpFailure_InvalidatesAndCleanupFailureCanBeRetried (1ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.AggregateException : One or more errors occurred. (鼠标监听启动失败，划词功能不可用)
+  ---- Iris.Core.Errors.IrisException : 鼠标监听启动失败，划词功能不可用
+    在 Iris.Platform.Windows.Tests.Hooks.MouseTestRig.Use(Func`2 body, IMouseThreadFactory factory) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Hooks\MouseTestBoundary.cs:254
+    --- End of stack trace from previous location ---
+    ----- Inner Stack Trace -----
+    在 Iris.Platform.Windows.Hooks.MouseSelectionMonitor.<>c__DisplayClass34_0.<<StopAsync>b__1>d.MoveNext() 位于 F:\Iris\src\Iris.Platform.Windows\Hooks\MouseSelectionMonitor.cs:77
+    --- End of stack trace from previous location ---
+    在 Iris.Platform.Windows.Tests.Hooks.MouseSelectionMonitorTests.<>c.<<RuntimePumpFailure_InvalidatesAndCleanupFailureCanBeRetried>b__12_0>d.MoveNext() 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Hooks\MouseSelectionMonitorTests.cs:216
+    --- End of stack trace from previous location ---
+    在 Iris.Platform.Windows.Tests.Hooks.MouseTestRig.Use(Func`2 body, IMouseThreadFactory factory) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Hooks\MouseTestBoundary.cs:252
+F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 失败并出现 2 个错误 (11s 619ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 87
+  失败: 2
+  成功: 85
+  已跳过: 0
+  持续时间: 11s 841ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

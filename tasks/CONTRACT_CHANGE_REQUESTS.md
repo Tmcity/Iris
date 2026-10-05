@@ -849,10 +849,26 @@ specs/CONTRACTS.cs 已由架构师预置声明；本单开发同步 Core 和全�
 |---|---|
 | 日期 / 批准 | 2026-10-05，Codex 架构师 |
 | 关联 | T-023B；SELECTION_SETTINGS_UI.md；ARCH v1.35 |
-| 状态 | **已落地待复审（T-023B）** |
+| 状态 | **已验收结案（T-023B，141abec，2026-10-05）** |
 
 批准新增非持久化 SelectionSettingsPatch（ReadOrder、RestoreClipboard、ClipboardTimeoutMs、ClipboardUnsafeProcesses、OpenInputWhenEmpty 五个可空 SettingsFieldEdit），及 SettingsEditPlan.Selection 可空 init 属性。原计划 positional 构造/解构、各公开方法和已落地 AppSettings/SelectionSettings DTO/JSON 不变；不新增 ErrorCode/默认绑定/schema 或包版本。
 
 精确声明已预置 specs/CONTRACTS.cs，本单开发同步 Core SettingsEditingModels 与实际协调器/App。两个列表的 Base/Target 首次 await 前深复制；只验证显式 Target，Base 保留历史真实匹配语义。ReadOrder 非空有序合法，复制预算 [100,2000]，进程列表可空、忽略大小写去重、严格文件名验证及编辑上限见正式规范。字段冲突在 staging 前及 mutate 内均复验，五项与其它页面一次 UpdateAsync，只替换明确编辑字段。
 
 Selection-only 不触碰凭据/Provider 观察者/回执配额或 native 读取。App 纳入全窗口冻结、失败保留、已保存基线推进、外部合并与完整关闭；设置页并补已由 A 开放的 SelectionTranslate 快捷键行。T-024 鼠标字段不在本补丁范围。批准与声明预置不是功能验收，完成同步后由正式测试及独立复审核对。
+
+## CCR-020：鼠标监控异步生命周期与事件代次
+
+| 字段 | 内容 |
+|---|---|
+| 日期 / 批准 | 2026-10-05，Codex 架构师 |
+| 关联 | T-024A；MOUSE_SELECTION_MONITOR.md；ARCH v1.36 |
+| 状态 | **已落地，待复审（T-024A）** |
+
+原 IMouseSelectionMonitor 同步 Start/Stop 尚无生产实现或消费者，不能表达 UI 非阻塞、迟到安装和完整退出。批准替换为 StartAsync(options, CancellationToken=default)、不可放弃的 StopAsync()，实现 IAsyncDisposable 并保留受约束的同步 IDisposable。新增 Generation 线程安全快照；SelectionGestureEventArgs 增加 init Generation，原构造/数据字段保留；MouseDown 使用 MouseSelectionInputEventArgs(position,generation)，新增 Invalidated 及 MouseSelectionInvalidatedEventArgs(generation, ErrorInfo?=null)。各参数的 ToString 安全化。
+
+specs/CONTRACTS.cs 已预置精确声明，本单开发同步 Core 并实现。事件代次用于后续 UI 接受点拒绝过期消息；IsRunning=false/失效事件不表示物理清理成功。重启的旧失效与新 run 分配不同代次；Stop 共享清理、保留失败资源可重试并等待全部 callback/consumer/thread。
+
+明确批准 button 元数据的有界非消息式查询，保持 hook 无进程路径/标题/UI/选区/订阅者/日志 I/O。A 不接 App Controller、不读选区；默认 MouseMode.Off、持久化 DTO/JSON/包不变。B 后续另行定稿缓存/来源/意图移交与鼠标设置，不能用 A 端口同步冒称完整鼠标功能验收。
+
+正式规范引用的微软线程/卸载/事件/DPI/cursor 文档已由架构师实际读取；另核查 GetSystemMetricsForDpi 的 dpi 缩放参数及 GetAsyncKeyState 最高位表示当前按下，不采用最低位的“自上次查询以来”状态。文档核查不代替真实 hook/NFR 验证。契约预置本身尚未执行实现验收，由本单同步后统一测试。

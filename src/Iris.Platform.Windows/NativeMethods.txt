@@ -80,3 +80,9 @@ SupportedTextSelection
 CoInitializeEx
 CoUninitialize
 COINIT
+MSLLHOOKSTRUCT
+GetCursorInfo
+LoadCursor
+GetDoubleClickTime
+GetSystemMetricsForDpi
+GetTickCount

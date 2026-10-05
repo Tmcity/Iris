@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.35 · 2026-10-05 · 状态：**已冻结（首期）**
+> 版本：v1.36 · 2026-10-05 · 状态：**已冻结（首期）**
+> 变更记录：v1.36（T-023B 通过，签发 T-024A）— MOUSE_SELECTION_MONITOR.md / CCR-020 将未实现的鼠标监控端口定为异步启停、代次事件及完整重试清理，固定获批快照/有界队列与纯手势规则。T-024 拆 A 监控底座与 B 图标/缓存/设置接线，总范围不缩减，默认 MouseMode.Off/包不变。
 > 变更记录：v1.35（T-023A 通过，签发 T-023B）— SELECTION_SETTINGS_UI.md / CCR-019 定稿五项基础划词设置补丁、同步列表捕获/三方冲突、全窗口一次联合保存及 settings selection 页；快捷键页增加已交付的划词动作行。公开设置/JSON/默认配置/包不变，T-024 鼠标范围仍未开始。
 > 变更记录：v1.34（T-022C2/R1 通过，签发 T-023A）— SELECTION_ENTRYPOINTS.md 固定划词 Handler、一次设置捕获、自身前台输入特例与操作通知 UI 接受点。CCR-018 仅新增 Presenter.TryNotifyAsync；T-023 拆 A 入口/通知和 B 基础设置，总范围不缩减，默认设置/包不变。
 > 变更记录：v1.33（T-022C1/R1 通过，签发 T-022C2）— SELECTION_READING.md 固定复制安全焦点、等待后准备、候选版本/来源与条件恢复、组合读取和 App 退出。CCR-017 仅同步选区端口注释与结果安全 ToString，字段/签名/默认配置不变；T-023 才开放入口。
@@ -49,7 +50,7 @@
 4. **不写死密钥与地址**：API Key 只存 `ISecretStore`；日志、异常消息、`ToString()` 里不得出现 Key 或 `Authorization` 头。
 5. **全链路异步 + 可取消**：所有 I/O 方法 `async`，末参 `CancellationToken`；禁止 `.Result`、`.Wait()`、`async void`（WPF 事件处理器除外，且必须 try/catch）。
 6. **已知失败抛 `IrisException(ErrorCode)`**；用户取消抛 `OperationCanceledException`；禁止吞异常（至少记日志）。
-7. **UI 线程纪律**：WPF 对象只在 UI 线程访问；UIAutomation、网络、磁盘 I/O 不在 UI 线程执行；钩子回调里只入队。
+7. **UI 线程纪律**：WPF 对象只在 UI 线程访问；UIAutomation、网络、磁盘 I/O 不在 UI 线程执行；钩子回调只作对应正式规范批准的有界元数据快照与入队。
 8. **坐标一律物理像素**：跨层传递只用 `PixelPoint`/`PixelRect`，只在 View 层换算为 WPF DIP（§10.5）。
 9. **测试随代码提交**：Core / Providers / Infrastructure 的每个公开行为都要有单元测试；外部 HTTP 一律用 MockHttp，**测试中禁止真实联网**。
 10. **完成前自检**：`dotnet build -c Release` 零警告，`dotnet test` 全绿，按工单“验收标准”逐条自测后再提交。
@@ -781,10 +782,11 @@ data: {"type":"message_stop"}
 | 线程 | 负责 |
 |---|---|
 | WPF UI 线程 | 所有窗口；`HotkeyService`（热键绑定在注册线程的消息窗口上）；`ActionDispatcher` 在此启动 Handler |
-| 鼠标钩子线程（专用，后台，自带 `GetMessage` 消息循环） | 只运行 `LowLevelMouseProc`：把事件写入 `Channel`，立即 `CallNextHookEx` 返回 |
+| 鼠标钩子线程（专用，后台，自带 `GetMessage` 消息循环） | 按 MOUSE_SELECTION_MONITOR.md 复制事件与获批 button 元数据，非阻塞写有界 Channel，继续 CallNextHookEx；无订阅者/日志 I/O/选区工作 |
 | 线程池 | 手势识别消费者、网络、OCR、磁盘、UIA 父端进程/管道协调（COM 调用在隔离宿主 MTA） |
 
 - **低级钩子必须在几毫秒内返回**：超过系统的 `LowLevelHooksTimeout` 后，Windows 会**静默卸载钩子**。回调中禁止日志 I/O、禁止跨线程同步调用。
+- T-024A 的异步启动/停止、代次事件、溢出/超龄 reset 和完整线程/回调/卸载重试，以 MOUSE_SELECTION_MONITOR.md / CCR-020 为准；不得用 IsRunning=false 或 Unhook 返回成功代替全部回调真实结束。T-024B 才实现图标、缓存来源/身份移交及 App 接线。
 - 在 Core / Providers / Infrastructure / Platform 中 `await` 一律加 `ConfigureAwait(false)`；App 层（ViewModel）不加。
 - 禁止在 UI 线程调用 UIAutomation：当目标元素属于本进程时会死锁。
 

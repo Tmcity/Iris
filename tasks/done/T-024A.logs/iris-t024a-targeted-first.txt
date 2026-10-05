@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.Platform.Windows.Tests\Hooks\GestureRecognizerTests.cs(117,17): error CS0051: 可访问性不一致: 参数类型“MouseMessage”的可访问性低于方法“GestureRecognizerTests.InvalidInput_ResetsDragAndClickSequence(MouseMessage, uint)” [F:\Iris\tests\Iris.Platform.Windows.Tests\Iris.Platform.Windows.Tests.csproj]
+生成失败，退出代码: 1。
