@@ -49,6 +49,13 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
     private PixelRect? _pendingPlacementSave;
     private Task? _placementSaveTask;
     private int _deactivationSuppressionCount;
+    private readonly Iris.App.Capture.WindowPreparationIntent _preparationIntent;
+    internal Iris.App.Capture.WindowPreparationIntent.Receipt ObservePreparation(Action invalidated)
+    {
+        lock (_gate) return _preparationIntent.Observe(invalidated, _uiDispatcher, () => _window,
+            () => !_isShuttingDown, BeginCaptureSuppression);
+    }
+
 
     public TranslateWindowPresenter(
         IServiceProvider serviceProvider,
@@ -59,6 +66,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
         INativeWindowPlacementAdapter? nativePlacementAdapter = null,
         TrayNotificationService? notificationService = null)
     {
+        _preparationIntent = new(_gate);
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         _uiDispatcher = uiDispatcher ?? throw new ArgumentNullException(nameof(uiDispatcher));
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
@@ -111,6 +119,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
 
         TranslateWindowOperation op;
         TranslateWindowOperation? oldOp;
+        Action notifyIntent;
         lock (_gate)
         {
             if (_isShuttingDown)
@@ -127,9 +136,11 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
             _activeOperations.Add(op);
             oldOp = _latestOperation;
             _latestOperation = op;
+            notifyIntent = _preparationIntent.AdvanceLocked();
         }
 
         // 接纳新操作后，旧操作立即失效并请求取消（在锁外调用）
+        notifyIntent();
         oldOp?.Cancel();
         return op;
     }
@@ -172,11 +183,13 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                     ApplyPlacement(request.Anchor, request.FocusInput);
 
                     bool canShow = false;
+                    Action? notifyShow = null;
                     lock (_gate)
                     {
                         if (!_isShuttingDown && !op.IsCallerDisposed && !op.CancellationToken.IsCancellationRequested && ReferenceEquals(_latestOperation, op))
                         {
                             canShow = true;
+                            notifyShow = _preparationIntent.AdvanceLocked(showing: true);
                         }
                         else
                         {
@@ -209,6 +222,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                         return Task.CompletedTask;
                     }
 
+                    notifyShow?.Invoke();
                     _window!.Show();
                     if (request.FocusInput)
                     {
@@ -397,6 +411,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
 
     public async Task HideAsync()
     {
+        _preparationIntent.Advance();
         TranslateWindowOperation? opToCancel = null;
         await _uiDispatcher.InvokeAsync(() =>
         {
@@ -748,6 +763,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
 
     public Task ShutdownAsync(CancellationToken cancellationToken = default)
     {
+        _preparationIntent.Advance();
         lock (_gate)
         {
             if (_shutdownTask != null && !_shutdownTask.IsCompleted)

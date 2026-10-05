@@ -316,7 +316,9 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
 | T-025 | ☑ | GdiScreenCapturer、CropAsync 三格式编码与完整退出（MonitorEnumerator 已拆至 T-022A） | T-022A, T-024 | 1d |
-| T-026 | ☐ | ScreenshotOverlayWindow + ScreenshotService | T-025 | 2.5d |
+| T-026 | ▶ | 截图交互总单：A窗口/输入准备，B覆盖层与完整ScreenshotService | T-025 | 2.5d |
+| T-026A | ▶ | 临时隐藏/新意图/可靠恢复、录入收尾与鼠标暂停；含C25-1测试维护 | T-025, T-024, T-020B | 1d |
+| T-026B | ☐ | 每屏覆盖层、物理框选/放大镜、确认/取消、可选复制与完整截图服务 | T-026A, T-025 | 1.5d |
 | T-027 | ☐ | WinRtImagePreprocessor | T-025 | 1d |
 | T-028 | ☐ | 百度 OCR Provider（Token 缓存、四种模式、错误映射） | T-008, T-004 | 1.5d |
 | T-029 | ☐ | Windows 本地 OCR Provider | T-027 | 1d |
@@ -327,7 +329,7 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 > T-027/T-028 可以与 T-026 并行。
 
 **T-025** 按 SCREEN_CAPTURE.md / ARCH v1.39 / CCR-023 签发：同线程 GDI 资源、物理快照/预算、CropAsync PNG/JPEG/BMP、取消/清理重试与 App 完整退出；先以 actual service + fake OS 和真实内存编码自动验证。真实多屏/混合 DPI 画面对齐和单张4K抓取≤60ms仍为后续实机验收，不能用合成测试宣称完成；不提前做T-026覆盖层。
-**T-026** 交付 ARCH §6.6。验收：热键到覆盖层可见 ≤ 150 ms；每块屏幕的遮罩和选区都与实际画面对齐（混合 DPI）；Esc / 右键取消返回 null；放大镜显示正确；截图前 Iris 窗口被隐藏，截图后恢复。
+**T-026** 交付ARCH §6.6，完整范围保留：每屏冻结覆盖层、单屏物理框选/8×放大镜、确认/清除/取消、隐藏恢复与可选复制。先按SCREENSHOT_PREPARATION.md签发A，B随后完成UI/服务，A不得用占位服务替代B。热键到覆盖层≤150ms、真实混合DPI对齐与焦点仍须后续实机/NFR验收，不能由A的窗口状态或合成图像冒称通过。
 **T-027** 交付 CONTRACTS 中 `IImagePreprocessor` 注释描述的全部规则。验收：放大、缩小、格式转换、JPEG 质量降级、无法满足约束时抛 ImageTooLarge、已满足约束时返回同一实例。
 **T-028** 交付 ARCH §9.3。验收（MockHttp）：token 缓存与过期；并发获取 token 时只发出一次请求；110/111 刷新后只重试一次；错误码映射表每一行；language_type 映射；含位置版本的 Bounds 解析；段落合并；TestAsync 只请求 token。
 **T-029** 交付 ARCH §9.4。验收：CJK 字符之间多余空格被删除（单元测试）；缺少语言包时返回 OcrLanguageUnsupported；并发调用被串行化。
@@ -388,3 +390,5 @@ T-030 签发前须按 PROVIDER_REGISTRY.md 将 OCR 注册表原型同步为租�
 **T-024 最终结案 / T-025 签发（2026-10-05）** — R1 `3a8450e724e6a4bebcb0fd8d20e1a93371e8c237` 独立验收通过，Release零警告/错误，全量2426（2424成功/2环境跳过）；失败显示即时隐藏、旧点击无效、新候选正常且实际HWND/线程归零。T-024/B/B2与CCR-022结案，真实交互/NFR待后续验收。下一唯一工单T-025 / SCREEN_CAPTURE.md / CCR-023，直接协调开发会话，不推送。
 
 **T-025 验收结案并暂停（2026-10-05）** — `1418e0d5939c50024460880a1da0a027df3820aa`通过源码与自动化独立验收：Release零警告/错误，全量2509（2507成功/2既有环境跳过），独立实际服务/codec探针完整通过。CCR-023结案，详情见T-025.md第9节。真实桌面兼容性/混合DPI及NFR仍未验证。按用户“T-025完成后先暂停开发”的要求，当前无活动工单，T-026保持☐，不再自动签发后续任务，等待用户恢复。
+
+**恢复推进 / T-026A签发（2026-10-06）** — 用户明确“继续推进吧”，T-025后的暂停已解除。基线5ceb182，当前唯一工单T-026A / SCREENSHOT_PREPARATION.md / ARCH v1.40 / CCR-024；总单拆A准备与B完整UI，保留全部范围。C25-1仅补强T-025两项测试，已验收生产不返工。直接协调指定开发会话，一次一单，不推送，不自行提前开始B/T-027。

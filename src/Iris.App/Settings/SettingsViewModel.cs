@@ -176,6 +176,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         _hotkeyBindingPolicy = hotkeyBindingPolicy ?? new DefaultHotkeyBindingPolicy();
         _hotkeyCoordinator = hotkeyCoordinator;
         _recordingCoordinator = recordingCoordinator;
+        if (_recordingCoordinator != null) _recordingCoordinator.AdmissionChanged += OnRecordingAdmissionChanged;
         _logger = logger ?? NullLogger<SettingsViewModel>.Instance;
         Selection = new SelectionSettingsDraftViewModel(_settingsService.Current.Selection, () => CanEdit, () =>
         {
@@ -285,6 +286,8 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     public bool CanRetryHotkeysOrCleanup => CanRetryHotkeys || HasFailedRecordingCleanup;
     public bool CanAccessHotkeysTab => !IsSaving && !_disposed && !_isStopped;
 
+    internal bool CanStartRecording => _recordingCoordinator?.CanStartRecording != false;
+    private Task OnRecordingAdmissionChanged() => _uiDispatcher.InvokeAsync(() => { RaiseAllCommandsCanExecute(); return Task.CompletedTask; }, CancellationToken.None);
     public bool IsAnyRecording => _activeRecordingItem != null;
 
     internal Action? BeforeSave { get; set; }
@@ -1839,7 +1842,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
     public async Task StartRecordingAsync(HotkeyItemDraftViewModel item)
     {
-        if (!CanEdit || IsSaving || _activeRecordingItem != null || item.IsFrozen)
+        if (!CanEdit || !CanStartRecording || IsSaving || _activeRecordingItem != null || item.IsFrozen)
         {
             return;
         }
@@ -1850,6 +1853,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             return;
         }
 
+        long preparationEpoch = _recordingCoordinator?.PreparationEpoch ?? 0;
         long currentSeq = Interlocked.Increment(ref _recordingSessionSeq);
         _activeRecordingItem = item;
         item.SetRecordingState(true, true, UiText.SettingsHotkeyPreparing, null);
@@ -1876,7 +1880,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                     {
                         _ = _uiDispatcher.InvokeAsync(() =>
                         {
-                            if (_recordingSessionSeq != currentSeq || _disposed || _isStopped)
+                            if (_recordingSessionSeq != currentSeq || _disposed || _isStopped || preparationEpoch != (_recordingCoordinator?.PreparationEpoch ?? 0))
                             {
                                 return Task.CompletedTask;
                             }
@@ -1905,7 +1909,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
                 await _uiDispatcher.InvokeAsync(() =>
                 {
-                    if (_recordingSessionSeq != currentSeq || _disposed || _isStopped)
+                    if (_recordingSessionSeq != currentSeq || _disposed || _isStopped || preparationEpoch != (_recordingCoordinator?.PreparationEpoch ?? 0))
                     {
                         return Task.CompletedTask;
                     }
@@ -2004,6 +2008,43 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 }
             }
         }
+    }
+
+    internal async Task CancelRecordingForPreparationAsync()
+    {
+        var item = _activeRecordingItem;
+        var task = _activeRecordingTask;
+        Interlocked.Increment(ref _recordingSessionSeq);
+        Exception? failure = null;
+        try
+        {
+            if (_recordingCoordinator != null) await _recordingCoordinator.CancelForPreparationAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex) { failure = ex; }
+        if (task != null)
+        {
+            try { await task.ConfigureAwait(false); }
+            catch (Exception ex) { if (HasFailedRecordingCleanup) failure ??= ex; }
+        }
+        await _uiDispatcher.InvokeAsync(() =>
+        {
+            if (ReferenceEquals(_activeRecordingItem, item))
+            {
+                item?.SetRecordingState(false, false, null, null);
+                if (HasFailedRecordingCleanup)
+                {
+                    if (item != null) item.DraftError = UiText.SettingsHotkeyCleanupFailed;
+                }
+                else { _activeRecordingItem = null; _activeRecordingTask = null; }
+                RaiseAllCommandsCanExecute();
+                OnPropertyChanged(nameof(CanEdit)); OnPropertyChanged(nameof(CanSave));
+                OnPropertyChanged(nameof(IsAnyRecording)); OnPropertyChanged(nameof(HasFailedRecordingCleanup));
+                OnPropertyChanged(nameof(CanRetryHotkeysOrCleanup));
+            }
+            return Task.CompletedTask;
+        }, CancellationToken.None).ConfigureAwait(false);
+        if (failure != null) throw new IrisException(ErrorCode.CaptureFailed, ErrorMessages.GetDefault(ErrorCode.CaptureFailed),
+            detail: $"stage=RECORDING_CLEANUP;hr=0x{failure.HResult:X8}");
     }
 
     public async Task CancelRecordingAsync()
@@ -2682,6 +2723,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
     public void Dispose()
     {
+        if (_recordingCoordinator != null) _recordingCoordinator.AdmissionChanged -= OnRecordingAdmissionChanged;
         lock (_admissionLock)
         {
             if (_disposed)

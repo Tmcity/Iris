@@ -44,6 +44,7 @@ internal sealed partial class AppBootstrapper
     private readonly SelectionReadCoordinator? _selectionReadCoordinator;
     private readonly SelectionIconController? _selectionIconController;
     private readonly Iris.Platform.Windows.Capture.GdiScreenCapturer? _screenCapturer;
+    private readonly Iris.App.Capture.ScreenshotPreparationCoordinator? _screenshotPreparation;
 
     private readonly Lock _stopGate = new();
     private Task? _stopTask;
@@ -71,7 +72,8 @@ internal sealed partial class AppBootstrapper
         Iris.Core.Actions.IActionDispatcher? actionDispatcher = null,
         SelectionReadCoordinator? selectionReadCoordinator = null,
         SelectionIconController? selectionIconController = null,
-        Iris.Platform.Windows.Capture.GdiScreenCapturer? screenCapturer = null)
+        Iris.Platform.Windows.Capture.GdiScreenCapturer? screenCapturer = null,
+        Iris.App.Capture.ScreenshotPreparationCoordinator? screenshotPreparation = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -93,6 +95,7 @@ internal sealed partial class AppBootstrapper
         _selectionReadCoordinator = selectionReadCoordinator;
         _selectionIconController = selectionIconController;
         _screenCapturer = screenCapturer;
+        _screenshotPreparation = screenshotPreparation;
     }
 
     internal static Action<string, string> FatalErrorShower { get; set; } = FatalErrorDialog.Show;
@@ -213,6 +216,8 @@ internal sealed partial class AppBootstrapper
 
     public Task StopAsync()
     {
+        _screenshotPreparation?.StopAcceptance();
+        _recordingCoordinator?.StopAcceptance();
         _screenCapturer?.StopAcceptance();
         LogStopping(_logger);
         _actionDispatcher?.StopAcceptance();
@@ -243,6 +248,13 @@ internal sealed partial class AppBootstrapper
 
     private async Task StopCoreAsync()
     {
+        var earlyFailures = new System.Collections.Generic.List<string>();
+        if (_screenshotPreparation != null)
+        {
+            try { await _screenshotPreparation.StopAsync().ConfigureAwait(false); }
+            catch (Exception ex) { earlyFailures.Add(ex is IrisException { Detail: not null } known
+                ? $"PREPARATION[{known.Detail}]" : $"PREPARATION:0x{ex.HResult:X8}"); }
+        }
         string? screenFailure = null;
         if (_screenCapturer != null)
         {
@@ -263,8 +275,7 @@ internal sealed partial class AppBootstrapper
             catch (Exception ex)
             {
                 LogHotkeyShutdownFailed(_logger, ex.GetType().Name);
-                if (screenFailure != null) throw new IrisException(ErrorCode.CaptureFailed, ErrorMessages.GetDefault(ErrorCode.CaptureFailed), detail: $"{screenFailure};HOTKEY:0x{ex.HResult:X8}");
-                throw;
+                earlyFailures.Add($"HOTKEY:0x{ex.HResult:X8}");
             }
         }
 
@@ -278,8 +289,7 @@ internal sealed partial class AppBootstrapper
             catch (Exception ex)
             {
                 LogCaptureShutdownFailed(_logger, ex.GetType().Name);
-                if (screenFailure != null) throw new IrisException(ErrorCode.CaptureFailed, ErrorMessages.GetDefault(ErrorCode.CaptureFailed), detail: $"{screenFailure};RECORDING:0x{ex.HResult:X8}");
-                throw;
+                earlyFailures.Add($"RECORDING:0x{ex.HResult:X8}");
             }
         }
         else if (_captureService != null)
@@ -291,13 +301,12 @@ internal sealed partial class AppBootstrapper
             catch (Exception ex)
             {
                 LogCaptureShutdownFailed(_logger, ex.GetType().Name);
-                if (screenFailure != null) throw new IrisException(ErrorCode.CaptureFailed, ErrorMessages.GetDefault(ErrorCode.CaptureFailed), detail: $"{screenFailure};RECORDING:0x{ex.HResult:X8}");
-                throw;
+                earlyFailures.Add($"RECORDING:0x{ex.HResult:X8}");
             }
         }
 
         // Selection Stop includes conditional restoration before stopping its clipboard worker.
-        var selectionFailures = new System.Collections.Generic.List<string>();
+        var selectionFailures = earlyFailures;
         if (screenFailure != null) selectionFailures.Add(screenFailure);
         ErrorCode selectionError = ErrorCode.CaptureFailed;
         if (_selectionIconController != null)

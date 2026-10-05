@@ -922,3 +922,15 @@ CapturedFrame新增固定安全ToString及top-down/opaque alpha、物理Stride�
 specs/CONTRACTS.cs已预置精确声明，由T-025同步Core和实现。没有新增默认配置/JSON/schema/包；不改其它已验收契约或平台能力。T-026后续截图服务草图同步await CropAsync，尚不实施UI/隐藏恢复/OCR/入口。
 
 CCR-023结案补充（2026-10-05）：获批声明与Core同步，独立构建/全量/实际服务及内存编解码验证通过，详见T-025.md第9节。真实桌面/NFR未验证；依用户安排本单结束后暂停，不批准或启动后续契约变更。
+
+## CCR-024：截图临时隐藏范围的注释澄清
+
+| 字段 | 内容 |
+|---|---|
+| 日期 / 批准 | 2026-10-06，Codex架构师 |
+| 关联 | T-026A；SCREENSHOT_PREPARATION.md；ARCH v1.40 |
+| 状态 | **已落地待复审（T-026A，2026-10-06）** |
+
+仅澄清ScreenshotSettings.HideIrisWindows的注释：临时隐藏已有翻译窗、设置窗及已存在的悬浮球，保留其session/草稿；旧录入与被动划词的停止由截图准备规范管理，不依赖隐藏开关。字段、签名、默认true、JSON/schema、包及其它公开契约均不改。specs/CONTRACTS.cs已预置精确注释，由A同步Core同一注释。
+
+准备协调器/租约/owner意图代次与录入/鼠标暂停均为App内部能力。A不注册占位IScreenshotService，不提前创建球、overlay或截图入口；完整ScreenshotService及覆盖层在B签发。新意图与退出、真实恢复/失败责任规则见正式规范。

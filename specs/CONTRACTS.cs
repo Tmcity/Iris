@@ -1155,7 +1155,7 @@ namespace Iris.Core.Settings
 
         public bool ShowMagnifier { get; init; } = true;
 
-        /// <summary>截图前隐藏 Iris 自身窗口（翻译窗、悬浮球）。</summary>
+        /// <summary>截图前临时隐藏已有 Iris 内容窗口（翻译窗、设置窗及已存在的悬浮球）；不关闭或重建会话。录入和划词交互另按截图准备规范停止。</summary>
         public bool HideIrisWindows { get; init; } = true;
 
         public bool CopyImageToClipboard { get; init; }

@@ -49,7 +49,7 @@ internal sealed class MouseInteractionTestScope
     internal List<MouseGate> Gates { get; } = [];
     internal List<(Task Task, Type? Allowed)> Tasks { get; } = [];
 
-    internal MouseInteractionTestScope(Func<TimeProvider, TimeProvider>? wrapTime = null)
+    internal MouseInteractionTestScope(Func<TimeProvider, TimeProvider>? wrapTime = null, Action<ServiceCollection>? configure = null)
     {
         Mouse.Window = 0x1234; Mouse.Process = 5000;
         Platform.Desktop.GetMonitorAt(Arg.Any<PixelPoint>()).Returns(new MonitorInfo("fake", new(-1000, -500, 2000, 1000), new(-1000, -500, 2000, 1000), 1.5, true));
@@ -90,6 +90,7 @@ internal sealed class MouseInteractionTestScope
         services.AddSingleton<SelectionIconController>(); services.AddSingleton<ThemeService>();
         services.AddSingleton<ISettingsApplyReceiptManager, SettingsApplyReceiptManager>();
         services.AddScoped<GeneralSettingsSaveCoordinator>(); services.AddScoped<SettingsViewModel>();
+        configure?.Invoke(services);
         Services = services.BuildServiceProvider();
         Presenter = Services.GetRequiredService<TranslateWindowPresenter>(); Dispatcher = Services.GetRequiredService<ActionDispatcher>();
         Controller = Services.GetRequiredService<SelectionIconController>();
@@ -119,9 +120,9 @@ internal sealed class MouseInteractionTestScope
     }
     internal static async Task FlushUi() => await System.Windows.Threading.Dispatcher.CurrentDispatcher.InvokeAsync(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
 
-    internal static Task Run(Func<MouseInteractionTestScope, Task> body, Func<TimeProvider, TimeProvider>? wrapTime = null) => WpfTestRunner.RunAsync(async () =>
+    internal static Task Run(Func<MouseInteractionTestScope, Task> body, Func<TimeProvider, TimeProvider>? wrapTime = null, Action<ServiceCollection>? configure = null) => WpfTestRunner.RunAsync(async () =>
     {
-        var f = new MouseInteractionTestScope(wrapTime); Exception? primary = null; var errors = new List<Exception>();
+        var f = new MouseInteractionTestScope(wrapTime, configure); Exception? primary = null; var errors = new List<Exception>();
         try { await body(f); } catch (Exception ex) { primary = ex; }
         finally
         {

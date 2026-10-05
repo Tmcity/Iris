@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.39 · 2026-10-05 · 状态：**已冻结（首期）**
+> 版本：v1.40 · 2026-10-06 · 状态：**已冻结（首期）**
+> 变更记录：v1.40（用户恢复推进，签发T-026A）— SCREENSHOT_PREPARATION.md / CCR-024冻结截图前的窗口临时隐藏/意图代次/恢复、旧录入清理、鼠标暂停与完整退出。T-026拆A准备和B覆盖层/完整服务，总范围不减；仅澄清HideIrisWindows注释，默认配置/包不变。
 > 变更记录：v1.39（T-024/B2/R1通过，签发T-025）— SCREEN_CAPTURE.md / CCR-023定稿GDI同线程捕获/预算/拓扑、异步三格式裁剪编码及完整退出；原型Crop改CropAsync。默认配置/包不变，T-026覆盖层与实机/NFR验收后续实施。
 > 变更记录：v1.38（T-024B1 通过，签发 T-024B2）— MOUSE_SELECTION_INTERACTION.md / CCR-022 定稿被动缓存图标、唯一点击/自动翻译 Dispatcher 语义、鼠标设置与运行状态/Toggle及完整退出。ActionContext 增加可选原来源，SelectionSettingsPatch 增加鼠标字段；原构造/JSON/default/包保持，CaptureFailed 文案统一为内容获取失败。
 > 变更记录：v1.37（T-024A 通过，签发 T-024B1）— SELECTION_READ_COORDINATION.md / CCR-021 增加可选原来源约束及 App 单实例读协调，显式请求可取消并完整等待被动读；B1 交付底座/退出，B2 后续图标、缓存点击与鼠标设置。默认配置/包不变，保留既有只读桌面 smoke 的明确测试边界。
@@ -330,7 +331,7 @@ if outcome.UsedFallback → Notify(Info, "已使用备用 OCR", ...)（每次会
 
 ### 6.6 截图服务（`ScreenshotService`，App）
 
-1. `HideIrisWindows` 时以 App 内部 CaptureSuppression 暂时隐藏翻译窗与悬浮球，不能调用会取消操作的普通 HideAsync；恢复校验意图及可见性代次。等待 1 帧（~16 ms），让 DWM 完成重绘。
+1. 按SCREENSHOT_PREPARATION.md先结束旧录入、撤销划词候选并暂停新被动动作；`HideIrisWindows`为true时临时隐藏已有翻译窗、设置窗及存在的悬浮球。不能调用普通HideAsync或关闭scope；新显示意图撤销旧准备，恢复在UI接受点核对owner/window/session/代次。A交付该前置协调，B再衔接UI空闲/重绘与捕获；不得把固定16ms Delay当作整桌面重绘保证。
 2. `frame = await IScreenCapturer.CaptureVirtualScreenAsync()`（GDI BitBlt 整个虚拟桌面，物理像素）。
 3. 为 `frame.Monitors` 中的每个显示器创建一个 `ScreenshotOverlayWindow`：无边框、置顶、`ShowInTaskbar=false`，窗口大小与位置 = 该显示器的物理 Bounds（按该显示器 DPI 换算为 DIP）；背景为 frame 中对应区域的 `BitmapSource`，上面叠加半透明遮罩（`MaskOpacity`）。
 4. 用户在任一覆盖窗口内拖拽框选（选区不跨屏）：实时显示选区尺寸（物理像素）；`ShowMagnifier` 时在光标旁显示 8× 放大镜与像素坐标。

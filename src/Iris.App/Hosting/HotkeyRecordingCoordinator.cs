@@ -22,6 +22,61 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
     private ActiveRecordingContext? _activeContext;
     private HotkeyCaptureResult? _lastCapturedResult;
     private bool _isStopped;
+    private int _preparationPauses;
+    private long _preparationEpoch;
+    internal long PreparationEpoch { get { lock (_gate) return _preparationEpoch; } }
+    internal bool CanStartRecording { get { lock (_gate) return !_isStopped && _preparationPauses == 0; } }
+    internal event Func<Task>? AdmissionChanged;
+    private async Task NotifyAdmissionAsync() => await Task.WhenAll(AdmissionChanged?.GetInvocationList()
+        .Cast<Func<Task>>().Select(async handler => await handler().ConfigureAwait(false)) ?? []).ConfigureAwait(false);
+    internal PreparationPause PauseForPreparation()
+    {
+        lock (_gate) { _preparationPauses++; _preparationEpoch++; }
+        return new PreparationPause(this);
+    }
+    internal void StopAcceptance() { lock (_gate) { _isStopped = true; _preparationEpoch++; } }
+    internal async Task CancelForPreparationAsync()
+    {
+        lock (_gate) { if (_activeContext != null) _activeContext.DiscardResult = true; _lastCapturedResult = null; }
+        try { await CancelRecordingAsync().ConfigureAwait(false); }
+        catch when (HasFailedCleanup) { /* Retry only the retained physical cleanup below. */ }
+        if (HasFailedCleanup) await RetryCleanupAsync().ConfigureAwait(false);
+    }
+    internal sealed class PreparationPause(HotkeyRecordingCoordinator owner) : IAsyncDisposable
+    {
+        private readonly object _gate = new();
+        private bool _decremented;
+        private Task? _notification, _release;
+        internal Task Ready
+        {
+            get
+            {
+                lock (_gate)
+                {
+                    if (_notification == null || (_notification.IsFaulted || _notification.IsCanceled)) _notification = Task.Run(owner.NotifyAdmissionAsync);
+                    return _notification;
+                }
+            }
+        }
+        public ValueTask DisposeAsync()
+        {
+            lock (_gate)
+            {
+                if (_release == null || (_release.IsFaulted || _release.IsCanceled)) _release = Task.Run(ReleaseAsync);
+                return new(_release);
+            }
+        }
+        private async Task ReleaseAsync()
+        {
+            await Ready.ConfigureAwait(false);
+            lock (owner._gate)
+            {
+                if (!_decremented) { _decremented = true; owner._preparationPauses--; }
+            }
+            await owner.NotifyAdmissionAsync().ConfigureAwait(false);
+        }
+    }
+
 
     public HotkeyRecordingCoordinator(
         HotkeyCoordinator? hotkeyCoordinator = null,
@@ -92,7 +147,7 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
         ActiveRecordingContext context;
         lock (_gate)
         {
-            if (_isStopped)
+            if (_isStopped || _preparationPauses != 0)
             {
                 throw new InvalidOperationException("HotkeyRecordingCoordinator is stopped.");
             }
@@ -280,7 +335,7 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
 
         if (cleanupException == null)
         {
-            var res = context.CapturedResult;
+            var res = context.DiscardResult ? null : context.CapturedResult;
             lock (_gate)
             {
                 if (ReferenceEquals(_activeContext, context))
@@ -346,6 +401,7 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
         public IHotkeyCaptureSession? CaptureSession { get; private set; }
         public HotkeyCaptureResult? CapturedResult { get; private set; }
         public bool HasFailedCleanup { get; private set; }
+        internal bool DiscardResult { get; set; }
         public Exception? CleanupException { get; private set; }
 
         public bool IsCompleted => Volatile.Read(ref _completed) != 0;

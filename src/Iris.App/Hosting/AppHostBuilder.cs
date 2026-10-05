@@ -85,6 +85,7 @@ internal static class AppHostBuilder
         builder.Services.AddSingleton<SelectionIconNative>();
         builder.Services.AddSingleton<ISelectionIconViewFactory, SelectionIconViewFactory>();
         builder.Services.AddSingleton<SelectionIconController>();
+        builder.Services.AddSingleton<Iris.App.Capture.ScreenshotPreparationCoordinator>();
 
         // 设置窗口及编辑协调服务
         builder.Services.AddSingleton<Iris.App.Services.ISettingsApplyReceiptManager, Iris.App.Services.SettingsApplyReceiptManager>();

@@ -33,12 +33,24 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
     private bool _isShuttingDown;
     private Task? _shutdownTask;
     private Task? _openTask;
+    private readonly Iris.App.Capture.WindowPreparationIntent _preparationIntent;
+    internal Iris.App.Capture.WindowPreparationIntent.Receipt ObservePreparation(Action invalidated)
+    {
+        lock (_gate) return _preparationIntent.Observe(invalidated, _uiDispatcher,
+            () => _activeSession?.Window, () => !_isShuttingDown && _activeSession?.IsOpen == true && _activeSession.CurrentCleanupTask == null);
+    }
+    internal Task CancelRecordingForPreparationAsync() => _uiDispatcher.InvokeAsync(async () =>
+    {
+        if (_activeSession is { } session) await session.ViewModel.CancelRecordingForPreparationAsync();
+    }, CancellationToken.None);
+
 
     public SettingsWindowPresenter(
         IServiceProvider serviceProvider,
         IUiDispatcher uiDispatcher,
         ILogger<SettingsWindowPresenter> logger)
     {
+        _preparationIntent = new(_gate);
         _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
         _uiDispatcher = uiDispatcher ?? throw new ArgumentNullException(nameof(uiDispatcher));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -80,33 +92,47 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
     public Task ShowAsync(string? pageKey = null)
     {
         var targetPage = NormalizePageKey(pageKey);
-
+        Action notify;
+        SettingsWindowSession? existing;
+        Task? opening;
+        TaskCompletionSource? completion = null;
         lock (_gate)
         {
-            if (_isShuttingDown)
+            if (_isShuttingDown) return Task.CompletedTask;
+            notify = _preparationIntent.AdvanceLocked();
+            existing = _activeSession is { IsOpen: true } session ? session : null;
+            opening = _openTask is { IsCompleted: false } ? _openTask : null;
+            if (existing == null && opening == null)
             {
-                return Task.CompletedTask;
+                completion = new(TaskCreationOptions.RunContinuationsAsynchronously);
+                _openTask = completion.Task;
             }
-
-            if (_activeSession != null && _activeSession.IsOpen)
-            {
-                var existing = _activeSession;
-                return _uiDispatcher.InvokeAsync(() =>
-                {
-                    existing.ActivateAndNavigate(targetPage);
-                    return Task.CompletedTask;
-                }, CancellationToken.None);
-            }
-
-            if (_openTask != null && !_openTask.IsCompleted)
-            {
-                return AwaitAndNavigateAsync(_openTask, targetPage);
-            }
-
-            _openTask = ShowCoreAsync(targetPage);
-            return _openTask;
         }
+        notify();
+        if (existing != null) return NavigateExistingAsync(existing, targetPage);
+        if (opening != null) return AwaitAndNavigateAsync(opening, targetPage);
+        _ = CompleteOpenAsync(targetPage, completion!);
+        return completion!.Task;
     }
+    private async Task CompleteOpenAsync(string page, TaskCompletionSource completion)
+    {
+        try { await ShowCoreAsync(page).ConfigureAwait(false); completion.TrySetResult(); }
+        catch (OperationCanceledException) { completion.TrySetCanceled(); }
+        catch (Exception ex) { completion.TrySetException(ex); }
+    }
+
+    private Task NavigateExistingAsync(SettingsWindowSession session, string page) => _uiDispatcher.InvokeAsync(() =>
+    {
+        Action notify;
+        lock (_gate)
+        {
+            if (_isShuttingDown || !ReferenceEquals(session, _activeSession) || !session.IsOpen) return Task.CompletedTask;
+            notify = _preparationIntent.AdvanceLocked();
+        }
+        notify();
+        session.ActivateAndNavigate(page);
+        return Task.CompletedTask;
+    }, CancellationToken.None);
 
     private async Task AwaitAndNavigateAsync(Task runningOpenTask, string targetPage)
     {
@@ -120,18 +146,9 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
             }
         }
 
-        await _uiDispatcher.InvokeAsync(() =>
-        {
-            lock (_gate)
-            {
-                if (_isShuttingDown || _activeSession == null || !_activeSession.IsOpen)
-                {
-                    return Task.CompletedTask;
-                }
-                _activeSession.ActivateAndNavigate(targetPage);
-                return Task.CompletedTask;
-            }
-        }, CancellationToken.None).ConfigureAwait(false);
+        SettingsWindowSession? session;
+        lock (_gate) session = _activeSession;
+        if (session != null) await NavigateExistingAsync(session, targetPage).ConfigureAwait(false);
     }
 
     private async Task ShowCoreAsync(string targetPage)
@@ -216,10 +233,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
                     throw new OperationCanceledException("Presenter is shutting down.");
                 }
                 if (_activeSession != null && _activeSession.IsOpen)
-                {
-                    _activeSession.ActivateAndNavigate(targetPage);
-                    return;
-                }
+                    throw new InvalidOperationException("Settings session already opened.");
                 if (_pendingRollback != null && _pendingRollback.IsAlive)
                 {
                     throw new InvalidOperationException("前次设置窗口清理尚未完成，无法打开新窗口");
@@ -256,6 +270,8 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
 
                 session = new SettingsWindowSession(scope, window, viewModel, themeService, saveCoordinator);
                 session.CleanupCompleted += OnSessionCleanupCompleted;
+                session.DisplayIntent += () => _preparationIntent.Advance();
+                session.ShowIntent += () => _preparationIntent.Advance(showing: true);
 
                 lock (_gate)
                 {
@@ -267,6 +283,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
                     _pendingRollback = null;
                 }
 
+                _preparationIntent.Advance(showing: true);
                 window.Show();
                 session.ActivateAndNavigate(targetPage);
             }
@@ -334,6 +351,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
 
     public Task ShutdownAsync(CancellationToken cancellationToken = default)
     {
+        _preparationIntent.Advance();
         lock (_gate)
         {
             if (_shutdownTask != null && !_shutdownTask.IsCompleted)

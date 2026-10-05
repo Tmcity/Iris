@@ -1,0 +1,2 @@
+F:\Iris\src\Iris.App\Capture\ScreenshotPreparationCoordinator.cs(81,27): error CA1068: 方法“Iris.App.Capture.ScreenshotPreparationCoordinator.Session.Session(Iris.App.Capture.ScreenshotPreparationCoordinator, System.Threading.CancellationToken, Iris.App.Capture.ScreenshotPreparationCoordinator.Session?)”应将 CancellationToken 作为最后一个参数 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1068) [F:\Iris\src\Iris.App\Iris.App_phyy3r5x_wpftmp.csproj]
+生成失败，退出代码: 1。

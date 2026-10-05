@@ -252,13 +252,35 @@ public sealed class GdiScreenCapturerTests
     [Fact]
     public Task CompletedCapture_IsNotRetainedAsHiddenFrameCache() => ScreenCaptureTestScope.Run(async f =>
     {
+        var control = await ControlWeakReference();
+        (await CollectedAsync(control)).ShouldBeTrue("GC control must be collectible");
         var weak = await CaptureWeakReference(f.Service);
-        await f.Service.RetryCleanupAsync();
-        GC.Collect(); GC.WaitForPendingFinalizers(); GC.Collect();
-        weak.TryGetTarget(out _).ShouldBeFalse();
+        (await CollectedAsync(weak)).ShouldBeTrue();
+        GC.KeepAlive(f.Service); // No maintenance or second request before the assertion.
     });
-    private static async Task<WeakReference<CapturedFrame>> CaptureWeakReference(GdiScreenCapturer service) =>
-        new(await service.CaptureVirtualScreenAsync(CancellationToken.None));
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
+    private static async Task<WeakReference> CaptureWeakReference(GdiScreenCapturer service) =>
+        new((await service.CaptureVirtualScreenAsync(CancellationToken.None)).Bgra32Pixels);
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
+    private static async Task<WeakReference> ControlWeakReference() => new(await Task.FromResult(new byte[64]));
+    private static async Task<bool> CollectedAsync(WeakReference weak)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            await Task.Yield();
+            await Task.Run(static () => { });
+            if (Collect(weak)) return true;
+        }
+        return false;
+    }
+    [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]
+    private static bool Collect(WeakReference weak)
+    {
+        GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, blocking: true, compacting: true);
+        GC.WaitForPendingFinalizers();
+        GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, blocking: true, compacting: true);
+        return !weak.IsAlive;
+    }
 
     [Fact]
     public async Task InjectedPrimaryAfterEntered_ReleasesGateAndRetainsRealCleanupError()

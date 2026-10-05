@@ -23,6 +23,7 @@ internal sealed partial class SelectionIconController(
 {
     private readonly object _gate = new();
     private SelectionSettings? _desired, _applied;
+    private int _preparationPauses;
     private bool _started, _stopping, _fullyStopped, _disposed;
     private bool _applyRequested, _applying, _workRunning, _visualRunning, _monitorStopped = true, _forceRestart;
     private long _configuration, _request, _visualVersion;
@@ -176,9 +177,9 @@ internal sealed partial class SelectionIconController(
             if (args.Error != null) { _forceRestart = true; SetRuntimeLocked(false, ErrorCode.HookInstallFailed, true); }
         }
     }
-    private bool CanAcceptLocked(long generation) => _started && !_stopping && !_applying && !_applyRequested &&
+    private bool CanAcceptLocked(long generation) => _preparationPauses == 0 && _started && !_stopping && !_applying && !_applyRequested &&
         _desired?.MouseMode != MouseSelectionMode.Off && _applied != null && monitor.IsRunning && generation == monitor.Generation;
-    private bool CurrentLocked(WorkInput input) => !_stopping && input.Request == _request && input.Configuration == _configuration &&
+    private bool CurrentLocked(WorkInput input) => _preparationPauses == 0 && !_stopping && input.Request == _request && input.Configuration == _configuration &&
         input.Generation == monitor.Generation && _desired?.MouseMode == input.Settings.MouseMode && monitor.IsRunning;
 
     private void RevokeLocked()
@@ -459,6 +460,45 @@ internal sealed partial class SelectionIconController(
         if (RuntimeChanged is not { } handlers) return;
         foreach (EventHandler<MouseSelectionRuntimeSnapshot> handler in handlers.GetInvocationList())
             try { handler(this, snapshot); } catch (Exception ex) { LogFailure("RuntimeSubscriber", ex); }
+    }
+
+    internal PreparationPause PauseForPreparation()
+    {
+        lock (_gate)
+        {
+            _preparationPauses++;
+            RevokeLocked();
+            return new PreparationPause(this);
+        }
+    }
+    internal sealed class PreparationPause(SelectionIconController owner) : IAsyncDisposable
+    {
+        private bool _released;
+        internal async Task DrainAsync()
+        {
+            Task work, apply;
+            lock (owner._gate) { work = owner._workTask; apply = owner._applyTask; }
+            await work.ConfigureAwait(false);
+            await apply.ConfigureAwait(false);
+            Task visual, timer;
+            lock (owner._gate)
+            {
+                owner.QueueVisualLocked(); visual = owner._visualTask;
+                timer = owner._retiredDeadline?.RetryAsync() ?? owner._timerCleanup;
+                owner._timerCleanup = timer;
+            }
+            await timer.ConfigureAwait(false);
+            await visual.ConfigureAwait(false);
+            lock (owner._gate) if (owner._visualFailure != null) throw owner._visualFailure;
+        }
+        public ValueTask DisposeAsync()
+        {
+            lock (owner._gate)
+            {
+                if (!_released) { _released = true; owner._preparationPauses--; }
+            }
+            return ValueTask.CompletedTask;
+        }
     }
 
     internal void StopAcceptance()

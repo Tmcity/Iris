@@ -1,0 +1,4 @@
+F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotPreparationTests.cs(33,37): error CS1061: “SelectionSettingsDraftViewModel”未包含“ClipboardTimeoutMsText”的定义，并且找不到可接受第一个“SelectionSettingsDraftViewModel”类型参数的可访问扩展方法“ClipboardTimeoutMsText”(是否缺少 using 指令或程序集引用?) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotPreparationTests.cs(44,37): error CS1061: “SelectionSettingsDraftViewModel”未包含“ClipboardTimeoutMsText”的定义，并且找不到可接受第一个“SelectionSettingsDraftViewModel”类型参数的可访问扩展方法“ClipboardTimeoutMsText”(是否缺少 using 指令或程序集引用?) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs(72,23): error CA1001: 类型“RecordingNative”具有可释放的字段“Inner”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+生成失败，退出代码: 1。

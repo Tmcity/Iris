@@ -260,7 +260,7 @@ internal sealed class HotkeyItemDraftViewModel : INotifyPropertyChanged
         }
     }
 
-    public bool CanRecord => !_isRecording && !_parent.IsAnyRecording && !_isFrozen && _parent.CanEdit;
+    public bool CanRecord => _parent.CanStartRecording && !_isRecording && !_parent.IsAnyRecording && !_isFrozen && _parent.CanEdit;
 
     public bool CanClear => !_isRecording && !_isFrozen && _parent.CanEdit &&
         _targetBinding != null && (!string.IsNullOrWhiteSpace(_targetBinding.Key) || _targetBinding.Enabled);

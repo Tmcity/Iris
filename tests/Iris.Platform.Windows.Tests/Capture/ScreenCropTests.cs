@@ -175,9 +175,19 @@ public sealed class ScreenCropTests
     [Fact]
     public Task ExternalCodecCancellationWithoutCallerCancellation_IsFailure() => ScreenCaptureTestScope.Run(async f =>
     {
-        f.Encoding.Configure = io => io.Before = _ => throw new OperationCanceledException("private native cancellation");
+        f.Encoding.Configure = io => io.Before = stage => { if (stage == "Flush") throw new OperationCanceledException("private native cancellation"); return Task.CompletedTask; };
         var frame = ScreenCaptureTestScope.Frame();
-        (await Should.ThrowAsync<IrisException>(() => f.Service.CropAsync(frame, frame.VirtualBounds))).Code.ShouldBe(ErrorCode.CaptureFailed);
+        using var caller = new CancellationTokenSource();
+        var task = f.Service.CropAsync(frame, frame.VirtualBounds, cancellationToken: caller.Token);
+        var error = await Should.ThrowAsync<IrisException>(() => task);
+        error.Code.ShouldBe(ErrorCode.CaptureFailed);
+        error.ToString().ShouldNotContain("private native cancellation");
+        caller.IsCancellationRequested.ShouldBeFalse(); task.IsCanceled.ShouldBeFalse();
+        f.Encoding.Sessions.Single().InFlight.ShouldBe(0);
+        f.Encoding.Sessions.Single().StreamOwned.ShouldBeFalse();
+        f.Encoding.Sessions.Single().ReaderOwned.ShouldBeFalse();
+        f.Encoding.Sessions.Single().Calls.ShouldContain("DisposeStream");
+        f.Encoding.Sessions.Single().Calls.ShouldContain("DisposeReader");
     });
 
     private static async Task<(uint Width, uint Height, byte[] Pixels)> Decode(byte[] bytes)

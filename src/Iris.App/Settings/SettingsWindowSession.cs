@@ -26,6 +26,8 @@ internal sealed class SettingsWindowSession : IDisposable
     private Task? _cleanupTask;
 
     public event Action<SettingsWindowSession>? CleanupCompleted;
+    internal event Action? DisplayIntent;
+    internal event Action? ShowIntent;
 
     public SettingsWindowSession(
         IServiceScope scope,
@@ -85,6 +87,8 @@ internal sealed class SettingsWindowSession : IDisposable
             }
         }
 
+        ShowIntent?.Invoke();
+        _window.Show();
         if (_window.WindowState == WindowState.Minimized)
         {
             _window.WindowState = WindowState.Normal;
@@ -110,6 +114,7 @@ internal sealed class SettingsWindowSession : IDisposable
 
     private void OnWindowClosed(object? sender, EventArgs e)
     {
+        DisplayIntent?.Invoke();
         lock (_gate)
         {
             _isClosed = true;
@@ -119,6 +124,7 @@ internal sealed class SettingsWindowSession : IDisposable
 
     public Task ShutdownAsync(CancellationToken cancellationToken = default)
     {
+        DisplayIntent?.Invoke();
         lock (_gate)
         {
             if (_cleanupTask != null && !_cleanupTask.IsFaulted && !_cleanupTask.IsCanceled)
@@ -142,8 +148,11 @@ internal sealed class SettingsWindowSession : IDisposable
         }
 
         // 1. 停止接纳新工作并取消提交前工作
-        _saveCoordinator.StopAcceptanceAndCancelPreCommit();
-        _viewModel.StopAcceptance();
+        await InvokeOnUiAsync(() =>
+        {
+            _saveCoordinator.StopAcceptanceAndCancelPreCommit();
+            _viewModel.StopAcceptance();
+        }).ConfigureAwait(false);
 
         // 2. 等待协调器中所有已接纳的后台保存/重试/查询任务完成
         await _saveCoordinator.WaitForActiveWorkAsync().ConfigureAwait(false);
@@ -151,19 +160,19 @@ internal sealed class SettingsWindowSession : IDisposable
         // 3. 等待 ViewModel 中所有已接纳的保存/重试/查询任务及 UI 收尾完成
         await _viewModel.WaitForActiveWorkAsync().ConfigureAwait(false);
 
-        // 4. 在 UI 线程确保窗口已关闭并检查是否被取消
-        var dispatcher = _window.Dispatcher;
-        if (dispatcher != null && !dispatcher.CheckAccess())
-        {
-            await dispatcher.InvokeAsync(EnsureWindowClosedOnUi).Task.ConfigureAwait(false);
-        }
-        else
+        // Window and bound VM notifications remain on their owning dispatcher even when App exit
+        // resumes on a worker after draining preparation/platform work.
+        await InvokeOnUiAsync(() =>
         {
             EnsureWindowClosedOnUi();
-        }
+            DisposeInternal();
+        }).ConfigureAwait(false);
+    }
 
-        // 5. 窗口确已关闭且全部工作结束后，安全释放资源
-        DisposeInternal();
+    private Task InvokeOnUiAsync(Action action)
+    {
+        if (_window.Dispatcher.CheckAccess()) { action(); return Task.CompletedTask; }
+        return _window.Dispatcher.InvokeAsync(action).Task;
     }
 
     private void EnsureWindowClosedOnUi()
@@ -246,6 +255,7 @@ internal sealed class SettingsWindowSession : IDisposable
         }
 
         CleanupCompleted?.Invoke(this);
+        DisplayIntent = null; ShowIntent = null;
     }
 
     public void Dispose()
