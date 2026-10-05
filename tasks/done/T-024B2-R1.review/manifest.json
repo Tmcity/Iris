@@ -1,0 +1,9 @@
+{
+  "commit": "3a8450e724e6a4bebcb0fd8d20e1a93371e8c237",
+  "productionDiff": "SelectionIconController.cs only",
+  "hashes": {
+    "src/Iris.App/Selection/SelectionIconController.cs": "ac1d45f0a972b9fff51e33febd79154e6df34f99cbc0860eedc43a3f9b2afa7b",
+    "src/Iris.App/Selection/SelectionIconNative.cs": "a010d583e19a52c63c1d8fa6fc5198f438be52a46ae84f579801e28be590b834",
+    "src/Iris.App/Selection/SelectionIconWindow.cs": "075dfea808b1b04e3062140e2607cbb8a22e496093120e92f67bbb08ece4821d"
+  }
+}

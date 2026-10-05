@@ -43,6 +43,7 @@ internal sealed partial class AppBootstrapper
     private readonly ActionDispatcher? _actionDispatcher;
     private readonly SelectionReadCoordinator? _selectionReadCoordinator;
     private readonly SelectionIconController? _selectionIconController;
+    private readonly Iris.Platform.Windows.Capture.GdiScreenCapturer? _screenCapturer;
 
     private readonly Lock _stopGate = new();
     private Task? _stopTask;
@@ -69,7 +70,8 @@ internal sealed partial class AppBootstrapper
         Iris.Platform.Windows.Selection.CompositeSelectionReader? selectionReader = null,
         Iris.Core.Actions.IActionDispatcher? actionDispatcher = null,
         SelectionReadCoordinator? selectionReadCoordinator = null,
-        SelectionIconController? selectionIconController = null)
+        SelectionIconController? selectionIconController = null,
+        Iris.Platform.Windows.Capture.GdiScreenCapturer? screenCapturer = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -90,6 +92,7 @@ internal sealed partial class AppBootstrapper
         _actionDispatcher = actionDispatcher as ActionDispatcher;
         _selectionReadCoordinator = selectionReadCoordinator;
         _selectionIconController = selectionIconController;
+        _screenCapturer = screenCapturer;
     }
 
     internal static Action<string, string> FatalErrorShower { get; set; } = FatalErrorDialog.Show;
@@ -210,6 +213,7 @@ internal sealed partial class AppBootstrapper
 
     public Task StopAsync()
     {
+        _screenCapturer?.StopAcceptance();
         LogStopping(_logger);
         _actionDispatcher?.StopAcceptance();
         _selectionIconController?.StopAcceptance();
@@ -239,6 +243,16 @@ internal sealed partial class AppBootstrapper
 
     private async Task StopCoreAsync()
     {
+        string? screenFailure = null;
+        if (_screenCapturer != null)
+        {
+            try { await _screenCapturer.StopAsync().ConfigureAwait(false); }
+            catch (Exception ex)
+            {
+                screenFailure = ex is IrisException { Detail: not null } known
+                    ? $"SCREEN[{known.Detail}]" : $"SCREEN:0x{ex.HResult:X8}";
+            }
+        }
         // 1. 先关闭热键/设置重配准入，在 UI 注销/销毁自己的消息窗口并取消待处理动作
         if (_hotkeyCoordinator != null)
         {
@@ -249,6 +263,7 @@ internal sealed partial class AppBootstrapper
             catch (Exception ex)
             {
                 LogHotkeyShutdownFailed(_logger, ex.GetType().Name);
+                if (screenFailure != null) throw new IrisException(ErrorCode.CaptureFailed, ErrorMessages.GetDefault(ErrorCode.CaptureFailed), detail: $"{screenFailure};HOTKEY:0x{ex.HResult:X8}");
                 throw;
             }
         }
@@ -263,6 +278,7 @@ internal sealed partial class AppBootstrapper
             catch (Exception ex)
             {
                 LogCaptureShutdownFailed(_logger, ex.GetType().Name);
+                if (screenFailure != null) throw new IrisException(ErrorCode.CaptureFailed, ErrorMessages.GetDefault(ErrorCode.CaptureFailed), detail: $"{screenFailure};RECORDING:0x{ex.HResult:X8}");
                 throw;
             }
         }
@@ -275,12 +291,14 @@ internal sealed partial class AppBootstrapper
             catch (Exception ex)
             {
                 LogCaptureShutdownFailed(_logger, ex.GetType().Name);
+                if (screenFailure != null) throw new IrisException(ErrorCode.CaptureFailed, ErrorMessages.GetDefault(ErrorCode.CaptureFailed), detail: $"{screenFailure};RECORDING:0x{ex.HResult:X8}");
                 throw;
             }
         }
 
         // Selection Stop includes conditional restoration before stopping its clipboard worker.
         var selectionFailures = new System.Collections.Generic.List<string>();
+        if (screenFailure != null) selectionFailures.Add(screenFailure);
         ErrorCode selectionError = ErrorCode.CaptureFailed;
         if (_selectionIconController != null)
         {

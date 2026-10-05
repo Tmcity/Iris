@@ -43,6 +43,13 @@ public static class PlatformWindowsServiceCollectionExtensions
         services.TryAddSingleton<NativeMouseAdapter>();
         services.TryAddSingleton<IMouseThreadFactory, MouseThreadFactory>();
         services.TryAddSingleton<IMouseSelectionMonitor, MouseSelectionMonitor>();
+        services.TryAddSingleton<IGdiCaptureApi, Win32GdiCaptureApi>();
+        services.TryAddSingleton<NativeGdiCaptureAdapter>();
+        services.TryAddSingleton<IScreenEncoderFactory, WinRtScreenEncoderFactory>();
+        services.TryAddSingleton<ScreenMemoryEncoder>();
+        services.TryAddSingleton<ICaptureThreadFactory, CaptureThreadFactory>();
+        services.TryAddSingleton<GdiScreenCapturer>();
+        services.TryAddSingleton<IScreenCapturer>(provider => provider.GetRequiredService<GdiScreenCapturer>());
         return services;
     }
 }

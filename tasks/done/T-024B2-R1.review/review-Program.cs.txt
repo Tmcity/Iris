@@ -1,0 +1,84 @@
+using Iris.App.Selection;
+using Iris.App.Tests.Selection;
+using Iris.App.Tests.TestSupport;
+using Iris.Core.Errors;
+using Iris.Core.Settings;
+using Iris.Platform.Windows.Selection;
+using System.Reflection;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Interop;
+
+try
+{
+    await MouseInteractionTestScope.Run(async f =>
+    {
+        await f.Mode(MouseSelectionMode.ShowIcon);
+        await f.Controller.StartAsync();
+        f.Position.Result = show => !show;
+        f.Platform.UiaStatus = UiaSelectionStatus.Success;
+        f.Platform.UiaText = "probe cached selection";
+        var failurePublished = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        void Changed(object? sender, MouseSelectionRuntimeSnapshot snapshot)
+        {
+            if (snapshot.Error != null) failurePublished.TrySetResult();
+        }
+        f.Controller.RuntimeChanged += Changed;
+        bool visible;
+        try
+        {
+            await f.Drag(); f.Platform.Time.Advance(TimeSpan.FromMilliseconds(120));
+            await failurePublished.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            await MouseInteractionTestScope.FlushUi();
+            visible = f.Factory.Windows.Any(w => w.IsVisible);
+            Console.WriteLine($"PARTIAL_SHOW nativeShowCalls={f.Icon.Shows} error={f.Controller.Runtime.Error} visibleAfterFailure={visible} canRetry={f.Controller.Runtime.CanRetry}");
+            f.Platform.Time.Advance(TimeSpan.FromMilliseconds(f.Settings.Current.Selection.IconAutoHideMs + 1));
+            await MouseInteractionTestScope.FlushUi();
+            bool visibleAfterDeadline = f.Factory.Windows.Any(w => w.IsVisible);
+            Console.WriteLine($"PARTIAL_SHOW_EXPIRY visibleAfterDeadline={visibleAfterDeadline} hideCalls={f.Icon.Hides}");
+            if (visibleAfterDeadline) Environment.ExitCode = 2;
+        }
+        finally
+        {
+            f.Position.Result = null;
+            f.Controller.RuntimeChanged -= Changed;
+        }
+        var staleWindow = f.Factory.Windows.Last();
+        staleWindow.TranslateButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+        var work = (Task)typeof(SelectionIconController).GetField("_workTask", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(f.Controller)!;
+        await work;
+        bool staleIgnored = f.Provider.Requests.IsEmpty;
+        Console.WriteLine($"FAILED_CANDIDATE_CLICK ignored={staleIgnored}");
+        if (!staleIgnored) Environment.ExitCode = 2;
+        await f.Controller.RetryAsync();
+        f.Platform.UiaText = "fresh selection";
+        var displayed = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        void FreshDisplayed(object? sender, MouseSelectionRuntimeSnapshot snapshot)
+        {
+            if (f.Icon.Shows > 1 && f.Factory.Windows.Any(w => w.IsVisible)) displayed.TrySetResult();
+        }
+        f.Controller.RuntimeChanged += FreshDisplayed;
+        try
+        {
+            await f.Drag(); f.Platform.Time.Advance(TimeSpan.FromMilliseconds(120));
+            await displayed.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            int reads = f.Platform.Runner.TotalStartCalls;
+            f.Factory.Windows.Last(w => w.IsVisible).TranslateButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+            work = (Task)typeof(SelectionIconController).GetField("_workTask", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(f.Controller)!;
+            await work;
+            await f.Provider.Entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            await f.Presenter.ViewModel!.WaitForActiveWorkAsync();
+            bool freshAccepted = f.Provider.Requests.Last() == "fresh selection" && f.Platform.Runner.TotalStartCalls == reads;
+            Console.WriteLine($"FRESH_CANDIDATE_AFTER_RETRY translated={freshAccepted} rereadOnClick={f.Platform.Runner.TotalStartCalls != reads}");
+            if (!freshAccepted) Environment.ExitCode = 2;
+        }
+        finally { f.Controller.RuntimeChanged -= FreshDisplayed; }
+        await f.Controller.StopAsync();
+        bool windowsClosed = f.Factory.Windows.All(w => !w.IsVisible && new WindowInteropHelper(w).Handle == 0);
+        Console.WriteLine($"PARTIAL_SHOW_RETRY windowsClosed={windowsClosed} nativeHandles={f.Mouse.ActiveHandles} threadAlive={f.Mouse.MessageThread?.IsAlive}");
+        if (visible || !windowsClosed || f.Mouse.ActiveHandles != 0 || f.Mouse.MessageThread?.IsAlive == true) Environment.ExitCode = 2;
+    });
+}
+catch (Exception ex) { Console.WriteLine(ex); Environment.ExitCode = 1; }
+finally { await WpfTestRunner.TeardownAsync(); }
+Console.WriteLine("SCOPE actualControllerMonitorCoordinatorCompositeAndWindow=True fakeNativeProcessTimeProvider=True physicalInput=False");

@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.38 · 2026-10-05 · 状态：**已冻结（首期）**
+> 版本：v1.39 · 2026-10-05 · 状态：**已冻结（首期）**
+> 变更记录：v1.39（T-024/B2/R1通过，签发T-025）— SCREEN_CAPTURE.md / CCR-023定稿GDI同线程捕获/预算/拓扑、异步三格式裁剪编码及完整退出；原型Crop改CropAsync。默认配置/包不变，T-026覆盖层与实机/NFR验收后续实施。
 > 变更记录：v1.38（T-024B1 通过，签发 T-024B2）— MOUSE_SELECTION_INTERACTION.md / CCR-022 定稿被动缓存图标、唯一点击/自动翻译 Dispatcher 语义、鼠标设置与运行状态/Toggle及完整退出。ActionContext 增加可选原来源，SelectionSettingsPatch 增加鼠标字段；原构造/JSON/default/包保持，CaptureFailed 文案统一为内容获取失败。
 > 变更记录：v1.37（T-024A 通过，签发 T-024B1）— SELECTION_READ_COORDINATION.md / CCR-021 增加可选原来源约束及 App 单实例读协调，显式请求可取消并完整等待被动读；B1 交付底座/退出，B2 后续图标、缓存点击与鼠标设置。默认配置/包不变，保留既有只读桌面 smoke 的明确测试边界。
 > 变更记录：v1.36（T-023B 通过，签发 T-024A）— MOUSE_SELECTION_MONITOR.md / CCR-020 将未实现的鼠标监控端口定为异步启停、代次事件及完整重试清理，固定获批快照/有界队列与纯手势规则。T-024 拆 A 监控底座与 B 图标/缓存/设置接线，总范围不缩减，默认 MouseMode.Off/包不变。
@@ -335,7 +336,7 @@ if outcome.UsedFallback → Notify(Info, "已使用备用 OCR", ...)（每次会
 4. 用户在任一覆盖窗口内拖拽框选（选区不跨屏）：实时显示选区尺寸（物理像素）；`ShowMagnifier` 时在光标旁显示 8× 放大镜与像素坐标。
 5. 确认：`ConfirmOnMouseUp` 为 true 时松开鼠标即确认，否则按 Enter / 双击确认。取消：Esc，或在无选区时右键（有选区时右键 = 清除选区）。
 6. 选区 < 4×4 物理像素视为误点，忽略。
-7. 返回 `ScreenshotResult(IScreenCapturer.Crop(frame, region), region)`，关闭全部覆盖窗口，恢复之前隐藏的窗口；`CopyImageToClipboard` 时同时复制图片。
+7. 返回 `ScreenshotResult(await IScreenCapturer.CropAsync(frame, region, ImageFormat.Png, cancellationToken), region)`，关闭全部覆盖窗口，恢复之前隐藏的窗口；`CopyImageToClipboard` 时同时复制图片。完整覆盖层/隐藏恢复/复制提交规则由T-026签发，不在T-025提前实现。
 
 ### 6.7 悬浮球（`FloatingBallController` + `FloatingBallWindow`）
 
@@ -836,7 +837,8 @@ CLIPBOARD_SNAPSHOTS.md 为正式规范。内部 ClipboardSnapshotService 在单�
 
 ### 10.7 屏幕抓取
 
-- `GetDC(NULL)` + `BitBlt(SRCCOPY | CAPTUREBLT)` 抓取虚拟桌面（`SM_XVIRTUALSCREEN` 等），通过 `GetDIBits` 取出 32 位 BGRA 数据。
+- 以 SCREEN_CAPTURE.md 为正式规则：同一按需worker线程 GetDC(NULL)、CreateCompatibleDC、top-down 32bpp CreateDIBSection，按已验收显示器物理快照逐屏 BitBlt(SRCCOPY | CAPTUREBLT)，GdiFlush后复制BGRA；空洞为黑且alpha=255。本方案不用仍选入DC的GetDIBits。
+- 单操作准入，检查几何/64Mi像素/256MiB原始及272MiB编码预算；CropAsync后台使用内建WinRT PNG/JPEG/BMP（JPEG质量0.9）。取消/退出完整等待native/编码/清理，失败资源保留原线程重试；App先关闭准入，再排空真实责任，详见正式规范。
 - 显示器信息复用 T-022A 的 MonitorEnumerator / DESKTOP_CONTEXT.md：设备筛选、物理矩形与每屏 GetDpiForWindow，不重复实现旧 GetDpiForMonitor 路径。
 - 已知限制：受 DRM 保护的视频区域会是黑色；HDR 显示器颜色可能偏差（首期接受）。
 

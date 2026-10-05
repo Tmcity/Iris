@@ -4,9 +4,11 @@
 
 ## 当前状态
 
+- **最新用户要求（2026-10-05）**：完成T-025后暂停开发。当前只继续T-025及完成其验收所必需的修正；交付后等待架构师复审，不自行开启T-026或其它工单。架构师也不再自动签发后续任务，直至用户另行要求恢复。
+
 - 项目为 .NET 10 / WPF Windows 常驻翻译工具 Iris，完整目标含输入/剪贴板/划词翻译、截图/OCR、悬浮球、设置/历史/代理与发布，尚未整体完成。
-- 基线为 master / b3ec7eefa25b87f9e3de8e455f243ea7db92947f。T-024B2正常成果保留，当前唯一工单 tasks/current_task.md / T-024B2-R1，仅修实际Show后失败的图标隐藏/候选/期限收尾。
-- 依据当前工单与 MOUSE_SELECTION_INTERACTION.md；独立证据在B2报告第11节及临时 iris-t024b2-independent-review。公开CCR-022/default/包不变，父T-024/B/B2待复审，T-025未开始。
+- 基线为 master / 3a8450e724e6a4bebcb0fd8d20e1a93371e8c237。T-024/B/B2/R1及CCR-022已验收结案，当前唯一工单 tasks/current_task.md / T-025。
+- 依据SCREEN_CAPTURE.md / ARCH v1.39 / CCR-023实施GDI捕获、CropAsync三格式编码、失败重试与App完整退出；只同步CCR-023获批契约，不改默认配置/包，不提前实现T-026覆盖层/OCR/新入口。独立R1证据见tasks/done/T-024B2-R1.md第10节；真实交互/NFR仍待后续验收。
 
 ## 协作与约束
 

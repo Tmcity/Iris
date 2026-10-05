@@ -1,0 +1,3 @@
+F:\Iris\tests\Iris.Platform.Windows.Tests\Capture\GdiScreenCapturerTests.cs(197,56): error CS8604: “void ShouldBeStringTestExtensions.ShouldContain(string actual, string expected, Case caseSensitivity = Case.Insensitive, string? customMessage = null)”中的形参“actual”可能传入 null 引用实参。 [F:\Iris\tests\Iris.Platform.Windows.Tests\Iris.Platform.Windows.Tests.csproj]
+F:\Iris\tests\Iris.Platform.Windows.Tests\Capture\ScreenCaptureTestScope.cs(146,23): error CA1001: 类型“ScreenCaptureTestScope”具有可释放的字段“Native”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\tests\Iris.Platform.Windows.Tests\Iris.Platform.Windows.Tests.csproj]
+生成失败，退出代码: 1。

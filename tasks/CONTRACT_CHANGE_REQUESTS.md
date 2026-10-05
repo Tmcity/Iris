@@ -893,7 +893,7 @@ App internal SelectionReadCoordinator 用原公开 ISelectionTextReader 服务�
 |---|---|
 | 日期 / 批准 | 2026-10-05，Codex 架构师 |
 | 关联 | T-024B2；MOUSE_SELECTION_INTERACTION.md；ARCH v1.38 |
-| 状态 | **已落地，待复审（T-024B2；R1 修正）** |
+| 状态 | **已验收结案（T-024B2-R1，3a8450e，2026-10-05）** |
 
 批准 ActionContext 增加可空 init ExpectedSelectionSource（ForegroundAppInfo），原三参数构造/解构保持；ToString 仅显示 Trigger。SelectionIcon+非空 Payload 明确表示缓存原文，必须带合法原来源；MouseSelection 自动分支必须带原来源且无 Payload，普通热键默认行为保持。点击不再次调用 Reader，不用旧 lease token 创建新 lease。
 
@@ -906,3 +906,17 @@ specs/CONTRACTS.cs 已预置精确声明，由开发同步 Core/实现。App Con
 完整模式/缓存/非激活/副作用/已保存待应用/退出与测试规则见 MOUSE_SELECTION_INTERACTION.md。批准声明不代表用户流程已验收，真实鼠标/窗口内容/输入和 NFR 不在自动化冒称通过。
 
 CCR-022 实施复审补充（2026-10-05）：B2 / b3ec7ee 的获批声明及正常功能保留；独立复审发现部分显示失败后图标未收起，签发仅原范围修复 T-024B2-R1。状态仍为已落地待复审，不新增公共契约或配置/包。详见 tasks/done/T-024B2.md 第11节。
+
+## CCR-023：屏幕帧安全摘要与异步裁剪编码
+
+| 字段 | 内容 |
+|---|---|
+| 日期 / 批准 | 2026-10-05，Codex 架构师 |
+| 关联 | T-025；SCREEN_CAPTURE.md；ARCH v1.39 |
+| 状态 | **已落地，待复审（T-025）** |
+
+IScreenCapturer 当前尚无实现/调用方；批准将同步 Crop 替换为 Task<ImageData> CropAsync(CapturedFrame frame, PixelRect region, ImageFormat format = ImageFormat.Png, CancellationToken cancellationToken = default)，避免WinRT异步编码被同步阻塞。CaptureVirtualScreenAsync原签名、CapturedFrame原构造/字段/解构、ImageData与三种格式保持。
+
+CapturedFrame新增固定安全ToString及top-down/opaque alpha、物理Stride、输入缓冲调用期不可修改等注释。端口注释固定单请求准入、忙时CaptureFailed、取消完整等待、预算和交集语义；无新增公共生命周期接口，内部Stop/Retry由同一Platform实例及App组合根管理。具体常量、错误分类与保留资源规则见SCREEN_CAPTURE.md。
+
+specs/CONTRACTS.cs已预置精确声明，由T-025同步Core和实现。没有新增默认配置/JSON/schema/包；不改其它已验收契约或平台能力。T-026后续截图服务草图同步await CropAsync，尚不实施UI/隐藏恢复/OCR/入口。

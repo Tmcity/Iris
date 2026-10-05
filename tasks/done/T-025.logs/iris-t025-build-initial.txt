@@ -1,0 +1,10 @@
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+F:\Iris\src\Iris.Platform.Windows\Capture\WinRtScreenEncoderIo.cs(13,23): error CA1001: 类型“WinRtScreenEncoderIo”具有可释放的字段“_stream”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj]
+
+生成失败。
+
+F:\Iris\src\Iris.Platform.Windows\Capture\WinRtScreenEncoderIo.cs(13,23): error CA1001: 类型“WinRtScreenEncoderIo”具有可释放的字段“_stream”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj]
+    0 个警告
+    1 个错误
+
+已用时间 00:00:04.15

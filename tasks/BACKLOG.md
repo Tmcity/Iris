@@ -245,11 +245,11 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 | T-023 | ☑ | 划词入口与基础设置总单：A / B 已验收 | T-022, T-018 | — |
 | T-023A | ☑ | SelectionTranslateHandler、带身份通知与既有快捷键开放（3bbd009 已验收） | T-022, T-015 | — |
 | T-023B | ☑ | 划词基础设置增量联合提交、设置页与划词快捷键编辑行（141abec 已验收） | T-023A, T-020B | — |
-| T-024 | ▶ | 鼠标划词总单：A 监控底座 / B 图标、缓存与设置接线 | T-023 | — |
+| T-024 | ☑ | 鼠标划词总单：A 监控底座 / B 图标、缓存与设置接线 | T-023 | — |
 | T-024A | ☑ | MouseSelectionMonitor、纯 GestureRecognizer、事件代次与完整启停（ac4ff58 已验收） | T-023, T-022A | — |
-| T-024B | ▶ | 图标与接线总单：B1 来源/读协调 / B2 缓存图标/自动翻译/鼠标设置 | T-024A, T-022C2, T-023B | — |
+| T-024B | ☑ | 图标与接线总单：B1 来源/读协调 / B2 缓存图标/自动翻译/鼠标设置 | T-024A, T-022C2, T-023B | — |
 | T-024B1 | ☑ | 原来源约束、被动与显式读取协调、App 端口/退出接线（29bc38e 已验收） | T-024A, T-022C2 | — |
-| T-024B2 | ▶ | 非激活图标、缓存点击、自动翻译、鼠标设置与 Toggle | T-024B1, T-023B | — |
+| T-024B2 | ☑ | 非激活图标、缓存点击、自动翻译、鼠标设置与 Toggle | T-024B1, T-023B | — |
 
 **T-021** 已按 KEYBOARD_SIMULATION.md / ARCH v1.30 签发，基线 361e2c1。实现实际 KeyboardSimulator + fake native/time 回归：起始释放等待、目标复核、单事件确认、失败释放责任与 Stop；不执行真实输入，不接选区业务入口。含 C20B-1 仅四个 R4 测试失败收尾维护；不重复已验收剪贴板服务。公开契约与默认配置不变，由 Codex 直接在 Antigravity 下达。
 
@@ -315,7 +315,7 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
-| T-025 | ☐ | GdiScreenCapturer（含 Crop；MonitorEnumerator 已拆至 T-022A） | T-022A | 1d |
+| T-025 | ▶ | GdiScreenCapturer、CropAsync 三格式编码与完整退出（MonitorEnumerator 已拆至 T-022A） | T-022A, T-024 | 1d |
 | T-026 | ☐ | ScreenshotOverlayWindow + ScreenshotService | T-025 | 2.5d |
 | T-027 | ☐ | WinRtImagePreprocessor | T-025 | 1d |
 | T-028 | ☐ | 百度 OCR Provider（Token 缓存、四种模式、错误映射） | T-008, T-004 | 1.5d |
@@ -326,7 +326,7 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 
 > T-027/T-028 可以与 T-026 并行。
 
-**T-025** 验收：多显示器（含负坐标、混合 DPI）下 `VirtualBounds` 与各显示器 Bounds 正确；Crop 的交集计算有单元测试；单张 4K 屏抓取耗时 ≤ 60 ms。
+**T-025** 按 SCREEN_CAPTURE.md / ARCH v1.39 / CCR-023 签发：同线程 GDI 资源、物理快照/预算、CropAsync PNG/JPEG/BMP、取消/清理重试与 App 完整退出；先以 actual service + fake OS 和真实内存编码自动验证。真实多屏/混合 DPI 画面对齐和单张4K抓取≤60ms仍为后续实机验收，不能用合成测试宣称完成；不提前做T-026覆盖层。
 **T-026** 交付 ARCH §6.6。验收：热键到覆盖层可见 ≤ 150 ms；每块屏幕的遮罩和选区都与实际画面对齐（混合 DPI）；Esc / 右键取消返回 null；放大镜显示正确；截图前 Iris 窗口被隐藏，截图后恢复。
 **T-027** 交付 CONTRACTS 中 `IImagePreprocessor` 注释描述的全部规则。验收：放大、缩小、格式转换、JPEG 质量降级、无法满足约束时抛 ImageTooLarge、已满足约束时返回同一实例。
 **T-028** 交付 ARCH §9.3。验收（MockHttp）：token 缓存与过期；并发获取 token 时只发出一次请求；110/111 刷新后只重试一次；错误码映射表每一行；language_type 映射；含位置版本的 Bounds 解析；段落合并；TestAsync 只请求 token。
@@ -384,3 +384,5 @@ T-030 签发前须按 PROVIDER_REGISTRY.md 将 OCR 注册表原型同步为租�
 | ARM64 构建 | 在 build 脚本中增加 RID |
 
 **T-024B2 首次复审（2026-10-05）** — b3ec7eefa25b87f9e3de8e455f243ea7db92947f 未通过，仅部分显示失败收尾待修。独立Release零警告/错误，全量2415（2413成功/2环境跳过），14张最终图像指纹/布局通过；真实Window已Show后第二次定位失败，失效图标仍可见，超时也不隐藏，独立探针可重试/完整退出。签发T-024B2-R1，保留其它已确认成果，证据见B2第11节；父T-024/B/B2保持▶，CCR-022待复审，不开始T-025，不推送。
+
+**T-024 最终结案 / T-025 签发（2026-10-05）** — R1 `3a8450e724e6a4bebcb0fd8d20e1a93371e8c237` 独立验收通过，Release零警告/错误，全量2426（2424成功/2环境跳过）；失败显示即时隐藏、旧点击无效、新候选正常且实际HWND/线程归零。T-024/B/B2与CCR-022结案，真实交互/NFR待后续验收。下一唯一工单T-025 / SCREEN_CAPTURE.md / CCR-023，直接协调开发会话，不推送。

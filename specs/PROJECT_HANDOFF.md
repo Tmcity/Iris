@@ -1,5 +1,17 @@
 # Iris 架构师接手记录
 
+**最新用户暂停安排（2026-10-05）**：用户明确要求“T-025完成后先暂停开发，不要再推进了”。仅继续完成当前T-025交付及独立复审；如有本单缺陷，仅处理完成本单必需的修正。T-025验收完成后暂停目标，不签发T-026或其它后续工单，不继续后续设计/开发。下文“主动下达下一单”和T-026候选均服从此安排；已有未签发准备稿保留，不实施。此为完成T-025后的条件暂停，不中断当前已授权实施。
+
+T-025已于2026-10-05正式签发，以下历史候选稿及旧状态均服从“当前唯一有效状态”。实际下达确认另记；不要因旧T-024进行中记录重复下单。
+
+**T-025 实际下达记录（2026-10-05）**：消息 `01a10bae-5757-7993-9490-cb36679bce0d` 已进入指定开发会话，执行轮 `01a10bae-781c-7ce3-8c61-a3b06024b507`。开发已确认完整读取工单/SCREEN_CAPTURE.md/ARCH v1.39/CCR-023，并开始GDI捕获、异步三格式编码与退出接线；新增测试仅fake OS/合成像素，保留现有架构师文档和复审证据。当前T-025进行中，未交付/未验收，不重复发送。45秒send等待超时没有取消任务。T-026仍未签发，准备事实在临时iris-t026-preparation.md（含DwmFlush只同步调用进程、不flush整个session的官方限制），不能提前实现。
+
+复审准备补充：临时 `iris-t025-independent-review/CropChecks.cs` 是尚未编译/执行的负坐标、半开交集、padded stride与真实三格式解码验证逻辑；最终必须接actual capturer + fake OS，不能默认DI真截屏，也不把准备稿当证据。T-026候选补证已实际运行 `iris-t026-suppression-observation`（3a8450e产物，退出0）：现有BeginCaptureSuppression仅抑制失焦撤销，同operation的新TryShow仍可重新显示；普通Hide会撤销旧发布，最终STA已退出。它是未来隐藏/恢复设计的事实依据，不是T-025或既有翻译功能的返工要求；不授权提前改Presenter。完整输出见临时T-026准备文档。
+
+T-025草稿补证（非正式验收）：`iris-t025-retention-observation/quiescent-result.log`已用4×3原始帧/1×1实际编码验证调用方放弃后均可GC回收，句柄0且Stop后线程退出；最初同步GC的短暂引用不是缓存缺陷，必须先让完成回调展开。`iris-t025-native-cancel-observation/result.log`已确认caller未取消时底层自行取消映射安全CaptureFailed、原异常标记不泄露且资源释放。各目录assemblies.json绑定实际草稿DLL；源码已增加_active清除、worker委托捕获清空及cancelled()分类，不按旧草稿线索返工。正式独立程序现含Program/CropChecks/LifecycleChecks/CaptureChecks及prepare.py，仍未编译/执行，待最终交付重读接口并刷新产物。T-026更完整候选见临时iris-t026-design-candidate.md，尚未签发。
+
+上述T-025正式独立程序后已补RetentionChecks，并完成准备性编译（prepare-build.log，零警告/错误），尚未运行；precommit-manifest仅为未提交代码记录。正式交付后刷新DLL再执行，不把编译当验收。按最新用户要求，本单验收后暂停，不再推进T-026。
+
 历史探针准备（现已执行并复现，最终证据见第11节）：T-024B2 独立探针模板在系统临时目录 iris-t024b2-independent-review，尚未编译/执行。prepare.py 在最终交付后复制现有服务链 fixture/外部 fake，并仅给外部 placement 增加“Show后的第二次定位失败”开关；Program.cs 使用实际Controller/monitor/Coordinator/Composite/Window观察失败后的可见性与重试/停止，不把准备稿当产品反例。最终fixture如变动须先适配，保持产品状态机不替换。
 
 历史 T-024B2 复审准备（最终只确认下述部分显示失败为阻断，其余不据草稿返工）：系统临时 iris-t024b2-review-preparation.md 记录当前草稿中待最终复核的部分显示失败、取消与dispatch完成、多清理错误、timer持有及视觉失效场景。尚未运行产品反例，不能据草稿直接判返工；完整交付后重读最终代码并做实际Window/native边界验证。
@@ -30,7 +42,7 @@ T-025 准备（T-024B2 实施期间，未签发）：系统临时目录 iris-t02
 
 **T-023A 实际下达记录（2026-10-05）**：队列消息 01a10960-04a3-7b93-b8d3-07237eed5322 已进入指定开发会话，执行轮 01a10960-1b4d-71b3-8a64-3578f5a0ceb4。开发已确认读取正式工单，并说明使用实际 UI 通知接受点与共享发布/退出屏障；正在实施，尚未交付或验收。不要因 bridge 的 notLoaded/interrupted 暂态或等待超时重发。下一阶段准备稿 iris-t023b-preparation.md、iris-t024-preparation.md 及官方鼠标 API 原文均在系统临时目录，未签发。
 
-**当前唯一有效状态（2026-10-05）**：HEAD b3ec7eefa25b87f9e3de8e455f243ea7db92947f，T-024B2 独立复审未通过，仅部分显示失败收尾待修。独立Release零警告/错误，全量2415（2413成功/2环境跳过）；14张归档图像指纹/布局确认。实际Controller/Window探针复现Show后的第二次定位失败留下可见失效图标，超过期限仍visible=True/hideCalls=0；随后Retry/Stop正常回收。正式提交与预提交指纹一致，正式build后重跑仍复现，证据目录 iris-t024b2-independent-review，B2报告第11节。当前唯一工单 tasks/current_task.md / T-024B2-R1，只修失败显示/缓存timer责任，保留其它成果；CCR-022及父T-024/B/B2不结案，不开始T-025。直接协调开发会话，保留本轮架构师文档随修正提交，.codex/未跟踪，不推送。
+**当前唯一有效状态（2026-10-05）**：HEAD 3a8450e724e6a4bebcb0fd8d20e1a93371e8c237，T-024/B/B2/R1与CCR-022独立验收结案。正式提交独立Release零警告/错误，全量2426（2424成功/2环境跳过）；原第二次定位失败/期限/旧点击/新候选反例通过，另确认实际HWND=0、monitor句柄=0/线程退出。证据tasks/done/T-024B2-R1.md第10节及T-024B2-R1.review。当前唯一工单T-025 / SCREEN_CAPTURE.md / ARCH v1.39 / CCR-023，开发范围GDI物理原始帧、CropAsync三格式/预算/取消/完整退出。T-026覆盖层、真实截屏/混合DPI/NFR未开始；直接协调开发会话，不推送；本轮架构师文档由下一工单保留提交，.codex/原样未跟踪。
 
 **当前协作方式（2026-10-05 最新用户指令）：直接协调 Codex 开发会话。** Gemini 额度耗尽，用户将开发职责交给会话 01a1088c-7a7f-7db3-a153-7fae5cfedf4d，由本架构师直接说明角色、下达工单并读取交付，用户不再传话。使用用户提供的 .codex/codex_threads.py 与官方 App Server；运行中追加要求需确认插队生效。旧手动转交/Antigravity 控制记录均属历史。角色说明已被开发会话确认（turn 01a10897-8592-7e32-b35a-3595727df562 completed），R6 已在 turn 01a10899-0c31-71b1-88cc-818fb3571432 completed 后交付并通过独立复审，C1 与 R1 已交付并通过独立复审（最后交付 turn 01a108dc-ba80-73b3-98a3-2af688007ae9 completed）；C2 已在 turn 01a108f2-da8d-7653-a3cb-fc17f0e9d0b9 completed 后交付；首次复审已完成，接下来直接下达 R1。详细职责见 specs/DEVELOPER_HANDOFF.md。不推送。
 
