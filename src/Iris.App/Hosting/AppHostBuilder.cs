@@ -2,6 +2,7 @@ using System;
 using Iris.App.Services;
 using Iris.App.Tray;
 using Iris.Core.Actions;
+using Iris.Core.Platform;
 using Iris.Core.DependencyInjection;
 using Iris.Core.Presentation;
 using Iris.Core.Storage;
@@ -9,6 +10,7 @@ using Iris.Infrastructure.DependencyInjection;
 using Iris.Platform.Windows.DependencyInjection;
 using Iris.Providers.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Core;
@@ -76,6 +78,8 @@ internal static class AppHostBuilder
         builder.Services.AddSingleton<IActionDispatcher, ActionDispatcher>();
         builder.Services.AddSingleton<HotkeyCoordinator>();
         builder.Services.AddSingleton<HotkeyRecordingCoordinator>();
+        builder.Services.AddSingleton<SelectionReadCoordinator>();
+        builder.Services.Replace(ServiceDescriptor.Singleton<ISelectionTextReader>(sp => sp.GetRequiredService<SelectionReadCoordinator>()));
 
         // 设置窗口及编辑协调服务
         builder.Services.AddSingleton<Iris.App.Services.ISettingsApplyReceiptManager, Iris.App.Services.SettingsApplyReceiptManager>();

@@ -1,5 +1,6 @@
 using System.IO;
 using Iris.App.Hosting;
+using Iris.App.Services;
 using Iris.App.Tests.TestSupport;
 using Iris.App.Translation;
 using Iris.Core.Actions;
@@ -115,12 +116,13 @@ public sealed class SelectionEntrypointIntegrationTests
         {
             var provider = host.Services;
             provider.GetServices<IActionHandler>().OfType<SelectionTranslateHandler>().Count().ShouldBe(1);
-            provider.GetRequiredService<ISelectionTextReader>().ShouldBeSameAs(provider.GetRequiredService<CompositeSelectionReader>());
+            provider.GetRequiredService<ISelectionTextReader>().ShouldBeSameAs(provider.GetRequiredService<SelectionReadCoordinator>());
             provider.GetRequiredService<ITranslateWindowPresenter>().ShouldBeSameAs(provider.GetRequiredService<TranslateWindowPresenter>());
             native.ReceivedCalls().ShouldBeEmpty(); keys.ReceivedCalls().ShouldBeEmpty(); desktop.ReceivedCalls().ShouldBeEmpty();
         }
         finally
         {
+            await host.Services.GetRequiredService<SelectionReadCoordinator>().DisposeAsync();
             await host.Services.GetRequiredService<CompositeSelectionReader>().DisposeAsync();
             await host.Services.GetRequiredService<TranslateWindowPresenter>().ShutdownAsync();
             host.Dispose();

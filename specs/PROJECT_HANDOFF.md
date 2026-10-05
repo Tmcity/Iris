@@ -1,10 +1,16 @@
 # Iris 架构师接手记录
 
+T-024B1 独立复审准备：系统临时目录 iris-t024b1-independent-review 已准备实际 Coordinator→Composite→C1/Keyboard/UIA 探针，尚未编译或运行。交付后执行 prepare.py 刷新实际 App DLL 引用及外部 fake；Program.cs 覆盖 HWND/PID/名字失配与标题/大小写对照，以及被动文本读取/恢复 Close 两道门闩下的显式抢占和待办取消，预期零提前 UIA、原剪贴板恢复。不得把准备稿当作通过证据。
+
+全量回归范围澄清（2026-10-05，T-024A 归档审计）：DesktopContextNativeReadOnlyTests 自 3147224 / T-022A 起已存在且已验收，实际调用 GetCursorPosition/GetMonitors/GetMonitorAt，T-022A 归档也明确记录光标用例通过。后续全量测试保留这两项既有只读 smoke；不得把“新增测试只用 fake”扩大成“全套没有任何 native 桌面查询”。它们不读取真实前台进程/窗口标题、选区或剪贴板，不输入/装 hook；新增鼠标测试禁真实交互仍保持。此前未验证真实应用/桌面兼容性的声明指功能端到端，不等于没有运行该只读回归。具体边界已同步 MOUSE_SELECTION_MONITOR.md §6 与 DEVELOPER_HANDOFF。
+
 历史复审准备（T-023B 实施期间，现已完成，最终结果见第 8 节）：系统临时目录 `iris-t023b-ui-review` 已准备真实 WPF/同款主题的离屏渲染与非法超时文本验证，尚未执行，须交付后刷新引用并按实际字段接线核对；`iris-t023b-independent-review` 为实际 Core 协调器列表捕获/冲突/历史进程名语义探针，同样尚未运行。开发观察可用临时 `iris_watch_dev_compact.py <turnId>`，仅返回新消息和真实最新命令摘要，绝不据游标文件推断完成；旧 watcher 仍可使用。
 
 历史 T-023B 补充检查线索（最终已修复并通过实际产品验证）：首次 App 定向日志 iris-t023b-ui1.log 为 14 项（6 成功/8 失败），开发正在修新页面保存前绑定刷新问题，尚未交付。架构师独立框架探针 iris-binding-observation/result.log 输出 `WPF_LOSTFOCUS before=731 pending=True after=400 source=400 inputPreserved=False`，证明 LostFocus 待提交文本可被源 PropertyChanged(null) 覆盖；没有加载产品程序集或显示窗口。实际产品尚未复现，不能据此直接判定最终 B 失败。已在 iris-t023b-ui-review/Program.cs 加入两个真实 TextBox 的 pending 值遇无关 Changed 更新检查，待最终交付后执行；如果实现已修复则通过，不重复返工。
 
 > 2026-10-05 更新；由 Codex 接替 Claude Code 的架构师职责。当前状态以 `tasks/BACKLOG.md` 与 `tasks/current_task.md` 为准；本文件记录交接事实与后续注意事项。
+
+**T-024B1 实际下达记录（2026-10-05）**：消息 01a10abb-dbb9-7bf1-a3bd-b612c41c8e43 已进入指定开发会话，执行轮 01a10abc-01ce-7e63-881b-85be61fc4e75。开发确认开始读取工单/协调规范并实施，同时确认全量保留两项既有只读桌面回归、新增测试使用 fake 外部边界。B1 正在进行，未交付/未验收，不重复下发。B2 的候选方案在系统临时目录 iris-t024b-design-preparation.md；其中 ActionContext、缓存/图标、自动模式、鼠标设置与 Toggle 尚未签发。
 
 **T-024A 实际下达记录（2026-10-05）**：队列消息 01a10a93-944b-7363-8122-e609dc71a494 已进入指定开发会话，执行轮 01a10a93-b94d-7413-8c5a-a9936c347776；开发已确认完整读取当前工单/鼠标规范并按 A 范围实施。正在进行，未交付/未验收，不重复下发。原临时 T-024A 候选稿被已签发 MOUSE_SELECTION_MONITOR.md / CCR-020 取代；B 的缓存来源/操作移交仍需后续正式定稿。
 
@@ -12,7 +18,7 @@
 
 **T-023A 实际下达记录（2026-10-05）**：队列消息 01a10960-04a3-7b93-b8d3-07237eed5322 已进入指定开发会话，执行轮 01a10960-1b4d-71b3-8a64-3578f5a0ceb4。开发已确认读取正式工单，并说明使用实际 UI 通知接受点与共享发布/退出屏障；正在实施，尚未交付或验收。不要因 bridge 的 notLoaded/interrupted 暂态或等待超时重发。下一阶段准备稿 iris-t023b-preparation.md、iris-t024-preparation.md 及官方鼠标 API 原文均在系统临时目录，未签发。
 
-**当前唯一有效状态（2026-10-05）**：HEAD 141abec5920588dba371d1d6495077c3a7b37ed7，T-023B/父 T-023 及 CCR-019 独立验收结案。Release 零警告/错误，全量 2201（2199 成功/2 error=183 跳过）；实际 Core 和双主题/双尺寸 WPF 输入探针通过，归档八张图已查看。根辅助程序首次消息循环未退出已记录并修正，最终 helper 均退出0，无产品改动；详见 T-023B 第 8 节。当前唯一工单 tasks/current_task.md / T-024A，按 MOUSE_SELECTION_MONITOR.md / ARCH v1.36 / CCR-020 实施异步鼠标监控、代次事件、纯手势及完整清理；specs 预置获批端口，由开发同步 Core。B 图标/缓存/来源/设置尚未签发；T-025 未开始。直接协调开发会话，不推送，.codex/ 原样未跟踪，架构师本轮文档随单保留提交。真实桌面/物理输入/性能仍未验证。
+**当前唯一有效状态（2026-10-05）**：HEAD ac4ff5886296d29ce445bff59534cc9eec32fcb0，T-024A 与 CCR-020 已独立验收结案；Release 零警告/错误，全量 2313（2311 成功/2 error=183 跳过），实际 monitor/adapter/recognizer 六组独立探针通过，详细 A 报告第 9 节。两项既有 T-022A 只读 cursor/monitor smoke 已明确继续纳入全量，新增真实 hook/交互仍禁止。当前唯一工单 tasks/current_task.md / T-024B1，按 SELECTION_READ_COORDINATION.md / ARCH v1.37 / CCR-021 实施 ExpectedSource、App 被动/显式读取协调和退出；specs 已预置批准声明，开发同步 Core。B2 图标/缓存/自动翻译/鼠标设置未开始，候选准备 iris-t024b-design-preparation.md 在系统临时目录。父 T-024/B/B1 为 ▶；直接协调开发会话，不推送，.codex/ 未跟踪保留，架构师文档随单提交。真实鼠标/兼容性/NFR 未验证。
 
 **当前协作方式（2026-10-05 最新用户指令）：直接协调 Codex 开发会话。** Gemini 额度耗尽，用户将开发职责交给会话 01a1088c-7a7f-7db3-a153-7fae5cfedf4d，由本架构师直接说明角色、下达工单并读取交付，用户不再传话。使用用户提供的 .codex/codex_threads.py 与官方 App Server；运行中追加要求需确认插队生效。旧手动转交/Antigravity 控制记录均属历史。角色说明已被开发会话确认（turn 01a10897-8592-7e32-b35a-3595727df562 completed），R6 已在 turn 01a10899-0c31-71b1-88cc-818fb3571432 completed 后交付并通过独立复审，C1 与 R1 已交付并通过独立复审（最后交付 turn 01a108dc-ba80-73b3-98a3-2af688007ae9 completed）；C2 已在 turn 01a108f2-da8d-7653-a3cb-fc17f0e9d0b9 completed 后交付；首次复审已完成，接下来直接下达 R1。详细职责见 specs/DEVELOPER_HANDOFF.md。不推送。
 

@@ -3,6 +3,7 @@
     <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
     <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <UseWPF>true</UseWPF>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,5 +25,15 @@
 
   <ItemGroup>
     <Using Include="Xunit" />
+    <Using Include="System.IO" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Iris.Platform.Windows.Tests\Selection\SelectionTestScope.cs" Link="Selection\Boundaries\SelectionTestScope.cs" />
+    <Compile Include="..\Iris.Platform.Windows.Tests\Selection\SelectionTimeProvider.cs" Link="Selection\Boundaries\SelectionTimeProvider.cs" />
+    <Compile Include="..\Iris.Platform.Windows.Tests\Selection\FakeUiaTestAdapters.cs" Link="Selection\Boundaries\FakeUiaTestAdapters.cs" />
+    <Compile Include="..\Iris.Platform.Windows.Tests\Selection\FakeNativeKeyboardInputAdapter.cs" Link="Selection\Boundaries\FakeNativeKeyboardInputAdapter.cs" />
+    <Compile Include="..\Iris.Platform.Windows.Tests\Selection\FakeCopySafetyNative.cs" Link="Selection\Boundaries\FakeCopySafetyNative.cs" />
+    <Compile Include="..\Iris.Platform.Windows.Tests\Clipboard\TestSupport\FakeClipboardSnapshotNative.cs" Link="Selection\Boundaries\FakeClipboardSnapshotNative.cs" />
   </ItemGroup>
 </Project>

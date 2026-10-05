@@ -1,0 +1,8 @@
+F:\Iris\tests\Iris.Platform.Windows.Tests\Clipboard\TestSupport\FakeClipboardSnapshotNative.cs(97,77): error CS0246: 未能找到类型或命名空间名“IOException”(是否缺少 using 指令或程序集引用?) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.Platform.Windows.Tests\Clipboard\TestSupport\FakeClipboardSnapshotNative.cs(124,42): error CS0246: 未能找到类型或命名空间名“IOException”(是否缺少 using 指令或程序集引用?) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.Platform.Windows.Tests\Clipboard\TestSupport\FakeClipboardSnapshotNative.cs(130,40): error CS0246: 未能找到类型或命名空间名“IOException”(是否缺少 using 指令或程序集引用?) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.Platform.Windows.Tests\Clipboard\TestSupport\FakeClipboardSnapshotNative.cs(133,63): error CS0246: 未能找到类型或命名空间名“IOException”(是否缺少 using 指令或程序集引用?) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.Platform.Windows.Tests\Clipboard\TestSupport\FakeClipboardSnapshotNative.cs(136,38): error CS0246: 未能找到类型或命名空间名“IOException”(是否缺少 using 指令或程序集引用?) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Workflows\SelectionEntrypointIntegrationTests.cs(118,108): error CS0246: 未能找到类型或命名空间名“SelectionReadCoordinator”(是否缺少 using 指令或程序集引用?) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Workflows\SelectionEntrypointIntegrationTests.cs(124,52): error CS0246: 未能找到类型或命名空间名“SelectionReadCoordinator”(是否缺少 using 指令或程序集引用?) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+生成失败，退出代码: 1。

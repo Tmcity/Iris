@@ -25,7 +25,7 @@ internal sealed class CompositeSelectionReader(
 
     public Task<SelectionReadResult?> ReadAsync(SelectionReadOptions options, CancellationToken cancellationToken)
     {
-        var frozen = Freeze(options);
+        var frozen = SelectionReadOptionsSnapshot.Freeze(options);
         cancellationToken.ThrowIfCancellationRequested();
         lock (_gate)
         {
@@ -37,17 +37,6 @@ internal sealed class CompositeSelectionReader(
             _used = true;
             return _readTask = Task.Run(() => ReadCoreAsync(op), CancellationToken.None);
         }
-    }
-
-    private static SelectionReadOptions Freeze(SelectionReadOptions options)
-    {
-        if (options?.Order == null || options.ClipboardUnsafeProcesses == null || options.ClipboardTimeoutMs is < 100 or > 2000)
-            throw new IrisException(ErrorCode.InvalidArgument, "SELECTION_OPTIONS_INVALID");
-        var order = options.Order.ToArray();
-        var excluded = options.ClipboardUnsafeProcesses.ToArray();
-        if (order.Any(method => method is not SelectionReadMethod.UIAutomation and not SelectionReadMethod.Clipboard) || excluded.Any(name => name == null))
-            throw new IrisException(ErrorCode.InvalidArgument, "SELECTION_OPTIONS_INVALID");
-        return new(order.Distinct().ToArray(), options.RestoreClipboard, options.ClipboardTimeoutMs, excluded);
     }
 
     private async Task<SelectionReadResult?> ReadCoreAsync(Operation op)
@@ -65,7 +54,7 @@ internal sealed class CompositeSelectionReader(
             if (op.Options.Order.Count != 0)
             {
                 op.Source = CaptureSource();
-                if (IsConfirmedSource(op.Source))
+                if ((op.Options.ExpectedSource == null || SelectionReadOptionsSnapshot.Matches(op.Source, op.Options.ExpectedSource)) && IsConfirmedSource(op.Source))
                     result = await ReadMethodsAsync(op, linked.Token).ConfigureAwait(false);
             }
         }

@@ -1,5 +1,7 @@
 # 选区组合读取、复制安全与退出
 
+> T-024B1 / ARCH v1.37 补充：原来源 ExpectedSource 与 App 被动/显式读协调以 SELECTION_READ_COORDINATION.md / CCR-021 为准。null 默认行为、C2 事务/清理不变；App 端口可由协调器包装同一 Composite。此补充不开放图标/鼠标业务入口。
+
 > 2026-10-05，Codex；T-022C2 / ARCH v1.33 正式规范。T-022B 与 T-022C1/R1 已验收。复用 UIA_SELECTION_READING.md、CLIPBOARD_SNAPSHOTS.md 和 KEYBOARD_SIMULATION.md；本单完成 C 的组合闭环，T-023 才开放 Handler/UI。
 
 ## 1. 结构与公开语义

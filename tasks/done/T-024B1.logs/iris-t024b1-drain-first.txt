@@ -1,0 +1,44 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Selection.SelectionCoordinationDrainTests.Explicit_WaitsLateUiaStartupDisposalAndCancellationCallback(outcome: "read") (95ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.AggregateException : One or more errors occurred. (cancellationThread
+      should not be
+  4
+      but was) (A task was canceled.)
+  ---- Shouldly.ShouldAssertException : cancellationThread
+      should not be
+  4
+      but was
+  ---- System.Threading.Tasks.TaskCanceledException : A task was canceled.
+    在 Iris.Platform.Windows.Tests.Selection.SelectionTestScope.Run(Func`2 body, SelectionTestScope existing) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\SelectionTestScope.cs:127
+    --- End of stack trace from previous location ---
+    ----- Inner Stack Trace #1 (Shouldly.ShouldAssertException) -----
+    在 Iris.App.Tests.Selection.SelectionCoordinationDrainTests.<>c__DisplayClass1_0.<<Explicit_WaitsLateUiaStartupDisposalAndCancellationCallback>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\SelectionCoordinationDrainTests.cs:55
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Selection.SelectionCoordinationDrainTests.<>c__DisplayClass1_0.<<Explicit_WaitsLateUiaStartupDisposalAndCancellationCallback>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\SelectionCoordinationDrainTests.cs:78
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Selection.SelectionCoordinatorTestScope.<>c__DisplayClass0_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\SelectionCoordinatorTestScope.cs:15
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Selection.SelectionCoordinatorTestScope.<>c__DisplayClass0_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\SelectionCoordinatorTestScope.cs:24
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Platform.Windows.Tests.Selection.SelectionTestScope.Run(Func`2 body, SelectionTestScope existing) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\SelectionTestScope.cs:102
+    ----- Inner Stack Trace #2 (System.Threading.Tasks.TaskCanceledException) -----
+    在 Iris.Platform.Windows.Tests.Selection.SelectionTestScope.Run(Func`2 body, SelectionTestScope existing) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\SelectionTestScope.cs:113
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (2s 423ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 6
+  失败: 1
+  成功: 5
+  已跳过: 0
+  持续时间: 2s 771ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

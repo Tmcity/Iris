@@ -863,7 +863,7 @@ Selection-only 不触碰凭据/Provider 观察者/回执配额或 native 读取�
 |---|---|
 | 日期 / 批准 | 2026-10-05，Codex 架构师 |
 | 关联 | T-024A；MOUSE_SELECTION_MONITOR.md；ARCH v1.36 |
-| 状态 | **已落地，待复审（T-024A）** |
+| 状态 | **已验收结案（T-024A，ac4ff58，2026-10-05）** |
 
 原 IMouseSelectionMonitor 同步 Start/Stop 尚无生产实现或消费者，不能表达 UI 非阻塞、迟到安装和完整退出。批准替换为 StartAsync(options, CancellationToken=default)、不可放弃的 StopAsync()，实现 IAsyncDisposable 并保留受约束的同步 IDisposable。新增 Generation 线程安全快照；SelectionGestureEventArgs 增加 init Generation，原构造/数据字段保留；MouseDown 使用 MouseSelectionInputEventArgs(position,generation)，新增 Invalidated 及 MouseSelectionInvalidatedEventArgs(generation, ErrorInfo?=null)。各参数的 ToString 安全化。
 
@@ -872,3 +872,17 @@ specs/CONTRACTS.cs 已预置精确声明，本单开发同步 Core 并实现。�
 明确批准 button 元数据的有界非消息式查询，保持 hook 无进程路径/标题/UI/选区/订阅者/日志 I/O。A 不接 App Controller、不读选区；默认 MouseMode.Off、持久化 DTO/JSON/包不变。B 后续另行定稿缓存/来源/意图移交与鼠标设置，不能用 A 端口同步冒称完整鼠标功能验收。
 
 正式规范引用的微软线程/卸载/事件/DPI/cursor 文档已由架构师实际读取；另核查 GetSystemMetricsForDpi 的 dpi 缩放参数及 GetAsyncKeyState 最高位表示当前按下，不采用最低位的“自上次查询以来”状态。文档核查不代替真实 hook/NFR 验证。契约预置本身尚未执行实现验收，由本单同步后统一测试。
+
+## CCR-021：选区请求的可选原来源约束
+
+| 字段 | 内容 |
+|---|---|
+| 日期 / 批准 | 2026-10-05，Codex 架构师 |
+| 关联 | T-024B1；SELECTION_READ_COORDINATION.md；ARCH v1.37 |
+| 状态 | **已落地，待复审（T-024B1）** |
+
+鼠标手势到 settle/排队后，当前前台可能已变化。批准 SelectionReadOptions 增加 ForegroundAppInfo? ExpectedSource init 属性（默认 null），原四参数构造/解构、ReadAsync 和结果字段保持；新增固定安全 ToString，避免 record 自动打印来源/标题/列表。同步端口注释说明来源约束和 App 的显式/被动读取协调，不改变持久化设置/default/schema/包。
+
+specs/CONTRACTS.cs 已预置，开发同步 Core。非 null 身份在首次等待前捕获，仅比较 HWND/PID/OrdinalIgnoreCase 实际进程名；标题丢弃。Composite 在新平台操作前必须匹配，不能读取后来另一前台；已有 pending cleanup 仍需真实完成，失配不能吞清理错误。默认 null 的已验收行为保持。
+
+App internal SelectionReadCoordinator 用原公开 ISelectionTextReader 服务显式读，ReadPassiveAsync 仅为内部方法，不新增公共优先级类型。最多一个实际读和一个显式待办；抢占被动后完整等待其退出；DI 包装同一个 Composite，退出先排空本层再由原 Composite 完成 native Stop。B2 的 ActionContext/缓存/图标/设置尚未批准，不提前修改。详细规则及关键真实底层测试见正式规范。
