@@ -1,0 +1,8 @@
+C:\Users\28910\AppData\Local\Temp\iris-t024b2-independent-review\Program.cs(17,20): error CS1061: “MouseInteractionTestScope.Placement”未包含“Result”的定义，并且找不到可接受第一个“MouseInteractionTestScope.Placement”类型参数的可访问扩展方法“Result”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t024b2-independent-review\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t024b2-independent-review\Program.cs(40,24): error CS1061: “MouseInteractionTestScope.Placement”未包含“Result”的定义，并且找不到可接受第一个“MouseInteractionTestScope.Placement”类型参数的可访问扩展方法“Result”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t024b2-independent-review\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t024b2-independent-review\MouseTestBoundary.cs(45,19): warning CS0649: 从未对字段“FakeMouseHookApi.InstallFailure”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t024b2-independent-review\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t024b2-independent-review\MouseInteractionTestScope.cs(197,23): warning CS0649: 从未对字段“MouseInteractionTestScope.FakeProvider.HoldFirst”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t024b2-independent-review\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t024b2-independent-review\MouseInteractionTestScope.cs(186,23): warning CS0649: 从未对字段“MouseInteractionTestScope.Placement.FailShowing”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t024b2-independent-review\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t024b2-independent-review\MouseTestBoundary.cs(47,25): warning CS0649: 从未对字段“FakeMouseHookApi.InstallGate”赋值，字段将一直保持其默认值 null [C:\Users\28910\AppData\Local\Temp\iris-t024b2-independent-review\Review.csproj]
+
+生成失败。请修复生成错误并重新运行。

@@ -382,3 +382,5 @@ T-030 签发前须按 PROVIDER_REGISTRY.md 将 OCR 注册表原型同步为租�
 | 截图时自动识别窗口 / 控件边界 | ScreenshotOverlay 使用 UIA / `WindowFromPoint` |
 | 截图选区调整手柄、标注工具 | ScreenshotOverlay 增强 |
 | ARM64 构建 | 在 build 脚本中增加 RID |
+
+**T-024B2 首次复审（2026-10-05）** — b3ec7eefa25b87f9e3de8e455f243ea7db92947f 未通过，仅部分显示失败收尾待修。独立Release零警告/错误，全量2415（2413成功/2环境跳过），14张最终图像指纹/布局通过；真实Window已Show后第二次定位失败，失效图标仍可见，超时也不隐藏，独立探针可重试/完整退出。签发T-024B2-R1，保留其它已确认成果，证据见B2第11节；父T-024/B/B2保持▶，CCR-022待复审，不开始T-025，不推送。

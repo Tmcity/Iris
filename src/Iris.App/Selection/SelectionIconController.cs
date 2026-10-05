@@ -32,7 +32,9 @@ internal sealed partial class SelectionIconController(
     private Work? _active;
     private Candidate? _candidate;
     private ITimer? _timer;
+    private TimerRetirement? _retiredDeadline;
     private ISelectionIconView? _view; // Only UI dispatcher accesses the view itself.
+    private DisplayCleanup? _displayCleanup; // Failed display ownership; only the single UI worker retries it.
     private long _visibleCandidate;
     private IrisException? _visualFailure;
     private MouseSelectionRuntimeSnapshot _runtime = new(0, MouseSelectionMode.Off, MouseSelectionMode.Off, false, null, false);
@@ -196,15 +198,18 @@ internal sealed partial class SelectionIconController(
             if (active.Dispatch is not { IsCompleted: true }) await active.Source.CancelAsync().ConfigureAwait(false);
         });
     }
-    private void ClearCandidateLocked()
+    private void ClearCandidateLocked(bool queueVisual = true)
     {
+        var retired = _candidate;
         _candidate = null; _visibleCandidate = 0;
         if (_timer is { } timer)
         {
             _timer = null;
-            _timerCleanup = Task.Run(async () => await timer.DisposeAsync().ConfigureAwait(false));
+            _retiredDeadline = new(timer);
+            if (retired != null) retired.Deadline = _retiredDeadline;
+            _timerCleanup = _retiredDeadline.RetryAsync();
         }
-        QueueVisualLocked();
+        if (queueVisual) QueueVisualLocked();
     }
     private void EnsureWorkLocked()
     {
@@ -227,7 +232,8 @@ internal sealed partial class SelectionIconController(
             catch (Exception ex)
             {
                 LogFailure("ReadDispatch", ex);
-                lock (_gate) if (CurrentLocked(work.Input)) SetRuntimeLocked(false, ErrorCode.CaptureFailed, false);
+                lock (_gate) if (CurrentLocked(work.Input))
+                    SetRuntimeLocked(false, _displayCleanup != null ? ErrorCode.HookInstallFailed : ErrorCode.CaptureFailed, _displayCleanup != null);
             }
             finally
             {
@@ -302,15 +308,34 @@ internal sealed partial class SelectionIconController(
     {
         while (true)
         {
-            long version;
-            lock (_gate) version = _visualVersion;
+            long version, configuration, request, runtimeVersion;
+            lock (_gate) { version = _visualVersion; configuration = _configuration; request = _request; runtimeVersion = _runtime.Version; }
             try
             {
-                await ui.InvokeAsync(() =>
+                await ui.InvokeAsync(async () =>
                 {
                     Candidate? candidate; bool close;
+                    bool alreadyHidden = false;
                     lock (_gate)
                     {
+                        configuration = _configuration; request = _request; runtimeVersion = _runtime.Version;
+                        close = _stopping || _desired?.MouseMode == MouseSelectionMode.Off;
+                    }
+                    if (_displayCleanup is { } pending)
+                    {
+                        var error = await CleanupDisplayAsync(pending, close);
+                        if (error != null)
+                        {
+                            RecordVisualFailure(error, configuration, request, runtimeVersion, retain: true);
+                            PublishRuntime();
+                            return;
+                        }
+                        alreadyHidden = pending.Hidden && ReferenceEquals(_view, pending.View);
+                    }
+                    // Deadline cleanup may have awaited a callback. Re-read the current intent before touching the view.
+                    lock (_gate)
+                    {
+                        configuration = _configuration; request = _request; runtimeVersion = _runtime.Version;
                         candidate = _candidate is { } c && CurrentLocked(c.Input) ? c : null;
                         close = _stopping || _desired?.MouseMode == MouseSelectionMode.Off;
                     }
@@ -318,40 +343,109 @@ internal sealed partial class SelectionIconController(
                     {
                         if (_view != null) { _view.CloseIcon(); _view.Clicked -= OnClick; _view = null; }
                     }
-                    else if (candidate != null && native.IsForeground(candidate.Input.App))
+                    else if (candidate != null)
                     {
-                        if (_view == null) { _view = views.Create(); _view.Clicked += OnClick; }
-                        lock (_gate) { if (!CurrentLocked(candidate.Input) || _candidate != candidate) return Task.CompletedTask; }
-                        _view.ShowAt(candidate.Bounds);
+                        try
+                        {
+                            if (!native.IsForeground(candidate.Input.App))
+                            {
+                                lock (_gate) if (ReferenceEquals(_candidate, candidate)) { _request++; ClearCandidateLocked(); }
+                                if (!alreadyHidden) _view?.HideIcon();
+                                return;
+                            }
+                            if (_view == null) { _view = views.Create(); _view.Clicked += OnClick; }
+                            lock (_gate) { if (!CurrentLocked(candidate.Input) || !ReferenceEquals(_candidate, candidate)) return; }
+                            _view.ShowAt(candidate.Bounds);
+                        }
+                        catch (Exception ex)
+                        {
+                            LogFailure("IconShow", ex);
+                            bool ownsFailure;
+                            lock (_gate)
+                            {
+                                ownsFailure = CurrentLocked(candidate.Input) && ReferenceEquals(_candidate, candidate);
+                                if (ReferenceEquals(_candidate, candidate))
+                                {
+                                    _request++;
+                                    ClearCandidateLocked(queueVisual: false);
+                                }
+                                else if (_visibleCandidate == candidate.Input.Request) _visibleCandidate = 0;
+                                if (ownsFailure) request = _request;
+                            }
+                            var cleanup = new DisplayCleanup(_view, candidate.Deadline, ex.HResult);
+                            lock (_gate) _displayCleanup = cleanup;
+                            // Still in this UI invocation: hide the failed presentation before any newer one can show.
+                            var cleanupError = await CleanupDisplayAsync(cleanup, close: false, retryTimer: false);
+                            var error = cleanupError ?? DisplayFailure(cleanup, null, null);
+                            if (ownsFailure || cleanupError != null)
+                                RecordVisualFailure(error, configuration, request, runtimeVersion, retain: cleanupError != null);
+                            PublishRuntime();
+                            return;
+                        }
                         lock (_gate) if (_candidate == candidate) _visibleCandidate = candidate.Input.Request;
                     }
                     else
                     {
-                        if (candidate != null)
-                        {
-                            lock (_gate) if (_candidate == candidate) { _request++; ClearCandidateLocked(); }
-                        }
-                        _view?.HideIcon();
+                        if (!alreadyHidden) _view?.HideIcon();
                     }
                     lock (_gate) _visualFailure = null;
                     PublishRuntime();
-                    return Task.CompletedTask;
                 }, CancellationToken.None).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 LogFailure("Icon", ex);
-                lock (_gate)
-                {
-                    _visualFailure = Failure("ICON", ex); _candidate = null; _visibleCandidate = 0;
-                    _runtime = _runtime with { Version = _runtime.Version + 1, Error = ErrorCode.HookInstallFailed, CanRetry = true };
-                }
+                RecordVisualFailure(Failure("ICON", ex), configuration, request, runtimeVersion, retain: true);
                 try { await ui.InvokeAsync(() => { PublishRuntime(); return Task.CompletedTask; }, CancellationToken.None).ConfigureAwait(false); }
                 catch (Exception publishError) { LogFailure("RuntimeUi", publishError); }
             }
             lock (_gate) if (version == _visualVersion) { _visualRunning = false; return; }
         }
     }
+    private async Task<IrisException?> CleanupDisplayAsync(DisplayCleanup cleanup, bool close, bool retryTimer = true)
+    {
+        int? viewError = null, timerError = null;
+        try
+        {
+            if (close && !cleanup.Closed && cleanup.View != null)
+            {
+                cleanup.View.CloseIcon();
+                cleanup.View.Clicked -= OnClick;
+                if (ReferenceEquals(_view, cleanup.View)) _view = null;
+                cleanup.Closed = cleanup.Hidden = true;
+            }
+            else if (!cleanup.Hidden && cleanup.View != null)
+            {
+                cleanup.View.HideIcon();
+                cleanup.Hidden = true;
+            }
+        }
+        catch (Exception ex) { viewError = ex.HResult; LogFailure(close ? "IconShowClose" : "IconShowHide", ex); }
+        if (cleanup.Deadline is { } deadline)
+        {
+            // Wait for the original disposal; retry only an already failed attempt, retaining the actual timer.
+            var task = retryTimer ? deadline.RetryAsync() : deadline.Completion;
+            lock (_gate) if (ReferenceEquals(_retiredDeadline, deadline)) _timerCleanup = task;
+            try { await task; }
+            catch (Exception ex) { timerError = ex.HResult; LogFailure("IconShowTimer", ex); }
+        }
+        if (viewError != null || timerError != null) return DisplayFailure(cleanup, viewError, timerError, close);
+        lock (_gate) if (ReferenceEquals(_displayCleanup, cleanup)) _displayCleanup = null;
+        return null;
+    }
+    private void RecordVisualFailure(IrisException error, long configuration, long request, long runtimeVersion, bool retain)
+    {
+        lock (_gate)
+        {
+            bool current = configuration == _configuration && request == _request && runtimeVersion == _runtime.Version;
+            if (retain || current) _visualFailure = error;
+            if (current && !_stopping)
+                _runtime = _runtime with { Version = _runtime.Version + 1, Error = ErrorCode.HookInstallFailed, CanRetry = true };
+        }
+    }
+    private static IrisException DisplayFailure(DisplayCleanup cleanup, int? viewError, int? timerError, bool close = false) =>
+        new(ErrorCode.HookInstallFailed, ErrorMessages.GetDefault(ErrorCode.HookInstallFailed),
+            detail: $"phase=ICON_SHOW;hr=0x{cleanup.ShowError:X8};cleanup={(close ? "CLOSE" : "HIDE")};hr=0x{viewError ?? 0:X8};timer=0x{timerError ?? 0:X8}");
     private void SetRuntimeLocked(bool applying, ErrorCode? error, bool retry)
     {
         _runtime = new(_runtime.Version + 1, _desired?.MouseMode ?? MouseSelectionMode.Off,
@@ -439,7 +533,33 @@ internal sealed partial class SelectionIconController(
     private sealed record WorkInput(PixelPoint Anchor, ForegroundAppInfo App, long Generation, long Configuration, long Request, SelectionSettings Settings, string? Text)
     { public override string ToString() => "MouseSelectionWork"; }
     private sealed record Candidate(WorkInput Input, PixelRect Bounds)
-    { public override string ToString() => "MouseSelectionCandidate"; }
+    {
+        internal TimerRetirement? Deadline { get; set; }
+        public override string ToString() => "MouseSelectionCandidate";
+    }
+    private sealed class DisplayCleanup(ISelectionIconView? view, TimerRetirement? deadline, int showError)
+    {
+        internal readonly ISelectionIconView? View = view;
+        internal readonly TimerRetirement? Deadline = deadline;
+        internal readonly int ShowError = showError;
+        internal bool Hidden = view == null;
+        internal bool Closed;
+    }
+    private sealed class TimerRetirement(ITimer timer) : IAsyncDisposable
+    {
+        private readonly object _gate = new();
+        private Task? _task;
+        internal Task Completion { get { lock (_gate) return _task ?? Task.CompletedTask; } }
+        internal Task RetryAsync()
+        {
+            lock (_gate)
+            {
+                if (_task != null && (!_task.IsCompleted || _task.IsCompletedSuccessfully)) return _task;
+                return _task = Task.Run(async () => await timer.DisposeAsync().ConfigureAwait(false));
+            }
+        }
+        public ValueTask DisposeAsync() => new(RetryAsync());
+    }
     private sealed class Work(WorkInput input) : IDisposable
     {
         internal readonly WorkInput Input = input;

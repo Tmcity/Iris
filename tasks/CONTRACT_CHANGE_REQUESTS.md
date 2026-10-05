@@ -893,7 +893,7 @@ App internal SelectionReadCoordinator 用原公开 ISelectionTextReader 服务�
 |---|---|
 | 日期 / 批准 | 2026-10-05，Codex 架构师 |
 | 关联 | T-024B2；MOUSE_SELECTION_INTERACTION.md；ARCH v1.38 |
-| 状态 | **已落地，待复审（T-024B2）** |
+| 状态 | **已落地，待复审（T-024B2；R1 修正）** |
 
 批准 ActionContext 增加可空 init ExpectedSelectionSource（ForegroundAppInfo），原三参数构造/解构保持；ToString 仅显示 Trigger。SelectionIcon+非空 Payload 明确表示缓存原文，必须带合法原来源；MouseSelection 自动分支必须带原来源且无 Payload，普通热键默认行为保持。点击不再次调用 Reader，不用旧 lease token 创建新 lease。
 
@@ -904,3 +904,5 @@ App internal SelectionReadCoordinator 用原公开 ISelectionTextReader 服务�
 specs/CONTRACTS.cs 已预置精确声明，由开发同步 Core/实现。App Controller/window/runtime snapshot/重试保持 internal。ToggleMouseSelection 使用一次原子 ISettingsService.UpdateAsync 相对最新持久值切换；本次运行的最后非 Off 记忆不持久化，不新增默认热键。设置页仍必须通过编辑协调器，不借 Toggle 规则增加旁路。
 
 完整模式/缓存/非激活/副作用/已保存待应用/退出与测试规则见 MOUSE_SELECTION_INTERACTION.md。批准声明不代表用户流程已验收，真实鼠标/窗口内容/输入和 NFR 不在自动化冒称通过。
+
+CCR-022 实施复审补充（2026-10-05）：B2 / b3ec7ee 的获批声明及正常功能保留；独立复审发现部分显示失败后图标未收起，签发仅原范围修复 T-024B2-R1。状态仍为已落地待复审，不新增公共契约或配置/包。详见 tasks/done/T-024B2.md 第11节。

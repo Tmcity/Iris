@@ -5,8 +5,8 @@
 ## 当前状态
 
 - 项目为 .NET 10 / WPF Windows 常驻翻译工具 Iris，完整目标含输入/剪贴板/划词翻译、截图/OCR、悬浮球、设置/历史/代理与发布，尚未整体完成。
-- 基线为 master / 29bc38e00b59aeaa8f47b0ff806dc3ede4e3fc2a。T-024A/B1 已验收；当前唯一工单 tasks/current_task.md / T-024B2，交付图标/缓存点击/自动翻译/鼠标设置/运行状态重试/Toggle与退出。
-- 正式依据为 MOUSE_SELECTION_INTERACTION.md / ARCH v1.38 / CCR-022。specs/CONTRACTS.cs 预置 ActionContext 原来源与 patch 鼠标字段，本单同步 Core；原构造、持久化设置/default/包不变。唯一错误文案更正在正式规范明确，T-025 未开始。
+- 基线为 master / b3ec7eefa25b87f9e3de8e455f243ea7db92947f。T-024B2正常成果保留，当前唯一工单 tasks/current_task.md / T-024B2-R1，仅修实际Show后失败的图标隐藏/候选/期限收尾。
+- 依据当前工单与 MOUSE_SELECTION_INTERACTION.md；独立证据在B2报告第11节及临时 iris-t024b2-independent-review。公开CCR-022/default/包不变，父T-024/B/B2待复审，T-025未开始。
 
 ## 协作与约束
 

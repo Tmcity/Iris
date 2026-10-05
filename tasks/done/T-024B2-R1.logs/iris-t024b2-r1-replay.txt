@@ -1,0 +1,9 @@
+C:\Users\28910\AppData\Local\Temp\iris-t024b2-r1-replay\MouseTestBoundary.cs(47,25): warning CS0649: 从未对字段“FakeMouseHookApi.InstallGate”赋值，字段将一直保持其默认值 null [C:\Users\28910\AppData\Local\Temp\iris-t024b2-r1-replay\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t024b2-r1-replay\MouseInteractionTestScope.cs(202,23): warning CS0649: 从未对字段“MouseInteractionTestScope.FakeProvider.HoldFirst”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t024b2-r1-replay\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t024b2-r1-replay\MouseTestBoundary.cs(45,19): warning CS0649: 从未对字段“FakeMouseHookApi.InstallFailure”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t024b2-r1-replay\Review.csproj]
+PARTIAL_SHOW nativeShowCalls=1 error=HookInstallFailed visibleAfterFailure=False canRetry=True
+PARTIAL_SHOW_EXPIRY visibleAfterDeadline=False hideCalls=1
+FAILED_CANDIDATE_CLICK ignored=True
+FRESH_CANDIDATE_AFTER_RETRY translated=True rereadOnClick=False
+PARTIAL_SHOW_RETRY windowsClosed=True nativeHandles=0 threadAlive=False
+SCOPE actualControllerMonitorCoordinatorCompositeAndWindow=True fakeNativeProcessTimeProvider=True physicalInput=False

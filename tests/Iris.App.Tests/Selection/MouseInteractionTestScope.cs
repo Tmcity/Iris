@@ -49,7 +49,7 @@ internal sealed class MouseInteractionTestScope
     internal List<MouseGate> Gates { get; } = [];
     internal List<(Task Task, Type? Allowed)> Tasks { get; } = [];
 
-    internal MouseInteractionTestScope()
+    internal MouseInteractionTestScope(Func<TimeProvider, TimeProvider>? wrapTime = null)
     {
         Mouse.Window = 0x1234; Mouse.Process = 5000;
         Platform.Desktop.GetMonitorAt(Arg.Any<PixelPoint>()).Returns(new MonitorInfo("fake", new(-1000, -500, 2000, 1000), new(-1000, -500, 2000, 1000), 1.5, true));
@@ -63,7 +63,7 @@ internal sealed class MouseInteractionTestScope
         services.AddSingleton<ISelectionTextReader>(Reader); services.AddSingleton(Reader);
         services.AddSingleton<IMouseSelectionMonitor>(Monitor); services.AddSingleton(Factory);
         services.AddSingleton<ISelectionIconViewFactory>(Factory); services.AddSingleton(native);
-        services.AddSingleton<TimeProvider>(Platform.Time);
+        services.AddSingleton(wrapTime?.Invoke(Platform.Time) ?? (TimeProvider)Platform.Time);
         services.AddSingleton<IUiDispatcher>(new WpfUiDispatcher());
         services.AddSingleton<IClipboardService>(Substitute.For<IClipboardService>());
         services.AddSingleton(Substitute.For<ISecretStore>()); services.AddSingleton(Substitute.For<IAutoStartService>());
@@ -119,9 +119,9 @@ internal sealed class MouseInteractionTestScope
     }
     internal static async Task FlushUi() => await System.Windows.Threading.Dispatcher.CurrentDispatcher.InvokeAsync(() => { }, System.Windows.Threading.DispatcherPriority.ContextIdle);
 
-    internal static Task Run(Func<MouseInteractionTestScope, Task> body) => WpfTestRunner.RunAsync(async () =>
+    internal static Task Run(Func<MouseInteractionTestScope, Task> body, Func<TimeProvider, TimeProvider>? wrapTime = null) => WpfTestRunner.RunAsync(async () =>
     {
-        var f = new MouseInteractionTestScope(); Exception? primary = null; var errors = new List<Exception>();
+        var f = new MouseInteractionTestScope(wrapTime); Exception? primary = null; var errors = new List<Exception>();
         try { await body(f); } catch (Exception ex) { primary = ex; }
         finally
         {
@@ -129,7 +129,8 @@ internal sealed class MouseInteractionTestScope
             foreach (var gate in f.Platform.Gates) gate.Set();
             foreach (var release in f.Release) try { release(); } catch (Exception ex) { errors.Add(ex); }
             f.Provider.Release.TrySetResult(); f.Mouse.UnhookFailures = f.Mouse.PostFailures = 0; f.Mouse.ThrowAt = null;
-            f.Icon.FailClose = false; f.Icon.FailShow = false;
+            f.Icon.FailClose = false; f.Icon.FailShow = false; f.Icon.FailHide = false;
+            f.Icon.AfterShow = null; f.Icon.BeforeHide = null; f.Position.Result = null;
             f.Platform.Native.Failures.Clear(); f.Platform.Native.Before = null; f.Platform.Native.After = null;
             f.Dispatcher.StopAcceptance();
             try { await f.Controller.DisposeAsync(); } catch (Exception ex) { errors.Add(ex); }
@@ -171,19 +172,24 @@ internal sealed class MouseInteractionTestScope
         internal long Style;
         internal int Shows, Hides, Closes;
         internal bool FailClose, FailShow;
+        internal bool FailHide { get; set; }
+        internal Action<Window>? AfterShow { get; set; }
+        internal Action<Window>? BeforeHide { get; set; }
+        internal int HideAttempts { get; private set; }
         internal nint Foreground = 0x1234;
         public nint GetStyle(nint handle) => 0;
         public void SetStyle(nint handle, nint value) => Style = value;
         public nint ForegroundWindow() => Foreground;
         public uint ProcessId(nint handle) => 5000;
-        public void Show(Window window) { if (FailShow) throw new IOException("private show"); window.Show(); Shows++; Shown.TrySetResult(); }
-        public void Hide(Window window) { window.Hide(); Hides++; }
+        public void Show(Window window) { if (FailShow) throw new IOException("private show"); window.Show(); Shows++; Shown.TrySetResult(); AfterShow?.Invoke(window); }
+        public void Hide(Window window) { HideAttempts++; BeforeHide?.Invoke(window); if (FailHide) throw new IOException("private hide"); window.Hide(); Hides++; }
         public void Close(Window window) { if (FailClose) throw new IOException("private close"); window.Close(); Closes++; }
     }
     internal sealed class Placement : INativeWindowPlacementAdapter
     {
         internal ConcurrentQueue<(PixelRect Bounds, bool Show, bool Activate)> Calls { get; } = new();
-        public bool SetWindowBounds(nint handle, PixelRect bounds, bool show, bool activate) { Calls.Enqueue((bounds, show, activate)); return true; }
+        internal Func<bool, bool>? Result { get; set; }
+        public bool SetWindowBounds(nint handle, PixelRect bounds, bool show, bool activate) { Calls.Enqueue((bounds, show, activate)); return Result?.Invoke(show) ?? true; }
         public bool TryGetWindowBounds(nint handle, out PixelRect bounds) { bounds = new(0, 0, 760, 520); return true; }
     }
     internal sealed class FakeProvider : ITranslationProvider
