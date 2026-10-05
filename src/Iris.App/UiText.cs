@@ -2,6 +2,10 @@ namespace Iris.App;
 
 internal static class UiText
 {
+    public const string ScreenshotDragHint = "拖动选择区域 · Esc 取消";
+    public const string ScreenshotConfirmHint = "Enter / 双击确认 · 右键清除 · Esc 取消";
+    public const string ScreenshotCopyFailed = "截图已完成，但图片未能复制到剪贴板。";
+
     public const string AppName = "Iris";
     public const string MouseModeOff = "关闭鼠标划词";
     public const string MouseModeIcon = "显示翻译图标";

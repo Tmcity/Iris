@@ -78,6 +78,13 @@ internal sealed partial class TrayNotificationService : INotificationService
         return tray?.TryShowNotificationNow(UiText.AppName, ErrorMessages.GetDefault(code), level) ?? false;
     }
 
+    internal bool TryNotifyScreenshotCopyFailure()
+    {
+        TrayIconController? tray;
+        lock (_gate) tray = _tray;
+        return tray?.TryShowNotificationNow(UiText.AppName, UiText.ScreenshotCopyFailed, NotificationLevel.Warning) ?? false;
+    }
+
     private static void DispatchNotification(TrayIconController tray, string title, string message, NotificationLevel level)
     {
         var app = Application.Current;

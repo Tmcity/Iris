@@ -45,6 +45,7 @@ internal sealed partial class AppBootstrapper
     private readonly SelectionIconController? _selectionIconController;
     private readonly Iris.Platform.Windows.Capture.GdiScreenCapturer? _screenCapturer;
     private readonly Iris.App.Capture.ScreenshotPreparationCoordinator? _screenshotPreparation;
+    private readonly Iris.App.Capture.ScreenshotService? _screenshotService;
 
     private readonly Lock _stopGate = new();
     private Task? _stopTask;
@@ -73,7 +74,8 @@ internal sealed partial class AppBootstrapper
         SelectionReadCoordinator? selectionReadCoordinator = null,
         SelectionIconController? selectionIconController = null,
         Iris.Platform.Windows.Capture.GdiScreenCapturer? screenCapturer = null,
-        Iris.App.Capture.ScreenshotPreparationCoordinator? screenshotPreparation = null)
+        Iris.App.Capture.ScreenshotPreparationCoordinator? screenshotPreparation = null,
+        Iris.App.Capture.ScreenshotService? screenshotService = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -96,6 +98,7 @@ internal sealed partial class AppBootstrapper
         _selectionIconController = selectionIconController;
         _screenCapturer = screenCapturer;
         _screenshotPreparation = screenshotPreparation;
+        _screenshotService = screenshotService;
     }
 
     internal static Action<string, string> FatalErrorShower { get; set; } = FatalErrorDialog.Show;
@@ -216,6 +219,7 @@ internal sealed partial class AppBootstrapper
 
     public Task StopAsync()
     {
+        _screenshotService?.StopAcceptance();
         _screenshotPreparation?.StopAcceptance();
         _recordingCoordinator?.StopAcceptance();
         _screenCapturer?.StopAcceptance();
@@ -249,7 +253,14 @@ internal sealed partial class AppBootstrapper
     private async Task StopCoreAsync()
     {
         var earlyFailures = new System.Collections.Generic.List<string>();
-        if (_screenshotPreparation != null)
+        if (_screenshotService != null)
+        {
+            try { await _screenshotService.StopAsync().ConfigureAwait(false); }
+            catch (Exception ex) { earlyFailures.Add(ex is IrisException { Detail: not null } known
+                ? $"SCREENSHOT[{known.Detail}]" : $"SCREENSHOT:0x{ex.HResult:X8}"); }
+        }
+        // A is a dependency of any still-owned overlay. Do not release it through a second path.
+        if (_screenshotPreparation != null && _screenshotService?.HasPendingOverlays != true)
         {
             try { await _screenshotPreparation.StopAsync().ConfigureAwait(false); }
             catch (Exception ex) { earlyFailures.Add(ex is IrisException { Detail: not null } known

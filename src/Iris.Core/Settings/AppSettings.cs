@@ -170,6 +170,7 @@ public sealed record ScreenshotSettings
     /// <summary>截图前临时隐藏已有 Iris 内容窗口（翻译窗、设置窗及已存在的悬浮球）；不关闭或重建会话。录入和划词交互另按截图准备规范停止。</summary>
     public bool HideIrisWindows { get; init; } = true;
 
+    /// <summary>确认截图时尝试复制图片；复制失败仅提示警告并保留截图结果，不在清理重试中重复复制。</summary>
     public bool CopyImageToClipboard { get; init; }
     public double MaskOpacity { get; init; } = 0.45;
 }

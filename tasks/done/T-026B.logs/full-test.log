@@ -1,0 +1,99 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotIsolatedTests.SnapshotHelper_UsesExclusiveNonInteractiveStation_AndJoinsOwnedProcess
+  [ENVIRONMENT LIMITATION] Snapshot isolated helper skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.Win32ClipboardIsolatedIntegrationTests.IsolatedWindowStation_NativeClipboardIntegration_ExecutesInDedicatedProcess
+  [ENVIRONMENT LIMITATION] Native isolated window station test skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 291ms)
+F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (3s 810ms)
+F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (4s 137ms)
+F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (5s 337ms)
+F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (8s 384ms)
+失败 Iris.App.Tests.Capture.ScreenshotBoundaryTests.NewIntentAtWarningAcceptanceSuppressesWarningAndResult (23s 982ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.TimeoutException : The operation has timed out.
+    在 Iris.App.Tests.Capture.ScreenshotTestScope.Ready() 位于 F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotTestScope.cs:46
+    在 Iris.App.Tests.Capture.ScreenshotBoundaryTests.<>c.<<NewIntentAtWarningAcceptanceSuppressesWarningAndResult>b__6_0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotBoundaryTests.cs:84
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotTestScope.cs:54
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotTestScope.cs:68
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:40
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:60
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:126
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:146
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    --- End of stack trace from previous location ---
+失败 Iris.App.Tests.Capture.ScreenshotLifecycleTests.CallerCancellation_WaitsActualBoundary(stage: "capture") (17s 832ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.TimeoutException : The operation has timed out.
+    在 Iris.App.Tests.Capture.ScreenshotLifecycleTests.<>c__DisplayClass0_0.<<CallerCancellation_WaitsActualBoundary>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotLifecycleTests.cs:25
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotTestScope.cs:54
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotTestScope.cs:68
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:40
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:60
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:126
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:146
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    --- End of stack trace from previous location ---
+失败 Iris.App.Tests.Capture.ScreenshotInteractionTests.ForeignForegroundCancelsButOwnedForegroundDoesNot (22s 653ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.TimeoutException : The operation has timed out.
+    在 Iris.App.Tests.Capture.ScreenshotTestScope.Ready() 位于 F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotTestScope.cs:46
+    在 Iris.App.Tests.Capture.ScreenshotInteractionTests.<>c.<<ForeignForegroundCancelsButOwnedForegroundDoesNot>b__8_0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotInteractionTests.cs:108
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotTestScope.cs:54
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotTestScope.cs:68
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:40
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:60
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:126
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:146
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    --- End of stack trace from previous location ---
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 3 个错误 (1m 53s 337ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (8s 384ms)
+  F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (5s 337ms)
+  F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 3 个错误 (1m 53s 337ms)
+  F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (3s 810ms)
+  F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (4s 137ms)
+  F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 291ms)
+
+  总计: 2619
+  失败: 3
+  成功: 2614
+  已跳过: 2
+  持续时间: 1m 53s 718ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

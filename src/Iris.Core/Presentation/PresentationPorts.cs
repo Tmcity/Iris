@@ -73,7 +73,9 @@ public enum ScreenshotPurpose
 
 public sealed record ScreenshotResult(ImageData Image, PixelRect Region);
 
-/// <summary>冻结屏幕 + 选区覆盖层。用户取消（Esc / 右键）返回 null。</summary>
+/// <summary>冻结屏幕并返回物理选区的PNG。用户取消、新显示意图、确认前交互失焦或拓扑失效返回null；
+/// 调用方取消须完成实际工作与清理后抛OperationCanceledException，清理失败仍报告安全错误。
+/// 可选复制失败仅提示警告并保留已确认截图；完整规则见SCREENSHOT_INTERACTION.md。</summary>
 public interface IScreenshotService
 {
     Task<ScreenshotResult?> CaptureRegionAsync(ScreenshotPurpose purpose, CancellationToken cancellationToken);

@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotShutdownTests.cs(71,55): error CS0234: 命名空间“Iris.Core.Platform”中不存在类型或命名空间名“IAppPaths”(是否缺少程序集引用?) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+生成失败，退出代码: 1。

@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.40 · 2026-10-06 · 状态：**已冻结（首期）**
+> 版本：v1.41 · 2026-10-06 · 状态：**已冻结（首期）**
+> 变更记录：v1.41（T-026A/R3通过，签发T-026B）— SCREENSHOT_INTERACTION.md / CCR-025定稿每屏冻结覆盖层、物理选区/移动/8倍放大镜、确认/取消、可选复制失败仅警告、条件焦点恢复和完整退出。仅两处行为注释澄清，签名/default/schema/包不变；真实桌面与NFR后续验收。
 > 变更记录：v1.40（用户恢复推进，签发T-026A）— SCREENSHOT_PREPARATION.md / CCR-024冻结截图前的窗口临时隐藏/意图代次/恢复、旧录入清理、鼠标暂停与完整退出。T-026拆A准备和B覆盖层/完整服务，总范围不减；仅澄清HideIrisWindows注释，默认配置/包不变。
 > 变更记录：v1.39（T-024/B2/R1通过，签发T-025）— SCREEN_CAPTURE.md / CCR-023定稿GDI同线程捕获/预算/拓扑、异步三格式裁剪编码及完整退出；原型Crop改CropAsync。默认配置/包不变，T-026覆盖层与实机/NFR验收后续实施。
 > 变更记录：v1.38（T-024B1 通过，签发 T-024B2）— MOUSE_SELECTION_INTERACTION.md / CCR-022 定稿被动缓存图标、唯一点击/自动翻译 Dispatcher 语义、鼠标设置与运行状态/Toggle及完整退出。ActionContext 增加可选原来源，SelectionSettingsPatch 增加鼠标字段；原构造/JSON/default/包保持，CaptureFailed 文案统一为内容获取失败。
@@ -331,13 +332,15 @@ if outcome.UsedFallback → Notify(Info, "已使用备用 OCR", ...)（每次会
 
 ### 6.6 截图服务（`ScreenshotService`，App）
 
+完整规则见 **SCREENSHOT_INTERACTION.md（T-026B）** 与 SCREENSHOT_PREPARATION.md（A已验收）。B按实际端口与App组合根交付，复制失败仅警告并保留确认图像；取消/多阶段收尾、条件焦点恢复和物理选区规则以新规范为准。
+
 1. 按SCREENSHOT_PREPARATION.md先结束旧录入、撤销划词候选并暂停新被动动作；`HideIrisWindows`为true时临时隐藏已有翻译窗、设置窗及存在的悬浮球。不能调用普通HideAsync或关闭scope；新显示意图撤销旧准备，恢复在UI接受点核对owner/window/session/代次。A交付该前置协调，B再衔接UI空闲/重绘与捕获；不得把固定16ms Delay当作整桌面重绘保证。
 2. `frame = await IScreenCapturer.CaptureVirtualScreenAsync()`（GDI BitBlt 整个虚拟桌面，物理像素）。
 3. 为 `frame.Monitors` 中的每个显示器创建一个 `ScreenshotOverlayWindow`：无边框、置顶、`ShowInTaskbar=false`，窗口大小与位置 = 该显示器的物理 Bounds（按该显示器 DPI 换算为 DIP）；背景为 frame 中对应区域的 `BitmapSource`，上面叠加半透明遮罩（`MaskOpacity`）。
 4. 用户在任一覆盖窗口内拖拽框选（选区不跨屏）：实时显示选区尺寸（物理像素）；`ShowMagnifier` 时在光标旁显示 8× 放大镜与像素坐标。
 5. 确认：`ConfirmOnMouseUp` 为 true 时松开鼠标即确认，否则按 Enter / 双击确认。取消：Esc，或在无选区时右键（有选区时右键 = 清除选区）。
 6. 选区 < 4×4 物理像素视为误点，忽略。
-7. 返回 `ScreenshotResult(await IScreenCapturer.CropAsync(frame, region, ImageFormat.Png, cancellationToken), region)`，关闭全部覆盖窗口，恢复之前隐藏的窗口；`CopyImageToClipboard` 时同时复制图片。完整覆盖层/隐藏恢复/复制提交规则由T-026签发，不在T-025提前实现。
+7. 使用 `CropAsync(frame, region, ImageFormat.Png, cancellationToken)` 返回独立PNG，完整关闭覆盖层并按有效身份归还准备后交付 `ScreenshotResult`。`CopyImageToClipboard`只在确认且仍有效时尝试一次；复制失败安全警告并保留确认图像，已提交复制不回滚/不在清理重试中重做。详细取消、资源依赖、错误和最终发布规则见SCREENSHOT_INTERACTION.md。
 
 ### 6.7 悬浮球（`FloatingBallController` + `FloatingBallWindow`）
 

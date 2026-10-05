@@ -1158,6 +1158,7 @@ namespace Iris.Core.Settings
         /// <summary>截图前临时隐藏已有 Iris 内容窗口（翻译窗、设置窗及已存在的悬浮球）；不关闭或重建会话。录入和划词交互另按截图准备规范停止。</summary>
         public bool HideIrisWindows { get; init; } = true;
 
+        /// <summary>确认截图时尝试复制图片；复制失败仅提示警告并保留截图结果，不在清理重试中重复复制。</summary>
         public bool CopyImageToClipboard { get; init; }
         public double MaskOpacity { get; init; } = 0.45;
     }
@@ -1960,7 +1961,9 @@ namespace Iris.Core.Presentation
 
     public sealed record ScreenshotResult(ImageData Image, PixelRect Region);
 
-    /// <summary>冻结屏幕 + 选区覆盖层。用户取消（Esc / 右键）返回 null。</summary>
+    /// <summary>冻结屏幕并返回物理选区的PNG。用户取消、新显示意图、确认前交互失焦或拓扑失效返回null；
+    /// 调用方取消须完成实际工作与清理后抛OperationCanceledException，清理失败仍报告安全错误。
+    /// 可选复制失败仅提示警告并保留已确认截图；完整规则见SCREENSHOT_INTERACTION.md。</summary>
     public interface IScreenshotService
     {
         Task<ScreenshotResult?> CaptureRegionAsync(ScreenshotPurpose purpose, CancellationToken cancellationToken);

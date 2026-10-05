@@ -1,0 +1,62 @@
+using System.Reflection;
+using System.Runtime.ExceptionServices;
+
+// Load the delivered test helper itself; do not copy its implementation into this program.
+var path = "F:/Iris/tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.App.Tests.dll";
+var assembly = Assembly.LoadFrom(path);
+var runner = assembly.GetType("Iris.App.Tests.TestSupport.WpfTestRunner", true)!;
+var helperType = assembly.GetType("Iris.App.Tests.Settings.SettingsViewModelTests", true)!
+    .GetNestedType("HoldFirstDispatch", BindingFlags.NonPublic)!;
+var runMethod = runner.GetMethods().Single(m => m.Name == "RunAsync" && !m.IsGenericMethod &&
+    m.GetParameters().Length == 1 && m.GetParameters()[0].ParameterType == typeof(Func<Task>));
+object Helper() => Activator.CreateInstance(helperType, nonPublic: true)!;
+Task Invoke(object helper, Func<Task> body) => (Task)helperType.GetMethod("InvokeAsync")!.Invoke(helper, [body, CancellationToken.None])!;
+Task Drain(object helper) => (Task)helperType.GetMethod("DrainAsync")!.Invoke(helper, [])!;
+
+try
+{
+    Func<Task> body = async () =>
+    {
+        var helper = Helper();
+        Task? held = null;
+        Exception? primary = null;
+        var cleanup = new List<Exception>();
+        try
+        {
+            held = Invoke(helper, () => Task.FromException(new InvalidOperationException("synthetic held callback failure")));
+            bool failed = false;
+            try { await Drain(helper); } catch (InvalidOperationException) { failed = true; }
+            Console.WriteLine($"HELD_CALLBACK_FAILURE drainObservedFailure={failed} originalInvokeCompleted={held.IsCompleted}");
+            if (!failed || !held.IsCompleted) throw new InvalidOperationException("Drain lost its failure or left its original invocation pending.");
+            await held;
+        }
+        catch (Exception ex) { primary = ex; }
+        finally
+        {
+            // A second drain also releases the old helper's signal when validating a faulty baseline.
+            try { await Drain(helper); } catch (Exception ex) { cleanup.Add(ex); }
+            if (held != null && held.IsCompleted) try { await held; } catch (Exception ex) { cleanup.Add(ex); }
+        }
+        if (primary != null && cleanup.Count == 0) ExceptionDispatchInfo.Capture(primary).Throw();
+        if (primary != null) cleanup.Insert(0, primary);
+        if (cleanup.Count > 0) throw new AggregateException(cleanup);
+
+        var late = Helper();
+        await Drain(late);
+        bool ran = false;
+        var lateTask = Invoke(late, () => { ran = true; return Task.CompletedTask; });
+        try
+        {
+            Console.WriteLine($"DRAIN_BEFORE_CALLBACK actualCallbackRan={ran} invocationCompleted={lateTask.IsCompletedSuccessfully}");
+            if (!ran || !lateTask.IsCompletedSuccessfully) throw new InvalidOperationException("Late callback was captured after cleanup.");
+            await lateTask;
+        }
+        finally { await Drain(late); await lateTask; }
+    };
+    await (Task)runMethod.Invoke(null, [body])!;
+}
+finally
+{
+    await (Task)runner.GetMethod("TeardownAsync")!.Invoke(null, [TimeSpan.Zero])!;
+}
+Console.WriteLine($"HELPER_SCOPE actualDeliveredHelper=True staAlive={runner.GetProperty("IsStaThreadAlive")!.GetValue(null)}");

@@ -929,8 +929,24 @@ CCR-023结案补充（2026-10-05）：获批声明与Core同步，独立构建/�
 |---|---|
 | 日期 / 批准 | 2026-10-06，Codex架构师 |
 | 关联 | T-026A；SCREENSHOT_PREPARATION.md；ARCH v1.40 |
-| 状态 | **生产专项已复核，测试维护已落实，待最终复审（T-026A-R3）** |
+| 状态 | **已结案（T-026A-R3，2026-10-06）** |
 
 仅澄清ScreenshotSettings.HideIrisWindows的注释：临时隐藏已有翻译窗、设置窗及已存在的悬浮球，保留其session/草稿；旧录入与被动划词的停止由截图准备规范管理，不依赖隐藏开关。字段、签名、默认true、JSON/schema、包及其它公开契约均不改。specs/CONTRACTS.cs已预置精确注释，由A同步Core同一注释。
 
 准备协调器/租约/owner意图代次与录入/鼠标暂停均为App内部能力。A不注册占位IScreenshotService，不提前创建球、overlay或截图入口；完整ScreenshotService及覆盖层在B签发。新意图与退出、真实恢复/失败责任规则见正式规范。
+
+
+CCR-024结案补充：c7282698最终独立构建/定向/全量通过，生产同R2独立95项验证，完整证据T-026A.md第14节和R3.review。签名/default/JSON/schema/包保持，仅原获批隐藏范围注释落地。真实桌面与NFR不在本次自动化结论内。
+
+
+## CCR-025：截图服务取消、确认及可选复制的行为注释定稿
+
+| 字段 | 内容 |
+|---|---|
+| 日期 / 批准 | 2026-10-06，Codex架构师 |
+| 关联 | T-026B；SCREENSHOT_INTERACTION.md；ARCH v1.41 |
+| 状态 | **已落地，待独立复审（T-026B恢复交付）** |
+
+只同步两处XML注释：IScreenshotService说明独立PNG/物理Region、用户/新意图或确认前交互撤销返回null、caller取消完整收尾与清理失败可见；ScreenshotSettings.CopyImageToClipboard说明确认时一次可选复制、失败仅安全警告并保留截图、清理重试不重复复制。确认后新外部前台阻止焦点恢复，程序关闭overlay不伪造交互取消；B本身的意图观察保持至最终结算。specs/CONTRACTS.cs已预置精确注释，由B同步Core PresentationPorts.cs与AppSettings.cs。
+
+不改签名/类型/字段/default/JSON/schema/包。截图内部准入、overlay/输入/焦点和停止能力属于App；不新增Core生命周期接口，不改T-025等已验收平台契约。复制失败的独立策略避免阻断后续OCR，但不声称复制成功；实际提交后的剪贴板不作无归属回滚。细则以新规范为准。

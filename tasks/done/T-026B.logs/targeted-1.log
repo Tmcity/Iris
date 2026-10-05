@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotInteractionTests.cs(91,17): error CS0051: 可访问性不一致: 参数类型“ScreenshotInput”的可访问性低于方法“ScreenshotInteractionTests.InteractionCancellation_ReturnsNull(ScreenshotInput)” [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+生成失败，退出代码: 1。

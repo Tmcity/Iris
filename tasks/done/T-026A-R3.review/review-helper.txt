@@ -1,0 +1,3 @@
+HELD_CALLBACK_FAILURE drainObservedFailure=True originalInvokeCompleted=True
+DRAIN_BEFORE_CALLBACK actualCallbackRan=True invocationCompleted=True
+HELPER_SCOPE actualDeliveredHelper=True staAlive=False
