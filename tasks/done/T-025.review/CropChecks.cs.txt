@@ -1,0 +1,108 @@
+using Iris.Core.Errors;
+using Iris.Core.Imaging;
+using Iris.Core.Platform;
+using Windows.Graphics.Imaging;
+using Windows.Storage.Streams;
+
+// Preparation only. The eventual runner MUST pass the real service constructed with a fake OS boundary.
+// No default DI resolution or real CaptureVirtualScreenAsync call is allowed in this probe.
+internal static class CropChecks
+{
+    internal static async Task RunAsync(IScreenCapturer service)
+    {
+        const int width = 7, height = 4, stride = 36;
+        byte[] pixels = Enumerable.Repeat((byte)0xA5, stride * (height - 1) + width * 4).ToArray();
+        for (int y = 0; y < height; y++)
+        for (int x = 0; x < width; x++)
+        {
+            int p = y * stride + x * 4;
+            pixels[p] = (byte)(x * 29 + y * 11);
+            pixels[p + 1] = (byte)(x * 7 + y * 43);
+            pixels[p + 2] = (byte)(x * 13 + y * 19);
+            pixels[p + 3] = 255;
+        }
+        var bounds = new PixelRect(-7, 13, width, height);
+        var frame = new CapturedFrame(pixels, width, height, stride, bounds,
+            Array.AsReadOnly(new[] { new MonitorInfo("synthetic", bounds, bounds, 1.75, true) }), DateTimeOffset.UnixEpoch);
+        byte[] before = pixels.ToArray();
+        byte[] expected = new byte[2 * 3 * 4];
+        for (int y = 0; y < 3; y++) Array.Copy(pixels, (y + 1) * stride, expected, y * 2 * 4, 2 * 4);
+        foreach (var format in new[] { ImageFormat.Png, ImageFormat.Bmp })
+        {
+            var result = await service.CropAsync(frame, new PixelRect(-10, 14, 5, 5), format);
+            var decoded = await DecodeAsync(result);
+            Require(result.PixelWidth == 2 && result.PixelHeight == 3 && result.Format == format, "crop metadata");
+            Require(decoded.SequenceEqual(expected), "pixel row/stride/BGR mismatch");
+            Require(pixels.SequenceEqual(before), "input modified");
+            Require(!ReferenceEquals(pixels, result.Bytes), "shared output storage");
+            Console.WriteLine($"CROP format={format} size={result.PixelWidth}x{result.PixelHeight} bytes={result.Bytes.Length} exactPixels=True inputUnchanged=True");
+        }
+        var hugeRegion = new PixelRect(int.MinValue, 13, int.MaxValue, 4);
+        var longIntersection = await service.CropAsync(frame, hugeRegion);
+        Require(longIntersection.PixelWidth == 6 && longIntersection.PixelHeight == 4, "long half-open intersection");
+        Console.WriteLine("CROP_LONG_INTERSECTION width=6 height=4");
+        await ExpectAsync(ErrorCode.CaptureFailed, () => service.CropAsync(frame, new PixelRect(int.MaxValue - 2, 0, 10, 10)));
+        await ExpectAsync(ErrorCode.CaptureFailed, () => service.CropAsync(frame, new PixelRect(-7, 13, 0, 4)));
+        await ExpectAsync(ErrorCode.ImageInvalid, () => service.CropAsync(frame with { Stride = 27 }, bounds));
+        await ExpectAsync(ErrorCode.ImageInvalid, () => service.CropAsync(frame with { VirtualBounds = new(-7, 13, 6, 4) }, bounds));
+        await ExpectAsync(ErrorCode.ImageInvalid, () => service.CropAsync(frame, bounds, (ImageFormat)999));
+        var overBounds = new PixelRect(0, 0, 32769, 1);
+        var over = new CapturedFrame(new byte[32769 * 4], 32769, 1, 32769 * 4, overBounds,
+            [new MonitorInfo("synthetic", overBounds, overBounds, 1, true)], DateTimeOffset.UnixEpoch);
+        await ExpectAsync(ErrorCode.ImageTooLarge, () => service.CropAsync(over, over.VirtualBounds));
+        try { await service.CropAsync(null!, default, (ImageFormat)999, new CancellationToken(true)); throw new Exception("Expected cancellation"); }
+        catch (OperationCanceledException) { }
+        Require(frame.ToString() == "CapturedFrame", "frame safe summary");
+        Console.WriteLine("CROP_INVALID_AND_CANCEL approvedErrors=True cancelledBeforeWork=True");
+
+        const int jw = 64, jh = 32;
+        byte[] jpegPixels = new byte[jw * jh * 4];
+        for (int y = 0; y < jh; y++)
+        for (int x = 0; x < jw; x++)
+        {
+            int i = (y * jw + x) * 4;
+            jpegPixels[i] = (byte)(x * 4); jpegPixels[i + 1] = (byte)(y * 8);
+            jpegPixels[i + 2] = (byte)((x + y) * 2); jpegPixels[i + 3] = 255;
+        }
+        var jpegBounds = new PixelRect(5, -40, jw, jh);
+        var jpegFrame = new CapturedFrame(jpegPixels, jw, jh, jw * 4, jpegBounds,
+            [new MonitorInfo("synthetic", jpegBounds, jpegBounds, 1, true)], DateTimeOffset.UnixEpoch);
+        var jpeg = await service.CropAsync(jpegFrame, jpegBounds, ImageFormat.Jpeg);
+        var jpegDecoded = await DecodeAsync(jpeg);
+        long sum = 0;
+        for (int i = 0; i < jpegPixels.Length; i++) if (i % 4 != 3) sum += Math.Abs(jpegPixels[i] - jpegDecoded[i]);
+        double mean = (double)sum / (jw * jh * 3);
+        Require(jpeg.PixelWidth == jw && jpeg.PixelHeight == jh && jpeg.Format == ImageFormat.Jpeg && mean < 5, "JPEG dimensions/gradient loss");
+        Console.WriteLine(FormattableString.Invariant($"CROP_JPEG size={jw}x{jh} meanRgbAbsoluteError={mean:F4}"));
+    }
+
+    internal static async Task<byte[]> DecodeAsync(ImageData image)
+    {
+        using var stream = new InMemoryRandomAccessStream();
+        using (var writer = new DataWriter(stream))
+        {
+            writer.WriteBytes(image.Bytes);
+            await writer.StoreAsync();
+            writer.DetachStream();
+        }
+        stream.Seek(0);
+        var decoder = await BitmapDecoder.CreateAsync(stream);
+        Guid expected = image.Format switch
+        {
+            ImageFormat.Png => BitmapDecoder.PngDecoderId,
+            ImageFormat.Jpeg => BitmapDecoder.JpegDecoderId,
+            ImageFormat.Bmp => BitmapDecoder.BmpDecoderId,
+            _ => throw new Exception("Unexpected format")
+        };
+        Require(decoder.DecoderInformation.CodecId == expected && decoder.PixelWidth == image.PixelWidth && decoder.PixelHeight == image.PixelHeight, "encoded header mismatch");
+        var data = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore, new BitmapTransform(), ExifOrientationMode.IgnoreExifOrientation, ColorManagementMode.DoNotColorManage);
+        return data.DetachPixelData();
+    }
+    private static async Task ExpectAsync(ErrorCode expected, Func<Task<ImageData>> run)
+    {
+        try { await run(); }
+        catch (IrisException ex) when (ex.Code == expected) { return; }
+        throw new Exception($"Expected safe error {expected}");
+    }
+    private static void Require(bool condition, string error) { if (!condition) throw new Exception(error); }
+}

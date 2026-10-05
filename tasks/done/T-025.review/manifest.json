@@ -1,0 +1,22 @@
+{
+  "commit": "1418e0d5939c50024460880a1da0a027df3820aa",
+  "captureSources": {
+    "src\\Iris.Platform.Windows\\Capture\\DesktopContext.cs": "343247cce83aa8d064abdc699590d1b5025f544a70de26e5d5e7e85cf66d3ff9",
+    "src\\Iris.Platform.Windows\\Capture\\DesktopGeometryHelper.cs": "da7e1956503f9d5a0dea608736f55cb45af0855de1c828b2bb66eea39388ede6",
+    "src\\Iris.Platform.Windows\\Capture\\GdiCaptureSession.cs": "0c3693237661dbe1cc61c70959f5c63c1a2310d9b8351839e77945372962c4da",
+    "src\\Iris.Platform.Windows\\Capture\\GdiCaptureWorker.cs": "625d2a1be38ff2308a3599194a69cc33753579cb3a59268c06533e4d3daa4e8b",
+    "src\\Iris.Platform.Windows\\Capture\\GdiScreenCapturer.cs": "3e46676e626a4d85059f3e65d6d219672a525fffd2520ef7756b16049ca88ab6",
+    "src\\Iris.Platform.Windows\\Capture\\IGdiCaptureApi.cs": "36d3c45d1c267189d508a19d6fb4cdc69e1597ed9198491921a38ec03caaa601",
+    "src\\Iris.Platform.Windows\\Capture\\INativeDesktopAdapter.cs": "049508fb584ef5683f5ee8436969f3e7da17ed5a529d4b2671088a2389b9f583",
+    "src\\Iris.Platform.Windows\\Capture\\IScreenEncoderIo.cs": "e8186f94ad56bf23274994ed7296b72466d96a0bbb4ce314b8a286d34a0909de",
+    "src\\Iris.Platform.Windows\\Capture\\MonitorEnumerator.cs": "9447fa4c27a924f1e13cb2f13fcd83381ef01dc427a488b34e611218a67a204d",
+    "src\\Iris.Platform.Windows\\Capture\\NativeDesktopAdapter.cs": "3c87d1e93124d55d30833a061ec0fb7e37ad6ff3e8370ed0b68685975120af4d",
+    "src\\Iris.Platform.Windows\\Capture\\NativeGdiCaptureAdapter.cs": "5f3c4f3d0774192ff604f445f20f8e3c3b267168ff21a6ca5c7a3b3f46ca749d",
+    "src\\Iris.Platform.Windows\\Capture\\ScreenCaptureErrors.cs": "9c6491e6c380299c16d152574dd4a6f505d905c1df0541068f85531c04104872",
+    "src\\Iris.Platform.Windows\\Capture\\ScreenMemoryEncoder.cs": "4cb64b32fa814e3931bafb60860d17ae606546a144df21dfa3ddf18dc50f5dfc",
+    "src\\Iris.Platform.Windows\\Capture\\ScreenPixelLayout.cs": "feb550ccc6441d2eef7d6b1f02f325bbd877dccd61c7e8fe5c6c9ae587d21a76",
+    "src\\Iris.Platform.Windows\\Capture\\Win32GdiCaptureApi.cs": "fa112a892f64ce25c13ef0cd839de76219590e0e121066c7ff4c561a6dc466c0",
+    "src\\Iris.Platform.Windows\\Capture\\WinRtScreenEncoderIo.cs": "604add5e365a53c77be8fbc719bb999708c79dc494d8ee97cf68328779615248"
+  },
+  "platformAssembly": "6f12e0eb0b23011b272f77dbe7bf0a454aad66d722a8b362388e8908d2f1ad28"
+}

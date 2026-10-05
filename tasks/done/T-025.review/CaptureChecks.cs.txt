@@ -1,0 +1,113 @@
+using Iris.Core.Errors;
+using Iris.Core.Imaging;
+using Iris.Core.Platform;
+using Iris.Platform.Windows.Tests.Capture;
+
+// Final preparation: copied fixture supplies fake Win32 memory/DCs; all capture logic remains production code.
+internal static class CaptureChecks
+{
+    internal static async Task RunAsync()
+    {
+        await PhysicalPixelsAsync();
+        await RetainedCleanupBeforeCropAsync();
+        await TopologyRetryAsync();
+        await NativeCancellationBarrierAsync();
+    }
+    private static Task PhysicalPixelsAsync() => ScreenCaptureTestScope.Run(async f =>
+    {
+        var a = new PixelRect(-5, -2, 2, 3); var b = new PixelRect(1, 2, 3, 2);
+        f.Desktop.Monitors = [new("A", a, a, 1.25, true), new("B", b, b, 2, false)];
+        var frame = await f.Service.CaptureVirtualScreenAsync(CancellationToken.None);
+        Require(frame.VirtualBounds == new PixelRect(-5, -2, 9, 6), "physical union");
+        Require(frame.Stride == 36 && frame.Bgra32Pixels.Length == 216, "raw geometry");
+        for (int y = 0; y < frame.Height; y++)
+        for (int x = 0; x < frame.Width; x++)
+        {
+            int wx = x - 5, wy = y - 2;
+            bool drawn = Inside(a, wx, wy) || Inside(b, wx, wy);
+            int p = y * frame.Stride + x * 4;
+            Require(frame.Bgra32Pixels[p] == (drawn ? unchecked((byte)wx) : 0) &&
+                frame.Bgra32Pixels[p + 1] == (drawn ? unchecked((byte)wy) : 0) &&
+                frame.Bgra32Pixels[p + 2] == (drawn ? 37 : 0) && frame.Bgra32Pixels[p + 3] == 255,
+                "world pixels, gap initialization or alpha");
+        }
+        Require(f.Native.Header.biHeight == -6 && f.Native.Header.biWidth == 9 && f.Native.Header.biBitCount == 32,
+            "top-down DIB header");
+        Require(f.Native.DibArguments == (0u, (nint)0, 0u) && f.Native.Blits.All(v => v.Raster == 0x40CC0020), "DIB flags/BitBlt flags");
+        Require(f.Native.Handles == 0 && f.Native.Dpi == -2 && f.Native.Violations == 0, "capture cleanup");
+        Require(f.Native.Calls.Select(c => c.Thread).Distinct().Count() == 1 && f.Desktop.Threads.All(t => t == f.Native.Owner), "native thread ownership");
+        int nativeCalls = f.Native.Calls.Count;
+        var crop = await f.Service.CropAsync(frame, new(-5, -2, 2, 2));
+        var decoded = await CropChecks.DecodeAsync(crop);
+        Require(decoded[0] == 251 && decoded[1] == 254 && decoded[2] == 37 && decoded[3] == 255, "capture to actual codec pixels");
+        Require(f.Native.Calls.Count == nativeCalls && f.Threads.All.Count == 1, "crop re-captured or changed worker");
+        Console.WriteLine("CAPTURE_PHYSICAL size=9x6 negativeOrigin=True gapsBlack=True alphaOpaque=True nativeOneThread=True cropReread=False");
+    }, realEncoder: true);
+
+    private static Task RetainedCleanupBeforeCropAsync() => ScreenCaptureTestScope.Run(async f =>
+    {
+        f.Native.Failures["Restore"] = 1; f.Native.Failures["DeleteDC"] = 1;
+        try { await f.Service.CaptureVirtualScreenAsync(CancellationToken.None); throw new Exception("Expected native cleanup failure"); }
+        catch (IrisException ex) when (ex.Code == ErrorCode.CaptureFailed)
+        {
+            Require(ex.Detail?.Contains("RESTORE_SELECTION", StringComparison.Ordinal) == true &&
+                ex.Detail.Contains("DELETE_DC", StringComparison.Ordinal), "missing cleanup stages");
+        }
+        Require(f.Native.Handles == 2 && f.Native.Selected && f.Native.Bits != 0, "lost selected bitmap/DC ownership");
+        int owner = f.Native.Owner;
+        var bounds = new PixelRect(0, 0, 1, 1);
+        var frame = new CapturedFrame([0, 0, 255, 255], 1, 1, 4, bounds, [new("synthetic", bounds, bounds, 1, true)], DateTimeOffset.UnixEpoch);
+        var result = await f.Service.CropAsync(frame, bounds);
+        Require((await CropChecks.DecodeAsync(result)).SequenceEqual(frame.Bgra32Pixels), "crop after pending cleanup");
+        Require(f.Native.Handles == 0 && f.Native.Violations == 0 && f.Native.Owner == owner && f.Threads.All.Count == 1, "cleanup retry owner");
+        Require(f.Native.Count("GetDC") == 1 && f.Native.Count("Restore") == 2 && f.Native.Count("DeleteBitmap") == 1 &&
+            f.Native.Count("DeleteDC") == 2 && f.Native.Count("ReleaseDC") == 1, "cleanup stages repeated or skipped");
+        Console.WriteLine("CAPTURE_RETAINED selectedBitmapAndDc=True sameThreadRetry=True cropAfterCleanup=True noNewCapture=True");
+    }, realEncoder: true);
+
+    private static Task TopologyRetryAsync() => ScreenCaptureTestScope.Run(async f =>
+    {
+        var first = f.Desktop.Monitors;
+        var bounds = new PixelRect(-3, -2, 3, 2);
+        IReadOnlyList<MonitorInfo> next = [new("B", bounds, bounds, 1.5, true)];
+        int calls = 0;
+        f.Desktop.Query = () => Interlocked.Increment(ref calls) == 1 ? first : next;
+        var result = await f.Service.CaptureVirtualScreenAsync(CancellationToken.None);
+        Require(result.VirtualBounds == bounds && calls == 4 && f.Native.Count("GetDC") == 2 && f.Native.Handles == 0,
+            "topology retry did not discard initial frame and clean");
+        Console.WriteLine("CAPTURE_TOPOLOGY attempts=2 snapshots=4 finalBoundsCorrect=True cleanupComplete=True");
+    });
+
+    private static Task NativeCancellationBarrierAsync() => ScreenCaptureTestScope.Run(async f =>
+    {
+        var gate = f.Gate();
+        f.Native.Before = stage => { if (stage == "BitBlt") gate.Block(); };
+        var caller = new CancellationTokenSource();
+        Task<CapturedFrame>? capture = null; Task? stop = null;
+        var errors = new List<Exception>();
+        try
+        {
+            capture = f.Track(f.Service.CaptureVirtualScreenAsync(caller.Token), typeof(OperationCanceledException));
+            await gate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            await caller.CancelAsync(); stop = f.Track(f.Service.StopAsync());
+            Require(!capture.IsCompleted && !stop.IsCompleted && f.Native.Handles == 3, "native call detached on cancellation");
+            gate.Open();
+            try { await capture; throw new Exception("Capture published despite cancellation"); } catch (OperationCanceledException) { }
+            await stop;
+        }
+        catch (Exception ex) { errors.Add(ex); }
+        finally
+        {
+            gate.Open();
+            if (capture != null) try { await capture; } catch (OperationCanceledException) { } catch (Exception ex) { errors.Add(ex); }
+            if (stop != null) try { await stop; } catch (Exception ex) { errors.Add(ex); }
+            caller.Dispose();
+        }
+        if (errors.Count != 0) throw new AggregateException(errors);
+        Require(f.Native.Handles == 0 && f.Native.Dpi == -2 && f.Threads.All.All(t => !t.IsAlive), "native exit incomplete");
+        Console.WriteLine("CAPTURE_CANCEL nativeEntered=True callerWaited=True stopWaited=True handles=0 threadsExited=True");
+    });
+    private static bool Inside(PixelRect rect, int x, int y) => x >= rect.X && y >= rect.Y &&
+        (long)x < (long)rect.X + rect.Width && (long)y < (long)rect.Y + rect.Height;
+    private static void Require(bool condition, string text) { if (!condition) throw new Exception(text); }
+}

@@ -1,0 +1,143 @@
+using Iris.Core.Errors;
+using Iris.Core.Imaging;
+using Iris.Core.Platform;
+using Iris.Platform.Windows.Capture;
+using NSubstitute;
+
+// Uses the real capturer and ScreenMemoryEncoder; fake ONLY native/codec/desktop boundaries.
+internal static class LifecycleChecks
+{
+    internal static async Task RunAsync()
+    {
+        await StopOwnsPendingCleanupAsync();
+        await CancellationWaitsCodecAsync();
+        await NativeCancellationIsNotCallerCancellationAsync();
+    }
+    private static CapturedFrame Frame()
+    {
+        var bounds = new PixelRect(-1, -1, 1, 1);
+        return new([0, 0, 0, 255], 1, 1, 4, bounds, [new MonitorInfo("synthetic", bounds, bounds, 1, true)], DateTimeOffset.UnixEpoch);
+    }
+
+    private static Task StopOwnsPendingCleanupAsync() => RunOwned(async f =>
+    {
+        f.Io.FirstReaderFailure = true;
+        try { await f.Service.CropAsync(Frame(), Frame().VirtualBounds); throw new Exception("Expected cleanup failure"); }
+        catch (IrisException ex) when (ex.Code == ErrorCode.CaptureFailed)
+        {
+            Require(!ex.ToString().Contains("private native", StringComparison.Ordinal), "unsafe cleanup exception");
+        }
+        Require(f.Io.ReaderDisposes == 1 && !f.Io.ReaderReleased && f.Io.StreamReleased, "pending reader ownership missing");
+        f.Io.BlockReader = true;
+        Task stop = f.Track(f.Service.StopAsync());
+        await f.Io.ReaderEntered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        Require(!stop.IsCompleted, "Stop escaped owned cleanup");
+        Task retry = f.Track(f.Service.RetryCleanupAsync());
+        bool shared = ReferenceEquals(stop, retry);
+        try { await f.Service.CropAsync(Frame(), Frame().VirtualBounds); throw new Exception("Accepted after stop"); }
+        catch (IrisException ex) when (ex.Code == ErrorCode.CaptureFailed) { }
+        f.Io.ReaderRelease.TrySetResult();
+        await stop; await retry;
+        Require(f.Io.ReaderDisposes == 2 && f.Io.ReaderReleased && f.Io.StreamReleased, "concurrent/duplicate cleanup");
+        Console.WriteLine($"STOP_RETRY shared={shared} readerAttempts={f.Io.ReaderDisposes} complete=True");
+    });
+
+    private static Task CancellationWaitsCodecAsync() => RunOwned(async f =>
+    {
+        f.Io.BlockFlush = true;
+        var caller = f.OwnCancellation();
+        var crop = f.Track(f.Service.CropAsync(Frame(), Frame().VirtualBounds, cancellationToken: caller.Token), typeof(OperationCanceledException));
+        await f.Io.FlushEntered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        await caller.CancelAsync();
+        Require(!crop.IsCompleted, "caller cancellation detached codec");
+        var stop = f.Track(f.Service.StopAsync());
+        Require(!stop.IsCompleted && !f.Io.ReaderReleased && !f.Io.StreamReleased, "Stop disposed active codec");
+        f.Io.FlushRelease.TrySetResult();
+        try { await crop; throw new Exception("Expected caller cancellation"); }
+        catch (OperationCanceledException) { }
+        await stop;
+        Require(f.Io.ReaderReleased && f.Io.StreamReleased, "codec cleanup incomplete");
+        Console.WriteLine("CODEC_CANCEL callerWaited=True stopWaited=True resourcesReleased=True");
+    });
+
+    private static Task NativeCancellationIsNotCallerCancellationAsync() => RunOwned(async f =>
+    {
+        f.Io.NativeCancelled = true;
+        Exception? observed = null;
+        try { await f.Service.CropAsync(Frame(), Frame().VirtualBounds, cancellationToken: CancellationToken.None); }
+        catch (Exception ex) { observed = ex; }
+        Console.WriteLine($"CODEC_SELF_CANCEL exception={observed?.GetType().Name ?? "none"} callerCancelled=False cleanupComplete={f.Io.ReaderReleased && f.Io.StreamReleased}");
+        Require(observed is IrisException { Code: ErrorCode.CaptureFailed }, "native cancellation was reported as caller cancellation");
+        Require(!observed!.ToString().Contains("private native", StringComparison.Ordinal), "native exception text leaked");
+    });
+
+    private static async Task RunOwned(Func<Fixture, Task> body)
+    {
+        var f = new Fixture();
+        var errors = new List<Exception>();
+        try { await body(f); }
+        catch (Exception ex) { errors.Add(ex); }
+        finally
+        {
+            f.Io.FirstReaderFailure = false; f.Io.NativeCancelled = false;
+            f.Io.ReaderRelease.TrySetResult(); f.Io.FlushRelease.TrySetResult();
+            foreach (var (task, allowed) in f.Tasks)
+                try { await task; } catch (Exception ex) { if (allowed == null || !allowed.IsInstanceOfType(ex)) errors.Add(ex); }
+            try { await f.Service.DisposeAsync(); } catch (Exception ex) { errors.Add(ex); }
+            foreach (var caller in f.Callers) caller.Dispose();
+            if (f.Native.ReceivedCalls().Any() || f.Desktop.ReceivedCalls().Any() || f.Threads.Created != 0)
+                errors.Add(new Exception("standalone codec path accessed capture boundary"));
+        }
+        if (errors.Count > 0) throw new AggregateException(errors);
+    }
+    private sealed class Fixture
+    {
+        internal readonly IGdiCaptureApi Native = Substitute.For<IGdiCaptureApi>();
+        internal readonly IDesktopContext Desktop = Substitute.For<IDesktopContext>();
+        internal readonly ThreadSpy Threads = new();
+        internal readonly CodecIo Io = new();
+        internal readonly GdiScreenCapturer Service;
+        internal readonly List<(Task Task, Type? Allowed)> Tasks = [];
+        internal readonly List<CancellationTokenSource> Callers = [];
+        internal Fixture() => Service = new(new NativeGdiCaptureAdapter(Native), Desktop, new ScreenMemoryEncoder(new Factory(Io)), Threads, TimeProvider.System);
+        internal T Track<T>(T task, Type? allowed = null) where T : Task { Tasks.Add((task, allowed)); return task; }
+        internal CancellationTokenSource OwnCancellation() { var caller = new CancellationTokenSource(); Callers.Add(caller); return caller; }
+    }
+    private sealed class Factory(IScreenEncoderIo io) : IScreenEncoderFactory
+    { public IScreenEncoderIo Create() => io; }
+    private sealed class ThreadSpy : ICaptureThreadFactory
+    {
+        internal int Created;
+        public Thread Create(ThreadStart start) { Interlocked.Increment(ref Created); return new Thread(start) { IsBackground = true }; }
+    }
+    private sealed class CodecIo : IScreenEncoderIo
+    {
+        internal bool FirstReaderFailure, BlockReader, BlockFlush, NativeCancelled;
+        internal int ReaderDisposes;
+        internal bool ReaderReleased, StreamReleased;
+        internal readonly TaskCompletionSource ReaderEntered = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        internal readonly TaskCompletionSource ReaderRelease = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        internal readonly TaskCompletionSource FlushEntered = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        internal readonly TaskCompletionSource FlushRelease = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        public Task CreateAsync(ImageFormat format, float jpegQuality) => Task.CompletedTask;
+        public void SetPixels(byte[] pixels, int width, int height) { }
+        public async Task FlushAsync()
+        {
+            FlushEntered.TrySetResult();
+            if (BlockFlush) await FlushRelease.Task;
+            if (NativeCancelled) throw new OperationCanceledException("private native cancellation", new CancellationToken(true));
+        }
+        public ulong Size => 4;
+        public Task<uint> ReadAsync(uint count) => Task.FromResult(count);
+        public void CopyBytes(byte[] target) => Array.Clear(target);
+        public async ValueTask DisposeReaderAsync()
+        {
+            int call = Interlocked.Increment(ref ReaderDisposes);
+            if (FirstReaderFailure && call == 1) throw new IOException("private native cleanup");
+            if (BlockReader) { ReaderEntered.TrySetResult(); await ReaderRelease.Task; }
+            ReaderReleased = true;
+        }
+        public ValueTask DisposeStreamAsync() { StreamReleased = true; return ValueTask.CompletedTask; }
+    }
+    private static void Require(bool condition, string text) { if (!condition) throw new Exception(text); }
+}

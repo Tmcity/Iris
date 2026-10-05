@@ -1,0 +1,15 @@
+CROP format=Png size=2x3 bytes=130 exactPixels=True inputUnchanged=True
+CROP format=Bmp size=2x3 bytes=78 exactPixels=True inputUnchanged=True
+CROP_LONG_INTERSECTION width=6 height=4
+CROP_INVALID_AND_CANCEL approvedErrors=True cancelledBeforeWork=True
+CROP_JPEG size=64x32 meanRgbAbsoluteError=0.8298
+STOP_RETRY shared=True readerAttempts=2 complete=True
+CODEC_CANCEL callerWaited=True stopWaited=True resourcesReleased=True
+CODEC_SELF_CANCEL exception=IrisException callerCancelled=False cleanupComplete=True
+CAPTURE_PHYSICAL size=9x6 negativeOrigin=True gapsBlack=True alphaOpaque=True nativeOneThread=True cropReread=False
+CAPTURE_RETAINED selectedBitmapAndDc=True sameThreadRetry=True cropAfterCleanup=True noNewCapture=True
+CAPTURE_TOPOLOGY attempts=2 snapshots=4 finalBoundsCorrect=True cleanupComplete=True
+CAPTURE_CANCEL nativeEntered=True callerWaited=True stopWaited=True handles=0 threadsExited=True
+CAPTURE_RETENTION rawPixelsCollectedWithoutMaintenance=True
+CROP_RETENTION encodedBytesCollectedWithoutMaintenance=True gdiCalls=0
+SCOPE actualCapturerAndMemoryEncoder=True fakeGdiAndDesktop=True realSyntheticCodecs=True realDesktopCapture=False failures=0

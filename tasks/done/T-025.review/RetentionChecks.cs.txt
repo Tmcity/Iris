@@ -1,0 +1,61 @@
+using System.Runtime.CompilerServices;
+using Iris.Core.Imaging;
+using Iris.Core.Platform;
+using Iris.Platform.Windows.Tests.Capture;
+
+internal static class RetentionChecks
+{
+    internal static async Task RunAsync()
+    {
+        var control = await ControlAsync();
+        if (!await CollectedAsync(control)) throw new Exception("GC control retained; memory observation is inconclusive");
+        await ScreenCaptureTestScope.Run(async f =>
+        {
+            var weak = await CaptureWeakAsync(f.Service);
+            bool collected = await CollectedAsync(weak);
+            // No RetryCleanup/Stop/second request may release a cached frame before this assertion.
+            if (!collected) throw new Exception("Returned raw pixels retained by idle service");
+            Console.WriteLine("CAPTURE_RETENTION rawPixelsCollectedWithoutMaintenance=True");
+            GC.KeepAlive(f.Service);
+        });
+        await ScreenCaptureTestScope.Run(async f =>
+        {
+            var weak = await CropWeakAsync(f.Service);
+            bool collected = await CollectedAsync(weak);
+            if (!collected) throw new Exception("Returned encoded bytes retained by idle service");
+            if (f.Native.Calls.Count != 0 || f.Threads.All.Count != 0) throw new Exception("Standalone codec touched GDI");
+            Console.WriteLine("CROP_RETENTION encodedBytesCollectedWithoutMaintenance=True gdiCalls=0");
+            GC.KeepAlive(f.Service);
+        }, realEncoder: true);
+    }
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static async Task<WeakReference> ControlAsync()
+    { var bytes = await Task.FromResult(new byte[64]); return new(bytes); }
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static async Task<WeakReference> CaptureWeakAsync(IScreenCapturer service)
+    { var frame = await service.CaptureVirtualScreenAsync(CancellationToken.None); return new(frame.Bgra32Pixels); }
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static async Task<WeakReference> CropWeakAsync(IScreenCapturer service)
+    {
+        var bounds = new PixelRect(0, 0, 1, 1);
+        var frame = new CapturedFrame([0, 0, 255, 255], 1, 1, 4, bounds, [new("synthetic", bounds, bounds, 1, true)], DateTimeOffset.UnixEpoch);
+        var image = await service.CropAsync(frame, bounds); return new(image.Bytes);
+    }
+    private static async Task<bool> CollectedAsync(WeakReference weak)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            await Task.Yield(); await Task.Run(static () => { });
+            if (Collect(weak)) return true;
+        }
+        return false;
+    }
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static bool Collect(WeakReference weak)
+    {
+        GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, blocking: true, compacting: true);
+        GC.WaitForPendingFinalizers();
+        GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, blocking: true, compacting: true);
+        return !weak.IsAlive;
+    }
+}

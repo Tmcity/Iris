@@ -1,0 +1,23 @@
+from pathlib import Path
+from xml.sax.saxutils import escape
+import json,hashlib,subprocess,shutil
+
+directory=Path(__file__).parent
+root=Path('F:/Iris')
+output=root/'tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0'
+refs='\n'.join('<Reference Include="'+escape(p.stem)+'"><HintPath>'+escape(str(p))+'</HintPath></Reference>'
+    for p in output.glob('*.dll') if not p.name.endswith('.Tests.dll'))
+project='''<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup>
+<TargetFramework>net10.0-windows10.0.19041.0</TargetFramework><UseWPF>true</UseWPF>
+<OutputType>Exe</OutputType><AssemblyName>Iris.App.Tests</AssemblyName><ImplicitUsings>enable</ImplicitUsings>
+<Nullable>enable</Nullable><AllowUnsafeBlocks>true</AllowUnsafeBlocks><NuGetAudit>false</NuGetAudit>
+</PropertyGroup><ItemGroup>'''+refs+'</ItemGroup></Project>'
+(directory/'Review.csproj').write_text(project,encoding='utf-8')
+for name in ('ScreenCaptureTestScope.cs','FakeScreenEncoderIo.cs'):
+    shutil.copyfile(root/'tests/Iris.Platform.Windows.Tests/Capture'/name,directory/name)
+manifest={'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),
+    'captureSources':{str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest()
+        for p in (root/'src/Iris.Platform.Windows/Capture').glob('*.cs')},
+    'platformAssembly':hashlib.sha256((output/'Iris.Platform.Windows.dll').read_bytes()).hexdigest()}
+(directory/'prepared-manifest.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
+print('Final references refreshed; no probe executed. Adapt final external signatures before building.')

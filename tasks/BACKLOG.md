@@ -315,7 +315,7 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
-| T-025 | ▶ | GdiScreenCapturer、CropAsync 三格式编码与完整退出（MonitorEnumerator 已拆至 T-022A） | T-022A, T-024 | 1d |
+| T-025 | ☑ | GdiScreenCapturer、CropAsync 三格式编码与完整退出（MonitorEnumerator 已拆至 T-022A） | T-022A, T-024 | 1d |
 | T-026 | ☐ | ScreenshotOverlayWindow + ScreenshotService | T-025 | 2.5d |
 | T-027 | ☐ | WinRtImagePreprocessor | T-025 | 1d |
 | T-028 | ☐ | 百度 OCR Provider（Token 缓存、四种模式、错误映射） | T-008, T-004 | 1.5d |
@@ -386,3 +386,5 @@ T-030 签发前须按 PROVIDER_REGISTRY.md 将 OCR 注册表原型同步为租�
 **T-024B2 首次复审（2026-10-05）** — b3ec7eefa25b87f9e3de8e455f243ea7db92947f 未通过，仅部分显示失败收尾待修。独立Release零警告/错误，全量2415（2413成功/2环境跳过），14张最终图像指纹/布局通过；真实Window已Show后第二次定位失败，失效图标仍可见，超时也不隐藏，独立探针可重试/完整退出。签发T-024B2-R1，保留其它已确认成果，证据见B2第11节；父T-024/B/B2保持▶，CCR-022待复审，不开始T-025，不推送。
 
 **T-024 最终结案 / T-025 签发（2026-10-05）** — R1 `3a8450e724e6a4bebcb0fd8d20e1a93371e8c237` 独立验收通过，Release零警告/错误，全量2426（2424成功/2环境跳过）；失败显示即时隐藏、旧点击无效、新候选正常且实际HWND/线程归零。T-024/B/B2与CCR-022结案，真实交互/NFR待后续验收。下一唯一工单T-025 / SCREEN_CAPTURE.md / CCR-023，直接协调开发会话，不推送。
+
+**T-025 验收结案并暂停（2026-10-05）** — `1418e0d5939c50024460880a1da0a027df3820aa`通过源码与自动化独立验收：Release零警告/错误，全量2509（2507成功/2既有环境跳过），独立实际服务/codec探针完整通过。CCR-023结案，详情见T-025.md第9节。真实桌面兼容性/混合DPI及NFR仍未验证。按用户“T-025完成后先暂停开发”的要求，当前无活动工单，T-026保持☐，不再自动签发后续任务，等待用户恢复。

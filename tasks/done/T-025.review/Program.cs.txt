@@ -1,0 +1,39 @@
+using Iris.Core.Platform;
+using Iris.Platform.Windows.Capture;
+using NSubstitute;
+
+var failures = new List<Exception>();
+try
+{
+    var native = Substitute.For<IGdiCaptureApi>();
+    var desktop = Substitute.For<IDesktopContext>();
+    var threads = new ProbeThreads();
+    var service = new GdiScreenCapturer(new NativeGdiCaptureAdapter(native), desktop,
+        new ScreenMemoryEncoder(new WinRtScreenEncoderFactory()), threads, TimeProvider.System);
+    try { await CropChecks.RunAsync(service); }
+    catch (Exception ex) { failures.Add(ex); }
+    finally
+    {
+        try { await service.DisposeAsync(); } catch (Exception ex) { failures.Add(ex); }
+        if (native.ReceivedCalls().Any() || desktop.ReceivedCalls().Any() || threads.Created != 0)
+            failures.Add(new Exception("Standalone Crop accessed GDI or started capture worker"));
+    }
+}
+catch (Exception ex) { failures.Add(ex); }
+
+try { await LifecycleChecks.RunAsync(); }
+catch (Exception ex) { failures.Add(ex); }
+
+try { await CaptureChecks.RunAsync(); }
+catch (Exception ex) { failures.Add(ex); }
+try { await RetentionChecks.RunAsync(); }
+catch (Exception ex) { failures.Add(ex); }
+foreach (var failure in failures) Console.WriteLine(failure);
+Console.WriteLine($"SCOPE actualCapturerAndMemoryEncoder=True fakeGdiAndDesktop=True realSyntheticCodecs=True realDesktopCapture=False failures={failures.Count}");
+Environment.ExitCode = failures.Count == 0 ? 0 : 2;
+
+internal sealed class ProbeThreads : ICaptureThreadFactory
+{
+    internal int Created;
+    public Thread Create(ThreadStart start) { Interlocked.Increment(ref Created); return new Thread(start) { IsBackground = true }; }
+}

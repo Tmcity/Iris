@@ -913,10 +913,12 @@ CCR-022 实施复审补充（2026-10-05）：B2 / b3ec7ee 的获批声明及正�
 |---|---|
 | 日期 / 批准 | 2026-10-05，Codex 架构师 |
 | 关联 | T-025；SCREEN_CAPTURE.md；ARCH v1.39 |
-| 状态 | **已落地，待复审（T-025）** |
+| 状态 | **已验收结案（T-025，1418e0d，2026-10-05）** |
 
 IScreenCapturer 当前尚无实现/调用方；批准将同步 Crop 替换为 Task<ImageData> CropAsync(CapturedFrame frame, PixelRect region, ImageFormat format = ImageFormat.Png, CancellationToken cancellationToken = default)，避免WinRT异步编码被同步阻塞。CaptureVirtualScreenAsync原签名、CapturedFrame原构造/字段/解构、ImageData与三种格式保持。
 
 CapturedFrame新增固定安全ToString及top-down/opaque alpha、物理Stride、输入缓冲调用期不可修改等注释。端口注释固定单请求准入、忙时CaptureFailed、取消完整等待、预算和交集语义；无新增公共生命周期接口，内部Stop/Retry由同一Platform实例及App组合根管理。具体常量、错误分类与保留资源规则见SCREEN_CAPTURE.md。
 
 specs/CONTRACTS.cs已预置精确声明，由T-025同步Core和实现。没有新增默认配置/JSON/schema/包；不改其它已验收契约或平台能力。T-026后续截图服务草图同步await CropAsync，尚不实施UI/隐藏恢复/OCR/入口。
+
+CCR-023结案补充（2026-10-05）：获批声明与Core同步，独立构建/全量/实际服务及内存编解码验证通过，详见T-025.md第9节。真实桌面/NFR未验证；依用户安排本单结束后暂停，不批准或启动后续契约变更。
