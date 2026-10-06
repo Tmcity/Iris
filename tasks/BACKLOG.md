@@ -323,8 +323,10 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 | T-028 | ☑ | 百度 OCR 总单：A表单图像预算，B完整Provider/Token/四模式/错误映射 | T-027, T-008, T-004 | 2d |
 | T-028A | ☑ | 可选精确表单图像预算与预处理扩展，保留原Base64约束 | T-027 | 0.5d |
 | T-028B | ☑ | 百度OCR Provider与Factory、Token共享刷新、四模式及完整请求生命周期 | T-028A, T-008, T-004 | 1.5d |
-| T-029 | ▶ | Windows 本地 OCR Provider/Factory、语言选择与位图完整收尾 | T-027 | 1d |
-| T-030 | ☐ | OcrProviderRegistry + OcrService + OcrTextNormalizer | T-028, T-029 | 1d |
+| T-029 | ☑ | Windows 本地 OCR Provider/Factory、语言选择与位图完整收尾 | T-027 | 1d |
+| T-030 | ▶ | OCR总单：A注册表/租约/发布屏障，B编排/回退/文本规范化 | T-028, T-029 | 1d |
+| T-030A | ▶ | OCR注册表、异步租约与清理重试、配置观察者及App生命周期 | T-028, T-029 | 0.5d |
+| T-030B | ☐ | OcrService回退/预处理及OcrTextNormalizer完整范围 | T-030A | 0.5d |
 | T-031 | ☐ | 截图翻译 / 截图 OCR / 静默 OCR Handler + OcrResultWindow | T-026, T-030, T-015 | 2d |
 | T-032 | ☐ | OCR 设置页 + 截图设置页 | T-031, T-018 | 1d |
 

@@ -1,0 +1,246 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Settings.SettingsTranslationSaveIntegrationTests.KeepReplaceClear_CredentialBehaviors_HandledCorrectly (40ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : secretStore.Storage.ContainsKey(SecretKeys.CredentialSet(oldSetId))
+      should be
+  False
+      but was
+  True
+    在 Iris.App.Tests.Settings.SettingsTranslationSaveIntegrationTests.KeepReplaceClear_CredentialBehaviors_HandledCorrectly() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsTranslationSaveIntegrationTests.cs:379
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.App.Tests.Settings.SettingsTranslationSaveIntegrationTests.UnifiedSave_GeneralAndMultipleProfilesAndKeyAndOrder_InvokesSingleUpdateAsync_AndPersistsAllChanges (38ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : vm.StatusMessage
+      should be
+  "设置已保存"
+      but was
+  "配置已提交保存，但部分服务提供商刷新未完全完成，旧凭据已保留"
+      difference
+  Difference     |                 |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 |                \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | ...  1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   21   ...  
+  Expected Value | ...  置    已    保    存                                                                                         ...  
+  Actual Value   | ...  置    已    提    交    保    存    ，    但    部    分    服    务    提    供    商    刷    新    未    完    全    完    ...  
+  Expected Code  | ...  32622240502044523384                                                                                     ...  
+  Actual Code    | ...  326222405025552201322044523384652922029437096209982638121153255522037921830210472603226410234362084023436...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  9    10   11   12   13   14   15   16   17   18   19   20   21   22   23   24   25   26   27   28   29   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  部    分    服    务    提    供    商    刷    新    未    完    全    完    成    ，    旧    凭    据    已    保    留    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  370962099826381211532555220379218302104726032264102343620840234362510465292260872097325454240502044530041
+    在 Iris.App.Tests.Settings.SettingsTranslationSaveIntegrationTests.UnifiedSave_GeneralAndMultipleProfilesAndKeyAndOrder_InvokesSingleUpdateAsync_AndPersistsAllChanges() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsTranslationSaveIntegrationTests.cs:312
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.App.Tests.Selection.SelectionCoordinationIntegrationTests.Bootstrapper_DrainsCoordinatorThenCompositeThenPresentersHostAndDispatcher(failDestroy: True) (8ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.AggregateException : One or more errors occurred. (calls
+      should not contain
+  "presenter"
+      but was actually
+  ["restore", "destroy", "presenter"]) (内容获取失败，请稍后重试)
+  ---- Shouldly.ShouldAssertException : calls
+      should not contain
+  "presenter"
+      but was actually
+  ["restore", "destroy", "presenter"]
+  ---- Iris.Core.Errors.IrisException : 内容获取失败，请稍后重试
+    在 Iris.App.Tests.Selection.SelectionCoordinationIntegrationTests.ThrowRetained(Exception primary, List`1 errors) 位于 F:\Iris\tests\Iris.App.Tests\Selection\SelectionCoordinationIntegrationTests.cs:166
+    在 Iris.App.Tests.Selection.SelectionCoordinationIntegrationTests.<>c__DisplayClass1_0.<<Bootstrapper_DrainsCoordinatorThenCompositeThenPresentersHostAndDispatcher>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\SelectionCoordinationIntegrationTests.cs:159
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.SelectionCoordinatorTestScope.<>c__DisplayClass0_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\SelectionCoordinatorTestScope.cs:15
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.SelectionCoordinatorTestScope.<>c__DisplayClass0_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\SelectionCoordinatorTestScope.cs:24
+    --- End of stack trace from previous location ---
+    在 Iris.Platform.Windows.Tests.Selection.SelectionTestScope.Run(Func`2 body, SelectionTestScope existing) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\SelectionTestScope.cs:102
+    在 Iris.Platform.Windows.Tests.Selection.SelectionTestScope.Run(Func`2 body, SelectionTestScope existing) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\SelectionTestScope.cs:125
+    --- End of stack trace from previous location ---
+    ----- Inner Stack Trace #1 (Shouldly.ShouldAssertException) -----
+    在 Iris.App.Tests.Selection.SelectionCoordinationIntegrationTests.<>c__DisplayClass1_0.<<Bootstrapper_DrainsCoordinatorThenCompositeThenPresentersHostAndDispatcher>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\SelectionCoordinationIntegrationTests.cs:141
+    ----- Inner Stack Trace #2 (Iris.Core.Errors.IrisException) -----
+    在 Iris.App.Hosting.AppBootstrapper.StopCoreAsync() 位于 F:\Iris\src\Iris.App\Hosting\AppBootstrapper.cs:415
+    在 Iris.App.Tests.Selection.SelectionCoordinationIntegrationTests.<>c__DisplayClass1_0.<<Bootstrapper_DrainsCoordinatorThenCompositeThenPresentersHostAndDispatcher>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\SelectionCoordinationIntegrationTests.cs:155
+失败 Iris.App.Tests.Translation.TranslateWindowIntegrationTests.HostCleanup_StopFailsBecauseOwnedWindowRefusesClose_IsReported_HostKept_ThenRecoveredByRetry (118ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : step.InnerException
+      should be of type
+  System.InvalidOperationException
+      but was
+  Iris.Core.Errors.IrisException
+    在 Iris.App.Tests.Translation.TranslateWindowIntegrationTests.<>c.<<HostCleanup_StopFailsBecauseOwnedWindowRefusesClose_IsReported_HostKept_ThenRecoveredByRetry>b__18_0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Translation\TranslateWindowIntegrationTests.cs:1041
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.TestSupport.OwnedCleanup.ThrowIfFailed(Exception primary) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\OwnedCleanup.cs:69
+    在 Iris.App.Tests.Translation.TranslateWindowIntegrationTests.<>c.<<HostCleanup_StopFailsBecauseOwnedWindowRefusesClose_IsReported_HostKept_ThenRecoveredByRetry>b__18_0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Translation\TranslateWindowIntegrationTests.cs:1079
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Translation.TranslateWindowIntegrationTests.HostCleanup_StopFailsBecauseOwnedWindowRefusesClose_IsReported_HostKept_ThenRecoveredByRetry() 位于 F:\Iris\tests\Iris.App.Tests\Translation\TranslateWindowIntegrationTests.cs:989
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.Scenario7_RealWindowPresenter_HandlesClosingReopening_AndReceipt32QuotaExhaustion (306ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : receiptManager.PendingCount
+      should be
+  0
+      but was
+  1
+  
+  Additional Info:
+      重试完成后待办回执清空
+    在 Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.<>c.<<Scenario7_RealWindowPresenter_HandlesClosingReopening_AndReceipt32QuotaExhaustion>b__19_0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:1356
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.<>c.<<Scenario7_RealWindowPresenter_HandlesClosingReopening_AndReceipt32QuotaExhaustion>b__19_0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:1371
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.Scenario7_RealWindowPresenter_HandlesClosingReopening_AndReceipt32QuotaExhaustion() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:1235
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.Scenario8_RealFocusedTextBox_FlushesInputBeforeSave_PersistsToIsolatedJsonSettingsService (156ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : vm.StatusMessage
+      should be
+  "设置已保存"
+      but was
+  "配置已提交保存，但部分服务提供商刷新未完全完成，旧凭据已保留"
+      difference
+  Difference     |                 |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 |                \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | ...  1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   21   ...  
+  Expected Value | ...  置    已    保    存                                                                                         ...  
+  Actual Value   | ...  置    已    提    交    保    存    ，    但    部    分    服    务    提    供    商    刷    新    未    完    全    完    ...  
+  Expected Code  | ...  32622240502044523384                                                                                     ...  
+  Actual Code    | ...  326222405025552201322044523384652922029437096209982638121153255522037921830210472603226410234362084023436...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  9    10   11   12   13   14   15   16   17   18   19   20   21   22   23   24   25   26   27   28   29   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  部    分    服    务    提    供    商    刷    新    未    完    全    完    成    ，    旧    凭    据    已    保    留    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  370962099826381211532555220379218302104726032264102343620840234362510465292260872097325454240502044530041
+    在 Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.<>c.<<Scenario8_RealFocusedTextBox_FlushesInputBeforeSave_PersistsToIsolatedJsonSettingsService>b__20_0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:1803
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.Scenario8_RealFocusedTextBox_FlushesInputBeforeSave_PersistsToIsolatedJsonSettingsService() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:1742
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.App.Tests.Selection.MouseRenderingTests.ActualThemesAndSizes_RenderLongListsErrorsAllRetriesAndIcon (763ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : vm.CanRetryAutoStart
+      should be
+  True
+      but was
+  False
+    在 Iris.App.Tests.Selection.MouseRenderingTests.<>c__DisplayClass0_1.<<ActualThemesAndSizes_RenderLongListsErrorsAllRetriesAndIcon>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseRenderingTests.cs:46
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Selection.MouseRenderingTests.<>c__DisplayClass0_1.<<ActualThemesAndSizes_RenderLongListsErrorsAllRetriesAndIcon>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseRenderingTests.cs:90
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:127
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:147
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Selection.MouseRenderingTests.ActualThemesAndSizes_RenderLongListsErrorsAllRetriesAndIcon() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseRenderingTests.cs:31
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 7 个错误 (40s 588ms)
+退出代码: 2
+  标准输出: LABEL_LAYOUT opaqueLabels=3 overlappingPairs=0
+  LABEL_LAYOUT opaqueLabels=3 overlappingPairs=0
+  RIGHT_CLEAR handled=True displayedX=100 displayedY=100
+  RIGHT_CLEAR handled=True displayedX=100 displayedY=100
+  PREPARATION_ERRORS settingsRecorded=True translationRecorded=True settingsRestored=True translationRestored=True
+  DWM_FAILURE code=CaptureFailed nativeHResultPreserved=True captures=0
+  LATE_POINTER_AFTER_CONFIRM imagePreserved=True crops=1
+  FOREGROUND_QUERY newIntentObserved=True emptyQueries=2 resultCanceled=True nativeRestores=0
+
+测试运行摘要: 失败!
+  总计: 602
+  失败: 7
+  成功: 595
+  已跳过: 0
+  持续时间: 40s 799ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

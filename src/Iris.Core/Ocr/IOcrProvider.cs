@@ -30,20 +30,41 @@ public interface IOcrProviderFactory
     IOcrProvider Create(OcrProviderProfile profile, ProviderCredentials credentials);
 }
 
-/// <summary>OCR 注册表原型；T-030 落地前按 PROVIDER_REGISTRY.md 同步租约与发布屏障接口，当前不实现此原型。</summary>
-public interface IOcrProviderRegistry
+/// <summary>OCR注册表。异步快照、发布屏障与失败清理语义见OCR_PROVIDER_REGISTRY.md。
+/// 所有Provider只可在快照租约内使用；不得自行处置借出的Provider。</summary>
+public interface IOcrProviderRegistry : IAsyncDisposable
 {
-    IOcrProvider? GetActive();
+    Task RefreshAsync(CancellationToken cancellationToken = default);
 
-    IOcrProvider? GetFallback();
+    Task<IOcrProviderSnapshot> AcquireSnapshotAsync(CancellationToken cancellationToken = default);
 
-    IOcrProvider? Find(string providerId);
+    Task<IOcrProviderSnapshot> CreateTransientAsync(
+        OcrProviderProfile profile, ProviderCredentials credentials, CancellationToken cancellationToken = default);
 
-    IReadOnlyList<IOcrProvider> GetAll();
+    /// <summary>立即封闭新准入/订阅；不等待外部租约，不处置仍在借用的Provider。</summary>
+    void StopAccepting();
 
-    IOcrProvider CreateTransient(OcrProviderProfile profile, ProviderCredentials credentials);
+    /// <summary>停止并等待构造/刷新/全部租约及真实清理；失败保有原资源，后续调用可重试。
+    /// cancellationToken仅取消本等待者，不撤销注册表拥有的停止任务。</summary>
+    Task StopAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>重试已退休且无租约的原实例清理，不关闭正常准入或处置当前代。</summary>
+    Task RetryCleanupAsync(CancellationToken cancellationToken = default);
 
     event EventHandler? Changed;
+}
+
+/// <summary>固定的OCR实例代次。禁止记录整份Profile/对象；InstanceId不由凭据派生。</summary>
+public sealed record OcrProviderRegistration(
+    OcrProviderProfile Profile, IOcrProvider Provider, Guid InstanceId);
+
+/// <summary>稳定的设置与按配置列表顺序排列的已启用OCR注册项。
+/// 首次释放立即拒绝属性访问；异步释放等待本租约引发的实际清理，失败可重复释放重试。
+/// 消费者必须在所有Provider子任务退出后释放；注册表停止后仍可安全释放。</summary>
+public interface IOcrProviderSnapshot : IAsyncDisposable
+{
+    AppSettings Settings { get; }
+    IReadOnlyList<OcrProviderRegistration> Providers { get; }
 }
 
 /// <summary>

@@ -1,0 +1,82 @@
+[
+  {
+    "name": "han",
+    "input": "你 好 世 界",
+    "expected": "你好世界"
+  },
+  {
+    "name": "supplementary",
+    "input": "𠀀 𠀁",
+    "expected": "𠀀𠀁"
+  },
+  {
+    "name": "kana",
+    "input": "あ い",
+    "expected": "あい"
+  },
+  {
+    "name": "katakana",
+    "input": "カ タ",
+    "expected": "カタ"
+  },
+  {
+    "name": "half_kana",
+    "input": "ｶ ﾀ",
+    "expected": "ｶﾀ"
+  },
+  {
+    "name": "hangul",
+    "input": "한 글",
+    "expected": "한 글"
+  },
+  {
+    "name": "jamo",
+    "input": "ᄒ ᅡ",
+    "expected": "ᄒ ᅡ"
+  },
+  {
+    "name": "double_space",
+    "input": "你  好",
+    "expected": "你  好"
+  },
+  {
+    "name": "tab",
+    "input": "你\t好",
+    "expected": "你\t好"
+  },
+  {
+    "name": "nbsp",
+    "input": "你 好",
+    "expected": "你 好"
+  },
+  {
+    "name": "latin_left",
+    "input": "A 中",
+    "expected": "A 中"
+  },
+  {
+    "name": "latin_right",
+    "input": "中 A",
+    "expected": "中 A"
+  },
+  {
+    "name": "edges",
+    "input": " 你 好 ",
+    "expected": " 你好 "
+  },
+  {
+    "name": "emoji",
+    "input": "中 😀 文",
+    "expected": "中 😀 文"
+  },
+  {
+    "name": "punctuation",
+    "input": "中 。",
+    "expected": "中。"
+  },
+  {
+    "name": "fullwidth",
+    "input": "Ａ Ｂ",
+    "expected": "ＡＢ"
+  }
+]

@@ -26,6 +26,7 @@ internal sealed partial class AppBootstrapper
 {
     private readonly ISettingsService _settingsService;
     private readonly ITranslationProviderRegistry _translationRegistry;
+    private readonly Iris.Core.Ocr.IOcrProviderRegistry? _ocrRegistry;
     private readonly IDatabaseInitializer _databaseInitializer;
     private readonly LogLevelController _logLevelController;
     private readonly ThemeService _themeService;
@@ -77,7 +78,8 @@ internal sealed partial class AppBootstrapper
         Iris.Platform.Windows.Capture.GdiScreenCapturer? screenCapturer = null,
         Iris.App.Capture.ScreenshotPreparationCoordinator? screenshotPreparation = null,
         Iris.App.Capture.ScreenshotService? screenshotService = null,
-        Iris.Platform.Windows.Imaging.WinRtImagePreprocessor? imagePreprocessor = null)
+        Iris.Platform.Windows.Imaging.WinRtImagePreprocessor? imagePreprocessor = null,
+        Iris.Core.Ocr.IOcrProviderRegistry? ocrRegistry = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -102,6 +104,7 @@ internal sealed partial class AppBootstrapper
         _screenshotPreparation = screenshotPreparation;
         _screenshotService = screenshotService;
         _imagePreprocessor = imagePreprocessor;
+        _ocrRegistry = ocrRegistry;
     }
 
     internal static Action<string, string> FatalErrorShower { get; set; } = FatalErrorDialog.Show;
@@ -139,6 +142,7 @@ internal sealed partial class AppBootstrapper
 
         // T-011: 设置成功加载（含损坏恢复）后，在用户入口启用前调用 ITranslationProviderRegistry.RefreshAsync()
         await _translationRegistry.RefreshAsync();
+        if (_ocrRegistry != null) await _ocrRegistry.RefreshAsync();
 
         // 2. 配置日志级别
         _logLevelController.ApplyCurrent();
@@ -222,6 +226,7 @@ internal sealed partial class AppBootstrapper
 
     public Task StopAsync()
     {
+        _ocrRegistry?.StopAccepting();
         _imagePreprocessor?.StopAcceptance();
         _screenshotService?.StopAcceptance();
         _screenshotPreparation?.StopAcceptance();
@@ -257,6 +262,7 @@ internal sealed partial class AppBootstrapper
     private async Task StopCoreAsync()
     {
         var earlyFailures = new System.Collections.Generic.List<string>();
+        bool preparationPending = false;
         if (_screenshotService != null)
         {
             try { await _screenshotService.StopAsync().ConfigureAwait(false); }
@@ -267,7 +273,7 @@ internal sealed partial class AppBootstrapper
         if (_screenshotPreparation != null && _screenshotService?.HasPendingOverlays != true)
         {
             try { await _screenshotPreparation.StopAsync().ConfigureAwait(false); }
-            catch (Exception ex) { earlyFailures.Add(ex is IrisException { Detail: not null } known
+            catch (Exception ex) { preparationPending = true; earlyFailures.Add(ex is IrisException { Detail: not null } known
                 ? $"PREPARATION[{known.Detail}]" : $"PREPARATION:0x{ex.HResult:X8}"); }
         }
         if (_imagePreprocessor != null)
@@ -345,10 +351,11 @@ internal sealed partial class AppBootstrapper
             try { await _selectionReader.StopAsync().ConfigureAwait(false); }
             catch (Exception ex) { selectionFailures.Add($"COMPOSITE:0x{ex.HResult:X8}"); }
         }
-        if (selectionFailures.Count != 0) throw new IrisException(selectionError, ErrorMessages.GetDefault(selectionError), detail: string.Join(';', selectionFailures));
+        bool ownersReady = !preparationPending && _screenshotService?.HasPendingOverlays != true;
+        if (!ownersReady) selectionFailures.Add("OWNERS_DEPEND_ON_OVERLAY");
 
         // 3. 然后配合既有设置/翻译 Presenter 完整退出
-        if (_settingsShutdownCoordinator != null)
+        if (_settingsShutdownCoordinator != null && !preparationPending && _screenshotService?.HasPendingOverlays != true)
         {
             try
             {
@@ -357,11 +364,11 @@ internal sealed partial class AppBootstrapper
             catch (Exception ex)
             {
                 LogSettingsShutdownFailed(_logger, ex.GetType().Name);
-                throw;
+                ownersReady = false; selectionFailures.Add($"SETTINGS_OWNER:0x{ex.HResult:X8}");
             }
         }
 
-        if (_translateShutdownCoordinator != null)
+        if (_translateShutdownCoordinator != null && !preparationPending && _screenshotService?.HasPendingOverlays != true)
         {
             try
             {
@@ -370,18 +377,44 @@ internal sealed partial class AppBootstrapper
             catch (Exception ex)
             {
                 LogTranslateShutdownFailed(_logger, ex.GetType().Name);
-                throw;
+                ownersReady = false; selectionFailures.Add($"TRANSLATION_OWNER:0x{ex.HResult:X8}");
             }
         }
 
-        // 3. 观察已接纳的分发任务收尾
-        if (_hotkeyCoordinator != null)
+        // Owners must release their OCR leases before registry shutdown can drain them.
+        if (ownersReady)
         {
-            await _hotkeyCoordinator.WaitForInFlightDispatchesAsync().ConfigureAwait(false);
+            if (_hotkeyCoordinator != null)
+                try { await _hotkeyCoordinator.WaitForInFlightDispatchesAsync().ConfigureAwait(false); }
+                catch (Exception ex) { ownersReady = false; selectionFailures.Add($"HOTKEY_DISPATCH:0x{ex.HResult:X8}"); }
+            if (_actionDispatcher != null)
+                try { await _actionDispatcher.WaitForInFlightAsync().ConfigureAwait(false); }
+                catch (Exception ex) { ownersReady = false; selectionFailures.Add($"DISPATCH:0x{ex.HResult:X8}"); }
         }
+        if (_ocrRegistry != null)
+        {
+            try
+            {
+                var stop = _ocrRegistry.StopAsync();
+                if (ownersReady || stop.IsCompleted) await stop.ConfigureAwait(false);
+                else
+                {
+                    // The registry owns this stop even when a failed window still owns a lease.
+                    // Observe its eventual failure without waiting indefinitely in this failed owner path.
+                    _ = stop.ContinueWith(done =>
+                    {
+                        if (done.Exception != null) LogOcrShutdownFailed(_logger);
+                    }, CancellationToken.None, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+                    await _ocrRegistry.RetryCleanupAsync().ConfigureAwait(false);
+                    selectionFailures.Add("OCR_PENDING_OWNER");
+                }
+            }
+            catch (Exception ex) { selectionFailures.Add(ex is IrisException { Detail: not null } known
+                ? $"OCR_REGISTRY[{known.Detail}]" : $"OCR_REGISTRY:0x{ex.HResult:X8}"); }
+        }
+        if (selectionFailures.Count != 0) throw new IrisException(selectionError, ErrorMessages.GetDefault(selectionError), detail: string.Join(';', selectionFailures));
 
-        // 4. 最后停止主题/托盘、Host、Dispatcher
-        if (_actionDispatcher != null) await _actionDispatcher.WaitForInFlightAsync().ConfigureAwait(false);
+        // 4. Only successful owner/registry drain can proceed to Host and Dispatcher teardown.
         StopSynchronousParts();
 
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
@@ -422,6 +455,9 @@ internal sealed partial class AppBootstrapper
 
     [LoggerMessage(EventId = 7, Level = LogLevel.Warning, Message = "热键服务关闭或注销原生资源遇到异常：{ExceptionType}")]
     private static partial void LogHotkeyShutdownFailed(ILogger logger, string exceptionType);
+
+    [LoggerMessage(EventId = 9, Level = LogLevel.Warning, Message = "OCR registry shutdown remains incomplete after owner failure")]
+    private static partial void LogOcrShutdownFailed(ILogger logger);
 
     [LoggerMessage(EventId = 8, Level = LogLevel.Warning, Message = "热键捕获服务关闭或卸载原生资源遇到异常：{ExceptionType}")]
     private static partial void LogCaptureShutdownFailed(ILogger logger, string exceptionType);

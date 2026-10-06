@@ -138,14 +138,14 @@ public sealed class SelectionCoordinationIntegrationTests
             if (failDestroy)
             {
                 await Should.ThrowAsync<IrisException>(() => stop);
-                calls.ShouldNotContain("presenter"); calls.ShouldNotContain("host");
+                calls.ShouldContain("presenter"); calls.ShouldNotContain("host");
                 stop = bootstrapper.StopAsync();
             }
             await stop; await Should.ThrowAsync<OperationCanceledException>(() => passive);
             s.Native.WindowAlive.ShouldBeFalse(); s.ClipboardText().ShouldBe("old text");
             var sequence = calls.ToArray();
             Array.IndexOf(sequence, "restore").ShouldBeLessThan(Array.IndexOf(sequence, "destroy"));
-            Array.LastIndexOf(sequence, "destroy").ShouldBeLessThan(Array.IndexOf(sequence, "presenter"));
+            Array.IndexOf(sequence, "destroy").ShouldBeLessThan(Array.IndexOf(sequence, "presenter"));
             Array.IndexOf(sequence, "presenter").ShouldBeLessThan(Array.IndexOf(sequence, "host")); sequence[^1].ShouldBe("shutdown");
         }
         catch (Exception ex) { primary = ex; }

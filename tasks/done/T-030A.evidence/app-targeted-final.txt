@@ -1,0 +1,44 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Translation.TranslateWindowIntegrationTests.CompositionCleanup_OwnedWindowRefusesClose_FailureIsPropagated_ContainerKept_ThenRetriedAndOnlookerSurvives (221ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : step.InnerException
+      should be of type
+  Iris.Core.Errors.IrisException
+      but was
+  System.InvalidOperationException
+    在 Iris.App.Tests.Translation.TranslateWindowIntegrationTests.<>c.<<CompositionCleanup_OwnedWindowRefusesClose_FailureIsPropagated_ContainerKept_ThenRetriedAndOnlookerSurvives>b__21_0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Translation\TranslateWindowIntegrationTests.cs:1419
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.TestSupport.OwnedCleanup.ThrowIfFailed(Exception primary) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\OwnedCleanup.cs:69
+    在 Iris.App.Tests.Translation.TranslateWindowIntegrationTests.<>c.<<CompositionCleanup_OwnedWindowRefusesClose_FailureIsPropagated_ContainerKept_ThenRetriedAndOnlookerSurvives>b__21_0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Translation\TranslateWindowIntegrationTests.cs:1456
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Translation.TranslateWindowIntegrationTests.CompositionCleanup_OwnedWindowRefusesClose_FailureIsPropagated_ContainerKept_ThenRetriedAndOnlookerSurvives() 位于 F:\Iris\tests\Iris.App.Tests\Translation\TranslateWindowIntegrationTests.cs:1364
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (5s 347ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 13
+  失败: 1
+  成功: 12
+  已跳过: 0
+  持续时间: 5s 570ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

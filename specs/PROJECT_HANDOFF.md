@@ -1,5 +1,27 @@
 # Iris 架构师接手记录
 
+**T-030A开发交付待复审（2026-10-06）**：实现与归档见 tasks/done/T-030A.md。最终串行 Release 构建 0 警告/错误，全量 3014（3012 成功/2 既有 error183 跳过/0 失败）；原始开发失败及最终源码/DLL 指纹保存在 T-030A.evidence。已完成实际 Registry/Coordinator、Windows 位图/百度流清理与实际 Generic Host/自有 WPF owner 退出组合；未实施 B。CCR-030 仅已落地待复审，父/A 保持▶、B☐；当前单全文已归档并移除 current_task。尚待架构师独立验收。
+
+**T-030A退出测试最新修正（尚未最终验收）**：开发已恢复AppBootstrapper的preparationPending保护，截图准备Stop失败时不关闭设置/翻译owner；原PreparationShutdownTests因此保留，不按早期分析直接改成允许关闭。旧SelectionShutdownTests的动作门闩时序已调整，首轮被确认挂起的测试进程由开发终止，未完整收尾事实见app-targeted-1-process.txt及原日志。第二轮23项完整返回：21成功/2失败，剩余为ScreenCaptureShutdownTests的独立Presenter顺序及AppBootstrapperTests旧原始异常类型断言，开发继续处理。此前Core690全过与独立Core51/App24均为开发期证据，最终交付后重新绑定；未签B。
+
+**T-030A App定向等待诊断（开发仍在处理）**：架构师只读读取开发测试PID42728托管栈，原文临时iris-t030a-independent-review/app-stall-stack-1.txt；dotnet-stack 10.0.745401仅装系统临时iris-diagnostics-tools，不改项目依赖。看到SelectionShutdownTests.RunScenario的ClipboardSnapshotService空闲worker。结合该旧测试failDestroy分支：先await Stop抛错、之后才释放actionRelease；当前批准的新Stop路径先排空ActionDispatcher再汇总早期错误，导致受控动作与测试等待互锁。需要开发把失败分支改为先观察新允许的Presenter/排空等待，再放行动作后验证Stop失败/Host未停及重试，保留真实资源退出断言。另PreparationShutdownTests旧ActiveSession非null断言在新独立owner关闭行为下已失效，原异常日志保留。此处是现有单内测试时序分析，不要求回退正确独立清理语义或提前结案；原测试进程尚未由架构师终止/重启。
+
+**T-030A扩展资源预检通过**：development-app-probe-4.log实际组合24项全过，含先前Bootstrapper13、实际Windows Provider/WinRT位图6、实际百度Provider原响应流重试4、真实Generic Host排空后处置1。外部OCR引擎/HTTP替身，自制PNG，无用户内容/网络。Core开发期51项保留；正式最终提交后需独立Release/full，分别prepare.py和prepare_app.py重绑运行Review.csproj/AppReview.csproj。临时iris-t030a-independent-review含全部源/日志/manifest；App早次仅缺System.IO的harness编译错误已修，原日志保留。开发尚未交付，不结案。
+
+**T-030A App开发期预检**：临时iris-t030a-independent-review/AppReview.csproj已执行actual Bootstrapper+Registry，13项全过（development-app-probe.log）。窗口owner/capture/IHost是fake边界，没有真实窗口；覆盖正常等租约、owner失败可重试、早期故障仍清OCR且Host不早停。尚未交付；真实Provider资源组合、真实Generic Host处置与最终重绑/全量仍待完成。Core51项开发期通过保持，不重跑旧全量冒称本单验收。
+
+**T-030A开发期预检结果**：开发第二次全解决方案构建0警告/错误后，独立实际Core Registry/DI/Coordinator程序已跑，development-probe-2.log 51项全通过；首轮仅harness删除计划缺TranslationOrder，补齐后通过，原失败保留。证据/执行DLL指纹在临时iris-t030a-independent-review。开发仍未交付，不能据此结案；正式最终Release/full、实际Provider/App退出组合及重新绑定仍待完成。上文/下文早期“未运行”为历史准备状态。
+
+**T-030A开发与独立准备（实施中）**：已见实际OcrProviderRegistry.cs/OcrRegistrySnapshot.cs及凭据解析共享核心落地，执行轮仍未完成，尚无验收结论。临时iris-t030a-independent-review现有RegistryChecks/PublicationChecks/FingerprintChecks/外边界和Program/prepare.py；前者按独立契约编译0警告/错误（preparation-contract-build-4.log），后者实际DI程序未编译/运行。准备覆盖租约/清理/取消、构造失效、八组凭据、字段/重排/无关变更；真实Provider/Coordinator/Host/GC专项仍待补。后续B研究在iris-t030b-preparation.md，未签发，不改变A范围。正式交付后重绑最终DLL再独立验证，不用准备结果结案。
+
+**T-030A独立准备进展**：临时iris-t030a-independent-review新增Boundaries.cs和RegistryChecks.cs，13项覆盖懒构造/同代快照/最后租约异步等待/原资源重试/停止等待者取消。外边界已编译，按独立CONTRACTS声明编译也0警告/错误；尚未绑定实际Registry，未执行产品检查，其它发布竞争/凭据/Coordinator/Host仍待补齐。勿把准备通过计入验收。
+
+**T-030A接收确认**：执行轮01a110ea-30dd-7232-8685-12b18d6d5920已明确回复将实施本单，并实际读取current_task/OCR_PROVIDER_REGISTRY/CCR/交接、检查CONTRACTS差异及HEAD。当前已启动，未交付/未验收；下方首次快照尚无确认是历史状态，不需重发。
+
+**T-030A直接下达记录（2026-10-06）**：指定新开发会话已建立队列消息01a110ea-2b7a-72e3-a2ea-085da602bed3及执行轮01a110ea-30dd-7232-8685-12b18d6d5920。45秒等待超时，未取消/重发；首次快照暂态interrupted、completedAt为空且仅1条输入，尚无可见确认/实施，不伪称已开始改代码。后续按此轮观察。CCR-030独立声明编译0警告/错误（临时iris-t030-contract-check，补既有Core.Errors全局using以匹配源拆分环境）；T-030A独立验收准备在iris-t030a-independent-review/README.md，目前只是检查清单，尚未执行产品验证。
+
+**当前唯一工单T-030A（2026-10-06）**：T-029/CCR-029在6010f23aa1e3aa55e7c657e33584246be9c14e28通过独立Release0警告/错误、全量2971（2969成功/2既有跳过）、47项实际探针，证据T-029.review。真实Provider合成图SDK路径成功，真实多语言/桌面/NFR未验证。现按OCR_PROVIDER_REGISTRY.md/ARCH v1.46/CCR-030/current_task实现注册表、异步租约、发布屏障/清理重试、配置观察者与App生命周期；父T-030分A/B且全部原范围保留，B/入口/设置页未开始。指定开发会话仍01a10fa5-77e8-77e1-82d9-1ea1aa587d61。下方旧“当前/准备”记录按历史保留；T-029最终探针已经运行，不重复当待执行。
+
 **T-029独立验收准备**：临时iris-t029-independent-review已完成Provider/真实位图+fake engine的Unicode/语言/能力/Bounds/非法输出、在途/排队/总预算/重试/GC以及实际DI与真实SDK合成图片检查，Program/prepare.py齐备；preparation-build-4.log编译0警告/错误，完整程序尚未运行。正式交付后独立Release/full，刷新最终Platform.Tests输出DLL再执行。长补充平面文本取消检查点仅为候选检查，不能据未运行草稿判缺陷。独立直接SDK预检result.log与开发actual Provider smoke的同目录result.json须区分。
 
 **T-029 SDK前置独立事实（2026-10-06，非Provider验收）**：按当前工单获准范围，在临时iris-t029-sdk-smoke运行真实WinRT能力/合成图识别，退出0：MaxImageDimension=10000，installedLanguages=[en-US,zh-Hans-CN]，选en-US，800×180自有白底PNG识别一行HELLO 123，matchesFixture=true。无用户截图/内容/配置修改、无网络。result.log/Program.cs/Smoke.csproj在该目录，输入/16组Unicode预期在iris-t029-independent-review。说明本机SDK可用，不证明未来Provider已实现或其它机器/语言/NFR。正式交付仍需刷新实际产品做独立验证。

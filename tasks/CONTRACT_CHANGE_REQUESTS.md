@@ -995,8 +995,21 @@ CCR-024结案补充：c7282698最终独立构建/定向/全量通过，生产同
 |---|---|
 | 日期 / 批准 | 2026-10-06，Codex架构师 |
 | 关联 | T-029；WINDOWS_OCR.md；ARCH v1.45 |
-| 状态 | **已落地，T-029开发完成待独立复审** |
+| 状态 | **已落地，复审通过并结案（T-029，6010f23a）** |
 
 仅补IOcrProvider的Windows行为说明，公开签名/模型字段/枚举不变。Core.csproj允许新增Iris.Platform.Windows友元，复用既有UnicodeScripts.IsCjkForLineMerge；不修改分类、不公开helper或反向引用。预算/语言/位图/取消/结果行为见正式规范。
 
 允许Factory创建Provider时读取一次必要的只读SDK最大尺寸能力，及本单明确的真实SDK合成图片smoke；不是授权访问用户图像/输入/配置、安装语言包或改变包身份。默认设置/schema/包和已有实现不变，OCR注册表/编排/入口后续签发。
+
+
+## CCR-030：OCR注册表原型改为异步租约与发布屏障
+
+| 字段 | 内容 |
+|---|---|
+| 日期 / 批准 | 2026-10-06，Codex架构师 |
+| 关联 | T-030A；OCR_PROVIDER_REGISTRY.md；ARCH v1.46 |
+| 状态 | **已落地，待T-030A独立复审** |
+
+替换未实现IOcrProviderRegistry的GetActive/GetFallback/Find/GetAll/CreateTransient为RefreshAsync、AcquireSnapshotAsync、CreateTransientAsync；保留Changed，继承IAsyncDisposable，新增StopAccepting/StopAsync/RetryCleanupAsync。新增OcrProviderRegistration与IOcrProviderSnapshot（AppSettings及有序注册项，IAsyncDisposable）。精确声明已由架构师预置specs/CONTRACTS.cs，开发同步Core。
+
+采用异步清理是因已有百度/本地Provider拥有真实可重试资源。失败必须保有原实例，停止需等待租约，不能套用翻译同步吞错Dispose。允许内部凭据解析器窄重载共享既有格式、唯一OCR观察者和App启动/退出接线；公开Provider/Service/Normalizer签名、默认配置/JSON/schema/包不变。不提前实现B或设置页。

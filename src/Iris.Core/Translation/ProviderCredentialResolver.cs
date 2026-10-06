@@ -34,30 +34,41 @@ internal static partial class ProviderCredentialResolver
         ILogger? logger = null)
     {
         ArgumentNullException.ThrowIfNull(profile);
+        return ResolveCore(profile.Id, profile.CredentialSetId, secretStore, logger);
+    }
+
+    public static CredentialResolutionResult Resolve(OcrProviderProfile profile, ISecretStore secretStore, ILogger? logger = null)
+    {
+        ArgumentNullException.ThrowIfNull(profile);
+        return ResolveCore(profile.Id, profile.CredentialSetId, secretStore, logger);
+    }
+
+    private static CredentialResolutionResult ResolveCore(string profileId, string? credentialSetId, ISecretStore secretStore, ILogger? logger)
+    {
         ArgumentNullException.ThrowIfNull(secretStore);
 
         // 1. CredentialSetId == null: 兼容旧模式
-        if (profile.CredentialSetId == null)
+        if (credentialSetId == null)
         {
             string? apiKey = null;
             string? secretKey = null;
 
             try
             {
-                apiKey = secretStore.Get(SecretKeys.ApiKey(profile.Id));
+                apiKey = secretStore.Get(SecretKeys.ApiKey(profileId));
             }
             catch (Exception ex)
             {
-                if (logger != null) LogLegacyApiKeyReadFailed(logger, profile.Id, ex.GetType().Name);
+                if (logger != null) LogLegacyApiKeyReadFailed(logger, profileId, ex.GetType().Name);
             }
 
             try
             {
-                secretKey = secretStore.Get(SecretKeys.SecretKey(profile.Id));
+                secretKey = secretStore.Get(SecretKeys.SecretKey(profileId));
             }
             catch (Exception ex)
             {
-                if (logger != null) LogLegacySecretKeyReadFailed(logger, profile.Id, ex.GetType().Name);
+                if (logger != null) LogLegacySecretKeyReadFailed(logger, profileId, ex.GetType().Name);
             }
 
             if (string.IsNullOrEmpty(apiKey) && string.IsNullOrEmpty(secretKey))
@@ -69,10 +80,10 @@ internal static partial class ProviderCredentialResolver
         }
 
         // 2. CredentialSetId != null: 精确引用，必须满足格式要求且禁止回退
-        var setId = profile.CredentialSetId;
+        var setId = credentialSetId;
         if (!CredentialSetIdRegex().IsMatch(setId))
         {
-            if (logger != null) LogInvalidCredentialSetIdFormat(logger, profile.Id);
+            if (logger != null) LogInvalidCredentialSetIdFormat(logger, profileId);
             return CredentialResolutionResult.ExplicitUnconfigured();
         }
 
@@ -83,17 +94,17 @@ internal static partial class ProviderCredentialResolver
         }
         catch (Exception ex)
         {
-            if (logger != null) LogCredentialSetReadFailed(logger, profile.Id, ex.GetType().Name);
+            if (logger != null) LogCredentialSetReadFailed(logger, profileId, ex.GetType().Name);
             return CredentialResolutionResult.ExplicitUnconfigured();
         }
 
         if (string.IsNullOrEmpty(rawJson))
         {
-            if (logger != null) LogCredentialSetNotFound(logger, profile.Id);
+            if (logger != null) LogCredentialSetNotFound(logger, profileId);
             return CredentialResolutionResult.ExplicitUnconfigured();
         }
 
-        return ParseCredentialSetJson(rawJson, profile.Id, logger);
+        return ParseCredentialSetJson(rawJson, profileId, logger);
     }
 
     private static CredentialResolutionResult ParseCredentialSetJson(string rawJson, string profileId, ILogger? logger)

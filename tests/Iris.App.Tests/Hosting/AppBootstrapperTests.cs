@@ -282,11 +282,11 @@ public sealed class AppBootstrapperTests : IDisposable
             release.Set();
 
             // 两者共享同一个错误，均观察到异常
-            var ex1 = await Should.ThrowAsync<InvalidOperationException>(() => firstStop.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken));
-            ex1.Message.ShouldContain("Injected settings shutdown failure");
+            var ex1 = await Should.ThrowAsync<Iris.Core.Errors.IrisException>(() => firstStop.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken));
+            ex1.Detail!.ShouldContain("SETTINGS_OWNER"); ex1.ToString().ShouldNotContain("Injected settings shutdown failure");
 
-            var ex2 = await Should.ThrowAsync<InvalidOperationException>(() => secondStop.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken));
-            ex2.Message.ShouldContain("Injected settings shutdown failure");
+            var ex2 = await Should.ThrowAsync<Iris.Core.Errors.IrisException>(() => secondStop.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken));
+            ex2.ShouldBeSameAs(ex1);
 
             // 确认由于设置清理失败：Host.StopAsync 与 AppShutdowner 未被执行
             await host.DidNotReceiveWithAnyArgs().StopAsync(Arg.Any<CancellationToken>());

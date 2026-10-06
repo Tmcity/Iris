@@ -1,0 +1,32 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Capture.PreparationShutdownTests.ActualBootstrapper_PreservesIndependentErrorsAndRetriesBeforeDestroyingOwners (1s 233ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.NullReferenceException : Object reference not set to an instance of an object.
+    在 Iris.App.Tests.Capture.PreparationShutdownTests.<>c__DisplayClass0_0.<<ActualBootstrapper_PreservesIndependentErrorsAndRetriesBeforeDestroyingOwners>b__1>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationShutdownTests.cs:54
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationShutdownTests.<>c__DisplayClass0_0.<<ActualBootstrapper_PreservesIndependentErrorsAndRetriesBeforeDestroyingOwners>b__1>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationShutdownTests.cs:68
+    --- End of stack trace from previous location ---
+    在 Iris.Platform.Windows.Tests.Capture.ScreenCaptureTestScope.Run(Func`2 body, Boolean realEncoder) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Capture\ScreenCaptureTestScope.cs:163
+    在 Iris.Platform.Windows.Tests.Capture.ScreenCaptureTestScope.Run(Func`2 body, Boolean realEncoder) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Capture\ScreenCaptureTestScope.cs:165
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:40
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:60
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:127
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:147
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    --- End of stack trace from previous location ---
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (12m 59s 699ms)
+退出代码: -1
+
+测试运行摘要: 失败!
+  总计: 4
+  失败: 1
+  成功: 3
+  已跳过: 0
+  持续时间: 12m 59s 966ms
+已完成测试运行，但显示非成功退出代码: -1 (请参阅: https://aka.ms/testingplatform/exitcodes)

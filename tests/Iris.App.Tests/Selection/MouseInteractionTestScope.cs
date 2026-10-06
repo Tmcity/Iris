@@ -59,6 +59,8 @@ internal sealed class MouseInteractionTestScope
         var native = new SelectionIconNative(Icon, Position);
         Factory = new(native);
         var services = new ServiceCollection(); services.AddLogging(); services.AddIrisCore();
+        // This legacy UI fixture supplies no OCR factories; keep OCR as an external boundary.
+        services.AddSingleton(Substitute.For<Iris.Core.Ocr.IOcrProviderRegistry>());
         services.AddSingleton<ISettingsService>(Settings); services.AddSingleton(Platform.Desktop);
         services.AddSingleton<ISelectionTextReader>(Reader); services.AddSingleton(Reader);
         services.AddSingleton<IMouseSelectionMonitor>(Monitor); services.AddSingleton(Factory);

@@ -80,11 +80,11 @@ public sealed class ScreenCaptureShutdownTests
             if (scenario == "cleanup-failure")
             {
                 var error = await Should.ThrowAsync<IrisException>(() => stop); error.Detail!.ShouldContain("RELEASE_DC");
-                order.ShouldBe(new[] { "selection" }); selection.Native.WindowAlive.ShouldBeFalse();
+                order.ShouldBe(new[] { "selection", "presenter" }); selection.Native.WindowAlive.ShouldBeFalse();
                 f.Threads.All.Single().IsAlive.ShouldBeTrue(); f.Native.Failures.Clear(); stop = bootstrapper.StopAsync();
             }
             await stop;
-            order.ShouldBe(new[] { "selection", "presenter", "host", "shutdown" });
+            order.ShouldBe(scenario == "cleanup-failure" ? new[] { "selection", "presenter", "presenter", "host", "shutdown" } : new[] { "selection", "presenter", "host", "shutdown" });
             f.Native.Handles.ShouldBe(0); f.Threads.All.ShouldAllBe(t => !t.IsAlive);
             f.Encoding.Sessions.ShouldAllBe(io => !io.StreamOwned && io.InFlight == 0);
         }

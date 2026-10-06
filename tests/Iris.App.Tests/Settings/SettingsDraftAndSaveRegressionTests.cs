@@ -1261,6 +1261,8 @@ public sealed class SettingsDraftAndSaveRegressionTests
 
                 services.AddIrisInfrastructure();
                 services.AddIrisCore();
+        // This legacy UI fixture supplies no OCR factories; keep OCR as an external boundary.
+        services.AddSingleton(Substitute.For<Iris.Core.Ocr.IOcrProviderRegistry>());
 
                 // 统一单容器生命周期管理：装饰 ISettingsService 以便统计 UpdateCount
                 var jsonDescriptor = services.First(d => d.ServiceType == typeof(ISettingsService));
@@ -1764,6 +1766,8 @@ public sealed class SettingsDraftAndSaveRegressionTests
 
                 services.AddIrisInfrastructure();
                 services.AddIrisCore();
+        // This legacy UI fixture supplies no OCR factories; keep OCR as an external boundary.
+        services.AddSingleton(Substitute.For<Iris.Core.Ocr.IOcrProviderRegistry>());
 
                 services.AddScoped<GeneralSettingsSaveCoordinator>();
                 services.AddScoped<SettingsViewModel>();

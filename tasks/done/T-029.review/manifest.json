@@ -1,0 +1,32 @@
+{
+  "commit": "6010f23aa1e3aa55e7c657e33584246be9c14e28",
+  "trackedDiff": [],
+  "sources": {
+    "src/Iris.Platform.Windows/Ocr/WindowsOcrCall.cs": "096631332d1fd5193c294edb9e1596394623b2d10d23ccf406138fac28a4526f",
+    "src/Iris.Platform.Windows/Ocr/WindowsOcrImage.cs": "425371791aabcdd8ba025ebb0b22986782747b6e0325d9ffdf4065a82032394f",
+    "src/Iris.Platform.Windows/Ocr/WindowsOcrNative.cs": "b0499d947af0228fcb1c8a2fcc73ceddf4393c68cccc8582c27c0f9734a7245c",
+    "src/Iris.Platform.Windows/Ocr/WindowsOcrProvider.cs": "77efcbfb885f6eade2acac97c7253d3a2a3828c22bad85ec1d77ef83f110eb12",
+    "src/Iris.Platform.Windows/Ocr/WindowsOcrResults.cs": "8b99a21e3d81a1ea43f7c814bf1a523b4cbdf527c00a45c69852827d5562fcef",
+    "src/Iris.Core/Iris.Core.csproj": "fae9d1710524fa982ab1077964e8e4b6876e5cc264d1836dc4c754164f68a118",
+    "src/Iris.Core/Ocr/IOcrProvider.cs": "6f238dd25ea21c8ba092cffdf3bf40bc4dcee7d7f10e5dc4ffff3aca81120ef8",
+    "src/Iris.Platform.Windows/DependencyInjection/PlatformWindowsServiceCollectionExtensions.cs": "e97c787dbcb149674dee177aac18a24b485c366f203297118a45640b6287958c",
+    "specs/CONTRACTS.cs": "a04895adbfbaf47e3e7c1c1e8c5d680983288f470c66e8a674f8b091b0aa0fba"
+  },
+  "productDlls": {
+    "Iris.Core.dll": "b4923424084fbb60568173016445b2755defed6ce6bc5eb8e9d748d8d11d0ae1",
+    "Iris.Platform.Windows.dll": "85db606292283d955c936467e65ee99f01d87dfe6f1582021329b06ddcd65f76"
+  },
+  "probeSources": {
+    "BehaviorChecks.cs": "6c7cd72f6ecdfa0a586bb13ca13b5d07e85474879b39d3a07e608e9f1f00773e",
+    "LifecycleChecks.cs": "78e9761647428db4b2b7c012c2b4bf9503cf6f62e89a819a2076f78141f1b79f",
+    "OcrBoundary.cs": "539966ab79a84d8e1b4b32ee2d4781d70f504b920a515f0a9f4d10d1db551742",
+    "Program.cs": "729a5b8bc2f687e3ef2e6a089919c0982fae10cedf593671db0f603d3055b994",
+    "ProviderScope.cs": "41f93e8281cfcd1e909a6fb7f2cee9a59135b4087ea6e2d11aca55d21d24eda6",
+    "ResultChecks.cs": "8fb861d446695ab22af87f87de161c0583bcabffd3b5766e1aec148add37457c",
+    "SdkChecks.cs": "f0aa566f39ccc0821499b92bc194709430b93d6dd805184f93fcd83c9177c8b1"
+  },
+  "fixtures": {
+    "hello-123.png": "4ebb5ea998f99eec28e36163949d5705a0c910e0648bf702e899b3b80be8c079"
+  },
+  "boundary": "Actual provider and WinRT image; fake OCR for fault/semantic cases, one explicitly allowed actual SDK synthetic smoke; no user content."
+}

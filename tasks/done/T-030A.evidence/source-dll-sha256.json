@@ -1,0 +1,138 @@
+[
+  {
+    "path": "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/Iris.App.dll",
+    "sha256": "7B3701D225924646FDAAA6AAC3AC6B40D8F002FD486179B5F0BFB4EC6331610A"
+  },
+  {
+    "path": "src/Iris.App/Hosting/AppBootstrapper.cs",
+    "sha256": "847A171D2614B3CD85FA8DE0F6054D6C63BCC089A5B89D46CE1AC725D3BBAD52"
+  },
+  {
+    "path": "src/Iris.Core/bin/Release/net10.0/Iris.Core.dll",
+    "sha256": "436AE932952F423D91C0C05118EB11341C70CDAD8560419C48BD2D2C2D863F18"
+  },
+  {
+    "path": "src/Iris.Core/DependencyInjection/CoreServiceCollectionExtensions.cs",
+    "sha256": "DF248F8853BC8792785FEA3DCE66997F67326BD7448FEF5E2E44B29A71152B15"
+  },
+  {
+    "path": "src/Iris.Core/DependencyInjection/OcrProviderConfigurationObserver.cs",
+    "sha256": "96FE50976CF9AEA343BB5198F9CCAB466AD7B9D5D67EAEDC0E8362002AC940E3"
+  },
+  {
+    "path": "src/Iris.Core/Ocr/IOcrProvider.cs",
+    "sha256": "B66D509380E4C74C955D54F224B60394F6E0B2B7AFF2840363BE5D5FFD8D9A26"
+  },
+  {
+    "path": "src/Iris.Core/Ocr/OcrProviderRegistry.cs",
+    "sha256": "780FF86A833DADF13C8567A297D12F7088EA05E9BE19B1654689FA599785F810"
+  },
+  {
+    "path": "src/Iris.Core/Ocr/OcrRegistrySnapshot.cs",
+    "sha256": "F952F1354BB56CCAC20F24D9B445E2D710AFBF393715AC6587A8547A8C566CA0"
+  },
+  {
+    "path": "src/Iris.Core/Translation/ProviderCredentialResolver.cs",
+    "sha256": "A0417C191EC52C57B5D6E67181CB3A1E8624215A88FF9095668EF17A7F1A55F7"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.dll",
+    "sha256": "CE9C84526CDCA625E2E1BE477615A22C4EA41333A396726CE02DD837AAD97685"
+  },
+  {
+    "path": "src/Iris.Providers/bin/Release/net10.0/Iris.Providers.dll",
+    "sha256": "68B0E83B9AFBD380DC153827BBE937DBE9BA112B4EB59A3E6715370C5669E37A"
+  },
+  {
+    "path": "tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.App.Tests.dll",
+    "sha256": "61DCD73AA35B07B933C7F63E950B53CDDC73D7AEC2A47E740EB399C538FAE10D"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Hosting/AppBootstrapperTests.cs",
+    "sha256": "369629C3FFC5904ADAF96D6887F65350BFC7B95001028345E1F94A7EE46122C7"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Hosting/OcrRegistryHostingTests.cs",
+    "sha256": "241B9A6AABA4DB112A6F43CAA77E9CD1C1572B33785C3969AEBA425C82B60EDD"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Hosting/ScreenCaptureShutdownTests.cs",
+    "sha256": "32AF63D94D696FE337170F6AF669BFDCFB9E45D79CD4E7DFC360C099C8781D76"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Hosting/SelectionShutdownTests.cs",
+    "sha256": "608EAAFB8E4E92D485661DDA8880788611B04CA37E0907CE51C38B4177B8F88F"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Selection/MouseInteractionTestScope.cs",
+    "sha256": "B1C3D2B119BA7F4AA76A780EED2101FC943853E2D1557EAB463CFEA090655051"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Selection/SelectionCoordinationIntegrationTests.cs",
+    "sha256": "66BB3BF37376C7F4AFAF87B6D60B67C3330F93E52B56EB10A4A1626940A6E432"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/SettingsDraftAndSaveRegressionTests.cs",
+    "sha256": "24E2A3B3F6E3C570F96040F1FC114DCE65D44E99D3F8FCDAA36FEAA7BBBB7177"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/SettingsTranslationSaveIntegrationTests.cs",
+    "sha256": "B0BFB8861C115B3B4B50674AF21B3AA694A5BB2D6030BE67F3CF544565CC9B2D"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Translation/TranslateWindowIntegrationTests.cs",
+    "sha256": "97F58926F6D7BF64C976543809F3A45F3B1F44DC28064B2A0670273CB8F35B36"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/bin/Release/net10.0/Iris.Core.Tests.dll",
+    "sha256": "4F3C4D48A4E43A22843B479BFB618A43D9C24DA5DC8B4E4829629042337DADAB"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/DependencyInjection/CoreRegistrationTests.cs",
+    "sha256": "85C16BF47B1E1F6AB376A89789AE50226BACE35FA8B95FC3DBE9C69AD9425D21"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrProviderRegistryTests.cs",
+    "sha256": "0693CAC1D57636B991DAB167D6CBBC1E1ADF051999627DD917020E5A33A5C4DB"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrRegistryCoordinatorTests.cs",
+    "sha256": "88233B33879E6087D09544EB2872904F06F65B36D05E0AD3E8902E23E71A0525"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrRegistryRaceTests.cs",
+    "sha256": "775FBD40FAD1AC47F53313DB79B32BFAD421AE4EC46137EB0A074978A11382F2"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrRegistryTestScope.cs",
+    "sha256": "B7041B67ABD69193127C63079AC64020D367C11954C601E7C929687CB733DEB0"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Settings/SettingsEditCoordinatorTests.cs",
+    "sha256": "5A7B94942FFAEE24CDB8F8CA41A4D781628EE5481F6D369073C1CF26F768BF4E"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/bin/Release/net10.0/Iris.Infrastructure.Tests.dll",
+    "sha256": "054CD5AFF725F2C5456D5F4BDC81400000133E0B41C8E787C5BBC1BB3AA6ADDE"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/Settings/JsonSettingsServiceCoordinatorIntegrationTests.cs",
+    "sha256": "BD5EB5F0A2D6782D45C61FFB13700026F8464F7F7ABD9D986D730DB48EFF6C12"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.Tests.dll",
+    "sha256": "BC880FFE165B69B29930E82B93B85FADCE6C689C7407524EE0B5703B4316CAEB"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrRegistryTests.cs",
+    "sha256": "682242879A59D026A68B639DF3D94FF0C75B193F411A7DEDA3CB9BB2BD84B3C0"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/bin/Release/net10.0/Iris.Providers.Tests.dll",
+    "sha256": "C1B95026B5942455A8CC6FD65E54B80BBFBAE7DB5C3457AF58BA8E8053A2E9B4"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduRegistryTests.cs",
+    "sha256": "A7CAE994A1C00BB1B883F02F9F6982D3452CDB15704B0932692B8F98B184631A"
+  }
+]

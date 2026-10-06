@@ -1,0 +1,15 @@
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+F:\Iris\src\Iris.Core\Ocr\OcrProviderRegistry.cs(43,43): error CA1513: 使用 "ObjectDisposedException.ThrowIf"，而不是显式引发新的异常实例 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1513) [F:\Iris\src\Iris.Core\Iris.Core.csproj]
+F:\Iris\src\Iris.Core\Ocr\OcrProviderRegistry.cs(272,17): error CA2016: 将“cancellationToken”参数转发给“Run”方法，或在 "CancellationToken.None" 中显式传递以指示有意不传播令牌 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2016) [F:\Iris\src\Iris.Core\Iris.Core.csproj]
+F:\Iris\src\Iris.Core\Ocr\OcrProviderRegistry.cs(298,25): error CA2016: 将“cancellationToken”参数转发给“Run”方法，或在 "CancellationToken.None" 中显式传递以指示有意不传播令牌 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2016) [F:\Iris\src\Iris.Core\Iris.Core.csproj]
+
+生成失败。
+
+F:\Iris\src\Iris.Core\Ocr\OcrProviderRegistry.cs(43,43): error CA1513: 使用 "ObjectDisposedException.ThrowIf"，而不是显式引发新的异常实例 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1513) [F:\Iris\src\Iris.Core\Iris.Core.csproj]
+F:\Iris\src\Iris.Core\Ocr\OcrProviderRegistry.cs(272,17): error CA2016: 将“cancellationToken”参数转发给“Run”方法，或在 "CancellationToken.None" 中显式传递以指示有意不传播令牌 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2016) [F:\Iris\src\Iris.Core\Iris.Core.csproj]
+F:\Iris\src\Iris.Core\Ocr\OcrProviderRegistry.cs(298,25): error CA2016: 将“cancellationToken”参数转发给“Run”方法，或在 "CancellationToken.None" 中显式传递以指示有意不传播令牌 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2016) [F:\Iris\src\Iris.Core\Iris.Core.csproj]
+    0 个警告
+    3 个错误
+
+已用时间 00:00:01.27

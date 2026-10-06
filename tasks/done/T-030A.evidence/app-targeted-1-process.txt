@@ -1,0 +1,6 @@
+
+ProcessId       : 42728
+ParentProcessId : 46288
+Name            : Iris.App.Tests.exe
+CommandLine     : "F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.exe"  --filter-class *Shutdown* --filter-class *AppBootstrapperTests --server dotnettestcli --dotnet-test-pipe testingplatform.pipe.025400cfe38544a8b2e4742a04e0bed3
+

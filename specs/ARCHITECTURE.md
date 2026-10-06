@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.45 · 2026-10-06 · 状态：**已冻结（首期）**
+> 版本：v1.46 · 2026-10-06 · 状态：**已冻结（首期）**
+> 变更记录：v1.46（T-029通过，签发T-030A）— OCR_PROVIDER_REGISTRY.md / CCR-030将未实现OCR裸实例原型替换为异步快照租约、发布屏障、退休失败保有/重试及两阶段退出。A接配置观察者/App生命周期，B保留编排/回退/文本规范化全部范围；默认配置/schema/包与已验收Provider行为保持。
 > 变更记录：v1.45（T-028B通过，签发T-029）— WINDOWS_OCR.md / CCR-029定稿本地WinRT OCR能力/语言选择、Unicode单空格、位置映射和完整位图生命周期；允许只读能力查询及明确的真实SDK合成图片smoke。Core仅注释与Platform友元，配置/包/既有生产保持，注册表/编排/入口后续实施。
 > 变更记录：v1.44（T-028A通过，签发T-028B）— BAIDU_OCR.md / CCR-028定稿四模式Provider、Token代次/短TTL/取消、业务与HTTP重试边界、完整表单预算及有界安全解析。批准wire安全ToString/216205常量及Core内部文本helper的Providers友元访问；公开端口签名/default/schema/包保持，OCR注册表/编排/入口后续实施。
 > 变更记录：v1.43（T-027通过，签发T-028A）— OCR_FORM_IMAGE_BUDGET.md / CCR-027为ImageConstraints增加默认null的表单图像值预算，保留5参数构造/Deconstruct及原行为。T-028拆A精确上传预算、B完整百度Provider，总范围保留，配置/schema/包不变。

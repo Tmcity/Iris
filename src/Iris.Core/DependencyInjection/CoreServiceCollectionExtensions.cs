@@ -27,6 +27,9 @@ public static class CoreServiceCollectionExtensions
         services.TryAddSingleton<TranslationProviderRegistry>();
         services.TryAddSingleton<ITranslationProviderRegistry>(sp => sp.GetRequiredService<TranslationProviderRegistry>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IProviderConfigurationObserver, TranslationProviderConfigurationObserver>());
+        services.TryAddSingleton<Iris.Core.Ocr.OcrProviderRegistry>();
+        services.TryAddSingleton<Iris.Core.Ocr.IOcrProviderRegistry>(sp => sp.GetRequiredService<Iris.Core.Ocr.OcrProviderRegistry>());
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<IProviderConfigurationObserver, OcrProviderConfigurationObserver>());
 
         services.TryAddSingleton<ITranslationCache, LruTranslationCache>();
 

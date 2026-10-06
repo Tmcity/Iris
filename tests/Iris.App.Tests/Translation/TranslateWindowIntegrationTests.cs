@@ -1038,7 +1038,7 @@ public sealed class TranslateWindowIntegrationTests
                     faulted.Errors.Count.ShouldBe(1);
                     var step = faulted.Errors[0].ShouldBeOfType<OwnedCleanupStepException>();
                     step.StepName.ShouldBe("AppBootstrapper.StopAsync");
-                    step.InnerException.ShouldBeOfType<InvalidOperationException>();
+                    step.InnerException.ShouldBeOfType<Iris.Core.Errors.IrisException>().Detail!.ShouldContain("TRANSLATION_OWNER");
                     faulted.Skipped.ShouldContain(s => s.StartsWith("Host.Dispose", StringComparison.Ordinal));
                     faulted.Skipped.ShouldContain(s => s.StartsWith("TempDirectory.Dispose", StringComparison.Ordinal));
 

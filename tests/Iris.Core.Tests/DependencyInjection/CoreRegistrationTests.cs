@@ -140,7 +140,9 @@ public sealed class CoreRegistrationTests
         provider.GetServices<IPromptRenderer>().Count().ShouldBe(1);
         provider.GetServices<IPromptTemplateProvider>().Count().ShouldBe(1);
         provider.GetServices<ITranslationProviderRegistry>().Count().ShouldBe(1);
-        provider.GetServices<IProviderConfigurationObserver>().Count().ShouldBe(1);
+        provider.GetServices<IProviderConfigurationObserver>().Count().ShouldBe(2);
+        provider.GetServices<IProviderConfigurationObserver>().OfType<OcrProviderConfigurationObserver>().Count().ShouldBe(1);
+        provider.GetServices<IProviderConfigurationObserver>().OfType<TranslationProviderConfigurationObserver>().Count().ShouldBe(1);
         provider.GetServices<ITranslationCache>().Count().ShouldBe(1);
         provider.GetServices<ITranslationOrchestrator>().Count().ShouldBe(1);
         provider.GetServices<ISettingsEditCoordinator>().Count().ShouldBe(1);

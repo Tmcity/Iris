@@ -1704,7 +1704,8 @@ public sealed class SettingsEditCoordinatorTests
         services.AddIrisCore();
         services.AddIrisCore();
 
-        using var provider = services.BuildServiceProvider();
+        // The OCR observer owns background refresh, including post-commit secret invalidation.
+        await using var provider = services.BuildServiceProvider();
 
         // 1. 重复 AddIrisCore 不重复注册
         provider.GetServices<ISettingsEditCoordinator>().Count().ShouldBe(1);

@@ -1,0 +1,108 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.Infrastructure.Tests.Settings.JsonSettingsServiceCoordinatorIntegrationTests.Haiku_DefaultOptionsChecked_RejectsWhenEffortNotNull_AcceptsExplicitNull_PersistsNullEffortToJson (811ms)
+  从 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : await coordinator.CommitAsync(validHaikuPlan, TestContext.Current.CancellationToken);
+              res2.Status
+      should be
+  SettingsEditStatus.Applied
+      but was
+  SettingsEditStatus.ApplyPending
+    在 Iris.Infrastructure.Tests.Settings.JsonSettingsServiceCoordinatorIntegrationTests.Haiku_DefaultOptionsChecked_RejectsWhenEffortNotNull_AcceptsExplicitNull_PersistsNullEffortToJson() 位于 F:\Iris\tests\Iris.Infrastructure.Tests\Settings\JsonSettingsServiceCoordinatorIntegrationTests.cs:169
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Infrastructure.Tests.Settings.JsonSettingsServiceCoordinatorIntegrationTests.PreserveInactiveOptions_Anthropic_Renamed_RetainsOpenAIOptionsInSavedFile (80ms)
+  从 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : await coordinator.CommitAsync(addPlan, TestContext.Current.CancellationToken);
+              addResult.Status
+      should be
+  SettingsEditStatus.Applied
+      but was
+  SettingsEditStatus.ApplyPending
+    在 Iris.Infrastructure.Tests.Settings.JsonSettingsServiceCoordinatorIntegrationTests.PreserveInactiveOptions_Anthropic_Renamed_RetainsOpenAIOptionsInSavedFile() 位于 F:\Iris\tests\Iris.Infrastructure.Tests\Settings\JsonSettingsServiceCoordinatorIntegrationTests.cs:392
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Infrastructure.Tests.Settings.JsonSettingsServiceCoordinatorIntegrationTests.LeadingSlashChatCompletionsPath_Applied_PersistedCorrectly (50ms)
+  从 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : await coordinator.CommitAsync(plan, TestContext.Current.CancellationToken);
+              result.Status
+      should be
+  SettingsEditStatus.Applied
+      but was
+  SettingsEditStatus.ApplyPending
+    在 Iris.Infrastructure.Tests.Settings.JsonSettingsServiceCoordinatorIntegrationTests.LeadingSlashChatCompletionsPath_Applied_PersistedCorrectly() 位于 F:\Iris\tests\Iris.Infrastructure.Tests\Settings\JsonSettingsServiceCoordinatorIntegrationTests.cs:268
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.SettingsEditCoordinatorTests.Scenario13_DI_ConstructionNoIO_SingleRegistration_FirstCommitWorks (2ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: Iris.Core.Ocr.OcrRegistryException : 发生未知错误，详情请查看日志
+    在 Iris.Core.Ocr.OcrProviderRegistry.Dispose() 位于 F:\Iris\src\Iris.Core\Ocr\OcrProviderRegistry.cs:341
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.Dispose()
+    在 Microsoft.Extensions.DependencyInjection.ServiceProvider.Dispose()
+    在 Iris.Core.Tests.Settings.SettingsEditCoordinatorTests.Scenario13_DI_ConstructionNoIO_SingleRegistration_FirstCommitWorks() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SettingsEditCoordinatorTests.cs:1732
+    在 Iris.Core.Tests.Settings.SettingsEditCoordinatorTests.Scenario13_DI_ConstructionNoIO_SingleRegistration_FirstCommitWorks()
+    --- End of stack trace from previous location ---
+失败 Iris.Infrastructure.Tests.Settings.JsonSettingsServiceCoordinatorIntegrationTests.PreserveInactiveOptions_OpenAI_Renamed_RetainsAnthropicOptionsInSavedFile (45ms)
+  从 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : await coordinator.CommitAsync(addPlan, TestContext.Current.CancellationToken);
+              addResult.Status
+      should be
+  SettingsEditStatus.Applied
+      but was
+  SettingsEditStatus.ApplyPending
+    在 Iris.Infrastructure.Tests.Settings.JsonSettingsServiceCoordinatorIntegrationTests.PreserveInactiveOptions_OpenAI_Renamed_RetainsAnthropicOptionsInSavedFile() 位于 F:\Iris\tests\Iris.Infrastructure.Tests\Settings\JsonSettingsServiceCoordinatorIntegrationTests.cs:320
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotIsolatedTests.SnapshotHelper_UsesExclusiveNonInteractiveStation_AndJoinsOwnedProcess
+  [ENVIRONMENT LIMITATION] Snapshot isolated helper skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.Win32ClipboardIsolatedIntegrationTests.IsolatedWindowStation_NativeClipboardIntegration_ExecutesInDedicatedProcess
+  [ENVIRONMENT LIMITATION] Native isolated window station test skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (1s 949ms)
+F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (3s 481ms)
+F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (4s 112ms)
+F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (5s 121ms)
+退出代码: 2
+F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 失败并出现 4 个错误 (7s 761ms)
+退出代码: 2
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (42s 190ms)
+
+测试运行摘要: 失败!
+  F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (42s 190ms)
+  F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 失败并出现 4 个错误 (7s 761ms)
+  F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (1s 949ms)
+  F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (3s 481ms)
+  F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (4s 112ms)
+  F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (5s 121ms)
+
+  总计: 3014
+  失败: 5
+  成功: 3007
+  已跳过: 2
+  持续时间: 42s 476ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

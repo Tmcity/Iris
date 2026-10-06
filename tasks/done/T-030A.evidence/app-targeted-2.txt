@@ -1,0 +1,66 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Hosting.ScreenCaptureShutdownTests.StopClosesCaptureAdmissionAndWaitsActualWork_StillDrainsSelectionOnFailure(scenario: "cleanup-failure") (13ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.AggregateException : One or more errors occurred. (order
+      should be
+  ["selection"]
+      but was (case sensitive comparison)
+  ["selection", "presenter"]
+      difference
+  ["selection", *"presenter"*]) (内容获取失败，请稍后重试)
+  ---- Shouldly.ShouldAssertException : order
+      should be
+  ["selection"]
+      but was (case sensitive comparison)
+  ["selection", "presenter"]
+      difference
+  ["selection", *"presenter"*]
+  ---- Iris.Core.Errors.IrisException : 内容获取失败，请稍后重试
+    在 Iris.App.Tests.Hosting.ScreenCaptureShutdownTests.<>c__DisplayClass1_1.<<StopClosesCaptureAdmissionAndWaitsActualWork_StillDrainsSelectionOnFailure>b__1>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\ScreenCaptureShutdownTests.cs:101
+    --- End of stack trace from previous location ---
+    在 Iris.Platform.Windows.Tests.Selection.SelectionTestScope.Run(Func`2 body, SelectionTestScope existing) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\SelectionTestScope.cs:102
+    在 Iris.Platform.Windows.Tests.Selection.SelectionTestScope.Run(Func`2 body, SelectionTestScope existing) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\SelectionTestScope.cs:125
+    在 Iris.Platform.Windows.Tests.Capture.ScreenCaptureTestScope.Run(Func`2 body, Boolean realEncoder) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Capture\ScreenCaptureTestScope.cs:163
+    在 Iris.Platform.Windows.Tests.Capture.ScreenCaptureTestScope.Run(Func`2 body, Boolean realEncoder) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Capture\ScreenCaptureTestScope.cs:165
+    --- End of stack trace from previous location ---
+    ----- Inner Stack Trace #1 (Shouldly.ShouldAssertException) -----
+    在 Iris.App.Tests.Hosting.ScreenCaptureShutdownTests.<>c__DisplayClass1_1.<<StopClosesCaptureAdmissionAndWaitsActualWork_StillDrainsSelectionOnFailure>b__1>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\ScreenCaptureShutdownTests.cs:83
+    ----- Inner Stack Trace #2 (Iris.Core.Errors.IrisException) -----
+    在 Iris.App.Hosting.AppBootstrapper.StopCoreAsync() 位于 F:\Iris\src\Iris.App\Hosting\AppBootstrapper.cs:415
+    在 Iris.App.Tests.Hosting.ScreenCaptureShutdownTests.<>c__DisplayClass1_1.<<StopClosesCaptureAdmissionAndWaitsActualWork_StillDrainsSelectionOnFailure>b__1>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\ScreenCaptureShutdownTests.cs:95
+失败 Iris.App.Tests.Hosting.AppBootstrapperTests.StopAsync_WhenSettingsShutdownFails_Throws_PreservesState_AllowsRetry_AndSharesConcurrentResult (6ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : Task `firstStop.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken)`
+      should throw
+  System.InvalidOperationException
+      but threw
+  Iris.Core.Errors.IrisException
+    在 System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+    在 System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+    在 System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+    在 Iris.App.Tests.Hosting.AppBootstrapperTests.StopAsync_WhenSettingsShutdownFails_Throws_PreservesState_AllowsRetry_AndSharesConcurrentResult() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\AppBootstrapperTests.cs:285
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 2 个错误 (3s 694ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 23
+  失败: 2
+  成功: 21
+  已跳过: 0
+  持续时间: 3s 905ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

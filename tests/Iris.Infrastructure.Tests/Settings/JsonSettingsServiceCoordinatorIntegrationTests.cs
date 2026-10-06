@@ -92,6 +92,8 @@ public sealed class JsonSettingsServiceCoordinatorIntegrationTests
         services.AddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
         services.AddSingleton(typeof(ILogger<>), typeof(NullLogger<>));
         services.AddIrisCore();
+        // JSON/translation integration supplies no OCR factories; OCR is an external boundary here.
+        services.AddSingleton(Substitute.For<Iris.Core.Ocr.IOcrProviderRegistry>());
 
         var sp = services.BuildServiceProvider();
         var coordinator = sp.GetRequiredService<ISettingsEditCoordinator>();

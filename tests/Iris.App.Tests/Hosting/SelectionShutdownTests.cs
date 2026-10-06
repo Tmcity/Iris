@@ -97,19 +97,22 @@ public sealed class SelectionShutdownTests
             release.Set();
             if (failDestroy)
             {
-                await Should.ThrowAsync<IrisException>(() => stop);
-                order.ShouldNotContain("presenter"); order.ShouldNotContain("host");
+                await presenterEntered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                stop.IsCompleted.ShouldBeFalse(); order.ShouldNotContain("host");
+                actionRelease.TrySetResult(); await action;
+                await Should.ThrowAsync<IrisException>(() => stop.WaitAsync(TimeSpan.FromSeconds(10)));
+                order.ShouldContain("presenter"); order.ShouldNotContain("host");
                 failDestroy = false;
                 stop = bootstrapper.StopAsync();
             }
             await presenterEntered.Task.WaitAsync(TimeSpan.FromSeconds(10));
-            stop.IsCompleted.ShouldBeFalse(); order.ShouldNotContain("host");
+            if (!action.IsCompleted) { stop.IsCompleted.ShouldBeFalse(); order.ShouldNotContain("host"); }
             actionRelease.TrySetResult(); await action; await stop;
             await dispatch.DispatchAsync(IrisAction.InputTranslate, new ActionContext(ActionTrigger.TrayMenu));
             handler.ReceivedCalls().Count(c => c.GetMethodInfo().Name == "ExecuteAsync").ShouldBe(1);
             var calls = order.ToArray();
             Array.IndexOf(calls, "capture").ShouldBeLessThan(Array.IndexOf(calls, "selection"));
-            Array.LastIndexOf(calls, "selection").ShouldBeLessThan(Array.IndexOf(calls, "presenter"));
+            Array.IndexOf(calls, "selection").ShouldBeLessThan(Array.IndexOf(calls, "presenter"));
             Array.IndexOf(calls, "presenter").ShouldBeLessThan(Array.IndexOf(calls, "host"));
             calls[^1].ShouldBe("shutdown");
         }
