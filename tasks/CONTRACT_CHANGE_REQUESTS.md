@@ -1037,3 +1037,13 @@ CCR-024结案补充：c7282698最终独立构建/定向/全量通过，生产同
 将未实现IOcrResultPresenter.ShowAsync替换为TryBeginOperation和TryShowAsync，新增IOcrResultOperation（Id/Token/IDisposable调用方租约）。OcrResultViewRequest保留全部已有字段，兼容新增Anchor、ProviderId、UsedFallback、AutoCopy。精确声明已预置CONTRACTS.cs，由开发同步Core。
 
 身份、至多一次终态、自动复制接受点和完整窗口收尾解决迟到识别/关闭竞争。App内部生命周期/截图参与者无需新增Core端口。OcrOutcome/IOcrService/Registry/Provider/图像/剪贴板/翻译端口、默认设置/schema/包保持；三个截图Handler和入口在B，A不提前注册。ProviderName是显示标签，未提供时使用已有列表映射或逻辑ID，不为名称修改后端结果。
+
+## CCR-033：OCR复用翻译窗口及静默反馈
+
+2026-10-07 · Codex架构师批准 · T-031B / OCR_ENTRYPOINTS.md / ARCH v1.49。
+
+状态：**已落地，待复审（T-031B）**。
+
+按用户要求撤回独立OCR窗口。删除未发布的OcrResultViewRequest、IOcrResultOperation、IOcrResultPresenter；向TranslateWindowRequest增加默认false的AutoCopySource与NotifyOcrFallback，使OCR原文复制和固定备用提示跟随现有翻译操作的实际UI接受点，而不使用无身份的后续副作用。新增IScreenshotOcrFeedback（StoppingToken、TryNotifyCopiedAsync、TryNotifyErrorAsync）给静默OCR提供独立停止与即时安全通知，避免取得翻译操作而撤销用户现有翻译。精确声明预置CONTRACTS.cs，由开发同步Core。
+
+保持截图/Service/Registry/Provider/图像/剪贴板/翻译后端模型及错误枚举、默认配置/schema/包。新增端口只做生命周期与固定通知，不携带图像或任意OCR文本。完整行为、所有权和测试见OCR_ENTRYPOINTS.md；不恢复独立窗口，不提前T-032或M6。

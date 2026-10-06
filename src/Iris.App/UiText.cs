@@ -5,6 +5,11 @@ internal static class UiText
     public const string ScreenshotDragHint = "拖动选择区域 · Esc 取消";
     public const string ScreenshotConfirmHint = "Enter / 双击确认 · 右键清除 · Esc 取消";
     public const string ScreenshotCopyFailed = "截图已完成，但图片未能复制到剪贴板。";
+    public const string OcrFallback = "已使用备用 OCR";
+    public const string OcrCopiedFormat = "已复制 {0} 个字符";
+    public const string TrayMenuScreenshotTranslate = "截图翻译";
+    public const string TrayMenuScreenshotOcr = "截图 OCR";
+    public const string TrayMenuSilentScreenshotOcr = "静默截图 OCR";
 
     public const string AppName = "Iris";
     public const string MouseModeOff = "关闭鼠标划词";

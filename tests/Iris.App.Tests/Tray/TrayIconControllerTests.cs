@@ -84,14 +84,17 @@ public sealed class TrayIconControllerTests
                 item1.Header.ShouldBe(UiText.TrayMenuClipboardTranslate);
                 controller.ClipboardTranslateMenuItem.ShouldBeSameAs(item1);
 
-                menu.Items[2].ShouldBeOfType<Separator>();
+                menu.Items[2].ShouldBeSameAs(controller.ScreenshotTranslateMenuItem);
+                menu.Items[3].ShouldBeSameAs(controller.ScreenshotOcrMenuItem);
+                menu.Items[4].ShouldBeSameAs(controller.SilentScreenshotOcrMenuItem);
+                menu.Items[5].ShouldBeOfType<Separator>();
 
-                var item3 = menu.Items[3] as MenuItem;
+                var item3 = menu.Items[6] as MenuItem;
                 item3.ShouldNotBeNull();
                 item3.Header.ShouldBe(UiText.TrayMenuSettings);
                 controller.SettingsMenuItem.ShouldBeSameAs(item3);
 
-                menu.Items[4].ShouldBeOfType<Separator>();
+                menu.Items[7].ShouldBeOfType<Separator>();
             }
 
             return Task.CompletedTask;

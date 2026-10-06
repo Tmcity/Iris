@@ -32,6 +32,9 @@ public sealed class CoreRegistrationTests
         services.AddSingleton(presenterMock);
         services.AddSingleton(translatePresenterMock);
         services.AddSingleton(clipboardMock);
+        services.AddSingleton(Substitute.For<Iris.Core.Presentation.IScreenshotService>());
+        services.AddSingleton(Substitute.For<Iris.Core.Presentation.IScreenshotOcrFeedback>());
+        services.AddSingleton(Substitute.For<Iris.Core.Ocr.IOcrService>());
         services.AddSingleton(Substitute.For<Iris.Core.Platform.ISelectionTextReader>());
         services.AddSingleton(Substitute.For<Iris.Core.Platform.IDesktopContext>());
         services.AddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
@@ -97,7 +100,7 @@ public sealed class CoreRegistrationTests
         coordinator1.ShouldBeSameAs(coordinator2);
 
         var actionHandlers = provider.GetServices<Iris.Core.Actions.IActionHandler>().ToList();
-        actionHandlers.Count.ShouldBe(6);
+        actionHandlers.Count.ShouldBe(9);
         actionHandlers.Single(h => h.Action == Iris.Core.Actions.IrisAction.SelectionTranslate).ShouldBeSameAs(provider.GetServices<Iris.Core.Actions.IActionHandler>().Single(h => h.Action == Iris.Core.Actions.IrisAction.SelectionTranslate));
         actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.OpenSettings).ShouldNotBeNull();
         actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.InputTranslate).ShouldNotBeNull();
@@ -123,6 +126,9 @@ public sealed class CoreRegistrationTests
         services.AddSingleton(presenterMock);
         services.AddSingleton(translatePresenterMock);
         services.AddSingleton(clipboardMock);
+        services.AddSingleton(Substitute.For<Iris.Core.Presentation.IScreenshotService>());
+        services.AddSingleton(Substitute.For<Iris.Core.Presentation.IScreenshotOcrFeedback>());
+        services.AddSingleton(Substitute.For<Iris.Core.Ocr.IOcrService>());
         services.AddSingleton(Substitute.For<Iris.Core.Platform.ISelectionTextReader>());
         services.AddSingleton(Substitute.For<Iris.Core.Platform.IDesktopContext>());
         services.AddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);

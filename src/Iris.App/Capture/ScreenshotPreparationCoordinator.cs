@@ -11,19 +11,26 @@ internal enum PreparationRevocation { None, CallerCanceled, DisplayIntent, Shutd
 /// <summary>A single registered responsibility from admission through actual cleanup.</summary>
 internal sealed class ScreenshotPreparationCoordinator(
     TranslateWindowPresenter translation, SettingsWindowPresenter settings,
-    HotkeyRecordingCoordinator recording, SelectionIconController mouse,
+    Func<HotkeyRecordingCoordinator> recording, Func<SelectionIconController> mouse,
     IEnumerable<IScreenshotPreparationParticipant>? participants = null)
 {
     private readonly TranslateWindowPresenter _translation = translation;
     private readonly IScreenshotPreparationParticipant[] _participants = participants?.ToArray() ?? [];
-    private readonly HotkeyRecordingCoordinator _recording = recording;
+    // These coordinators depend on the Dispatcher/handlers. Resolve them only when
+    // preparing/stopping, after construction of the actual screenshot handler graph.
+    private HotkeyRecordingCoordinator _recording => recording();
     private readonly SettingsWindowPresenter _settings = settings;
-    private readonly SelectionIconController _mouse = mouse;
+    private SelectionIconController _mouse => mouse();
     private readonly object _gate = new();
     private Session? _session;
     private bool _stopping;
     private Task? _stop;
     internal IPreparationVisibility Visibility { get; set; } = PreparationVisibility.Instance;
+
+    public ScreenshotPreparationCoordinator(TranslateWindowPresenter translation, SettingsWindowPresenter settings,
+        HotkeyRecordingCoordinator recording, SelectionIconController mouse,
+        IEnumerable<IScreenshotPreparationParticipant>? participants = null)
+        : this(translation, settings, () => recording, () => mouse, participants) { }
 
     internal Task<Lease> PrepareAsync(bool hideIrisWindows, CancellationToken cancellationToken = default)
     {

@@ -1,0 +1,35 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesRequiredServices (36ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: Iris.Core.Errors.IrisException : 鼠标监听启动失败，划词功能不可用
+    在 Iris.App.Selection.SelectionIconController.StopCoreAsync() 位于 F:\Iris\src\Iris.App\Selection\SelectionIconController.cs:542
+    在 Iris.App.Selection.SelectionIconController.DisposeAsync() 位于 F:\Iris\src\Iris.App\Selection\SelectionIconController.cs:544
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.<DisposeAsync>g__Await|26_0(Int32 i, ValueTask vt, List`1 toDispose)
+    在 Microsoft.Extensions.Hosting.Internal.Host.DisposeAsync()
+    在 Microsoft.Extensions.Hosting.Internal.Host.Dispose()
+    在 Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesRequiredServices() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\AppHostBuilderTests.cs:95
+    在 Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesRequiredServices() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\AppHostBuilderTests.cs:46
+    在 System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    在 System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+失败 Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesSettingsPresenterAndAutoStart_AsSingletons_WithoutInstantiatingSettingsWindow (27ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: Iris.Core.Errors.IrisException : 鼠标监听启动失败，划词功能不可用
+    在 Iris.App.Selection.SelectionIconController.StopCoreAsync() 位于 F:\Iris\src\Iris.App\Selection\SelectionIconController.cs:542
+    在 Iris.App.Selection.SelectionIconController.DisposeAsync() 位于 F:\Iris\src\Iris.App\Selection\SelectionIconController.cs:544
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.<DisposeAsync>g__Await|26_0(Int32 i, ValueTask vt, List`1 toDispose)
+    在 Microsoft.Extensions.Hosting.Internal.Host.DisposeAsync()
+    在 Microsoft.Extensions.Hosting.Internal.Host.Dispose()
+    在 Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesSettingsPresenterAndAutoStart_AsSingletons_WithoutInstantiatingSettingsWindow() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\AppHostBuilderTests.cs:281
+    在 Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesSettingsPresenterAndAutoStart_AsSingletons_WithoutInstantiatingSettingsWindow() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\AppHostBuilderTests.cs:253
+    在 System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    在 System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 2 个错误 (2s 100ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 13
+  失败: 2
+  成功: 11
+  已跳过: 0
+  持续时间: 2s 320ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

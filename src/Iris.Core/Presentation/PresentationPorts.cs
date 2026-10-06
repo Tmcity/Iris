@@ -28,6 +28,11 @@ public sealed record TranslateWindowRequest
 
     /// <summary>非空时在结果区显示错误（用于 OCR 失败等翻译前阶段）。</summary>
     public ErrorInfo? Error { get; init; }
+
+    /// <summary>成功非空Text在最终UI接受点至多认领一次原文复制，窗口持有完整工作责任；默认false。</summary>
+    public bool AutoCopySource { get; init; }
+    /// <summary>成功非空Text在最终UI接受点至多一次即时固定备用OCR提示；默认false，无匿名排队。</summary>
+    public bool NotifyOcrFallback { get; init; }
 }
 
 /// <summary>所属 Presenter 创建的操作租约。Dispose 幂等，只归还调用方持有；不取消已由窗口接管的工作。
@@ -81,42 +86,14 @@ public interface IScreenshotService
     Task<ScreenshotResult?> CaptureRegionAsync(ScreenshotPurpose purpose, CancellationToken cancellationToken);
 }
 
-public sealed record OcrResultViewRequest
+/// <summary>静默截图OCR的停止令牌及即时安全反馈。构造无外部工作；详见OCR_ENTRYPOINTS.md。</summary>
+public interface IScreenshotOcrFeedback
 {
-    /// <summary>转交只读图像；调用方不得再修改Bytes，窗口持有至清理完成。</summary>
-    public required ImageData Image { get; init; }
-    public string? Text { get; init; }
-    public string? ProviderName { get; init; }
-    public bool IsLoading { get; init; }
-    public ErrorInfo? Error { get; init; }
-    public PixelPoint? Anchor { get; init; }
-    /// <summary>实际结果的逻辑服务ID；显示名可用窗口已有列表映射，缺失时显示ID。</summary>
-    public string? ProviderId { get; init; }
-    public bool UsedFallback { get; init; }
-    /// <summary>仅成功非空白终态在UI接受点认领一次自动复制，任务由窗口拥有。</summary>
-    public bool AutoCopy { get; init; }
-}
-
-/// <summary>OCR展示操作的调用方租约；释放幂等，不撤销已由窗口接管的复制/识别工作。
-/// 调用方必须在自己的异步工作退出后释放；Token只在租约有效期内读取。详见OCR_RESULT_WINDOW.md。</summary>
-public interface IOcrResultOperation : IDisposable
-{
-    Guid Id { get; }
-    CancellationToken CancellationToken { get; }
-}
-
-/// <summary>有身份的OCR结果窗口。构造无窗口；关闭即释放，同一时刻只显示一个实例。</summary>
-public interface IOcrResultPresenter
-{
-    /// <summary>接纳新意图并撤销旧操作；已取消token抛OperationCanceledException且不影响当前意图。
-    /// 退出/关闭未完成或未回收操作达到8个时返回null，不启动工作。</summary>
-    IOcrResultOperation? TryBeginOperation(CancellationToken cancellationToken = default);
-
-    /// <summary>UI实际执行时复核身份；旧/取消/已释放操作返回false，不改变窗口。
-    /// null或外来租约抛ArgumentException，同操作并发发布抛InvalidOperationException。
-    /// 首次绑定只读Image，同操作后续Image须为同一引用；至多接受一次终态。
-    /// true表示UI已接受，不等待窗口接管的自动复制。调用方不得修改Image.Bytes。</summary>
-    Task<bool> TryShowAsync(IOcrResultOperation operation, OcrResultViewRequest request);
+    CancellationToken StoppingToken { get; }
+    /// <summary>UI实际接受时核对取消与停止；托盘不可用返回false，不缓存。计数为文本UTF-16 Length，负数非法。</summary>
+    Task<bool> TryNotifyCopiedAsync(int characterCount, CancellationToken cancellationToken = default);
+    /// <summary>只显示默认安全错误；非法枚举抛参数异常。取消/停止/托盘不可用返回false，无二次排队。</summary>
+    Task<bool> TryNotifyErrorAsync(ErrorCode code, CancellationToken cancellationToken = default);
 }
 
 public enum NotificationLevel

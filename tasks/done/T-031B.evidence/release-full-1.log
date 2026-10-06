@@ -1,0 +1,123 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Translation.TranslationOrchestratorIntegrationTests.Orchestrator_EndToEnd_CacheAndSqliteHistoryIntegration_MatchesSpecifications (297ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.AggregateException : Some services are not able to be constructed (Error while validating the service descriptor 'ServiceType: Iris.Core.Actions.IActionHandler Lifetime: Singleton ImplementationType: Iris.Core.Workflows.ScreenshotTranslateHandler': Unable to resolve service for type 'Iris.Core.Presentation.IScreenshotService' while attempting to activate 'Iris.Core.Workflows.ScreenshotTranslateHandler'.) (Error while validating the service descriptor 'ServiceType: Iris.Core.Actions.IActionHandler Lifetime: Singleton ImplementationType: Iris.Core.Workflows.ScreenshotOcrHandler': Unable to resolve service for type 'Iris.Core.Presentation.IScreenshotService' while attempting to activate 'Iris.Core.Workflows.ScreenshotOcrHandler'.) (Error while validating the service descriptor 'ServiceType: Iris.Core.Actions.IActionHandler Lifetime: Singleton ImplementationType: Iris.Core.Workflows.SilentScreenshotOcrHandler': Unable to resolve service for type 'Iris.Core.Presentation.IScreenshotService' while attempting to activate 'Iris.Core.Workflows.SilentScreenshotOcrHandler'.)
+  ---- System.InvalidOperationException : Error while validating the service descriptor 'ServiceType: Iris.Core.Actions.IActionHandler Lifetime: Singleton ImplementationType: Iris.Core.Workflows.ScreenshotTranslateHandler': Unable to resolve service for type 'Iris.Core.Presentation.IScreenshotService' while attempting to activate 'Iris.Core.Workflows.ScreenshotTranslateHandler'.
+  -------- System.InvalidOperationException : Unable to resolve service for type 'Iris.Core.Presentation.IScreenshotService' while attempting to activate 'Iris.Core.Workflows.ScreenshotTranslateHandler'.
+  ---- System.InvalidOperationException : Error while validating the service descriptor 'ServiceType: Iris.Core.Actions.IActionHandler Lifetime: Singleton ImplementationType: Iris.Core.Workflows.ScreenshotOcrHandler': Unable to resolve service for type 'Iris.Core.Presentation.IScreenshotService' while attempting to activate 'Iris.Core.Workflows.ScreenshotOcrHandler'.
+  -------- System.InvalidOperationException : Unable to resolve service for type 'Iris.Core.Presentation.IScreenshotService' while attempting to activate 'Iris.Core.Workflows.ScreenshotOcrHandler'.
+  ---- System.InvalidOperationException : Error while validating the service descriptor 'ServiceType: Iris.Core.Actions.IActionHandler Lifetime: Singleton ImplementationType: Iris.Core.Workflows.SilentScreenshotOcrHandler': Unable to resolve service for type 'Iris.Core.Presentation.IScreenshotService' while attempting to activate 'Iris.Core.Workflows.SilentScreenshotOcrHandler'.
+  -------- System.InvalidOperationException : Unable to resolve service for type 'Iris.Core.Presentation.IScreenshotService' while attempting to activate 'Iris.Core.Workflows.SilentScreenshotOcrHandler'.
+    在 Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+    在 Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(IServiceCollection services, ServiceProviderOptions options)
+    在 Iris.App.Tests.Translation.TranslationOrchestratorIntegrationTests.IntegrationFixture.InitializeAsync(CancellationToken ct) 位于 F:\Iris\tests\Iris.App.Tests\Translation\TranslationOrchestratorIntegrationTests.cs:217
+    在 Iris.App.Tests.Translation.TranslationOrchestratorIntegrationTests.Orchestrator_EndToEnd_CacheAndSqliteHistoryIntegration_MatchesSpecifications() 位于 F:\Iris\tests\Iris.App.Tests\Translation\TranslationOrchestratorIntegrationTests.cs:31
+    在 Iris.App.Tests.Translation.TranslationOrchestratorIntegrationTests.Orchestrator_EndToEnd_CacheAndSqliteHistoryIntegration_MatchesSpecifications() 位于 F:\Iris\tests\Iris.App.Tests\Translation\TranslationOrchestratorIntegrationTests.cs:179
+    --- End of stack trace from previous location ---
+    ----- Inner Stack Trace #1 (System.InvalidOperationException) -----
+    在 Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+    在 Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+    ----- Inner Stack Trace -----
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+    在 Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+    ----- Inner Stack Trace #2 (System.InvalidOperationException) -----
+    在 Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+    在 Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+    ----- Inner Stack Trace -----
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+    在 Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+    ----- Inner Stack Trace #3 (System.InvalidOperationException) -----
+    在 Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+    在 Microsoft.Extensions.DependencyInjection.ServiceProvider..ctor(ICollection`1 serviceDescriptors, ServiceProviderOptions options)
+    ----- Inner Stack Trace -----
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceDescriptor serviceDescriptor, CallSiteChain callSiteChain)
+    在 Microsoft.Extensions.DependencyInjection.ServiceProvider.ValidateService(ServiceDescriptor descriptor)
+失败 Iris.Core.Tests.Workflows.OpenSettingsHandlerTests.CoreDI_WithFakePresenterAndSettings_ResolvesOpenSettingsHandler (166ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.InvalidOperationException : Unable to resolve service for type 'Iris.Core.Presentation.IScreenshotService' while attempting to activate 'Iris.Core.Workflows.ScreenshotTranslateHandler'.
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateArgumentCallSites(ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain, ParameterInfo[] parameters, Boolean throwIfCallSiteNotFound)
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateConstructorCallSite(ResultCache lifetime, ServiceIdentifier serviceIdentifier, Type implementationType, CallSiteChain callSiteChain)
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateExact(ServiceDescriptor descriptor, ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain, Int32 slot)
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.TryCreateEnumerable(ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain)
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.CreateCallSite(ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain)
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.GetCallSite(ServiceIdentifier serviceIdentifier, CallSiteChain callSiteChain)
+    在 Microsoft.Extensions.DependencyInjection.ServiceProvider.CreateServiceAccessor(ServiceIdentifier serviceIdentifier)
+    在 System.Collections.Concurrent.ConcurrentDictionary`2.GetOrAdd(TKey key, Func`2 valueFactory)
+    在 Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(ServiceIdentifier serviceIdentifier, ServiceProviderEngineScope serviceProviderEngineScope)
+    在 Microsoft.Extensions.DependencyInjection.ServiceProvider.GetService(Type serviceType)
+    在 Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService(IServiceProvider provider, Type serviceType)
+    在 Microsoft.Extensions.DependencyInjection.ServiceProviderServiceExtensions.GetRequiredService[T](IServiceProvider provider)
+    在 Iris.Core.Tests.Workflows.OpenSettingsHandlerTests.CoreDI_WithFakePresenterAndSettings_ResolvesOpenSettingsHandler() 位于 F:\Iris\tests\Iris.Core.Tests\Workflows\OpenSettingsHandlerTests.cs:105
+    在 System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    在 System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotIsolatedTests.SnapshotHelper_UsesExclusiveNonInteractiveStation_AndJoinsOwnedProcess
+  [ENVIRONMENT LIMITATION] Snapshot isolated helper skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.Win32ClipboardIsolatedIntegrationTests.IsolatedWindowStation_NativeClipboardIntegration_ExecutesInDedicatedProcess
+  [ENVIRONMENT LIMITATION] Native isolated window station test skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 355ms)
+F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (3s 629ms)
+F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (4s 458ms)
+F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (5s 192ms)
+退出代码: 2
+失败 Iris.App.Tests.Settings.SettingsDraftOperationQueueTests.DrainAndCancelAllAsync_AwaitsRunningTaskAndCancelsWaitingQueue (5s 024ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : op2Started
+      should be
+  False
+      but was
+  True
+    在 Iris.App.Tests.Settings.SettingsDraftOperationQueueTests.DrainAndCancelAllAsync_AwaitsRunningTaskAndCancelsWaitingQueue() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftOperationQueueTests.cs:94
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.App.Tests.Services.ThemeServicePreviewTests.VisualThemeApplier_IsInvoked_WhenThemeChanges (5s 426ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.TimeoutException : The operation has timed out.
+    在 Iris.App.Tests.Services.ThemeServicePreviewTests.VisualThemeApplier_IsInvoked_WhenThemeChanges() 位于 F:\Iris\tests\Iris.App.Tests\Services\ThemeServicePreviewTests.cs:146
+    --- End of stack trace from previous location ---
+F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (7s 713ms)
+失败 Iris.App.Tests.Services.ThemeServicePreviewTests.VisualThemeApplier_WhenThrows_LogsWarningWithoutCrashing (5s 000ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.TimeoutException : The operation has timed out.
+    在 Iris.App.Tests.Services.ThemeServicePreviewTests.VisualThemeApplier_WhenThrows_LogsWarningWithoutCrashing() 位于 F:\Iris\tests\Iris.App.Tests\Services\ThemeServicePreviewTests.cs:167
+    --- End of stack trace from previous location ---
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 4 个错误 (6m 31s 721ms)
+退出代码: -1
+
+测试运行摘要: 失败!
+  F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (7s 713ms)
+  F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 355ms)
+  F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (3s 629ms)
+  F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (5s 192ms)
+  F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (4s 458ms)
+  F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 4 个错误 (6m 31s 721ms)
+
+  总计: 2746
+  失败: 5
+  成功: 2739
+  已跳过: 2
+  持续时间: 6m 32s 097ms
+已完成测试运行，但显示非成功退出代码: 1 (请参阅: https://aka.ms/testingplatform/exitcodes)

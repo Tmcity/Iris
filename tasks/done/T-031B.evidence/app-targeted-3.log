@@ -1,0 +1,2 @@
+F:\Iris\src\Iris.Core\Workflows\ScreenshotOcrCancellation.cs(16,14): error CA1068: 方法“Iris.Core.Workflows.ScreenshotOcrCancellation.ScreenshotOcrCancellation(System.Threading.CancellationToken, System.Threading.CancellationToken, Microsoft.Extensions.Logging.ILogger)”应将 CancellationToken 作为最后一个参数 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1068) [F:\Iris\src\Iris.Core\Iris.Core.csproj]
+生成失败，退出代码: 1。

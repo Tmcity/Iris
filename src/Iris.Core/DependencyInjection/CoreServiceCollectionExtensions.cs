@@ -49,6 +49,9 @@ public static class CoreServiceCollectionExtensions
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IActionHandler, SelectionTranslateHandler>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IActionHandler, ToggleMouseSelectionHandler>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IActionHandler, TranslateTextHandler>());
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<IActionHandler, ScreenshotTranslateHandler>());
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<IActionHandler, ScreenshotOcrHandler>());
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<IActionHandler, SilentScreenshotOcrHandler>());
 
         return services;
     }

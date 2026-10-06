@@ -281,7 +281,7 @@ public sealed class AppHostBuilderTests
     }
 
     [Fact]
-    public void Host_ResolvesAllSixActionHandlers_AndTranslatePresenterAsSingleton()
+    public void Host_ResolvesAllNineActionHandlers_AndTranslatePresenterAsSingleton()
     {
         using var tempDir = new TempDirectory();
         var paths = new FakeAppPaths(tempDir.Path);
@@ -290,9 +290,15 @@ public sealed class AppHostBuilderTests
         using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
 
         var handlers = host.Services.GetRequiredService<System.Collections.Generic.IEnumerable<IActionHandler>>().ToList();
-        handlers.Count.ShouldBe(6);
+        handlers.Count.ShouldBe(9);
         handlers.Count(h => h.Action == IrisAction.SelectionTranslate).ShouldBe(1);
-        handlers.Select(h => h.Action).Distinct().Count().ShouldBe(6);
+        handlers.Select(h => h.Action).Distinct().Count().ShouldBe(9);
+        handlers.Count(h => h.Action == IrisAction.ScreenshotTranslate).ShouldBe(1);
+        handlers.Count(h => h.Action == IrisAction.ScreenshotOcr).ShouldBe(1);
+        handlers.Count(h => h.Action == IrisAction.SilentScreenshotOcr).ShouldBe(1);
+        host.Services.GetRequiredService<HotkeyCoordinator>().ShouldNotBeNull();
+        host.Services.GetRequiredService<IScreenshotService>().ShouldBeSameAs(host.Services.GetRequiredService<Iris.App.Capture.ScreenshotService>());
+        host.Services.GetRequiredService<IScreenshotOcrFeedback>().ShouldBeSameAs(host.Services.GetRequiredService<ScreenshotOcrFeedback>());
         handlers.OfType<Iris.Core.Workflows.ToggleMouseSelectionHandler>().ShouldHaveSingleItem();
 
         handlers.OfType<Iris.Core.Workflows.OpenSettingsHandler>().ShouldHaveSingleItem();

@@ -28,6 +28,7 @@ internal sealed partial class AppBootstrapper
     private readonly ITranslationProviderRegistry _translationRegistry;
     private readonly Iris.Core.Ocr.IOcrProviderRegistry? _ocrRegistry;
     private readonly Iris.Core.Ocr.IOcrService? _ocrService;
+    private readonly ScreenshotOcrFeedback? _screenshotOcrFeedback;
     private readonly IDatabaseInitializer _databaseInitializer;
     private readonly LogLevelController _logLevelController;
     private readonly ThemeService _themeService;
@@ -81,7 +82,8 @@ internal sealed partial class AppBootstrapper
         Iris.App.Capture.ScreenshotService? screenshotService = null,
         Iris.Platform.Windows.Imaging.WinRtImagePreprocessor? imagePreprocessor = null,
         Iris.Core.Ocr.IOcrProviderRegistry? ocrRegistry = null,
-        Iris.Core.Ocr.IOcrService? ocrService = null)
+        Iris.Core.Ocr.IOcrService? ocrService = null,
+        ScreenshotOcrFeedback? screenshotOcrFeedback = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -108,6 +110,7 @@ internal sealed partial class AppBootstrapper
         _imagePreprocessor = imagePreprocessor;
         _ocrRegistry = ocrRegistry;
         _ocrService = ocrService;
+        _screenshotOcrFeedback = screenshotOcrFeedback;
     }
 
     internal static Action<string, string> FatalErrorShower { get; set; } = FatalErrorDialog.Show;
@@ -229,6 +232,8 @@ internal sealed partial class AppBootstrapper
 
     public Task StopAsync()
     {
+        _screenshotOcrFeedback?.StopAcceptance();
+        (_translateShutdownCoordinator as Iris.App.Translation.TranslateWindowPresenter)?.StopAcceptance();
         _ocrService?.StopAccepting();
         _ocrRegistry?.StopAccepting();
         if (_ocrService == null) _imagePreprocessor?.StopAcceptance();
@@ -266,6 +271,11 @@ internal sealed partial class AppBootstrapper
     private async Task StopCoreAsync()
     {
         var earlyFailures = new System.Collections.Generic.List<string>();
+        if (_screenshotOcrFeedback != null)
+        {
+            try { await _screenshotOcrFeedback.StopAsync().ConfigureAwait(false); }
+            catch (Exception ex) { earlyFailures.Add($"OCR_FEEDBACK:0x{ex.HResult:X8}"); }
+        }
         bool ocrPending = false;
         if (_ocrService != null)
         {

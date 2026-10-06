@@ -210,6 +210,8 @@ public sealed class TranslationOrchestratorIntegrationTests
             services.AddSingleton<ITranslationProviderFactory>(ProviderFactory);
             services.AddSingleton(Substitute.For<ISettingsWindowPresenter>());
             services.AddSingleton(Substitute.For<ITranslateWindowPresenter>());
+            services.AddSingleton(Substitute.For<IScreenshotService>());
+            services.AddSingleton(Substitute.For<IScreenshotOcrFeedback>());
             services.AddSingleton(Substitute.For<Iris.Core.Platform.IClipboardService>());
             services.AddSingleton(Substitute.For<Iris.Core.Platform.ISelectionTextReader>());
             services.AddSingleton(Substitute.For<Iris.Core.Platform.IDesktopContext>());

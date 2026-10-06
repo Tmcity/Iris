@@ -112,6 +112,12 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
     internal TranslateWindow? Window => _window;
     internal TranslateWindowViewModel? ViewModel => _viewModel;
 
+    internal bool IsCurrentVisibleOperation(TranslateWindowOperation operation)
+    {
+        lock (_gate) return !_isShuttingDown && !operation.IsCancellationRequested
+            && ReferenceEquals(_latestOperation, operation) && _window?.IsVisible == true;
+    }
+
     public ITranslateWindowOperation? TryBeginOperation(CancellationToken cancellationToken = default)
     {
         // 已取消令牌抛 OperationCanceledException 且不影响当前意图
@@ -169,7 +175,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                 Iris.App.Capture.WindowPreparationIntent.ShowAttempt showAttempt;
                 lock (_gate)
                 {
-                    if (_isShuttingDown || op.IsCallerDisposed || op.CancellationToken.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
+                    if (_isShuttingDown || op.IsCallerDisposed || op.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
                     {
                         accepted = false;
                         return Task.CompletedTask;
@@ -192,7 +198,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                         bool canShow = false;
                         lock (_gate)
                         {
-                            if (!_isShuttingDown && !op.IsCallerDisposed && !op.CancellationToken.IsCancellationRequested && ReferenceEquals(_latestOperation, op))
+                            if (!_isShuttingDown && !op.IsCallerDisposed && !op.IsCancellationRequested && ReferenceEquals(_latestOperation, op))
                             {
                                 canShow = true;
                             }
@@ -273,7 +279,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                     bool shouldHideSuperseded = false;
                     lock (_gate)
                     {
-                        if (_isShuttingDown || op.IsCallerDisposed || op.CancellationToken.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
+                        if (_isShuttingDown || op.IsCallerDisposed || op.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
                         {
                             accepted = false;
                             bool hasNewer = !ReferenceEquals(_latestOperation, op) && _latestOperation != null;
@@ -327,7 +333,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                     bool shouldHideAfterApply = false;
                     lock (_gate)
                     {
-                        if (!applied || _isShuttingDown || op.IsCallerDisposed || op.CancellationToken.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
+                        if (!applied || _isShuttingDown || op.IsCallerDisposed || op.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
                         {
                             accepted = false;
                             bool hasNewer = !ReferenceEquals(_latestOperation, op) && _latestOperation != null;
@@ -354,6 +360,14 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                             _isVisibleSnapshot = _window != null && _window.IsVisible;
                             _isActiveSnapshot = _window != null && _window.IsActive;
                             accepted = true;
+                            if (_isVisibleSnapshot && !string.IsNullOrWhiteSpace(request.Text)
+                                && request.Error == null && string.IsNullOrWhiteSpace(request.StatusMessage))
+                            {
+                                if (request.AutoCopySource && op.TryClaimAutoCopySource())
+                                    _viewModel!.AcceptSourceCopy(request.Text, op);
+                                if (request.NotifyOcrFallback && !op.IsCancellationRequested && op.TryClaimOcrFallback())
+                                    _notificationService?.TryNotifyOcrFallback();
+                            }
                         }
                     }
 
@@ -418,6 +432,9 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
     public async Task HideAsync()
     {
         _preparationIntent.Advance(hiding: true);
+        TranslateWindowOperation? hiddenIntent;
+        lock (_gate) hiddenIntent = _latestOperation;
+        hiddenIntent?.Cancel();
         TranslateWindowOperation? opToCancel = null;
         await _uiDispatcher.InvokeAsync(() =>
         {
@@ -460,7 +477,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
             {
                 lock (_gate)
                 {
-                    if (_isShuttingDown || op.IsCallerDisposed || op.CancellationToken.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
+                    if (_isShuttingDown || op.IsCallerDisposed || op.IsCancellationRequested || !ReferenceEquals(_latestOperation, op))
                         return Task.CompletedTask;
                     // This is the intent's UI commit point. No second anonymous queue.
                     accepted = _notificationService?.TryNotifyNow(level, code) ?? false;
@@ -784,6 +801,17 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
             _shutdownTask = Task.Run(() => ShutdownCoreAsync(cancellationToken), CancellationToken.None);
             return _shutdownTask;
         }
+    }
+
+    internal void StopAcceptance()
+    {
+        TranslateWindowOperation[] operations;
+        lock (_gate)
+        {
+            _isShuttingDown = true;
+            operations = _activeOperations.ToArray();
+        }
+        foreach (var operation in operations) operation.Cancel();
     }
 
     private async Task ShutdownCoreAsync(CancellationToken cancellationToken)

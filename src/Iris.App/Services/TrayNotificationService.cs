@@ -15,6 +15,7 @@ namespace Iris.App.Services;
 internal sealed partial class TrayNotificationService : INotificationService
 {
     private const int MaxPendingCount = 10;
+    private static readonly System.Text.CompositeFormat OcrCopiedFormat = System.Text.CompositeFormat.Parse(UiText.OcrCopiedFormat);
     private readonly ILogger<TrayNotificationService> _logger;
     private readonly Lock _gate = new();
     private readonly Queue<PendingNotification> _pendingNotifications = new();
@@ -83,6 +84,23 @@ internal sealed partial class TrayNotificationService : INotificationService
         TrayIconController? tray;
         lock (_gate) tray = _tray;
         return tray?.TryShowNotificationNow(UiText.AppName, UiText.ScreenshotCopyFailed, NotificationLevel.Warning) ?? false;
+    }
+
+    internal bool TryNotifyOcrFallback()
+    {
+        TrayIconController? tray;
+        lock (_gate) tray = _tray;
+        return tray?.TryShowNotificationNow(UiText.AppName, UiText.OcrFallback, NotificationLevel.Info) ?? false;
+    }
+
+    internal bool TryNotifyOcrCopied(int characterCount)
+    {
+        ArgumentOutOfRangeException.ThrowIfNegative(characterCount);
+        TrayIconController? tray;
+        lock (_gate) tray = _tray;
+        return tray?.TryShowNotificationNow(UiText.AppName,
+            string.Format(System.Globalization.CultureInfo.InvariantCulture, OcrCopiedFormat, characterCount),
+            NotificationLevel.Success) ?? false;
     }
 
     private static void DispatchNotification(TrayIconController tray, string title, string message, NotificationLevel level)

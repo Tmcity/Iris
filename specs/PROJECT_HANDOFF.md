@@ -1,5 +1,25 @@
 # Iris 架构师接手记录
 
+**T-031B开发全量已通过（待交付复审）**：release-build-4为0警告/错误1.79s；release-full-4为3234/3232成功/0失败/2既有跳过、2m10.522s，已确认进程56232/62072退出。第三轮仅剩TranslationEndToEndTests自建DI缺端口，现已补齐，旧业务断言未删。独立development-dispatcher-1另9项通过（实际Dispatcher+三个Handler在非合作OCR门闩下互斥，忽略请求取消不影响当前调用），连同入口20、副作用8、Host4、caller1为当前开发期42项。开发正在复核探针并归档；最终仍按提交构建重绑独立验收，不提前结案。
+
+**T-031B完整Host独立预检已通过**：临时iris-t031b-independent-review新增HostChecks，实际AppHostBuilder/Dispatcher/三个Handler/真实ScreenshotService与Preparation构造图、Bootstrapper停止和Host异步处置共4项通过，development-host-2.log，进程正常退出。无启动主程序或截图；仅设置/密钥/剪贴板/UI边界用自有替身，真实截图构造图未mock。首轮host-1为独立夹具未显式加载Wpf.Ui导致XAML主题解析失败，已补加载，非产品缺陷。开发共用测试夹具补截图端口并更新托盘菜单断言，fixture-targeted-2已通过；尚待最终全量与交付，不据开发期探针直接结案。
+
+**T-031B视觉首轮与第二轮全量分类**：已保全并逐张查看临时iris-t031b-independent-review/render-pass-1六张最新明暗source/loading/error，manifest记录原路径与SHA256；普通OCR确实在现有翻译原文框，无截图预览，真实翻译按钮可用，加载/错误安全可读。开发release-full-2进程正常结束但3234项中224失败：219项同为旧自建DI夹具缺IScreenshotService，另5项为托盘序号或依赖该夹具的异常注入断言。不能把这些写成224个独立产品缺陷，也不能直接忽略；开发已读取日志并在修正组合根/夹具。当前DI按需依赖改动保持截图准备算法，最终仍需实际完整Host退出与全量验证。
+
+**T-031B独立扩展与全量首轮情况**：临时iris-t031b-independent-review的development-entries-5为20项通过（新增真实翻译按钮已启用及手动继续一次），development-effects-1为8项通过（编辑/caller撤销排队复制、租约归还保留已接管复制、退出等待非合作剪贴板及HWND释放、托盘不可用无延后、原caller/停止拒绝排队静默通知）。开发已将原文复制并入既有单写队列。首轮全量出现旧夹具注册缺失/主题超时及DI循环，进程26888/父23268曾存活；独立只读栈full-stall-stack-1.log显示AppHostBuilder factory循环解析。开发独立定位并已保留证据、终止该自有进程，正在以ScreenshotPreparation内部按需解析热键/鼠标依赖打破环，不能把此首轮未完整收尾计通过。新di-targeted-1另有两个旧Host测试处置鼠标UI所有者失败，开发已读取处理，尚待完整根/退出验证。
+
+**T-031B开发期独立入口复核**：新会话已落地三个Handler及托盘/DI/反馈，当前真实翻译操作已直接检查原caller。临时iris-t031b-independent-review/development-caller-cancel-1.log将基线accepted=True反例修正为False。development-entries-4.log为实际三个Handler（反射构造内部类型）、实际Presenter/Window/VM及窄捕获/OCR/剪贴板/托盘边界18项全过：purpose/原图/同身份loading终态/Anchor/普通0翻译与自动复制/截图翻译1次且不复制OCR原文/备用提示一次/静默保留既有窗口与操作且计数15。前3轮为探针缺IO using、NullLogger构造及自制字符串计数14→15的夹具修正，日志保留，不当产品缺陷。代码仍在开发，按钮状态和复制队列正在调整，最终须重绑复核，不据此验收。
+
+**新开发会话已确认接单**：01a112a7-c953-7630-9ee9-d2be2123dc70收到完整角色与T-031B交接（消息01a112aa-00be-7233-9252-b50ee0db6f49，执行轮01a112aa-094c-70e3-b7d4-fd95b1d3b104），明确“已接单，立即继续唯一工单”，已实际读取工单/CCR/架构/仓库规则。临时观察脚本iris-watch-new-developer.py已改为新会话；不再观察或派工至故障旧会话，.codex工具未改。
+
+**当前开发会话切换（2026-10-07，用户指定）**：新开发会话01a112a7-c953-7630-9ee9-d2be2123dc70接替出问题的01a10fa5-77e8-77e1-82d9-1ea1aa587d61。唯一任务仍T-031B，基线ce8a9a777fbd3fb5f953c6963b2125a7ceedf38d；切换时src/tests无B实现改动。新会话已就位等待指令，接着读取current_task/OCR_ENTRYPOINTS/CCR033并实施，不再向旧会话派工。本条覆盖下方历史会话指向；M6延迟、OCR复用翻译原文框、不显示截图的用户决定保持。
+
+**T-031B已接单，独立验证准备**：开发轮01a11274-7a5d-7500-a43b-6ff4420686ab已明确接单并读取规范/现有翻译操作、复制队列与托盘退出。临时iris-t031b-independent-review已建立自有STA/UI门闩、实际TranslateWindowPresenter/Window/VM与窄外边界，baseline仅填原文0翻译请求通过并正常收尾。新增原caller后注册回调的基线探针复现accepted=True/写入迟到文本；current_task已附路径，属于B原先直接检查caller状态的要求，待B实现后重绑复核，不重开旧窗口方案。当前尚无B生产改动或交付。
+
+**T-031B已实际下达**：消息01a11274-7536-74e1-991d-b4005d3c7663，执行轮01a11274-7a5d-7500-a43b-6ff4420686ab已建立，未收到完成报告，不因45s等待超时重发。CCR-033独立声明编译0警告/错误，日志临时iris-ccr033-contract-check/build-2.log；首轮缺既有全局Errors using的夹具错误保留build.log，补齐与既有Contract检查相同using环境后通过，未改无关声明。A验收已按新范围结案，B是当前唯一实施单。
+
+**当前唯一工单T-031B（2026-10-07）**：A在ce8a9a777fbd3fb5f953c6963b2125a7ceedf38d按用户新范围独立验收（Release0警告/错误34.15s，全量3155/3153成功/2既有跳过40.621s，最终UIA清理6项通过），证据T-031A.review。当前B按OCR_ENTRYPOINTS.md/ARCHv1.49/CCR-033/current_task实现三个Handler、托盘/配置热键，普通OCR仅填翻译原文、不展示截图；原文复制与固定即时提示绑定UI接受点，静默有独立停止反馈。CONTRACTS已预置，Core由开发同步；M6延期，T-032未开始。旧窗口任务和排队提醒不恢复。B准备签发发送，未宣称开发已接单。
+
 **T-031A按用户变更交付待复审（2026-10-07）**：独立OCR窗口/专用测试与DI、准备、退出接线已移除；历史源码txt、失败记录及图像保留，旧方案不算交付。Core未发布展示声明按工单暂留兼容，UIA仅两个测试文件作确定性时序维护，App/后端生产保持。最终revised-scope-build零警告/错误，revised-scope-full为3155/3153成功/0失败/2既有跳过；报告tasks/done/T-031A.md，current_task已全文归档。CCR032撤回状态保持，父/A▶、B☐；OCR写翻译原文框与三个入口由B接线，尚未实现，等待独立复审。
 
 **新范围当前实况（2026-10-07）**：开发已确认用户变更并移除本轮独立OCR窗口、专有测试、DI/准备/退出接线，旧源以txt归档retired-window-source，历史日志/18图保留。src/tests检索无OcrResultWindow/Iris.App.Ocr/IOcrResultShutdownCoordinator；App当前无实质diff，Core仅暂留未发布OCR展示声明。revised-scope-build为Release0警告/错误、10.01s；revised-scope-full为3155/3153成功/0失败/2既有跳过、1m02.703s，进程64056/53712已退出。UIA维护在两个测试文件，实际15项通过，生产保持。尚待正式提交和按新范围独立验收；B将实现OCR写翻译原文框，不能宣称此入口已实现，更不能重跑旧窗口探针作为当前交付要求。

@@ -1,0 +1,17 @@
+{
+  "Iris.App.dll": {
+    "final": "6196ab8c2aabaac02968029827315bdbad1b4cd782635085df437ed646601fad",
+    "probe": "6196ab8c2aabaac02968029827315bdbad1b4cd782635085df437ed646601fad",
+    "equal": true
+  },
+  "Iris.Core.dll": {
+    "final": "d0ae472e066f626eec4768a4f8a57fb0dc06ef0b41a9fdc55999e29d60756d22",
+    "probe": "d0ae472e066f626eec4768a4f8a57fb0dc06ef0b41a9fdc55999e29d60756d22",
+    "equal": true
+  },
+  "Iris.Platform.Windows.dll": {
+    "final": "9ed1d0885afb39cc44f8f45eddccc5a96225ec70e1c6bf49945bf8aa2ab82e88",
+    "probe": "9ed1d0885afb39cc44f8f45eddccc5a96225ec70e1c6bf49945bf8aa2ab82e88",
+    "equal": true
+  }
+}

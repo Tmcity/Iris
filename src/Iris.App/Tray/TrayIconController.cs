@@ -38,6 +38,10 @@ internal sealed partial class TrayIconController : IDisposable
     public bool IsCreated => _isCreated;
     internal MenuItem? InputTranslateMenuItem { get; private set; }
     internal MenuItem? ClipboardTranslateMenuItem { get; private set; }
+    internal MenuItem? ScreenshotTranslateMenuItem { get; private set; }
+    internal MenuItem? ScreenshotOcrMenuItem { get; private set; }
+    internal MenuItem? SilentScreenshotOcrMenuItem { get; private set; }
+    internal Task? LastScreenshotTask { get; private set; }
     internal MenuItem? SettingsMenuItem { get; private set; }
     internal ICommand LeftClickCommand => _leftClickCommand;
     internal Task? LastInputTranslateTask { get; private set; }
@@ -261,6 +265,13 @@ internal sealed partial class TrayIconController : IDisposable
         ClipboardTranslateMenuItem = clipboardTranslateItem;
         contextMenu.Items.Add(clipboardTranslateItem);
 
+        ScreenshotTranslateMenuItem = CreateScreenshotItem(UiText.TrayMenuScreenshotTranslate, IrisAction.ScreenshotTranslate);
+        ScreenshotOcrMenuItem = CreateScreenshotItem(UiText.TrayMenuScreenshotOcr, IrisAction.ScreenshotOcr);
+        SilentScreenshotOcrMenuItem = CreateScreenshotItem(UiText.TrayMenuSilentScreenshotOcr, IrisAction.SilentScreenshotOcr);
+        contextMenu.Items.Add(ScreenshotTranslateMenuItem);
+        contextMenu.Items.Add(ScreenshotOcrMenuItem);
+        contextMenu.Items.Add(SilentScreenshotOcrMenuItem);
+
         contextMenu.Items.Add(new Separator());
 
         var settingsItem = new MenuItem
@@ -338,6 +349,25 @@ internal sealed partial class TrayIconController : IDisposable
     {
         await DispatchInputTranslateAsync();
     }
+
+    private MenuItem CreateScreenshotItem(string title, IrisAction action)
+    {
+        var item = new MenuItem { Header = title };
+        item.Click += async (_, _) =>
+        {
+            try
+            {
+                if (_disposed) return;
+                LastScreenshotTask = _actionDispatcher.DispatchAsync(action, new ActionContext(ActionTrigger.TrayMenu));
+                await LastScreenshotTask;
+            }
+            catch (Exception ex) { LogScreenshotFailed(_logger, action, ex.GetType().Name); }
+        };
+        return item;
+    }
+
+    [LoggerMessage(EventId = 20, Level = LogLevel.Warning, Message = "截图动作入口失败: Action={Action}, ExceptionType={ExceptionType}")]
+    private static partial void LogScreenshotFailed(ILogger logger, IrisAction action, string exceptionType);
 
     private async void OnClipboardTranslateClick(object? sender, RoutedEventArgs e)
     {

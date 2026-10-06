@@ -60,6 +60,9 @@ internal sealed class SelectionEntryTestScope
         placement.SetWindowBounds(Arg.Any<nint>(), Arg.Any<PixelRect>(), Arg.Any<bool>(), Arg.Any<bool>()).Returns(true);
         var services = new ServiceCollection();
         services.AddLogging(); services.AddIrisCore();
+        services.AddSingleton(Substitute.For<IScreenshotService>());
+        services.AddSingleton(Substitute.For<IScreenshotOcrFeedback>());
+        services.AddSingleton(Substitute.For<Iris.Core.Ocr.IOcrService>());
         services.AddSingleton(Settings); services.AddSingleton(Desktop); services.AddSingleton(Reader);
         services.AddSingleton<IUiDispatcher>(Ui); services.AddSingleton<ITranslationOrchestrator>(Orchestrator);
         services.AddSingleton(Substitute.For<IClipboardService>()); services.AddSingleton(Substitute.For<ISettingsWindowPresenter>());

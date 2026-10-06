@@ -55,6 +55,9 @@ internal sealed class SelectionSettingsTestScope
         Secrets.When(s => s.Set(Arg.Any<string>(), Arg.Any<string>())).Do(call => SecretValues[call.ArgAt<string>(0)] = call.ArgAt<string>(1));
         Secrets.Remove(Arg.Any<string>()).Returns(call => SecretValues.TryRemove(call.Arg<string>(), out _));
         var services = new ServiceCollection(); services.AddLogging(); services.AddIrisCore();
+        services.AddSingleton(Substitute.For<IScreenshotService>());
+        services.AddSingleton(Substitute.For<IScreenshotOcrFeedback>());
+        services.AddSingleton(Substitute.For<Iris.Core.Ocr.IOcrService>());
         services.AddSingleton<ISettingsService>(settings ?? Store); services.AddSingleton(Secrets); services.AddSingleton(AutoStart);
         services.AddSingleton(Reader); services.AddSingleton(Presenter); services.AddSingleton(Substitute.For<IClipboardService>());
         services.AddSingleton(Substitute.For<IDesktopContext>()); services.AddSingleton(Substitute.For<ISettingsWindowPresenter>());

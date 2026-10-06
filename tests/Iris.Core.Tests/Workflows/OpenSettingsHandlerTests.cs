@@ -92,6 +92,9 @@ public sealed class OpenSettingsHandlerTests
 
         var fakeTranslatePresenter = Substitute.For<ITranslateWindowPresenter>();
         services.AddSingleton(fakeTranslatePresenter);
+        services.AddSingleton(Substitute.For<IScreenshotService>());
+        services.AddSingleton(Substitute.For<IScreenshotOcrFeedback>());
+        services.AddSingleton(Substitute.For<Iris.Core.Ocr.IOcrService>());
         var fakeClipboard = Substitute.For<Iris.Core.Platform.IClipboardService>();
         services.AddSingleton(fakeClipboard);
         services.AddSingleton(Substitute.For<Iris.Core.Platform.ISelectionTextReader>());

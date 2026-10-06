@@ -120,10 +120,12 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         get => _inputText;
         set
         {
+            if (!string.Equals(_inputText, value, StringComparison.Ordinal)) _inputRevision++;
             if (SetField(ref _inputText, value))
             {
                 OnPropertyChanged(nameof(InputLength));
                 OnPropertyChanged(nameof(CanTranslate));
+                ((RelayCommand)TranslateCommand).RaiseCanExecuteChanged();
 
                 if (!_programmaticTextUpdate)
                 {
@@ -343,7 +345,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         {
             return !_disposed
                 && ReferenceEquals(_activeOperation, operation)
-                && !operation.CancellationToken.IsCancellationRequested;
+                && !operation.IsCancellationRequested;
         }
     }
 
@@ -356,10 +358,11 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         bool updateText = request.Text != null;
         bool statusChanged;
         bool errorChanged;
+        long appliedRevision;
 
         lock (_gate)
         {
-            if (operation.IsRetired || operation.CancellationToken.IsCancellationRequested || _disposed)
+            if (operation.IsRetired || operation.IsCancellationRequested || _disposed)
             {
                 return false;
             }
@@ -381,8 +384,10 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
             if (updateText)
             {
+                if (!string.Equals(_inputText, request.Text, StringComparison.Ordinal)) _inputRevision++;
                 _inputText = request.Text!;
             }
+            appliedRevision = _inputRevision;
 
             string? newStatus = request.StatusMessage;
             statusChanged = !string.Equals(_statusMessage, newStatus, StringComparison.Ordinal);
@@ -417,6 +422,8 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
                 if (!IsCurrentOperation(operation)) return false;
                 OnPropertyChanged(nameof(CanTranslate));
+                if (!IsCurrentOperation(operation) || _inputRevision != appliedRevision) return false;
+                ((RelayCommand)TranslateCommand).RaiseCanExecuteChanged();
             }
 
             if (statusChanged)
@@ -442,6 +449,8 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
             if (!IsCurrentOperation(operation)) return false;
 
+            if (_inputRevision != appliedRevision) return false;
+
             bool isNewMain = request.AutoTranslate
                 && !string.IsNullOrWhiteSpace(request.Text)
                 && request.Error == null
@@ -458,7 +467,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 SubmitMainTranslation(operation, _inputText, request.Origin);
             }
 
-            return true;
+            return IsCurrentOperation(operation) && _inputRevision == appliedRevision;
         }
         finally
         {
@@ -690,7 +699,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                     return;
                 }
 
-                if (current.Operation.IsRetired || current.Operation.CancellationToken.IsCancellationRequested)
+                if (current.Operation.IsRetired || current.Operation.IsCancellationRequested)
                 {
                     _ = _uiDispatcher.InvokeAsync(() =>
                     {
@@ -747,7 +756,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         {
             await _uiDispatcher.InvokeAsync(() =>
             {
-                if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.CancellationToken.IsCancellationRequested)
+                if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.IsCancellationRequested)
                 {
                     return Task.CompletedTask;
                 }
@@ -792,7 +801,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             {
                 await _uiDispatcher.InvokeAsync(() =>
                 {
-                    if (_activeOperation != null && _activeOperation.Id == operation.Id && !operation.CancellationToken.IsCancellationRequested)
+                    if (_activeOperation != null && _activeOperation.Id == operation.Id && !operation.IsCancellationRequested)
                     {
                         Error = SanitizeErrorInfo(ex.ToErrorInfo());
                     }
@@ -804,7 +813,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 LogTranslationUnexpectedError(_logger, ex.GetType().Name);
                 await _uiDispatcher.InvokeAsync(() =>
                 {
-                    if (_activeOperation != null && _activeOperation.Id == operation.Id && !operation.CancellationToken.IsCancellationRequested)
+                    if (_activeOperation != null && _activeOperation.Id == operation.Id && !operation.IsCancellationRequested)
                     {
                         Error = new ErrorInfo(ErrorCode.Unknown, UiText.ErrorUnknown);
                     }
@@ -851,7 +860,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
     private async Task HandleTranslationEventAsync(TranslateWindowOperation operation, TranslationEvent evt, bool isRetry = false)
     {
-        if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.CancellationToken.IsCancellationRequested)
+        if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.IsCancellationRequested)
         {
             return;
         }
@@ -864,7 +873,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
                 await _uiDispatcher.InvokeAsync(() =>
                 {
-                    if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.CancellationToken.IsCancellationRequested)
+                    if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.IsCancellationRequested)
                     {
                         return Task.CompletedTask;
                     }
@@ -906,7 +915,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             case ProviderStarted ps:
                 await _uiDispatcher.InvokeAsync(() =>
                 {
-                    if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.CancellationToken.IsCancellationRequested)
+                    if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.IsCancellationRequested)
                     {
                         return Task.CompletedTask;
                     }
@@ -921,7 +930,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 break;
 
             case ProviderDelta pd:
-                if (_activeOperation != null && _activeOperation.Id == operation.Id && !operation.CancellationToken.IsCancellationRequested)
+                if (_activeOperation != null && _activeOperation.Id == operation.Id && !operation.IsCancellationRequested)
                 {
                     await _deltaBuffer.EnqueueAsync(new QueuedDelta(operation.Id, pd.ProviderId, pd.RequestId, pd.Delta), operation.CancellationToken).ConfigureAwait(false);
                     ScheduleUiFlush();
@@ -932,7 +941,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 _deltaBuffer.DiscardForCard(operation.Id, pc.ProviderId, pc.RequestId);
                 await _uiDispatcher.InvokeAsync(() =>
                 {
-                    if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.CancellationToken.IsCancellationRequested)
+                    if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.IsCancellationRequested)
                     {
                         return Task.CompletedTask;
                     }
@@ -968,7 +977,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 _deltaBuffer.DiscardForCard(operation.Id, pf.ProviderId, pf.RequestId);
                 await _uiDispatcher.InvokeAsync(() =>
                 {
-                    if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.CancellationToken.IsCancellationRequested)
+                    if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.IsCancellationRequested)
                     {
                         return Task.CompletedTask;
                     }
@@ -1059,7 +1068,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
     private void OnCardRetry(ProviderResultCardViewModel card)
     {
-        if (_activeOperation == null || _activeOperation.IsRetired || _activeOperation.CancellationToken.IsCancellationRequested)
+        if (_activeOperation == null || _activeOperation.IsRetired || _activeOperation.IsCancellationRequested)
         {
             return;
         }
@@ -1131,7 +1140,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                     return;
                 }
 
-                if (current.Operation.IsRetired || current.Operation.CancellationToken.IsCancellationRequested)
+                if (current.Operation.IsRetired || current.Operation.IsCancellationRequested)
                 {
                     continue;
                 }
@@ -1261,7 +1270,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         return _activeOperation != null
             && _activeOperation.Id == operation.Id
             && !operation.IsRetired
-            && !operation.CancellationToken.IsCancellationRequested
+            && !operation.IsCancellationRequested
             && !_disposed;
     }
 
@@ -1310,6 +1319,8 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
         public string Text { get; }
         public CancellationTokenSource Cts { get; }
+        public TranslateWindowOperation? SourceOperation { get; }
+        public long SourceRevision { get; }
         public bool CancelRequested
         {
             get => Volatile.Read(ref _cancelRequested) == 1;
@@ -1317,15 +1328,17 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         }
         public bool IsCancelRegistered { get; set; }
 
-        public QueuedCopyItem(string text, CancellationTokenSource cts)
+        public QueuedCopyItem(string text, CancellationTokenSource cts, TranslateWindowOperation? sourceOperation, long sourceRevision)
         {
             Text = text;
             Cts = cts;
+            SourceOperation = sourceOperation;
+            SourceRevision = sourceRevision;
         }
 
         public void MarkWriteFinished()
         {
-            Interlocked.Exchange(ref _writeDone, 1);
+            if (Interlocked.Exchange(ref _writeDone, 1) == 0) SourceOperation?.DecrementWork();
             TryDispose();
         }
 
@@ -1388,8 +1401,9 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         }
     }
 
-    private void TrackCopy(string text, CancellationToken token)
+    private void TrackCopy(string text, CancellationToken token, TranslateWindowOperation? sourceOperation = null, long sourceRevision = 0)
     {
+        if (sourceOperation != null && !sourceOperation.IncrementWork()) return;
         CancellationTokenSource cts;
         if (token.CanBeCanceled)
         {
@@ -1402,14 +1416,13 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
         QueuedCopyItem? oldPending = null;
         TaskCompletionSource? cancelTcs = null;
-        var newItem = new QueuedCopyItem(text, cts);
+        var newItem = new QueuedCopyItem(text, cts, sourceOperation, sourceRevision);
         lock (_copyGate)
         {
             if (_pendingCopy != null)
             {
                 oldPending = _pendingCopy;
                 cancelTcs = TryRegisterCopyCancelUnderLock(oldPending);
-                oldPending.MarkWriteFinished();
             }
 
             _pendingCopy = newItem;
@@ -1422,6 +1435,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
         if (oldPending != null && cancelTcs != null)
         {
+            oldPending.MarkWriteFinished();
             _ = RunCancelWorkerAsync(oldPending, cancelTcs);
         }
     }
@@ -1450,7 +1464,8 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             {
                 if (!current.Cts.IsCancellationRequested)
                 {
-                    await _clipboardService.SetTextAsync(current.Text, current.Cts.Token).ConfigureAwait(false);
+                    if (current.SourceOperation != null) await CopySourceAsync(current).ConfigureAwait(false);
+                    else await _clipboardService.SetTextAsync(current.Text, current.Cts.Token).ConfigureAwait(false);
                 }
             }
             catch (OperationCanceledException)
@@ -1459,6 +1474,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             catch (Exception ex)
             {
                 LogClipboardError(_logger, ex.GetType().Name);
+                if (current.SourceOperation != null) await ShowSourceCopyErrorAsync(current, ex).ConfigureAwait(false);
             }
             finally
             {
@@ -1500,7 +1516,6 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 toCancelPending = _pendingCopy;
                 _pendingCopy = null;
                 cancelPendingTcs = TryRegisterCopyCancelUnderLock(toCancelPending);
-                toCancelPending.MarkWriteFinished();
             }
 
             if (_inFlightCopyItem != null)
@@ -1512,6 +1527,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
         if (toCancelPending != null && cancelPendingTcs != null)
         {
+            toCancelPending.MarkWriteFinished();
             _ = RunCancelWorkerAsync(toCancelPending, cancelPendingTcs);
         }
 

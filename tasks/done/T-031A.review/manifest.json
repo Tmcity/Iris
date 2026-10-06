@@ -1,0 +1,24 @@
+{
+  "commit": "ce8a9a777fbd3fb5f953c6963b2125a7ceedf38d",
+  "sourceSha256": {
+    "src/Iris.Core/Presentation/PresentationPorts.cs": "35392e3f6691ccb406baa294d33f3f670bd8e72a9272386a93cb2cb828dab5b7",
+    "tests/Iris.Platform.Windows.Tests/Selection/UiaStartupCleanupTests.cs": "55e6d542e773522a04a656c6941cf43bbbdc834601600d42a70ae45441a8b739",
+    "tests/Iris.Platform.Windows.Tests/Selection/FakeUiaTestAdapters.cs": "70d9878013e8dd3b5001a106dcf8442717c9f3f07643ef5492c9b3cad9ecdf8d",
+    "specs/CONTRACTS.cs": "4fcf5f43c21cdf98c7ce5de5a998a4bac7508d69369893f222b8c1497335a156"
+  },
+  "finalDllSha256": {
+    "tests\\Iris.Platform.Windows.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Platform.Windows.dll": "55f00f54bb1888cfb80949ed1c18e397360f4a96e7d6b231b0c192fb966cf663",
+    "tests\\Iris.Platform.Windows.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Core.dll": "91368a4d7ab748cd3ced17746775196f92bb3bdbea5bc7ede63f6f1447f1ca2d",
+    "tests\\Iris.Platform.Windows.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Platform.Windows.Tests.dll": "f8e2968dc66d9ae857f9377810d1aee2653497a9eb9b84846aa90c12856c0846"
+  },
+  "evidenceSha256": {
+    "build.log": "cc8dccfa8e9d329bc6e8ffe1da970d2711601e4d490619a19a394485866aa18f",
+    "FakeUiaTestAdapters.cs": "70d9878013e8dd3b5001a106dcf8442717c9f3f07643ef5492c9b3cad9ecdf8d",
+    "full.log": "00172771279b46faa2d17bbc78ccbeea8d786fb46332e09b2d8e7efc2da3d192",
+    "Program.cs": "e01931932010bc44139cd7fa54aa928dedaa5e87f59021101212a6e81b9ab709",
+    "Review.csproj": "7c178091abb63ac841b62239c98928082a98223465be6c2f5fb773cccaef47b3",
+    "source-sha256.json": "4d4b5b4f9851f7ee339569402dc7b622936ddd00ca067f35aa40539cc8cd2d29",
+    "uia.log": "d43b90856571378763f6fe67b21af709d942604c6cbc6f5e20f58c6927f0f5a0",
+    "UiaStartupCleanupTests.cs": "55e6d542e773522a04a656c6941cf43bbbdc834601600d42a70ae45441a8b739"
+  }
+}

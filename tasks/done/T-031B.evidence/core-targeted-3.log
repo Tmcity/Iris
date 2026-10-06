@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.Core.Tests\Workflows\ScreenshotOcrHandlerTests.cs(67,36): error xUnit1051: Calls to methods which accept CancellationToken should use TestContext.Current.CancellationToken to allow test cancellation to be more responsive. (https://xunit.net/xunit.analyzers/rules/xUnit1051) [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+生成失败，退出代码: 1。

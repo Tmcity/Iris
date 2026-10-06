@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.App.Tests\Ocr\OcrEntrypointTests.cs(173,21): error CS0234: 命名空间“Iris.App.Tests.Tray”中不存在类型或命名空间名“TrayIconController”(是否缺少程序集引用?) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+生成失败，退出代码: 1。

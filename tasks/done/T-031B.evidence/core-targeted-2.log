@@ -1,0 +1,38 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+失败 Iris.Core.Tests.Workflows.ScreenshotOcrHandlerTests.NonCooperativeOcr_CancellationWaitsForExitAndSuppressesResult(mode: 2) (17ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : Task `work`
+      should throw
+  System.OperationCanceledException
+      but did not
+    在 System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+    在 System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+    在 System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+    在 Iris.Core.Tests.Workflows.ScreenshotOcrHandlerTests.NonCooperativeOcr_CancellationWaitsForExitAndSuppressesResult(Int32 mode) 位于 F:\Iris\tests\Iris.Core.Tests\Workflows\ScreenshotOcrHandlerTests.cs:154
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Workflows.ScreenshotOcrHandlerTests.NonCooperativeOcr_CancellationWaitsForExitAndSuppressesResult(Int32 mode) 位于 F:\Iris\tests\Iris.Core.Tests\Workflows\ScreenshotOcrHandlerTests.cs:158
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (1s 506ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 29
+  失败: 1
+  成功: 28
+  已跳过: 0
+  持续时间: 1s 816ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

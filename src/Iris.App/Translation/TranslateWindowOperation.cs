@@ -16,6 +16,7 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
     private readonly CancellationTokenSource _cts = new();
     private readonly Lock _gate = new();
     private readonly CancellationTokenRegistration _callerReg;
+    private readonly CancellationToken _callerToken;
 
     private bool _hasCallerOwnership = true;
     private bool _hasTryShowOwnership;
@@ -23,6 +24,8 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
     private int _activeWorkCount;
     private int _activeCancelCallbacks;
     private int _autoTranslateClaimed;
+    private int _autoCopySourceClaimed;
+    private int _ocrFallbackClaimed;
     private bool _isRetired;
     private Task? _cancelTask;
 
@@ -30,6 +33,7 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
     {
         _presenter = presenter ?? throw new ArgumentNullException(nameof(presenter));
         Id = Guid.NewGuid();
+        _callerToken = callerToken;
 
         if (callerToken.CanBeCanceled)
         {
@@ -42,6 +46,13 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
     public CancellationToken CancellationToken => _cts.Token;
 
     internal TranslateWindowPresenter Presenter => _presenter;
+
+    // Cancellation callbacks run in reverse registration order. The original caller
+    // can already be canceled while our forwarding callback has not run yet.
+    internal bool IsCancellationRequested => _callerToken.IsCancellationRequested || _cts.IsCancellationRequested;
+
+    internal bool TryClaimAutoCopySource() => Interlocked.CompareExchange(ref _autoCopySourceClaimed, 1, 0) == 0;
+    internal bool TryClaimOcrFallback() => Interlocked.CompareExchange(ref _ocrFallbackClaimed, 1, 0) == 0;
 
     internal bool IsCallerDisposed
     {
@@ -140,7 +151,7 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
     {
         lock (_gate)
         {
-            if (_isRetired || !_hasCallerOwnership || _cts.IsCancellationRequested)
+            if (_isRetired || !_hasCallerOwnership || IsCancellationRequested)
             {
                 return false;
             }
@@ -161,7 +172,7 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
         lock (_gate)
         {
             _hasTryShowOwnership = false;
-            if (transferredWorkOwnership && !_isRetired && !_cts.IsCancellationRequested)
+            if (transferredWorkOwnership && !_isRetired && !IsCancellationRequested)
             {
                 _hasSessionOwnership = true;
             }
@@ -194,7 +205,7 @@ internal sealed class TranslateWindowOperation : ITranslateWindowOperation
     {
         lock (_gate)
         {
-            if (_isRetired || _cts.IsCancellationRequested)
+            if (_isRetired || IsCancellationRequested)
             {
                 return false;
             }

@@ -1,0 +1,23 @@
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Infrastructure -> F:\Iris\src\Iris.Infrastructure\bin\Release\net10.0\Iris.Infrastructure.dll
+  Iris.Providers -> F:\Iris\src\Iris.Providers\bin\Release\net10.0\Iris.Providers.dll
+  Iris.Core.Tests -> F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll
+  Iris.Infrastructure.Tests -> F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll
+  Iris.Providers.Tests -> F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.UiaHost.dll
+  Iris.Clipboard.IsolatedHelper -> F:\Iris\tests\Iris.Clipboard.IsolatedHelper\bin\Release\net10.0-windows10.0.19041.0\Iris.Clipboard.IsolatedHelper.dll
+  Iris.Platform.Windows.Tests -> F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll
+F:\Iris\src\Iris.App\Services\TrayNotificationService.cs(101,78): error CA1863: 缓存 "CompositeFormat" 以在此格式化操作中重复使用 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1863) [F:\Iris\src\Iris.App\Iris.App_x3r01gvq_wpftmp.csproj]
+F:\Iris\src\Iris.App\Services\ScreenshotOcrFeedback.cs(11,31): error CA1001: 类型“ScreenshotOcrFeedback”具有可释放的字段“_stoppingCts”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\src\Iris.App\Iris.App_x3r01gvq_wpftmp.csproj]
+
+生成失败。
+
+F:\Iris\src\Iris.App\Services\TrayNotificationService.cs(101,78): error CA1863: 缓存 "CompositeFormat" 以在此格式化操作中重复使用 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1863) [F:\Iris\src\Iris.App\Iris.App_x3r01gvq_wpftmp.csproj]
+F:\Iris\src\Iris.App\Services\ScreenshotOcrFeedback.cs(11,31): error CA1001: 类型“ScreenshotOcrFeedback”具有可释放的字段“_stoppingCts”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\src\Iris.App\Iris.App_x3r01gvq_wpftmp.csproj]
+    0 个警告
+    2 个错误
+
+已用时间 00:00:13.42

@@ -73,6 +73,8 @@ internal static class AppHostBuilder
         builder.Services.AddSingleton<ThemeService>();
         builder.Services.AddSingleton<TrayIconController>();
         builder.Services.AddSingleton<TrayNotificationService>();
+        builder.Services.AddSingleton<ScreenshotOcrFeedback>();
+        builder.Services.AddSingleton<IScreenshotOcrFeedback>(sp => sp.GetRequiredService<ScreenshotOcrFeedback>());
         builder.Services.AddSingleton<INotificationService>(sp => sp.GetRequiredService<TrayNotificationService>());
         builder.Services.AddSingleton<IAppLifetime, AppLifetime>();
         builder.Services.AddSingleton<IUiDispatcher, WpfUiDispatcher>();
@@ -85,7 +87,12 @@ internal static class AppHostBuilder
         builder.Services.AddSingleton<SelectionIconNative>();
         builder.Services.AddSingleton<ISelectionIconViewFactory, SelectionIconViewFactory>();
         builder.Services.AddSingleton<SelectionIconController>();
-        builder.Services.AddSingleton<Iris.App.Capture.ScreenshotPreparationCoordinator>();
+        builder.Services.AddSingleton(sp => new Iris.App.Capture.ScreenshotPreparationCoordinator(
+            sp.GetRequiredService<Iris.App.Translation.TranslateWindowPresenter>(),
+            sp.GetRequiredService<Iris.App.Settings.SettingsWindowPresenter>(),
+            () => sp.GetRequiredService<HotkeyRecordingCoordinator>(),
+            () => sp.GetRequiredService<SelectionIconController>(),
+            sp.GetServices<Iris.App.Capture.IScreenshotPreparationParticipant>()));
         builder.Services.AddSingleton<Iris.App.Capture.IScreenshotSystem, Iris.App.Capture.ScreenshotSystem>();
         builder.Services.AddSingleton<Iris.App.Capture.ScreenshotRenderSynchronizer>();
         builder.Services.AddSingleton<Iris.App.Capture.IScreenshotOverlayFactory, Iris.App.Capture.ScreenshotOverlayFactory>();
