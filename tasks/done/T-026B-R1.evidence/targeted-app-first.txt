@@ -1,0 +1,263 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Capture.ScreenshotPreparationR2Tests.FailedUndoRetry_UsesSettledVisibilityInsteadOfIntentVersion(outcome: "pending", visible: True) (268ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : (await Should.ThrowAsync<IrisException>(lease.DisposeAsync().AsTask())).Detail!
+      should contain (case insensitive comparison)
+  "LATE_HIDE"
+      but was actually
+  "stage=CLEANUP;TRANSLATION=0x80131500"
+    在 Iris.App.Tests.Capture.ScreenshotPreparationR2Tests.<>c__DisplayClass3_0.<<FailedUndoRetry_UsesSettledVisibilityInsteadOfIntentVersion>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotPreparationR2Tests.cs:138
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:40
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:60
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:126
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:146
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.App.Tests.Capture.ScreenshotPreparationR2Tests.FailedUndoRetry_UsesSettledVisibilityInsteadOfIntentVersion(outcome: "failed", visible: False) (284ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : (await Should.ThrowAsync<IrisException>(lease.DisposeAsync().AsTask())).Detail!
+      should contain (case insensitive comparison)
+  "LATE_HIDE"
+      but was actually
+  "stage=CLEANUP;TRANSLATION=0x80131500"
+    在 Iris.App.Tests.Capture.ScreenshotPreparationR2Tests.<>c__DisplayClass3_0.<<FailedUndoRetry_UsesSettledVisibilityInsteadOfIntentVersion>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotPreparationR2Tests.cs:138
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:40
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:60
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:126
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:146
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.App.Tests.Capture.ScreenshotPreparationR1Tests.FailedUndoRetry_UsesLatestIntentAfterFurtherShowHide(latestShow: False) (241ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : await Should.ThrowAsync<IrisException>(lease.DisposeAsync().AsTask());
+              error.Detail!
+      should contain (case insensitive comparison)
+  "LATE_HIDE"
+      but was actually
+  "stage=CLEANUP;TRANSLATION=0x80131500"
+    在 Iris.App.Tests.Capture.ScreenshotPreparationR1Tests.<>c__DisplayClass2_0.<<FailedUndoRetry_UsesLatestIntentAfterFurtherShowHide>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotPreparationR1Tests.cs:97
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:40
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:60
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:126
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:146
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.App.Tests.Capture.ScreenshotPreparationR2Tests.FailedUndoRetry_UsesSettledVisibilityInsteadOfIntentVersion(outcome: "hidden", visible: False) (208ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : (await Should.ThrowAsync<IrisException>(lease.DisposeAsync().AsTask())).Detail!
+      should contain (case insensitive comparison)
+  "LATE_HIDE"
+      but was actually
+  "stage=CLEANUP;TRANSLATION=0x80131500"
+    在 Iris.App.Tests.Capture.ScreenshotPreparationR2Tests.<>c__DisplayClass3_0.<<FailedUndoRetry_UsesSettledVisibilityInsteadOfIntentVersion>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotPreparationR2Tests.cs:138
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:40
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:60
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:126
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:146
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.App.Tests.Capture.ScreenshotPreparationR1Tests.FailedUndoRetry_UsesLatestIntentAfterFurtherShowHide(latestShow: True) (148ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : await Should.ThrowAsync<IrisException>(lease.DisposeAsync().AsTask());
+              error.Detail!
+      should contain (case insensitive comparison)
+  "LATE_HIDE"
+      but was actually
+  "stage=CLEANUP;TRANSLATION=0x80131500"
+    在 Iris.App.Tests.Capture.ScreenshotPreparationR1Tests.<>c__DisplayClass2_0.<<FailedUndoRetry_UsesLatestIntentAfterFurtherShowHide>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotPreparationR1Tests.cs:97
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:40
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:60
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:126
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:146
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.App.Tests.Capture.ScreenshotPreparationRaceTests.LateRestoreUndoFailure_RetainsOnlyItsOldVisibilityForRetry (547ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.AggregateException : One or more errors occurred. (await Should.ThrowAsync<IrisException>(lease.DisposeAsync().AsTask());
+          error.Detail!
+      should contain (case insensitive comparison)
+  "LATE_HIDE"
+      but was actually
+  "stage=CLEANUP;TRANSLATION=0x80131500") (内容获取失败，请稍后重试)
+  ---- Shouldly.ShouldAssertException : await Should.ThrowAsync<IrisException>(lease.DisposeAsync().AsTask());
+          error.Detail!
+      should contain (case insensitive comparison)
+  "LATE_HIDE"
+      but was actually
+  "stage=CLEANUP;TRANSLATION=0x80131500"
+  ---- Iris.App.Capture.ScreenshotException : 内容获取失败，请稍后重试
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:62
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:126
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:146
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    --- End of stack trace from previous location ---
+    ----- Inner Stack Trace #1 (Shouldly.ShouldAssertException) -----
+    在 Iris.App.Tests.Capture.ScreenshotPreparationRaceTests.<>c.<<LateRestoreUndoFailure_RetainsOnlyItsOldVisibilityForRetry>b__16_0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\ScreenshotPreparationRaceTests.cs:294
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:40
+    ----- Inner Stack Trace #2 (Iris.App.Capture.ScreenshotException) -----
+    在 Iris.App.Capture.ScreenshotPreparationCoordinator.Session.CleanupAsync() 位于 F:\Iris\src\Iris.App\Capture\ScreenshotPreparationCoordinator.cs:253
+    在 Iris.App.Capture.ScreenshotPreparationCoordinator.<StopAsync>b__16_0() 位于 F:\Iris\src\Iris.App\Capture\ScreenshotPreparationCoordinator.cs:64
+    在 Iris.App.Capture.ScreenshotPreparationCoordinator.<StopAsync>b__16_0() 位于 F:\Iris\src\Iris.App\Capture\ScreenshotPreparationCoordinator.cs:69
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:51
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 6 个错误 (42s 297ms)
+退出代码: 2
+  标准输出: LABEL_LAYOUT opaqueLabels=3 overlappingPairs=0
+  LABEL_LAYOUT opaqueLabels=3 overlappingPairs=0
+  RIGHT_CLEAR handled=True displayedX=100 displayedY=100
+  RIGHT_CLEAR handled=True displayedX=100 displayedY=100
+  PREPARATION_ERRORS settingsRecorded=True translationRecorded=True settingsRestored=True translationRestored=True
+  DWM_FAILURE code=CaptureFailed nativeHResultPreserved=True captures=0
+  LATE_POINTER_AFTER_CONFIRM imagePreserved=True crops=1
+  FOREGROUND_QUERY newIntentObserved=True emptyQueries=2 resultCanceled=True nativeRestores=0
+
+测试运行摘要: 失败!
+  总计: 121
+  失败: 6
+  成功: 115
+  已跳过: 0
+  持续时间: 42s 531ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

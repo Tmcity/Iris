@@ -407,3 +407,6 @@ T-030 签发前须按 PROVIDER_REGISTRY.md 将 OCR 注册表原型同步为租�
 
 
 **T-026B正式签发（2026-10-06）** — A/CCR-024已结案，基线c7282698028da861dbc9dfc6e9430b9cdd1e842b。按SCREENSHOT_INTERACTION.md/ARCH v1.41/CCR-025完成每屏overlay、单屏物理框选/移动/8倍放大镜、确认/取消、可选复制与实际ScreenshotService/App退出。父T-026/B保持▶，OCR/Handler/设置页未提前开始；真实桌面/焦点/DPI/NFR后续验证。
+
+
+**T-026B恢复交付复审 / R1签发（2026-10-06）** — 5cda8cc73f24d0b29778153c337e0c93531a9c85独立Release0警告/错误，全量2621中2618成功/2跳过/1既有UIA fake清理竞态；独立34项27过/7失败。仅修输入封口、意外Closed、最后焦点许可、安全诊断、右键坐标/标签避让及C26B-1测试维护，保留全部已确认成果。父/B仍▶，A☑，T-027未开始；原开发会话400不可用，待恢复/新会话下达。证据T-026B.md第9节/B.review。

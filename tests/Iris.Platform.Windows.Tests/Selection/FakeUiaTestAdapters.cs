@@ -178,7 +178,11 @@ internal sealed class FakeUiaProcessSession : IUiaProcessSession
 {
     private readonly System.IO.Pipelines.Pipe _stdinPipe = new();
     private readonly System.IO.Pipelines.Pipe _stdoutPipe = new();
-    private readonly SemaphoreSlim _exitGate = new(0);
+    private readonly object _lifecycle = new();
+    private readonly TaskCompletionSource _exit = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    private Task? _response;
+    private Task? _dispose;
+    private bool _hasExited;
     private Stream _standardOutput;
 
     public FakeUiaProcessSession()
@@ -200,7 +204,21 @@ internal sealed class FakeUiaProcessSession : IUiaProcessSession
     public Stream TestStdinReader => _stdinPipe.Reader.AsStream();
     public Stream TestStdoutWriter => _stdoutPipe.Writer.AsStream();
 
-    public bool HasExited { get; set; }
+    public bool HasExited
+    {
+        get { lock (_lifecycle) return _hasExited && (_response?.IsCompleted ?? true); }
+        set { if (value) SignalExit(); else { lock (_lifecycle) _hasExited = false; } }
+    }
+
+    // Register before dispatch so Kill/Dispose cannot miss an owned response producer.
+    public Task StartResponse(Func<Task> response)
+    {
+        lock (_lifecycle)
+        {
+            if (_hasExited || _response != null || _dispose != null) throw new InvalidOperationException("Response already closed or registered.");
+            return _response = Task.Run(response);
+        }
+    }
     public int ExitCode { get; set; }
     public bool KillCalled { get; private set; }
     public Exception? ThrowOnKillException { get; set; }
@@ -210,9 +228,13 @@ internal sealed class FakeUiaProcessSession : IUiaProcessSession
 
     public void EnqueueLine(string line)
     {
-        var bytes = Encoding.UTF8.GetBytes(line + "\n");
-        TestStdoutWriter.Write(bytes);
-        TestStdoutWriter.Flush();
+        lock (_lifecycle)
+        {
+            if (_hasExited) return; // A killed fake process cannot publish further output.
+            var bytes = Encoding.UTF8.GetBytes(line + "\n");
+            TestStdoutWriter.Write(bytes);
+            TestStdoutWriter.Flush();
+        }
     }
 
     public void EnqueueReady()
@@ -227,54 +249,43 @@ internal sealed class FakeUiaProcessSession : IUiaProcessSession
 
     public void SignalExit(Exception? stdoutException = null)
     {
-        HasExited = true;
-        _stdoutPipe.Writer.Complete(stdoutException);
-        _stdinPipe.Writer.Complete();
-        if (_exitGate.CurrentCount == 0)
+        lock (_lifecycle)
         {
-            _exitGate.Release();
+            if (_hasExited) return;
+            _stdoutPipe.Writer.Complete(stdoutException);
+            _stdinPipe.Writer.Complete();
+            _hasExited = true;
+            _exit.TrySetResult();
         }
     }
 
     public async Task WaitForExitAsync(CancellationToken cancellationToken)
     {
         WaitForExitStarted.TrySetResult();
-
         if (RefuseToExit)
         {
             await Task.Delay(Timeout.InfiniteTimeSpan, cancellationToken).ConfigureAwait(false);
             return;
         }
-
-        if (HasExited)
+        bool exited;
+        lock (_lifecycle) exited = _hasExited;
+        if (!exited)
         {
-            return;
+            if (ExitDelay > TimeSpan.Zero)
+            {
+                await Task.Delay(ExitDelay, cancellationToken).ConfigureAwait(false);
+                SignalExit();
+            }
+            else if (WaitForExitFunc != null)
+            {
+                await WaitForExitFunc(cancellationToken).ConfigureAwait(false);
+                return;
+            }
+            else await _exit.Task.WaitAsync(cancellationToken).ConfigureAwait(false);
         }
-
-        if (ExitDelay > TimeSpan.Zero)
-        {
-            await Task.Delay(ExitDelay, cancellationToken).ConfigureAwait(false);
-            HasExited = true;
-            _stdoutPipe.Writer.Complete();
-            return;
-        }
-
-        if (WaitForExitFunc != null)
-        {
-            await WaitForExitFunc(cancellationToken).ConfigureAwait(false);
-            return;
-        }
-
-        try
-        {
-            await _exitGate.WaitAsync(cancellationToken).ConfigureAwait(false);
-        }
-        catch (ObjectDisposedException)
-        {
-            // Gate already disposed
-        }
-        HasExited = true;
-        _stdoutPipe.Writer.Complete();
+        Task? response;
+        lock (_lifecycle) response = _response;
+        if (response != null) await response.WaitAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public Func<CancellationToken, Task>? WaitForExitFunc { get; set; }
@@ -290,42 +301,42 @@ internal sealed class FakeUiaProcessSession : IUiaProcessSession
         {
             throw ThrowOnKillException;
         }
-        if (!RefuseToExit)
-        {
-            HasExited = true;
-            _stdoutPipe.Writer.Complete();
-            _stdinPipe.Writer.Complete();
-            try
-            {
-                if (_exitGate.CurrentCount == 0)
-                {
-                    _exitGate.Release();
-                }
-            }
-            catch (ObjectDisposedException)
-            {
-                // Gate already disposed
-            }
-        }
+        if (!RefuseToExit) SignalExit();
     }
 
     public ValueTask DisposeAsync()
     {
-        Disposed = true;
-        OnDispose?.Invoke();
-        _stdoutPipe.Writer.Complete();
-        _stdinPipe.Writer.Complete();
-        _stdoutPipe.Reader.Complete();
-        _stdinPipe.Reader.Complete();
+        lock (_lifecycle)
+        {
+            if (_dispose is { IsCompletedSuccessfully: true } or { IsCompleted: false }) return new(_dispose);
+            return new(_dispose = Task.Run(DisposeCoreAsync));
+        }
+    }
+
+    private async Task DisposeCoreAsync()
+    {
+        SignalExit(); // Unblock a response waiting for stdin before joining it.
+        Task? response;
+        lock (_lifecycle) response = _response;
+        Exception? primary = null;
+        try { if (response != null) await response.ConfigureAwait(false); }
+        catch (Exception ex) { primary = ex; }
         try
         {
-            _exitGate.Dispose();
+            OnDispose?.Invoke();
+            lock (_lifecycle)
+            {
+                _stdoutPipe.Reader.Complete();
+                _stdinPipe.Reader.Complete();
+                Disposed = true;
+            }
         }
-        catch (ObjectDisposedException)
+        catch (Exception cleanup)
         {
-            // Gate already disposed
+            if (primary != null) throw new AggregateException(primary, cleanup);
+            throw;
         }
-        return ValueTask.CompletedTask;
+        if (primary != null) System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(primary).Throw();
     }
 
     private sealed class ObservableReadStream(Stream inner, Action onRead) : Stream

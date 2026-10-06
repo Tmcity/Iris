@@ -1,0 +1,117 @@
+{
+  "commit": "5cda8cc73f24d0b29778153c337e0c93531a9c85",
+  "sources": {
+    "src\\Iris.App\\Capture\\ScreenshotFrameView.cs": "56d81e09614c266227195899b9b1e435add87f86763d524b7d73ca1c3d7947cb",
+    "src\\Iris.App\\Capture\\ScreenshotNative.cs": "9763d87bac698efb5baf5d9a9019f495de5b06c1e14880b05c22c3cd1d667305",
+    "src\\Iris.App\\Capture\\ScreenshotOverlayWindow.cs": "1027426d5bd5952f7cdf9024bb255e7f9da4ffad2e5386452d3378cde3eaa92b",
+    "src\\Iris.App\\Capture\\ScreenshotPreparationCoordinator.cs": "f361f4fbfb064d820f6bf1eb448f3998021666f98cd300669603706a7f2a873f",
+    "src\\Iris.App\\Capture\\ScreenshotSelection.cs": "eaba5e0d68ba61b024f22ef9d593dc5016de1504c3974f33cadcd03e7988ce44",
+    "src\\Iris.App\\Capture\\ScreenshotService.cs": "e8ecdb4a23f5dac1fe21e6ae7ae4c8dd1e534ba499ca681f23a4bc4c5302691f",
+    "src\\Iris.App\\Capture\\WindowPreparationIntent.cs": "7315086cc36e6b089d0a06c90895e5108f0492d39cd6affb31b4b674ba9e7342"
+  },
+  "fixtures": {
+    "Iris.App.Tests/Capture/ScreenshotTestScope.cs": {
+      "source": "0414f97ae1dc4a9072f9f4c977496418b5c7a06b049a930eb18565c1eba1f828",
+      "copied": "153a7f8dfb14e0320bfaa17f08634d36287ca24b8baab01ca806351709d1592f"
+    },
+    "Iris.App.Tests/Capture/PreparationTestScope.cs": {
+      "source": "a363f6fb93a145531aea5bc252401f6b2421d9955c2f7bb2c2da6328a8187d46",
+      "copied": "5e4d70c4638c1e2072b473b5d13ea3f776bbbd8e8db808e414203f1b4d17405d"
+    },
+    "Iris.App.Tests/Selection/MouseInteractionTestScope.cs": {
+      "source": "31bf7ad36e152051c19a51f9ef3a686fb249292d26eededa7b3cdf003a84492d",
+      "copied": "31bf7ad36e152051c19a51f9ef3a686fb249292d26eededa7b3cdf003a84492d"
+    },
+    "Iris.App.Tests/Settings/SelectionSettingsTestScope.cs": {
+      "source": "aa0ef415fab3a48c359a25faf945bd1cd425ec34ae755ffc20754e325a9c6617",
+      "copied": "aa0ef415fab3a48c359a25faf945bd1cd425ec34ae755ffc20754e325a9c6617"
+    },
+    "Iris.App.Tests/TestSupport/FakeNativeHotkeyAdapter.cs": {
+      "source": "aff75b96e36d225a84dde4f84b0117c5a649627deede4a83ac5f3bdcbb558dfd",
+      "copied": "aff75b96e36d225a84dde4f84b0117c5a649627deede4a83ac5f3bdcbb558dfd"
+    },
+    "Iris.App.Tests/TestSupport/WpfTestRunner.cs": {
+      "source": "43c5d43ad331f396690908a0578c7e75b92d97c3046159f21cae22f9d8668d80",
+      "copied": "43c5d43ad331f396690908a0578c7e75b92d97c3046159f21cae22f9d8668d80"
+    },
+    "Iris.Platform.Windows.Tests/Capture/ScreenCaptureTestScope.cs": {
+      "source": "9c033881a9a55e3f2429647fd1bbe152822bdd19002a42e0bfb1d1ff2e25a5b9",
+      "copied": "9c033881a9a55e3f2429647fd1bbe152822bdd19002a42e0bfb1d1ff2e25a5b9"
+    },
+    "Iris.Platform.Windows.Tests/Capture/FakeScreenEncoderIo.cs": {
+      "source": "a235a2edec9f5e568af1c7bc683c57c0a2e3fc48f8f416f614e70e33904af3dc",
+      "copied": "a235a2edec9f5e568af1c7bc683c57c0a2e3fc48f8f416f614e70e33904af3dc"
+    },
+    "Iris.Platform.Windows.Tests/Hooks/MouseTestBoundary.cs": {
+      "source": "2c662af0863f7ccd8f6b02b390a0e1a4c9efc8cc6073006874a3348cfd8c9aab",
+      "copied": "2c662af0863f7ccd8f6b02b390a0e1a4c9efc8cc6073006874a3348cfd8c9aab"
+    },
+    "Iris.Platform.Windows.Tests/Clipboard/TestSupport/FakeClipboardSnapshotNative.cs": {
+      "source": "58a3baec2c3aa38ab4a9f773130f4e88c03a901f956c4e2207382d1b937be6ac",
+      "copied": "58a3baec2c3aa38ab4a9f773130f4e88c03a901f956c4e2207382d1b937be6ac"
+    },
+    "Iris.Platform.Windows.Tests/Selection/FakeNativeKeyboardInputAdapter.cs": {
+      "source": "bc8d6d1e76d6f85c65eae2e723b919d841aea41758100ae2a9511c962a3c884e",
+      "copied": "bc8d6d1e76d6f85c65eae2e723b919d841aea41758100ae2a9511c962a3c884e"
+    },
+    "Iris.Platform.Windows.Tests/Selection/FakeCopySafetyNative.cs": {
+      "source": "b09e93fee801266e4baaf78a3026e756825d61c8b7a232dd56a2c0c25aca5a12",
+      "copied": "b09e93fee801266e4baaf78a3026e756825d61c8b7a232dd56a2c0c25aca5a12"
+    },
+    "Iris.Platform.Windows.Tests/Selection/FakeUiaTestAdapters.cs": {
+      "source": "9e0671240a83dda2f13d10ebbeccb7528af9a42b2111fccaf2cf888e5f4ef766",
+      "copied": "9e0671240a83dda2f13d10ebbeccb7528af9a42b2111fccaf2cf888e5f4ef766"
+    },
+    "Iris.Platform.Windows.Tests/Selection/SelectionTestScope.cs": {
+      "source": "c306cf36401b870042e76db933ae823cda27d25baec6ae2436b24ce7cff814d0",
+      "copied": "c306cf36401b870042e76db933ae823cda27d25baec6ae2436b24ce7cff814d0"
+    },
+    "Iris.Platform.Windows.Tests/Selection/SelectionTimeProvider.cs": {
+      "source": "aca4493e6d5f6b27632f454da7fd0139efa8d2c0b3dc63de65adc177a5974f90",
+      "copied": "aca4493e6d5f6b27632f454da7fd0139efa8d2c0b3dc63de65adc177a5974f90"
+    }
+  },
+  "appDll": "c5242d219e0de29cee4db49906c5302cdda1603f224124601a693cc2da46dc24",
+  "fixtureAdaptations": [
+    "synthetic frame factory",
+    "capture token observer",
+    "foreground/activation observer",
+    "UI dispatch observer",
+    "synthetic physical point for actual routed mouse events",
+    "DwmFlush HRESULT result"
+  ],
+  "exitCodes": {
+    "build": 0,
+    "full": 2,
+    "probe": 2,
+    "mouseSingle": 0
+  },
+  "checks": {
+    "total": 34,
+    "passed": 27,
+    "failed": 7
+  },
+  "artifacts": {
+    "cases.json": "06d53cc87529fcf1cd72c44d5890a6223e0a2c2363728439409d410b2955a621",
+    "GeometryChecks.cs.txt": "5f6ecb763a1278ba8333459bd8a364dd24dd182ce390c9b27a4c97516e6c91f7",
+    "GlobalUsings.cs.txt": "3627f3a059e0e835ea646b982c72f640e66dfae15ed17e0af3695264c004d32c",
+    "LifecycleChecks.cs.txt": "c7ce574ea19d7db6967b5d13b434c30210f86cab458d85b5e0832dc1930dd4f8",
+    "prepare.py.txt": "2e626a67cfbbbb33b14ab1537922d9f6b8af1c7613dca232b44e80db9a4d8e2c",
+    "Program.cs.txt": "2fa0571a3b18c76abb94bde0c46c81f9ec5f23cbea82d8e043c4a040f0b461a8",
+    "README.md": "656bbe106067c7f9b9cc02496561870e4023ef1692bf8bb1d9beddc1dabe099a",
+    "render-binding.json": "cb299530a5d396f329b1c1b0109350fac4b5d396fa245756b8ee8e8c42e1f335",
+    "review-build.txt": "6f2d5b512372e696ae6cb160b70340b00aa34c2816fe9177ff27c6083ba88671",
+    "review-full.txt": "f1b6fd81ff33b8a41ae8da28c8eb96e3123bdcfddcf5a5de630de3ecb48ccb27",
+    "review-mouse-targeted.txt": "d54980a3787a476d4f5ae3936e00518810d61c087397f06735d9836ea75ae7cd",
+    "review-probe.txt": "9ae7c5e7e0be3dffc38aacd079de89f284bfe3ae951dde690ebac1203c6962ab",
+    "Review.csproj.txt": "c15feb387aca3fcdc1a603176eef4c661692cf0f2e4b2309d3d075ca85df7b5a",
+    "VisualChecks.cs.txt": "064761d56453c44989422042d869632b112e9b3019d74dae249a99001c681b59",
+    "visuals\\explicit-dark.png": "e169cedd27d0686e2f9a985d8965ec7c29d7f93f056e11a247fd3dd1531d6f2e",
+    "visuals\\magnifier-normal-dpi2.png": "77c4c19a4cf31145b9877bab8e40f580facf738c8c2261b7696ab19fded6fb10",
+    "visuals\\magnifier-small-dpi2.png": "b1be613b4778fe251127a9481630ca110844a31270589e35df3b55bb5e0bf601",
+    "visuals\\right-clear-after.png": "63b7fefea902fd815a2d53d42c980869d03cbe1e4219a54096bc3aa11c077fc9",
+    "visuals\\right-clear-before.png": "8fcf9a24b8e975ed8d854ddf88da59d357ccc5d15895c0bb78b71d8968cdb156",
+    "visuals\\small-selection-labels.png": "8fcf9a24b8e975ed8d854ddf88da59d357ccc5d15895c0bb78b71d8968cdb156",
+    "visuals\\system-resolved-dark.png": "e169cedd27d0686e2f9a985d8965ec7c29d7f93f056e11a247fd3dd1531d6f2e"
+  }
+}

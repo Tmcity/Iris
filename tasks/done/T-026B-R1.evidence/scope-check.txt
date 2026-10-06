@@ -1,0 +1,3 @@
+git diff --name-only 5cda8cc73f24d0b29778153c337e0c93531a9c85 -- src/Iris.Core src/Iris.Platform.Windows specs/CONTRACTS.cs Directory.Packages.props specs/settings.example.json specs/DB_SCHEMA.sql
+stdout: (empty)
+exit: 0

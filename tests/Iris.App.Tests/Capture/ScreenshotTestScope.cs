@@ -129,11 +129,14 @@ internal sealed class ScreenshotTestScope : IAsyncDisposable
         internal Action? BeforeClose { get; set; }
         internal Action? BeforeRestore { get; set; }
         internal Action? BeforeWarning { get; set; }
-        public int FlushComposition() { Flushes++; BeforeFlush?.Invoke(); return 0; }
-        public ScreenshotFocus Foreground() => Current;
+        internal int ReviewFlushResult;
+        public int FlushComposition() { Flushes++; BeforeFlush?.Invoke(); return ReviewFlushResult; }
+        internal Action? ReviewForeground;
+        public ScreenshotFocus Foreground() { ReviewForeground?.Invoke(); return Current; }
         public bool IsTarget(ScreenshotFocus target) => target == new ScreenshotFocus(100, 200);
         public bool RestoreForeground(nint handle, Func<bool> permitted) { BeforeRestore?.Invoke(); if (!permitted()) return false; Restores++; Current = new(handle, 200); return true; }
-        public PixelPoint PhysicalPoint(Window window, Point local) => throw new InvalidOperationException("Only synthetic physical input is authorized.");
+        internal Func<Window, Point, PixelPoint>? ReviewPhysicalPoint;
+        public PixelPoint PhysicalPoint(Window window, Point local) => ReviewPhysicalPoint?.Invoke(window, local) ?? throw new InvalidOperationException("Only synthetic physical input is authorized.");
         public void Show(Window window)
         {
             Windows.Add((ScreenshotOverlayWindow)window); BeforeShow?.Invoke();

@@ -1,0 +1,180 @@
+C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\MouseInteractionTestScope.cs(203,23): warning CS0649: 从未对字段“MouseInteractionTestScope.FakeProvider.HoldFirst”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\MouseTestBoundary.cs(47,25): warning CS0649: 从未对字段“FakeMouseHookApi.InstallGate”赋值，字段将一直保持其默认值 null [C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\MouseTestBoundary.cs(45,19): warning CS0649: 从未对字段“FakeMouseHookApi.InstallFailure”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\Review.csproj]
+CHECK DRAG_minimum_negative=PASS
+CHECK DRAG_minimum_reverse=PASS
+CHECK DRAG_right_bottom_clamp=PASS
+CHECK DRAG_cross_monitor_clamp=PASS
+CHECK DRAG_full_first_monitor=PASS
+CHECK DRAG_width_three_invalid=PASS
+CHECK DRAG_height_three_invalid=PASS
+CHECK DRAG_single_pixel_invalid=PASS
+CHECK DRAG_second_monitor_minimum=PASS
+CHECK DRAG_full_second_reverse=PASS
+CHECK DRAG_second_right_bottom_clamp=PASS
+CHECK DRAG_second_left_top_reverse_clamp=PASS
+CHECK MOVE_move_keeps_size=PASS
+CHECK MOVE_move_clamp_left_top=PASS
+CHECK MOVE_move_clamp_right_bottom=PASS
+CHECK ACTUAL_GDI_FRAME_TO_WINDOW_TO_REAL_PNG=PASS
+CHECK DOUBLE_CLICK_CONFIRMS_REAL_WINDOW_ONCE=PASS
+DWM_FAILURE code=CaptureFailed nativeHResultPreserved=False captures=0
+CHECK DWM_NATIVE_HRESULT_IS_PRESERVED=FAIL System.InvalidOperationException: safe error lost the actual failed DwmFlush HRESULT
+   at LifecycleChecks.Require(Boolean condition, String message) in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\LifecycleChecks.cs:line 236
+   at LifecycleChecks.<>c.<<Run>b__0_10>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\LifecycleChecks.cs:line 23
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\ScreenshotTestScope.cs:line 54
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\ScreenshotTestScope.cs:line 68
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\PreparationTestScope.cs:line 40
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\PreparationTestScope.cs:line 60
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\MouseInteractionTestScope.cs:line 126
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\MouseInteractionTestScope.cs:line 146
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\WpfTestRunner.cs:line 64
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\WpfTestRunner.cs:line 73
+   at Program.<>c__DisplayClass0_0.<<<Main>$>g__Case|0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\Program.cs:line 8
+CHECK COPY_FAILURE_PRESERVES_PNG_False=PASS
+CHECK COPY_FAILURE_PRESERVES_PNG_True=PASS
+CHECK CALLER_CANCEL_WAITS_ACCEPTED_CROP=PASS
+LATE_POINTER_AFTER_CONFIRM imagePreserved=False crops=1
+CHECK CONFIRMED_CAPTURE_IGNORES_LATE_POINTER_FAILURE=FAIL System.InvalidOperationException: input already sealed by confirmation still canceled the selected image
+   at LifecycleChecks.Require(Boolean condition, String message) in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\LifecycleChecks.cs:line 236
+   at LifecycleChecks.<>c.<<Run>b__0_17>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\LifecycleChecks.cs:line 80
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\ScreenshotTestScope.cs:line 54
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\ScreenshotTestScope.cs:line 68
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\PreparationTestScope.cs:line 40
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\PreparationTestScope.cs:line 60
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\MouseInteractionTestScope.cs:line 126
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\MouseInteractionTestScope.cs:line 146
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\WpfTestRunner.cs:line 64
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\WpfTestRunner.cs:line 73
+   at Program.<>c__DisplayClass0_0.<<<Main>$>g__Case|0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\Program.cs:line 8
+CHECK ACCEPTED_CONFIRM_RELEASE_FAILURE_REMAINS_RETRYABLE=PASS
+CHECK FAILED_CLOSE_RETRIES_SAME_WINDOWS_WITHOUT_RECOPY=PASS
+CALLBACK_CLOSE closeRecorded=True cancelRecorded=True retrySucceeded=True allWindowsClosed=True
+CHECK CALLBACK_AND_CLOSE_ERRORS_RETAINED_AND_RETRYABLE=PASS
+PREPARATION_ERRORS settingsRecorded=False translationRecorded=False settingsRestored=True translationRestored=True
+CHECK PREPARATION_MULTI_FAILURES_REMAIN_VISIBLE=FAIL System.InvalidOperationException: B collapsed A's independent safe cleanup failures into a single HRESULT
+   at LifecycleChecks.Require(Boolean condition, String message) in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\LifecycleChecks.cs:line 236
+   at LifecycleChecks.<>c.<<Run>b__0_29>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\LifecycleChecks.cs:line 166
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\ScreenshotTestScope.cs:line 54
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\ScreenshotTestScope.cs:line 68
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\PreparationTestScope.cs:line 40
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\PreparationTestScope.cs:line 60
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\MouseInteractionTestScope.cs:line 126
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\MouseInteractionTestScope.cs:line 146
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\WpfTestRunner.cs:line 64
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\WpfTestRunner.cs:line 73
+   at Program.<>c__DisplayClass0_0.<<<Main>$>g__Case|0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\Program.cs:line 8
+CHECK NEW_INTENT_AFTER_PREPARATION_RETURN_BLOCKS_FINAL_UI=PASS
+FOREGROUND_QUERY newIntentObserved=True emptyQueries=2 resultCanceled=True nativeRestores=1
+CHECK NEW_INTENT_AT_FINAL_FOREGROUND_QUERY_BLOCKS_RESTORE=FAIL System.InvalidOperationException: focus restore used a stale decision after the final native query admitted a new display intent
+   at LifecycleChecks.Require(Boolean condition, String message) in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\LifecycleChecks.cs:line 236
+   at LifecycleChecks.<>c.<<Run>b__0_34>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\LifecycleChecks.cs:line 208
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\ScreenshotTestScope.cs:line 54
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\ScreenshotTestScope.cs:line 68
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\PreparationTestScope.cs:line 40
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\PreparationTestScope.cs:line 60
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\MouseInteractionTestScope.cs:line 126
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\MouseInteractionTestScope.cs:line 146
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\WpfTestRunner.cs:line 64
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\WpfTestRunner.cs:line 73
+   at Program.<>c__DisplayClass0_0.<<<Main>$>g__Case|0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\Program.cs:line 8
+CHECK UNEXPECTED_INACTIVE_OVERLAY_CLOSE_ENDS_SESSION=FAIL System.TimeoutException: The operation has timed out.
+   at LifecycleChecks.<>c.<<Run>b__0_36>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\LifecycleChecks.cs:line 225
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\ScreenshotTestScope.cs:line 54
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\ScreenshotTestScope.cs:line 68
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\PreparationTestScope.cs:line 40
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\PreparationTestScope.cs:line 60
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\MouseInteractionTestScope.cs:line 126
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\MouseInteractionTestScope.cs:line 146
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\WpfTestRunner.cs:line 64
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\WpfTestRunner.cs:line 73
+   at Program.<>c__DisplayClass0_0.<<<Main>$>g__Case|0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\Program.cs:line 8
+RESOLVED_THEME explicitDarkBytes=307200 systemDarkBytes=307200 differingBytes=0
+CHECK SYSTEM_USES_CURRENT_RESOLVED_DARK_VISUAL_THEME=PASS
+MAGNIFIER_LAYOUT small=False physicalWidth=120 physicalHeight=120 opaqueLaterOverlaps=0 rendered=480x360
+CHECK MAGNIFIER_LAYOUT_DPI2_NORMAL=PASS
+MAGNIFIER_LAYOUT small=True hiddenForLimitedSpace=True
+CHECK MAGNIFIER_LAYOUT_DPI2_SMALL=PASS
+LABEL_LAYOUT opaqueLabels=3 overlappingPairs=1
+CHECK SMALL_SELECTION_LABELS_DO_NOT_OVERLAP=FAIL System.InvalidOperationException: size and instruction labels overlap after avoiding the magnifier
+   at VisualChecks.Require(Boolean condition, String message) in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\VisualChecks.cs:line 164
+   at VisualChecks.<>c.<<Run>b__2_9>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\VisualChecks.cs:line 113
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\ScreenshotTestScope.cs:line 54
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\ScreenshotTestScope.cs:line 68
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\PreparationTestScope.cs:line 40
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\PreparationTestScope.cs:line 60
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\MouseInteractionTestScope.cs:line 126
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\MouseInteractionTestScope.cs:line 146
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\WpfTestRunner.cs:line 64
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\WpfTestRunner.cs:line 73
+   at Program.<>c__DisplayClass0_0.<<<Main>$>g__Case|0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\Program.cs:line 8
+RIGHT_CLEAR handled=True displayedX=0 displayedY=0
+CHECK NATIVE_RIGHT_CLEAR_RETAINS_PHYSICAL_POINTER=FAIL System.InvalidOperationException: right-click clearing replaced the physical pointer with a default coordinate
+   at VisualChecks.Require(Boolean condition, String message) in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\VisualChecks.cs:line 164
+   at VisualChecks.<>c.<<Run>b__2_14>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\VisualChecks.cs:line 134
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\ScreenshotTestScope.cs:line 54
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.ScreenshotTestScope.<>c__DisplayClass18_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\ScreenshotTestScope.cs:line 68
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\PreparationTestScope.cs:line 40
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\PreparationTestScope.cs:line 60
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\MouseInteractionTestScope.cs:line 126
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\MouseInteractionTestScope.cs:line 146
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\WpfTestRunner.cs:line 64
+--- End of stack trace from previous location ---
+   at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\WpfTestRunner.cs:line 73
+   at Program.<>c__DisplayClass0_0.<<<Main>$>g__Case|0>d.MoveNext() in C:\Users\28910\AppData\Local\Temp\iris-t026b-independent-review\Program.cs:line 8
+SCREENSHOT_REVIEW checks=34 failures=7 actualServiceAndWindows=True fakeExternalBoundaries=True userContent=False actualScreenshot=False staAlive=False

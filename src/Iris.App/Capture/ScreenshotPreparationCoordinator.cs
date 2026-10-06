@@ -76,9 +76,8 @@ internal sealed class ScreenshotPreparationCoordinator(
     {
         lock (_gate) return _session?.RetryAsync() ?? Task.CompletedTask;
     }
-    private static IrisException Failure(string stage, IEnumerable<string> failures) =>
-        new(ErrorCode.CaptureFailed, ErrorMessages.GetDefault(ErrorCode.CaptureFailed),
-            detail: $"stage={stage};{string.Join(';', failures)}");
+    private static ScreenshotException Failure(string stage, IEnumerable<string> failures) =>
+        new ScreenshotException(ErrorCode.CaptureFailed, $"stage={stage};{string.Join(';', failures)}");
 
     internal sealed class Lease(Session session) : IAsyncDisposable
     {
@@ -137,7 +136,7 @@ internal sealed class ScreenshotPreparationCoordinator(
                     try { await _previous.ReturnAsync().ConfigureAwait(false); _previous = null; }
                     catch (Exception ex)
                     {
-                        _previousFailure = ex is IrisException { Detail: not null } known ? known.Detail : $"PREVIOUS=0x{ex.HResult:X8}";
+                        _previousFailure = ex is ScreenshotException { Detail: not null } known ? known.Detail : $"PREVIOUS=0x{ex.HResult:X8}";
                         throw;
                     }
                 }
@@ -185,12 +184,12 @@ internal sealed class ScreenshotPreparationCoordinator(
                 try { await ReturnAsync().ConfigureAwait(false); }
                 catch (Exception cleanup)
                 {
-                    Prepared.TrySetException(Failure(stage, [$"primary=0x{failure.HResult:X8}",
-                        cleanup is IrisException { Detail: not null } known ? known.Detail : $"cleanup=0x{cleanup.HResult:X8}"]));
+                    Prepared.TrySetException(Failure(stage, [ScreenshotErrors.Describe("PRIMARY", failure),
+                        cleanup is ScreenshotException { Detail: not null } known ? known.Detail : $"cleanup=0x{cleanup.HResult:X8}"]));
                     return;
                 }
                 if (failure is OperationCanceledException && Reason != PreparationRevocation.None) Prepared.TrySetCanceled(new CancellationToken(true));
-                else Prepared.TrySetException(Failure(stage, [failure is IrisException { Detail: not null } known ? known.Detail : $"hr=0x{failure.HResult:X8}"]));
+                else Prepared.TrySetException(Failure(stage, [failure is ScreenshotException { Detail: not null } known ? known.Detail : $"hr=0x{failure.HResult:X8}"]));
                 return;
             }
         }
@@ -223,7 +222,7 @@ internal sealed class ScreenshotPreparationCoordinator(
             {
                 if (receipt == null) return;
                 try { await receipt.RestoreAsync(Stopping).ConfigureAwait(false); receipt.Dispose(); }
-                catch (Exception ex) { errors.Add(ex is IrisException { Detail: not null } known ? $"{stage}[{known.Detail}]" : $"{stage}=0x{ex.HResult:X8}"); }
+                catch (Exception ex) { errors.Add(ex is ScreenshotException { Detail: not null } known ? $"{stage}[{known.Detail}]" : $"{stage}=0x{ex.HResult:X8}"); }
             }
             for (int i = _additionalWindows.Count - 1; i >= 0; i--)
             {
@@ -250,7 +249,7 @@ internal sealed class ScreenshotPreparationCoordinator(
             lock (_gate) { if (errors.Count == 0) _sealed = true; cancel = _cancel; }
             if (cancel != null)
                 try { await cancel.ConfigureAwait(false); }
-                catch (Exception ex) { errors.Add($"CANCEL=0x{ex.HResult:X8}"); lock (_gate) _cancel = null; }
+                catch (Exception ex) { errors.Add(ScreenshotErrors.Describe("CANCEL", ex)); lock (_gate) _cancel = null; }
             if (errors.Count != 0) throw Failure("CLEANUP", errors);
             _revoked.Dispose();
             if (_previous != null)

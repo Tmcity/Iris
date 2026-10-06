@@ -1,0 +1,115 @@
+{
+  "commit": "5cda8cc73f24d0b29778153c337e0c93531a9c85",
+  "images": [
+    {
+      "file": "Dark-bottom-left.png",
+      "sha256": "0dcb76bf1d30aa5a25eec36a1b6b27bfce62f68b6c3fad3c18b3fef10a579fb1",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass2\\Dark-bottom-left.png"
+    },
+    {
+      "file": "Dark-bottom-right.png",
+      "sha256": "79692e5c9391cf66a19562a47557cd5be2c57bf93ffbd672c4594303e39c3a2e",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass2\\Dark-bottom-right.png"
+    },
+    {
+      "file": "Dark-long.png",
+      "sha256": "9f2297adabc608d21edce1a670979dee2ed3c873781a79d54b92f5b1541cce4e",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass1\\Dark-long.png"
+    },
+    {
+      "file": "Dark-mask0.png",
+      "sha256": "de748a164f4c971f09ccacdd1064f657e4ae34d4557a2ca8902c8d63b546ebda",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass2\\Dark-mask0.png"
+    },
+    {
+      "file": "Dark-mask90.png",
+      "sha256": "f3d246bd2031541a58560be5f3821e07d8f9451708f4383e31118de1f86866c6",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass2\\Dark-mask90.png"
+    },
+    {
+      "file": "Dark-no-magnifier.png",
+      "sha256": "eeb180d6ad27d935fb8413f260ae29f61d56851900c3faa04fd5f6b1d80f847e",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass1\\Dark-no-magnifier.png"
+    },
+    {
+      "file": "Dark-none.png",
+      "sha256": "f5a3cbc7ff6271a447fcec96f0be7c5496b5a0fb70ea04dd818efc81b3899a5f",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass2\\Dark-none.png"
+    },
+    {
+      "file": "Dark-selection.png",
+      "sha256": "6005ed20885a0c468c11e0a0656407766d61a8397ee4a33dd140dbc615e47da5",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass1\\Dark-selection.png"
+    },
+    {
+      "file": "Dark-small.png",
+      "sha256": "5c220ad9a12c903cddc5de294c9902aa61ac1392503421198488c1a9abd3c1fc",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass1\\Dark-small.png"
+    },
+    {
+      "file": "Dark-top-left.png",
+      "sha256": "f5a3cbc7ff6271a447fcec96f0be7c5496b5a0fb70ea04dd818efc81b3899a5f",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass2\\Dark-top-left.png"
+    },
+    {
+      "file": "Dark-top-right.png",
+      "sha256": "a520595fbec0cb19603ee130dcd6b1a2ae95d68664966012e37846a79e195ee3",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass2\\Dark-top-right.png"
+    },
+    {
+      "file": "Light-bottom-left.png",
+      "sha256": "109f0eb15e4c6afd1dcd7e988379b6ac44e3aa3cf54e6b13a34ec404ae026559",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass2\\Light-bottom-left.png"
+    },
+    {
+      "file": "Light-bottom-right.png",
+      "sha256": "19a21244cf554f7e54f54848223dbf598aaa8e6b3fb44ab6ffee7fc29a97b04a",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass2\\Light-bottom-right.png"
+    },
+    {
+      "file": "Light-long.png",
+      "sha256": "9232f3380ad02c6f23b58d00ac89225fc60d88409dae1f01feee3238390c9c62",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass1\\Light-long.png"
+    },
+    {
+      "file": "Light-mask0.png",
+      "sha256": "3f458147776e66cba1a76164134ea090f1228967a64b4b0616da9ce3be23375a",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass2\\Light-mask0.png"
+    },
+    {
+      "file": "Light-mask90.png",
+      "sha256": "bb960c72cb8297e5f022e488f19934f15b259e445fe384f9d88bd37b765f0a63",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass2\\Light-mask90.png"
+    },
+    {
+      "file": "Light-no-magnifier.png",
+      "sha256": "121953e2f4a7ffa83ac3efac0e7a8da4a8e02b0511caf739ed6b2bd146d1bb33",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass1\\Light-no-magnifier.png"
+    },
+    {
+      "file": "Light-none.png",
+      "sha256": "ac98cf487c02425f323ac170e9d937bf0efa009e023a02a48ed2d6aedbce39d9",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass2\\Light-none.png"
+    },
+    {
+      "file": "Light-selection.png",
+      "sha256": "9c99d441ac387e3ee73d531b74c2593471accf83888e5bef225673a85c0c6185",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass1\\Light-selection.png"
+    },
+    {
+      "file": "Light-small.png",
+      "sha256": "5c220ad9a12c903cddc5de294c9902aa61ac1392503421198488c1a9abd3c1fc",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass1\\Light-small.png"
+    },
+    {
+      "file": "Light-top-left.png",
+      "sha256": "ac98cf487c02425f323ac170e9d937bf0efa009e023a02a48ed2d6aedbce39d9",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass2\\Light-top-left.png"
+    },
+    {
+      "file": "Light-top-right.png",
+      "sha256": "76ad9787016b18d5a155021b4f92b83515e3d5cc1acd69533141ec5f06bb3569",
+      "inspectedSnapshot": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t026b-reviewed-renders\\pass2\\Light-top-right.png"
+    }
+  ]
+}

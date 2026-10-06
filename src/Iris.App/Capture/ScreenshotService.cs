@@ -104,8 +104,8 @@ internal sealed partial class ScreenshotService(
             lock (_gate) if (ReferenceEquals(_retained, retained)) _retained = null;
         }
     }
-    internal static IrisException Failure(string stage, int hr = 0, ErrorCode code = ErrorCode.CaptureFailed) =>
-        new(code, ErrorMessages.GetDefault(code), detail: $"stage={stage};hr=0x{hr:X8}");
+    internal static ScreenshotException Failure(string stage, int hr = 0, ErrorCode code = ErrorCode.CaptureFailed) =>
+        new ScreenshotException(code, $"stage={stage};hr=0x{hr:X8}");
     private void Log(string stage, Exception? ex = null)
     {
         try { LogStage(_logger, stage, ex?.HResult ?? 0); }
@@ -174,6 +174,15 @@ internal sealed partial class ScreenshotService(
             return _frameView != null && current.Bounds == _frameView.Frame.VirtualBounds &&
                 ScreenPixelLayout.SameTopology(current.Monitors, _frameView.Frame.Monitors);
         }
+        private async Task<T> CaptureBoundaryAsync<T>(Func<Task<T>> operation)
+        {
+            try { return await operation().ConfigureAwait(false); }
+            catch (IrisException ex) when (owner._capturer is GdiScreenCapturer)
+            {
+                // T-025 constructs these details from fixed stages and numeric native values.
+                throw new ScreenshotException(ex.Code, ex.Detail ?? $"CAPTURE=0x{ex.HResult:X8}");
+            }
+        }
         private async Task RunAsync()
         {
             Exception? failure = null; PixelRect? region = null; string stage = "START";
@@ -195,7 +204,7 @@ internal sealed partial class ScreenshotService(
                 _leaseRegistration = _lease.Revoked.Register(() => Cancel(EndReason.Display));
                 Check(); stage = "RENDER"; await owner._render.SynchronizeAsync().ConfigureAwait(false);
                 Check(); stage = "CAPTURE";
-                var frame = await owner._capturer.CaptureVirtualScreenAsync(_source.Token).ConfigureAwait(false);
+                var frame = await CaptureBoundaryAsync(() => owner._capturer.CaptureVirtualScreenAsync(_source.Token)).ConfigureAwait(false);
                 Check(); stage = "FRAME";
                 _frameView = await Task.Run(() => new ScreenshotFrameView(frame)).ConfigureAwait(false);
                 frame = null!;
@@ -209,14 +218,16 @@ internal sealed partial class ScreenshotService(
                             Wpf.Ui.Appearance.ApplicationThemeManager.GetAppTheme() == Wpf.Ui.Appearance.ApplicationTheme.Dark;
                         var window = owner._factory.Create(_frameView, i, _settings, dark);
                         lock (owner._gate) Windows.Add(window); // Pure managed view registered before HWND initialization.
-                        window.Input += OnInput; window.InputFailed += OnInputFailure;
-                        window.ShowOwned(Check); _handles.Add(window.Handle);
+                        window.Input += OnInput; window.InputFailed += OnInputFailure; window.Closed += OnWindowClosed;
+                        window.ShowOwned(Check); Check();
+                        if (window.IsClosed) { Cancel(EndReason.External); Check(); }
+                        _handles.Add(window.Handle);
                         window.UpdateSelection(null, new(window.Monitor.Bounds.X, window.Monitor.Bounds.Y));
                     }
                     Check();
                     if (!SameTopology()) { Cancel(EndReason.External); return Task.CompletedTask; }
                     _interactive = true;
-                    foreach (var window in Windows) window.Established = true;
+                    foreach (var window in Windows) { window.Established = true; window.AcceptPointerInput = true; }
                     Check(); owner._system.Activate(Windows[0]);
                     return Task.CompletedTask;
                 }, CancellationToken.None).ConfigureAwait(false);
@@ -226,7 +237,7 @@ internal sealed partial class ScreenshotService(
                 if (region != null)
                 {
                     stage = "CROP";
-                    _image = await owner._capturer.CropAsync(_frameView.Frame, region.Value, ImageFormat.Png, _source.Token).ConfigureAwait(false);
+                    _image = await CaptureBoundaryAsync(() => owner._capturer.CropAsync(_frameView.Frame, region.Value, ImageFormat.Png, _source.Token)).ConfigureAwait(false);
                     Check();
                     if (_image.Format != ImageFormat.Png || _image.PixelWidth != region.Value.Width || _image.PixelHeight != region.Value.Height)
                         throw Failure("CROP_DIMENSIONS", code: ErrorCode.ImageInvalid);
@@ -242,13 +253,13 @@ internal sealed partial class ScreenshotService(
             catch (OperationCanceledException) when (_reason != EndReason.None) { }
             catch (Exception ex)
             {
-                failure = ex is IrisException iris ? new IrisException(iris.Code, ErrorMessages.GetDefault(iris.Code), detail: $"stage={stage};hr=0x{ex.HResult:X8}") : Failure(stage, ex.HResult);
+                failure = ScreenshotErrors.Wrap(stage, ex);
             }
             try { await CleanupAsync().ConfigureAwait(false); }
             catch (Exception ex)
             {
-                failure = new IrisException(ErrorCode.CaptureFailed, ErrorMessages.GetDefault(ErrorCode.CaptureFailed),
-                    detail: $"primary=0x{failure?.HResult ?? 0:X8};{(ex as IrisException)?.Detail ?? $"cleanup=0x{ex.HResult:X8}"}");
+                failure = new ScreenshotException(ErrorCode.CaptureFailed,
+                    $"primary=[{(failure == null ? "none" : ScreenshotErrors.Describe("PRIMARY", failure))}];{ScreenshotErrors.Describe("CLEANUP", ex)}");
             }
             bool pending = _preparationPending || Windows.Count != 0 || _previous != null;
             if (!pending)
@@ -260,7 +271,7 @@ internal sealed partial class ScreenshotService(
                 }
             }
             try { await DetachAsync().ConfigureAwait(false); }
-            catch (Exception ex) { failure = new IrisException(ErrorCode.CaptureFailed, ErrorMessages.GetDefault(ErrorCode.CaptureFailed), detail: $"primary=[{(failure as IrisException)?.Detail}];cancel=0x{ex.HResult:X8}"); }
+            catch (Exception ex) { failure = new ScreenshotException(ErrorCode.CaptureFailed, $"primary=[{(failure as IrisException)?.Detail}];cancel=[{ScreenshotErrors.Describe("CANCEL", ex)}]"); }
             lock (owner._gate)
             {
                 if (_observations.Any(o => !o.IsCurrent) && _reason == EndReason.None) _reason = EndReason.Display;
@@ -276,9 +287,13 @@ internal sealed partial class ScreenshotService(
                 Done.TrySetResult();
             }
         }
+        private void OnWindowClosed(object? sender, EventArgs args)
+        {
+            if (_interactive && !_confirmed) Cancel(EndReason.External);
+        }
         private void OnInputFailure(Exception ex)
         {
-            _inputFailure = Failure("INPUT", ex.HResult); Cancel(EndReason.External);
+            _inputFailure = ScreenshotErrors.Wrap("INPUT", ex); Cancel(EndReason.External);
         }
         private void OnInput(object? sender, ScreenshotInputEventArgs args)
         {
@@ -319,7 +334,8 @@ internal sealed partial class ScreenshotService(
                     case ScreenshotInput.Enter: if (!_selection.Dragging) Confirm(); break;
                 }
                 foreach (var w in Windows) w.UpdateSelection(_selection.Monitor == w.MonitorIndex ? _selection.Region : null,
-                    ScreenshotSelection.Clamp(args.Point, w.Monitor.Bounds));
+                    args.Input is ScreenshotInput.Down or ScreenshotInput.Move or ScreenshotInput.Up or ScreenshotInput.DoubleClick or ScreenshotInput.Right
+                        ? ScreenshotSelection.Clamp(args.Point, w.Monitor.Bounds) : null);
             }
             catch (OperationCanceledException) { }
             catch (Exception ex) { OnInputFailure(ex); }
@@ -333,6 +349,7 @@ internal sealed partial class ScreenshotService(
             if (r.X < b.X || r.Y < b.Y || (long)r.X + r.Width > (long)b.X + b.Width || (long)r.Y + r.Height > (long)b.Y + b.Height)
                 throw Failure("REGION");
             _confirmed = true; _interactive = false;
+            foreach (var window in Windows) window.AcceptPointerInput = false;
             foreach (var window in Windows) window.ReleasePointer();
             _decision.TrySetResult(r);
         }
@@ -342,6 +359,7 @@ internal sealed partial class ScreenshotService(
             await owner._ui.InvokeAsync(() =>
             {
                 _interactive = false;
+                foreach (var window in Windows) window.AcceptPointerInput = false;
                 if (!_focusChecked)
                 {
                     _focusChecked = true;
@@ -351,10 +369,10 @@ internal sealed partial class ScreenshotService(
                 foreach (var window in Windows.ToArray())
                 {
                     try { window.CloseOwned(); }
-                    catch (Exception ex) { errors.Add($"CLOSE=0x{ex.HResult:X8}"); }
+                    catch (Exception ex) { errors.Add(ScreenshotErrors.Describe("CLOSE", ex)); }
                     if (window.IsClosed)
                     {
-                        window.Input -= OnInput; window.InputFailed -= OnInputFailure;
+                        window.Input -= OnInput; window.InputFailed -= OnInputFailure; window.Closed -= OnWindowClosed;
                         lock (owner._gate) Windows.Remove(window);
                     }
                 }
@@ -366,15 +384,15 @@ internal sealed partial class ScreenshotService(
                 if (_lease != null)
                 {
                     try { await _lease.DisposeAsync().ConfigureAwait(false); _lease = null; _preparationPending = false; }
-                    catch (Exception ex) { errors.Add($"PREPARATION=0x{ex.HResult:X8}"); }
+                    catch (Exception ex) { errors.Add(ScreenshotErrors.Describe("PREPARATION", ex)); }
                 }
                 else if (_preparationPending)
                 {
                     try { await owner._preparation.RetryCleanupAsync().ConfigureAwait(false); _preparationPending = false; }
-                    catch (Exception ex) { errors.Add($"PREPARATION=0x{ex.HResult:X8}"); }
+                    catch (Exception ex) { errors.Add(ScreenshotErrors.Describe("PREPARATION", ex)); }
                 }
             }
-            if (errors.Count != 0) throw new IrisException(ErrorCode.CaptureFailed, ErrorMessages.GetDefault(ErrorCode.CaptureFailed), detail: string.Join(';', errors));
+            if (errors.Count != 0) throw new ScreenshotException(ErrorCode.CaptureFailed, string.Join(';', errors));
         }
         private Task FinishUiAsync() => owner._ui.InvokeAsync(() =>
         {
@@ -388,7 +406,8 @@ internal sealed partial class ScreenshotService(
             {
                 if (!Current() || !_focusEligible || !owner._system.IsTarget(_original)) return false;
                 var now = owner._system.Foreground();
-                return now != _original && (now.Handle == 0 || IsOwned(now));
+                return now != _original && (now.Handle == 0 || IsOwned(now)) &&
+                    owner._system.IsTarget(_original) && Current();
             }
             try
             {

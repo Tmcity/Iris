@@ -31,6 +31,7 @@ internal sealed class ScreenshotOverlayWindow : Window
     private bool _closing, _releasing, _captureOwned;
     internal bool IsClosed { get; private set; }
     internal bool Established { get; set; }
+    internal bool AcceptPointerInput { get; set; }
     internal nint Handle { get; private set; }
     internal int MonitorIndex { get; }
     internal MonitorInfo Monitor { get; }
@@ -76,7 +77,7 @@ internal sealed class ScreenshotOverlayWindow : Window
         if (!IsClosed) _system.Close(this);
         if (!IsClosed || Handle != 0) throw ScreenshotService.Failure("WINDOW_STILL_OPEN");
     }
-    internal void UpdateSelection(PixelRect? selection, PixelPoint pointer) => _canvas.Update(selection, pointer);
+    internal void UpdateSelection(PixelRect? selection, PixelPoint? pointer) => _canvas.Update(selection, pointer);
     private void OnSourceInitialized(object? sender, EventArgs args)
     {
         Handle = new WindowInteropHelper(this).Handle;
@@ -92,7 +93,7 @@ internal sealed class ScreenshotOverlayWindow : Window
     private void OnLostCapture(object sender, MouseEventArgs args) { if (!_closing && !_releasing) Route(ScreenshotInput.LostCapture, default); }
     private void OnDown(object sender, MouseButtonEventArgs args)
     {
-        if (args.ChangedButton == MouseButton.Right) Route(ScreenshotInput.Right, default);
+        if (args.ChangedButton == MouseButton.Right) RoutePointer(ScreenshotInput.Right, args);
         else if (args.ChangedButton == MouseButton.Left) RoutePointer(args.ClickCount >= 2 ? ScreenshotInput.DoubleClick : ScreenshotInput.Down, args);
         args.Handled = true;
     }
@@ -109,8 +110,13 @@ internal sealed class ScreenshotOverlayWindow : Window
     }
     private void RoutePointer(ScreenshotInput input, MouseEventArgs args)
     {
-        try { Route(input, _system.PhysicalPoint(this, args.GetPosition(this))); }
-        catch (Exception ex) { InputFailed?.Invoke(ex); }
+        if (!AcceptPointerInput || _closing || IsClosed) return;
+        try
+        {
+            var point = _system.PhysicalPoint(this, args.GetPosition(this));
+            if (AcceptPointerInput && !_closing && !IsClosed) Route(input, point);
+        }
+        catch (Exception ex) { if (AcceptPointerInput && !_closing && !IsClosed) InputFailed?.Invoke(ex); }
     }
     private void Route(ScreenshotInput input, PixelPoint point)
     {
@@ -135,10 +141,10 @@ internal sealed class ScreenshotCanvas(ScreenshotFrameView frame, int monitor, S
     private PixelPoint _pointer = new(frame.Frame.Monitors[monitor].Bounds.X, frame.Frame.Monitors[monitor].Bounds.Y);
     internal BitmapSource? FrozenPixels => _frame?.Screens[monitor];
     internal void Release() { _frame = null; _magnifier = null; }
-    internal void Update(PixelRect? selection, PixelPoint point)
+    internal void Update(PixelRect? selection, PixelPoint? point)
     {
-        _selection = selection; _pointer = point;
-        _magnifier = settings.ShowMagnifier ? _frame?.Magnify(monitor, point) : null;
+        _selection = selection; if (point is { } position) _pointer = position;
+        _magnifier = settings.ShowMagnifier ? _frame?.Magnify(monitor, _pointer) : null;
         InvalidateVisual();
     }
     protected override void OnRender(DrawingContext dc)
@@ -171,6 +177,16 @@ internal sealed class ScreenshotCanvas(ScreenshotFrameView frame, int monitor, S
             if (my + magnifierHeight > b.Height) my = (long)_pointer.Y - b.Y - magnifierHeight - 24;
             magnifierBounds = new Rect(Math.Clamp(mx, 0, b.Width - 124), Math.Clamp(my, 0, b.Height - magnifierHeight), 124, magnifierHeight);
         }
+        var occupied = new List<Rect>();
+        if (!magnifierBounds.IsEmpty)
+        {
+            occupied.Add(magnifierBounds);
+            var coords = new FormattedText($"{_pointer.X}, {_pointer.Y}", CultureInfo.CurrentUICulture, FlowDirection.LeftToRight,
+                new Typeface("Segoe UI"), 12 * scale, foreground, scale);
+            double cw = Math.Min(b.Width, coords.Width + 12 * scale);
+            occupied.Add(new Rect(Math.Clamp(magnifierBounds.X, 0, b.Width - cw), magnifierBounds.Y + 124,
+                cw, Math.Min(b.Height - 124, coords.Height + 8 * scale)));
+        }
         void Label(string text, double x, double y, bool center = false, bool avoidMagnifier = false)
         {
             var label = new FormattedText(text, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight,
@@ -178,11 +194,26 @@ internal sealed class ScreenshotCanvas(ScreenshotFrameView frame, int monitor, S
             double width = Math.Min(b.Width, label.Width + 12 * scale), height = Math.Min(b.Height, label.Height + 8 * scale);
             if (center) x = (b.Width - width) / 2;
             x = Math.Clamp(x, 0, Math.Max(0, b.Width - width)); y = Math.Clamp(y, 0, Math.Max(0, b.Height - height));
-            if (avoidMagnifier && !magnifierBounds.IsEmpty && magnifierBounds.IntersectsWith(new Rect(x, y, width, height)))
+            if (avoidMagnifier)
             {
-                y = magnifierBounds.Top >= height + 6 * scale ? magnifierBounds.Top - height - 6 * scale : magnifierBounds.Bottom + 6 * scale;
-                y = Math.Clamp(y, 0, Math.Max(0, b.Height - height));
-                if (magnifierBounds.IntersectsWith(new Rect(x, y, width, height))) return;
+                // Search the free rows/columns around all occupied chrome, keeping the preferred position first.
+                double gap = 6 * scale;
+                var xs = new List<double> { x, 0, b.Width - width };
+                var ys = new List<double> { y, 0, b.Height - height };
+                foreach (var area in occupied)
+                {
+                    xs.Add(area.Left - width - gap); xs.Add(area.Right + gap);
+                    ys.Add(area.Top - height - gap); ys.Add(area.Bottom + gap);
+                }
+                var candidates = from cy in ys from cx in xs
+                    let candidate = new Rect(Math.Clamp(cx, 0, b.Width - width), Math.Clamp(cy, 0, b.Height - height), width, height)
+                    where !occupied.Any(area => area.IntersectsWith(candidate))
+                    orderby Math.Abs(candidate.X - x) + Math.Abs(candidate.Y - y)
+                    select candidate;
+                var free = candidates.Cast<Rect?>().FirstOrDefault();
+                if (free == null) return; // Only omit nonessential chrome when no free position remains.
+                x = free.Value.X; y = free.Value.Y;
+                occupied.Add(free.Value);
             }
             dc.DrawRectangle(chrome, null, new Rect(x, y, width, height)); dc.DrawText(label, new Point(x + 6 * scale, y + 4 * scale));
         }

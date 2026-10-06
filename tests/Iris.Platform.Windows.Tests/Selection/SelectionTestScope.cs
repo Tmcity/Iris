@@ -44,7 +44,7 @@ internal sealed class SelectionTestScope
         {
             var session = new FakeUiaProcessSession();
             session.EnqueueReady();
-            var response = Task.Run(async () =>
+            var response = session.StartResponse(async () =>
             {
                 var line = await UiaProtocolFrameReader.ReadLineWithLimitAsync(session.TestStdinReader, UiaProtocolConstants.MaxFrameBytes, CancellationToken.None);
                 if (line == null) return;
@@ -55,7 +55,7 @@ internal sealed class SelectionTestScope
                     Status = UiaStatus, Text = UiaStatus == UiaSelectionStatus.Success ? UiaText : null
                 });
                 session.SignalExit();
-            }, CancellationToken.None);
+            });
             Track(response);
             return Task.FromResult<IUiaProcessSession>(session);
         };

@@ -141,8 +141,7 @@ internal sealed class WindowPreparationIntent(Lock ownerGate)
                 }
                 catch (Exception ex) { errors.Add($"LATE_HIDE=0x{ex.HResult:X8}"); }
                 finally { _window.ShowActivated = activated; }
-                if (errors.Count != 0) throw new Iris.Core.Errors.IrisException(Iris.Core.Errors.ErrorCode.CaptureFailed,
-                    Iris.Core.Errors.ErrorMessages.GetDefault(Iris.Core.Errors.ErrorCode.CaptureFailed), detail: string.Join(';', errors));
+                if (errors.Count != 0) throw new ScreenshotException(Iris.Core.Errors.ErrorCode.CaptureFailed, string.Join(';', errors));
             }
             _restore = false;
             _suppression?.Dispose(); _suppression = null;

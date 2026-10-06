@@ -1,0 +1,45 @@
+from pathlib import Path
+from xml.sax.saxutils import escape
+import hashlib,json,subprocess,shutil
+root=Path('F:/Iris'); directory=Path(__file__).parent
+output=root/'tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0'
+refs='\n'.join('<Reference Include="'+escape(p.stem)+'"><HintPath>'+escape(str(p))+'</HintPath></Reference>' for p in output.glob('*.dll') if not p.name.endswith('.Tests.dll'))
+(directory/'Review.csproj').write_text('<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><TargetFramework>net10.0-windows10.0.19041.0</TargetFramework><UseWPF>true</UseWPF><OutputType>Exe</OutputType><AssemblyName>Iris.App.Tests</AssemblyName><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable><AllowUnsafeBlocks>true</AllowUnsafeBlocks></PropertyGroup><ItemGroup>'+refs+'</ItemGroup></Project>',encoding='utf-8')
+files=['Iris.App.Tests/Capture/ScreenshotTestScope.cs','Iris.App.Tests/Capture/PreparationTestScope.cs',
+ 'Iris.App.Tests/Selection/MouseInteractionTestScope.cs','Iris.App.Tests/Settings/SelectionSettingsTestScope.cs',
+ 'Iris.App.Tests/TestSupport/FakeNativeHotkeyAdapter.cs','Iris.App.Tests/TestSupport/WpfTestRunner.cs',
+ 'Iris.Platform.Windows.Tests/Capture/ScreenCaptureTestScope.cs','Iris.Platform.Windows.Tests/Capture/FakeScreenEncoderIo.cs',
+ 'Iris.Platform.Windows.Tests/Hooks/MouseTestBoundary.cs','Iris.Platform.Windows.Tests/Clipboard/TestSupport/FakeClipboardSnapshotNative.cs',
+ 'Iris.Platform.Windows.Tests/Selection/FakeNativeKeyboardInputAdapter.cs','Iris.Platform.Windows.Tests/Selection/FakeCopySafetyNative.cs',
+ 'Iris.Platform.Windows.Tests/Selection/FakeUiaTestAdapters.cs','Iris.Platform.Windows.Tests/Selection/SelectionTestScope.cs',
+ 'Iris.Platform.Windows.Tests/Selection/SelectionTimeProvider.cs']
+for path in files: shutil.copyfile(root/'tests'/path,directory/Path(path).name)
+def patch(path,old,new):
+    p=directory/path; text=p.read_text(encoding='utf-8-sig')
+    if new in text: return
+    assert text.count(old)==1,(path,old,text.count(old))
+    p.write_text(text.replace(old,new,1),encoding='utf-8')
+# Only external fixture data and call-boundary hooks; no product state machine is copied.
+patch('ScreenshotTestScope.cs','    internal CapturedFrame Frame()\n    {',
+      '    internal Func<CapturedFrame>? ReviewFrameFactory;\n    internal CapturedFrame Frame()\n    {\n        if (ReviewFrameFactory != null) return ReviewFrameFactory();')
+patch('ScreenshotTestScope.cs','        internal int Captures, Crops;',
+      '        internal int Captures, Crops;\n        internal Action<CancellationToken>? ReviewCaptureToken;')
+patch('ScreenshotTestScope.cs','Captures++; if (BeforeCapture != null)',
+      'Captures++; ReviewCaptureToken?.Invoke(cancellationToken); if (BeforeCapture != null)')
+patch('ScreenshotTestScope.cs','        internal Action? ReviewForeground;',
+      '        internal Action? ReviewForeground;\n        internal Action? ReviewAfterActivate;')
+patch('ScreenshotTestScope.cs','        public int FlushComposition() { Flushes++; BeforeFlush?.Invoke(); return 0; }',
+      '        internal int ReviewFlushResult;\n        public int FlushComposition() { Flushes++; BeforeFlush?.Invoke(); return ReviewFlushResult; }')
+patch('ScreenshotTestScope.cs','Activated.TrySetResult(); }','Activated.TrySetResult(); ReviewAfterActivate?.Invoke(); }')
+patch('ScreenshotTestScope.cs','        public PixelPoint PhysicalPoint(Window window, Point local) => throw new InvalidOperationException("Only synthetic physical input is authorized.");',
+      '        internal Func<Window, Point, PixelPoint>? ReviewPhysicalPoint;\n        public PixelPoint PhysicalPoint(Window window, Point local) => ReviewPhysicalPoint?.Invoke(window, local) ?? throw new InvalidOperationException("Only synthetic physical input is authorized.");')
+patch('PreparationTestScope.cs','    public async Task InvokeAsync(Func<Task> callback, CancellationToken token)\n    {',
+      '    internal Action? ReviewBeforeInvoke;\n    public async Task InvokeAsync(Func<Task> callback, CancellationToken token)\n    {\n        ReviewBeforeInvoke?.Invoke();')
+shutil.copyfile(directory.parent/'iris-t026b-review-preparation/cases.json',directory/'cases.json')
+manifest={'commit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=root,text=True).strip(),
+ 'sources':{str(p.relative_to(root)):hashlib.sha256(p.read_bytes()).hexdigest() for p in (root/'src/Iris.App/Capture').glob('*.cs')},
+ 'fixtures':{path:{'source':hashlib.sha256((root/'tests'/path).read_bytes()).hexdigest(), 'copied':hashlib.sha256((directory/Path(path).name).read_bytes()).hexdigest()} for path in files},
+ 'appDll':hashlib.sha256((output/'Iris.App.dll').read_bytes()).hexdigest(),
+ 'fixtureAdaptations':['synthetic frame factory','capture token observer','foreground/activation observer','UI dispatch observer','synthetic physical point for actual routed mouse events','DwmFlush HRESULT result']}
+(directory/'manifest.json').write_text(json.dumps(manifest,indent=2),encoding='utf-8')
+print('Actual DLL references and external fixtures refreshed; no product probe executed.')

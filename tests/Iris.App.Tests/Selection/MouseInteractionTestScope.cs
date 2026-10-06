@@ -113,6 +113,7 @@ internal sealed class MouseInteractionTestScope
             await Settings.UpdateAsync(s => s with { Selection = s.Selection with { ReadOrder = [SelectionReadMethod.Clipboard] } });
             await Controller.WaitForApplyAsync();
         }
+        Icon.Shown = new(TaskCreationOptions.RunContinuationsAsynchronously);
         await Drag(); Platform.Time.Advance(TimeSpan.FromMilliseconds(120));
         if (clipboard) await Platform.Tick(20);
         await Icon.Shown.Task.WaitAsync(TimeSpan.FromSeconds(10));
@@ -169,7 +170,7 @@ internal sealed class MouseInteractionTestScope
     }
     internal sealed class IconSystem : ISelectionIconSystem
     {
-        internal TaskCompletionSource Shown { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        internal TaskCompletionSource Shown { get; set; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
         internal long Style;
         internal int Shows, Hides, Closes;
         internal bool FailClose, FailShow;
