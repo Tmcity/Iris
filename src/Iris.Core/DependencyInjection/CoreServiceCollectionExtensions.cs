@@ -30,6 +30,10 @@ public static class CoreServiceCollectionExtensions
         services.TryAddSingleton<Iris.Core.Ocr.OcrProviderRegistry>();
         services.TryAddSingleton<Iris.Core.Ocr.IOcrProviderRegistry>(sp => sp.GetRequiredService<Iris.Core.Ocr.OcrProviderRegistry>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IProviderConfigurationObserver, OcrProviderConfigurationObserver>());
+        services.TryAddSingleton<Iris.Core.Ocr.OcrTextNormalizer>();
+        services.TryAddSingleton<Iris.Core.Ocr.IOcrTextNormalizer>(sp => sp.GetRequiredService<Iris.Core.Ocr.OcrTextNormalizer>());
+        services.TryAddSingleton<Iris.Core.Ocr.OcrService>();
+        services.TryAddSingleton<Iris.Core.Ocr.IOcrService>(sp => sp.GetRequiredService<Iris.Core.Ocr.OcrService>());
 
         services.TryAddSingleton<ITranslationCache, LruTranslationCache>();
 

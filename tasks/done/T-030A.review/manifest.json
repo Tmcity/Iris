@@ -1,0 +1,29 @@
+{
+  "commit": "cfaf2045c62322d743f6b6466644f88c49baf6a0",
+  "trackedDiff": [],
+  "sources": {
+    "src/Iris.Core/Ocr/IOcrProvider.cs": "b66d509380e4c74c955d54f224b60394f6e0b2b7aff2840363be5d5ffd8d9a26",
+    "src/Iris.Core/Ocr/OcrModels.cs": "0c00b30aadcf8ccf5822355c432a37890bdc93d00a624051330abe8748599be8",
+    "src/Iris.Core/Ocr/OcrProviderRegistry.cs": "780ff86a833dadf13c8567a297d12f7088ea05e9be19b1654689fa599785f810",
+    "src/Iris.Core/Ocr/OcrRegistrySnapshot.cs": "f952f1354bb56ccac20f24d9b445e2d710afbf393715ac6587a8547a8c566ca0",
+    "src/Iris.Core/DependencyInjection/CoreServiceCollectionExtensions.cs": "df248f8853bc8792785fea3dce66997f67326bd7448fef5e2e44b29a71152b15",
+    "src/Iris.Core/DependencyInjection/OcrProviderConfigurationObserver.cs": "96fe50976cf9aea343bb5198f9ccab466ad7b9d5d67eaedc0e8362002ac940e3",
+    "src/Iris.Core/DependencyInjection/TranslationProviderConfigurationObserver.cs": "8efeae79031d2d7643e3a6292d603c74c454d63e7d70568ce66f0bea10602fc0",
+    "src/Iris.Core/Translation/ProviderCredentialResolver.cs": "a0417c191ec52c57b5d6e67181cb3a1e8624215a88ff9095668ef17a7f1a55f7",
+    "src/Iris.App/Hosting/AppBootstrapper.cs": "847a171d2614b3cd85fa8de0f6054d6c63bcc089a5b89d46ce1ac725d3bbad52",
+    "specs/CONTRACTS.cs": "46187fd3b294e0de54cf5cff03d9cbf59fdfdad8895bbe33219542f366153098"
+  },
+  "productDlls": {
+    "Iris.Core.dll": "1471bd08141f304eb259449db9704c1298df611b4ae88ca958b20d484ea41477"
+  },
+  "probeSources": {
+    "Program.cs": "8e1adbee5e2928f6f3f625b273583783cb6b4ae4a484dcee8317ebc573b95bac",
+    "Boundaries.cs": "933b21d4baf4bfb8bc5e3c1c17c7883b7288402396a03df84ee835110b3cf10f",
+    "RegistryChecks.cs": "aece392554a0f8f380f230d4faf10c695de356cb1cca392d20c3df8eb4629aec",
+    "PublicationChecks.cs": "b8619e2cbfb79a2175270586ffc6666d375394877723c44faea0d18875b1f291",
+    "FingerprintChecks.cs": "11bf1085c0b347a828e931dd51fc08c8d292c557cd8ee712b1c5b22176db80b0",
+    "OwnershipChecks.cs": "126dd8b4f1debfbce65984522e96b1b131fd532230a989917305f37b106b10a7",
+    "CoordinatorChecks.cs": "4d53a1e56779bb5ade1a152bd956e87f4a9295115a30278268041dea6b3d2253"
+  },
+  "scope": "Actual Core Registry through DI; fake external store/factory/provider. No user content. SDK/Host/Coordinator checks must be added separately."
+}

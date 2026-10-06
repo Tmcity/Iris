@@ -714,12 +714,24 @@ namespace Iris.Core.Ocr
     /// OCR 编排（Core 内实现）：选 Provider（providerId ?? Active）→ IImagePreprocessor → RecognizeAsync →
     /// IOcrTextNormalizer。主服务未配置或抛出 NotConfigured / NetworkUnavailable / Timeout / ProviderUnavailable / QuotaExceeded
     /// 时，若存在 Fallback 则自动改用 Fallback（UsedFallback=true）。最终无文字 → IrisException(OcrNoTextFound)。
+    /// 同次操作只用一份注册表快照；每个服务从原图独立预处理，最多尝试主/备各一次。完整取消/收尾见OCR_PIPELINE.md。
     /// </summary>
-    public interface IOcrService
+    public interface IOcrService : IAsyncDisposable
     {
         Task<OcrOutcome> RecognizeAsync(ImageData image, string? providerId = null, CancellationToken cancellationToken = default);
+
+        /// <summary>立即封闭新识别准入并请求取消已接纳操作；不阻塞等待实际清理。</summary>
+        void StopAccepting();
+
+        /// <summary>等待本服务的全部操作/快照释放；失败保有原快照，重复调用可重试。
+        /// cancellationToken只取消本等待者，不遗弃服务拥有的停止任务。</summary>
+        Task StopAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>只重试本服务保有的失败快照清理，不重新预处理/识别，不停止正常准入。</summary>
+        Task RetryCleanupAsync(CancellationToken cancellationToken = default);
     }
 
+    /// <summary>保持原顺序/内部换行；MergeParagraphs复用软换行规则，几何分段按OCR_PIPELINE.md。纯函数，不改输入。</summary>
     public interface IOcrTextNormalizer
     {
         string Normalize(IReadOnlyList<OcrLine> lines, OcrTextLayout layout);

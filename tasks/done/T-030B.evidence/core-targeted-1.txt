@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.Core.Tests\Ocr\OcrPipelineTestScope.cs(10,23): error CA1001: 类型“OcrPipelineTestScope”具有可释放的字段“Lease”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+生成失败，退出代码: 1。

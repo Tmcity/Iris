@@ -1,0 +1,4 @@
+C:\Users\28910\AppData\Local\Temp\iris-t030a-independent-review\WindowsChecks.cs(30,43): error CS0103: 当前上下文中不存在名称“File” [C:\Users\28910\AppData\Local\Temp\iris-t030a-independent-review\AppReview.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t030a-independent-review\WindowsChecks.cs(30,66): error CS0103: 当前上下文中不存在名称“Path” [C:\Users\28910\AppData\Local\Temp\iris-t030a-independent-review\AppReview.csproj]
+
+生成失败。请修复生成错误并重新运行。

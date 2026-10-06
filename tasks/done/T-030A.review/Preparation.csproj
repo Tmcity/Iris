@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0</TargetFramework><Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings><EnableDefaultCompileItems>false</EnableDefaultCompileItems></PropertyGroup>
+  <ItemGroup><Compile Include="Boundaries.cs" /><Reference Include="Iris.Core"><HintPath>F:/Iris/tests/Iris.Core.Tests/bin/Release/net10.0/Iris.Core.dll</HintPath></Reference></ItemGroup>
+</Project>

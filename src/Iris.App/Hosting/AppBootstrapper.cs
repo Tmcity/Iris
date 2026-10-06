@@ -27,6 +27,7 @@ internal sealed partial class AppBootstrapper
     private readonly ISettingsService _settingsService;
     private readonly ITranslationProviderRegistry _translationRegistry;
     private readonly Iris.Core.Ocr.IOcrProviderRegistry? _ocrRegistry;
+    private readonly Iris.Core.Ocr.IOcrService? _ocrService;
     private readonly IDatabaseInitializer _databaseInitializer;
     private readonly LogLevelController _logLevelController;
     private readonly ThemeService _themeService;
@@ -79,7 +80,8 @@ internal sealed partial class AppBootstrapper
         Iris.App.Capture.ScreenshotPreparationCoordinator? screenshotPreparation = null,
         Iris.App.Capture.ScreenshotService? screenshotService = null,
         Iris.Platform.Windows.Imaging.WinRtImagePreprocessor? imagePreprocessor = null,
-        Iris.Core.Ocr.IOcrProviderRegistry? ocrRegistry = null)
+        Iris.Core.Ocr.IOcrProviderRegistry? ocrRegistry = null,
+        Iris.Core.Ocr.IOcrService? ocrService = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -105,6 +107,7 @@ internal sealed partial class AppBootstrapper
         _screenshotService = screenshotService;
         _imagePreprocessor = imagePreprocessor;
         _ocrRegistry = ocrRegistry;
+        _ocrService = ocrService;
     }
 
     internal static Action<string, string> FatalErrorShower { get; set; } = FatalErrorDialog.Show;
@@ -226,8 +229,9 @@ internal sealed partial class AppBootstrapper
 
     public Task StopAsync()
     {
+        _ocrService?.StopAccepting();
         _ocrRegistry?.StopAccepting();
-        _imagePreprocessor?.StopAcceptance();
+        if (_ocrService == null) _imagePreprocessor?.StopAcceptance();
         _screenshotService?.StopAcceptance();
         _screenshotPreparation?.StopAcceptance();
         _recordingCoordinator?.StopAcceptance();
@@ -262,6 +266,12 @@ internal sealed partial class AppBootstrapper
     private async Task StopCoreAsync()
     {
         var earlyFailures = new System.Collections.Generic.List<string>();
+        bool ocrPending = false;
+        if (_ocrService != null)
+        {
+            try { await _ocrService.StopAsync().ConfigureAwait(false); }
+            catch (Exception ex) { ocrPending = true; earlyFailures.Add($"OCR_SERVICE:0x{ex.HResult:X8}"); }
+        }
         bool preparationPending = false;
         if (_screenshotService != null)
         {
@@ -276,7 +286,7 @@ internal sealed partial class AppBootstrapper
             catch (Exception ex) { preparationPending = true; earlyFailures.Add(ex is IrisException { Detail: not null } known
                 ? $"PREPARATION[{known.Detail}]" : $"PREPARATION:0x{ex.HResult:X8}"); }
         }
-        if (_imagePreprocessor != null)
+        if (_imagePreprocessor != null && !ocrPending)
         {
             try { await _imagePreprocessor.StopAsync().ConfigureAwait(false); }
             catch (Exception ex) { earlyFailures.Add(ex is IrisException { Detail: not null } known
@@ -396,7 +406,7 @@ internal sealed partial class AppBootstrapper
             try
             {
                 var stop = _ocrRegistry.StopAsync();
-                if (ownersReady || stop.IsCompleted) await stop.ConfigureAwait(false);
+                if ((ownersReady && !ocrPending) || stop.IsCompleted) await stop.ConfigureAwait(false);
                 else
                 {
                     // The registry owns this stop even when a failed window still owns a lease.

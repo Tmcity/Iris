@@ -1,0 +1,29 @@
+{
+  "commit": "cfaf2045c62322d743f6b6466644f88c49baf6a0",
+  "sources": {
+    "src/Iris.App/Hosting/AppBootstrapper.cs": "847a171d2614b3cd85fa8de0f6054d6c63bcc089a5b89d46ce1ac725d3bbad52",
+    "src/Iris.Core/Ocr/OcrProviderRegistry.cs": "780ff86a833dadf13c8567a297d12f7088ea05e9be19b1654689fa599785f810",
+    "src/Iris.Core/Ocr/OcrRegistrySnapshot.cs": "f952f1354bb56ccac20f24d9b445e2d710afbf393715ac6587a8547a8c566ca0"
+  },
+  "probeSources": {
+    "AppProgram.cs": "f49e95bb5e2d30494e5ea3434014b4cbc4a18920b8f2f0529f4580c807c2b064",
+    "AppChecks.cs": "0fbbaf85cbd83900cdc5f79c79027f6a88f7ebc3cfda53224559a6ad87681405",
+    "RegistryChecks.cs": "aece392554a0f8f380f230d4faf10c695de356cb1cca392d20c3df8eb4629aec",
+    "Boundaries.cs": "933b21d4baf4bfb8bc5e3c1c17c7883b7288402396a03df84ee835110b3cf10f",
+    "WindowsChecks.cs": "b90883da5c923d5af0c18dd595effb32c464e58224951c9208cfce2aa68d3a35",
+    "OcrBoundary.cs": "539966ab79a84d8e1b4b32ee2d4781d70f504b920a515f0a9f4d10d1db551742",
+    "BaiduRegistryChecks.cs": "83183da0f33a940f434820457d4ee7fca3f4b808b78a30d37a3f85711d26923e",
+    "HostChecks.cs": "117076784530b20fef03edbfd34a0f8caf3c35ef5a840124f053b97844814694"
+  },
+  "productDlls": {
+    "Iris.App.dll": "0f69a05dfca233d8d509483e15affc8bf2bb6cb828e395877fad25112b8e8093",
+    "Iris.Core.dll": "1471bd08141f304eb259449db9704c1298df611b4ae88ca958b20d484ea41477",
+    "Iris.Infrastructure.dll": "a6822b35e968b546f74253e3269b3cdff660a35c64682d64b8fb0009757da0f1",
+    "Iris.Platform.Windows.dll": "d8707815bd28040a01366a641a6e9065087c58101253342cc9b9d783d6bea9b6",
+    "Iris.Providers.dll": "f485721e3bf4b54c50ed6e55da3e0b4626cffa08b2989cbe64768dcbf0a98451"
+  },
+  "fixtures": {
+    "hello-123.png": "4ebb5ea998f99eec28e36163949d5705a0c910e0648bf702e899b3b80be8c079"
+  },
+  "phase": "Preparation binding only, no execution implied"
+}

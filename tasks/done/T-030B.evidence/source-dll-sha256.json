@@ -1,0 +1,78 @@
+[
+  {
+    "path": "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/Iris.App.dll",
+    "sha256": "66E04F1CBA589A00A0F488611543C54F8C5492C2D2B8CD1E0686E38BD3606FCC"
+  },
+  {
+    "path": "src/Iris.App/Hosting/AppBootstrapper.cs",
+    "sha256": "17D8B2F0219308097830509FA67A0D6EA3F20CA82E65D1886F6480F88B77C98F"
+  },
+  {
+    "path": "src/Iris.Core/bin/Release/net10.0/Iris.Core.dll",
+    "sha256": "11AB9597DD60846ADBDAB32235E9119A0EFBFDE7A06119CA85197040746C3E5D"
+  },
+  {
+    "path": "src/Iris.Core/DependencyInjection/CoreServiceCollectionExtensions.cs",
+    "sha256": "4C1CD3FB5DFD6BA328B10270FECED33237738C759995E6723E883E86792D3E0C"
+  },
+  {
+    "path": "src/Iris.Core/Ocr/IOcrProvider.cs",
+    "sha256": "B3615692E9DE51B24C317E62156EDFFB3ADE23B15C5700DA00A0A964B8074332"
+  },
+  {
+    "path": "src/Iris.Core/Ocr/OcrService.cs",
+    "sha256": "6B492A7ED7D438E07AF530F15F742BADA0C973AD81C50E31F229F223F83CC4B2"
+  },
+  {
+    "path": "src/Iris.Core/Ocr/OcrTextNormalizer.cs",
+    "sha256": "ADE48A95E259FEE29AE8157234F241AE6E0CB9D183C9E46E9E46BA20E6A6F762"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.dll",
+    "sha256": "C57ECC3AAF024DFF0888CE0DDFA68CAAED78B9CBD9F54F9CB2585400C67A2118"
+  },
+  {
+    "path": "src/Iris.Providers/bin/Release/net10.0/Iris.Providers.dll",
+    "sha256": "67EC85878F021ABCC67898F183BFD15A183D6277D583FF19BDE03B118DF94E0D"
+  },
+  {
+    "path": "tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.App.Tests.dll",
+    "sha256": "746639879B8445D95023D5CDBCAF51CEC58203798673CF18988AA5DD125413F5"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/OcrPipelineShutdownTests.cs",
+    "sha256": "356CAE50E7CBFB37B6830CA5C4220791BC8E32333471477902BBE7CCF90EFA8C"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Translation/TranslationOrchestratorIntegrationTests.cs",
+    "sha256": "76642FAF3970625F140DBE8370B5F5896838CD513FDD119DB839C676AEAD97C4"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/bin/Release/net10.0/Iris.Core.Tests.dll",
+    "sha256": "D4AB65446C6DE396128760AB4736D1D7C3173BEBD8A6214F84AA864098E1AA9F"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrNormalizerTests.cs",
+    "sha256": "D228D8C57A0715F3CD7EC720F6739DA999C3223DD010C21DCDC0BB851358D146"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrPipelineLifecycleTests.cs",
+    "sha256": "B142BCAEDC9B437479EC7139782494E6783F9F317BDF74264FB972CF39ECF335"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrPipelineRegistryTests.cs",
+    "sha256": "BDDE137F7C402C04487ACD7321427765671FA70DFB9B02209EE46BF18E7F6524"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrPipelineTests.cs",
+    "sha256": "D53D6C554E023642432A7A7B0BC696CF89553A115BB8878427CEDE36281D8AE4"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrPipelineTestScope.cs",
+    "sha256": "240B0CC9A6666D9C7A4B7DD771921A4A6B8A4872E0763FC0905B337BF65D9A19"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrRegistryTestScope.cs",
+    "sha256": "0FBA8C864BB655DD54FB7A3B960BE11EBCBB3F25F337183F29391F674322D57E"
+  }
+]

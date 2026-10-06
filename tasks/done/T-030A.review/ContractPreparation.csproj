@@ -1,0 +1,4 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0</TargetFramework><Nullable>enable</Nullable><ImplicitUsings>enable</ImplicitUsings><EnableDefaultCompileItems>false</EnableDefaultCompileItems></PropertyGroup>
+  <ItemGroup><Compile Include="Boundaries.cs" /><Compile Include="RegistryChecks.cs" /><Compile Include="PublicationChecks.cs" /><Compile Include="FingerprintChecks.cs" /><Compile Include="OwnershipChecks.cs" /><Compile Include="CoordinatorChecks.cs" /><Reference Include="Contract"><HintPath>../iris-t030-contract-check/bin/Release/net10.0/Contract.dll</HintPath></Reference></ItemGroup>
+</Project>

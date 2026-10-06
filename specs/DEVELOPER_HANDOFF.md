@@ -1,5 +1,9 @@
 # Codex 开发工程师交接（2026-10-06）
 
+**T-030B开发交付待复审（2026-10-06）**：工单全文及报告 tasks/done/T-030B.md。最终串行 Release 0 警告/错误，全量 3155（3153 成功/0 失败/2 既有 error183 跳过），Core 定向 139 项通过；实际 Registry/Service/Normalizer 重配与实际 WinRT 预处理/Bootstrapper 停止失败重试组合通过。原始失败与旧夹具维护说明、源码/DLL散列均归档 T-030B.evidence。CCR-031仅已落地待复审，父/B▶、A☑；未开始 T-031/032，等待架构师独立验收。
+
+**当前唯一工单T-030B（2026-10-06）**：T-030A/CCR-030在cfaf2045c62322d743f6b6466644f88c49baf6a0通过独立Release0警告/错误、全量3014（3012成功/2既有跳过）、Core51+App/Provider/Host24共75项实际探针。证据T-030A.review。现按OCR_PIPELINE.md/ARCH v1.47/CCR-031/current_task完成OcrService、精确回退、Normalizer及退出，父T-030范围保留；A已结案，入口/设置页不提前。开发会话仍01a10fa5-77e8-77e1-82d9-1ea1aa587d61，旧候选未定项以正式规范为准。
+
 **T-030A开发交付待复审（2026-10-06）**：实现与归档见 tasks/done/T-030A.md。最终串行 Release 构建 0 警告/错误，全量 3014（3012 成功/2 既有 error183 跳过/0 失败）；原始开发失败及最终源码/DLL 指纹保存在 T-030A.evidence。已完成实际 Registry/Coordinator、Windows 位图/百度流清理与实际 Generic Host/自有 WPF owner 退出组合；未实施 B。CCR-030 仅已落地待复审，父/A 保持▶、B☐；当前单全文已归档并移除 current_task。尚待架构师独立验收。
 
 **当前唯一工单T-030A（2026-10-06）**：T-029/CCR-029在6010f23aa1e3aa55e7c657e33584246be9c14e28通过独立Release0警告/错误、全量2971（2969成功/2既有跳过）、47项实际探针，证据T-029.review。真实Provider合成图SDK路径成功，真实多语言/桌面/NFR未验证。现按OCR_PROVIDER_REGISTRY.md/ARCH v1.46/CCR-030/current_task实现注册表、异步租约、发布屏障/清理重试、配置观察者与App生命周期；父T-030分A/B且全部原范围保留，B/入口/设置页未开始。指定开发会话仍01a10fa5-77e8-77e1-82d9-1ea1aa587d61。下方旧“当前/准备”记录按历史保留；T-029最终探针已经运行，不重复当待执行。

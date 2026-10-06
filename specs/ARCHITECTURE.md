@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.46 · 2026-10-06 · 状态：**已冻结（首期）**
+> 版本：v1.47 · 2026-10-06 · 状态：**已冻结（首期）**
+> 变更记录：v1.47（T-030A通过，签发T-030B）— OCR_PIPELINE.md / CCR-031定稿同一快照内的原图独立预处理/有限回退、文本规范化及Service完整取消/停止/失败清理；App排空OCR后才停预处理，Registry/Provider已验收行为保持。B保留父单全部编排范围，不提前入口/设置页。
 > 变更记录：v1.46（T-029通过，签发T-030A）— OCR_PROVIDER_REGISTRY.md / CCR-030将未实现OCR裸实例原型替换为异步快照租约、发布屏障、退休失败保有/重试及两阶段退出。A接配置观察者/App生命周期，B保留编排/回退/文本规范化全部范围；默认配置/schema/包与已验收Provider行为保持。
 > 变更记录：v1.45（T-028B通过，签发T-029）— WINDOWS_OCR.md / CCR-029定稿本地WinRT OCR能力/语言选择、Unicode单空格、位置映射和完整位图生命周期；允许只读能力查询及明确的真实SDK合成图片smoke。Core仅注释与Platform友元，配置/包/既有生产保持，注册表/编排/入口后续实施。
 > 变更记录：v1.44（T-028A通过，签发T-028B）— BAIDU_OCR.md / CCR-028定稿四模式Provider、Token代次/短TTL/取消、业务与HTTP重试边界、完整表单预算及有界安全解析。批准wire安全ToString/216205常量及Core内部文本helper的Providers友元访问；公开端口签名/default/schema/包保持，OCR注册表/编排/入口后续实施。
@@ -502,15 +503,17 @@ TranslateAsync(request, ct)
 ## 8. OCR 管道（`OcrService`）
 
 ```
-provider = providerId != null ? Registry.Find(id) : Registry.GetActive()
+snapshot = await Registry.AcquireSnapshotAsync(token) // 本次操作唯一租约，固定Settings.Ocr
+provider = 在snapshot.Providers中查找(providerId ?? snapshot.Settings.Ocr.ActiveProviderId)
 若 provider 为空或未配置 → 若有 Fallback 则用 Fallback，否则 throw NotConfigured
-image' = IImagePreprocessor.PrepareAsync(image, provider.Constraints)
-try   raw = provider.RecognizeAsync(new OcrRequest(image', Settings.Ocr.LanguageHint))
+try   image' = await IImagePreprocessor.PrepareAsync(originalImage, provider.Constraints, token)
+      raw = await provider.RecognizeAsync(new OcrRequest(image', snapshot.Settings.Ocr.LanguageHint), token)
 catch IrisException e when e.Code ∈ {NotConfigured, NetworkUnavailable, Timeout, ProviderUnavailable, QuotaExceeded}
-        且存在 Fallback 且 Fallback ≠ provider → 用 Fallback 重做一次（UsedFallback = true）
-text = IOcrTextNormalizer.Normalize(raw.Lines, Settings.Ocr.TextLayout)
+        且存在同一snapshot内不同的Fallback → 从originalImage用Fallback重做一次（UsedFallback = true）
+text = IOcrTextNormalizer.Normalize(raw.Lines, snapshot.Settings.Ocr.TextLayout)
 text 为空白 → throw OcrNoTextFound
 return new OcrOutcome(raw, text, usedFallback)
+// 返回前/finally完整释放snapshot；失败保有清理责任，精确取消/错误/停止规则见OCR_PIPELINE.md
 ```
 
 `OcrTextNormalizer.MergeParagraphs` 的实现规则见 `OcrTextLayout` 注释；有 `Bounds` 时，行距 > 平均行高 × 1.5 视为分段；无 `Bounds` 时只按标点规则判断。

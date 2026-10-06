@@ -1,0 +1,11 @@
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+F:\Iris\src\Iris.Core\Ocr\OcrService.cs(158,26): error CA1001: 类型“Operation”具有可释放的字段“_source”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\src\Iris.Core\Iris.Core.csproj]
+
+生成失败。
+
+F:\Iris\src\Iris.Core\Ocr\OcrService.cs(158,26): error CA1001: 类型“Operation”具有可释放的字段“_source”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\src\Iris.Core\Iris.Core.csproj]
+    0 个警告
+    1 个错误
+
+已用时间 00:00:01.36

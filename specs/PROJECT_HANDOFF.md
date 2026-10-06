@@ -1,5 +1,15 @@
 # Iris 架构师接手记录
 
+**T-030B开发交付待复审（2026-10-06）**：工单全文及报告 tasks/done/T-030B.md。最终串行 Release 0 警告/错误，全量 3155（3153 成功/0 失败/2 既有 error183 跳过），Core 定向 139 项通过；实际 Registry/Service/Normalizer 重配与实际 WinRT 预处理/Bootstrapper 停止失败重试组合通过。原始失败与旧夹具维护说明、源码/DLL散列均归档 T-030B.evidence。CCR-031仅已落地待复审，父/B▶、A☑；未开始 T-031/032，等待架构师独立验收。
+
+**T-030B独立准备扩展完成（开发期）**：临时iris-t030b-independent-review/development-probe-3.log实际Core Service/Normalizer/Registry152项全过，含27固定文本向量、三阶段全错误码、12选择边界、原图/同代设置、取消/清理及GC。development-app-probe.log实际AppBootstrapper/DI Service/WinRtImagePreprocessor8项全过；Registry/Provider/Host用受控边界，无用户内容/网络。最终交付后仍独立Release/full、prepare.py与prepare_app.py重绑再跑两个项目，不把开发期结果直接结案。实际A已验收，不重写其Registry/预处理/Provider。
+
+**T-030B开发期独立预检**：临时iris-t030b-independent-review已有27固定Normalizer向量、三阶段全ErrorCode回退表、原图/约束、caller/Stop门闩、停止等待者取消、原快照故障重试及抛错取消回调。实际Service/Normalizer的development-probe.log 137项全通过/退出0，manifest绑定开发当前Core.Tests DLL；不是最终验收。实际Registry同代配置/App退出/GC等仍待补，交付后仍须独立Release/full和重绑。A已结案，不重复返工其生产。
+
+**T-030B实际下达确认（2026-10-06）**：消息01a1114c-907e-7693-b60b-86da29b35475进入指定新开发会话，执行轮01a1114c-9c2e-7cb1-a53b-037ceac6bea1；开发明确确认并读取current_task/OCR_PIPELINE/CCR、SoftLineBreakMerger/模型/CONTRACTS增量。已启动，未交付/未验收；等待超时未取消，不重发。CCR-031独立声明编译0警告/错误，日志临时iris-t030-contract-check/ccr031-build.log。A正式独立验收75项和全量已归档，不重复使用其开发期草稿结论。
+
+**当前唯一工单T-030B（2026-10-06）**：T-030A/CCR-030在cfaf2045c62322d743f6b6466644f88c49baf6a0通过独立Release0警告/错误、全量3014（3012成功/2既有跳过）、Core51+App/Provider/Host24共75项实际探针。证据T-030A.review。现按OCR_PIPELINE.md/ARCH v1.47/CCR-031/current_task完成OcrService、精确回退、Normalizer及退出，父T-030范围保留；A已结案，入口/设置页不提前。开发会话仍01a10fa5-77e8-77e1-82d9-1ea1aa587d61，旧候选未定项以正式规范为准。
+
 **T-030A开发交付待复审（2026-10-06）**：实现与归档见 tasks/done/T-030A.md。最终串行 Release 构建 0 警告/错误，全量 3014（3012 成功/2 既有 error183 跳过/0 失败）；原始开发失败及最终源码/DLL 指纹保存在 T-030A.evidence。已完成实际 Registry/Coordinator、Windows 位图/百度流清理与实际 Generic Host/自有 WPF owner 退出组合；未实施 B。CCR-030 仅已落地待复审，父/A 保持▶、B☐；当前单全文已归档并移除 current_task。尚待架构师独立验收。
 
 **T-030A退出测试最新修正（尚未最终验收）**：开发已恢复AppBootstrapper的preparationPending保护，截图准备Stop失败时不关闭设置/翻译owner；原PreparationShutdownTests因此保留，不按早期分析直接改成允许关闭。旧SelectionShutdownTests的动作门闩时序已调整，首轮被确认挂起的测试进程由开发终止，未完整收尾事实见app-targeted-1-process.txt及原日志。第二轮23项完整返回：21成功/2失败，剩余为ScreenCaptureShutdownTests的独立Presenter顺序及AppBootstrapperTests旧原始异常类型断言，开发继续处理。此前Core690全过与独立Core51/App24均为开发期证据，最终交付后重新绑定；未签B。

@@ -98,10 +98,11 @@ internal sealed class OcrRegistryTestScope
         internal int DisposeCalls, SyncCalls;
         internal Func<Task>? BeforeDispose { get; set; }
         internal Action? BeforeDescriptor { get; set; }
+        internal Func<OcrRequest, CancellationToken, Task<OcrResult>>? Recognition { get; set; }
         public ProviderDescriptor Descriptor { get { BeforeDescriptor?.Invoke(); return FailDescriptor ? throw new IOException("private descriptor") : new(Profile.Id, Profile.DisplayName, "WindowsLocal", null, true); } }
         public ImageConstraints Constraints { get; } = new(100000, false, 32768, 40, [ImageFormat.Png]);
         public Task<OcrResult> RecognizeAsync(OcrRequest request, CancellationToken cancellationToken)
-        { ObjectDisposedException.ThrowIf(Disposed, this); cancellationToken.ThrowIfCancellationRequested(); return Task.FromResult(new OcrResult(Profile.Id, [], null, TimeSpan.Zero)); }
+        { ObjectDisposedException.ThrowIf(Disposed, this); cancellationToken.ThrowIfCancellationRequested(); return Recognition?.Invoke(request, cancellationToken) ?? Task.FromResult(new OcrResult(Profile.Id, [], null, TimeSpan.Zero)); }
         public Task<ProviderTestResult> TestAsync(CancellationToken cancellationToken)
         { ObjectDisposedException.ThrowIf(Disposed, this); cancellationToken.ThrowIfCancellationRequested(); return Task.FromResult(new ProviderTestResult(true, TimeSpan.Zero)); }
         public async ValueTask DisposeAsync()

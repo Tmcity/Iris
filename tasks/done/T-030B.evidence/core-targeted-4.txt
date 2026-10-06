@@ -1,0 +1,34 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+失败 Iris.Core.Tests.Ocr.OcrPipelineLifecycleTests.CompletedServiceDoesNotRetainImagesResultsOrSnapshot (30ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : refs
+      should satisfy the condition
+  !r.IsAlive
+      but
+  [System.WeakReference (62938641), System.WeakReference (64865198)]
+      do not
+    在 Iris.Core.Tests.Ocr.OcrPipelineLifecycleTests.<>c.<<CompletedServiceDoesNotRetainImagesResultsOrSnapshot>b__5_0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Ocr\OcrPipelineLifecycleTests.cs:83
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Ocr.OcrPipelineTestScope.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Ocr\OcrPipelineTestScope.cs:47
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Ocr.OcrPipelineTestScope.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Ocr\OcrPipelineTestScope.cs:54
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (1s 653ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 134
+  失败: 1
+  成功: 133
+  已跳过: 0
+  持续时间: 1s 958ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

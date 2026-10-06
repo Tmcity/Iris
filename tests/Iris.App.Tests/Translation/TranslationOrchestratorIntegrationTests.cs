@@ -202,6 +202,8 @@ public sealed class TranslationOrchestratorIntegrationTests
             services.AddSingleton<IAppPaths>(paths);
             services.AddIrisInfrastructure();
             services.AddIrisCore();
+            // Translation-only fixture: satisfy OCR's external image dependency during DI validation.
+            services.AddSingleton(NSubstitute.Substitute.For<Iris.Core.Imaging.IImagePreprocessor>());
 
             // 注册测试用 SecretStore 与 ProviderFactory（无 HTTP）
             services.AddSingleton<ISecretStore>(SecretStore);

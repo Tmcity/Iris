@@ -1,0 +1,24 @@
+{
+  "sources": {
+    "count": 25,
+    "mismatches": []
+  },
+  "dlls": {
+    "count": 9,
+    "mismatches": [
+      "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/Iris.App.dll",
+      "src/Iris.Core/bin/Release/net10.0/Iris.Core.dll",
+      "src/Iris.Platform.Windows/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.dll",
+      "src/Iris.Providers/bin/Release/net10.0/Iris.Providers.dll",
+      "tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.App.Tests.dll",
+      "tests/Iris.Core.Tests/bin/Release/net10.0/Iris.Core.Tests.dll",
+      "tests/Iris.Infrastructure.Tests/bin/Release/net10.0/Iris.Infrastructure.Tests.dll",
+      "tests/Iris.Platform.Windows.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.Tests.dll",
+      "tests/Iris.Providers.Tests/bin/Release/net10.0/Iris.Providers.Tests.dll"
+    ]
+  },
+  "evidence": {
+    "count": 28,
+    "mismatches": []
+  }
+}
