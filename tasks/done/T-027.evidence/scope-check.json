@@ -1,0 +1,19 @@
+{
+  "baseline": "4805b224f041f2bc437ee9460290ef7bc8d0bc41",
+  "coreDeclarationsUnchanged": true,
+  "approvedXmlMatchesSpec": true,
+  "existingPlatformChanges": [
+    "src/Iris.Platform.Windows/DependencyInjection/PlatformWindowsServiceCollectionExtensions.cs"
+  ],
+  "existingAppChanges": [
+    "src/Iris.App/Hosting/AppBootstrapper.cs"
+  ],
+  "unchangedPaths": [
+    "src/Iris.App/Capture",
+    "src/Iris.Platform.Windows/Capture",
+    "src/Iris.Platform.Windows/Clipboard",
+    "Directory.Packages.props",
+    "specs/settings.example.json",
+    "specs/DB_SCHEMA.sql"
+  ]
+}

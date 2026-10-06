@@ -1,0 +1,16 @@
+{
+  "source": {
+    "count": 2,
+    "mismatches": []
+  },
+  "evidence": {
+    "count": 32,
+    "mismatches": []
+  },
+  "viewedPng": {
+    "count": 28,
+    "mismatches": []
+  },
+  "restrictedAndDrawingDiff": "",
+  "commit": "4805b224f041f2bc437ee9460290ef7bc8d0bc41"
+}

@@ -50,6 +50,9 @@ public static class PlatformWindowsServiceCollectionExtensions
         services.TryAddSingleton<ICaptureThreadFactory, CaptureThreadFactory>();
         services.TryAddSingleton<GdiScreenCapturer>();
         services.TryAddSingleton<IScreenCapturer>(provider => provider.GetRequiredService<GdiScreenCapturer>());
+        services.TryAddSingleton<Iris.Platform.Windows.Imaging.IImagePreparationFactory, Iris.Platform.Windows.Imaging.WinRtImagePreparationFactory>();
+        services.TryAddSingleton<Iris.Platform.Windows.Imaging.WinRtImagePreprocessor>();
+        services.TryAddSingleton<Iris.Core.Imaging.IImagePreprocessor>(provider => provider.GetRequiredService<Iris.Platform.Windows.Imaging.WinRtImagePreprocessor>());
         return services;
     }
 }

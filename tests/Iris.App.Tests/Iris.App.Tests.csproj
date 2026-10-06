@@ -37,6 +37,7 @@
     <Compile Include="..\Iris.Platform.Windows.Tests\Clipboard\TestSupport\FakeClipboardSnapshotNative.cs" Link="Selection\Boundaries\FakeClipboardSnapshotNative.cs" />
     <Compile Include="..\Iris.Platform.Windows.Tests\Hooks\MouseTestBoundary.cs" Link="Selection\Boundaries\MouseTestBoundary.cs" />
     <Compile Include="..\Iris.Platform.Windows.Tests\Capture\ScreenCaptureTestScope.cs" Link="Capture\Boundaries\ScreenCaptureTestScope.cs" />
+    <Compile Include="..\Iris.Platform.Windows.Tests\Imaging\ImagePreparationTestScope.cs" Link="Imaging\ImagePreparationTestScope.cs" />
     <Compile Include="..\Iris.Platform.Windows.Tests\Capture\FakeScreenEncoderIo.cs" Link="Capture\Boundaries\FakeScreenEncoderIo.cs" />
   </ItemGroup>
 </Project>

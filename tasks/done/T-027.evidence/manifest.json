@@ -1,0 +1,33 @@
+{
+  "baseline": "4805b224f041f2bc437ee9460290ef7bc8d0bc41",
+  "source": {
+    "src/Iris.Platform.Windows/Imaging/ImagePreparationRules.cs": "9ae224e2b0dd37beddf939abf09b1becc7049249235e79455a68eddd6bdc0982",
+    "src/Iris.Platform.Windows/Imaging/WinRtImageDecoderIo.cs": "996cf6641d05b098755979a7acb290023771c224883ead5db49b9a1a54f832a1",
+    "src/Iris.Platform.Windows/Imaging/WinRtImagePreprocessor.cs": "9fa9be1457a222e9d5b2f4adbbc43ce675512df7f84206f7a25a59e2ed5607a1",
+    "tests/Iris.Platform.Windows.Tests/Imaging/ImagePreparationTestScope.cs": "b1308565d6bcbc022336702f8dcb0ca1b34dceb445d9ff518c68c931be5f8d16",
+    "tests/Iris.Platform.Windows.Tests/Imaging/ImagePreprocessorLifecycleTests.cs": "ef4c0d6f3202132663703d3b1d499684581989ae2d982e2f0fd24130e2583cad",
+    "tests/Iris.Platform.Windows.Tests/Imaging/ImagePreprocessorTests.cs": "2453f34f6c38f66111d1c5a0ec6b783e461e287f2270ad698b873790d73a20a4",
+    "tests/Iris.App.Tests/Capture/ImagePreprocessorShutdownTests.cs": "1c7079c9fd4d39617086cc63bd5694a63c7d7bafaed016c679be685b519f1ab8",
+    "tests/Iris.App.Tests/Iris.App.Tests.csproj": "e2946b6d31e6fb40e1115cbd5edcb25060371cb809b4ebf45e5c6854a731370a",
+    "src/Iris.Core/Imaging/ImageData.cs": "32f90b8dc5a98446d66ab9be8afcfcb0edecf9a2540228a31684a6509c7fce4d",
+    "src/Iris.Platform.Windows/DependencyInjection/PlatformWindowsServiceCollectionExtensions.cs": "6aaacf28f19f4f17e9567bec17c7eeaf107e4688aa7e08d5e98c44b8b3dd927d",
+    "src/Iris.App/Hosting/AppBootstrapper.cs": "9d3315fcaa0257d924f2b5044fcd57717bb998f2511a26ae1c710901e675c2d0"
+  },
+  "assemblies": {
+    "Iris.App.dll": "7b7a79a50621d237aa67de3b081cfe31f31e6458736e3094077e188e3ed1b67b",
+    "Iris.Platform.Windows.dll": "d5687f44c8ad20d38b8871ed7a9228e711146395a6d37f3ab1db66df21c22260"
+  },
+  "evidence": {
+    "development-build-1.txt": "09a59c0012df0b86bd86656f436fdba00ed959a55bbfa4382a0857556c4b6b4a",
+    "README.md": "66ed072360319234af1b552725c38f630ef9914ba4a91463cf74232cfae856f0",
+    "release-build.txt": "e307a9bc7f6e607bff8f670b7df41ad9d0f5658b6de82eeded53ffd8ea07d236",
+    "release-full.txt": "f29fa8e78afa6ff37ec56cb48fe54a5fab7f82e36b6eaef2124261ae8f2fffad",
+    "scope-check.json": "fce55e2a0642502edd2cd3e657b7ace0bd7ec5723de8f550e1fea1df59f7de51",
+    "targeted-1.txt": "81016e4b4380e07376c91af319f9fcf37e471cc83371796ed32073c3956a8beb",
+    "targeted-2.txt": "3b2e383317bc50da03150fe73f4f7b2627d1b95c2cca96178afd114c11853bbb",
+    "targeted-3.txt": "a7ea6d2aeed5b703e0980711ddf10951e8be18256cfde8b064c5d141b597c4a9",
+    "targeted-4.txt": "97b4064fe0056d78079b10373e09123aa6f5add9a6a9fbd177081704b20acfb9",
+    "targeted-app-1.txt": "952053b7cea6f1826e18a6d7be1ab6e3f0f483fe002764ac83881a6d9efda4ce",
+    "targeted-final.txt": "0a2461706278c94a479667dd6bd2a1543e65cc6ff62a67aefabd2496e2c2ee2c"
+  }
+}

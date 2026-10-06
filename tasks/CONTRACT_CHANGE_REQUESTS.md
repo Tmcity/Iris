@@ -945,8 +945,20 @@ CCR-024结案补充：c7282698最终独立构建/定向/全量通过，生产同
 |---|---|
 | 日期 / 批准 | 2026-10-06，Codex架构师 |
 | 关联 | T-026B；SCREENSHOT_INTERACTION.md；ARCH v1.41 |
-| 状态 | **已落地，R2开发完成待独立复审（建立期同伴窗口关闭）** |
+| 状态 | **已落地，复审通过并结案（T-026B-R2，4805b224）** |
 
 只同步两处XML注释：IScreenshotService说明独立PNG/物理Region、用户/新意图或确认前交互撤销返回null、caller取消完整收尾与清理失败可见；ScreenshotSettings.CopyImageToClipboard说明确认时一次可选复制、失败仅安全警告并保留截图、清理重试不重复复制。确认后新外部前台阻止焦点恢复，程序关闭overlay不伪造交互取消；B本身的意图观察保持至最终结算。specs/CONTRACTS.cs已预置精确注释，由B同步Core PresentationPorts.cs与AppSettings.cs。
 
 不改签名/类型/字段/default/JSON/schema/包。截图内部准入、overlay/输入/焦点和停止能力属于App；不新增Core生命周期接口，不改T-025等已验收平台契约。复制失败的独立策略避免阻断后续OCR，但不声称复制成功；实际提交后的剪贴板不作无归属回滚。细则以新规范为准。
+
+## CCR-026：图像预处理原型的约束与生命周期注释定稿
+
+| 字段 | 内容 |
+|---|---|
+| 日期 / 批准 | 2026-10-06，Codex架构师 |
+| 关联 | T-027；IMAGE_PREPROCESSING.md；ARCH v1.42 |
+| 状态 | **已落地，T-027开发完成待独立复审** |
+
+只澄清尚未实现的IImagePreprocessor XML行为注释，签名/record/枚举/字段保持。规范固定MinShortSide=0、按上限等比缩放与居中白边、JPEG必须被接受且90/80/70/60/50、精确Base64预算、实际解码有效性与同实例、输入Bytes调用期间只读、与截图一致的内部单图预算、透明白底和完整异步收尾。specs/CONTRACTS.cs已预置，由T-027同步Core ImageData.cs。
+
+生命周期和重试接口属Platform具体实现与App内部接线，不增加Core公开生命周期端口；不改已验收截图/剪贴板生产、默认设置/JSON/schema/包，不提前实现OCR Provider或入口。完整规则与测试边界以IMAGE_PREPROCESSING.md为准。

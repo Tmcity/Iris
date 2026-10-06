@@ -46,6 +46,7 @@ internal sealed partial class AppBootstrapper
     private readonly Iris.Platform.Windows.Capture.GdiScreenCapturer? _screenCapturer;
     private readonly Iris.App.Capture.ScreenshotPreparationCoordinator? _screenshotPreparation;
     private readonly Iris.App.Capture.ScreenshotService? _screenshotService;
+    private readonly Iris.Platform.Windows.Imaging.WinRtImagePreprocessor? _imagePreprocessor;
 
     private readonly Lock _stopGate = new();
     private Task? _stopTask;
@@ -75,7 +76,8 @@ internal sealed partial class AppBootstrapper
         SelectionIconController? selectionIconController = null,
         Iris.Platform.Windows.Capture.GdiScreenCapturer? screenCapturer = null,
         Iris.App.Capture.ScreenshotPreparationCoordinator? screenshotPreparation = null,
-        Iris.App.Capture.ScreenshotService? screenshotService = null)
+        Iris.App.Capture.ScreenshotService? screenshotService = null,
+        Iris.Platform.Windows.Imaging.WinRtImagePreprocessor? imagePreprocessor = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -99,6 +101,7 @@ internal sealed partial class AppBootstrapper
         _screenCapturer = screenCapturer;
         _screenshotPreparation = screenshotPreparation;
         _screenshotService = screenshotService;
+        _imagePreprocessor = imagePreprocessor;
     }
 
     internal static Action<string, string> FatalErrorShower { get; set; } = FatalErrorDialog.Show;
@@ -219,6 +222,7 @@ internal sealed partial class AppBootstrapper
 
     public Task StopAsync()
     {
+        _imagePreprocessor?.StopAcceptance();
         _screenshotService?.StopAcceptance();
         _screenshotPreparation?.StopAcceptance();
         _recordingCoordinator?.StopAcceptance();
@@ -265,6 +269,12 @@ internal sealed partial class AppBootstrapper
             try { await _screenshotPreparation.StopAsync().ConfigureAwait(false); }
             catch (Exception ex) { earlyFailures.Add(ex is IrisException { Detail: not null } known
                 ? $"PREPARATION[{known.Detail}]" : $"PREPARATION:0x{ex.HResult:X8}"); }
+        }
+        if (_imagePreprocessor != null)
+        {
+            try { await _imagePreprocessor.StopAsync().ConfigureAwait(false); }
+            catch (Exception ex) { earlyFailures.Add(ex is IrisException { Detail: not null } known
+                ? $"IMAGE_PREPROCESSOR[{known.Detail}]" : $"IMAGE_PREPROCESSOR:0x{ex.HResult:X8}"); }
         }
         string? screenFailure = null;
         if (_screenCapturer != null)

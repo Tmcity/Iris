@@ -1,5 +1,11 @@
 # Iris 架构师接手记录
 
+**T-027独立验收准备（开发中，尚未执行产品探针）**：临时目录C:\Users\28910\AppData\Local\Temp\iris-t027-independent-review已准备15张合成格式/alpha/精确Base64余数输入、8组固定几何期望，以及GeometryChecks/ContractChecks/LifecycleChecks/OwnershipChecks和仅外部codec替身PreparationBoundary。两份公开检查的ReviewChecks.csproj曾单独编译零警告；完整Program/Review.csproj尚未运行。正式交付后独立Release/full，执行prepare.py刷新实际App.Tests输出产品DLL/源码指纹再运行Review.csproj；不可把草稿或开发74项通过当最终独立结论。AppBootstrapper真正失败收尾仍需最终代码/测试与必要组合检查。T-026/B已结案，不因该准备回退状态。
+
+**T-027实际下达记录（2026-10-06）**：消息01a10fe3-5d3f-7703-879c-4fc7b04f9546进入指定新开发会话，执行轮01a10fe3-6f3b-7551-b870-3076e231f0a7。开发明确确认实际WinRT编解码/生命周期/App退出范围，已全文读取工单/正式规范/CCR并核对基线。当前已启动、未交付/未验收；send超时没有取消，不重发。正式规范覆盖旧候选未定项，用户无需传话。
+
+**最新唯一工单T-027（2026-10-06）**：T-026B-R2/父T-026已验收结案，最终4805b224f041f2bc437ee9460290ef7bc8d0bc41独立Release0警告/错误（5.52秒）、全量2638中2636成功/2跳过（44秒344毫秒）、35项实际检查全通过/STA退出；28张已查看原图和独立7图指纹保持。证据T-026B-R2.review。现签发IMAGE_PREPROCESSING.md/ARCH v1.42/CCR-026/current_task，完整实现图像预处理与异步收尾，不扩OCR Provider/入口。旧候选中未定问题已由正式规范解决，勿按候选重新索要许可。直接下达新开发会话01a10fa5-77e8-77e1-82d9-1ea1aa587d61；下方R2执行记录为历史。
+
 **T-026B-R2实际下达记录（2026-10-06）**：消息01a10fcc-004e-71a2-b5cb-d2c42d172ab3已进入新开发会话，执行轮01a10fcc-16ad-70e2-8a32-71dc827430f2。开发已确认只补建立期间同伴关闭、保留R1成果，且实际读取工单/精确反例并核对工作区。已启动，未交付/未验收；send等待超时未取消任务，不重发。
 
 **最新唯一工单T-026B-R2（2026-10-06）**：开发R1执行轮已completed，交付7e6687d0a17206edb613354a0022cb1618a18686。独立Release0警告/错误、全量2634中2632成功/2跳过、原34项全通过；扩展35项仅建立第三窗时第二窗实际Closed后会话10秒不结束失败，caller取消后全关闭/清理零错误/STA退出。R2只补建立期同伴Closed，保留所有R1/C26B-1成果，父/B仍▶，不开始T-027。证据T-026B-R1.review；原28张已查看PNG指纹一致。仍使用新开发会话01a10fa5-77e8-77e1-82d9-1ea1aa587d61直接下达，旧会话不再使用。

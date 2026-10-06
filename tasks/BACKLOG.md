@@ -316,10 +316,10 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 | ID | 状态 | 任务 | 依赖 | 估时 |
 |---|---|---|---|---|
 | T-025 | ☑ | GdiScreenCapturer、CropAsync 三格式编码与完整退出（MonitorEnumerator 已拆至 T-022A） | T-022A, T-024 | 1d |
-| T-026 | ▶ | 截图交互总单：A窗口/输入准备，B覆盖层与完整ScreenshotService | T-025 | 2.5d |
+| T-026 | ☑ | 截图交互总单：A窗口/输入准备，B覆盖层与完整ScreenshotService | T-025 | 2.5d |
 | T-026A | ☑ | 临时隐藏/新意图/可靠恢复、录入收尾与鼠标暂停；含C25-1测试维护 | T-025, T-024, T-020B | 1d |
-| T-026B | ▶ | 每屏覆盖层、物理框选/放大镜、确认/取消、可选复制与完整截图服务 | T-026A, T-025 | 1.5d |
-| T-027 | ☐ | WinRtImagePreprocessor | T-025 | 1d |
+| T-026B | ☑ | 每屏覆盖层、物理框选/放大镜、确认/取消、可选复制与完整截图服务 | T-026A, T-025 | 1.5d |
+| T-027 | ▶ | WinRtImagePreprocessor、精确图像约束/格式预算及完整退出 | T-025 | 1d |
 | T-028 | ☐ | 百度 OCR Provider（Token 缓存、四种模式、错误映射） | T-008, T-004 | 1.5d |
 | T-029 | ☐ | Windows 本地 OCR Provider | T-027 | 1d |
 | T-030 | ☐ | OcrProviderRegistry + OcrService + OcrTextNormalizer | T-028, T-029 | 1d |
@@ -330,7 +330,7 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 
 **T-025** 按 SCREEN_CAPTURE.md / ARCH v1.39 / CCR-023 签发：同线程 GDI 资源、物理快照/预算、CropAsync PNG/JPEG/BMP、取消/清理重试与 App 完整退出；先以 actual service + fake OS 和真实内存编码自动验证。真实多屏/混合 DPI 画面对齐和单张4K抓取≤60ms仍为后续实机验收，不能用合成测试宣称完成；不提前做T-026覆盖层。
 **T-026** 交付ARCH §6.6，完整范围保留：每屏冻结覆盖层、单屏物理框选/8×放大镜、确认/清除/取消、隐藏恢复与可选复制。先按SCREENSHOT_PREPARATION.md签发A，B随后完成UI/服务，A不得用占位服务替代B。热键到覆盖层≤150ms、真实混合DPI对齐与焦点仍须后续实机/NFR验收，不能由A的窗口状态或合成图像冒称通过。
-**T-027** 交付 CONTRACTS 中 `IImagePreprocessor` 注释描述的全部规则。验收：放大、缩小、格式转换、JPEG 质量降级、无法满足约束时抛 ImageTooLarge、已满足约束时返回同一实例。
+**T-027** 按 IMAGE_PREPROCESSING.md / ARCH v1.42 / CCR-026交付IImagePreprocessor全部规则：实际图像有效性、等比缩放/居中白边、允许格式内JPEG质量降级、精确Base64预算、同实例快路径与完整取消/退出。无法满足约束抛ImageTooLarge；合成真实WinRT验证，不提前实现OCR Provider/入口或宣称实机NFR。
 **T-028** 交付 ARCH §9.3。验收（MockHttp）：token 缓存与过期；并发获取 token 时只发出一次请求；110/111 刷新后只重试一次；错误码映射表每一行；language_type 映射；含位置版本的 Bounds 解析；段落合并；TestAsync 只请求 token。
 **T-029** 交付 ARCH §9.4。验收：CJK 字符之间多余空格被删除（单元测试）；缺少语言包时返回 OcrLanguageUnsupported；并发调用被串行化。
 **T-030** 交付 ARCH §8。验收：回退触发条件的每个分支；UsedFallback 标记；MergeParagraphs 在有 / 无 Bounds 两种情况下的规则；无文字时抛 OcrNoTextFound。
@@ -413,3 +413,6 @@ T-030 签发前须按 PROVIDER_REGISTRY.md 将 OCR 注册表原型同步为租�
 
 
 **T-026B-R1独立复审 / R2签发（2026-10-06）** — 7e6687d0独立Release0警告/错误，全量2634（2632成功/2既有跳过）；原34项全通过，扩展35项34过/1失败：建立第三窗时第二窗真实关闭后会话不结束。只补建立期同伴Closed，保留R1全部成果；父/B仍▶、A☑、CCR-025待修正，不开始T-027。证据T-026B-R1.review。
+
+
+**T-026最终结案（2026-10-06）** — 4805b224独立Release0警告/错误，全量2638（2636成功/2既有跳过）、实际35项全部通过/STA退出。建立期同伴关闭及全部原通过对照保留，T-026/B及CCR-025结案。真实桌面/混合DPI/HDR/焦点/NFR仍待T-040，不以合成图代替。下一单T-027图像预处理，按正式签发规则实施。
