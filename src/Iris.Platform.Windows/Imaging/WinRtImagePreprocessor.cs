@@ -71,10 +71,15 @@ internal sealed class WinRtImagePreprocessor(IImagePreparationFactory factory) :
 
     private async Task<ImageData> PrepareCoreAsync(ImageData image, ImageConstraints c, ImagePreparationLayout layout, Action check, Func<bool> canceled)
     {
+        bool FitsBudgets(byte[] bytes) => Fits(bytes.LongLength, c) &&
+            (c.MaxFormUrlEncodedBytes is not { } limit || FormUrlEncodedImageLength.Count(bytes, () =>
+            {
+                check(); factory.CheckFormBudgetBatch(); check();
+            }) <= limit);
         bool unchanged = layout.Width == image.PixelWidth && layout.Height == image.PixelHeight &&
             layout.CanvasWidth == image.PixelWidth && layout.CanvasHeight == image.PixelHeight;
         bool accepted = c.AcceptedFormats.Contains(image.Format);
-        bool fast = unchanged && accepted && Fits(image.Bytes.LongLength, c);
+        bool fast = unchanged && accepted && FitsBudgets(image.Bytes);
         check();
         var decoder = factory.CreateDecoder(); // Factories create managed owners; I/O starts only after registration below.
         var decoded = await UseAsync(new Resource(("DECODER_WRITER", decoder.DisposeWriterAsync), ("DECODER_STREAM", decoder.DisposeStreamAsync)), async () =>
@@ -98,7 +103,7 @@ internal sealed class WinRtImagePreprocessor(IImagePreparationFactory factory) :
         if (!unchanged || !accepted)
         {
             var output = await EncodeAsync(canvas, layout, format, 90, check, canceled).ConfigureAwait(false);
-            if (Fits(output.Bytes.LongLength, c)) return output;
+            if (FitsBudgets(output.Bytes)) return output;
             if (format == ImageFormat.Jpeg) nextQuality = 80;
         }
         if (!c.AcceptedFormats.Contains(ImageFormat.Jpeg)) throw Fail("BYTE_BUDGET", ErrorCode.ImageTooLarge);
@@ -106,7 +111,7 @@ internal sealed class WinRtImagePreprocessor(IImagePreparationFactory factory) :
         {
             check();
             var output = await EncodeAsync(canvas, layout, ImageFormat.Jpeg, quality, check, canceled).ConfigureAwait(false);
-            if (Fits(output.Bytes.LongLength, c)) return output;
+            if (FitsBudgets(output.Bytes)) return output;
         }
         throw Fail("JPEG_BUDGET", ErrorCode.ImageTooLarge);
     }

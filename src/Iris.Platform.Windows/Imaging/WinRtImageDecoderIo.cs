@@ -18,6 +18,8 @@ internal interface IImagePreparationFactory
 {
     IImageDecoderIo CreateDecoder();
     IScreenEncoderIo CreateEncoder();
+    // A batch boundary for cancellation/stop observation; production has no extra work here.
+    void CheckFormBudgetBatch() { }
 }
 internal sealed class WinRtImagePreparationFactory : IImagePreparationFactory
 {

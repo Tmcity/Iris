@@ -1,0 +1,162 @@
+[
+  {
+    "name": "up",
+    "input": "up.png",
+    "width": 20,
+    "height": 10,
+    "maxLongSide": 100,
+    "minShortSide": 40,
+    "contentWidth": 80,
+    "contentHeight": 40,
+    "outputWidth": 80,
+    "outputHeight": 40,
+    "leftWhite": 0,
+    "topWhite": 0,
+    "rgba": [
+      221,
+      53,
+      17,
+      255
+    ]
+  },
+  {
+    "name": "down",
+    "input": "down.png",
+    "width": 1000,
+    "height": 500,
+    "maxLongSide": 100,
+    "minShortSide": 40,
+    "contentWidth": 100,
+    "contentHeight": 50,
+    "outputWidth": 100,
+    "outputHeight": 50,
+    "leftWhite": 0,
+    "topWhite": 0,
+    "rgba": [
+      221,
+      53,
+      17,
+      255
+    ]
+  },
+  {
+    "name": "wide_pad",
+    "input": "wide_pad.png",
+    "width": 40,
+    "height": 10,
+    "maxLongSide": 100,
+    "minShortSide": 40,
+    "contentWidth": 100,
+    "contentHeight": 25,
+    "outputWidth": 100,
+    "outputHeight": 40,
+    "leftWhite": 0,
+    "topWhite": 7,
+    "rgba": [
+      221,
+      53,
+      17,
+      255
+    ]
+  },
+  {
+    "name": "tall_pad",
+    "input": "tall_pad.png",
+    "width": 10,
+    "height": 40,
+    "maxLongSide": 100,
+    "minShortSide": 40,
+    "contentWidth": 25,
+    "contentHeight": 100,
+    "outputWidth": 40,
+    "outputHeight": 100,
+    "leftWhite": 7,
+    "topWhite": 0,
+    "rgba": [
+      221,
+      53,
+      17,
+      255
+    ]
+  },
+  {
+    "name": "no_min",
+    "input": "no_min.png",
+    "width": 5,
+    "height": 5,
+    "maxLongSide": 100,
+    "minShortSide": 0,
+    "contentWidth": 5,
+    "contentHeight": 5,
+    "outputWidth": 5,
+    "outputHeight": 5,
+    "leftWhite": 0,
+    "topWhite": 0,
+    "rgba": [
+      221,
+      53,
+      17,
+      255
+    ]
+  },
+  {
+    "name": "round_pad",
+    "input": "round_pad.png",
+    "width": 6,
+    "height": 5,
+    "maxLongSide": 9,
+    "minShortSide": 8,
+    "contentWidth": 9,
+    "contentHeight": 7,
+    "outputWidth": 9,
+    "outputHeight": 8,
+    "leftWhite": 0,
+    "topWhite": 0,
+    "rgba": [
+      221,
+      53,
+      17,
+      255
+    ]
+  },
+  {
+    "name": "down_odd",
+    "input": "down_odd.png",
+    "width": 1001,
+    "height": 500,
+    "maxLongSide": 100,
+    "minShortSide": 50,
+    "contentWidth": 100,
+    "contentHeight": 49,
+    "outputWidth": 100,
+    "outputHeight": 50,
+    "leftWhite": 0,
+    "topWhite": 0,
+    "rgba": [
+      221,
+      53,
+      17,
+      255
+    ]
+  },
+  {
+    "name": "extreme",
+    "input": "extreme.png",
+    "width": 500,
+    "height": 1,
+    "maxLongSide": 100,
+    "minShortSide": 20,
+    "contentWidth": 100,
+    "contentHeight": 1,
+    "outputWidth": 100,
+    "outputHeight": 20,
+    "leftWhite": 0,
+    "topWhite": 9,
+    "rgba": [
+      221,
+      53,
+      17,
+      255
+    ]
+  }
+]

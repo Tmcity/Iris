@@ -1,0 +1,12 @@
+{
+  "syntheticWhiteBmp": true,
+  "width": 1024,
+  "height": 768,
+  "rawBytes": 2359350,
+  "base64Bytes": 3145800,
+  "formBytes": 9437321,
+  "fitsLegacy4MiBBase64": true,
+  "exceeds8MiBForm": true,
+  "sha256": "95a878872cb1b5125ab2bb6cf960d0f37af9c397e4f1878cb9c0e6c4da13775c",
+  "httpRequests": 0
+}

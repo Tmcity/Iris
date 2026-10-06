@@ -4,6 +4,8 @@
 
 ## 当前状态
 
+**最新唯一工单T-028A（2026-10-06）**：T-027/CCR-026已在b3f1f1b67eafc20bab12290dba40051b4cc0ab51独立验收（Release0警告/错误、全量2722中2720成功/2既有跳过、实际40项全通过）。父T-028拆A精确表单图像预算/B完整百度Provider，范围不减。A按OCR_FORM_IMAGE_BUDGET.md/ARCH v1.43/CCR-027新增默认null的ImageConstraints.MaxFormUrlEncodedBytes，保留5参数构造、旧预算/质量/收尾；不统一压低原Base64上限。仅必要Core/Platform预算及测试，不开始B/HTTP/Token或T-029。保留架构师本轮T-027结案/复审证据和规范随单提交；下方T-027状态均为历史。
+
 **最新唯一工单T-027（2026-10-06）**：T-026/B/CCR-025已在4805b224f041f2bc437ee9460290ef7bc8d0bc41独立验收结案（Release0警告/错误，全量2638中2636成功/2既有跳过，35项全通过/STA退出）。现按IMAGE_PREPROCESSING.md / ARCH v1.42 / CCR-026实现完整WinRtImagePreprocessor、真实codec、约束/同实例/取消清理及App退出；不提前做OCR Provider/入口。仅同步已预置Core XML注释，签名/default/schema/包不变。保留架构师本轮规范/结案/复审证据随单提交。下方R2/R1当前状态均为历史。
 
 **最新唯一工单为T-026B-R2（2026-10-06）。** R1最终提交7e6687d0a17206edb613354a0022cb1618a18686已独立Release零警告/错误，全量2634（2632成功/2既有跳过）、原34项全通过；扩展35项仅建立期已登记同伴窗口意外Closed后不结束失败。只补此生命周期缺口，保留R1六组/C26B-1和本次显示等待维护。详见current_task、T-026B-R1.review；父/B仍▶、A☑，不开始T-027。下方R1签发/执行为历史。

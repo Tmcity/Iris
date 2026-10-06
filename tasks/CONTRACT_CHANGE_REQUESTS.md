@@ -957,8 +957,20 @@ CCR-024结案补充：c7282698最终独立构建/定向/全量通过，生产同
 |---|---|
 | 日期 / 批准 | 2026-10-06，Codex架构师 |
 | 关联 | T-027；IMAGE_PREPROCESSING.md；ARCH v1.42 |
-| 状态 | **已落地，T-027开发完成待独立复审** |
+| 状态 | **已落地，复审通过并结案（T-027，b3f1f1b6）** |
 
 只澄清尚未实现的IImagePreprocessor XML行为注释，签名/record/枚举/字段保持。规范固定MinShortSide=0、按上限等比缩放与居中白边、JPEG必须被接受且90/80/70/60/50、精确Base64预算、实际解码有效性与同实例、输入Bytes调用期间只读、与截图一致的内部单图预算、透明白底和完整异步收尾。specs/CONTRACTS.cs已预置，由T-027同步Core ImageData.cs。
 
 生命周期和重试接口属Platform具体实现与App内部接线，不增加Core公开生命周期端口；不改已验收截图/剪贴板生产、默认设置/JSON/schema/包，不提前实现OCR Provider或入口。完整规则与测试边界以IMAGE_PREPROCESSING.md为准。
+
+## CCR-027：可选的表单图像值字节预算
+
+| 字段 | 内容 |
+|---|---|
+| 日期 / 批准 | 2026-10-06，Codex架构师 |
+| 关联 | T-028A；OCR_FORM_IMAGE_BUDGET.md；ARCH v1.43 |
+| 状态 | **已落地，T-028A开发完成待独立复审** |
+
+在ImageConstraints位置record主体新增默认null的 `long? MaxFormUrlEncodedBytes { get; init; }`。原5参数构造/Deconstruct和IImagePreprocessor签名保持；只增加可选能力，不影响配置文件/默认设置/schema/包。specs/CONTRACTS.cs已预置，由A同步Core。
+
+依据是百度公开文档的Base64+URL编码预算及实际白BMP合成反例。新预算仅图像值，和原字节/Base64预算同时满足；调用方负责其它表单开销。预处理精确计数、保留原null路径并沿用质量/收尾规则。T-027已经正确完成旧契约，不因本增量撤销结案；B后续完整实现Provider，A不提前修改HTTP重试或OCR模块。

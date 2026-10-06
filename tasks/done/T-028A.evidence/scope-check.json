@@ -1,0 +1,41 @@
+{
+  "baseline": "b3f1f1b67eafc20bab12290dba40051b4cc0ab51",
+  "unchangedPaths": [
+    "src/Iris.App",
+    "src/Iris.Platform.Windows/Capture",
+    "src/Iris.Platform.Windows/Clipboard",
+    "src/Iris.Providers",
+    "Directory.Packages.props",
+    "src/Iris.Core/Settings",
+    "specs/settings.example.json",
+    "specs/DB_SCHEMA.sql"
+  ],
+  "approvedConstraintAndXmlMatchSpec": true,
+  "unchangedProbeSources": {
+    "ContractChecks.cs": true,
+    "GeometryChecks.cs": true,
+    "GlobalUsings.cs": true,
+    "LifecycleChecks.cs": true,
+    "OwnershipChecks.cs": true,
+    "PreparationBoundary.cs": true,
+    "Program.cs": true,
+    "prepare.py": true
+  },
+  "unchangedProbeFixtures": {
+    "alpha.png": true,
+    "budget-mod0.png": true,
+    "budget-mod1.png": true,
+    "budget-mod2.png": true,
+    "down.png": true,
+    "down_odd.png": true,
+    "extreme.png": true,
+    "format.bmp": true,
+    "format.jpeg": true,
+    "format.png": true,
+    "no_min.png": true,
+    "round_pad.png": true,
+    "tall_pad.png": true,
+    "up.png": true,
+    "wide_pad.png": true
+  }
+}

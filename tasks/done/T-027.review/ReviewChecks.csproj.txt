@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="GeometryChecks.cs" />
+    <Compile Include="ContractChecks.cs" />
+    <Reference Include="Iris.Core"><HintPath>F:/Iris/src/Iris.Core/bin/Release/net10.0/Iris.Core.dll</HintPath></Reference>
+  </ItemGroup>
+</Project>

@@ -1,5 +1,11 @@
 # Iris 架构师接手记录
 
+**T-028A实际下达记录（2026-10-06）**：消息01a11007-1a32-7330-9d6a-1317b59de289进入指定开发会话，执行轮01a11007-23e1-7d62-82d0-8309ff83ca14。开发已确认只补新约束/精确统计/回归，保留T-027退出；已实际读取工单/正式规范/契约增量。已启动、未交付/未验收，send超时未取消，不重发；无需用户传话。
+
+**最新唯一工单T-028A（2026-10-06）**：T-027在b3f1f1b67eafc20bab12290dba40051b4cc0ab51验收结案；独立Release0警告/错误（12.95秒）、全量2722中2720成功/2跳过（41秒247毫秒）、实际WinRT/服务/Host/故障/GC40项全通过。证据T-027.review。官方百度图像上传要求Base64再URL编码；纯合成白BMP原2359350/Base643145800字节却得到9437321字节表单（无HTTP）。现按OCR_FORM_IMAGE_BUDGET.md/ARCH v1.43/CCR-027签发A可选精确表单图像预算，默认null/原构造不变，B保留全部Provider功能。旧T027完成能力不返工，当前工单详见current_task。
+
+T-028B后续准备仍在临时iris-t028-preparation.md，官方6页全文与一次失败/重试记录在iris-t028-official-docs；除已签A的预算增量，其它HTTP与业务重试、Token代次/取消、错误脱敏、段落语义仍需B正式规范，不让开发据草稿扩单。最新指定开发会话仍01a10fa5-77e8-77e1-82d9-1ea1aa587d61。
+
 **T-027独立验收准备（开发中，尚未执行产品探针）**：临时目录C:\Users\28910\AppData\Local\Temp\iris-t027-independent-review已准备15张合成格式/alpha/精确Base64余数输入、8组固定几何期望，以及GeometryChecks/ContractChecks/LifecycleChecks/OwnershipChecks和仅外部codec替身PreparationBoundary。两份公开检查的ReviewChecks.csproj曾单独编译零警告；完整Program/Review.csproj尚未运行。正式交付后独立Release/full，执行prepare.py刷新实际App.Tests输出产品DLL/源码指纹再运行Review.csproj；不可把草稿或开发74项通过当最终独立结论。AppBootstrapper真正失败收尾仍需最终代码/测试与必要组合检查。T-026/B已结案，不因该准备回退状态。
 
 **T-027实际下达记录（2026-10-06）**：消息01a10fe3-5d3f-7703-879c-4fc7b04f9546进入指定新开发会话，执行轮01a10fe3-6f3b-7551-b870-3076e231f0a7。开发明确确认实际WinRT编解码/生命周期/App退出范围，已全文读取工单/正式规范/CCR并核对基线。当前已启动、未交付/未验收；send超时没有取消，不重发。正式规范覆盖旧候选未定项，用户无需传话。

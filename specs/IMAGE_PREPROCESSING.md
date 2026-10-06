@@ -2,6 +2,8 @@
 
 2026-10-06 · T-027 · ARCH v1.42 · CCR-026。实现既有 `IImagePreprocessor`，接口/record/枚举签名不变。本规范补齐尚未实现的预处理原型行为；不修改已验收的截图、剪贴板或 OCR Provider 范围。
 
+T-027已验收。2026-10-06的T-028A/CCR-027新增可选MaxFormUrlEncodedBytes，精确扩展规则见OCR_FORM_IMAGE_BUDGET.md；默认null保留本规范全部原行为。下文“签名不变”为T-027原范围，后续唯一批准增量以该CCR为准。
+
 ## 1. 端口、准入与输入
 
 Platform.Windows 实现 `WinRtImagePreprocessor`，App 组合根将具体实例和 `IImagePreprocessor` 绑定为同一单实例；构造不启动线程/WinRT操作、不读配置或桌面。实际转换在后台执行，不能在调用方UI线程同步解码、像素循环或编码。没有 OCR 调用入口时也应交付可用端口和退出接线，不创建占位 Provider/Handler。

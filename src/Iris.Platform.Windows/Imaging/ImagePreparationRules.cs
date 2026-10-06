@@ -27,7 +27,7 @@ internal static class ImagePreparationRules
     }
     internal static ImageConstraints Snapshot(ImageConstraints c)
     {
-        if (c == null || c.MaxEncodedBytes <= 0 || c.MaxLongSide < 1 || c.MinShortSide < 0 ||
+        if (c == null || c.MaxEncodedBytes <= 0 || c.MaxFormUrlEncodedBytes is <= 0 || c.MaxLongSide < 1 || c.MinShortSide < 0 ||
             c.MinShortSide > c.MaxLongSide || c.AcceptedFormats == null)
             throw Fail("CONSTRAINTS", ErrorCode.InvalidArgument);
         var formats = c.AcceptedFormats.ToArray();

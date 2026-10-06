@@ -319,19 +319,22 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 | T-026 | ☑ | 截图交互总单：A窗口/输入准备，B覆盖层与完整ScreenshotService | T-025 | 2.5d |
 | T-026A | ☑ | 临时隐藏/新意图/可靠恢复、录入收尾与鼠标暂停；含C25-1测试维护 | T-025, T-024, T-020B | 1d |
 | T-026B | ☑ | 每屏覆盖层、物理框选/放大镜、确认/取消、可选复制与完整截图服务 | T-026A, T-025 | 1.5d |
-| T-027 | ▶ | WinRtImagePreprocessor、精确图像约束/格式预算及完整退出 | T-025 | 1d |
-| T-028 | ☐ | 百度 OCR Provider（Token 缓存、四种模式、错误映射） | T-008, T-004 | 1.5d |
+| T-027 | ☑ | WinRtImagePreprocessor、精确图像约束/格式预算及完整退出 | T-025 | 1d |
+| T-028 | ▶ | 百度 OCR 总单：A表单图像预算，B完整Provider/Token/四模式/错误映射 | T-027, T-008, T-004 | 2d |
+| T-028A | ▶ | 可选精确表单图像预算与预处理扩展，保留原Base64约束 | T-027 | 0.5d |
+| T-028B | ☐ | 百度OCR Provider与Factory、Token共享刷新、四模式及完整请求生命周期 | T-028A, T-008, T-004 | 1.5d |
 | T-029 | ☐ | Windows 本地 OCR Provider | T-027 | 1d |
 | T-030 | ☐ | OcrProviderRegistry + OcrService + OcrTextNormalizer | T-028, T-029 | 1d |
 | T-031 | ☐ | 截图翻译 / 截图 OCR / 静默 OCR Handler + OcrResultWindow | T-026, T-030, T-015 | 2d |
 | T-032 | ☐ | OCR 设置页 + 截图设置页 | T-031, T-018 | 1d |
 
-> T-027/T-028 可以与 T-026 并行。
+> 依赖允许部分并行；实际按已签工单一次一单。T-028拆A/B，完整Provider范围保留。
 
 **T-025** 按 SCREEN_CAPTURE.md / ARCH v1.39 / CCR-023 签发：同线程 GDI 资源、物理快照/预算、CropAsync PNG/JPEG/BMP、取消/清理重试与 App 完整退出；先以 actual service + fake OS 和真实内存编码自动验证。真实多屏/混合 DPI 画面对齐和单张4K抓取≤60ms仍为后续实机验收，不能用合成测试宣称完成；不提前做T-026覆盖层。
 **T-026** 交付ARCH §6.6，完整范围保留：每屏冻结覆盖层、单屏物理框选/8×放大镜、确认/清除/取消、隐藏恢复与可选复制。先按SCREENSHOT_PREPARATION.md签发A，B随后完成UI/服务，A不得用占位服务替代B。热键到覆盖层≤150ms、真实混合DPI对齐与焦点仍须后续实机/NFR验收，不能由A的窗口状态或合成图像冒称通过。
 **T-027** 按 IMAGE_PREPROCESSING.md / ARCH v1.42 / CCR-026交付IImagePreprocessor全部规则：实际图像有效性、等比缩放/居中白边、允许格式内JPEG质量降级、精确Base64预算、同实例快路径与完整取消/退出。无法满足约束抛ImageTooLarge；合成真实WinRT验证，不提前实现OCR Provider/入口或宣称实机NFR。
 **T-028** 交付 ARCH §9.3。验收（MockHttp）：token 缓存与过期；并发获取 token 时只发出一次请求；110/111 刷新后只重试一次；错误码映射表每一行；language_type 映射；含位置版本的 Bounds 解析；段落合并；TestAsync 只请求 token。
+**T-028A** 按OCR_FORM_IMAGE_BUDGET.md / CCR-027补充可选MaxFormUrlEncodedBytes，精确按实际编码字节计数，默认null保留T-027。真实白BMP说明旧Base64预算不能独自保证URL编码上传上限；不以统一降旧预算替代精确判断。B在A验收后定稿完整请求预算/HTTP与业务重试组合，原四模式/Token/解析范围不减少。
 **T-029** 交付 ARCH §9.4。验收：CJK 字符之间多余空格被删除（单元测试）；缺少语言包时返回 OcrLanguageUnsupported；并发调用被串行化。
 **T-030** 交付 ARCH §8。验收：回退触发条件的每个分支；UsedFallback 标记；MergeParagraphs 在有 / 无 Bounds 两种情况下的规则；无文字时抛 OcrNoTextFound。
 T-030 签发前须按 PROVIDER_REGISTRY.md 将 OCR 注册表原型同步为租约/发布屏障模式，支持同一凭据集格式，并接入 T-019 配置协调器；不能直接实现旧裸实例原型。

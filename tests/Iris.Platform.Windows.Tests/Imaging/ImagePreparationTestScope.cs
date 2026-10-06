@@ -17,6 +17,9 @@ internal sealed class ImagePreparationTestScope : IImagePreparationFactory
     internal readonly Dictionary<string, Exception> Failures = [];
     internal Func<string, Task>? Before;
     internal Func<int, ulong>? EncodedSize { get; set; }
+    internal Func<int, byte[]>? EncodedBytes { get; set; }
+    internal Action? FormBudgetBatch { get; set; }
+    public void CheckFormBudgetBatch() => FormBudgetBatch?.Invoke();
     internal ImageDecoderHeader? Header { get; set; }
     internal uint? ReadLength { get; set; }
     internal int InFlight;
@@ -118,7 +121,7 @@ internal sealed class ImagePreparationTestScope : IImagePreparationFactory
         {
             uint read = 0; await owner.Call("E.Read", async () => read = owner.EncodedSize != null ? count : await _inner.ReadAsync(count)); return owner.ReadLength ?? read;
         }
-        public void CopyBytes(byte[] target) { if (owner.EncodedSize != null) target.AsSpan().Fill(47); else _inner.CopyBytes(target); }
+        public void CopyBytes(byte[] target) { if (owner.EncodedBytes != null) owner.EncodedBytes(number).CopyTo(target, 0); else if (owner.EncodedSize != null) target.AsSpan().Fill(47); else _inner.CopyBytes(target); }
         public async ValueTask DisposeReaderAsync() { await owner.Call("E.Reader", async () => await _inner.DisposeReaderAsync()); ReaderDisposed = true; }
         public async ValueTask DisposeStreamAsync() { await owner.Call("E.Stream", async () => await _inner.DisposeStreamAsync()); StreamDisposed = true; }
     }

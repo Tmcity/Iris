@@ -270,7 +270,12 @@ namespace Iris.Core.Imaging
         bool MaxBytesAppliesToBase64,
         int MaxLongSide,
         int MinShortSide,
-        IReadOnlyList<ImageFormat> AcceptedFormats);
+        IReadOnlyList<ImageFormat> AcceptedFormats)
+    {
+        /// <summary>null = 不施加额外预算；正数限制 Bytes 经 Base64 和 application/x-www-form-urlencoded 值编码后的 ASCII 字节数。
+        /// 仅图像值，不含 image= 或其它字段；调用方须另行扣除表单开销。与原字节/Base64预算同时满足，精确规则见 OCR_FORM_IMAGE_BUDGET.md。</summary>
+        public long? MaxFormUrlEncodedBytes { get; init; }
+    }
 
     /// <summary>
     /// OCR 前的图像预处理。规则：
@@ -278,6 +283,7 @@ namespace Iris.Core.Imaging
     /// 最长边 &gt; MaxLongSide → 等比缩小；格式不被接受 → 转为 AcceptedFormats[0]；
     /// 超过字节上限且接受 JPEG → 按 90/80/70/60/50 降低质量；不接受 JPEG 或仍超限抛 IrisException(ImageTooLarge)。
     /// Base64 预算按 4*ceil(n/3) 精确比较；MinShortSide=0 表示无最低尺寸，冲突长宽比以居中白边补齐。
+    /// MaxFormUrlEncodedBytes 非 null 时还需满足精确表单图像值预算，不分配编码字符串作计数；默认 null 保持既有行为。
     /// 实际解码校验有效且满足全部约束时返回同一实例，不修改输入字节；调用方在任务结束前将 Bytes 视为只读。
     /// 单图内部预算与生命周期、透明白底、整数缩放及错误规则见 IMAGE_PREPROCESSING.md；取消须完整等待自有操作/资源收尾。
     /// </summary>

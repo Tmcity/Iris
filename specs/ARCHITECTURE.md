@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.42 · 2026-10-06 · 状态：**已冻结（首期）**
+> 版本：v1.43 · 2026-10-06 · 状态：**已冻结（首期）**
+> 变更记录：v1.43（T-027通过，签发T-028A）— OCR_FORM_IMAGE_BUDGET.md / CCR-027为ImageConstraints增加默认null的表单图像值预算，保留5参数构造/Deconstruct及原行为。T-028拆A精确上传预算、B完整百度Provider，总范围保留，配置/schema/包不变。
 > 变更记录：v1.42（T-026B/R2通过，签发T-027）— IMAGE_PREPROCESSING.md / CCR-026定稿图像有效性、整数缩放/白边、允许格式内JPEG降质、精确Base64预算及异步完整收尾。仅预处理原型行为注释澄清，签名/default/schema/包不变；OCR Provider/入口仍后续实施。
 > 变更记录：v1.41（T-026A/R3通过，签发T-026B）— SCREENSHOT_INTERACTION.md / CCR-025定稿每屏冻结覆盖层、物理选区/移动/8倍放大镜、确认/取消、可选复制失败仅警告、条件焦点恢复和完整退出。仅两处行为注释澄清，签名/default/schema/包不变；真实桌面与NFR后续验收。
 > 变更记录：v1.40（用户恢复推进，签发T-026A）— SCREENSHOT_PREPARATION.md / CCR-024冻结截图前的窗口临时隐藏/意图代次/恢复、旧录入清理、鼠标暂停与完整退出。T-026拆A准备和B覆盖层/完整服务，总范围不减；仅澄清HideIrisWindows注释，默认配置/包不变。

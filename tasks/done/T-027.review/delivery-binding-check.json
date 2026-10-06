@@ -1,0 +1,18 @@
+{
+  "source": {
+    "count": 11,
+    "mismatches": []
+  },
+  "evidence": {
+    "count": 11,
+    "mismatches": []
+  },
+  "src/Iris.Core/Imaging/ImageData.cs": {
+    "nonCommentTextUnchanged": true
+  },
+  "specs/CONTRACTS.cs": {
+    "nonCommentTextUnchanged": true
+  },
+  "protectedDiff": "",
+  "commit": "b3f1f1b67eafc20bab12290dba40051b4cc0ab51"
+}

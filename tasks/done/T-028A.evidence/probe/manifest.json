@@ -1,0 +1,62 @@
+{
+  "commit": "b3f1f1b67eafc20bab12290dba40051b4cc0ab51",
+  "trackedWorktreeDiff": [
+    "specs/ARCHITECTURE.md",
+    "specs/CONTRACTS.cs",
+    "specs/DEVELOPER_HANDOFF.md",
+    "specs/IMAGE_PREPROCESSING.md",
+    "specs/PROJECT_HANDOFF.md",
+    "src/Iris.Core/Imaging/ImageData.cs",
+    "src/Iris.Platform.Windows/Imaging/ImagePreparationRules.cs",
+    "src/Iris.Platform.Windows/Imaging/WinRtImageDecoderIo.cs",
+    "src/Iris.Platform.Windows/Imaging/WinRtImagePreprocessor.cs",
+    "tasks/BACKLOG.md",
+    "tasks/CONTRACT_CHANGE_REQUESTS.md",
+    "tasks/done/T-027.md",
+    "tests/Iris.Platform.Windows.Tests/Imaging/ImagePreparationTestScope.cs"
+  ],
+  "sources": {
+    "src/Iris.Platform.Windows/Imaging/FormUrlEncodedImageLength.cs": "58f0a06f4dca3f092db491f5e5e8c1631f040591f19512e1e74b0b659cc7bc34",
+    "src/Iris.Platform.Windows/Imaging/ImagePreparationRules.cs": "65eb19f087a4565c696a214a95e0b816c2648ec30c71d032d99fe0d1f06cffca",
+    "src/Iris.Platform.Windows/Imaging/WinRtImageDecoderIo.cs": "6dac9f12aaaa5864696d824ceccd56fdf7cf10f87d33f395327193a209f33e15",
+    "src/Iris.Platform.Windows/Imaging/WinRtImagePreprocessor.cs": "cb1c2580aa31f21e5fd6f1fb24735b9fd486e047fdc99f736b084dfe58b70657",
+    "src/Iris.App/Hosting/AppBootstrapper.cs": "9d3315fcaa0257d924f2b5044fcd57717bb998f2511a26ae1c710901e675c2d0",
+    "src/Iris.Platform.Windows/DependencyInjection/PlatformWindowsServiceCollectionExtensions.cs": "6aaacf28f19f4f17e9567bec17c7eeaf107e4688aa7e08d5e98c44b8b3dd927d",
+    "src/Iris.Core/Imaging/ImageData.cs": "0228e6d9dd9c429dcf6874eb0848283300c257e41a1f8797cdfe72d2f5ba32f4",
+    "specs/CONTRACTS.cs": "ccbea6e6d337ea0b07adcef67e28a83c9f23047bad6231b7ce820a9442c45384"
+  },
+  "productDlls": {
+    "Iris.App.dll": "ec457eb9523652d096c2db0caf9939881049a9530bc9cf114e4f2a706665f50a",
+    "Iris.Core.dll": "aea033b19928e9e032a1dce87595f658d901f4c18fe7a04e9564eb141f6d0f45",
+    "Iris.Infrastructure.dll": "9f30c00d2dca1054ebcbbdf6bcc8211118ff220678d59c801f40befdce0db5c5",
+    "Iris.Platform.Windows.dll": "0369df63b0ea7c05d72f930d841284b1ee943c38ea863563fdaef01577eae3bb",
+    "Iris.Providers.dll": "6e24dcb301ceebd59390a666c2352a4b3b715803444c3294bcacef45853d966c"
+  },
+  "probeSources": {
+    "ContractChecks.cs": "48911913935f837daf8d2917773273e3c48468eb787dce1b93503c03cdaf8dec",
+    "GeometryChecks.cs": "8f2ba2f5742374567a106db196a1a09d0a9e75e1d24b684ac3c487d4556a1455",
+    "GlobalUsings.cs": "9eb56b713f4bd450c169f140e74ff7b6d5e456f3742a30188b947223d01628e4",
+    "LifecycleChecks.cs": "81b6db96811cd815e9e22da40086da4412237c8894181f753bca8143ab3589cc",
+    "OwnershipChecks.cs": "b6045076b597c9eb68201edf8cdc8824dc140a37f4af125b7779e96a4889c10e",
+    "PreparationBoundary.cs": "e5fc08a3bdcc73a827528f334a080cad9600389291915bec1bd2626d5aac8145",
+    "Program.cs": "348976ab83cf25976c1b5e314f9a6f0a732abd13c17311225749894ded6ba935"
+  },
+  "fixtures": {
+    "alpha.png": "2ddaf9af574912432011902e65a04d0ebe87786f6c58ed3257652082d2a5d977",
+    "budget-mod0.png": "bccceb3a291824ab2620351dd74e2afbc63571c38f369664192dd9f38766ab39",
+    "budget-mod1.png": "b416a136369053aef0b890d71a7d43c494893c80cac5aa49042a31272eb7920a",
+    "budget-mod2.png": "72a8b5f1b912e28e94f517347adeb9281dd36c007deb515d16696482b8147c1e",
+    "down.png": "76b40108ba06bcf22d83c5a2408eb9ef78d95c99e7dd3af5fb9308c24ac4f300",
+    "down_odd.png": "f784db92c20bff630e5fba4e84179791e25f50098c9c1718c4fd5808d9528b32",
+    "extreme.png": "741be2f87ba258ff3b25117a91ce7ad1957072b11518c6fdd3ee63f0562b6732",
+    "format.bmp": "4caf62e35c9c2204d74d0fd89f09ea4c9b8f527680c9f138c30aef8a4677398b",
+    "format.jpeg": "c8158f372a23a0e62945f683be2f87849032c61bc2266612ff77311cc37dd84d",
+    "format.png": "1274723eb5baa00e8524f69411c4e2fce7591fbb4f044c1e14d849a692d28636",
+    "no_min.png": "62a2116b4d838a0d69afc13cd4f80c661fafe786398bd601f52481cae1643cf7",
+    "round_pad.png": "e0555e307f5242a49321e61742df4e9d20253faa0b4e3d2a5a860787677a09f1",
+    "tall_pad.png": "e7bf4fc32896de774d965b1d61011cfa15982e42d08c69f4d852010f4c11f67f",
+    "up.png": "21ff96df322d10667a3e1178fcb535c41aa9de75968add9371781c819dcd133c",
+    "wide_pad.png": "21d828741e5d1d6a5104966f0f0189c6cfb97f9a333238855b507b7466b0316c"
+  },
+  "boundaries": "Actual product DLLs; independent public/geometry checks; only external codec failures are replaced. No product state machine copied."
+}
