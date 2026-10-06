@@ -1,0 +1,62 @@
+using System.Windows.Controls;
+using System.Windows.Interop;
+using Iris.Core.Actions;
+using Iris.Core.Errors;
+
+static class CommandChecks
+{
+    static readonly TimeSpan Limit=TimeSpan.FromSeconds(15);
+    internal static async Task RunAsync(ReviewSta sta)
+    {
+        await EditedCommands(sta);await CopyAndClose(sta);await CloseRefusal(sta);await FailedShow(sta);await EditRevokesPendingAutoCopy(sta);
+    }
+    static async Task EditedCommands(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);var op=s.Begin();await s.Show(op,new(){Image=s.Image,Text="old"}).WaitAsync(Limit);op.Dispose();
+        await sta.Run(()=>{((TextBox)s.Presenter.Window!.FindName("Editor")).Text="current edited text";return Task.CompletedTask;});
+        await s.Presenter.CopyAsync();await s.Presenter.WhenIdleAsync().WaitAsync(Limit);
+        WindowScope.Check("MANUAL_COPY_USES_CURRENT_EDITOR_AFTER_CALLER_RELEASE",s.Clipboard.Writes.SequenceEqual(new[]{"current edited text"}));
+        await s.Presenter.TranslateAsync();await s.Presenter.WhenIdleAsync().WaitAsync(Limit);
+        WindowScope.Check("TRANSLATE_DISPATCHES_CURRENT_EDITOR_TEXT",s.Actions.Calls.Count==1 && s.Actions.Calls.Single().Action==IrisAction.TranslateText && s.Actions.Calls.Single().Context.Trigger==ActionTrigger.InApp && s.Actions.Calls.Single().Context.Payload=="current edited text");
+    }
+    static async Task CopyAndClose(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);var entered=new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);var release=new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        s.Releases.Add(()=>release.TrySetResult());CancellationToken captured=default;
+        s.Clipboard.Write=async(text,token)=>{captured=token;entered.TrySetResult();await release.Task;};
+        var op=s.Begin();await s.Show(op,new(){Image=s.Image,Text="owned copy",AutoCopy=true}).WaitAsync(Limit);op.Dispose();await entered.Task.WaitAsync(Limit);
+        WindowScope.Check("CALLER_RELEASE_DOES_NOT_CANCEL_WINDOW_COPY",!captured.IsCancellationRequested && s.Clipboard.Writes.Count==1);
+        var window=s.Presenter.Window!;var close=s.Presenter.CloseAsync();
+        WindowScope.Check("CLOSE_WAITS_UNCOOPERATIVE_CLIPBOARD_TASK",!close.IsCompleted);
+        release.TrySetResult();await close.WaitAsync(Limit);
+        WindowScope.Check("COPY_CLOSE_RELEASES_NATIVE_WINDOW_ONCE",await sta.Run(()=>new WindowInteropHelper(window).Handle==0) && s.Clipboard.Writes.Count==1);
+    }
+    static async Task CloseRefusal(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);var op=s.Begin();await s.Show(op,new(){Image=s.Image,Text="close retry"}).WaitAsync(Limit);op.Dispose();
+        var old=s.Presenter.Window!;s.Windows.RefuseClose=true;Exception? error=null;try{await s.Presenter.CloseAsync().WaitAsync(Limit);}catch(Exception ex){error=ex;}
+        WindowScope.Check("REFUSED_CLOSE_RETAINS_WINDOW_AND_REJECTS_NEW_SESSION",error is IrisException && ReferenceEquals(old,s.Presenter.Window) && s.Presenter.TryBeginOperation()==null && await sta.Run(()=>new WindowInteropHelper(old).Handle!=0));
+        s.Windows.RefuseClose=false;await s.Presenter.CloseAsync().WaitAsync(Limit);
+        var next=s.Begin();await s.Show(next,new(){Image=s.Image,Text="reopened"}).WaitAsync(Limit);
+        WindowScope.Check("SUCCESSFUL_CLOSE_REOPENS_WITH_NEW_WINDOW",!ReferenceEquals(old,s.Presenter.Window) && s.Windows.Created.Count==2 && await sta.Run(()=>new WindowInteropHelper(old).Handle==0));
+    }
+    static async Task FailedShow(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);s.Windows.FailAfterShow=true;s.Windows.RefuseClose=true;var op=s.Begin();Exception? error=null;
+        try{await s.Show(op,new(){Image=s.Image,IsLoading=true}).WaitAsync(Limit);}catch(Exception ex){error=ex;}
+        op.Dispose();var close=s.Presenter.ClosingTask;
+        if(close!=null)try{await close.WaitAsync(Limit);}catch(IrisException){}
+        WindowScope.Check("PARTIAL_SHOW_FAILURE_KEEPS_ORIGINAL_CLEANUP_OWNER",error is IrisException && !error.ToString().Contains("FAKE_PRIVATE",StringComparison.Ordinal) && s.Windows.Created.Count==1 && s.Presenter.Window!=null && s.Presenter.TryBeginOperation()==null);
+        s.Windows.FailAfterShow=s.Windows.RefuseClose=false;await s.Presenter.CloseAsync().WaitAsync(Limit);
+        WindowScope.Check("PARTIAL_SHOW_RETRY_REMOVES_NATIVE_WINDOW",s.Presenter.Window==null && await sta.Run(()=>s.Windows.Created.All(w=>new WindowInteropHelper(w).Handle==0)));
+    }
+    static async Task EditRevokesPendingAutoCopy(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);var op=s.Begin();await s.Show(op,new(){Image=s.Image,IsLoading=true}).WaitAsync(Limit);await s.Presenter.WhenIdleAsync().WaitAsync(Limit);
+        var blocked=s.Ui.Pause(allow:1);
+        await s.Show(op,new(){Image=s.Image,Text="recognized text",AutoCopy=true}).WaitAsync(Limit);await blocked.WaitAsync(Limit);
+        await sta.Run(()=>{((TextBox)s.Presenter.Window!.FindName("Editor")).Text="user changed text";return Task.CompletedTask;});
+        s.Ui.Release();await s.Presenter.WhenIdleAsync().WaitAsync(Limit);
+        WindowScope.Check("EDIT_REVOKES_AUTO_COPY_BEFORE_UI_ACCEPTANCE",s.Clipboard.Writes.IsEmpty && await s.Text()=="user changed text");
+    }
+}

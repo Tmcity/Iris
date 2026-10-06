@@ -1,0 +1,64 @@
+using Iris.Core.Common;
+using Iris.Core.Ocr;
+using Iris.Core.Settings;
+
+static class IntegrationChecks
+{
+    static readonly TimeSpan Limit=TimeSpan.FromSeconds(15);
+    internal static async Task RunAsync(ReviewSta sta)
+    {
+        await RecognitionLatest(sta);await ListReleaseRetry(sta);
+    }
+    static async Task RecognitionLatest(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);
+        s.Registry.Factory=()=>new PipelineSnapshot
+        {
+            Captured=new(){Ocr=new(){ActiveProviderId="first"}},
+            Entries=new[]{"first","middle","latest"}.Select(id=>new OcrProviderRegistration(new(){Id=id,Kind=OcrProviderKind.WindowsLocal,DisplayName=id},new PipelineProvider(id),Guid.NewGuid())).ToArray()
+        };
+        var initial=s.Begin();await s.Show(initial,new(){Image=s.Image,Text="seed"}).WaitAsync(Limit);initial.Dispose();await s.Presenter.WhenIdleAsync().WaitAsync(Limit);
+        var entered=new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);var release=new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);s.Releases.Add(()=>release.TrySetResult());
+        s.Ocr.Body=async(image,id,token)=>{if(id=="first"){entered.TrySetResult();await release.Task;}return new OcrOutcome(new(id!,new[]{new OcrLine(id!)},null,TimeSpan.Zero),id!,false);};
+        await sta.Run(()=>{s.Presenter.ViewModel!.Zoom=1.25;return Task.CompletedTask;});
+        await s.Presenter.RecognizeAsync();await entered.Task.WaitAsync(Limit);
+        foreach(var id in new[]{"middle","latest"})
+        {
+            await sta.Run(()=>{var vm=s.Presenter.ViewModel!;vm.SelectedProvider=vm.Providers.Single(p=>p.Id==id);return Task.CompletedTask;});await s.Presenter.RecognizeAsync();
+        }
+        release.TrySetResult();await s.Presenter.WhenIdleAsync().WaitAsync(Limit);
+        WindowScope.Check("RERECOGNITION_HAS_ONE_LATEST_PENDING_INTENT",s.Ocr.Calls.Select(x=>x.Id).SequenceEqual(new[]{"first","latest"}) && await s.Text()=="latest");
+        WindowScope.Check("RERECOGNITION_REUSES_ORIGINAL_IMAGE_AND_ZOOM",s.Ocr.Calls.All(x=>ReferenceEquals(x.Image,s.Image)) && await sta.Run(()=>s.Presenter.ViewModel!.Zoom)==1.25);
+    }
+    static async Task ListReleaseRetry(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);bool fail=true;var factory=s.Registry.Factory;
+        s.Registry.Factory=()=>{var snapshot=factory();snapshot.FailRelease=fail;return snapshot;};
+        var op=s.Begin();await s.Show(op,new(){Image=s.Image,Text="kept text"}).WaitAsync(Limit);await s.Presenter.WhenIdleAsync().WaitAsync(Limit);
+        var old=s.Registry.Issued.Single();
+        WindowScope.Check("LIST_RELEASE_FAILURE_VISIBLE_WITH_TEXT_PRESERVED",old.Releases>=1 && await sta.Run(()=>s.Presenter.ViewModel!.ListError.Length>0) && await s.Text()=="kept text");
+        fail=false;old.FailRelease=false;await s.Presenter.RefreshAsync().WaitAsync(Limit);await s.Presenter.WhenIdleAsync().WaitAsync(Limit);
+        WindowScope.Check("LIST_REFRESH_RETRIES_ORIGINAL_SNAPSHOT",old.Releases>=2 && s.Registry.Issued.Count==2 && await sta.Run(()=>s.Presenter.ViewModel!.ListError.Length==0 && s.Presenter.ViewModel.Providers.Count==1));
+    }
+    internal static async Task HiddenCompletion(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);var op=s.Begin();await s.Show(op,new(){Image=s.Image,IsLoading=true}).WaitAsync(Limit);
+        int invalidated=0;using var receipt=s.Presenter.ObservePreparation(()=>Interlocked.Increment(ref invalidated));
+        await receipt.HideAsync();bool hidden=await sta.Run(()=>!s.Presenter.Window!.IsVisible);
+        await s.Show(op,new(){Image=s.Image,Text="finished while hidden"}).WaitAsync(Limit);
+        WindowScope.Check("SAME_OPERATION_COMPLETION_DOES_NOT_REVOKE_SCREENSHOT_PREPARATION",hidden && invalidated==0 && await sta.Run(()=>!s.Presenter.Window!.IsVisible));
+        await receipt.RestoreAsync(()=>false);
+        bool visible=await sta.Run(()=>s.Presenter.Window!.IsVisible);
+        Console.WriteLine($"HIDDEN_COMPLETION invalidations={invalidated} visibleAfterRestore={visible}");
+        WindowScope.Check("TEMPORARILY_HIDDEN_RESULT_RESTORES_AFTER_COMPLETION",visible && await s.Text()=="finished while hidden");
+    }
+    internal static async Task NewShowWhileHidden(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);var first=s.Begin();await s.Show(first,new(){Image=s.Image,Text="old"}).WaitAsync(Limit);
+        int invalidated=0;using var receipt=s.Presenter.ObservePreparation(()=>Interlocked.Increment(ref invalidated));await receipt.HideAsync();
+        var next=s.Begin();bool accepted=await s.Show(next,new(){Image=s.Image,Text="new show"}).WaitAsync(Limit);
+        await receipt.RestoreAsync(()=>false);bool visible=await sta.Run(()=>s.Presenter.Window!.IsVisible);
+        Console.WriteLine($"EXPLICIT_SHOW accepted={accepted} invalidations={invalidated} visible={visible}");
+        WindowScope.Check("EXPLICIT_NEW_SHOW_REVEALS_EXISTING_HIDDEN_WINDOW",accepted && invalidated>0 && visible && await s.Text()=="new show");
+    }
+}

@@ -1020,8 +1020,20 @@ CCR-024结案补充：c7282698最终独立构建/定向/全量通过，生产同
 |---|---|
 | 日期 / 批准 | 2026-10-06，Codex架构师 |
 | 关联 | T-030B；OCR_PIPELINE.md；ARCH v1.47 |
-| 状态 | **已落地，待T-030B独立复审** |
+| 状态 | **已落地，复审通过并结案（T-030B，0f7dd54c）** |
 
 在未实现的IOcrService保留RecognizeAsync原签名，继承IAsyncDisposable，增加StopAccepting、StopAsync和RetryCleanupAsync，精确声明已预置CONTRACTS.cs；补Service/Normalizer行为注释。用于保证已接纳的预处理/识别/租约先于Platform和Host退出，失败保有原快照，重试不再识别。无需公开内部实现或扩展Core友元。
 
 一次快照、原图按每个Provider约束独立处理、原精确回退错误集合、UsedFallback与无文字规则保持原目标。文本整理复用既有SoftLineBreakMerger，不修改helper。Provider/Registry/图像端口与Ocr模型字段/枚举、默认设置/JSON/schema/包不变；App只做必要退出顺序，不提前T-031/032 UI入口。
+
+## CCR-032：OCR结果窗口的操作身份与条件发布
+
+| 字段 | 内容 |
+|---|---|
+| 日期 / 批准 | 2026-10-06，Codex架构师 |
+| 关联 | T-031A；OCR_RESULT_WINDOW.md；ARCH v1.48 |
+| 状态 | **已撤回原独立窗口方案（2026-10-07 用户要求复用翻译窗口）；声明暂保留，后续B统一收敛** |
+
+将未实现IOcrResultPresenter.ShowAsync替换为TryBeginOperation和TryShowAsync，新增IOcrResultOperation（Id/Token/IDisposable调用方租约）。OcrResultViewRequest保留全部已有字段，兼容新增Anchor、ProviderId、UsedFallback、AutoCopy。精确声明已预置CONTRACTS.cs，由开发同步Core。
+
+身份、至多一次终态、自动复制接受点和完整窗口收尾解决迟到识别/关闭竞争。App内部生命周期/截图参与者无需新增Core端口。OcrOutcome/IOcrService/Registry/Provider/图像/剪贴板/翻译端口、默认设置/schema/包保持；三个截图Handler和入口在B，A不提前注册。ProviderName是显示标签，未提供时使用已有列表映射或逻辑ID，不为名称修改后端结果。

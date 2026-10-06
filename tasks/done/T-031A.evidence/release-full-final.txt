@@ -1,0 +1,43 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotIsolatedTests.SnapshotHelper_UsesExclusiveNonInteractiveStation_AndJoinsOwnedProcess
+  [ENVIRONMENT LIMITATION] Snapshot isolated helper skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.Win32ClipboardIsolatedIntegrationTests.IsolatedWindowStation_NativeClipboardIntegration_ExecutesInDedicatedProcess
+  [ENVIRONMENT LIMITATION] Native isolated window station test skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 793ms)
+F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (5s 550ms)
+F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (6s 856ms)
+失败 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.ReadAsync_And_StopAsync_WhenStderrDrainPending_DoNotClaimCompletionUntilDrainObserved(stop: False) (10s 067ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.TimeoutException : The operation has timed out.
+    在 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.<>c__DisplayClass5_0.<<DrainScenarioAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:80
+    --- End of stack trace from previous location ---
+    在 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.TestScope.RunAsync(Func`1 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:469
+    在 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.TestScope.RunAsync(Func`1 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:497
+    --- End of stack trace from previous location ---
+F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (12s 911ms)
+F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (13s 034ms)
+退出代码: 2
+  错误输出: Unsupported marker type 0x46
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (1m 40s 586ms)
+
+测试运行摘要: 失败!
+  F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (13s 034ms)
+  F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (1m 40s 586ms)
+  F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (12s 911ms)
+  F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (6s 856ms)
+  F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 793ms)
+  F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (5s 550ms)
+
+  总计: 3185
+  失败: 1
+  成功: 3182
+  已跳过: 2
+  持续时间: 1m 41s 151ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

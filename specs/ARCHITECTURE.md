@@ -1,6 +1,11 @@
 # Iris 架构设计说明书
 
-> 版本：v1.47 · 2026-10-06 · 状态：**已冻结（首期）**
+> **当前范围修订（2026-10-07，用户决定，覆盖旧独立OCR窗口设计）**：截图OCR直接复用翻译窗口，将结果写入原文框（Origin=Screenshot、AutoTranslate=false），不显示OCR截图，不新增结果窗口；截图翻译和静默OCR的动作语义保持。旧OcrResultWindow设计仅作历史记录，当前单按新范围移除专有UI与接线，B完成实际Handler入口。
+
+> 本轮范围调整（2026-10-06，用户决定）：M6 悬浮球 / T-033 延迟实现，不纳入本轮开发与发布验收；相关设计保留为后续需求，现有契约与默认配置保持。当前 T-031A 继续，M5 完成后跳过 T-033，按依赖推进 M7 未完成任务。
+
+> 版本：v1.48 · 2026-10-06 · 状态：**已冻结（首期）**
+> 变更记录：v1.48（T-030B通过，签发T-031A）— OCR_RESULT_WINDOW.md / CCR-032将OCR结果展示原型改为有身份的操作租约与条件发布，定稿完整结果窗口、编辑/复制/转翻译/重识别、截图准备参与和关闭收尾；B保留三个截图Handler及实际入口。后端OCR/默认配置/包保持。
 > 变更记录：v1.47（T-030A通过，签发T-030B）— OCR_PIPELINE.md / CCR-031定稿同一快照内的原图独立预处理/有限回退、文本规范化及Service完整取消/停止/失败清理；App排空OCR后才停预处理，Registry/Provider已验收行为保持。B保留父单全部编排范围，不提前入口/设置页。
 > 变更记录：v1.46（T-029通过，签发T-030A）— OCR_PROVIDER_REGISTRY.md / CCR-030将未实现OCR裸实例原型替换为异步快照租约、发布屏障、退休失败保有/重试及两阶段退出。A接配置观察者/App生命周期，B保留编排/回退/文本规范化全部范围；默认配置/schema/包与已验收Provider行为保持。
 > 变更记录：v1.45（T-028B通过，签发T-029）— WINDOWS_OCR.md / CCR-029定稿本地WinRT OCR能力/语言选择、Unicode单空格、位置映射和完整位图生命周期；允许只读能力查询及明确的真实SDK合成图片smoke。Core仅注释与Platform友元，配置/包/既有生产保持，注册表/编排/入口后续实施。
@@ -77,7 +82,7 @@ Iris 是一个 Windows 桌面翻译工具（对标 TTime / Pot），常驻系统
 | 输入翻译 | 热键 / 托盘 / 悬浮球 | 打开翻译窗口 → 用户输入 → Enter 翻译 |
 | 划词翻译 | 热键；可选“划选后显示图标 / 直接翻译” | 读取前台应用选中文本 → 翻译窗口 |
 | 截图翻译 | 热键 / 托盘 / 悬浮球 | 冻结屏幕 → 框选 → OCR → 翻译窗口 |
-| 截图 OCR | 热键 / 托盘 | 冻结屏幕 → 框选 → OCR → OCR 结果窗口（可编辑、复制、转翻译） |
+| 截图 OCR | 热键 / 托盘 | 冻结屏幕 → 框选 → OCR → 写入翻译窗口原文框（可编辑，按需翻译，不显示截图） |
 | 静默 OCR | 热键 | 框选 → OCR → 直接复制到剪贴板 + 通知 |
 | 剪贴板翻译 | 热键 | 读取剪贴板文本 → 翻译窗口 |
 | 悬浮球 | 常驻悬浮窗 | 单击执行配置的动作；右键菜单；拖入文本即翻译 |
@@ -333,7 +338,7 @@ if outcome.UsedFallback → Notify(Info, "已使用备用 OCR", ...)（每次会
 
 ### 6.5 截图 OCR / 静默 OCR
 
-- **截图 OCR**：取消则返回 → `IOcrResultPresenter.ShowAsync({ Image, IsLoading = true })` → 识别 → `ShowAsync({ Image, Text, ProviderName })`；`AutoCopyOnOcr` 时复制文本；失败时 `ShowAsync({ Image, Error })`。
+- **截图 OCR**（2026-10-07 用户变更）：取消则返回 → 识别 → 用现有翻译操作身份条件发布结果至TranslateWindow原文框，Origin=Screenshot、AutoTranslate=false；不显示截图或独立OCR窗口。三个Handler由T-031B接线，自动复制与通知接受点由B统一定稿，后端不变。
 - **静默 OCR**：识别 → `IClipboardService.SetTextAsync` → `SilentOcrShowNotification` 时通知“已复制 N 个字符”；失败 → 通知错误。
 
 ### 6.6 截图服务（`ScreenshotService`，App）
@@ -1054,7 +1059,7 @@ CLIPBOARD_SNAPSHOTS.md 为正式规范。内部 ClipboardSnapshotService 在单�
 ## 13. 依赖注入约定
 
 - 每层暴露一个扩展方法：`AddIrisCore()`、`AddIrisProviders()`、`AddIrisInfrastructure()`、`AddIrisPlatformWindows()`、`AddIrisApp()`，由 `AppHostBuilder` 按此顺序调用。
-- 生命周期：服务、Registry、Presenter、Controller 均为 **Singleton**；`IActionHandler` 为 Singleton，通过 `IEnumerable<IActionHandler>` 注入 Dispatcher；Provider 实例由 Registry 管理（不注册到容器）；`TranslateWindow` 由单例 Presenter 按需持有一个实例（普通关闭 = 隐藏，应用退出等待工作后释放；不得启动时创建）；`SettingsWindow`、`HistoryWindow`、`OcrResultWindow` 同一时间只有一个实例（由 Presenter 管理，关闭即释放）。
+- 生命周期：服务、Registry、Presenter、Controller 均为 **Singleton**；`IActionHandler` 为 Singleton，通过 `IEnumerable<IActionHandler>` 注入 Dispatcher；Provider 实例由 Registry 管理（不注册到容器）；`TranslateWindow` 由单例 Presenter 按需持有一个实例（普通关闭 = 隐藏，应用退出等待工作后释放；不得启动时创建，OCR结果复用原文框）；`SettingsWindow`、`HistoryWindow` 同一时间只有一个实例（由 Presenter 管理，关闭即释放）。不创建独立 `OcrResultWindow`。
 - Provider 可以有多代同时存活，退休后由最后一个快照使用者触发清理。IProviderConfigurationObserver 的翻译适配器必须转发到唯一的 ITranslationProviderRegistry，不创建第二份注册表；详细并发/Dispose 约定见 PROVIDER_REGISTRY.md。
 - ViewModel 通过构造函数注入，View 在构造函数中接收 ViewModel 并设为 `DataContext`。
 
@@ -1066,7 +1071,7 @@ CLIPBOARD_SNAPSHOTS.md 为正式规范。内部 ClipboardSnapshotService 在单�
 |---|---|
 | `TranslateWindow` | 无边框 Fluent 窗口，可拖动。顶部栏：钉住 / 设置 / 关闭。原文输入框（多行，最大高度 200 DIP 后滚动；EnterToTranslate=true 时 Enter 翻译、Shift+Enter 换行，false 时 Ctrl+Enter 翻译、Enter 换行；IME 确认不提交）。语言栏：源语言（含“自动检测”，检测结果以灰字显示）⇄ 目标语言（含“自动”）。翻译/停止按钮、结果卡片列表（服务名 · 模型 · 耗时；可选只读文本；复制 / 重试；错误/截断状态）。Esc 隐藏。完整生命周期与预算见 TRANSLATION_WINDOW.md。 |
 | `ScreenshotOverlayWindow` | 每个显示器一个；冻结背景 + 遮罩 + 选区；尺寸标签；放大镜；Esc / 右键取消。 |
-| `OcrResultWindow` | 左侧图片预览（可缩放），右侧可编辑文本；按钮：复制、翻译（→ TranslateText）、换一个服务重新识别（下拉选择 OCR Provider）。 |
+| OCR结果展示 | 复用 `TranslateWindow` 原文框；不创建 `OcrResultWindow`，不显示截图预览。 |
 | `FloatingBallWindow` | 见 §6.7。 |
 | `SelectionIconWindow` | 24×24 DIP 图标，不激活，自动隐藏。 |
 | `SettingsWindow` | WPF-UI `NavigationView`，页面：常规、翻译服务、OCR、快捷键、划词、截图、悬浮球、网络、历史、关于。 |

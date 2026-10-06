@@ -1,0 +1,10 @@
+[
+  {
+    "path": "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/Iris.App.dll",
+    "sha256": "A04266D1AC229CC82666A5F245E04E14220DD3E053064A81D17C284AA72490E1"
+  },
+  {
+    "path": "tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.App.Tests.dll",
+    "sha256": "BAA2176D86A6E166D12ABC2A330B082EB8493B7B12FD4BBDEE93CDB7CF04C355"
+  }
+]

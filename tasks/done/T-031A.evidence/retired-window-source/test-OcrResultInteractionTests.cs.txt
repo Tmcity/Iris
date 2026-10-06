@@ -1,0 +1,151 @@
+using System.Runtime.CompilerServices;
+using System.Windows.Interop;
+using Iris.App.Capture;
+using Iris.App.Hosting;
+using Iris.App.Ocr;
+using Iris.App.Tests.Capture;
+using Iris.Core.Actions;
+using Iris.Core.Errors;
+using Iris.Core.Imaging;
+using Iris.Core.Ocr;
+using Iris.Core.Presentation;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
+using NSubstitute;
+using Shouldly;
+using static Iris.App.Tests.Ocr.OcrWindowTestScope;
+
+namespace Iris.App.Tests.Ocr;
+
+[Collection("ScreenshotRendering")]
+public sealed class OcrResultInteractionTests
+{
+    [Fact]
+    public Task RegistryChangeBurstIsCoalescedAndCloseAwaitsOriginalSnapshot() => Run(async f =>
+    {
+        var gate = f.Gate(); f.ConfigureSnapshot = s => s.BeforeDispose = gate.Wait;
+        var op = f.Begin(); await f.Show(op, "text"); await gate.Entered.WaitAsync(TimeSpan.FromSeconds(10));
+        for (int i = 0; i < 100; i++) f.Registry.Changed += Raise.Event();
+        f.Snapshots.Count.ShouldBe(1); gate.Open(); await f.Presenter.WhenIdleAsync();
+        f.Snapshots.Count.ShouldBe(2); f.Snapshots.ShouldAllBe(s => s.Disposals == 1);
+        var closingGate = f.Gate(); f.ConfigureSnapshot = s => s.BeforeDispose = closingGate.Wait;
+        var refresh = f.Presenter.RefreshAsync(); await closingGate.Entered.WaitAsync(TimeSpan.FromSeconds(10));
+        op.Dispose(); var close = f.Presenter.CloseAsync(); close.IsCompleted.ShouldBeFalse();
+        closingGate.Open(); await refresh; await close; f.Presenter.Window.ShouldBeNull();
+    });
+    [Fact]
+    public Task ThrowingCancellationCallbackIsAsyncObservedAndCloseCanRetry() => Run(async f =>
+    {
+        var op = f.Begin(); var gate = f.Gate();
+        var registration = op.CancellationToken.Register(() => { gate.Wait().GetAwaiter().GetResult(); throw new IOException("private callback"); });
+        try
+        {
+            var next = f.Begin(); await gate.Entered.WaitAsync(TimeSpan.FromSeconds(10));
+            (await f.Show(next, "new")).ShouldBeTrue(); gate.Open(); await f.Presenter.WhenIdleAsync();
+            op.Dispose(); next.Dispose();
+            var error = await Should.ThrowAsync<IrisException>(() => f.Presenter.CloseAsync()); error.ToString().ShouldNotContain("private");
+            await f.Presenter.CloseAsync();
+        }
+        finally { gate.Open(); await registration.DisposeAsync(); }
+    });
+    [Fact]
+    public Task CopyLatestQueueAndEditedAutoCopyRespectAcceptance() => Run(async f =>
+    {
+        var first = f.Begin(); await f.Show(first, "one"); await f.Presenter.WhenIdleAsync();
+        var gate = f.Gate(); var writes = new List<string>();
+        f.Clipboard.SetTextAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(async c => { writes.Add(c.Arg<string>()); if (writes.Count == 1) await gate.Wait(); });
+        await f.Presenter.CopyAsync(); await gate.Entered.WaitAsync(TimeSpan.FromSeconds(10));
+        f.Presenter.ViewModel!.Text = "two"; await f.Presenter.CopyAsync();
+        f.Presenter.ViewModel.Text = "three"; await f.Presenter.CopyAsync();
+        gate.Open(); await f.Presenter.WhenIdleAsync(); writes.ShouldBe(new[] { "one", "three" });
+        var running = f.Gate(); f.Clipboard.SetTextAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(_ => running.Wait());
+        await f.Presenter.CopyAsync(); await running.Entered.WaitAsync(TimeSpan.FromSeconds(10));
+        var op = f.Begin(); await f.Show(op, "automatic", autoCopy: true); f.Presenter.ViewModel.Text = "user edited";
+        running.Open(); await f.Presenter.WhenIdleAsync();
+        await f.Clipboard.DidNotReceive().SetTextAsync("automatic", Arg.Any<CancellationToken>());
+    });
+    [Fact]
+    public Task ClipboardFailureIsSafeAndNewExplicitCopyCanRetry() => Run(async f =>
+    {
+        await f.Show(f.Begin(), "text"); await f.Presenter.WhenIdleAsync();
+        f.Clipboard.SetTextAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(_ => throw new IrisException(ErrorCode.ClipboardBusy, "private"));
+        await f.Presenter.CopyAsync(); await f.Presenter.WhenIdleAsync();
+        f.Presenter.ViewModel!.Error.ShouldBe(ErrorMessages.GetDefault(ErrorCode.ClipboardBusy)); f.Presenter.ViewModel.Text.ShouldBe("text");
+        f.Clipboard.SetTextAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(Task.CompletedTask);
+        await f.Presenter.CopyAsync(); await f.Presenter.WhenIdleAsync(); await f.Clipboard.Received(2).SetTextAsync("text", Arg.Any<CancellationToken>());
+    });
+    [Fact]
+    public Task VisibleEditorTextFlowsThroughActualDispatcher() => Run(async f =>
+    {
+        var handler = Substitute.For<IActionHandler>(); handler.Action.Returns(IrisAction.TranslateText);
+        var actual = new ActionDispatcher([handler], f.Ui, Substitute.For<INotificationService>(), NullLogger<ActionDispatcher>.Instance);
+        f.Actions.DispatchAsync(Arg.Any<IrisAction>(), Arg.Any<ActionContext>(), Arg.Any<CancellationToken>()).Returns(c => actual.DispatchAsync(c.Arg<IrisAction>(), c.Arg<ActionContext>(), c.Arg<CancellationToken>()));
+        await f.Show(f.Begin(), "initial"); await f.Presenter.WhenIdleAsync();
+        f.Presenter.Window!.Editor.Text = "visible editor text"; f.Presenter.Window.Editor.GetBindingExpression(System.Windows.Controls.TextBox.TextProperty)!.UpdateSource();
+        await f.Presenter.TranslateAsync(); await f.Presenter.WhenIdleAsync();
+        await handler.Received(1).ExecuteAsync(Arg.Is<ActionContext>(c => c.Payload == "visible editor text" && c.Trigger == ActionTrigger.InApp), Arg.Any<CancellationToken>());
+    });
+    [Fact]
+    public Task LatestRecognitionWaitsNonCooperativeOldWorkAndIgnoresOldResult() => Run(async f =>
+    {
+        await f.Show(f.Begin(), "original"); await f.Presenter.WhenIdleAsync(); var gate = f.Gate(); int calls = 0;
+        f.Ocr.RecognizeAsync(Arg.Any<ImageData>(), Arg.Any<string?>(), Arg.Any<CancellationToken>()).Returns(async _ =>
+        { int n = Interlocked.Increment(ref calls); if (n == 1) await gate.Wait(); return new OcrOutcome(new("local", [], null, TimeSpan.Zero), n == 1 ? "stale" : "latest", false); });
+        await f.Presenter.RecognizeAsync(); await gate.Entered.WaitAsync(TimeSpan.FromSeconds(10));
+        await f.Presenter.RecognizeAsync(); await f.Presenter.RecognizeAsync(); calls.ShouldBe(1);
+        gate.Open(); await f.Presenter.WhenIdleAsync(); calls.ShouldBe(2); f.Presenter.ViewModel!.Text.ShouldBe("latest");
+    });
+    [Fact]
+    public Task UnexpectedClosedWaitsOperationThenAllowsFreshSession() => Run(async f =>
+    {
+        var op = f.Begin(); await f.Show(op, "x"); var old = f.Presenter.Window!;
+        // Invoke the real Window.Close while bypassing only the presenter's asynchronous Closing interceptor.
+        var method = typeof(OcrResultPresenter).GetMethod("OnClosing", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!;
+        var handler = (System.ComponentModel.CancelEventHandler)Delegate.CreateDelegate(typeof(System.ComponentModel.CancelEventHandler), f.Presenter, method);
+        old.Closing -= handler; old.Close(); new WindowInteropHelper(old).Handle.ShouldBe(0);
+        f.Presenter.TryBeginOperation().ShouldBeNull(); op.Dispose(); await f.Presenter.CloseAsync();
+        await f.Show(f.Begin(), "fresh"); f.Presenter.Window.ShouldNotBeSameAs(old);
+    });
+    [Fact]
+    public Task ActualPreparationCoordinatorHidesRestoresAndRejectsClosingOwner() => Run(f => PreparationTestScope.Run(async a =>
+    {
+        await f.Show(f.Begin(), "content"); await f.Presenter.WhenIdleAsync();
+        var coordinator = new ScreenshotPreparationCoordinator(a.Mouse.Presenter, a.Settings, a.Recording, a.Mouse.Controller, [f.Presenter]);
+        try
+        {
+            await using (var lease = await coordinator.PrepareAsync(true)) { f.Presenter.Window!.IsVisible.ShouldBeFalse(); }
+            f.Presenter.Window!.IsVisible.ShouldBeTrue();
+            await using (var lease = await coordinator.PrepareAsync(true))
+            {
+                var next = f.Begin(); await f.Show(next, "new");
+                lease.Revoked.IsCancellationRequested.ShouldBeTrue();
+            }
+            // Explicitly presenting an existing hidden window must make the new intent visible.
+            f.Presenter.Window.IsVisible.ShouldBeTrue();
+            foreach (var operation in f.Operations) operation.Dispose();
+            f.Windows.RefuseClose = true;
+            await Should.ThrowAsync<IrisException>(() => f.Presenter.CloseAsync());
+            await Should.ThrowAsync<IrisException>(() => coordinator.PrepareAsync(true));
+            f.Presenter.Window.IsVisible.ShouldBeTrue();
+            f.Windows.RefuseClose = false; await f.Presenter.CloseAsync();
+        }
+        finally { await coordinator.StopAsync(); }
+    }));
+    [Fact]
+    public Task ClosedReferencesAreCollectibleWithPresenterAlive() => Run(async f =>
+    {
+        var refs = await CloseAndForget(f); f.Windows.All.Clear(); f.Images.Inputs.Clear(); f.Operations.Clear(); f.Work.Clear();
+        for (int i = 0; i < 7 && refs.Any(r => r.IsAlive); i++)
+        { await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.ApplicationIdle); GC.Collect(); GC.WaitForPendingFinalizers(); GC.Collect(); }
+        refs.Select((r, i) => (r, i)).Where(p => p.r.IsAlive).Select(p => p.i).ShouldBeEmpty(); new WeakReference(f.Presenter).IsAlive.ShouldBeTrue(); GC.KeepAlive(f.Presenter);
+    });
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static async Task<WeakReference[]> CloseAndForget(OcrWindowTestScope f)
+    {
+        var image = Synthetic(50, 50); var op = f.Begin(); await f.Show(op, "collect", image: image); await f.Presenter.WhenIdleAsync();
+        var refs = new[] { new WeakReference(f.Presenter.Window), new WeakReference(f.Presenter.ViewModel), new WeakReference(f.Presenter.ViewModel!.Preview), new WeakReference(image), new WeakReference(op), new WeakReference(new byte[100]) };
+        op.Dispose(); await f.Presenter.CloseAsync();
+        System.Windows.Application.Current.MainWindow.ShouldNotBeSameAs(refs[0].Target);
+        return refs;
+    }
+}

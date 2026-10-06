@@ -1,5 +1,57 @@
 # Iris 架构师接手记录
 
+**T-031A按用户变更交付待复审（2026-10-07）**：独立OCR窗口/专用测试与DI、准备、退出接线已移除；历史源码txt、失败记录及图像保留，旧方案不算交付。Core未发布展示声明按工单暂留兼容，UIA仅两个测试文件作确定性时序维护，App/后端生产保持。最终revised-scope-build零警告/错误，revised-scope-full为3155/3153成功/0失败/2既有跳过；报告tasks/done/T-031A.md，current_task已全文归档。CCR032撤回状态保持，父/A▶、B☐；OCR写翻译原文框与三个入口由B接线，尚未实现，等待独立复审。
+
+**新范围当前实况（2026-10-07）**：开发已确认用户变更并移除本轮独立OCR窗口、专有测试、DI/准备/退出接线，旧源以txt归档retired-window-source，历史日志/18图保留。src/tests检索无OcrResultWindow/Iris.App.Ocr/IOcrResultShutdownCoordinator；App当前无实质diff，Core仅暂留未发布OCR展示声明。revised-scope-build为Release0警告/错误、10.01s；revised-scope-full为3155/3153成功/0失败/2既有跳过、1m02.703s，进程64056/53712已退出。UIA维护在两个测试文件，实际15项通过，生产保持。尚待正式提交和按新范围独立验收；B将实现OCR写翻译原文框，不能宣称此入口已实现，更不能重跑旧窗口探针作为当前交付要求。
+
+**OCR新范围已排队通知开发**：消息01a1123c-ceee-7b33-a8a1-8d0e9ef43b35发往指定开发会话01a10fa5-77e8-77e1-82d9-1ea1aa587d61，CLI已返回Queued；内容要求重读current_task顶部用户新范围、移除独立窗口方案并复用翻译原文框。未插队、未声称开发已确认，不因等待超时重发。下方旧窗口测试通过仅为历史成果，不再用于旧方案结案。
+
+**最高优先当前范围（2026-10-07，用户决定）**：OCR不使用新窗口，直接把识别文本写入翻译窗口原文框，不显示截图。current_task顶部已覆盖旧T-031A：移除独立OCR窗口/专有UI与DI、准备/退出接线，保留后端和历史证据；B用现有翻译操作条件发布（截图OCR AutoTranslate=false，截图翻译仍true，静默不弹窗）。CCR-032旧方案撤回，不再验收独立窗口或为其追加测试。当前UIA夹具维护保留，待新范围提交复审；M6仍延迟实现。
+
+**UIA首处修正独立5项通过，另处观察竞争待维护**：DrainScenario已改为明确等grace wait进入→SignalExit→保持read未完成→放行stderr→等待stdout释放；原断言/失败收尾保留。临时iris-t031a-uia-fixed-review复制修正测试及原夹具，实际正常/Stop、两类body失败及body+cleanup异常共5项通过、进程正常退出。开发uia-timing-fixed为14/15通过，另处RetryCleanup...反射读_activeCleanupTask尚未赋值导致TargetException；当前工单§4已限定等待真实任务发布后再做原等待者断言，仍仅同文件测试维护。
+
+**T-031A再次全量通过但旧夹具竞争仍待维护**：release-build-final-2为0警告/错误、5.17s；release-full-final-2为3185/3183成功/0失败/2既有跳过、1m37.661s，已核对进程64060/51500退出。Platform测试仍0diff，故此绿结果仅证明本轮时序通过，不能推翻下条受控复现。开发收尾前须按current_task §4处理测试时序，不以反复重跑关闭竞争；OCR产品与视觉已通过，不扩大生产范围。
+
+**旧UIA夹具时序环已受控复现**：临时iris-t031a-uia-timing-review保存实际生产DLL绑定、原测试/夹具副本及reproduce-1.log。仅在ReplyAndExit的EnqueueReply与SignalExit间以OnWaitForExit门闩控制顺序，确认先进入grace Wait再SignalExit，原测试第80行稳定Timeout；原finally完成后异常传播，独立诊断进程已退出。退出0仅指成功复现预期失败，不是通过验收。开发未改动定向15/15通过不能消除此竞争；current_task §4/§5开头已补实证与窄测试维护要求，勿修改UIA生产。
+
+**T-031A最终全量出现旧UIA夹具失败**：release-full-final为3185/3182成功/1失败/2既有跳过，1m41.151s，进程正常结束但整轮失败；App项目通过。UiaStartupCleanupTests第80行等stdout Dispose超时。独立源码审查发现ReplyAndExit的EnqueueReply→SignalExit之间可能被真实Reader消费，进入含stderr drain的WaitForExit，而FakeTimeProvider不推进、测试又等Dispose才开stderr，疑似确定性时序环。current_task §4已追加窄范围授权：受控门闩确认后只维护旧测试/夹具，保留核心断言及完整收尾，不改UIA生产/不加sleep或超时掩盖。开发轮itemCount228已读取失败行，尚待复现/修正；三项OCR修正及18图已通过，不重开其缺陷。
+
+**T-031A修正后第四轮视觉已核对**：render-pass-4保全18张PNG、manifest和fingerprints，逐张查看且所有SHA256匹配。明暗normal/loading/error/close-failure/high-dpi-zoom、400×280正常/列表错误顶部与滚动底部、4K Fit均已查看。小窗顶部不要求同时显示全部工具，整体滚动后复制/翻译及安全错误可见，编辑文本未塌缩；结合此前实际按钮边界探针，C31A-3修正已获验证。4K图完整适应、其它常规图未见新增遮挡。开发review-regressions-2为6/6通过、11.817s；尚待修正后的最终全量和交付，不能把离屏DPI当物理多屏验证。
+
+**T-031A三项修正独立复核已通过（开发期）**：重绑23:50:27新App.Tests输出，四组development-fixed-*-1.log共10/10通过且全部进程正常结束：caller取消先于转发时终态accepted=False；排队自动复制writes=0；4K Fit为0.1190104、extent457×257在viewport457×428内，缩小不反向放大；400×280正常编辑132/内边距20/字体15，列表失败后114/20/15，整体滚动后复制/翻译/关闭按钮实际边界可见。开发review-regressions-1另5/5通过。C31A-1/2/3不再记为当前未修缺陷，旧失败证据保留；尚待最终渲染查看、修正后Release/full、交付及最终绑定完整探针，未验收A或签发B。
+
+**T-031A三项反馈已确认并进入修正**：开发轮itemCount176已重读current_task全文和独立IdentityChecks，明确承诺不据首次全绿交付。当前源码已增加Operation.Caller并在Valid/自动复制接受点检查；Fit不再夹25%，ZoomOut低于25%不放大；Window加入LayoutScroll整体滚动和内容最小高度。尚无绑定这些修正的新DLL（最近核对App.Tests输出Iris.App.dll仍22:45:27），不可运行旧DLL冒称修正通过。后续待开发构建后重绑复核caller-cancel/caller-auto-copy/fit-observation/small-content及最终完整组，重新查看最终渲染。排队提醒已发送一次，无需重发；本轮通过共享工单已真正传达。
+
+**T-031A开发首次全量已结束，尚不可结案**：release-build-1为Release0警告/0错误、8.03s；release-full-1为3180项、3178成功/0失败/2既有隔离window station error183跳过、1m33.158s，已核对dotnet37260/App.Tests36068退出。开发轮itemCount166仍未交付；C31A-1/2/3尚未见生产修正，现有全绿不能推翻独立反例。提醒消息01a111c2-541e-7bb0-890f-6a98f9b6fa50已排队，不重发；最终必须重读current_task §5–7落实再验证，A不验收/B不签发。
+
+**T-031A交付前提醒已排队（未插队）**：向指定开发会话发送一次提醒，消息01a111c2-541e-7bb0-890f-6a98f9b6fa50，CLI明确返回Queued。要求最终验证/归档前重读current_task全文及§5–7，落实C31A-1/2/3；若先交付，下一轮仍仅补本单，禁止自行开始B。同时通知M6延期。Computer Use不可用，未声称已即时插话或开发已确认；不要因等待超时重复发送。window-tests-11开发定向25/25通过、15.637s，但当前源码仍未覆盖三项反馈，不能据此结案。
+
+**T-031A操作上限独立预检**：新增IdentityChecks.AdmissionCapacityAsync及程序admission组，重绑当前App.Tests输出后实际3/3通过（development-admission-1.log）：8个未归还操作时拒绝第9个、拒绝不撤销当前可发布结果、释放旧操作并完成回收后可接纳新意图。真实离屏窗口/STA正常结束，无用户内容；这是开发期新增覆盖，最终仍重绑复核。Computer Use本轮官方连接仍native pipe unavailable/os error2，未操作插队或发送排队提醒；C31A-1/2/3保留在current_task，开发执行轮itemCount148仍未终态。
+
+**T-031A Host定向修复已通过**：实际测试已去掉STA同步using Host，先await真实Bootstrapper.StopAsync再await Host.DisposeAsync，finally汇总停止/清理错误。开发window-tests-10为4/4通过、4.508s且进程结束。window-tests-9异常退出证据保留，不抹成通过。C31A-1/2/3仍待生产修正；独立ResourceChecks小窗观察已加正常/错误编辑内高和预览基础断言，尚未重绑运行，后续不能把旧观察日志当新断言通过。
+
+**T-031A停滞轮次已结束 / B准备更新**：开发会话执行轮仍未终态，itemCount141；已确认自有测试PID20568并由开发终止，父14676也已退出。window-tests-9最终记录14m13s、仅2项成功但测试进程退出-1，整轮失败，绝不计全通过；开发承诺先实际Bootstrapper排空再异步Dispose Host，目前仍待代码落实。本架构师未另起测试。临时iris-t031-preparation.md已置顶纠正旧裸Show/T-030B状态，并按实际Dispatcher/托盘/默认热键/退出顺序整理B矩阵：通用Notify二次排队无法证明过期拒绝，须定稿身份固定通知与静默独立停止责任；只准备未签发B。
+
+**T-031A第三轮视觉补齐**：已实际逐张查看render-pass-3此前未查看的10张（明暗normal/loading/error/close-failure/high-dpi-zoom），未发现新增遮挡，按钮与提示可读；两张small沿用本轮此前查看结果。因此第三轮12张均已查看，但400×280实际列表刷新失败导致编辑区域塌缩的问题仍以current_task §7及development-small-content-error.log为准，不以正常大窗或离屏高DPI图片替代该项验证，也不宣称真实多显示器已测。
+
+**T-031A Host测试等待独立证据**：已复核进程14676/20568仍存活，window-tests-9停在ActualHostHasSingleLazyPresenterAndNoDispatcherCycle的WPF STA同步Host.Dispose。实际测试解析截图准备协调器，而SelectionIconController异步释放需要UI；当前OCR Presenter无Dispose接口，不能直接归咎其释放。原栈保存在临时iris-t031a-independent-review/window-stall-stack-1.txt，current_task §4已补诊断与完整失败路径收尾要求；开发轮已自行读取栈，架构师未杀进程/重启。C31A-1/2/3源码检查仍未落实，继续作为交付前项。
+
+**最新范围调整（2026-10-06，用户决定）**：M6 悬浮球 / T-033 标为延迟实现，不纳入本轮开发与发布验收；保留未来需求、现有契约与默认配置。当前 T-031A 继续；M5 完成后跳过 T-033，按依赖推进 M7 未完成任务。本条覆盖历史记录中的悬浮球本轮实施安排。
+
+**T-031A小工作区第二轮**：render-pass-2仅两张small与pass1不同，已查看，尺寸裁切已修正但编辑/预览区塌缩。实际400×280测得编辑框24 DIP、内边距20、字体15；预览控件仅8 DIP。已在current_task C31A-3追加紧凑布局可用性要求（不是只检查按钮/画布）；保留旧两轮图。其它10张字节未变，已有视觉检查保持。
+
+**T-031A视觉首轮**：临时iris-t031a-independent-review/render-pass-1保全12张开发原图、manifest及散列，均已实际查看且散列匹配。正常明暗/加载/错误/关闭失败/高分辨率缩放未发现新的遮挡；两张small右侧被裁。独立尺寸观察确认主题最小460×320却输出400×280，C31A-3已加current_task §7并置顶提醒：按真实小工作区调整minimum、断言Actual尺寸、重新渲染查看，不能只扩大画布冒称小窗口通过。原图保留，不把该证据问题直接判为生产布局失败。C31A-1/2/3仍为交付前必查项。
+
+**T-031A资源与Fit澄清**：独立closed-gc已通过，排除测试Application.MainWindow根后Window/VM/Bitmap/Image/operation均回收；当前截图显示身份也不保留关闭窗。4K自制图观察Fit被25%夹住，extent960×540大于viewport457×356。原规范歧义由架构师在current_task §6及OCR_RESULT_WINDOW §2澄清为C31A-2：手动25%–400%，Fit允许更小且缩小不得反向放大；原观察不计开发违约。已将C31A-1/2提示置于工单开头，交付前需落实。无需重跑已通过的A/B后端验证，独立窗口目录保存当前证据。
+
+**T-031A独立预检扩展 / 插话通道**：临时iris-t031a-independent-review新增commands10项、integration4项、截图隐藏/新显示3项全部通过；当前明确待修为current_task §5的C31A-1取消终态/自动复制两个反例。为及时插话按用户授权尝试Computer Use官方连接，仍返回native pipe unavailable / os error2，未读取或操作Codex窗口、未发送排队重复消息，未使用其它前台输入绕行。反馈已落到当前工单和本交接；继续直接CLI观察开发状态，UI故障不阻止代码审查。
+
+**T-031A开发期C31A-1反例**：当前实际窗口独立6项5过/1失败。后注册caller取消回调在Presenter转发前执行，caller已取消却TryShow终态返回true并显示LATE_AFTER_CALLER_CANCEL。定向development-caller-cancel.log明确accepted=True/failure=none；全部窗口/STA已退出。已写入current_task第5节作为原范围交付前自检，不新增API/范围，不等到交付后再说明。临时iris-t031a-independent-review包含真实UI/窄外边界源与原始日志；开发轮仍在运行，未发送会排队的重复工单。
+
+**T-031A实际下达确认（2026-10-06）**：消息01a11179-409c-7222-bbc7-a3f30d8ea5fe、执行轮01a11179-517b-7942-b961-3ffb22654f1a已进入指定开发会话，开发明确确认操作/窗口/退出及真实自有WPF/离屏视觉范围，实际读取既有Presenter/WindowPreparationIntent/DI等。已启动，未交付/未验收，等待超时未取消/重发。CCR-032声明已独立编译0警告/错误，日志临时iris-t030-contract-check/ccr032-build.log；完整规则以新正式OCR_RESULT_WINDOW.md为准，旧iris-t031-preparation候选不再覆盖正式决定。
+
+**当前唯一工单T-031A（2026-10-06）**：T-030B/父T-030/CCR-031在0f7dd54c42ce1d84a164a5973f41a0753d4e18cb独立验收结案（Release0警告/错误、全量3155中3153成功/2既有跳过、Core152+App8共160项）。证据T-030B.review。现按OCR_RESULT_WINDOW.md/ARCH v1.48/CCR-032完成结果窗口/身份/编辑复制转翻译重识别/截图准备和退出；B随后交付三个Handler及托盘/热键，完整原范围保留，T-032未开始。仍直接协调01a10fa5-77e8-77e1-82d9-1ea1aa587d61。
+
 **T-030B开发交付待复审（2026-10-06）**：工单全文及报告 tasks/done/T-030B.md。最终串行 Release 0 警告/错误，全量 3155（3153 成功/0 失败/2 既有 error183 跳过），Core 定向 139 项通过；实际 Registry/Service/Normalizer 重配与实际 WinRT 预处理/Bootstrapper 停止失败重试组合通过。原始失败与旧夹具维护说明、源码/DLL散列均归档 T-030B.evidence。CCR-031仅已落地待复审，父/B▶、A☑；未开始 T-031/032，等待架构师独立验收。
 
 **T-030B独立准备扩展完成（开发期）**：临时iris-t030b-independent-review/development-probe-3.log实际Core Service/Normalizer/Registry152项全过，含27固定文本向量、三阶段全错误码、12选择边界、原图/同代设置、取消/清理及GC。development-app-probe.log实际AppBootstrapper/DI Service/WinRtImagePreprocessor8项全过；Registry/Provider/Host用受控边界，无用户内容/网络。最终交付后仍独立Release/full、prepare.py与prepare_app.py重绑再跑两个项目，不把开发期结果直接结案。实际A已验收，不重写其Registry/预处理/Provider。

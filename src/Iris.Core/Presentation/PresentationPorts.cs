@@ -83,17 +83,40 @@ public interface IScreenshotService
 
 public sealed record OcrResultViewRequest
 {
+    /// <summary>转交只读图像；调用方不得再修改Bytes，窗口持有至清理完成。</summary>
     public required ImageData Image { get; init; }
     public string? Text { get; init; }
     public string? ProviderName { get; init; }
     public bool IsLoading { get; init; }
     public ErrorInfo? Error { get; init; }
+    public PixelPoint? Anchor { get; init; }
+    /// <summary>实际结果的逻辑服务ID；显示名可用窗口已有列表映射，缺失时显示ID。</summary>
+    public string? ProviderId { get; init; }
+    public bool UsedFallback { get; init; }
+    /// <summary>仅成功非空白终态在UI接受点认领一次自动复制，任务由窗口拥有。</summary>
+    public bool AutoCopy { get; init; }
 }
 
-/// <summary>OCR 结果窗口（左图右文，可编辑、复制、一键翻译）。重复调用更新同一窗口。</summary>
+/// <summary>OCR展示操作的调用方租约；释放幂等，不撤销已由窗口接管的复制/识别工作。
+/// 调用方必须在自己的异步工作退出后释放；Token只在租约有效期内读取。详见OCR_RESULT_WINDOW.md。</summary>
+public interface IOcrResultOperation : IDisposable
+{
+    Guid Id { get; }
+    CancellationToken CancellationToken { get; }
+}
+
+/// <summary>有身份的OCR结果窗口。构造无窗口；关闭即释放，同一时刻只显示一个实例。</summary>
 public interface IOcrResultPresenter
 {
-    Task ShowAsync(OcrResultViewRequest request);
+    /// <summary>接纳新意图并撤销旧操作；已取消token抛OperationCanceledException且不影响当前意图。
+    /// 退出/关闭未完成或未回收操作达到8个时返回null，不启动工作。</summary>
+    IOcrResultOperation? TryBeginOperation(CancellationToken cancellationToken = default);
+
+    /// <summary>UI实际执行时复核身份；旧/取消/已释放操作返回false，不改变窗口。
+    /// null或外来租约抛ArgumentException，同操作并发发布抛InvalidOperationException。
+    /// 首次绑定只读Image，同操作后续Image须为同一引用；至多接受一次终态。
+    /// true表示UI已接受，不等待窗口接管的自动复制。调用方不得修改Image.Bytes。</summary>
+    Task<bool> TryShowAsync(IOcrResultOperation operation, OcrResultViewRequest request);
 }
 
 public enum NotificationLevel

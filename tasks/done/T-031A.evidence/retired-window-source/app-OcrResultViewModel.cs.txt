@@ -1,0 +1,83 @@
+using System.Collections.ObjectModel;
+using System.Windows.Media;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using Iris.App.Settings;
+
+namespace Iris.App.Ocr;
+
+internal sealed record OcrProviderChoice(string Id, string Name, bool Configured)
+{
+    public string Label => Configured ? Name : $"{Name} · {UiText.OcrUnconfigured}";
+}
+
+internal sealed partial class OcrResultViewModel : INotifyPropertyChanged
+{
+    private string _text = "";
+    public string Text { get => _text; set { if (Set(ref _text, value)) { Revision++; UpdateCommands(); } } }
+    private bool _isLoading;
+    public bool IsLoading { get => _isLoading; set { if (Set(ref _isLoading, value)) { UpdateCommands(); } } }
+    private bool _isClosing;
+    public bool IsClosing { get => _isClosing; set { if (Set(ref _isClosing, value)) { UpdateCommands(); } } }
+    private string _error = "";
+    public string Error { get => _error; set { if (Set(ref _error, value)) {  } } }
+    private string _providerName = "";
+    public string ProviderName { get => _providerName; set { if (Set(ref _providerName, value)) {  } } }
+    private string _fallback = "";
+    public string Fallback { get => _fallback; set { if (Set(ref _fallback, value)) {  } } }
+    private string _listError = "";
+    public string ListError { get => _listError; set { if (Set(ref _listError, value)) {  } } }
+    private ImageSource? _preview;
+    public ImageSource? Preview { get => _preview; set { if (Set(ref _preview, value)) {  } } }
+    private string _previewError = "";
+    public string PreviewError { get => _previewError; set { if (Set(ref _previewError, value)) {  } } }
+    private OcrProviderChoice? _selectedProvider;
+    public OcrProviderChoice? SelectedProvider { get => _selectedProvider; set { if (Set(ref _selectedProvider, value)) { UpdateCommands(); } } }
+    private double _zoom = 1;
+    public double Zoom { get => _zoom; set { if (Set(ref _zoom, value)) {  } } }
+    internal long Revision { get; private set; }
+    public ObservableCollection<OcrProviderChoice> Providers { get; } = [];
+    public string Status => IsClosing ? UiText.OcrClosing : IsLoading ? UiText.OcrLoading : UiText.OcrEditable;
+    public bool CanEdit => !IsLoading && !IsClosing;
+    public bool EditorReadOnly => !CanEdit;
+    public bool CanUseText => CanEdit && !string.IsNullOrWhiteSpace(Text);
+    public bool CanRecognize => !IsClosing && SelectedProvider != null;
+    internal Action? Copy, Translate, Recognize, Refresh, Close, Fit;
+    public RelayCommand CopyCommand { get; }
+    public RelayCommand TranslateCommand { get; }
+    public RelayCommand RecognizeCommand { get; }
+    public RelayCommand RefreshCommand { get; }
+    public RelayCommand CloseCommand { get; }
+    public RelayCommand FitCommand { get; }
+    public RelayCommand ActualSizeCommand { get; }
+    public RelayCommand ZoomInCommand { get; }
+    public RelayCommand ZoomOutCommand { get; }
+    public OcrResultViewModel()
+    {
+        CopyCommand = new RelayCommand(() => Copy?.Invoke(), () => CanUseText);
+        TranslateCommand = new RelayCommand(() => Translate?.Invoke(), () => CanUseText);
+        RecognizeCommand = new RelayCommand(() => Recognize?.Invoke(), () => CanRecognize);
+        RefreshCommand = new RelayCommand(() => Refresh?.Invoke(), () => !IsClosing);
+        CloseCommand = new RelayCommand(() => Close?.Invoke());
+        FitCommand = new RelayCommand(() => Fit?.Invoke());
+        ActualSizeCommand = new RelayCommand(() => Zoom = 1);
+        ZoomInCommand = new RelayCommand(() => Zoom = Math.Clamp(Zoom * 1.25, .25, 4));
+        ZoomOutCommand = new RelayCommand(() => { if (Zoom > .25) Zoom = Math.Max(.25, Zoom / 1.25); });
+    }
+    public event PropertyChangedEventHandler? PropertyChanged;
+    private void OnPropertyChanged(string name) => PropertyChanged?.Invoke(this, new(name));
+    private bool Set<T>(ref T field, T value, [CallerMemberName] string name = "") { if (EqualityComparer<T>.Default.Equals(field, value)) return false; field = value; OnPropertyChanged(name); return true; }
+    private void UpdateCommands()
+    {
+        OnPropertyChanged(nameof(Status)); OnPropertyChanged(nameof(CanEdit));
+        OnPropertyChanged(nameof(EditorReadOnly));
+        CopyCommand.RaiseCanExecuteChanged(); TranslateCommand.RaiseCanExecuteChanged();
+        RecognizeCommand.RaiseCanExecuteChanged(); RefreshCommand.RaiseCanExecuteChanged();
+    }
+    internal void Clear()
+    {
+        Copy = Translate = Recognize = Refresh = Close = Fit = null;
+        Preview = null; Text = Error = PreviewError = ProviderName = Fallback = ListError = "";
+        SelectedProvider = null; Providers.Clear();
+    }
+}

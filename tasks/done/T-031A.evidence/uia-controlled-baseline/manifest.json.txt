@@ -1,0 +1,8 @@
+{
+  "purpose": "Controlled scheduling only; original assertion and cleanup retained; no repository edits",
+  "originalTestSha256": "7a772023fa2bbe922dc24c00c401a0c7aa69dd3e5bf37eb7c702da87cb328d34",
+  "productionDlls": {
+    "Iris.Core.dll": "21dcf5388af70bc6856200dcac82bbafdcf6f9750850b5738c5e4f89805719bf",
+    "Iris.Platform.Windows.dll": "d8c6b69fb1661138c4c7f637e3bc3f8a1e4952b602e523669c18d7f046a9b002"
+  }
+}

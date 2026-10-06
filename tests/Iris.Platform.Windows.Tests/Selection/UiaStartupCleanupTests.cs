@@ -27,6 +27,7 @@ public sealed class UiaStartupCleanupTests
         var injected = new InvalidOperationException("R6 body injection");
         var error = await Should.ThrowAsync<InvalidOperationException>(() => DrainScenarioAsync(scope, stop, injected));
         error.ShouldBeSameAs(injected);
+        if (!stop) scope.GraceWaitObservedBeforeExit.ShouldBeTrue();
         scope.CleanupCompleted.ShouldBeTrue();
         scope.Tasks.ShouldAllBe(t => t.Task.IsCompleted);
         scope.Processes.ShouldAllBe(p => p.HasExited && p.DisposeCallCount == 1);
@@ -43,6 +44,7 @@ public sealed class UiaStartupCleanupTests
         var error = await Should.ThrowAsync<AggregateException>(() => DrainScenarioAsync(scope, false, body));
         error.InnerExceptions.ShouldContain(body);
         error.InnerExceptions.ShouldContain(cleanup);
+        scope.GraceWaitObservedBeforeExit.ShouldBeTrue();
         scope.CleanupCompleted.ShouldBeTrue();
         scope.Tasks.ShouldAllBe(t => t.Task.IsCompleted);
     }
@@ -76,13 +78,25 @@ public sealed class UiaStartupCleanupTests
         }
         else
         {
-            ReplyAndExit(process, request);
-            await Entered(disposing.Task);
+            // Force the previously racing ordering: the reader consumes Reply before exit.
+            // Its real WaitForExit also owns stderr drain, so stdout disposal cannot precede
+            // releasing stderr on this path. Do not depend on a non-advanced fake timeout.
+            process.EnqueueReply(new UiaReplyFrame
+            {
+                ProtocolVersion = 1, Kind = "Reply", RequestId = request.RequestId,
+                Status = UiaSelectionStatus.Success, Text = "R6 recovered text"
+            });
+            await Entered(waiting.Task);
+            process.HasExited.ShouldBeFalse();
+            scope.GraceWaitObservedBeforeExit = true;
+            process.SignalExit();
+            disposing.Task.IsCompleted.ShouldBeFalse();
         }
         stderr.Completed.Task.IsCompleted.ShouldBeFalse();
         read.IsCompleted.ShouldBeFalse();
         if (injected != null) ExceptionDispatchInfo.Capture(injected).Throw();
         stderr.Release();
+        await Entered(disposing.Task);
         if (stop)
         {
             await stopping!;
@@ -314,8 +328,12 @@ public sealed class UiaStartupCleanupTests
         // not merely two scheduled calls that might run after cleanup has finished.
         var coordinator = typeof(UiaSelectionReader).GetField("_failedCleanupCoordinator", BindingFlags.Instance | BindingFlags.NonPublic)!
             .GetValue(reader)!;
-        var attempt = (Task)coordinator.GetType().GetField("_activeCleanupTask", BindingFlags.Instance | BindingFlags.NonPublic)!
-            .GetValue(coordinator)!;
+        var attemptField = coordinator.GetType().GetField("_activeCleanupTask", BindingFlags.Instance | BindingFlags.NonPublic)!;
+        Task? pendingAttempt = null;
+        // Dispose can enter synchronously inside ExecuteCleanupCoreAsync, before its caller
+        // publishes the returned Task field. Observe that publication before counting awaiters.
+        await WaitUntilAsync(() => (pendingAttempt = (Task?)attemptField.GetValue(coordinator)) != null);
+        var attempt = pendingAttempt!;
         await WaitUntilAsync(() => ContinuationCount(attempt) >= 1);
         var retry2 = scope.Track(reader.RetryCleanupAsync());
         await WaitUntilAsync(() => ContinuationCount(attempt) >= 2);
@@ -388,12 +406,11 @@ public sealed class UiaStartupCleanupTests
 
     private static void ReplyAndExit(FakeProcessAdapter process, UiaRequestFrame request)
     {
-        process.EnqueueReply(new UiaReplyFrame
+        process.EnqueueReplyAndExit(new UiaReplyFrame
         {
             ProtocolVersion = 1, Kind = "Reply", RequestId = request.RequestId,
             Status = UiaSelectionStatus.Success, Text = "R6 recovered text"
         });
-        process.SignalExit();
     }
 
     private static void Restore(FakeProcessAdapter process)
@@ -447,6 +464,7 @@ public sealed class UiaStartupCleanupTests
         private readonly List<UiaSelectionReader> _readers = [];
         public Action? AfterCleanup { get; set; }
         public bool CleanupCompleted { get; private set; }
+        public bool GraceWaitObservedBeforeExit { get; set; }
         public FakeProcessAdapter Own(FakeProcessAdapter process) { Processes.Add(process); return process; }
         public T Track<T>(T task, Type? expected = null) where T : Task
         {

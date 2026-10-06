@@ -1,0 +1,64 @@
+using System.Security.Cryptography;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Threading;
+using Iris.Core.Errors;
+using Wpf.Ui.Appearance;
+using Shouldly;
+using static Iris.App.Tests.Ocr.OcrWindowTestScope;
+
+namespace Iris.App.Tests.Ocr;
+
+[Collection("ScreenshotRendering")]
+public sealed class OcrResultRenderingTests
+{
+    [Fact]
+    public async Task ActualWindowsRenderThemesStatesSmallWorkAreaAndZoom()
+    {
+        string directory = Path.Combine(Path.GetTempPath(), "iris-t031a-render"); Directory.CreateDirectory(directory);
+        var manifest = new List<string>();
+        foreach (var theme in new[] { ApplicationTheme.Light, ApplicationTheme.Dark })
+        foreach (string scenario in new[] { "normal", "loading", "error", "close-failure", "small", "small-list-error", "small-list-error-bottom", "4k-fit", "high-dpi-zoom" })
+        {
+            await Run(async f =>
+            {
+                ApplicationThemeManager.Apply(theme);
+                var operation = f.Begin();
+                string text = string.Join('\n', Enumerable.Range(0, 24).Select(i => $"{i + 1}. 可编辑识别结果 · Original text remains available. A_long_English_segment_012345678901234567890123456789"));
+                await f.Show(operation, text, image: scenario == "4k-fit" ? Synthetic(3840, 2160) : null); await f.Presenter.WhenIdleAsync();
+                var window = f.Presenter.Window!; var vm = f.Presenter.ViewModel!;
+                vm.ProviderName = "这是一个很长的服务名称 / A very long provider display label that must never cover the action buttons";
+                vm.Providers[0] = vm.Providers[0] with { Name = vm.ProviderName }; vm.SelectedProvider = vm.Providers[0];
+                vm.Fallback = UiText.OcrFallback;
+                if (scenario == "loading") vm.IsLoading = true;
+                if (scenario == "error") vm.Error = ErrorMessages.GetDefault(ErrorCode.NetworkUnavailable);
+                if (scenario.StartsWith("small-list", StringComparison.Ordinal))
+                { f.ConfigureSnapshot = s => s.Fail = true; await f.Presenter.RefreshAsync(); vm.ListError.ShouldNotBeEmpty(); }
+                if (scenario == "close-failure")
+                {
+                    f.Windows.RefuseClose = true; operation.Dispose();
+                    await Should.ThrowAsync<IrisException>(() => f.Presenter.CloseAsync());
+                }
+                int width = scenario.StartsWith("small", StringComparison.Ordinal) ? 400 : scenario == "error" ? 560 : 960;
+                int height = scenario.StartsWith("small", StringComparison.Ordinal) ? 280 : scenario == "error" ? 360 : 600;
+                double dpi = scenario == "high-dpi-zoom" ? 192 : 96;
+                if (scenario == "high-dpi-zoom") vm.Zoom = 4;
+                window.MinWidth = Math.Min(560, width); window.MinHeight = Math.Min(360, height);
+                window.Width = width; window.Height = height; window.UpdateLayout();
+                await window.Dispatcher.InvokeAsync(() => window.UpdateLayout(), DispatcherPriority.Render);
+                window.ActualWidth.ShouldBe((double)width); window.ActualHeight.ShouldBe((double)height);
+                if (scenario == "4k-fit") { window.Fit(); window.UpdateLayout(); }
+                if (scenario == "small-list-error-bottom") { window.LayoutScroll.ScrollToBottom(); window.UpdateLayout(); }
+                (window.Editor.ActualHeight - window.Editor.Padding.Top - window.Editor.Padding.Bottom >= window.Editor.FontSize).ShouldBeTrue();
+                if (scenario == "high-dpi-zoom") { window.PreviewScroll.ScrollToHorizontalOffset(80); window.PreviewScroll.ScrollToVerticalOffset(60); window.UpdateLayout(); }
+                var bitmap = new RenderTargetBitmap((int)(width * dpi / 96), (int)(height * dpi / 96), dpi, dpi, PixelFormats.Pbgra32); bitmap.Render(window);
+                string name = $"{theme}-{scenario}.png"; string path = Path.Combine(directory, name);
+                var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap)); using (var stream = File.Create(path)) encoder.Save(stream);
+                manifest.Add($"{name} {bitmap.PixelWidth}x{bitmap.PixelHeight} dpi={dpi} SHA256={Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path)))}");
+                vm.CloseCommand.CanExecute(null).ShouldBeTrue();
+                ApplicationThemeManager.Apply(ApplicationTheme.Light);
+            });
+        }
+        File.WriteAllLines(Path.Combine(directory, "manifest.txt"), manifest);
+    }
+}

@@ -1,0 +1,115 @@
+using System.IO;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Threading;
+using Iris.App.Capture;
+using Iris.App.Ocr;
+using Iris.Core.Imaging;
+using Iris.Core.Presentation;
+
+static class ResourceChecks
+{
+    internal static async Task CollectAfterClose(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);var refs=await CloseAndForget(s);
+        s.Windows.Created.Clear();s.Images.Calls.Clear();s.Operations.Clear();s.Work.Clear();
+        for(int i=0;i<7;i++)
+        {
+            await sta.Run(async()=>await Dispatcher.Yield(DispatcherPriority.ApplicationIdle));
+            GC.Collect();GC.WaitForPendingFinalizers();GC.Collect();
+        }
+        Console.WriteLine("CLOSED_REFERENCES window,vm,bitmap,image,operation,control="+string.Join(',',refs.Select(r=>r.IsAlive)));
+        WindowScope.Check("CLOSED_WINDOW_REFERENCES_RELEASE_WITH_PRESENTER_ALIVE",refs.All(r=>!r.IsAlive));GC.KeepAlive(s.Presenter);
+    }
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    static async Task<WeakReference[]> CloseAndForget(WindowScope s)
+    {
+        ImageData? input=new(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory,"fixtures","small-colors.png")),ImageFormat.Png,240,160);
+        IOcrResultOperation? op=s.Begin();await s.Show(op,new(){Image=input,Text="collect"});await s.Presenter.WhenIdleAsync();
+        OcrResultWindow? window=s.Presenter.Window;
+        var refs=await s.Sta.Run(()=>new[]{new WeakReference(window),new WeakReference(window!.ViewModel),new WeakReference(window.ViewModel.Preview),new WeakReference(input),new WeakReference(op),new WeakReference(new byte[100])});
+        op.Dispose();await s.Presenter.CloseAsync();
+        // Exclude our private harness Application.MainWindow root; no user Application is involved.
+        await s.Sta.Run(()=>{if(ReferenceEquals(Application.Current.MainWindow,window))Application.Current.MainWindow=null;return Task.CompletedTask;});
+        var intent=typeof(OcrResultPresenter).GetField("_intent",BindingFlags.NonPublic|BindingFlags.Instance)?.GetValue(s.Presenter);
+        var shown=typeof(WindowPreparationIntent).GetField("_shownWindow",BindingFlags.NonPublic|BindingFlags.Instance)?.GetValue(intent);
+        Console.WriteLine("CLOSED_WINDOW_INTENT_STILL_HOLDS_WINDOW="+ReferenceEquals(shown,window));
+        shown=null;intent=null;window=null;op=null;input=null;return refs;
+    }
+    internal static async Task FitLargeImage(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);var input=new ImageData(await File.ReadAllBytesAsync(Path.Combine(AppContext.BaseDirectory,"fixtures","grid-4k.png")),ImageFormat.Png,3840,2160);
+        var op=s.Begin();await s.Show(op,new(){Image=input,Text="4K fit observation"});
+        var values=await sta.Run(()=>
+        {
+            var w=s.Presenter.Window!;w.UpdateLayout();w.ViewModel.FitCommand.Execute(null);w.UpdateLayout();var scroll=(ScrollViewer)w.FindName("PreviewScroll");
+            return new[]{w.ViewModel.Zoom,scroll.ViewportWidth,scroll.ViewportHeight,scroll.ExtentWidth,scroll.ExtentHeight};
+        });
+        Console.WriteLine("FIT_4K zoom,viewportWidth,viewportHeight,extentWidth,extentHeight="+string.Join(',',values));
+        WindowScope.Check("FIT_4K_CONTAINS_COMPLETE_IMAGE",values[3]<=values[1]+1 && values[4]<=values[2]+1);
+        bool nonIncreasing=await sta.Run(()=>{var vm=s.Presenter.ViewModel!;double before=vm.Zoom;if(vm.ZoomOutCommand.CanExecute(null))vm.ZoomOutCommand.Execute(null);return vm.Zoom<=before;});
+        WindowScope.Check("ZOOM_OUT_FROM_FIT_NEVER_ENLARGES",nonIncreasing);
+    }
+    internal static async Task SmallLayoutObservation(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);var op=s.Begin();await s.Show(op,new(){Image=s.Image,Text="small layout"});
+        foreach(bool clampMinimum in new[]{false,true})
+        {
+            var dimensions=await sta.Run(()=>
+            {
+                var w=s.Presenter.Window!;if(clampMinimum){w.MinWidth=400;w.MinHeight=280;}w.Width=400;w.Height=280;w.UpdateLayout();
+                return new[]{w.Width,w.ActualWidth,w.MinWidth,w.Height,w.ActualHeight,w.MinHeight};
+            });
+            Console.WriteLine($"SMALL_RENDER clampMinimum={clampMinimum} width,actualWidth,minWidth,height,actualHeight,minHeight="+string.Join(',',dimensions));
+        }
+    }
+    internal static async Task SmallContentObservation(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);var op=s.Begin();await s.Show(op,new(){Image=s.Image,Text="Visible editable OCR result"});await s.Presenter.WhenIdleAsync();
+        var dimensions=await sta.Run(()=>
+        {
+            var w=s.Presenter.Window!;var vm=w.ViewModel;
+            vm.ProviderName="这是一个很长的服务名称 / A very long provider display label that must never cover the action buttons";vm.Fallback=Iris.App.UiText.OcrFallback;
+            w.MinWidth=400;w.MinHeight=280;w.Width=400;w.Height=280;w.UpdateLayout();
+            var editor=(TextBox)w.FindName("Editor");var preview=(ScrollViewer)w.FindName("PreviewScroll");
+            return new[]{w.ActualWidth,w.ActualHeight,editor.ActualHeight,editor.Padding.Top+editor.Padding.Bottom,editor.FontSize,preview.ActualHeight,preview.ViewportHeight};
+        });
+        Console.WriteLine("SMALL_CONTENT width,height,editorHeight,editorPadding,fontSize,previewHeight,previewViewportHeight="+string.Join(',',dimensions));
+        WindowScope.Check("SMALL_NORMAL_EDITOR_HAS_TEXT_HEIGHT", dimensions[2]-dimensions[3]>=dimensions[4]);
+        WindowScope.Check("SMALL_NORMAL_PREVIEW_HAS_VIEWPORT", dimensions[5]>0 && dimensions[6]>0);
+        var factory=s.Registry.Factory;s.Registry.Factory=()=>throw new InvalidOperationException("controlled list refresh failure");
+        try
+        {
+            await s.Presenter.RefreshAsync();await s.Presenter.WhenIdleAsync();
+            var failedDimensions=await sta.Run(()=>{var w=s.Presenter.Window!;w.UpdateLayout();var editor=(TextBox)w.FindName("Editor");return new[]{editor.ActualHeight,editor.Padding.Top+editor.Padding.Bottom,editor.FontSize,(double)w.ViewModel.ListError.Length};});
+            Console.WriteLine("SMALL_CONTENT_AFTER_LIST_FAILURE editorHeight,padding,fontSize,errorLength="+string.Join(',',failedDimensions));
+            WindowScope.Check("SMALL_LIST_FAILURE_IS_VISIBLE", failedDimensions[3]>0);
+            WindowScope.Check("SMALL_LIST_FAILURE_EDITOR_HAS_TEXT_HEIGHT", failedDimensions[0]-failedDimensions[1]>=failedDimensions[2]);
+            await sta.Run(()=>
+            {
+                var w=s.Presenter.Window!;var outer=w.FindName("LayoutScroll") as ScrollViewer;
+                FrameworkElement viewport=outer is null?w:outer;
+                IEnumerable<System.Windows.Controls.Button> Buttons(System.Windows.DependencyObject node)
+                {
+                    if(node is System.Windows.Controls.Button button)yield return button;
+                    for(int i=0;i<System.Windows.Media.VisualTreeHelper.GetChildrenCount(node);i++)
+                        foreach(var child in Buttons(System.Windows.Media.VisualTreeHelper.GetChild(node,i)))yield return child;
+                }
+                bool Visible(System.Windows.Input.ICommand command)
+                {
+                    var button=Buttons(w).Single(b=>ReferenceEquals(b.Command,command));
+                    var bounds=button.TransformToAncestor(viewport).TransformBounds(new Rect(0,0,button.ActualWidth,button.ActualHeight));
+                    return bounds.Width>0 && bounds.Height>0 && bounds.Top>=-.5 && bounds.Bottom<=viewport.ActualHeight+.5 && bounds.Left>=-.5 && bounds.Right<=viewport.ActualWidth+.5;
+                }
+                outer?.ScrollToEnd();w.UpdateLayout();
+                WindowScope.Check("SMALL_ERROR_COPY_TRANSLATE_REACHABLE",Visible(w.ViewModel.CopyCommand) && Visible(w.ViewModel.TranslateCommand));
+                outer?.ScrollToTop();w.UpdateLayout();
+                WindowScope.Check("SMALL_ERROR_CLOSE_REACHABLE",Visible(w.ViewModel.CloseCommand));
+                return Task.CompletedTask;
+            });
+        }
+        finally{s.Registry.Factory=factory;}
+    }
+}

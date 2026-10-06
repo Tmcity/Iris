@@ -1,0 +1,21 @@
+{
+  "sources": {
+    "count": 13,
+    "mismatches": []
+  },
+  "precommitDlls": {
+    "count": 6,
+    "mismatches": [
+      "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/Iris.App.dll",
+      "src/Iris.Core/bin/Release/net10.0/Iris.Core.dll",
+      "src/Iris.Platform.Windows/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.dll",
+      "src/Iris.Providers/bin/Release/net10.0/Iris.Providers.dll",
+      "tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.App.Tests.dll",
+      "tests/Iris.Core.Tests/bin/Release/net10.0/Iris.Core.Tests.dll"
+    ]
+  },
+  "evidence": {
+    "count": 16,
+    "mismatches": []
+  }
+}

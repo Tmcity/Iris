@@ -1,0 +1,38 @@
+{
+  "commit": "0f7dd54c42ce1d84a164a5973f41a0753d4e18cb",
+  "sources": {
+    "src\\Iris.App\\Ocr\\OcrResultPresenter.Commands.cs": "3649d912fdb379dd5cbd72654c387bf4a3bc1d201f11aae73cfa2d680d6f1a81",
+    "src\\Iris.App\\Ocr\\OcrResultPresenter.cs": "8d7a7b35cd6c1e2bd2297505f6d5af05cebf94c05760c523ee169c5c8b514a34",
+    "src\\Iris.App\\Ocr\\OcrResultViewModel.cs": "60933e2341badc28e76b75dbfce0f54348c21a4ecd8202866eee7c3303ee6ea9",
+    "src\\Iris.App\\Ocr\\OcrResultWindow.xaml": "3f65e484e51025dd016efca7d172c217ac77a4189f0acdf81f5f796d33d14ea5",
+    "src\\Iris.App\\Ocr\\OcrResultWindow.xaml.cs": "16874d5dd6e5721f0c81a27d8efde5eea445aa1dc09715d6ffc1b946a15459e2",
+    "src\\Iris.App\\Ocr\\OcrWindowPlatform.cs": "1c61d3430660f00f842910113de27efcc6e18b17f89e41a8f82797e801859ce4"
+  },
+  "probeSources": {
+    "Program.cs": "43c3adf034e398c11582d221c3bcac50df46313a302811a091b60958a63f73cc",
+    "WindowBoundaries.cs": "bdd958e6255715ba75aa99753de0285425d7950a21b1b5c69b0251d8e608d212",
+    "Scope.cs": "6c7072988f4560d1c5b6f0a1f581d062d6ca1efa2d578ff33835613a0eb94b40",
+    "IdentityChecks.cs": "d8d815cdc8b0b61d5e2163499073a21c9e012219b25b91cfbb49dc56a88e10c6",
+    "CommandChecks.cs": "4f1111741767141a21516d5974972b630de0a0bc24f5a6b09678f033dc145524",
+    "IntegrationChecks.cs": "d14ff91e404739abebca1747ed0d1d594f193cced4add3ee2b62ff67e5f8f1bf",
+    "ResourceChecks.cs": "efb3ca5749fd57a8e36420554d732169b7ae003c8d45ec9896c7baceabd70a1b"
+  },
+  "externalProbeSources": {
+    "tasks/done/T-030A.review/Boundaries.cs": "933b21d4baf4bfb8bc5e3c1c17c7883b7288402396a03df84ee835110b3cf10f",
+    "tasks/done/T-030B.review/Boundaries.cs": "c093e7b3a81e79b178b30f98a0e26f4c2a6919b421b8c037f112db9b987c40ab"
+  },
+  "productDlls": {
+    "Iris.App.dll": "a04266d1ac229cc82666a5f245e04e14220dd3e053064a81d17c284aa72490e1",
+    "Iris.Core.dll": "21dcf5388af70bc6856200dcac82bbafdcf6f9750850b5738c5e4f89805719bf",
+    "Iris.Infrastructure.dll": "ab70c35db76a7875909f3c374f6fb148d984a11c7d7dd275966489c7fa5d4f69",
+    "Iris.Platform.Windows.dll": "d8c6b69fb1661138c4c7f637e3bc3f8a1e4952b602e523669c18d7f046a9b002",
+    "Iris.Providers.dll": "bacd8bb5d72d7f470c50c1141c7bed99aa96fcd6da3d18d3cfe15d7f2bd3a64c"
+  },
+  "fixtures": {
+    "grid-4k.png": "17c87a84976ee4b96a07d39fcdd9cc4562b0f3bdc8d3d4cae2ed5f7c445733cb",
+    "grid-tall.png": "2036ab595cf61b5f5b760d40a7086c842dbd9bc07510bfd0bf532655a53ff428",
+    "grid-wide.png": "44e69a6a77c3f2d4a064389ab219f37f74cd58fbc88b34c70eb417f347c40487",
+    "small-colors.png": "e438fa5450321d7636e71ce6cac045e28e603057b232198462fdefbd96b8fbd2"
+  },
+  "phase": "Binding only; no UI execution implied"
+}

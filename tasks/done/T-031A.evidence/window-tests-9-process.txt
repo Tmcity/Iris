@@ -1,0 +1,6 @@
+
+ProcessId       : 20568
+ParentProcessId : 14676
+Name            : Iris.App.Tests.exe
+CommandLine     : "F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.exe"  --filter-class *OcrResultWindowTests --filter-class *OcrResultInteractionTests --filter-class *OcrResultRenderingTests --filter-class *OcrResultShutdownTests --server dotnettestcli --dotnet-test-pipe testingplatform.pipe.a2e350ff7ecf451e84077a16874ad941
+

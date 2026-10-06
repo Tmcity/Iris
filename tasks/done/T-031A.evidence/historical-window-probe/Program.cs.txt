@@ -1,0 +1,12 @@
+int checks=0,failures=0;WindowScope.Check=(name,pass)=>{checks++;if(!pass)failures++;Console.WriteLine($"CHECK {name}={(pass?"PASS":"FAIL")}");};
+await using var sta=new ReviewSta();
+if(args.Length==0 || args[0]=="admission")
+{
+    try{await IdentityChecks.AdmissionCapacityAsync(sta);}catch(Exception ex){failures++;Console.WriteLine($"GROUP_FAILURE admission {ex}");}
+}
+foreach(var item in new (string Name,Func<ReviewSta,Task> Run)[]{("identity",IdentityChecks.TerminalAndOldAsync),("caller-cancel",IdentityChecks.CallerCancellationCallbackAsync),("caller-auto-copy",IdentityChecks.CallerCancellationAutoCopyAsync),("ui-queued",IdentityChecks.UiQueuedInvalidationAsync),("commands",CommandChecks.RunAsync),("integration",IntegrationChecks.RunAsync),("hidden-completion",IntegrationChecks.HiddenCompletion),("hidden-new-show",IntegrationChecks.NewShowWhileHidden),("closed-gc",ResourceChecks.CollectAfterClose),("fit-observation",ResourceChecks.FitLargeImage),("small-observation",ResourceChecks.SmallLayoutObservation),("small-content",ResourceChecks.SmallContentObservation)})
+{
+    if(args.Length!=0 && item.Name!=args[0])continue;
+    try{await item.Run(sta);}catch(Exception ex){failures++;Console.WriteLine($"GROUP_FAILURE {item.Name} {ex}");}
+}
+Console.WriteLine($"OCR_WINDOW_REVIEW checks={checks} failures={failures} userContent=False");return failures==0?0:1;

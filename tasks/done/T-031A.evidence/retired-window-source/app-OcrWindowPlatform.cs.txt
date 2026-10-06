@@ -1,0 +1,35 @@
+using System.Windows;
+using System.Windows.Interop;
+using Iris.App.Translation;
+using Iris.Core.Imaging;
+using Iris.Core.Platform;
+using Iris.Core.Settings;
+
+namespace Iris.App.Ocr;
+
+internal interface IOcrWindowPlatform
+{
+    void Show(OcrResultWindow window, PixelPoint? anchor);
+    void Close(OcrResultWindow window);
+}
+internal sealed class OcrWindowPlatform(IDesktopContext desktop, INativeWindowPlacementAdapter native) : IOcrWindowPlatform
+{
+    public void Show(OcrResultWindow window, PixelPoint? anchor)
+    {
+        var cursor = anchor ?? desktop.GetCursorPosition();
+        var monitor = WindowPlacementHelper.FindTargetMonitor(WindowPlacementMode.FollowCursor, anchor, null, desktop.GetMonitors(), cursor);
+        PixelRect? bounds = null;
+        if (monitor != null)
+        {
+            bounds = WindowPlacementHelper.CalculateBounds(WindowPlacementMode.FollowCursor, anchor, null, monitor,
+                (int)Math.Round(960 * monitor.DpiScale), (int)Math.Round(600 * monitor.DpiScale), cursor);
+            window.Width = bounds.Value.Width / monitor.DpiScale; window.Height = bounds.Value.Height / monitor.DpiScale;
+            window.MinWidth = Math.Min(560, window.Width); window.MinHeight = Math.Min(360, window.Height);
+        }
+        new WindowInteropHelper(window).EnsureHandle();
+        if (bounds != null && !native.SetWindowBounds(new WindowInteropHelper(window).Handle, bounds.Value, false, false))
+            throw new InvalidOperationException("OCR window placement failed.");
+        window.Show();
+    }
+    public void Close(OcrResultWindow window) => window.Close();
+}

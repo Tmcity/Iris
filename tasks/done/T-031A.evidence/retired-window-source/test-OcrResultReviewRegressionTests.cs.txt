@@ -1,0 +1,63 @@
+using System.Windows.Threading;
+using Iris.Core.Presentation;
+using Iris.Core.Errors;
+using NSubstitute;
+using Shouldly;
+using static Iris.App.Tests.Ocr.OcrWindowTestScope;
+
+namespace Iris.App.Tests.Ocr;
+
+[Collection("ScreenshotRendering")]
+public sealed class OcrResultReviewRegressionTests
+{
+    [Fact]
+    public Task CallerCanceledBeforeForwardingCallbackCannotPublishTerminal() => Run(async f =>
+    {
+        using var caller = new CancellationTokenSource(); var op = f.Begin(caller.Token);
+        await f.Show(op, loading: true); bool accepted = true;
+        using var later = caller.Token.Register(() => accepted = f.Presenter.TryShowAsync(op, new() { Image = f.Image, Text = "late" }).GetAwaiter().GetResult());
+        await Task.Run(caller.Cancel); accepted.ShouldBeFalse(); f.Presenter.ViewModel!.Text.ShouldNotBe("late");
+    });
+    [Fact]
+    public Task CallerCanceledBeforeForwardingCallbackCannotAcceptAutomaticCopy() => Run(async f =>
+    {
+        using var caller = new CancellationTokenSource(); var op = f.Begin(caller.Token);
+        await f.Show(op, loading: true); await f.Presenter.WhenIdleAsync();
+        var gate = f.Gate();
+        // Pause at the automatic-copy UI acceptance, after terminal UI publication.
+        await f.Presenter.TryShowAsync(op, new() { Image = f.Image, Text = "baseline" });
+        // A separate operation keeps the first one's terminal rule intact.
+        op = f.Begin(caller.Token); await f.Show(op, loading: true); await f.Presenter.WhenIdleAsync();
+        f.Ui.AllowBefore = 1; f.Ui.Before = gate.Wait;
+        await f.Show(op, "auto", autoCopy: true); await gate.Entered.WaitAsync(TimeSpan.FromSeconds(10));
+        var later = caller.Token.Register(() => { gate.Open(); f.Presenter.WhenIdleAsync().GetAwaiter().GetResult(); });
+        try { await Task.Run(caller.Cancel); await f.Clipboard.DidNotReceive().SetTextAsync("auto", Arg.Any<CancellationToken>()); }
+        finally { gate.Open(); await later.DisposeAsync(); }
+    });
+    [Theory][InlineData(960, 600)][InlineData(400, 280)]
+    public Task FitIncludesWhole4kImageBelowManualMinimum(int width, int height) => Run(async f =>
+    {
+        await f.Show(f.Begin(), "fit", image: Synthetic(3840, 2160)); var window = f.Presenter.Window!;
+        window.MinWidth = width; window.MinHeight = height; window.Width = width; window.Height = height;
+        window.UpdateLayout(); await window.Dispatcher.InvokeAsync(() => window.UpdateLayout(), DispatcherPriority.Render);
+        window.Fit(); window.UpdateLayout(); double fit = f.Presenter.ViewModel!.Zoom;
+        fit.ShouldBeLessThan(.25); window.PreviewScroll.ExtentWidth.ShouldBeLessThanOrEqualTo(window.PreviewScroll.ViewportWidth + 1);
+        window.PreviewScroll.ExtentHeight.ShouldBeLessThanOrEqualTo(window.PreviewScroll.ViewportHeight + 1);
+        f.Presenter.ViewModel.ZoomOutCommand.Execute(null); f.Presenter.ViewModel.Zoom.ShouldBe(fit);
+        f.Presenter.ViewModel.ZoomInCommand.Execute(null); f.Presenter.ViewModel.Zoom.ShouldBeGreaterThanOrEqualTo(.25);
+    });
+    [Fact]
+    public Task SmallWindowActualListFailureKeepsEditableLineAndScrollableCommands() => Run(async f =>
+    {
+        await f.Show(f.Begin(), "editable content"); await f.Presenter.WhenIdleAsync(); var window = f.Presenter.Window!;
+        window.MinWidth = 400; window.MinHeight = 280; window.Width = 400; window.Height = 280;
+        f.ConfigureSnapshot = s => s.Fail = true; await f.Presenter.RefreshAsync();
+        window.UpdateLayout(); await window.Dispatcher.InvokeAsync(() => window.UpdateLayout(), DispatcherPriority.Render);
+        window.ActualWidth.ShouldBe(400); window.ActualHeight.ShouldBe(280);
+        (window.Editor.ActualHeight - window.Editor.Padding.Top - window.Editor.Padding.Bottom >= window.Editor.FontSize).ShouldBeTrue();
+        window.PreviewScroll.ViewportHeight.ShouldBeGreaterThan(20);
+        f.Presenter.ViewModel!.ListError.ShouldNotBeEmpty(); window.LayoutScroll.ScrollableHeight.ShouldBeGreaterThan(0);
+        window.LayoutScroll.ScrollToBottom(); window.UpdateLayout();
+        f.Presenter.ViewModel.CopyCommand.CanExecute(null).ShouldBeTrue(); f.Presenter.ViewModel.TranslateCommand.CanExecute(null).ShouldBeTrue();
+    });
+}

@@ -493,6 +493,16 @@ internal sealed class FakeProcessAdapter : IProcessAdapter
         EnqueueLine(UiaProtocolCodec.SerializeReply(reply));
     }
 
+    // For tests of disposal after confirmed exit: stage bytes before closing the writer,
+    // then publish them with Complete only after HasExited has been set by SignalExit.
+    public void EnqueueReplyAndExit(UiaReplyFrame reply)
+    {
+        var bytes = Encoding.UTF8.GetBytes(UiaProtocolCodec.SerializeReply(reply) + "\n");
+        bytes.CopyTo(_stdoutPipe.Writer.GetSpan(bytes.Length));
+        _stdoutPipe.Writer.Advance(bytes.Length);
+        SignalExit();
+    }
+
     public void SignalExit()
     {
         HasExited = true;

@@ -1,0 +1,70 @@
+using Iris.Core.Presentation;
+
+static class IdentityChecks
+{
+    static readonly TimeSpan Limit=TimeSpan.FromSeconds(15);
+    internal static async Task AdmissionCapacityAsync(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);
+        var operations=Enumerable.Range(0,8).Select(_=>s.Begin()).ToArray();
+        await s.Show(operations[7],new(){Image=s.Image,IsLoading=true}).WaitAsync(Limit);
+        var refused=s.Presenter.TryBeginOperation();
+        if(refused!=null){refused.Dispose();}
+        WindowScope.Check("EIGHT_UNRETURNED_OPERATIONS_REFUSE_NINTH",refused==null && s.Presenter.OperationCount==8);
+        bool accepted=await s.Show(operations[7],new(){Image=s.Image,Text="capacity-current"}).WaitAsync(Limit);
+        WindowScope.Check("CAPACITY_REFUSAL_PRESERVES_CURRENT_RESULT",accepted && await s.Text()=="capacity-current");
+        operations[0].Dispose();await s.Presenter.WhenIdleAsync().WaitAsync(Limit);
+        var next=s.Begin();await s.Show(next,new(){Image=s.Image,Text="capacity-recovered"}).WaitAsync(Limit);
+        WindowScope.Check("RELEASED_CAPACITY_ADMITS_NEW_INTENT",await s.Text()=="capacity-recovered" && s.Presenter.OperationCount<=8);
+    }
+    internal static async Task TerminalAndOldAsync(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);
+        WindowScope.Check("PRESENTER_CONSTRUCTOR_CREATES_NO_WINDOW",s.Windows.Created.IsEmpty && s.Images.Calls.IsEmpty && s.Registry.Issued.IsEmpty);
+        var first=s.Begin();
+        await s.Show(first,new(){Image=s.Image,IsLoading=true}).WaitAsync(Limit);
+        using var canceled=new CancellationTokenSource();canceled.Cancel();bool rejected=false;
+        try{s.Presenter.TryBeginOperation(canceled.Token);}catch(OperationCanceledException){rejected=true;}
+        bool accepted=await s.Show(first,new(){Image=s.Image,Text="first"}).WaitAsync(Limit);
+        WindowScope.Check("CANCELED_BEGIN_PRESERVES_CURRENT_OPERATION",rejected && accepted && await s.Text()=="first");
+        bool duplicate=await s.Show(first,new(){Image=s.Image,Text="duplicate"}).WaitAsync(Limit);
+        WindowScope.Check("TERMINAL_ACCEPTED_AT_MOST_ONCE",!duplicate && await s.Text()=="first");
+        var second=s.Begin();await s.Show(second,new(){Image=s.Image,Text="second"}).WaitAsync(Limit);
+        bool stale=await s.Show(first,new(){Image=s.Image,Text="stale"}).WaitAsync(Limit);
+        WindowScope.Check("OLD_OPERATION_CANNOT_OVERWRITE_NEW_RESULT",!stale && await s.Text()=="second" && s.Windows.Shows==1);
+    }
+    internal static async Task CallerCancellationCallbackAsync(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);using var caller=new CancellationTokenSource();
+        var op=s.Begin(caller.Token);await s.Show(op,new(){Image=s.Image,IsLoading=true}).WaitAsync(Limit);
+        bool accepted=false;Exception? failure=null;
+        using var later=caller.Token.Register(()=>
+        {
+            try{accepted=s.Show(op,new(){Image=s.Image,Text="LATE_AFTER_CALLER_CANCEL"}).GetAwaiter().GetResult();}
+            catch(Exception ex){failure=ex;}
+        });
+        // LIFO callback executes while caller token is canceled but the Presenter's callback has not run.
+        await Task.Run(()=>caller.Cancel()).WaitAsync(Limit);
+        Console.WriteLine($"CALLER_CANCEL accepted={accepted} failure={failure?.GetType().Name??"none"} text={await s.Text()}");
+        WindowScope.Check("CANCELED_CALLER_REJECTED_BEFORE_FORWARDING_CALLBACK",failure==null && !accepted && await s.Text()!="LATE_AFTER_CALLER_CANCEL");
+    }
+    internal static async Task UiQueuedInvalidationAsync(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);var first=s.Begin();await s.Show(first,new(){Image=s.Image,IsLoading=true}).WaitAsync(Limit);await s.Presenter.WhenIdleAsync().WaitAsync(Limit);
+        var blocked=s.Ui.Pause();var old=s.Show(first,new(){Image=s.Image,Text="queued-old"});await blocked.WaitAsync(Limit);
+        var second=s.Begin();s.Ui.Release();
+        bool stale=await old.WaitAsync(Limit);await s.Show(second,new(){Image=s.Image,Text="new"}).WaitAsync(Limit);
+        WindowScope.Check("UI_ACCEPTANCE_RECHECKS_OPERATION",!stale && await s.Text()=="new");
+    }
+    internal static async Task CallerCancellationAutoCopyAsync(ReviewSta sta)
+    {
+        await using var s=new WindowScope(sta);using var caller=new CancellationTokenSource();var op=s.Begin(caller.Token);
+        await s.Show(op,new(){Image=s.Image,IsLoading=true}).WaitAsync(Limit);await s.Presenter.WhenIdleAsync().WaitAsync(Limit);
+        var blocked=s.Ui.Pause(allow:1);await s.Show(op,new(){Image=s.Image,Text="AUTO_AFTER_CALLER_CANCEL",AutoCopy=true}).WaitAsync(Limit);await blocked.WaitAsync(Limit);
+        bool initiallyEmpty=s.Clipboard.Writes.IsEmpty;
+        using var later=caller.Token.Register(()=>{s.Ui.Release();s.Presenter.WhenIdleAsync().GetAwaiter().GetResult();});
+        await Task.Run(()=>caller.Cancel()).WaitAsync(Limit);
+        Console.WriteLine($"CALLER_AUTO_COPY initialEmpty={initiallyEmpty} writes={s.Clipboard.Writes.Count}");
+        WindowScope.Check("CANCELED_CALLER_REJECTS_QUEUED_AUTO_COPY_BEFORE_FORWARDING_CALLBACK",initiallyEmpty && s.Clipboard.Writes.IsEmpty);
+    }
+}

@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.App.Tests\Ocr\OcrWindowTestScope.cs(115,29): error CS0649: 从未对字段“OcrWindowTestScope.Preparation.Failure”赋值，字段将一直保持其默认值 null [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+生成失败，退出代码: 1。

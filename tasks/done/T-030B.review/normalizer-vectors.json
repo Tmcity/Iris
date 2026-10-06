@@ -1,0 +1,510 @@
+[
+  {
+    "name": "empty",
+    "layout": "MergeParagraphs",
+    "lines": [],
+    "expected": ""
+  },
+  {
+    "name": "keep_edges",
+    "layout": "KeepLines",
+    "lines": [
+      {
+        "text": " a ",
+        "bounds": null
+      },
+      {
+        "text": " b ",
+        "bounds": null
+      }
+    ],
+    "expected": " a \n b "
+  },
+  {
+    "name": "keep_internal",
+    "layout": "KeepLines",
+    "lines": [
+      {
+        "text": "a\r\nb",
+        "bounds": null
+      },
+      {
+        "text": "c",
+        "bounds": null
+      }
+    ],
+    "expected": "a\r\nb\nc"
+  },
+  {
+    "name": "latin",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "hello",
+        "bounds": null
+      },
+      {
+        "text": "world",
+        "bounds": null
+      }
+    ],
+    "expected": "hello world"
+  },
+  {
+    "name": "han",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "中文",
+        "bounds": null
+      },
+      {
+        "text": "测试",
+        "bounds": null
+      }
+    ],
+    "expected": "中文测试"
+  },
+  {
+    "name": "supplementary",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "𠀀",
+        "bounds": null
+      },
+      {
+        "text": "中",
+        "bounds": null
+      }
+    ],
+    "expected": "𠀀中"
+  },
+  {
+    "name": "hangul",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "한",
+        "bounds": null
+      },
+      {
+        "text": "글",
+        "bounds": null
+      }
+    ],
+    "expected": "한 글"
+  },
+  {
+    "name": "mixed",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "中",
+        "bounds": null
+      },
+      {
+        "text": "word",
+        "bounds": null
+      }
+    ],
+    "expected": "中 word"
+  },
+  {
+    "name": "hyphen",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "trans-",
+        "bounds": null
+      },
+      {
+        "text": "lation",
+        "bounds": null
+      }
+    ],
+    "expected": "translation"
+  },
+  {
+    "name": "number-hyphen",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "123-",
+        "bounds": null
+      },
+      {
+        "text": "word",
+        "bounds": null
+      }
+    ],
+    "expected": "123- word"
+  },
+  {
+    "name": "sentence",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "done.",
+        "bounds": null
+      },
+      {
+        "text": "next",
+        "bounds": null
+      }
+    ],
+    "expected": "done.\nnext"
+  },
+  {
+    "name": "closing",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "done!”",
+        "bounds": null
+      },
+      {
+        "text": "next",
+        "bounds": null
+      }
+    ],
+    "expected": "done!”\nnext"
+  },
+  {
+    "name": "list",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "heading",
+        "bounds": null
+      },
+      {
+        "text": "- item",
+        "bounds": null
+      }
+    ],
+    "expected": "heading\n- item"
+  },
+  {
+    "name": "decimal",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "value",
+        "bounds": null
+      },
+      {
+        "text": "1.25",
+        "bounds": null
+      }
+    ],
+    "expected": "value 1.25"
+  },
+  {
+    "name": "numbered",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "heading",
+        "bounds": null
+      },
+      {
+        "text": "1. item",
+        "bounds": null
+      }
+    ],
+    "expected": "heading\n1. item"
+  },
+  {
+    "name": "blank-paragraph",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "a",
+        "bounds": null
+      },
+      {
+        "text": "",
+        "bounds": null
+      },
+      {
+        "text": "",
+        "bounds": null
+      },
+      {
+        "text": "b",
+        "bounds": null
+      }
+    ],
+    "expected": "a\n\n\nb"
+  },
+  {
+    "name": "internal-atomic",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "alpha\nbeta",
+        "bounds": null
+      },
+      {
+        "text": "gamma",
+        "bounds": null
+      }
+    ],
+    "expected": "alpha\nbeta gamma"
+  },
+  {
+    "name": "threshold-equal",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "a",
+        "bounds": [
+          0,
+          0,
+          10,
+          10
+        ]
+      },
+      {
+        "text": "b",
+        "bounds": [
+          0,
+          25,
+          10,
+          10
+        ]
+      }
+    ],
+    "expected": "a b"
+  },
+  {
+    "name": "threshold-over",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "a",
+        "bounds": [
+          0,
+          0,
+          10,
+          10
+        ]
+      },
+      {
+        "text": "b",
+        "bounds": [
+          0,
+          26,
+          10,
+          10
+        ]
+      }
+    ],
+    "expected": "a\nb"
+  },
+  {
+    "name": "mean-height-below",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "a",
+        "bounds": [
+          0,
+          0,
+          10,
+          10
+        ]
+      },
+      {
+        "text": "b",
+        "bounds": [
+          0,
+          32,
+          10,
+          20
+        ]
+      }
+    ],
+    "expected": "a b"
+  },
+  {
+    "name": "mean-height-over",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "a",
+        "bounds": [
+          0,
+          0,
+          10,
+          10
+        ]
+      },
+      {
+        "text": "b",
+        "bounds": [
+          0,
+          33,
+          10,
+          20
+        ]
+      }
+    ],
+    "expected": "a\nb"
+  },
+  {
+    "name": "whole-set-mean",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "a",
+        "bounds": [
+          0,
+          0,
+          10,
+          10
+        ]
+      },
+      {
+        "text": "b",
+        "bounds": [
+          0,
+          30,
+          10,
+          10
+        ]
+      },
+      {
+        "text": "c",
+        "bounds": [
+          0,
+          55,
+          10,
+          100
+        ]
+      }
+    ],
+    "expected": "a b c"
+  },
+  {
+    "name": "overlap",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "a",
+        "bounds": [
+          0,
+          50,
+          10,
+          20
+        ]
+      },
+      {
+        "text": "b",
+        "bounds": [
+          0,
+          55,
+          10,
+          10
+        ]
+      }
+    ],
+    "expected": "a b"
+  },
+  {
+    "name": "partial",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "a",
+        "bounds": [
+          0,
+          0,
+          10,
+          10
+        ]
+      },
+      {
+        "text": "b",
+        "bounds": null
+      }
+    ],
+    "expected": "a b"
+  },
+  {
+    "name": "invalid-negative",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "a",
+        "bounds": [
+          -1,
+          0,
+          10,
+          10
+        ]
+      },
+      {
+        "text": "b",
+        "bounds": [
+          0,
+          100,
+          10,
+          10
+        ]
+      }
+    ],
+    "expected": "a b"
+  },
+  {
+    "name": "invalid-zero",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "a",
+        "bounds": [
+          0,
+          0,
+          0,
+          10
+        ]
+      },
+      {
+        "text": "b",
+        "bounds": [
+          0,
+          100,
+          10,
+          10
+        ]
+      }
+    ],
+    "expected": "a b"
+  },
+  {
+    "name": "overflow-safe",
+    "layout": "MergeParagraphs",
+    "lines": [
+      {
+        "text": "a",
+        "bounds": [
+          0,
+          2147483647,
+          10,
+          100
+        ]
+      },
+      {
+        "text": "b",
+        "bounds": [
+          0,
+          2147483647,
+          10,
+          100
+        ]
+      }
+    ],
+    "expected": "a b"
+  }
+]

@@ -1,0 +1,102 @@
+using System.Collections.Concurrent;
+using System.IO;
+using System.Windows.Interop;
+using Iris.App.Hosting;
+using Iris.App.Ocr;
+using Iris.Core.Actions;
+using Iris.Core.Imaging;
+using Iris.Core.Ocr;
+using Iris.Core.Platform;
+using Iris.Core.Presentation;
+using Iris.Core.Settings;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+
+sealed class WindowScope:IAsyncDisposable
+{
+    internal static Action<string,bool> Check=null!;
+    internal readonly ReviewSta Sta;
+    internal readonly ReviewUi Ui;
+    internal readonly ReviewWindows Windows=new();
+    internal readonly PipelineRegistry Registry=new();
+    internal readonly PipelinePreprocessor Images=new();
+    internal readonly ClipboardBoundary Clipboard=new();
+    internal readonly OcrBoundary Ocr=new();
+    internal readonly ActionBoundary Actions=new();
+    internal readonly List<Action> Releases=new();
+    internal readonly List<IOcrResultOperation> Operations=new();
+    internal readonly List<Task> Work=new();
+    internal readonly ServiceProvider Services;
+    internal OcrResultPresenter Presenter {get;}
+    internal ImageData Image {get;}
+    internal WindowScope(ReviewSta sta)
+    {
+        Sta=sta;Ui=new(sta);
+        Image=new(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory,"fixtures","grid-wide.png")),ImageFormat.Png,1600,900);
+        Images.Body=(image,limits,token)=>{token.ThrowIfCancellationRequested();return Task.FromResult(image);};
+        Registry.Factory=()=>new PipelineSnapshot
+        {
+            Captured=new(){Ocr=new(){ActiveProviderId="main",FallbackProviderId=null}},
+            Entries=new[]{new OcrProviderRegistration(new(){Id="main",Kind=OcrProviderKind.WindowsLocal,DisplayName="Review provider"},new PipelineProvider("main"),Guid.NewGuid())}
+        };
+        var services=new ServiceCollection();services.AddSingleton<IUiDispatcher>(Ui);services.AddSingleton<IOcrWindowPlatform>(Windows);services.AddSingleton<IOcrProviderRegistry>(Registry);
+        services.AddSingleton<IImagePreprocessor>(Images);services.AddSingleton<IClipboardService>(Clipboard);services.AddSingleton<IOcrService>(Ocr);services.AddSingleton<IActionDispatcher>(Actions);
+        services.AddSingleton<ISettingsService>(new ReviewSettings(new()));services.AddSingleton(typeof(ILogger<>),typeof(NullLogger<>));
+        services.AddSingleton<OcrResultPresenter>();services.AddScoped<OcrResultViewModel>();services.AddTransient<OcrResultWindow>();
+        Services=services.BuildServiceProvider();Presenter=Services.GetRequiredService<OcrResultPresenter>();
+    }
+    internal IOcrResultOperation Begin(CancellationToken token=default)
+    {
+        var op=Presenter.TryBeginOperation(token)??throw new InvalidOperationException("Expected operation admission.");Operations.Add(op);return op;
+    }
+    internal Task<bool> Show(IOcrResultOperation op,OcrResultViewRequest request)
+    {
+        var task=Presenter.TryShowAsync(op,request);Work.Add(task);return task;
+    }
+    internal Task<string?> Text()=>Sta.Run(()=>Presenter.ViewModel?.Text);
+    public async ValueTask DisposeAsync()
+    {
+        Presenter.StopAccepting();Ui.Release();foreach(var release in Releases)release();Windows.RefuseClose=Windows.FailAfterShow=false;
+        foreach(var snapshot in Registry.Issued){snapshot.FailRelease=false;snapshot.ReleaseGate?.TrySetResult();}
+        var errors=new List<Exception>();
+        foreach(var work in Work)try{await work.WaitAsync(TimeSpan.FromSeconds(15));}catch(TimeoutException ex){errors.Add(ex);}catch(Exception){}
+        foreach(var op in Operations)op.Dispose();
+        for(int i=0;i<2;i++)
+        {
+            try{await Presenter.ShutdownAsync().WaitAsync(TimeSpan.FromSeconds(15));break;}catch(Exception ex){errors.Add(ex);}
+        }
+        try{await Services.DisposeAsync();}catch(Exception ex){errors.Add(ex);}
+        var closed=await Sta.Run(()=>Windows.Created.All(w=>new WindowInteropHelper(w).Handle==0));
+        if(!closed)errors.Add(new InvalidOperationException("Owned native OCR window remains alive."));
+        if(errors.Count!=0)throw new AggregateException("Independent window scope cleanup failed.",errors);
+    }
+}
+
+sealed class ClipboardBoundary:IClipboardService
+{
+    internal readonly ConcurrentQueue<string> Writes=new();
+    internal Func<string,CancellationToken,Task>? Write {get;set;}
+    public Task SetTextAsync(string text,CancellationToken token=default){Writes.Enqueue(text);return Write?.Invoke(text,token)??Task.CompletedTask;}
+    public Task<string?> GetTextAsync(CancellationToken token=default)=>throw new NotSupportedException("No clipboard reads in review.");
+    public Task SetImageAsync(ImageData image,CancellationToken token=default)=>throw new NotSupportedException();
+    public uint GetSequenceNumber()=>0;
+}
+sealed class OcrBoundary:IOcrService
+{
+    internal readonly ConcurrentQueue<(ImageData Image,string? Id)> Calls=new();
+    internal Func<ImageData,string?,CancellationToken,Task<OcrOutcome>>? Body {get;set;}
+    public Task<OcrOutcome> RecognizeAsync(ImageData image,string? providerId=null,CancellationToken token=default)
+    {
+        Calls.Enqueue((image,providerId));return Body?.Invoke(image,providerId,token)??Task.FromResult(new OcrOutcome(new("main",new[]{new OcrLine("recognized")},null,TimeSpan.Zero),"recognized",false));
+    }
+    public void StopAccepting(){}
+    public Task StopAsync(CancellationToken token=default)=>Task.CompletedTask;
+    public Task RetryCleanupAsync(CancellationToken token=default)=>Task.CompletedTask;
+    public ValueTask DisposeAsync()=>ValueTask.CompletedTask;
+}
+sealed class ActionBoundary:IActionDispatcher
+{
+    internal readonly ConcurrentQueue<(IrisAction Action,ActionContext Context)> Calls=new();
+    public Task DispatchAsync(IrisAction action,ActionContext context,CancellationToken token=default){Calls.Enqueue((action,context));return Task.CompletedTask;}
+}

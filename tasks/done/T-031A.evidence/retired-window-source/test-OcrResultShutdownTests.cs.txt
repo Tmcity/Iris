@@ -1,0 +1,109 @@
+using Iris.App.Capture;
+using Iris.App.Hosting;
+using Iris.App.Services;
+using Iris.App.Tests.Capture;
+using Iris.App.Tray;
+using Iris.Core.Errors;
+using Iris.Core.Presentation;
+using Iris.Core.Settings;
+using Iris.Core.Storage;
+using Iris.Core.Security;
+using Iris.Core.Ocr;
+using Iris.App.Ocr;
+using Microsoft.Extensions.DependencyInjection;
+using Iris.Core.Translation;
+using Iris.Platform.Windows.Tests.Imaging;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging.Abstractions;
+using NSubstitute;
+using Shouldly;
+using static Iris.App.Tests.Ocr.OcrWindowTestScope;
+
+namespace Iris.App.Tests.Ocr;
+
+[Collection("ScreenshotRendering")]
+public sealed class OcrResultShutdownTests
+{
+    [Fact]
+    public Task ActualHostHasSingleLazyPresenterAndNoDispatcherCycle() => Run(async f =>
+    {
+        var paths = Substitute.For<IAppPaths>(); paths.DataDirectory.Returns(Path.GetTempPath());
+        var host = AppHostBuilder.Build([], paths, new Serilog.Core.LoggingLevelSwitch(), 0, services =>
+        {
+            services.AddSingleton(f.Settings); services.AddSingleton(Substitute.For<ISecretStore>());
+            services.AddSingleton<IOcrWindowPlatform>(f.Windows);
+        });
+        var previous = AppBootstrapper.AppShutdowner; AppBootstrapper.AppShutdowner = _ => { };
+        Exception? primary = null; var errors = new List<Exception>();
+        try
+        {
+            var presenter = host.Services.GetRequiredService<OcrResultPresenter>();
+            host.Services.GetRequiredService<IOcrResultPresenter>().ShouldBeSameAs(presenter);
+            host.Services.GetRequiredService<IOcrResultShutdownCoordinator>().ShouldBeSameAs(presenter);
+            host.Services.GetServices<IScreenshotPreparationParticipant>().Single().ShouldBeSameAs(presenter);
+            host.Services.GetRequiredService<Iris.Core.Actions.IActionDispatcher>().ShouldNotBeNull();
+            host.Services.GetRequiredService<ScreenshotPreparationCoordinator>().ShouldNotBeNull();
+            presenter.Window.ShouldBeNull(); f.Windows.Shows.ShouldBe(0);
+            await host.Services.GetRequiredService<AppBootstrapper>().StopAsync();
+        }
+        catch (Exception ex) { primary = ex; }
+        finally
+        {
+            try { await host.Services.GetRequiredService<AppBootstrapper>().StopAsync(); } catch (Exception ex) { errors.Add(ex); }
+            if (errors.Count == 0) try { await ((IAsyncDisposable)host).DisposeAsync(); } catch (Exception ex) { errors.Add(ex); }
+            AppBootstrapper.AppShutdowner = previous;
+        }
+        if (primary != null && errors.Count == 0) System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(primary).Throw();
+        if (primary != null) errors.Insert(0, primary); if (errors.Count != 0) throw new AggregateException(errors);
+    });
+    [Fact]
+    public Task ActualWinRtPreviewValidatesHeaderAndKeepsOriginalPixels() => Run(f => ImagePreparationTestScope.Run(async images =>
+    {
+        f.Images.Actual = images.Service;
+        await f.Show(f.Begin(), "valid");
+        var preview = (System.Windows.Media.Imaging.BitmapSource)f.Presenter.ViewModel!.Preview!;
+        preview.PixelWidth.ShouldBe(f.Image.PixelWidth); preview.PixelHeight.ShouldBe(f.Image.PixelHeight); preview.IsFrozen.ShouldBeTrue();
+        var invalid = f.Image with { PixelWidth = f.Image.PixelWidth + 1 };
+        await f.Show(f.Begin(), "invalid metadata", image: invalid);
+        f.Presenter.ViewModel.Preview.ShouldBeNull(); f.Presenter.ViewModel.PreviewError.ShouldBe(ErrorMessages.GetDefault(ErrorCode.ImageInvalid));
+    }));
+    [Theory][InlineData(false)][InlineData(true)]
+    public Task BootstrapperPreservesWindowAndPreprocessorOnPreparationOrCloseFailure(bool preparationFailure) => Run(f => PreparationTestScope.Run(a => ImagePreparationTestScope.Run(async images =>
+    {
+        var operation = f.Begin(); await f.Show(operation, "owned"); await f.Presenter.WhenIdleAsync(); operation.Dispose();
+        var coordinator = new ScreenshotPreparationCoordinator(a.Mouse.Presenter, a.Settings, a.Recording, a.Mouse.Controller, [f.Presenter]);
+        if (preparationFailure)
+        {
+            await a.Mouse.Mode(MouseSelectionMode.ShowIcon); await a.Mouse.Controller.StartAsync(); await a.Mouse.ShowCandidate();
+            a.Mouse.Icon.FailHide = true; await Should.ThrowAsync<IrisException>(() => coordinator.PrepareAsync(true)); a.Mouse.Icon.FailClose = true;
+        }
+        else f.Windows.RefuseClose = true;
+        int stops = 0, exits = 0; var host = Substitute.For<IHost>();
+        host.StopAsync(Arg.Any<CancellationToken>()).Returns(_ => { stops++; return Task.CompletedTask; });
+        var tray = new TrayIconController(Substitute.For<IAppLifetime>(), f.Settings, f.Actions, NullLogger<TrayIconController>.Instance) { SuppressIconCreationForTesting = true };
+        var bootstrap = new AppBootstrapper(f.Settings, Substitute.For<ITranslationProviderRegistry>(), Substitute.For<IDatabaseInitializer>(),
+            new LogLevelController(f.Settings, new Serilog.Core.LoggingLevelSwitch(), NullLogger<LogLevelController>.Instance), new ThemeService(f.Settings),
+            tray, new TrayNotificationService(NullLogger<TrayNotificationService>.Instance), host, NullLogger<AppBootstrapper>.Instance, new(0),
+            screenshotPreparation: coordinator, imagePreprocessor: images.Service, ocrWindow: f.Presenter);
+        var previous = AppBootstrapper.AppShutdowner; AppBootstrapper.AppShutdowner = _ => exits++;
+        Exception? primary = null; var errors = new List<Exception>();
+        try
+        {
+            await Should.ThrowAsync<IrisException>(() => bootstrap.StopAsync());
+            f.Presenter.Window.ShouldNotBeNull(); stops.ShouldBe(0); exits.ShouldBe(0);
+            var image = await ImagePreparationTestScope.Image(); await images.Start(image, ImagePreparationTestScope.Constraints());
+            a.Mouse.Icon.FailClose = a.Mouse.Icon.FailHide = false; f.Windows.RefuseClose = false;
+            await bootstrap.StopAsync(); f.Presenter.Window.ShouldBeNull(); stops.ShouldBe(1); exits.ShouldBe(1);
+        }
+        catch (Exception ex) { primary = ex; }
+        finally
+        {
+            a.Mouse.Icon.FailClose = a.Mouse.Icon.FailHide = false; f.Windows.RefuseClose = false;
+            try { await bootstrap.StopAsync(); } catch (Exception ex) { errors.Add(ex); }
+            try { await coordinator.StopAsync(); } catch (Exception ex) { errors.Add(ex); }
+            AppBootstrapper.AppShutdowner = previous;
+        }
+        if (primary != null && errors.Count == 0) System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(primary).Throw();
+        if (primary != null) errors.Insert(0, primary); if (errors.Count != 0) throw new AggregateException(errors);
+    })));
+}

@@ -1,0 +1,126 @@
+using System.Windows.Interop;
+using Iris.Core.Errors;
+using Iris.Core.Imaging;
+using Iris.Core.Ocr;
+using Iris.Core.Presentation;
+using NSubstitute;
+using Shouldly;
+using static Iris.App.Tests.Ocr.OcrWindowTestScope;
+
+namespace Iris.App.Tests.Ocr;
+
+[Collection("ScreenshotRendering")]
+public sealed class OcrResultWindowTests
+{
+    [Fact]
+    public Task InvalidPreviewShowsSafePlaceholderWithoutLosingOriginal() => Run(async f =>
+    {
+        f.Images.Failure = new IrisException(ErrorCode.ImageTooLarge, "private image");
+        await f.Show(f.Begin(), "text");
+        f.Presenter.ViewModel!.Preview.ShouldBeNull();
+        f.Presenter.ViewModel.PreviewError.ShouldBe(ErrorMessages.GetDefault(ErrorCode.ImageTooLarge));
+    });
+    [Fact]
+    public Task LazyAdmissionCapAndCanceledCallerPreserveExistingIntent() => Run(async f =>
+    {
+        f.Windows.Shows.ShouldBe(0); f.Snapshots.ShouldBeEmpty(); f.Images.Inputs.ShouldBeEmpty();
+        var ops = Enumerable.Range(0, 8).Select(_ => f.Begin()).ToArray();
+        f.Presenter.TryBeginOperation().ShouldBeNull();
+        Should.Throw<OperationCanceledException>(() => f.Presenter.TryBeginOperation(new CancellationToken(true)));
+        (await f.Show(ops[^1], "accepted")).ShouldBeTrue();
+        foreach (var op in ops) op.Dispose(); await f.Presenter.CloseAsync(); f.Presenter.OperationCount.ShouldBe(0);
+    });
+    [Fact]
+    public Task LoadingTerminalIdentityImageAndCloseRelease() => Run(async f =>
+    {
+        var op = f.Begin(); (await f.Show(op, loading: true)).ShouldBeTrue(); var window = f.Presenter.Window!;
+        f.Presenter.ViewModel!.IsLoading.ShouldBeTrue(); f.Presenter.ViewModel.Preview!.IsFrozen.ShouldBeTrue();
+        (await f.Show(op, "hello", autoCopy: true)).ShouldBeTrue();
+        (await f.Show(op, "duplicate", autoCopy: true)).ShouldBeFalse();
+        Should.Throw<ArgumentException>(() => f.Presenter.TryShowAsync(op, new() { Image = f.Image with { }, Text = "other" }));
+        await f.Presenter.WhenIdleAsync(); f.Images.Inputs.Count.ShouldBe(1); f.Windows.Shows.ShouldBe(1);
+        await f.Clipboard.Received(1).SetTextAsync("hello", Arg.Any<CancellationToken>());
+        op.Dispose(); Should.Throw<ObjectDisposedException>(() => op.CancellationToken);
+        var close = f.Presenter.CloseAsync(); await close; new WindowInteropHelper(window).Handle.ShouldBe(0);
+        window.DataContext.ShouldBeNull(); f.Presenter.Window.ShouldBeNull();
+    });
+    [Fact]
+    public Task ReleasedForeignAndInvalidRequestsAreRejected() => Run(async f =>
+    {
+        var op = f.Begin();
+        Should.Throw<ArgumentException>(() => f.Presenter.TryShowAsync(Substitute.For<IOcrResultOperation>(), new() { Image = f.Image }));
+        Should.Throw<ArgumentException>(() => f.Presenter.TryShowAsync(op, new() { Image = f.Image, Text = "x", IsLoading = true }));
+        Should.Throw<ArgumentException>(() => f.Presenter.TryShowAsync(op, new() { Image = f.Image, Text = "x", Error = new(ErrorCode.Unknown, "private") }));
+        op.Dispose(); (await f.Show(op, "stale")).ShouldBeFalse(); f.Windows.Shows.ShouldBe(0);
+    });
+    [Fact]
+    public Task NonCooperativePreviewAndUiQueueRecheckIdentity() => Run(async f =>
+    {
+        var op = f.Begin(); await f.Presenter.WhenIdleAsync(); var gate = f.Gate(); f.Images.Before = gate.Wait;
+        var show = f.Show(op, "old"); await gate.Entered.WaitAsync(TimeSpan.FromSeconds(10));
+        Should.Throw<InvalidOperationException>(() => f.Presenter.TryShowAsync(op, new() { Image = f.Image }));
+        var newer = f.Begin(); gate.Open(); (await show).ShouldBeFalse(); f.Windows.Shows.ShouldBe(0);
+        f.Images.Before = null; await f.Presenter.WhenIdleAsync();
+        var ui = f.Gate(); f.Ui.Before = ui.Wait; var next = f.Show(newer, "queued");
+        await ui.Entered.WaitAsync(TimeSpan.FromSeconds(10)); newer.Dispose(); ui.Open(); (await next).ShouldBeFalse();
+    });
+    [Fact]
+    public Task NewIntentSettlesOldLoadingAndSameImageKeepsEditAndZoom() => Run(async f =>
+    {
+        var first = f.Begin(); await f.Show(first, "edit"); f.Presenter.ViewModel!.Zoom = 2;
+        var loading = f.Begin(); await f.Show(loading, loading: true);
+        f.Presenter.ViewModel.Text.ShouldBe("edit"); var next = f.Begin(); await f.Presenter.WhenIdleAsync();
+        f.Presenter.ViewModel.IsLoading.ShouldBeFalse();
+        (await f.Show(loading, "late")).ShouldBeFalse();
+        await f.Presenter.TryShowAsync(next, new() { Image = f.Image, Error = new(ErrorCode.Timeout, "private raw", Detail: "private") });
+        f.Presenter.ViewModel.Text.ShouldBe("edit"); f.Presenter.ViewModel.Zoom.ShouldBe(2);
+        f.Presenter.ViewModel.Error.ShouldBe(ErrorMessages.GetDefault(ErrorCode.Timeout));
+        var newImage = f.Begin(); await f.Show(newImage, loading: true, image: Synthetic(30, 30));
+        f.Presenter.ViewModel.Text.ShouldBeEmpty(); f.Presenter.ViewModel.Zoom.ShouldBe(1);
+    });
+    [Theory][InlineData(false)][InlineData(true)]
+    public Task ActualShowAndCloseFailuresRetainSameWindowUntilRetry(bool showFailure) => Run(async f =>
+    {
+        f.Windows.RefuseClose = true; f.Windows.FailAfterShow = showFailure; var op = f.Begin();
+        if (showFailure)
+        {
+            var task = f.Presenter.TryShowAsync(op, new() { Image = f.Image, Text = "x" }); f.Work.Add((task, typeof(IrisException)));
+            await Should.ThrowAsync<IrisException>(() => task);
+        }
+        else await f.Show(op, "x");
+        var window = f.Presenter.Window!; op.Dispose();
+        await Should.ThrowAsync<IrisException>(() => f.Presenter.CloseAsync());
+        window.IsVisible.ShouldBeTrue(); f.Presenter.TryBeginOperation().ShouldBeNull();
+        f.Presenter.ViewModel!.CloseCommand.CanExecute(null).ShouldBeTrue();
+        f.Windows.RefuseClose = false; f.Windows.FailAfterShow = false; await f.Presenter.CloseAsync();
+        new WindowInteropHelper(window).Handle.ShouldBe(0); f.Windows.Shows.ShouldBe(1);
+        var next = f.Begin(); await f.Show(next, "new"); f.Presenter.Window.ShouldNotBeSameAs(window);
+    });
+    [Fact]
+    public Task ClosingWaitsCallerAndCopyThenDestroysActualHwnd() => Run(async f =>
+    {
+        var gate = f.Gate(); f.Clipboard.SetTextAsync(Arg.Any<string>(), Arg.Any<CancellationToken>()).Returns(_ => gate.Wait());
+        var op = f.Begin(); await f.Show(op, "copy", autoCopy: true); await gate.Entered.WaitAsync(TimeSpan.FromSeconds(10));
+        var window = f.Presenter.Window!; var close = f.Presenter.CloseAsync(); close.IsCompleted.ShouldBeFalse();
+        gate.Open(); await f.Presenter.WhenIdleAsync(); close.IsCompleted.ShouldBeFalse();
+        op.Dispose(); await close; new WindowInteropHelper(window).Handle.ShouldBe(0);
+    });
+    [Fact]
+    public Task ListsRetainFailedSnapshotAndRetrySameResource() => Run(async f =>
+    {
+        f.ConfigureSnapshot = s => s.Fail = true; var op = f.Begin(); await f.Show(op, "unchanged"); await f.Presenter.WhenIdleAsync();
+        f.Presenter.ViewModel!.ListError.ShouldNotBeEmpty(); f.Presenter.ViewModel.Text.ShouldBe("unchanged");
+        var original = f.Snapshots.Single(); original.Disposals.ShouldBe(1); op.Dispose();
+        await Should.ThrowAsync<IrisException>(() => f.Presenter.CloseAsync()); original.Disposals.ShouldBe(2);
+        original.Fail = false; f.ConfigureSnapshot = null; await f.Presenter.CloseAsync(); original.Disposals.ShouldBe(3);
+    });
+    [Fact]
+    public Task RerecognizeUsesOriginalAndSelectedId_NoSelectionSideEffect() => Run(async f =>
+    {
+        var op = f.Begin(); await f.Show(op, "editable"); await f.Presenter.WhenIdleAsync();
+        await f.Ocr.DidNotReceive().RecognizeAsync(Arg.Any<ImageData>(), Arg.Any<string?>(), Arg.Any<CancellationToken>());
+        f.Presenter.ViewModel!.Zoom = 3; await f.Presenter.RecognizeAsync(); await f.Presenter.WhenIdleAsync();
+        await f.Ocr.Received(1).RecognizeAsync(f.Image, "local", Arg.Any<CancellationToken>());
+        f.Presenter.ViewModel.Text.ShouldBe("result"); f.Presenter.ViewModel.Zoom.ShouldBe(3); f.Images.Inputs.Count.ShouldBe(1);
+    });
+}

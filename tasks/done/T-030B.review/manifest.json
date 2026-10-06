@@ -1,0 +1,28 @@
+{
+  "commit": "0f7dd54c42ce1d84a164a5973f41a0753d4e18cb",
+  "sources": {
+    "src/Iris.Core/Ocr/IOcrProvider.cs": "b3615692e9de51b24c317e62156edffb3ade23b15c5700da00a0a964b8074332",
+    "src/Iris.Core/Ocr/OcrModels.cs": "0c00b30aadcf8ccf5822355c432a37890bdc93d00a624051330abe8748599be8",
+    "src/Iris.Core/Ocr/OcrProviderRegistry.cs": "780ff86a833dadf13c8567a297d12f7088ea05e9be19b1654689fa599785f810",
+    "src/Iris.Core/Ocr/OcrRegistrySnapshot.cs": "f952f1354bb56ccac20f24d9b445e2d710afbf393715ac6587a8547a8c566ca0",
+    "src/Iris.Core/Ocr/OcrService.cs": "6b492a7ed7d438e07af530f15f742bada0c973ad81c50e31f229f223f83cc4b2",
+    "src/Iris.Core/Ocr/OcrTextNormalizer.cs": "ade48a95e259fee29ae8157234f241ae6e0cb9d183c9e46e9e46ba20e6a6f762"
+  },
+  "probeSources": {
+    "Program.cs": "a26cad84bcdb618639d7f9b1d9eec70284ac9728fdb7675c206cf6515f758e42",
+    "Boundaries.cs": "c093e7b3a81e79b178b30f98a0e26f4c2a6919b421b8c037f112db9b987c40ab",
+    "BehaviorChecks.cs": "f1f251cfea4e63e1978b1fb9a796b92431d157543a6649b621f579cd3249a7ff",
+    "LifecycleChecks.cs": "31246f4ae7af4fe8874b004bc5aaf8b662e31a8ef198c9eb4ee0b98a90545dd4",
+    "OwnershipChecks.cs": "838b3d3c2f1e02dc93cb5733d7ea878c3ddff0e3ca8fe5bd443b6ab4277e9c05",
+    "RegistryIntegrationChecks.cs": "d74ff93cc694e9a7782c46009674c3eebd8c83f0ebc42bd1c712d46fa39d7df2",
+    "SelectionChecks.cs": "7474ba9cd4c0916ddeb3d619f1d94f24a781045dbbb8feb4779576497daeaca6"
+  },
+  "productDlls": {
+    "Iris.Core.dll": "e41e3f80a31399b11dcf5a7af04e42e5ac70ac58693ac7402ba3fc9cb961b029"
+  },
+  "vectors": "a3d00f1fa5f067744339c8fa147628c326deee89070f8acefe8ca8d805a4840b",
+  "phase": "Binding only. Record execution separately; developer still implementing unless final delivery confirmed.",
+  "externalProbeSources": {
+    "tasks/done/T-030A.review/Boundaries.cs": "933b21d4baf4bfb8bc5e3c1c17c7883b7288402396a03df84ee835110b3cf10f"
+  }
+}

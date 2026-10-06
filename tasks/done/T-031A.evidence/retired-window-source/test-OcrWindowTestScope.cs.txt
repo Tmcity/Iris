@@ -1,0 +1,137 @@
+using System.Runtime.ExceptionServices;
+using System.Windows;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using Iris.App.Hosting;
+using Iris.App.Ocr;
+using Iris.App.Tests.TestSupport;
+using Iris.Core.Actions;
+using Iris.Core.Common;
+using Iris.Core.Imaging;
+using Iris.Core.Ocr;
+using Iris.Core.Platform;
+using Iris.Core.Presentation;
+using Iris.Core.Settings;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
+using NSubstitute;
+
+namespace Iris.App.Tests.Ocr;
+
+internal sealed class OcrWindowTestScope
+{
+    internal readonly IOcrProviderRegistry Registry = Substitute.For<IOcrProviderRegistry>();
+    internal readonly IOcrService Ocr = Substitute.For<IOcrService>();
+    internal readonly IClipboardService Clipboard = Substitute.For<IClipboardService>();
+    internal readonly IActionDispatcher Actions = Substitute.For<IActionDispatcher>();
+    internal readonly ISettingsService Settings = Substitute.For<ISettingsService>();
+    internal readonly UiBoundary Ui = new();
+    internal readonly WindowBoundary Windows = new();
+    internal readonly Preparation Images = new();
+    internal readonly List<Snapshot> Snapshots = [];
+    internal readonly List<IOcrResultOperation> Operations = [];
+    internal readonly List<(Task Task, Type? Error)> Work = [];
+    internal readonly List<Action> Opens = [];
+    internal ServiceProvider Container { get; }
+    internal OcrResultPresenter Presenter { get; }
+    internal ImageData Image { get; } = Synthetic();
+    internal Action<Snapshot>? ConfigureSnapshot;
+    internal OcrWindowTestScope()
+    {
+        Settings.Current.Returns(new AppSettings());
+        Registry.AcquireSnapshotAsync(Arg.Any<CancellationToken>()).Returns(_ =>
+        {
+            var snapshot = new Snapshot(); ConfigureSnapshot?.Invoke(snapshot); lock (Snapshots) Snapshots.Add(snapshot);
+            return Task.FromResult<IOcrProviderSnapshot>(snapshot);
+        });
+        Ocr.RecognizeAsync(Arg.Any<ImageData>(), Arg.Any<string?>(), Arg.Any<CancellationToken>()).Returns(_ =>
+            Task.FromResult(new OcrOutcome(new("local", [new("result")], null, TimeSpan.Zero), "result", false)));
+        var services = new ServiceCollection(); services.AddSingleton(Settings); services.AddSingleton(Registry); services.AddSingleton(Ocr);
+        services.AddSingleton(Clipboard); services.AddSingleton(Actions); services.AddSingleton<IImagePreprocessor>(Images);
+        services.AddScoped<OcrResultViewModel>(); services.AddTransient<OcrResultWindow>();
+        Container = services.BuildServiceProvider(); Presenter = new(Container, Ui, Registry, Windows, NullLogger<OcrResultPresenter>.Instance);
+    }
+    internal IOcrResultOperation Begin(CancellationToken token = default)
+    { var operation = Presenter.TryBeginOperation(token) ?? throw new InvalidOperationException("Admission refused."); Operations.Add(operation); return operation; }
+    internal Task<bool> Show(IOcrResultOperation op, string? text = null, bool loading = false, bool autoCopy = false, ImageData? image = null)
+    { var task = Presenter.TryShowAsync(op, new() { Image = image ?? Image, Text = text, IsLoading = loading, AutoCopy = autoCopy }); Work.Add((task, null)); return task; }
+    internal (Task Entered, Func<Task> Wait, Action Open) Gate()
+    {
+        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        Action open = () => release.TrySetResult(); Opens.Add(open);
+        return (entered.Task, async () => { entered.TrySetResult(); await release.Task; }, open);
+    }
+    internal static Task Run(Func<OcrWindowTestScope, Task> body) => WpfTestRunner.RunAsync(async () =>
+    {
+        var f = new OcrWindowTestScope(); Exception? primary = null; var errors = new List<Exception>();
+        try { await body(f); } catch (Exception ex) { primary = ex; }
+        finally
+        {
+            foreach (var open in f.Opens) open(); f.Windows.RefuseClose = false; f.Windows.FailAfterShow = false;
+            f.ConfigureSnapshot = null; lock (f.Snapshots) foreach (var snapshot in f.Snapshots) snapshot.Fail = false;
+            foreach (var op in f.Operations) op.Dispose();
+            foreach (var (task, error) in f.Work) try { await task; } catch (Exception ex) { if (error == null || !error.IsInstanceOfType(ex)) errors.Add(ex); }
+            try { await f.Presenter.ShutdownAsync(); } catch (Exception ex) { errors.Add(ex); }
+            try { await f.Container.DisposeAsync(); } catch (Exception ex) { errors.Add(ex); }
+        }
+        if (primary != null && errors.Count == 0) ExceptionDispatchInfo.Capture(primary).Throw();
+        if (primary != null) errors.Insert(0, primary);
+        if (errors.Count != 0) throw new AggregateException(errors);
+    });
+    internal static ImageData Synthetic(int width = 320, int height = 200)
+    {
+        var pixels = new byte[width * height * 4];
+        for (int y = 0; y < height; y++) for (int x = 0; x < width; x++)
+        { int at = (y * width + x) * 4; pixels[at] = (byte)(x % 256); pixels[at + 1] = (byte)(y % 256); pixels[at + 2] = 220; pixels[at + 3] = 255; }
+        var bitmap = BitmapSource.Create(width, height, 96, 96, PixelFormats.Bgra32, null, pixels, width * 4); bitmap.Freeze();
+        var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap)); using var stream = new MemoryStream(); encoder.Save(stream);
+        return new(stream.ToArray(), ImageFormat.Png, width, height);
+    }
+    internal sealed class UiBoundary : IUiDispatcher
+    {
+        private readonly WpfUiDispatcher _actual = new();
+        internal Func<Task>? Before;
+        internal int AllowBefore;
+        public bool CheckAccess() => _actual.CheckAccess();
+        public async Task InvokeAsync(Func<Task> callback, CancellationToken cancellationToken)
+        { var before = Before != null && Interlocked.Decrement(ref AllowBefore) < 0 ? Interlocked.Exchange(ref Before, null) : null; if (before != null) await before(); await _actual.InvokeAsync(callback, cancellationToken); }
+    }
+    internal sealed class WindowBoundary : IOcrWindowPlatform
+    {
+        internal bool RefuseClose, FailAfterShow;
+        internal int Shows, Closes;
+        internal readonly List<OcrResultWindow> All = [];
+        public void Show(OcrResultWindow window, PixelPoint? anchor)
+        {
+            Shows++; All.Add(window); window.ShowActivated = false; window.Left = window.Top = -20000;
+            window.Closing += (_, e) => { if (RefuseClose) e.Cancel = true; };
+            window.Show(); if (FailAfterShow) throw new IOException("private show");
+        }
+        public void Close(OcrResultWindow window) { Closes++; window.Close(); }
+    }
+    internal sealed class Preparation : IImagePreprocessor
+    {
+        internal IImagePreprocessor? Actual;
+        internal Func<Task>? Before;
+        internal Exception? Failure;
+        internal readonly List<ImageData> Inputs = [];
+        public async Task<ImageData> PrepareAsync(ImageData image, ImageConstraints constraints, CancellationToken cancellationToken)
+        { lock (Inputs) Inputs.Add(image); if (Before != null) await Before(); if (Failure != null) throw Failure; return Actual == null ? image : await Actual.PrepareAsync(image, constraints, cancellationToken); }
+    }
+    internal sealed class Snapshot : IOcrProviderSnapshot
+    {
+        internal bool Fail; internal int Disposals;
+        internal Func<Task>? BeforeDispose;
+        public AppSettings Settings { get; } = new() { Ocr = new() { ActiveProviderId = "local" } };
+        public IReadOnlyList<OcrProviderRegistration> Providers { get; set; } = [new(new() { Id = "local", DisplayName = "Local OCR", Kind = OcrProviderKind.WindowsLocal }, new Provider(), Guid.NewGuid())];
+        public async ValueTask DisposeAsync() { Disposals++; if (BeforeDispose != null) await BeforeDispose(); if (Fail) throw new IOException("private snapshot"); }
+        private sealed class Provider : IOcrProvider
+        {
+            public ProviderDescriptor Descriptor { get; } = new("local", "Local OCR", "WindowsLocal", null, true);
+            public ImageConstraints Constraints => throw new NotSupportedException();
+            public Task<OcrResult> RecognizeAsync(OcrRequest request, CancellationToken cancellationToken) => throw new NotSupportedException();
+            public Task<ProviderTestResult> TestAsync(CancellationToken cancellationToken) => throw new NotSupportedException();
+        }
+    }
+}

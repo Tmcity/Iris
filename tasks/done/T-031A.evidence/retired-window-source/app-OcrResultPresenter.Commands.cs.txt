@@ -1,0 +1,205 @@
+using Iris.Core.Actions;
+using Iris.Core.Errors;
+using Iris.Core.Imaging;
+using Iris.Core.Ocr;
+using Iris.Core.Platform;
+using Iris.Core.Presentation;
+using Iris.Core.Settings;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Iris.App.Ocr;
+
+internal sealed partial class OcrResultPresenter
+{
+    private void OnRegistryChanged(object? sender, EventArgs args)
+    { lock (_gate) if (_session is { } session && !_closing && !_stopping) RequestListLocked(session); }
+    internal Task RefreshAsync()
+    {
+        lock (_gate)
+        {
+            if (_closing || _stopping || _session == null) return Task.CompletedTask;
+            RequestListLocked(_session); return _session.ListTask!;
+        }
+    }
+    private void RequestListLocked(Session session)
+    {
+        session.ListPending = true;
+        if (session.ListTask is { IsCompleted: false }) return;
+        session.ListTask = Own(async () =>
+        {
+            while (true)
+            {
+                lock (_gate)
+                {
+                    if (!session.ListPending || _closing || !ReferenceEquals(_session, session)) { session.ListTask = null; return; }
+                    session.ListPending = false;
+                }
+                try
+                {
+                    await RetrySnapshots(session).ConfigureAwait(false);
+                    var snapshot = await _registry.AcquireSnapshotAsync(session.Source.Token).ConfigureAwait(false);
+                    lock (_gate) session.Snapshots.Add(snapshot);
+                    OcrProviderChoice[] choices; string active;
+                    try
+                    {
+                        active = snapshot.Settings.Ocr.ActiveProviderId;
+                        choices = snapshot.Providers.Select(p => new OcrProviderChoice(p.Profile.Id, p.Profile.DisplayName, p.Provider.Descriptor.IsConfigured)).ToArray();
+                    }
+                    finally { await RetrySnapshots(session).ConfigureAwait(false); }
+                    await _ui.InvokeAsync(() =>
+                    {
+                        lock (_gate)
+                        {
+                            if (_closing || !ReferenceEquals(_session, session)) return Task.CompletedTask;
+                            string? selected = session.ViewModel.SelectedProvider?.Id;
+                            session.ViewModel.Providers.Clear(); foreach (var choice in choices) session.ViewModel.Providers.Add(choice);
+                            session.ViewModel.SelectedProvider = choices.FirstOrDefault(p => p.Id == selected) ?? choices.FirstOrDefault(p => p.Id == active) ?? choices.FirstOrDefault();
+                            session.ViewModel.ListError = "";
+                        }
+                        return Task.CompletedTask;
+                    }, CancellationToken.None).ConfigureAwait(false);
+                }
+                catch (OperationCanceledException) { }
+                catch (Exception ex)
+                {
+                    LogFailure(_logger, "LIST");
+                    await SetError(session, ex, list: true).ConfigureAwait(false);
+                }
+            }
+        });
+    }
+    private async Task RetrySnapshots(Session session)
+    {
+        IOcrProviderSnapshot[] snapshots; lock (_gate) snapshots = session.Snapshots.ToArray();
+        bool failed = false;
+        foreach (var snapshot in snapshots)
+        {
+            try { await snapshot.DisposeAsync().ConfigureAwait(false); lock (_gate) session.Snapshots.Remove(snapshot); }
+            catch (Exception) { failed = true; }
+        }
+        if (failed) throw Safe("LIST_RELEASE");
+    }
+    private Task SetError(Session session, Exception error, bool list = false) => _ui.InvokeAsync(() =>
+    {
+        lock (_gate) if (ReferenceEquals(_session, session) && !_closing)
+        {
+            string text = ErrorMessages.GetDefault(error is IrisException iris ? iris.Code : ErrorCode.Unknown);
+            if (list) session.ViewModel.ListError = text; else session.ViewModel.Error = text;
+        }
+        return Task.CompletedTask;
+    }, CancellationToken.None);
+
+    internal Task CopyAsync() => _ui.InvokeAsync(() =>
+    {
+        lock (_gate) if (!_closing && !_stopping && _session is { } session && session.ViewModel.CanUseText && session.Displayed is { } operation)
+            QueueCopyLocked(session, operation, session.ViewModel.Text, automatic: false);
+        return Task.CompletedTask;
+    }, CancellationToken.None);
+    private void QueueCopyLocked(Session session, Operation operation, string text, bool automatic)
+    {
+        if (session.PendingCopy != null) { session.PendingCopy.Operation.Work--; Prune(session.PendingCopy.Operation); }
+        operation.Work++; session.PendingCopy = new(operation, text, automatic, session.ViewModel.Revision);
+        if (session.CopyTask is { IsCompleted: false }) return;
+        session.CopyTask = Own(async () =>
+        {
+            while (true)
+            {
+                CopyJob? job; lock (_gate) { job = session.PendingCopy; session.PendingCopy = null; if (job == null) { session.CopyTask = null; return; } }
+                try
+                {
+                    Task? write = null;
+                    await _ui.InvokeAsync(() =>
+                    {
+                        lock (_gate)
+                        {
+                            if (_closing || !ReferenceEquals(session, _session) || session.Closed) return Task.CompletedTask;
+                            if (job.Automatic && (!ReferenceEquals(_current, job.Operation) || job.Operation.Caller.IsCancellationRequested || job.Operation.CancelRequested || job.Operation.Token.IsCancellationRequested || session.ViewModel.Revision != job.Revision)) return Task.CompletedTask;
+                            var clipboard = session.Scope.ServiceProvider.GetRequiredService<IClipboardService>();
+                            write = clipboard.SetTextAsync(job.Text, job.Automatic ? job.Operation.Token : session.Source.Token);
+                        }
+                        return Task.CompletedTask;
+                    }, CancellationToken.None).ConfigureAwait(false);
+                    if (write != null) await write.ConfigureAwait(false);
+                }
+                catch (OperationCanceledException) { }
+                catch (Exception ex) { await SetError(session, ex).ConfigureAwait(false); }
+                finally { lock (_gate) { job.Operation.Work--; Prune(job.Operation); Pulse(); } }
+            }
+        });
+    }
+    internal Task TranslateAsync() => _ui.InvokeAsync(() =>
+    {
+        lock (_gate)
+        {
+            if (_closing || _stopping || _session is not { } session || !session.ViewModel.CanUseText || session.TranslationTask is { IsCompleted: false }) return Task.CompletedTask;
+            string text = session.ViewModel.Text;
+            // Resolve at command time, never in Presenter construction (Dispatcher includes Handlers).
+            var dispatcher = session.Scope.ServiceProvider.GetRequiredService<IActionDispatcher>();
+            session.TranslationTask = Own(async () =>
+            {
+                try
+                {
+                    Task? dispatch = null;
+                    await _ui.InvokeAsync(() =>
+                    {
+                        lock (_gate) if (!_closing && ReferenceEquals(_session, session))
+                            dispatch = dispatcher.DispatchAsync(IrisAction.TranslateText, new(ActionTrigger.InApp, Payload: text), session.Source.Token);
+                        return Task.CompletedTask;
+                    }, CancellationToken.None).ConfigureAwait(false);
+                    if (dispatch != null) await dispatch.ConfigureAwait(false);
+                }
+                catch (OperationCanceledException) { }
+                catch (Exception ex) { await SetError(session, ex).ConfigureAwait(false); }
+            });
+        }
+        return Task.CompletedTask;
+    }, CancellationToken.None);
+    internal Task RecognizeAsync() => _ui.InvokeAsync(() =>
+    {
+        lock (_gate)
+        {
+            if (_closing || _stopping || _session is not { Image: not null } session || session.ViewModel.SelectedProvider == null) return Task.CompletedTask;
+            var operation = TryBeginOperation() as Operation; if (operation == null) return Task.CompletedTask;
+            session.PendingRecognition?.Operation.Dispose();
+            session.PendingRecognition = new(operation, session.Image, session.ViewModel.SelectedProvider.Id,
+                session.Scope.ServiceProvider.GetRequiredService<ISettingsService>().Current.Ocr.AutoCopyOnOcr);
+            if (session.RecognitionTask is { IsCompleted: false }) return Task.CompletedTask;
+            session.RecognitionTask = Own(async () =>
+            {
+                while (true)
+                {
+                    RecognitionJob? job;
+                    lock (_gate) { job = session.PendingRecognition; session.PendingRecognition = null; if (job == null) { session.RecognitionTask = null; return; } }
+                    try
+                    {
+                        if (!await TryShowAsync(job.Operation, new() { Image = job.Image, IsLoading = true }).ConfigureAwait(false)) continue;
+                        var result = await session.Scope.ServiceProvider.GetRequiredService<IOcrService>().RecognizeAsync(job.Image, job.ProviderId, job.Operation.Token).ConfigureAwait(false);
+                        await TryShowAsync(job.Operation, new() { Image = job.Image, Text = result.Text, ProviderId = result.Raw.ProviderId, UsedFallback = result.UsedFallback, AutoCopy = job.AutoCopy }).ConfigureAwait(false);
+                    }
+                    catch (OperationCanceledException) { }
+                    catch (Exception ex)
+                    {
+                        await TryShowAsync(job.Operation, new() { Image = job.Image, Error = new(ex is IrisException iris ? iris.Code : ErrorCode.Unknown, "") }).ConfigureAwait(false);
+                    }
+                    finally { job.Operation.Dispose(); }
+                }
+            });
+        }
+        return Task.CompletedTask;
+    }, CancellationToken.None);
+    private void ClearPending(Session session)
+    {
+        if (session.PendingCopy is { } copy) { copy.Operation.Work--; Prune(copy.Operation); session.PendingCopy = null; }
+        session.PendingRecognition?.Operation.Dispose(); session.PendingRecognition = null;
+    }
+    internal Task WhenIdleAsync()
+    {
+        return WaitIdle();
+        async Task WaitIdle()
+        {
+            while (true) { Task[] tasks; lock (_gate) tasks = _work.ToArray(); if (tasks.Length == 0) return; await Task.WhenAll(tasks).ConfigureAwait(false); }
+        }
+    }
+    private sealed record CopyJob(Operation Operation, string Text, bool Automatic, long Revision);
+    private sealed record RecognitionJob(Operation Operation, ImageData Image, string ProviderId, bool AutoCopy);
+}

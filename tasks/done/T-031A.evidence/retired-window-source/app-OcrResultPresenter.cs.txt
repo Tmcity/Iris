@@ -1,0 +1,334 @@
+using System.ComponentModel;
+using System.Windows.Media.Imaging;
+using Iris.App.Capture;
+using Iris.App.Hosting;
+using Iris.Core.Errors;
+using Iris.Core.Imaging;
+using Iris.Core.Ocr;
+using Iris.Core.Presentation;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+namespace Iris.App.Ocr;
+
+internal interface IOcrResultShutdownCoordinator
+{
+    void StopAccepting();
+    Task ShutdownAsync();
+}
+
+internal sealed partial class OcrResultPresenter : IOcrResultPresenter, IOcrResultShutdownCoordinator, IScreenshotPreparationParticipant
+{
+    private readonly IServiceProvider _services;
+    private readonly IUiDispatcher _ui;
+    private readonly IOcrProviderRegistry _registry;
+    private readonly IOcrWindowPlatform _windows;
+    private readonly ILogger<OcrResultPresenter> _logger;
+    private readonly Lock _gate = new();
+    private readonly WindowPreparationIntent _intent;
+    private readonly HashSet<Operation> _operations = [];
+    private readonly HashSet<Task> _work = [];
+    private readonly List<string> _failures = [];
+    private TaskCompletionSource _changed = Signal();
+    private Operation? _current;
+    private Session? _session;
+    private bool _closing, _stopping;
+    private Task? _close;
+    internal OcrResultWindow? Window { get { lock (_gate) return _session?.Window; } }
+    internal OcrResultViewModel? ViewModel { get { lock (_gate) return _session?.ViewModel; } }
+    internal int OperationCount { get { lock (_gate) return _operations.Count; } }
+    internal Task? ClosingTask { get { lock (_gate) return _close; } }
+
+    public OcrResultPresenter(IServiceProvider services, IUiDispatcher ui, IOcrProviderRegistry registry,
+        IOcrWindowPlatform windows, ILogger<OcrResultPresenter> logger)
+    { _services = services; _ui = ui; _registry = registry; _windows = windows; _logger = logger; _intent = new(_gate); }
+    private static TaskCompletionSource Signal() => new(TaskCreationOptions.RunContinuationsAsynchronously);
+    private void Pulse() { var before = _changed; _changed = Signal(); before.TrySetResult(); }
+    private Task<T> Own<T>(Func<Task<T>> body)
+    {
+        var barrier = Signal(); lock (_gate) _work.Add(barrier.Task);
+        var task = Task.Run(async () =>
+        {
+            try { return await body().ConfigureAwait(false); }
+            finally { lock (_gate) { _work.Remove(barrier.Task); barrier.TrySetResult(); Pulse(); } }
+        });
+        Observe(task); return task;
+    }
+    private Task<bool> Own(Func<Task> body) => Own(async () => { await body().ConfigureAwait(false); return true; });
+    private void Observe(Task task) => _ = task.ContinueWith(done =>
+    {
+        _ = done.Exception; if (done.IsFaulted) LogFailure(_logger, "TASK");
+    }, CancellationToken.None, TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously, TaskScheduler.Default);
+    [LoggerMessage(Level = LogLevel.Warning, Message = "OCR result window stage={Stage}")]
+    private static partial void LogFailure(ILogger logger, string stage);
+    private static IrisException Safe(string stage) => new(ErrorCode.Unknown, ErrorMessages.GetDefault(ErrorCode.Unknown), detail: $"OCR_WINDOW:{stage}");
+    private bool Valid(Operation operation) => !_closing && !_stopping && ReferenceEquals(_current, operation) && !operation.Released && !operation.Caller.IsCancellationRequested && !operation.CancelRequested && !operation.Token.IsCancellationRequested;
+    public IOcrResultOperation? TryBeginOperation(CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested(); Operation operation; Operation? old; Action notify;
+        lock (_gate)
+        {
+            if (_stopping || _closing || _operations.Count >= 8) return null;
+            cancellationToken.ThrowIfCancellationRequested(); old = _current;
+            operation = new(this, cancellationToken); _operations.Add(operation); _current = operation;
+            if (old != null) { old.WindowOwned = false; Cancel(old); Prune(old); }
+            notify = _intent.AdvanceLocked();
+        }
+        notify();
+        _ = Own(() => _ui.InvokeAsync(() =>
+        {
+            lock (_gate) if (_session is { } session && ReferenceEquals(session.Displayed, old)) session.ViewModel.IsLoading = false;
+            return Task.CompletedTask;
+        }, CancellationToken.None));
+        return operation;
+    }
+    private void Cancel(Operation operation)
+    {
+        operation.CancelRequested = true;
+        if (operation.CancelTask != null) return;
+        operation.CancelTask = Own(async () =>
+        {
+            try { await operation.Source.CancelAsync().ConfigureAwait(false); }
+            catch (Exception) { lock (_gate) _failures.Add("CANCEL"); LogFailure(_logger, "CANCEL"); }
+        });
+    }
+    private void Release(Operation operation)
+    { lock (_gate) { operation.Released = true; Prune(operation); Pulse(); } }
+    private void Prune(Operation operation)
+    {
+        if (!operation.Released || operation.WindowOwned || operation.Work != 0 || operation.Retiring) return;
+        operation.Retiring = true;
+        _ = Own(async () =>
+        {
+            await operation.Registration.DisposeAsync().ConfigureAwait(false);
+            if (operation.CancelTask != null) await operation.CancelTask.ConfigureAwait(false);
+            lock (_gate) { operation.Source.Dispose(); operation.Image = null; _operations.Remove(operation); if (ReferenceEquals(_current, operation)) _current = null; Pulse(); }
+        });
+    }
+    public Task<bool> TryShowAsync(IOcrResultOperation operation, OcrResultViewRequest request)
+    {
+        if (operation is not Operation op || !ReferenceEquals(op.Owner, this) || request == null) throw new ArgumentException("Invalid OCR publication.");
+        var captured = request with { };
+        if (captured.Image == null || (captured.IsLoading && (captured.Error != null || captured.Text != null)) || (captured.Error != null && captured.Text != null))
+            throw new ArgumentException("Invalid OCR request.");
+        lock (_gate)
+        {
+            if (!Valid(op)) return Task.FromResult(false);
+            if (op.Publishing) throw new InvalidOperationException("OCR publication already pending.");
+            if (op.Image != null && !ReferenceEquals(op.Image, captured.Image)) throw new ArgumentException("OCR operation image mismatch.");
+            if (op.Terminal) return Task.FromResult(false);
+            op.Publishing = true; op.Work++;
+        }
+        return Own(async () =>
+        {
+            try { return await ShowCore(op, captured).ConfigureAwait(false); }
+            finally { lock (_gate) { op.Publishing = false; op.Work--; Prune(op); Pulse(); } }
+        });
+    }
+    private async Task<bool> ShowCore(Operation operation, OcrResultViewRequest request)
+    {
+        BitmapSource? preview = null; string previewError = ""; bool needPreview;
+        lock (_gate) needPreview = !ReferenceEquals(_session?.Image, request.Image);
+        if (needPreview)
+        {
+            try
+            {
+                var verified = await _services.GetRequiredService<IImagePreprocessor>().PrepareAsync(request.Image,
+                    new(285212672, false, 32768, 0, [ImageFormat.Png, ImageFormat.Jpeg, ImageFormat.Bmp]), operation.Token).ConfigureAwait(false);
+                operation.Token.ThrowIfCancellationRequested();
+                using var stream = new System.IO.MemoryStream(verified.Bytes, writable: false);
+                var bitmap = new BitmapImage(); bitmap.BeginInit(); bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.StreamSource = stream; bitmap.EndInit(); bitmap.Freeze(); preview = bitmap;
+            }
+            catch (OperationCanceledException) { return false; }
+            catch (Exception ex) { previewError = ErrorMessages.GetDefault(ex is IrisException iris ? iris.Code : ErrorCode.ImageInvalid); }
+        }
+        bool accepted = false; Session? created = null;
+        try
+        {
+            await _ui.InvokeAsync(() =>
+            {
+                lock (_gate)
+                {
+                    if (!Valid(operation) || operation.Terminal) return Task.CompletedTask;
+                    if (_session == null)
+                    {
+                        var scope = _services.CreateScope();
+                        try { created = new(scope, scope.ServiceProvider.GetRequiredService<OcrResultWindow>()); _session = created; Connect(created); }
+                        catch { scope.Dispose(); throw; }
+                    }
+                    var session = _session;
+                    bool newPresentation = !ReferenceEquals(session.Displayed, operation);
+                    bool newImage = !ReferenceEquals(session.Image, request.Image);
+                    if (newImage)
+                    {
+                        session.ViewModel.Text = session.ViewModel.Error = session.ViewModel.ProviderName = session.ViewModel.Fallback = "";
+                        session.ViewModel.Zoom = 1; session.Image = request.Image; session.ViewModel.Preview = preview; session.ViewModel.PreviewError = previewError;
+                    }
+                    operation.Image = request.Image; operation.WindowOwned = true; session.Displayed = operation;
+                    session.ViewModel.IsLoading = request.IsLoading;
+                    if (request.Text != null) session.ViewModel.Text = request.Text;
+                    session.ViewModel.Error = request.Error == null ? "" : ErrorMessages.GetDefault(request.Error.Code);
+                    session.ViewModel.ProviderName = request.ProviderName ?? session.ViewModel.Providers.FirstOrDefault(p => p.Id == request.ProviderId)?.Name ?? request.ProviderId ?? "";
+                    session.ViewModel.Fallback = request.UsedFallback && !request.IsLoading && request.Error == null ? UiText.OcrFallback : "";
+                    operation.Terminal = !request.IsLoading;
+                    var attempt = newPresentation ? _intent.BeginShowLocked() : null; attempt?.Notify();
+                    try
+                    {
+                        if (created != null) { _windows.Show(session.Window, request.Anchor); Wpf.Ui.Appearance.ApplicationThemeManager.Apply(session.Window); }
+                        else if (newPresentation && !session.Window.IsVisible)
+                        {
+                            bool activate = session.Window.ShowActivated;
+                            try { session.Window.ShowActivated = false; session.Window.Show(); }
+                            finally { session.Window.ShowActivated = activate; }
+                        }
+                        attempt?.Complete(session.Window, true);
+                    }
+                    catch { attempt?.Complete(session.Window, false); throw; }
+                    if (!Valid(operation)) return Task.CompletedTask;
+                    accepted = true;
+                    if (request.AutoCopy && operation.Terminal && request.Error == null && !string.IsNullOrWhiteSpace(request.Text))
+                        QueueCopyLocked(session, operation, request.Text, automatic: true);
+                    if (created != null) RequestListLocked(session);
+                }
+                return Task.CompletedTask;
+            }, CancellationToken.None).ConfigureAwait(false);
+        }
+        catch (Exception)
+        {
+            // Never await a close that must wait for this publication and its caller lease.
+            _ = CloseAsync(); throw Safe("SHOW");
+        }
+        return accepted;
+    }
+    private void Connect(Session session)
+    {
+        session.Window.Closing += OnClosing; session.Window.Closed += OnClosed;
+        session.ViewModel.Copy = () => { _ = CopyAsync(); };
+        session.ViewModel.Translate = () => { _ = TranslateAsync(); };
+        session.ViewModel.Recognize = () => { _ = RecognizeAsync(); };
+        session.ViewModel.Refresh = () => { _ = RefreshAsync(); };
+        session.ViewModel.Close = () => { _ = CloseAsync(); };
+        _registry.Changed += OnRegistryChanged;
+    }
+    private void OnClosing(object? sender, CancelEventArgs args)
+    {
+        lock (_gate) { if (_session?.ActualClose == true) return; args.Cancel = true; }
+        _ = CloseAsync();
+    }
+    private void OnClosed(object? sender, EventArgs args)
+    {
+        bool unexpected;
+        lock (_gate) { if (_session == null) return; _session.Closed = true; unexpected = !_session.ActualClose; }
+        if (unexpected) _ = CloseAsync();
+    }
+    public WindowPreparationIntent.Receipt ObservePreparation(Action invalidated)
+    { lock (_gate) return _intent.Observe(invalidated, _ui, () => _session?.Window, () => !_closing && !_stopping && _session?.Closed == false); }
+    public void StopAccepting()
+    {
+        lock (_gate) { if (_stopping) return; _stopping = true; foreach (var op in _operations) Cancel(op); }
+        _intent.Advance();
+    }
+    public Task ShutdownAsync() { StopAccepting(); return CloseAsync(); }
+    internal Task CloseAsync()
+    {
+        lock (_gate)
+        {
+            if (_close is { IsCompleted: false }) return _close;
+            _closing = true;
+            foreach (var op in _operations) { op.WindowOwned = false; Cancel(op); Prune(op); }
+            if (_session is { } session)
+            {
+                session.ListPending = false; ClearPending(session);
+                session.CancelTask ??= Own(async () =>
+                {
+                    try { await session.Source.CancelAsync().ConfigureAwait(false); }
+                    catch (Exception) { lock (_gate) _failures.Add("SESSION_CANCEL"); }
+                });
+            }
+            _close = Task.Run(CloseCore); Observe(_close); return _close;
+        }
+    }
+    private async Task CloseCore()
+    {
+        _intent.Advance(hiding: true);
+        try
+        {
+            await _ui.InvokeAsync(() => { if (_session != null) _session.ViewModel.IsClosing = true; return Task.CompletedTask; }, CancellationToken.None).ConfigureAwait(false);
+            while (true)
+            {
+                Task[] tasks; Task changed;
+                lock (_gate) { tasks = _work.ToArray(); changed = _changed.Task; if (tasks.Length == 0 && _operations.Count == 0) break; }
+                if (tasks.Length != 0) foreach (var task in tasks) await task.ConfigureAwait(false);
+                else await changed.ConfigureAwait(false);
+            }
+            Session? session; string[] failures;
+            lock (_gate) { session = _session; failures = _failures.ToArray(); _failures.Clear(); }
+            if (session != null) await RetrySnapshots(session).ConfigureAwait(false);
+            if (failures.Length != 0) throw Safe(string.Join('_', failures));
+            if (session != null)
+            {
+                await _ui.InvokeAsync(() =>
+                {
+                    if (!session.Closed)
+                    {
+                        session.ActualClose = true;
+                        try { _windows.Close(session.Window); }
+                        finally { session.ActualClose = false; }
+                        if (!session.Closed) throw Safe("CLOSE_REFUSED");
+                    }
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+                if (session.Scope is IAsyncDisposable asyncScope) await asyncScope.DisposeAsync().ConfigureAwait(false); else session.Scope.Dispose();
+                await _ui.InvokeAsync(() =>
+                {
+                    session.Window.Closing -= OnClosing; session.Window.Closed -= OnClosed;
+                    session.Window.DataContext = null; session.ViewModel.Clear(); session.Image = null; session.Displayed = null;
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+                session.Dispose(); _registry.Changed -= OnRegistryChanged;
+            }
+            lock (_gate) { _session = null; _current = null; _closing = false; Pulse(); }
+        }
+        catch (Exception)
+        {
+            await _ui.InvokeAsync(() => { if (_session != null) { _session.ViewModel.IsClosing = true; _session.ViewModel.Error = UiText.OcrCloseFailed; } return Task.CompletedTask; }, CancellationToken.None).ConfigureAwait(false);
+            throw Safe("CLOSE");
+        }
+    }
+    private sealed class Operation : IOcrResultOperation
+    {
+        internal OcrResultPresenter Owner { get; }
+        internal readonly CancellationTokenSource Source = new();
+        internal readonly CancellationToken Token;
+        internal readonly CancellationToken Caller;
+        internal CancellationTokenRegistration Registration;
+        internal Task? CancelTask;
+        internal ImageData? Image;
+        internal bool Released, WindowOwned, Terminal, Publishing, Retiring, CancelRequested;
+        internal int Work;
+        public Guid Id { get; } = Guid.NewGuid();
+        public CancellationToken CancellationToken { get { lock (Owner._gate) { ObjectDisposedException.ThrowIf(Released, this); return Token; } } }
+        internal Operation(OcrResultPresenter owner, CancellationToken caller)
+        {
+            Owner = owner; Token = Source.Token; Caller = caller;
+            Registration = caller.UnsafeRegister(static state => { var op = (Operation)state!; lock (op.Owner._gate) op.Owner.Cancel(op); }, this);
+        }
+        public void Dispose() => Owner.Release(this);
+    }
+    private sealed class Session(IServiceScope scope, OcrResultWindow window) : IDisposable
+    {
+        internal IServiceScope Scope { get; } = scope;
+        internal OcrResultWindow Window { get; } = window;
+        internal OcrResultViewModel ViewModel => Window.ViewModel;
+        internal ImageData? Image;
+        internal Operation? Displayed;
+        internal readonly CancellationTokenSource Source = new();
+        internal Task? CancelTask, ListTask, CopyTask, RecognitionTask, TranslationTask;
+        internal bool Closed, ActualClose, ListPending;
+        internal readonly List<IOcrProviderSnapshot> Snapshots = [];
+        internal CopyJob? PendingCopy;
+        internal RecognitionJob? PendingRecognition;
+        public void Dispose() => Source.Dispose();
+    }
+}

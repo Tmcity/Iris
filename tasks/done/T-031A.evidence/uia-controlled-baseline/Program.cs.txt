@@ -1,0 +1,8 @@
+using Iris.Platform.Windows.Tests.Selection;
+try {
+    await new UiaStartupCleanupTests().ReadAsync_And_StopAsync_WhenStderrDrainPending_DoNotClaimCompletionUntilDrainObserved(false);
+    Console.WriteLine("EXPECTED_TIMEOUT_NOT_REPRODUCED"); return 1;
+} catch (TimeoutException ex) {
+    Console.WriteLine("CONTROLLED_EXISTING_TEST_TIMEOUT="+ex);
+    Console.WriteLine("ORIGINAL_TEST_FINALLY_COMPLETED_BEFORE_EXCEPTION_PROPAGATED=True"); return 0;
+} catch(Exception ex) {Console.WriteLine(ex);return 2;}

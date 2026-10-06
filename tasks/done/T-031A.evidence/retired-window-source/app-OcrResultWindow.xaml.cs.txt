@@ -1,0 +1,19 @@
+using Wpf.Ui.Controls;
+
+namespace Iris.App.Ocr;
+
+internal partial class OcrResultWindow : FluentWindow
+{
+    internal OcrResultViewModel ViewModel { get; }
+    public OcrResultWindow(OcrResultViewModel viewModel)
+    {
+        ViewModel = viewModel; InitializeComponent(); DataContext = viewModel;
+        viewModel.Fit = Fit;
+    }
+    internal void Fit()
+    {
+        if (ViewModel.Preview is not System.Windows.Media.Imaging.BitmapSource bitmap) return;
+        ViewModel.Zoom = Math.Min(1, Math.Min(Math.Max(1, PreviewScroll.ViewportWidth) / bitmap.Width,
+            Math.Max(1, PreviewScroll.ViewportHeight) / bitmap.Height));
+    }
+}
