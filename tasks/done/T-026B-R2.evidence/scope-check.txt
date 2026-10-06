@@ -1,0 +1,7 @@
+Restricted path diff: empty
+src/Iris.Core
+src/Iris.Platform.Windows
+specs/CONTRACTS.cs
+Directory.Packages.props
+specs/settings.example.json
+specs/DB_SCHEMA.sql

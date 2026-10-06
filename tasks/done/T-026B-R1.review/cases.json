@@ -1,0 +1,29 @@
+{
+  "status": "prepared_not_executed",
+  "spec": "F:/Iris/specs/SCREENSHOT_INTERACTION.md",
+  "monitors": [
+    {"id": "synthetic-left", "bounds": [-420,-220,400,240], "dpiScale": 1.25, "primary": true},
+    {"id": "synthetic-right", "bounds": [20,-100,320,240], "dpiScale": 2.0, "primary": false}
+  ],
+  "virtualBounds": [-420,-220,760,360],
+  "frame": {"width": 760, "height": 360, "stride": 3056, "paddingByte": 231, "gapBgra": [0,0,0,255], "monitorPixelBgra": ["localX % 251", "localY % 241", "(7*localX + 11*localY) % 239", 255]},
+  "dragCases": [
+    {"name":"minimum_negative", "monitor":0, "down":[-419,-219], "up":[-416,-216], "region":[-419,-219,4,4]},
+    {"name":"minimum_reverse", "monitor":0, "down":[-416,-216], "up":[-419,-219], "region":[-419,-219,4,4]},
+    {"name":"right_bottom_clamp", "monitor":0, "down":[-24,16], "up":[500,500], "region":[-24,16,4,4]},
+    {"name":"cross_monitor_clamp", "monitor":0, "down":[-25,10], "up":[200,50], "region":[-25,10,5,10]},
+    {"name":"full_first_monitor", "monitor":0, "down":[-420,-220], "up":[339,139], "region":[-420,-220,400,240]},
+    {"name":"width_three_invalid", "monitor":0, "down":[-30,0], "up":[-28,7], "region":null},
+    {"name":"height_three_invalid", "monitor":0, "down":[-40,0], "up":[-37,2], "region":null},
+    {"name":"single_pixel_invalid", "monitor":0, "down":[-200,-100], "up":[-200,-100], "region":null},
+    {"name":"second_monitor_minimum", "monitor":1, "down":[22,-98], "up":[25,-95], "region":[22,-98,4,4]},
+    {"name":"full_second_reverse", "monitor":1, "down":[339,139], "up":[20,-100], "region":[20,-100,320,240]},
+    {"name":"second_right_bottom_clamp", "monitor":1, "down":[336,136], "up":[500,500], "region":[336,136,4,4]},
+    {"name":"second_left_top_reverse_clamp", "monitor":1, "down":[23,-97], "up":[-999,-999], "region":[20,-100,4,4]}
+  ],
+  "moveCases": [
+    {"name":"move_keeps_size", "monitor":0, "initial":[-200,-100,10,8], "down":[-198,-98], "up":[-410,-200], "region":[-412,-202,10,8]},
+    {"name":"move_clamp_left_top", "monitor":0, "initial":[-200,-100,10,8], "down":[-198,-98], "up":[-1000,-1000], "region":[-420,-220,10,8]},
+    {"name":"move_clamp_right_bottom", "monitor":0, "initial":[-200,-100,10,8], "down":[-198,-98], "up":[400,500], "region":[-30,12,10,8]}
+  ]
+}

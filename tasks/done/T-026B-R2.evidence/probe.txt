@@ -1,0 +1,52 @@
+C:\Users\28910\AppData\Local\Temp\iris-t026b-r2-development-review\MouseTestBoundary.cs(47,25): warning CS0649: 从未对字段“FakeMouseHookApi.InstallGate”赋值，字段将一直保持其默认值 null [C:\Users\28910\AppData\Local\Temp\iris-t026b-r2-development-review\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t026b-r2-development-review\MouseTestBoundary.cs(45,19): warning CS0649: 从未对字段“FakeMouseHookApi.InstallFailure”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t026b-r2-development-review\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t026b-r2-development-review\MouseInteractionTestScope.cs(204,23): warning CS0649: 从未对字段“MouseInteractionTestScope.FakeProvider.HoldFirst”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t026b-r2-development-review\Review.csproj]
+CHECK DRAG_minimum_negative=PASS
+CHECK DRAG_minimum_reverse=PASS
+CHECK DRAG_right_bottom_clamp=PASS
+CHECK DRAG_cross_monitor_clamp=PASS
+CHECK DRAG_full_first_monitor=PASS
+CHECK DRAG_width_three_invalid=PASS
+CHECK DRAG_height_three_invalid=PASS
+CHECK DRAG_single_pixel_invalid=PASS
+CHECK DRAG_second_monitor_minimum=PASS
+CHECK DRAG_full_second_reverse=PASS
+CHECK DRAG_second_right_bottom_clamp=PASS
+CHECK DRAG_second_left_top_reverse_clamp=PASS
+CHECK MOVE_move_keeps_size=PASS
+CHECK MOVE_move_clamp_left_top=PASS
+CHECK MOVE_move_clamp_right_bottom=PASS
+CHECK ACTUAL_GDI_FRAME_TO_WINDOW_TO_REAL_PNG=PASS
+CHECK DOUBLE_CLICK_CONFIRMS_REAL_WINDOW_ONCE=PASS
+DWM_FAILURE code=CaptureFailed nativeHResultPreserved=True captures=0
+CHECK DWM_NATIVE_HRESULT_IS_PRESERVED=PASS
+CHECK COPY_FAILURE_PRESERVES_PNG_False=PASS
+CHECK COPY_FAILURE_PRESERVES_PNG_True=PASS
+CHECK CALLER_CANCEL_WAITS_ACCEPTED_CROP=PASS
+LATE_POINTER_AFTER_CONFIRM imagePreserved=True crops=1
+CHECK CONFIRMED_CAPTURE_IGNORES_LATE_POINTER_FAILURE=PASS
+CHECK ACCEPTED_CONFIRM_RELEASE_FAILURE_REMAINS_RETRYABLE=PASS
+CHECK FAILED_CLOSE_RETRIES_SAME_WINDOWS_WITHOUT_RECOPY=PASS
+CALLBACK_CLOSE closeRecorded=True cancelRecorded=True retrySucceeded=True allWindowsClosed=True
+CHECK CALLBACK_AND_CLOSE_ERRORS_RETAINED_AND_RETRYABLE=PASS
+PREPARATION_ERRORS settingsRecorded=True translationRecorded=True settingsRestored=True translationRestored=True
+CHECK PREPARATION_MULTI_FAILURES_REMAIN_VISIBLE=PASS
+CHECK NEW_INTENT_AFTER_PREPARATION_RETURN_BLOCKS_FINAL_UI=PASS
+FOREGROUND_QUERY newIntentObserved=True emptyQueries=2 resultCanceled=True nativeRestores=0
+CHECK NEW_INTENT_AT_FINAL_FOREGROUND_QUERY_BLOCKS_RESTORE=PASS
+CHECK UNEXPECTED_INACTIVE_OVERLAY_CLOSE_ENDS_SESSION=PASS
+RESOLVED_THEME explicitDarkBytes=307200 systemDarkBytes=307200 differingBytes=0
+CHECK SYSTEM_USES_CURRENT_RESOLVED_DARK_VISUAL_THEME=PASS
+MAGNIFIER_LAYOUT small=False physicalWidth=120 physicalHeight=120 opaqueLaterOverlaps=0 rendered=480x360
+CHECK MAGNIFIER_LAYOUT_DPI2_NORMAL=PASS
+MAGNIFIER_LAYOUT small=True hiddenForLimitedSpace=True
+CHECK MAGNIFIER_LAYOUT_DPI2_SMALL=PASS
+LABEL_LAYOUT opaqueLabels=3 overlappingPairs=0
+CHECK SMALL_SELECTION_LABELS_DO_NOT_OVERLAP=PASS
+RIGHT_CLEAR handled=True displayedX=100 displayedY=100
+CHECK NATIVE_RIGHT_CLEAR_RETAINS_PHYSICAL_POINTER=PASS
+STARTUP_PEER_CLOSE_BEFORE_WAIT closed=True windows=3 taskCompleted=False
+STARTUP_PEER_CLOSE closed=True canceled=True allClosed=True
+STARTUP_PEER_CLOSE_AFTER_CLEANUP allClosed=True taskCompleted=True cleanupErrors=0
+CHECK PEER_OVERLAY_CLOSED_DURING_REMAINING_WINDOW_SHOW_ENDS_SESSION=PASS
+SCREENSHOT_REVIEW checks=35 failures=0 actualServiceAndWindows=True fakeExternalBoundaries=True userContent=False actualScreenshot=False staAlive=False

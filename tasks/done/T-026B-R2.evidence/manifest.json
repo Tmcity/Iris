@@ -1,0 +1,51 @@
+{
+  "baseline": "7e6687d0a17206edb613354a0022cb1618a18686",
+  "unchangedProbeSources": {
+    "Program.cs": true,
+    "GeometryChecks.cs": true,
+    "LifecycleChecks.cs": true,
+    "VisualChecks.cs": true,
+    "StartupCloseChecks.cs": true,
+    "prepare.py": true,
+    "cases.json": true
+  },
+  "source": {
+    "src/Iris.App/Capture/ScreenshotService.cs": "61a661ade7a74b787aba80a63edbca3e35cc8b12a60d86415bdb217e9100d47f",
+    "tests/Iris.App.Tests/Capture/ScreenshotR2Tests.cs": "4ef9490300c359e61fff98309e4b50d5efc8104ca24ff4d543ea483f11db51b5"
+  },
+  "appDll": "2ad83f375ae7687cf35658fe64aa9361b7ef841d8fc23b163a6b68e2360f02fb",
+  "evidence": {
+    "probe.txt": "2d2c70cfa0d884006cce787e9e4af1e90c283a56db328260095f3a6c35506eeb",
+    "README.md": "02f81baa20ddc518c91770cc97abbf6f6059d4ce1e97173e6dbee41d9a9a59bb",
+    "release-build.txt": "d4c9c9fbb312285604baa9416b498f85c9b0c515f5ea8930cb5dc18ea7b681bb",
+    "release-full.txt": "c1e5bffdbbce0bb08a5c0c91909ca79e49ff520bbcb6c327f94b15c4db09d743",
+    "scope-check.txt": "e6ed557f5d809c8243713fb26bfffd9e982bf4b0019a66b9793134a6a7a7a01a",
+    "targeted.txt": "56dc45e1016b9daa062c8ef8e031279292b5b5708a865d72b303f88caee5d391",
+    "visual-preservation.json": "a57978c9dbc098effa5308b93887570b22efb221600fe1f30dadcc0d0a9a3afc",
+    "probe/cases.json": "06d53cc87529fcf1cd72c44d5890a6223e0a2c2363728439409d410b2955a621",
+    "probe/FakeClipboardSnapshotNative.cs": "58a3baec2c3aa38ab4a9f773130f4e88c03a901f956c4e2207382d1b937be6ac",
+    "probe/FakeCopySafetyNative.cs": "b09e93fee801266e4baaf78a3026e756825d61c8b7a232dd56a2c0c25aca5a12",
+    "probe/FakeNativeHotkeyAdapter.cs": "aff75b96e36d225a84dde4f84b0117c5a649627deede4a83ac5f3bdcbb558dfd",
+    "probe/FakeNativeKeyboardInputAdapter.cs": "bc8d6d1e76d6f85c65eae2e723b919d841aea41758100ae2a9511c962a3c884e",
+    "probe/FakeScreenEncoderIo.cs": "a235a2edec9f5e568af1c7bc683c57c0a2e3fc48f8f416f614e70e33904af3dc",
+    "probe/FakeUiaTestAdapters.cs": "a94bb85380d37c9d46c1a0bef79ebdb3cf00665246689f4cff82cfbf7ce175c0",
+    "probe/GeometryChecks.cs": "5f6ecb763a1278ba8333459bd8a364dd24dd182ce390c9b27a4c97516e6c91f7",
+    "probe/GlobalUsings.cs": "3627f3a059e0e835ea646b982c72f640e66dfae15ed17e0af3695264c004d32c",
+    "probe/LifecycleChecks.cs": "c7ce574ea19d7db6967b5d13b434c30210f86cab458d85b5e0832dc1930dd4f8",
+    "probe/manifest.json": "056bb24370f22025f37b735c4e1395d9ff3d83e4ddc6c8a1f9dbe5263cd93d6c",
+    "probe/MouseInteractionTestScope.cs": "99d39f64dd953510b8d3ef809a78b4cf03927815a7dcc91f2e6782a8a01b3247",
+    "probe/MouseTestBoundary.cs": "2c662af0863f7ccd8f6b02b390a0e1a4c9efc8cc6073006874a3348cfd8c9aab",
+    "probe/PreparationTestScope.cs": "5e4d70c4638c1e2072b473b5d13ea3f776bbbd8e8db808e414203f1b4d17405d",
+    "probe/prepare.py": "bfc825785125b722f83b1faf4d9f331784746914c0f1ebbc9aae373b09bc9818",
+    "probe/Program.cs": "f8ba48cf36e6123ee53156a062841863e2b3e85becb183590750cb1580fe8bf8",
+    "probe/Review.csproj": "c15feb387aca3fcdc1a603176eef4c661692cf0f2e4b2309d3d075ca85df7b5a",
+    "probe/ScreenCaptureTestScope.cs": "9c033881a9a55e3f2429647fd1bbe152822bdd19002a42e0bfb1d1ff2e25a5b9",
+    "probe/ScreenshotTestScope.cs": "153a7f8dfb14e0320bfaa17f08634d36287ca24b8baab01ca806351709d1592f",
+    "probe/SelectionSettingsTestScope.cs": "aa0ef415fab3a48c359a25faf945bd1cd425ec34ae755ffc20754e325a9c6617",
+    "probe/SelectionTestScope.cs": "d5cb9806c01ec2dad0e4ecef0b5346fcc2b0bb11909c311b19504fd60734bc9e",
+    "probe/SelectionTimeProvider.cs": "aca4493e6d5f6b27632f454da7fd0139efa8d2c0b3dc63de65adc177a5974f90",
+    "probe/StartupCloseChecks.cs": "cc6952d539434fa833683ea2f94beea4359c2d531285bc2dc1cb08e52f7ba830",
+    "probe/VisualChecks.cs": "064761d56453c44989422042d869632b112e9b3019d74dae249a99001c681b59",
+    "probe/WpfTestRunner.cs": "43c5d43ad331f396690908a0578c7e75b92d97c3046159f21cae22f9d8668d80"
+  }
+}

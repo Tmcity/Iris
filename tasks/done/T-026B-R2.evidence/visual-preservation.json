@@ -1,0 +1,103 @@
+{
+  "baseline": "7e6687d0a17206edb613354a0022cb1618a18686",
+  "drawingSources": {
+    "src/Iris.App/Capture/ScreenshotOverlayWindow.cs": {
+      "sha256": "21c35cd22148865faf060903da164ebf5d87b0ea2a8e8bd8c017505ade311bd8",
+      "sameAsBaselineIgnoringGitLineEndings": true
+    },
+    "src/Iris.App/Capture/ScreenshotFrameView.cs": {
+      "sha256": "56d81e09614c266227195899b9b1e435add87f86763d524b7d73ca1c3d7947cb",
+      "sameAsBaselineIgnoringGitLineEndings": true
+    }
+  },
+  "png": {
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-bottom-left.png": "0dcb76bf1d30aa5a25eec36a1b6b27bfce62f68b6c3fad3c18b3fef10a579fb1",
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-bottom-right.png": "79692e5c9391cf66a19562a47557cd5be2c57bf93ffbd672c4594303e39c3a2e",
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-long.png": "9f2297adabc608d21edce1a670979dee2ed3c873781a79d54b92f5b1541cce4e",
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-mask0.png": "de748a164f4c971f09ccacdd1064f657e4ae34d4557a2ca8902c8d63b546ebda",
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-mask90.png": "f3d246bd2031541a58560be5f3821e07d8f9451708f4383e31118de1f86866c6",
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-no-magnifier.png": "eeb180d6ad27d935fb8413f260ae29f61d56851900c3faa04fd5f6b1d80f847e",
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-none.png": "f5a3cbc7ff6271a447fcec96f0be7c5496b5a0fb70ea04dd818efc81b3899a5f",
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-selection.png": "6005ed20885a0c468c11e0a0656407766d61a8397ee4a33dd140dbc615e47da5",
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-small.png": "5c220ad9a12c903cddc5de294c9902aa61ac1392503421198488c1a9abd3c1fc",
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-top-left.png": "f5a3cbc7ff6271a447fcec96f0be7c5496b5a0fb70ea04dd818efc81b3899a5f",
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-top-right.png": "a520595fbec0cb19603ee130dcd6b1a2ae95d68664966012e37846a79e195ee3",
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-bottom-left.png": "109f0eb15e4c6afd1dcd7e988379b6ac44e3aa3cf54e6b13a34ec404ae026559",
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-bottom-right.png": "19a21244cf554f7e54f54848223dbf598aaa8e6b3fb44ab6ffee7fc29a97b04a",
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-long.png": "9232f3380ad02c6f23b58d00ac89225fc60d88409dae1f01feee3238390c9c62",
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-mask0.png": "3f458147776e66cba1a76164134ea090f1228967a64b4b0616da9ce3be23375a",
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-mask90.png": "bb960c72cb8297e5f022e488f19934f15b259e445fe384f9d88bd37b765f0a63",
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-no-magnifier.png": "121953e2f4a7ffa83ac3efac0e7a8da4a8e02b0511caf739ed6b2bd146d1bb33",
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-none.png": "ac98cf487c02425f323ac170e9d937bf0efa009e023a02a48ed2d6aedbce39d9",
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-selection.png": "9c99d441ac387e3ee73d531b74c2593471accf83888e5bef225673a85c0c6185",
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-small.png": "5c220ad9a12c903cddc5de294c9902aa61ac1392503421198488c1a9abd3c1fc",
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-top-left.png": "ac98cf487c02425f323ac170e9d937bf0efa009e023a02a48ed2d6aedbce39d9",
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-top-right.png": "76ad9787016b18d5a155021b4f92b83515e3d5cc1acd69533141ec5f06bb3569",
+    "tasks/done/T-026B-R1.evidence/r1-render/right-clear-after-dpi1.png": "60224f189f8831c799beff72ea365e23b98e9003b3e0b660e8028888f7427474",
+    "tasks/done/T-026B-R1.evidence/r1-render/right-clear-after-dpi2.png": "69ab6bc5ea67adc02f204397156794f75c4bf2fd38f805c95369a5f522dda34c",
+    "tasks/done/T-026B-R1.evidence/r1-render/right-clear-before-dpi1.png": "585199ea1704787b07e4dbff5a9ca3ca187c44e3c1f296e504e06150d01bf18e",
+    "tasks/done/T-026B-R1.evidence/r1-render/right-clear-before-dpi2.png": "b76258955c7b18d4ef311d7fe20f02b028d770d2e51e0a258dcab651a7be7387",
+    "tasks/done/T-026B-R1.evidence/r1-render/small-selection-labels-dpi1.png": "585199ea1704787b07e4dbff5a9ca3ca187c44e3c1f296e504e06150d01bf18e",
+    "tasks/done/T-026B-R1.evidence/r1-render/small-selection-labels-dpi2.png": "b76258955c7b18d4ef311d7fe20f02b028d770d2e51e0a258dcab651a7be7387"
+  },
+  "fullTestGeneratedPngMatches": {
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-bottom-left.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-bottom-right.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-long.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-mask0.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-mask90.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-no-magnifier.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-none.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-selection.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-small.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-top-left.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Dark-top-right.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-bottom-left.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-bottom-right.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-long.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-mask0.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-mask90.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-no-magnifier.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-none.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-selection.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-small.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-top-left.png": true,
+    "tasks/done/T-026B-R1.evidence/standard-render/Light-top-right.png": true,
+    "tasks/done/T-026B-R1.evidence/r1-render/right-clear-after-dpi1.png": true,
+    "tasks/done/T-026B-R1.evidence/r1-render/right-clear-after-dpi2.png": true,
+    "tasks/done/T-026B-R1.evidence/r1-render/right-clear-before-dpi1.png": true,
+    "tasks/done/T-026B-R1.evidence/r1-render/right-clear-before-dpi2.png": true,
+    "tasks/done/T-026B-R1.evidence/r1-render/small-selection-labels-dpi1.png": true,
+    "tasks/done/T-026B-R1.evidence/r1-render/small-selection-labels-dpi2.png": true
+  },
+  "probePngMatches": {
+    "explicit-dark.png": {
+      "sha256": "01594f5c85af7f2cbb6c485e8ad2b029064d7451ee585633d589592240116d48",
+      "sameAsR1Review": true
+    },
+    "magnifier-normal-dpi2.png": {
+      "sha256": "77c4c19a4cf31145b9877bab8e40f580facf738c8c2261b7696ab19fded6fb10",
+      "sameAsR1Review": true
+    },
+    "magnifier-small-dpi2.png": {
+      "sha256": "b1be613b4778fe251127a9481630ca110844a31270589e35df3b55bb5e0bf601",
+      "sameAsR1Review": true
+    },
+    "right-clear-after.png": {
+      "sha256": "64bdf305e764ee999c2854a9e07a3fc4e626775b496557053c5126eefeb5698b",
+      "sameAsR1Review": true
+    },
+    "right-clear-before.png": {
+      "sha256": "35bc9e4724a90bc38f3917700de37a66bd04283bd68cf79b6913aa2e354e21d5",
+      "sameAsR1Review": true
+    },
+    "small-selection-labels.png": {
+      "sha256": "35bc9e4724a90bc38f3917700de37a66bd04283bd68cf79b6913aa2e354e21d5",
+      "sameAsR1Review": true
+    },
+    "system-resolved-dark.png": {
+      "sha256": "01594f5c85af7f2cbb6c485e8ad2b029064d7451ee585633d589592240116d48",
+      "sameAsR1Review": true
+    }
+  }
+}

@@ -133,7 +133,7 @@ internal sealed partial class ScreenshotService(
         private ImageData? _image;
         private EndReason _reason;
         private Exception? _inputFailure, _initialFailure;
-        private bool _detached, _preparationPending;
+        private bool _detached, _preparationPending, _cleaning;
         private bool _interactive, _confirmed, _finished, _sealed, _focusChecked, _focusEligible, _copyWarning;
         private ScreenshotFocus _original;
         private Session? _previous = previous;
@@ -219,8 +219,8 @@ internal sealed partial class ScreenshotService(
                         var window = owner._factory.Create(_frameView, i, _settings, dark);
                         lock (owner._gate) Windows.Add(window); // Pure managed view registered before HWND initialization.
                         window.Input += OnInput; window.InputFailed += OnInputFailure; window.Closed += OnWindowClosed;
-                        window.ShowOwned(Check); Check();
                         if (window.IsClosed) { Cancel(EndReason.External); Check(); }
+                        window.ShowOwned(Check); Check();
                         _handles.Add(window.Handle);
                         window.UpdateSelection(null, new(window.Monitor.Bounds.X, window.Monitor.Bounds.Y));
                     }
@@ -289,7 +289,8 @@ internal sealed partial class ScreenshotService(
         }
         private void OnWindowClosed(object? sender, EventArgs args)
         {
-            if (_interactive && !_confirmed) Cancel(EndReason.External);
+            // Registered peers must remain alive during setup as well as interaction.
+            if (!_cleaning && !_confirmed) Cancel(EndReason.External);
         }
         private void OnInputFailure(Exception ex)
         {
@@ -358,6 +359,7 @@ internal sealed partial class ScreenshotService(
             var errors = new List<string>();
             await owner._ui.InvokeAsync(() =>
             {
+                _cleaning = true;
                 _interactive = false;
                 foreach (var window in Windows) window.AcceptPointerInput = false;
                 if (!_focusChecked)

@@ -945,7 +945,7 @@ CCR-024结案补充：c7282698最终独立构建/定向/全量通过，生产同
 |---|---|
 | 日期 / 批准 | 2026-10-06，Codex架构师 |
 | 关联 | T-026B；SCREENSHOT_INTERACTION.md；ARCH v1.41 |
-| 状态 | **已落地，R1开发完成待独立复审（T-026B-R1）** |
+| 状态 | **已落地，R2开发完成待独立复审（建立期同伴窗口关闭）** |
 
 只同步两处XML注释：IScreenshotService说明独立PNG/物理Region、用户/新意图或确认前交互撤销返回null、caller取消完整收尾与清理失败可见；ScreenshotSettings.CopyImageToClipboard说明确认时一次可选复制、失败仅安全警告并保留截图、清理重试不重复复制。确认后新外部前台阻止焦点恢复，程序关闭overlay不伪造交互取消；B本身的意图观察保持至最终结算。specs/CONTRACTS.cs已预置精确注释，由B同步Core PresentationPorts.cs与AppSettings.cs。
 
