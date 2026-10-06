@@ -969,8 +969,22 @@ CCR-024结案补充：c7282698最终独立构建/定向/全量通过，生产同
 |---|---|
 | 日期 / 批准 | 2026-10-06，Codex架构师 |
 | 关联 | T-028A；OCR_FORM_IMAGE_BUDGET.md；ARCH v1.43 |
-| 状态 | **已落地，T-028A开发完成待独立复审** |
+| 状态 | **已落地，复审通过并结案（T-028A，f091e156）** |
 
 在ImageConstraints位置record主体新增默认null的 `long? MaxFormUrlEncodedBytes { get; init; }`。原5参数构造/Deconstruct和IImagePreprocessor签名保持；只增加可选能力，不影响配置文件/默认设置/schema/包。specs/CONTRACTS.cs已预置，由A同步Core。
 
 依据是百度公开文档的Base64+URL编码预算及实际白BMP合成反例。新预算仅图像值，和原字节/Base64预算同时满足；调用方负责其它表单开销。预处理精确计数、保留原null路径并沿用质量/收尾规则。T-027已经正确完成旧契约，不因本增量撤销结案；B后续完整实现Provider，A不提前修改HTTP重试或OCR模块。
+
+## CCR-028：百度OCR Provider行为与安全Wire诊断
+
+| 字段 | 内容 |
+|---|---|
+| 日期 / 批准 | 2026-10-06，Codex架构师 |
+| 关联 | T-028B；BAIDU_OCR.md；ARCH v1.44 |
+| 状态 | **已落地，T-028B开发完成待独立复审** |
+
+公开IOcrProvider/Factory/OcrRequest/Result签名与字段不变，只补说明。Wire批准BaiduTokenResponse/BaiduOcrResponse安全ToString覆盖（不改变JSON字段），新增BaiduErrorCodes.RequestBodyTooLarge=216205。specs/CONTRACTS.cs已预置，B同步实际源。
+
+行为定稿包含四模式真实上传限制/语言、短TTL安全余量与Token receipt条件失效、取消的获取者/等待者、最多两种业务重试各一次及既有HTTP次数区别、Test不以旧缓存假报连接成功、有界响应、段落/Bounds/Confidence与安全错误。未知业务错误不再转发error_msg。
+
+仅允许Core.csproj新增Iris.Providers友元以复用已验收internal SoftLineBreakMerger，不改helper/公开API或反向引用。默认配置/schema/包与Platform/App生产不变；OCR注册表/编排/入口仍后续工单。

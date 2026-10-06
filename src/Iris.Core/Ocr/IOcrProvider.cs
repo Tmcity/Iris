@@ -8,6 +8,7 @@ namespace Iris.Core.Ocr;
 /// OCR 服务。实现约束同 ITranslationProvider（线程安全、凭据注入、IrisException、超时内部处理）。
 /// 调用方保证传入图像已满足 Constraints（由 IOcrService 调用 IImagePreprocessor 完成）。
 /// 识别成功但无文字时返回 Lines 为空的结果（不抛异常）。
+/// 百度实现的Token代次、有限重试、表单总预算和完整收尾见 BAIDU_OCR.md；调用期间输入图像字节只读。
 /// </summary>
 public interface IOcrProvider
 {
@@ -17,7 +18,7 @@ public interface IOcrProvider
 
     Task<OcrResult> RecognizeAsync(OcrRequest request, CancellationToken cancellationToken);
 
-    /// <summary>百度：仅获取 access_token 验证 Key（不消耗识别额度）；Windows：检查语言包是否可用。</summary>
+    /// <summary>百度：仅鉴权获取 access_token（不消耗识别额度，不仅凭调用前缓存报告成功）；Windows：检查语言包是否可用。</summary>
     Task<ProviderTestResult> TestAsync(CancellationToken cancellationToken);
 }
 

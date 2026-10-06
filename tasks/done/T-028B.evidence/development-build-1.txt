@@ -1,0 +1,16 @@
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+F:\Iris\src\Iris.Providers\Ocr\Baidu\BaiduCall.cs(21,14): error CA1068: 方法“Iris.Providers.Ocr.Baidu.BaiduCall.BaiduCall(System.Threading.CancellationToken, System.TimeProvider, System.TimeSpan, string)”应将 CancellationToken 作为最后一个参数 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1068) [F:\Iris\src\Iris.Providers\Iris.Providers.csproj]
+F:\Iris\src\Iris.Providers\Ocr\Baidu\BaiduHttpExchange.cs(9,23): error CA1001: 类型“BaiduHttpExchange”具有可释放的字段“_request', '_requestContent”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\src\Iris.Providers\Iris.Providers.csproj]
+F:\Iris\src\Iris.Providers\Ocr\Baidu\BaiduOcrProvider.cs(77,17): error CA2016: 将“caller”参数转发给“Run”方法，或在 "CancellationToken.None" 中显式传递以指示有意不传播令牌 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2016) [F:\Iris\src\Iris.Providers\Iris.Providers.csproj]
+
+生成失败。
+
+F:\Iris\src\Iris.Providers\Ocr\Baidu\BaiduCall.cs(21,14): error CA1068: 方法“Iris.Providers.Ocr.Baidu.BaiduCall.BaiduCall(System.Threading.CancellationToken, System.TimeProvider, System.TimeSpan, string)”应将 CancellationToken 作为最后一个参数 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1068) [F:\Iris\src\Iris.Providers\Iris.Providers.csproj]
+F:\Iris\src\Iris.Providers\Ocr\Baidu\BaiduHttpExchange.cs(9,23): error CA1001: 类型“BaiduHttpExchange”具有可释放的字段“_request', '_requestContent”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\src\Iris.Providers\Iris.Providers.csproj]
+F:\Iris\src\Iris.Providers\Ocr\Baidu\BaiduOcrProvider.cs(77,17): error CA2016: 将“caller”参数转发给“Run”方法，或在 "CancellationToken.None" 中显式传递以指示有意不传播令牌 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2016) [F:\Iris\src\Iris.Providers\Iris.Providers.csproj]
+    0 个警告
+    3 个错误
+
+已用时间 00:00:08.08

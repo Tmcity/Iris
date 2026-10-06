@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.43 · 2026-10-06 · 状态：**已冻结（首期）**
+> 版本：v1.44 · 2026-10-06 · 状态：**已冻结（首期）**
+> 变更记录：v1.44（T-028A通过，签发T-028B）— BAIDU_OCR.md / CCR-028定稿四模式Provider、Token代次/短TTL/取消、业务与HTTP重试边界、完整表单预算及有界安全解析。批准wire安全ToString/216205常量及Core内部文本helper的Providers友元访问；公开端口签名/default/schema/包保持，OCR注册表/编排/入口后续实施。
 > 变更记录：v1.43（T-027通过，签发T-028A）— OCR_FORM_IMAGE_BUDGET.md / CCR-027为ImageConstraints增加默认null的表单图像值预算，保留5参数构造/Deconstruct及原行为。T-028拆A精确上传预算、B完整百度Provider，总范围保留，配置/schema/包不变。
 > 变更记录：v1.42（T-026B/R2通过，签发T-027）— IMAGE_PREPROCESSING.md / CCR-026定稿图像有效性、整数缩放/白边、允许格式内JPEG降质、精确Base64预算及异步完整收尾。仅预处理原型行为注释澄清，签名/default/schema/包不变；OCR Provider/入口仍后续实施。
 > 变更记录：v1.41（T-026A/R3通过，签发T-026B）— SCREENSHOT_INTERACTION.md / CCR-025定稿每屏冻结覆盖层、物理选区/移动/8倍放大镜、确认/取消、可选复制失败仅警告、条件焦点恢复和完整退出。仅两处行为注释澄清，签名/default/schema/包不变；真实桌面与NFR后续验收。
@@ -680,28 +681,15 @@ data: {"type":"message_stop"}
 
 ### 9.3 百度智能云 OCR（`BaiduOcrProvider`）
 
-- **凭据**：`ApiKey` + `SecretKey`（均从 `ISecretStore` 读取，`SecretKeys.ApiKey/SecretKey(profileId)`）。
-- **Token**：`POST {BaseUrl}/oauth/2.0/token?grant_type=client_credentials&client_id=…&client_secret=…` → `BaiduTokenResponse`。`BaiduTokenCache` 在内存中缓存 token，过期时间 = 获取时间 + `expires_in` − 1 天；并发请求共享同一个获取任务（`SemaphoreSlim` 或 `Lazy<Task>`）；有 `error` 字段 → `AuthenticationFailed`。
-- **识别**：`POST {BaseUrl}{ModePath}?access_token={token}`，`FormUrlEncodedContent`：`image`（Base64）、`detect_direction`（"true"/"false"）、`paragraph`（"true"/"false"）、`language_type`。
-- **language_type 映射**（`BaiduLanguageMap`）：auto → `CHN_ENG`（`*_basic` 标准版）/ `auto_detect`（高精度版）；zh-Hans/zh-Hant → `CHN_ENG`；en → `ENG`；ja → `JAP`；ko → `KOR`；fr → `FRE`；de → `GER`；es → `SPA`；pt → `POR`；it → `ITA`；ru → `RUS`；其他 → 同 auto。`BaiduOptions.LanguageType` 非空时直接使用该值。**开发时请对照官方文档确认各接口支持的取值。**
-- **图像约束**（保守值，核对官方文档后可以放宽）：`MaxEncodedBytes = 4 MB`（Base64 计）、`MaxLongSide = 4096`、`MinShortSide = 15`、格式 `[Jpeg, Png, Bmp]`。
-- **结果**：`words_result[].words` → `OcrLine`（含位置版本带 `location` → `Bounds`；有 `probability.average` → `Confidence`）。`paragraph=true` 且有 `paragraphs_result` 时，按段落把同段的行合并为一行（行间按 §8 的规则连接）后再交给 Normalizer。
-- **错误**（业务错误以 HTTP 200 返回，必须先检查 `error_code`）：
+正式规则见 `BAIDU_OCR.md` / CCR-028（T-028B）。Factory接收Profile与ProviderCredentials，不在Provider读取SecretStore；四模式保留全部原范围。
 
-| error_code | 处理 |
-|---|---|
-| 110 / 111 | 清除 token 缓存 → 重新获取 → **只重试一次**；仍失败 → AuthenticationFailed |
-| 14 | AuthenticationFailed |
-| 6 | PermissionDenied（未开通该接口） |
-| 17 / 19 | QuotaExceeded |
-| 18 | RateLimited（Retryable = true，退避 500 ms 后重试一次） |
-| 216200 / 216201 | ImageInvalid |
-| 216202 | ImageTooLarge |
-| 216100 / 216101 | BadRequest |
-| 216630 / 282000 | ProviderUnavailable |
-| 其他 | Unknown（Detail 带上 error_code 与 error_msg） |
-
-- **TestAsync**：只获取 token（不消耗识别额度）。
+- 标准两模式最大长边4096、完整表单8,000,000字节；高精度两模式8192、10,000,000字节。原4MiB Base64/最短15/[Jpeg,Png,Bmp]仍保持，并用T-028A可选预算扣除其它表单开销。最终实际body再检查。
+- Token每实例缓存、条件代次失效与可取消获取准入；正常并发只获取一次。TTL最多按30天复用，余量min(1天,TTL/10)，用单调时间；获取者取消完整排空后其它等待者可重取，不取消其它调用。
+- HTTP传输沿用iris.ocr现有2次retry/10秒attempt/30秒total。HTTP2xx业务110/111只认证重试一次，18只退避500ms重试一次，混合最多3次逻辑识别；必须区分最多9次底层传输和逻辑调用。Profile总预算不因重试重置。
+- 结果有界解析、位置/置信度/段落与空结果规则按正式规范；复用Core内部SoftLineBreakMerger，不复制规范化状态机。最终Normalizer/回退留T-030。
+- 错误只保留安全阶段/数值，未知业务码也不转发error_msg；新增216205→ImageTooLarge。Token/OCR DTO ToString不回显敏感字段。签名/default/schema/包不变。
+- TestAsync只验证Token端点，不能仅凭调用前缓存报连接成功；并发调用可复用其开始后新获取的Token，不发送识别请求。
+- 实例异步停止/资源完整等待和重试可验证；Registry租约接线留T-030。本单自动化仅MockHTTP/fake时间/合成图片，真实API兼容性与NFR不冒称通过。
 
 ### 9.4 Windows 本地 OCR（`WindowsOcrProvider`）
 

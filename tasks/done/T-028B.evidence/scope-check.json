@@ -1,0 +1,19 @@
+{
+  "baseline": "f091e1565b81ed63cb4e614940f710631940a6dc",
+  "unchangedPaths": [
+    "src/Iris.App",
+    "src/Iris.Platform.Windows",
+    "src/Iris.Core/Text",
+    "src/Iris.Providers/Http",
+    "src/Iris.Providers/Translation",
+    "src/Iris.Providers/Iris.Providers.csproj",
+    "Directory.Packages.props",
+    "specs/settings.example.json",
+    "specs/DB_SCHEMA.sql"
+  ],
+  "coreOnlyApprovedFriend": true,
+  "publicOcrDeclarationsUnchanged": true,
+  "wireDtosMatchApprovedSpec": true,
+  "diOnlyBaiduFactoryAndOcrSafetyHandler": true,
+  "httpRetryAndTimeoutPolicyUnchanged": true
+}

@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.Providers.Tests\Ocr\Baidu\BaiduTestScope.cs(14,23): error CA1001: 类型“BaiduTestScope”具有可释放的字段“_handler”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\tests\Iris.Providers.Tests\Iris.Providers.Tests.csproj]
+生成失败，退出代码: 1。

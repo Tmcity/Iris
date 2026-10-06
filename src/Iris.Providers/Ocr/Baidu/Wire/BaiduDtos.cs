@@ -34,6 +34,8 @@ public sealed record BaiduTokenResponse
     [JsonPropertyName("scope")] public string? Scope { get; init; }
     [JsonPropertyName("error")] public string? Error { get; init; }
     [JsonPropertyName("error_description")] public string? ErrorDescription { get; init; }
+    /// <summary>诊断不回显Token、scope或服务端错误正文。</summary>
+    public override string ToString() => $"BaiduTokenResponse {{ HasAccessToken = {!string.IsNullOrEmpty(AccessToken)}, ExpiresIn = {ExpiresIn}, HasError = {!string.IsNullOrEmpty(Error)} }}";
 }
 
 /// <summary>识别响应。注意：业务错误也以 HTTP 200 返回，必须检查 ErrorCode。</summary>
@@ -47,6 +49,8 @@ public sealed record BaiduOcrResponse
     [JsonPropertyName("paragraphs_result")] public IReadOnlyList<BaiduParagraph>? ParagraphsResult { get; init; }
     [JsonPropertyName("error_code")] public int? ErrorCode { get; init; }
     [JsonPropertyName("error_msg")] public string? ErrorMsg { get; init; }
+    /// <summary>诊断仅保留数值摘要，不回显识别正文或错误文本。</summary>
+    public override string ToString() => $"BaiduOcrResponse {{ WordsResultNum = {WordsResultNum}, ErrorCode = {ErrorCode} }}";
 }
 
 public sealed record BaiduWord
@@ -95,6 +99,7 @@ public static class BaiduErrorCodes
     public const int ImageEmpty = 216200;
     public const int ImageFormatError = 216201;
     public const int ImageSizeError = 216202;
+    public const int RequestBodyTooLarge = 216205;
     public const int RecognizeError = 216630;
     public const int InternalError = 282000;
 }

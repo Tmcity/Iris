@@ -31,11 +31,14 @@ public static class ProvidersServiceCollectionExtensions
         services.TryAddSingleton(TimeProvider.System);
         services.AddSingleton<DynamicWebProxy>();
         services.AddTransient<HttpLoggingHandler>();
+        services.AddTransient<Iris.Providers.Ocr.Baidu.BaiduOcrTransportSafetyHandler>();
 
         services.TryAddEnumerable(
             ServiceDescriptor.Singleton<ITranslationProviderFactory, OpenAICompatibleTranslationProviderFactory>());
         services.TryAddEnumerable(
             ServiceDescriptor.Singleton<ITranslationProviderFactory, AnthropicTranslationProviderFactory>());
+
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<Iris.Core.Ocr.IOcrProviderFactory, Iris.Providers.Ocr.Baidu.BaiduOcrProviderFactory>());
 
         var informationalVersion = typeof(ProvidersServiceCollectionExtensions).Assembly
             .GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion;
@@ -118,6 +121,7 @@ public static class ProvidersServiceCollectionExtensions
             options.TotalRequestTimeout.Timeout = TimeSpan.FromSeconds(30);
         });
         ocr.AddHttpMessageHandler<HttpLoggingHandler>();
+        ocr.AddHttpMessageHandler<Iris.Providers.Ocr.Baidu.BaiduOcrTransportSafetyHandler>();
 
         return services;
     }

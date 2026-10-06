@@ -1,0 +1,51 @@
+{
+  "baseline": "f091e1565b81ed63cb4e614940f710631940a6dc",
+  "source": {
+    "src/Iris.Providers/Ocr/Baidu/BaiduCall.cs": "7e500af83f44b0917af246567d5e9a261c8eef364d4aeede2283b1d84794ff03",
+    "src/Iris.Providers/Ocr/Baidu/BaiduConfiguration.cs": "62ebd7bbf354e943429931091d28e8f8842e0d596f3a36517c3d573c2439b1af",
+    "src/Iris.Providers/Ocr/Baidu/BaiduErrors.cs": "3ec658562ae2bac69c8501c66f40b972fff1f32ea2d8ffa4e8865225ef08807c",
+    "src/Iris.Providers/Ocr/Baidu/BaiduHttpExchange.cs": "86ed5f0a2ead64042a847411fbee66346de297257f21bb1f7e4e79128fb8f50c",
+    "src/Iris.Providers/Ocr/Baidu/BaiduOcrProvider.cs": "283e7747b55489ddd13dbb37d21e7615cbf5d22152a175feeeeb4c4c5219a7c8",
+    "src/Iris.Providers/Ocr/Baidu/BaiduOcrTransportSafetyHandler.cs": "abefdab718089150dd36d2d29413cf48fe3427a6ef6b896c520b8f41400209b4",
+    "src/Iris.Providers/Ocr/Baidu/BaiduResponseParser.cs": "ac675dd23a0bcb07cae64e30a82ad19af5eb1071476c15410472986818845279",
+    "src/Iris.Providers/Ocr/Baidu/Wire/BaiduDtos.cs": "c65302e0e7301193be604b5c35d6ee1a73ca9e5fb269fc507bc2af1930302f3b",
+    "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduNamedPipelineTests.cs": "415caf6b1f3f098eb5807f74b10689064c980e92415808b83fd4a5f23ffe3601",
+    "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduOwnershipTests.cs": "db8597484f10380ba19cd0ecdfab3f027b4aca88e689881d664902f8003500b3",
+    "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduParsingTests.cs": "2d63c3572c01665f0b20b5f19e3583b196034323ae84f5d1eee76b2e2bee7d90",
+    "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduProviderTests.cs": "1b3defaa7dd9c249df83c0a3960709d5cd402af03ed92c486492a193d1869b35",
+    "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduTestScope.cs": "9953be0c4cae1902ecd2a3426f7106f0ff5a047a0c1462959d1b6cd14d07653b",
+    "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduTokenTests.cs": "c411e3128b72822be2b37e313e6350f6c9982c40cb7045b7f4fa1938654311ce",
+    "src/Iris.Core/Ocr/IOcrProvider.cs": "d8bb89494e7514dd658519d875976f9cea58e36e1e132375183a90f3cb6c4b43",
+    "src/Iris.Core/Iris.Core.csproj": "35ae6a4ea1dd27dc20c476e38a92b856e6cc024e9b146af577a1d30aa7e35e62",
+    "src/Iris.Providers/DependencyInjection/ProvidersServiceCollectionExtensions.cs": "6c2f960fbf37540f3df5c88a965b1c3ac2e556dabaf641ff05e201c999b0008a"
+  },
+  "evidence": {
+    "development-build-1.txt": "78dc22f0395999cc94594622336274dab2877a9a1da5513d91346490476888a8",
+    "development-build-2.txt": "e176027069be5391cbc83ed60b901f7d5988373f2c77aa32900d3b406c046a68",
+    "pipeline-audit.txt": "d6eac8d7e3a5abd10dc0f91fd8cd080236ae4850dda78bf5918a5ca51d793dac",
+    "providers-all.txt": "cad6497590ef3753b8dae9e28fa166cf8aaba55444473449fd78152c89eb090e",
+    "providers-callback-final.txt": "822340e5d0552d14663318f1d2df5fd821a934bf4bc6b8cc01368e7584d08573",
+    "providers-deadline-final.txt": "47d2b7675557176038c528d87ca0c38c0e42943a89e96be5164f1333312ab7ef",
+    "providers-final.txt": "807ff4941eb07ba1e79e3fb98e2f54b13d01350c08e399f471cedbc12e99ef15",
+    "README.md": "83561c4ffdf9f211cb091ecf4c2f1b21658251d2487b0ca95988ea2c1feba7f7",
+    "release-build-delivery.txt": "08e2007e29102a59b7920dcc99d2d52c7229d8d2fa3eaaf22fbef4cb279dc684",
+    "release-build-final.txt": "76a8a84c586ab013f88520a58325e21dd65e1ab9820ba924d6974799a4dc56d1",
+    "release-build.txt": "b502969cc6ca444742799c568685d430197612c07d757af3caa149da88f2af9c",
+    "release-full-delivery.txt": "79a50199f25c51b95dbf247d525dda14b54ba7a1048666119055ae7c4096334d",
+    "release-full-final.txt": "3e1604ec5797a8dbc1adbd0dbc63c3386bc8e5e0b20c396560b291d07535923b",
+    "release-full.txt": "0f9b89b42a5541f8932ee0728b803ee9db45409109adc91264b9b6f7b8da0a42",
+    "scope-check.json": "1a54770f4400e372588a7bd812a6830b3b943bb752bb687eda799af99f372a28",
+    "targeted-1.txt": "f9ec31a67ed2579e4c2821745c315f6e395da0a7e608b315ad5526a44e26ce01",
+    "targeted-2.txt": "5ca8db17e3d7a381d9c80af6af17d8d836991378c140fe800523e7459b174417",
+    "targeted-3.txt": "4f4e47dd9c8825feb1f8e1f0768754bdf68f6989f744fdfe210f0ca1e63bce44",
+    "targeted-4.txt": "ba379419fbe64760ea19ca08e224fbb94b3ec857c0de042d8b8b92553dd967b9",
+    "targeted-5.txt": "d3fdafafe842f10c03fda7b068a7e897f89c6065b6a91b903e6561b4ad85af79",
+    "targeted-6.txt": "62bb5bca5b7d7192e61fcb4c02166704434191e13f26f847065b72793785cbac",
+    "targeted-7.txt": "7f46c519a5ab1bf0f819e9becb441dddcbb641fcc4e30c0d90750bfe32a93948",
+    "targeted-8.txt": "e23d1c90e0b4bb6d3310cb45284fd48fbdf3270fa14cb25f61590882dab8601a"
+  },
+  "assemblies": {
+    "Iris.Core.dll": "edf15c106f4578a1f8ad3b228fb1ef60745a480413ca650e268bc56020513891",
+    "Iris.Providers.dll": "3814f0be10851b2a85413385c7846f28aa735cdae4f6063a8e3c6a4962ce7c59"
+  }
+}

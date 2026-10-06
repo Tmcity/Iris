@@ -1,5 +1,11 @@
 # Iris 架构师接手记录
 
+**T-028B独立验收准备（尚未运行产品探针）**：临时iris-t028b-independent-review已有Program/prepare.py、Wire/Token/Error/Lifecycle/Ownership/Pipeline检查与纯Mock HTTP/时钟/流/Timer/日志观察器。完整准备编译preparation-build-5.log为0警告/错误，未执行；正式交付后独立Release/full，刷新最终Providers.Tests输出DLL后运行Review.csproj。重点包含实际命名管道9次重试及传输异常日志、入口到worker耗时后的总预算、HTTP200/401内容释放失败原流重试、timer/GC。开发已自行修复已见stream/timer/log_id及异常日志问题；上述检查线索不是最终缺陷。不要拿准备DLL或旧草稿判返工。
+
+**T-028B实际下达记录（2026-10-06）**：消息01a11037-318d-7123-8f3c-10a009dac0dc进入指定开发会话，执行轮01a11037-3492-7563-b7fe-cd24a8c62552。开发已明确确认完整Provider/Factory及Mock HTTP范围，实际读取工单/BAIDU_OCR/CCR及契约增量。当前已启动，未交付/未验收；send超时不代表取消，不重发。不发送真实OCR/Token请求。
+
+**最新唯一工单T-028B（2026-10-06）**：T-028A/CCR-027已验收，最终f091e1565b81ed63cb4e614940f710631940a6dc独立Release0警告/错误（44.92秒）、全量2754中2752成功/2既有跳过（1分14秒333毫秒）、实际56项全通过，证据T-028A.review。现在签发BAIDU_OCR.md/ARCH v1.44/CCR-028/current_task，完整Provider范围保留。Token获取者取消排空后其它等待者可重取、Test不依赖调用前旧缓存、最多3逻辑识别/9底层尝试、模式整份表单上限/安全解析/段落/处置规则均已定稿，不使用临时候选未定选项。直接下达新开发会话01a10fa5-77e8-77e1-82d9-1ea1aa587d61。
+
 **T-028A实际下达记录（2026-10-06）**：消息01a11007-1a32-7330-9d6a-1317b59de289进入指定开发会话，执行轮01a11007-23e1-7d62-82d0-8309ff83ca14。开发已确认只补新约束/精确统计/回归，保留T-027退出；已实际读取工单/正式规范/契约增量。已启动、未交付/未验收，send超时未取消，不重发；无需用户传话。
 
 **最新唯一工单T-028A（2026-10-06）**：T-027在b3f1f1b67eafc20bab12290dba40051b4cc0ab51验收结案；独立Release0警告/错误（12.95秒）、全量2722中2720成功/2跳过（41秒247毫秒）、实际WinRT/服务/Host/故障/GC40项全通过。证据T-027.review。官方百度图像上传要求Base64再URL编码；纯合成白BMP原2359350/Base643145800字节却得到9437321字节表单（无HTTP）。现按OCR_FORM_IMAGE_BUDGET.md/ARCH v1.43/CCR-027签发A可选精确表单图像预算，默认null/原构造不变，B保留全部Provider功能。旧T027完成能力不返工，当前工单详见current_task。

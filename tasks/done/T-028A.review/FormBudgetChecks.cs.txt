@@ -1,0 +1,142 @@
+using System.Runtime.ExceptionServices;
+using System.Net.Http;
+using Iris.Core.Errors;
+using Iris.Core.Imaging;
+using Iris.Platform.Windows.Imaging;
+
+internal static class FormBudgetChecks
+{
+    private static long Oracle(byte[] bytes) => Uri.EscapeDataString(Convert.ToBase64String(bytes)).Length;
+    private static void Require(bool condition, string message) => GeometryChecks.Require(condition, message);
+    internal static async Task Run(IImagePreprocessor real, string directory, Func<string, Func<Task>, Task> check)
+    {
+        await check("FORM_COUNT_AGREES_WITH_DOTNET_ENCODING", async () =>
+        {
+            List<byte[]> samples = [[], [0], [255], [251], [255,255], [251,239], [255,255,255], [251,239,190], [0,0,0]];
+            for (int i = 0; i < 256; i++) samples.Add([(byte)i]);
+            var random = new Random(20261006);
+            foreach (int size in new[] { 4, 5, 6, 31, 12287, 12288, 12289, 24577 })
+            {
+                byte[] data = new byte[size]; random.NextBytes(data); samples.Add(data);
+                samples.Add(Enumerable.Repeat((byte)255, size).ToArray());
+            }
+            foreach (var bytes in samples)
+            {
+                long actual = FormUrlEncodedImageLength.Count(bytes, static () => { });
+                using var content = new FormUrlEncodedContent([new KeyValuePair<string,string>("image", Convert.ToBase64String(bytes))]);
+                long expected = (await content.ReadAsByteArrayAsync()).LongLength - "image=".Length;
+                Require(actual == expected && actual == Oracle(bytes), $"form count mismatch at input length {bytes.Length}");
+            }
+            Console.WriteLine($"FORM_LENGTH_ORACLE samples={samples.Count}");
+        });
+        await check("REAL_WHITE_BMP_NULL_PRESERVES_NEW_CAP_CONVERTS", async () =>
+        {
+            var source = new ImageData(await File.ReadAllBytesAsync(Path.Combine(directory, "fixtures", "white-1024x768.bmp")), ImageFormat.Bmp, 1024, 768);
+            var constraints = new ImageConstraints(4 * 1024 * 1024, true, 4096, 15, [ImageFormat.Jpeg, ImageFormat.Png, ImageFormat.Bmp]);
+            Require(Oracle(source.Bytes) > 8_000_000 && Convert.ToBase64String(source.Bytes).Length <= constraints.MaxEncodedBytes, "synthetic counterexample no longer exercises the independent form constraint");
+            var unchanged = await real.PrepareAsync(source, constraints, default);
+            Require(ReferenceEquals(source, unchanged), "default null changed previously accepted BMP behavior");
+            var result = await real.PrepareAsync(source, constraints with { MaxFormUrlEncodedBytes = 8_000_000 }, default);
+            Require(!ReferenceEquals(source, result) && result.Format == ImageFormat.Jpeg && Oracle(result.Bytes) <= 8_000_000 && Convert.ToBase64String(result.Bytes).Length <= constraints.MaxEncodedBytes, "new constraint did not produce a simultaneously valid result");
+            var decoded = await GeometryChecks.Decode(result.Bytes);
+            Require(decoded.Width == 1024 && decoded.Height == 768 && decoded.Codec == Windows.Graphics.Imaging.BitmapDecoder.JpegDecoderId, "budget conversion changed geometry or codec identity");
+            for (int i = 0; i < decoded.Pixels.Length; i++) Require(decoded.Pixels[i] >= 253 && (i % 4 != 3 || decoded.Pixels[i] == 255), "white content damaged by budget conversion");
+            Console.WriteLine($"WHITE_BMP_FORM before={Oracle(source.Bytes)} after={Oracle(result.Bytes)} sameDefault={ReferenceEquals(source, unchanged)}");
+        });
+        foreach (int remainder in new[] { 0, 1, 2 })
+            await check("REAL_FORM_EXACT_BOUNDARY_" + remainder, async () =>
+            {
+                var source = new ImageData(await File.ReadAllBytesAsync(Path.Combine(directory, "fixtures", $"budget-mod{remainder}.png")), ImageFormat.Png, 17, 9);
+                long exact = Oracle(source.Bytes);
+                var c = new ImageConstraints(1_000_000, false, 100, 0, [ImageFormat.Png]) { MaxFormUrlEncodedBytes = exact };
+                Require(ReferenceEquals(source, await real.PrepareAsync(source, c, default)), "equal form budget was not accepted as the same instance");
+                await ContractChecks.Expect(ErrorCode.ImageTooLarge, () => real.PrepareAsync(source, c with { MaxFormUrlEncodedBytes = exact - 1 }, default));
+                Require(ReferenceEquals(source, await real.PrepareAsync(source, c with { MaxFormUrlEncodedBytes = long.MaxValue }, default)), "large positive form budget overflowed");
+            });
+        foreach (bool converted in new[] { false, true })
+            await check("SAME_LENGTH_DIFFERENT_ESCAPE_DENSITY_" + converted, () => Scope.Run(async f =>
+            {
+                f.Boundary.EncodedBytes = (_, quality) => Enumerable.Repeat(quality > .85 ? (byte)255 : (byte)0, 30).ToArray();
+                var c = new ImageConstraints(1_000, false, 100, 0, converted ? [ImageFormat.Jpeg] : [ImageFormat.Png, ImageFormat.Jpeg]) { MaxFormUrlEncodedBytes = 90 };
+                var output = await f.Service.PrepareAsync(f.Boundary.Input, c, default);
+                var encoders = f.Boundary.Encoders.ToArray();
+                Require(encoders.Select(e => (int)Math.Round(e.Quality * 100)).SequenceEqual(new[] { 90, 80 }) && output.Bytes.Length == 30 && Oracle(output.Bytes) == 40, "decision used length approximation or repeated ninety");
+            }));
+        foreach (bool base64 in new[] { false, true })
+        await check($"PRIMARY_AND_FORM_CONSTRAINTS_BOTH_REQUIRED_BASE64_{base64}", () => Scope.Run(async f =>
+        {
+            f.Boundary.EncodedBytes = (_, _) => new byte[30];
+            var c = new ImageConstraints(base64 ? 39 : 29, base64, 100, 0, [ImageFormat.Png, ImageFormat.Jpeg]) { MaxFormUrlEncodedBytes = 90 };
+            await ContractChecks.Expect(ErrorCode.ImageTooLarge, () => f.Service.PrepareAsync(f.Boundary.Input, c, default));
+            Require(f.Boundary.Encoders.Count == 5, "passing form budget bypassed raw budget");
+        }));
+        await check("FORM_ONLY_VIOLATION_WITHOUT_JPEG_FAILS", () => Scope.Run(async f =>
+        {
+            var c = new ImageConstraints(1_000_000, false, 100, 0, [ImageFormat.Png]) { MaxFormUrlEncodedBytes = 1 };
+            await ContractChecks.Expect(ErrorCode.ImageTooLarge, () => f.Service.PrepareAsync(f.Boundary.Input, c, default));
+            Require(f.Boundary.Encoders.IsEmpty && f.AllReleased, "form-only failure escaped into forbidden JPEG or lost cleanup");
+        }));
+        await check("FORM_ONLY_FAILURE_EXHAUSTS_ALL_QUALITIES", () => Scope.Run(async f =>
+        {
+            f.Boundary.EncodedBytes = (_, _) => Enumerable.Repeat((byte)255, 30).ToArray();
+            var c = new ImageConstraints(1_000_000, false, 100, 0, [ImageFormat.Png, ImageFormat.Jpeg]) { MaxFormUrlEncodedBytes = 10 };
+            await ContractChecks.Expect(ErrorCode.ImageTooLarge, () => f.Service.PrepareAsync(f.Boundary.Input, c, default));
+            Require(f.Boundary.Encoders.Select(e => (int)Math.Round(e.Quality * 100)).SequenceEqual(new[] { 90,80,70,60,50 }) && f.AllReleased, "form-only failure did not preserve finite quality ladder and cleanup");
+        }));
+        await check("NULL_SKIPS_SCAN_AND_NONPOSITIVE_REJECTS_BEFORE_CODEC", () => Scope.Run(async f =>
+        {
+            f.Boundary.FormBatch = () => throw new InvalidOperationException("null-budget scan must not occur");
+            var input = f.Boundary.Input;
+            var c = new ImageConstraints(1_000, false, 100, 0, [ImageFormat.Png]);
+            Require(ReferenceEquals(input, await f.Service.PrepareAsync(input, c, default)), "null changed the fast path");
+            int previous = f.Boundary.Decoders.Count;
+            foreach (long invalid in new[] { 0L, -1L, long.MinValue })
+                await ContractChecks.Expect(ErrorCode.InvalidArgument, () => f.Service.PrepareAsync(input, c with { MaxFormUrlEncodedBytes = invalid }, default));
+            Require(f.Boundary.Decoders.Count == previous, "invalid budget created a decoder");
+        }));
+        foreach (bool stop in new[] { false, true })
+        foreach (bool output in new[] { false, true })
+            await check($"ACTUAL_FORM_BATCH_{(stop ? "STOP" : "CALLER")}_{(output ? "OUTPUT" : "INPUT")}", () => Scope.Run(async f =>
+            {
+                using var caller = new CancellationTokenSource();
+                f.Boundary.InputLength = output ? 200 : 50_000;
+                f.Boundary.EncodedBytes = (_, _) => new byte[50_000];
+                int entered = 0;
+                f.Boundary.FormBatch = () => { if (++entered == 2) { if (stop) f.Service.StopAcceptance(); else caller.Cancel(); } };
+                var c = new ImageConstraints(1_000_000, false, 100, 0, output ? [ImageFormat.Jpeg] : [ImageFormat.Png]) { MaxFormUrlEncodedBytes = 2_000_000 };
+                bool canceled = false;
+                try { await f.Service.PrepareAsync(f.Boundary.Input, c, caller.Token); }
+                catch (OperationCanceledException) { canceled = true; }
+                Require(canceled && entered == 2, "cancel/stop did not take effect at the actual batch checkpoint");
+                if (!output) Require(f.Boundary.Decoders.IsEmpty, "input count cancellation started codec work");
+                else Require(f.Boundary.Encoders.Count == 1 && f.AllReleased, "output count cancellation lost the actual encoder cleanup");
+                f.Boundary.FormBatch = null;
+                if (stop) await f.Service.StopAsync();
+                else
+                {
+                    var input = f.Boundary.Input;
+                    Require(ReferenceEquals(input, await f.Service.PrepareAsync(input, new(1_000_000, false, 100, 0, [ImageFormat.Png]), default)), "caller cancellation stopped shared instance");
+                }
+            }));
+    }
+    private sealed class Scope
+    {
+        internal readonly PreparationBoundary Boundary = new();
+        internal readonly WinRtImagePreprocessor Service;
+        internal bool AllReleased => Boundary.Decoders.All(d => d.WriterDisposed && d.StreamDisposed) && Boundary.Encoders.All(e => e.ReaderDisposed && e.StreamDisposed);
+        private Scope() { Service = new(Boundary); }
+        internal static async Task Run(Func<Scope, Task> body)
+        {
+            var f = new Scope(); Exception? primary = null; var errors = new List<Exception>();
+            try { await body(f); } catch (Exception ex) { primary = ex; }
+            finally
+            {
+                f.Boundary.FormBatch = null; f.Boundary.Before = null; f.Boundary.BeforeDispose = null;
+                try { await f.Service.DisposeAsync(); } catch (Exception ex) { errors.Add(ex); }
+            }
+            if (primary != null && errors.Count == 0) ExceptionDispatchInfo.Capture(primary).Throw();
+            if (primary != null) errors.Insert(0, primary);
+            if (errors.Count != 0) throw new AggregateException(errors);
+        }
+    }
+}

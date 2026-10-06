@@ -651,6 +651,7 @@ namespace Iris.Core.Ocr
     /// OCR 服务。实现约束同 ITranslationProvider（线程安全、凭据注入、IrisException、超时内部处理）。
     /// 调用方保证传入图像已满足 Constraints（由 IOcrService 调用 IImagePreprocessor 完成）。
     /// 识别成功但无文字时返回 Lines 为空的结果（不抛异常）。
+    /// 百度实现的Token代次、有限重试、表单总预算和完整收尾见 BAIDU_OCR.md；调用期间输入图像字节只读。
     /// </summary>
     public interface IOcrProvider
     {
@@ -660,7 +661,7 @@ namespace Iris.Core.Ocr
 
         Task<OcrResult> RecognizeAsync(OcrRequest request, CancellationToken cancellationToken);
 
-        /// <summary>百度：仅获取 access_token 验证 Key（不消耗识别额度）；Windows：检查语言包是否可用。</summary>
+        /// <summary>百度：仅鉴权获取 access_token（不消耗识别额度，不仅凭调用前缓存报告成功）；Windows：检查语言包是否可用。</summary>
         Task<ProviderTestResult> TestAsync(CancellationToken cancellationToken);
     }
 
@@ -2245,6 +2246,8 @@ namespace Iris.Providers.Ocr.Baidu.Wire
         [JsonPropertyName("scope")] public string? Scope { get; init; }
         [JsonPropertyName("error")] public string? Error { get; init; }
         [JsonPropertyName("error_description")] public string? ErrorDescription { get; init; }
+        /// <summary>诊断不回显Token、scope或服务端错误正文。</summary>
+        public override string ToString() => $"BaiduTokenResponse {{ HasAccessToken = {!string.IsNullOrEmpty(AccessToken)}, ExpiresIn = {ExpiresIn}, HasError = {!string.IsNullOrEmpty(Error)} }}";
     }
 
     /// <summary>识别响应。注意：业务错误也以 HTTP 200 返回，必须检查 ErrorCode。</summary>
@@ -2258,6 +2261,8 @@ namespace Iris.Providers.Ocr.Baidu.Wire
         [JsonPropertyName("paragraphs_result")] public IReadOnlyList<BaiduParagraph>? ParagraphsResult { get; init; }
         [JsonPropertyName("error_code")] public int? ErrorCode { get; init; }
         [JsonPropertyName("error_msg")] public string? ErrorMsg { get; init; }
+        /// <summary>诊断仅保留数值摘要，不回显识别正文或错误文本。</summary>
+        public override string ToString() => $"BaiduOcrResponse {{ WordsResultNum = {WordsResultNum}, ErrorCode = {ErrorCode} }}";
     }
 
     public sealed record BaiduWord
@@ -2306,6 +2311,7 @@ namespace Iris.Providers.Ocr.Baidu.Wire
         public const int ImageEmpty = 216200;
         public const int ImageFormatError = 216201;
         public const int ImageSizeError = 216202;
+        public const int RequestBodyTooLarge = 216205;
         public const int RecognizeError = 216630;
         public const int InternalError = 282000;
     }
