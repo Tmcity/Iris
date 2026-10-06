@@ -1,0 +1,21 @@
+string directory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", ".."));
+int checks = 0;
+var failures = new List<Exception>();
+async Task Check(string name, Func<Task> action)
+{
+    checks++;
+    try { await action(); Console.WriteLine($"CHECK {name}=PASS"); }
+    catch (Exception ex) { failures.Add(ex); Console.WriteLine($"CHECK {name}=FAIL {ex}"); }
+}
+try
+{
+    await WireChecks.Run(directory, Check);
+    await TokenChecks.Run(directory, Check);
+    await ErrorChecks.Run(directory, Check);
+    await LifecycleChecks.Run(directory, Check);
+    await OwnershipChecks.Run(directory, Check);
+    await PipelineChecks.Run(directory, Check);
+}
+catch (Exception ex) { failures.Add(ex); Console.WriteLine($"PROBE_INFRASTRUCTURE_FAILURE {ex}"); }
+Console.WriteLine($"BAIDU_REVIEW checks={checks} failures={failures.Count} scope=actual_provider_and_named_pipeline_with_mock_http realNetwork=False");
+Environment.ExitCode = failures.Count == 0 ? 0 : 2;

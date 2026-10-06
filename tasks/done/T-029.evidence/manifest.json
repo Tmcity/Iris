@@ -1,0 +1,41 @@
+{
+  "baseline": "fe05ccbf84913b8e23928031ed24cecf5b43f924",
+  "source": {
+    "src/Iris.Platform.Windows/Ocr/WindowsOcrCall.cs": "096631332d1fd5193c294edb9e1596394623b2d10d23ccf406138fac28a4526f",
+    "src/Iris.Platform.Windows/Ocr/WindowsOcrImage.cs": "425371791aabcdd8ba025ebb0b22986782747b6e0325d9ffdf4065a82032394f",
+    "src/Iris.Platform.Windows/Ocr/WindowsOcrNative.cs": "b0499d947af0228fcb1c8a2fcc73ceddf4393c68cccc8582c27c0f9734a7245c",
+    "src/Iris.Platform.Windows/Ocr/WindowsOcrProvider.cs": "77efcbfb885f6eade2acac97c7253d3a2a3828c22bad85ec1d77ef83f110eb12",
+    "src/Iris.Platform.Windows/Ocr/WindowsOcrResults.cs": "8b99a21e3d81a1ea43f7c814bf1a523b4cbdf527c00a45c69852827d5562fcef",
+    "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrLifecycleTests.cs": "e41441983c7d2be5f7b216cde09200cd64b7531c8fe97b762370409cd38a4a64",
+    "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrProviderTests.cs": "810d4c580783eac6bc7088058aae992c949327a9147555cdc93a43563b4436ee",
+    "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrResultTests.cs": "983976ba3699d0938df86071089671575fdac642e81836788cfe1f9e636c038e",
+    "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrSdkSmokeTests.cs": "0fbbee1e7912b38bfeb1de852966b4c06127c5eebd8bbb38e415882071607bd2",
+    "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrTestScope.cs": "3892acb369b0676b31192e21ae3888689cb3b702f9739904262039057ee15032",
+    "tests/Iris.Platform.Windows.Tests/Ocr/Fixtures/hello.png": "801a64db5c32204ad0a239028a05149ef353da8aada65a5e242a45947040da02",
+    "src/Iris.Core/Iris.Core.csproj": "fae9d1710524fa982ab1077964e8e4b6876e5cc264d1836dc4c754164f68a118",
+    "src/Iris.Core/Ocr/IOcrProvider.cs": "6f238dd25ea21c8ba092cffdf3bf40bc4dcee7d7f10e5dc4ffff3aca81120ef8",
+    "src/Iris.Platform.Windows/DependencyInjection/PlatformWindowsServiceCollectionExtensions.cs": "e97c787dbcb149674dee177aac18a24b485c366f203297118a45640b6287958c",
+    "tests/Iris.Platform.Windows.Tests/Iris.Platform.Windows.Tests.csproj": "b0ef633eee33596771acf2382fffc077727823b15ff9823a4b1b819afab65253"
+  },
+  "evidence": {
+    "development-build-1.txt": "80da09c29fe20a503d1c75fb6920a9b2cae52f726823a53f92da0e305b490028",
+    "generate-fixture.py": "056dc4041b61ad6827553cfd7f75a416b60463eecdd692c69e23c830df10234c",
+    "README.md": "0f444cd283f0ffb88f6cd939eed5f919963c1356d7f1261f7825fa87548a1bdb",
+    "release-build.txt": "5e4df41dfa802ff7ff747e478851c73b862ddd8d79dff03e77cd2a51f0441511",
+    "release-full.txt": "370bcaf76ce2254004f5eeac6b003cc40d648293b3eb0ce173ccac4ab19da7f3",
+    "scope-check.json": "567ff97d87d364bf281f379d8d998e759b5fd8f26d147c95e24385ad18e60e7f",
+    "sdk-hello.png": "801a64db5c32204ad0a239028a05149ef353da8aada65a5e242a45947040da02",
+    "sdk-result.json": "d2454a1a74fabf4d9e908b4f535a99773f3ac68465649a81e78add8575df55a5",
+    "sdk-smoke-first.txt": "434d9332cecd414483652149789bc766f84d7c5a084022d1b48b96d5dbe0ce94",
+    "targeted-1.txt": "79ee59e6860f8f3502f4ca21a639bd5c5abd5b069c2390bd2fca2d389e6bed68",
+    "targeted-2.txt": "32bce16329ac0579b2ae988a078097999f31f0c87791cd3fa2bf7e187d3c1562",
+    "targeted-3.txt": "93f1f4dbc2888352f428fccd53d1a3a83679d1070d07443b00a9998655d1ba4e",
+    "targeted-delivery.txt": "db58621aa0b579dc3728b4ac3d1c4b8511963956843ada6ae94492b21228b72f",
+    "targeted-final-2.txt": "218be2b5b28f85143d58053de5879b92e46c63ec19b576c9679f716d39442300",
+    "targeted-final.txt": "070a3c51090f73663b575cb528d47b48a9041e0f1bc181445b4616d98e3b07e4"
+  },
+  "assemblies": {
+    "Iris.Core.dll": "6a2661cfcbc1e36130fae58f7b09bf50a3ed5c15217b7771a7f6501b14b445d9",
+    "Iris.Platform.Windows.dll": "66bb95e62687d87c3107b1a87ea1ad0fab78c071c0b5599c67e916789da1e9b1"
+  }
+}

@@ -1,0 +1,58 @@
+using System.Runtime.ExceptionServices;
+using Iris.Core.Common;
+using Iris.Core.Imaging;
+using Iris.Core.Ocr;
+using Iris.Core.Settings;
+using Iris.Providers.Ocr.Baidu;
+using Microsoft.Extensions.Time.Testing;
+
+internal sealed class ProviderScope
+{
+    internal const string Key = "FAKE_REVIEW_KEY +&=%?#";
+    internal const string Secret = "FAKE_REVIEW_SECRET /+&=%?#";
+    internal readonly HttpBoundary Http = new();
+    internal readonly ObservedTimeProvider Time = new();
+    internal readonly List<Action> Release = [];
+    internal readonly List<Action> ClearFaults = [];
+    internal readonly List<Func<ValueTask>> FinalCleanup = [];
+    internal readonly ReviewHttpFactory Clients;
+    internal readonly IOcrProvider Provider;
+    internal readonly OcrProviderProfile Profile;
+    private readonly List<(Task Task, Type? Expected)> _tasks = [];
+    private ProviderScope(BaiduOcrMode mode, string? language, ProviderCredentials? credentials)
+    {
+        Clients = new(Http);
+        Profile = new() { Id = "review-baidu", DisplayName = "Review Baidu", Kind = OcrProviderKind.BaiduCloud, TimeoutSeconds = 120,
+            BaiduOptions = new() { Mode = mode, BaseUrl = "https://review.invalid/gateway/", LanguageType = language, DetectDirection = true, Paragraph = true } };
+        Provider = new BaiduOcrProviderFactory(Clients, Time).Create(Profile, credentials ?? new(Key, Secret));
+    }
+    internal T Track<T>(T task, Type? expected = null) where T : Task { _tasks.Add((task, expected)); return task; }
+    internal static async Task Run(Func<ProviderScope, Task> body, BaiduOcrMode mode = BaiduOcrMode.General, string? language = null, ProviderCredentials? credentials = null)
+    {
+        var f = new ProviderScope(mode, language, credentials); Exception? primary = null; var errors = new List<Exception>();
+        try { await body(f); } catch (Exception ex) { primary = ex; }
+        finally
+        {
+            foreach (var release in f.Release) try { release(); } catch (Exception ex) { errors.Add(ex); }
+            foreach (var clear in f.ClearFaults) try { clear(); } catch (Exception ex) { errors.Add(ex); }
+            f.Time.AfterTimestampCaptured = null; f.Time.DecorateTimer = null; f.Time.TimerCreated = null;
+            try
+            {
+                if (f.Provider is IAsyncDisposable asynchronous) await asynchronous.DisposeAsync();
+                else if (f.Provider is IDisposable disposable) disposable.Dispose();
+                else errors.Add(new InvalidOperationException("Provider has no required owned-resource disposal path."));
+            }
+            catch (Exception ex) { errors.Add(ex); }
+            foreach (var work in f._tasks)
+                try { await work.Task; } catch (Exception ex) { if (work.Expected == null || !work.Expected.IsInstanceOfType(ex)) errors.Add(ex); }
+            foreach (var response in f.Http.Responses) try { response.Dispose(); } catch (Exception ex) { errors.Add(ex); }
+            foreach (var cleanup in f.FinalCleanup) try { await cleanup(); } catch (Exception ex) { errors.Add(ex); }
+            f.Http.Dispose();
+        }
+        if (primary != null && errors.Count == 0) ExceptionDispatchInfo.Capture(primary).Throw();
+        if (primary != null) errors.Insert(0, primary);
+        if (errors.Count != 0) throw new AggregateException(errors);
+    }
+    internal static async Task<ImageData> Input(string directory) => new(await File.ReadAllBytesAsync(Path.Combine(directory, "fixtures", "input.png")), ImageFormat.Png, 32, 20);
+    internal static void Require(bool condition, string message) { if (!condition) throw new InvalidOperationException(message); }
+}

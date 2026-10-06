@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.Platform.Windows.Tests\Ocr\WindowsOcrSdkSmokeTests.cs(73,36): error CA1859: 将方法“Observe”的返回类型从“Iris.Platform.Windows.Ocr.IWindowsOcrEngine?”更改为“Iris.Platform.Windows.Tests.Ocr.WindowsOcrSdkSmokeTests.ObservedNative.ObservedEngine?”以提高性能 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1859) [F:\Iris\tests\Iris.Platform.Windows.Tests\Iris.Platform.Windows.Tests.csproj]
+生成失败，退出代码: 1。

@@ -1,0 +1,47 @@
+{
+  "commit": "fe05ccbf84913b8e23928031ed24cecf5b43f924",
+  "trackedWorktreeDiff": [],
+  "sources": {
+    "src/Iris.Providers/Ocr/Baidu/BaiduCall.cs": "7e500af83f44b0917af246567d5e9a261c8eef364d4aeede2283b1d84794ff03",
+    "src/Iris.Providers/Ocr/Baidu/BaiduConfiguration.cs": "62ebd7bbf354e943429931091d28e8f8842e0d596f3a36517c3d573c2439b1af",
+    "src/Iris.Providers/Ocr/Baidu/BaiduErrors.cs": "3ec658562ae2bac69c8501c66f40b972fff1f32ea2d8ffa4e8865225ef08807c",
+    "src/Iris.Providers/Ocr/Baidu/BaiduHttpExchange.cs": "86ed5f0a2ead64042a847411fbee66346de297257f21bb1f7e4e79128fb8f50c",
+    "src/Iris.Providers/Ocr/Baidu/BaiduOcrProvider.cs": "283e7747b55489ddd13dbb37d21e7615cbf5d22152a175feeeeb4c4c5219a7c8",
+    "src/Iris.Providers/Ocr/Baidu/BaiduOcrTransportSafetyHandler.cs": "abefdab718089150dd36d2d29413cf48fe3427a6ef6b896c520b8f41400209b4",
+    "src/Iris.Providers/Ocr/Baidu/BaiduResponseParser.cs": "ac675dd23a0bcb07cae64e30a82ad19af5eb1071476c15410472986818845279",
+    "src/Iris.Providers/Ocr/Baidu/Wire/BaiduDtos.cs": "c65302e0e7301193be604b5c35d6ee1a73ca9e5fb269fc507bc2af1930302f3b",
+    "src/Iris.Providers/DependencyInjection/ProvidersServiceCollectionExtensions.cs": "6c2f960fbf37540f3df5c88a965b1c3ac2e556dabaf641ff05e201c999b0008a",
+    "src/Iris.Core/Iris.Core.csproj": "35ae6a4ea1dd27dc20c476e38a92b856e6cc024e9b146af577a1d30aa7e35e62",
+    "src/Iris.Core/Ocr/IOcrProvider.cs": "d8bb89494e7514dd658519d875976f9cea58e36e1e132375183a90f3cb6c4b43",
+    "specs/CONTRACTS.cs": "4a6e481e39846e8f81b0a24bc7460a8d8fdc9572c2bcfe513198a43d279553a1"
+  },
+  "productDlls": {
+    "Iris.Core.dll": "98b8c386e67ce26fbc7febffd40fad1c1fd72e9c6e5d42aac3df98c22fb48a4b",
+    "Iris.Providers.dll": "2a409ea260480d10cc442cfd34bb743e190d3fc9575832eb6d38d158e7a9f2c8"
+  },
+  "probeSources": {
+    "ErrorChecks.cs": "3002e8e43919004a01c3e74dbda66a5b5cc117496888705cbc9e15c5d20f0a9d",
+    "HttpBoundary.cs": "68ad33a1198bcb1489e249295475d994ab5537470ff8ce70e67aca40c0bd86f0",
+    "LifecycleChecks.cs": "76850523e87c0c8bcb8a75a803cc777bf214578c29838290dcd9a0d05d4d75d9",
+    "ObservedStream.cs": "955f7a0385105b3be1d7df3df31bb19ffd6359f6228cecc50c6a034edb7a1801",
+    "ObservedTimeProvider.cs": "b7fdbeedefae5dd8d18b3be1434689038366467edf600249123c97bb6c474e9a",
+    "ObservedTimer.cs": "12450a690aca98f2cc83536e3d0c5786a2ecefbf8fbe1c0fadbca79f176de2df",
+    "OwnershipChecks.cs": "336b8a7bf3c7d91a9b6b5113cbc1c9f7ed3342ebbfa8fcb884367e752ed110e1",
+    "PipelineChecks.cs": "ab67badf67163556f80bc17cee3515d4719f619f3e6a0aa2c80837ee88c16ac0",
+    "Program.cs": "97481849e38603f1ddb3e48e2b961fe6f5a196055a3e5b847e9e314ac379c92d",
+    "ProviderScope.cs": "4417905d03b846fe047c47e8004ea9ed365cb18e83b9a4479d4a635894306c4a",
+    "ReviewLogs.cs": "abbe2c53bdb2ce2130b96ae0c33f1365057f79ec50e4a9add67f6e67b70de9cd",
+    "TokenChecks.cs": "10c98a50b30492310fbf304301c14334c6d8a04e3ce42fb9baa810415c20510c",
+    "WireChecks.cs": "b3d2df71c6dfb255d519ec4c8c65cacd94a2edefc95ae0ad64f32a9bcb31778d"
+  },
+  "fixtures": {
+    "empty.json": "bc530f8851602311530d5370f04eaf75a0ea29e21b3c2031edd5849c33c70be3",
+    "input.png": "2d1543ff492d05e4a54c834a55cdab36a308307543ef680e5adc4ccd7e2f687a",
+    "oauth-error.json": "e2dee7bd012bc3a6f0a5f59b304b6b0d7946e49e9cc54e4ee175759023f8dc6b",
+    "paragraphs.json": "52a348be81f18feb5ed33eba3df43a3921aeece5d2ee01be3ed693d018fc7e50",
+    "token-ok.json": "0021706bd72c75f2e8cdd4b73ef8ad7ff4242c3201c82c9b6812b9504ad37bad",
+    "unknown-error.json": "4527e2cba3312c466cd301c4da0080846b3e6d41bf2f2583f2ebc89f9db330f0",
+    "words.json": "6ec7f3034e5ab5bd351bf8494945b778289e93ca3a03e0d8c5f06205238ae901"
+  },
+  "boundary": "Actual product DLLs, Mock-only terminal HTTP handler for every client, fake clock and controlled streams. No real OCR/network."
+}

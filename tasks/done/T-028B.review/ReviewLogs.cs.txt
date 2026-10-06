@@ -1,0 +1,24 @@
+using System.Collections.Concurrent;
+using Microsoft.Extensions.Logging;
+
+internal sealed class ReviewLogs : ILoggerProvider
+{
+    internal readonly ConcurrentQueue<string> Messages = new();
+    private void CaptureState<TState>(TState state)
+    {
+        if (state is IEnumerable<KeyValuePair<string, object?>> properties)
+            foreach (var property in properties) Messages.Enqueue(property.Key + "=" + property.Value);
+    }
+    public ILogger CreateLogger(string categoryName) => new Sink(this, categoryName);
+    public void Dispose() { }
+    private sealed class Sink(ReviewLogs owner, string category) : ILogger
+    {
+        public bool IsEnabled(LogLevel logLevel) => true;
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull { owner.CaptureState(state); return null; }
+        public void Log<TState>(LogLevel level, EventId id, TState state, Exception? error, Func<TState,Exception?,string> formatter)
+        {
+            owner.CaptureState(state);
+            owner.Messages.Enqueue(category + ":" + formatter(state, error) + (error == null ? "" : "\n" + error));
+        }
+    }
+}

@@ -1,0 +1,22 @@
+{
+  "baseline": "fe05ccbf84913b8e23928031ed24cecf5b43f924",
+  "unchangedPaths": [
+    "src/Iris.App",
+    "src/Iris.Providers",
+    "src/Iris.Platform.Windows/Capture",
+    "src/Iris.Platform.Windows/Clipboard",
+    "src/Iris.Platform.Windows/Imaging",
+    "src/Iris.Core/Languages",
+    "src/Iris.Core/Text",
+    "Directory.Packages.props",
+    "specs/settings.example.json",
+    "specs/DB_SCHEMA.sql"
+  ],
+  "coreOnlyApprovedFriend": true,
+  "publicOcrDeclarationsUnchanged": true,
+  "approvedXmlMatches": true,
+  "existingPlatformProductionChanges": [
+    "src/Iris.Platform.Windows/DependencyInjection/PlatformWindowsServiceCollectionExtensions.cs"
+  ],
+  "syntheticFixtureSha256": "801a64db5c32204ad0a239028a05149ef353da8aada65a5e242a45947040da02"
+}

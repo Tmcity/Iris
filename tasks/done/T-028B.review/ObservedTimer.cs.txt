@@ -1,0 +1,19 @@
+internal sealed class ObservedTimer(ITimer inner) : ITimer
+{
+    internal Exception? DisposeFailure { get; set; }
+    internal bool ActuallyDisposed { get; private set; }
+    internal int DisposeCalls { get; private set; }
+    public bool Change(TimeSpan dueTime, TimeSpan period) => inner.Change(dueTime, period);
+    public void Dispose()
+    {
+        DisposeCalls++;
+        if (DisposeFailure != null) throw DisposeFailure;
+        inner.Dispose(); ActuallyDisposed = true;
+    }
+    public async ValueTask DisposeAsync()
+    {
+        DisposeCalls++;
+        if (DisposeFailure != null) throw DisposeFailure;
+        await inner.DisposeAsync(); ActuallyDisposed = true;
+    }
+}

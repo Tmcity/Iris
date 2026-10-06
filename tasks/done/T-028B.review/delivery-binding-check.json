@@ -1,0 +1,14 @@
+{
+  "source": {
+    "count": 17,
+    "mismatches": []
+  },
+  "evidence": {
+    "count": 23,
+    "mismatches": []
+  },
+  "publicOcrCodeUnchanged": true,
+  "diOnlyApprovedAdditions": true,
+  "protectedDiff": "",
+  "commit": "fe05ccbf84913b8e23928031ed24cecf5b43f924"
+}

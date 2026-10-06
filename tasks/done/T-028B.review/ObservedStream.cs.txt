@@ -1,0 +1,35 @@
+using System.Text;
+
+internal sealed class ObservedStream(string text) : MemoryStream(Encoding.UTF8.GetBytes(text), writable: false)
+{
+    internal Func<CancellationToken, Task>? BeforeRead { get; set; }
+    internal Exception? ReadFailure { get; set; }
+    internal Exception? DisposeFailure { get; set; }
+    internal bool IgnoreReadCancellation { get; set; }
+    internal bool ActuallyClosed { get; private set; }
+    internal int DisposeCalls { get; private set; }
+    private int _inFlight;
+    public override async ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
+    {
+        Interlocked.Increment(ref _inFlight);
+        try
+        {
+            if (BeforeRead != null) await BeforeRead(cancellationToken);
+            if (ReadFailure != null) throw ReadFailure;
+            return await base.ReadAsync(buffer, IgnoreReadCancellation ? CancellationToken.None : cancellationToken);
+        }
+        finally { Interlocked.Decrement(ref _inFlight); }
+    }
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            DisposeCalls++;
+            if (Volatile.Read(ref _inFlight) != 0) throw new InvalidOperationException("Stream released while actual read remained in flight.");
+            if (DisposeFailure != null) throw DisposeFailure;
+        }
+        base.Dispose(disposing);
+        if (disposing) ActuallyClosed = true;
+    }
+    public override ValueTask DisposeAsync() { Dispose(); return ValueTask.CompletedTask; }
+}

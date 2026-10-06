@@ -1,6 +1,7 @@
 # Iris 架构设计说明书
 
-> 版本：v1.44 · 2026-10-06 · 状态：**已冻结（首期）**
+> 版本：v1.45 · 2026-10-06 · 状态：**已冻结（首期）**
+> 变更记录：v1.45（T-028B通过，签发T-029）— WINDOWS_OCR.md / CCR-029定稿本地WinRT OCR能力/语言选择、Unicode单空格、位置映射和完整位图生命周期；允许只读能力查询及明确的真实SDK合成图片smoke。Core仅注释与Platform友元，配置/包/既有生产保持，注册表/编排/入口后续实施。
 > 变更记录：v1.44（T-028A通过，签发T-028B）— BAIDU_OCR.md / CCR-028定稿四模式Provider、Token代次/短TTL/取消、业务与HTTP重试边界、完整表单预算及有界安全解析。批准wire安全ToString/216205常量及Core内部文本helper的Providers友元访问；公开端口签名/default/schema/包保持，OCR注册表/编排/入口后续实施。
 > 变更记录：v1.43（T-027通过，签发T-028A）— OCR_FORM_IMAGE_BUDGET.md / CCR-027为ImageConstraints增加默认null的表单图像值预算，保留5参数构造/Deconstruct及原行为。T-028拆A精确上传预算、B完整百度Provider，总范围保留，配置/schema/包不变。
 > 变更记录：v1.42（T-026B/R2通过，签发T-027）— IMAGE_PREPROCESSING.md / CCR-026定稿图像有效性、整数缩放/白边、允许格式内JPEG降质、精确Base64预算及异步完整收尾。仅预处理原型行为注释澄清，签名/default/schema/包不变；OCR Provider/入口仍后续实施。
@@ -693,10 +694,13 @@ data: {"type":"message_stop"}
 
 ### 9.4 Windows 本地 OCR（`WindowsOcrProvider`）
 
-- `OcrEngine.TryCreateFromLanguage(new Language(tag))`；tag 优先级：`WindowsOptions.LanguageTag` → LanguageHint 映射（zh-Hans → "zh-Hans-CN" …）→ `TryCreateFromUserProfileLanguages()`；都失败 → `OcrLanguageUnsupported`（提示用户在“设置 → 时间和语言”中安装对应语言的 OCR 功能）。
-- 图像约束：`MaxLongSide = OcrEngine.MaxImageDimension`，`MinShortSide = 40`（小图放大后识别率更好），格式 `[Png, Bmp]`；`ImageData` → `SoftwareBitmap`（BitmapDecoder，格式 Bgra8）。
-- **后处理**：Windows OCR 会在 CJK 字符之间插入空格——对每行执行“两个 CJK 字符之间的单个空格删除”。
-- 并发：`OcrEngine` 非线程安全，Provider 内用 `SemaphoreSlim(1)` 串行化。
+正式规则见 `WINDOWS_OCR.md` / CCR-029（T-029）。Platform Provider/Factory不需凭据；允许一次只读最大尺寸能力查询，约束为SDK与应用安全上限的较小者、最短40、Png/Bmp，无表单预算。
+
+- 语言依次WindowsOptions.LanguageTag、请求Hint映射、SDK用户语言；无法匹配时继续，全部失败OcrLanguageUnsupported。实际选中语言不冒充DetectedLanguage。
+- 实际SoftwareBitmap与RecognizeAsync全部在后台，单实例串行。总预算从准入计算，取消/失败/退出完整等待后才能释放位图/流，失败原资源可重试。
+- 按Unicode rune移除两个项目定义CJK之间单个ASCII空格，复用UnicodeScripts.IsCjkForLineMerge，双空格/其他空白与韩文保持。词位置安全合并为行Bounds，无置信度则null，空结果正常。
+- 主要自动化使用fake OCR边界与实际内存codec；明确允许真实SDK合成图片smoke和只读安装语言能力查询。不得读取用户图片/安装语言包/擅自改变包身份；真实效果/吞吐/NFR如实保留未验证项。
+- Core仅批准的注释/Platform友元，不改既有分类或公开签名/default/schema/包。Registry/编排/入口留后续工单。
 
 ### 9.5 需要核对的官方文档
 

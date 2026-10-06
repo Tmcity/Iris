@@ -1,0 +1,31 @@
+from pathlib import Path
+from xml.sax.saxutils import escape
+import hashlib
+import json
+import subprocess
+
+root = Path('F:/Iris')
+directory = Path(__file__).parent
+output = root / 'tests/Iris.Providers.Tests/bin/Release/net10.0'
+references = sorted(p for p in output.glob('*.dll') if not p.name.endswith('.Tests.dll'))
+for name in ['Iris.Core.dll', 'Iris.Providers.dll']:
+    assert (output / name).is_file(), name
+xml = '\n'.join(f'<Reference Include="{escape(p.stem)}"><HintPath>{escape(str(p))}</HintPath></Reference>' for p in references)
+(directory / 'Review.csproj').write_text('''<Project Sdk="Microsoft.NET.Sdk">
+<PropertyGroup><TargetFramework>net10.0</TargetFramework><OutputType>Exe</OutputType><AssemblyName>Iris.Providers.Tests</AssemblyName><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
+<ItemGroup>''' + xml + '</ItemGroup></Project>', encoding='utf-8')
+sources = list((root / 'src/Iris.Providers/Ocr/Baidu').rglob('*.cs')) + [
+    root / 'src/Iris.Providers/DependencyInjection/ProvidersServiceCollectionExtensions.cs',
+    root / 'src/Iris.Core/Iris.Core.csproj', root / 'src/Iris.Core/Ocr/IOcrProvider.cs', root / 'specs/CONTRACTS.cs',
+]
+manifest = {
+    'commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=root, text=True).strip(),
+    'trackedWorktreeDiff': subprocess.check_output(['git', 'diff', '--name-only'], cwd=root, text=True).splitlines(),
+    'sources': {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in sources},
+    'productDlls': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in references if p.name.startswith('Iris.')},
+    'probeSources': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in directory.glob('*.cs')},
+    'fixtures': {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in (directory / 'fixtures').iterdir()},
+    'boundary': 'Actual product DLLs, Mock-only terminal HTTP handler for every client, fake clock and controlled streams. No real OCR/network.',
+}
+(directory / 'manifest.json').write_text(json.dumps(manifest, indent=2), encoding='utf-8')
+print('Current product references and fingerprints prepared. No product check executed.')

@@ -1,0 +1,87 @@
+using System.Net;
+using System.Net.Http;
+using System.Runtime.ExceptionServices;
+using Iris.Core.Errors;
+using Iris.Core.Ocr;
+using Iris.Providers.Ocr.Baidu;
+using static ProviderScope;
+
+internal static class LifecycleChecks
+{
+    internal static async Task Run(string directory, Func<string, Func<Task>, Task> check)
+    {
+        foreach (bool httpError in new[] { false, true })
+        await check("FAILED_CONTENT_DISPOSE_RETRY_CLOSES_ORIGINAL_STREAM_HTTP_ERROR_" + httpError, () => ProviderScope.Run(async f =>
+        {
+            var body = new ObservedStream("{\"words_result_num\":0,\"words_result\":[]}")
+            { DisposeFailure = new IOException("FAKE_STREAM_RELEASE_MARKER") };
+            f.ClearFaults.Add(() => body.DisposeFailure = null);
+            f.FinalCleanup.Add(() => body.DisposeAsync());
+            f.Http.Respond = (request, _) => Task.FromResult(request.IsToken
+                ? HttpBoundary.Json("{\"access_token\":\"FAKE_REVIEW_TOKEN_A\",\"expires_in\":2592000}")
+                : new HttpResponseMessage(httpError ? HttpStatusCode.Unauthorized : HttpStatusCode.OK) { Content = new StreamContent(body) });
+            var task = f.Track(f.Provider.RecognizeAsync(new(await Input(directory)), default), typeof(IrisException));
+            var failure = await Failure(task);
+            Require(failure.Code == ErrorCode.Unknown && !body.ActuallyClosed, "cleanup failure was hidden or stream fixture did not remain open");
+            int requests = f.Http.Requests.Count;
+            body.DisposeFailure = null;
+            await f.Track(((BaiduOcrProvider)f.Provider).RetryCleanupAsync());
+            Console.WriteLine($"STREAM_RETRY closed={body.ActuallyClosed} disposeCalls={body.DisposeCalls} httpRequests={f.Http.Requests.Count}");
+            Require(body.ActuallyClosed && f.Http.Requests.Count == requests, "retry accepted disposed outer content without closing the original stream");
+        }));
+        await check("PROFILE_DEADLINE_INCLUDES_ADMISSION_TO_WORKER_DELAY", () => ProviderScope.Run(async f =>
+        {
+            // The first timestamp is captured at admission. Advance the external clock
+            // before returning it, modeling elapsed time before the worker starts.
+            bool shifted = false;
+            f.Time.AfterTimestampCaptured = _ =>
+            {
+                if (shifted) return;
+                shifted = true; f.Time.AfterTimestampCaptured = null;
+                f.Time.Advance(TimeSpan.FromSeconds(20));
+            };
+            var entered = new TaskCompletionSource<CancellationToken>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var canceled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            f.Release.Add(() => release.TrySetResult());
+            f.ClearFaults.Add(() => f.Time.AfterTimestampCaptured = null);
+            f.Http.Respond = async (_, token) =>
+            {
+                entered.TrySetResult(token);
+                await release.Task; // Deliberately wait for actual release, independent of cancellation notification.
+                return HttpBoundary.Json("{\"access_token\":\"FAKE_REVIEW_TOKEN_A\",\"expires_in\":2592000}");
+            };
+            var request = f.Provider.RecognizeAsync(new(await Input(directory)), default);
+            Exception? primary = null; var cleanup = new List<Exception>();
+            CancellationTokenRegistration registration = default;
+            try
+            {
+                var token = await entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                Require(shifted, "admission clock boundary was not exercised");
+                registration = token.Register(() => canceled.TrySetResult());
+                f.Time.Advance(TimeSpan.FromSeconds(100)); // 120 seconds total since admission.
+                await canceled.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                Require(!request.IsCompleted, "deadline abandoned an outstanding HTTP operation");
+                release.TrySetResult();
+                var failure = await Failure(request);
+                Require(failure.Code == ErrorCode.Timeout, "deadline was classified as caller cancellation or unrelated failure");
+            }
+            catch (Exception ex) { primary = ex; }
+            finally
+            {
+                release.TrySetResult();
+                try { await request; } catch (IrisException ex) when (ex.Code == ErrorCode.Timeout) { }
+                catch (Exception ex) { cleanup.Add(ex); }
+                try { await registration.DisposeAsync(); } catch (Exception ex) { cleanup.Add(ex); }
+            }
+            if (primary != null && cleanup.Count == 0) ExceptionDispatchInfo.Capture(primary).Throw();
+            if (primary != null) cleanup.Insert(0, primary);
+            if (cleanup.Count != 0) throw new AggregateException(cleanup);
+        }));
+    }
+    internal static async Task<IrisException> Failure(Task task)
+    {
+        try { await task; } catch (IrisException ex) { return ex; }
+        throw new InvalidOperationException("Expected a visible Iris failure.");
+    }
+}

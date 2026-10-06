@@ -9,6 +9,7 @@ namespace Iris.Core.Ocr;
 /// 调用方保证传入图像已满足 Constraints（由 IOcrService 调用 IImagePreprocessor 完成）。
 /// 识别成功但无文字时返回 Lines 为空的结果（不抛异常）。
 /// 百度实现的Token代次、有限重试、表单总预算和完整收尾见 BAIDU_OCR.md；调用期间输入图像字节只读。
+/// WindowsLocal实现的能力/语言选择、rune单空格处理和位图完整收尾见 WINDOWS_OCR.md，不将选中语言伪称检测结果。
 /// </summary>
 public interface IOcrProvider
 {

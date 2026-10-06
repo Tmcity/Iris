@@ -1,0 +1,59 @@
+using System.Collections.Concurrent;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+
+internal sealed record ObservedRequest(int Sequence, string Method, Uri Uri, byte[] Body)
+{
+    internal bool IsToken => Uri.AbsolutePath.EndsWith("/oauth/2.0/token", StringComparison.Ordinal);
+    internal IReadOnlyDictionary<string, string> Query => Decode(Uri.Query.TrimStart('?'));
+    internal IReadOnlyDictionary<string, string> Form => Decode(Encoding.UTF8.GetString(Body));
+    private static IReadOnlyDictionary<string,string> Decode(string value)
+    {
+        var result = new Dictionary<string,string>(StringComparer.Ordinal);
+        foreach (string part in value.Split('&', StringSplitOptions.RemoveEmptyEntries))
+        {
+            var pair = part.Split('=', 2);
+            string key = System.Uri.UnescapeDataString(pair[0].Replace('+', ' '));
+            string text = pair.Length == 2 ? System.Uri.UnescapeDataString(pair[1].Replace('+', ' ')) : "";
+            if (!result.TryAdd(key, text)) throw new InvalidOperationException("Duplicate form/query field.");
+        }
+        return result;
+    }
+}
+
+// All requests end here; there is no SocketsHttpHandler or real network fallback.
+internal sealed class HttpBoundary : HttpMessageHandler
+{
+    internal readonly ConcurrentQueue<ObservedRequest> Requests = new();
+    internal readonly ConcurrentQueue<HttpResponseMessage> Responses = new();
+    internal Func<ObservedRequest, CancellationToken, Task<HttpResponseMessage>>? Respond { get; set; }
+    private int _sequence;
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    {
+        var uri = request.RequestUri ?? throw new InvalidOperationException("Missing request URI.");
+        if (uri.Host != "review.invalid") throw new InvalidOperationException("Unexpected host reached the non-network test boundary.");
+        byte[] body = request.Content == null ? [] : await request.Content.ReadAsByteArrayAsync(cancellationToken);
+        var observed = new ObservedRequest(Interlocked.Increment(ref _sequence), request.Method.Method, uri, body);
+        Requests.Enqueue(observed);
+        var response = Respond == null
+            ? Json(observed.IsToken ? "{\"access_token\":\"FAKE_REVIEW_TOKEN_A\",\"expires_in\":2592000}" : "{\"words_result_num\":0,\"words_result\":[]}")
+            : await Respond(observed, cancellationToken);
+        response.RequestMessage ??= request;
+        Responses.Enqueue(response);
+        return response;
+    }
+    internal static HttpResponseMessage Json(string json, HttpStatusCode status = HttpStatusCode.OK) =>
+        new(status) { Content = new StringContent(json, Encoding.UTF8, "application/json") };
+}
+
+internal sealed class ReviewHttpFactory(HttpBoundary boundary) : IHttpClientFactory
+{
+    internal readonly ConcurrentQueue<string> Names = new();
+    public HttpClient CreateClient(string name)
+    {
+        Names.Enqueue(name);
+        if (name != "iris.ocr") throw new InvalidOperationException("Unexpected named client used for OCR.");
+        return new HttpClient(boundary, disposeHandler: false) { Timeout = Timeout.InfiniteTimeSpan };
+    }
+}

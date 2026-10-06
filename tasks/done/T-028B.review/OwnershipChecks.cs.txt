@@ -1,0 +1,101 @@
+using System.Net;
+using System.Net.Http;
+using System.Runtime.CompilerServices;
+using System.Text.Json;
+using Iris.Core.Errors;
+using Iris.Core.Imaging;
+using Iris.Core.Ocr;
+using Iris.Providers.Ocr.Baidu;
+using static ProviderScope;
+
+internal static class OwnershipChecks
+{
+    private const string Token = "{\"access_token\":\"FAKE_REVIEW_TOKEN_A\",\"expires_in\":2592000}";
+    private const string Empty = "{\"words_result_num\":0,\"words_result\":[]}";
+    internal static async Task Run(string directory, Func<string, Func<Task>, Task> check)
+    {
+        await check("TIMER_DISPOSAL_FAILURE_RETAINS_ORIGINAL_TIMER", () => ProviderScope.Run(async f =>
+        {
+            ObservedTimer? timer = null;
+            f.Time.DecorateTimer = inner => timer = new(inner) { DisposeFailure = new IOException("FAKE_TIMER_RELEASE") };
+            f.ClearFaults.Add(() => { if (timer != null) timer.DisposeFailure = null; });
+            f.FinalCleanup.Add(() => timer?.DisposeAsync() ?? ValueTask.CompletedTask);
+            var failure = await LifecycleChecks.Failure(f.Track(f.Provider.RecognizeAsync(new(await Input(directory)), default), typeof(IrisException)));
+            Require(failure.Code == ErrorCode.Unknown && timer is { ActuallyDisposed: false }, "timer failure disappeared or did not exercise original resource");
+            int requests = f.Http.Requests.Count;
+            timer!.DisposeFailure = null;
+            await f.Track(((BaiduOcrProvider)f.Provider).RetryCleanupAsync());
+            Require(timer.ActuallyDisposed && f.Http.Requests.Count == requests, "timer retry lost responsibility or resent HTTP");
+        }));
+        await check("SYNC_DISPOSE_REJECTS_WHILE_BODY_IS_READING", () => ProviderScope.Run(async f =>
+        {
+            var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            f.Release.Add(() => release.TrySetResult());
+            var body = new ObservedStream(Empty) { BeforeRead = async _ => { entered.TrySetResult(); await release.Task; } };
+            f.FinalCleanup.Add(() => body.DisposeAsync());
+            int images = 0;
+            f.Http.Respond = (r, _) => Task.FromResult(r.IsToken ? HttpBoundary.Json(Token) : Interlocked.Increment(ref images) == 1
+                ? new HttpResponseMessage(HttpStatusCode.OK) { Content = new StreamContent(body) } : HttpBoundary.Json(Empty));
+            var input = await Input(directory);
+            var work = f.Track(f.Provider.RecognizeAsync(new(input), default));
+            await entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            Require(f.Provider is IDisposable && f.Provider is IAsyncDisposable, "provider lacks declared disposal capabilities");
+            bool rejected = false;
+            try { ((IDisposable)f.Provider).Dispose(); } catch (IrisException) { rejected = true; }
+            Require(rejected && !body.ActuallyClosed && !work.IsCompleted, "synchronous dispose released active body work");
+            release.TrySetResult(); await work;
+            Require(body.ActuallyClosed, "normal request did not release its original body");
+            await f.Track(f.Provider.RecognizeAsync(new(input), default));
+        }));
+        await check("CALLER_CANCEL_WAITS_ACTUAL_RESPONSE_BODY_READ", () => ProviderScope.Run(async f =>
+        {
+            using var caller = new CancellationTokenSource();
+            var entered = new TaskCompletionSource<CancellationToken>(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var notified = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            f.Release.Add(() => release.TrySetResult());
+            var body = new ObservedStream(Empty) { BeforeRead = async token => { entered.TrySetResult(token); await release.Task; } };
+            f.FinalCleanup.Add(() => body.DisposeAsync());
+            f.Http.Respond = (r, _) => Task.FromResult(r.IsToken ? HttpBoundary.Json(Token) : new HttpResponseMessage(HttpStatusCode.OK) { Content = new StreamContent(body) });
+            var work = f.Track(f.Provider.RecognizeAsync(new(await Input(directory)), caller.Token), typeof(OperationCanceledException));
+            var nativeToken = await entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            using var registration = nativeToken.Register(() => notified.TrySetResult());
+            caller.Cancel(); await notified.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            Require(!work.IsCompleted && !body.ActuallyClosed, "caller cancellation abandoned active response reading");
+            release.TrySetResult();
+            bool canceled = false;
+            try { await work; } catch (OperationCanceledException) { canceled = true; }
+            Require(canceled && body.ActuallyClosed, "canceled response did not fully release resources");
+        }));
+        await check("LIVE_PROVIDER_DOES_NOT_CACHE_COMPLETED_IMAGE_OR_RESULT", () => ProviderScope.Run(async f =>
+        {
+            string json = JsonSerializer.Serialize(new { words_result_num = 1, words_result = new[] { new { words = new string('r', 1024) } } });
+            f.Http.Respond = (r, _) => Task.FromResult(HttpBoundary.Json(r.IsToken ? Token : json));
+            var weak = await PrepareWeak(f.Provider, directory);
+            // Remove test observation roots before evaluating actual provider ownership.
+            while (f.Http.Requests.TryDequeue(out _)) { }
+            while (f.Http.Responses.TryDequeue(out var response)) response.Dispose();
+            var control = Control();
+            for (int i = 0; i < 12 && (weak.Any(w => w.IsAlive) || control.IsAlive); i++)
+            {
+                await Task.Yield(); GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
+                GC.WaitForPendingFinalizers(); GC.Collect(GC.MaxGeneration, GCCollectionMode.Forced, true, true);
+            }
+            Console.WriteLine($"BAIDU_GC input={weak[0].IsAlive} bytes={weak[1].IsAlive} result={weak[2].IsAlive} lines={weak[3].IsAlive} text={weak[4].IsAlive} control={control.IsAlive}");
+            Require(!control.IsAlive, "GC control failed; no product ownership conclusion is valid");
+            Require(weak.All(w => !w.IsAlive), "live provider retained completed input/result data");
+            GC.KeepAlive(f.Provider);
+        }));
+    }
+    [MethodImpl(MethodImplOptions.NoInlining)] private static WeakReference Control() => new(new byte[1024]);
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private static async Task<WeakReference[]> PrepareWeak(IOcrProvider provider, string directory)
+    {
+        ImageData? input = await Input(directory);
+        OcrResult? result = await provider.RecognizeAsync(new(input), default);
+        WeakReference[] weak = [new(input), new(input.Bytes), new(result), new(result.Lines), new(result.Lines[0].Text)];
+        input = null; result = null;
+        return weak;
+    }
+}

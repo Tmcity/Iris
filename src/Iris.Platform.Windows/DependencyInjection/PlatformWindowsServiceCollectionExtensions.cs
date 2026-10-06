@@ -53,6 +53,9 @@ public static class PlatformWindowsServiceCollectionExtensions
         services.TryAddSingleton<Iris.Platform.Windows.Imaging.IImagePreparationFactory, Iris.Platform.Windows.Imaging.WinRtImagePreparationFactory>();
         services.TryAddSingleton<Iris.Platform.Windows.Imaging.WinRtImagePreprocessor>();
         services.TryAddSingleton<Iris.Core.Imaging.IImagePreprocessor>(provider => provider.GetRequiredService<Iris.Platform.Windows.Imaging.WinRtImagePreprocessor>());
+        services.TryAddSingleton<Iris.Platform.Windows.Ocr.IWindowsOcrNative, Iris.Platform.Windows.Ocr.WindowsOcrNative>();
+        services.TryAddSingleton<Iris.Platform.Windows.Ocr.IWindowsOcrImageFactory, Iris.Platform.Windows.Ocr.WindowsOcrImageFactory>();
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<Iris.Core.Ocr.IOcrProviderFactory, Iris.Platform.Windows.Ocr.WindowsOcrProviderFactory>());
         return services;
     }
 }

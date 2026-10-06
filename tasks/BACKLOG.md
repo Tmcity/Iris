@@ -320,10 +320,10 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 | T-026A | ☑ | 临时隐藏/新意图/可靠恢复、录入收尾与鼠标暂停；含C25-1测试维护 | T-025, T-024, T-020B | 1d |
 | T-026B | ☑ | 每屏覆盖层、物理框选/放大镜、确认/取消、可选复制与完整截图服务 | T-026A, T-025 | 1.5d |
 | T-027 | ☑ | WinRtImagePreprocessor、精确图像约束/格式预算及完整退出 | T-025 | 1d |
-| T-028 | ▶ | 百度 OCR 总单：A表单图像预算，B完整Provider/Token/四模式/错误映射 | T-027, T-008, T-004 | 2d |
+| T-028 | ☑ | 百度 OCR 总单：A表单图像预算，B完整Provider/Token/四模式/错误映射 | T-027, T-008, T-004 | 2d |
 | T-028A | ☑ | 可选精确表单图像预算与预处理扩展，保留原Base64约束 | T-027 | 0.5d |
-| T-028B | ▶ | 百度OCR Provider与Factory、Token共享刷新、四模式及完整请求生命周期 | T-028A, T-008, T-004 | 1.5d |
-| T-029 | ☐ | Windows 本地 OCR Provider | T-027 | 1d |
+| T-028B | ☑ | 百度OCR Provider与Factory、Token共享刷新、四模式及完整请求生命周期 | T-028A, T-008, T-004 | 1.5d |
+| T-029 | ▶ | Windows 本地 OCR Provider/Factory、语言选择与位图完整收尾 | T-027 | 1d |
 | T-030 | ☐ | OcrProviderRegistry + OcrService + OcrTextNormalizer | T-028, T-029 | 1d |
 | T-031 | ☐ | 截图翻译 / 截图 OCR / 静默 OCR Handler + OcrResultWindow | T-026, T-030, T-015 | 2d |
 | T-032 | ☐ | OCR 设置页 + 截图设置页 | T-031, T-018 | 1d |
@@ -336,7 +336,7 @@ T-019 签发时必须实现 PROVIDER_REGISTRY.md §2.2 的配置提交协调器�
 **T-028** 交付 ARCH §9.3。验收（MockHttp）：token 缓存与过期；并发获取 token 时只发出一次请求；110/111 刷新后只重试一次；错误码映射表每一行；language_type 映射；含位置版本的 Bounds 解析；段落合并；TestAsync 只请求 token。
 **T-028A** 按OCR_FORM_IMAGE_BUDGET.md / CCR-027补充可选MaxFormUrlEncodedBytes，精确按实际编码字节计数，默认null保留T-027。真实白BMP说明旧Base64预算不能独自保证URL编码上传上限；不以统一降旧预算替代精确判断。B在A验收后定稿完整请求预算/HTTP与业务重试组合，原四模式/Token/解析范围不减少。
 **T-028B** 按BAIDU_OCR.md / ARCH v1.44 / CCR-028完整实施；明确Token代次/短TTL/取消、3次逻辑识别与既有HTTP管道的最多9次传输、有界安全响应、完整表单开销、实际Test鉴权及段落复用。高精度8192和8M/10M保守字节常量依据官方文档，真实API/NFR未实测。A/CCR-027已通过56项独立验收，不返工预处理。
-**T-029** 交付 ARCH §9.4。验收：CJK 字符之间多余空格被删除（单元测试）；缺少语言包时返回 OcrLanguageUnsupported；并发调用被串行化。
+**T-029** 按WINDOWS_OCR.md / ARCH v1.45 / CCR-029完整交付：语言优先级、真实WinRT位图、项目CJK rune单空格修正、行位置/空结果、串行/取消/失败重试。主要测试fake OCR边界，明确增加只读能力与真实合成图片SDK smoke；缺包可环境跳过，不安装语言或修改包身份。实际用户内容/多语言效果/NFR仍后续验收。
 **T-030** 交付 ARCH §8。验收：回退触发条件的每个分支；UsedFallback 标记；MergeParagraphs 在有 / 无 Bounds 两种情况下的规则；无文字时抛 OcrNoTextFound。
 T-030 签发前须按 PROVIDER_REGISTRY.md 将 OCR 注册表原型同步为租约/发布屏障模式，支持同一凭据集格式，并接入 T-019 配置协调器；不能直接实现旧裸实例原型。
 **T-031** 交付 ARCH §6.4、§6.5、§14 的 OcrResultWindow。验收：Handler 单元测试覆盖取消 / 失败 / 无文字 / 成功；OCR 结果窗口可以编辑、复制、转翻译、换服务重新识别；静默 OCR 完成后文本已复制并弹出通知。

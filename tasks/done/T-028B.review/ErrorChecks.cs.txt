@@ -1,0 +1,84 @@
+using System.Net;
+using Iris.Core.Errors;
+using Iris.Core.Ocr;
+using static ProviderScope;
+
+internal static class ErrorChecks
+{
+    private const string Token = "{\"access_token\":\"FAKE_REVIEW_TOKEN_A\",\"expires_in\":2592000}";
+    internal static async Task Run(string directory, Func<string, Func<Task>, Task> check)
+    {
+        var codes = new[] { (110,ErrorCode.AuthenticationFailed,false), (111,ErrorCode.AuthenticationFailed,false),
+            (14,ErrorCode.AuthenticationFailed,false), (6,ErrorCode.PermissionDenied,false), (17,ErrorCode.QuotaExceeded,false), (19,ErrorCode.QuotaExceeded,false),
+            (216200,ErrorCode.ImageInvalid,false), (216201,ErrorCode.ImageInvalid,false), (216202,ErrorCode.ImageTooLarge,false), (216205,ErrorCode.ImageTooLarge,false),
+            (216100,ErrorCode.BadRequest,false), (216101,ErrorCode.BadRequest,false), (216630,ErrorCode.ProviderUnavailable,true), (282000,ErrorCode.ProviderUnavailable,true), (987654,ErrorCode.Unknown,false) };
+        foreach (var (code, expected, retryable) in codes)
+            await check("BUSINESS_ERROR_" + code, () => ProviderScope.Run(async f =>
+            {
+                f.Http.Respond = (r, _) => Task.FromResult(HttpBoundary.Json(r.IsToken ? Token : $"{{\"error_code\":{code},\"error_msg\":\"FAKE_PRIVATE_SERVICE_ERROR\"}}"));
+                var failure = await LifecycleChecks.Failure(f.Track(f.Provider.RecognizeAsync(new(await Input(directory)), default), typeof(IrisException)));
+                Require(failure.Code == expected && failure.Retryable == retryable && failure.ProviderId == f.Profile.Id, "business error classification mismatch");
+                Require(!failure.ToString().Contains("FAKE_PRIVATE_SERVICE_ERROR") && !(failure.Detail ?? "").Contains("FAKE_PRIVATE_SERVICE_ERROR") && failure.InnerException == null, "external error text escaped the safe boundary");
+                Require(f.Http.Requests.Count(r => !r.IsToken) == (code is 110 or 111 ? 2 : 1), "unexpected business retry count");
+            }));
+        var statuses = new[] { (400,ErrorCode.BadRequest), (401,ErrorCode.AuthenticationFailed), (403,ErrorCode.PermissionDenied),
+            (404,ErrorCode.EndpointNotFound), (429,ErrorCode.RateLimited), (408,ErrorCode.Timeout), (413,ErrorCode.ImageTooLarge),
+            (504,ErrorCode.Timeout), (503,ErrorCode.ProviderUnavailable), (302,ErrorCode.InvalidResponse) };
+        foreach (var (status, expected) in statuses)
+            await check("PROVIDER_HTTP_MAPPING_" + status, () => ProviderScope.Run(async f =>
+            {
+                f.Http.Respond = (r, _) => Task.FromResult(r.IsToken ? HttpBoundary.Json(Token) : HttpBoundary.Json("FAKE_PRIVATE_HTTP_TEXT", (HttpStatusCode)status));
+                var failure = await LifecycleChecks.Failure(f.Track(f.Provider.RecognizeAsync(new(await Input(directory)), default), typeof(IrisException)));
+                Require(failure.Code == expected && failure.HttpStatus == status && !failure.ToString().Contains("FAKE_PRIVATE_HTTP_TEXT"), "HTTP classification or diagnostic boundary mismatch");
+                Require(f.Http.Requests.Count(r => !r.IsToken) == 1, "HTTP error received an additional business retry");
+            }));
+        await check("OAUTH_ERROR_IN_HTTP400_IS_AUTHENTICATION_FAILURE", () => ProviderScope.Run(async f =>
+        {
+            f.Http.Respond = (_, _) => Task.FromResult(HttpBoundary.Json("{\"error\":\"invalid_client\",\"error_description\":\"FAKE_PRIVATE_OAUTH_ERROR\"}", HttpStatusCode.BadRequest));
+            var result = await f.Track(f.Provider.TestAsync(default));
+            Require(!result.Success && result.Error?.Code == ErrorCode.AuthenticationFailed && f.Http.Requests.All(r => r.IsToken), "OAuth error lost priority over generic HTTP400 mapping");
+            Require(!(result.Error?.Detail ?? "").Contains("FAKE_PRIVATE_OAUTH_ERROR"), "OAuth error text leaked");
+        }));
+        var malformed = new (string Name, string Json)[]
+        {
+            ("missing_words", "{}"), ("null_words", "{\"words_result\":null}"),
+            ("count_mismatch", "{\"words_result_num\":1,\"words_result\":[]}"),
+            ("duplicate_case", "{\"words_result\":[],\"WORDS_RESULT\":[]}"),
+            ("word_null", "{\"words_result\":[{\"words\":null}]}"),
+            ("log_id_type", "{\"log_id\":\"wrong\",\"words_result\":[]}"),
+            ("negative_box", "{\"words_result\":[{\"words\":\"x\",\"location\":{\"left\":-1,\"top\":0,\"width\":1,\"height\":1}}]}"),
+            ("box_overflow", "{\"words_result\":[{\"words\":\"x\",\"location\":{\"left\":2147483647,\"top\":0,\"width\":1,\"height\":1}}]}"),
+            ("confidence_range", "{\"words_result\":[{\"words\":\"x\",\"probability\":{\"average\":1.1}}]}"),
+            ("paragraph_duplicate", "{\"words_result\":[{\"words\":\"x\"}],\"paragraphs_result\":[{\"words_result_idx\":[0,0]}]}"),
+            ("paragraph_outside", "{\"words_result\":[{\"words\":\"x\"}],\"paragraphs_result\":[{\"words_result_idx\":[1]}]}")
+        };
+        foreach (var (name, json) in malformed)
+            await check("MALFORMED_RESPONSE_" + name, () => ProviderScope.Run(async f =>
+            {
+                f.Http.Respond = (r, _) => Task.FromResult(HttpBoundary.Json(r.IsToken ? Token : json));
+                var failure = await LifecycleChecks.Failure(f.Track(f.Provider.RecognizeAsync(new(await Input(directory)), default), typeof(IrisException)));
+                Require(failure.Code == ErrorCode.InvalidResponse, "malformed response did not produce InvalidResponse");
+            }));
+        foreach (bool authFirst in new[] { false, true })
+            await check("BUSINESS_RETRY_BUDGETS_NOT_RESET_" + authFirst, () => ProviderScope.Run(async f =>
+            {
+                var delayEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                f.Time.TimerCreated = due => { if (due == TimeSpan.FromMilliseconds(500)) delayEntered.TrySetResult(); };
+                int images = 0;
+                f.Http.Respond = (r, _) =>
+                {
+                    if (r.IsToken) return Task.FromResult(HttpBoundary.Json(Token));
+                    int i = Interlocked.Increment(ref images);
+                    int code = authFirst ? (i == 1 ? 110 : i == 2 ? 18 : 111) : (i == 1 ? 18 : i == 2 ? 111 : 18);
+                    return Task.FromResult(HttpBoundary.Json($"{{\"error_code\":{code}}}"));
+                };
+                var task = f.Track(f.Provider.RecognizeAsync(new(await Input(directory)), default), typeof(IrisException));
+                await delayEntered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+                int before = images; f.Time.Advance(TimeSpan.FromMilliseconds(499));
+                Require(images == before && !task.IsCompleted, "business delay finished before 500ms");
+                f.Time.Advance(TimeSpan.FromMilliseconds(1));
+                var failure = await LifecycleChecks.Failure(task.WaitAsync(TimeSpan.FromSeconds(10)));
+                Require(failure.Code == (authFirst ? ErrorCode.AuthenticationFailed : ErrorCode.RateLimited) && images == 3 && f.Http.Requests.Count(r => r.IsToken) == 2, "mixed retry sequence reset an exhausted budget");
+            }));
+    }
+}

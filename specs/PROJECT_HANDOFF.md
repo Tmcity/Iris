@@ -1,5 +1,15 @@
 # Iris 架构师接手记录
 
+**T-029独立验收准备**：临时iris-t029-independent-review已完成Provider/真实位图+fake engine的Unicode/语言/能力/Bounds/非法输出、在途/排队/总预算/重试/GC以及实际DI与真实SDK合成图片检查，Program/prepare.py齐备；preparation-build-4.log编译0警告/错误，完整程序尚未运行。正式交付后独立Release/full，刷新最终Platform.Tests输出DLL再执行。长补充平面文本取消检查点仅为候选检查，不能据未运行草稿判缺陷。独立直接SDK预检result.log与开发actual Provider smoke的同目录result.json须区分。
+
+**T-029 SDK前置独立事实（2026-10-06，非Provider验收）**：按当前工单获准范围，在临时iris-t029-sdk-smoke运行真实WinRT能力/合成图识别，退出0：MaxImageDimension=10000，installedLanguages=[en-US,zh-Hans-CN]，选en-US，800×180自有白底PNG识别一行HELLO 123，matchesFixture=true。无用户截图/内容/配置修改、无网络。result.log/Program.cs/Smoke.csproj在该目录，输入/16组Unicode预期在iris-t029-independent-review。说明本机SDK可用，不证明未来Provider已实现或其它机器/语言/NFR。正式交付仍需刷新实际产品做独立验证。
+
+**T-029实际下达记录（2026-10-06）**：消息01a1109f-7ff1-70d0-a4e2-d45104a7aadf进入指定开发会话，执行轮01a1109f-9352-73f1-8e61-4f15a34efcb1。开发已确认Provider/Factory完整范围，区分fake与获准真实SDK合成smoke，并实际读取工单/规范/契约。已启动、未交付/未验收；send超时未取消，不重发。用户无需传话。
+
+**最新唯一工单T-029（2026-10-06）**：T-028B/父T-028/CCR-028已验收结案，最终fe05ccbf84913b8e23928031ed24cecf5b43f924独立Release0警告/错误（27.11秒）、全量2893中2891成功/2跳过（1分25秒191毫秒）、实际65项全通过。HTTP200/401原流重试、总期限、timer/GC及两条实际命名管道9传输/2Token都已通过，不按旧线索返工。证据T-028B.review。现签WINDOWS_OCR.md/ARCH v1.45/CCR-029/current_task，实现本地Provider，不提前Registry/编排/入口。
+
+T-029官方5页已读，临时iris-t029-official-docs；当前无包身份限制文字，不据记忆要求改安装，也不据文档存在假称运行成功。正式单允许只读能力及真实SDK合成图片smoke，主要测试fake OCR边界；不访问用户图像/自动安装语言。原准备稿iris-t029-preparation.md的未定问题已由正式规范解决（项目CJK定义不含韩文）。
+
 **T-028B独立验收准备（尚未运行产品探针）**：临时iris-t028b-independent-review已有Program/prepare.py、Wire/Token/Error/Lifecycle/Ownership/Pipeline检查与纯Mock HTTP/时钟/流/Timer/日志观察器。完整准备编译preparation-build-5.log为0警告/错误，未执行；正式交付后独立Release/full，刷新最终Providers.Tests输出DLL后运行Review.csproj。重点包含实际命名管道9次重试及传输异常日志、入口到worker耗时后的总预算、HTTP200/401内容释放失败原流重试、timer/GC。开发已自行修复已见stream/timer/log_id及异常日志问题；上述检查线索不是最终缺陷。不要拿准备DLL或旧草稿判返工。
 
 **T-028B实际下达记录（2026-10-06）**：消息01a11037-318d-7123-8f3c-10a009dac0dc进入指定开发会话，执行轮01a11037-3492-7563-b7fe-cd24a8c62552。开发已明确确认完整Provider/Factory及Mock HTTP范围，实际读取工单/BAIDU_OCR/CCR及契约增量。当前已启动，未交付/未验收；send超时不代表取消，不重发。不发送真实OCR/Token请求。

@@ -981,10 +981,22 @@ CCR-024结案补充：c7282698最终独立构建/定向/全量通过，生产同
 |---|---|
 | 日期 / 批准 | 2026-10-06，Codex架构师 |
 | 关联 | T-028B；BAIDU_OCR.md；ARCH v1.44 |
-| 状态 | **已落地，T-028B开发完成待独立复审** |
+| 状态 | **已落地，复审通过并结案（T-028B，fe05ccbf）** |
 
 公开IOcrProvider/Factory/OcrRequest/Result签名与字段不变，只补说明。Wire批准BaiduTokenResponse/BaiduOcrResponse安全ToString覆盖（不改变JSON字段），新增BaiduErrorCodes.RequestBodyTooLarge=216205。specs/CONTRACTS.cs已预置，B同步实际源。
 
 行为定稿包含四模式真实上传限制/语言、短TTL安全余量与Token receipt条件失效、取消的获取者/等待者、最多两种业务重试各一次及既有HTTP次数区别、Test不以旧缓存假报连接成功、有界响应、段落/Bounds/Confidence与安全错误。未知业务错误不再转发error_msg。
 
 仅允许Core.csproj新增Iris.Providers友元以复用已验收internal SoftLineBreakMerger，不改helper/公开API或反向引用。默认配置/schema/包与Platform/App生产不变；OCR注册表/编排/入口仍后续工单。
+
+## CCR-029：Windows本地OCR行为说明与字符分类复用
+
+| 字段 | 内容 |
+|---|---|
+| 日期 / 批准 | 2026-10-06，Codex架构师 |
+| 关联 | T-029；WINDOWS_OCR.md；ARCH v1.45 |
+| 状态 | **已落地，T-029开发完成待独立复审** |
+
+仅补IOcrProvider的Windows行为说明，公开签名/模型字段/枚举不变。Core.csproj允许新增Iris.Platform.Windows友元，复用既有UnicodeScripts.IsCjkForLineMerge；不修改分类、不公开helper或反向引用。预算/语言/位图/取消/结果行为见正式规范。
+
+允许Factory创建Provider时读取一次必要的只读SDK最大尺寸能力，及本单明确的真实SDK合成图片smoke；不是授权访问用户图像/输入/配置、安装语言包或改变包身份。默认设置/schema/包和已有实现不变，OCR注册表/编排/入口后续签发。

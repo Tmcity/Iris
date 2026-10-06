@@ -1,0 +1,117 @@
+using Iris.Core.Ocr;
+using static ProviderScope;
+
+internal static class TokenChecks
+{
+    private const string Token = "{\"access_token\":\"FAKE_REVIEW_TOKEN_A\",\"expires_in\":2592000}";
+    private const string Empty = "{\"words_result_num\":0,\"words_result\":[]}";
+    internal static async Task Run(string directory, Func<string, Func<Task>, Task> check)
+    {
+        await check("CONCURRENT_RECOGNITION_SHARES_ONE_TOKEN_FETCH", () => ProviderScope.Run(async f =>
+        {
+            var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            f.Release.Add(() => release.TrySetResult());
+            f.Http.Respond = async (r, _) => { if (r.IsToken) { entered.TrySetResult(); await release.Task; } return HttpBoundary.Json(r.IsToken ? Token : Empty); };
+            var input = await Input(directory);
+            var first = f.Track(f.Provider.RecognizeAsync(new(input), default));
+            await entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            var tasks = Enumerable.Range(0, 7).Select(_ => f.Track(f.Provider.RecognizeAsync(new(input), default))).Prepend(first).ToArray();
+            release.TrySetResult(); await Task.WhenAll(tasks);
+            Require(f.Http.Requests.Count(r => r.IsToken) == 1 && f.Http.Requests.Count(r => !r.IsToken) == 8, "normal concurrent calls issued duplicate token requests");
+        }));
+        await check("SHORT_TTL_REUSES_UNTIL_REFRESH_BOUNDARY", () => ProviderScope.Run(async f =>
+        {
+            f.Http.Respond = (r, _) => Task.FromResult(HttpBoundary.Json(r.IsToken ? "{\"access_token\":\"FAKE_REVIEW_TOKEN_A\",\"expires_in\":60}" : Empty));
+            var input = await Input(directory);
+            await f.Track(f.Provider.RecognizeAsync(new(input), default));
+            f.Time.Advance(TimeSpan.FromSeconds(53));
+            await f.Track(f.Provider.RecognizeAsync(new(input), default));
+            Require(f.Http.Requests.Count(r => r.IsToken) == 1, "short TTL immediately expired or refreshed too early");
+            f.Time.Advance(TimeSpan.FromSeconds(1));
+            await f.Track(f.Provider.RecognizeAsync(new(input), default));
+            Require(f.Http.Requests.Count(r => r.IsToken) == 2, "short TTL missed exact refresh boundary");
+        }));
+        await check("TEST_AUTHENTICATES_BEYOND_PREEXISTING_CACHE", () => ProviderScope.Run(async f =>
+        {
+            await f.Track(f.Provider.RecognizeAsync(new(await Input(directory)), default));
+            Require((await f.Track(f.Provider.TestAsync(default))).Success, "token test failed");
+            Require((await f.Track(f.Provider.TestAsync(default))).Success, "second token test failed");
+            Require(f.Http.Requests.Count(r => r.IsToken) == 3 && f.Http.Requests.Count(r => !r.IsToken) == 1, "Test used old cache or sent paid OCR requests");
+        }));
+        await check("OVERLAPPING_TESTS_SHARE_TOKEN_OBTAINED_AFTER_ADMISSION", () => ProviderScope.Run(async f =>
+        {
+            await f.Track(f.Provider.RecognizeAsync(new(await Input(directory)), default));
+            var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            f.Release.Add(() => release.TrySetResult());
+            f.Http.Respond = async (r, _) => { if (r.IsToken) { entered.TrySetResult(); await release.Task; } return HttpBoundary.Json(r.IsToken ? Token : Empty); };
+            var first = f.Track(f.Provider.TestAsync(default));
+            await entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            var second = f.Track(f.Provider.TestAsync(default));
+            release.TrySetResult();
+            Require((await first).Success && (await second).Success, "overlapping token tests failed");
+            Require(f.Http.Requests.Count(r => r.IsToken) == 2 && f.Http.Requests.Count(r => !r.IsToken) == 1, "overlapping tests failed to share a fresh receipt");
+        }));
+        await check("CANCELED_TOKEN_WAITER_DOES_NOT_CANCEL_FETCH_OWNER", () => ProviderScope.Run(async f =>
+        {
+            using var waiter = new CancellationTokenSource();
+            var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            f.Release.Add(() => release.TrySetResult());
+            f.Http.Respond = async (r, _) => { if (r.IsToken) { entered.TrySetResult(); await release.Task; } return HttpBoundary.Json(r.IsToken ? Token : Empty); };
+            var input = await Input(directory);
+            var first = f.Track(f.Provider.RecognizeAsync(new(input), default));
+            await entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            var second = f.Track(f.Provider.RecognizeAsync(new(input), waiter.Token), typeof(OperationCanceledException));
+            waiter.Cancel(); await Canceled(second.WaitAsync(TimeSpan.FromSeconds(10)));
+            Require(!first.IsCompleted, "canceling a waiter completed the fetch owner");
+            release.TrySetResult(); await first;
+            Require(f.Http.Requests.Count(r => r.IsToken) == 1 && f.Http.Requests.Count(r => !r.IsToken) == 1, "waiter cancellation changed unrelated request behavior");
+        }));
+        await check("CANCELED_FETCH_OWNER_DRAINS_THEN_OTHER_CALL_REACQUIRES", () => ProviderScope.Run(async f =>
+        {
+            using var owner = new CancellationTokenSource();
+            var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            f.Release.Add(() => release.TrySetResult()); int tokens = 0;
+            f.Http.Respond = async (r, _) =>
+            {
+                if (r.IsToken && Interlocked.Increment(ref tokens) == 1) { entered.TrySetResult(); await release.Task; }
+                return HttpBoundary.Json(r.IsToken ? Token : Empty);
+            };
+            var input = await Input(directory);
+            var first = f.Track(f.Provider.RecognizeAsync(new(input), owner.Token), typeof(OperationCanceledException));
+            await entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            var second = f.Track(f.Provider.RecognizeAsync(new(input), default));
+            owner.Cancel(); Require(!first.IsCompleted, "owner cancellation abandoned the held HTTP operation");
+            release.TrySetResult(); await Canceled(first); await second;
+            Require(tokens == 2 && f.Http.Requests.Count(r => !r.IsToken) == 1, "remaining call did not safely reacquire after canceled fetch");
+        }));
+        await check("LATE_OLD_110_CANNOT_INVALIDATE_SAME_STRING_NEW_RECEIPT", () => ProviderScope.Run(async f =>
+        {
+            var input = await Input(directory);
+            await f.Track(f.Provider.RecognizeAsync(new(input), default));
+            var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            f.Release.Add(() => release.TrySetResult()); int images = 0;
+            f.Http.Respond = async (r, _) =>
+            {
+                if (r.IsToken) return HttpBoundary.Json(Token); // Same token bytes, distinct successful acquisition.
+                int ordinal = Interlocked.Increment(ref images);
+                if (ordinal == 1) { entered.TrySetResult(); await release.Task; return HttpBoundary.Json("{\"error_code\":110}"); }
+                return HttpBoundary.Json(ordinal == 2 ? "{\"error_code\":111}" : Empty);
+            };
+            var slow = f.Track(f.Provider.RecognizeAsync(new(input), default));
+            await entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            await f.Track(f.Provider.RecognizeAsync(new(input), default));
+            release.TrySetResult(); await slow;
+            Require(f.Http.Requests.Count(r => r.IsToken) == 2 && images == 4, "late error cleared the newer receipt because its token string matched");
+        }));
+    }
+    private static async Task Canceled(Task task)
+    {
+        try { await task; } catch (OperationCanceledException) { return; }
+        throw new InvalidOperationException("Expected caller cancellation.");
+    }
+}

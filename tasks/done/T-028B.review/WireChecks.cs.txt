@@ -1,0 +1,78 @@
+using System.Net;
+using System.Net.Http;
+using Iris.Core.Common;
+using Iris.Core.Errors;
+using Iris.Core.Imaging;
+using Iris.Core.Ocr;
+using Iris.Core.Settings;
+using static ProviderScope;
+
+internal static class WireChecks
+{
+    internal static async Task Run(string directory, Func<string, Func<Task>, Task> check)
+    {
+        await check("CONFIGURED_FACTORY_IS_LAZY", () => ProviderScope.Run(f =>
+        {
+            Require(f.Provider.Descriptor.IsConfigured && f.Http.Requests.IsEmpty && f.Clients.Names.IsEmpty, "provider construction created HTTP work");
+            return Task.CompletedTask;
+        }));
+        var modes = new[] { (BaiduOcrMode.GeneralBasic, "general_basic", 4096, 8_000_000L, "CHN_ENG"),
+            (BaiduOcrMode.General, "general", 4096, 8_000_000L, "CHN_ENG"),
+            (BaiduOcrMode.AccurateBasic, "accurate_basic", 8192, 10_000_000L, "auto_detect"),
+            (BaiduOcrMode.Accurate, "accurate", 8192, 10_000_000L, "auto_detect") };
+        foreach (var (mode, endpoint, maximum, bodyLimit, automatic) in modes)
+            await check("ACTUAL_PROVIDER_MODE_" + mode, () => ProviderScope.Run(async f =>
+            {
+                string words = await File.ReadAllTextAsync(Path.Combine(directory, "fixtures", "words.json"));
+                f.Http.Respond = (request, _) => Task.FromResult(request.IsToken ? HttpBoundary.Json("{\"access_token\":\"FAKE_REVIEW_TOKEN_A\",\"expires_in\":2592000}") : HttpBoundary.Json(words));
+                var input = await Input(directory);
+                var result = await f.Track(f.Provider.RecognizeAsync(new(input, "auto"), default));
+                var token = f.Http.Requests.Single(r => r.IsToken); var image = f.Http.Requests.Single(r => !r.IsToken);
+                Require(token.Method == "POST" && token.Uri.AbsolutePath == "/gateway/oauth/2.0/token", "token endpoint lost its gateway prefix or method");
+                Require(token.Query["client_id"] == Key && token.Query["client_secret"] == Secret && token.Query["grant_type"] == "client_credentials" && token.Query.Count == 3, "credentials were not separately encoded");
+                Require(image.Method == "POST" && image.Uri.AbsolutePath == "/gateway/rest/2.0/ocr/v1/" + endpoint && image.Query.Count == 1 && image.Query["access_token"] == "FAKE_REVIEW_TOKEN_A", "incorrect recognition endpoint or token");
+                Require(image.Form.Count == 5 && image.Form["image"] == Convert.ToBase64String(input.Bytes) && image.Form["language_type"] == automatic && image.Form["detect_direction"] == "true" && image.Form["paragraph"] == "true" && image.Form["probability"] == "true", "actual request form differs from required fields");
+                using var metadata = new FormUrlEncodedContent(new Dictionary<string,string> { ["image"] = "", ["language_type"] = automatic, ["detect_direction"] = "true", ["paragraph"] = "true", ["probability"] = "true" });
+                long overhead = (await metadata.ReadAsByteArrayAsync()).LongLength;
+                var constraints = f.Provider.Constraints;
+                Require(constraints.MaxLongSide == maximum && constraints.MinShortSide == 15 && constraints.MaxEncodedBytes == 4 * 1024 * 1024 && constraints.MaxBytesAppliesToBase64 && constraints.MaxFormUrlEncodedBytes == bodyLimit - overhead, "provider constraints do not reserve actual metadata space");
+                Require(constraints.AcceptedFormats.SequenceEqual(new[] { ImageFormat.Jpeg, ImageFormat.Png, ImageFormat.Bmp }), "accepted format order changed");
+                Require(image.Body.LongLength <= bodyLimit && result.ProviderId == f.Profile.Id && result.Lines.Count == 1 && result.Lines[0].Text == "review text" && result.DetectedLanguage == null, "result identity/text/size differs from actual response");
+                bool positions = mode is BaiduOcrMode.General or BaiduOcrMode.Accurate;
+                Require(result.Lines[0].Bounds == (positions ? new PixelRect(1,2,12,5) : null) && result.Lines[0].Confidence == .75, "position or confidence mapping incorrect");
+            }, mode));
+        await check("EXPLICIT_LANGUAGE_PRESERVES_VALUE_AND_METADATA_BUDGET", () => ProviderScope.Run(async f =>
+        {
+            string language = f.Profile.BaiduOptions!.LanguageType!;
+            await f.Track(f.Provider.RecognizeAsync(new(await Input(directory), "en"), default));
+            var sent = f.Http.Requests.Single(r => !r.IsToken);
+            Require(sent.Form["language_type"] == language, "explicit language was normalized or replaced");
+            var fields = sent.Form.ToDictionary(pair => pair.Key, pair => pair.Value); fields["image"] = "";
+            using var content = new FormUrlEncodedContent(fields);
+            Require(f.Provider.Constraints.MaxFormUrlEncodedBytes == 8_000_000 - (await content.ReadAsByteArrayAsync()).LongLength, "explicit language metadata reserve mismatch");
+        }, language: "FAKE language +&中文"));
+        await check("PARAGRAPHS_REUSE_SOFT_BREAK_RULES_AND_KEEP_OMITTED_LINES", () => ProviderScope.Run(async f =>
+        {
+            string response = await File.ReadAllTextAsync(Path.Combine(directory, "fixtures", "paragraphs.json"));
+            f.Http.Respond = (request, _) => Task.FromResult(request.IsToken ? HttpBoundary.Json("{\"access_token\":\"FAKE_REVIEW_TOKEN_A\",\"expires_in\":2592000}") : HttpBoundary.Json(response));
+            var result = await f.Track(f.Provider.RecognizeAsync(new(await Input(directory)), default));
+            Require(result.Lines.Count == 2 && result.Lines[0].Text == "helloworld" && result.Lines[1].Text == "tail", "paragraph text lost lines or failed hyphen merging");
+            Require(result.Lines[0].Bounds == new PixelRect(1,1,12,10) && Math.Abs((result.Lines[0].Confidence ?? -1) - .9) < 1e-9, "paragraph metadata aggregate incorrect");
+        }));
+        await check("NO_TEXT_IS_SUCCESS_WITH_EMPTY_LINES", () => ProviderScope.Run(async f =>
+        {
+            var result = await f.Track(f.Provider.RecognizeAsync(new(await Input(directory)), default));
+            Require(result.Lines.Count == 0, "empty server response was not preserved");
+        }));
+        await check("MISSING_CREDENTIALS_CREATE_NO_HTTP", () => ProviderScope.Run(async f =>
+        {
+            Require(!f.Provider.Descriptor.IsConfigured, "empty credentials reported configured");
+            var test = await f.Track(f.Provider.TestAsync(default));
+            Require(!test.Success && test.Error?.Code == ErrorCode.NotConfigured, "unconfigured test did not report safe failure");
+            var task = f.Track(f.Provider.RecognizeAsync(new(await Input(directory)), default), typeof(IrisException));
+            try { await task; throw new InvalidOperationException("unconfigured recognition succeeded"); }
+            catch (IrisException ex) { Require(ex.Code == ErrorCode.NotConfigured, "unconfigured recognition error mismatch"); }
+            Require(f.Http.Requests.IsEmpty && f.Clients.Names.IsEmpty, "unconfigured provider created HTTP work");
+        }, credentials: ProviderCredentials.None));
+    }
+}

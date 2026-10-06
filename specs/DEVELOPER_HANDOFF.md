@@ -4,6 +4,8 @@
 
 ## 当前状态
 
+**最新唯一工单T-029（2026-10-06）**：百度B/父T-028/CCR-028在fe05ccbf84913b8e23928031ed24cecf5b43f924独立验收结案（Release0警告/错误、全量2893中2891成功/2既有跳过、实际65项全通过）。现按WINDOWS_OCR.md/ARCH v1.45/CCR-029完整实现Windows本地Provider/Factory、语言/rune/位图收尾。明确允许只读能力查询及真实SDK合成图片smoke，无用户内容，不安装语言/修改包身份；没有语言包可如实环境跳过。Core仅注释/Platform友元，既有实现/default/schema/包保持；T-030后续。下方B/A状态为历史。
+
 **最新唯一工单T-028B（2026-10-06）**：A/CCR-027已在f091e1565b81ed63cb4e614940f710631940a6dc独立验收（Release0警告/错误、全量2754中2752成功/2既有跳过、实际56项全通过，含281组计数对照）。B按BAIDU_OCR.md/ARCH v1.44/CCR-028完整实现百度Provider/Factory、四模式/Token/有限重试/表单与结果解析/完整收尾；不提前T-029/030或入口。批准Wire安全ToString和216205常量、IOcrProvider说明及Core.csproj对Providers友元以复用SoftLineBreakMerger；公开方法/default/schema/包保持。下方A/T027状态为历史，保留本轮验收及新规范随单提交。
 
 **最新唯一工单T-028A（2026-10-06）**：T-027/CCR-026已在b3f1f1b67eafc20bab12290dba40051b4cc0ab51独立验收（Release0警告/错误、全量2722中2720成功/2既有跳过、实际40项全通过）。父T-028拆A精确表单图像预算/B完整百度Provider，范围不减。A按OCR_FORM_IMAGE_BUDGET.md/ARCH v1.43/CCR-027新增默认null的ImageConstraints.MaxFormUrlEncodedBytes，保留5参数构造、旧预算/质量/收尾；不统一压低原Base64上限。仅必要Core/Platform预算及测试，不开始B/HTTP/Token或T-029。保留架构师本轮T-027结案/复审证据和规范随单提交；下方T-027状态均为历史。

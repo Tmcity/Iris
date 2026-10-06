@@ -1,0 +1,106 @@
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Runtime.ExceptionServices;
+using Iris.Core.Common;
+using Iris.Core.Ocr;
+using Iris.Core.Settings;
+using Iris.Providers.DependencyInjection;
+using Iris.Providers.Http;
+using Iris.Providers.Ocr.Baidu.Wire;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http.Resilience;
+using Microsoft.Extensions.Http;
+using Microsoft.Extensions.Logging;
+using NSubstitute;
+using static ProviderScope;
+
+internal static class PipelineChecks
+{
+    internal static async Task Run(string directory, Func<string, Func<Task>, Task> check)
+    {
+        foreach (bool throwTransport in new[] { false, true })
+        await check("REAL_NAMED_PIPELINE_THREE_LOGICAL_NINE_TRANSPORT_ATTEMPTS_THROW_" + throwTransport, async () =>
+        {
+            var transport = new HttpBoundary(); var clock = new ObservedTimeProvider(); var logs = new ReviewLogs();
+            var delayEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            clock.TimerCreated = due => { if (due == TimeSpan.FromMilliseconds(500)) delayEntered.TrySetResult(); };
+            int images = 0, tokens = 0;
+            transport.Respond = (request, _) =>
+            {
+                if (request.IsToken)
+                {
+                    Interlocked.Increment(ref tokens);
+                    return Task.FromResult(HttpBoundary.Json("{\"access_token\":\"FAKE_REVIEW_TOKEN_A\",\"expires_in\":2592000}"));
+                }
+                int attempt = Interlocked.Increment(ref images);
+                if (attempt % 3 != 0)
+                {
+                    if (throwTransport) throw new HttpRequestException("FAKE_PRIVATE_PIPELINE_BODY " + Key + " " + Secret + " FAKE_REVIEW_TOKEN_A", null, HttpStatusCode.ServiceUnavailable);
+                    var response = HttpBoundary.Json("FAKE_PRIVATE_PIPELINE_BODY", HttpStatusCode.ServiceUnavailable);
+                    response.Headers.RetryAfter = new RetryConditionHeaderValue(TimeSpan.Zero);
+                    return Task.FromResult(response);
+                }
+                return Task.FromResult(HttpBoundary.Json(attempt == 3 ? "{\"error_code\":110}" : attempt == 6 ? "{\"error_code\":18}" : "{\"words_result_num\":0,\"words_result\":[]}"));
+            };
+            var services = new ServiceCollection();
+            services.AddLogging(builder => builder.SetMinimumLevel(LogLevel.Trace).AddProvider(logs));
+            var settings = Substitute.For<ISettingsService>(); settings.Current.Returns(new AppSettings { Network = new() { ProxyMode = ProxyMode.None } });
+            services.AddSingleton(settings); services.AddSingleton<TimeProvider>(clock);
+            services.AddIrisProviders();
+            // Only test transport delay is set to zero; retry count/handlers remain actual registrations.
+            services.ConfigureAll<HttpStandardResilienceOptions>(options => { options.Retry.Delay = TimeSpan.Zero; options.Retry.UseJitter = false; });
+            services.AddHttpClient(HttpClientNames.Ocr).ConfigurePrimaryHttpMessageHandler(() => transport);
+            // Catch-all test boundary also prevents accidental unknown client names from reaching sockets.
+            services.ConfigureAll<HttpClientFactoryOptions>(options => options.HttpMessageHandlerBuilderActions.Add(builder => builder.PrimaryHandler = transport));
+            var container = services.BuildServiceProvider();
+            IOcrProvider? provider = null; Task<OcrResult>? work = null;
+            Exception? primary = null; var cleanup = new List<Exception>();
+            try
+            {
+                var factory = container.GetServices<IOcrProviderFactory>().Single(f => f.Kind == OcrProviderKind.BaiduCloud);
+                var profile = new OcrProviderProfile { Id = "review-pipeline", Kind = OcrProviderKind.BaiduCloud, DisplayName = "Review pipeline", TimeoutSeconds = 120,
+                    BaiduOptions = new() { Mode = BaiduOcrMode.General, BaseUrl = "https://review.invalid/gateway/" } };
+                provider = factory.Create(profile, new ProviderCredentials(Key, Secret));
+                work = provider.RecognizeAsync(new(await Input(directory)), default);
+                await delayEntered.Task.WaitAsync(TimeSpan.FromSeconds(15));
+                Require(images == 6 && tokens == 2 && !work.IsCompleted, "actual pipeline did not reach the second logical response after two transport retries each");
+                clock.Advance(TimeSpan.FromMilliseconds(499));
+                Require(images == 6, "business backoff was shorter than 500ms");
+                clock.Advance(TimeSpan.FromMilliseconds(1));
+                var result = await work.WaitAsync(TimeSpan.FromSeconds(15));
+                Require(images == 9 && tokens == 2 && result.Lines.Count == 0, "mixed HTTP/business retry totals were incorrect");
+                Require(logs.Messages.Count > 0, "actual pipeline log capture did not run");
+                foreach (string marker in new[] { "FAKE_REVIEW_KEY", "FAKE_REVIEW_SECRET", "FAKE_REVIEW_TOKEN_A", "FAKE_PRIVATE_PIPELINE_BODY" })
+                    Require(!logs.Messages.Any(m => m.Contains(marker, StringComparison.Ordinal)), "actual pipeline logs or structured state leaked a sensitive marker");
+                Console.WriteLine($"NAMED_PIPELINE imageTransports={images} tokenTransports={tokens} capturedLogEntries={logs.Messages.Count}");
+            }
+            catch (Exception ex) { primary = ex; }
+            finally
+            {
+                clock.TimerCreated = null;
+                try
+                {
+                    if (provider is IAsyncDisposable asyncDisposable) await asyncDisposable.DisposeAsync();
+                    else if (provider is IDisposable disposable) disposable.Dispose();
+                }
+                catch (Exception ex) { cleanup.Add(ex); }
+                if (work != null) try { await work; } catch (Exception ex) { cleanup.Add(ex); }
+                try { await container.DisposeAsync(); } catch (Exception ex) { cleanup.Add(ex); }
+                foreach (var response in transport.Responses) try { response.Dispose(); } catch (Exception ex) { cleanup.Add(ex); }
+                transport.Dispose();
+            }
+            if (primary != null && cleanup.Count == 0) ExceptionDispatchInfo.Capture(primary).Throw();
+            if (primary != null) cleanup.Insert(0, primary);
+            if (cleanup.Count != 0) throw new AggregateException(cleanup);
+        });
+        await check("WIRE_DTO_DIAGNOSTICS_HIDE_TOKEN_AND_ERROR_TEXT", () =>
+        {
+            const string marker = "FAKE_PRIVATE_DTO_MARKER";
+            var token = new BaiduTokenResponse { AccessToken = marker, Scope = marker, Error = marker, ErrorDescription = marker, ExpiresIn = 60 };
+            var result = new BaiduOcrResponse { ErrorMsg = marker, WordsResultNum = 1, WordsResult = [new() { Words = marker }] };
+            Require(!token.ToString().Contains(marker) && !result.ToString().Contains(marker), "wire diagnostics exposed protected fields");
+            return Task.CompletedTask;
+        });
+    }
+}

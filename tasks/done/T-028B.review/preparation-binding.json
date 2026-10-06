@@ -1,0 +1,19 @@
+{
+  "preparationOnly": true,
+  "productChecksExecuted": false,
+  "head": "f091e1565b81ed63cb4e614940f710631940a6dc",
+  "probeSources": {
+    "HttpBoundary.cs": "68ad33a1198bcb1489e249295475d994ab5537470ff8ce70e67aca40c0bd86f0",
+    "LifecycleChecks.cs": "16d00730083a610c6311b7c52add827378a0f3841bd454b4a7e16448cd6c666c",
+    "ObservedStream.cs": "955f7a0385105b3be1d7df3df31bb19ffd6359f6228cecc50c6a034edb7a1801",
+    "ObservedTimeProvider.cs": "6d160d383354817b94e7f0b00620d40723d190b874f96c4814f466ce06081c47",
+    "ProviderScope.cs": "bd79391c831f7551e4ebe34a0d3576197b7ce6a3ecd6f7f82dd7dddc280e5aef",
+    "ReviewLogs.cs": "3faaa51058e89ee4ee2e47abad06b56691da493e53c198494a8d7c6fc6b65f60",
+    "TokenChecks.cs": "10c98a50b30492310fbf304301c14334c6d8a04e3ce42fb9baa810415c20510c",
+    "WireChecks.cs": "b3d2df71c6dfb255d519ec4c8c65cacd94a2edefc95ae0ad64f32a9bcb31778d"
+  },
+  "assemblies": {
+    "Iris.Core": "edf15c106f4578a1f8ad3b228fb1ef60745a480413ca650e268bc56020513891",
+    "Iris.Providers": "259be26ef6f68b1c7da8570423c3ff163802ab066db61753e254facf743e9c33"
+  }
+}
