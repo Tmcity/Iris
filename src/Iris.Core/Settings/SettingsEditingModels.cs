@@ -87,6 +87,10 @@ public sealed record SettingsEditPlan(
     /// <summary>划词基础字段补丁；默认 null 表示无编辑，不覆盖未编辑的鼠标或其它设置。</summary>
     public SelectionSettingsPatch? Selection { get; init; }
 
+    public OcrSettingsPatch? Ocr { get; init; }
+    public IReadOnlyList<OcrProfileChange> OcrChanges { get; init; } = [];
+    public ScreenshotSettingsPatch? Screenshot { get; init; }
+
     public override string ToString() => "SettingsEditPlan";
 }
 
@@ -106,6 +110,55 @@ public sealed record TranslationProviderDraft(
     ProviderCredentialEdit Credentials)
 {
     public override string ToString() => "TranslationProviderDraft";
+}
+
+/// <summary>OCR字段增量。null保留提交时最新字段；完整规则见OCR_SETTINGS_EDITING.md。</summary>
+public sealed record OcrSettingsPatch(
+    SettingsFieldEdit<string>? ActiveProviderId = null,
+    SettingsFieldEdit<string?>? FallbackProviderId = null,
+    SettingsFieldEdit<Iris.Core.Ocr.OcrTextLayout>? TextLayout = null,
+    SettingsFieldEdit<string>? LanguageHint = null,
+    SettingsFieldEdit<bool>? AutoCopyOnOcr = null,
+    SettingsFieldEdit<bool>? SilentOcrShowNotification = null)
+{
+    public override string ToString() => "OcrSettingsPatch";
+}
+
+public sealed record ScreenshotSettingsPatch(
+    SettingsFieldEdit<bool>? ConfirmOnMouseUp = null,
+    SettingsFieldEdit<bool>? ShowMagnifier = null,
+    SettingsFieldEdit<bool>? HideIrisWindows = null,
+    SettingsFieldEdit<bool>? CopyImageToClipboard = null,
+    SettingsFieldEdit<double>? MaskOpacity = null)
+{
+    public override string ToString() => "ScreenshotSettingsPatch";
+}
+
+public enum OcrProfileChangeKind { Add = 1, Update = 2, Delete = 3 }
+
+/// <summary>按ID编辑OCR Profile；凭据引用由协调器管理，禁止跨领域同ID映射串线。</summary>
+public sealed record OcrProfileChange(
+    OcrProfileChangeKind Kind,
+    OcrProviderProfile? BaseProfile,
+    OcrProviderProfile? TargetProfile,
+    ProviderCredentialEdit Credentials)
+{
+    public override string ToString() => $"OcrProfileChange {{ Kind = {Kind} }}";
+}
+
+public sealed record OcrProviderDraft(
+    OcrProviderProfile Profile,
+    OcrProviderProfile? BaseProfile,
+    ProviderCredentialEdit Credentials)
+{
+    public override string ToString() => "OcrProviderDraft";
+}
+
+/// <summary>单次OCR草稿测试拥有者；创建无I/O，Run只调用Provider.TestAsync。
+/// 调用方必须等待Dispose成功再释放会话；失败保有原快照，重试不重复测试。</summary>
+public interface IOcrDraftTestSession : IAsyncDisposable
+{
+    Task<Iris.Core.Common.ProviderTestResult> RunAsync(CancellationToken cancellationToken = default);
 }
 
 public enum SettingsEditStatus

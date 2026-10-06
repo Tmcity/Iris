@@ -1,0 +1,22 @@
+{
+  "commit": "cafc5ebdfe75c0c18a7b638ee4519dff47ea1e27",
+  "phase": "development binding; not acceptance",
+  "probeSources": {
+    "Program.cs": "0d90368abfe7f13819ed4f5106bdbbdc600b86ba76e16e848b84e23a34be4145",
+    "UiBoundary.cs": "d1c9163f34cb9455ad3e827e18b793c68ab0f08a4fa3e7b353c5dcb961aedf5b",
+    "WorkflowBoundaries.cs": "f2ed78aa4663501d4b6e80ef6a2d2157c0f6a391259fc939672ead371c28bdec",
+    "PresentationScope.cs": "f463f95f61b70068494dd91cbb4f9d4b151d24c989dca997a41b5d038970c9da",
+    "PublicationChecks.cs": "d000caa97b05e3038b4651ac89a7aadc21eb9f73f8afbba37c3dfe2d18206068",
+    "NotificationBoundary.cs": "a312d9c7e6a52e394e21d97ef6e2ee05e023b78ab919ef5f51c298a5bb1827ec",
+    "EntryChecks.cs": "bf9ac5587688e7d9b3a4262c331fac4f5f2295c967126fbc173c73a41fb1dce2",
+    "EffectChecks.cs": "b090a73880a82ac392283c7744dc9d01a070bc1cffa9bb847ac851911d15c33e",
+    "HostChecks.cs": "8d447d1665afe795a213caddc35955f3371b17d689e724b4794f2b2e2a80e95f"
+  },
+  "productDlls": {
+    "Iris.App.dll": "d9fbe9df2216e7af1be5d96b3e0843b37e127b25bf9ebd231432f3e14eb1e93a",
+    "Iris.Core.dll": "3c1999db3b786e0e500c3a553969171aaa4ab64338087701cfd20c61590f83c3",
+    "Iris.Infrastructure.dll": "a4c66648c6c4e7d3f848fc9ca08efe2beb6d77606d034649acec87537a42f74b",
+    "Iris.Platform.Windows.dll": "91bb654e9a7f3f1e7ac571ac77dd6514a319f01a9aca23aaae06e8a776f6ee39",
+    "Iris.Providers.dll": "c6790ac07eb2f55d8a8ee3298a89319b8768f5a5a6ad3ca67fb84b9a1f006734"
+  }
+}

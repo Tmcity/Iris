@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Iris.Core.Common;
 using Iris.Core.Errors;
 using Iris.Core.Languages;
+using Iris.Core.Ocr;
 using Iris.Core.Security;
 using Iris.Core.Translation;
 using Microsoft.Extensions.Logging;
@@ -51,6 +52,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
     private readonly ISettingsService _settingsService;
     private readonly ISecretStore _secretStore;
     private readonly ITranslationProviderRegistry _providerRegistry;
+    private readonly IOcrProviderRegistry? _ocrProviderRegistry;
     private readonly IEnumerable<IProviderConfigurationObserver> _configurationObservers;
     private readonly IPromptTemplateProvider _promptTemplateProvider;
     private readonly TimeProvider _timeProvider;
@@ -68,11 +70,13 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         IPromptTemplateProvider promptTemplateProvider,
         TimeProvider timeProvider,
         ILogger<SettingsEditCoordinator> logger,
-        IHotkeyBindingPolicy? hotkeyBindingPolicy = null)
+        IHotkeyBindingPolicy? hotkeyBindingPolicy = null,
+        IOcrProviderRegistry? ocrProviderRegistry = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _secretStore = secretStore ?? throw new ArgumentNullException(nameof(secretStore));
         _providerRegistry = providerRegistry ?? throw new ArgumentNullException(nameof(providerRegistry));
+        _ocrProviderRegistry = ocrProviderRegistry;
         _configurationObservers = configurationObservers ?? throw new ArgumentNullException(nameof(configurationObservers));
         _promptTemplateProvider = promptTemplateProvider ?? throw new ArgumentNullException(nameof(promptTemplateProvider));
         _timeProvider = timeProvider ?? throw new ArgumentNullException(nameof(timeProvider));
@@ -95,7 +99,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         var capturedPlan = ClonePlan(plan);
         var selectionError = ValidateSelection(capturedPlan.Selection);
         if (selectionError != null) return new SettingsEditResult(SettingsEditStatus.Uncommitted, Error: selectionError);
-        capturedPlan = capturedPlan with { Selection = NormalizeSelection(capturedPlan.Selection) };
+        capturedPlan = capturedPlan with { Selection = NormalizeSelection(capturedPlan.Selection), Ocr = NormalizeOcrPatch(capturedPlan.Ocr) };
 
         // 3. 无操作检查（不制造无谓设置版本）
         if (IsNoOp(capturedPlan))
@@ -188,7 +192,8 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 stagingPlan.CandidateLegacyProfileIds);
 
             // 若无 Provider 变更且无排序改动（仅 General 变更），无需观察者屏障和凭据清理
-            if (capturedPlan.TranslationChanges.Count == 0 && capturedPlan.TranslationOrder == null)
+            if (capturedPlan.TranslationChanges.Count == 0 && capturedPlan.TranslationOrder == null
+                && !HasOcrEdits(capturedPlan) && !HasScreenshotEdits(capturedPlan.Screenshot))
             {
                 return new SettingsEditResult(SettingsEditStatus.Applied);
             }
@@ -651,36 +656,6 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
 
     private async Task<bool> CleanupReceiptCandidatesAsync(SettingsApplyReceipt receipt)
     {
-        var current = _settingsService.Current;
-
-        // 收集当前全部有效引用集合
-        var referencedSetIds = new HashSet<string>(StringComparer.Ordinal);
-        var referencedLegacyProfileIds = new HashSet<string>(StringComparer.Ordinal);
-
-        foreach (var p in current.Translation.Providers)
-        {
-            if (p.CredentialSetId != null)
-            {
-                referencedSetIds.Add(p.CredentialSetId);
-            }
-            else
-            {
-                referencedLegacyProfileIds.Add(p.Id);
-            }
-        }
-
-        foreach (var p in current.Ocr.Providers)
-        {
-            if (p.CredentialSetId != null)
-            {
-                referencedSetIds.Add(p.CredentialSetId);
-            }
-            else
-            {
-                referencedLegacyProfileIds.Add(p.Id);
-            }
-        }
-
         var allCleaned = true;
 
         // 清理凭据集候选
@@ -693,7 +668,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 continue;
             }
 
-            if (referencedSetIds.Contains(candidateId))
+            if (IsSetReferenced(_settingsService.Current, candidateId))
             {
                 // 仍有其他 Profile 引用，不能删除
                 receipt.RemainingCandidateSetIds.Remove(candidateId);
@@ -716,7 +691,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         var candidateLegacyIds = receipt.RemainingCandidateLegacyProfileIds.ToList();
         foreach (var profileId in candidateLegacyIds)
         {
-            if (referencedLegacyProfileIds.Contains(profileId))
+            if (IsLegacyReferenced(_settingsService.Current, profileId))
             {
                 // 仍有相同 ID 的 legacy 使用者，不能删除
                 receipt.RemainingCandidateLegacyProfileIds.Remove(profileId);
@@ -744,20 +719,9 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
 
     private async Task RollbackStagedCredentialsAsync(List<string> stagedSetIds)
     {
-        var current = _settingsService.Current;
-        var referencedSetIds = new HashSet<string>(StringComparer.Ordinal);
-        foreach (var p in current.Translation.Providers)
-        {
-            if (p.CredentialSetId != null) referencedSetIds.Add(p.CredentialSetId);
-        }
-        foreach (var p in current.Ocr.Providers)
-        {
-            if (p.CredentialSetId != null) referencedSetIds.Add(p.CredentialSetId);
-        }
-
         foreach (var id in stagedSetIds)
         {
-            if (referencedSetIds.Contains(id))
+            if (IsSetReferenced(_settingsService.Current, id))
             {
                 continue;
             }
@@ -776,7 +740,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
     private StagingPlan PrepareStagingAndCheckConflicts(SettingsEditPlan plan, AppSettings current)
     {
         var credentialsToStage = new List<(string NewSetId, string? ApiKey, string? SecretKey)>();
-        var newCredentialSetMap = new Dictionary<string, string>(StringComparer.Ordinal);
+        var newCredentialSetMap = new Dictionary<CredentialTarget, string?>();
         var candidateSetIds = new List<string>();
         var candidateLegacyProfileIds = new List<string>();
 
@@ -814,7 +778,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                         addSecretKey = change.Credentials.Replacement.SecretKey;
                     }
                     credentialsToStage.Add((newSetIdForAdd, addApiKey, addSecretKey));
-                    newCredentialSetMap[change.TargetProfile.Id] = newSetIdForAdd;
+                    newCredentialSetMap[new(false, change.TargetProfile.Id)] = newSetIdForAdd;
                     break;
 
                 case TranslationProfileChangeKind.Update:
@@ -831,7 +795,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                     if (change.Credentials.Kind == CredentialEditKind.Keep)
                     {
                         // 沿用原有凭据引用
-                        newCredentialSetMap[change.TargetProfile!.Id] = existingProfile.CredentialSetId!;
+                        newCredentialSetMap[new(false, change.TargetProfile!.Id)] = existingProfile.CredentialSetId!;
                     }
                     else if (change.Credentials.Kind == CredentialEditKind.Replace || change.Credentials.Kind == CredentialEditKind.Clear)
                     {
@@ -844,7 +808,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                             updateSecretKey = change.Credentials.Replacement.SecretKey;
                         }
                         credentialsToStage.Add((newSetIdForUpdate, updateApiKey, updateSecretKey));
-                        newCredentialSetMap[change.TargetProfile!.Id] = newSetIdForUpdate;
+                        newCredentialSetMap[new(false, change.TargetProfile!.Id)] = newSetIdForUpdate;
 
                         if (existingProfile.CredentialSetId != null)
                         {
@@ -929,13 +893,14 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             }
         }
 
-        return new StagingPlan(credentialsToStage, newCredentialSetMap, candidateSetIds, candidateLegacyProfileIds);
+        var staging = new StagingPlan(credentialsToStage, newCredentialSetMap, candidateSetIds, candidateLegacyProfileIds);
+        return PrepareOcrStaging(plan, current, staging);
     }
 
     private AppSettings MutateSettings(
         AppSettings current,
         SettingsEditPlan plan,
-        Dictionary<string, string> newCredentialSetMap)
+        Dictionary<CredentialTarget, string?> newCredentialSetMap)
     {
         // 1. General 补丁应用与冲突复验
         var newGeneral = current.General;
@@ -984,7 +949,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                         throw new StagingConflictException(new ErrorInfo(ErrorCode.Unknown, ConflictMessage));
                     }
 
-                    var setIdForAdd = newCredentialSetMap[change.TargetProfile.Id];
+                    var setIdForAdd = newCredentialSetMap[new(false, change.TargetProfile.Id)];
                     var newProfile = change.TargetProfile with { CredentialSetId = setIdForAdd };
                     addedProfiles.Add(newProfile);
                     break;
@@ -1001,7 +966,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                     }
 
                     string? updatedSetId = existing.CredentialSetId;
-                    if (newCredentialSetMap.TryGetValue(change.TargetProfile!.Id, out var newSetId))
+                    if (newCredentialSetMap.TryGetValue(new(false, change.TargetProfile!.Id), out var newSetId))
                     {
                         updatedSetId = newSetId;
                     }
@@ -1120,7 +1085,10 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         }
 
         var newSelection = ApplySelection(plan.Selection, current.Selection);
-        if (ReferenceEquals(newSelection, current.Selection) && ReferenceEquals(newGeneral, current.General) &&
+        var newOcr = ApplyOcr(plan, current.Ocr, newCredentialSetMap);
+        var newScreenshot = ApplyScreenshot(plan.Screenshot, current.Screenshot);
+        if (ReferenceEquals(newOcr, current.Ocr) && ReferenceEquals(newScreenshot, current.Screenshot) &&
+            ReferenceEquals(newSelection, current.Selection) && ReferenceEquals(newGeneral, current.General) &&
             ReferenceEquals(newTranslation, current.Translation) &&
             ReferenceEquals(newHotkeys, current.Hotkeys))
         {
@@ -1132,7 +1100,8 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             General = newGeneral,
             Translation = newTranslation,
             Hotkeys = newHotkeys,
-            Selection = newSelection
+            Selection = newSelection,
+            Ocr = newOcr, Screenshot = newScreenshot
         };
     }
 
@@ -1522,7 +1491,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             }
         }
 
-        return null;
+        return ValidateOcrPlan(plan, current);
     }
 
     private static ErrorInfo? ValidateProfile(TranslationProviderProfile profile, AppSettings current)
@@ -1774,7 +1743,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             }
         }
 
-        return null;
+        return ValidateOcrPlanStructure(plan);
     }
 
     private static ErrorInfo? ValidateDraftStructure(TranslationProviderDraft draft)
@@ -2071,6 +2040,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         if (plan.TranslationOrder != null) return false;
         if (plan.HotkeyChanges.Count > 0) return false;
         if (HasSelectionEdits(plan.Selection)) return false;
+        if (HasOcrEdits(plan) || HasScreenshotEdits(plan.Screenshot)) return false;
 
         if (plan.General != null)
         {
@@ -2161,7 +2131,10 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         return new SettingsEditPlan(general, changes, order)
         {
             HotkeyChanges = hotkeyChanges,
-            Selection = CloneSelection(plan.Selection)
+            Selection = CloneSelection(plan.Selection),
+            Ocr = plan.Ocr is { } ocr ? ocr with { } : null,
+            Screenshot = plan.Screenshot is { } screenshot ? screenshot with { } : null,
+            OcrChanges = plan.OcrChanges.Select(CloneOcrChange).ToArray()
         };
     }
 
@@ -2213,13 +2186,13 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
 
     private sealed class StagingPlan(
         List<(string NewSetId, string? ApiKey, string? SecretKey)> credentialsToStage,
-        Dictionary<string, string> newCredentialSetMap,
+        Dictionary<CredentialTarget, string?> newCredentialSetMap,
         List<string> candidateSetIds,
         List<string> candidateLegacyProfileIds,
         ErrorInfo? conflictError = null)
     {
         public List<(string NewSetId, string? ApiKey, string? SecretKey)> CredentialsToStage { get; } = credentialsToStage;
-        public Dictionary<string, string> NewCredentialSetMap { get; } = newCredentialSetMap;
+        public Dictionary<CredentialTarget, string?> NewCredentialSetMap { get; } = newCredentialSetMap;
         public List<string> CandidateSetIds { get; } = candidateSetIds;
         public List<string> CandidateLegacyProfileIds { get; } = candidateLegacyProfileIds;
         public ErrorInfo? ConflictError { get; } = conflictError;

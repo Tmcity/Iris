@@ -1,0 +1,14 @@
+{
+  "src/Iris.Core/Settings/ISettingsEditCoordinator.cs": "69ee04cee194eb8feae723bb68cc54e35a3b77f7441478ecc476f31e151e238f",
+  "src/Iris.Core/Settings/SettingsEditCoordinator.Ocr.cs": "173d05a1c63671fcd523a1a610fc90a68454d9d50994767a28dd8647544597bf",
+  "src/Iris.Core/Settings/SettingsEditCoordinator.OcrDraft.cs": "dfd34475ad35cef450f6a0262ee103739845513a8cd78fcc3caa8d6002a4b7c8",
+  "src/Iris.Core/Settings/SettingsEditCoordinator.cs": "e6cacc0fbdfb7dfdfe4c7aad927d3cf09aba5d3ba93b151a6d73b08a0cf44061",
+  "src/Iris.Core/Settings/SettingsEditingModels.cs": "3e08d7c86b1104051a336880db98884a4a80f9c667598fc6426eaae6a09ffac8",
+  "tests/Iris.App.Tests/Settings/SelectionSettingsTestScope.cs": "60c00825c5cf32d213528d494becb49c09930167845804e0942e7efc0e9b48a6",
+  "tests/Iris.App.Tests/Settings/SettingsDraftAndSaveRegressionTests.cs": "458b806ab178043c8cc0e4689df9fbc899f45dae266b055b9ca7edb0619f5ac3",
+  "tests/Iris.App.Tests/Settings/TestSettingsEditCoordinator.cs": "56d7da5900a677903579c30a52fff2eb649828eba5eb9b817997bb87396b52c1",
+  "tests/Iris.Core.Tests/Settings/OcrDraftTestSessionTests.cs": "75faad9f36a1d523d60e332b4802cd081f67d58f49d33ad7f8bd732659d98a95",
+  "tests/Iris.Core.Tests/Settings/OcrEditingBoundaryTests.cs": "eacb5ab041e84583a59ac35511ec42cda2fce7740c82cb1c84a070df9cbcdaa4",
+  "tests/Iris.Core.Tests/Settings/OcrEditingTestScope.cs": "a61c6d92755d5abbfd1e1ef87f544f6aabaa53c021f8370d5789110a517771db",
+  "tests/Iris.Core.Tests/Settings/OcrSettingsEditingTests.cs": "44320491899714c269191e27c180d3b315b52bf5a228024590e7d40f1df1e7ad"
+}

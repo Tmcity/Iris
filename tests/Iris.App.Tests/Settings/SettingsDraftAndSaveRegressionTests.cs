@@ -282,6 +282,8 @@ public sealed class SettingsDraftAndSaveRegressionTests
 
     private sealed class TestEditCoordinator : ISettingsEditCoordinator
     {
+        public IOcrDraftTestSession CreateOcrDraftTest(OcrProviderDraft draft) => throw new NotSupportedException();
+
         public int TestCalls { get; private set; }
         public int ListCalls { get; private set; }
         public SettingsEditPlan? LastPlan { get; private set; }

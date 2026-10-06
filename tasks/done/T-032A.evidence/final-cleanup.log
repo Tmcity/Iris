@@ -1,0 +1,1 @@
+All test commands have returned. No owned test or UIA host process remains. Failure cases released gates before awaiting real tasks and disposing sessions/registry; no process was forcibly terminated for T-032A.

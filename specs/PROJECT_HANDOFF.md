@@ -1,5 +1,15 @@
 # Iris 架构师接手记录
 
+**T-032A旧UI无调用诊断补充**：开发selection-diagnostic-1.log两处Additional Info均为add_Changed；PageAndDraft原第25行同一行串联Reader/Secrets/Hotkey三个断言，Shouldly报告首个Reader表达式不能直接据此认定调用了ReadAsync（ISelectionTextReader根本没有Changed事件）。独立calls-1逐字段观察已证实Reader为空、Secrets为add_Changed，未见真实选区或密钥读写。应保持业务零读写断言、在准确的替身/构造订阅边界处理预期依赖，不将该提示泛化为读取用户内容。仍待开发修正与全量复核。
+
+**T-032A扩展独立检查及首轮全量**：development-credentials-1为11项通过（跨域同ID凭据分离、显式/legacy共享引用含禁用peer保留、ApplyPending旧值保留/原回执不重stage、提交后取消、输入列表冻结），连同先前commit13/draft13为37项；development-resources-1在会话存活时Provider/凭据/捕获草稿及正对照均回收，新增1项。首轮全量3301/3297成功/2失败/2既有跳过，失败为旧SelectionSettingsUiTests无调用断言，开发正诊断。独立临时iris-t032a-ui-call-review/calls-1.log用实际既有UI夹具观察构造/Show/Save：Secrets仅add_Changed，无Get/Set/Remove；Reader各阶段为空，不能宣称该项已复现或已解决。自有窗口/STA正常清理，不改原测试断言。最终仍待全量与提交。
+
+**T-032A独立开发期26项通过**：临时iris-t032a-independent-review已接实际SettingsEditCoordinator与OcrProviderRegistry，MemorySettings/Secrets/Provider仅外边界。development-commit-1为13项通过（联合一次提交/未编辑最新值/语言归一/非法遮罩与主备在stage前拒绝/提交内冲突整单回滚与暂存删除）；development-draft-1为13项通过（纯构造、仅Test一次不Recognize、不写配置密钥、禁用草稿、Dispose失败原实例重试、非合作取消关闭等待、取消+清理错误可观察、Keep冲突不读密钥）。独立夹具Track(close)已补显式丢弃返回值消除编译提示，实际close在finally和作用域中均等待，不弃置任务。当前尚在开发，最终须重绑完整复核；跨领域同ID/共享引用等扩展检查仍待补。
+
+**T-032A已实际下达**：消息01a112f5-5e4c-7e90-9721-52cee48291d4，执行轮01a112f5-6a2d-7721-bfd8-67d9bbbe381c已建立，目标会话01a112a7-c953-7630-9ee9-d2be2123dc70。CCR034声明已独立编译0警告/错误（临时iris-ccr034-contract-check/build.log，1.15s）。尚待接单确认/实施，不因等待超时重发；T-031/B已结案，42项最终探针及Release/full证据在T-031B.review。
+
+**当前唯一工单T-032A（2026-10-07）**：T-031/B及CCR033在cafc5ebdfe75c0c18a7b638ee4519dff47ea1e27独立验收结案，Release0警告/错误16.97s、全量3234/3232成功/2既有跳过46.283s、最终42项独立场景全过、六张最终图匹配已审查图。证据T-031B.review。T-032拆A增量编辑/凭据/单次草稿测试会话、B完整设置页，原范围保留；A依据OCR_SETTINGS_EDITING.md/ARCHv1.50/CCR034/current_task，CONTRACTS已预置，生产由指定新开发会话01a112a7-c953-7630-9ee9-d2be2123dc70同步。OCR仍复用翻译原文框，M6延迟，不恢复旧窗口。
+
 **T-031B开发全量已通过（待交付复审）**：release-build-4为0警告/错误1.79s；release-full-4为3234/3232成功/0失败/2既有跳过、2m10.522s，已确认进程56232/62072退出。第三轮仅剩TranslationEndToEndTests自建DI缺端口，现已补齐，旧业务断言未删。独立development-dispatcher-1另9项通过（实际Dispatcher+三个Handler在非合作OCR门闩下互斥，忽略请求取消不影响当前调用），连同入口20、副作用8、Host4、caller1为当前开发期42项。开发正在复核探针并归档；最终仍按提交构建重绑独立验收，不提前结案。
 
 **T-031B完整Host独立预检已通过**：临时iris-t031b-independent-review新增HostChecks，实际AppHostBuilder/Dispatcher/三个Handler/真实ScreenshotService与Preparation构造图、Bootstrapper停止和Host异步处置共4项通过，development-host-2.log，进程正常退出。无启动主程序或截图；仅设置/密钥/剪贴板/UI边界用自有替身，真实截图构造图未mock。首轮host-1为独立夹具未显式加载Wpf.Ui导致XAML主题解析失败，已补加载，非产品缺陷。开发共用测试夹具补截图端口并更新托盘菜单断言，fixture-targeted-2已通过；尚待最终全量与交付，不据开发期探针直接结案。

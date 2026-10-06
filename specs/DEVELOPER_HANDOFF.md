@@ -1,5 +1,7 @@
 # Codex 开发工程师交接（2026-10-06）
 
+**当前唯一工单T-032A（2026-10-07）**：T-031/B在cafc5ebdfe75c0c18a7b638ee4519dff47ea1e27完成独立Release/full及42项检查，已结案，保留T-031B.review随下单提交。现按OCR_SETTINGS_EDITING.md/CCR034/ARCHv1.50/current_task完成OCR/截图增量保存、凭据及安全草稿测试基础；T-032B再交付完整设置页。指定开发会话01a112a7-c953-7630-9ee9-d2be2123dc70，禁止旧会话、子代理、push；M6延迟，OCR复用翻译原文。
+
 **最新接手（2026-10-07，用户指定）**：开发角色转至01a112a7-c953-7630-9ee9-d2be2123dc70，旧01a10fa5会话故障不再使用。唯一工单T-031B，基线ce8a9a777fbd3fb5f953c6963b2125a7ceedf38d，现有B规范/声明与A复审证据待随本单提交，尚无B生产实现。完整要求见current_task、OCR_ENTRYPOINTS.md、CCR-033、ARCHv1.49；下方会话及旧OCR独立窗口安排为历史。架构师负责签发/复审/结案，开发负责实现/验证/归档/独立本地提交；不push、不新建子代理或会话、不触碰.codex。
 
 **当前唯一工单T-031B（2026-10-07）**：A在ce8a9a777fbd3fb5f953c6963b2125a7ceedf38d按用户新范围通过独立Release/full与UIA清理6项复核，见T-031A.review。现在按current_task及OCR_ENTRYPOINTS.md/CCR-033/ARCHv1.49实现三个截图动作与实际入口，复用翻译原文框，不恢复独立OCR窗口。旧排队提醒按最新工单覆盖；不提前T-032，M6延期。保留架构师A验收与B规范随单提交。

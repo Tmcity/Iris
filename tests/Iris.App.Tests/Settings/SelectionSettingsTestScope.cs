@@ -58,6 +58,7 @@ internal sealed class SelectionSettingsTestScope
         services.AddSingleton(Substitute.For<IScreenshotService>());
         services.AddSingleton(Substitute.For<IScreenshotOcrFeedback>());
         services.AddSingleton(Substitute.For<Iris.Core.Ocr.IOcrService>());
+        services.AddSingleton(Substitute.For<Iris.Core.Ocr.IOcrProviderRegistry>());
         services.AddSingleton<ISettingsService>(settings ?? Store); services.AddSingleton(Secrets); services.AddSingleton(AutoStart);
         services.AddSingleton(Reader); services.AddSingleton(Presenter); services.AddSingleton(Substitute.For<IClipboardService>());
         services.AddSingleton(Substitute.For<IDesktopContext>()); services.AddSingleton(Substitute.For<ISettingsWindowPresenter>());

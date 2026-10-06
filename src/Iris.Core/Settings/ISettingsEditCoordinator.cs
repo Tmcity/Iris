@@ -8,6 +8,9 @@ namespace Iris.Core.Settings;
 /// 所有 Provider 引用写入经此协调器串行化；方法不遗忘后台任务，调用方等待完整退出后释放其依赖。</summary>
 public interface ISettingsEditCoordinator
 {
+    /// <summary>只同步捕获OCR草稿并创建测试会话，不读取配置/密钥或创建Provider。详见OCR_SETTINGS_EDITING.md。</summary>
+    IOcrDraftTestSession CreateOcrDraftTest(OcrProviderDraft draft);
+
     /// <summary>同步捕获计划，stage 新凭据，一次 UpdateAsync 联合提交，刷新全部观察者后清理旧值。
     /// 提交前取消在清理本次暂存值后抛 OperationCanceledException；提交后忽略迟到取消并返回明确已提交结果。</summary>
     Task<SettingsEditResult> CommitAsync(SettingsEditPlan plan, CancellationToken cancellationToken = default);

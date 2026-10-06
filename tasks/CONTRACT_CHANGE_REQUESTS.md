@@ -1042,8 +1042,18 @@ CCR-024结案补充：c7282698最终独立构建/定向/全量通过，生产同
 
 2026-10-07 · Codex架构师批准 · T-031B / OCR_ENTRYPOINTS.md / ARCH v1.49。
 
-状态：**已落地，待复审（T-031B）**。
+状态：**已落地，复审通过并结案（T-031B，cafc5ebd）**。
 
 按用户要求撤回独立OCR窗口。删除未发布的OcrResultViewRequest、IOcrResultOperation、IOcrResultPresenter；向TranslateWindowRequest增加默认false的AutoCopySource与NotifyOcrFallback，使OCR原文复制和固定备用提示跟随现有翻译操作的实际UI接受点，而不使用无身份的后续副作用。新增IScreenshotOcrFeedback（StoppingToken、TryNotifyCopiedAsync、TryNotifyErrorAsync）给静默OCR提供独立停止与即时安全通知，避免取得翻译操作而撤销用户现有翻译。精确声明预置CONTRACTS.cs，由开发同步Core。
 
 保持截图/Service/Registry/Provider/图像/剪贴板/翻译后端模型及错误枚举、默认配置/schema/包。新增端口只做生命周期与固定通知，不携带图像或任意OCR文本。完整行为、所有权和测试见OCR_ENTRYPOINTS.md；不恢复独立窗口，不提前T-032或M6。
+
+## CCR-034：OCR/截图联合增量编辑与草稿测试会话
+
+2026-10-07 · Codex架构师批准 · T-032A / OCR_SETTINGS_EDITING.md / ARCHv1.50。
+
+状态：**已落地，待复审（T-032A）**。
+
+兼容扩展SettingsEditPlan为可选Ocr、Screenshot和默认空OcrChanges，新增对应字段补丁、OcrProfileChangeKind/Change、OcrProviderDraft。ISettingsEditCoordinator增加纯构造CreateOcrDraftTest，返回IOcrDraftTestSession（单次RunAsync、可重试DisposeAsync），以保留真实异步Provider快照的测试/清理责任，不把测试结果当作已保存。原构造/旧接口保持，精确声明已预置CONTRACTS.cs。
+
+所有编辑复用既有串行提交、不可变凭据与ApplyPending协议；相同Profile.Id跨翻译/OCR的凭据映射须隔离，跨域共享引用保留。A完成基础，B完整设置页；不改变持久化默认/schema/包、Provider/Registry/Service端口或测试鉴权语义，不恢复独立OCR窗口。

@@ -1,0 +1,32 @@
+[
+  {
+    "source": "F:\\Iris\\tasks\\done\\T-031B.evidence\\ocr-window-Light-058dc567a2934d0d9a2188a4d127eac5\\source.png",
+    "file": "Light-source.png",
+    "sha256": "80cc85a976b4d4d53a338b9984b6538d158b26165854dcffa68541c5fe490e86"
+  },
+  {
+    "source": "F:\\Iris\\tasks\\done\\T-031B.evidence\\ocr-window-Light-058dc567a2934d0d9a2188a4d127eac5\\loading.png",
+    "file": "Light-loading.png",
+    "sha256": "ee48262e531e8d2e694c1f4ed4de377943d6089a83dd01a1b0f3f038f68c37f9"
+  },
+  {
+    "source": "F:\\Iris\\tasks\\done\\T-031B.evidence\\ocr-window-Light-058dc567a2934d0d9a2188a4d127eac5\\error.png",
+    "file": "Light-error.png",
+    "sha256": "7e17e66239c4735fc0d64de1b5c862c0a0120eb8d49b361ccede6ebbf385365c"
+  },
+  {
+    "source": "F:\\Iris\\tasks\\done\\T-031B.evidence\\ocr-window-Dark-ca5f36d71b814833bd957f9ef03d68da\\source.png",
+    "file": "Dark-source.png",
+    "sha256": "72958d00fea3af45f830e06165b32df8bfff5426acf96af26f64c5911b1d431c"
+  },
+  {
+    "source": "F:\\Iris\\tasks\\done\\T-031B.evidence\\ocr-window-Dark-ca5f36d71b814833bd957f9ef03d68da\\loading.png",
+    "file": "Dark-loading.png",
+    "sha256": "5f77df866a76d1293367ba5578139ae0ebd63364baeebc949b5e4b80c440ec4d"
+  },
+  {
+    "source": "F:\\Iris\\tasks\\done\\T-031B.evidence\\ocr-window-Dark-ca5f36d71b814833bd957f9ef03d68da\\error.png",
+    "file": "Dark-error.png",
+    "sha256": "5fc9f63ecbc1648d57165d9aefa16e83c1285edbd8ed799d8e9a5bc657e482b8"
+  }
+]

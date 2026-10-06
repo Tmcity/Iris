@@ -1,0 +1,100 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+失败 Iris.Core.Tests.Settings.OcrSettingsEditingTests.JointPlan_PublishesAllDomainsOnceAndKeepsUneditedLatestValues (74ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : await f.Coordinator.CommitAsync(plan, TestContext.Current.CancellationToken);
+          result.Status
+      should be
+  SettingsEditStatus.Applied
+      but was
+  SettingsEditStatus.Uncommitted
+    在 Iris.Core.Tests.Settings.OcrSettingsEditingTests.<>c.<<JointPlan_PublishesAllDomainsOnceAndKeepsUneditedLatestValues>b__0_0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\OcrSettingsEditingTests.cs:31
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.OcrEditingTestScope.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs:51
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.OcrEditingTestScope.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs:67
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.OcrSettingsEditingTests.SameIdAcrossDomains_StagesAndAppliesDistinctCredentialPairs (4ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : (await f.Coordinator.CommitAsync(plan, TestContext.Current.CancellationToken)).Status
+      should be
+  SettingsEditStatus.Applied
+      but was
+  SettingsEditStatus.Uncommitted
+    在 Iris.Core.Tests.Settings.OcrSettingsEditingTests.<>c.<<SameIdAcrossDomains_StagesAndAppliesDistinctCredentialPairs>b__1_0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\OcrSettingsEditingTests.cs:49
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.OcrEditingTestScope.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs:51
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.OcrEditingTestScope.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs:67
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.OcrSettingsEditingTests.SharedReferenceAcrossDomains_IncludingDisabledPeer_IsNotDeleted(legacy: True) (1ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : (await f.Coordinator.CommitAsync(Plan(Update(ocr, ocr, new(CredentialEditKind.Clear))), TestContext.Current.CancellationToken)).Status
+      should be
+  SettingsEditStatus.Applied
+      but was
+  SettingsEditStatus.Uncommitted
+    在 Iris.Core.Tests.Settings.OcrSettingsEditingTests.<>c__DisplayClass10_0.<<SharedReferenceAcrossDomains_IncludingDisabledPeer_IsNotDeleted>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\OcrSettingsEditingTests.cs:190
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.OcrEditingTestScope.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs:51
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.OcrEditingTestScope.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs:67
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.OcrSettingsEditingTests.SharedReferenceAcrossDomains_IncludingDisabledPeer_IsNotDeleted(legacy: False) (0ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : (await f.Coordinator.CommitAsync(Plan(Update(ocr, ocr, new(CredentialEditKind.Clear))), TestContext.Current.CancellationToken)).Status
+      should be
+  SettingsEditStatus.Applied
+      but was
+  SettingsEditStatus.Uncommitted
+    在 Iris.Core.Tests.Settings.OcrSettingsEditingTests.<>c__DisplayClass10_0.<<SharedReferenceAcrossDomains_IncludingDisabledPeer_IsNotDeleted>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\OcrSettingsEditingTests.cs:190
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.OcrEditingTestScope.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs:51
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.OcrEditingTestScope.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs:67
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 失败并出现 4 个错误 (1s 482ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 58
+  失败: 4
+  成功: 54
+  已跳过: 0
+  持续时间: 1s 758ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

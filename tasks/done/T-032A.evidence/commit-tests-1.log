@@ -1,0 +1,10 @@
+F:\Iris\tests\Iris.Core.Tests\Settings\OcrSettingsEditingTests.cs(45,31): error CS9035: 必须在对象初始值设定项或属性构造函数中设置所需的成员'TranslationProviderProfile.Model'。 [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+F:\Iris\tests\Iris.Core.Tests\Settings\OcrSettingsEditingTests.cs(102,39): error CS8752: 类型 "OcrProfileChange[]" 不能用作 new() 目标类型 [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+F:\Iris\tests\Iris.Core.Tests\Settings\OcrSettingsEditingTests.cs(103,39): error CS8752: 类型 "OcrProfileChange[]" 不能用作 new() 目标类型 [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+F:\Iris\tests\Iris.Core.Tests\Settings\OcrSettingsEditingTests.cs(108,37): error CS8752: 类型 "OcrProfileChange[]" 不能用作 new() 目标类型 [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+F:\Iris\tests\Iris.Core.Tests\Settings\OcrSettingsEditingTests.cs(187,24): error CS9035: 必须在对象初始值设定项或属性构造函数中设置所需的成员'TranslationProviderProfile.Model'。 [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+F:\Iris\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs(138,30): error CS0649: 从未对字段“OcrEditingTestScope.Provider.BeforeDispose”赋值，字段将一直保持其默认值 null [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+F:\Iris\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs(137,69): error CS0649: 从未对字段“OcrEditingTestScope.Provider.Test”赋值，字段将一直保持其默认值 null [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+F:\Iris\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs(126,36): error CS0649: 从未对字段“OcrEditingTestScope.Factory.Configure”赋值，字段将一直保持其默认值 null [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+F:\Iris\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs(15,23): error CA1001: 类型“OcrEditingTestScope”具有可释放的字段“Registry”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+生成失败，退出代码: 1。

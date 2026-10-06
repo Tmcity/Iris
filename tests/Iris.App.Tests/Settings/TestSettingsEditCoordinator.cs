@@ -12,6 +12,8 @@ namespace Iris.App.Tests.Settings;
 
 internal sealed class TestSettingsEditCoordinator : ISettingsEditCoordinator
 {
+        public IOcrDraftTestSession CreateOcrDraftTest(OcrProviderDraft draft) => throw new NotSupportedException();
+
     private readonly ISettingsService? _settingsService;
 
     public Func<SettingsEditPlan, CancellationToken, Task<SettingsEditResult>>? OnCommitAsync { get; set; }
