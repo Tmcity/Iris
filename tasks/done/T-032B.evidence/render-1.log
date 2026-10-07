@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.App.Tests\Settings\OcrSettingsRenderingTests.cs(68,104): error CA1869: 避免为每个序列化操作创建新的“JsonSerializerOptions”实例。请改为缓存和重用实例。 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1869) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+生成失败，退出代码: 1。

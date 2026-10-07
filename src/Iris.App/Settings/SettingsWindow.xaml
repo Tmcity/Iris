@@ -40,6 +40,7 @@
                     BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                     Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}"
                     Padding="6,12,6,8">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel>
                     <TextBlock Text="{x:Static app:UiText.SettingsTitle}"
                                FontSize="18"
@@ -109,9 +110,151 @@
                         </Border.Style>
                         <TextBlock Text="{x:Static app:UiText.SettingsNavSelection}" FontWeight="Medium" VerticalAlignment="Center" />
                     </Border>
+                <Border x:Name="NavOcr" CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavOcrClick"><Border.Style><Style TargetType="Border"><Setter Property="Background" Value="Transparent"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="ocr"><Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></DataTrigger></Style.Triggers></Style></Border.Style><TextBlock Text="{x:Static app:UiText.OcrPageTitle}" TextWrapping="Wrap" FontWeight="Medium"/></Border><Border x:Name="NavScreenshot" CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavScreenshotClick"><Border.Style><Style TargetType="Border"><Setter Property="Background" Value="Transparent"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="screenshot"><Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></DataTrigger></Style.Triggers></Style></Border.Style><TextBlock Text="{x:Static app:UiText.ScreenshotPageTitle}" TextWrapping="Wrap" FontWeight="Medium"/></Border>
                 </StackPanel>
+                </ScrollViewer>
             </Border>
 
+            <ScrollViewer x:Name="OcrPageScroll" Grid.Column="1" Padding="20,12" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ScrollViewer.Style>
+                    <Style TargetType="ScrollViewer">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CurrentPageKey}" Value="ocr">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ScrollViewer.Style>
+                <StackPanel>
+                    <TextBlock Text="{x:Static app:UiText.OcrPageTitle}" FontSize="22" FontWeight="SemiBold"/>
+                    <TextBlock Text="{x:Static app:UiText.OcrPageDescription}" TextWrapping="Wrap" Margin="0,6,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                    <StackPanel IsEnabled="{Binding CanEdit}">
+                        <TextBlock Text="{x:Static app:UiText.OcrPrimary}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                        <ComboBox x:Name="OcrPrimaryCombo" ItemsSource="{Binding OcrActiveChoices}" SelectedValue="{Binding Ocr.ActiveProviderId.Value, Mode=TwoWay}" SelectedValuePath="Id" Margin="0,0,0,8"><ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+                        <TextBlock Text="{x:Static app:UiText.OcrFallbackLabel}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                        <ComboBox x:Name="OcrFallbackCombo" ItemsSource="{Binding OcrFallbackChoices}" SelectedValue="{Binding Ocr.FallbackProviderId.Value, Mode=TwoWay}" SelectedValuePath="Id" Margin="0,0,0,8"><ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/></DataTemplate></ComboBox.ItemTemplate></ComboBox>
+                        <TextBlock Text="{x:Static app:UiText.OcrLayout}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                        <ComboBox x:Name="OcrLayoutCombo" ItemsSource="{x:Static local:OcrSettingsDraftViewModel.Layouts}" SelectedValue="{Binding Ocr.TextLayout.Value, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Label"/>
+                        <TextBlock Text="{x:Static app:UiText.OcrLanguageHint}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                        <TextBox x:Name="OcrLanguageHintTextBox" Text="{Binding Ocr.LanguageHint.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+                        <CheckBox x:Name="OcrAutoCopyCheck" IsChecked="{Binding Ocr.AutoCopyOnOcr.Value, Mode=TwoWay}" Margin="0,5,0,5">
+                            <TextBlock Text="{x:Static app:UiText.OcrCopySource}" TextWrapping="Wrap"/>
+                        </CheckBox>
+                        <CheckBox x:Name="OcrSilentNotifyCheck" IsChecked="{Binding Ocr.SilentOcrShowNotification.Value, Mode=TwoWay}" Margin="0,5,0,5">
+                            <TextBlock Text="{x:Static app:UiText.OcrNotifySilent}" TextWrapping="Wrap"/>
+                        </CheckBox>
+                        <TextBlock x:Name="OcrSelectionError" Text="{Binding Ocr.ErrorMessage}" TextWrapping="Wrap" Foreground="{DynamicResource SystemFillColorCautionBrush}"/>
+                        <Separator Margin="0,12,0,12"/>
+                        <TextBlock Text="{x:Static app:UiText.OcrServices}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                        <WrapPanel>
+                            <Button Content="{x:Static app:UiText.OcrAddBaidu}" Command="{Binding AddBaiduOcrCommand}" Margin="0,0,8,8"/>
+                            <Button Content="{x:Static app:UiText.OcrAddWindows}" Command="{Binding AddWindowsOcrCommand}" Margin="0,0,0,8"/>
+                        </WrapPanel>
+                        <ListBox x:Name="OcrProfilesListBox" ItemsSource="{Binding OcrProfiles}" SelectedItem="{Binding SelectedOcrProfile, Mode=TwoWay}" MaxHeight="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,8">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding DisplayName.Value}" TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding KindLabel}" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Button x:Name="DeleteOcrProfileButton" Content="{x:Static app:UiText.OcrDelete}" Command="{Binding DeleteOcrProfileCommand}" HorizontalAlignment="Left" Margin="0,0,0,8"/>
+                        <StackPanel x:Name="OcrDetailsPanel" DataContext="{Binding SelectedOcrProfile}">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <TextBlock Text="{x:Static app:UiText.OcrName}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                            <TextBox x:Name="OcrNameTextBox" Text="{Binding DisplayName.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+                            <CheckBox x:Name="OcrEnabledCheck" IsChecked="{Binding Enabled.Value, Mode=TwoWay}" Margin="0,5,0,5">
+                                <TextBlock Text="{x:Static app:UiText.OcrEnabled}" TextWrapping="Wrap"/>
+                            </CheckBox>
+                            <TextBlock Text="{x:Static app:UiText.OcrTimeout}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                            <TextBox x:Name="OcrTimeoutTextBox" Text="{Binding TimeoutText.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+                            <StackPanel x:Name="OcrBaiduOptionsPanel" Visibility="{Binding IsBaidu, Converter={StaticResource BoolToVis}}">
+                                <TextBlock Text="{x:Static app:UiText.OcrMode}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                                <ComboBox x:Name="OcrModeCombo" ItemsSource="{x:Static local:OcrProfileDraftViewModel.Modes}" SelectedValue="{Binding Mode.Value, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Label"/>
+                                <CheckBox x:Name="OcrDirectionCheck" IsChecked="{Binding DetectDirection.Value, Mode=TwoWay}" Margin="0,5,0,5">
+                                    <TextBlock Text="{x:Static app:UiText.OcrDetectDirection}" TextWrapping="Wrap"/>
+                                </CheckBox>
+                                <CheckBox x:Name="OcrParagraphCheck" IsChecked="{Binding Paragraph.Value, Mode=TwoWay}" Margin="0,5,0,5">
+                                    <TextBlock Text="{x:Static app:UiText.OcrParagraph}" TextWrapping="Wrap"/>
+                                </CheckBox>
+                                <TextBlock Text="{x:Static app:UiText.OcrLanguageType}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                                <TextBox x:Name="OcrLanguageTypeTextBox" Text="{Binding LanguageType.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+                                <TextBlock Text="{x:Static app:UiText.OcrBaseUrl}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                                <TextBox x:Name="OcrBaseUrlTextBox" Text="{Binding BaseUrl.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+                            </StackPanel>
+                            <StackPanel x:Name="OcrWindowsOptionsPanel" Visibility="{Binding IsWindows, Converter={StaticResource BoolToVis}}">
+                                <TextBlock Text="{x:Static app:UiText.OcrLanguageTag}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                                <TextBox x:Name="OcrLanguageTagTextBox" Text="{Binding LanguageTag.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+                            </StackPanel>
+                            <TextBlock Text="{x:Static app:UiText.OcrCredentials}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                            <ComboBox x:Name="OcrCredentialCombo" ItemsSource="{Binding CredentialOptions}" SelectedValue="{Binding Credentials.Value, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Label"/>
+                            <TextBlock Text="{Binding CredentialDescription}" TextWrapping="Wrap" FontSize="12" Margin="0,6,0,8" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                            <StackPanel Visibility="{Binding IsBaidu, Converter={StaticResource BoolToVis}}" IsEnabled="{Binding IsReplacing}">
+                                <TextBlock Text="{x:Static app:UiText.OcrApiKey}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                                <PasswordBox x:Name="OcrApiKeyPasswordBox" PasswordChanged="OnOcrPasswordChanged" Margin="0,0,0,8"/>
+                                <TextBlock Text="{x:Static app:UiText.OcrSecretKey}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                                <PasswordBox x:Name="OcrSecretKeyPasswordBox" PasswordChanged="OnOcrPasswordChanged" Margin="0,0,0,8"/>
+                            </StackPanel>
+                            <TextBlock x:Name="OcrProfileError" Text="{Binding ErrorMessage}" TextWrapping="Wrap" Foreground="{DynamicResource SystemFillColorCautionBrush}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <WrapPanel Margin="0,12,0,6">
+                        <Button x:Name="OcrTestButton" Content="{x:Static app:UiText.OcrTest}" Command="{Binding TestOcrCommand}" Margin="0,0,8,6"/>
+                        <Button x:Name="OcrCancelTestButton" Content="{x:Static app:UiText.OcrCancelTest}" Command="{Binding CancelOcrTestCommand}" Margin="0,0,0,6"/>
+                    </WrapPanel>
+                    <TextBlock x:Name="OcrTestResultText" Text="{Binding SelectedOcrProfile.TestMessage}" TextWrapping="Wrap"/>
+                    <TextBlock Text="{x:Static app:UiText.OcrTestDescription}" TextWrapping="Wrap" FontSize="12" Margin="0,8,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                </StackPanel>
+            </ScrollViewer>
+            <ScrollViewer x:Name="ScreenshotPageScroll" Grid.Column="1" Padding="20,12" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ScrollViewer.Style>
+                    <Style TargetType="ScrollViewer">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding CurrentPageKey}" Value="screenshot">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ScrollViewer.Style>
+                <StackPanel>
+                    <TextBlock Text="{x:Static app:UiText.ScreenshotPageTitle}" FontSize="22" FontWeight="SemiBold"/>
+                    <TextBlock Text="{x:Static app:UiText.ScreenshotSettingsDescription}" TextWrapping="Wrap" Margin="0,6,0,18" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                    <StackPanel IsEnabled="{Binding CanEdit}">
+                        <CheckBox x:Name="ScreenshotConfirmCheck" IsChecked="{Binding Screenshot.ConfirmOnMouseUp.Value, Mode=TwoWay}" Margin="0,5,0,5">
+                            <TextBlock Text="{x:Static app:UiText.ScreenshotConfirmOnMouseUp}" TextWrapping="Wrap"/>
+                        </CheckBox>
+                        <CheckBox x:Name="ScreenshotMagnifierCheck" IsChecked="{Binding Screenshot.ShowMagnifier.Value, Mode=TwoWay}" Margin="0,5,0,5">
+                            <TextBlock Text="{x:Static app:UiText.ScreenshotShowMagnifier}" TextWrapping="Wrap"/>
+                        </CheckBox>
+                        <CheckBox x:Name="ScreenshotHideCheck" IsChecked="{Binding Screenshot.HideIrisWindows.Value, Mode=TwoWay}" Margin="0,5,0,5">
+                            <TextBlock Text="{x:Static app:UiText.ScreenshotHideWindows}" TextWrapping="Wrap"/>
+                        </CheckBox>
+                        <CheckBox x:Name="ScreenshotCopyCheck" IsChecked="{Binding Screenshot.CopyImageToClipboard.Value, Mode=TwoWay}" Margin="0,5,0,5">
+                            <TextBlock Text="{x:Static app:UiText.ScreenshotCopyImage}" TextWrapping="Wrap"/>
+                        </CheckBox>
+                        <TextBlock Text="{x:Static app:UiText.ScreenshotOpacity}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                        <TextBox x:Name="ScreenshotMaskOpacityTextBox" Text="{Binding Screenshot.MaskOpacityText.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+                        <TextBlock x:Name="ScreenshotError" Text="{Binding Screenshot.ErrorMessage}" TextWrapping="Wrap" Foreground="{DynamicResource SystemFillColorCautionBrush}"/>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
             <!-- 右侧常规设置内容 -->
             <ScrollViewer Grid.Column="1"
                           VerticalScrollBarVisibility="Auto"
@@ -858,10 +1001,12 @@
                         </TextBlock.Style>
                     </TextBlock>
 
-                    <TextBlock x:Name="MouseRuntimeStatusTextBlock" Grid.Row="1" Text="{Binding MouseRuntimeStatus}" TextWrapping="Wrap"
+<StackPanel Grid.Row="1">                    <TextBlock x:Name="MouseRuntimeStatusTextBlock" Grid.Row="1" Text="{Binding MouseRuntimeStatus}" TextWrapping="Wrap"
                                Margin="0,4,0,4" Visibility="{Binding HasMouseRuntimeStatus, Converter={StaticResource BoolToVis}}"
                                Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+<TextBlock x:Name="OcrTestStatusText" Text="{Binding OcrTestStatus}" TextWrapping="Wrap" Margin="0,4,0,4" Visibility="{Binding HasOcrTestStatus, Converter={StaticResource BoolToVis}}"/></StackPanel>
                     <WrapPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button x:Name="OcrRetryCleanupButton" Content="{x:Static app:UiText.OcrRetryCleanup}" Command="{Binding RetryOcrCleanupCommand}" Margin="0,0,6,0" Visibility="{Binding HasFailedOcrCleanup, Converter={StaticResource BoolToVis}}"/>
                         <!-- 保存冲突时展示“重新载入”按钮 -->
                         <Button Content="{x:Static app:UiText.SettingsReload}"
                                 Command="{Binding ReloadCommand}"

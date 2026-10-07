@@ -241,6 +241,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         TestDraftCommand = new AsyncRelayCommand(ExecuteTestDraftAsync, () => CanEdit && SelectedProfile != null, ex => HandleCommandException("TestDraft", ex));
         ListModelsCommand = new AsyncRelayCommand(ExecuteListModelsAsync, () => CanEdit && SelectedProfile != null, ex => HandleCommandException("ListModels", ex));
 
+        InitializeOcr();
         _settingsService.Changed += OnExternalSettingsChanged;
 
         _ = QueryAutoStartStatusAsync();
@@ -472,7 +473,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 return true;
             }
 
-            return Selection.IsDirty || Hotkeys.Any(h => h.IsDirty);
+            return OcrIsDirty || Selection.IsDirty || Hotkeys.Any(h => h.IsDirty);
         }
     }
 
@@ -1039,6 +1040,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         (RetryMouseCommand as AsyncRelayCommand)?.RaiseCanExecuteChanged();
         (AddProfileCommand as RelayCommand)?.RaiseCanExecuteChanged();
         RaiseProfileCommandsCanExecute();
+        RaiseOcrCommands();
         foreach (var h in Hotkeys)
         {
             h.RaiseCanRecordChanged();
@@ -1100,12 +1102,21 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
     internal void StopAcceptance()
     {
+        bool changed;
         lock (_admissionLock)
         {
+            changed = !_isStopped;
             _isStopped = true;
             ++_queryGeneration;
             FreezeAllDrafts();
         }
+        if (changed)
+        {
+            Interlocked.Increment(ref _ocrRequestSeq);
+            _ocrOperationQueue.CancelInFlight();
+            if (_ocrTest != null) OcrTestStatus = UiText.OcrEnding;
+        }
+        if (changed && _uiDispatcher.CheckAccess()) RaiseAllCommandsCanExecute();
         if (IsAnyRecording)
         {
             _ = CancelRecordingAsync();
@@ -1116,8 +1127,9 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     {
         StopAcceptance();
         await _operationQueue.DrainAndCancelAllAsync().ConfigureAwait(false);
+        bool ocrDrained = await DrainOcrTestsAsync(closing: true).ConfigureAwait(false);
 
-        Exception? firstEx = null;
+        Exception? firstEx = ocrDrained ? null : new InvalidOperationException(UiText.OcrEndFailed);
         while (true)
         {
             Task[] tasks;
@@ -1282,6 +1294,12 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                     return Task.CompletedTask;
                 }
 
+                if (!TryCaptureOcr(out var ocrPatch, out var ocrChanges, out var screenshotPatch))
+                {
+                    shouldReturn = true;
+                    return Task.CompletedTask;
+                }
+
                 // 仅校验被编辑或新增的服务；未触及服务不阻止合法保存
                 foreach (var profile in Profiles)
                 {
@@ -1370,7 +1388,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 bool hasTranslationDirty = translationChanges.Count > 0 || orderChange != null;
                 bool hasHotkeyDirty = hotkeyChanges.Count > 0;
 
-                if (!hasGeneralDirty && !hasTranslationDirty && !hasHotkeyDirty && selectionPatch == null)
+                if (!hasGeneralDirty && !hasTranslationDirty && !hasHotkeyDirty && selectionPatch == null && ocrPatch == null && ocrChanges.Count == 0 && screenshotPatch == null)
                 {
                     _themeService.ClearPreview(_sessionOwner);
                     StatusMessage = UiText.SettingsStatusSaved;
@@ -1385,7 +1403,8 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 plan = new SettingsEditPlan(generalPatch, translationChanges, orderChange)
                 {
                     HotkeyChanges = hotkeyChanges,
-                    Selection = selectionPatch
+                    Selection = selectionPatch,
+                    Ocr = ocrPatch, OcrChanges = ocrChanges, Screenshot = screenshotPatch
                 };
 
                 lock (_admissionLock)
@@ -1425,6 +1444,11 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         {
             // 保存前先取消并观察在途草稿测试/模型列表任务退出
             await _operationQueue.DrainAndCancelInFlightAsync().ConfigureAwait(false);
+            if (!await DrainOcrTestsAsync(closing: false).ConfigureAwait(false))
+            {
+                await _uiDispatcher.InvokeAsync(() => { StatusMessage = UiText.OcrSaveBlocked; return Task.CompletedTask; }, CancellationToken.None).ConfigureAwait(false);
+                return;
+            }
 
             lock (_admissionLock)
             {
@@ -1604,6 +1628,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
     private void SyncBaselineFromCurrent()
     {
+        MergeOcrSettings(reset: true);
         Selection.Merge(_settingsService.Current.Selection, reset: true);
         var current = _settingsService.Current.General;
 
@@ -1697,6 +1722,8 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         {
             _ = CancelRecordingAsync();
         }
+
+        if (HasOcrTestOwnership) { _ = ReloadAfterOcrCleanupAsync(); return; }
 
         SyncBaselineFromCurrent();
         _themeService.ClearPreview(_sessionOwner);
@@ -2696,6 +2723,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             RefreshAvailablePrompts();
             OnExternalHotkeysChanged(_settingsService.Current.Hotkeys);
             Selection.Merge(_settingsService.Current.Selection);
+            MergeOcrSettings(reset: false);
             OnPropertyChanged(nameof(IsDirty));
             RaiseAllCommandsCanExecute();
             return Task.CompletedTask;
@@ -2723,6 +2751,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
     public void Dispose()
     {
+        DisposeOcrDrafts();
         if (_recordingCoordinator != null) _recordingCoordinator.AdmissionChanged -= OnRecordingAdmissionChanged;
         lock (_admissionLock)
         {

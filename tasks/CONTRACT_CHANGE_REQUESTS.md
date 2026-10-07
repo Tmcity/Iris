@@ -1052,7 +1052,7 @@ CCR-024结案补充：c7282698最终独立构建/定向/全量通过，生产同
 
 2026-10-07 · Codex架构师批准 · T-032A / OCR_SETTINGS_EDITING.md / ARCHv1.50。
 
-状态：**已落地，待复审（T-032A）**。
+状态：**已落地，复审通过并结案（T-032A，83787af0）**。
 
 兼容扩展SettingsEditPlan为可选Ocr、Screenshot和默认空OcrChanges，新增对应字段补丁、OcrProfileChangeKind/Change、OcrProviderDraft。ISettingsEditCoordinator增加纯构造CreateOcrDraftTest，返回IOcrDraftTestSession（单次RunAsync、可重试DisposeAsync），以保留真实异步Provider快照的测试/清理责任，不把测试结果当作已保存。原构造/旧接口保持，精确声明已预置CONTRACTS.cs。
 

@@ -1,5 +1,9 @@
 # Iris 架构师接手记录
 
+**T-032B已实际下达**：消息01a11336-0736-7d52-b048-6fe75224459b，执行轮01a11336-1cad-7f62-b71d-f89c4615dbf7已建立，指定开发会话不变。完整UI规范为OCR_SETTINGS_UI.md，A验收证据T-032A.review已准备随B提交；尚未收到实施交付，不因等待超时重发。
+
+**当前唯一工单T-032B（2026-10-07）**：A/CCR034在83787af04d77d06ccb46d0fac708b5e683771716完成独立Release0警告/错误12.75s、全量3301/3299成功/2既有跳过44.318s、最终38项独立检查通过，证据T-032A.review，12项源码指纹匹配。现B依据OCR_SETTINGS_UI.md/ARCHv1.51/current_task完成全部OCR/截图设置UI，复用A增量Plan、凭据和单次测试会话，清理失败必须保有会话并可点击重试；Core契约/默认/后端不改。仍使用01a112a7-c953-7630-9ee9-d2be2123dc70，M6延期，OCR不恢复独立窗口。
+
 **T-032A旧UI无调用诊断补充**：开发selection-diagnostic-1.log两处Additional Info均为add_Changed；PageAndDraft原第25行同一行串联Reader/Secrets/Hotkey三个断言，Shouldly报告首个Reader表达式不能直接据此认定调用了ReadAsync（ISelectionTextReader根本没有Changed事件）。独立calls-1逐字段观察已证实Reader为空、Secrets为add_Changed，未见真实选区或密钥读写。应保持业务零读写断言、在准确的替身/构造订阅边界处理预期依赖，不将该提示泛化为读取用户内容。仍待开发修正与全量复核。
 
 **T-032A扩展独立检查及首轮全量**：development-credentials-1为11项通过（跨域同ID凭据分离、显式/legacy共享引用含禁用peer保留、ApplyPending旧值保留/原回执不重stage、提交后取消、输入列表冻结），连同先前commit13/draft13为37项；development-resources-1在会话存活时Provider/凭据/捕获草稿及正对照均回收，新增1项。首轮全量3301/3297成功/2失败/2既有跳过，失败为旧SelectionSettingsUiTests无调用断言，开发正诊断。独立临时iris-t032a-ui-call-review/calls-1.log用实际既有UI夹具观察构造/Show/Save：Secrets仅add_Changed，无Get/Set/Remove；Reader各阶段为空，不能宣称该项已复现或已解决。自有窗口/STA正常清理，不改原测试断言。最终仍待全量与提交。

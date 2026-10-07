@@ -51,7 +51,7 @@ internal sealed class SettingsWindowSession : IDisposable
 
     private void OnViewModelRequestClose()
     {
-        _ = ShutdownAsync(CancellationToken.None);
+        _ = CloseFromEventAsync();
     }
 
     public bool IsOpen
@@ -113,10 +113,10 @@ internal sealed class SettingsWindowSession : IDisposable
         }
 
         // 仅当存在活跃录入、录入清理失败、正在保存、或已有异步清理进行中时，拦截立即销毁以保护界面与重试
-        if (_viewModel.IsAnyRecording || _viewModel.HasFailedRecordingCleanup || _viewModel.IsSaving || (_cleanupTask != null && !_cleanupTask.IsCompleted))
+        if (_viewModel.HasOcrTestOwnership || _viewModel.IsAnyRecording || _viewModel.HasFailedRecordingCleanup || _viewModel.IsSaving || (_cleanupTask != null && !_cleanupTask.IsCompleted))
         {
             e.Cancel = true;
-            _ = ShutdownAsync(CancellationToken.None);
+            _ = CloseFromEventAsync();
         }
     }
 
@@ -127,12 +127,12 @@ internal sealed class SettingsWindowSession : IDisposable
         {
             _isClosed = true;
         }
-        _ = ShutdownAsync(CancellationToken.None);
+        _ = CloseFromEventAsync();
     }
 
     public Task ShutdownAsync(CancellationToken cancellationToken = default)
     {
-        DisplayIntent?.Invoke();
+        TaskCompletionSource completion;
         lock (_gate)
         {
             if (_cleanupTask != null && !_cleanupTask.IsFaulted && !_cleanupTask.IsCanceled)
@@ -140,9 +140,17 @@ internal sealed class SettingsWindowSession : IDisposable
                 return _cleanupTask;
             }
 
-            _cleanupTask = CleanupCoreAsync(cancellationToken);
-            return _cleanupTask;
+            completion = new(TaskCreationOptions.RunContinuationsAsynchronously);
+            _cleanupTask = completion.Task;
         }
+        _ = CompleteCleanupAsync(completion, cancellationToken);
+        return completion.Task;
+    }
+
+    private async Task CompleteCleanupAsync(TaskCompletionSource completion, CancellationToken cancellationToken)
+    {
+        try { DisplayIntent?.Invoke(); await CleanupCoreAsync(cancellationToken).ConfigureAwait(false); completion.TrySetResult(); }
+        catch (Exception error) { completion.TrySetException(error); }
     }
 
     private async Task CleanupCoreAsync(CancellationToken cancellationToken)
@@ -222,8 +230,20 @@ internal sealed class SettingsWindowSession : IDisposable
         }
     }
 
+    private async Task CloseFromEventAsync()
+    {
+        try { await ShutdownAsync(CancellationToken.None).ConfigureAwait(false); }
+        catch (Exception error)
+        {
+            _viewModel.LogCloseFailure(error);
+            try { await InvokeOnUiAsync(_viewModel.ShowCloseFailure).ConfigureAwait(false); }
+            catch (Exception displayError) { _viewModel.LogCloseFailure(displayError); }
+        }
+    }
+
     private void DisposeInternal()
     {
+        if (_viewModel.HasOcrTestOwnership) throw new InvalidOperationException(UiText.OcrEndFailed);
         lock (_gate)
         {
             if (_disposed)

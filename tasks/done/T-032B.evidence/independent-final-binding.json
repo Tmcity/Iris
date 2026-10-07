@@ -1,0 +1,27 @@
+{
+  "sources": {
+    "Boundaries.cs": "d6355185d41e2575d9925d7a3ed37f5137328b72f1b0370d06e0b77e2180a1cd",
+    "prepare.py": "e269dc0a67dbc7d815498d2ae1b055cebf9b0de0507febe97afb2d33b9540381",
+    "Program.cs": "ee9210704d56fdf6eae45aa9d8c30204b6b6cbf879107eaca54878bd43ba2e9d",
+    "Review.csproj": "6c4ef56963649dc83951f078b1c8acd09b21de914b942d42fcb2679c31190258",
+    "Scope.cs": "bad256d16ff767ae73b95539dda6727952d56fd203fdcbe5c3a12af4149b3870",
+    "UiBoundary.cs": "e05014da81fb773215bf19336ae4c129052cce8d2e7e25078d16f7a4ccaf0af6",
+    "WorkflowChecks.cs": "84c52213a57cf631d8f039cfca0244567be35c1ab4fd0b4541f65f5470c57e8d"
+  },
+  "dlls": {
+    "Iris.App.dll": {
+      "final": "72a97c446bc2ae66a3c033f8d6fd1ad6cd2735ea46d9a5d265fe8f8363e059c2",
+      "probe": "72a97c446bc2ae66a3c033f8d6fd1ad6cd2735ea46d9a5d265fe8f8363e059c2",
+      "equal": true
+    },
+    "Iris.Core.dll": {
+      "final": "ccc8d4325693623da62e36d5eb5c8ca2cc3ce18d62aaf104a4d2dfe814e21449",
+      "probe": "ccc8d4325693623da62e36d5eb5c8ca2cc3ce18d62aaf104a4d2dfe814e21449",
+      "equal": true
+    }
+  },
+  "executedModes": [
+    "--retry-save",
+    "--retry-barrier"
+  ]
+}

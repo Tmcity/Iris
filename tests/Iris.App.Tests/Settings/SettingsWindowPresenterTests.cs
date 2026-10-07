@@ -50,7 +50,8 @@ public sealed class SettingsWindowPresenterTests
     [InlineData("translation", "translation")]
     [InlineData("TRANSLATION", "translation")]
     [InlineData("Translation", "translation")]
-    [InlineData("ocr", "general")]
+    [InlineData("ocr", "ocr")]
+    [InlineData("SCREENSHOT", "screenshot")]
     [InlineData("unknown_page", "general")]
     public void NormalizePageKey_AlwaysReturnsGeneral(string? input, string expected)
     {
@@ -1670,4 +1671,3 @@ public sealed class SettingsWindowPresenterTests
         });
     }
 }
-

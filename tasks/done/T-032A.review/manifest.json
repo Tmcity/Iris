@@ -1,0 +1,16 @@
+{
+  "commit": "83787af04d77d06ccb46d0fac708b5e683771716",
+  "phase": "development binding, not final acceptance",
+  "sources": {
+    "Program.cs": "51bdf55596d2f2b0293d3b7bac17e0253681fb948acc44a2b56c9ea5b815ffed",
+    "Boundaries.cs": "9ba11efc862905fb7d61e992a7f7e9e60e3eb411e64d974ac60a66f288b83253",
+    "Scope.cs": "2d4e2c36686b14e55d01379d57268f6d5e66c0009e7280a907f4ec60466ae7ac",
+    "CommitChecks.cs": "4fcbc766a328a8b04a032c2eaba129815978cc06d853b6ff2b10f583be832804",
+    "DraftChecks.cs": "e9646d49d911dd36133cb041ef0d6edc3146d26cce799a40ee8ec8e5759bfd76",
+    "CredentialChecks.cs": "a343714a699c0faa68af095a07b6e62a254918cbc005fbb3aa5dda9e6c5ab152",
+    "ResourceChecks.cs": "896f14b459f9bf2e9f4433830b8971aa664360d22826eda6ef271ec86db5d414"
+  },
+  "dlls": {
+    "Iris.Core.dll": "ccc8d4325693623da62e36d5eb5c8ca2cc3ce18d62aaf104a4d2dfe814e21449"
+  }
+}

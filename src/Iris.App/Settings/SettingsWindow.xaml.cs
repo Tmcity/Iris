@@ -29,6 +29,7 @@ internal partial class SettingsWindow : FluentWindow
         KeyDown += OnKeyDown;
         SizeChanged += (s, e) => ApplyAdaptiveLayout(e.NewSize.Width);
         Loaded += (s, e) => ApplyAdaptiveLayout(ActualWidth > 0 ? ActualWidth : Width);
+        Closed += (_, _) => SyncOcrPasswords(null);
         ApplyAdaptiveLayout(Width);
     }
 
@@ -115,6 +116,7 @@ internal partial class SettingsWindow : FluentWindow
             newVm.BeforeSave = FlushFocusedBinding;
             newVm.SetWindowHandleProvider(() => new WindowInteropHelper(this).Handle);
             SyncPasswordBoxWithDraft(newVm.SelectedProfile);
+            SyncOcrPasswords(newVm.SelectedOcrProfile);
         }
     }
 
@@ -139,6 +141,11 @@ internal partial class SettingsWindow : FluentWindow
 
     private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
+        if (e.PropertyName == nameof(SettingsViewModel.SelectedOcrProfile) && sender is SettingsViewModel ocrVm)
+        {
+            if (Dispatcher.CheckAccess()) SyncOcrPasswords(ocrVm.SelectedOcrProfile);
+            else _ = Dispatcher.InvokeAsync(() => SyncOcrPasswords(ocrVm.SelectedOcrProfile));
+        }
         if (e.PropertyName == nameof(SettingsViewModel.SelectedProfile))
         {
             if (!Dispatcher.CheckAccess())
@@ -292,6 +299,8 @@ internal partial class SettingsWindow : FluentWindow
 
     internal void FlushFocusedBinding()
     {
+        FlushSelectionText(OcrTimeoutTextBox);
+        FlushSelectionText(ScreenshotMaskOpacityTextBox);
         FlushSelectionText(SelectionTimeoutTextBox);
         FlushSelectionText(SelectionProcessesTextBox);
         var focused = FocusManager.GetFocusedElement(this) ?? Keyboard.FocusedElement;
@@ -306,6 +315,26 @@ internal partial class SettingsWindow : FluentWindow
         var binding = textBox.GetBindingExpression(TextBox.TextProperty);
         // Do not overwrite a newly updated draft with a target awaiting data binding.
         if (binding?.IsDirty == true) binding.UpdateSource();
+    }
+
+    private void OnNavOcrClick(object sender, MouseButtonEventArgs e)
+    { if (DataContext is SettingsViewModel vm) vm.CurrentPageKey = "ocr"; }
+    private void OnNavScreenshotClick(object sender, MouseButtonEventArgs e)
+    { if (DataContext is SettingsViewModel vm) vm.CurrentPageKey = "screenshot"; }
+    private void SyncOcrPasswords(OcrProfileDraftViewModel? draft)
+    {
+        _suppressPasswordChanged = true;
+        try
+        {
+            OcrApiKeyPasswordBox.Password = draft?.ReplacementApiKey ?? string.Empty;
+            OcrSecretKeyPasswordBox.Password = draft?.ReplacementSecretKey ?? string.Empty;
+        }
+        finally { _suppressPasswordChanged = false; }
+    }
+    private void OnOcrPasswordChanged(object sender, RoutedEventArgs e)
+    {
+        if (!_suppressPasswordChanged && DataContext is SettingsViewModel { SelectedOcrProfile: { } draft })
+            draft.SetReplacementCredentials(OcrApiKeyPasswordBox.Password, OcrSecretKeyPasswordBox.Password);
     }
 
     private void OnProfilesListPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

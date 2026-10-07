@@ -1,0 +1,18 @@
+{
+  "src/Iris.App/Services/GeneralSettingsSaveCoordinator.cs": "e9956e6b14d67e7630928af9691259a7a0cbaaf4abc871cdebcaa652a3da76b5",
+  "src/Iris.App/Settings/DraftValue.cs": "4aa3286d849bdbf5d762b4676e47d5b420971c4bf7871b6abbf21cc77caa7545",
+  "src/Iris.App/Settings/OcrProfileDraftViewModel.cs": "0ed9fea4522b49bcff2e44eb48aa47f881858e3a584de5982588798628eb837f",
+  "src/Iris.App/Settings/OcrSettingsDraftViewModel.cs": "bbaccecdf7d5962609b92057396c14a9f80cf3ecdacdcbe7364cf2962856f475",
+  "src/Iris.App/Settings/SettingsViewModel.Ocr.cs": "394382e93d79c4e4b505ee49bc2d8bc834e84c650c94e46db4c9aee0719994ad",
+  "src/Iris.App/Settings/SettingsViewModel.cs": "7b5632aa5deef8272c3160d03f59146c1ba341a7fd278d6630d22f29ff4b1daf",
+  "src/Iris.App/Settings/SettingsWindow.xaml": "af9eee56b77838b7b0f67c62011e11674b4a192e000015b5ab84200e82d8c247",
+  "src/Iris.App/Settings/SettingsWindow.xaml.cs": "4c23e7e2ea6a2f79620f67a6ea9f4070e4872faa5b9079d587aa1522bfa0a89a",
+  "src/Iris.App/Settings/SettingsWindowPresenter.cs": "6482ee66bf97375ac6b105311e6d2189e8400d0ca72582a9b5ecc6e52bc06b0d",
+  "src/Iris.App/Settings/SettingsWindowSession.cs": "a65d443da96dda05453dd1416fdaa8e23f44743c874cd7ba1fe2abd819256593",
+  "src/Iris.App/UiText.cs": "8e76da0178282ffad47554de45297768f2feab363b065ac1a25e76675b69ad40",
+  "tests/Iris.App.Tests/Settings/OcrSettingsLifecycleTests.cs": "bb7fe3f8ae935ffa042528c060e02c52f354736bd730401c62b03dbe8b127097",
+  "tests/Iris.App.Tests/Settings/OcrSettingsRenderingTests.cs": "d3aebd5987b555faf555e8b85726058318f4f13bf690bd69bcd342804a011c9a",
+  "tests/Iris.App.Tests/Settings/OcrSettingsUiScope.cs": "87fe6de060b93340c39db379a72736442c9243569c9384f6821ab0dde01a4fbe",
+  "tests/Iris.App.Tests/Settings/OcrSettingsUiTests.cs": "020261ac33038ef86368b5ae5b988a8566efe31b71bca97f4987571f28564b4c",
+  "tests/Iris.App.Tests/Settings/SettingsWindowPresenterTests.cs": "4d51c568cf94c9c8aad9db2944d9896231ce2c39db99f85c8297b24a47d9235f"
+}
