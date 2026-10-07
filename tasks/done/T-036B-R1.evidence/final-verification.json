@@ -1,0 +1,21 @@
+{
+  "baseline": "eac0c2f0838eefba6907ffc4ba230fb53c5b8cf8",
+  "protectedFilesUnchanged": 301,
+  "receivedReviewFilesUnchanged": 24,
+  "existingTestDiffEmpty": true,
+  "probeAssertionsUnchanged": true,
+  "probeSources": {
+    "Program.cs": "674ad23a25c1e786ca3893412798d54c6505786de10bf9aa6f7e5fcbf5a56742",
+    "NetworkTestBoundary.cs": "6a4c10b19220b17695535698b1494e4bf04b641daf5efa9f8d73348a455cfa75",
+    "Review.csproj": "591978f7812fc0f1d378fa3ccffed27153b9923f5dcbec575ebf0cc6598f4b9c"
+  },
+  "executedAssemblies": {
+    "Iris.Core.dll": "acec96420c24c925b047e92ff25624a6734254bad3bf5ef5f97064d1a99b6848",
+    "Iris.Providers.dll": "ad1d796b0b19b3ba24b69294775a44d3522d39c8f0e2acac4e1f03c0dcbd1ded"
+  },
+  "finalWorktreeSources": {
+    "src/Iris.Providers/Http/NetworkResponseContent.cs": "b5f610aa0c6629485bbec297d3603c2ef52ddcc38d01dd84ee74e4c92b4c3087",
+    "src/Iris.Providers/Http/NetworkTransportManager.cs": "2d5934ca1c638f9eb3d3db4e8b61000b7492031f335099f27ca3c4cfab77b4c0",
+    "tests/Iris.Providers.Tests/Http/NetworkContentCleanupCoordinationTests.cs": "a74a7cc09f9d958ad65def3362edae21f0d5e7fb99b9b8fd9be2c207ecdb2ef5"
+  }
+}

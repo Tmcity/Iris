@@ -1,0 +1,10 @@
+{
+  "directory": "F:\\Iris\\tasks\\done\\T-036B.evidence\\visual",
+  "images": {
+    "readonly-Dark-600.png": "20577cd3c6cf103fbc72ac89380fa30bcd893fa6f7cf95c87958602ae0657977",
+    "readonly-Dark-760.png": "c91584c7de28f58f4b5261e481877fefefc3ec8381ce5ea30f1428a5437a5b05",
+    "readonly-Light-600.png": "a41fe7ef94b81d175d5dbeb5946c5c625a0b22c50980c090fca8ac69ceab4d71",
+    "readonly-Light-760.png": "926f74e19975b5daba7d6500281389a8e7f1283fe924d4a723dccc6fd399c164"
+  },
+  "review": "All four light/dark 600/760 readonly SettingsWindow images viewed. Notice readable, save disabled, cancel available. Development images; final binding still required."
+}

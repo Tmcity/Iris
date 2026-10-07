@@ -1,5 +1,9 @@
 # Iris 架构师接手记录
 
+**R1已实际接单**：消息01a1176a-32ca-7533-a087-a7f8d703abde，执行轮01a1176a-3615-7011-8e68-93ddc7eb4a18明确接单并确认Stop把进行中的清理误当失败；正在采用原子接管/共享完成责任修复。后续观察此轮，不重复派单；C仍未开始。
+
+**当前唯一T-036B-R1（2026-10-08）**：B交付eac0c2f0独立构建0警告错误，全量3488/3485成功/1失败/2跳过；已用实际NetworkResponseContent门闩确定性复现Stop重复Dispose在途清理而提前失败。只修Providers内容清理协调/等待及回归，保留其余B成果，不改公开契约/迁移/路线，不开始C。完整证据T-036B.review，current_task已签。
+
 **2026-10-08 T-036B修正与真实传输独立验证**：iris-t036b-foundation-fixed/migration-1.log重新绑定新Core/Infrastructure，六个迁移/只读/畸形userinfo场景全部通过，原失败保留。iris-t036b-independent-transport/transport-1.log五组实际Core+两命名管道+Sockets ConnectCallback内存流通过：原客户端重试A/新请求B、活响应阻止Stop、两条SSE在EOF前返回及消费者/响应排空、迟到A不倒退B。四张readonly图片已逐张查看，记录同目录visual-review.json。首轮全量full-1为3485/3480成功/3失败/2跳过：契约XML注释、旧DI工厂包装、真实WPF夹具直接执行callback的fake边界；开发正在修正，未结案。WPF测试换为真实WpfUiDispatcher，生产保存逻辑未据该fake失败直接判缺陷。
 
 **T-036B畸形userinfo实际反例已下达**：iris-t036b-independent-foundation/migration-4.log六场景中普通迁移/legacy地址保护/超intfuture只读通过；用户名-only空密码拒绝、畸形authority加载后普通保存将合成密码写新.bak、直接Update同类URL将密码写主配置三场景失败。Core/Infrastructure仍为binding.json冻结DLL（review-state.json已核对）。完整要求追加current_task；消息01a11700-2c09-7831-9007-917cb1d2e9e4已排队，正常Update也已在原消息要求中，无需再发重复提示。无真实用户数据/HTTP。迁移guard不能以Uri.TryCreate失败等同无userinfo；保留其它B成果。

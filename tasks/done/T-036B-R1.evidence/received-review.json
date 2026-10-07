@@ -1,0 +1,98 @@
+[
+  {
+    "path": "tasks\\done\\T-036B.review\\build.log",
+    "sha256": "ee258105af37e265c765a7f5911947d547ab9c72ef2485ffea77a4cd9529a9bc"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\delivery-check.json",
+    "sha256": "b0c938ef05bd3968c42a88911b8d2c208144c57e32c484a77dc8d70722d6933c"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\full.log",
+    "sha256": "ae8f4d5aad1de5a11d9b644d6a6e78c615b7ec12e2f8b3c95c3a5b9f125b4708"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\README.md",
+    "sha256": "fb3c609d47311e5b80d65c87f8f1e8ecd709e4964fecd9915cb883bf32c94240"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\readonly-Dark-600.png",
+    "sha256": "20577cd3c6cf103fbc72ac89380fa30bcd893fa6f7cf95c87958602ae0657977"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\readonly-Dark-760.png",
+    "sha256": "c91584c7de28f58f4b5261e481877fefefc3ec8381ce5ea30f1428a5437a5b05"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\readonly-Light-600.png",
+    "sha256": "a41fe7ef94b81d175d5dbeb5946c5c625a0b22c50980c090fca8ac69ceab4d71"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\readonly-Light-760.png",
+    "sha256": "926f74e19975b5daba7d6500281389a8e7f1283fe924d4a723dccc6fd399c164"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\migration-probe\\binding.json",
+    "sha256": "2b2d9ff684d9cf70fa72dce51e1e797aeae9c5d87152a9d8e004ec9b6a82beea"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\migration-probe\\migration-1.log",
+    "sha256": "1799fdc443dac8f601d2e3000ae9f002cc5f436a0f0db44a0c91377d16548e4e"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\migration-probe\\Program.cs",
+    "sha256": "fc92eee9821d7c58c53245030bd31d7d4403412820b1aba37ef02e2a4fa3a9c6"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\migration-probe\\Review.csproj",
+    "sha256": "54be9697978ec8c6ae7b0eef1c03b79cb6b8e2c96bca2cfec023f1bfebb3d377"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\transport-probe\\binding.json",
+    "sha256": "c06d1e91ee56f4a78f9b69017f00fc91319ade139fa30848bd9a3b9f826d7c3f"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\transport-probe\\dispose-race-1.log",
+    "sha256": "c951c3714d632c28e704a626ae8d398a3788e7b014be56da8ca172cd0ac500f9"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\transport-probe\\dispose-race-2.log",
+    "sha256": "0d85b3d5b33a594c57773dc633100389323d424cfe274d7fcc5cc855ff081282"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\transport-probe\\execution-binding.json",
+    "sha256": "b7d31b537d1c3349177c819eaa5264f255517925790c72e36d2fa09e706df2a3"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\transport-probe\\latest-binding.json",
+    "sha256": "70b4cf60f4145f7816e5ed61f359af8901de295c274054171bde1daca22adb8a"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\transport-probe\\NetworkTestBoundary.cs",
+    "sha256": "6a4c10b19220b17695535698b1494e4bf04b641daf5efa9f8d73348a455cfa75"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\transport-probe\\Program.cs",
+    "sha256": "674ad23a25c1e786ca3893412798d54c6505786de10bf9aa6f7e5fcbf5a56742"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\transport-probe\\README.md",
+    "sha256": "096b78c6a9138862bdbc5ef920813d61f967b2f2c98ee6ea9d9772b829aeef8d"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\transport-probe\\Review.csproj",
+    "sha256": "591978f7812fc0f1d378fa3ccffed27153b9923f5dcbec575ebf0cc6598f4b9c"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\transport-probe\\transport-1.log",
+    "sha256": "a743817f284a4d768540f008200d83da38ef2d767e399d6a8fb5a3caff4283b4"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\transport-probe\\transport-2.log",
+    "sha256": "b5073d28c80b3d5af8df35e54c05bde931040f38e0f8aa98ae07bf534243f306"
+  },
+  {
+    "path": "tasks\\done\\T-036B.review\\transport-probe\\visual-review.json",
+    "sha256": "967aaf68c471f51c22bfdc240ee68808829209d4345999b02d185734453a927b"
+  }
+]

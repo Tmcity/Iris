@@ -1,0 +1,7 @@
+PASS actual iris.llm same client: retry A, next B, held responses block stop, complete cleanup
+PASS actual iris.llm nonbuffered SSE before EOF and stop waits for consumer/response
+PASS actual iris.ocr same client: retry A, next B, held responses block stop, complete cleanup
+PASS actual iris.ocr nonbuffered SSE before EOF and stop waits for consumer/response
+PASS real Core capture and manager: delayed A does not roll back B
+PASS actual OK content cleanup failure: retained owner, repeated failure, retry without resend, full stop
+PASS actual ServiceUnavailable content cleanup failure: retained owner, repeated failure, retry without resend, full stop

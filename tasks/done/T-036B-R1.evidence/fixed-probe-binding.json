@@ -1,0 +1,12 @@
+{
+  "probeDirectory": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t036br1-probe",
+  "sources": {
+    "Program.cs": "674ad23a25c1e786ca3893412798d54c6505786de10bf9aa6f7e5fcbf5a56742",
+    "NetworkTestBoundary.cs": "6a4c10b19220b17695535698b1494e4bf04b641daf5efa9f8d73348a455cfa75",
+    "Review.csproj": "591978f7812fc0f1d378fa3ccffed27153b9923f5dcbec575ebf0cc6598f4b9c"
+  },
+  "assemblies": {
+    "Iris.Core.dll": "acec96420c24c925b047e92ff25624a6734254bad3bf5ef5f97064d1a99b6848",
+    "Iris.Providers.dll": "16784445b032ebd0d1e8ac1fcb2301bf1eee67eebca6ac17a5a0217a902240bf"
+  }
+}

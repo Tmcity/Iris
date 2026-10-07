@@ -19,6 +19,7 @@ internal sealed partial class NetworkTransportManager : INetworkTransportLifetim
     private int _admissions;
     private TaskCompletionSource _changed = NewSignal();
     private Task? _stopTask;
+    private HashSet<Task<bool>>? _stopAttempts;
 
     public NetworkTransportManager(NetworkTransportFactory factory, NetworkRouteResolver resolver, ILogger<NetworkTransportManager> logger)
     { _factory = factory; _resolver = resolver; _logger = logger; }
@@ -140,12 +141,34 @@ internal sealed partial class NetworkTransportManager : INetworkTransportLifetim
         }
     }
 
-    internal void ContentCompleted(NetworkResponseContent content, Entry entry)
+    internal void ContentCompleted(NetworkResponseContent content, Entry entry, TaskCompletionSource<bool> completion)
     {
         lock (_gate)
         {
             if (_contents.Remove(content)) Release(entry);
+            content.CompleteCleanup(completion);
             Signal();
+        }
+    }
+
+    internal void ContentCleanupFailed(Entry entry, TaskCompletionSource<bool> completion)
+    {
+        lock (_gate)
+        {
+            entry.Retired = true;
+            // A failed attempt remains observable by every Stop that joined it, even if a later retry succeeds.
+            completion.TrySetResult(false);
+            Signal();
+        }
+    }
+
+    internal void ContentCleanupStarted(Task<bool> completion)
+    {
+        lock (_gate)
+        {
+            // Direct Dispose may begin after Stop is already waiting. Record it before the leaf runs,
+            // so a quick failure cannot be mistaken for an old failure that this Stop should retry.
+            if (_stopTask is { IsCompleted: false } && _stopAttempts!.Add(completion)) Signal();
         }
     }
 
@@ -170,25 +193,37 @@ internal sealed partial class NetworkTransportManager : INetworkTransportLifetim
         lock (_gate)
         {
             _accepting = false;
-            if (_stopTask == null || _stopTask.IsFaulted || _stopTask.IsCanceled) _stopTask = StopCoreAsync();
+            if (_stopTask == null || _stopTask.IsFaulted || _stopTask.IsCanceled)
+            {
+                _stopAttempts = [];
+                _stopTask = StopCoreAsync(_stopAttempts);
+            }
             return _stopTask;
         }
     }
 
-    private async Task StopCoreAsync()
+    private async Task StopCoreAsync(HashSet<Task<bool>> attempts)
     {
+        // Claim/join atomically before StopAsync returns. A concurrent owner may finish before the
+        // continuation runs; retain that exact attempt's outcome instead of silently retrying its failure.
+        var (retry, changed) = PrepareContentCleanup(attempts);
+        var joined = new HashSet<Task<bool>>();
+        bool failed = false;
         // Keep synchronous StopAsync admission short; resource disposal runs off the calling/UI thread.
         await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
         while (true)
         {
-            NetworkResponseContent[] retry;
-            Task changed;
-            lock (_gate) { retry = _contents.Where(c => c.CleanupRequested && c.ActiveOperations == 0).ToArray(); changed = _changed.Task; }
-            bool failed = false;
-            foreach (var content in retry)
+            foreach (var work in retry) work.RunIfOwned();
+            Task<bool>[] outcomes;
+            lock (_gate) outcomes = attempts.Where(task => !joined.Contains(task)).ToArray();
+            foreach (var outcome in outcomes)
             {
-                try { content.Dispose(); }
-                catch (Exception ex) { LogCleanupFailure(_logger, "Content", ex.GetType().Name); failed = true; }
+                if (!await outcome.ConfigureAwait(false))
+                {
+                    LogCleanupFailure(_logger, "Content", nameof(Iris.Core.Errors.IrisException));
+                    failed = true;
+                }
+                joined.Add(outcome);
             }
             lock (_gate)
             {
@@ -196,10 +231,27 @@ internal sealed partial class NetworkTransportManager : INetworkTransportLifetim
                     foreach (var entry in generation.Entries.Values.Where(e => e.References == 0).ToArray())
                         if (!DisposeEntry(entry)) failed = true;
                 foreach (var id in _generations.Where(p => p.Value.Entries.Count == 0).Select(p => p.Key).ToArray()) _generations.Remove(id);
+                if (attempts.Count != joined.Count)
+                {
+                    (retry, changed) = PrepareContentCleanup(attempts);
+                    continue;
+                }
                 if (failed) throw NetworkProxyCodec.Unavailable();
                 if (_admissions == 0 && _contents.Count == 0 && _generations.Count == 0) return;
             }
             await changed.ConfigureAwait(false);
+            (retry, changed) = PrepareContentCleanup(attempts);
+        }
+    }
+
+    private (NetworkResponseContent.CleanupWork[] Work, Task Changed) PrepareContentCleanup(HashSet<Task<bool>> attempts)
+    {
+        lock (_gate)
+        {
+            // Preparation performs no leaf disposal and never waits; execution and joins happen outside both locks.
+            var work = _contents.Select(content => content.PrepareCleanup(attempts)).OfType<NetworkResponseContent.CleanupWork>().ToArray();
+            foreach (var item in work) attempts.Add(item.Completion);
+            return (work, _changed.Task);
         }
     }
 

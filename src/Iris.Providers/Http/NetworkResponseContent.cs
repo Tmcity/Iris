@@ -16,7 +16,7 @@ internal sealed class NetworkResponseContent : HttpContent
     private NetworkReadStream? _stream;
     private int _active;
     private bool _cleanupRequested;
-    private bool _disposing;
+    private TaskCompletionSource<bool>? _cleanupAttempt;
     private bool _innerDisposed;
     private bool _completed;
     internal int ActiveOperations { get { lock (_gate) return _active; } }
@@ -102,13 +102,39 @@ internal sealed class NetworkResponseContent : HttpContent
     protected override void Dispose(bool disposing)
     {
         if (!disposing) { base.Dispose(false); return; }
+        CleanupWork work;
         lock (_gate)
         {
             if (_completed) return;
             _cleanupRequested = true;
-            if (_active != 0 || _disposing) throw NetworkProxyCodec.Unavailable();
-            _disposing = true;
+            if (_active != 0) throw NetworkProxyCodec.Unavailable();
+            work = PrepareCleanupCore();
         }
+        // A synchronous duplicate (including reentry from the leaf) leaves the existing owner in charge.
+        // Stop joins its completion task; no thread waits synchronously on its own Dispose callback.
+        _manager.ContentCleanupStarted(work.Completion);
+        if (!work.RunIfOwned()) throw NetworkProxyCodec.Unavailable();
+    }
+
+    internal CleanupWork? PrepareCleanup(ISet<Task<bool>> stopAttempts)
+    {
+        lock (_gate)
+        {
+            if (_completed || !_cleanupRequested || _active != 0) return null;
+            return PrepareCleanupCore(stopAttempts);
+        }
+    }
+
+    private CleanupWork PrepareCleanupCore(ISet<Task<bool>>? stopAttempts = null)
+    {
+        if (_cleanupAttempt is { } previous && (!previous.Task.IsCompleted || stopAttempts?.Contains(previous.Task) == true))
+            return new(this, previous, ownsAttempt: false);
+        _cleanupAttempt = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        return new(this, _cleanupAttempt, ownsAttempt: true);
+    }
+
+    private bool RunCleanup(TaskCompletionSource<bool> completion)
+    {
         try
         {
             // Dispose the actual borrowed stream first. This preserves a failed leaf even if HttpContent's
@@ -116,15 +142,27 @@ internal sealed class NetworkResponseContent : HttpContent
             _stream?.Dispose();
             if (!_innerDisposed) { _inner.Dispose(); _innerDisposed = true; }
             base.Dispose(true);
-            lock (_gate) _completed = true;
-            _manager.ContentCompleted(this, _entry);
+            _manager.ContentCompleted(this, _entry, completion);
+            return true;
         }
         catch
         {
-            _manager.MarkFailed(_entry);
-            throw NetworkProxyCodec.Unavailable();
+            _manager.ContentCleanupFailed(_entry, completion);
+            return false;
         }
-        finally { lock (_gate) _disposing = false; _manager.ContentChanged(); }
+    }
+
+    // Called under the manager lock, after returning the reference. Stop cannot observe an empty
+    // manager before the original attempt's outcome is published. Lock order is manager -> content.
+    internal void CompleteCleanup(TaskCompletionSource<bool> completion)
+    {
+        lock (_gate) { _completed = true; completion.TrySetResult(true); }
+    }
+
+    internal sealed class CleanupWork(NetworkResponseContent content, TaskCompletionSource<bool> completion, bool ownsAttempt)
+    {
+        internal Task<bool> Completion => completion.Task;
+        internal bool RunIfOwned() => !ownsAttempt || content.RunCleanup(completion);
     }
 
     private sealed class NetworkReadStream(NetworkResponseContent owner, Stream inner) : Stream

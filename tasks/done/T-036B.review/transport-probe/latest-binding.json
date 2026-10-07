@@ -1,0 +1,10 @@
+{
+  "commit": "eac0c2f0838eefba6907ffc4ba230fb53c5b8cf8",
+  "programSha256": "674ad23a25c1e786ca3893412798d54c6505786de10bf9aa6f7e5fcbf5a56742",
+  "assemblies": {
+    "Iris.Core.dll": "acec96420c24c925b047e92ff25624a6734254bad3bf5ef5f97064d1a99b6848",
+    "Iris.Providers.dll": "c5fcc00ae1394978c7bc8870fd10918e172c1b0828a259f87c5210071e4e94fb"
+  },
+  "reproducer": "--dispose-race",
+  "reproducerLog": "dispose-race-2.log"
+}

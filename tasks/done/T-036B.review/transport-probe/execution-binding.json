@@ -1,0 +1,12 @@
+{
+  "phase": "development actual production assemblies, not final acceptance",
+  "probeSources": {
+    "NetworkTestBoundary.cs": "6a4c10b19220b17695535698b1494e4bf04b641daf5efa9f8d73348a455cfa75",
+    "Program.cs": "0de2ce8bf353a88c540119ba963e1c139ffe219108d5ec120d1d680d4f6081d1"
+  },
+  "executedAssemblies": {
+    "Iris.Core.dll": "2c06b6038db8b1e75625026431e496467381681098d4cb7689b9760c327dc40d",
+    "Iris.Providers.dll": "ccea9f53e11f3ee2c2ab2a63d3345695ece91594012be4b911c6d6b036bdfc99"
+  },
+  "log": "transport-1.log"
+}

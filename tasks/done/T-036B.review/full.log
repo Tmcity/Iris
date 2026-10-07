@@ -1,0 +1,47 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.Providers.Tests.Http.NetworkTransportTests.ActualNamedSocketsSse_FirstAndSecondEventsBeforeEof_OldPoolHeldUntilConsumerAndResponseEnd(family: "iris.ocr", end: "error") (6ms)
+  从 F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.AggregateException : One or more errors occurred. (网络代理暂不可用。) (网络代理暂不可用。)
+  ---- Iris.Core.Errors.IrisException : 网络代理暂不可用。
+  ---- Iris.Core.Errors.IrisException : 网络代理暂不可用。
+    在 Iris.Providers.Tests.Http.NetworkTransportTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Providers.Tests\Http\NetworkTransportTests.cs:242
+    --- End of stack trace from previous location ---
+    ----- Inner Stack Trace #1 (Iris.Core.Errors.IrisException) -----
+    在 Iris.Providers.Http.NetworkTransportManager.StopCoreAsync() 位于 F:\Iris\src\Iris.Providers\Http\NetworkTransportManager.cs:199
+    在 Iris.Providers.Tests.Http.NetworkTransportTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Providers.Tests\Http\NetworkTransportTests.cs:236
+    ----- Inner Stack Trace #2 (Iris.Core.Errors.IrisException) -----
+    在 Iris.Providers.Http.NetworkTransportManager.StopCoreAsync() 位于 F:\Iris\src\Iris.Providers\Http\NetworkTransportManager.cs:199
+    在 Iris.Providers.Tests.Http.NetworkTransportTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Providers.Tests\Http\NetworkTransportTests.cs:236
+已跳过 Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotIsolatedTests.SnapshotHelper_UsesExclusiveNonInteractiveStation_AndJoinsOwnedProcess
+  [ENVIRONMENT LIMITATION] Snapshot isolated helper skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.Win32ClipboardIsolatedIntegrationTests.IsolatedWindowStation_NativeClipboardIntegration_ExecutesInDedicatedProcess
+  [ENVIRONMENT LIMITATION] Native isolated window station test skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (1s 901ms)
+F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (3s 759ms)
+退出代码: 2
+F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (4s 499ms)
+F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (5s 357ms)
+F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (8s 596ms)
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (1m 07s 926ms)
+
+测试运行摘要: 失败!
+  F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (3s 759ms)
+  F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (1s 901ms)
+  F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (1m 07s 926ms)
+  F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (4s 499ms)
+  F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (8s 596ms)
+  F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (5s 357ms)
+
+  总计: 3488
+  失败: 1
+  成功: 3485
+  已跳过: 2
+  持续时间: 1m 08s 352ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

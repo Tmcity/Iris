@@ -1,0 +1,65 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+失败 Iris.Providers.Tests.Http.NetworkContentCleanupCoordinationTests.Stop_JoinsOriginalDisposeOutcome_AndRetriesOnlyAfterRealFailure(failOnce: True, reenter: True, stopFirst: True) (55ms)
+  从 F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : Task `stop`
+      should throw
+  Iris.Core.Errors.IrisException
+      but did not
+    在 System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+    在 System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+    在 System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+    在 Iris.Providers.Tests.Http.NetworkContentCleanupCoordinationTests.Stop_JoinsOriginalDisposeOutcome_AndRetriesOnlyAfterRealFailure(Boolean failOnce, Boolean reenter, Boolean stopFirst) 位于 F:\Iris\tests\Iris.Providers.Tests\Http\NetworkContentCleanupCoordinationTests.cs:66
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Providers.Tests.Http.NetworkContentCleanupCoordinationTests.Stop_JoinsOriginalDisposeOutcome_AndRetriesOnlyAfterRealFailure(Boolean failOnce, Boolean reenter, Boolean stopFirst) 位于 F:\Iris\tests\Iris.Providers.Tests\Http\NetworkContentCleanupCoordinationTests.cs:98
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Providers.Tests.Http.NetworkContentCleanupCoordinationTests.Stop_JoinsOriginalDisposeOutcome_AndRetriesOnlyAfterRealFailure(failOnce: True, reenter: False, stopFirst: True) (1ms)
+  从 F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : Task `stop`
+      should throw
+  Iris.Core.Errors.IrisException
+      but did not
+    在 System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+    在 System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+    在 System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+    在 Iris.Providers.Tests.Http.NetworkContentCleanupCoordinationTests.Stop_JoinsOriginalDisposeOutcome_AndRetriesOnlyAfterRealFailure(Boolean failOnce, Boolean reenter, Boolean stopFirst) 位于 F:\Iris\tests\Iris.Providers.Tests\Http\NetworkContentCleanupCoordinationTests.cs:66
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Providers.Tests.Http.NetworkContentCleanupCoordinationTests.Stop_JoinsOriginalDisposeOutcome_AndRetriesOnlyAfterRealFailure(Boolean failOnce, Boolean reenter, Boolean stopFirst) 位于 F:\Iris\tests\Iris.Providers.Tests\Http\NetworkContentCleanupCoordinationTests.cs:98
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 失败并出现 2 个错误 (1s 585ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 8
+  失败: 2
+  成功: 6
+  已跳过: 0
+  持续时间: 1s 852ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)
