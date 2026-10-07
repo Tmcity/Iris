@@ -1,0 +1,56 @@
+namespace Iris.App;
+
+internal static partial class UiText
+{
+    public const string HistoryTitle = "翻译历史";
+    public const string HistoryMetadataFormat = "{0:g} · {1} · {2} → {3} · {4} 个结果";
+    public const string HistoryPageFormat = "第 {0} / {1} 页 · 共 {2} 条";
+    public const string HistoryOriginInput = "输入";
+    public const string HistoryOriginSelection = "划词";
+    public const string HistoryOriginClipboard = "剪贴板";
+    public const string HistoryOriginScreenshot = "截图";
+    public const string HistoryOriginHistory = "历史重译";
+    public const string HistoryOriginCommandLine = "命令行";
+    public const string HistoryOriginOther = "翻译";
+    public const string HistorySearch = "搜索原文或译文";
+    public const string HistoryFavoritesOnly = "仅看收藏";
+    public const string HistoryRefresh = "刷新";
+    public const string HistoryPrevious = "上一页";
+    public const string HistoryNext = "下一页";
+    public const string HistoryEmpty = "没有符合条件的历史记录";
+    public const string HistoryLoading = "正在加载历史记录…";
+    public const string HistoryDetailsLoading = "正在读取全文…";
+    public const string HistorySelect = "选择一条记录查看全文和全部服务结果";
+    public const string HistorySource = "原文全文";
+    public const string HistoryCopySource = "复制原文全文";
+    public const string HistoryCopyResult = "复制此服务译文";
+    public const string HistoryRetranslate = "按当前设置重新翻译";
+    public const string HistoryTruncated = "结果已截断";
+    public const string HistoryTruncatedSuffix = "[结果已截断]";
+    public const string HistoryFavorite = "收藏";
+    public const string HistoryUnfavorite = "取消收藏";
+    public const string HistoryDelete = "删除此记录";
+    public const string HistoryClear = "清空…";
+    public const string HistoryDeleteConfirm = "删除所选记录？此操作无法撤销。";
+    public const string HistoryClearConfirm = "确认清空历史记录？此操作无法撤销。";
+    public const string HistoryKeepFavorites = "保留收藏（只删除非收藏记录）";
+    public const string HistoryConfirm = "确认删除";
+    public const string HistoryCancel = "取消";
+    public const string HistoryClose = "关闭";
+    public const string HistoryClosing = "正在等待历史操作结束…";
+    public const string HistoryCloseFailed = "历史窗口尚未完成关闭，请重试关闭。";
+    public const string HistoryStorageError = "历史记录操作失败，请重试。";
+    public const string HistoryKeywordError = "搜索词包含无效字符，请修改后重试。";
+    public const string HistoryMissing = "记录已不存在，请刷新列表。";
+    public const string HistoryCopyFailed = "复制失败，请重试。";
+    public const string HistoryCopied = "已复制全文";
+    public const string HistoryTranslated = "已按当前设置发送到翻译窗口";
+    public const string HistoryTranslateFailed = "暂时无法打开翻译，请重试。";
+    public const string HistoryWriting = "正在保存历史操作…";
+    public const string HistoryWriteDone = "历史操作已完成";
+    public const string HistoryEnabled = "记录后续翻译历史";
+    public const string HistoryEnabledHelp = "关闭后不再记录新的翻译；已有历史仍可查看和管理。";
+    public const string HistoryMaxLabel = "最多保留的非收藏记录数，收藏额外保留";
+    public const string HistoryMaxHelp = "100–100000 条。降低上限不会立即删除历史，将在下次写入或取消收藏时修剪。";
+    public const string HistoryMaxError = "历史记录数量须为 100 至 100000 的整数。";
+}

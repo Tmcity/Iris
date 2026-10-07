@@ -1,0 +1,4 @@
+F:\Iris\tests\Iris.App.Tests\History\HistoryWindowTests.cs(28,14): error CS1061: “TrayIconController”未包含“CreateContextMenu”的定义，并且找不到可接受第一个“TrayIconController”类型参数的可访问扩展方法“CreateContextMenu”(是否缺少 using 指令或程序集引用?) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\History\HistoryTestScope.cs(179,105): error CS0117: “TranslationFinishReason”未包含“Stop”的定义 [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\History\HistoryWindowTests.cs(50,62): error CS8604: “void ShouldBeStringTestExtensions.ShouldNotContain(string actual, string expected, Case caseSensitivity = Case.Insensitive, string? customMessage = null)”中的形参“actual”可能传入 null 引用实参。 [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+生成失败，退出代码: 1。

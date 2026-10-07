@@ -108,6 +108,13 @@ internal static class AppHostBuilder
         builder.Services.AddScoped<Iris.App.Settings.SettingsViewModel>();
         builder.Services.AddTransient<Iris.App.Settings.SettingsWindow>();
 
+        builder.Services.AddSingleton<Iris.App.History.HistoryWindowPresenter>();
+        builder.Services.AddSingleton<IHistoryWindowPresenter>(sp => sp.GetRequiredService<Iris.App.History.HistoryWindowPresenter>());
+        builder.Services.AddSingleton<Iris.App.History.IHistoryShutdownCoordinator>(sp => sp.GetRequiredService<Iris.App.History.HistoryWindowPresenter>());
+        builder.Services.AddSingleton<Iris.App.Capture.IScreenshotPreparationParticipant>(sp => sp.GetRequiredService<Iris.App.History.HistoryWindowPresenter>());
+        builder.Services.AddScoped<Iris.App.History.HistoryViewModel>();
+        builder.Services.AddTransient<Iris.App.History.HistoryWindow>();
+
         // 翻译窗口及展示器服务
         builder.Services.AddSingleton<Iris.App.Translation.INativeWindowPlacementAdapter, Iris.App.Translation.NativeWindowPlacementAdapter>();
         builder.Services.AddSingleton<Iris.App.Translation.TranslateWindowPresenter>();

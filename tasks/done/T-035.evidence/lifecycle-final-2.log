@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.App.Tests\History\HistoryLifecycleTests.cs(24,34): error CA1836: 最好使用 "IsEmpty" (而不是 "Count")来确定对象是否为空 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1836) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+生成失败，退出代码: 1。

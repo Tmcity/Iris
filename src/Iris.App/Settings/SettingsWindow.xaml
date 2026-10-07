@@ -111,10 +111,26 @@
                         <TextBlock Text="{x:Static app:UiText.SettingsNavSelection}" FontWeight="Medium" VerticalAlignment="Center" />
                     </Border>
                 <Border x:Name="NavOcr" CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavOcrClick"><Border.Style><Style TargetType="Border"><Setter Property="Background" Value="Transparent"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="ocr"><Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></DataTrigger></Style.Triggers></Style></Border.Style><TextBlock Text="{x:Static app:UiText.OcrPageTitle}" TextWrapping="Wrap" FontWeight="Medium"/></Border><Border x:Name="NavScreenshot" CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavScreenshotClick"><Border.Style><Style TargetType="Border"><Setter Property="Background" Value="Transparent"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="screenshot"><Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></DataTrigger></Style.Triggers></Style></Border.Style><TextBlock Text="{x:Static app:UiText.ScreenshotPageTitle}" TextWrapping="Wrap" FontWeight="Medium"/></Border>
+                    <Border x:Name="NavHistory" CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavHistoryClick">
+                        <Border.Style><Style TargetType="Border"><Setter Property="Background" Value="Transparent"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="history"><Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></DataTrigger></Style.Triggers></Style></Border.Style>
+                        <TextBlock Text="{x:Static app:UiText.HistoryTitle}" TextWrapping="Wrap" FontWeight="Medium"/>
+                    </Border>
                 </StackPanel>
                 </ScrollViewer>
             </Border>
 
+            <ScrollViewer x:Name="HistoryPageScroll" Grid.Column="1" Padding="20,12" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ScrollViewer.Style><Style TargetType="ScrollViewer"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="history"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></ScrollViewer.Style>
+                <StackPanel IsEnabled="{Binding CanEdit}">
+                    <TextBlock Text="{x:Static app:UiText.HistoryTitle}" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,20"/>
+                    <CheckBox x:Name="HistoryEnabledCheckBox" Content="{x:Static app:UiText.HistoryEnabled}" IsChecked="{Binding History.Enabled.Value}"/>
+                    <TextBlock Text="{x:Static app:UiText.HistoryEnabledHelp}" TextWrapping="Wrap" Margin="0,8,0,24"/>
+                    <TextBlock Text="{x:Static app:UiText.HistoryMaxLabel}" TextWrapping="Wrap"/>
+                    <TextBox x:Name="HistoryMaxEntriesTextBox" Text="{Binding History.MaxEntriesText.Value, UpdateSourceTrigger=PropertyChanged}" Margin="0,8,0,8"/>
+                    <TextBlock Text="{x:Static app:UiText.HistoryMaxHelp}" TextWrapping="Wrap"/>
+                    <TextBlock Text="{Binding History.ErrorMessage}" TextWrapping="Wrap" Foreground="{DynamicResource SystemFillColorCriticalBrush}" Margin="0,12,0,0"/>
+                </StackPanel>
+            </ScrollViewer>
             <ScrollViewer x:Name="OcrPageScroll" Grid.Column="1" Padding="20,12" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <ScrollViewer.Style>
                     <Style TargetType="ScrollViewer">

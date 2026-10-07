@@ -1,0 +1,27 @@
+{
+  "commit": "b0607304755f22b5b115e802ad4bdf685e64e1de",
+  "baseline": "03b42a3db4d9fc516afd03d49097f95513e863bc",
+  "productionTreesIdentical": true,
+  "changedCodeFiles": [
+    "tests/Iris.App.Tests/Settings/SettingsDraftOperationQueueTests.cs"
+  ],
+  "bSourceFingerprintMatches": {
+    "src/Iris.App/Services/GeneralSettingsSaveCoordinator.cs": true,
+    "src/Iris.App/Settings/DraftValue.cs": true,
+    "src/Iris.App/Settings/OcrProfileDraftViewModel.cs": true,
+    "src/Iris.App/Settings/OcrSettingsDraftViewModel.cs": true,
+    "src/Iris.App/Settings/SettingsViewModel.Ocr.cs": true,
+    "src/Iris.App/Settings/SettingsViewModel.cs": true,
+    "src/Iris.App/Settings/SettingsWindow.xaml": true,
+    "src/Iris.App/Settings/SettingsWindow.xaml.cs": true,
+    "src/Iris.App/Settings/SettingsWindowPresenter.cs": true,
+    "src/Iris.App/Settings/SettingsWindowSession.cs": true,
+    "src/Iris.App/UiText.cs": true,
+    "tests/Iris.App.Tests/Settings/OcrSettingsLifecycleTests.cs": true,
+    "tests/Iris.App.Tests/Settings/OcrSettingsRenderingTests.cs": true,
+    "tests/Iris.App.Tests/Settings/OcrSettingsUiScope.cs": true,
+    "tests/Iris.App.Tests/Settings/OcrSettingsUiTests.cs": true,
+    "tests/Iris.App.Tests/Settings/SettingsWindowPresenterTests.cs": true
+  },
+  "testSourceSha256": "1bd8f42281cdf12be2ee342706627bb4a2afde701820bd9fc89a06e7741f6f93"
+}

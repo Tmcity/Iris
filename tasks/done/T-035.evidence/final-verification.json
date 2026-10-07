@@ -1,0 +1,118 @@
+{
+  "baseCommit": "b0607304755f22b5b115e802ad4bdf685e64e1de",
+  "phase": "final tested working tree before independent local commit",
+  "receivedInputs": {
+    "specs/ARCHITECTURE.md": {
+      "status": "unchanged",
+      "sha256": "96e83af1c429fa99a61ab1158ae3ceec341b5d977dd13da87113311e197ec598"
+    },
+    "specs/CONTRACTS.cs": {
+      "status": "unchanged",
+      "sha256": "bdd708aad8e92ddc75b8fd323d80cb774a37f7f9e29731c768647a57289d9314"
+    },
+    "specs/DEVELOPER_HANDOFF.md": {
+      "status": "unchanged",
+      "sha256": "95d746e9e6f9339e4ef33ff410ed961624c7085d294d232fd9838a838f30f0bd"
+    },
+    "specs/PROJECT_HANDOFF.md": {
+      "status": "architect progress added; original title and body retained",
+      "originalSha256": "f4cf7f8d2d18aebc5b8cab63cfe145a44ba58c6a7d8e418aafde8f578db0a48b",
+      "finalSha256": "dc74e0b586d8149e779317a01c4fbe0c79ba35d1b528744668edd896ad5d56f9"
+    },
+    "tasks/BACKLOG.md": {
+      "status": "unchanged",
+      "sha256": "51bf5b8c6246b1e942914404d2e31af96064ab50270008aef315bac3dc35c91d"
+    },
+    "tasks/CONTRACT_CHANGE_REQUESTS.md": {
+      "status": "CCR-035 implementation status updated for review",
+      "originalSha256": "3ea2d528a433ba85dca6b370a2e0b1e40f649d0d4c84d3c741d48eaab33779d3",
+      "finalSha256": "2b164fa9545d491d7b2ea9884de85f3eff6e6708b3ae0e855a9c35d320198062"
+    },
+    "tasks/done/T-032B-R1.md": {
+      "status": "unchanged",
+      "sha256": "81945dd3098ee77be34daf408484118ca6ffbf061a0f646d1133e2e23eaf91fc"
+    },
+    "tasks/done/T-032B.md": {
+      "status": "unchanged",
+      "sha256": "67cd5c4fb023bddc7cabad368c2b44d3dcda256e9c566a6d57f1495fce38e541"
+    },
+    "tasks/current_task.md": {
+      "status": "unchanged",
+      "sha256": "bb12b059bdc99376cecf6597dd09dfba6be560581bf1a976560948e15124078d"
+    },
+    "specs/HISTORY_UI.md": {
+      "status": "unchanged",
+      "sha256": "729a76461b23bb4278076fb30e55cd1d22c6665cc4af4066c58ad770670d8b52"
+    },
+    "tasks/done/T-032B-R1.review/build.log": {
+      "status": "unchanged",
+      "sha256": "0080990fee1c9ddfeb802b6e5a57b46f516946dc54f01abbb7cdd623ab6f8593"
+    },
+    "tasks/done/T-032B-R1.review/delivery-check.json": {
+      "status": "unchanged",
+      "sha256": "9b50fc94b27e6acc634814dc210fde7203d8c6a553002cd975b349bd6d8e81b1"
+    },
+    "tasks/done/T-032B-R1.review/full.log": {
+      "status": "unchanged",
+      "sha256": "9d4a8184199709b4f0507913e2e0ef535d3e9a5aeb14dff72a5ea714aa51c1b7"
+    },
+    "tasks/done/T-032B-R1.review/README.md": {
+      "status": "unchanged",
+      "sha256": "cf0fa43000ba79bb3b018ac289a1b49c89bd9ac8e960bbb7e1c71577fd6e104b"
+    },
+    "tasks/done/T-032B-R1.review/targeted.log": {
+      "status": "unchanged",
+      "sha256": "7e768fd202a5bd18a63f6234bea786f4b3c21edd469a1101a725ad19d550a067"
+    }
+  },
+  "archivedFinalTaskSha256": "bb12b059bdc99376cecf6597dd09dfba6be560581bf1a976560948e15124078d",
+  "protectedProductionAndSchemaPathsUnchanged": [
+    "src/Iris.Infrastructure",
+    "src/Iris.Providers",
+    "src/Iris.Platform.Windows",
+    "src/Iris.Core/Storage",
+    "src/Iris.Core/Ocr",
+    "src/Iris.Core/Translation",
+    "src/Iris.App/Translation",
+    "specs/DB_SCHEMA.sql",
+    "specs/settings.example.json",
+    "Directory.Packages.props",
+    "global.json"
+  ],
+  "finalSourceCount": 40,
+  "logSha256": {
+    "app-targeted-final-1.log": "33942811d9c9bab70d01be4fab7e12b349e4f4548487d057a79e1db389eb2418",
+    "core-targeted-1.log": "c72f16710f29d7ff1e128fb99692ffa7e05bc5a5148b642a134ee0e658012340",
+    "development-build-1.log": "c0c024fc58a398a057713e42c994f626cfb691a087cf98dac68fb591dc8ef345",
+    "history-targeted-1.log": "e44787faa29f2fca44eb1ea75da4037390f3a3cd39cb2021e9313adc91949f45",
+    "history-targeted-2.log": "5ded70a26750215426522ac2eeb1ecbf051c13e45d92c48a0d649c7e95ed05ec",
+    "history-targeted-3.log": "67c48f30a83eb6eb36514f77ddca3a1ffcd6e9122b704e1522cfd9055d71b304",
+    "history-targeted-4.log": "4817c808d246242cb8fae8fc52572447215e2069bc202412448a6c3480f786d9",
+    "legacy-targeted-1.log": "c47e68ca1818645b8d621cf449733e292ebe4571a76a95461a18e3dd46d096fd",
+    "lifecycle-final-1.log": "cb97e77838716ed559b9a5115349ebb7f2bcd9a8f36ecf62b99841177c35bc19",
+    "lifecycle-final-2.log": "f5a1659ff8743d702508e38c2e5f942a133c9dd81367bc48bf14635af5165838",
+    "lifecycle-final-3.log": "b0fb17dfdbd8043f4c4a1967a19fe08ac6d3d245dedbcad78fc304956f1fb68f",
+    "reentrant-baseline-1.log": "8c013008df87f2e6593bb02fc21a774f643773c29dfab3caf831c26c21aece55",
+    "reentrant-fixed-1.log": "769cfcb865b81561420899fda516e7a81b1d8a6299c64b0b8422e1acde5733f5",
+    "release-build-1.log": "eeb09a9bee48b0069f3f260d37daf1f104eba621cb32ab1ffe2fd87d325172f2",
+    "release-build-2.log": "bc8bb687b49264f7dc4af66100339ab6a4f7a9179c4cda47d7a66365e081a444",
+    "release-build-3.log": "f2d2a9c1db722dd646e6f428a96d92d35fa5f3454b405355822820ee75dadc51",
+    "release-full-1.log": "1841653af14629054247abf946780a6562fd8937784fcbec291b25bdad2e3d82",
+    "release-full-2.log": "1547791ccb1184a938538fc3a09cb597c9cc856de57f11736216b364b94448bb",
+    "release-full-3.log": "9291b358a79dab7978c17f52270b77dcbdda08f272ed9fa797844ea831bbbc39",
+    "render-1.log": "111d83791b78e1e82a29c20c1508768a6cd7f4708182599ab7d594f55a4cdfc2",
+    "render-2.log": "d1a1d882ee7a7d0ed36de751ff85da716d3f9ac44442370de219a0be102e91b5",
+    "render-3.log": "5868089f7c4735741332eb3f40457c9362f2057abfa732eec8168e3c8ee5d11e",
+    "window-targeted-1.log": "f5498e450d2e1dd8805ab29b4430f419e51751e66e357ccbff8fb1668b84c3e9",
+    "window-targeted-2.log": "c9aa12219dee1057d307119d37e34af08e7f3796d2ab5d2d969dce12ddc14188"
+  },
+  "finalBuild": "release-build-3.log",
+  "finalFullSuite": "release-full-3.log",
+  "finalRendering": {
+    "reviewedDirectory": "history-render-8b2d32a2a0104b1c99deeef6f4a6c52c",
+    "finalFullSuiteDirectory": "history-render-ab1462acbf7a4a718d8807310036bafe",
+    "total": 64,
+    "changed": [],
+    "allFinalFramesMatchReviewed": true
+  }
+}

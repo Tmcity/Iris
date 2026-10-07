@@ -1,0 +1,5 @@
+F:\Iris\tests\Iris.App.Tests\History\HistoryLifecycleTests.cs(43,31): error CA2016: 将“ct”参数转发给“GetAsync”方法，或在 "CancellationToken.None" 中显式传递以指示有意不传播令牌 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2016) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\History\HistoryLifecycleTests.cs(59,74): error CA2016: 将“ct”参数转发给“GetAsync”方法，或在 "CancellationToken.None" 中显式传递以指示有意不传播令牌 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2016) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\History\HistoryLifecycleTests.cs(75,31): error CA2016: 将“ct”参数转发给“GetAsync”方法，或在 "CancellationToken.None" 中显式传递以指示有意不传播令牌 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2016) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\History\HistoryLifecycleTests.cs(129,14): error IDE0062: 可以使本地函数成为静态函数 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/style-rules/ide0062) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+生成失败，退出代码: 1。

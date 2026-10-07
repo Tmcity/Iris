@@ -91,6 +91,9 @@ public sealed record SettingsEditPlan(
     public IReadOnlyList<OcrProfileChange> OcrChanges { get; init; } = [];
     public ScreenshotSettingsPatch? Screenshot { get; init; }
 
+    /// <summary>历史设置增量；null保持最新值，纯历史编辑无需Provider回执。见HISTORY_UI.md。</summary>
+    public HistorySettingsPatch? History { get; init; }
+
     public override string ToString() => "SettingsEditPlan";
 }
 
@@ -132,6 +135,14 @@ public sealed record ScreenshotSettingsPatch(
     SettingsFieldEdit<double>? MaskOpacity = null)
 {
     public override string ToString() => "ScreenshotSettingsPatch";
+}
+
+/// <summary>历史记录设置增量；MaxEntries目标100..100000，收藏额外保留，不立即修剪旧库。</summary>
+public sealed record HistorySettingsPatch(
+    SettingsFieldEdit<bool>? Enabled = null,
+    SettingsFieldEdit<int>? MaxEntries = null)
+{
+    public override string ToString() => "HistorySettingsPatch";
 }
 
 public enum OcrProfileChangeKind { Add = 1, Update = 2, Delete = 3 }

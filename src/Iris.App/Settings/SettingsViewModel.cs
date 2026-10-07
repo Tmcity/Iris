@@ -241,6 +241,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         TestDraftCommand = new AsyncRelayCommand(ExecuteTestDraftAsync, () => CanEdit && SelectedProfile != null, ex => HandleCommandException("TestDraft", ex));
         ListModelsCommand = new AsyncRelayCommand(ExecuteListModelsAsync, () => CanEdit && SelectedProfile != null, ex => HandleCommandException("ListModels", ex));
 
+        History = new(_settingsService.Current.History, () => CanEdit, () => { OnPropertyChanged(nameof(IsDirty)); RaiseAllCommandsCanExecute(); });
         InitializeOcr();
         _settingsService.Changed += OnExternalSettingsChanged;
 
@@ -255,6 +256,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     public ObservableCollection<PromptOptionItem> AvailablePrompts { get; } = [];
     public ObservableCollection<HotkeyItemDraftViewModel> Hotkeys { get; } = [];
     public SelectionSettingsDraftViewModel Selection { get; }
+    public HistorySettingsDraftViewModel History { get; }
 
     public ICommand SaveCommand { get; }
     public ICommand CancelCommand { get; }
@@ -473,7 +475,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 return true;
             }
 
-            return OcrIsDirty || Selection.IsDirty || Hotkeys.Any(h => h.IsDirty);
+            return OcrIsDirty || History.IsDirty || Selection.IsDirty || Hotkeys.Any(h => h.IsDirty);
         }
     }
 
@@ -1287,6 +1289,12 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 }
 
                 BeforeSave?.Invoke();
+                if (!History.TryCapture(out var historyPatch))
+                {
+                    StatusMessage = History.ErrorMessage;
+                    shouldReturn = true;
+                    return Task.CompletedTask;
+                }
                 if (!Selection.TryCapture(out var selectionPatch))
                 {
                     StatusMessage = Selection.ErrorMessage;
@@ -1388,7 +1396,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 bool hasTranslationDirty = translationChanges.Count > 0 || orderChange != null;
                 bool hasHotkeyDirty = hotkeyChanges.Count > 0;
 
-                if (!hasGeneralDirty && !hasTranslationDirty && !hasHotkeyDirty && selectionPatch == null && ocrPatch == null && ocrChanges.Count == 0 && screenshotPatch == null)
+                if (!hasGeneralDirty && !hasTranslationDirty && !hasHotkeyDirty && historyPatch == null && selectionPatch == null && ocrPatch == null && ocrChanges.Count == 0 && screenshotPatch == null)
                 {
                     _themeService.ClearPreview(_sessionOwner);
                     StatusMessage = UiText.SettingsStatusSaved;
@@ -1404,6 +1412,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 {
                     HotkeyChanges = hotkeyChanges,
                     Selection = selectionPatch,
+                    History = historyPatch,
                     Ocr = ocrPatch, OcrChanges = ocrChanges, Screenshot = screenshotPatch
                 };
 
@@ -1630,6 +1639,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     {
         MergeOcrSettings(reset: true);
         Selection.Merge(_settingsService.Current.Selection, reset: true);
+        History.Merge(_settingsService.Current.History, reset: true);
         var current = _settingsService.Current.General;
 
         _themeDirty = false;
@@ -2723,6 +2733,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             RefreshAvailablePrompts();
             OnExternalHotkeysChanged(_settingsService.Current.Hotkeys);
             Selection.Merge(_settingsService.Current.Selection);
+            History.Merge(_settingsService.Current.History);
             MergeOcrSettings(reset: false);
             OnPropertyChanged(nameof(IsDirty));
             RaiseAllCommandsCanExecute();

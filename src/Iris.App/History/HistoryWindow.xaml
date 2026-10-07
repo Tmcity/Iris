@@ -1,0 +1,112 @@
+<ui:FluentWindow x:Class="Iris.App.History.HistoryWindow" x:ClassModifier="internal"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:app="clr-namespace:Iris.App"
+    Title="{x:Static app:UiText.HistoryTitle}" Width="800" Height="640" MinWidth="280" MinHeight="240"
+    WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+        <Style x:Key="ActionButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}"><Setter Property="Margin" Value="0,0,8,8"/><Setter Property="Padding" Value="10,5"/></Style>
+        <Style x:Key="ReadOnlyText" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+            <Setter Property="IsReadOnly" Value="True"/><Setter Property="IsUndoEnabled" Value="False"/>
+            <Setter Property="TextWrapping" Value="Wrap"/><Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="MaxHeight" Value="180"/><Setter Property="MinHeight" Value="44"/>
+            <Setter Property="Margin" Value="0,6,0,10"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+        <ui:TitleBar Title="{x:Static app:UiText.HistoryTitle}" ShowMaximize="True"/>
+        <ScrollViewer x:Name="HistoryScroll" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="16,6,16,12">
+            <StackPanel>
+                <TextBlock Text="{x:Static app:UiText.HistorySearch}" Margin="0,0,0,6"/>
+                <TextBox x:Name="SearchTextBox" Text="{Binding Keyword, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanInteract}"/>
+                <WrapPanel Margin="0,10,0,0">
+                    <CheckBox x:Name="FavoritesCheckBox" Content="{x:Static app:UiText.HistoryFavoritesOnly}" IsChecked="{Binding FavoritesOnly}" IsEnabled="{Binding CanInteract}" Margin="0,4,16,8"/>
+                    <Button x:Name="RefreshButton" Content="{x:Static app:UiText.HistoryRefresh}" Command="{Binding RefreshCommand}" Style="{StaticResource ActionButton}"/>
+                    <Button x:Name="ClearButton" Content="{x:Static app:UiText.HistoryClear}" Command="{Binding ClearCommand}" Style="{StaticResource ActionButton}"/>
+                </WrapPanel>
+                <Border x:Name="ConfirmationPanel" Visibility="{Binding HasConfirmation, Converter={StaticResource BoolToVis}}" Padding="12" Margin="0,0,0,12" CornerRadius="6" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                    <StackPanel>
+                        <TextBlock Text="{Binding ConfirmationText}" TextWrapping="Wrap" FontWeight="SemiBold"/>
+                        <CheckBox x:Name="KeepFavoritesCheckBox" IsChecked="{Binding KeepFavorites}" Visibility="{Binding IsClearConfirmation, Converter={StaticResource BoolToVis}}" Margin="0,10,0,8">
+                            <TextBlock Text="{x:Static app:UiText.HistoryKeepFavorites}" TextWrapping="Wrap"/>
+                        </CheckBox>
+                        <WrapPanel Margin="0,10,0,0">
+                            <Button x:Name="ConfirmButton" Content="{x:Static app:UiText.HistoryConfirm}" Command="{Binding ConfirmCommand}" Style="{StaticResource ActionButton}"/>
+                            <Button Content="{x:Static app:UiText.HistoryCancel}" Command="{Binding CancelConfirmationCommand}" Style="{StaticResource ActionButton}"/>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+                <TextBlock Text="{x:Static app:UiText.HistoryLoading}" Visibility="{Binding IsLoading, Converter={StaticResource BoolToVis}}" TextWrapping="Wrap" Margin="0,0,0,8"/>
+                <TextBlock Text="{Binding ListError}" TextWrapping="Wrap" Foreground="{DynamicResource SystemFillColorCriticalBrush}"/>
+                <TextBlock Text="{x:Static app:UiText.HistoryEmpty}" Visibility="{Binding IsEmpty, Converter={StaticResource BoolToVis}}" TextWrapping="Wrap" Margin="0,12"/>
+                <ListBox x:Name="HistoryList" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow}" HorizontalContentAlignment="Stretch" MaxHeight="240" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}"/>
+                            <Setter Property="Template"><Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border x:Name="RowBorder" BorderThickness="1" BorderBrush="Transparent" Background="Transparent" CornerRadius="4" Margin="0,2">
+                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="RowBorder" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="RowBorder" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/>
+                                            <Setter TargetName="RowBorder" Property="BorderBrush" Value="{DynamicResource TextFillColorSecondaryBrush}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value></Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate><DataTemplate>
+                        <StackPanel Margin="6">
+                            <TextBlock Text="{Binding Preview}" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding Metadata}" TextWrapping="Wrap" Opacity="0.75" FontSize="11" Margin="0,6,0,0"/>
+                            <TextBlock Text="{Binding Markers}" TextWrapping="Wrap" FontWeight="SemiBold" FontSize="11"/>
+                        </StackPanel>
+                    </DataTemplate></ListBox.ItemTemplate>
+                </ListBox>
+                <WrapPanel Margin="0,10,0,4">
+                    <Button x:Name="PreviousButton" Content="{x:Static app:UiText.HistoryPrevious}" Command="{Binding PreviousCommand}" Style="{StaticResource ActionButton}"/>
+                    <Button x:Name="NextButton" Content="{x:Static app:UiText.HistoryNext}" Command="{Binding NextCommand}" Style="{StaticResource ActionButton}"/>
+                    <TextBlock Text="{Binding PageLabel}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="0,0,0,8"/>
+                </WrapPanel>
+                <TextBlock Text="{x:Static app:UiText.HistorySelect}" TextWrapping="Wrap" Opacity="0.75" Margin="0,0,0,8"/>
+                <WrapPanel Visibility="{Binding HasSelection, Converter={StaticResource BoolToVis}}">
+                    <Button x:Name="FavoriteButton" Content="{Binding FavoriteLabel}" Command="{Binding FavoriteCommand}" Style="{StaticResource ActionButton}"/>
+                    <Button x:Name="DeleteButton" Content="{x:Static app:UiText.HistoryDelete}" Command="{Binding DeleteCommand}" Style="{StaticResource ActionButton}"/>
+                    <Button x:Name="CopySourceButton" Content="{x:Static app:UiText.HistoryCopySource}" Command="{Binding CopySourceCommand}" Style="{StaticResource ActionButton}"/>
+                    <Button x:Name="RetranslateButton" Content="{x:Static app:UiText.HistoryRetranslate}" Command="{Binding RetranslateCommand}" Style="{StaticResource ActionButton}"/>
+                </WrapPanel>
+                <TextBlock Text="{x:Static app:UiText.HistoryDetailsLoading}" Visibility="{Binding IsDetailLoading, Converter={StaticResource BoolToVis}}" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding DetailError}" TextWrapping="Wrap" Foreground="{DynamicResource SystemFillColorCriticalBrush}"/>
+                <StackPanel x:Name="DetailPanel" Visibility="{Binding HasDetail, Converter={StaticResource BoolToVis}}">
+                    <TextBlock Text="{x:Static app:UiText.HistorySource}" FontWeight="SemiBold"/>
+                    <TextBox x:Name="SourceTextBox" Text="{Binding Detail.SourceText, Mode=OneWay}" Style="{StaticResource ReadOnlyText}"/>
+                    <ItemsControl x:Name="ResultsList" ItemsSource="{Binding Detail.Results}">
+                        <ItemsControl.ItemTemplate><DataTemplate>
+                            <Border Padding="12" Margin="0,0,0,12" CornerRadius="6" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding ProviderName}" TextWrapping="Wrap" FontWeight="SemiBold"/>
+                                    <TextBlock Text="{Binding Model}" TextWrapping="Wrap" Opacity="0.75"/>
+                                    <TextBlock Text="{x:Static app:UiText.HistoryTruncated}" Visibility="{Binding Truncated, Converter={StaticResource BoolToVis}}" FontWeight="SemiBold"/>
+                                    <TextBox Text="{Binding Text, Mode=OneWay}" Style="{StaticResource ReadOnlyText}"/>
+                                    <Button Content="{x:Static app:UiText.HistoryCopyResult}" Command="{Binding DataContext.CopyResultCommand, RelativeSource={RelativeSource AncestorType=Window}}" CommandParameter="{Binding ProviderId}" HorizontalAlignment="Left" Padding="10,5"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate></ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
+        <Grid Grid.Row="2" Margin="16,8">
+            <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+            <TextBlock Text="{Binding Status}" TextWrapping="Wrap" VerticalAlignment="Center" Margin="0,0,12,0"/>
+            <Button x:Name="CloseButton" Grid.Column="1" Content="{x:Static app:UiText.HistoryClose}" Command="{Binding CloseCommand}" Padding="16,6"/>
+        </Grid>
+    </Grid>
+</ui:FluentWindow>

@@ -1,0 +1,338 @@
+[
+  {
+    "File": "Light-800-empty.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "63AC749E5F4572C2381C09756394B05083805E69C125DA6BB88691AF202C9AAD"
+  },
+  {
+    "File": "Light-800-list-pagination.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "204FBF8F7A521631C17E5F7DE33E82FBD050D1BEE895AB7BFB315AD855787633"
+  },
+  {
+    "File": "Light-800-page-navigation.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "204FBF8F7A521631C17E5F7DE33E82FBD050D1BEE895AB7BFB315AD855787633"
+  },
+  {
+    "File": "Light-800-source-detail.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "5E6FFA55C76146250BBE4C6482F6562318BE07B198E6F2C68B6D2804A2406BF7"
+  },
+  {
+    "File": "Light-800-first-result.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "240C577A682CF3C9E9259F125BEA09C27009EF35186C1C6028DF39F5D09A4D1E"
+  },
+  {
+    "File": "Light-800-results-truncated.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "ED763202D8F61056D038470DF93745247A550577B7A8EE46829A9E3AA03C4520"
+  },
+  {
+    "File": "Light-800-confirm-delete.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "B7E094DDCE61013324E01084B6CC8D7B02138AFC76EE4D7DA57EFF7F40F4E1CD"
+  },
+  {
+    "File": "Light-800-confirm-clear.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "6F8D5AE3F27F3F88FDF38E22474251174F476A6C767D3B5E55A60417A3C46ABC"
+  },
+  {
+    "File": "Light-800-loading.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "A3F61FBAA83E49D778273814F86D665967FEE86857604449A37F129AAF0B8B51"
+  },
+  {
+    "File": "Light-800-error.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "E234128BFB62F589B9417CE7A36009FFD7C7E5AF42DEAEC81B05992C1EEDDE2F"
+  },
+  {
+    "File": "Light-800-writing.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "65ADBA65CF16BAC2623B38AF1D3539A99CF7A9CB6D4D16A12B6974273EF66644"
+  },
+  {
+    "File": "Light-800-close-retry.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "F1506BEBA81A21390FDC9E4500A6C287E0ADD84FA9E0594043C26973DD571CCD"
+  },
+  {
+    "File": "Light-320-empty.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "D035A3F2F06D070E8B0B4BCA5772C90C9C0EFED38186E0C129190B606075D29A"
+  },
+  {
+    "File": "Light-320-list-pagination.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "9185700FA8482A5A81B00033E2C71DC4B3410457D424F7809F7E5CFD109F479B"
+  },
+  {
+    "File": "Light-320-page-navigation.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "4FDE20960B337D6067E5E5F74282133D9DD03607015990B01234D3E62752A8B6"
+  },
+  {
+    "File": "Light-320-source-detail.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "96683B3A0F5CE81B1FD277C36DE31CD701B39463DE38514E18FF942C7CD9DEF9"
+  },
+  {
+    "File": "Light-320-first-result.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "1D77A6DDB611919A86F691D2AD629CD5D9DCD0B7025DA98B5EA118EEA35651B3"
+  },
+  {
+    "File": "Light-320-results-truncated.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "32B9740960C2269D3E117E3EF23BE31FFABDFA64D5B564E6B1C5E29BA8823F7C"
+  },
+  {
+    "File": "Light-320-confirm-delete.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "0D12C685017976D29D045B0BD7C3BCFD2B54F8545F9BD3444ED45A851FB4F69C"
+  },
+  {
+    "File": "Light-320-confirm-clear.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "ADB93CE9A9B4771F1F048E77CF34B759140999F4F24167CFF002C4058D80D582"
+  },
+  {
+    "File": "Light-320-loading.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "4351136A9FC9837EE026EB6CBBD4B8DDE52A468C6B0341D875A2591DB2803158"
+  },
+  {
+    "File": "Light-320-error.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "2529813A59D4D8E4D30332C3BE6321D01E871C26508C397B5420EB9A64A2BDAC"
+  },
+  {
+    "File": "Light-320-writing.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "44193AF3A03DA6DBFF661E69B7437F7D00EC7C6BE1823392084F16688AB19133"
+  },
+  {
+    "File": "Light-320-close-retry.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "4FFD7855E6D7025F2F7F3A2F5D2E0C9DD773247D08551E080CA7BEE8DE55FDEB"
+  },
+  {
+    "File": "Light-600-settings.png",
+    "Width": 600,
+    "Height": 440,
+    "Sha256": "665E4CD96217AFE2D30BD0FC23BDDA1579C51491B855B9B7484608E00D59377A"
+  },
+  {
+    "File": "Light-600-settings-invalid.png",
+    "Width": 600,
+    "Height": 440,
+    "Sha256": "9CFDEB59549840CEC0DA6BBC97077B64612F45E0B0D9DEE1AF5A03585A72D789"
+  },
+  {
+    "File": "Light-760-settings.png",
+    "Width": 760,
+    "Height": 520,
+    "Sha256": "116AEC2961F715AE1363BBE606CA96E2179C15B4DF3F8C8BCD02994391DB6567"
+  },
+  {
+    "File": "Light-760-settings-invalid.png",
+    "Width": 760,
+    "Height": 520,
+    "Sha256": "359FFABEBE675B7C0565A3B60B9D57218EB90A6EBAC461A93C16E5628125D1A2"
+  },
+  {
+    "File": "Dark-800-empty.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "BEDE0AB2ED169023DBCE5001871EB56CF6265D8E82A127F4D643C4141533334C"
+  },
+  {
+    "File": "Dark-800-list-pagination.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "8B0D03DA1D46BF74B6DC6F3171AF495970417BEBE5F4104BC99501AA52567997"
+  },
+  {
+    "File": "Dark-800-page-navigation.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "8B0D03DA1D46BF74B6DC6F3171AF495970417BEBE5F4104BC99501AA52567997"
+  },
+  {
+    "File": "Dark-800-source-detail.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "EDF1A39CC0F0D318912CC090E77482A318D7EE59A58CD04B1BFC65670C712439"
+  },
+  {
+    "File": "Dark-800-first-result.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "E3E3AD4040B205BE8468F20FD1C23E0546FD8192A961B251A6A017E99015CBB0"
+  },
+  {
+    "File": "Dark-800-results-truncated.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "395B78F1788DDAB9AB270C448C625970AF9566DBE991179D2561A4970229B177"
+  },
+  {
+    "File": "Dark-800-confirm-delete.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "29D39950FEF508E745CC7C510D1138D0DE3DD95465E920606D85A0C306E877EF"
+  },
+  {
+    "File": "Dark-800-confirm-clear.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "6F91EF39BAB759F51942115FC639B83F5C4C44392111D9AB7D6964DC61AEE5CC"
+  },
+  {
+    "File": "Dark-800-loading.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "3A808193588929CA53B835F8B0D46150B6B3D5F7784862181F2A286A5C21196D"
+  },
+  {
+    "File": "Dark-800-error.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "25DEDF21C886CACAC8D97F9057FB88FFD17659EF5EEB0B0DC25693F68E0800A6"
+  },
+  {
+    "File": "Dark-800-writing.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "9E8CC0BBE0EE067164177C57458B73127E2A5FCDA41D380F8928A68D2DD105EF"
+  },
+  {
+    "File": "Dark-800-close-retry.png",
+    "Width": 800,
+    "Height": 640,
+    "Sha256": "C77DC0CF00605999D5E9C4008619D7EB4DE93E31A06BBB6F0A9E013448E45FAB"
+  },
+  {
+    "File": "Dark-320-empty.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "335938F0A578A94C45BEDECA6D5261954EF4391323F4BF2ACBD877FBAAE35A75"
+  },
+  {
+    "File": "Dark-320-list-pagination.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "AE6B9ACF8F989D337147058EF0041BA2958457086E8785BE0738FDA9CEDAF780"
+  },
+  {
+    "File": "Dark-320-page-navigation.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "5897B8402F2A163E52123FBC4788BE282E930AAB1461EE23E1D904948F778A28"
+  },
+  {
+    "File": "Dark-320-source-detail.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "CB5699200EA942D93204D223E88334501D8B5705AE04BDC540866D2C8C8C93CE"
+  },
+  {
+    "File": "Dark-320-first-result.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "AF0814B8374BA2B6E4512C9126B5381A7EA72DA08B1EDFB3F8E024EEEF7ACC39"
+  },
+  {
+    "File": "Dark-320-results-truncated.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "FD6016F75F9B3A9852C0EE1F5A3E7C2D85C2D1ABF7D5E1DB499C94AB483F8436"
+  },
+  {
+    "File": "Dark-320-confirm-delete.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "2FCF7E31531BACE04B10AEA2199909AF4B73AFEF22CFEFEA2746C0DD9F3DF637"
+  },
+  {
+    "File": "Dark-320-confirm-clear.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "0F07519CFDF67105BA7CDDD1B2BF5F06865686E3E6F61B189D46358A025FE9F0"
+  },
+  {
+    "File": "Dark-320-loading.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "AC3FFA248266DCB1CB0C9B8CD8658A1B0B4C625AC84124677BD211E42BEBC02A"
+  },
+  {
+    "File": "Dark-320-error.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "DEFF81579E8D471D81658F54FC716D10E148D9C50DDCC6BFBAE8E361F3366327"
+  },
+  {
+    "File": "Dark-320-writing.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "FC0E46BEC9314C8983FB7831A6083DA18079EB7C71114ADF8A300890B3FD2E6B"
+  },
+  {
+    "File": "Dark-320-close-retry.png",
+    "Width": 320,
+    "Height": 280,
+    "Sha256": "59B1785A05434C8F99BB27B309AA9E32C367963E26AA65F80D41A34ECDFB4465"
+  },
+  {
+    "File": "Dark-600-settings.png",
+    "Width": 600,
+    "Height": 440,
+    "Sha256": "6D29F2CA6367288EBD9075FAAFDD4CCBB59D309A796BE08BE3108FC10D9DF756"
+  },
+  {
+    "File": "Dark-600-settings-invalid.png",
+    "Width": 600,
+    "Height": 440,
+    "Sha256": "9AEFB54FD194A50E85A8612E3B90F99B96B73B67B556D5955367B8010EF6CA08"
+  },
+  {
+    "File": "Dark-760-settings.png",
+    "Width": 760,
+    "Height": 520,
+    "Sha256": "A1872F78320E2D0E155A8D11E4B57124C041125500089C8319F3A3C68AE8AE34"
+  },
+  {
+    "File": "Dark-760-settings-invalid.png",
+    "Width": 760,
+    "Height": 520,
+    "Sha256": "5AC6EC7F28CFF63B2F5F111B20D419E5439B6C57D2D86F8866BF82D07D146A8D"
+  }
+]

@@ -1,0 +1,3 @@
+F:\Iris\src\Iris.App\History\HistoryViewModel.cs(18,73): error CA1863: 缓存 "CompositeFormat" 以在此格式化操作中重复使用 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1863) [F:\Iris\src\Iris.App\Iris.App_prvveo5t_wpftmp.csproj]
+F:\Iris\src\Iris.App\History\HistoryViewModel.cs(110,9): error CA1863: 缓存 "CompositeFormat" 以在此格式化操作中重复使用 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1863) [F:\Iris\src\Iris.App\Iris.App_prvveo5t_wpftmp.csproj]
+生成失败，退出代码: 1。

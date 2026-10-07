@@ -1,5 +1,15 @@
 # Iris 架构师接手记录
 
+**T-035首次全量与补充视觉（待最终交付）**：release-full-1为3400总计/3123成功/275失败/2既有跳过；开发full-failure-analysis-1区分271项缺新IHistoryWindowPresenter与4项其它提示。实际日志核对旧DI构造失败；托盘顺序需加入历史菜单，两项错误保留测试依赖该夹具，另旧IME/ShiftEnter测试未固定普通Enter的模拟修饰键。开发仅补依赖/菜单预期和复用既有TestKeyboardModifiersProvider隔离物理键状态，旧业务断言保持，legacy-targeted-1的80项通过。首次失败保留，仍需全量恢复。独立已核对64张最新图：50张与先前所看一致，14张新增/变化通过4张changed-contact逐格查看，记录临时reviewed-visuals-2.json（history-render-5184a7e535a741bba886e1c4ca3aa943）。
+
+**T-035独立复核追加（仍在开发）**：iris-t035-independent-review/preparation-1.log四项真实窗口准备/恢复检查通过，含旧receipt不影响关闭后新窗口和实际定位失败完整回滚。已逐格查阅history-render-0de5b7ba988c4c259d4dfedfb478fd13的56张图（10张contact），深浅主题/窄窗/确认/关闭失败/历史设置均可读，SHA记录临时reviewed-visuals.json。开发正在补行操作与服务标题视图及最终验证，最终图片/提交仍须绑定，不能直接据开发期探针结案。已审查实际Host重译测试，使用真实TranslateWindowPresenter和窄Provider通信，全文/current model/收藏保持断言存在。既有DI测试只新增History依赖与计数断言，未删业务校验。
+
+**T-035开发期独立检查（尚未验收）**：临时iris-t035-core-review/run-1.log实际Core编辑协调器六组通过（纯历史/最新字段/冲突/已达Target/非法范围在stage前拒绝/Update内冲突回滚）。临时iris-t035-independent-review/settings-2.log六组实际设置窗检查、history-1.log两组实际历史窗+临时SQLite、lifecycle-1.log三组迟到查询/非合作复制/写入UI收尾检查均通过。产物为开发中复制冻结DLL，仍须最终提交重绑；历史重译在本独立探针使用窄Presenter替身，不能冒称实际翻译端到端。settings-1为夹具在异步外部更新前过早断言，改为等待UI队列哨兵后通过，原失败保留，生产未改。开发目前已通过业务/生命周期测试，正在修渲染夹具并继续视觉/全量；不重发工单。
+
+**T-035已实际下达并接单**：消息01a1155e-feb3-7f80-aebc-58bbd054af0c；执行轮01a1155f-23d5-7593-b242-4704b45ca2e2明确接单，已读取工单/历史规范/契约并检查真实保存器、仓储及截图准备接线。不因持久化轮状态暂为interrupted且completedAt=null误判停止，不重复派单。
+
+**2026-10-07当前唯一工单T-035（覆盖下方历史状态）**：T-032/B/R1在b0607304755f22b5b115e802ad4bdf685e64e1de独立复审通过，Release0警告/错误、全量3338（3336成功/2环境跳过），生产相对B零变化，九组窗口探针和42张视觉证据保留。M5实现结案，真实桌面/NFR仍待T-040。按HISTORY_UI.md/ARCHv1.52/CCR035完成HistoryWindow/Presenter/OpenHistory、托盘入口与历史联合设置；精确HistoryPatch声明已预置CONTRACTS，由开发落地。M6延期，开发会话01a112a7-c953-7630-9ee9-d2be2123dc70不变，一次一单、不push。
+
 **2026-10-07接续状态（覆盖下方历史当前状态）**：原架构对话无法继续，用户已在新对话授权接续。开发对话仍01a112a7-c953-7630-9ee9-d2be2123dc70。T-032B交付03b42a3经独立构建0警告/错误，全部九组窗口探针通过；独立全量3338/3335成功/1既有队列测试失败/2环境跳过。当前唯一补单T-032B-R1，仅修两个既有队列测试的同步门闩/收尾，src零改动，详见current_task与T-032B.review。B/父单未结案，M7未开始；M6延迟、OCR复用翻译窗口、不push等约定保持。
 
 **T-032B已实际下达**：消息01a11336-0736-7d52-b048-6fe75224459b，执行轮01a11336-1cad-7f62-b71d-f89c4615dbf7已建立，指定开发会话不变。完整UI规范为OCR_SETTINGS_UI.md，A验收证据T-032A.review已准备随B提交；尚未收到实施交付，不因等待超时重发。

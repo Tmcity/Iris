@@ -160,6 +160,7 @@ public sealed class TranslationEndToEndTests
             services.AddSingleton<IUiDispatcher>(uiDispatcher);
             services.AddSingleton(clipboard);
             services.AddSingleton(settingsPresenter);
+            services.AddSingleton(Substitute.For<IHistoryWindowPresenter>());
             services.AddSingleton(desktop);
             services.AddSingleton<INotificationService>(Substitute.For<INotificationService>());
             services.AddSingleton<ISettingsApplyReceiptManager, SettingsApplyReceiptManager>();

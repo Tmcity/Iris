@@ -89,6 +89,7 @@ public sealed class OpenSettingsHandlerTests
 
         var fakePresenter = Substitute.For<ISettingsWindowPresenter>();
         services.AddSingleton(fakePresenter);
+        services.AddSingleton(Substitute.For<IHistoryWindowPresenter>());
 
         var fakeTranslatePresenter = Substitute.For<ITranslateWindowPresenter>();
         services.AddSingleton(fakeTranslatePresenter);

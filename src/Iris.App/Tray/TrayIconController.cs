@@ -43,6 +43,8 @@ internal sealed partial class TrayIconController : IDisposable
     internal MenuItem? SilentScreenshotOcrMenuItem { get; private set; }
     internal Task? LastScreenshotTask { get; private set; }
     internal MenuItem? SettingsMenuItem { get; private set; }
+    internal MenuItem? HistoryMenuItem { get; private set; }
+    internal Task? LastOpenHistoryTask { get; private set; }
     internal ICommand LeftClickCommand => _leftClickCommand;
     internal Task? LastInputTranslateTask { get; private set; }
     internal Task? LastClipboardTranslateTask { get; private set; }
@@ -282,6 +284,18 @@ internal sealed partial class TrayIconController : IDisposable
         settingsItem.Click += OnSettingsClick;
         SettingsMenuItem = settingsItem;
         contextMenu.Items.Add(settingsItem);
+        HistoryMenuItem = new MenuItem { Header = UiText.HistoryTitle };
+        HistoryMenuItem.Click += async (_, _) =>
+        {
+            try
+            {
+                if (_disposed) return;
+                LastOpenHistoryTask = _actionDispatcher.DispatchAsync(IrisAction.OpenHistory, new ActionContext(ActionTrigger.TrayMenu));
+                await LastOpenHistoryTask;
+            }
+            catch (Exception ex) { LogHistoryFailed(_logger, ex.GetType().Name); }
+        };
+        contextMenu.Items.Add(HistoryMenuItem);
         contextMenu.Items.Add(new Separator());
 
 #if DEBUG
@@ -344,6 +358,9 @@ internal sealed partial class TrayIconController : IDisposable
 
         return contextMenu;
     }
+
+    [LoggerMessage(EventId = 40, Level = LogLevel.Warning, Message = "打开历史窗口失败：{ExceptionType}")]
+    private static partial void LogHistoryFailed(ILogger logger, string exceptionType);
 
     private async void OnInputTranslateClick(object? sender, RoutedEventArgs e)
     {

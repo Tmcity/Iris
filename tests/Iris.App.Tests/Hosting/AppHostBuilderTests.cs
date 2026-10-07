@@ -290,9 +290,9 @@ public sealed class AppHostBuilderTests
         using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
 
         var handlers = host.Services.GetRequiredService<System.Collections.Generic.IEnumerable<IActionHandler>>().ToList();
-        handlers.Count.ShouldBe(9);
+        handlers.Count.ShouldBe(10);
         handlers.Count(h => h.Action == IrisAction.SelectionTranslate).ShouldBe(1);
-        handlers.Select(h => h.Action).Distinct().Count().ShouldBe(9);
+        handlers.Select(h => h.Action).Distinct().Count().ShouldBe(10);
         handlers.Count(h => h.Action == IrisAction.ScreenshotTranslate).ShouldBe(1);
         handlers.Count(h => h.Action == IrisAction.ScreenshotOcr).ShouldBe(1);
         handlers.Count(h => h.Action == IrisAction.SilentScreenshotOcr).ShouldBe(1);
@@ -302,6 +302,7 @@ public sealed class AppHostBuilderTests
         handlers.OfType<Iris.Core.Workflows.ToggleMouseSelectionHandler>().ShouldHaveSingleItem();
 
         handlers.OfType<Iris.Core.Workflows.OpenSettingsHandler>().ShouldHaveSingleItem();
+        handlers.OfType<Iris.Core.Workflows.OpenHistoryHandler>().ShouldHaveSingleItem();
         handlers.OfType<Iris.Core.Workflows.InputTranslateHandler>().ShouldHaveSingleItem();
         handlers.OfType<Iris.Core.Workflows.ClipboardTranslateHandler>().ShouldHaveSingleItem();
         handlers.OfType<Iris.Core.Workflows.TranslateTextHandler>().ShouldHaveSingleItem();

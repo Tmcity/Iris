@@ -94,7 +94,9 @@ public sealed class TrayIconControllerTests
                 item3.Header.ShouldBe(UiText.TrayMenuSettings);
                 controller.SettingsMenuItem.ShouldBeSameAs(item3);
 
-                menu.Items[7].ShouldBeOfType<Separator>();
+                menu.Items[7].ShouldBeSameAs(controller.HistoryMenuItem);
+                controller.HistoryMenuItem!.Header.ShouldBe(UiText.HistoryTitle);
+                menu.Items[8].ShouldBeOfType<Separator>();
             }
 
             return Task.CompletedTask;

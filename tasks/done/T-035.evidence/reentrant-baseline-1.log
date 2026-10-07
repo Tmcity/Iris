@@ -1,0 +1,27 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.History.HistoryLifecycleTests.ReentrantCloseBeforeQueryAdmission_DoesNotStartWorkAfterStop (1s 593ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.OperationCanceledException : 操作队列已停止接纳新请求
+    在 Iris.App.Settings.SettingsDraftOperationQueue.EnqueueAsync(Func`2 work, CancellationToken callerCt) 位于 F:\Iris\src\Iris.App\Settings\SettingsDraftOperationQueue.cs:53
+    在 Iris.App.History.HistoryViewModel.RequestQueryAsync(Int32 page, Boolean debounce) 位于 F:\Iris\src\Iris.App\History\HistoryViewModel.cs:142
+    在 Iris.App.History.HistoryViewModel.RefreshAsync() 位于 F:\Iris\src\Iris.App\History\HistoryViewModel.cs:130
+    在 Iris.App.Tests.History.HistoryLifecycleTests.<>c.<<ReentrantCloseBeforeQueryAdmission_DoesNotStartWorkAfterStop>b__0_0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\History\HistoryLifecycleTests.cs:28
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.History.HistoryTestScope.<>c__DisplayClass36_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\History\HistoryTestScope.cs:106
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.History.HistoryTestScope.<>c__DisplayClass36_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\History\HistoryTestScope.cs:120
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    --- End of stack trace from previous location ---
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (3s 112ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 1
+  失败: 1
+  成功: 0
+  已跳过: 0
+  持续时间: 3s 421ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

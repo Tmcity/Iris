@@ -73,6 +73,7 @@ internal sealed class MouseInteractionTestScope
         services.AddSingleton<IClipboardService>(Substitute.For<IClipboardService>());
         services.AddSingleton(Substitute.For<ISecretStore>()); services.AddSingleton(Substitute.For<IAutoStartService>());
         services.AddSingleton(Substitute.For<ISettingsWindowPresenter>()); services.AddSingleton(Substitute.For<IAppLifetime>());
+        services.AddSingleton(Substitute.For<IHistoryWindowPresenter>());
         services.AddSingleton(Substitute.For<ITranslationHistoryRepository>());
         var registry = Substitute.For<ITranslationProviderRegistry>();
         var profile = new TranslationProviderProfile { Id = "fake", Kind = TranslationProviderKind.OpenAICompatible, DisplayName = "Fake", Model = "fake", Enabled = true };

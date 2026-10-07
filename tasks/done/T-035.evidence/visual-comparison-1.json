@@ -1,0 +1,22 @@
+{
+  "previousReviewed": "history-render-0de5b7ba988c4c259d4dfedfb478fd13",
+  "candidate": "history-render-5184a7e535a741bba886e1c4ca3aa943",
+  "total": 64,
+  "changedOrAdded": [
+    "Light-800-row-actions.png",
+    "Light-800-last-result-header.png",
+    "Light-800-loading.png",
+    "Light-800-error.png",
+    "Light-320-row-actions.png",
+    "Light-320-last-result-header.png",
+    "Light-320-error.png",
+    "Dark-800-row-actions.png",
+    "Dark-800-last-result-header.png",
+    "Dark-800-loading.png",
+    "Dark-800-error.png",
+    "Dark-320-row-actions.png",
+    "Dark-320-last-result-header.png",
+    "Dark-320-error.png"
+  ],
+  "unchanged": 50
+}

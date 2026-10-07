@@ -1,0 +1,16 @@
+{
+  "previousReviewed": "history-render-5184a7e535a741bba886e1c4ca3aa943",
+  "finalFullSuite": "history-render-9011a95ec82f41f49ecef9db3c06d788",
+  "total": 64,
+  "changed": [
+    "Light-600-settings.png",
+    "Light-600-settings-invalid.png",
+    "Light-760-settings.png",
+    "Light-760-settings-invalid.png",
+    "Dark-600-settings.png",
+    "Dark-600-settings-invalid.png",
+    "Dark-760-settings.png",
+    "Dark-760-settings-invalid.png"
+  ],
+  "matchedReviewed": 56
+}

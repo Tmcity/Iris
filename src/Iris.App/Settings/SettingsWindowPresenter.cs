@@ -549,6 +549,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
         }
 
         var trimmed = pageKey.Trim();
+        if (trimmed.Equals("history", StringComparison.OrdinalIgnoreCase)) return "history";
         if (trimmed.Equals("ocr", StringComparison.OrdinalIgnoreCase)) return "ocr";
         if (trimmed.Equals("screenshot", StringComparison.OrdinalIgnoreCase)) return "screenshot";
         if (trimmed.Equals("selection", StringComparison.OrdinalIgnoreCase)) return "selection";

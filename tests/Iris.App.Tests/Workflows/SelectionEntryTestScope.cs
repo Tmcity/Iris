@@ -66,6 +66,7 @@ internal sealed class SelectionEntryTestScope
         services.AddSingleton(Settings); services.AddSingleton(Desktop); services.AddSingleton(Reader);
         services.AddSingleton<IUiDispatcher>(Ui); services.AddSingleton<ITranslationOrchestrator>(Orchestrator);
         services.AddSingleton(Substitute.For<IClipboardService>()); services.AddSingleton(Substitute.For<ISettingsWindowPresenter>());
+        services.AddSingleton(Substitute.For<IHistoryWindowPresenter>());
         services.AddSingleton(Substitute.For<IAppLifetime>()); services.AddSingleton<ITrayNotificationNative>(Native);
         services.AddSingleton(placement); services.AddSingleton<TrayNotificationService>();
         services.AddSingleton<TrayIconController>();

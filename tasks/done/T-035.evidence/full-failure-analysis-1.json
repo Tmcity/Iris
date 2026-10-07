@@ -1,0 +1,21 @@
+{
+  "failureCount": 275,
+  "notHistoryDI": [
+    "Iris.App.Tests.Tray.TrayIconControllerTests.ContextMenu_ItemsAndOrder_AreCorrect (537ms)",
+    "Iris.App.Tests.Settings.SelectionSettingsUiTests.FailureWhileSaveAndCloseWait_ReleasesGateAndPreservesErrors(cleanupError: True) (457ms)",
+    "Iris.App.Tests.Workflows.SelectionOperationNotificationTests.FailureDuringNotification_FinishesActualUiAndPreservesErrors(cleanupFailure: True) (721ms)",
+    "Iris.App.Tests.Translation.TranslateWindowUiTests.KeyHandling_ImeCompositionAndShiftEnter_DoNotTriggerTranslate (184ms)"
+  ],
+  "firstSourceLocations": {
+    "tests\\Iris.App.Tests\\Translation\\TranslationOrchestratorIntegrationTests.cs": 1,
+    "tests\\Iris.App.Tests\\Selection\\MouseInteractionTestScope.cs": 162,
+    "tests\\Iris.App.Tests\\Settings\\SelectionSettingsTestScope.cs": 24,
+    "tests\\Iris.App.Tests\\Tray\\TrayIconControllerTests.cs": 1,
+    "tests\\Iris.App.Tests\\Workflows\\TranslationEndToEndTests.cs": 1,
+    "tests\\Iris.App.Tests\\Workflows\\SelectionEntryTestScope.cs": 32,
+    "tests\\Iris.App.Tests\\Settings\\SelectionSettingsUiTests.cs": 2,
+    "tests\\Iris.App.Tests\\Workflows\\SelectionOperationNotificationTests.cs": 2,
+    "tests\\Iris.App.Tests\\Translation\\TranslateWindowUiTests.cs": 1,
+    "tests\\Iris.App.Tests\\Ocr\\OcrEntrypointScope.cs": 49
+  }
+}

@@ -44,6 +44,7 @@ public static class CoreServiceCollectionExtensions
         services.TryAddSingleton<ISettingsEditCoordinator, SettingsEditCoordinator>();
 
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IActionHandler, OpenSettingsHandler>());
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<IActionHandler, OpenHistoryHandler>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IActionHandler, InputTranslateHandler>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IActionHandler, ClipboardTranslateHandler>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IActionHandler, SelectionTranslateHandler>());

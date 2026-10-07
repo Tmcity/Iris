@@ -97,6 +97,8 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
 
         // 2. 同步防御性捕获并克隆所有输入集合（按 Kind 补齐必需默认 Options）
         var capturedPlan = ClonePlan(plan);
+        var historyError = ValidateHistory(capturedPlan.History);
+        if (historyError != null) return new SettingsEditResult(SettingsEditStatus.Uncommitted, Error: historyError);
         var selectionError = ValidateSelection(capturedPlan.Selection);
         if (selectionError != null) return new SettingsEditResult(SettingsEditStatus.Uncommitted, Error: selectionError);
         capturedPlan = capturedPlan with { Selection = NormalizeSelection(capturedPlan.Selection), Ocr = NormalizeOcrPatch(capturedPlan.Ocr) };
@@ -754,7 +756,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         }
 
         // 2. Profile Changes 冲突初检与凭据规划
-        if (HasSelectionConflict(plan.Selection, current.Selection))
+        if (HasSelectionConflict(plan.Selection, current.Selection) || HasHistoryConflict(plan.History, current.History))
             return StagingPlan.Conflict(new ErrorInfo(ErrorCode.Unknown, ConflictMessage));
         var currentProfilesMap = current.Translation.Providers.ToDictionary(p => p.Id, StringComparer.Ordinal);
         foreach (var change in plan.TranslationChanges)
@@ -1085,9 +1087,10 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         }
 
         var newSelection = ApplySelection(plan.Selection, current.Selection);
+        var newHistory = ApplyHistory(plan.History, current.History);
         var newOcr = ApplyOcr(plan, current.Ocr, newCredentialSetMap);
         var newScreenshot = ApplyScreenshot(plan.Screenshot, current.Screenshot);
-        if (ReferenceEquals(newOcr, current.Ocr) && ReferenceEquals(newScreenshot, current.Screenshot) &&
+        if (ReferenceEquals(newHistory, current.History) && ReferenceEquals(newOcr, current.Ocr) && ReferenceEquals(newScreenshot, current.Screenshot) &&
             ReferenceEquals(newSelection, current.Selection) && ReferenceEquals(newGeneral, current.General) &&
             ReferenceEquals(newTranslation, current.Translation) &&
             ReferenceEquals(newHotkeys, current.Hotkeys))
@@ -1101,6 +1104,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             Translation = newTranslation,
             Hotkeys = newHotkeys,
             Selection = newSelection,
+            History = newHistory,
             Ocr = newOcr, Screenshot = newScreenshot
         };
     }
@@ -2040,6 +2044,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         if (plan.TranslationOrder != null) return false;
         if (plan.HotkeyChanges.Count > 0) return false;
         if (HasSelectionEdits(plan.Selection)) return false;
+        if (HasHistoryEdits(plan.History)) return false;
         if (HasOcrEdits(plan) || HasScreenshotEdits(plan.Screenshot)) return false;
 
         if (plan.General != null)
@@ -2132,6 +2137,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         {
             HotkeyChanges = hotkeyChanges,
             Selection = CloneSelection(plan.Selection),
+            History = plan.History is { } history ? history with { } : null,
             Ocr = plan.Ocr is { } ocr ? ocr with { } : null,
             Screenshot = plan.Screenshot is { } screenshot ? screenshot with { } : null,
             OcrChanges = plan.OcrChanges.Select(CloneOcrChange).ToArray()

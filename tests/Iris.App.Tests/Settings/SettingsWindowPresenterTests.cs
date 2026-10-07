@@ -52,6 +52,7 @@ public sealed class SettingsWindowPresenterTests
     [InlineData("Translation", "translation")]
     [InlineData("ocr", "ocr")]
     [InlineData("SCREENSHOT", "screenshot")]
+    [InlineData(" HISTORY ", "history")]
     [InlineData("unknown_page", "general")]
     public void NormalizePageKey_AlwaysReturnsGeneral(string? input, string expected)
     {

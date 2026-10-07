@@ -1057,3 +1057,14 @@ CCR-024结案补充：c7282698最终独立构建/定向/全量通过，生产同
 兼容扩展SettingsEditPlan为可选Ocr、Screenshot和默认空OcrChanges，新增对应字段补丁、OcrProfileChangeKind/Change、OcrProviderDraft。ISettingsEditCoordinator增加纯构造CreateOcrDraftTest，返回IOcrDraftTestSession（单次RunAsync、可重试DisposeAsync），以保留真实异步Provider快照的测试/清理责任，不把测试结果当作已保存。原构造/旧接口保持，精确声明已预置CONTRACTS.cs。
 
 所有编辑复用既有串行提交、不可变凭据与ApplyPending协议；相同Profile.Id跨翻译/OCR的凭据映射须隔离，跨域共享引用保留。A完成基础，B完整设置页；不改变持久化默认/schema/包、Provider/Registry/Service端口或测试鉴权语义，不恢复独立OCR窗口。
+
+
+## CCR-035：历史设置的联合字段增量
+
+2026-10-07 · Codex架构师批准 · T-035 / HISTORY_UI.md / ARCH v1.52。
+
+状态：**已落地，待架构师独立复审**。
+
+兼容新增SettingsEditPlan.History（可空、默认null），以及HistorySettingsPatch(可选SettingsFieldEdit<bool> Enabled、可选SettingsFieldEdit<int> MaxEntries)。保留原构造/解构与全部旧字段，ToString不输出值。精确声明以CONTRACTS.cs为准。
+
+History.Enabled/MaxEntries已存在于持久化配置，正常化上限现为100..100000；本单只增加安全联合编辑入口，不改默认/schema/JSON格式，不直接删除历史。按字段验证Base/Target并合并提交时最新状态；纯History无需Provider观察者/回执，联合Provider变化保持旧配额与ApplyPending。既有IHistoryWindowPresenter.ShowAsync、仓储、翻译与剪贴板接口均保持；历史窗口完整生命周期及截图参与者为App内部实现。

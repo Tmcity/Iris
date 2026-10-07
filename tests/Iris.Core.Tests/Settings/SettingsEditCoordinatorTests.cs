@@ -1697,6 +1697,7 @@ public sealed class SettingsEditCoordinatorTests
         services.AddSingleton<ISecretStore>(secretStore);
         services.AddSingleton<ITranslationHistoryRepository>(Substitute.For<ITranslationHistoryRepository>());
         services.AddSingleton<ISettingsWindowPresenter>(Substitute.For<ISettingsWindowPresenter>());
+        services.AddSingleton<IHistoryWindowPresenter>(Substitute.For<IHistoryWindowPresenter>());
         services.AddSingleton<ILoggerFactory>(NullLoggerFactory.Instance);
         services.AddSingleton(typeof(ILogger<>), typeof(NullLogger<>));
 

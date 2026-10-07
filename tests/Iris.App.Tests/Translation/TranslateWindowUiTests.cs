@@ -194,9 +194,11 @@ public sealed class TranslateWindowUiTests
             var vm = scope.ServiceProvider.GetRequiredService<TranslateWindowViewModel>();
             var window = scope.ServiceProvider.GetRequiredService<TranslateWindow>();
             using var hwndSource = new System.Windows.Interop.HwndSource(0, 0, 0, 0, 0, "TestHwnd", IntPtr.Zero);
+            var previousModifiers = TranslateWindow.TestKeyboardModifiersProvider;
 
             try
             {
+                TranslateWindow.TestKeyboardModifiersProvider = () => ModifierKeys.None;
                 window.DataContext = vm;
                 window.AttachPresenter(presenter);
                 vm.AttachPresenter(presenter);
@@ -239,7 +241,7 @@ public sealed class TranslateWindowUiTests
                 }
                 finally
                 {
-                    TranslateWindow.TestKeyboardModifiersProvider = null;
+                    TranslateWindow.TestKeyboardModifiersProvider = () => ModifierKeys.None;
                 }
 
                 // 3. 模拟普通 Enter 发往 InputTextBox，触发翻译并进入流式中
@@ -263,6 +265,7 @@ public sealed class TranslateWindowUiTests
             finally
             {
                 streamGate.TrySetResult();
+                TranslateWindow.TestKeyboardModifiersProvider = previousModifiers;
                 window.DataContext = null;
                 window.Close();
             }

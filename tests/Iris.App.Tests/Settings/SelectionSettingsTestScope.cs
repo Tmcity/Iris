@@ -62,6 +62,7 @@ internal sealed class SelectionSettingsTestScope
         services.AddSingleton<ISettingsService>(settings ?? Store); services.AddSingleton(Secrets); services.AddSingleton(AutoStart);
         services.AddSingleton(Reader); services.AddSingleton(Presenter); services.AddSingleton(Substitute.For<IClipboardService>());
         services.AddSingleton(Substitute.For<IDesktopContext>()); services.AddSingleton(Substitute.For<ISettingsWindowPresenter>());
+        services.AddSingleton(Substitute.For<IHistoryWindowPresenter>());
         services.AddSingleton(Substitute.For<ITranslationProviderRegistry>());
         services.RemoveAll<IProviderConfigurationObserver>(); services.AddSingleton(Observer);
         services.AddSingleton<IUiDispatcher>(new WpfUiDispatcher()); services.AddSingleton<ThemeService>();

@@ -209,6 +209,7 @@ public sealed class TranslationOrchestratorIntegrationTests
             services.AddSingleton<ISecretStore>(SecretStore);
             services.AddSingleton<ITranslationProviderFactory>(ProviderFactory);
             services.AddSingleton(Substitute.For<ISettingsWindowPresenter>());
+            services.AddSingleton(Substitute.For<IHistoryWindowPresenter>());
             services.AddSingleton(Substitute.For<ITranslateWindowPresenter>());
             services.AddSingleton(Substitute.For<IScreenshotService>());
             services.AddSingleton(Substitute.For<IScreenshotOcrFeedback>());

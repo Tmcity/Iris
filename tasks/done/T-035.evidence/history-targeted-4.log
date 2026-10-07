@@ -1,0 +1,43 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.History.HistoryRenderingTests.ActualHistoryAndSettingsWindows_RenderBothThemesAndWorkAreas (273ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.InvalidOperationException : 在显示 Window 或调用 WindowInteropHelper.EnsureHandle 之后，无法更改 AllowsTransparency。
+    在 System.Windows.Window.CoerceAllowsTransparency(DependencyObject d, Object value)
+    在 System.Windows.DependencyObject.UpdateEffectiveValue(EntryIndex entryIndex, DependencyProperty dp, PropertyMetadata metadata, EffectiveValueEntry oldEntry, EffectiveValueEntry& newEntry, Boolean coerceWithDeferredReference, Boolean coerceWithCurrentValue, OperationType operationType)
+    在 System.Windows.StyleHelper.ApplyStyleOrTemplateValue(FrameworkObject fo, DependencyProperty dp)
+    在 System.Windows.StyleHelper.InvalidateContainerDependents(DependencyObject container, FrugalStructList`1& exclusionContainerDependents, FrugalStructList`1& oldContainerDependents, FrugalStructList`1& newContainerDependents)
+    在 System.Windows.StyleHelper.DoStyleInvalidations(FrameworkElement fe, FrameworkContentElement fce, Style oldStyle, Style newStyle)
+    在 System.Windows.FrameworkElement.OnStyleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    在 System.Windows.FrameworkElement.OnPropertyChanged(DependencyPropertyChangedEventArgs e)
+    在 System.Windows.DependencyObject.NotifyPropertyChange(DependencyPropertyChangedEventArgs args)
+    在 System.Windows.DependencyObject.UpdateEffectiveValue(EntryIndex entryIndex, DependencyProperty dp, PropertyMetadata metadata, EffectiveValueEntry oldEntry, EffectiveValueEntry& newEntry, Boolean coerceWithDeferredReference, Boolean coerceWithCurrentValue, OperationType operationType)
+    在 System.Windows.DependencyObject.InvalidateProperty(DependencyProperty dp)
+    在 System.Windows.TreeWalkHelper.InvalidateResourceReferences(DependencyObject d, ResourcesChangeInfo info)
+    在 System.Windows.TreeWalkHelper.OnResourcesChanged(DependencyObject d, ResourcesChangeInfo info, Boolean raiseResourceChangedEvent)
+    在 System.Windows.TreeWalkHelper.OnResourcesChangedCallback(DependencyObject d, ResourcesChangeInfo info, Boolean visitedViaVisualTree)
+    在 System.Windows.DescendentsWalker`1.StartWalk(DependencyObject startNode, Boolean skipStartNode)
+    在 System.Windows.ResourceDictionary.NotifyOwners(ResourcesChangeInfo info)
+    在 System.Windows.ResourceDictionary.OnMergedDictionariesChanged(Object sender, NotifyCollectionChangedEventArgs e)
+    在 System.Collections.ObjectModel.ObservableCollection`1.OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+    在 Iris.App.Tests.History.HistoryRenderingTests.Theme(Window window, Boolean dark) 位于 F:\Iris\tests\Iris.App.Tests\History\HistoryRenderingTests.cs:84
+    在 Iris.App.Tests.History.HistoryRenderingTests.<>c__DisplayClass1_2.<<ActualHistoryAndSettingsWindows_RenderBothThemesAndWorkAreas>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\History\HistoryRenderingTests.cs:35
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.History.HistoryTestScope.<>c__DisplayClass35_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\History\HistoryTestScope.cs:100
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.History.HistoryTestScope.<>c__DisplayClass35_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\History\HistoryTestScope.cs:114
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    在 Iris.App.Tests.History.HistoryRenderingTests.ActualHistoryAndSettingsWindows_RenderBothThemesAndWorkAreas() 位于 F:\Iris\tests\Iris.App.Tests\History\HistoryRenderingTests.cs:31
+    --- End of stack trace from previous location ---
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (21s 352ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 42
+  失败: 1
+  成功: 41
+  已跳过: 0
+  持续时间: 21s 606ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

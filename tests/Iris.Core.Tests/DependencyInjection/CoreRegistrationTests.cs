@@ -30,6 +30,7 @@ public sealed class CoreRegistrationTests
         services.AddSingleton(secretStoreMock);
         services.AddSingleton(historyMock);
         services.AddSingleton(presenterMock);
+        services.AddSingleton(Substitute.For<Iris.Core.Presentation.IHistoryWindowPresenter>());
         services.AddSingleton(translatePresenterMock);
         services.AddSingleton(clipboardMock);
         services.AddSingleton(Substitute.For<Iris.Core.Presentation.IScreenshotService>());
@@ -100,7 +101,8 @@ public sealed class CoreRegistrationTests
         coordinator1.ShouldBeSameAs(coordinator2);
 
         var actionHandlers = provider.GetServices<Iris.Core.Actions.IActionHandler>().ToList();
-        actionHandlers.Count.ShouldBe(9);
+        actionHandlers.Count.ShouldBe(10);
+        actionHandlers.Single(h => h.Action == Iris.Core.Actions.IrisAction.OpenHistory).ShouldBeSameAs(provider.GetServices<Iris.Core.Actions.IActionHandler>().Single(h => h.Action == Iris.Core.Actions.IrisAction.OpenHistory));
         actionHandlers.Single(h => h.Action == Iris.Core.Actions.IrisAction.SelectionTranslate).ShouldBeSameAs(provider.GetServices<Iris.Core.Actions.IActionHandler>().Single(h => h.Action == Iris.Core.Actions.IrisAction.SelectionTranslate));
         actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.OpenSettings).ShouldNotBeNull();
         actionHandlers.FirstOrDefault(h => h.Action == Iris.Core.Actions.IrisAction.InputTranslate).ShouldNotBeNull();
@@ -124,6 +126,7 @@ public sealed class CoreRegistrationTests
         services.AddSingleton(secretStoreMock);
         services.AddSingleton(historyMock);
         services.AddSingleton(presenterMock);
+        services.AddSingleton(Substitute.For<Iris.Core.Presentation.IHistoryWindowPresenter>());
         services.AddSingleton(translatePresenterMock);
         services.AddSingleton(clipboardMock);
         services.AddSingleton(Substitute.For<Iris.Core.Presentation.IScreenshotService>());
@@ -153,6 +156,7 @@ public sealed class CoreRegistrationTests
         provider.GetServices<ITranslationOrchestrator>().Count().ShouldBe(1);
         provider.GetServices<ISettingsEditCoordinator>().Count().ShouldBe(1);
         provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.OpenSettings).ShouldBe(1);
+        provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.OpenHistory).ShouldBe(1);
         provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.InputTranslate).ShouldBe(1);
         provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.ClipboardTranslate).ShouldBe(1);
         provider.GetServices<Iris.Core.Actions.IActionHandler>().Count(h => h.Action == Iris.Core.Actions.IrisAction.TranslateText).ShouldBe(1);

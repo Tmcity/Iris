@@ -1,6 +1,6 @@
 namespace Iris.App;
 
-internal static class UiText
+internal static partial class UiText
 {
     public const string OcrPageTitle = "OCR 文字识别";
     public const string ScreenshotPageTitle = "截图";

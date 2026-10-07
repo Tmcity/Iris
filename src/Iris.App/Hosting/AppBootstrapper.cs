@@ -39,6 +39,7 @@ internal sealed partial class AppBootstrapper
     private readonly AppStartupInfo _startupInfo;
     private readonly Iris.App.Settings.ISettingsShutdownCoordinator? _settingsShutdownCoordinator;
     private readonly Iris.App.Translation.ITranslateWindowShutdownCoordinator? _translateShutdownCoordinator;
+    private readonly Iris.App.History.IHistoryShutdownCoordinator? _historyShutdownCoordinator;
     private readonly HotkeyCoordinator? _hotkeyCoordinator;
     private readonly Iris.Core.Platform.IHotkeyCaptureService? _captureService;
     private readonly HotkeyRecordingCoordinator? _recordingCoordinator;
@@ -83,7 +84,8 @@ internal sealed partial class AppBootstrapper
         Iris.Platform.Windows.Imaging.WinRtImagePreprocessor? imagePreprocessor = null,
         Iris.Core.Ocr.IOcrProviderRegistry? ocrRegistry = null,
         Iris.Core.Ocr.IOcrService? ocrService = null,
-        ScreenshotOcrFeedback? screenshotOcrFeedback = null)
+        ScreenshotOcrFeedback? screenshotOcrFeedback = null,
+        Iris.App.History.IHistoryShutdownCoordinator? historyShutdownCoordinator = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -97,6 +99,7 @@ internal sealed partial class AppBootstrapper
         _startupInfo = startupInfo ?? throw new ArgumentNullException(nameof(startupInfo));
         _settingsShutdownCoordinator = settingsShutdownCoordinator;
         _translateShutdownCoordinator = translateShutdownCoordinator;
+        _historyShutdownCoordinator = historyShutdownCoordinator;
         _hotkeyCoordinator = hotkeyCoordinator;
         _captureService = captureService;
         _recordingCoordinator = recordingCoordinator;
@@ -232,6 +235,7 @@ internal sealed partial class AppBootstrapper
 
     public Task StopAsync()
     {
+        _historyShutdownCoordinator?.StopAcceptance();
         _screenshotOcrFeedback?.StopAcceptance();
         (_translateShutdownCoordinator as Iris.App.Translation.TranslateWindowPresenter)?.StopAcceptance();
         _ocrService?.StopAccepting();
@@ -386,6 +390,12 @@ internal sealed partial class AppBootstrapper
                 LogSettingsShutdownFailed(_logger, ex.GetType().Name);
                 ownersReady = false; selectionFailures.Add($"SETTINGS_OWNER:0x{ex.HResult:X8}");
             }
+        }
+
+        if (_historyShutdownCoordinator != null && !preparationPending && _screenshotService?.HasPendingOverlays != true)
+        {
+            try { await _historyShutdownCoordinator.ShutdownAsync().ConfigureAwait(false); }
+            catch (Exception ex) { ownersReady = false; selectionFailures.Add($"HISTORY_OWNER:0x{ex.HResult:X8}"); }
         }
 
         if (_translateShutdownCoordinator != null && !preparationPending && _screenshotService?.HasPendingOverlays != true)

@@ -57,6 +57,7 @@ internal sealed class OcrEntrypointScope : IAsyncDisposable
         services.AddSingleton(Settings); services.AddSingleton(Screenshot); services.AddSingleton(Ocr);
         services.AddSingleton(Clipboard); services.AddSingleton(Translation); services.AddSingleton(desktop);
         services.AddSingleton(Substitute.For<ISettingsWindowPresenter>());
+        services.AddSingleton(Substitute.For<IHistoryWindowPresenter>());
         services.AddSingleton(Substitute.For<ISelectionTextReader>());
         services.AddSingleton<IUiDispatcher>(Ui);
         services.AddSingleton<TranslateWindowPresenter>();

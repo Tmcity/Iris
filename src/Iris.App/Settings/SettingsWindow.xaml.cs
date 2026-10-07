@@ -301,6 +301,7 @@ internal partial class SettingsWindow : FluentWindow
     {
         FlushSelectionText(OcrTimeoutTextBox);
         FlushSelectionText(ScreenshotMaskOpacityTextBox);
+        FlushSelectionText(HistoryMaxEntriesTextBox);
         FlushSelectionText(SelectionTimeoutTextBox);
         FlushSelectionText(SelectionProcessesTextBox);
         var focused = FocusManager.GetFocusedElement(this) ?? Keyboard.FocusedElement;
@@ -319,6 +320,8 @@ internal partial class SettingsWindow : FluentWindow
 
     private void OnNavOcrClick(object sender, MouseButtonEventArgs e)
     { if (DataContext is SettingsViewModel vm) vm.CurrentPageKey = "ocr"; }
+    private void OnNavHistoryClick(object sender, MouseButtonEventArgs e)
+    { if (DataContext is SettingsViewModel vm) vm.CurrentPageKey = "history"; }
     private void OnNavScreenshotClick(object sender, MouseButtonEventArgs e)
     { if (DataContext is SettingsViewModel vm) vm.CurrentPageKey = "screenshot"; }
     private void SyncOcrPasswords(OcrProfileDraftViewModel? draft)
