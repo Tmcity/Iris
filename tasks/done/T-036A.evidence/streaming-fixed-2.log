@@ -1,0 +1,19 @@
+RUNTIME .NET 10.0.12
+HTTP_ASSEMBLY 10.0.12+95017c711e6afc1085133d440e42b4bd78155701
+STREAM ReadAsStreamCompletedBeforeEof=True; UnderlyingReadWaiting=False
+PASS stream acquisition consumes zero body bytes; first byte arrives before EOF
+STREAM_CLEANUP sourceDisposed=True leaseReturns=1
+PASS non-buffered stream async-token: actual SSE/copy before EOF and joined disposal
+PASS non-buffered stream sync: actual SSE/copy before EOF and joined disposal
+PASS non-buffered stream cancel: actual SSE/copy before EOF and joined disposal
+PASS non-buffered stream read-error: actual SSE/copy before EOF and joined disposal
+PASS non-buffered stream copy: actual SSE/copy before EOF and joined disposal
+PASS non-buffered stream copy-cancel: actual SSE/copy before EOF and joined disposal
+PASS actual named iris.llm chunked SSE eof: first/second events before EOF, retry identity retained, old pool returned after joined consumer+response disposal
+PASS actual named iris.llm chunked SSE cancel: first/second events before EOF, retry identity retained, old pool returned after joined consumer+response disposal
+PASS actual named iris.llm chunked SSE read-error: first/second events before EOF, retry identity retained, old pool returned after joined consumer+response disposal
+PASS actual named iris.ocr chunked SSE eof: first/second events before EOF, retry identity retained, old pool returned after joined consumer+response disposal
+PASS actual named iris.ocr chunked SSE cancel: first/second events before EOF, retry identity retained, old pool returned after joined consumer+response disposal
+PASS actual named iris.ocr chunked SSE read-error: first/second events before EOF, retry identity retained, old pool returned after joined consumer+response disposal
+PASS stream content Dispose failure retains lease; original content retry returns once
+PASS completed requested modes

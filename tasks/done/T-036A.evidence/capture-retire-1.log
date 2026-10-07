@@ -1,0 +1,11 @@
+RUNTIME .NET 10.0.12
+HTTP_ASSEMBLY 10.0.12+95017c711e6afc1085133d440e42b4bd78155701
+PASS proposal versioned transaction stage: concurrentReader=not-entered rollbackOrReceipt=true realAtomicJson=true
+PASS proposal versioned transaction settings: concurrentReader=passed rollbackOrReceipt=true realAtomicJson=true
+PASS proposal versioned transaction conflict: concurrentReader=passed rollbackOrReceipt=true realAtomicJson=true
+PASS proposal versioned transaction apply: concurrentReader=passed rollbackOrReceipt=true realAtomicJson=true
+PASS proposal versioned transaction retire: concurrentReader=passed rollbackOrReceipt=true realAtomicJson=true
+PASS proposal versioned transaction success: concurrentReader=passed rollbackOrReceipt=true realAtomicJson=true
+PASS proposal address ownership, latest-field merge and Clear never falls back to fixed legacy key
+PASS proposal capture/retire shared gate: old values survive key deletion, new captures get new generation, local bypass needs no proxy credential lease
+PASS completed requested modes

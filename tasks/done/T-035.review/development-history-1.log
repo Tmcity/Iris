@@ -1,0 +1,2 @@
+PASS actual history list uses summaries and full detail for copy/retranslate
+PASS last-page delete returns to populated page and canceled clear does not write

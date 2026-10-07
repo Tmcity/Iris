@@ -1,0 +1,3 @@
+C:\Users\28910\AppData\Local\Temp\iris-t036a-prototype\MigrationChecks.cs(52,98): error CS1061: “ServiceProvider”未包含“GetRequiredService”的定义，并且找不到可接受第一个“ServiceProvider”类型参数的可访问扩展方法“GetRequiredService”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t036a-prototype\Prototype.csproj]
+
+生成失败。请修复生成错误并重新运行。

@@ -1,0 +1,3 @@
+C:\Users\28910\AppData\Local\Temp\iris-t036a-prototype\ConnectivityChecks.cs(134,46): error CS4014: 由于此调用不会等待，因此在此调用完成之前将会继续执行当前方法。请考虑将 "await" 运算符应用于调用结果。 [C:\Users\28910\AppData\Local\Temp\iris-t036a-prototype\Prototype.csproj]
+
+生成失败。请修复生成错误并重新运行。

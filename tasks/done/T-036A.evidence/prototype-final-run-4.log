@@ -1,0 +1,71 @@
+RUNTIME .NET 10.0.12
+HTTP_ASSEMBLY 10.0.12+95017c711e6afc1085133d440e42b4bd78155701
+COUNTEREXAMPLE current.DynamicWebProxy mixed Current reads=2 selectedDirect=true
+COUNTEREXAMPLE current.InvalidCustomUrl returnsDirect=true
+PASS current System credentials and None routing through real DynamicWebProxy; system boundary replaced in owned process
+COUNTEREXAMPLE actual JsonSettingsService currentUserinfo=true newBackupUserinfo=true logsContainSecret=false
+COUNTEREXAMPLE actual future-schema loadPreserved=true updateOverwrote=true currentSchemaWasNormalized=true
+COUNTEREXAMPLE fixed-key stage-before-settings route=A credentials=B afterSettingsFailure=true
+COUNTEREXAMPLE fixed-key settings-before-secret route=B credentials=A concurrentReader=true
+COUNTEREXAMPLE runtime mutable callback selectedProxy=A sentCredential=B actualSocketsHttpHandler=true socketCount=0
+CALLS Credentials -> Credentials -> IsBypassed -> GetProxy -> credential:proxy-a.example.test:Basic:B -> credential:proxy-a.example.test:Basic:B
+COUNTEREXAMPLE runtime sameProxyCredentialRotation desired=C actual=A connections=1 credentialsGetterCalls=2
+PASS runtime immutable handler generation same proxy URI rotates credentials and connection pool; actual ConnectCallback streams, no sockets
+COUNTEREXAMPLE runtime GetProxy exception swallowed directConnectSelected=true socketCount=0
+PASS proposal versioned transaction stage: concurrentReader=not-entered rollbackOrReceipt=true realAtomicJson=true
+PASS proposal versioned transaction settings: concurrentReader=passed rollbackOrReceipt=true realAtomicJson=true
+PASS proposal versioned transaction conflict: concurrentReader=passed rollbackOrReceipt=true realAtomicJson=true
+PASS proposal versioned transaction apply: concurrentReader=passed rollbackOrReceipt=true realAtomicJson=true
+PASS proposal versioned transaction retire: concurrentReader=passed rollbackOrReceipt=true realAtomicJson=true
+PASS proposal versioned transaction success: concurrentReader=passed rollbackOrReceipt=true realAtomicJson=true
+PASS proposal address ownership, latest-field merge and Clear never falls back to fixed legacy key
+PASS proposal capture/retire shared gate: old values survive key deletion, new captures get new generation, local bypass needs no proxy credential lease
+PASS actual SettingsEditCoordinator + JsonSettingsService Provider protocol stage; network extension remains prototype-only
+PASS actual SettingsEditCoordinator + JsonSettingsService Provider protocol settings; network extension remains prototype-only
+PASS actual SettingsEditCoordinator + JsonSettingsService Provider protocol conflict; network extension remains prototype-only
+PASS actual SettingsEditCoordinator + JsonSettingsService Provider protocol apply; network extension remains prototype-only
+PASS actual SettingsEditCoordinator + JsonSettingsService Provider protocol retire; network extension remains prototype-only
+PASS actual SettingsEditCoordinator + JsonSettingsService Provider protocol success; network extension remains prototype-only
+PASS proposal migration stage: failureChecks=True backupCreated=False historicalBackupUntouched=true
+PASS proposal migration backup: failureChecks=True backupCreated=False historicalBackupUntouched=true
+PASS proposal migration current: failureChecks=True backupCreated=True historicalBackupUntouched=true
+PASS proposal migration success: failureChecks=False backupCreated=True historicalBackupUntouched=true
+PASS proposal future-schema read-only: zero migration/backup/staging, Update denied
+PASS actual corrupt-file recovery renames original bytes unchanged; not described as credential erasure
+PASS proposal bound fixed-key import; explicit references suppress legacy; mismatched legacy fails closed; userinfo import preserves unrelated fixed key
+PASS actual named pipeline iris.llm: outerCaptures=2 retryA=true nextB=true separateRuntimePools=true responseLifetime=true
+PASS actual named pipeline iris.ocr: outerCaptures=2 retryA=true nextB=true separateRuntimePools=true responseLifetime=true
+PASS proposal System/None/Custom http-https-socks5 resolution, local bypass and fail-closed pre-transport guard; TLS/SOCKS wire not exercised
+PASS runtime same snapshot: System credential value and direct/proxy route are part of pool identity
+PASS proposal connectivity HEAD status=200 noProviderKey=true noBodyRead=true noRedirect=true singleRun=true
+PASS proposal connectivity HEAD status=401 noProviderKey=true noBodyRead=true noRedirect=true singleRun=true
+PASS proposal connectivity HEAD status=403 noProviderKey=true noBodyRead=true noRedirect=true singleRun=true
+PASS proposal connectivity HEAD status=405 noProviderKey=true noBodyRead=true noRedirect=true singleRun=true
+PASS proposal connectivity HEAD status=407 noProviderKey=true noBodyRead=true noRedirect=true singleRun=true
+PASS proposal connectivity HEAD status=302 noProviderKey=true noBodyRead=true noRedirect=true singleRun=true
+PASS proposal connectivity HEAD status=503 noProviderKey=true noBodyRead=true noRedirect=true singleRun=true
+PASS proposal connectivity noncooperative cancel/close actual task joined
+PASS proposal connectivity noncooperative timeout actual task joined
+PASS proposal connectivity transport cleanup failure retained/retried; sends=1
+PASS proposal connectivity response-content cleanup failure retained/retried; sends=1
+PASS proposal connectivity cleanup gate holds snapshot through full disposal
+PASS actual runtime draft HEAD traverses selected proxy auth, leaves global policy unchanged, sends no Provider auth; in-memory ConnectCallback only
+PASS actual runtime HTTPS CONNECT 407 classified via HttpRequestException.StatusCode; no TLS/server/socket used
+STREAM ReadAsStreamCompletedBeforeEof=True; UnderlyingReadWaiting=False
+PASS stream acquisition consumes zero body bytes; first byte arrives before EOF
+STREAM_CLEANUP sourceDisposed=True leaseReturns=1
+PASS non-buffered stream async-token: actual SSE/copy before EOF and joined disposal
+PASS non-buffered stream sync: actual SSE/copy before EOF and joined disposal
+PASS non-buffered stream cancel: actual SSE/copy before EOF and joined disposal
+PASS non-buffered stream noncooperative-cancel: actual SSE/copy before EOF and joined disposal
+PASS non-buffered stream read-error: actual SSE/copy before EOF and joined disposal
+PASS non-buffered stream copy: actual SSE/copy before EOF and joined disposal
+PASS non-buffered stream copy-cancel: actual SSE/copy before EOF and joined disposal
+PASS actual named iris.llm chunked SSE eof: first/second events before EOF, retry identity retained, old pool returned after joined consumer+response disposal
+PASS actual named iris.llm chunked SSE cancel: first/second events before EOF, retry identity retained, old pool returned after joined consumer+response disposal
+PASS actual named iris.llm chunked SSE read-error: first/second events before EOF, retry identity retained, old pool returned after joined consumer+response disposal
+PASS actual named iris.ocr chunked SSE eof: first/second events before EOF, retry identity retained, old pool returned after joined consumer+response disposal
+PASS actual named iris.ocr chunked SSE cancel: first/second events before EOF, retry identity retained, old pool returned after joined consumer+response disposal
+PASS actual named iris.ocr chunked SSE read-error: first/second events before EOF, retry identity retained, old pool returned after joined consumer+response disposal
+PASS stream content Dispose failure retains lease; original content retry returns once
+PASS completed requested modes

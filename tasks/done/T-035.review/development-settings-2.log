@@ -1,0 +1,6 @@
+PASS history-only save is not dropped
+PASS invalid current history number preserves draft and blocks joint commit
+PASS history clean external field survives joint save
+PASS history dirty conflict retains target without committing other domains
+PASS history conflict introduced inside update rolls back joint credentials
+PASS invalid history rejected before credential staging

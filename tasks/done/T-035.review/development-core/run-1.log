@@ -1,0 +1,6 @@
+PASS pure history applies without provider side effects
+PASS untouched history field preserves current value
+PASS history conflict blocks update
+PASS already-target history edit accepted
+PASS invalid bounds rejected before credential staging
+PASS update-time conflict rolls back staged credentials

@@ -1,0 +1,3 @@
+PASS late query cannot replace latest filter and admission remains bounded
+PASS closing waits for actual clipboard work and duplicate close shares owner
+PASS write success UI publication remains owned until shutdown

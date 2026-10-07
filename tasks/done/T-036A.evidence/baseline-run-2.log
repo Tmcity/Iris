@@ -1,0 +1,14 @@
+RUNTIME .NET 10.0.12
+HTTP_ASSEMBLY 10.0.12+95017c711e6afc1085133d440e42b4bd78155701
+COUNTEREXAMPLE current.DynamicWebProxy mixed Current reads=2 selectedDirect=true
+COUNTEREXAMPLE current.InvalidCustomUrl returnsDirect=true
+PASS current System credentials and None routing through real DynamicWebProxy; system boundary replaced in owned process
+COUNTEREXAMPLE actual JsonSettingsService currentUserinfo=true newBackupUserinfo=true logsContainSecret=false
+COUNTEREXAMPLE actual future-schema loadPreserved=true updateOverwrote=true currentSchemaWasNormalized=true
+COUNTEREXAMPLE fixed-key stage-before-settings route=A credentials=B afterSettingsFailure=true
+COUNTEREXAMPLE runtime mutable callback selectedProxy=A sentCredential=B actualSocketsHttpHandler=true socketCount=0
+CALLS Credentials -> Credentials -> IsBypassed -> GetProxy -> credential:proxy-a.example.test:Basic:B -> credential:proxy-a.example.test:Basic:B
+COUNTEREXAMPLE runtime sameProxyCredentialRotation desired=C actual=A connections=1 credentialsGetterCalls=2
+PASS runtime immutable handler generation same proxy URI rotates credentials and connection pool; actual ConnectCallback streams, no sockets
+COUNTEREXAMPLE runtime GetProxy exception swallowed directConnectSelected=true socketCount=0
+PASS completed requested modes

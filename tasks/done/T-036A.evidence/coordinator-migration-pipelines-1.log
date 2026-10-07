@@ -1,0 +1,18 @@
+RUNTIME .NET 10.0.12
+HTTP_ASSEMBLY 10.0.12+95017c711e6afc1085133d440e42b4bd78155701
+PASS actual SettingsEditCoordinator + JsonSettingsService Provider protocol stage; network extension remains prototype-only
+PASS actual SettingsEditCoordinator + JsonSettingsService Provider protocol settings; network extension remains prototype-only
+PASS actual SettingsEditCoordinator + JsonSettingsService Provider protocol conflict; network extension remains prototype-only
+PASS actual SettingsEditCoordinator + JsonSettingsService Provider protocol apply; network extension remains prototype-only
+PASS actual SettingsEditCoordinator + JsonSettingsService Provider protocol retire; network extension remains prototype-only
+PASS actual SettingsEditCoordinator + JsonSettingsService Provider protocol success; network extension remains prototype-only
+PASS proposal migration stage: failureChecks=True backupCreated=False historicalBackupUntouched=true
+PASS proposal migration backup: failureChecks=True backupCreated=False historicalBackupUntouched=true
+PASS proposal migration current: failureChecks=True backupCreated=True historicalBackupUntouched=true
+PASS proposal migration success: failureChecks=False backupCreated=True historicalBackupUntouched=true
+PASS proposal future-schema read-only: zero migration/backup/staging, Update denied
+PASS actual corrupt-file recovery renames original bytes unchanged; not described as credential erasure
+PASS actual named pipeline iris.llm: outerCaptures=2 retryA=true nextB=true separateRuntimePools=true responseLifetime=true
+PASS actual named pipeline iris.ocr: outerCaptures=2 retryA=true nextB=true separateRuntimePools=true responseLifetime=true
+PASS proposal System/None/Custom http-https-socks5 resolution, local bypass and fail-closed pre-transport guard; TLS/SOCKS wire not exercised
+PASS completed requested modes

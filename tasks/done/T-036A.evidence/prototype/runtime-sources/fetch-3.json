@@ -1,0 +1,14 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/dotnet/95017c711e6afc1085133d440e42b4bd78155701/src/runtime/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/HttpConnectionPoolManager.cs",
+    "status": 200,
+    "file": "exact-1-HttpConnectionPoolManager.cs",
+    "sha256": "3061e50f8c91e101591028b5448fa3180bfe16a76c5a893fda301553b41b4935"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/v10.0.12/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/HttpConnectionPoolManager.cs",
+    "status": 200,
+    "file": "exact-2-HttpConnectionPoolManager.cs",
+    "sha256": "3061e50f8c91e101591028b5448fa3180bfe16a76c5a893fda301553b41b4935"
+  }
+]

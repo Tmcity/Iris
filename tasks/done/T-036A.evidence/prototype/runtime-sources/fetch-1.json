@@ -1,0 +1,52 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/95017c711e6afc1085133d440e42b4bd78155701/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/HttpConnectionPoolManager.cs",
+    "status": 404,
+    "errorType": "HTTPError"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/95017c711e6afc1085133d440e42b4bd78155701/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/HttpConnectionSettings.cs",
+    "status": 404,
+    "errorType": "HTTPError"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/95017c711e6afc1085133d440e42b4bd78155701/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/AuthenticationHelper.cs",
+    "status": 404,
+    "errorType": "HTTPError"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/95017c711e6afc1085133d440e42b4bd78155701/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/AuthenticationHelper.NtAuth.cs",
+    "status": 404,
+    "errorType": "HTTPError"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/95017c711e6afc1085133d440e42b4bd78155701/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/ConnectionPool/HttpConnectionPool.cs",
+    "status": 404,
+    "errorType": "HTTPError"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/95017c711e6afc1085133d440e42b4bd78155701/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/ConnectionPool/HttpConnectionPool.Http1.cs",
+    "status": 404,
+    "errorType": "HTTPError"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/95017c711e6afc1085133d440e42b4bd78155701/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/ConnectionPool/HttpConnectionPool.Connect.cs",
+    "status": 404,
+    "errorType": "HTTPError"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/95017c711e6afc1085133d440e42b4bd78155701/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/SocksHelper.cs",
+    "status": 404,
+    "errorType": "HTTPError"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/95017c711e6afc1085133d440e42b4bd78155701/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/HttpConnection.cs",
+    "status": 404,
+    "errorType": "HTTPError"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/95017c711e6afc1085133d440e42b4bd78155701/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/SocketsHttpHandler.cs",
+    "status": 404,
+    "errorType": "HTTPError"
+  }
+]

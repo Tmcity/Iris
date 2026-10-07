@@ -1,0 +1,11 @@
+{
+  "copiedSources": {
+    "PipelineChecks.cs": "821498ad0ada6058df22e9db13225c2124612c72c9a97ac250f1f065951d3a60",
+    "RuntimeChecks.cs": "d2937737f01aa5d697f6631219d4aa07e7acb4d2c73200074816e7bcc0e6eca3",
+    "ProposedPersistence.cs": "6767f4048fd1f3508485e68ac98ca50efd090f9d0d9513ab5c90dbf1605c62a6",
+    "Boundaries.cs": "97d0316b76d7a09eba5f7e7d2a300889f676abfa867b555382657f40618771f7"
+  },
+  "testedWrapperSourceUnchangedFromCurrentPrototype": false,
+  "probe": "024ccf96a4867b73db43d7cd4b4abc3063ce9239cd137606432b39aeec90fe06",
+  "method": "Reflection constructs copied original private LeaseContent; copied product-prototype logic unchanged; only CS0649 suppression in isolated project."
+}

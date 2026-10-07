@@ -1,0 +1,20 @@
+{
+  "commit": "d8b49b7c6719962eedbed25fe2290d423e07aa5d",
+  "phase": "development DLL snapshot, execute logs determine passing results",
+  "probeSources": {
+    "Program.cs": "47ef02c7db69f920ef838e44354302b2fb6efc65d786dc4f87d75f8977ca5b5e",
+    "UiBoundary.cs": "e05014da81fb773215bf19336ae4c129052cce8d2e7e25078d16f7a4ccaf0af6",
+    "Boundaries.cs": "d6355185d41e2575d9925d7a3ed37f5137328b72f1b0370d06e0b77e2180a1cd",
+    "Scope.cs": "bad256d16ff767ae73b95539dda6727952d56fd203fdcbe5c3a12af4149b3870",
+    "HistorySettingsChecks.cs": "54e2830ff319b4bec99e3472c285fa583750660aaefc71e3ac603a5a4a1f3786",
+    "HistoryScope.cs": "a16b72e99986350bf035e64934a7c77e088c387fb365e873478cf3c9e555c94b",
+    "HistoryChecks.cs": "3fcfd2977820a2ff7cd09d389ff6cac956dfbe6a6c53493d855cfd9d2a986e13"
+  },
+  "productDlls": {
+    "Iris.App.dll": "e39a9b10d39af577f5ac9ec9db04809e1592c8220208ebfb914136623bb0a6e4",
+    "Iris.Core.dll": "1daad0d6eff0f0d8c0cdb3fa60821b34c90f438597838c105d0db015cafb0d01",
+    "Iris.Infrastructure.dll": "ec14fd7625a01546d8edd9938ca0f02b453a93766b848e9672420bec1cdd0dd9",
+    "Iris.Platform.Windows.dll": "f5d50579e948d8fe008b642f412afc5dd3073f4d739481dacbad0fc74bde82df",
+    "Iris.Providers.dll": "e6a82ade17ba2fe04281dcb9415e05c2138f579d9858342c77e9803f6344ce59"
+  }
+}

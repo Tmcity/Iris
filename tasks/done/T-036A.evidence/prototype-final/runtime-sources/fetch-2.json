@@ -1,0 +1,70 @@
+[
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/v10.0.0/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/HttpConnectionPoolManager.cs",
+    "file": "HttpConnectionPoolManager.cs",
+    "bytes": 26817,
+    "sha256": "3061e50f8c91e101591028b5448fa3180bfe16a76c5a893fda301553b41b4935",
+    "status": 200
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/v10.0.0/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/HttpConnectionSettings.cs",
+    "file": "HttpConnectionSettings.cs",
+    "bytes": 8172,
+    "sha256": "d70eccb455a49155b359da525db805e620df2aad1361147cc9390b7d980c5c61",
+    "status": 200
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/v10.0.0/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/AuthenticationHelper.cs",
+    "file": "AuthenticationHelper.cs",
+    "bytes": 19292,
+    "sha256": "ebfe155a1e9876118183bd20e3147dd9774c967ed2338ef27cf0c0294170dad5",
+    "status": 200
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/v10.0.0/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/AuthenticationHelper.NtAuth.cs",
+    "file": "AuthenticationHelper.NtAuth.cs",
+    "bytes": 13124,
+    "sha256": "0c21ce65d9721165d21855460c66fa7e02e04b3c38794774c1747850ea309452",
+    "status": 200
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/v10.0.0/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/ConnectionPool/HttpConnectionPool.cs",
+    "file": "HttpConnectionPool.cs",
+    "bytes": 53712,
+    "sha256": "f3667bb44c53edd9358de811763b044676e152b3b922a9e9c43bfdffd7c5e425",
+    "status": 200
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/v10.0.0/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/ConnectionPool/HttpConnectionPool.Http1.cs",
+    "file": "HttpConnectionPool.Http1.cs",
+    "bytes": 24591,
+    "sha256": "696df7052f59b3677ebc19be8ea3d5f7d73c0e1b08ae552ebd534752efd12be5",
+    "status": 200
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/v10.0.0/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/ConnectionPool/HttpConnectionPool.Connect.cs",
+    "status": 404,
+    "errorType": "HTTPError"
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/v10.0.0/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/SocksHelper.cs",
+    "file": "SocksHelper.cs",
+    "bytes": 16033,
+    "sha256": "63506aad4546f2f457916c63dd66f39bf0ae8bc6e8e7cb9539cfd053c3de1bd5",
+    "status": 200
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/v10.0.0/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/HttpConnection.cs",
+    "file": "HttpConnection.cs",
+    "bytes": 97397,
+    "sha256": "858c0dd2fcab42b82e0ba754edb9a0a817a9310d0afffa7a796373e7f8edc8dc",
+    "status": 200
+  },
+  {
+    "url": "https://raw.githubusercontent.com/dotnet/runtime/v10.0.0/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/SocketsHttpHandler.cs",
+    "file": "SocketsHttpHandler.cs",
+    "bytes": 26813,
+    "sha256": "87e32e3abaa2740cb16e9afedd37fd4a3d2b0586428b861628152f5fd0e9833c",
+    "status": 200
+  }
+]

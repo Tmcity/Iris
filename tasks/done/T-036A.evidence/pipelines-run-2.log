@@ -1,0 +1,7 @@
+RUNTIME .NET 10.0.12
+HTTP_ASSEMBLY 10.0.12+95017c711e6afc1085133d440e42b4bd78155701
+PASS actual named pipeline iris.llm: outerCaptures=2 retryA=true nextB=true separateRuntimePools=true responseLifetime=true
+PASS actual named pipeline iris.ocr: outerCaptures=2 retryA=true nextB=true separateRuntimePools=true responseLifetime=true
+PASS proposal System/None/Custom http-https-socks5 resolution, local bypass and fail-closed pre-transport guard; TLS/SOCKS wire not exercised
+PASS runtime same snapshot: System credential value and direct/proxy route are part of pool identity
+PASS completed requested modes

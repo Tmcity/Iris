@@ -1,0 +1,7 @@
+C:\Users\28910\AppData\Local\Temp\iris-t036-stream-review\ProposedPersistence.cs(63,19): error CS0649: 从未对字段“ProposalStore.FailWrite”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t036-stream-review\Prototype.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t036-stream-review\ProposedPersistence.cs(91,19): error CS0649: 从未对字段“PrototypeObserver.Fail”赋值，字段将一直保持其默认值 false [C:\Users\28910\AppData\Local\Temp\iris-t036-stream-review\Prototype.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t036-stream-review\ProposedPersistence.cs(103,26): error CS0649: 从未对字段“ProposedEditor.AfterStage”赋值，字段将一直保持其默认值 null [C:\Users\28910\AppData\Local\Temp\iris-t036-stream-review\Prototype.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t036-stream-review\Boundaries.cs(10,33): error CS0649: 从未对字段“MemorySettings.OnRead”赋值，字段将一直保持其默认值 null [C:\Users\28910\AppData\Local\Temp\iris-t036-stream-review\Prototype.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t036-stream-review\ProposedPersistence.cs(64,22): error CS0649: 从未对字段“ProposalStore.BeforeMutate”赋值，字段将一直保持其默认值 null [C:\Users\28910\AppData\Local\Temp\iris-t036-stream-review\Prototype.csproj]
+
+生成失败。请修复生成错误并重新运行。

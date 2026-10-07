@@ -1,0 +1,4 @@
+Prototype response wrapper: ReadAsStreamCompletedBeforeEof=False; UnderlyingReadReachedEofGate=True; BuffersUntilEof=True
+CLEANUP leaseReturned=True
+PASS comparison: stream and first byte available before EOF; response still owns lease
+PASS comparison: response disposal returns lease; no product/prototype source changed

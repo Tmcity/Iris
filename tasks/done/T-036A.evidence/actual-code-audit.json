@@ -1,0 +1,42 @@
+{
+  "src/Iris.Providers/Http/DynamicWebProxy.cs": {
+    "sha256": "21a43b489dec8910cb5e5522d7d5805bb84e9751819e8403fb0ab026215b190c",
+    "lines": 156
+  },
+  "src/Iris.Providers/DependencyInjection/ProvidersServiceCollectionExtensions.cs": {
+    "sha256": "6c2f960fbf37540f3df5c88a965b1c3ac2e556dabaf641ff05e201c999b0008a",
+    "lines": 128
+  },
+  "src/Iris.Core/Settings/SettingsEditCoordinator.cs": {
+    "sha256": "561371a56ba0d808f89f72a8430a6068f11b8ac9c9c8ba4c12b9f02fa684e1dc",
+    "lines": 2254
+  },
+  "src/Iris.Infrastructure/Settings/JsonSettingsService.cs": {
+    "sha256": "96639ac5f731e0faf3328f075c6a819b5a82c48ce74bd3b5e5950897cb6d05ed",
+    "lines": 415
+  },
+  "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs": {
+    "sha256": "6d0b110403db4f7c3a4f4211e94d2ff91c251ad5f3c9706efcf645f5df660459",
+    "lines": 939
+  },
+  "src/Iris.Core/IO/AtomicFile.cs": {
+    "sha256": "06eebcfa85d14003c88f92f7f9146f0c3bdacd8d82e4ce56e10bf1a3079296eb",
+    "lines": 323
+  },
+  "src/Iris.Platform.Windows/Security/DpapiSecretStore.cs": {
+    "sha256": "d2b0a08687178e8c1e3764bbafda6c6e22f76cb8394164d148cb12f2a78ed95a",
+    "lines": 294
+  },
+  "src/Iris.Providers/Http/SseParser.cs": {
+    "sha256": "7c6ff7dcb60de7b6e3d4eab3bf15e23268f1f1565f048da3ae949ae02da5f41a",
+    "lines": 40
+  },
+  "src/Iris.Providers/Translation/Anthropic/AnthropicProgressTrackingHandler.cs": {
+    "sha256": "54fb806edcabe9fe9f2942ce183fd244bb263257a44cafd1b342fb39eb6bd2e2",
+    "lines": 56
+  },
+  "src/Iris.Providers/Translation/Anthropic/SseEventBoundaryStream.cs": {
+    "sha256": "b6994563cf0721df08ad6301c6627099f9ce7d3cffdf4e434f73a96aff7c8a63",
+    "lines": 103
+  }
+}

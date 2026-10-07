@@ -1063,7 +1063,7 @@ CCR-024结案补充：c7282698最终独立构建/定向/全量通过，生产同
 
 2026-10-07 · Codex架构师批准 · T-035 / HISTORY_UI.md / ARCH v1.52。
 
-状态：**已落地，待架构师独立复审**。
+状态：**已落地，独立复审通过并结案（T-035，d8b49b7c）**。
 
 兼容新增SettingsEditPlan.History（可空、默认null），以及HistorySettingsPatch(可选SettingsFieldEdit<bool> Enabled、可选SettingsFieldEdit<int> MaxEntries)。保留原构造/解构与全部旧字段，ToString不输出值。精确声明以CONTRACTS.cs为准。
 

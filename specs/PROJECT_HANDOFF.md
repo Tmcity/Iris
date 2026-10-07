@@ -1,5 +1,25 @@
 # Iris 架构师接手记录
 
+**T-036A归档源码差异补验**：candidate-vs-archived初次只MigrationChecks不同，归档版新增“只条件删除实际导入的固定旧键”，避免userinfo迁移误删无关固定键。独立副本同步该文件后migration-final.log全部通过；其余模块与all-1所测相同，final-source-match.json现全部true。原差异检查保留，不用新源冒称旧日志。
+
+**T-036A完整独立原型运行已通过，待交付提交**：iris-t036-independent-candidate/all-1.log执行current/runtime/actual-coordinator/persistence/migration/pipelines/connectivity/streaming全部模式正常退出，源码已对照归档prototype-final（candidate-vs-archived.json）。生产src/tests/CONTRACTS仍零改动；不重复跑生产全量。正式B草稿已准备，A最终hash/归档/声明复核后才冻结并下达，C保留完整网络UI/连通性测试。
+
+**T-036A流式修正已独立复跑通过**：独立复制原型到iris-t036-independent-candidate，streaming-1.log及all-1.log均正常退出；包含获取流零预读、EOF前SSE、同步/取消/非合作取消/读错/Copy及两实际命名管道chunked响应与旧池保留、Dispose失败重试。A现已归档工单并准备本地提交，仍须最终提交/源码绑定复核。B工单草稿在临时iris-t036b-order-draft.md：完成配置/迁移/真实传输底座，C后续完整UI+连通性；正式B还须覆盖迟到A请求在B发布后不得倒退当前代次、重试中间响应的失败清理、完整容量与停止，不能把A简化模型视作生产完成。
+
+**流式补充已被开发实际接收**：执行轮01a115e9-8985-72c0-93c8-1b6b20e45729在本轮item247明确读到共享current_task补充，已读取独立stream-2日志与Program.cs，正在A内补无缓冲转发和非零流/取消/错误/处置验证。无需因排队消息尚未独立执行而再次重发；原A范围不变。
+
+**T-036A精确提案已初审（未冻结）**：已完整读取T-036A.proposal.md及proposed-contracts.cs.txt。提案单独定义INetworkConfigurationObserver接收固定settings/generation，不回调Capture，已处理同协调器门闩自等待风险；版本化绑定凭据/显式Clear/未来版本只读/安全逻辑备份方向保持。当前原型仍缺已下达的无缓冲流转发补充，不能以空响应通过接受A。进一步审查说明在临时iris-t036-design-review.md；网络codec跨Infrastructure内部共享和IsReadOnly旧实现适配需在正式签发时明确。
+
+**T-036A流转发对照已验证**：iris-t036-stream-review/stream-3.log保留原wrapper EOF前不返回反例，并验证独立最小ForwardingComparison可在EOF前取得流/首字节且响应Dispose才归还lease。仅对照，不是完整wrapper验收。已排队的补充消息仍须开发处理，当前原PipelineChecks尚未覆盖CreateContentReadStreamAsync；不要据prototype-final-run-1的空响应通过而接受流式兼容。提案复核另需确认快照Capture与Commit共用gate时，Provider观察者不得重入等待同gate造成死锁；以最终设计为准，不把未见实现假设当作缺陷。
+
+**T-036A流式原型反例已下达**：独立iris-t036-stream-review/stream-2.log证明原CaptureHandler.LeaseContent的ReadAsStreamAsync在非零流EOF前不返回（默认缓冲），仅空响应的生命周期探针不足。已在current_task追加本单内修正/非零SSE/流与代次收尾验证要求，消息01a11632-3bf4-7010-b3c4-2aa89b9237e4排队至原开发对话。computer-use官方连接报failed to write kernel assets/os error3；已根据当前chat开始时间确认node_repl PID44360，官方repair脚本只读诊断directories=[]，无法确定安全修复路径，未修复/未UI插队/未用其它前台输入替代。共享工单保留完整要求，原A继续，不重复派单或误判停止。
+
+**T-036A独立运行时核验**：临时iris-t036-independent-runtime/runtime-3.log以实际DynamicWebProxy及安装的.NET10.0.12反射构造HttpConnectionPoolManager，System模式捕获合成A凭据后切换Custom B，真实代理返回B但runtime仍保留A凭据且对B的GetCredential返回A；没有SendAsync/socket。官方v10.0.12源码另确认IWebProxy异常被吞并转直连，连接池key不含可变自定义凭据。开发独立baseline-run-2也已用真实SocketsHttpHandler+ConnectCallback内存流复现缓存/错配/连接复用/异常直连，并确定版本化凭据+请求快照+新传输池方向。后续核验应覆盖重试固定同一快照、响应流超出headers的generation存活；尚未冻结契约，不改生产。
+
+**T-036A已接单**：消息01a115e9-7d88-74c3-a612-0737d8c5cddc，执行轮01a115e9-8985-72c0-93c8-1b6b20e45729明确接单并读取工单；后续继续观察此轮，不重复发送。
+
+**2026-10-07当前状态：T-035/CCR035已结案，唯一工单T-036A。** d8b49b7c独立Release0警告/错误，全量3400/3398成功/2既有跳过；最终15探针与64图匹配，T-035.review已归档。T-036完整范围保持；A先交付可运行原型/实证和精确推荐契约，解决凭据跨文件提交、代理/凭据动态一致性、旧userinfo迁移与草稿连通性测试。A不改src/tests/CONTRACTS，下一生产实施由架构师冻结签发。开发对话不变，不push，M6延期。
+
 **T-035首次全量与补充视觉（待最终交付）**：release-full-1为3400总计/3123成功/275失败/2既有跳过；开发full-failure-analysis-1区分271项缺新IHistoryWindowPresenter与4项其它提示。实际日志核对旧DI构造失败；托盘顺序需加入历史菜单，两项错误保留测试依赖该夹具，另旧IME/ShiftEnter测试未固定普通Enter的模拟修饰键。开发仅补依赖/菜单预期和复用既有TestKeyboardModifiersProvider隔离物理键状态，旧业务断言保持，legacy-targeted-1的80项通过。首次失败保留，仍需全量恢复。独立已核对64张最新图：50张与先前所看一致，14张新增/变化通过4张changed-contact逐格查看，记录临时reviewed-visuals-2.json（history-render-5184a7e535a741bba886e1c4ca3aa943）。
 
 **T-035独立复核追加（仍在开发）**：iris-t035-independent-review/preparation-1.log四项真实窗口准备/恢复检查通过，含旧receipt不影响关闭后新窗口和实际定位失败完整回滚。已逐格查阅history-render-0de5b7ba988c4c259d4dfedfb478fd13的56张图（10张contact），深浅主题/窄窗/确认/关闭失败/历史设置均可读，SHA记录临时reviewed-visuals.json。开发正在补行操作与服务标题视图及最终验证，最终图片/提交仍须绑定，不能直接据开发期探针结案。已审查实际Host重译测试，使用真实TranslateWindowPresenter和窄Provider通信，全文/current model/收藏保持断言存在。既有DI测试只新增History依赖与计数断言，未删业务校验。

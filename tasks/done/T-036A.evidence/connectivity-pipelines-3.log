@@ -1,0 +1,20 @@
+RUNTIME .NET 10.0.12
+HTTP_ASSEMBLY 10.0.12+95017c711e6afc1085133d440e42b4bd78155701
+PASS actual named pipeline iris.llm: outerCaptures=2 retryA=true nextB=true separateRuntimePools=true responseLifetime=true
+PASS actual named pipeline iris.ocr: outerCaptures=2 retryA=true nextB=true separateRuntimePools=true responseLifetime=true
+PASS proposal System/None/Custom http-https-socks5 resolution, local bypass and fail-closed pre-transport guard; TLS/SOCKS wire not exercised
+PASS runtime same snapshot: System credential value and direct/proxy route are part of pool identity
+PASS proposal connectivity HEAD status=200 noProviderKey=true noBodyRead=true noRedirect=true singleRun=true
+PASS proposal connectivity HEAD status=401 noProviderKey=true noBodyRead=true noRedirect=true singleRun=true
+PASS proposal connectivity HEAD status=403 noProviderKey=true noBodyRead=true noRedirect=true singleRun=true
+PASS proposal connectivity HEAD status=405 noProviderKey=true noBodyRead=true noRedirect=true singleRun=true
+PASS proposal connectivity HEAD status=407 noProviderKey=true noBodyRead=true noRedirect=true singleRun=true
+PASS proposal connectivity HEAD status=302 noProviderKey=true noBodyRead=true noRedirect=true singleRun=true
+PASS proposal connectivity HEAD status=503 noProviderKey=true noBodyRead=true noRedirect=true singleRun=true
+PASS proposal connectivity noncooperative cancel/close actual task joined
+PASS proposal connectivity noncooperative timeout actual task joined
+PASS proposal connectivity transport cleanup failure retained/retried; sends=1
+PASS proposal connectivity response-content cleanup failure retained/retried; sends=1
+PASS proposal connectivity cleanup gate holds snapshot through full disposal
+PASS actual runtime draft HEAD traverses selected proxy auth, leaves global policy unchanged, sends no Provider auth; in-memory ConnectCallback only
+PASS completed requested modes

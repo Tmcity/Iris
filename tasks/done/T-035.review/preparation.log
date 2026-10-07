@@ -1,0 +1,4 @@
+PASS history screenshot receipt restore
+PASS history screenshot receipt show
+PASS history screenshot receipt close-new
+PASS history partial placement failure rolls back before retry
