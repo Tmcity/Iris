@@ -1,0 +1,160 @@
+{
+  "baseCommit": "03b42a3db4d9fc516afd03d49097f95513e863bc",
+  "phase": "final tested working tree before independent local commit",
+  "srcDiffEmpty": true,
+  "productionSrcTree": "63fa527b1695fc1911725f596e661f2654851bed",
+  "changedTestFiles": [
+    "tests/Iris.App.Tests/Settings/SettingsDraftOperationQueueTests.cs"
+  ],
+  "testSourceSha256": {
+    "tests/Iris.App.Tests/Settings/SettingsDraftOperationQueueTests.cs": "1bd8f42281cdf12be2ee342706627bb4a2afde701820bd9fc89a06e7741f6f93"
+  },
+  "dllSha256": {
+    "Iris.App.Tests.dll": "e9143ee856da2acf7f9b4bdd011667dbcf910b8e412efd33f970b506b4bf3a75",
+    "Iris.App.dll": "c2cbfd55eed952130f4cb3e2c0be23bfbaa4c8a6358f75c4b4796572cafb75c6",
+    "Iris.Core.dll": "8e51d4e09fce1051561210e0dbcec0ad939d98e700652e20e80b60b86079e4d2"
+  },
+  "receivedFilesPreserved": {
+    "specs/DEVELOPER_HANDOFF.md": {
+      "status": "unchanged",
+      "sha256": "53a35e59693d311486678ff179d5c695bddf1562b0a0134fa59f98c15642e607"
+    },
+    "specs/PROJECT_HANDOFF.md": {
+      "status": "unchanged",
+      "sha256": "8883b22e275e40b7d36c084c810cbd227e7b08083919f1cf29df0173273b8567"
+    },
+    "tasks/done/T-032B.md": {
+      "status": "architect appended visual review",
+      "originalPrefixBytes": 17386,
+      "originalPrefixSha256": "421ba18bb39ae28b31598a8c85aa366cdb8e859471e487a99d1f3c9bdac93f43",
+      "finalFile": "tasks/done/T-032B.md",
+      "finalSha256": "7f508344562e04597f1c61365e81c2721a7776ff8eea2848bff085709a83fa3c"
+    },
+    "tasks/current_task.md": {
+      "status": "archived exact original prefix",
+      "originalPrefixBytes": 3277,
+      "originalPrefixSha256": "9e1e178ad4ee0195e5e1b29a29203739b130025ab3219261786b4dd5ce4f3755",
+      "finalFile": "tasks/done/T-032B-R1.md",
+      "finalSha256": "b6098983be2bf06f062de551e85eb165230f3cf2c2dee47944bd3e9cb6901d18"
+    },
+    "tasks/done/T-032B.review/Boundaries.cs": {
+      "status": "unchanged",
+      "sha256": "d6355185d41e2575d9925d7a3ed37f5137328b72f1b0370d06e0b77e2180a1cd"
+    },
+    "tasks/done/T-032B.review/build.log": {
+      "status": "unchanged",
+      "sha256": "608bc568cdb14d83d84f677c5d5e69f818b362ce453c4d8bd140813dda4660a0"
+    },
+    "tasks/done/T-032B.review/controls.log": {
+      "status": "unchanged",
+      "sha256": "069ed4a79c6b61142232158b2386ece16286371e78e78d9365af68b1b2e95baa"
+    },
+    "tasks/done/T-032B.review/full.log": {
+      "status": "unchanged",
+      "sha256": "1357b80ebf470df690fc9b2005d0e42d4b3b2ccc5a9b424a9121093e9a30e4b7"
+    },
+    "tasks/done/T-032B.review/identity.log": {
+      "status": "unchanged",
+      "sha256": "42115b820589757b57fff127c74b300f3505c7b7ba40b70c94b050fc3ea70bb3"
+    },
+    "tasks/done/T-032B.review/manifest.json": {
+      "status": "unchanged",
+      "sha256": "6067ebe4e04066413bc9d395c5276006894ca99ec974d781e8f817d4122de737"
+    },
+    "tasks/done/T-032B.review/prepare.py": {
+      "status": "unchanged",
+      "sha256": "e269dc0a67dbc7d815498d2ae1b055cebf9b0de0507febe97afb2d33b9540381"
+    },
+    "tasks/done/T-032B.review/probe-build.log": {
+      "status": "unchanged",
+      "sha256": "3f05850595adb2c1abfcc393d7fc4b87244ac5df16c71c3a69bbe4e68e780865"
+    },
+    "tasks/done/T-032B.review/profiles.log": {
+      "status": "unchanged",
+      "sha256": "539a4fdae972ae37f2899c622a8aa3b486dc1f7cd685ff51617e3fe66d65b5b2"
+    },
+    "tasks/done/T-032B.review/Program.cs": {
+      "status": "unchanged",
+      "sha256": "ee9210704d56fdf6eae45aa9d8c30204b6b6cbf879107eaca54878bd43ba2e9d"
+    },
+    "tasks/done/T-032B.review/queue-diagnostic.log": {
+      "status": "unchanged",
+      "sha256": "4de24e5e2a45dfbede6a754c7a20a2b95e8e80dd2723cc0185f2a2fc1417ffa0"
+    },
+    "tasks/done/T-032B.review/QueueProbe.cs": {
+      "status": "unchanged",
+      "sha256": "a8afd4a30ff0696d531828837a19b51dfbfd97a7dba3828d112c924b34989aca"
+    },
+    "tasks/done/T-032B.review/QueueProbe.csproj": {
+      "status": "unchanged",
+      "sha256": "dbe39730d6280655e7f4edaa74d7d92514c6f7bac310d98cc21896ae50a6e568"
+    },
+    "tasks/done/T-032B.review/reachability.log": {
+      "status": "unchanged",
+      "sha256": "d3bf8e4f8bbbcfa10314c49ee24096e81b7412ae5f0df34effe45e22bd50ca69"
+    },
+    "tasks/done/T-032B.review/README.md": {
+      "status": "architect appended visual review",
+      "originalPrefixBytes": 880,
+      "originalPrefixSha256": "43cd27d10e48b04bc7811803b2b82657b4c3b719010f9e8a6cfb0e9388f49f00",
+      "finalFile": "tasks/done/T-032B.review/README.md",
+      "finalSha256": "4c30ab62e0cb3dc0c975ad1a6f533558eb4d622fc6543a0c0941186022697251"
+    },
+    "tasks/done/T-032B.review/receipts.log": {
+      "status": "unchanged",
+      "sha256": "5076fc6cb3d676483b023e7707ccec94dae87dc6e56d83de31bb54f5eca475f0"
+    },
+    "tasks/done/T-032B.review/retry-barrier.log": {
+      "status": "unchanged",
+      "sha256": "53c24b700658c255d7fa30c07b7253704b69c18105478912cafb1906343a0d53"
+    },
+    "tasks/done/T-032B.review/retry-save.log": {
+      "status": "unchanged",
+      "sha256": "e27db64bb7e2547545d56b5fea31ce8e98d3fc58b0507d766f7dbccc5af93efd"
+    },
+    "tasks/done/T-032B.review/Review.csproj": {
+      "status": "unchanged",
+      "sha256": "6c4ef56963649dc83951f078b1c8acd09b21de914b942d42fcb2679c31190258"
+    },
+    "tasks/done/T-032B.review/revisions.log": {
+      "status": "unchanged",
+      "sha256": "9d391c5ce3118c45ba5b9c97d6c88ba3232b0f5411db6e87e383e1956321f77f"
+    },
+    "tasks/done/T-032B.review/Scope.cs": {
+      "status": "unchanged",
+      "sha256": "bad256d16ff767ae73b95539dda6727952d56fd203fdcbe5c3a12af4149b3870"
+    },
+    "tasks/done/T-032B.review/UiBoundary.cs": {
+      "status": "unchanged",
+      "sha256": "e05014da81fb773215bf19336ae4c129052cce8d2e7e25078d16f7a4ccaf0af6"
+    },
+    "tasks/done/T-032B.review/workflow.log": {
+      "status": "unchanged",
+      "sha256": "1d59d0e26b12605ef65dbbc081a63070908c96e0d64277cd94cca4b45639e76f"
+    },
+    "tasks/done/T-032B.review/WorkflowChecks.cs": {
+      "status": "unchanged",
+      "sha256": "84c52213a57cf631d8f039cfca0244567be35c1ab4fd0b4541f65f5470c57e8d"
+    }
+  },
+  "architectAddedReviewFiles": {
+    "tasks/done/T-032B.review/visual-review.json": "901fdeb2960a1b9a84894d8f75ecc415d6a2bbd74f5f7853f853d1a834fea98f"
+  },
+  "executionsInSerialOrder": {
+    "targeted-1": {
+      "command": "dotnet test --project tests/Iris.App.Tests/Iris.App.Tests.csproj -c Release --filter-class Iris.App.Tests.Settings.SettingsDraftOperationQueueTests --output Detailed",
+      "exitCode": 0,
+      "logSha256": "6281ad210c26263d428db9c6cf12ff6d5088990668f6913a90edbeca5c368c4b"
+    },
+    "release-build-1": {
+      "command": "dotnet build Iris.slnx -c Release",
+      "exitCode": 0,
+      "logSha256": "3418690cad50ff368aa2e9050d1ca016b74438a5ea3791162a32f4bd98c0b103"
+    },
+    "release-full-1": {
+      "command": "dotnet test Iris.slnx -c Release",
+      "exitCode": 0,
+      "logSha256": "9206a29da9dec574fa146efbac70de60cb79d3ed359da90b22c158b0ee834018"
+    }
+  }
+}

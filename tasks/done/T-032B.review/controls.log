@@ -1,0 +1,3 @@
+PASS password boxes preserve partial input and clear on commit
+PASS save flushes explicit opacity binding
+PASS actual close failure preserves clickable retry

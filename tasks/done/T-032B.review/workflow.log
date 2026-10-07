@@ -1,0 +1,4 @@
+PASS joint commit and external clean value
+PASS invalid screenshot draft survives
+PASS cleanup retry retains original provider
+PASS noncooperative test blocks save

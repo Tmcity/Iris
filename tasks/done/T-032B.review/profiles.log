@@ -1,0 +1,3 @@
+PASS custom active profile deletion requires explicit selection
+PASS dirty external conflict preserves original baseline
+PASS all Baidu modes and options round trip

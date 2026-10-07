@@ -1,0 +1,2 @@
+Original synchronous gate: Enqueue returned only after timeout; elapsedMs=157
+PASS actual queue deterministic drain: 20 iterations, blocked until release, waiting canceled, no active work

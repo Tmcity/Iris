@@ -1,0 +1,18 @@
+{
+  "commit": "03b42a3db4d9fc516afd03d49097f95513e863bc",
+  "phase": "preparation only; no acceptance executed",
+  "probeSources": {
+    "Program.cs": "ee9210704d56fdf6eae45aa9d8c30204b6b6cbf879107eaca54878bd43ba2e9d",
+    "UiBoundary.cs": "e05014da81fb773215bf19336ae4c129052cce8d2e7e25078d16f7a4ccaf0af6",
+    "Boundaries.cs": "d6355185d41e2575d9925d7a3ed37f5137328b72f1b0370d06e0b77e2180a1cd",
+    "Scope.cs": "bad256d16ff767ae73b95539dda6727952d56fd203fdcbe5c3a12af4149b3870",
+    "WorkflowChecks.cs": "84c52213a57cf631d8f039cfca0244567be35c1ab4fd0b4541f65f5470c57e8d"
+  },
+  "productDlls": {
+    "Iris.App.dll": "c2cbfd55eed952130f4cb3e2c0be23bfbaa4c8a6358f75c4b4796572cafb75c6",
+    "Iris.Core.dll": "8e51d4e09fce1051561210e0dbcec0ad939d98e700652e20e80b60b86079e4d2",
+    "Iris.Infrastructure.dll": "30af3455d24c521d3a6d65eec2c9ecca009e8ff6d4ebe12c17c36014f9bb2780",
+    "Iris.Platform.Windows.dll": "359510a09d0a2ca742955796235dab5605c97ce140b1723419192bbbaaa8642a",
+    "Iris.Providers.dll": "5f375b203c2440e3f9a4ee84850278ebffbdbb8e53eeac91d1d59889fe287955"
+  }
+}
