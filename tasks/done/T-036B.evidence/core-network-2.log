@@ -1,0 +1,20 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+失败 Iris.Core.Tests.Settings.NetworkSettingsTests.MixedNetworkOcrTranslationAndHistory_OneCommitBothBarriers (1ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.ArgumentOutOfRangeException : Index was out of range. Must be non-negative and less than the size of the collection. (Parameter 'index')
+    在 System.SZArrayHelper.get_Item[T](Int32 index)
+    在 Iris.Core.Tests.Settings.NetworkSettingsTests.<>c.<<MixedNetworkOcrTranslationAndHistory_OneCommitBothBarriers>b__13_0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\NetworkSettingsTests.cs:126
+    --- End of stack trace from previous location ---
+    在 Iris.Core.Tests.Settings.OcrEditingTestScope.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs:53
+    在 Iris.Core.Tests.Settings.OcrEditingTestScope.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs:71
+    --- End of stack trace from previous location ---
+F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (1s 487ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 24
+  失败: 1
+  成功: 23
+  已跳过: 0
+  持续时间: 1s 745ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

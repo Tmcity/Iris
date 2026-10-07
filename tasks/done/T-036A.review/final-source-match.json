@@ -1,0 +1,13 @@
+{
+  "ActualCoordinatorChecks.cs": true,
+  "Boundaries.cs": true,
+  "ConnectivityChecks.cs": true,
+  "CurrentChecks.cs": true,
+  "MigrationChecks.cs": true,
+  "PersistenceChecks.cs": true,
+  "PipelineChecks.cs": true,
+  "Program.cs": true,
+  "ProposedPersistence.cs": true,
+  "RuntimeChecks.cs": true,
+  "StreamingChecks.cs": true
+}

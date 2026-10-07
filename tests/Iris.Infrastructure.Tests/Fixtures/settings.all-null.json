@@ -101,6 +101,7 @@
   "translateWindow": {},
   "history": {},
   "network": {
+    "proxyCredentialSetId": null,
     "customProxyUrl": null
   }
 }

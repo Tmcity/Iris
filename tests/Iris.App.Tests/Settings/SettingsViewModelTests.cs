@@ -688,6 +688,7 @@ public sealed class SettingsViewModelTests
 
     private sealed class MutableSettingsService(AppSettings initialSettings) : ISettingsService
     {
+        public bool IsReadOnly => false;
         public AppSettings Current { get; private set; } = initialSettings;
         public event EventHandler<SettingsChangedEventArgs>? Changed;
 

@@ -1,0 +1,51 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.Scenario7_RealWindowPresenter_HandlesClosingReopening_AndReceipt32QuotaExhaustion (2s 505ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : vm1.StatusMessage
+      should be
+  "配置已提交保存，但部分服务提供商刷新未完全完成，旧凭据已保留"
+      but was
+  "配置已提交保存，但部分服务或网络配置应用未完成，旧凭据已保留"
+      difference
+  Difference     |                                          |    |    |    |    |    |    |    |                                      
+                 |                                         \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/                                     
+  Index          | ...  6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   21   22   23   24   25   26   ...  
+  Expected Value | ...  存    ，    但    部    分    服    务    提    供    商    刷    新    未    完    全    完    成    ，    旧    凭    据    ...  
+  Actual Value   | ...  存    ，    但    部    分    服    务    或    网    络    配    置    应    用    未    完    成    ，    旧    凭    据    ...  
+  Expected Code  | ...  233846529220294370962099826381211532555220379218302104726032264102343620840234362510465292260872097325454...  
+  Actual Code    | ...  233846529220294370962099826381211532511032593324763719732622242122999226410234362510465292260872097325454...  
+    在 Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.<>c.<<Scenario7_RealWindowPresenter_HandlesClosingReopening_AndReceipt32QuotaExhaustion>b__19_0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:1338
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.<>c.<<Scenario7_RealWindowPresenter_HandlesClosingReopening_AndReceipt32QuotaExhaustion>b__19_0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:1377
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.Scenario7_RealWindowPresenter_HandlesClosingReopening_AndReceipt32QuotaExhaustion() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:1239
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (4s 294ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 2
+  失败: 1
+  成功: 1
+  已跳过: 0
+  持续时间: 4s 644ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

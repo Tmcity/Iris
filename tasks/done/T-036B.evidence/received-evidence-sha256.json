@@ -1,0 +1,79 @@
+[
+  {
+    "source": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t036b-independent-foundation\\binding.json",
+    "archived": "tasks\\done\\T-036B.evidence\\independent-foundation\\binding.json",
+    "sha256": "2c3c87ffb7cb5063ec8efacbad7b829dfa3358e9597a5d09d0a0a0daad8e1026"
+  },
+  {
+    "source": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t036b-independent-foundation\\migration-1.log",
+    "archived": "tasks\\done\\T-036B.evidence\\independent-foundation\\migration-1.log",
+    "sha256": "2796ddaf4242a5bc40dc335976c64ebde68d5453953bae55ff48c715bcf950dd"
+  },
+  {
+    "source": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t036b-independent-foundation\\migration-2.log",
+    "archived": "tasks\\done\\T-036B.evidence\\independent-foundation\\migration-2.log",
+    "sha256": "bcacabb7b26b31f2c8f3135f630019a773a2732c0e84450239a7484f14d7590d"
+  },
+  {
+    "source": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t036b-independent-foundation\\migration-3.log",
+    "archived": "tasks\\done\\T-036B.evidence\\independent-foundation\\migration-3.log",
+    "sha256": "2860d410155adad15e527e8be5838f1dc936b30f3aeca0f77b4fd57d3001a21f"
+  },
+  {
+    "source": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t036b-independent-foundation\\migration-4.log",
+    "archived": "tasks\\done\\T-036B.evidence\\independent-foundation\\migration-4.log",
+    "sha256": "472f898abbc1ecb5f432c921e95ed3576d9ea8b93722a35cf6b630d0c191cde7"
+  },
+  {
+    "source": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t036b-independent-foundation\\Program.cs",
+    "archived": "tasks\\done\\T-036B.evidence\\independent-foundation\\Program.cs",
+    "sha256": "fc92eee9821d7c58c53245030bd31d7d4403412820b1aba37ef02e2a4fa3a9c6"
+  },
+  {
+    "source": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t036b-independent-foundation\\README.md",
+    "archived": "tasks\\done\\T-036B.evidence\\independent-foundation\\README.md",
+    "sha256": "de3409a8aee251c85432be1ae4ccf8db5431a79de9f91bf658b48bee6f89ede7"
+  },
+  {
+    "source": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t036b-independent-foundation\\review-state.json",
+    "archived": "tasks\\done\\T-036B.evidence\\independent-foundation\\review-state.json",
+    "sha256": "5bd92a9df3ed249080f7e0e6019327e267685242790059c9f5c9b206707a529d"
+  },
+  {
+    "source": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t036b-independent-foundation\\Review.csproj",
+    "archived": "tasks\\done\\T-036B.evidence\\independent-foundation\\Review.csproj",
+    "sha256": "6dd0de653e8d650d0df6bc54583b9b8ac9e2a0bf46151a3f55629fe7e5841b1d"
+  },
+  {
+    "received": "tasks\\done\\T-036A.review\\all-1.log",
+    "sha256": "68436b46f207baa3ff88c3b08acb70493bc52f5ceba13344f27f65701c69b1da"
+  },
+  {
+    "received": "tasks\\done\\T-036A.review\\copied-source-binding.json",
+    "sha256": "4e177b727e987b602b9550de57516b9640cbe0dd1ae0dca7ea806b896e93c423"
+  },
+  {
+    "received": "tasks\\done\\T-036A.review\\delivery-check.json",
+    "sha256": "22f2e3eab0d663d854d3bddc8231f82114f058c3ef4131bada2d6af6c5817dd8"
+  },
+  {
+    "received": "tasks\\done\\T-036A.review\\final-source-match.json",
+    "sha256": "82d64252a280bfc54af8b6410b24b2a71e92611e50a31a9798d78b0bf085a815"
+  },
+  {
+    "received": "tasks\\done\\T-036A.review\\migration-final.log",
+    "sha256": "c94f619876e96f112c639a2109f3a212fa9e4199cac85070e9233ad2f7fd0d29"
+  },
+  {
+    "received": "tasks\\done\\T-036A.review\\proposed-contract-build.log",
+    "sha256": "cee054c0874e055cc8f117b5220aeb7fe0590e6b9bf5c2b544a2eac41f6eb051"
+  },
+  {
+    "received": "tasks\\done\\T-036A.review\\README.md",
+    "sha256": "347aa9284f19457e3afaa72691c98bfe16af4fa8c4b8d1320dab4e3d1535535e"
+  },
+  {
+    "received": "tasks\\done\\T-036A.review\\streaming-1.log",
+    "sha256": "e5029c4c857e041a4ef41c6ca71d24074bcd068d52d38de8b2acfbd5093ae9d3"
+  }
+]

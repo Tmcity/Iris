@@ -41,7 +41,9 @@ public static class CoreServiceCollectionExtensions
         services.TryAddSingleton<ITranslationOrchestrator, TranslationOrchestrator>();
 
         services.TryAddSingleton<IHotkeyBindingPolicy, HotkeyBindingPolicy>();
-        services.TryAddSingleton<ISettingsEditCoordinator, SettingsEditCoordinator>();
+        services.TryAddSingleton<SettingsEditCoordinator>();
+        services.TryAddSingleton<ISettingsEditCoordinator>(sp => sp.GetRequiredService<SettingsEditCoordinator>());
+        services.TryAddSingleton<Iris.Core.Network.INetworkProxySnapshotSource>(sp => sp.GetRequiredService<SettingsEditCoordinator>());
 
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IActionHandler, OpenSettingsHandler>());
         services.TryAddEnumerable(ServiceDescriptor.Singleton<IActionHandler, OpenHistoryHandler>());

@@ -1,0 +1,54 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+失败 Iris.Providers.Tests.DependencyInjection.HttpClientPipelineTests.LlmClient_PostStringContent503_ResendsIdenticalRequestBody (1ms)
+  从 F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.InvalidOperationException : Misused header name, 'Proxy-Authorization'. Make sure request headers are used with HttpRequestMessage, response headers with HttpResponseMessage, and content headers with HttpContent objects.
+    在 System.Net.Http.Headers.HttpHeaders.GetHeaderDescriptor(String name)
+    在 System.Net.Http.Headers.HttpHeaders.Contains(String name)
+    在 Iris.Providers.Http.NetworkSnapshotHandler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.Providers\Http\NetworkHandlers.cs:11
+    在 System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+    在 Iris.Providers.Tests.DependencyInjection.HttpClientPipelineTests.LlmClient_PostStringContent503_ResendsIdenticalRequestBody() 位于 F:\Iris\tests\Iris.Providers.Tests\DependencyInjection\HttpClientPipelineTests.cs:196
+    --- End of stack trace from previous location ---
+失败 Iris.Providers.Tests.Ocr.Baidu.BaiduNamedPipelineTests.ActualOcrPipeline_MixedBusinessRetriesHaveNineTransportsAndSafeLogs(throwTransport: True) (10s 228ms)
+  从 F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.AggregateException : One or more errors occurred. (The operation has timed out.) (发生未知错误，详情请查看日志)
+  ---- System.TimeoutException : The operation has timed out.
+  ---- Iris.Providers.Ocr.Baidu.BaiduException : 发生未知错误，详情请查看日志
+    在 Iris.Providers.Tests.Ocr.Baidu.BaiduNamedPipelineTests.ActualOcrPipeline_MixedBusinessRetriesHaveNineTransportsAndSafeLogs(Boolean throwTransport) 位于 F:\Iris\tests\Iris.Providers.Tests\Ocr\Baidu\BaiduNamedPipelineTests.cs:81
+    在 Iris.Providers.Tests.Ocr.Baidu.BaiduNamedPipelineTests.ActualOcrPipeline_MixedBusinessRetriesHaveNineTransportsAndSafeLogs(Boolean throwTransport) 位于 F:\Iris\tests\Iris.Providers.Tests\Ocr\Baidu\BaiduNamedPipelineTests.cs:81
+    --- End of stack trace from previous location ---
+    ----- Inner Stack Trace #1 (System.TimeoutException) -----
+    在 Iris.Providers.Tests.Ocr.Baidu.BaiduNamedPipelineTests.ActualOcrPipeline_MixedBusinessRetriesHaveNineTransportsAndSafeLogs(Boolean throwTransport) 位于 F:\Iris\tests\Iris.Providers.Tests\Ocr\Baidu\BaiduNamedPipelineTests.cs:63
+    ----- Inner Stack Trace #2 (Iris.Providers.Ocr.Baidu.BaiduException) -----
+    在 Iris.Providers.Ocr.Baidu.BaiduOcrProvider.SendAsync[T](Uri uri, Byte[] form, Boolean token, BaiduCall call, Func`3 parse) 位于 F:\Iris\src\Iris.Providers\Ocr\Baidu\BaiduOcrProvider.cs:147
+    在 Iris.Providers.Ocr.Baidu.BaiduOcrProvider.<>c__DisplayClass22_0.<<RecognizeAsync>b__0>d.MoveNext() 位于 F:\Iris\src\Iris.Providers\Ocr\Baidu\BaiduOcrProvider.cs:42
+    --- End of stack trace from previous location ---
+    在 Iris.Providers.Ocr.Baidu.BaiduOcrProvider.<>c__DisplayClass24_0`1.<<Admit>b__0>d.MoveNext() 位于 F:\Iris\src\Iris.Providers\Ocr\Baidu\BaiduOcrProvider.cs:86
+    --- End of stack trace from previous location ---
+    在 Iris.Providers.Tests.Ocr.Baidu.BaiduNamedPipelineTests.ActualOcrPipeline_MixedBusinessRetriesHaveNineTransportsAndSafeLogs(Boolean throwTransport) 位于 F:\Iris\tests\Iris.Providers.Tests\Ocr\Baidu\BaiduNamedPipelineTests.cs:77
+失败 Iris.Providers.Tests.Ocr.Baidu.BaiduNamedPipelineTests.ActualOcrPipeline_MixedBusinessRetriesHaveNineTransportsAndSafeLogs(throwTransport: False) (10s 005ms)
+  从 F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.AggregateException : One or more errors occurred. (The operation has timed out.) (发生未知错误，详情请查看日志)
+  ---- System.TimeoutException : The operation has timed out.
+  ---- Iris.Providers.Ocr.Baidu.BaiduException : 发生未知错误，详情请查看日志
+    在 Iris.Providers.Tests.Ocr.Baidu.BaiduNamedPipelineTests.ActualOcrPipeline_MixedBusinessRetriesHaveNineTransportsAndSafeLogs(Boolean throwTransport) 位于 F:\Iris\tests\Iris.Providers.Tests\Ocr\Baidu\BaiduNamedPipelineTests.cs:81
+    在 Iris.Providers.Tests.Ocr.Baidu.BaiduNamedPipelineTests.ActualOcrPipeline_MixedBusinessRetriesHaveNineTransportsAndSafeLogs(Boolean throwTransport) 位于 F:\Iris\tests\Iris.Providers.Tests\Ocr\Baidu\BaiduNamedPipelineTests.cs:81
+    --- End of stack trace from previous location ---
+    ----- Inner Stack Trace #1 (System.TimeoutException) -----
+    在 Iris.Providers.Tests.Ocr.Baidu.BaiduNamedPipelineTests.ActualOcrPipeline_MixedBusinessRetriesHaveNineTransportsAndSafeLogs(Boolean throwTransport) 位于 F:\Iris\tests\Iris.Providers.Tests\Ocr\Baidu\BaiduNamedPipelineTests.cs:63
+    ----- Inner Stack Trace #2 (Iris.Providers.Ocr.Baidu.BaiduException) -----
+    在 Iris.Providers.Ocr.Baidu.BaiduOcrProvider.SendAsync[T](Uri uri, Byte[] form, Boolean token, BaiduCall call, Func`3 parse) 位于 F:\Iris\src\Iris.Providers\Ocr\Baidu\BaiduOcrProvider.cs:147
+    在 Iris.Providers.Ocr.Baidu.BaiduOcrProvider.<>c__DisplayClass22_0.<<RecognizeAsync>b__0>d.MoveNext() 位于 F:\Iris\src\Iris.Providers\Ocr\Baidu\BaiduOcrProvider.cs:42
+    --- End of stack trace from previous location ---
+    在 Iris.Providers.Ocr.Baidu.BaiduOcrProvider.<>c__DisplayClass24_0`1.<<Admit>b__0>d.MoveNext() 位于 F:\Iris\src\Iris.Providers\Ocr\Baidu\BaiduOcrProvider.cs:86
+    --- End of stack trace from previous location ---
+    在 Iris.Providers.Tests.Ocr.Baidu.BaiduNamedPipelineTests.ActualOcrPipeline_MixedBusinessRetriesHaveNineTransportsAndSafeLogs(Boolean throwTransport) 位于 F:\Iris\tests\Iris.Providers.Tests\Ocr\Baidu\BaiduNamedPipelineTests.cs:77
+F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 失败并出现 3 个错误 (22s 557ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 541
+  失败: 3
+  成功: 538
+  已跳过: 0
+  持续时间: 22s 787ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

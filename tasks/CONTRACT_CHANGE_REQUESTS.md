@@ -1068,3 +1068,14 @@ CCR-024结案补充：c7282698最终独立构建/定向/全量通过，生产同
 兼容新增SettingsEditPlan.History（可空、默认null），以及HistorySettingsPatch(可选SettingsFieldEdit<bool> Enabled、可选SettingsFieldEdit<int> MaxEntries)。保留原构造/解构与全部旧字段，ToString不输出值。精确声明以CONTRACTS.cs为准。
 
 History.Enabled/MaxEntries已存在于持久化配置，正常化上限现为100..100000；本单只增加安全联合编辑入口，不改默认/schema/JSON格式，不直接删除历史。按字段验证Base/Target并合并提交时最新状态；纯History无需Provider观察者/回执，联合Provider变化保持旧配额与ApplyPending。既有IHistoryWindowPresenter.ShowAsync、仓储、翻译与剪贴板接口均保持；历史窗口完整生命周期及截图参与者为App内部实现。
+
+
+## CCR-036：网络设置、版本化代理凭据与请求快照
+
+2026-10-07 · 架构师批准 · T-036B/C · NETWORK_CONFIGURATION.md / ARCH v1.53。
+
+状态：**B底座已落地，待独立复审；C完整设置页与HEAD会话未开始。批准声明保持。**
+
+接受A实证后的单一方案：NetworkSettings兼容新增ProxyCredentialSetId及安全ToString；SettingsEditPlan新增Network；新增ProxyCredentials/ProxyCredentialEdit/NetworkSettingsPatch；ISettingsService新增只读状态IsReadOnly，旧方法签名不变；SecretKeys新增LegacyProxyCredentials与ProxyCredentialSet。Iris.Core.Network新增纯托管NetworkProxySnapshot及Capture源、接收固定配置的网络观察者、实际传输生命周期、草稿端点/测试会话和结果声明。精确内容以CONTRACTS.cs为准，完整声明已独立编译。
+
+固定network/proxy-credentials仅作已知地址绑定格式导入，新写入使用network/proxy-credentials/{pc-GuidN}，Clear为显式空凭据集，防止旧键回退。保留原安全目标及三个Network默认值/schema数字/包版本。正式语义同时修正旧无效Custom直连/自动System回退及future配置Update可覆盖问题；这些旧行为不得作为保留的兼容要求。B实现底座，C实现完整UI/测试；A不算父单交付。

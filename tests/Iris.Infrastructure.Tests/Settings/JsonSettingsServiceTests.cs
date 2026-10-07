@@ -272,14 +272,15 @@ public sealed class JsonSettingsServiceTests
         SettingsTestInvariants.AssertInvariants(service.Current);
 
         var v99File = Path.Combine(dir.Path, "settings.v99.json");
-        File.Exists(v99File).ShouldBeTrue();
+        File.Exists(v99File).ShouldBeFalse(); // CCR-036: never create a plaintext future-format backup.
+        service.IsReadOnly.ShouldBeTrue();
 
         var currentBytes = await File.ReadAllBytesAsync(paths.SettingsFile, TestContext.Current.CancellationToken);
         currentBytes.ShouldBe(originalBytes);
     }
 
     [Fact]
-    public async Task L9_SchemaVersionString_LoadsAndCorrects()
+    public async Task L9_SchemaVersionString_PreservesOriginalAsCorruptAndRestoresDefaults()
     {
         using var dir = new TempDirectory();
         var paths = new FakeAppPaths(dir.Path);
@@ -294,10 +295,12 @@ public sealed class JsonSettingsServiceTests
         await File.WriteAllTextAsync(paths.SettingsFile, json, TestContext.Current.CancellationToken);
 
         using var service = CreateService(dir);
-        await service.LoadAsync(TestContext.Current.CancellationToken);
+        var error = await Should.ThrowAsync<IrisException>(() => service.LoadAsync(TestContext.Current.CancellationToken));
+        error.Code.ShouldBe(ErrorCode.SettingsCorrupted);
+        (await File.ReadAllTextAsync(error.Detail!, TestContext.Current.CancellationToken)).ShouldBe(json);
 
         service.Current.SchemaVersion.ShouldBe(AppSettings.CurrentSchemaVersion);
-        service.Current.History.MaxEntries.ShouldBe(4000);
+        service.Current.History.MaxEntries.ShouldBe(new HistorySettings().MaxEntries);
         SettingsTestInvariants.AssertInvariants(service.Current);
     }
 

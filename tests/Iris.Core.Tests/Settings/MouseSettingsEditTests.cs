@@ -15,7 +15,7 @@ public sealed class MouseSettingsEditTests
     [Fact]
     public async Task FiveMouseFields_CommitOnceNormalizeTargetsAndLeaveUneditedFields()
     {
-        var f = new Fixture();
+        using var f = new Fixture();
         f.Store.BeforeMutate = current => current with { Selection = current.Selection with { ClipboardTimeoutMs = 999 } };
         var patch = new SelectionSettingsPatch { MouseMode = new(MouseSelectionMode.Off, MouseSelectionMode.ShowIcon), RequireIBeamCursor = new(true, false),
             MinDragDistancePx = new(6, 12), IconAutoHideMs = new(3000, 8000), ExcludedProcesses = new([], [" a.EXE ", "A.exe", "my app"]) };
@@ -30,7 +30,7 @@ public sealed class MouseSettingsEditTests
     [InlineData("mode")][InlineData("dragLow")][InlineData("dragHigh")][InlineData("hideLow")][InlineData("hideHigh")][InlineData("names")]
     public async Task InvalidTargets_RejectBeforeUpdate(string field)
     {
-        var f = new Fixture();
+        using var f = new Fixture();
         var patch = field switch
         {
             "mode" => new SelectionSettingsPatch { MouseMode = new(MouseSelectionMode.Off, (MouseSelectionMode)99) },
@@ -45,7 +45,7 @@ public sealed class MouseSettingsEditTests
     [InlineData(false)][InlineData(true)]
     public async Task ProcessBaseIsNotTrimmed_AndBothConflictPhasesAreEnforced(bool late)
     {
-        var f = new Fixture();
+        using var f = new Fixture();
         var conflicting = f.Store.Current with { Selection = f.Store.Current.Selection with { ExcludedProcesses = [" editor.exe "] } };
         if (late) f.Store.BeforeMutate = _ => conflicting; else f.Store.Current = conflicting;
         var result = await f.Core.CommitAsync(new(new(), []) { Selection = new() { ExcludedProcesses = new(["editor.exe"], ["other.exe"]) } }, TestContext.Current.CancellationToken);
@@ -54,7 +54,7 @@ public sealed class MouseSettingsEditTests
     [Fact]
     public async Task ListCaptureBeforeWait_IsIndependent_AndUneditedBadValuesDoNotBlock()
     {
-        var f = new Fixture(); var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously); var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var f = new Fixture(); var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously); var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         f.Store.BeforeUpdate = async () => { entered.TrySetResult(); await release.Task; };
         var baseline = new List<string>(); var target = new List<string> { "original.exe" };
         Task<SettingsEditResult>? commit = null;
@@ -82,8 +82,9 @@ public sealed class MouseSettingsEditTests
         store.BeforeMutate = s => s with { Selection = s.Selection with { MouseMode = MouseSelectionMode.ShowIcon } };
         await handler.ExecuteAsync(new(ActionTrigger.Hotkey), TestContext.Current.CancellationToken); store.Current.Selection.MouseMode.ShouldBe(MouseSelectionMode.Off);
     }
-    private sealed class Fixture
+    private sealed class Fixture : IDisposable
     {
+        public void Dispose() => Core.Dispose();
         internal readonly Store Store = new();
         internal readonly ISecretStore Secrets = Substitute.For<ISecretStore>();
         internal readonly IProviderConfigurationObserver Observer = Substitute.For<IProviderConfigurationObserver>();
@@ -96,6 +97,7 @@ public sealed class MouseSettingsEditTests
     }
     private sealed class Store : ISettingsService
     {
+        public bool IsReadOnly => false;
         public AppSettings Current { get; set; } = new();
         internal int Updates;
         internal Func<AppSettings, AppSettings>? BeforeMutate;

@@ -106,6 +106,7 @@ internal sealed class OcrSettingsUiScope
     }
     internal sealed class Store : ISettingsService
     {
+        public bool IsReadOnly => false;
         internal AppSettings Value = new();
         internal int Updates;
         internal Exception? Failure;

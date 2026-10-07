@@ -157,6 +157,7 @@ internal sealed class MouseInteractionTestScope
 
     internal sealed class Store : ISettingsService
     {
+        public bool IsReadOnly => false;
         public AppSettings Current { get; private set; } = new()
         {
             Selection = new() { ReadOrder = [SelectionReadMethod.UIAutomation] },

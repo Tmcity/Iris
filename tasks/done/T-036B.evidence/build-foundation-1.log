@@ -1,0 +1,11 @@
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+F:\Iris\src\Iris.Core\Network\NetworkProxyCodec.cs(17,42): error CA1870: 使用缓存的 "SearchValues" 实例改进搜索性能 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1870) [F:\Iris\src\Iris.Core\Iris.Core.csproj]
+
+生成失败。
+
+F:\Iris\src\Iris.Core\Network\NetworkProxyCodec.cs(17,42): error CA1870: 使用缓存的 "SearchValues" 实例改进搜索性能 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1870) [F:\Iris\src\Iris.Core\Iris.Core.csproj]
+    0 个警告
+    1 个错误
+
+已用时间 00:00:05.66

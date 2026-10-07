@@ -331,7 +331,7 @@ public sealed class SettingsNormalizerTests
     }
 
     [Fact]
-    public void N10_Network_InvalidCustomProxyUrl_MasksUrlInFixMessage()
+    public void N10_Network_InvalidCustomProxyUrl_PreservesIntentWithoutLoggingUrl()
     {
         const string badUrl = "http://user:secret_pass@bad host:invalid/";
         var settings = new AppSettings
@@ -346,12 +346,12 @@ public sealed class SettingsNormalizerTests
 
         var normalized = SettingsNormalizer.Normalize(settings, fixes);
 
-        normalized.Network.ProxyMode.ShouldBe(ProxyMode.System);
-        fixes.Count.ShouldBe(1);
-        fixes[0].ShouldBe("Network.ProxyMode: Custom → System（代理地址无效，已隐藏）");
+        normalized.Network.ProxyMode.ShouldBe(ProxyMode.Custom);
+        normalized.Network.CustomProxyUrl.ShouldBe(badUrl);
+        fixes.ShouldBeEmpty();
         // MUST NOT contain the secret password or URL
-        fixes[0].ShouldNotContain("secret_pass");
-        fixes[0].ShouldNotContain(badUrl);
+        string.Join(";", fixes).ShouldNotContain("secret_pass");
+        string.Join(";", fixes).ShouldNotContain(badUrl);
     }
 
     [Fact]

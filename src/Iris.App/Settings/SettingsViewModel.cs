@@ -220,7 +220,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         }
 
         SaveCommand = new AsyncRelayCommand(ExecuteSaveAsync, () => CanSave, ex => HandleCommandException("Save", ex));
-        CancelCommand = new RelayCommand(ExecuteCancel, () => CanEdit);
+        CancelCommand = new RelayCommand(ExecuteCancel, () => !IsSaving && !_disposed && !_isStopped);
         ReloadCommand = new RelayCommand(ExecuteReload, () => CanEdit);
         RetryAutoStartCommand = new AsyncRelayCommand(ExecuteRetryAutoStartAsync, () => !IsSaving && CanRetryAutoStart && !_disposed && !_isStopped, ex => HandleCommandException("RetryAutoStart", ex));
         RetryPendingApplyCommand = new AsyncRelayCommand(ExecuteRetryPendingApplyAsync, () => !IsSaving && CanRetryPendingApply && !_disposed && !_isStopped, ex => HandleCommandException("RetryPendingApply", ex));
@@ -287,7 +287,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     }
 
     public bool CanRetryHotkeysOrCleanup => CanRetryHotkeys || HasFailedRecordingCleanup;
-    public bool CanAccessHotkeysTab => !IsSaving && !_disposed && !_isStopped;
+    public bool CanAccessHotkeysTab => !IsReadOnly && !IsSaving && !_disposed && !_isStopped;
 
     internal bool CanStartRecording => _recordingCoordinator?.CanStartRecording != false;
     private Task OnRecordingAdmissionChanged() => _uiDispatcher.InvokeAsync(() => { RaiseAllCommandsCanExecute(); return Task.CompletedTask; }, CancellationToken.None);
@@ -351,7 +351,8 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     }
 
     public bool HasFailedRecordingCleanup => _recordingCoordinator?.HasFailedCleanup == true;
-    public bool CanEdit => !IsSaving && !_disposed && !_isStopped && !IsAnyRecording && !HasFailedRecordingCleanup;
+    public bool IsReadOnly => _settingsService.IsReadOnly;
+    public bool CanEdit => !IsReadOnly && !IsSaving && !_disposed && !_isStopped && !IsAnyRecording && !HasFailedRecordingCleanup;
     public bool CanSave => CanEdit && !IsAnyRecording && !HasFailedRecordingCleanup;
 
     public AppTheme Theme
@@ -359,7 +360,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         get => _targetTheme;
         set
         {
-            if (IsSaving || _disposed || _isStopped)
+            if (IsReadOnly || IsSaving || _disposed || _isStopped)
             {
                 return;
             }
@@ -387,7 +388,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         get => _targetLaunchAtStartup;
         set
         {
-            if (IsSaving || _disposed || _isStopped)
+            if (IsReadOnly || IsSaving || _disposed || _isStopped)
             {
                 return;
             }
@@ -407,7 +408,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         get => _targetShowStartupNotification;
         set
         {
-            if (IsSaving || _disposed || _isStopped)
+            if (IsReadOnly || IsSaving || _disposed || _isStopped)
             {
                 return;
             }
@@ -427,7 +428,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         get => _targetLogLevel;
         set
         {
-            if (IsSaving || _disposed || _isStopped)
+            if (IsReadOnly || IsSaving || _disposed || _isStopped)
             {
                 return;
             }
@@ -1246,7 +1247,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     {
         lock (_admissionLock)
         {
-            if (IsSaving || _disposed || _isStopped)
+            if (IsReadOnly || IsSaving || _disposed || _isStopped)
             {
                 return;
             }
@@ -1723,7 +1724,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
     public void ExecuteReload()
     {
-        if (IsSaving || _disposed || _isStopped)
+        if (IsReadOnly || IsSaving || _disposed || _isStopped)
         {
             return;
         }
@@ -2365,7 +2366,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         TaskCompletionSource workTcs;
         lock (_admissionLock)
         {
-            if (IsSaving || _disposed || _isStopped)
+            if (IsReadOnly || IsSaving || _disposed || _isStopped)
             {
                 return;
             }
@@ -2469,7 +2470,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         TaskCompletionSource workTcs;
         lock (_admissionLock)
         {
-            if (IsSaving || _disposed || _isStopped)
+            if (IsReadOnly || IsSaving || _disposed || _isStopped)
             {
                 return;
             }
@@ -2667,7 +2668,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                         if (!Profiles.Any(p => p.Id == ext.Id) && !_deletedProfiles.Any(d => d.Id == ext.Id))
                         {
                             var newDraft = TranslationProfileDraftViewModel.FromExisting(ext);
-                            if (IsSaving || _disposed || _isStopped)
+                            if (IsReadOnly || IsSaving || _disposed || _isStopped)
                             {
                                 newDraft.IsFrozen = true;
                             }

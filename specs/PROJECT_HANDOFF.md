@@ -1,5 +1,15 @@
 # Iris 架构师接手记录
 
+**2026-10-08 T-036B修正与真实传输独立验证**：iris-t036b-foundation-fixed/migration-1.log重新绑定新Core/Infrastructure，六个迁移/只读/畸形userinfo场景全部通过，原失败保留。iris-t036b-independent-transport/transport-1.log五组实际Core+两命名管道+Sockets ConnectCallback内存流通过：原客户端重试A/新请求B、活响应阻止Stop、两条SSE在EOF前返回及消费者/响应排空、迟到A不倒退B。四张readonly图片已逐张查看，记录同目录visual-review.json。首轮全量full-1为3485/3480成功/3失败/2跳过：契约XML注释、旧DI工厂包装、真实WPF夹具直接执行callback的fake边界；开发正在修正，未结案。WPF测试换为真实WpfUiDispatcher，生产保存逻辑未据该fake失败直接判缺陷。
+
+**T-036B畸形userinfo实际反例已下达**：iris-t036b-independent-foundation/migration-4.log六场景中普通迁移/legacy地址保护/超intfuture只读通过；用户名-only空密码拒绝、畸形authority加载后普通保存将合成密码写新.bak、直接Update同类URL将密码写主配置三场景失败。Core/Infrastructure仍为binding.json冻结DLL（review-state.json已核对）。完整要求追加current_task；消息01a11700-2c09-7831-9007-917cb1d2e9e4已排队，正常Update也已在原消息要求中，无需再发重复提示。无真实用户数据/HTTP。迁移guard不能以Uri.TryCreate失败等同无userinfo；保留其它B成果。
+
+**T-036B开发期真实迁移复核**：iris-t036b-independent-foundation/migration-1.log三个规则通过（普通userinfo迁移、错误legacy地址保护、超intfuture只读），用户名-only旧URL被拒绝。A拆分规则允许HTTP/HTTPS空密码；已在NETWORK_CONFIGURATION和current_task明确并给出实际DLL复现，SOCKS5非空约束不变。此为开发中窄边界，非最终验收；尚未对生产HTTP管道作最终独立验证。
+
+**T-036B已实际下达并接单**：消息01a116cd-b578-7590-86cd-a48baa67ec06，执行轮01a116cd-cf07-7c61-a3df-ed8edf905b2b明确接单、读取规范并已开始同步Core契约/共享校验。原A流式排队补充已完成确认，无需重发。继续观察B，C不提前开始。
+
+**当前唯一工单T-036B（2026-10-07）**：A在97b8d02f8d9316632dc21ad6f78e3d3f15691dae通过独立方案验收，受保护文件零差异、最终原型匹配独立运行；证据T-036A.review。CCR036 / NETWORK_CONFIGURATION.md / ARCHv1.53正式冻结，完整声明已独立编译。B实现实际Core/迁移/两命名传输/资源与Host底座，C保留完整network UI与HEAD测试；不复制A简化原型充当生产。开发对话不变，一次一单，不push，M6延期。
+
 **T-036A归档源码差异补验**：candidate-vs-archived初次只MigrationChecks不同，归档版新增“只条件删除实际导入的固定旧键”，避免userinfo迁移误删无关固定键。独立副本同步该文件后migration-final.log全部通过；其余模块与all-1所测相同，final-source-match.json现全部true。原差异检查保留，不用新源冒称旧日志。
 
 **T-036A完整独立原型运行已通过，待交付提交**：iris-t036-independent-candidate/all-1.log执行current/runtime/actual-coordinator/persistence/migration/pipelines/connectivity/streaming全部模式正常退出，源码已对照归档prototype-final（candidate-vs-archived.json）。生产src/tests/CONTRACTS仍零改动；不重复跑生产全量。正式B草稿已准备，A最终hash/归档/声明复核后才冻结并下达，C保留完整网络UI/连通性测试。

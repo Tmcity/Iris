@@ -23,6 +23,8 @@ public interface ISecretStore
 
 public static class SecretKeys
 {
+    public const string LegacyProxyCredentials = "network/proxy-credentials";
+    public static string ProxyCredentialSet(string credentialSetId) => $"network/proxy-credentials/{credentialSetId}";
     public static string ApiKey(string providerId) => $"provider/{providerId}/api-key";
 
     public static string SecretKey(string providerId) => $"provider/{providerId}/secret-key";

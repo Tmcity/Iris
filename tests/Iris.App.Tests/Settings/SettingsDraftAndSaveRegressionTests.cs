@@ -106,6 +106,7 @@ public sealed class SettingsDraftAndSaveRegressionTests
 
     private sealed class MutableSettingsService : ISettingsService
     {
+        public bool IsReadOnly => false;
         public AppSettings Current { get; private set; }
         public event EventHandler<SettingsChangedEventArgs>? Changed;
 
@@ -176,6 +177,7 @@ public sealed class SettingsDraftAndSaveRegressionTests
 
     private sealed class CountingSettingsService : ISettingsService
     {
+        public bool IsReadOnly => _inner.IsReadOnly;
         private readonly ISettingsService _inner;
         public int UpdateCount { get; private set; }
 
@@ -1269,8 +1271,8 @@ public sealed class SettingsDraftAndSaveRegressionTests
                 // 统一单容器生命周期管理：装饰 ISettingsService 以便统计 UpdateCount
                 var jsonDescriptor = services.First(d => d.ServiceType == typeof(ISettingsService));
                 services.Remove(jsonDescriptor);
-                services.AddSingleton(jsonDescriptor.ImplementationType!, jsonDescriptor.ImplementationType!);
-                services.AddSingleton<CountingSettingsService>(sp => new CountingSettingsService((ISettingsService)sp.GetRequiredService(jsonDescriptor.ImplementationType!)));
+                services.AddKeyedSingleton<ISettingsService>("underlying-json", (sp, _) => (ISettingsService)jsonDescriptor.ImplementationFactory!(sp));
+                services.AddSingleton<CountingSettingsService>(sp => new CountingSettingsService(sp.GetRequiredKeyedService<ISettingsService>("underlying-json")));
                 services.AddSingleton<ISettingsService>(sp => sp.GetRequiredService<CountingSettingsService>());
 
                 services.AddScoped<GeneralSettingsSaveCoordinator>();

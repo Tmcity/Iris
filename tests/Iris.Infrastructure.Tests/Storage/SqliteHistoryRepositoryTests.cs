@@ -25,6 +25,7 @@ public sealed class SqliteHistoryRepositoryTests
 {
     private sealed class FakeSettingsService : ISettingsService
     {
+        public bool IsReadOnly => false;
         public AppSettings Current { get; set; } = new();
 
         public event EventHandler<SettingsChangedEventArgs>? Changed;

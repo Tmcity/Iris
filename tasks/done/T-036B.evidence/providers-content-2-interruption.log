@@ -1,0 +1,1 @@
+Owned test process 34292 was stopped after its cleanup waited indefinitely; fixture used only managed fake content/handlers and no sockets. Remaining assertions were not counted as passed. See subsequent diagnostic and corrected cleanup run.

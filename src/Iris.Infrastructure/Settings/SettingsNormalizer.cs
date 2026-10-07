@@ -885,20 +885,7 @@ internal static class SettingsNormalizer
             mode = ProxyMode.System;
         }
 
-        if (mode == ProxyMode.Custom)
-        {
-            var isValid = !string.IsNullOrWhiteSpace(network.CustomProxyUrl) &&
-                          Uri.TryCreate(network.CustomProxyUrl, UriKind.Absolute, out var uri) &&
-                          (string.Equals(uri.Scheme, "http", StringComparison.OrdinalIgnoreCase) ||
-                           string.Equals(uri.Scheme, "https", StringComparison.OrdinalIgnoreCase) ||
-                           string.Equals(uri.Scheme, "socks5", StringComparison.OrdinalIgnoreCase));
-
-            if (!isValid)
-            {
-                fixes.Add("Network.ProxyMode: Custom → System（代理地址无效，已隐藏）");
-                mode = ProxyMode.System;
-            }
-        }
+        // Invalid Custom intent must remain visible; transport rejects it before any connection.
 
         return network with { ProxyMode = mode };
     }

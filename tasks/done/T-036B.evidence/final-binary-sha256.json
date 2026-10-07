@@ -1,0 +1,18 @@
+[
+  {
+    "path": "src\\Iris.Core\\bin\\Release\\net10.0\\Iris.Core.dll",
+    "sha256": "93da9bea7679ac06029f5c6363622ae657497332fb3ea9d930b154234b665127"
+  },
+  {
+    "path": "src\\Iris.Infrastructure\\bin\\Release\\net10.0\\Iris.Infrastructure.dll",
+    "sha256": "0eb526320247b09f2991f2a7efb04849392b451022a084c5ef2c70af964e195c"
+  },
+  {
+    "path": "src\\Iris.Providers\\bin\\Release\\net10.0\\Iris.Providers.dll",
+    "sha256": "f5d20ce5324b0da7fbc713b3b753d2a7b4465ca4b7d11732b0f8bd9197e121ad"
+  },
+  {
+    "path": "src\\Iris.App\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.App.dll",
+    "sha256": "7d0ac0a99cffb9365dfe3171e186ee99b3fd65f8ff778985ebc2a5b77bf26b6e"
+  }
+]

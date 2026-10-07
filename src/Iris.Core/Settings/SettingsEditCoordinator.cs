@@ -24,7 +24,7 @@ namespace Iris.Core.Settings;
 /// </summary>
 [SuppressMessage("Design", "CA1001:Types that own disposable fields should be disposable",
     Justification = "Singleton service; SemaphoreSlim does not allocate unmanaged resources unless AvailableWaitHandle is accessed.")]
-internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
+internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator, IDisposable
 {
     private const string ConflictMessage = "配置已在其他位置发生更改，请刷新后重试";
 
@@ -71,17 +71,24 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         TimeProvider timeProvider,
         ILogger<SettingsEditCoordinator> logger,
         IHotkeyBindingPolicy? hotkeyBindingPolicy = null,
-        IOcrProviderRegistry? ocrProviderRegistry = null)
+        IOcrProviderRegistry? ocrProviderRegistry = null,
+        IEnumerable<Iris.Core.Network.INetworkConfigurationObserver>? networkObservers = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _secretStore = secretStore ?? throw new ArgumentNullException(nameof(secretStore));
         _providerRegistry = providerRegistry ?? throw new ArgumentNullException(nameof(providerRegistry));
         _ocrProviderRegistry = ocrProviderRegistry;
+        _networkObservers = networkObservers ?? [];
         _configurationObservers = configurationObservers ?? throw new ArgumentNullException(nameof(configurationObservers));
         _promptTemplateProvider = promptTemplateProvider ?? throw new ArgumentNullException(nameof(promptTemplateProvider));
         _timeProvider = timeProvider ?? throw new ArgumentNullException(nameof(timeProvider));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _hotkeyBindingPolicy = hotkeyBindingPolicy ?? new HotkeyBindingPolicy();
+    }
+
+    public void Dispose()
+    {
+        if (_networkSubscribed) _secretStore.Changed -= OnNetworkSecretChanged;
     }
 
     public async Task<SettingsEditResult> CommitAsync(SettingsEditPlan plan, CancellationToken cancellationToken = default)
@@ -110,7 +117,10 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         }
 
         // 4. 同步前置校验（基于当前快照的静态和语义校验）
+        if (_settingsService.IsReadOnly) return new(SettingsEditStatus.Uncommitted, Error: Iris.Core.Network.NetworkProxyCodec.StorageFailure().ToErrorInfo());
         var currentSnapshot = _settingsService.Current;
+        var networkError = ValidateNetwork(capturedPlan.Network, currentSnapshot.Network);
+        if (networkError != null) return new(SettingsEditStatus.Uncommitted, Error: networkError);
         var validationError = ValidatePlan(capturedPlan, currentSnapshot);
         if (validationError != null)
         {
@@ -120,21 +130,36 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         // 5. 取得单一异步串行权
         await _gate.WaitAsync(cancellationToken).ConfigureAwait(false);
         var stagedSetIds = new List<string>();
+        var stagedNetworkIds = new List<string>();
         try
         {
             cancellationToken.ThrowIfCancellationRequested();
 
             // 6. 前置冲突初检并准备凭据 staging 意图
+            if (_settingsService.IsReadOnly) return new(SettingsEditStatus.Uncommitted, Error: Iris.Core.Network.NetworkProxyCodec.StorageFailure().ToErrorInfo());
             var latest = _settingsService.Current;
+            if (ValidateNetwork(capturedPlan.Network, latest.Network) is { } latestNetworkError) return new(SettingsEditStatus.Uncommitted, Error: latestNetworkError);
             var stagingPlan = PrepareStagingAndCheckConflicts(capturedPlan, latest);
             if (stagingPlan.ConflictError != null)
             {
                 return new SettingsEditResult(SettingsEditStatus.Uncommitted, IsConflict: true, Error: stagingPlan.ConflictError);
             }
 
+            var networkCredentialError = await ValidateKeptNetworkCredentialsAsync(capturedPlan.Network, latest.Network, cancellationToken).ConfigureAwait(false);
+            if (networkCredentialError != null) return new(SettingsEditStatus.Uncommitted, Error: networkCredentialError);
+
             // 7. 执行凭据 staging
             try
             {
+                if (stagingPlan.NetworkSetId is { } networkId)
+                {
+                    await Task.Run(() =>
+                    {
+                        try { _secretStore.Set(SecretKeys.ProxyCredentialSet(networkId), stagingPlan.NetworkSetValue!); }
+                        catch { throw Iris.Core.Network.NetworkProxyCodec.StorageFailure(); }
+                    }, cancellationToken).ConfigureAwait(false);
+                    stagedNetworkIds.Add(networkId);
+                }
                 foreach (var (newSetId, apiKey, secretKey) in stagingPlan.CredentialsToStage)
                 {
                     cancellationToken.ThrowIfCancellationRequested();
@@ -148,11 +173,13 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             catch (OperationCanceledException)
             {
                 await RollbackStagedCredentialsAsync(stagedSetIds).ConfigureAwait(false);
+                await CleanupNetworkCandidatesAsync(stagedNetworkIds).ConfigureAwait(false);
                 throw;
             }
             catch (Exception ex)
             {
                 await RollbackStagedCredentialsAsync(stagedSetIds).ConfigureAwait(false);
+                await CleanupNetworkCandidatesAsync(stagedNetworkIds).ConfigureAwait(false);
                 LogSecretStoreSetFailed(_logger, ex.GetType().Name);
                 var err = MapStorageException(ex);
                 return new SettingsEditResult(SettingsEditStatus.Uncommitted, IsConflict: false, Error: err);
@@ -164,22 +191,25 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             {
                 await _settingsService.UpdateAsync(cur =>
                 {
-                    return MutateSettings(cur, capturedPlan, stagingPlan.NewCredentialSetMap);
+                    return MutateSettings(cur, capturedPlan, stagingPlan.NewCredentialSetMap, stagingPlan.NetworkSetId);
                 }, cancellationToken).ConfigureAwait(false);
             }
             catch (OperationCanceledException)
             {
                 await RollbackStagedCredentialsAsync(stagedSetIds).ConfigureAwait(false);
+                await CleanupNetworkCandidatesAsync(stagedNetworkIds).ConfigureAwait(false);
                 throw;
             }
             catch (StagingConflictException scEx)
             {
                 await RollbackStagedCredentialsAsync(stagedSetIds).ConfigureAwait(false);
+                await CleanupNetworkCandidatesAsync(stagedNetworkIds).ConfigureAwait(false);
                 return new SettingsEditResult(SettingsEditStatus.Uncommitted, IsConflict: true, Error: scEx.ErrorInfo);
             }
             catch (Exception ex)
             {
                 await RollbackStagedCredentialsAsync(stagedSetIds).ConfigureAwait(false);
+                await CleanupNetworkCandidatesAsync(stagedNetworkIds).ConfigureAwait(false);
                 LogSettingsUpdateFailed(_logger, ex.GetType().Name);
                 var err = MapStorageException(ex);
                 return new SettingsEditResult(SettingsEditStatus.Uncommitted, IsConflict: false, Error: err);
@@ -191,24 +221,31 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 commitId,
                 _instanceId,
                 stagingPlan.CandidateSetIds,
-                stagingPlan.CandidateLegacyProfileIds);
+                stagingPlan.CandidateLegacyProfileIds)
+            {
+                RequiresNetwork = HasNetworkEdits(capturedPlan.Network),
+                RequiresProviders = capturedPlan.TranslationChanges.Count != 0 || capturedPlan.TranslationOrder != null
+                    || HasOcrEdits(capturedPlan) || HasScreenshotEdits(capturedPlan.Screenshot),
+                RemainingNetworkCandidates = stagingPlan.NetworkCandidates
+            };
 
             // 若无 Provider 变更且无排序改动（仅 General 变更），无需观察者屏障和凭据清理
-            if (capturedPlan.TranslationChanges.Count == 0 && capturedPlan.TranslationOrder == null
-                && !HasOcrEdits(capturedPlan) && !HasScreenshotEdits(capturedPlan.Screenshot))
+            if (!receipt.RequiresProviders && !receipt.RequiresNetwork)
             {
                 return new SettingsEditResult(SettingsEditStatus.Applied);
             }
 
             // 9. 观察者刷新屏障
-            var observerSuccess = await RefreshObserversAsync().ConfigureAwait(false);
+            var observerSuccess = await RefreshReceiptObserversAsync(receipt).ConfigureAwait(false);
             if (!observerSuccess)
             {
                 receipt.ObserversCompleted = false;
                 return new SettingsEditResult(
                     SettingsEditStatus.ApplyPending,
                     IsConflict: false,
-                    Error: new ErrorInfo(ErrorCode.ProviderUnavailable, "配置已提交保存，但部分服务提供商刷新未完全完成，旧凭据已保留"),
+                    Error: new ErrorInfo(receipt.NetworkFailed ? ErrorCode.NetworkUnavailable : ErrorCode.ProviderUnavailable,
+                        receipt.RequiresNetwork ? "配置已提交保存，但部分服务或网络配置应用未完成，旧凭据已保留"
+                            : "配置已提交保存，但部分服务提供商刷新未完全完成，旧凭据已保留"),
                     PendingApply: receipt);
             }
 
@@ -256,11 +293,12 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             }
 
             // 重新刷新观察者屏障：每次未完成重试必须重新建立当前屏障
-            var observerSuccess = await RefreshObserversAsync().ConfigureAwait(false);
+            var observerSuccess = await RefreshReceiptObserversAsync(ourReceipt).ConfigureAwait(false);
             if (!observerSuccess)
             {
                 ourReceipt.ObserversCompleted = false;
-                return new SettingsApplyResult(false, new ErrorInfo(ErrorCode.ProviderUnavailable, "部分服务提供商刷新未完成"));
+                return new SettingsApplyResult(false, new ErrorInfo(ourReceipt.NetworkFailed ? ErrorCode.NetworkUnavailable : ErrorCode.ProviderUnavailable,
+                    ourReceipt.NetworkFailed ? "网络配置应用未完成" : "部分服务提供商刷新未完成"));
             }
 
             ourReceipt.ObserversCompleted = true;
@@ -658,7 +696,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
 
     private async Task<bool> CleanupReceiptCandidatesAsync(SettingsApplyReceipt receipt)
     {
-        var allCleaned = true;
+        var allCleaned = await CleanupNetworkCandidatesAsync(receipt.RemainingNetworkCandidates).ConfigureAwait(false);
 
         // 清理凭据集候选
         var candidateSetIds = receipt.RemainingCandidateSetIds.ToList();
@@ -896,13 +934,14 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         }
 
         var staging = new StagingPlan(credentialsToStage, newCredentialSetMap, candidateSetIds, candidateLegacyProfileIds);
-        return PrepareOcrStaging(plan, current, staging);
+        return PrepareNetworkStaging(plan, current, PrepareOcrStaging(plan, current, staging));
     }
 
     private AppSettings MutateSettings(
         AppSettings current,
         SettingsEditPlan plan,
-        Dictionary<CredentialTarget, string?> newCredentialSetMap)
+        Dictionary<CredentialTarget, string?> newCredentialSetMap,
+        string? networkSetId)
     {
         // 1. General 补丁应用与冲突复验
         var newGeneral = current.General;
@@ -1088,9 +1127,10 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
 
         var newSelection = ApplySelection(plan.Selection, current.Selection);
         var newHistory = ApplyHistory(plan.History, current.History);
+        var newNetwork = ApplyNetwork(plan.Network, current.Network, networkSetId);
         var newOcr = ApplyOcr(plan, current.Ocr, newCredentialSetMap);
         var newScreenshot = ApplyScreenshot(plan.Screenshot, current.Screenshot);
-        if (ReferenceEquals(newHistory, current.History) && ReferenceEquals(newOcr, current.Ocr) && ReferenceEquals(newScreenshot, current.Screenshot) &&
+        if (ReferenceEquals(newNetwork, current.Network) && ReferenceEquals(newHistory, current.History) && ReferenceEquals(newOcr, current.Ocr) && ReferenceEquals(newScreenshot, current.Screenshot) &&
             ReferenceEquals(newSelection, current.Selection) && ReferenceEquals(newGeneral, current.General) &&
             ReferenceEquals(newTranslation, current.Translation) &&
             ReferenceEquals(newHotkeys, current.Hotkeys))
@@ -1105,6 +1145,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             Hotkeys = newHotkeys,
             Selection = newSelection,
             History = newHistory,
+            Network = newNetwork,
             Ocr = newOcr, Screenshot = newScreenshot
         };
     }
@@ -2045,6 +2086,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         if (plan.HotkeyChanges.Count > 0) return false;
         if (HasSelectionEdits(plan.Selection)) return false;
         if (HasHistoryEdits(plan.History)) return false;
+        if (HasNetworkEdits(plan.Network)) return false;
         if (HasOcrEdits(plan) || HasScreenshotEdits(plan.Screenshot)) return false;
 
         if (plan.General != null)
@@ -2138,6 +2180,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             HotkeyChanges = hotkeyChanges,
             Selection = CloneSelection(plan.Selection),
             History = plan.History is { } history ? history with { } : null,
+            Network = plan.Network,
             Ocr = plan.Ocr is { } ocr ? ocr with { } : null,
             Screenshot = plan.Screenshot is { } screenshot ? screenshot with { } : null,
             OcrChanges = plan.OcrChanges.Select(CloneOcrChange).ToArray()
@@ -2203,6 +2246,10 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         public List<string> CandidateLegacyProfileIds { get; } = candidateLegacyProfileIds;
         public ErrorInfo? ConflictError { get; } = conflictError;
 
+        public string? NetworkSetId { get; set; }
+        public string? NetworkSetValue { get; set; }
+        public List<string> NetworkCandidates { get; } = [];
+
         public static StagingPlan Conflict(ErrorInfo error) => new([], new(), [], [], error);
     }
 
@@ -2217,8 +2264,12 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         public Guid CoordinatorInstanceId { get; }
         public List<string> RemainingCandidateSetIds { get; }
         public List<string> RemainingCandidateLegacyProfileIds { get; }
+        public bool RequiresProviders { get; init; }
+        public bool RequiresNetwork { get; init; }
+        public bool NetworkFailed { get; set; }
+        public List<string> RemainingNetworkCandidates { get; init; } = [];
         public bool ObserversCompleted { get; set; }
-        public bool IsComplete => ObserversCompleted && RemainingCandidateSetIds.Count == 0 && RemainingCandidateLegacyProfileIds.Count == 0;
+        public bool IsComplete => ObserversCompleted && RemainingNetworkCandidates.Count == 0 && RemainingCandidateSetIds.Count == 0 && RemainingCandidateLegacyProfileIds.Count == 0;
 
         public SettingsApplyReceipt(
             Guid commitId,

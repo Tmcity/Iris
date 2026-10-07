@@ -45,6 +45,7 @@ public sealed class BaiduNamedPipelineTests
         var settings = Substitute.For<ISettingsService>(); settings.Current.Returns(new AppSettings());
         services.AddSingleton(settings); services.AddSingleton<TimeProvider>(time);
         services.AddSingleton(Substitute.For<IPromptTemplateProvider>()); services.AddSingleton(Substitute.For<IPromptRenderer>());
+        Iris.Providers.Tests.Http.DirectSnapshotSource.Register(services);
         services.AddIrisProviders();
         services.AddHttpClient(HttpClientNames.Ocr).ConfigurePrimaryHttpMessageHandler(() => mock);
         // Only this test's transport backoff changes; the production attempt/retry limits stay intact.

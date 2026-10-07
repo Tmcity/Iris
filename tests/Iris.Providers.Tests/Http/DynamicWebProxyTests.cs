@@ -1,76 +1,52 @@
-using System;
-using System.Collections.Generic;
-using System.Net;
-using Microsoft.Extensions.Logging;
+using Iris.Core.DependencyInjection;
+using Iris.Core.Errors;
+using Iris.Core.Network;
+using Iris.Core.Ocr;
+using Iris.Core.Security;
 using Iris.Core.Settings;
+using Iris.Core.Translation;
 using Iris.Providers.Http;
+using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Shouldly;
-using Xunit;
 
 namespace Iris.Providers.Tests.Http;
 
+// The mutable IWebProxy was replaced. Keep its address-classification assertions against actual Core capture.
 public sealed class DynamicWebProxyTests
 {
-    private sealed class TestLogger<T> : ILogger<T>
+    private sealed class Scope : IDisposable
     {
-        public List<(LogLevel Level, string Message)> Logs { get; } = [];
-
-        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
-        public bool IsEnabled(LogLevel logLevel) => true;
-
-        public void Log<TState>(
-            LogLevel logLevel,
-            EventId eventId,
-            TState state,
-            Exception? exception,
-            Func<TState, Exception?, string> formatter)
+        internal readonly ISettingsService Settings = Substitute.For<ISettingsService>();
+        private readonly ServiceProvider _services;
+        internal INetworkProxySnapshotSource Source { get; }
+        internal Scope(NetworkSettings settings)
         {
-            Logs.Add((logLevel, formatter(state, exception)));
+            Set(settings);
+            var services = new ServiceCollection(); services.AddLogging(); services.AddSingleton(Settings);
+            services.AddSingleton(Substitute.For<ISecretStore>()); services.AddSingleton(Substitute.For<ITranslationProviderRegistry>());
+            services.AddSingleton(Substitute.For<IOcrProviderRegistry>()); services.AddIrisCore();
+            _services = services.BuildServiceProvider(); Source = _services.GetRequiredService<INetworkProxySnapshotSource>();
         }
+        internal void Set(NetworkSettings network) => Settings.Current.Returns(new AppSettings { Network = network });
+        public void Dispose() => _services.Dispose();
     }
+    private static NetworkSettings Custom(bool bypass = true) => new() { ProxyMode = ProxyMode.Custom, CustomProxyUrl = "http://127.0.0.1:7890", BypassProxyOnLocal = bypass };
 
-    private readonly ISettingsService _settings = Substitute.For<ISettingsService>();
-    private readonly TestLogger<DynamicWebProxy> _logger = new();
-
-    private void SetNetworkSettings(NetworkSettings network)
+    [Fact]
+    public async Task ModeNone_ReturnsDirectSnapshot()
     {
-        _settings.Current.Returns(new AppSettings
-        {
-            Network = network,
-        });
+        using var scope = new Scope(new() { ProxyMode = ProxyMode.None });
+        var value = await scope.Source.CaptureCurrentAsync(new("https://origin.example.test/"), TestContext.Current.CancellationToken);
+        value.Mode.ShouldBe(ProxyMode.None); value.CustomProxyUri.ShouldBeNull(); value.RouteKind.ShouldBe(ProxyRouteKind.DirectByMode);
     }
 
     [Fact]
-    public void ModeNone_GetProxyReturnsNullAndIsBypassedReturnsTrue()
+    public async Task ModeCustom_PublicHost_ReturnsProxyUri()
     {
-        SetNetworkSettings(new NetworkSettings
-        {
-            ProxyMode = ProxyMode.None,
-        });
-
-        var proxy = new DynamicWebProxy(_settings, _logger);
-        var targetUri = new Uri("https://api.openai.com/v1/chat/completions");
-
-        proxy.IsBypassed(targetUri).ShouldBeTrue();
-        proxy.GetProxy(targetUri).ShouldBeNull();
-    }
-
-    [Fact]
-    public void ModeCustom_PublicHost_ReturnsProxyUri()
-    {
-        SetNetworkSettings(new NetworkSettings
-        {
-            ProxyMode = ProxyMode.Custom,
-            CustomProxyUrl = "http://127.0.0.1:7890",
-            BypassProxyOnLocal = true,
-        });
-
-        var proxy = new DynamicWebProxy(_settings, _logger);
-        var targetUri = new Uri("https://api.openai.com/v1/chat/completions");
-
-        proxy.IsBypassed(targetUri).ShouldBeFalse();
-        proxy.GetProxy(targetUri).ShouldBe(new Uri("http://127.0.0.1:7890"));
+        using var scope = new Scope(Custom());
+        var value = await scope.Source.CaptureCurrentAsync(new("https://origin.example.test/"), TestContext.Current.CancellationToken);
+        value.Mode.ShouldBe(ProxyMode.Custom); value.CustomProxyUri.ShouldBe(new Uri("http://127.0.0.1:7890/"));
     }
 
     [Theory]
@@ -89,20 +65,11 @@ public sealed class DynamicWebProxyTests
     [InlineData("http://[::ffff:192.168.1.1]/")]
     [InlineData("http://localhost./")]
     [InlineData("http://intranet./")]
-    public void ModeCustom_BypassProxyOnLocalTrue_LocalAddressesAreBypassed(string uriString)
+    public async Task ModeCustom_BypassProxyOnLocalTrue_LocalAddressesAreBypassed(string input)
     {
-        SetNetworkSettings(new NetworkSettings
-        {
-            ProxyMode = ProxyMode.Custom,
-            CustomProxyUrl = "http://127.0.0.1:7890",
-            BypassProxyOnLocal = true,
-        });
-
-        var proxy = new DynamicWebProxy(_settings, _logger);
-        var uri = new Uri(uriString);
-
-        proxy.IsBypassed(uri).ShouldBeTrue();
-        proxy.GetProxy(uri).ShouldBeNull();
+        using var scope = new Scope(Custom());
+        var value = await scope.Source.CaptureCurrentAsync(new(input), TestContext.Current.CancellationToken);
+        value.Mode.ShouldBe(ProxyMode.None); value.CustomProxyUri.ShouldBeNull(); value.RouteKind.ShouldBe(ProxyRouteKind.DirectByLocalBypass);
     }
 
     [Theory]
@@ -110,108 +77,58 @@ public sealed class DynamicWebProxyTests
     [InlineData("http://8.8.8.8/")]
     [InlineData("https://api.openai.com/")]
     [InlineData("http://[::ffff:8.8.8.8]/")]
-    public void ModeCustom_BypassProxyOnLocalTrue_NonLocalAddressesGoThroughProxy(string uriString)
+    public async Task ModeCustom_BypassProxyOnLocalTrue_NonLocalAddressesGoThroughProxy(string input)
     {
-        SetNetworkSettings(new NetworkSettings
-        {
-            ProxyMode = ProxyMode.Custom,
-            CustomProxyUrl = "http://127.0.0.1:7890",
-            BypassProxyOnLocal = true,
-        });
-
-        var proxy = new DynamicWebProxy(_settings, _logger);
-        var uri = new Uri(uriString);
-
-        proxy.IsBypassed(uri).ShouldBeFalse();
-        proxy.GetProxy(uri).ShouldBe(new Uri("http://127.0.0.1:7890"));
+        using var scope = new Scope(Custom());
+        var value = await scope.Source.CaptureCurrentAsync(new(input), TestContext.Current.CancellationToken);
+        value.Mode.ShouldBe(ProxyMode.Custom); value.CustomProxyUri.ShouldBe(new Uri("http://127.0.0.1:7890/"));
     }
 
     [Theory]
     [InlineData("http://localhost/")]
     [InlineData("http://10.1.2.3/")]
     [InlineData("http://192.168.1.5/")]
-    public void ModeCustom_BypassProxyOnLocalFalse_LocalAddressesGoThroughProxy(string uriString)
+    public async Task ModeCustom_BypassProxyOnLocalFalse_LocalAddressesGoThroughProxy(string input)
     {
-        SetNetworkSettings(new NetworkSettings
-        {
-            ProxyMode = ProxyMode.Custom,
-            CustomProxyUrl = "http://127.0.0.1:7890",
-            BypassProxyOnLocal = false,
-        });
-
-        var proxy = new DynamicWebProxy(_settings, _logger);
-        var uri = new Uri(uriString);
-
-        proxy.IsBypassed(uri).ShouldBeFalse();
-        proxy.GetProxy(uri).ShouldBe(new Uri("http://127.0.0.1:7890"));
+        using var scope = new Scope(Custom(false));
+        var value = await scope.Source.CaptureCurrentAsync(new(input), TestContext.Current.CancellationToken);
+        value.Mode.ShouldBe(ProxyMode.Custom); value.CustomProxyUri.ShouldBe(new Uri("http://127.0.0.1:7890/"));
     }
 
     [Fact]
-    public void SettingsChangedBetweenCalls_ImmediatelyTakesEffect()
+    public async Task SettingsChangedBetweenCaptures_ImmediatelyTakesEffectWhileOldSnapshotRemainsStable()
     {
-        var proxy = new DynamicWebProxy(_settings, _logger);
-        var targetUri = new Uri("https://api.openai.com/");
-
-        // Call 1: None
-        SetNetworkSettings(new NetworkSettings { ProxyMode = ProxyMode.None });
-        proxy.IsBypassed(targetUri).ShouldBeTrue();
-        proxy.GetProxy(targetUri).ShouldBeNull();
-
-        // Call 2: Custom
-        SetNetworkSettings(new NetworkSettings
-        {
-            ProxyMode = ProxyMode.Custom,
-            CustomProxyUrl = "http://127.0.0.1:8888",
-        });
-        proxy.IsBypassed(targetUri).ShouldBeFalse();
-        proxy.GetProxy(targetUri).ShouldBe(new Uri("http://127.0.0.1:8888"));
+        using var scope = new Scope(new() { ProxyMode = ProxyMode.None }); var destination = new Uri("https://origin.example.test/");
+        var first = await scope.Source.CaptureCurrentAsync(destination, TestContext.Current.CancellationToken);
+        scope.Set(Custom()); var second = await scope.Source.CaptureCurrentAsync(destination, TestContext.Current.CancellationToken);
+        first.Mode.ShouldBe(ProxyMode.None); first.CustomProxyUri.ShouldBeNull();
+        second.Mode.ShouldBe(ProxyMode.Custom); second.GenerationId.ShouldNotBe(first.GenerationId);
     }
 
     [Fact]
-    public void ModeCustom_InvalidProxyAddress_ReturnsNullAndLogsWarningOnceWithoutAddress()
+    public async Task ModeCustom_InvalidProxyAddress_FailsClosedWithoutEcho()
     {
-        const string badUrl = "not-a-valid-proxy-uri-123456";
-        SetNetworkSettings(new NetworkSettings
+        using var scope = new Scope(Custom() with { CustomProxyUrl = "not-a-valid-proxy-uri-private" });
+        for (int i = 0; i < 2; i++)
         {
-            ProxyMode = ProxyMode.Custom,
-            CustomProxyUrl = badUrl,
-        });
-
-        var proxy = new DynamicWebProxy(_settings, _logger);
-        var targetUri = new Uri("https://api.openai.com/");
-
-        var proxy1 = proxy.GetProxy(targetUri);
-        var proxy2 = proxy.GetProxy(targetUri);
-
-        proxy1.ShouldBeNull();
-        proxy2.ShouldBeNull();
-
-        _logger.Logs.Count.ShouldBe(1);
-        _logger.Logs[0].Level.ShouldBe(LogLevel.Warning);
-        _logger.Logs[0].Message.ShouldNotContain(badUrl);
+            var error = await Should.ThrowAsync<IrisException>(() => scope.Source.CaptureCurrentAsync(new("https://origin.example.test/"), TestContext.Current.CancellationToken));
+            error.Code.ShouldBe(ErrorCode.InvalidArgument); error.ToString().ShouldNotContain("not-a-valid-proxy-uri-private");
+        }
     }
 
     [Fact]
-    public void ModeSystem_LocalhostIsBypassed_WhenBypassProxyOnLocalIsTrue()
+    public async Task ModeSystem_LocalhostIsBypassed_WhenBypassProxyOnLocalIsTrue()
     {
-        SetNetworkSettings(new NetworkSettings
-        {
-            ProxyMode = ProxyMode.System,
-            BypassProxyOnLocal = true,
-        });
-
-        var proxy = new DynamicWebProxy(_settings, _logger);
-        var uri = new Uri("http://localhost/");
-
-        proxy.IsBypassed(uri).ShouldBeTrue();
-        proxy.GetProxy(uri).ShouldBeNull();
+        using var scope = new Scope(new() { ProxyMode = ProxyMode.System });
+        var value = await scope.Source.CaptureCurrentAsync(new("http://localhost/"), TestContext.Current.CancellationToken);
+        value.Mode.ShouldBe(ProxyMode.None); value.CustomProxyUri.ShouldBeNull();
     }
 
     [Fact]
-    public void SettingCredentials_ThrowsNotSupportedException()
+    public void FrozenProxy_RejectsCredentialMutation()
     {
-        var proxy = new DynamicWebProxy(_settings, _logger);
-
-        Should.Throw<NotSupportedException>(() => proxy.Credentials = CredentialCache.DefaultCredentials);
+        var route = new NetworkRouteResolver().Resolve(new(Guid.NewGuid(), new("https://origin.example.test/"), ProxyMode.Custom,
+            new("http://proxy.example.test/"), new("synthetic", "synthetic"), ProxyRouteKind.Proxy));
+        Should.Throw<NotSupportedException>(() => route.CreateProxy()!.Credentials = System.Net.CredentialCache.DefaultCredentials);
     }
 }

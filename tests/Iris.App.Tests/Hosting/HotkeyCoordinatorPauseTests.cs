@@ -24,6 +24,7 @@ public sealed class HotkeyCoordinatorPauseTests
 {
     private sealed class MutableSettingsService : ISettingsService
     {
+        public bool IsReadOnly => false;
         public AppSettings Current { get; private set; }
         public event EventHandler<SettingsChangedEventArgs>? Changed;
 

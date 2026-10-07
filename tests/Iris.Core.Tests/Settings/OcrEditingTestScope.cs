@@ -12,8 +12,10 @@ using NSubstitute;
 
 namespace Iris.Core.Tests.Settings;
 
-internal sealed class OcrEditingTestScope
+internal sealed class OcrEditingTestScope : IDisposable
 {
+    public void Dispose() => Coordinator.Dispose();
+
     internal readonly Store Settings = new();
     internal readonly Secrets SecretStore = new();
     internal readonly Factory Local = new(OcrProviderKind.WindowsLocal);
@@ -63,6 +65,7 @@ internal sealed class OcrEditingTestScope
                 try { await session.DisposeAsync(); } catch (Exception ex) { errors.Add(ex); }
             try { await f.Registry.DisposeAsync(); } catch (Exception ex) { errors.Add(ex); }
             foreach (var gate in f.Gates) gate.Dispose();
+            f.Dispose();
             if (f.Local.Created.Concat(f.Cloud.Created).Any(p => !p.Disposed)) errors.Add(new InvalidOperationException("Owned provider was not disposed."));
         }
         if (primary != null && errors.Count == 0) ExceptionDispatchInfo.Capture(primary).Throw();
@@ -83,6 +86,7 @@ internal sealed class OcrEditingTestScope
 
     internal sealed class Store : ISettingsService
     {
+        public bool IsReadOnly => false;
         internal AppSettings Value = new();
         internal int Reads, Updates;
         internal Action? BeforeMutate, AfterUpdate;

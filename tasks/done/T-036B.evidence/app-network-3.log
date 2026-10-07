@@ -1,0 +1,59 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Hosting.NetworkHostingTests.CompleteHost_PreparesNetworkBeforeProviderConstruction_AndDrainsWindowThenNetworkBeforeHost(failContent: True) (810ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.NullReferenceException : Object reference not set to an instance of an object.
+    在 Iris.App.Hosting.HotkeyCoordinator.ApplySettingsCore(AppSettings settings, Boolean retryOnly) 位于 F:\Iris\src\Iris.App\Hosting\HotkeyCoordinator.cs:738
+    在 Iris.App.Hosting.HotkeyCoordinator.<StartAsync>b__33_0() 位于 F:\Iris\src\Iris.App\Hosting\HotkeyCoordinator.cs:143
+    在 Iris.App.Hosting.WpfUiDispatcher.InvokeAsync(Func`1 callback, CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.App\Hosting\WpfUiDispatcher.cs:50
+    在 Iris.App.Hosting.HotkeyCoordinator.StartAsync() 位于 F:\Iris\src\Iris.App\Hosting\HotkeyCoordinator.cs:133
+    在 Iris.App.Hosting.AppBootstrapper.StartAsync() 位于 F:\Iris\src\Iris.App\Hosting\AppBootstrapper.cs:208
+    在 Iris.App.Tests.Hosting.NetworkHostingTests.<>c__DisplayClass0_0.<<CompleteHost_PreparesNetworkBeforeProviderConstruction_AndDrainsWindowThenNetworkBeforeHost>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\NetworkHostingTests.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Hosting.NetworkHostingTests.<>c__DisplayClass0_0.<<CompleteHost_PreparesNetworkBeforeProviderConstruction_AndDrainsWindowThenNetworkBeforeHost>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\NetworkHostingTests.cs:100
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:40
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:60
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:133
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:153
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    --- End of stack trace from previous location ---
+失败 Iris.App.Tests.Hosting.NetworkHostingTests.CompleteHost_PreparesNetworkBeforeProviderConstruction_AndDrainsWindowThenNetworkBeforeHost(failContent: False) (65ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.NullReferenceException : Object reference not set to an instance of an object.
+    在 Iris.App.Hosting.HotkeyCoordinator.ApplySettingsCore(AppSettings settings, Boolean retryOnly) 位于 F:\Iris\src\Iris.App\Hosting\HotkeyCoordinator.cs:738
+    在 Iris.App.Hosting.HotkeyCoordinator.<StartAsync>b__33_0() 位于 F:\Iris\src\Iris.App\Hosting\HotkeyCoordinator.cs:143
+    在 Iris.App.Hosting.WpfUiDispatcher.InvokeAsync(Func`1 callback, CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.App\Hosting\WpfUiDispatcher.cs:50
+    在 Iris.App.Hosting.HotkeyCoordinator.StartAsync() 位于 F:\Iris\src\Iris.App\Hosting\HotkeyCoordinator.cs:133
+    在 Iris.App.Hosting.AppBootstrapper.StartAsync() 位于 F:\Iris\src\Iris.App\Hosting\AppBootstrapper.cs:208
+    在 Iris.App.Tests.Hosting.NetworkHostingTests.<>c__DisplayClass0_0.<<CompleteHost_PreparesNetworkBeforeProviderConstruction_AndDrainsWindowThenNetworkBeforeHost>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\NetworkHostingTests.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Hosting.NetworkHostingTests.<>c__DisplayClass0_0.<<CompleteHost_PreparesNetworkBeforeProviderConstruction_AndDrainsWindowThenNetworkBeforeHost>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\NetworkHostingTests.cs:100
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:40
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:60
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:133
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:153
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    --- End of stack trace from previous location ---
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 2 个错误 (3s 904ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 4
+  失败: 2
+  成功: 2
+  已跳过: 0
+  持续时间: 4s 176ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

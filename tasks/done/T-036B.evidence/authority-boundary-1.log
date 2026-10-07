@@ -1,0 +1,35 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+失败 Iris.Infrastructure.Tests.Settings.NetworkPersistenceTests.InvalidCustomWithoutAuthorityCredentials_PreservesIntentButCaptureStillRejects(url: "http://proxy.example.test/#person@example.test") (45ms)
+  从 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: Iris.Core.Errors.IrisException : 网络配置无法安全保存或加载。
+    在 Iris.Infrastructure.Settings.JsonSettingsService.ImportProxyAsync(JsonObject root, CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.Infrastructure\Settings\JsonSettingsService.Network.cs:71
+    在 Iris.Infrastructure.Settings.JsonSettingsService.LoadInternalAsync(CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.Infrastructure\Settings\JsonSettingsService.cs:227
+    在 Iris.Infrastructure.Settings.JsonSettingsService.LoadAsync(CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.Infrastructure\Settings\JsonSettingsService.cs:67
+    在 Iris.Infrastructure.Tests.Settings.NetworkPersistenceTests.InvalidCustomWithoutAuthorityCredentials_PreservesIntentButCaptureStillRejects(String url) 位于 F:\Iris\tests\Iris.Infrastructure.Tests\Settings\NetworkPersistenceTests.cs:41
+    --- End of stack trace from previous location ---
+失败 Iris.Infrastructure.Tests.Settings.NetworkPersistenceTests.InvalidCustomWithoutAuthorityCredentials_PreservesIntentButCaptureStillRejects(url: "http://proxy.example.test/?contact=person@example."···) (4ms)
+  从 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: Iris.Core.Errors.IrisException : 网络配置无法安全保存或加载。
+    在 Iris.Infrastructure.Settings.JsonSettingsService.ImportProxyAsync(JsonObject root, CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.Infrastructure\Settings\JsonSettingsService.Network.cs:71
+    在 Iris.Infrastructure.Settings.JsonSettingsService.LoadInternalAsync(CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.Infrastructure\Settings\JsonSettingsService.cs:227
+    在 Iris.Infrastructure.Settings.JsonSettingsService.LoadAsync(CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.Infrastructure\Settings\JsonSettingsService.cs:67
+    在 Iris.Infrastructure.Tests.Settings.NetworkPersistenceTests.InvalidCustomWithoutAuthorityCredentials_PreservesIntentButCaptureStillRejects(String url) 位于 F:\Iris\tests\Iris.Infrastructure.Tests\Settings\NetworkPersistenceTests.cs:41
+    --- End of stack trace from previous location ---
+失败 Iris.Infrastructure.Tests.Settings.NetworkPersistenceTests.InvalidCustomWithoutAuthorityCredentials_PreservesIntentButCaptureStillRejects(url: "http://proxy.example.test/path/person@example.test") (3ms)
+  从 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: Iris.Core.Errors.IrisException : 网络配置无法安全保存或加载。
+    在 Iris.Infrastructure.Settings.JsonSettingsService.ImportProxyAsync(JsonObject root, CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.Infrastructure\Settings\JsonSettingsService.Network.cs:71
+    在 Iris.Infrastructure.Settings.JsonSettingsService.LoadInternalAsync(CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.Infrastructure\Settings\JsonSettingsService.cs:227
+    在 Iris.Infrastructure.Settings.JsonSettingsService.LoadAsync(CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.Infrastructure\Settings\JsonSettingsService.cs:67
+    在 Iris.Infrastructure.Tests.Settings.NetworkPersistenceTests.InvalidCustomWithoutAuthorityCredentials_PreservesIntentButCaptureStillRejects(String url) 位于 F:\Iris\tests\Iris.Infrastructure.Tests\Settings\NetworkPersistenceTests.cs:41
+    --- End of stack trace from previous location ---
+F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 失败并出现 3 个错误 (1s 246ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 3
+  失败: 3
+  成功: 0
+  已跳过: 0
+  持续时间: 1s 466ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

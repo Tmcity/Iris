@@ -1266,11 +1266,10 @@ namespace Iris.Core.Settings
     public sealed record NetworkSettings
     {
         public ProxyMode ProxyMode { get; init; } = ProxyMode.System;
-
-        /// <summary>如 http://127.0.0.1:7890 或 socks5://127.0.0.1:1080。</summary>
         public string? CustomProxyUrl { get; init; }
-
         public bool BypassProxyOnLocal { get; init; } = true;
+        public string? ProxyCredentialSetId { get; init; }
+        public override string ToString() => "NetworkSettings";
     }
 }
 
@@ -1305,6 +1304,9 @@ namespace Iris.Core.Settings
     /// </summary>
     public interface ISettingsService
     {
+        /// <summary>本次加载为未来schema时只读；Update在调用mutate之前拒绝。</summary>
+        bool IsReadOnly { get; }
+
         AppSettings Current { get; }
 
         Task LoadAsync(CancellationToken cancellationToken = default);
@@ -1426,6 +1428,8 @@ namespace Iris.Core.Settings
 
         /// <summary>历史设置增量；null保持最新值，纯历史编辑无需Provider回执。见HISTORY_UI.md。</summary>
         public HistorySettingsPatch? History { get; init; }
+
+        public NetworkSettingsPatch? Network { get; init; }
 
         public override string ToString() => "SettingsEditPlan";
     }
@@ -1593,6 +1597,9 @@ namespace Iris.Core.Security
 
     public static class SecretKeys
     {
+        public const string LegacyProxyCredentials = "network/proxy-credentials";
+        public static string ProxyCredentialSet(string credentialSetId) => $"network/proxy-credentials/{credentialSetId}";
+
         public static string ApiKey(string providerId) => $"provider/{providerId}/api-key";
 
         public static string SecretKey(string providerId) => $"provider/{providerId}/secret-key";
@@ -2416,5 +2423,143 @@ namespace Iris.Providers.Ocr.Baidu.Wire
         public const int RequestBodyTooLarge = 216205;
         public const int RecognizeError = 216630;
         public const int InternalError = 282000;
+    }
+}
+
+
+// FILE: src/Iris.Core/Settings/NetworkEditingModels.cs
+// CCR-036: proxy settings and managed network snapshots.
+namespace Iris.Core.Settings
+{
+    public sealed record ProxyCredentials(string UserName, string Password)
+    {
+        public override string ToString() => "ProxyCredentials";
+    }
+
+    // Base 地址/引用同时绑定凭据意图。Kind 使用既有 CredentialEditKind。
+    // Replace 必须提供非 null 的完整对（空字符串是显式空值）；Keep/Clear 的 Replacement 必须 null。
+    public sealed record ProxyCredentialEdit(
+        CredentialEditKind Kind,
+        string? BaseProxyUrl,
+        string? BaseCredentialSetId,
+        ProxyCredentials? Replacement = null)
+    {
+        public override string ToString() => "ProxyCredentialEdit";
+    }
+
+    public sealed record NetworkSettingsPatch(
+        SettingsFieldEdit<ProxyMode>? ProxyMode = null,
+        SettingsFieldEdit<string?>? CustomProxyUrl = null,
+        SettingsFieldEdit<bool>? BypassProxyOnLocal = null,
+        ProxyCredentialEdit? Credentials = null)
+    {
+        public override string ToString() => "NetworkSettingsPatch";
+    }
+
+}
+
+// FILE: src/Iris.Core/Network/NetworkModels.cs
+namespace Iris.Core.Network
+{
+    using Iris.Core.Errors;
+    using Iris.Core.Settings;
+
+    public sealed record ProxyDraft(
+        NetworkSettings BaseSettings,
+        NetworkSettings TargetSettings,
+        ProxyCredentialEdit? Credentials = null)
+    {
+        public override string ToString() => "ProxyDraft";
+    }
+
+    public enum ProxyRouteKind
+    {
+        Proxy = 0,
+        DirectByMode = 1,
+        DirectByLocalBypass = 2,
+        DirectBySystemBypass = 3
+    }
+
+    // 纯托管值，没有 IDisposable/租约；Destination 可能带请求查询串，禁止序列化/日志输出。
+    // Mode 为本次目标的有效模式；None 可以由显式 None 或本地绕过产生。
+    // System 的实际代理 URI/默认凭据由 Providers 在进入 SocketsHttpHandler 前解析并冻结。
+    public sealed record NetworkProxySnapshot(
+        Guid GenerationId,
+        Uri Destination,
+        ProxyMode Mode,
+        Uri? CustomProxyUri,
+        ProxyCredentials? Credentials,
+        ProxyRouteKind RouteKind)
+    {
+        public override string ToString() => "NetworkProxySnapshot";
+    }
+
+    // 与 SettingsEditCoordinator 是同一实例/同一短编辑门闩；不注入回协调器自身。
+    public interface INetworkProxySnapshotSource
+    {
+        Task<NetworkProxySnapshot> CaptureCurrentAsync(
+            Uri destination, CancellationToken cancellationToken = default);
+
+        Task<NetworkProxySnapshot> CaptureDraftAsync(
+            ProxyDraft draft, Uri destination, CancellationToken cancellationToken = default);
+    }
+
+    // 接收协调器已经固定的配置身份，不反向调用 Capture/Commit，避免 DI 环和门闩自等待。
+    // 不以连通成功作为应用成功条件；这里只发布/准备传输代次及退休规则。
+    public interface INetworkConfigurationObserver
+    {
+        Task ApplyAsync(NetworkSettings settings, Guid generationId,
+            CancellationToken cancellationToken = default);
+    }
+
+    // 所有实际传输资源归 Providers，纯快照不承担该接口。
+    public interface INetworkTransportLifetime
+    {
+        void StopAcceptance();
+        Task StopAsync();
+    }
+
+    public enum NetworkEndpointKind { Translation = 1, Ocr = 2 }
+
+    public sealed record NetworkEndpointSelection(NetworkEndpointKind Kind, string ProviderId)
+    {
+        public override string ToString() => "NetworkEndpointSelection";
+    }
+
+    public enum ProxyConnectivityStatus
+    {
+        EndpointResponded = 1,
+        RedirectNotFollowed = 2,
+        ProxyAuthenticationRequired = 3,
+        TimedOut = 4,
+        TransportFailed = 5,
+        InvalidConfiguration = 6
+    }
+
+    public sealed record ProxyConnectivityResult(
+        Guid SessionId,
+        Guid SnapshotGenerationId,
+        ProxyConnectivityStatus Status,
+        ProxyRouteKind RouteKind,
+        TimeSpan Elapsed,
+        int? HttpStatusCode = null,
+        ErrorInfo? Error = null)
+    {
+        public override string ToString() => $"ProxyConnectivityResult {Status}";
+    }
+
+    public interface IProxyConnectivityTester
+    {
+        // 同步复制不可变输入/分配会话身份，不访问设置、SecretStore、Provider 或 HTTP。
+        IProxyConnectivityTestSession Create(ProxyDraft draft, NetworkEndpointSelection endpoint);
+    }
+
+    public interface IProxyConnectivityTestSession : IAsyncDisposable
+    {
+        Guid Id { get; }
+        // 一次逻辑 HEAD，不配置业务重试；底层认证挑战可能有多次线路交换。
+        // caller 取消抛 OCE；内部 10 秒软期限返回 TimedOut，但始终等真实 Send 退出。
+        Task<ProxyConnectivityResult> RunAsync(CancellationToken cancellationToken = default);
+        // DisposeAsync 关闭准入/请求取消，等待 Run、响应及传输清理；失败保有原资源，原实例重试，不重发 HEAD。
     }
 }

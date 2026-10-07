@@ -1,0 +1,227 @@
+[
+  {
+    "file": "app-existing-boundaries-2.log",
+    "sha256": "16dac4215ee5c548e791edde90bee826e3202c48d52d9ed064976803f9ce89e5",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "app-existing-boundaries-3.log",
+    "sha256": "3f5d6f20bb27dc39bc48deee4e0f6db94f1e522b1d7cd5c76af00a7b8ac3cb4f",
+    "result": "passed"
+  },
+  {
+    "file": "app-network-1.log",
+    "sha256": "7db5b36a1e63036d3e29112e201bbddea8ed5d3d1b6f9cb01b8824f457c241a5",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "app-network-2.log",
+    "sha256": "28e1d578be6d89f2263360e6e6672838a6547bdb1261ec831e82edaf6b695428",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "app-network-3.log",
+    "sha256": "e59d827507c73c43753920e9f0aab19607fd9766fbeeb88fbaff4878c1757175",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "app-network-4.log",
+    "sha256": "66ef6883ea3a750a25d555cb52029b89c0c64b09122d78a272644278c893af7e",
+    "result": "passed"
+  },
+  {
+    "file": "app-network-5-interruption.log",
+    "sha256": "57c741a53a80a5ff6f8896f5098be052bfc35928c373da325dd2ecfae085256e",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "app-network-5-process.log",
+    "sha256": "99531e1538248288b45fbe33241446d85e05ce31940e287ed6c59ff34554c66d",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "app-network-5.log",
+    "sha256": "37cdb6bd6a647e548660649f645f675b243c7349d6e1dc8b65afac5223ead76b",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "app-startup-failure-6.log",
+    "sha256": "809c0dd4454d6e458b0dfbf5381c4f6e3b46a4b81e1ca7ec79eea8e8663f18ba",
+    "result": "passed"
+  },
+  {
+    "file": "architecture-2.log",
+    "sha256": "fd2963878776542ce683fb3bc1796311fef820d7f02724851ec68e7623c02202",
+    "result": "passed"
+  },
+  {
+    "file": "authority-boundary-1.log",
+    "sha256": "46f321f75a6aa1c89c41651d0f83067555ab73404244aa9ee53372f3c083cb9e",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "authority-boundary-2.log",
+    "sha256": "d5bbd7aa3ddea144cffb6720b485a21207ed93059f41af5b8ee281bf9c8ccac9",
+    "result": "passed"
+  },
+  {
+    "file": "build-foundation-1.log",
+    "sha256": "45e665ce4051a537e7d8fce7622f89d9094234e6e32b238214b4c0bdc0efdc1d",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "build-foundation-2.log",
+    "sha256": "9015ba87b00526ee487d6b660f748f0baf4030127ac661d6b5ea94bb31d30ab7",
+    "result": "passed"
+  },
+  {
+    "file": "build-integration-1.log",
+    "sha256": "4b685395244a9546c9ac811a75afd1af28533ae1c0ad34d2cdd94e15efee2eb4",
+    "result": "passed"
+  },
+  {
+    "file": "build-transport-1.log",
+    "sha256": "676751d8cf6ed4140df9b3316c427e9caf24cdecaf654eeb73d3c32840797340",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "core-all-1.log",
+    "sha256": "e98515f21c6a31fc004fc4cd93e1518b9dff054993a1e2464f4108c943359481",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "core-all-2.log",
+    "sha256": "30e25afc2c1b509874fc7014de959536ab1375127130c44f0f11b7a5829e9e60",
+    "result": "passed"
+  },
+  {
+    "file": "core-network-1.log",
+    "sha256": "f1729e3bcbe2ec69068f0d140f2f1583d1f26008d02e97182c838728be32bda4",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "core-network-2.log",
+    "sha256": "febc2a693446263eba01f74964c5dccec702ea5e436f60c69b7dfaac5a5bd190",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "core-network-3.log",
+    "sha256": "c4cd5aeba3080bf34c6f067a6033ac43dda5fa24802140172ea1c20952192ec7",
+    "result": "passed"
+  },
+  {
+    "file": "core-network-4.log",
+    "sha256": "40853bd9c154bd622e8774f76865623a9a6d84da84a0919612e53848440fea9d",
+    "result": "passed"
+  },
+  {
+    "file": "full-1.log",
+    "sha256": "647a3e2f742bacd5693cb0d9f18af4e1b97b121e8f12b6ee2963530e4c308722",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "full-2.log",
+    "sha256": "b7404a68ed79dbff19508ffd865bb3919049fb8a14463e0b016d39ac909419fd",
+    "result": "passed"
+  },
+  {
+    "file": "full-3.log",
+    "sha256": "236880fd7a89bcb5206010a89550a41725476f4690284b7d447b69a7819eeb82",
+    "result": "passed"
+  },
+  {
+    "file": "infrastructure-all-1.log",
+    "sha256": "2ab73871a95743cc9231bcd3c46757bcc641ef26a859be8a1c9d3958331bbba3",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "infrastructure-all-2.log",
+    "sha256": "4c4b879ecce62898c8baf735698cf7893b7eea59a6e426bf87ad15d7ff88451b",
+    "result": "passed"
+  },
+  {
+    "file": "infrastructure-network-1.log",
+    "sha256": "001cea33f27f5806331b1ee97ee025951995976f32c8e538c2284f5b3be7a958",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "infrastructure-network-2.log",
+    "sha256": "fb1c3da9ce7eabb2c8038c270ed143b1636634810b8d2086afb710c1027bc11c",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "infrastructure-network-3.log",
+    "sha256": "d2ad93c1e278b366d191b0d183ad82a20e8bf3e1d3ab8301b6f468d76933e623",
+    "result": "passed"
+  },
+  {
+    "file": "providers-all-1.log",
+    "sha256": "9dc21863ff9e8bd7e03d0ea06e654df7e1bb2dc092291d9624f35e6acb2cd17a",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "providers-all-2.log",
+    "sha256": "6f49badf148a7ed92abd54a1da90ab490c6ee275015343593b0554b4bd147077",
+    "result": "passed"
+  },
+  {
+    "file": "providers-content-1.log",
+    "sha256": "e0565d249d041ddd42e1f3b801f1c30aafc1ee174aa90fa27637a628051b0925",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "providers-content-2-interruption.log",
+    "sha256": "82037dd6289be389f5e185b01c4c82237097a145b010c6ac1d7512d4e97dd89f",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "providers-content-2-process.log",
+    "sha256": "c49cd3492dc422ae9afb2c42fc7f4cd67560451dc2bdad7c9b96173ff363541a",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "providers-content-2.log",
+    "sha256": "05aa2aee4c4ff45d6c2e5acfffb16a9546de580dfeff9300e3be8c52f56b13af",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "providers-content-4.log",
+    "sha256": "c988ed8cb40758b93ef0844ed2d96181d17772c0b18610aa9a21c0992a409b37",
+    "result": "passed"
+  },
+  {
+    "file": "providers-intermediate-3.log",
+    "sha256": "01f8d62e9f4ffaa5d7f743f2701f82cd976fdf5bd6cf77507072b63db0c9acbe",
+    "result": "passed"
+  },
+  {
+    "file": "providers-network-1.log",
+    "sha256": "3909b8b13ddb71ce60f2695e3a3925e12a4f213b9a85ba0224ce11ba94bbf63c",
+    "result": "failed-or-diagnostic; see original log"
+  },
+  {
+    "file": "providers-network-2.log",
+    "sha256": "e1981f070493e1e210589fe6dc3df8faea4e9691db8b9472b930f1cd04a170ad",
+    "result": "passed"
+  },
+  {
+    "file": "providers-network-final.log",
+    "sha256": "fdb6513c38a356f9fa2694063c502d4276c59df62daab7e78d40e78fb8ddb093",
+    "result": "passed"
+  },
+  {
+    "file": "release-1.log",
+    "sha256": "12e2656db511483fbcc264f075702a40cf619f08ab3d9129841d4b3eca97e5f3",
+    "result": "passed"
+  },
+  {
+    "file": "release-2.log",
+    "sha256": "fc801048eac699f82ba785cf072c95518277fc871415e4455f2d4453eb8352b6",
+    "result": "passed"
+  },
+  {
+    "file": "release-3.log",
+    "sha256": "b042ce1b80a4f845e1b74cb61adfbe751e330b028961b07c852ac5fd63de9290",
+    "result": "passed"
+  }
+]

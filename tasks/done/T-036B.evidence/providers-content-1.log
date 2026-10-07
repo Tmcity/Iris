@@ -1,0 +1,3 @@
+F:\Iris\tests\Iris.Providers.Tests\Http\NetworkContentLifecycleTests.cs(30,43): error xUnit1051: Calls to methods which accept CancellationToken should use TestContext.Current.CancellationToken to allow test cancellation to be more responsive. (https://xunit.net/xunit.analyzers/rules/xUnit1051) [F:\Iris\tests\Iris.Providers.Tests\Iris.Providers.Tests.csproj]
+F:\Iris\tests\Iris.Providers.Tests\Http\NetworkContentLifecycleTests.cs(89,23): error CA2022: 避免使用“System.IO.Stream.ReadAsync(System.Memory<byte>, System.Threading.CancellationToken)”进行不准确读取 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2022) [F:\Iris\tests\Iris.Providers.Tests\Iris.Providers.Tests.csproj]
+生成失败，退出代码: 1。

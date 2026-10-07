@@ -236,6 +236,7 @@ public sealed class SelectionSettingsEditTests
     }
     private sealed class Store : ISettingsService
     {
+        public bool IsReadOnly => false;
         public AppSettings Current { get; set; } = new();
         public int Updates { get; private set; }
         public int Changes { get; private set; }

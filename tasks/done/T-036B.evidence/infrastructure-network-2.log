@@ -1,0 +1,26 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+失败 Iris.Infrastructure.Tests.Settings.NetworkPersistenceTests.ActualCoreAndJson_OneMixedPublicationClearAndReceiptRetryWithNoRewrite (103ms)
+  从 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : await coordinator.CommitAsync(plan, cancellationToken: TestContext.Current.CancellationToken); result.Status
+      should be
+  SettingsEditStatus.ApplyPending
+      but was
+  SettingsEditStatus.Uncommitted
+    在 Iris.Infrastructure.Tests.Settings.NetworkPersistenceTests.ActualCoreAndJson_OneMixedPublicationClearAndReceiptRetryWithNoRewrite() 位于 F:\Iris\tests\Iris.Infrastructure.Tests\Settings\NetworkPersistenceTests.cs:199
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (2s 412ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 16
+  失败: 1
+  成功: 15
+  已跳过: 0
+  持续时间: 2s 630ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

@@ -1,0 +1,334 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+失败 Iris.Core.Tests.Settings.MouseSettingsEditTests.FiveMouseFields_CommitOnceNormalizeTargetsAndLeaveUneditedFields (42ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Secrets.ReceivedCalls()
+      should be empty but had
+  1
+      item and was
+  [NSubstitute.Core.Call (64712146)]
+    在 Iris.Core.Tests.Settings.MouseSettingsEditTests.FiveMouseFields_CommitOnceNormalizeTargetsAndLeaveUneditedFields() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\MouseSettingsEditTests.cs:27
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.SelectionSettingsEditTests.InvalidExplicitTargets_AreRejectedBeforeAnySideEffect(scenario: "orderUnknown") (6ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Store.Updates.ShouldBe(0); f.Secrets.ReceivedCalls()
+      should be empty but had
+  1
+      item and was
+  [NSubstitute.Core.Call (10743505)]
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.<>c__DisplayClass2_0.<<InvalidExplicitTargets_AreRejectedBeforeAnySideEffect>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:69
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:208
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:214
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.SelectionSettingsEditTests.InvalidExplicitTargets_AreRejectedBeforeAnySideEffect(scenario: "namesNull") (8ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Store.Updates.ShouldBe(0); f.Secrets.ReceivedCalls()
+      should be empty but had
+  1
+      item and was
+  [NSubstitute.Core.Call (6056544)]
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.<>c__DisplayClass2_0.<<InvalidExplicitTargets_AreRejectedBeforeAnySideEffect>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:69
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:208
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:214
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.SelectionSettingsEditTests.InvalidExplicitTargets_AreRejectedBeforeAnySideEffect(scenario: "timeoutHigh") (1ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Store.Updates.ShouldBe(0); f.Secrets.ReceivedCalls()
+      should be empty but had
+  1
+      item and was
+  [NSubstitute.Core.Call (13300922)]
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.<>c__DisplayClass2_0.<<InvalidExplicitTargets_AreRejectedBeforeAnySideEffect>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:69
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:208
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:214
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.SelectionSettingsEditTests.InvalidExplicitTargets_AreRejectedBeforeAnySideEffect(scenario: "nameNull") (1ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Store.Updates.ShouldBe(0); f.Secrets.ReceivedCalls()
+      should be empty but had
+  1
+      item and was
+  [NSubstitute.Core.Call (26609185)]
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.<>c__DisplayClass2_0.<<InvalidExplicitTargets_AreRejectedBeforeAnySideEffect>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:69
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:208
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:214
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.SelectionSettingsEditTests.InvalidExplicitTargets_AreRejectedBeforeAnySideEffect(scenario: "timeoutLow") (1ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Store.Updates.ShouldBe(0); f.Secrets.ReceivedCalls()
+      should be empty but had
+  1
+      item and was
+  [NSubstitute.Core.Call (54047897)]
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.<>c__DisplayClass2_0.<<InvalidExplicitTargets_AreRejectedBeforeAnySideEffect>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:69
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:208
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:214
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.SelectionSettingsEditTests.InvalidExplicitTargets_AreRejectedBeforeAnySideEffect(scenario: "orderDuplicate") (1ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Store.Updates.ShouldBe(0); f.Secrets.ReceivedCalls()
+      should be empty but had
+  1
+      item and was
+  [NSubstitute.Core.Call (505832)]
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.<>c__DisplayClass2_0.<<InvalidExplicitTargets_AreRejectedBeforeAnySideEffect>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:69
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:208
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:214
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.SelectionSettingsEditTests.InvalidExplicitTargets_AreRejectedBeforeAnySideEffect(scenario: "orderNull") (1ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Store.Updates.ShouldBe(0); f.Secrets.ReceivedCalls()
+      should be empty but had
+  1
+      item and was
+  [NSubstitute.Core.Call (57159056)]
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.<>c__DisplayClass2_0.<<InvalidExplicitTargets_AreRejectedBeforeAnySideEffect>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:69
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:208
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:214
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.SelectionSettingsEditTests.InvalidExplicitTargets_AreRejectedBeforeAnySideEffect(scenario: "nameEmpty") (1ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Store.Updates.ShouldBe(0); f.Secrets.ReceivedCalls()
+      should be empty but had
+  1
+      item and was
+  [NSubstitute.Core.Call (16522454)]
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.<>c__DisplayClass2_0.<<InvalidExplicitTargets_AreRejectedBeforeAnySideEffect>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:69
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:208
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:214
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.SelectionSettingsEditTests.InvalidExplicitTargets_AreRejectedBeforeAnySideEffect(scenario: "namesCount") (17ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Store.Updates.ShouldBe(0); f.Secrets.ReceivedCalls()
+      should be empty but had
+  1
+      item and was
+  [NSubstitute.Core.Call (55098046)]
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.<>c__DisplayClass2_0.<<InvalidExplicitTargets_AreRejectedBeforeAnySideEffect>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:69
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:208
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:214
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.SelectionSettingsEditTests.InvalidExplicitTargets_AreRejectedBeforeAnySideEffect(scenario: "nameLong") (1ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Store.Updates.ShouldBe(0); f.Secrets.ReceivedCalls()
+      should be empty but had
+  1
+      item and was
+  [NSubstitute.Core.Call (52063755)]
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.<>c__DisplayClass2_0.<<InvalidExplicitTargets_AreRejectedBeforeAnySideEffect>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:69
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:208
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:214
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.SelectionSettingsEditTests.InvalidExplicitTargets_AreRejectedBeforeAnySideEffect(scenario: "orderEmpty") (2ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Store.Updates.ShouldBe(0); f.Secrets.ReceivedCalls()
+      should be empty but had
+  1
+      item and was
+  [NSubstitute.Core.Call (44733251)]
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.<>c__DisplayClass2_0.<<InvalidExplicitTargets_AreRejectedBeforeAnySideEffect>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:69
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:208
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:214
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.SelectionSettingsEditTests.InvalidExplicitTargets_AreRejectedBeforeAnySideEffect(scenario: "orderCount") (1ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Store.Updates.ShouldBe(0); f.Secrets.ReceivedCalls()
+      should be empty but had
+  1
+      item and was
+  [NSubstitute.Core.Call (21692584)]
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.<>c__DisplayClass2_0.<<InvalidExplicitTargets_AreRejectedBeforeAnySideEffect>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:69
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:208
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:214
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.SelectionSettingsEditTests.SelectionGeneralAndHotkeys_CommitOnceWithoutProviderSideEffects (2ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Store.Updates.ShouldBe(1); f.Secrets.ReceivedCalls()
+      should be empty but had
+  1
+      item and was
+  [NSubstitute.Core.Call (35342910)]
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.<>c.<<SelectionGeneralAndHotkeys_CommitOnceWithoutProviderSideEffects>b__7_0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:138
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:208
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:214
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Core.Tests.Settings.SelectionSettingsEditTests.FiveFields_NormalizeOnlyTargets_AndPreserveLatestMouseFields (2ms)
+  从 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Secrets.ReceivedCalls()
+      should be empty but had
+  1
+      item and was
+  [NSubstitute.Core.Call (61309012)]
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.<>c.<<FiveFields_NormalizeOnlyTargets_AndPreserveLatestMouseFields>b__1_0>d.MoveNext() 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:33
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:208
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:214
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 失败并出现 15 个错误 (4s 492ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 970
+  失败: 15
+  成功: 955
+  已跳过: 0
+  持续时间: 4s 822ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

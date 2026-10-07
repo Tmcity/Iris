@@ -25,6 +25,8 @@ internal sealed record AppStartupInfo(long StartTimestamp);
 internal sealed partial class AppBootstrapper
 {
     private readonly ISettingsService _settingsService;
+    private readonly Iris.Core.Network.INetworkProxySnapshotSource? _networkSource;
+    private readonly Iris.Core.Network.INetworkTransportLifetime? _networkLifetime;
     private readonly ITranslationProviderRegistry _translationRegistry;
     private readonly Iris.Core.Ocr.IOcrProviderRegistry? _ocrRegistry;
     private readonly Iris.Core.Ocr.IOcrService? _ocrService;
@@ -85,7 +87,9 @@ internal sealed partial class AppBootstrapper
         Iris.Core.Ocr.IOcrProviderRegistry? ocrRegistry = null,
         Iris.Core.Ocr.IOcrService? ocrService = null,
         ScreenshotOcrFeedback? screenshotOcrFeedback = null,
-        Iris.App.History.IHistoryShutdownCoordinator? historyShutdownCoordinator = null)
+        Iris.App.History.IHistoryShutdownCoordinator? historyShutdownCoordinator = null,
+        Iris.Core.Network.INetworkProxySnapshotSource? networkSource = null,
+        Iris.Core.Network.INetworkTransportLifetime? networkLifetime = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -100,6 +104,8 @@ internal sealed partial class AppBootstrapper
         _settingsShutdownCoordinator = settingsShutdownCoordinator;
         _translateShutdownCoordinator = translateShutdownCoordinator;
         _historyShutdownCoordinator = historyShutdownCoordinator;
+        _networkSource = networkSource;
+        _networkLifetime = networkLifetime;
         _hotkeyCoordinator = hotkeyCoordinator;
         _captureService = captureService;
         _recordingCoordinator = recordingCoordinator;
@@ -137,6 +143,7 @@ internal sealed partial class AppBootstrapper
         try
         {
             await _settingsService.LoadAsync();
+
         }
         catch (IrisException ex) when (ex.Code == ErrorCode.SettingsCorrupted)
         {
@@ -147,6 +154,22 @@ internal sealed partial class AppBootstrapper
             FatalErrorShower(UiText.AppName, FatalErrorFormatter.Format(ex));
             AppShutdowner(1);
             return;
+        }
+
+        if (_settingsService.IsReadOnly)
+            _trayNotificationService.Notify(NotificationLevel.Warning, UiText.AppName, UiText.SettingsFutureReadOnly);
+        else if (_networkSource != null)
+        {
+            try
+            {
+                // Pure managed capture prepares the initial identity before any entry point or Provider refresh.
+                // Invalid dormant Custom configuration remains repairable in Settings and all affected sends fail closed.
+                await _networkSource.CaptureCurrentAsync(new Uri("http://localhost/"));
+            }
+            catch (IrisException ex) when (ex.Code is ErrorCode.InvalidArgument or ErrorCode.SecretUnavailable or ErrorCode.NetworkUnavailable)
+            {
+                _trayNotificationService.Notify(NotificationLevel.Warning, UiText.AppName, UiText.NetworkConfigurationUnavailable);
+            }
         }
 
         // T-011: 设置成功加载（含损坏恢复）后，在用户入口启用前调用 ITranslationProviderRegistry.RefreshAsync()
@@ -235,6 +258,7 @@ internal sealed partial class AppBootstrapper
 
     public Task StopAsync()
     {
+        _networkLifetime?.StopAcceptance();
         _historyShutdownCoordinator?.StopAcceptance();
         _screenshotOcrFeedback?.StopAcceptance();
         (_translateShutdownCoordinator as Iris.App.Translation.TranslateWindowPresenter)?.StopAcceptance();
@@ -443,6 +467,8 @@ internal sealed partial class AppBootstrapper
                 ? $"OCR_REGISTRY[{known.Detail}]" : $"OCR_REGISTRY:0x{ex.HResult:X8}"); }
         }
         if (selectionFailures.Count != 0) throw new IrisException(selectionError, ErrorMessages.GetDefault(selectionError), detail: string.Join(';', selectionFailures));
+
+        if (_networkLifetime != null) await _networkLifetime.StopAsync().ConfigureAwait(false);
 
         // 4. Only successful owner/registry drain can proceed to Host and Dispatcher teardown.
         StopSynchronousParts();

@@ -1,0 +1,87 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+失败 Iris.Infrastructure.Tests.Settings.SettingsNormalizerTests.N13_c_AllNullFixture_CoversEveryReferenceTypeProperty (14ms)
+  从 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : Regex.IsMatch(jsonText, pattern)
+      should be
+  True
+      but was
+  False
+  
+  Additional Info:
+      Property 'NetworkSettings.ProxyCredentialSetId' (camelCase 'proxyCredentialSetId') must appear with null value in settings.all-null.json
+    在 Iris.Infrastructure.Tests.Settings.SettingsNormalizerTests.N13_c_AllNullFixture_CoversEveryReferenceTypeProperty() 位于 F:\Iris\tests\Iris.Infrastructure.Tests\Settings\SettingsNormalizerTests.cs:1056
+    在 System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    在 System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+失败 Iris.Infrastructure.Tests.Settings.SettingsNormalizerTests.N10_Network_InvalidCustomProxyUrl_MasksUrlInFixMessage (1ms)
+  从 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : new List<string>();
+  
+          var normalized = SettingsNormalizer.Normalize(settings, fixes);
+  
+          normalized.Network.ProxyMode
+      should be
+  ProxyMode.System
+      but was
+  ProxyMode.Custom
+    在 Iris.Infrastructure.Tests.Settings.SettingsNormalizerTests.N10_Network_InvalidCustomProxyUrl_MasksUrlInFixMessage() 位于 F:\Iris\tests\Iris.Infrastructure.Tests\Settings\SettingsNormalizerTests.cs:345
+    在 System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    在 System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+失败 Iris.Infrastructure.Tests.Settings.JsonSettingsServiceTests.L8_SchemaVersion99_LoadsSuccessfully_OriginalBytesUnchanged (6ms)
+  从 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : Path.Combine(dir.Path, "settings.v99.json");
+          File.Exists(v99File)
+      should be
+  True
+      but was
+  False
+    在 Iris.Infrastructure.Tests.Settings.JsonSettingsServiceTests.L8_SchemaVersion99_LoadsSuccessfully_OriginalBytesUnchanged() 位于 F:\Iris\tests\Iris.Infrastructure.Tests\Settings\JsonSettingsServiceTests.cs:274
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Infrastructure.Tests.Settings.JsonSettingsServiceTests.U6_WhenTmpLocked_ThrowsStorageFailure_CurrentUnchanged_SubsequentUpdateSucceeds (32ms)
+  从 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : Task `async () => await service.UpdateAsync(s => s with { General = s.General with { Theme = AppTheme.Dark }, }, TestContext.Current.CancellationToken)`
+      should throw
+  Iris.Core.Errors.IrisException
+      but did not
+    在 System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+    在 System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+    在 System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+    在 Iris.Infrastructure.Tests.Settings.JsonSettingsServiceTests.U6_WhenTmpLocked_ThrowsStorageFailure_CurrentUnchanged_SubsequentUpdateSucceeds() 位于 F:\Iris\tests\Iris.Infrastructure.Tests\Settings\JsonSettingsServiceTests.cs:672
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Infrastructure.Tests.Settings.JsonSettingsServiceTests.L9_SchemaVersionString_LoadsAndCorrects (17ms)
+  从 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: Iris.Core.Errors.IrisException : 设置文件已损坏，已恢复为默认设置（原文件已备份）
+    在 Iris.Infrastructure.Settings.JsonSettingsService.HandleCorruptionAsync(String settingsPath, CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.Infrastructure\Settings\JsonSettingsService.cs:387
+    在 Iris.Infrastructure.Settings.JsonSettingsService.LoadInternalAsync(CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.Infrastructure\Settings\JsonSettingsService.cs:223
+    在 Iris.Infrastructure.Settings.JsonSettingsService.LoadAsync(CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.Infrastructure\Settings\JsonSettingsService.cs:67
+    在 Iris.Infrastructure.Tests.Settings.JsonSettingsServiceTests.L9_SchemaVersionString_LoadsAndCorrects() 位于 F:\Iris\tests\Iris.Infrastructure.Tests\Settings\JsonSettingsServiceTests.cs:297
+    --- End of stack trace from previous location ---
+F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 失败并出现 5 个错误 (8s 337ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 175
+  失败: 5
+  成功: 170
+  已跳过: 0
+  持续时间: 8s 553ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

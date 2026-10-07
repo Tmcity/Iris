@@ -1,0 +1,12 @@
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+F:\Iris\src\Iris.Providers\Http\NetworkResponseContent.cs(166,35): error CA2215: 请确保方法“ValueTask NetworkReadStream.DisposeAsync()”在所有可能的控制流路径中都调用“base.DisposeAsync()” (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2215) [F:\Iris\src\Iris.Providers\Iris.Providers.csproj]
+
+生成失败。
+
+F:\Iris\src\Iris.Providers\Http\NetworkResponseContent.cs(166,35): error CA2215: 请确保方法“ValueTask NetworkReadStream.DisposeAsync()”在所有可能的控制流路径中都调用“base.DisposeAsync()” (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2215) [F:\Iris\src\Iris.Providers\Iris.Providers.csproj]
+    0 个警告
+    1 个错误
+
+已用时间 00:00:03.70

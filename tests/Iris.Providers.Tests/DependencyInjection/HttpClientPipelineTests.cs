@@ -44,6 +44,7 @@ public sealed class HttpClientPipelineTests
         var promptRenderer = Substitute.For<IPromptRenderer>();
         services.AddSingleton(promptRenderer);
 
+        Iris.Providers.Tests.Http.DirectSnapshotSource.Register(services);
         services.AddIrisProviders();
 
         services.AddHttpClient(HttpClientNames.Llm)
@@ -322,6 +323,7 @@ public sealed class HttpClientPipelineTests
     {
         var mockHttp = new MockHttpMessageHandler();
         var services = CreateServices(mockHttp);
+        Iris.Providers.Tests.Http.DirectSnapshotSource.Register(services);
         services.AddIrisProviders();
 
         using var sp = services.BuildServiceProvider();
@@ -340,29 +342,9 @@ public sealed class HttpClientPipelineTests
         services.AddSingleton(settings);
         services.AddSingleton(Substitute.For<IPromptTemplateProvider>());
         services.AddSingleton(Substitute.For<IPromptRenderer>());
+        Iris.Providers.Tests.Http.DirectSnapshotSource.Register(services);
         services.AddIrisProviders();
         return services.BuildServiceProvider();
-    }
-
-    private static SocketsHttpHandler FindSocketsHttpHandler(HttpMessageHandler handler)
-    {
-        var current = handler;
-        var innerHandlerProp = typeof(DelegatingHandler).GetProperty(
-            "InnerHandler",
-            System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic);
-
-        while (current is DelegatingHandler delegating)
-        {
-            var next = (HttpMessageHandler?)innerHandlerProp?.GetValue(delegating);
-            if (next == null)
-            {
-                break;
-            }
-            current = next;
-        }
-
-        current.ShouldBeOfType<SocketsHttpHandler>();
-        return (SocketsHttpHandler)current;
     }
 
     [Theory]
@@ -374,7 +356,12 @@ public sealed class HttpClientPipelineTests
         var factory = sp.GetRequiredService<IHttpMessageHandlerFactory>();
         using var handler = factory.CreateHandler(clientName);
 
-        var socketsHandler = FindSocketsHttpHandler(handler);
+        var current = handler;
+        while (current is DelegatingHandler delegating) current = delegating.InnerHandler!;
+        current.ShouldBeOfType<NetworkRoutingHandler>();
+        var route = new NetworkRouteResolver().Resolve(new(Guid.NewGuid(), new("http://origin.example.test/"), ProxyMode.Custom,
+            new("http://proxy.example.test/"), null, Iris.Core.Network.ProxyRouteKind.Proxy));
+        using var socketsHandler = (SocketsHttpHandler)sp.GetRequiredService<NetworkTransportFactory>().Create(route);
         socketsHandler.ShouldNotBeNull();
         socketsHandler.AllowAutoRedirect.ShouldBeFalse();
         socketsHandler.UseProxy.ShouldBeTrue();

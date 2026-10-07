@@ -236,8 +236,9 @@ public sealed record NetworkSettings
 {
     public ProxyMode ProxyMode { get; init; } = ProxyMode.System;
 
-    /// <summary>如 http://127.0.0.1:7890 或 socks5://127.0.0.1:1080。</summary>
     public string? CustomProxyUrl { get; init; }
 
     public bool BypassProxyOnLocal { get; init; } = true;
+    public string? ProxyCredentialSetId { get; init; }
+    public override string ToString() => "NetworkSettings";
 }

@@ -31,6 +31,7 @@ public sealed class SettingsEditCoordinatorTests
 
     private sealed class TestSettingsService : ISettingsService
     {
+        public bool IsReadOnly => false;
         private AppSettings _current;
         public int UpdateCallCount { get; private set; }
         public Func<AppSettings, AppSettings>? MutateInterceptor { get; set; }

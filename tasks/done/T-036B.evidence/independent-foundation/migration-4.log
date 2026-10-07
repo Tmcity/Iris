@@ -1,0 +1,9 @@
+PASS userinfo: loadError=none; readonly=False; secretReads=0; secretWrites=1
+FAIL username-only: loadError=IrisException; readonly=False; secretReads=0; secretWrites=0
+PASS mismatched-legacy: loadError=IrisException; readonly=False; secretReads=1; secretWrites=0
+MALFORMED_USERINFO newBackupContainsSyntheticPassword=True
+FAIL malformed-userinfo: loadError=none; readonly=False; secretReads=0; secretWrites=0
+DIRECT_UPDATE updateError=none; newCurrentContainsSyntheticPassword=True
+FAIL direct-update-malformed: loadError=none; readonly=False; secretReads=1; secretWrites=0
+PASS future-readonly: loadError=none; readonly=True; secretReads=0; secretWrites=0
+CHECK_FAILURES=3

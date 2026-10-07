@@ -1,0 +1,1 @@
+Owned WPF test process 54096 stopped after the new failed-startup fixture blocked during synchronous Generic Host disposal on the dispatcher. No network sends were used in this fixture; async disposal is required and will be verified separately. This run is a failed/interrupted run, not acceptance evidence.

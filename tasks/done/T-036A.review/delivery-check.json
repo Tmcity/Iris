@@ -1,0 +1,19 @@
+{
+  "commit": "97b8d02f8d9316632dc21ad6f78e3d3f15691dae",
+  "protectedFileCount": 577,
+  "allProtectedFilesMatch": true,
+  "sourceTreesUnchanged": true,
+  "independentlyExecutedPrototypeSourcesMatch": {
+    "ActualCoordinatorChecks.cs": true,
+    "Boundaries.cs": true,
+    "ConnectivityChecks.cs": true,
+    "CurrentChecks.cs": true,
+    "MigrationChecks.cs": true,
+    "PersistenceChecks.cs": true,
+    "PipelineChecks.cs": true,
+    "Program.cs": true,
+    "ProposedPersistence.cs": true,
+    "RuntimeChecks.cs": true,
+    "StreamingChecks.cs": true
+  }
+}

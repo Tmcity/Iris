@@ -1,0 +1,83 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.ArchitectureTests.ContractFidelityTests.LandedFiles_MatchContractSpec (65ms)
+  从 F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : Contract mismatch in src/Iris.Core/Settings/AppSettings.cs at normalized line 151:
+  Expected: public string? CustomProxyUrl { get; init; }
+  Actual:   /// <summary>如 http://127.0.0.1:7890 或 socks5://127.0.0.1:1080。</summary>
+    在 Iris.ArchitectureTests.ContractFidelityTests.LandedFiles_MatchContractSpec() 位于 F:\Iris\tests\Iris.ArchitectureTests\ContractFidelityTests.cs:54
+    在 System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    在 System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 失败并出现 1 个错误 (2s 765ms)
+退出代码: 2
+已跳过 Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotIsolatedTests.SnapshotHelper_UsesExclusiveNonInteractiveStation_AndJoinsOwnedProcess
+  [ENVIRONMENT LIMITATION] Snapshot isolated helper skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.Win32ClipboardIsolatedIntegrationTests.IsolatedWindowStation_NativeClipboardIntegration_ExecutesInDedicatedProcess
+  [ENVIRONMENT LIMITATION] Native isolated window station test skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (5s 334ms)
+F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (5s 312ms)
+F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (6s 440ms)
+F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (11s 723ms)
+失败 Iris.App.Tests.Settings.SettingsHotkeysIntegrationTests.R4_UnclosedWindow_CleanupFails_RetrySucceeds_RemainsEditable_SavesSuccessfully (1s 654ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.InvalidOperationException : 调用线程无法访问此对象，因为另一个线程拥有该对象。
+    在 System.Windows.Threading.Dispatcher.<VerifyAccess>g__ThrowVerifyAccess|7_0()
+    在 System.Windows.Controls.Primitives.ButtonBase.OnCanExecuteChanged(Object sender, EventArgs e)
+    在 Iris.App.Settings.AsyncRelayCommand.RaiseCanExecuteChanged() 位于 F:\Iris\src\Iris.App\Settings\RelayCommand.cs:125
+    在 Iris.App.Settings.HotkeyItemDraftViewModel.set_IsFrozen(Boolean value) 位于 F:\Iris\src\Iris.App\Settings\HotkeyItemDraftViewModel.cs:279
+    在 Iris.App.Settings.SettingsViewModel.UnfreezeAllDraftsIfAlive() 位于 F:\Iris\src\Iris.App\Settings\SettingsViewModel.cs:1082
+    在 Iris.App.Settings.SettingsViewModel.ExecuteSaveAsync() 位于 F:\Iris\src\Iris.App\Settings\SettingsViewModel.cs:1625
+    在 Iris.App.Tests.Settings.SettingsHotkeysIntegrationTests.<>c.<<R4_UnclosedWindow_CleanupFails_RetrySucceeds_RemainsEditable_SavesSuccessfully>b__25_0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsHotkeysIntegrationTests.cs:1272
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Settings.SettingsHotkeysIntegrationTests.<>c.<<R4_UnclosedWindow_CleanupFails_RetrySucceeds_RemainsEditable_SavesSuccessfully>b__25_0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsHotkeysIntegrationTests.cs:1287
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Settings.SettingsHotkeysIntegrationTests.<>c.<<R4_UnclosedWindow_CleanupFails_RetrySucceeds_RemainsEditable_SavesSuccessfully>b__25_0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsHotkeysIntegrationTests.cs:1287
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    在 Iris.App.Tests.Settings.SettingsHotkeysIntegrationTests.R4_UnclosedWindow_CleanupFails_RetrySucceeds_RemainsEditable_SavesSuccessfully() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsHotkeysIntegrationTests.cs:1213
+    --- End of stack trace from previous location ---
+失败 Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.Scenario7_RealWindowPresenter_HandlesClosingReopening_AndReceipt32QuotaExhaustion (14ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.ArgumentNullException : Value cannot be null. (Parameter 'serviceType')
+    在 System.ArgumentNullException.Throw(String paramName)
+    在 Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton(IServiceCollection services, Type serviceType, Type implementationType)
+    在 Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.<>c.<<Scenario7_RealWindowPresenter_HandlesClosingReopening_AndReceipt32QuotaExhaustion>b__19_0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:1274
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    在 Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.Scenario7_RealWindowPresenter_HandlesClosingReopening_AndReceipt32QuotaExhaustion() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:1239
+    --- End of stack trace from previous location ---
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 2 个错误 (2m 08s 240ms)
+退出代码: 2
+  标准输出: LABEL_LAYOUT opaqueLabels=3 overlappingPairs=0
+  LABEL_LAYOUT opaqueLabels=3 overlappingPairs=0
+  RIGHT_CLEAR handled=True displayedX=100 displayedY=100
+  RIGHT_CLEAR handled=True displayedX=100 displayedY=100
+  PREPARATION_ERRORS settingsRecorded=True translationRecorded=True settingsRestored=True translationRestored=True
+  DWM_FAILURE code=CaptureFailed nativeHResultPreserved=True captures=0
+  LATE_POINTER_AFTER_CONFIRM imagePreserved=True crops=1
+  FOREGROUND_QUERY newIntentObserved=True emptyQueries=2 resultCanceled=True nativeRestores=0
+
+测试运行摘要: 失败!
+  F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (6s 440ms)
+  F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (11s 723ms)
+  F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 失败并出现 1 个错误 (2s 765ms)
+  F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 2 个错误 (2m 08s 240ms)
+  F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (5s 334ms)
+  F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (5s 312ms)
+
+  总计: 3485
+  失败: 3
+  成功: 3480
+  已跳过: 2
+  持续时间: 2m 08s 987ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

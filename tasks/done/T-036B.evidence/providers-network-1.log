@@ -1,0 +1,2 @@
+F:\Iris\src\Iris.Providers\Http\NetworkTransportManager.cs(233,73): error CS9124: 参数“NetworkTransportManager owner”被捕获到封闭类型的状态，其值也用于初始化字段、属性或事件。 [F:\Iris\src\Iris.Providers\Iris.Providers.csproj]
+生成失败，退出代码: 1。

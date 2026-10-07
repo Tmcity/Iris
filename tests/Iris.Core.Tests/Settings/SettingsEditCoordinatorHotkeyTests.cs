@@ -23,6 +23,7 @@ public sealed class SettingsEditCoordinatorHotkeyTests
 {
     private sealed class TestSettingsService : ISettingsService
     {
+        public bool IsReadOnly => false;
         private AppSettings _current;
         public int UpdateCallCount { get; private set; }
         public Func<AppSettings, Task>? BeforeMutateHookAsync { get; set; }

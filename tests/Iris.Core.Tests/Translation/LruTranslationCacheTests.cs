@@ -13,6 +13,7 @@ public sealed class LruTranslationCacheTests
 {
     private sealed class FakeSettingsService : ISettingsService
     {
+        public bool IsReadOnly => false;
         public AppSettings Current { get; set; } = new();
 
         public event EventHandler<SettingsChangedEventArgs>? Changed;
@@ -763,6 +764,7 @@ public sealed class LruTranslationCacheTests
 
     private sealed class InterceptingSettingsService : ISettingsService
     {
+        public bool IsReadOnly => false;
         private readonly FakeSettingsService _inner = new();
         public Action<AppSettings>? OnReadingCurrent { get; set; }
         public Action? OnEnteringChanged { get; set; }

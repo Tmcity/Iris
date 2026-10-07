@@ -138,6 +138,7 @@ public sealed class SettingsTranslationSaveIntegrationTests
 
     private sealed class CountingSettingsService : ISettingsService
     {
+        public bool IsReadOnly => false;
         private readonly ISettingsService _inner;
         public int UpdateCount { get; private set; }
 

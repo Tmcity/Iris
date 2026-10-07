@@ -51,6 +51,7 @@ internal sealed class OcrRegistryTestScope
     }
     internal sealed class Store : ISettingsService
     {
+        public bool IsReadOnly => false;
         internal AppSettings Value = Config();
         internal int Reads, Updates, Subscriptions;
         internal Action? BeforeRead { get; set; }

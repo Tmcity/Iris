@@ -1,0 +1,6 @@
+F:\Iris\tests\Iris.Core.Tests\Settings\MouseSettingsEditTests.cs(85,26): error CA1001: 类型“Fixture”具有可释放的字段“Core”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+F:\Iris\tests\Iris.Core.Tests\Settings\NetworkSettingsTests.cs(126,17): error CA1826: 不要在可索引的集合上使用 Enumerable 方法。而是直接使用集合。 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1826) [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+F:\Iris\tests\Iris.Core.Tests\Settings\NetworkSettingsTests.cs(126,75): error CA1826: 不要在可索引的集合上使用 Enumerable 方法。而是直接使用集合。 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1826) [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+F:\Iris\tests\Iris.Core.Tests\Settings\NetworkSettingsTests.cs(139,41): error CA1826: 不要在可索引的集合上使用 Enumerable 方法。而是直接使用集合。 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1826) [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+F:\Iris\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs(15,23): error CA1001: 类型“OcrEditingTestScope”具有可释放的字段“Coordinator”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+生成失败，退出代码: 1。

@@ -30,6 +30,9 @@ public sealed class SettingsChangedEventArgs(AppSettings oldSettings, AppSetting
 /// </summary>
 public interface ISettingsService
 {
+    /// <summary>本次加载为未来schema时只读；Update在调用mutate之前拒绝。</summary>
+    bool IsReadOnly { get; }
+
     AppSettings Current { get; }
 
     Task LoadAsync(CancellationToken cancellationToken = default);

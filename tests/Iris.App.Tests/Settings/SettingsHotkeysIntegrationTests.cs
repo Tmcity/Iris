@@ -110,6 +110,7 @@ public sealed class SettingsHotkeysIntegrationTests
 
     private sealed class CountingSettingsService : ISettingsService
     {
+        public bool IsReadOnly => _inner.IsReadOnly;
         private readonly ISettingsService _inner;
         public int UpdateCount { get; private set; }
         public bool ThrowOnUpdate { get; set; }
@@ -1211,7 +1212,7 @@ public sealed class SettingsHotkeysIntegrationTests
     {
         await WpfTestRunner.RunAsync(async () =>
         {
-            await using var env = new IntegrationEnvironment();
+            await using var env = new IntegrationEnvironment(uiDispatcher: new WpfUiDispatcher());
             await env.Coordinator.StartAsync();
 
             var window = new SettingsWindow

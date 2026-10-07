@@ -118,6 +118,7 @@ internal sealed class SelectionSettingsTestScope
 
     internal sealed class MemorySettings : ISettingsService
     {
+        public bool IsReadOnly => false;
         public AppSettings Current { get; private set; } = new();
         public int Updates { get; private set; }
         public Func<CancellationToken, Task>? BeforeUpdate { get; set; }

@@ -1,0 +1,2386 @@
+[
+  {
+    "path": "Directory.Build.props",
+    "sha256": "c32e046fc5f05f24df4925c1c689129e058df7f7d9908fad6d7e7392e2ae3c16"
+  },
+  {
+    "path": "Directory.Packages.props",
+    "sha256": "00f156547be3d3c6af324f6773c19677398ed8333c5985272370209ab81ec2c5"
+  },
+  {
+    "path": "specs/CONTRACTS.cs",
+    "sha256": "60d76f2febc3d07dbaeed1e25079708a387dcf50b82dadbfb91d86bd1d5ac881"
+  },
+  {
+    "path": "src/Iris.App/App.xaml",
+    "sha256": "c86bba96a87d764bb9ea20f81eaf154fc8087d6b6c45782f85327ee0fae3d23a"
+  },
+  {
+    "path": "src/Iris.App/App.xaml.cs",
+    "sha256": "d2d4ebaaf247a3ecdd84a916abce9584968386e02a01b266433a57422f5dc168"
+  },
+  {
+    "path": "src/Iris.App/AssemblyInfo.cs",
+    "sha256": "3fac2af92385f676e9a941befd23fe38f0a5fa6167d4a3a88f07e730c5595ca3"
+  },
+  {
+    "path": "src/Iris.App/Capture/ScreenshotErrors.cs",
+    "sha256": "f275dab1dbf40f76feb6f1c220123f70bcc0eb90fc1b57ef016a4aa4577d0a20"
+  },
+  {
+    "path": "src/Iris.App/Capture/ScreenshotFrameView.cs",
+    "sha256": "56d81e09614c266227195899b9b1e435add87f86763d524b7d73ca1c3d7947cb"
+  },
+  {
+    "path": "src/Iris.App/Capture/ScreenshotNative.cs",
+    "sha256": "9763d87bac698efb5baf5d9a9019f495de5b06c1e14880b05c22c3cd1d667305"
+  },
+  {
+    "path": "src/Iris.App/Capture/ScreenshotOverlayWindow.cs",
+    "sha256": "21c35cd22148865faf060903da164ebf5d87b0ea2a8e8bd8c017505ade311bd8"
+  },
+  {
+    "path": "src/Iris.App/Capture/ScreenshotPreparationCoordinator.cs",
+    "sha256": "95e9c3defc2ff50affcdf72bdd0cf2c772dbde163d4db3bee2d428b84dd7d231"
+  },
+  {
+    "path": "src/Iris.App/Capture/ScreenshotSelection.cs",
+    "sha256": "eaba5e0d68ba61b024f22ef9d593dc5016de1504c3974f33cadcd03e7988ce44"
+  },
+  {
+    "path": "src/Iris.App/Capture/ScreenshotService.cs",
+    "sha256": "61a661ade7a74b787aba80a63edbca3e35cc8b12a60d86415bdb217e9100d47f"
+  },
+  {
+    "path": "src/Iris.App/Capture/WindowPreparationIntent.cs",
+    "sha256": "920997214306841c1371e16c684a3c59407cc71df119d175821c0c33ad4604b2"
+  },
+  {
+    "path": "src/Iris.App/History/HistoryViewModel.cs",
+    "sha256": "3646d0a567ebfa4c5f9ec07b7fc75caeb77503570cffc0e3dfa8469ecda41ef2"
+  },
+  {
+    "path": "src/Iris.App/History/HistoryWindow.xaml",
+    "sha256": "d1c34edfd2865e0f21a2bbbf36fcb22843bfdfbc86880dae51747c2b3c9c87e9"
+  },
+  {
+    "path": "src/Iris.App/History/HistoryWindow.xaml.cs",
+    "sha256": "6533a3366fc22280f6f9b7c36daabfa50f2aa80610c48eb6e602259a0ec04369"
+  },
+  {
+    "path": "src/Iris.App/History/HistoryWindowPresenter.cs",
+    "sha256": "11ff1b8ece1ed236ae86b73362387b94a818353efb3e1114eb1480fd55e01893"
+  },
+  {
+    "path": "src/Iris.App/History/HistoryWindowSession.cs",
+    "sha256": "ed4603c53667035ab6893476bf607fc063a47ec2acd6373a42ff739dbd17fc74"
+  },
+  {
+    "path": "src/Iris.App/Hosting/ActionDispatcher.cs",
+    "sha256": "58c434c42cf11dd3c9beb5382c9f6e5381334d7d95720d828946ebf3a72090db"
+  },
+  {
+    "path": "src/Iris.App/Hosting/AppBootstrapper.cs",
+    "sha256": "7ec20712b40cd6218e5e664069786d309e1c6e2e731b7ba1356a32a7c3b9ddae"
+  },
+  {
+    "path": "src/Iris.App/Hosting/AppHostBuilder.cs",
+    "sha256": "c121b87654ff13ec4c73879b557c651023b02041a1a08263719ee73344f8afc8"
+  },
+  {
+    "path": "src/Iris.App/Hosting/FatalErrorFormatter.cs",
+    "sha256": "aa194940d7d5457c4357808d74bc47462d48d851e23fa90b8169d6ae2a84a0e9"
+  },
+  {
+    "path": "src/Iris.App/Hosting/GlobalExceptionHandler.cs",
+    "sha256": "f7c4d9913949a9a83db698530b353afc1eed34384bd64511f8403c669650f2a8"
+  },
+  {
+    "path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+    "sha256": "cfa355e834e1321b78c5cc53453e3527cd22f8b40924526bbfd150e731cf93cc"
+  },
+  {
+    "path": "src/Iris.App/Hosting/HotkeyRecordingCoordinator.cs",
+    "sha256": "7f0706853be9f4b1c8dee25b798e238b1eb4d78b4e84870011e0625659a3cc19"
+  },
+  {
+    "path": "src/Iris.App/Hosting/HotkeyRuntimeModels.cs",
+    "sha256": "97724b831092e848c81f57f6504ca4cb011fcb643ca710f021d5cb29f0e1dd95"
+  },
+  {
+    "path": "src/Iris.App/Hosting/IUiDispatcher.cs",
+    "sha256": "35ba81f49850d3383d16cc0824cfc097d71aa2dff208019059c0353d11ff98d3"
+  },
+  {
+    "path": "src/Iris.App/Hosting/IrisLogging.cs",
+    "sha256": "27e97ffbe124942c35eb1d91953fa9f3d31e60146de84d73e1b5481d1c5af25a"
+  },
+  {
+    "path": "src/Iris.App/Hosting/LogLevelController.cs",
+    "sha256": "c3d82f6571b2c379466fb86be6efcdf8446fcb74161eaec7bf6d66e2aef99399"
+  },
+  {
+    "path": "src/Iris.App/Hosting/NotificationThrottle.cs",
+    "sha256": "b8716b051711f5367b72e25e434c4a9917f203b1a117af1a961e3df2a67080eb"
+  },
+  {
+    "path": "src/Iris.App/Hosting/WpfHostLifetime.cs",
+    "sha256": "5bd1f1df756f2babcd62f42b8fbb6c1f7732d44fe06688c4b515c3bd95a08554"
+  },
+  {
+    "path": "src/Iris.App/Hosting/WpfUiDispatcher.cs",
+    "sha256": "37ff130844a214468e55ae959689df91a6a8d2d450db4c51a25c7a2743914d5e"
+  },
+  {
+    "path": "src/Iris.App/Iris.App.csproj",
+    "sha256": "dcead552783fe3370f91877945cf9641d137d5cbc8ba1d89e602e982da62ef43"
+  },
+  {
+    "path": "src/Iris.App/Program.cs",
+    "sha256": "cbdac751fae4fc2e2e2bfa0b5c388ef6b4370be644a7af72b1ed415650363866"
+  },
+  {
+    "path": "src/Iris.App/Resources/AppResources.cs",
+    "sha256": "5e087cad019132c4812e931568575dd2ec766bdeb0d2083b84cf69220696df28"
+  },
+  {
+    "path": "src/Iris.App/Resources/Icons/iris.ico",
+    "sha256": "ebfe066500f2e911520de8bd70c0dd38360c9d15125e8dc66afd71a7ceec6d09"
+  },
+  {
+    "path": "src/Iris.App/Resources/Strings.resx",
+    "sha256": "11459b8e27e528bcb535a5c5649d8437a73f3da55e66930bce6645a5a8723e7e"
+  },
+  {
+    "path": "src/Iris.App/Selection/SelectionIconController.cs",
+    "sha256": "119d68c6d2e91868e97a848a1e6cda7d15db9ab669dfa939e418b5dc6d0d2e52"
+  },
+  {
+    "path": "src/Iris.App/Selection/SelectionIconNative.cs",
+    "sha256": "a010d583e19a52c63c1d8fa6fc5198f438be52a46ae84f579801e28be590b834"
+  },
+  {
+    "path": "src/Iris.App/Selection/SelectionIconWindow.cs",
+    "sha256": "075dfea808b1b04e3062140e2607cbb8a22e496093120e92f67bbb08ece4821d"
+  },
+  {
+    "path": "src/Iris.App/Services/AppLifetime.cs",
+    "sha256": "382ed00d01c52df51f39b69415c5ab22fdcbdd6f8dc0dbb63777068a336163b6"
+  },
+  {
+    "path": "src/Iris.App/Services/GeneralSettingsSaveCoordinator.cs",
+    "sha256": "69957842f724ea42e7ba5c1cafc82e0577abf36e0f4f8bd641ab5565a816a62a"
+  },
+  {
+    "path": "src/Iris.App/Services/ScreenshotOcrFeedback.cs",
+    "sha256": "8b94c7839e162e4503a37c673b1908a0d4b2763220425554820d91b888605399"
+  },
+  {
+    "path": "src/Iris.App/Services/SelectionReadCoordinator.cs",
+    "sha256": "98be98bcf5e18f1aecf98a9572824fe56989bbdf84ddf25181b7d765cc413836"
+  },
+  {
+    "path": "src/Iris.App/Services/SettingsApplyReceiptManager.cs",
+    "sha256": "4c073cb883bacddff59efaa85471366b36ce4be354273587c244b941efaeaaf1"
+  },
+  {
+    "path": "src/Iris.App/Services/ThemeService.cs",
+    "sha256": "bac5f0fe71b619eca1b4f33644e09afae6669f26cf8320bc09c06cddd89c4c34"
+  },
+  {
+    "path": "src/Iris.App/Services/TrayNotificationService.cs",
+    "sha256": "878684eb49741c1dc443dac3c6a0a357d677cf0018057ee5236129089d61c778"
+  },
+  {
+    "path": "src/Iris.App/Settings/DraftValue.cs",
+    "sha256": "4aa3286d849bdbf5d762b4676e47d5b420971c4bf7871b6abbf21cc77caa7545"
+  },
+  {
+    "path": "src/Iris.App/Settings/HistorySettingsDraftViewModel.cs",
+    "sha256": "6e3557fd48a76cbf1daddcd0f4081064781e2be51820dc9e2655bca1a5fc8fac"
+  },
+  {
+    "path": "src/Iris.App/Settings/HotkeyItemDraftViewModel.cs",
+    "sha256": "6bee4b81247d458851778ceab7007c26f30a38fb297e4cb6aaddbfabfc207351"
+  },
+  {
+    "path": "src/Iris.App/Settings/HotkeyRecorderBox.xaml",
+    "sha256": "8581bef0515274f977a96dcf32e798dd907ed3ff0f4343df8fcede5fe0a83a84"
+  },
+  {
+    "path": "src/Iris.App/Settings/HotkeyRecorderBox.xaml.cs",
+    "sha256": "b911936e834a5d5f3881382aa1eedb89cff2d88b6653fe782611420b5abcb4d7"
+  },
+  {
+    "path": "src/Iris.App/Settings/OcrProfileDraftViewModel.cs",
+    "sha256": "0ed9fea4522b49bcff2e44eb48aa47f881858e3a584de5982588798628eb837f"
+  },
+  {
+    "path": "src/Iris.App/Settings/OcrSettingsDraftViewModel.cs",
+    "sha256": "bbaccecdf7d5962609b92057396c14a9f80cf3ecdacdcbe7364cf2962856f475"
+  },
+  {
+    "path": "src/Iris.App/Settings/RelayCommand.cs",
+    "sha256": "b86c287d86f19ccaac554116138788c47f75a305e447cb31e9b11ca7acc5c8c9"
+  },
+  {
+    "path": "src/Iris.App/Settings/SelectionSettingsDraftViewModel.Mouse.cs",
+    "sha256": "fb0e03ae0fa86017f3cf7094a7504cdf593878f632a097874615fc26046a5a3b"
+  },
+  {
+    "path": "src/Iris.App/Settings/SelectionSettingsDraftViewModel.cs",
+    "sha256": "78a887467ca86ca111c6e09716ba1847183ec4c52876163031acd14d278d0718"
+  },
+  {
+    "path": "src/Iris.App/Settings/SettingsDraftOperationQueue.cs",
+    "sha256": "7ec316a53ef0160fa842a3c78bc6c37a310fd4774ef4bd3f1284b4e0c2365f75"
+  },
+  {
+    "path": "src/Iris.App/Settings/SettingsViewModel.Mouse.cs",
+    "sha256": "5ce7aa08b4d6916d4b9c9aded2190cd94d541330a17dcf00d9b8d216d9c9d901"
+  },
+  {
+    "path": "src/Iris.App/Settings/SettingsViewModel.Ocr.cs",
+    "sha256": "394382e93d79c4e4b505ee49bc2d8bc834e84c650c94e46db4c9aee0719994ad"
+  },
+  {
+    "path": "src/Iris.App/Settings/SettingsViewModel.cs",
+    "sha256": "a7726605bdc559660ca48c1a0a6dbb6d8ec6ee4b3c87bf3c092516445c2b9c96"
+  },
+  {
+    "path": "src/Iris.App/Settings/SettingsWindow.xaml",
+    "sha256": "354744a6ef60d8a3e8d9de44d88e12afc2d186c8396271940ead145c30f0ec3c"
+  },
+  {
+    "path": "src/Iris.App/Settings/SettingsWindow.xaml.cs",
+    "sha256": "a69aa22212247fe2109c6e86397525401bcf78a6398575a3125e3872d143135c"
+  },
+  {
+    "path": "src/Iris.App/Settings/SettingsWindowPresenter.cs",
+    "sha256": "efa1233f0cc48cce160d476d8492af78bd402d0a76a860d8eb121c3637e3fee1"
+  },
+  {
+    "path": "src/Iris.App/Settings/SettingsWindowSession.cs",
+    "sha256": "a65d443da96dda05453dd1416fdaa8e23f44743c874cd7ba1fe2abd819256593"
+  },
+  {
+    "path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "sha256": "dfb94bc3b2158ac2ebc5c37149ba96725fe9776bbc8c868babfdd7e578d1df0e"
+  },
+  {
+    "path": "src/Iris.App/Translation/ITranslateWindowShutdownCoordinator.cs",
+    "sha256": "a1398f7f1a4d71a54179ef4e1a1c9bddfa74a237b9ab8f6364a709c9a7d97b93"
+  },
+  {
+    "path": "src/Iris.App/Translation/NativeWindowPlacementAdapter.cs",
+    "sha256": "d869c95b7436295a1a4e4d418cf22ea28b23bb1c05e0510e962d83c966c4dc88"
+  },
+  {
+    "path": "src/Iris.App/Translation/ProviderResultCardViewModel.cs",
+    "sha256": "b981601e1300da7524e3919f2b63caa4a02756c98e1a639c95e82fadba17cc85"
+  },
+  {
+    "path": "src/Iris.App/Translation/TranslateWindow.xaml",
+    "sha256": "6dcfab957d18d87e627350d46537de0d0d16c2e98233a4c431f20e66025d0782"
+  },
+  {
+    "path": "src/Iris.App/Translation/TranslateWindow.xaml.cs",
+    "sha256": "ce6fd61f204a52c4ad7b06798646e52553b37f6b8758301aa40ff0003f3f19e6"
+  },
+  {
+    "path": "src/Iris.App/Translation/TranslateWindowOperation.cs",
+    "sha256": "083bd4a49e6a1dc717779af30971c463f8e2cf9b03729612d527f41760b6d952"
+  },
+  {
+    "path": "src/Iris.App/Translation/TranslateWindowPresenter.cs",
+    "sha256": "8997b48fef88b909ca8c39eb6543343ce76dd4b11730896fe2f0d77951fd8395"
+  },
+  {
+    "path": "src/Iris.App/Translation/TranslateWindowViewModel.Ocr.cs",
+    "sha256": "542245e3c50cb836308482cdb6349561099850b9ecb90a72cec403b8b501cd2a"
+  },
+  {
+    "path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+    "sha256": "25801e2689a85fb8c8ac3fd2045d18d24fd3afc510b602c39024b69cd958e482"
+  },
+  {
+    "path": "src/Iris.App/Translation/TranslationDeltaBuffer.cs",
+    "sha256": "53a5767b3953e0344e0fb23cfda816ddedad3b223df9792ef22112d8e082a638"
+  },
+  {
+    "path": "src/Iris.App/Translation/WindowPlacementHelper.cs",
+    "sha256": "a074b85eee7449e9562cf0394463aedc050df56e62b9f8a0a096fd5e591e797f"
+  },
+  {
+    "path": "src/Iris.App/Tray/ITrayNotificationNative.cs",
+    "sha256": "6a329565d8ad8cf7d9817dea5d399633566117d7e84bc52ef3ab9f644924cfc4"
+  },
+  {
+    "path": "src/Iris.App/Tray/TrayCreationRetryPolicy.cs",
+    "sha256": "fddb9a5b44d28d419295ac9f8540581cf0694d0170704265c515490a734cab5a"
+  },
+  {
+    "path": "src/Iris.App/Tray/TrayIconController.cs",
+    "sha256": "7aa3313c420a5f492febbd5613b94c56d8bb15ad2eaed10b326fb23d2276ff4c"
+  },
+  {
+    "path": "src/Iris.App/UiText.History.cs",
+    "sha256": "8813bbe3359500067b7a4403d762f2dce6f6ccbc59cc9f9884dda8b039403b13"
+  },
+  {
+    "path": "src/Iris.App/UiText.cs",
+    "sha256": "db29c9281b8ab1232888e20651918b0372201911863e80cac64f6552525eeca6"
+  },
+  {
+    "path": "src/Iris.App/app.manifest",
+    "sha256": "2d332e45db500ed00b0ccf68db15787da94107fe8b2e5d90c4aad836cf42ec32"
+  },
+  {
+    "path": "src/Iris.Core/Actions/Ipc.cs",
+    "sha256": "c8c6e54e8f8eb82a55dba7c5800fbcd5948ae45f0a13f14113cf56c9e3349a48"
+  },
+  {
+    "path": "src/Iris.Core/Actions/IrisAction.cs",
+    "sha256": "bd287954a8282bb1d4bd8febdbe9730677eb287e43c48c847e049375a5f2570b"
+  },
+  {
+    "path": "src/Iris.Core/Common/ProviderModels.cs",
+    "sha256": "b1cc46d676923839d3076bc5a5b6bc2b23c7ade1d6060a2e6527a413d23e2baa"
+  },
+  {
+    "path": "src/Iris.Core/DependencyInjection/CoreServiceCollectionExtensions.cs",
+    "sha256": "4462f8f062693e68db864d4e9bbfb405e32ae16c4357738da2bac43547ab7ea0"
+  },
+  {
+    "path": "src/Iris.Core/DependencyInjection/OcrProviderConfigurationObserver.cs",
+    "sha256": "96fe50976cf9aea343bb5198f9ccab466ad7b9d5d67eaedc0e8362002ac940e3"
+  },
+  {
+    "path": "src/Iris.Core/DependencyInjection/TranslationProviderConfigurationObserver.cs",
+    "sha256": "8efeae79031d2d7643e3a6292d603c74c454d63e7d70568ce66f0bea10602fc0"
+  },
+  {
+    "path": "src/Iris.Core/Diagnostics/LogText.cs",
+    "sha256": "c9ca8009501a5cc9e3d42b120feec98a65fdca1d74344bbd2702c7167d6b7611"
+  },
+  {
+    "path": "src/Iris.Core/Errors/ErrorCode.cs",
+    "sha256": "c0207652911aa374b8a6c05c6dd1f51128fe3a50341d2b13c8f508745b9da25b"
+  },
+  {
+    "path": "src/Iris.Core/Errors/ErrorInfo.cs",
+    "sha256": "d137686eb68d89d6c3167755046469e8ae33a432afa7eda7e835509466e60cc3"
+  },
+  {
+    "path": "src/Iris.Core/Errors/ErrorMessages.cs",
+    "sha256": "ec0000e7986d43b089ad3478d0682ee0598ac742f8f940a9e32a99d019225be5"
+  },
+  {
+    "path": "src/Iris.Core/Errors/IrisException.cs",
+    "sha256": "2fd816b9a42a2a76273d5d284ccc7ae2cdee9e4a9a754b29e0ea86c1ccc459a0"
+  },
+  {
+    "path": "src/Iris.Core/IO/AtomicFile.cs",
+    "sha256": "06eebcfa85d14003c88f92f7f9146f0c3bdacd8d82e4ce56e10bf1a3079296eb"
+  },
+  {
+    "path": "src/Iris.Core/Imaging/Geometry.cs",
+    "sha256": "494f0079d7162faa70d24e87f53ad310da9d7eed63f323d4ce63d9f034e17b94"
+  },
+  {
+    "path": "src/Iris.Core/Imaging/ImageData.cs",
+    "sha256": "0228e6d9dd9c429dcf6874eb0848283300c257e41a1f8797cdfe72d2f5ba32f4"
+  },
+  {
+    "path": "src/Iris.Core/Iris.Core.csproj",
+    "sha256": "ec89e3bb5754f3868a0d22bee1f63fc0731ede96074543c4cba1ab5ab9f86851"
+  },
+  {
+    "path": "src/Iris.Core/Languages/ILanguageCatalog.cs",
+    "sha256": "be9b49212ffb6102d6acea89ccfca6528b5b6903c62c7414a64a0730c1454391"
+  },
+  {
+    "path": "src/Iris.Core/Languages/ILanguageDetector.cs",
+    "sha256": "aebc9442d0ddd93b34563bad2afa79ae3a84f0729f1588a0985f521a2e42e407"
+  },
+  {
+    "path": "src/Iris.Core/Languages/LanguageCatalog.cs",
+    "sha256": "4bf556542da6b8c5688a1a8d857653e18aa1ebdfd3abb77b055a815ca89c06c1"
+  },
+  {
+    "path": "src/Iris.Core/Languages/LanguageCodes.cs",
+    "sha256": "b0e5ca4fe5a3be13cbef171079ba36cb46806bda65a5956ec412b9853b9957a6"
+  },
+  {
+    "path": "src/Iris.Core/Languages/LanguageModels.cs",
+    "sha256": "238d2dadef6edc8d0d3360bc2f5e98b9c65a91c7c200b92da89fd973a795228e"
+  },
+  {
+    "path": "src/Iris.Core/Languages/ScriptLanguageDetector.cs",
+    "sha256": "6b7eaef44efd24e92f9deecdf288506340cff54b6e0d6c38e6b61bc290dcd308"
+  },
+  {
+    "path": "src/Iris.Core/Languages/TargetLanguageResolver.cs",
+    "sha256": "471f88c4b3d23ee44c3d37b60ff238ccc87cc12395cf3b9200dcc23e9b32ccd8"
+  },
+  {
+    "path": "src/Iris.Core/Languages/UnicodeScripts.cs",
+    "sha256": "ba8111a6ded4d60c19610bb2bd71bf78eea73accc37e31c52d42b9df16b15eec"
+  },
+  {
+    "path": "src/Iris.Core/Network/NetworkAddressClassifier.cs",
+    "sha256": "720094d06c8c90fba814e00244bbb8d8beff76e13cba28fd7aec06da7dd1b7d4"
+  },
+  {
+    "path": "src/Iris.Core/Network/NetworkModels.cs",
+    "sha256": "62380ccfbd286c0f1f5af45fc272e503353f4d70ef039c6fa158502b397444ca"
+  },
+  {
+    "path": "src/Iris.Core/Network/NetworkProxyCodec.cs",
+    "sha256": "c4ca23a5476097ffb2a67315fd4d1a0caffc71826c537da2c5808184b4fc5136"
+  },
+  {
+    "path": "src/Iris.Core/Ocr/IOcrProvider.cs",
+    "sha256": "b3615692e9de51b24c317e62156edffb3ade23b15c5700da00a0a964b8074332"
+  },
+  {
+    "path": "src/Iris.Core/Ocr/OcrModels.cs",
+    "sha256": "0c00b30aadcf8ccf5822355c432a37890bdc93d00a624051330abe8748599be8"
+  },
+  {
+    "path": "src/Iris.Core/Ocr/OcrProviderRegistry.cs",
+    "sha256": "780ff86a833dadf13c8567a297d12f7088ea05e9be19b1654689fa599785f810"
+  },
+  {
+    "path": "src/Iris.Core/Ocr/OcrRegistrySnapshot.cs",
+    "sha256": "f952f1354bb56ccac20f24d9b445e2d710afbf393715ac6587a8547a8c566ca0"
+  },
+  {
+    "path": "src/Iris.Core/Ocr/OcrService.cs",
+    "sha256": "6b492a7ed7d438e07af530f15f742bada0c973ad81c50e31f229f223f83cc4b2"
+  },
+  {
+    "path": "src/Iris.Core/Ocr/OcrTextNormalizer.cs",
+    "sha256": "ade48a95e259fee29ae8157234f241ae6e0cb9d183c9e46e9e46ba20e6a6f762"
+  },
+  {
+    "path": "src/Iris.Core/Platform/DesktopModels.cs",
+    "sha256": "db2bab0ebbcbde6c85f0eb27f420783b791161bbc9a5bd46a61257ac11c5d503"
+  },
+  {
+    "path": "src/Iris.Core/Platform/IClipboardService.cs",
+    "sha256": "9cf7f4086f8a12b549a0776c2afb5cf8d3754b808d5eeb6dd17f92955c11ca22"
+  },
+  {
+    "path": "src/Iris.Core/Platform/IHotkeyCaptureService.cs",
+    "sha256": "5e1894af499ff1bff3bf0e8919731c218895889b5cf065e688f5af77d2cc1580"
+  },
+  {
+    "path": "src/Iris.Core/Platform/IHotkeyService.cs",
+    "sha256": "6f6b7f202c7fc0b62a7b462828312ccbe018b8cd42136b0902d3a8ec5842fe0c"
+  },
+  {
+    "path": "src/Iris.Core/Platform/IMouseSelectionMonitor.cs",
+    "sha256": "1c0c907fbd4da400aefc895971b052055a1136d7f6f0a4455b36f53ee1bf28d1"
+  },
+  {
+    "path": "src/Iris.Core/Platform/IScreenCapturer.cs",
+    "sha256": "ba23d013d90740f76103745f16f01d56f82acbdaed360026bf30ee00dc3456ba"
+  },
+  {
+    "path": "src/Iris.Core/Platform/ISelectionTextReader.cs",
+    "sha256": "62426ee535f53e7864250362aa0bb6fad8762d01422ac197c78f0aa0735c1631"
+  },
+  {
+    "path": "src/Iris.Core/Presentation/PresentationPorts.cs",
+    "sha256": "865f2a42709f2928c352e85490d46e4ebf38596e2334147b45290f9004e64b94"
+  },
+  {
+    "path": "src/Iris.Core/Security/ISecretStore.cs",
+    "sha256": "76eb1442a305a066eaf4e94d71d89bd8a62698e5f9a1d0430cef4c8742fcdaaa"
+  },
+  {
+    "path": "src/Iris.Core/Serialization/IrisJson.cs",
+    "sha256": "e678bf4e2b751fad45a6f07831136d64a8c03776b3d9f6f5fbefbdc1cb1f4fb3"
+  },
+  {
+    "path": "src/Iris.Core/Settings/AppSettings.cs",
+    "sha256": "3644ba060c2a7d548e1baef8886c7ab133fdc555633674745d6626aa82b6976e"
+  },
+  {
+    "path": "src/Iris.Core/Settings/HotkeyBinding.cs",
+    "sha256": "622ab72193a6008d100d0a6f7096bcc56a82a91a32cd68d41d113a5da5c00e36"
+  },
+  {
+    "path": "src/Iris.Core/Settings/HotkeyBindingPolicy.cs",
+    "sha256": "509eec44d66451316f3190e91d887658d0de33d93669f38b5d90558f9814fc4b"
+  },
+  {
+    "path": "src/Iris.Core/Settings/IHotkeyBindingPolicy.cs",
+    "sha256": "d9aa855d5d6550e732ab8a150dd221b815967bcc142d97d74a2a31779117b1b8"
+  },
+  {
+    "path": "src/Iris.Core/Settings/IProviderConfigurationObserver.cs",
+    "sha256": "dd467920f7b472cd27223823ec8247c22815dd5d985aaf1bea806dd4de241a37"
+  },
+  {
+    "path": "src/Iris.Core/Settings/ISettingsEditCoordinator.cs",
+    "sha256": "69ee04cee194eb8feae723bb68cc54e35a3b77f7441478ecc476f31e151e238f"
+  },
+  {
+    "path": "src/Iris.Core/Settings/ISettingsService.cs",
+    "sha256": "ea60af9c003ef60d0d724a52327b15e1ed65eaee82b3d69b96c204a702f02d76"
+  },
+  {
+    "path": "src/Iris.Core/Settings/NetworkEditingModels.cs",
+    "sha256": "23f0ce281e5dab182982638c7c1f50b6826d56eee4f9aa3ffa66d21a6e10a4ea"
+  },
+  {
+    "path": "src/Iris.Core/Settings/ProviderProfiles.cs",
+    "sha256": "7a57b3fc06ea2a4e2a502ebd61741b4b3679e0236c45749227775d5dc732d927"
+  },
+  {
+    "path": "src/Iris.Core/Settings/SettingsEditCoordinator.History.cs",
+    "sha256": "9149cc19cbcdeb933a266863d235dd1b009c3bd51f1458e3f8c958d69864cfc9"
+  },
+  {
+    "path": "src/Iris.Core/Settings/SettingsEditCoordinator.Network.cs",
+    "sha256": "8ab20be33ddfe3b9d92da0899c5e6760f5daab6ee32c324a9adf5623ca5c86bc"
+  },
+  {
+    "path": "src/Iris.Core/Settings/SettingsEditCoordinator.Ocr.cs",
+    "sha256": "173d05a1c63671fcd523a1a610fc90a68454d9d50994767a28dd8647544597bf"
+  },
+  {
+    "path": "src/Iris.Core/Settings/SettingsEditCoordinator.OcrDraft.cs",
+    "sha256": "dfd34475ad35cef450f6a0262ee103739845513a8cd78fcc3caa8d6002a4b7c8"
+  },
+  {
+    "path": "src/Iris.Core/Settings/SettingsEditCoordinator.Selection.cs",
+    "sha256": "b4fa173c13e44dc0a55f9118e33460506aa2ab9980e85382fe1ec9c1ff4a0af5"
+  },
+  {
+    "path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "sha256": "4a709eb42c70749892a5efefef31f39ac2f4d9b300038700900960918450fda5"
+  },
+  {
+    "path": "src/Iris.Core/Settings/SettingsEditingModels.cs",
+    "sha256": "0705a7a223a9b18d2b985e390fbe88032b81bde08085c850e0f914b77bb5aed1"
+  },
+  {
+    "path": "src/Iris.Core/Storage/History.cs",
+    "sha256": "85618620c40a941c69ca8d83ac543efc803c7526860579003874420d45d9123d"
+  },
+  {
+    "path": "src/Iris.Core/Storage/IAppPaths.cs",
+    "sha256": "10d96355a169dc269e0f23e7a6c4826219d4c5e87247e00112232a67bdb54625"
+  },
+  {
+    "path": "src/Iris.Core/Text/SoftLineBreakMerger.cs",
+    "sha256": "322fb372e7340673e105da562326b47b0af2d960eb0201d65cce5b15130b035d"
+  },
+  {
+    "path": "src/Iris.Core/Translation/ITranslationCache.cs",
+    "sha256": "f6b84bc6c4247147e18f88187fac06e3edc9dce24341b6b66cf079ef6dba55fc"
+  },
+  {
+    "path": "src/Iris.Core/Translation/ITranslationOrchestrator.cs",
+    "sha256": "920de6d778c68cf840a2b1ca14dea68f046f1adddb98ec828c1c18bcd086033c"
+  },
+  {
+    "path": "src/Iris.Core/Translation/ITranslationProvider.cs",
+    "sha256": "c01fb0f9460b22a2c2cc022e5f7f8f02e45988d3f795648f0a05f24c5b3bc6a3"
+  },
+  {
+    "path": "src/Iris.Core/Translation/LruTranslationCache.cs",
+    "sha256": "8423169f07f93e8d82b4b28b3355eba546201e4f2f0839d52289ff67c3fa4654"
+  },
+  {
+    "path": "src/Iris.Core/Translation/PromptRenderer.cs",
+    "sha256": "4e490d6c16ef593a1614e1dec616301b06be2984f4ac444a2ffb7f3cf776e7a9"
+  },
+  {
+    "path": "src/Iris.Core/Translation/PromptTemplateProvider.cs",
+    "sha256": "947e7787e0aed418a9a73aca2178beb1fc47ab0778c4974b0ec695414080a697"
+  },
+  {
+    "path": "src/Iris.Core/Translation/Prompts.cs",
+    "sha256": "3512cd6f07c0854f78694f78edb7fa6d6de8aee18d45e163f5d31d1c3cfbe4f3"
+  },
+  {
+    "path": "src/Iris.Core/Translation/ProviderCredentialResolver.cs",
+    "sha256": "a0417c191ec52c57b5d6e67181cb3a1e8624215a88ff9095668ef17a7f1a55f7"
+  },
+  {
+    "path": "src/Iris.Core/Translation/ProviderRegistryModels.cs",
+    "sha256": "fb5a09ef3ca9884c3b41d930c6985b5035d16217e5914ed61d6a29c6b3e2ff61"
+  },
+  {
+    "path": "src/Iris.Core/Translation/TextPreprocessor.cs",
+    "sha256": "47486902be150505e7922c79b3e28159f4d86c5a2108190c2590f4e6044033b6"
+  },
+  {
+    "path": "src/Iris.Core/Translation/TranslationCacheKeyFactory.cs",
+    "sha256": "6c263d3a9c951ad0c20f3e4c01c22a5a05c9ae7930c628eb05ee78270ef167cc"
+  },
+  {
+    "path": "src/Iris.Core/Translation/TranslationModels.cs",
+    "sha256": "ee283f8e58b7789ffb07fadf961b80cac5d078706097a9b403dde31cdeafff70"
+  },
+  {
+    "path": "src/Iris.Core/Translation/TranslationOrchestrator.cs",
+    "sha256": "c86e9313948e3b6da41ffdd2f5e4cc801ade4cf604864d424034ba1a72d8a367"
+  },
+  {
+    "path": "src/Iris.Core/Translation/TranslationProviderRegistry.cs",
+    "sha256": "cb1dce45caa74e20551cb890f1988921cfa79094ac847faf79e57aed069b4f0c"
+  },
+  {
+    "path": "src/Iris.Core/Translation/TranslationProviderSnapshot.cs",
+    "sha256": "9416785583d33ddb588ca358ae55c9649ea494f3e3a172fe2a236c60c466452c"
+  },
+  {
+    "path": "src/Iris.Core/Translation/UnavailableTranslationProvider.cs",
+    "sha256": "b6b93e0969a2b6f40119b49ed9b9a37fef1db7195165b923dd5c9febe2ea178b"
+  },
+  {
+    "path": "src/Iris.Core/Workflows/ClipboardTranslateHandler.cs",
+    "sha256": "cfe610210b61ab9a0c275c081495b091aa2776f3488829f5e6ac431aad5f0c4d"
+  },
+  {
+    "path": "src/Iris.Core/Workflows/InputTranslateHandler.cs",
+    "sha256": "dc33985e73c89d358c76b78fe7ecf91aed5ed97b44d989257452d5ea104b4fa0"
+  },
+  {
+    "path": "src/Iris.Core/Workflows/OpenHistoryHandler.cs",
+    "sha256": "a0af5708bbf58ef23afd848b747b15b2d8d4b4040136dbe030de47307302833b"
+  },
+  {
+    "path": "src/Iris.Core/Workflows/OpenSettingsHandler.cs",
+    "sha256": "12a461614b8a57aa78393d6b7b3444704989a56a682274978a2f666b3ba1b88e"
+  },
+  {
+    "path": "src/Iris.Core/Workflows/ScreenshotOcrCancellation.cs",
+    "sha256": "f48a384b9e502d7b818c97e2e1e7c0d1858b0e82cf85af504e58910933eab7dc"
+  },
+  {
+    "path": "src/Iris.Core/Workflows/ScreenshotOcrHandler.cs",
+    "sha256": "837520d68ac1f670012af4c8dd976767b97608f14a28ccfc14c859e098a98abf"
+  },
+  {
+    "path": "src/Iris.Core/Workflows/ScreenshotOcrWorkflow.cs",
+    "sha256": "2dc742419ebaa76263f63a9c4644ef53db9e6802059f59904e255ec93ff73890"
+  },
+  {
+    "path": "src/Iris.Core/Workflows/ScreenshotTranslateHandler.cs",
+    "sha256": "48bfb4c48e21697b437e661fb9aaebc40a935cbea93866f361c9fd0b2954d252"
+  },
+  {
+    "path": "src/Iris.Core/Workflows/SelectionTranslateHandler.cs",
+    "sha256": "a9e7686266a02417a2ff4c3b3df7dff49543362f044622da46301c606cbe7b01"
+  },
+  {
+    "path": "src/Iris.Core/Workflows/SilentScreenshotOcrHandler.cs",
+    "sha256": "7bf4c4dd4c81368eb5a70cd0aa54a331c0c20b2ac25cfb88ab030b81631d7ed6"
+  },
+  {
+    "path": "src/Iris.Core/Workflows/ToggleMouseSelectionHandler.cs",
+    "sha256": "c74f552f37042645aba5560ab687a16a8359bfa6ad71807e67f05e99c8f4c26b"
+  },
+  {
+    "path": "src/Iris.Core/Workflows/TranslateTextHandler.cs",
+    "sha256": "e7967492138db74481d26ec39f646106911190e5edf9ea0c9329d5a0284ce463"
+  },
+  {
+    "path": "src/Iris.Infrastructure/DependencyInjection/InfrastructureServiceCollectionExtensions.cs",
+    "sha256": "08377be1119ca7f25289b28478e8551f41844b494800f7951d516c988c8cd52a"
+  },
+  {
+    "path": "src/Iris.Infrastructure/Iris.Infrastructure.csproj",
+    "sha256": "f51c6b0fd95845da23fffbc75e182739a212a2e036eff1195be749d4bdf4b87c"
+  },
+  {
+    "path": "src/Iris.Infrastructure/Settings/JsonSettingsService.Network.cs",
+    "sha256": "da2504007adfc0b3059fc6b91c3ab487e1cbf30248111dbe9bce0f0a374b0fc3"
+  },
+  {
+    "path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "sha256": "9709c2f5c1348e25203b995b69ea07f71c5d841fa4f6be2b656d51e7a992ab1f"
+  },
+  {
+    "path": "src/Iris.Infrastructure/Settings/SettingsMigrationRunner.cs",
+    "sha256": "891f82197b304beb3783265c7c79affd1c80ee01c6abd09aa563188e91a5eb86"
+  },
+  {
+    "path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "sha256": "46c5a7c1ee58e53162c8d4b28f66e280eaea361a1c17fad7a4b41ec91bac9c46"
+  },
+  {
+    "path": "src/Iris.Infrastructure/Settings/SettingsSalvager.cs",
+    "sha256": "7aed2ff1b3a530dd281d2e11cf2e5700a5a58f160f096115226947d68253cec6"
+  },
+  {
+    "path": "src/Iris.Infrastructure/Settings/SettingsSnapshot.cs",
+    "sha256": "b5505551ad6261ecb913eff519e7acd24d6ad61a5d596affa0c57fda5fac185c"
+  },
+  {
+    "path": "src/Iris.Infrastructure/Storage/AppPaths.cs",
+    "sha256": "4c5708b8012e4d5d43a20e56d6fccdedba1868e2b89af59302468b36056a7ee6"
+  },
+  {
+    "path": "src/Iris.Infrastructure/Storage/AppPathsFactory.cs",
+    "sha256": "634de6e952c7f81e6ad3e7ef92039845145e8d4704225f9ea49f2cb2eaf5edea"
+  },
+  {
+    "path": "src/Iris.Infrastructure/Storage/DatabaseInitializer.cs",
+    "sha256": "3248c6919718ea3e8e0f14565fa9b4576b256aa40edcb9b91f946c1c2488d532"
+  },
+  {
+    "path": "src/Iris.Infrastructure/Storage/SqliteConnectionFactory.cs",
+    "sha256": "4b51ad757c99bacbde1280a6176a3aeb122dd393d9f883c96f9bc2f4799926b8"
+  },
+  {
+    "path": "src/Iris.Infrastructure/Storage/SqliteHistoryRepository.cs",
+    "sha256": "44da753ed3c6478e056b0956183405305a7a08c3e479c344e5322b5f217e7492"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Capture/DesktopContext.cs",
+    "sha256": "343247cce83aa8d064abdc699590d1b5025f544a70de26e5d5e7e85cf66d3ff9"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Capture/DesktopGeometryHelper.cs",
+    "sha256": "da7e1956503f9d5a0dea608736f55cb45af0855de1c828b2bb66eea39388ede6"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Capture/GdiCaptureSession.cs",
+    "sha256": "0c3693237661dbe1cc61c70959f5c63c1a2310d9b8351839e77945372962c4da"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Capture/GdiCaptureWorker.cs",
+    "sha256": "625d2a1be38ff2308a3599194a69cc33753579cb3a59268c06533e4d3daa4e8b"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Capture/GdiScreenCapturer.cs",
+    "sha256": "3e46676e626a4d85059f3e65d6d219672a525fffd2520ef7756b16049ca88ab6"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Capture/IGdiCaptureApi.cs",
+    "sha256": "36d3c45d1c267189d508a19d6fb4cdc69e1597ed9198491921a38ec03caaa601"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Capture/INativeDesktopAdapter.cs",
+    "sha256": "049508fb584ef5683f5ee8436969f3e7da17ed5a529d4b2671088a2389b9f583"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Capture/IScreenEncoderIo.cs",
+    "sha256": "e8186f94ad56bf23274994ed7296b72466d96a0bbb4ce314b8a286d34a0909de"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Capture/MonitorEnumerator.cs",
+    "sha256": "9447fa4c27a924f1e13cb2f13fcd83381ef01dc427a488b34e611218a67a204d"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Capture/NativeDesktopAdapter.cs",
+    "sha256": "3c87d1e93124d55d30833a061ec0fb7e37ad6ff3e8370ed0b68685975120af4d"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Capture/NativeGdiCaptureAdapter.cs",
+    "sha256": "5f3c4f3d0774192ff604f445f20f8e3c3b267168ff21a6ca5c7a3b3f46ca749d"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Capture/ScreenCaptureErrors.cs",
+    "sha256": "9c6491e6c380299c16d152574dd4a6f505d905c1df0541068f85531c04104872"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Capture/ScreenMemoryEncoder.cs",
+    "sha256": "4cb64b32fa814e3931bafb60860d17ae606546a144df21dfa3ddf18dc50f5dfc"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Capture/ScreenPixelLayout.cs",
+    "sha256": "feb550ccc6441d2eef7d6b1f02f325bbd877dccd61c7e8fe5c6c9ae587d21a76"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Capture/Win32GdiCaptureApi.cs",
+    "sha256": "fa112a892f64ce25c13ef0cd839de76219590e0e121066c7ff4c561a6dc466c0"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Capture/WinRtScreenEncoderIo.cs",
+    "sha256": "604add5e365a53c77be8fbc719bb999708c79dc494d8ee97cf68328779615248"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Clipboard/ClipboardSnapshot.cs",
+    "sha256": "1b06b0a1c57e685dfdfed3ab4d4d602e32af9eac44b842685489cfa20f093938"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Clipboard/ClipboardSnapshotService.Text.cs",
+    "sha256": "c342c271e231307a1f5ce41e1b0d910bd23f4d404404d0061564a7154042d780"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Clipboard/ClipboardSnapshotService.Worker.cs",
+    "sha256": "f2001445823ee1f63c20120d0c0a0ae0688642b93a044e4d06997c79091010d9"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Clipboard/ClipboardSnapshotService.cs",
+    "sha256": "fd4a645b80bdb9a2c30d67b6f17ebe66e2ac4200f34f4c3316aba14e4f2c4a99"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Clipboard/DibV5Helper.cs",
+    "sha256": "c60541d7c87632856fc9678bc115f5afe13c3abfedcc003209ed08957cc1f960"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Clipboard/IClipboardSnapshotNative.cs",
+    "sha256": "281453e60bd3e33983793d52974bde96b415953df3aebca00e63789ccf1066c0"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Clipboard/INativeClipboardAdapter.cs",
+    "sha256": "00a55ec797a019c42e0f609d41b769069d26cff18fb104ab03ddff99ea97f265"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Clipboard/NativeClipboardAdapter.cs",
+    "sha256": "d08e59d60cb2474c8facdc66f22e55ae6f6eab6113bbfe3239c9be3714e49e8a"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Clipboard/NativeClipboardSnapshotAdapter.cs",
+    "sha256": "4f33bc1427bfb4503eb98cac8408efae855597651c1d0078219c5342714546dc"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Clipboard/Win32ClipboardService.cs",
+    "sha256": "781985bffbd8b1e99ecefb01536677edd9804548fcf15a75d5f42f2fd8350190"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Clipboard/WindowsImageDecoder.cs",
+    "sha256": "553fbcc993529a127041ee9d7ad1b51cc453c3ebd10e42078999209e5c5091da"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/DependencyInjection/PlatformWindowsServiceCollectionExtensions.cs",
+    "sha256": "e97c787dbcb149674dee177aac18a24b485c366f203297118a45640b6287958c"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Hooks/GestureRecognizer.cs",
+    "sha256": "421c380cc8bb7d5b1bcab8477e1bd4ed1f9063bc02b6396816cf59e51c7c5b15"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Hooks/IMouseHookApi.cs",
+    "sha256": "18ec2cf5ac68a5ce5411e2547ffd6d3854cadec439bc30cc75ffa98ba8f11863"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Hooks/MouseSample.cs",
+    "sha256": "c22e99d17f9a85ee3ea02a78ee598d105d4e9b983bc0fb28ce1bb298b73215d5"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Hooks/MouseSelectionMonitor.Consumer.cs",
+    "sha256": "4b206b906c31e20b2354e7836c33afaf6bb5805a6c44dd7da00ce5a857d0315b"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Hooks/MouseSelectionMonitor.cs",
+    "sha256": "ce26af499861568b37423cdef991cd1e02830194cf20be43c139161cb8620275"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Hooks/NativeMouseAdapter.cs",
+    "sha256": "c66d728f6c550ae80629e7af7cb56bd48ba1ef6ff7a6a7a0435130dd124827a5"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Hooks/Win32MouseHookApi.cs",
+    "sha256": "39b894a4844cbe673665382027eb0b2f94e9b9eb0f4e4c7bc5ea6eb318888e46"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs",
+    "sha256": "2b9901f296fa9ed79bb2c227875245fc1fdecea9a3e793ea7a342aa5f255deb1"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureSession.cs",
+    "sha256": "a80a0ebb8b8c47922c8e2b3e92f5e07ac7579bb3bcae80d3b51fcaedbcb4d214"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Hotkey/HotkeyService.cs",
+    "sha256": "f4feffc31d7b9f51e4e747eb4ef496a1781d48cf7cf67334dce5266fde8ebd73"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Hotkey/IHotkeyIdAllocator.cs",
+    "sha256": "40e0f82b8d59ef81171dc61d5c486f65d8b79b7633b6433e60656be3a4202a73"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Hotkey/INativeHotkeyAdapter.cs",
+    "sha256": "3af569c68e88abf4653fbdd89d37b44cedade5fa0628cc992a64e12e8c7ea63a"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Hotkey/INativeKeyboardHookAdapter.cs",
+    "sha256": "c15d1d4a7c26ab0a97f985cddb339b381f2d95a61681b9912b65bb0acafa36de"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Hotkey/KeyNameMapper.cs",
+    "sha256": "011737d6ad22a75977adb52d55402c08bc65250e26e33d8a4ea3a74643951f3c"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Hotkey/NativeHotkeyAdapter.cs",
+    "sha256": "fabbbabc4fb263f5ec7bdcf6ab717f0a36a762dbe5c1126cd0d3e345902b9749"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Hotkey/NativeKeyboardHookAdapter.cs",
+    "sha256": "11ca119a72a03ba38b239a391dd9fbd0068c57ec7132dd2f5227a33da49fb9b5"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Imaging/FormUrlEncodedImageLength.cs",
+    "sha256": "58f0a06f4dca3f092db491f5e5e8c1631f040591f19512e1e74b0b659cc7bc34"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Imaging/ImagePreparationRules.cs",
+    "sha256": "65eb19f087a4565c696a214a95e0b816c2648ec30c71d032d99fe0d1f06cffca"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Imaging/WinRtImageDecoderIo.cs",
+    "sha256": "6dac9f12aaaa5864696d824ceccd56fdf7cf10f87d33f395327193a209f33e15"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Imaging/WinRtImagePreprocessor.cs",
+    "sha256": "cb1c2580aa31f21e5fd6f1fb24735b9fd486e047fdc99f736b084dfe58b70657"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Iris.Platform.Windows.csproj",
+    "sha256": "1682efb91fbc2391e72848fcbbfc4ef1d116bf65cdf56a44996c952c14e1a6a5"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/NativeMethods.txt",
+    "sha256": "1e4ba80a32391861f12ff353a89afc2cb6b69dabd7bef79fcac73763ab8d908b"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Ocr/WindowsOcrCall.cs",
+    "sha256": "096631332d1fd5193c294edb9e1596394623b2d10d23ccf406138fac28a4526f"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Ocr/WindowsOcrImage.cs",
+    "sha256": "425371791aabcdd8ba025ebb0b22986782747b6e0325d9ffdf4065a82032394f"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Ocr/WindowsOcrNative.cs",
+    "sha256": "b0499d947af0228fcb1c8a2fcc73ceddf4393c68cccc8582c27c0f9734a7245c"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Ocr/WindowsOcrProvider.cs",
+    "sha256": "77efcbfb885f6eade2acac97c7253d3a2a3828c22bad85ec1d77ef83f110eb12"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Ocr/WindowsOcrResults.cs",
+    "sha256": "8b99a21e3d81a1ea43f7c814bf1a523b4cbdf527c00a45c69852827d5562fcef"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Security/DpapiSecretStore.cs",
+    "sha256": "d2b0a08687178e8c1e3764bbafda6c6e22f76cb8394164d148cb12f2a78ed95a"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Security/SecretsFileCodec.cs",
+    "sha256": "f81a29cb79087faa6a92a993c49de2276b86f1abe145ba7d1cc2b0df2df35fb3"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/CompositeSelectionReader.cs",
+    "sha256": "ed775744cd7d2c3f3b0feb9d3592c3b1da854e9c78b7fdfaaaf8f95d63b0fe00"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/CopySafetyPolicy.cs",
+    "sha256": "4b78e012a3c6d3189efb425ce6f67853ed18ac5fd2cdeb7d770c1886c0253a57"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/INativeKeyboardInputAdapter.cs",
+    "sha256": "7ab49ef39822d762e9e4dd6d11ec932469c5da606e9bd012753131eca7e4667d"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/INativeUiaAdapter.cs",
+    "sha256": "de074e6d2f3bb47114c006533159296d808868cfc86e03d8699a09294240c269"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/ITargetWindowValidator.cs",
+    "sha256": "31fc69c51d9baf9b1d2743c2ae1722e1e3c30368f0e1c710d72a9610bf053da3"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/IUiaProcessRunner.cs",
+    "sha256": "ca8bd5283228f606980cf7809ff8e6431e4dc95a59b8801048c8dcd86835831d"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/KeyboardCopyOutcome.cs",
+    "sha256": "64d96969bddc284993149faa124c15949a21111695cb1add508b6deb0398fdf5"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/KeyboardCopyResult.cs",
+    "sha256": "fcf12a1c2187148e1b2a80f9598ea5049b771cd469e51ad3bcbe8a8b2ad6c047"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/KeyboardCopyTarget.cs",
+    "sha256": "f3d73da7f0cc27dc5e876f62aeb44a65255be592a28d97df3ba0ecedd2863473"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/KeyboardSimulator.cs",
+    "sha256": "5dfd2a05340eb7803c48b7fdef5ac5424b4028f5a434137981f486a8c5841ba1"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/NativeCopySafetyAdapter.cs",
+    "sha256": "b959be88b43bee1d201889a013a231e43d506704f1335dd34d1719ea38130d9d"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/RealNativeUiaAdapter.cs",
+    "sha256": "8d363f24205bb26e31d4391b77bfc23b3bfa7d5f6e632bd985eeb666ab1582af"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/RealTargetWindowValidator.cs",
+    "sha256": "5daad2904ab8253206732f680b5957a3fba25f017bd38114c8764a62fc98aa17"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/RealUiaProcessRunner.cs",
+    "sha256": "79bafc601f6e0baaaaa758e894f6ec91e596e83907ab19d7f17dd39c5fb7ff22"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/SelectionReadOptionsSnapshot.cs",
+    "sha256": "cacee2a4defbef0e9205c87d018bf5dfb4eebd01e9a888ecc1698d3cd88cdc8e"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/UiaProtocol.cs",
+    "sha256": "149b20d7aa20065a3585c1e5410548ffc453d04626c44928baa501eb6b3a46fe"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/UiaSelectionReader.cs",
+    "sha256": "59dfc0a095a23bf59c3f929bbae74d45500cd777646700dbfa4344197f0a9995"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/UiaSelectionResult.cs",
+    "sha256": "954bc69a5897dd546331f6659461032537c2f7563fbda0a63f5e692bd471c8ce"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/UiaSelectionStatus.cs",
+    "sha256": "d5426612d238c58a11b8eab51b36835ec82e88b3a0227a03b70d550a01dd0c7b"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/UiaSelectionWorker.cs",
+    "sha256": "1cafe26cc2017128cef56c0de61f17166f61abdee617f893988bd87166fd636c"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/Selection/Win32KeyboardInputAdapter.cs",
+    "sha256": "9f792ab72cff82e6b871e0f867d0b2e6fc57ee56d11d26fad549338ebf63d213"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs",
+    "sha256": "a42dc7dabfce5a9686d4d29ed17558a8ec66574f37c1daa8411f3b85c7080444"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/SystemIntegration/FatalErrorDialog.cs",
+    "sha256": "9d506e64a62de4539ca4ddc4f9c11688a9c57bf6a9b765677d58ba017d106072"
+  },
+  {
+    "path": "src/Iris.Platform.Windows/SystemIntegration/SingleInstanceGuard.cs",
+    "sha256": "3a9b2c064f0f43bb640f517987a02867cac5b90b7d40e8117807b8baa6f27fa8"
+  },
+  {
+    "path": "src/Iris.Providers/DependencyInjection/ProvidersServiceCollectionExtensions.cs",
+    "sha256": "bef9d1b17de54dac1e61469c279ece26599c436700d1b709ffe5acb567de44e6"
+  },
+  {
+    "path": "src/Iris.Providers/Http/DynamicWebProxy.cs",
+    "sha256": "955effb24b0873085093d4f090937c2cc6c2cdb540388567f2c8b29ea7064418"
+  },
+  {
+    "path": "src/Iris.Providers/Http/HttpErrorMapper.cs",
+    "sha256": "718ebded3584ef80940d8a09e468e51d0d762bb8434c7fa90f93ed69c13d920f"
+  },
+  {
+    "path": "src/Iris.Providers/Http/HttpLoggingHandler.cs",
+    "sha256": "c0e37bf09a0d901a67ecf87c9b44829c9063946552b940fc8edd8b4b4ce68dba"
+  },
+  {
+    "path": "src/Iris.Providers/Http/LimitedReadStream.cs",
+    "sha256": "b2bd42f4e9e92432617553b82bff20bc55859651a9e378601f9be579e7f85e4b"
+  },
+  {
+    "path": "src/Iris.Providers/Http/LlmRetryDelay.cs",
+    "sha256": "bd0d0b526d542ad9fe9e21730fb2a703de03b6e26fcf279e99e672aedfb6dda9"
+  },
+  {
+    "path": "src/Iris.Providers/Http/NetworkHandlers.cs",
+    "sha256": "8508fff6246e5f4b0eb0161e4a3640e6deae8322a909fdfd4d854e19c486d7bf"
+  },
+  {
+    "path": "src/Iris.Providers/Http/NetworkResponseContent.cs",
+    "sha256": "e725efefa37eaf30d94e027fd2bd07d992a67ac375e7a5c2640d64737b0d0ff0"
+  },
+  {
+    "path": "src/Iris.Providers/Http/NetworkRoute.cs",
+    "sha256": "66f02521d9d967a8b72056a4334498f47a86e838da1c7fed5062b3104283d579"
+  },
+  {
+    "path": "src/Iris.Providers/Http/NetworkTransportManager.cs",
+    "sha256": "f1afc9221d2bb041f9398300d16a38efc0ce1439d1be0f09f765abfd3adbd40c"
+  },
+  {
+    "path": "src/Iris.Providers/Http/ProviderHttp.cs",
+    "sha256": "c8c8b4e5110cc6b75037a785b2e4bbf36f9c1ad0bf354de2c3003849b694c8ec"
+  },
+  {
+    "path": "src/Iris.Providers/Http/SafeHttpDiagnostics.cs",
+    "sha256": "97e831eb1d277cad4191af2fa91df95647fed27cb155e8d4a7469ce327326918"
+  },
+  {
+    "path": "src/Iris.Providers/Http/SecretRedactor.cs",
+    "sha256": "e6717d3262a3f32a7df3c79a2c0f7af871569df9712cc093261b53926fc97992"
+  },
+  {
+    "path": "src/Iris.Providers/Http/SseParser.cs",
+    "sha256": "7c6ff7dcb60de7b6e3d4eab3bf15e23268f1f1565f048da3ae949ae02da5f41a"
+  },
+  {
+    "path": "src/Iris.Providers/Iris.Providers.csproj",
+    "sha256": "10016db9c37e1d6217a73b4af770e896cb8a68597c6aef30632473f093197409"
+  },
+  {
+    "path": "src/Iris.Providers/Ocr/Baidu/BaiduCall.cs",
+    "sha256": "7e500af83f44b0917af246567d5e9a261c8eef364d4aeede2283b1d84794ff03"
+  },
+  {
+    "path": "src/Iris.Providers/Ocr/Baidu/BaiduConfiguration.cs",
+    "sha256": "62ebd7bbf354e943429931091d28e8f8842e0d596f3a36517c3d573c2439b1af"
+  },
+  {
+    "path": "src/Iris.Providers/Ocr/Baidu/BaiduErrors.cs",
+    "sha256": "3ec658562ae2bac69c8501c66f40b972fff1f32ea2d8ffa4e8865225ef08807c"
+  },
+  {
+    "path": "src/Iris.Providers/Ocr/Baidu/BaiduHttpExchange.cs",
+    "sha256": "86ed5f0a2ead64042a847411fbee66346de297257f21bb1f7e4e79128fb8f50c"
+  },
+  {
+    "path": "src/Iris.Providers/Ocr/Baidu/BaiduOcrProvider.cs",
+    "sha256": "283e7747b55489ddd13dbb37d21e7615cbf5d22152a175feeeeb4c4c5219a7c8"
+  },
+  {
+    "path": "src/Iris.Providers/Ocr/Baidu/BaiduOcrTransportSafetyHandler.cs",
+    "sha256": "abefdab718089150dd36d2d29413cf48fe3427a6ef6b896c520b8f41400209b4"
+  },
+  {
+    "path": "src/Iris.Providers/Ocr/Baidu/BaiduResponseParser.cs",
+    "sha256": "ac675dd23a0bcb07cae64e30a82ad19af5eb1071476c15410472986818845279"
+  },
+  {
+    "path": "src/Iris.Providers/Ocr/Baidu/Wire/BaiduDtos.cs",
+    "sha256": "c65302e0e7301193be604b5c35d6ee1a73ca9e5fb269fc507bc2af1930302f3b"
+  },
+  {
+    "path": "src/Iris.Providers/Translation/Anthropic/AnthropicProgressTrackingHandler.cs",
+    "sha256": "54fb806edcabe9fe9f2942ce183fd244bb263257a44cafd1b342fb39eb6bd2e2"
+  },
+  {
+    "path": "src/Iris.Providers/Translation/Anthropic/AnthropicTranslationProvider.cs",
+    "sha256": "d5abad5d0e8e4d754088e068c361f2a18b26e5c82990185d178524d7ffd7fef1"
+  },
+  {
+    "path": "src/Iris.Providers/Translation/Anthropic/AnthropicTranslationProviderFactory.cs",
+    "sha256": "afd4ab0b9f6635ddbbb7c930a2edc17be6727a226202dd4ba735430eb64af8a7"
+  },
+  {
+    "path": "src/Iris.Providers/Translation/Anthropic/SseEventBoundaryStream.cs",
+    "sha256": "b6994563cf0721df08ad6301c6627099f9ce7d3cffdf4e434f73a96aff7c8a63"
+  },
+  {
+    "path": "src/Iris.Providers/Translation/Anthropic/SseEventBoundaryTracker.cs",
+    "sha256": "23cabb4213fc176805472487b9ff9f18040931819e6c865717c7d760d15e6f07"
+  },
+  {
+    "path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProvider.cs",
+    "sha256": "d2f4736675c9f7c34553f0f5e1e9084635764066288ad73702eddc8e9f95ddfa"
+  },
+  {
+    "path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProviderFactory.cs",
+    "sha256": "42c2b000c9f59b669ad63d9f6e76aa3b677be0a807304680b0d04281f7b7997b"
+  },
+  {
+    "path": "src/Iris.Providers/Translation/OpenAICompatible/ThinkTagStripper.cs",
+    "sha256": "6093123975f8991b54e19e7187c4b4f3fd6feac28911de6beb3c9ca28aadf07f"
+  },
+  {
+    "path": "src/Iris.Providers/Translation/OpenAICompatible/Wire/ChatCompletionDtos.cs",
+    "sha256": "eedfb1d92fd6db28d3d6ab7076e3a3f3b66aeba36a0e2a2c9858ec8f46a4cdf8"
+  },
+  {
+    "path": "src/Iris.Providers/Translation/ProviderCallGuard.cs",
+    "sha256": "0163127ff57eeff3cfbac69abc5c2edb93d3fb6ae688fd163b1d958bcf09ea3b"
+  },
+  {
+    "path": "src/Iris.UiaHost/Iris.UiaHost.csproj",
+    "sha256": "932a0e6b6311f5e6c73d1c39855e27ba7f3e222bef68fa7dda6815aa4efcb3e7"
+  },
+  {
+    "path": "src/Iris.UiaHost/Program.cs",
+    "sha256": "51c837189edc4fa7866d3ca12ce763cb19b4dc434a39ba8cb1b19a001bcf8b26"
+  },
+  {
+    "path": "tests/Fixtures/hotkey-edit-expected-vectors.json",
+    "sha256": "07fb8beac11e768cde2029e6a0cb8ac4f46a52f2f1f53365cbc8f1541dcda329"
+  },
+  {
+    "path": "tests/Fixtures/hotkey-expected-vectors.json",
+    "sha256": "5ae162867a50a563cbb06bdbd10560efcd317dedf1b699d96838cf194ce3e48d"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/ImagePreprocessorShutdownTests.cs",
+    "sha256": "1c7079c9fd4d39617086cc63bd5694a63c7d7bafaed016c679be685b519f1ab8"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/OcrPipelineShutdownTests.cs",
+    "sha256": "356cae50e7cbfb37b6830ca5c4220791bc8e32333471477902bbe7ccf90efa8c"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/PreparationShutdownTests.cs",
+    "sha256": "f01cb07865a54208c6c58fae5b2305b915a6dc709751a174b36697452e098daa"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/PreparationTestScope.cs",
+    "sha256": "a363f6fb93a145531aea5bc252401f6b2421d9955c2f7bb2c2da6328a8187d46"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/ScreenshotBoundaryTests.cs",
+    "sha256": "ebcfb866b544451d0ad3fbcacae361d82e9fd9c6c1b9b0ea2f9110643db0338f"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/ScreenshotInteractionTests.cs",
+    "sha256": "1141e0224556018ee24a0df3d87b9d554076795e9f51399797c7818f88515f54"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/ScreenshotLifecycleTests.cs",
+    "sha256": "123261e19debd951429043cfe81f23364f692a7fba2fb2540a0a36865c9a89d6"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/ScreenshotPreparationR1Tests.cs",
+    "sha256": "7563defcbf5af6cbadb66818404590d3a652f1c3bcb7341c0b8b423f503bd4fc"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/ScreenshotPreparationR2Tests.cs",
+    "sha256": "f10e08f2552068215985147f450043627149e5f1cb9903bc2707b5f9a6daa69e"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/ScreenshotPreparationRaceTests.cs",
+    "sha256": "94ebd0184062f108d38bd66719f9856bf1e2699d2bdb3dd2a1a11e06b05a9117"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/ScreenshotPreparationTests.cs",
+    "sha256": "0a70693d11bd1d54f02351b46fe9644fa378f451955a34b57c2450f696c3bed7"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/ScreenshotR1RenderingTests.cs",
+    "sha256": "a2feabd01a66e13203b5728b6519e44b21b49eb6a5bf3549b4ae9a4b16fa96c1"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/ScreenshotR1Tests.cs",
+    "sha256": "23b65c3764ad5f3756c81ae48291f7c491e0f4ca6b4d8827b79ac00cf474865f"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/ScreenshotR2Tests.cs",
+    "sha256": "4ef9490300c359e61fff98309e4b50d5efc8104ca24ff4d543ea483f11db51b5"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/ScreenshotRenderingTests.cs",
+    "sha256": "a119b0cbeaad23abe319d5f3fd21c56a15f717276e5075841184065cf6701499"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/ScreenshotShutdownTests.cs",
+    "sha256": "4efd87d7319171f9d6937fd2e1f61a93e15e8522adda8330da1b51029caa335a"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Capture/ScreenshotTestScope.cs",
+    "sha256": "5330639a27ac6e08ab717629b18d4cd609f053dc26c23c53668bd77d4ce3df87"
+  },
+  {
+    "path": "tests/Iris.App.Tests/History/HistoryLifecycleTests.cs",
+    "sha256": "5ed7dababc7209dd572e1dd42353c1886de4a51f67c20b21ae0be3d6f9a37fed"
+  },
+  {
+    "path": "tests/Iris.App.Tests/History/HistoryRenderingTests.cs",
+    "sha256": "2b8fa5c6aee7977cd99db41389e1ab2cdcfdfdd324fb0c682164645a64ba0f58"
+  },
+  {
+    "path": "tests/Iris.App.Tests/History/HistoryTestScope.cs",
+    "sha256": "5b34c6973d83bff3874d807db5dcc262dd0a0679d6053bfe78052b06f063aff2"
+  },
+  {
+    "path": "tests/Iris.App.Tests/History/HistoryWindowTests.cs",
+    "sha256": "9c0df7630146f8c983b2810496a28714ba5c7f9cde036adb1809f889d2afd747"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Hosting/ActionDispatcherTests.cs",
+    "sha256": "1ed269948775a3d80f15416bdfe5d3258811e35ee08c68ce9e84b3c19e09334f"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Hosting/AppBootstrapperTests.cs",
+    "sha256": "369629c3ffc5904adaf96d6887f65350bfc7b95001028345e1f94a7ee46122c7"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Hosting/AppHostBuilderTests.cs",
+    "sha256": "0856261014fcf286c0180df79b42efccd08a99e2e9de39bd394ec6240e14118c"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Hosting/HotkeyCoordinatorPauseTests.cs",
+    "sha256": "f2649d0b43fc9e04eada45d5e7480ada1e2d66eec5672d747355ce9637498bba"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Hosting/HotkeyCoordinatorTests.cs",
+    "sha256": "377636ca314d9cc82385792b92a073a2d78d6efb13f600322e4f38574a521a30"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Hosting/IrisLoggingTests.cs",
+    "sha256": "436b634512f45738cac748ca73cac538e7bd7ec5cafcb3a178317660eccaf90f"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Hosting/LogLevelControllerTests.cs",
+    "sha256": "082c22f0d1a167788bba4e390b56ecea21311a00e9c97ac1fe4fd22c315a3f01"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Hosting/NetworkHostingTests.cs",
+    "sha256": "436da4507e3ec2c0a74332560c6425b3d2da26b1dc010a682801897c9bec72e6"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Hosting/NotificationThrottleTests.cs",
+    "sha256": "ac91d83ec6cffea4f303233ddcc91c8a431b480d73e4dbda788312a421d3fe38"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Hosting/OcrRegistryHostingTests.cs",
+    "sha256": "241b9a6aaba4db112a6f43caa77e9cd1c1572b33785c3969aeba425c82b60edd"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Hosting/ScreenCaptureShutdownTests.cs",
+    "sha256": "32af63d94d696fe337170f6af669bfdcfb9e45d79cd4e7dfc360c099c8781d76"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Hosting/SelectionShutdownTests.cs",
+    "sha256": "608eaafb8e4e92d485661dda8880788611b04ca37e0907ce51c38b4177b8f88f"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Iris.App.Tests.csproj",
+    "sha256": "e2946b6d31e6fb40e1115cbd5edcb25060371cb809b4ebf45e5c6854a731370a"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Ocr/OcrEntrypointScope.cs",
+    "sha256": "0699e6772a1e6cd26be71cfd412c6562c713cb6e9fb81117d8c813aa3c4901fd"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Ocr/OcrEntrypointTests.cs",
+    "sha256": "625b05b430aea21cc9492e437b67f993153d220e52f001395528588e18f6f914"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Ocr/OcrLifecycleTests.cs",
+    "sha256": "55caed29ca3e4baed2cfb1bfc4a4daf25718dad124db6f757ec5ba51b05f4cce"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Ocr/OcrPublicationTests.cs",
+    "sha256": "d9fcb2273f40f52254ebb3f7a60d4f26e8a1c0beff19d7b033fbf399c64e54de"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Ocr/OcrRenderingTests.cs",
+    "sha256": "9ddec025aca5417293a3d68909c54be0439277c7fd0951c885b87023ad0b9eb5"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Selection/IconDeadlineTimeProvider.cs",
+    "sha256": "1c74821146caafac953638f7eb4bd9423831786c29104bffb5d00dde697f3e71"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Selection/KeyboardSimulatorUiDispatcherTests.cs",
+    "sha256": "90f7bf2e1897e1dd0440a0e5ccab4e9357af4f9bb355fb5127a124fa14fc293d"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Selection/MouseBootstrapperTests.cs",
+    "sha256": "400cdfed084b73edc1a61abec3923c6ad5630d48a934846ea0d859e21edca4ba"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Selection/MouseIconGeometryTests.cs",
+    "sha256": "e07c654aa79098a4ff5c2c0ac77be6377b534eca8b4c5a36119cc4a6c4855b5e"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Selection/MouseInteractionTestScope.cs",
+    "sha256": "eb6eb74353de6f63dba466a64816bc2357cfb7ac9e5341220635e60f3aca9936"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Selection/MouseInteractionTests.cs",
+    "sha256": "de00109fd19969f8e6cc5c4f6ea8c82c8e7b3146ba64d1b01bb1e47b23a7a45d"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Selection/MousePartialShowFailureTests.cs",
+    "sha256": "1c484ad2cca35c8787d4512af522232cc468138221cee129159ad823e16b8140"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Selection/MouseRenderingTests.cs",
+    "sha256": "215ab3cfeb510eb931f78066976b6edf1ac51ae551656a64ea45e8866ca9c7bf"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Selection/SelectionCoordinationDrainTests.cs",
+    "sha256": "a203f0038a14b59103936fb4fc8c94b542ee3569832ac61ed2a0586eb556cf82"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Selection/SelectionCoordinationIntegrationTests.cs",
+    "sha256": "66bb3bf37376c7f4afaf87b6d60b67c3330f93e52b56eb10a4a1626940a6e432"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Selection/SelectionCoordinatorTestScope.cs",
+    "sha256": "d8099852324c07d5f82cd87548db62d5ee1f79f95f65285bcd2a2a0688b88290"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Selection/SelectionReadCoordinatorTests.cs",
+    "sha256": "0368860757f5c6d43e2dd643f9d20c548202d7d001d1972e40e4552f49231e3b"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Services/GeneralSettingsSaveCoordinatorTests.cs",
+    "sha256": "38412dfb4b63cd101e1f4a7bece199bf89816abaeb24ee6ef5da93c89b76e921"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Services/ThemeServicePreviewTests.cs",
+    "sha256": "8851e0145cd3de7b82e0163bcacd65217c69468e6d631b98007df740ecdb8a25"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/HistorySettingsUiTests.cs",
+    "sha256": "c34af8b38724afb9af01d0977b5e8cfb921c6ffa02b4bf98dd91bb84573c3d9c"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/MouseSettingsUiTests.cs",
+    "sha256": "62788e301b2a67e0b76273dbbcde60cfe264dadf65629ed67125115b5df825b2"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/NetworkSettingsFoundationTests.cs",
+    "sha256": "6c35a049e699eed97c5447ee1c33c998bae3293f171d49c0ddea1fb20877fcfb"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/OcrSettingsLifecycleTests.cs",
+    "sha256": "bb7fe3f8ae935ffa042528c060e02c52f354736bd730401c62b03dbe8b127097"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/OcrSettingsRenderingTests.cs",
+    "sha256": "d3aebd5987b555faf555e8b85726058318f4f13bf690bd69bcd342804a011c9a"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/OcrSettingsUiScope.cs",
+    "sha256": "1d4f8b6f565cc3c6a60cf264297e2737e3c20fd609c75f42f238b7d196290309"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/OcrSettingsUiTests.cs",
+    "sha256": "020261ac33038ef86368b5ae5b988a8566efe31b71bca97f4987571f28564b4c"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/SelectionSettingsPersistenceTests.cs",
+    "sha256": "e8a26b8578a174bf2ac5c851fa451c0b40e56c4d418a6923e91159a142c46094"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/SelectionSettingsRenderingTests.cs",
+    "sha256": "277ee6b69d9a67a3ea5a72ca751facf9a81c57a94aab3434b82bf1dc2a2b53fd"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/SelectionSettingsTestScope.cs",
+    "sha256": "545724d640d527d4bf9cd1a409f524dbf459f28cae91bd2421bce1e48e4f2ffb"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/SelectionSettingsUiTests.cs",
+    "sha256": "8a4ab612aecaf3b71767f4fd9bd915ef1c6cc885f32c4e7dd5fc83d598fafd25"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/SettingsDraftAndSaveRegressionTests.cs",
+    "sha256": "cf870bda8e72e5db2553871ade9b2a64b09809ff6016855aa10b3e950793b28c"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/SettingsDraftOperationQueueTests.cs",
+    "sha256": "1bd8f42281cdf12be2ee342706627bb4a2afde701820bd9fc89a06e7741f6f93"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/SettingsHotkeysIntegrationTests.cs",
+    "sha256": "044a69379285057767227b25ba146573da79a0b7091f272136fcd3d3267bd9b4"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/SettingsReceiptManagerAndRetryTests.cs",
+    "sha256": "08211a993cac218ffbed65e4fe70986ce30369024aa4fac4ca12cc845e9d5180"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/SettingsShutdownWithPendingOperationsTests.cs",
+    "sha256": "712b9e562d012cdb08625ec154aee6966217b8edac0a2ddba4d7d1dc433ccf88"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/SettingsTranslationSaveIntegrationTests.cs",
+    "sha256": "5afc8b580d74d9602d623f33a07d97713fecae3835a9c93ab90584ae6a29b4ea"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/SettingsViewModelTests.cs",
+    "sha256": "45746fa7a9cd9cedb050e2429e99c70dfd6b4800e1026142deba03af3576f16c"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/SettingsWindowPresenterTests.cs",
+    "sha256": "2382f84152d3db0c76c3029a1ac1880f19850a85c73e94af76d0ce5b251e28cd"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/SettingsWindowTranslationUiTests.cs",
+    "sha256": "20eea9ee79733ed078e5beb39a9562f3f9ce1c34117e713e76057955b4cb6ef5"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Settings/TestSettingsEditCoordinator.cs",
+    "sha256": "56d7da5900a677903579c30a52fff2eb649828eba5eb9b817997bb87396b52c1"
+  },
+  {
+    "path": "tests/Iris.App.Tests/TestSupport/AppShutdownerSharedStateCollectionDefinition.cs",
+    "sha256": "21c76fb0d36bd8b9561ee0bffbd9822e6e15bd4ebdaec92d5a7927df510f6cba"
+  },
+  {
+    "path": "tests/Iris.App.Tests/TestSupport/FakeAppPaths.cs",
+    "sha256": "c5926a965cc7b4c8fc2186df7c7f893795f64e566ea9417c171322e36b5be998"
+  },
+  {
+    "path": "tests/Iris.App.Tests/TestSupport/FakeNativeHotkeyAdapter.cs",
+    "sha256": "aff75b96e36d225a84dde4f84b0117c5a649627deede4a83ac5f3bdcbb558dfd"
+  },
+  {
+    "path": "tests/Iris.App.Tests/TestSupport/ImmediateUiDispatcher.cs",
+    "sha256": "c9de99306e032da389bd7b8013565a4cd9655acd79e04197716941804ff95544"
+  },
+  {
+    "path": "tests/Iris.App.Tests/TestSupport/OwnedCleanup.cs",
+    "sha256": "4e377a43211873fda57225770d9952ee4f121d182afc2bf6c6eade8fb3eded25"
+  },
+  {
+    "path": "tests/Iris.App.Tests/TestSupport/TempDirectory.cs",
+    "sha256": "feb99feb2d4368bb8e4f9c8ac0dfbe52256ba0a74829057cdcde3505168ab642"
+  },
+  {
+    "path": "tests/Iris.App.Tests/TestSupport/WpfTestAssemblyFixture.cs",
+    "sha256": "d36b9c0db9c8bec968e2ef6988bfc8138b5df4b36e950876f3a40920e2523a2c"
+  },
+  {
+    "path": "tests/Iris.App.Tests/TestSupport/WpfTestRunner.cs",
+    "sha256": "43c5d43ad331f396690908a0578c7e75b92d97c3046159f21cae22f9d8668d80"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Translation/TranslateWindowIntegrationTests.cs",
+    "sha256": "97f58926f6d7bf64c976543809f3a45f3b1f44dc28064b2a0670273cb8f35b36"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Translation/TranslateWindowOperationTests.cs",
+    "sha256": "99798b89265399e35af1da058ffa369679c68b1deff149bb13a3bbd0df7dae92"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Translation/TranslateWindowPlacementTests.cs",
+    "sha256": "fb62e73f75af4ab8f85cfe75699ed5ef9e1099fd4124878a343b5103da533bf8"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Translation/TranslateWindowPresenterTests.cs",
+    "sha256": "08c6f40f7da8f794f230734b744de88bfc73f729d78b2dc67a6a469a2d7e9617"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Translation/TranslateWindowUiTests.cs",
+    "sha256": "caaf912424141622ec987c012b38231682aa28765c510834d377a49674616c7b"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Translation/TranslateWindowViewModelTests.cs",
+    "sha256": "38b9ad6536eb659dfcb1d690ce3835d1d938ab720100eb799999c33e7031458e"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Translation/TranslationOrchestratorIntegrationTests.cs",
+    "sha256": "92e4bbe1e162d26644de59d49ec3a93b873c8226c58d19a705a90da00ec9968f"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Tray/TrayCreationRetryPolicyTests.cs",
+    "sha256": "2d9b41a69e5c9da2b76089bdf9386c05be5ace8087a5a74ed32e5dc742812168"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Tray/TrayIconControllerSettingsTests.cs",
+    "sha256": "6904df1c24d35d9874785337d6ac980dc635a3a68535034f5eaf7d75fe7dc65c"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Tray/TrayIconControllerTests.cs",
+    "sha256": "593cc8fa060e45b4a7b675baffa0807373ebfc5b6982395f11c128131213642c"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Workflows/SelectionEntryTestScope.cs",
+    "sha256": "940eda1ef91da3d94a985b8fb8b4b8777f288f8fa8fec2eb80c668835bf43542"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Workflows/SelectionEntrypointIntegrationTests.cs",
+    "sha256": "912b4644b1bb84d2f3704de8590e34a821b8230fa755e37bc83fc80e4f63498f"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Workflows/SelectionOperationNotificationTests.cs",
+    "sha256": "f211c8f00b80097922e56d3b3d6865dac8163fdefe198c1b67eb95ea7e0ce810"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Workflows/TranslationEndToEndTests.cs",
+    "sha256": "26d28f990378c251a80c8a674fe5cb6cacc957fefcd6eb5e91b0be9af65a927c"
+  },
+  {
+    "path": "tests/Iris.App.Tests/Workflows/TranslationWorkflowLateArrivalTests.cs",
+    "sha256": "f6d96499b53c15a05d9f03e542b5781859d3c407d6c884e7e896a84b535ac3ee"
+  },
+  {
+    "path": "tests/Iris.ArchitectureTests/ContractFidelityTests.cs",
+    "sha256": "34f5a7220d5f9b20d73c878e4f21f2450b1db99e43c8b3c836eb1641a02525ec"
+  },
+  {
+    "path": "tests/Iris.ArchitectureTests/DependencyRulesTests.cs",
+    "sha256": "b3e7a4e9a1f1d2535764029b3dad8dacd5d322bc9be367cd15ca395b3cab750f"
+  },
+  {
+    "path": "tests/Iris.ArchitectureTests/Iris.ArchitectureTests.csproj",
+    "sha256": "a04e0cd2f267d019dd7e2a7c256f10d449da52a5bc3a4d5fe94e30fc3f349e4f"
+  },
+  {
+    "path": "tests/Iris.ArchitectureTests/PackageRulesTests.cs",
+    "sha256": "ca5a57e743e4c8127d56ab74d97170c6835e73f1c9d2f286db6da64b14e4ccae"
+  },
+  {
+    "path": "tests/Iris.ArchitectureTests/xunit.runner.json",
+    "sha256": "c000bc0d17a0c54872293a50c4f5cd19b041611bd0c5494c444a47262adb0792"
+  },
+  {
+    "path": "tests/Iris.Clipboard.IsolatedHelper/Iris.Clipboard.IsolatedHelper.csproj",
+    "sha256": "f6e6a04bd54ac726f0290621a7f741be33531279b71f6a8f5e7a0128829347ef"
+  },
+  {
+    "path": "tests/Iris.Clipboard.IsolatedHelper/IsolatedStationCoordinator.cs",
+    "sha256": "c49989fc167d9e9df928b2009d366d9d57eb980c25c9fabfcfc33674232e450a"
+  },
+  {
+    "path": "tests/Iris.Clipboard.IsolatedHelper/Program.cs",
+    "sha256": "81d95c798bdb2af3f1acd240db1921192245d90cc8339dc302e01611625c7bca"
+  },
+  {
+    "path": "tests/Iris.Clipboard.IsolatedHelper/SnapshotValidation.cs",
+    "sha256": "2b9266b08a40a85259953a1fbac9cba57b0be6d72b85ffbcf5c425db5ea3616f"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Contracts/AppSettingsSerializationTests.cs",
+    "sha256": "4a5c5846f72a1c69b98fc6a292a77c2640130572ca86b70d89452f0510668b91"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Contracts/ErrorCodeTests.cs",
+    "sha256": "5c6329b0c70038eaea8e026b23becf543950e78caf1cb14553b900c1dc302fee"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Contracts/GeometryTests.cs",
+    "sha256": "9ee1407a8e20e76076d242c706153109a415c1b4ba443f9d02d38e0dba012436"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Contracts/ProviderCredentialsTests.cs",
+    "sha256": "2ff86f5bae63003857c3c8f5d0d7eaa0d6032dd0a50e2bf4940d386c961deca2"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Contracts/SecretKeysTests.cs",
+    "sha256": "a6a0c1463f245dafd808a8e4c685f4e61a4066a68e977ff3950cc7d722eec91e"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/DependencyInjection/CoreRegistrationTests.cs",
+    "sha256": "de239b0f28e409f5ea0a483788ee384eed470f8a8a2823ce30faf74fd25fa58f"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Diagnostics/LogTextTests.cs",
+    "sha256": "2ec82b82e45f45ee3ca1e66ffcae56ded05b4b55847db7641f35a0916ff34a8c"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Errors/ErrorMessagesTests.cs",
+    "sha256": "34f1217488827c6b556e994e56d0609ad80de3d0ce66d9dc01368e937a433d17"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/IO/AtomicFileTests.cs",
+    "sha256": "e082e650b4444ec2b421a684f1db0ba1255bbb9d1bbb9fd4ffd93d9adc51d552"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Iris.Core.Tests.csproj",
+    "sha256": "e27b6f19085f4a07f2427a2f8464326fb7170cfa8cfe43d4bc6af76bd2e2e891"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Languages/LanguageCatalogTests.cs",
+    "sha256": "4fc7238866337f5e8f20dfada4b118f2a46b7ac6901b335d1072a050bfad7c24"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Languages/ScriptLanguageDetectorTests.cs",
+    "sha256": "b5f778d9a677e198e53233ea29f2cf2584a2a3718a56c3fc2f29bae9e793cabd"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Languages/TargetLanguageResolverTests.cs",
+    "sha256": "bef081c99b95b7e52f373c02e7f6b5d2cd36c726474bedccf7ad7be765398e5d"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Languages/UnicodeScriptsTests.cs",
+    "sha256": "77edcf26c8b8ab11141b1bf29d85900d297ba66fbd56322fb30c86e1be2c759c"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrNormalizerTests.cs",
+    "sha256": "d228d8c57a0715f3cd7ec720f6739da999c3223dd010c21dcdc0bb851358d146"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrPipelineLifecycleTests.cs",
+    "sha256": "b142bcaedc9b437479ec7139782494e6783f9f317bdf74264fb972cf39ecf335"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrPipelineRegistryTests.cs",
+    "sha256": "bdde137f7c402c04487acd7321427765671fa70dfb9b02209ee46bf18e7f6524"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrPipelineTestScope.cs",
+    "sha256": "240b0cc9a6666d9c7a4b7dd771921a4a6b8a4872e0763fc0905b337bf65d9a19"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrPipelineTests.cs",
+    "sha256": "d53d6c554e023642432a7a7b0bc696cf89553a115bb8878427cede36281d8ae4"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrProviderRegistryTests.cs",
+    "sha256": "0693cac1d57636b991dab167d6cbbc1e1adf051999627dd917020e5a33a5c4db"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrRegistryCoordinatorTests.cs",
+    "sha256": "88233b33879e6087d09544eb2872904f06f65b36d05e0ad3e8902e23e71a0525"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrRegistryRaceTests.cs",
+    "sha256": "775fbd40fad1ac47f53313db79b32bfad421ae4ec46137eb0a074978a11382f2"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Ocr/OcrRegistryTestScope.cs",
+    "sha256": "5cf74e1770e7385e28850ce579b1626385ccb1fa90b6fce5e1f6792e228defbb"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Settings/HistorySettingsEditTests.cs",
+    "sha256": "b8cbf31b83aa293fb6cc8b2387c98db5512cbfda043682807554f8e452d23bd4"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Settings/HotkeyBindingPolicyTests.cs",
+    "sha256": "b9129ce2c297518e07e84aaef6a4657bda0b464835b1f65802dcfa45d7eea0b4"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Settings/MouseSettingsEditTests.cs",
+    "sha256": "b7a6a3db8c0f696f9c111222ea995b15502eea20c0dea60c5f0d6db81254e59b"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Settings/NetworkSettingsTests.cs",
+    "sha256": "ae8a65de3f9937b6fbe2dce08ccb34569365b8dfe63ecd42c47e40cbd5be4119"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Settings/OcrDraftTestSessionTests.cs",
+    "sha256": "75faad9f36a1d523d60e332b4802cd081f67d58f49d33ad7f8bd732659d98a95"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Settings/OcrEditingBoundaryTests.cs",
+    "sha256": "eacb5ab041e84583a59ac35511ec42cda2fce7740c82cb1c84a070df9cbcdaa4"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Settings/OcrEditingTestScope.cs",
+    "sha256": "a83462520958bbb096c0a6026c9f685d807b8dc6206880270cff295fd0354490"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Settings/OcrSettingsEditingTests.cs",
+    "sha256": "44320491899714c269191e27c180d3b315b52bf5a228024590e7d40f1df1e7ad"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Settings/SelectionSettingsEditTests.cs",
+    "sha256": "8b90098f37dc7b50c67a554f183eda77bcb6f749ef9bdc6e56cef2e2b2ae4b8d"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Settings/SettingsEditCoordinatorHotkeyTests.cs",
+    "sha256": "ef80ebe056d2b14833e51362c176f4c9836abb1aa412f2314eadbc9aa4c74003"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Settings/SettingsEditCoordinatorTests.cs",
+    "sha256": "472a42b4c5bf4a1b2d7f922c3b8b936a6a88a65aa001bfda931233426e66d96d"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Text/SoftLineBreakMergerTests.cs",
+    "sha256": "e70c7e0c5bb9c0988d002e2f222e128add5623126b7d27e352b9ec2529c83cf0"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Translation/LruTranslationCacheTests.cs",
+    "sha256": "c33ff3c87bd9231b77fcc2b82da9da2f647ce342e52c35d5d5260c615545ee29"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Translation/PromptRendererTests.cs",
+    "sha256": "015e3045d07ef3cbc118d5ca5eb38f6f91590ee4da80dcdace4f01bdac7c1073"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Translation/PromptTemplateProviderTests.cs",
+    "sha256": "466f8d728ae9a743ac2be6d49e010dd61d0bb133ac6ff53ebbfbfad944fdc378"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Translation/ProviderCredentialResolverTests.cs",
+    "sha256": "41c3b37386e25151e19f1e8b2e7e32233c5034193e713e566f6c4782d5d57535"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Translation/TextPreprocessorTests.cs",
+    "sha256": "eaab21cfed1cf101a941f0d253fbaec0bc5b6d9deba3d89a19eff84b0a3b9a51"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Translation/TranslationCacheKeyFactoryTests.cs",
+    "sha256": "29a018731e443bafdb13bc0aa58dc96082bfe5ec3df1fd8f83a6e488f62b42bf"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Translation/TranslationOrchestratorTests.cs",
+    "sha256": "009c3cd8d79157c6e797a6ec02804c51f890bcab143a0d1f0a72b652bb06a062"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Translation/TranslationProviderRegistryTests.cs",
+    "sha256": "15c57669f5b997335778c884c76a6ca644725b9b9f92200e588672a060ab1dd1"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Workflows/ClipboardTranslateHandlerTests.cs",
+    "sha256": "a8a350ffc1387a37940997a1856b8462ca9d8f4dde5094920c84bbadc859540b"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Workflows/InputTranslateHandlerTests.cs",
+    "sha256": "a48c79401ac40bb96ab01a4d62e8fe03fbe4247f2f64f4ffc0e9d73270db48bb"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Workflows/MouseSelectionWorkflowTests.cs",
+    "sha256": "523425c7ebea3b309717d2f40bb534aead85a4a415843c5a891ac56ede885b86"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Workflows/OpenHistoryHandlerTests.cs",
+    "sha256": "38a22448b8891ea858de1b94bd7f9333a35c5a95b2c492eb25514bd8a5665a4f"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Workflows/OpenSettingsHandlerTests.cs",
+    "sha256": "84e93fb0e56c7808fda2b99a83ae6797c74d404158e46760d7553ce4e1bfcae0"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Workflows/ScreenshotOcrHandlerTests.cs",
+    "sha256": "d800e885f256f8fd414a6eade27eb0b3fbbfa67fc1834fbc7551a9830e71c8e3"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Workflows/SelectionTranslateHandlerTests.cs",
+    "sha256": "d0cb43ac88b48edd633fd45118f85848bc9864ebfb515fb1df16328127f016d1"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/Workflows/TranslateTextHandlerTests.cs",
+    "sha256": "72ed548d047d9bb979b6e61b9456b7c6681a22c73b4940a80063bb5794d3e929"
+  },
+  {
+    "path": "tests/Iris.Core.Tests/xunit.runner.json",
+    "sha256": "c000bc0d17a0c54872293a50c4f5cd19b041611bd0c5494c444a47262adb0792"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/DependencyInjection/InfrastructureRegistrationTests.cs",
+    "sha256": "ddd2f35814f55f83dc8623e3a5919db0bdb74d55ec62b8ec9d2b3c688a9901ae"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/Fixtures/settings.all-null.json",
+    "sha256": "5788936f8fd3ea575a3790b32a3e919b69bfcdab194ebfa0a787d777c24b41b4"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/Iris.Infrastructure.Tests.csproj",
+    "sha256": "5cb362e9cbcddb616c4ed794f9a9f4876aec7cac07f8c6681cf70f137a8ffaff"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/Settings/JsonSettingsServiceCoordinatorIntegrationTests.cs",
+    "sha256": "bd5eb5f0a2d6782d45c61ffb13700026f8464f7f7abd9d986d730db48eff6c12"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/Settings/JsonSettingsServiceHotkeyTests.cs",
+    "sha256": "960e266a4b2bcb0a63b78fb38eda0b74723724af9f4de03c1f78f4025580696a"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/Settings/JsonSettingsServiceTests.cs",
+    "sha256": "3d65ce2152fc6bd910d349cd414bbd64309d23d678208901820408a86090bf62"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/Settings/NetworkPersistenceTests.cs",
+    "sha256": "46e9e2b4087682c28eb11f54707e7045fe53eea11c592cc12b9978ac2595b36f"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/Settings/SettingsMigrationRunnerTests.cs",
+    "sha256": "0b80d355deec721af6426d5873f0b4843d8127f0a028e23e708f4a297e02ddb6"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/Settings/SettingsNormalizerTests.cs",
+    "sha256": "39f936d49417d15335559c4304aa664d5b2f66dacb5aae1fa0b9f4591c33b17a"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/Settings/SettingsSalvagerTests.cs",
+    "sha256": "3fe964e2777b30ee77360c5073f63bd5a54ee377c46849a24459c150f9d5358d"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/Settings/SettingsSnapshotTests.cs",
+    "sha256": "faf68eca8cae0f3adf7569262ca80f2c56a793b51fe3c68b888742f392df7a0b"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/Storage/AppPathsTests.cs",
+    "sha256": "3e2dc51b2ccf8aaef51aa14bbef5d032390cd0342947be45eec4cf29aced0392"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/Storage/DatabaseInitializerTests.cs",
+    "sha256": "d3f94db135194315b4a702df884b042540e0bd0194aa1ed73e93caf19fca9a72"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/Storage/SqliteHistoryRepositoryTests.cs",
+    "sha256": "cfc38baad57003b05bb4e5b77eec51bc64fc8d0e203d309cdd589563b41d43b6"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/TestSupport/FakeAppPaths.cs",
+    "sha256": "1ba496af7ad9dc614c311e8dc76b036bf746db22cec092585573b295d647ad5b"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/TestSupport/SettingsTestInvariants.cs",
+    "sha256": "db49db4643d178b18f53ed86b7f04ebd4ceb102ee75d0067d14e5ae60aabf12c"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/TestSupport/TempDirectory.cs",
+    "sha256": "31befef513986cf2afbaa9fdfda285d74e9f4e5631ee8baecae628e657bf54a4"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/TestSupport/TestMigration.cs",
+    "sha256": "0f2ed160d295e5503f940e96e4eaac867729e88de9f828308ffe3bcb2db55eb0"
+  },
+  {
+    "path": "tests/Iris.Infrastructure.Tests/xunit.runner.json",
+    "sha256": "c000bc0d17a0c54872293a50c4f5cd19b041611bd0c5494c444a47262adb0792"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Capture/DesktopContextNativeReadOnlyTests.cs",
+    "sha256": "fba85aec3c9507254555f4597203982e78f2cf787d00fbb685c3d72e2aa0a9f1"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Capture/DesktopContextTests.cs",
+    "sha256": "4b9ee56778c2eed6f53de3c1b56d8dbe77521cc6783609cb3e78f4469c46e87e"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Capture/DesktopGeometryHelperTests.cs",
+    "sha256": "0621427737248be280c11254343c486cc1920ccddfa10e597d02d43cf24885c9"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Capture/FakeNativeDesktopAdapter.cs",
+    "sha256": "ce6f14b0e5c4649410a438fcb023f6e72aa8079d42c7c645f9834b7f7fbb40c8"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Capture/FakeScreenEncoderIo.cs",
+    "sha256": "a235a2edec9f5e568af1c7bc683c57c0a2e3fc48f8f416f614e70e33904af3dc"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Capture/GdiScreenCapturerTests.cs",
+    "sha256": "76247aa6d0db08131ac84b34c4437c2985a384b72be62b4a80e9b6c674449b81"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Capture/MonitorEnumeratorTests.cs",
+    "sha256": "8f0c1231859ab24eb9ca27084086b86bed5b75aae2e0d4a56ef67eb71fbbdf73"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Capture/ScreenCaptureTestScope.cs",
+    "sha256": "9c033881a9a55e3f2429647fd1bbe152822bdd19002a42e0bfb1d1ff2e25a5b9"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Capture/ScreenCropTests.cs",
+    "sha256": "00cdb2a31c717f408c6802e93234f1c070307f2f0d665258fd0f73a401ed8873"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Clipboard/ClipboardSnapshotIsolatedTests.cs",
+    "sha256": "c8cd0ad1e7163e8bf0ae869f8f8203b04a4386d7490a7b61b598b93636b6e89b"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Clipboard/ClipboardSnapshotServiceTests.cs",
+    "sha256": "2294ee2553766f3818bbf030aec6489597771df89709bde425d3daa72a9c6567"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Clipboard/ConditionalClipboardTextTests.cs",
+    "sha256": "5a71c4f318addaad8ac972d64e56af939fadba26dcc54caede507760c05a6f8e"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Clipboard/TestSupport/FakeClipboardSnapshotNative.cs",
+    "sha256": "58a3baec2c3aa38ab4a9f773130f4e88c03a901f956c4e2207382d1b937be6ac"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Clipboard/TestSupport/FakeNativeClipboardAdapter.cs",
+    "sha256": "26ea8075be969979403732cfccc2cbcfcda635de00daf15db05be76473fde12b"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Clipboard/TestSupport/MemoryLogger.cs",
+    "sha256": "22c7ffea7f01a73fb1139d8f2f812b6964c9f59a78482412b10f34e54139bc68"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardIsolatedIntegrationTests.cs",
+    "sha256": "ca470ce9c42935994bfebad6e5bc068462c277330f6035a21f18facc5d87d2b5"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServiceConcurrencyAndOwnershipTests.cs",
+    "sha256": "87d12174b8dc9ff65ee1ed3993f6c08c65dbb845b26cae8ae295505f88c91790"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServiceImageTests.cs",
+    "sha256": "4f75771073433cc7863a24ec70e022cdff8a9c53bff905ddab0faf99f8cf61b7"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServicePrivacyAndSequenceTests.cs",
+    "sha256": "2c2d201366bb58320e52384ad773e152ee2cfe805f5c8741a6fba749b901b4b4"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServiceRetryAndCancellationTests.cs",
+    "sha256": "5bddbd1eb52b767b0dd98f3d4eba0bb15f3240d534a055c7ed67d48782cc61e2"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServiceTextTests.cs",
+    "sha256": "d315751ceca97fc8ecad03b1e64deb6e2e691e964d350578d0821f8e648aa709"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/DependencyInjection/PlatformWindowsRegistrationTests.cs",
+    "sha256": "07d6391618d5f68435441a227671bbb72223d218107e2418294f02562b8f3a19"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Hooks/GestureRecognizerTests.cs",
+    "sha256": "dac3b9e8defec10c834828053407cc31391b7dc3619f0d210ed9c5c30f6b8151"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Hooks/MouseLifecycleEvidenceTests.cs",
+    "sha256": "0ebfe1fb1eb8429e7e1752738941543323ad4dbbaa918b48a8a1cfccb5139a07"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Hooks/MousePipelineTests.cs",
+    "sha256": "c98ddaf5064000e5771050b70470836a896b0c9cef4238ab2059e2249c622728"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Hooks/MouseSelectionMonitorTests.cs",
+    "sha256": "1489e418bf45df6ca22d2df5095793a6dfc9a9c5a7f1e7fd1750da392071d041"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Hooks/MouseTestBoundary.cs",
+    "sha256": "2c662af0863f7ccd8f6b02b390a0e1a4c9efc8cc6073006874a3348cfd8c9aab"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Hooks/NativeMouseAdapterTests.cs",
+    "sha256": "e22fa8fac9af5e7976b0db5373728dac7bbc0602a2f1585a06bb4258ad162e90"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Hotkey/HotkeyCaptureServiceTests.cs",
+    "sha256": "9d3b012f90beb9ff9b1ba9ff886bcaa888e27804b3bfca7b03d963e72977ad52"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Hotkey/HotkeyServiceTests.cs",
+    "sha256": "f0a526942f4b896c514b76e1e51589b8fa7dab6651b31e91a3fa86be9dc5c98e"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Hotkey/KeyNameMapperTests.cs",
+    "sha256": "261b8a743fd46e6b904ae2298b44b8edc83b977e0239751d9db4868621801735"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Hotkey/NativeMessageWindowTests.cs",
+    "sha256": "760b48342f8531d84c9104f9c5186864abcd0f132e0d640f84678d3d5faedfa7"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Imaging/FormImageBudgetTests.cs",
+    "sha256": "0a123093f0d8a99b837c944434bbb74e68c6774b5e52529a36cd756f9d1084c7"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Imaging/ImagePreparationTestScope.cs",
+    "sha256": "65afb89412b4f339838b794c95cb9e36e1e9d61a04aee5f3e4bd00f5fccde4a2"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Imaging/ImagePreprocessorLifecycleTests.cs",
+    "sha256": "ef4c0d6f3202132663703d3b1d499684581989ae2d982e2f0fd24130e2583cad"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Imaging/ImagePreprocessorTests.cs",
+    "sha256": "2453f34f6c38f66111d1c5a0ec6b783e461e287f2270ad698b873790d73a20a4"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Iris.Platform.Windows.Tests.csproj",
+    "sha256": "b0ef633eee33596771acf2382fffc077727823b15ff9823a4b1b819afab65253"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Ocr/Fixtures/hello.png",
+    "sha256": "801a64db5c32204ad0a239028a05149ef353da8aada65a5e242a45947040da02"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrLifecycleTests.cs",
+    "sha256": "e41441983c7d2be5f7b216cde09200cd64b7531c8fe97b762370409cd38a4a64"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrProviderTests.cs",
+    "sha256": "810d4c580783eac6bc7088058aae992c949327a9147555cdc93a43563b4436ee"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrRegistryTests.cs",
+    "sha256": "682242879a59d026a68b639df3d94ff0c75b193f411a7deda3cb9bb2bd84b3c0"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrResultTests.cs",
+    "sha256": "983976ba3699d0938df86071089671575fdac642e81836788cfe1f9e636c038e"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrSdkSmokeTests.cs",
+    "sha256": "0fbbee1e7912b38bfeb1de852966b4c06127c5eebd8bbb38e415882071607bd2"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrTestScope.cs",
+    "sha256": "3892acb369b0676b31192e21ae3888689cb3b702f9739904262039057ee15032"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Security/DpapiSecretStoreTests.cs",
+    "sha256": "84e90cee189ba6b2e598aa3b0c9a7d6302720a366bf8b781832b0ae62cb793ca"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Security/SecretsFileCodecTests.cs",
+    "sha256": "c8847e33a6cc73fc4ffa31b4ab4c1dfd8aa81fab8098cae9e5b08aad20ce6be8"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/CompositeSelectionReaderTests.cs",
+    "sha256": "bac8ab39fdeeb28173b4a01d7b90626db10076f6f67b81f594ab69a7ad2a8cd7"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/CopySafetyPolicyTests.cs",
+    "sha256": "e7a80809055eda8d8cafcd8a1d5c2b40f18e6e46e204024c1cb5ad95be13ac9b"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/ExpectedSelectionSourceTests.cs",
+    "sha256": "aad9b822b7a776db81db90da43bc6ffb592a9d9a1c9946f377d1a79077d1e8be"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/FakeCopySafetyNative.cs",
+    "sha256": "b09e93fee801266e4baaf78a3026e756825d61c8b7a232dd56a2c0c25aca5a12"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/FakeNativeKeyboardInputAdapter.cs",
+    "sha256": "bc8d6d1e76d6f85c65eae2e723b919d841aea41758100ae2a9511c962a3c884e"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/FakeUiaProcessSessionTests.cs",
+    "sha256": "b597a11fb4a0dee27ea5a8950bd065136bd1bdd265c521e1d3509c155dc34d5f"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/FakeUiaTestAdapters.cs",
+    "sha256": "70d9878013e8dd3b5001a106dcf8442717c9f3f07643ef5492c9b3cad9ecdf8d"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/IrisUiaHostProcessSmokeTests.cs",
+    "sha256": "5b2f78a245cf5750a260ddd9a533da66edae2646ae82fb5ffe24b78ee293f360"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/KeyboardPreparationTests.cs",
+    "sha256": "fae6035282844527165688fce6a1738cbdea979aef8a54d6aa971b2d2b6b4165"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/KeyboardSimulatorTests.cs",
+    "sha256": "5fcf2b5e069d076190a893ae9b99547edaa2bddc4ddab4fe4f5cc506f9213f8d"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/RealNativeUiaAdapterTests.cs",
+    "sha256": "5730615efb1ce06bf800e55055487dac49843b013379e7e05d32160c40c69612"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/RealUiaProcessSessionTests.cs",
+    "sha256": "663855bac09d7b7eb9473395bcb20f6b9cba6e5cc04a6d214e7bce480934fdac"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/SelectionTestScope.cs",
+    "sha256": "d5cb9806c01ec2dad0e4ecef0b5346fcc2b0bb11909c311b19504fd60734bc9e"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/SelectionTimeProvider.cs",
+    "sha256": "aca4493e6d5f6b27632f454da7fd0139efa8d2c0b3dc63de65adc177a5974f90"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/SelectionVersionRegressionTests.cs",
+    "sha256": "99338d68ee4c44a0126d953d336626a01b902dccde0cff4e851d8c6701a4005d"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/TrackingFakeTimeProvider.cs",
+    "sha256": "be88a287d530cf9025bedb9b55769c8f7ada89526cacf8ff293eaa72a5f6411d"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/UiaProtocolCodecTests.cs",
+    "sha256": "165050335f267c3725e7ebec317e13476afb97db8ba11895d38393b8a82f3689"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/UiaSelectionReaderTests.cs",
+    "sha256": "cdc6816d4854fc8e38e7ab68e38b66eff31ff14cc5d14db766ae687244f42bab"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/UiaSelectionWorkerTests.cs",
+    "sha256": "ce42703774911db4c4ced56ca68a746c8093679f75ff1e7601d8ca655f95352c"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/Selection/UiaStartupCleanupTests.cs",
+    "sha256": "55e6d542e773522a04a656c6941cf43bbbdc834601600d42a70ae45441a8b739"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/AutoStartServiceTests.cs",
+    "sha256": "59a2e5c8287a1f7ab9f355166712c7aa19b3e0d55ff30ecd2ab3386840193c44"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/SingleInstanceGuardTests.cs",
+    "sha256": "9ffe3c673a2729248dc32f09172d86e6693255af31102f35abc14a9db0d52c55"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/TestSupport/FakeAppPaths.cs",
+    "sha256": "986e2e7b521faa6ac9440a2325bc1f9908bd3423398b55d5aa74d76b9df6f237"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/TestSupport/ListLogger.cs",
+    "sha256": "d3be6ebbbfe8225c218af907a8f3149f850a8e14e17626cdf534889aa18a2c34"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/TestSupport/TempDirectory.cs",
+    "sha256": "bf189b88fe856a31a7dce0586e166e25cc8870a1b1fef50dbad9fe1c875de584"
+  },
+  {
+    "path": "tests/Iris.Platform.Windows.Tests/xunit.runner.json",
+    "sha256": "c000bc0d17a0c54872293a50c4f5cd19b041611bd0c5494c444a47262adb0792"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/DependencyInjection/HttpClientPipelineTests.cs",
+    "sha256": "b0f949fb32dd1cc09513582f27cfb2679a8e5c66ce79e27d8484df9502b1fa42"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_models_page1.json",
+    "sha256": "e4c55dd69d446f4f92c8700b1fac5fda347cc9b3792f908432bebfbf7170943a"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_models_page2.json",
+    "sha256": "1708d0406b5e83563d3bae49488b0632fe40b211f3529ae10ecffac18c822948"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_error.txt",
+    "sha256": "9dc8e8dd67e0f99a81132818a938f7c37c7ce5b144ff1a23e71315071aae1497"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_fallback.txt",
+    "sha256": "1db152b14a77e789d602e1c16c55d843835bad6eb6bd8cc9c4c22c987242ba6f"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_max_tokens.txt",
+    "sha256": "c41d593c89b76ab26ea7ab065d6ccbd3e25927837787b89a04a4897a45ed8154"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_ok.txt",
+    "sha256": "2d1c534f8dc8ad9744dfdd9c31300e01660717aa0bde7b1c861518119efb2920"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_refusal.txt",
+    "sha256": "f8403b6963ac76a603250065fa9b9272e34f294ff4a4504b2153d663be2b2b7f"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_thinking.txt",
+    "sha256": "bb0adf3c13e48fd914669220e377fe021a2442412aa3536982175306a44f3f87"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_truncated.txt",
+    "sha256": "c1489f3fe126a3f1b16fb58eb69aede3973f2cb63f92bc8078d7dc2ddf9d7e5b"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_error.txt",
+    "sha256": "261fbd7ebe071549d39fc7239646ac3b901ee01b5f57c1159368e1aa161d5674"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_length.txt",
+    "sha256": "cf819f5e8c364383a117b4e5d7182c2c39e2241feb235adc27d1ea62c5415219"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_ok.txt",
+    "sha256": "a16a10fa5b7bff9679afabc74862c45fbb88e512431d9b436112ddcea5b24545"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_reasoning.txt",
+    "sha256": "ae04267a5f9130b57723e9854159b0ec2130387d04fd27b4e26e8faa644be5ad"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_think.txt",
+    "sha256": "62c27ca5f7e98754322f1a8976d8cac423c6378ee95c644f3f8bce034c126bce"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_usage.txt",
+    "sha256": "3d5ad617ded466311fc2eea597ba6ae90fe6adfd9e6663355c5e8b9dcb46ac67"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Http/DynamicWebProxyTests.cs",
+    "sha256": "6f1b54f23143e017e14f00b92d8058080b961377dce3da11031b9018962931a0"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Http/HttpErrorMapperTests.cs",
+    "sha256": "0afd2d99dea824b92115d0160294202434a36bb8385ec70caca2ab2ce582b18f"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Http/LimitedReadStreamTests.cs",
+    "sha256": "f70a39b2eb0558ddcfc0838e28e772412df6de49f6a2fcae83e7d47a78ab0c14"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Http/LlmRetryDelayTests.cs",
+    "sha256": "47dc69e139081a3d2cc8a827bc6c8cd3ffe980e15bd8823377c11bc87e249a19"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Http/NetworkContentLifecycleTests.cs",
+    "sha256": "7223beb555e2d8945553ec38035bf66edece1e9cac1b9fc6be1c0e720c158c10"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Http/NetworkTestBoundary.cs",
+    "sha256": "6a4c10b19220b17695535698b1494e4bf04b641daf5efa9f8d73348a455cfa75"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Http/NetworkTransportTests.cs",
+    "sha256": "d1809d96a6e0eec17ecc9515949391ff02145b1745bc11ba95ea93fb4ae08b9f"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Http/SafeHttpDiagnosticsTests.cs",
+    "sha256": "6ac254577e16fc6a3380b2eec58a4539b8c8fa0523bcc958daa3c73ad50051a3"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Http/SecretRedactorTests.cs",
+    "sha256": "238488a97de5e0bc845280d06a2a8e12080b88347ef04fa78d59f975c85543f5"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Http/SseParserTests.cs",
+    "sha256": "8c8bddda9bd07127f85b97234ced8d605eab23a47ed92aab8e7c63a82c75aebf"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Iris.Providers.Tests.csproj",
+    "sha256": "c6cedacca1f4b8f17de19d363ec32df0e55c87120cd8c7e3bd947cc29406f8c2"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduNamedPipelineTests.cs",
+    "sha256": "91ce47ee00b4fecfb9a57b32c9909d9565382bffab78b5aebff052fc9b6227d9"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduOwnershipTests.cs",
+    "sha256": "db8597484f10380ba19cd0ecdfab3f027b4aca88e689881d664902f8003500b3"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduParsingTests.cs",
+    "sha256": "2d63c3572c01665f0b20b5f19e3583b196034323ae84f5d1eee76b2e2bee7d90"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduProviderTests.cs",
+    "sha256": "1b3defaa7dd9c249df83c0a3960709d5cd402af03ed92c486492a193d1869b35"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduRegistryTests.cs",
+    "sha256": "a7cae994a1c00bb1b883f02f9f6982d3452cdb15704b0932692b8f98b184631a"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduTestScope.cs",
+    "sha256": "9953be0c4cae1902ecd2a3426f7106f0ff5a047a0c1462959d1b6cd14d07653b"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduTokenTests.cs",
+    "sha256": "c411e3128b72822be2b37e313e6350f6c9982c40cb7045b7f4fa1938654311ce"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Translation/Anthropic/AnthropicReworkR1Tests.cs",
+    "sha256": "2e25c6aa6b3a346ff43d90e43f3b943ad74c3fc241acd2830cfda925c2c8459a"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Translation/Anthropic/AnthropicTranslationProviderFactoryTests.cs",
+    "sha256": "241ad42dcaa78245f4dd2026f9f363880439151180b9b799ed8883ab76780b8d"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Translation/Anthropic/AnthropicTranslationProviderTests.cs",
+    "sha256": "4839ca46d672cc2a2ae5fd987988f1f8690c5dc7327bebd86f6b4615a6f953a6"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Translation/OpenAICompatible/OpenAICompatibleTranslationProviderFactoryTests.cs",
+    "sha256": "b0e70985c0a4388a3dd7ce440956282a353a0f3c99ef4bf5adf83c40b1597b82"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Translation/OpenAICompatible/OpenAICompatibleTranslationProviderTests.cs",
+    "sha256": "6e84ef56d1a6159489afe13bf48ab037116f185479095c155cbb9c7f15644a1f"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Translation/OpenAICompatible/ThinkTagStripperTests.cs",
+    "sha256": "be4641bb52095731f27b6040281f1ea1495093cf8d152f07753779dbfc0e7328"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Translation/ProviderCallGuardTests.cs",
+    "sha256": "c849e31e2a572e78496391b07a8f6e4b308322957712391dd87a057488060905"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/Wire/WireSerializationTests.cs",
+    "sha256": "8d3a564ac558a959834c6694bb08e854369dc6f0631c8b00fe0b8849b4c3f13e"
+  },
+  {
+    "path": "tests/Iris.Providers.Tests/xunit.runner.json",
+    "sha256": "c000bc0d17a0c54872293a50c4f5cd19b041611bd0c5494c444a47262adb0792"
+  }
+]

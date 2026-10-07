@@ -1,0 +1,13 @@
+{
+  "phase": "uncommitted development DLL snapshot",
+  "baselineCommit": "97b8d02f8d9316632dc21ad6f78e3d3f15691dae",
+  "productDlls": {
+    "Iris.Core.dll": "14d610d7c0c74ca6e0950bc3dc579561c041ee585a414285872fac3723165658",
+    "Iris.Infrastructure.dll": "7d2e45d2581dcd330068629b694d28ac0c0ee9af9c8550b21aed0f542ae141ee"
+  },
+  "programSha256": "fc92eee9821d7c58c53245030bd31d7d4403412820b1aba37ef02e2a4fa3a9c6",
+  "latestLog": "migration-4.log",
+  "cases": 6,
+  "expectedPassesObserved": 3,
+  "failedRequirementsObserved": 3
+}

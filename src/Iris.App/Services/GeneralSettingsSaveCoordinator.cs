@@ -314,7 +314,7 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
             throw new InvalidOperationException("ISettingsEditCoordinator must be provided to commit plans.");
         }
 
-        bool hasProviderChanges = (plan.TranslationChanges != null && plan.TranslationChanges.Count > 0) || plan.TranslationOrder != null
+        bool hasProviderChanges = plan.Network is { ProxyMode: not null } or { CustomProxyUrl: not null } or { BypassProxyOnLocal: not null } or { Credentials: not null } || (plan.TranslationChanges != null && plan.TranslationChanges.Count > 0) || plan.TranslationOrder != null
             || plan.OcrChanges.Count > 0 || plan.Ocr is { } o && (o.ActiveProviderId != null || o.FallbackProviderId != null || o.TextLayout != null || o.LanguageHint != null || o.AutoCopyOnOcr != null || o.SilentOcrShowNotification != null)
             || plan.Screenshot is { } shot && (shot.ConfirmOnMouseUp != null || shot.ShowMagnifier != null || shot.HideIrisWindows != null || shot.CopyImageToClipboard != null || shot.MaskOpacity != null);
         bool slotReserved = false;

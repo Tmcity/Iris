@@ -29,7 +29,11 @@ public static class ProvidersServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(services);
 
         services.TryAddSingleton(TimeProvider.System);
-        services.AddSingleton<DynamicWebProxy>();
+        services.TryAddSingleton<NetworkTransportFactory>();
+        services.TryAddSingleton<NetworkRouteResolver>();
+        services.TryAddSingleton<NetworkTransportManager>();
+        services.TryAddSingleton<Iris.Core.Network.INetworkTransportLifetime>(sp => sp.GetRequiredService<NetworkTransportManager>());
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<Iris.Core.Network.INetworkConfigurationObserver, NetworkConfigurationObserver>());
         services.AddTransient<HttpLoggingHandler>();
         services.AddTransient<Iris.Providers.Ocr.Baidu.BaiduOcrTransportSafetyHandler>();
 
@@ -47,15 +51,7 @@ public static class ProvidersServiceCollectionExtensions
 
         // iris.llm: 大模型流式请求客户端
         var llm = services.AddHttpClient(HttpClientNames.Llm)
-            .ConfigurePrimaryHttpMessageHandler(sp => new SocketsHttpHandler
-            {
-                Proxy = sp.GetRequiredService<DynamicWebProxy>(),
-                UseProxy = true,
-                AllowAutoRedirect = false,
-                PooledConnectionLifetime = TimeSpan.FromMinutes(2),
-                ConnectTimeout = TimeSpan.FromSeconds(15),
-                AutomaticDecompression = DecompressionMethods.All,
-            })
+            .ConfigurePrimaryHttpMessageHandler(sp => new NetworkRoutingHandler(sp.GetRequiredService<NetworkTransportManager>()))
             .ConfigureHttpClient(client =>
             {
                 client.Timeout = Timeout.InfiniteTimeSpan;
@@ -63,6 +59,8 @@ public static class ProvidersServiceCollectionExtensions
             })
             .RemoveAllLoggers();
 
+        llm.AddHttpMessageHandler(sp => new NetworkSnapshotHandler(HttpClientNames.Llm,
+            sp.GetRequiredService<Iris.Core.Network.INetworkProxySnapshotSource>(), sp.GetRequiredService<NetworkTransportManager>()));
         llm.AddResilienceHandler("iris-llm", (builder, context) =>
         {
             var timeProvider = context.ServiceProvider.GetService<TimeProvider>() ?? TimeProvider.System;
@@ -98,15 +96,7 @@ public static class ProvidersServiceCollectionExtensions
 
         // iris.ocr: OCR 与 Token 请求客户端
         var ocr = services.AddHttpClient(HttpClientNames.Ocr)
-            .ConfigurePrimaryHttpMessageHandler(sp => new SocketsHttpHandler
-            {
-                Proxy = sp.GetRequiredService<DynamicWebProxy>(),
-                UseProxy = true,
-                AllowAutoRedirect = false,
-                PooledConnectionLifetime = TimeSpan.FromMinutes(2),
-                ConnectTimeout = TimeSpan.FromSeconds(15),
-                AutomaticDecompression = DecompressionMethods.All,
-            })
+            .ConfigurePrimaryHttpMessageHandler(sp => new NetworkRoutingHandler(sp.GetRequiredService<NetworkTransportManager>()))
             .ConfigureHttpClient(client =>
             {
                 client.Timeout = Timeout.InfiniteTimeSpan;
@@ -114,6 +104,8 @@ public static class ProvidersServiceCollectionExtensions
             })
             .RemoveAllLoggers();
 
+        ocr.AddHttpMessageHandler(sp => new NetworkSnapshotHandler(HttpClientNames.Ocr,
+            sp.GetRequiredService<Iris.Core.Network.INetworkProxySnapshotSource>(), sp.GetRequiredService<NetworkTransportManager>()));
         ocr.AddStandardResilienceHandler(options =>
         {
             options.Retry.MaxRetryAttempts = 2;

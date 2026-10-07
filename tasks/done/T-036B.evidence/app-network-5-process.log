@@ -1,0 +1,11 @@
+
+ProcessId       : 50212
+ParentProcessId : 52076
+ExecutablePath  : C:\Program Files\dotnet\dotnet.exe
+CommandLine     : "C:\Program Files\dotnet\dotnet.exe" test tests/Iris.App.Tests/Iris.App.Tests.csproj -c Release --filter FullyQualifiedName~NetworkHostingTests|FullyQualifiedName~NetworkSettingsFoundationTests
+
+ProcessId       : 54096
+ParentProcessId : 50212
+ExecutablePath  : F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.exe
+CommandLine     : "F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.exe"  --filter FullyQualifiedName~NetworkHostingTests|FullyQualifiedName~NetworkSettingsFoundationTests --server dotnettestcli --dotnet-test-pipe testingplatform.pipe.1e14940a605d43e0976dbedffbb5e1f1
+

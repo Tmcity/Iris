@@ -2,6 +2,8 @@ namespace Iris.App;
 
 internal static partial class UiText
 {
+    public const string NetworkConfigurationUnavailable = "网络代理配置暂不可用，请检查配置后重试。";
+    public const string SettingsFutureReadOnly = "配置来自更新版本，当前为只读模式。请使用匹配版本打开；保存和联网测试已禁用。";
     public const string OcrPageTitle = "OCR 文字识别";
     public const string ScreenshotPageTitle = "截图";
     public const string OcrPageDescription = "识别结果填入翻译窗口原文框，可编辑并按需翻译。";

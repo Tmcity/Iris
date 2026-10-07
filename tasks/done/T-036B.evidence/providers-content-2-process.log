@@ -1,0 +1,11 @@
+
+ProcessId       : 29208
+ParentProcessId : 54488
+ExecutablePath  : C:\Program Files\dotnet\dotnet.exe
+CommandLine     : "C:\Program Files\dotnet\dotnet.exe" test tests/Iris.Providers.Tests/Iris.Providers.Tests.csproj -c Release --filter FullyQualifiedName~NetworkContentLifecycleTests
+
+ProcessId       : 34292
+ParentProcessId : 29208
+ExecutablePath  : F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.exe
+CommandLine     : "F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.exe"  --filter FullyQualifiedName~NetworkContentLifecycleTests --server dotnettestcli --dotnet-test-pipe testingplatform.pipe.4e741aed87f044f0b137c24762dc7ccb
+

@@ -16,7 +16,10 @@ public static class InfrastructureServiceCollectionExtensions
         ArgumentNullException.ThrowIfNull(services);
 
         services.TryAddSingleton(TimeProvider.System);
-        services.AddSingleton<ISettingsService, JsonSettingsService>();
+        services.AddSingleton<ISettingsService>(sp => new JsonSettingsService(
+            sp.GetRequiredService<IAppPaths>(), sp.GetServices<ISettingsMigration>(), sp.GetRequiredService<TimeProvider>(),
+            sp.GetRequiredService<Microsoft.Extensions.Logging.ILogger<JsonSettingsService>>(),
+            () => sp.GetRequiredService<Iris.Core.Security.ISecretStore>()));
         services.AddSingleton<ISqliteConnectionFactory, SqliteConnectionFactory>();
         services.AddSingleton<IDatabaseInitializer, DatabaseInitializer>();
         services.AddSingleton<ITranslationHistoryRepository, SqliteHistoryRepository>();

@@ -1,0 +1,10 @@
+RUNTIME .NET 10.0.12
+HTTP_ASSEMBLY 10.0.12+95017c711e6afc1085133d440e42b4bd78155701
+PASS proposal migration stage: failureChecks=True backupCreated=False historicalBackupUntouched=true
+PASS proposal migration backup: failureChecks=True backupCreated=False historicalBackupUntouched=true
+PASS proposal migration current: failureChecks=True backupCreated=True historicalBackupUntouched=true
+PASS proposal migration success: failureChecks=False backupCreated=True historicalBackupUntouched=true
+PASS proposal future-schema read-only: zero migration/backup/staging, Update denied
+PASS actual corrupt-file recovery renames original bytes unchanged; not described as credential erasure
+PASS proposal bound fixed-key import; explicit references suppress legacy; mismatched legacy fails closed; userinfo import preserves unrelated fixed key
+PASS completed requested modes

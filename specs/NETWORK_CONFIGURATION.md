@@ -1,0 +1,255 @@
+# 网络配置、代理凭据与动态传输
+
+2026-10-07 · ARCH v1.53 · CCR-036已批准并预置精确声明。本文冻结T-036完整行为：B实施配置/迁移/传输底座，C实施完整网络UI及连通性测试。A的原型与反例只作为设计依据，不表示生产功能已实现。
+
+## 1. 决策
+
+采用 **不可变凭据集引用 + 同一 SettingsEditCoordinator 联合提交 + 每次逻辑 HTTP 发送固定路线/凭据 + 按配置代次及实际路线隔离的 SocketsHttpHandler 池**。
+
+`network/proxy-credentials` 保留为旧格式导入键，新写入使用 `network/proxy-credentials/{pc-...}`。这是对 BACKLOG 固定可变键原型的**已批准的 CCR-036 变更**，不是偷偷换要求。原安全目标保持：用户代理账号密码只交给 ISecretStore，settings JSON 中的 URL 不含 userinfo。
+
+普通快照是不可变托管值，没有 Dispose/租约。只有真正拥有 handler、连接池、响应体的 Providers 传输对象需要资源引用计数。草稿连通性会话拥有独立传输资源，Run 完成不代表 Dispose 完成。
+
+## 2. 当前代码及运行时实证
+
+仓库基线为 `d8b49b7c6719962eedbed25fe2290d423e07aa5d`。以下行为来自实际 DLL、实际文件和匹配的 .NET 源码；最终原始执行输出见 `T-036A.evidence/prototype-final-run-4.log`。
+
+| 实际位置 | 核验结果 | 对方案的影响 |
+|---|---|---|
+| `src/Iris.Providers/Http/DynamicWebProxy.cs`，GetProxy/IsBypassed/Credentials | GetProxy 内的 IsBypassed 与后续选择分别读取 Current；Custom 的 Credentials 为 null；无效 Custom 返回 null | 不能仅在旧 Credentials getter 加一个可变 SecretStore 读取；不能把错误转换成直连 |
+| `src/Iris.Providers/DependencyInjection/ProvidersServiceCollectionExtensions.cs` | 两个命名客户端共用动态代理；Sockets 的连接生命期 2 分钟、连接超时 15 秒、禁重定向、解压 All，HttpClient 超时无限。llm 业务重试最多 1 次；ocr 标准重试最多 2 次、单次 10 秒、总计 30 秒 | 保留现有重试策略和安全日志位置；新快照层必须位于重试层之外 |
+| `src/Iris.Core/Settings/SettingsEditCoordinator.cs` | 同一短门闩内 stage、一次 Update、observer、候选清理；提交后失败用原回执重试 | 复用该协调器和回执，不另造网络保存器 |
+| `src/Iris.Infrastructure/Settings/JsonSettingsService.cs`、`SettingsNormalizer.cs` | 当前允许 userinfo；Update 通过 AtomicFile 把旧原文件复制到 .bak；未来 schema 仅 Load 的 shouldNotWriteBack 有效，Update 仍可覆盖 | 必须有异步迁移前置、安全备份写法和持久的只读门禁 |
+| `src/Iris.Core/IO/AtomicFile.cs` | tmp/Flush(true) → 复制旧文件备份 → Move；tmp 后不再因迟到取消中断提交 | 它保证单文件替换，不提供 settings/SecretStore 跨文件事务；不能直接用其“复制原文件备份”阶段迁移 userinfo |
+| `src/Iris.Platform.Windows/Security/DpapiSecretStore.cs` | Set/Remove 单文件写成功才发布内存/事件；构造实际上读取 secrets 文件 | 本原型仅替换为内存 SecretStore；不能声称跑过真实 DPAPI，迁移新增依赖应延迟到后台解析阶段 |
+
+实际运行时：
+
+```text
+RUNTIME .NET 10.0.12
+HTTP_ASSEMBLY 10.0.12+95017c711e6afc1085133d440e42b4bd78155701
+```
+
+匹配该构建哈希的官方源码在 dotnet/dotnet VMR 的 `src/runtime/` 下，完整 URL/SHA 在 `prototype-final/runtime-exact/manifest.json`。首次将构建哈希当成 dotnet/runtime 仓库提交而获得的 404 也保留；随后通过 VMR 和 v10.0.12 标签核实，未把 v10.0.0 近似源码冒称精确构建。
+
+- [HttpConnectionSettings.CloneAndNormalize](https://github.com/dotnet/dotnet/blob/95017c711e6afc1085133d440e42b4bd78155701/src/runtime/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/HttpConnectionSettings.cs)：访问 Proxy.Credentials 判定默认凭据身份。
+- [HttpConnectionPoolManager](https://github.com/dotnet/dotnet/blob/95017c711e6afc1085133d440e42b4bd78155701/src/runtime/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/HttpConnectionPoolManager.cs)：构造时保存 Proxy.Credentials；SendAsync 调 IsBypassed/GetProxy；catch 明确吞掉代理查找异常并作为无代理处理。池键包含路线、代理 URI、默认凭据身份，**没有显式用户名/密码版本**。
+- [AuthenticationHelper](https://github.com/dotnet/dotnet/blob/95017c711e6afc1085133d440e42b4bd78155701/src/runtime/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/AuthenticationHelper.cs)：代理挑战时对已选代理 URI 调用 GetCredential；不能假设 Credentials getter 与 GetProxy 一一配对。
+- [HttpConnectionPool](https://github.com/dotnet/dotnet/blob/95017c711e6afc1085133d440e42b4bd78155701/src/runtime/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/ConnectionPool/HttpConnectionPool.cs)：HTTPS 代理的 TLS、CONNECT、ConnectCallback 及 SOCKS 分支；CONNECT 失败抛带 StatusCode 的 ProxyTunnelError。
+- [SocksHelper](https://github.com/dotnet/dotnet/blob/95017c711e6afc1085133d440e42b4bd78155701/src/runtime/src/libraries/System.Net.Http/src/System/Net/Http/SocketsHttpHandler/SocksHelper.cs)：按代理 URI 与 socks scheme 查凭据，认证在建隧道时进行。
+
+关键实际输出：
+
+```text
+COUNTEREXAMPLE runtime mutable callback selectedProxy=A sentCredential=B actualSocketsHttpHandler=true socketCount=0
+CALLS Credentials -> Credentials -> IsBypassed -> GetProxy -> credential:proxy-a.example.test:Basic:B -> credential:proxy-a.example.test:Basic:B
+COUNTEREXAMPLE runtime sameProxyCredentialRotation desired=C actual=A connections=1 credentialsGetterCalls=2
+COUNTEREXAMPLE runtime GetProxy exception swallowed directConnectSelected=true socketCount=0
+```
+
+这里执行的是实际 .NET HTTP 状态机、Basic 代理挑战和连接池，但 ConnectCallback 返回脚本化内存 Stream，**没有真实 TCP、代理服务器或外部服务请求**。连接复用计数是运行时使用此 Stream 的实际行为，不是自写“假连接池”计数。
+
+## 3. 精确声明与配置格式
+
+精确公开声明以 [CONTRACTS.cs](CONTRACTS.cs) 为准，已批准；开发同步到生产Core。现有 schema 数字及三项 Network 默认值保持；新增 ProxyCredentialSetId 默认 null。ISettingsService 增加 IsReadOnly；不新增错误码。
+
+配置示例（所有值为合成示例）：
+
+```json
+{
+  "schemaVersion": 1,
+  "network": {
+    "proxyMode": "custom",
+    "customProxyUrl": "http://proxy.example.test:8080/",
+    "bypassProxyOnLocal": true,
+    "proxyCredentialSetId": "pc-0123456789abcdef0123456789abcdef"
+  }
+}
+```
+
+ISecretStore 键 `network/proxy-credentials/pc-0123456789abcdef0123456789abcdef` 的逻辑值：
+
+```json
+{
+  "format": "iris-proxy-credentials",
+  "version": 1,
+  "proxyUri": "http://proxy.example.test:8080/",
+  "userName": "synthetic-user",
+  "password": "synthetic-password"
+}
+```
+
+该值由真实 ISecretStore 加密落盘；不能直接写明文凭据文件。Clear 也生成新 ID，userName/password 都写显式 null；不要省略 null，不要把 Clear 变成 null 引用。读取严格校验 format、version、地址绑定和完整凭据对；坏引用或坏密文不回退固定键。pc- 后为 Guid(N) 小写字符，读取/删除前校验 ID，不用任意输入拼删除键。
+
+固定键导入只接受相同五字段格式且 proxyUri 与旧配置规范化地址匹配。该格式以前没有正式落地；未知旧字符串/缺少地址绑定不能猜测用途，应保持文件并要求修复。已存在显式引用时完全不读取固定键。成功发布新引用后，仅对本次已确认导入的固定值作条件清理；失败可遗留旧密文，显式引用优先级不会因此变化。
+
+## 4. 联合编辑、验证与发布
+
+1. UI 把 URL 中的 userinfo 解析成显式 Replace，地址框显示去掉 userinfo 后的目标地址；没有隐式测试或保存。密码不回填，保持/替换/清除为明确选项。文本框当前文字必须进入捕获，不能使用上一个合法值。
+2. Custom 地址接受绝对 http/https/socks5、合法 host/端口和空/root path；新输入拒绝 query、fragment、控制字符。按 Uri/IDN 规范化 authority，http/https 沿用默认端口，省略 socks5 端口时明确补 1080 并显示规范化值。Base 不被偷偷规范化后再比较。
+3. 新凭据不 trim。Replace 的两个字段都必须非 null，空字符串为显式空值；Clear 使用 null 对。本期输入预算为用户名 1024、密码 4096 UTF-16 单元，拒绝 NUL/CR/LF/无效代理对；socks5 认证对还须各为 1..255 UTF-8 字节。超过预算拒绝，不截断。旧异常值迁移失败保持原文件。
+4. NetworkSettingsPatch 的 null 字段沿用提交时最新值。对被编辑标量使用既有 Base/Target 冲突语义；Credentials 同时比较 BaseProxyUrl 和 BaseCredentialSetId。URL 改变必须明确 Replace/Clear，不能把旧代理凭据通过默认 Keep 转交新地址；无旧凭据时 UI 明确选择“无凭据/Clear”。仅改模式或绕过可保留未编辑的 dormant 自定义配置。
+5. TargetSettings.ProxyCredentialSetId 不允许 UI 任意指定；ProxyDraft 的 Target 引用必须与 Base 相同，最终保存引用仅由协调器生成。默认 Keep 且无凭据编辑时不复制陈旧引用。None/System 的保存不必读取未使用的自定义密文；显式自定义凭据意图仍须结构正确。
+6. 入口同步捕获 → 共享编辑门闩 → 冲突初检 → stage 新不可变密文 → 一次 Update 内复核/联合字段合并 → 已提交事实 → 网络/Provider 相关应用 → 候选退休。纯 Network 只需网络 observer；混合 Provider 编辑保留原 Provider 屏障。
+7. Network 编辑也预留原应用回执名额；多页联合计划只占一次，不另造网络回执表。回执只存提交身份、域标记、旧候选和进度；没有凭据、旧 plan 或 UI 引用。RetryApply 刷新**当前**配置并清理剩余候选，不重写 JSON、不再次 stage、不复活旧地址。
+8. 候选删除前在同一短门闩内重读当前引用。已捕获请求持有凭据值，因此不必等整个流式请求结束才删旧存储键；需要等短捕获完成。旧备份引用可能因正常退休而不可再鉴权，恢复后安全提示重输，不回退固定键。跨 Provider/Proxy 使用不同键域，不共享误删。
+9. CaptureCurrent/CaptureDraft 使用与 Commit/Retry 相同的短门闩，只复制托管值，网络 I/O 不占该门闩。None 和显式本地绕过先判定，不能因为未使用的远程代理密文损坏而阻止已获准直连。纯本地分类/URI codec 放 Core 内部共享助手供 Providers/Infrastructure 复用，不引入 Core → Providers 依赖。
+10. 配置变化或当前引用密文的 Changed 使缓存代次失效；无关字段不旋转池。受控写入全部版本化；仍要检测当前键被原地改写的值/版本，不能复用旧认证池。捕获前后复核配置/凭据版本，竞争时有限重试，持续变化则拒绝本次请求，不静默回退。
+
+原型中固定键的两个写入顺序都暴露不一致：stage-first 为 A 地址/B 凭据，settings-first 为 B 地址/A 凭据。版本化原型在 stage 暂停期间并发读取保持旧配对；短捕获与退休互斥，旧快照在存储键删除后仍有自己的 A 值，新捕获取 B。实际 Core Provider 提交器的六种失败路径另行通过，不能把它称为尚不存在的 Network 公共补丁已实施。
+
+## 5. 运行时路由和资源边界
+
+### 5.1 每次逻辑发送固定配置
+
+两个原命名客户端的顺序为：
+
+```text
+NetworkSnapshotHandler
+  → 原 resilience
+    → 原安全日志/现有 OCR transport safety
+      → NetworkRoutingHandler
+        → 本次固定路线的 SocketsHttpHandler
+```
+
+外层在首次 Send 时固定 Destination/Generation/路线资源引用，放入私有 HttpRequestOptions 上下文；所有重试共享。原型实际通过原 llm 与 ocr resilience，证明重试复制保留上下文。禁止 AsyncLocal/ThreadLocal 在 GetProxy/Credentials 间临时配对。请求进入外层时若已有调用方设置的 Proxy-Authorization，安全拒绝，不能让旧 ExtraHeaders 绕过凭据归属；运行时自身后续产生的代理认证头不受此拒绝影响。
+
+“无需重启”精确定义：配置提交/切换后开始捕获的新逻辑 HTTP 发送使用新配置或明确失败；已捕获发送及其重试、认证交换、响应流可继续旧配置。一次 OCR/翻译业务可能有多个逻辑 HTTP 发送，不承诺整个业务跨多个独立 Send 固定代理。现有 Anthropic 持有的 HttpClient 也每次经过外层，不能依赖重建 Provider 才生效。
+
+### 5.2 在进入 Sockets 前解析
+
+- None 或本地绕过：UseProxy=false，完全不借用代理 handler；本地分类沿用现有回环、私网、.local、单段名和 IPv4-mapped IPv6 规则。
+- Custom：使用已固定的干净 URI 和独立凭据值；IWebProxy 方法只返回固定值，GetCredential 只为该代理 URI 返回新 NetworkCredential 副本。
+- System：在传输层之前对本次目的地调用 HttpClient.DefaultProxy 的 IsBypassed/GetProxy，获取其 Credentials 或 DefaultCredentials。失败在这里转为安全失败，不把会抛异常的系统/自定义回调直接交给 Sockets。系统例外/direct 返回值照常尊重；系统路线继续接受 .NET 支持的 http/https/socks4/socks4a/socks5，Custom UI 仍限定三个批准协议。
+- System 显式凭据按已选原始代理 URI 捕获 Negotiate/NTLM/Digest/Basic/SOCKS 的值，随后绑定到去掉 userinfo 的规范化 URI。DefaultCredentials 保留默认凭据语义；缓存中含默认凭据时设置对应 DefaultProxyCredentials 标志，不能因包装 ICredentials 而丢掉 .NET 默认身份的池隔离。
+- 所有无效 Custom/缺失显式密文/系统查找错误都不得直连。本地/None/系统例外属于用户授权的直连，不与错误回退混淆。加载时 N10 的“坏 Custom → System”必须改为保留 Custom 意图并阻止需要代理的请求；新编辑在 stage 前拒绝。
+
+### 5.3 池身份和退休
+
+池身份至少为 `(client family, config/credential generation, resolved proxy URI or DIRECT, frozen credential identity)`。不能只用配置 ID：同一 System 快照可能解析到不同代理；同一 Custom 快照的本地绕过必须选 direct 池。System 显式凭据改变但 URI 不变也需新池；原型验证了这些情况。默认 Windows 身份继续由 .NET 的默认凭据身份隔离路径处理。
+
+凭据指纹只在内存中使用，正式实现采用进程随机密钥的 HMAC 和长度前缀编码，不记录/持久化；原型仅对合成值用 SHA 演示键区分。创建新 handler 才能保证不把旧认证连接当成新密码生效，调整 PooledConnectionLifetime 不能代替代次。
+
+外层逻辑资源引用覆盖重试和最终响应体，不在响应头返回时退休旧 handler。流/内容真正归还后才释放旧资源。内容 Dispose 失败时 manager 保留原内容/lease 供清理重试；不要依赖已标 disposed 的 HttpResponseMessage 再次触发内容释放。停止完整等待应用拥有的 Send、响应、取消和清理任务，再 Dispose handler；不声称观察到了 BCL 不公开的后台 socket 清理任务。
+
+本期上限：全 manager 最多 8 个尚未退完的配置代次，每个命名客户端/代次最多 16 个路线 handler；优先淘汰无引用的旧项，忙时拒绝新请求，绝不借旧代理或直连。此容量实现/LRU/故障退休是正式实施验收项；本原型只实现有限场景的代次切换及响应引用机制，没有冒充完整缓存实现。
+
+### 5.4 流式响应包装的强制规则（独立补充已纳入）
+
+第一版 LeaseContent 仅覆盖 SerializeToStreamAsync，确实不满足 SSE：HttpContent 默认 CreateContentReadStreamAsync 会 LoadIntoBuffer，导致首事件直到 EOF 才能被读取。独立原件在 `independent-stream-review/`；本地修正前源码在 `stream-baseline-source/`，原断言失败见 `streaming-baseline-1.log`，其中门闩已放行、读取任务已等待、lease 已归还。
+
+```text
+STREAM ReadAsStreamCompletedBeforeEof=False; UnderlyingReadWaiting=True
+STREAM_CLEANUP sourceDisposed=True leaseReturns=1
+```
+
+正式包装器至少必须转发以下入口，不能用 MemoryStream/LoadIntoBuffer 替代：
+
+```csharp
+protected override Task<Stream> CreateContentReadStreamAsync()
+    => _inner.ReadAsStreamAsync();
+protected override Task<Stream> CreateContentReadStreamAsync(CancellationToken ct)
+    => _inner.ReadAsStreamAsync(ct);
+protected override Stream CreateContentReadStream(CancellationToken ct)
+    => _inner.ReadAsStream(ct);
+protected override Task SerializeToStreamAsync(Stream destination, TransportContext? context)
+    => _inner.CopyToAsync(destination);
+protected override Task SerializeToStreamAsync(Stream destination, TransportContext? context, CancellationToken ct)
+    => _inner.CopyToAsync(destination, ct);
+protected override void SerializeToStream(Stream destination, TransportContext? context, CancellationToken ct)
+    => _inner.CopyTo(destination, context, ct);
+```
+
+保留 Content headers，未知长度保持未知。ReadAsStream 获取流时不消费正文，CopyToAsync 可逐段转发；ReadAsString/ReadAsByteArray 的显式完整缓冲不属于 SSE 入口。借出的 Stream 不另领一份池租约：响应内容是保守的 lease 拥有者，单独关闭借用流不等于归还响应责任。调用方必须先取消并 join 活跃 Read/Copy/枚举任务，再 Dispose 响应内容；不能用 Content.Dispose 代替“非合作读取已退出”的证据。EOF、读取错误或取消也不能在消费者还未退出时提前退休旧池。
+
+内容清理失败不标完成，manager 要保有原 LeaseContent 引用供重试，不能依靠再次 Dispose 已标关闭的 HttpResponseMessage。OpenAI 的 using-response 和 Anthropic 的 SseEventBoundaryStream 原内容处置路径必须均接上这份责任，不改变原正文预算/SSE 协议。
+
+`streaming-fixed-3.log` 已实际验证获取流零预读、同步/异步/取消入口、CopyToAsync 及其取消、非合作读取、读取错误、内容处置失败重试。并通过**原两个命名 resilience + 实际 SocketsHttpHandler chunked 解码 + 实际 Iris SseParser**，在未发送终止 chunk 前取得第一和第二个 SSE 事件；测试 EOF、取消和读取错误时，A 重试上下文不变，B 请求的新池不提前释放仍由 A 响应持有的旧池。所有字节仍由内存 ConnectCallback Stream 提供，没有真实 socket。
+
+## 6. 旧配置迁移和安全备份
+
+异步凭据导入不能塞进同步 ISettingsMigration.Migrate。放在 JsonSettingsService.Load 的解析前置流程、任何可能复制有效原文备份或发布 Current 之前。新增 SecretStore 依赖用延迟工厂在后台调用，避免把其现有同步构造 I/O 放进新的 UI 路径。
+
+顺序：
+
+1. 读取原文件/可信 schema 标记，保留原始字节指纹。未来版本进入只读，不导入、不创建含原文的未来版本备份；IsReadOnly 永久作用于本次加载，Update 在 mutate 前拒绝，网络捕获不激活未知格式。可保留安全只读预览，不能通过回写降级。
+2. 对受支持有效 JSON 按已知 network 路径解析 userinfo。先按第一个字面冒号分段，再分别 percent-decode；不把 URL 内容写日志/异常。显式引用加 userinfo 的矛盾输入不自动选择一边，保持原文件等待修复。
+3. stage 地址绑定的新凭据集，成功后生成去 userinfo 的 JSON，保留其它字段；内存 Current 还没有发布。
+4. 先原子写**安全逻辑备份**，内容来自捕获并清理过的旧配置；再用不复制原文件的 AtomicFile 替换当前文件。不得先调用现有“复制原文件为 .bak”的路径。随后正常迁移/规范化的任何新备份也必须来自安全旧快照。
+5. 只有当前文件成功替换后才发布含新引用的 Current。若安全备份已发布而当前替换失败，保留备份引用到的新密文，不把它误当无引用 stage 删除。重试可留下有限失败尝试产生的孤立密文；本期不新增枚举密钥/全库 GC。
+6. 正常 Update 同样使用捕获的安全旧快照写 .bak，不复制可能被外部改成 userinfo 的原文件。写入前和替换前核对磁盘指纹，检测到外部变化就拒绝覆盖。该检查不是任意第三方进程文件替换的原子 CAS；不承诺恶意/不合作外部编辑器竞争已被本原型解决。
+
+未来版本的可靠识别应优先于解释未知字段；对于语法有效且根部唯一整数 schemaVersion 为未来值的文件，只读保留，不能因不认识其内部格式而启动有损挽救。语法损坏、根非法或无法可靠判断版本的原损坏路径继续保留原文件再恢复默认，不从损坏文本猜凭据。`settings.corrupt-*` 是原始证据的移动保留，**不是已脱敏的新配置备份**。已有 .bak/.old/.v*.json 可能含历史 userinfo，保持现状、不声称擦除。
+
+迁移失败映射安全 StorageFailure、保持未完成加载，允许修复存储权限/文件后重新启动加载。不要发布默认 System 让本应经代理的旧配置悄悄联网。只读 future/矛盾 legacy 的修复路径必须明确提示，不能自动试用不同代理或覆盖用户文件。
+
+## 7. 草稿连通性测试语义
+
+唯一语义：对选中的已保存 Profile 的安全 HTTP(S) BaseUrl 发一个**逻辑 HEAD**。OpenAI 使用已配 BaseUrl；Anthropic 空 BaseUrl 解析为其既有官方地址；百度使用其 HTTP BaseUrl；Windows 本地 OCR 没有此能力。列表只需已有且可解析的端点，不要求模型/API Key/Enabled 才能测试网络。Provider/Domain+ID 区分同 ID 的翻译和 OCR。
+
+不实例化 Provider、不调用 TestAsync、不读取 Provider Key/ExtraHeaders、不带文本、无 Origin Authorization/Cookie；代理认证按草稿路线正常进行。拒绝端点 userinfo/query/fragment；不把可能含密钥的查询串发送给测试。独立 transport，禁重定向、HttpClient 无限超时，由单次会话控制 10 秒软期限；连接超时不超过 10 秒，响应头预算为 16 KB，响应体不读取。BCL 的代理认证挑战/连接级重试可能有多次线路交换，“单次”不是伪称只有一个 TCP/HTTP 帧。
+
+| 结果 | 固定解释 |
+|---|---|
+| 200..299，以及 401/403/404/405/429/5xx 等非重定向响应 | EndpointResponded + 实际状态码；只证明 HTTP 有响应，不能证明 API 鉴权、业务可用或无代理拦截页 |
+| 300..399 | RedirectNotFollowed；不跟随、不记录 Location，不声称最终目标已通 |
+| 407 或 CONNECT 抛带 407 的 HttpRequestException | ProxyAuthenticationRequired；与 Provider/API 401 分开 |
+| DNS/TLS/代理连接/其它 transport 失败 | 安全 TransportFailed；不解析原始异常字符串判密码错误，不直连重试 |
+| 内部期限触发 | TimedOut；非合作 Send 仍须完整等待退出，UI 显示正在结束 |
+| caller/窗口取消 | OCE；实际 Send 和清理完成后才释放拥有者 |
+
+结果必须同时显示实际 RouteKind：None、本地绕过或系统例外时明确“直接连接”，不能把直连成功当成代理成功。HTTP 响应可能来自代理，不做超出证据的身份保证。HTTPS 正常证书校验不放宽。
+
+Create 纯捕获；Run 仅一次，取得短编辑门闩内的 ProxyDraft/Keep 凭据快照后释放门闩，再创建独立 transport。保存/关闭先撤销 UI 发布资格、取消测试、await Run 和同一会话 Dispose 成功后才继续。响应内容、响应、transport 分阶段保留；Dispose 失败可重试原实例，但不再 Run/HEAD。结果发布同时匹配窗口身份、草稿 revision、端点选择和 SessionId；改字段/换端点/关闭后的迟到结果不显示。保留一个实际测试和一个最新等待意图，失败清理期间阻止新测试及保存，不积累无限任务。
+
+## 8. DI 和退出顺序
+
+- 内部共享的精确建议：正式实施在 Core 项目新增 `<InternalsVisibleTo Include="Iris.Infrastructure" />`，仅复用 Core 内部的纯 NetworkProxyCodec/NetworkAddressClassifier；Providers 复用已有友元。不要为 codec 额外扩 public API，不增加 Core 到 Providers/Infrastructure 的项目依赖。本 A 不修改该项目文件。
+- IsReadOnly 是 ISettingsService 的必实现 getter，不用默认接口 false 掩盖遗漏。正式实施为既有手写测试存储补常规 false，并新增真实 JsonSettingsService 的 future=true、mutate 未调用/无写入测试；不得删旧断言。设置 UI 禁止只读保存/测试激活，窗口位置等旁路写入也须遵守存储层拒绝，而不是只有代理页判断。ProposalStore 的原型门禁不是这些生产适配已完成的证明。
+- Core 将现有 SettingsEditCoordinator 注册为单例具体类型，ISettingsEditCoordinator 与 INetworkProxySnapshotSource 均别名到它，不能产生两个门闩。构造只保存依赖。
+- NetworkConfigurationObserver 只依赖 Providers 的 NetworkTransportManager，Apply 接收固定配置/代次，不注入 snapshot source；这样不会形成 Coordinator → Observer → Coordinator 循环，也不会在提交门闩内自等待。
+- 既有 Provider observer 在提交门闩内刷新时同样不能调用 Capture/Commit/发 HTTP。已读实际 Anthropic 构造：它 CreateClient 并配置 SDK，但不发送请求；因此 Capture 只能在 handler.SendAsync 执行，不能放进 handler/Provider 构造、ConfigureHttpClient 或 ConfigurePrimaryHttpMessageHandler。正式 Host 验收需覆盖此链和门闩，防止把新捕获逻辑提前到观察者路径造成自等待。
+- Providers 注册 singleton manager 及 INetworkConfigurationObserver/INetworkTransportLifetime 别名；每个命名链的 CaptureHandler/Router 为 handler 生命周期对象。CaptureHandler 依赖 source 与 manager；Router 不拥有/Dispose singleton manager。
+- ProxyConnectivityTester 为 singleton，依赖 source、只读设置、TimeProvider 和窄 transport 工厂；其创建的 session 不进全局连接池，也不调用全局 Apply。
+- 加载/凭据迁移成功 → 初始网络代次准备 → 原数据库/Registry 初始化及入口启动。Future 只读不激活未知网络格式；迁移失败不启用联网入口。
+- App 退出首先禁止新的网络逻辑发送和草稿测试；已取得上下文的重试不因 manager 封口而被误当新请求。原 Settings/OCR/翻译/历史等拥有者先完成各自工作和响应释放，保留截图/覆盖层原屏障；然后 await transport StopAsync，最后 Host/Dispatcher 退出。Stop/失败重试不丢弃原 handler/内容责任。
+
+## 9. 失败矩阵
+
+| 阶段 | 配置/密文事实 | 后续行为 |
+|---|---|---|
+| 输入/地址/引用归属错误 | 未 stage/未提交 | 原草稿保留，固定安全错误 |
+| stage Set 失败 | 原配置/原键不变 | 清理本次已成功的新键；不改固定键 |
+| Update 失败/提交内冲突 | 原发布保持；其它合法外部提交不回滚 | 只回收本次无人引用 stage；保存未提交 |
+| Commit 后 Apply 失败 | 新配置已保存，旧候选保留 | ApplyPending；新发送只能使用新快照或失败，不能旧代理兜底 |
+| retire Remove 失败 | 配置已生效，剩余旧键保留 | 原回执重试清理，不重发配置或凭据 |
+| 清理旧回执时当前又引用候选 | 当前使用者优先 | 不删除，不恢复旧 plan |
+| 迁移 safe-backup 写失败 | 原文件保持 | 新 stage 若未发布引用可回收 |
+| 迁移 backup 成功/current 失败 | 原当前文件仍在；安全备份已有新引用 | 保留该新密文，允许恢复/重试，不冒称擦除原 userinfo |
+| 系统 GetProxy/凭据解析失败 | 还没进入实际发送 | 安全失败，不借用 BCL 的异常直连行为 |
+| 测试 Run 完成、Dispose 失败 | 仍有原快照/资源责任 | 可重试 Dispose，HEAD 次数不增加 |
+
+## 10. 实施验收清单与未验证边界
+
+正式实施必须在完整联合提交器/真实设置窗口上验证全部网络字段、当前非法文本、同地址换凭据、换地址不得 Keep、Clear/legacy、回执容量和混合 Provider/OCR/History 一次提交；迁移要覆盖真实 File I/O 失败、损坏/未来版本、外部文件变更、所有备份分支及日志脱敏。
+
+传输要覆盖两命名管道/Anthropic 持有旧 HttpClient、所有重试仍用同上下文、同 URI 凭据更换、System 路由/凭据变化、默认 Windows 身份、本地绕过池隔离、过期代次容量、连接创建失败/响应 Dispose 失败/完整停止，以及非零持续 SSE 的所有读取/处置路径。测试按钮要覆盖实际 UI 的身份、保存/关闭优先、非合作 Run/Dispose、清理再失败、响应头/正文限制和无额外业务调用。
+
+**本 A 已验证**：当前实际代码反例、匹配构建的源码、实际 .NET HTTP 状态机/池在内存 ConnectCallback 下的行为、原命名重试链、原 Core Provider 提交协议、建议协议的临时真实 JSON/内存 SecretStore、迁移及草稿生命周期机制。
+
+**未验证/未实现**：真实 socket/代理服务器、HTTPS 代理的完整 TLS/证书、SOCKS wire、Windows 集成认证/PAC/OS 变更、真实 DPAPI、任意外部文件替换的原子 CAS、完整容量/LRU/故障退休实现、建议新端口在生产 Host 的完整接线和完整 UI。原型 DTO/缓存有意缩减，正式精确声明以上述契约建议文件为准；本 A 不提供父单完成结论。
+
+
+## 11. 正式实施补充与分工（优先于A原型简化处）
+
+- B完整实现Core编辑/快照、Infrastructure加载迁移和正常更新、Providers实际两命名HTTP链/池与Host退出；C完整实现网络设置页与独立连通性测试。Core可一次同步全部已批准声明，但B不得注册空IProxyConnectivityTester或开放未完成网络页面。
+- Core内部URI/本地地址/凭据codec允许通过Iris.Core.csproj显式增加Iris.Infrastructure的InternalsVisibleTo共享；已有Providers友元保持。不增加未批准公共助手、不引入Core反向依赖。已使用的本地地址判定语义保持，替换旧动态代理的生产接线，不能留下错误直连作为实际fallback。
+- IsReadOnly必须由真实设置服务在future加载后保留，并在Update调用mutate前拒绝；Core提交在stage前拒绝只读。B可为现有设置窗口接入只读提示与禁用编辑的必要最小改动，但不提前开放网络页。所有手写旧fake据实际语义补IsReadOnly；不得把真实future场景换成fake证明完成。
+- 全局代次由同一Core source/observer协议发布；迟到A请求在B发布后仍可按A完成，但不得把manager当前期望代次倒退为A。当前引用密文发生原地变更也须新身份；捕获草稿不得改变全局代次。捕获和提交对代次分配/发布的排序必须可验证，不能以请求到达manager的顺序猜新旧。
+- 每个实际网络响应都须有资源责任，包括被重试策略处置的中间响应。若中间正文Dispose失败，不得在外层Send抛出并释放逻辑引用时丢失失败响应；manager保留具体失败资源供重试。响应流保持无缓冲转发和未知长度，不以Content.Dispose代替join非合作读/Copy/SSE消费者。不能依赖已经设置disposed标志的中间包装器重新触发子资源处置。
+- 容量为整个manager合计最多8个尚未完全释放的配置/凭据代次（包含当前），每客户端family/代次最多16个实际路线handler。无引用旧项可淘汰；持有项不可强制释放，容量不足明确拒绝，不借旧路由/直连。停止先封闭新逻辑请求，既有上下文重试继续完成，再等待所有引用和失败清理。纯托管快照不新增Dispose。
+- 未来schema识别先于有损挽救；唯一有效整数版本高于当前时保持只读，包括超出现有int模型范围的可靠未来标记。语法损坏或版本不可信时沿用原文件移动保留的损坏恢复，不从损坏文本猜凭据。旧userinfo/无绑定旧键矛盾或迁移失败不发布默认System。磁盘指纹核对是外部修改检测，不宣传任意外部进程的原子CAS。
+- 错误沿用既有ErrorCode，输入错误InvalidArgument、缺失/损坏代理密文SecretUnavailable、只读/迁移/持久化StorageFailure、路线解析/连接不可用NetworkUnavailable等采用固定安全消息；不得携带原URL/userinfo/密码/凭据指纹/认证header或响应正文。网络ApplyPending须明确已保存，不误报未提交；混合Provider回执原语义保持。
+- 验证用临时真实文件、内存SecretStore、实际命名管道/SocketsHttpHandler和ConnectCallback内存流；不实际访问用户代理、socket、云服务或配置。保留既有获准SDK smoke。A未覆盖的容量/故障退休/完整Host及UI必须在对应实施单完成，不用A原型结果替代生产验收。
+
+旧userinfo兼容补充：首个字面冒号不存在时，用户名为整段userinfo，密码为空字符串；HTTP/HTTPS允许此表示，与显式尾冒号的空密码一致。SOCKS5仍须满足非空字节预算。此为A已验收拆分规则的明确化。

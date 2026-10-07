@@ -1017,7 +1017,10 @@
                         </TextBlock.Style>
                     </TextBlock>
 
-<StackPanel Grid.Row="1">                    <TextBlock x:Name="MouseRuntimeStatusTextBlock" Grid.Row="1" Text="{Binding MouseRuntimeStatus}" TextWrapping="Wrap"
+<StackPanel Grid.Row="1">
+                    <TextBlock Text="{x:Static app:UiText.SettingsFutureReadOnly}" TextWrapping="Wrap"
+                               Visibility="{Binding IsReadOnly, Converter={StaticResource BoolToVis}}" Margin="0,0,0,6" />
+                    <TextBlock x:Name="MouseRuntimeStatusTextBlock" Grid.Row="1" Text="{Binding MouseRuntimeStatus}" TextWrapping="Wrap"
                                Margin="0,4,0,4" Visibility="{Binding HasMouseRuntimeStatus, Converter={StaticResource BoolToVis}}"
                                Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
 <TextBlock x:Name="OcrTestStatusText" Text="{Binding OcrTestStatus}" TextWrapping="Wrap" Margin="0,4,0,4" Visibility="{Binding HasOcrTestStatus, Converter={StaticResource BoolToVis}}"/></StackPanel>

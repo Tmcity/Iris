@@ -1,0 +1,14 @@
+{
+  "ActualCoordinatorChecks.cs": "d6985c6fc06a290136fc2fffb28259f0478c00b9c53750f3e76bee18a590e117",
+  "Boundaries.cs": "97d0316b76d7a09eba5f7e7d2a300889f676abfa867b555382657f40618771f7",
+  "ConnectivityChecks.cs": "d489a8e6990be2bbef7f87baf11c4f806e3b598616f0da179407c5f23423b5f0",
+  "CurrentChecks.cs": "d2ced3538018010e2e64670954cfa49920321cc686ca16e1e08fac3615eababa",
+  "MigrationChecks.cs": "8183831d23594c5629f478239feb118104096cdf87ac763823d34ef4a77cb523",
+  "PersistenceChecks.cs": "c15eb1c27d83ea53dd791400d88c03a9ff2b9ca40d25ce072c3e926ef0678b0e",
+  "PipelineChecks.cs": "66c0858ea2f6b46ca8a68fb808c13c533e8eb2446a1931ac7e9b4e6fee74e2ac",
+  "Program.cs": "8c9509bea22327c0932208fa112d8686aeae71091079fe92007a8c9eb2580d62",
+  "ProposedPersistence.cs": "cb92101cee51b75e17a30e7e896d5c522afbafc1bed70a6bab3927383caf992b",
+  "RuntimeChecks.cs": "c056c354dfcc89cc484bb24bd20641171e537dae9e5c468a1f491c34fe4fd7ff",
+  "StreamingChecks.cs": "501c8f4cd0e3a7b71f91ca2994b6569c44a0774ecb926b3a626735f42743b026",
+  "Prototype.csproj": "976a2d4fffe0e695e78ab8f434a4848c45e00efbc99cfec229376e6d5d6489f5"
+}

@@ -93,6 +93,7 @@ public sealed record SettingsEditPlan(
 
     /// <summary>历史设置增量；null保持最新值，纯历史编辑无需Provider回执。见HISTORY_UI.md。</summary>
     public HistorySettingsPatch? History { get; init; }
+    public NetworkSettingsPatch? Network { get; init; }
 
     public override string ToString() => "SettingsEditPlan";
 }
