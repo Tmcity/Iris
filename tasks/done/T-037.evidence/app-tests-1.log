@@ -1,0 +1,22 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesAllNineActionHandlers_AndTranslatePresenterAsSingleton (91ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : host.Services.GetRequiredService<System.Collections.Generic.IEnumerable<IActionHandler>>().ToList();
+          handlers.Count
+      should be
+  10
+      but was
+  11
+    在 Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesAllNineActionHandlers_AndTranslatePresenterAsSingleton() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\AppHostBuilderTests.cs:292
+    在 System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    在 System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (2s 689ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 41
+  失败: 1
+  成功: 40
+  已跳过: 0
+  持续时间: 3s 002ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

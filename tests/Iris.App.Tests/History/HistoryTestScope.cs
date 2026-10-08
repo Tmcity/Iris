@@ -60,7 +60,7 @@ internal sealed class HistoryTestScope
             if (BeforeClipboard != null) await BeforeClipboard(text, ct);
             ClipboardWrites.Enqueue(text);
         });
-        Host = AppHostBuilder.Build([], new FakeAppPaths(DirectoryPath), new LoggingLevelSwitch(), 0, services =>
+        Host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], new FakeAppPaths(DirectoryPath), new LoggingLevelSwitch(), 0, services =>
         {
             services.Replace(ServiceDescriptor.Singleton<ISettingsService>(Settings));
             services.Replace(ServiceDescriptor.Singleton<ISecretStore>(Secrets));

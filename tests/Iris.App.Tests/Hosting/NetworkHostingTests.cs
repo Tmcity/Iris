@@ -37,7 +37,7 @@ public sealed class NetworkHostingTests
         const string original = "{\"schemaVersion\":1,\"network\":{\"proxyMode\":\"custom\",\"customProxyUrl\":\"http://synthetic:private@bad host.invalid/\"}}";
         await File.WriteAllTextAsync(paths.SettingsFile, original, TestContext.Current.CancellationToken);
         var secrets = Substitute.For<ISecretStore>();
-        var host = AppHostBuilder.Build([], paths, new Serilog.Core.LoggingLevelSwitch(), 0, services =>
+        var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, new Serilog.Core.LoggingLevelSwitch(), 0, services =>
         {
             services.AddSingleton(secrets); services.AddSingleton(Substitute.For<IHotkeyService>()); services.AddSingleton(Substitute.For<IHotkeyCaptureService>());
             services.AddSingleton(Substitute.For<IAutoStartService>()); services.AddSingleton(Substitute.For<IOcrProviderRegistry>());
@@ -77,7 +77,7 @@ public sealed class NetworkHostingTests
         var hotkeys = Substitute.For<IHotkeyService>();
         hotkeys.Register(Arg.Any<Iris.Core.Actions.IrisAction>(), Arg.Any<HotkeyBinding>())
             .Returns(call => new HotkeyRegistrationResult(call.Arg<Iris.Core.Actions.IrisAction>(), true));
-        using var host = AppHostBuilder.Build([], paths, new Serilog.Core.LoggingLevelSwitch(), Environment.TickCount64, services =>
+        using var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, new Serilog.Core.LoggingLevelSwitch(), Environment.TickCount64, services =>
         {
             services.AddSingleton(secrets); services.AddSingleton(hotkeys); services.AddSingleton(Substitute.For<IHotkeyCaptureService>());
             services.AddSingleton(Substitute.For<IAutoStartService>()); services.AddSingleton(Substitute.For<IOcrProviderRegistry>());

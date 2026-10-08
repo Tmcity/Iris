@@ -1,0 +1,146 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+失败 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.ServerLateAcceptAfterStopDoesNotStartReadOrDispatch (150ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Factory.Reads
+      should be
+  0
+      but was
+  1
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.<>c.<<ServerLateAcceptAfterStopDoesNotStartReadOrDispatch>b__1_0>d.MoveNext() 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:38
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.Run(String phase, Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:61
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.Run(String phase, Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:68
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.ClientDoesNotStartAnotherIoAfterCanceledNoncooperativeOperation(phase: "read", deadline: True) (6ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Factory.Reads
+      should be
+  1
+      but was
+  2
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.<>c__DisplayClass0_0.<<ClientDoesNotStartAnotherIoAfterCanceledNoncooperativeOperation>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:25
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.Run(String phase, Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:61
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.Run(String phase, Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:68
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.ClientDoesNotStartAnotherIoAfterCanceledNoncooperativeOperation(phase: "write", deadline: True) (2ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Factory.Reads
+      should be
+  0
+      but was
+  1
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.<>c__DisplayClass0_0.<<ClientDoesNotStartAnotherIoAfterCanceledNoncooperativeOperation>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:25
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.Run(String phase, Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:61
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.Run(String phase, Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:68
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.ClientDoesNotStartAnotherIoAfterCanceledNoncooperativeOperation(phase: "write", deadline: False) (1ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Factory.Reads
+      should be
+  0
+      but was
+  1
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.<>c__DisplayClass0_0.<<ClientDoesNotStartAnotherIoAfterCanceledNoncooperativeOperation>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:25
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.Run(String phase, Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:61
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.Run(String phase, Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:68
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.ClientDoesNotStartAnotherIoAfterCanceledNoncooperativeOperation(phase: "read", deadline: False) (0ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Factory.Reads
+      should be
+  1
+      but was
+  2
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.<>c__DisplayClass0_0.<<ClientDoesNotStartAnotherIoAfterCanceledNoncooperativeOperation>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:25
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.Run(String phase, Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:61
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.Run(String phase, Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:68
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.CodecDoesNotReadAnotherFragmentAfterCancellation (1ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Factory.Reads
+      should be
+  1
+      but was
+  2
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.<>c.<<CodecDoesNotReadAnotherFragmentAfterCancellation>b__2_0>d.MoveNext() 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:53
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.<>c.<<CodecDoesNotReadAnotherFragmentAfterCancellation>b__2_0>d.MoveNext() 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:55
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.Run(String phase, Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:61
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcCancellationFenceTests.Run(String phase, Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcCancellationFenceTests.cs:68
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 失败并出现 6 个错误 (1s 515ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 6
+  失败: 6
+  成功: 0
+  已跳过: 0
+  持续时间: 1s 754ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

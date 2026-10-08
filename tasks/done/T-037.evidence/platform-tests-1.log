@@ -1,0 +1,4 @@
+F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcProtocolTests.cs(45,62): error CS9174: 无法使用集合表达式初始化类型“ReadOnlyMemory<byte>”，因为该类型不可构造。 [F:\Iris\tests\Iris.Platform.Windows.Tests\Iris.Platform.Windows.Tests.csproj]
+F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcProtocolTests.cs(46,62): error CS9174: 无法使用集合表达式初始化类型“ReadOnlyMemory<byte>”，因为该类型不可构造。 [F:\Iris\tests\Iris.Platform.Windows.Tests\Iris.Platform.Windows.Tests.csproj]
+F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\NamedPipeIpcTests.cs(107,26): error CA1001: 类型“Fixture”具有可释放的字段“Server”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\tests\Iris.Platform.Windows.Tests\Iris.Platform.Windows.Tests.csproj]
+生成失败，退出代码: 1。

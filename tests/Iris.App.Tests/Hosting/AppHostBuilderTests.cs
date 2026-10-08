@@ -35,7 +35,7 @@ public sealed class AppHostBuilderTests
         var paths = new FakeAppPaths(tempDir.Path);
         var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
 
-        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+        using var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, levelSwitch, Environment.TickCount64);
 
         host.ShouldNotBeNull();
     }
@@ -47,7 +47,7 @@ public sealed class AppHostBuilderTests
         var paths = new FakeAppPaths(tempDir.Path);
         var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
 
-        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+        using var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, levelSwitch, Environment.TickCount64);
 
         var settingsService = host.Services.GetService<ISettingsService>();
         var secretStore = host.Services.GetService<ISecretStore>();
@@ -101,7 +101,7 @@ public sealed class AppHostBuilderTests
         var paths = new FakeAppPaths(tempDir.Path);
         var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
 
-        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+        using var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, levelSwitch, Environment.TickCount64);
 
         var hotkey1 = host.Services.GetRequiredService<IHotkeyService>();
         var hotkey2 = host.Services.GetRequiredService<IHotkeyService>();
@@ -122,7 +122,7 @@ public sealed class AppHostBuilderTests
         var paths = new FakeAppPaths(tempDir.Path);
         var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
 
-        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+        using var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, levelSwitch, Environment.TickCount64);
 
         var desktop1 = host.Services.GetRequiredService<IDesktopContext>();
         var desktop2 = host.Services.GetRequiredService<IDesktopContext>();
@@ -139,7 +139,7 @@ public sealed class AppHostBuilderTests
         var paths = new FakeAppPaths(tempDir.Path);
         var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
 
-        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+        using var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, levelSwitch, Environment.TickCount64);
 
         var clipboard1 = host.Services.GetRequiredService<IClipboardService>();
         var clipboard2 = host.Services.GetRequiredService<IClipboardService>();
@@ -156,7 +156,7 @@ public sealed class AppHostBuilderTests
         var paths = new FakeAppPaths(tempDir.Path);
         var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
 
-        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+        using var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, levelSwitch, Environment.TickCount64);
 
         var actionDispatcher1 = host.Services.GetRequiredService<IActionDispatcher>();
         var actionDispatcher2 = host.Services.GetRequiredService<IActionDispatcher>();
@@ -174,7 +174,7 @@ public sealed class AppHostBuilderTests
         var paths = new FakeAppPaths(tempDir.Path);
         var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
 
-        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+        using var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, levelSwitch, Environment.TickCount64);
 
         var initializer1 = host.Services.GetRequiredService<IDatabaseInitializer>();
         var initializer2 = host.Services.GetRequiredService<IDatabaseInitializer>();
@@ -195,7 +195,7 @@ public sealed class AppHostBuilderTests
         var paths = new FakeAppPaths(tempDir.Path);
         var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
 
-        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+        using var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, levelSwitch, Environment.TickCount64);
 
         var hostLifetime = host.Services.GetRequiredService<IHostLifetime>();
         hostLifetime.ShouldBeOfType<WpfHostLifetime>();
@@ -208,7 +208,7 @@ public sealed class AppHostBuilderTests
         var paths = new FakeAppPaths(tempDir.Path);
         var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
 
-        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+        using var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, levelSwitch, Environment.TickCount64);
 
         var notificationService = host.Services.GetRequiredService<INotificationService>();
         var trayNotificationService = host.Services.GetRequiredService<TrayNotificationService>();
@@ -223,7 +223,7 @@ public sealed class AppHostBuilderTests
         var paths = new FakeAppPaths(tempDir.Path);
         var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
 
-        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+        using var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, levelSwitch, Environment.TickCount64);
 
         var factory = host.Services.GetRequiredService<IHttpClientFactory>();
         using var llmClient = factory.CreateClient(HttpClientNames.Llm);
@@ -240,7 +240,7 @@ public sealed class AppHostBuilderTests
         var paths = new FakeAppPaths(tempDir.Path);
         var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
 
-        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+        using var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, levelSwitch, Environment.TickCount64);
 
         var factories = host.Services.GetRequiredService<System.Collections.Generic.IEnumerable<ITranslationProviderFactory>>().ToList();
         factories.Count(f => f.Kind == TranslationProviderKind.OpenAICompatible).ShouldBe(1);
@@ -254,7 +254,7 @@ public sealed class AppHostBuilderTests
         var paths = new FakeAppPaths(tempDir.Path);
         var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
 
-        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+        using var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, levelSwitch, Environment.TickCount64);
 
         var presenter = host.Services.GetRequiredService<ISettingsWindowPresenter>();
         var concretePresenter = host.Services.GetRequiredService<SettingsWindowPresenter>();
@@ -281,18 +281,19 @@ public sealed class AppHostBuilderTests
     }
 
     [Fact]
-    public void Host_ResolvesAllNineActionHandlers_AndTranslatePresenterAsSingleton()
+    public void Host_ResolvesAvailableActionHandlersIncludingExit_AndTranslatePresenterAsSingleton()
     {
         using var tempDir = new TempDirectory();
         var paths = new FakeAppPaths(tempDir.Path);
         var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
 
-        using var host = AppHostBuilder.Build([], paths, levelSwitch, Environment.TickCount64);
+        using var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, levelSwitch, Environment.TickCount64);
 
         var handlers = host.Services.GetRequiredService<System.Collections.Generic.IEnumerable<IActionHandler>>().ToList();
-        handlers.Count.ShouldBe(10);
+        handlers.Count.ShouldBe(11);
         handlers.Count(h => h.Action == IrisAction.SelectionTranslate).ShouldBe(1);
-        handlers.Select(h => h.Action).Distinct().Count().ShouldBe(10);
+        handlers.Select(h => h.Action).Distinct().Count().ShouldBe(11);
+        handlers.OfType<ExitActionHandler>().ShouldHaveSingleItem();
         handlers.Count(h => h.Action == IrisAction.ScreenshotTranslate).ShouldBe(1);
         handlers.Count(h => h.Action == IrisAction.ScreenshotOcr).ShouldBe(1);
         handlers.Count(h => h.Action == IrisAction.SilentScreenshotOcr).ShouldBe(1);

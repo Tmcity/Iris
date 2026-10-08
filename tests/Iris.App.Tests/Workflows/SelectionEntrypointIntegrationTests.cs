@@ -106,7 +106,7 @@ public sealed class SelectionEntrypointIntegrationTests
         var settings = Substitute.For<ISettingsService>(); settings.Current.Returns(new AppSettings());
         var desktop = Substitute.For<IDesktopContext>();
         var native = Substitute.For<IClipboardSnapshotNative>(); var keys = Substitute.For<INativeKeyboardInputAdapter>();
-        var host = AppHostBuilder.Build([], paths, new Serilog.Core.LoggingLevelSwitch(), 0, services =>
+        var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, new Serilog.Core.LoggingLevelSwitch(), 0, services =>
         {
             services.AddSingleton(settings); services.AddSingleton(desktop); services.AddSingleton(native); services.AddSingleton(keys);
             services.AddSingleton(Substitute.For<ISecretStore>()); services.AddSingleton(Substitute.For<IClipboardService>());

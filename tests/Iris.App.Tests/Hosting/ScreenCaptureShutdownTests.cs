@@ -29,7 +29,7 @@ public sealed class ScreenCaptureShutdownTests
     {
         var paths = Substitute.For<IAppPaths>(); paths.DataDirectory.Returns(Path.GetTempPath());
         using var native = new FakeGdiCaptureApi(); var desktop = new CaptureDesktop(); var threads = new CaptureThreads();
-        using var host = AppHostBuilder.Build([], paths, new Serilog.Core.LoggingLevelSwitch(), 0, services =>
+        using var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, new Serilog.Core.LoggingLevelSwitch(), 0, services =>
         {
             services.AddSingleton<IGdiCaptureApi>(native); services.AddSingleton<ICaptureThreadFactory>(threads); services.AddSingleton<IDesktopContext>(desktop);
         });

@@ -351,7 +351,7 @@ public sealed class TranslateWindowIntegrationTests
             ]);
             desktopContext.GetCursorPosition().Returns(new PixelPoint(500, 500));
 
-            return AppHostBuilder.Build(
+            return Iris.App.Tests.TestSupport.IsolatedAppHost.Build(
                 args: [],
                 paths: new TestAppPaths(tempDir.Path),
                 levelSwitch: new Serilog.Core.LoggingLevelSwitch(),

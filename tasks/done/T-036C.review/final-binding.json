@@ -1,0 +1,382 @@
+{
+  "commit": "11263780f2a34dd9ee4dc998d80dfdf605dacaf0",
+  "sourceCount": 608,
+  "sourceChanges": [],
+  "sourceManifest": "../T-036C.evidence/final-source-sha256.json",
+  "binaries": {
+    "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/Iris.App.dll": "2b64918876325ce3b7528ed54cf7f8ae31628b05369e9734a41bb9a4655ac428",
+    "src/Iris.Core/bin/Release/net10.0/Iris.Core.dll": "3803b54dde2968e09234caa474ad9bf5938074cdcf3e6b869f2467b736cb8d0c",
+    "src/Iris.Infrastructure/bin/Release/net10.0/Iris.Infrastructure.dll": "47fc890c78277ba06b7418feedd76f1c4dab5bda6c2347010a5e0c3ebedd62b8",
+    "src/Iris.Platform.Windows/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.dll": "75823ff3a6ebbc6b5c6ef900ef0762245d42c89071ca69f850161411eed0128b",
+    "src/Iris.Providers/bin/Release/net10.0/Iris.Providers.dll": "fefcea3431c246947073f5af119f003773d84622a465a178aa4139374134a996",
+    "src/Iris.UiaHost/bin/Release/net10.0-windows10.0.19041.0/Iris.UiaHost.dll": "99e5702deeea1b7313e277ba3ddda89b074aad2fad800a198206fcb23febdc90",
+    "tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.App.Tests.dll": "5aa29747b905e1090851c43d3f83f66bd368dba346c394701115d2b92349253d",
+    "tests/Iris.ArchitectureTests/bin/Release/net10.0-windows10.0.19041.0/Iris.ArchitectureTests.dll": "a39b012a8b197c49695ad6b2901e7d14d5b5aac7eb0b44c7ba7d17def23b101a",
+    "tests/Iris.Clipboard.IsolatedHelper/bin/Release/net10.0-windows10.0.19041.0/Iris.Clipboard.IsolatedHelper.dll": "7eabd26eef9b0063f06739af8ebd9ac984dba5b6703ffdb374933d36ec26546b",
+    "tests/Iris.Core.Tests/bin/Release/net10.0/Iris.Core.Tests.dll": "ea682b8c489ec7ea6bc1391b032d0be8dc1605482bff886893bd10800fae4c8c",
+    "tests/Iris.Infrastructure.Tests/bin/Release/net10.0/Iris.Infrastructure.Tests.dll": "1deeb9e448a92b99e27d50abfeae9bf868780edb8536b002144bef28ad47c724",
+    "tests/Iris.Platform.Windows.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.Tests.dll": "0e1dc2267f2663335f7a9e5a27a4388ad56b3fb1a6505baafb4be01783f5b7d9",
+    "tests/Iris.Providers.Tests/bin/Release/net10.0/Iris.Providers.Tests.dll": "56b3b0b3f31dfbe509bb83a3250bbf25c44f5e2c55107a55612d88f9d1b3f695"
+  },
+  "changedFromPrecommitBinaryManifest": [
+    "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/Iris.App.dll",
+    "src/Iris.Core/bin/Release/net10.0/Iris.Core.dll",
+    "src/Iris.Infrastructure/bin/Release/net10.0/Iris.Infrastructure.dll",
+    "src/Iris.Platform.Windows/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.dll",
+    "src/Iris.Providers/bin/Release/net10.0/Iris.Providers.dll",
+    "src/Iris.UiaHost/bin/Release/net10.0-windows10.0.19041.0/Iris.UiaHost.dll",
+    "tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.App.Tests.dll",
+    "tests/Iris.ArchitectureTests/bin/Release/net10.0-windows10.0.19041.0/Iris.ArchitectureTests.dll",
+    "tests/Iris.Clipboard.IsolatedHelper/bin/Release/net10.0-windows10.0.19041.0/Iris.Clipboard.IsolatedHelper.dll",
+    "tests/Iris.Core.Tests/bin/Release/net10.0/Iris.Core.Tests.dll",
+    "tests/Iris.Infrastructure.Tests/bin/Release/net10.0/Iris.Infrastructure.Tests.dll",
+    "tests/Iris.Platform.Windows.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.Tests.dll",
+    "tests/Iris.Providers.Tests/bin/Release/net10.0/Iris.Providers.Tests.dll"
+  ],
+  "informationalVersion": "0.1.0+11263780f2a34dd9ee4dc998d80dfdf605dacaf0",
+  "probeAssemblies": [
+    {
+      "probe": "tester",
+      "assembly": "Iris.Core",
+      "sha256": "3803b54dde2968e09234caa474ad9bf5938074cdcf3e6b869f2467b736cb8d0c"
+    },
+    {
+      "probe": "tester",
+      "assembly": "Iris.Providers",
+      "sha256": "fefcea3431c246947073f5af119f003773d84622a465a178aa4139374134a996"
+    },
+    {
+      "probe": "ui",
+      "assembly": "Iris.Core",
+      "sha256": "3803b54dde2968e09234caa474ad9bf5938074cdcf3e6b869f2467b736cb8d0c"
+    },
+    {
+      "probe": "ui",
+      "assembly": "Iris.App",
+      "sha256": "2b64918876325ce3b7528ed54cf7f8ae31628b05369e9734a41bb9a4655ac428"
+    },
+    {
+      "probe": "ui",
+      "assembly": "Iris.Providers",
+      "sha256": "fefcea3431c246947073f5af119f003773d84622a465a178aa4139374134a996"
+    },
+    {
+      "probe": "ui",
+      "assembly": "Iris.Infrastructure",
+      "sha256": "47fc890c78277ba06b7418feedd76f1c4dab5bda6c2347010a5e0c3ebedd62b8"
+    },
+    {
+      "probe": "ui",
+      "assembly": "Iris.Platform.Windows",
+      "sha256": "75823ff3a6ebbc6b5c6ef900ef0762245d42c89071ca69f850161411eed0128b"
+    }
+  ],
+  "protectedPaths": [
+    "src/Iris.Core/Network",
+    "src/Iris.Core/Settings",
+    "src/Iris.Infrastructure",
+    "src/Iris.Providers/Http/NetworkResponseContent.cs",
+    "src/Iris.Providers/Http/NetworkTransportManager.cs",
+    "specs/CONTRACTS.cs",
+    "Directory.Packages.props",
+    "specs/settings.example.json"
+  ],
+  "protectedChanges": [],
+  "images": [
+    {
+      "name": "Dark-600-apply-pending.png",
+      "sha256": "aafabff21de383e1ce3101839d7089070470a06ff87706a302ba1e0be65b6ab6",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-600-cleanup-failed.png",
+      "sha256": "d2299a819ac9dbbc59f7c33a36b54362e601e559036584baa4fab4221f26afdf",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-600-credentials.png",
+      "sha256": "f7a48a994b7ebcf6a61a9bc881bb819c8fefc679bfc8431f57ffd4b38d6f0f2d",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-600-empty.png",
+      "sha256": "1b20bae2c5991ccebf5e38af9b0d86505c1d758bcef9c1d914209b0d95c97cd4",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-600-ending.png",
+      "sha256": "1db9dbe7cb01be94db29a305173bec252d7e861448e9d404f9a34a52f101c6f7",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-600-fields-top.png",
+      "sha256": "925751c5a9b7e2d77ff5a9007e4746acc170941917e40ff92627e7a6f1776f6e",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-600-http-response.png",
+      "sha256": "672811236256011c5941f1eee56b00f5a6a27b1a87d6ac7d962a99e882c0625d",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-600-invalid.png",
+      "sha256": "a3559bd2049c6912b3d3baab154fc724f6b2750bf7b77044fe52338e8e7bf1df",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-600-readonly.png",
+      "sha256": "aec1bd4baf649a8aa5791753cdd0ca5f2cc45a69d3f71e8f0962a7bd7351c146",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-600-running.png",
+      "sha256": "396ca85da3f9ebb0c387a655758d3acb9483aecf4ba0429b8807d7fe16debd49",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-600-target.png",
+      "sha256": "e545ed5f2f9ad73a57a73dcf342a89853544f1b5a12cdb28449850a8d4db0f57",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-600-transport-failed.png",
+      "sha256": "ad58831200c70b7e7faa96facac9e353c4e5fa1402feadfab5f90941ba4e33d3",
+      "matchesViewedDelivery": true,
+      "review": "viewed individually via view_image; readable and canceled control disabled"
+    },
+    {
+      "name": "Dark-760-apply-pending.png",
+      "sha256": "2fb1626781f218ddadf77f2ec8c96718602a558caaf8e321093ed554d47f4b11",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-760-cleanup-failed.png",
+      "sha256": "a724f17ae542eb0cb7ce895dcbff0544b5b1f16002e922a75e56141232532b80",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-760-credentials.png",
+      "sha256": "c4cb9eeecfea0dcc8ef66118ee82c52f2cc55ee0d66dfb56b0362f9332f53fd6",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-760-empty.png",
+      "sha256": "98c750cd3cadae6cf153607cbf46fd2220a2ed1b3ab4dd47378e6d50d01e3776",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-760-ending.png",
+      "sha256": "f8519abfef24c80acbe34db6e61fd6bf21c5a4e7e956873378eec11599fba7c6",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-760-fields-top.png",
+      "sha256": "0dac3d716fa9043a8bb1e347e922b8227a11fb8e96eb8cbe16dac16547491590",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-760-http-response.png",
+      "sha256": "42681437d4606fb43533aa50f85cacedae408f308e1d78946919d446f9ecd3d9",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-760-invalid.png",
+      "sha256": "0d5a4e88c9edaa155f431679e04faf27f9db1887200b2831c41834f1196f11d9",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-760-readonly.png",
+      "sha256": "9faea9690a2ff640e0c52dbe307e520c4fa8f464c0851b6db9397dea7bd2729f",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-760-running.png",
+      "sha256": "f5e68bab74158267b2a4ee7b9c16ce332d115f76f9568b05cd95a104e5ecfded",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-760-target.png",
+      "sha256": "27870950f7d193b23797ab98515c196bf250cc47336563de3d8e86b2378400ee",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Dark-760-transport-failed.png",
+      "sha256": "a48e79d4a492052276816de9cf36dcb7e10faf1f3154b663557c33429337f8b4",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-600-apply-pending.png",
+      "sha256": "2ea12801013279e60ecce94323892b8ffc933de781290d9679b21c5bf8783e6c",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-600-cleanup-failed.png",
+      "sha256": "1b00edc66c125199c2b401f12754385a7aef52dc48aaaeb4d5f8667d94c8dab2",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-600-credentials.png",
+      "sha256": "4fb41f1120f7d67712b37d310e90ffa70669d1a0302c175e5c0c37a1a5419249",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-600-empty.png",
+      "sha256": "007c2f037a596c4bd68806dffa312ae7392bed954d2548274dcc4a09746498b8",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-600-ending.png",
+      "sha256": "7ef23dcd97a660ab66b78c56727763190afd012e922abd1cb30918cdeb99ff3e",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-600-fields-top.png",
+      "sha256": "8264bf98039435a02687d370f664143f09b1910cbf0ef898a5f5b66428e17cd3",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-600-http-response.png",
+      "sha256": "84ba3c2b7845c288e3ef7eb7275d7111cd68d7e8f5ee93f86f90f3cdca729603",
+      "matchesViewedDelivery": true,
+      "review": "viewed individually via view_image; readable and canceled control disabled"
+    },
+    {
+      "name": "Light-600-invalid.png",
+      "sha256": "d6f1b37cc93705a86c0ac7d4e5ffa2462900b2896e36cff0313b0e715d0c2f01",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-600-readonly.png",
+      "sha256": "bac3b2a67492ac85d9c85ad9bab7dd99bb2567742cf8189c4cbc6d8541d69713",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-600-running.png",
+      "sha256": "6028ecffce74ae1a200897e6ac899799c48797411cbab9f9165881a276cf0491",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-600-target.png",
+      "sha256": "a98cc6571f74624f5c5624170123695de9dd8453defda43ad33e2142ae92ae67",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-600-transport-failed.png",
+      "sha256": "de23b591f63b670f6699484724b50fbf40d0d428f541b7915ced70c558944f89",
+      "matchesViewedDelivery": true,
+      "review": "viewed individually via view_image; readable and canceled control disabled"
+    },
+    {
+      "name": "Light-760-apply-pending.png",
+      "sha256": "95e754c2804d074fe86b85dd0c62481790a2acb551e7fc155f519cdac171d233",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-760-cleanup-failed.png",
+      "sha256": "47db7210f4f9ae52f8886b2cbf436837b91a52e121312372387c6de33c4c287a",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-760-credentials.png",
+      "sha256": "690aaa97a71740e40eb81e191f260d19cf13ec5a5f20936bd990f2c2e5cc1a46",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-760-empty.png",
+      "sha256": "d1633fa9e81a26f8f9b598edd4f4fa29ff6305db60926d30d58bb53f7d805b00",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-760-ending.png",
+      "sha256": "0e28a48303be7b32878d4ed54be2d39fb1d2038319d1497f7a574a0fba71af60",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-760-fields-top.png",
+      "sha256": "226abaa51877c2e916a470f9c937ff5521c2d334e66b6798d904185e5a8fbed4",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-760-http-response.png",
+      "sha256": "3958ac8804ba3bcbe10f2322cceecfa1ceb741819af9214e349645925c1e8f34",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-760-invalid.png",
+      "sha256": "1785d946c49c825a9bdada8ee40429a2a84e8fa66e2cb40c9ef2805e042e92bc",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-760-readonly.png",
+      "sha256": "21bb9e56d0feaa1e20fed6974136039ba0faec0391c0f424d884c45c9572c263",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-760-running.png",
+      "sha256": "0271cccda433b90e6603d9dfa382daea335353b371f6d9f5805b801c73f8ce58",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-760-target.png",
+      "sha256": "5005dec64b4156330120dfbe6aa6fd43f962c198037eb347abaf66a136f16102",
+      "matchesViewedDelivery": true,
+      "review": "prior native-size review; identical bytes"
+    },
+    {
+      "name": "Light-760-transport-failed.png",
+      "sha256": "693cafeb15deb85c97d0b8294e7ad3fb1d704d88ebab497a0add797856943c8b",
+      "matchesViewedDelivery": true,
+      "review": "viewed individually via view_image; readable and canceled control disabled"
+    }
+  ],
+  "logs": {
+    "final-build.log": "74e78d2c1b549960a6c59adf9782e7fcfb6f3f4c08ebeed8aa43f32017fcd595",
+    "final-full.log": "344731e8bcea84bff9b58c495e3b935e8968f7a9b92fc03dc68dfa344138b20f",
+    "final-independent-tester.log": "cbdfbfb64565a49c863e926c285e05f3eb5c18106a9fa43c815f410c8e9a7c21",
+    "final-independent-ui.log": "5c71d45fd7edd9743c1c304e8b3c155cc98adf048d7f07a19f5af4d24fa57242",
+    "final-reload-regression.log": "3e5ff74544ba53663371b1b96aa0b24b4237b674c6e4b18f68cb31e2f97b27ea"
+  }
+}

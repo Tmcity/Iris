@@ -35,7 +35,7 @@ public sealed class NetworkConnectivityHostingTests
         var factory = new HeadFactory(send, content);
         var hotkeys = Substitute.For<IHotkeyService>();
         hotkeys.Register(Arg.Any<IrisAction>(), Arg.Any<HotkeyBinding>()).Returns(c => new HotkeyRegistrationResult(c.Arg<IrisAction>(), true));
-        var host = AppHostBuilder.Build([], paths, new Serilog.Core.LoggingLevelSwitch(), 0, services =>
+        var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, new Serilog.Core.LoggingLevelSwitch(), 0, services =>
         {
             services.AddSingleton(Substitute.For<ISecretStore>()); services.AddSingleton(hotkeys); services.AddSingleton(Substitute.For<IHotkeyCaptureService>());
             services.AddSingleton(Substitute.For<IAutoStartService>()); services.AddSingleton(Substitute.For<IOcrProviderRegistry>());

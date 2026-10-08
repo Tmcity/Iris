@@ -38,7 +38,7 @@ public sealed class SelectionCoordinationIntegrationTests
         var operation = Substitute.For<ITranslateWindowOperation>();
         presenter.TryBeginOperation(Arg.Any<CancellationToken>()).Returns(operation);
         presenter.TryShowAsync(Arg.Any<ITranslateWindowOperation>(), Arg.Any<TranslateWindowRequest>()).Returns(true);
-        var host = AppHostBuilder.Build([], paths, new Serilog.Core.LoggingLevelSwitch(), 0, services =>
+        var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, new Serilog.Core.LoggingLevelSwitch(), 0, services =>
         {
             services.AddSingleton(settings); services.AddSingleton(s.Desktop); services.AddSingleton(s.Reader);
             services.AddSingleton(s.Uia); services.AddSingleton(s.Keyboard); services.AddSingleton(s.Clipboard);

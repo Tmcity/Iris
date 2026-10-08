@@ -69,7 +69,7 @@ public sealed class ScreenshotShutdownTests
     public Task ActualHostRegistersSameLazyScreenshotPort() => ScreenshotTestScope.Run(async f =>
     {
         var paths = Substitute.For<Iris.Core.Storage.IAppPaths>(); paths.DataDirectory.Returns(Path.GetTempPath());
-        using var host = AppHostBuilder.Build([], paths, new Serilog.Core.LoggingLevelSwitch(), 0, services =>
+        using var host = Iris.App.Tests.TestSupport.IsolatedAppHost.Build([], paths, new Serilog.Core.LoggingLevelSwitch(), 0, services =>
         {
             services.AddSingleton<Iris.Core.Settings.ISettingsService>(f.A.Mouse.Settings);
             services.AddSingleton<Iris.Core.Platform.IDesktopContext>(f.A.Mouse.Platform.Desktop);

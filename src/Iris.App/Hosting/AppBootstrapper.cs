@@ -17,7 +17,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Iris.App.Hosting;
 
-internal sealed record AppStartupInfo(long StartTimestamp);
+internal sealed class AppStartupInfo(long startTimestamp, Iris.Core.Actions.IpcCommand? initialCommand = null)
+{
+    private Iris.Core.Actions.IpcCommand? _command = initialCommand;
+    internal long StartTimestamp { get; } = startTimestamp;
+    internal Iris.Core.Actions.IpcCommand? TakeCommand() => Interlocked.Exchange(ref _command, null);
+}
 
 /// <summary>
 /// 协调应用程序的启动序列与退出清理流程。
@@ -53,9 +58,12 @@ internal sealed partial class AppBootstrapper
     private readonly Iris.App.Capture.ScreenshotPreparationCoordinator? _screenshotPreparation;
     private readonly Iris.App.Capture.ScreenshotService? _screenshotService;
     private readonly Iris.Platform.Windows.Imaging.WinRtImagePreprocessor? _imagePreprocessor;
+    private readonly IpcCommandCoordinator? _ipc;
 
     private readonly Lock _stopGate = new();
     private Task? _stopTask;
+    private Task? _startTask;
+    private int _stopRequested;
     private int _stopped;
     private int _syncStopped;
     private int _trayAttached;
@@ -89,7 +97,8 @@ internal sealed partial class AppBootstrapper
         ScreenshotOcrFeedback? screenshotOcrFeedback = null,
         Iris.App.History.IHistoryShutdownCoordinator? historyShutdownCoordinator = null,
         Iris.Core.Network.INetworkProxySnapshotSource? networkSource = null,
-        Iris.Core.Network.INetworkTransportLifetime? networkLifetime = null)
+        Iris.Core.Network.INetworkTransportLifetime? networkLifetime = null,
+        IpcCommandCoordinator? ipc = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -120,6 +129,7 @@ internal sealed partial class AppBootstrapper
         _ocrRegistry = ocrRegistry;
         _ocrService = ocrService;
         _screenshotOcrFeedback = screenshotOcrFeedback;
+        _ipc = ipc;
     }
 
     internal static Action<string, string> FatalErrorShower { get; set; } = FatalErrorDialog.Show;
@@ -137,8 +147,18 @@ internal sealed partial class AppBootstrapper
         }
     };
 
-    public async Task StartAsync()
+    public Task StartAsync()
     {
+        lock (_stopGate)
+        {
+            if (_stopRequested != 0) return Task.CompletedTask;
+            return _startTask ??= StartCoreAsync();
+        }
+    }
+
+    private async Task StartCoreAsync()
+    {
+        await Task.Yield();
         // 1. 加载设置
         try
         {
@@ -156,6 +176,7 @@ internal sealed partial class AppBootstrapper
             return;
         }
 
+        if (Volatile.Read(ref _stopRequested) != 0) return;
         if (_settingsService.IsReadOnly)
             _trayNotificationService.Notify(NotificationLevel.Warning, UiText.AppName, UiText.SettingsFutureReadOnly);
         else if (_networkSource != null)
@@ -173,8 +194,11 @@ internal sealed partial class AppBootstrapper
         }
 
         // T-011: 设置成功加载（含损坏恢复）后，在用户入口启用前调用 ITranslationProviderRegistry.RefreshAsync()
+        if (Volatile.Read(ref _stopRequested) != 0) return;
         await _translationRegistry.RefreshAsync();
+        if (Volatile.Read(ref _stopRequested) != 0) return;
         if (_ocrRegistry != null) await _ocrRegistry.RefreshAsync();
+        if (Volatile.Read(ref _stopRequested) != 0) return;
 
         // 2. 配置日志级别
         _logLevelController.ApplyCurrent();
@@ -194,6 +218,7 @@ internal sealed partial class AppBootstrapper
             return;
         }
 
+        if (Volatile.Read(ref _stopRequested) != 0) return;
         // 5. 创建托盘图标并输出排队通知（先订阅 Created，创建成功后才挂接通知）
         _trayIconController.Created += OnTrayIconCreated;
         _trayIconController.Initialize();
@@ -208,24 +233,27 @@ internal sealed partial class AppBootstrapper
             await _hotkeyCoordinator.StartAsync().ConfigureAwait(false);
         }
 
+        if (Volatile.Read(ref _stopRequested) != 0) return;
         if (_selectionIconController != null) await _selectionIconController.StartAsync().ConfigureAwait(false);
         // TODO(T-033): 悬浮球
-        // TODO(T-037): 启动命名管道 IPC 服务
 
         // 5. 启动后台 Host 服务
+        if (Volatile.Read(ref _stopRequested) != 0) return;
         await _host.StartAsync();
-
-        // 6. 启动通知
-        if (_settingsService.Current.General.ShowStartupNotification)
+        // Serialize the ready transition with stop acceptance, not just an earlier flag check.
+        lock (_stopGate)
         {
-            _trayNotificationService.Notify(NotificationLevel.Info, UiText.AppName, UiText.StartupRunningInBackground);
+            if (_stopRequested != 0) return;
+            _ipc?.Start(_startupInfo.TakeCommand());
+            if (_settingsService.Current.General.ShowStartupNotification)
+            {
+                _trayNotificationService.Notify(NotificationLevel.Info, UiText.AppName, UiText.StartupRunningInBackground);
+            }
+            var elapsedMs = Stopwatch.GetElapsedTime(_startupInfo.StartTimestamp).TotalMilliseconds;
+            var trayState = _trayIconController.IsCreated ? "已创建" : "创建中（将自动重试）";
+            LogStartupReady(_logger, elapsedMs, trayState);
+            LogDebugEnabled(_logger);
         }
-
-        // 7. 记录耗时日志
-        var elapsedMs = Stopwatch.GetElapsedTime(_startupInfo.StartTimestamp).TotalMilliseconds;
-        var trayState = _trayIconController.IsCreated ? "已创建" : "创建中（将自动重试）";
-        LogStartupReady(_logger, elapsedMs, trayState);
-        LogDebugEnabled(_logger);
     }
 
     private void EnsureTrayAttached()
@@ -243,6 +271,7 @@ internal sealed partial class AppBootstrapper
 
     public void StopSynchronousParts()
     {
+        StopIpcAcceptance();
         if (Interlocked.Exchange(ref _syncStopped, 1) != 0)
         {
             return;
@@ -258,6 +287,7 @@ internal sealed partial class AppBootstrapper
 
     public Task StopAsync()
     {
+        StopIpcAcceptance();
         _networkLifetime?.StopAcceptance();
         _historyShutdownCoordinator?.StopAcceptance();
         _screenshotOcrFeedback?.StopAcceptance();
@@ -298,7 +328,14 @@ internal sealed partial class AppBootstrapper
 
     private async Task StopCoreAsync()
     {
+        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
         var earlyFailures = new System.Collections.Generic.List<string>();
+        if (_startTask != null)
+            try { await _startTask.ConfigureAwait(false); }
+            catch (Exception) { /* Start owns its safe user-facing failure; still close retained resources. */ }
+        if (_ipc != null)
+            try { await _ipc.StopTransportAsync().ConfigureAwait(false); }
+            catch (Exception) { earlyFailures.Add("IPC_TRANSPORT"); }
         if (_screenshotOcrFeedback != null)
         {
             try { await _screenshotOcrFeedback.StopAsync().ConfigureAwait(false); }
@@ -444,6 +481,9 @@ internal sealed partial class AppBootstrapper
             if (_actionDispatcher != null)
                 try { await _actionDispatcher.WaitForInFlightAsync().ConfigureAwait(false); }
                 catch (Exception ex) { ownersReady = false; selectionFailures.Add($"DISPATCH:0x{ex.HResult:X8}"); }
+            if (_ipc != null)
+                try { await _ipc.WaitForDispatchesAsync().ConfigureAwait(false); }
+                catch (Exception) { ownersReady = false; selectionFailures.Add("IPC_DISPATCH"); }
         }
         if (_ocrRegistry != null)
         {
@@ -489,6 +529,16 @@ internal sealed partial class AppBootstrapper
         }
 
         AppShutdowner(0);
+    }
+
+    private void StopIpcAcceptance()
+    {
+        lock (_stopGate)
+        {
+            _stopRequested = 1;
+            _startupInfo.TakeCommand();
+            _ipc?.StopAcceptance();
+        }
     }
 
     [LoggerMessage(EventId = 1, Level = LogLevel.Information, Message = "Iris 启动序列完成，耗时 {ElapsedMs:F1} ms，托盘图标{TrayState}")]

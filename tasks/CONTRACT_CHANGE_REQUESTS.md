@@ -1074,8 +1074,20 @@ History.Enabled/MaxEntries已存在于持久化配置，正常化上限现为100
 
 2026-10-07 · 架构师批准 · T-036B/C · NETWORK_CONFIGURATION.md / ARCH v1.53。
 
-状态：**B底座及R1已独立验收（0cd9e521）；C完整设置页与HEAD会话实施中。批准声明保持，父CCR待C完成。**
+状态：**已落地，独立复审通过并结案（T-036C，11263780；B/R1成果保留）**。
 
 接受A实证后的单一方案：NetworkSettings兼容新增ProxyCredentialSetId及安全ToString；SettingsEditPlan新增Network；新增ProxyCredentials/ProxyCredentialEdit/NetworkSettingsPatch；ISettingsService新增只读状态IsReadOnly，旧方法签名不变；SecretKeys新增LegacyProxyCredentials与ProxyCredentialSet。Iris.Core.Network新增纯托管NetworkProxySnapshot及Capture源、接收固定配置的网络观察者、实际传输生命周期、草稿端点/测试会话和结果声明。精确内容以CONTRACTS.cs为准，完整声明已独立编译。
 
 固定network/proxy-credentials仅作已知地址绑定格式导入，新写入使用network/proxy-credentials/{pc-GuidN}，Clear为显式空凭据集，防止旧键回退。保留原安全目标及三个Network默认值/schema数字/包版本。正式语义同时修正旧无效Custom直连/自动System回退及future配置Update可覆盖问题；这些旧行为不得作为保留的兼容要求。B实现底座，C实现完整UI/测试；A不算父单交付。
+
+## CCR-037：IPC 紧凑线路、载荷脱敏与启动生命周期
+
+2026-10-08 · 架构师批准 · T-037 / IPC_COMMAND_LINE.md / ARCH v1.55。
+
+状态：**已批准并预置，待 T-037 落地与独立验收**。
+
+IpcCommand 保留原构造、Action/Payload、解构和 JSON 字段，只新增不输出 Payload 的安全 ToString，并补协议说明；精确声明已预置 CONTRACTS.cs。IpcConstants 两个前缀不变。复用 IrisJson.Options 的私有紧凑副本以满足一行一条，禁止修改全局设置序列化选项。
+
+完整参数、同用户/同会话的本机管道、256KiB 帧预算、10秒软期限、内部有界接纳确认、无自动重发及完整关停见正式规范。现有内部友元足够，不新增 Core IPC 服务接口、错误码、配置字段/默认/schema或包。允许必要 Platform 原生管道身份元数据与 App 内部生命周期边界。
+
+仅第二实例、尚无 WPF 的 Main 启动边界批准同步桥等待异步客户端；保持 Mutex 获取/释放在同一 Main 线程。该窄例外不放开业务/UI 阻塞等待。测试仅创建自有随机管道/Mutex并查询必要元数据，不连接生产管道或启动真实用户主应用。M6 延期，后续国际化与打包不提前。

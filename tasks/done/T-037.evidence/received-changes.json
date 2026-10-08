@@ -1,0 +1,21 @@
+[
+  "specs/IPC_COMMAND_LINE.md",
+  "tasks/current_task.md",
+  "specs/PROJECT_HANDOFF.md",
+  "src/Iris.App/Hosting/AppBootstrapper.cs",
+  "src/Iris.App/Hosting/AppHostBuilder.cs",
+  "src/Iris.App/Program.cs",
+  "src/Iris.App/Services/AppLifetime.cs",
+  "src/Iris.Core/Actions/Ipc.cs",
+  "src/Iris.Platform.Windows/NativeMethods.txt",
+  "tests/Iris.App.Tests/Capture/ImagePreprocessorShutdownTests.cs",
+  "tests/Iris.App.Tests/Capture/ScreenshotShutdownTests.cs",
+  "tests/Iris.App.Tests/History/HistoryTestScope.cs",
+  "tests/Iris.App.Tests/Hosting/AppHostBuilderTests.cs",
+  "tests/Iris.App.Tests/Hosting/NetworkConnectivityHostingTests.cs",
+  "tests/Iris.App.Tests/Hosting/NetworkHostingTests.cs",
+  "tests/Iris.App.Tests/Hosting/ScreenCaptureShutdownTests.cs",
+  "tests/Iris.App.Tests/Selection/SelectionCoordinationIntegrationTests.cs",
+  "tests/Iris.App.Tests/Translation/TranslateWindowIntegrationTests.cs",
+  "tests/Iris.App.Tests/Workflows/SelectionEntrypointIntegrationTests.cs"
+]

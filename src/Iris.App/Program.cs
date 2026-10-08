@@ -1,15 +1,9 @@
-using System;
 using System.Diagnostics;
 using Iris.App.Hosting;
-using Iris.Core.Errors;
-using Iris.Core.Storage;
-using Iris.Infrastructure.Storage;
+using Iris.Core.Actions;
 using Iris.Platform.Windows.SystemIntegration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Serilog;
 using Serilog.Core;
-using Serilog.Events;
 
 namespace Iris.App;
 
@@ -18,52 +12,80 @@ internal static class Program
     [STAThread]
     public static int Main(string[] args)
     {
-        var startTimestamp = Stopwatch.GetTimestamp();
+        long started = Stopwatch.GetTimestamp();
+        return Run(args, new DesktopStartupRuntime(), started);
+    }
 
-        // 步骤 1：单实例锁检查（必须在创建日志器前执行）
-        var guard = SingleInstanceGuard.TryAcquireForCurrentUser();
-        if (guard == null)
+    internal static int Run(string[] args, StartupRuntime runtime, long? startTimestamp = null)
+    {
+        long started = startTimestamp ?? Stopwatch.GetTimestamp();
+        var request = CommandLineParser.Parse(args);
+        if (request.Kind != CommandLineKind.Run)
         {
-            return 0;
+            runtime.Show(request.Kind == CommandLineKind.Help ? UiText.CommandLineUsage : UiText.CommandLineInvalid);
+            return request.Kind == CommandLineKind.Help ? 0 : 2;
         }
-
-        IHost? host = null;
-
+        IDisposable? guard = null;
+        int exitCode = 1;
         try
         {
-            // 步骤 2：数据目录初始化
-            IAppPaths paths;
-            try
+            var identity = runtime.GetIdentity();
+            guard = runtime.Acquire(identity);
+            if (guard != null) exitCode = RunPrimary(runtime, identity, request.Command, started);
+            else
             {
-                paths = AppPathsFactory.CreateDefault();
+                // Approved only here: second instance, before WPF/Host/data/log initialization.
+                // Client I/O has a total deadline, no UI context, and fully joined cleanup.
+                var result = runtime.ForwardAsync(identity, request.Command ?? new(IrisAction.InputTranslate)).GetAwaiter().GetResult();
+                exitCode = result == IpcSendResult.Accepted ? 0 : 1;
+                if (exitCode != 0) runtime.Show(result == IpcSendResult.Unconfirmed ? UiText.IpcUnconfirmed
+                    : result == IpcSendResult.Rejected ? UiText.IpcRejected : UiText.IpcUnavailable);
             }
-            catch (Exception ex)
-            {
-                FatalErrorDialog.Show(UiText.AppName, FatalErrorFormatter.Format(ex));
-                return 1;
-            }
+        }
+        catch (Exception) { runtime.Show(UiText.StartupFailed); exitCode = 1; }
+        finally
+        {
+            // Same Main thread releases the mutex, even when Host or logger cleanup throws.
+            try { guard?.Dispose(); }
+            catch (Exception) { runtime.Show(UiText.StartupFailed); exitCode = 1; }
+        }
+        return exitCode;
+    }
 
-            // 步骤 3：初始化 Serilog 日志器
-            var levelSwitch = new LoggingLevelSwitch(LogEventLevel.Information);
-            Log.Logger = IrisLogging.CreateLogger(paths, levelSwitch);
-
-            // 步骤 4：构建 Generic Host 并启动 App
-            host = AppHostBuilder.Build(args, paths, levelSwitch, startTimestamp);
-            var app = host.Services.GetRequiredService<App>();
-            app.InitializeComponent();
-            return app.Run();
+    private static int RunPrimary(StartupRuntime runtime, IpcIdentity identity, IpcCommand? command, long startTimestamp)
+    {
+        IHost? host = null;
+        bool loggerOpened = false;
+        bool failed = false;
+        int result = 1;
+        try
+        {
+            var paths = runtime.CreatePaths();
+            var levelSwitch = new LoggingLevelSwitch();
+            runtime.OpenLogger(paths, levelSwitch); loggerOpened = true;
+            host = runtime.BuildHost(identity, command, paths, levelSwitch, startTimestamp);
+            result = runtime.RunApplication(host);
         }
         catch (Exception ex)
         {
-            Log.ForContext(typeof(Program)).Fatal(ex, "程序启动阶段遇到致命异常");
-            FatalErrorDialog.Show(UiText.AppName, FatalErrorFormatter.Format(ex));
-            return 1;
+            if (loggerOpened) runtime.LogFailure(ex.GetType().Name);
+            failed = true;
         }
         finally
         {
-            host?.Dispose();
-            Log.CloseAndFlush();
-            guard.Dispose();
+            try { host?.Dispose(); }
+            catch (Exception ex)
+            {
+                if (loggerOpened) runtime.LogFailure(ex.GetType().Name);
+                failed = true;
+            }
+            finally
+            {
+                try { if (loggerOpened) runtime.CloseLogger(); }
+                catch (Exception) { failed = true; }
+            }
         }
+        if (failed) { runtime.Show(UiText.StartupFailed); return 1; }
+        return result;
     }
 }

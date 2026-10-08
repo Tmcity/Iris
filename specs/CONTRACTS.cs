@@ -812,8 +812,12 @@ namespace Iris.Core.Actions
 // FILE: src/Iris.Core/Actions/Ipc.cs
 namespace Iris.Core.Actions
 {
-    /// <summary>第二实例 → 主实例的命令（命名管道，UTF-8 JSON，一行一条，使用 IrisJson.Options 序列化）。</summary>
-    public sealed record IpcCommand(IrisAction Action, string? Payload = null);
+    /// <summary>第二实例 → 主实例的命令。UTF-8 JSON 一行一条；使用 IrisJson.Options 的私有紧凑副本，不修改全局选项。
+    /// 仅本机同用户/同会话，参数、帧预算、接纳确认及完整退出规则见 IPC_COMMAND_LINE.md。</summary>
+    public sealed record IpcCommand(IrisAction Action, string? Payload = null)
+    {
+        public override string ToString() => $"IpcCommand {{ Action={Action} }}";
+    }
 
     public static class IpcConstants
     {

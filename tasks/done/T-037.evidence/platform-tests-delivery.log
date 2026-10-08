@@ -1,0 +1,27 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+失败 Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests.ActualAckWaitsForDelayedClientRead_AndDeadlineStillReleasesConnection(expire: False) (5s 021ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.TimeoutException : The operation has timed out.
+    在 Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests.<>c__DisplayClass10_0.<<ActualAckWaitsForDelayedClientRead_AndDeadlineStillReleasesConnection>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\NamedPipeIpcTests.cs:143
+    --- End of stack trace from previous location ---
+    在 Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\NamedPipeIpcTests.cs:158
+    在 Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\NamedPipeIpcTests.cs:163
+    --- End of stack trace from previous location ---
+失败 Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests.ActualAckWaitsForDelayedClientRead_AndDeadlineStillReleasesConnection(expire: True) (5s 022ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.TimeoutException : The operation has timed out.
+    在 Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests.<>c__DisplayClass10_0.<<ActualAckWaitsForDelayedClientRead_AndDeadlineStillReleasesConnection>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\NamedPipeIpcTests.cs:143
+    --- End of stack trace from previous location ---
+    在 Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\NamedPipeIpcTests.cs:158
+    在 Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\NamedPipeIpcTests.cs:163
+    --- End of stack trace from previous location ---
+F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 失败并出现 2 个错误 (12s 293ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 42
+  失败: 2
+  成功: 40
+  已跳过: 0
+  持续时间: 12s 685ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

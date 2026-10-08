@@ -9,6 +9,7 @@ using Iris.Core.Presentation;
 using Iris.Core.Storage;
 using Iris.Infrastructure.DependencyInjection;
 using Iris.Platform.Windows.DependencyInjection;
+using Iris.Platform.Windows.SystemIntegration;
 using Iris.Providers.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -28,7 +29,8 @@ internal static class AppHostBuilder
         IAppPaths paths,
         LoggingLevelSwitch levelSwitch,
         long startTimestamp,
-        Action<IServiceCollection>? configureTestOverrides = null)
+        Action<IServiceCollection>? configureTestOverrides = null,
+        IpcCommand? initialCommand = null)
     {
         ArgumentNullException.ThrowIfNull(args);
         ArgumentNullException.ThrowIfNull(paths);
@@ -36,7 +38,8 @@ internal static class AppHostBuilder
 
         var settings = new HostApplicationBuilderSettings
         {
-            Args = args,
+            // CLI payload belongs only to the typed startup command, never generic configuration.
+            Args = [],
             DisableDefaults = true,
             ContentRootPath = AppContext.BaseDirectory,
         };
@@ -56,7 +59,9 @@ internal static class AppHostBuilder
         // 基础实例注册
         builder.Services.AddSingleton(paths);
         builder.Services.AddSingleton(levelSwitch);
-        builder.Services.AddSingleton(new AppStartupInfo(startTimestamp));
+        builder.Services.AddSingleton(new AppStartupInfo(startTimestamp, initialCommand));
+        builder.Services.AddSingleton(_ => IpcIdentity.ForCurrentUser());
+        builder.Services.AddSingleton<IpcPipeFactory>();
 
         // 基础设施与平台层服务
         builder.Services.AddIrisInfrastructure();
@@ -79,6 +84,8 @@ internal static class AppHostBuilder
         builder.Services.AddSingleton<IAppLifetime, AppLifetime>();
         builder.Services.AddSingleton<IUiDispatcher, WpfUiDispatcher>();
         builder.Services.AddSingleton<IActionDispatcher, ActionDispatcher>();
+        builder.Services.AddSingleton<IActionHandler, ExitActionHandler>();
+        builder.Services.AddSingleton<IpcCommandCoordinator>();
         builder.Services.AddSingleton<HotkeyCoordinator>();
         builder.Services.AddSingleton<HotkeyRecordingCoordinator>();
         builder.Services.AddSingleton<SelectionReadCoordinator>();

@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.App.Tests\Hosting\IpcIntegrationTests.cs(174,75): error CS0117: “WpfTestRunner”未包含“Dispatcher”的定义 [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+生成失败，退出代码: 1。

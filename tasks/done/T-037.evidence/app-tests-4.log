@@ -1,0 +1,2 @@
+F:\Iris\src\Iris.App\Program.cs(78,17): error CA2219: 不要在 finally 子句中引发异常。 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca2219) [F:\Iris\src\Iris.App\Iris.App_5kmpdlzf_wpftmp.csproj]
+生成失败，退出代码: 1。
