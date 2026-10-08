@@ -1,0 +1,15 @@
+{
+  "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/Iris.App.dll": "2a267c9783f1baf141367926cad73745e278dbb63be18a204a38dad7a7b8fb62",
+  "src/Iris.Core/bin/Release/net10.0/Iris.Core.dll": "ba02f84161a39ee37f1e54e3687ad6a422cf06f74c477a4f5c81392b093263a3",
+  "src/Iris.Infrastructure/bin/Release/net10.0/Iris.Infrastructure.dll": "7eb153c436e6c8f01ee72280b51a556e261cdeeac46b23582e1203415b2e2e0d",
+  "src/Iris.Platform.Windows/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.dll": "e6f893d492e0a6953be749594ce61c00d273fd46b34fba68e02a62d87898e198",
+  "src/Iris.Providers/bin/Release/net10.0/Iris.Providers.dll": "b756e08a219062d7431da4444bce9eb2212f8c99515fb19d33b69c47d307fb79",
+  "src/Iris.UiaHost/bin/Release/net10.0-windows10.0.19041.0/Iris.UiaHost.dll": "7bb76ee9b34f4978d28e3935e4452ca67a4d423a2f0b81bf07017f7a8d4c700a",
+  "tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.App.Tests.dll": "686f1f4462fa6c2b8cb1a85e3c27177e5ddb24967b4e80ffd7dace5a1793ffd0",
+  "tests/Iris.ArchitectureTests/bin/Release/net10.0-windows10.0.19041.0/Iris.ArchitectureTests.dll": "a3e84e7a4c7dcf10c7578389ac8983c31edcf307d36514b170c4118d872eb0c7",
+  "tests/Iris.Clipboard.IsolatedHelper/bin/Release/net10.0-windows10.0.19041.0/Iris.Clipboard.IsolatedHelper.dll": "d744a5e92be7486539be54415376a679ccb105517172ef6b296335baf29998f5",
+  "tests/Iris.Core.Tests/bin/Release/net10.0/Iris.Core.Tests.dll": "673e920a37b8c9fcc255cf8d5c3dc0aeabcd1daa25bfd01910bdf177a8985827",
+  "tests/Iris.Infrastructure.Tests/bin/Release/net10.0/Iris.Infrastructure.Tests.dll": "8680650764770f7e2bdbc3a82ca9c511b844c66a267e44593da133f6323153b3",
+  "tests/Iris.Platform.Windows.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.Tests.dll": "4aad0e6185fef719662ea3d001745ea15496dd77db0969814a8de2a3ee1248a2",
+  "tests/Iris.Providers.Tests/bin/Release/net10.0/Iris.Providers.Tests.dll": "6228825f1bb6425d75183914b438fcfce97d48a20ce4b7945c2f0e6933a6a0f1"
+}

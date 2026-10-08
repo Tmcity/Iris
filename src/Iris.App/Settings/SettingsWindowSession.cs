@@ -113,7 +113,7 @@ internal sealed class SettingsWindowSession : IDisposable
         }
 
         // 仅当存在活跃录入、录入清理失败、正在保存、或已有异步清理进行中时，拦截立即销毁以保护界面与重试
-        if (_viewModel.HasOcrTestOwnership || _viewModel.IsAnyRecording || _viewModel.HasFailedRecordingCleanup || _viewModel.IsSaving || (_cleanupTask != null && !_cleanupTask.IsCompleted))
+        if (_viewModel.HasNetworkTestOwnership || _viewModel.HasOcrTestOwnership || _viewModel.IsAnyRecording || _viewModel.HasFailedRecordingCleanup || _viewModel.IsSaving || (_cleanupTask != null && !_cleanupTask.IsCompleted))
         {
             e.Cancel = true;
             _ = CloseFromEventAsync();
@@ -243,6 +243,7 @@ internal sealed class SettingsWindowSession : IDisposable
 
     private void DisposeInternal()
     {
+        if (_viewModel.HasNetworkTestOwnership) throw new InvalidOperationException(UiText.NetworkCleanupFailed);
         if (_viewModel.HasOcrTestOwnership) throw new InvalidOperationException(UiText.OcrEndFailed);
         lock (_gate)
         {

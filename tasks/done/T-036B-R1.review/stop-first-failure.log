@@ -1,0 +1,3 @@
+DISPOSE_RACE originalDisposePending=True; stopFaultedBeforeOwnerCompleted=False; retainedContent=1; stopFinishedBeforeOwnerCompleted=False
+DISPOSE_FAILURE joinedStopFailed=True; originalAttempts=1; retainedContent=1; sends=1
+DISPOSE_RACE cleanup complete: handlers=0 contents=0

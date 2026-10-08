@@ -1,5 +1,23 @@
 # Iris 架构师接手记录
 
+**新开发对话已实际接单（2026-10-08）**：恢复消息01a11b11-6b4a-7601-9ff6-395869f14405对应执行轮01a11b11-747c-79b2-847d-940d18c6b192。已读取C补充并修正取消回调清理重试、Reload同步失效；recovery-tester-1为31/31、recovery-ui-host-1为34/34，正在最终视觉/构建/全量与归档。当前轮completedAt仍为空，不误判中断、不重复派单；最终提交与架构师复验尚未完成。下方旧“等待替代链接/阻塞”已解除，开发目标仅01a11b01-c46b-74e1-9015-726c77ffbc9e。
+
+**2026-10-08恢复推进（覆盖下方旧阻塞与会话指向）**：用户已指定新开发对话01a11b01-c46b-74e1-9015-726c77ffbc9e，新对话已确认开发工程师角色且工作区为F:/Iris。唯一任务仍T-036C，恢复现有未提交实现，优先取消回调faultedTask清理重试与Reload旧结果失效，再最终验证/归档。旧对话最新记录interrupted且completedAt已非空，不再向旧对话派工。A/B/R1成果保留，M6延期，T-037不提前，不push。
+
+**恢复检查已完成，等待开发对话替代链接**：recovery-build零警告错误；recovery-full为3548/3545成功/1旧模型列表Reload回归/2环境跳过。新异步Reload等待排空前未撤销模型发布身份，具体分析已追加current_task与DEVELOPER_RECOVERY。取消回调粘住faultedTask问题仍未修。短恢复轮01a1183c-f7bf-7e42-b6fb-6a9b82bc27a4仍无消息/执行记录；已通过异步输入工具请求新开发对话链接，不重发旧轮、不自行创建用户对话。
+
+**开发连接恢复中（2026-10-08）**：指定对话的C执行轮与排队取消补充轮均明确failed/400 input。已发送唯一短恢复消息01a1183c-f642-7242-8be2-5c4a9193ce7d，对应恢复轮01a1183c-f7bf-7e42-b6fb-6a9b82bc27a4目前interrupted/completedAt=null/itemCount=0，尚不能判终止；不要重复发送。现有C工作区未重置或提交，源码指纹保存在临时iris-t036c-recovery/worktree-source-sha256.json；完整恢复说明specs/DEVELOPER_RECOVERY.md。48张候选视觉已独立查看，取消回调修正和最终交付仍未完成。
+
+**C候选视觉已完整独立查看**：visual-final的48张图已按12张原尺寸contact逐格检查，明暗/600和760/凭据遮蔽/目标与无目标/非法/运行/结束/HTTP说明/失败与重试/只读/待应用均可读，元数据及SHA在临时iris-t036c-visual-review/reviewed.json。当前仍是开发候选，最终产物须比对；取消回调faultedTask的独立补充未验收通过前不结案。
+
+**C真实UI独立组合通过（开发期）**：iris-t036c-independent-ui/ui-3.log实际SettingsWindow/VM/Session+Core+临时Json+真实Tester通过两场景：userinfo粘贴拆分后测试零写入，再History/Network联合一次保存并清空密码；手动清理重试最后UI发布暂停时保存保持等待，放行后仅一次保存/一次HEAD。引用/源码哈希见binding.json。ui-1/2为审查夹具using/警告记录，未改生产。取消回调faultedTask的独立补充仍待C处理，不能凭正常路径通过结案。
+
+**2026-10-08 C测试器独立检查**：iris-t036c-independent-tester/basic-1.log四种HTTP状态的实际Tester/Session纯Create、HEAD/无Origin认证、Run/Dispose分离通过；wire-1.log另三种实际Sockets+ConnectCallback场景（代理认证成功、302不跟随、20KB头被16KB限制拒绝）通过，原始快照源是窄fake，不冒称全UI/Core组合完成。cancel-callback-1.log复现取消回调异常后重复Dispose永久等待同一faulted_cancelWork，资源不释放；首次/重试均失败，最后仅为夹具清理反射替换已观察Task，不算产品成功。已追加current_task并排队消息01a117cf-bb3e-73f0-9d3a-f6175927462e，待C处理，不重复发送。
+
+**T-036C已实际接单**：消息01a117b2-d59b-78e2-8919-889c058904aa，执行轮01a117b2-d7d5-7e03-9f74-45c57f86689a明确接单并读取规范/已有OCR会话与设置关闭底座。下一步独立评审实际Tester与UI，不重复下达；父单待C结案。
+
+**当前唯一T-036C（2026-10-08）**：0cd9e5216f5bf52074536b91dd2c95681b336b50的B/R1已独立构建0警告错误、全量3496/3494成功/2既有跳过，七组传输与三种清理顺序最终探针通过；证据R1.review，B原失败保留。C按NETWORK_SETTINGS_UI.md/NETWORK_CONFIGURATION/ARCHv1.54完成完整network页面、联合保存及已批准HEAD会话与退出，不改Core公开契约/默认/包，不提前T-037。父T-036/CCR036待C完成，开发会话不变，不push。
+
 **R1已实际接单**：消息01a1176a-32ca-7533-a087-a7f8d703abde，执行轮01a1176a-3615-7011-8e68-93ddc7eb4a18明确接单并确认Stop把进行中的清理误当失败；正在采用原子接管/共享完成责任修复。后续观察此轮，不重复派单；C仍未开始。
 
 **当前唯一T-036B-R1（2026-10-08）**：B交付eac0c2f0独立构建0警告错误，全量3488/3485成功/1失败/2跳过；已用实际NetworkResponseContent门闩确定性复现Stop重复Dispose在途清理而提前失败。只修Providers内容清理协调/等待及回归，保留其余B成果，不改公开契约/迁移/路线，不开始C。完整证据T-036B.review，current_task已签。

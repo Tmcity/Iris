@@ -111,6 +111,10 @@
                         <TextBlock Text="{x:Static app:UiText.SettingsNavSelection}" FontWeight="Medium" VerticalAlignment="Center" />
                     </Border>
                 <Border x:Name="NavOcr" CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavOcrClick"><Border.Style><Style TargetType="Border"><Setter Property="Background" Value="Transparent"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="ocr"><Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></DataTrigger></Style.Triggers></Style></Border.Style><TextBlock Text="{x:Static app:UiText.OcrPageTitle}" TextWrapping="Wrap" FontWeight="Medium"/></Border><Border x:Name="NavScreenshot" CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavScreenshotClick"><Border.Style><Style TargetType="Border"><Setter Property="Background" Value="Transparent"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="screenshot"><Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></DataTrigger></Style.Triggers></Style></Border.Style><TextBlock Text="{x:Static app:UiText.ScreenshotPageTitle}" TextWrapping="Wrap" FontWeight="Medium"/></Border>
+                    <Border x:Name="NavNetwork" CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavNetworkClick">
+                        <Border.Style><Style TargetType="Border"><Setter Property="Background" Value="Transparent"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="network"><Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></DataTrigger></Style.Triggers></Style></Border.Style>
+                        <TextBlock Text="{x:Static app:UiText.NetworkTitle}" TextWrapping="Wrap" FontWeight="Medium"/>
+                    </Border>
                     <Border x:Name="NavHistory" CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavHistoryClick">
                         <Border.Style><Style TargetType="Border"><Setter Property="Background" Value="Transparent"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="history"><Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></DataTrigger></Style.Triggers></Style></Border.Style>
                         <TextBlock Text="{x:Static app:UiText.HistoryTitle}" TextWrapping="Wrap" FontWeight="Medium"/>
@@ -119,6 +123,46 @@
                 </ScrollViewer>
             </Border>
 
+            <ScrollViewer x:Name="NetworkPageScroll" Grid.Column="1" Padding="20,12" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ScrollViewer.Style><Style TargetType="ScrollViewer"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="network"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></ScrollViewer.Style>
+                <StackPanel MaxWidth="620" HorizontalAlignment="Stretch">
+                    <TextBlock Text="{x:Static app:UiText.NetworkTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                    <TextBlock Text="{x:Static app:UiText.NetworkDescription}" TextWrapping="Wrap" Margin="0,0,0,16"/>
+                    <StackPanel IsEnabled="{Binding CanEdit}">
+                        <TextBlock Text="{x:Static app:UiText.NetworkModeLabel}" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <ComboBox x:Name="NetworkModeCombo" ItemsSource="{x:Static local:NetworkSettingsDraftViewModel.Modes}" DisplayMemberPath="Name" SelectedValuePath="Value"
+                                  SelectedValue="{Binding Network.Mode.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinHeight="32"/>
+                        <CheckBox x:Name="NetworkBypassCheck" Content="{x:Static app:UiText.NetworkBypass}" IsChecked="{Binding Network.BypassLocal.Value}" Margin="0,12,0,6"/>
+                        <TextBlock Text="{x:Static app:UiText.NetworkBypassDescription}" TextWrapping="Wrap" Margin="0,0,0,16" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                        <TextBlock Text="{x:Static app:UiText.NetworkUrlLabel}" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <TextBox x:Name="NetworkUrlTextBox" Text="{Binding Network.Url.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinHeight="32" HorizontalScrollBarVisibility="Auto"/>
+                        <TextBlock Text="{x:Static app:UiText.NetworkUrlHint}" TextWrapping="Wrap" Margin="0,6,0,16" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                        <TextBlock Text="{x:Static app:UiText.NetworkCredentialLabel}" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <ComboBox x:Name="NetworkCredentialsCombo" ItemsSource="{x:Static local:NetworkSettingsDraftViewModel.CredentialKinds}" DisplayMemberPath="Name" SelectedValuePath="Value"
+                                  SelectedValue="{Binding Network.Credentials.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinHeight="32"/>
+                        <StackPanel IsEnabled="{Binding Network.IsReplacing}">
+                            <TextBlock Text="{x:Static app:UiText.NetworkUserName}" Margin="0,10,0,4"/>
+                            <TextBox x:Name="NetworkUserNameTextBox" Text="{Binding Network.UserName.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinHeight="32"/>
+                            <TextBlock Text="{x:Static app:UiText.NetworkPassword}" Margin="0,10,0,4"/>
+                            <PasswordBox x:Name="NetworkPasswordBox" PasswordChanged="OnNetworkPasswordChanged" MinHeight="32"/>
+                        </StackPanel>
+                        <TextBlock Text="{x:Static app:UiText.NetworkCredentialHint}" TextWrapping="Wrap" Margin="0,8,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                    </StackPanel>
+                    <TextBlock x:Name="NetworkValidationText" Text="{Binding Network.ErrorMessage}" TextWrapping="Wrap" Margin="0,0,0,12" Foreground="{DynamicResource SystemFillColorCautionBrush}"/>
+                    <TextBlock Text="{x:Static app:UiText.NetworkTargetLabel}" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                    <ComboBox x:Name="NetworkEndpointCombo" ItemsSource="{Binding NetworkEndpoints}" SelectedItem="{Binding SelectedNetworkEndpoint, Mode=TwoWay}" IsEnabled="{Binding CanEdit}" MinHeight="32">
+                        <ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Name}" TextWrapping="Wrap" MaxWidth="320"/></DataTemplate></ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <TextBlock Text="{Binding NetworkEndpointHint}" TextWrapping="Wrap" Margin="0,6,0,8"/>
+                    <TextBlock Text="{x:Static app:UiText.NetworkTargetHint}" TextWrapping="Wrap" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                    <WrapPanel>
+                        <Button x:Name="NetworkTestButton" Content="{x:Static app:UiText.NetworkTest}" Command="{Binding TestNetworkCommand}" Margin="0,0,8,8"/>
+                        <Button x:Name="NetworkCancelButton" Content="{x:Static app:UiText.NetworkCancel}" Command="{Binding CancelNetworkCommand}" Margin="0,0,0,8"/>
+                    </WrapPanel>
+                    <TextBlock x:Name="NetworkStatusText" Text="{Binding NetworkTestStatus}" TextWrapping="Wrap" Margin="0,4,0,8" Visibility="{Binding HasNetworkStatus, Converter={StaticResource BoolToVis}}"/>
+                    <TextBlock x:Name="NetworkResultText" Text="{Binding NetworkResultText}" TextWrapping="Wrap" Margin="0,4,0,12" Visibility="{Binding HasNetworkResult, Converter={StaticResource BoolToVis}}"/>
+                </StackPanel>
+            </ScrollViewer>
             <ScrollViewer x:Name="HistoryPageScroll" Grid.Column="1" Padding="20,12" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <ScrollViewer.Style><Style TargetType="ScrollViewer"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="history"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></ScrollViewer.Style>
                 <StackPanel IsEnabled="{Binding CanEdit}">
@@ -1025,6 +1069,7 @@
                                Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
 <TextBlock x:Name="OcrTestStatusText" Text="{Binding OcrTestStatus}" TextWrapping="Wrap" Margin="0,4,0,4" Visibility="{Binding HasOcrTestStatus, Converter={StaticResource BoolToVis}}"/></StackPanel>
                     <WrapPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Button x:Name="NetworkRetryCleanupButton" Content="{x:Static app:UiText.NetworkRetryCleanup}" Command="{Binding RetryNetworkCleanupCommand}" Margin="0,0,6,0" Visibility="{Binding HasFailedNetworkCleanup, Converter={StaticResource BoolToVis}}"/>
                         <Button x:Name="OcrRetryCleanupButton" Content="{x:Static app:UiText.OcrRetryCleanup}" Command="{Binding RetryOcrCleanupCommand}" Margin="0,0,6,0" Visibility="{Binding HasFailedOcrCleanup, Converter={StaticResource BoolToVis}}"/>
                         <!-- 保存冲突时展示“重新载入”按钮 -->
                         <Button Content="{x:Static app:UiText.SettingsReload}"

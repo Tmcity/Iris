@@ -165,7 +165,9 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         HotkeyCoordinator? hotkeyCoordinator = null,
         HotkeyRecordingCoordinator? recordingCoordinator = null,
         ILogger<SettingsViewModel>? logger = null,
-        Iris.App.Selection.SelectionIconController? mouseController = null)
+        Iris.App.Selection.SelectionIconController? mouseController = null,
+        Iris.Core.Network.IProxyConnectivityTester? networkTester = null,
+        TimeProvider? networkTime = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _themeService = themeService ?? throw new ArgumentNullException(nameof(themeService));
@@ -243,6 +245,8 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
         History = new(_settingsService.Current.History, () => CanEdit, () => { OnPropertyChanged(nameof(IsDirty)); RaiseAllCommandsCanExecute(); });
         InitializeOcr();
+        _networkTester = networkTester; _networkTime = networkTime ?? TimeProvider.System;
+        InitializeNetwork();
         _settingsService.Changed += OnExternalSettingsChanged;
 
         _ = QueryAutoStartStatusAsync();
@@ -353,7 +357,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     public bool HasFailedRecordingCleanup => _recordingCoordinator?.HasFailedCleanup == true;
     public bool IsReadOnly => _settingsService.IsReadOnly;
     public bool CanEdit => !IsReadOnly && !IsSaving && !_disposed && !_isStopped && !IsAnyRecording && !HasFailedRecordingCleanup;
-    public bool CanSave => CanEdit && !IsAnyRecording && !HasFailedRecordingCleanup;
+    public bool CanSave => CanEdit && !HasFailedNetworkCleanup && !IsAnyRecording && !HasFailedRecordingCleanup;
 
     public AppTheme Theme
     {
@@ -476,7 +480,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 return true;
             }
 
-            return OcrIsDirty || History.IsDirty || Selection.IsDirty || Hotkeys.Any(h => h.IsDirty);
+            return Network.IsDirty || OcrIsDirty || History.IsDirty || Selection.IsDirty || Hotkeys.Any(h => h.IsDirty);
         }
     }
 
@@ -1044,6 +1048,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         (AddProfileCommand as RelayCommand)?.RaiseCanExecuteChanged();
         RaiseProfileCommandsCanExecute();
         RaiseOcrCommands();
+        RaiseNetworkCommands();
         foreach (var h in Hotkeys)
         {
             h.RaiseCanRecordChanged();
@@ -1115,6 +1120,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         }
         if (changed)
         {
+            InvalidateNetworkTest();
             Interlocked.Increment(ref _ocrRequestSeq);
             _ocrOperationQueue.CancelInFlight();
             if (_ocrTest != null) OcrTestStatus = UiText.OcrEnding;
@@ -1131,8 +1137,10 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         StopAcceptance();
         await _operationQueue.DrainAndCancelAllAsync().ConfigureAwait(false);
         bool ocrDrained = await DrainOcrTestsAsync(closing: true).ConfigureAwait(false);
+        bool networkDrained = await DrainNetworkTestsAsync(closing: true).ConfigureAwait(false);
 
-        Exception? firstEx = ocrDrained ? null : new InvalidOperationException(UiText.OcrEndFailed);
+        Exception? firstEx = !networkDrained ? new InvalidOperationException(UiText.NetworkCleanupFailed)
+            : ocrDrained ? null : new InvalidOperationException(UiText.OcrEndFailed);
         while (true)
         {
             Task[] tasks;
@@ -1290,6 +1298,8 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 }
 
                 BeforeSave?.Invoke();
+                if (!Network.TryCapture(out var networkPatch))
+                { StatusMessage = Network.ErrorMessage; shouldReturn = true; return Task.CompletedTask; }
                 if (!History.TryCapture(out var historyPatch))
                 {
                     StatusMessage = History.ErrorMessage;
@@ -1397,7 +1407,8 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 bool hasTranslationDirty = translationChanges.Count > 0 || orderChange != null;
                 bool hasHotkeyDirty = hotkeyChanges.Count > 0;
 
-                if (!hasGeneralDirty && !hasTranslationDirty && !hasHotkeyDirty && historyPatch == null && selectionPatch == null && ocrPatch == null && ocrChanges.Count == 0 && screenshotPatch == null)
+                if (!hasGeneralDirty && !hasTranslationDirty && !hasHotkeyDirty && historyPatch == null && selectionPatch == null && ocrPatch == null && ocrChanges.Count == 0 && screenshotPatch == null && networkPatch == null
+                    && !HasNetworkTestOwnership && !HasOcrTestOwnership && !_operationQueue.HasActiveWork)
                 {
                     _themeService.ClearPreview(_sessionOwner);
                     StatusMessage = UiText.SettingsStatusSaved;
@@ -1414,6 +1425,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                     HotkeyChanges = hotkeyChanges,
                     Selection = selectionPatch,
                     History = historyPatch,
+                    Network = networkPatch,
                     Ocr = ocrPatch, OcrChanges = ocrChanges, Screenshot = screenshotPatch
                 };
 
@@ -1454,9 +1466,11 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         {
             // 保存前先取消并观察在途草稿测试/模型列表任务退出
             await _operationQueue.DrainAndCancelInFlightAsync().ConfigureAwait(false);
-            if (!await DrainOcrTestsAsync(closing: false).ConfigureAwait(false))
+            bool ocrDrained = await DrainOcrTestsAsync(closing: false).ConfigureAwait(false);
+            bool networkDrained = await DrainNetworkTestsAsync(closing: false).ConfigureAwait(false);
+            if (!ocrDrained || !networkDrained)
             {
-                await _uiDispatcher.InvokeAsync(() => { StatusMessage = UiText.OcrSaveBlocked; return Task.CompletedTask; }, CancellationToken.None).ConfigureAwait(false);
+                await _uiDispatcher.InvokeAsync(() => { StatusMessage = !networkDrained ? UiText.NetworkSaveBlocked : UiText.OcrSaveBlocked; return Task.CompletedTask; }, CancellationToken.None).ConfigureAwait(false);
                 return;
             }
 
@@ -1639,6 +1653,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     private void SyncBaselineFromCurrent()
     {
         MergeOcrSettings(reset: true);
+        MergeNetworkSettings(reset: true);
         Selection.Merge(_settingsService.Current.Selection, reset: true);
         History.Merge(_settingsService.Current.History, reset: true);
         var current = _settingsService.Current.General;
@@ -1729,12 +1744,20 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             return;
         }
 
+        // Revoke publication at acceptance, before draining any noncooperative work.
+        // Each domain keeps its own identity; cancellation alone cannot reject a late result.
+        Interlocked.Increment(ref _requestSeq);
+        Interlocked.Increment(ref _ocrRequestSeq);
+        InvalidateNetworkTest();
+        _operationQueue.CancelInFlight();
+        _ocrOperationQueue.CancelInFlight();
+
         if (IsAnyRecording)
         {
             _ = CancelRecordingAsync();
         }
 
-        if (HasOcrTestOwnership) { _ = ReloadAfterOcrCleanupAsync(); return; }
+        if (HasOcrTestOwnership || HasNetworkTestOwnership || _operationQueue.HasActiveWork) { _ = ReloadAfterDraftCleanupAsync(); return; }
 
         SyncBaselineFromCurrent();
         _themeService.ClearPreview(_sessionOwner);
@@ -2736,6 +2759,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             Selection.Merge(_settingsService.Current.Selection);
             History.Merge(_settingsService.Current.History);
             MergeOcrSettings(reset: false);
+            MergeNetworkSettings(reset: false);
             OnPropertyChanged(nameof(IsDirty));
             RaiseAllCommandsCanExecute();
             return Task.CompletedTask;
@@ -2764,6 +2788,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     public void Dispose()
     {
         DisposeOcrDrafts();
+        DisposeNetworkDraft();
         if (_recordingCoordinator != null) _recordingCoordinator.AdmissionChanged -= OnRecordingAdmissionChanged;
         lock (_admissionLock)
         {

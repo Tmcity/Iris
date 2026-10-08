@@ -1074,7 +1074,7 @@ History.Enabled/MaxEntries已存在于持久化配置，正常化上限现为100
 
 2026-10-07 · 架构师批准 · T-036B/C · NETWORK_CONFIGURATION.md / ARCH v1.53。
 
-状态：**B底座已落地，待独立复审；C完整设置页与HEAD会话未开始。批准声明保持。**
+状态：**B底座及R1已独立验收（0cd9e521）；C完整设置页与HEAD会话实施中。批准声明保持，父CCR待C完成。**
 
 接受A实证后的单一方案：NetworkSettings兼容新增ProxyCredentialSetId及安全ToString；SettingsEditPlan新增Network；新增ProxyCredentials/ProxyCredentialEdit/NetworkSettingsPatch；ISettingsService新增只读状态IsReadOnly，旧方法签名不变；SecretKeys新增LegacyProxyCredentials与ProxyCredentialSet。Iris.Core.Network新增纯托管NetworkProxySnapshot及Capture源、接收固定配置的网络观察者、实际传输生命周期、草稿端点/测试会话和结果声明。精确内容以CONTRACTS.cs为准，完整声明已独立编译。
 

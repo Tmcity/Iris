@@ -1,0 +1,53 @@
+namespace Iris.App;
+
+internal static partial class UiText
+{
+    public const string NetworkTitle = "网络与代理";
+    public const string NetworkDescription = "保存后，新请求立即使用当前网络设置；正在进行的请求会完成原有连接。";
+    public const string NetworkSystem = "使用系统代理";
+    public const string NetworkNone = "不使用代理（直接连接）";
+    public const string NetworkCustom = "使用自定义代理";
+    public const string NetworkModeLabel = "连接模式";
+    public const string NetworkBypass = "本地地址绕过代理";
+    public const string NetworkBypassDescription = "启用后，回环、私网、.local 和单段主机名直接连接；系统代理自身的例外规则仍生效。";
+    public const string NetworkUrlLabel = "自定义代理地址";
+    public const string NetworkUrlHint = "支持 http、https、socks5；socks5 默认端口为 1080。切换模式会保留此处未保存的草稿。";
+    public const string NetworkCredentialLabel = "代理凭据";
+    public const string NetworkKeep = "保持现有凭据（如有）";
+    public const string NetworkReplace = "替换凭据";
+    public const string NetworkClear = "清除凭据（无凭据）";
+    public const string NetworkUserName = "用户名";
+    public const string NetworkPassword = "密码";
+    public const string NetworkCredentialHint = "不会回填已保存密码。替换时不移除首尾空格；HTTP(S) 允许明确的空密码，SOCKS5 要求非空。";
+    public const string NetworkAddressNeedsCredentials = "代理地址已改变，请明确选择替换或清除凭据。";
+    public const string NetworkInvalidInput = "代理地址或凭据无效，请检查协议、主机、端口和输入长度。";
+    public const string NetworkTargetLabel = "测试目标（已保存的服务）";
+    public const string NetworkTargetHint = "仅测试此端点的 HTTP 连通性，不验证 API 密钥、模型或业务。不会保存草稿。";
+    public const string NetworkChooseEndpoint = "请选择已保存的测试目标。";
+    public const string NetworkNoEndpoints = "尚无可测试的已保存翻译或百度 OCR 服务。";
+    public const string NetworkInvalidEndpoint = "该服务端点无效，请先在对应服务页修正并保存。";
+    public const string NetworkEndpointChanged = "已保存的测试端点已更改，请重新选择后测试。";
+    public const string NetworkOfficialEndpoint = "Anthropic 官方默认端点";
+    public const string NetworkTranslationEndpoint = "翻译 · ";
+    public const string NetworkOcrEndpoint = "OCR · ";
+    public const string NetworkTest = "测试连通性";
+    public const string NetworkCancel = "取消测试";
+    public const string NetworkTesting = "正在测试连接…";
+    public const string NetworkEnding = "正在结束测试，等待实际请求与清理完成…";
+    public const string NetworkCleanupFailed = "测试清理未完成，请重试结束；再次清理不会重新发送请求。";
+    public const string NetworkRetryCleanup = "重试结束网络测试";
+    public const string NetworkSaveBlocked = "网络测试尚未结束，完成清理后才能保存或重新载入。";
+    public const string NetworkCanceled = "网络测试已取消。";
+    public const string NetworkResponded = "端点有响应";
+    public const string NetworkRedirect = "收到重定向，未跟随";
+    public const string NetworkProxyAuthentication = "代理要求认证";
+    public const string NetworkTimedOut = "连接测试超时，实际请求已结束。";
+    public const string NetworkTransportFailed = "连接失败，未确认端点响应。";
+    public const string NetworkInvalidConfiguration = "网络草稿或已保存端点不可用，请检查配置。";
+    public const string NetworkDirect = "直接连接";
+    public const string NetworkLocalDirect = "直接连接（本地绕过）";
+    public const string NetworkSystemDirect = "直接连接（系统代理例外）";
+    public const string NetworkViaProxy = "通过代理";
+    public const string NetworkRouteUnknown = "连接方式未确认";
+    public const string NetworkResponseDisclaimer = "HTTP 响应可能来自代理；有响应不代表 API 鉴权或业务可用。";
+}

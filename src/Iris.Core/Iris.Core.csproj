@@ -12,6 +12,7 @@
     <InternalsVisibleTo Include="Iris.Core.Tests" />
     <InternalsVisibleTo Include="Iris.Providers" />
     <InternalsVisibleTo Include="Iris.Infrastructure" />
+    <InternalsVisibleTo Include="Iris.App" />
     <InternalsVisibleTo Include="Iris.Platform.Windows" />
     <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
   </ItemGroup>

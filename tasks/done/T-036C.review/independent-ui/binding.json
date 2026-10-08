@@ -1,0 +1,17 @@
+{
+  "phase": "development independent UI + real Core/JSON/Tester",
+  "sources": {
+    "GlobalUsings.cs": "df3388556bf2dc646d1b09c7f6784b2686fe56bfdb678bc33b21c1fd09579461",
+    "NetworkTestBoundary.cs": "6a4c10b19220b17695535698b1494e4bf04b641daf5efa9f8d73348a455cfa75",
+    "Program.cs": "76ef77534d920014937e2f89547858f0e7702dab980798bdbc3d06e0b5e8398d",
+    "Scope.cs": "7f6c4d2cb90a662c4d4e14fc26607b088a15c263392107f5c4fcfa4b14bdec43",
+    "UiBoundary.cs": "e05014da81fb773215bf19336ae4c129052cce8d2e7e25078d16f7a4ccaf0af6"
+  },
+  "assemblies": {
+    "Iris.App.dll": "fc98b0c421703fe6e7127ae4548c96760013840c8f1aba7283e9e96f1717d56b",
+    "Iris.Core.dll": "ba02f84161a39ee37f1e54e3687ad6a422cf06f74c477a4f5c81392b093263a3",
+    "Iris.Infrastructure.dll": "7eb153c436e6c8f01ee72280b51a556e261cdeeac46b23582e1203415b2e2e0d",
+    "Iris.Providers.dll": "a0a59cc20c4f8bbc5c70b54603f8a8207385d23bc550b81b7ed8cdb46f503475"
+  },
+  "log": "ui-3.log"
+}

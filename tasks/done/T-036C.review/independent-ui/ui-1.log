@@ -1,0 +1,6 @@
+C:\Users\28910\AppData\Local\Temp\iris-t036c-independent-ui\NetworkTestBoundary.cs(30,45): error CS0246: 未能找到类型或命名空间名“SocketsHttpConnectionContext”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t036c-independent-ui\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t036c-independent-ui\NetworkTestBoundary.cs(30,24): error CS0246: 未能找到类型或命名空间名“Stream”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t036c-independent-ui\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t036c-independent-ui\NetworkTestBoundary.cs(45,74): error CS0246: 未能找到类型或命名空间名“Stream”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t036c-independent-ui\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t036c-independent-ui\NetworkTestBoundary.cs(98,48): error CS0246: 未能找到类型或命名空间名“SeekOrigin”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t036c-independent-ui\Review.csproj]
+
+生成失败。请修复生成错误并重新运行。

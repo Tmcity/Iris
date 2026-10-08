@@ -1,0 +1,12 @@
+{
+  "sources": {
+    "NetworkTestBoundary.cs": "6a4c10b19220b17695535698b1494e4bf04b641daf5efa9f8d73348a455cfa75",
+    "Program.cs": "3aa694dae16c45bbba231280d97635af1675104889cb3199c14a44451149d424"
+  },
+  "assemblies": {
+    "Iris.Core.dll": "ba02f84161a39ee37f1e54e3687ad6a422cf06f74c477a4f5c81392b093263a3",
+    "Iris.Providers.dll": "1898ff15532ebd6d819b7626114e82c366762f6f95eb6fcd8e844332077edd87"
+  },
+  "log": "wire-1.log",
+  "phase": "development independent tester/real Sockets with in-memory ConnectCallback; fake snapshot source"
+}

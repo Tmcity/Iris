@@ -1,0 +1,4 @@
+C:\Users\28910\AppData\Local\Temp\iris-t036c-independent-ui\Program.cs(25,48): warning CS8602: 解引用可能出现空引用。 [C:\Users\28910\AppData\Local\Temp\iris-t036c-independent-ui\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t036c-independent-ui\NetworkTestBoundary.cs(27,41): warning CS0649: 从未对字段“NetworkWire.Respond”赋值，字段将一直保持其默认值 null [C:\Users\28910\AppData\Local\Temp\iris-t036c-independent-ui\Review.csproj]
+PASS real window paste/test/save
+PASS last cleanup publication blocks save

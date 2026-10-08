@@ -26,9 +26,11 @@
   <ItemGroup>
     <Using Include="Xunit" />
     <Using Include="System.IO" />
+    <Using Include="System.Net.Http" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\Iris.Providers.Tests\Http\NetworkTestBoundary.cs" Link="TestSupport\NetworkTestBoundary.cs" />
     <Compile Include="..\Iris.Platform.Windows.Tests\Selection\SelectionTestScope.cs" Link="Selection\Boundaries\SelectionTestScope.cs" />
     <Compile Include="..\Iris.Platform.Windows.Tests\Selection\SelectionTimeProvider.cs" Link="Selection\Boundaries\SelectionTimeProvider.cs" />
     <Compile Include="..\Iris.Platform.Windows.Tests\Selection\FakeUiaTestAdapters.cs" Link="Selection\Boundaries\FakeUiaTestAdapters.cs" />

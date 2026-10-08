@@ -1,0 +1,1 @@
+The first nullable-fix edit used Python's default gbk encoding and failed before writing any file: UnicodeDecodeError: 'gbk' codec can't decode byte 0x8d in position 1441: illegal multibyte sequence. visual-2.log therefore repeats the unchanged compiler error; the edit was then applied with explicit utf-8.

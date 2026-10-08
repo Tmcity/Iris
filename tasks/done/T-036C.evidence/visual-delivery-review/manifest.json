@@ -1,0 +1,110 @@
+[
+  {
+    "contact": "contact-01.png",
+    "files": [
+      "Light-600-fields-top.png",
+      "Light-600-credentials.png",
+      "Light-600-target.png",
+      "Light-600-empty.png"
+    ]
+  },
+  {
+    "contact": "contact-02.png",
+    "files": [
+      "Light-600-invalid.png",
+      "Light-600-running.png",
+      "Light-600-ending.png",
+      "Light-600-transport-failed.png"
+    ]
+  },
+  {
+    "contact": "contact-03.png",
+    "files": [
+      "Light-600-cleanup-failed.png",
+      "Light-600-readonly.png",
+      "Light-600-apply-pending.png",
+      "Light-600-http-response.png"
+    ]
+  },
+  {
+    "contact": "contact-04.png",
+    "files": [
+      "Light-760-fields-top.png",
+      "Light-760-credentials.png",
+      "Light-760-target.png",
+      "Light-760-empty.png"
+    ]
+  },
+  {
+    "contact": "contact-05.png",
+    "files": [
+      "Light-760-invalid.png",
+      "Light-760-running.png",
+      "Light-760-ending.png",
+      "Light-760-transport-failed.png"
+    ]
+  },
+  {
+    "contact": "contact-06.png",
+    "files": [
+      "Light-760-cleanup-failed.png",
+      "Light-760-readonly.png",
+      "Light-760-apply-pending.png",
+      "Light-760-http-response.png"
+    ]
+  },
+  {
+    "contact": "contact-07.png",
+    "files": [
+      "Dark-600-fields-top.png",
+      "Dark-600-credentials.png",
+      "Dark-600-target.png",
+      "Dark-600-empty.png"
+    ]
+  },
+  {
+    "contact": "contact-08.png",
+    "files": [
+      "Dark-600-invalid.png",
+      "Dark-600-running.png",
+      "Dark-600-ending.png",
+      "Dark-600-transport-failed.png"
+    ]
+  },
+  {
+    "contact": "contact-09.png",
+    "files": [
+      "Dark-600-cleanup-failed.png",
+      "Dark-600-readonly.png",
+      "Dark-600-apply-pending.png",
+      "Dark-600-http-response.png"
+    ]
+  },
+  {
+    "contact": "contact-10.png",
+    "files": [
+      "Dark-760-fields-top.png",
+      "Dark-760-credentials.png",
+      "Dark-760-target.png",
+      "Dark-760-empty.png"
+    ]
+  },
+  {
+    "contact": "contact-11.png",
+    "files": [
+      "Dark-760-invalid.png",
+      "Dark-760-running.png",
+      "Dark-760-ending.png",
+      "Dark-760-transport-failed.png"
+    ]
+  },
+  {
+    "contact": "contact-12.png",
+    "files": [
+      "Dark-760-cleanup-failed.png",
+      "Dark-760-readonly.png",
+      "Dark-760-apply-pending.png",
+      "Dark-760-http-response.png"
+    ]
+  }
+]

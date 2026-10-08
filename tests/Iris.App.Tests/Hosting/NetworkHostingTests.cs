@@ -89,7 +89,7 @@ public sealed class NetworkHostingTests
         services.GetRequiredService<TrayIconController>().SuppressIconCreationForTesting = true;
         var source = services.GetRequiredService<INetworkProxySnapshotSource>();
         source.ShouldBeSameAs(services.GetRequiredService<ISettingsEditCoordinator>());
-        services.GetService<IProxyConnectivityTester>().ShouldBeNull();
+        services.GetRequiredService<IProxyConnectivityTester>().ShouldBeSameAs(services.GetRequiredService<ProxyConnectivityTester>());
         var lifetime = services.GetRequiredService<INetworkTransportLifetime>();
         var bootstrap = services.GetRequiredService<AppBootstrapper>();
         var originalShutdown = AppBootstrapper.AppShutdowner; AppBootstrapper.AppShutdowner = _ => order.Enqueue("app-exit");
@@ -103,9 +103,10 @@ public sealed class NetworkHostingTests
                 providers.Providers.Single().Provider.GetType().Name.ShouldBe("AnthropicTranslationProvider");
             var snapshot = await source.CaptureCurrentAsync(new("http://origin.example.test/"));
             // Test-only reflection reaches internal ownership without publishing another Core port or opening a socket.
-            var managerType = lifetime.GetType();
-            lease = (IDisposable)managerType.GetMethod("Acquire", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(lifetime, [HttpClientNames.Llm, snapshot, null])!;
-            owned = (HttpContent)managerType.GetMethod("OwnContent", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(lifetime, [lease, leaf])!;
+            var manager = services.GetRequiredService<NetworkTransportManager>();
+            var managerType = manager.GetType();
+            lease = (IDisposable)managerType.GetMethod("Acquire", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(manager, [HttpClientNames.Llm, snapshot, null])!;
+            owned = (HttpContent)managerType.GetMethod("OwnContent", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(manager, [lease, leaf])!;
             lease.Dispose();
             await f.OpenSettings(); var window = f.Settings.ActiveSession!.Window;
             window.Closed += (_, _) =>

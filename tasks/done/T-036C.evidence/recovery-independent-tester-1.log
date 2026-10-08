@@ -1,0 +1,9 @@
+PASS actual tester status=200: pure Create, one HEAD, no origin auth, ownership until Dispose
+PASS actual tester status=401: pure Create, one HEAD, no origin auth, ownership until Dispose
+PASS actual tester status=407: pure Create, one HEAD, no origin auth, ownership until Dispose
+PASS actual tester status=302: pure Create, one HEAD, no origin auth, ownership until Dispose
+PASS actual Sockets HEAD response: proxy auth, no origin auth, one route, header limit and full disposal
+PASS actual Sockets HEAD redirect: proxy auth, no origin auth, one route, header limit and full disposal
+PASS actual Sockets HEAD oversized-headers: proxy auth, no origin auth, one route, header limit and full disposal
+CANCEL_CALLBACK firstFailed=True; retryFailed=False; heldSessions=0; handlerDisposed=True; sends=1
+FIXTURE CLEANUP sessions=0 handlerDisposed=True

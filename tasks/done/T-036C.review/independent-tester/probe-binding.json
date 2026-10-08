@@ -1,0 +1,8 @@
+{
+  "programSha256": "d61f87491f1003697f39329d5cec32529f605db7b4cf2fb219e4ca147c60adad",
+  "executedAssemblies": {
+    "Iris.Core.dll": "ba02f84161a39ee37f1e54e3687ad6a422cf06f74c477a4f5c81392b093263a3",
+    "Iris.Providers.dll": "1898ff15532ebd6d819b7626114e82c366762f6f95eb6fcd8e844332077edd87"
+  },
+  "phase": "development snapshot, failure recorded before fixture-only cleanup"
+}

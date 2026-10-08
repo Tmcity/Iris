@@ -1,0 +1,4 @@
+PASS actual tester status=200: pure Create, one HEAD, no origin auth, ownership until Dispose
+PASS actual tester status=401: pure Create, one HEAD, no origin auth, ownership until Dispose
+PASS actual tester status=407: pure Create, one HEAD, no origin auth, ownership until Dispose
+PASS actual tester status=302: pure Create, one HEAD, no origin auth, ownership until Dispose

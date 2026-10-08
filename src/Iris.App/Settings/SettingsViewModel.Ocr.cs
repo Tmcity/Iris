@@ -327,13 +327,20 @@ internal sealed partial class SettingsViewModel
         _ocrOperationQueue.Dispose(); _deletedOcrProfiles.Clear();
     }
 
-    private async Task ReloadAfterOcrCleanupAsync()
+    private async Task ReloadAfterDraftCleanupAsync()
     {
         var work = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         lock (_admissionLock) { _activeWork.Add(work.Task); IsSaving = true; FreezeAllDrafts(); }
         try
         {
-            if (!await DrainOcrTestsAsync(closing: false).ConfigureAwait(false)) return;
+            await _operationQueue.DrainAndCancelInFlightAsync().ConfigureAwait(false);
+            bool ocrDrained = await DrainOcrTestsAsync(closing: false).ConfigureAwait(false);
+            bool networkDrained = await DrainNetworkTestsAsync(closing: false).ConfigureAwait(false);
+            if (!ocrDrained || !networkDrained)
+            {
+                await _uiDispatcher.InvokeAsync(() => { StatusMessage = !networkDrained ? UiText.NetworkSaveBlocked : UiText.OcrSaveBlocked; return Task.CompletedTask; }, CancellationToken.None).ConfigureAwait(false);
+                return;
+            }
             await _uiDispatcher.InvokeAsync(() =>
             {
                 if (_disposed || _isStopped) return Task.CompletedTask;

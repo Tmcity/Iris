@@ -1,0 +1,7 @@
+{
+  "src\\Iris.Core\\bin\\Release\\net10.0\\Iris.Core.dll": "ba02f84161a39ee37f1e54e3687ad6a422cf06f74c477a4f5c81392b093263a3",
+  "src\\Iris.Providers\\bin\\Release\\net10.0\\Iris.Providers.dll": "b756e08a219062d7431da4444bce9eb2212f8c99515fb19d33b69c47d307fb79",
+  "src\\Iris.App\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.App.dll": "2a267c9783f1baf141367926cad73745e278dbb63be18a204a38dad7a7b8fb62",
+  "tests\\Iris.App.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.App.Tests.dll": "686f1f4462fa6c2b8cb1a85e3c27177e5ddb24967b4e80ffd7dace5a1793ffd0",
+  "tests\\Iris.Providers.Tests\\bin\\Release\\net10.0\\Iris.Providers.Tests.dll": "6228825f1bb6425d75183914b438fcfce97d48a20ce4b7945c2f0e6933a6a0f1"
+}

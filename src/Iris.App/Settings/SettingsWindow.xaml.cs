@@ -30,6 +30,7 @@ internal partial class SettingsWindow : FluentWindow
         SizeChanged += (s, e) => ApplyAdaptiveLayout(e.NewSize.Width);
         Loaded += (s, e) => ApplyAdaptiveLayout(ActualWidth > 0 ? ActualWidth : Width);
         Closed += (_, _) => SyncOcrPasswords(null);
+        Closed += (_, _) => SyncNetworkPassword(null);
         ApplyAdaptiveLayout(Width);
     }
 
@@ -117,6 +118,7 @@ internal partial class SettingsWindow : FluentWindow
             newVm.SetWindowHandleProvider(() => new WindowInteropHelper(this).Handle);
             SyncPasswordBoxWithDraft(newVm.SelectedProfile);
             SyncOcrPasswords(newVm.SelectedOcrProfile);
+            SyncNetworkPassword(newVm.Network);
         }
     }
 
@@ -141,6 +143,8 @@ internal partial class SettingsWindow : FluentWindow
 
     private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
+        if (e.PropertyName == nameof(SettingsViewModel.Network) && sender is SettingsViewModel networkVm)
+            SyncNetworkPassword(networkVm.Network);
         if (e.PropertyName == nameof(SettingsViewModel.SelectedOcrProfile) && sender is SettingsViewModel ocrVm)
         {
             if (Dispatcher.CheckAccess()) SyncOcrPasswords(ocrVm.SelectedOcrProfile);
@@ -299,6 +303,8 @@ internal partial class SettingsWindow : FluentWindow
 
     internal void FlushFocusedBinding()
     {
+        FlushSelectionText(NetworkUrlTextBox);
+        FlushSelectionText(NetworkUserNameTextBox);
         FlushSelectionText(OcrTimeoutTextBox);
         FlushSelectionText(ScreenshotMaskOpacityTextBox);
         FlushSelectionText(HistoryMaxEntriesTextBox);
@@ -320,6 +326,18 @@ internal partial class SettingsWindow : FluentWindow
 
     private void OnNavOcrClick(object sender, MouseButtonEventArgs e)
     { if (DataContext is SettingsViewModel vm) vm.CurrentPageKey = "ocr"; }
+    private void OnNavNetworkClick(object sender, MouseButtonEventArgs e)
+    { if (DataContext is SettingsViewModel vm) vm.CurrentPageKey = "network"; }
+    private void SyncNetworkPassword(NetworkSettingsDraftViewModel? draft)
+    {
+        _suppressPasswordChanged = true;
+        try { NetworkPasswordBox.Password = draft?.ReplacementPassword ?? ""; }
+        finally { _suppressPasswordChanged = false; }
+    }
+    private void OnNetworkPasswordChanged(object sender, RoutedEventArgs e)
+    {
+        if (!_suppressPasswordChanged && DataContext is SettingsViewModel vm) vm.Network.SetPassword(NetworkPasswordBox.Password);
+    }
     private void OnNavHistoryClick(object sender, MouseButtonEventArgs e)
     { if (DataContext is SettingsViewModel vm) vm.CurrentPageKey = "history"; }
     private void OnNavScreenshotClick(object sender, MouseButtonEventArgs e)

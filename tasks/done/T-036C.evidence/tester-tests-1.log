@@ -1,0 +1,4 @@
+F:\Iris\tests\Iris.Providers.Tests\Http\ProxyConnectivityTests.cs(185,53): error CS4014: 由于此调用不会等待，因此在此调用完成之前将会继续执行当前方法。请考虑将 "await" 运算符应用于调用结果。 [F:\Iris\tests\Iris.Providers.Tests\Iris.Providers.Tests.csproj]
+F:\Iris\tests\Iris.Providers.Tests\Http\ProxyConnectivityTests.cs(188,44): error CS4014: 由于此调用不会等待，因此在此调用完成之前将会继续执行当前方法。请考虑将 "await" 运算符应用于调用结果。 [F:\Iris\tests\Iris.Providers.Tests\Iris.Providers.Tests.csproj]
+F:\Iris\tests\Iris.Providers.Tests\Http\ProxyConnectivityTests.cs(248,169): error CS8625: 无法将 null 字面量转换为非 null 的引用类型。 [F:\Iris\tests\Iris.Providers.Tests\Iris.Providers.Tests.csproj]
+生成失败，退出代码: 1。

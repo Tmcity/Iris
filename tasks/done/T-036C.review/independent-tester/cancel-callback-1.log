@@ -1,0 +1,7 @@
+PASS actual tester status=200: pure Create, one HEAD, no origin auth, ownership until Dispose
+PASS actual tester status=401: pure Create, one HEAD, no origin auth, ownership until Dispose
+PASS actual tester status=407: pure Create, one HEAD, no origin auth, ownership until Dispose
+PASS actual tester status=302: pure Create, one HEAD, no origin auth, ownership until Dispose
+CANCEL_CALLBACK firstFailed=True; retryFailed=True; heldSessions=1; handlerDisposed=False; sends=1
+FIXTURE ONLY: previously observed faulted cancellation task replaced for cleanup; not counted as product recovery
+FIXTURE CLEANUP sessions=0 handlerDisposed=True

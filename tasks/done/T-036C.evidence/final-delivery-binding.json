@@ -1,0 +1,1311 @@
+{
+  "baseline": "0cd9e5216f5bf52074536b91dd2c95681b336b50",
+  "date": "2026-10-08",
+  "status": "Development delivery; architect acceptance pending",
+  "artifacts": [
+    {
+      "file": "tasks/done/T-036C.evidence/recovery-tester-1.log",
+      "sha256": "bf44ae46c6a11c286cdc06c94bda9b72a67453c20b3e6e5319c581501ab10878"
+    },
+    {
+      "file": "tasks/done/T-036C.evidence/recovery-ui-host-1.log",
+      "sha256": "82dc233a9f53f1c48516973faa8f7fb0fe5516de9912fcd23803c8e4776efbae"
+    },
+    {
+      "file": "tasks/done/T-036C.evidence/recovery-independent-tester-1.log",
+      "sha256": "cbdfbfb64565a49c863e926c285e05f3eb5c18106a9fa43c815f410c8e9a7c21"
+    },
+    {
+      "file": "tasks/done/T-036C.evidence/recovery-visual-1.log",
+      "sha256": "6ddf8d3fcccd22cda715a6dba982adbee9c52e1d60fe3e593707c07d0fb0c822"
+    },
+    {
+      "file": "tasks/done/T-036C.evidence/recovery-independent-ui-1.log",
+      "sha256": "5c71d45fd7edd9743c1c304e8b3c155cc98adf048d7f07a19f5af4d24fa57242"
+    },
+    {
+      "file": "tasks/done/T-036C.evidence/release-build-delivery.log",
+      "sha256": "ea0318c8afd47c782428b9476572f6b3ce79ddfdb3b9173aa8f3eec7b5966399"
+    },
+    {
+      "file": "tasks/done/T-036C.evidence/full-test-delivery.log",
+      "sha256": "9f295daeccc3883c3b0a06bd4ac249134bfa1aa8c6c56cbf2da39d87c38d9f9b"
+    },
+    {
+      "file": "tasks/done/T-036C.evidence/final-source-sha256.json",
+      "sha256": "15b0a379e2822b0a3fd3e9f8c94cf3cfe65007eb744cb134aa6b58a8c118a9ac"
+    },
+    {
+      "file": "tasks/done/T-036C.evidence/final-binaries-sha256.json",
+      "sha256": "d794b2851bc618f3d877f286b3fe42281e4546cb934c4c495abc1e6539a6dd31"
+    },
+    {
+      "file": "tasks/done/T-036C.evidence/validation-binaries-before-final.json",
+      "sha256": "4c10f7dc37db8ce604d565622eb394e79892e864d2beda3d878c35dad95969ad"
+    },
+    {
+      "file": "tasks/done/T-036C.evidence/post-validation-comparison.json",
+      "sha256": "60d190d27a00906abd66eb34e35be32ad9051c3f9971c6562a01a5182e599b25"
+    },
+    {
+      "file": "tasks/done/T-036C.evidence/visual-delivery-review/reviewed.json",
+      "sha256": "359f736514832c364622c603c2f84579b7a184c4ff5d2090db14b088ec96f34b"
+    },
+    {
+      "file": "tasks/done/T-036C.evidence/signed-work-order.md",
+      "sha256": "d4c6ee10543aaa4bebd531b2c4fd9cee6493f66e8aa3add06795d495a5bea9e9"
+    },
+    {
+      "file": "tasks/done/T-036C.evidence/final-source-git-blobs.json",
+      "sha256": "9591130800bfc04c096de26c5cd8f5db71a9ee085b01e0d538ae06a805b221b9"
+    },
+    {
+      "file": "tasks/done/T-036C.evidence/archive-whitespace-check.log",
+      "sha256": "81d2ac1b204463dcc9881cc44a66a29881607e7a088f4a9a744facc7f10ed264"
+    },
+    {
+      "file": "tasks/done/T-036C.evidence/commands.md",
+      "sha256": "330201dc991d1cbf7646dcff1f196652fc801d1934f212d3016af4af9c907e5b"
+    }
+  ],
+  "sourceFiles": 608,
+  "binaryFiles": 13,
+  "protectedFoundationFiles": 107,
+  "protectedFoundationChanges": [],
+  "receivedChangesBeforeArchive": [
+    "specs/DEVELOPER_RECOVERY.md",
+    "src/Iris.Providers/Http/ProxyConnectivitySession.cs",
+    "tests/Iris.App.Tests/Settings/NetworkSettingsUiTests.cs",
+    "tests/Iris.Providers.Tests/Http/ProxyConnectivityTests.cs",
+    "specs/DEVELOPER_HANDOFF.md",
+    "specs/PROJECT_HANDOFF.md",
+    "src/Iris.App/Settings/SettingsViewModel.cs"
+  ],
+  "visuals": [
+    {
+      "directory": "tasks/done/T-036C.evidence/visual",
+      "images": [
+        {
+          "file": "Light-600-fields-top.png",
+          "sha256": "8264bf98039435a02687d370f664143f09b1910cbf0ef898a5f5b66428e17cd3",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-credentials.png",
+          "sha256": "4fb41f1120f7d67712b37d310e90ffa70669d1a0302c175e5c0c37a1a5419249",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-target.png",
+          "sha256": "a98cc6571f74624f5c5624170123695de9dd8453defda43ad33e2142ae92ae67",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-empty.png",
+          "sha256": "ab99a62a540c65c27141116b2f71e0f872b0337557875bd84a76a7a4e54cc858",
+          "matchesDelivery": false
+        },
+        {
+          "file": "Light-600-invalid.png",
+          "sha256": "d6f1b37cc93705a86c0ac7d4e5ffa2462900b2896e36cff0313b0e715d0c2f01",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-running.png",
+          "sha256": "6028ecffce74ae1a200897e6ac899799c48797411cbab9f9165881a276cf0491",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-ending.png",
+          "sha256": "7ef23dcd97a660ab66b78c56727763190afd012e922abd1cb30918cdeb99ff3e",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-transport-failed.png",
+          "sha256": "c21b0188b69d3c531a437183e05a2cb1a55a6f6a74606a49c8e7a2d6ca67446d",
+          "matchesDelivery": false
+        },
+        {
+          "file": "Light-600-cleanup-failed.png",
+          "sha256": "1b00edc66c125199c2b401f12754385a7aef52dc48aaaeb4d5f8667d94c8dab2",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-readonly.png",
+          "sha256": "bac3b2a67492ac85d9c85ad9bab7dd99bb2567742cf8189c4cbc6d8541d69713",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-apply-pending.png",
+          "sha256": "2ea12801013279e60ecce94323892b8ffc933de781290d9679b21c5bf8783e6c",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-http-response.png",
+          "sha256": "0bf7c863195c3c72e5dcc25aea9c1c1c373fdd84e9a4673b99471e86b7e9682f",
+          "matchesDelivery": false
+        },
+        {
+          "file": "Light-760-fields-top.png",
+          "sha256": "226abaa51877c2e916a470f9c937ff5521c2d334e66b6798d904185e5a8fbed4",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-credentials.png",
+          "sha256": "690aaa97a71740e40eb81e191f260d19cf13ec5a5f20936bd990f2c2e5cc1a46",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-target.png",
+          "sha256": "5005dec64b4156330120dfbe6aa6fd43f962c198037eb347abaf66a136f16102",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-empty.png",
+          "sha256": "bd7265f25193bcbb459f8cea33210b28d1fba838c37eeabe90c082f011d37759",
+          "matchesDelivery": false
+        },
+        {
+          "file": "Light-760-invalid.png",
+          "sha256": "1785d946c49c825a9bdada8ee40429a2a84e8fa66e2cb40c9ef2805e042e92bc",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-running.png",
+          "sha256": "0271cccda433b90e6603d9dfa382daea335353b371f6d9f5805b801c73f8ce58",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-ending.png",
+          "sha256": "0e28a48303be7b32878d4ed54be2d39fb1d2038319d1497f7a574a0fba71af60",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-transport-failed.png",
+          "sha256": "693cafeb15deb85c97d0b8294e7ad3fb1d704d88ebab497a0add797856943c8b",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-cleanup-failed.png",
+          "sha256": "47db7210f4f9ae52f8886b2cbf436837b91a52e121312372387c6de33c4c287a",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-readonly.png",
+          "sha256": "21bb9e56d0feaa1e20fed6974136039ba0faec0391c0f424d884c45c9572c263",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-apply-pending.png",
+          "sha256": "95e754c2804d074fe86b85dd0c62481790a2acb551e7fc155f519cdac171d233",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-http-response.png",
+          "sha256": "3958ac8804ba3bcbe10f2322cceecfa1ceb741819af9214e349645925c1e8f34",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-fields-top.png",
+          "sha256": "925751c5a9b7e2d77ff5a9007e4746acc170941917e40ff92627e7a6f1776f6e",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-credentials.png",
+          "sha256": "f7a48a994b7ebcf6a61a9bc881bb819c8fefc679bfc8431f57ffd4b38d6f0f2d",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-target.png",
+          "sha256": "e545ed5f2f9ad73a57a73dcf342a89853544f1b5a12cdb28449850a8d4db0f57",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-empty.png",
+          "sha256": "53cfba73240e976adf3d972d16613651d0af7ff7764156c54f7b199d7ea2a0fd",
+          "matchesDelivery": false
+        },
+        {
+          "file": "Dark-600-invalid.png",
+          "sha256": "a3559bd2049c6912b3d3baab154fc724f6b2750bf7b77044fe52338e8e7bf1df",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-running.png",
+          "sha256": "396ca85da3f9ebb0c387a655758d3acb9483aecf4ba0429b8807d7fe16debd49",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-ending.png",
+          "sha256": "1db9dbe7cb01be94db29a305173bec252d7e861448e9d404f9a34a52f101c6f7",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-transport-failed.png",
+          "sha256": "ad58831200c70b7e7faa96facac9e353c4e5fa1402feadfab5f90941ba4e33d3",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-cleanup-failed.png",
+          "sha256": "d2299a819ac9dbbc59f7c33a36b54362e601e559036584baa4fab4221f26afdf",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-readonly.png",
+          "sha256": "aec1bd4baf649a8aa5791753cdd0ca5f2cc45a69d3f71e8f0962a7bd7351c146",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-apply-pending.png",
+          "sha256": "aafabff21de383e1ce3101839d7089070470a06ff87706a302ba1e0be65b6ab6",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-http-response.png",
+          "sha256": "672811236256011c5941f1eee56b00f5a6a27b1a87d6ac7d962a99e882c0625d",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-fields-top.png",
+          "sha256": "0dac3d716fa9043a8bb1e347e922b8227a11fb8e96eb8cbe16dac16547491590",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-credentials.png",
+          "sha256": "c4cb9eeecfea0dcc8ef66118ee82c52f2cc55ee0d66dfb56b0362f9332f53fd6",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-target.png",
+          "sha256": "27870950f7d193b23797ab98515c196bf250cc47336563de3d8e86b2378400ee",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-empty.png",
+          "sha256": "05e5edc5a59b3240bd9b83276c3de3a8b6df35b87483d4bfb611a948fa868afc",
+          "matchesDelivery": false
+        },
+        {
+          "file": "Dark-760-invalid.png",
+          "sha256": "0d5a4e88c9edaa155f431679e04faf27f9db1887200b2831c41834f1196f11d9",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-running.png",
+          "sha256": "f5e68bab74158267b2a4ee7b9c16ce332d115f76f9568b05cd95a104e5ecfded",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-ending.png",
+          "sha256": "f8519abfef24c80acbe34db6e61fd6bf21c5a4e7e956873378eec11599fba7c6",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-transport-failed.png",
+          "sha256": "a48e79d4a492052276816de9cf36dcb7e10faf1f3154b663557c33429337f8b4",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-cleanup-failed.png",
+          "sha256": "a724f17ae542eb0cb7ce895dcbff0544b5b1f16002e922a75e56141232532b80",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-readonly.png",
+          "sha256": "9faea9690a2ff640e0c52dbe307e520c4fa8f464c0851b6db9397dea7bd2729f",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-apply-pending.png",
+          "sha256": "2fb1626781f218ddadf77f2ec8c96718602a558caaf8e321093ed554d47f4b11",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-http-response.png",
+          "sha256": "fabcf052ea7b858597928e93e697850ca37372b6c912da3a507a4c12a8a57346",
+          "matchesDelivery": false
+        }
+      ]
+    },
+    {
+      "directory": "tasks/done/T-036C.evidence/visual-reviewed",
+      "images": [
+        {
+          "file": "Light-600-fields-top.png",
+          "sha256": "8264bf98039435a02687d370f664143f09b1910cbf0ef898a5f5b66428e17cd3",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-credentials.png",
+          "sha256": "4fb41f1120f7d67712b37d310e90ffa70669d1a0302c175e5c0c37a1a5419249",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-target.png",
+          "sha256": "a98cc6571f74624f5c5624170123695de9dd8453defda43ad33e2142ae92ae67",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-empty.png",
+          "sha256": "007c2f037a596c4bd68806dffa312ae7392bed954d2548274dcc4a09746498b8",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-invalid.png",
+          "sha256": "d6f1b37cc93705a86c0ac7d4e5ffa2462900b2896e36cff0313b0e715d0c2f01",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-running.png",
+          "sha256": "6028ecffce74ae1a200897e6ac899799c48797411cbab9f9165881a276cf0491",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-ending.png",
+          "sha256": "7ef23dcd97a660ab66b78c56727763190afd012e922abd1cb30918cdeb99ff3e",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-transport-failed.png",
+          "sha256": "de23b591f63b670f6699484724b50fbf40d0d428f541b7915ced70c558944f89",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-cleanup-failed.png",
+          "sha256": "1b00edc66c125199c2b401f12754385a7aef52dc48aaaeb4d5f8667d94c8dab2",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-readonly.png",
+          "sha256": "bac3b2a67492ac85d9c85ad9bab7dd99bb2567742cf8189c4cbc6d8541d69713",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-apply-pending.png",
+          "sha256": "2ea12801013279e60ecce94323892b8ffc933de781290d9679b21c5bf8783e6c",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-http-response.png",
+          "sha256": "84ba3c2b7845c288e3ef7eb7275d7111cd68d7e8f5ee93f86f90f3cdca729603",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-fields-top.png",
+          "sha256": "226abaa51877c2e916a470f9c937ff5521c2d334e66b6798d904185e5a8fbed4",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-credentials.png",
+          "sha256": "690aaa97a71740e40eb81e191f260d19cf13ec5a5f20936bd990f2c2e5cc1a46",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-target.png",
+          "sha256": "5005dec64b4156330120dfbe6aa6fd43f962c198037eb347abaf66a136f16102",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-empty.png",
+          "sha256": "d1633fa9e81a26f8f9b598edd4f4fa29ff6305db60926d30d58bb53f7d805b00",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-invalid.png",
+          "sha256": "1785d946c49c825a9bdada8ee40429a2a84e8fa66e2cb40c9ef2805e042e92bc",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-running.png",
+          "sha256": "0271cccda433b90e6603d9dfa382daea335353b371f6d9f5805b801c73f8ce58",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-ending.png",
+          "sha256": "0e28a48303be7b32878d4ed54be2d39fb1d2038319d1497f7a574a0fba71af60",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-transport-failed.png",
+          "sha256": "693cafeb15deb85c97d0b8294e7ad3fb1d704d88ebab497a0add797856943c8b",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-cleanup-failed.png",
+          "sha256": "47db7210f4f9ae52f8886b2cbf436837b91a52e121312372387c6de33c4c287a",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-readonly.png",
+          "sha256": "21bb9e56d0feaa1e20fed6974136039ba0faec0391c0f424d884c45c9572c263",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-apply-pending.png",
+          "sha256": "95e754c2804d074fe86b85dd0c62481790a2acb551e7fc155f519cdac171d233",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-http-response.png",
+          "sha256": "3958ac8804ba3bcbe10f2322cceecfa1ceb741819af9214e349645925c1e8f34",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-fields-top.png",
+          "sha256": "925751c5a9b7e2d77ff5a9007e4746acc170941917e40ff92627e7a6f1776f6e",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-credentials.png",
+          "sha256": "f7a48a994b7ebcf6a61a9bc881bb819c8fefc679bfc8431f57ffd4b38d6f0f2d",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-target.png",
+          "sha256": "e545ed5f2f9ad73a57a73dcf342a89853544f1b5a12cdb28449850a8d4db0f57",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-empty.png",
+          "sha256": "1b20bae2c5991ccebf5e38af9b0d86505c1d758bcef9c1d914209b0d95c97cd4",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-invalid.png",
+          "sha256": "a3559bd2049c6912b3d3baab154fc724f6b2750bf7b77044fe52338e8e7bf1df",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-running.png",
+          "sha256": "396ca85da3f9ebb0c387a655758d3acb9483aecf4ba0429b8807d7fe16debd49",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-ending.png",
+          "sha256": "1db9dbe7cb01be94db29a305173bec252d7e861448e9d404f9a34a52f101c6f7",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-transport-failed.png",
+          "sha256": "ad58831200c70b7e7faa96facac9e353c4e5fa1402feadfab5f90941ba4e33d3",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-cleanup-failed.png",
+          "sha256": "d2299a819ac9dbbc59f7c33a36b54362e601e559036584baa4fab4221f26afdf",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-readonly.png",
+          "sha256": "aec1bd4baf649a8aa5791753cdd0ca5f2cc45a69d3f71e8f0962a7bd7351c146",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-apply-pending.png",
+          "sha256": "aafabff21de383e1ce3101839d7089070470a06ff87706a302ba1e0be65b6ab6",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-http-response.png",
+          "sha256": "672811236256011c5941f1eee56b00f5a6a27b1a87d6ac7d962a99e882c0625d",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-fields-top.png",
+          "sha256": "0dac3d716fa9043a8bb1e347e922b8227a11fb8e96eb8cbe16dac16547491590",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-credentials.png",
+          "sha256": "c4cb9eeecfea0dcc8ef66118ee82c52f2cc55ee0d66dfb56b0362f9332f53fd6",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-target.png",
+          "sha256": "27870950f7d193b23797ab98515c196bf250cc47336563de3d8e86b2378400ee",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-empty.png",
+          "sha256": "98c750cd3cadae6cf153607cbf46fd2220a2ed1b3ab4dd47378e6d50d01e3776",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-invalid.png",
+          "sha256": "0d5a4e88c9edaa155f431679e04faf27f9db1887200b2831c41834f1196f11d9",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-running.png",
+          "sha256": "f5e68bab74158267b2a4ee7b9c16ce332d115f76f9568b05cd95a104e5ecfded",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-ending.png",
+          "sha256": "f8519abfef24c80acbe34db6e61fd6bf21c5a4e7e956873378eec11599fba7c6",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-transport-failed.png",
+          "sha256": "a48e79d4a492052276816de9cf36dcb7e10faf1f3154b663557c33429337f8b4",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-cleanup-failed.png",
+          "sha256": "a724f17ae542eb0cb7ce895dcbff0544b5b1f16002e922a75e56141232532b80",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-readonly.png",
+          "sha256": "9faea9690a2ff640e0c52dbe307e520c4fa8f464c0851b6db9397dea7bd2729f",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-apply-pending.png",
+          "sha256": "2fb1626781f218ddadf77f2ec8c96718602a558caaf8e321093ed554d47f4b11",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-http-response.png",
+          "sha256": "42681437d4606fb43533aa50f85cacedae408f308e1d78946919d446f9ecd3d9",
+          "matchesDelivery": true
+        }
+      ]
+    },
+    {
+      "directory": "tasks/done/T-036C.evidence/visual-final",
+      "images": [
+        {
+          "file": "Light-600-fields-top.png",
+          "sha256": "8264bf98039435a02687d370f664143f09b1910cbf0ef898a5f5b66428e17cd3",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-credentials.png",
+          "sha256": "4fb41f1120f7d67712b37d310e90ffa70669d1a0302c175e5c0c37a1a5419249",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-target.png",
+          "sha256": "a98cc6571f74624f5c5624170123695de9dd8453defda43ad33e2142ae92ae67",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-empty.png",
+          "sha256": "007c2f037a596c4bd68806dffa312ae7392bed954d2548274dcc4a09746498b8",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-invalid.png",
+          "sha256": "d6f1b37cc93705a86c0ac7d4e5ffa2462900b2896e36cff0313b0e715d0c2f01",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-running.png",
+          "sha256": "6028ecffce74ae1a200897e6ac899799c48797411cbab9f9165881a276cf0491",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-ending.png",
+          "sha256": "7ef23dcd97a660ab66b78c56727763190afd012e922abd1cb30918cdeb99ff3e",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-transport-failed.png",
+          "sha256": "c21b0188b69d3c531a437183e05a2cb1a55a6f6a74606a49c8e7a2d6ca67446d",
+          "matchesDelivery": false
+        },
+        {
+          "file": "Light-600-cleanup-failed.png",
+          "sha256": "1b00edc66c125199c2b401f12754385a7aef52dc48aaaeb4d5f8667d94c8dab2",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-readonly.png",
+          "sha256": "bac3b2a67492ac85d9c85ad9bab7dd99bb2567742cf8189c4cbc6d8541d69713",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-apply-pending.png",
+          "sha256": "2ea12801013279e60ecce94323892b8ffc933de781290d9679b21c5bf8783e6c",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-http-response.png",
+          "sha256": "0bf7c863195c3c72e5dcc25aea9c1c1c373fdd84e9a4673b99471e86b7e9682f",
+          "matchesDelivery": false
+        },
+        {
+          "file": "Light-760-fields-top.png",
+          "sha256": "226abaa51877c2e916a470f9c937ff5521c2d334e66b6798d904185e5a8fbed4",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-credentials.png",
+          "sha256": "690aaa97a71740e40eb81e191f260d19cf13ec5a5f20936bd990f2c2e5cc1a46",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-target.png",
+          "sha256": "5005dec64b4156330120dfbe6aa6fd43f962c198037eb347abaf66a136f16102",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-empty.png",
+          "sha256": "d1633fa9e81a26f8f9b598edd4f4fa29ff6305db60926d30d58bb53f7d805b00",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-invalid.png",
+          "sha256": "1785d946c49c825a9bdada8ee40429a2a84e8fa66e2cb40c9ef2805e042e92bc",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-running.png",
+          "sha256": "0271cccda433b90e6603d9dfa382daea335353b371f6d9f5805b801c73f8ce58",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-ending.png",
+          "sha256": "0e28a48303be7b32878d4ed54be2d39fb1d2038319d1497f7a574a0fba71af60",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-transport-failed.png",
+          "sha256": "e6e8a3fabd58c3c00bdf72cb77ee8d427e892d98a5218d3b290464b7e63a6b7d",
+          "matchesDelivery": false
+        },
+        {
+          "file": "Light-760-cleanup-failed.png",
+          "sha256": "47db7210f4f9ae52f8886b2cbf436837b91a52e121312372387c6de33c4c287a",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-readonly.png",
+          "sha256": "21bb9e56d0feaa1e20fed6974136039ba0faec0391c0f424d884c45c9572c263",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-apply-pending.png",
+          "sha256": "95e754c2804d074fe86b85dd0c62481790a2acb551e7fc155f519cdac171d233",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-http-response.png",
+          "sha256": "3958ac8804ba3bcbe10f2322cceecfa1ceb741819af9214e349645925c1e8f34",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-fields-top.png",
+          "sha256": "925751c5a9b7e2d77ff5a9007e4746acc170941917e40ff92627e7a6f1776f6e",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-credentials.png",
+          "sha256": "f7a48a994b7ebcf6a61a9bc881bb819c8fefc679bfc8431f57ffd4b38d6f0f2d",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-target.png",
+          "sha256": "e545ed5f2f9ad73a57a73dcf342a89853544f1b5a12cdb28449850a8d4db0f57",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-empty.png",
+          "sha256": "1b20bae2c5991ccebf5e38af9b0d86505c1d758bcef9c1d914209b0d95c97cd4",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-invalid.png",
+          "sha256": "a3559bd2049c6912b3d3baab154fc724f6b2750bf7b77044fe52338e8e7bf1df",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-running.png",
+          "sha256": "396ca85da3f9ebb0c387a655758d3acb9483aecf4ba0429b8807d7fe16debd49",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-ending.png",
+          "sha256": "1db9dbe7cb01be94db29a305173bec252d7e861448e9d404f9a34a52f101c6f7",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-transport-failed.png",
+          "sha256": "cfe393fb916b84858ecde7646753edd91e087ec1b58c35e34c76960825fd8f94",
+          "matchesDelivery": false
+        },
+        {
+          "file": "Dark-600-cleanup-failed.png",
+          "sha256": "d2299a819ac9dbbc59f7c33a36b54362e601e559036584baa4fab4221f26afdf",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-readonly.png",
+          "sha256": "aec1bd4baf649a8aa5791753cdd0ca5f2cc45a69d3f71e8f0962a7bd7351c146",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-apply-pending.png",
+          "sha256": "aafabff21de383e1ce3101839d7089070470a06ff87706a302ba1e0be65b6ab6",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-http-response.png",
+          "sha256": "672811236256011c5941f1eee56b00f5a6a27b1a87d6ac7d962a99e882c0625d",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-fields-top.png",
+          "sha256": "0dac3d716fa9043a8bb1e347e922b8227a11fb8e96eb8cbe16dac16547491590",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-credentials.png",
+          "sha256": "c4cb9eeecfea0dcc8ef66118ee82c52f2cc55ee0d66dfb56b0362f9332f53fd6",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-target.png",
+          "sha256": "27870950f7d193b23797ab98515c196bf250cc47336563de3d8e86b2378400ee",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-empty.png",
+          "sha256": "98c750cd3cadae6cf153607cbf46fd2220a2ed1b3ab4dd47378e6d50d01e3776",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-invalid.png",
+          "sha256": "0d5a4e88c9edaa155f431679e04faf27f9db1887200b2831c41834f1196f11d9",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-running.png",
+          "sha256": "f5e68bab74158267b2a4ee7b9c16ce332d115f76f9568b05cd95a104e5ecfded",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-ending.png",
+          "sha256": "f8519abfef24c80acbe34db6e61fd6bf21c5a4e7e956873378eec11599fba7c6",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-transport-failed.png",
+          "sha256": "a48e79d4a492052276816de9cf36dcb7e10faf1f3154b663557c33429337f8b4",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-cleanup-failed.png",
+          "sha256": "a724f17ae542eb0cb7ce895dcbff0544b5b1f16002e922a75e56141232532b80",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-readonly.png",
+          "sha256": "9faea9690a2ff640e0c52dbe307e520c4fa8f464c0851b6db9397dea7bd2729f",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-apply-pending.png",
+          "sha256": "2fb1626781f218ddadf77f2ec8c96718602a558caaf8e321093ed554d47f4b11",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-http-response.png",
+          "sha256": "42681437d4606fb43533aa50f85cacedae408f308e1d78946919d446f9ecd3d9",
+          "matchesDelivery": true
+        }
+      ]
+    },
+    {
+      "directory": "tasks/done/T-036C.evidence/visual-delivery",
+      "images": [
+        {
+          "file": "Light-600-fields-top.png",
+          "sha256": "8264bf98039435a02687d370f664143f09b1910cbf0ef898a5f5b66428e17cd3",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-credentials.png",
+          "sha256": "4fb41f1120f7d67712b37d310e90ffa70669d1a0302c175e5c0c37a1a5419249",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-target.png",
+          "sha256": "a98cc6571f74624f5c5624170123695de9dd8453defda43ad33e2142ae92ae67",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-empty.png",
+          "sha256": "007c2f037a596c4bd68806dffa312ae7392bed954d2548274dcc4a09746498b8",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-invalid.png",
+          "sha256": "d6f1b37cc93705a86c0ac7d4e5ffa2462900b2896e36cff0313b0e715d0c2f01",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-running.png",
+          "sha256": "6028ecffce74ae1a200897e6ac899799c48797411cbab9f9165881a276cf0491",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-ending.png",
+          "sha256": "7ef23dcd97a660ab66b78c56727763190afd012e922abd1cb30918cdeb99ff3e",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-transport-failed.png",
+          "sha256": "de23b591f63b670f6699484724b50fbf40d0d428f541b7915ced70c558944f89",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-cleanup-failed.png",
+          "sha256": "1b00edc66c125199c2b401f12754385a7aef52dc48aaaeb4d5f8667d94c8dab2",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-readonly.png",
+          "sha256": "bac3b2a67492ac85d9c85ad9bab7dd99bb2567742cf8189c4cbc6d8541d69713",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-apply-pending.png",
+          "sha256": "2ea12801013279e60ecce94323892b8ffc933de781290d9679b21c5bf8783e6c",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-http-response.png",
+          "sha256": "84ba3c2b7845c288e3ef7eb7275d7111cd68d7e8f5ee93f86f90f3cdca729603",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-fields-top.png",
+          "sha256": "226abaa51877c2e916a470f9c937ff5521c2d334e66b6798d904185e5a8fbed4",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-credentials.png",
+          "sha256": "690aaa97a71740e40eb81e191f260d19cf13ec5a5f20936bd990f2c2e5cc1a46",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-target.png",
+          "sha256": "5005dec64b4156330120dfbe6aa6fd43f962c198037eb347abaf66a136f16102",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-empty.png",
+          "sha256": "d1633fa9e81a26f8f9b598edd4f4fa29ff6305db60926d30d58bb53f7d805b00",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-invalid.png",
+          "sha256": "1785d946c49c825a9bdada8ee40429a2a84e8fa66e2cb40c9ef2805e042e92bc",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-running.png",
+          "sha256": "0271cccda433b90e6603d9dfa382daea335353b371f6d9f5805b801c73f8ce58",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-ending.png",
+          "sha256": "0e28a48303be7b32878d4ed54be2d39fb1d2038319d1497f7a574a0fba71af60",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-transport-failed.png",
+          "sha256": "693cafeb15deb85c97d0b8294e7ad3fb1d704d88ebab497a0add797856943c8b",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-cleanup-failed.png",
+          "sha256": "47db7210f4f9ae52f8886b2cbf436837b91a52e121312372387c6de33c4c287a",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-readonly.png",
+          "sha256": "21bb9e56d0feaa1e20fed6974136039ba0faec0391c0f424d884c45c9572c263",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-apply-pending.png",
+          "sha256": "95e754c2804d074fe86b85dd0c62481790a2acb551e7fc155f519cdac171d233",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-http-response.png",
+          "sha256": "3958ac8804ba3bcbe10f2322cceecfa1ceb741819af9214e349645925c1e8f34",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-fields-top.png",
+          "sha256": "925751c5a9b7e2d77ff5a9007e4746acc170941917e40ff92627e7a6f1776f6e",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-credentials.png",
+          "sha256": "f7a48a994b7ebcf6a61a9bc881bb819c8fefc679bfc8431f57ffd4b38d6f0f2d",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-target.png",
+          "sha256": "e545ed5f2f9ad73a57a73dcf342a89853544f1b5a12cdb28449850a8d4db0f57",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-empty.png",
+          "sha256": "1b20bae2c5991ccebf5e38af9b0d86505c1d758bcef9c1d914209b0d95c97cd4",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-invalid.png",
+          "sha256": "a3559bd2049c6912b3d3baab154fc724f6b2750bf7b77044fe52338e8e7bf1df",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-running.png",
+          "sha256": "396ca85da3f9ebb0c387a655758d3acb9483aecf4ba0429b8807d7fe16debd49",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-ending.png",
+          "sha256": "1db9dbe7cb01be94db29a305173bec252d7e861448e9d404f9a34a52f101c6f7",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-transport-failed.png",
+          "sha256": "ad58831200c70b7e7faa96facac9e353c4e5fa1402feadfab5f90941ba4e33d3",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-cleanup-failed.png",
+          "sha256": "d2299a819ac9dbbc59f7c33a36b54362e601e559036584baa4fab4221f26afdf",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-readonly.png",
+          "sha256": "aec1bd4baf649a8aa5791753cdd0ca5f2cc45a69d3f71e8f0962a7bd7351c146",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-apply-pending.png",
+          "sha256": "aafabff21de383e1ce3101839d7089070470a06ff87706a302ba1e0be65b6ab6",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-http-response.png",
+          "sha256": "672811236256011c5941f1eee56b00f5a6a27b1a87d6ac7d962a99e882c0625d",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-fields-top.png",
+          "sha256": "0dac3d716fa9043a8bb1e347e922b8227a11fb8e96eb8cbe16dac16547491590",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-credentials.png",
+          "sha256": "c4cb9eeecfea0dcc8ef66118ee82c52f2cc55ee0d66dfb56b0362f9332f53fd6",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-target.png",
+          "sha256": "27870950f7d193b23797ab98515c196bf250cc47336563de3d8e86b2378400ee",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-empty.png",
+          "sha256": "98c750cd3cadae6cf153607cbf46fd2220a2ed1b3ab4dd47378e6d50d01e3776",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-invalid.png",
+          "sha256": "0d5a4e88c9edaa155f431679e04faf27f9db1887200b2831c41834f1196f11d9",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-running.png",
+          "sha256": "f5e68bab74158267b2a4ee7b9c16ce332d115f76f9568b05cd95a104e5ecfded",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-ending.png",
+          "sha256": "f8519abfef24c80acbe34db6e61fd6bf21c5a4e7e956873378eec11599fba7c6",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-transport-failed.png",
+          "sha256": "a48e79d4a492052276816de9cf36dcb7e10faf1f3154b663557c33429337f8b4",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-cleanup-failed.png",
+          "sha256": "a724f17ae542eb0cb7ce895dcbff0544b5b1f16002e922a75e56141232532b80",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-readonly.png",
+          "sha256": "9faea9690a2ff640e0c52dbe307e520c4fa8f464c0851b6db9397dea7bd2729f",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-apply-pending.png",
+          "sha256": "2fb1626781f218ddadf77f2ec8c96718602a558caaf8e321093ed554d47f4b11",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-http-response.png",
+          "sha256": "42681437d4606fb43533aa50f85cacedae408f308e1d78946919d446f9ecd3d9",
+          "matchesDelivery": true
+        }
+      ]
+    },
+    {
+      "directory": "tasks/done/T-036C.evidence/visual-full-delivery",
+      "images": [
+        {
+          "file": "Light-600-fields-top.png",
+          "sha256": "8264bf98039435a02687d370f664143f09b1910cbf0ef898a5f5b66428e17cd3",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-credentials.png",
+          "sha256": "4fb41f1120f7d67712b37d310e90ffa70669d1a0302c175e5c0c37a1a5419249",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-target.png",
+          "sha256": "a98cc6571f74624f5c5624170123695de9dd8453defda43ad33e2142ae92ae67",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-empty.png",
+          "sha256": "007c2f037a596c4bd68806dffa312ae7392bed954d2548274dcc4a09746498b8",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-invalid.png",
+          "sha256": "d6f1b37cc93705a86c0ac7d4e5ffa2462900b2896e36cff0313b0e715d0c2f01",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-running.png",
+          "sha256": "6028ecffce74ae1a200897e6ac899799c48797411cbab9f9165881a276cf0491",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-ending.png",
+          "sha256": "7ef23dcd97a660ab66b78c56727763190afd012e922abd1cb30918cdeb99ff3e",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-transport-failed.png",
+          "sha256": "de23b591f63b670f6699484724b50fbf40d0d428f541b7915ced70c558944f89",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-cleanup-failed.png",
+          "sha256": "1b00edc66c125199c2b401f12754385a7aef52dc48aaaeb4d5f8667d94c8dab2",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-readonly.png",
+          "sha256": "bac3b2a67492ac85d9c85ad9bab7dd99bb2567742cf8189c4cbc6d8541d69713",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-apply-pending.png",
+          "sha256": "2ea12801013279e60ecce94323892b8ffc933de781290d9679b21c5bf8783e6c",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-600-http-response.png",
+          "sha256": "84ba3c2b7845c288e3ef7eb7275d7111cd68d7e8f5ee93f86f90f3cdca729603",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-fields-top.png",
+          "sha256": "226abaa51877c2e916a470f9c937ff5521c2d334e66b6798d904185e5a8fbed4",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-credentials.png",
+          "sha256": "690aaa97a71740e40eb81e191f260d19cf13ec5a5f20936bd990f2c2e5cc1a46",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-target.png",
+          "sha256": "5005dec64b4156330120dfbe6aa6fd43f962c198037eb347abaf66a136f16102",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-empty.png",
+          "sha256": "d1633fa9e81a26f8f9b598edd4f4fa29ff6305db60926d30d58bb53f7d805b00",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-invalid.png",
+          "sha256": "1785d946c49c825a9bdada8ee40429a2a84e8fa66e2cb40c9ef2805e042e92bc",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-running.png",
+          "sha256": "0271cccda433b90e6603d9dfa382daea335353b371f6d9f5805b801c73f8ce58",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-ending.png",
+          "sha256": "0e28a48303be7b32878d4ed54be2d39fb1d2038319d1497f7a574a0fba71af60",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-transport-failed.png",
+          "sha256": "693cafeb15deb85c97d0b8294e7ad3fb1d704d88ebab497a0add797856943c8b",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-cleanup-failed.png",
+          "sha256": "47db7210f4f9ae52f8886b2cbf436837b91a52e121312372387c6de33c4c287a",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-readonly.png",
+          "sha256": "21bb9e56d0feaa1e20fed6974136039ba0faec0391c0f424d884c45c9572c263",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-apply-pending.png",
+          "sha256": "95e754c2804d074fe86b85dd0c62481790a2acb551e7fc155f519cdac171d233",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Light-760-http-response.png",
+          "sha256": "3958ac8804ba3bcbe10f2322cceecfa1ceb741819af9214e349645925c1e8f34",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-fields-top.png",
+          "sha256": "925751c5a9b7e2d77ff5a9007e4746acc170941917e40ff92627e7a6f1776f6e",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-credentials.png",
+          "sha256": "f7a48a994b7ebcf6a61a9bc881bb819c8fefc679bfc8431f57ffd4b38d6f0f2d",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-target.png",
+          "sha256": "e545ed5f2f9ad73a57a73dcf342a89853544f1b5a12cdb28449850a8d4db0f57",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-empty.png",
+          "sha256": "1b20bae2c5991ccebf5e38af9b0d86505c1d758bcef9c1d914209b0d95c97cd4",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-invalid.png",
+          "sha256": "a3559bd2049c6912b3d3baab154fc724f6b2750bf7b77044fe52338e8e7bf1df",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-running.png",
+          "sha256": "396ca85da3f9ebb0c387a655758d3acb9483aecf4ba0429b8807d7fe16debd49",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-ending.png",
+          "sha256": "1db9dbe7cb01be94db29a305173bec252d7e861448e9d404f9a34a52f101c6f7",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-transport-failed.png",
+          "sha256": "ad58831200c70b7e7faa96facac9e353c4e5fa1402feadfab5f90941ba4e33d3",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-cleanup-failed.png",
+          "sha256": "d2299a819ac9dbbc59f7c33a36b54362e601e559036584baa4fab4221f26afdf",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-readonly.png",
+          "sha256": "aec1bd4baf649a8aa5791753cdd0ca5f2cc45a69d3f71e8f0962a7bd7351c146",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-apply-pending.png",
+          "sha256": "aafabff21de383e1ce3101839d7089070470a06ff87706a302ba1e0be65b6ab6",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-600-http-response.png",
+          "sha256": "672811236256011c5941f1eee56b00f5a6a27b1a87d6ac7d962a99e882c0625d",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-fields-top.png",
+          "sha256": "0dac3d716fa9043a8bb1e347e922b8227a11fb8e96eb8cbe16dac16547491590",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-credentials.png",
+          "sha256": "c4cb9eeecfea0dcc8ef66118ee82c52f2cc55ee0d66dfb56b0362f9332f53fd6",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-target.png",
+          "sha256": "27870950f7d193b23797ab98515c196bf250cc47336563de3d8e86b2378400ee",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-empty.png",
+          "sha256": "98c750cd3cadae6cf153607cbf46fd2220a2ed1b3ab4dd47378e6d50d01e3776",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-invalid.png",
+          "sha256": "0d5a4e88c9edaa155f431679e04faf27f9db1887200b2831c41834f1196f11d9",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-running.png",
+          "sha256": "f5e68bab74158267b2a4ee7b9c16ce332d115f76f9568b05cd95a104e5ecfded",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-ending.png",
+          "sha256": "f8519abfef24c80acbe34db6e61fd6bf21c5a4e7e956873378eec11599fba7c6",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-transport-failed.png",
+          "sha256": "a48e79d4a492052276816de9cf36dcb7e10faf1f3154b663557c33429337f8b4",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-cleanup-failed.png",
+          "sha256": "a724f17ae542eb0cb7ce895dcbff0544b5b1f16002e922a75e56141232532b80",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-readonly.png",
+          "sha256": "9faea9690a2ff640e0c52dbe307e520c4fa8f464c0851b6db9397dea7bd2729f",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-apply-pending.png",
+          "sha256": "2fb1626781f218ddadf77f2ec8c96718602a558caaf8e321093ed554d47f4b11",
+          "matchesDelivery": true
+        },
+        {
+          "file": "Dark-760-http-response.png",
+          "sha256": "42681437d4606fb43533aa50f85cacedae408f308e1d78946919d446f9ecd3d9",
+          "matchesDelivery": true
+        }
+      ]
+    }
+  ]
+}

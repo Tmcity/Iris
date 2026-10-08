@@ -32,7 +32,10 @@ public static class ProvidersServiceCollectionExtensions
         services.TryAddSingleton<NetworkTransportFactory>();
         services.TryAddSingleton<NetworkRouteResolver>();
         services.TryAddSingleton<NetworkTransportManager>();
-        services.TryAddSingleton<Iris.Core.Network.INetworkTransportLifetime>(sp => sp.GetRequiredService<NetworkTransportManager>());
+        services.TryAddSingleton<ProxyConnectivityTransportFactory>();
+        services.TryAddSingleton<ProxyConnectivityTester>();
+        services.TryAddSingleton<Iris.Core.Network.IProxyConnectivityTester>(sp => sp.GetRequiredService<ProxyConnectivityTester>());
+        services.TryAddSingleton<Iris.Core.Network.INetworkTransportLifetime, NetworkTransportLifetime>();
         services.TryAddEnumerable(ServiceDescriptor.Singleton<Iris.Core.Network.INetworkConfigurationObserver, NetworkConfigurationObserver>());
         services.AddTransient<HttpLoggingHandler>();
         services.AddTransient<Iris.Providers.Ocr.Baidu.BaiduOcrTransportSafetyHandler>();
