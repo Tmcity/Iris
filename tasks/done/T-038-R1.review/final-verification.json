@@ -1,0 +1,265 @@
+{
+  "ReviewedCommit": "30177c590d8e05e2161b6e99d3fe6385d68e73fb",
+  "ExitCodes": {
+    "final-release-1": 0,
+    "regression-1": 0,
+    "final-full-1": 0
+  },
+  "FullTestCounts": {
+    "总计": 3653,
+    "失败": 0,
+    "成功": 3651,
+    "已跳过": 2
+  },
+  "ProductionDiffFromFeature": [],
+  "IndependentFinalImages": 410,
+  "ExactReviewedImageMatches": 410,
+  "ImageDifferences": [],
+  "MissingImages": [],
+  "VerificationAssemblies": [
+    {
+      "Path": "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/Iris.App.dll",
+      "Sha256": "8b3fc65beddc5faeec375806e8ef031885c6ea66b8856a64c11d658196c0462b"
+    },
+    {
+      "Path": "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/Iris.Core.dll",
+      "Sha256": "d7b14ab146b22046334d5b9e21c0ee452b7d1ac74cb6ea495c97dfe2eab3040a"
+    },
+    {
+      "Path": "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/Iris.Infrastructure.dll",
+      "Sha256": "597b6ee905909c427ca4fcfe63028104ab35ea95ae1660cab20ff1a4eb6eacac"
+    },
+    {
+      "Path": "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.dll",
+      "Sha256": "c30728b470c6a195b60a69acc18159bfa06450a55d8b57b54b03706448492f7c"
+    },
+    {
+      "Path": "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/Iris.Providers.dll",
+      "Sha256": "9aaea578d1a7b94bd66dac97b93e3aef1659785552a3911d2d0a76e73da50b08"
+    },
+    {
+      "Path": "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/en-US/Iris.App.resources.dll",
+      "Sha256": "ee2426e9d4aea892ecc6f4ce23c2b3879ce9b4ef76f07b262f6672ff63bf7066"
+    },
+    {
+      "Path": "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/en-US/Iris.Core.resources.dll",
+      "Sha256": "ce8dc38074964e005cea9b6780fb963b0c3e466b6c9b9d8363df29832c562fe6"
+    },
+    {
+      "Path": "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/uia/Iris.Core.dll",
+      "Sha256": "d7b14ab146b22046334d5b9e21c0ee452b7d1ac74cb6ea495c97dfe2eab3040a"
+    },
+    {
+      "Path": "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/uia/Iris.Platform.Windows.dll",
+      "Sha256": "c30728b470c6a195b60a69acc18159bfa06450a55d8b57b54b03706448492f7c"
+    },
+    {
+      "Path": "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/uia/Iris.UiaHost.dll",
+      "Sha256": "ff19f55bd956be5bc12c06d9ef0e331a8c07da5a5285fd21209941a483a0c7d6"
+    },
+    {
+      "Path": "src/Iris.App/bin/Release/net10.0-windows10.0.19041.0/uia/en-US/Iris.Core.resources.dll",
+      "Sha256": "ce8dc38074964e005cea9b6780fb963b0c3e466b6c9b9d8363df29832c562fe6"
+    },
+    {
+      "Path": "src/Iris.Core/bin/Release/net10.0/Iris.Core.dll",
+      "Sha256": "d7b14ab146b22046334d5b9e21c0ee452b7d1ac74cb6ea495c97dfe2eab3040a"
+    },
+    {
+      "Path": "src/Iris.Core/bin/Release/net10.0/en-US/Iris.Core.resources.dll",
+      "Sha256": "ce8dc38074964e005cea9b6780fb963b0c3e466b6c9b9d8363df29832c562fe6"
+    },
+    {
+      "Path": "src/Iris.Infrastructure/bin/Release/net10.0/Iris.Core.dll",
+      "Sha256": "d7b14ab146b22046334d5b9e21c0ee452b7d1ac74cb6ea495c97dfe2eab3040a"
+    },
+    {
+      "Path": "src/Iris.Infrastructure/bin/Release/net10.0/Iris.Infrastructure.dll",
+      "Sha256": "597b6ee905909c427ca4fcfe63028104ab35ea95ae1660cab20ff1a4eb6eacac"
+    },
+    {
+      "Path": "src/Iris.Infrastructure/bin/Release/net10.0/en-US/Iris.Core.resources.dll",
+      "Sha256": "ce8dc38074964e005cea9b6780fb963b0c3e466b6c9b9d8363df29832c562fe6"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/bin/Release/net10.0-windows10.0.19041.0/Iris.Core.dll",
+      "Sha256": "d7b14ab146b22046334d5b9e21c0ee452b7d1ac74cb6ea495c97dfe2eab3040a"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.dll",
+      "Sha256": "c30728b470c6a195b60a69acc18159bfa06450a55d8b57b54b03706448492f7c"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/bin/Release/net10.0-windows10.0.19041.0/en-US/Iris.Core.resources.dll",
+      "Sha256": "ce8dc38074964e005cea9b6780fb963b0c3e466b6c9b9d8363df29832c562fe6"
+    },
+    {
+      "Path": "src/Iris.Providers/bin/Release/net10.0/Iris.Core.dll",
+      "Sha256": "d7b14ab146b22046334d5b9e21c0ee452b7d1ac74cb6ea495c97dfe2eab3040a"
+    },
+    {
+      "Path": "src/Iris.Providers/bin/Release/net10.0/Iris.Providers.dll",
+      "Sha256": "9aaea578d1a7b94bd66dac97b93e3aef1659785552a3911d2d0a76e73da50b08"
+    },
+    {
+      "Path": "src/Iris.Providers/bin/Release/net10.0/en-US/Iris.Core.resources.dll",
+      "Sha256": "ce8dc38074964e005cea9b6780fb963b0c3e466b6c9b9d8363df29832c562fe6"
+    },
+    {
+      "Path": "src/Iris.UiaHost/bin/Release/net10.0-windows10.0.19041.0/Iris.Core.dll",
+      "Sha256": "d7b14ab146b22046334d5b9e21c0ee452b7d1ac74cb6ea495c97dfe2eab3040a"
+    },
+    {
+      "Path": "src/Iris.UiaHost/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.dll",
+      "Sha256": "c30728b470c6a195b60a69acc18159bfa06450a55d8b57b54b03706448492f7c"
+    },
+    {
+      "Path": "src/Iris.UiaHost/bin/Release/net10.0-windows10.0.19041.0/Iris.UiaHost.dll",
+      "Sha256": "ff19f55bd956be5bc12c06d9ef0e331a8c07da5a5285fd21209941a483a0c7d6"
+    },
+    {
+      "Path": "src/Iris.UiaHost/bin/Release/net10.0-windows10.0.19041.0/en-US/Iris.Core.resources.dll",
+      "Sha256": "ce8dc38074964e005cea9b6780fb963b0c3e466b6c9b9d8363df29832c562fe6"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.App.dll",
+      "Sha256": "8b3fc65beddc5faeec375806e8ef031885c6ea66b8856a64c11d658196c0462b"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.App.Tests.dll",
+      "Sha256": "d14503b75b347ed0e441e153dcdaed5123ac8c6e3022a282b39375c350f11ec6"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.Core.dll",
+      "Sha256": "d7b14ab146b22046334d5b9e21c0ee452b7d1ac74cb6ea495c97dfe2eab3040a"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.Infrastructure.dll",
+      "Sha256": "597b6ee905909c427ca4fcfe63028104ab35ea95ae1660cab20ff1a4eb6eacac"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.dll",
+      "Sha256": "c30728b470c6a195b60a69acc18159bfa06450a55d8b57b54b03706448492f7c"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.Providers.dll",
+      "Sha256": "9aaea578d1a7b94bd66dac97b93e3aef1659785552a3911d2d0a76e73da50b08"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0/en-US/Iris.App.resources.dll",
+      "Sha256": "ee2426e9d4aea892ecc6f4ce23c2b3879ce9b4ef76f07b262f6672ff63bf7066"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0/en-US/Iris.Core.resources.dll",
+      "Sha256": "ce8dc38074964e005cea9b6780fb963b0c3e466b6c9b9d8363df29832c562fe6"
+    },
+    {
+      "Path": "tests/Iris.ArchitectureTests/bin/Release/net10.0-windows10.0.19041.0/Iris.App.dll",
+      "Sha256": "8b3fc65beddc5faeec375806e8ef031885c6ea66b8856a64c11d658196c0462b"
+    },
+    {
+      "Path": "tests/Iris.ArchitectureTests/bin/Release/net10.0-windows10.0.19041.0/Iris.ArchitectureTests.dll",
+      "Sha256": "0e8aae9f716efa308a07a4af49f0e6c8d97c6efaf5a2186951e3c87143f9faf8"
+    },
+    {
+      "Path": "tests/Iris.ArchitectureTests/bin/Release/net10.0-windows10.0.19041.0/Iris.Core.dll",
+      "Sha256": "d7b14ab146b22046334d5b9e21c0ee452b7d1ac74cb6ea495c97dfe2eab3040a"
+    },
+    {
+      "Path": "tests/Iris.ArchitectureTests/bin/Release/net10.0-windows10.0.19041.0/Iris.Infrastructure.dll",
+      "Sha256": "597b6ee905909c427ca4fcfe63028104ab35ea95ae1660cab20ff1a4eb6eacac"
+    },
+    {
+      "Path": "tests/Iris.ArchitectureTests/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.dll",
+      "Sha256": "c30728b470c6a195b60a69acc18159bfa06450a55d8b57b54b03706448492f7c"
+    },
+    {
+      "Path": "tests/Iris.ArchitectureTests/bin/Release/net10.0-windows10.0.19041.0/Iris.Providers.dll",
+      "Sha256": "9aaea578d1a7b94bd66dac97b93e3aef1659785552a3911d2d0a76e73da50b08"
+    },
+    {
+      "Path": "tests/Iris.ArchitectureTests/bin/Release/net10.0-windows10.0.19041.0/en-US/Iris.App.resources.dll",
+      "Sha256": "ee2426e9d4aea892ecc6f4ce23c2b3879ce9b4ef76f07b262f6672ff63bf7066"
+    },
+    {
+      "Path": "tests/Iris.ArchitectureTests/bin/Release/net10.0-windows10.0.19041.0/en-US/Iris.Core.resources.dll",
+      "Sha256": "ce8dc38074964e005cea9b6780fb963b0c3e466b6c9b9d8363df29832c562fe6"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/bin/Release/net10.0-windows10.0.19041.0/Iris.Clipboard.IsolatedHelper.dll",
+      "Sha256": "60a1a6bb5c8bb6515232b2e0034749ba573f8859c001acc0e7cb0414fe50b893"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/bin/Release/net10.0-windows10.0.19041.0/Iris.Core.dll",
+      "Sha256": "d7b14ab146b22046334d5b9e21c0ee452b7d1ac74cb6ea495c97dfe2eab3040a"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.dll",
+      "Sha256": "c30728b470c6a195b60a69acc18159bfa06450a55d8b57b54b03706448492f7c"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/bin/Release/net10.0-windows10.0.19041.0/en-US/Iris.Core.resources.dll",
+      "Sha256": "ce8dc38074964e005cea9b6780fb963b0c3e466b6c9b9d8363df29832c562fe6"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/bin/Release/net10.0/Iris.Core.dll",
+      "Sha256": "d7b14ab146b22046334d5b9e21c0ee452b7d1ac74cb6ea495c97dfe2eab3040a"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/bin/Release/net10.0/Iris.Core.Tests.dll",
+      "Sha256": "5930e2958fe128b4e00d7c222ed4d6478f0c6864571b4ec67bf729ba33a419b6"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/bin/Release/net10.0/en-US/Iris.Core.resources.dll",
+      "Sha256": "ce8dc38074964e005cea9b6780fb963b0c3e466b6c9b9d8363df29832c562fe6"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/bin/Release/net10.0/Iris.Core.dll",
+      "Sha256": "d7b14ab146b22046334d5b9e21c0ee452b7d1ac74cb6ea495c97dfe2eab3040a"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/bin/Release/net10.0/Iris.Infrastructure.dll",
+      "Sha256": "597b6ee905909c427ca4fcfe63028104ab35ea95ae1660cab20ff1a4eb6eacac"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/bin/Release/net10.0/Iris.Infrastructure.Tests.dll",
+      "Sha256": "f0e6e52c7e5a44160c6990661fb53ee1219774c7e74b7a3a98a173ea4fbb7ce2"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/bin/Release/net10.0/en-US/Iris.Core.resources.dll",
+      "Sha256": "ce8dc38074964e005cea9b6780fb963b0c3e466b6c9b9d8363df29832c562fe6"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.Core.dll",
+      "Sha256": "d7b14ab146b22046334d5b9e21c0ee452b7d1ac74cb6ea495c97dfe2eab3040a"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.dll",
+      "Sha256": "c30728b470c6a195b60a69acc18159bfa06450a55d8b57b54b03706448492f7c"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.Tests.dll",
+      "Sha256": "068347f2f2794c623abe4967e86855736b4242deb5e348474850766331f1d21a"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/bin/Release/net10.0-windows10.0.19041.0/en-US/Iris.Core.resources.dll",
+      "Sha256": "ce8dc38074964e005cea9b6780fb963b0c3e466b6c9b9d8363df29832c562fe6"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/bin/Release/net10.0/Iris.Core.dll",
+      "Sha256": "d7b14ab146b22046334d5b9e21c0ee452b7d1ac74cb6ea495c97dfe2eab3040a"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/bin/Release/net10.0/Iris.Providers.dll",
+      "Sha256": "9aaea578d1a7b94bd66dac97b93e3aef1659785552a3911d2d0a76e73da50b08"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/bin/Release/net10.0/Iris.Providers.Tests.dll",
+      "Sha256": "397a91c2e8542ab5dc6d75226e342411d9b143b9c7336abbf4ae0f7120b5f6d9"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/bin/Release/net10.0/en-US/Iris.Core.resources.dll",
+      "Sha256": "ce8dc38074964e005cea9b6780fb963b0c3e466b6c9b9d8363df29832c562fe6"
+    }
+  ]
+}

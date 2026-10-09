@@ -1,0 +1,15 @@
+{
+  "Commit": "30177c590d8e05e2161b6e99d3fe6385d68e73fb",
+  "SourceInputCount": 658,
+  "SourceErrors": [],
+  "EvidenceCount": 975,
+  "EvidenceErrors": [],
+  "ChangedSourceAndTests": [
+    "tests/Iris.App.Tests/Localization/LocalizationTests.cs",
+    "tests/Iris.App.Tests/Settings/NetworkSettingsUiScope.cs"
+  ],
+  "OriginalAssertionOccurrences": 9,
+  "MissingOriginalAssertionOccurrences": {},
+  "CurrentTaskExists": false,
+  "CodexTracked": false
+}

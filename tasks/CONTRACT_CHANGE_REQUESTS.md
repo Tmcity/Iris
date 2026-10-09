@@ -1096,7 +1096,7 @@ IpcCommand 保留原构造、Action/Payload、解构和 JSON 字段，只新增�
 
 2026-10-08 · 架构师批准 · T-038 / LOCALIZATION.md / ARCH v1.56。
 
-状态：**已批准并预置，待 T-038 落地与独立验收**。
+状态：**已落地并独立验收结案（2026-10-10）**。功能提交 `9c1ac9d0a044e2f844e82957c841b785da9d88e5`，测试同步修正 `30177c590d8e05e2161b6e99d3fe6385d68e73fb`；证据见 `tasks/done/T-038.review/README.md` 与 `T-038-R1.review`。R1没有生产或契约变更。按用户要求在T-038完成后停止，后续等待明确继续。
 
 GeneralSettingsPatch 保留原四参数构造和解构，在record体内兼容增加 `SettingsFieldEdit<string>? UiLanguage { get; init; }`，默认null。精确声明已预置CONTRACTS.cs。显式Target仅zh-CN/en-US，按原字段Base/Target冲突合并，覆盖复制/验证/空计划与联合提交；仅语言也一次真实保存，下一次启动生效，不因此创建ApplyPending或重启进程。
 
