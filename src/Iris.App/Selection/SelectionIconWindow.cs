@@ -39,10 +39,11 @@ internal sealed class SelectionIconWindow : Window, ISelectionIconView
         SetResourceReference(BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
         TranslateButton = new Button
         {
-            Content = "译", Padding = new Thickness(0), BorderThickness = new Thickness(1), FontSize = 14,
+            Content = global::Iris.App.Resources.AppResources.Get("Text_8a6cb14e2f9a"), Padding = new Thickness(0), BorderThickness = new Thickness(1), FontSize = 14,
             Focusable = false, IsTabStop = false, ToolTip = UiText.MouseIconTranslate,
         };
         TranslateButton.SetResourceReference(Control.BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
+        System.Windows.Automation.AutomationProperties.SetName(TranslateButton, UiText.MouseIconTranslate);
         TranslateButton.SetResourceReference(Control.ForegroundProperty, "TextFillColorPrimaryBrush");
         TranslateButton.SetResourceReference(Control.BorderBrushProperty, "CardStrokeColorDefaultBrush");
         TranslateButton.Click += (_, _) => Clicked?.Invoke(this, EventArgs.Empty);

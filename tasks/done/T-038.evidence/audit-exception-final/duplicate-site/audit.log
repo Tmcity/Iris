@@ -1,0 +1,3 @@
+{"sourceEntries": 4, "commentEntries": 0, "reviewedNonUiEntries": 4, "resourceCounts": {"App": 437, "Core": 148}, "resourceErrors": [], "englishNativeNameExceptions": {"App:LanguageChineseNative": "简体中文"}, "exceptionManifestSha256": "d98096e6c743b5e4f126384ee8c7e85fd56ba95b6770055c4816220e6d06afb4"}
+src/Iris.App/App.xaml.cs 61 literal 'Iris 已退出，退出码 {ExitCode}'
+src/Iris.App/App.xaml.cs 62 literal 'Iris 已退出，退出码 {ExitCode}'

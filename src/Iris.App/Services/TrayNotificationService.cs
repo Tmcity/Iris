@@ -15,7 +15,7 @@ namespace Iris.App.Services;
 internal sealed partial class TrayNotificationService : INotificationService
 {
     private const int MaxPendingCount = 10;
-    private static readonly System.Text.CompositeFormat OcrCopiedFormat = System.Text.CompositeFormat.Parse(UiText.OcrCopiedFormat);
+    private static System.Text.CompositeFormat OcrCopiedFormat => System.Text.CompositeFormat.Parse(UiText.OcrCopiedFormat);
     private readonly ILogger<TrayNotificationService> _logger;
     private readonly Lock _gate = new();
     private readonly Queue<PendingNotification> _pendingNotifications = new();

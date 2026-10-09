@@ -1,0 +1,1809 @@
+[
+  {
+    "Project": "App",
+    "Key": "Text_ee86d366961c",
+    "Text": "(未设置)",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Hosting/HotkeyCoordinator.cs:81",
+      "src/Iris.App/Hosting/HotkeyCoordinator.cs:887",
+      "src/Iris.App/Hosting/HotkeyCoordinator.cs:893"
+    ],
+    "Id": "T001"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_130b4f7f9f33",
+    "Text": "注销失败",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Hosting/HotkeyCoordinator.cs:202",
+      "src/Iris.App/Hosting/HotkeyCoordinator.cs:763"
+    ],
+    "Id": "T002"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_c0aa76aebce6",
+    "Text": "占用",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Hosting/HotkeyCoordinator.cs:786"
+    ],
+    "Id": "T003"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_2c944b654a3b",
+    "Text": "翻译文本",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Hosting/HotkeyCoordinator.cs:850",
+      "src/Iris.App/Settings/SettingsViewModel.cs:2359"
+    ],
+    "Id": "T004"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_3b02edcd404d",
+    "Text": "划词翻译",
+    "English": "Selection translation",
+    "Sources": [
+      "src/Iris.App/Hosting/HotkeyCoordinator.cs:852",
+      "src/Iris.App/Settings/SettingsViewModel.cs:2361"
+    ],
+    "Id": "T005"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_03261c064096",
+    "Text": "截图翻译",
+    "English": "Screenshot translation",
+    "Sources": [
+      "src/Iris.App/Hosting/HotkeyCoordinator.cs:853",
+      "src/Iris.App/Settings/SettingsViewModel.cs:2362"
+    ],
+    "Id": "T006"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_a03a94a2f826",
+    "Text": "截图 OCR",
+    "English": "Screenshot OCR",
+    "Sources": [
+      "src/Iris.App/Hosting/HotkeyCoordinator.cs:854",
+      "src/Iris.App/Settings/SettingsViewModel.cs:2363"
+    ],
+    "Id": "T007"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_501fb7e80e5a",
+    "Text": "静默截图 OCR",
+    "English": "Silent screenshot OCR",
+    "Sources": [
+      "src/Iris.App/Hosting/HotkeyCoordinator.cs:855",
+      "src/Iris.App/Settings/SettingsViewModel.cs:2364"
+    ],
+    "Id": "T008"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_72704d8e1e47",
+    "Text": "悬浮球",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Hosting/HotkeyCoordinator.cs:856",
+      "src/Iris.App/Settings/SettingsViewModel.cs:2365"
+    ],
+    "Id": "T009"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_6417027b65c2",
+    "Text": "(无效键)",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Hosting/HotkeyCoordinator.cs:876"
+    ],
+    "Id": "T010"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_37e627acd92a",
+    "Text": "{0} (已禁用)",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Hosting/HotkeyCoordinator.cs:896"
+    ],
+    "Id": "T011"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_8a6cb14e2f9a",
+    "Text": "译",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Selection/SelectionIconWindow.cs:42"
+    ],
+    "Id": "T012"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_3070ed21a7ed",
+    "Text": "[已移除] {0}",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/SettingsViewModel.cs:644"
+    ],
+    "Id": "T013"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_733881723d47",
+    "Text": "成功获取 {0} 个模型",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/SettingsViewModel.cs:1003"
+    ],
+    "Id": "T014"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_99729d9d15a4",
+    "Text": "快捷键录入清理未完成，无法保存",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/SettingsViewModel.cs:1283"
+    ],
+    "Id": "T015"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_af3fd060dd39",
+    "Text": "请先修正快捷键冲突或错误",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/SettingsViewModel.cs:1342"
+    ],
+    "Id": "T016"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_6410e0ade8fd",
+    "Text": "打开输入翻译窗口快速翻译文本",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/SettingsViewModel.cs:1796"
+    ],
+    "Id": "T017"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_d681ffc969c1",
+    "Text": "读取剪贴板内容并进行翻译",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/SettingsViewModel.cs:1806"
+    ],
+    "Id": "T018"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_c7d8838aeb65",
+    "Text": "打开 Iris 设置界面",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/SettingsViewModel.cs:1816"
+    ],
+    "Id": "T019"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_e8df05872569",
+    "Text": "基本信息",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/SettingsWindow.xaml:553"
+    ],
+    "Id": "T020"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_a943c0367b80",
+    "Text": "凭据管理",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/SettingsWindow.xaml:656"
+    ],
+    "Id": "T021"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_9541ee3d4b15",
+    "Text": "请求参数",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/SettingsWindow.xaml:687"
+    ],
+    "Id": "T022"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_30315c37c118",
+    "Text": "max_tokens (默认)",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/SettingsWindow.xaml:771"
+    ],
+    "Id": "T023"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_e674ecde293f",
+    "Text": "max_completion_tokens (推理)",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/SettingsWindow.xaml:773"
+    ],
+    "Id": "T024"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_28293356d695",
+    "Text": "默认 (null)",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/SettingsWindow.xaml:822"
+    ],
+    "Id": "T025"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_906a2400f060",
+    "Text": "请求头格式错误，应为 'Name: Value'",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:749"
+    ],
+    "Id": "T026"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_525a47965e10",
+    "Text": "无效的请求头名称: {0}",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:757"
+    ],
+    "Id": "T027"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_668be3ef6c0d",
+    "Text": "不得在附加头中包含敏感身份头: {0}",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:762"
+    ],
+    "Id": "T028"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_0bdec2522201",
+    "Text": "存在重复的请求头名称: {0}",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:767"
+    ],
+    "Id": "T029"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_ca2e5cc0561d",
+    "Text": "服务显示名称不能为空",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:780",
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:898"
+    ],
+    "Id": "T030"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_f3bbfa20ffbe",
+    "Text": "超时时间必须在 5 到 600 秒之间",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:789",
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:907"
+    ],
+    "Id": "T031"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_29ee8b1d8422",
+    "Text": "最大输出 Tokens 必须为正整数",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:796"
+    ],
+    "Id": "T032"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_6124b5028ecd",
+    "Text": "采样温度必须在 0.0 到 2.0 之间",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:804"
+    ],
+    "Id": "T033"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_77beb03033cb",
+    "Text": "OpenAI 兼容协议必须提供 BaseUrl",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:812",
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:914"
+    ],
+    "Id": "T034"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_9d819d38d5cd",
+    "Text": "BaseUrl 必须为合法的 http(s) 地址",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:817",
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:919"
+    ],
+    "Id": "T035"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_887484964876",
+    "Text": "ChatCompletionsPath 不能为空",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:822"
+    ],
+    "Id": "T036"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_15eca5fee02d",
+    "Text": "ChatCompletionsPath 必须为相对路径且不包含查询或片段",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:830"
+    ],
+    "Id": "T037"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_98de13c4b263",
+    "Text": "Anthropic BaseUrl 必须为合法的 http(s) 地址",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:845",
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:934"
+    ],
+    "Id": "T038"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_f842c928e8e3",
+    "Text": "Effort 必须为 low/medium/high/xhigh/max 或 null",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:854"
+    ],
+    "Id": "T039"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_e8189e624897",
+    "Text": "Haiku 模型不支持 Effort 参数，请清空 Effort",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:860"
+    ],
+    "Id": "T040"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_93c96aec66da",
+    "Text": "已启用的服务必须指定模型名称",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:866"
+    ],
+    "Id": "T041"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_b9763286f171",
+    "Text": "已选择替换 API Key，但尚未输入新 Key",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:871",
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:941"
+    ],
+    "Id": "T042"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_3a713e0a1fc2",
+    "Text": "测试连接必须指定模型名称",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs:887"
+    ],
+    "Id": "T043"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_9937e365aaf3",
+    "Text": "简体中文",
+    "English": "Simplified Chinese",
+    "Sources": [
+      "src/Iris.App/Translation/TranslateWindowViewModel.cs:313"
+    ],
+    "Id": "T044"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_7bf7a60617de",
+    "Text": "繁体中文",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Translation/TranslateWindowViewModel.cs:314"
+    ],
+    "Id": "T045"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_d1648bacbc16",
+    "Text": "英语",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Translation/TranslateWindowViewModel.cs:315"
+    ],
+    "Id": "T046"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_3a944ddb3868",
+    "Text": "日语",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Translation/TranslateWindowViewModel.cs:316"
+    ],
+    "Id": "T047"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_259cdcf75199",
+    "Text": "韩语",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Translation/TranslateWindowViewModel.cs:317"
+    ],
+    "Id": "T048"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_99cdf164a814",
+    "Text": "法语",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Translation/TranslateWindowViewModel.cs:318"
+    ],
+    "Id": "T049"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_7566092dce72",
+    "Text": "德语",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Translation/TranslateWindowViewModel.cs:319"
+    ],
+    "Id": "T050"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_6c872d27f835",
+    "Text": "西班牙语",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Translation/TranslateWindowViewModel.cs:320"
+    ],
+    "Id": "T051"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_bdb6608a4dc8",
+    "Text": "俄语",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Translation/TranslateWindowViewModel.cs:321"
+    ],
+    "Id": "T052"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_6ce072a79389",
+    "Text": "葡萄牙语",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Translation/TranslateWindowViewModel.cs:322"
+    ],
+    "Id": "T053"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_5bdde8257c53",
+    "Text": "意大利语",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Translation/TranslateWindowViewModel.cs:323"
+    ],
+    "Id": "T054"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_8648ba069ee0",
+    "Text": "越南语",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Translation/TranslateWindowViewModel.cs:324"
+    ],
+    "Id": "T055"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_a15fb0d0595f",
+    "Text": "泰语",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Translation/TranslateWindowViewModel.cs:325"
+    ],
+    "Id": "T056"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_fc9a0bdeb77f",
+    "Text": "阿拉伯语",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Translation/TranslateWindowViewModel.cs:326"
+    ],
+    "Id": "T057"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_3b89fd6b0ced",
+    "Text": "自动检测",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Translation/TranslateWindowViewModel.cs:329"
+    ],
+    "Id": "T058"
+  },
+  {
+    "Project": "App",
+    "Key": "Text_90df77bfc309",
+    "Text": "自动 (按设置)",
+    "English": null,
+    "Sources": [
+      "src/Iris.App/Translation/TranslateWindowViewModel.cs:335"
+    ],
+    "Id": "T059"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_b24f0a42109b",
+    "Text": "代理配置无效，请检查地址和凭据。",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Network/NetworkProxyCodec.cs:12"
+    ],
+    "Id": "T060"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_54ad39699841",
+    "Text": "代理凭据不可用，请重新输入。",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Network/NetworkProxyCodec.cs:13"
+    ],
+    "Id": "T061"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_59475ef1beee",
+    "Text": "网络配置无法安全保存或加载。",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Network/NetworkProxyCodec.cs:14"
+    ],
+    "Id": "T062"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_b6da60da9549",
+    "Text": "网络代理暂不可用。",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Network/NetworkProxyCodec.cs:15"
+    ],
+    "Id": "T063"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_646cfa7d6429",
+    "Text": "配置已在其他位置发生更改，请刷新后重试",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:29"
+    ],
+    "Id": "T064"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_5a6eb355f5d0",
+    "Text": "配置已提交保存，但部分服务或网络配置应用未完成，旧凭据已保留",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:247"
+    ],
+    "Id": "T065"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_8ebb1568643a",
+    "Text": "配置已提交保存，但部分服务提供商刷新未完全完成，旧凭据已保留",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:248"
+    ],
+    "Id": "T066"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_823a12477db7",
+    "Text": "配置已生效，但部分旧凭据清理失败，可在重试中清理",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:261"
+    ],
+    "Id": "T067"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_99ba5ea63b92",
+    "Text": "网络配置应用未完成",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:301"
+    ],
+    "Id": "T068"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_b08a81be972d",
+    "Text": "部分服务提供商刷新未完成",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:301"
+    ],
+    "Id": "T069"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_2fb7d75c324d",
+    "Text": "部分旧凭据清理未完成",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:310"
+    ],
+    "Id": "T070"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_13f5554c85ea",
+    "Text": "读取当前配置失败",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:352",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:603"
+    ],
+    "Id": "T071"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_0ee8cdd68ce4",
+    "Text": "服务凭据解析失败",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:391",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:489"
+    ],
+    "Id": "T072"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_e9867e8a22d2",
+    "Text": "无法创建服务实例",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:408",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:522"
+    ],
+    "Id": "T073"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_c9e24bc3378d",
+    "Text": "服务创建或测试失败",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:435"
+    ],
+    "Id": "T074"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_d42544701705",
+    "Text": "当前服务不支持获取模型列表",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:529"
+    ],
+    "Id": "T075"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_813bec599861",
+    "Text": "获取模型列表失败",
+    "English": "Could not get the model list",
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:565"
+    ],
+    "Id": "T076"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_c5d4b8310a81",
+    "Text": "服务已不存在，请刷新后重试",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:609"
+    ],
+    "Id": "T077"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_c867164793e4",
+    "Text": "草稿 Profile ID 必须与 BaseProfile ID 一致",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:619",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1854"
+    ],
+    "Id": "T078"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_5692606726ab",
+    "Text": "已有草稿不能修改 CredentialSetId 引用",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:624",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1859"
+    ],
+    "Id": "T079"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_cbf370d77d1b",
+    "Text": "凭据未配置",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:656"
+    ],
+    "Id": "T080"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_3b5f7f06db59",
+    "Text": "未知的凭据编辑类型",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:667",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1457",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1714",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1818"
+    ],
+    "Id": "T081"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_dde435b819e2",
+    "Text": "快捷键组合已分配给其他动作，不能重复使用",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1183"
+    ],
+    "Id": "T082"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_c95d52323038",
+    "Text": "Theme 含有未定义的值",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1353"
+    ],
+    "Id": "T083"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_ed4a1fe3a942",
+    "Text": "LogLevel 目标值非法",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1361"
+    ],
+    "Id": "T084"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_9195679f1083",
+    "Text": "LogLevel 基线值非法",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1365"
+    ],
+    "Id": "T085"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_7372225545c3",
+    "Text": "计划中包含重复的 Profile ID 操作",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1377"
+    ],
+    "Id": "T086"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_2d66d07d7d5f",
+    "Text": "未知的 ChangeKind",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1387"
+    ],
+    "Id": "T087"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_1fbf1d53df1f",
+    "Text": "Add 操作的 BaseProfile 必须为 null",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1396",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1726"
+    ],
+    "Id": "T088"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_88bb88e055cf",
+    "Text": "Add 操作的 TargetProfile 不能为空",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1400",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1722"
+    ],
+    "Id": "T089"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_5d3ac474e977",
+    "Text": "Add 操作不能任意指定 CredentialSetId",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1404"
+    ],
+    "Id": "T090"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_e9d0be5babc8",
+    "Text": "新增 Profile ID 格式不符合规范",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1408",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1842"
+    ],
+    "Id": "T091"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_c39d89be8a24",
+    "Text": "Update 操作的 BaseProfile 不能为空",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1418",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1733"
+    ],
+    "Id": "T092"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_6567ec3e5ce4",
+    "Text": "Update 操作的 TargetProfile 不能为空",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1422",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1737"
+    ],
+    "Id": "T093"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_6b77c983c377",
+    "Text": "Update 操作的 BaseProfile 与 TargetProfile ID 不一致",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1426"
+    ],
+    "Id": "T094"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_bb89e4a6d141",
+    "Text": "Update 操作不能在 TargetProfile 中更改 CredentialSetId 引用",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1430"
+    ],
+    "Id": "T095"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_8c2bba494229",
+    "Text": "Delete 操作的 BaseProfile 不能为空",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1441",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1744"
+    ],
+    "Id": "T096"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_bdf5648ed234",
+    "Text": "Delete 操作的 TargetProfile 必须为 null",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1445",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1748"
+    ],
+    "Id": "T097"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_fa9b5ba9833d",
+    "Text": "Delete 操作的凭据意图只能为 Keep",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1449"
+    ],
+    "Id": "T098"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_8757324638ce",
+    "Text": "Replace 意图必须提供 Replacement 凭据",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1464",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1883"
+    ],
+    "Id": "T099"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_e53237193fe8",
+    "Text": "Keep 或 Clear 意图的 Replacement 必须为 null",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1471"
+    ],
+    "Id": "T100"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_bb066abe0093",
+    "Text": "包含 Add 或 Delete 操作时必须附带 TranslationOrderChange",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1479"
+    ],
+    "Id": "T101"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_31e97af4e348",
+    "Text": "TranslationOrderChange 的 BaseIds 或 TargetIds 不能为空",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1487",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1758"
+    ],
+    "Id": "T102"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_fc1a8545b8a8",
+    "Text": "TargetIds 包含重复 ID",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1494"
+    ],
+    "Id": "T103"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_cdfa48d9be39",
+    "Text": "TargetIds 与预期的 Profile ID 集合不匹配",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1513"
+    ],
+    "Id": "T104"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_539074888c60",
+    "Text": "快捷键目标绑定无效",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1525"
+    ],
+    "Id": "T105"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_88de0b75493c",
+    "Text": "Profile Kind 未定义",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1551",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1865"
+    ],
+    "Id": "T106"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_0d2c568b6d8e",
+    "Text": "DisplayName 不能为空",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1556",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1870"
+    ],
+    "Id": "T107"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_794ad749ed51",
+    "Text": "TimeoutSeconds 必须在 5 到 600 之间",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1561",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1875"
+    ],
+    "Id": "T108"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_7591b5823ffe",
+    "Text": "MaxOutputTokens 必须为正整数",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1566",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:2013"
+    ],
+    "Id": "T109"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_fdef32da198a",
+    "Text": "Temperature 必须在 0.0 到 2.0 之间",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1574",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:2021"
+    ],
+    "Id": "T110"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_e3c6bebfa1ee",
+    "Text": "启用服务的 Model 不能为空",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1583"
+    ],
+    "Id": "T111"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_3584a90d73bd",
+    "Text": "OpenAI 兼容服务的 BaseUrl 必须为合法绝对 HTTP(S) 地址",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1592",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1930"
+    ],
+    "Id": "T112"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_47c83176d03c",
+    "Text": "Anthropic 服务的 BaseUrl 必须为合法绝对 HTTP(S) 地址",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1602",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1940"
+    ],
+    "Id": "T113"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_19eecf82e5b9",
+    "Text": "BaseUrl 必须为合法绝对 HTTP(S) 地址",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1615"
+    ],
+    "Id": "T114"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_b70890fbafd4",
+    "Text": "MaxTokensField 未定义",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1626",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1975"
+    ],
+    "Id": "T115"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_887484964876",
+    "Text": "ChatCompletionsPath 不能为空",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1631",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1980"
+    ],
+    "Id": "T116"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_c073d46e8eda",
+    "Text": "ChatCompletionsPath 必须为非空相对路径且不包含查询或片段",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1639",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1988"
+    ],
+    "Id": "T117"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_aaca1618c7ec",
+    "Text": "ExtraHeaders 不能包含认证敏感请求头",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1648",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1952"
+    ],
+    "Id": "T118"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_9daf1297c3be",
+    "Text": "ExtraHeaders 包含非法的请求头名称",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1653",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1957"
+    ],
+    "Id": "T119"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_e9971e3aa748",
+    "Text": "ExtraHeaders 请求头值不能包含回车或换行",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1658",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1962"
+    ],
+    "Id": "T120"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_2d9d1cba16ff",
+    "Text": "Anthropic Effort 必须为 low/medium/high/xhigh/max 或 null",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1670",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1997"
+    ],
+    "Id": "T121"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_1e0f1d55206a",
+    "Text": "Haiku 模型不支持 Effort 参数，必须显式设置为 null",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1675",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:2002"
+    ],
+    "Id": "T122"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_c2439708babf",
+    "Text": "指定的 PromptTemplateId 不存在",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1682",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:2029"
+    ],
+    "Id": "T123"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_92be3cc3d9d9",
+    "Text": "TranslationChanges 不能为空",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1692"
+    ],
+    "Id": "T124"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_81f20e09b3ea",
+    "Text": "TranslationChanges 不能包含 null 元素",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1699"
+    ],
+    "Id": "T125"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_487ecf7b7200",
+    "Text": "未知的 Profile 变更类型",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1704"
+    ],
+    "Id": "T126"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_c132242b9cc8",
+    "Text": "凭据意图不能为 null",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1709"
+    ],
+    "Id": "T127"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_7096f3d36409",
+    "Text": "TranslationOrderChange 不能包含 null ID",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1763"
+    ],
+    "Id": "T128"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_7177a14b6ebc",
+    "Text": "HotkeyChanges 不能为 null",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1769"
+    ],
+    "Id": "T129"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_7cc45bbeb7ba",
+    "Text": "HotkeyChanges 不能包含 null 元素",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1777"
+    ],
+    "Id": "T130"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_839b70cf1003",
+    "Text": "HotkeyChanges 包含未知的 Action",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1782"
+    ],
+    "Id": "T131"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_890ebd5ae96d",
+    "Text": "TargetBinding 不能为空",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1787"
+    ],
+    "Id": "T132"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_85653ba72bf5",
+    "Text": "HotkeyChanges 包含重复的 Action 变更",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1792"
+    ],
+    "Id": "T133"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_c4d61c3b7e92",
+    "Text": "Profile 不能为空",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1803"
+    ],
+    "Id": "T134"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_5cee7d9c04a4",
+    "Text": "Profile ID 不能为空",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1808",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1835"
+    ],
+    "Id": "T135"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_5c6f7f20d814",
+    "Text": "Credentials 不能为空",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1813"
+    ],
+    "Id": "T136"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_2e61f01ce8da",
+    "Text": "未知的 Profile Kind 类型",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1823"
+    ],
+    "Id": "T137"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_f7f84688d00e",
+    "Text": "BaseProfile ID 不能为空",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1849"
+    ],
+    "Id": "T138"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_820b7f28048d",
+    "Text": "新服务草稿不能指定 CredentialSetId",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1888",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1907",
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1919"
+    ],
+    "Id": "T139"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_1a8fdaa1d433",
+    "Text": "Keep 意图的 Replacement 必须为 null",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1895"
+    ],
+    "Id": "T140"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_f64a52bd3dfc",
+    "Text": "凭据引用格式无效",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1901"
+    ],
+    "Id": "T141"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_7938de18d1ca",
+    "Text": "Clear 意图的 Replacement 必须为 null",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:1914"
+    ],
+    "Id": "T142"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_eb11d05aba48",
+    "Text": "Model 不能为空",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.cs:2008"
+    ],
+    "Id": "T143"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_9f4aeb1e7d83",
+    "Text": "历史记录数量须为 100 至 100000 的整数。",
+    "English": "The history limit must be an integer from 100 to 100000.",
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.History.cs:11"
+    ],
+    "Id": "T144"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_8a27e21cae4a",
+    "Text": "划词设置目标无效，请检查读取顺序、等待时间和进程文件名。",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Settings/SettingsEditCoordinator.Selection.cs:43"
+    ],
+    "Id": "T145"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_5520c80c1f25",
+    "Text": "翻译结果超过本地长度限制",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Translation/TranslationOrchestrator.cs:482",
+      "src/Iris.Core/Translation/TranslationOrchestrator.cs:582",
+      "src/Iris.Core/Translation/TranslationOrchestrator.cs:587"
+    ],
+    "Id": "T146"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_b922fe67a95c",
+    "Text": "正在识别文字…",
+    "English": null,
+    "Sources": [
+      "src/Iris.Core/Workflows/ScreenshotOcrWorkflow.cs:44"
+    ],
+    "Id": "T147"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_1258dd08ed11",
+    "Text": "无法创建数据目录",
+    "English": null,
+    "Sources": [
+      "src/Iris.Infrastructure/Storage/AppPaths.cs:34",
+      "src/Iris.Infrastructure/Storage/AppPaths.cs:52"
+    ],
+    "Id": "T148"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_bda16101de59",
+    "Text": "桌面查询资源清理失败",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/Capture/DesktopContext.cs:86",
+      "src/Iris.Platform.Windows/Capture/MonitorEnumerator.cs:265"
+    ],
+    "Id": "T149"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_036a995464fd",
+    "Text": "无法获取鼠标位置",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/Capture/DesktopContext.cs:149"
+    ],
+    "Id": "T150"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_18140661bf9b",
+    "Text": "无法获取显示器信息",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/Capture/DesktopGeometryHelper.cs:74",
+      "src/Iris.Platform.Windows/Capture/MonitorEnumerator.cs:32",
+      "src/Iris.Platform.Windows/Capture/MonitorEnumerator.cs:247"
+    ],
+    "Id": "T151"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_4c31a6597af9",
+    "Text": "无效的设置窗口句柄。",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs:71"
+    ],
+    "Id": "T152"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_7f6aa73696e9",
+    "Text": "设置窗口不是当前前台活动窗口。",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs:76"
+    ],
+    "Id": "T153"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_aed470d42b87",
+    "Text": "当前已有正在进行的按键录入会话。",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs:90"
+    ],
+    "Id": "T154"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_d6315daa8917",
+    "Text": "安装键盘钩子失败 (Win32Error={0})。",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs:189"
+    ],
+    "Id": "T155"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_0b246a3867e0",
+    "Text": "消息循环异常终止。",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs:224"
+    ],
+    "Id": "T156"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_ac6ab950f7bc",
+    "Text": "录入消息循环意外退出。",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs:233"
+    ],
+    "Id": "T157"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_abd1c2ab4442",
+    "Text": "录入消息循环发生异常。",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs:243"
+    ],
+    "Id": "T158"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_c955eba2dbc4",
+    "Text": "卸载键盘钩子失败 (Win32Error={0})。",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs:359"
+    ],
+    "Id": "T159"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_4973738aa92b",
+    "Text": "向录入消息线程发送退出消息失败 (Win32Error={0})。",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs:372"
+    ],
+    "Id": "T160"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_2208df3e6f75",
+    "Text": "快捷键录入异常终止。",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureSession.cs:259"
+    ],
+    "Id": "T161"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_0ecffb155c24",
+    "Text": "多个按键同时按下，请松开后重试",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureSession.cs:482"
+    ],
+    "Id": "T162"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_0e69913da40f",
+    "Text": "无效的快捷键组合",
+    "English": "Invalid shortcut combination",
+    "Sources": [
+      "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureSession.cs:524"
+    ],
+    "Id": "T163"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_5ccb7938c6df",
+    "Text": "未知按键",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureSession.cs:535"
+    ],
+    "Id": "T164"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_b946ca79c3ca",
+    "Text": "键盘按键释放清理失败，部分按键未能成功释放。",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/Selection/KeyboardSimulator.cs:478"
+    ],
+    "Id": "T165"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_e63a96455f53",
+    "Text": "键盘模拟输入失败",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/Selection/KeyboardSimulator.cs:640"
+    ],
+    "Id": "T166"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_d4480321b4b5",
+    "Text": "开机启动配置读取失败",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs:123"
+    ],
+    "Id": "T167"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_334e5ee2f6a1",
+    "Text": "开机启动配置写入失败",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs:147"
+    ],
+    "Id": "T168"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_c17290ab65e9",
+    "Text": "开机启动配置删除失败",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs:162"
+    ],
+    "Id": "T169"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_ce3c3cdbf8c7",
+    "Text": "获取应用程序路径失败",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs:180"
+    ],
+    "Id": "T170"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_87bb7ae7d91c",
+    "Text": "未找到有效的应用程序路径",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs:189"
+    ],
+    "Id": "T171"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_cc1010d2ab51",
+    "Text": "应用程序路径格式无效",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs:203"
+    ],
+    "Id": "T172"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_12eefb70d6f9",
+    "Text": "不能使用 dotnet 托管进程作为开机自启命令",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs:214"
+    ],
+    "Id": "T173"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_6ef775d7ce0c",
+    "Text": "应用程序路径必须为可执行文件",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs:223"
+    ],
+    "Id": "T174"
+  },
+  {
+    "Project": "Core",
+    "Key": "Text_ac952dd6d176",
+    "Text": "开机启动命令长度超出系统限制",
+    "English": null,
+    "Sources": [
+      "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs:233"
+    ],
+    "Id": "T175"
+  }
+]

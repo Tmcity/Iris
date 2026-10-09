@@ -1,0 +1,11 @@
+{
+  "files": {
+    "candidate-1-generic-catalog.json": "ade5363acf452de97b4dde9957f137388b43e6c7dc74df4d57c7f0a2a55b4006",
+    "candidate-1-generic.en.json": "af1395279c56ba97d1cf88fef4c5d004064f9193f33fd1c92bc9103201897f6a",
+    "candidate-1-errors.zh.json": "c418221c677372205b37b46779954c4d46090833b571f2add407d593bb4c5c32",
+    "candidate-1-errors.en.json": "c5568be109bd034874cd91aa118705b7df6cad9fa6ebd93b1fc3f8a8f1c50987"
+  },
+  "genericEntriesReviewed": 175,
+  "errorEntriesReviewed": 31,
+  "result": "All paired candidate strings reviewed for field/credential/status semantics; no observed loss of validation distinctions. Text review only; final resources, runtime and visuals remain pending."
+}

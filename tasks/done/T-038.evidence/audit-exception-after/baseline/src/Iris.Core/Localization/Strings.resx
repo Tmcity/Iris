@@ -1,0 +1,459 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms</value>
+  </resheader>
+  <data name="ErrorAuthenticationFailed" xml:space="preserve">
+    <value>API Key 无效或已过期，请检查设置</value>
+  </data>
+  <data name="ErrorBadRequest" xml:space="preserve">
+    <value>请求被服务拒绝，请检查模型名称与参数</value>
+  </data>
+  <data name="ErrorCancelled" xml:space="preserve">
+    <value>操作已取消</value>
+  </data>
+  <data name="ErrorCaptureFailed" xml:space="preserve">
+    <value>内容获取失败，请稍后重试</value>
+  </data>
+  <data name="ErrorClipboardBusy" xml:space="preserve">
+    <value>剪贴板正被其他程序占用，请稍后重试</value>
+  </data>
+  <data name="ErrorContentRefused" xml:space="preserve">
+    <value>服务拒绝处理该内容</value>
+  </data>
+  <data name="ErrorContentTruncated" xml:space="preserve">
+    <value>结果过长已被截断，内容可能不完整</value>
+  </data>
+  <data name="ErrorEndpointNotFound" xml:space="preserve">
+    <value>服务地址或模型不存在，请检查 BaseUrl 与模型名称</value>
+  </data>
+  <data name="ErrorHookInstallFailed" xml:space="preserve">
+    <value>鼠标监听启动失败，划词功能不可用</value>
+  </data>
+  <data name="ErrorHotkeyConflict" xml:space="preserve">
+    <value>快捷键已被其他程序占用</value>
+  </data>
+  <data name="ErrorHotkeyInvalid" xml:space="preserve">
+    <value>快捷键组合无效</value>
+  </data>
+  <data name="ErrorImageInvalid" xml:space="preserve">
+    <value>图片无效或格式不受支持</value>
+  </data>
+  <data name="ErrorImageTooLarge" xml:space="preserve">
+    <value>图片过大，请缩小截图范围</value>
+  </data>
+  <data name="ErrorInputEmpty" xml:space="preserve">
+    <value>没有需要翻译的文本</value>
+  </data>
+  <data name="ErrorInputTooLong" xml:space="preserve">
+    <value>文本过长，请缩短后重试</value>
+  </data>
+  <data name="ErrorInvalidArgument" xml:space="preserve">
+    <value>参数无效</value>
+  </data>
+  <data name="ErrorInvalidResponse" xml:space="preserve">
+    <value>服务返回了无法识别的响应</value>
+  </data>
+  <data name="ErrorNetworkUnavailable" xml:space="preserve">
+    <value>网络连接失败，请检查网络或代理设置</value>
+  </data>
+  <data name="ErrorNotConfigured" xml:space="preserve">
+    <value>服务尚未配置，请先在设置中完成配置</value>
+  </data>
+  <data name="ErrorOcrLanguageUnsupported" xml:space="preserve">
+    <value>系统未安装该语言的 OCR 组件</value>
+  </data>
+  <data name="ErrorOcrNoTextFound" xml:space="preserve">
+    <value>未识别到文字</value>
+  </data>
+  <data name="ErrorPermissionDenied" xml:space="preserve">
+    <value>没有访问该服务的权限（可能未开通该接口）</value>
+  </data>
+  <data name="ErrorProviderUnavailable" xml:space="preserve">
+    <value>服务暂时不可用，请稍后重试</value>
+  </data>
+  <data name="ErrorQuotaExceeded" xml:space="preserve">
+    <value>余额或调用额度不足</value>
+  </data>
+  <data name="ErrorRateLimited" xml:space="preserve">
+    <value>请求过于频繁，请稍后重试</value>
+  </data>
+  <data name="ErrorSecretUnavailable" xml:space="preserve">
+    <value>无法读取已保存的密钥，请重新填写</value>
+  </data>
+  <data name="ErrorSelectionEmpty" xml:space="preserve">
+    <value>未检测到选中的文本</value>
+  </data>
+  <data name="ErrorSettingsCorrupted" xml:space="preserve">
+    <value>设置文件已损坏，已恢复为默认设置（原文件已备份）</value>
+  </data>
+  <data name="ErrorStorageFailure" xml:space="preserve">
+    <value>读写本地数据失败</value>
+  </data>
+  <data name="ErrorTimeout" xml:space="preserve">
+    <value>请求超时，请检查网络或稍后重试</value>
+  </data>
+  <data name="ErrorUnknown" xml:space="preserve">
+    <value>发生未知错误，详情请查看日志</value>
+  </data>
+  <data name="InvalidUiLanguage" xml:space="preserve">
+    <value>界面语言必须为 zh-CN 或 en-US</value>
+  </data>
+  <data name="Text_036a995464fd" xml:space="preserve">
+    <value>无法获取鼠标位置</value>
+  </data>
+  <data name="Text_0b246a3867e0" xml:space="preserve">
+    <value>消息循环异常终止。</value>
+  </data>
+  <data name="Text_0d2c568b6d8e" xml:space="preserve">
+    <value>DisplayName 不能为空</value>
+  </data>
+  <data name="Text_0e69913da40f" xml:space="preserve">
+    <value>无效的快捷键组合</value>
+  </data>
+  <data name="Text_0ecffb155c24" xml:space="preserve">
+    <value>多个按键同时按下，请松开后重试</value>
+  </data>
+  <data name="Text_0ee8cdd68ce4" xml:space="preserve">
+    <value>服务凭据解析失败</value>
+  </data>
+  <data name="Text_1258dd08ed11" xml:space="preserve">
+    <value>无法创建数据目录</value>
+  </data>
+  <data name="Text_12eefb70d6f9" xml:space="preserve">
+    <value>不能使用 dotnet 托管进程作为开机自启命令</value>
+  </data>
+  <data name="Text_13f5554c85ea" xml:space="preserve">
+    <value>读取当前配置失败</value>
+  </data>
+  <data name="Text_18140661bf9b" xml:space="preserve">
+    <value>无法获取显示器信息</value>
+  </data>
+  <data name="Text_19eecf82e5b9" xml:space="preserve">
+    <value>BaseUrl 必须为合法绝对 HTTP(S) 地址</value>
+  </data>
+  <data name="Text_1a8fdaa1d433" xml:space="preserve">
+    <value>Keep 意图的 Replacement 必须为 null</value>
+  </data>
+  <data name="Text_1e0f1d55206a" xml:space="preserve">
+    <value>Haiku 模型不支持 Effort 参数，必须显式设置为 null</value>
+  </data>
+  <data name="Text_1fbf1d53df1f" xml:space="preserve">
+    <value>Add 操作的 BaseProfile 必须为 null</value>
+  </data>
+  <data name="Text_2208df3e6f75" xml:space="preserve">
+    <value>快捷键录入异常终止。</value>
+  </data>
+  <data name="Text_2d66d07d7d5f" xml:space="preserve">
+    <value>未知的 ChangeKind</value>
+  </data>
+  <data name="Text_2d9d1cba16ff" xml:space="preserve">
+    <value>Anthropic Effort 必须为 low/medium/high/xhigh/max 或 null</value>
+  </data>
+  <data name="Text_2e61f01ce8da" xml:space="preserve">
+    <value>未知的 Profile Kind 类型</value>
+  </data>
+  <data name="Text_2fb7d75c324d" xml:space="preserve">
+    <value>部分旧凭据清理未完成</value>
+  </data>
+  <data name="Text_31e97af4e348" xml:space="preserve">
+    <value>TranslationOrderChange 的 BaseIds 或 TargetIds 不能为空</value>
+  </data>
+  <data name="Text_334e5ee2f6a1" xml:space="preserve">
+    <value>开机启动配置写入失败</value>
+  </data>
+  <data name="Text_3584a90d73bd" xml:space="preserve">
+    <value>OpenAI 兼容服务的 BaseUrl 必须为合法绝对 HTTP(S) 地址</value>
+  </data>
+  <data name="Text_3b5f7f06db59" xml:space="preserve">
+    <value>未知的凭据编辑类型</value>
+  </data>
+  <data name="Text_47c83176d03c" xml:space="preserve">
+    <value>Anthropic 服务的 BaseUrl 必须为合法绝对 HTTP(S) 地址</value>
+  </data>
+  <data name="Text_487ecf7b7200" xml:space="preserve">
+    <value>未知的 Profile 变更类型</value>
+  </data>
+  <data name="Text_4973738aa92b" xml:space="preserve">
+    <value>向录入消息线程发送退出消息失败 (Win32Error={0})。</value>
+  </data>
+  <data name="Text_4c31a6597af9" xml:space="preserve">
+    <value>无效的设置窗口句柄。</value>
+  </data>
+  <data name="Text_539074888c60" xml:space="preserve">
+    <value>快捷键目标绑定无效</value>
+  </data>
+  <data name="Text_54ad39699841" xml:space="preserve">
+    <value>代理凭据不可用，请重新输入。</value>
+  </data>
+  <data name="Text_5520c80c1f25" xml:space="preserve">
+    <value>翻译结果超过本地长度限制</value>
+  </data>
+  <data name="Text_5692606726ab" xml:space="preserve">
+    <value>已有草稿不能修改 CredentialSetId 引用</value>
+  </data>
+  <data name="Text_59475ef1beee" xml:space="preserve">
+    <value>网络配置无法安全保存或加载。</value>
+  </data>
+  <data name="Text_5a6eb355f5d0" xml:space="preserve">
+    <value>配置已提交保存，但部分服务或网络配置应用未完成，旧凭据已保留</value>
+  </data>
+  <data name="Text_5c6f7f20d814" xml:space="preserve">
+    <value>Credentials 不能为空</value>
+  </data>
+  <data name="Text_5ccb7938c6df" xml:space="preserve">
+    <value>未知按键</value>
+  </data>
+  <data name="Text_5cee7d9c04a4" xml:space="preserve">
+    <value>Profile ID 不能为空</value>
+  </data>
+  <data name="Text_5d3ac474e977" xml:space="preserve">
+    <value>Add 操作不能任意指定 CredentialSetId</value>
+  </data>
+  <data name="Text_646cfa7d6429" xml:space="preserve">
+    <value>配置已在其他位置发生更改，请刷新后重试</value>
+  </data>
+  <data name="Text_6567ec3e5ce4" xml:space="preserve">
+    <value>Update 操作的 TargetProfile 不能为空</value>
+  </data>
+  <data name="Text_6b77c983c377" xml:space="preserve">
+    <value>Update 操作的 BaseProfile 与 TargetProfile ID 不一致</value>
+  </data>
+  <data name="Text_6ef775d7ce0c" xml:space="preserve">
+    <value>应用程序路径必须为可执行文件</value>
+  </data>
+  <data name="Text_7096f3d36409" xml:space="preserve">
+    <value>TranslationOrderChange 不能包含 null ID</value>
+  </data>
+  <data name="Text_7177a14b6ebc" xml:space="preserve">
+    <value>HotkeyChanges 不能为 null</value>
+  </data>
+  <data name="Text_7372225545c3" xml:space="preserve">
+    <value>计划中包含重复的 Profile ID 操作</value>
+  </data>
+  <data name="Text_7591b5823ffe" xml:space="preserve">
+    <value>MaxOutputTokens 必须为正整数</value>
+  </data>
+  <data name="Text_7938de18d1ca" xml:space="preserve">
+    <value>Clear 意图的 Replacement 必须为 null</value>
+  </data>
+  <data name="Text_794ad749ed51" xml:space="preserve">
+    <value>TimeoutSeconds 必须在 5 到 600 之间</value>
+  </data>
+  <data name="Text_7cc45bbeb7ba" xml:space="preserve">
+    <value>HotkeyChanges 不能包含 null 元素</value>
+  </data>
+  <data name="Text_7f6aa73696e9" xml:space="preserve">
+    <value>设置窗口不是当前前台活动窗口。</value>
+  </data>
+  <data name="Text_813bec599861" xml:space="preserve">
+    <value>获取模型列表失败</value>
+  </data>
+  <data name="Text_81f20e09b3ea" xml:space="preserve">
+    <value>TranslationChanges 不能包含 null 元素</value>
+  </data>
+  <data name="Text_820b7f28048d" xml:space="preserve">
+    <value>新服务草稿不能指定 CredentialSetId</value>
+  </data>
+  <data name="Text_823a12477db7" xml:space="preserve">
+    <value>配置已生效，但部分旧凭据清理失败，可在重试中清理</value>
+  </data>
+  <data name="Text_839b70cf1003" xml:space="preserve">
+    <value>HotkeyChanges 包含未知的 Action</value>
+  </data>
+  <data name="Text_85653ba72bf5" xml:space="preserve">
+    <value>HotkeyChanges 包含重复的 Action 变更</value>
+  </data>
+  <data name="Text_8757324638ce" xml:space="preserve">
+    <value>Replace 意图必须提供 Replacement 凭据</value>
+  </data>
+  <data name="Text_87bb7ae7d91c" xml:space="preserve">
+    <value>未找到有效的应用程序路径</value>
+  </data>
+  <data name="Text_887484964876" xml:space="preserve">
+    <value>ChatCompletionsPath 不能为空</value>
+  </data>
+  <data name="Text_88bb88e055cf" xml:space="preserve">
+    <value>Add 操作的 TargetProfile 不能为空</value>
+  </data>
+  <data name="Text_88de0b75493c" xml:space="preserve">
+    <value>Profile Kind 未定义</value>
+  </data>
+  <data name="Text_890ebd5ae96d" xml:space="preserve">
+    <value>TargetBinding 不能为空</value>
+  </data>
+  <data name="Text_8a27e21cae4a" xml:space="preserve">
+    <value>划词设置目标无效，请检查读取顺序、等待时间和进程文件名。</value>
+  </data>
+  <data name="Text_8c2bba494229" xml:space="preserve">
+    <value>Delete 操作的 BaseProfile 不能为空</value>
+  </data>
+  <data name="Text_8ebb1568643a" xml:space="preserve">
+    <value>配置已提交保存，但部分服务提供商刷新未完全完成，旧凭据已保留</value>
+  </data>
+  <data name="Text_9195679f1083" xml:space="preserve">
+    <value>LogLevel 基线值非法</value>
+  </data>
+  <data name="Text_92be3cc3d9d9" xml:space="preserve">
+    <value>TranslationChanges 不能为空</value>
+  </data>
+  <data name="Text_99ba5ea63b92" xml:space="preserve">
+    <value>网络配置应用未完成</value>
+  </data>
+  <data name="Text_9daf1297c3be" xml:space="preserve">
+    <value>ExtraHeaders 包含非法的请求头名称</value>
+  </data>
+  <data name="Text_9f4aeb1e7d83" xml:space="preserve">
+    <value>历史记录数量须为 100 至 100000 的整数。</value>
+  </data>
+  <data name="Text_aaca1618c7ec" xml:space="preserve">
+    <value>ExtraHeaders 不能包含认证敏感请求头</value>
+  </data>
+  <data name="Text_abd1c2ab4442" xml:space="preserve">
+    <value>录入消息循环发生异常。</value>
+  </data>
+  <data name="Text_ac6ab950f7bc" xml:space="preserve">
+    <value>录入消息循环意外退出。</value>
+  </data>
+  <data name="Text_ac952dd6d176" xml:space="preserve">
+    <value>开机启动命令长度超出系统限制</value>
+  </data>
+  <data name="Text_aed470d42b87" xml:space="preserve">
+    <value>当前已有正在进行的按键录入会话。</value>
+  </data>
+  <data name="Text_b08a81be972d" xml:space="preserve">
+    <value>部分服务提供商刷新未完成</value>
+  </data>
+  <data name="Text_b24f0a42109b" xml:space="preserve">
+    <value>代理配置无效，请检查地址和凭据。</value>
+  </data>
+  <data name="Text_b6da60da9549" xml:space="preserve">
+    <value>网络代理暂不可用。</value>
+  </data>
+  <data name="Text_b70890fbafd4" xml:space="preserve">
+    <value>MaxTokensField 未定义</value>
+  </data>
+  <data name="Text_b922fe67a95c" xml:space="preserve">
+    <value>正在识别文字…</value>
+  </data>
+  <data name="Text_b946ca79c3ca" xml:space="preserve">
+    <value>键盘按键释放清理失败，部分按键未能成功释放。</value>
+  </data>
+  <data name="Text_bb066abe0093" xml:space="preserve">
+    <value>包含 Add 或 Delete 操作时必须附带 TranslationOrderChange</value>
+  </data>
+  <data name="Text_bb89e4a6d141" xml:space="preserve">
+    <value>Update 操作不能在 TargetProfile 中更改 CredentialSetId 引用</value>
+  </data>
+  <data name="Text_bda16101de59" xml:space="preserve">
+    <value>桌面查询资源清理失败</value>
+  </data>
+  <data name="Text_bdf5648ed234" xml:space="preserve">
+    <value>Delete 操作的 TargetProfile 必须为 null</value>
+  </data>
+  <data name="Text_c073d46e8eda" xml:space="preserve">
+    <value>ChatCompletionsPath 必须为非空相对路径且不包含查询或片段</value>
+  </data>
+  <data name="Text_c132242b9cc8" xml:space="preserve">
+    <value>凭据意图不能为 null</value>
+  </data>
+  <data name="Text_c17290ab65e9" xml:space="preserve">
+    <value>开机启动配置删除失败</value>
+  </data>
+  <data name="Text_c2439708babf" xml:space="preserve">
+    <value>指定的 PromptTemplateId 不存在</value>
+  </data>
+  <data name="Text_c39d89be8a24" xml:space="preserve">
+    <value>Update 操作的 BaseProfile 不能为空</value>
+  </data>
+  <data name="Text_c4d61c3b7e92" xml:space="preserve">
+    <value>Profile 不能为空</value>
+  </data>
+  <data name="Text_c5d4b8310a81" xml:space="preserve">
+    <value>服务已不存在，请刷新后重试</value>
+  </data>
+  <data name="Text_c867164793e4" xml:space="preserve">
+    <value>草稿 Profile ID 必须与 BaseProfile ID 一致</value>
+  </data>
+  <data name="Text_c955eba2dbc4" xml:space="preserve">
+    <value>卸载键盘钩子失败 (Win32Error={0})。</value>
+  </data>
+  <data name="Text_c95d52323038" xml:space="preserve">
+    <value>Theme 含有未定义的值</value>
+  </data>
+  <data name="Text_c9e24bc3378d" xml:space="preserve">
+    <value>服务创建或测试失败</value>
+  </data>
+  <data name="Text_cbf370d77d1b" xml:space="preserve">
+    <value>凭据未配置</value>
+  </data>
+  <data name="Text_cc1010d2ab51" xml:space="preserve">
+    <value>应用程序路径格式无效</value>
+  </data>
+  <data name="Text_cdfa48d9be39" xml:space="preserve">
+    <value>TargetIds 与预期的 Profile ID 集合不匹配</value>
+  </data>
+  <data name="Text_ce3c3cdbf8c7" xml:space="preserve">
+    <value>获取应用程序路径失败</value>
+  </data>
+  <data name="Text_d42544701705" xml:space="preserve">
+    <value>当前服务不支持获取模型列表</value>
+  </data>
+  <data name="Text_d4480321b4b5" xml:space="preserve">
+    <value>开机启动配置读取失败</value>
+  </data>
+  <data name="Text_d6315daa8917" xml:space="preserve">
+    <value>安装键盘钩子失败 (Win32Error={0})。</value>
+  </data>
+  <data name="Text_dde435b819e2" xml:space="preserve">
+    <value>快捷键组合已分配给其他动作，不能重复使用</value>
+  </data>
+  <data name="Text_e3c6bebfa1ee" xml:space="preserve">
+    <value>启用服务的 Model 不能为空</value>
+  </data>
+  <data name="Text_e53237193fe8" xml:space="preserve">
+    <value>Keep 或 Clear 意图的 Replacement 必须为 null</value>
+  </data>
+  <data name="Text_e63a96455f53" xml:space="preserve">
+    <value>键盘模拟输入失败</value>
+  </data>
+  <data name="Text_e9867e8a22d2" xml:space="preserve">
+    <value>无法创建服务实例</value>
+  </data>
+  <data name="Text_e9971e3aa748" xml:space="preserve">
+    <value>ExtraHeaders 请求头值不能包含回车或换行</value>
+  </data>
+  <data name="Text_e9d0be5babc8" xml:space="preserve">
+    <value>新增 Profile ID 格式不符合规范</value>
+  </data>
+  <data name="Text_eb11d05aba48" xml:space="preserve">
+    <value>Model 不能为空</value>
+  </data>
+  <data name="Text_ed4a1fe3a942" xml:space="preserve">
+    <value>LogLevel 目标值非法</value>
+  </data>
+  <data name="Text_f64a52bd3dfc" xml:space="preserve">
+    <value>凭据引用格式无效</value>
+  </data>
+  <data name="Text_f7f84688d00e" xml:space="preserve">
+    <value>BaseProfile ID 不能为空</value>
+  </data>
+  <data name="Text_fa9b5ba9833d" xml:space="preserve">
+    <value>Delete 操作的凭据意图只能为 Keep</value>
+  </data>
+  <data name="Text_fc1a8545b8a8" xml:space="preserve">
+    <value>TargetIds 包含重复 ID</value>
+  </data>
+  <data name="Text_fdef32da198a" xml:space="preserve">
+    <value>Temperature 必须在 0.0 到 2.0 之间</value>
+  </data>
+</root>

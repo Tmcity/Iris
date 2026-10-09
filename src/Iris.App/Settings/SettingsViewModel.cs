@@ -49,8 +49,8 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 {
     private static readonly IReadOnlyList<AppTheme> _availableThemes = [AppTheme.System, AppTheme.Light, AppTheme.Dark];
     private static readonly IReadOnlyList<string> _availableLogLevels = ["Verbose", "Debug", "Information", "Warning", "Error"];
-    private static readonly CompositeFormat s_hotkeyDuplicateConflictFormat = CompositeFormat.Parse(UiText.SettingsHotkeyDuplicateConflict);
-    private static readonly CompositeFormat s_hotkeyReservedConflictFormat = CompositeFormat.Parse(UiText.SettingsHotkeyReservedConflict);
+    private static CompositeFormat s_hotkeyDuplicateConflictFormat => CompositeFormat.Parse(UiText.SettingsHotkeyDuplicateConflict);
+    private static CompositeFormat s_hotkeyReservedConflictFormat => CompositeFormat.Parse(UiText.SettingsHotkeyReservedConflict);
 
     private readonly ISettingsService _settingsService;
     private readonly ThemeService _themeService;
@@ -199,6 +199,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
         _baseLogLevel = general.LogLevel;
         _targetLogLevel = general.LogLevel;
+        InitializeInterfaceLanguage();
 
         _canRetryAutoStart = false;
 
@@ -465,7 +466,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     {
         get
         {
-            if (_themeDirty || _launchAtStartupDirty || _showStartupNotificationDirty || _logLevelDirty)
+            if (_themeDirty || _launchAtStartupDirty || _showStartupNotificationDirty || _logLevelDirty || InterfaceLanguage.IsDirty)
             {
                 return true;
             }
@@ -640,7 +641,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         {
             if (!desired.Any(d => string.Equals(d.Id, id, StringComparison.Ordinal)))
             {
-                desired.Add(new PromptOptionItem(id, $"[已移除] {id}"));
+                desired.Add(new PromptOptionItem(id, global::Iris.App.Resources.AppResources.Format("Text_3070ed21a7ed", id)));
             }
         }
 
@@ -999,7 +1000,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                         {
                             target.Model = currentModel;
                         }
-                        target.ListModelsStatusMessage = $"成功获取 {models.Count} 个模型";
+                        target.ListModelsStatusMessage = global::Iris.App.Resources.AppResources.Format("Text_733881723d47", models.Count);
                     }
                     else
                     {
@@ -1279,7 +1280,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             {
                 await _uiDispatcher.InvokeAsync(() =>
                 {
-                    StatusMessage = "快捷键录入清理未完成，无法保存";
+                    StatusMessage = global::Iris.App.Resources.AppResources.Get("Text_99729d9d15a4");
                     return Task.CompletedTask;
                 }, CancellationToken.None).ConfigureAwait(false);
                 return;
@@ -1338,7 +1339,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 ValidateHotkeyDrafts();
                 if (Hotkeys.Any(h => h.HasDraftError))
                 {
-                    StatusMessage = "请先修正快捷键冲突或错误";
+                    StatusMessage = global::Iris.App.Resources.AppResources.Get("Text_af3fd060dd39");
                     shouldReturn = true;
                     return Task.CompletedTask;
                 }
@@ -1348,7 +1349,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 var launchEdit = _launchAtStartupDirty ? new SettingsFieldEdit<bool>(_baseLaunchAtStartup, _targetLaunchAtStartup) : null;
                 var notifEdit = _showStartupNotificationDirty ? new SettingsFieldEdit<bool>(_baseShowStartupNotification, _targetShowStartupNotification) : null;
                 var logEdit = _logLevelDirty ? new SettingsFieldEdit<string>(_baseLogLevel, _targetLogLevel) : null;
-                var generalPatch = new GeneralSettingsPatch(themeEdit, launchEdit, notifEdit, logEdit);
+                var generalPatch = new GeneralSettingsPatch(themeEdit, launchEdit, notifEdit, logEdit) { UiLanguage = InterfaceLanguage.Edit() };
 
                 // 组装 Translation 变更
                 var translationChanges = new List<TranslationProfileChange>();
@@ -1403,7 +1404,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                     }
                 }
 
-                bool hasGeneralDirty = _themeDirty || _launchAtStartupDirty || _showStartupNotificationDirty || _logLevelDirty;
+                bool hasGeneralDirty = _themeDirty || _launchAtStartupDirty || _showStartupNotificationDirty || _logLevelDirty || InterfaceLanguage.IsDirty;
                 bool hasTranslationDirty = translationChanges.Count > 0 || orderChange != null;
                 bool hasHotkeyDirty = hotkeyChanges.Count > 0;
 
@@ -1652,6 +1653,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
     private void SyncBaselineFromCurrent()
     {
+        MergeInterfaceLanguage(reset: true);
         MergeOcrSettings(reset: true);
         MergeNetworkSettings(reset: true);
         Selection.Merge(_settingsService.Current.Selection, reset: true);
@@ -1711,6 +1713,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         {
             return;
         }
+        MergeInterfaceLanguage(reset: true);
 
         if (IsAnyRecording)
         {
@@ -1790,7 +1793,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         var inputItem = new HotkeyItemDraftViewModel(
             IrisAction.InputTranslate,
             UiText.TrayMenuInputTranslate,
-            "打开输入翻译窗口快速翻译文本",
+            global::Iris.App.Resources.AppResources.Get("Text_6410e0ade8fd"),
             inputBinding,
             this);
         Hotkeys.Add(inputItem);
@@ -1800,7 +1803,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         var clipItem = new HotkeyItemDraftViewModel(
             IrisAction.ClipboardTranslate,
             UiText.TrayMenuClipboardTranslate,
-            "读取剪贴板内容并进行翻译",
+            global::Iris.App.Resources.AppResources.Get("Text_d681ffc969c1"),
             clipBinding,
             this);
         Hotkeys.Add(clipItem);
@@ -1810,7 +1813,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         var settingsItem = new HotkeyItemDraftViewModel(
             IrisAction.OpenSettings,
             UiText.SettingsTitle,
-            "打开 Iris 设置界面",
+            global::Iris.App.Resources.AppResources.Get("Text_c7d8838aeb65"),
             settingsBinding,
             this);
         Hotkeys.Add(settingsItem);
@@ -2353,13 +2356,16 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     {
         IrisAction.InputTranslate => UiText.TrayMenuInputTranslate,
         IrisAction.ClipboardTranslate => UiText.TrayMenuClipboardTranslate,
-        IrisAction.TranslateText => "翻译文本",
+        IrisAction.TranslateText => global::Iris.App.Resources.AppResources.Get("Text_2c944b654a3b"),
         IrisAction.OpenSettings => UiText.SettingsTitle,
-        IrisAction.SelectionTranslate => "划词翻译",
-        IrisAction.ScreenshotTranslate => "截图翻译",
-        IrisAction.ScreenshotOcr => "截图 OCR",
-        IrisAction.SilentScreenshotOcr => "静默截图 OCR",
-        IrisAction.ToggleFloatingBall => "悬浮球",
+        IrisAction.SelectionTranslate => global::Iris.App.Resources.AppResources.Get("Text_3b02edcd404d"),
+        IrisAction.ScreenshotTranslate => global::Iris.App.Resources.AppResources.Get("Text_03261c064096"),
+        IrisAction.ScreenshotOcr => global::Iris.App.Resources.AppResources.Get("Text_a03a94a2f826"),
+        IrisAction.SilentScreenshotOcr => global::Iris.App.Resources.AppResources.Get("Text_501fb7e80e5a"),
+        IrisAction.ToggleFloatingBall => global::Iris.App.Resources.AppResources.Get("Text_72704d8e1e47"),
+        IrisAction.Exit => UiText.TrayMenuExit,
+        IrisAction.OpenHistory => UiText.HistoryTitle,
+        IrisAction.ToggleMouseSelection => UiText.MouseToggle,
         _ => action.ToString(),
     };
 
@@ -2621,6 +2627,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             }
 
             var currentGeneral = _settingsService.Current.General;
+            MergeInterfaceLanguage();
 
             // 未编辑常规字段跟随最新当前值；已编辑字段保留草稿与原基线以支持冲突检测
             if (!_themeDirty)

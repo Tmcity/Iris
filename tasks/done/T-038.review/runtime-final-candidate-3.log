@@ -1,0 +1,13 @@
+PASS fixed selected language across differing thread cultures
+PASS real language control joins one history save without live language change
+PASS fresh real JSON load drives the next language selection
+PASS joint conflict preserves language draft and saved language
+PASS language-only save merges unrelated external changes
+PASS actual Core rejects an unsupported target without writing
+PASS actual preset menu and visible add button retain stable saved data
+PASS production primary language lifetime through host cleanup failure
+PASS production primary language lifetime through logger cleanup failure
+PASS production primary language lifetime through mutex cleanup failure
+Independent language scenarios: 10; failed: 0
+STA finalization: owned windows=0
+STA finalization: thread exited

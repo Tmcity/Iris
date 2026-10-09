@@ -29,7 +29,7 @@ internal static class MonitorEnumerator
             }
         }
 
-        throw new IrisException(ErrorCode.Unknown, "无法获取显示器信息");
+        throw new IrisException(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Get("Text_18140661bf9b"));
     }
 
     private static (bool Success, IReadOnlyList<MonitorInfo>? Monitors) TryEnumerateOnce(
@@ -244,7 +244,7 @@ internal static class MonitorEnumerator
                         logCleanupFailure(logger, action, err, null);
                     }
                 }
-                throw new IrisException(ErrorCode.Unknown, "无法获取显示器信息");
+                throw new IrisException(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Get("Text_18140661bf9b"));
             }
 
             // Clean failure without cleanup errors -> allow retry
@@ -262,7 +262,7 @@ internal static class MonitorEnumerator
                     logCleanupFailure(logger, cleanupFailures[i].Action, cleanupFailures[i].ErrorCode, null);
                 }
             }
-            throw new IrisException(ErrorCode.Unknown, "桌面查询资源清理失败");
+            throw new IrisException(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Get("Text_bda16101de59"));
         }
 
         // Sort by IsPrimary DESC, then DeviceName Ordinal ASC

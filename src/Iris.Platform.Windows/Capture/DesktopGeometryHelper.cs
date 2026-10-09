@@ -71,7 +71,7 @@ internal static class DesktopGeometryHelper
 
         if (monitors.Count == 0)
         {
-            throw new IrisException(ErrorCode.Unknown, "无法获取显示器信息");
+            throw new IrisException(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Get("Text_18140661bf9b"));
         }
 
         MonitorInfo? best = null;

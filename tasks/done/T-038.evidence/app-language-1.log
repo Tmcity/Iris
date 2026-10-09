@@ -1,0 +1,5 @@
+F:\Iris\tests\Iris.App.Tests\Localization\LocalizationTests.cs(117,153): error CS1503: 参数 7: 无法从“int”转换为“bool” [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Localization\LocalizationTests.cs(117,156): error CS1503: 参数 8: 无法从“bool”转换为“int” [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Localization\LocalizationTests.cs(129,60): error CA1826: 不要在可索引的集合上使用 Enumerable 方法。而是直接使用集合。 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1826) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Localization\LocalizationTests.cs(184,27): error CA1859: 将方法“Unexpected”的返回类型从“System.Exception”更改为“System.InvalidOperationException”以提高性能 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1859) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+生成失败，退出代码: 1。

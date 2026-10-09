@@ -1,0 +1,302 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>Iris.App.Tests</AssemblyName>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Anthropic">
+      <HintPath>deps/Anthropic.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>deps/Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper">
+      <HintPath>deps/Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="DiffEngine">
+      <HintPath>deps/DiffEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="EmptyFiles">
+      <HintPath>deps/EmptyFiles.dll</HintPath>
+    </Reference>
+    <Reference Include="H.GeneratedIcons.System.Drawing">
+      <HintPath>deps/H.GeneratedIcons.System.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="H.NotifyIcon">
+      <HintPath>deps/H.NotifyIcon.dll</HintPath>
+    </Reference>
+    <Reference Include="H.NotifyIcon.Wpf">
+      <HintPath>deps/H.NotifyIcon.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Iris.App">
+      <HintPath>deps/Iris.App.dll</HintPath>
+    </Reference>
+    <Reference Include="Iris.Core">
+      <HintPath>deps/Iris.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Iris.Infrastructure">
+      <HintPath>deps/Iris.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Iris.Platform.Windows">
+      <HintPath>deps/Iris.Platform.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="Iris.Providers">
+      <HintPath>deps/Iris.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights">
+      <HintPath>deps/Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces">
+      <HintPath>deps/Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Sqlite">
+      <HintPath>deps/Microsoft.Data.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.AI.Abstractions">
+      <HintPath>deps/Microsoft.Extensions.AI.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.AmbientMetadata.Application">
+      <HintPath>deps/Microsoft.Extensions.AmbientMetadata.Application.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Compliance.Abstractions">
+      <HintPath>deps/Microsoft.Extensions.Compliance.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
+      <HintPath>deps/Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder">
+      <HintPath>deps/Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.CommandLine">
+      <HintPath>deps/Microsoft.Extensions.Configuration.CommandLine.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration">
+      <HintPath>deps/Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.EnvironmentVariables">
+      <HintPath>deps/Microsoft.Extensions.Configuration.EnvironmentVariables.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.FileExtensions">
+      <HintPath>deps/Microsoft.Extensions.Configuration.FileExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Json">
+      <HintPath>deps/Microsoft.Extensions.Configuration.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.UserSecrets">
+      <HintPath>deps/Microsoft.Extensions.Configuration.UserSecrets.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>deps/Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.AutoActivation">
+      <HintPath>deps/Microsoft.Extensions.DependencyInjection.AutoActivation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection">
+      <HintPath>deps/Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Diagnostics.Abstractions">
+      <HintPath>deps/Microsoft.Extensions.Diagnostics.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Diagnostics">
+      <HintPath>deps/Microsoft.Extensions.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Diagnostics.ExceptionSummarization">
+      <HintPath>deps/Microsoft.Extensions.Diagnostics.ExceptionSummarization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions">
+      <HintPath>deps/Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Physical">
+      <HintPath>deps/Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileSystemGlobbing">
+      <HintPath>deps/Microsoft.Extensions.FileSystemGlobbing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Hosting.Abstractions">
+      <HintPath>deps/Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Hosting">
+      <HintPath>deps/Microsoft.Extensions.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Http.Diagnostics">
+      <HintPath>deps/Microsoft.Extensions.Http.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Http">
+      <HintPath>deps/Microsoft.Extensions.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Http.Resilience">
+      <HintPath>deps/Microsoft.Extensions.Http.Resilience.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions">
+      <HintPath>deps/Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Configuration">
+      <HintPath>deps/Microsoft.Extensions.Logging.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Console">
+      <HintPath>deps/Microsoft.Extensions.Logging.Console.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Debug">
+      <HintPath>deps/Microsoft.Extensions.Logging.Debug.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging">
+      <HintPath>deps/Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.EventLog">
+      <HintPath>deps/Microsoft.Extensions.Logging.EventLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.EventSource">
+      <HintPath>deps/Microsoft.Extensions.Logging.EventSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.ObjectPool">
+      <HintPath>deps/Microsoft.Extensions.ObjectPool.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options.ConfigurationExtensions">
+      <HintPath>deps/Microsoft.Extensions.Options.ConfigurationExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options">
+      <HintPath>deps/Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives">
+      <HintPath>deps/Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Resilience">
+      <HintPath>deps/Microsoft.Extensions.Resilience.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Telemetry.Abstractions">
+      <HintPath>deps/Microsoft.Extensions.Telemetry.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Telemetry">
+      <HintPath>deps/Microsoft.Extensions.Telemetry.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.TimeProvider.Testing">
+      <HintPath>deps/Microsoft.Extensions.TimeProvider.Testing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Testing.Extensions.MSBuild">
+      <HintPath>deps/Microsoft.Testing.Extensions.MSBuild.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Testing.Extensions.Telemetry">
+      <HintPath>deps/Microsoft.Testing.Extensions.Telemetry.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Testing.Extensions.TrxReport.Abstractions">
+      <HintPath>deps/Microsoft.Testing.Extensions.TrxReport.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Testing.Platform">
+      <HintPath>deps/Microsoft.Testing.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.TestPlatform.CommunicationUtilities">
+      <HintPath>deps/Microsoft.TestPlatform.CommunicationUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.TestPlatform.CoreUtilities">
+      <HintPath>deps/Microsoft.TestPlatform.CoreUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.TestPlatform.CrossPlatEngine">
+      <HintPath>deps/Microsoft.TestPlatform.CrossPlatEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.TestPlatform.PlatformAbstractions">
+      <HintPath>deps/Microsoft.TestPlatform.PlatformAbstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.TestPlatform.Utilities">
+      <HintPath>deps/Microsoft.TestPlatform.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.CodeCoverage.Shim">
+      <HintPath>deps/Microsoft.VisualStudio.CodeCoverage.Shim.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.Common">
+      <HintPath>deps/Microsoft.VisualStudio.TestPlatform.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.ObjectModel">
+      <HintPath>deps/Microsoft.VisualStudio.TestPlatform.ObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Windows.SDK.NET">
+      <HintPath>deps/Microsoft.Windows.SDK.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="NSubstitute">
+      <HintPath>deps/NSubstitute.dll</HintPath>
+    </Reference>
+    <Reference Include="Polly.Core">
+      <HintPath>deps/Polly.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Polly.Extensions">
+      <HintPath>deps/Polly.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Polly.RateLimiting">
+      <HintPath>deps/Polly.RateLimiting.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog">
+      <HintPath>deps/Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Extensions.Hosting">
+      <HintPath>deps/Serilog.Extensions.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Extensions.Logging">
+      <HintPath>deps/Serilog.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.File">
+      <HintPath>deps/Serilog.Sinks.File.dll</HintPath>
+    </Reference>
+    <Reference Include="Shouldly">
+      <HintPath>deps/Shouldly.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2">
+      <HintPath>deps/SQLitePCLRaw.batteries_v2.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.core">
+      <HintPath>deps/SQLitePCLRaw.core.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.e_sqlite3">
+      <HintPath>deps/SQLitePCLRaw.provider.e_sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management">
+      <HintPath>deps/System.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.RateLimiting">
+      <HintPath>deps/System.Threading.RateLimiting.dll</HintPath>
+    </Reference>
+    <Reference Include="testhost">
+      <HintPath>deps/testhost.dll</HintPath>
+    </Reference>
+    <Reference Include="WinRT.Runtime">
+      <HintPath>deps/WinRT.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Wpf.Ui.Abstractions">
+      <HintPath>deps/Wpf.Ui.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Wpf.Ui">
+      <HintPath>deps/Wpf.Ui.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.abstractions">
+      <HintPath>deps/xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.runner.visualstudio.testadapter">
+      <HintPath>deps/xunit.runner.visualstudio.testadapter.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.v3.assert">
+      <HintPath>deps/xunit.v3.assert.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.v3.common">
+      <HintPath>deps/xunit.v3.common.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.v3.core">
+      <HintPath>deps/xunit.v3.core.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.v3.mtp-v2">
+      <HintPath>deps/xunit.v3.mtp-v2.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.v3.runner.common">
+      <HintPath>deps/xunit.v3.runner.common.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.v3.runner.inproc.console">
+      <HintPath>deps/xunit.v3.runner.inproc.console.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.v3.runner.utility.netcore">
+      <HintPath>deps/xunit.v3.runner.utility.netcore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    </ItemGroup>
+<ItemGroup><Content Include="deps/en-US/*.resources.dll"><Link>en-US/%(Filename)%(Extension)</Link><CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory></Content></ItemGroup></Project>

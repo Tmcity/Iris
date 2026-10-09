@@ -1,0 +1,20 @@
+{
+  "App": {
+    "SourceSha256": "5f7a5c9d68def9848ebdb04265a7f2f956b6ad9d0efeb92802a5bef5e2f9becc",
+    "ActualKeys": 437,
+    "ReviewedUnchanged": 437,
+    "UnreviewedKeys": [],
+    "ChangedKeys": [],
+    "MissingKeys": [],
+    "ChangedSupplementalChinese": []
+  },
+  "Core": {
+    "SourceSha256": "8466d873085cff8c6ea9990782a5c40d8d511d3e4e61bab69322075b27081c33",
+    "ActualKeys": 148,
+    "ReviewedUnchanged": 148,
+    "UnreviewedKeys": [],
+    "ChangedKeys": [],
+    "MissingKeys": [],
+    "ChangedSupplementalChinese": []
+  }
+}

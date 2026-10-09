@@ -8,7 +8,7 @@ internal sealed partial class SettingsEditCoordinator
 
     private static ErrorInfo? ValidateHistory(HistorySettingsPatch? patch) =>
         patch?.MaxEntries is { Base: < 100 or > 100000 } or { Target: < 100 or > 100000 }
-            ? new(ErrorCode.InvalidArgument, "历史记录数量须为 100 至 100000 的整数。") : null;
+            ? new(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_9f4aeb1e7d83")) : null;
 
     private static bool HasHistoryConflict(HistorySettingsPatch? patch, HistorySettings current) => patch != null &&
         (SelectionConflict(patch.Enabled, current.Enabled, static (a, b) => a == b)

@@ -4,7 +4,8 @@
 
 > 本轮范围调整（2026-10-06，用户决定）：M6 悬浮球 / T-033 延迟实现，不纳入本轮开发与发布验收；相关设计保留为后续需求，现有契约与默认配置保持。当前 T-031A 继续，M5 完成后跳过 T-033，按依赖推进 M7 未完成任务。
 
-> 版本：v1.55 · 2026-10-08 · 状态：**已冻结（首期）**
+> 版本：v1.56 · 2026-10-08 · 状态：**已冻结（首期）**
+> v1.56：T-037/CCR037在19e15f67独立验收结案。LOCALIZATION.md / CCR-038冻结T-038完整zh-CN/en-US界面、稳定启动语言、下次启动生效的General.UiLanguage联合编辑及资源/视觉审计；GeneralSettingsPatch仅兼容新增可选属性，原构造/默认/schema/包保持。
 > v1.55：T-036C/父T-036/CCR036独立验收结案。IPC_COMMAND_LINE.md / CCR-037冻结T-037完整CLI、同用户/同会话命名管道、无数据初始化的第二实例转发和完整停止；IpcCommand仅补安全ToString/说明，默认/包不变。
 > v1.54：T-036B/R1独立验收，按NETWORK_SETTINGS_UI.md签发C完整network页、联合保存、草稿HEAD与完整会话退出；CCR036声明保持，不返工B底座。
 > v1.53：T-036A方案验收，CCR036 / NETWORK_CONFIGURATION.md冻结网络凭据/迁移/请求快照与无缓冲传输；B底座、C完整UI，旧坏Custom直连或自动System回退与future Update回写规则由新规范覆盖，默认配置与schema数字保持。

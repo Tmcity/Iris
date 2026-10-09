@@ -1,0 +1,1117 @@
+[
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "literal",
+    "Text": "LoadAsync 仅允许调用一次",
+    "Raw": "\"LoadAsync 仅允许调用一次\"",
+    "Start": 2264,
+    "Length": 19,
+    "Line": 64,
+    "Context": "throw new InvalidOperationException(\"LoadAsync 仅允许调用一次\");",
+    "Arguments": [],
+    "Fingerprint": "BBB515B6F01DFDA76887E34B73A594B2576CB62D2445DF7CF4671CBCE7F73FEC"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "literal",
+    "Text": "必须先调用 LoadAsync 后才能调用 UpdateAsync",
+    "Raw": "\"必须先调用 LoadAsync 后才能调用 UpdateAsync\"",
+    "Start": 2820,
+    "Length": 35,
+    "Line": 82,
+    "Context": "throw new InvalidOperationException(\"必须先调用 LoadAsync 后才能调用 UpdateAsync\");",
+    "Arguments": [],
+    "Fingerprint": "01BFA571805E062F25D5B1CF31461F556D0BD2F6DC0CC822CEA7012C7EBD89D7"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "literal",
+    "Text": "mutate 委托返回了 null",
+    "Raw": "\"mutate 委托返回了 null\"",
+    "Start": 3327,
+    "Length": 19,
+    "Line": 95,
+    "Context": "throw new InvalidOperationException(\"mutate 委托返回了 null\");",
+    "Arguments": [],
+    "Fingerprint": "1C493622A97DE0857170C9A4BF8F748F077A5FAE97F8C4360895EBBEED49F20C"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "interpolated",
+    "Text": "schemaVersion: 非整数 → {0}",
+    "Raw": "$\"schemaVersion: 非整数 → {AppSettings.CurrentSchemaVersion}\"",
+    "Start": 9013,
+    "Length": 58,
+    "Line": 244,
+    "Context": "fixes.Add(FormattableString.Invariant($\"schemaVersion: 非整数 → {AppSettings.CurrentSchemaVersion}\"));",
+    "Arguments": [
+      "AppSettings.CurrentSchemaVersion"
+    ],
+    "Fingerprint": "A5312456882EF4A2FC6B217EC6F03E4E072B790442D60BCEA9A66BCCCF2C9393"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "interpolated",
+    "Text": "schemaVersion: {0} → {1}（迁移链不完整，已跳过迁移）",
+    "Raw": "$\"schemaVersion: {fileSchemaVersion} → {AppSettings.CurrentSchemaVersion}（迁移链不完整，已跳过迁移）\"",
+    "Start": 9965,
+    "Length": 88,
+    "Line": 261,
+    "Context": "fixes.Add(FormattableString.Invariant($\"schemaVersion: {fileSchemaVersion} → {AppSettings.CurrentSchemaVersion}（迁移链不完整，已跳过迁移）\"));",
+    "Arguments": [
+      "fileSchemaVersion",
+      "AppSettings.CurrentSchemaVersion"
+    ],
+    "Fingerprint": "3881B78B5F47F51BC2F2492C4EBFD60464AE408FF2DBECF82B956E987A833533"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "literal",
+    "Text": "反序列化结果为空",
+    "Raw": "\"反序列化结果为空\"",
+    "Start": 10603,
+    "Length": 10,
+    "Line": 276,
+    "Context": "deserialized = JsonSerializer.Deserialize<AppSettings>(root.ToJsonString(), IrisJson.Options)\r\n                           ?? throw new JsonException(\"反序列化结果为空\");",
+    "Arguments": [],
+    "Fingerprint": "98BCCE2FB387835729C5C75C168908A5E664BC3D1E39D8A5D72B323F3E3A1541"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "interpolated",
+    "Text": "; ……另有 {0} 条",
+    "Raw": "$\"; ……另有 {fixes.Count - 50} 条\"",
+    "Start": 11844,
+    "Length": 30,
+    "Line": 304,
+    "Context": "summary += FormattableString.Invariant($\"; ……另有 {fixes.Count - 50} 条\");",
+    "Arguments": [
+      "fixes.Count - 50"
+    ],
+    "Fingerprint": "296AE62965A1640C1FE4EB3AFDC7B0466F785ADDAAAB0C712D14C77F1EBA4BC3"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "literal",
+    "Text": "设置文件不存在，已初始化为默认设置并写入 {path}",
+    "Raw": "\"设置文件不存在，已初始化为默认设置并写入 {path}\"",
+    "Start": 14948,
+    "Length": 29,
+    "Line": 391,
+    "Context": "LoggerMessage(EventId = 1, Level = LogLevel.Information, Message = \"设置文件不存在，已初始化为默认设置并写入 {path}\")",
+    "Arguments": [],
+    "Fingerprint": "A37255512F8349F7CFB90555A3789567F6CCEADB2B848EEEFACE5C19FDC1F732"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "literal",
+    "Text": "设置文件版本 ({fileVersion}) 高于当前程序支持的版本 ({currentVersion})，将尽力加载且不回写",
+    "Raw": "\"设置文件版本 ({fileVersion}) 高于当前程序支持的版本 ({currentVersion})，将尽力加载且不回写\"",
+    "Start": 15129,
+    "Length": 65,
+    "Line": 394,
+    "Context": "LoggerMessage(EventId = 2, Level = LogLevel.Warning, Message = \"设置文件版本 ({fileVersion}) 高于当前程序支持的版本 ({currentVersion})，将尽力加载且不回写\")",
+    "Arguments": [],
+    "Fingerprint": "4BFEA637CED26200432CDAFABD42C4FA2A53361CF3690347C3CB6D510CBD50AF"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "literal",
+    "Text": "设置加载完成，已自动修复 {count} 项：{summary}",
+    "Raw": "\"设置加载完成，已自动修复 {count} 项：{summary}\"",
+    "Start": 15372,
+    "Length": 34,
+    "Line": 397,
+    "Context": "LoggerMessage(EventId = 3, Level = LogLevel.Warning, Message = \"设置加载完成，已自动修复 {count} 项：{summary}\")",
+    "Arguments": [],
+    "Fingerprint": "4AF2E829BBFB431D63025B54068161830EF11913B4AEB74DD4C5F3098211979F"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "literal",
+    "Text": "设置加载成功: {path}, SchemaVersion={schemaVersion}, 修复条数={fixCount}",
+    "Raw": "\"设置加载成功: {path}, SchemaVersion={schemaVersion}, 修复条数={fixCount}\"",
+    "Start": 15579,
+    "Length": 64,
+    "Line": 400,
+    "Context": "LoggerMessage(EventId = 4, Level = LogLevel.Information, Message = \"设置加载成功: {path}, SchemaVersion={schemaVersion}, 修复条数={fixCount}\")",
+    "Arguments": [],
+    "Fingerprint": "5B6E9233A50DE823B77DFD95E57854DFBE29DF0515AA71182C7B9CED0BE0943D"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "literal",
+    "Text": "设置文件 JSON 语法损坏",
+    "Raw": "\"设置文件 JSON 语法损坏\"",
+    "Start": 15828,
+    "Length": 16,
+    "Line": 403,
+    "Context": "LoggerMessage(EventId = 5, Level = LogLevel.Warning, Message = \"设置文件 JSON 语法损坏\")",
+    "Arguments": [],
+    "Fingerprint": "740068EB7CC74602D60D370992270580805CBD7DA3A6235EA52E7F0B6A7CDD3D"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "literal",
+    "Text": "设置文件根节点不是 JSON 对象（文件为空或为数组）",
+    "Raw": "\"设置文件根节点不是 JSON 对象（文件为空或为数组）\"",
+    "Start": 15991,
+    "Length": 29,
+    "Line": 406,
+    "Context": "LoggerMessage(EventId = 6, Level = LogLevel.Warning, Message = \"设置文件根节点不是 JSON 对象（文件为空或为数组）\")",
+    "Arguments": [],
+    "Fingerprint": "17B7B72784FFAE0A43C77BABB6AC9EA63148AFADBFBB9293319B846321D3DAB5"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "literal",
+    "Text": "设置挽救后反序列化仍失败，执行损坏恢复",
+    "Raw": "\"设置挽救后反序列化仍失败，执行损坏恢复\"",
+    "Start": 16161,
+    "Length": 21,
+    "Line": 409,
+    "Context": "LoggerMessage(EventId = 7, Level = LogLevel.Warning, Message = \"设置挽救后反序列化仍失败，执行损坏恢复\")",
+    "Arguments": [],
+    "Fingerprint": "A3A3D6AFA14AC78E4991358C453E58F29C71934678713E3D95D36A583E51D84F"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "literal",
+    "Text": "损坏恢复写入默认设置文件失败: {path}",
+    "Raw": "\"损坏恢复写入默认设置文件失败: {path}\"",
+    "Start": 16336,
+    "Length": 24,
+    "Line": 412,
+    "Context": "LoggerMessage(EventId = 8, Level = LogLevel.Error, Message = \"损坏恢复写入默认设置文件失败: {path}\")",
+    "Arguments": [],
+    "Fingerprint": "FB9172358A2ED516E44D3ED602CE7B6D39A6153DE44AF9FEC6C1751EA5A7612F"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "literal",
+    "Text": "UpdateAsync 规范化修复: {fixes}",
+    "Raw": "\"UpdateAsync 规范化修复: {fixes}\"",
+    "Start": 16534,
+    "Length": 28,
+    "Line": 415,
+    "Context": "LoggerMessage(EventId = 9, Level = LogLevel.Debug, Message = \"UpdateAsync 规范化修复: {fixes}\")",
+    "Arguments": [],
+    "Fingerprint": "00EEC35DC9B3A837B7C46531AF8D1EA0395DD50C38EB53B9E4401A10F01940C0"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "literal",
+    "Text": "Settings Changed 事件处理器执行失败",
+    "Raw": "\"Settings Changed 事件处理器执行失败\"",
+    "Start": 16727,
+    "Length": 28,
+    "Line": 418,
+    "Context": "LoggerMessage(EventId = 10, Level = LogLevel.Error, Message = \"Settings Changed 事件处理器执行失败\")",
+    "Arguments": [],
+    "Fingerprint": "297181FCFFAC7C5CAAEE4DDE46B3D5065F99EC294B9F4804DD9CB7FDCA5A3B7E"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+    "Kind": "literal",
+    "Text": "设置文件版本 ({fileVersion}) 到 ({currentVersion}) 的迁移链不完整，已跳过迁移",
+    "Raw": "\"设置文件版本 ({fileVersion}) 到 ({currentVersion}) 的迁移链不完整，已跳过迁移\"",
+    "Start": 16918,
+    "Length": 59,
+    "Line": 421,
+    "Context": "LoggerMessage(EventId = 11, Level = LogLevel.Warning, Message = \"设置文件版本 ({fileVersion}) 到 ({currentVersion}) 的迁移链不完整，已跳过迁移\")",
+    "Arguments": [],
+    "Fingerprint": "79751F21FC20242C9910357B065512C9789FE9AC122D87AC94A89880879B1D47"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsMigrationRunner.cs",
+    "Kind": "interpolated",
+    "Text": "存在重复的迁移 FromVersion: {0}",
+    "Raw": "$\"存在重复的迁移 FromVersion: {migration.FromVersion}\"",
+    "Start": 664,
+    "Length": 47,
+    "Line": 21,
+    "Context": "throw new InvalidOperationException($\"存在重复的迁移 FromVersion: {migration.FromVersion}\");",
+    "Arguments": [
+      "migration.FromVersion"
+    ],
+    "Fingerprint": "69AD87499ABB595E7871ECCDF5C7E98C1310DE4E7B4E16E0B7BADFAF8EF720A2"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsMigrationRunner.cs",
+    "Kind": "interpolated",
+    "Text": "fromVersion ({0}) 不能大于 toVersion ({1})",
+    "Raw": "$\"fromVersion ({fromVersion}) 不能大于 toVersion ({toVersion})\"",
+    "Start": 1047,
+    "Length": 59,
+    "Line": 37,
+    "Context": "throw new ArgumentException($\"fromVersion ({fromVersion}) 不能大于 toVersion ({toVersion})\");",
+    "Arguments": [
+      "fromVersion",
+      "toVersion"
+    ],
+    "Fingerprint": "69BE6026E9BD70D41EABFA07B45063B78DC54F26B71732993A02EE52AEA107C4"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsMigrationRunner.cs",
+    "Kind": "interpolated",
+    "Text": "缺少 schemaVersion {0} 的迁移",
+    "Raw": "$\"缺少 schemaVersion {v} 的迁移\"",
+    "Start": 1342,
+    "Length": 27,
+    "Line": 45,
+    "Context": "throw new InvalidOperationException($\"缺少 schemaVersion {v} 的迁移\");",
+    "Arguments": [
+      "v"
+    ],
+    "Fingerprint": "9EA2C77863605B77336696CE2DDF5DCF6C0530497AD5826AFF317B1E7A6C049F"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsMigrationRunner.cs",
+    "Kind": "interpolated",
+    "Text": "schemaVersion {0} 的迁移返回了 null",
+    "Raw": "$\"schemaVersion {v} 的迁移返回了 null\"",
+    "Start": 1475,
+    "Length": 32,
+    "Line": 48,
+    "Context": "current = migration.Migrate(current) ?? throw new InvalidOperationException($\"schemaVersion {v} 的迁移返回了 null\");",
+    "Arguments": [
+      "v"
+    ],
+    "Fingerprint": "8F95B4728041400AAFA592F29078CA401D575AA12641DE212973EEC91040F6FF"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "General: null → 默认值",
+    "Raw": "\"General: null → 默认值\"",
+    "Start": 1327,
+    "Length": 21,
+    "Line": 38,
+    "Context": "fixes.Add(\"General: null → 默认值\");",
+    "Arguments": [],
+    "Fingerprint": "7DFDE312D51CBFCEF09D1A7986E15FDBAAD3A165BCA3C41C5328F1D3FBBEEA7F"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Translation: null → 默认值",
+    "Raw": "\"Translation: null → 默认值\"",
+    "Start": 1478,
+    "Length": 25,
+    "Line": 41,
+    "Context": "fixes.Add(\"Translation: null → 默认值\");",
+    "Arguments": [],
+    "Fingerprint": "77AA3C90C808EB6F7736DC1AA208F1EAF6D0ED67BDE8626484B3950F3CAFC2E3"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Ocr: null → 默认值",
+    "Raw": "\"Ocr: null → 默认值\"",
+    "Start": 1601,
+    "Length": 17,
+    "Line": 44,
+    "Context": "fixes.Add(\"Ocr: null → 默认值\");",
+    "Arguments": [],
+    "Fingerprint": "6DE120835BA52FF6C12746979C7C8799863FB3F1BA1CE9BCA26FB8ACCCF06B8B"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Selection: null → 默认值",
+    "Raw": "\"Selection: null → 默认值\"",
+    "Start": 1740,
+    "Length": 23,
+    "Line": 47,
+    "Context": "fixes.Add(\"Selection: null → 默认值\");",
+    "Arguments": [],
+    "Fingerprint": "8493D75A5BA8415A624427FF30B53E0A1B7874CCCC412D2208879088249BFAD0"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Screenshot: null → 默认值",
+    "Raw": "\"Screenshot: null → 默认值\"",
+    "Start": 1889,
+    "Length": 24,
+    "Line": 50,
+    "Context": "fixes.Add(\"Screenshot: null → 默认值\");",
+    "Arguments": [],
+    "Fingerprint": "68DEE3325054CCF35096F88B28F9483ADB6001FA949E2FF1C3BD12961702B88A"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "FloatingBall: null → 默认值",
+    "Raw": "\"FloatingBall: null → 默认值\"",
+    "Start": 2047,
+    "Length": 26,
+    "Line": 53,
+    "Context": "fixes.Add(\"FloatingBall: null → 默认值\");",
+    "Arguments": [],
+    "Fingerprint": "677C03DB0BCE14B9BD5C1E825460494348FC8D4F2F7A478DED7995CEF77620E1"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "TranslateWindow: null → 默认值",
+    "Raw": "\"TranslateWindow: null → 默认值\"",
+    "Start": 2219,
+    "Length": 29,
+    "Line": 56,
+    "Context": "fixes.Add(\"TranslateWindow: null → 默认值\");",
+    "Arguments": [],
+    "Fingerprint": "49096B66568ED8E9016AAEB6D44DA38EA06EB4EB54906376E94E91F536E23591"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "History: null → 默认值",
+    "Raw": "\"History: null → 默认值\"",
+    "Start": 2362,
+    "Length": 21,
+    "Line": 59,
+    "Context": "fixes.Add(\"History: null → 默认值\");",
+    "Arguments": [],
+    "Fingerprint": "7362496F6EBEDFC09B5CE313768038FBA6C353F1932296168D67722BCB80D264"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Network: null → 默认值",
+    "Raw": "\"Network: null → 默认值\"",
+    "Start": 2497,
+    "Length": 21,
+    "Line": 62,
+    "Context": "fixes.Add(\"Network: null → 默认值\");",
+    "Arguments": [],
+    "Fingerprint": "7954EE50143A367FCF77522C3438B9F044449EDD7A876201E76F71BD5651CC78"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Hotkeys: null → 默认值",
+    "Raw": "\"Hotkeys: null → 默认值\"",
+    "Start": 2569,
+    "Length": 21,
+    "Line": 64,
+    "Context": "fixes.Add(\"Hotkeys: null → 默认值\");",
+    "Arguments": [],
+    "Fingerprint": "6EF5D8A317A7F8E2BC5326BCF8D72DD6A58C4FCEFCD7EAB54AC16A59086BC9A4"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Hotkeys: 未定义动作 {0} → 已移除",
+    "Raw": "$\"Hotkeys: 未定义动作 {(int)action} → 已移除\"",
+    "Start": 6680,
+    "Length": 37,
+    "Line": 166,
+    "Context": "fixes.Add(FormattableString.Invariant($\"Hotkeys: 未定义动作 {(int)action} → 已移除\"));",
+    "Arguments": [
+      "(int)action"
+    ],
+    "Fingerprint": "25FB6C9743B43CBB2ABEC436A4A5794EBFADED3143D0DBCC48481FEE5C8791A4"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Hotkeys[{0}]: null → 默认绑定",
+    "Raw": "$\"Hotkeys[{action}]: null → 默认绑定\"",
+    "Start": 7067,
+    "Length": 33,
+    "Line": 176,
+    "Context": "fixes.Add($\"Hotkeys[{action}]: null → 默认绑定\");",
+    "Arguments": [
+      "action"
+    ],
+    "Fingerprint": "AE2837E1531EED7D614A1ECDA7C5AAE08108FFF37FC1208F525A9CFC7C01CA83"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Hotkeys[{0}]: null → 已移除",
+    "Raw": "$\"Hotkeys[{action}]: null → 已移除\"",
+    "Start": 7210,
+    "Length": 32,
+    "Line": 180,
+    "Context": "fixes.Add($\"Hotkeys[{action}]: null → 已移除\");",
+    "Arguments": [
+      "action"
+    ],
+    "Fingerprint": "653E1CA1CB3E01928EFCC603C6825188A6DF6879C5B2D633A20910D1D2CFD6D5"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Hotkeys[{0}]: 禁用空白键名 → 规范化",
+    "Raw": "$\"Hotkeys[{action}]: 禁用空白键名 → 规范化\"",
+    "Start": 8243,
+    "Length": 34,
+    "Line": 204,
+    "Context": "fixes.Add($\"Hotkeys[{action}]: 禁用空白键名 → 规范化\");",
+    "Arguments": [
+      "action"
+    ],
+    "Fingerprint": "487304DCE1C9D60AB614EDE60273349157A33AD31487B27D843F3599DAC63F0A"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Hotkeys[{0}]: 空白键名 → 默认绑定",
+    "Raw": "$\"Hotkeys[{action}]: 空白键名 → 默认绑定\"",
+    "Start": 8588,
+    "Length": 33,
+    "Line": 211,
+    "Context": "fixes.Add($\"Hotkeys[{action}]: 空白键名 → 默认绑定\");",
+    "Arguments": [
+      "action"
+    ],
+    "Fingerprint": "CA99C37AB362A845CA78200212A5D16C43A4EE758F8C26BA329A944FE5646A51"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Hotkeys[{0}]: 空白键名 → 已移除",
+    "Raw": "$\"Hotkeys[{action}]: 空白键名 → 已移除\"",
+    "Start": 8731,
+    "Length": 32,
+    "Line": 215,
+    "Context": "fixes.Add($\"Hotkeys[{action}]: 空白键名 → 已移除\");",
+    "Arguments": [
+      "action"
+    ],
+    "Fingerprint": "FC558CCDA7FA237D4BAA018EB6C1C958493140BA38EF5E0E09DABC9006626203"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Hotkeys[{0}]: 缺失 → 默认绑定",
+    "Raw": "$\"Hotkeys[{defaultAction}]: 缺失 → 默认绑定\"",
+    "Start": 9206,
+    "Length": 38,
+    "Line": 231,
+    "Context": "fixes.Add($\"Hotkeys[{defaultAction}]: 缺失 → 默认绑定\");",
+    "Arguments": [
+      "defaultAction"
+    ],
+    "Fingerprint": "2D53CF3117401E7CC553EDBFCC6A68039A66BCB89E1A531EF71A093E5AE2B7E4"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Translation.CustomPrompts: 移除 null 模板",
+    "Raw": "\"Translation.CustomPrompts: 移除 null 模板\"",
+    "Start": 12068,
+    "Length": 39,
+    "Line": 296,
+    "Context": "fixes.Add(\"Translation.CustomPrompts: 移除 null 模板\");",
+    "Arguments": [],
+    "Fingerprint": "E6B498BEC9691000B1CBA7760F379F52A9A443D210C8DBC6E78BD1F222C3A5FA"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Translation.CustomPrompts[{0}]: 非法或与内置模板冲突 → 已移除",
+    "Raw": "$\"Translation.CustomPrompts[{prompt.Id}]: 非法或与内置模板冲突 → 已移除\"",
+    "Start": 12416,
+    "Length": 59,
+    "Line": 304,
+    "Context": "fixes.Add($\"Translation.CustomPrompts[{prompt.Id}]: 非法或与内置模板冲突 → 已移除\");",
+    "Arguments": [
+      "prompt.Id"
+    ],
+    "Fingerprint": "C7D2AA899975FDF8631E498B799CF36F09CA201BEC3262D7004D5434F8D3C7B1"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Translation.CustomPrompts[{0}]: System 或 User 为空 → 已移除",
+    "Raw": "$\"Translation.CustomPrompts[{prompt.Id}]: System 或 User 为空 → 已移除\"",
+    "Start": 12719,
+    "Length": 65,
+    "Line": 311,
+    "Context": "fixes.Add($\"Translation.CustomPrompts[{prompt.Id}]: System 或 User 为空 → 已移除\");",
+    "Arguments": [
+      "prompt.Id"
+    ],
+    "Fingerprint": "E13E7E1BA39735E4F9CC34652622EA4DFC71406290ED563146BCFEC52A8A11F1"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Translation.CustomPrompts[{0}].Name: 空白 → {1}",
+    "Raw": "$\"Translation.CustomPrompts[{prompt.Id}].Name: 空白 → {prompt.Id}\"",
+    "Start": 12997,
+    "Length": 64,
+    "Line": 319,
+    "Context": "fixes.Add($\"Translation.CustomPrompts[{prompt.Id}].Name: 空白 → {prompt.Id}\");",
+    "Arguments": [
+      "prompt.Id",
+      "prompt.Id"
+    ],
+    "Fingerprint": "C9604F7CCACF74B9C8A9ED919CF577ACC6C01795BB3CA9346C3C058E19DA8331"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Translation.Providers: 移除 null Profile",
+    "Raw": "\"Translation.Providers: 移除 null Profile\"",
+    "Start": 14974,
+    "Length": 40,
+    "Line": 369,
+    "Context": "fixes.Add(\"Translation.Providers: 移除 null Profile\");",
+    "Arguments": [],
+    "Fingerprint": "9E855B1A32F390A1129E6B4870668CB91FE50B331679A75BCFAADD548F1EA19F"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Translation.Providers: 缺少 Id → 已移除",
+    "Raw": "\"Translation.Providers: 缺少 Id → 已移除\"",
+    "Start": 15159,
+    "Length": 36,
+    "Line": 375,
+    "Context": "fixes.Add(\"Translation.Providers: 缺少 Id → 已移除\");",
+    "Arguments": [],
+    "Fingerprint": "A9BE24EC74FA6DD38BC6814C1D4FAEE4A87B431EAE7DA8CD8C3A9324BDE2F8FC"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Translation.Providers[{0}]: 重复 Id → 已移除",
+    "Raw": "$\"Translation.Providers[{profile.Id}]: 重复 Id → 已移除\"",
+    "Start": 15335,
+    "Length": 51,
+    "Line": 381,
+    "Context": "fixes.Add($\"Translation.Providers[{profile.Id}]: 重复 Id → 已移除\");",
+    "Arguments": [
+      "profile.Id"
+    ],
+    "Fingerprint": "F811743340CF58ACF92B15D12D5141AB3CF85C2F5D6C8B37C902E2FA36FFCCCA"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Translation.Providers: 移除未定义 Kind {0} 的 Profile '{1}'",
+    "Raw": "$\"Translation.Providers: 移除未定义 Kind {(int)profile.Kind} 的 Profile '{profile.Id}'\"",
+    "Start": 15592,
+    "Length": 81,
+    "Line": 388,
+    "Context": "fixes.Add(FormattableString.Invariant($\"Translation.Providers: 移除未定义 Kind {(int)profile.Kind} 的 Profile '{profile.Id}'\"));",
+    "Arguments": [
+      "(int)profile.Kind",
+      "profile.Id"
+    ],
+    "Fingerprint": "394E0DCE9D1D9E61D5D4BA53C4E10546184403173FBCF34D300B041FD0384F65"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Translation.Providers[{0}].DisplayName: 空白 → {1}",
+    "Raw": "$\"Translation.Providers[{profile.Id}].DisplayName: 空白 → {profile.Id}\"",
+    "Start": 15872,
+    "Length": 69,
+    "Line": 395,
+    "Context": "fixes.Add($\"Translation.Providers[{profile.Id}].DisplayName: 空白 → {profile.Id}\");",
+    "Arguments": [
+      "profile.Id",
+      "profile.Id"
+    ],
+    "Fingerprint": "D695EE87F9A30024D93AAFA9521B08E25E7C896573E9E2C55D9F48F1C2463BCA"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Translation.Providers[{0}].Model: null → \"\"（并禁用）",
+    "Raw": "$\"Translation.Providers[{profile.Id}].Model: null → \\\"\\\"（并禁用）\"",
+    "Start": 16222,
+    "Length": 62,
+    "Line": 404,
+    "Context": "fixes.Add($\"Translation.Providers[{profile.Id}].Model: null → \\\"\\\"（并禁用）\");",
+    "Arguments": [
+      "profile.Id"
+    ],
+    "Fingerprint": "BB2F85B32CDE578E163B30E2E1BCBB3E943BABFC02BDC9612BD56F0E1D3DE6A5"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Translation.Providers[{0}].Enabled: true → false（缺少 BaseUrl）",
+    "Raw": "$\"Translation.Providers[{profile.Id}].Enabled: true → false（缺少 BaseUrl）\"",
+    "Start": 17305,
+    "Length": 72,
+    "Line": 427,
+    "Context": "fixes.Add($\"Translation.Providers[{profile.Id}].Enabled: true → false（缺少 BaseUrl）\");",
+    "Arguments": [
+      "profile.Id"
+    ],
+    "Fingerprint": "B1A8DAD9557576460569C263A6EB4B4FAC56213671A385A6AB7455B64283CF52"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Translation.Providers[{0}].OpenAIOptions: null → 默认值",
+    "Raw": "$\"Translation.Providers[{profile.Id}].OpenAIOptions: null → 默认值\"",
+    "Start": 17671,
+    "Length": 64,
+    "Line": 436,
+    "Context": "fixes.Add($\"Translation.Providers[{profile.Id}].OpenAIOptions: null → 默认值\");",
+    "Arguments": [
+      "profile.Id"
+    ],
+    "Fingerprint": "1D47BA4DA96AC271208E5ED7043BF9519F34A0D370F9F5CE22CFAAAA04762379"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Translation.Providers[{0}].OpenAIOptions.ChatCompletionsPath: 为空 → 默认值",
+    "Raw": "$\"Translation.Providers[{profile.Id}].OpenAIOptions.ChatCompletionsPath: 为空 → 默认值\"",
+    "Start": 18469,
+    "Length": 82,
+    "Line": 450,
+    "Context": "fixes.Add($\"Translation.Providers[{profile.Id}].OpenAIOptions.ChatCompletionsPath: 为空 → 默认值\");",
+    "Arguments": [
+      "profile.Id"
+    ],
+    "Fingerprint": "CF255EA027C94814FF9276FD17AF64893038F5E6C0EE65B125D5E5A57A327F62"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Translation.Providers[{0}].OpenAIOptions.ExtraHeaders[{1}]: null → 已移除",
+    "Raw": "$\"Translation.Providers[{profile.Id}].OpenAIOptions.ExtraHeaders[{headerKey}]: null → 已移除\"",
+    "Start": 19277,
+    "Length": 90,
+    "Line": 465,
+    "Context": "fixes.Add($\"Translation.Providers[{profile.Id}].OpenAIOptions.ExtraHeaders[{headerKey}]: null → 已移除\");",
+    "Arguments": [
+      "profile.Id",
+      "headerKey"
+    ],
+    "Fingerprint": "DC18A0C1AFB889AC4B589CBA7B07D3D015207D8F0A32250F5F635E43E8F29143"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Translation.Providers[{0}].AnthropicOptions: null → 默认值",
+    "Raw": "$\"Translation.Providers[{profile.Id}].AnthropicOptions: null → 默认值\"",
+    "Start": 19993,
+    "Length": 67,
+    "Line": 483,
+    "Context": "fixes.Add($\"Translation.Providers[{profile.Id}].AnthropicOptions: null → 默认值\");",
+    "Arguments": [
+      "profile.Id"
+    ],
+    "Fingerprint": "070C12F205CF57D80AF7D58CEC3320461C7DCAE06A5A3665117311595076743D"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Ocr.Providers: null → 默认列表",
+    "Raw": "\"Ocr.Providers: null → 默认列表\"",
+    "Start": 22956,
+    "Length": 28,
+    "Line": 554,
+    "Context": "fixes.Add(\"Ocr.Providers: null → 默认列表\");",
+    "Arguments": [],
+    "Fingerprint": "ABD9F3990216B8406CA3070222BD5BB05CBCAD5D56C9DEA49B953A5072505288"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Ocr.Providers: 移除 null Profile",
+    "Raw": "\"Ocr.Providers: 移除 null Profile\"",
+    "Start": 23656,
+    "Length": 32,
+    "Line": 573,
+    "Context": "fixes.Add(\"Ocr.Providers: 移除 null Profile\");",
+    "Arguments": [],
+    "Fingerprint": "7BC637FF83143F5F8BB5FDA32DF0A0C6826732D9A20BE205A9558C9DEFB45AD2"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Ocr.Providers: 缺少 Id → 已移除",
+    "Raw": "\"Ocr.Providers: 缺少 Id → 已移除\"",
+    "Start": 23833,
+    "Length": 28,
+    "Line": 579,
+    "Context": "fixes.Add(\"Ocr.Providers: 缺少 Id → 已移除\");",
+    "Arguments": [],
+    "Fingerprint": "0BD6693028DADAEB23AC9E31ACFA495AAABF5CA79FBB92C54CD9C396301096FB"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Ocr.Providers[{0}]: 重复 Id → 已移除",
+    "Raw": "$\"Ocr.Providers[{profile.Id}]: 重复 Id → 已移除\"",
+    "Start": 24001,
+    "Length": 43,
+    "Line": 585,
+    "Context": "fixes.Add($\"Ocr.Providers[{profile.Id}]: 重复 Id → 已移除\");",
+    "Arguments": [
+      "profile.Id"
+    ],
+    "Fingerprint": "BC2FD38E4DB039C57E15CD81F67D276774899D03222E8014B025271085A862E3"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Ocr.Providers: 移除未定义 Kind {0} 的 Profile '{1}'",
+    "Raw": "$\"Ocr.Providers: 移除未定义 Kind {(int)profile.Kind} 的 Profile '{profile.Id}'\"",
+    "Start": 24250,
+    "Length": 73,
+    "Line": 592,
+    "Context": "fixes.Add(FormattableString.Invariant($\"Ocr.Providers: 移除未定义 Kind {(int)profile.Kind} 的 Profile '{profile.Id}'\"));",
+    "Arguments": [
+      "(int)profile.Kind",
+      "profile.Id"
+    ],
+    "Fingerprint": "5F7750D4AF07EFFEB6CCEBADFC6CD0EF85CA42C2EBDF0C0DD8467BD73F49F33C"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Ocr.Providers[{0}].DisplayName: 空白 → {1}",
+    "Raw": "$\"Ocr.Providers[{profile.Id}].DisplayName: 空白 → {profile.Id}\"",
+    "Start": 24522,
+    "Length": 61,
+    "Line": 599,
+    "Context": "fixes.Add($\"Ocr.Providers[{profile.Id}].DisplayName: 空白 → {profile.Id}\");",
+    "Arguments": [
+      "profile.Id",
+      "profile.Id"
+    ],
+    "Fingerprint": "291D6D7B1C8F7C2621DF81507C59BFB1E85A0416B325142626312305EB642F4D"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Ocr.Providers[{0}].BaiduOptions: null → 默认值",
+    "Raw": "$\"Ocr.Providers[{profile.Id}].BaiduOptions: null → 默认值\"",
+    "Start": 24991,
+    "Length": 55,
+    "Line": 610,
+    "Context": "fixes.Add($\"Ocr.Providers[{profile.Id}].BaiduOptions: null → 默认值\");",
+    "Arguments": [
+      "profile.Id"
+    ],
+    "Fingerprint": "DBDE63E6F4850D4B5D1E9F4595DA2989C2AD83EA50EE2B2B5B0133F87A05B9C3"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Ocr.Providers[{0}].BaiduOptions.BaseUrl: 为空 → 默认值",
+    "Raw": "$\"Ocr.Providers[{profile.Id}].BaiduOptions.BaseUrl: 为空 → 默认值\"",
+    "Start": 25695,
+    "Length": 61,
+    "Line": 624,
+    "Context": "fixes.Add($\"Ocr.Providers[{profile.Id}].BaiduOptions.BaseUrl: 为空 → 默认值\");",
+    "Arguments": [
+      "profile.Id"
+    ],
+    "Fingerprint": "BEA49413EFC52D93AA0C437D32D0C23A6A550DEF30469478F91B12DC0252EA1F"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Ocr.Providers[{0}].WindowsOptions: null → 默认值",
+    "Raw": "$\"Ocr.Providers[{profile.Id}].WindowsOptions: null → 默认值\"",
+    "Start": 26080,
+    "Length": 57,
+    "Line": 632,
+    "Context": "fixes.Add($\"Ocr.Providers[{profile.Id}].WindowsOptions: null → 默认值\");",
+    "Arguments": [
+      "profile.Id"
+    ],
+    "Fingerprint": "26435F866AA6856D9D8A50340B86C98CAD96C1423553C15654130CD149F99F8F"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Ocr.Providers: 缺少内置 ocr-baidu → 已追加默认配置",
+    "Raw": "\"Ocr.Providers: 缺少内置 ocr-baidu → 已追加默认配置\"",
+    "Start": 26741,
+    "Length": 41,
+    "Line": 648,
+    "Context": "fixes.Add(\"Ocr.Providers: 缺少内置 ocr-baidu → 已追加默认配置\");",
+    "Arguments": [],
+    "Fingerprint": "4FAC27D69ED46CD0EA74BFF6C6720A164761995E10AC9A74CD8678C6132C66C8"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Ocr.Providers: 缺少内置 ocr-windows → 已追加默认配置",
+    "Raw": "\"Ocr.Providers: 缺少内置 ocr-windows → 已追加默认配置\"",
+    "Start": 27166,
+    "Length": 43,
+    "Line": 655,
+    "Context": "fixes.Add(\"Ocr.Providers: 缺少内置 ocr-windows → 已追加默认配置\");",
+    "Arguments": [],
+    "Fingerprint": "B8B099477186FD75DA294524AF0B80F99B4A313E4521BB66FA5B9D1A2F2B215F"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Selection.ReadOrder: 空白 → 默认顺序",
+    "Raw": "\"Selection.ReadOrder: 空白 → 默认顺序\"",
+    "Start": 30111,
+    "Length": 32,
+    "Line": 723,
+    "Context": "fixes.Add(\"Selection.ReadOrder: 空白 → 默认顺序\");",
+    "Arguments": [],
+    "Fingerprint": "0B700CCCB69F875E25ACDB15B7D93D4EED6A897B7707500AB2CAB63C38795251"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "interpolated",
+    "Text": "Selection.ReadOrder: 移除未定义元素 {0}",
+    "Raw": "$\"Selection.ReadOrder: 移除未定义元素 {(int)m}\"",
+    "Start": 30515,
+    "Length": 40,
+    "Line": 733,
+    "Context": "fixes.Add(FormattableString.Invariant($\"Selection.ReadOrder: 移除未定义元素 {(int)m}\"));",
+    "Arguments": [
+      "(int)m"
+    ],
+    "Fingerprint": "E1B0D54178FB94F5422ABDFD3385C52346299E47EE892887F59F78A3B1E7C3AB"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Selection.ReadOrder: 存在重复项 → 已去重",
+    "Raw": "\"Selection.ReadOrder: 存在重复项 → 已去重\"",
+    "Start": 30805,
+    "Length": 34,
+    "Line": 743,
+    "Context": "fixes.Add(\"Selection.ReadOrder: 存在重复项 → 已去重\");",
+    "Arguments": [],
+    "Fingerprint": "3A8A61C79939D978FCAAE4F27674BA3195EAE7570D1E9CACEEB26E6DCD94F40A"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Selection.ReadOrder: 空白 → 默认顺序",
+    "Raw": "\"Selection.ReadOrder: 空白 → 默认顺序\"",
+    "Start": 30959,
+    "Length": 32,
+    "Line": 749,
+    "Context": "fixes.Add(\"Selection.ReadOrder: 空白 → 默认顺序\");",
+    "Arguments": [],
+    "Fingerprint": "0B700CCCB69F875E25ACDB15B7D93D4EED6A897B7707500AB2CAB63C38795251"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Selection.ExcludedProcesses: 移除 null 元素",
+    "Raw": "\"Selection.ExcludedProcesses: 移除 null 元素\"",
+    "Start": 31985,
+    "Length": 41,
+    "Line": 775,
+    "Context": "fixes.Add(\"Selection.ExcludedProcesses: 移除 null 元素\");",
+    "Arguments": [],
+    "Fingerprint": "724435C116032E6FA7AD87A17F8FD511049E7176DFD52930AF38084E68499398"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Selection.ClipboardUnsafeProcesses: null → 默认列表",
+    "Raw": "\"Selection.ClipboardUnsafeProcesses: null → 默认列表\"",
+    "Start": 32430,
+    "Length": 49,
+    "Line": 791,
+    "Context": "fixes.Add(\"Selection.ClipboardUnsafeProcesses: null → 默认列表\");",
+    "Arguments": [],
+    "Fingerprint": "47784ABA082ECB7762DEEE0722516700DC349E3DF9419933B02F7A7DDEF328C4"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+    "Kind": "literal",
+    "Text": "Selection.ClipboardUnsafeProcesses: 移除 null 元素",
+    "Raw": "\"Selection.ClipboardUnsafeProcesses: 移除 null 元素\"",
+    "Start": 32785,
+    "Length": 48,
+    "Line": 801,
+    "Context": "fixes.Add(\"Selection.ClipboardUnsafeProcesses: 移除 null 元素\");",
+    "Arguments": [],
+    "Fingerprint": "BF9158E92D8DC598D7D0D8B6C9BA149BA3D40E86B6558B4AF3A35DF1F14DDD99"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsSalvager.cs",
+    "Kind": "interpolated",
+    "Text": "{0}: 已移除（不是数组）",
+    "Raw": "$\"{path}: 已移除（不是数组）\"",
+    "Start": 2331,
+    "Length": 20,
+    "Line": 63,
+    "Context": "fixes.Add($\"{path}: 已移除（不是数组）\");",
+    "Arguments": [
+      "path"
+    ],
+    "Fingerprint": "9F640470D0ED5CC5BADB4CBCCB3B0B58E435671D645DBE4102F8112D1451995F"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsSalvager.cs",
+    "Kind": "interpolated",
+    "Text": "{0}[{1}]: 已移除（缺少必填字段或类型错误）",
+    "Raw": "$\"{path}[{i}]: 已移除（缺少必填字段或类型错误）\"",
+    "Start": 3074,
+    "Length": 32,
+    "Line": 90,
+    "Context": "fixes.Add($\"{path}[{i}]: 已移除（缺少必填字段或类型错误）\");",
+    "Arguments": [
+      "path",
+      "i"
+    ],
+    "Fingerprint": "BB346BA54F55DB254D8FE74EC0AD30C8CE6FC32DADD85DFBA084F16910200607"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsSalvager.cs",
+    "Kind": "literal",
+    "Text": "hotkeys: 已移除（不是对象）",
+    "Raw": "\"hotkeys: 已移除（不是对象）\"",
+    "Start": 3501,
+    "Length": 20,
+    "Line": 105,
+    "Context": "fixes.Add(\"hotkeys: 已移除（不是对象）\");",
+    "Arguments": [],
+    "Fingerprint": "2D2A09124BB7A066597A3ED9778A55C760991C5B460A803B63B9D68627574073"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsSalvager.cs",
+    "Kind": "interpolated",
+    "Text": "hotkeys.{0}: 已移除（非法动作名称）",
+    "Raw": "$\"hotkeys.{propName}: 已移除（非法动作名称）\"",
+    "Start": 3991,
+    "Length": 34,
+    "Line": 117,
+    "Context": "fixes.Add($\"hotkeys.{propName}: 已移除（非法动作名称）\");",
+    "Arguments": [
+      "propName"
+    ],
+    "Fingerprint": "77ADD4CA1E4E282401987C67F33BE7E54A21909D9B30D72264A2B4D95ADEC0FF"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsSalvager.cs",
+    "Kind": "interpolated",
+    "Text": "hotkeys.{0}: 已移除（键名重复）",
+    "Raw": "$\"hotkeys.{propName}: 已移除（键名重复）\"",
+    "Start": 4309,
+    "Length": 32,
+    "Line": 126,
+    "Context": "fixes.Add($\"hotkeys.{propName}: 已移除（键名重复）\");",
+    "Arguments": [
+      "propName"
+    ],
+    "Fingerprint": "E06EBE45B4EEC03D4C3522E26F4CD0EA6D307F869533BA37B955E8966EA2C8EC"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsSalvager.cs",
+    "Kind": "interpolated",
+    "Text": "hotkeys.{0}: 键名已规范为 {1}",
+    "Raw": "$\"hotkeys.{propName}: 键名已规范为 {canonicalName}\"",
+    "Start": 4593,
+    "Length": 45,
+    "Line": 134,
+    "Context": "fixes.Add($\"hotkeys.{propName}: 键名已规范为 {canonicalName}\");",
+    "Arguments": [
+      "propName",
+      "canonicalName"
+    ],
+    "Fingerprint": "BF4482DDEEF6407C6D739E8B69B52B3EA8C7615E06FDA440F5C7C60A3F7763C2"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsSalvager.cs",
+    "Kind": "interpolated",
+    "Text": "hotkeys.{0}: 已移除（缺少必填字段或类型错误）",
+    "Raw": "$\"hotkeys.{propName}: 已移除（缺少必填字段或类型错误）\"",
+    "Start": 5284,
+    "Length": 39,
+    "Line": 158,
+    "Context": "fixes.Add($\"hotkeys.{propName}: 已移除（缺少必填字段或类型错误）\");",
+    "Arguments": [
+      "propName"
+    ],
+    "Fingerprint": "A1452D5B7A8AFE391A603DCD3319FA7A9E7A4A350DC4E8534B0CF75DB49A1979"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsSalvager.cs",
+    "Kind": "interpolated",
+    "Text": "hotkeys.{0}: 键名已规范为 {1}",
+    "Raw": "$\"hotkeys.{propName}: 键名已规范为 {canonicalName}\"",
+    "Start": 5432,
+    "Length": 45,
+    "Line": 164,
+    "Context": "fixes.Add($\"hotkeys.{propName}: 键名已规范为 {canonicalName}\");",
+    "Arguments": [
+      "propName",
+      "canonicalName"
+    ],
+    "Fingerprint": "BF4482DDEEF6407C6D739E8B69B52B3EA8C7615E06FDA440F5C7C60A3F7763C2"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsSalvager.cs",
+    "Kind": "interpolated",
+    "Text": "{0}: 已重置为默认值（类型错误）",
+    "Raw": "$\"{sectionName}: 已重置为默认值（类型错误）\"",
+    "Start": 6156,
+    "Length": 31,
+    "Line": 187,
+    "Context": "fixes.Add($\"{sectionName}: 已重置为默认值（类型错误）\");",
+    "Arguments": [
+      "sectionName"
+    ],
+    "Fingerprint": "E2F25B4C04892A30982C8B11E8C12AD4E69F4EB1FDE48586C9120FBC6BF70CD8"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Settings/SettingsSalvager.cs",
+    "Kind": "interpolated",
+    "Text": "{0}: 已重置为默认值（类型错误）",
+    "Raw": "$\"{sectionName}: 已重置为默认值（类型错误）\"",
+    "Start": 6312,
+    "Length": 31,
+    "Line": 193,
+    "Context": "fixes.Add($\"{sectionName}: 已重置为默认值（类型错误）\");",
+    "Arguments": [
+      "sectionName"
+    ],
+    "Fingerprint": "E2F25B4C04892A30982C8B11E8C12AD4E69F4EB1FDE48586C9120FBC6BF70CD8"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Storage/AppPaths.cs",
+    "Kind": "literal",
+    "Text": "无法创建数据目录",
+    "Raw": "\"无法创建数据目录\"",
+    "Start": 1131,
+    "Length": 10,
+    "Line": 34,
+    "Context": "throw new IrisException(ErrorCode.StorageFailure, \"无法创建数据目录\", detail: \"(ApplicationData 路径为空)\");",
+    "Arguments": [],
+    "Fingerprint": "B6423AB445198BBCBF6E5EA7100C8BAA251203D1D4740BDD66895D0F8459EF4E"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Storage/AppPaths.cs",
+    "Kind": "literal",
+    "Text": "(ApplicationData 路径为空)",
+    "Raw": "\"(ApplicationData 路径为空)\"",
+    "Start": 1151,
+    "Length": 24,
+    "Line": 34,
+    "Context": "throw new IrisException(ErrorCode.StorageFailure, \"无法创建数据目录\", detail: \"(ApplicationData 路径为空)\");",
+    "Arguments": [],
+    "Fingerprint": "C0A97602D935A878208FEA081E6B950818B749A40AC923B8719CA8555EAC6AE8"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Storage/AppPaths.cs",
+    "Kind": "literal",
+    "Text": "无法创建数据目录",
+    "Raw": "\"无法创建数据目录\"",
+    "Start": 1980,
+    "Length": 10,
+    "Line": 52,
+    "Context": "throw new IrisException(ErrorCode.StorageFailure, \"无法创建数据目录\", innerException: ex, detail: DataDirectory);",
+    "Arguments": [],
+    "Fingerprint": "B6423AB445198BBCBF6E5EA7100C8BAA251203D1D4740BDD66895D0F8459EF4E"
+  }
+]

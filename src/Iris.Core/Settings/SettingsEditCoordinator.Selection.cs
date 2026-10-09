@@ -40,7 +40,7 @@ internal sealed partial class SettingsEditCoordinator
         }
         return null;
     }
-    private static ErrorInfo InvalidSelection() => new(ErrorCode.InvalidArgument, "划词设置目标无效，请检查读取顺序、等待时间和进程文件名。");
+    private static ErrorInfo InvalidSelection() => new(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_8a27e21cae4a"));
 
     private static SelectionSettingsPatch? NormalizeSelection(SelectionSettingsPatch? patch) => patch == null ? null : patch with
     {

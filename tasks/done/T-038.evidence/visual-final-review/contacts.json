@@ -1,0 +1,252 @@
+[
+  {
+    "File": "contact-001.png",
+    "Images": [
+      "zh-CN-light-normal-settings-translation-00.png",
+      "zh-CN-light-normal-settings-translation-01.png",
+      "zh-CN-light-normal-settings-translation-02.png",
+      "zh-CN-light-normal-settings-translation-03.png"
+    ]
+  },
+  {
+    "File": "contact-002.png",
+    "Images": [
+      "zh-CN-light-normal-settings-anthropic-00.png",
+      "zh-CN-light-normal-settings-anthropic-01.png",
+      "zh-CN-light-normal-settings-anthropic-02.png",
+      "zh-CN-light-normal-translation-input.png"
+    ]
+  },
+  {
+    "File": "contact-003.png",
+    "Images": [
+      "zh-CN-light-normal-translation-running-00.png",
+      "zh-CN-light-normal-translation-result-00.png",
+      "zh-CN-light-normal-translation-error-00.png",
+      "zh-CN-light-small-settings-translation-01.png"
+    ]
+  },
+  {
+    "File": "contact-004.png",
+    "Images": [
+      "zh-CN-light-small-settings-translation-02.png",
+      "zh-CN-light-small-settings-translation-05.png",
+      "zh-CN-light-small-settings-translation-06.png",
+      "zh-CN-light-small-settings-anthropic-00.png"
+    ]
+  },
+  {
+    "File": "contact-005.png",
+    "Images": [
+      "zh-CN-light-small-settings-anthropic-01.png",
+      "zh-CN-light-small-settings-anthropic-02.png",
+      "zh-CN-light-small-settings-anthropic-03.png",
+      "zh-CN-light-small-settings-anthropic-04.png"
+    ]
+  },
+  {
+    "File": "contact-006.png",
+    "Images": [
+      "zh-CN-light-small-translation-input.png",
+      "zh-CN-light-small-translation-running-00.png",
+      "zh-CN-light-small-translation-running-01.png",
+      "zh-CN-light-small-translation-result-00.png"
+    ]
+  },
+  {
+    "File": "contact-007.png",
+    "Images": [
+      "zh-CN-light-small-translation-result-01.png",
+      "zh-CN-light-small-translation-error-00.png",
+      "zh-CN-light-small-translation-error-01.png",
+      "zh-CN-dark-normal-settings-translation-00.png"
+    ]
+  },
+  {
+    "File": "contact-008.png",
+    "Images": [
+      "zh-CN-dark-normal-settings-translation-01.png",
+      "zh-CN-dark-normal-settings-translation-02.png",
+      "zh-CN-dark-normal-settings-translation-03.png",
+      "zh-CN-dark-normal-settings-anthropic-00.png"
+    ]
+  },
+  {
+    "File": "contact-009.png",
+    "Images": [
+      "zh-CN-dark-normal-settings-anthropic-01.png",
+      "zh-CN-dark-normal-settings-anthropic-02.png",
+      "zh-CN-dark-normal-translation-input.png",
+      "zh-CN-dark-normal-translation-running-00.png"
+    ]
+  },
+  {
+    "File": "contact-010.png",
+    "Images": [
+      "zh-CN-dark-normal-translation-result-00.png",
+      "zh-CN-dark-normal-translation-error-00.png",
+      "zh-CN-dark-small-settings-translation-01.png",
+      "zh-CN-dark-small-settings-translation-02.png"
+    ]
+  },
+  {
+    "File": "contact-011.png",
+    "Images": [
+      "zh-CN-dark-small-settings-translation-05.png",
+      "zh-CN-dark-small-settings-translation-06.png",
+      "zh-CN-dark-small-settings-anthropic-00.png",
+      "zh-CN-dark-small-settings-anthropic-01.png"
+    ]
+  },
+  {
+    "File": "contact-012.png",
+    "Images": [
+      "zh-CN-dark-small-settings-anthropic-02.png",
+      "zh-CN-dark-small-settings-anthropic-03.png",
+      "zh-CN-dark-small-settings-anthropic-04.png",
+      "zh-CN-dark-small-translation-input.png"
+    ]
+  },
+  {
+    "File": "contact-013.png",
+    "Images": [
+      "zh-CN-dark-small-translation-running-00.png",
+      "zh-CN-dark-small-translation-running-01.png",
+      "zh-CN-dark-small-translation-result-00.png",
+      "zh-CN-dark-small-translation-result-01.png"
+    ]
+  },
+  {
+    "File": "contact-014.png",
+    "Images": [
+      "zh-CN-dark-small-translation-error-00.png",
+      "zh-CN-dark-small-translation-error-01.png",
+      "en-US-light-normal-settings-translation-00.png",
+      "en-US-light-normal-settings-translation-01.png"
+    ]
+  },
+  {
+    "File": "contact-015.png",
+    "Images": [
+      "en-US-light-normal-settings-translation-02.png",
+      "en-US-light-normal-settings-translation-03.png",
+      "en-US-light-normal-settings-anthropic-00.png",
+      "en-US-light-normal-settings-anthropic-01.png"
+    ]
+  },
+  {
+    "File": "contact-016.png",
+    "Images": [
+      "en-US-light-normal-settings-anthropic-02.png",
+      "en-US-light-normal-translation-input.png",
+      "en-US-light-normal-translation-running-00.png",
+      "en-US-light-normal-translation-result-00.png"
+    ]
+  },
+  {
+    "File": "contact-017.png",
+    "Images": [
+      "en-US-light-normal-translation-error-00.png",
+      "en-US-light-small-settings-translation-01.png",
+      "en-US-light-small-settings-translation-02.png",
+      "en-US-light-small-settings-translation-05.png"
+    ]
+  },
+  {
+    "File": "contact-018.png",
+    "Images": [
+      "en-US-light-small-settings-translation-06.png",
+      "en-US-light-small-settings-anthropic-00.png",
+      "en-US-light-small-settings-anthropic-01.png",
+      "en-US-light-small-settings-anthropic-02.png"
+    ]
+  },
+  {
+    "File": "contact-019.png",
+    "Images": [
+      "en-US-light-small-settings-anthropic-03.png",
+      "en-US-light-small-settings-anthropic-04.png",
+      "en-US-light-small-settings-anthropic-05.png",
+      "en-US-light-small-translation-input.png"
+    ]
+  },
+  {
+    "File": "contact-020.png",
+    "Images": [
+      "en-US-light-small-translation-running-00.png",
+      "en-US-light-small-translation-running-01.png",
+      "en-US-light-small-translation-result-00.png",
+      "en-US-light-small-translation-result-01.png"
+    ]
+  },
+  {
+    "File": "contact-021.png",
+    "Images": [
+      "en-US-light-small-translation-error-00.png",
+      "en-US-light-small-translation-error-01.png",
+      "en-US-dark-normal-settings-translation-00.png",
+      "en-US-dark-normal-settings-translation-01.png"
+    ]
+  },
+  {
+    "File": "contact-022.png",
+    "Images": [
+      "en-US-dark-normal-settings-translation-02.png",
+      "en-US-dark-normal-settings-translation-03.png",
+      "en-US-dark-normal-settings-anthropic-00.png",
+      "en-US-dark-normal-settings-anthropic-01.png"
+    ]
+  },
+  {
+    "File": "contact-023.png",
+    "Images": [
+      "en-US-dark-normal-settings-anthropic-02.png",
+      "en-US-dark-normal-translation-input.png",
+      "en-US-dark-normal-translation-running-00.png",
+      "en-US-dark-normal-translation-result-00.png"
+    ]
+  },
+  {
+    "File": "contact-024.png",
+    "Images": [
+      "en-US-dark-normal-translation-error-00.png",
+      "en-US-dark-small-settings-translation-01.png",
+      "en-US-dark-small-settings-translation-02.png",
+      "en-US-dark-small-settings-translation-05.png"
+    ]
+  },
+  {
+    "File": "contact-025.png",
+    "Images": [
+      "en-US-dark-small-settings-translation-06.png",
+      "en-US-dark-small-settings-anthropic-00.png",
+      "en-US-dark-small-settings-anthropic-01.png",
+      "en-US-dark-small-settings-anthropic-02.png"
+    ]
+  },
+  {
+    "File": "contact-026.png",
+    "Images": [
+      "en-US-dark-small-settings-anthropic-03.png",
+      "en-US-dark-small-settings-anthropic-04.png",
+      "en-US-dark-small-settings-anthropic-05.png",
+      "en-US-dark-small-translation-input.png"
+    ]
+  },
+  {
+    "File": "contact-027.png",
+    "Images": [
+      "en-US-dark-small-translation-running-00.png",
+      "en-US-dark-small-translation-running-01.png",
+      "en-US-dark-small-translation-result-00.png",
+      "en-US-dark-small-translation-result-01.png"
+    ]
+  },
+  {
+    "File": "contact-028.png",
+    "Images": [
+      "en-US-dark-small-translation-error-00.png",
+      "en-US-dark-small-translation-error-01.png"
+    ]
+  }
+]

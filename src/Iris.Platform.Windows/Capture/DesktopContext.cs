@@ -83,7 +83,7 @@ internal sealed class DesktopContext : IDesktopContext
 
             if (closeFailed)
             {
-                throw new IrisException(ErrorCode.Unknown, "桌面查询资源清理失败");
+                throw new IrisException(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Get("Text_bda16101de59"));
             }
 
             if (string.IsNullOrEmpty(fullPath))
@@ -146,7 +146,7 @@ internal sealed class DesktopContext : IDesktopContext
     {
         if (!_adapter.GetPhysicalCursorPos(out int x, out int y))
         {
-            throw new IrisException(ErrorCode.Unknown, "无法获取鼠标位置");
+            throw new IrisException(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Get("Text_036a995464fd"));
         }
 
         return new PixelPoint(x, y);

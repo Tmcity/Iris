@@ -1,0 +1,8 @@
+C:\Users\28910\AppData\Local\Temp\iris-t038-independent\runtime-probe\Scope.cs(50,81): warning CS0649: 从未对字段“Factory.Send”赋值，字段将一直保持其默认值 null [C:\Users\28910\AppData\Local\Temp\iris-t038-independent\runtime-probe\Review.csproj]
+PASS fixed selected language across differing thread cultures
+PASS real language control joins one history save without live language change
+PASS fresh real JSON load drives the next language selection
+PASS joint conflict preserves language draft and saved language
+PASS language-only save merges unrelated external changes
+PASS actual Core rejects an unsupported target without writing
+Independent language scenarios: 6; failed: 0

@@ -12,9 +12,7 @@ internal sealed partial class SelectionSettingsDraftViewModel
     private int _baseDrag, _baseHide;
     private string _drag = "", _hide = "", _excluded = "", _baseExcludedText = "";
     private IReadOnlyList<string>? _baseExcluded;
-    public static IReadOnlyList<MouseModeOption> MouseModes { get; } =
-    [new(MouseSelectionMode.Off, UiText.MouseModeOff), new(MouseSelectionMode.ShowIcon, UiText.MouseModeIcon), new(MouseSelectionMode.AutoTranslate, UiText.MouseModeAuto)];
-    public MouseSelectionMode MouseMode { get => _mode; set { if (!CanChange || _mode == value) return; _mode = value; Changed(nameof(MouseMode)); } }
+    public static IReadOnlyList<MouseModeOption> MouseModes =>    [new(MouseSelectionMode.Off, UiText.MouseModeOff), new(MouseSelectionMode.ShowIcon, UiText.MouseModeIcon), new(MouseSelectionMode.AutoTranslate, UiText.MouseModeAuto)];    public MouseSelectionMode MouseMode { get => _mode; set { if (!CanChange || _mode == value) return; _mode = value; Changed(nameof(MouseMode)); } }
     public bool RequireIBeamCursor { get => _beam; set { if (!CanChange || _beam == value) return; _beam = value; Changed(nameof(RequireIBeamCursor)); } }
     public string MinDragDistanceText { get => _drag; set { if (!CanChange || _drag == value) return; _drag = value ?? ""; Changed(nameof(MinDragDistanceText)); } }
     public string IconAutoHideText { get => _hide; set { if (!CanChange || _hide == value) return; _hide = value ?? ""; Changed(nameof(IconAutoHideText)); } }

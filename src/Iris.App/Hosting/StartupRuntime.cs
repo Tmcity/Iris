@@ -12,6 +12,7 @@ namespace Iris.App.Hosting;
 
 internal abstract class StartupRuntime
 {
+    internal virtual IDisposable? BeginPrimaryRun() => null;
     internal abstract IpcIdentity GetIdentity();
     internal abstract IDisposable? Acquire(IpcIdentity identity);
     internal abstract Task<IpcSendResult> ForwardAsync(IpcIdentity identity, IpcCommand command);
@@ -24,8 +25,9 @@ internal abstract class StartupRuntime
     internal abstract void Show(string message);
 }
 
-internal sealed class DesktopStartupRuntime : StartupRuntime
+internal class DesktopStartupRuntime : StartupRuntime
 {
+    internal override IDisposable BeginPrimaryRun() => Iris.App.Resources.AppLanguage.BeginRun();
     internal override IpcIdentity GetIdentity() => IpcIdentity.ForCurrentUser();
     internal override IDisposable? Acquire(IpcIdentity identity) => SingleInstanceGuard.TryAcquire(identity.MutexName);
     internal override async Task<IpcSendResult> ForwardAsync(IpcIdentity identity, IpcCommand command)
@@ -40,6 +42,10 @@ internal sealed class DesktopStartupRuntime : StartupRuntime
     internal override IHost BuildHost(IpcIdentity identity, IpcCommand? command, IAppPaths paths, LoggingLevelSwitch levelSwitch, long startTimestamp)
         => AppHostBuilder.Build([], paths, levelSwitch, startTimestamp, services => services.AddSingleton(identity), command);
     internal override int RunApplication(IHost host)
+    {
+        return RunWpfApplication(host);
+    }
+    internal virtual int RunWpfApplication(IHost host)
     {
         var app = host.Services.GetRequiredService<App>();
         app.InitializeComponent();

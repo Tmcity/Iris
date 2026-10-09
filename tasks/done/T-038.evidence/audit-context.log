@@ -1,0 +1,7 @@
+Scanned C# and XAML; Chinese entries including comments: 1197
+Compiled resource values matched after XML newline normalization; composite formats parsed: 1170
+Traceback (most recent call last):
+  File "F:\Iris\build\localization\audit.py", line 20, in <module>
+    approved = {e['SiteFingerprint']: e for e in exceptions}
+                ~^^^^^^^^^^^^^^^^^^^
+KeyError: 'SiteFingerprint'

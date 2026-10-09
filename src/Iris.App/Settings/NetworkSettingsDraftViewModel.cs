@@ -25,11 +25,7 @@ internal sealed class NetworkSettingsDraftViewModel : INotifyPropertyChanged
     public bool IsReplacing => Credentials.Value == CredentialEditKind.Replace;
     public bool IsDirty => Mode.IsDirty || BypassLocal.IsDirty || Url.IsDirty || Credentials.Value != CredentialEditKind.Keep;
     public long Revision { get; private set; }
-    public static IReadOnlyList<NetworkOption<ProxyMode>> Modes { get; } =
-        [new(ProxyMode.System, UiText.NetworkSystem), new(ProxyMode.None, UiText.NetworkNone), new(ProxyMode.Custom, UiText.NetworkCustom)];
-    public static IReadOnlyList<NetworkOption<CredentialEditKind>> CredentialKinds { get; } =
-        [new(CredentialEditKind.Keep, UiText.NetworkKeep), new(CredentialEditKind.Replace, UiText.NetworkReplace), new(CredentialEditKind.Clear, UiText.NetworkClear)];
-
+    public static IReadOnlyList<NetworkOption<ProxyMode>> Modes =>        [new(ProxyMode.System, UiText.NetworkSystem), new(ProxyMode.None, UiText.NetworkNone), new(ProxyMode.Custom, UiText.NetworkCustom)];    public static IReadOnlyList<NetworkOption<CredentialEditKind>> CredentialKinds =>        [new(CredentialEditKind.Keep, UiText.NetworkKeep), new(CredentialEditKind.Replace, UiText.NetworkReplace), new(CredentialEditKind.Clear, UiText.NetworkClear)];
     internal NetworkSettingsDraftViewModel(NetworkSettings current, Func<bool> canEdit, Action changed)
     {
         _canEdit = canEdit; _changed = changed; _latest = current; _baseUrl = current.CustomProxyUrl; _baseSet = current.ProxyCredentialSetId;

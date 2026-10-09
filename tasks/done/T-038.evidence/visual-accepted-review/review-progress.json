@@ -1,0 +1,15 @@
+{
+  "reviewed": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "notes": [
+    "All final changed images actually viewed at original resolution. Full language values, result body, action labels and error text remain reachable by content scrolling; fixed title actions remain visible. This is developer visual review only; architect acceptance pending."
+  ]
+}

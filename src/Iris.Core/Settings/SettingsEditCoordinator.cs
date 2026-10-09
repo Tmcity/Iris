@@ -26,7 +26,7 @@ namespace Iris.Core.Settings;
     Justification = "Singleton service; SemaphoreSlim does not allocate unmanaged resources unless AvailableWaitHandle is accessed.")]
 internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator, IDisposable
 {
-    private const string ConflictMessage = "配置已在其他位置发生更改，请刷新后重试";
+    private static string ConflictMessage => global::Iris.Core.Localization.CoreText.Get("Text_646cfa7d6429");
 
     private static readonly HashSet<string> ValidLogLevels = new(StringComparer.Ordinal)
     {
@@ -244,8 +244,8 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                     SettingsEditStatus.ApplyPending,
                     IsConflict: false,
                     Error: new ErrorInfo(receipt.NetworkFailed ? ErrorCode.NetworkUnavailable : ErrorCode.ProviderUnavailable,
-                        receipt.RequiresNetwork ? "配置已提交保存，但部分服务或网络配置应用未完成，旧凭据已保留"
-                            : "配置已提交保存，但部分服务提供商刷新未完全完成，旧凭据已保留"),
+                        receipt.RequiresNetwork ? global::Iris.Core.Localization.CoreText.Get("Text_5a6eb355f5d0")
+                            : global::Iris.Core.Localization.CoreText.Get("Text_8ebb1568643a")),
                     PendingApply: receipt);
             }
 
@@ -258,7 +258,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 return new SettingsEditResult(
                     SettingsEditStatus.ApplyPending,
                     IsConflict: false,
-                    Error: new ErrorInfo(ErrorCode.StorageFailure, "配置已生效，但部分旧凭据清理失败，可在重试中清理"),
+                    Error: new ErrorInfo(ErrorCode.StorageFailure, global::Iris.Core.Localization.CoreText.Get("Text_823a12477db7")),
                     PendingApply: receipt);
             }
 
@@ -298,7 +298,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             {
                 ourReceipt.ObserversCompleted = false;
                 return new SettingsApplyResult(false, new ErrorInfo(ourReceipt.NetworkFailed ? ErrorCode.NetworkUnavailable : ErrorCode.ProviderUnavailable,
-                    ourReceipt.NetworkFailed ? "网络配置应用未完成" : "部分服务提供商刷新未完成"));
+                    ourReceipt.NetworkFailed ? global::Iris.Core.Localization.CoreText.Get("Text_99ba5ea63b92") : global::Iris.Core.Localization.CoreText.Get("Text_b08a81be972d")));
             }
 
             ourReceipt.ObserversCompleted = true;
@@ -307,7 +307,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             var cleanupSuccess = await CleanupReceiptCandidatesAsync(ourReceipt).ConfigureAwait(false);
             if (!cleanupSuccess)
             {
-                return new SettingsApplyResult(false, new ErrorInfo(ErrorCode.StorageFailure, "部分旧凭据清理未完成"));
+                return new SettingsApplyResult(false, new ErrorInfo(ErrorCode.StorageFailure, global::Iris.Core.Localization.CoreText.Get("Text_2fb7d75c324d")));
             }
 
             return new SettingsApplyResult(true);
@@ -349,7 +349,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 return new ProviderTestResult(
                     false,
                     TimeSpan.Zero,
-                    Error: new ErrorInfo(ErrorCode.Unknown, "读取当前配置失败", Detail: ex.GetType().Name, ProviderId: capturedDraft.Profile.Id));
+                    Error: new ErrorInfo(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Get("Text_13f5554c85ea"), Detail: ex.GetType().Name, ProviderId: capturedDraft.Profile.Id));
             }
         }
 
@@ -388,7 +388,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             return new ProviderTestResult(
                 false,
                 TimeSpan.Zero,
-                Error: new ErrorInfo(ErrorCode.Unknown, "服务凭据解析失败", Detail: ex.GetType().Name, ProviderId: capturedDraft.Profile.Id));
+                Error: new ErrorInfo(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Get("Text_0ee8cdd68ce4"), Detail: ex.GetType().Name, ProviderId: capturedDraft.Profile.Id));
         }
 
         cancellationToken.ThrowIfCancellationRequested();
@@ -405,7 +405,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                     return new ProviderTestResult(
                         false,
                         TimeSpan.Zero,
-                        Error: new ErrorInfo(ErrorCode.NotConfigured, ErrorMessages.GetDefault(ErrorCode.NotConfigured), Detail: "无法创建服务实例", ProviderId: capturedDraft.Profile.Id));
+                        Error: new ErrorInfo(ErrorCode.NotConfigured, ErrorMessages.GetDefault(ErrorCode.NotConfigured), Detail: global::Iris.Core.Localization.CoreText.Get("Text_e9867e8a22d2"), ProviderId: capturedDraft.Profile.Id));
                 }
 
                 cancellationToken.ThrowIfCancellationRequested();
@@ -432,7 +432,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             return new ProviderTestResult(
                 false,
                 TimeSpan.Zero,
-                Error: new ErrorInfo(ErrorCode.ProviderUnavailable, "服务创建或测试失败", Detail: ex.GetType().Name, ProviderId: capturedDraft.Profile.Id));
+                Error: new ErrorInfo(ErrorCode.ProviderUnavailable, global::Iris.Core.Localization.CoreText.Get("Text_c9e24bc3378d"), Detail: ex.GetType().Name, ProviderId: capturedDraft.Profile.Id));
         }
     }
 
@@ -486,7 +486,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             {
                 throw new IrisException(
                     ErrorCode.Unknown,
-                    "服务凭据解析失败",
+                    global::Iris.Core.Localization.CoreText.Get("Text_0ee8cdd68ce4"),
                     innerException: null,
                     retryable: false,
                     providerId: capturedDraft.Profile.Id,
@@ -519,14 +519,14 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                         innerException: null,
                         retryable: false,
                         providerId: capturedDraft.Profile.Id,
-                        detail: "无法创建服务实例");
+                        detail: global::Iris.Core.Localization.CoreText.Get("Text_e9867e8a22d2"));
                 }
 
                 if (reg.Provider is not IModelCatalogSource catalogSource)
                 {
                     throw new IrisException(
                         ErrorCode.NotConfigured,
-                        "当前服务不支持获取模型列表",
+                        global::Iris.Core.Localization.CoreText.Get("Text_d42544701705"),
                         innerException: null,
                         retryable: false,
                         providerId: capturedDraft.Profile.Id);
@@ -562,7 +562,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         {
             throw new IrisException(
                 ErrorCode.ProviderUnavailable,
-                "获取模型列表失败",
+                global::Iris.Core.Localization.CoreText.Get("Text_813bec599861"),
                 innerException: null,
                 retryable: false,
                 providerId: draft.Profile?.Id ?? string.Empty,
@@ -600,13 +600,13 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                     }
                     catch (Exception ex)
                     {
-                        return new DraftCredentialsResult(null, new ErrorInfo(ErrorCode.Unknown, "读取当前配置失败", Detail: ex.GetType().Name, ProviderId: draft.Profile.Id));
+                        return new DraftCredentialsResult(null, new ErrorInfo(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Get("Text_13f5554c85ea"), Detail: ex.GetType().Name, ProviderId: draft.Profile.Id));
                     }
 
                     var match = current.Translation.Providers.FirstOrDefault(p => string.Equals(p.Id, draft.BaseProfile.Id, StringComparison.Ordinal));
                     if (match == null)
                     {
-                        return new DraftCredentialsResult(null, new ErrorInfo(ErrorCode.Unknown, "服务已不存在，请刷新后重试", Detail: "BaseProfileNotFound", ProviderId: draft.Profile.Id));
+                        return new DraftCredentialsResult(null, new ErrorInfo(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Get("Text_c5d4b8310a81"), Detail: "BaseProfileNotFound", ProviderId: draft.Profile.Id));
                     }
 
                     if (!IsProfileDeepEqual(draft.BaseProfile, match))
@@ -616,12 +616,12 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
 
                     if (!string.Equals(draft.Profile.Id, draft.BaseProfile.Id, StringComparison.Ordinal))
                     {
-                        return new DraftCredentialsResult(null, new ErrorInfo(ErrorCode.InvalidArgument, "草稿 Profile ID 必须与 BaseProfile ID 一致", Detail: "DraftIdMismatch", ProviderId: draft.Profile.Id));
+                        return new DraftCredentialsResult(null, new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_c867164793e4"), Detail: "DraftIdMismatch", ProviderId: draft.Profile.Id));
                     }
 
                     if (!string.Equals(draft.Profile.CredentialSetId, draft.BaseProfile.CredentialSetId, StringComparison.Ordinal))
                     {
-                        return new DraftCredentialsResult(null, new ErrorInfo(ErrorCode.InvalidArgument, "已有草稿不能修改 CredentialSetId 引用", Detail: "CredentialSetIdMismatch", ProviderId: draft.Profile.Id));
+                        return new DraftCredentialsResult(null, new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_5692606726ab"), Detail: "CredentialSetIdMismatch", ProviderId: draft.Profile.Id));
                     }
 
                     var snapshotProfile = CloneProfile(match);
@@ -653,7 +653,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
 
                     if (resolveResult.IsExplicitUnconfigured || resolveResult.Credentials == null)
                     {
-                        return new DraftCredentialsResult(null, new ErrorInfo(ErrorCode.NotConfigured, ErrorMessages.GetDefault(ErrorCode.NotConfigured), Detail: "凭据未配置", ProviderId: draft.Profile.Id));
+                        return new DraftCredentialsResult(null, new ErrorInfo(ErrorCode.NotConfigured, ErrorMessages.GetDefault(ErrorCode.NotConfigured), Detail: global::Iris.Core.Localization.CoreText.Get("Text_cbf370d77d1b"), ProviderId: draft.Profile.Id));
                     }
 
                     return new DraftCredentialsResult(resolveResult.Credentials);
@@ -664,7 +664,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 }
 
             default:
-                return new DraftCredentialsResult(null, new ErrorInfo(ErrorCode.InvalidArgument, "未知的凭据编辑类型"));
+                return new DraftCredentialsResult(null, new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_3b5f7f06db59")));
         }
     }
 
@@ -957,15 +957,17 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             var launch = plan.General.LaunchAtStartup != null ? plan.General.LaunchAtStartup.Target : g.LaunchAtStartup;
             var notification = plan.General.ShowStartupNotification != null ? plan.General.ShowStartupNotification.Target : g.ShowStartupNotification;
             var logLevel = plan.General.LogLevel != null ? plan.General.LogLevel.Target : g.LogLevel;
+            var uiLanguage = plan.General.UiLanguage != null ? plan.General.UiLanguage.Target : g.UiLanguage;
 
-            if (theme != g.Theme || launch != g.LaunchAtStartup || notification != g.ShowStartupNotification || logLevel != g.LogLevel)
+            if (theme != g.Theme || launch != g.LaunchAtStartup || notification != g.ShowStartupNotification || logLevel != g.LogLevel || uiLanguage != g.UiLanguage)
             {
                 newGeneral = g with
                 {
                     Theme = theme,
                     LaunchAtStartup = launch,
                     ShowStartupNotification = notification,
-                    LogLevel = logLevel
+                    LogLevel = logLevel,
+                    UiLanguage = uiLanguage
                 };
             }
         }
@@ -1178,7 +1180,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                     if (otherNorm.Modifiers == targetNorm.Modifiers &&
                         string.Equals(otherNorm.Key, targetNorm.Key, StringComparison.OrdinalIgnoreCase))
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "快捷键组合已分配给其他动作，不能重复使用");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_dde435b819e2"));
                     }
                 }
             }
@@ -1245,6 +1247,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
 
     private static bool HasGeneralConflict(GeneralSettingsPatch patch, GeneralSettings current)
     {
+        if (patch.UiLanguage is { } language && current.UiLanguage != language.Base && current.UiLanguage != language.Target) return true;
         if (patch.Theme != null)
         {
             if (current.Theme != patch.Theme.Base && current.Theme != patch.Theme.Target)
@@ -1340,12 +1343,14 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         if (plan.General != null)
         {
             var g = plan.General;
+            if (g.UiLanguage is { Target: not "zh-CN" and not "en-US" })
+                return new ErrorInfo(ErrorCode.InvalidArgument, Iris.Core.Localization.CoreText.Get("InvalidUiLanguage"));
             if (g.Theme != null)
             {
                 if (!Enum.IsDefined(g.Theme.Target) ||
                     (g.Theme.Base != default && !Enum.IsDefined(g.Theme.Base)))
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "Theme 含有未定义的值");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_c95d52323038"));
                 }
             }
 
@@ -1353,11 +1358,11 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             {
                 if (!ValidLogLevels.Contains(g.LogLevel.Target))
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "LogLevel 目标值非法");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_ed4a1fe3a942"));
                 }
                 if (g.LogLevel.Base != null && !ValidLogLevels.Contains(g.LogLevel.Base))
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "LogLevel 基线值非法");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_9195679f1083"));
                 }
             }
         }
@@ -1369,7 +1374,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             var id = change.Kind == TranslationProfileChangeKind.Add ? change.TargetProfile?.Id : change.BaseProfile?.Id;
             if (string.IsNullOrWhiteSpace(id) || !seenIds.Add(id))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "计划中包含重复的 Profile ID 操作");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_7372225545c3"));
             }
         }
 
@@ -1379,7 +1384,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         {
             if (!Enum.IsDefined(change.Kind))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "未知的 ChangeKind");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_2d66d07d7d5f"));
             }
 
             switch (change.Kind)
@@ -1388,19 +1393,19 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                     hasAddOrDelete = true;
                     if (change.BaseProfile != null)
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "Add 操作的 BaseProfile 必须为 null");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_1fbf1d53df1f"));
                     }
                     if (change.TargetProfile == null)
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "Add 操作的 TargetProfile 不能为空");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_88bb88e055cf"));
                     }
                     if (change.TargetProfile.CredentialSetId != null)
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "Add 操作不能任意指定 CredentialSetId");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_5d3ac474e977"));
                     }
                     if (!NewProfileIdRegex().IsMatch(change.TargetProfile.Id))
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "新增 Profile ID 格式不符合规范");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_e9d0be5babc8"));
                     }
 
                     var addErr = ValidateProfile(change.TargetProfile, current);
@@ -1410,19 +1415,19 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 case TranslationProfileChangeKind.Update:
                     if (change.BaseProfile == null)
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "Update 操作的 BaseProfile 不能为空");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_c39d89be8a24"));
                     }
                     if (change.TargetProfile == null)
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "Update 操作的 TargetProfile 不能为空");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_6567ec3e5ce4"));
                     }
                     if (!string.Equals(change.BaseProfile.Id, change.TargetProfile.Id, StringComparison.Ordinal))
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "Update 操作的 BaseProfile 与 TargetProfile ID 不一致");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_6b77c983c377"));
                     }
                     if (!string.Equals(change.BaseProfile.CredentialSetId, change.TargetProfile.CredentialSetId, StringComparison.Ordinal))
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "Update 操作不能在 TargetProfile 中更改 CredentialSetId 引用");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_bb89e4a6d141"));
                     }
 
                     var updateErr = ValidateProfile(change.TargetProfile, current);
@@ -1433,15 +1438,15 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                     hasAddOrDelete = true;
                     if (change.BaseProfile == null)
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "Delete 操作的 BaseProfile 不能为空");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_8c2bba494229"));
                     }
                     if (change.TargetProfile != null)
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "Delete 操作的 TargetProfile 必须为 null");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_bdf5648ed234"));
                     }
                     if (change.Credentials.Kind != CredentialEditKind.Keep)
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "Delete 操作的凭据意图只能为 Keep");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_fa9b5ba9833d"));
                     }
                     break;
             }
@@ -1449,21 +1454,21 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             // 凭据意图校验
             if (!Enum.IsDefined(change.Credentials.Kind))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "未知的凭据编辑类型");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_3b5f7f06db59"));
             }
 
             if (change.Credentials.Kind == CredentialEditKind.Replace)
             {
                 if (change.Credentials.Replacement == null)
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "Replace 意图必须提供 Replacement 凭据");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_8757324638ce"));
                 }
             }
             else if (change.Credentials.Kind == CredentialEditKind.Keep || change.Credentials.Kind == CredentialEditKind.Clear)
             {
                 if (change.Credentials.Replacement != null)
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "Keep 或 Clear 意图的 Replacement 必须为 null");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_e53237193fe8"));
                 }
             }
         }
@@ -1471,7 +1476,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         // 4. 排序意图校验
         if (hasAddOrDelete && plan.TranslationOrder == null)
         {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "包含 Add 或 Delete 操作时必须附带 TranslationOrderChange");
+            return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_bb066abe0093"));
         }
 
         if (plan.TranslationOrder != null)
@@ -1479,14 +1484,14 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             var order = plan.TranslationOrder;
             if (order.BaseIds == null || order.TargetIds == null)
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "TranslationOrderChange 的 BaseIds 或 TargetIds 不能为空");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_31e97af4e348"));
             }
 
             // 检查 TargetIds 无重复
             var targetIdSet = new HashSet<string>(order.TargetIds, StringComparer.Ordinal);
             if (targetIdSet.Count != order.TargetIds.Count)
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "TargetIds 包含重复 ID");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_fc1a8545b8a8"));
             }
 
             // 计算理论上的目标 ID 集合
@@ -1505,7 +1510,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
 
             if (!targetIdSet.SetEquals(expectedIds))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "TargetIds 与预期的 Profile ID 集合不匹配");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_cdfa48d9be39"));
             }
         }
 
@@ -1517,7 +1522,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             {
                 if (!_hotkeyBindingPolicy.TryNormalize(change.TargetBinding, out _))
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "快捷键目标绑定无效");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_539074888c60"));
                 }
             }
 
@@ -1543,22 +1548,22 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
     {
         if (!Enum.IsDefined(profile.Kind))
         {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "Profile Kind 未定义");
+            return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_88de0b75493c"));
         }
 
         if (string.IsNullOrWhiteSpace(profile.DisplayName))
         {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "DisplayName 不能为空");
+            return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_0d2c568b6d8e"));
         }
 
         if (profile.TimeoutSeconds < 5 || profile.TimeoutSeconds > 600)
         {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "TimeoutSeconds 必须在 5 到 600 之间");
+            return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_794ad749ed51"));
         }
 
         if (profile.MaxOutputTokens.HasValue && profile.MaxOutputTokens.Value <= 0)
         {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "MaxOutputTokens 必须为正整数");
+            return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_7591b5823ffe"));
         }
 
         if (profile.Temperature.HasValue)
@@ -1566,7 +1571,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             var t = profile.Temperature.Value;
             if (double.IsNaN(t) || double.IsInfinity(t) || t < 0.0 || t > 2.0)
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "Temperature 必须在 0.0 到 2.0 之间");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_fdef32da198a"));
             }
         }
 
@@ -1575,7 +1580,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         {
             if (string.IsNullOrWhiteSpace(profile.Model))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "启用服务的 Model 不能为空");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_e3c6bebfa1ee"));
             }
 
             if (profile.Kind == TranslationProviderKind.OpenAICompatible)
@@ -1584,7 +1589,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                     !Uri.TryCreate(profile.BaseUrl, UriKind.Absolute, out var uri) ||
                     (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "OpenAI 兼容服务的 BaseUrl 必须为合法绝对 HTTP(S) 地址");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_3584a90d73bd"));
                 }
             }
             else if (profile.Kind == TranslationProviderKind.Anthropic)
@@ -1594,7 +1599,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                     if (!Uri.TryCreate(profile.BaseUrl, UriKind.Absolute, out var uri) ||
                         (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "Anthropic 服务的 BaseUrl 必须为合法绝对 HTTP(S) 地址");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_47c83176d03c"));
                     }
                 }
             }
@@ -1607,7 +1612,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 if (!Uri.TryCreate(profile.BaseUrl, UriKind.Absolute, out var uri) ||
                     (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "BaseUrl 必须为合法绝对 HTTP(S) 地址");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_19eecf82e5b9"));
                 }
             }
         }
@@ -1618,12 +1623,12 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             var opt = profile.OpenAIOptions;
             if (!Enum.IsDefined(opt.MaxTokensField))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "MaxTokensField 未定义");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_b70890fbafd4"));
             }
 
             if (string.IsNullOrWhiteSpace(opt.ChatCompletionsPath))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "ChatCompletionsPath 不能为空");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_887484964876"));
             }
 
             var path = opt.ChatCompletionsPath;
@@ -1631,7 +1636,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 Uri.TryCreate(path, UriKind.Absolute, out _) ||
                 path.Contains('?') || path.Contains('#'))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "ChatCompletionsPath 必须为非空相对路径且不包含查询或片段");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_c073d46e8eda"));
             }
 
             if (opt.ExtraHeaders != null)
@@ -1640,17 +1645,17 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 {
                     if (SensitiveHeaderNames.Contains(headerName))
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "ExtraHeaders 不能包含认证敏感请求头");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_aaca1618c7ec"));
                     }
 
                     if (!IsValidHttpToken(headerName))
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "ExtraHeaders 包含非法的请求头名称");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_9daf1297c3be"));
                     }
 
                     if (headerValue != null && (headerValue.Contains('\r') || headerValue.Contains('\n')))
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "ExtraHeaders 请求头值不能包含回车或换行");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_e9971e3aa748"));
                     }
                 }
             }
@@ -1662,19 +1667,19 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             var opt = profile.AnthropicOptions;
             if (opt.Effort != null && !ValidAnthropicEfforts.Contains(opt.Effort))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "Anthropic Effort 必须为 low/medium/high/xhigh/max 或 null");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_2d9d1cba16ff"));
             }
 
             if (profile.Model != null && profile.Model.Contains("haiku", StringComparison.OrdinalIgnoreCase) && opt.Effort != null)
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "Haiku 模型不支持 Effort 参数，必须显式设置为 null");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_1e0f1d55206a"));
             }
         }
 
         // PromptTemplateId 校验
         if (profile.PromptTemplateId != null && !TemplateExists(profile.PromptTemplateId, current))
         {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "指定的 PromptTemplateId 不存在");
+            return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_c2439708babf"));
         }
 
         return null;
@@ -1684,29 +1689,29 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
     {
         if (plan.TranslationChanges == null)
         {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "TranslationChanges 不能为空");
+            return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_92be3cc3d9d9"));
         }
 
         foreach (var change in plan.TranslationChanges)
         {
             if (change == null)
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "TranslationChanges 不能包含 null 元素");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_81f20e09b3ea"));
             }
 
             if (!Enum.IsDefined(change.Kind))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "未知的 Profile 变更类型");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_487ecf7b7200"));
             }
 
             if (change.Credentials == null)
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "凭据意图不能为 null");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_c132242b9cc8"));
             }
 
             if (!Enum.IsDefined(change.Credentials.Kind))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "未知的凭据编辑类型");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_3b5f7f06db59"));
             }
 
             switch (change.Kind)
@@ -1714,33 +1719,33 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 case TranslationProfileChangeKind.Add:
                     if (change.TargetProfile == null)
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "Add 操作的 TargetProfile 不能为空");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_88bb88e055cf"));
                     }
                     if (change.BaseProfile != null)
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "Add 操作的 BaseProfile 必须为 null");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_1fbf1d53df1f"));
                     }
                     break;
 
                 case TranslationProfileChangeKind.Update:
                     if (change.BaseProfile == null)
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "Update 操作的 BaseProfile 不能为空");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_c39d89be8a24"));
                     }
                     if (change.TargetProfile == null)
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "Update 操作的 TargetProfile 不能为空");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_6567ec3e5ce4"));
                     }
                     break;
 
                 case TranslationProfileChangeKind.Delete:
                     if (change.BaseProfile == null)
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "Delete 操作的 BaseProfile 不能为空");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_8c2bba494229"));
                     }
                     if (change.TargetProfile != null)
                     {
-                        return new ErrorInfo(ErrorCode.InvalidArgument, "Delete 操作的 TargetProfile 必须为 null");
+                        return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_bdf5648ed234"));
                     }
                     break;
             }
@@ -1750,18 +1755,18 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         {
             if (plan.TranslationOrder.BaseIds == null || plan.TranslationOrder.TargetIds == null)
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "TranslationOrderChange 的 BaseIds 或 TargetIds 不能为空");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_31e97af4e348"));
             }
 
             if (plan.TranslationOrder.BaseIds.Any(id => id == null) || plan.TranslationOrder.TargetIds.Any(id => id == null))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "TranslationOrderChange 不能包含 null ID");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_7096f3d36409"));
             }
         }
 
         if (plan.HotkeyChanges == null)
         {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "HotkeyChanges 不能为 null");
+            return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_7177a14b6ebc"));
         }
 
         var seenHotkeyActions = new HashSet<Iris.Core.Actions.IrisAction>();
@@ -1769,22 +1774,22 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         {
             if (change == null)
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "HotkeyChanges 不能包含 null 元素");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_7cc45bbeb7ba"));
             }
 
             if (!Enum.IsDefined(change.Action))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "HotkeyChanges 包含未知的 Action");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_839b70cf1003"));
             }
 
             if (change.TargetBinding == null)
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "TargetBinding 不能为空");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_890ebd5ae96d"));
             }
 
             if (!seenHotkeyActions.Add(change.Action))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "HotkeyChanges 包含重复的 Action 变更");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_85653ba72bf5"));
             }
         }
 
@@ -1795,27 +1800,27 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
     {
         if (draft.Profile == null)
         {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "Profile 不能为空");
+            return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_c4d61c3b7e92"));
         }
 
         if (string.IsNullOrWhiteSpace(draft.Profile.Id))
         {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "Profile ID 不能为空");
+            return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_5cee7d9c04a4"));
         }
 
         if (draft.Credentials == null)
         {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "Credentials 不能为空");
+            return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_5c6f7f20d814"));
         }
 
         if (!Enum.IsDefined(draft.Credentials.Kind))
         {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "未知的凭据编辑类型");
+            return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_3b5f7f06db59"));
         }
 
         if (!Enum.IsDefined(draft.Profile.Kind))
         {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "未知的 Profile Kind 类型");
+            return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_2e61f01ce8da"));
         }
 
         return null;
@@ -1827,47 +1832,47 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
 
         if (string.IsNullOrWhiteSpace(p.Id))
         {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "Profile ID 不能为空");
+            return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_5cee7d9c04a4"));
         }
 
         if (draft.BaseProfile == null)
         {
             if (!NewProfileIdRegex().IsMatch(p.Id))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "新增 Profile ID 格式不符合规范");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_e9d0be5babc8"));
             }
         }
         else
         {
             if (string.IsNullOrWhiteSpace(draft.BaseProfile.Id))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "BaseProfile ID 不能为空");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_f7f84688d00e"));
             }
 
             if (!string.Equals(p.Id, draft.BaseProfile.Id, StringComparison.Ordinal))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "草稿 Profile ID 必须与 BaseProfile ID 一致");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_c867164793e4"));
             }
 
             if (!string.Equals(p.CredentialSetId, draft.BaseProfile.CredentialSetId, StringComparison.Ordinal))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "已有草稿不能修改 CredentialSetId 引用");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_5692606726ab"));
             }
         }
 
         if (!Enum.IsDefined(p.Kind))
         {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "Profile Kind 未定义");
+            return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_88de0b75493c"));
         }
 
         if (string.IsNullOrWhiteSpace(p.DisplayName))
         {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "DisplayName 不能为空");
+            return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_0d2c568b6d8e"));
         }
 
         if (p.TimeoutSeconds < 5 || p.TimeoutSeconds > 600)
         {
-            return new ErrorInfo(ErrorCode.InvalidArgument, "TimeoutSeconds 必须在 5 到 600 之间");
+            return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_794ad749ed51"));
         }
 
         // 凭据意图校验
@@ -1875,43 +1880,43 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
         {
             if (draft.Credentials.Replacement == null)
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "Replace 意图必须提供 Replacement 凭据");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_8757324638ce"));
             }
 
             if (draft.BaseProfile == null && p.CredentialSetId != null)
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "新服务草稿不能指定 CredentialSetId");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_820b7f28048d"));
             }
         }
         else if (draft.Credentials.Kind == CredentialEditKind.Keep)
         {
             if (draft.Credentials.Replacement != null)
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "Keep 意图的 Replacement 必须为 null");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_1a8fdaa1d433"));
             }
 
             // 只有在 Keep 模式下才依赖既有 CredentialSetId 格式有效性
             if (p.CredentialSetId != null && !CredentialSetIdRegex().IsMatch(p.CredentialSetId))
             {
-                return new ErrorInfo(ErrorCode.NotConfigured, ErrorMessages.GetDefault(ErrorCode.NotConfigured), Detail: "凭据引用格式无效", ProviderId: p.Id);
+                return new ErrorInfo(ErrorCode.NotConfigured, ErrorMessages.GetDefault(ErrorCode.NotConfigured), Detail: global::Iris.Core.Localization.CoreText.Get("Text_f64a52bd3dfc"), ProviderId: p.Id);
             }
 
             // New draft 不得指定持久引用
             if (draft.BaseProfile == null && p.CredentialSetId != null)
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "新服务草稿不能指定 CredentialSetId");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_820b7f28048d"));
             }
         }
         else if (draft.Credentials.Kind == CredentialEditKind.Clear)
         {
             if (draft.Credentials.Replacement != null)
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "Clear 意图的 Replacement 必须为 null");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_7938de18d1ca"));
             }
 
             if (draft.BaseProfile == null && p.CredentialSetId != null)
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "新服务草稿不能指定 CredentialSetId");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_820b7f28048d"));
             }
         }
 
@@ -1922,7 +1927,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 !Uri.TryCreate(p.BaseUrl, UriKind.Absolute, out var uri) ||
                 (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "OpenAI 兼容服务的 BaseUrl 必须为合法绝对 HTTP(S) 地址");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_3584a90d73bd"));
             }
         }
         else if (p.Kind == TranslationProviderKind.Anthropic)
@@ -1932,7 +1937,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 if (!Uri.TryCreate(p.BaseUrl, UriKind.Absolute, out var uri) ||
                     (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "Anthropic 服务的 BaseUrl 必须为合法绝对 HTTP(S) 地址");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_47c83176d03c"));
                 }
             }
         }
@@ -1944,17 +1949,17 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             {
                 if (SensitiveHeaderNames.Contains(headerName))
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "ExtraHeaders 不能包含认证敏感请求头");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_aaca1618c7ec"));
                 }
 
                 if (!IsValidHttpToken(headerName))
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "ExtraHeaders 包含非法的请求头名称");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_9daf1297c3be"));
                 }
 
                 if (headerValue != null && (headerValue.Contains('\r') || headerValue.Contains('\n')))
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "ExtraHeaders 请求头值不能包含回车或换行");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_e9971e3aa748"));
                 }
             }
         }
@@ -1967,12 +1972,12 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 var opt = p.OpenAIOptions;
                 if (!Enum.IsDefined(opt.MaxTokensField))
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "MaxTokensField 未定义");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_b70890fbafd4"));
                 }
 
                 if (string.IsNullOrWhiteSpace(opt.ChatCompletionsPath))
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "ChatCompletionsPath 不能为空");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_887484964876"));
                 }
 
                 var path = opt.ChatCompletionsPath;
@@ -1980,7 +1985,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                     Uri.TryCreate(path, UriKind.Absolute, out _) ||
                     path.Contains('?') || path.Contains('#'))
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "ChatCompletionsPath 必须为非空相对路径且不包含查询或片段");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_c073d46e8eda"));
                 }
             }
 
@@ -1989,23 +1994,23 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 var opt = p.AnthropicOptions;
                 if (opt.Effort != null && !ValidAnthropicEfforts.Contains(opt.Effort))
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "Anthropic Effort 必须为 low/medium/high/xhigh/max 或 null");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_2d9d1cba16ff"));
                 }
 
                 if (p.Model != null && p.Model.Contains("haiku", StringComparison.OrdinalIgnoreCase) && opt.Effort != null)
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "Haiku 模型不支持 Effort 参数，必须显式设置为 null");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_1e0f1d55206a"));
                 }
             }
 
             if (string.IsNullOrWhiteSpace(p.Model))
             {
-                return new ErrorInfo(ErrorCode.NotConfigured, ErrorMessages.GetDefault(ErrorCode.NotConfigured), Detail: "Model 不能为空", ProviderId: p.Id);
+                return new ErrorInfo(ErrorCode.NotConfigured, ErrorMessages.GetDefault(ErrorCode.NotConfigured), Detail: global::Iris.Core.Localization.CoreText.Get("Text_eb11d05aba48"), ProviderId: p.Id);
             }
 
             if (p.MaxOutputTokens.HasValue && p.MaxOutputTokens.Value <= 0)
             {
-                return new ErrorInfo(ErrorCode.InvalidArgument, "MaxOutputTokens 必须为正整数");
+                return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_7591b5823ffe"));
             }
 
             if (p.Temperature.HasValue)
@@ -2013,7 +2018,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                 var t = p.Temperature.Value;
                 if (double.IsNaN(t) || double.IsInfinity(t) || t < 0.0 || t > 2.0)
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "Temperature 必须在 0.0 到 2.0 之间");
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_fdef32da198a"));
                 }
             }
 
@@ -2021,7 +2026,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             {
                 if (currentSettings != null && !TemplateExists(p.PromptTemplateId, currentSettings))
                 {
-                    return new ErrorInfo(ErrorCode.InvalidArgument, "指定的 PromptTemplateId 不存在", ProviderId: p.Id);
+                    return new ErrorInfo(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_c2439708babf"), ProviderId: p.Id);
                 }
             }
         }
@@ -2096,6 +2101,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             if (g.LaunchAtStartup != null) return false;
             if (g.ShowStartupNotification != null) return false;
             if (g.LogLevel != null) return false;
+            if (g.UiLanguage != null) return false;
         }
 
         return true;
@@ -2132,7 +2138,8 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
 
     private static SettingsEditPlan ClonePlan(SettingsEditPlan plan)
     {
-        var general = plan.General; // record 是不可变浅层
+        var general = plan.General is { } g ? g with
+        { UiLanguage = g.UiLanguage is { } language ? new(language.Base, language.Target) : null } : null!;
 
         var changes = new List<TranslationProfileChange>();
         if (plan.TranslationChanges != null)

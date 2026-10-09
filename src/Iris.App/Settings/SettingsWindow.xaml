@@ -13,6 +13,7 @@
                  MinHeight="440"
                  WindowStartupLocation="CenterScreen">
     <Window.Resources>
+        <DataTemplate x:Key="WrappingCheckBoxContent"><TextBlock Text="{Binding}" TextWrapping="Wrap"/></DataTemplate>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Window.Resources>
     <Grid>
@@ -42,7 +43,7 @@
                     Padding="6,12,6,8">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel>
-                    <TextBlock Text="{x:Static app:UiText.SettingsTitle}"
+                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsTitle}"
                                FontSize="18"
                                FontWeight="SemiBold"
                                Margin="8,0,0,12" />
@@ -59,7 +60,7 @@
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
-                        <TextBlock Text="{x:Static app:UiText.SettingsNavGeneral}"
+                        <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsNavGeneral}"
                                    FontWeight="Medium"
                                    VerticalAlignment="Center" />
                     </Border>
@@ -76,7 +77,7 @@
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
-                        <TextBlock Text="{x:Static app:UiText.SettingsNavTranslation}"
+                        <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsNavTranslation}"
                                    FontWeight="Medium"
                                    VerticalAlignment="Center" />
                     </Border>
@@ -93,7 +94,7 @@
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
-                        <TextBlock Text="{x:Static app:UiText.SettingsNavHotkeys}"
+                        <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsNavHotkeys}"
                                    FontWeight="Medium"
                                    VerticalAlignment="Center" />
                     </Border>
@@ -108,7 +109,7 @@
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
-                        <TextBlock Text="{x:Static app:UiText.SettingsNavSelection}" FontWeight="Medium" VerticalAlignment="Center" />
+                        <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsNavSelection}" FontWeight="Medium" VerticalAlignment="Center" />
                     </Border>
                 <Border x:Name="NavOcr" CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavOcrClick"><Border.Style><Style TargetType="Border"><Setter Property="Background" Value="Transparent"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="ocr"><Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></DataTrigger></Style.Triggers></Style></Border.Style><TextBlock Text="{x:Static app:UiText.OcrPageTitle}" TextWrapping="Wrap" FontWeight="Medium"/></Border><Border x:Name="NavScreenshot" CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavScreenshotClick"><Border.Style><Style TargetType="Border"><Setter Property="Background" Value="Transparent"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="screenshot"><Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></DataTrigger></Style.Triggers></Style></Border.Style><TextBlock Text="{x:Static app:UiText.ScreenshotPageTitle}" TextWrapping="Wrap" FontWeight="Medium"/></Border>
                     <Border x:Name="NavNetwork" CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavNetworkClick">
@@ -126,30 +127,30 @@
             <ScrollViewer x:Name="NetworkPageScroll" Grid.Column="1" Padding="20,12" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <ScrollViewer.Style><Style TargetType="ScrollViewer"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="network"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></ScrollViewer.Style>
                 <StackPanel MaxWidth="620" HorizontalAlignment="Stretch">
-                    <TextBlock Text="{x:Static app:UiText.NetworkTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.NetworkTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,12"/>
                     <TextBlock Text="{x:Static app:UiText.NetworkDescription}" TextWrapping="Wrap" Margin="0,0,0,16"/>
                     <StackPanel IsEnabled="{Binding CanEdit}">
-                        <TextBlock Text="{x:Static app:UiText.NetworkModeLabel}" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.NetworkModeLabel}" FontWeight="SemiBold" Margin="0,0,0,6"/>
                         <ComboBox x:Name="NetworkModeCombo" ItemsSource="{x:Static local:NetworkSettingsDraftViewModel.Modes}" DisplayMemberPath="Name" SelectedValuePath="Value"
                                   SelectedValue="{Binding Network.Mode.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinHeight="32"/>
-                        <CheckBox x:Name="NetworkBypassCheck" Content="{x:Static app:UiText.NetworkBypass}" IsChecked="{Binding Network.BypassLocal.Value}" Margin="0,12,0,6"/>
+                        <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" x:Name="NetworkBypassCheck" Content="{x:Static app:UiText.NetworkBypass}" IsChecked="{Binding Network.BypassLocal.Value}" Margin="0,12,0,6"/>
                         <TextBlock Text="{x:Static app:UiText.NetworkBypassDescription}" TextWrapping="Wrap" Margin="0,0,0,16" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                        <TextBlock Text="{x:Static app:UiText.NetworkUrlLabel}" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.NetworkUrlLabel}" FontWeight="SemiBold" Margin="0,0,0,6"/>
                         <TextBox x:Name="NetworkUrlTextBox" Text="{Binding Network.Url.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinHeight="32" HorizontalScrollBarVisibility="Auto"/>
                         <TextBlock Text="{x:Static app:UiText.NetworkUrlHint}" TextWrapping="Wrap" Margin="0,6,0,16" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                        <TextBlock Text="{x:Static app:UiText.NetworkCredentialLabel}" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.NetworkCredentialLabel}" FontWeight="SemiBold" Margin="0,0,0,6"/>
                         <ComboBox x:Name="NetworkCredentialsCombo" ItemsSource="{x:Static local:NetworkSettingsDraftViewModel.CredentialKinds}" DisplayMemberPath="Name" SelectedValuePath="Value"
                                   SelectedValue="{Binding Network.Credentials.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinHeight="32"/>
                         <StackPanel IsEnabled="{Binding Network.IsReplacing}">
-                            <TextBlock Text="{x:Static app:UiText.NetworkUserName}" Margin="0,10,0,4"/>
+                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.NetworkUserName}" Margin="0,10,0,4"/>
                             <TextBox x:Name="NetworkUserNameTextBox" Text="{Binding Network.UserName.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinHeight="32"/>
-                            <TextBlock Text="{x:Static app:UiText.NetworkPassword}" Margin="0,10,0,4"/>
+                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.NetworkPassword}" Margin="0,10,0,4"/>
                             <PasswordBox x:Name="NetworkPasswordBox" PasswordChanged="OnNetworkPasswordChanged" MinHeight="32"/>
                         </StackPanel>
                         <TextBlock Text="{x:Static app:UiText.NetworkCredentialHint}" TextWrapping="Wrap" Margin="0,8,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
                     </StackPanel>
                     <TextBlock x:Name="NetworkValidationText" Text="{Binding Network.ErrorMessage}" TextWrapping="Wrap" Margin="0,0,0,12" Foreground="{DynamicResource SystemFillColorCautionBrush}"/>
-                    <TextBlock Text="{x:Static app:UiText.NetworkTargetLabel}" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.NetworkTargetLabel}" FontWeight="SemiBold" Margin="0,0,0,6"/>
                     <ComboBox x:Name="NetworkEndpointCombo" ItemsSource="{Binding NetworkEndpoints}" SelectedItem="{Binding SelectedNetworkEndpoint, Mode=TwoWay}" IsEnabled="{Binding CanEdit}" MinHeight="32">
                         <ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Name}" TextWrapping="Wrap" MaxWidth="320"/></DataTemplate></ComboBox.ItemTemplate>
                     </ComboBox>
@@ -166,8 +167,8 @@
             <ScrollViewer x:Name="HistoryPageScroll" Grid.Column="1" Padding="20,12" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <ScrollViewer.Style><Style TargetType="ScrollViewer"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="history"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></ScrollViewer.Style>
                 <StackPanel IsEnabled="{Binding CanEdit}">
-                    <TextBlock Text="{x:Static app:UiText.HistoryTitle}" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,20"/>
-                    <CheckBox x:Name="HistoryEnabledCheckBox" Content="{x:Static app:UiText.HistoryEnabled}" IsChecked="{Binding History.Enabled.Value}"/>
+                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.HistoryTitle}" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,20"/>
+                    <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" x:Name="HistoryEnabledCheckBox" Content="{x:Static app:UiText.HistoryEnabled}" IsChecked="{Binding History.Enabled.Value}"/>
                     <TextBlock Text="{x:Static app:UiText.HistoryEnabledHelp}" TextWrapping="Wrap" Margin="0,8,0,24"/>
                     <TextBlock Text="{x:Static app:UiText.HistoryMaxLabel}" TextWrapping="Wrap"/>
                     <TextBox x:Name="HistoryMaxEntriesTextBox" Text="{Binding History.MaxEntriesText.Value, UpdateSourceTrigger=PropertyChanged}" Margin="0,8,0,8"/>
@@ -187,7 +188,7 @@
                     </Style>
                 </ScrollViewer.Style>
                 <StackPanel>
-                    <TextBlock Text="{x:Static app:UiText.OcrPageTitle}" FontSize="22" FontWeight="SemiBold"/>
+                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.OcrPageTitle}" FontSize="22" FontWeight="SemiBold"/>
                     <TextBlock Text="{x:Static app:UiText.OcrPageDescription}" TextWrapping="Wrap" Margin="0,6,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
                     <StackPanel IsEnabled="{Binding CanEdit}">
                         <TextBlock Text="{x:Static app:UiText.OcrPrimary}" TextWrapping="Wrap" Margin="0,8,0,3"/>
@@ -294,7 +295,7 @@
                     </Style>
                 </ScrollViewer.Style>
                 <StackPanel>
-                    <TextBlock Text="{x:Static app:UiText.ScreenshotPageTitle}" FontSize="22" FontWeight="SemiBold"/>
+                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.ScreenshotPageTitle}" FontSize="22" FontWeight="SemiBold"/>
                     <TextBlock Text="{x:Static app:UiText.ScreenshotSettingsDescription}" TextWrapping="Wrap" Margin="0,6,0,18" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
                     <StackPanel IsEnabled="{Binding CanEdit}">
                         <CheckBox x:Name="ScreenshotConfirmCheck" IsChecked="{Binding Screenshot.ConfirmOnMouseUp.Value, Mode=TwoWay}" Margin="0,5,0,5">
@@ -330,21 +331,32 @@
                         </Style.Triggers>
                     </Style>
                 </ScrollViewer.Style>
-                <StackPanel MaxWidth="600" HorizontalAlignment="Left" IsEnabled="{Binding CanEdit}">
+                <StackPanel MaxWidth="600" HorizontalAlignment="Stretch" IsEnabled="{Binding CanEdit}">
                     <!-- 页面标题 -->
-                    <TextBlock Text="{x:Static app:UiText.SettingsNavGeneral}"
+                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsNavGeneral}"
                                FontSize="22"
                                FontWeight="SemiBold"
                                Margin="0,0,0,20" />
 
+                    <ui:Card Margin="0,0,0,16" Padding="16">
+                        <StackPanel>
+                            <TextBlock Text="{x:Static app:UiText.LanguageTitle}" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,8"/>
+                            <ComboBox x:Name="UiLanguageCombo" ItemsSource="{x:Static local:SettingsViewModel.InterfaceLanguages}"
+                                      IsEnabled="{Binding CanEdit}"
+                                      SelectedValuePath="Value" DisplayMemberPath="Name" SelectedValue="{Binding InterfaceLanguage.Value, Mode=TwoWay}"
+                                      AutomationProperties.Name="{x:Static app:UiText.LanguageTitle}" MinWidth="180"/>
+                            <TextBlock x:Name="UiLanguageHint" Text="{Binding InterfaceLanguageHint}" TextWrapping="Wrap" Margin="0,8,0,0"/>
+                        </StackPanel>
+                    </ui:Card>
+
                     <!-- 外观与主题卡片 -->
                     <ui:Card Margin="0,0,0,16" Padding="16">
                         <StackPanel>
-                            <TextBlock Text="{x:Static app:UiText.SettingsThemeGroup}"
+                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsThemeGroup}"
                                        FontWeight="SemiBold"
                                        FontSize="14"
                                        Margin="0,0,0,8" />
-                            <TextBlock Text="{x:Static app:UiText.SettingsThemeDescription}"
+                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsThemeDescription}"
                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                        FontSize="12"
                                        Margin="0,0,0,12" />
@@ -366,15 +378,15 @@
                     <!-- 系统启动与通知卡片 -->
                     <ui:Card Margin="0,0,0,16" Padding="16">
                         <StackPanel>
-                            <TextBlock Text="{x:Static app:UiText.SettingsStartupGroup}"
+                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsStartupGroup}"
                                        FontWeight="SemiBold"
                                        FontSize="14"
                                        Margin="0,0,0,8" />
-                            <CheckBox IsChecked="{Binding LaunchAtStartup, Mode=TwoWay}"
+                            <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" IsChecked="{Binding LaunchAtStartup, Mode=TwoWay}"
                                       IsEnabled="{Binding CanEdit}"
                                       Content="{x:Static app:UiText.SettingsLaunchAtStartup}"
                                       Margin="0,4,0,8" />
-                            <CheckBox IsChecked="{Binding ShowStartupNotification, Mode=TwoWay}"
+                            <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" IsChecked="{Binding ShowStartupNotification, Mode=TwoWay}"
                                       IsEnabled="{Binding CanEdit}"
                                       Content="{x:Static app:UiText.SettingsShowStartupNotification}"
                                       Margin="0,4,0,4" />
@@ -384,24 +396,24 @@
                     <!-- 日志级别卡片 -->
                     <ui:Card Margin="0,0,0,16" Padding="16">
                         <StackPanel>
-                            <TextBlock Text="{x:Static app:UiText.SettingsLogGroup}"
+                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsLogGroup}"
                                        FontWeight="SemiBold"
                                        FontSize="14"
                                        Margin="0,0,0,8" />
-                            <TextBlock Text="{x:Static app:UiText.SettingsLogDescription}"
+                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsLogDescription}"
                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                        FontSize="12"
                                        Margin="0,0,0,12" />
                             <ComboBox SelectedValue="{Binding LogLevel, Mode=TwoWay}"
-                                      SelectedValuePath="Content"
+                                      SelectedValuePath="Tag"
                                       IsEnabled="{Binding CanEdit}"
                                       Width="200"
                                       HorizontalAlignment="Left">
-                                <ComboBoxItem Content="Verbose" />
-                                <ComboBoxItem Content="Debug" />
-                                <ComboBoxItem Content="Information" />
-                                <ComboBoxItem Content="Warning" />
-                                <ComboBoxItem Content="Error" />
+                                <ComboBoxItem Tag="Verbose" Content="{x:Static app:UiText.LogVerbose}" />
+                                <ComboBoxItem Tag="Debug" Content="{x:Static app:UiText.LogDebug}" />
+                                <ComboBoxItem Tag="Information" Content="{x:Static app:UiText.LogInformation}" />
+                                <ComboBoxItem Tag="Warning" Content="{x:Static app:UiText.LogWarning}" />
+                                <ComboBoxItem Tag="Error" Content="{x:Static app:UiText.LogError}" />
                             </ComboBox>
                         </StackPanel>
                     </ui:Card>
@@ -443,43 +455,37 @@
                     </Grid.RowDefinitions>
 
                     <!-- 工具栏 -->
-                    <Grid Grid.Row="0" Margin="0,0,0,8">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
+                    <WrapPanel Grid.Row="0" Margin="0,0,0,8">
 
                         <!-- 添加服务按钮与预设菜单 -->
-                        <ui:Button Grid.Column="0"
+                        <ui:Button
                                    x:Name="AddProfileButton"
                                    Content="{x:Static app:UiText.SettingsAddProfile}"
                                    Click="OnAddProfileButtonClick"
                                    HorizontalAlignment="Stretch"
                                    MinWidth="0"
                                    Padding="4,2"
-                                   Margin="0,0,4,0" />
+                                   Margin="0,0,4,4" />
 
                         <!-- 操作按钮：上移、下移、删除 -->
-                        <StackPanel Grid.Column="1" Orientation="Horizontal">
                             <ui:Button x:Name="MoveUpProfileButton"
                                        Content="{x:Static app:UiText.SettingsMoveUp}"
                                        Command="{Binding MoveUpCommand}"
                                        MinWidth="0"
                                        Padding="3,2"
-                                       Margin="0,0,2,0" />
+                                       Margin="0,0,4,4" />
                             <ui:Button x:Name="MoveDownProfileButton"
                                        Content="{x:Static app:UiText.SettingsMoveDown}"
                                        Command="{Binding MoveDownCommand}"
                                        MinWidth="0"
                                        Padding="3,2"
-                                       Margin="0,0,2,0" />
+                                       Margin="0,0,4,4" />
                             <ui:Button x:Name="DeleteProfileButton"
                                        Content="{x:Static app:UiText.SettingsDeleteProfile}"
                                        Command="{Binding DeleteProfileCommand}"
                                        MinWidth="0"
-                                       Padding="4,2" />
-                        </StackPanel>
-                    </Grid>
+                                       Padding="4,2" Margin="0,0,4,4" />
+                    </WrapPanel>
 
                     <!-- 服务列表 -->
                     <ListBox x:Name="ProfilesListBox"
@@ -540,14 +546,14 @@
                         <!-- 基本配置卡片 -->
                         <ui:Card Margin="0,0,0,12" Padding="12">
                             <StackPanel>
-                                <TextBlock Text="基本信息" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8" />
+                                <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.Text_e8df05872569}" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8" />
 
                                 <Grid Margin="0,0,0,8">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileName}" Width="75" VerticalAlignment="Center" />
+                                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsProfileName}" Width="75" VerticalAlignment="Center" />
                                     <TextBox x:Name="DisplayNameTextBox" Grid.Column="1" Text="{Binding DisplayName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                                 </Grid>
 
@@ -556,7 +562,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileKind}" Width="75" VerticalAlignment="Center" />
+                                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsProfileKind}" Width="75" VerticalAlignment="Center" />
                                     <TextBlock Grid.Column="1" Text="{Binding Kind}" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                                 </Grid>
 
@@ -565,7 +571,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileBaseUrl}" Width="75" VerticalAlignment="Center" />
+                                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsProfileBaseUrl}" Width="75" VerticalAlignment="Center" />
                                     <TextBox Grid.Column="1" Text="{Binding BaseUrl, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                 </Grid>
 
@@ -582,7 +588,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileModel}" Width="75" VerticalAlignment="Center" />
+                                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsProfileModel}" Width="75" VerticalAlignment="Center" />
                                     <Grid Grid.Column="1">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="*" />
@@ -643,12 +649,11 @@
                         <!-- 凭据设置卡片 -->
                         <ui:Card Margin="0,0,0,12" Padding="12">
                             <StackPanel>
-                                <TextBlock Text="凭据管理" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8" />
+                                <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.Text_a943c0367b80}" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8" />
 
                                 <ComboBox SelectedValue="{Binding CredentialEditKind, Mode=TwoWay}"
                                           SelectedValuePath="Tag"
-                                          MaxWidth="260"
-                                          HorizontalAlignment="Left"
+                                          HorizontalAlignment="Stretch"
                                           Margin="0,0,0,8">
                                     <ComboBoxItem Tag="{x:Static settings:CredentialEditKind.Keep}"
                                                   Content="{x:Static app:UiText.SettingsCredKeep}" />
@@ -663,7 +668,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileApiKey}" Width="75" VerticalAlignment="Center" />
+                                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsProfileApiKey}" Width="75" VerticalAlignment="Center" />
                                     <PasswordBox Grid.Column="1"
                                                  x:Name="ApiKeyPasswordBox"
                                                  PasswordChanged="OnApiKeyPasswordChanged" />
@@ -674,14 +679,14 @@
                         <!-- 生成参数卡片 -->
                         <ui:Card Margin="0,0,0,12" Padding="12">
                             <StackPanel>
-                                <TextBlock Text="请求参数" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8" />
+                                <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.Text_9541ee3d4b15}" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8" />
 
                                 <Grid Margin="0,0,0,8">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileTimeout}" Width="95" VerticalAlignment="Center" />
+                                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsProfileTimeout}" Width="95" VerticalAlignment="Center" />
                                     <TextBox Grid.Column="1" Text="{Binding TimeoutText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="120" HorizontalAlignment="Left" />
                                 </Grid>
 
@@ -690,7 +695,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileMaxTokens}" Width="95" VerticalAlignment="Center" />
+                                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsProfileMaxTokens}" Width="95" VerticalAlignment="Center" />
                                     <TextBox Grid.Column="1" Text="{Binding MaxOutputTokensText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="120" HorizontalAlignment="Left" />
                                 </Grid>
 
@@ -699,7 +704,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfileTemperature}" Width="95" VerticalAlignment="Center" />
+                                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsProfileTemperature}" Width="95" VerticalAlignment="Center" />
                                     <TextBox Grid.Column="1" Text="{Binding TemperatureText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="120" HorizontalAlignment="Left" />
                                 </Grid>
 
@@ -708,7 +713,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Text="{x:Static app:UiText.SettingsProfilePrompt}" Width="95" VerticalAlignment="Center" />
+                                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsProfilePrompt}" Width="95" VerticalAlignment="Center" />
                                     <ComboBox Grid.Column="1"
                                               ItemsSource="{Binding DataContext.AvailablePrompts, RelativeSource={RelativeSource AncestorType=Window}}"
                                               SelectedValue="{Binding PromptTemplateId, Mode=TwoWay}"
@@ -736,13 +741,13 @@
                                         </Style>
                                     </StackPanel.Style>
 
-                                    <CheckBox Content="{x:Static app:UiText.SettingsStream}"
+                                    <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" Content="{x:Static app:UiText.SettingsStream}"
                                               IsChecked="{Binding Stream, Mode=TwoWay}"
                                               Margin="0,0,0,8" />
-                                    <CheckBox Content="{x:Static app:UiText.SettingsIncludeStreamUsage}"
+                                    <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" Content="{x:Static app:UiText.SettingsIncludeStreamUsage}"
                                               IsChecked="{Binding IncludeStreamUsage, Mode=TwoWay}"
                                               Margin="0,0,0,8" />
-                                    <CheckBox Content="{x:Static app:UiText.SettingsStripThinkTags}"
+                                    <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" Content="{x:Static app:UiText.SettingsStripThinkTags}"
                                               IsChecked="{Binding StripThinkTags, Mode=TwoWay}"
                                               Margin="0,0,0,8" />
 
@@ -751,16 +756,16 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{x:Static app:UiText.SettingsMaxTokensField}" Width="120" VerticalAlignment="Center" />
+                                        <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsMaxTokensField}" Width="120" VerticalAlignment="Center" />
                                         <ComboBox Grid.Column="1"
                                                   SelectedValue="{Binding MaxTokensField, Mode=TwoWay}"
                                                   SelectedValuePath="Tag"
                                                   MaxWidth="200"
                                                   HorizontalAlignment="Left">
                                             <ComboBoxItem Tag="{x:Static settings:MaxTokensField.MaxTokens}"
-                                                          Content="max_tokens (默认)" />
+                                                          Content="{x:Static app:UiText.Text_30315c37c118}" />
                                             <ComboBoxItem Tag="{x:Static settings:MaxTokensField.MaxCompletionTokens}"
-                                                          Content="max_completion_tokens (推理)" />
+                                                          Content="{x:Static app:UiText.Text_e674ecde293f}" />
                                         </ComboBox>
                                     </Grid>
 
@@ -770,14 +775,14 @@
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Text="{x:Static app:UiText.SettingsChatCompletionsPath}"
-                                                   Width="120"
+                                                   Width="120" Margin="0,0,8,0"
                                                    VerticalAlignment="Center"
                                                    TextWrapping="Wrap"
                                                    ToolTip="{x:Static app:UiText.SettingsChatCompletionsPath}" />
                                         <TextBox Grid.Column="1" Text="{Binding ChatCompletionsPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </Grid>
 
-                                    <TextBlock Text="{x:Static app:UiText.SettingsExtraHeaders}" Margin="0,4,0,4" />
+                                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsExtraHeaders}" Margin="0,4,0,4" />
                                     <TextBox Text="{Binding ExtraHeadersText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                              AcceptsReturn="True"
                                              Height="60"
@@ -803,13 +808,13 @@
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{x:Static app:UiText.SettingsEffort}" Width="120" VerticalAlignment="Center" />
+                                        <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsEffort}" Width="120" VerticalAlignment="Center" />
                                         <ComboBox Grid.Column="1"
                                                   SelectedValue="{Binding Effort, Mode=TwoWay}"
                                                   SelectedValuePath="Tag"
                                                   MaxWidth="140"
                                                   HorizontalAlignment="Left">
-                                            <ComboBoxItem Tag="{x:Null}" Content="默认 (null)" />
+                                            <ComboBoxItem Tag="{x:Null}" Content="{x:Static app:UiText.Text_28293356d695}" />
                                             <ComboBoxItem Tag="low" Content="low" />
                                             <ComboBoxItem Tag="medium" Content="medium" />
                                             <ComboBoxItem Tag="high" Content="high" />
@@ -826,7 +831,7 @@
                                                Visibility="{Binding HasHaikuEffortWarning, Converter={StaticResource BoolToVis}}"
                                                TextWrapping="Wrap" />
 
-                                    <CheckBox Content="{x:Static app:UiText.SettingsRefusalFallback}"
+                                    <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" Content="{x:Static app:UiText.SettingsRefusalFallback}"
                                               IsChecked="{Binding RefusalFallback, Mode=TwoWay}"
                                               Margin="0,0,0,8" />
                                 </StackPanel>
@@ -849,37 +854,37 @@
                     </Style>
                 </ScrollViewer.Style>
                 <StackPanel IsEnabled="{Binding CanEdit}">
-                    <TextBlock Text="{x:Static app:UiText.SettingsNavSelection}" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,12" />
+                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsNavSelection}" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,12" />
                     <TextBlock x:Name="SelectionErrorTextBlock" Text="{Binding Selection.ErrorMessage}" TextWrapping="Wrap"
                                Visibility="{Binding Selection.HasError, Converter={StaticResource BoolToVis}}"
                                Foreground="{DynamicResource SystemFillColorCriticalBrush}" Margin="0,0,0,12" />
                     <ui:Card Padding="16" Margin="0,0,0,12">
                         <StackPanel>
-                            <TextBlock Text="{x:Static app:UiText.MouseModeLabel}" FontWeight="SemiBold" Margin="0,0,0,8" />
+                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.MouseModeLabel}" FontWeight="SemiBold" Margin="0,0,0,8" />
                             <ComboBox x:Name="MouseModeComboBox" ItemsSource="{x:Static local:SelectionSettingsDraftViewModel.MouseModes}"
                                       DisplayMemberPath="Label" SelectedValuePath="Mode" SelectedValue="{Binding Selection.MouseMode, Mode=TwoWay}" />
                             <TextBlock Text="{x:Static app:UiText.MouseExplanation}" TextWrapping="Wrap" FontSize="12" Margin="0,8,0,12"
                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                            <CheckBox Content="{x:Static app:UiText.MouseBeamLabel}" IsChecked="{Binding Selection.RequireIBeamCursor, Mode=TwoWay}" Margin="0,0,0,12" />
-                            <TextBlock Text="{x:Static app:UiText.MouseDragLabel}" Margin="0,0,0,6" />
+                            <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" Content="{x:Static app:UiText.MouseBeamLabel}" IsChecked="{Binding Selection.RequireIBeamCursor, Mode=TwoWay}" Margin="0,0,0,12" />
+                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.MouseDragLabel}" Margin="0,0,0,6" />
                             <TextBox x:Name="MouseDragTextBox" Text="{Binding Selection.MinDragDistanceText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      Width="140" HorizontalAlignment="Left" Margin="0,0,0,12" />
-                            <TextBlock Text="{x:Static app:UiText.MouseHideLabel}" Margin="0,0,0,6" />
+                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.MouseHideLabel}" Margin="0,0,0,6" />
                             <TextBox x:Name="MouseHideTextBox" Text="{Binding Selection.IconAutoHideText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      Width="140" HorizontalAlignment="Left" Margin="0,0,0,12" />
-                            <TextBlock Text="{x:Static app:UiText.MouseExcludedLabel}" FontWeight="SemiBold" Margin="0,0,0,6" />
+                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.MouseExcludedLabel}" FontWeight="SemiBold" Margin="0,0,0,6" />
                             <TextBox x:Name="MouseExcludedTextBox" Text="{Binding Selection.ExcludedProcessesText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Height="130" />
                         </StackPanel>
                     </ui:Card>
                     <ui:Card Padding="16" Margin="0,0,0,12">
                         <StackPanel>
-                            <TextBlock Text="{x:Static app:UiText.SelectionOrderLabel}" FontWeight="SemiBold" Margin="0,0,0,8" />
+                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SelectionOrderLabel}" FontWeight="SemiBold" Margin="0,0,0,8" />
                             <ComboBox x:Name="SelectionOrderComboBox" ItemsSource="{x:Static local:SelectionSettingsDraftViewModel.Orders}"
                                       DisplayMemberPath="Label" SelectedValuePath="Id" SelectedValue="{Binding Selection.ReadOrderChoice, Mode=TwoWay}" />
                             <TextBlock Text="{x:Static app:UiText.SelectionSafetyDescription}" TextWrapping="Wrap" FontSize="12"
                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,8,0,12" />
-                            <TextBlock Text="{x:Static app:UiText.SelectionTimeoutLabel}" FontWeight="SemiBold" Margin="0,0,0,8" />
+                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SelectionTimeoutLabel}" FontWeight="SemiBold" Margin="0,0,0,8" />
                             <TextBox x:Name="SelectionTimeoutTextBox" Text="{Binding Selection.ClipboardTimeoutText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      Width="140" HorizontalAlignment="Left" />
                             <TextBlock Text="{x:Static app:UiText.SelectionTimeoutDescription}" TextWrapping="Wrap" FontSize="12"
@@ -888,17 +893,17 @@
                     </ui:Card>
                     <ui:Card Padding="16" Margin="0,0,0,12">
                         <StackPanel>
-                            <CheckBox Content="{x:Static app:UiText.SelectionRestoreLabel}" IsChecked="{Binding Selection.RestoreClipboard, Mode=TwoWay}" />
+                            <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" Content="{x:Static app:UiText.SelectionRestoreLabel}" IsChecked="{Binding Selection.RestoreClipboard, Mode=TwoWay}" />
                             <TextBlock Text="{x:Static app:UiText.SelectionRestoreDescription}" TextWrapping="Wrap" FontSize="12"
                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,6,0,16" />
-                            <CheckBox Content="{x:Static app:UiText.SelectionEmptyLabel}" IsChecked="{Binding Selection.OpenInputWhenEmpty, Mode=TwoWay}" />
+                            <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" Content="{x:Static app:UiText.SelectionEmptyLabel}" IsChecked="{Binding Selection.OpenInputWhenEmpty, Mode=TwoWay}" />
                             <TextBlock Text="{x:Static app:UiText.SelectionEmptyDescription}" TextWrapping="Wrap" FontSize="12"
                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,6,0,0" />
                         </StackPanel>
                     </ui:Card>
                     <ui:Card Padding="16" Margin="0,0,0,12">
                         <StackPanel>
-                            <TextBlock Text="{x:Static app:UiText.SelectionProcessesLabel}" FontWeight="SemiBold" Margin="0,0,0,8" />
+                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SelectionProcessesLabel}" FontWeight="SemiBold" Margin="0,0,0,8" />
                             <TextBlock Text="{x:Static app:UiText.SelectionProcessesDescription}" TextWrapping="Wrap" FontSize="12"
                                        Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,0,0,10" />
                             <TextBox x:Name="SelectionProcessesTextBox" Text="{Binding Selection.ClipboardUnsafeProcessesText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -925,11 +930,11 @@
                 </ScrollViewer.Style>
                 <StackPanel MaxWidth="600" HorizontalAlignment="Left" IsEnabled="{Binding CanAccessHotkeysTab}">
                     <!-- 页面标题 -->
-                    <TextBlock Text="{x:Static app:UiText.SettingsNavHotkeys}"
+                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsNavHotkeys}"
                                FontSize="22"
                                FontWeight="SemiBold"
                                Margin="0,0,0,8" />
-                    <TextBlock Text="{x:Static app:UiText.SettingsHotkeysDescription}"
+                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsHotkeysDescription}"
                                Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                FontSize="12"
                                Margin="0,0,0,16" />
@@ -954,14 +959,16 @@
                                             </Grid.ColumnDefinitions>
                                             <StackPanel Grid.Column="0" VerticalAlignment="Center">
                                                 <TextBlock Text="{Binding DisplayName}"
+                                                           TextWrapping="Wrap"
                                                            FontWeight="SemiBold"
                                                            FontSize="14" />
                                                 <TextBlock Text="{Binding Description}"
+                                                           TextWrapping="Wrap"
                                                            Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                                            FontSize="12"
                                                            Margin="0,2,0,0" />
                                             </StackPanel>
-                                            <CheckBox Grid.Column="1"
+                                            <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" Grid.Column="1"
                                                       IsChecked="{Binding Enabled, Mode=TwoWay}"
                                                       IsEnabled="{Binding CanEdit}"
                                                       Content="{x:Static app:UiText.SettingsHotkeyEnable}"

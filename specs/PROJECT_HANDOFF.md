@@ -1,5 +1,29 @@
 # Iris 架构师接手记录
 
+**T-038独立运行候选已完整通过（2026-10-09）**：固定程序集副本的语言/真实JSON/联合设置/实际菜单/生产Main清理作用域探针全部通过，并确认自有STA退出、进程exit0，见 `T-038.review/runtime-final-candidate-3.log`、`runtime-final-candidate-result.json`、`runtime-final-source`。前两次夹具即时开关Popup后的STA退出超时原样保留；排除菜单诊断正常退出，等待实际Popup动画并显式结束Application后全场景通过，未改产品。当前工作区部分DLL已因开发后续构建变化，结果仅绑定固定候选，最终提交后需重绑复验。英文App/Core与实际已审阅资源快照逐键一致，详见 `resource-text-review`。仍待正式交付、最终独立Release/full与完整最终布局验收；T-038完成后按用户要求暂停。
+
+**T-038原审计反例独立复验通过（2026-10-09）**：当前盘点器源码在自有副本独立重建0警告错误，原同字串TextBlock反例重新盘点；基线3项exit0，新增UI后4项exit1且未批准1项，资源错误为空，绑定输入运行前后不变。原误通过证据保留，修正后证据 `T-038.review/audit-exception-after`，包含完整检查器源/资源/日志与SHA，无二进制。此为原场景独立复验，不代替最终全仓审计、语言生命周期或最终视觉验收。
+
+**用户指定T-038结束后暂停（2026-10-09，最新约束）**：用户明确“T-038完成后请先停止工作，直到我说继续后再推进”。当前继续完成T-038开发交付及独立验收，验收结案后将项目目标暂停；T-039及后续工作等待用户明确继续。此约束覆盖下方自动签发下一单的历史安排，不改变T-038完整范围或已接受里程碑。
+
+**T-038视觉补充已实际接收（2026-10-09）**：当前架构会话的Computer Use连接成功；视觉补充消息`01a11c7b-d964-7ad3-988b-f263e1600727`已点击“引导”并移出排队区，开发在原T-038执行轮`01a11bc2-3297-7200-a4b7-59b1d7011778`明确“收到接续信息，继续当前 T-038，不重启任务”，随后实际读取current_task末尾与visual-findings-1。无需用户点击或重发；接收不等于最终修复验收。旧架构会话的os error3不代表本会话连接失败，未修改插件/其它进程。
+
+**2026-10-09 架构师对话接续**：用户指定接续 `01a1153d-bb43-7322-8940-9ba8587bc1e0`，当前在 `01a11c78-026b-74c3-9f44-18c91faf9aa3` 继续原架构师/独立评审职责；开发仍 `01a11b01-c46b-74e1-9015-726c77ffbc9e` 的T-038执行轮，不重复派单。旧架构对话最后因400/input失败；已读取其本地实际记录和当前工作区，T-037结案保持，T-038尚未提交。开发最新已报告语言清理与审计上下文/次数修正，待独立复验。visual-3已查看部分的英文快捷键安全说明截断、正常翻译设置添加按钮不可见，以及小翻译窗口语言值难辨识已加入current_task，候选图证据见T-038.review/visual-findings-1；不把候选问题混称最终源码失败。三条既有补充已实际接收，不重发。继续完成T-038、T-039及T-040，M6延期与其它边界不变。
+
+**2026-10-09 三条T-038补充已实际接收**：用户已回复“点击了”，随后开发在原执行轮01a11bc2-3297-7200-a4b7-59b1d7011778明确“已将这些补充并入 T-038”，逐项确认生产语言作用域覆盖最终清理反馈、按稳定Key本地化预设菜单、审计增加用途上下文与出现次数约束并重跑独立变异反例。对应消息01a11bda-47f9-7901-8287-a2aa7e48b754、01a11c04-4b93-7c52-8a22-230704644b46、01a11c47-6b03-7562-9cef-83893166ceee均不重发、不再请用户点击。继续本轮T-038评审；接收确认不等同修复验收。此前Computer Use在执行JavaScript前报failed to write kernel assets / os error3，未进行点击或猜测修复其它进程，CLI排队不曾被当作即时送达。
+
+**T-038 审计遗漏已独立复现（2026-10-09）**：actual Roslyn inventory+audit.py在最小自有副本的基线3项exit0，新增同字串WPF TextBlock.Text后4项仍exit0/unapproved0，错误复用旧日志指纹。检查器源码与当前版本匹配；证据tasks/done/T-038.review/audit-exception-before（不含二进制）及临时同名probe。已追加current_task要求修复后真实反例重验。这条已是实际审计失败，先前语言scope提示仍为源码预审；不能相互混称。
+
+**T-038 开发期六组独立窗口/资源探针通过**：确认无其它Iris构建/测试进程后，对resource-build-3候选运行，candidate-runtime-1.log六组通过：固定文化跨异文化线程、实际语言ComboBox与History联合一次保存、真实JSON重新加载后选择语言、联合冲突保留/Reload、未编辑字段外部合并、Core非法语言零写入。探针期间仅检测到开发正在编辑UiLanguageEditingTests.cs，产品文件及引用程序集保持，绑定candidate-runtime-inputs/result，实际夹具源candidate-runtime-source。夹具继承的未使用可选HTTP委托有CS0649警告，日志保留，不冒称产品警告。此前App424/Core148资源键对齐、365+175+31候选英译均已审阅；这不代替最终布局、全部审计或生产Main清理作用域验收。临时主目录iris-t038-independent，仍等当前开发交付。
+
+**T-038 文案预审补充**：365项候选App英译已逐项对照，关键含义保持，快照与复核清单在临时iris-t038-independent/app-en-candidate-1.json及app-en-review-1.json；尚非最终资源/视觉验收。例外中的ProviderProfiles预设DisplayName目前仍直接绑定添加菜单Header，已要求显示层按稳定Id本地化，已保存名称不改；同时要求审计防止同字串新UI用法借旧日志指纹豁免。均已追加current_task，不算运行失败。语言作用域补充消息01a11bda-47f9-7901-8287-a2aa7e48b754仍以实际接收记录为准，不重发。
+
+**T-038 开发期语言作用域预审**：早期BeginRun只包DesktopStartupRuntime.RunApplication，窗口循环结束后Program.RunPrimary尚有Host/日志清理及失败提示，可能先恢复为系统语言。已追加current_task，要求真实生产作用域覆盖最终清理反馈，并以所选en-US/环境zh-CN验证；不是已执行失败，不允许测试外层作用域掩盖。临时iris-t038-independent/baseline保存19e15f67的360项UiText与Core错误源，供后续语义核对。
+
+**T-038 已实际接单**：消息01a11bc2-271c-7812-baae-5406526448c4对应执行轮01a11bc2-3297-7200-a4b7-59b1d7011778。开发明确接单，已读取current_task/LOCALIZATION/GEMINI及CCR038和资源现状；继续该轮，不重复下单，不把interrupted且completedAt为空误判终止。下一步独立检查语言联合编辑、跨线程稳定文化、全部资源和实际英文布局，等待最终交付后串行复验。
+
+**当前唯一 T-038（2026-10-08）**：T-037/CCR037在19e15f6748b71aad0886c926e02a9542a347aa9b独立结案，Release0警告错误、全量3624/3622成功/0失败/2既有环境跳过，最终六组实际管道/取消/未Start Host探针通过，621项源码与候选相同、48张网络回归图匹配。证据T-037.review已补齐。开发最终收尾轮01a11b99-14d6-7ea2-9e04-e5c35d008fea已completed并提交，不再等待旧T-037轮。current_task为完整T-038，按LOCALIZATION.md/CCR-038/ARCHv1.56；GeneralSettingsPatch仅兼容UiLanguage init属性，资源涵盖App/Core用户文案，保持本次语言与下次启动语义。开发仍01a11b01-c46b-74e1-9015-726c77ffbc9e，M6延期，不push，.codex不动。
+
 **T-037 开发全量已通过，待交付/独立复验**：platform-tests-delivery-2为42/42，app-tests-6为51/51；full-test-delivery-1为3624总计、3622成功、0失败、2既有环境跳过。管道缓冲为入站4096字节/出站64字节，ACK后有界等待客户端结束；不得将首轮未进入写完状态的测试失败描述为ACK丢失。当前尚无T-037正式提交，独立六组探针仍未运行。待提交后重建并绑定，确认所有补充均纳入，再结案/签T-038。
 
 **T-037 ACK补充已接收并处理**：同一主执行轮已明确读到工单末尾的ACK要求。首轮延迟读取测试因默认缓冲下Write本身未完成而未进入目标场景，不能称ACK丢失；调整为明确的小型有界管道缓冲后，实际延迟读取/超时后再接入两场景通过，日志platform-tests-delivery-2。取消补充的修正前6项失败另见cancellation-fences-before.log，修正前源码保留。当前正在最终full-test-delivery-1，尚未归档提交/独立验收；两条补充消息均不用重发。

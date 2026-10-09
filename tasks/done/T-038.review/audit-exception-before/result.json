@@ -1,0 +1,15 @@
+{
+  "baseline": {
+    "exit": 0,
+    "entries": 3,
+    "unapproved": 0,
+    "resourceErrors": []
+  },
+  "mutant": {
+    "exit": 0,
+    "entries": 4,
+    "unapproved": 0,
+    "resourceErrors": []
+  },
+  "mutation": "Added a WPF TextBlock.Text literal in the same source file using a previously approved logger message; product source unchanged."
+}

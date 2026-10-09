@@ -256,7 +256,7 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
         }
         else
         {
-            errorInfo = new ErrorInfo(ErrorCode.Unknown, "快捷键录入异常终止。");
+            errorInfo = new ErrorInfo(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Get("Text_2208df3e6f75"));
         }
 
         lock (_stateLock)
@@ -479,7 +479,7 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
                                         true,
                                         _activeModifiers,
                                         Key: null,
-                                        Error: new ErrorInfo(ErrorCode.HotkeyInvalid, "多个按键同时按下，请松开后重试"));
+                                        Error: new ErrorInfo(ErrorCode.HotkeyInvalid, global::Iris.Core.Localization.CoreText.Get("Text_0ecffb155c24")));
                                     notifyChanged = true;
                                     shouldConsume = true;
                                 }
@@ -521,7 +521,7 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
                                                 true,
                                                 _candidateModifiers,
                                                 Key: null,
-                                                Error: new ErrorInfo(ErrorCode.HotkeyInvalid, "无效的快捷键组合"));
+                                                Error: new ErrorInfo(ErrorCode.HotkeyInvalid, global::Iris.Core.Localization.CoreText.Get("Text_0e69913da40f")));
                                         }
                                     }
                                     else
@@ -532,7 +532,7 @@ internal sealed class HotkeyCaptureSession : IHotkeyCaptureSession
                                             true,
                                             _candidateModifiers,
                                             Key: null,
-                                            Error: new ErrorInfo(ErrorCode.HotkeyInvalid, "未知按键"));
+                                            Error: new ErrorInfo(ErrorCode.HotkeyInvalid, global::Iris.Core.Localization.CoreText.Get("Text_5ccb7938c6df")));
                                     }
 
                                     notifyChanged = true;

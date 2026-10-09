@@ -1,0 +1,819 @@
+[
+  {
+    "File": "contact-001.png",
+    "Images": [
+      "zh-CN-light-normal-settings-general-00.png",
+      "zh-CN-light-normal-settings-general-01.png",
+      "zh-CN-light-normal-settings-translation-00.png",
+      "zh-CN-light-normal-settings-translation-01.png"
+    ]
+  },
+  {
+    "File": "contact-002.png",
+    "Images": [
+      "zh-CN-light-normal-settings-translation-02.png",
+      "zh-CN-light-normal-settings-translation-03.png",
+      "zh-CN-light-normal-preset-menu.png",
+      "zh-CN-light-normal-settings-hotkeys-00.png"
+    ]
+  },
+  {
+    "File": "contact-003.png",
+    "Images": [
+      "zh-CN-light-normal-settings-hotkeys-01.png",
+      "zh-CN-light-normal-settings-hotkeys-02.png",
+      "zh-CN-light-normal-settings-selection-00.png",
+      "zh-CN-light-normal-settings-selection-01.png"
+    ]
+  },
+  {
+    "File": "contact-004.png",
+    "Images": [
+      "zh-CN-light-normal-settings-selection-02.png",
+      "zh-CN-light-normal-settings-selection-03.png",
+      "zh-CN-light-normal-settings-ocr-00.png",
+      "zh-CN-light-normal-settings-ocr-01.png"
+    ]
+  },
+  {
+    "File": "contact-005.png",
+    "Images": [
+      "zh-CN-light-normal-settings-ocr-02.png",
+      "zh-CN-light-normal-settings-ocr-03.png",
+      "zh-CN-light-normal-settings-ocr-04.png",
+      "zh-CN-light-normal-settings-screenshot-00.png"
+    ]
+  },
+  {
+    "File": "contact-006.png",
+    "Images": [
+      "zh-CN-light-normal-settings-network-00.png",
+      "zh-CN-light-normal-settings-network-01.png",
+      "zh-CN-light-normal-settings-network-02.png",
+      "zh-CN-light-normal-settings-history-00.png"
+    ]
+  },
+  {
+    "File": "contact-007.png",
+    "Images": [
+      "zh-CN-light-normal-translation-input.png",
+      "zh-CN-light-normal-translation-running.png",
+      "zh-CN-light-normal-translation-result-00.png",
+      "zh-CN-light-normal-translation-error.png"
+    ]
+  },
+  {
+    "File": "contact-008.png",
+    "Images": [
+      "zh-CN-light-normal-history-empty-00.png",
+      "zh-CN-light-normal-history-list-00.png",
+      "zh-CN-light-normal-history-detail-00.png",
+      "zh-CN-light-normal-history-detail-01.png"
+    ]
+  },
+  {
+    "File": "contact-009.png",
+    "Images": [
+      "zh-CN-light-normal-screenshot-drag.png",
+      "zh-CN-light-normal-screenshot-confirm.png",
+      "zh-CN-light-normal-tray-menu.png",
+      "zh-CN-light-normal-notification-content-00.png"
+    ]
+  },
+  {
+    "File": "contact-010.png",
+    "Images": [
+      "zh-CN-light-small-settings-general-00.png",
+      "zh-CN-light-small-settings-general-01.png",
+      "zh-CN-light-small-settings-general-02.png",
+      "zh-CN-light-small-settings-translation-00.png"
+    ]
+  },
+  {
+    "File": "contact-011.png",
+    "Images": [
+      "zh-CN-light-small-settings-translation-01.png",
+      "zh-CN-light-small-settings-translation-02.png",
+      "zh-CN-light-small-settings-translation-03.png",
+      "zh-CN-light-small-settings-translation-04.png"
+    ]
+  },
+  {
+    "File": "contact-012.png",
+    "Images": [
+      "zh-CN-light-small-settings-translation-05.png",
+      "zh-CN-light-small-settings-translation-06.png",
+      "zh-CN-light-small-preset-menu.png",
+      "zh-CN-light-small-settings-hotkeys-00.png"
+    ]
+  },
+  {
+    "File": "contact-013.png",
+    "Images": [
+      "zh-CN-light-small-settings-hotkeys-01.png",
+      "zh-CN-light-small-settings-hotkeys-02.png",
+      "zh-CN-light-small-settings-selection-00.png",
+      "zh-CN-light-small-settings-selection-01.png"
+    ]
+  },
+  {
+    "File": "contact-014.png",
+    "Images": [
+      "zh-CN-light-small-settings-selection-02.png",
+      "zh-CN-light-small-settings-selection-03.png",
+      "zh-CN-light-small-settings-selection-04.png",
+      "zh-CN-light-small-settings-ocr-00.png"
+    ]
+  },
+  {
+    "File": "contact-015.png",
+    "Images": [
+      "zh-CN-light-small-settings-ocr-01.png",
+      "zh-CN-light-small-settings-ocr-02.png",
+      "zh-CN-light-small-settings-ocr-03.png",
+      "zh-CN-light-small-settings-ocr-04.png"
+    ]
+  },
+  {
+    "File": "contact-016.png",
+    "Images": [
+      "zh-CN-light-small-settings-ocr-05.png",
+      "zh-CN-light-small-settings-ocr-06.png",
+      "zh-CN-light-small-settings-screenshot-00.png",
+      "zh-CN-light-small-settings-screenshot-01.png"
+    ]
+  },
+  {
+    "File": "contact-017.png",
+    "Images": [
+      "zh-CN-light-small-settings-network-00.png",
+      "zh-CN-light-small-settings-network-01.png",
+      "zh-CN-light-small-settings-network-02.png",
+      "zh-CN-light-small-settings-network-03.png"
+    ]
+  },
+  {
+    "File": "contact-018.png",
+    "Images": [
+      "zh-CN-light-small-settings-history-00.png",
+      "zh-CN-light-small-translation-input.png",
+      "zh-CN-light-small-translation-running.png",
+      "zh-CN-light-small-translation-result-00.png"
+    ]
+  },
+  {
+    "File": "contact-019.png",
+    "Images": [
+      "zh-CN-light-small-translation-error.png",
+      "zh-CN-light-small-history-empty-00.png",
+      "zh-CN-light-small-history-empty-01.png",
+      "zh-CN-light-small-history-list-00.png"
+    ]
+  },
+  {
+    "File": "contact-020.png",
+    "Images": [
+      "zh-CN-light-small-history-list-01.png",
+      "zh-CN-light-small-history-list-02.png",
+      "zh-CN-light-small-history-detail-00.png",
+      "zh-CN-light-small-history-detail-01.png"
+    ]
+  },
+  {
+    "File": "contact-021.png",
+    "Images": [
+      "zh-CN-light-small-history-detail-02.png",
+      "zh-CN-light-small-history-detail-03.png",
+      "zh-CN-light-small-history-detail-04.png",
+      "zh-CN-light-small-history-detail-05.png"
+    ]
+  },
+  {
+    "File": "contact-022.png",
+    "Images": [
+      "zh-CN-light-small-screenshot-drag.png",
+      "zh-CN-light-small-screenshot-confirm.png",
+      "zh-CN-light-small-tray-menu.png",
+      "zh-CN-light-small-notification-content-00.png"
+    ]
+  },
+  {
+    "File": "contact-023.png",
+    "Images": [
+      "zh-CN-dark-normal-settings-general-00.png",
+      "zh-CN-dark-normal-settings-general-01.png",
+      "zh-CN-dark-normal-settings-translation-00.png",
+      "zh-CN-dark-normal-settings-translation-01.png"
+    ]
+  },
+  {
+    "File": "contact-024.png",
+    "Images": [
+      "zh-CN-dark-normal-settings-translation-02.png",
+      "zh-CN-dark-normal-settings-translation-03.png",
+      "zh-CN-dark-normal-preset-menu.png",
+      "zh-CN-dark-normal-settings-hotkeys-00.png"
+    ]
+  },
+  {
+    "File": "contact-025.png",
+    "Images": [
+      "zh-CN-dark-normal-settings-hotkeys-01.png",
+      "zh-CN-dark-normal-settings-hotkeys-02.png",
+      "zh-CN-dark-normal-settings-selection-00.png",
+      "zh-CN-dark-normal-settings-selection-01.png"
+    ]
+  },
+  {
+    "File": "contact-026.png",
+    "Images": [
+      "zh-CN-dark-normal-settings-selection-02.png",
+      "zh-CN-dark-normal-settings-selection-03.png",
+      "zh-CN-dark-normal-settings-ocr-00.png",
+      "zh-CN-dark-normal-settings-ocr-01.png"
+    ]
+  },
+  {
+    "File": "contact-027.png",
+    "Images": [
+      "zh-CN-dark-normal-settings-ocr-02.png",
+      "zh-CN-dark-normal-settings-ocr-03.png",
+      "zh-CN-dark-normal-settings-ocr-04.png",
+      "zh-CN-dark-normal-settings-screenshot-00.png"
+    ]
+  },
+  {
+    "File": "contact-028.png",
+    "Images": [
+      "zh-CN-dark-normal-settings-network-00.png",
+      "zh-CN-dark-normal-settings-network-01.png",
+      "zh-CN-dark-normal-settings-network-02.png",
+      "zh-CN-dark-normal-settings-history-00.png"
+    ]
+  },
+  {
+    "File": "contact-029.png",
+    "Images": [
+      "zh-CN-dark-normal-translation-input.png",
+      "zh-CN-dark-normal-translation-running.png",
+      "zh-CN-dark-normal-translation-result-00.png",
+      "zh-CN-dark-normal-translation-error.png"
+    ]
+  },
+  {
+    "File": "contact-030.png",
+    "Images": [
+      "zh-CN-dark-normal-history-empty-00.png",
+      "zh-CN-dark-normal-history-list-00.png",
+      "zh-CN-dark-normal-history-detail-00.png",
+      "zh-CN-dark-normal-history-detail-01.png"
+    ]
+  },
+  {
+    "File": "contact-031.png",
+    "Images": [
+      "zh-CN-dark-normal-screenshot-drag.png",
+      "zh-CN-dark-normal-screenshot-confirm.png",
+      "zh-CN-dark-normal-tray-menu.png",
+      "zh-CN-dark-normal-notification-content-00.png"
+    ]
+  },
+  {
+    "File": "contact-032.png",
+    "Images": [
+      "zh-CN-dark-small-settings-general-00.png",
+      "zh-CN-dark-small-settings-general-01.png",
+      "zh-CN-dark-small-settings-general-02.png",
+      "zh-CN-dark-small-settings-translation-00.png"
+    ]
+  },
+  {
+    "File": "contact-033.png",
+    "Images": [
+      "zh-CN-dark-small-settings-translation-01.png",
+      "zh-CN-dark-small-settings-translation-02.png",
+      "zh-CN-dark-small-settings-translation-03.png",
+      "zh-CN-dark-small-settings-translation-04.png"
+    ]
+  },
+  {
+    "File": "contact-034.png",
+    "Images": [
+      "zh-CN-dark-small-settings-translation-05.png",
+      "zh-CN-dark-small-settings-translation-06.png",
+      "zh-CN-dark-small-preset-menu.png",
+      "zh-CN-dark-small-settings-hotkeys-00.png"
+    ]
+  },
+  {
+    "File": "contact-035.png",
+    "Images": [
+      "zh-CN-dark-small-settings-hotkeys-01.png",
+      "zh-CN-dark-small-settings-hotkeys-02.png",
+      "zh-CN-dark-small-settings-selection-00.png",
+      "zh-CN-dark-small-settings-selection-01.png"
+    ]
+  },
+  {
+    "File": "contact-036.png",
+    "Images": [
+      "zh-CN-dark-small-settings-selection-02.png",
+      "zh-CN-dark-small-settings-selection-03.png",
+      "zh-CN-dark-small-settings-selection-04.png",
+      "zh-CN-dark-small-settings-ocr-00.png"
+    ]
+  },
+  {
+    "File": "contact-037.png",
+    "Images": [
+      "zh-CN-dark-small-settings-ocr-01.png",
+      "zh-CN-dark-small-settings-ocr-02.png",
+      "zh-CN-dark-small-settings-ocr-03.png",
+      "zh-CN-dark-small-settings-ocr-04.png"
+    ]
+  },
+  {
+    "File": "contact-038.png",
+    "Images": [
+      "zh-CN-dark-small-settings-ocr-05.png",
+      "zh-CN-dark-small-settings-ocr-06.png",
+      "zh-CN-dark-small-settings-screenshot-00.png",
+      "zh-CN-dark-small-settings-screenshot-01.png"
+    ]
+  },
+  {
+    "File": "contact-039.png",
+    "Images": [
+      "zh-CN-dark-small-settings-network-00.png",
+      "zh-CN-dark-small-settings-network-01.png",
+      "zh-CN-dark-small-settings-network-02.png",
+      "zh-CN-dark-small-settings-network-03.png"
+    ]
+  },
+  {
+    "File": "contact-040.png",
+    "Images": [
+      "zh-CN-dark-small-settings-history-00.png",
+      "zh-CN-dark-small-translation-input.png",
+      "zh-CN-dark-small-translation-running.png",
+      "zh-CN-dark-small-translation-result-00.png"
+    ]
+  },
+  {
+    "File": "contact-041.png",
+    "Images": [
+      "zh-CN-dark-small-translation-error.png",
+      "zh-CN-dark-small-history-empty-00.png",
+      "zh-CN-dark-small-history-empty-01.png",
+      "zh-CN-dark-small-history-list-00.png"
+    ]
+  },
+  {
+    "File": "contact-042.png",
+    "Images": [
+      "zh-CN-dark-small-history-list-01.png",
+      "zh-CN-dark-small-history-list-02.png",
+      "zh-CN-dark-small-history-detail-00.png",
+      "zh-CN-dark-small-history-detail-01.png"
+    ]
+  },
+  {
+    "File": "contact-043.png",
+    "Images": [
+      "zh-CN-dark-small-history-detail-02.png",
+      "zh-CN-dark-small-history-detail-03.png",
+      "zh-CN-dark-small-history-detail-04.png",
+      "zh-CN-dark-small-history-detail-05.png"
+    ]
+  },
+  {
+    "File": "contact-044.png",
+    "Images": [
+      "zh-CN-dark-small-screenshot-drag.png",
+      "zh-CN-dark-small-screenshot-confirm.png",
+      "zh-CN-dark-small-tray-menu.png",
+      "zh-CN-dark-small-notification-content-00.png"
+    ]
+  },
+  {
+    "File": "contact-045.png",
+    "Images": [
+      "en-US-light-normal-settings-general-00.png",
+      "en-US-light-normal-settings-general-01.png",
+      "en-US-light-normal-settings-translation-00.png",
+      "en-US-light-normal-settings-translation-01.png"
+    ]
+  },
+  {
+    "File": "contact-046.png",
+    "Images": [
+      "en-US-light-normal-settings-translation-02.png",
+      "en-US-light-normal-settings-translation-03.png",
+      "en-US-light-normal-preset-menu.png",
+      "en-US-light-normal-settings-hotkeys-00.png"
+    ]
+  },
+  {
+    "File": "contact-047.png",
+    "Images": [
+      "en-US-light-normal-settings-hotkeys-01.png",
+      "en-US-light-normal-settings-hotkeys-02.png",
+      "en-US-light-normal-settings-selection-00.png",
+      "en-US-light-normal-settings-selection-01.png"
+    ]
+  },
+  {
+    "File": "contact-048.png",
+    "Images": [
+      "en-US-light-normal-settings-selection-02.png",
+      "en-US-light-normal-settings-selection-03.png",
+      "en-US-light-normal-settings-ocr-00.png",
+      "en-US-light-normal-settings-ocr-01.png"
+    ]
+  },
+  {
+    "File": "contact-049.png",
+    "Images": [
+      "en-US-light-normal-settings-ocr-02.png",
+      "en-US-light-normal-settings-ocr-03.png",
+      "en-US-light-normal-settings-ocr-04.png",
+      "en-US-light-normal-settings-screenshot-00.png"
+    ]
+  },
+  {
+    "File": "contact-050.png",
+    "Images": [
+      "en-US-light-normal-settings-network-00.png",
+      "en-US-light-normal-settings-network-01.png",
+      "en-US-light-normal-settings-network-02.png",
+      "en-US-light-normal-settings-history-00.png"
+    ]
+  },
+  {
+    "File": "contact-051.png",
+    "Images": [
+      "en-US-light-normal-translation-input.png",
+      "en-US-light-normal-translation-running.png",
+      "en-US-light-normal-translation-result-00.png",
+      "en-US-light-normal-translation-error.png"
+    ]
+  },
+  {
+    "File": "contact-052.png",
+    "Images": [
+      "en-US-light-normal-history-empty-00.png",
+      "en-US-light-normal-history-list-00.png",
+      "en-US-light-normal-history-detail-00.png",
+      "en-US-light-normal-history-detail-01.png"
+    ]
+  },
+  {
+    "File": "contact-053.png",
+    "Images": [
+      "en-US-light-normal-screenshot-drag.png",
+      "en-US-light-normal-screenshot-confirm.png",
+      "en-US-light-normal-tray-menu.png",
+      "en-US-light-normal-notification-content-00.png"
+    ]
+  },
+  {
+    "File": "contact-054.png",
+    "Images": [
+      "en-US-light-small-settings-general-00.png",
+      "en-US-light-small-settings-general-01.png",
+      "en-US-light-small-settings-general-02.png",
+      "en-US-light-small-settings-translation-00.png"
+    ]
+  },
+  {
+    "File": "contact-055.png",
+    "Images": [
+      "en-US-light-small-settings-translation-01.png",
+      "en-US-light-small-settings-translation-02.png",
+      "en-US-light-small-settings-translation-03.png",
+      "en-US-light-small-settings-translation-04.png"
+    ]
+  },
+  {
+    "File": "contact-056.png",
+    "Images": [
+      "en-US-light-small-settings-translation-05.png",
+      "en-US-light-small-settings-translation-06.png",
+      "en-US-light-small-preset-menu.png",
+      "en-US-light-small-settings-hotkeys-00.png"
+    ]
+  },
+  {
+    "File": "contact-057.png",
+    "Images": [
+      "en-US-light-small-settings-hotkeys-01.png",
+      "en-US-light-small-settings-hotkeys-02.png",
+      "en-US-light-small-settings-hotkeys-03.png",
+      "en-US-light-small-settings-selection-00.png"
+    ]
+  },
+  {
+    "File": "contact-058.png",
+    "Images": [
+      "en-US-light-small-settings-selection-01.png",
+      "en-US-light-small-settings-selection-02.png",
+      "en-US-light-small-settings-selection-03.png",
+      "en-US-light-small-settings-selection-04.png"
+    ]
+  },
+  {
+    "File": "contact-059.png",
+    "Images": [
+      "en-US-light-small-settings-selection-05.png",
+      "en-US-light-small-settings-ocr-00.png",
+      "en-US-light-small-settings-ocr-01.png",
+      "en-US-light-small-settings-ocr-02.png"
+    ]
+  },
+  {
+    "File": "contact-060.png",
+    "Images": [
+      "en-US-light-small-settings-ocr-03.png",
+      "en-US-light-small-settings-ocr-04.png",
+      "en-US-light-small-settings-ocr-05.png",
+      "en-US-light-small-settings-ocr-06.png"
+    ]
+  },
+  {
+    "File": "contact-061.png",
+    "Images": [
+      "en-US-light-small-settings-screenshot-00.png",
+      "en-US-light-small-settings-screenshot-01.png",
+      "en-US-light-small-settings-network-00.png",
+      "en-US-light-small-settings-network-01.png"
+    ]
+  },
+  {
+    "File": "contact-062.png",
+    "Images": [
+      "en-US-light-small-settings-network-02.png",
+      "en-US-light-small-settings-network-03.png",
+      "en-US-light-small-settings-history-00.png",
+      "en-US-light-small-settings-history-01.png"
+    ]
+  },
+  {
+    "File": "contact-063.png",
+    "Images": [
+      "en-US-light-small-translation-input.png",
+      "en-US-light-small-translation-running.png",
+      "en-US-light-small-translation-result-00.png",
+      "en-US-light-small-translation-error.png"
+    ]
+  },
+  {
+    "File": "contact-064.png",
+    "Images": [
+      "en-US-light-small-history-empty-00.png",
+      "en-US-light-small-history-empty-01.png",
+      "en-US-light-small-history-empty-02.png",
+      "en-US-light-small-history-list-00.png"
+    ]
+  },
+  {
+    "File": "contact-065.png",
+    "Images": [
+      "en-US-light-small-history-list-01.png",
+      "en-US-light-small-history-list-02.png",
+      "en-US-light-small-history-detail-00.png",
+      "en-US-light-small-history-detail-01.png"
+    ]
+  },
+  {
+    "File": "contact-066.png",
+    "Images": [
+      "en-US-light-small-history-detail-02.png",
+      "en-US-light-small-history-detail-03.png",
+      "en-US-light-small-history-detail-04.png",
+      "en-US-light-small-history-detail-05.png"
+    ]
+  },
+  {
+    "File": "contact-067.png",
+    "Images": [
+      "en-US-light-small-history-detail-06.png",
+      "en-US-light-small-screenshot-drag.png",
+      "en-US-light-small-screenshot-confirm.png",
+      "en-US-light-small-tray-menu.png"
+    ]
+  },
+  {
+    "File": "contact-068.png",
+    "Images": [
+      "en-US-light-small-notification-content-00.png",
+      "en-US-dark-normal-settings-general-00.png",
+      "en-US-dark-normal-settings-general-01.png",
+      "en-US-dark-normal-settings-translation-00.png"
+    ]
+  },
+  {
+    "File": "contact-069.png",
+    "Images": [
+      "en-US-dark-normal-settings-translation-01.png",
+      "en-US-dark-normal-settings-translation-02.png",
+      "en-US-dark-normal-settings-translation-03.png",
+      "en-US-dark-normal-preset-menu.png"
+    ]
+  },
+  {
+    "File": "contact-070.png",
+    "Images": [
+      "en-US-dark-normal-settings-hotkeys-00.png",
+      "en-US-dark-normal-settings-hotkeys-01.png",
+      "en-US-dark-normal-settings-hotkeys-02.png",
+      "en-US-dark-normal-settings-selection-00.png"
+    ]
+  },
+  {
+    "File": "contact-071.png",
+    "Images": [
+      "en-US-dark-normal-settings-selection-01.png",
+      "en-US-dark-normal-settings-selection-02.png",
+      "en-US-dark-normal-settings-selection-03.png",
+      "en-US-dark-normal-settings-ocr-00.png"
+    ]
+  },
+  {
+    "File": "contact-072.png",
+    "Images": [
+      "en-US-dark-normal-settings-ocr-01.png",
+      "en-US-dark-normal-settings-ocr-02.png",
+      "en-US-dark-normal-settings-ocr-03.png",
+      "en-US-dark-normal-settings-ocr-04.png"
+    ]
+  },
+  {
+    "File": "contact-073.png",
+    "Images": [
+      "en-US-dark-normal-settings-screenshot-00.png",
+      "en-US-dark-normal-settings-network-00.png",
+      "en-US-dark-normal-settings-network-01.png",
+      "en-US-dark-normal-settings-network-02.png"
+    ]
+  },
+  {
+    "File": "contact-074.png",
+    "Images": [
+      "en-US-dark-normal-settings-history-00.png",
+      "en-US-dark-normal-translation-input.png",
+      "en-US-dark-normal-translation-running.png",
+      "en-US-dark-normal-translation-result-00.png"
+    ]
+  },
+  {
+    "File": "contact-075.png",
+    "Images": [
+      "en-US-dark-normal-translation-error.png",
+      "en-US-dark-normal-history-empty-00.png",
+      "en-US-dark-normal-history-list-00.png",
+      "en-US-dark-normal-history-detail-00.png"
+    ]
+  },
+  {
+    "File": "contact-076.png",
+    "Images": [
+      "en-US-dark-normal-history-detail-01.png",
+      "en-US-dark-normal-screenshot-drag.png",
+      "en-US-dark-normal-screenshot-confirm.png",
+      "en-US-dark-normal-tray-menu.png"
+    ]
+  },
+  {
+    "File": "contact-077.png",
+    "Images": [
+      "en-US-dark-normal-notification-content-00.png",
+      "en-US-dark-small-settings-general-00.png",
+      "en-US-dark-small-settings-general-01.png",
+      "en-US-dark-small-settings-general-02.png"
+    ]
+  },
+  {
+    "File": "contact-078.png",
+    "Images": [
+      "en-US-dark-small-settings-translation-00.png",
+      "en-US-dark-small-settings-translation-01.png",
+      "en-US-dark-small-settings-translation-02.png",
+      "en-US-dark-small-settings-translation-03.png"
+    ]
+  },
+  {
+    "File": "contact-079.png",
+    "Images": [
+      "en-US-dark-small-settings-translation-04.png",
+      "en-US-dark-small-settings-translation-05.png",
+      "en-US-dark-small-settings-translation-06.png",
+      "en-US-dark-small-preset-menu.png"
+    ]
+  },
+  {
+    "File": "contact-080.png",
+    "Images": [
+      "en-US-dark-small-settings-hotkeys-00.png",
+      "en-US-dark-small-settings-hotkeys-01.png",
+      "en-US-dark-small-settings-hotkeys-02.png",
+      "en-US-dark-small-settings-hotkeys-03.png"
+    ]
+  },
+  {
+    "File": "contact-081.png",
+    "Images": [
+      "en-US-dark-small-settings-selection-00.png",
+      "en-US-dark-small-settings-selection-01.png",
+      "en-US-dark-small-settings-selection-02.png",
+      "en-US-dark-small-settings-selection-03.png"
+    ]
+  },
+  {
+    "File": "contact-082.png",
+    "Images": [
+      "en-US-dark-small-settings-selection-04.png",
+      "en-US-dark-small-settings-selection-05.png",
+      "en-US-dark-small-settings-ocr-00.png",
+      "en-US-dark-small-settings-ocr-01.png"
+    ]
+  },
+  {
+    "File": "contact-083.png",
+    "Images": [
+      "en-US-dark-small-settings-ocr-02.png",
+      "en-US-dark-small-settings-ocr-03.png",
+      "en-US-dark-small-settings-ocr-04.png",
+      "en-US-dark-small-settings-ocr-05.png"
+    ]
+  },
+  {
+    "File": "contact-084.png",
+    "Images": [
+      "en-US-dark-small-settings-ocr-06.png",
+      "en-US-dark-small-settings-screenshot-00.png",
+      "en-US-dark-small-settings-screenshot-01.png",
+      "en-US-dark-small-settings-network-00.png"
+    ]
+  },
+  {
+    "File": "contact-085.png",
+    "Images": [
+      "en-US-dark-small-settings-network-01.png",
+      "en-US-dark-small-settings-network-02.png",
+      "en-US-dark-small-settings-network-03.png",
+      "en-US-dark-small-settings-history-00.png"
+    ]
+  },
+  {
+    "File": "contact-086.png",
+    "Images": [
+      "en-US-dark-small-settings-history-01.png",
+      "en-US-dark-small-translation-input.png",
+      "en-US-dark-small-translation-running.png",
+      "en-US-dark-small-translation-result-00.png"
+    ]
+  },
+  {
+    "File": "contact-087.png",
+    "Images": [
+      "en-US-dark-small-translation-error.png",
+      "en-US-dark-small-history-empty-00.png",
+      "en-US-dark-small-history-empty-01.png",
+      "en-US-dark-small-history-empty-02.png"
+    ]
+  },
+  {
+    "File": "contact-088.png",
+    "Images": [
+      "en-US-dark-small-history-list-00.png",
+      "en-US-dark-small-history-list-01.png",
+      "en-US-dark-small-history-list-02.png",
+      "en-US-dark-small-history-detail-00.png"
+    ]
+  },
+  {
+    "File": "contact-089.png",
+    "Images": [
+      "en-US-dark-small-history-detail-01.png",
+      "en-US-dark-small-history-detail-02.png",
+      "en-US-dark-small-history-detail-03.png",
+      "en-US-dark-small-history-detail-04.png"
+    ]
+  },
+  {
+    "File": "contact-090.png",
+    "Images": [
+      "en-US-dark-small-history-detail-05.png",
+      "en-US-dark-small-history-detail-06.png",
+      "en-US-dark-small-screenshot-drag.png",
+      "en-US-dark-small-screenshot-confirm.png"
+    ]
+  },
+  {
+    "File": "contact-091.png",
+    "Images": [
+      "en-US-dark-small-tray-menu.png",
+      "en-US-dark-small-notification-content-00.png"
+    ]
+  }
+]

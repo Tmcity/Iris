@@ -479,7 +479,7 @@ internal sealed partial class TranslationOrchestrator : ITranslationOrchestrator
                     await writer.WriteAsync(new ProviderStarted(request.RequestId, card.Descriptor.Id), workCt).ConfigureAwait(false);
                     var errorInfo = new ErrorInfo(
                         ErrorCode.InvalidResponse,
-                        "翻译结果超过本地长度限制",
+                        global::Iris.Core.Localization.CoreText.Get("Text_5520c80c1f25"),
                         ProviderId: card.Descriptor.Id);
                     await writer.WriteAsync(new ProviderFailed(request.RequestId, card.Descriptor.Id, errorInfo, TimeSpan.Zero), workCt).ConfigureAwait(false);
                     card.IsCompleted = true;
@@ -579,12 +579,12 @@ internal sealed partial class TranslationOrchestrator : ITranslationOrchestrator
                     {
                         if (currentTextLength + chunk.Delta.Length > RequestBudgetTracker.MaxProviderTextLength)
                         {
-                            throw new IrisException(ErrorCode.InvalidResponse, "翻译结果超过本地长度限制");
+                            throw new IrisException(ErrorCode.InvalidResponse, global::Iris.Core.Localization.CoreText.Get("Text_5520c80c1f25"));
                         }
 
                         if (!budgetTracker.TryReserve(chunk.Delta.Length))
                         {
-                            throw new IrisException(ErrorCode.InvalidResponse, "翻译结果超过本地长度限制");
+                            throw new IrisException(ErrorCode.InvalidResponse, global::Iris.Core.Localization.CoreText.Get("Text_5520c80c1f25"));
                         }
 
                         currentTextLength += chunk.Delta.Length;

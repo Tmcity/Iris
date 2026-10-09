@@ -1,0 +1,331 @@
+[
+  {
+    "Path": "src/Iris.Providers/Http/HttpErrorMapper.cs",
+    "Kind": "interpolated",
+    "Text": "请求超时（{0:G} 秒）",
+    "Raw": "$\"请求超时（{timeout.TotalSeconds:G} 秒）\"",
+    "Start": 6332,
+    "Length": 35,
+    "Line": 203,
+    "Context": "return new IrisException(\n            ErrorCode.Timeout,\n            ErrorMessages.GetDefault(ErrorCode.Timeout),\n            retryable: true,\n            providerId: providerId,\n            detail: $\"请求超时（{timeout.TotalSeconds:G} 秒）\");",
+    "Arguments": [
+      "timeout.TotalSeconds"
+    ],
+    "Fingerprint": "BCE18BFFE7B8CF331E9D3D3465C4E27466DAFF400B1843AF9852EE063D3ADF27"
+  },
+  {
+    "Path": "src/Iris.Providers/Http/HttpLoggingHandler.cs",
+    "Kind": "literal",
+    "Text": "{Method} {SafeUrl} 失败：{ExceptionType}",
+    "Raw": "\"{Method} {SafeUrl} 失败：{ExceptionType}\"",
+    "Start": 1744,
+    "Length": 39,
+    "Line": 50,
+    "Context": "LoggerMessage(EventId = 2, Level = LogLevel.Debug, Message = \"{Method} {SafeUrl} 失败：{ExceptionType}\")",
+    "Arguments": [],
+    "Fingerprint": "B5D055E481E8077E79B4D19F0EB42CB8327BDBD451EFBB53F8B36B2D00B7B788"
+  },
+  {
+    "Path": "src/Iris.Providers/Http/LimitedReadStream.cs",
+    "Kind": "interpolated",
+    "Text": "响应超过 {0} 字节",
+    "Raw": "$\"响应超过 {_maxBytes} 字节\"",
+    "Start": 3162,
+    "Length": 22,
+    "Line": 108,
+    "Context": "throw new IrisException(\n                ErrorCode.InvalidResponse,\n                ErrorMessages.GetDefault(ErrorCode.InvalidResponse),\n                detail: $\"响应超过 {_maxBytes} 字节\");",
+    "Arguments": [
+      "_maxBytes"
+    ],
+    "Fingerprint": "9FAC91A23E91376D07605C1AC0369FFF3DAFAAAE9F28A2911E553D531AA742C7"
+  },
+  {
+    "Path": "src/Iris.Providers/Http/SafeHttpDiagnostics.cs",
+    "Kind": "interpolated",
+    "Text": "网络请求失败（{0}）",
+    "Raw": "$\"网络请求失败（{string.Join(\"; \", parts)}）\"",
+    "Start": 4453,
+    "Length": 37,
+    "Line": 141,
+    "Context": "return $\"网络请求失败（{string.Join(\"; \", parts)}）\";",
+    "Arguments": [
+      "string.Join(\"; \", parts)"
+    ],
+    "Fingerprint": "6BC3CECBE68648FB2083FA77E4D3BA0DF57E5FC5858321EF7FDE90566060A3F1"
+  },
+  {
+    "Path": "src/Iris.Providers/Http/SafeHttpDiagnostics.cs",
+    "Kind": "interpolated",
+    "Text": "网络传输读写失败（{0}; HResult=0x{1:X8}）",
+    "Raw": "$\"网络传输读写失败（{type}; HResult=0x{ioEx.HResult:X8}）\"",
+    "Start": 4779,
+    "Length": 48,
+    "Line": 151,
+    "Context": "return $\"网络传输读写失败（{type}; HResult=0x{ioEx.HResult:X8}）\";",
+    "Arguments": [
+      "type",
+      "ioEx.HResult"
+    ],
+    "Fingerprint": "39901119A7EE8FB8BC68D24A8A64F2C6890BB62DB8850DDD3D830978FC4C5069"
+  },
+  {
+    "Path": "src/Iris.Providers/Http/SafeHttpDiagnostics.cs",
+    "Kind": "interpolated",
+    "Text": "JSON 解析失败（{0}）",
+    "Raw": "$\"JSON 解析失败（{string.Join(\"; \", parts)}）\"",
+    "Start": 5604,
+    "Length": 40,
+    "Line": 174,
+    "Context": "return $\"JSON 解析失败（{string.Join(\"; \", parts)}）\";",
+    "Arguments": [
+      "string.Join(\"; \", parts)"
+    ],
+    "Fingerprint": "A759B5D7F6A4D59E113A1DE642DD6B314990A221D2E5C4B0B69EA207667DB005"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/Anthropic/AnthropicTranslationProvider.cs",
+    "Kind": "literal",
+    "Text": "响应流意外结束",
+    "Raw": "\"响应流意外结束\"",
+    "Start": 8986,
+    "Length": 9,
+    "Line": 250,
+    "Context": "throw new IrisException(\n                    ErrorCode.InvalidResponse,\n                    ErrorMessages.GetDefault(ErrorCode.InvalidResponse),\n                    retryable: false,\n                    providerId: _profile.Id,\n                    detail: \"响应流意外结束\");",
+    "Arguments": [],
+    "Fingerprint": "901B732122A73C9858BC9EE214BC6185DA202E1360F9173F765BABD8373778C1"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/Anthropic/AnthropicTranslationProvider.cs",
+    "Kind": "literal",
+    "Text": "模型拒绝回答（stop_reason=refusal）",
+    "Raw": "\"模型拒绝回答（stop_reason=refusal）\"",
+    "Start": 9390,
+    "Length": 29,
+    "Line": 260,
+    "Context": "throw new IrisException(\n                    ErrorCode.ContentRefused,\n                    ErrorMessages.GetDefault(ErrorCode.ContentRefused),\n                    retryable: false,\n                    providerId: _profile.Id,\n                    detail: \"模型拒绝回答（stop_reason=refusal）\");",
+    "Arguments": [],
+    "Fingerprint": "3DD255C80C0A61634D3CEEE79263DB39B1CE355F97327D57D9480B03AFE29B19"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/Anthropic/AnthropicTranslationProvider.cs",
+    "Kind": "literal",
+    "Text": "无法解析的流事件",
+    "Raw": "\"无法解析的流事件\"",
+    "Start": 16393,
+    "Length": 10,
+    "Line": 425,
+    "Context": "return new IrisException(\n                ErrorCode.InvalidResponse,\n                ErrorMessages.GetDefault(ErrorCode.InvalidResponse),\n                innerException: null, // SECURITY RULE: never pass ex\n                retryable: false,\n                providerId: _profile.Id,\n                detail: \"无法解析的流事件\");",
+    "Arguments": [],
+    "Fingerprint": "64B45AADB9E4D942854993AA866E765985B5F43AB1F5C911B1E195C2E2EE33FD"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/Anthropic/AnthropicTranslationProvider.cs",
+    "Kind": "literal",
+    "Text": "开始翻译请求: ProviderId={ProviderId}, Model={Model}, Input={InputFingerprint}",
+    "Raw": "\"开始翻译请求: ProviderId={ProviderId}, Model={Model}, Input={InputFingerprint}\"",
+    "Start": 19930,
+    "Length": 74,
+    "Line": 541,
+    "Context": "LoggerMessage(EventId = 1, Level = LogLevel.Debug, Message = \"开始翻译请求: ProviderId={ProviderId}, Model={Model}, Input={InputFingerprint}\")",
+    "Arguments": [],
+    "Fingerprint": "09E918694517157640F265BE7923FC5B2E8A9DEC8181144E2A14F7858BC2EFA5"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/Anthropic/AnthropicTranslationProvider.cs",
+    "Kind": "literal",
+    "Text": "翻译请求结束: ProviderId={ProviderId}, FinishReason={FinishReason}, ElapsedMs={ElapsedMs:F1}, PromptTokens={PromptTokens}, CompletionTokens={CompletionTokens}",
+    "Raw": "\"翻译请求结束: ProviderId={ProviderId}, FinishReason={FinishReason}, ElapsedMs={ElapsedMs:F1}, PromptTokens={PromptTokens}, CompletionTokens={CompletionTokens}\"",
+    "Start": 20203,
+    "Length": 154,
+    "Line": 544,
+    "Context": "LoggerMessage(EventId = 2, Level = LogLevel.Debug, Message = \"翻译请求结束: ProviderId={ProviderId}, FinishReason={FinishReason}, ElapsedMs={ElapsedMs:F1}, PromptTokens={PromptTokens}, CompletionTokens={CompletionTokens}\")",
+    "Arguments": [],
+    "Fingerprint": "EC263ACEE14366E12750A1272BE778C380103AB2463D64C05BAD07C0CAA5CBEE"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/Anthropic/AnthropicTranslationProvider.cs",
+    "Kind": "literal",
+    "Text": "未知的 stop_reason: ProviderId={ProviderId}, Reason={RawReason}",
+    "Raw": "\"未知的 stop_reason: ProviderId={ProviderId}, Reason={RawReason}\"",
+    "Start": 20616,
+    "Length": 62,
+    "Line": 547,
+    "Context": "LoggerMessage(EventId = 3, Level = LogLevel.Debug, Message = \"未知的 stop_reason: ProviderId={ProviderId}, Reason={RawReason}\")",
+    "Arguments": [],
+    "Fingerprint": "95D7A98B682338E6DC035111A918973DB002539DEED1AD3FE0C0BC05DD3E7697"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProvider.cs",
+    "Kind": "literal",
+    "Text": "模型列表 data 为空",
+    "Raw": "\"模型列表 data 为空\"",
+    "Start": 6424,
+    "Length": 14,
+    "Line": 162,
+    "Context": "throw new IrisException(\n                ErrorCode.InvalidResponse,\n                ErrorMessages.GetDefault(ErrorCode.InvalidResponse),\n                retryable: false,\n                providerId: _profile.Id,\n                detail: \"模型列表 data 为空\");",
+    "Arguments": [],
+    "Fingerprint": "792235CDB88DC54B33E143A015CED8A07404A588EC56A05F2517D5DCECD75448"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProvider.cs",
+    "Kind": "literal",
+    "Text": "响应 choices 为空",
+    "Raw": "\"响应 choices 为空\"",
+    "Start": 12292,
+    "Length": 15,
+    "Line": 305,
+    "Context": "throw new IrisException(\n                    ErrorCode.InvalidResponse,\n                    ErrorMessages.GetDefault(ErrorCode.InvalidResponse),\n                    retryable: false,\n                    providerId: _profile.Id,\n                    detail: \"响应 choices 为空\");",
+    "Arguments": [],
+    "Fingerprint": "BF831C6555CC0A4403F71651EBFCEC3BDFC2E987223C09E6177D638776B5525F"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProvider.cs",
+    "Kind": "literal",
+    "Text": "响应 content 为空",
+    "Raw": "\"响应 content 为空\"",
+    "Start": 12759,
+    "Length": 15,
+    "Line": 317,
+    "Context": "throw new IrisException(\n                    ErrorCode.InvalidResponse,\n                    ErrorMessages.GetDefault(ErrorCode.InvalidResponse),\n                    retryable: false,\n                    providerId: _profile.Id,\n                    detail: \"响应 content 为空\");",
+    "Arguments": [],
+    "Fingerprint": "E1501E219AD5BE8449BDC85669E69B5982742BA7E4BA81518580928F1F6C29B0"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProvider.cs",
+    "Kind": "interpolated",
+    "Text": "服务未返回事件流（Content-Type: {0}），请检查 BaseUrl",
+    "Raw": "$\"服务未返回事件流（Content-Type: {mediaType ?? \"无\"}），请检查 BaseUrl\"",
+    "Start": 17578,
+    "Length": 57,
+    "Line": 432,
+    "Context": "detail = (eventCount == 0 && !string.Equals(mediaType, \"text/event-stream\", StringComparison.OrdinalIgnoreCase))\n                    ? $\"服务未返回事件流（Content-Type: {mediaType ?? \"无\"}），请检查 BaseUrl\"\n                    : \"响应流意外结束\"",
+    "Arguments": [
+      "mediaType ?? \"无\""
+    ],
+    "Fingerprint": "3AA3F62224E2BFFB09EAFCB09F343A3CCA330C98C1920D0447C8309D6A677593"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProvider.cs",
+    "Kind": "literal",
+    "Text": "无",
+    "Raw": "\"无\"",
+    "Start": 17617,
+    "Length": 3,
+    "Line": 432,
+    "Context": "detail = (eventCount == 0 && !string.Equals(mediaType, \"text/event-stream\", StringComparison.OrdinalIgnoreCase))\n                    ? $\"服务未返回事件流（Content-Type: {mediaType ?? \"无\"}），请检查 BaseUrl\"\n                    : \"响应流意外结束\"",
+    "Arguments": [],
+    "Fingerprint": "326C4AB8752EE17AF9DF1C5FC018FBD291FEE4C713BB24CA62229B1ECDE3A912"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProvider.cs",
+    "Kind": "literal",
+    "Text": "响应流意外结束",
+    "Raw": "\"响应流意外结束\"",
+    "Start": 17658,
+    "Length": 9,
+    "Line": 433,
+    "Context": "detail = (eventCount == 0 && !string.Equals(mediaType, \"text/event-stream\", StringComparison.OrdinalIgnoreCase))\n                    ? $\"服务未返回事件流（Content-Type: {mediaType ?? \"无\"}），请检查 BaseUrl\"\n                    : \"响应流意外结束\"",
+    "Arguments": [],
+    "Fingerprint": "C5491C13E451E178E9600309FA4AE0D2DB4E127E2B8EE5E73DC23DBCE62F3CAB"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProvider.cs",
+    "Kind": "interpolated",
+    "Text": "内容被安全审核拦截（{0}）",
+    "Raw": "$\"内容被安全审核拦截（{rawReason}）\"",
+    "Start": 20274,
+    "Length": 25,
+    "Line": 498,
+    "Context": "throw new IrisException(\n                ErrorCode.ContentRefused,\n                ErrorMessages.GetDefault(ErrorCode.ContentRefused),\n                retryable: false,\n                providerId: _profile.Id,\n                detail: $\"内容被安全审核拦截（{rawReason}）\");",
+    "Arguments": [
+      "rawReason"
+    ],
+    "Fingerprint": "E85D39121863DE71E43EC710D16053220B76789DD60B7007F7B1FD790BC7FBB1"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProvider.cs",
+    "Kind": "interpolated",
+    "Text": "服务端异常中断（{0}）",
+    "Raw": "$\"服务端异常中断（{rawReason}）\"",
+    "Start": 20777,
+    "Length": 23,
+    "Line": 509,
+    "Context": "throw new IrisException(\n                ErrorCode.ProviderUnavailable,\n                ErrorMessages.GetDefault(ErrorCode.ProviderUnavailable),\n                retryable: true,\n                providerId: _profile.Id,\n                detail: $\"服务端异常中断（{rawReason}）\");",
+    "Arguments": [
+      "rawReason"
+    ],
+    "Fingerprint": "46CF53E901AF4A24257C3D8AEC1C56D5B72D9081E5AC6D73EDDB772A0B5AC4A1"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProvider.cs",
+    "Kind": "literal",
+    "Text": "开始翻译请求: ProviderId={ProviderId}, Model={Model}, Input={InputFingerprint}",
+    "Raw": "\"开始翻译请求: ProviderId={ProviderId}, Model={Model}, Input={InputFingerprint}\"",
+    "Start": 22259,
+    "Length": 74,
+    "Line": 561,
+    "Context": "LoggerMessage(EventId = 1, Level = LogLevel.Debug, Message = \"开始翻译请求: ProviderId={ProviderId}, Model={Model}, Input={InputFingerprint}\")",
+    "Arguments": [],
+    "Fingerprint": "35FBD43095190E292D15AEC8FA39D1BFE3E9B8448660B8137862F314AD4AACF5"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProvider.cs",
+    "Kind": "literal",
+    "Text": "翻译请求结束: ProviderId={ProviderId}, FinishReason={FinishReason}, ElapsedMs={ElapsedMs:F1}, PromptTokens={PromptTokens}, CompletionTokens={CompletionTokens}",
+    "Raw": "\"翻译请求结束: ProviderId={ProviderId}, FinishReason={FinishReason}, ElapsedMs={ElapsedMs:F1}, PromptTokens={PromptTokens}, CompletionTokens={CompletionTokens}\"",
+    "Start": 22532,
+    "Length": 154,
+    "Line": 564,
+    "Context": "LoggerMessage(EventId = 2, Level = LogLevel.Debug, Message = \"翻译请求结束: ProviderId={ProviderId}, FinishReason={FinishReason}, ElapsedMs={ElapsedMs:F1}, PromptTokens={PromptTokens}, CompletionTokens={CompletionTokens}\")",
+    "Arguments": [],
+    "Fingerprint": "565DB27E13EFC9930FF74F084071C9EF028509EAB12AAE3F6227A37FDEA67C84"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProvider.cs",
+    "Kind": "literal",
+    "Text": "忽略 ExtraHeaders 中的 Authorization 请求头: {HeaderName}",
+    "Raw": "\"忽略 ExtraHeaders 中的 Authorization 请求头: {HeaderName}\"",
+    "Start": 22928,
+    "Length": 52,
+    "Line": 567,
+    "Context": "LoggerMessage(EventId = 3, Level = LogLevel.Debug, Message = \"忽略 ExtraHeaders 中的 Authorization 请求头: {HeaderName}\")",
+    "Arguments": [],
+    "Fingerprint": "EDDCBB85E19388AB19E4E13CFD3915C47A49D2A0A5972F99AC9BFEEB69269284"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProvider.cs",
+    "Kind": "literal",
+    "Text": "ExtraHeaders 请求头添加失败: {HeaderName}",
+    "Raw": "\"ExtraHeaders 请求头添加失败: {HeaderName}\"",
+    "Start": 23148,
+    "Length": 36,
+    "Line": 570,
+    "Context": "LoggerMessage(EventId = 4, Level = LogLevel.Debug, Message = \"ExtraHeaders 请求头添加失败: {HeaderName}\")",
+    "Arguments": [],
+    "Fingerprint": "D8805E68A3854B5D4A2FF615C98AC47DBEC26C6F7E3F0861BC4F99E6955F472C"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProvider.cs",
+    "Kind": "literal",
+    "Text": "未知的 finish_reason: ProviderId={ProviderId}, Reason={RawReason}",
+    "Raw": "\"未知的 finish_reason: ProviderId={ProviderId}, Reason={RawReason}\"",
+    "Start": 23343,
+    "Length": 64,
+    "Line": 573,
+    "Context": "LoggerMessage(EventId = 5, Level = LogLevel.Debug, Message = \"未知的 finish_reason: ProviderId={ProviderId}, Reason={RawReason}\")",
+    "Arguments": [],
+    "Fingerprint": "035FEBE025A12BE5051AD8AD3760D86AD178224CC402625A49A90B959AFA9E1D"
+  },
+  {
+    "Path": "src/Iris.Providers/Translation/ProviderCallGuard.cs",
+    "Kind": "literal",
+    "Text": "测试翻译异常: ProviderId={ProviderId}, Exception={ExceptionType}",
+    "Raw": "\"测试翻译异常: ProviderId={ProviderId}, Exception={ExceptionType}\"",
+    "Start": 6773,
+    "Length": 60,
+    "Line": 207,
+    "Context": "LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = \"测试翻译异常: ProviderId={ProviderId}, Exception={ExceptionType}\")",
+    "Arguments": [],
+    "Fingerprint": "6EDD3133A1233B8FCD71BBCDB05F3993F7A8385B73F3FB85EFEAB00B252A3133"
+  }
+]

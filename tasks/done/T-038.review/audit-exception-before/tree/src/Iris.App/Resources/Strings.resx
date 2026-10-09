@@ -1,0 +1,1323 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms</value>
+  </resheader>
+  <data name="ActionNotAvailable" xml:space="preserve">
+    <value>该功能尚未开放</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Iris</value>
+  </data>
+  <data name="CommandLineInvalid" xml:space="preserve">
+    <value>命令行参数无效。
+
+Iris 命令行用法：
+无参数：启动托盘；已运行时打开输入翻译。
+--action &lt;动作名称&gt;：执行已开放动作（不接受数字）。
+--translate &lt;文本&gt;：翻译完整文本。TranslateText 必须使用此形式。
+--help 或 -h：显示帮助。
+每次只能使用一种形式，文本作为一个参数传入。</value>
+  </data>
+  <data name="CommandLineUsage" xml:space="preserve">
+    <value>Iris 命令行用法：
+无参数：启动托盘；已运行时打开输入翻译。
+--action &lt;动作名称&gt;：执行已开放动作（不接受数字）。
+--translate &lt;文本&gt;：翻译完整文本。TranslateText 必须使用此形式。
+--help 或 -h：显示帮助。
+每次只能使用一种形式，文本作为一个参数传入。</value>
+  </data>
+  <data name="DispatcherUnhandledMessage" xml:space="preserve">
+    <value>发生未知错误，详情请查看日志</value>
+  </data>
+  <data name="ErrorUnknown" xml:space="preserve">
+    <value>发生未知错误，详情请查看日志</value>
+  </data>
+  <data name="FatalUnknown" xml:space="preserve">
+    <value>发生未知严重错误，应用程序即将退出：</value>
+  </data>
+  <data name="HistoryCancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="HistoryClear" xml:space="preserve">
+    <value>清空…</value>
+  </data>
+  <data name="HistoryClearConfirm" xml:space="preserve">
+    <value>确认清空历史记录？此操作无法撤销。</value>
+  </data>
+  <data name="HistoryClose" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="HistoryCloseFailed" xml:space="preserve">
+    <value>历史窗口尚未完成关闭，请重试关闭。</value>
+  </data>
+  <data name="HistoryClosing" xml:space="preserve">
+    <value>正在等待历史操作结束…</value>
+  </data>
+  <data name="HistoryConfirm" xml:space="preserve">
+    <value>确认删除</value>
+  </data>
+  <data name="HistoryCopied" xml:space="preserve">
+    <value>已复制全文</value>
+  </data>
+  <data name="HistoryCopyFailed" xml:space="preserve">
+    <value>复制失败，请重试。</value>
+  </data>
+  <data name="HistoryCopyResult" xml:space="preserve">
+    <value>复制此服务译文</value>
+  </data>
+  <data name="HistoryCopySource" xml:space="preserve">
+    <value>复制原文全文</value>
+  </data>
+  <data name="HistoryDelete" xml:space="preserve">
+    <value>删除此记录</value>
+  </data>
+  <data name="HistoryDeleteConfirm" xml:space="preserve">
+    <value>删除所选记录？此操作无法撤销。</value>
+  </data>
+  <data name="HistoryDetailsLoading" xml:space="preserve">
+    <value>正在读取全文…</value>
+  </data>
+  <data name="HistoryEmpty" xml:space="preserve">
+    <value>没有符合条件的历史记录</value>
+  </data>
+  <data name="HistoryEnabled" xml:space="preserve">
+    <value>记录后续翻译历史</value>
+  </data>
+  <data name="HistoryEnabledHelp" xml:space="preserve">
+    <value>关闭后不再记录新的翻译；已有历史仍可查看和管理。</value>
+  </data>
+  <data name="HistoryFavorite" xml:space="preserve">
+    <value>收藏</value>
+  </data>
+  <data name="HistoryFavoritesOnly" xml:space="preserve">
+    <value>仅看收藏</value>
+  </data>
+  <data name="HistoryKeepFavorites" xml:space="preserve">
+    <value>保留收藏（只删除非收藏记录）</value>
+  </data>
+  <data name="HistoryKeywordError" xml:space="preserve">
+    <value>搜索词包含无效字符，请修改后重试。</value>
+  </data>
+  <data name="HistoryLoading" xml:space="preserve">
+    <value>正在加载历史记录…</value>
+  </data>
+  <data name="HistoryMaxError" xml:space="preserve">
+    <value>历史记录数量须为 100 至 100000 的整数。</value>
+  </data>
+  <data name="HistoryMaxHelp" xml:space="preserve">
+    <value>100–100000 条。降低上限不会立即删除历史，将在下次写入或取消收藏时修剪。</value>
+  </data>
+  <data name="HistoryMaxLabel" xml:space="preserve">
+    <value>最多保留的非收藏记录数，收藏额外保留</value>
+  </data>
+  <data name="HistoryMetadataFormat" xml:space="preserve">
+    <value>{0:g} · {1} · {2} → {3} · {4} 个结果</value>
+  </data>
+  <data name="HistoryMissing" xml:space="preserve">
+    <value>记录已不存在，请刷新列表。</value>
+  </data>
+  <data name="HistoryNext" xml:space="preserve">
+    <value>下一页</value>
+  </data>
+  <data name="HistoryOriginClipboard" xml:space="preserve">
+    <value>剪贴板</value>
+  </data>
+  <data name="HistoryOriginCommandLine" xml:space="preserve">
+    <value>命令行</value>
+  </data>
+  <data name="HistoryOriginHistory" xml:space="preserve">
+    <value>历史重译</value>
+  </data>
+  <data name="HistoryOriginInput" xml:space="preserve">
+    <value>输入</value>
+  </data>
+  <data name="HistoryOriginOther" xml:space="preserve">
+    <value>翻译</value>
+  </data>
+  <data name="HistoryOriginScreenshot" xml:space="preserve">
+    <value>截图</value>
+  </data>
+  <data name="HistoryOriginSelection" xml:space="preserve">
+    <value>划词</value>
+  </data>
+  <data name="HistoryPageFormat" xml:space="preserve">
+    <value>第 {0} / {1} 页 · 共 {2} 条</value>
+  </data>
+  <data name="HistoryPrevious" xml:space="preserve">
+    <value>上一页</value>
+  </data>
+  <data name="HistoryRefresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="HistoryRetranslate" xml:space="preserve">
+    <value>按当前设置重新翻译</value>
+  </data>
+  <data name="HistorySearch" xml:space="preserve">
+    <value>搜索原文或译文</value>
+  </data>
+  <data name="HistorySelect" xml:space="preserve">
+    <value>选择一条记录查看全文和全部服务结果</value>
+  </data>
+  <data name="HistorySource" xml:space="preserve">
+    <value>原文全文</value>
+  </data>
+  <data name="HistoryStorageError" xml:space="preserve">
+    <value>历史记录操作失败，请重试。</value>
+  </data>
+  <data name="HistoryTitle" xml:space="preserve">
+    <value>翻译历史</value>
+  </data>
+  <data name="HistoryTranslateFailed" xml:space="preserve">
+    <value>暂时无法打开翻译，请重试。</value>
+  </data>
+  <data name="HistoryTranslated" xml:space="preserve">
+    <value>已按当前设置发送到翻译窗口</value>
+  </data>
+  <data name="HistoryTruncated" xml:space="preserve">
+    <value>结果已截断</value>
+  </data>
+  <data name="HistoryTruncatedSuffix" xml:space="preserve">
+    <value>[结果已截断]</value>
+  </data>
+  <data name="HistoryUnfavorite" xml:space="preserve">
+    <value>取消收藏</value>
+  </data>
+  <data name="HistoryWriteDone" xml:space="preserve">
+    <value>历史操作已完成</value>
+  </data>
+  <data name="HistoryWriting" xml:space="preserve">
+    <value>正在保存历史操作…</value>
+  </data>
+  <data name="IpcRejected" xml:space="preserve">
+    <value>Iris 未接纳此命令，可能正在退出或忙于处理已有请求。</value>
+  </data>
+  <data name="IpcUnavailable" xml:space="preserve">
+    <value>无法连接到当前用户会话中的 Iris，请稍后重试。</value>
+  </data>
+  <data name="IpcUnconfirmed" xml:space="preserve">
+    <value>未能确认命令是否已接收。命令可能已经执行，请先检查 Iris 的状态；本次不会自动重发。</value>
+  </data>
+  <data name="LanguageChineseNative" xml:space="preserve">
+    <value>简体中文</value>
+  </data>
+  <data name="LanguageEnglishNative" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="LanguageNextStart" xml:space="preserve">
+    <value>保存后下次启动生效；不会自动重启或切换当前界面。</value>
+  </data>
+  <data name="LanguageRestartPending" xml:space="preserve">
+    <value>已保存的界面语言与本次运行不同，将在下次启动时生效。</value>
+  </data>
+  <data name="LanguageTitle" xml:space="preserve">
+    <value>界面语言</value>
+  </data>
+  <data name="MouseApplyFailed" xml:space="preserve">
+    <value>鼠标设置已保存，应用未完成。请重试鼠标监听。</value>
+  </data>
+  <data name="MouseApplying" xml:space="preserve">
+    <value>鼠标设置已保存，正在应用…</value>
+  </data>
+  <data name="MouseBeamLabel" xml:space="preserve">
+    <value>仅在文本光标下识别选区</value>
+  </data>
+  <data name="MouseDragError" xml:space="preserve">
+    <value>拖动距离须为 2–50 的整数。</value>
+  </data>
+  <data name="MouseDragLabel" xml:space="preserve">
+    <value>最小拖动距离（物理像素）</value>
+  </data>
+  <data name="MouseExcludedLabel" xml:space="preserve">
+    <value>完全排除鼠标划词的进程</value>
+  </data>
+  <data name="MouseExplanation" xml:space="preserve">
+    <value>显示图标时会预读选区，点击后翻译已读取的文本。关闭剪贴板恢复可能改变剪贴板内容。</value>
+  </data>
+  <data name="MouseHideError" xml:space="preserve">
+    <value>图标停留时间须为 500–10000 的整数。</value>
+  </data>
+  <data name="MouseHideLabel" xml:space="preserve">
+    <value>图标停留时间（毫秒）</value>
+  </data>
+  <data name="MouseIconTranslate" xml:space="preserve">
+    <value>翻译选中的文本</value>
+  </data>
+  <data name="MouseModeAuto" xml:space="preserve">
+    <value>自动翻译</value>
+  </data>
+  <data name="MouseModeError" xml:space="preserve">
+    <value>请选择有效的鼠标划词模式。</value>
+  </data>
+  <data name="MouseModeIcon" xml:space="preserve">
+    <value>显示翻译图标</value>
+  </data>
+  <data name="MouseModeLabel" xml:space="preserve">
+    <value>鼠标划词模式</value>
+  </data>
+  <data name="MouseModeOff" xml:space="preserve">
+    <value>关闭鼠标划词</value>
+  </data>
+  <data name="MouseReadFailed" xml:space="preserve">
+    <value>选区预读未完成，请重新选择文本。</value>
+  </data>
+  <data name="MouseRetry" xml:space="preserve">
+    <value>重试鼠标监听</value>
+  </data>
+  <data name="MouseRunning" xml:space="preserve">
+    <value>鼠标监听已启用</value>
+  </data>
+  <data name="MouseStopped" xml:space="preserve">
+    <value>鼠标监听已关闭</value>
+  </data>
+  <data name="MouseToggle" xml:space="preserve">
+    <value>切换鼠标划词</value>
+  </data>
+  <data name="MouseToggleDescription" xml:space="preserve">
+    <value>切换鼠标划词的启用状态（默认未设置快捷键）</value>
+  </data>
+  <data name="NetworkAddressNeedsCredentials" xml:space="preserve">
+    <value>代理地址已改变，请明确选择替换或清除凭据。</value>
+  </data>
+  <data name="NetworkBypass" xml:space="preserve">
+    <value>本地地址绕过代理</value>
+  </data>
+  <data name="NetworkBypassDescription" xml:space="preserve">
+    <value>启用后，回环、私网、.local 和单段主机名直接连接；系统代理自身的例外规则仍生效。</value>
+  </data>
+  <data name="NetworkCancel" xml:space="preserve">
+    <value>取消测试</value>
+  </data>
+  <data name="NetworkCanceled" xml:space="preserve">
+    <value>网络测试已取消。</value>
+  </data>
+  <data name="NetworkChooseEndpoint" xml:space="preserve">
+    <value>请选择已保存的测试目标。</value>
+  </data>
+  <data name="NetworkCleanupFailed" xml:space="preserve">
+    <value>测试清理未完成，请重试结束；再次清理不会重新发送请求。</value>
+  </data>
+  <data name="NetworkClear" xml:space="preserve">
+    <value>清除凭据（无凭据）</value>
+  </data>
+  <data name="NetworkConfigurationUnavailable" xml:space="preserve">
+    <value>网络代理配置暂不可用，请检查配置后重试。</value>
+  </data>
+  <data name="NetworkCredentialHint" xml:space="preserve">
+    <value>不会回填已保存密码。替换时不移除首尾空格；HTTP(S) 允许明确的空密码，SOCKS5 要求非空。</value>
+  </data>
+  <data name="NetworkCredentialLabel" xml:space="preserve">
+    <value>代理凭据</value>
+  </data>
+  <data name="NetworkCustom" xml:space="preserve">
+    <value>使用自定义代理</value>
+  </data>
+  <data name="NetworkDescription" xml:space="preserve">
+    <value>保存后，新请求立即使用当前网络设置；正在进行的请求会完成原有连接。</value>
+  </data>
+  <data name="NetworkDirect" xml:space="preserve">
+    <value>直接连接</value>
+  </data>
+  <data name="NetworkEnding" xml:space="preserve">
+    <value>正在结束测试，等待实际请求与清理完成…</value>
+  </data>
+  <data name="NetworkEndpointChanged" xml:space="preserve">
+    <value>已保存的测试端点已更改，请重新选择后测试。</value>
+  </data>
+  <data name="NetworkInvalidConfiguration" xml:space="preserve">
+    <value>网络草稿或已保存端点不可用，请检查配置。</value>
+  </data>
+  <data name="NetworkInvalidEndpoint" xml:space="preserve">
+    <value>该服务端点无效，请先在对应服务页修正并保存。</value>
+  </data>
+  <data name="NetworkInvalidInput" xml:space="preserve">
+    <value>代理地址或凭据无效，请检查协议、主机、端口和输入长度。</value>
+  </data>
+  <data name="NetworkKeep" xml:space="preserve">
+    <value>保持现有凭据（如有）</value>
+  </data>
+  <data name="NetworkLocalDirect" xml:space="preserve">
+    <value>直接连接（本地绕过）</value>
+  </data>
+  <data name="NetworkModeLabel" xml:space="preserve">
+    <value>连接模式</value>
+  </data>
+  <data name="NetworkNoEndpoints" xml:space="preserve">
+    <value>尚无可测试的已保存翻译或百度 OCR 服务。</value>
+  </data>
+  <data name="NetworkNone" xml:space="preserve">
+    <value>不使用代理（直接连接）</value>
+  </data>
+  <data name="NetworkOcrEndpoint" xml:space="preserve">
+    <value>OCR · </value>
+  </data>
+  <data name="NetworkOfficialEndpoint" xml:space="preserve">
+    <value>Anthropic 官方默认端点</value>
+  </data>
+  <data name="NetworkPassword" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="NetworkProxyAuthentication" xml:space="preserve">
+    <value>代理要求认证</value>
+  </data>
+  <data name="NetworkRedirect" xml:space="preserve">
+    <value>收到重定向，未跟随</value>
+  </data>
+  <data name="NetworkReplace" xml:space="preserve">
+    <value>替换凭据</value>
+  </data>
+  <data name="NetworkResponded" xml:space="preserve">
+    <value>端点有响应</value>
+  </data>
+  <data name="NetworkResponseDisclaimer" xml:space="preserve">
+    <value>HTTP 响应可能来自代理；有响应不代表 API 鉴权或业务可用。</value>
+  </data>
+  <data name="NetworkRetryCleanup" xml:space="preserve">
+    <value>重试结束网络测试</value>
+  </data>
+  <data name="NetworkRouteUnknown" xml:space="preserve">
+    <value>连接方式未确认</value>
+  </data>
+  <data name="NetworkSaveBlocked" xml:space="preserve">
+    <value>网络测试尚未结束，完成清理后才能保存或重新载入。</value>
+  </data>
+  <data name="NetworkSystem" xml:space="preserve">
+    <value>使用系统代理</value>
+  </data>
+  <data name="NetworkSystemDirect" xml:space="preserve">
+    <value>直接连接（系统代理例外）</value>
+  </data>
+  <data name="NetworkTargetHint" xml:space="preserve">
+    <value>仅测试此端点的 HTTP 连通性，不验证 API 密钥、模型或业务。不会保存草稿。</value>
+  </data>
+  <data name="NetworkTargetLabel" xml:space="preserve">
+    <value>测试目标（已保存的服务）</value>
+  </data>
+  <data name="NetworkTest" xml:space="preserve">
+    <value>测试连通性</value>
+  </data>
+  <data name="NetworkTesting" xml:space="preserve">
+    <value>正在测试连接…</value>
+  </data>
+  <data name="NetworkTimedOut" xml:space="preserve">
+    <value>连接测试超时，实际请求已结束。</value>
+  </data>
+  <data name="NetworkTitle" xml:space="preserve">
+    <value>网络与代理</value>
+  </data>
+  <data name="NetworkTranslationEndpoint" xml:space="preserve">
+    <value>翻译 · </value>
+  </data>
+  <data name="NetworkTransportFailed" xml:space="preserve">
+    <value>连接失败，未确认端点响应。</value>
+  </data>
+  <data name="NetworkUrlHint" xml:space="preserve">
+    <value>支持 http、https、socks5；socks5 默认端口为 1080。切换模式会保留此处未保存的草稿。</value>
+  </data>
+  <data name="NetworkUrlLabel" xml:space="preserve">
+    <value>自定义代理地址</value>
+  </data>
+  <data name="NetworkUserName" xml:space="preserve">
+    <value>用户名</value>
+  </data>
+  <data name="NetworkViaProxy" xml:space="preserve">
+    <value>通过代理</value>
+  </data>
+  <data name="OcrAddBaidu" xml:space="preserve">
+    <value>添加百度服务</value>
+  </data>
+  <data name="OcrAddWindows" xml:space="preserve">
+    <value>添加本地服务</value>
+  </data>
+  <data name="OcrApiKey" xml:space="preserve">
+    <value>新的 API Key</value>
+  </data>
+  <data name="OcrBaidu" xml:space="preserve">
+    <value>百度智能云 OCR</value>
+  </data>
+  <data name="OcrBaseUrl" xml:space="preserve">
+    <value>百度 BaseUrl</value>
+  </data>
+  <data name="OcrCancelTest" xml:space="preserve">
+    <value>取消测试</value>
+  </data>
+  <data name="OcrCopiedFormat" xml:space="preserve">
+    <value>已复制 {0} 个字符</value>
+  </data>
+  <data name="OcrCopySource" xml:space="preserve">
+    <value>截图 OCR 后复制原文</value>
+  </data>
+  <data name="OcrCredentialClear" xml:space="preserve">
+    <value>保存后清除凭据</value>
+  </data>
+  <data name="OcrCredentialDescription" xml:space="preserve">
+    <value>不回填已保存密钥。替换时须填写完整密钥对；空框不表示清除。</value>
+  </data>
+  <data name="OcrCredentialError" xml:space="preserve">
+    <value>百度替换凭据须填写完整 API Key 和 Secret Key；本地服务仅支持保持或清除。</value>
+  </data>
+  <data name="OcrCredentialKeep" xml:space="preserve">
+    <value>保持现有凭据（如有）</value>
+  </data>
+  <data name="OcrCredentialReplace" xml:space="preserve">
+    <value>替换凭据</value>
+  </data>
+  <data name="OcrCredentials" xml:space="preserve">
+    <value>凭据处理方式</value>
+  </data>
+  <data name="OcrDelete" xml:space="preserve">
+    <value>删除自定义服务</value>
+  </data>
+  <data name="OcrDetectDirection" xml:space="preserve">
+    <value>检测文字方向</value>
+  </data>
+  <data name="OcrEnabled" xml:space="preserve">
+    <value>启用此服务</value>
+  </data>
+  <data name="OcrEndFailed" xml:space="preserve">
+    <value>结束测试失败，请重试。</value>
+  </data>
+  <data name="OcrEnding" xml:space="preserve">
+    <value>正在结束测试…</value>
+  </data>
+  <data name="OcrEndpointError" xml:space="preserve">
+    <value>请选择有效模式和 HTTP(S) 地址；地址不能包含账号、查询或片段。</value>
+  </data>
+  <data name="OcrFallback" xml:space="preserve">
+    <value>已使用备用 OCR</value>
+  </data>
+  <data name="OcrFallbackLabel" xml:space="preserve">
+    <value>备用服务</value>
+  </data>
+  <data name="OcrKeepLines" xml:space="preserve">
+    <value>保留原始分行</value>
+  </data>
+  <data name="OcrLanguageHint" xml:space="preserve">
+    <value>语言提示（留空为 auto）</value>
+  </data>
+  <data name="OcrLanguageTag" xml:space="preserve">
+    <value>本地 BCP-47 LanguageTag（可选）</value>
+  </data>
+  <data name="OcrLanguageType" xml:space="preserve">
+    <value>显式 LanguageType（可选）</value>
+  </data>
+  <data name="OcrLayout" xml:space="preserve">
+    <value>识别文本布局</value>
+  </data>
+  <data name="OcrLayoutError" xml:space="preserve">
+    <value>请选择有效的文本布局。</value>
+  </data>
+  <data name="OcrLocalCredentialDescription" xml:space="preserve">
+    <value>本地识别无需密钥；可保持现有状态，或保存后清除旧凭据。</value>
+  </data>
+  <data name="OcrMergeParagraphs" xml:space="preserve">
+    <value>合并段落内换行</value>
+  </data>
+  <data name="OcrMissingSelection" xml:space="preserve">
+    <value>服务已不存在，请重新选择</value>
+  </data>
+  <data name="OcrMode" xml:space="preserve">
+    <value>百度识别模式</value>
+  </data>
+  <data name="OcrModeAccurate" xml:space="preserve">
+    <value>高精度版（含位置）</value>
+  </data>
+  <data name="OcrModeAccurateBasic" xml:space="preserve">
+    <value>高精度版</value>
+  </data>
+  <data name="OcrModeGeneral" xml:space="preserve">
+    <value>标准版（含位置）</value>
+  </data>
+  <data name="OcrModeGeneralBasic" xml:space="preserve">
+    <value>标准版</value>
+  </data>
+  <data name="OcrName" xml:space="preserve">
+    <value>显示名称</value>
+  </data>
+  <data name="OcrNameError" xml:space="preserve">
+    <value>请输入服务显示名称。</value>
+  </data>
+  <data name="OcrNoFallback" xml:space="preserve">
+    <value>无备用服务</value>
+  </data>
+  <data name="OcrNotifySilent" xml:space="preserve">
+    <value>静默 OCR 复制成功后通知</value>
+  </data>
+  <data name="OcrPageDescription" xml:space="preserve">
+    <value>识别结果填入翻译窗口原文框，可编辑并按需翻译。</value>
+  </data>
+  <data name="OcrPageTitle" xml:space="preserve">
+    <value>OCR 文字识别</value>
+  </data>
+  <data name="OcrParagraph" xml:space="preserve">
+    <value>请求段落信息</value>
+  </data>
+  <data name="OcrPrimary" xml:space="preserve">
+    <value>主服务</value>
+  </data>
+  <data name="OcrProviderSelectionError" xml:space="preserve">
+    <value>请选择存在的主服务；备用服务须与主服务不同，也可选择无。</value>
+  </data>
+  <data name="OcrRetryCleanup" xml:space="preserve">
+    <value>重试结束测试</value>
+  </data>
+  <data name="OcrSaveBlocked" xml:space="preserve">
+    <value>未保存：请先重试结束测试。</value>
+  </data>
+  <data name="OcrSecretKey" xml:space="preserve">
+    <value>新的 Secret Key</value>
+  </data>
+  <data name="OcrServices" xml:space="preserve">
+    <value>识别服务</value>
+  </data>
+  <data name="OcrTest" xml:space="preserve">
+    <value>测试连接</value>
+  </data>
+  <data name="OcrTestCanceled" xml:space="preserve">
+    <value>测试已取消</value>
+  </data>
+  <data name="OcrTestDescription" xml:space="preserve">
+    <value>测试只验证连接或本机能力，不进行图像识别。</value>
+  </data>
+  <data name="OcrTestPassed" xml:space="preserve">
+    <value>连接测试通过（未保存）</value>
+  </data>
+  <data name="OcrTesting" xml:space="preserve">
+    <value>测试中…</value>
+  </data>
+  <data name="OcrTimeout" xml:space="preserve">
+    <value>超时（5–120 秒）</value>
+  </data>
+  <data name="OcrTimeoutError" xml:space="preserve">
+    <value>超时须为 5–120 的整数。</value>
+  </data>
+  <data name="OcrUnnamed" xml:space="preserve">
+    <value>未命名服务</value>
+  </data>
+  <data name="OcrWindows" xml:space="preserve">
+    <value>Windows 本地 OCR</value>
+  </data>
+  <data name="ScreenshotConfirmHint" xml:space="preserve">
+    <value>Enter / 双击确认 · 右键清除 · Esc 取消</value>
+  </data>
+  <data name="ScreenshotConfirmOnMouseUp" xml:space="preserve">
+    <value>松开鼠标后确认选区</value>
+  </data>
+  <data name="ScreenshotCopyFailed" xml:space="preserve">
+    <value>截图已完成，但图片未能复制到剪贴板。</value>
+  </data>
+  <data name="ScreenshotCopyImage" xml:space="preserve">
+    <value>确认后复制截图到剪贴板</value>
+  </data>
+  <data name="ScreenshotDragHint" xml:space="preserve">
+    <value>拖动选择区域 · Esc 取消</value>
+  </data>
+  <data name="ScreenshotHideWindows" xml:space="preserve">
+    <value>截图前隐藏 Iris 窗口</value>
+  </data>
+  <data name="ScreenshotOpacity" xml:space="preserve">
+    <value>遮罩透明度（0–0.9）</value>
+  </data>
+  <data name="ScreenshotOpacityError" xml:space="preserve">
+    <value>请输入 0–0.9 之间的有限数值。</value>
+  </data>
+  <data name="ScreenshotPageTitle" xml:space="preserve">
+    <value>截图</value>
+  </data>
+  <data name="ScreenshotSettingsDescription" xml:space="preserve">
+    <value>保存后用于下一次截图，不改变正在选择的区域。</value>
+  </data>
+  <data name="ScreenshotShowMagnifier" xml:space="preserve">
+    <value>显示放大镜</value>
+  </data>
+  <data name="SelectionEmptyDescription" xml:space="preserve">
+    <value>关闭后仅显示提示，不打开翻译窗口。</value>
+  </data>
+  <data name="SelectionEmptyLabel" xml:space="preserve">
+    <value>无选区时打开输入框</value>
+  </data>
+  <data name="SelectionHotkeyDescription" xml:space="preserve">
+    <value>读取当前选区并翻译；仅在确认复制安全时模拟复制</value>
+  </data>
+  <data name="SelectionOrderClipboardFirst" xml:space="preserve">
+    <value>模拟复制优先</value>
+  </data>
+  <data name="SelectionOrderClipboardOnly" xml:space="preserve">
+    <value>仅模拟复制</value>
+  </data>
+  <data name="SelectionOrderError" xml:space="preserve">
+    <value>请选择有效的读取方式。</value>
+  </data>
+  <data name="SelectionOrderLabel" xml:space="preserve">
+    <value>读取方式</value>
+  </data>
+  <data name="SelectionOrderUiaFirst" xml:space="preserve">
+    <value>UI 自动化优先</value>
+  </data>
+  <data name="SelectionOrderUiaOnly" xml:space="preserve">
+    <value>仅 UI 自动化</value>
+  </data>
+  <data name="SelectionProcessesDescription" xml:space="preserve">
+    <value>每行一个文件名，例如 app.exe；不支持路径或通配符。空白行忽略，清空列表表示不额外排除。</value>
+  </data>
+  <data name="SelectionProcessesError" xml:space="preserve">
+    <value>进程列表最多 256 项；每项须为 1–255 字符的文件名，不能含路径、控制字符或通配符。</value>
+  </data>
+  <data name="SelectionProcessesLabel" xml:space="preserve">
+    <value>禁止模拟复制的进程</value>
+  </data>
+  <data name="SelectionRestoreDescription" xml:space="preserve">
+    <value>检测到外部新复制时保留新内容。关闭恢复后，模拟复制会改变剪贴板。</value>
+  </data>
+  <data name="SelectionRestoreLabel" xml:space="preserve">
+    <value>恢复原剪贴板</value>
+  </data>
+  <data name="SelectionSafetyDescription" xml:space="preserve">
+    <value>仅对确认复制安全的控件模拟复制。不支持的控件可能无法读取选区。</value>
+  </data>
+  <data name="SelectionTimeoutDescription" xml:space="preserve">
+    <value>100–2000 毫秒；用于等待复制后的新文本，不包含准备和恢复耗时。</value>
+  </data>
+  <data name="SelectionTimeoutError" xml:space="preserve">
+    <value>等待时间须为 100–2000 的整数，请检查当前输入。</value>
+  </data>
+  <data name="SelectionTimeoutLabel" xml:space="preserve">
+    <value>复制后等待时间（毫秒）</value>
+  </data>
+  <data name="SettingsAddProfile" xml:space="preserve">
+    <value>添加服务</value>
+  </data>
+  <data name="SettingsAnthropicV1Warning" xml:space="preserve">
+    <value>官方 SDK 已自动包含 /v1 路径，反代地址通常不需要以 /v1 结尾</value>
+  </data>
+  <data name="SettingsCancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="SettingsChatCompletionsPath" xml:space="preserve">
+    <value>Completions 相对路径</value>
+  </data>
+  <data name="SettingsCloseFailed" xml:space="preserve">
+    <value>设置窗口尚未完成关闭，请重试。</value>
+  </data>
+  <data name="SettingsCorruptedNotice" xml:space="preserve">
+    <value>设置文件已损坏，已重置为默认值并将原文件备份。</value>
+  </data>
+  <data name="SettingsCredClear" xml:space="preserve">
+    <value>保存后清除凭据</value>
+  </data>
+  <data name="SettingsCredKeep" xml:space="preserve">
+    <value>保持现有凭据（如有）</value>
+  </data>
+  <data name="SettingsCredReplace" xml:space="preserve">
+    <value>替换 API Key</value>
+  </data>
+  <data name="SettingsDeleteProfile" xml:space="preserve">
+    <value>删除服务</value>
+  </data>
+  <data name="SettingsEffort" xml:space="preserve">
+    <value>推理强度 (Effort)</value>
+  </data>
+  <data name="SettingsExtraHeaders" xml:space="preserve">
+    <value>附加请求头 (格式: Name: Value 每行一个)</value>
+  </data>
+  <data name="SettingsFutureReadOnly" xml:space="preserve">
+    <value>配置来自更新版本，当前为只读模式。请使用匹配版本打开；保存和联网测试已禁用。</value>
+  </data>
+  <data name="SettingsHaikuEffortWarning" xml:space="preserve">
+    <value>Haiku 模型不支持 Effort，已自动清空</value>
+  </data>
+  <data name="SettingsHotkeyCancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="SettingsHotkeyCleanupFailed" xml:space="preserve">
+    <value>结束录入失败，可重试</value>
+  </data>
+  <data name="SettingsHotkeyClear" xml:space="preserve">
+    <value>清除</value>
+  </data>
+  <data name="SettingsHotkeyDisabled" xml:space="preserve">
+    <value>未设置 / 已禁用</value>
+  </data>
+  <data name="SettingsHotkeyDuplicateConflict" xml:space="preserve">
+    <value>快捷键冲突：与【{0}】重复</value>
+  </data>
+  <data name="SettingsHotkeyEnable" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="SettingsHotkeyEnding" xml:space="preserve">
+    <value>正在结束录入…</value>
+  </data>
+  <data name="SettingsHotkeyPreparing" xml:space="preserve">
+    <value>正在准备录入…</value>
+  </data>
+  <data name="SettingsHotkeyRecord" xml:space="preserve">
+    <value>录入</value>
+  </data>
+  <data name="SettingsHotkeyRecordingPrompt" xml:space="preserve">
+    <value>请按下快捷键组合…</value>
+  </data>
+  <data name="SettingsHotkeyReleasePrompt" xml:space="preserve">
+    <value>请松开按键…</value>
+  </data>
+  <data name="SettingsHotkeyReservedConflict" xml:space="preserve">
+    <value>快捷键冲突：与预留功能【{0}】重复</value>
+  </data>
+  <data name="SettingsHotkeyStatusApplying" xml:space="preserve">
+    <value>正在应用…</value>
+  </data>
+  <data name="SettingsHotkeyStatusConflict" xml:space="preserve">
+    <value>系统冲突（已被其他程序占用）</value>
+  </data>
+  <data name="SettingsHotkeyStatusFailed" xml:space="preserve">
+    <value>应用失败</value>
+  </data>
+  <data name="SettingsHotkeyStatusInvalid" xml:space="preserve">
+    <value>无效的快捷键组合</value>
+  </data>
+  <data name="SettingsHotkeyStatusPaused" xml:space="preserve">
+    <value>录入中（已暂停）</value>
+  </data>
+  <data name="SettingsHotkeyStatusRegistered" xml:space="preserve">
+    <value>已生效</value>
+  </data>
+  <data name="SettingsHotkeyStatusSavedPartialFailed" xml:space="preserve">
+    <value>已保存，部分快捷键未应用（可重试）</value>
+  </data>
+  <data name="SettingsHotkeyStatusSavedPending" xml:space="preserve">
+    <value>已保存，录入结束后应用</value>
+  </data>
+  <data name="SettingsHotkeysDescription" xml:space="preserve">
+    <value>配置触发常用功能的全局快捷键。支持包含 Win 键的组合键。</value>
+  </data>
+  <data name="SettingsHotkeysGroup" xml:space="preserve">
+    <value>全局快捷键</value>
+  </data>
+  <data name="SettingsIncludeStreamUsage" xml:space="preserve">
+    <value>流式 Token 用量统计 (IncludeStreamUsage)</value>
+  </data>
+  <data name="SettingsLaunchAtStartup" xml:space="preserve">
+    <value>开机自动启动 Iris</value>
+  </data>
+  <data name="SettingsListDraftModels" xml:space="preserve">
+    <value>获取模型列表</value>
+  </data>
+  <data name="SettingsListModelsFailed" xml:space="preserve">
+    <value>获取模型列表失败</value>
+  </data>
+  <data name="SettingsListingModels" xml:space="preserve">
+    <value>正在获取模型列表…</value>
+  </data>
+  <data name="SettingsLogDescription" xml:space="preserve">
+    <value>控制应用程序运行时输出的最小日志记录级别。</value>
+  </data>
+  <data name="SettingsLogGroup" xml:space="preserve">
+    <value>日志</value>
+  </data>
+  <data name="SettingsLogLevel" xml:space="preserve">
+    <value>日志级别</value>
+  </data>
+  <data name="SettingsMaxTokensField" xml:space="preserve">
+    <value>Token 上限字段</value>
+  </data>
+  <data name="SettingsMoveDown" xml:space="preserve">
+    <value>下移</value>
+  </data>
+  <data name="SettingsMoveUp" xml:space="preserve">
+    <value>上移</value>
+  </data>
+  <data name="SettingsNavGeneral" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="SettingsNavHotkeys" xml:space="preserve">
+    <value>快捷键</value>
+  </data>
+  <data name="SettingsNavSelection" xml:space="preserve">
+    <value>划词翻译</value>
+  </data>
+  <data name="SettingsNavTranslation" xml:space="preserve">
+    <value>翻译服务</value>
+  </data>
+  <data name="SettingsProfileAdvanced" xml:space="preserve">
+    <value>高级选项</value>
+  </data>
+  <data name="SettingsProfileApiKey" xml:space="preserve">
+    <value>API Key</value>
+  </data>
+  <data name="SettingsProfileBaseUrl" xml:space="preserve">
+    <value>API 地址</value>
+  </data>
+  <data name="SettingsProfileEnabled" xml:space="preserve">
+    <value>已启用</value>
+  </data>
+  <data name="SettingsProfileKind" xml:space="preserve">
+    <value>协议类型</value>
+  </data>
+  <data name="SettingsProfileMaxTokens" xml:space="preserve">
+    <value>最大输出 Tokens</value>
+  </data>
+  <data name="SettingsProfileModel" xml:space="preserve">
+    <value>模型名称</value>
+  </data>
+  <data name="SettingsProfileName" xml:space="preserve">
+    <value>服务名称</value>
+  </data>
+  <data name="SettingsProfilePrompt" xml:space="preserve">
+    <value>Prompt 模板</value>
+  </data>
+  <data name="SettingsProfilePromptDefault" xml:space="preserve">
+    <value>跟随默认模板</value>
+  </data>
+  <data name="SettingsProfileTemperature" xml:space="preserve">
+    <value>采样温度</value>
+  </data>
+  <data name="SettingsProfileTimeout" xml:space="preserve">
+    <value>超时时间（秒）</value>
+  </data>
+  <data name="SettingsRefusalFallback" xml:space="preserve">
+    <value>服务端拒答回退</value>
+  </data>
+  <data name="SettingsReload" xml:space="preserve">
+    <value>重新载入当前设置</value>
+  </data>
+  <data name="SettingsRetry" xml:space="preserve">
+    <value>重试应用</value>
+  </data>
+  <data name="SettingsRetryHotkeys" xml:space="preserve">
+    <value>重试快捷键应用</value>
+  </data>
+  <data name="SettingsRetryPendingApply" xml:space="preserve">
+    <value>重试服务应用</value>
+  </data>
+  <data name="SettingsSave" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="SettingsShowStartupNotification" xml:space="preserve">
+    <value>启动时显示后台运行通知</value>
+  </data>
+  <data name="SettingsStartupGroup" xml:space="preserve">
+    <value>开机自启与通知</value>
+  </data>
+  <data name="SettingsStatusAutoStartApplied" xml:space="preserve">
+    <value>开机启动设置已生效</value>
+  </data>
+  <data name="SettingsStatusAutoStartRetryFailed" xml:space="preserve">
+    <value>重试开机启动设置未生效</value>
+  </data>
+  <data name="SettingsStatusCanceled" xml:space="preserve">
+    <value>保存已取消</value>
+  </data>
+  <data name="SettingsStatusConflict" xml:space="preserve">
+    <value>保存冲突：设置已被其他操作修改，请重新载入后再次编辑</value>
+  </data>
+  <data name="SettingsStatusFileError" xml:space="preserve">
+    <value>保存设置文件失败</value>
+  </data>
+  <data name="SettingsStatusHotkeysApplied" xml:space="preserve">
+    <value>快捷键应用已生效</value>
+  </data>
+  <data name="SettingsStatusHotkeysRetryFailed" xml:space="preserve">
+    <value>重试快捷键应用未完成</value>
+  </data>
+  <data name="SettingsStatusInvalidLogLevel" xml:space="preserve">
+    <value>无效的日志级别设置</value>
+  </data>
+  <data name="SettingsStatusInvalidTheme" xml:space="preserve">
+    <value>无效的主题设置</value>
+  </data>
+  <data name="SettingsStatusPendingApplyCompleted" xml:space="preserve">
+    <value>翻译服务应用已完成</value>
+  </data>
+  <data name="SettingsStatusPendingApplyFailed" xml:space="preserve">
+    <value>重试翻译服务应用未完成</value>
+  </data>
+  <data name="SettingsStatusPendingApplyQuotaFull" xml:space="preserve">
+    <value>待应用的服务清理事项过多，请先重试未完成的待应用事项</value>
+  </data>
+  <data name="SettingsStatusRetryingAutoStart" xml:space="preserve">
+    <value>正在重试开机启动设置…</value>
+  </data>
+  <data name="SettingsStatusRetryingHotkeys" xml:space="preserve">
+    <value>正在重试快捷键应用…</value>
+  </data>
+  <data name="SettingsStatusRetryingPendingApply" xml:space="preserve">
+    <value>正在重试翻译服务应用…</value>
+  </data>
+  <data name="SettingsStatusSaveFailed" xml:space="preserve">
+    <value>保存失败</value>
+  </data>
+  <data name="SettingsStatusSaved" xml:space="preserve">
+    <value>设置已保存</value>
+  </data>
+  <data name="SettingsStatusSavedAutoStartPending" xml:space="preserve">
+    <value>已保存，但开机启动设置未生效（可重试）</value>
+  </data>
+  <data name="SettingsStatusSavedAutoStartStillPending" xml:space="preserve">
+    <value>设置已保存，但开机启动设置仍未生效（可重试）</value>
+  </data>
+  <data name="SettingsStatusSavedPendingApply" xml:space="preserve">
+    <value>设置已保存，但翻译服务刷新/清理未完成（可重试）</value>
+  </data>
+  <data name="SettingsStatusSavedPendingApplyAndAutoStart" xml:space="preserve">
+    <value>设置已保存，但服务刷新与开机启动均未完成（可重试）</value>
+  </data>
+  <data name="SettingsStatusSaving" xml:space="preserve">
+    <value>正在保存…</value>
+  </data>
+  <data name="SettingsStatusStopped" xml:space="preserve">
+    <value>保存已停止</value>
+  </data>
+  <data name="SettingsStream" xml:space="preserve">
+    <value>流式响应 (Stream)</value>
+  </data>
+  <data name="SettingsStripThinkTags" xml:space="preserve">
+    <value>移除思考标记 (&lt;think&gt; tags)</value>
+  </data>
+  <data name="SettingsTestDraft" xml:space="preserve">
+    <value>测试连接</value>
+  </data>
+  <data name="SettingsTestDraftFailed" xml:space="preserve">
+    <value>连接测试失败</value>
+  </data>
+  <data name="SettingsTestDraftSuccess" xml:space="preserve">
+    <value>连接测试成功</value>
+  </data>
+  <data name="SettingsTestingDraft" xml:space="preserve">
+    <value>正在测试连接…</value>
+  </data>
+  <data name="SettingsThemeDark" xml:space="preserve">
+    <value>深色</value>
+  </data>
+  <data name="SettingsThemeDescription" xml:space="preserve">
+    <value>选择应用程序的色彩主题模式。</value>
+  </data>
+  <data name="SettingsThemeGroup" xml:space="preserve">
+    <value>外观与主题</value>
+  </data>
+  <data name="SettingsThemeLight" xml:space="preserve">
+    <value>浅色</value>
+  </data>
+  <data name="SettingsThemeSystem" xml:space="preserve">
+    <value>跟随系统</value>
+  </data>
+  <data name="SettingsTitle" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>Iris 设置</value>
+  </data>
+  <data name="StartupFailed" xml:space="preserve">
+    <value>Iris 启动或清理失败，请稍后重试。</value>
+  </data>
+  <data name="StartupRunningInBackground" xml:space="preserve">
+    <value>Iris 已在后台运行</value>
+  </data>
+  <data name="Text_03261c064096" xml:space="preserve">
+    <value>截图翻译</value>
+  </data>
+  <data name="Text_0bdec2522201" xml:space="preserve">
+    <value>存在重复的请求头名称: {0}</value>
+  </data>
+  <data name="Text_130b4f7f9f33" xml:space="preserve">
+    <value>注销失败</value>
+  </data>
+  <data name="Text_15eca5fee02d" xml:space="preserve">
+    <value>ChatCompletionsPath 必须为相对路径且不包含查询或片段</value>
+  </data>
+  <data name="Text_259cdcf75199" xml:space="preserve">
+    <value>韩语</value>
+  </data>
+  <data name="Text_28293356d695" xml:space="preserve">
+    <value>默认 (null)</value>
+  </data>
+  <data name="Text_29ee8b1d8422" xml:space="preserve">
+    <value>最大输出 Tokens 必须为正整数</value>
+  </data>
+  <data name="Text_2c944b654a3b" xml:space="preserve">
+    <value>翻译文本</value>
+  </data>
+  <data name="Text_30315c37c118" xml:space="preserve">
+    <value>max_tokens (默认)</value>
+  </data>
+  <data name="Text_3070ed21a7ed" xml:space="preserve">
+    <value>[已移除] {0}</value>
+  </data>
+  <data name="Text_37e627acd92a" xml:space="preserve">
+    <value>{0} (已禁用)</value>
+  </data>
+  <data name="Text_3a713e0a1fc2" xml:space="preserve">
+    <value>测试连接必须指定模型名称</value>
+  </data>
+  <data name="Text_3a944ddb3868" xml:space="preserve">
+    <value>日语</value>
+  </data>
+  <data name="Text_3b02edcd404d" xml:space="preserve">
+    <value>划词翻译</value>
+  </data>
+  <data name="Text_3b89fd6b0ced" xml:space="preserve">
+    <value>自动检测</value>
+  </data>
+  <data name="Text_501fb7e80e5a" xml:space="preserve">
+    <value>静默截图 OCR</value>
+  </data>
+  <data name="Text_525a47965e10" xml:space="preserve">
+    <value>无效的请求头名称: {0}</value>
+  </data>
+  <data name="Text_5bdde8257c53" xml:space="preserve">
+    <value>意大利语</value>
+  </data>
+  <data name="Text_6124b5028ecd" xml:space="preserve">
+    <value>采样温度必须在 0.0 到 2.0 之间</value>
+  </data>
+  <data name="Text_6410e0ade8fd" xml:space="preserve">
+    <value>打开输入翻译窗口快速翻译文本</value>
+  </data>
+  <data name="Text_6417027b65c2" xml:space="preserve">
+    <value>(无效键)</value>
+  </data>
+  <data name="Text_668be3ef6c0d" xml:space="preserve">
+    <value>不得在附加头中包含敏感身份头: {0}</value>
+  </data>
+  <data name="Text_6c872d27f835" xml:space="preserve">
+    <value>西班牙语</value>
+  </data>
+  <data name="Text_6ce072a79389" xml:space="preserve">
+    <value>葡萄牙语</value>
+  </data>
+  <data name="Text_72704d8e1e47" xml:space="preserve">
+    <value>悬浮球</value>
+  </data>
+  <data name="Text_733881723d47" xml:space="preserve">
+    <value>成功获取 {0} 个模型</value>
+  </data>
+  <data name="Text_7566092dce72" xml:space="preserve">
+    <value>德语</value>
+  </data>
+  <data name="Text_77beb03033cb" xml:space="preserve">
+    <value>OpenAI 兼容协议必须提供 BaseUrl</value>
+  </data>
+  <data name="Text_7bf7a60617de" xml:space="preserve">
+    <value>繁体中文</value>
+  </data>
+  <data name="Text_8648ba069ee0" xml:space="preserve">
+    <value>越南语</value>
+  </data>
+  <data name="Text_887484964876" xml:space="preserve">
+    <value>ChatCompletionsPath 不能为空</value>
+  </data>
+  <data name="Text_8a6cb14e2f9a" xml:space="preserve">
+    <value>译</value>
+  </data>
+  <data name="Text_906a2400f060" xml:space="preserve">
+    <value>请求头格式错误，应为 'Name: Value'</value>
+  </data>
+  <data name="Text_90df77bfc309" xml:space="preserve">
+    <value>自动 (按设置)</value>
+  </data>
+  <data name="Text_93c96aec66da" xml:space="preserve">
+    <value>已启用的服务必须指定模型名称</value>
+  </data>
+  <data name="Text_9541ee3d4b15" xml:space="preserve">
+    <value>请求参数</value>
+  </data>
+  <data name="Text_98de13c4b263" xml:space="preserve">
+    <value>Anthropic BaseUrl 必须为合法的 http(s) 地址</value>
+  </data>
+  <data name="Text_9937e365aaf3" xml:space="preserve">
+    <value>简体中文</value>
+  </data>
+  <data name="Text_99729d9d15a4" xml:space="preserve">
+    <value>快捷键录入清理未完成，无法保存</value>
+  </data>
+  <data name="Text_99cdf164a814" xml:space="preserve">
+    <value>法语</value>
+  </data>
+  <data name="Text_9d819d38d5cd" xml:space="preserve">
+    <value>BaseUrl 必须为合法的 http(s) 地址</value>
+  </data>
+  <data name="Text_a03a94a2f826" xml:space="preserve">
+    <value>截图 OCR</value>
+  </data>
+  <data name="Text_a15fb0d0595f" xml:space="preserve">
+    <value>泰语</value>
+  </data>
+  <data name="Text_a943c0367b80" xml:space="preserve">
+    <value>凭据管理</value>
+  </data>
+  <data name="Text_af3fd060dd39" xml:space="preserve">
+    <value>请先修正快捷键冲突或错误</value>
+  </data>
+  <data name="Text_b9763286f171" xml:space="preserve">
+    <value>已选择替换 API Key，但尚未输入新 Key</value>
+  </data>
+  <data name="Text_bdb6608a4dc8" xml:space="preserve">
+    <value>俄语</value>
+  </data>
+  <data name="Text_c0aa76aebce6" xml:space="preserve">
+    <value>占用</value>
+  </data>
+  <data name="Text_c7d8838aeb65" xml:space="preserve">
+    <value>打开 Iris 设置界面</value>
+  </data>
+  <data name="Text_ca2e5cc0561d" xml:space="preserve">
+    <value>服务显示名称不能为空</value>
+  </data>
+  <data name="Text_d1648bacbc16" xml:space="preserve">
+    <value>英语</value>
+  </data>
+  <data name="Text_d681ffc969c1" xml:space="preserve">
+    <value>读取剪贴板内容并进行翻译</value>
+  </data>
+  <data name="Text_e674ecde293f" xml:space="preserve">
+    <value>max_completion_tokens (推理)</value>
+  </data>
+  <data name="Text_e8189e624897" xml:space="preserve">
+    <value>Haiku 模型不支持 Effort 参数，请清空 Effort</value>
+  </data>
+  <data name="Text_e8df05872569" xml:space="preserve">
+    <value>基本信息</value>
+  </data>
+  <data name="Text_ee86d366961c" xml:space="preserve">
+    <value>(未设置)</value>
+  </data>
+  <data name="Text_f3bbfa20ffbe" xml:space="preserve">
+    <value>超时时间必须在 5 到 600 秒之间</value>
+  </data>
+  <data name="Text_f842c928e8e3" xml:space="preserve">
+    <value>Effort 必须为 low/medium/high/xhigh/max 或 null</value>
+  </data>
+  <data name="Text_fc9a0bdeb77f" xml:space="preserve">
+    <value>阿拉伯语</value>
+  </data>
+  <data name="TranslateBusy" xml:space="preserve">
+    <value>系统忙碌，请稍后再试</value>
+  </data>
+  <data name="TranslateButton" xml:space="preserve">
+    <value>翻译</value>
+  </data>
+  <data name="TranslateClose" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="TranslateCopy" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="TranslateCopyVisible" xml:space="preserve">
+    <value>复制可见内容</value>
+  </data>
+  <data name="TranslateEmptyPrompt" xml:space="preserve">
+    <value>请输入要翻译的文本</value>
+  </data>
+  <data name="TranslateFromCache" xml:space="preserve">
+    <value>缓存</value>
+  </data>
+  <data name="TranslateGoToSettings" xml:space="preserve">
+    <value>去设置</value>
+  </data>
+  <data name="TranslateInputPlaceholder" xml:space="preserve">
+    <value>输入文本，按 Enter 翻译…</value>
+  </data>
+  <data name="TranslateInputTooLong" xml:space="preserve">
+    <value>输入文本超出最大字符限制</value>
+  </data>
+  <data name="TranslateLastResult" xml:space="preserve">
+    <value>上次结果</value>
+  </data>
+  <data name="TranslateLocalTruncated" xml:space="preserve">
+    <value>本地显示已截断</value>
+  </data>
+  <data name="TranslateModelTruncated" xml:space="preserve">
+    <value>结果不完整 (模型截断)</value>
+  </data>
+  <data name="TranslateNoConfiguredProviders" xml:space="preserve">
+    <value>未配置任何可用的翻译服务，请前往设置配置。</value>
+  </data>
+  <data name="TranslatePinWindow" xml:space="preserve">
+    <value>钉住窗口</value>
+  </data>
+  <data name="TranslateRetry" xml:space="preserve">
+    <value>重试</value>
+  </data>
+  <data name="TranslateSettings" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="TranslateStopButton" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="TranslateStopped" xml:space="preserve">
+    <value>翻译已停止</value>
+  </data>
+  <data name="TranslateSwapLanguages" xml:space="preserve">
+    <value>交换语言</value>
+  </data>
+  <data name="TranslateUnpinWindow" xml:space="preserve">
+    <value>取消钉住</value>
+  </data>
+  <data name="TranslateWindowTitle" xml:space="preserve">
+    <value>Iris 翻译</value>
+  </data>
+  <data name="TrayMenuClipboardTranslate" xml:space="preserve">
+    <value>剪贴板翻译</value>
+  </data>
+  <data name="TrayMenuDebugTaskException" xml:space="preserve">
+    <value>调试：后台任务异常</value>
+  </data>
+  <data name="TrayMenuDebugToggleTheme" xml:space="preserve">
+    <value>调试：切换主题</value>
+  </data>
+  <data name="TrayMenuDebugUiException" xml:space="preserve">
+    <value>调试：UI 线程异常</value>
+  </data>
+  <data name="TrayMenuExit" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="TrayMenuInputTranslate" xml:space="preserve">
+    <value>输入翻译</value>
+  </data>
+  <data name="TrayMenuScreenshotOcr" xml:space="preserve">
+    <value>截图 OCR</value>
+  </data>
+  <data name="TrayMenuScreenshotTranslate" xml:space="preserve">
+    <value>截图翻译</value>
+  </data>
+  <data name="TrayMenuSettings" xml:space="preserve">
+    <value>设置…</value>
+  </data>
+  <data name="TrayMenuSilentScreenshotOcr" xml:space="preserve">
+    <value>静默截图 OCR</value>
+  </data>
+  <data name="TrayToolTip" xml:space="preserve">
+    <value>Iris</value>
+  </data>
+  <data name="Preset_dashscope" xml:space="preserve">
+    <value>通义千问 (DashScope)</value>
+  </data>
+  <data name="Preset_zhipu" xml:space="preserve">
+    <value>智谱 GLM</value>
+  </data>
+  <data name="Preset_gemini" xml:space="preserve">
+    <value>Gemini (OpenAI 兼容端点)</value>
+  </data>
+  <data name="Preset_ollama" xml:space="preserve">
+    <value>Ollama (本地)</value>
+  </data>
+  <data name="Preset_custom" xml:space="preserve">
+    <value>自定义 OpenAI 兼容服务</value>
+  </data>
+  <data name="AccessibilitySourceLanguage" xml:space="preserve">
+    <value>原文语言</value>
+  </data>
+  <data name="AccessibilityTargetLanguage" xml:space="preserve">
+    <value>目标语言</value>
+  </data>
+  <data name="AccessibilitySourceText" xml:space="preserve">
+    <value>原文</value>
+  </data>
+</root>

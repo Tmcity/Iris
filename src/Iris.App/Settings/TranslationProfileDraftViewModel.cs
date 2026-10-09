@@ -746,7 +746,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
             var colonIdx = trimmed.IndexOf(':');
             if (colonIdx <= 0)
             {
-                return (null, "请求头格式错误，应为 'Name: Value'");
+                return (null, global::Iris.App.Resources.AppResources.Get("Text_906a2400f060"));
             }
 
             var name = trimmed[..colonIdx].Trim();
@@ -754,17 +754,17 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
 
             if (!HttpTokenRegex().IsMatch(name))
             {
-                return (null, $"无效的请求头名称: {name}");
+                return (null, global::Iris.App.Resources.AppResources.Format("Text_525a47965e10", name));
             }
 
             if (SensitiveHeaderNames.Contains(name))
             {
-                return (null, $"不得在附加头中包含敏感身份头: {name}");
+                return (null, global::Iris.App.Resources.AppResources.Format("Text_668be3ef6c0d", name));
             }
 
             if (dict.ContainsKey(name))
             {
-                return (null, $"存在重复的请求头名称: {name}");
+                return (null, global::Iris.App.Resources.AppResources.Format("Text_0bdec2522201", name));
             }
 
             dict[name] = val;
@@ -777,7 +777,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
     {
         if (string.IsNullOrWhiteSpace(_displayName))
         {
-            return "服务显示名称不能为空";
+            return global::Iris.App.Resources.AppResources.Get("Text_ca2e5cc0561d");
         }
 
         if (int.TryParse(_timeoutText, out var timeout) && timeout is >= 5 and <= 600)
@@ -786,14 +786,14 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         }
         else
         {
-            return "超时时间必须在 5 到 600 秒之间";
+            return global::Iris.App.Resources.AppResources.Get("Text_f3bbfa20ffbe");
         }
 
         if (!string.IsNullOrWhiteSpace(_maxOutputTokensText))
         {
             if (!int.TryParse(_maxOutputTokensText, out var maxTokens) || maxTokens <= 0)
             {
-                return "最大输出 Tokens 必须为正整数";
+                return global::Iris.App.Resources.AppResources.Get("Text_29ee8b1d8422");
             }
         }
 
@@ -801,7 +801,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         {
             if (!double.TryParse(_temperatureText, out var temp) || temp is < 0.0 or > 2.0 || double.IsNaN(temp) || double.IsInfinity(temp))
             {
-                return "采样温度必须在 0.0 到 2.0 之间";
+                return global::Iris.App.Resources.AppResources.Get("Text_6124b5028ecd");
             }
         }
 
@@ -809,17 +809,17 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         {
             if (string.IsNullOrWhiteSpace(_baseUrl))
             {
-                return "OpenAI 兼容协议必须提供 BaseUrl";
+                return global::Iris.App.Resources.AppResources.Get("Text_77beb03033cb");
             }
 
             if (!Uri.TryCreate(_baseUrl, UriKind.Absolute, out var uri) || (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
             {
-                return "BaseUrl 必须为合法的 http(s) 地址";
+                return global::Iris.App.Resources.AppResources.Get("Text_9d819d38d5cd");
             }
 
             if (string.IsNullOrWhiteSpace(_chatCompletionsPath))
             {
-                return "ChatCompletionsPath 不能为空";
+                return global::Iris.App.Resources.AppResources.Get("Text_887484964876");
             }
 
             if (_chatCompletionsPath.StartsWith("http://", StringComparison.OrdinalIgnoreCase) ||
@@ -827,7 +827,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
                 _chatCompletionsPath.StartsWith("//", StringComparison.Ordinal) ||
                 _chatCompletionsPath.Contains('?') || _chatCompletionsPath.Contains('#'))
             {
-                return "ChatCompletionsPath 必须为相对路径且不包含查询或片段";
+                return global::Iris.App.Resources.AppResources.Get("Text_15eca5fee02d");
             }
 
             var (_, headersError) = ParseExtraHeaders(_extraHeadersText);
@@ -842,7 +842,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
             {
                 if (!Uri.TryCreate(_baseUrl, UriKind.Absolute, out var uri) || (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
                 {
-                    return "Anthropic BaseUrl 必须为合法的 http(s) 地址";
+                    return global::Iris.App.Resources.AppResources.Get("Text_98de13c4b263");
                 }
             }
 
@@ -851,24 +851,24 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
                 var allowed = new[] { "low", "medium", "high", "xhigh", "max" };
                 if (!allowed.Contains(_effort, StringComparer.Ordinal))
                 {
-                    return "Effort 必须为 low/medium/high/xhigh/max 或 null";
+                    return global::Iris.App.Resources.AppResources.Get("Text_f842c928e8e3");
                 }
             }
 
             if (_model.Contains("haiku", StringComparison.OrdinalIgnoreCase) && _effort != null)
             {
-                return "Haiku 模型不支持 Effort 参数，请清空 Effort";
+                return global::Iris.App.Resources.AppResources.Get("Text_e8189e624897");
             }
         }
 
         if (_enabled && string.IsNullOrWhiteSpace(_model))
         {
-            return "已启用的服务必须指定模型名称";
+            return global::Iris.App.Resources.AppResources.Get("Text_93c96aec66da");
         }
 
         if (_credentialEditKind == CredentialEditKind.Replace && string.IsNullOrWhiteSpace(_replacementApiKey))
         {
-            return "已选择替换 API Key，但尚未输入新 Key";
+            return global::Iris.App.Resources.AppResources.Get("Text_b9763286f171");
         }
 
         return null;
@@ -884,7 +884,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
 
         if (string.IsNullOrWhiteSpace(_model))
         {
-            return "测试连接必须指定模型名称";
+            return global::Iris.App.Resources.AppResources.Get("Text_3a713e0a1fc2");
         }
 
         return null;
@@ -895,7 +895,7 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         // 模型列表前置校验：不依赖 Model、Prompt、ChatCompletionsPath、MaxTokensField、Effort
         if (string.IsNullOrWhiteSpace(_displayName))
         {
-            return "服务显示名称不能为空";
+            return global::Iris.App.Resources.AppResources.Get("Text_ca2e5cc0561d");
         }
 
         if (int.TryParse(_timeoutText, out var timeout) && timeout is >= 5 and <= 600)
@@ -904,19 +904,19 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
         }
         else
         {
-            return "超时时间必须在 5 到 600 秒之间";
+            return global::Iris.App.Resources.AppResources.Get("Text_f3bbfa20ffbe");
         }
 
         if (Kind == TranslationProviderKind.OpenAICompatible)
         {
             if (string.IsNullOrWhiteSpace(_baseUrl))
             {
-                return "OpenAI 兼容协议必须提供 BaseUrl";
+                return global::Iris.App.Resources.AppResources.Get("Text_77beb03033cb");
             }
 
             if (!Uri.TryCreate(_baseUrl, UriKind.Absolute, out var uri) || (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
             {
-                return "BaseUrl 必须为合法的 http(s) 地址";
+                return global::Iris.App.Resources.AppResources.Get("Text_9d819d38d5cd");
             }
 
             var (_, headersError) = ParseExtraHeaders(_extraHeadersText);
@@ -931,14 +931,14 @@ internal sealed partial class TranslationProfileDraftViewModel : INotifyProperty
             {
                 if (!Uri.TryCreate(_baseUrl, UriKind.Absolute, out var uri) || (uri.Scheme != Uri.UriSchemeHttp && uri.Scheme != Uri.UriSchemeHttps))
                 {
-                    return "Anthropic BaseUrl 必须为合法的 http(s) 地址";
+                    return global::Iris.App.Resources.AppResources.Get("Text_98de13c4b263");
                 }
             }
         }
 
         if (_credentialEditKind == CredentialEditKind.Replace && string.IsNullOrWhiteSpace(_replacementApiKey))
         {
-            return "已选择替换 API Key，但尚未输入新 Key";
+            return global::Iris.App.Resources.AppResources.Get("Text_b9763286f171");
         }
 
         return null;

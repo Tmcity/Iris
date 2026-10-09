@@ -9,12 +9,16 @@ public sealed record SettingsFieldEdit<T>(T Base, T Target)
     public override string ToString() => "SettingsFieldEdit";
 }
 
-/// <summary>只编辑 T-018 已开放的四项；null 项保留提交时的最新值。</summary>
+/// <summary>常规设置字段增量；null 项保留提交时的最新值。原四参数构造/解构保持。
+/// UiLanguage 只接受规范值zh-CN/en-US，保存后下次启动生效，完整规则见LOCALIZATION.md。</summary>
 public sealed record GeneralSettingsPatch(
     SettingsFieldEdit<AppTheme>? Theme = null,
     SettingsFieldEdit<bool>? LaunchAtStartup = null,
     SettingsFieldEdit<bool>? ShowStartupNotification = null,
-    SettingsFieldEdit<string>? LogLevel = null);
+    SettingsFieldEdit<string>? LogLevel = null)
+{
+    public SettingsFieldEdit<string>? UiLanguage { get; init; }
+}
 
 /// <summary>划词设置增量。null 项保留最新值；Base 只用于冲突比较，显式 Target 按 SELECTION_SETTINGS_UI.md / MOUSE_SELECTION_INTERACTION.md 验证。
 /// 所有列表的 Base/Target 均须在 Commit 入口同步独立复制；原五参数构造/解构保持。</summary>

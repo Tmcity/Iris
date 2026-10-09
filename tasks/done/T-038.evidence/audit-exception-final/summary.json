@@ -1,0 +1,20 @@
+[
+  {
+    "case": "baseline",
+    "inventoryEntries": 3,
+    "auditExit": 0,
+    "unapproved": 0
+  },
+  {
+    "case": "ui-mutation",
+    "inventoryEntries": 4,
+    "auditExit": 1,
+    "unapproved": 1
+  },
+  {
+    "case": "duplicate-site",
+    "inventoryEntries": 4,
+    "auditExit": 1,
+    "unapproved": 2
+  }
+]

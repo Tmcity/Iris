@@ -1,0 +1,24 @@
+{
+  "Cases": [
+    {
+      "Case": "baseline",
+      "InventoryEntries": 3,
+      "AuditExit": 0,
+      "ExpectedExit": 0,
+      "Unapproved": 0,
+      "ResourceErrors": []
+    },
+    {
+      "Case": "ui-mutation",
+      "InventoryEntries": 4,
+      "AuditExit": 1,
+      "ExpectedExit": 1,
+      "Unapproved": 1,
+      "ResourceErrors": []
+    }
+  ],
+  "ScannerDllSha256": "bd4194e894c9039d27e4516e4c63036c600ec2fb67b13b2f3da1c3acabaab743",
+  "ProductInputsChangedDuringRun": [],
+  "OriginalMutationSourceSha256": "53164d4fc65934180da0ff20764a28fc1d9d32d3826b360964665cafc58ee52e",
+  "Scope": "Actual freshly rebuilt Roslyn scanner and actual checker on owned source copies; no product mutation."
+}

@@ -36,13 +36,12 @@ internal sealed class OcrProfileDraftViewModel : INotifyPropertyChanged
     internal string? ReplacementApiKey => _apiKey;
     internal string? ReplacementSecretKey => _secretKey;
     public bool IsReplacing => IsBaidu && Credentials.Value == CredentialEditKind.Replace;
-    public static IReadOnlyList<OcrModeOption> Modes { get; } =
-    [new(BaiduOcrMode.GeneralBasic, UiText.OcrModeGeneralBasic), new(BaiduOcrMode.AccurateBasic, UiText.OcrModeAccurateBasic),
+    public static IReadOnlyList<OcrModeOption> Modes =>    [new(BaiduOcrMode.GeneralBasic, UiText.OcrModeGeneralBasic), new(BaiduOcrMode.AccurateBasic, UiText.OcrModeAccurateBasic),
      new(BaiduOcrMode.General, UiText.OcrModeGeneral), new(BaiduOcrMode.Accurate, UiText.OcrModeAccurate)];
     public IReadOnlyList<OcrCredentialOption> CredentialOptions => IsBaidu ? AllCredentials : LocalCredentials;
-    private static readonly OcrCredentialOption[] AllCredentials =
+    private static OcrCredentialOption[] AllCredentials =>
         [new(CredentialEditKind.Keep, UiText.OcrCredentialKeep), new(CredentialEditKind.Replace, UiText.OcrCredentialReplace), new(CredentialEditKind.Clear, UiText.OcrCredentialClear)];
-    private static readonly OcrCredentialOption[] LocalCredentials = [AllCredentials[0], AllCredentials[2]];
+    private static OcrCredentialOption[] LocalCredentials => [AllCredentials[0], AllCredentials[2]];
 
     internal OcrProfileDraftViewModel(OcrProviderProfile profile, bool isNew, Func<bool> canEdit, Action<OcrProfileDraftViewModel> edited)
     {

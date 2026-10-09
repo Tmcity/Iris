@@ -258,7 +258,8 @@ internal partial class SettingsWindow : FluentWindow
         {
             var item = new MenuItem
             {
-                Header = preset.DisplayName,
+                Header = preset.Key is "dashscope" or "zhipu" or "gemini" or "ollama" or "custom"
+                    ? Iris.App.Resources.AppResources.Get("Preset_" + preset.Key) : preset.DisplayName,
                 Tag = preset
             };
             item.Click += (s, ev) =>
@@ -272,6 +273,7 @@ internal partial class SettingsWindow : FluentWindow
         }
 
         menu.PlacementTarget = AddProfileButton;
+        AddProfileButton.ContextMenu = menu;
         menu.IsOpen = true;
     }
 

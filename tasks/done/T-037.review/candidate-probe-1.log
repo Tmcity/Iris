@@ -1,0 +1,10 @@
+C:\Users\28910\AppData\Local\Temp\iris-t037-independent\Program.cs(208,27): error CS0246: 未能找到类型或命名空间名“Stream”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t037-independent\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t037-independent\Program.cs(222,40): error CS0246: 未能找到类型或命名空间名“Stream”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t037-independent\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t037-independent\Program.cs(250,43): error CS0246: 未能找到类型或命名空间名“SeekOrigin”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t037-independent\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t037-independent\Program.cs(269,27): error CS0246: 未能找到类型或命名空间名“Stream”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t037-independent\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t037-independent\Program.cs(268,26): error CS0246: 未能找到类型或命名空间名“Stream”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t037-independent\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t037-independent\Program.cs(278,83): error CS0246: 未能找到类型或命名空间名“Stream”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t037-independent\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t037-independent\Program.cs(278,36): error CS0246: 未能找到类型或命名空间名“Stream”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t037-independent\Review.csproj]
+C:\Users\28910\AppData\Local\Temp\iris-t037-independent\Program.cs(305,43): error CS0246: 未能找到类型或命名空间名“SeekOrigin”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t037-independent\Review.csproj]
+
+生成失败。请修复生成错误并重新运行。

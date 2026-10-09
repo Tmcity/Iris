@@ -1,0 +1,59 @@
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:284: trailing whitespace.
++dotnet_naming_symbols.interfaces.required_modifiers = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:288: trailing whitespace.
++dotnet_naming_symbols.enums.required_modifiers = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:292: trailing whitespace.
++dotnet_naming_symbols.events.required_modifiers = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:296: trailing whitespace.
++dotnet_naming_symbols.methods.required_modifiers = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:300: trailing whitespace.
++dotnet_naming_symbols.properties.required_modifiers = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:304: trailing whitespace.
++dotnet_naming_symbols.public_fields.required_modifiers = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:308: trailing whitespace.
++dotnet_naming_symbols.private_fields.required_modifiers = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:316: trailing whitespace.
++dotnet_naming_symbols.types_and_namespaces.required_modifiers = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:320: trailing whitespace.
++dotnet_naming_symbols.non_field_members.required_modifiers = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:324: trailing whitespace.
++dotnet_naming_symbols.type_parameters.required_modifiers = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:332: trailing whitespace.
++dotnet_naming_symbols.local_variables.required_modifiers = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:340: trailing whitespace.
++dotnet_naming_symbols.parameters.required_modifiers = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:356: trailing whitespace.
++dotnet_naming_symbols.local_functions.required_modifiers = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:360: trailing whitespace.
++dotnet_naming_style.pascalcase.required_prefix = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:361: trailing whitespace.
++dotnet_naming_style.pascalcase.required_suffix = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:362: trailing whitespace.
++dotnet_naming_style.pascalcase.word_separator = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:366: trailing whitespace.
++dotnet_naming_style.ipascalcase.required_suffix = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:367: trailing whitespace.
++dotnet_naming_style.ipascalcase.word_separator = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:371: trailing whitespace.
++dotnet_naming_style.tpascalcase.required_suffix = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:372: trailing whitespace.
++dotnet_naming_style.tpascalcase.word_separator = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:376: trailing whitespace.
++dotnet_naming_style._camelcase.required_suffix = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:377: trailing whitespace.
++dotnet_naming_style._camelcase.word_separator = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:380: trailing whitespace.
++dotnet_naming_style.camelcase.required_prefix = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:381: trailing whitespace.
++dotnet_naming_style.camelcase.required_suffix = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:382: trailing whitespace.
++dotnet_naming_style.camelcase.word_separator = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:386: trailing whitespace.
++dotnet_naming_style.s_camelcase.required_suffix = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:387: trailing whitespace.
++dotnet_naming_style.s_camelcase.word_separator = 
+tasks/done/T-038.review/audit-exception-after/tool/.editorconfig:389: new blank line at EOF.
+tasks/done/T-038.review/candidate-runtime-source/UiBoundary.cs:66: new blank line at EOF.
+tasks/done/T-038.review/runtime-final-before-source/UiBoundary.cs:66: new blank line at EOF.
+tasks/done/T-038.review/runtime-final-source/UiBoundary.cs:74: new blank line at EOF.
+tasks/done/T-038.review/runtime-final-timeout-2-source/UiBoundary.cs:74: new blank line at EOF.

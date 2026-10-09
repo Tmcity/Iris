@@ -26,12 +26,17 @@ internal static class Program
             return request.Kind == CommandLineKind.Help ? 0 : 2;
         }
         IDisposable? guard = null;
+        IDisposable? languageRun = null;
         int exitCode = 1;
         try
         {
             var identity = runtime.GetIdentity();
             guard = runtime.Acquire(identity);
-            if (guard != null) exitCode = RunPrimary(runtime, identity, request.Command, started);
+            if (guard != null)
+            {
+                languageRun = runtime.BeginPrimaryRun();
+                exitCode = RunPrimary(runtime, identity, request.Command, started);
+            }
             else
             {
                 // Approved only here: second instance, before WPF/Host/data/log initialization.
@@ -48,6 +53,7 @@ internal static class Program
             // Same Main thread releases the mutex, even when Host or logger cleanup throws.
             try { guard?.Dispose(); }
             catch (Exception) { runtime.Show(UiText.StartupFailed); exitCode = 1; }
+            finally { languageRun?.Dispose(); }
         }
         return exitCode;
     }

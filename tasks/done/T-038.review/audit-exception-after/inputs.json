@@ -1,0 +1,17 @@
+{
+  "Directory.Build.props": "c32e046fc5f05f24df4925c1c689129e058df7f7d9908fad6d7e7392e2ae3c16",
+  "global.json": "fddf025247274c696cad0caa013fa3bc4a07de2d7fb6c1c2c805164a72b1716d",
+  ".editorconfig": "bf04a995a20d13c2e185707b0da4a3d27ac9657e97d3444a78734dcc9ff6f9f7",
+  "build/LocalizationAudit/Program.cs": "e301a555b5ed946fa1b8d7201d2455a3cf20dad65f0dd5fc99d5ce48c1e99088",
+  "build/LocalizationAudit/Migration.cs": "5e4f24a081eac01bc53966db3c83e26f1af4ecfd5f9befe43a4aeedd0b807386",
+  "build/LocalizationAudit/LocalizationAudit.csproj": "86bcbe105623b6a5d843a450f95b14f0985cd71619ec4bed3007a3403eff5710",
+  "src/Iris.App/App.xaml.cs": "d2d4ebaaf247a3ecdd84a916abce9584968386e02a01b266433a57422f5dc168",
+  "src/Iris.App/Resources/Strings.resx": "dda418ecaec38b7c31e7e6afe6b191ea8c11faa4c10a34c61df97b2af67e0037",
+  "src/Iris.App/Resources/Strings.en-US.resx": "5f7a5c9d68def9848ebdb04265a7f2f956b6ad9d0efeb92802a5bef5e2f9becc",
+  "src/Iris.Core/Localization/Strings.resx": "c6e0ee0edea6aa65b9b6737914dd6e2a50720fe383450f09fed23c6123cc67aa",
+  "src/Iris.Core/Localization/Strings.en-US.resx": "8466d873085cff8c6ea9990782a5c40d8d511d3e4e61bab69322075b27081c33",
+  "build/localization/audit.py": "b71a46f67bca31db09484b46a9c0e81539adf1f1e4f88fdfabf6862048fae3d5",
+  "build/localization/exceptions.json": "d98096e6c743b5e4f126384ee8c7e85fd56ba95b6770055c4816220e6d06afb4",
+  "build/localization/app-catalog.json": "3dab660d77ed54478dbb6749fbf3d321934c26a02224c85da385811aab488bbc",
+  "build/localization/core-catalog.json": "c24ee9f107083f3cf124a28b874d3e772ca5533058cd3029065899870a8a5052"
+}

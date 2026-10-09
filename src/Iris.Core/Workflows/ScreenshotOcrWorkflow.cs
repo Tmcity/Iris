@@ -41,7 +41,7 @@ internal static partial class ScreenshotOcrWorkflow
         if (!await presenter.TryShowAsync(operation, new TranslateWindowRequest
         {
             Origin = TextOrigin.Screenshot, Anchor = anchor, AutoTranslate = false,
-            StatusMessage = "正在识别文字…"
+            StatusMessage = global::Iris.Core.Localization.CoreText.Get("Text_b922fe67a95c")
         }).ConfigureAwait(false)) return;
 
         OcrOutcome? outcome = null;

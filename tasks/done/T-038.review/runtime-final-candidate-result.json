@@ -1,0 +1,32 @@
+{
+  "Scope": "Pinned candidate assemblies in an owned dependency directory, actual settings/Core/menu/production primary scope, synthetic boundaries only.",
+  "PassLines": [
+    "PASS fixed selected language across differing thread cultures",
+    "PASS real language control joins one history save without live language change",
+    "PASS fresh real JSON load drives the next language selection",
+    "PASS joint conflict preserves language draft and saved language",
+    "PASS language-only save merges unrelated external changes",
+    "PASS actual Core rejects an unsupported target without writing",
+    "PASS actual preset menu and visible add button retain stable saved data",
+    "PASS production primary language lifetime through host cleanup failure",
+    "PASS production primary language lifetime through logger cleanup failure",
+    "PASS production primary language lifetime through mutex cleanup failure"
+  ],
+  "StaExited": true,
+  "ObservedProcessExitCode": 0,
+  "DependencyCount": 98,
+  "CurrentWorkspaceDependenciesDifferingFromPinnedCandidate": [
+    "F:\\Iris\\src\\Iris.App\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.App.dll",
+    "F:\\Iris\\src\\Iris.Core\\bin\\Release\\net10.0\\Iris.Core.dll"
+  ],
+  "FixtureSha256": {
+    "dependency-inputs.json": "41076f1c9d535f77cf32b55a03101360097a66777f9f21e154f0f9f1fd5b703c",
+    "GlobalUsings.cs": "df3388556bf2dc646d1b09c7f6784b2686fe56bfdb678bc33b21c1fd09579461",
+    "NetworkTestBoundary.cs": "6a4c10b19220b17695535698b1494e4bf04b641daf5efa9f8d73348a455cfa75",
+    "PrimaryLifetimeProbe.cs": "df4d91bb0e20b714e20cd1742d0bbc49de33eed8120f1a4c4a4bb86047d05e39",
+    "Program.cs": "72bfd37d1585887c480ec6bd28c38921a748d4bb01982749b125cf08ea8db975",
+    "Review.csproj": "abc53bb870aa9d8086db80e911c8ce0dc1660c22af3e5ff1b26c98d5133a8018",
+    "Scope.cs": "1dc717faac6a91de4c16a4c9a1b3e5cc94ebbe327f7da0e6c089da13b9c97b65",
+    "UiBoundary.cs": "008a7852a9ebb75a74f84a945e5277cc4539b88a2f7cbedbf76693f9c146e601"
+  }
+}

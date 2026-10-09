@@ -1,0 +1,74 @@
+{
+  "App": {
+    "Preset_dashscope": {
+      "zh-CN": "通义千问 (DashScope)",
+      "en-US": "Qwen (DashScope)"
+    },
+    "Preset_zhipu": {
+      "zh-CN": "智谱 GLM",
+      "en-US": "Zhipu GLM"
+    },
+    "Preset_gemini": {
+      "zh-CN": "Gemini (OpenAI 兼容端点)",
+      "en-US": "Gemini (OpenAI-compatible endpoint)"
+    },
+    "Preset_ollama": {
+      "zh-CN": "Ollama (本地)",
+      "en-US": "Ollama (local)"
+    },
+    "Preset_custom": {
+      "zh-CN": "自定义 OpenAI 兼容服务",
+      "en-US": "Custom OpenAI-compatible provider"
+    },
+    "AccessibilitySourceLanguage": {
+      "zh-CN": "原文语言",
+      "en-US": "Source language"
+    },
+    "AccessibilityTargetLanguage": {
+      "zh-CN": "目标语言",
+      "en-US": "Target language"
+    },
+    "AccessibilitySourceText": {
+      "zh-CN": "原文",
+      "en-US": "Source text"
+    },
+    "LogVerbose": {
+      "zh-CN": "详细",
+      "en-US": "Verbose"
+    },
+    "LogDebug": {
+      "zh-CN": "调试",
+      "en-US": "Debug"
+    },
+    "LogInformation": {
+      "zh-CN": "信息",
+      "en-US": "Information"
+    },
+    "LogWarning": {
+      "zh-CN": "警告",
+      "en-US": "Warning"
+    },
+    "LogError": {
+      "zh-CN": "错误",
+      "en-US": "Error"
+    },
+    "Text_3b89fd6b0ced": {
+      "zh-CN": "自动检测",
+      "en-US": "Auto-detect"
+    },
+    "Text_7bf7a60617de": {
+      "zh-CN": "繁体中文",
+      "en-US": "Chinese (Traditional)"
+    },
+    "Text_9937e365aaf3": {
+      "zh-CN": "简体中文",
+      "en-US": "Chinese (Simplified)"
+    }
+  },
+  "Core": {
+    "InvalidUiLanguage": {
+      "zh-CN": "界面语言必须为 zh-CN 或 en-US",
+      "en-US": "Interface language must be zh-CN or en-US"
+    }
+  }
+}

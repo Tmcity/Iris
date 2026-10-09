@@ -12,11 +12,9 @@ internal static class FatalErrorFormatter
     {
         if (ex is IrisException irisEx)
         {
-            return string.IsNullOrEmpty(irisEx.Detail)
-                ? irisEx.Message
-                : $"{irisEx.Message}\n{irisEx.Detail}";
+            return ErrorMessages.GetDefault(irisEx.Code);
         }
 
-        return $"{UiText.FatalUnknown}\n{ex.Message}";
+        return $"{UiText.FatalUnknown}\n{ErrorMessages.GetDefault(ErrorCode.Unknown)}";
     }
 }

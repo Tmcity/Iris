@@ -1,0 +1,12 @@
+PASS real local pipe and compact Unicode frame
+ACK_BUFFER disconnectedBeforeRead=0; accepted=1; result=Accepted
+PASS normal ACK survives delayed native client read
+LATE_WRITE reads=0; writes=1; creates=1; disposed=True; result=Unconfirmed
+PASS canceled noncooperative write starts no later read
+LATE_ACCEPT reads=0; dispatches=0; disposed=True
+PASS stopped noncooperative accept starts no later read
+LATE_FRAGMENT reads=1; exception=OperationCanceledException
+PASS canceled partial read starts no next read
+UNSTARTED_HOST servers=0; transportComplete=True; exception=none
+PASS unstarted coordinator disposes through real Host synchronously
+Independent IPC scenarios: 6; failed: 0

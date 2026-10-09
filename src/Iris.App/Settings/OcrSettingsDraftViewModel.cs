@@ -18,9 +18,7 @@ internal sealed class OcrSettingsDraftViewModel : INotifyPropertyChanged
     public DraftValue<bool> AutoCopyOnOcr { get; }
     public DraftValue<bool> SilentOcrShowNotification { get; }
     public string? ErrorMessage { get; private set; }
-    public static IReadOnlyList<OcrLayoutOption> Layouts { get; } =
-        [new(OcrTextLayout.KeepLines, UiText.OcrKeepLines), new(OcrTextLayout.MergeParagraphs, UiText.OcrMergeParagraphs)];
-    public OcrSettingsDraftViewModel(OcrSettings current, Func<bool> canEdit, Action changed)
+    public static IReadOnlyList<OcrLayoutOption> Layouts =>        [new(OcrTextLayout.KeepLines, UiText.OcrKeepLines), new(OcrTextLayout.MergeParagraphs, UiText.OcrMergeParagraphs)];    public OcrSettingsDraftViewModel(OcrSettings current, Func<bool> canEdit, Action changed)
     {
         ActiveProviderId = new(current.ActiveProviderId, canEdit, changed);
         FallbackProviderId = new(current.FallbackProviderId, canEdit, changed);

@@ -1,0 +1,17 @@
+{
+  "sourceChangesDuringProbe": [
+    "tests/Iris.Core.Tests/Settings/UiLanguageEditingTests.cs"
+  ],
+  "assemblyChangesDuringProbe": [],
+  "probeSource": {
+    "GlobalUsings.cs": "df3388556bf2dc646d1b09c7f6784b2686fe56bfdb678bc33b21c1fd09579461",
+    "NetworkTestBoundary.cs": "6a4c10b19220b17695535698b1494e4bf04b641daf5efa9f8d73348a455cfa75",
+    "Program.cs": "55a3953a79839016d451cf2249026148b23cc1b08ad188929f992e8cc28df3e8",
+    "README.md": "c3bbb892f988ffbaf06a178a6e12412722b3ff148ff2b0d313a32750b5065955",
+    "Review.csproj": "79a49db292d758768a53a72cd6196e17e3ce3b45396e6710a115aa03da8170db",
+    "Scope.cs": "eeb7258110a2ed03ae1a22500cfa0ce0dada2fa4e3b9a9bbfc127c20f1c06710",
+    "UiBoundary.cs": "e05014da81fb773215bf19336ae4c129052cce8d2e7e25078d16f7a4ccaf0af6"
+  },
+  "result": "6 scenarios passed; fixture has unused optional HTTP delegate warning CS0649, retained in original log",
+  "scope": "actual resource language, Core/temp JSON/Settings window; not production Main cleanup-scope or final visual acceptance"
+}

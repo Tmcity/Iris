@@ -142,6 +142,27 @@ internal partial class TranslateWindow : Wpf.Ui.Controls.FluentWindow
 
     private void OnWindowSizeChanged(object sender, SizeChangedEventArgs e)
     {
+        if (LanguageControlsGrid != null && LanguageActionsPanel != null)
+        {
+            bool shortWindow = e.NewSize.Height < 440;
+            ContentScrollViewer.VerticalScrollBarVisibility = shortWindow
+                ? System.Windows.Controls.ScrollBarVisibility.Auto : System.Windows.Controls.ScrollBarVisibility.Disabled;
+            ContentScrollViewer.Padding = shortWindow ? new Thickness(0, 0, 12, 0) : new Thickness(0);
+            CardsScrollViewer.MinHeight = shortWindow ? 160 : 0;
+            CardsScrollViewer.MaxHeight = shortWindow ? 300 : double.PositiveInfinity;
+            bool narrow = e.NewSize.Width < 420;
+            System.Windows.Controls.Grid.SetColumnSpan(SourceLangComboBox, narrow ? 3 : 1);
+            System.Windows.Controls.Grid.SetRow(TargetLangComboBox, narrow ? 1 : 0);
+            System.Windows.Controls.Grid.SetColumn(TargetLangComboBox, narrow ? 0 : 2);
+            System.Windows.Controls.Grid.SetColumnSpan(TargetLangComboBox, narrow ? 4 : 1);
+            TargetLangComboBox.Margin = narrow ? new Thickness(0, 4, 0, 0) : new Thickness(0);
+            System.Windows.Controls.Grid.SetColumn(SwapLanguagesButton, narrow ? 3 : 1);
+            System.Windows.Controls.Grid.SetRow(LanguageActionsPanel, narrow ? 2 : 0);
+            System.Windows.Controls.Grid.SetColumn(LanguageActionsPanel, narrow ? 0 : 3);
+            System.Windows.Controls.Grid.SetColumnSpan(LanguageActionsPanel, narrow ? 4 : 1);
+            LanguageActionsPanel.HorizontalAlignment = HorizontalAlignment.Right;
+            LanguageActionsPanel.Margin = narrow ? new Thickness(0, 6, 0, 0) : new Thickness(4, 0, 0, 0);
+        }
         if (!_isUpdatingPlacement && IsLoaded)
         {
             _presenter?.ReconstrainWindowPlacement();

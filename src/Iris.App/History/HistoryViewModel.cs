@@ -14,10 +14,10 @@ namespace Iris.App.History;
 
 internal sealed record HistoryRow(HistorySummary Summary)
 {
-    private static readonly CompositeFormat MetadataFormat = CompositeFormat.Parse(UiText.HistoryMetadataFormat);
+    private static CompositeFormat MetadataFormat => CompositeFormat.Parse(UiText.HistoryMetadataFormat);
     public long Id => Summary.Id;
     public string Preview => Summary.SourcePreview;
-    public string Metadata => string.Format(CultureInfo.CurrentCulture, MetadataFormat,
+    public string Metadata => string.Format(Iris.Core.Localization.UiLanguage.Culture, MetadataFormat,
         Summary.CreatedAt.ToLocalTime(), OriginLabel, Summary.SourceLanguage, Summary.TargetLanguage, Summary.ResultCount);
     public string Markers => string.Join(" · ", new[] { Summary.IsFavorite ? UiText.HistoryFavorite : null,
         Summary.HasTruncatedResults ? UiText.HistoryTruncated : null }.Where(s => s != null));
@@ -34,7 +34,7 @@ internal sealed record HistoryConfirmation(long? Id);
 /// <summary>One window owns three bounded latest-intent queues and one admitted write, including their UI completions.</summary>
 internal sealed partial class HistoryViewModel : INotifyPropertyChanged, IDisposable
 {
-    private static readonly CompositeFormat PageFormat = CompositeFormat.Parse(UiText.HistoryPageFormat);
+    private static CompositeFormat PageFormat => CompositeFormat.Parse(UiText.HistoryPageFormat);
     private readonly ITranslationHistoryRepository _repository;
     private readonly IClipboardService _clipboard;
     private readonly ITranslateWindowPresenter _translation;
@@ -109,7 +109,7 @@ internal sealed partial class HistoryViewModel : INotifyPropertyChanged, IDispos
     public bool IsEmpty => !IsLoading && ListError == null && Rows.Count == 0;
     public int PageIndex { get; private set; }
     public int TotalCount { get; private set; }
-    public string PageLabel => IsLoading || ListError != null ? "" : string.Format(CultureInfo.CurrentCulture,
+    public string PageLabel => IsLoading || ListError != null ? "" : string.Format(Iris.Core.Localization.UiLanguage.Culture,
         PageFormat, PageIndex + 1, Math.Max(1, (TotalCount + 49L) / 50), TotalCount);
     public string FavoriteLabel => _selected?.Summary.IsFavorite == true ? UiText.HistoryUnfavorite : UiText.HistoryFavorite;
     public string? ListError { get; private set; }

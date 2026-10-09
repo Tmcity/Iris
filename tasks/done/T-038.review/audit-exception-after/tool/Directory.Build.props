@@ -1,0 +1,24 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Deterministic>true</Deterministic>
+    <!-- CA1716: VB 关键字冲突（Get/Set/Stop），与本项目无关
+         CS1591: 公开成员缺少 XML 注释；CS1573: 只为部分参数写了 <param>（契约只注释含义不明显的参数） -->
+    <NoWarn>$(NoWarn);CA1716;CS1591;CS1573</NoWarn>
+    <Product>Iris</Product>
+    <Company>Iris</Company>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="$(MSBuildProjectName.EndsWith('Tests'))">
+    <IsPackable>false</IsPackable>
+    <!-- 测试方法名使用下划线命名法；测试项目中的公开类型、常量数组不做要求 -->
+    <NoWarn>$(NoWarn);CA1707;CA1515;CA2007;CA1861</NoWarn>
+  </PropertyGroup>
+</Project>

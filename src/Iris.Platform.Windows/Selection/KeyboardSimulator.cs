@@ -475,7 +475,7 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
 
         if (!success)
         {
-            throw new IrisException(ErrorCode.Unknown, "键盘按键释放清理失败，部分按键未能成功释放。");
+            throw new IrisException(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Get("Text_b946ca79c3ca"));
         }
     }
 
@@ -637,7 +637,7 @@ internal sealed partial class KeyboardSimulator : IDisposable, IAsyncDisposable
                 : "SendInput rejected input event.";
         return new ErrorInfo(
             Code: ErrorCode.Unknown,
-            Message: "键盘模拟输入失败",
+            Message: global::Iris.Core.Localization.CoreText.Get("Text_e63a96455f53"),
             Detail: detail);
     }
 

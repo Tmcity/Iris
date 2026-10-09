@@ -68,12 +68,12 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
             !_nativeAdapter.IsWindow(ownerWindowHandle) ||
             _nativeAdapter.GetWindowProcessId(ownerWindowHandle) != _nativeAdapter.GetCurrentProcessId())
         {
-            throw new IrisException(ErrorCode.InvalidArgument, "无效的设置窗口句柄。");
+            throw new IrisException(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_4c31a6597af9"));
         }
 
         if (_nativeAdapter.GetForegroundWindow() != ownerWindowHandle)
         {
-            throw new IrisException(ErrorCode.InvalidArgument, "设置窗口不是当前前台活动窗口。");
+            throw new IrisException(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_7f6aa73696e9"));
         }
 
         cancellationToken.ThrowIfCancellationRequested();
@@ -87,7 +87,7 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
 
             if (_activeSession != null || _initTask != null || _hasFailedCleanup || (_cleanupTask != null && !_cleanupTask.IsCompleted))
             {
-                throw new IrisException(ErrorCode.HotkeyConflict, "当前已有正在进行的按键录入会话。");
+                throw new IrisException(ErrorCode.HotkeyConflict, global::Iris.Core.Localization.CoreText.Get("Text_aed470d42b87"));
             }
 
             physicalInitTcs = new TaskCompletionSource<bool>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -186,7 +186,7 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
             if (hookHandle == 0)
             {
                 int err = _nativeAdapter.GetLastError();
-                physicalInitTcs.TrySetException(new IrisException(ErrorCode.Unknown, $"安装键盘钩子失败 (Win32Error={err})。"));
+                physicalInitTcs.TrySetException(new IrisException(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Format("Text_d6315daa8917", err)));
                 session.SignalThreadExit();
                 return;
             }
@@ -221,7 +221,7 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
                 {
                     int err = _nativeAdapter.GetLastError();
                     LogMessageLoopError(_logger, $"GetMessage failed (Win32Error={err})");
-                    session.Fail(new IrisException(ErrorCode.Unknown, "消息循环异常终止。"));
+                    session.Fail(new IrisException(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Get("Text_0b246a3867e0")));
                     _ = CleanupSessionAsync(session);
                     break;
                 }
@@ -230,7 +230,7 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
                     if (!session.IsStopRequested)
                     {
                         LogMessageLoopError(_logger, "Unexpected WM_QUIT received before stop requested");
-                        session.Fail(new IrisException(ErrorCode.Unknown, "录入消息循环意外退出。"));
+                        session.Fail(new IrisException(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Get("Text_ac6ab950f7bc")));
                         _ = CleanupSessionAsync(session);
                     }
                     break;
@@ -240,7 +240,7 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
         catch (Exception ex)
         {
             LogMessageLoopError(_logger, ex.GetType().Name);
-            session.Fail(new IrisException(ErrorCode.Unknown, "录入消息循环发生异常。"));
+            session.Fail(new IrisException(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Get("Text_abd1c2ab4442")));
             _ = CleanupSessionAsync(session);
         }
         finally
@@ -356,7 +356,7 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
                 {
                     int err = _nativeAdapter.GetLastError();
                     _hasFailedCleanup = true;
-                    throw new IrisException(ErrorCode.Unknown, $"卸载键盘钩子失败 (Win32Error={err})。");
+                    throw new IrisException(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Format("Text_c955eba2dbc4", err));
                 }
                 session.MarkHookUnhooked();
             }
@@ -369,7 +369,7 @@ internal sealed partial class HotkeyCaptureService : IHotkeyCaptureService
                 {
                     int err = _nativeAdapter.GetLastError();
                     _hasFailedCleanup = true;
-                    throw new IrisException(ErrorCode.Unknown, $"向录入消息线程发送退出消息失败 (Win32Error={err})。");
+                    throw new IrisException(ErrorCode.Unknown, global::Iris.Core.Localization.CoreText.Format("Text_4973738aa92b", err));
                 }
                 await session.ThreadExitTask.ConfigureAwait(false);
             }

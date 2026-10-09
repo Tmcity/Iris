@@ -1,0 +1,2 @@
+Command: git diff --cached --check -- src tests build specs tasks/done/T-038.md
+Exit code: 0

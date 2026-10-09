@@ -9,10 +9,10 @@ namespace Iris.Core.Network;
 internal static class NetworkProxyCodec
 {
     private static readonly System.Buffers.SearchValues<char> HexDigits = System.Buffers.SearchValues.Create("0123456789abcdef");
-    internal static IrisException Invalid() => new(ErrorCode.InvalidArgument, "代理配置无效，请检查地址和凭据。");
-    internal static IrisException SecretUnavailable() => new(ErrorCode.SecretUnavailable, "代理凭据不可用，请重新输入。");
-    internal static IrisException StorageFailure() => new(ErrorCode.StorageFailure, "网络配置无法安全保存或加载。");
-    internal static IrisException Unavailable() => new(ErrorCode.NetworkUnavailable, "网络代理暂不可用。");
+    internal static IrisException Invalid() => new(ErrorCode.InvalidArgument, global::Iris.Core.Localization.CoreText.Get("Text_b24f0a42109b"));
+    internal static IrisException SecretUnavailable() => new(ErrorCode.SecretUnavailable, global::Iris.Core.Localization.CoreText.Get("Text_54ad39699841"));
+    internal static IrisException StorageFailure() => new(ErrorCode.StorageFailure, global::Iris.Core.Localization.CoreText.Get("Text_59475ef1beee"));
+    internal static IrisException Unavailable() => new(ErrorCode.NetworkUnavailable, global::Iris.Core.Localization.CoreText.Get("Text_b6da60da9549"));
 
     internal static bool IsCredentialSetId(string? id) => id is { Length: 35 } && id.StartsWith("pc-", StringComparison.Ordinal)
         && id.AsSpan(3).IndexOfAnyExcept(HexDigits) < 0;

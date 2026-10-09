@@ -1,0 +1,47 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Localization.PrimaryLanguageLifetimeTests.ProductionRunScopeKeepsEnglishThroughCleanupFeedbackOnChineseSystem(failure: "logger") (140ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : runtime.Messages
+      should be
+  ["Iris startup or cleanup failed. Please retry later."]
+      but was (case sensitive comparison)
+  ["Iris 启动或清理失败，请稍后重试。"]
+      difference
+  [*"Iris 启动或清理失败，请稍后重试。"*]
+    在 Iris.App.Tests.Localization.PrimaryLanguageLifetimeTests.ProductionRunScopeKeepsEnglishThroughCleanupFeedbackOnChineseSystem(String failure) 位于 F:\Iris\tests\Iris.App.Tests\Localization\PrimaryLanguageLifetimeTests.cs:27
+    在 System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    在 System.Reflection.MethodBaseInvoker.InvokeDirectByRefWithFewArgs(Object obj, Span`1 copyOfArgs, BindingFlags invokeAttr)
+失败 Iris.App.Tests.Localization.PrimaryLanguageLifetimeTests.ProductionRunScopeKeepsEnglishThroughCleanupFeedbackOnChineseSystem(failure: "host") (5ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : runtime.Messages
+      should be
+  ["Iris startup or cleanup failed. Please retry later."]
+      but was (case sensitive comparison)
+  ["Iris 启动或清理失败，请稍后重试。"]
+      difference
+  [*"Iris 启动或清理失败，请稍后重试。"*]
+    在 Iris.App.Tests.Localization.PrimaryLanguageLifetimeTests.ProductionRunScopeKeepsEnglishThroughCleanupFeedbackOnChineseSystem(String failure) 位于 F:\Iris\tests\Iris.App.Tests\Localization\PrimaryLanguageLifetimeTests.cs:27
+    在 InvokeStub_PrimaryLanguageLifetimeTests.ProductionRunScopeKeepsEnglishThroughCleanupFeedbackOnChineseSystem(Object, Span`1)
+    在 System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+失败 Iris.App.Tests.Localization.PrimaryLanguageLifetimeTests.ProductionRunScopeKeepsEnglishThroughCleanupFeedbackOnChineseSystem(failure: "mutex") (0ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : runtime.Messages
+      should be
+  ["Iris startup or cleanup failed. Please retry later."]
+      but was (case sensitive comparison)
+  ["Iris 启动或清理失败，请稍后重试。"]
+      difference
+  [*"Iris 启动或清理失败，请稍后重试。"*]
+    在 Iris.App.Tests.Localization.PrimaryLanguageLifetimeTests.ProductionRunScopeKeepsEnglishThroughCleanupFeedbackOnChineseSystem(String failure) 位于 F:\Iris\tests\Iris.App.Tests\Localization\PrimaryLanguageLifetimeTests.cs:27
+    在 InvokeStub_PrimaryLanguageLifetimeTests.ProductionRunScopeKeepsEnglishThroughCleanupFeedbackOnChineseSystem(Object, Span`1)
+    在 System.Reflection.MethodBaseInvoker.InvokeWithOneArg(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 3 个错误 (1s 665ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 3
+  失败: 3
+  成功: 0
+  已跳过: 0
+  持续时间: 1s 968ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

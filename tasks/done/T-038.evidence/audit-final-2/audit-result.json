@@ -1,0 +1,26 @@
+{
+  "sourceEntries": 1197,
+  "commentEntries": 979,
+  "reviewedNonUiEntries": 218,
+  "unapproved": [
+    {
+      "Path": "src/Iris.Core/Settings/SettingsEditingModels.cs",
+      "Kind": "comment",
+      "Text": " <summary>常规设置字段增量；null 项保留提交时的最新值。原四参数构造/解构保持。\n/// UiLanguage 只接受规范值zh-CN/en-US，保存后下次启动生效，完整规则见LOCALIZATION.md。</summary>\n",
+      "Start": 288,
+      "Length": 123,
+      "Line": 12,
+      "Fingerprint": "DC04F2EC369AF0C835DA3156C418ABBB2A5517D40BD2539232FD6715B3EABC98",
+      "SiteFingerprint": "B87EDB9F71911DC5D48733E49EE2333E8A039F32E015DA7C4A197DC8D7A445D8"
+    }
+  ],
+  "resourceCounts": {
+    "App": 437,
+    "Core": 148
+  },
+  "resourceErrors": [],
+  "englishNativeNameExceptions": {
+    "App:LanguageChineseNative": "简体中文"
+  },
+  "exceptionManifestSha256": "d98096e6c743b5e4f126384ee8c7e85fd56ba95b6770055c4816220e6d06afb4"
+}

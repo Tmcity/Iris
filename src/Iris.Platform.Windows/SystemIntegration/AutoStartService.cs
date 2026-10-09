@@ -120,7 +120,7 @@ internal sealed class AutoStartService : IAutoStartService
         {
             throw new IrisException(
                 ErrorCode.StorageFailure,
-                "开机启动配置读取失败",
+                global::Iris.Core.Localization.CoreText.Get("Text_d4480321b4b5"),
                 innerException: null,
                 detail: $"IsEnabled:{ex.GetType().Name}");
         }
@@ -144,7 +144,7 @@ internal sealed class AutoStartService : IAutoStartService
             {
                 throw new IrisException(
                     ErrorCode.StorageFailure,
-                    "开机启动配置写入失败",
+                    global::Iris.Core.Localization.CoreText.Get("Text_334e5ee2f6a1"),
                     innerException: null,
                     detail: $"SetEnabled:Write:{ex.GetType().Name}");
             }
@@ -159,7 +159,7 @@ internal sealed class AutoStartService : IAutoStartService
             {
                 throw new IrisException(
                     ErrorCode.StorageFailure,
-                    "开机启动配置删除失败",
+                    global::Iris.Core.Localization.CoreText.Get("Text_c17290ab65e9"),
                     innerException: null,
                     detail: $"SetEnabled:Delete:{ex.GetType().Name}");
             }
@@ -177,7 +177,7 @@ internal sealed class AutoStartService : IAutoStartService
         {
             throw new IrisException(
                 ErrorCode.StorageFailure,
-                "获取应用程序路径失败",
+                global::Iris.Core.Localization.CoreText.Get("Text_ce3c3cdbf8c7"),
                 innerException: null,
                 detail: $"AppHostPath:{ex.GetType().Name}");
         }
@@ -186,7 +186,7 @@ internal sealed class AutoStartService : IAutoStartService
         {
             throw new IrisException(
                 ErrorCode.StorageFailure,
-                "未找到有效的应用程序路径",
+                global::Iris.Core.Localization.CoreText.Get("Text_87bb7ae7d91c"),
                 innerException: null,
                 detail: "AppHostPath:Empty");
         }
@@ -200,7 +200,7 @@ internal sealed class AutoStartService : IAutoStartService
         {
             throw new IrisException(
                 ErrorCode.StorageFailure,
-                "应用程序路径格式无效",
+                global::Iris.Core.Localization.CoreText.Get("Text_cc1010d2ab51"),
                 innerException: null,
                 detail: "AppHostPath:InvalidCharacters");
         }
@@ -211,7 +211,7 @@ internal sealed class AutoStartService : IAutoStartService
         {
             throw new IrisException(
                 ErrorCode.StorageFailure,
-                "不能使用 dotnet 托管进程作为开机自启命令",
+                global::Iris.Core.Localization.CoreText.Get("Text_12eefb70d6f9"),
                 innerException: null,
                 detail: "AppHostPath:DotnetHostRejected");
         }
@@ -220,7 +220,7 @@ internal sealed class AutoStartService : IAutoStartService
         {
             throw new IrisException(
                 ErrorCode.StorageFailure,
-                "应用程序路径必须为可执行文件",
+                global::Iris.Core.Localization.CoreText.Get("Text_6ef775d7ce0c"),
                 innerException: null,
                 detail: "AppHostPath:NotAnExecutable");
         }
@@ -230,7 +230,7 @@ internal sealed class AutoStartService : IAutoStartService
         {
             throw new IrisException(
                 ErrorCode.StorageFailure,
-                "开机启动命令长度超出系统限制",
+                global::Iris.Core.Localization.CoreText.Get("Text_ac952dd6d176"),
                 innerException: null,
                 detail: "AppHostPath:CommandLengthExceeded");
         }

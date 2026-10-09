@@ -1,0 +1,12 @@
+{
+  "src/Iris.App/App.xaml.cs": "d2d4ebaaf247a3ecdd84a916abce9584968386e02a01b266433a57422f5dc168",
+  "src/Iris.App/Resources/Strings.resx": "149ef7d178683272bcf4a7b368ee3011e544708451cd96b5ff5bca2e7c404b36",
+  "src/Iris.App/Resources/Strings.en-US.resx": "35d9a8256d371a3a06215cbfc89a25f5320a394e5a6afbc16aba47d2c262eb17",
+  "src/Iris.Core/Localization/Strings.resx": "c6e0ee0edea6aa65b9b6737914dd6e2a50720fe383450f09fed23c6123cc67aa",
+  "src/Iris.Core/Localization/Strings.en-US.resx": "8466d873085cff8c6ea9990782a5c40d8d511d3e4e61bab69322075b27081c33",
+  "build/localization/audit.py": "05fd25e51736e2b6e59b3968b0a7493462609701164a66e4c1dc3c0e85ae3e35",
+  "build/localization/exceptions.json": "42d5458cef784a18de5a4ea3901767696be485dfbdc35f47a8d0b7f9f8ebc495",
+  "build/localization/app-catalog.json": "7d9d2b063b39c2c60ba18b1f7b71c0b5e3b810cb4bb50d2b940d506e69fdbb5b",
+  "build/localization/core-catalog.json": "c24ee9f107083f3cf124a28b874d3e772ca5533058cd3029065899870a8a5052",
+  "audit-executable": "4375fa171b67dd39ddd8fd45f6c9814c0225d60849eb5e0949b66654757ee215"
+}

@@ -20,12 +20,10 @@ internal sealed partial class SelectionSettingsDraftViewModel : INotifyPropertyC
     private string? _error;
     public bool IsFrozen { get; set; }
     public event PropertyChangedEventHandler? PropertyChanged;
-    public static IReadOnlyList<SelectionOrderOption> Orders { get; } =
-    [
+    public static IReadOnlyList<SelectionOrderOption> Orders =>    [
         new(0, UiText.SelectionOrderUiaFirst), new(1, UiText.SelectionOrderClipboardFirst),
         new(2, UiText.SelectionOrderUiaOnly), new(3, UiText.SelectionOrderClipboardOnly)
-    ];
-    public SelectionSettingsDraftViewModel(SelectionSettings current, Func<bool> canEdit, Action changed)
+    ];    public SelectionSettingsDraftViewModel(SelectionSettings current, Func<bool> canEdit, Action changed)
     {
         _canEdit = canEdit; _changed = changed;
         Merge(current, reset: true, notify: false);

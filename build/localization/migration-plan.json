@@ -1,0 +1,1858 @@
+[
+  {
+    "Path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+    "Kind": "literal",
+    "Text": "(未设置)",
+    "Fingerprint": "FC5998BE348AE1DD1895A630527C3FD9DEA9CD40601102B44A99421A9CF7D4A2",
+    "Project": "App",
+    "Key": "Text_ee86d366961c"
+  },
+  {
+    "Path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+    "Kind": "literal",
+    "Text": "注销失败",
+    "Fingerprint": "7E5A5B59708B79DCD8581069DDDA84221839636817912DEA905204BAD644EAA2",
+    "Project": "App",
+    "Key": "Text_130b4f7f9f33"
+  },
+  {
+    "Path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+    "Kind": "literal",
+    "Text": "注销失败",
+    "Fingerprint": "7E5A5B59708B79DCD8581069DDDA84221839636817912DEA905204BAD644EAA2",
+    "Project": "App",
+    "Key": "Text_130b4f7f9f33"
+  },
+  {
+    "Path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+    "Kind": "literal",
+    "Text": "占用",
+    "Fingerprint": "208F234509172E8B98465F04B18767865F8925CF1C4E121B825929F29C17D941",
+    "Project": "App",
+    "Key": "Text_c0aa76aebce6"
+  },
+  {
+    "Path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+    "Kind": "literal",
+    "Text": "翻译文本",
+    "Fingerprint": "C5C9AA7E6298EC990CFA74BA2F9F72702CEF0DEBFD52A2FA303897996BB70110",
+    "Project": "App",
+    "Key": "Text_2c944b654a3b"
+  },
+  {
+    "Path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+    "Kind": "literal",
+    "Text": "划词翻译",
+    "Fingerprint": "B00A993169F05F72DC5922045F4773644806F84295376AF885C50A034EB0CEBB",
+    "Project": "App",
+    "Key": "Text_3b02edcd404d"
+  },
+  {
+    "Path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+    "Kind": "literal",
+    "Text": "截图翻译",
+    "Fingerprint": "CEBFB237A22E21A587F3EDCD4F01006DF63B9D67E7348651A3E59C2A56AD865D",
+    "Project": "App",
+    "Key": "Text_03261c064096"
+  },
+  {
+    "Path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+    "Kind": "literal",
+    "Text": "截图 OCR",
+    "Fingerprint": "2CD3C01AAFBD279F8B24D64A8AEB96539AAC4BF1A611ECA815A94F6275BA3582",
+    "Project": "App",
+    "Key": "Text_a03a94a2f826"
+  },
+  {
+    "Path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+    "Kind": "literal",
+    "Text": "静默截图 OCR",
+    "Fingerprint": "EFD7F7006D55CC4A9E7271563C59130D06847AB70F1315F6E3CDCA09B6037F9D",
+    "Project": "App",
+    "Key": "Text_501fb7e80e5a"
+  },
+  {
+    "Path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+    "Kind": "literal",
+    "Text": "悬浮球",
+    "Fingerprint": "B8C3D886366A11A987747F24967274676E29D369BDBCCB7D96CFEF88900DC77B",
+    "Project": "App",
+    "Key": "Text_72704d8e1e47"
+  },
+  {
+    "Path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+    "Kind": "literal",
+    "Text": "(无效键)",
+    "Fingerprint": "500361E7C83AF97041CB9C24928A4E269B0A33F8CDECA2444878F0A9DA70FC6C",
+    "Project": "App",
+    "Key": "Text_6417027b65c2"
+  },
+  {
+    "Path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+    "Kind": "literal",
+    "Text": "(未设置)",
+    "Fingerprint": "FC5998BE348AE1DD1895A630527C3FD9DEA9CD40601102B44A99421A9CF7D4A2",
+    "Project": "App",
+    "Key": "Text_ee86d366961c"
+  },
+  {
+    "Path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+    "Kind": "literal",
+    "Text": "(未设置)",
+    "Fingerprint": "FC5998BE348AE1DD1895A630527C3FD9DEA9CD40601102B44A99421A9CF7D4A2",
+    "Project": "App",
+    "Key": "Text_ee86d366961c"
+  },
+  {
+    "Path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+    "Kind": "interpolated",
+    "Text": "{0} (已禁用)",
+    "Fingerprint": "16726F2185D53A40A19F0D100A2FAAD2DD01592A12BD3F9D6A4CF3113615E369",
+    "Project": "App",
+    "Key": "Text_37e627acd92a"
+  },
+  {
+    "Path": "src/Iris.App/Selection/SelectionIconWindow.cs",
+    "Kind": "literal",
+    "Text": "译",
+    "Fingerprint": "E72679D599937F35322F1031B0158052BCC2984519E3CF74AD723AB7BAA17417",
+    "Project": "App",
+    "Key": "Text_8a6cb14e2f9a"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsViewModel.cs",
+    "Kind": "interpolated",
+    "Text": "[已移除] {0}",
+    "Fingerprint": "B9F941576684B332723009689BFAAC743674EEB13842194A280E2A4A1F60938D",
+    "Project": "App",
+    "Key": "Text_3070ed21a7ed"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsViewModel.cs",
+    "Kind": "interpolated",
+    "Text": "成功获取 {0} 个模型",
+    "Fingerprint": "629F8E131F6FC6658919339FFAEEF3A53242B068A60838DEFD26A4A9FE4B1E8F",
+    "Project": "App",
+    "Key": "Text_733881723d47"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsViewModel.cs",
+    "Kind": "literal",
+    "Text": "快捷键录入清理未完成，无法保存",
+    "Fingerprint": "ACD71C64C0B309AB93E15D091B5BC514FC16E394BB3CE9BEFE0AA0DBAE17209B",
+    "Project": "App",
+    "Key": "Text_99729d9d15a4"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsViewModel.cs",
+    "Kind": "literal",
+    "Text": "请先修正快捷键冲突或错误",
+    "Fingerprint": "699DD9ED0453DE396437A10FD4680E6E7D03B2679B8083D596C596D440A10FE8",
+    "Project": "App",
+    "Key": "Text_af3fd060dd39"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsViewModel.cs",
+    "Kind": "literal",
+    "Text": "打开输入翻译窗口快速翻译文本",
+    "Fingerprint": "623B6D1D92741CA7CBE0FF79A926D1113E161B7E5402D2BBBC0F589DE4F845BF",
+    "Project": "App",
+    "Key": "Text_6410e0ade8fd"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsViewModel.cs",
+    "Kind": "literal",
+    "Text": "读取剪贴板内容并进行翻译",
+    "Fingerprint": "810E4CB10DB2F59C597A055CC885930F125EB04FE7EB87B8405A6E16D5E32254",
+    "Project": "App",
+    "Key": "Text_d681ffc969c1"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsViewModel.cs",
+    "Kind": "literal",
+    "Text": "打开 Iris 设置界面",
+    "Fingerprint": "7DC2E96CAACAD64AEB760421102A4E2F897E9FFC1A08AB94DD6E149194C7B47C",
+    "Project": "App",
+    "Key": "Text_c7d8838aeb65"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsViewModel.cs",
+    "Kind": "literal",
+    "Text": "翻译文本",
+    "Fingerprint": "802BD4A18ADDF048EA05941DC8F3700054A62B548AB6FF18A0DE30649BDE3EC8",
+    "Project": "App",
+    "Key": "Text_2c944b654a3b"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsViewModel.cs",
+    "Kind": "literal",
+    "Text": "划词翻译",
+    "Fingerprint": "63EEF08121C2E22FFE97A244B2512328C0ADF7CAE408939F75B5ACB0EBE2504A",
+    "Project": "App",
+    "Key": "Text_3b02edcd404d"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsViewModel.cs",
+    "Kind": "literal",
+    "Text": "截图翻译",
+    "Fingerprint": "2FDEEA326BBCE19135B54632E62EACA9DE2994647D4A6FF04240CAC428090909",
+    "Project": "App",
+    "Key": "Text_03261c064096"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsViewModel.cs",
+    "Kind": "literal",
+    "Text": "截图 OCR",
+    "Fingerprint": "4532E21388614D32A501823D71192261BBAD5D6287C3EE1E860661F71C469D25",
+    "Project": "App",
+    "Key": "Text_a03a94a2f826"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsViewModel.cs",
+    "Kind": "literal",
+    "Text": "静默截图 OCR",
+    "Fingerprint": "9DDAA224F635951673B6F70ED6CB97DACCD2337113317696C6BFBA18EDFD66CD",
+    "Project": "App",
+    "Key": "Text_501fb7e80e5a"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsViewModel.cs",
+    "Kind": "literal",
+    "Text": "悬浮球",
+    "Fingerprint": "41A316AF843DF99E76209671ED63E211415FA2D48502B493A8142C52CCE657F4",
+    "Project": "App",
+    "Key": "Text_72704d8e1e47"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsWindow.xaml",
+    "Kind": "xaml-attribute",
+    "Text": "基本信息",
+    "Fingerprint": "4EE4D36966F09CAE57414C72DD2D553C2428834BE0849C68D88ADD3EA054CDD0",
+    "Project": "App",
+    "Key": "Text_e8df05872569"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsWindow.xaml",
+    "Kind": "xaml-attribute",
+    "Text": "凭据管理",
+    "Fingerprint": "66D63478101A8BB51C9D22702DF58ACA1D11D59468A13EC623FF314C173638A8",
+    "Project": "App",
+    "Key": "Text_a943c0367b80"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsWindow.xaml",
+    "Kind": "xaml-attribute",
+    "Text": "请求参数",
+    "Fingerprint": "E37F299B5FD97ECCFC832F7B785A5F47775F3F5BD6B7F9A22390715A6BF40948",
+    "Project": "App",
+    "Key": "Text_9541ee3d4b15"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsWindow.xaml",
+    "Kind": "xaml-attribute",
+    "Text": "max_tokens (默认)",
+    "Fingerprint": "1D960556683919770F14BD674EE3E3BB85E63C55D470EA5B5B605955A5D17F99",
+    "Project": "App",
+    "Key": "Text_30315c37c118"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsWindow.xaml",
+    "Kind": "xaml-attribute",
+    "Text": "max_completion_tokens (推理)",
+    "Fingerprint": "5BD882F50646F74FDF125B46E9972199ECD55A3A38E2C535EF81384BAC9EAD0F",
+    "Project": "App",
+    "Key": "Text_e674ecde293f"
+  },
+  {
+    "Path": "src/Iris.App/Settings/SettingsWindow.xaml",
+    "Kind": "xaml-attribute",
+    "Text": "默认 (null)",
+    "Fingerprint": "4FA5E5288BEB8CF71B67726B189710376427B7B4FD0E698395BB72EFF1589946",
+    "Project": "App",
+    "Key": "Text_28293356d695"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "请求头格式错误，应为 'Name: Value'",
+    "Fingerprint": "C055C6B6D52B3BB96EF591F61596F49475C2F914FD2BC37CC4D7DB5E03C9902B",
+    "Project": "App",
+    "Key": "Text_906a2400f060"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "interpolated",
+    "Text": "无效的请求头名称: {0}",
+    "Fingerprint": "8560E5C24C2C917B51DE1554B28DAF8B43D54E1E5422767D0BF9F39ABEF55B71",
+    "Project": "App",
+    "Key": "Text_525a47965e10"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "interpolated",
+    "Text": "不得在附加头中包含敏感身份头: {0}",
+    "Fingerprint": "BE5374DABF3639E1414DD9A88A4F66D424D1AF1421131A4A03DBFD5A2115DFC0",
+    "Project": "App",
+    "Key": "Text_668be3ef6c0d"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "interpolated",
+    "Text": "存在重复的请求头名称: {0}",
+    "Fingerprint": "AB52D728303BA4BA915E2DA3807D70F55BE9A39943512E65D460660B3466D8A9",
+    "Project": "App",
+    "Key": "Text_0bdec2522201"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "服务显示名称不能为空",
+    "Fingerprint": "017DA2082DCC99511E9B660167851264F0170C61188EC13970DF8192C5B01EA2",
+    "Project": "App",
+    "Key": "Text_ca2e5cc0561d"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "超时时间必须在 5 到 600 秒之间",
+    "Fingerprint": "DF73E27BC10D34715DE51B2E99212AEDFF605F1113FB67E9978A78440863B474",
+    "Project": "App",
+    "Key": "Text_f3bbfa20ffbe"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "最大输出 Tokens 必须为正整数",
+    "Fingerprint": "5AE593F8A40B115132F6EE9A7727F75C5EAC64DA2C745AFD0A280FDCD7F18CEF",
+    "Project": "App",
+    "Key": "Text_29ee8b1d8422"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "采样温度必须在 0.0 到 2.0 之间",
+    "Fingerprint": "092A457A305D50E39DA96935AAA1EE1D662119E3E49C042AC062E639DBCA9D5A",
+    "Project": "App",
+    "Key": "Text_6124b5028ecd"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "OpenAI 兼容协议必须提供 BaseUrl",
+    "Fingerprint": "5CADA33F9FB1784E80642D0BEE813E27324FDBA831FC83D3290B7CA781D0D1F1",
+    "Project": "App",
+    "Key": "Text_77beb03033cb"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "BaseUrl 必须为合法的 http(s) 地址",
+    "Fingerprint": "6B47E65713E44939AC50F80670464EB5E61C613BB6E4FB14E35B621FC21F394D",
+    "Project": "App",
+    "Key": "Text_9d819d38d5cd"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "ChatCompletionsPath 不能为空",
+    "Fingerprint": "6946A7BAB97E6DE030D4BAD6E5B4C9D8AD5F711514E0CCF6F5A89581E2301150",
+    "Project": "App",
+    "Key": "Text_887484964876"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "ChatCompletionsPath 必须为相对路径且不包含查询或片段",
+    "Fingerprint": "4F163D368F0B8DB2B5F3CA647F42CC3EC88EDBA5B03815A30C01BA364CDB5BB3",
+    "Project": "App",
+    "Key": "Text_15eca5fee02d"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "Anthropic BaseUrl 必须为合法的 http(s) 地址",
+    "Fingerprint": "33D53F9CBD29366A97079CC96B5407F531E3E78E984D7D3811F35A5802E2306F",
+    "Project": "App",
+    "Key": "Text_98de13c4b263"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "Effort 必须为 low/medium/high/xhigh/max 或 null",
+    "Fingerprint": "DC703DF449D5DEC3FB009843B5628FE55885DE1AC72F4322DE1BD271EE5A6AE1",
+    "Project": "App",
+    "Key": "Text_f842c928e8e3"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "Haiku 模型不支持 Effort 参数，请清空 Effort",
+    "Fingerprint": "DED9C7D3D521CE75B3849403FDD1C9BADFB01E31C9C0BB6735513C4D03B017CC",
+    "Project": "App",
+    "Key": "Text_e8189e624897"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "已启用的服务必须指定模型名称",
+    "Fingerprint": "88008C34920225CF6AE4F882556B0A7FF81559B2645462F3C454D4EA478C80CE",
+    "Project": "App",
+    "Key": "Text_93c96aec66da"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "已选择替换 API Key，但尚未输入新 Key",
+    "Fingerprint": "22A7C6810E675255A16B0758E54897719834C2B16770A19C6B4FB4F807E25EBC",
+    "Project": "App",
+    "Key": "Text_b9763286f171"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "测试连接必须指定模型名称",
+    "Fingerprint": "A4A58797321ED5DB546687900CEA889E62CD2675EFEB5F687ABA5857A3BB0BA6",
+    "Project": "App",
+    "Key": "Text_3a713e0a1fc2"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "服务显示名称不能为空",
+    "Fingerprint": "017DA2082DCC99511E9B660167851264F0170C61188EC13970DF8192C5B01EA2",
+    "Project": "App",
+    "Key": "Text_ca2e5cc0561d"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "超时时间必须在 5 到 600 秒之间",
+    "Fingerprint": "DF73E27BC10D34715DE51B2E99212AEDFF605F1113FB67E9978A78440863B474",
+    "Project": "App",
+    "Key": "Text_f3bbfa20ffbe"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "OpenAI 兼容协议必须提供 BaseUrl",
+    "Fingerprint": "5CADA33F9FB1784E80642D0BEE813E27324FDBA831FC83D3290B7CA781D0D1F1",
+    "Project": "App",
+    "Key": "Text_77beb03033cb"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "BaseUrl 必须为合法的 http(s) 地址",
+    "Fingerprint": "6B47E65713E44939AC50F80670464EB5E61C613BB6E4FB14E35B621FC21F394D",
+    "Project": "App",
+    "Key": "Text_9d819d38d5cd"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "Anthropic BaseUrl 必须为合法的 http(s) 地址",
+    "Fingerprint": "33D53F9CBD29366A97079CC96B5407F531E3E78E984D7D3811F35A5802E2306F",
+    "Project": "App",
+    "Key": "Text_98de13c4b263"
+  },
+  {
+    "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+    "Kind": "literal",
+    "Text": "已选择替换 API Key，但尚未输入新 Key",
+    "Fingerprint": "22A7C6810E675255A16B0758E54897719834C2B16770A19C6B4FB4F807E25EBC",
+    "Project": "App",
+    "Key": "Text_b9763286f171"
+  },
+  {
+    "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+    "Kind": "literal",
+    "Text": "简体中文",
+    "Fingerprint": "7EF2162C50AF24CD5BB6154BC0116F176E84BEA325DB3B05299030F8085872C7",
+    "Project": "App",
+    "Key": "Text_9937e365aaf3"
+  },
+  {
+    "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+    "Kind": "literal",
+    "Text": "繁体中文",
+    "Fingerprint": "1920ED1675E2755AB71274C11013C58685C12E98F32BB82ECDA8ACE41FC1A46D",
+    "Project": "App",
+    "Key": "Text_7bf7a60617de"
+  },
+  {
+    "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+    "Kind": "literal",
+    "Text": "英语",
+    "Fingerprint": "639EF55E007646C744AE5BD51527DD2FD448A47E2F7F8535C0734EDF831E5DB2",
+    "Project": "App",
+    "Key": "Text_d1648bacbc16"
+  },
+  {
+    "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+    "Kind": "literal",
+    "Text": "日语",
+    "Fingerprint": "7D6E8D1B21CFBFC7C9D18B61763C4305885F54C820073EF100BAEAC24E9DE859",
+    "Project": "App",
+    "Key": "Text_3a944ddb3868"
+  },
+  {
+    "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+    "Kind": "literal",
+    "Text": "韩语",
+    "Fingerprint": "110D426F325902D6AD890360E805C21CD9733711AE61B10F99EEC72739A43326",
+    "Project": "App",
+    "Key": "Text_259cdcf75199"
+  },
+  {
+    "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+    "Kind": "literal",
+    "Text": "法语",
+    "Fingerprint": "C146B930276EFE4D6D7DFF86564B55DAB5504CB7C11BBC7DACD925F4920BFF00",
+    "Project": "App",
+    "Key": "Text_99cdf164a814"
+  },
+  {
+    "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+    "Kind": "literal",
+    "Text": "德语",
+    "Fingerprint": "A85F3030D9C17E27B8F2422239A5E172F447722D85A837A4379A55766B96D5BA",
+    "Project": "App",
+    "Key": "Text_7566092dce72"
+  },
+  {
+    "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+    "Kind": "literal",
+    "Text": "西班牙语",
+    "Fingerprint": "21C9C19580BC52E218625CA142C09BA1D1D161DB540CCB64F9CA2DDD3708E720",
+    "Project": "App",
+    "Key": "Text_6c872d27f835"
+  },
+  {
+    "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+    "Kind": "literal",
+    "Text": "俄语",
+    "Fingerprint": "0B2A08FD4702361B933B38A21A9FD4E25B648652039E59FBCCB60B4ACFB45E63",
+    "Project": "App",
+    "Key": "Text_bdb6608a4dc8"
+  },
+  {
+    "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+    "Kind": "literal",
+    "Text": "葡萄牙语",
+    "Fingerprint": "4089C09B333CFE86F461C4D4464165CF2946AD3A140A9019798F023FE069196B",
+    "Project": "App",
+    "Key": "Text_6ce072a79389"
+  },
+  {
+    "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+    "Kind": "literal",
+    "Text": "意大利语",
+    "Fingerprint": "7A4A21ED074A093C97E5A1DF8D1CB76A73CE8E392B37355B18C3BAD2EFFDF3CD",
+    "Project": "App",
+    "Key": "Text_5bdde8257c53"
+  },
+  {
+    "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+    "Kind": "literal",
+    "Text": "越南语",
+    "Fingerprint": "DE75C5133F2CCC748078AEEEADAD7956FD619B20294A2C1199AB3CE2FA0A3929",
+    "Project": "App",
+    "Key": "Text_8648ba069ee0"
+  },
+  {
+    "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+    "Kind": "literal",
+    "Text": "泰语",
+    "Fingerprint": "41A5B9E4AF76CE0CDCF8AE4005969209781687846D88D756EF4B78607695C850",
+    "Project": "App",
+    "Key": "Text_a15fb0d0595f"
+  },
+  {
+    "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+    "Kind": "literal",
+    "Text": "阿拉伯语",
+    "Fingerprint": "AD6FBC18CFA94C8F8CE268773C2D606906749AF1B8E1215BD339AA578EF1DCB0",
+    "Project": "App",
+    "Key": "Text_fc9a0bdeb77f"
+  },
+  {
+    "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+    "Kind": "literal",
+    "Text": "自动检测",
+    "Fingerprint": "DDBB232ACD328C1DA6B137C7E25CBD0B6027560DA329F982E494E5AC3C9A1070",
+    "Project": "App",
+    "Key": "Text_3b89fd6b0ced"
+  },
+  {
+    "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+    "Kind": "literal",
+    "Text": "自动 (按设置)",
+    "Fingerprint": "E47907B6B71576DDDAFAF37272F85E63E1950350C58453210099C2F0D68406B8",
+    "Project": "App",
+    "Key": "Text_90df77bfc309"
+  },
+  {
+    "Path": "src/Iris.Core/Network/NetworkProxyCodec.cs",
+    "Kind": "literal",
+    "Text": "代理配置无效，请检查地址和凭据。",
+    "Fingerprint": "88719B2B2600AE88EC078FFAB8655B2C07466ADE066152A67652CFCE6A33E925",
+    "Project": "Core",
+    "Key": "Text_b24f0a42109b"
+  },
+  {
+    "Path": "src/Iris.Core/Network/NetworkProxyCodec.cs",
+    "Kind": "literal",
+    "Text": "代理凭据不可用，请重新输入。",
+    "Fingerprint": "DCBCBC823FDE3175639AF4D7471343A11A534817D55E1F4A35611E8CE3CB7A38",
+    "Project": "Core",
+    "Key": "Text_54ad39699841"
+  },
+  {
+    "Path": "src/Iris.Core/Network/NetworkProxyCodec.cs",
+    "Kind": "literal",
+    "Text": "网络配置无法安全保存或加载。",
+    "Fingerprint": "34660F8B9CBFB42AFFDB097785B4DD62C724351AF706AE8B82F72137FA1BC389",
+    "Project": "Core",
+    "Key": "Text_59475ef1beee"
+  },
+  {
+    "Path": "src/Iris.Core/Network/NetworkProxyCodec.cs",
+    "Kind": "literal",
+    "Text": "网络代理暂不可用。",
+    "Fingerprint": "22F9A30384EB7E78E1D0F09E46F811BCCA5390F7206EA086970BD87516CF2DB7",
+    "Project": "Core",
+    "Key": "Text_b6da60da9549"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "配置已在其他位置发生更改，请刷新后重试",
+    "Fingerprint": "288C904606A27109AF0077A47C0973B76C3AD65D3A8F49686B8DD11AFC6E7841",
+    "Project": "Core",
+    "Key": "Text_646cfa7d6429"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "配置已提交保存，但部分服务或网络配置应用未完成，旧凭据已保留",
+    "Fingerprint": "EA02B542497EAB92FE894DC963010727F76F2E40FB2CAFFCDD60FE3B28EC4A13",
+    "Project": "Core",
+    "Key": "Text_5a6eb355f5d0"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "配置已提交保存，但部分服务提供商刷新未完全完成，旧凭据已保留",
+    "Fingerprint": "4A93DD9E7D4ECB8A69E1DB44539999F6B668935E0DB433D9F65604D298979607",
+    "Project": "Core",
+    "Key": "Text_8ebb1568643a"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "配置已生效，但部分旧凭据清理失败，可在重试中清理",
+    "Fingerprint": "A9A7312E288ACE9F8873F07CC5712A2B9380E66D148024612E1AA05969B14123",
+    "Project": "Core",
+    "Key": "Text_823a12477db7"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "网络配置应用未完成",
+    "Fingerprint": "D8B7DD38627F6C11B8BACB5F6E91C4F1F014934E7EB612DECF0EFB903194375B",
+    "Project": "Core",
+    "Key": "Text_99ba5ea63b92"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "部分服务提供商刷新未完成",
+    "Fingerprint": "74DC848962529DD585404079425D06C3535438FCB883165ACD45F3F15F97EDC5",
+    "Project": "Core",
+    "Key": "Text_b08a81be972d"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "部分旧凭据清理未完成",
+    "Fingerprint": "9A762A65B0CE276F2745FD8A06BCCDB0C4D16E439BB7A11DD46246DEE88C9240",
+    "Project": "Core",
+    "Key": "Text_2fb7d75c324d"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "读取当前配置失败",
+    "Fingerprint": "6E5AAB1D4486E0D12DDB4D78C16042988BB7B9AF9300323513B60DC534EDEF34",
+    "Project": "Core",
+    "Key": "Text_13f5554c85ea"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "服务凭据解析失败",
+    "Fingerprint": "C9F553556EB05747365ECDF0DF362CB13AC294509B8D95603980BCE6D4D12922",
+    "Project": "Core",
+    "Key": "Text_0ee8cdd68ce4"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "无法创建服务实例",
+    "Fingerprint": "1B04751F6CD79050769B28B43A1772646A002AE33811CF2EEAC38CD5C09C7A79",
+    "Project": "Core",
+    "Key": "Text_e9867e8a22d2"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "服务创建或测试失败",
+    "Fingerprint": "0F16AF27F18E22B5B69FC768B88152A6DE870DBEAF2C84CCEAE55F581F72A760",
+    "Project": "Core",
+    "Key": "Text_c9e24bc3378d"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "服务凭据解析失败",
+    "Fingerprint": "C9F553556EB05747365ECDF0DF362CB13AC294509B8D95603980BCE6D4D12922",
+    "Project": "Core",
+    "Key": "Text_0ee8cdd68ce4"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "无法创建服务实例",
+    "Fingerprint": "1B04751F6CD79050769B28B43A1772646A002AE33811CF2EEAC38CD5C09C7A79",
+    "Project": "Core",
+    "Key": "Text_e9867e8a22d2"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "当前服务不支持获取模型列表",
+    "Fingerprint": "F62B8E006437225D381AFF4868C58CB5E5E5F0F9B44C87BE930E19CB40EA0F46",
+    "Project": "Core",
+    "Key": "Text_d42544701705"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "获取模型列表失败",
+    "Fingerprint": "9093F39D7E6C03ED1324E4D58079FB31F7455E4C9CCBCC4F772C59E17AB3A40C",
+    "Project": "Core",
+    "Key": "Text_813bec599861"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "读取当前配置失败",
+    "Fingerprint": "6E5AAB1D4486E0D12DDB4D78C16042988BB7B9AF9300323513B60DC534EDEF34",
+    "Project": "Core",
+    "Key": "Text_13f5554c85ea"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "服务已不存在，请刷新后重试",
+    "Fingerprint": "4AA4FB8F29DC99BE70194D1F9DFA2827F8ECA6C8654F337B9A67D44067E47D76",
+    "Project": "Core",
+    "Key": "Text_c5d4b8310a81"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "草稿 Profile ID 必须与 BaseProfile ID 一致",
+    "Fingerprint": "C8FC4F3F462CFA3018A782BC763A3651659CB19D1ADE572DECCE5AB1DC0C3DDE",
+    "Project": "Core",
+    "Key": "Text_c867164793e4"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "已有草稿不能修改 CredentialSetId 引用",
+    "Fingerprint": "C53B05B32B02A1476F60C5B3DE81DD3FB920658DE7921AB497A8A2027EE0BC50",
+    "Project": "Core",
+    "Key": "Text_5692606726ab"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "凭据未配置",
+    "Fingerprint": "D9BD23BAA17EA934EBD9AD17682719C8E106791DC437D19BD037931E2279A34E",
+    "Project": "Core",
+    "Key": "Text_cbf370d77d1b"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "未知的凭据编辑类型",
+    "Fingerprint": "CC9A57B8D91612227E8F7294C80DA869953A27E5F90319889AB1C35A6245FF2A",
+    "Project": "Core",
+    "Key": "Text_3b5f7f06db59"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "快捷键组合已分配给其他动作，不能重复使用",
+    "Fingerprint": "20084EF9240C310C56962F2F29817000CFE65B4DFB68EA46018A543A86F76740",
+    "Project": "Core",
+    "Key": "Text_dde435b819e2"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Theme 含有未定义的值",
+    "Fingerprint": "BB5E6FE63785CF438C1FEA84A6A34EE33BF7DF3BE77B6CD28EF3C352CF3BF514",
+    "Project": "Core",
+    "Key": "Text_c95d52323038"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "LogLevel 目标值非法",
+    "Fingerprint": "3B5285037C7909F417AD3DA139E073DBC6B2C8056CEBBB0E66520148FE3886A4",
+    "Project": "Core",
+    "Key": "Text_ed4a1fe3a942"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "LogLevel 基线值非法",
+    "Fingerprint": "FE5A1E2DB4E261BCAADABB917A2AE2A29864832F90600C721D7CB0FF3F42238B",
+    "Project": "Core",
+    "Key": "Text_9195679f1083"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "计划中包含重复的 Profile ID 操作",
+    "Fingerprint": "FD403F71A02D96C13D6BF9ECF24BCCE7EA2FA4B6A0786BFB4956A41AA0A24326",
+    "Project": "Core",
+    "Key": "Text_7372225545c3"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "未知的 ChangeKind",
+    "Fingerprint": "95DEEB6E5907D57859889D152B25D46E5A3479CE3208A49B567944D2C0D92D29",
+    "Project": "Core",
+    "Key": "Text_2d66d07d7d5f"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Add 操作的 BaseProfile 必须为 null",
+    "Fingerprint": "3649E791E7760F988861E3BD8618128A367FDAA901399EA71BBA3D64ECD64423",
+    "Project": "Core",
+    "Key": "Text_1fbf1d53df1f"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Add 操作的 TargetProfile 不能为空",
+    "Fingerprint": "21BD96E1881ECD5ED9969F028A0E9856C32AF9A3E9D07AF8FBEF5D2E2CCFD87E",
+    "Project": "Core",
+    "Key": "Text_88bb88e055cf"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Add 操作不能任意指定 CredentialSetId",
+    "Fingerprint": "268494D79E231683A6B68AD6873A4CD43018B954FACBDAF8ED45C442DC73BC72",
+    "Project": "Core",
+    "Key": "Text_5d3ac474e977"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "新增 Profile ID 格式不符合规范",
+    "Fingerprint": "E12C717A3D40FC05D222C9F159D1BB2DBF5F2A68AD3544F1D27B7EE1788A5D7E",
+    "Project": "Core",
+    "Key": "Text_e9d0be5babc8"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Update 操作的 BaseProfile 不能为空",
+    "Fingerprint": "8356559CF66784711FB07F7086F6B362EC4CFD8569FF25E21AC837AF59A95E46",
+    "Project": "Core",
+    "Key": "Text_c39d89be8a24"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Update 操作的 TargetProfile 不能为空",
+    "Fingerprint": "67C0AB3CA19553513C2A3B8988D7B067DEC341DC9786E1F8ED94D1A7630F8E4B",
+    "Project": "Core",
+    "Key": "Text_6567ec3e5ce4"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Update 操作的 BaseProfile 与 TargetProfile ID 不一致",
+    "Fingerprint": "364D85664B1CA14B83C396856E8C5843B0ED99176D44EA2BEBD15E09B37CC4D2",
+    "Project": "Core",
+    "Key": "Text_6b77c983c377"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Update 操作不能在 TargetProfile 中更改 CredentialSetId 引用",
+    "Fingerprint": "33EA38B504278042AF2B00CBB8FC73F82A5D8D717EB66B563ED9B2D45274729E",
+    "Project": "Core",
+    "Key": "Text_bb89e4a6d141"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Delete 操作的 BaseProfile 不能为空",
+    "Fingerprint": "104574ECE45F40C83A6BEDC76E4796320C180F9FC0A89723750D6A27110EEAC5",
+    "Project": "Core",
+    "Key": "Text_8c2bba494229"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Delete 操作的 TargetProfile 必须为 null",
+    "Fingerprint": "4FD56B3900772B68661347740A0C998EC255D4353D7ED8811637028ADDDF1F97",
+    "Project": "Core",
+    "Key": "Text_bdf5648ed234"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Delete 操作的凭据意图只能为 Keep",
+    "Fingerprint": "27519F694EA0184651F3FD5BAB38BF1CC7423B98AE358D6931C278B6A913558B",
+    "Project": "Core",
+    "Key": "Text_fa9b5ba9833d"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "未知的凭据编辑类型",
+    "Fingerprint": "CC9A57B8D91612227E8F7294C80DA869953A27E5F90319889AB1C35A6245FF2A",
+    "Project": "Core",
+    "Key": "Text_3b5f7f06db59"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Replace 意图必须提供 Replacement 凭据",
+    "Fingerprint": "37081943E0AE943D9ADC0EF59F2DA20B1C26C31DC2098C2E2196C7E3EB84F3A5",
+    "Project": "Core",
+    "Key": "Text_8757324638ce"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Keep 或 Clear 意图的 Replacement 必须为 null",
+    "Fingerprint": "34BE4B331C0C5F693DCD4CB066AE2A2BEB07C4C58B62B375DCC979EE9EF3BD43",
+    "Project": "Core",
+    "Key": "Text_e53237193fe8"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "包含 Add 或 Delete 操作时必须附带 TranslationOrderChange",
+    "Fingerprint": "7C7C630DA2D558F2FE308BEFA6276517DB8D2D5DD8C4C98C3B26EAEA828A5A5D",
+    "Project": "Core",
+    "Key": "Text_bb066abe0093"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "TranslationOrderChange 的 BaseIds 或 TargetIds 不能为空",
+    "Fingerprint": "5119930B8F7D8A9A8AE79C55A20FE72586FA795046252A974A080D3FD7F5CCA2",
+    "Project": "Core",
+    "Key": "Text_31e97af4e348"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "TargetIds 包含重复 ID",
+    "Fingerprint": "B4626E7CF5CADE10F5A7A394C185F9B64D49D5D82A2DAF136CD0924BB0E493B7",
+    "Project": "Core",
+    "Key": "Text_fc1a8545b8a8"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "TargetIds 与预期的 Profile ID 集合不匹配",
+    "Fingerprint": "29F95FA273AEBE1C810C1F005D964988CC96517904B13747853801C1CB6CDF2F",
+    "Project": "Core",
+    "Key": "Text_cdfa48d9be39"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "快捷键目标绑定无效",
+    "Fingerprint": "F010BFBEC70BFDCF46D65D3BFF0703A1633CFC9552964A9D638E911CE82EC8B4",
+    "Project": "Core",
+    "Key": "Text_539074888c60"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Profile Kind 未定义",
+    "Fingerprint": "26DEA358F2C4FE3CCE94448EFCABBCABCA3E15F4A521C55078869BB62931E866",
+    "Project": "Core",
+    "Key": "Text_88de0b75493c"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "DisplayName 不能为空",
+    "Fingerprint": "1FB7E40BBB859A9AB58DE8E261559EB9B0EBDD283D28E7E32607FF215038FFB3",
+    "Project": "Core",
+    "Key": "Text_0d2c568b6d8e"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "TimeoutSeconds 必须在 5 到 600 之间",
+    "Fingerprint": "8F1FCF4F10F05792B7334BDD53066A9EDC5354A8106CBD598A50313FC59F368A",
+    "Project": "Core",
+    "Key": "Text_794ad749ed51"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "MaxOutputTokens 必须为正整数",
+    "Fingerprint": "745BCB18D8030B42372396BF53BD49CCB1E8B5B46BBA0EF37E01F4E6FDFEC7E2",
+    "Project": "Core",
+    "Key": "Text_7591b5823ffe"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Temperature 必须在 0.0 到 2.0 之间",
+    "Fingerprint": "27AAC7D2A9D00B8037B055353DEF29439A298657E6F82B90C30BBF7328BE2B50",
+    "Project": "Core",
+    "Key": "Text_fdef32da198a"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "启用服务的 Model 不能为空",
+    "Fingerprint": "127AB6054230FD862152FE2F8D123960F88A4D93CDB5DEAF212F4E1811095763",
+    "Project": "Core",
+    "Key": "Text_e3c6bebfa1ee"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "OpenAI 兼容服务的 BaseUrl 必须为合法绝对 HTTP(S) 地址",
+    "Fingerprint": "E0C3E3B78FE5715BE8B897628DB28A57AFB6189C2D4184CC150E4F1E73DCA9A4",
+    "Project": "Core",
+    "Key": "Text_3584a90d73bd"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Anthropic 服务的 BaseUrl 必须为合法绝对 HTTP(S) 地址",
+    "Fingerprint": "153A248D3D607ED8BFC6729903DD91117C25171054C85211AC5D77F15421401D",
+    "Project": "Core",
+    "Key": "Text_47c83176d03c"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "BaseUrl 必须为合法绝对 HTTP(S) 地址",
+    "Fingerprint": "916C80ED3F36C43C23209C6A2E11D522FED88C459151AE05B222F550B93EE988",
+    "Project": "Core",
+    "Key": "Text_19eecf82e5b9"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "MaxTokensField 未定义",
+    "Fingerprint": "77918F7CCC7F7EBDA87A8A77A87DD545E6FB8B57D735DFBFDFAFC4597768AEC2",
+    "Project": "Core",
+    "Key": "Text_b70890fbafd4"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "ChatCompletionsPath 不能为空",
+    "Fingerprint": "14DFDB4F426F280CF4564B99D0B22090E0619A48CFF36681E7EF26AB1156959C",
+    "Project": "Core",
+    "Key": "Text_887484964876"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "ChatCompletionsPath 必须为非空相对路径且不包含查询或片段",
+    "Fingerprint": "922F543CA41289A74E66AEA90AD1EEE536E62E6FC86BDC07B92D22A1B52C8FE1",
+    "Project": "Core",
+    "Key": "Text_c073d46e8eda"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "ExtraHeaders 不能包含认证敏感请求头",
+    "Fingerprint": "C7DAAB1B7C3A25B76462CC0F51DEF4DB2ED34BA377E158882309A3B8D979607A",
+    "Project": "Core",
+    "Key": "Text_aaca1618c7ec"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "ExtraHeaders 包含非法的请求头名称",
+    "Fingerprint": "034E11C1628686EB8BC6E891B97DC4F08FD4CAF6A1724A1D0A13D4D4EB9F18F5",
+    "Project": "Core",
+    "Key": "Text_9daf1297c3be"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "ExtraHeaders 请求头值不能包含回车或换行",
+    "Fingerprint": "314C5CB763C1DACC40D17B6EF388D993D7F576A8560B76C7285C0E3132530247",
+    "Project": "Core",
+    "Key": "Text_e9971e3aa748"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Anthropic Effort 必须为 low/medium/high/xhigh/max 或 null",
+    "Fingerprint": "ECBF10058EE6545A8A23C3A5E8AA82AD99E9070EC330003B8EDEF14CAC542210",
+    "Project": "Core",
+    "Key": "Text_2d9d1cba16ff"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Haiku 模型不支持 Effort 参数，必须显式设置为 null",
+    "Fingerprint": "D450398176007B5B7B99EADACCA7778288878E713A95125117EB77A1CC457A6B",
+    "Project": "Core",
+    "Key": "Text_1e0f1d55206a"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "指定的 PromptTemplateId 不存在",
+    "Fingerprint": "8022A959073DE87124610B50B56B566265496A6550F7899CF79E5B53C500BE63",
+    "Project": "Core",
+    "Key": "Text_c2439708babf"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "TranslationChanges 不能为空",
+    "Fingerprint": "5F2180B48625F5FDF6C5F2BD869AD6FA679386DA57CFBEFDCD60D45F446F1871",
+    "Project": "Core",
+    "Key": "Text_92be3cc3d9d9"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "TranslationChanges 不能包含 null 元素",
+    "Fingerprint": "F4A924659493AEAA165ECB6425421A1B07235DA12AE1919BC47D692D1AB95DB0",
+    "Project": "Core",
+    "Key": "Text_81f20e09b3ea"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "未知的 Profile 变更类型",
+    "Fingerprint": "2B6231C0B61C347F1700CCD9348C0741C0B94A9F4CC7FA3F6664946DC434F2C4",
+    "Project": "Core",
+    "Key": "Text_487ecf7b7200"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "凭据意图不能为 null",
+    "Fingerprint": "A53BEBE670E33913BE08EA9B677848A92C293BDF5006033624BC715013CFBDE1",
+    "Project": "Core",
+    "Key": "Text_c132242b9cc8"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "未知的凭据编辑类型",
+    "Fingerprint": "CC9A57B8D91612227E8F7294C80DA869953A27E5F90319889AB1C35A6245FF2A",
+    "Project": "Core",
+    "Key": "Text_3b5f7f06db59"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Add 操作的 TargetProfile 不能为空",
+    "Fingerprint": "21BD96E1881ECD5ED9969F028A0E9856C32AF9A3E9D07AF8FBEF5D2E2CCFD87E",
+    "Project": "Core",
+    "Key": "Text_88bb88e055cf"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Add 操作的 BaseProfile 必须为 null",
+    "Fingerprint": "3649E791E7760F988861E3BD8618128A367FDAA901399EA71BBA3D64ECD64423",
+    "Project": "Core",
+    "Key": "Text_1fbf1d53df1f"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Update 操作的 BaseProfile 不能为空",
+    "Fingerprint": "8356559CF66784711FB07F7086F6B362EC4CFD8569FF25E21AC837AF59A95E46",
+    "Project": "Core",
+    "Key": "Text_c39d89be8a24"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Update 操作的 TargetProfile 不能为空",
+    "Fingerprint": "67C0AB3CA19553513C2A3B8988D7B067DEC341DC9786E1F8ED94D1A7630F8E4B",
+    "Project": "Core",
+    "Key": "Text_6567ec3e5ce4"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Delete 操作的 BaseProfile 不能为空",
+    "Fingerprint": "104574ECE45F40C83A6BEDC76E4796320C180F9FC0A89723750D6A27110EEAC5",
+    "Project": "Core",
+    "Key": "Text_8c2bba494229"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Delete 操作的 TargetProfile 必须为 null",
+    "Fingerprint": "4FD56B3900772B68661347740A0C998EC255D4353D7ED8811637028ADDDF1F97",
+    "Project": "Core",
+    "Key": "Text_bdf5648ed234"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "TranslationOrderChange 的 BaseIds 或 TargetIds 不能为空",
+    "Fingerprint": "5119930B8F7D8A9A8AE79C55A20FE72586FA795046252A974A080D3FD7F5CCA2",
+    "Project": "Core",
+    "Key": "Text_31e97af4e348"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "TranslationOrderChange 不能包含 null ID",
+    "Fingerprint": "519307B9377623857B172DA3E1BAB3CFC8101C135DB3B54EA770E6B0DEA2D152",
+    "Project": "Core",
+    "Key": "Text_7096f3d36409"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "HotkeyChanges 不能为 null",
+    "Fingerprint": "DFEA1011D261687D593944F50830DAE7DA07DD5644CF663D6C6EA86668CCAEBE",
+    "Project": "Core",
+    "Key": "Text_7177a14b6ebc"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "HotkeyChanges 不能包含 null 元素",
+    "Fingerprint": "A54873E86D26665AF938ABE616E754DD9080564875FEFF1AD2E565E9006F3F94",
+    "Project": "Core",
+    "Key": "Text_7cc45bbeb7ba"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "HotkeyChanges 包含未知的 Action",
+    "Fingerprint": "0D05D38131C37906CE1FF07699A84B0B76BB82DE8680ED64CBC07CA4486764CD",
+    "Project": "Core",
+    "Key": "Text_839b70cf1003"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "TargetBinding 不能为空",
+    "Fingerprint": "E80093C120C75128CE5CA5AC2117557AC780AF721A6804600BF43FEDA47E37AC",
+    "Project": "Core",
+    "Key": "Text_890ebd5ae96d"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "HotkeyChanges 包含重复的 Action 变更",
+    "Fingerprint": "E83C5B537C0788964A0D9A5B4BB1622F736F63BA63B8C07FEA56615CF6761312",
+    "Project": "Core",
+    "Key": "Text_85653ba72bf5"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Profile 不能为空",
+    "Fingerprint": "976AF64E37611E97F5E4E4EBCAD8F8C0AF6F2BE5A59E95501240C88CF8948E3C",
+    "Project": "Core",
+    "Key": "Text_c4d61c3b7e92"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Profile ID 不能为空",
+    "Fingerprint": "7376FAC1A96876BAF6A058F1C113D916B7EEA51F0CC5B20BBC5D9AB81DCA6B36",
+    "Project": "Core",
+    "Key": "Text_5cee7d9c04a4"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Credentials 不能为空",
+    "Fingerprint": "99C5C2246BE4FE013849D32F230A35716DA3291754C70CCBEEB97A3183F1CF55",
+    "Project": "Core",
+    "Key": "Text_5c6f7f20d814"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "未知的凭据编辑类型",
+    "Fingerprint": "CC9A57B8D91612227E8F7294C80DA869953A27E5F90319889AB1C35A6245FF2A",
+    "Project": "Core",
+    "Key": "Text_3b5f7f06db59"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "未知的 Profile Kind 类型",
+    "Fingerprint": "9D22BA1FA6432965B93D36CCA593B30A60D6E005A0A928B98D5DDD9088CAD619",
+    "Project": "Core",
+    "Key": "Text_2e61f01ce8da"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Profile ID 不能为空",
+    "Fingerprint": "7376FAC1A96876BAF6A058F1C113D916B7EEA51F0CC5B20BBC5D9AB81DCA6B36",
+    "Project": "Core",
+    "Key": "Text_5cee7d9c04a4"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "新增 Profile ID 格式不符合规范",
+    "Fingerprint": "E12C717A3D40FC05D222C9F159D1BB2DBF5F2A68AD3544F1D27B7EE1788A5D7E",
+    "Project": "Core",
+    "Key": "Text_e9d0be5babc8"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "BaseProfile ID 不能为空",
+    "Fingerprint": "1081B121AF88786CC2E533B7267174402968254E643527528E6CA4C2097213CB",
+    "Project": "Core",
+    "Key": "Text_f7f84688d00e"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "草稿 Profile ID 必须与 BaseProfile ID 一致",
+    "Fingerprint": "C8FC4F3F462CFA3018A782BC763A3651659CB19D1ADE572DECCE5AB1DC0C3DDE",
+    "Project": "Core",
+    "Key": "Text_c867164793e4"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "已有草稿不能修改 CredentialSetId 引用",
+    "Fingerprint": "C53B05B32B02A1476F60C5B3DE81DD3FB920658DE7921AB497A8A2027EE0BC50",
+    "Project": "Core",
+    "Key": "Text_5692606726ab"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Profile Kind 未定义",
+    "Fingerprint": "26DEA358F2C4FE3CCE94448EFCABBCABCA3E15F4A521C55078869BB62931E866",
+    "Project": "Core",
+    "Key": "Text_88de0b75493c"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "DisplayName 不能为空",
+    "Fingerprint": "1FB7E40BBB859A9AB58DE8E261559EB9B0EBDD283D28E7E32607FF215038FFB3",
+    "Project": "Core",
+    "Key": "Text_0d2c568b6d8e"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "TimeoutSeconds 必须在 5 到 600 之间",
+    "Fingerprint": "8F1FCF4F10F05792B7334BDD53066A9EDC5354A8106CBD598A50313FC59F368A",
+    "Project": "Core",
+    "Key": "Text_794ad749ed51"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Replace 意图必须提供 Replacement 凭据",
+    "Fingerprint": "37081943E0AE943D9ADC0EF59F2DA20B1C26C31DC2098C2E2196C7E3EB84F3A5",
+    "Project": "Core",
+    "Key": "Text_8757324638ce"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "新服务草稿不能指定 CredentialSetId",
+    "Fingerprint": "92120AC0F90DE02D53C93B35AF57941467C15D47378926DA644A298ABCC23CB4",
+    "Project": "Core",
+    "Key": "Text_820b7f28048d"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Keep 意图的 Replacement 必须为 null",
+    "Fingerprint": "F4CF1B06CD2A5F206575AEE8006A0CBF061EA3F8CA7B1B29E4E0A9F717EAD42E",
+    "Project": "Core",
+    "Key": "Text_1a8fdaa1d433"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "凭据引用格式无效",
+    "Fingerprint": "04DB1B1F70E3F933B4380A812BE4949DE73B90FA30EF9612CBE9A8146BE65BA8",
+    "Project": "Core",
+    "Key": "Text_f64a52bd3dfc"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "新服务草稿不能指定 CredentialSetId",
+    "Fingerprint": "92120AC0F90DE02D53C93B35AF57941467C15D47378926DA644A298ABCC23CB4",
+    "Project": "Core",
+    "Key": "Text_820b7f28048d"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Clear 意图的 Replacement 必须为 null",
+    "Fingerprint": "49269431BCF84657A2340C1DB0262F5B50F41896AA3B8C1BA6573A15B5DE2792",
+    "Project": "Core",
+    "Key": "Text_7938de18d1ca"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "新服务草稿不能指定 CredentialSetId",
+    "Fingerprint": "92120AC0F90DE02D53C93B35AF57941467C15D47378926DA644A298ABCC23CB4",
+    "Project": "Core",
+    "Key": "Text_820b7f28048d"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "OpenAI 兼容服务的 BaseUrl 必须为合法绝对 HTTP(S) 地址",
+    "Fingerprint": "E0C3E3B78FE5715BE8B897628DB28A57AFB6189C2D4184CC150E4F1E73DCA9A4",
+    "Project": "Core",
+    "Key": "Text_3584a90d73bd"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Anthropic 服务的 BaseUrl 必须为合法绝对 HTTP(S) 地址",
+    "Fingerprint": "153A248D3D607ED8BFC6729903DD91117C25171054C85211AC5D77F15421401D",
+    "Project": "Core",
+    "Key": "Text_47c83176d03c"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "ExtraHeaders 不能包含认证敏感请求头",
+    "Fingerprint": "C7DAAB1B7C3A25B76462CC0F51DEF4DB2ED34BA377E158882309A3B8D979607A",
+    "Project": "Core",
+    "Key": "Text_aaca1618c7ec"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "ExtraHeaders 包含非法的请求头名称",
+    "Fingerprint": "034E11C1628686EB8BC6E891B97DC4F08FD4CAF6A1724A1D0A13D4D4EB9F18F5",
+    "Project": "Core",
+    "Key": "Text_9daf1297c3be"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "ExtraHeaders 请求头值不能包含回车或换行",
+    "Fingerprint": "314C5CB763C1DACC40D17B6EF388D993D7F576A8560B76C7285C0E3132530247",
+    "Project": "Core",
+    "Key": "Text_e9971e3aa748"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "MaxTokensField 未定义",
+    "Fingerprint": "77918F7CCC7F7EBDA87A8A77A87DD545E6FB8B57D735DFBFDFAFC4597768AEC2",
+    "Project": "Core",
+    "Key": "Text_b70890fbafd4"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "ChatCompletionsPath 不能为空",
+    "Fingerprint": "14DFDB4F426F280CF4564B99D0B22090E0619A48CFF36681E7EF26AB1156959C",
+    "Project": "Core",
+    "Key": "Text_887484964876"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "ChatCompletionsPath 必须为非空相对路径且不包含查询或片段",
+    "Fingerprint": "922F543CA41289A74E66AEA90AD1EEE536E62E6FC86BDC07B92D22A1B52C8FE1",
+    "Project": "Core",
+    "Key": "Text_c073d46e8eda"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Anthropic Effort 必须为 low/medium/high/xhigh/max 或 null",
+    "Fingerprint": "ECBF10058EE6545A8A23C3A5E8AA82AD99E9070EC330003B8EDEF14CAC542210",
+    "Project": "Core",
+    "Key": "Text_2d9d1cba16ff"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Haiku 模型不支持 Effort 参数，必须显式设置为 null",
+    "Fingerprint": "D450398176007B5B7B99EADACCA7778288878E713A95125117EB77A1CC457A6B",
+    "Project": "Core",
+    "Key": "Text_1e0f1d55206a"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Model 不能为空",
+    "Fingerprint": "924D674DCBCD4C64CBFAF4D4AEBDAEDA0143AA28A734347250D8102D4DF8EBE1",
+    "Project": "Core",
+    "Key": "Text_eb11d05aba48"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "MaxOutputTokens 必须为正整数",
+    "Fingerprint": "745BCB18D8030B42372396BF53BD49CCB1E8B5B46BBA0EF37E01F4E6FDFEC7E2",
+    "Project": "Core",
+    "Key": "Text_7591b5823ffe"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "Temperature 必须在 0.0 到 2.0 之间",
+    "Fingerprint": "27AAC7D2A9D00B8037B055353DEF29439A298657E6F82B90C30BBF7328BE2B50",
+    "Project": "Core",
+    "Key": "Text_fdef32da198a"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+    "Kind": "literal",
+    "Text": "指定的 PromptTemplateId 不存在",
+    "Fingerprint": "8022A959073DE87124610B50B56B566265496A6550F7899CF79E5B53C500BE63",
+    "Project": "Core",
+    "Key": "Text_c2439708babf"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.History.cs",
+    "Kind": "literal",
+    "Text": "历史记录数量须为 100 至 100000 的整数。",
+    "Fingerprint": "AF3E60491E784BD0DFD32E788DA453D12262C803022F8B07588335E01202C5A6",
+    "Project": "Core",
+    "Key": "Text_9f4aeb1e7d83"
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.Selection.cs",
+    "Kind": "literal",
+    "Text": "划词设置目标无效，请检查读取顺序、等待时间和进程文件名。",
+    "Fingerprint": "35D1ECD932C4291541000F2E06A15C7A49E429F9B111A46AB7B73D6B854466EF",
+    "Project": "Core",
+    "Key": "Text_8a27e21cae4a"
+  },
+  {
+    "Path": "src/Iris.Core/Translation/TranslationOrchestrator.cs",
+    "Kind": "literal",
+    "Text": "翻译结果超过本地长度限制",
+    "Fingerprint": "2986AD85746D58C5100E3BB47FF5E239B37201ABA4C4E53A740B5561F582A42E",
+    "Project": "Core",
+    "Key": "Text_5520c80c1f25"
+  },
+  {
+    "Path": "src/Iris.Core/Translation/TranslationOrchestrator.cs",
+    "Kind": "literal",
+    "Text": "翻译结果超过本地长度限制",
+    "Fingerprint": "2986AD85746D58C5100E3BB47FF5E239B37201ABA4C4E53A740B5561F582A42E",
+    "Project": "Core",
+    "Key": "Text_5520c80c1f25"
+  },
+  {
+    "Path": "src/Iris.Core/Translation/TranslationOrchestrator.cs",
+    "Kind": "literal",
+    "Text": "翻译结果超过本地长度限制",
+    "Fingerprint": "2986AD85746D58C5100E3BB47FF5E239B37201ABA4C4E53A740B5561F582A42E",
+    "Project": "Core",
+    "Key": "Text_5520c80c1f25"
+  },
+  {
+    "Path": "src/Iris.Core/Workflows/ScreenshotOcrWorkflow.cs",
+    "Kind": "literal",
+    "Text": "正在识别文字…",
+    "Fingerprint": "02864C52EC1C25D5002BC679E65374C12A0C4B54DAA6D819CB121D00EBFB5D02",
+    "Project": "Core",
+    "Key": "Text_b922fe67a95c"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Storage/AppPaths.cs",
+    "Kind": "literal",
+    "Text": "无法创建数据目录",
+    "Fingerprint": "B6423AB445198BBCBF6E5EA7100C8BAA251203D1D4740BDD66895D0F8459EF4E",
+    "Project": "Core",
+    "Key": "Text_1258dd08ed11"
+  },
+  {
+    "Path": "src/Iris.Infrastructure/Storage/AppPaths.cs",
+    "Kind": "literal",
+    "Text": "无法创建数据目录",
+    "Fingerprint": "B6423AB445198BBCBF6E5EA7100C8BAA251203D1D4740BDD66895D0F8459EF4E",
+    "Project": "Core",
+    "Key": "Text_1258dd08ed11"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Capture/DesktopContext.cs",
+    "Kind": "literal",
+    "Text": "桌面查询资源清理失败",
+    "Fingerprint": "AB87C5784DF7F1C9D32631613F4B824DB59153B0614658798E1A49A31EC64201",
+    "Project": "Core",
+    "Key": "Text_bda16101de59"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Capture/DesktopContext.cs",
+    "Kind": "literal",
+    "Text": "无法获取鼠标位置",
+    "Fingerprint": "B6D790EF5F19B7D5074EFA779119A8D22E71CE56956B23715AC33446A7829090",
+    "Project": "Core",
+    "Key": "Text_036a995464fd"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Capture/DesktopGeometryHelper.cs",
+    "Kind": "literal",
+    "Text": "无法获取显示器信息",
+    "Fingerprint": "7E67AB6F1F9DDFD65FB5D1C884E23C17D3E63B5368D93A6ADA53251DDF4893D1",
+    "Project": "Core",
+    "Key": "Text_18140661bf9b"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Capture/MonitorEnumerator.cs",
+    "Kind": "literal",
+    "Text": "无法获取显示器信息",
+    "Fingerprint": "D7E8F2043D5E269938011FBB5E5AAE28D2E1BDE5591CECDE3617FA635EBFE487",
+    "Project": "Core",
+    "Key": "Text_18140661bf9b"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Capture/MonitorEnumerator.cs",
+    "Kind": "literal",
+    "Text": "无法获取显示器信息",
+    "Fingerprint": "D7E8F2043D5E269938011FBB5E5AAE28D2E1BDE5591CECDE3617FA635EBFE487",
+    "Project": "Core",
+    "Key": "Text_18140661bf9b"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Capture/MonitorEnumerator.cs",
+    "Kind": "literal",
+    "Text": "桌面查询资源清理失败",
+    "Fingerprint": "471158A4713F33FA0AEE0EC85AF4F720D3E86C2C4FEA7CAFC31A3DBD4D7D0A37",
+    "Project": "Core",
+    "Key": "Text_bda16101de59"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs",
+    "Kind": "literal",
+    "Text": "无效的设置窗口句柄。",
+    "Fingerprint": "ECA1B4862ED69F9B6891D5202755A0AB1F1B1127383CD40E311BD5D9C28F5374",
+    "Project": "Core",
+    "Key": "Text_4c31a6597af9"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs",
+    "Kind": "literal",
+    "Text": "设置窗口不是当前前台活动窗口。",
+    "Fingerprint": "10EF6D73574E78E9D351A150D67C5F32D7B700EAD6AE79D292BF806AC82C7447",
+    "Project": "Core",
+    "Key": "Text_7f6aa73696e9"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs",
+    "Kind": "literal",
+    "Text": "当前已有正在进行的按键录入会话。",
+    "Fingerprint": "CC9AC41589735FB12C20BE0CA73E3457F6EB548DD71BFEA6121B12D054D0404F",
+    "Project": "Core",
+    "Key": "Text_aed470d42b87"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs",
+    "Kind": "interpolated",
+    "Text": "安装键盘钩子失败 (Win32Error={0})。",
+    "Fingerprint": "C80CADD93205825867AFFEF35B762AD1DAC414B55FB071C64096D2529E12F1BC",
+    "Project": "Core",
+    "Key": "Text_d6315daa8917"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs",
+    "Kind": "literal",
+    "Text": "消息循环异常终止。",
+    "Fingerprint": "E51E67FF6FF6B94EA247FFB2301BF865ADA8AF9E8389E565E7A66765C2592D11",
+    "Project": "Core",
+    "Key": "Text_0b246a3867e0"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs",
+    "Kind": "literal",
+    "Text": "录入消息循环意外退出。",
+    "Fingerprint": "3ED60B3E6BE4D849B5ABFB015B5A49E107A206D8DB2611900CF9ED7427FD211A",
+    "Project": "Core",
+    "Key": "Text_ac6ab950f7bc"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs",
+    "Kind": "literal",
+    "Text": "录入消息循环发生异常。",
+    "Fingerprint": "DBC5B9FD7A13BC4871E581E8545BF254067370E91CC4FB975EDC2B2FECE252F0",
+    "Project": "Core",
+    "Key": "Text_abd1c2ab4442"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs",
+    "Kind": "interpolated",
+    "Text": "卸载键盘钩子失败 (Win32Error={0})。",
+    "Fingerprint": "0F3C1D1D6474A36C6E3D66B00ACDFBA56D2943EAD4C6690FB6970304A4CB19E0",
+    "Project": "Core",
+    "Key": "Text_c955eba2dbc4"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs",
+    "Kind": "interpolated",
+    "Text": "向录入消息线程发送退出消息失败 (Win32Error={0})。",
+    "Fingerprint": "4165BF7808054C4D50A51EB05C437D30886ED3D008CE2CE43C0A5D1EFD167004",
+    "Project": "Core",
+    "Key": "Text_4973738aa92b"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureSession.cs",
+    "Kind": "literal",
+    "Text": "快捷键录入异常终止。",
+    "Fingerprint": "CE811C09976D27F6496B6589EB7B24CA81ADB868BA5C6FCBA529ED2F38656A48",
+    "Project": "Core",
+    "Key": "Text_2208df3e6f75"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureSession.cs",
+    "Kind": "literal",
+    "Text": "多个按键同时按下，请松开后重试",
+    "Fingerprint": "9FB3522E43E84C3BDD7CE80ED3DFD9F8F2303E10C0D63B8A7B9073B8A2A5588D",
+    "Project": "Core",
+    "Key": "Text_0ecffb155c24"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureSession.cs",
+    "Kind": "literal",
+    "Text": "无效的快捷键组合",
+    "Fingerprint": "7D36A1438DC72259C71AE88B586DA381DEEBBCE21EC76C5E50D47452173ED2DC",
+    "Project": "Core",
+    "Key": "Text_0e69913da40f"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureSession.cs",
+    "Kind": "literal",
+    "Text": "未知按键",
+    "Fingerprint": "2C0F5C8E414865144295C2E4EC1B2DA683250538F4E7368F7C102F44655DBA92",
+    "Project": "Core",
+    "Key": "Text_5ccb7938c6df"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Selection/KeyboardSimulator.cs",
+    "Kind": "literal",
+    "Text": "键盘按键释放清理失败，部分按键未能成功释放。",
+    "Fingerprint": "9CADB428B152EB63BB70D90DAC764AF9C6DEEBFB83186ED41BE12085491C85E9",
+    "Project": "Core",
+    "Key": "Text_b946ca79c3ca"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/Selection/KeyboardSimulator.cs",
+    "Kind": "literal",
+    "Text": "键盘模拟输入失败",
+    "Fingerprint": "E536CE0F24CCC104A393D9B0323F7B16404B6BEE0037F914DD73C206DA63D863",
+    "Project": "Core",
+    "Key": "Text_e63a96455f53"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs",
+    "Kind": "literal",
+    "Text": "开机启动配置读取失败",
+    "Fingerprint": "3CCEF013F9885374DF1499DC46F5504CC0C42917169A7F242ADAE8D11B4A1F0D",
+    "Project": "Core",
+    "Key": "Text_d4480321b4b5"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs",
+    "Kind": "literal",
+    "Text": "开机启动配置写入失败",
+    "Fingerprint": "DDCF96D87727E4623A0C4F6132466889950BF4CFF9081BE61FD2D0A6EFEE1C3E",
+    "Project": "Core",
+    "Key": "Text_334e5ee2f6a1"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs",
+    "Kind": "literal",
+    "Text": "开机启动配置删除失败",
+    "Fingerprint": "567CD7491AB5EBA3BE529E4553964890985CDAC41785FB488D31BCDD6D3EC87C",
+    "Project": "Core",
+    "Key": "Text_c17290ab65e9"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs",
+    "Kind": "literal",
+    "Text": "获取应用程序路径失败",
+    "Fingerprint": "8608A8E724AF9D4E6AB8573199463AF9E5D0A1434B9D640826AB2A09069DF543",
+    "Project": "Core",
+    "Key": "Text_ce3c3cdbf8c7"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs",
+    "Kind": "literal",
+    "Text": "未找到有效的应用程序路径",
+    "Fingerprint": "9F44D10ABC9A99BD1A7BD1DD47D67775C88B8D58C70DDB90DBAB1CBA5DF83B45",
+    "Project": "Core",
+    "Key": "Text_87bb7ae7d91c"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs",
+    "Kind": "literal",
+    "Text": "应用程序路径格式无效",
+    "Fingerprint": "5032B9C7B2EFF2F75F31B171E95735C2FDD614DD2769CDB489AD885EBB99C508",
+    "Project": "Core",
+    "Key": "Text_cc1010d2ab51"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs",
+    "Kind": "literal",
+    "Text": "不能使用 dotnet 托管进程作为开机自启命令",
+    "Fingerprint": "E632D2A1EC16960468BB6A0A2D35E50949737EF02C4CBACA89837B4F98560A1D",
+    "Project": "Core",
+    "Key": "Text_12eefb70d6f9"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs",
+    "Kind": "literal",
+    "Text": "应用程序路径必须为可执行文件",
+    "Fingerprint": "5BDE17330A5C95C5F53E094389FC34B15BA1501947623E570B941A8D631E0580",
+    "Project": "Core",
+    "Key": "Text_6ef775d7ce0c"
+  },
+  {
+    "Path": "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs",
+    "Kind": "literal",
+    "Text": "开机启动命令长度超出系统限制",
+    "Fingerprint": "E36D540BBE9C425A96A9CCA211CA386221F8814611A4DD0FD63E9A6CB9A13E99",
+    "Project": "Core",
+    "Key": "Text_ac952dd6d176"
+  }
+]

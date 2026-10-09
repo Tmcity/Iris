@@ -78,7 +78,7 @@ internal sealed partial class HotkeyCoordinator : IDisposable
                 action,
                 null,
                 HotkeyRuntimeActionStatus.Disabled,
-                "(未设置)",
+                global::Iris.App.Resources.AppResources.Get("Text_ee86d366961c"),
                 null,
                 0);
         }
@@ -91,7 +91,7 @@ internal sealed partial class HotkeyCoordinator : IDisposable
             return new HotkeyRuntimeSnapshot(
                 _snapshotId,
                 _isPaused,
-                new Dictionary<IrisAction, HotkeyRuntimeItemState>(_runtimeItems));
+                _runtimeItems.ToDictionary(pair => pair.Key, pair => pair.Value with { KeyComboText = FormatKeyCombo(pair.Value.TargetBinding) }));
         }
     }
 
@@ -101,7 +101,7 @@ internal sealed partial class HotkeyCoordinator : IDisposable
         var snapshot = new HotkeyRuntimeSnapshot(
             _snapshotId,
             _isPaused,
-            new Dictionary<IrisAction, HotkeyRuntimeItemState>(_runtimeItems));
+            _runtimeItems.ToDictionary(pair => pair.Key, pair => pair.Value with { KeyComboText = FormatKeyCombo(pair.Value.TargetBinding) }));
 
         _ = Task.Run(() =>
         {
@@ -199,7 +199,7 @@ internal sealed partial class HotkeyCoordinator : IDisposable
                                 _runtimeItems[action] = oldState with
                                 {
                                     Status = HotkeyRuntimeActionStatus.Failed,
-                                    Message = "注销失败"
+                                    Message = global::Iris.App.Resources.AppResources.Get("Text_130b4f7f9f33")
                                 };
                             }
                         }
@@ -760,7 +760,7 @@ internal sealed partial class HotkeyCoordinator : IDisposable
                         targetBinding,
                         HotkeyRuntimeActionStatus.Failed,
                         FormatKeyCombo(unregBinding),
-                        "注销失败",
+                        global::Iris.App.Resources.AppResources.Get("Text_130b4f7f9f33"),
                         _dispatchGeneration);
                 }
                 else if (_activeBindings.TryGetValue(action, out var activeBinding))
@@ -847,13 +847,16 @@ internal sealed partial class HotkeyCoordinator : IDisposable
     {
         IrisAction.InputTranslate => UiText.TrayMenuInputTranslate,
         IrisAction.ClipboardTranslate => UiText.TrayMenuClipboardTranslate,
-        IrisAction.TranslateText => "翻译文本",
+        IrisAction.TranslateText => global::Iris.App.Resources.AppResources.Get("Text_2c944b654a3b"),
         IrisAction.OpenSettings => UiText.SettingsTitle,
-        IrisAction.SelectionTranslate => "划词翻译",
-        IrisAction.ScreenshotTranslate => "截图翻译",
-        IrisAction.ScreenshotOcr => "截图 OCR",
-        IrisAction.SilentScreenshotOcr => "静默截图 OCR",
-        IrisAction.ToggleFloatingBall => "悬浮球",
+        IrisAction.SelectionTranslate => global::Iris.App.Resources.AppResources.Get("Text_3b02edcd404d"),
+        IrisAction.ScreenshotTranslate => global::Iris.App.Resources.AppResources.Get("Text_03261c064096"),
+        IrisAction.ScreenshotOcr => global::Iris.App.Resources.AppResources.Get("Text_a03a94a2f826"),
+        IrisAction.SilentScreenshotOcr => global::Iris.App.Resources.AppResources.Get("Text_501fb7e80e5a"),
+        IrisAction.ToggleFloatingBall => global::Iris.App.Resources.AppResources.Get("Text_72704d8e1e47"),
+        IrisAction.Exit => UiText.TrayMenuExit,
+        IrisAction.OpenHistory => UiText.HistoryTitle,
+        IrisAction.ToggleMouseSelection => UiText.MouseToggle,
         _ => action.ToString(),
     };
 
@@ -873,7 +876,7 @@ internal sealed partial class HotkeyCoordinator : IDisposable
             }
             else
             {
-                parts.Add("(无效键)");
+                parts.Add(global::Iris.App.Resources.AppResources.Get("Text_6417027b65c2"));
             }
         }
 
@@ -884,16 +887,16 @@ internal sealed partial class HotkeyCoordinator : IDisposable
     {
         if (binding == null)
         {
-            return "(未设置)";
+            return global::Iris.App.Resources.AppResources.Get("Text_ee86d366961c");
         }
 
         string formatted = FormatKeyCombo(binding.Modifiers, binding.Key);
         if (string.IsNullOrEmpty(formatted))
         {
-            return "(未设置)";
+            return global::Iris.App.Resources.AppResources.Get("Text_ee86d366961c");
         }
 
-        return binding.Enabled ? formatted : $"{formatted} (已禁用)";
+        return binding.Enabled ? formatted : global::Iris.App.Resources.AppResources.Format("Text_37e627acd92a", formatted);
     }
 
     private void OnHotkeyPressed(object? sender, HotkeyPressedEventArgs e)

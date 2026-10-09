@@ -25,17 +25,10 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Window.Resources>
 
-    <Grid Margin="12,8,12,12">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <DockPanel Margin="12,8,12,12">
 
         <!-- 顶栏：拖拽手柄、钉住、设置、关闭 -->
-        <Grid Grid.Row="0" Margin="0,0,0,8" MouseLeftButtonDown="OnTitleBarMouseDown" Background="Transparent">
+        <Grid DockPanel.Dock="Top" Margin="0,0,0,8" MouseLeftButtonDown="OnTitleBarMouseDown" Background="Transparent">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
@@ -53,7 +46,7 @@
                 <ui:Button x:Name="PinButton"
                            Content="📌"
                            Command="{Binding PinCommand}"
-                           ToolTip="{x:Static app:UiText.TranslatePinWindow}"
+                           ToolTip="{x:Static app:UiText.TranslatePinWindow}" AutomationProperties.Name="{x:Static app:UiText.TranslatePinWindow}"
                            Appearance="{Binding IsPinned, Converter={x:Null}}"
                            Padding="6,2"
                            Margin="0,0,4,0"
@@ -63,7 +56,7 @@
                 <ui:Button x:Name="SettingsButton"
                            Content="⚙"
                            Command="{Binding GoToSettingsCommand}"
-                           ToolTip="{x:Static app:UiText.TranslateSettings}"
+                           ToolTip="{x:Static app:UiText.TranslateSettings}" AutomationProperties.Name="{x:Static app:UiText.TranslateSettings}"
                            Padding="6,2"
                            Margin="0,0,4,0"
                            MinWidth="28" />
@@ -72,14 +65,23 @@
                 <ui:Button x:Name="CloseButton"
                            Content="✕"
                            Click="OnCloseButtonClick"
-                           ToolTip="{x:Static app:UiText.TranslateClose}"
+                           ToolTip="{x:Static app:UiText.TranslateClose}" AutomationProperties.Name="{x:Static app:UiText.TranslateClose}"
                            Padding="6,2"
                            MinWidth="28" />
             </StackPanel>
         </Grid>
 
+        <ScrollViewer x:Name="ContentScrollViewer" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
         <!-- 语言选择与操作行 -->
-        <Grid Grid.Row="1" Margin="0,0,0,8">
+        <Grid x:Name="LanguageControlsGrid" Grid.Row="0" Margin="0,0,0,8">
+            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" MinWidth="48" MaxWidth="150" />
                 <ColumnDefinition Width="Auto" />
@@ -88,34 +90,38 @@
             </Grid.ColumnDefinitions>
 
             <!-- 源语言 -->
-            <ComboBox x:Name="SourceLangComboBox"
+            <ComboBox x:Name="SourceLangComboBox" AutomationProperties.Name="{x:Static app:UiText.AccessibilitySourceLanguage}"
                       Grid.Column="0"
                       ItemsSource="{Binding AvailableSourceLanguages}"
                       SelectedValue="{Binding SourceLanguage, Mode=TwoWay}"
                       SelectedValuePath="Code"
-                      DisplayMemberPath="DisplayName"
-                      HorizontalAlignment="Stretch" />
+                      HorizontalContentAlignment="Stretch"
+                      HorizontalAlignment="Stretch">
+                <ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding DisplayName}" TextWrapping="Wrap" ToolTip="{Binding DisplayName}"/></DataTemplate></ComboBox.ItemTemplate>
+            </ComboBox>
 
             <!-- 交换按钮 -->
             <ui:Button x:Name="SwapLanguagesButton"
                        Grid.Column="1"
                        Content="⇄"
                        Command="{Binding SwapLanguagesCommand}"
-                       ToolTip="{x:Static app:UiText.TranslateSwapLanguages}"
+                       ToolTip="{x:Static app:UiText.TranslateSwapLanguages}" AutomationProperties.Name="{x:Static app:UiText.TranslateSwapLanguages}"
                        Margin="4,0"
                        Padding="4,2" />
 
             <!-- 目标语言 -->
-            <ComboBox x:Name="TargetLangComboBox"
+            <ComboBox x:Name="TargetLangComboBox" AutomationProperties.Name="{x:Static app:UiText.AccessibilityTargetLanguage}"
                       Grid.Column="2"
                       ItemsSource="{Binding AvailableTargetLanguages}"
                       SelectedValue="{Binding TargetLanguage, Mode=TwoWay}"
                       SelectedValuePath="Code"
-                      DisplayMemberPath="DisplayName"
-                      HorizontalAlignment="Stretch" />
+                      HorizontalContentAlignment="Stretch"
+                      HorizontalAlignment="Stretch">
+                <ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding DisplayName}" TextWrapping="Wrap" ToolTip="{Binding DisplayName}"/></DataTemplate></ComboBox.ItemTemplate>
+            </ComboBox>
 
             <!-- 翻译 / 停止 按钮 -->
-            <StackPanel Grid.Column="3" Orientation="Horizontal" Margin="4,0,0,0">
+            <StackPanel x:Name="LanguageActionsPanel" Grid.Column="3" Orientation="Horizontal" Margin="4,0,0,0">
                 <ui:Button x:Name="StopButton"
                            Content="{x:Static app:UiText.TranslateStopButton}"
                            Command="{Binding StopCommand}"
@@ -142,7 +148,7 @@
         </Grid>
 
         <!-- 原文输入区 -->
-        <Border Grid.Row="2"
+        <Border Grid.Row="1"
                 Margin="0,0,0,8"
                 BorderThickness="1"
                 BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
@@ -155,6 +161,7 @@
                 </Grid.RowDefinitions>
 
                 <TextBox x:Name="InputTextBox"
+                         AutomationProperties.Name="{x:Static app:UiText.AccessibilitySourceText}"
                          Grid.Row="0"
                          Text="{Binding InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          MaxHeight="200"
@@ -183,10 +190,11 @@
         </Border>
 
         <!-- 状态与错误条 -->
-        <StackPanel Grid.Row="3" Margin="0,0,0,6">
+        <StackPanel Grid.Row="2" Margin="0,0,0,6">
             <!-- 状态信息 -->
             <TextBlock x:Name="StatusMessageTextBlock"
                        Text="{Binding StatusMessage}"
+                       TextWrapping="Wrap"
                        Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                        FontSize="11"
                        Visibility="{Binding HasStatus, Converter={StaticResource BoolToVis}}"
@@ -220,10 +228,17 @@
         </StackPanel>
 
         <!-- 结果卡片列表 -->
-        <ScrollViewer Grid.Row="4"
+        <ScrollViewer Grid.Row="3"
                       x:Name="CardsScrollViewer"
                       VerticalScrollBarVisibility="Auto"
                       HorizontalScrollBarVisibility="Disabled">
+            <ScrollViewer.Style>
+                <Style TargetType="ScrollViewer" BasedOn="{StaticResource {x:Type ScrollViewer}}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Cards.Count}" Value="0"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ScrollViewer.Style>
             <ItemsControl ItemsSource="{Binding Cards}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="{x:Type local:ProviderResultCardViewModel}">
@@ -237,25 +252,28 @@
 
                                 <!-- 卡片顶栏 -->
                                 <Grid Grid.Row="0" Margin="0,0,0,6">
+                                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
                                     <!-- 服务名称与模型 -->
-                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <StackPanel Grid.ColumnSpan="2" VerticalAlignment="Center">
                                         <TextBlock Text="{Binding DisplayName}"
+                                                   TextWrapping="Wrap"
                                                    FontWeight="SemiBold"
                                                    FontSize="12"
                                                    Margin="0,0,6,0" />
                                         <TextBlock Text="{Binding Model}"
+                                                   TextWrapping="Wrap"
                                                    FontSize="11"
                                                    Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                                    VerticalAlignment="Center" />
                                     </StackPanel>
 
                                     <!-- 耗时、徽章与操作按钮 -->
-                                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                    <WrapPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0,4,0,0" VerticalAlignment="Center">
                                         <!-- 耗时 -->
                                         <TextBlock Text="{Binding ElapsedText}"
                                                    FontSize="10"
@@ -284,7 +302,7 @@
                                         <!-- 重试按钮 -->
                                         <ui:Button Content="{x:Static app:UiText.TranslateRetry}"
                                                    Command="{Binding RetryCommand}"
-                                                   ToolTip="{x:Static app:UiText.TranslateRetry}"
+                                                   ToolTip="{x:Static app:UiText.TranslateRetry}" AutomationProperties.Name="{x:Static app:UiText.TranslateRetry}"
                                                    Padding="6,2"
                                                    FontSize="11"
                                                    Margin="0,0,4,0"
@@ -296,16 +314,18 @@
                                                    Padding="6,2"
                                                    FontSize="11"
                                                    Visibility="{Binding ShowGoToSettings, Converter={StaticResource BoolToVis}}" />
-                                    </StackPanel>
+                                    </WrapPanel>
                                 </Grid>
 
                                 <!-- 截断提示或错误提示 -->
                                 <StackPanel Grid.Row="1" Margin="0,0,0,4">
                                     <TextBlock Text="{x:Static app:UiText.TranslateLocalTruncated}"
+                                               TextWrapping="Wrap"
                                                Foreground="{DynamicResource SystemFillColorCautionBrush}"
                                                FontSize="11"
                                                Visibility="{Binding IsLocallyTruncated, Converter={StaticResource BoolToVis}}" />
                                     <TextBlock Text="{x:Static app:UiText.TranslateModelTruncated}"
+                                               TextWrapping="Wrap"
                                                Foreground="{DynamicResource SystemFillColorCautionBrush}"
                                                FontSize="11"
                                                Visibility="{Binding IsModelTruncated, Converter={StaticResource BoolToVis}}" />
@@ -330,5 +350,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
-    </Grid>
+        </Grid>
+        </ScrollViewer>
+    </DockPanel>
 </ui:FluentWindow>

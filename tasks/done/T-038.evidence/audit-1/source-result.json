@@ -1,0 +1,25 @@
+{
+  "sourceEntries": 1197,
+  "commentEntries": 979,
+  "reviewedNonUiEntries": 218,
+  "unapproved": [
+    {
+      "Path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+      "Kind": "comment",
+      "Text": " <summary>\r\n/// 热键生命周期协调器（App 层）。\r\n/// 负责过滤已交付动作、设置变更语义重配、按键交换支持、Pressed 统一路由、两阶段安全退出、录入暂停恢复与运行时状态快照。\r\n/// 完整规则见 HOTKEY_SERVICE.md §5、§6 与 HOTKEY_RECORDING_UI.md §5、§6。\r\n/// </summary>\r\n",
+      "Start": 372,
+      "Length": 186,
+      "Line": 16,
+      "Fingerprint": "63F6B8ABECA399E57EB27951664E60B4B7DCD2B8DF85852A909F4AB95A714E6C"
+    }
+  ],
+  "resourceCounts": {
+    "App": 432,
+    "Core": 148
+  },
+  "resourceErrors": [],
+  "englishNativeNameExceptions": {
+    "App:LanguageChineseNative": "简体中文"
+  },
+  "exceptionManifestSha256": "59d4e30553fad9484abbdafafcb53e7ce20502ba61075974f914fbc1fa9aa7ca"
+}

@@ -1084,10 +1084,22 @@ History.Enabled/MaxEntries已存在于持久化配置，正常化上限现为100
 
 2026-10-08 · 架构师批准 · T-037 / IPC_COMMAND_LINE.md / ARCH v1.55。
 
-状态：**已批准并预置，待 T-037 落地与独立验收**。
+状态：**已落地，独立复审通过并结案（T-037，19e15f67）**。
 
 IpcCommand 保留原构造、Action/Payload、解构和 JSON 字段，只新增不输出 Payload 的安全 ToString，并补协议说明；精确声明已预置 CONTRACTS.cs。IpcConstants 两个前缀不变。复用 IrisJson.Options 的私有紧凑副本以满足一行一条，禁止修改全局设置序列化选项。
 
 完整参数、同用户/同会话的本机管道、256KiB 帧预算、10秒软期限、内部有界接纳确认、无自动重发及完整关停见正式规范。现有内部友元足够，不新增 Core IPC 服务接口、错误码、配置字段/默认/schema或包。允许必要 Platform 原生管道身份元数据与 App 内部生命周期边界。
 
 仅第二实例、尚无 WPF 的 Main 启动边界批准同步桥等待异步客户端；保持 Mutex 获取/释放在同一 Main 线程。该窄例外不放开业务/UI 阻塞等待。测试仅创建自有随机管道/Mutex并查询必要元数据，不连接生产管道或启动真实用户主应用。M6 延期，后续国际化与打包不提前。
+
+## CCR-038：界面语言的常规设置增量与资源行为
+
+2026-10-08 · 架构师批准 · T-038 / LOCALIZATION.md / ARCH v1.56。
+
+状态：**已批准并预置，待 T-038 落地与独立验收**。
+
+GeneralSettingsPatch 保留原四参数构造和解构，在record体内兼容增加 `SettingsFieldEdit<string>? UiLanguage { get; init; }`，默认null。精确声明已预置CONTRACTS.cs。显式Target仅zh-CN/en-US，按原字段Base/Target冲突合并，覆盖复制/验证/空计划与联合提交；仅语言也一次真实保存，下一次启动生效，不因此创建ApplyPending或重启进程。
+
+GeneralSettings.UiLanguage 已存在，默认zh-CN、N11正规化、JSON/schema不变。ErrorMessages.GetDefault 签名及ErrorCode、LanguageInfo/语言ID、Provider业务模型保持；允许必要内部资源/文化帮助类，用户文案随本次运行语言而变，未知码仍安全回退Unknown。不新增Core公共本地化服务或NuGet包。
+
+完整资源语义、跨UI/后台的一致性、启动期回退、非UI中文精确例外、真实联合保存和逐图验证见LOCALIZATION.md。提示词/原文/译文/用户命名及协议ID不改，翻译/OCR目标不随UI语言变化；网络/IPC/退出责任保持。M6延期，T-039不提前。

@@ -46,6 +46,9 @@ internal sealed class ScreenshotOverlayWindow : Window
         Width = Monitor.Bounds.Width / Monitor.DpiScale; Height = Monitor.Bounds.Height / Monitor.DpiScale;
         Left = Monitor.Bounds.X / Monitor.DpiScale; Top = Monitor.Bounds.Y / Monitor.DpiScale;
         Background = Brushes.Black;
+        Title = UiText.ScreenshotPageTitle;
+        System.Windows.Automation.AutomationProperties.SetName(this, UiText.ScreenshotPageTitle);
+        System.Windows.Automation.AutomationProperties.SetHelpText(this, UiText.ScreenshotDragHint);
         _canvas = new(frame, monitor, settings, dark); Content = _canvas;
         SourceInitialized += OnSourceInitialized; Closed += OnClosed;
         DpiChanged += OnDpiChanged; Deactivated += OnDeactivated; LostMouseCapture += OnLostCapture;
@@ -77,7 +80,12 @@ internal sealed class ScreenshotOverlayWindow : Window
         if (!IsClosed) _system.Close(this);
         if (!IsClosed || Handle != 0) throw ScreenshotService.Failure("WINDOW_STILL_OPEN");
     }
-    internal void UpdateSelection(PixelRect? selection, PixelPoint? pointer) => _canvas.Update(selection, pointer);
+    internal void UpdateSelection(PixelRect? selection, PixelPoint? pointer)
+    {
+        _canvas.Update(selection, pointer);
+        System.Windows.Automation.AutomationProperties.SetHelpText(this,
+            ScreenshotSelection.Valid(selection) ? UiText.ScreenshotConfirmHint : UiText.ScreenshotDragHint);
+    }
     private void OnSourceInitialized(object? sender, EventArgs args)
     {
         Handle = new WindowInteropHelper(this).Handle;
@@ -189,8 +197,9 @@ internal sealed class ScreenshotCanvas(ScreenshotFrameView frame, int monitor, S
         }
         void Label(string text, double x, double y, bool center = false, bool avoidMagnifier = false)
         {
-            var label = new FormattedText(text, CultureInfo.CurrentUICulture, FlowDirection.LeftToRight,
-                new Typeface("Segoe UI"), 12 * scale, foreground, scale);
+            var label = new FormattedText(text, Iris.Core.Localization.UiLanguage.Culture, FlowDirection.LeftToRight,
+                new Typeface("Segoe UI"), 12 * scale, foreground, scale)
+            { MaxTextWidth = Math.Max(1, b.Width - 12 * scale) };
             double width = Math.Min(b.Width, label.Width + 12 * scale), height = Math.Min(b.Height, label.Height + 8 * scale);
             if (center) x = (b.Width - width) / 2;
             x = Math.Clamp(x, 0, Math.Max(0, b.Width - width)); y = Math.Clamp(y, 0, Math.Max(0, b.Height - height));

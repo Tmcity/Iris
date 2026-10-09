@@ -310,29 +310,29 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
     {
         var all = new (string Code, string Name)[]
         {
-            (LanguageCodes.ChineseSimplified, "简体中文"),
-            (LanguageCodes.ChineseTraditional, "繁体中文"),
-            (LanguageCodes.English, "英语"),
-            (LanguageCodes.Japanese, "日语"),
-            (LanguageCodes.Korean, "韩语"),
-            (LanguageCodes.French, "法语"),
-            (LanguageCodes.German, "德语"),
-            (LanguageCodes.Spanish, "西班牙语"),
-            (LanguageCodes.Russian, "俄语"),
-            (LanguageCodes.Portuguese, "葡萄牙语"),
-            (LanguageCodes.Italian, "意大利语"),
-            (LanguageCodes.Vietnamese, "越南语"),
-            (LanguageCodes.Thai, "泰语"),
-            (LanguageCodes.Arabic, "阿拉伯语"),
+            (LanguageCodes.ChineseSimplified, global::Iris.App.Resources.AppResources.Get("Text_9937e365aaf3")),
+            (LanguageCodes.ChineseTraditional, global::Iris.App.Resources.AppResources.Get("Text_7bf7a60617de")),
+            (LanguageCodes.English, global::Iris.App.Resources.AppResources.Get("Text_d1648bacbc16")),
+            (LanguageCodes.Japanese, global::Iris.App.Resources.AppResources.Get("Text_3a944ddb3868")),
+            (LanguageCodes.Korean, global::Iris.App.Resources.AppResources.Get("Text_259cdcf75199")),
+            (LanguageCodes.French, global::Iris.App.Resources.AppResources.Get("Text_99cdf164a814")),
+            (LanguageCodes.German, global::Iris.App.Resources.AppResources.Get("Text_7566092dce72")),
+            (LanguageCodes.Spanish, global::Iris.App.Resources.AppResources.Get("Text_6c872d27f835")),
+            (LanguageCodes.Russian, global::Iris.App.Resources.AppResources.Get("Text_bdb6608a4dc8")),
+            (LanguageCodes.Portuguese, global::Iris.App.Resources.AppResources.Get("Text_6ce072a79389")),
+            (LanguageCodes.Italian, global::Iris.App.Resources.AppResources.Get("Text_5bdde8257c53")),
+            (LanguageCodes.Vietnamese, global::Iris.App.Resources.AppResources.Get("Text_8648ba069ee0")),
+            (LanguageCodes.Thai, global::Iris.App.Resources.AppResources.Get("Text_a15fb0d0595f")),
+            (LanguageCodes.Arabic, global::Iris.App.Resources.AppResources.Get("Text_fc9a0bdeb77f")),
         };
 
-        AvailableSourceLanguages.Add(new LanguageOption(LanguageCodes.Auto, "自动检测"));
+        AvailableSourceLanguages.Add(new LanguageOption(LanguageCodes.Auto, global::Iris.App.Resources.AppResources.Get("Text_3b89fd6b0ced")));
         foreach (var (code, name) in all)
         {
             AvailableSourceLanguages.Add(new LanguageOption(code, name));
         }
 
-        AvailableTargetLanguages.Add(new LanguageOption(LanguageCodes.Auto, "自动 (按设置)"));
+        AvailableTargetLanguages.Add(new LanguageOption(LanguageCodes.Auto, global::Iris.App.Resources.AppResources.Get("Text_90df77bfc309")));
         foreach (var (code, name) in all)
         {
             AvailableTargetLanguages.Add(new LanguageOption(code, name));

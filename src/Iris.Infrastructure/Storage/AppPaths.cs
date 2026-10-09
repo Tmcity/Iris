@@ -31,7 +31,7 @@ internal sealed class AppPaths : IAppPaths
         {
             if (string.IsNullOrWhiteSpace(roamingAppDataDirectory))
             {
-                throw new IrisException(ErrorCode.StorageFailure, "无法创建数据目录", detail: "(ApplicationData 路径为空)");
+                throw new IrisException(ErrorCode.StorageFailure, global::Iris.Core.Localization.CoreText.Get("Text_1258dd08ed11"), detail: "(ApplicationData 路径为空)");
             }
 
             DataDirectory = Path.GetFullPath(Path.Combine(roamingAppDataDirectory, AppFolderName));
@@ -49,7 +49,7 @@ internal sealed class AppPaths : IAppPaths
         }
         catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
         {
-            throw new IrisException(ErrorCode.StorageFailure, "无法创建数据目录", innerException: ex, detail: DataDirectory);
+            throw new IrisException(ErrorCode.StorageFailure, global::Iris.Core.Localization.CoreText.Get("Text_1258dd08ed11"), innerException: ex, detail: DataDirectory);
         }
     }
 

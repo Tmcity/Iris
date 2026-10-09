@@ -159,6 +159,7 @@ internal sealed partial class AppBootstrapper
     private async Task StartCoreAsync()
     {
         await Task.Yield();
+        bool settingsRecovered = false;
         // 1. 加载设置
         try
         {
@@ -167,7 +168,7 @@ internal sealed partial class AppBootstrapper
         }
         catch (IrisException ex) when (ex.Code == ErrorCode.SettingsCorrupted)
         {
-            _trayNotificationService.Notify(NotificationLevel.Warning, UiText.AppName, UiText.SettingsCorruptedNotice);
+            settingsRecovered = true;
         }
         catch (IrisException ex) when (ex.Code == ErrorCode.StorageFailure)
         {
@@ -177,6 +178,8 @@ internal sealed partial class AppBootstrapper
         }
 
         if (Volatile.Read(ref _stopRequested) != 0) return;
+        Iris.App.Resources.AppLanguage.Select(_settingsService.Current.General.UiLanguage);
+        if (settingsRecovered) _trayNotificationService.Notify(NotificationLevel.Warning, UiText.AppName, UiText.SettingsCorruptedNotice);
         if (_settingsService.IsReadOnly)
             _trayNotificationService.Notify(NotificationLevel.Warning, UiText.AppName, UiText.SettingsFutureReadOnly);
         else if (_networkSource != null)

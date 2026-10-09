@@ -1,0 +1,62 @@
+[
+  {
+    "Path": "src/Iris.App/App.xaml.cs",
+    "Kind": "literal",
+    "Text": "Windows 会话即将结束（{ReasonSessionEnding}）",
+    "Raw": "\"Windows 会话即将结束（{ReasonSessionEnding}）\"",
+    "Start": 1804,
+    "Length": 39,
+    "Line": 58,
+    "Context": "LoggerMessage(EventId = 1, Level = LogLevel.Information, Message = \"Windows 会话即将结束（{ReasonSessionEnding}）\")",
+    "CanonicalContext": "LoggerMessage(EventId = 1, Level = LogLevel.Information, Message = \"Windows 会话即将结束（{ReasonSessionEnding}）\")",
+    "Owner": "App.LogSessionEnding(ILogger logger, ReasonSessionEnding reasonSessionEnding)",
+    "Arguments": [],
+    "Fingerprint": "685A67E48A48D8382150E1D14A76D9D9F7CCBD82632DCE19226F5CA4183CFF93",
+    "SiteFingerprint": "9C62ABD3EFEC1E35969AC8C87E2EC445C0D2F941BF1C07DFAD5667AFB07B9B26"
+  },
+  {
+    "Path": "src/Iris.App/App.xaml.cs",
+    "Kind": "literal",
+    "Text": "Iris 已退出，退出码 {ExitCode}",
+    "Raw": "\"Iris 已退出，退出码 {ExitCode}\"",
+    "Start": 2029,
+    "Length": 25,
+    "Line": 61,
+    "Context": "LoggerMessage(EventId = 2, Level = LogLevel.Information, Message = \"Iris 已退出，退出码 {ExitCode}\")",
+    "CanonicalContext": "LoggerMessage(EventId = 2, Level = LogLevel.Information, Message = \"Iris 已退出，退出码 {ExitCode}\")",
+    "Owner": "App.LogExited(ILogger logger, int exitCode)",
+    "Arguments": [],
+    "Fingerprint": "3552895E76496ABE09151AE0507517A7AF5F315E8D70C4128BEBE0E2BE9C6033",
+    "SiteFingerprint": "B7B9623ECD89E08AB5D9B17701F60BCF21F19D6A445D6870CEEBEBABFF72D8EE"
+  },
+  {
+    "Path": "src/Iris.App/App.xaml.cs",
+    "Kind": "literal",
+    "Text": "应用程序启动序列发生未处理异常",
+    "Raw": "\"应用程序启动序列发生未处理异常\"",
+    "Start": 2203,
+    "Length": 17,
+    "Line": 64,
+    "Context": "LoggerMessage(EventId = 3, Level = LogLevel.Critical, Message = \"应用程序启动序列发生未处理异常\")",
+    "CanonicalContext": "LoggerMessage(EventId = 3, Level = LogLevel.Critical, Message = \"应用程序启动序列发生未处理异常\")",
+    "Owner": "App.LogStartupFailed(ILogger logger, Exception ex)",
+    "Arguments": [],
+    "Fingerprint": "33AF48F65B6FBDB8CBF18048C814EB5D130A1C4A4160C5F1EF9CC4BEDB1D3648",
+    "SiteFingerprint": "56F6D776AF4FAE9468F566533F002FF1E849B925C8E2C9D1342B79A6D7510256"
+  },
+  {
+    "Path": "src/Iris.App/App.xaml.cs",
+    "Kind": "literal",
+    "Text": "Iris 已退出，退出码 {ExitCode}",
+    "Raw": "\"Iris 已退出，退出码 {ExitCode}\"",
+    "Start": 2416,
+    "Length": 25,
+    "Line": 69,
+    "Context": "_ = new System.Windows.Controls.TextBlock { Text = \"Iris 已退出，退出码 {ExitCode}\" };",
+    "CanonicalContext": "_ = new System.Windows.Controls.TextBlock\r\n{\r\n    Text = \"Iris 已退出，退出码 {ExitCode}\"\r\n};",
+    "Owner": "App.AuditUiMutation()",
+    "Arguments": [],
+    "Fingerprint": "3552895E76496ABE09151AE0507517A7AF5F315E8D70C4128BEBE0E2BE9C6033",
+    "SiteFingerprint": "85A33B81DCF7C25AB392CC8D3F7595049A7E8B80720A604CE5DF99438BF6A4EA"
+  }
+]

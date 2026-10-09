@@ -1,0 +1,459 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms</value>
+  </resheader>
+  <data name="ErrorAuthenticationFailed" xml:space="preserve">
+    <value>The API key is invalid or expired. Check the settings</value>
+  </data>
+  <data name="ErrorBadRequest" xml:space="preserve">
+    <value>The provider rejected the request. Check the model name and parameters</value>
+  </data>
+  <data name="ErrorCancelled" xml:space="preserve">
+    <value>Operation canceled</value>
+  </data>
+  <data name="ErrorCaptureFailed" xml:space="preserve">
+    <value>Could not capture the content. Please retry later</value>
+  </data>
+  <data name="ErrorClipboardBusy" xml:space="preserve">
+    <value>Another program is using the clipboard. Please retry later</value>
+  </data>
+  <data name="ErrorContentRefused" xml:space="preserve">
+    <value>The provider refused to process this content</value>
+  </data>
+  <data name="ErrorContentTruncated" xml:space="preserve">
+    <value>The result was truncated and may be incomplete</value>
+  </data>
+  <data name="ErrorEndpointNotFound" xml:space="preserve">
+    <value>The endpoint or model was not found. Check BaseUrl and the model name</value>
+  </data>
+  <data name="ErrorHookInstallFailed" xml:space="preserve">
+    <value>Mouse monitoring could not start. Selection translation is unavailable</value>
+  </data>
+  <data name="ErrorHotkeyConflict" xml:space="preserve">
+    <value>This shortcut is in use by another program</value>
+  </data>
+  <data name="ErrorHotkeyInvalid" xml:space="preserve">
+    <value>Invalid shortcut combination</value>
+  </data>
+  <data name="ErrorImageInvalid" xml:space="preserve">
+    <value>The image is invalid or its format is unsupported</value>
+  </data>
+  <data name="ErrorImageTooLarge" xml:space="preserve">
+    <value>The image is too large. Select a smaller capture area</value>
+  </data>
+  <data name="ErrorInputEmpty" xml:space="preserve">
+    <value>There is no text to translate</value>
+  </data>
+  <data name="ErrorInputTooLong" xml:space="preserve">
+    <value>The text is too long. Shorten it and retry</value>
+  </data>
+  <data name="ErrorInvalidArgument" xml:space="preserve">
+    <value>Invalid argument</value>
+  </data>
+  <data name="ErrorInvalidResponse" xml:space="preserve">
+    <value>The provider returned an unrecognized response</value>
+  </data>
+  <data name="ErrorNetworkUnavailable" xml:space="preserve">
+    <value>Connection failed. Check the network or proxy settings</value>
+  </data>
+  <data name="ErrorNotConfigured" xml:space="preserve">
+    <value>The provider is not configured. Complete its settings first</value>
+  </data>
+  <data name="ErrorOcrLanguageUnsupported" xml:space="preserve">
+    <value>The OCR component for this language is not installed</value>
+  </data>
+  <data name="ErrorOcrNoTextFound" xml:space="preserve">
+    <value>No text was recognized</value>
+  </data>
+  <data name="ErrorPermissionDenied" xml:space="preserve">
+    <value>Access to this service is denied; the API may not be enabled for your account</value>
+  </data>
+  <data name="ErrorProviderUnavailable" xml:space="preserve">
+    <value>The provider is unavailable. Please retry later</value>
+  </data>
+  <data name="ErrorQuotaExceeded" xml:space="preserve">
+    <value>Insufficient balance or API quota</value>
+  </data>
+  <data name="ErrorRateLimited" xml:space="preserve">
+    <value>Too many requests. Please retry later</value>
+  </data>
+  <data name="ErrorSecretUnavailable" xml:space="preserve">
+    <value>Saved credentials could not be read. Enter them again</value>
+  </data>
+  <data name="ErrorSelectionEmpty" xml:space="preserve">
+    <value>No selected text was detected</value>
+  </data>
+  <data name="ErrorSettingsCorrupted" xml:space="preserve">
+    <value>The settings file was damaged and defaults were restored. The original file was backed up</value>
+  </data>
+  <data name="ErrorStorageFailure" xml:space="preserve">
+    <value>Could not read or write local data</value>
+  </data>
+  <data name="ErrorTimeout" xml:space="preserve">
+    <value>The request timed out. Check the network or retry later</value>
+  </data>
+  <data name="ErrorUnknown" xml:space="preserve">
+    <value>An unexpected error occurred. See the log for details</value>
+  </data>
+  <data name="InvalidUiLanguage" xml:space="preserve">
+    <value>Interface language must be zh-CN or en-US</value>
+  </data>
+  <data name="Text_036a995464fd" xml:space="preserve">
+    <value>Could not obtain the cursor position</value>
+  </data>
+  <data name="Text_0b246a3867e0" xml:space="preserve">
+    <value>The message loop ended unexpectedly.</value>
+  </data>
+  <data name="Text_0d2c568b6d8e" xml:space="preserve">
+    <value>DisplayName cannot be empty</value>
+  </data>
+  <data name="Text_0e69913da40f" xml:space="preserve">
+    <value>Invalid shortcut combination</value>
+  </data>
+  <data name="Text_0ecffb155c24" xml:space="preserve">
+    <value>Multiple keys are pressed. Release them and retry</value>
+  </data>
+  <data name="Text_0ee8cdd68ce4" xml:space="preserve">
+    <value>Could not resolve provider credentials</value>
+  </data>
+  <data name="Text_1258dd08ed11" xml:space="preserve">
+    <value>Could not create the data directory</value>
+  </data>
+  <data name="Text_12eefb70d6f9" xml:space="preserve">
+    <value>A dotnet host process cannot be used as the startup command</value>
+  </data>
+  <data name="Text_13f5554c85ea" xml:space="preserve">
+    <value>Could not read the current settings</value>
+  </data>
+  <data name="Text_18140661bf9b" xml:space="preserve">
+    <value>Could not obtain monitor information</value>
+  </data>
+  <data name="Text_19eecf82e5b9" xml:space="preserve">
+    <value>BaseUrl must be a valid absolute HTTP(S) address</value>
+  </data>
+  <data name="Text_1a8fdaa1d433" xml:space="preserve">
+    <value>Replacement must be null for Keep</value>
+  </data>
+  <data name="Text_1e0f1d55206a" xml:space="preserve">
+    <value>Haiku does not support Effort. Set it explicitly to null</value>
+  </data>
+  <data name="Text_1fbf1d53df1f" xml:space="preserve">
+    <value>BaseProfile must be null for Add</value>
+  </data>
+  <data name="Text_2208df3e6f75" xml:space="preserve">
+    <value>Shortcut capture ended unexpectedly.</value>
+  </data>
+  <data name="Text_2d66d07d7d5f" xml:space="preserve">
+    <value>Unknown ChangeKind</value>
+  </data>
+  <data name="Text_2d9d1cba16ff" xml:space="preserve">
+    <value>Anthropic Effort must be low, medium, high, xhigh, max, or null</value>
+  </data>
+  <data name="Text_2e61f01ce8da" xml:space="preserve">
+    <value>Unknown Profile Kind</value>
+  </data>
+  <data name="Text_2fb7d75c324d" xml:space="preserve">
+    <value>Cleanup of some old credentials is incomplete</value>
+  </data>
+  <data name="Text_31e97af4e348" xml:space="preserve">
+    <value>TranslationOrderChange requires BaseIds and TargetIds</value>
+  </data>
+  <data name="Text_334e5ee2f6a1" xml:space="preserve">
+    <value>Could not write startup settings</value>
+  </data>
+  <data name="Text_3584a90d73bd" xml:space="preserve">
+    <value>An OpenAI-compatible provider's BaseUrl must be a valid absolute HTTP(S) address</value>
+  </data>
+  <data name="Text_3b5f7f06db59" xml:space="preserve">
+    <value>Unknown credential edit kind</value>
+  </data>
+  <data name="Text_47c83176d03c" xml:space="preserve">
+    <value>An Anthropic provider's BaseUrl must be a valid absolute HTTP(S) address</value>
+  </data>
+  <data name="Text_487ecf7b7200" xml:space="preserve">
+    <value>Unknown Profile change kind</value>
+  </data>
+  <data name="Text_4973738aa92b" xml:space="preserve">
+    <value>Could not send an exit message to the shortcut capture thread (Win32Error={0}).</value>
+  </data>
+  <data name="Text_4c31a6597af9" xml:space="preserve">
+    <value>Invalid settings window handle.</value>
+  </data>
+  <data name="Text_539074888c60" xml:space="preserve">
+    <value>The target shortcut binding is invalid</value>
+  </data>
+  <data name="Text_54ad39699841" xml:space="preserve">
+    <value>Proxy credentials are unavailable. Enter them again.</value>
+  </data>
+  <data name="Text_5520c80c1f25" xml:space="preserve">
+    <value>The translation exceeds the local length limit</value>
+  </data>
+  <data name="Text_5692606726ab" xml:space="preserve">
+    <value>An existing draft cannot change its CredentialSetId reference</value>
+  </data>
+  <data name="Text_59475ef1beee" xml:space="preserve">
+    <value>Network configuration could not be saved or loaded safely.</value>
+  </data>
+  <data name="Text_5a6eb355f5d0" xml:space="preserve">
+    <value>Settings were saved, but some provider or network changes are incomplete. Previous credentials were retained</value>
+  </data>
+  <data name="Text_5c6f7f20d814" xml:space="preserve">
+    <value>Credentials cannot be null</value>
+  </data>
+  <data name="Text_5ccb7938c6df" xml:space="preserve">
+    <value>Unknown key</value>
+  </data>
+  <data name="Text_5cee7d9c04a4" xml:space="preserve">
+    <value>Profile ID cannot be empty</value>
+  </data>
+  <data name="Text_5d3ac474e977" xml:space="preserve">
+    <value>Add cannot assign an arbitrary CredentialSetId</value>
+  </data>
+  <data name="Text_646cfa7d6429" xml:space="preserve">
+    <value>Settings changed elsewhere. Refresh and retry</value>
+  </data>
+  <data name="Text_6567ec3e5ce4" xml:space="preserve">
+    <value>TargetProfile is required for Update</value>
+  </data>
+  <data name="Text_6b77c983c377" xml:space="preserve">
+    <value>BaseProfile and TargetProfile IDs must match for Update</value>
+  </data>
+  <data name="Text_6ef775d7ce0c" xml:space="preserve">
+    <value>The application path must point to an executable file</value>
+  </data>
+  <data name="Text_7096f3d36409" xml:space="preserve">
+    <value>TranslationOrderChange cannot contain null IDs</value>
+  </data>
+  <data name="Text_7177a14b6ebc" xml:space="preserve">
+    <value>HotkeyChanges cannot be null</value>
+  </data>
+  <data name="Text_7372225545c3" xml:space="preserve">
+    <value>The plan contains duplicate operations for a Profile ID</value>
+  </data>
+  <data name="Text_7591b5823ffe" xml:space="preserve">
+    <value>MaxOutputTokens must be a positive integer</value>
+  </data>
+  <data name="Text_7938de18d1ca" xml:space="preserve">
+    <value>Replacement must be null for Clear</value>
+  </data>
+  <data name="Text_794ad749ed51" xml:space="preserve">
+    <value>TimeoutSeconds must be between 5 and 600</value>
+  </data>
+  <data name="Text_7cc45bbeb7ba" xml:space="preserve">
+    <value>HotkeyChanges cannot contain null entries</value>
+  </data>
+  <data name="Text_7f6aa73696e9" xml:space="preserve">
+    <value>The settings window is not the foreground window.</value>
+  </data>
+  <data name="Text_813bec599861" xml:space="preserve">
+    <value>Could not get the model list</value>
+  </data>
+  <data name="Text_81f20e09b3ea" xml:space="preserve">
+    <value>TranslationChanges cannot contain null entries</value>
+  </data>
+  <data name="Text_820b7f28048d" xml:space="preserve">
+    <value>A new provider draft cannot specify CredentialSetId</value>
+  </data>
+  <data name="Text_823a12477db7" xml:space="preserve">
+    <value>Settings are active, but cleanup of some old credentials failed. Retry cleanup</value>
+  </data>
+  <data name="Text_839b70cf1003" xml:space="preserve">
+    <value>HotkeyChanges contains an unknown Action</value>
+  </data>
+  <data name="Text_85653ba72bf5" xml:space="preserve">
+    <value>HotkeyChanges contains duplicate changes for an Action</value>
+  </data>
+  <data name="Text_8757324638ce" xml:space="preserve">
+    <value>Replace requires Replacement credentials</value>
+  </data>
+  <data name="Text_87bb7ae7d91c" xml:space="preserve">
+    <value>No valid application path was found</value>
+  </data>
+  <data name="Text_887484964876" xml:space="preserve">
+    <value>ChatCompletionsPath cannot be empty</value>
+  </data>
+  <data name="Text_88bb88e055cf" xml:space="preserve">
+    <value>TargetProfile is required for Add</value>
+  </data>
+  <data name="Text_88de0b75493c" xml:space="preserve">
+    <value>Profile Kind is undefined</value>
+  </data>
+  <data name="Text_890ebd5ae96d" xml:space="preserve">
+    <value>TargetBinding is required</value>
+  </data>
+  <data name="Text_8a27e21cae4a" xml:space="preserve">
+    <value>Invalid selection settings. Check the reading order, wait time, and process file names.</value>
+  </data>
+  <data name="Text_8c2bba494229" xml:space="preserve">
+    <value>BaseProfile is required for Delete</value>
+  </data>
+  <data name="Text_8ebb1568643a" xml:space="preserve">
+    <value>Settings were saved, but some providers have not finished refreshing. Previous credentials were retained</value>
+  </data>
+  <data name="Text_9195679f1083" xml:space="preserve">
+    <value>Invalid baseline LogLevel</value>
+  </data>
+  <data name="Text_92be3cc3d9d9" xml:space="preserve">
+    <value>TranslationChanges cannot be null</value>
+  </data>
+  <data name="Text_99ba5ea63b92" xml:space="preserve">
+    <value>Network configuration is not fully applied</value>
+  </data>
+  <data name="Text_9daf1297c3be" xml:space="preserve">
+    <value>ExtraHeaders contains an invalid header name</value>
+  </data>
+  <data name="Text_9f4aeb1e7d83" xml:space="preserve">
+    <value>The history limit must be an integer from 100 to 100000.</value>
+  </data>
+  <data name="Text_aaca1618c7ec" xml:space="preserve">
+    <value>ExtraHeaders cannot contain sensitive authentication headers</value>
+  </data>
+  <data name="Text_abd1c2ab4442" xml:space="preserve">
+    <value>An error occurred in the shortcut capture message loop.</value>
+  </data>
+  <data name="Text_ac6ab950f7bc" xml:space="preserve">
+    <value>The shortcut capture message loop exited unexpectedly.</value>
+  </data>
+  <data name="Text_ac952dd6d176" xml:space="preserve">
+    <value>The startup command exceeds the system length limit</value>
+  </data>
+  <data name="Text_aed470d42b87" xml:space="preserve">
+    <value>A shortcut capture session is already in progress.</value>
+  </data>
+  <data name="Text_b08a81be972d" xml:space="preserve">
+    <value>Some providers have not finished refreshing</value>
+  </data>
+  <data name="Text_b24f0a42109b" xml:space="preserve">
+    <value>Invalid proxy configuration. Check the address and credentials.</value>
+  </data>
+  <data name="Text_b6da60da9549" xml:space="preserve">
+    <value>The network proxy is unavailable.</value>
+  </data>
+  <data name="Text_b70890fbafd4" xml:space="preserve">
+    <value>MaxTokensField is undefined</value>
+  </data>
+  <data name="Text_b922fe67a95c" xml:space="preserve">
+    <value>Recognizing text…</value>
+  </data>
+  <data name="Text_b946ca79c3ca" xml:space="preserve">
+    <value>Keyboard cleanup failed; some keys could not be released.</value>
+  </data>
+  <data name="Text_bb066abe0093" xml:space="preserve">
+    <value>TranslationOrderChange is required with Add or Delete operations</value>
+  </data>
+  <data name="Text_bb89e4a6d141" xml:space="preserve">
+    <value>Update cannot change CredentialSetId in TargetProfile</value>
+  </data>
+  <data name="Text_bda16101de59" xml:space="preserve">
+    <value>Desktop query resource cleanup failed</value>
+  </data>
+  <data name="Text_bdf5648ed234" xml:space="preserve">
+    <value>TargetProfile must be null for Delete</value>
+  </data>
+  <data name="Text_c073d46e8eda" xml:space="preserve">
+    <value>ChatCompletionsPath must be a nonempty relative path without a query or fragment</value>
+  </data>
+  <data name="Text_c132242b9cc8" xml:space="preserve">
+    <value>Credential intent cannot be null</value>
+  </data>
+  <data name="Text_c17290ab65e9" xml:space="preserve">
+    <value>Could not remove startup settings</value>
+  </data>
+  <data name="Text_c2439708babf" xml:space="preserve">
+    <value>The specified PromptTemplateId does not exist</value>
+  </data>
+  <data name="Text_c39d89be8a24" xml:space="preserve">
+    <value>BaseProfile is required for Update</value>
+  </data>
+  <data name="Text_c4d61c3b7e92" xml:space="preserve">
+    <value>Profile is required</value>
+  </data>
+  <data name="Text_c5d4b8310a81" xml:space="preserve">
+    <value>The provider no longer exists. Refresh and retry</value>
+  </data>
+  <data name="Text_c867164793e4" xml:space="preserve">
+    <value>The draft Profile ID must match the BaseProfile ID</value>
+  </data>
+  <data name="Text_c955eba2dbc4" xml:space="preserve">
+    <value>Could not remove the keyboard hook (Win32Error={0}).</value>
+  </data>
+  <data name="Text_c95d52323038" xml:space="preserve">
+    <value>Theme contains an undefined value</value>
+  </data>
+  <data name="Text_c9e24bc3378d" xml:space="preserve">
+    <value>Provider creation or testing failed</value>
+  </data>
+  <data name="Text_cbf370d77d1b" xml:space="preserve">
+    <value>Credentials are not configured</value>
+  </data>
+  <data name="Text_cc1010d2ab51" xml:space="preserve">
+    <value>The application path has an invalid format</value>
+  </data>
+  <data name="Text_cdfa48d9be39" xml:space="preserve">
+    <value>TargetIds does not match the expected set of Profile IDs</value>
+  </data>
+  <data name="Text_ce3c3cdbf8c7" xml:space="preserve">
+    <value>Could not obtain the application path</value>
+  </data>
+  <data name="Text_d42544701705" xml:space="preserve">
+    <value>This provider does not support retrieving a model list</value>
+  </data>
+  <data name="Text_d4480321b4b5" xml:space="preserve">
+    <value>Could not read startup settings</value>
+  </data>
+  <data name="Text_d6315daa8917" xml:space="preserve">
+    <value>Could not install the keyboard hook (Win32Error={0}).</value>
+  </data>
+  <data name="Text_dde435b819e2" xml:space="preserve">
+    <value>This shortcut is assigned to another action and cannot be reused</value>
+  </data>
+  <data name="Text_e3c6bebfa1ee" xml:space="preserve">
+    <value>Model cannot be empty for an enabled provider</value>
+  </data>
+  <data name="Text_e53237193fe8" xml:space="preserve">
+    <value>Replacement must be null for Keep or Clear</value>
+  </data>
+  <data name="Text_e63a96455f53" xml:space="preserve">
+    <value>Simulated keyboard input failed</value>
+  </data>
+  <data name="Text_e9867e8a22d2" xml:space="preserve">
+    <value>Could not create the provider instance</value>
+  </data>
+  <data name="Text_e9971e3aa748" xml:space="preserve">
+    <value>ExtraHeaders values cannot contain carriage returns or line feeds</value>
+  </data>
+  <data name="Text_e9d0be5babc8" xml:space="preserve">
+    <value>The new Profile ID has an invalid format</value>
+  </data>
+  <data name="Text_eb11d05aba48" xml:space="preserve">
+    <value>Model cannot be empty</value>
+  </data>
+  <data name="Text_ed4a1fe3a942" xml:space="preserve">
+    <value>Invalid target LogLevel</value>
+  </data>
+  <data name="Text_f64a52bd3dfc" xml:space="preserve">
+    <value>The credential reference has an invalid format</value>
+  </data>
+  <data name="Text_f7f84688d00e" xml:space="preserve">
+    <value>BaseProfile ID cannot be empty</value>
+  </data>
+  <data name="Text_fa9b5ba9833d" xml:space="preserve">
+    <value>Delete requires the Keep credential intent</value>
+  </data>
+  <data name="Text_fc1a8545b8a8" xml:space="preserve">
+    <value>TargetIds contains duplicate IDs</value>
+  </data>
+  <data name="Text_fdef32da198a" xml:space="preserve">
+    <value>Temperature must be between 0.0 and 2.0</value>
+  </data>
+</root>

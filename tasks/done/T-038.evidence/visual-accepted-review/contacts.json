@@ -1,0 +1,72 @@
+[
+  {
+    "File": "contact-001.png",
+    "Images": [
+      "zh-CN-light-small-translation-input.png",
+      "zh-CN-light-small-translation-running-00.png",
+      "zh-CN-light-small-translation-running-01.png",
+      "zh-CN-light-small-translation-result-00.png"
+    ]
+  },
+  {
+    "File": "contact-002.png",
+    "Images": [
+      "zh-CN-light-small-translation-result-01.png",
+      "zh-CN-light-small-translation-error-00.png",
+      "zh-CN-light-small-translation-error-01.png",
+      "zh-CN-dark-small-translation-input.png"
+    ]
+  },
+  {
+    "File": "contact-003.png",
+    "Images": [
+      "zh-CN-dark-small-translation-running-00.png",
+      "zh-CN-dark-small-translation-running-01.png",
+      "zh-CN-dark-small-translation-result-00.png",
+      "zh-CN-dark-small-translation-result-01.png"
+    ]
+  },
+  {
+    "File": "contact-004.png",
+    "Images": [
+      "zh-CN-dark-small-translation-error-00.png",
+      "zh-CN-dark-small-translation-error-01.png",
+      "en-US-light-small-translation-input.png",
+      "en-US-light-small-translation-running-00.png"
+    ]
+  },
+  {
+    "File": "contact-005.png",
+    "Images": [
+      "en-US-light-small-translation-running-01.png",
+      "en-US-light-small-translation-result-00.png",
+      "en-US-light-small-translation-result-01.png",
+      "en-US-light-small-translation-error-00.png"
+    ]
+  },
+  {
+    "File": "contact-006.png",
+    "Images": [
+      "en-US-light-small-translation-error-01.png",
+      "en-US-light-small-translation-error-02.png",
+      "en-US-dark-small-translation-input.png",
+      "en-US-dark-small-translation-running-00.png"
+    ]
+  },
+  {
+    "File": "contact-007.png",
+    "Images": [
+      "en-US-dark-small-translation-running-01.png",
+      "en-US-dark-small-translation-result-00.png",
+      "en-US-dark-small-translation-result-01.png",
+      "en-US-dark-small-translation-error-00.png"
+    ]
+  },
+  {
+    "File": "contact-008.png",
+    "Images": [
+      "en-US-dark-small-translation-error-01.png",
+      "en-US-dark-small-translation-error-02.png"
+    ]
+  }
+]

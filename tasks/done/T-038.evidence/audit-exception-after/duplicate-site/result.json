@@ -1,0 +1,46 @@
+{
+  "sourceEntries": 4,
+  "commentEntries": 0,
+  "reviewedNonUiEntries": 4,
+  "unapproved": [
+    {
+      "Path": "src/Iris.App/App.xaml.cs",
+      "Kind": "literal",
+      "Text": "Iris 已退出，退出码 {ExitCode}",
+      "Raw": "\"Iris 已退出，退出码 {ExitCode}\"",
+      "Start": 2029,
+      "Length": 25,
+      "Line": 61,
+      "Context": "LoggerMessage(EventId = 2, Level = LogLevel.Information, Message = \"Iris 已退出，退出码 {ExitCode}\")",
+      "CanonicalContext": "LoggerMessage(EventId = 2, Level = LogLevel.Information, Message = \"Iris 已退出，退出码 {ExitCode}\")",
+      "Owner": "App.LogExited(ILogger logger, int exitCode)",
+      "Arguments": [],
+      "Fingerprint": "3552895E76496ABE09151AE0507517A7AF5F315E8D70C4128BEBE0E2BE9C6033",
+      "SiteFingerprint": "B7B9623ECD89E08AB5D9B17701F60BCF21F19D6A445D6870CEEBEBABFF72D8EE"
+    },
+    {
+      "Path": "src/Iris.App/App.xaml.cs",
+      "Kind": "literal",
+      "Text": "Iris 已退出，退出码 {ExitCode}",
+      "Raw": "\"Iris 已退出，退出码 {ExitCode}\"",
+      "Start": 2130,
+      "Length": 25,
+      "Line": 62,
+      "Context": "LoggerMessage(EventId = 2, Level = LogLevel.Information, Message = \"Iris 已退出，退出码 {ExitCode}\")",
+      "CanonicalContext": "LoggerMessage(EventId = 2, Level = LogLevel.Information, Message = \"Iris 已退出，退出码 {ExitCode}\")",
+      "Owner": "App.LogExited(ILogger logger, int exitCode)",
+      "Arguments": [],
+      "Fingerprint": "3552895E76496ABE09151AE0507517A7AF5F315E8D70C4128BEBE0E2BE9C6033",
+      "SiteFingerprint": "B7B9623ECD89E08AB5D9B17701F60BCF21F19D6A445D6870CEEBEBABFF72D8EE"
+    }
+  ],
+  "resourceCounts": {
+    "App": 437,
+    "Core": 148
+  },
+  "resourceErrors": [],
+  "englishNativeNameExceptions": {
+    "App:LanguageChineseNative": "简体中文"
+  },
+  "exceptionManifestSha256": "d98096e6c743b5e4f126384ee8c7e85fd56ba95b6770055c4816220e6d06afb4"
+}

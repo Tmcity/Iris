@@ -40,7 +40,7 @@ internal sealed class OcrEntrypointScope : IAsyncDisposable
     internal static OcrOutcome Outcome(string text = "OCR 原文\nHello 😀", bool fallback = false) => new(new("private-provider", [], null, TimeSpan.Zero), text, fallback);
     internal static readonly ScreenshotResult Shot = new(new([1, 2, 3], ImageFormat.Png, 40, 40), new(-400, 200, 40, 40));
 
-    internal OcrEntrypointScope()
+    internal OcrEntrypointScope(Action<TranslateWindow>? configureWindow = null)
     {
         Settings.Current.Returns(new AppSettings { TranslateWindow = new() { HideOnDeactivate = false, Topmost = false } });
         Screenshot.CaptureRegionAsync(Arg.Any<ScreenshotPurpose>(), Arg.Any<CancellationToken>()).Returns(c =>
@@ -63,10 +63,15 @@ internal sealed class OcrEntrypointScope : IAsyncDisposable
         services.AddSingleton<TranslateWindowPresenter>();
         services.AddSingleton<ITranslateWindowPresenter>(s => s.GetRequiredService<TranslateWindowPresenter>());
         services.AddScoped<TranslateWindowViewModel>();
-        services.AddTransient<TranslateWindow>(_ => new TranslateWindow
+        services.AddTransient<TranslateWindow>(_ =>
         {
-            Left = -20000, Top = -20000, ShowActivated = false, ShowInTaskbar = false,
-            WindowStartupLocation = WindowStartupLocation.Manual
+            var window = new TranslateWindow
+            {
+                Left = -20000, Top = -20000, ShowActivated = false, ShowInTaskbar = false,
+                WindowStartupLocation = WindowStartupLocation.Manual
+            };
+            configureWindow?.Invoke(window);
+            return window;
         });
         services.AddSingleton<TrayNotificationService>();
         services.AddSingleton<INotificationService>(s => s.GetRequiredService<TrayNotificationService>());

@@ -1,0 +1,1338 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms</value>
+  </resheader>
+  <data name="ActionNotAvailable" xml:space="preserve">
+    <value>This feature is not available yet</value>
+  </data>
+  <data name="AppName" xml:space="preserve">
+    <value>Iris</value>
+  </data>
+  <data name="CommandLineInvalid" xml:space="preserve">
+    <value>Invalid command line arguments.
+
+Iris command line usage:
+No arguments: start in the tray; if Iris is running, open input translation.
+--action &lt;ActionName&gt;: run an available action (names only, no numbers).
+--translate &lt;text&gt;: translate the complete text. Use this form for TranslateText.
+--help or -h: show help.
+Use one form per invocation and pass the text as a single argument.</value>
+  </data>
+  <data name="CommandLineUsage" xml:space="preserve">
+    <value>Iris command line usage:
+No arguments: start in the tray; if Iris is running, open input translation.
+--action &lt;ActionName&gt;: run an available action (names only, no numbers).
+--translate &lt;text&gt;: translate the complete text. Use this form for TranslateText.
+--help or -h: show help.
+Use one form per invocation and pass the text as a single argument.</value>
+  </data>
+  <data name="DispatcherUnhandledMessage" xml:space="preserve">
+    <value>An unexpected error occurred. See the log for details</value>
+  </data>
+  <data name="ErrorUnknown" xml:space="preserve">
+    <value>An unexpected error occurred. See the log for details</value>
+  </data>
+  <data name="FatalUnknown" xml:space="preserve">
+    <value>An unexpected fatal error occurred. Iris will exit:</value>
+  </data>
+  <data name="HistoryCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="HistoryClear" xml:space="preserve">
+    <value>Clear…</value>
+  </data>
+  <data name="HistoryClearConfirm" xml:space="preserve">
+    <value>Clear translation history? This cannot be undone.</value>
+  </data>
+  <data name="HistoryClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="HistoryCloseFailed" xml:space="preserve">
+    <value>The history window has not finished closing. Please retry.</value>
+  </data>
+  <data name="HistoryClosing" xml:space="preserve">
+    <value>Waiting for history operations to finish…</value>
+  </data>
+  <data name="HistoryConfirm" xml:space="preserve">
+    <value>Confirm deletion</value>
+  </data>
+  <data name="HistoryCopied" xml:space="preserve">
+    <value>Full text copied</value>
+  </data>
+  <data name="HistoryCopyFailed" xml:space="preserve">
+    <value>Could not copy. Please retry.</value>
+  </data>
+  <data name="HistoryCopyResult" xml:space="preserve">
+    <value>Copy this provider's translation</value>
+  </data>
+  <data name="HistoryCopySource" xml:space="preserve">
+    <value>Copy full source text</value>
+  </data>
+  <data name="HistoryDelete" xml:space="preserve">
+    <value>Delete this record</value>
+  </data>
+  <data name="HistoryDeleteConfirm" xml:space="preserve">
+    <value>Delete the selected record? This cannot be undone.</value>
+  </data>
+  <data name="HistoryDetailsLoading" xml:space="preserve">
+    <value>Loading full text…</value>
+  </data>
+  <data name="HistoryEmpty" xml:space="preserve">
+    <value>No matching history records</value>
+  </data>
+  <data name="HistoryEnabled" xml:space="preserve">
+    <value>Record future translations</value>
+  </data>
+  <data name="HistoryEnabledHelp" xml:space="preserve">
+    <value>Turning this off stops recording new translations. Existing history can still be viewed and managed.</value>
+  </data>
+  <data name="HistoryFavorite" xml:space="preserve">
+    <value>Favorite</value>
+  </data>
+  <data name="HistoryFavoritesOnly" xml:space="preserve">
+    <value>Favorites only</value>
+  </data>
+  <data name="HistoryKeepFavorites" xml:space="preserve">
+    <value>Keep favorites (delete only records that are not favorites)</value>
+  </data>
+  <data name="HistoryKeywordError" xml:space="preserve">
+    <value>The search contains invalid characters. Please edit it and retry.</value>
+  </data>
+  <data name="HistoryLoading" xml:space="preserve">
+    <value>Loading history…</value>
+  </data>
+  <data name="HistoryMaxError" xml:space="preserve">
+    <value>The history limit must be an integer from 100 to 100000.</value>
+  </data>
+  <data name="HistoryMaxHelp" xml:space="preserve">
+    <value>100–100000 records. Lowering the limit does not delete history immediately; trimming occurs on the next write or when a favorite is removed.</value>
+  </data>
+  <data name="HistoryMaxLabel" xml:space="preserve">
+    <value>Maximum records excluding favorites; favorites are kept separately</value>
+  </data>
+  <data name="HistoryMetadataFormat" xml:space="preserve">
+    <value>{0:g} · {1} · {2} → {3} · {4} results</value>
+  </data>
+  <data name="HistoryMissing" xml:space="preserve">
+    <value>This record no longer exists. Please refresh the list.</value>
+  </data>
+  <data name="HistoryNext" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="HistoryOriginClipboard" xml:space="preserve">
+    <value>Clipboard</value>
+  </data>
+  <data name="HistoryOriginCommandLine" xml:space="preserve">
+    <value>Command line</value>
+  </data>
+  <data name="HistoryOriginHistory" xml:space="preserve">
+    <value>Retranslated history</value>
+  </data>
+  <data name="HistoryOriginInput" xml:space="preserve">
+    <value>Input</value>
+  </data>
+  <data name="HistoryOriginOther" xml:space="preserve">
+    <value>Translation</value>
+  </data>
+  <data name="HistoryOriginScreenshot" xml:space="preserve">
+    <value>Screenshot</value>
+  </data>
+  <data name="HistoryOriginSelection" xml:space="preserve">
+    <value>Selected text</value>
+  </data>
+  <data name="HistoryPageFormat" xml:space="preserve">
+    <value>Page {0} / {1} · {2} records</value>
+  </data>
+  <data name="HistoryPrevious" xml:space="preserve">
+    <value>Previous</value>
+  </data>
+  <data name="HistoryRefresh" xml:space="preserve">
+    <value>Refresh</value>
+  </data>
+  <data name="HistoryRetranslate" xml:space="preserve">
+    <value>Retranslate with current settings</value>
+  </data>
+  <data name="HistorySearch" xml:space="preserve">
+    <value>Search source text or translations</value>
+  </data>
+  <data name="HistorySelect" xml:space="preserve">
+    <value>Select a record to view the full text and all provider results</value>
+  </data>
+  <data name="HistorySource" xml:space="preserve">
+    <value>Full source text</value>
+  </data>
+  <data name="HistoryStorageError" xml:space="preserve">
+    <value>The history operation failed. Please retry.</value>
+  </data>
+  <data name="HistoryTitle" xml:space="preserve">
+    <value>Translation history</value>
+  </data>
+  <data name="HistoryTranslateFailed" xml:space="preserve">
+    <value>Cannot open translation right now. Please retry.</value>
+  </data>
+  <data name="HistoryTranslated" xml:space="preserve">
+    <value>Sent to the translation window with current settings</value>
+  </data>
+  <data name="HistoryTruncated" xml:space="preserve">
+    <value>Result truncated</value>
+  </data>
+  <data name="HistoryTruncatedSuffix" xml:space="preserve">
+    <value>[Result truncated]</value>
+  </data>
+  <data name="HistoryUnfavorite" xml:space="preserve">
+    <value>Remove favorite</value>
+  </data>
+  <data name="HistoryWriteDone" xml:space="preserve">
+    <value>History operation completed</value>
+  </data>
+  <data name="HistoryWriting" xml:space="preserve">
+    <value>Saving history changes…</value>
+  </data>
+  <data name="IpcRejected" xml:space="preserve">
+    <value>Iris did not accept the command. It may be closing or busy with existing requests.</value>
+  </data>
+  <data name="IpcUnavailable" xml:space="preserve">
+    <value>Cannot connect to Iris in the current user session. Please retry later.</value>
+  </data>
+  <data name="IpcUnconfirmed" xml:space="preserve">
+    <value>Could not confirm whether the command was received. It may already have run. Check Iris before retrying; this attempt will not resend automatically.</value>
+  </data>
+  <data name="LanguageChineseNative" xml:space="preserve">
+    <value>简体中文</value>
+  </data>
+  <data name="LanguageEnglishNative" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="LanguageNextStart" xml:space="preserve">
+    <value>Changes take effect on the next launch. Iris will not restart or change this session's language automatically.</value>
+  </data>
+  <data name="LanguageRestartPending" xml:space="preserve">
+    <value>The saved interface language differs from this session. It will take effect on the next launch.</value>
+  </data>
+  <data name="LanguageTitle" xml:space="preserve">
+    <value>Interface language</value>
+  </data>
+  <data name="MouseApplyFailed" xml:space="preserve">
+    <value>Mouse settings were saved but not fully applied. Retry mouse monitoring.</value>
+  </data>
+  <data name="MouseApplying" xml:space="preserve">
+    <value>Mouse settings saved; applying…</value>
+  </data>
+  <data name="MouseBeamLabel" xml:space="preserve">
+    <value>Read selections only under a text cursor</value>
+  </data>
+  <data name="MouseDragError" xml:space="preserve">
+    <value>Drag distance must be an integer from 2 to 50.</value>
+  </data>
+  <data name="MouseDragLabel" xml:space="preserve">
+    <value>Minimum drag distance (physical pixels)</value>
+  </data>
+  <data name="MouseExcludedLabel" xml:space="preserve">
+    <value>Processes excluded from mouse selection</value>
+  </data>
+  <data name="MouseExplanation" xml:space="preserve">
+    <value>Showing the icon reads the selection in advance; clicking translates that text. Disabling clipboard restoration may change clipboard contents.</value>
+  </data>
+  <data name="MouseHideError" xml:space="preserve">
+    <value>Icon duration must be an integer from 500 to 10000.</value>
+  </data>
+  <data name="MouseHideLabel" xml:space="preserve">
+    <value>Icon duration (milliseconds)</value>
+  </data>
+  <data name="MouseIconTranslate" xml:space="preserve">
+    <value>Translate selected text</value>
+  </data>
+  <data name="MouseModeAuto" xml:space="preserve">
+    <value>Translate automatically</value>
+  </data>
+  <data name="MouseModeError" xml:space="preserve">
+    <value>Select a valid mouse selection mode.</value>
+  </data>
+  <data name="MouseModeIcon" xml:space="preserve">
+    <value>Show translation icon</value>
+  </data>
+  <data name="MouseModeLabel" xml:space="preserve">
+    <value>Mouse selection mode</value>
+  </data>
+  <data name="MouseModeOff" xml:space="preserve">
+    <value>Disable mouse selection</value>
+  </data>
+  <data name="MouseReadFailed" xml:space="preserve">
+    <value>The selection could not be read. Please select the text again.</value>
+  </data>
+  <data name="MouseRetry" xml:space="preserve">
+    <value>Retry mouse monitoring</value>
+  </data>
+  <data name="MouseRunning" xml:space="preserve">
+    <value>Mouse monitoring enabled</value>
+  </data>
+  <data name="MouseStopped" xml:space="preserve">
+    <value>Mouse monitoring disabled</value>
+  </data>
+  <data name="MouseToggle" xml:space="preserve">
+    <value>Toggle mouse selection</value>
+  </data>
+  <data name="MouseToggleDescription" xml:space="preserve">
+    <value>Enable or disable mouse selection (no default shortcut)</value>
+  </data>
+  <data name="NetworkAddressNeedsCredentials" xml:space="preserve">
+    <value>The proxy address changed. Explicitly choose to replace or clear credentials.</value>
+  </data>
+  <data name="NetworkBypass" xml:space="preserve">
+    <value>Bypass proxy for local addresses</value>
+  </data>
+  <data name="NetworkBypassDescription" xml:space="preserve">
+    <value>Connect directly to loopback, private, .local, and single-label hosts. The system proxy's own exceptions still apply.</value>
+  </data>
+  <data name="NetworkCancel" xml:space="preserve">
+    <value>Cancel test</value>
+  </data>
+  <data name="NetworkCanceled" xml:space="preserve">
+    <value>Network test canceled.</value>
+  </data>
+  <data name="NetworkChooseEndpoint" xml:space="preserve">
+    <value>Select a saved test target.</value>
+  </data>
+  <data name="NetworkCleanupFailed" xml:space="preserve">
+    <value>Test cleanup is incomplete. Retry cleanup; it will not send another request.</value>
+  </data>
+  <data name="NetworkClear" xml:space="preserve">
+    <value>Clear credentials (no credentials)</value>
+  </data>
+  <data name="NetworkConfigurationUnavailable" xml:space="preserve">
+    <value>Proxy configuration is unavailable. Check the configuration and retry.</value>
+  </data>
+  <data name="NetworkCredentialHint" xml:space="preserve">
+    <value>Saved passwords are never filled in. Replacement preserves spaces. HTTP(S) allows an explicitly empty password; SOCKS5 requires a nonempty one.</value>
+  </data>
+  <data name="NetworkCredentialLabel" xml:space="preserve">
+    <value>Proxy credentials</value>
+  </data>
+  <data name="NetworkCustom" xml:space="preserve">
+    <value>Use a custom proxy</value>
+  </data>
+  <data name="NetworkDescription" xml:space="preserve">
+    <value>After saving, new requests use the current network settings. Requests already in progress finish on their existing connections.</value>
+  </data>
+  <data name="NetworkDirect" xml:space="preserve">
+    <value>Direct connection</value>
+  </data>
+  <data name="NetworkEnding" xml:space="preserve">
+    <value>Finishing the test; waiting for the actual request and cleanup…</value>
+  </data>
+  <data name="NetworkEndpointChanged" xml:space="preserve">
+    <value>The saved endpoint changed. Select it again before testing.</value>
+  </data>
+  <data name="NetworkInvalidConfiguration" xml:space="preserve">
+    <value>The network draft or saved endpoint is unavailable. Check the configuration.</value>
+  </data>
+  <data name="NetworkInvalidEndpoint" xml:space="preserve">
+    <value>This endpoint is invalid. Correct and save it on its provider page first.</value>
+  </data>
+  <data name="NetworkInvalidInput" xml:space="preserve">
+    <value>The proxy address or credentials are invalid. Check the scheme, host, port, and input length.</value>
+  </data>
+  <data name="NetworkKeep" xml:space="preserve">
+    <value>Keep existing credentials (if any)</value>
+  </data>
+  <data name="NetworkLocalDirect" xml:space="preserve">
+    <value>Direct connection (local bypass)</value>
+  </data>
+  <data name="NetworkModeLabel" xml:space="preserve">
+    <value>Connection mode</value>
+  </data>
+  <data name="NetworkNoEndpoints" xml:space="preserve">
+    <value>There are no saved translation or Baidu OCR endpoints available for testing.</value>
+  </data>
+  <data name="NetworkNone" xml:space="preserve">
+    <value>No proxy (direct connection)</value>
+  </data>
+  <data name="NetworkOcrEndpoint" xml:space="preserve">
+    <value>OCR · </value>
+  </data>
+  <data name="NetworkOfficialEndpoint" xml:space="preserve">
+    <value>Anthropic's default official endpoint</value>
+  </data>
+  <data name="NetworkPassword" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="NetworkProxyAuthentication" xml:space="preserve">
+    <value>Proxy authentication required</value>
+  </data>
+  <data name="NetworkRedirect" xml:space="preserve">
+    <value>Redirect received; not followed</value>
+  </data>
+  <data name="NetworkReplace" xml:space="preserve">
+    <value>Replace credentials</value>
+  </data>
+  <data name="NetworkResponded" xml:space="preserve">
+    <value>Endpoint responded</value>
+  </data>
+  <data name="NetworkResponseDisclaimer" xml:space="preserve">
+    <value>The HTTP response may come from a proxy. A response does not prove API authentication or service availability.</value>
+  </data>
+  <data name="NetworkRetryCleanup" xml:space="preserve">
+    <value>Retry network test cleanup</value>
+  </data>
+  <data name="NetworkRouteUnknown" xml:space="preserve">
+    <value>Connection route unconfirmed</value>
+  </data>
+  <data name="NetworkSaveBlocked" xml:space="preserve">
+    <value>The network test has not finished. Complete cleanup before saving or reloading.</value>
+  </data>
+  <data name="NetworkSystem" xml:space="preserve">
+    <value>Use the system proxy</value>
+  </data>
+  <data name="NetworkSystemDirect" xml:space="preserve">
+    <value>Direct connection (system proxy exception)</value>
+  </data>
+  <data name="NetworkTargetHint" xml:space="preserve">
+    <value>Tests HTTP connectivity only, not API keys, models, or service operations. Does not save the draft.</value>
+  </data>
+  <data name="NetworkTargetLabel" xml:space="preserve">
+    <value>Test target (saved providers)</value>
+  </data>
+  <data name="NetworkTest" xml:space="preserve">
+    <value>Test connectivity</value>
+  </data>
+  <data name="NetworkTesting" xml:space="preserve">
+    <value>Testing the connection…</value>
+  </data>
+  <data name="NetworkTimedOut" xml:space="preserve">
+    <value>Connection test timed out. The actual request has ended.</value>
+  </data>
+  <data name="NetworkTitle" xml:space="preserve">
+    <value>Network and proxy</value>
+  </data>
+  <data name="NetworkTranslationEndpoint" xml:space="preserve">
+    <value>Translation · </value>
+  </data>
+  <data name="NetworkTransportFailed" xml:space="preserve">
+    <value>Connection failed. No endpoint response was confirmed.</value>
+  </data>
+  <data name="NetworkUrlHint" xml:space="preserve">
+    <value>Supports http, https, and socks5. SOCKS5 defaults to port 1080. Changing mode keeps this unsaved draft.</value>
+  </data>
+  <data name="NetworkUrlLabel" xml:space="preserve">
+    <value>Custom proxy address</value>
+  </data>
+  <data name="NetworkUserName" xml:space="preserve">
+    <value>User name</value>
+  </data>
+  <data name="NetworkViaProxy" xml:space="preserve">
+    <value>Via proxy</value>
+  </data>
+  <data name="OcrAddBaidu" xml:space="preserve">
+    <value>Add Baidu provider</value>
+  </data>
+  <data name="OcrAddWindows" xml:space="preserve">
+    <value>Add local provider</value>
+  </data>
+  <data name="OcrApiKey" xml:space="preserve">
+    <value>New API Key</value>
+  </data>
+  <data name="OcrBaidu" xml:space="preserve">
+    <value>Baidu Cloud OCR</value>
+  </data>
+  <data name="OcrBaseUrl" xml:space="preserve">
+    <value>Baidu BaseUrl</value>
+  </data>
+  <data name="OcrCancelTest" xml:space="preserve">
+    <value>Cancel test</value>
+  </data>
+  <data name="OcrCopiedFormat" xml:space="preserve">
+    <value>Copied {0} characters</value>
+  </data>
+  <data name="OcrCopySource" xml:space="preserve">
+    <value>Copy source text after screenshot OCR</value>
+  </data>
+  <data name="OcrCredentialClear" xml:space="preserve">
+    <value>Clear credentials on save</value>
+  </data>
+  <data name="OcrCredentialDescription" xml:space="preserve">
+    <value>Saved keys are never filled in. Replacement requires both keys; empty fields do not mean clear.</value>
+  </data>
+  <data name="OcrCredentialError" xml:space="preserve">
+    <value>Replacing Baidu credentials requires both API Key and Secret Key. Local OCR supports only keep or clear.</value>
+  </data>
+  <data name="OcrCredentialKeep" xml:space="preserve">
+    <value>Keep existing credentials (if any)</value>
+  </data>
+  <data name="OcrCredentialReplace" xml:space="preserve">
+    <value>Replace credentials</value>
+  </data>
+  <data name="OcrCredentials" xml:space="preserve">
+    <value>Credential handling</value>
+  </data>
+  <data name="OcrDelete" xml:space="preserve">
+    <value>Delete custom provider</value>
+  </data>
+  <data name="OcrDetectDirection" xml:space="preserve">
+    <value>Detect text orientation</value>
+  </data>
+  <data name="OcrEnabled" xml:space="preserve">
+    <value>Enable this provider</value>
+  </data>
+  <data name="OcrEndFailed" xml:space="preserve">
+    <value>Could not finish test cleanup. Please retry.</value>
+  </data>
+  <data name="OcrEnding" xml:space="preserve">
+    <value>Finishing the test…</value>
+  </data>
+  <data name="OcrEndpointError" xml:space="preserve">
+    <value>Select a valid mode and HTTP(S) address without user information, a query, or a fragment.</value>
+  </data>
+  <data name="OcrFallback" xml:space="preserve">
+    <value>Fallback OCR used</value>
+  </data>
+  <data name="OcrFallbackLabel" xml:space="preserve">
+    <value>Fallback provider</value>
+  </data>
+  <data name="OcrKeepLines" xml:space="preserve">
+    <value>Keep original line breaks</value>
+  </data>
+  <data name="OcrLanguageHint" xml:space="preserve">
+    <value>Language hint (blank means auto)</value>
+  </data>
+  <data name="OcrLanguageTag" xml:space="preserve">
+    <value>Local BCP-47 LanguageTag (optional)</value>
+  </data>
+  <data name="OcrLanguageType" xml:space="preserve">
+    <value>Explicit LanguageType (optional)</value>
+  </data>
+  <data name="OcrLayout" xml:space="preserve">
+    <value>Recognized text layout</value>
+  </data>
+  <data name="OcrLayoutError" xml:space="preserve">
+    <value>Select a valid text layout.</value>
+  </data>
+  <data name="OcrLocalCredentialDescription" xml:space="preserve">
+    <value>Local OCR needs no keys. Keep the current state or clear old credentials on save.</value>
+  </data>
+  <data name="OcrMergeParagraphs" xml:space="preserve">
+    <value>Merge lines within paragraphs</value>
+  </data>
+  <data name="OcrMissingSelection" xml:space="preserve">
+    <value>Provider no longer exists; select another</value>
+  </data>
+  <data name="OcrMode" xml:space="preserve">
+    <value>Baidu recognition mode</value>
+  </data>
+  <data name="OcrModeAccurate" xml:space="preserve">
+    <value>High accuracy (with positions)</value>
+  </data>
+  <data name="OcrModeAccurateBasic" xml:space="preserve">
+    <value>High accuracy</value>
+  </data>
+  <data name="OcrModeGeneral" xml:space="preserve">
+    <value>Standard (with positions)</value>
+  </data>
+  <data name="OcrModeGeneralBasic" xml:space="preserve">
+    <value>Standard</value>
+  </data>
+  <data name="OcrName" xml:space="preserve">
+    <value>Display name</value>
+  </data>
+  <data name="OcrNameError" xml:space="preserve">
+    <value>Enter a provider display name.</value>
+  </data>
+  <data name="OcrNoFallback" xml:space="preserve">
+    <value>No fallback provider</value>
+  </data>
+  <data name="OcrNotifySilent" xml:space="preserve">
+    <value>Notify after silent OCR copies text</value>
+  </data>
+  <data name="OcrPageDescription" xml:space="preserve">
+    <value>Recognized text goes into the translation window's source field, where you can edit and translate it.</value>
+  </data>
+  <data name="OcrPageTitle" xml:space="preserve">
+    <value>Text recognition (OCR)</value>
+  </data>
+  <data name="OcrParagraph" xml:space="preserve">
+    <value>Request paragraph information</value>
+  </data>
+  <data name="OcrPrimary" xml:space="preserve">
+    <value>Primary provider</value>
+  </data>
+  <data name="OcrProviderSelectionError" xml:space="preserve">
+    <value>Select an existing primary provider. Choose a different fallback provider or none.</value>
+  </data>
+  <data name="OcrRetryCleanup" xml:space="preserve">
+    <value>Retry test cleanup</value>
+  </data>
+  <data name="OcrSaveBlocked" xml:space="preserve">
+    <value>Not saved: retry test cleanup first.</value>
+  </data>
+  <data name="OcrSecretKey" xml:space="preserve">
+    <value>New Secret Key</value>
+  </data>
+  <data name="OcrServices" xml:space="preserve">
+    <value>OCR providers</value>
+  </data>
+  <data name="OcrTest" xml:space="preserve">
+    <value>Test connection</value>
+  </data>
+  <data name="OcrTestCanceled" xml:space="preserve">
+    <value>Test canceled</value>
+  </data>
+  <data name="OcrTestDescription" xml:space="preserve">
+    <value>Checks connectivity or local capability only; no image recognition is performed.</value>
+  </data>
+  <data name="OcrTestPassed" xml:space="preserve">
+    <value>Connection test passed (not saved)</value>
+  </data>
+  <data name="OcrTesting" xml:space="preserve">
+    <value>Testing…</value>
+  </data>
+  <data name="OcrTimeout" xml:space="preserve">
+    <value>Timeout (5–120 seconds)</value>
+  </data>
+  <data name="OcrTimeoutError" xml:space="preserve">
+    <value>Timeout must be an integer from 5 to 120.</value>
+  </data>
+  <data name="OcrUnnamed" xml:space="preserve">
+    <value>Unnamed provider</value>
+  </data>
+  <data name="OcrWindows" xml:space="preserve">
+    <value>Windows local OCR</value>
+  </data>
+  <data name="ScreenshotConfirmHint" xml:space="preserve">
+    <value>Enter / double-click to confirm · Right-click to clear · Esc to cancel</value>
+  </data>
+  <data name="ScreenshotConfirmOnMouseUp" xml:space="preserve">
+    <value>Confirm selection when the mouse is released</value>
+  </data>
+  <data name="ScreenshotCopyFailed" xml:space="preserve">
+    <value>Screenshot captured, but the image could not be copied to the clipboard.</value>
+  </data>
+  <data name="ScreenshotCopyImage" xml:space="preserve">
+    <value>Copy screenshot to clipboard on confirmation</value>
+  </data>
+  <data name="ScreenshotDragHint" xml:space="preserve">
+    <value>Drag to select an area · Esc to cancel</value>
+  </data>
+  <data name="ScreenshotHideWindows" xml:space="preserve">
+    <value>Hide Iris windows before capture</value>
+  </data>
+  <data name="ScreenshotOpacity" xml:space="preserve">
+    <value>Mask opacity (0–0.9)</value>
+  </data>
+  <data name="ScreenshotOpacityError" xml:space="preserve">
+    <value>Enter a finite number from 0 to 0.9.</value>
+  </data>
+  <data name="ScreenshotPageTitle" xml:space="preserve">
+    <value>Screenshot</value>
+  </data>
+  <data name="ScreenshotSettingsDescription" xml:space="preserve">
+    <value>Saved settings apply to the next capture, not to a selection already in progress.</value>
+  </data>
+  <data name="ScreenshotShowMagnifier" xml:space="preserve">
+    <value>Show magnifier</value>
+  </data>
+  <data name="SelectionEmptyDescription" xml:space="preserve">
+    <value>When off, show a notice without opening the translation window.</value>
+  </data>
+  <data name="SelectionEmptyLabel" xml:space="preserve">
+    <value>Open input when there is no selection</value>
+  </data>
+  <data name="SelectionHotkeyDescription" xml:space="preserve">
+    <value>Read and translate the current selection; simulate copying only when confirmed safe</value>
+  </data>
+  <data name="SelectionOrderClipboardFirst" xml:space="preserve">
+    <value>Simulated copy first</value>
+  </data>
+  <data name="SelectionOrderClipboardOnly" xml:space="preserve">
+    <value>Simulated copy only</value>
+  </data>
+  <data name="SelectionOrderError" xml:space="preserve">
+    <value>Select a valid reading method.</value>
+  </data>
+  <data name="SelectionOrderLabel" xml:space="preserve">
+    <value>Reading method</value>
+  </data>
+  <data name="SelectionOrderUiaFirst" xml:space="preserve">
+    <value>UI Automation first</value>
+  </data>
+  <data name="SelectionOrderUiaOnly" xml:space="preserve">
+    <value>UI Automation only</value>
+  </data>
+  <data name="SelectionProcessesDescription" xml:space="preserve">
+    <value>One file name per line, such as app.exe. No paths or wildcards. Blank lines are ignored; an empty list adds no exclusions.</value>
+  </data>
+  <data name="SelectionProcessesError" xml:space="preserve">
+    <value>Use at most 256 entries. Each must be a file name of 1–255 characters without paths, control characters, or wildcards.</value>
+  </data>
+  <data name="SelectionProcessesLabel" xml:space="preserve">
+    <value>Processes where simulated copy is blocked</value>
+  </data>
+  <data name="SelectionRestoreDescription" xml:space="preserve">
+    <value>New clipboard content from other sources is preserved. Turning restoration off allows simulated copy to change the clipboard.</value>
+  </data>
+  <data name="SelectionRestoreLabel" xml:space="preserve">
+    <value>Restore the original clipboard</value>
+  </data>
+  <data name="SelectionSafetyDescription" xml:space="preserve">
+    <value>Simulate copying only in controls confirmed safe. Selections in unsupported controls may be unavailable.</value>
+  </data>
+  <data name="SelectionTimeoutDescription" xml:space="preserve">
+    <value>100–2000 milliseconds to wait for new text after copying; preparation and restoration time are separate.</value>
+  </data>
+  <data name="SelectionTimeoutError" xml:space="preserve">
+    <value>Wait time must be an integer from 100 to 2000. Check the current input.</value>
+  </data>
+  <data name="SelectionTimeoutLabel" xml:space="preserve">
+    <value>Wait after copying (milliseconds)</value>
+  </data>
+  <data name="SettingsAddProfile" xml:space="preserve">
+    <value>Add provider</value>
+  </data>
+  <data name="SettingsAnthropicV1Warning" xml:space="preserve">
+    <value>The official SDK already includes /v1. Reverse-proxy addresses usually do not need a trailing /v1</value>
+  </data>
+  <data name="SettingsCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SettingsChatCompletionsPath" xml:space="preserve">
+    <value>Relative Completions path</value>
+  </data>
+  <data name="SettingsCloseFailed" xml:space="preserve">
+    <value>The settings window has not finished closing. Please retry.</value>
+  </data>
+  <data name="SettingsCorruptedNotice" xml:space="preserve">
+    <value>The settings file was damaged. Defaults were restored and the original file was backed up.</value>
+  </data>
+  <data name="SettingsCredClear" xml:space="preserve">
+    <value>Clear credentials on save</value>
+  </data>
+  <data name="SettingsCredKeep" xml:space="preserve">
+    <value>Keep existing credentials (if any)</value>
+  </data>
+  <data name="SettingsCredReplace" xml:space="preserve">
+    <value>Replace API Key</value>
+  </data>
+  <data name="SettingsDeleteProfile" xml:space="preserve">
+    <value>Delete provider</value>
+  </data>
+  <data name="SettingsEffort" xml:space="preserve">
+    <value>Reasoning effort (Effort)</value>
+  </data>
+  <data name="SettingsExtraHeaders" xml:space="preserve">
+    <value>Extra request headers (one Name: Value per line)</value>
+  </data>
+  <data name="SettingsFutureReadOnly" xml:space="preserve">
+    <value>This configuration is from a newer version and is read-only. Open it with a matching version; saving and network tests are disabled.</value>
+  </data>
+  <data name="SettingsHaikuEffortWarning" xml:space="preserve">
+    <value>Haiku does not support Effort; the value was cleared automatically</value>
+  </data>
+  <data name="SettingsHotkeyCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SettingsHotkeyCleanupFailed" xml:space="preserve">
+    <value>Shortcut cleanup failed; retry is available</value>
+  </data>
+  <data name="SettingsHotkeyClear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
+  <data name="SettingsHotkeyDisabled" xml:space="preserve">
+    <value>Not set / disabled</value>
+  </data>
+  <data name="SettingsHotkeyDuplicateConflict" xml:space="preserve">
+    <value>Shortcut conflict: duplicates [{0}]</value>
+  </data>
+  <data name="SettingsHotkeyEnable" xml:space="preserve">
+    <value>Enable</value>
+  </data>
+  <data name="SettingsHotkeyEnding" xml:space="preserve">
+    <value>Finishing shortcut capture…</value>
+  </data>
+  <data name="SettingsHotkeyPreparing" xml:space="preserve">
+    <value>Preparing shortcut capture…</value>
+  </data>
+  <data name="SettingsHotkeyRecord" xml:space="preserve">
+    <value>Record</value>
+  </data>
+  <data name="SettingsHotkeyRecordingPrompt" xml:space="preserve">
+    <value>Press a shortcut combination…</value>
+  </data>
+  <data name="SettingsHotkeyReleasePrompt" xml:space="preserve">
+    <value>Release the keys…</value>
+  </data>
+  <data name="SettingsHotkeyReservedConflict" xml:space="preserve">
+    <value>Shortcut conflict: duplicates reserved action [{0}]</value>
+  </data>
+  <data name="SettingsHotkeyStatusApplying" xml:space="preserve">
+    <value>Applying…</value>
+  </data>
+  <data name="SettingsHotkeyStatusConflict" xml:space="preserve">
+    <value>System conflict (in use by another program)</value>
+  </data>
+  <data name="SettingsHotkeyStatusFailed" xml:space="preserve">
+    <value>Could not apply</value>
+  </data>
+  <data name="SettingsHotkeyStatusInvalid" xml:space="preserve">
+    <value>Invalid shortcut combination</value>
+  </data>
+  <data name="SettingsHotkeyStatusPaused" xml:space="preserve">
+    <value>Recording (temporarily paused)</value>
+  </data>
+  <data name="SettingsHotkeyStatusRegistered" xml:space="preserve">
+    <value>Applied</value>
+  </data>
+  <data name="SettingsHotkeyStatusSavedPartialFailed" xml:space="preserve">
+    <value>Saved; some shortcuts were not applied (retry available)</value>
+  </data>
+  <data name="SettingsHotkeyStatusSavedPending" xml:space="preserve">
+    <value>Saved; will apply when shortcut capture ends</value>
+  </data>
+  <data name="SettingsHotkeysDescription" xml:space="preserve">
+    <value>Configure global shortcuts for common actions. Combinations with the Win key are supported.</value>
+  </data>
+  <data name="SettingsHotkeysGroup" xml:space="preserve">
+    <value>Global shortcuts</value>
+  </data>
+  <data name="SettingsIncludeStreamUsage" xml:space="preserve">
+    <value>Streaming token usage (IncludeStreamUsage)</value>
+  </data>
+  <data name="SettingsLaunchAtStartup" xml:space="preserve">
+    <value>Start Iris when Windows starts</value>
+  </data>
+  <data name="SettingsListDraftModels" xml:space="preserve">
+    <value>Get model list</value>
+  </data>
+  <data name="SettingsListModelsFailed" xml:space="preserve">
+    <value>Could not get the model list</value>
+  </data>
+  <data name="SettingsListingModels" xml:space="preserve">
+    <value>Getting the model list…</value>
+  </data>
+  <data name="SettingsLogDescription" xml:space="preserve">
+    <value>Control the minimum severity recorded in the application log.</value>
+  </data>
+  <data name="SettingsLogGroup" xml:space="preserve">
+    <value>Logging</value>
+  </data>
+  <data name="SettingsLogLevel" xml:space="preserve">
+    <value>Log level</value>
+  </data>
+  <data name="SettingsMaxTokensField" xml:space="preserve">
+    <value>Token limit field</value>
+  </data>
+  <data name="SettingsMoveDown" xml:space="preserve">
+    <value>Move down</value>
+  </data>
+  <data name="SettingsMoveUp" xml:space="preserve">
+    <value>Move up</value>
+  </data>
+  <data name="SettingsNavGeneral" xml:space="preserve">
+    <value>General</value>
+  </data>
+  <data name="SettingsNavHotkeys" xml:space="preserve">
+    <value>Shortcuts</value>
+  </data>
+  <data name="SettingsNavSelection" xml:space="preserve">
+    <value>Selection translation</value>
+  </data>
+  <data name="SettingsNavTranslation" xml:space="preserve">
+    <value>Translation providers</value>
+  </data>
+  <data name="SettingsProfileAdvanced" xml:space="preserve">
+    <value>Advanced options</value>
+  </data>
+  <data name="SettingsProfileApiKey" xml:space="preserve">
+    <value>API Key</value>
+  </data>
+  <data name="SettingsProfileBaseUrl" xml:space="preserve">
+    <value>API address</value>
+  </data>
+  <data name="SettingsProfileEnabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
+  <data name="SettingsProfileKind" xml:space="preserve">
+    <value>Protocol</value>
+  </data>
+  <data name="SettingsProfileMaxTokens" xml:space="preserve">
+    <value>Maximum output tokens</value>
+  </data>
+  <data name="SettingsProfileModel" xml:space="preserve">
+    <value>Model name</value>
+  </data>
+  <data name="SettingsProfileName" xml:space="preserve">
+    <value>Provider name</value>
+  </data>
+  <data name="SettingsProfilePrompt" xml:space="preserve">
+    <value>Prompt template</value>
+  </data>
+  <data name="SettingsProfilePromptDefault" xml:space="preserve">
+    <value>Use the default template</value>
+  </data>
+  <data name="SettingsProfileTemperature" xml:space="preserve">
+    <value>Temperature</value>
+  </data>
+  <data name="SettingsProfileTimeout" xml:space="preserve">
+    <value>Timeout (seconds)</value>
+  </data>
+  <data name="SettingsRefusalFallback" xml:space="preserve">
+    <value>Fallback on provider refusal</value>
+  </data>
+  <data name="SettingsReload" xml:space="preserve">
+    <value>Reload current settings</value>
+  </data>
+  <data name="SettingsRetry" xml:space="preserve">
+    <value>Retry applying</value>
+  </data>
+  <data name="SettingsRetryHotkeys" xml:space="preserve">
+    <value>Retry applying shortcuts</value>
+  </data>
+  <data name="SettingsRetryPendingApply" xml:space="preserve">
+    <value>Retry provider changes</value>
+  </data>
+  <data name="SettingsSave" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SettingsShowStartupNotification" xml:space="preserve">
+    <value>Notify when Iris starts in the background</value>
+  </data>
+  <data name="SettingsStartupGroup" xml:space="preserve">
+    <value>Startup and notifications</value>
+  </data>
+  <data name="SettingsStatusAutoStartApplied" xml:space="preserve">
+    <value>Startup settings applied</value>
+  </data>
+  <data name="SettingsStatusAutoStartRetryFailed" xml:space="preserve">
+    <value>Startup settings are still not applied</value>
+  </data>
+  <data name="SettingsStatusCanceled" xml:space="preserve">
+    <value>Save canceled</value>
+  </data>
+  <data name="SettingsStatusConflict" xml:space="preserve">
+    <value>Save conflict: settings changed elsewhere. Reload them before editing again</value>
+  </data>
+  <data name="SettingsStatusFileError" xml:space="preserve">
+    <value>Could not save the settings file</value>
+  </data>
+  <data name="SettingsStatusHotkeysApplied" xml:space="preserve">
+    <value>Shortcuts applied</value>
+  </data>
+  <data name="SettingsStatusHotkeysRetryFailed" xml:space="preserve">
+    <value>Applying shortcuts is still incomplete</value>
+  </data>
+  <data name="SettingsStatusInvalidLogLevel" xml:space="preserve">
+    <value>Invalid log level</value>
+  </data>
+  <data name="SettingsStatusInvalidTheme" xml:space="preserve">
+    <value>Invalid theme</value>
+  </data>
+  <data name="SettingsStatusPendingApplyCompleted" xml:space="preserve">
+    <value>Translation provider changes applied</value>
+  </data>
+  <data name="SettingsStatusPendingApplyFailed" xml:space="preserve">
+    <value>Translation provider changes are still not fully applied</value>
+  </data>
+  <data name="SettingsStatusPendingApplyQuotaFull" xml:space="preserve">
+    <value>Too many pending provider cleanup operations. Retry the unfinished operations first</value>
+  </data>
+  <data name="SettingsStatusRetryingAutoStart" xml:space="preserve">
+    <value>Retrying startup settings…</value>
+  </data>
+  <data name="SettingsStatusRetryingHotkeys" xml:space="preserve">
+    <value>Retrying shortcut settings…</value>
+  </data>
+  <data name="SettingsStatusRetryingPendingApply" xml:space="preserve">
+    <value>Retrying translation provider changes…</value>
+  </data>
+  <data name="SettingsStatusSaveFailed" xml:space="preserve">
+    <value>Save failed</value>
+  </data>
+  <data name="SettingsStatusSaved" xml:space="preserve">
+    <value>Settings saved</value>
+  </data>
+  <data name="SettingsStatusSavedAutoStartPending" xml:space="preserve">
+    <value>Saved; startup settings were not applied (retry available)</value>
+  </data>
+  <data name="SettingsStatusSavedAutoStartStillPending" xml:space="preserve">
+    <value>Settings saved; startup settings are still not applied (retry available)</value>
+  </data>
+  <data name="SettingsStatusSavedPendingApply" xml:space="preserve">
+    <value>Settings saved; translation provider refresh or cleanup is incomplete (retry available)</value>
+  </data>
+  <data name="SettingsStatusSavedPendingApplyAndAutoStart" xml:space="preserve">
+    <value>Settings saved; provider refresh and startup settings are incomplete (retry available)</value>
+  </data>
+  <data name="SettingsStatusSaving" xml:space="preserve">
+    <value>Saving…</value>
+  </data>
+  <data name="SettingsStatusStopped" xml:space="preserve">
+    <value>Saving stopped</value>
+  </data>
+  <data name="SettingsStream" xml:space="preserve">
+    <value>Stream responses (Stream)</value>
+  </data>
+  <data name="SettingsStripThinkTags" xml:space="preserve">
+    <value>Remove reasoning tags (&lt;think&gt; tags)</value>
+  </data>
+  <data name="SettingsTestDraft" xml:space="preserve">
+    <value>Test connection</value>
+  </data>
+  <data name="SettingsTestDraftFailed" xml:space="preserve">
+    <value>Connection test failed</value>
+  </data>
+  <data name="SettingsTestDraftSuccess" xml:space="preserve">
+    <value>Connection test succeeded</value>
+  </data>
+  <data name="SettingsTestingDraft" xml:space="preserve">
+    <value>Testing the connection…</value>
+  </data>
+  <data name="SettingsThemeDark" xml:space="preserve">
+    <value>Dark</value>
+  </data>
+  <data name="SettingsThemeDescription" xml:space="preserve">
+    <value>Choose the application's color theme.</value>
+  </data>
+  <data name="SettingsThemeGroup" xml:space="preserve">
+    <value>Appearance and theme</value>
+  </data>
+  <data name="SettingsThemeLight" xml:space="preserve">
+    <value>Light</value>
+  </data>
+  <data name="SettingsThemeSystem" xml:space="preserve">
+    <value>Follow system</value>
+  </data>
+  <data name="SettingsTitle" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SettingsWindowTitle" xml:space="preserve">
+    <value>Iris Settings</value>
+  </data>
+  <data name="StartupFailed" xml:space="preserve">
+    <value>Iris startup or cleanup failed. Please retry later.</value>
+  </data>
+  <data name="StartupRunningInBackground" xml:space="preserve">
+    <value>Iris is running in the background</value>
+  </data>
+  <data name="Text_03261c064096" xml:space="preserve">
+    <value>Screenshot translation</value>
+  </data>
+  <data name="Text_0bdec2522201" xml:space="preserve">
+    <value>Duplicate request header name: {0}</value>
+  </data>
+  <data name="Text_130b4f7f9f33" xml:space="preserve">
+    <value>Unregistration failed</value>
+  </data>
+  <data name="Text_15eca5fee02d" xml:space="preserve">
+    <value>ChatCompletionsPath must be a relative path without a query or fragment</value>
+  </data>
+  <data name="Text_259cdcf75199" xml:space="preserve">
+    <value>Korean</value>
+  </data>
+  <data name="Text_28293356d695" xml:space="preserve">
+    <value>Default (null)</value>
+  </data>
+  <data name="Text_29ee8b1d8422" xml:space="preserve">
+    <value>Maximum output tokens must be a positive integer</value>
+  </data>
+  <data name="Text_2c944b654a3b" xml:space="preserve">
+    <value>Translate text</value>
+  </data>
+  <data name="Text_30315c37c118" xml:space="preserve">
+    <value>max_tokens (default)</value>
+  </data>
+  <data name="Text_3070ed21a7ed" xml:space="preserve">
+    <value>[Removed] {0}</value>
+  </data>
+  <data name="Text_37e627acd92a" xml:space="preserve">
+    <value>{0} (disabled)</value>
+  </data>
+  <data name="Text_3a713e0a1fc2" xml:space="preserve">
+    <value>A model name is required for the connection test</value>
+  </data>
+  <data name="Text_3a944ddb3868" xml:space="preserve">
+    <value>Japanese</value>
+  </data>
+  <data name="Text_3b02edcd404d" xml:space="preserve">
+    <value>Selection translation</value>
+  </data>
+  <data name="Text_3b89fd6b0ced" xml:space="preserve">
+    <value>Auto-detect</value>
+  </data>
+  <data name="Text_501fb7e80e5a" xml:space="preserve">
+    <value>Silent screenshot OCR</value>
+  </data>
+  <data name="Text_525a47965e10" xml:space="preserve">
+    <value>Invalid request header name: {0}</value>
+  </data>
+  <data name="Text_5bdde8257c53" xml:space="preserve">
+    <value>Italian</value>
+  </data>
+  <data name="Text_6124b5028ecd" xml:space="preserve">
+    <value>Temperature must be between 0.0 and 2.0</value>
+  </data>
+  <data name="Text_6410e0ade8fd" xml:space="preserve">
+    <value>Open the input translation window to translate text</value>
+  </data>
+  <data name="Text_6417027b65c2" xml:space="preserve">
+    <value>(Invalid key)</value>
+  </data>
+  <data name="Text_668be3ef6c0d" xml:space="preserve">
+    <value>Sensitive authentication headers are not allowed in extra headers: {0}</value>
+  </data>
+  <data name="Text_6c872d27f835" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+  <data name="Text_6ce072a79389" xml:space="preserve">
+    <value>Portuguese</value>
+  </data>
+  <data name="Text_72704d8e1e47" xml:space="preserve">
+    <value>Floating button</value>
+  </data>
+  <data name="Text_733881723d47" xml:space="preserve">
+    <value>Retrieved {0} models</value>
+  </data>
+  <data name="Text_7566092dce72" xml:space="preserve">
+    <value>German</value>
+  </data>
+  <data name="Text_77beb03033cb" xml:space="preserve">
+    <value>OpenAI-compatible providers require a BaseUrl</value>
+  </data>
+  <data name="Text_7bf7a60617de" xml:space="preserve">
+    <value>Chinese (Traditional)</value>
+  </data>
+  <data name="Text_8648ba069ee0" xml:space="preserve">
+    <value>Vietnamese</value>
+  </data>
+  <data name="Text_887484964876" xml:space="preserve">
+    <value>ChatCompletionsPath cannot be empty</value>
+  </data>
+  <data name="Text_8a6cb14e2f9a" xml:space="preserve">
+    <value>T</value>
+  </data>
+  <data name="Text_906a2400f060" xml:space="preserve">
+    <value>Invalid header format; use 'Name: Value'</value>
+  </data>
+  <data name="Text_90df77bfc309" xml:space="preserve">
+    <value>Auto (from settings)</value>
+  </data>
+  <data name="Text_93c96aec66da" xml:space="preserve">
+    <value>Enabled providers must specify a model name</value>
+  </data>
+  <data name="Text_9541ee3d4b15" xml:space="preserve">
+    <value>Request parameters</value>
+  </data>
+  <data name="Text_98de13c4b263" xml:space="preserve">
+    <value>Anthropic BaseUrl must be a valid HTTP(S) address</value>
+  </data>
+  <data name="Text_9937e365aaf3" xml:space="preserve">
+    <value>Chinese (Simplified)</value>
+  </data>
+  <data name="Text_99729d9d15a4" xml:space="preserve">
+    <value>Cannot save until shortcut capture cleanup finishes</value>
+  </data>
+  <data name="Text_99cdf164a814" xml:space="preserve">
+    <value>French</value>
+  </data>
+  <data name="Text_9d819d38d5cd" xml:space="preserve">
+    <value>BaseUrl must be a valid HTTP(S) address</value>
+  </data>
+  <data name="Text_a03a94a2f826" xml:space="preserve">
+    <value>Screenshot OCR</value>
+  </data>
+  <data name="Text_a15fb0d0595f" xml:space="preserve">
+    <value>Thai</value>
+  </data>
+  <data name="Text_a943c0367b80" xml:space="preserve">
+    <value>Credentials</value>
+  </data>
+  <data name="Text_af3fd060dd39" xml:space="preserve">
+    <value>Resolve shortcut conflicts or errors first</value>
+  </data>
+  <data name="Text_b9763286f171" xml:space="preserve">
+    <value>API Key replacement is selected, but no new key was entered</value>
+  </data>
+  <data name="Text_bdb6608a4dc8" xml:space="preserve">
+    <value>Russian</value>
+  </data>
+  <data name="Text_c0aa76aebce6" xml:space="preserve">
+    <value>In use</value>
+  </data>
+  <data name="Text_c7d8838aeb65" xml:space="preserve">
+    <value>Open Iris settings</value>
+  </data>
+  <data name="Text_ca2e5cc0561d" xml:space="preserve">
+    <value>The provider display name cannot be empty</value>
+  </data>
+  <data name="Text_d1648bacbc16" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Text_d681ffc969c1" xml:space="preserve">
+    <value>Read and translate clipboard contents</value>
+  </data>
+  <data name="Text_e674ecde293f" xml:space="preserve">
+    <value>max_completion_tokens (reasoning)</value>
+  </data>
+  <data name="Text_e8189e624897" xml:space="preserve">
+    <value>Haiku does not support Effort. Clear the value</value>
+  </data>
+  <data name="Text_e8df05872569" xml:space="preserve">
+    <value>Basic information</value>
+  </data>
+  <data name="Text_ee86d366961c" xml:space="preserve">
+    <value>(Not set)</value>
+  </data>
+  <data name="Text_f3bbfa20ffbe" xml:space="preserve">
+    <value>Timeout must be between 5 and 600 seconds</value>
+  </data>
+  <data name="Text_f842c928e8e3" xml:space="preserve">
+    <value>Effort must be low, medium, high, xhigh, max, or null</value>
+  </data>
+  <data name="Text_fc9a0bdeb77f" xml:space="preserve">
+    <value>Arabic</value>
+  </data>
+  <data name="TranslateBusy" xml:space="preserve">
+    <value>The system is busy. Please retry later</value>
+  </data>
+  <data name="TranslateButton" xml:space="preserve">
+    <value>Translate</value>
+  </data>
+  <data name="TranslateClose" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="TranslateCopy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="TranslateCopyVisible" xml:space="preserve">
+    <value>Copy visible content</value>
+  </data>
+  <data name="TranslateEmptyPrompt" xml:space="preserve">
+    <value>Enter text to translate</value>
+  </data>
+  <data name="TranslateFromCache" xml:space="preserve">
+    <value>Cached</value>
+  </data>
+  <data name="TranslateGoToSettings" xml:space="preserve">
+    <value>Open settings</value>
+  </data>
+  <data name="TranslateInputPlaceholder" xml:space="preserve">
+    <value>Enter text and press Enter to translate…</value>
+  </data>
+  <data name="TranslateInputTooLong" xml:space="preserve">
+    <value>Input exceeds the maximum character limit</value>
+  </data>
+  <data name="TranslateLastResult" xml:space="preserve">
+    <value>Previous result</value>
+  </data>
+  <data name="TranslateLocalTruncated" xml:space="preserve">
+    <value>Local display truncated</value>
+  </data>
+  <data name="TranslateModelTruncated" xml:space="preserve">
+    <value>Incomplete result (model limit)</value>
+  </data>
+  <data name="TranslateNoConfiguredProviders" xml:space="preserve">
+    <value>No translation providers are configured. Add one in settings.</value>
+  </data>
+  <data name="TranslatePinWindow" xml:space="preserve">
+    <value>Pin window</value>
+  </data>
+  <data name="TranslateRetry" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="TranslateSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="TranslateStopButton" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="TranslateStopped" xml:space="preserve">
+    <value>Translation stopped</value>
+  </data>
+  <data name="TranslateSwapLanguages" xml:space="preserve">
+    <value>Swap languages</value>
+  </data>
+  <data name="TranslateUnpinWindow" xml:space="preserve">
+    <value>Unpin window</value>
+  </data>
+  <data name="TranslateWindowTitle" xml:space="preserve">
+    <value>Iris Translate</value>
+  </data>
+  <data name="TrayMenuClipboardTranslate" xml:space="preserve">
+    <value>Translate clipboard</value>
+  </data>
+  <data name="TrayMenuDebugTaskException" xml:space="preserve">
+    <value>Debug: background task exception</value>
+  </data>
+  <data name="TrayMenuDebugToggleTheme" xml:space="preserve">
+    <value>Debug: toggle theme</value>
+  </data>
+  <data name="TrayMenuDebugUiException" xml:space="preserve">
+    <value>Debug: UI thread exception</value>
+  </data>
+  <data name="TrayMenuExit" xml:space="preserve">
+    <value>Exit</value>
+  </data>
+  <data name="TrayMenuInputTranslate" xml:space="preserve">
+    <value>Input translation</value>
+  </data>
+  <data name="TrayMenuScreenshotOcr" xml:space="preserve">
+    <value>Screenshot OCR</value>
+  </data>
+  <data name="TrayMenuScreenshotTranslate" xml:space="preserve">
+    <value>Screenshot translation</value>
+  </data>
+  <data name="TrayMenuSettings" xml:space="preserve">
+    <value>Settings…</value>
+  </data>
+  <data name="TrayMenuSilentScreenshotOcr" xml:space="preserve">
+    <value>Silent screenshot OCR</value>
+  </data>
+  <data name="TrayToolTip" xml:space="preserve">
+    <value>Iris</value>
+  </data>
+  <data name="Preset_dashscope" xml:space="preserve">
+    <value>Qwen (DashScope)</value>
+  </data>
+  <data name="Preset_zhipu" xml:space="preserve">
+    <value>Zhipu GLM</value>
+  </data>
+  <data name="Preset_gemini" xml:space="preserve">
+    <value>Gemini (OpenAI-compatible endpoint)</value>
+  </data>
+  <data name="Preset_ollama" xml:space="preserve">
+    <value>Ollama (local)</value>
+  </data>
+  <data name="Preset_custom" xml:space="preserve">
+    <value>Custom OpenAI-compatible provider</value>
+  </data>
+  <data name="AccessibilitySourceLanguage" xml:space="preserve">
+    <value>Source language</value>
+  </data>
+  <data name="AccessibilityTargetLanguage" xml:space="preserve">
+    <value>Target language</value>
+  </data>
+  <data name="AccessibilitySourceText" xml:space="preserve">
+    <value>Source text</value>
+  </data>
+  <data name="LogVerbose" xml:space="preserve">
+    <value>Verbose</value>
+  </data>
+  <data name="LogDebug" xml:space="preserve">
+    <value>Debug</value>
+  </data>
+  <data name="LogInformation" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="LogWarning" xml:space="preserve">
+    <value>Warning</value>
+  </data>
+  <data name="LogError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+</root>
