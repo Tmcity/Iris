@@ -1,0 +1,3557 @@
+{
+  "Source": "F:\\Iris\\tasks\\done\\T-038.evidence\\visual-12",
+  "ManifestSha256": "ab425d85cfcbe8bd26a5d43fc3057adea98fe5c3d9b93b1d7c1a2b2a5a3b67d0",
+  "Previous": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t038-independent\\visual-candidate-3\\raw",
+  "Images": [
+    {
+      "File": "zh-CN-light-normal-settings-general-00.png",
+      "Sha256": "37f36b21d08daf61dcdc7691af25cd951d2278daa2d37b63a0c8518204cad99a",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-general-01.png",
+      "Sha256": "3070898403d66d1e7200acd2a353134d4adc72ad6c39ae915767df0bbc29f0ea",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-translation-00.png",
+      "Sha256": "1ba6a9051b9f7efab6350547811483b13a2a38a255ca9dc09a8aac13996fa918",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-normal-settings-translation-01.png",
+      "Sha256": "ce896cfd4f01c001a6586d0ff3eb6cbe430ef99a1f6a9d8ea353d5f5caabcaee",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-normal-settings-translation-02.png",
+      "Sha256": "3810e715f734e3056ee4d32f60ac1aaa0888f2c1cae06fc1fd8f253e47121344",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-normal-settings-translation-03.png",
+      "Sha256": "a2b9f35d33811074ae4507fdbcd04d3085745398e52793fa853e0b2d17539f81",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-normal-preset-menu.png",
+      "Sha256": "00956dd6bc210b74b50efc67a5094ff9ebb0ee9e43983031edc64a1090b87225",
+      "Width": 258,
+      "Height": 388,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-normal-settings-hotkeys-00.png",
+      "Sha256": "2ae4c866a6fff3989bf1f234d17827f73fc541d65061ee362f8ffdd8fb5ce862",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-hotkeys-01.png",
+      "Sha256": "7b8aff8354ccdf002a2b91ce8b978b8056bb2851467718c4ec2eef4ea31d4d9f",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-hotkeys-02.png",
+      "Sha256": "f53f5c692a141a9c075d1b2faabab4a2536cfdfb7c5465817f7de6614750c502",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-selection-00.png",
+      "Sha256": "ecfb559d24c83d269d274cbfc2a3f3f0d244edc5a0ef94f7707445ad62e4e087",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-selection-01.png",
+      "Sha256": "579e6f5ce13a15d606dad6f69ff13848f5eefa5cc42ccfae0f0ab10057f0a4dc",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-selection-02.png",
+      "Sha256": "4aa13a9fcffd809f8abd76a5b0f79c9b6f0edfc8fb52169cbdc47a159fcf1ef4",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-selection-03.png",
+      "Sha256": "9e329cf4c844849ca0f8a7368b02d191dfd46c807afdef79b2b83b482821915e",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-ocr-00.png",
+      "Sha256": "5d740d8284b5450fdb023066bcf9982c211f21ca8e34b217169947beef1edcd9",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-ocr-01.png",
+      "Sha256": "4ced0043c52471be0ea706013613100a2272e3b534561a7e1299816229b2dd62",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-ocr-02.png",
+      "Sha256": "19c6252d3f2c8b4bba22bc717d8b6f637cf224fc7171bdaff8ee880eeabea94f",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-ocr-03.png",
+      "Sha256": "f00a86dcd2974efaa3f5d325924d83e33555ea272578023ed3896ad6748925c5",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-ocr-04.png",
+      "Sha256": "4167002a3f7c74a901e7393a6591055dd7a64b38cf8903876888712bb9b25ffd",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-screenshot-00.png",
+      "Sha256": "698e82461c73ae4c1f2a21aa62b0ccc0aa2f09f52fdff313a60e5052ef871661",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-network-00.png",
+      "Sha256": "60c7741551c4449e8085cae6db2a23acbd0dbfaca7e8d8de01aaa053347410ff",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-network-01.png",
+      "Sha256": "5dec01ca795070a8ac00be4fcc352b0973ca66dc418d3b7a2f2cba9b56cd9df6",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-network-02.png",
+      "Sha256": "c81ab94afc5106731204ed9e27a1ed5e83f4304f2d0bba67466d1e7e23a156ab",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-history-00.png",
+      "Sha256": "eb5ef5297c1fb86538093968dd150352f20026860bea7476ebcb8d5ac9c4d5eb",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-settings-anthropic-00.png",
+      "Sha256": "038ba40461d18cf5d2cb6c87ce595cf258e1ab7161ffe1db85e3c29a5e25a9e4",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-normal-settings-anthropic-01.png",
+      "Sha256": "8949fe2a467381fac3766fec5cf15f9aa0f89dbe95f7457a86cfc7ff1905329a",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-normal-settings-anthropic-02.png",
+      "Sha256": "1765e39c6d99a2d3ae030fab06a896aca90d5526d0f62dd48fdd5387f495d4a5",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-normal-translation-input.png",
+      "Sha256": "cd89b13932cdf2053b6cfb4ed2609f702f042cb433b11069d5428aad4811b7c4",
+      "Width": 520,
+      "Height": 600,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-normal-translation-running-00.png",
+      "Sha256": "4ab4c4384c57cbc8b4cde6c41aa4b689d8d6ad2bd1e0bb8c3e54d87b084ecbd1",
+      "Width": 520,
+      "Height": 600,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-normal-translation-result-00.png",
+      "Sha256": "f967a8662ef1640ae2a5d55608e2c3eac75abc7cedd919542b575437b41b229f",
+      "Width": 520,
+      "Height": 600,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-normal-translation-error-00.png",
+      "Sha256": "d0107178c20e822b5a5ec49f9012819819383644991608b5809402d818268b65",
+      "Width": 520,
+      "Height": 600,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-normal-history-empty-00.png",
+      "Sha256": "63ac749e5f4572c2381c09756394b05083805e69c125da6bb88691af202c9aad",
+      "Width": 800,
+      "Height": 640,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-normal-history-list-00.png",
+      "Sha256": "b970c47904d8b59f42ce7323e55b3c97e69176e220c95ef18070db736439e44f",
+      "Width": 800,
+      "Height": 640,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-normal-history-detail-00.png",
+      "Sha256": "ddffcb05768b879fbd0076e95cbe775c5d568742b9a2d03b5d0ecc9cf748af98",
+      "Width": 800,
+      "Height": 640,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-history-detail-01.png",
+      "Sha256": "57bc075eb4d4eee383340324ff9d773daf6e4be7e4526bd8dac87899a69208a4",
+      "Width": 800,
+      "Height": 640,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-screenshot-drag.png",
+      "Sha256": "6f583a852a5e0218817364ec6be323f678616df5d34dcb3a3868dc4a1bf218dc",
+      "Width": 640,
+      "Height": 360,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-screenshot-confirm.png",
+      "Sha256": "e7748059ab34b4f8d328560a1942c5ff4917148eed10214d4cb2e4c522e7a9fb",
+      "Width": 640,
+      "Height": 360,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-normal-tray-menu.png",
+      "Sha256": "f19eb3c14046492492b4cd3e61cfa052e1ce472a57b9ef9b5b835f377f81984a",
+      "Width": 200,
+      "Height": 334,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-normal-notification-content-00.png",
+      "Sha256": "249ad757df93b37c72d67ed58edac0adc444f4c4325360403fa1ead30c12fafd",
+      "Width": 520,
+      "Height": 420,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-general-00.png",
+      "Sha256": "8133b1a37c7cedd7cae172b9e7d57ff84c9892e5456af286a41362b04465695d",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-general-01.png",
+      "Sha256": "f7f8da3097bf6063ee1a16e9820cf9b539a283bd732a25b9870186025ae7b3de",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-general-02.png",
+      "Sha256": "f4bdcbec0fadf154a67d51e0ed7427e1164129daf7f85524a673fb649f9790a6",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-translation-00.png",
+      "Sha256": "4712cacc6785e1e9f7c41749d3f286b3146876cdd5b13481f2d72ebece86f5db",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-settings-translation-01.png",
+      "Sha256": "c30933858140e142a4cc54b7f320df4f2de505fb7f7e0ac5d6babda81a915875",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-settings-translation-02.png",
+      "Sha256": "9ada215ce7efc920d59558141337315468192981eb5e700c226f75e65a905d3d",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-settings-translation-03.png",
+      "Sha256": "61f4c4c4cab6bce952596ff02788a3b49ae1906ae8d5b8c203b79cd70d5fafbc",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-settings-translation-04.png",
+      "Sha256": "a2af1bd95ac70f42f36df13892008906a44a57a09729e84834a4e189e9733adb",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-settings-translation-05.png",
+      "Sha256": "9dbae5f11f34e8a277c32f53bcb4caf4cc19e1c20d9e956dcdd0d1c6316d7162",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-settings-translation-06.png",
+      "Sha256": "8d271d61980092634e252648c613af0557f914bce5bec63b93fb1ff0e94720f0",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-preset-menu.png",
+      "Sha256": "00956dd6bc210b74b50efc67a5094ff9ebb0ee9e43983031edc64a1090b87225",
+      "Width": 258,
+      "Height": 388,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-settings-hotkeys-00.png",
+      "Sha256": "a487ea53b03378aa57d604a652fc2527e2fe89e6a0b74f369e87ff656e2719a7",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-settings-hotkeys-01.png",
+      "Sha256": "6f38e7d7c50c358adbce980ec9b98895098aa4dfe6546a1c98507b2aab194079",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-settings-hotkeys-02.png",
+      "Sha256": "c850f0ea1c6a1db94350a24a65bf072d3564f47e9ecf452b726cbe0f5a73620e",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-settings-selection-00.png",
+      "Sha256": "13235f012c64e813396eeb560492c16d1526b588f78c8acb2844be5a1bfe74a2",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-selection-01.png",
+      "Sha256": "a53109d89be8ea9d457b28f04e257f8d90e1fab17440c0568f8289682552bf18",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-selection-02.png",
+      "Sha256": "f6dec35a451c628aae7defeea10203ff08fb056d9faf9bec22cd2da4960aa7b6",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-selection-03.png",
+      "Sha256": "2aad3a82959068f651dfe1cf0054c7dcd4e286dd13092dd855fefd7f29dff38b",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-selection-04.png",
+      "Sha256": "9a2e3d01886a70e483ee31bc4519fc4cd0a11ae508fe97fe61897b25bd139496",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-ocr-00.png",
+      "Sha256": "73bcf0aee113d7f408589f12253367c19d0c59059bd5d3b140dfd98e10c926db",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-ocr-01.png",
+      "Sha256": "b932a1710e9076e3fd3638fc31fc10c75997b954c041e8a9348710904f045ae6",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-ocr-02.png",
+      "Sha256": "b895824bdead167fd732f4a61f7595b8441830dcc7380542af7aa07a7b2afbd2",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-ocr-03.png",
+      "Sha256": "02441155e5e259ac16a8d977dd4395a5c11201b2f6816c584f1be99a9cd61c17",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-ocr-04.png",
+      "Sha256": "80585b5f64aa04dfbd2624a9bb1a29f316969dd590e29080263cbc04dbf54266",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-ocr-05.png",
+      "Sha256": "7ebc8236f9c8a4d3bbbf0e33da2b47fff97d3c420db464010abf98a420772672",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-ocr-06.png",
+      "Sha256": "288194eced95b0dbfebfdb127a7e3f1e1ad173b2a50d6ff9a5467eb2f3a3e4eb",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-screenshot-00.png",
+      "Sha256": "e1dc06536cd2a2c9a2c5f2fab2916efc96eb83b5565ae3067874d54e183a5d4a",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-screenshot-01.png",
+      "Sha256": "7df2fc441660dbcfd32a37057caf6cffa9764a68d9b05f3a6d388536aff16032",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-network-00.png",
+      "Sha256": "b0c8b16d24a186ce58532eab3e0d6e13b680c2cf8d943d894e90bce95aeaee81",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-network-01.png",
+      "Sha256": "2b5e7ee85e13d512e057d2a41d7ef79fe470cd3b5939bdc735abb490394ac895",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-network-02.png",
+      "Sha256": "39360953938775ea881cea6c113fe9d88afafedaae6967687030e321e300e010",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-network-03.png",
+      "Sha256": "1cc12bb7c5bb0d07650f030add84795fc42493a7048cd9b6fc405b5e06a83162",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-settings-history-00.png",
+      "Sha256": "87230cf2a1dd6bfd764f960d99d268210f709069c83cd56a762baac2c2237414",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-settings-anthropic-00.png",
+      "Sha256": "eda691ffd602e957fd0ffe0e0888fa4635dd9c302dcbe25bee17b7c2363a70ec",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-settings-anthropic-01.png",
+      "Sha256": "5c6de302f51c88bc05610d1d1bad7971249022abe3fc6dc48be559a640052bcd",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-settings-anthropic-02.png",
+      "Sha256": "75f1930f8f7cf79cd50ac2fcf81bbc73c672d05f549d8a7f59b3661843f257d7",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-settings-anthropic-03.png",
+      "Sha256": "f4a75a39a4bb04200b2aba651a4c7ad60a511a5ea0c3ee73e1b048c6540c6550",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-settings-anthropic-04.png",
+      "Sha256": "a5f89448b6599220de24810b0bd66293c337830c212452eaaa10a43cc82bf2b4",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-translation-input.png",
+      "Sha256": "0b5c1ae0cb72b11e305b7dc1f7c5ab8ea30f6a783b8f463e2b6975d3c4966848",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-translation-running-00.png",
+      "Sha256": "bde7fc05a3735ca253e38d95ebef518bb20da545d79e5a458c195c2517bb75c4",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-translation-running-01.png",
+      "Sha256": "94d33f294d325977ad7a788c3917f6d59bd2dc7308457ca92b84127c4698ba1f",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-translation-result-00.png",
+      "Sha256": "93c44cf6ffaaddd62352d0ad9d5022ea34399bf76a5360a901ec70cafcdbf825",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-translation-result-01.png",
+      "Sha256": "4a39f0eaaf4fb2adda733a65e8de13ee4e4fb7af4ac4c8b8d61e7b00112410ee",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-translation-error-00.png",
+      "Sha256": "d117d9750b7597a320f267d1a667df971a27271e62efe4e4265cf83062f11e36",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-translation-error-01.png",
+      "Sha256": "c98df09510b467042c08eb5388b8bad63997f20335497366fd326b2bd056b98d",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-history-empty-00.png",
+      "Sha256": "d035a3f2f06d070e8b0b4bca5772c90c9c0efed38186e0c129190b606075d29a",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-history-empty-01.png",
+      "Sha256": "7bb10420f106722ad22f28a93413947dbce3f5abf7ec5fb42a46a909923d1dcc",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-history-list-00.png",
+      "Sha256": "bae9544d7a63a1271ace4b5f2b6db312796b9757710e3942f8b99a52a0c29153",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-history-list-01.png",
+      "Sha256": "f4edf228af99e0d5a7b8657f2e54d513921b41f202b750f3844bf08015f80721",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-history-list-02.png",
+      "Sha256": "54308478dfce45e3c7dc44d2df01286c40d96851b1a59a233fb62d835f2ec23c",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-history-detail-00.png",
+      "Sha256": "3d101903cc24b584ce5ffb5aed56adad78a33af2be5d37ef78579cec67d18012",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-history-detail-01.png",
+      "Sha256": "94489f90f8705e3fed4f53d474963cb0a167831623729fde83bd71d0b9766919",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-history-detail-02.png",
+      "Sha256": "6a3521df5f0de7e332e3fb5c0829e65fdb5c1994ec5f4e474342d6b231561994",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-history-detail-03.png",
+      "Sha256": "fe13ca9e23f6ca16699ea6629fedef00a078925fb6f797dc8145e3a1d13d6777",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-history-detail-04.png",
+      "Sha256": "e0224f045436fd78dc0f7ebee8206a00702f1232421f809ad679c74c875a5ee7",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-history-detail-05.png",
+      "Sha256": "f0dcb7bb21103cf10c6117477a80e9a4c02926344fbd3df661422882e5fc9f0a",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-screenshot-drag.png",
+      "Sha256": "18c4fafc6169dc89cf9d166cb344cc3654c9562344e121a22304337539ed5024",
+      "Width": 320,
+      "Height": 180,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-screenshot-confirm.png",
+      "Sha256": "ce477300db2cd49db94ffc24b4eb28edd587034f101c835081b8de602b82518b",
+      "Width": 320,
+      "Height": 180,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-light-small-tray-menu.png",
+      "Sha256": "f19eb3c14046492492b4cd3e61cfa052e1ce472a57b9ef9b5b835f377f81984a",
+      "Width": 200,
+      "Height": 334,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-light-small-notification-content-00.png",
+      "Sha256": "cf848c29c7627735c87c1d571bc9fb57c60571adf764f0c91f8369d804efd1c7",
+      "Width": 320,
+      "Height": 320,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-general-00.png",
+      "Sha256": "cfcec140cb205bd726beae17a4249b18042c3acde9e29b458ab934d2ef017dc4",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-general-01.png",
+      "Sha256": "17071032e63b9f5037442ade630779cb90aa322639d19e64eb1c4f8d0a637264",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-translation-00.png",
+      "Sha256": "05c2fcec40390c119dc6ed30351f36bbcfbe142801b2015d25cc7d7a70c2985d",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-translation-01.png",
+      "Sha256": "d1422a899f7d1aa431c75b2b526ea4700b43058fb331ed6c5b80b0e0308934a1",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-translation-02.png",
+      "Sha256": "fe05ec10db454993a63c484a447f6bfae6fc2469d2a38089a6cebdfa74b6100a",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-translation-03.png",
+      "Sha256": "1cc3be1a3c0cb7d83880d38d7e8e8d9e1ecd367ed912fb34db026e0e0ef09101",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-normal-preset-menu.png",
+      "Sha256": "d3cd8cd691f3e7e9efcf3a7e17ff5fdcf9a9351ea1b55d2ca0c64536371131e7",
+      "Width": 258,
+      "Height": 388,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-hotkeys-00.png",
+      "Sha256": "1c96fa729b5721b864199ac39fae8029950891b9bf80bbfaab24af8bc22e027a",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-hotkeys-01.png",
+      "Sha256": "7e3216ed8b944554ddba1b37f885f707c7ba6748698c2ebf566ea120d294e1b2",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-hotkeys-02.png",
+      "Sha256": "540ed841f760296a38feedabc3f1cf0542c99dc1ea93f518eb4514b00ebddb92",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-selection-00.png",
+      "Sha256": "b3bc8e3bcd170a3e419e72cdc742103afcf66baa2c003abbafd2ecb77a4e3066",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-selection-01.png",
+      "Sha256": "4c915f52fb3a48c562c902050e9f8bc00f34e9579cf155e083f56dc8734129e4",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-selection-02.png",
+      "Sha256": "ce294b1c26a2b962a7487538f3176bed10431f19d0532868706b5266d4f1994b",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-selection-03.png",
+      "Sha256": "c4918fa19c8a42d13ebbdbfda91e4164ded12b28279d3ef7bbc26cb7d0ded154",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-ocr-00.png",
+      "Sha256": "d4b25c188325136bcf6ef6b6caa8ae9bc1124b44fa356d39a6cb3eb9991f3a4f",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-ocr-01.png",
+      "Sha256": "42f6ca8487e6abb2228f4cd5e29310a6ceabfdd7b66cfd597bc1487020c41323",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-ocr-02.png",
+      "Sha256": "29dfd187bd65239198e8358eb9fc878096d724ea30d7935794e90d75d67414b5",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-ocr-03.png",
+      "Sha256": "0f89bca8a61ec66c059244cfd20e68a2b328fbe6b5e84a9482cb1497c434a008",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-ocr-04.png",
+      "Sha256": "5a1906155114d2b24e4c16c0a2a49483a1743826a55e66f16092dbeca12ec449",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-screenshot-00.png",
+      "Sha256": "2baa20e310a6d5cb9c881befdeabb0a643f431954941e1d56fca0d009e4110d3",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-network-00.png",
+      "Sha256": "f7e78e35e7e79a0fbbde373a080a328142a0edcb10713ab2c20bf34a86700062",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-network-01.png",
+      "Sha256": "9f15af5135bdc9fd4bc72c6a539aa6ab125c03397131c1d50aa147fd1772c6d8",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-network-02.png",
+      "Sha256": "661e09fe53494006656e5e731d9af4d0c81fa6d7a8f7c47c6a2fb8bf8a4bbd5f",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-history-00.png",
+      "Sha256": "db6c15542b6bd825dcebe4712a00fe9287884fd36b63ad728811ef3fe16c3792",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-anthropic-00.png",
+      "Sha256": "01cb6a9d53aa22505bfb83b1fbe424ede36622a60ff965e9ad475135befa234f",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-anthropic-01.png",
+      "Sha256": "22862ecaa201c647dfcf3f221ca07b58bf5ceb90ea7d1a42c0dcaf9a97e91342",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-normal-settings-anthropic-02.png",
+      "Sha256": "5d7b4ca73d4cda00f349e691005ceed96feb9ea2fa828f105b17b1e4c75c07e9",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-normal-translation-input.png",
+      "Sha256": "b83986a8738027ad644a88d62a44cbe2149064ae41cc616cd0533c92e8b1777e",
+      "Width": 520,
+      "Height": 600,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-normal-translation-running-00.png",
+      "Sha256": "74743d9ae46f26a894fd3e67a618b9bd3ac68186297a7f8cce2acefa8e6ad785",
+      "Width": 520,
+      "Height": 600,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-normal-translation-result-00.png",
+      "Sha256": "2d33ca793bb5cf844437dbd943ff1960da30ac8e25aaa394305f12ce9bbf51bf",
+      "Width": 520,
+      "Height": 600,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-normal-translation-error-00.png",
+      "Sha256": "a8192f5c27f8d28ce8d0109a0651f6ca8782c7c1c5f1c3611afa62381dddda89",
+      "Width": 520,
+      "Height": 600,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-normal-history-empty-00.png",
+      "Sha256": "bede0ab2ed169023dbce5001871eb56cf6265d8e82a127f4d643c4141533334c",
+      "Width": 800,
+      "Height": 640,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-normal-history-list-00.png",
+      "Sha256": "91490ebdc7e77ae14af26417a3bfbd61c9a9c504ab356ecf753c40a89d09c96b",
+      "Width": 800,
+      "Height": 640,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-normal-history-detail-00.png",
+      "Sha256": "ec63ae162aa19473e8498c043c5850540aab396ec29a60d1773b7d61b9f21aa1",
+      "Width": 800,
+      "Height": 640,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-history-detail-01.png",
+      "Sha256": "aa6718c0ceaf20916439ae6b1ac781587fb7104df6fb6152da11519bf08ec274",
+      "Width": 800,
+      "Height": 640,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-screenshot-drag.png",
+      "Sha256": "8986e2100b21e4231e015a1e5cfa9fb392576cbcd5d5b2ae9b14734fe89417ea",
+      "Width": 640,
+      "Height": 360,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-screenshot-confirm.png",
+      "Sha256": "47b19d5dc6fa482a98d9b330df5f09f01b05d5a2d6fccc140bb092ea609dda84",
+      "Width": 640,
+      "Height": 360,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-normal-tray-menu.png",
+      "Sha256": "4814a05812be286007796fe883bff30713b62ca765b1ac5f4a64849116e60042",
+      "Width": 200,
+      "Height": 334,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-normal-notification-content-00.png",
+      "Sha256": "706e70075fda63d20c3729cc865d47bbe03ca19f1898d8c15b795cb51d5358dd",
+      "Width": 520,
+      "Height": 420,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-general-00.png",
+      "Sha256": "b810108209c6e42d3b5b5f83275044b18bc760a11f3535e2bcd4d9bb62a21b76",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-general-01.png",
+      "Sha256": "9657b0e1dd44eff50f76deb491c6da56162d7f4a3fa1678e31ad86ba30978c14",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-general-02.png",
+      "Sha256": "5c712953914ebf2fd568f5383238a52dc4e8984cd4c4ea374715f0ccdd09e57f",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-translation-00.png",
+      "Sha256": "77163e1b6b1e2299ff48fbcf3f41e2f257d72991a899e4cb432c33c250e2f0fb",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-settings-translation-01.png",
+      "Sha256": "7d20c4e3495454d8b38b78cdaae3ac05ae2040b229d5bb1c8b5d42e0bee05090",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-settings-translation-02.png",
+      "Sha256": "e31ab4de78e81c0d27af16dce94b414610bc0ff3e2f46bb90c0d0e44f75b40fa",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-settings-translation-03.png",
+      "Sha256": "78163f1789eb05d6b993696d67d92914e8199088633c9ad641238787a51c3fcc",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-settings-translation-04.png",
+      "Sha256": "92bf23dc909d5912a6da86e795b09ad317e88dc7d0e3ff9021ad62fe4c832df2",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-settings-translation-05.png",
+      "Sha256": "4fa9127f518e15637229f738300701083a46383f61b3e0768d7b106980a784d7",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-settings-translation-06.png",
+      "Sha256": "60b49d83c673c060c775ab87899a21146ca8e814dde7e88816e2a6fabc80e39c",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-preset-menu.png",
+      "Sha256": "d3cd8cd691f3e7e9efcf3a7e17ff5fdcf9a9351ea1b55d2ca0c64536371131e7",
+      "Width": 258,
+      "Height": 388,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-settings-hotkeys-00.png",
+      "Sha256": "dd5881fb33c42881888ab7e0eab8d5cd76821731f9cec8c13174972c866d5716",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-settings-hotkeys-01.png",
+      "Sha256": "b16a89b83c8ac435cfabe048cbe09cec0c5a149a83c73b3f139d2ce03a320a7e",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-settings-hotkeys-02.png",
+      "Sha256": "8e68add4ed6c7d5c81a9c7ebf571c855bdf785724a6580c32983f8cdea3bf979",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-settings-selection-00.png",
+      "Sha256": "779d67acfc1ab1a5852450a6764d0ea605d392cc32f58dbc8d2179ac2016e893",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-selection-01.png",
+      "Sha256": "9cf572146c98be28ad672b342aee8bd567ca83273ffdfd0c0d2f93d47b9f09dc",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-selection-02.png",
+      "Sha256": "9cdaa84e90ebf4b90dd085f5d3d7e20a03c69cd8793da654e58c23a5f8cc5735",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-selection-03.png",
+      "Sha256": "1e430146fbe45ff5dfc031b04c67adfe4b0ba8ef8950229fcce4f2ba3c6c1b0c",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-selection-04.png",
+      "Sha256": "0f9275eb90e84ecb4999301288c21936aff696e245c9d6999bcc94b6a978ee60",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-ocr-00.png",
+      "Sha256": "36112de5d188ab3431916b45e3bc03b89849bb7fe9de3900e748679689f56bf4",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-ocr-01.png",
+      "Sha256": "99be864161a3041994155fb9af61dd5623b22cc1ca2b87ff451c05a2baab1454",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-ocr-02.png",
+      "Sha256": "39e8f5fe626dd1427116d19e6c862ab5cc68a5454fc52aeed6a2d6ef796fa19f",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-ocr-03.png",
+      "Sha256": "1a8ec79e146b55c9d3eecef537c5a89800a623c0b90c8b741754d17435cc53f9",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-ocr-04.png",
+      "Sha256": "73798c8bc14467b0e2d7d080ffc3ee7fdff101bc255f8bc747e2378a16098d90",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-ocr-05.png",
+      "Sha256": "681c2394aa67135a9a9f7f302d290fd1b07bc4183128bc4a756e266c3b208fb2",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-ocr-06.png",
+      "Sha256": "3b53e8d0c47de3f4c596fb1a484bda340738e4c4f6e1e39fa537b189d5cdafe3",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-screenshot-00.png",
+      "Sha256": "467a05cfb508b162f689c823a392088334fa6696a8c74e007f367c51b65a27bf",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-screenshot-01.png",
+      "Sha256": "16f7ac696c0e33499e2d99c3df94e67f85278c98bea237f4f72c89008b5664cb",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-network-00.png",
+      "Sha256": "ddfa9ea39d15c2fb17688e507fec9c2b6af3d807c2ddd5989ad7074db52dee1d",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-network-01.png",
+      "Sha256": "813ed9b87c13484e2814ec87ef10526531af04536fd4aeda08d7e9fa1ac99d18",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-network-02.png",
+      "Sha256": "8fc0275e855acab633accbf462bfbeec96452e34da84ef1f7e3e2ecbac1abdb6",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-network-03.png",
+      "Sha256": "efd89a5ff934302a5a8d21547dedd5fb7862f913e846f0748bc1a2090c5429b0",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-settings-history-00.png",
+      "Sha256": "5cf16cb9e07d2fc7f2f24df912dbf1436ab1b5f39c204a1bdee0748f32ee0261",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-settings-anthropic-00.png",
+      "Sha256": "3de184dd44a8208e1444583e191b466202d0764a6a1c541c469c61b106ef5f5f",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-settings-anthropic-01.png",
+      "Sha256": "c4ccfc702a40229225081b92110c1a4003fc56c81585e450b6d766cdce30417e",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-settings-anthropic-02.png",
+      "Sha256": "24f405bd163a8bc5a90dcec72a0214a4011c05df56554bac0870e4bd09e89326",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-settings-anthropic-03.png",
+      "Sha256": "b10ee354ac9c0becef9cf28c15e34942e1b1794edd778dd8bc44dad144cce5cf",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-settings-anthropic-04.png",
+      "Sha256": "f571c6be6ef317b8d063ffac89c9a008a6d10538820bde70b8deb562ef504246",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-translation-input.png",
+      "Sha256": "db449b4dffce43490742890c1f34e670943532ef85fb24660e760b8a35707f35",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-translation-running-00.png",
+      "Sha256": "9bfceffd51050c09959aaf6892f6c6ea057882153a77f9ed6242eb4f9320d9d2",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-translation-running-01.png",
+      "Sha256": "5ad0915baa2950a10ef717c93458c3f4badc17167c015a40c58d8f26ca60fb82",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-translation-result-00.png",
+      "Sha256": "bc51fe2454b2c97dc92294e52bbced8994db5b07ac95090a7e1a640ebdf0ea84",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-translation-result-01.png",
+      "Sha256": "d8b5b9f3efb9341e61f9ff8c4b42d44c0a18ee0a03532f7c952da0e395eeab0e",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-translation-error-00.png",
+      "Sha256": "5c7045c0451c420c574feedf54cbfe3f042adf63bd46f7c099b08217734cb54a",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-translation-error-01.png",
+      "Sha256": "1744fcf833759abfc53ed8ac2b85bb8e9412a377a2cdcfad98010090f6673a21",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-history-empty-00.png",
+      "Sha256": "335938f0a578a94c45bedeca6d5261954ef4391323f4bf2acbd877fbaae35a75",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-history-empty-01.png",
+      "Sha256": "0c13c2bad73def97440fabdb17609e45a807ffad97fea52e5f7e44e2fdd68985",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-history-list-00.png",
+      "Sha256": "35c31229a1d5becf549e79a0c475c13b5dc822f09788073c1f4f5f90341ae544",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-history-list-01.png",
+      "Sha256": "c5095e668fdb627158e1224c91334f24883c57288a30a9ca8bb0df8232a947f9",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-history-list-02.png",
+      "Sha256": "c0dcbff65bc4cbdac53d76fa83ef31ad99a31b7167d43fb24468c8c971d4cd9c",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-history-detail-00.png",
+      "Sha256": "6bd9ca965dd390f2404e0e836977002067e8a40b0f1789d2a2035d49cad5b6ff",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-history-detail-01.png",
+      "Sha256": "1b6ef2ce7512e87c54b34b46fdfbce50f59047e47347ef4f58c55880820b3f2e",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-history-detail-02.png",
+      "Sha256": "5dc74abde6d2a36fd8d7488341388cc32e9a2ee12800d5c246aab4dda0a0c3e0",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-history-detail-03.png",
+      "Sha256": "943ef54a719638e304660e17b69624459c10b758c05564ecd6ca984eac1b62b9",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-history-detail-04.png",
+      "Sha256": "e04b48447f3a1815efb19d6e5c5c66aea1869c6146652b1007d2c73c4fea79db",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-history-detail-05.png",
+      "Sha256": "2d7e2f05c8aec0e8d7ae42741cbbfcb104cc5bbb514baf8ad951d8b111f07d01",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-screenshot-drag.png",
+      "Sha256": "a402c6937152d9af484ee219805c6fd446c6ca6c8c8ef6edce8d3e62fb20b994",
+      "Width": 320,
+      "Height": 180,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-screenshot-confirm.png",
+      "Sha256": "eff92017f0950eff4102c42c9f302d8a0b9f1ad70c6de8ce4ec45be436ed4b63",
+      "Width": 320,
+      "Height": 180,
+      "Unchanged": true
+    },
+    {
+      "File": "zh-CN-dark-small-tray-menu.png",
+      "Sha256": "4814a05812be286007796fe883bff30713b62ca765b1ac5f4a64849116e60042",
+      "Width": 200,
+      "Height": 334,
+      "Unchanged": false
+    },
+    {
+      "File": "zh-CN-dark-small-notification-content-00.png",
+      "Sha256": "e8076ad558471d32981cf1ee9b6a64a58ce2886a7105535cebb1c2d4b4a909ec",
+      "Width": 320,
+      "Height": 320,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-settings-general-00.png",
+      "Sha256": "2b0700baedd14eb11b7184babcf932e90cfcb4b9247f2ec4c6c40d6645f1ca2e",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-settings-general-01.png",
+      "Sha256": "d0bc163b7f840223c192b1943020c01a364aaaac807f85bb6d1c6916cf9785fc",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-settings-translation-00.png",
+      "Sha256": "6c2e8d973f235721fc5f2cc5ac90dfb58f53694155380f7f8fdf880b25f4f488",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-settings-translation-01.png",
+      "Sha256": "6d5943d4f81be2df234e1558b68c5f8e97d6ff16fb20f6df448d67d5944b5b4c",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-settings-translation-02.png",
+      "Sha256": "7bb1c5ca118b990ce80e4cca275f9df8eed6ca53c26c47d4f30f0235c4811d7c",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-settings-translation-03.png",
+      "Sha256": "bced713e147cca353956e13584dbfac6defa33600d63a452ff484ba0a04ce6cc",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-preset-menu.png",
+      "Sha256": "1f37c0fa78055f2722fb95fdaff3867c8545af52475904473fec9e288aabf572",
+      "Width": 344,
+      "Height": 388,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-settings-hotkeys-00.png",
+      "Sha256": "b14a3aa8e0d0f8104c005f90b2e956f4bad08d56affed33c9c5aa25bfc2da6fb",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-settings-hotkeys-01.png",
+      "Sha256": "70a4ccee066b5384060952d19b9ba8f4435a17231f841a68c27e4f9a260eebd0",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-settings-hotkeys-02.png",
+      "Sha256": "cc8da64bf7b3c692a80357f1a0eb24b1c8fc66a737fcab039823bec6c3943be8",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-settings-selection-00.png",
+      "Sha256": "fce304555d92ac24bda94a400dc75cdf41a5cd8206515c60978a40e87ea70a31",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-settings-selection-01.png",
+      "Sha256": "9d3dadffc538b7e96571f5af9f752db98259ce02ed7a94604bd9026f944e7a9a",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-settings-selection-02.png",
+      "Sha256": "6dd93f396ee526aa20dcbcb6a626347ac86c086ccf9ab2940253a221d5291775",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-settings-selection-03.png",
+      "Sha256": "d69216c76b30cd0039b2bebcda0b9664779b959707c5cc7251a284376c547f87",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-settings-ocr-00.png",
+      "Sha256": "aa0b825fd1e38f4a414e1b39d27f3985fc0b6b3d00e77ddb924d207a88e6bcc4",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-settings-ocr-01.png",
+      "Sha256": "69e583a667db8222719e32ccfae6d476ed338618835cd3805403e73780501bd0",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-settings-ocr-02.png",
+      "Sha256": "f5567c20552e0cae8b3ccd5b24b180e939f5f1e6cdf1f435faeb72e96949fffe",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-settings-ocr-03.png",
+      "Sha256": "869848e5e8a5586a995aa4a9a320f5bd8f25de5e51f0885ace8091c35008ed16",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-settings-ocr-04.png",
+      "Sha256": "14b298cd086c1f95e1721b8576e823db229be71ad4a91b1b4877043b3d541206",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-settings-screenshot-00.png",
+      "Sha256": "cad5b27f2e0a38c50b3204dcf95e63a991b8425059cc3af5787a8fc0342c5554",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-settings-network-00.png",
+      "Sha256": "b87653f88addb2c86bd52705bf6eccd3befae6a3f25443a4c1c5aacba10293fb",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-settings-network-01.png",
+      "Sha256": "e4d14825abcabad25e8c6a207afc433e503c187cf20b444c99e0ea1b087c9ed7",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-settings-network-02.png",
+      "Sha256": "9d2e0806adf06a1f10f1b2699ccdeb507d64fda6b089c5027397b8d6e0c37796",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-settings-history-00.png",
+      "Sha256": "4798cf4cbb89d286701929469b323d0afb4329971aec966ea33d5b2856459c8a",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-settings-anthropic-00.png",
+      "Sha256": "54c5a6399ca25c78de63a148bb1dbe94e5a8947f1f46b2b8aff7039e58b2bfab",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-settings-anthropic-01.png",
+      "Sha256": "5e36af12407cf60c991e5048909ad0f4049b4619b43664074202b333dc26c370",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-settings-anthropic-02.png",
+      "Sha256": "15580720b58c7ea5f5a9e85891636c8b6d4af4b949a7eb218ededd580fddd7c0",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-translation-input.png",
+      "Sha256": "a48db5fd839aebfd64e9c9719744a635d09ad19f08f5156c8790a0c148aa3aa3",
+      "Width": 520,
+      "Height": 600,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-translation-running-00.png",
+      "Sha256": "4fe91a73eb90b1626dcc7d16ff16c2e45ca983085c81f76991ff9b1120200771",
+      "Width": 520,
+      "Height": 600,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-translation-result-00.png",
+      "Sha256": "bffd08eebda744ae1afd95f614f2d6f84394a9c07b6da6bd35e97f3a69290452",
+      "Width": 520,
+      "Height": 600,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-translation-error-00.png",
+      "Sha256": "0fa6a84cb94d1accec51bd713403625eb87046a7c4d143e8d1ab4e0857a28f5f",
+      "Width": 520,
+      "Height": 600,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-history-empty-00.png",
+      "Sha256": "447624afb399bcd263089a823cf3557b7fa705d331f69daf8a395355065d3dd5",
+      "Width": 800,
+      "Height": 640,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-history-list-00.png",
+      "Sha256": "0f3a06fbd3dfd1bc21dae92d6d11a775c12cf16e2fbe4ad5d7c6d59f417e7c0a",
+      "Width": 800,
+      "Height": 640,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-history-detail-00.png",
+      "Sha256": "5b22193a755eb8069e45a9d89f51a273f84bb44ecb454ece3dff9e6f6ae7fa6c",
+      "Width": 800,
+      "Height": 640,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-history-detail-01.png",
+      "Sha256": "a15aa30b541ffd822527f1ba994b8aec681bbd09f78d3ad29eb58a34d0c940a6",
+      "Width": 800,
+      "Height": 640,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-screenshot-drag.png",
+      "Sha256": "825f419015200deef1e5fd4cfffebcedc0e486ce5f7af98830389fc2e2290ede",
+      "Width": 640,
+      "Height": 360,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-screenshot-confirm.png",
+      "Sha256": "c782b82e52386e3f58ba8ace15a3bcfb0dc609e10fc061900ca616681431c0df",
+      "Width": 640,
+      "Height": 360,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-normal-tray-menu.png",
+      "Sha256": "a3355c0dca60f4dc0693f3b2463eff7429d666a01ccc16e79c5fc9bc2c7a959a",
+      "Width": 236,
+      "Height": 334,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-normal-notification-content-00.png",
+      "Sha256": "36d29f136547511b837799a9e0003ddd0e6655535891e0feb87bbbb8cd535f90",
+      "Width": 520,
+      "Height": 420,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-settings-general-00.png",
+      "Sha256": "5714e630e9f0160e64a7358d4c0687e44c740999a8db07616968497529f90184",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-settings-general-01.png",
+      "Sha256": "e973721d5ab3699bbfa77b8ca730a5db4b094e782a716b0c31b41f18db63c029",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-settings-general-02.png",
+      "Sha256": "80c9bb05f22144404a08132694af448b707b1726e2990e3c26cc3aef3c2f2b4e",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-settings-translation-00.png",
+      "Sha256": "584f6669b1eb28d6db97bc2c3c923c4c86bf9019d3052bffe6fd72995cedd7ec",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-translation-01.png",
+      "Sha256": "9af4d90e0be333a41c8fce83caa7be5bd16f672106bd698541d6da43d7a99ae6",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-translation-02.png",
+      "Sha256": "eb4f3f7912c6d50679db61b66706029534e4ad654ac2826d4a9df7e9dca47467",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-translation-03.png",
+      "Sha256": "487137e3e812b22933bc8e11426fc81ece9a4ba3a244e7951d6879695e1b519d",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-translation-04.png",
+      "Sha256": "ebadf92fed417adaf67ec08147680101ffbc3326a7b2d22088957813ca0ac582",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-translation-05.png",
+      "Sha256": "78c228a18525ea52febb6e13201823d9d9222d23657071d2a76d69a1ebb103a4",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-translation-06.png",
+      "Sha256": "540f90f1a453c14dab385ab1b994d1bc21909dea117400ff672b1360d248c1d2",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-preset-menu.png",
+      "Sha256": "1f37c0fa78055f2722fb95fdaff3867c8545af52475904473fec9e288aabf572",
+      "Width": 344,
+      "Height": 388,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-hotkeys-00.png",
+      "Sha256": "349ec1f15a842ffed41613dc2ff867421d6e42c7c755d4562e8faee1d6b05db7",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-hotkeys-01.png",
+      "Sha256": "8af75afa347e9f0fb70fd72ecf2a1905d28ce37df7e1a9186e9c7793145d6f6a",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-hotkeys-02.png",
+      "Sha256": "a76e95ff659bb631b81475bc06b6f19e54aae2823a4fb0461d1c6aa62a905c57",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-hotkeys-03.png",
+      "Sha256": "ffde99e53f4334d0940eac02cc162a6ad7f7d283615b9eef0ba98dbf9c9a7516",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-selection-00.png",
+      "Sha256": "095b1fe1853e65dd28833463a32e76f76a459adc811069ea45b89d4701c1601a",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-settings-selection-01.png",
+      "Sha256": "56924c94b41f19830bcf2d616f4528247b13649e0a37f29e71781cf3dbc610c8",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-settings-selection-02.png",
+      "Sha256": "d474def6a358f9ba2e10a58051d9ff3ad4ad987cd1b158eaa64b7adea2db3b9d",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-settings-selection-03.png",
+      "Sha256": "7d2820e0a6c3d984549a0ebb96dd8d7d956eb8bd8cbc6670a37c21d62bfc9f8b",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-settings-selection-04.png",
+      "Sha256": "54a586deadc8d01f1d8db19497ec0dc2caebb05d59f44cb79547c7f2e11e6afe",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-settings-selection-05.png",
+      "Sha256": "3b93ee6194f49e61ce439a404a8fb68bf2be36a1d348b518be7e591ec5f46511",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-settings-ocr-00.png",
+      "Sha256": "b5e893d52887b6956b83c097c7738889cbfd05511630630a4d997f678759d2c8",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-settings-ocr-01.png",
+      "Sha256": "4888bd07e6d53eb0ae6e66a347214e611e7ea078bef64e7470a4d96e4e8c079f",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-settings-ocr-02.png",
+      "Sha256": "a4df77d17b50ac2df0018064fdcf137ac6f0028927eeecc68dae2336eabdb1b9",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-settings-ocr-03.png",
+      "Sha256": "9a8928f0eb16ca310dd8a02a94306e7b7202a3d7b5b64a4fbf888352e471444b",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-settings-ocr-04.png",
+      "Sha256": "e895f6421ea3e3b348559ec412df28e1f923f9ac0fd3e0411fbb601b7e3b9732",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-settings-ocr-05.png",
+      "Sha256": "52ce68d02594732475a8ce59295d3454f85f6aa2fbd8705a7534e043115654a8",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-settings-ocr-06.png",
+      "Sha256": "3fe2d5877c4104fbc7bf95edafa4a45ebbeb911ba68edc1bb5d2ef12804815aa",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-settings-screenshot-00.png",
+      "Sha256": "66043586b8246f0bddb23406c4ac841cc8c8055dab5a6b047aeaed60f1b76196",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-screenshot-01.png",
+      "Sha256": "5e615cceb2b9b78537328f3ad9f10b48f10930c6caaf805b906df95cb01d982d",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-network-00.png",
+      "Sha256": "16700dadf207e9fab89dfbf13cf5ccf1b23f46ba7e67c35d22160e714ebfb22f",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-network-01.png",
+      "Sha256": "6f3cf46f1a2c82308d60018653dfdb0262aeda2b55c94a715bc26ba0bffa8ae0",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-network-02.png",
+      "Sha256": "6cda6874db5a26bb443ca2b5d1cf841691a845582e638ae566f0b6b81d09f1c8",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-network-03.png",
+      "Sha256": "720b4642cd02050d76efb75c92ba7c8bdb0e2091384ddab107914db601fb6360",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-history-00.png",
+      "Sha256": "eb941828e35d61826e3013191885aaa3b3105b0611b69c3cc4f7223d1692aee1",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-history-01.png",
+      "Sha256": "4c532755571859ff5172041fb74207bc26a729decdafc603403d76486272ae24",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-anthropic-00.png",
+      "Sha256": "12375160c0803854a3e37c9b72834fcbd93f873e882d4dd9f0e5b7649d547d05",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-anthropic-01.png",
+      "Sha256": "078db6f38e3792ae1430107cdba7a5ba7772d07fda6a9f7a706fac7db370a577",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-anthropic-02.png",
+      "Sha256": "ee32bb0749d4b05b4cd38d20bdd0304a66fb5f8504bb367a488bbeb8687ff046",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-anthropic-03.png",
+      "Sha256": "d81a8353ad6bc22c8a0bfc0506da3b977cca25d8c3b94d9c9a9dffe5b78b89d4",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-anthropic-04.png",
+      "Sha256": "2ad0033241215f81275b7b3c8a6980876c0f9ca7b0c1a243f78c65d864d6bed8",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-settings-anthropic-05.png",
+      "Sha256": "133374f8cce5087ba05d6c2f9550bcf33e51769df515cdba40a4511038af90ec",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-translation-input.png",
+      "Sha256": "92888fbecec63a05112fd79bed26ab358026e9e6389e14c5e8286cb2b12d8ee4",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-translation-running-00.png",
+      "Sha256": "285398dbd0b757f79b76692403c002ea703b5787dc1e43ef91d19f6100b0508a",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-translation-running-01.png",
+      "Sha256": "934426ca251f10ec60b13a50f7471e1545195e2e6d4a6e940b3df102c7b198e4",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-translation-result-00.png",
+      "Sha256": "cf616798c030a8c991fde1c2ac7e38042e4353a2e2744bcf75cb8b07b2fdba94",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-translation-result-01.png",
+      "Sha256": "9a4217b7e44aa15c462af1f9af3d6d9b81d359bf6456b16941a2d5f7dd4c7446",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-translation-error-00.png",
+      "Sha256": "43173493efa65d7361b528d793ce6341093ad6fae7f46d6476e36923f18b503a",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-translation-error-01.png",
+      "Sha256": "078f7e82da76646229a4895fec3cc7f5f566887f87b6ea91d326f9d32f313964",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-translation-error-02.png",
+      "Sha256": "7deb3047989b8de5a7f430913c15693fe0ca1cd1e447ab3276bfbe0f3a25d1c5",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-history-empty-00.png",
+      "Sha256": "dae68a0cb49f04adb07b28f1292181198d8ee02bb66f1fbb1330a3837a0ff30f",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-history-empty-01.png",
+      "Sha256": "1ca79cc564632329fbd825ad8979eb38e0da1d55f79571acb11a575741c1a9be",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-history-empty-02.png",
+      "Sha256": "85afca2710016c5b8ed645896cc174f5acbb513933610915449a16dc9591c911",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-history-list-00.png",
+      "Sha256": "df3e6d4a8d52cd5d0c15bdbdfc098cb7924c49209d6560bc19092daf2c9985e5",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-history-list-01.png",
+      "Sha256": "eaed25cac1ec8c24377048da6cdec9395582a96e5468c5d29dd05c4bea0e118d",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-history-list-02.png",
+      "Sha256": "89425703a5532ecdca4a63ba8a48c43869acd9623852d24f0dc998e1328a3996",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-history-detail-00.png",
+      "Sha256": "e7a8c43030fd46f3a6a5a3fbef014481ddeae22c84667985a565d45817f4fea9",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-history-detail-01.png",
+      "Sha256": "1c618785f4e759a8b19c778407ceecb9f4fcb7fb6034f7d44bdc7b2401d8e5e1",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-history-detail-02.png",
+      "Sha256": "8390f4de4b01eaca0e783c9382767af24b76cbc33a9c3d5ecd441839a9254d49",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-history-detail-03.png",
+      "Sha256": "734e1bd1a02e793ea14e0a586c6436e7ee6435c90e2015093524fce0fbb16deb",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-history-detail-04.png",
+      "Sha256": "649fc39fe30cac42ade83ba7285f6deec2c5af0a88529f64d289fc5b2eb4cca5",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-history-detail-05.png",
+      "Sha256": "fe29900a185a5482732bc2a237035f0615d31aae93233b71a8fb392c95633ba7",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-history-detail-06.png",
+      "Sha256": "8ef8bd281044d81ff7c71d01183e497525f42a53631e6e26a5e8b4e7e1b2ba84",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-screenshot-drag.png",
+      "Sha256": "76e57d94015d2f1bc7668a53be6b2576235e4b9cd6f620d2136773a346169ff7",
+      "Width": 320,
+      "Height": 180,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-screenshot-confirm.png",
+      "Sha256": "ca9473d23be5a4778be863e441f84a7d2b62b4a9ec8b4c7560f65c4eab715a37",
+      "Width": 320,
+      "Height": 180,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-light-small-tray-menu.png",
+      "Sha256": "a3355c0dca60f4dc0693f3b2463eff7429d666a01ccc16e79c5fc9bc2c7a959a",
+      "Width": 236,
+      "Height": 334,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-light-small-notification-content-00.png",
+      "Sha256": "ea3aba7ed77f9d4f45561f3e5384ef7f97c835b78b8ab58d5afb85d33cc1c3d5",
+      "Width": 320,
+      "Height": 320,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-settings-general-00.png",
+      "Sha256": "fe07d51d68d51a92d28ca1376b8113bf275e18f9f119f1b8cbfa5ae7616bb07c",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-settings-general-01.png",
+      "Sha256": "a48cde0d465f07c5ab17eda21d2db22d4714c99ead3d7d655b1e7b3dcdabf6b5",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-settings-translation-00.png",
+      "Sha256": "e6ebd8fe9c69fa9d42a32c9040e3af43d4ad538d86d6d97b7e27ecee064d1880",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-settings-translation-01.png",
+      "Sha256": "debf1bd0f85685f6f492a0f8af513f2cf1825aeeeebcbc6aa65eda3d4e99ce2b",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-settings-translation-02.png",
+      "Sha256": "9a30679ed46667600c259a2efb64b8a3e794d127155b69ccf6d5e2fcdae6aeaa",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-settings-translation-03.png",
+      "Sha256": "346988031aa269709aa9c06760b35a2db84fc4e11b1e78c574639fc8d421a05b",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-preset-menu.png",
+      "Sha256": "283205d3543ffe411f1f4b5f40e3988708f6c00102cad7c977c248cca70715bc",
+      "Width": 344,
+      "Height": 388,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-settings-hotkeys-00.png",
+      "Sha256": "5191a7023e0e31cdecd99cf617a59166fee58f5477de23faddfd54fbabf61a37",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-settings-hotkeys-01.png",
+      "Sha256": "833be8f3ecbbb047631c6a2c60083c1bf139bbf582a3fe0c34a61db4946e485a",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-settings-hotkeys-02.png",
+      "Sha256": "7e32ff6bfe7d8978c3f8d82b3857bcdb89ba9335668990f000ddca0b77818f2b",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-settings-selection-00.png",
+      "Sha256": "e5c7afd26122db87d20753b20765d0f49e13372a52fbc0921e0758b361624f20",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-settings-selection-01.png",
+      "Sha256": "e9701eef302710d6b8d3381d8826889546910c8fbbc67fb84e753b9f9fa6843d",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-settings-selection-02.png",
+      "Sha256": "4fac3a9d0fdf552a8702026ed66ac7e4daeeceab1ecd48c77c0d279c52498aef",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-settings-selection-03.png",
+      "Sha256": "577e5b4a0202f080dbd9dca2eaea36bef2a6e5f3342742fa1864d362d57f4fac",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-settings-ocr-00.png",
+      "Sha256": "9eb856955ee2fa49aa0e43042225b32d7eb303e0d66a95a75b53e03a5ed7c544",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-settings-ocr-01.png",
+      "Sha256": "8bf9ce76ef8020f156134e0427e7930538cd8035c2b5f5103e990d170028c92d",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-settings-ocr-02.png",
+      "Sha256": "408a2798fc9e0a313c3f3866fbeb66b275a2a8bca2cb8a93f38ffcdae7946d07",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-settings-ocr-03.png",
+      "Sha256": "5661e8cb901ef62ca1420fa1838f5bb293ed23fbbc9c3117ee7c8672c68a0b17",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-settings-ocr-04.png",
+      "Sha256": "956ce16a92732e26e66a3689789d11dee27ea63379867d146900452ca2fb9edd",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-settings-screenshot-00.png",
+      "Sha256": "950bfd58b4db903041e0ccb78c76aeb5858ab5c40bec74e183b55af744eea4fb",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-settings-network-00.png",
+      "Sha256": "2a449130efbda207f44c87337377cb9e8e83ccdb66d26e760862faf8a16b39cb",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-settings-network-01.png",
+      "Sha256": "e1cdf6945461869bcb6993b4a9a3f4f03a9ac7acf8bfcc00c7cc0e627e36220c",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-settings-network-02.png",
+      "Sha256": "7a3b133e328c72c15592256d7426bf98901c89893cb719d86900135d607b9965",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-settings-history-00.png",
+      "Sha256": "9f78d6db6315734e9a76f7bff501197707ff881f721183b8bb97ed11b32023fc",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-settings-anthropic-00.png",
+      "Sha256": "a567303d49987c08aa84aa8b3ed0e770597165f060aa4905016e6e173a0e92af",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-settings-anthropic-01.png",
+      "Sha256": "0e4ff713c8806883df1262fb9f044a6ef3022febb6751ed41e38534166aa1bb2",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-settings-anthropic-02.png",
+      "Sha256": "9f55f429df9edb383614f04114300e5559dfaa6280959101edec0501c8de4351",
+      "Width": 760,
+      "Height": 520,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-translation-input.png",
+      "Sha256": "9dffa0c407f8aa85d464890e62abe72e8bd3eb6f2e4b2c652ee9b057eaa9bfbd",
+      "Width": 520,
+      "Height": 600,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-translation-running-00.png",
+      "Sha256": "757ce071c30d2579572afe14f66c9d701779a2e210ac67e7c40f31d9b5c17e01",
+      "Width": 520,
+      "Height": 600,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-translation-result-00.png",
+      "Sha256": "f67a628ee4f26e3bc4486accd636dd70715fcdb7878d61c107d208e8cea7dc0f",
+      "Width": 520,
+      "Height": 600,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-translation-error-00.png",
+      "Sha256": "a2ca225ad9fe154ac361241212a0970d8cc6b119275858f3a7ca76cb5768d9e4",
+      "Width": 520,
+      "Height": 600,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-history-empty-00.png",
+      "Sha256": "a451ead8cf458a0443b6f7d8bc1000fd84f116ed61fc43fb26237a47c2e32188",
+      "Width": 800,
+      "Height": 640,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-history-list-00.png",
+      "Sha256": "2c476db8c1d80a8322e98cb66112f7c973fa39d35f796ecc86ea8be325e55669",
+      "Width": 800,
+      "Height": 640,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-history-detail-00.png",
+      "Sha256": "36b390bc2a52ef25a73ecc81608549ed05c320ce3cce64976c853372bf7a99f9",
+      "Width": 800,
+      "Height": 640,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-history-detail-01.png",
+      "Sha256": "6d06cd4bf40775b08826e1f54d8ad1bae13fdc8988fd85c2885f7c392c1c1837",
+      "Width": 800,
+      "Height": 640,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-screenshot-drag.png",
+      "Sha256": "403af8a353b223372998746cc4a30a63c9ad1d9e5ebd467935b7e9d8bf25a687",
+      "Width": 640,
+      "Height": 360,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-screenshot-confirm.png",
+      "Sha256": "ff9fa35f5d0321d0bb1a31c34c9281fd264b3642132feaf0fb0dfe942aa2f669",
+      "Width": 640,
+      "Height": 360,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-normal-tray-menu.png",
+      "Sha256": "51480197a8434daf65f11270868fceb5a023b95f1a5ceb26210212ec4ffcbb06",
+      "Width": 236,
+      "Height": 334,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-normal-notification-content-00.png",
+      "Sha256": "2de8a96fe36d5a8d88685e40d74e57c2cb75f6fcd9d5340201d3a7d26e28f5ff",
+      "Width": 520,
+      "Height": 420,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-settings-general-00.png",
+      "Sha256": "ed8188a9fd9b3817ca4b5c20ecbea8f5a9238e46e6210e4496107e4dbe5a0dca",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-settings-general-01.png",
+      "Sha256": "e54e8e0acfaf6e7fa863902f5fe762438bca4c64c2085bfc78e2c6e648adb9bd",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-settings-general-02.png",
+      "Sha256": "266692685af27a512047b3822fc1cfbafb1989c01627cd46f11ad6f718d1a60b",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-settings-translation-00.png",
+      "Sha256": "222e8a3e80f4bf22e03023a8cceef8801ec2a2eca5ecd3e741fa6579656cfae2",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-translation-01.png",
+      "Sha256": "bb8f868e622d2889d0ecba8c8bfc1444b1e75fa51cde409e2de5b67136ff0141",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-translation-02.png",
+      "Sha256": "fb652dbf7febd4d4c4912a4014c88f9e3c9cd38489856b02a853d46079bd7865",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-translation-03.png",
+      "Sha256": "a4906393fa4927a61612ddfe5da17fa48b8b65d8d80a3d7ac6308649d97ab597",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-translation-04.png",
+      "Sha256": "128a338c2b770b5f9f284ba64db77c1809c1d18f438b306dfd396be46f1c35b4",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-translation-05.png",
+      "Sha256": "5c27a7f76abb7045bcb6c31c6ae2c682c2d2b08306ddcebb7a5ee5b637fac291",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-translation-06.png",
+      "Sha256": "5633f11db2eacd0f3fb89c7e06c10e8621a9eeede25ecb15c9c959affa87ce8f",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-preset-menu.png",
+      "Sha256": "283205d3543ffe411f1f4b5f40e3988708f6c00102cad7c977c248cca70715bc",
+      "Width": 344,
+      "Height": 388,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-hotkeys-00.png",
+      "Sha256": "d82794677f0abc6770316577959926697167dfd623edc71988888384737c2fb4",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-hotkeys-01.png",
+      "Sha256": "321411449cb80485379e78875979a769f3b6b7dd31a0dd1a8109272a300d4afa",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-hotkeys-02.png",
+      "Sha256": "ed24fd7d46cfee8a7aecbccb8cdf792496837abda1e4e0c5d5e6749623790835",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-hotkeys-03.png",
+      "Sha256": "71e528e77ec5a161e5cf741e17a586f29039d18c1a778c297ee6154c8e592f2e",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-selection-00.png",
+      "Sha256": "fa5126f57ce80042e508850fb6d23a665beda41f3c4aa74a3a6258bbb073b0de",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-settings-selection-01.png",
+      "Sha256": "5a8f5431bca80304a807faaa899fe699a041a52af15a633c4e8bf3050a630bb8",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-settings-selection-02.png",
+      "Sha256": "3827c26e7b8541056cefc5d26e003fd4623bba988f065dda2f7ff81dfa8915fb",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-settings-selection-03.png",
+      "Sha256": "e576aa9c8f217891a23fdbafe6b7587aae0f6ae444b92e5bf6a4bcf313a9e463",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-settings-selection-04.png",
+      "Sha256": "fa4b44f6f410e302054394ebcdb146a0c2f79a69a6a5eb7573fe96c605c28f1e",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-settings-selection-05.png",
+      "Sha256": "647bb7636e233b06e60f99cfa85fec32935001979bbe2011bd9a3d64ac6580a2",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-settings-ocr-00.png",
+      "Sha256": "19255105182ae422bac576f45578ccb6572f2d26fe6aa963d52a167127950b2e",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-settings-ocr-01.png",
+      "Sha256": "25ffcd6129f0be859d9119db31469f9825fcaa1f4490cd6c7d18c4dd33c0a781",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-settings-ocr-02.png",
+      "Sha256": "3aab6a00fb787e7baf4db3ebc03bbec5fd9b413aedcebfc4548d196907b18a35",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-settings-ocr-03.png",
+      "Sha256": "a2c9d96393b025a6ba965a0a3a3d599b157abfba229d25483c595d61d775ff26",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-settings-ocr-04.png",
+      "Sha256": "75cdd25547e6b556e44cc1da57cf783db29c2302b87f28c3b0961792d1bb0ddf",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-settings-ocr-05.png",
+      "Sha256": "9da19f45e03510ecca2510d240a8531809cda1e87d6eae64f4d756ab21e12285",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-settings-ocr-06.png",
+      "Sha256": "51ec851c35f3769a31f38376334d55778016e69e96dc39024bfa40ef3ab57b41",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-settings-screenshot-00.png",
+      "Sha256": "3f31313b0d3d2ed8a4c862ff31be3e8054a5705937c43441a298fd859e2e37ed",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-screenshot-01.png",
+      "Sha256": "ef053822ae8306cd56da19a0bff9b57c6d2423be9e0977898d6b8567f7f7ee38",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-network-00.png",
+      "Sha256": "0e62cebffc848ea9f9e9a49a2da394f978e9a804c90fc2fc6b03a3ceb65e2e1d",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-network-01.png",
+      "Sha256": "f6b4742c98c58b80e832fade8bda67ad8d39698358ee4ddc3a3a71604da71078",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-network-02.png",
+      "Sha256": "7c4406938e3142443d87945860dc9e165a46058e794a37257a279e58894c7d01",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-network-03.png",
+      "Sha256": "84cce81511d6cb91c5d34d79a8260dc197f25daa47e89441802926aa03f26cea",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-history-00.png",
+      "Sha256": "5f56fcbc60c8716ab79e61a01bb659c846dfaa459f5aa150996f1057513eedd5",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-history-01.png",
+      "Sha256": "f9471743566dfb0f1a8af97caf7b10f50cd38d99d527cfd3512833740397e532",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-anthropic-00.png",
+      "Sha256": "984621a66fc9ef6845839e8273956a3ea2921d9012eb95c63658fda67074bcdf",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-anthropic-01.png",
+      "Sha256": "1394b15add40a61ae258c51ed64a773a60611705dd257ec9e8bd69f7394aa296",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-anthropic-02.png",
+      "Sha256": "86e48dd19d4bdaf24de67a2da98bff91f4508caeba1f646c83ab9712ee9daae1",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-anthropic-03.png",
+      "Sha256": "f7c0d8cafb0d875252dcee3239e950fda20aea112db00834bc98e156839e8204",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-anthropic-04.png",
+      "Sha256": "0578979b1b1131b7d5012ab2d087d466a3b674b380943dae218d0a1632a80470",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-settings-anthropic-05.png",
+      "Sha256": "32e470a2ea3057ff32bcbb583252b859386a0821c48448c2bbe0083c84eb33ed",
+      "Width": 600,
+      "Height": 440,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-translation-input.png",
+      "Sha256": "59a20fb1e797f9ce422561de6a91f0fedcba897ef36c1f41876d0c81f76b0fff",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-translation-running-00.png",
+      "Sha256": "8a99b05280850c479b972087a42830c5bcf2c23907ab6f822a4022d99c19ef07",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-translation-running-01.png",
+      "Sha256": "c8fbd5037e93bd4657a84d6968d9ec312bbb8d8916a08461de0813c1489396e2",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-translation-result-00.png",
+      "Sha256": "af623812787d4e75a9b2cf7ab737822b74b63241ed4d9e8e4a923a89fba0adbd",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-translation-result-01.png",
+      "Sha256": "c369fc0ad2d236541fbb67fb75b8ff1c77041c896c929ff74572483d83520d8d",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-translation-error-00.png",
+      "Sha256": "bfd23de4046523fa1a3f9505b99ecdcd87c13a5584f4bb8dbc5327c911ba96ae",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-translation-error-01.png",
+      "Sha256": "6a418c569b78a678ab9bc71448598c4fa46281346657424b91ae101fcefe072f",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-translation-error-02.png",
+      "Sha256": "1e3c13b0abf4ee612ae6c3a0dd3fd93a27a54898ffdf48f141a34ea004aac7ec",
+      "Width": 280,
+      "Height": 300,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-history-empty-00.png",
+      "Sha256": "6f6e88e0bc6a03ad9fee121e7e53128a2ebfa89d40497a85f1a924fe7b381870",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-history-empty-01.png",
+      "Sha256": "18d58fa9e8eb7131b341f64a8bad99b0fd6dd2ce266b4b00320b54dd272f00e1",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-history-empty-02.png",
+      "Sha256": "a6538f6c7f960aeb8ae3bee32cc081e7b4119524b69146e8aaa3d2960bd3863d",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-history-list-00.png",
+      "Sha256": "575941597c8e8cdc358fef01827a9da7531c76dd436a97b209df9d5c16e571de",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-history-list-01.png",
+      "Sha256": "af964ccdc4adb5a7a5ca4522571d21cd324f6279ca69581e332bef37f013c8aa",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-history-list-02.png",
+      "Sha256": "8e57bf5cc2b325429a80dcf28405fb7b1e771fe12c6324666a0c0238ec4679b6",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-history-detail-00.png",
+      "Sha256": "658457d7e9058efbbcef08302756bdd64339c1fc5be4d61667e43e9b91cd9fae",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-history-detail-01.png",
+      "Sha256": "a384717cfd98c5f9aa1240627c0dfce345db10ef8d2fe074e1f18682d809d3b4",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-history-detail-02.png",
+      "Sha256": "6b1bdfa09bb48ddda269ead92215cd33d881bccc1dfc814d27588f28f903aefe",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-history-detail-03.png",
+      "Sha256": "ddf3e3b8b41c83c466fe67fa36a86baf27c84bfbf8791e1ee2c7c68f5d9b052f",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-history-detail-04.png",
+      "Sha256": "612b41a4695321dab9f38f2799fb74c512ac9187e7ac63737664126b4f8647a0",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-history-detail-05.png",
+      "Sha256": "576b83e7bb9408345f4a0a37c24a371f9f9e916c406537982c8f76bf5be0e898",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-history-detail-06.png",
+      "Sha256": "1dff9ad3e588884975294d9f30e3211d5bbeb2f463630ba9fafcf0d955047f9e",
+      "Width": 320,
+      "Height": 280,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-screenshot-drag.png",
+      "Sha256": "97f989a800a0941004c75fb8da7e7681b361c76c72c04882470517eedc859e06",
+      "Width": 320,
+      "Height": 180,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-screenshot-confirm.png",
+      "Sha256": "52a1fa60b752e18f631c0ef0e5757b1278e17a637fd3c0d4d0219765a0aa7c3d",
+      "Width": 320,
+      "Height": 180,
+      "Unchanged": true
+    },
+    {
+      "File": "en-US-dark-small-tray-menu.png",
+      "Sha256": "51480197a8434daf65f11270868fceb5a023b95f1a5ceb26210212ec4ffcbb06",
+      "Width": 236,
+      "Height": 334,
+      "Unchanged": false
+    },
+    {
+      "File": "en-US-dark-small-notification-content-00.png",
+      "Sha256": "793813f242d2338cdacf60b3383b3cfdb5d65dfb767824bf1d32d0582c94b5b2",
+      "Width": 320,
+      "Height": 320,
+      "Unchanged": false
+    }
+  ],
+  "Sheets": [
+    {
+      "Sheet": "sheet-003-normal-history-empty-00.png",
+      "Sha256": "4c819f4a3eb638976259272117c0b37c27e9b6812ca0d625b11569eb8a5ac534",
+      "Files": [
+        "zh-CN-light-normal-history-empty-00.png",
+        "zh-CN-dark-normal-history-empty-00.png",
+        "en-US-light-normal-history-empty-00.png",
+        "en-US-dark-normal-history-empty-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-004-normal-history-list-00.png",
+      "Sha256": "3204181e7b3552e1b6ba0fd365440d8bb0d6a7e44e100ce68bda4f5e1b3bb340",
+      "Files": [
+        "zh-CN-light-normal-history-list-00.png",
+        "zh-CN-dark-normal-history-list-00.png",
+        "en-US-light-normal-history-list-00.png",
+        "en-US-dark-normal-history-list-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-006-normal-preset-menu.png",
+      "Sha256": "e363532d80c939844ccf31de83ec46fa98e4d2b51047e3d49d0402a4d81cfe1d",
+      "Files": [
+        "zh-CN-light-normal-preset-menu.png",
+        "zh-CN-dark-normal-preset-menu.png",
+        "en-US-light-normal-preset-menu.png",
+        "en-US-dark-normal-preset-menu.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-009-normal-settings-anthropic-00.png",
+      "Sha256": "0a78a5900d24a606ca1818bb50a1f5ce68f2b1fb35fb3da18ee1419ef67525f0",
+      "Files": [
+        "zh-CN-light-normal-settings-anthropic-00.png",
+        "zh-CN-dark-normal-settings-anthropic-00.png",
+        "en-US-light-normal-settings-anthropic-00.png",
+        "en-US-dark-normal-settings-anthropic-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-010-normal-settings-anthropic-01.png",
+      "Sha256": "15cbe0307ca86f271cd222da5f7c7c130fa6b6ba49c97b637b254fb9db27eb3d",
+      "Files": [
+        "zh-CN-light-normal-settings-anthropic-01.png",
+        "zh-CN-dark-normal-settings-anthropic-01.png",
+        "en-US-light-normal-settings-anthropic-01.png",
+        "en-US-dark-normal-settings-anthropic-01.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-011-normal-settings-anthropic-02.png",
+      "Sha256": "17083e7cd195426738adccc48703f18d3328030e9d9948eb3f34d8b5c1d7a417",
+      "Files": [
+        "zh-CN-light-normal-settings-anthropic-02.png",
+        "zh-CN-dark-normal-settings-anthropic-02.png",
+        "en-US-light-normal-settings-anthropic-02.png",
+        "en-US-dark-normal-settings-anthropic-02.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-014-normal-settings-history-00.png",
+      "Sha256": "ee672b6cd98eabaef6eaca369a6eb442f01d1aab2cf4c04ced40963b28ec2b4c",
+      "Files": [
+        "zh-CN-light-normal-settings-history-00.png",
+        "zh-CN-dark-normal-settings-history-00.png",
+        "en-US-light-normal-settings-history-00.png",
+        "en-US-dark-normal-settings-history-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-015-normal-settings-hotkeys-00.png",
+      "Sha256": "0c207817d8e9cb1311babb606797ce3eead39031bb796173936975693402fd77",
+      "Files": [
+        "zh-CN-light-normal-settings-hotkeys-00.png",
+        "zh-CN-dark-normal-settings-hotkeys-00.png",
+        "en-US-light-normal-settings-hotkeys-00.png",
+        "en-US-dark-normal-settings-hotkeys-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-016-normal-settings-hotkeys-01.png",
+      "Sha256": "9b669acccc05d52d086298211ee9fc5c8d06f106babb8c686108fa18fe049253",
+      "Files": [
+        "zh-CN-light-normal-settings-hotkeys-01.png",
+        "zh-CN-dark-normal-settings-hotkeys-01.png",
+        "en-US-light-normal-settings-hotkeys-01.png",
+        "en-US-dark-normal-settings-hotkeys-01.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-017-normal-settings-hotkeys-02.png",
+      "Sha256": "f8da998f008703cce5b802307b6341117b60e8e40c2782fb4d934d0f3ca74c0c",
+      "Files": [
+        "zh-CN-light-normal-settings-hotkeys-02.png",
+        "zh-CN-dark-normal-settings-hotkeys-02.png",
+        "en-US-light-normal-settings-hotkeys-02.png",
+        "en-US-dark-normal-settings-hotkeys-02.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-031-normal-settings-translation-00.png",
+      "Sha256": "f1347f2a2beb0cbdcba4a215a0c2b68685d3aac24c8fde60bb4954764e557234",
+      "Files": [
+        "zh-CN-light-normal-settings-translation-00.png",
+        "zh-CN-dark-normal-settings-translation-00.png",
+        "en-US-light-normal-settings-translation-00.png",
+        "en-US-dark-normal-settings-translation-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-032-normal-settings-translation-01.png",
+      "Sha256": "98022555853a09808cfc44a29f3431bc30913c14b71bbfb6802b1dec92208b17",
+      "Files": [
+        "zh-CN-light-normal-settings-translation-01.png",
+        "zh-CN-dark-normal-settings-translation-01.png",
+        "en-US-light-normal-settings-translation-01.png",
+        "en-US-dark-normal-settings-translation-01.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-033-normal-settings-translation-02.png",
+      "Sha256": "caae3cdf212c336e9b0427e1f277773f39fb8427755ac2fd178ee1ed9fbc41f5",
+      "Files": [
+        "zh-CN-light-normal-settings-translation-02.png",
+        "zh-CN-dark-normal-settings-translation-02.png",
+        "en-US-light-normal-settings-translation-02.png",
+        "en-US-dark-normal-settings-translation-02.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-034-normal-settings-translation-03.png",
+      "Sha256": "0f7816043a6ce134ddf58c7dbd24ff4d513c495ed686f3a397f9b853676978fd",
+      "Files": [
+        "zh-CN-light-normal-settings-translation-03.png",
+        "zh-CN-dark-normal-settings-translation-03.png",
+        "en-US-light-normal-settings-translation-03.png",
+        "en-US-dark-normal-settings-translation-03.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-035-normal-translation-error-00.png",
+      "Sha256": "a3c6a9448e8e2a4e14921af0045a14166195ce708906119b4c5e92dc47479db3",
+      "Files": [
+        "zh-CN-light-normal-translation-error-00.png",
+        "zh-CN-dark-normal-translation-error-00.png",
+        "en-US-light-normal-translation-error-00.png",
+        "en-US-dark-normal-translation-error-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-036-normal-translation-input.png",
+      "Sha256": "ff66680fb2b4c0cf14024297193cd8545de6eacd5c946a19fab7cce0e9ecbf19",
+      "Files": [
+        "zh-CN-light-normal-translation-input.png",
+        "zh-CN-dark-normal-translation-input.png",
+        "en-US-light-normal-translation-input.png",
+        "en-US-dark-normal-translation-input.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-037-normal-translation-result-00.png",
+      "Sha256": "07e951ae2554e6ad24c0c2e87ca8e6762b3231eb4dc243b528e77276af9ae16d",
+      "Files": [
+        "zh-CN-light-normal-translation-result-00.png",
+        "zh-CN-dark-normal-translation-result-00.png",
+        "en-US-light-normal-translation-result-00.png",
+        "en-US-dark-normal-translation-result-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-038-normal-translation-running-00.png",
+      "Sha256": "cbe808d38705c3e91e993b0799b5af5d23afaf6d2a4a62aa608efb748339197f",
+      "Files": [
+        "zh-CN-light-normal-translation-running-00.png",
+        "zh-CN-dark-normal-translation-running-00.png",
+        "en-US-light-normal-translation-running-00.png",
+        "en-US-dark-normal-translation-running-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-039-normal-tray-menu.png",
+      "Sha256": "efe774b8abb8dc6b9f2312a2642f13cff6d3b2a5cce0dac08a191e4357b86924",
+      "Files": [
+        "zh-CN-light-normal-tray-menu.png",
+        "zh-CN-dark-normal-tray-menu.png",
+        "en-US-light-normal-tray-menu.png",
+        "en-US-dark-normal-tray-menu.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-047-small-history-empty-00.png",
+      "Sha256": "1ae970ae478b52d8443f935a94b060f88a276f76b385b77219df794ebab77e25",
+      "Files": [
+        "zh-CN-light-small-history-empty-00.png",
+        "zh-CN-dark-small-history-empty-00.png",
+        "en-US-light-small-history-empty-00.png",
+        "en-US-dark-small-history-empty-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-048-small-history-empty-01.png",
+      "Sha256": "89f198cb0e269e325366dfec92eecece808845ffd60566c952613fd992d12dd4",
+      "Files": [
+        "zh-CN-light-small-history-empty-01.png",
+        "zh-CN-dark-small-history-empty-01.png",
+        "en-US-light-small-history-empty-01.png",
+        "en-US-dark-small-history-empty-01.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-049-small-history-empty-02.png",
+      "Sha256": "820a5aeb7f6d85186d2f22b3c60ff742d999853e6ff9fefa1570abfdaf874064",
+      "Files": [
+        "en-US-light-small-history-empty-02.png",
+        "en-US-dark-small-history-empty-02.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-050-small-history-list-00.png",
+      "Sha256": "044241b8a82f63155b7c7b754e196c3813184f13b263a3829bdd6e297aca9bc2",
+      "Files": [
+        "zh-CN-light-small-history-list-00.png",
+        "zh-CN-dark-small-history-list-00.png",
+        "en-US-light-small-history-list-00.png",
+        "en-US-dark-small-history-list-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-051-small-history-list-01.png",
+      "Sha256": "74aa1fae58ea6d0f6f42d246fc29ee698f00c5a59761c3b0daed7d344ffd8219",
+      "Files": [
+        "zh-CN-light-small-history-list-01.png",
+        "zh-CN-dark-small-history-list-01.png",
+        "en-US-light-small-history-list-01.png",
+        "en-US-dark-small-history-list-01.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-052-small-history-list-02.png",
+      "Sha256": "bc731d7b1d7e37736eda69e48b749afceac04b7794f629b5ecc4cff81459edfe",
+      "Files": [
+        "zh-CN-light-small-history-list-02.png",
+        "zh-CN-dark-small-history-list-02.png",
+        "en-US-light-small-history-list-02.png",
+        "en-US-dark-small-history-list-02.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-053-small-notification-content-00.png",
+      "Sha256": "ebf1fbf7627bd72a4b0ca7a48c1c7dc499c8ae7a75d085e8d25e587b1f762529",
+      "Files": [
+        "zh-CN-light-small-notification-content-00.png",
+        "zh-CN-dark-small-notification-content-00.png",
+        "en-US-light-small-notification-content-00.png",
+        "en-US-dark-small-notification-content-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-054-small-preset-menu.png",
+      "Sha256": "d83099466a4aea862ba2f2a11e6e4263776d034a5e6e470b362212552ea77bc9",
+      "Files": [
+        "zh-CN-light-small-preset-menu.png",
+        "zh-CN-dark-small-preset-menu.png",
+        "en-US-light-small-preset-menu.png",
+        "en-US-dark-small-preset-menu.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-057-small-settings-anthropic-00.png",
+      "Sha256": "521624483b022781a5177ccdc594ed0975baa42de74b190c0db7eea09ff8b5be",
+      "Files": [
+        "zh-CN-light-small-settings-anthropic-00.png",
+        "zh-CN-dark-small-settings-anthropic-00.png",
+        "en-US-light-small-settings-anthropic-00.png",
+        "en-US-dark-small-settings-anthropic-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-058-small-settings-anthropic-01.png",
+      "Sha256": "df5eb9c7140cf73daf926ff6b8f2ed63c071128f201c3d2285600a47c56cf3f6",
+      "Files": [
+        "zh-CN-light-small-settings-anthropic-01.png",
+        "zh-CN-dark-small-settings-anthropic-01.png",
+        "en-US-light-small-settings-anthropic-01.png",
+        "en-US-dark-small-settings-anthropic-01.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-059-small-settings-anthropic-02.png",
+      "Sha256": "a47457ac5714662937ff6917a2cd6765c6e94ca9937ca6480628afa8826ee6e2",
+      "Files": [
+        "zh-CN-light-small-settings-anthropic-02.png",
+        "zh-CN-dark-small-settings-anthropic-02.png",
+        "en-US-light-small-settings-anthropic-02.png",
+        "en-US-dark-small-settings-anthropic-02.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-060-small-settings-anthropic-03.png",
+      "Sha256": "f6b910b6556df682990992a25e6ef429f3d93fd3f253e090260157a1aa363582",
+      "Files": [
+        "zh-CN-light-small-settings-anthropic-03.png",
+        "zh-CN-dark-small-settings-anthropic-03.png",
+        "en-US-light-small-settings-anthropic-03.png",
+        "en-US-dark-small-settings-anthropic-03.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-061-small-settings-anthropic-04.png",
+      "Sha256": "ce7a4ca34405148475a1039d6151effa9f1801bbe02b6c4a7eb41a0e7f602bd6",
+      "Files": [
+        "zh-CN-light-small-settings-anthropic-04.png",
+        "zh-CN-dark-small-settings-anthropic-04.png",
+        "en-US-light-small-settings-anthropic-04.png",
+        "en-US-dark-small-settings-anthropic-04.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-062-small-settings-anthropic-05.png",
+      "Sha256": "47e7aed1d9c051ff498a2f49a3fd0c68f377045aaaca9c01d0a547610b97380f",
+      "Files": [
+        "en-US-light-small-settings-anthropic-05.png",
+        "en-US-dark-small-settings-anthropic-05.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-066-small-settings-history-00.png",
+      "Sha256": "e9d4ad2c1306cc0aba3a6b0ca2794f8f2acd1c9968449128c14b1e660312ca8a",
+      "Files": [
+        "zh-CN-light-small-settings-history-00.png",
+        "zh-CN-dark-small-settings-history-00.png",
+        "en-US-light-small-settings-history-00.png",
+        "en-US-dark-small-settings-history-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-067-small-settings-history-01.png",
+      "Sha256": "c3677d93dc35d6e03bfec3b49ad23c08db024fb7cb2e33387f14e94b6ca242d6",
+      "Files": [
+        "en-US-light-small-settings-history-01.png",
+        "en-US-dark-small-settings-history-01.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-068-small-settings-hotkeys-00.png",
+      "Sha256": "58650989d6e2fd1ef2fdb130d38833864e34129b0bf165652bce1198b1e233c4",
+      "Files": [
+        "zh-CN-light-small-settings-hotkeys-00.png",
+        "zh-CN-dark-small-settings-hotkeys-00.png",
+        "en-US-light-small-settings-hotkeys-00.png",
+        "en-US-dark-small-settings-hotkeys-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-069-small-settings-hotkeys-01.png",
+      "Sha256": "2534cf7fa3a362203745fb031af8a2be43fada130b50ffa70c03169328d1a38e",
+      "Files": [
+        "zh-CN-light-small-settings-hotkeys-01.png",
+        "zh-CN-dark-small-settings-hotkeys-01.png",
+        "en-US-light-small-settings-hotkeys-01.png",
+        "en-US-dark-small-settings-hotkeys-01.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-070-small-settings-hotkeys-02.png",
+      "Sha256": "bc9060d87ab5d30ae0b1643a692c08ca6b178bd0d89bcea706e5ee243b569f46",
+      "Files": [
+        "zh-CN-light-small-settings-hotkeys-02.png",
+        "zh-CN-dark-small-settings-hotkeys-02.png",
+        "en-US-light-small-settings-hotkeys-02.png",
+        "en-US-dark-small-settings-hotkeys-02.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-071-small-settings-hotkeys-03.png",
+      "Sha256": "2e52f693deeee40d284207af9b7082421ce37f3f5ab6e2e653fd9bd276f6698d",
+      "Files": [
+        "en-US-light-small-settings-hotkeys-03.png",
+        "en-US-dark-small-settings-hotkeys-03.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-072-small-settings-network-00.png",
+      "Sha256": "614025fb99c56b4911fb57760aeacd4cce10eadb67626d085ce5de6a75bf3f6a",
+      "Files": [
+        "zh-CN-light-small-settings-network-00.png",
+        "zh-CN-dark-small-settings-network-00.png",
+        "en-US-light-small-settings-network-00.png",
+        "en-US-dark-small-settings-network-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-073-small-settings-network-01.png",
+      "Sha256": "6ac1895c48568c0a1ef1dc9275caf4391c3fc22913df2f364961c97ab0b7abc1",
+      "Files": [
+        "zh-CN-light-small-settings-network-01.png",
+        "zh-CN-dark-small-settings-network-01.png",
+        "en-US-light-small-settings-network-01.png",
+        "en-US-dark-small-settings-network-01.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-074-small-settings-network-02.png",
+      "Sha256": "6203c89268c7be77ef99ffef523df1908d8cdc2823f577f6b13fe9c3039765a8",
+      "Files": [
+        "zh-CN-light-small-settings-network-02.png",
+        "zh-CN-dark-small-settings-network-02.png",
+        "en-US-light-small-settings-network-02.png",
+        "en-US-dark-small-settings-network-02.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-075-small-settings-network-03.png",
+      "Sha256": "eb54fcd129ded2a98896ebcf1a64d4c9585c82afc92be21457de956e17dd23ad",
+      "Files": [
+        "zh-CN-light-small-settings-network-03.png",
+        "zh-CN-dark-small-settings-network-03.png",
+        "en-US-light-small-settings-network-03.png",
+        "en-US-dark-small-settings-network-03.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-083-small-settings-screenshot-00.png",
+      "Sha256": "aafdd8baef931272c8969ce2c0cf3e31230fa43427eb92ee0521e70a7d4e1964",
+      "Files": [
+        "zh-CN-light-small-settings-screenshot-00.png",
+        "zh-CN-dark-small-settings-screenshot-00.png",
+        "en-US-light-small-settings-screenshot-00.png",
+        "en-US-dark-small-settings-screenshot-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-084-small-settings-screenshot-01.png",
+      "Sha256": "22d036b7ac4cd71828ce306a28dfad899a11d1509ca8f98d68c59f784776cd82",
+      "Files": [
+        "zh-CN-light-small-settings-screenshot-01.png",
+        "zh-CN-dark-small-settings-screenshot-01.png",
+        "en-US-light-small-settings-screenshot-01.png",
+        "en-US-dark-small-settings-screenshot-01.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-091-small-settings-translation-00.png",
+      "Sha256": "3635b08803d6cd79d374b39950338b53be921e38986a0588270c742e66ac7115",
+      "Files": [
+        "zh-CN-light-small-settings-translation-00.png",
+        "zh-CN-dark-small-settings-translation-00.png",
+        "en-US-light-small-settings-translation-00.png",
+        "en-US-dark-small-settings-translation-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-092-small-settings-translation-01.png",
+      "Sha256": "c6f50d0166e2d7d992763a16aa6996e1a3e2112bb83960c1ca9e17ecc0126d24",
+      "Files": [
+        "zh-CN-light-small-settings-translation-01.png",
+        "zh-CN-dark-small-settings-translation-01.png",
+        "en-US-light-small-settings-translation-01.png",
+        "en-US-dark-small-settings-translation-01.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-093-small-settings-translation-02.png",
+      "Sha256": "3f38164bfabf89274b79e258cceffeb436a7a43b9e61c5c90975f382bfd21f41",
+      "Files": [
+        "zh-CN-light-small-settings-translation-02.png",
+        "zh-CN-dark-small-settings-translation-02.png",
+        "en-US-light-small-settings-translation-02.png",
+        "en-US-dark-small-settings-translation-02.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-094-small-settings-translation-03.png",
+      "Sha256": "426fbca79a5391ffcd601aadae86f8e41bb116f654b7601f23001a5fca872a68",
+      "Files": [
+        "zh-CN-light-small-settings-translation-03.png",
+        "zh-CN-dark-small-settings-translation-03.png",
+        "en-US-light-small-settings-translation-03.png",
+        "en-US-dark-small-settings-translation-03.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-095-small-settings-translation-04.png",
+      "Sha256": "48dc6424df9531c547078c1e870252c45ff001948c2c20355342fe4acc8d3b4d",
+      "Files": [
+        "zh-CN-light-small-settings-translation-04.png",
+        "zh-CN-dark-small-settings-translation-04.png",
+        "en-US-light-small-settings-translation-04.png",
+        "en-US-dark-small-settings-translation-04.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-096-small-settings-translation-05.png",
+      "Sha256": "4c1c70a3ebcb97532098ded420ff9390a0c526407d7b43532b27002235afd0fc",
+      "Files": [
+        "zh-CN-light-small-settings-translation-05.png",
+        "zh-CN-dark-small-settings-translation-05.png",
+        "en-US-light-small-settings-translation-05.png",
+        "en-US-dark-small-settings-translation-05.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-097-small-settings-translation-06.png",
+      "Sha256": "b4641d3928d9a0dddf3e921899a37dac5dad4ee381ed45a96c24e562247b9d8b",
+      "Files": [
+        "zh-CN-light-small-settings-translation-06.png",
+        "zh-CN-dark-small-settings-translation-06.png",
+        "en-US-light-small-settings-translation-06.png",
+        "en-US-dark-small-settings-translation-06.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-098-small-translation-error-00.png",
+      "Sha256": "e47d4859054230320037e4002010aaf134c2b8f03c8b08823a0f78e4e415e494",
+      "Files": [
+        "zh-CN-light-small-translation-error-00.png",
+        "zh-CN-dark-small-translation-error-00.png",
+        "en-US-light-small-translation-error-00.png",
+        "en-US-dark-small-translation-error-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-099-small-translation-error-01.png",
+      "Sha256": "13466923856971bec19d9f5f80360222c6a4b9ab0545448dc719f8ba8173cdfe",
+      "Files": [
+        "zh-CN-light-small-translation-error-01.png",
+        "zh-CN-dark-small-translation-error-01.png",
+        "en-US-light-small-translation-error-01.png",
+        "en-US-dark-small-translation-error-01.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-100-small-translation-error-02.png",
+      "Sha256": "8be6c465ac91a1fb7fb3578c2153f704fbbdddcd6b514ea046c402380a140edc",
+      "Files": [
+        "en-US-light-small-translation-error-02.png",
+        "en-US-dark-small-translation-error-02.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-101-small-translation-input.png",
+      "Sha256": "e3b3fe652de38c9f51096208a3fd4d2c19f7f208369d7af325c518eee3e1e7ef",
+      "Files": [
+        "zh-CN-light-small-translation-input.png",
+        "zh-CN-dark-small-translation-input.png",
+        "en-US-light-small-translation-input.png",
+        "en-US-dark-small-translation-input.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-102-small-translation-result-00.png",
+      "Sha256": "a39ed9abcd66824a09cb52dc63242959d7a9082160e5b33ed985d81a5cf700d5",
+      "Files": [
+        "zh-CN-light-small-translation-result-00.png",
+        "zh-CN-dark-small-translation-result-00.png",
+        "en-US-light-small-translation-result-00.png",
+        "en-US-dark-small-translation-result-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-103-small-translation-result-01.png",
+      "Sha256": "03c9d8b6852f73ac678ad99ce81cb3ef3d9c78e4711c71452a223b190cc423c5",
+      "Files": [
+        "zh-CN-light-small-translation-result-01.png",
+        "zh-CN-dark-small-translation-result-01.png",
+        "en-US-light-small-translation-result-01.png",
+        "en-US-dark-small-translation-result-01.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-104-small-translation-running-00.png",
+      "Sha256": "ce4f56ae9b1c062dfb83c87073245647041e286b35d72a96ee64976836712301",
+      "Files": [
+        "zh-CN-light-small-translation-running-00.png",
+        "zh-CN-dark-small-translation-running-00.png",
+        "en-US-light-small-translation-running-00.png",
+        "en-US-dark-small-translation-running-00.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-105-small-translation-running-01.png",
+      "Sha256": "adc3283d2f97f7ada096540134fd77d0344ec835f4e8e40308feab0f37396cda",
+      "Files": [
+        "zh-CN-light-small-translation-running-01.png",
+        "zh-CN-dark-small-translation-running-01.png",
+        "en-US-light-small-translation-running-01.png",
+        "en-US-dark-small-translation-running-01.png"
+      ]
+    },
+    {
+      "Sheet": "sheet-106-small-tray-menu.png",
+      "Sha256": "49d6db53540e29d1bf748d05c1519f49138b2858e9da5bae82a2f213a657ea0c",
+      "Files": [
+        "zh-CN-light-small-tray-menu.png",
+        "zh-CN-dark-small-tray-menu.png",
+        "en-US-light-small-tray-menu.png",
+        "en-US-dark-small-tray-menu.png"
+      ]
+    }
+  ],
+  "Review": {
+    "Status": "All changed candidate-12 sheets visually examined at original image resolution. Unchanged image bytes carry the candidate-3 visual examination only.",
+    "ReviewedSheetNumbers": [
+      3,
+      4,
+      6,
+      9,
+      10,
+      11,
+      14,
+      15,
+      16,
+      17,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      83,
+      84,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106
+    ],
+    "FindingsResolved": [
+      "Shortcut safety descriptions wrap completely.",
+      "Add provider, move and delete actions are visible.",
+      "Preset menu labels are localized by stable key.",
+      "Advanced options are expanded, long checkboxes wrap, and labels do not collide.",
+      "Small translation inputs, results and errors are accessible through scrolling, with fixed window controls.",
+      "Tray menu and synthetic notification content are fully readable."
+    ],
+    "Limits": [
+      "Owned WPF rendering with synthetic content. Native notification appearance and physical desktop/NFR are not verified.",
+      "This visual review does not resolve the independent external language merge test failure; T-038-R1 is pending."
+    ]
+  }
+}

@@ -136,10 +136,17 @@ internal sealed class NetworkSettingsUiScope : IAsyncDisposable
     {
         private readonly WpfUiDispatcher _inner = new();
         private (Func<bool> Predicate, Gate Gate, bool After)? _pause;
+        internal event Action<Task>? InvocationStarted;
         internal void PauseWhen(Func<bool> predicate, Gate gate, bool after = true) => _pause = (predicate, gate, after);
         internal void Clear() => _pause = null;
         public bool CheckAccess() => _inner.CheckAccess();
-        public async Task InvokeAsync(Func<Task> callback, CancellationToken cancellationToken)
+        public Task InvokeAsync(Func<Task> callback, CancellationToken cancellationToken)
+        {
+            var work = InvokeCoreAsync(callback, cancellationToken);
+            InvocationStarted?.Invoke(work);
+            return work;
+        }
+        private async Task InvokeCoreAsync(Func<Task> callback, CancellationToken cancellationToken)
         {
             Gate? before = null, after = null;
             await _inner.InvokeAsync(() =>

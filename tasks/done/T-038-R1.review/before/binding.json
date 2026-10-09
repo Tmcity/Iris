@@ -1,0 +1,6 @@
+{
+  "tests/Iris.App.Tests/Localization/LocalizationTests.cs": "23d9d6529fe98210d87b302a7a6220ee4a59a133210d57886310f9548cbc68a6",
+  "tests/Iris.App.Tests/Settings/NetworkSettingsUiScope.cs": "f7ea19321ebaed0976a45ba49b1e29458660d1398b029549173e8561cdfd22e0",
+  "src/Iris.App/Settings/SettingsViewModel.cs": "e9a61f20debbdcf22e2e3d85558157075f391b9448500e45d2ad1a7e28978818",
+  "src/Iris.App/Settings/SettingsViewModel.Language.cs": "1eb0a2774ded60afafd25095dba6afc0cdcf4f2597ff09d8a8c87c094179a0a4"
+}

@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Collections.Concurrent;
 using System.Resources;
 using System.Text.Json;
 using System.Windows.Controls;
@@ -84,19 +85,73 @@ public sealed class LocalizationTests
     public Task ExternalMergeConflictReloadAndCancelPreserveTheOriginalJointEditRules() => InChinese(() => NetworkSettingsUiScope.Run(async f =>
     {
         f.Show(); f.Vm.CurrentPageKey = "general"; await f.IdleAsync();
-        await f.Settings.UpdateAsync(s => s with { General = s.General with { UiLanguage = "en-US" } }); await f.IdleAsync();
+        await ExternalUpdateAsync(f, s => s with { General = s.General with { UiLanguage = "en-US" } }, async () =>
+        {
+            await f.IdleAsync();
+            Console.WriteLine($"R1_BEFORE_RELEASE persisted={f.Settings.Current.General.UiLanguage} draft={f.Vm.InterfaceLanguage.Value} dirty={f.Vm.InterfaceLanguage.IsDirty}");
+            using var json = JsonDocument.Parse(await File.ReadAllBytesAsync(f.SettingsFile));
+            json.RootElement.GetProperty("general").GetProperty("uiLanguage").GetString().ShouldBe("en-US");
+            f.Vm.InterfaceLanguage.Value.ShouldBe("zh-CN"); f.Vm.InterfaceLanguage.IsDirty.ShouldBeFalse();
+        });
         f.Vm.InterfaceLanguage.Value.ShouldBe("en-US"); f.Vm.InterfaceLanguage.IsDirty.ShouldBeFalse();
         var baselineTheme = f.Settings.Current.General.Theme;
         var targetTheme = Enum.GetValues<AppTheme>().First(theme => theme != baselineTheme);
         var externalTheme = Enum.GetValues<AppTheme>().Single(theme => theme != baselineTheme && theme != targetTheme);
         f.Vm.InterfaceLanguage.Value = "zh-CN"; f.Vm.Theme = targetTheme;
-        await f.Settings.UpdateAsync(s => s with { General = s.General with { Theme = externalTheme } }); await f.IdleAsync();
+        await ExternalUpdateAsync(f, s => s with { General = s.General with { Theme = externalTheme } });
         await f.Vm.ExecuteSaveAsync(); f.Vm.IsConflict.ShouldBeTrue();
         f.Settings.Current.General.UiLanguage.ShouldBe("en-US"); f.Vm.InterfaceLanguage.Value.ShouldBe("zh-CN");
         f.Vm.ExecuteReload(); f.Vm.InterfaceLanguage.Value.ShouldBe("en-US"); f.Vm.IsDirty.ShouldBeFalse();
         f.Vm.InterfaceLanguage.Value = "zh-CN"; f.Vm.ExecuteCancel();
         f.Settings.Current.General.UiLanguage.ShouldBe("en-US"); AppLanguage.Name.ShouldBe("zh-CN");
     }));
+
+    private static async Task ExternalUpdateAsync(NetworkSettingsUiScope f, Func<AppSettings, AppSettings> update,
+        Func<Task>? beforeMerge = null)
+    {
+        var gate = f.NewGate();
+        var work = new ConcurrentQueue<Task>();
+        var merged = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        Exception? primary = null;
+        var cleanup = new List<Exception>();
+        System.ComponentModel.PropertyChangedEventHandler changed = (_, args) =>
+        {
+            if (args.PropertyName == nameof(SettingsViewModel.InterfaceLanguageHint)) merged.TrySetResult();
+        };
+        void Track(Task task) => work.Enqueue(task);
+        f.Vm.PropertyChanged += changed;
+        f.Ui.InvocationStarted += Track;
+        f.Ui.PauseWhen(() => true, gate, after: false);
+        try
+        {
+            await f.Settings.UpdateAsync(update);
+            await gate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+            merged.Task.IsCompleted.ShouldBeFalse();
+            if (beforeMerge != null) await beforeMerge();
+            gate.Open();
+            await merged.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        }
+        catch (Exception ex) { primary = ex; }
+        finally
+        {
+            gate.Open(); f.Ui.Clear();
+            try
+            {
+                // Join actual dispatcher invocations, including callbacks they enqueue while being drained.
+                while (work.TryDequeue(out var task))
+                {
+                    _ = f.Track(task); // The enclosing fixture also joins the original task if the bounded wait fails.
+                    try { await task.WaitAsync(TimeSpan.FromSeconds(10)); }
+                    catch (Exception ex) { cleanup.Add(ex); }
+                }
+                Console.WriteLine($"R1_JOINED persisted={f.Settings.Current.General.UiLanguage} draft={f.Vm.InterfaceLanguage.Value} dirty={f.Vm.InterfaceLanguage.IsDirty}");
+            }
+            finally { f.Ui.InvocationStarted -= Track; f.Vm.PropertyChanged -= changed; }
+        }
+        if (primary != null && cleanup.Count == 0) System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(primary).Throw();
+        if (primary != null) cleanup.Insert(0, primary);
+        if (cleanup.Count != 0) throw new AggregateException(cleanup);
+    }
 
     [Fact]
     public Task FutureReadonlyDisablesTheActualLanguageSelector() => InChinese(() => NetworkSettingsUiScope.Run(async f =>

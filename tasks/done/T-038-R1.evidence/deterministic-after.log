@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.App.Tests\Localization\LocalizationTests.cs(143,21): error CS4014: 由于此调用不会等待，因此在此调用完成之前将会继续执行当前方法。请考虑将 "await" 运算符应用于调用结果。 [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+生成失败，退出代码: 1。
