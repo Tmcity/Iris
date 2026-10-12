@@ -1,0 +1,54 @@
+// Proposal only. Not compiled into Iris and not an approved CONTRACTS change.
+// Existing Iris.Core.Settings.GeneralSettingsPatch positional constructor is unchanged.
+public sealed record GeneralSettingsPatch(
+    SettingsFieldEdit<AppTheme>? Theme = null,
+    SettingsFieldEdit<bool>? LaunchAtStartup = null,
+    SettingsFieldEdit<bool>? ShowStartupNotification = null,
+    SettingsFieldEdit<string>? LogLevel = null)
+{
+    public SettingsFieldEdit<string>? UiLanguage { get; init; }
+    public SettingsFieldEdit<bool>? CheckForUpdates { get; init; }
+}
+
+// Proposed additive constant in the existing Iris.Providers.Http.HttpClientNames contract.
+// Existing Llm="iris.llm" and Ocr="iris.ocr" stay unchanged.
+public const string Updates = "iris.updates";
+
+// Proposed App-internal types; no new public Core update port and no repository credentials.
+internal enum UpdateCheckOrigin { Startup, User }
+internal enum UpdatePhase
+{
+    SourceUnconfigured, Idle, Checking, UpToDate, Available,
+    Downloading, Ready, Cancelling, CleanupPending, Failed, Stopped
+}
+internal sealed record ReleaseSourceOptions(
+    string PackageId, string Channel, string RuntimeId, Uri? GitHubRepository,
+    bool PortableUpdatesEnabled);
+internal sealed record UpdateSnapshot(
+    UpdatePhase Phase, Guid? OfferId, string? Version, int? Progress, ErrorCode? Error);
+internal interface IAppUpdateCoordinator
+{
+    UpdateSnapshot Snapshot { get; }
+    event EventHandler? Changed;
+    Task CheckAsync(UpdateCheckOrigin origin, CancellationToken cancellationToken = default);
+    Task DownloadAsync(Guid offerId, CancellationToken cancellationToken = default);
+    // Invalidates result publication first, requests cancellation, then joins owned work and cleanup.
+    Task CancelAsync();
+    // Revalidates identity, size and SHA256; never equates a cached filename or SDK return with readiness.
+    Task<PreparedUpdate> PrepareApplyAsync(Guid offerId, CancellationToken cancellationToken = default);
+    void StopAcceptance();
+    Task StopAsync();
+}
+// Opaque, immutable receipt. Its implementation owns only the validated local candidate/metadata,
+// not a Host service, provider credential, HttpClient or live download. No raw path in ToString.
+internal sealed class PreparedUpdate
+{
+    internal Guid Id { get; }
+    public override string ToString() => "PreparedUpdate";
+}
+internal interface IUpdateHandoff
+{
+    // Main invokes only after Host, logger and single-instance guard cleanup succeeded.
+    // Narrow synchronous process handoff; no blocking wait for an updater or new async I/O bridge.
+    void StartAfterSuccessfulCleanup(PreparedUpdate update);
+}

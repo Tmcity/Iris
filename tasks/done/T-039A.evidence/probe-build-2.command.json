@@ -1,0 +1,13 @@
+{
+  "cwd": "F:/Iris",
+  "command": [
+    "dotnet",
+    "build",
+    "F:/Iris/artifacts/t039a/Probe/Probe.csproj",
+    "-c",
+    "Release",
+    "-p:",
+    "RestoreConfigFile=F:/Iris/artifacts/t039a/NuGet.Config"
+  ],
+  "exitCode": 0
+}

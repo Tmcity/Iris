@@ -1,0 +1,8 @@
+{
+  "Reason": "TruncatedWireDisconnect test awaits second connect after receive loop fault; fake deadline is not advanced",
+  "ProcessId": 13528,
+  "CreationDate": "2026-10-10T16:56:42.6725390+08:00",
+  "ParentProcessId": 55836,
+  "Name": "Iris.Platform.Windows.Tests.exe",
+  "Action": "Terminate owned hung test after stack and heap capture"
+}

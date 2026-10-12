@@ -1,0 +1,129 @@
+Introduction | Velopack
+function insertBanner(){var n=document.createElement("div");n.id="__docusaurus-base-url-issue-banner-container";n.innerHTML='\n<div id="__docusaurus-base-url-issue-banner" style="border: thick solid red; background-color: rgb(255, 230, 179); margin: 20px; padding: 20px; font-size: 20px;">\n   <p style="font-weight: bold; font-size: 30px;">Your Docusaurus site did not load properly.</p>\n   <p>A very common reason is a wrong site <a href="https://docusaurus.io/docs/docusaurus.config.js/#baseUrl" style="font-weight: bold;">baseUrl configuration</a>.</p>\n   <p>Current configured baseUrl = <span style="font-weight: bold; color: red;">/</span>  (default value)</p>\n   <p>We suggest trying baseUrl = <span id="__docusaurus-base-url-issue-banner-suggestion-container" style="font-weight: bold; color: green;"></span></p>\n</div>\n',document.body.prepend(n);var e=document.getElementById("__docusaurus-base-url-issue-banner-suggestion-container"),s=window.location.pathname,o="/"===s.substr(-1)?s:s+"/";e.innerHTML=o}document.addEventListener("DOMContentLoaded",function(){void 0===window.docusaurus&&insertBanner()})
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Introduction","item":"https://docs.velopack.io/"}]}
+function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-YM5CQ7KMDT",{anonymize_ip:!0})
+!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()
+Skip to main content
+Guides
+Reference
+Blog
+English
+English
+Español
+Getting Started
+Introduction
+Getting Started
+Sample Apps
+Essentials
+Integrating
+Packaging
+Distributing
+Advanced
+Contributing
+Migrating
+Debugging & Logging
+FAQ
+Introduction
+On this page
+Introduction
+Velopack is an installation and auto-update framework for cross-platform desktop applications. It's opinionated, extremely easy to use with zero config needed. With just one command you can be up and running with an installable application, and it's lightning fast for your users, too.
+Be sure to check us out on
+GitHub
+and
+join our Discord
+for any questions/support!
+Overview
+​
+To enable your application to make full use of Velopack, you need to do 3 things:
+1
+Integrate the SDK & check for updates
+​
+We have client libraries for a handful of
+languages below
+, or if we don't support your language yet you can
+open an issue to request it
+.
+Read more →
+2
+Build a Velopack release
+​
+Our command-line tool
+vpk
+can help you build update packages and installers in just one command.
+Read more →
+3
+Upload your releases somewhere
+​
+You can host updates anywhere static files can be served, eg. cloud file storage, GitHub Releases, and more.
+Read more →
+Language Support
+​
+There are libraries planned or supported for the languages below.
+Lang
+Status
+Links
+C#
+✅ Ready
+quick-start
+,
+docs
+,
+nuget.org
+Rust
+✅ Ready
+quick-start
+,
+docs
+,
+crates.io
+JS
+✅ Ready
+quick-start
+,
+docs
+,
+npmjs.com
+C++
+✅ Ready
+quick-start
+,
+docs
+,
+gh-releases
+Python
+✅ Ready
+quick-start
+,
+docs
+,
+pypi.org
+Java
+Planned
+-
+Swift
+Planned
+-
+Go
+Planned
+-
+Don't see your language here?
+Open an issue
+to request and tell us how great it is!
+Migrating to Velopack
+​
+It should be easy to migrate to Velopack from other update frameworks. We do have some guides, but if we're missing one for your case please let us know about it on GitHub or Discord!
+📄️
+From Squirrel
+Migrate from Squirrel.Windows or Clowd.Squirrel to Velopack.
+📄️
+From ClickOnce
+Migrate ClickOnce to Velopack.
+Edit this page
+Next
+Getting Started
+Overview
+Integrate the SDK & check for updates
+Build a Velopack release
+Upload your releases somewhere
+Language Support
+Migrating to Velopack

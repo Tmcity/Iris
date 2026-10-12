@@ -1,0 +1,1871 @@
+{
+  "createdAt": "2026-10-12T17:01:31.430959+00:00",
+  "baselineHead": "6f14e81ebd298d83eda7330008310015efa1937b",
+  "sourceInputsUnchanged": 640,
+  "rawEvidenceFilesPreservedInIndex": 301,
+  "codexIndexed": false,
+  "currentTaskArchived": true,
+  "files": [
+    {
+      "path": "specs/ARCHITECTURE.md",
+      "gitBlob": "db164f92acc70e1b7bdfe7d9de52938e68b0b573",
+      "workingSha256": "8e02ede335c551fe4409ab92f4bd07b7a510059c555e8f66545c01530e4df7be",
+      "bytes": 151791
+    },
+    {
+      "path": "specs/DEVELOPER_HANDOFF.md",
+      "gitBlob": "af93c8671301b078a6751f82da87731d0396140b",
+      "workingSha256": "b82e59819b2b3c2add2c15b20fe4f1fd5844cd53fb287ca99dda8c0f4a51ed04",
+      "bytes": 27971
+    },
+    {
+      "path": "specs/PROJECT_HANDOFF.md",
+      "gitBlob": "9438af54b205145cf2af6061d583b08ba79acc31",
+      "workingSha256": "1cd3a210e787447c756680faa8222d652766976aceb6e2b8446ba055cb4290fc",
+      "bytes": 126877
+    },
+    {
+      "path": "src/Iris.Platform.Windows/NativeMethods.txt",
+      "gitBlob": "c41a9c41f82aaa7070ff4e39dc49cd527866b3a5",
+      "workingSha256": "8adc1dec6660a0cbc40df439a6e43d43c1ff915ef9abbd2278366273cb95f3fb",
+      "bytes": 1636
+    },
+    {
+      "path": "src/Iris.Platform.Windows/SystemIntegration/IpcPipeFactory.cs",
+      "gitBlob": "9fbab59f6c6c61f359056527f06df3d8deff2710",
+      "workingSha256": "66af4136b70fe12a8c798e833c5d5d924ce250170173b5f2256024aabd1cfbf0",
+      "bytes": 3190
+    },
+    {
+      "path": "tasks/BACKLOG.md",
+      "gitBlob": "da8cdb405f145a58f9e25a3242e657ab39c9f1fa",
+      "workingSha256": "f7351d3415ad1fea2a08054fea4da4386d0de569a56ba88581b45df99b511acd",
+      "bytes": 76083
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/.gitattributes",
+      "gitBlob": "63ee9895c325543cb4fc28c1ba99e1c5890cf9a5",
+      "workingSha256": "cf716cfd4bfcef55a79eada98bcd4cdd9cfcc5ea6fefb00cfbb9a747b461873f",
+      "bytes": 70
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-1.0.0-full.nuspec",
+      "gitBlob": "256eeaed296a31a24696403a944dfca090a93b1d",
+      "workingSha256": "96ac6050eb5717d8d57d8f5c0cde3b2ad8596bba209b158be985d5e2b4b9be0b",
+      "bytes": 802
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-1.1.0-delta.nuspec",
+      "gitBlob": "d817748fe5fa52db913e97b50a1cb13d597659bf",
+      "workingSha256": "918b46551037caa37736906503eac134d4315f55d35fffc0ad5d0a0b2e354bb4",
+      "bytes": 802
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-1.1.0-full.nuspec",
+      "gitBlob": "d817748fe5fa52db913e97b50a1cb13d597659bf",
+      "workingSha256": "918b46551037caa37736906503eac134d4315f55d35fffc0ad5d0a0b2e354bb4",
+      "bytes": 802
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/Payload/Payload.csproj",
+      "gitBlob": "c2f48d78bd85ea6f6124a5cb2a5b43040fb27562",
+      "workingSha256": "499eb001d2eba50572daba68bfddaaa98e6c935390d62de34fde702f60c1b600",
+      "bytes": 496
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/Payload/Program.cs",
+      "gitBlob": "1a0c2d234614f051c873293d22188ca68ee9f597",
+      "workingSha256": "d342d59b5ba5fb7f3e1cf3866f82ef70e745b8af082b36697f1a86960a618399",
+      "bytes": 280
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/Probe-v1.cs.txt",
+      "gitBlob": "b5334090eb2920577b210d0921f70c6c9b97350a",
+      "workingSha256": "4883635b977f645588bdfa2ec88954027329578760cb8236cab86d36e7dd61d5",
+      "bytes": 13597
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/Probe/Probe.csproj",
+      "gitBlob": "c2f48d78bd85ea6f6124a5cb2a5b43040fb27562",
+      "workingSha256": "499eb001d2eba50572daba68bfddaaa98e6c935390d62de34fde702f60c1b600",
+      "bytes": 496
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/Probe/Program.cs",
+      "gitBlob": "24b1ea9b7aef8ba8e8e8e8410e9586cf0ca17f9b",
+      "workingSha256": "493067d1dd8f86c1013b1d0ee33c9b8ac27553560e98f7f326928bed1fb3ba9f",
+      "bytes": 19252
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ProposedContracts.cs.txt",
+      "gitBlob": "a1ddc7cdd9031bbcb5f39ea80026d16afcf7189b",
+      "workingSha256": "77f6243b1bf04452cdbced644740ac7bfb6fbb0030db14594a921ffa98e0e120",
+      "bytes": 2644
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/README.md",
+      "gitBlob": "2795f27feaf87dac46ee00d481d535d3e61293d4",
+      "workingSha256": "774fc36e4a6fd7b63966c111cc196f069e40ac06165aad71fe4e69fd2ffdd3c4",
+      "bytes": 3892
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/RELEASES",
+      "gitBlob": "f51918ed5538508332da6684e41393666933f3b9",
+      "workingSha256": "c2eeba3b6a64c87c28d20fc6da0d32022dcd309b73041fd982fc33f64fa73ac0",
+      "bytes": 224
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/architect-truncated-source.json",
+      "gitBlob": "a4c7062140793a294431964bc5c2e92bfc059768",
+      "workingSha256": "b33d7bd5757c71805ef043ee20700cb4b6096508c351dc12b3173f0475e417a7",
+      "bytes": 368
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-auto-off.command.json",
+      "gitBlob": "e86a09edcfcec5f09ed44b61e4bc56cced37b2f4",
+      "workingSha256": "97c4b254fe310ae9570a21770a4c109a91bde5b9edd9097045c01155db2b569c",
+      "bytes": 299
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-auto-off.log",
+      "gitBlob": "0bf4df832636ff8309f3124ef7820c831eb8aca6",
+      "workingSha256": "c2e48752905ea5e92b8ba08f966f664bfeeb187e6b2d2ab7a6eca6c3113f15f2",
+      "bytes": 230
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-auto-on.command.json",
+      "gitBlob": "e3a52d3a003888ae688347f13ffa34cc0d15dc3d",
+      "workingSha256": "fb7ddc2da9f84aeef332207712faa93d54fef6e31188550a43d78364ac5a62f0",
+      "bytes": 297
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-auto-on.log",
+      "gitBlob": "41d4eed436eba7cc58d0a8cc0ca3231a2e430582",
+      "workingSha256": "05e81fa94ba4521a85ed6f124af11b4156cd065cbc8dc47027ed56cf00c967cd",
+      "bytes": 244
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-first-run.command.json",
+      "gitBlob": "6ecbfad996da172fbe42dc9a8c48566268f38df3",
+      "workingSha256": "4574c677d3bb108ad3d7e06d89386f100f076c6536f18a75c4cfc486b5c8966c",
+      "bytes": 253
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-first-run.log",
+      "gitBlob": "f8e1eea22ec797605e81237e784efe80b1576bff",
+      "workingSha256": "42376a6bd7a86603aab54ffad53f1f0ac726b54036a95a79e63c3cbb5a60fc9d",
+      "bytes": 138
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-install.command.json",
+      "gitBlob": "be1af2a986ca509fdef0c886915fc77ba87706b1",
+      "workingSha256": "85315a2a6ca3fa70e110e38daf95d16801946973e4f6823f59febc38422110ff",
+      "bytes": 291
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-install.log",
+      "gitBlob": "9499f3d08db23858c7652e426d739a3b32cfc7a5",
+      "workingSha256": "5059c956336ef90aa90acf3b54621801e9f80193ddce78bfe0af5c427e7a9a3c",
+      "bytes": 150
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-malformed-hook.command.json",
+      "gitBlob": "df847956c6509fc40726c3a570c0765c50501d6f",
+      "workingSha256": "c37be7a4d06cf85d18753917a5df9cc96a59190f2ec9dcd82ae421725bf604a4",
+      "bytes": 302
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-malformed-hook.log",
+      "gitBlob": "abb8e0ade0c9cc645a13e8753598c886b71815df",
+      "workingSha256": "e218d74fa28de17d3f24094706b11895a012bff716200f7022b05f4e625452fc",
+      "bytes": 98
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-missing-version.command.json",
+      "gitBlob": "1dee3554a69acdf5d51b324eb745aa6eb25d7de9",
+      "workingSha256": "7d18c8ee01437254b47ddc1880c147df91e78a244bc30eef28b779828c3d73bc",
+      "bytes": 287
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-missing-version.log",
+      "gitBlob": "40035edcd23b64901a2f9f29db25f7d938f6beaa",
+      "workingSha256": "26b3deb8b60afd33b18764abbd8bd05f400f95a44bbb608825ca2137c1454e28",
+      "bytes": 82
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-obsolete.command.json",
+      "gitBlob": "37f100dc52c118a449409d4376dbb6a184d8265e",
+      "workingSha256": "c277d9dfedf10048f8f9577d3ca2a348a2dc0fe283715269ddca99ca07f5fff2",
+      "bytes": 293
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-obsolete.log",
+      "gitBlob": "290659c12cd9a911d4515a37a588b99bf495b454",
+      "workingSha256": "71c6b6adb3c0a7069257315651d2041f45691e30a4ac5f481e0fa307a5af53ee",
+      "bytes": 151
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-ordinary-help.command.json",
+      "gitBlob": "47bacf3a71aa7316b6d89806e715ad98af487bb5",
+      "workingSha256": "2eed6b195944952c461b1ebc61933dd1e9eedc30e0bee1cb0dfd1eeb4e0d64af",
+      "bytes": 272
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-ordinary-help.log",
+      "gitBlob": "40035edcd23b64901a2f9f29db25f7d938f6beaa",
+      "workingSha256": "26b3deb8b60afd33b18764abbd8bd05f400f95a44bbb608825ca2137c1454e28",
+      "bytes": 82
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-real-exit.command.json",
+      "gitBlob": "0b58f786fe0a37b551cb326f45be0978eed56d07",
+      "workingSha256": "25659f469fbfe34409f80818962392ae86783e9411877f9fbc4331b3c40e454d",
+      "bytes": 298
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-real-exit.log",
+      "gitBlob": "f3f2f8b913468f88bdf3b6e52f16ac9f76a9b643",
+      "workingSha256": "13adf55b371a5189792f2b8c11079ba5d5d1bf60b5dfc67c080388db3b1cadf3",
+      "bytes": 72
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-restarted.command.json",
+      "gitBlob": "58379932b4fa148c88980fb70a201b72ddf0aaeb",
+      "workingSha256": "a59575fa1cd8889d1f9575e40211324dcc133bb05e0147ae6e3c7bdca013781f",
+      "bytes": 253
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-restarted.log",
+      "gitBlob": "4444537c64c7782ce8b57e226e03e61304d95bf7",
+      "workingSha256": "aebfe88a654560a60167d6bc1dd37f72a7f67ba357da582de4b768533b81052f",
+      "bytes": 138
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-uninstall-throws.command.json",
+      "gitBlob": "8d7bf02d733ce828fcfd8387d0d378086d9a217a",
+      "workingSha256": "34646d5ac16bc3dffb7ae2e0d978f9592ffbb3e47368d1db5b1407ebb716b859",
+      "bytes": 301
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-uninstall-throws.log",
+      "gitBlob": "38bc4e7926946dd3d1ca4f14a048d8def186e2c3",
+      "workingSha256": "3704bd38732f031011253893e388c626cf29c91929df9dcfe637c15dfc17878d",
+      "bytes": 154
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-uninstall.command.json",
+      "gitBlob": "4b278c2b131a7e0b08c5ff2118ed439d3c1f1250",
+      "workingSha256": "d6bf8de8eef800d87a6d6796c98df9d0513c96ca6160906ad710aae453017f41",
+      "bytes": 295
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-uninstall.log",
+      "gitBlob": "1b4edfda91cb46ddc8eeb14edc516e36b44cefc7",
+      "workingSha256": "29ab1da4f249701c20ae1eeeaa3fb19f90be5c2d79438113677a8c37e689d038",
+      "bytes": 152
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-updated.command.json",
+      "gitBlob": "7a02bb22f19616e14058db65ca9e9ffee141bdc3",
+      "workingSha256": "99fed1554fece5f83655820439d93670ca7c91e33fd11ba679c854c3e9ccdb0f",
+      "bytes": 291
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-updated.log",
+      "gitBlob": "0c5ded666efc136c3ece2c2258564a8de6829fa2",
+      "workingSha256": "fb14a7d8af9ff00a00e0d60927e57567dc9f3fe9141f928263d151d800da6d69",
+      "bytes": 150
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/collect_evidence.py",
+      "gitBlob": "cb3eae6f48a632ee5ee62aa4468b8c6352f34a23",
+      "workingSha256": "3753ef3d19fced43fb1fca156a84981e22853c58af99c8dc954ac55f644332a7",
+      "bytes": 3739
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/dotnet-stack-version.txt",
+      "gitBlob": "eda267f6f674849e98bc840a39e48acf01b9a706",
+      "workingSha256": "f12e5f897dbe57d86af345e3f69e45d4540ab24cac7560abca190699618a4499",
+      "bytes": 11
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/fetch-source.command.json",
+      "gitBlob": "63652f80dc1a8df3d59deb9fbc8932976dd574dc",
+      "workingSha256": "d17c7c5ae0adce8493c4de4a50216ff974273be0f17d620bc25ac0002e4970b8",
+      "bytes": 129
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/fetch-source.log",
+      "gitBlob": "53fbd7e2417213985cd2781fbc7b127d8b8747d6",
+      "workingSha256": "f4021ac8709a1b7d231968569fc47760d2d5aaea759be9a7066b7e9fbe05f5ff",
+      "bytes": 218
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/fetch_runtime_support.py",
+      "gitBlob": "ca94fc9c8937507dbe02f540cfd257b7dc856715",
+      "workingSha256": "8964bc6c9cd3c14c06f591964160c0fff387b83a9452849a152e298bbf4fcc5b",
+      "bytes": 508
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/fetch_source.py",
+      "gitBlob": "7b6498aa4582f97c8aa79d210cd3062eb90c9fec",
+      "workingSha256": "1e32526e1ba43279c3a57a65871a674343ec7d15da7744a837d35a36eea071f2",
+      "bytes": 982
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-full-2.command.json",
+      "gitBlob": "119878b3bfb3a21d9ee674643c262f9e5ed11db4",
+      "workingSha256": "a6a7c09b9b51a53f7fcc05763f2ca52f2d836487d1d2508b93b6b73405dca53a",
+      "bytes": 145
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-full-2.log",
+      "gitBlob": "313a0f4417388433f532cd69dbc049d2efc3d7a7",
+      "workingSha256": "28ea92c1beea7632ea54eaa932ec7c8f599c805f893d398eae1ff16702d14b51",
+      "bytes": 5367
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-full-3.command.json",
+      "gitBlob": "c7800498e6f9e31faf3471811c0221f2666b6814",
+      "workingSha256": "c16a95e3ad67f77dfd75f13b8c7bcc213365d0cec047a9a2b80ad7f19e0eced3",
+      "bytes": 136
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-full-3.log",
+      "gitBlob": "998683964d3f3e6d256367e1752a0d3e8a5acca7",
+      "workingSha256": "9883242a38613da124a0e83dc3d65f7a2369ee6f62f046e80810603070786109",
+      "bytes": 3429
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-full-4.command.json",
+      "gitBlob": "c7800498e6f9e31faf3471811c0221f2666b6814",
+      "workingSha256": "c16a95e3ad67f77dfd75f13b8c7bcc213365d0cec047a9a2b80ad7f19e0eced3",
+      "bytes": 136
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-full-4.log",
+      "gitBlob": "516b537b193877412820a83b8fd49a45cce48342",
+      "workingSha256": "ba2054223bf8bfa47167d240263c84f93f953684343999543d21fe4f901d4c5b",
+      "bytes": 3429
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-full.command.json",
+      "gitBlob": "96a42e5fe44cd55fad8afa8ccb90b8e17f10172b",
+      "workingSha256": "8151b77f7c521934d9188851754d0152cab971705f5aad219d998264bf9be564",
+      "bytes": 136
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-full.log",
+      "gitBlob": "284d55f3a1c43000f759f8f6e04856cc3397d28c",
+      "workingSha256": "d1247b36bc54fcd86778dc5a58bd0203467a37c301d4f6fb0bd9c0fa5bb15b23",
+      "bytes": 116131
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-release-2.command.json",
+      "gitBlob": "373b0f08c811da776aceaf5caa909564e65bcbae",
+      "workingSha256": "90ae05b19c12bc3738c5c654b6ae9f848bd92ae86334673a20f42c4bb9090d25",
+      "bytes": 137
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-release-2.log",
+      "gitBlob": "e46036687a682ea489e550d76912dfad2ba59ba4",
+      "workingSha256": "4967fa6611dd4c320d4e768d1543518be619e2096d5bf099d7f066212866fc07",
+      "bytes": 1614
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-release-3.command.json",
+      "gitBlob": "373b0f08c811da776aceaf5caa909564e65bcbae",
+      "workingSha256": "90ae05b19c12bc3738c5c654b6ae9f848bd92ae86334673a20f42c4bb9090d25",
+      "bytes": 137
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-release-3.log",
+      "gitBlob": "eff627e2e48ac1126fc8a17e2d2198b811f9e630",
+      "workingSha256": "49f80ab5a295b8b8f20f79713eceddac23a58126eaebe795062093ef387930e6",
+      "bytes": 1614
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-release-4.command.json",
+      "gitBlob": "373b0f08c811da776aceaf5caa909564e65bcbae",
+      "workingSha256": "90ae05b19c12bc3738c5c654b6ae9f848bd92ae86334673a20f42c4bb9090d25",
+      "bytes": 137
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-release-4.log",
+      "gitBlob": "1e04cdd38b285247be14d1027a61092a58b080dc",
+      "workingSha256": "3f4f923cfc2819b4795b7c22f6717c044895cd9f522ac8c3cb8859fb4060c2fa",
+      "bytes": 1614
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-release.command.json",
+      "gitBlob": "373b0f08c811da776aceaf5caa909564e65bcbae",
+      "workingSha256": "90ae05b19c12bc3738c5c654b6ae9f848bd92ae86334673a20f42c4bb9090d25",
+      "bytes": 137
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-release.log",
+      "gitBlob": "20d7a0058404a6b7f94e6fb4f73c81cec7ba7ce5",
+      "workingSha256": "800ad2e08278be30fb76d455aa9b08890068d4f7745f5e287c420e8cb50aa7be",
+      "bytes": 1608
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/inspect_publish.py",
+      "gitBlob": "c7b1bab4301b9b934974dcfb6701b5f6ff8c37b0",
+      "workingSha256": "3f838ebad8105d974fdac353b6aca0608c4b959d236b3fa81f08b9d5b51f3be7",
+      "bytes": 1548
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-async-fields-help.command.json",
+      "gitBlob": "3d16d9cfc967a846a7f9d48dd7648a1886f41c5e",
+      "workingSha256": "805f45c773e16d5953f4c93794c778538636a2cc57c6413f5d22c6da87c3f6e9",
+      "bytes": 307
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-async-fields-help.log",
+      "gitBlob": "c8b6d31fad07e1ca05bc4ed5c8da86f2b5b82333",
+      "workingSha256": "55a4763f9bfd2b0543b13b9287ead6404f0e5d796a0161d06dd7f81c44731e97",
+      "bytes": 4472
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-async-stack.command.json",
+      "gitBlob": "7c87bd0a173d6fd4f8050eb5a24ca8d69ed6da1d",
+      "workingSha256": "2c6adc2fc37603330982e0462560d63e5fb45de1e0477837fa79d260a215e846",
+      "bytes": 251
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-async-stack.log",
+      "gitBlob": "336e2dc1dd2daaec30c69b06bbbf69d91a96ba8f",
+      "workingSha256": "e592d5ff9e7f27d31c6a074e62ba24fe9ffe4b56bbda8797879371a9527901c5",
+      "bytes": 13418
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-before/IpcEarlyDisconnectTests.cs.txt",
+      "gitBlob": "b4aea4942078d8169416c1a577bf25e778ea0063",
+      "workingSha256": "371a40569d797941f08337dc21009a28ec0ccfaf09c48a8f4e672139f023a7d5",
+      "bytes": 7612
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-before/IpcPipeFactory.cs.txt",
+      "gitBlob": "56aaa9d169dba586b2c450a5d5372dd8ca88da75",
+      "workingSha256": "1d6f35d82fc09c83d32822715ee5e6aafa015e098b58823a8fa8443e74cf0c5f",
+      "bytes": 2275
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-before/NamedPipeIpcServer.cs.txt",
+      "gitBlob": "1dacbbbf88cdd1ee0e8887dcc94da8dccd5ba381",
+      "workingSha256": "aa932140ab8767981753bb0d16628e114ec60689aa3f6259a0684cdcdce4abfc",
+      "bytes": 5656
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-before/NamedPipeIpcTests-before-guard-review.cs.txt",
+      "gitBlob": "5187d931adf61f7918a43e048d6db02efba35ea9",
+      "workingSha256": "7c660fbd70f42361b0636fcc585163b65248abcae73360f5e02876092379e7ff",
+      "bytes": 14892
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-before/NamedPipeIpcTests.cs.txt",
+      "gitBlob": "9bea600c4659f0f296d34e4e2fe031ca7785e63c",
+      "workingSha256": "bb9bb9fb0958d0bf0849954a71f7b0ed2819d97d34186817c4079ce1baced2a2",
+      "bytes": 14142
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-before/binding.json",
+      "gitBlob": "68daf13309fe105d6d2ab8d37840200848424a8d",
+      "workingSha256": "53c898d04af78267b5040bbd4ef8687ab9a3606afdc1b416f919074ac82528df",
+      "bytes": 720
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-dump-tool-install.command.json",
+      "gitBlob": "4724a1c1fd0f94e62a0bbad60a7e8ea5c6f6a543",
+      "workingSha256": "6073f0ff2f0ca433c02690adf71504644e2e307c202f422ceb82efa4407e3ee3",
+      "bytes": 295
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-dump-tool-install.log",
+      "gitBlob": "f368fa7b4b8fa4fb81547422486d66c2de6db97a",
+      "workingSha256": "ed5234ba9962bb74ab2bf8a9f676bc28f38932b8f3aaa8384e32e828f68cd689",
+      "bytes": 116
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-early-after-1.command.json",
+      "gitBlob": "50f7066a503527a4dbdcdd28acc300afacf4a69a",
+      "workingSha256": "c91b9e0695108cae95f0e1dd35039ae5f360f2d28d3e209052464360e7ff6d94",
+      "bytes": 303
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-early-after-1.log",
+      "gitBlob": "34c85eec4ede7dd60039194d319a85e1f1e3b60c",
+      "workingSha256": "a1a84156d8fbe6313af45b51318706b7452aa717a030136efdf14ce2aa569e2c",
+      "bytes": 399
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-early-after-2.command.json",
+      "gitBlob": "2198f7ca62e8b33db2f5850836a6adb102ca6489",
+      "workingSha256": "f75c3d29347c191b4ca87b0d34d2d315cfa151c026058a0bfd6969c28a5223df",
+      "bytes": 303
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-early-after-2.log",
+      "gitBlob": "101acc5d61dd35a18b752e70dbea9a9e795373df",
+      "workingSha256": "971724210dc7f0a8da86d646c113ad5a092ce33f25ba733a3a7a6477fd007e87",
+      "bytes": 2241
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-early-before.command.json",
+      "gitBlob": "dd3d2b91066fee785849c2875dfd33593b9f0376",
+      "workingSha256": "941671c0b02e23c692981303c94e43452a2ad0e5d313d8e17271d9967267b365",
+      "bytes": 303
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-early-before.log",
+      "gitBlob": "808b86693d21577f8d016022cef76e8d31013163",
+      "workingSha256": "13eaf1dbea2e3f505bf67013d73bc8d5c80ad28afd342566d167b9ff791b6608",
+      "bytes": 6738
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-dump.command.json",
+      "gitBlob": "3b4e282fbab5c3eab46e11f0e902b9d987762e66",
+      "workingSha256": "78daf94efa50a850f7a42e2a990067ee3385324f80788f047a4416c680a3a7f9",
+      "bytes": 264
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-dump.log",
+      "gitBlob": "e842730ea7f3d4b264d1f3caaf2ce7ba25e4b388",
+      "workingSha256": "1c74b2724072c94e3491bd3089d448b9302ff8f6befc4e87c39895fcc3dc4acd",
+      "bytes": 74
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-fields.command.json",
+      "gitBlob": "5fddd43c3ad9e6860b46801a036d4e0c07e6afd5",
+      "workingSha256": "5edb3402632459d950a7fc4b60487738a57f24a26b09c57332da7a32ac3fb910",
+      "bytes": 291
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-fields.log",
+      "gitBlob": "125d7c8631c98dcf6126834e40185030a9a40b25",
+      "workingSha256": "86fd83826b439a5571d8b62d4f3006d7f990b5a7c69cf2cbc7c1c5f89d351a48",
+      "bytes": 10434
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-fixture.command.json",
+      "gitBlob": "5614764a634caa5d8f920010281bbc1df742a416",
+      "workingSha256": "03c57fed09a79e6ed6ad7259287a80a6c708798e21146d2d5ca0fb247161af6c",
+      "bytes": 266
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-fixture.log",
+      "gitBlob": "44cd5237ee7fbcdf201635b612152dea5600bffa",
+      "workingSha256": "da224cbce6f81e9a62400c81a1cb04e881ae80be9a79d5bc9522af2a674937a8",
+      "bytes": 1011
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-loop-pipe.command.json",
+      "gitBlob": "6d10805c4e23bab0b17591aec313a0b7080da66b",
+      "workingSha256": "f44f1c33816ebcad8ab348f73b0e35721b19626001de96c8c822f31cfc729e18",
+      "bytes": 317
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-loop-pipe.log",
+      "gitBlob": "e71281885e4dcac36b98202809f9d498be77b9ac",
+      "workingSha256": "6a9a982e66c265d27a5907eb37cafe715fef6ce96ed0e43fc74fdb0ada4dedf5",
+      "bytes": 3481
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-server.command.json",
+      "gitBlob": "081c65c75090fe0754ea6ceb8f2dad8759a12a85",
+      "workingSha256": "fa86238c693201e23e7a76bb85970b9a693487a830a49e2d114bff4f6c963abe",
+      "bytes": 317
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-server.log",
+      "gitBlob": "4ca45fdadbeff21267e088d4aab2e2b622bd445c",
+      "workingSha256": "14888e3f9eaf6ae28f037e981c5b31f688597ce109438a49d1cf8df1a6e9e882",
+      "bytes": 3800
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-stack.command.json",
+      "gitBlob": "7efa29e38979150da2cc206ba4ed59acd68e7ebc",
+      "workingSha256": "a8c14bb8163d53c348d9f8d840c84e337352527ecfbd43c6fdb9772c2458e41e",
+      "bytes": 174
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-stack.log",
+      "gitBlob": "f2b0a443093224e9c1154d31bd2a35c73a6c761d",
+      "workingSha256": "de0322e438e7446fcab2c9ff085c4c1891c2c3b5791a80aeb37767a56ea8c9fd",
+      "bytes": 5310
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-termination.json",
+      "gitBlob": "a0118e7d2e9d55b6dba59f46e702649c8e2d6880",
+      "workingSha256": "6b1e56d364e6ff2f7c0bacf368a9db1cdf0d9d5e61c13fee3447fec17ab0401a",
+      "bytes": 353
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-regression-2.command.json",
+      "gitBlob": "2bc8b9a8821fcaf3b441d5ab073af2fafd2bd8b0",
+      "workingSha256": "add79566c4163293d740ec4632cdacf27c1494e33f24ab4ad6da723438010181",
+      "bytes": 328
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-regression-2.log",
+      "gitBlob": "a364f2ed635d7f3131152eb0b4aa9ee55fc6423a",
+      "workingSha256": "55359db101ea4c778d58b79d84451878e0ac535a4f9676bba7f3c4f6195e7829",
+      "bytes": 22874
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-regression-3.command.json",
+      "gitBlob": "2bc8b9a8821fcaf3b441d5ab073af2fafd2bd8b0",
+      "workingSha256": "add79566c4163293d740ec4632cdacf27c1494e33f24ab4ad6da723438010181",
+      "bytes": 328
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-regression-3.log",
+      "gitBlob": "7489f8eaf9bd785fb798bcc2e4f9fdf45197a786",
+      "workingSha256": "f45c57b80a6dfa05977f72903692cc2e9ab2784e20e3c759cc2994c4b65b4b4a",
+      "bytes": 23142
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-regression.command.json",
+      "gitBlob": "6bf232614d81619e7c3e7199f1d6d2ab8d704996",
+      "workingSha256": "59aa56018123aa203a8aa5aa9ea8d2c52676948899ee8b82b94e9f3ba56aee5b",
+      "bytes": 289
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-regression.log",
+      "gitBlob": "9a986598b79337a0145be6828751d69626005cb7",
+      "workingSha256": "6c2436c4b60dc0afffeee084a798e253552d4dfce3d6b400835af865159947ce",
+      "bytes": 435
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-stack-tool-install.command.json",
+      "gitBlob": "2edfb813b92abdbf40590c731e934d821f9809f1",
+      "workingSha256": "2fb135ea7a58acf4e555ea13d9a570afd6972aa25ecbad0f1efcb1a5f8b6d7a1",
+      "bytes": 296
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-stack-tool-install.log",
+      "gitBlob": "e5b63019bdfd766d43b8d0c179eae2f83e7bd1f7",
+      "workingSha256": "790843955f7e4232fe95a8538a9f1c3cf79c24363d4bc94e870cb2d340837d59",
+      "bytes": 118
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/iris-publish-baseline.command.json",
+      "gitBlob": "bd80458d10014d312f492b96c6410725ee38d5ea",
+      "workingSha256": "5516dee5f7c294c6d29475b7df8103b7853350650ce39927bb0e0cddf27f09f1",
+      "bytes": 398
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/iris-publish-baseline.log",
+      "gitBlob": "eea9104672593b74de8c6a6659a39d9abf74deff",
+      "workingSha256": "bf1a61eec2ef1211030a3aefbf5b55c7001fb5114437b041955f0a3d389e41b3",
+      "bytes": 1457
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/bootstrapping.html",
+      "gitBlob": "c787fc12ed62903286b71fc2b71ac4c65418a579",
+      "workingSha256": "fc9fb6aafb960d610dec36ea7f465afe4fde67d8c64da98b45a4c6689fc51819",
+      "bytes": 30605
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/bootstrapping.txt",
+      "gitBlob": "9406d1cc79b44d6efd1a2555e32ba5eed1902e5c",
+      "workingSha256": "9779ebf3a20f667e0d2a04f52e289ff1850a08370ce046b85958892782bbc42e",
+      "bytes": 3764
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/dotnet10-supported-os.md",
+      "gitBlob": "bf898440b1d9c380f53bd0f5b23ef23ce96cd518",
+      "workingSha256": "168f8bf76fdcaad9a1083ce5a96329291c17ef4c51e850b99c83f6e0457963f7",
+      "bytes": 7009
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/dotnet10-supported-os.source.json",
+      "gitBlob": "edc3eb9969128f04e23848adeb48d93e5bc50837",
+      "workingSha256": "87e6361833750ee3cfe27c6f742d8506748b8b830d7ac4a36cbd99d61eb909c8",
+      "bytes": 183
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/github-actions.html",
+      "gitBlob": "7e98b2a41b99297a0371b2bdd0c57c4b9b56596b",
+      "workingSha256": "6a3cde23eb2d3f4285c61907b46019626c9d4e09f187527cce623557414d1434",
+      "bytes": 43294
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/github-actions.txt",
+      "gitBlob": "a59f52de619a55da9a3cafd76fc6e54ba8c0e73d",
+      "workingSha256": "94e0f0e4caf16356ffad0ff8fb1e2a29f0de05a550affac0c71238afdb9a391e",
+      "bytes": 5968
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/nuget-velopack.json",
+      "gitBlob": "8c43a0f9d63ed348ea865edf995319788535ea74",
+      "workingSha256": "27750a9aefd8ee3de622494d9c5b979d038718df751994daca6f14478730a818",
+      "bytes": 2635
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/nuget-vpk.json",
+      "gitBlob": "1d0001db81d0a43bcaa4c821d8d3cc1d2b5fdb28",
+      "workingSha256": "3da640f2753a417e4c56bb47f51b3022bc926b8d548f4e6cfef2b468f0b6c221",
+      "bytes": 2610
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/runtime.html",
+      "gitBlob": "e3e8e45358334e600f9d8d83640c2e76d26b4c0f",
+      "workingSha256": "da2c412ced08d1ed600c03f28db8d0163099ead95a12027b398ac9b52e992f3a",
+      "bytes": 24024
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/runtime.txt",
+      "gitBlob": "57ee22d993f2a14ef14c2549ab3d8929d4afbec2",
+      "workingSha256": "042c7ac60661159abb151cd11a8514bc068b516bff8c9516bc0772b66008e74b",
+      "bytes": 1688
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/uninstalling.html",
+      "gitBlob": "157441c3b55cbb1b628a91fe1beb5c65a12c1ef6",
+      "workingSha256": "aea6a33d071c1b6eef4524b624c56625436abfc71e77c36701db1537d311ecf6",
+      "bytes": 25446
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/uninstalling.txt",
+      "gitBlob": "477697ae4c04f2e50565a71cd5bae9fdeac0068f",
+      "workingSha256": "97263e4d55c796b08db9ad1465785ca3847a33ad0d1915c22b98bcf537f4da2c",
+      "bytes": 2421
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/velopack-csharp.html",
+      "gitBlob": "92ff309628b20f9f2feb51700342293ffd62babc",
+      "workingSha256": "9882a1fdd1b12df4bc629b6b6ad1763aa94084dc113988b580832d3578caf3bb",
+      "bytes": 62771
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/velopack-csharp.html.txt",
+      "gitBlob": "f170d63845f2f1f76fbe33bbd4a53bfda69a6ed6",
+      "workingSha256": "b4022bcfc7ade1d65dc867993e35c21e38f8d409a4e063155994d5edbf26301f",
+      "bytes": 10512
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/velopack-index.html",
+      "gitBlob": "a8e06cf6b0b381e5cef6ec1a6f332188d90abb2b",
+      "workingSha256": "22aa39995b1c3e110474802a03ad5591c8e1d26686f7c1ae4418e5284f5b790e",
+      "bytes": 26485
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/velopack-index.html.txt",
+      "gitBlob": "81d30618e8325cc3a8b170610f59d0ad6eaf9eec",
+      "workingSha256": "f1c56ba284ecc4d37882800bcd7f6e9d9044c32fae85e5682e7e174dda6b29c6",
+      "bytes": 4436
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/velopack-latest.json",
+      "gitBlob": "a3431c197de28673b40b19d6171dbd2c84d0e128",
+      "workingSha256": "cd21401a1f35e1c3faac328a84c9c620a9b4e0117913147be1604f96249af333",
+      "bytes": 12536
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/velopack-sitemap.xml",
+      "gitBlob": "c7059097910afafb6bec69c02ff17297867a9453",
+      "workingSha256": "b510e0c998c7540cc94966ed6fcec35323c95ddffdff15d454e8c902dba9bbf4",
+      "bytes": 27667
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source.json",
+      "gitBlob": "3d303417f9e9e31fef5752bc438a5f8eb79f058b",
+      "workingSha256": "162cb0660814bb7b398f95612b08b360291db238c8b769d1a57ff1e090edea17",
+      "bytes": 228
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/LICENSE",
+      "gitBlob": "e0ccfbd78cb28ff7a781ab5fb3852260e7b9c5b3",
+      "workingSha256": "91845db83551c877ebbb1118e0fb92e4e527290d23b995c55dcd438b3293943f",
+      "bytes": 1091
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/bins/src/commands/apply_windows_impl.rs",
+      "gitBlob": "2effdf5ce9a7330e43ada2592ed38b9f60486a4b",
+      "workingSha256": "d3db6cfa465053f24245d41ab9532a002091829b2d051eb9942bc64147450d4d",
+      "bytes": 12142
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/bins/src/commands/install.rs",
+      "gitBlob": "f242e5cfd4c4715c2db9e63e838e25a09c924925",
+      "workingSha256": "6334153f7908de2343206cb6afae3835e89cd8390dc06aa78cc21220bfcd2e32",
+      "bytes": 9662
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/bins/src/commands/uninstall.rs",
+      "gitBlob": "8689daf5e9ffa19e3ee155ec72ea469ab2b3e23a",
+      "workingSha256": "9d26594bfd9320798f59d3c43544e4d0bef6f4e6da5b9830bf1b1c167fd865e8",
+      "bytes": 1804
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/bins/src/shared/util_common.rs",
+      "gitBlob": "e832f9655eab378ab3206148b47ca4e63cc8b23c",
+      "workingSha256": "4610125beb18c8766bc009afa2f92c6dc05914d14120d42b9de18fdf9499a5e5",
+      "bytes": 4395
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/bins/src/windows/registry.rs",
+      "gitBlob": "af93255d834f348f3bedf6f4ca2b9d23380a6b86",
+      "workingSha256": "5a4867d468d2473ad6fd2b4851080f5f6f0a26b2aae3cb2d438c448677edc0e2",
+      "bytes": 4775
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/bins/src/windows/runtimes.rs",
+      "gitBlob": "b1e59190baf4039b6d3658e722644419891ec063",
+      "workingSha256": "81c1f8cbbc89ce848a3a70303dd32c36d241215cee58aca1a6756ca49f4e1fb0",
+      "bytes": 36220
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/bins/src/windows/util.rs",
+      "gitBlob": "a09cf708b5749bc9a31b4428f691a582c68481cc",
+      "workingSha256": "2a049c423bae091f670c3748ce340af8f026f82b83bf785e7820cb40117c5ee9",
+      "bytes": 13504
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Locators/IVelopackLocator.cs",
+      "gitBlob": "1aba3732d25858aa190bf373528b10de5bcbf873",
+      "workingSha256": "8a0909060bb549c7a1a967e433b9e8ad30000a1f877554c09b1ac8d684009f3a",
+      "bytes": 3550
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Locators/TestVelopackLocator.cs",
+      "gitBlob": "08aeb0619f94e21f37e147c4469d7f40f9ad755e",
+      "workingSha256": "c49a697afa2d21b705597a5331add516ad7ef4d58189586ca2e9bd64cd41c76b",
+      "bytes": 5213
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Locators/VelopackLocator.cs",
+      "gitBlob": "1c65416015ba3add25827cc3f0f9ee4015967979",
+      "workingSha256": "84df89fc41c204466e8dcc5137759d334ee8dd07433cd446c7ea7c4819d77c48",
+      "bytes": 7887
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Sources/GitBase.cs",
+      "gitBlob": "3af23a80ce057ea5f9854615fa9b78c45c2e374d",
+      "workingSha256": "1165bedd575ab8018cf7cac4fc75dd04a07601f2814022cc80326807353d5b8f",
+      "bytes": 6956
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Sources/GithubSource.cs",
+      "gitBlob": "0d1787b5689d62b600f682a92c4891f5995d38a5",
+      "workingSha256": "ef4bb04ae4c52c28b0e2b331abc5295e1829aec1947e349ee3d930432cbead60",
+      "bytes": 7503
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Sources/HttpClientFileDownloader.cs",
+      "gitBlob": "85e1488fcb62d837427f317ad1f576899c15aba3",
+      "workingSha256": "d8314b9a28f61154b280c482df72381412039ac5d32af12b134010e983fea82d",
+      "bytes": 6473
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Sources/IFileDownloader.cs",
+      "gitBlob": "67343c460dcda6584f8d3ab37bc48342f9d8241f",
+      "workingSha256": "f8ed0941210d47614d4c094ec5f6be57e7c8c3d695f27d723553f69d97d70e1c",
+      "bytes": 1791
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Sources/IUpdateSource.cs",
+      "gitBlob": "ad43e963fa622b80baa127f11283a36fc0913072",
+      "workingSha256": "db3c4d2ca151a2591da9930eca6a040d61edb955cd449c23c3fcd0f8b11ab974",
+      "bytes": 2856
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Sources/SimpleFileSource.cs",
+      "gitBlob": "3fc497e308da9778af6fe06f123362d4baa85d3c",
+      "workingSha256": "f3453eb87847e7a33ba7eda44eb0cb2d2d538cf37c07518c6f8982796380f4ff",
+      "bytes": 4175
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/UpdateExe.cs",
+      "gitBlob": "fabb73ad02c1e5932292fb4a342c83a519187b23",
+      "workingSha256": "f93338a733ae836739dff61089423c25f1a9d84ba28cc66a6f6faea77331e969",
+      "bytes": 4890
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/UpdateManager.cs",
+      "gitBlob": "695d63a0fa4dde8da065a955db3d4fd2a527d89f",
+      "workingSha256": "638bae24a68702ed1cf56a90fd21e9372138db4b04664c12ccb411cb5d27ddef",
+      "bytes": 30316
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/UpdateOptions.cs",
+      "gitBlob": "ba4b57d601cbe0df4f38437d69e250aa2111792b",
+      "workingSha256": "b47896c53cf4ba4e73459d64e493b46c44ad5632d44811c7471ee828ed97e2ed",
+      "bytes": 1714
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/VelopackApp.cs",
+      "gitBlob": "790aa172d0e97025c29ed5ee4a3d690a6b60abc7",
+      "workingSha256": "023081386b8dfbef3dcafaa97a014d6471587fbdaf44d15c0065d0b9d140fb34",
+      "bytes": 12359
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Windows/RuntimeInfo.cs",
+      "gitBlob": "bebcea8cccccd42894f7fef41106274ab8a59523",
+      "workingSha256": "feafba60913080782f4f7bcb6ea827f566dbda825cfa7882f0c2488acfc54756",
+      "bytes": 28666
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Windows/Runtimes.cs",
+      "gitBlob": "f0cb6388a895b35c1eb369bf994de1e59e7a5c33",
+      "workingSha256": "493c22248d43f627eccf5a948d7749a0e535bb5d1bd1e0afa757ea6d92e84bc1",
+      "bytes": 10843
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/vpk/Velopack.Packaging.Windows/Commands/WindowsPackCommandRunner.cs",
+      "gitBlob": "75d1a2c0b607847a73345e4605fca66d27e903ed",
+      "workingSha256": "782cf22a38f2363f1cc904157f96a3310d9adfa2453fc4e7e840c9c25f815124",
+      "bytes": 17131
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/vpk/Velopack.Packaging/PackageBuilder.cs",
+      "gitBlob": "74f07ab84613d2a2abc3a1acc26e5be77538d2ee",
+      "workingSha256": "5241dd2015061569e272ec5a05377486d472bafd5260c24959f18173f1f5bde1",
+      "bytes": 18194
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/pack_local.py",
+      "gitBlob": "c51d8151c6c7a4c9728c816f5aec9efc52b1dff1",
+      "workingSha256": "1bd3524e9d7b961e3eb8eb47e3e6decaa8c7029868a85e2dc7bd4fffc2079145",
+      "bytes": 1300
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/package-and-source-inspection.command.json",
+      "gitBlob": "680cd340e84c9df745935521a2ce04a7e45d69bc",
+      "workingSha256": "487205cb7ec6ec1e081a162faa99ef04c21d4eb79f2b5ce9d2255d039180b37b",
+      "bytes": 133
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/package-and-source-inspection.log",
+      "gitBlob": "ea25d5e394fd117ee449258852cc2813abd055b5",
+      "workingSha256": "c0e9fb5d6186dba1d84abb416cc2edfd799c7df2ce5dae51ecede790bfc1bbfc",
+      "bytes": 2563
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/package-inventory.json",
+      "gitBlob": "428cdbd36eec291eb76a292c1551079fe96384fd",
+      "workingSha256": "6992e2257017b0465c5114e01a8f28438498503ae7193a8697364ce6b14548a0",
+      "bytes": 12941
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/payload-publish-v1.command.json",
+      "gitBlob": "c15674944befcc1f140b79206ed331654276d9df",
+      "workingSha256": "31c25acaeef935f2697efd7a11f2f44a1ce40ad5894ab6d1836edc73885745c9",
+      "bytes": 405
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/payload-publish-v1.log",
+      "gitBlob": "aa6959d2aaeb7ca1b4467aa7678b9d6c207a73a6",
+      "workingSha256": "ae3732e78d3a77fc016c3041d0b5b3f676122ce82795534a01dda1db3cad1455",
+      "bytes": 268
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/payload-publish-v2.command.json",
+      "gitBlob": "886a6f206a613f1250133dfc87b8d5c07451d8ba",
+      "workingSha256": "ea1674836912a6769195a027f3367db5b5ae3111654c0c7abe22021cc0f72737",
+      "bytes": 400
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/payload-publish-v2.log",
+      "gitBlob": "55164f24cb2c847cd857e5a01a9e426071d53bce",
+      "workingSha256": "b53e69d3239cf94fef0f4b8197bb5085107f96a4dd18ac26fa9bd20cf37e52af",
+      "bytes": 266
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/preparation.json",
+      "gitBlob": "f9e32d9164010af267ff88b6dbe5f255e7f8a515",
+      "workingSha256": "0acfccb50237cbdaef3064c7f0fb333b30620c1ea0e3e626714ff5702fba0f95",
+      "bytes": 1635
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/prepare.py",
+      "gitBlob": "79103a26fa5311c3f12eca4569deb0df36fb4330",
+      "workingSha256": "00419c1ffb8eb37eddeb86ff3d5e63b2fcc3d696530d240a5d13d65deeb391a5",
+      "bytes": 1834
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/probe-build-1.command.json",
+      "gitBlob": "7fc5e89c562f4da3a75c592c261360981ac1e6c3",
+      "workingSha256": "9a9ebf5ec46219641319f1274fcb7f359184d86597e764ab243fad5c7a459315",
+      "bytes": 245
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/probe-build-1.log",
+      "gitBlob": "c768b1027c6844c9d2acd57daf4e75e47b1ca71c",
+      "workingSha256": "02c84e32df2024b0e94ffc0e8df2096a283d978fbb7e9e5a04ef5baa06f0201f",
+      "bytes": 280
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/probe-build-2.command.json",
+      "gitBlob": "7fc5e89c562f4da3a75c592c261360981ac1e6c3",
+      "workingSha256": "9a9ebf5ec46219641319f1274fcb7f359184d86597e764ab243fad5c7a459315",
+      "bytes": 245
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/probe-build-2.log",
+      "gitBlob": "42fd46978e427542f29de1c983206e73f857a506",
+      "workingSha256": "16e7675637c3bfab589cc0f8cb756d52a14611dedafabb49d65d394dea105eac",
+      "bytes": 256
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/probe-build-3.command.json",
+      "gitBlob": "abc745b23f073a0219c30999307b870b4a916a82",
+      "workingSha256": "2858df5680b8bdea54a7401b7540bb9ba321280fb8d68ef04f899fa376e99d7a",
+      "bytes": 191
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/probe-build-3.log",
+      "gitBlob": "2bb24a64b1091961e668f1e6e92faf40329908f3",
+      "workingSha256": "512dcfe846d86a00dd8a47c5da4ed2ef92d9ca192f61478748745d01ecfcffa9",
+      "bytes": 174
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/publish-inspection.command.json",
+      "gitBlob": "cd59268c7790ea7311e89b2fb716f5ad29ee6f86",
+      "workingSha256": "b07cf440455c0fd645a01aa87b51d0a798c905e58a9ae1d664f8fe5d742252de",
+      "bytes": 132
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/publish-inspection.log",
+      "gitBlob": "ae58a524a78468cfde28f615d5b46b176eabc35c",
+      "workingSha256": "1e38cd3fd6bd06ea435c1d0d402bd41306ea67ebb962d18d92e202232b19a603",
+      "bytes": 906
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/publish-inventory.json",
+      "gitBlob": "8fb097bbaebcffad21275cd73913317044abb22d",
+      "workingSha256": "bca5a3a21ba2f72226b307ed89d8f6fed6f97c5df92dea1afd7152b8bbbb5fcb",
+      "bytes": 39603
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/recommendation.md",
+      "gitBlob": "aabe4d752253be0fe17a61c6aaf3d105d181b730",
+      "workingSha256": "8a376c52f8d5eba29f9695365f81b81d2c53128e2ceff9f4a02839f8e39d5920",
+      "bytes": 14579
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/releases.win.json",
+      "gitBlob": "791cc09aa486f39d6e28bfa4df37e9e0571d841f",
+      "workingSha256": "e9edd3f5ec512cfae1c8a1743e1529b7b92d9582ac8aa07a4ba4d24db0469442",
+      "bytes": 935
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/run-before-culture-fix.py.txt",
+      "gitBlob": "fb56b8d72a36ba6a1f5dde257c6740437ebd4a3d",
+      "workingSha256": "5c1306b14c52c61e2d2f6ae13459750c3c0d060e4dd35f8f2514badb67cfeed7",
+      "bytes": 1250
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/run.py",
+      "gitBlob": "304d04eebb29601414e6c285aeb0e873bc9095da",
+      "workingSha256": "0019fd673127cbb40c450091cfc3afb963888c8dc88ae131c0763060364f3f2b",
+      "bytes": 1203
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/run_probes.py",
+      "gitBlob": "38d63d333ce0f5ce45fd80c6be1a10ff0c4712e8",
+      "workingSha256": "84d7ac7c686d7abb4ffca864b1bb60ae4239ffc7b34225ac8f5908a817dc4277",
+      "bytes": 1571
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/runtime-support-doc.command.json",
+      "gitBlob": "f3425afc595b6572f6b265419332662e79be98e5",
+      "workingSha256": "d568743ace6bf2e1bfb844b68d9aac265b1fe5fbba436e0f32ebcc775665e7c9",
+      "bytes": 138
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/runtime-support-doc.log",
+      "gitBlob": "334e1103605da88530c248163cc31867c41d6448",
+      "workingSha256": "0f85ff20abd0069ba9f262ae8f7e3ab336fdf24419374d58f301a82459724d68",
+      "bytes": 7138
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/sdk-probes-1.command.json",
+      "gitBlob": "e192060f96b05f0bed3907f12c8f6f8c4c533a11",
+      "workingSha256": "c745310538ed049d55c14cceeac954f7577fb70a49e33909c6303fd5f0f5fe5b",
+      "bytes": 320
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/sdk-probes-1.log",
+      "gitBlob": "0bb3ead398c5d4896ec9cdbaf9de9d1c98c7c955",
+      "workingSha256": "42a41051a7c242bc4605b0eddea9a13d3e237628512f33c922d489c193d36cd5",
+      "bytes": 1809
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/sdk-probes-2.command.json",
+      "gitBlob": "225960ca8b41c0bc54b565b503db1d2518535313",
+      "workingSha256": "fce6052a4a4084da16d3c0ef14df718b70369ba1417c2df807e07ba327c0b2ca",
+      "bytes": 320
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/sdk-probes-2.log",
+      "gitBlob": "d35b1460d92efe632103e0fb31fdef79dbe031aa",
+      "workingSha256": "ddd90f03a1cce6edd7abe0adca34ff12e161bf7889b5b3800acf6fcd11e5a77d",
+      "bytes": 2293
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/source-bindings.json",
+      "gitBlob": "31ae16f7fd2f16637a29e386adc42f166e569b4b",
+      "workingSha256": "446eb0ad1aecb6fc99e28e92f0131e31cf7d8367b44fa3932c480d89a565a644",
+      "bytes": 4407
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/tool-install.command.json",
+      "gitBlob": "b5f36b2fed31924319f2a377e5c2b14b58546d16",
+      "workingSha256": "958c6d97e99b35decacbef336b3b2c2014366647af8a6f74ff3173bdc08b402d",
+      "bytes": 277
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/tool-install.log",
+      "gitBlob": "5da19ef6bc2d2ebc64ebdd41c6ecff29f1ca74d9",
+      "workingSha256": "fbe3779e05249efb4dd5c27cb01ca05e47af3ca396f8d3a5364dc60b0d2b7465",
+      "bytes": 96
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/tool-list.command.json",
+      "gitBlob": "9bbc9cc3d10baff61350c812fb0905871ac4b1de",
+      "workingSha256": "087c7560b548e14d6874d68375680c22924b6a3b88b16875ee9331d567dc9dd8",
+      "bytes": 162
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/tool-list.log",
+      "gitBlob": "834e6aa3752963a91032c825cab56f4035a34557",
+      "workingSha256": "1767a5ada5c8878e0128bd2b3f7e470fa0703535929501b2e2630db7ef1ebbeb",
+      "bytes": 117
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/uia-publish.command.json",
+      "gitBlob": "b2b02517e6b699d1f36117910ce06727f64ebc4e",
+      "workingSha256": "2731b136c5180d3a532d0e4e8f5f20d5e8fe14dffb75753fa3cc75ff09af820f",
+      "bytes": 396
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/uia-publish.log",
+      "gitBlob": "3e415bbe928575d78385bd151b64e57cace75dbb",
+      "workingSha256": "e71f07c7425261117ca6a1cc013d2073999fcb9d57351cf906ffa29fac2f8d30",
+      "bytes": 525
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-pack-1.0.0.command.json",
+      "gitBlob": "ea2f2a61dfe4fb95dcc3c051598fbb7cd475e779",
+      "workingSha256": "42d99bc85ad53f12ccdffe09429b02e0cc17d1b9a3994995eef99bcb4c8e8baa",
+      "bytes": 515
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-pack-1.0.0.log",
+      "gitBlob": "b68dc1d3872d4dfb0f4572ec4b1a678b322120f3",
+      "workingSha256": "5617238916c58750cac8e82c48e67c34bd4aded546e29805bdf48e539635f31d",
+      "bytes": 1232
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-pack-1.1.0.command.json",
+      "gitBlob": "4dbec925b7e3a16e3c0b1777d2a43175a24132a4",
+      "workingSha256": "24deaee7522e9ed16a356dc6bcfb9d07e92f86785bc3451e85a40a67b410b0cc",
+      "bytes": 515
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-pack-1.1.0.log",
+      "gitBlob": "ff3a26829b8443a6a51e622163b4ee3038cab06d",
+      "workingSha256": "8805b293a24dff71d5a7d73a91e47392f9799996607b46749a208739179a6aa4",
+      "bytes": 1512
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-pack-full-help.command.json",
+      "gitBlob": "411eee41e07a9f479421128dde4e45d20803ea11",
+      "workingSha256": "1889cb3eb665594761d154961d14618686bcb4e843e8a22e9ab2790684ebbb3c",
+      "bytes": 133
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-pack-full-help.log",
+      "gitBlob": "b8636304ebe2b1e68929eeff70834ad818116f38",
+      "workingSha256": "c5c29458a391c9316ff4ad21eeb1c095d04210058293218bd72737918ef49a6f",
+      "bytes": 8163
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-pack-help.command.json",
+      "gitBlob": "48c46371df49eebf5c2ffdef4f21ba0a087a866d",
+      "workingSha256": "05444175e126c862dd21b09670bf6ca9e1da74994820519eba4b5f965a29ddcd",
+      "bytes": 137
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-pack-help.log",
+      "gitBlob": "615b421ce670948153b6f1706e27a8367872afdc",
+      "workingSha256": "36886bb36f306afaae9a7355294e923fd326d0f8d00297294fc19955314a25ef",
+      "bytes": 5281
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-version.command.json",
+      "gitBlob": "a22045531ac7bcc53c9f286642bee0f36b48ce1f",
+      "workingSha256": "1459795414d4029b977ebbc6510094d10be69ea1b956f7a02acaf6ce8a1230dc",
+      "bytes": 127
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-version.log",
+      "gitBlob": "0b883bc5071b1a8fd140aedf52bbfe9934f06d56",
+      "workingSha256": "10a81fb3d0c8ecefeac7de37aa449612cdc3784084f7e0909f33b490532217eb",
+      "bytes": 87
+    },
+    {
+      "path": "tasks/done/T-039A.md",
+      "gitBlob": "1d79b6b1a012063b00a791a308d1eda2f6173856",
+      "workingSha256": "b3df7b78e08bd976401121d972222e353dfd042b635ff4fe235d2b513b18c150",
+      "bytes": 20947
+    },
+    {
+      "path": "tasks/done/T-039A.review/.gitattributes",
+      "gitBlob": "bd17deaf3260ec7bb2a13c7fd9006639e57be85d",
+      "workingSha256": "ff67ecbf70eb6826fc1634b557eaefbf998f4a296976695957635b4457343826",
+      "bytes": 84
+    },
+    {
+      "path": "tasks/done/T-039A.review/FINAL_REVIEW.md",
+      "gitBlob": "404b5ce584aa36e667ef8fb6b2faf4ccfa43c82f",
+      "workingSha256": "f79f1262b511bab71e984d16f9b313f2324f120fdb248adaa9cebd83317d3dfa",
+      "bytes": 3295
+    },
+    {
+      "path": "tasks/done/T-039A.review/README.md",
+      "gitBlob": "55c04f0c5f8a985a12aaac93491c24eb04a8a57f",
+      "workingSha256": "f9f292dff111e72ef94e2cebefb2e0e700c850174fa2423789031c6b61620620",
+      "bytes": 8267
+    },
+    {
+      "path": "tasks/done/T-039A.review/audit-pre-delivery-1.json",
+      "gitBlob": "51742e77f92a9c3a01c398a8a3ec6f8aa3662fd4",
+      "workingSha256": "de984c8631bbd001b700cb136a03a2fcfb3f42254edd63759f5b1ccbc8e7fc05",
+      "bytes": 9802
+    },
+    {
+      "path": "tasks/done/T-039A.review/audit_pre_delivery.py",
+      "gitBlob": "7c9e3988ecbd14be323abcdc2804664d470b3c32",
+      "workingSha256": "a7ce1c7d67359abe280148323bd9387bf39210de4e5a35d19a558f59657c0603",
+      "bytes": 4595
+    },
+    {
+      "path": "tasks/done/T-039A.review/final-binding-20261013.json",
+      "gitBlob": "ce1ce97fa5f6f54eda871d08188e622a37ce19ef",
+      "workingSha256": "d20f50578f984cdbf35174e7f4dc5578b96442c4b4b128672384981738a491fe",
+      "bytes": 184745
+    },
+    {
+      "path": "tasks/done/T-039A.review/final-independent-full-20261013.command.json",
+      "gitBlob": "760be7d79775eb09e90f5b22ab90995b6f1500c0",
+      "workingSha256": "bd3b98852ee6cdda42ca398997ad4ecfd3ff4691ceeaab6df2872893965b05d4",
+      "bytes": 326
+    },
+    {
+      "path": "tasks/done/T-039A.review/final-independent-full-20261013.log",
+      "gitBlob": "036f567ecee33882c807d21b688c79c019c4710e",
+      "workingSha256": "c7fd89f366f0e4f879ab76a7873046e50f4554316cd155111da2346e2719c81f",
+      "bytes": 3431
+    },
+    {
+      "path": "tasks/done/T-039A.review/final-independent-release-20261013.command.json",
+      "gitBlob": "7c54ce539e6033b40579c2f4f238d66c0e63c00b",
+      "workingSha256": "af2299bee3f494c869be601af8efae00f5c2ba6756669c8279afd423d39b984a",
+      "bytes": 327
+    },
+    {
+      "path": "tasks/done/T-039A.review/final-independent-release-20261013.log",
+      "gitBlob": "74466677654b289d9669b76e8193fa16d3b730f2",
+      "workingSha256": "7cf8ab933605e844571cfeb7f469cf94126e5c9230e8acfd7eb8b9198d3991a4",
+      "bytes": 1614
+    },
+    {
+      "path": "tasks/done/T-039A.review/final-inputs-20261013.json",
+      "gitBlob": "52e853663f7ea03a828f838643b09e8c315e7725",
+      "workingSha256": "6463bb4010ae54794da8b464a3cf8123e9c5479d879f5055de3a03428fad4848",
+      "bytes": 125049
+    },
+    {
+      "path": "tasks/done/T-039A.review/finalize_evidence.py",
+      "gitBlob": "fbd95096260bb0b3d1c798fe44e5e5b924d7af15",
+      "workingSha256": "2114640a90e8cb619d6471879e5fa1fc8fa433c15cb961dc3b2c686e10f6e6e2",
+      "bytes": 4570
+    },
+    {
+      "path": "tasks/done/T-039A.review/github-public-access.json",
+      "gitBlob": "00bf60dafeb4b54124337ca7eff72b98cba4fc51",
+      "workingSha256": "779fc08bfb5d237b5d4e1dd3df97374c9cfde4602bd62eaed59a84b844f3e13b",
+      "bytes": 246
+    },
+    {
+      "path": "tasks/done/T-039A.review/github-release-state.json",
+      "gitBlob": "1226191cdbd18a8bfafcb89770f13566dd4e254f",
+      "workingSha256": "e59677245481b6499ae3169d4bac9392fcd2eb4a384a28f3300de9c9021e763d",
+      "bytes": 527
+    },
+    {
+      "path": "tasks/done/T-039A.review/historical-zip-retention.json",
+      "gitBlob": "c5334434fb1cc8938b108a61fc6415ad9d8e2442",
+      "workingSha256": "040235ce95665848c9f1acda7fb264c10fee765ccae8b3f09e9e250cd88a8f72",
+      "bytes": 428
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-reading/official-reference-source.json",
+      "gitBlob": "14eda8d3cab4a219a1cde45241106907ed2a064e",
+      "workingSha256": "da5e3ced37707b589f7942bf021c8a68925df20bf2b559626a1c8fcb39c54503",
+      "bytes": 1120
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-reading/official-source.json",
+      "gitBlob": "2199da9f89fe693297c12eab25e708b6cb23f0de",
+      "workingSha256": "6ead40837ca1011ddfa720d82ad404ce886d218a68fae93c5f4f1e73d5b3b867",
+      "bytes": 1066
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-reading/v10.0.0-NamedPipeServerStream.Windows.cs.txt",
+      "gitBlob": "b986a7342538ba47cd10c5a4ed60a61f04221232",
+      "workingSha256": "1dd634343353551f3c7f86aefc57c9a65e1740bda1ae73091cbe0294c8292073",
+      "bytes": 16333
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-reading/v10.0.0-NamedPipeServerStream.cs.txt",
+      "gitBlob": "04e61475ecc8e71a9ed1558629e57393866ccb2c",
+      "workingSha256": "41cc2fc3e722cc9b52c4e5b2b272d5d3dbaef25016d6980c4052730ccff5a871",
+      "bytes": 10345
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-reading/v10.0.0-PipeStream.Windows.cs.txt",
+      "gitBlob": "ddff733119a7a891da6689d1c701fea60143ab2b",
+      "workingSha256": "ca778607c32c02d25512d7163afd1a5e7c0e42b6be8f674cb92e50264a9fe4b3",
+      "bytes": 26301
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-source/IpcCancellation.cs.txt",
+      "gitBlob": "56c10c76e7149c8e1bc8700eab728c632c53d08d",
+      "workingSha256": "095d2699da9acfd5e32113f481574edf73e5be3cb502d7dc76de2b8474f6b501",
+      "bytes": 1541
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-source/IpcPipeFactory.cs.txt",
+      "gitBlob": "56aaa9d169dba586b2c450a5d5372dd8ca88da75",
+      "workingSha256": "1d6f35d82fc09c83d32822715ee5e6aafa015e098b58823a8fa8443e74cf0c5f",
+      "bytes": 2275
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-source/NamedPipeIpcClient.cs.txt",
+      "gitBlob": "aa5f0a0839dc19e264d085fe942aea2b56468ee4",
+      "workingSha256": "0840c027fa1e217f35db116497b8b124c2077fdb5cb24e21321d023c70f566a7",
+      "bytes": 3008
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-source/NamedPipeIpcServer.cs.txt",
+      "gitBlob": "1dacbbbf88cdd1ee0e8887dcc94da8dccd5ba381",
+      "workingSha256": "aa932140ab8767981753bb0d16628e114ec60689aa3f6259a0684cdcdce4abfc",
+      "bytes": 5656
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-source/NamedPipeIpcTests.cs.txt",
+      "gitBlob": "9bea600c4659f0f296d34e4e2fe031ca7785e63c",
+      "workingSha256": "bb9bb9fb0958d0bf0849954a71f7b0ed2819d97d34186817c4079ce1baced2a2",
+      "bytes": 14142
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-source/binding.json",
+      "gitBlob": "2b4d6e7bca6c81bb771e5c797148d4f939933423",
+      "workingSha256": "9741e9baf914c25c0a65b1c472025dffd88023e14dbfbcf078fcf56eb0bedfdf",
+      "bytes": 1239
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-early-close/Program.cs",
+      "gitBlob": "5bacdc82bf052d49a6819ae4e5909f07d675ff00",
+      "workingSha256": "4c814b2d113cb1469fa6e453b5fecef290ec544949a06fb85e887f483ea7997f",
+      "bytes": 7173
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-early-close/README.md",
+      "gitBlob": "4183e50ac3bd7b534e046f4d0a07dc279d3b8457",
+      "workingSha256": "b4c30b88bcc1d19f3fbec5a5ef2d0b3b0017f75a96d0c648991e0a653313de19",
+      "bytes": 1799
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-early-close/Review.csproj",
+      "gitBlob": "e38d062fc208be9e50c16948db7b8053ba376e39",
+      "workingSha256": "2cd2232875bd8355b594e5231267e90cbc1617b7e073dd29e0110c8a6f37f552",
+      "bytes": 1004
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-early-close/baseline-binding.json",
+      "gitBlob": "e37d069d06ef50d4bcccc74bacab23562ff7baec",
+      "workingSha256": "46c144d4f6a74ebbe7d4953434fa3b74430595729ab6656bd4b6f7482569ccc2",
+      "bytes": 2471
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-early-close/candidate-binding.json",
+      "gitBlob": "a9d1d89b114766243430d14c15f0220928588ec5",
+      "workingSha256": "5d291dec46a5c804bcb3b72a533ad04c7f66c9e59f6bf629116428f76e02ba7d",
+      "bytes": 3293
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/README.md",
+      "gitBlob": "c27c23e33a8be9beee0612b9a01b7f9c576b1796",
+      "workingSha256": "d3bb4e92990a350423ca0db30bc4ff339666dc2bb8d877b893baf9a72ff484fc",
+      "bytes": 3588
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/dump-binding.json",
+      "gitBlob": "1334090c107ed24886feba2eec83ca144fd847bc",
+      "workingSha256": "5395ca631fe5add0171f325c5268f0c9902f305eb8cf10ef411e5c5f43125251",
+      "bytes": 400
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/dumpasync-1.command.json",
+      "gitBlob": "125df1d0e84ffe523b2dd0837d7e13cb96f2dfe4",
+      "workingSha256": "5adece9e42e23cade90f03a093f4d00cf778464a6669116d58a376e8e2cab2ba",
+      "bytes": 448
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/dumpasync-1.log",
+      "gitBlob": "046130862bd821157460816e3db085700949d280",
+      "workingSha256": "88cf5290330762bd2e062e43acd59f0641ac977493b11f6cf9187a62e6ce3561",
+      "bytes": 1734
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/dumpasync-2.command.json",
+      "gitBlob": "99ae6f251d25ef84874c60d1474784080a87708a",
+      "workingSha256": "2981ed81eaa7c5e79d4b2f428db40ae56779ada652cbe4b15fafb57284098973",
+      "bytes": 431
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/dumpasync-2.log",
+      "gitBlob": "02b1f69b0d065e35770cb2943b4e7d8f97ecf614",
+      "workingSha256": "4b95f764ba184763c4a723e9cebf432c30cc681a4fb123bb2e9481182d47abc4",
+      "bytes": 10466
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/inspect_dump.py",
+      "gitBlob": "51e5fc4cdd7d7442ecabb843eb86731cb3df76dc",
+      "workingSha256": "13a6459db601f170da7c8ef9928997d1429907e6779162a384bd6a1764dc876d",
+      "bytes": 1379
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-1.command.json",
+      "gitBlob": "5544c87d22e031e030b3c1efd416bd26482ff532",
+      "workingSha256": "c478cec8f9f058a624dc9e0bb61a734f147cb40a67af71ff2e1e1a1b27601ffe",
+      "bytes": 548
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-1.log",
+      "gitBlob": "faf24a444ca123787ac0bed1a4cc2913dbf8b27a",
+      "workingSha256": "b0c8b0f1741f3626946d9198808e0a8023fecb82e37f2f366b7808302781e393",
+      "bytes": 2370
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-2.command.json",
+      "gitBlob": "1f5cebbe67b6a9894a2a62821e7897c8e1164614",
+      "workingSha256": "97330d57e261cb1d2b14913a9c0d3d0cd360deeed26163d770d672d27022b493",
+      "bytes": 592
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-2.log",
+      "gitBlob": "0304a0b695f3aaf6236f283464c0ab49d39a4447",
+      "workingSha256": "efde8d8cc6dbc82460bfef3e76d138cb353be200506fdae8235e9b583e72b39c",
+      "bytes": 4857
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-3.command.json",
+      "gitBlob": "129c78658509d3ebe16f0fca099a95a73b47eb73",
+      "workingSha256": "86ebdd54b5bafb95331817a5fbf6270a81b465dfa305ca3e4a3cdf75b1b61f5b",
+      "bytes": 636
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-3.log",
+      "gitBlob": "45c7e2b29be78d988ab6765f6edd3ae703e941d4",
+      "workingSha256": "3cc3711c351e2237bbd3319bcfbbd95c04ba49624ca8c5874c6ec1b5858ebced",
+      "bytes": 5059
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-4.command.json",
+      "gitBlob": "3e8853f6dcabbb879fde889e450709202893b400",
+      "workingSha256": "8aed61f506ef2d148ed943755dcf2f3b022a28c302c60a6f36a0355d52435014",
+      "bytes": 660
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-4.log",
+      "gitBlob": "88ef8a7b432b704c05fdcd0e7689164a21ebdb62",
+      "workingSha256": "a5541e5b85de316c75c9b2d34fefc136b7d756284f74a9114009c04ebbca0de0",
+      "bytes": 5896
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-5.command.json",
+      "gitBlob": "95fbdd5120c48c0e613d880c41b0290cd1e7405d",
+      "workingSha256": "eb8bd1e4e6d0ed8f09756a7654dd6cacb985b30040bb787676c5dde180e997be",
+      "bytes": 592
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-5.log",
+      "gitBlob": "9093be356cb1b03201b51a70848dc179b9cc0a55",
+      "workingSha256": "e989654026cd375277d5e913d510a6920beba334164a1ef327e80a8a4482d3a2",
+      "bytes": 2962
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-independent-baseline-build.command.json",
+      "gitBlob": "6c56ee6a9bc1b68f7f9539320c10b73adfde92f4",
+      "workingSha256": "b540e7b09e50eab9f6299726b2fbef3855342b200dc3e8f3b59482766f0c8fd0",
+      "bytes": 654
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-independent-baseline-build.log",
+      "gitBlob": "1b9dd68b08f069c969bd20df57e6563bda73b41f",
+      "workingSha256": "3e6460b7a78f2d105aa85fc6d47028ae15b17cfc72abd7c88f7119b7e6b3cffe",
+      "bytes": 405
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-independent-baseline.command.json",
+      "gitBlob": "c1ca877b7dea995861d353184394ebe2c683e4ac",
+      "workingSha256": "fc3a36b1c4b64544b50276da3d698bed90344849e269b6651c05233febf1a45d",
+      "bytes": 490
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-independent-baseline.log",
+      "gitBlob": "0c50dbcf7bd3949e4ce96a4183b241d6b7d7aa22",
+      "workingSha256": "860328888c73e5687ccea8d2f75aa542c60a61f9df983fc7c5b518d99e8ddd72",
+      "bytes": 877
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-independent-candidate-1.command.json",
+      "gitBlob": "ca57edc10d6acf3ff1eb3d84b13b8c13c5ea1139",
+      "workingSha256": "9fb9a1a411870c4bb406f1f6d373dd371801b870edcc729c35c0eccff2df88c4",
+      "bytes": 492
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-independent-candidate-1.log",
+      "gitBlob": "b26a581fb88a7283ac4af93915bc17127f02ac27",
+      "workingSha256": "abc0f231d54906e5c46f58cd9fa063fb130e480d2e3ebf2441a66d50803d49d2",
+      "bytes": 643
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-independent-candidate-build-1.command.json",
+      "gitBlob": "01272258a7b34f07e051335de1e2dd5d8f63d092",
+      "workingSha256": "e1367b890fa8d5afb2e5985f02399bd635082e21ad26b475b740b47c1ab26c5a",
+      "bytes": 656
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-independent-candidate-build-1.log",
+      "gitBlob": "6749fc4cce463ce91399e7ab1f13fbf8bb4f80b6",
+      "workingSha256": "58223b5f3f85d6b11c7530292425f982e6f8d6bfc80155e9e62268768a903d89",
+      "bytes": 407
+    },
+    {
+      "path": "tasks/done/T-039A.review/replay_bootstrap.py",
+      "gitBlob": "fda9e51ef594604b7741490af517da874da4ca52",
+      "workingSha256": "2fcbda803f343da7aff94cce6a4a092b3ac0384fe38599817261909a82b886aa",
+      "bytes": 4612
+    },
+    {
+      "path": "tasks/done/T-039A.review/run_review.py",
+      "gitBlob": "c053cba70414c1c9ed0d00993665a33dabcd6222",
+      "workingSha256": "f584a8a5aab416c69533269be79b417c93f2707234abcf3a83d79e20242491b5",
+      "bytes": 1573
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/README.md",
+      "gitBlob": "80ca8358bb3d7bb0a1a324bc081782528795b331",
+      "workingSha256": "19aeb8c63e05dd38976140da6003940d6ec5490ff256e21a6b55d308d386eab7",
+      "bytes": 945
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/binding.json",
+      "gitBlob": "26dc5b061746ee63acc496df2a44ea5bee891568",
+      "workingSha256": "639fc266f75aa5cd42681cc6944f06a6d7c3488dcc23838722f22357ba10c891",
+      "bytes": 1406
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/inspect-environment.command.json",
+      "gitBlob": "b8e9aac89d1fa9c4b45c6fe6d7fe5436dc8b1811",
+      "workingSha256": "fe9cabcc771e991182996497d4f1db9e7ad96a1e061ade8c67b380036d305585",
+      "bytes": 1027
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/inspect-environment.log",
+      "gitBlob": "c4cfd768d701261ea0c2cecefa2784bc297b8b14",
+      "workingSha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6",
+      "bytes": 23
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/intent.json",
+      "gitBlob": "1bbf1db1f0a62b16e10e49a9bd0f16d613d967b2",
+      "workingSha256": "767af464b8a05723da95592b4325288b87f9f065f9deeef007f3ad9bdaaf419d",
+      "bytes": 548
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/list-after.command.json",
+      "gitBlob": "13377807873920de3ef2770aa00e151ef507c2fc",
+      "workingSha256": "4b6dedf0df2a9b1ea76327b4438f2c1f4e3531ea13930788977149834cb7d351",
+      "bytes": 71
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/list-after.log",
+      "gitBlob": "67b1de476ed78a5b1917492b7b22cbf6a19f839f",
+      "workingSha256": "90255a0b24d45da9c2280c4628d0e08d80902949213f5f5f76d7f282b678a6bb",
+      "bytes": 42
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/list-before.command.json",
+      "gitBlob": "13377807873920de3ef2770aa00e151ef507c2fc",
+      "workingSha256": "4b6dedf0df2a9b1ea76327b4438f2c1f4e3531ea13930788977149834cb7d351",
+      "bytes": 71
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/list-before.log",
+      "gitBlob": "67b1de476ed78a5b1917492b7b22cbf6a19f839f",
+      "workingSha256": "90255a0b24d45da9c2280c4628d0e08d80902949213f5f5f76d7f282b678a6bb",
+      "bytes": 42
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/output/environment.json",
+      "gitBlob": "59fc9ac9cd8e455b9b2484d74988172b66b114c0",
+      "workingSha256": "bb8871591413d6d169a7113b66226cd45b346303cd223fe4a98a1603a1f2e7fe",
+      "bytes": 269
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/sandbox_preflight.py",
+      "gitBlob": "fc4a64f19c321542499aa8ede3838f91a684dcbc",
+      "workingSha256": "ffade134e386f8353c85fefa4c3c7727c51253f189f07c769fb5fd510d240587",
+      "bytes": 4087
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/share-output.command.json",
+      "gitBlob": "90d7dee3d0aa3bf39d3ec7d7f807e28a4bf1a595",
+      "workingSha256": "92b80416f456aaadd5b91b5a982fb58d6a23cf7f74b59f28de9ccbd3cf53d580",
+      "bytes": 325
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/share-output.log",
+      "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "workingSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/start.command.json",
+      "gitBlob": "7c09977ed58bfa6caa135bbf801fef2260d4aac9",
+      "workingSha256": "55225b89f02cc1d0afa0a4384a5891523317eefc3aa17549ed00c62fa836c664",
+      "bytes": 432
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/start.log",
+      "gitBlob": "1c5019f02eceaffdc3bb481e349652a1db800d3c",
+      "workingSha256": "9f9bcae570e6157a0682da40a3953b343bb0ea60d8902ed72f6ab15352159e05",
+      "bytes": 54
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/stop.command.json",
+      "gitBlob": "7eb515772253ddf805b2a5c003a34058485c1cfe",
+      "workingSha256": "9768c8bf6473ea91d5b78b88172a70361fcf5e263db1e2763fcaa3c805d200bc",
+      "bytes": 129
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/stop.log",
+      "gitBlob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "workingSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-auto-off.command.json",
+      "gitBlob": "d4194fe7d64ac321609371ab9ba93fb8d39ad692",
+      "workingSha256": "1a00e30c9547576c41f87be9a54afce5bf2ae460303d618bdf6c1bdc6ec3f8e8",
+      "bytes": 620
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-auto-off.log",
+      "gitBlob": "0bf4df832636ff8309f3124ef7820c831eb8aca6",
+      "workingSha256": "c2e48752905ea5e92b8ba08f966f664bfeeb187e6b2d2ab7a6eca6c3113f15f2",
+      "bytes": 230
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-auto-on.command.json",
+      "gitBlob": "6a4130e4919b32819a7f6b3267ca77564ebdfc8e",
+      "workingSha256": "d92f8631a784b308ac2eb3882327dbf8312c2ebdc9c685d399c090cbfe0504bb",
+      "bytes": 618
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-auto-on.log",
+      "gitBlob": "41d4eed436eba7cc58d0a8cc0ca3231a2e430582",
+      "workingSha256": "05e81fa94ba4521a85ed6f124af11b4156cd065cbc8dc47027ed56cf00c967cd",
+      "bytes": 244
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-first-run.command.json",
+      "gitBlob": "7ff3c5dbe5c9ed4e3f3f105a51a60880cab59a68",
+      "workingSha256": "528bb2d0cec590fdffeb2edef8090ce9c2e52b220db97a7d3abcbf9f6b89017c",
+      "bytes": 578
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-first-run.log",
+      "gitBlob": "781c0507432b001aa9480cf21bef8d9ae82922ac",
+      "workingSha256": "7bdf27bb0db922bf056c5747b2260d2f9dcaf2f3d58f37b45315c986d8c834be",
+      "bytes": 161
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-install.command.json",
+      "gitBlob": "1f52f6caf3d1313e5f9d012fb79c148716d5c3bb",
+      "workingSha256": "7a39f5ba43ad855959d7167013d9fde15598541a3315c9338da2df4a2a8c7b8b",
+      "bytes": 616
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-install.log",
+      "gitBlob": "881b05535658928f20073e2a5b689f2541c8298d",
+      "workingSha256": "19bf5056bbaf05c2260d0c97962ad2ee182b60c8c0466afee4d78781ae453655",
+      "bytes": 173
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-malformed-hook.command.json",
+      "gitBlob": "b6fc46725373227def72361d5f0ba3f13eade5d3",
+      "workingSha256": "e6c35a2e0c2aaea93da4dad0a5cc45134f6fd8f6e0667e9322438caa891cc21e",
+      "bytes": 627
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-malformed-hook.log",
+      "gitBlob": "bd7381ab4f1bdd2647fbf04e548b50c54b0463c3",
+      "workingSha256": "530eca63abf96cf097a16e6098c297709801b8dfd07924d0c16955eaa29720b2",
+      "bytes": 121
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-missing-version.command.json",
+      "gitBlob": "a59add0202872ae108c1df5acbf50bd1b931a96c",
+      "workingSha256": "4db79c16f83cb65c064c539d81a44b2fc2dc9388cd96b196a1e273ba4c467d34",
+      "bytes": 612
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-missing-version.log",
+      "gitBlob": "cc29a3e42e63a82bcf78e1a9ca8463f811ec5af4",
+      "workingSha256": "9658ae5085b11481de373d4bb38fd76a3f47660a0d2079b62c418fe7b48fc333",
+      "bytes": 105
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-obsolete.command.json",
+      "gitBlob": "e606f8da6db138f707bcbf40c590ec6102ed06c3",
+      "workingSha256": "7729f01193bf32507e585978dc8057e35058770af53d35bd7d1fc393b6b4d2fa",
+      "bytes": 618
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-obsolete.log",
+      "gitBlob": "834c666a50907cd82426e56547e6c9c758ce8f33",
+      "workingSha256": "95ad7783ed0b2089125efa6464ac5592dc9ecbf9fc0916ca9a1e18edc08477bb",
+      "bytes": 174
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-ordinary-help.command.json",
+      "gitBlob": "9d575a51081d81bcd1cc035127c9602a807af5d0",
+      "workingSha256": "fdf115caddfd357101fbe0a5dffce331d0de9c9296254cd9f930365d40ccdf1c",
+      "bytes": 597
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-ordinary-help.log",
+      "gitBlob": "cc29a3e42e63a82bcf78e1a9ca8463f811ec5af4",
+      "workingSha256": "9658ae5085b11481de373d4bb38fd76a3f47660a0d2079b62c418fe7b48fc333",
+      "bytes": 105
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-real-exit.command.json",
+      "gitBlob": "b413aeae6c40921cd4e351e968cf407bb637d9e4",
+      "workingSha256": "3cc4dcb8fd10df248c37947e87c26f5eb84b6a1455402f12256891c77014c629",
+      "bytes": 623
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-real-exit.log",
+      "gitBlob": "f3f2f8b913468f88bdf3b6e52f16ac9f76a9b643",
+      "workingSha256": "13adf55b371a5189792f2b8c11079ba5d5d1bf60b5dfc67c080388db3b1cadf3",
+      "bytes": 72
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-restarted.command.json",
+      "gitBlob": "9f966f3026c50a8bf5cf70f35bb0cd01ed4ad0ac",
+      "workingSha256": "e794122073e19a49f10dfdc081d7f55c4dc2e3e4afadfcae9ef2cf24cf54fd41",
+      "bytes": 578
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-restarted.log",
+      "gitBlob": "edb99d3adc1a7be65b41b3d4ce9a177b2bd795cc",
+      "workingSha256": "92b8b12ffef78cc9ac0080f85fa6b2be5a7dfc84492e0d153148e4b835d9cad6",
+      "bytes": 161
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-uninstall-throws.command.json",
+      "gitBlob": "f0e54341165ae487a74e117914c5e0ac6b4afede",
+      "workingSha256": "4d296d86ddc87ff7d27121ca6f75a3b21e4ee7a6c43bf9369378ee6047931af9",
+      "bytes": 626
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-uninstall-throws.log",
+      "gitBlob": "f18d992e64aeee62595f7c3fa758dbf5068ad30c",
+      "workingSha256": "19f7992eb66d9d9faf2a320b66a331e451f45961a6fc1450c877d47875e4c0dc",
+      "bytes": 177
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-uninstall.command.json",
+      "gitBlob": "c6c6d5d21ca6757317e52408ac15ddccd827a36b",
+      "workingSha256": "95c8be2ac2e7a9bc079324c682a12edef3a7c7d08dabcbfc4410b8f94b2361d3",
+      "bytes": 620
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-uninstall.log",
+      "gitBlob": "b0ba0b6477e0f43c408448d982ebb64be9e6b743",
+      "workingSha256": "5fb4e5ccf986ea11ac8665bd50d55869365ace6a6035770359dbe5d8fc02eb9d",
+      "bytes": 175
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-updated.command.json",
+      "gitBlob": "bebdbdda071aab1fdb96971f702f7c7d777c7ed9",
+      "workingSha256": "cd93acc4b5a51edcc5af26955162dde9301489cdf407b03df55392b9866c7909",
+      "bytes": 616
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-updated.log",
+      "gitBlob": "20a57171e8478f0bb0f9540567f9b3f0834639b4",
+      "workingSha256": "6bfac58b72a0d62ac054bca0f0165182d31b30a899af77484d1fb7693c36acf1",
+      "bytes": 173
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-bootstrap-result.json",
+      "gitBlob": "ae898c2fa07c8fda5a21937525836af5ab3e382e",
+      "workingSha256": "a9059f72cbda1a520eaa2bd239734453d19cf2dd0e645c188d01fd2d5c85af15",
+      "bytes": 3795
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-build-1.command.json",
+      "gitBlob": "ae6418f4a3d87c1f01994180ceec929ad194c505",
+      "workingSha256": "c7817d0c6b5ced017c3bff2d979e8bada0ac786608a1fea929782bf0607703e3",
+      "bytes": 525
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-build-1.log",
+      "gitBlob": "d5e35f4537214d06d36147291b3c3908826672f9",
+      "workingSha256": "705499663471b4f1ebff2d5ef372bb4aa442b579c89321da7c89456fc92553f1",
+      "bytes": 352
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-replay-1.command.json",
+      "gitBlob": "f6f94bda7a7dea84f0551c5959c3572545ba01eb",
+      "workingSha256": "bee765f7d96b3499a7922191f6861d16f1e722090b2360af2249de6a2f17d19b",
+      "bytes": 608
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-replay-1.log",
+      "gitBlob": "a692089afa64b2d9db280623ab49693d3e4b2f87",
+      "workingSha256": "e00ae9e85d8d8b8ec0e31dd8206a3ad7e9856753fd226114b52272f8703be283",
+      "bytes": 2489
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-replay-source-binding.json",
+      "gitBlob": "883802f571306717a36697229511db9c775636ef",
+      "workingSha256": "cee06eb6a4038d9fcbac1abe322e2b8054b449094f6045f1795cffb2a398f6bd",
+      "bytes": 686
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/IpcEarlyDisconnectTests.cs",
+      "gitBlob": "f371e907ecd4ee4f793142b724df84c5dfcce501",
+      "workingSha256": "c5b469ff3386173ebb1507803f099ac797ebd62f7a940afdb4ec40738c404c2e",
+      "bytes": 12186
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/NamedPipeIpcTests.cs",
+      "gitBlob": "55f89231a6feb2431feb1a519f62c76c214b9878",
+      "workingSha256": "9d6673d9470f6c43820ca71a2d8a16d0a05ecb48c98ba8947caacd5668a378fe",
+      "bytes": 16171
+    }
+  ],
+  "manifestExcludesItself": true
+}

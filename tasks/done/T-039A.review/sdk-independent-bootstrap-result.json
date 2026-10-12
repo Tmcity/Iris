@@ -1,0 +1,160 @@
+{
+  "completedAt": "2026-10-10T11:33:33.554154+00:00",
+  "usesActualSdkAndOwnedChildProcesses": true,
+  "startsActualUpdater": false,
+  "cases": [
+    {
+      "case": "install",
+      "log": "sdk-independent-boot-install.log",
+      "environmentOverridesForChildOnly": {},
+      "processExitCode": 0,
+      "sdkExitCalls": [
+        0
+      ],
+      "hookNames": [
+        "install"
+      ],
+      "errors": []
+    },
+    {
+      "case": "uninstall",
+      "log": "sdk-independent-boot-uninstall.log",
+      "environmentOverridesForChildOnly": {},
+      "processExitCode": 0,
+      "sdkExitCalls": [
+        0
+      ],
+      "hookNames": [
+        "uninstall"
+      ],
+      "errors": []
+    },
+    {
+      "case": "obsolete",
+      "log": "sdk-independent-boot-obsolete.log",
+      "environmentOverridesForChildOnly": {},
+      "processExitCode": 0,
+      "sdkExitCalls": [
+        0
+      ],
+      "hookNames": [
+        "obsolete"
+      ],
+      "errors": []
+    },
+    {
+      "case": "updated",
+      "log": "sdk-independent-boot-updated.log",
+      "environmentOverridesForChildOnly": {},
+      "processExitCode": 0,
+      "sdkExitCalls": [
+        0
+      ],
+      "hookNames": [
+        "updated"
+      ],
+      "errors": []
+    },
+    {
+      "case": "uninstall-throws",
+      "log": "sdk-independent-boot-uninstall-throws.log",
+      "environmentOverridesForChildOnly": {},
+      "processExitCode": 0,
+      "sdkExitCalls": [
+        -1
+      ],
+      "hookNames": [
+        "uninstall"
+      ],
+      "errors": []
+    },
+    {
+      "case": "malformed-hook",
+      "log": "sdk-independent-boot-malformed-hook.log",
+      "environmentOverridesForChildOnly": {},
+      "processExitCode": 0,
+      "sdkExitCalls": [
+        -1
+      ],
+      "hookNames": [],
+      "errors": []
+    },
+    {
+      "case": "missing-version",
+      "log": "sdk-independent-boot-missing-version.log",
+      "environmentOverridesForChildOnly": {},
+      "processExitCode": 0,
+      "sdkExitCalls": [],
+      "hookNames": [],
+      "errors": []
+    },
+    {
+      "case": "ordinary-help",
+      "log": "sdk-independent-boot-ordinary-help.log",
+      "environmentOverridesForChildOnly": {},
+      "processExitCode": 0,
+      "sdkExitCalls": [],
+      "hookNames": [],
+      "errors": []
+    },
+    {
+      "case": "real-exit",
+      "log": "sdk-independent-boot-real-exit.log",
+      "environmentOverridesForChildOnly": {},
+      "processExitCode": 0,
+      "sdkExitCalls": [
+        0
+      ],
+      "hookNames": [
+        "uninstall"
+      ],
+      "errors": []
+    },
+    {
+      "case": "first-run",
+      "log": "sdk-independent-boot-first-run.log",
+      "environmentOverridesForChildOnly": {
+        "VELOPACK_FIRSTRUN": "1"
+      },
+      "processExitCode": 0,
+      "sdkExitCalls": [],
+      "hookNames": [
+        "first-run"
+      ],
+      "errors": []
+    },
+    {
+      "case": "restarted",
+      "log": "sdk-independent-boot-restarted.log",
+      "environmentOverridesForChildOnly": {
+        "VELOPACK_RESTART": "1"
+      },
+      "processExitCode": 0,
+      "sdkExitCalls": [],
+      "hookNames": [
+        "restarted"
+      ],
+      "errors": []
+    },
+    {
+      "case": "auto-on",
+      "log": "sdk-independent-boot-auto-on.log",
+      "environmentOverridesForChildOnly": {},
+      "processExitCode": 0,
+      "sdkExitCalls": [
+        0
+      ],
+      "hookNames": [],
+      "errors": []
+    },
+    {
+      "case": "auto-off",
+      "log": "sdk-independent-boot-auto-off.log",
+      "environmentOverridesForChildOnly": {},
+      "processExitCode": 0,
+      "sdkExitCalls": [],
+      "hookNames": [],
+      "errors": []
+    }
+  ]
+}

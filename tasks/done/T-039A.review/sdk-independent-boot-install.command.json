@@ -1,0 +1,16 @@
+{
+  "command": [
+    "dotnet",
+    "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039-sdk-independent\\bin\\Release\\net10.0-windows10.0.19041.0\\Probe.dll",
+    "boot",
+    "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039-sdk-independent\\bootstrap\\install",
+    "record",
+    "--veloapp-install",
+    "1.0.0"
+  ],
+  "cwd": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039-sdk-independent",
+  "startedAt": "2026-10-10T11:33:30.614386+00:00",
+  "completedAt": "2026-10-10T11:33:30.726262+00:00",
+  "exitCode": 0,
+  "logSha256": "19bf5056bbaf05c2260d0c97962ad2ee182b60c8c0466afee4d78781ae453655"
+}

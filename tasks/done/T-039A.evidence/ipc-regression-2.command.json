@@ -1,0 +1,16 @@
+{
+  "cwd": "F:/Iris",
+  "command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.Platform.Windows.Tests/Iris.Platform.Windows.Tests.csproj",
+    "-c",
+    "Release",
+    "--filter-namespace",
+    "Iris.Platform.Windows.Tests.SystemIntegration",
+    "--output",
+    "Detailed"
+  ],
+  "exitCode": 0
+}

@@ -1,0 +1,12 @@
+{
+  "requestedAt": "2026-10-10T10:08:43.736049+00:00",
+  "url": "https://api.github.com/repos/Tmcity/Iris/releases?per_page=5&page=1",
+  "authenticatedRequest": false,
+  "purpose": "Architect release metadata inspection, not an automated application test",
+  "status": 200,
+  "finalUrl": "https://api.github.com/repos/Tmcity/Iris/releases?per_page=5&page=1",
+  "etag": "\"74d1db57f0fec3481bb6b4d9bcdc020d656635ec6c53ee589d27a8831cbbe280\"",
+  "rateLimitRemaining": "31",
+  "releaseCountInPage": 0,
+  "releases": []
+}

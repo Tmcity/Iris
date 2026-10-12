@@ -1,0 +1,3 @@
+PROCESS_EXIT 0
+BOOT_RETURN {"ExitCode":0,"NormalMainEligible":false,"Starts":1,"PackagesRemaining":["Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-1.0.0-full.nupkg","Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-1.1.0-full.nupkg"]}
+BOOT_FINALLY

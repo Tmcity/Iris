@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcEarlyDisconnectTests.cs(30,9): error CS1929: “BOOL”不包含“ShouldBeTrue”的定义，并且最佳扩展方法重载“ShouldBeBooleanExtensions.ShouldBeTrue(bool, string?)”需要类型为“bool”的接收器 [F:\Iris\tests\Iris.Platform.Windows.Tests\Iris.Platform.Windows.Tests.csproj]
+生成失败，退出代码: 1。

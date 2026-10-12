@@ -1,0 +1,67 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+失败 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.NativeCloseBeforeAcceptRecordsWin32FailureAndResetBehavior (36ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.InvalidOperationException : Pipe hasn't been connected yet.
+    在 System.IO.Pipes.NamedPipeServerStream.CheckDisconnectOperations()
+    在 System.IO.Pipes.NamedPipeServerStream.Disconnect()
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.NativeCloseBeforeAcceptRecordsWin32FailureAndResetBehavior() 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcEarlyDisconnectTests.cs:26
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.NativeCloseBeforeAcceptRecordsWin32FailureAndResetBehavior() 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcEarlyDisconnectTests.cs:27
+    --- End of stack trace from previous location ---
+失败 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.PeerClosesBeforeActualAcceptPreservesServerAndAcceptsNextCommand(rejectSession: True) (10s 164ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.AggregateException : One or more errors occurred. (await next.RunAsync(new(IrisAction.InputTranslate), guard.Token)
+      should be
+  IpcSendResult.Accepted
+      but was
+  IpcSendResult.Unavailable) (网络连接失败，请检查网络或代理设置)
+  ---- Shouldly.ShouldAssertException : await next.RunAsync(new(IrisAction.InputTranslate), guard.Token)
+      should be
+  IpcSendResult.Accepted
+      but was
+  IpcSendResult.Unavailable
+  ---- Iris.Core.Errors.IrisException : 网络连接失败，请检查网络或代理设置
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.PeerClosesBeforeActualAcceptPreservesServerAndAcceptsNextCommand(Boolean rejectSession) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcEarlyDisconnectTests.cs:81
+    --- End of stack trace from previous location ---
+    ----- Inner Stack Trace #1 (Shouldly.ShouldAssertException) -----
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.PeerClosesBeforeActualAcceptPreservesServerAndAcceptsNextCommand(Boolean rejectSession) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcEarlyDisconnectTests.cs:62
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.PeerClosesBeforeActualAcceptPreservesServerAndAcceptsNextCommand(Boolean rejectSession) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcEarlyDisconnectTests.cs:65
+    ----- Inner Stack Trace #2 (Iris.Core.Errors.IrisException) -----
+    在 Iris.Platform.Windows.SystemIntegration.NamedPipeIpcServer.CleanupAsync() 位于 F:\Iris\src\Iris.Platform.Windows\SystemIntegration\NamedPipeIpcServer.cs:123
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.PeerClosesBeforeActualAcceptPreservesServerAndAcceptsNextCommand(Boolean rejectSession) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcEarlyDisconnectTests.cs:71
+失败 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.PeerClosesBeforeActualAcceptPreservesServerAndAcceptsNextCommand(rejectSession: False) (10s 022ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.AggregateException : One or more errors occurred. (await next.RunAsync(new(IrisAction.InputTranslate), guard.Token)
+      should be
+  IpcSendResult.Accepted
+      but was
+  IpcSendResult.Unavailable) (网络连接失败，请检查网络或代理设置)
+  ---- Shouldly.ShouldAssertException : await next.RunAsync(new(IrisAction.InputTranslate), guard.Token)
+      should be
+  IpcSendResult.Accepted
+      but was
+  IpcSendResult.Unavailable
+  ---- Iris.Core.Errors.IrisException : 网络连接失败，请检查网络或代理设置
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.PeerClosesBeforeActualAcceptPreservesServerAndAcceptsNextCommand(Boolean rejectSession) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcEarlyDisconnectTests.cs:81
+    --- End of stack trace from previous location ---
+    ----- Inner Stack Trace #1 (Shouldly.ShouldAssertException) -----
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.PeerClosesBeforeActualAcceptPreservesServerAndAcceptsNextCommand(Boolean rejectSession) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcEarlyDisconnectTests.cs:62
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.PeerClosesBeforeActualAcceptPreservesServerAndAcceptsNextCommand(Boolean rejectSession) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcEarlyDisconnectTests.cs:65
+    ----- Inner Stack Trace #2 (Iris.Core.Errors.IrisException) -----
+    在 Iris.Platform.Windows.SystemIntegration.NamedPipeIpcServer.CleanupAsync() 位于 F:\Iris\src\Iris.Platform.Windows\SystemIntegration\NamedPipeIpcServer.cs:123
+    在 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.PeerClosesBeforeActualAcceptPreservesServerAndAcceptsNextCommand(Boolean rejectSession) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\IpcEarlyDisconnectTests.cs:71
+F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 失败并出现 3 个错误 (21s 996ms)
+退出代码: 2
+  标准输出: EARLY_NATIVE_ACCEPT type=IOException hresult=800700E8 connected=False
+  EARLY_NATIVE_MANAGED_RESET type=InvalidOperationException hresult=80131509
+  EARLY_PRODUCT_ACCEPT reject=True hresult=800700E8 servers=1
+  EARLY_PRODUCT_ACCEPT reject=False hresult=800700E8 servers=1
+
+测试运行摘要: 失败!
+  总计: 3
+  失败: 3
+  成功: 0
+  已跳过: 0
+  持续时间: 22s 369ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

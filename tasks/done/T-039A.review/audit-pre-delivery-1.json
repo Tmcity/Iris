@@ -1,0 +1,250 @@
+{
+  "phase": "pre-delivery candidate audit, not final acceptance",
+  "startedAt": "2026-10-10T09:47:00.360007+00:00",
+  "executesApplicationOrSdk": false,
+  "failures": [],
+  "inputSha256": {
+    "source-bindings.json": "446eb0ad1aecb6fc99e28e92f0131e31cf7d8367b44fa3932c480d89a565a644",
+    "package-inventory.json": "6992e2257017b0465c5114e01a8f28438498503ae7193a8697364ce6b14548a0",
+    "Probe/Program.cs": "493067d1dd8f86c1013b1d0ee33c9b8ac27553560e98f7f326928bed1fb3ba9f",
+    "Probe/Probe.csproj": "499eb001d2eba50572daba68bfddaaa98e6c935390d62de34fde702f60c1b600",
+    "sdk-probes-2.log": "ddd90f03a1cce6edd7abe0adca34ff12e161bf7889b5b3800acf6fcd11e5a77d"
+  },
+  "officialSources": [
+    {
+      "path": "src/lib-csharp/UpdateManager.cs",
+      "sha256": "638bae24a68702ed1cf56a90fd21e9372138db4b04664c12ccb411cb5d27ddef",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/lib-csharp/VelopackApp.cs",
+      "sha256": "023081386b8dfbef3dcafaa97a014d6471587fbdaf44d15c0065d0b9d140fb34",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/lib-csharp/UpdateOptions.cs",
+      "sha256": "b47896c53cf4ba4e73459d64e493b46c44ad5632d44811c7471ee828ed97e2ed",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/lib-csharp/UpdateExe.cs",
+      "sha256": "f93338a733ae836739dff61089423c25f1a9d84ba28cc66a6f6faea77331e969",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/lib-csharp/Sources/IUpdateSource.cs",
+      "sha256": "db3c4d2ca151a2591da9930eca6a040d61edb955cd449c23c3fcd0f8b11ab974",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/lib-csharp/Sources/IFileDownloader.cs",
+      "sha256": "f8ed0941210d47614d4c094ec5f6be57e7c8c3d695f27d723553f69d97d70e1c",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/lib-csharp/Sources/SimpleFileSource.cs",
+      "sha256": "f3453eb87847e7a33ba7eda44eb0cb2d2d538cf37c07518c6f8982796380f4ff",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/lib-csharp/Sources/GithubSource.cs",
+      "sha256": "ef4bb04ae4c52c28b0e2b331abc5295e1829aec1947e349ee3d930432cbead60",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/lib-csharp/Sources/GitBase.cs",
+      "sha256": "1165bedd575ab8018cf7cac4fc75dd04a07601f2814022cc80326807353d5b8f",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/lib-csharp/Sources/HttpClientFileDownloader.cs",
+      "sha256": "d8314b9a28f61154b280c482df72381412039ac5d32af12b134010e983fea82d",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/lib-csharp/Locators/TestVelopackLocator.cs",
+      "sha256": "c49a697afa2d21b705597a5331add516ad7ef4d58189586ca2e9bd64cd41c76b",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/lib-csharp/Locators/IVelopackLocator.cs",
+      "sha256": "8a0909060bb549c7a1a967e433b9e8ad30000a1f877554c09b1ac8d684009f3a",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/lib-csharp/Locators/VelopackLocator.cs",
+      "sha256": "84df89fc41c204466e8dcc5137759d334ee8dd07433cd446c7ea7c4819d77c48",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/lib-csharp/Windows/RuntimeInfo.cs",
+      "sha256": "feafba60913080782f4f7bcb6ea827f566dbda825cfa7882f0c2488acfc54756",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/lib-csharp/Windows/Runtimes.cs",
+      "sha256": "493c22248d43f627eccf5a948d7749a0e535bb5d1bd1e0afa757ea6d92e84bc1",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/bins/src/shared/util_common.rs",
+      "sha256": "4610125beb18c8766bc009afa2f92c6dc05914d14120d42b9de18fdf9499a5e5",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/bins/src/windows/util.rs",
+      "sha256": "2a049c423bae091f670c3748ce340af8f026f82b83bf785e7820cb40117c5ee9",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/bins/src/windows/runtimes.rs",
+      "sha256": "81c1f8cbbc89ce848a3a70303dd32c36d241215cee58aca1a6756ca49f4e1fb0",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/bins/src/windows/registry.rs",
+      "sha256": "5a4867d468d2473ad6fd2b4851080f5f6f0a26b2aae3cb2d438c448677edc0e2",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/bins/src/commands/uninstall.rs",
+      "sha256": "9d26594bfd9320798f59d3c43544e4d0bef6f4e6da5b9830bf1b1c167fd865e8",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/bins/src/commands/install.rs",
+      "sha256": "6334153f7908de2343206cb6afae3835e89cd8390dc06aa78cc21220bfcd2e32",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/bins/src/commands/apply_windows_impl.rs",
+      "sha256": "d3db6cfa465053f24245d41ab9532a002091829b2d051eb9942bc64147450d4d",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/vpk/Velopack.Packaging.Windows/Commands/WindowsPackCommandRunner.cs",
+      "sha256": "782cf22a38f2363f1cc904157f96a3310d9adfa2453fc4e7e840c9c25f815124",
+      "matchesRecordedAndArchived": true
+    },
+    {
+      "path": "src/vpk/Velopack.Packaging/PackageBuilder.cs",
+      "sha256": "5241dd2015061569e272ec5a05377486d472bafd5260c24959f18173f1f5bde1",
+      "matchesRecordedAndArchived": true
+    }
+  ],
+  "packageArtifacts": [
+    {
+      "path": "releases-v1/assets.win.json",
+      "bytes": 301,
+      "sha256": "6d03fda322db22b6583a36fd3abb8b86822ae35b4eb58dadd1a5971eefe39e64",
+      "matchesInventory": true
+    },
+    {
+      "path": "releases-v1/Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-1.0.0-full.nupkg",
+      "bytes": 16632393,
+      "sha256": "e1344ad46daddeb92aa94de2401f9f684d389909fee86a0c280b362e9aace3eb",
+      "matchesInventory": true,
+      "zipCrcFailure": null,
+      "entryNamesMatchInventory": true,
+      "publishedHelperAndSatellitesMatch": {
+        "uia/Iris.UiaHost.exe": true,
+        "uia/Iris.UiaHost.runtimeconfig.json": true,
+        "en-US/Iris.App.resources.dll": true,
+        "en-US/Iris.Core.resources.dll": true
+      }
+    },
+    {
+      "path": "releases-v1/Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-win-Portable.zip",
+      "bytes": 16631246,
+      "sha256": "bbe72a885cbbd41b413d83baf5af9f7e362e544a6925d5820b1cd18b3cac681f",
+      "matchesInventory": true
+    },
+    {
+      "path": "releases-v1/Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-win-Setup.exe",
+      "bytes": 24146505,
+      "sha256": "30707af0d38aa85b3d3808b05be3821c63c4a376566b8ef5b6515002dcb6e6f6",
+      "matchesInventory": true
+    },
+    {
+      "path": "releases-v1/RELEASES",
+      "bytes": 113,
+      "sha256": "a81e1a1017b50d74886fe9d25d3f72ba63ff024f4d9a15bdd4652b1ec766648f",
+      "matchesInventory": true
+    },
+    {
+      "path": "releases-v1/releases.win.json",
+      "bytes": 320,
+      "sha256": "c8058e21f617968ce406a7e7732335980032d535530347b518b1a804097dc5d6",
+      "matchesInventory": true
+    },
+    {
+      "path": "releases/assets.win.json",
+      "bytes": 401,
+      "sha256": "9e46ca9e0a00f2d84b5ca5e1bc3023c60956d9a424fdf1ae8a98181e85db4932",
+      "matchesInventory": true
+    },
+    {
+      "path": "releases/Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-1.0.0-full.nupkg",
+      "bytes": 16632393,
+      "sha256": "e1344ad46daddeb92aa94de2401f9f684d389909fee86a0c280b362e9aace3eb",
+      "matchesInventory": true,
+      "zipCrcFailure": null,
+      "entryNamesMatchInventory": true,
+      "publishedHelperAndSatellitesMatch": {
+        "uia/Iris.UiaHost.exe": true,
+        "uia/Iris.UiaHost.runtimeconfig.json": true,
+        "en-US/Iris.App.resources.dll": true,
+        "en-US/Iris.Core.resources.dll": true
+      }
+    },
+    {
+      "path": "releases/Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-1.1.0-delta.nupkg",
+      "bytes": 10469,
+      "sha256": "21073238a9d68c6e6ef629fec781cf4eb94403d3b9a49c98043faea0701d000a",
+      "matchesInventory": true,
+      "zipCrcFailure": null,
+      "entryNamesMatchInventory": true
+    },
+    {
+      "path": "releases/Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-1.1.0-full.nupkg",
+      "bytes": 16632411,
+      "sha256": "403e5a09b05ee74f8eb43ba7add22177bad0424e19093c2b9bd331da58c68ec4",
+      "matchesInventory": true,
+      "zipCrcFailure": null,
+      "entryNamesMatchInventory": true,
+      "publishedHelperAndSatellitesMatch": {
+        "uia/Iris.UiaHost.exe": true,
+        "uia/Iris.UiaHost.runtimeconfig.json": true,
+        "en-US/Iris.App.resources.dll": true,
+        "en-US/Iris.Core.resources.dll": true
+      }
+    },
+    {
+      "path": "releases/Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-win-Portable.zip",
+      "bytes": 16631263,
+      "sha256": "4e2d3d048b9bfcb83c0535c577e9760588f5fd6e40072479c81894cae94547a8",
+      "matchesInventory": true
+    },
+    {
+      "path": "releases/Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-win-Setup.exe",
+      "bytes": 24146523,
+      "sha256": "c0fc276f7fed9f61d4b57ba9aed07199bf6ed78fa8ee8c82566b635c552dbdec",
+      "matchesInventory": true
+    },
+    {
+      "path": "releases/RELEASES",
+      "bytes": 224,
+      "sha256": "c2eeba3b6a64c87c28d20fc6da0d32022dcd309b73041fd982fc33f64fa73ac0",
+      "matchesInventory": true
+    },
+    {
+      "path": "releases/releases.win.json",
+      "bytes": 935,
+      "sha256": "e9edd3f5ec512cfae1c8a1743e1529b7b92d9582ac8aa07a4ba4d24db0469442",
+      "matchesInventory": true
+    }
+  ],
+  "inputsUnchangedAfterAudit": true,
+  "productionDiffNamesAtAudit": [],
+  "completedAt": "2026-10-10T09:47:01.272085+00:00"
+}

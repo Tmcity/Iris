@@ -1,0 +1,13 @@
+{
+  "cwd": "F:/Iris",
+  "command": [
+    "dotnet",
+    "F:\\Iris\\artifacts\\t039a\\Probe\\bin\\Release\\net10.0-windows10.0.19041.0\\Probe.dll",
+    "boot",
+    "F:\\Iris\\artifacts\\t039a\\boot-obsolete",
+    "record",
+    "--veloapp-obsolete",
+    "1.0.0"
+  ],
+  "exitCode": 0
+}

@@ -1,0 +1,3 @@
+{"Scenario":"empty-before-first-accept","FirstClientClosedBeforeAccept":true,"CompetingOwnerRejected":true,"Dispatches":1,"Action":"InputTranslate","NextResult":"Accepted","FirstStopSucceeded":true,"FinalStopSucceeded":true,"ServerCreates":1,"AcceptCalls":1,"AcceptErrors":[],"Errors":[],"Healthy":true}
+{"Scenario":"truncated-before-first-accept","FirstClientClosedBeforeAccept":true,"CompetingOwnerRejected":true,"Dispatches":1,"Action":"InputTranslate","NextResult":"Accepted","FirstStopSucceeded":true,"FinalStopSucceeded":true,"ServerCreates":1,"AcceptCalls":1,"AcceptErrors":[],"Errors":[],"Healthy":true}
+REVIEW_COMPLETED failures=0

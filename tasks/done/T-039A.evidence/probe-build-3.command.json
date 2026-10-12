@@ -1,0 +1,12 @@
+{
+  "cwd": "F:/Iris",
+  "command": [
+    "dotnet",
+    "build",
+    "F:/Iris/artifacts/t039a/Probe/Probe.csproj",
+    "-c",
+    "Release",
+    "--no-restore"
+  ],
+  "exitCode": 0
+}

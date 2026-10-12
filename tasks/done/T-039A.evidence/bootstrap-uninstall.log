@@ -1,0 +1,4 @@
+HOOK {"Name":"uninstall","Thread":2,"Apartment":"STA"}
+PROCESS_EXIT 0
+BOOT_RETURN {"ExitCode":0,"NormalMainEligible":false,"Starts":0}
+BOOT_FINALLY

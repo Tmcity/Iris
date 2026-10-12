@@ -1,0 +1,11 @@
+{
+  "Arguments": [
+    "start",
+    "--id",
+    "e8c707ca-e3e9-46b0-a882-b4418fea51c8",
+    "--config",
+    "<Configuration><vGPU>Disable</vGPU><Networking>Disable</Networking><AudioInput>Disable</AudioInput><VideoInput>Disable</VideoInput><ClipboardRedirection>Disable</ClipboardRedirection><PrinterRedirection>Disable</PrinterRedirection><MemoryInMB>4096</MemoryInMB></Configuration>",
+    "--raw"
+  ],
+  "ExitCode": 0
+}

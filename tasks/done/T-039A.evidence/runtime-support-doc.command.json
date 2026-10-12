@@ -1,0 +1,8 @@
+{
+  "cwd": "F:/Iris",
+  "command": [
+    "python",
+    "tasks/done/T-039A.evidence/fetch_runtime_support.py"
+  ],
+  "exitCode": 0
+}

@@ -1,0 +1,15 @@
+SDK {"Version":{"Major":1,"Minor":2,"Patch":161,"Revision":0,"Version":"1.2.161.0","Release":"","ReleaseLabels":[],"IsPrerelease":false,"Metadata":"","HasMetadata":false},"Check":"System.Threading.Tasks.Task\u00601[Velopack.UpdateInfo] CheckForUpdatesAsync()","Feed":"System.Threading.Tasks.Task\u00601[Velopack.VelopackAssetFeed] GetReleaseFeed(Velopack.Logging.IVelopackLogger, System.String, System.String, System.Nullable\u00601[System.Guid], Velopack.VelopackAsset)"}
+LOCAL_TWO_VERSION {"Target":"1.1.0","Bytes":16632411,"UpdateExeExtractedButNotRun":true,"SourceAssets":3}
+CORRUPTION_REJECTED {"Exception":"ChecksumFailedException","RemainingPackages":0,"RemainingPartials":0}
+RAW_EXISTING_CACHE_NOT_VERIFIED {"Length":19,"Expected":16632411}
+OWNED_CACHE_ADMISSION {"CorruptReady":false,"ValidReady":true,"UpdaterStarts":0}
+RAW_LATE_DOWNLOAD_AFTER_CANCEL {"SdkTaskCompletedSuccessfully":true,"PackagePublished":true,"StreamsAfterJoin":0}
+OWNED_CANCEL_JOIN_RETRY {"Phase":"check","Published":false,"Requests":1,"DisposeAttempts":2,"Streams":0}
+OWNED_CANCEL_JOIN_RETRY {"Phase":"download","Published":false,"Requests":1,"DisposeAttempts":2,"Streams":0}
+SDK_PHASE_JOIN {"Phase":"lock","Requests":0,"Published":false,"Streams":0}
+SDK_PHASE_JOIN {"Phase":"checksum","Requests":1,"Published":false,"Streams":0}
+SDK_PHASE_JOIN {"Phase":"cleanup","Requests":1,"Published":false,"Streams":0}
+PRIVATE_SOURCE_UNAVAILABLE {"Requests":["https://api.github.com/repos/Tmcity/Iris/releases?per_page=10\u0026page=1"],"NoCredentials":true,"NotReportedAsLatest":true}
+PROCESS_EXIT 0
+SDK_HANDOFF_RECORDED_ONLY {"Calls":[["apply","--package","F:\\Iris\\artifacts\\t039a\\sdk-probes-2\\success\\packages\\Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-1.1.0-full.nupkg","--waitPid","4242","--rootDir","F:\\Iris\\artifacts\\t039a\\sdk-probes-2\\success","--packageDir","F:\\Iris\\artifacts\\t039a\\sdk-probes-2\\success\\packages"],["--silent","apply","--package","F:\\Iris\\artifacts\\t039a\\sdk-probes-2\\success\\packages\\Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-1.1.0-full.nupkg","--waitPid","4242","--norestart","--rootDir","F:\\Iris\\artifacts\\t039a\\sdk-probes-2\\success","--packageDir","F:\\Iris\\artifacts\\t039a\\sdk-probes-2\\success\\packages"]],"UnsafeExit":0}
+ALL_PROBES_PASSED

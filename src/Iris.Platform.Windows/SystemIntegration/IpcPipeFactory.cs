@@ -1,5 +1,7 @@
 using System.Diagnostics;
+using System.ComponentModel;
 using System.IO.Pipes;
+using System.Runtime.InteropServices;
 using System.Security.Principal;
 using Iris.Core.Actions;
 using Windows.Win32;
@@ -22,7 +24,29 @@ internal class IpcPipe(PipeStream stream) : IAsyncDisposable
 {
     internal virtual Stream Stream => stream;
     internal virtual Task ConnectAsync(CancellationToken token) => ((NamedPipeClientStream)stream).ConnectAsync(token);
-    internal virtual Task AcceptAsync(CancellationToken token) => ((NamedPipeServerStream)stream).WaitForConnectionAsync(token);
+    internal virtual async Task AcceptAsync(CancellationToken token)
+    {
+        while (true)
+        {
+            token.ThrowIfCancellationRequested();
+            try
+            {
+                await ((NamedPipeServerStream)stream).WaitForConnectionAsync(token).ConfigureAwait(false);
+                return;
+            }
+            catch (IOException ex) when (ex.HResult == unchecked((int)0x800700E8)) // ERROR_NO_DATA
+            {
+                // A client connected and closed before Accept. BCL still considers this stream unconnected,
+                // so its Disconnect() rejects the reset. Reset the same native instance; keep the BCL state.
+                token.ThrowIfCancellationRequested();
+                DisconnectUnacceptedPeer();
+            }
+        }
+    }
+    internal virtual void DisconnectUnacceptedPeer()
+    {
+        if (!PInvoke.DisconnectNamedPipe(stream.SafePipeHandle)) throw new Win32Exception(Marshal.GetLastWin32Error());
+    }
     internal virtual void VerifyPeer(bool server)
     {
         uint session;

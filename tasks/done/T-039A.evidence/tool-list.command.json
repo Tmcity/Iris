@@ -1,0 +1,11 @@
+{
+  "cwd": "F:/Iris",
+  "command": [
+    "dotnet",
+    "tool",
+    "list",
+    "--tool-path",
+    "F:/Iris/artifacts/t039a/tools"
+  ],
+  "exitCode": 0
+}

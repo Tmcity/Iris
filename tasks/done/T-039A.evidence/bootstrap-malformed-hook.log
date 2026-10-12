@@ -1,0 +1,3 @@
+PROCESS_EXIT -1
+BOOT_RETURN {"ExitCode":-1,"NormalMainEligible":false,"Starts":0}
+BOOT_FINALLY

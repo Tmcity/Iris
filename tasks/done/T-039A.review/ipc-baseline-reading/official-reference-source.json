@@ -1,0 +1,27 @@
+{
+  "referenceTag": "v10.0.0",
+  "notTheLoadedRuntimeSource": true,
+  "files": [
+    {
+      "file": "NamedPipeServerStream.Windows.cs",
+      "url": "https://raw.githubusercontent.com/dotnet/runtime/v10.0.0/src/libraries/System.IO.Pipes/src/System/IO/Pipes/NamedPipeServerStream.Windows.cs",
+      "bytes": 16333,
+      "sha256": "1dd634343353551f3c7f86aefc57c9a65e1740bda1ae73091cbe0294c8292073",
+      "result": "saved"
+    },
+    {
+      "file": "NamedPipeServerStream.cs",
+      "url": "https://raw.githubusercontent.com/dotnet/runtime/v10.0.0/src/libraries/System.IO.Pipes/src/System/IO/Pipes/NamedPipeServerStream.cs",
+      "bytes": 10345,
+      "sha256": "41cc2fc3e722cc9b52c4e5b2b272d5d3dbaef25016d6980c4052730ccff5a871",
+      "result": "saved"
+    },
+    {
+      "file": "PipeStream.Windows.cs",
+      "url": "https://raw.githubusercontent.com/dotnet/runtime/v10.0.0/src/libraries/System.IO.Pipes/src/System/IO/Pipes/PipeStream.Windows.cs",
+      "bytes": 26301,
+      "sha256": "ca778607c32c02d25512d7163afd1a5e7c0e42b6be8f674cb92e50264a9fe4b3",
+      "result": "saved"
+    }
+  ]
+}

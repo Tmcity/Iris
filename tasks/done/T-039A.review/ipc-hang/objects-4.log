@@ -1,0 +1,73 @@
+Loading core dump: F:/Iris/artifacts/t039a/ipc-hung.dmp ...
+Current symbol store settings:
+STACK 1
+0000021e85c04378 00007ffa213f0d10 (0) Iris.Platform.Windows.SystemIntegration.NamedPipeIpcServer+<ReceiveAsync>d__16
+  0000021e8580bff0 00007ffa1f684738 () TaskCompletionSentinel
+
+Name:        System.IO.Pipes.NamedPipeServerStream
+MethodTable: 00007ffa213fd868
+Size:        96(0x60) bytes
+File:        C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.12\System.IO.Pipes.dll
+Fields:
+              MT    Field   Offset                 Type   VT     Attr            Value Name
+00007ffa1fcb8390 04001d22        8 ...ing.SemaphoreSlim   No instance 0000000000000000 _asyncActiveSemaphore
+00007ffa1f96f640 04001d21        8     System.IO.Stream   No   static 0000021e8580bf08 Null
+00007ffa1fcd3728 04000056       10 ...es.SafePipeHandle   No instance 0000021e85d595f0 _handle
+0000000000000000 04000057       44       System.Boolean  Yes instance                1 _canRead
+0000000000000000 04000058       45       System.Boolean  Yes instance                1 _canWrite
+0000000000000000 04000059       46       System.Boolean  Yes instance                1 _isAsync
+0000000000000000 0400005a       47       System.Boolean  Yes instance                1 _isCurrentUserOnly
+0000000000000000 0400005b       48       System.Boolean  Yes instance                1 _isMessageComplete
+0000000000000000 0400005c       49       System.Boolean  Yes instance                0 _isFromExistingHandle
+0000000000000000 0400005d       4a       System.Boolean  Yes instance                0 _isHandleExposed
+00007ffa1fcb9228 0400005e       30         System.Int32  Yes instance                0 _readMode
+00007ffa1fcb9228 0400005f       34         System.Int32  Yes instance                0 _transmissionMode
+00007ffa1fcb92d0 04000060       38         System.Int32  Yes instance                3 _pipeDirection
+0000000000000000 04000061       3c        System.UInt32  Yes instance               64 _outBufferSize
+00007ffa1fcb9378 04000062       40         System.Int32  Yes instance                0 _state
+00007ffa1fcd6e08 04000063       18 ...adPoolBoundHandle   No instance 0000021e85d59610 _threadPoolBinding
+00007ffa1fe323c0 04000064       20 ...teValueTaskSource   No instance 0000000000000000 _reusableReadValueTaskSource
+00007ffa1fe323c0 04000065       28 ...teValueTaskSource   No instance 0000000000000000 _reusableWriteValueTaskSource
+00007ffa214243b0 0400002c       50 ...onValueTaskSource   No instance 0000000000000000 _reusableConnectionValueTaskSource
+Name:        System.Threading.Tasks.Task+ContingentProperties
+MethodTable: 00007ffa1fc0dc70
+Size:        80(0x50) bytes
+File:        C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.12\System.Private.CoreLib.dll
+Fields:
+              MT    Field   Offset                 Type   VT     Attr            Value Name
+00007ffa1f8b8f78 04000fb7        8 ....ExecutionContext   No instance 0000000000000000 m_capturedContext
+00007ffa1fca6210 04000fb8       10 ...ualResetEventSlim   No instance 0000000000000000 m_completionEvent
+00007ffa20f46e48 04000fb9       18 ...skExceptionHolder   No instance 0000021e85d84318 m_exceptionsHolder
+00007ffa1f9ad9d8 04000fba       40 ...CancellationToken  Yes instance 0000021e85d84308 m_cancellationToken
+00007ffa1fc5a180 04000fbb       20 ...Private.CoreLib]]   No instance 0000000000000000 m_cancellationRegistration
+0000000000000000 04000fbc       38         System.Int32  Yes instance                0 m_internalCancellationRequested
+0000000000000000 04000fbd       3c         System.Int32  Yes instance                1 m_completionCountdown
+00007ffa213e1e20 04000fbe       28 ...Private.CoreLib]]   No instance 0000000000000000 m_exceptionalChildren
+00007ffa1f8b3cb0 04000fbf       30 ...eading.Tasks.Task   No instance 0000000000000000 m_parent
+Name:        System.Threading.Tasks.Task
+MethodTable: 00007ffa1f8b3cb0
+Size:        64(0x40) bytes
+File:        C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.12\System.Private.CoreLib.dll
+Fields:
+              MT    Field   Offset                 Type   VT     Attr            Value Name
+0000000000000000 04000faa       30         System.Int32  Yes instance                0 m_taskId
+00007ffa1f77a510 04000fab        8      System.Delegate   No instance 0000000000000000 m_action
+0000000000000000 04000fac       10        System.Object   No instance 0000000000000000 m_stateObject
+00007ffa1fc59b28 04000fad       18 ...sks.TaskScheduler   No instance 0000000000000000 m_taskScheduler
+0000000000000000 04000fae       34         System.Int32  Yes instance         33555520 m_stateFlags
+0000000000000000 04000faf       20        System.Object   No instance 0000000000000000 m_continuationObject
+00007ffa1fc0dc70 04000fb3       28 ...tingentProperties   No instance 0000000000000000 m_contingentProperties
+0000000000000000 04000fa9        8         System.Int32  Yes   static  s_taskIdCounter
+0000000000000000 04000fb0        8        System.Object   No   static 0000021e8580bff0 s_taskCompletionSentinel
+0000000000000000 04000fb1        c       System.Boolean  Yes   static  s_asyncDebuggingEnabled
+0000000000000000 04000fb2       10                        No   static 0000000000000000 s_currentActiveTasks
+00007ffa1f9aecd0 04000fb4       18 ...Tasks.TaskFactory   No   static 0000021e8580c008 <Factory>k__BackingField
+00007ffa1f9af5f8 04000fb5       20 ...Private.CoreLib]]   No   static 0000021e8580c030 s_cachedCompleted
+00007ffa1f9adb58 04000fb6       28 ...g.ContextCallback   No   static 0000021e8580c078 s_ecCallback
+00007ffa1f8b3cb0 04000fa8       10 ...eading.Tasks.Task   No TLstatic  t_currentTask
+    Thread static values (Thread:Value)
+        2b84:0000000000000000
+        234c:0000021e85834210
+        811c:0000021e85c06b00
+        78c8:0000000000000000
+

@@ -1,0 +1,48 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotIsolatedTests.SnapshotHelper_UsesExclusiveNonInteractiveStation_AndJoinsOwnedProcess
+  [ENVIRONMENT LIMITATION] Snapshot isolated helper skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+失败 Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests.ClientSessionMismatchRejectsBeforeAnyPayloadWrite (20ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.AggregateException : One or more errors occurred. (One or more errors occurred. (网络连接失败，请检查网络或代理设置))
+  ---- System.AggregateException : One or more errors occurred. (网络连接失败，请检查网络或代理设置)
+  -------- Iris.Core.Errors.IrisException : 网络连接失败，请检查网络或代理设置
+    在 Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\NamedPipeIpcTests.cs:165
+    --- End of stack trace from previous location ---
+    ----- Inner Stack Trace -----
+    在 Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests.Fixture.DisposeAsync() 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\NamedPipeIpcTests.cs:189
+    在 Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests.Run(Func`2 body) 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\NamedPipeIpcTests.cs:161
+    ----- Inner Stack Trace -----
+    在 Iris.Platform.Windows.SystemIntegration.NamedPipeIpcServer.CleanupAsync() 位于 F:\Iris\src\Iris.Platform.Windows\SystemIntegration\NamedPipeIpcServer.cs:123
+    在 Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests.Fixture.DisposeAsync() 位于 F:\Iris\tests\Iris.Platform.Windows.Tests\SystemIntegration\NamedPipeIpcTests.cs:188
+F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 673ms)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.Win32ClipboardIsolatedIntegrationTests.IsolatedWindowStation_NativeClipboardIntegration_ExecutesInDedicatedProcess
+  [ENVIRONMENT LIMITATION] Native isolated window station test skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (4s 753ms)
+F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (5s 715ms)
+F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (10s 526ms)
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (2m 30s 303ms)
+F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (1h 22m 51s 312ms)
+退出代码: -1
+  错误输出: Unsupported marker type 0x46
+
+测试运行摘要: 失败!
+  F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (1h 22m 51s 312ms)
+  F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (5s 715ms)
+  F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 673ms)
+  F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (2m 30s 303ms)
+  F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (10s 526ms)
+  F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (4s 753ms)
+
+  总计: 3651
+  失败: 1
+  成功: 3648
+  已跳过: 2
+  持续时间: 1h 22m 51s 735ms
+已完成测试运行，但显示非成功退出代码: -1 (请参阅: https://aka.ms/testingplatform/exitcodes)

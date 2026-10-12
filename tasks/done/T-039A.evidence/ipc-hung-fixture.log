@@ -1,0 +1,13 @@
+Loading core dump: F:/Iris/artifacts/t039a/ipc-hung.dmp ...
+Name:        Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests+Fixture
+MethodTable: 00007ffa213f7150
+Size:        64(0x40) bytes
+File:        F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll
+Fields:
+              MT    Field   Offset                 Type   VT     Attr            Value Name
+00007ffa20b43098 04000263        8 ...ation.IpcIdentity   No instance 0000021e85c03ae0 Identity
+00007ffa213f9958 04000264       10 ...eIpcTests+Factory   No instance 0000021e85c03b78 Factory
+00007ffa20b44a68 04000265       18 ....FakeTimeProvider   No instance 0000021e85c03d88 Time
+00007ffa20b44fb8 04000266       20 ...amedPipeIpcServer   No instance 0000021e85c04180 Server
+00007ffa213f9a58 04000267       28 ...mand, Iris.Core]]   No instance 0000021e85c03e20 Accepted
+00007ffa213f9d60 04000268       30 ...latform.Windows]]   No instance 0000021e85c04160 Clients

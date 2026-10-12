@@ -1,0 +1,6 @@
+{
+  "SandboxId": "e8c707ca-e3e9-46b0-a882-b4418fea51c8",
+  "Configuration": "<Configuration><vGPU>Disable</vGPU><Networking>Disable</Networking><AudioInput>Disable</AudioInput><VideoInput>Disable</VideoInput><ClipboardRedirection>Disable</ClipboardRedirection><PrinterRedirection>Disable</PrinterRedirection><MemoryInMB>4096</MemoryInMB></Configuration>",
+  "OnlyHostShare": "F:\\Iris\\artifacts\\t039-sandbox-preflight\\e8c707ca-e3e9-46b0-a882-b4418fea51c8\\output",
+  "Purpose": "OS/runtime inspection only; no Iris or installer execution"
+}

@@ -1,0 +1,23 @@
+{
+  "cwd": "F:/Iris",
+  "command": [
+    "F:\\Iris\\artifacts\\t039a\\tools\\vpk.exe",
+    "--skip-updates",
+    "pack",
+    "--packId",
+    "Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb",
+    "--packVersion",
+    "1.0.0",
+    "--packDir",
+    "F:\\Iris\\artifacts\\t039a\\payload-v1",
+    "--mainExe",
+    "Payload.exe",
+    "--outputDir",
+    "F:\\Iris\\artifacts\\t039a\\releases",
+    "--runtime",
+    "win10.0.19041-x64",
+    "--framework",
+    "net10.0-x64-desktop"
+  ],
+  "exitCode": 0
+}

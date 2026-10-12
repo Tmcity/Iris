@@ -1,0 +1,127 @@
+# .NET 10.0 - Supported OS versions
+
+Last Updated: 2026/09/28; Support phase: Active
+
+[.NET 10.0](README.md) is an [LTS](../../release-policies.md) release and [is supported](../../support.md) on multiple operating systems per their lifecycle policy.
+
+## Android
+
+| OS           | Versions       | Architectures     | Lifecycle      |
+| ------------ | -------------- | ----------------- | -------------- |
+| [Android][0] | 17, 16, 15, 14 | Arm32, Arm64, x64 | [Lifecycle][1] |
+
+Notes:
+
+- Android: API 21 is used as the minimum SDK target.
+
+## Apple
+
+| OS          | Versions   | Architectures | Lifecycle |
+| ----------- | ---------- | ------------- | --------- |
+| [iOS][2]    | 27, 26, 18 | Arm64         | None      |
+| [iPadOS][3] | 27, 26, 18 | Arm64         | None      |
+| [macOS][4]  | 27, 26, 15 | Arm64, x64    | None      |
+| [tvOS][5]   | 27, 26     | Arm64         | None      |
+
+Notes:
+
+- iOS: iOS 12.2 is used as the minimum SDK target.
+- macOS: The iOS and tvOS simulators are supported on macOS Arm64 and x64.
+- macOS: The x64 emulator (Rosetta 2) is supported on macOS Arm64.
+- macOS: Mac Catalyst apps are supported on macOS Arm64 and x64.
+
+## Linux
+
+| OS                             | Versions               | Architectures              | Lifecycle       |
+| ------------------------------ | ---------------------- | -------------------------- | --------------- |
+| [Alpine][6]                    | 3.24, 3.23, 3.22, 3.21 | Arm32, Arm64, x64          | [Lifecycle][7]  |
+| [Azure Linux][8]               | 3.0                    | Arm64, x64                 | None            |
+| [CentOS Stream][9]             | 10, 9                  | Arm64, ppc64le, s390x, x64 | [Lifecycle][10] |
+| [Debian][11]                   | 13                     | Arm32, Arm64, x64          | [Lifecycle][12] |
+| [Fedora][13]                   | 44, 43                 | Arm32, Arm64, x64          | [Lifecycle][14] |
+| [openSUSE Leap][15]            | 16.0                   | Arm64, x64                 | [Lifecycle][16] |
+| [Red Hat Enterprise Linux][17] | 10, 9, 8               | Arm64, ppc64le, s390x, x64 | [Lifecycle][18] |
+| [SUSE Linux Enterprise][19]    | 16.0, 15.7             | Arm64, x64                 | [Lifecycle][20] |
+| [Ubuntu][21]                   | 26.04, 24.04, 22.04    | Arm32, Arm64, x64          | [Lifecycle][22] |
+
+Notes:
+
+- Red Hat Enterprise Linux: RHEL-compatible derivatives are supported per [.NET Support](../../support.md).
+
+## Windows
+
+| OS                        | Versions                                    | Architectures   | Lifecycle       |
+| ------------------------- | ------------------------------------------- | --------------- | --------------- |
+| [Nano Server][23]         | 2025, 2022, 2019                            | x64             | [Lifecycle][24] |
+| [Windows][25]             | 11 26H1, 11 25H2, 11 24H2 (IoT), 11 24H2 (E), 11 24H2, 11 23H2 (E), 10 21H2 (E), 10 21H2 (IoT), 10 1809 (E), 10 1607 (E) | Arm64, x64, x86 | [Lifecycle][26] |
+| [Windows Server][27]      | 2025, 23H2, 2022, 2019, 2016, 2012-R2, 2012 | x64             | [Lifecycle][28] |
+| [Windows Server Core][29] | 2025, 2022, 2019, 2016, 2012-R2, 2012       | x64             | [Lifecycle][30] |
+
+Notes:
+
+- Windows: The x64 and x86 emulators are supported on Windows 11 Arm64.
+- Windows: The x86 emulator is supported on x64.
+- Windows Server: Windows Server 2012 and 2012 R2 are supported with [Extended Security Updates (ESU)](https://learn.microsoft.com/windows-server/get-started/extended-security-updates-overview).
+- Windows Server Core: Windows Server 2012 and 2012 R2 are supported with [Extended Security Updates (ESU)](https://learn.microsoft.com/windows-server/get-started/extended-security-updates-overview).
+
+[0]: https://www.android.com/
+[1]: https://support.google.com/android
+[2]: https://developer.apple.com/ios/
+[3]: https://developer.apple.com/ipados/
+[4]: https://developer.apple.com/macos/
+[5]: https://developer.apple.com/tvos/
+[6]: https://alpinelinux.org/
+[7]: https://alpinelinux.org/releases/
+[8]: https://github.com/microsoft/azurelinux
+[9]: https://centos.org/
+[10]: https://www.centos.org/cl-vs-cs/
+[11]: https://www.debian.org/
+[12]: https://wiki.debian.org/DebianReleases
+[13]: https://fedoraproject.org/
+[14]: https://fedoraproject.org/wiki/End_of_life
+[15]: https://www.opensuse.org/
+[16]: https://en.opensuse.org/Lifetime
+[17]: https://access.redhat.com/
+[18]: https://access.redhat.com/support/policy/updates/errata/
+[19]: https://www.suse.com/
+[20]: https://www.suse.com/lifecycle/
+[21]: https://ubuntu.com/
+[22]: https://wiki.ubuntu.com/Releases
+[23]: https://learn.microsoft.com/virtualization/windowscontainers/manage-containers/container-base-images
+[24]: https://learn.microsoft.com/windows-server/get-started/windows-server-release-info
+[25]: https://www.microsoft.com/windows/
+[26]: https://support.microsoft.com/help/13853/windows-lifecycle-fact-sheet
+[27]: https://www.microsoft.com/windows-server
+[28]: https://learn.microsoft.com/windows-server/get-started/windows-server-release-info
+[29]: https://learn.microsoft.com/virtualization/windowscontainers/manage-containers/container-base-images
+[30]: https://learn.microsoft.com/windows-server/get-started/windows-server-release-info
+
+## Libc
+
+| Libc  | Version | Architectures     | Source       |
+| ----- | ------- | ----------------- | ------------ |
+| glibc | 2.27    | Arm64, x64        | Ubuntu 18.04 |
+| glibc | 2.35    | Arm32             | Ubuntu 22.04 |
+| musl  | 1.2.3   | Arm32, Arm64, x64 | Alpine 3.17  |
+
+## Notes
+
+- The [QEMU](https://www.qemu.org/) emulator is not supported to run .NET apps. QEMU is used, for example, to emulate Arm64 containers on x64, and vice versa.
+- Microsoft-provided portable Arm32 glibc builds are supported on distro versions with a [Y2038 compatible glibc](https://github.com/dotnet/core/discussions/9285), for example Debian 12, Ubuntu 22.04, and higher versions.
+
+## Out of support OS versions
+
+OS versions that are out of support by the OS publisher are not tested or supported by .NET.
+
+| OS                    | Version | End of Life |
+| --------------------- | ------- | ----------- |
+| Alpine                | 3.20    | [2026-04-01](https://alpinelinux.org/posts/Alpine-3.17.10-3.18.9-3.19.4-3.20.3-released.html)      |
+| Android               | 13      | 2026-03-02  |
+| Debian                | 12      | [2028-06-30](https://www.debian.org/News/2026/2026051602)                                          |
+| Fedora                | 42      | 2026-05-27  |
+| iPadOS                | 17      | Active      |
+| macOS                 | 14      | 2026-09-14  |
+| openSUSE Leap         | 15.6    | [2026-04-30](https://en.opensuse.org/openSUSE:Roadmap#Leap_15.6)                                   |
+| SUSE Linux Enterprise | 15.6    | 2025-12-31  |
+| Ubuntu                | 25.10   | 2026-07-01  |
+| Windows               | 11 23H2 (W) | [2025-11-11](https://learn.microsoft.com/windows/release-health/windows11-release-information) |

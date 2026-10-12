@@ -1,0 +1,3 @@
+HOOK {"Name":"first-run","Thread":2,"Apartment":"STA"}
+BOOT_RETURN {"ExitCode":null,"NormalMainEligible":true,"Starts":0}
+BOOT_FINALLY

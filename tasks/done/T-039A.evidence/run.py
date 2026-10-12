@@ -1,0 +1,27 @@
+"""Run an explicit command, retaining raw output, arguments and exit status; no shell."""
+import argparse
+import json
+from pathlib import Path
+import subprocess
+import sys
+import os
+sys.stdout.reconfigure(encoding='utf-8')
+parser = argparse.ArgumentParser()
+parser.add_argument('--label', required=True)
+parser.add_argument('--cwd', default='F:/Iris')
+parser.add_argument('command', nargs=argparse.REMAINDER)
+args = parser.parse_args()
+evidence = Path(__file__).resolve().parent
+command = args.command[1:] if args.command[:1] == ['--'] else args.command
+log = evidence / (args.label + '.log')
+if log.exists():
+    raise RuntimeError('Refusing to overwrite evidence: ' + str(log))
+with log.open('wb') as output:
+    environment = dict(os.environ)
+    result = subprocess.run(command, cwd=args.cwd, stdout=output, stderr=subprocess.STDOUT, env=environment)
+(evidence / (args.label + '.command.json')).write_text(json.dumps({'cwd':args.cwd,'command':command,'exitCode':result.returncode},indent=2),encoding='utf-8')
+raw = log.read_bytes()
+try: decoded = raw.decode('utf-8-sig')
+except UnicodeDecodeError: decoded = raw.decode('gb18030',errors='replace')
+print(decoded[-12000:])
+sys.exit(result.returncode)

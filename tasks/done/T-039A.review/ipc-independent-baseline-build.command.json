@@ -1,0 +1,19 @@
+{
+  "command": [
+    "dotnet",
+    "build",
+    "Review.csproj",
+    "-c",
+    "Release",
+    "-p:",
+    "CandidateDir=C:/Users/28910/AppData/Local/Temp/iris-t039-ipc-independent/baseline-assemblies",
+    "-p:",
+    "RestoreConfigFile=C:/Users/28910/AppData/Local/Temp/iris-t039-ipc-independent/NuGet.Config",
+    "--disable-build-servers"
+  ],
+  "cwd": "C:/Users/28910/AppData/Local/Temp/iris-t039-ipc-independent/baseline-probe",
+  "startedAt": "2026-10-10T11:22:02.329141+00:00",
+  "completedAt": "2026-10-10T11:22:05.778632+00:00",
+  "exitCode": 0,
+  "logSha256": "3e6460b7a78f2d105aa85fc6d47028ae15b17cfc72abd7c88f7119b7e6b3cffe"
+}

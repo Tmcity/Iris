@@ -1,0 +1,17 @@
+{
+  "command": [
+    "dotnet",
+    "build",
+    "Probe.csproj",
+    "-c",
+    "Release",
+    "-p:",
+    "RestoreConfigFile=C:/Users/28910/AppData/Local/Temp/iris-t039-sdk-independent/NuGet.Config",
+    "--disable-build-servers"
+  ],
+  "cwd": "C:/Users/28910/AppData/Local/Temp/iris-t039-sdk-independent",
+  "startedAt": "2026-10-10T11:28:07.561413+00:00",
+  "completedAt": "2026-10-10T11:28:10.920986+00:00",
+  "exitCode": 0,
+  "logSha256": "705499663471b4f1ebff2d5ef372bb4aa442b579c89321da7c89456fc92553f1"
+}

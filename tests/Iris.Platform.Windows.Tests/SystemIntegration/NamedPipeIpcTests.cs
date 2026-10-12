@@ -60,7 +60,7 @@ public sealed class NamedPipeIpcTests
     {
         f.Factory.DropReply = !partialWrite; f.Factory.PartialWrite = partialWrite; f.Server.Start(f.Accept);
         var client = f.Client();
-        (await client.RunAsync(new(IrisAction.TranslateText, "private"))).ShouldBe(IpcSendResult.Unconfirmed);
+        (await client.RunAsync(new(IrisAction.TranslateText, "private"), f.Guard.Token)).ShouldBe(IpcSendResult.Unconfirmed);
         await client.DisposeAsync();
         Should.Throw<IrisException>(() => client.RunAsync(new(IrisAction.Exit)));
         f.Factory.Clients.ShouldBe(1); f.Factory.ClientWrites.ShouldBe(1);
@@ -72,7 +72,7 @@ public sealed class NamedPipeIpcTests
     {
         f.Server.Start(f.Accept);
         await using var idle = new NamedPipeClientStream(".", f.Identity.PipeName, PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
-        await idle.ConnectAsync(TestContext.Current.CancellationToken);
+        await idle.ConnectAsync(f.Guard.Token);
         await f.Factory.ServerVerified.Task.WaitAsync(TimeSpan.FromSeconds(5));
         f.Time.Advance(TimeSpan.FromSeconds(10));
         (await f.Send(new(IrisAction.InputTranslate))).ShouldBe(IpcSendResult.Accepted);
@@ -84,10 +84,10 @@ public sealed class NamedPipeIpcTests
     {
         f.Server.Start(f.Accept);
         await using var client = new NamedPipeClientStream(".", f.Identity.PipeName, PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
-        await client.ConnectAsync(TestContext.Current.CancellationToken);
+        await client.ConnectAsync(f.Guard.Token);
         var frame = IpcProtocol.Encode(new(IrisAction.InputTranslate));
-        await client.WriteAsync(frame.Concat(IpcProtocol.Encode(new(IrisAction.Exit))).ToArray(), TestContext.Current.CancellationToken);
-        var reply = await IpcProtocol.ReadLineAsync(client, 64, TestContext.Current.CancellationToken);
+        await client.WriteAsync(frame.Concat(IpcProtocol.Encode(new(IrisAction.Exit))).ToArray(), f.Guard.Token);
+        var reply = await IpcProtocol.ReadLineAsync(client, 64, f.Guard.Token);
         IpcProtocol.DecodeReply(reply).ShouldBe(IpcSendResult.Accepted);
         f.Accepted.Count.ShouldBe(1); f.Accepted.Single().Action.ShouldBe(IrisAction.InputTranslate);
     });
@@ -98,15 +98,15 @@ public sealed class NamedPipeIpcTests
         f.Server.Start(f.Accept);
         await using (var client = new NamedPipeClientStream(".", f.Identity.PipeName, PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly))
         {
-            await client.ConnectAsync(TestContext.Current.CancellationToken);
+            await client.ConnectAsync(f.Guard.Token);
             byte[] bytes = kind switch
             {
                 "duplicate" => "{\"action\":\"Exit\",\"ACTION\":\"Exit\"}\n"u8.ToArray(),
                 "numeric" => "{\"action\":12}\n"u8.ToArray(),
                 _ => [0xC3, 0x28, (byte)'\n']
             };
-            foreach (byte value in bytes) await client.WriteAsync(new byte[] { value }, TestContext.Current.CancellationToken);
-            var reply = await IpcProtocol.ReadLineAsync(client, 64, TestContext.Current.CancellationToken);
+            foreach (byte value in bytes) await client.WriteAsync(new byte[] { value }, f.Guard.Token);
+            var reply = await IpcProtocol.ReadLineAsync(client, 64, f.Guard.Token);
             IpcProtocol.DecodeReply(reply).ShouldBe(IpcSendResult.Rejected); f.Accepted.ShouldBeEmpty();
         }
         (await f.Send(new(IrisAction.InputTranslate))).ShouldBe(IpcSendResult.Accepted);
@@ -119,8 +119,8 @@ public sealed class NamedPipeIpcTests
         f.Server.Start(f.Accept);
         await using (var client = new NamedPipeClientStream(".", f.Identity.PipeName, PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly))
         {
-            await client.ConnectAsync(TestContext.Current.CancellationToken);
-            await client.WriteAsync("{\"action\":\"Exit\"}"u8.ToArray(), TestContext.Current.CancellationToken);
+            await client.ConnectAsync(f.Guard.Token);
+            await client.WriteAsync("{\"action\":\"Exit\"}"u8.ToArray(), f.Guard.Token);
         }
         (await f.Send(new(IrisAction.InputTranslate))).ShouldBe(IpcSendResult.Accepted);
         f.Accepted.Count.ShouldBe(1); f.Accepted.Single().Action.ShouldBe(IrisAction.InputTranslate);
@@ -138,7 +138,7 @@ public sealed class NamedPipeIpcTests
     public Task ActualAckWaitsForDelayedClientRead_AndDeadlineStillReleasesConnection(bool expire) => Run(async f =>
     {
         f.Factory.HoldClientRead = true; f.Server.Start(f.Accept);
-        var client = f.Client(); var run = client.RunAsync(new(IrisAction.InputTranslate));
+        var client = f.Client(); var run = client.RunAsync(new(IrisAction.InputTranslate), f.Guard.Token);
         await f.Factory.ClientReadEntered.Task.WaitAsync(TimeSpan.FromSeconds(5));
         await f.Factory.ReplyWritten.Task.WaitAsync(TimeSpan.FromSeconds(5));
         await f.Factory.PeerCloseWaitEntered.Task.WaitAsync(TimeSpan.FromSeconds(5));
@@ -152,13 +152,36 @@ public sealed class NamedPipeIpcTests
         f.Accepted.Count.ShouldBe(2);
     });
 
+    [Fact]
+    public async Task GuardSealsLateClientsAndJoinsBodyBeforeFinalCleanup()
+    {
+        bool bodyJoined = false, finalCleanup = false;
+        await Should.ThrowAsync<OperationCanceledException>(() => Run(async f =>
+        {
+            _ = f.Client();
+            f.BeforeFinalCleanup = () => { bodyJoined.ShouldBeTrue(); f.Clients.Count.ShouldBe(1); finalCleanup = true; };
+            f.Guard.Cancel();
+            await f.Factory.ReleaseClientRead.Task;
+            Should.Throw<OperationCanceledException>(() => f.Client());
+            await using var raw = new NamedPipeClientStream(".", f.Identity.PipeName, PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
+            await Should.ThrowAsync<OperationCanceledException>(() => raw.ConnectAsync(f.Guard.Token));
+            bodyJoined = true;
+        }));
+        bodyJoined.ShouldBeTrue(); finalCleanup.ShouldBeTrue();
+    }
+
     private static async Task Run(Func<Fixture, Task> body)
     {
         var f = new Fixture(); Exception? error = null; var cleanup = new List<Exception>();
-        try { await body(f); } catch (Exception ex) { error = ex; }
+        Task? work = null;
+        try { work = body(f); await work.WaitAsync(f.Guard.Token); } catch (Exception ex) { error = ex; }
         finally
         {
+            try { f.StopWork(); } catch (Exception ex) { cleanup.Add(ex); }
+            // Cancellation/gate release lets the actual body finish before the client list is enumerated.
+            try { if (work != null) await work; } catch (Exception ex) { if (!ReferenceEquals(ex, error)) cleanup.Add(ex); }
             try { await f.DisposeAsync(); } catch (Exception ex) { cleanup.Add(ex); }
+            f.Guard.Dispose();
         }
         if (error != null && cleanup.Count == 0) ExceptionDispatchInfo.Capture(error).Throw();
         if (error != null) cleanup.Insert(0, error);
@@ -171,21 +194,45 @@ public sealed class NamedPipeIpcTests
         internal readonly NamedPipeIpcServer Server;
         internal readonly ConcurrentQueue<IpcCommand> Accepted = new();
         internal readonly List<NamedPipeIpcClient> Clients = [];
-        internal Fixture() => Server = new(Identity, Factory, Time, NullLogger<NamedPipeIpcServer>.Instance);
+        internal readonly CancellationTokenSource Guard = CancellationTokenSource.CreateLinkedTokenSource(TestContext.Current.CancellationToken);
+        private bool _accepting = true;
+        internal Action? BeforeFinalCleanup;
+        internal Fixture()
+        {
+            Guard.CancelAfter(TimeSpan.FromSeconds(30));
+            Server = new(Identity, Factory, Time, NullLogger<NamedPipeIpcServer>.Instance);
+        }
         internal IpcReply Accept(IpcCommand command) { Accepted.Enqueue(command); return IpcReply.Accepted; }
-        internal NamedPipeIpcClient Client() { var client = new NamedPipeIpcClient(Identity, Factory, Time); Clients.Add(client); return client; }
+        internal NamedPipeIpcClient Client()
+        {
+            Guard.Token.ThrowIfCancellationRequested();
+            if (!_accepting) throw new OperationCanceledException(Guard.Token);
+            var client = new NamedPipeIpcClient(Identity, Factory, Time); Clients.Add(client); return client;
+        }
+        internal void StopWork()
+        {
+            _accepting = false;
+            Factory.ReleaseClientRead.TrySetResult();
+            Server.StopAcceptance();
+            Guard.Cancel();
+        }
         internal async Task<IpcSendResult> Send(IpcCommand command)
         {
             var client = Client();
-            try { return await client.RunAsync(command); }
+            try { return await client.RunAsync(command, Guard.Token); }
             finally { await client.DisposeAsync(); }
         }
         public async ValueTask DisposeAsync()
         {
             var errors = new List<Exception>();
-            Factory.ReleaseClientRead.TrySetResult();
+            try { BeforeFinalCleanup?.Invoke(); } catch (Exception ex) { errors.Add(ex); }
             foreach (var client in Clients) try { await client.DisposeAsync(); } catch (Exception ex) { errors.Add(ex); }
-            try { await Server.StopAsync(); } catch (Exception ex) { errors.Add(ex); }
+            try { await Server.StopAsync(); }
+            catch (Exception ex)
+            {
+                errors.Add(ex);
+                try { await Server.StopAsync(); } catch (Exception retry) { errors.Add(retry); }
+            }
             if (errors.Count != 0) throw new AggregateException(errors);
         }
     }

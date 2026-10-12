@@ -1,0 +1,11 @@
+{
+  "cwd": "F:/Iris",
+  "command": [
+    "dotnet",
+    "test",
+    "Iris.slnx",
+    "-c",
+    "Release"
+  ],
+  "exitCode": 0
+}

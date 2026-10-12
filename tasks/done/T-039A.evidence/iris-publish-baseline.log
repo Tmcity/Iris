@@ -1,0 +1,14 @@
+  Determining projects to restore...
+  Restored F:\Iris\artifacts\t039a\iris-copy\src\Iris.Infrastructure\Iris.Infrastructure.csproj (in 1.5 sec).
+  Restored F:\Iris\artifacts\t039a\iris-copy\src\Iris.Core\Iris.Core.csproj (in 1.5 sec).
+  Restored F:\Iris\artifacts\t039a\iris-copy\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (in 1.5 sec).
+  Restored F:\Iris\artifacts\t039a\iris-copy\src\Iris.UiaHost\Iris.UiaHost.csproj (in 1.5 sec).
+  Restored F:\Iris\artifacts\t039a\iris-copy\src\Iris.Providers\Iris.Providers.csproj (in 1.72 sec).
+  Restored F:\Iris\artifacts\t039a\iris-copy\src\Iris.App\Iris.App.csproj (in 1.75 sec).
+  Iris.Core -> F:\Iris\artifacts\t039a\iris-copy\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Infrastructure -> F:\Iris\artifacts\t039a\iris-copy\src\Iris.Infrastructure\bin\Release\net10.0\Iris.Infrastructure.dll
+  Iris.Providers -> F:\Iris\artifacts\t039a\iris-copy\src\Iris.Providers\bin\Release\net10.0\Iris.Providers.dll
+  Iris.Platform.Windows -> F:\Iris\artifacts\t039a\iris-copy\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\artifacts\t039a\iris-copy\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.App -> F:\Iris\artifacts\t039a\iris-copy\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.App.dll
+  Iris.App -> F:\Iris\artifacts\t039a\iris-publish-baseline\

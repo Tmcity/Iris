@@ -1,0 +1,9 @@
+{
+  "cwd": "F:/Iris",
+  "command": [
+    "F:/Iris/artifacts/t039a/tools/vpk.exe",
+    "pack",
+    "-H"
+  ],
+  "exitCode": 0
+}

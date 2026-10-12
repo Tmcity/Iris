@@ -1,0 +1,2 @@
+HOOK {"Name":"uninstall","Thread":2,"Apartment":"STA"}
+PROCESS_EXIT 0

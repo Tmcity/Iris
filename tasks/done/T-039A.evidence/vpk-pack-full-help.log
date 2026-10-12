@@ -1,0 +1,105 @@
+Description:
+  Creates a release from a folder containing application files.  
+
+Usage:
+  vpk pack [options]  
+
+Options:
+  --outputDir, -o <DIR>              ENV=VPK_OUTPUT_DIR  Output directory       
+                                     for created packages. [default:            
+                                     Releases]                                  
+  --channel, -c <NAME>               ENV=VPK_CHANNEL  The channel to use        
+                                     for this release. [default: win]           
+  --runtime, -r <RID>                ENV=VPK_RUNTIME  The target runtime        
+                                     to build packages for.                     
+  --packId, -u <ID> (REQ)            ENV=VPK_PACK_ID  Unique Id for             
+                                     application bundle.                        
+  --packVersion, -v <VERSION> (REQ)  ENV=VPK_PACK_VERSION  Current version      
+                                     for application bundle.                    
+  --packDir, -p <DIR> (REQ)          ENV=VPK_PACK_DIR  Directory                
+                                     containing application files for           
+                                     release.                                   
+  --packAuthors <AUTHORS>            ENV=VPK_PACK_AUTHORS  Company name or      
+                                     comma-delimited list of authors.           
+  --packTitle <NAME>                 ENV=VPK_PACK_TITLE  Display/friendly       
+                                     name for application.                      
+  --releaseNotes <PATH>              ENV=VPK_RELEASE_NOTES  File with           
+                                     markdown-formatted notes for this          
+                                     version.                                   
+  --delta <MODE>                     ENV=VPK_DELTA  Disable or set the          
+                                     delta generation mode. [default:           
+                                     BestSpeed]                                 
+  --icon, -i <PATH>                  ENV=VPK_ICON  Path to icon file for        
+                                     package.                                   
+  --mainExe, -e <NAME>               ENV=VPK_MAIN_EXE  The file name (not       
+                                     path) of the main/entry executable.        
+  --exclude <REGEX>                  ENV=VPK_EXCLUDE  A regex which             
+                                     excludes matched files from the            
+                                     package (in addition to built-in           
+                                     defaults). [default: .*\.pdb]              
+  --noDefaultExclude                 ENV=VPK_NO_DEFAULT_EXCLUDE  Do not         
+                                     exclude built-in default file              
+                                     patterns (eg. .nupkg, createdump,          
+                                     .vshost.). [default: False]                
+  --noPortable                       ENV=VPK_NO_PORTABLE  Skip generating       
+                                     a portable bundle. [default: False]        
+  --noInst                           ENV=VPK_NO_INST  Skip generating an        
+                                     installer package. [default: False]        
+  --framework, -f <RUNTIMES>         ENV=VPK_FRAMEWORK  List of required        
+                                     runtimes to install during setup.          
+                                     Example:                                   
+                                     'net6-x64-desktop,vcredist143-x64'.        
+  --splashImage, -s <PATH>           ENV=VPK_SPLASH_IMAGE  Path to image        
+                                     displayed during installation.             
+  --splashProgressColor <COLOR>      ENV=VPK_SPLASH_PROGRESS_COLOR              
+                                     Progress bar color (e.g. #FF0000), or      
+                                     'None' to hide.                            
+  --skipVeloAppCheck                 ENV=VPK_SKIP_VELO_APP_CHECK  Skip the      
+                                     VelopackApp builder verification.          
+                                     [default: False]                           
+  --signTemplate <COMMAND>           ENV=VPK_SIGN_TEMPLATE  Use a custom        
+                                     signing command. {{file}} will be          
+                                     substituted.                               
+  --signExclude <REGEX>              ENV=VPK_SIGN_EXCLUDE  A regex which        
+                                     excludes matched files from signing.       
+  --signParallel <NUM>               ENV=VPK_SIGN_PARALLEL  The number of       
+                                     files to sign in each signing              
+                                     command. [default: 10]                     
+  --aumid <AUMID>                    ENV=VPK_AUMID  Override the                
+                                     Application User Model ID (AUMID) for      
+                                     shortcuts.                                 
+  --shortcuts <LOC>                  ENV=VPK_SHORTCUTS  List of locations       
+                                     to install shortcuts to during setup.      
+                                     [default: Desktop,StartMenuRoot]           
+  --signParams, -n <PARAMS>          ENV=VPK_SIGN_PARAMS  Sign files via        
+                                     signtool.exe using these parameters.       
+  --azureTrustedSignFile <PATH>      ENV=VPK_AZURE_TRUSTED_SIGN_FILE  Path      
+                                     to Azure Trusted Signing                   
+                                     metadata.json.                             
+  --msi                              ENV=VPK_MSI  Compile a .msi                
+                                     machine-wide bootstrap package.            
+                                     [default: False]                           
+  --msiVersion <VERSION>             ENV=VPK_MSI_VERSION  Override the          
+                                     product version for the generated          
+                                     msi.                                       
+  --instWelcome <PATH>               ENV=VPK_INST_WELCOME  Set the              
+                                     plain-text installer package welcome       
+                                     content.                                   
+  --instLicense <PATH>               ENV=VPK_INST_LICENSE  Set the              
+                                     installer package license content.         
+                                     Can be either RTF or Markdown.             
+  --instReadme <PATH>                ENV=VPK_INST_README  Set the               
+                                     installer package readme content. Can      
+                                     be RTF, Markdown, or plain text.           
+  --instConclusion <PATH>            ENV=VPK_INST_CONCLUSION  Set the           
+                                     plain-text installer package               
+                                     conclusion content.                        
+  --instLocation <LOCATION>          ENV=VPK_INST_LOCATION  Set the             
+                                     installation location. [default:           
+                                     Either]                                    
+  --msiTopBanner <PATH>              ENV=VPK_MSI_TOP_BANNER  Set the top        
+                                     banner strip of the MSI dialogs            
+                                     (493x58 BMP).                              
+  --msiDialogBackground <PATH>       ENV=VPK_MSI_DIALOG_BACKGROUND  Set         
+                                     the MSI welcome/finish dialog              
+                                     background (493x312 BMP).                  

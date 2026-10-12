@@ -1,0 +1,14 @@
+{
+  "command": [
+    "dotnet",
+    "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039-sdk-independent\\bin\\Release\\net10.0-windows10.0.19041.0\\Probe.dll",
+    "boot",
+    "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039-sdk-independent\\bootstrap\\first-run",
+    "record"
+  ],
+  "cwd": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039-sdk-independent",
+  "startedAt": "2026-10-10T11:33:32.666116+00:00",
+  "completedAt": "2026-10-10T11:33:32.784975+00:00",
+  "exitCode": 0,
+  "logSha256": "7bdf27bb0db922bf056c5747b2260d2f9dcaf2f3d58f37b45315c986d8c834be"
+}

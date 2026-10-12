@@ -1,0 +1,11 @@
+{
+  "command": [
+    "dotnet",
+    "C:/Users/28910/AppData/Local/Temp/iris-t039-ipc-independent/baseline-probe/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.Tests.dll"
+  ],
+  "cwd": "C:/Users/28910/AppData/Local/Temp/iris-t039-ipc-independent/baseline-probe",
+  "startedAt": "2026-10-10T11:23:08.293123+00:00",
+  "completedAt": "2026-10-10T11:23:28.501791+00:00",
+  "exitCode": 1,
+  "logSha256": "860328888c73e5687ccea8d2f75aa542c60a61f9df983fc7c5b518d99e8ddd72"
+}

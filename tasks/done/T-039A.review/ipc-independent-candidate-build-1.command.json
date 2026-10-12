@@ -1,0 +1,19 @@
+{
+  "command": [
+    "dotnet",
+    "build",
+    "Review.csproj",
+    "-c",
+    "Release",
+    "-p:",
+    "CandidateDir=C:/Users/28910/AppData/Local/Temp/iris-t039-ipc-independent/candidate-assemblies",
+    "-p:",
+    "RestoreConfigFile=C:/Users/28910/AppData/Local/Temp/iris-t039-ipc-independent/NuGet.Config",
+    "--disable-build-servers"
+  ],
+  "cwd": "C:/Users/28910/AppData/Local/Temp/iris-t039-ipc-independent/candidate-probe",
+  "startedAt": "2026-10-10T11:25:08.530731+00:00",
+  "completedAt": "2026-10-10T11:25:11.578607+00:00",
+  "exitCode": 0,
+  "logSha256": "58223b5f3f85d6b11c7530292425f982e6f8d6bfc80155e9e62268768a903d89"
+}

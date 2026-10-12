@@ -1,0 +1,21 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+已通过 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.NativeCloseBeforeAcceptRecordsWin32FailureAndResetBehavior (28ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+已通过 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.RealResetOrOtherAcceptFailureIsNotSwallowedAndSameServerCanFinishCleanup(failReset: True) (10ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+已通过 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.RealResetOrOtherAcceptFailureIsNotSwallowedAndSameServerCanFinishCleanup(failReset: False) (0ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+已通过 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.StopDuringHeldAcceptJoinsOldWorkAndRetriesOriginalDisposeFailure (1ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+已通过 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.PeerClosesBeforeActualAcceptPreservesServerAndAcceptsNextCommand(rejectSession: True) (50ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+已通过 Iris.Platform.Windows.Tests.SystemIntegration.IpcEarlyDisconnectTests.PeerClosesBeforeActualAcceptPreservesServerAndAcceptsNextCommand(rejectSession: False) (7ms)
+  从 F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (1s 370ms)
+
+测试运行摘要: 已通过!
+  总计: 6
+  失败: 0
+  成功: 6
+  已跳过: 0
+  持续时间: 1s 604ms

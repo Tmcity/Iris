@@ -1,0 +1,486 @@
+Getting Started: .NET Console / Generic C# App | Velopack
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Getting Started","item":"https://docs.velopack.io/category/getting-started"},{"@type":"ListItem","position":2,"name":"C#","item":"https://docs.velopack.io/getting-started/csharp"}]}
+function gtag(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],gtag("js",new Date),gtag("config","G-YM5CQ7KMDT",{anonymize_ip:!0})
+!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()
+Skip to main content
+Guides
+Reference
+Blog
+English
+English
+Español
+Getting Started
+Introduction
+Getting Started
+C#
+C / C++
+JavaScript
+Python
+Rust
+Sample Apps
+Essentials
+Integrating
+Packaging
+Distributing
+Advanced
+Contributing
+Migrating
+Debugging & Logging
+FAQ
+Getting Started
+C#
+Getting Started: .NET Console / Generic C# App
+Applies to
+Windows
+MacOS
+Linux
+Get started with .NET 5+ (cross-platform) or .NET Framework.
+1
+Install the
+Velopack NuGet Package
+in your main project.
+This is the project that will contain the Main method of your application.
+2
+Generic C#
+WPF
+Uno Platform
+Velopack needs to be able to bootstrap your application and handle updates. You can do this by calling
+VelopackApp.Build().Run()
+at the start of your
+Main
+method.
+static
+void
+Main
+(
+string
+[
+]
+args
+)
+{
+VelopackApp
+.
+Build
+(
+)
+.
+Run
+(
+)
+;
+// ... your other startup code below
+}
+Though it is possible to simply put the Velopack bootstrap call within
+App.xaml.cs
+, we recommend creating a custom
+Main
+method to avoid any WPF overhead when applying updates.
+First, change the Build Action of
+App.xaml
+to
+Page
+(right-click the file in Solution Explorer, select Properties, and change the Build Action).
+The project file should contain the following lines:
+<
+ItemGroup
+>
+<
+ApplicationDefinition
+Remove
+=
+"
+App.xaml
+"
+/>
+<
+Page
+Include
+=
+"
+App.xaml
+"
+/>
+</
+ItemGroup
+>
+While editing the project file, change the StartupObject to point to your
+App
+class.
+Add the following PropertyGroup to your
+.csproj
+file:
+<
+PropertyGroup
+>
+<
+StartupObject
+>
+YourNamespace.App
+</
+StartupObject
+>
+</
+PropertyGroup
+>
+Add a
+Main
+method to your
+App.xaml.cs
+file. It should look similar to this:
+public
+partial
+class
+App
+:
+Application
+{
+[
+STAThread
+]
+private
+static
+void
+Main
+(
+string
+[
+]
+args
+)
+{
+VelopackApp
+.
+Build
+(
+)
+.
+Run
+(
+)
+;
+App
+app
+=
+new
+(
+)
+;
+app
+.
+InitializeComponent
+(
+)
+;
+app
+.
+Run
+(
+)
+;
+}
+// The rest of your App.xaml.cs code goes here
+}
+Verify the changes by ensuring your app still starts correctly.
+Add the following code to your
+App.xaml.cs
+file:
+public
+App
+(
+)
+{
+// It's important to Run() the VelopackApp as early as possible in app startup.
+VelopackApp
+.
+Build
+(
+)
+.
+OnFirstRun
+(
+(
+v
+)
+=>
+{
+/* Your first run code here */
+}
+)
+.
+Run
+(
+)
+;
+this
+.
+InitializeComponent
+(
+)
+;
+}
+3
+Velopack provides a simple way to check for updates and apply them.
+The following show how to implement a basic update check within your application.
+You can also split up the various methods to allow your users to control when to check for updates, download them, or apply them.
+private
+static
+async
+Task
+UpdateMyApp
+(
+)
+{
+var
+mgr
+=
+new
+UpdateManager
+(
+"https://the.place/you-host/updates"
+)
+;
+// check for new version
+var
+newVersion
+=
+await
+mgr
+.
+CheckForUpdatesAsync
+(
+)
+;
+if
+(
+newVersion
+==
+null
+)
+return
+;
+// no update available
+// download new version
+await
+mgr
+.
+DownloadUpdatesAsync
+(
+newVersion
+)
+;
+// install new version and restart app
+mgr
+.
+ApplyUpdatesAndRestart
+(
+newVersion
+)
+;
+}
+4
+Generic C#
+WPF
+Uno Platform
+Before building a Velopack release, you must first build your application and publish it to a directory.
+For simplicity, we recommend publishing it as a
+self-contained application
+.
+dotnet publish yourApp.csproj -c Release --self-contained -r win-x64 -o .\publish
+Replace
+-r win-x64
+with the
+runtime identifier (RID)
+for your target platform, such as
+osx-arm64
+or
+linux-x64
+.
+tip
+Starting with .NET 7, the
+-o
+/
+--output
+option
+can no longer be used with a solution file
+.
+Starting with .NET 8 and later, the
+dotnet publish
+command defaults to the Release configuration, so you can omit the
+-c Release
+option.
+For more details see
+https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/8.0/dotnet-publish-config
+.
+If you execute the dotnet publish command from within the same directory as the .csproj file, you can omit the project argument. You can find more details on the
+dotnet publish documentation
+.
+Before building a Velopack release, you must first build your application and publish it to a directory.
+For simplicity, we recommend publishing it as a
+self-contained application
+.
+dotnet publish yourApp.csproj -c Release --self-contained -r win-x64 -o .\publish
+Replace
+-r win-x64
+with the
+runtime identifier (RID)
+for your target platform, such as
+osx-arm64
+or
+linux-x64
+.
+tip
+Starting with .NET 7, the
+-o
+/
+--output
+option
+can no longer be used with a solution file
+.
+Starting with .NET 8 and later, the
+dotnet publish
+command defaults to the Release configuration, so you can omit the
+-c Release
+option.
+For more details see
+https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/8.0/dotnet-publish-config
+.
+If you execute the dotnet publish command from within the same directory as the .csproj file, you can omit the project argument. You can find more details on the
+dotnet publish documentation
+.
+Before building a Velopack release, you must first build your application and publish it to a directory.
+dotnet publish -f net8.0-desktop -p:Version=1.0.0 -o .\publish
+This will create the artifacts to be installed inside of the
+publish
+directory. If you are targeting multiple platforms this process will need to be repeated for each of those platforms replacing the
+-f
+option with the appropriate target framework moniker (TFM) for each platform, such as
+net8.0-windows
+or
+net8.0-maccatalyst
+.
+For additional information on publishing your Uno application see the
+Uno publishing guides
+tip
+Starting with .NET 7, the
+-o
+/
+--output
+option
+can no longer be used with a solution file
+.
+Starting with .NET 8 and later, the
+dotnet publish
+command defaults to the Release configuration, so you can omit the
+-c Release
+option.
+For more details see
+https://learn.microsoft.com/en-us/dotnet/core/compatibility/sdk/8.0/dotnet-publish-config
+.
+If you execute the dotnet publish command from within the same directory as the .csproj file, you can omit the project argument. You can find more details on the
+dotnet publish documentation
+.
+5
+Velopack uses a command line tool called
+vpk
+to package and publish releases.
+It is distributed as a
+.NET global tool
+. Although Velopack can be used with apps written in
+various languages
+, the .NET SDK is required to install and run
+vpk
+.
+You can install the .NET SDK from the
+.NET download page
+.
+Once .NET is installed, you can install
+vpk
+by running:
+dotnet tool install -g vpk
+tip
+It's recommended to use the same version of
+vpk
+as the Velopack package referenced in your application to ensure compatibility.
+Alternatively, you can run
+vpk
+without installing it globally using the
+dnx
+command. Use the
+@<version>
+syntax to pin the version of the
+vpk
+tool itself:
+dnx vpk@1.0.0
+Replace
+1.0.0
+with the version of the Velopack package you're using in your application.
+6
+Generic C#
+WPF
+Uno Platform
+You are now ready to build a Velopack release for your application.
+The
+--packId
+can be any unique application identifier that you wish to use. Because this must be unique across all applications,
+we recommend including your company name:
+<CompanyName>.<AppName>
+.
+The
+--mainExe
+option is only required if your executable name is different than the
+--packId
+of your application.
+See the
+CLI reference
+for more details on the available options.
+vpk pack --packId YourAppId --packVersion 1.0.0 --packDir .\publish --mainExe yourMainApp.exe
+You are now ready to build a Velopack release for your application.
+The
+--packId
+can be any unique application identifier that you wish to use. Because this must be unique across all applications,
+we recommend including your company name:
+<CompanyName>.<AppName>
+.
+The
+--mainExe
+option is only required if your executable name is different than the
+--packId
+of your application.
+See the
+CLI reference
+for more details on the available options.
+vpk pack --packId YourAppId --packVersion 1.0.0 --packDir .\publish --mainExe yourMainApp.exe
+You are now ready to build a Velopack release for your application.
+The
+--packId
+can be any unique application identifier that you wish to use. Because this must be unique across all applications,
+we recommend including your company name:
+<CompanyName>.<AppName>
+.
+The
+--mainExe
+option is only required if your executable name is different than the
+--packId
+of your application.
+See the
+CLI reference
+for more details on the available options.
+vpk pack --packId YourAppId --packVersion 1.0.0 --packDir .\publish --mainExe yourMainApp.exe
+tip
+vpk
+will produce a warning saying that the
+VelopackApp.Run()
+was not found in the entry point of your application. This is expected, and the warning can be safely ignored for this type of application.
+✅ You're Done! Your app now has auto-updates and an installer.
+You can upload your release to your website, or use the
+vpk upload
+command to publish it to the destination of your choice.
+You can also check out our
+Sample Apps
+to see completed examples that leverage Velopack.
+Edit this page
+Previous
+Getting Started
+Next
+C / C++

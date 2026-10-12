@@ -1,0 +1,38 @@
+Loading core dump: F:/Iris/artifacts/t039a/ipc-hung.dmp ...
+Current symbol store settings:
+Name:        System.Threading.Tasks.TaskExceptionHolder
+MethodTable: 00007ffa20f46e48
+Size:        48(0x30) bytes
+File:        C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.12\System.Private.CoreLib.dll
+Fields:
+              MT    Field   Offset                 Type   VT     Attr            Value Name
+00007ffa1f8b3cb0 04001038        8 ...eading.Tasks.Task   No instance 0000021e85c04378 m_task
+00007ffa20b2b638 04001039       10 ...Private.CoreLib]]   No instance 0000021e85d84348 m_faultExceptions
+00007ffa1f9ce0e8 0400103a       18 ...ptionDispatchInfo   No instance 0000000000000000 m_cancellationException
+0000000000000000 0400103b       20       System.Boolean  Yes instance                0 m_isHandled
+Name:        Microsoft.Extensions.Time.Testing.Timer
+MethodTable: 00007ffa20e4c080
+Size:        48(0x30) bytes
+File:        F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Microsoft.Extensions.TimeProvider.Testing.dll
+Fields:
+              MT    Field   Offset                 Type   VT     Attr            Value Name
+00007ffa20b75010 04000009        8 ...me.Testing.Waiter   No instance 0000021e85c06828 _waiter
+00007ffa20b44a68 0400000a       10 ....FakeTimeProvider   No instance 0000021e85c03d88 _timeProvider
+00007ffa1fe34580 0400000b       18 ...ing.TimerCallback   No instance 0000021e85ac0198 _callback
+0000000000000000 0400000c       20        System.Object   No instance 0000021e85c06758 _state
+Name:        Microsoft.Extensions.Time.Testing.FakeTimeProvider
+MethodTable: 00007ffa20b44a68
+Size:        88(0x58) bytes
+File:        F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Microsoft.Extensions.TimeProvider.Testing.dll
+Fields:
+              MT    Field   Offset                 Type   VT     Attr            Value Name
+00007ffa1fe31c58 040007a4        8  System.TimeProvider   No   static 0000021e85828d70 <System>k__BackingField
+0000000000000000 040007a5        8         System.Int64  Yes   static  s_minDateTicks
+0000000000000000 040007a6       10         System.Int64  Yes   static  s_maxDateTicks
+00007ffa20b75088 04000001        8 ...rovider.Testing]]   No instance 0000021e85c03de0 Waiters
+00007ffa1f96c810 04000002       28 ...em.DateTimeOffset  Yes instance 0000021e85c03db0 _now
+00007ffa20b76600 04000003       10  System.TimeZoneInfo   No instance 0000021e85a88e20 _localTimeZone
+0000000000000000 04000004       20         System.Int32  Yes instance                0 _wakeWaitersGate
+00007ffa1f96c810 04000005       38 ...em.DateTimeOffset  Yes instance 0000021e85c03dc0 <Start>k__BackingField
+00007ffa1f9e2710 04000006       48      System.TimeSpan  Yes instance 0000021e85c03dd0 <AutoAdvanceAmount>k__BackingField
+00007ffa1fd952e0 04000007       18  System.EventHandler   No instance 0000000000000000 GateOpening

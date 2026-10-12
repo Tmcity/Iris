@@ -1,0 +1,1321 @@
+Running tests from F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+Running tests from F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64)
+Running tests from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+Running tests from F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+Running tests from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+Running tests from F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+failed Iris.App.Tests.Services.GeneralSettingsSaveCoordinatorTests.SaveAsync_WhenInvalidThemeOrLogLevel_ReturnsUncommitted_WithoutCallingUpdateAsync (188ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : result1.FailureReason.ShouldNotBeNull();
+          result1.FailureReason!
+      should contain (case insensitive comparison)
+  "无效的主题"
+      but was actually
+  "Invalid theme"
+    at Iris.App.Tests.Services.GeneralSettingsSaveCoordinatorTests.SaveAsync_WhenInvalidThemeOrLogLevel_ReturnsUncommitted_WithoutCallingUpdateAsync() in F:\Iris\tests\Iris.App.Tests\Services\GeneralSettingsSaveCoordinatorTests.cs:193
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.App.Tests.Services.GeneralSettingsSaveCoordinatorTests.SaveAsync_WhenCancelledBeforeCommit_ReturnsUncommitted (4ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : result.FailureReason.ShouldNotBeNull();
+          result.FailureReason!
+      should contain (case insensitive comparison)
+  "取消"
+      but was actually
+  "Save canceled"
+    at Iris.App.Tests.Services.GeneralSettingsSaveCoordinatorTests.SaveAsync_WhenCancelledBeforeCommit_ReturnsUncommitted() in F:\Iris\tests\Iris.App.Tests\Services\GeneralSettingsSaveCoordinatorTests.cs:335
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.App.Tests.Services.GeneralSettingsSaveCoordinatorTests.SaveAsync_WhenAutoStartThrows_ReturnsSavedApplicationPending_PreservingSavedSettings (8ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : result.FailureReason.ShouldNotBeNull();
+          result.FailureReason!
+      should contain (case insensitive comparison)
+  "开机启动设置未生效"
+      but was actually
+  "Saved; startup settings were not applied (retry available)"
+    at Iris.App.Tests.Services.GeneralSettingsSaveCoordinatorTests.SaveAsync_WhenAutoStartThrows_ReturnsSavedApplicationPending_PreservingSavedSettings() in F:\Iris\tests\Iris.App.Tests\Services\GeneralSettingsSaveCoordinatorTests.cs:270
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.Core.Tests.Workflows.MouseSelectionWorkflowTests.ExplicitExpectedSource_IsForwardedAndCaptureErrorHasApprovedDefault (53ms)
+  from F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : ErrorMessages.GetDefault(ErrorCode.CaptureFailed)
+      should be
+  "内容获取失败，请稍后重试"
+      but was
+  "Could not capture the content. Please retry later"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 内    容    获    取    失    败    ，    请    稍    后    重    试                                                 ...  
+  Actual Value   | C    o    u    l    d    \s   n    o    t    \s   c    a    p    t    u    r    e    \s   t    h    e    ...  
+  Expected Code  | 208692348133719214622283336133652923583131245215183732535797                                             ...  
+  Actual Code    | 67   111  117  108  100  32   110  111  116  32   99   97   112  116  117  114  101  32   116  104  101  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | ...  21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   36   37   38   39   40   41   ...  
+  Expected Value | ...                                                                                                           ...  
+  Actual Value   | ...  \s   c    o    n    t    e    n    t    .    \s   P    l    e    a    s    e    \s   r    e    t    r    ...  
+  Expected Code  | ...                                                                                                           ...  
+  Actual Code    | ...  32   99   111  110  116  101  110  116  46   32   80   108  101  97   115  101  32   114  101  116  114  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  28   29   30   31   32   33   34   35   36   37   38   39   40   41   42   43   44   45   46   47   48   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  t    .    \s   P    l    e    a    s    e    \s   r    e    t    r    y    \s   l    a    t    e    r    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  116  46   32   80   108  101  97   115  101  32   114  101  116  114  121  32   108  97   116  101  114  
+    at Iris.Core.Tests.Workflows.MouseSelectionWorkflowTests.ExplicitExpectedSource_IsForwardedAndCaptureErrorHasApprovedDefault() in F:\Iris\tests\Iris.Core.Tests\Workflows\MouseSelectionWorkflowTests.cs:73
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.Core.Tests.Errors.ErrorMessagesTests.SpecificCodes_MatchTableExactText (285ms)
+  from F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : ErrorMessages.GetDefault(ErrorCode.RateLimited)
+      should be
+  "请求过于频繁，请稍后重试"
+      but was
+  "Too many requests. Please retry later"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 请    求    过    于    频    繁    ，    请    稍    后    重    试                                                 ...  
+  Actual Value   | T    o    o    \s   m    a    n    y    \s   r    e    q    u    e    s    t    s    .    \s   P    l    ...  
+  Expected Code  | 358312771436807201103905732321652923583131245215183732535797                                             ...  
+  Actual Code    | 84   111  111  32   109  97   110  121  32   114  101  113  117  101  115  116  115  46   32   80   108  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   36   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  s    .    \s   P    l    e    a    s    e    \s   r    e    t    r    y    \s   l    a    t    e    r    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  115  46   32   80   108  101  97   115  101  32   114  101  116  114  121  32   108  97   116  101  114  
+    at Iris.Core.Tests.Errors.ErrorMessagesTests.SpecificCodes_MatchTableExactText() in F:\Iris\tests\Iris.Core.Tests\Errors\ErrorMessagesTests.cs:55
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+failed Iris.Platform.Windows.Capture.MonitorEnumeratorTests.EnumerateMonitors_FirstQueryFails_FirstDestroyFails_TerminatesImmediately_PreservesPrimaryError_AndLogsCleanup (134ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : ex.Message
+      should be
+  "无法获取显示器信息"
+      but was
+  "Could not obtain monitor information"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 无    法    获    取    显    示    器    信    息                                                                ...  
+  Actual Value   | C    o    u    l    d    \s   n    o    t    \s   o    b    t    a    i    n    \s   m    o    n    i    ...  
+  Expected Code  | 260802786133719214622617431034221202044924687                                                            ...  
+  Actual Code    | 67   111  117  108  100  32   110  111  116  32   111  98   116  97   105  110  32   109  111  110  105  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  15   16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  n    \s   m    o    n    i    t    o    r    \s   i    n    f    o    r    m    a    t    i    o    n    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  110  32   109  111  110  105  116  111  114  32   105  110  102  111  114  109  97   116  105  111  110  
+    at Iris.Platform.Windows.Capture.MonitorEnumeratorTests.EnumerateMonitors_FirstQueryFails_FirstDestroyFails_TerminatesImmediately_PreservesPrimaryError_AndLogsCleanup() in F:\Iris\tests\Iris.Platform.Windows.Tests\Capture\MonitorEnumeratorTests.cs:303
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+failed Iris.Platform.Windows.Capture.DesktopContextTests.GetForegroundApp_CloseHandleFails_ThrowsCleanupFailureException (467ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : ex.Message
+      should be
+  "桌面查询资源清理失败"
+      but was
+  "Desktop query resource cleanup failed"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 桌    面    查    询    资    源    清    理    失    败                                                           ...  
+  Actual Value   | D    e    s    k    t    o    p    \s   q    u    e    r    y    \s   r    e    s    o    u    r    c    ...  
+  Expected Code  | 26700387542659735810361642830428165297022283336133                                                       ...  
+  Actual Code    | 68   101  115  107  116  111  112  32   113  117  101  114  121  32   114  101  115  111  117  114  99   ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   36   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  s    o    u    r    c    e    \s   c    l    e    a    n    u    p    \s   f    a    i    l    e    d    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  115  111  117  114  99   101  32   99   108  101  97   110  117  112  32   102  97   105  108  101  100  
+    at Iris.Platform.Windows.Capture.DesktopContextTests.GetForegroundApp_CloseHandleFails_ThrowsCleanupFailureException() in F:\Iris\tests\Iris.Platform.Windows.Tests\Capture\DesktopContextTests.cs:224
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+failed Iris.Core.Tests.Settings.SettingsEditCoordinatorHotkeyTests.ConcurrencyConflict_SameActionModified_ReturnsConflict (35ms)
+  from F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : result.Error.ShouldNotBeNull();
+          result.Error.Message
+      should be
+  "配置已在其他位置发生更改，请刷新后重试"
+      but was
+  "Settings changed elsewhere. Refresh and retry"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 配    置    已    在    其    他    位    置    发    生    更    改    ，    请    刷    新    后    重    试              ...  
+  Actual Value   | S    e    t    t    i    n    g    s    \s   c    h    a    n    g    e    d    \s   e    l    s    e    ...  
+  Expected Code  | 37197326222405022312208542018220301326222145729983263562591365292358312104726032215183732535797          ...  
+  Actual Code    | 83   101  116  116  105  110  103  115  32   99   104  97   110  103  101  100  32   101  108  115  101  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | ...  21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   36   37   38   39   40   41   ...  
+  Expected Value | ...                                                                                                           ...  
+  Actual Value   | ...  w    h    e    r    e    .    \s   R    e    f    r    e    s    h    \s   a    n    d    \s   r    e    ...  
+  Expected Code  | ...                                                                                                           ...  
+  Actual Code    | ...  119  104  101  114  101  46   32   82   101  102  114  101  115  104  32   97   110  100  32   114  101  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  24   25   26   27   28   29   30   31   32   33   34   35   36   37   38   39   40   41   42   43   44   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  r    e    .    \s   R    e    f    r    e    s    h    \s   a    n    d    \s   r    e    t    r    y    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  114  101  46   32   82   101  102  114  101  115  104  32   97   110  100  32   114  101  116  114  121  
+    at Iris.Core.Tests.Settings.SettingsEditCoordinatorHotkeyTests.ConcurrencyConflict_SameActionModified_ReturnsConflict() in F:\Iris\tests\Iris.Core.Tests\Settings\SettingsEditCoordinatorHotkeyTests.cs:429
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.Platform.Windows.Capture.MonitorEnumeratorTests.EnumerateMonitors_PrimaryFailure_PreservesPrimaryError_AndLogsCleanupFailures (13ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : ex.Message
+      should be
+  "无法获取显示器信息"
+      but was
+  "Could not obtain monitor information"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 无    法    获    取    显    示    器    信    息                                                                ...  
+  Actual Value   | C    o    u    l    d    \s   n    o    t    \s   o    b    t    a    i    n    \s   m    o    n    i    ...  
+  Expected Code  | 260802786133719214622617431034221202044924687                                                            ...  
+  Actual Code    | 67   111  117  108  100  32   110  111  116  32   111  98   116  97   105  110  32   109  111  110  105  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  15   16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  n    \s   m    o    n    i    t    o    r    \s   i    n    f    o    r    m    a    t    i    o    n    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  110  32   109  111  110  105  116  111  114  32   105  110  102  111  114  109  97   116  105  111  110  
+    at Iris.Platform.Windows.Capture.MonitorEnumeratorTests.EnumerateMonitors_PrimaryFailure_PreservesPrimaryError_AndLogsCleanupFailures() in F:\Iris\tests\Iris.Platform.Windows.Tests\Capture\MonitorEnumeratorTests.cs:189
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+failed Iris.Platform.Windows.Capture.DesktopContextTests.GetCursorPosition_Failure_ThrowsIrisException (2ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : ex.Message
+      should be
+  "无法获取鼠标位置"
+      but was
+  "Could not obtain the cursor position"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 无    法    获    取    鼠    标    位    置                                                                     ...  
+  Actual Value   | C    o    u    l    d    \s   n    o    t    \s   o    b    t    a    i    n    \s   t    h    e    \s   ...  
+  Expected Code  | 2608027861337192146240736266312030132622                                                                 ...  
+  Actual Code    | 67   111  117  108  100  32   110  111  116  32   111  98   116  97   105  110  32   116  104  101  32   ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  15   16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  n    \s   t    h    e    \s   c    u    r    s    o    r    \s   p    o    s    i    t    i    o    n    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  110  32   116  104  101  32   99   117  114  115  111  114  32   112  111  115  105  116  105  111  110  
+    at Iris.Platform.Windows.Capture.DesktopContextTests.GetCursorPosition_Failure_ThrowsIrisException() in F:\Iris\tests\Iris.Platform.Windows.Tests\Capture\DesktopContextTests.cs:41
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+failed Iris.Platform.Windows.Capture.MonitorEnumeratorTests.EnumerateMonitors_ConflictingMonitorNames_DifferentGeometryOrHMonitor_RejectedAndThrows (2ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : ex.Message
+      should be
+  "无法获取显示器信息"
+      but was
+  "Could not obtain monitor information"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 无    法    获    取    显    示    器    信    息                                                                ...  
+  Actual Value   | C    o    u    l    d    \s   n    o    t    \s   o    b    t    a    i    n    \s   m    o    n    i    ...  
+  Expected Code  | 260802786133719214622617431034221202044924687                                                            ...  
+  Actual Code    | 67   111  117  108  100  32   110  111  116  32   111  98   116  97   105  110  32   109  111  110  105  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  15   16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  n    \s   m    o    n    i    t    o    r    \s   i    n    f    o    r    m    a    t    i    o    n    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  110  32   109  111  110  105  116  111  114  32   105  110  102  111  114  109  97   116  105  111  110  
+    at Iris.Platform.Windows.Capture.MonitorEnumeratorTests.EnumerateMonitors_ConflictingMonitorNames_DifferentGeometryOrHMonitor_RejectedAndThrows() in F:\Iris\tests\Iris.Platform.Windows.Tests\Capture\MonitorEnumeratorTests.cs:345
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+failed Iris.Platform.Windows.Capture.MonitorEnumeratorTests.EnumerateMonitors_CleanupFailureOnly_ThrowsCleanupFailureException (2ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : ex.Message
+      should be
+  "桌面查询资源清理失败"
+      but was
+  "Desktop query resource cleanup failed"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 桌    面    查    询    资    源    清    理    失    败                                                           ...  
+  Actual Value   | D    e    s    k    t    o    p    \s   q    u    e    r    y    \s   r    e    s    o    u    r    c    ...  
+  Expected Code  | 26700387542659735810361642830428165297022283336133                                                       ...  
+  Actual Code    | 68   101  115  107  116  111  112  32   113  117  101  114  121  32   114  101  115  111  117  114  99   ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   36   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  s    o    u    r    c    e    \s   c    l    e    a    n    u    p    \s   f    a    i    l    e    d    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  115  111  117  114  99   101  32   99   108  101  97   110  117  112  32   102  97   105  108  101  100  
+    at Iris.Platform.Windows.Capture.MonitorEnumeratorTests.EnumerateMonitors_CleanupFailureOnly_ThrowsCleanupFailureException() in F:\Iris\tests\Iris.Platform.Windows.Tests\Capture\MonitorEnumeratorTests.cs:210
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+failed Iris.Core.Tests.Settings.SettingsEditCoordinatorHotkeyTests.PreStagingInputError_ZeroCredentialsStaged (2ms)
+  from F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : result.Error.Message
+      should be
+  "快捷键目标绑定无效"
+      but was
+  "The target shortcut binding is invalid"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 快    捷    键    目    标    绑    定    无    效                                                                ...  
+  Actual Value   | T    h    e    \s   t    a    r    g    e    t    \s   s    h    o    r    t    c    u    t    \s   b    ...  
+  Expected Code  | 245552546338190304462663132465234502608025928                                                            ...  
+  Actual Code    | 84   104  101  32   116  97   114  103  101  116  32   115  104  111  114  116  99   117  116  32   98   ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   36   37   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  u    t    \s   b    i    n    d    i    n    g    \s   i    s    \s   i    n    v    a    l    i    d    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  117  116  32   98   105  110  100  105  110  103  32   105  115  32   105  110  118  97   108  105  100  
+    at Iris.Core.Tests.Settings.SettingsEditCoordinatorHotkeyTests.PreStagingInputError_ZeroCredentialsStaged() in F:\Iris\tests\Iris.Core.Tests\Settings\SettingsEditCoordinatorHotkeyTests.cs:630
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.Platform.Windows.Capture.MonitorEnumeratorTests.EnumerateMonitors_ZeroDpi_TriggersRetry_AndThrowsWhenExhausted (2ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : ex.Message
+      should be
+  "无法获取显示器信息"
+      but was
+  "Could not obtain monitor information"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 无    法    获    取    显    示    器    信    息                                                                ...  
+  Actual Value   | C    o    u    l    d    \s   n    o    t    \s   o    b    t    a    i    n    \s   m    o    n    i    ...  
+  Expected Code  | 260802786133719214622617431034221202044924687                                                            ...  
+  Actual Code    | 67   111  117  108  100  32   110  111  116  32   111  98   116  97   105  110  32   109  111  110  105  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  15   16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  n    \s   m    o    n    i    t    o    r    \s   i    n    f    o    r    m    a    t    i    o    n    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  110  32   109  111  110  105  116  111  114  32   105  110  102  111  114  109  97   116  105  111  110  
+    at Iris.Platform.Windows.Capture.MonitorEnumeratorTests.EnumerateMonitors_ZeroDpi_TriggersRetry_AndThrowsWhenExhausted() in F:\Iris\tests\Iris.Platform.Windows.Tests\Capture\MonitorEnumeratorTests.cs:162
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+failed Iris.Platform.Windows.Capture.MonitorEnumeratorTests.EnumerateMonitors_FirstQueryFails_FirstRestoreFails_TerminatesImmediately_PreservesPrimaryError_AndLogsCleanup (11ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : ex.Message
+      should be
+  "无法获取显示器信息"
+      but was
+  "Could not obtain monitor information"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 无    法    获    取    显    示    器    信    息                                                                ...  
+  Actual Value   | C    o    u    l    d    \s   n    o    t    \s   o    b    t    a    i    n    \s   m    o    n    i    ...  
+  Expected Code  | 260802786133719214622617431034221202044924687                                                            ...  
+  Actual Code    | 67   111  117  108  100  32   110  111  116  32   111  98   116  97   105  110  32   109  111  110  105  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  15   16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  n    \s   m    o    n    i    t    o    r    \s   i    n    f    o    r    m    a    t    i    o    n    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  110  32   109  111  110  105  116  111  114  32   105  110  102  111  114  109  97   116  105  111  110  
+    at Iris.Platform.Windows.Capture.MonitorEnumeratorTests.EnumerateMonitors_FirstQueryFails_FirstRestoreFails_TerminatesImmediately_PreservesPrimaryError_AndLogsCleanup() in F:\Iris\tests\Iris.Platform.Windows.Tests\Capture\MonitorEnumeratorTests.cs:273
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+failed Iris.Platform.Windows.Capture.MonitorEnumeratorTests.EnumerateMonitors_ConflictingMonitorNames_CaseInsensitiveDifference_Rejected (34ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : ex.Message
+      should be
+  "无法获取显示器信息"
+      but was
+  "Could not obtain monitor information"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 无    法    获    取    显    示    器    信    息                                                                ...  
+  Actual Value   | C    o    u    l    d    \s   n    o    t    \s   o    b    t    a    i    n    \s   m    o    n    i    ...  
+  Expected Code  | 260802786133719214622617431034221202044924687                                                            ...  
+  Actual Code    | 67   111  117  108  100  32   110  111  116  32   111  98   116  97   105  110  32   109  111  110  105  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  15   16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  n    \s   m    o    n    i    t    o    r    \s   i    n    f    o    r    m    a    t    i    o    n    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  110  32   109  111  110  105  116  111  114  32   105  110  102  111  114  109  97   116  105  111  110  
+    at Iris.Platform.Windows.Capture.MonitorEnumeratorTests.EnumerateMonitors_ConflictingMonitorNames_CaseInsensitiveDifference_Rejected() in F:\Iris\tests\Iris.Platform.Windows.Tests\Capture\MonitorEnumeratorTests.cs:368
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+failed Iris.Core.Tests.Settings.SettingsEditCoordinatorHotkeyTests.DuplicateEnabledTarget_ReturnsInvalidArgument (54ms)
+  from F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : result.Error.Message
+      should contain (case insensitive comparison)
+  "快捷键组合已分配给其他动作，不能重复使用"
+      but was actually
+  "This shortcut is assigned to another action and cannot be reused"
+    at Iris.Core.Tests.Settings.SettingsEditCoordinatorHotkeyTests.DuplicateEnabledTarget_ReturnsInvalidArgument() in F:\Iris\tests\Iris.Core.Tests\Settings\SettingsEditCoordinatorHotkeyTests.cs:327
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.Core.Tests.Settings.SettingsEditCoordinatorHotkeyTests.StagingRollback_OnHotkeyConflictInMutate (6ms)
+  from F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : result.Error!.Message
+      should be
+  "配置已在其他位置发生更改，请刷新后重试"
+      but was
+  "Settings changed elsewhere. Refresh and retry"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 配    置    已    在    其    他    位    置    发    生    更    改    ，    请    刷    新    后    重    试              ...  
+  Actual Value   | S    e    t    t    i    n    g    s    \s   c    h    a    n    g    e    d    \s   e    l    s    e    ...  
+  Expected Code  | 37197326222405022312208542018220301326222145729983263562591365292358312104726032215183732535797          ...  
+  Actual Code    | 83   101  116  116  105  110  103  115  32   99   104  97   110  103  101  100  32   101  108  115  101  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | ...  21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   36   37   38   39   40   41   ...  
+  Expected Value | ...                                                                                                           ...  
+  Actual Value   | ...  w    h    e    r    e    .    \s   R    e    f    r    e    s    h    \s   a    n    d    \s   r    e    ...  
+  Expected Code  | ...                                                                                                           ...  
+  Actual Code    | ...  119  104  101  114  101  46   32   82   101  102  114  101  115  104  32   97   110  100  32   114  101  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  24   25   26   27   28   29   30   31   32   33   34   35   36   37   38   39   40   41   42   43   44   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  r    e    .    \s   R    e    f    r    e    s    h    \s   a    n    d    \s   r    e    t    r    y    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  114  101  46   32   82   101  102  114  101  115  104  32   97   110  100  32   114  101  116  114  121  
+    at Iris.Core.Tests.Settings.SettingsEditCoordinatorHotkeyTests.StagingRollback_OnHotkeyConflictInMutate() in F:\Iris\tests\Iris.Core.Tests\Settings\SettingsEditCoordinatorHotkeyTests.cs:686
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+skipped Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotIsolatedTests.SnapshotHelper_UsesExclusiveNonInteractiveStation_AndJoinsOwnedProcess
+  [ENVIRONMENT LIMITATION] Snapshot isolated helper skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+failed Iris.Platform.Windows.Tests.Selection.KeyboardSimulatorTests.RetryCleanupAsync_WhenCompensateFails_ThrowsIrisException_RetainsPendingRelease (17ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : await Should.ThrowAsync<IrisException>(simulator.RetryCleanupAsync());
+          ex.Message
+      should contain (case insensitive comparison)
+  "清理失败"
+      but was actually
+  "Keyboard cleanup failed; some keys could not be released."
+    at Iris.Platform.Windows.Tests.Selection.KeyboardSimulatorTests.RetryCleanupAsync_WhenCompensateFails_ThrowsIrisException_RetainsPendingRelease() in F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\KeyboardSimulatorTests.cs:838
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.Core.Tests.Settings.SelectionSettingsEditTests.InvalidFileNames_AreNotEchoedOrConvertedToBasenames(name: ".") (1ms)
+  from F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : result.Error!.Code.ShouldBe(ErrorCode.InvalidArgument); result.Error.Detail.ShouldBeNull(); result.Error.Message
+      should not contain (case insensitive comparison)
+  "."
+      but was actually
+  "Invalid selection settings. Check the reading order, wait time, and process file names."
+    at Iris.Core.Tests.Settings.SelectionSettingsEditTests.<>c__DisplayClass3_0.<<InvalidFileNames_AreNotEchoedOrConvertedToBasenames>b__0>d.MoveNext() in F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:89
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) in F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:208
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at Iris.Core.Tests.Settings.SelectionSettingsEditTests.Run(Func`2 body) in F:\Iris\tests\Iris.Core.Tests\Settings\SelectionSettingsEditTests.cs:214
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.Core.Tests.Translation.TranslationOrchestratorTests.TranslateAsync_ProviderTextBudget_ExceedingLimit_FailsProvider_OtherProvidersContinue (21ms)
+  from F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : failedA.Error.Message
+      should be
+  "翻译结果超过本地长度限制"
+      but was
+  "The translation exceeds the local length limit"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 翻    译    结    果    超    过    本    地    长    度    限    制                                                 ...  
+  Actual Value   | T    h    e    \s   t    r    a    n    s    l    a    t    i    o    n    \s   e    x    c    e    e    ...  
+  Expected Code  | 327633579332467265243622936807264122232038271242303848021046                                             ...  
+  Actual Code    | 84   104  101  32   116  114  97   110  115  108  97   116  105  111  110  32   101  120  99   101  101  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | ...  21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   36   37   38   39   40   41   ...  
+  Expected Value | ...                                                                                                           ...  
+  Actual Value   | ...  d    s    \s   t    h    e    \s   l    o    c    a    l    \s   l    e    n    g    t    h    \s   l    ...  
+  Expected Code  | ...                                                                                                           ...  
+  Actual Code    | ...  100  115  32   116  104  101  32   108  111  99   97   108  32   108  101  110  103  116  104  32   108  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  25   26   27   28   29   30   31   32   33   34   35   36   37   38   39   40   41   42   43   44   45   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  h    e    \s   l    o    c    a    l    \s   l    e    n    g    t    h    \s   l    i    m    i    t    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  104  101  32   108  111  99   97   108  32   108  101  110  103  116  104  32   108  105  109  105  116  
+    at Iris.Core.Tests.Translation.TranslationOrchestratorTests.TranslateAsync_ProviderTextBudget_ExceedingLimit_FailsProvider_OtherProvidersContinue() in F:\Iris\tests\Iris.Core.Tests\Translation\TranslationOrchestratorTests.cs:1671
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.Platform.Windows.Capture.DesktopGeometryHelperTests.GetNearestMonitor_EmptyList_ThrowsIrisException (10ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : ex.Message
+      should be
+  "无法获取显示器信息"
+      but was
+  "Could not obtain monitor information"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 无    法    获    取    显    示    器    信    息                                                                ...  
+  Actual Value   | C    o    u    l    d    \s   n    o    t    \s   o    b    t    a    i    n    \s   m    o    n    i    ...  
+  Expected Code  | 260802786133719214622617431034221202044924687                                                            ...  
+  Actual Code    | 67   111  117  108  100  32   110  111  116  32   111  98   116  97   105  110  32   109  111  110  105  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  15   16   17   18   19   20   21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  n    \s   m    o    n    i    t    o    r    \s   i    n    f    o    r    m    a    t    i    o    n    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  110  32   109  111  110  105  116  111  114  32   105  110  102  111  114  109  97   116  105  111  110  
+    at Iris.Platform.Windows.Capture.DesktopGeometryHelperTests.GetNearestMonitor_EmptyList_ThrowsIrisException() in F:\Iris\tests\Iris.Platform.Windows.Tests\Capture\DesktopGeometryHelperTests.cs:91
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+failed Iris.Core.Tests.Workflows.ScreenshotOcrHandlerTests.Success_PreservesTextPurposeIdentityAnchorAndActionSemantics(mode: 1) (15ms)
+  from F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : loading.Text
+      should be
+  "正在识别文字…"
+      but was
+  "Recognizing text…"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   
+  Expected Value | 正    在    识    别    文    字    …                                                      
+  Actual Value   | R    e    c    o    g    n    i    z    i    n    g    \s   t    e    x    t    …    
+  Expected Code  | 2749122312357822103525991233838230                                                   
+  Actual Code    | 82   101  99   111  103  110  105  122  105  110  103  32   116  101  120  116  8230 
+    at Iris.Core.Tests.Workflows.ScreenshotOcrHandlerTests.Success_PreservesTextPurposeIdentityAnchorAndActionSemantics(Int32 mode) in F:\Iris\tests\Iris.Core.Tests\Workflows\ScreenshotOcrHandlerTests.cs:99
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.Core.Tests.Workflows.ScreenshotOcrHandlerTests.Success_PreservesTextPurposeIdentityAnchorAndActionSemantics(mode: 0) (3ms)
+  from F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : loading.Text
+      should be
+  "正在识别文字…"
+      but was
+  "Recognizing text…"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   
+  Expected Value | 正    在    识    别    文    字    …                                                      
+  Actual Value   | R    e    c    o    g    n    i    z    i    n    g    \s   t    e    x    t    …    
+  Expected Code  | 2749122312357822103525991233838230                                                   
+  Actual Code    | 82   101  99   111  103  110  105  122  105  110  103  32   116  101  120  116  8230 
+    at Iris.Core.Tests.Workflows.ScreenshotOcrHandlerTests.Success_PreservesTextPurposeIdentityAnchorAndActionSemantics(Int32 mode) in F:\Iris\tests\Iris.Core.Tests\Workflows\ScreenshotOcrHandlerTests.cs:99
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+skipped Iris.Platform.Windows.Tests.Clipboard.Win32ClipboardIsolatedIntegrationTests.IsolatedWindowStation_NativeClipboardIntegration_ExecutesInDedicatedProcess
+  [ENVIRONMENT LIMITATION] Native isolated window station test skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+failed Iris.Core.Tests.Translation.TranslationOrchestratorTests.TranslateAsync_TotalRequestBudget_AcrossMultipleProvidersAndCacheHit_FailsExceededProviderAndDoesNotOverflow (112ms)
+  from F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : fail5.Error.Message
+      should be
+  "翻译结果超过本地长度限制"
+      but was
+  "The translation exceeds the local length limit"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 翻    译    结    果    超    过    本    地    长    度    限    制                                                 ...  
+  Actual Value   | T    h    e    \s   t    r    a    n    s    l    a    t    i    o    n    \s   e    x    c    e    e    ...  
+  Expected Code  | 327633579332467265243622936807264122232038271242303848021046                                             ...  
+  Actual Code    | 84   104  101  32   116  114  97   110  115  108  97   116  105  111  110  32   101  120  99   101  101  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | ...  21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   36   37   38   39   40   41   ...  
+  Expected Value | ...                                                                                                           ...  
+  Actual Value   | ...  d    s    \s   t    h    e    \s   l    o    c    a    l    \s   l    e    n    g    t    h    \s   l    ...  
+  Expected Code  | ...                                                                                                           ...  
+  Actual Code    | ...  100  115  32   116  104  101  32   108  111  99   97   108  32   108  101  110  103  116  104  32   108  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  25   26   27   28   29   30   31   32   33   34   35   36   37   38   39   40   41   42   43   44   45   
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  h    e    \s   l    o    c    a    l    \s   l    e    n    g    t    h    \s   l    i    m    i    t    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  104  101  32   108  111  99   97   108  32   108  101  110  103  116  104  32   108  105  109  105  116  
+    at Iris.Core.Tests.Translation.TranslationOrchestratorTests.TranslateAsync_TotalRequestBudget_AcrossMultipleProvidersAndCacheHit_FailsExceededProviderAndDoesNotOverflow() in F:\Iris\tests\Iris.Core.Tests\Translation\TranslationOrchestratorTests.cs:2308
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.Platform.Windows.Tests.Hotkey.HotkeyCaptureServiceTests.MessageLoop_UnexpectedLoopZero_BeforeStopRequested_FailsSessionAndCleansUp (12ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : result.Error.ShouldNotBeNull();
+          result.Error!.Message
+      should contain (case insensitive comparison)
+  "录入消息循环意外退出"
+      but was actually
+  "The shortcut capture message loop exited unexpectedly."
+    at Iris.Platform.Windows.Tests.Hotkey.HotkeyCaptureServiceTests.MessageLoop_UnexpectedLoopZero_BeforeStopRequested_FailsSessionAndCleansUp() in F:\Iris\tests\Iris.Platform.Windows.Tests\Hotkey\HotkeyCaptureServiceTests.cs:800
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.Platform.Windows.Tests.Hotkey.HotkeyCaptureServiceTests.MessageLoop_GetMessageError_FailsSessionAndCleansUp (9ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : result.Error.ShouldNotBeNull();
+          result.Error!.Message
+      should contain (case insensitive comparison)
+  "消息循环异常终止"
+      but was actually
+  "The message loop ended unexpectedly."
+    at Iris.Platform.Windows.Tests.Hotkey.HotkeyCaptureServiceTests.MessageLoop_GetMessageError_FailsSessionAndCleansUp() in F:\Iris\tests\Iris.Platform.Windows.Tests\Hotkey\HotkeyCaptureServiceTests.cs:781
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) passed (2s 781ms)
+F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) passed (4s 639ms)
+F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) failed with 13 error(s) (4s 765ms)
+Exit code: 2
+  Error output: Unsupported marker type 0x46
+failed Iris.App.Tests.Settings.SettingsViewModelTests.ExecuteSaveAsync_WhenSuccess_ClearsPreview_UpdatesBaseSnapshot_AndSetsStatus (4ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : vm.StatusMessage
+      should be
+  "设置已保存"
+      but was
+  "Settings saved"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   
+  Expected Value | 设    置    已    保    存                                                 
+  Actual Value   | S    e    t    t    i    n    g    s    \s   s    a    v    e    d    
+  Expected Code  | 3577432622240502044523384                                             
+  Actual Code    | 83   101  116  116  105  110  103  115  32   115  97   118  101  100  
+    at Iris.App.Tests.Settings.SettingsViewModelTests.ExecuteSaveAsync_WhenSuccess_ClearsPreview_UpdatesBaseSnapshot_AndSetsStatus() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsViewModelTests.cs:156
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.App.Tests.Settings.SettingsViewModelTests.ExecuteSaveAsync_WhenConflict_PreservesDraft_SetsConflictMessage_AndIsConflictTrue (2ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : vm.StatusMessage!
+      should contain (case insensitive comparison)
+  "冲突"
+      but was actually
+  "Save conflict: settings changed elsewhere. Reload them before editing again"
+    at Iris.App.Tests.Settings.SettingsViewModelTests.ExecuteSaveAsync_WhenConflict_PreservesDraft_SetsConflictMessage_AndIsConflictTrue() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsViewModelTests.cs:191
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) failed with 11 error(s) (5s 644ms)
+Exit code: 2
+F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) passed (9s 072ms)
+failed Iris.App.Tests.Settings.SettingsTranslationSaveIntegrationTests.ModelDiscovery_EmptyModelAllowed_IncompleteParamsDoNotBlockListModels_ButBlockSaveAndTest (2ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : draft.ValidateForTest().ShouldNotBeNull();
+          draft.ValidateForTest()!
+      should contain (case insensitive comparison)
+  "模型"
+      but was actually
+  "Enabled providers must specify a model name"
+    at Iris.App.Tests.Settings.SettingsTranslationSaveIntegrationTests.ModelDiscovery_EmptyModelAllowed_IncompleteParamsDoNotBlockListModels_ButBlockSaveAndTest() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsTranslationSaveIntegrationTests.cs:395
+    at System.RuntimeMethodHandle.InvokeMethod(ObjectHandleOnStack target, Void** arguments, ObjectHandleOnStack sig, BOOL isConstructor, ObjectHandleOnStack result)
+    at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    at System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed Iris.App.Tests.Hosting.HotkeyCoordinatorTests.H12_FormatKeyCombo_SanitizesInvalidKeyNames (3ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : msg
+      should contain (case insensitive comparison)
+  "Ctrl+Alt+(无效键)"
+      but was actually
+  "【Input translation】(Ctrl+Alt+(Invalid key)): Invalid shortcut combination"
+    at Iris.App.Tests.Hosting.HotkeyCoordinatorTests.H12_FormatKeyCombo_SanitizesInvalidKeyNames() in F:\Iris\tests\Iris.App.Tests\Hosting\HotkeyCoordinatorTests.cs:388
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.App.Tests.Hosting.HotkeyCoordinatorTests.H12_RegistrationFailure_NotifiesUserWithActionAndKeyCombo (2ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : notif.Message
+      should contain (case insensitive comparison)
+  "输入翻译"
+      but was actually
+  "【Input translation】(Ctrl+Alt+F): This shortcut is in use by another program"
+    at Iris.App.Tests.Hosting.HotkeyCoordinatorTests.H12_RegistrationFailure_NotifiesUserWithActionAndKeyCombo() in F:\Iris\tests\Iris.App.Tests\Hosting\HotkeyCoordinatorTests.cs:284
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.App.Tests.Hosting.HotkeyCoordinatorTests.H12_UnregisterFailure_NotifiesUser_AndRetriesOnNextSettingsUpdate (4ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: Iris.Core.Errors.IrisException : An unexpected error occurred. See the log for details
+    at Iris.Platform.Windows.Hotkey.HotkeyService.UnregisterAll() in F:\Iris\src\Iris.Platform.Windows\Hotkey\HotkeyService.cs:205
+    at Iris.Platform.Windows.Hotkey.HotkeyService.Dispose() in F:\Iris\src\Iris.Platform.Windows\Hotkey\HotkeyService.cs:220
+    at Iris.App.Tests.Hosting.HotkeyCoordinatorTests.H12_UnregisterFailure_NotifiesUser_AndRetriesOnNextSettingsUpdate() in F:\Iris\tests\Iris.App.Tests\Hosting\HotkeyCoordinatorTests.cs:347
+    --- End of stack trace from previous location ---
+failed Iris.App.Tests.Settings.SettingsViewModelTests.SaveAsync_WhenAutoStartApplyFails_PreservesRetryEligibility_AcrossUnrelatedSavesAndReload (5ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : vm.StatusMessage!
+      should contain (case insensitive comparison)
+  "开机启动设置未生效"
+      but was actually
+  "Saved; startup settings were not applied (retry available)"
+    at Iris.App.Tests.Settings.SettingsViewModelTests.SaveAsync_WhenAutoStartApplyFails_PreservesRetryEligibility_AcrossUnrelatedSavesAndReload() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsViewModelTests.cs:387
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.App.Tests.Settings.SettingsViewModelTests.ExecuteSaveAsync_WhenAutoStartPending_UpdatesBase_SetsSavedApplicationPending_AndEnablesRetry (3ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : vm.StatusMessage!
+      should contain (case insensitive comparison)
+  "开机启动设置未生效"
+      but was actually
+  "Saved; startup settings were not applied (retry available)"
+    at Iris.App.Tests.Settings.SettingsViewModelTests.ExecuteSaveAsync_WhenAutoStartPending_UpdatesBase_SetsSavedApplicationPending_AndEnablesRetry() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsViewModelTests.cs:221
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.App.Tests.Settings.SettingsHotkeysIntegrationTests.V06_DraftConflictsWithReservedNonEditableAction_ReportsReservedConflict_PreservesReservedAction (40ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : inputItem.DraftError.ShouldNotBeNull();
+          inputItem.DraftError
+      should contain (case insensitive comparison)
+  "预留"
+      but was actually
+  "Shortcut conflict: duplicates reserved action [Translate text]"
+    at Iris.App.Tests.Settings.SettingsHotkeysIntegrationTests.V06_DraftConflictsWithReservedNonEditableAction_ReportsReservedConflict_PreservesReservedAction() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsHotkeysIntegrationTests.cs:746
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at Iris.App.Tests.Settings.SettingsHotkeysIntegrationTests.V06_DraftConflictsWithReservedNonEditableAction_ReportsReservedConflict_PreservesReservedAction() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsHotkeysIntegrationTests.cs:753
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.App.Tests.Settings.SettingsHotkeysIntegrationTests.V03_ExternalSettingsChanged_UneditedRowFollows_EditedRowPreserved_ReportsConflict (30ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : env.ViewModel.StatusMessage!
+      should contain (case insensitive comparison)
+  "保存冲突"
+      but was actually
+  "Save conflict: settings changed elsewhere. Reload them before editing again"
+    at Iris.App.Tests.Settings.SettingsHotkeysIntegrationTests.V03_ExternalSettingsChanged_UneditedRowFollows_EditedRowPreserved_ReportsConflict() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsHotkeysIntegrationTests.cs:597
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at Iris.App.Tests.Settings.SettingsHotkeysIntegrationTests.V03_ExternalSettingsChanged_UneditedRowFollows_EditedRowPreserved_ReportsConflict() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsHotkeysIntegrationTests.cs:610
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.Scenario5_ExternalSettingsChanged_SynchronizesMembersAndOrder_PreservesUnfinishedDraftsAndHiddenFields (33s 145ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : opt.DisplayName
+      should contain (case insensitive comparison)
+  "[已移除]"
+      but was actually
+  "[Removed] custom-test-5e"
+    at Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.<>c.<<Scenario5_ExternalSettingsChanged_SynchronizesMembersAndOrder_PreservesUnfinishedDraftsAndHiddenFields>b__17_0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:1017
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.<>c.<<Scenario5_ExternalSettingsChanged_SynchronizesMembersAndOrder_PreservesUnfinishedDraftsAndHiddenFields>b__17_0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:1038
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.Scenario5_ExternalSettingsChanged_SynchronizesMembersAndOrder_PreservesUnfinishedDraftsAndHiddenFields() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:890
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.Scenario1_TestThenSave_ReusesQueueAcrossAllSaveStatuses_AndRejectsAfterShutdown (15ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.Vm.StatusMessage!
+      should contain (case insensitive comparison)
+  "名称"
+      but was actually
+  ": The provider display name cannot be empty"
+    at Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.<>c.<<Scenario1_TestThenSave_ReusesQueueAcrossAllSaveStatuses_AndRejectsAfterShutdown>b__13_0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:404
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.<>c.<<Scenario1_TestThenSave_ReusesQueueAcrossAllSaveStatuses_AndRejectsAfterShutdown>b__13_0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:408
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.Scenario1_TestThenSave_ReusesQueueAcrossAllSaveStatuses_AndRejectsAfterShutdown() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:337
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.Scenario7_RealWindowPresenter_HandlesClosingReopening_AndReceipt32QuotaExhaustion (247ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : vm1.StatusMessage
+      should be
+  "配置已提交保存，但部分服务提供商刷新未完全完成，旧凭据已保留"
+      but was
+  "Settings were saved, but some providers have not finished refreshing. Previous credentials were retained"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   17   18   19   20   ...  
+  Expected Value | 配    置    已    提    交    保    存    ，    但    部    分    服    务    提    供    商    刷    新    未    完    全    ...  
+  Actual Value   | S    e    t    t    i    n    g    s    \s   w    e    r    e    \s   s    a    v    e    d    ,    \s   ...  
+  Expected Code  | 371973262224050255522013220445233846529220294370962099826381211532555220379218302104726032264102343620840...  
+  Actual Code    | 83   101  116  116  105  110  103  115  32   119  101  114  101  32   115  97   118  101  100  44   32   ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | ...  21   22   23   24   25   26   27   28   29   30   31   32   33   34   35   36   37   38   39   40   41   ...  
+  Expected Value | ...  完    成    ，    旧    凭    据    已    保    留                                                                ...  
+  Actual Value   | ...  b    u    t    \s   s    o    m    e    \s   p    r    o    v    i    d    e    r    s    \s   h    a    ...  
+  Expected Code  | ...  234362510465292260872097325454240502044530041                                                            ...  
+  Actual Code    | ...  98   117  116  32   115  111  109  101  32   112  114  111  118  105  100  101  114  115  32   104  97   ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | ...  42   43   44   45   46   47   48   49   50   51   52   53   54   55   56   57   58   59   60   61   62   ...  
+  Expected Value | ...                                                                                                           ...  
+  Actual Value   | ...  v    e    \s   n    o    t    \s   f    i    n    i    s    h    e    d    \s   r    e    f    r    e    ...  
+  Expected Code  | ...                                                                                                           ...  
+  Actual Code    | ...  118  101  32   110  111  116  32   102  105  110  105  115  104  101  100  32   114  101  102  114  101  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | ...  63   64   65   66   67   68   69   70   71   72   73   74   75   76   77   78   79   80   81   82   83   ...  
+  Expected Value | ...                                                                                                           ...  
+  Actual Value   | ...  s    h    i    n    g    .    \s   P    r    e    v    i    o    u    s    \s   c    r    e    d    e    ...  
+  Expected Code  | ...                                                                                                           ...  
+  Actual Code    | ...  115  104  105  110  103  46   32   80   114  101  118  105  111  117  115  32   99   114  101  100  101  ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  83   84   85   86   87   88   89   90   91   92   93   94   95   96   97   98   99   100  101  102  103  
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  e    n    t    i    a    l    s    \s   w    e    r    e    \s   r    e    t    a    i    n    e    d    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  101  110  116  105  97   108  115  32   119  101  114  101  32   114  101  116  97   105  110  101  100  
+    at Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.<>c.<<Scenario7_RealWindowPresenter_HandlesClosingReopening_AndReceipt32QuotaExhaustion>b__19_0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:1338
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.<>c.<<Scenario7_RealWindowPresenter_HandlesClosingReopening_AndReceipt32QuotaExhaustion>b__19_0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:1377
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.Settings.SettingsDraftAndSaveRegressionTests.Scenario7_RealWindowPresenter_HandlesClosingReopening_AndReceipt32QuotaExhaustion() in F:\Iris\tests\Iris.App.Tests\Settings\SettingsDraftAndSaveRegressionTests.cs:1239
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.App.Tests.History.HistoryWindowTests.DetailsAndCopies_UseFullTextAndOrderedHistoricalResults (481ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.ClipboardWrites.ToArray()
+      should be
+  ["多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  ", "Second result
+  多行译文
+  [结果已截断]"]
+      but was (case sensitive comparison)
+  ["多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  ", "Second result
+  多行译文
+  [Result truncated]"]
+      difference
+  ["多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  多行 source 🙂
+  ", *"Second result
+  多行译文
+  [Result truncated]"*]
+    at Iris.App.Tests.History.HistoryWindowTests.<>c.<<DetailsAndCopies_UseFullTextAndOrderedHistoricalResults>b__4_0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\History\HistoryWindowTests.cs:86
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.History.HistoryTestScope.<>c__DisplayClass36_0.<<Run>b__0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\History\HistoryTestScope.cs:106
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at Iris.App.Tests.History.HistoryTestScope.<>c__DisplayClass36_0.<<Run>b__0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\History\HistoryTestScope.cs:120
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.App.Tests.Ocr.OcrRenderingTests.ActualOcrEntrypoint_RendersLoadingSourceAndErrorInSameWindowWithoutImage(theme: Light) (175ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : s.Presenter.ViewModel!.StatusMessage
+      should be
+  "正在识别文字…"
+      but was
+  "Recognizing text…"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   
+  Expected Value | 正    在    识    别    文    字    …                                                      
+  Actual Value   | R    e    c    o    g    n    i    z    i    n    g    \s   t    e    x    t    …    
+  Expected Code  | 2749122312357822103525991233838230                                                   
+  Actual Code    | 82   101  99   111  103  110  105  122  105  110  103  32   116  101  120  116  8230 
+    at Iris.App.Tests.Ocr.OcrRenderingTests.<>c__DisplayClass0_0.<<ActualOcrEntrypoint_RendersLoadingSourceAndErrorInSameWindowWithoutImage>b__0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\Ocr\OcrRenderingTests.cs:45
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at Iris.App.Tests.Ocr.OcrRenderingTests.<>c__DisplayClass0_0.<<ActualOcrEntrypoint_RendersLoadingSourceAndErrorInSameWindowWithoutImage>b__0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\Ocr\OcrRenderingTests.cs:60
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at Iris.App.Tests.Ocr.OcrRenderingTests.<>c__DisplayClass0_0.<<ActualOcrEntrypoint_RendersLoadingSourceAndErrorInSameWindowWithoutImage>b__0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\Ocr\OcrRenderingTests.cs:60
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.App.Tests.Ocr.OcrRenderingTests.ActualOcrEntrypoint_RendersLoadingSourceAndErrorInSameWindowWithoutImage(theme: Dark) (212ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : s.Presenter.ViewModel!.StatusMessage
+      should be
+  "正在识别文字…"
+      but was
+  "Recognizing text…"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   11   12   13   14   15   16   
+  Expected Value | 正    在    识    别    文    字    …                                                      
+  Actual Value   | R    e    c    o    g    n    i    z    i    n    g    \s   t    e    x    t    …    
+  Expected Code  | 2749122312357822103525991233838230                                                   
+  Actual Code    | 82   101  99   111  103  110  105  122  105  110  103  32   116  101  120  116  8230 
+    at Iris.App.Tests.Ocr.OcrRenderingTests.<>c__DisplayClass0_0.<<ActualOcrEntrypoint_RendersLoadingSourceAndErrorInSameWindowWithoutImage>b__0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\Ocr\OcrRenderingTests.cs:45
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at Iris.App.Tests.Ocr.OcrRenderingTests.<>c__DisplayClass0_0.<<ActualOcrEntrypoint_RendersLoadingSourceAndErrorInSameWindowWithoutImage>b__0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\Ocr\OcrRenderingTests.cs:60
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at Iris.App.Tests.Ocr.OcrRenderingTests.<>c__DisplayClass0_0.<<ActualOcrEntrypoint_RendersLoadingSourceAndErrorInSameWindowWithoutImage>b__0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\Ocr\OcrRenderingTests.cs:60
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) failed with 19 error(s) (2m 28s 402ms)
+Exit code: 2
+  Standard output: LABEL_LAYOUT opaqueLabels=3 overlappingPairs=0
+  LABEL_LAYOUT opaqueLabels=3 overlappingPairs=0
+  RIGHT_CLEAR handled=True displayedX=100 displayedY=100
+  RIGHT_CLEAR handled=True displayedX=100 displayedY=100
+  PREPARATION_ERRORS settingsRecorded=True translationRecorded=True settingsRestored=True translationRestored=True
+  DWM_FAILURE code=CaptureFailed nativeHResultPreserved=True captures=0
+  LATE_POINTER_AFTER_CONFIRM imagePreserved=True crops=1
+  FOREGROUND_QUERY newIntentObserved=True emptyQueries=2 resultCanceled=True nativeRestores=0
+  NETWORK_VISUAL files=48 directory=C:\Users\28910\AppData\Local\Temp\iris-t036c-render-34333ebb9d794835b092f52640ca08ad
+  R1_BEFORE_RELEASE persisted=en-US draft=zh-CN dirty=False
+  R1_JOINED persisted=en-US draft=en-US dirty=False
+  R1_JOINED persisted=en-US draft=zh-CN dirty=True
+  LOCALIZATION_VISUAL files=410 directory=F:\Iris\artifacts\t039a\regression-visuals
+
+Test run summary: Failed!
+  F:\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) passed (9s 072ms)
+  F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) failed with 13 error(s) (4s 765ms)
+  F:\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) passed (2s 781ms)
+  F:\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) failed with 11 error(s) (5s 644ms)
+  F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) failed with 19 error(s) (2m 28s 402ms)
+  F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) passed (4s 639ms)
+
+  total: 3653
+  failed: 43
+  succeeded: 3608
+  skipped: 2
+  duration: 2m 28s 880ms
+Test run completed with non-success exit code: 2 (see: https://aka.ms/testingplatform/exitcodes)

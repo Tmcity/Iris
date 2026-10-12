@@ -1,0 +1,71 @@
+Description:
+  Creates a release from a folder containing application files.  
+
+Usage:
+  vpk pack [options]  
+
+Options:
+  --outputDir, -o <DIR>              Output directory for created               
+                                     packages. [default: Releases]              
+  --channel, -c <NAME>               The channel to use for this release.       
+                                     [default: win]                             
+  --runtime, -r <RID>                The target runtime to build packages       
+                                     for.                                       
+  --packId, -u <ID> (REQ)            Unique Id for application bundle.          
+  --packVersion, -v <VERSION> (REQ)  Current version for application            
+                                     bundle.                                    
+  --packDir, -p <DIR> (REQ)          Directory containing application           
+                                     files for release.                         
+  --packAuthors <AUTHORS>            Company name or comma-delimited list       
+                                     of authors.                                
+  --packTitle <NAME>                 Display/friendly name for                  
+                                     application.                               
+  --releaseNotes <PATH>              File with markdown-formatted notes         
+                                     for this version.                          
+  --delta <MODE>                     Disable or set the delta generation        
+                                     mode. [default: BestSpeed]                 
+  --icon, -i <PATH>                  Path to icon file for package.             
+  --mainExe, -e <NAME>               The file name (not path) of the            
+                                     main/entry executable.                     
+  --exclude <REGEX>                  A regex which excludes matched files       
+                                     from the package (in addition to           
+                                     built-in defaults). [default:              
+                                     .*\.pdb]                                   
+  --framework, -f <RUNTIMES>         List of required runtimes to install       
+                                     during setup. Example:                     
+                                     'net6-x64-desktop,vcredist143-x64'.        
+  --splashImage, -s <PATH>           Path to image displayed during             
+                                     installation.                              
+  --splashProgressColor <COLOR>      Progress bar color (e.g. #FF0000), or      
+                                     'None' to hide.                            
+  --signTemplate <COMMAND>           Use a custom signing command.              
+                                     {{file}} will be substituted.              
+  --shortcuts <LOC>                  List of locations to install               
+                                     shortcuts to during setup. [default:       
+                                     Desktop,StartMenuRoot]                     
+  --signParams, -n <PARAMS>          Sign files via signtool.exe using          
+                                     these parameters.                          
+  --azureTrustedSignFile <PATH>      Path to Azure Trusted Signing              
+                                     metadata.json.                             
+  --msi                              Compile a .msi machine-wide bootstrap      
+                                     package. [default: False]                  
+  --msiVersion <VERSION>             Override the product version for the       
+                                     generated msi.                             
+  --instWelcome <PATH>               Set the plain-text installer package       
+                                     welcome content.                           
+  --instLicense <PATH>               Set the installer package license          
+                                     content. Can be either RTF or              
+                                     Markdown.                                  
+  --instReadme <PATH>                Set the installer package readme           
+                                     content. Can be RTF, Markdown, or          
+                                     plain text.                                
+  --instConclusion <PATH>            Set the plain-text installer package       
+                                     conclusion content.                        
+  --instLocation <LOCATION>          Set the installation location.             
+                                     [default: Either]                          
+  --msiTopBanner <PATH>              Set the top banner strip of the MSI        
+                                     dialogs (493x58 BMP).                      
+  --msiDialogBackground <PATH>       Set the MSI welcome/finish dialog          
+                                     background (493x312 BMP).                  
+
+(*) 7 option(s) were hidden. Use -H / --vhelp to show all options.

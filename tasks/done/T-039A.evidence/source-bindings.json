@@ -1,0 +1,131 @@
+{
+  "Tag": "1.2.161",
+  "OfficialFiles": [
+    {
+      "Path": "src/lib-csharp/UpdateManager.cs",
+      "Sha256": "638bae24a68702ed1cf56a90fd21e9372138db4b04664c12ccb411cb5d27ddef"
+    },
+    {
+      "Path": "src/lib-csharp/VelopackApp.cs",
+      "Sha256": "023081386b8dfbef3dcafaa97a014d6471587fbdaf44d15c0065d0b9d140fb34"
+    },
+    {
+      "Path": "src/lib-csharp/UpdateOptions.cs",
+      "Sha256": "b47896c53cf4ba4e73459d64e493b46c44ad5632d44811c7471ee828ed97e2ed"
+    },
+    {
+      "Path": "src/lib-csharp/UpdateExe.cs",
+      "Sha256": "f93338a733ae836739dff61089423c25f1a9d84ba28cc66a6f6faea77331e969"
+    },
+    {
+      "Path": "src/lib-csharp/Sources/IUpdateSource.cs",
+      "Sha256": "db3c4d2ca151a2591da9930eca6a040d61edb955cd449c23c3fcd0f8b11ab974"
+    },
+    {
+      "Path": "src/lib-csharp/Sources/IFileDownloader.cs",
+      "Sha256": "f8ed0941210d47614d4c094ec5f6be57e7c8c3d695f27d723553f69d97d70e1c"
+    },
+    {
+      "Path": "src/lib-csharp/Sources/SimpleFileSource.cs",
+      "Sha256": "f3453eb87847e7a33ba7eda44eb0cb2d2d538cf37c07518c6f8982796380f4ff"
+    },
+    {
+      "Path": "src/lib-csharp/Sources/GithubSource.cs",
+      "Sha256": "ef4bb04ae4c52c28b0e2b331abc5295e1829aec1947e349ee3d930432cbead60"
+    },
+    {
+      "Path": "src/lib-csharp/Sources/GitBase.cs",
+      "Sha256": "1165bedd575ab8018cf7cac4fc75dd04a07601f2814022cc80326807353d5b8f"
+    },
+    {
+      "Path": "src/lib-csharp/Sources/HttpClientFileDownloader.cs",
+      "Sha256": "d8314b9a28f61154b280c482df72381412039ac5d32af12b134010e983fea82d"
+    },
+    {
+      "Path": "src/lib-csharp/Locators/TestVelopackLocator.cs",
+      "Sha256": "c49a697afa2d21b705597a5331add516ad7ef4d58189586ca2e9bd64cd41c76b"
+    },
+    {
+      "Path": "src/lib-csharp/Locators/IVelopackLocator.cs",
+      "Sha256": "8a0909060bb549c7a1a967e433b9e8ad30000a1f877554c09b1ac8d684009f3a"
+    },
+    {
+      "Path": "src/lib-csharp/Locators/VelopackLocator.cs",
+      "Sha256": "84df89fc41c204466e8dcc5137759d334ee8dd07433cd446c7ea7c4819d77c48"
+    },
+    {
+      "Path": "src/lib-csharp/Windows/RuntimeInfo.cs",
+      "Sha256": "feafba60913080782f4f7bcb6ea827f566dbda825cfa7882f0c2488acfc54756"
+    },
+    {
+      "Path": "src/lib-csharp/Windows/Runtimes.cs",
+      "Sha256": "493c22248d43f627eccf5a948d7749a0e535bb5d1bd1e0afa757ea6d92e84bc1"
+    },
+    {
+      "Path": "src/bins/src/shared/util_common.rs",
+      "Sha256": "4610125beb18c8766bc009afa2f92c6dc05914d14120d42b9de18fdf9499a5e5"
+    },
+    {
+      "Path": "src/bins/src/windows/util.rs",
+      "Sha256": "2a049c423bae091f670c3748ce340af8f026f82b83bf785e7820cb40117c5ee9"
+    },
+    {
+      "Path": "src/bins/src/windows/runtimes.rs",
+      "Sha256": "81c1f8cbbc89ce848a3a70303dd32c36d241215cee58aca1a6756ca49f4e1fb0"
+    },
+    {
+      "Path": "src/bins/src/windows/registry.rs",
+      "Sha256": "5a4867d468d2473ad6fd2b4851080f5f6f0a26b2aae3cb2d438c448677edc0e2"
+    },
+    {
+      "Path": "src/bins/src/commands/uninstall.rs",
+      "Sha256": "9d26594bfd9320798f59d3c43544e4d0bef6f4e6da5b9830bf1b1c167fd865e8"
+    },
+    {
+      "Path": "src/bins/src/commands/install.rs",
+      "Sha256": "6334153f7908de2343206cb6afae3835e89cd8390dc06aa78cc21220bfcd2e32"
+    },
+    {
+      "Path": "src/bins/src/commands/apply_windows_impl.rs",
+      "Sha256": "d3db6cfa465053f24245d41ab9532a002091829b2d051eb9942bc64147450d4d"
+    },
+    {
+      "Path": "src/vpk/Velopack.Packaging.Windows/Commands/WindowsPackCommandRunner.cs",
+      "Sha256": "782cf22a38f2363f1cc904157f96a3310d9adfa2453fc4e7e840c9c25f815124"
+    },
+    {
+      "Path": "src/vpk/Velopack.Packaging/PackageBuilder.cs",
+      "Sha256": "5241dd2015061569e272ec5a05377486d472bafd5260c24959f18173f1f5bde1"
+    }
+  ],
+  "ArchitectPinnedMatches": [
+    {
+      "Path": "UpdateManager.cs",
+      "SameBytes": true
+    },
+    {
+      "Path": "VelopackApp.cs",
+      "SameBytes": true
+    },
+    {
+      "Path": "Sources\\GithubSource.cs",
+      "SameBytes": true
+    },
+    {
+      "Path": "Sources\\HttpClientFileDownloader.cs",
+      "SameBytes": true
+    },
+    {
+      "Path": "Sources\\IFileDownloader.cs",
+      "SameBytes": true
+    },
+    {
+      "Path": "Sources\\IUpdateSource.cs",
+      "SameBytes": true
+    },
+    {
+      "Path": "Windows\\Runtimes.cs",
+      "SameBytes": true
+    }
+  ]
+}

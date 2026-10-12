@@ -1,0 +1,19 @@
+{
+  "cwd": "F:/Iris",
+  "command": [
+    "dotnet",
+    "publish",
+    "F:/Iris/artifacts/t039a/iris-copy/src/Iris.App/Iris.App.csproj",
+    "-c",
+    "Release",
+    "-r",
+    "win-x64",
+    "--self-contained",
+    "false",
+    "-o",
+    "F:/Iris/artifacts/t039a/iris-publish-baseline",
+    "-p:",
+    "RestoreConfigFile=F:/Iris/artifacts/t039a/NuGet.Config"
+  ],
+  "exitCode": 0
+}

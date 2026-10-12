@@ -1,0 +1,22 @@
+[15:35:18 INF] Velopack CLI 1.2.161, for distributing applications.
+[15:35:18 INF] Beginning to package Velopack release 1.0.0.
+[15:35:18 INF] Releases Directory: F:\Iris\artifacts\t039a\releases
+[15:35:18 INF] Starting: Pre-process steps
+[15:35:18 INF] Verified VelopackApp.Run() in 'System.Void Program::Main()'.
+[15:35:18 INF] Runtime Dependency: net10-x64-desktop
+[15:35:18 INF] Shortcuts: Desktop,StartMenuRoot
+[15:35:18 INF] Complete: Pre-process steps
+[15:35:18 INF] Starting: Code-sign application
+[15:35:18 WRN] No signing parameters provided, 19 file(s) will not be signed.
+[15:35:18 INF] Complete: Code-sign application
+[15:35:18 INF] Starting: Building portable package
+[15:35:18 INF] Starting: Building release 1.0.0
+[15:35:19 INF] Complete: Building portable package
+[15:35:19 INF] Complete: Building release 1.0.0
+[15:35:19 INF] Starting: Building setup package
+[15:35:19 INF] Setup bundle created 'Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-win-Setup.exe'.
+[15:35:19 WRN] No signing parameters provided, 1 file(s) will not be signed.
+[15:35:19 INF] Complete: Building setup package
+[15:35:19 INF] Starting: Post-process steps
+[15:35:19 INF] Complete: Post-process steps
+[15:35:19 INF] Finished in 00:00:01.5092394.

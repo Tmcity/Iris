@@ -1,0 +1,58 @@
+Loading core dump: F:/Iris/artifacts/t039a/ipc-hung.dmp ...
+Description:
+  Displays information about async "stacks" on the garbage-collected heap.
+
+Usage:
+  > dumpasync [options]
+
+Options:
+  -addr, --address    Only show stacks that include the object with the specified address.
+  -mt, --methodtable  Only show stacks that include objects with the specified method table.
+  --type              Only show stacks that include objects whose type includes the specified name in its name.
+  -t, --tasks         Include stacks that contain only non-state machine task objects.
+  -c, --completed     Include completed tasks in stacks.
+  -f, --fields        Show state machine fields for every async stack frame that has them.
+  --stats             Summarize all async frames found rather than showing detailed stacks.
+  --coalesce          Coalesce stacks and portions of stacks that are the same.
+
+Displays information about async "stacks" on the garbage-collected heap. Stacks
+are synthesized by finding all task objects (including async state machine box
+objects) on the GC heap and chaining them together based on continuations.
+
+Examples:
+   Summarize all async frames associated with a specific method table address:        dumpasync --stats --methodtable 0x00007ffbcfbe0970
+   Show all stacks coalesced by common frames:                                        dumpasync --coalesce
+   Show each stack that includes "ReadAsync":                                       dumpasync --type ReadAsync
+   Show each stack that includes an object at a specific address, and include fields: dumpasync --address 0x000001264adce778 --fields
+Name:        System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1[[System.Threading.Tasks.VoidTaskResult, System.Private.CoreLib],[Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests+<>c+<<TruncatedWireDisconnectDoesNotDispatchAndNextConnectionStillWorks>b__8_0>d, Iris.Platform.Windows.Tests]]
+MethodTable: 00007ffa21c1b7e0
+Size:        144(0x90) bytes
+File:        C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.12\System.Private.CoreLib.dll
+Fields:
+              MT    Field   Offset                 Type   VT     Attr            Value Name
+0000000000000000 04000faa       30         System.Int32  Yes instance                0 m_taskId
+00007ffa1f77a510 04000fab        8      System.Delegate   No instance 0000000000000000 m_action
+0000000000000000 04000fac       10        System.Object   No instance 0000021e85c034d8 m_stateObject
+00007ffa1fc59b28 04000fad       18 ...sks.TaskScheduler   No instance 0000000000000000 m_taskScheduler
+0000000000000000 04000fae       34         System.Int32  Yes instance         33557504 m_stateFlags
+0000000000000000 04000faf       20        System.Object   No instance 0000021e85c044b8 m_continuationObject
+00007ffa1fc0dc70 04000fb3       28 ...tingentProperties   No instance 0000000000000000 m_contingentProperties
+0000000000000000 04000fa9        8         System.Int32  Yes   static  s_taskIdCounter
+0000000000000000 04000fb0        8        System.Object   No   static 0000021e8580bff0 s_taskCompletionSentinel
+0000000000000000 04000fb1        c       System.Boolean  Yes   static  s_asyncDebuggingEnabled
+0000000000000000 04000fb2       10                        No   static 0000000000000000 s_currentActiveTasks
+00007ffa1f9aecd0 04000fb4       18 ...Tasks.TaskFactory   No   static 0000021e8580c008 <Factory>k__BackingField
+00007ffa1f9af5f8 04000fb5       20 ...Private.CoreLib]]   No   static 0000021e8580c030 s_cachedCompleted
+00007ffa1f9adb58 04000fb6       28 ...g.ContextCallback   No   static 0000021e8580c078 s_ecCallback
+00007ffa1f8b3cb0 04000fa8       10 ...eading.Tasks.Task   No TLstatic  t_currentTask
+    Thread static values (Thread:Value)
+        2b84:0000000000000000
+        234c:0000021e85834210
+        811c:0000021e85c06b00
+        78c8:0000000000000000
+
+00007ffa1f9adcb8 04000f78       38 ...ks.VoidTaskResult  Yes instance 0000021e85c04460 m_result
+00007ffa1f9af5f8 04000f77        8 ...Private.CoreLib]]   No   static 0000000000000000 s_defaultResultTask
+0000000000000000 04000f79       10                        No   static 0000000000000000 <Factory>k__BackingField
+00007ffa21c19dc8 0400163d       40 ...illWorks>b__8_0>d  Yes instance 0000021e85c04468 StateMachine
+00007ffa1f9adb58 0400163c        8 ...g.ContextCallback   No   static 0000021e85c06608 s_callback

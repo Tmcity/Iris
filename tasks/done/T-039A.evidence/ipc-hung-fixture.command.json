@@ -1,0 +1,13 @@
+{
+  "cwd": "F:/Iris",
+  "command": [
+    "F:/Iris/artifacts/t039a/diagnostics/dotnet-dump.exe",
+    "analyze",
+    "F:/Iris/artifacts/t039a/ipc-hung.dmp",
+    "--command",
+    "dumpobj 0000021e85c03aa0",
+    "--command",
+    "exit"
+  ],
+  "exitCode": 0
+}

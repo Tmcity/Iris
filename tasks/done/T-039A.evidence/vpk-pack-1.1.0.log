@@ -1,0 +1,26 @@
+[15:37:38 INF] Velopack CLI 1.2.161, for distributing applications.
+[15:37:38 INF] Beginning to package Velopack release 1.1.0.
+[15:37:38 INF] Releases Directory: F:\Iris\artifacts\t039a\releases
+[15:37:38 INF] Starting: Pre-process steps
+[15:37:38 INF] Verified VelopackApp.Run() in 'System.Void Program::Main()'.
+[15:37:38 INF] Runtime Dependency: net10-x64-desktop
+[15:37:38 INF] Shortcuts: Desktop,StartMenuRoot
+[15:37:38 INF] Complete: Pre-process steps
+[15:37:38 INF] Starting: Code-sign application
+[15:37:38 WRN] No signing parameters provided, 19 file(s) will not be signed.
+[15:37:38 INF] Complete: Code-sign application
+[15:37:38 INF] Starting: Building portable package
+[15:37:38 INF] Starting: Building release 1.1.0
+[15:37:39 INF] Complete: Building portable package
+[15:37:39 INF] Complete: Building release 1.1.0
+[15:37:39 INF] Starting: Building setup package
+[15:37:39 INF] Starting: Building delta 1.0.0 -> 1.1.0
+[15:37:39 INF] Creating delta for 1.0.0 -> 1.1.0 with 8 parallel threads.
+[15:37:39 INF] Setup bundle created 'Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-win-Setup.exe'.
+[15:37:39 WRN] No signing parameters provided, 1 file(s) will not be signed.
+[15:37:39 INF] Complete: Building setup package
+[15:37:40 INF] Delta processed 0027 files. 0005 patched, 0022 unchanged, 0000 new, 0000 removed
+[15:37:40 INF] Complete: Building delta 1.0.0 -> 1.1.0
+[15:37:40 INF] Starting: Post-process steps
+[15:37:40 INF] Complete: Post-process steps
+[15:37:40 INF] Finished in 00:00:02.2866862.

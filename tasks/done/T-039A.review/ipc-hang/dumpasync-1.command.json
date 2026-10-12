@@ -1,0 +1,19 @@
+{
+  "command": [
+    "F:/Iris/artifacts/t039a/diagnostics/dotnet-dump.exe",
+    "analyze",
+    "F:/Iris/artifacts/t039a/ipc-hung.dmp",
+    "-c",
+    "setsymbolserver -disable",
+    "-c",
+    "help dumpasync",
+    "-c",
+    "dumpasync -waiting",
+    "-c",
+    "exit"
+  ],
+  "startedAt": "2026-10-10T09:56:40.550042+00:00",
+  "completedAt": "2026-10-10T09:56:40.957484+00:00",
+  "exitCode": 1,
+  "operatesOnExistingDumpOnly": true
+}

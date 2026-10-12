@@ -1,0 +1,30 @@
+Loading core dump: F:/Iris/artifacts/t039a/ipc-hung.dmp ...
+Current symbol store settings:
+Name:        Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests+Fixture
+MethodTable: 00007ffa213f7150
+Size:        64(0x40) bytes
+File:        F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll
+Fields:
+              MT    Field   Offset                 Type   VT     Attr            Value Name
+00007ffa20b43098 04000263        8 ...ation.IpcIdentity   No instance 0000021e85c03ae0 Identity
+00007ffa213f9958 04000264       10 ...eIpcTests+Factory   No instance 0000021e85c03b78 Factory
+00007ffa20b44a68 04000265       18 ....FakeTimeProvider   No instance 0000021e85c03d88 Time
+00007ffa20b44fb8 04000266       20 ...amedPipeIpcServer   No instance 0000021e85c04180 Server
+00007ffa213f9a58 04000267       28 ...mand, Iris.Core]]   No instance 0000021e85c03e20 Accepted
+00007ffa213f9d60 04000268       30 ...latform.Windows]]   No instance 0000021e85c04160 Clients
+Name:        Iris.Platform.Windows.SystemIntegration.NamedPipeIpcClient
+MethodTable: 00007ffa20b44ce8
+Size:        88(0x58) bytes
+File:        F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+Fields:
+              MT    Field   Offset                 Type   VT     Attr            Value Name
+00007ffa20b43098 0400120b        8 ...ation.IpcIdentity   No instance 0000021e85c03ae0 <identity>P
+00007ffa20b41be0 0400120c       10 ...on.IpcPipeFactory   No instance 0000021e85c03b78 <factory>P
+00007ffa1fe31c58 0400120d       18  System.TimeProvider   No instance 0000021e85c03d88 <time>P
+00007ffa1fa19c20 0400120e       20 ...em.Threading.Lock   No instance 0000021e85c066c0 _gate
+00007ffa20eae578 0400120f       28 ...tegration.IpcPipe   No instance 0000021e85c06a08 _pipe
+00007ffa20bb45f0 04001210       30 ...n.IpcCancellation   No instance 0000021e85c06758 _cancellation
+00007ffa20bb67d0 04001211       38 ...latform.Windows]]   No instance 0000021e85c068d0 _run
+00007ffa1f8b3cb0 04001212       40 ...eading.Tasks.Task   No instance 0000000000000000 _cleanup
+0000000000000000 04001213       48       System.Boolean  Yes instance                0 _closing
+0000000000000000 04001214       49       System.Boolean  Yes instance                0 _disposed

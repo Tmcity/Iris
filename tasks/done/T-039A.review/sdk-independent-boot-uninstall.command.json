@@ -1,0 +1,16 @@
+{
+  "command": [
+    "dotnet",
+    "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039-sdk-independent\\bin\\Release\\net10.0-windows10.0.19041.0\\Probe.dll",
+    "boot",
+    "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039-sdk-independent\\bootstrap\\uninstall",
+    "record",
+    "--veloapp-uninstall",
+    "1.0.0"
+  ],
+  "cwd": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039-sdk-independent",
+  "startedAt": "2026-10-10T11:33:30.847046+00:00",
+  "completedAt": "2026-10-10T11:33:30.965622+00:00",
+  "exitCode": 0,
+  "logSha256": "5fb4e5ccf986ea11ac8665bd50d55869365ace6a6035770359dbe5d8fc02eb9d"
+}

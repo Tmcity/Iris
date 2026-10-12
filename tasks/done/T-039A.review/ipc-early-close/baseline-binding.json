@@ -1,0 +1,38 @@
+{
+  "createdAt": "2026-10-10T10:13:21.387260+00:00",
+  "baselineHead": "6f14e81ebd298d83eda7330008310015efa1937b",
+  "productionDiffNames": [],
+  "assemblies": [
+    {
+      "source": "F:\\Iris\\tests\\Iris.Platform.Windows.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Core.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039-ipc-independent\\baseline-assemblies\\Iris.Core.dll",
+      "sha256": "65f3a3516b35d9cc4aa4915e27131da7fdfbe4aaf387f0a1b33d8af41a92fe31"
+    },
+    {
+      "source": "F:\\Iris\\tests\\Iris.Platform.Windows.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Platform.Windows.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039-ipc-independent\\baseline-assemblies\\Iris.Platform.Windows.dll",
+      "sha256": "9fefee96007a9fa34c28e533098b660155883295530151c993f1860b22f9c6a2"
+    },
+    {
+      "source": "F:\\Iris\\tests\\Iris.Platform.Windows.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\Microsoft.Extensions.Logging.Abstractions.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039-ipc-independent\\baseline-assemblies\\Microsoft.Extensions.Logging.Abstractions.dll",
+      "sha256": "7c242f8ca612fa1acc61f78efd5f8c89e01bd0bd47dc4ecc65e0e6e24f1a1668"
+    },
+    {
+      "source": "F:\\Iris\\tests\\Iris.Platform.Windows.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039-ipc-independent\\baseline-assemblies\\Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "sha256": "da04edc338d5aa0f38a1f5fa5ff3ee7e36affe9c961daf3ea724a428bd746bc6"
+    },
+    {
+      "source": "F:\\Iris\\tests\\Iris.Platform.Windows.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\WinRT.Runtime.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039-ipc-independent\\baseline-assemblies\\WinRT.Runtime.dll",
+      "sha256": "bcf3a14e8712a90837fc5c0d8c8a24696af2bd7f74e9767597ec81ededfb23db"
+    },
+    {
+      "source": "F:\\Iris\\tests\\Iris.Platform.Windows.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\Microsoft.Windows.SDK.NET.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039-ipc-independent\\baseline-assemblies\\Microsoft.Windows.SDK.NET.dll",
+      "sha256": "0ec371d93798852e36461c8adddbeadce0f963a04752f0b64e54fe19c1c834a7"
+    }
+  ],
+  "probeNotBuiltOrRun": true
+}

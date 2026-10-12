@@ -1,0 +1,10 @@
+{
+  "dump": "F:\\Iris\\artifacts\\t039a\\ipc-hung.dmp",
+  "bytes": 242000674,
+  "sha256": "627040b11cbc5d34ca5d55cf10ad0cb1e0f4f4630928e3c47a50e4786e64d550",
+  "mtimeNs": 1791625910636652100,
+  "unchangedDuringHash": true,
+  "capturedByDeveloperCommand": "tasks/done/T-039A.evidence/ipc-hung-dump.command.json",
+  "boundAt": "2026-10-10T10:06:57.534878+00:00",
+  "dumpIsNotCommitted": true
+}

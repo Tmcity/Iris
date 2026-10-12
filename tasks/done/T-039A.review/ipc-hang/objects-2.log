@@ -1,0 +1,57 @@
+Loading core dump: F:/Iris/artifacts/t039a/ipc-hung.dmp ...
+Current symbol store settings:
+Name:        Iris.Platform.Windows.SystemIntegration.NamedPipeIpcServer
+MethodTable: 00007ffa20b44fb8
+Size:        104(0x68) bytes
+File:        F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+Fields:
+              MT    Field   Offset                 Type   VT     Attr            Value Name
+00007ffa1fa19c20 04001215        8 ...em.Threading.Lock   No instance 0000021e85c041e8 _gate
+00007ffa20b43098 04001216       10 ...ation.IpcIdentity   No instance 0000021e85c03ae0 _identity
+00007ffa20b41be0 04001217       18 ...on.IpcPipeFactory   No instance 0000021e85c03b78 _factory
+00007ffa1fe31c58 04001218       20  System.TimeProvider   No instance 0000021e85c03d88 _time
+00007ffa20b45150 04001219       28 ...latform.Windows]]   No instance 0000021e85a88eb8 _logger
+00007ffa20bb45f0 0400121a       30 ...n.IpcCancellation   No instance 0000021e85c04210 _stop
+00007ffa20eae578 0400121b       38 ...tegration.IpcPipe   No instance 0000021e85d59568 _pipe
+00007ffa20bb45f0 0400121c       40 ...n.IpcCancellation   No instance 0000000000000000 _connection
+00007ffa1f8b3cb0 0400121d       48 ...eading.Tasks.Task   No instance 0000021e85c04378 _loop
+00007ffa1f8b3cb0 0400121e       50 ...eading.Tasks.Task   No instance 0000000000000000 _cleanup
+0000000000000000 0400121f       58       System.Boolean  Yes instance                1 _started
+0000000000000000 04001220       59       System.Boolean  Yes instance                0 _closing
+0000000000000000 04001221       5a       System.Boolean  Yes instance                0 _loopJoined
+0000000000000000 04001222       5b       System.Boolean  Yes instance                0 _disposed
+0000000000000000 04001223        8                        No   static 0000000000000000 __LogConnectionEndedCallback
+Name:        Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests+Factory
+MethodTable: 00007ffa213f9958
+Size:        88(0x58) bytes
+File:        F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll
+Fields:
+              MT    Field   Offset                 Type   VT     Attr            Value Name
+0000000000000000 04000269       38         System.Int32  Yes instance                1 Servers
+0000000000000000 0400026a       3c         System.Int32  Yes instance                1 Clients
+0000000000000000 0400026b       40         System.Int32  Yes instance                0 ClientWrites
+0000000000000000 0400026c       44         System.Int32  Yes instance                0 Disconnects
+0000000000000000 0400026d       48       System.Boolean  Yes instance                0 RejectClientSession
+0000000000000000 0400026e       49       System.Boolean  Yes instance                0 RejectServerSession
+0000000000000000 0400026f       4a       System.Boolean  Yes instance                0 DropReply
+0000000000000000 04000270       4b       System.Boolean  Yes instance                0 PartialWrite
+0000000000000000 04000271       4c       System.Boolean  Yes instance                0 HoldClientRead
+0000000000000000 04000272        8              SZARRAY   No instance 0000000000000000 ReplyOverride
+00007ffa1fc509d8 04000273       10 ...kCompletionSource   No instance 0000021e85c03bd0 ServerVerified
+00007ffa1fc509d8 04000274       18 ...kCompletionSource   No instance 0000021e85c03c28 ClientReadEntered
+00007ffa1fc509d8 04000275       20 ...kCompletionSource   No instance 0000021e85c03c80 ReleaseClientRead
+00007ffa1fc509d8 04000276       28 ...kCompletionSource   No instance 0000021e85c03cd8 ReplyWritten
+00007ffa1fc509d8 04000277       30 ...kCompletionSource   No instance 0000021e85c03d30 PeerCloseWaitEntered
+Name:        Iris.Platform.Windows.SystemIntegration.IpcCancellation
+MethodTable: 00007ffa20bb45f0
+Size:        72(0x48) bytes
+File:        F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+Fields:
+              MT    Field   Offset                 Type   VT     Attr            Value Name
+00007ffa1fa19c20 040011f2        8 ...em.Threading.Lock   No instance 0000021e85c067a0 _gate
+00007ffa1fb73da0 040011f3       10 ...lationTokenSource   No instance 0000021e85c067c8 _source
+00007ffa1fb07b18 040011f4       30 ...TokenRegistration  Yes instance 0000021e85c06788 _caller
+00007ffa1fe33280 040011f5       18 ....Threading.ITimer   No instance 0000021e85c067f8 _timer
+00007ffa1f8b3cb0 040011f6       20 ...eading.Tasks.Task   No instance 0000000000000000 _cancel
+0000000000000000 040011f7       28       System.Boolean  Yes instance                0 _joined
+0000000000000000 040011f8       29       System.Boolean  Yes instance                0 _disposed

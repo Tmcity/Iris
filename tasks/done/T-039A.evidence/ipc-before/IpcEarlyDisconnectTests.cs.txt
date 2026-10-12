@@ -1,0 +1,124 @@
+using System.IO.Pipes;
+using System.Runtime.ExceptionServices;
+using Iris.Core.Actions;
+using Iris.Platform.Windows.SystemIntegration;
+using Microsoft.Extensions.Logging.Abstractions;
+using Microsoft.Extensions.Time.Testing;
+using Shouldly;
+
+namespace Iris.Platform.Windows.Tests.SystemIntegration;
+
+public sealed class IpcEarlyDisconnectTests
+{
+    [Fact]
+    public async Task NativeCloseBeforeAcceptRecordsWin32FailureAndResetBehavior()
+    {
+        using var guard = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+        string name = "Iris.Tests.EarlyNative." + Guid.NewGuid().ToString("N");
+        await using var server = new NamedPipeServerStream(name, PipeDirection.InOut, 1, PipeTransmissionMode.Byte,
+            PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly | PipeOptions.FirstPipeInstance);
+        await using (var client = new NamedPipeClientStream(".", name, PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly))
+        {
+            await client.ConnectAsync(guard.Token);
+        }
+        var error = await Should.ThrowAsync<IOException>(() => server.WaitForConnectionAsync(guard.Token));
+        Console.WriteLine($"EARLY_NATIVE_ACCEPT type={error.GetType().Name} hresult={error.HResult:X8} connected={server.IsConnected}");
+        try { server.Disconnect(); Console.WriteLine("EARLY_NATIVE_MANAGED_RESET success"); }
+        catch (Exception ex) { Console.WriteLine($"EARLY_NATIVE_MANAGED_RESET type={ex.GetType().Name} hresult={ex.HResult:X8}"); throw; }
+    }
+
+    [Theory][InlineData(false)][InlineData(true)]
+    public async Task PeerClosesBeforeActualAcceptPreservesServerAndAcceptsNextCommand(bool rejectSession)
+    {
+        using var guard = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+        var factory = new Factory { RejectClient = rejectSession };
+        var identity = new IpcIdentity("Iris.Tests.Early." + Guid.NewGuid().ToString("N"), "unused");
+        var time = new FakeTimeProvider();
+        var server = new NamedPipeIpcServer(identity, factory, time, NullLogger<NamedPipeIpcServer>.Instance);
+        int dispatched = 0;
+        Exception? primary = null; var cleanup = new List<Exception>();
+        try
+        {
+            server.Start(_ => { dispatched++; return IpcReply.Accepted; });
+            await factory.AcceptEntered.Task.WaitAsync(guard.Token);
+            if (rejectSession)
+            {
+                await using var client = new NamedPipeIpcClient(identity, factory, time);
+                (await client.RunAsync(new(IrisAction.TranslateText, "synthetic"), guard.Token)).ShouldBe(IpcSendResult.Unavailable);
+                factory.ClientWrites.ShouldBe(0);
+            }
+            else
+            {
+                await using var client = new NamedPipeClientStream(".", identity.PipeName, PipeDirection.InOut, PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
+                await client.ConnectAsync(guard.Token);
+                await client.WriteAsync("{\"action\":\"Exit\""u8.ToArray(), guard.Token);
+            }
+            dispatched.ShouldBe(0);
+            factory.ReleaseAccept.TrySetResult();
+            await factory.FirstAcceptReturned.Task.WaitAsync(guard.Token);
+            Console.WriteLine($"EARLY_PRODUCT_ACCEPT reject={rejectSession} hresult={factory.AcceptError?.HResult:X8} servers={factory.Servers}");
+            factory.RejectClient = false;
+            await using var next = new NamedPipeIpcClient(identity, factory, time);
+            (await next.RunAsync(new(IrisAction.InputTranslate), guard.Token)).ShouldBe(IpcSendResult.Accepted);
+            dispatched.ShouldBe(1); factory.Servers.ShouldBe(1);
+            await server.StopAsync();
+            factory.ServerDisposed.ShouldBeTrue();
+        }
+        catch (Exception ex) { primary = ex; }
+        finally
+        {
+            factory.ReleaseAccept.TrySetResult(); guard.Cancel(); server.StopAcceptance();
+            try { await server.StopAsync(); }
+            catch (Exception ex)
+            {
+                cleanup.Add(ex);
+                // Observe the first error and finish cleanup on the same retained server instance.
+                try { await server.StopAsync(); } catch (Exception retry) { cleanup.Add(retry); }
+            }
+        }
+        if (primary != null && cleanup.Count == 0) ExceptionDispatchInfo.Capture(primary).Throw();
+        if (primary != null) cleanup.Insert(0, primary);
+        if (cleanup.Count != 0) throw new AggregateException(cleanup);
+    }
+
+    private sealed class Factory : IpcPipeFactory
+    {
+        internal readonly TaskCompletionSource AcceptEntered = new(TaskCreationOptions.RunContinuationsAsynchronously), ReleaseAccept = new(TaskCreationOptions.RunContinuationsAsynchronously), FirstAcceptReturned = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        internal Exception? AcceptError;
+        internal int Servers, ClientWrites; internal bool RejectClient, ServerDisposed;
+        internal override IpcPipe CreateServer(IpcIdentity identity) { Servers++; return new ServerPipe(base.CreateServer(identity), this); }
+        internal override IpcPipe CreateClient(IpcIdentity identity) => new ClientPipe(base.CreateClient(identity), this);
+    }
+    private sealed class ServerPipe(IpcPipe inner, Factory owner) : IpcPipe((PipeStream)inner.Stream)
+    {
+        private bool _first = true;
+        internal override async Task AcceptAsync(CancellationToken token)
+        {
+            if (!_first) { await base.AcceptAsync(token); return; }
+            _first = false; owner.AcceptEntered.TrySetResult();
+            await owner.ReleaseAccept.Task;
+            try { await base.AcceptAsync(token); }
+            catch (Exception ex) { owner.AcceptError = ex; throw; }
+            finally { owner.FirstAcceptReturned.TrySetResult(); }
+        }
+        public override async ValueTask DisposeAsync() { await base.DisposeAsync(); owner.ServerDisposed = true; }
+    }
+    private sealed class ClientPipe(IpcPipe inner, Factory owner) : IpcPipe((PipeStream)inner.Stream)
+    {
+        private readonly Stream _stream = new CountingStream(inner.Stream, owner);
+        internal override Stream Stream => _stream;
+        internal override void VerifyPeer(bool server) { base.VerifyPeer(server); if (owner.RejectClient) throw IpcProtocol.Unavailable(); }
+    }
+    private sealed class CountingStream(Stream inner, Factory owner) : Stream
+    {
+        public override bool CanRead => true; public override bool CanWrite => true; public override bool CanSeek => false;
+        public override long Length => throw new NotSupportedException(); public override long Position { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
+        public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default) => inner.ReadAsync(buffer, cancellationToken);
+        public override ValueTask WriteAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default) { owner.ClientWrites++; return inner.WriteAsync(buffer, cancellationToken); }
+        public override void Flush() => throw new NotSupportedException();
+        public override int Read(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+        public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+        public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+        public override void SetLength(long value) => throw new NotSupportedException();
+    }
+}

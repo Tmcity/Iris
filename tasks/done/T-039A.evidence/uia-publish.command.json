@@ -1,0 +1,19 @@
+{
+  "cwd": "F:/Iris",
+  "command": [
+    "dotnet",
+    "publish",
+    "F:/Iris/artifacts/t039a/iris-copy/src/Iris.UiaHost/Iris.UiaHost.csproj",
+    "-c",
+    "Release",
+    "-r",
+    "win-x64",
+    "--self-contained",
+    "false",
+    "-o",
+    "F:/Iris/artifacts/t039a/uia-publish",
+    "-p:",
+    "RestoreConfigFile=F:/Iris/artifacts/t039a/NuGet.Config"
+  ],
+  "exitCode": 0
+}

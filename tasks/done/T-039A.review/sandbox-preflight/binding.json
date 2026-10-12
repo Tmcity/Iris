@@ -1,0 +1,17 @@
+{
+  "inspect-environment.command.json": "fe9cabcc771e991182996497d4f1db9e7ad96a1e061ade8c67b380036d305585",
+  "inspect-environment.log": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6",
+  "intent.json": "767af464b8a05723da95592b4325288b87f9f065f9deeef007f3ad9bdaaf419d",
+  "list-after.command.json": "4b6dedf0df2a9b1ea76327b4438f2c1f4e3531ea13930788977149834cb7d351",
+  "list-after.log": "90255a0b24d45da9c2280c4628d0e08d80902949213f5f5f76d7f282b678a6bb",
+  "list-before.command.json": "4b6dedf0df2a9b1ea76327b4438f2c1f4e3531ea13930788977149834cb7d351",
+  "list-before.log": "90255a0b24d45da9c2280c4628d0e08d80902949213f5f5f76d7f282b678a6bb",
+  "sandbox_preflight.py": "ffade134e386f8353c85fefa4c3c7727c51253f189f07c769fb5fd510d240587",
+  "share-output.command.json": "92b80416f456aaadd5b91b5a982fb58d6a23cf7f74b59f28de9ccbd3cf53d580",
+  "share-output.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "start.command.json": "55225b89f02cc1d0afa0a4384a5891523317eefc3aa17549ed00c62fa836c664",
+  "start.log": "9f9bcae570e6157a0682da40a3953b343bb0ea60d8902ed72f6ab15352159e05",
+  "stop.command.json": "9768c8bf6473ea91d5b78b88172a70361fcf5e263db1e2763fcaa3c805d200bc",
+  "stop.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "output/environment.json": "bb8871591413d6d169a7113b66226cd45b346303cd223fe4a98a1603a1f2e7fe"
+}

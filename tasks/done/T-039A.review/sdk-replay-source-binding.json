@@ -1,0 +1,17 @@
+{
+  "createdAt": "2026-10-10T11:28:07.442874+00:00",
+  "files": [
+    {
+      "source": "F:\\Iris\\tasks\\done\\T-039A.evidence\\Probe\\Probe.csproj",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039-sdk-independent\\Probe.csproj",
+      "sha256": "499eb001d2eba50572daba68bfddaaa98e6c935390d62de34fde702f60c1b600"
+    },
+    {
+      "source": "F:\\Iris\\tasks\\done\\T-039A.evidence\\Probe\\Program.cs",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039-sdk-independent\\Program.cs",
+      "sha256": "493067d1dd8f86c1013b1d0ee33c9b8ac27553560e98f7f326928bed1fb3ba9f"
+    }
+  ],
+  "sdkVersion": "1.2.161",
+  "usesCachedRestoreOnly": true
+}

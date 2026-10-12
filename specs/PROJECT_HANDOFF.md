@@ -1,5 +1,25 @@
 # Iris 架构师接手记录
 
+**T-039A恢复归档并独立验收（2026-10-13）**：开发完成final-release/full-4后多轮服务繁忙，A报告与本地提交未完成；架构师在现有成果上恢复归档，未重写生产。2026-10-13独立Release0警告错误、全量3660/3658成功/0失败/2既有环境跳过，640项输入保持；已运行的独立基线2失败/候选2通过及13项SDK bootstrap/检查下载取消重跑均与最终源/程序集绑定相符。Guard先等待body再清理的补充已落实并进入78项定向/最终全量。正式结论T-039A.review/FINAL_REVIEW.md，报告T-039A.md；原失败/中止保留，截断ZIP移至自有artifacts保留，证据目录禁止EOL改写以维护原始指纹。A结案，父T-039仍须正式安装/更新/卸载和干净Windows验收；后续工单由架构师继续冻结/签发，开发仍原聊天，M6延期、T-040未开始。补充引导由用户点击，不push、不动.codex。
+
+**T-039A候选通过定向/Release，夹具收尾仍待复核（2026-10-10 19:08）**：生产最小修改为IpcPipeFactory精确ERROR_NO_DATA同句柄复位及NativeMethods单项DisconnectNamedPipe；新增6项定向、SystemIntegration77项通过，final-release-3零警告错误。原BOOL编译失败、筛选0项exit5、全量中止与修正前3项失败均保留。final-full-3于19:05开始，尚无完成结果。新Guard夹具存在body未结束即遍历Clients、原裸I/O未全接Guard的源码预审点；current_task已要求完整收尾，补充01a12575-3b33-7a43-a980-be9828074ec9已排队待实际接收（用户点击引导）。这是源码审查，非已运行失败。A未交付/提交；不与开发并发构建/测试，独立baseline/fixed早断开探针仍待运行。
+
+**T-039A补充已实际接收（2026-10-10 18:36）**：原执行轮明确确认公开Tmcity/Iris目标、当前不发布及IPC受控补单，并读取current_task末26行。无需重复发送或代点引导。开发已用真实随机管道门闩取得Accept IOException/800700E8、managed Disconnect InvalidOperationException/80131509，修正前三项失败保留。最新补单允许原两个IPC实现文件、直接测试，以及必要时NativeMethods.txt仅追加DisconnectNamedPipe；其它生产/契约/依赖/build保持。当前转入最小修复，A与父T-039仍未交付验收。
+
+**T-039A IPC转储定位与进程收尾（2026-10-10 18:20）**：独立离线转储已确认挂起在TruncatedWireDisconnectDoesNotDispatchAndNextConnectionStillWorks第二次连接，其服务器loop已fault、未进入连接对象/Disconnect；精确Win32原因仍待真实门闩复现。证据T-039A.review/ipc-hang，另有未运行的独立ipc-early-close探针及基线DLL副本。开发保存转储后终止本轮自有平台测试，父test失败退出；final-full-2原汇总3651/3648成功/1失败/2跳过、exit -1（command.json为4294967295），不是完整基线3653项全绿。当前开发继续受控诊断，生产尚未修改；IPC补单与独立诊断两条消息已排队，仍由用户点击引导。公开仓库匿名Releases API已验证200、当前0个Release，证据github-release-state.json。
+
+**T-039A受控补单：IPC故障先修复（2026-10-10）**：开发会话已收到用户选择“先补签最小IPC诊断／修正范围，完成后再交付”（01a12517-452c-7973-87b2-9b75e7e879de）。current_task末尾现已正式限定NamedPipeIpcServer/IpcPipeFactory及直接IPC测试夹具，保留原失败与确定性修正前后证据，不吞真实清理故障、不丢FirstPipeInstance/原对象重试。默认环境final-full-2仍有清理失败和未结束进程，两者是否同因未确认；先诊断并安全收尾，构建/测试串行。A暂不交付，Velopack生产接入/发布未开放；其它生产、契约、包/default零改动。公开GitHub目标与用户点击补充引导规则保持。
+
+**发布目标已改为公开仓库（2026-10-10，覆盖此前暂时私有决定）**：用户已将 `https://github.com/Tmcity/Iris` 设为公开，并明确就用此仓库。架构师无认证HTTP实际返回200且repository_public=true，证据T-039A.review/github-public-access.json。origin/main只读获取成功，目前为877491e初始README；本地master/历史保持，未merge或push。后续安装包与正式匿名更新源以该仓库的GitHub Releases为目标，不能包含部署凭据。A实证仍在继续，消息引导仍由用户点击。
+
+**T-039A补充已接收，隔离环境预检通过（2026-10-10）**：开发在原执行轮01a1248b-0637-7393-80f4-01b88b95f994已明确接收私有源/SDK补充，无需重发。实际确认RID发布UiaHost位置不符、SDK跳过损坏既有包校验、非合作下载取消后仍可能完成包落盘，正在扩充真实锁/校验/清理阶段和卸载建议。架构师用已安装wsb CLI创建并停止自有离线Sandbox，OS为Windows11企业版10.0.26100，x64共享.NET目录为空；只共享本次空白输出目录并查询环境，未安装或运行Iris。证据T-039A.review/sandbox-preflight。此前Hyper-V/DISM权限错误并未阻止这条可用路径，不需据此先修改宿主权限；真实安装验收仍未执行。
+
+**最新协作方式（2026-10-10，用户更正）**：工单及补充消息仍由架构师发送，补充消息的“引导”由用户点击；架构师不再自动点击Codex消息引导按钮。该更正覆盖此前“发送后自动代点”的要求，不暂停项目开发。当前T-039A SDK/私有仓库补充`01a124ca-b07d-7183-a4d1-dbc61dd1f025`已排队，架构师尚未点击，无需重发；是否进入开发当前轮以实际接收记录为准。
+
+**T-039发布与连接最新约束（2026-10-10）**：用户选择先维持 `Tmcity/Iris` 私有，发布方式稍后确定。已在本机准备专用SSH密钥，用户将公钥添加到仓库Deploy keys；严格主机验证下SSH返回 `Hi Tmcity/Iris! You've successfully authenticated`，仓库只读连接成功。origin现指向该私有仓库，专用SSH配置仅在本地.git/config；私钥在用户SSH目录，不进入源码/证据/客户端，不记录密钥内容。未push或发布。后续客户端更新源须可配置，未配置时明确不可用，不能内置仓库访问凭据或将私有源不可达冒称已是最新。当前仍仅T-039A；GitHub公开分发与真实安装验证尚未完成。
+
+**用户已恢复推进，当前T-039A（2026-10-10，覆盖暂停记录）**：用户明确“继续”，并指定GitHub Releases目标 `https://github.com/Tmcity/Iris`。T-038/CCR038/R1结案保持，基线6f14e81ebd298d83eda7330008310015efa1937b。父T-039完整安装/更新/卸载要求保留，A先用匹配版本Velopack/vpk、实际发布副本和无副作用最小应用证明产物、SDK取消/退出、卸载交互及.NET10运行时路径，随后冻结正式生产契约。current_task已签；开发仍01a11b01-c46b-74e1-9015-726c77ffbc9e，不创建新对话/子代理。用户给的是SSH部署密钥指纹，本机初查无匹配公钥/可用agent、无gh；凭据由架构师继续核对，不存入源码。Hyper-V/可选功能查询实际受权限限制，VM安装尚未尝试。A不得在宿主真实安装或运行Iris，不把原型冒称父任务完成，不push；M6仍延期。
+
 **T-038/CCR038/R1已独立结案，等待用户继续（2026-10-10，最新状态）**：功能9c1ac9d0a044e2f844e82957c841b785da9d88e5、R1修正30177c590d8e05e2161b6e99d3fe6385d68e73fb。R1只修测试等待与夹具观察，原断言保留，生产/契约/资源/布局零差异。提交后独立Release零警告错误、原失败定向通过、全量3653（3651成功、0失败、2既有环境跳过），全部进程exit0；最终410张实际图与逐图查看版本完全匹配。完整审计、已审阅资源逐键比较、固定程序集十组窗口/JSON/菜单/生产Main语言作用域探针与STA退出通过，源/程序集/证据指纹保留。验收总记录T-038.review/README.md及T-038-R1.review/README.md；父单失败全量、误通过审计、原视觉缺陷和夹具退出失败均未覆盖。用户已明确T-038后停止，因此当前没有待实施工单，T-039及后续不签发，直到用户说“继续”；M6继续延期，真实桌面/联网/多屏/NFR未验证。
 
 **2026-10-10最终视觉/审计已独立补齐，仍待R1**：visual-12的61张差异联系表已全部实际查看，196张仅以精确字节相同继承visual-3；提交后独立全量生成的410张图与此已查看版本全部匹配，见T-038.review/visual-candidate-12-review.json及final-visual-1-compare.json。最后独立全仓审计通过（1197项、1170个编译资源值；App437/Core148），见final-audit-1.log；原审计反例的盘点器/检查器/App源及相关例外位置与次数映射仍与最终实现一致，transfer文件保留。开发已在R1执行轮`01a11ef0-bbce-71b1-b133-d6d1c4030a47`明确接单并实施受控门闩，不重发、不把持久化interrupted视为终止。父单全量的外部语言合并等待失败未关闭，R1完成后需最终复验并按用户要求暂停。

@@ -1,0 +1,18 @@
+[
+  {
+    "Path": "tasks\\done\\T-039A.evidence\\ipc-before\\IpcPipeFactory.cs.txt",
+    "Sha256": "1d6f35d82fc09c83d32822715ee5e6aafa015e098b58823a8fa8443e74cf0c5f"
+  },
+  {
+    "Path": "tasks\\done\\T-039A.evidence\\ipc-before\\NamedPipeIpcServer.cs.txt",
+    "Sha256": "aa932140ab8767981753bb0d16628e114ec60689aa3f6259a0684cdcdce4abfc"
+  },
+  {
+    "Path": "tasks\\done\\T-039A.evidence\\ipc-before\\NamedPipeIpcTests.cs.txt",
+    "Sha256": "bb9bb9fb0958d0bf0849954a71f7b0ed2819d97d34186817c4079ce1baced2a2"
+  },
+  {
+    "Path": "tests\\Iris.Platform.Windows.Tests\\SystemIntegration\\IpcEarlyDisconnectTests.cs",
+    "Sha256": "371a40569d797941f08337dc21009a28ec0ccfaf09c48a8f4e672139f023a7d5"
+  }
+]

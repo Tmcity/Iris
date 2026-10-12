@@ -1,0 +1,16 @@
+{
+  "cwd": "F:/Iris",
+  "command": [
+    "dotnet",
+    "tool",
+    "install",
+    "dotnet-stack",
+    "--version",
+    "10.0.750501",
+    "--tool-path",
+    "F:/Iris/artifacts/t039a/diagnostics",
+    "--configfile",
+    "F:/Iris/artifacts/t039a/NuGet.Config"
+  ],
+  "exitCode": 0
+}

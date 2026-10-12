@@ -1,0 +1,94 @@
+Loading core dump: F:/Iris/artifacts/t039a/ipc-hung.dmp ...
+STACK 1
+0000021e85c06b00 00007ffa1f8b3cb0 (Started|DelegateInvoked) System.Threading.Tasks.Task {System.IO.Pipes.NamedPipeClientStream+<>c.<ConnectAsync>b__22_0(System.Object)}
+                 Address               MT Type                                        Value Name
+        0000021e85c06b30 00007ffa1f757520 System.Int32                                    0 m_taskId
+        0000021e85827a70 00007ffa1f77a510 System.Delegate                  0000021e85827a70 m_action
+        0000021e85c06ad8 0000000000000000 Object                           0000021e85c06ad8 m_stateObject
+        0000021e858229c8 00007ffa1fc59b28 ...Threading.Tasks.TaskScheduler 0000021e858229c8 m_taskScheduler
+        0000021e85c06b34 00007ffa1f757520 System.Int32                               204808 m_stateFlags
+        0000021e85c068d0 0000000000000000 Object                           0000021e85c068d0 m_continuationObject
+        0000021e85c06b40 00007ffa1fc0dc70 ...sks.Task+ContingentProperties 0000021e85c06b40 m_contingentProperties
+  0000021e85c068d0 00007ffa20ed09a0 (1) Iris.Platform.Windows.SystemIntegration.NamedPipeIpcClient+<RunCoreAsync>d__12
+                   Address               MT Type                                        Value Name
+          0000021e85c06920 00007ffa1f757520 System.Int32                                    1 <>1__state
+          0000021e85c06928 00007ffa20eab840 ...temIntegration.IpcSendResult> 0000021e85c06930 <>t__builder
+          0000021e85c06668 00007ffa20b44ce8 ...ntegration.NamedPipeIpcClient 0000021e85c06668 <>4__this
+          0000021e85c06720 0000000000000000 System.Byte[]                    0000021e85c06720 frame
+          0000021e85c06924 00007ffa1f753110 System.Boolean                              false <startedWrite>5__2
+          0000021e85c06930 00007ffa1f96cbb0 ...aitable+ConfiguredTaskAwaiter 0000021e85c06938 <>u__1
+          0000021e85c06940 00007ffa1f9ad9d8 ...m.Threading.CancellationToken 0000021e85c06948 <token>5__3
+          0000021e85c06948 00007ffa1fd56620 ...le+ConfiguredValueTaskAwaiter 0000021e85c06950 <>u__2
+          0000021e85c06958 00007ffa1fa15b78 ...table`1+ConfiguredTaskAwaiter 0000021e85c06960 <>u__3
+    0000021e85c06970 00007ffa2143a668 (0) Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests+Fixture+<Send>d__9
+                     Address               MT Type                                        Value Name
+            0000021e85c069d0 00007ffa1f757520 System.Int32                                    0 <>1__state
+            0000021e85c069e0 00007ffa20eab840 ...temIntegration.IpcSendResult> 0000021e85c069e8 <>t__builder
+            0000021e85c03aa0 00007ffa213f7150 ...ion.NamedPipeIpcTests+Fixture 0000021e85c03aa0 <>4__this
+            0000021e85c06648 00007ffa20bb5d60 Iris.Core.Actions.IpcCommand     0000021e85c06648 command
+            0000021e85c06668 00007ffa20b44ce8 ...ntegration.NamedPipeIpcClient 0000021e85c06668 <client>5__2
+            0000000000000000 0000000000000000 Object                                       null <>7__wrap2
+            0000021e85c069d4 00007ffa1f757520 System.Int32                                    0 <>7__wrap3
+            0000021e85c069d8 00007ffa20bb51d8 ...stemIntegration.IpcSendResult                0 <>7__wrap4
+            0000021e85c069e8 00007ffa20bb5358 ...temIntegration.IpcSendResult> 0000021e85c069f0 <>u__1
+            0000021e85c069f0 00007ffa1ffd4978 ...ilerServices.ValueTaskAwaiter 0000021e85c069f8 <>u__2
+      0000021e85c04428 00007ffa21c1b7e0 (3) Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests+<>c+<<TruncatedWireDisconnectDoesNotDispatchAndNextConnectionStillWorks>b__8_0>d
+                       Address               MT Type                                        Value Name
+              0000021e85c04480 00007ffa1f757520 System.Int32                                    3 <>1__state
+              0000021e85c04488 00007ffa1fa15a08 ...rvices.AsyncTaskMethodBuilder 0000021e85c04490 <>t__builder
+              0000021e85c03aa0 00007ffa213f7150 ...ion.NamedPipeIpcTests+Fixture 0000021e85c03aa0 f
+              0000000000000000 00007ffa1fcb9e18 ...O.Pipes.NamedPipeClientStream             null <client>5__2
+              0000000000000000 0000000000000000 Object                                       null <>7__wrap2
+              0000021e85c04484 00007ffa1f757520 System.Int32                                    0 <>7__wrap3
+              0000021e85c04490 00007ffa1fc0e1c0 ....CompilerServices.TaskAwaiter 0000021e85c04498 <>u__1
+              0000021e85c04498 00007ffa1ffd4978 ...ilerServices.ValueTaskAwaiter 0000021e85c044a0 <>u__2
+              0000021e85c044a8 00007ffa20bb5358 ...temIntegration.IpcSendResult> 0000021e85c044b0 <>u__3
+        0000021e85c044b8 00007ffa21420fa0 (0) Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests+<Run>d__11
+                         Address               MT Type                                        Value Name
+                0000021e85c04520 00007ffa1f757520 System.Int32                                    0 <>1__state
+                0000021e85c04528 00007ffa1fa15a08 ...rvices.AsyncTaskMethodBuilder 0000021e85c04530 <>t__builder
+                0000021e85c03a60 00007ffa213f7220 ... System.Threading.Tasks.Task> 0000021e85c03a60 body
+                0000021e85c03aa0 00007ffa213f7150 ...ion.NamedPipeIpcTests+Fixture 0000021e85c03aa0 <f>5__2
+                0000000000000000 00007ffa1f7805d8 System.Exception                             null <error>5__3
+                0000021e85c042b0 00007ffa201cd778 ...eneric.List<System.Exception> 0000021e85c042b0 <cleanup>5__4
+                0000000000000000 0000000000000000 Object                                       null <>7__wrap4
+                0000021e85c04524 00007ffa1f757520 System.Int32                                    0 <>7__wrap5
+                0000021e85c04530 00007ffa1fc0e1c0 ....CompilerServices.TaskAwaiter 0000021e85c04538 <>u__1
+                0000021e85c04538 00007ffa1ffd4978 ...ilerServices.ValueTaskAwaiter 0000021e85c04540 <>u__2
+          0000021e85c04550 00007ffa20b779c8 (0) Xunit.v3.XunitTestRunnerBaseContext<Xunit.v3.IXunitTest>+<>c__DisplayClass18_0+<<InvokeTest>b__1>d
+                           Address               MT Type                                        Value Name
+                  0000021e85c04598 00007ffa1f757520 System.Int32                                    0 <>1__state
+                  0000021e85c045a0 00007ffa1fffc798 ...s.AsyncValueTaskMethodBuilder 0000021e85c045a8 <>t__builder
+                  0000021e85c038e8 00007ffa2046ad98 ...ntext`1+<>c__DisplayClass18_0 0000021e85c038e8 <>4__this
+                  0000021e85c045a8 00007ffa1ffd4978 ...ilerServices.ValueTaskAwaiter 0000021e85c045b0 <>u__1
+            0000021e85c045c0 00007ffa20b77dd0 (0) Xunit.v3.ExceptionAggregator+<RunAsync>d__13
+                             Address               MT Type                                        Value Name
+                    0000021e85c04608 00007ffa1f757520 System.Int32                                    0 <>1__state
+                    0000021e85c04610 00007ffa1fffc798 ...s.AsyncValueTaskMethodBuilder 0000021e85c04618 <>t__builder
+                    0000021e85c03978 00007ffa2002c5b8 ...em.Threading.Tasks.ValueTask> 0000021e85c03978 code
+                    0000021e85c04618 00007ffa201e9528 Xunit.v3.ExceptionAggregator     0000021e85c04620 <>4__this
+                    0000021e85c04620 00007ffa1ffd4978 ...ilerServices.ValueTaskAwaiter 0000021e85c04628 <>u__1
+              0000021e85c04638 00007ffa20b78468 (0) Xunit.v3.ExecutionTimer+<MeasureAsync>d__2
+                               Address               MT Type                                        Value Name
+                      0000021e85c04688 00007ffa1f757520 System.Int32                                    0 <>1__state
+                      0000021e85c04690 00007ffa2039c6f8 ...ethodBuilder<System.TimeSpan> 0000021e85c04698 <>t__builder
+                      0000021e85c03910 00007ffa2002c5b8 ...em.Threading.Tasks.ValueTask> 0000021e85c03910 asyncAction
+                      0000021e85c03950 00007ffa1fca7788 System.Diagnostics.Stopwatch     0000021e85c03950 <stopwatch>5__2
+                      0000021e85c046a0 00007ffa1ffd4978 ...ilerServices.ValueTaskAwaiter 0000021e85c046a8 <>u__1
+                0000021e85c046b8 00007ffa20b78e78 (0) Xunit.v3.ExceptionAggregator+<RunAsync>d__14<System.TimeSpan>
+                                 Address               MT Type                                        Value Name
+                        0000021e85c04700 00007ffa1f757520 System.Int32                                    0 <>1__state
+                        0000021e85c04708 00007ffa2039c6f8 ...ethodBuilder<System.TimeSpan> 0000021e85c04710 <>t__builder
+                        0000021e85c038a8 00007ffa20398460 ...s.ValueTask<System.TimeSpan>> 0000021e85c038a8 code
+                        0000021e85c04718 00007ffa201e9528 Xunit.v3.ExceptionAggregator     0000021e85c04720 <>4__this
+                        0000021e85c04720 00007ffa1f9e2710 System.TimeSpan                  0000021e85c04728 defaultValue
+                        0000021e85c04728 00007ffa20393d20 ...eTaskAwaiter<System.TimeSpan> 0000021e85c04730 <>u__1
+                  0000021e85c04748 00007ffa20b7ab98 (0) Xunit.v3.TestRunner<Xunit.v3.XunitTestRunnerContext, Xunit.v3.IXunitTest>+<>c__DisplayClass15_1+<<RunTest>g__runTest|0>d
+                                   Address               MT Type                                        Value Name
+                          0000021e85c04798 00007ffa1f757520 System.Int32                                    0 <>1__state
+                          0000021e85c047a0 00007ffa20075738 ...rvices.AsyncVoidMethodBuilder 0000021e85c047a8 <>t__builder
+                          0000021e85c03778 00007ffa2042dd70 ...unner`2+<>c__DisplayClass15_1 0000021e85c03778 <>4__this
+                          0000000000000000 00007ffa1f7805d8 System.Exception                             null <currentException>5__2
+                          0000021e85c047b0 00007ffa1f9e2710 System.TimeSpan                  0000021e85c047b8 <>7__wrap2
+                          0000021e85c047b8 00007ffa20393d20 ...eTaskAwaiter<System.TimeSpan> 0000021e85c047c0 <>u__1
+

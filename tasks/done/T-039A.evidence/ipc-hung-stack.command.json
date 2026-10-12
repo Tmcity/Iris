@@ -1,0 +1,10 @@
+{
+  "cwd": "F:/Iris",
+  "command": [
+    "F:/Iris/artifacts/t039a/diagnostics/dotnet-stack.exe",
+    "report",
+    "--process-id",
+    "13528"
+  ],
+  "exitCode": 0
+}

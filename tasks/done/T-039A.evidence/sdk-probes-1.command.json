@@ -1,0 +1,11 @@
+{
+  "cwd": "F:/Iris",
+  "command": [
+    "dotnet",
+    "F:\\Iris\\artifacts\\t039a\\Probe\\bin\\Release\\net10.0-windows10.0.19041.0\\Probe.dll",
+    "Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb",
+    "F:\\Iris\\artifacts\\t039a\\releases",
+    "F:\\Iris\\artifacts\\t039a\\sdk-probes-1"
+  ],
+  "exitCode": 0
+}

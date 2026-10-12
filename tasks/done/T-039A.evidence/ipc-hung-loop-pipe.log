@@ -1,0 +1,42 @@
+Loading core dump: F:/Iris/artifacts/t039a/ipc-hung.dmp ...
+Name:        System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1+AsyncStateMachineBox`1[[System.Threading.Tasks.VoidTaskResult, System.Private.CoreLib],[Iris.Platform.Windows.SystemIntegration.NamedPipeIpcServer+<ReceiveAsync>d__16, Iris.Platform.Windows]]
+MethodTable: 00007ffa213f0d10
+Size:        176(0xb0) bytes
+File:        C:\Program Files\dotnet\shared\Microsoft.NETCore.App\10.0.12\System.Private.CoreLib.dll
+Fields:
+              MT    Field   Offset                 Type   VT     Attr            Value Name
+0000000000000000 04000faa       30         System.Int32  Yes instance                0 m_taskId
+00007ffa1f77a510 04000fab        8      System.Delegate   No instance 0000000000000000 m_action
+0000000000000000 04000fac       10        System.Object   No instance 0000000000000000 m_stateObject
+00007ffa1fc59b28 04000fad       18 ...sks.TaskScheduler   No instance 0000000000000000 m_taskScheduler
+0000000000000000 04000fae       34         System.Int32  Yes instance        102763520 m_stateFlags
+0000000000000000 04000faf       20        System.Object   No instance 0000021e8580bff0 m_continuationObject
+00007ffa1fc0dc70 04000fb3       28 ...tingentProperties   No instance 0000021e85d842c8 m_contingentProperties
+0000000000000000 04000fa9        8         System.Int32  Yes   static  s_taskIdCounter
+0000000000000000 04000fb0        8        System.Object   No   static 0000021e8580bff0 s_taskCompletionSentinel
+0000000000000000 04000fb1        c       System.Boolean  Yes   static  s_asyncDebuggingEnabled
+0000000000000000 04000fb2       10                        No   static 0000000000000000 s_currentActiveTasks
+00007ffa1f9aecd0 04000fb4       18 ...Tasks.TaskFactory   No   static 0000021e8580c008 <Factory>k__BackingField
+00007ffa1f9af5f8 04000fb5       20 ...Private.CoreLib]]   No   static 0000021e8580c030 s_cachedCompleted
+00007ffa1f9adb58 04000fb6       28 ...g.ContextCallback   No   static 0000021e8580c078 s_ecCallback
+00007ffa1f8b3cb0 04000fa8       10 ...eading.Tasks.Task   No TLstatic  t_currentTask
+    Thread static values (Thread:Value)
+        2b84:0000000000000000
+        234c:0000021e85834210
+        811c:0000021e85c06b00
+        78c8:0000000000000000
+
+00007ffa1f9adcb8 04000f78       38 ...ks.VoidTaskResult  Yes instance 0000021e85c043b0 m_result
+00007ffa1f9af5f8 04000f77        8 ...Private.CoreLib]]   No   static 0000000000000000 s_defaultResultTask
+0000000000000000 04000f79       10                        No   static 0000000000000000 <Factory>k__BackingField
+00007ffa213ed0f0 0400163d       40 ...eceiveAsync>d__16  Yes instance 0000021e85c043b8 StateMachine
+00007ffa1f9adb58 0400163c        8 ...g.ContextCallback   No   static 0000021e85b63918 s_callback
+Name:        Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests+Instrumented
+MethodTable: 00007ffa213fd320
+Size:        40(0x28) bytes
+File:        F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll
+Fields:
+              MT    Field   Offset                 Type   VT     Attr            Value Name
+00007ffa1fcb9438 040011fb        8 ....Pipes.PipeStream   No instance 0000021e85d59590 <stream>P
+00007ffa213f9958 04000278       10 ...eIpcTests+Factory   No instance 0000021e85c03b78 <factory>P
+00007ffa1f96f640 04000279       18     System.IO.Stream   No instance 0000021e85d59638 _stream

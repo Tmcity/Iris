@@ -1,0 +1,30 @@
+{
+  "baselineCommit": "6f14e81ebd298d83eda7330008310015efa1937b",
+  "files": [
+    {
+      "source": "src/Iris.Platform.Windows/SystemIntegration/NamedPipeIpcServer.cs",
+      "archive": "NamedPipeIpcServer.cs.txt",
+      "sha256": "aa932140ab8767981753bb0d16628e114ec60689aa3f6259a0684cdcdce4abfc"
+    },
+    {
+      "source": "src/Iris.Platform.Windows/SystemIntegration/IpcPipeFactory.cs",
+      "archive": "IpcPipeFactory.cs.txt",
+      "sha256": "1d6f35d82fc09c83d32822715ee5e6aafa015e098b58823a8fa8443e74cf0c5f"
+    },
+    {
+      "source": "src/Iris.Platform.Windows/SystemIntegration/IpcCancellation.cs",
+      "archive": "IpcCancellation.cs.txt",
+      "sha256": "095d2699da9acfd5e32113f481574edf73e5be3cb502d7dc76de2b8474f6b501"
+    },
+    {
+      "source": "src/Iris.Platform.Windows/SystemIntegration/NamedPipeIpcClient.cs",
+      "archive": "NamedPipeIpcClient.cs.txt",
+      "sha256": "0840c027fa1e217f35db116497b8b124c2077fdb5cb24e21321d023c70f566a7"
+    },
+    {
+      "source": "tests/Iris.Platform.Windows.Tests/SystemIntegration/NamedPipeIpcTests.cs",
+      "archive": "NamedPipeIpcTests.cs.txt",
+      "sha256": "bb9bb9fb0958d0bf0849954a71f7b0ed2819d97d34186817c4079ce1baced2a2"
+    }
+  ]
+}

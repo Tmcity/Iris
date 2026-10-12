@@ -1,0 +1,22 @@
+{
+  "command": [
+    "F:/Iris/artifacts/t039a/diagnostics/dotnet-dump.exe",
+    "analyze",
+    "F:/Iris/artifacts/t039a/ipc-hung.dmp",
+    "-c",
+    "setsymbolserver -disable",
+    "-c",
+    "dumpobj 0000021e85c04180",
+    "-c",
+    "dumpobj 0000021e85c03b78",
+    "-c",
+    "dumpobj 0000021e85c06758",
+    "-c",
+    "exit"
+  ],
+  "startedAt": "2026-10-10T09:57:58.785823+00:00",
+  "completedAt": "2026-10-10T09:57:59.216934+00:00",
+  "exitCode": 0,
+  "operatesOnExistingDumpOnly": true,
+  "logSha256": "efde8d8cc6dbc82460bfef3e76d138cb353be200506fdae8235e9b583e72b39c"
+}

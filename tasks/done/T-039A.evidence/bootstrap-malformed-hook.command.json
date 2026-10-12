@@ -1,0 +1,13 @@
+{
+  "cwd": "F:/Iris",
+  "command": [
+    "dotnet",
+    "F:\\Iris\\artifacts\\t039a\\Probe\\bin\\Release\\net10.0-windows10.0.19041.0\\Probe.dll",
+    "boot",
+    "F:\\Iris\\artifacts\\t039a\\boot-malformed-hook",
+    "record",
+    "--veloapp-uninstall",
+    "invalid"
+  ],
+  "exitCode": 0
+}

@@ -1,0 +1,100 @@
+Loading core dump: F:/Iris/artifacts/t039a/ipc-hung.dmp ...
+STACK 1
+<< Awaiting: 0000021e85824508 00007ffa1fc68748 System.Runtime.CompilerServices.ConfiguredValueTaskAwaitable`1+ConfiguredValueTaskAwaiter >>
+  0000021e85824448 00007ffa1fca27b0 (4) Microsoft.Testing.Extensions.Telemetry.AppInsightsProvider+<IngestLoopAsync>d__17
+    0000021e85823cf8 00007ffa1fc57f38 ( ) System.Threading.Tasks.UnwrapPromise<System.Threading.Tasks.VoidTaskResult>
+
+STACK 2
+<< Awaiting: 0000021e85829e80 00007ffa1fc68748 System.Runtime.CompilerServices.ConfiguredValueTaskAwaitable`1+ConfiguredValueTaskAwaiter >>
+  0000021e85829df0 00007ffa1ff96590 (2) Microsoft.Testing.Platform.Messages.AsyncConsumerDataProcessor+<ConsumeAsync>d__15
+    0000021e85843b38 00007ffa1fc57f38 ( ) System.Threading.Tasks.UnwrapPromise<System.Threading.Tasks.VoidTaskResult>
+
+STACK 3
+<< Awaiting: 0000021e85831bb8 00007ffa1fc68748 System.Runtime.CompilerServices.ConfiguredValueTaskAwaitable`1+ConfiguredValueTaskAwaiter >>
+  0000021e85831b28 00007ffa1ff96590 (2) Microsoft.Testing.Platform.Messages.AsyncConsumerDataProcessor+<ConsumeAsync>d__15
+    0000021e85846450 00007ffa1fc57f38 ( ) System.Threading.Tasks.UnwrapPromise<System.Threading.Tasks.VoidTaskResult>
+
+STACK 4
+<< Awaiting: 0000021e85846f40 00007ffa1fc68748 System.Runtime.CompilerServices.ConfiguredValueTaskAwaitable`1+ConfiguredValueTaskAwaiter >>
+  0000021e85846eb0 00007ffa1ff96590 (2) Microsoft.Testing.Platform.Messages.AsyncConsumerDataProcessor+<ConsumeAsync>d__15
+    0000021e85843330 00007ffa1fc57f38 ( ) System.Threading.Tasks.UnwrapPromise<System.Threading.Tasks.VoidTaskResult>
+
+STACK 5
+0000021e85a613c8 00007ffa1fd95ef8 ( ) System.Threading.Tasks.Task<System.Object>
+  0000021e8584edf8 00007ffa20079458 (1) Xunit.v3.InProcessFrontController+<FindAndRun>d__18
+    0000021e8584eeb8 00007ffa20079e40 (2) Xunit.Runner.InProc.SystemConsole.ProjectAssemblyRunner+<Run>d__17<Xunit.Runner.Common.IMicrosoftTestingPlatformResultWriter>
+      0000021e8584f0a0 00007ffa2007a2f0 (2) Xunit.MicrosoftTestingPlatform.TestPlatformTestFramework+<>c__DisplayClass22_0+<<OnExecute>b__0>d
+        0000021e8584f168 00007ffa2007bc98 (1) Xunit.MicrosoftTestingPlatform.TestPlatformTestFramework+<OnRequest>d__23
+          0000021e8584f228 00007ffa2007c550 (1) Xunit.MicrosoftTestingPlatform.TestPlatformTestFramework+<Microsoft-Testing-Platform-Extensions-TestFramework-ITestFramework-ExecuteRequestAsync>d__19
+            0000021e8584f2a0 00007ffa200a1370 (0) Microsoft.Testing.Platform.Requests.TestHostTestFrameworkInvoker+<ExecuteRequestAsync>d__17
+              0000021e8584f340 00007ffa200a2fd0 (6) Microsoft.Testing.Platform.Requests.TestHostTestFrameworkInvoker+<ExecuteAsync>d__16
+                0000021e85846a38 00007ffa1ffb05d8 (2) Microsoft.Testing.Platform.Hosts.CommonHost+<ExecuteRequestAsync>d__27
+                  0000021e85846b08 00007ffa1ffb32b0 (2) Microsoft.Testing.Platform.Hosts.ConsoleTestHost+<InternalRunAsync>d__10
+                    0000021e85846c40 00007ffa1ffb5ea8 (1) Microsoft.Testing.Platform.Hosts.CommonHost+<RunTestAppAsync>d__22
+                      0000021e8582a748 00007ffa1fe3b408 (3) Microsoft.Testing.Platform.Hosts.CommonHost+<RunAsync>d__14
+                        0000021e8582a828 00007ffa1fe3c358 (0) Microsoft.Testing.Platform.Builder.TestApplication+<RunAsync>d__10
+                          0000021e85827ab0 00007ffa1fcd8c50 (2) Xunit.MicrosoftTestingPlatform.TestPlatformTestFramework+<RunAsync>d__24
+                            0000021e85827b60 00007ffa1fca6358 () System.Threading.Tasks.Task+SetOnInvokeMres
+
+STACK 6
+0000021e85c03820 00007ffa1fd95ef8 ( ) System.Threading.Tasks.Task<System.Object>
+  0000021e85c047d8 00007ffa20b80ef0 (1) Xunit.v3.TestRunner<Xunit.v3.XunitTestRunnerContext, Xunit.v3.IXunitTest>+<RunTest>d__15
+    0000021e85c04880 00007ffa20b85108 (1) Xunit.v3.XunitTestRunnerBase<Xunit.v3.XunitTestRunnerContext, Xunit.v3.IXunitTest>+<RunTest>d__3
+      0000021e85c04960 00007ffa20b78e78 (0) Xunit.v3.ExceptionAggregator+<RunAsync>d__14<System.TimeSpan>
+        0000021e85c049f0 00007ffa20b85e48 (2) Xunit.v3.TestRunnerBase<Xunit.v3.XunitTestRunnerContext, Xunit.v3.IXunitTest>+<Run>d__13
+          0000021e85c04b40 00007ffa20b86210 (1) Xunit.v3.XunitTestRunner+<Run>d__3
+            0000021e85c04c70 00007ffa20b875f0 (1) Xunit.v3.TestCaseRunner<Xunit.v3.XunitTestCaseRunnerContext, Xunit.v3.IXunitTestCase, Xunit.v3.IXunitTest>+<RunTestCase>d__2
+              0000021e85c04d50 00007ffa20b88ed0 (0) Xunit.v3.CoreTestCaseRunner<Xunit.v3.XunitTestCaseRunnerContext, Xunit.v3.IXunitTestCase, Xunit.v3.IXunitTest>+<RunTestCaseInner>d__1
+                0000021e85c04e88 00007ffa20b89e18 (2) Xunit.v3.XunitTestCaseRunnerBase<Xunit.v3.XunitTestCaseRunnerContext, Xunit.v3.IXunitTestCase, Xunit.v3.IXunitTest>+<RunTestCaseInner>d__0
+                  0000021e85c04fb0 00007ffa20b8ada8 (0) Xunit.v3.CoreTestCaseRunner<Xunit.v3.XunitTestCaseRunnerContext, Xunit.v3.IXunitTestCase, Xunit.v3.IXunitTest>+<RunTestCase>d__0
+                    0000021e85c05070 00007ffa20283340 (0) Xunit.v3.ExceptionAggregator+<RunAsync>d__14<Xunit.v3.RunSummary>
+                      0000021e85c05140 00007ffa20b8c4b8 (2) Xunit.v3.TestCaseRunnerBase<Xunit.v3.XunitTestCaseRunnerContext, Xunit.v3.IXunitTestCase>+<Run>d__5
+                        0000021e85c05218 00007ffa20b8c880 (1) Xunit.v3.XunitTestCaseRunner+<Run>d__5
+                          0000021e85c05358 00007ffa20b8d7a8 (1) Xunit.v3.XunitRunnerHelper+<RunCoreTestCase>d__6<Xunit.v3.IXunitTest>
+                            0000021e85c05448 00007ffa20b8e1b0 (1) Xunit.v3.TestMethodRunner<Xunit.v3.XunitTestMethodRunnerContext, Xunit.v3.IXunitTestMethod, Xunit.v3.IXunitTestCase>+<RunTestCases>d__8
+                              0000021e85c05528 00007ffa20b8ec18 (0) Xunit.v3.CoreTestMethodRunner<Xunit.v3.XunitTestMethodRunnerContext, Xunit.v3.IXunitTestMethod, Xunit.v3.IXunitTestCase>+<RunTestCases>d__1
+                                0000021e85c05660 00007ffa20b8f9c0 (2) Xunit.v3.XunitTestMethodRunnerBase<Xunit.v3.XunitTestMethodRunnerContext, Xunit.v3.IXunitTestMethod, Xunit.v3.IXunitTestCase>+<RunTestCases>d__0
+                                  0000021e85c05788 00007ffa20283340 (0) Xunit.v3.ExceptionAggregator+<RunAsync>d__14<Xunit.v3.RunSummary>
+                                    0000021e85c05858 00007ffa20b91a38 (2) Xunit.v3.TestMethodRunner<Xunit.v3.XunitTestMethodRunnerContext, Xunit.v3.IXunitTestMethod, Xunit.v3.IXunitTestCase>+<Run>d__7
+                                      0000021e85c05938 00007ffa20b91e00 (1) Xunit.v3.XunitTestMethodRunner+<Run>d__5
+                                        0000021e85b7cf68 00007ffa20b92908 (1) Xunit.v3.TestClassRunner<Xunit.v3.XunitTestClassRunnerContext, Xunit.v3.IXunitTestClass, Xunit.v3.IXunitTestMethod, Xunit.v3.IXunitTestCase>+<RunTestMethods>d__12
+                                          0000021e85b7d060 00007ffa20b93370 (0) Xunit.v3.CoreTestClassRunner<Xunit.v3.XunitTestClassRunnerContext, Xunit.v3.IXunitTestClass, Xunit.v3.IXunitTestMethod, Xunit.v3.IXunitTestCase>+<RunTestMethods>d__1
+                                            0000021e85b7d198 00007ffa20b93e18 (3) Xunit.v3.XunitTestClassRunnerBase<Xunit.v3.XunitTestClassRunnerContext, Xunit.v3.IXunitTestClass, Xunit.v3.IXunitTestMethod, Xunit.v3.IXunitTestCase>+<RunTestMethods>d__4
+                                              0000021e85b7d2e0 00007ffa20283340 (0) Xunit.v3.ExceptionAggregator+<RunAsync>d__14<Xunit.v3.RunSummary>
+                                                0000021e85b7d3b0 00007ffa20b948c0 (2) Xunit.v3.TestClassRunner<Xunit.v3.XunitTestClassRunnerContext, Xunit.v3.IXunitTestClass, Xunit.v3.IXunitTestMethod, Xunit.v3.IXunitTestCase>+<Run>d__11
+                                                  0000021e85b7d488 00007ffa20283340 (0) Xunit.v3.ExceptionAggregator+<RunAsync>d__14<Xunit.v3.RunSummary>
+                                                    0000021e85b7d558 00007ffa20b94c88 (1) Xunit.v3.XunitTestClassRunner+<Run>d__5
+                                                      0000021e85b7d680 00007ffa20b95790 (1) Xunit.v3.TestCollectionRunner<Xunit.v3.XunitTestCollectionRunnerContext, Xunit.v3.IXunitTestCollection, Xunit.v3.IXunitTestClass, Xunit.v3.IXunitTestCase>+<RunTestClasses>d__9
+                                                        0000021e85b7d778 00007ffa20b961f8 (0) Xunit.v3.CoreTestCollectionRunner<Xunit.v3.XunitTestCollectionRunnerContext, Xunit.v3.IXunitTestCollection, Xunit.v3.IXunitTestClass, Xunit.v3.IXunitTestCase>+<RunTestClasses>d__1
+                                                          0000021e85b7d8b0 00007ffa20b96c80 (2) Xunit.v3.XunitTestCollectionRunnerBase<Xunit.v3.XunitTestCollectionRunnerContext, Xunit.v3.IXunitTestCollection, Xunit.v3.IXunitTestClass, Xunit.v3.IXunitTestCase>+<RunTestClasses>d__3
+                                                            0000021e85b7d9d8 00007ffa20283340 (0) Xunit.v3.ExceptionAggregator+<RunAsync>d__14<Xunit.v3.RunSummary>
+                                                              0000021e85b7daa8 00007ffa20b97bc0 (2) Xunit.v3.TestCollectionRunner<Xunit.v3.XunitTestCollectionRunnerContext, Xunit.v3.IXunitTestCollection, Xunit.v3.IXunitTestClass, Xunit.v3.IXunitTestCase>+<Run>d__8
+                                                                0000021e85b7e150 00007ffa20b97f88 (1) Xunit.v3.XunitTestCollectionRunner+<Run>d__5
+                                                                  0000021e85a669b8 00007ffa20263208 ( ) System.Threading.Tasks.UnwrapPromise<Xunit.v3.RunSummary>
+                                                                    0000021e85a66a18 00007ffa20264020 (1) Xunit.v3.ExecutionScheduler+<EnsureParallel>d__12<Xunit.v3.RunSummary>
+                                                                      0000021e85a66ab0 00007ffa20269730 (2) Xunit.v3.ExecutionScheduler+_Conservative+<RunParallelTask>d__4<Xunit.v3.RunSummary>
+                                                                        0000021e85a6a2d8 00007ffa20280e20 (1) Xunit.v3.CoreTestAssemblyRunner<Xunit.v3.XunitTestAssemblyRunnerContext, Xunit.v3.IXunitTestAssembly, Xunit.v3.IXunitTestCollection, Xunit.v3.IXunitTestCase>+<RunTestCollections>d__2
+                                                                          0000021e85a6a410 00007ffa20282f58 (2) Xunit.v3.XunitTestAssemblyRunnerBase<Xunit.v3.XunitTestAssemblyRunnerContext, Xunit.v3.IXunitTestAssembly, Xunit.v3.IXunitTestCollection, Xunit.v3.IXunitTestCase>+<RunTestCollections>d__3
+                                                                            0000021e85a6a538 00007ffa20283340 (0) Xunit.v3.ExceptionAggregator+<RunAsync>d__14<Xunit.v3.RunSummary>
+                                                                              0000021e85a6a608 00007ffa20284540 (2) Xunit.v3.TestAssemblyRunner<Xunit.v3.XunitTestAssemblyRunnerContext, Xunit.v3.IXunitTestAssembly, Xunit.v3.IXunitTestCollection, Xunit.v3.IXunitTestCase>+<Run>d__9
+                                                                                0000021e85a6a6e8 00007ffa20284918 (1) Xunit.v3.XunitTestAssemblyRunner+<Run>d__4
+                                                                                  0000021e85a6a7f8 00007ffa20285480 (0) Xunit.v3.XunitTestFrameworkExecutor+<RunTestCases>d__4
+                                                                                    0000021e85a6a8a0 00007ffa20289be0 (0) Xunit.v3.TestFrameworkExecutor<Xunit.v3.IXunitTestCase>+<>c__DisplayClass12_0+<<RunTestCasesInternal>b__0>d
+
+STACK 7
+0000021e85c06b00 00007ffa1f8b3cb0 (Started|DelegateInvoked) System.Threading.Tasks.Task {System.IO.Pipes.NamedPipeClientStream+<>c.<ConnectAsync>b__22_0(System.Object)}
+  0000021e85c068d0 00007ffa20ed09a0 (1) Iris.Platform.Windows.SystemIntegration.NamedPipeIpcClient+<RunCoreAsync>d__12
+    0000021e85c06970 00007ffa2143a668 (0) Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests+Fixture+<Send>d__9
+      0000021e85c04428 00007ffa21c1b7e0 (3) Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests+<>c+<<TruncatedWireDisconnectDoesNotDispatchAndNextConnectionStillWorks>b__8_0>d
+        0000021e85c044b8 00007ffa21420fa0 (0) Iris.Platform.Windows.Tests.SystemIntegration.NamedPipeIpcTests+<Run>d__11
+          0000021e85c04550 00007ffa20b779c8 (0) Xunit.v3.XunitTestRunnerBaseContext<Xunit.v3.IXunitTest>+<>c__DisplayClass18_0+<<InvokeTest>b__1>d
+            0000021e85c045c0 00007ffa20b77dd0 (0) Xunit.v3.ExceptionAggregator+<RunAsync>d__13
+              0000021e85c04638 00007ffa20b78468 (0) Xunit.v3.ExecutionTimer+<MeasureAsync>d__2
+                0000021e85c046b8 00007ffa20b78e78 (0) Xunit.v3.ExceptionAggregator+<RunAsync>d__14<System.TimeSpan>
+                  0000021e85c04748 00007ffa20b7ab98 (0) Xunit.v3.TestRunner<Xunit.v3.XunitTestRunnerContext, Xunit.v3.IXunitTest>+<>c__DisplayClass15_1+<<RunTest>g__runTest|0>d
+
+STACK 8
+0000021e88fd9138 00007ffa1fe32df8 ( ) System.Threading.Tasks.Task+DelayPromiseWithCancellation
+  0000021e85829d78 00007ffa1fe3cc98 (1) Microsoft.ApplicationInsights.Extensibility.Implementation.Tracing.SelfDiagnostics.SelfDiagnosticsConfigRefresher+<Worker>d__12
+    0000021e85830878 00007ffa1fc57f38 ( ) System.Threading.Tasks.UnwrapPromise<System.Threading.Tasks.VoidTaskResult>
+

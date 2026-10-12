@@ -1,0 +1,24 @@
+{
+  "loadedRuntime": "10.0.12",
+  "loadedRuntimeCommit": "95017c711e6afc1085133d440e42b4bd78155701",
+  "files": [
+    {
+      "file": "NamedPipeServerStream.Windows.cs",
+      "url": "https://raw.githubusercontent.com/dotnet/runtime/95017c711e6afc1085133d440e42b4bd78155701/src/libraries/System.IO.Pipes/src/System/IO/Pipes/NamedPipeServerStream.Windows.cs",
+      "result": "failed",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "file": "NamedPipeServerStream.cs",
+      "url": "https://raw.githubusercontent.com/dotnet/runtime/95017c711e6afc1085133d440e42b4bd78155701/src/libraries/System.IO.Pipes/src/System/IO/Pipes/NamedPipeServerStream.cs",
+      "result": "failed",
+      "error": "HTTP Error 404: Not Found"
+    },
+    {
+      "file": "PipeStream.Windows.cs",
+      "url": "https://raw.githubusercontent.com/dotnet/runtime/95017c711e6afc1085133d440e42b4bd78155701/src/libraries/System.IO.Pipes/src/System/IO/Pipes/PipeStream.Windows.cs",
+      "result": "failed",
+      "error": "HTTP Error 404: Not Found"
+    }
+  ]
+}

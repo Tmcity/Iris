@@ -1,0 +1,14 @@
+{
+  "command": [
+    "dotnet",
+    "C:/Users/28910/AppData/Local/Temp/iris-t039-sdk-independent/bin/Release/net10.0-windows10.0.19041.0/Probe.dll",
+    "Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb",
+    "F:/Iris/artifacts/t039a/releases",
+    "C:/Users/28910/AppData/Local/Temp/iris-t039-sdk-independent/replay-1"
+  ],
+  "cwd": "C:/Users/28910/AppData/Local/Temp/iris-t039-sdk-independent",
+  "startedAt": "2026-10-10T11:28:46.678884+00:00",
+  "completedAt": "2026-10-10T11:28:47.152788+00:00",
+  "exitCode": 0,
+  "logSha256": "e00ae9e85d8d8b8ec0e31dd8206a3ad7e9856753fd226114b52272f8703be283"
+}

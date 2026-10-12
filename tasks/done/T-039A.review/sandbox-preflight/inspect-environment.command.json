@@ -1,0 +1,13 @@
+{
+  "Arguments": [
+    "exec",
+    "--id",
+    "e8c707ca-e3e9-46b0-a882-b4418fea51c8",
+    "--command",
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -NonInteractive -Command \"$os = Get-CimInstance Win32_OperatingSystem; $fx = Get-ItemProperty 'HKLM:\\SOFTWARE\\Microsoft\\NET Framework Setup\\NDP\\v4\\Full' -ErrorAction SilentlyContinue; $runtimes = @(Get-ChildItem ($env:ProgramFiles + '\\dotnet\\shared') -Directory -ErrorAction SilentlyContinue | ForEach-Object { $family = $_.Name; Get-ChildItem $_.FullName -Directory | ForEach-Object { [pscustomobject]@{ Family=$family; Version=$_.Name } } }); [pscustomobject]@{ Caption=$os.Caption; Version=$os.Version; BuildNumber=$os.BuildNumber; FrameworkRelease=$fx.Release; SharedRuntimes=$runtimes; Context='Owned offline sandbox System inspection' } | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath 'C:\\IrisPreflightOutput\\environment.json' -Encoding UTF8\"",
+    "--run-as",
+    "System",
+    "--raw"
+  ],
+  "ExitCode": 0
+}

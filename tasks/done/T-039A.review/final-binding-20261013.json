@@ -1,0 +1,4719 @@
+{
+  "capturedAt": "2026-10-12T16:48:30.357668+00:00",
+  "sourceInputs": [
+    {
+      "path": "Directory.Build.props",
+      "bytes": 1094,
+      "sha256": "c32e046fc5f05f24df4925c1c689129e058df7f7d9908fad6d7e7392e2ae3c16"
+    },
+    {
+      "path": "Directory.Packages.props",
+      "bytes": 2045,
+      "sha256": "00f156547be3d3c6af324f6773c19677398ed8333c5985272370209ab81ec2c5"
+    },
+    {
+      "path": "Iris.slnx",
+      "bytes": 1068,
+      "sha256": "364848a5204596fa5fb964e6e953d4ef3efcac45962c7418cfb5b61db52e6c28"
+    },
+    {
+      "path": "global.json",
+      "bytes": 170,
+      "sha256": "fddf025247274c696cad0caa013fa3bc4a07de2d7fb6c1c2c805164a72b1716d"
+    },
+    {
+      "path": "specs/CONTRACTS.cs",
+      "bytes": 127828,
+      "sha256": "1581384c395cdbe750f3c4f292a43f5cae84f97cd1e42dd44ff257c5e149ce12"
+    },
+    {
+      "path": "src/Iris.App/App.xaml",
+      "bytes": 633,
+      "sha256": "dfab264f0786f1979c413e23effc3d54594604fcd003c022b6fcad910c7e660f"
+    },
+    {
+      "path": "src/Iris.App/App.xaml.cs",
+      "bytes": 2302,
+      "sha256": "d2d4ebaaf247a3ecdd84a916abce9584968386e02a01b266433a57422f5dc168"
+    },
+    {
+      "path": "src/Iris.App/AssemblyInfo.cs",
+      "bytes": 643,
+      "sha256": "3fac2af92385f676e9a941befd23fe38f0a5fa6167d4a3a88f07e730c5595ca3"
+    },
+    {
+      "path": "src/Iris.App/Capture/ScreenshotErrors.cs",
+      "bytes": 881,
+      "sha256": "f275dab1dbf40f76feb6f1c220123f70bcc0eb90fc1b57ef016a4aa4577d0a20"
+    },
+    {
+      "path": "src/Iris.App/Capture/ScreenshotFrameView.cs",
+      "bytes": 2183,
+      "sha256": "56d81e09614c266227195899b9b1e435add87f86763d524b7d73ca1c3d7947cb"
+    },
+    {
+      "path": "src/Iris.App/Capture/ScreenshotNative.cs",
+      "bytes": 3384,
+      "sha256": "9763d87bac698efb5baf5d9a9019f495de5b06c1e14880b05c22c3cd1d667305"
+    },
+    {
+      "path": "src/Iris.App/Capture/ScreenshotOverlayWindow.cs",
+      "bytes": 14016,
+      "sha256": "f97552722a5a582960d4524887f96c6da7b02cf8357fba98fc63c2f0f75e38f1"
+    },
+    {
+      "path": "src/Iris.App/Capture/ScreenshotPreparationCoordinator.cs",
+      "bytes": 14182,
+      "sha256": "95e9c3defc2ff50affcdf72bdd0cf2c772dbde163d4db3bee2d428b84dd7d231"
+    },
+    {
+      "path": "src/Iris.App/Capture/ScreenshotSelection.cs",
+      "bytes": 2464,
+      "sha256": "eaba5e0d68ba61b024f22ef9d593dc5016de1504c3974f33cadcd03e7988ce44"
+    },
+    {
+      "path": "src/Iris.App/Capture/ScreenshotService.cs",
+      "bytes": 24245,
+      "sha256": "61a661ade7a74b787aba80a63edbca3e35cc8b12a60d86415bdb217e9100d47f"
+    },
+    {
+      "path": "src/Iris.App/Capture/WindowPreparationIntent.cs",
+      "bytes": 7224,
+      "sha256": "920997214306841c1371e16c684a3c59407cc71df119d175821c0c33ad4604b2"
+    },
+    {
+      "path": "src/Iris.App/History/HistoryViewModel.cs",
+      "bytes": 20548,
+      "sha256": "703d9bd78112fb7c44fa094d99bcfa8efe937a2f3a81a0f1a589b9dd2c2a3b07"
+    },
+    {
+      "path": "src/Iris.App/History/HistoryWindow.xaml",
+      "bytes": 11147,
+      "sha256": "23f634521f85bd69c115f54cb9b28c0db18d7a531175da8d4dd64529c05b876a"
+    },
+    {
+      "path": "src/Iris.App/History/HistoryWindow.xaml.cs",
+      "bytes": 1871,
+      "sha256": "6533a3366fc22280f6f9b7c36daabfa50f2aa80610c48eb6e602259a0ec04369"
+    },
+    {
+      "path": "src/Iris.App/History/HistoryWindowPresenter.cs",
+      "bytes": 4653,
+      "sha256": "11ff1b8ece1ed236ae86b73362387b94a818353efb3e1114eb1480fd55e01893"
+    },
+    {
+      "path": "src/Iris.App/History/HistoryWindowSession.cs",
+      "bytes": 4756,
+      "sha256": "ed4603c53667035ab6893476bf607fc063a47ec2acd6373a42ff739dbd17fc74"
+    },
+    {
+      "path": "src/Iris.App/Hosting/ActionDispatcher.cs",
+      "bytes": 7386,
+      "sha256": "58c434c42cf11dd3c9beb5382c9f6e5381334d7d95720d828946ebf3a72090db"
+    },
+    {
+      "path": "src/Iris.App/Hosting/AppBootstrapper.cs",
+      "bytes": 26658,
+      "sha256": "025cb49368f613741ab3435281eee0546abb59c98bab9cacf82951d3bad553d6"
+    },
+    {
+      "path": "src/Iris.App/Hosting/AppHostBuilder.cs",
+      "bytes": 8015,
+      "sha256": "94639e28fed69c49e098072696f333e46225c20d5eb0e719718831fc7518cb24"
+    },
+    {
+      "path": "src/Iris.App/Hosting/CommandLineParser.cs",
+      "bytes": 1245,
+      "sha256": "75bf1ea73905ae1d457d784b1e2daa16f691e131a44c345a239e2ec454079b70"
+    },
+    {
+      "path": "src/Iris.App/Hosting/ExitActionHandler.cs",
+      "bytes": 539,
+      "sha256": "bf3ee28b94a6fbb932a922776442311a17d8cef2ddae5ccf01a82c057e8760ff"
+    },
+    {
+      "path": "src/Iris.App/Hosting/FatalErrorFormatter.cs",
+      "bytes": 458,
+      "sha256": "196f4b803be6e3493951d73f6e2eab5c46e90798aebf64b31fb834b078f94d7a"
+    },
+    {
+      "path": "src/Iris.App/Hosting/GlobalExceptionHandler.cs",
+      "bytes": 3684,
+      "sha256": "f7c4d9913949a9a83db698530b353afc1eed34384bd64511f8403c669650f2a8"
+    },
+    {
+      "path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+      "bytes": 38340,
+      "sha256": "2d90e919e7c369082aa90cad6918cd416b67897abc6d30039211ac8e2ce10387"
+    },
+    {
+      "path": "src/Iris.App/Hosting/HotkeyRecordingCoordinator.cs",
+      "bytes": 14449,
+      "sha256": "7f0706853be9f4b1c8dee25b798e238b1eb4d78b4e84870011e0625659a3cc19"
+    },
+    {
+      "path": "src/Iris.App/Hosting/HotkeyRuntimeModels.cs",
+      "bytes": 1697,
+      "sha256": "97724b831092e848c81f57f6504ca4cb011fcb643ca710f021d5cb29f0e1dd95"
+    },
+    {
+      "path": "src/Iris.App/Hosting/IUiDispatcher.cs",
+      "bytes": 596,
+      "sha256": "35ba81f49850d3383d16cc0824cfc097d71aa2dff208019059c0353d11ff98d3"
+    },
+    {
+      "path": "src/Iris.App/Hosting/IpcCommandCoordinator.cs",
+      "bytes": 3198,
+      "sha256": "54270cde79f01b6a3a343431400748cc38744ea3dedb5d1cd3f6ad9a93b35720"
+    },
+    {
+      "path": "src/Iris.App/Hosting/IrisLogging.cs",
+      "bytes": 2636,
+      "sha256": "27e97ffbe124942c35eb1d91953fa9f3d31e60146de84d73e1b5481d1c5af25a"
+    },
+    {
+      "path": "src/Iris.App/Hosting/LogLevelController.cs",
+      "bytes": 2186,
+      "sha256": "c3d82f6571b2c379466fb86be6efcdf8446fcb74161eaec7bf6d66e2aef99399"
+    },
+    {
+      "path": "src/Iris.App/Hosting/NotificationThrottle.cs",
+      "bytes": 908,
+      "sha256": "b8716b051711f5367b72e25e434c4a9917f203b1a117af1a961e3df2a67080eb"
+    },
+    {
+      "path": "src/Iris.App/Hosting/StartupRuntime.cs",
+      "bytes": 2917,
+      "sha256": "17c885defb8b4a55ab900167c52565481bc2fce0e9ff529374e3ddf697226996"
+    },
+    {
+      "path": "src/Iris.App/Hosting/WpfHostLifetime.cs",
+      "bytes": 483,
+      "sha256": "5bd1f1df756f2babcd62f42b8fbb6c1f7732d44fe06688c4b515c3bd95a08554"
+    },
+    {
+      "path": "src/Iris.App/Hosting/WpfUiDispatcher.cs",
+      "bytes": 2254,
+      "sha256": "37ff130844a214468e55ae959689df91a6a8d2d450db4c51a25c7a2743914d5e"
+    },
+    {
+      "path": "src/Iris.App/Iris.App.csproj",
+      "bytes": 2251,
+      "sha256": "dcead552783fe3370f91877945cf9641d137d5cbc8ba1d89e602e982da62ef43"
+    },
+    {
+      "path": "src/Iris.App/Program.cs",
+      "bytes": 3663,
+      "sha256": "ce6bb89baeebabf45529232d4805b160751d74631967ac9168969d89d14e74b1"
+    },
+    {
+      "path": "src/Iris.App/Resources/AppLanguage.cs",
+      "bytes": 297,
+      "sha256": "a3ddf8ffb491e6456248dcbc2e75d07953742ea0bb92b51090c353c90a7383e4"
+    },
+    {
+      "path": "src/Iris.App/Resources/AppResources.cs",
+      "bytes": 950,
+      "sha256": "0afb54c70acbffc1ea6036abc5de1dc8b2a80e2c9dadc5d037018048b32232f7"
+    },
+    {
+      "path": "src/Iris.App/Resources/Icons/iris.ico",
+      "bytes": 3246,
+      "sha256": "ebfe066500f2e911520de8bd70c0dd38360c9d15125e8dc66afd71a7ceec6d09"
+    },
+    {
+      "path": "src/Iris.App/Resources/Strings.en-US.resx",
+      "bytes": 54546,
+      "sha256": "5f7a5c9d68def9848ebdb04265a7f2f956b6ad9d0efeb92802a5bef5e2f9becc"
+    },
+    {
+      "path": "src/Iris.App/Resources/Strings.resx",
+      "bytes": 52872,
+      "sha256": "dda418ecaec38b7c31e7e6afe6b191ea8c11faa4c10a34c61df97b2af67e0037"
+    },
+    {
+      "path": "src/Iris.App/Selection/SelectionIconController.cs",
+      "bytes": 31297,
+      "sha256": "119d68c6d2e91868e97a848a1e6cda7d15db9ab669dfa939e418b5dc6d0d2e52"
+    },
+    {
+      "path": "src/Iris.App/Selection/SelectionIconNative.cs",
+      "bytes": 3384,
+      "sha256": "a010d583e19a52c63c1d8fa6fc5198f438be52a46ae84f579801e28be590b834"
+    },
+    {
+      "path": "src/Iris.App/Selection/SelectionIconWindow.cs",
+      "bytes": 4126,
+      "sha256": "871b1d5c9c1e552f0b1ca7f2c6396cdf72cf6fc58d4e8c0b67820f457fa01d95"
+    },
+    {
+      "path": "src/Iris.App/Services/AppLifetime.cs",
+      "bytes": 1920,
+      "sha256": "3e76f5772ece26c6db4e596a9421576522594acb19e984f055d2b4aded2e7990"
+    },
+    {
+      "path": "src/Iris.App/Services/GeneralSettingsSaveCoordinator.cs",
+      "bytes": 22019,
+      "sha256": "aa3f365879a9fbc4939f2ac2c2f533f977329d9e2a2483081a989206c803cefc"
+    },
+    {
+      "path": "src/Iris.App/Services/ScreenshotOcrFeedback.cs",
+      "bytes": 3826,
+      "sha256": "8b94c7839e162e4503a37c673b1908a0d4b2763220425554820d91b888605399"
+    },
+    {
+      "path": "src/Iris.App/Services/SelectionReadCoordinator.cs",
+      "bytes": 7937,
+      "sha256": "98be98bcf5e18f1aecf98a9572824fe56989bbdf84ddf25181b7d765cc413836"
+    },
+    {
+      "path": "src/Iris.App/Services/SettingsApplyReceiptManager.cs",
+      "bytes": 5750,
+      "sha256": "4c073cb883bacddff59efaa85471366b36ce4be354273587c244b941efaeaaf1"
+    },
+    {
+      "path": "src/Iris.App/Services/ThemeService.cs",
+      "bytes": 8625,
+      "sha256": "bac5f0fe71b619eca1b4f33644e09afae6669f26cf8320bc09c06cddd89c4c34"
+    },
+    {
+      "path": "src/Iris.App/Services/TrayNotificationService.cs",
+      "bytes": 4533,
+      "sha256": "e86db6be61e5e337362a0348cb9deecf79b04180bd4cbe12fccad3fbb473a3ac"
+    },
+    {
+      "path": "src/Iris.App/Settings/DraftValue.cs",
+      "bytes": 1085,
+      "sha256": "4aa3286d849bdbf5d762b4676e47d5b420971c4bf7871b6abbf21cc77caa7545"
+    },
+    {
+      "path": "src/Iris.App/Settings/HistorySettingsDraftViewModel.cs",
+      "bytes": 1851,
+      "sha256": "6e3557fd48a76cbf1daddcd0f4081064781e2be51820dc9e2655bca1a5fc8fac"
+    },
+    {
+      "path": "src/Iris.App/Settings/HotkeyItemDraftViewModel.cs",
+      "bytes": 11425,
+      "sha256": "6bee4b81247d458851778ceab7007c26f30a38fb297e4cb6aaddbfabfc207351"
+    },
+    {
+      "path": "src/Iris.App/Settings/HotkeyRecorderBox.xaml",
+      "bytes": 6424,
+      "sha256": "b037634e445cdf62cacd94ee3cfe01fcacc1e28a780b0b6f300bd59faf56012d"
+    },
+    {
+      "path": "src/Iris.App/Settings/HotkeyRecorderBox.xaml.cs",
+      "bytes": 1532,
+      "sha256": "b911936e834a5d5f3881382aa1eedb89cff2d88b6653fe782611420b5abcb4d7"
+    },
+    {
+      "path": "src/Iris.App/Settings/NetworkSettingsDraftViewModel.cs",
+      "bytes": 8663,
+      "sha256": "b4ec4946c78f9d53afae9bb16ff161e6a10adcfc55a2cf5ca2cb84c2258ac98a"
+    },
+    {
+      "path": "src/Iris.App/Settings/OcrProfileDraftViewModel.cs",
+      "bytes": 8127,
+      "sha256": "5cf6bfbfdf4dce9fd4be58f7eaf47006b9b29fbafcf6aeb8decb67f52e475881"
+    },
+    {
+      "path": "src/Iris.App/Settings/OcrSettingsDraftViewModel.cs",
+      "bytes": 5861,
+      "sha256": "4b84570f8d5a58897c818e9620f7a029438e601847e29b6a443b4bb7587711ac"
+    },
+    {
+      "path": "src/Iris.App/Settings/RelayCommand.cs",
+      "bytes": 3396,
+      "sha256": "b86c287d86f19ccaac554116138788c47f75a305e447cb31e9b11ca7acc5c8c9"
+    },
+    {
+      "path": "src/Iris.App/Settings/SelectionSettingsDraftViewModel.Mouse.cs",
+      "bytes": 4176,
+      "sha256": "4384590415909aa0a7dfc1334c1645962e49edc4c81ae79bb0a68568dd9b218f"
+    },
+    {
+      "path": "src/Iris.App/Settings/SelectionSettingsDraftViewModel.cs",
+      "bytes": 6894,
+      "sha256": "8769dd39d83b9fe6d9cb68a3dae9fea0f6c956c78406592efd3c5bd8ca26704e"
+    },
+    {
+      "path": "src/Iris.App/Settings/SettingsDraftOperationQueue.cs",
+      "bytes": 7757,
+      "sha256": "7ec316a53ef0160fa842a3c78bc6c37a310fd4774ef4bd3f1284b4e0c2365f75"
+    },
+    {
+      "path": "src/Iris.App/Settings/SettingsViewModel.Language.cs",
+      "bytes": 1007,
+      "sha256": "1eb0a2774ded60afafd25095dba6afc0cdcf4f2597ff09d8a8c87c094179a0a4"
+    },
+    {
+      "path": "src/Iris.App/Settings/SettingsViewModel.Mouse.cs",
+      "bytes": 3115,
+      "sha256": "5ce7aa08b4d6916d4b9c9aded2190cd94d541330a17dcf00d9b8d216d9c9d901"
+    },
+    {
+      "path": "src/Iris.App/Settings/SettingsViewModel.Network.cs",
+      "bytes": 18016,
+      "sha256": "cfe8bbdc61ed2424eaba12d806cbf6afbc84f39570eb1698c646a9cb5813b19b"
+    },
+    {
+      "path": "src/Iris.App/Settings/SettingsViewModel.Ocr.cs",
+      "bytes": 20844,
+      "sha256": "639da8e58bdc82d7f2e3ba427133e52f6d01e19ec28a2f6437d4587dba02ed77"
+    },
+    {
+      "path": "src/Iris.App/Settings/SettingsViewModel.cs",
+      "bytes": 108955,
+      "sha256": "e9a61f20debbdcf22e2e3d85558157075f391b9448500e45d2ad1a7e28978818"
+    },
+    {
+      "path": "src/Iris.App/Settings/SettingsWindow.xaml",
+      "bytes": 89144,
+      "sha256": "a1c099e7b21f5b51bf8889e201d37716bbc567e458dbad2ec7f5e864e607939c"
+    },
+    {
+      "path": "src/Iris.App/Settings/SettingsWindow.xaml.cs",
+      "bytes": 15815,
+      "sha256": "06b648deb571ad4eccb3d5e08c446dec36e32974e729db3191941a95cd100d7a"
+    },
+    {
+      "path": "src/Iris.App/Settings/SettingsWindowPresenter.cs",
+      "bytes": 20091,
+      "sha256": "796d4949e0de6dec4eeda0912301f09ad679483b37d927a358747db5ac3aeff4"
+    },
+    {
+      "path": "src/Iris.App/Settings/SettingsWindowSession.cs",
+      "bytes": 8815,
+      "sha256": "ca6d301522284c5d817778202b9af3d2d2b4fd011bd8794e6324047e806aef27"
+    },
+    {
+      "path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+      "bytes": 36511,
+      "sha256": "ada1e67ab3134a61ef039a31844ebda568c758cb3a184e7287eef11efcf9ff4c"
+    },
+    {
+      "path": "src/Iris.App/Translation/ITranslateWindowShutdownCoordinator.cs",
+      "bytes": 218,
+      "sha256": "a1398f7f1a4d71a54179ef4e1a1c9bddfa74a237b9ab8f6364a709c9a7d97b93"
+    },
+    {
+      "path": "src/Iris.App/Translation/NativeWindowPlacementAdapter.cs",
+      "bytes": 2272,
+      "sha256": "d869c95b7436295a1a4e4d418cf22ea28b23bb1c05e0510e962d83c966c4dc88"
+    },
+    {
+      "path": "src/Iris.App/Translation/ProviderResultCardViewModel.cs",
+      "bytes": 6737,
+      "sha256": "b981601e1300da7524e3919f2b63caa4a02756c98e1a639c95e82fadba17cc85"
+    },
+    {
+      "path": "src/Iris.App/Translation/TranslateWindow.xaml",
+      "bytes": 20521,
+      "sha256": "80100af9914fb53d15750096f4276bcfc6fbff03e6f80e8007e9924494f07e0e"
+    },
+    {
+      "path": "src/Iris.App/Translation/TranslateWindow.xaml.cs",
+      "bytes": 6100,
+      "sha256": "09459944f1be19a35d70bfd618f449f343b2bc2f4a775081be6dc18768dc6004"
+    },
+    {
+      "path": "src/Iris.App/Translation/TranslateWindowOperation.cs",
+      "bytes": 10251,
+      "sha256": "083bd4a49e6a1dc717779af30971c463f8e2cf9b03729612d527f41760b6d952"
+    },
+    {
+      "path": "src/Iris.App/Translation/TranslateWindowPresenter.cs",
+      "bytes": 33984,
+      "sha256": "8997b48fef88b909ca8c39eb6543343ce76dd4b11730896fe2f0d77951fd8395"
+    },
+    {
+      "path": "src/Iris.App/Translation/TranslateWindowViewModel.Ocr.cs",
+      "bytes": 2041,
+      "sha256": "542245e3c50cb836308482cdb6349561099850b9ecb90a72cec403b8b501cd2a"
+    },
+    {
+      "path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+      "bytes": 61017,
+      "sha256": "60b2948cb438380137a350a5b0a989e4ea96f2c2e3ebc96b19c659aa5f256965"
+    },
+    {
+      "path": "src/Iris.App/Translation/TranslationDeltaBuffer.cs",
+      "bytes": 4750,
+      "sha256": "53a5767b3953e0344e0fb23cfda816ddedad3b223df9792ef22112d8e082a638"
+    },
+    {
+      "path": "src/Iris.App/Translation/WindowPlacementHelper.cs",
+      "bytes": 7428,
+      "sha256": "a074b85eee7449e9562cf0394463aedc050df56e62b9f8a0a096fd5e591e797f"
+    },
+    {
+      "path": "src/Iris.App/Tray/ITrayNotificationNative.cs",
+      "bytes": 291,
+      "sha256": "6a329565d8ad8cf7d9817dea5d399633566117d7e84bc52ef3ab9f644924cfc4"
+    },
+    {
+      "path": "src/Iris.App/Tray/TrayCreationRetryPolicy.cs",
+      "bytes": 849,
+      "sha256": "fddb9a5b44d28d419295ac9f8540581cf0694d0170704265c515490a734cab5a"
+    },
+    {
+      "path": "src/Iris.App/Tray/TrayIconController.cs",
+      "bytes": 18374,
+      "sha256": "7aa3313c420a5f492febbd5613b94c56d8bb15ad2eaed10b326fb23d2276ff4c"
+    },
+    {
+      "path": "src/Iris.App/UiText.Extra.cs",
+      "bytes": 1631,
+      "sha256": "5e816dafdd387fb72600d261e0df519b29878235db31fb1750c8ac8c62c23d67"
+    },
+    {
+      "path": "src/Iris.App/UiText.History.cs",
+      "bytes": 5734,
+      "sha256": "22817ccdddce5da8bdc85ca037f01955243d6512deea0b06d9288469d2ccedeb"
+    },
+    {
+      "path": "src/Iris.App/UiText.Ipc.cs",
+      "bytes": 702,
+      "sha256": "fbcd9c1b1bad14575a3a53fa3ec0b404e285b90c09710ca1251aeab96963e459"
+    },
+    {
+      "path": "src/Iris.App/UiText.Language.cs",
+      "bytes": 640,
+      "sha256": "30920b39bfc02d58e54979f572f4f808bf316662908e44cab025a8b8236039ef"
+    },
+    {
+      "path": "src/Iris.App/UiText.Network.cs",
+      "bytes": 5498,
+      "sha256": "67614ccc24b783b28756572f88488dfc625c7e4f2e4bef53b84010a77d99bb59"
+    },
+    {
+      "path": "src/Iris.App/UiText.cs",
+      "bytes": 30464,
+      "sha256": "18472a8aa18653ec93d5aff0e7ae9f56a241c5258b54a9a3baf6e1ef48f40eaf"
+    },
+    {
+      "path": "src/Iris.App/app.manifest",
+      "bytes": 1104,
+      "sha256": "2d332e45db500ed00b0ccf68db15787da94107fe8b2e5d90c4aad836cf42ec32"
+    },
+    {
+      "path": "src/Iris.Core/Actions/Ipc.cs",
+      "bytes": 782,
+      "sha256": "09ae2e00e7ae8ddf8c3a3de9454741f2ac0d9864bd547cccc8f8c4e588673291"
+    },
+    {
+      "path": "src/Iris.Core/Actions/IrisAction.cs",
+      "bytes": 3188,
+      "sha256": "bd287954a8282bb1d4bd8febdbe9730677eb287e43c48c847e049375a5f2570b"
+    },
+    {
+      "path": "src/Iris.Core/Common/ProviderModels.cs",
+      "bytes": 1392,
+      "sha256": "b1cc46d676923839d3076bc5a5b6bc2b23c7ade1d6060a2e6527a413d23e2baa"
+    },
+    {
+      "path": "src/Iris.Core/DependencyInjection/CoreServiceCollectionExtensions.cs",
+      "bytes": 3919,
+      "sha256": "4462f8f062693e68db864d4e9bbfb405e32ae16c4357738da2bac43547ab7ea0"
+    },
+    {
+      "path": "src/Iris.Core/DependencyInjection/OcrProviderConfigurationObserver.cs",
+      "bytes": 334,
+      "sha256": "96fe50976cf9aea343bb5198f9ccab466ad7b9d5d67eaedc0e8362002ac940e3"
+    },
+    {
+      "path": "src/Iris.Core/DependencyInjection/TranslationProviderConfigurationObserver.cs",
+      "bytes": 776,
+      "sha256": "8efeae79031d2d7643e3a6292d603c74c454d63e7d70568ce66f0bea10602fc0"
+    },
+    {
+      "path": "src/Iris.Core/Diagnostics/LogText.cs",
+      "bytes": 2655,
+      "sha256": "c9ca8009501a5cc9e3d42b120feec98a65fdca1d74344bbd2702c7167d6b7611"
+    },
+    {
+      "path": "src/Iris.Core/Errors/ErrorCode.cs",
+      "bytes": 2204,
+      "sha256": "c0207652911aa374b8a6c05c6dd1f51128fe3a50341d2b13c8f508745b9da25b"
+    },
+    {
+      "path": "src/Iris.Core/Errors/ErrorInfo.cs",
+      "bytes": 474,
+      "sha256": "d137686eb68d89d6c3167755046469e8ae33a432afa7eda7e835509466e60cc3"
+    },
+    {
+      "path": "src/Iris.Core/Errors/ErrorMessages.cs",
+      "bytes": 443,
+      "sha256": "2943e9694a89f65dfe572488236733cf23a130b3ab2a1574c941047a674e590a"
+    },
+    {
+      "path": "src/Iris.Core/Errors/IrisException.cs",
+      "bytes": 1120,
+      "sha256": "2fd816b9a42a2a76273d5d284ccc7ae2cdee9e4a9a754b29e0ea86c1ccc459a0"
+    },
+    {
+      "path": "src/Iris.Core/IO/AtomicFile.cs",
+      "bytes": 11096,
+      "sha256": "06eebcfa85d14003c88f92f7f9146f0c3bdacd8d82e4ce56e10bf1a3079296eb"
+    },
+    {
+      "path": "src/Iris.Core/Imaging/Geometry.cs",
+      "bytes": 612,
+      "sha256": "494f0079d7162faa70d24e87f53ad310da9d7eed63f323d4ce63d9f034e17b94"
+    },
+    {
+      "path": "src/Iris.Core/Imaging/ImageData.cs",
+      "bytes": 2504,
+      "sha256": "0228e6d9dd9c429dcf6874eb0848283300c257e41a1f8797cdfe72d2f5ba32f4"
+    },
+    {
+      "path": "src/Iris.Core/Iris.Core.csproj",
+      "bytes": 703,
+      "sha256": "def62f01de0917f694ed5e1fbf514d25851ded56acddd485869ce40b49c727d3"
+    },
+    {
+      "path": "src/Iris.Core/Languages/ILanguageCatalog.cs",
+      "bytes": 772,
+      "sha256": "be9b49212ffb6102d6acea89ccfca6528b5b6903c62c7414a64a0730c1454391"
+    },
+    {
+      "path": "src/Iris.Core/Languages/ILanguageDetector.cs",
+      "bytes": 1258,
+      "sha256": "aebc9442d0ddd93b34563bad2afa79ae3a84f0729f1588a0985f521a2e42e407"
+    },
+    {
+      "path": "src/Iris.Core/Languages/LanguageCatalog.cs",
+      "bytes": 3314,
+      "sha256": "4bf556542da6b8c5688a1a8d857653e18aa1ebdfd3abb77b055a815ca89c06c1"
+    },
+    {
+      "path": "src/Iris.Core/Languages/LanguageCodes.cs",
+      "bytes": 866,
+      "sha256": "b0e5ca4fe5a3be13cbef171079ba36cb46806bda65a5956ec412b9853b9957a6"
+    },
+    {
+      "path": "src/Iris.Core/Languages/LanguageModels.cs",
+      "bytes": 935,
+      "sha256": "238d2dadef6edc8d0d3360bc2f5e98b9c65a91c7c200b92da89fd973a795228e"
+    },
+    {
+      "path": "src/Iris.Core/Languages/ScriptLanguageDetector.cs",
+      "bytes": 8349,
+      "sha256": "6b7eaef44efd24e92f9deecdf288506340cff54b6e0d6c38e6b61bc290dcd308"
+    },
+    {
+      "path": "src/Iris.Core/Languages/TargetLanguageResolver.cs",
+      "bytes": 3744,
+      "sha256": "471f88c4b3d23ee44c3d37b60ff238ccc87cc12395cf3b9200dcc23e9b32ccd8"
+    },
+    {
+      "path": "src/Iris.Core/Languages/UnicodeScripts.cs",
+      "bytes": 2992,
+      "sha256": "ba8111a6ded4d60c19610bb2bd71bf78eea73accc37e31c52d42b9df16b15eec"
+    },
+    {
+      "path": "src/Iris.Core/Localization/CoreText.cs",
+      "bytes": 867,
+      "sha256": "58753b3e6a959a63a91afcb6f7592c8b65ce7974e3bc8df4f84ee9e3e4ea40b0"
+    },
+    {
+      "path": "src/Iris.Core/Localization/Strings.en-US.resx",
+      "bytes": 20132,
+      "sha256": "8466d873085cff8c6ea9990782a5c40d8d511d3e4e61bab69322075b27081c33"
+    },
+    {
+      "path": "src/Iris.Core/Localization/Strings.resx",
+      "bytes": 19337,
+      "sha256": "c6e0ee0edea6aa65b9b6737914dd6e2a50720fe383450f09fed23c6123cc67aa"
+    },
+    {
+      "path": "src/Iris.Core/Localization/UiLanguage.cs",
+      "bytes": 1289,
+      "sha256": "f15ec4f97fe2c2dd3a4eed7e645445aa463742653fb4046d0bca650fc564495f"
+    },
+    {
+      "path": "src/Iris.Core/Network/NetworkAddressClassifier.cs",
+      "bytes": 1484,
+      "sha256": "720094d06c8c90fba814e00244bbb8d8beff76e13cba28fd7aec06da7dd1b7d4"
+    },
+    {
+      "path": "src/Iris.Core/Network/NetworkModels.cs",
+      "bytes": 3626,
+      "sha256": "62380ccfbd286c0f1f5af45fc272e503353f4d70ef039c6fa158502b397444ca"
+    },
+    {
+      "path": "src/Iris.Core/Network/NetworkProxyCodec.cs",
+      "bytes": 6327,
+      "sha256": "95eabe28a85a7fbd963a5dcf0fa99a153f86caf1439b2c7466636c64b413a9e0"
+    },
+    {
+      "path": "src/Iris.Core/Ocr/IOcrProvider.cs",
+      "bytes": 5089,
+      "sha256": "b3615692e9de51b24c317e62156edffb3ade23b15c5700da00a0a964b8074332"
+    },
+    {
+      "path": "src/Iris.Core/Ocr/OcrModels.cs",
+      "bytes": 1226,
+      "sha256": "0c00b30aadcf8ccf5822355c432a37890bdc93d00a624051330abe8748599be8"
+    },
+    {
+      "path": "src/Iris.Core/Ocr/OcrProviderRegistry.cs",
+      "bytes": 20957,
+      "sha256": "780ff86a833dadf13c8567a297d12f7088ea05e9be19b1654689fa599785f810"
+    },
+    {
+      "path": "src/Iris.Core/Ocr/OcrRegistrySnapshot.cs",
+      "bytes": 5037,
+      "sha256": "f952f1354bb56ccac20f24d9b445e2d710afbf393715ac6587a8547a8c566ca0"
+    },
+    {
+      "path": "src/Iris.Core/Ocr/OcrService.cs",
+      "bytes": 10485,
+      "sha256": "6b492a7ed7d438e07af530f15f742bada0c973ad81c50e31f229f223f83cc4b2"
+    },
+    {
+      "path": "src/Iris.Core/Ocr/OcrTextNormalizer.cs",
+      "bytes": 1378,
+      "sha256": "ade48a95e259fee29ae8157234f241ae6e0cb9d183c9e46e9e46ba20e6a6f762"
+    },
+    {
+      "path": "src/Iris.Core/Platform/DesktopModels.cs",
+      "bytes": 3058,
+      "sha256": "db2bab0ebbcbde6c85f0eb27f420783b791161bbc9a5bd46a61257ac11c5d503"
+    },
+    {
+      "path": "src/Iris.Core/Platform/IClipboardService.cs",
+      "bytes": 1608,
+      "sha256": "9cf7f4086f8a12b549a0776c2afb5cf8d3754b808d5eeb6dd17f92955c11ca22"
+    },
+    {
+      "path": "src/Iris.Core/Platform/IHotkeyCaptureService.cs",
+      "bytes": 2076,
+      "sha256": "5e1894af499ff1bff3bf0e8919731c218895889b5cf065e688f5af77d2cc1580"
+    },
+    {
+      "path": "src/Iris.Core/Platform/IHotkeyService.cs",
+      "bytes": 1477,
+      "sha256": "6f6b7f202c7fc0b62a7b462828312ccbe018b8cd42136b0902d3a8ec5842fe0c"
+    },
+    {
+      "path": "src/Iris.Core/Platform/IMouseSelectionMonitor.cs",
+      "bytes": 3165,
+      "sha256": "1c0c907fbd4da400aefc895971b052055a1136d7f6f0a4455b36f53ee1bf28d1"
+    },
+    {
+      "path": "src/Iris.Core/Platform/IScreenCapturer.cs",
+      "bytes": 1935,
+      "sha256": "ba23d013d90740f76103745f16f01d56f82acbdaed360026bf30ee00dc3456ba"
+    },
+    {
+      "path": "src/Iris.Core/Platform/ISelectionTextReader.cs",
+      "bytes": 2014,
+      "sha256": "62426ee535f53e7864250362aa0bb6fad8762d01422ac197c78f0aa0735c1631"
+    },
+    {
+      "path": "src/Iris.Core/Presentation/PresentationPorts.cs",
+      "bytes": 6731,
+      "sha256": "865f2a42709f2928c352e85490d46e4ebf38596e2334147b45290f9004e64b94"
+    },
+    {
+      "path": "src/Iris.Core/Security/ISecretStore.cs",
+      "bytes": 1739,
+      "sha256": "76eb1442a305a066eaf4e94d71d89bd8a62698e5f9a1d0430cef4c8742fcdaaa"
+    },
+    {
+      "path": "src/Iris.Core/Serialization/IrisJson.cs",
+      "bytes": 960,
+      "sha256": "e678bf4e2b751fad45a6f07831136d64a8c03776b3d9f6f5fbefbdc1cb1f4fb3"
+    },
+    {
+      "path": "src/Iris.Core/Settings/AppSettings.cs",
+      "bytes": 10040,
+      "sha256": "3644ba060c2a7d548e1baef8886c7ab133fdc555633674745d6626aa82b6976e"
+    },
+    {
+      "path": "src/Iris.Core/Settings/HotkeyBinding.cs",
+      "bytes": 508,
+      "sha256": "622ab72193a6008d100d0a6f7096bcc56a82a91a32cd68d41d113a5da5c00e36"
+    },
+    {
+      "path": "src/Iris.Core/Settings/HotkeyBindingPolicy.cs",
+      "bytes": 5098,
+      "sha256": "509eec44d66451316f3190e91d887658d0de33d93669f38b5d90558f9814fc4b"
+    },
+    {
+      "path": "src/Iris.Core/Settings/IHotkeyBindingPolicy.cs",
+      "bytes": 449,
+      "sha256": "d9aa855d5d6550e732ab8a150dd221b815967bcc142d97d74a2a31779117b1b8"
+    },
+    {
+      "path": "src/Iris.Core/Settings/IProviderConfigurationObserver.cs",
+      "bytes": 349,
+      "sha256": "dd467920f7b472cd27223823ec8247c22815dd5d985aaf1bea806dd4de241a37"
+    },
+    {
+      "path": "src/Iris.Core/Settings/ISettingsEditCoordinator.cs",
+      "bytes": 2272,
+      "sha256": "69ee04cee194eb8feae723bb68cc54e35a3b77f7441478ecc476f31e151e238f"
+    },
+    {
+      "path": "src/Iris.Core/Settings/ISettingsService.cs",
+      "bytes": 3337,
+      "sha256": "ea60af9c003ef60d0d724a52327b15e1ed65eaee82b3d69b96c204a702f02d76"
+    },
+    {
+      "path": "src/Iris.Core/Settings/NetworkEditingModels.cs",
+      "bytes": 1025,
+      "sha256": "23f0ce281e5dab182982638c7c1f50b6826d56eee4f9aa3ffa66d21a6e10a4ea"
+    },
+    {
+      "path": "src/Iris.Core/Settings/ProviderProfiles.cs",
+      "bytes": 7810,
+      "sha256": "7a57b3fc06ea2a4e2a502ebd61741b4b3679e0236c45749227775d5dc732d927"
+    },
+    {
+      "path": "src/Iris.Core/Settings/SettingsEditCoordinator.History.cs",
+      "bytes": 1382,
+      "sha256": "795002f8453646f5118ce6f7e180418d7af253e1b4dc31b1369ad70dae73f11e"
+    },
+    {
+      "path": "src/Iris.Core/Settings/SettingsEditCoordinator.Network.cs",
+      "bytes": 17132,
+      "sha256": "8ab20be33ddfe3b9d92da0899c5e6760f5daab6ee32c324a9adf5623ca5c86bc"
+    },
+    {
+      "path": "src/Iris.Core/Settings/SettingsEditCoordinator.Ocr.cs",
+      "bytes": 12971,
+      "sha256": "173d05a1c63671fcd523a1a610fc90a68454d9d50994767a28dd8647544597bf"
+    },
+    {
+      "path": "src/Iris.Core/Settings/SettingsEditCoordinator.OcrDraft.cs",
+      "bytes": 9766,
+      "sha256": "dfd34475ad35cef450f6a0262ee103739845513a8cd78fcc3caa8d6002a4b7c8"
+    },
+    {
+      "path": "src/Iris.Core/Settings/SettingsEditCoordinator.Selection.cs",
+      "bytes": 7444,
+      "sha256": "e1e81cca1a9c583368e2f2b7294db245dc726e6cc1aeb8badc56a7cdcae786b9"
+    },
+    {
+      "path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+      "bytes": 103628,
+      "sha256": "110dc81af149d76ac929ffe529505b5f14baa83ec0306abf2ab04b3db0f9612c"
+    },
+    {
+      "path": "src/Iris.Core/Settings/SettingsEditingModels.cs",
+      "bytes": 9193,
+      "sha256": "630562f782f6dd89d112a5a3dda816426e88454072be2f73aa33bc7275e0dda3"
+    },
+    {
+      "path": "src/Iris.Core/Storage/History.cs",
+      "bytes": 3473,
+      "sha256": "85618620c40a941c69ca8d83ac543efc803c7526860579003874420d45d9123d"
+    },
+    {
+      "path": "src/Iris.Core/Storage/IAppPaths.cs",
+      "bytes": 471,
+      "sha256": "10d96355a169dc269e0f23e7a6c4826219d4c5e87247e00112232a67bdb54625"
+    },
+    {
+      "path": "src/Iris.Core/Text/SoftLineBreakMerger.cs",
+      "bytes": 5986,
+      "sha256": "322fb372e7340673e105da562326b47b0af2d960eb0201d65cce5b15130b035d"
+    },
+    {
+      "path": "src/Iris.Core/Translation/ITranslationCache.cs",
+      "bytes": 1814,
+      "sha256": "f6b84bc6c4247147e18f88187fac06e3edc9dce24341b6b66cf079ef6dba55fc"
+    },
+    {
+      "path": "src/Iris.Core/Translation/ITranslationOrchestrator.cs",
+      "bytes": 2381,
+      "sha256": "920de6d778c68cf840a2b1ca14dea68f046f1adddb98ec828c1c18bcd086033c"
+    },
+    {
+      "path": "src/Iris.Core/Translation/ITranslationProvider.cs",
+      "bytes": 3143,
+      "sha256": "c01fb0f9460b22a2c2cc022e5f7f8f02e45988d3f795648f0a05f24c5b3bc6a3"
+    },
+    {
+      "path": "src/Iris.Core/Translation/LruTranslationCache.cs",
+      "bytes": 8198,
+      "sha256": "8423169f07f93e8d82b4b28b3355eba546201e4f2f0839d52289ff67c3fa4654"
+    },
+    {
+      "path": "src/Iris.Core/Translation/PromptRenderer.cs",
+      "bytes": 1292,
+      "sha256": "4e490d6c16ef593a1614e1dec616301b06be2984f4ac444a2ffb7f3cf776e7a9"
+    },
+    {
+      "path": "src/Iris.Core/Translation/PromptTemplateProvider.cs",
+      "bytes": 3138,
+      "sha256": "947e7787e0aed418a9a73aca2178beb1fc47ab0778c4974b0ec695414080a697"
+    },
+    {
+      "path": "src/Iris.Core/Translation/Prompts.cs",
+      "bytes": 2611,
+      "sha256": "3512cd6f07c0854f78694f78edb7fa6d6de8aee18d45e163f5d31d1c3cfbe4f3"
+    },
+    {
+      "path": "src/Iris.Core/Translation/ProviderCredentialResolver.cs",
+      "bytes": 14316,
+      "sha256": "a0417c191ec52c57b5d6e67181cb3a1e8624215a88ff9095668ef17a7f1a55f7"
+    },
+    {
+      "path": "src/Iris.Core/Translation/ProviderRegistryModels.cs",
+      "bytes": 824,
+      "sha256": "fb5a09ef3ca9884c3b41d930c6985b5035d16217e5914ed61d6a29c6b3e2ff61"
+    },
+    {
+      "path": "src/Iris.Core/Translation/TextPreprocessor.cs",
+      "bytes": 3376,
+      "sha256": "47486902be150505e7922c79b3e28159f4d86c5a2108190c2590f4e6044033b6"
+    },
+    {
+      "path": "src/Iris.Core/Translation/TranslationCacheKeyFactory.cs",
+      "bytes": 2484,
+      "sha256": "6c263d3a9c951ad0c20f3e4c01c22a5a05c9ae7930c628eb05ee78270ef167cc"
+    },
+    {
+      "path": "src/Iris.Core/Translation/TranslationModels.cs",
+      "bytes": 3883,
+      "sha256": "ee283f8e58b7789ffb07fadf961b80cac5d078706097a9b403dde31cdeafff70"
+    },
+    {
+      "path": "src/Iris.Core/Translation/TranslationOrchestrator.cs",
+      "bytes": 32284,
+      "sha256": "347c972e070134d15434b352c42990a7ae27d1a1658d4711fd27fdda8de195b2"
+    },
+    {
+      "path": "src/Iris.Core/Translation/TranslationProviderRegistry.cs",
+      "bytes": 23153,
+      "sha256": "cb1dce45caa74e20551cb890f1988921cfa79094ac847faf79e57aed069b4f0c"
+    },
+    {
+      "path": "src/Iris.Core/Translation/TranslationProviderSnapshot.cs",
+      "bytes": 11021,
+      "sha256": "9416785583d33ddb588ca358ae55c9649ea494f3e3a172fe2a236c60c466452c"
+    },
+    {
+      "path": "src/Iris.Core/Translation/UnavailableTranslationProvider.cs",
+      "bytes": 2221,
+      "sha256": "b6b93e0969a2b6f40119b49ed9b9a37fef1db7195165b923dd5c9febe2ea178b"
+    },
+    {
+      "path": "src/Iris.Core/Workflows/ClipboardTranslateHandler.cs",
+      "bytes": 3779,
+      "sha256": "cfe610210b61ab9a0c275c081495b091aa2776f3488829f5e6ac431aad5f0c4d"
+    },
+    {
+      "path": "src/Iris.Core/Workflows/InputTranslateHandler.cs",
+      "bytes": 1569,
+      "sha256": "dc33985e73c89d358c76b78fe7ecf91aed5ed97b44d989257452d5ea104b4fa0"
+    },
+    {
+      "path": "src/Iris.Core/Workflows/OpenHistoryHandler.cs",
+      "bytes": 515,
+      "sha256": "a0af5708bbf58ef23afd848b747b15b2d8d4b4040136dbe030de47307302833b"
+    },
+    {
+      "path": "src/Iris.Core/Workflows/OpenSettingsHandler.cs",
+      "bytes": 930,
+      "sha256": "12a461614b8a57aa78393d6b7b3444704989a56a682274978a2f666b3ba1b88e"
+    },
+    {
+      "path": "src/Iris.Core/Workflows/ScreenshotOcrCancellation.cs",
+      "bytes": 1723,
+      "sha256": "f48a384b9e502d7b818c97e2e1e7c0d1858b0e82cf85af504e58910933eab7dc"
+    },
+    {
+      "path": "src/Iris.Core/Workflows/ScreenshotOcrHandler.cs",
+      "bytes": 884,
+      "sha256": "837520d68ac1f670012af4c8dd976767b97608f14a28ccfc14c859e098a98abf"
+    },
+    {
+      "path": "src/Iris.Core/Workflows/ScreenshotOcrWorkflow.cs",
+      "bytes": 4017,
+      "sha256": "466da28aebdb4c466ae29abc44bd2d7113b16b967c38b02d8f2ff9a19209fa59"
+    },
+    {
+      "path": "src/Iris.Core/Workflows/ScreenshotTranslateHandler.cs",
+      "bytes": 676,
+      "sha256": "48bfb4c48e21697b437e661fb9aaebc40a935cbea93866f361c9fd0b2954d252"
+    },
+    {
+      "path": "src/Iris.Core/Workflows/SelectionTranslateHandler.cs",
+      "bytes": 6381,
+      "sha256": "a9e7686266a02417a2ff4c3b3df7dff49543362f044622da46301c606cbe7b01"
+    },
+    {
+      "path": "src/Iris.Core/Workflows/SilentScreenshotOcrHandler.cs",
+      "bytes": 2454,
+      "sha256": "7bf4c4dd4c81368eb5a70cd0aa54a331c0c20b2ac25cfb88ab030b81631d7ed6"
+    },
+    {
+      "path": "src/Iris.Core/Workflows/ToggleMouseSelectionHandler.cs",
+      "bytes": 1552,
+      "sha256": "c74f552f37042645aba5560ab687a16a8359bfa6ad71807e67f05e99c8f4c26b"
+    },
+    {
+      "path": "src/Iris.Core/Workflows/TranslateTextHandler.cs",
+      "bytes": 1834,
+      "sha256": "e7967492138db74481d26ec39f646106911190e5edf9ea0c9329d5a0284ce463"
+    },
+    {
+      "path": "src/Iris.Infrastructure/DependencyInjection/InfrastructureServiceCollectionExtensions.cs",
+      "bytes": 1412,
+      "sha256": "08377be1119ca7f25289b28478e8551f41844b494800f7951d516c988c8cd52a"
+    },
+    {
+      "path": "src/Iris.Infrastructure/Iris.Infrastructure.csproj",
+      "bytes": 674,
+      "sha256": "f51c6b0fd95845da23fffbc75e182739a212a2e036eff1195be749d4bdf4b87c"
+    },
+    {
+      "path": "src/Iris.Infrastructure/Settings/JsonSettingsService.Network.cs",
+      "bytes": 10385,
+      "sha256": "da2504007adfc0b3059fc6b91c3ab487e1cbf30248111dbe9bce0f0a374b0fc3"
+    },
+    {
+      "path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+      "bytes": 17665,
+      "sha256": "9709c2f5c1348e25203b995b69ea07f71c5d841fa4f6be2b656d51e7a992ab1f"
+    },
+    {
+      "path": "src/Iris.Infrastructure/Settings/SettingsMigrationRunner.cs",
+      "bytes": 1954,
+      "sha256": "891f82197b304beb3783265c7c79affd1c80ee01c6abd09aa563188e91a5eb86"
+    },
+    {
+      "path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+      "bytes": 38117,
+      "sha256": "46c5a7c1ee58e53162c8d4b28f66e280eaea361a1c17fad7a4b41ec91bac9c46"
+    },
+    {
+      "path": "src/Iris.Infrastructure/Settings/SettingsSalvager.cs",
+      "bytes": 7216,
+      "sha256": "7aed2ff1b3a530dd281d2e11cf2e5700a5a58f160f096115226947d68253cec6"
+    },
+    {
+      "path": "src/Iris.Infrastructure/Settings/SettingsSnapshot.cs",
+      "bytes": 4461,
+      "sha256": "b5505551ad6261ecb913eff519e7acd24d6ad61a5d596affa0c57fda5fac185c"
+    },
+    {
+      "path": "src/Iris.Infrastructure/Storage/AppPaths.cs",
+      "bytes": 2501,
+      "sha256": "e5ec2041a0edfc7216d6a02c1d51d7c7fcac79dfb4b34de450ee05c86f893ebd"
+    },
+    {
+      "path": "src/Iris.Infrastructure/Storage/AppPathsFactory.cs",
+      "bytes": 550,
+      "sha256": "634de6e952c7f81e6ad3e7ef92039845145e8d4704225f9ea49f2cb2eaf5edea"
+    },
+    {
+      "path": "src/Iris.Infrastructure/Storage/DatabaseInitializer.cs",
+      "bytes": 28166,
+      "sha256": "3248c6919718ea3e8e0f14565fa9b4576b256aa40edcb9b91f946c1c2488d532"
+    },
+    {
+      "path": "src/Iris.Infrastructure/Storage/SqliteConnectionFactory.cs",
+      "bytes": 4562,
+      "sha256": "4b51ad757c99bacbde1280a6176a3aeb122dd393d9f883c96f9bc2f4799926b8"
+    },
+    {
+      "path": "src/Iris.Infrastructure/Storage/SqliteHistoryRepository.cs",
+      "bytes": 38996,
+      "sha256": "44da753ed3c6478e056b0956183405305a7a08c3e479c344e5322b5f217e7492"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Capture/DesktopContext.cs",
+      "bytes": 4987,
+      "sha256": "f450010b3951fda0a01eeb7a5991d4e105c09d79f40830583fe8fd69b63a55a0"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Capture/DesktopGeometryHelper.cs",
+      "bytes": 4182,
+      "sha256": "c032e2f23b0e282380778b91bc9805b474bce28b3dd9010b69af9213259bf02a"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Capture/GdiCaptureSession.cs",
+      "bytes": 4423,
+      "sha256": "0c3693237661dbe1cc61c70959f5c63c1a2310d9b8351839e77945372962c4da"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Capture/GdiCaptureWorker.cs",
+      "bytes": 4870,
+      "sha256": "625d2a1be38ff2308a3599194a69cc33753579cb3a59268c06533e4d3daa4e8b"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Capture/GdiScreenCapturer.cs",
+      "bytes": 6774,
+      "sha256": "3e46676e626a4d85059f3e65d6d219672a525fffd2520ef7756b16049ca88ab6"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Capture/IGdiCaptureApi.cs",
+      "bytes": 668,
+      "sha256": "36d3c45d1c267189d508a19d6fb4cdc69e1597ed9198491921a38ec03caaa601"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Capture/INativeDesktopAdapter.cs",
+      "bytes": 1347,
+      "sha256": "049508fb584ef5683f5ee8436969f3e7da17ed5a529d4b2671088a2389b9f583"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Capture/IScreenEncoderIo.cs",
+      "bytes": 491,
+      "sha256": "e8186f94ad56bf23274994ed7296b72466d96a0bbb4ce314b8a286d34a0909de"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Capture/MonitorEnumerator.cs",
+      "bytes": 10544,
+      "sha256": "2c64f416356d0ede34af61613e70284a0e77aa3122a15e83aa3ad59219deb50a"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Capture/NativeDesktopAdapter.cs",
+      "bytes": 6322,
+      "sha256": "3c87d1e93124d55d30833a061ec0fb7e37ad6ff3e8370ed0b68685975120af4d"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Capture/NativeGdiCaptureAdapter.cs",
+      "bytes": 2170,
+      "sha256": "5f3c4f3d0774192ff604f445f20f8e3c3b267168ff21a6ca5c7a3b3f46ca749d"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Capture/ScreenCaptureErrors.cs",
+      "bytes": 1507,
+      "sha256": "9c6491e6c380299c16d152574dd4a6f505d905c1df0541068f85531c04104872"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Capture/ScreenMemoryEncoder.cs",
+      "bytes": 2998,
+      "sha256": "4cb64b32fa814e3931bafb60860d17ae606546a144df21dfa3ddf18dc50f5dfc"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Capture/ScreenPixelLayout.cs",
+      "bytes": 5516,
+      "sha256": "feb550ccc6441d2eef7d6b1f02f325bbd877dccd61c7e8fe5c6c9ae587d21a76"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Capture/Win32GdiCaptureApi.cs",
+      "bytes": 1868,
+      "sha256": "fa112a892f64ce25c13ef0cd839de76219590e0e121066c7ff4c561a6dc466c0"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Capture/WinRtScreenEncoderIo.cs",
+      "bytes": 2846,
+      "sha256": "604add5e365a53c77be8fbc719bb999708c79dc494d8ee97cf68328779615248"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Clipboard/ClipboardSnapshot.cs",
+      "bytes": 2569,
+      "sha256": "1b06b0a1c57e685dfdfed3ab4d4d602e32af9eac44b842685489cfa20f093938"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Clipboard/ClipboardSnapshotService.Text.cs",
+      "bytes": 3696,
+      "sha256": "c342c271e231307a1f5ce41e1b0d910bd23f4d404404d0061564a7154042d780"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Clipboard/ClipboardSnapshotService.Worker.cs",
+      "bytes": 12536,
+      "sha256": "f2001445823ee1f63c20120d0c0a0ae0688642b93a044e4d06997c79091010d9"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Clipboard/ClipboardSnapshotService.cs",
+      "bytes": 10554,
+      "sha256": "fd4a645b80bdb9a2c30d67b6f17ebe66e2ac4200f34f4c3316aba14e4f2c4a99"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Clipboard/DibV5Helper.cs",
+      "bytes": 3680,
+      "sha256": "c60541d7c87632856fc9678bc115f5afe13c3abfedcc003209ed08957cc1f960"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Clipboard/IClipboardSnapshotNative.cs",
+      "bytes": 525,
+      "sha256": "281453e60bd3e33983793d52974bde96b415953df3aebca00e63789ccf1066c0"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Clipboard/INativeClipboardAdapter.cs",
+      "bytes": 659,
+      "sha256": "00a55ec797a019c42e0f609d41b769069d26cff18fb104ab03ddff99ea97f265"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Clipboard/NativeClipboardAdapter.cs",
+      "bytes": 2804,
+      "sha256": "d08e59d60cb2474c8facdc66f22e55ae6f6eab6113bbfe3239c9be3714e49e8a"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Clipboard/NativeClipboardSnapshotAdapter.cs",
+      "bytes": 3693,
+      "sha256": "4f33bc1427bfb4503eb98cac8408efae855597651c1d0078219c5342714546dc"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Clipboard/Win32ClipboardService.cs",
+      "bytes": 23082,
+      "sha256": "781985bffbd8b1e99ecefb01536677edd9804548fcf15a75d5f42f2fd8350190"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Clipboard/WindowsImageDecoder.cs",
+      "bytes": 6138,
+      "sha256": "553fbcc993529a127041ee9d7ad1b51cc453c3ebd10e42078999209e5c5091da"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/DependencyInjection/PlatformWindowsServiceCollectionExtensions.cs",
+      "bytes": 4083,
+      "sha256": "e97c787dbcb149674dee177aac18a24b485c366f203297118a45640b6287958c"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Hooks/GestureRecognizer.cs",
+      "bytes": 3233,
+      "sha256": "421c380cc8bb7d5b1bcab8477e1bd4ed1f9063bc02b6396816cf59e51c7c5b15"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Hooks/IMouseHookApi.cs",
+      "bytes": 1571,
+      "sha256": "18ec2cf5ac68a5ce5411e2547ffd6d3854cadec439bc30cc75ffa98ba8f11863"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Hooks/MouseSample.cs",
+      "bytes": 1042,
+      "sha256": "c22e99d17f9a85ee3ea02a78ee598d105d4e9b983bc0fb28ce1bb298b73215d5"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Hooks/MouseSelectionMonitor.Consumer.cs",
+      "bytes": 7256,
+      "sha256": "4b206b906c31e20b2354e7836c33afaf6bb5805a6c44dd7da00ce5a857d0315b"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Hooks/MouseSelectionMonitor.cs",
+      "bytes": 15958,
+      "sha256": "ce26af499861568b37423cdef991cd1e02830194cf20be43c139161cb8620275"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Hooks/NativeMouseAdapter.cs",
+      "bytes": 3192,
+      "sha256": "c66d728f6c550ae80629e7af7cb56bd48ba1ef6ff7a6a7a0435130dd124827a5"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Hooks/Win32MouseHookApi.cs",
+      "bytes": 2514,
+      "sha256": "39b894a4844cbe673665382027eb0b2f94e9b9eb0f4e4c7bc5ea6eb318888e46"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs",
+      "bytes": 14897,
+      "sha256": "bf4bf72a3885c0ae25f5745cbd1c8684c8a4a249b5974cb14d695d81d781bc34"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureSession.cs",
+      "bytes": 23034,
+      "sha256": "fae455cafd9249172b40dc3f3b8eeefedfdbf0de55647a03fb12d04cf94a218c"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Hotkey/HotkeyService.cs",
+      "bytes": 15430,
+      "sha256": "f4feffc31d7b9f51e4e747eb4ef496a1781d48cf7cf67334dce5266fde8ebd73"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Hotkey/IHotkeyIdAllocator.cs",
+      "bytes": 1009,
+      "sha256": "40e0f82b8d59ef81171dc61d5c486f65d8b79b7633b6433e60656be3a4202a73"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Hotkey/INativeHotkeyAdapter.cs",
+      "bytes": 834,
+      "sha256": "3af569c68e88abf4653fbdd89d37b44cedade5fa0628cc992a64e12e8c7ea63a"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Hotkey/INativeKeyboardHookAdapter.cs",
+      "bytes": 1117,
+      "sha256": "c15d1d4a7c26ab0a97f985cddb339b381f2d95a61681b9912b65bb0acafa36de"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Hotkey/KeyNameMapper.cs",
+      "bytes": 6298,
+      "sha256": "011737d6ad22a75977adb52d55402c08bc65250e26e33d8a4ea3a74643951f3c"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Hotkey/NativeHotkeyAdapter.cs",
+      "bytes": 4080,
+      "sha256": "fabbbabc4fb263f5ec7bdcf6ab717f0a36a762dbe5c1126cd0d3e345902b9749"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Hotkey/NativeKeyboardHookAdapter.cs",
+      "bytes": 3826,
+      "sha256": "11ca119a72a03ba38b239a391dd9fbd0068c57ec7132dd2f5227a33da49fb9b5"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Imaging/FormUrlEncodedImageLength.cs",
+      "bytes": 1331,
+      "sha256": "58f0a06f4dca3f092db491f5e5e8c1631f040591f19512e1e74b0b659cc7bc34"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Imaging/ImagePreparationRules.cs",
+      "bytes": 4312,
+      "sha256": "65eb19f087a4565c696a214a95e0b816c2648ec30c71d032d99fe0d1f06cffca"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Imaging/WinRtImageDecoderIo.cs",
+      "bytes": 3428,
+      "sha256": "6dac9f12aaaa5864696d824ceccd56fdf7cf10f87d33f395327193a209f33e15"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Imaging/WinRtImagePreprocessor.cs",
+      "bytes": 13044,
+      "sha256": "cb1c2580aa31f21e5fd6f1fb24735b9fd486e047fdc99f736b084dfe58b70657"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Iris.Platform.Windows.csproj",
+      "bytes": 1093,
+      "sha256": "1682efb91fbc2391e72848fcbbfc4ef1d116bf65cdf56a44996c952c14e1a6a5"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/NativeMethods.txt",
+      "bytes": 1636,
+      "sha256": "8adc1dec6660a0cbc40df439a6e43d43c1ff915ef9abbd2278366273cb95f3fb"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Ocr/WindowsOcrCall.cs",
+      "bytes": 3231,
+      "sha256": "096631332d1fd5193c294edb9e1596394623b2d10d23ccf406138fac28a4526f"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Ocr/WindowsOcrImage.cs",
+      "bytes": 3120,
+      "sha256": "425371791aabcdd8ba025ebb0b22986782747b6e0325d9ffdf4065a82032394f"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Ocr/WindowsOcrNative.cs",
+      "bytes": 2716,
+      "sha256": "b0499d947af0228fcb1c8a2fcc73ceddf4393c68cccc8582c27c0f9734a7245c"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Ocr/WindowsOcrProvider.cs",
+      "bytes": 14120,
+      "sha256": "77efcbfb885f6eade2acac97c7253d3a2a3828c22bad85ec1d77ef83f110eb12"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Ocr/WindowsOcrResults.cs",
+      "bytes": 4627,
+      "sha256": "8b99a21e3d81a1ea43f7c814bf1a523b4cbdf527c00a45c69852827d5562fcef"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Security/DpapiSecretStore.cs",
+      "bytes": 9392,
+      "sha256": "d2b0a08687178e8c1e3764bbafda6c6e22f76cb8394164d148cb12f2a78ed95a"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Security/SecretsFileCodec.cs",
+      "bytes": 4709,
+      "sha256": "f81a29cb79087faa6a92a993c49de2276b86f1abe145ba7d1cc2b0df2df35fb3"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/CompositeSelectionReader.cs",
+      "bytes": 16362,
+      "sha256": "ed775744cd7d2c3f3b0feb9d3592c3b1da854e9c78b7fdfaaaf8f95d63b0fe00"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/CopySafetyPolicy.cs",
+      "bytes": 2397,
+      "sha256": "4b78e012a3c6d3189efb425ce6f67853ed18ac5fd2cdeb7d770c1886c0253a57"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/INativeKeyboardInputAdapter.cs",
+      "bytes": 580,
+      "sha256": "7ab49ef39822d762e9e4dd6d11ec932469c5da606e9bd012753131eca7e4667d"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/INativeUiaAdapter.cs",
+      "bytes": 989,
+      "sha256": "de074e6d2f3bb47114c006533159296d808868cfc86e03d8699a09294240c269"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/ITargetWindowValidator.cs",
+      "bytes": 411,
+      "sha256": "31fc69c51d9baf9b1d2743c2ae1722e1e3c30368f0e1c710d72a9610bf053da3"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/IUiaProcessRunner.cs",
+      "bytes": 515,
+      "sha256": "ca8bd5283228f606980cf7809ff8e6431e4dc95a59b8801048c8dcd86835831d"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/KeyboardCopyOutcome.cs",
+      "bytes": 728,
+      "sha256": "64d96969bddc284993149faa124c15949a21111695cb1add508b6deb0398fdf5"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/KeyboardCopyResult.cs",
+      "bytes": 274,
+      "sha256": "fcf12a1c2187148e1b2a80f9598ea5049b771cd469e51ad3bcbe8a8b2ad6c047"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/KeyboardCopyTarget.cs",
+      "bytes": 322,
+      "sha256": "f3d73da7f0cc27dc5e876f62aeb44a65255be592a28d97df3ba0ecedd2863473"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/KeyboardSimulator.cs",
+      "bytes": 22461,
+      "sha256": "4581ecf7c4d4d21cf7cedd96c98b4ebbd7aa724d0fd6938c4b93935cf1878d1f"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/NativeCopySafetyAdapter.cs",
+      "bytes": 2558,
+      "sha256": "b959be88b43bee1d201889a013a231e43d506704f1335dd34d1719ea38130d9d"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/RealNativeUiaAdapter.cs",
+      "bytes": 20105,
+      "sha256": "8d363f24205bb26e31d4391b77bfc23b3bfa7d5f6e632bd985eeb666ab1582af"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/RealTargetWindowValidator.cs",
+      "bytes": 1143,
+      "sha256": "5daad2904ab8253206732f680b5957a3fba25f017bd38114c8764a62fc98aa17"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/RealUiaProcessRunner.cs",
+      "bytes": 17105,
+      "sha256": "79bafc601f6e0baaaaa758e894f6ec91e596e83907ab19d7f17dd39c5fb7ff22"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/SelectionReadOptionsSnapshot.cs",
+      "bytes": 1735,
+      "sha256": "cacee2a4defbef0e9205c87d018bf5dfb4eebd01e9a888ecc1698d3cd88cdc8e"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/UiaProtocol.cs",
+      "bytes": 15552,
+      "sha256": "149b20d7aa20065a3585c1e5410548ffc453d04626c44928baa501eb6b3a46fe"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/UiaSelectionReader.cs",
+      "bytes": 32496,
+      "sha256": "59dfc0a095a23bf59c3f929bbae74d45500cd777646700dbfa4344197f0a9995"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/UiaSelectionResult.cs",
+      "bytes": 2889,
+      "sha256": "954bc69a5897dd546331f6659461032537c2f7563fbda0a63f5e692bd471c8ce"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/UiaSelectionStatus.cs",
+      "bytes": 405,
+      "sha256": "d5426612d238c58a11b8eab51b36835ec82e88b3a0227a03b70d550a01dd0c7b"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/UiaSelectionWorker.cs",
+      "bytes": 12346,
+      "sha256": "1cafe26cc2017128cef56c0de61f17166f61abdee617f893988bd87166fd636c"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/Selection/Win32KeyboardInputAdapter.cs",
+      "bytes": 1782,
+      "sha256": "9f792ab72cff82e6b871e0f867d0b2e6fc57ee56d11d26fad549338ebf63d213"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs",
+      "bytes": 7559,
+      "sha256": "d8b5905de0d3cdabc9a8e90e01e2239b19ea9027d6a0e0ec7f231cb1e7bb775c"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/SystemIntegration/FatalErrorDialog.cs",
+      "bytes": 779,
+      "sha256": "9d506e64a62de4539ca4ddc4f9c11688a9c57bf6a9b765677d58ba017d106072"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/SystemIntegration/IpcCancellation.cs",
+      "bytes": 1541,
+      "sha256": "095d2699da9acfd5e32113f481574edf73e5be3cb502d7dc76de2b8474f6b501"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/SystemIntegration/IpcPipeFactory.cs",
+      "bytes": 3190,
+      "sha256": "66af4136b70fe12a8c798e833c5d5d924ce250170173b5f2256024aabd1cfbf0"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/SystemIntegration/IpcProtocol.cs",
+      "bytes": 5649,
+      "sha256": "b23e19b42734b7385adfc89284001ac9275337dfd6778fd987d22db1acba3ef4"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/SystemIntegration/NamedPipeIpcClient.cs",
+      "bytes": 3008,
+      "sha256": "0840c027fa1e217f35db116497b8b124c2077fdb5cb24e21321d023c70f566a7"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/SystemIntegration/NamedPipeIpcServer.cs",
+      "bytes": 5656,
+      "sha256": "aa932140ab8767981753bb0d16628e114ec60689aa3f6259a0684cdcdce4abfc"
+    },
+    {
+      "path": "src/Iris.Platform.Windows/SystemIntegration/SingleInstanceGuard.cs",
+      "bytes": 2312,
+      "sha256": "3a9b2c064f0f43bb640f517987a02867cac5b90b7d40e8117807b8baa6f27fa8"
+    },
+    {
+      "path": "src/Iris.Providers/DependencyInjection/ProvidersServiceCollectionExtensions.cs",
+      "bytes": 5862,
+      "sha256": "d45f7aa697f9566c5b1a409f474c6178ad45f0d8e045d58de8746a10ea2cf3db"
+    },
+    {
+      "path": "src/Iris.Providers/Http/DynamicWebProxy.cs",
+      "bytes": 305,
+      "sha256": "955effb24b0873085093d4f090937c2cc6c2cdb540388567f2c8b29ea7064418"
+    },
+    {
+      "path": "src/Iris.Providers/Http/HttpErrorMapper.cs",
+      "bytes": 11989,
+      "sha256": "718ebded3584ef80940d8a09e468e51d0d762bb8434c7fa90f93ed69c13d920f"
+    },
+    {
+      "path": "src/Iris.Providers/Http/HttpLoggingHandler.cs",
+      "bytes": 2003,
+      "sha256": "c0e37bf09a0d901a67ecf87c9b44829c9063946552b940fc8edd8b4b4ce68dba"
+    },
+    {
+      "path": "src/Iris.Providers/Http/LimitedReadStream.cs",
+      "bytes": 3456,
+      "sha256": "b2bd42f4e9e92432617553b82bff20bc55859651a9e378601f9be579e7f85e4b"
+    },
+    {
+      "path": "src/Iris.Providers/Http/LlmRetryDelay.cs",
+      "bytes": 1069,
+      "sha256": "bd0d0b526d542ad9fe9e21730fb2a703de03b6e26fcf279e99e672aedfb6dda9"
+    },
+    {
+      "path": "src/Iris.Providers/Http/NetworkHandlers.cs",
+      "bytes": 2801,
+      "sha256": "8508fff6246e5f4b0eb0161e4a3640e6deae8322a909fdfd4d854e19c486d7bf"
+    },
+    {
+      "path": "src/Iris.Providers/Http/NetworkResponseContent.cs",
+      "bytes": 10100,
+      "sha256": "b5f610aa0c6629485bbec297d3603c2ef52ddcc38d01dd84ee74e4c92b4c3087"
+    },
+    {
+      "path": "src/Iris.Providers/Http/NetworkRoute.cs",
+      "bytes": 6864,
+      "sha256": "66f02521d9d967a8b72056a4334498f47a86e838da1c7fed5062b3104283d579"
+    },
+    {
+      "path": "src/Iris.Providers/Http/NetworkTransportManager.cs",
+      "bytes": 13857,
+      "sha256": "2d5934ca1c638f9eb3d3db4e8b61000b7492031f335099f27ca3c4cfab77b4c0"
+    },
+    {
+      "path": "src/Iris.Providers/Http/ProviderHttp.cs",
+      "bytes": 1384,
+      "sha256": "c8c8b4e5110cc6b75037a785b2e4bbf36f9c1ad0bf354de2c3003849b694c8ec"
+    },
+    {
+      "path": "src/Iris.Providers/Http/ProxyConnectivitySession.cs",
+      "bytes": 10975,
+      "sha256": "30b9768a2eaadc42cfd695bb4e659aa7e8b0886607363d5b0d1c1e13dfb9a2d7"
+    },
+    {
+      "path": "src/Iris.Providers/Http/ProxyConnectivityTester.cs",
+      "bytes": 5153,
+      "sha256": "16d82e9454c3f727a5be8170ae78d60cebb1bfca9c3499848b1c48db9eb7146a"
+    },
+    {
+      "path": "src/Iris.Providers/Http/SafeHttpDiagnostics.cs",
+      "bytes": 6239,
+      "sha256": "97e831eb1d277cad4191af2fa91df95647fed27cb155e8d4a7469ce327326918"
+    },
+    {
+      "path": "src/Iris.Providers/Http/SecretRedactor.cs",
+      "bytes": 4093,
+      "sha256": "e6717d3262a3f32a7df3c79a2c0f7af871569df9712cc093261b53926fc97992"
+    },
+    {
+      "path": "src/Iris.Providers/Http/SseParser.cs",
+      "bytes": 1657,
+      "sha256": "7c6ff7dcb60de7b6e3d4eab3bf15e23268f1f1565f048da3ae949ae02da5f41a"
+    },
+    {
+      "path": "src/Iris.Providers/Iris.Providers.csproj",
+      "bytes": 823,
+      "sha256": "93cc4659527b98dbf782ad35649bb8710e8d3118ddd5c6a2f9ffc31f075f7b2d"
+    },
+    {
+      "path": "src/Iris.Providers/Ocr/Baidu/BaiduCall.cs",
+      "bytes": 3497,
+      "sha256": "7e500af83f44b0917af246567d5e9a261c8eef364d4aeede2283b1d84794ff03"
+    },
+    {
+      "path": "src/Iris.Providers/Ocr/Baidu/BaiduConfiguration.cs",
+      "bytes": 5673,
+      "sha256": "62ebd7bbf354e943429931091d28e8f8842e0d596f3a36517c3d573c2439b1af"
+    },
+    {
+      "path": "src/Iris.Providers/Ocr/Baidu/BaiduErrors.cs",
+      "bytes": 2491,
+      "sha256": "3ec658562ae2bac69c8501c66f40b972fff1f32ea2d8ffa4e8865225ef08807c"
+    },
+    {
+      "path": "src/Iris.Providers/Ocr/Baidu/BaiduHttpExchange.cs",
+      "bytes": 4443,
+      "sha256": "86ed5f0a2ead64042a847411fbee66346de297257f21bb1f7e4e79128fb8f50c"
+    },
+    {
+      "path": "src/Iris.Providers/Ocr/Baidu/BaiduOcrProvider.cs",
+      "bytes": 11973,
+      "sha256": "283e7747b55489ddd13dbb37d21e7615cbf5d22152a175feeeeb4c4c5219a7c8"
+    },
+    {
+      "path": "src/Iris.Providers/Ocr/Baidu/BaiduOcrTransportSafetyHandler.cs",
+      "bytes": 1702,
+      "sha256": "abefdab718089150dd36d2d29413cf48fe3427a6ef6b896c520b8f41400209b4"
+    },
+    {
+      "path": "src/Iris.Providers/Ocr/Baidu/BaiduResponseParser.cs",
+      "bytes": 9590,
+      "sha256": "ac675dd23a0bcb07cae64e30a82ad19af5eb1071476c15410472986818845279"
+    },
+    {
+      "path": "src/Iris.Providers/Ocr/Baidu/Wire/BaiduDtos.cs",
+      "bytes": 5065,
+      "sha256": "c65302e0e7301193be604b5c35d6ee1a73ca9e5fb269fc507bc2af1930302f3b"
+    },
+    {
+      "path": "src/Iris.Providers/Translation/Anthropic/AnthropicProgressTrackingHandler.cs",
+      "bytes": 2084,
+      "sha256": "54fb806edcabe9fe9f2942ce183fd244bb263257a44cafd1b342fb39eb6bd2e2"
+    },
+    {
+      "path": "src/Iris.Providers/Translation/Anthropic/AnthropicTranslationProvider.cs",
+      "bytes": 20896,
+      "sha256": "d5abad5d0e8e4d754088e068c361f2a18b26e5c82990185d178524d7ffd7fef1"
+    },
+    {
+      "path": "src/Iris.Providers/Translation/Anthropic/AnthropicTranslationProviderFactory.cs",
+      "bytes": 2356,
+      "sha256": "afd4ab0b9f6635ddbbb7c930a2edc17be6727a226202dd4ba735430eb64af8a7"
+    },
+    {
+      "path": "src/Iris.Providers/Translation/Anthropic/SseEventBoundaryStream.cs",
+      "bytes": 4016,
+      "sha256": "b6994563cf0721df08ad6301c6627099f9ce7d3cffdf4e434f73a96aff7c8a63"
+    },
+    {
+      "path": "src/Iris.Providers/Translation/Anthropic/SseEventBoundaryTracker.cs",
+      "bytes": 3975,
+      "sha256": "23cabb4213fc176805472487b9ff9f18040931819e6c865717c7d760d15e6f07"
+    },
+    {
+      "path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProvider.cs",
+      "bytes": 23692,
+      "sha256": "d2f4736675c9f7c34553f0f5e1e9084635764066288ad73702eddc8e9f95ddfa"
+    },
+    {
+      "path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProviderFactory.cs",
+      "bytes": 2360,
+      "sha256": "42c2b000c9f59b669ad63d9f6e76aa3b677be0a807304680b0d04281f7b7997b"
+    },
+    {
+      "path": "src/Iris.Providers/Translation/OpenAICompatible/ThinkTagStripper.cs",
+      "bytes": 5470,
+      "sha256": "6093123975f8991b54e19e7187c4b4f3fd6feac28911de6beb3c9ca28aadf07f"
+    },
+    {
+      "path": "src/Iris.Providers/Translation/OpenAICompatible/Wire/ChatCompletionDtos.cs",
+      "bytes": 4754,
+      "sha256": "eedfb1d92fd6db28d3d6ab7076e3a3f3b66aeba36a0e2a2c9858ec8f46a4cdf8"
+    },
+    {
+      "path": "src/Iris.Providers/Translation/ProviderCallGuard.cs",
+      "bytes": 6954,
+      "sha256": "0163127ff57eeff3cfbac69abc5c2edb93d3fb6ae688fd163b1d958bcf09ea3b"
+    },
+    {
+      "path": "src/Iris.UiaHost/Iris.UiaHost.csproj",
+      "bytes": 683,
+      "sha256": "932a0e6b6311f5e6c73d1c39855e27ba7f3e222bef68fa7dda6815aa4efcb3e7"
+    },
+    {
+      "path": "src/Iris.UiaHost/Program.cs",
+      "bytes": 2935,
+      "sha256": "51c837189edc4fa7866d3ca12ce763cb19b4dc434a39ba8cb1b19a001bcf8b26"
+    },
+    {
+      "path": "tests/Fixtures/hotkey-edit-expected-vectors.json",
+      "bytes": 663463,
+      "sha256": "07fb8beac11e768cde2029e6a0cb8ac4f46a52f2f1f53365cbc8f1541dcda329"
+    },
+    {
+      "path": "tests/Fixtures/hotkey-expected-vectors.json",
+      "bytes": 162182,
+      "sha256": "5ae162867a50a563cbb06bdbd10560efcd317dedf1b699d96838cf194ce3e48d"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Capture/ImagePreprocessorShutdownTests.cs",
+      "bytes": 5134,
+      "sha256": "e6559940d9820ce7e958a090e3be90edbe73dc2bbaefe7d9ae392bd695434dc2"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Capture/OcrPipelineShutdownTests.cs",
+      "bytes": 8256,
+      "sha256": "356cae50e7cbfb37b6830ca5c4220791bc8e32333471477902bbe7ccf90efa8c"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Capture/PreparationShutdownTests.cs",
+      "bytes": 4157,
+      "sha256": "f01cb07865a54208c6c58fae5b2305b915a6dc709751a174b36697452e098daa"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Capture/PreparationTestScope.cs",
+      "bytes": 6877,
+      "sha256": "a363f6fb93a145531aea5bc252401f6b2421d9955c2f7bb2c2da6328a8187d46"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Capture/ScreenshotBoundaryTests.cs",
+      "bytes": 9523,
+      "sha256": "ebcfb866b544451d0ad3fbcacae361d82e9fd9c6c1b9b0ea2f9110643db0338f"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Capture/ScreenshotInteractionTests.cs",
+      "bytes": 7156,
+      "sha256": "1141e0224556018ee24a0df3d87b9d554076795e9f51399797c7818f88515f54"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Capture/ScreenshotLifecycleTests.cs",
+      "bytes": 9151,
+      "sha256": "123261e19debd951429043cfe81f23364f692a7fba2fb2540a0a36865c9a89d6"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Capture/ScreenshotPreparationR1Tests.cs",
+      "bytes": 8683,
+      "sha256": "7563defcbf5af6cbadb66818404590d3a652f1c3bcb7341c0b8b423f503bd4fc"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Capture/ScreenshotPreparationR2Tests.cs",
+      "bytes": 7456,
+      "sha256": "f10e08f2552068215985147f450043627149e5f1cb9903bc2707b5f9a6daa69e"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Capture/ScreenshotPreparationRaceTests.cs",
+      "bytes": 17037,
+      "sha256": "94ebd0184062f108d38bd66719f9856bf1e2699d2bdb3dd2a1a11e06b05a9117"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Capture/ScreenshotPreparationTests.cs",
+      "bytes": 9614,
+      "sha256": "0a70693d11bd1d54f02351b46fe9644fa378f451955a34b57c2450f696c3bed7"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Capture/ScreenshotR1RenderingTests.cs",
+      "bytes": 6577,
+      "sha256": "a2feabd01a66e13203b5728b6519e44b21b49eb6a5bf3549b4ae9a4b16fa96c1"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Capture/ScreenshotR1Tests.cs",
+      "bytes": 9842,
+      "sha256": "23b65c3764ad5f3756c81ae48291f7c491e0f4ca6b4d8827b79ac00cf474865f"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Capture/ScreenshotR2Tests.cs",
+      "bytes": 3769,
+      "sha256": "4ef9490300c359e61fff98309e4b50d5efc8104ca24ff4d543ea483f11db51b5"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Capture/ScreenshotRenderingTests.cs",
+      "bytes": 4734,
+      "sha256": "a119b0cbeaad23abe319d5f3fd21c56a15f717276e5075841184065cf6701499"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Capture/ScreenshotShutdownTests.cs",
+      "bytes": 5686,
+      "sha256": "509dfecc8434acf3fa46ffb7841f7b78ec68450f76e9e3beb9d1924b2cf56a8e"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Capture/ScreenshotTestScope.cs",
+      "bytes": 10250,
+      "sha256": "5330639a27ac6e08ab717629b18d4cd609f053dc26c23c53668bd77d4ce3df87"
+    },
+    {
+      "path": "tests/Iris.App.Tests/History/HistoryLifecycleTests.cs",
+      "bytes": 14405,
+      "sha256": "5ed7dababc7209dd572e1dd42353c1886de4a51f67c20b21ae0be3d6f9a37fed"
+    },
+    {
+      "path": "tests/Iris.App.Tests/History/HistoryRenderingTests.cs",
+      "bytes": 8073,
+      "sha256": "2b8fa5c6aee7977cd99db41389e1ab2cdcfdfdd324fb0c682164645a64ba0f58"
+    },
+    {
+      "path": "tests/Iris.App.Tests/History/HistoryTestScope.cs",
+      "bytes": 12945,
+      "sha256": "531be272059b652ab2b861f4649577cae072f8498545dd8eb01fab0c5e36fe4d"
+    },
+    {
+      "path": "tests/Iris.App.Tests/History/HistoryWindowTests.cs",
+      "bytes": 9515,
+      "sha256": "9c0df7630146f8c983b2810496a28714ba5c7f9cde036adb1809f889d2afd747"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Hosting/ActionDispatcherTests.cs",
+      "bytes": 59799,
+      "sha256": "1ed269948775a3d80f15416bdfe5d3258811e35ee08c68ce9e84b3c19e09334f"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Hosting/AppBootstrapperTests.cs",
+      "bytes": 46033,
+      "sha256": "369629c3ffc5904adaf96d6887f65350bfc7b95001028345e1f94a7ee46122c7"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Hosting/AppHostBuilderTests.cs",
+      "bytes": 15685,
+      "sha256": "f449ba3a4f2f9402f43e9df608852c8e16c00f674533bd13cc1144e4eccf3316"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Hosting/HotkeyCoordinatorPauseTests.cs",
+      "bytes": 35477,
+      "sha256": "f2649d0b43fc9e04eada45d5e7480ada1e2d66eec5672d747355ce9637498bba"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Hosting/HotkeyCoordinatorTests.cs",
+      "bytes": 57586,
+      "sha256": "377636ca314d9cc82385792b92a073a2d78d6efb13f600322e4f38574a521a30"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Hosting/IpcIntegrationTests.cs",
+      "bytes": 13376,
+      "sha256": "a7d5485f2ae49548d81cbf1c2e6d58a506de720d4d6243e46d594d14a56c1290"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Hosting/IpcStartupTests.cs",
+      "bytes": 9526,
+      "sha256": "122a9a14aff051e3010c9c56913586a1624e98f05e726a02468d2c53242a8548"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Hosting/IrisLoggingTests.cs",
+      "bytes": 2917,
+      "sha256": "436b634512f45738cac748ca73cac538e7bd7ec5cafcb3a178317660eccaf90f"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Hosting/LogLevelControllerTests.cs",
+      "bytes": 2758,
+      "sha256": "082c22f0d1a167788bba4e390b56ecea21311a00e9c97ac1fe4fd22c315a3f01"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Hosting/NetworkConnectivityHostingTests.cs",
+      "bytes": 6926,
+      "sha256": "ea9fd016c67c1f5f5d29a8cf1ae85b499d6ed300ffb9b163fdc31e8d947ace57"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Hosting/NetworkHostingTests.cs",
+      "bytes": 10159,
+      "sha256": "1cfc126133dcac519266701b866a3affca2f09280931ee7bf5a242bc9fa2c075"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Hosting/NotificationThrottleTests.cs",
+      "bytes": 1331,
+      "sha256": "ac91d83ec6cffea4f303233ddcc91c8a431b480d73e4dbda788312a421d3fe38"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Hosting/OcrRegistryHostingTests.cs",
+      "bytes": 9079,
+      "sha256": "241b9a6aaba4db112a6f43caa77e9cd1c1572b33785c3969aeba425c82b60edd"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Hosting/ScreenCaptureShutdownTests.cs",
+      "bytes": 7028,
+      "sha256": "86d09fae49c8db71ddd7c86002e3c441bfe23a50067d09c252f6c71863de9433"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Hosting/SelectionShutdownTests.cs",
+      "bytes": 8522,
+      "sha256": "608eaafb8e4e92d485661dda8880788611b04ca37e0907ce51c38b4177b8f88f"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Iris.App.Tests.csproj",
+      "bytes": 2874,
+      "sha256": "4c4e1054e5748bfdeca0474a82a4ddcb20b47c9e71a45b757a7fe9636b758665"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Localization/LocalizationRenderingTests.cs",
+      "bytes": 17782,
+      "sha256": "d4cade9f48e41cc6116fe494985babfb12070faa6a579fd02ca31e2774312643"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Localization/LocalizationTests.cs",
+      "bytes": 20813,
+      "sha256": "cc99339bbe3825e5bfdf641ee5c26bb479b3d26e79035dc8fa6c97649f33ff75"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Localization/PrimaryLanguageLifetimeTests.cs",
+      "bytes": 3039,
+      "sha256": "032fc49b78a7349b148b499d2f79760115d5f667d0c876a1956310c7c0bea3df"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Ocr/OcrEntrypointScope.cs",
+      "bytes": 7220,
+      "sha256": "5b05f93f5ee4638df24ada2fe6e63db7afacd9fcbb9228ef40a07caefa340f39"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Ocr/OcrEntrypointTests.cs",
+      "bytes": 14322,
+      "sha256": "625b05b430aea21cc9492e437b67f993153d220e52f001395528588e18f6f914"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Ocr/OcrLifecycleTests.cs",
+      "bytes": 9779,
+      "sha256": "55caed29ca3e4baed2cfb1bfc4a4daf25718dad124db6f757ec5ba51b05f4cce"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Ocr/OcrPublicationTests.cs",
+      "bytes": 8513,
+      "sha256": "d9fcb2273f40f52254ebb3f7a60d4f26e8a1c0beff19d7b033fbf399c64e54de"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Ocr/OcrRenderingTests.cs",
+      "bytes": 4940,
+      "sha256": "9ddec025aca5417293a3d68909c54be0439277c7fd0951c885b87023ad0b9eb5"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Selection/IconDeadlineTimeProvider.cs",
+      "bytes": 2068,
+      "sha256": "1c74821146caafac953638f7eb4bd9423831786c29104bffb5d00dde697f3e71"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Selection/KeyboardSimulatorUiDispatcherTests.cs",
+      "bytes": 21110,
+      "sha256": "90f7bf2e1897e1dd0440a0e5ccab4e9357af4f9bb355fb5127a124fa14fc293d"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Selection/MouseBootstrapperTests.cs",
+      "bytes": 4241,
+      "sha256": "400cdfed084b73edc1a61abec3923c6ad5630d48a934846ea0d859e21edca4ba"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Selection/MouseIconGeometryTests.cs",
+      "bytes": 1402,
+      "sha256": "e07c654aa79098a4ff5c2c0ac77be6377b534eca8b4c5a36119cc4a6c4855b5e"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Selection/MouseInteractionTestScope.cs",
+      "bytes": 14801,
+      "sha256": "eb6eb74353de6f63dba466a64816bc2357cfb7ac9e5341220635e60f3aca9936"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Selection/MouseInteractionTests.cs",
+      "bytes": 12947,
+      "sha256": "de00109fd19969f8e6cc5c4f6ea8c82c8e7b3146ba64d1b01bb1e47b23a7a45d"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Selection/MousePartialShowFailureTests.cs",
+      "bytes": 13223,
+      "sha256": "1c484ad2cca35c8787d4512af522232cc468138221cee129159ad823e16b8140"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Selection/MouseRenderingTests.cs",
+      "bytes": 7893,
+      "sha256": "215ab3cfeb510eb931f78066976b6edf1ac51ae551656a64ea45e8866ca9c7bf"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Selection/SelectionCoordinationDrainTests.cs",
+      "bytes": 10325,
+      "sha256": "a203f0038a14b59103936fb4fc8c94b542ee3569832ac61ed2a0586eb556cf82"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Selection/SelectionCoordinationIntegrationTests.cs",
+      "bytes": 11265,
+      "sha256": "f47664a73d1b6e9331f2bb1c4386ce142b328de56407bd29a52157ada5927e4d"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Selection/SelectionCoordinatorTestScope.cs",
+      "bytes": 1334,
+      "sha256": "d8099852324c07d5f82cd87548db62d5ee1f79f95f65285bcd2a2a0688b88290"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Selection/SelectionReadCoordinatorTests.cs",
+      "bytes": 13050,
+      "sha256": "0368860757f5c6d43e2dd643f9d20c548202d7d001d1972e40e4552f49231e3b"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Services/GeneralSettingsSaveCoordinatorTests.cs",
+      "bytes": 14189,
+      "sha256": "38412dfb4b63cd101e1f4a7bece199bf89816abaeb24ee6ef5da93c89b76e921"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Services/ThemeServicePreviewTests.cs",
+      "bytes": 8790,
+      "sha256": "8851e0145cd3de7b82e0163bcacd65217c69468e6d631b98007df740ecdb8a25"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/HistorySettingsUiTests.cs",
+      "bytes": 5404,
+      "sha256": "c34af8b38724afb9af01d0977b5e8cfb921c6ffa02b4bf98dd91bb84573c3d9c"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/MouseSettingsUiTests.cs",
+      "bytes": 5310,
+      "sha256": "62788e301b2a67e0b76273dbbcde60cfe264dadf65629ed67125115b5df825b2"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/NetworkSettingsFoundationTests.cs",
+      "bytes": 7944,
+      "sha256": "6c35a049e699eed97c5447ee1c33c998bae3293f171d49c0ddea1fb20877fcfb"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/NetworkSettingsRenderingTests.cs",
+      "bytes": 9204,
+      "sha256": "1c65ee623595eb9680c5e7145c562cbc11dcf9cd0073e55e1d94c58ef5775ed5"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/NetworkSettingsUiScope.cs",
+      "bytes": 12332,
+      "sha256": "933b6466b1e2eac7c5aceba4bb299e0cad9393c41728b67db62ec1b4133e0b29"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/NetworkSettingsUiTests.cs",
+      "bytes": 17582,
+      "sha256": "92921a7f78d91e6e39778630b7633f5648f3a9a9063fd2edd195f4a8f7ee7eb9"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/OcrSettingsLifecycleTests.cs",
+      "bytes": 13947,
+      "sha256": "bb7fe3f8ae935ffa042528c060e02c52f354736bd730401c62b03dbe8b127097"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/OcrSettingsRenderingTests.cs",
+      "bytes": 9088,
+      "sha256": "d3aebd5987b555faf555e8b85726058318f4f13bf690bd69bcd342804a011c9a"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/OcrSettingsUiScope.cs",
+      "bytes": 11449,
+      "sha256": "1d4f8b6f565cc3c6a60cf264297e2737e3c20fd609c75f42f238b7d196290309"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/OcrSettingsUiTests.cs",
+      "bytes": 15529,
+      "sha256": "020261ac33038ef86368b5ae5b988a8566efe31b71bca97f4987571f28564b4c"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/SelectionSettingsPersistenceTests.cs",
+      "bytes": 2774,
+      "sha256": "e8a26b8578a174bf2ac5c851fa451c0b40e56c4d418a6923e91159a142c46094"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/SelectionSettingsRenderingTests.cs",
+      "bytes": 5482,
+      "sha256": "277ee6b69d9a67a3ea5a72ca751facf9a81c57a94aab3434b82bf1dc2a2b53fd"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/SelectionSettingsTestScope.cs",
+      "bytes": 11514,
+      "sha256": "545724d640d527d4bf9cd1a409f524dbf459f28cae91bd2421bce1e48e4f2ffb"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/SelectionSettingsUiTests.cs",
+      "bytes": 13583,
+      "sha256": "8a4ab612aecaf3b71767f4fd9bd915ef1c6cc885f32c4e7dd5fc83d598fafd25"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/SettingsDraftAndSaveRegressionTests.cs",
+      "bytes": 98989,
+      "sha256": "cf870bda8e72e5db2553871ade9b2a64b09809ff6016855aa10b3e950793b28c"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/SettingsDraftOperationQueueTests.cs",
+      "bytes": 6867,
+      "sha256": "1bd8f42281cdf12be2ee342706627bb4a2afde701820bd9fc89a06e7741f6f93"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/SettingsHotkeysIntegrationTests.cs",
+      "bytes": 98251,
+      "sha256": "044a69379285057767227b25ba146573da79a0b7091f272136fcd3d3267bd9b4"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/SettingsReceiptManagerAndRetryTests.cs",
+      "bytes": 5689,
+      "sha256": "08211a993cac218ffbed65e4fe70986ce30369024aa4fac4ca12cc845e9d5180"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/SettingsShutdownWithPendingOperationsTests.cs",
+      "bytes": 5593,
+      "sha256": "712b9e562d012cdb08625ec154aee6966217b8edac0a2ddba4d7d1dc433ccf88"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/SettingsTranslationSaveIntegrationTests.cs",
+      "bytes": 18836,
+      "sha256": "5afc8b580d74d9602d623f33a07d97713fecae3835a9c93ab90584ae6a29b4ea"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/SettingsViewModelTests.cs",
+      "bytes": 37464,
+      "sha256": "45746fa7a9cd9cedb050e2429e99c70dfd6b4800e1026142deba03af3576f16c"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/SettingsWindowPresenterTests.cs",
+      "bytes": 72227,
+      "sha256": "2382f84152d3db0c76c3029a1ac1880f19850a85c73e94af76d0ce5b251e28cd"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/SettingsWindowTranslationUiTests.cs",
+      "bytes": 21207,
+      "sha256": "20eea9ee79733ed078e5beb39a9562f3f9ce1c34117e713e76057955b4cb6ef5"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Settings/TestSettingsEditCoordinator.cs",
+      "bytes": 5061,
+      "sha256": "56d7da5900a677903579c30a52fff2eb649828eba5eb9b817997bb87396b52c1"
+    },
+    {
+      "path": "tests/Iris.App.Tests/TestSupport/AppShutdownerSharedStateCollectionDefinition.cs",
+      "bytes": 514,
+      "sha256": "21c76fb0d36bd8b9561ee0bffbd9822e6e15bd4ebdaec92d5a7927df510f6cba"
+    },
+    {
+      "path": "tests/Iris.App.Tests/TestSupport/FakeAppPaths.cs",
+      "bytes": 553,
+      "sha256": "c5926a965cc7b4c8fc2186df7c7f893795f64e566ea9417c171322e36b5be998"
+    },
+    {
+      "path": "tests/Iris.App.Tests/TestSupport/FakeNativeHotkeyAdapter.cs",
+      "bytes": 2297,
+      "sha256": "aff75b96e36d225a84dde4f84b0117c5a649627deede4a83ac5f3bdcbb558dfd"
+    },
+    {
+      "path": "tests/Iris.App.Tests/TestSupport/ImmediateUiDispatcher.cs",
+      "bytes": 361,
+      "sha256": "c9de99306e032da389bd7b8013565a4cd9655acd79e04197716941804ff95544"
+    },
+    {
+      "path": "tests/Iris.App.Tests/TestSupport/IsolatedAppHost.cs",
+      "bytes": 866,
+      "sha256": "3a969c2f40deb5fc2b3049038bc8e62ae19d19046bb4b206dd64c157d72b2a1c"
+    },
+    {
+      "path": "tests/Iris.App.Tests/TestSupport/OwnedCleanup.cs",
+      "bytes": 4154,
+      "sha256": "4e377a43211873fda57225770d9952ee4f121d182afc2bf6c6eade8fb3eded25"
+    },
+    {
+      "path": "tests/Iris.App.Tests/TestSupport/TempDirectory.cs",
+      "bytes": 625,
+      "sha256": "feb99feb2d4368bb8e4f9c8ac0dfbe52256ba0a74829057cdcde3505168ab642"
+    },
+    {
+      "path": "tests/Iris.App.Tests/TestSupport/WpfTestAssemblyFixture.cs",
+      "bytes": 485,
+      "sha256": "d36b9c0db9c8bec968e2ef6988bfc8138b5df4b36e950876f3a40920e2523a2c"
+    },
+    {
+      "path": "tests/Iris.App.Tests/TestSupport/WpfTestRunner.cs",
+      "bytes": 6702,
+      "sha256": "43c5d43ad331f396690908a0578c7e75b92d97c3046159f21cae22f9d8668d80"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Translation/TranslateWindowIntegrationTests.cs",
+      "bytes": 68934,
+      "sha256": "324f3a219a4008a4a0fdd1997a33c25ec22196ba7d33bb5bab63bec437285c2f"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Translation/TranslateWindowOperationTests.cs",
+      "bytes": 12586,
+      "sha256": "99798b89265399e35af1da058ffa369679c68b1deff149bb13a3bbd0df7dae92"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Translation/TranslateWindowPlacementTests.cs",
+      "bytes": 8811,
+      "sha256": "fb62e73f75af4ab8f85cfe75699ed5ef9e1099fd4124878a343b5103da533bf8"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Translation/TranslateWindowPresenterTests.cs",
+      "bytes": 36716,
+      "sha256": "08c6f40f7da8f794f230734b744de88bfc73f729d78b2dc67a6a469a2d7e9617"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Translation/TranslateWindowUiTests.cs",
+      "bytes": 15522,
+      "sha256": "caaf912424141622ec987c012b38231682aa28765c510834d377a49674616c7b"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Translation/TranslateWindowViewModelTests.cs",
+      "bytes": 65370,
+      "sha256": "38b9ad6536eb659dfcb1d690ce3835d1d938ab720100eb799999c33e7031458e"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Translation/TranslationOrchestratorIntegrationTests.cs",
+      "bytes": 16102,
+      "sha256": "92e4bbe1e162d26644de59d49ec3a93b873c8226c58d19a705a90da00ec9968f"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Tray/TrayCreationRetryPolicyTests.cs",
+      "bytes": 1208,
+      "sha256": "2d9b41a69e5c9da2b76089bdf9386c05be5ace8087a5a74ed32e5dc742812168"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Tray/TrayIconControllerSettingsTests.cs",
+      "bytes": 3270,
+      "sha256": "6904df1c24d35d9874785337d6ac980dc635a3a68535034f5eaf7d75fe7dc65c"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Tray/TrayIconControllerTests.cs",
+      "bytes": 12250,
+      "sha256": "593cc8fa060e45b4a7b675baffa0807373ebfc5b6982395f11c128131213642c"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Workflows/SelectionEntryTestScope.cs",
+      "bytes": 11062,
+      "sha256": "940eda1ef91da3d94a985b8fb8b4b8777f288f8fa8fec2eb80c668835bf43542"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Workflows/SelectionEntrypointIntegrationTests.cs",
+      "bytes": 8259,
+      "sha256": "187a281c474d80085d8395201dde3eceacac65fb259e6b43187195dbf4e9f7fd"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Workflows/SelectionOperationNotificationTests.cs",
+      "bytes": 10608,
+      "sha256": "f211c8f00b80097922e56d3b3d6865dac8163fdefe198c1b67eb95ea7e0ce810"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Workflows/TranslationEndToEndTests.cs",
+      "bytes": 12011,
+      "sha256": "26d28f990378c251a80c8a674fe5cb6cacc957fefcd6eb5e91b0be9af65a927c"
+    },
+    {
+      "path": "tests/Iris.App.Tests/Workflows/TranslationWorkflowLateArrivalTests.cs",
+      "bytes": 22069,
+      "sha256": "f6d96499b53c15a05d9f03e542b5781859d3c407d6c884e7e896a84b535ac3ee"
+    },
+    {
+      "path": "tests/Iris.ArchitectureTests/ContractFidelityTests.cs",
+      "bytes": 5094,
+      "sha256": "34f5a7220d5f9b20d73c878e4f21f2450b1db99e43c8b3c836eb1641a02525ec"
+    },
+    {
+      "path": "tests/Iris.ArchitectureTests/DependencyRulesTests.cs",
+      "bytes": 5904,
+      "sha256": "b3e7a4e9a1f1d2535764029b3dad8dacd5d322bc9be367cd15ca395b3cab750f"
+    },
+    {
+      "path": "tests/Iris.ArchitectureTests/Iris.ArchitectureTests.csproj",
+      "bytes": 1009,
+      "sha256": "a04e0cd2f267d019dd7e2a7c256f10d449da52a5bc3a4d5fe94e30fc3f349e4f"
+    },
+    {
+      "path": "tests/Iris.ArchitectureTests/PackageRulesTests.cs",
+      "bytes": 3876,
+      "sha256": "ca5a57e743e4c8127d56ab74d97170c6835e73f1c9d2f286db6da64b14e4ccae"
+    },
+    {
+      "path": "tests/Iris.ArchitectureTests/xunit.runner.json",
+      "bytes": 82,
+      "sha256": "c000bc0d17a0c54872293a50c4f5cd19b041611bd0c5494c444a47262adb0792"
+    },
+    {
+      "path": "tests/Iris.Clipboard.IsolatedHelper/Iris.Clipboard.IsolatedHelper.csproj",
+      "bytes": 578,
+      "sha256": "f6e6a04bd54ac726f0290621a7f741be33531279b71f6a8f5e7a0128829347ef"
+    },
+    {
+      "path": "tests/Iris.Clipboard.IsolatedHelper/IsolatedStationCoordinator.cs",
+      "bytes": 6757,
+      "sha256": "c49989fc167d9e9df928b2009d366d9d57eb980c25c9fabfcfc33674232e450a"
+    },
+    {
+      "path": "tests/Iris.Clipboard.IsolatedHelper/Program.cs",
+      "bytes": 12368,
+      "sha256": "81d95c798bdb2af3f1acd240db1921192245d90cc8339dc302e01611625c7bca"
+    },
+    {
+      "path": "tests/Iris.Clipboard.IsolatedHelper/SnapshotValidation.cs",
+      "bytes": 7538,
+      "sha256": "2b9266b08a40a85259953a1fbac9cba57b0be6d72b85ffbcf5c425db5ea3616f"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Contracts/AppSettingsSerializationTests.cs",
+      "bytes": 2235,
+      "sha256": "4a5c5846f72a1c69b98fc6a292a77c2640130572ca86b70d89452f0510668b91"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Contracts/ErrorCodeTests.cs",
+      "bytes": 2923,
+      "sha256": "5c6329b0c70038eaea8e026b23becf543950e78caf1cb14553b900c1dc302fee"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Contracts/GeometryTests.cs",
+      "bytes": 1415,
+      "sha256": "9ee1407a8e20e76076d242c706153109a415c1b4ba443f9d02d38e0dba012436"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Contracts/ProviderCredentialsTests.cs",
+      "bytes": 387,
+      "sha256": "2ff86f5bae63003857c3c8f5d0d7eaa0d6032dd0a50e2bf4940d386c961deca2"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Contracts/SecretKeysTests.cs",
+      "bytes": 426,
+      "sha256": "a6a0c1463f245dafd808a8e4c685f4e61a4066a68e977ff3950cc7d722eec91e"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/DependencyInjection/CoreRegistrationTests.cs",
+      "bytes": 10163,
+      "sha256": "de239b0f28e409f5ea0a483788ee384eed470f8a8a2823ce30faf74fd25fa58f"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Diagnostics/LogTextTests.cs",
+      "bytes": 2923,
+      "sha256": "2ec82b82e45f45ee3ca1e66ffcae56ded05b4b55847db7641f35a0916ff34a8c"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Errors/ErrorMessagesTests.cs",
+      "bytes": 1806,
+      "sha256": "34f1217488827c6b556e994e56d0609ad80de3d0ce66d9dc01368e937a433d17"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/IO/AtomicFileTests.cs",
+      "bytes": 17556,
+      "sha256": "e082e650b4444ec2b421a684f1db0ba1255bbb9d1bbb9fd4ffd93d9adc51d552"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Iris.Core.Tests.csproj",
+      "bytes": 1198,
+      "sha256": "e27b6f19085f4a07f2427a2f8464326fb7170cfa8cfe43d4bc6af76bd2e2e891"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Languages/LanguageCatalogTests.cs",
+      "bytes": 3506,
+      "sha256": "4fc7238866337f5e8f20dfada4b118f2a46b7ac6901b335d1072a050bfad7c24"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Languages/ScriptLanguageDetectorTests.cs",
+      "bytes": 7593,
+      "sha256": "b5f778d9a677e198e53233ea29f2cf2584a2a3718a56c3fc2f29bae9e793cabd"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Languages/TargetLanguageResolverTests.cs",
+      "bytes": 7824,
+      "sha256": "bef081c99b95b7e52f373c02e7f6b5d2cd36c726474bedccf7ad7be765398e5d"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Languages/UnicodeScriptsTests.cs",
+      "bytes": 3914,
+      "sha256": "77edcf26c8b8ab11141b1bf29d85900d297ba66fbd56322fb30c86e1be2c759c"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Ocr/OcrNormalizerTests.cs",
+      "bytes": 2903,
+      "sha256": "d228d8c57a0715f3cd7ec720f6739da999c3223dd010c21dcdc0bb851358d146"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Ocr/OcrPipelineLifecycleTests.cs",
+      "bytes": 10804,
+      "sha256": "b142bcaedc9b437479ec7139782494e6783f9f317bdf74264fb972cf39ecf335"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Ocr/OcrPipelineRegistryTests.cs",
+      "bytes": 3655,
+      "sha256": "bdde137f7c402c04487acd7321427765671fa70dfb9b02209ee46bf18e7f6524"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Ocr/OcrPipelineTestScope.cs",
+      "bytes": 5180,
+      "sha256": "240b0cc9a6666d9c7a4b7dd771921a4a6b8a4872e0763fc0905b337bf65d9a19"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Ocr/OcrPipelineTests.cs",
+      "bytes": 5314,
+      "sha256": "d53d6c554e023642432a7a7b0bc696cf89553a115bb8878427cede36281d8ae4"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Ocr/OcrProviderRegistryTests.cs",
+      "bytes": 13560,
+      "sha256": "0693cac1d57636b991dab167d6cbbc1e1adf051999627dd917020e5a33a5c4db"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Ocr/OcrRegistryCoordinatorTests.cs",
+      "bytes": 2950,
+      "sha256": "88233b33879e6087d09544eb2872904f06f65b36d05e0ad3e8902e23e71a0525"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Ocr/OcrRegistryRaceTests.cs",
+      "bytes": 9291,
+      "sha256": "775fbd40fad1ac47f53313db79b32bfad421ae4ec46137eb0a074978a11382f2"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Ocr/OcrRegistryTestScope.cs",
+      "bytes": 8548,
+      "sha256": "5cf74e1770e7385e28850ce579b1626385ccb1fa90b6fce5e1f6792e228defbb"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Settings/HistorySettingsEditTests.cs",
+      "bytes": 4841,
+      "sha256": "b8cbf31b83aa293fb6cc8b2387c98db5512cbfda043682807554f8e452d23bd4"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Settings/HotkeyBindingPolicyTests.cs",
+      "bytes": 13626,
+      "sha256": "b9129ce2c297518e07e84aaef6a4657bda0b464835b1f65802dcfa45d7eea0b4"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Settings/MouseSettingsEditTests.cs",
+      "bytes": 7980,
+      "sha256": "b7a6a3db8c0f696f9c111222ea995b15502eea20c0dea60c5f0d6db81254e59b"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Settings/NetworkSettingsTests.cs",
+      "bytes": 16200,
+      "sha256": "ae8a65de3f9937b6fbe2dce08ccb34569365b8dfe63ecd42c47e40cbd5be4119"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Settings/OcrDraftTestSessionTests.cs",
+      "bytes": 13013,
+      "sha256": "75faad9f36a1d523d60e332b4802cd081f67d58f49d33ad7f8bd732659d98a95"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Settings/OcrEditingBoundaryTests.cs",
+      "bytes": 7863,
+      "sha256": "eacb5ab041e84583a59ac35511ec42cda2fce7740c82cb1c84a070df9cbcdaa4"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Settings/OcrEditingTestScope.cs",
+      "bytes": 9211,
+      "sha256": "a83462520958bbb096c0a6026c9f685d807b8dc6206880270cff295fd0354490"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Settings/OcrSettingsEditingTests.cs",
+      "bytes": 15991,
+      "sha256": "44320491899714c269191e27c180d3b315b52bf5a228024590e7d40f1df1e7ad"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Settings/SelectionSettingsEditTests.cs",
+      "bytes": 16602,
+      "sha256": "8b90098f37dc7b50c67a554f183eda77bcb6f749ef9bdc6e56cef2e2b2ae4b8d"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Settings/SettingsEditCoordinatorHotkeyTests.cs",
+      "bytes": 28836,
+      "sha256": "ef80ebe056d2b14833e51362c176f4c9836abb1aa412f2314eadbc9aa4c74003"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Settings/SettingsEditCoordinatorTests.cs",
+      "bytes": 142573,
+      "sha256": "472a42b4c5bf4a1b2d7f922c3b8b936a6a88a65aa001bfda931233426e66d96d"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Settings/UiLanguageEditingTests.cs",
+      "bytes": 6428,
+      "sha256": "a0ca9dbf98cbee187faad44e7b3701a1134499fe4c425da5a5e046bdcb751681"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Text/SoftLineBreakMergerTests.cs",
+      "bytes": 4750,
+      "sha256": "e70c7e0c5bb9c0988d002e2f222e128add5623126b7d27e352b9ec2529c83cf0"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Translation/LruTranslationCacheTests.cs",
+      "bytes": 35220,
+      "sha256": "c33ff3c87bd9231b77fcc2b82da9da2f647ce342e52c35d5d5260c615545ee29"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Translation/PromptRendererTests.cs",
+      "bytes": 3326,
+      "sha256": "015e3045d07ef3cbc118d5ca5eb38f6f91590ee4da80dcdace4f01bdac7c1073"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Translation/PromptTemplateProviderTests.cs",
+      "bytes": 7738,
+      "sha256": "466f8d728ae9a743ac2be6d49e010dd61d0bb133ac6ff53ebbfbfad944fdc378"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Translation/ProviderCredentialResolverTests.cs",
+      "bytes": 13909,
+      "sha256": "41c3b37386e25151e19f1e8b2e7e32233c5034193e713e566f6c4782d5d57535"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Translation/TextPreprocessorTests.cs",
+      "bytes": 5895,
+      "sha256": "eaab21cfed1cf101a941f0d253fbaec0bc5b6d9deba3d89a19eff84b0a3b9a51"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Translation/TranslationCacheKeyFactoryTests.cs",
+      "bytes": 9354,
+      "sha256": "29a018731e443bafdb13bc0aa58dc96082bfe5ec3df1fd8f83a6e488f62b42bf"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Translation/TranslationOrchestratorTests.cs",
+      "bytes": 97454,
+      "sha256": "009c3cd8d79157c6e797a6ec02804c51f890bcab143a0d1f0a72b652bb06a062"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Translation/TranslationProviderRegistryTests.cs",
+      "bytes": 76357,
+      "sha256": "15c57669f5b997335778c884c76a6ca644725b9b9f92200e588672a060ab1dd1"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Workflows/ClipboardTranslateHandlerTests.cs",
+      "bytes": 15484,
+      "sha256": "a8a350ffc1387a37940997a1856b8462ca9d8f4dde5094920c84bbadc859540b"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Workflows/InputTranslateHandlerTests.cs",
+      "bytes": 7683,
+      "sha256": "a48c79401ac40bb96ab01a4d62e8fe03fbe4247f2f64f4ffc0e9d73270db48bb"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Workflows/MouseSelectionWorkflowTests.cs",
+      "bytes": 6213,
+      "sha256": "523425c7ebea3b309717d2f40bb534aead85a4a415843c5a891ac56ede885b86"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Workflows/OpenHistoryHandlerTests.cs",
+      "bytes": 1019,
+      "sha256": "38a22448b8891ea858de1b94bd7f9333a35c5a95b2c492eb25514bd8a5665a4f"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Workflows/OpenSettingsHandlerTests.cs",
+      "bytes": 4396,
+      "sha256": "84e93fb0e56c7808fda2b99a83ae6797c74d404158e46760d7553ce4e1bfcae0"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Workflows/ScreenshotOcrHandlerTests.cs",
+      "bytes": 13056,
+      "sha256": "d800e885f256f8fd414a6eade27eb0b3fbbfa67fc1834fbc7551a9830e71c8e3"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Workflows/SelectionTranslateHandlerTests.cs",
+      "bytes": 12507,
+      "sha256": "d0cb43ac88b48edd633fd45118f85848bc9864ebfb515fb1df16328127f016d1"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/Workflows/TranslateTextHandlerTests.cs",
+      "bytes": 5916,
+      "sha256": "72ed548d047d9bb979b6e61b9456b7c6681a22c73b4940a80063bb5794d3e929"
+    },
+    {
+      "path": "tests/Iris.Core.Tests/xunit.runner.json",
+      "bytes": 82,
+      "sha256": "c000bc0d17a0c54872293a50c4f5cd19b041611bd0c5494c444a47262adb0792"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/DependencyInjection/InfrastructureRegistrationTests.cs",
+      "bytes": 1172,
+      "sha256": "ddd2f35814f55f83dc8623e3a5919db0bdb74d55ec62b8ec9d2b3c688a9901ae"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/Fixtures/settings.all-null.json",
+      "bytes": 2379,
+      "sha256": "5788936f8fd3ea575a3790b32a3e919b69bfcdab194ebfa0a787d777c24b41b4"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/Iris.Infrastructure.Tests.csproj",
+      "bytes": 1114,
+      "sha256": "5cb362e9cbcddb616c4ed794f9a9f4876aec7cac07f8c6681cf70f137a8ffaff"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/Settings/JsonSettingsServiceCoordinatorIntegrationTests.cs",
+      "bytes": 20382,
+      "sha256": "bd5eb5f0a2d6782d45c61ffb13700026f8464f7f7abd9d986d730db48eff6c12"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/Settings/JsonSettingsServiceHotkeyTests.cs",
+      "bytes": 6372,
+      "sha256": "960e266a4b2bcb0a63b78fb38eda0b74723724af9f4de03c1f78f4025580696a"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/Settings/JsonSettingsServiceTests.cs",
+      "bytes": 52786,
+      "sha256": "3d65ce2152fc6bd910d349cd414bbd64309d23d678208901820408a86090bf62"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/Settings/NetworkPersistenceTests.cs",
+      "bytes": 28828,
+      "sha256": "46e9e2b4087682c28eb11f54707e7045fe53eea11c592cc12b9978ac2595b36f"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/Settings/SettingsMigrationRunnerTests.cs",
+      "bytes": 2250,
+      "sha256": "0b80d355deec721af6426d5873f0b4843d8127f0a028e23e708f4a297e02ddb6"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/Settings/SettingsNormalizerTests.cs",
+      "bytes": 44615,
+      "sha256": "39f936d49417d15335559c4304aa664d5b2f66dacb5aae1fa0b9f4591c33b17a"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/Settings/SettingsSalvagerTests.cs",
+      "bytes": 8535,
+      "sha256": "3fe964e2777b30ee77360c5073f63bd5a54ee377c46849a24459c150f9d5358d"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/Settings/SettingsSnapshotTests.cs",
+      "bytes": 22561,
+      "sha256": "faf68eca8cae0f3adf7569262ca80f2c56a793b51fe3c68b888742f392df7a0b"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/Storage/AppPathsTests.cs",
+      "bytes": 4076,
+      "sha256": "3e2dc51b2ccf8aaef51aa14bbef5d032390cd0342947be45eec4cf29aced0392"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/Storage/DatabaseInitializerTests.cs",
+      "bytes": 26887,
+      "sha256": "d3f94db135194315b4a702df884b042540e0bd0194aa1ed73e93caf19fca9a72"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/Storage/SqliteHistoryRepositoryTests.cs",
+      "bytes": 50254,
+      "sha256": "cfc38baad57003b05bb4e5b77eec51bc64fc8d0e203d309cdd589563b41d43b6"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/TestSupport/FakeAppPaths.cs",
+      "bytes": 564,
+      "sha256": "1ba496af7ad9dc614c311e8dc76b036bf746db22cec092585573b295d647ad5b"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/TestSupport/SettingsTestInvariants.cs",
+      "bytes": 5372,
+      "sha256": "db49db4643d178b18f53ed86b7f04ebd4ceb102ee75d0067d14e5ae60aabf12c"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/TestSupport/TempDirectory.cs",
+      "bytes": 634,
+      "sha256": "31befef513986cf2afbaa9fdfda285d74e9f4e5631ee8baecae628e657bf54a4"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/TestSupport/TestMigration.cs",
+      "bytes": 522,
+      "sha256": "0f2ed160d295e5503f940e96e4eaac867729e88de9f828308ffe3bcb2db55eb0"
+    },
+    {
+      "path": "tests/Iris.Infrastructure.Tests/xunit.runner.json",
+      "bytes": 82,
+      "sha256": "c000bc0d17a0c54872293a50c4f5cd19b041611bd0c5494c444a47262adb0792"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Capture/DesktopContextNativeReadOnlyTests.cs",
+      "bytes": 2897,
+      "sha256": "fba85aec3c9507254555f4597203982e78f2cf787d00fbb685c3d72e2aa0a9f1"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Capture/DesktopContextTests.cs",
+      "bytes": 8646,
+      "sha256": "4b9ee56778c2eed6f53de3c1b56d8dbe77521cc6783609cb3e78f4469c46e87e"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Capture/DesktopGeometryHelperTests.cs",
+      "bytes": 12427,
+      "sha256": "0621427737248be280c11254343c486cc1920ccddfa10e597d02d43cf24885c9"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Capture/FakeNativeDesktopAdapter.cs",
+      "bytes": 8384,
+      "sha256": "ce6f14b0e5c4649410a438fcb023f6e72aa8079d42c7c645f9834b7f7fbb40c8"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Capture/FakeScreenEncoderIo.cs",
+      "bytes": 2507,
+      "sha256": "a235a2edec9f5e568af1c7bc683c57c0a2e3fc48f8f416f614e70e33904af3dc"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Capture/GdiScreenCapturerTests.cs",
+      "bytes": 19428,
+      "sha256": "76247aa6d0db08131ac84b34c4437c2985a384b72be62b4a80e9b6c674449b81"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Capture/MonitorEnumeratorTests.cs",
+      "bytes": 23507,
+      "sha256": "8f0c1231859ab24eb9ca27084086b86bed5b75aae2e0d4a56ef67eb71fbbdf73"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Capture/ScreenCaptureTestScope.cs",
+      "bytes": 10146,
+      "sha256": "9c033881a9a55e3f2429647fd1bbe152822bdd19002a42e0bfb1d1ff2e25a5b9"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Capture/ScreenCropTests.cs",
+      "bytes": 13917,
+      "sha256": "00cdb2a31c717f408c6802e93234f1c070307f2f0d665258fd0f73a401ed8873"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Clipboard/ClipboardSnapshotIsolatedTests.cs",
+      "bytes": 2766,
+      "sha256": "c8cd0ad1e7163e8bf0ae869f8f8203b04a4386d7490a7b61b598b93636b6e89b"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Clipboard/ClipboardSnapshotServiceTests.cs",
+      "bytes": 27696,
+      "sha256": "2294ee2553766f3818bbf030aec6489597771df89709bde425d3daa72a9c6567"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Clipboard/ConditionalClipboardTextTests.cs",
+      "bytes": 2506,
+      "sha256": "5a71c4f318addaad8ac972d64e56af939fadba26dcc54caede507760c05a6f8e"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Clipboard/TestSupport/FakeClipboardSnapshotNative.cs",
+      "bytes": 6462,
+      "sha256": "58a3baec2c3aa38ab4a9f773130f4e88c03a901f956c4e2207382d1b937be6ac"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Clipboard/TestSupport/FakeNativeClipboardAdapter.cs",
+      "bytes": 6799,
+      "sha256": "26ea8075be969979403732cfccc2cbcfcda635de00daf15db05be76473fde12b"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Clipboard/TestSupport/MemoryLogger.cs",
+      "bytes": 987,
+      "sha256": "22c7ffea7f01a73fb1139d8f2f812b6964c9f59a78482412b10f34e54139bc68"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardIsolatedIntegrationTests.cs",
+      "bytes": 15955,
+      "sha256": "ca470ce9c42935994bfebad6e5bc068462c277330f6035a21f18facc5d87d2b5"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServiceConcurrencyAndOwnershipTests.cs",
+      "bytes": 22763,
+      "sha256": "87d12174b8dc9ff65ee1ed3993f6c08c65dbb845b26cae8ae295505f88c91790"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServiceImageTests.cs",
+      "bytes": 13948,
+      "sha256": "4f75771073433cc7863a24ec70e022cdff8a9c53bff905ddab0faf99f8cf61b7"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServicePrivacyAndSequenceTests.cs",
+      "bytes": 3463,
+      "sha256": "2c2d201366bb58320e52384ad773e152ee2cfe805f5c8741a6fba749b901b4b4"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServiceRetryAndCancellationTests.cs",
+      "bytes": 8341,
+      "sha256": "5bddbd1eb52b767b0dd98f3d4eba0bb15f3240d534a055c7ed67d48782cc61e2"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServiceTextTests.cs",
+      "bytes": 9830,
+      "sha256": "d315751ceca97fc8ecad03b1e64deb6e2e691e964d350578d0821f8e648aa709"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/DependencyInjection/PlatformWindowsRegistrationTests.cs",
+      "bytes": 2112,
+      "sha256": "07d6391618d5f68435441a227671bbb72223d218107e2418294f02562b8f3a19"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Hooks/GestureRecognizerTests.cs",
+      "bytes": 6782,
+      "sha256": "dac3b9e8defec10c834828053407cc31391b7dc3619f0d210ed9c5c30f6b8151"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Hooks/MouseLifecycleEvidenceTests.cs",
+      "bytes": 11609,
+      "sha256": "0ebfe1fb1eb8429e7e1752738941543323ad4dbbaa918b48a8a1cfccb5139a07"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Hooks/MousePipelineTests.cs",
+      "bytes": 5108,
+      "sha256": "c98ddaf5064000e5771050b70470836a896b0c9cef4238ab2059e2249c622728"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Hooks/MouseSelectionMonitorTests.cs",
+      "bytes": 18133,
+      "sha256": "1489e418bf45df6ca22d2df5095793a6dfc9a9c5a7f1e7fd1750da392071d041"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Hooks/MouseTestBoundary.cs",
+      "bytes": 12228,
+      "sha256": "2c662af0863f7ccd8f6b02b390a0e1a4c9efc8cc6073006874a3348cfd8c9aab"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Hooks/NativeMouseAdapterTests.cs",
+      "bytes": 4901,
+      "sha256": "e22fa8fac9af5e7976b0db5373728dac7bbc0602a2f1585a06bb4258ad162e90"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Hotkey/HotkeyCaptureServiceTests.cs",
+      "bytes": 34973,
+      "sha256": "9d3b012f90beb9ff9b1ba9ff886bcaa888e27804b3bfca7b03d963e72977ad52"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Hotkey/HotkeyServiceTests.cs",
+      "bytes": 26830,
+      "sha256": "f0a526942f4b896c514b76e1e51589b8fa7dab6651b31e91a3fa86be9dc5c98e"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Hotkey/KeyNameMapperTests.cs",
+      "bytes": 13335,
+      "sha256": "261b8a743fd46e6b904ae2298b44b8edc83b977e0239751d9db4868621801735"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Hotkey/NativeMessageWindowTests.cs",
+      "bytes": 2467,
+      "sha256": "760b48342f8531d84c9104f9c5186864abcd0f132e0d640f84678d3d5faedfa7"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Imaging/FormImageBudgetTests.cs",
+      "bytes": 10968,
+      "sha256": "0a123093f0d8a99b837c944434bbb74e68c6774b5e52529a36cd756f9d1084c7"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Imaging/ImagePreparationTestScope.cs",
+      "bytes": 8444,
+      "sha256": "65afb89412b4f339838b794c95cb9e36e1e9d61a04aee5f3e4bd00f5fccde4a2"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Imaging/ImagePreprocessorLifecycleTests.cs",
+      "bytes": 10000,
+      "sha256": "ef4c0d6f3202132663703d3b1d499684581989ae2d982e2f0fd24130e2583cad"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Imaging/ImagePreprocessorTests.cs",
+      "bytes": 9950,
+      "sha256": "2453f34f6c38f66111d1c5a0ec6b783e461e287f2270ad698b873790d73a20a4"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Iris.Platform.Windows.Tests.csproj",
+      "bytes": 1623,
+      "sha256": "b0ef633eee33596771acf2382fffc077727823b15ff9823a4b1b819afab65253"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Ocr/Fixtures/hello.png",
+      "bytes": 5686,
+      "sha256": "801a64db5c32204ad0a239028a05149ef353da8aada65a5e242a45947040da02"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrLifecycleTests.cs",
+      "bytes": 12272,
+      "sha256": "e41441983c7d2be5f7b216cde09200cd64b7531c8fe97b762370409cd38a4a64"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrProviderTests.cs",
+      "bytes": 8209,
+      "sha256": "810d4c580783eac6bc7088058aae992c949327a9147555cdc93a43563b4436ee"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrRegistryTests.cs",
+      "bytes": 3749,
+      "sha256": "682242879a59d026a68b639df3d94ff0c75b193f411a7deda3cb9bb2bd84b3c0"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrResultTests.cs",
+      "bytes": 3247,
+      "sha256": "983976ba3699d0938df86071089671575fdac642e81836788cfe1f9e636c038e"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrSdkSmokeTests.cs",
+      "bytes": 4703,
+      "sha256": "0fbbee1e7912b38bfeb1de852966b4c06127c5eebd8bbb38e415882071607bd2"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrTestScope.cs",
+      "bytes": 9510,
+      "sha256": "3892acb369b0676b31192e21ae3888689cb3b702f9739904262039057ee15032"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Security/DpapiSecretStoreTests.cs",
+      "bytes": 15566,
+      "sha256": "84e90cee189ba6b2e598aa3b0c9a7d6302720a366bf8b781832b0ae62cb793ca"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Security/SecretsFileCodecTests.cs",
+      "bytes": 4221,
+      "sha256": "c8847e33a6cc73fc4ffa31b4ab4c1dfd8aa81fab8098cae9e5b08aad20ce6be8"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/CompositeSelectionReaderTests.cs",
+      "bytes": 19458,
+      "sha256": "bac8ab39fdeeb28173b4a01d7b90626db10076f6f67b81f594ab69a7ad2a8cd7"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/CopySafetyPolicyTests.cs",
+      "bytes": 2567,
+      "sha256": "e7a80809055eda8d8cafcd8a1d5c2b40f18e6e46e204024c1cb5ad95be13ac9b"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/ExpectedSelectionSourceTests.cs",
+      "bytes": 7271,
+      "sha256": "aad9b822b7a776db81db90da43bc6ffb592a9d9a1c9946f377d1a79077d1e8be"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/FakeCopySafetyNative.cs",
+      "bytes": 1671,
+      "sha256": "b09e93fee801266e4baaf78a3026e756825d61c8b7a232dd56a2c0c25aca5a12"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/FakeNativeKeyboardInputAdapter.cs",
+      "bytes": 3584,
+      "sha256": "bc8d6d1e76d6f85c65eae2e723b919d841aea41758100ae2a9511c962a3c884e"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/FakeUiaProcessSessionTests.cs",
+      "bytes": 2615,
+      "sha256": "b597a11fb4a0dee27ea5a8950bd065136bd1bdd265c521e1d3509c155dc34d5f"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/FakeUiaTestAdapters.cs",
+      "bytes": 20838,
+      "sha256": "70d9878013e8dd3b5001a106dcf8442717c9f3f07643ef5492c9b3cad9ecdf8d"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/IrisUiaHostProcessSmokeTests.cs",
+      "bytes": 4773,
+      "sha256": "5b2f78a245cf5750a260ddd9a533da66edae2646ae82fb5ffe24b78ee293f360"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/KeyboardPreparationTests.cs",
+      "bytes": 3713,
+      "sha256": "fae6035282844527165688fce6a1738cbdea979aef8a54d6aa971b2d2b6b4165"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/KeyboardSimulatorTests.cs",
+      "bytes": 45250,
+      "sha256": "5fcf2b5e069d076190a893ae9b99547edaa2bddc4ddab4fe4f5cc506f9213f8d"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/RealNativeUiaAdapterTests.cs",
+      "bytes": 15503,
+      "sha256": "5730615efb1ce06bf800e55055487dac49843b013379e7e05d32160c40c69612"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/RealUiaProcessSessionTests.cs",
+      "bytes": 11421,
+      "sha256": "663855bac09d7b7eb9473395bcb20f6b9cba6e5cc04a6d214e7bce480934fdac"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/SelectionTestScope.cs",
+      "bytes": 7111,
+      "sha256": "d5cb9806c01ec2dad0e4ecef0b5346fcc2b0bb11909c311b19504fd60734bc9e"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/SelectionTimeProvider.cs",
+      "bytes": 1203,
+      "sha256": "aca4493e6d5f6b27632f454da7fd0139efa8d2c0b3dc63de65adc177a5974f90"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/SelectionVersionRegressionTests.cs",
+      "bytes": 11948,
+      "sha256": "99338d68ee4c44a0126d953d336626a01b902dccde0cff4e851d8c6701a4005d"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/TrackingFakeTimeProvider.cs",
+      "bytes": 1819,
+      "sha256": "be88a287d530cf9025bedb9b55769c8f7ada89526cacf8ff293eaa72a5f6411d"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/UiaProtocolCodecTests.cs",
+      "bytes": 10947,
+      "sha256": "165050335f267c3725e7ebec317e13476afb97db8ba11895d38393b8a82f3689"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/UiaSelectionReaderTests.cs",
+      "bytes": 50546,
+      "sha256": "cdc6816d4854fc8e38e7ab68e38b66eff31ff14cc5d14db766ae687244f42bab"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/UiaSelectionWorkerTests.cs",
+      "bytes": 18648,
+      "sha256": "ce42703774911db4c4ced56ca68a746c8093679f75ff1e7601d8ca655f95352c"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/Selection/UiaStartupCleanupTests.cs",
+      "bytes": 25714,
+      "sha256": "55e6d542e773522a04a656c6941cf43bbbdc834601600d42a70ae45441a8b739"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/AutoStartServiceTests.cs",
+      "bytes": 9638,
+      "sha256": "59a2e5c8287a1f7ab9f355166712c7aa19b3e0d55ff30ecd2ab3386840193c44"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/IpcCancellationFenceTests.cs",
+      "bytes": 8159,
+      "sha256": "add97c06f010d18469516c482a62ae0ec42c9055089925d164f96e1aa099d276"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/IpcEarlyDisconnectTests.cs",
+      "bytes": 12186,
+      "sha256": "c5b469ff3386173ebb1507803f099ac797ebd62f7a940afdb4ec40738c404c2e"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/IpcLifecycleTests.cs",
+      "bytes": 7820,
+      "sha256": "d028fcce89e883d0f92ae3aacd894d9bb5fa7c07a029565fa5ea20f3a95b31be"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/IpcProtocolTests.cs",
+      "bytes": 4022,
+      "sha256": "36579ebc6d304ec67adf731909ab9e2c1b6fe2baef35ebd060423fc2a27165da"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/NamedPipeIpcTests.cs",
+      "bytes": 16171,
+      "sha256": "9d6673d9470f6c43820ca71a2d8a16d0a05ecb48c98ba8947caacd5668a378fe"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/SingleInstanceGuardTests.cs",
+      "bytes": 4527,
+      "sha256": "9ffe3c673a2729248dc32f09172d86e6693255af31102f35abc14a9db0d52c55"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/TestSupport/FakeAppPaths.cs",
+      "bytes": 566,
+      "sha256": "986e2e7b521faa6ac9440a2325bc1f9908bd3423398b55d5aa74d76b9df6f237"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/TestSupport/ListLogger.cs",
+      "bytes": 1354,
+      "sha256": "d3be6ebbbfe8225c218af907a8f3149f850a8e14e17626cdf534889aa18a2c34"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/TestSupport/TempDirectory.cs",
+      "bytes": 639,
+      "sha256": "bf189b88fe856a31a7dce0586e166e25cc8870a1b1fef50dbad9fe1c875de584"
+    },
+    {
+      "path": "tests/Iris.Platform.Windows.Tests/xunit.runner.json",
+      "bytes": 82,
+      "sha256": "c000bc0d17a0c54872293a50c4f5cd19b041611bd0c5494c444a47262adb0792"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/DependencyInjection/HttpClientPipelineTests.cs",
+      "bytes": 15563,
+      "sha256": "b0f949fb32dd1cc09513582f27cfb2679a8e5c66ce79e27d8484df9502b1fa42"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_models_page1.json",
+      "bytes": 400,
+      "sha256": "e4c55dd69d446f4f92c8700b1fac5fda347cc9b3792f908432bebfbf7170943a"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_models_page2.json",
+      "bytes": 260,
+      "sha256": "1708d0406b5e83563d3bae49488b0632fe40b211f3529ae10ecffac18c822948"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_error.txt",
+      "bytes": 552,
+      "sha256": "9dc8e8dd67e0f99a81132818a938f7c37c7ce5b144ff1a23e71315071aae1497"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_fallback.txt",
+      "bytes": 1339,
+      "sha256": "1db152b14a77e789d602e1c16c55d843835bad6eb6bd8cc9c4c22c987242ba6f"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_max_tokens.txt",
+      "bytes": 726,
+      "sha256": "c41d593c89b76ab26ea7ab065d6ccbd3e25927837787b89a04a4897a45ed8154"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_ok.txt",
+      "bytes": 715,
+      "sha256": "2d1c534f8dc8ad9744dfdd9c31300e01660717aa0bde7b1c861518119efb2920"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_refusal.txt",
+      "bytes": 723,
+      "sha256": "f8403b6963ac76a603250065fa9b9272e34f294ff4a4504b2153d663be2b2b7f"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_thinking.txt",
+      "bytes": 1390,
+      "sha256": "bb0adf3c13e48fd914669220e377fe021a2442412aa3536982175306a44f3f87"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_truncated.txt",
+      "bytes": 458,
+      "sha256": "c1489f3fe126a3f1b16fb58eb69aede3973f2cb63f92bc8078d7dc2ddf9d7e5b"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_error.txt",
+      "bytes": 169,
+      "sha256": "261fbd7ebe071549d39fc7239646ac3b901ee01b5f57c1159368e1aa161d5674"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_length.txt",
+      "bytes": 120,
+      "sha256": "cf819f5e8c364383a117b4e5d7182c2c39e2241feb235adc27d1ea62c5415219"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_ok.txt",
+      "bytes": 386,
+      "sha256": "a16a10fa5b7bff9679afabc74862c45fbb88e512431d9b436112ddcea5b24545"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_reasoning.txt",
+      "bytes": 538,
+      "sha256": "ae04267a5f9130b57723e9854159b0ec2130387d04fd27b4e26e8faa644be5ad"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_think.txt",
+      "bytes": 662,
+      "sha256": "62c27ca5f7e98754322f1a8976d8cac423c6378ee95c644f3f8bce034c126bce"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_usage.txt",
+      "bytes": 291,
+      "sha256": "3d5ad617ded466311fc2eea597ba6ae90fe6adfd9e6663355c5e8b9dcb46ac67"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Http/DynamicWebProxyTests.cs",
+      "bytes": 6817,
+      "sha256": "6f1b54f23143e017e14f00b92d8058080b961377dce3da11031b9018962931a0"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Http/HttpErrorMapperTests.cs",
+      "bytes": 11112,
+      "sha256": "0afd2d99dea824b92115d0160294202434a36bb8385ec70caca2ab2ce582b18f"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Http/LimitedReadStreamTests.cs",
+      "bytes": 5283,
+      "sha256": "f70a39b2eb0558ddcfc0838e28e772412df6de49f6a2fcae83e7d47a78ab0c14"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Http/LlmRetryDelayTests.cs",
+      "bytes": 2924,
+      "sha256": "47dc69e139081a3d2cc8a827bc6c8cd3ffe980e15bd8823377c11bc87e249a19"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Http/NetworkContentCleanupCoordinationTests.cs",
+      "bytes": 7243,
+      "sha256": "a74a7cc09f9d958ad65def3362edae21f0d5e7fb99b9b8fd9be2c207ecdb2ef5"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Http/NetworkContentLifecycleTests.cs",
+      "bytes": 14264,
+      "sha256": "7223beb555e2d8945553ec38035bf66edece1e9cac1b9fc6be1c0e720c158c10"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Http/NetworkTestBoundary.cs",
+      "bytes": 6874,
+      "sha256": "6a4c10b19220b17695535698b1494e4bf04b641daf5efa9f8d73348a455cfa75"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Http/NetworkTransportTests.cs",
+      "bytes": 20627,
+      "sha256": "d1809d96a6e0eec17ecc9515949391ff02145b1745bc11ba95ea93fb4ae08b9f"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Http/ProxyConnectivityTests.cs",
+      "bytes": 25412,
+      "sha256": "1f61fcec5c2d26f50d6a472b8a1db1b7e70e92de3788ce6389528aca45527fa0"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Http/SafeHttpDiagnosticsTests.cs",
+      "bytes": 7278,
+      "sha256": "6ac254577e16fc6a3380b2eec58a4539b8c8fa0523bcc958daa3c73ad50051a3"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Http/SecretRedactorTests.cs",
+      "bytes": 6474,
+      "sha256": "238488a97de5e0bc845280d06a2a8e12080b88347ef04fa78d59f975c85543f5"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Http/SseParserTests.cs",
+      "bytes": 9733,
+      "sha256": "8c8bddda9bd07127f85b97234ced8d605eab23a47ed92aab8e7c63a82c75aebf"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Iris.Providers.Tests.csproj",
+      "bytes": 1150,
+      "sha256": "c6cedacca1f4b8f17de19d363ec32df0e55c87120cd8c7e3bd947cc29406f8c2"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduNamedPipelineTests.cs",
+      "bytes": 5149,
+      "sha256": "91ce47ee00b4fecfb9a57b32c9909d9565382bffab78b5aebff052fc9b6227d9"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduOwnershipTests.cs",
+      "bytes": 9648,
+      "sha256": "db8597484f10380ba19cd0ecdfab3f027b4aca88e689881d664902f8003500b3"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduParsingTests.cs",
+      "bytes": 5942,
+      "sha256": "2d63c3572c01665f0b20b5f19e3583b196034323ae84f5d1eee76b2e2bee7d90"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduProviderTests.cs",
+      "bytes": 10898,
+      "sha256": "1b3defaa7dd9c249df83c0a3960709d5cd402af03ed92c486492a193d1869b35"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduRegistryTests.cs",
+      "bytes": 3589,
+      "sha256": "a7cae994a1c00bb1b883f02f9f6982d3452cdb15704b0932692b8f98b184631a"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduTestScope.cs",
+      "bytes": 9476,
+      "sha256": "9953be0c4cae1902ecd2a3426f7106f0ff5a047a0c1462959d1b6cd14d07653b"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduTokenTests.cs",
+      "bytes": 9814,
+      "sha256": "c411e3128b72822be2b37e313e6350f6c9982c40cb7045b7f4fa1938654311ce"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Translation/Anthropic/AnthropicReworkR1Tests.cs",
+      "bytes": 48898,
+      "sha256": "2e25c6aa6b3a346ff43d90e43f3b943ad74c3fc241acd2830cfda925c2c8459a"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Translation/Anthropic/AnthropicTranslationProviderFactoryTests.cs",
+      "bytes": 5109,
+      "sha256": "241ad42dcaa78245f4dd2026f9f363880439151180b9b799ed8883ab76780b8d"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Translation/Anthropic/AnthropicTranslationProviderTests.cs",
+      "bytes": 80552,
+      "sha256": "4839ca46d672cc2a2ae5fd987988f1f8690c5dc7327bebd86f6b4615a6f953a6"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Translation/OpenAICompatible/OpenAICompatibleTranslationProviderFactoryTests.cs",
+      "bytes": 5155,
+      "sha256": "b0e70985c0a4388a3dd7ce440956282a353a0f3c99ef4bf5adf83c40b1597b82"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Translation/OpenAICompatible/OpenAICompatibleTranslationProviderTests.cs",
+      "bytes": 79116,
+      "sha256": "6e84ef56d1a6159489afe13bf48ab037116f185479095c155cbb9c7f15644a1f"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Translation/OpenAICompatible/ThinkTagStripperTests.cs",
+      "bytes": 4505,
+      "sha256": "be4641bb52095731f27b6040281f1ea1495093cf8d152f07753779dbfc0e7328"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Translation/ProviderCallGuardTests.cs",
+      "bytes": 15531,
+      "sha256": "c849e31e2a572e78496391b07a8f6e4b308322957712391dd87a057488060905"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/Wire/WireSerializationTests.cs",
+      "bytes": 4107,
+      "sha256": "8d3a564ac558a959834c6694bb08e854369dc6f0631c8b00fe0b8849b4c3f13e"
+    },
+    {
+      "path": "tests/Iris.Providers.Tests/xunit.runner.json",
+      "bytes": 82,
+      "sha256": "c000bc0d17a0c54872293a50c4f5cd19b041611bd0c5494c444a47262adb0792"
+    }
+  ],
+  "changedDuringIndependentBuildAndTest": [],
+  "scopedTrackedChanges": [
+    "src/Iris.Platform.Windows/NativeMethods.txt",
+    "src/Iris.Platform.Windows/SystemIntegration/IpcPipeFactory.cs",
+    "tests/Iris.Platform.Windows.Tests/SystemIntegration/NamedPipeIpcTests.cs"
+  ],
+  "scopedNewTest": "tests/Iris.Platform.Windows.Tests/SystemIntegration/IpcEarlyDisconnectTests.cs",
+  "independentIpcSourceMatches": {
+    "src/Iris.Platform.Windows/SystemIntegration/IpcPipeFactory.cs": true,
+    "src/Iris.Platform.Windows/SystemIntegration/NamedPipeIpcServer.cs": true,
+    "src/Iris.Platform.Windows/NativeMethods.txt": true
+  },
+  "independentIpcAssemblyMatches": {
+    "Iris.Core.dll": true,
+    "Iris.Platform.Windows.dll": true,
+    "Microsoft.Extensions.DependencyInjection.Abstractions.dll": true,
+    "Microsoft.Extensions.Logging.Abstractions.dll": true,
+    "Microsoft.Windows.SDK.NET.dll": true,
+    "WinRT.Runtime.dll": true
+  },
+  "independentSdkSourceMatches": {
+    "Probe.csproj": true,
+    "Program.cs": true
+  },
+  "independentBootstrapCases": 13,
+  "fixedOfficialSourceCount": 24,
+  "packageArtifactCount": 14,
+  "evidenceFiles": [
+    {
+      "path": "tasks/done/T-039A.evidence/architect-truncated-source.json",
+      "bytes": 368,
+      "sha256": "b33d7bd5757c71805ef043ee20700cb4b6096508c351dc12b3173f0475e417a7"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-auto-off.command.json",
+      "bytes": 299,
+      "sha256": "97c4b254fe310ae9570a21770a4c109a91bde5b9edd9097045c01155db2b569c"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-auto-off.log",
+      "bytes": 230,
+      "sha256": "c2e48752905ea5e92b8ba08f966f664bfeeb187e6b2d2ab7a6eca6c3113f15f2"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-auto-on.command.json",
+      "bytes": 297,
+      "sha256": "fb7ddc2da9f84aeef332207712faa93d54fef6e31188550a43d78364ac5a62f0"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-auto-on.log",
+      "bytes": 244,
+      "sha256": "05e81fa94ba4521a85ed6f124af11b4156cd065cbc8dc47027ed56cf00c967cd"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-first-run.command.json",
+      "bytes": 253,
+      "sha256": "4574c677d3bb108ad3d7e06d89386f100f076c6536f18a75c4cfc486b5c8966c"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-first-run.log",
+      "bytes": 138,
+      "sha256": "42376a6bd7a86603aab54ffad53f1f0ac726b54036a95a79e63c3cbb5a60fc9d"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-install.command.json",
+      "bytes": 291,
+      "sha256": "85315a2a6ca3fa70e110e38daf95d16801946973e4f6823f59febc38422110ff"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-install.log",
+      "bytes": 150,
+      "sha256": "5059c956336ef90aa90acf3b54621801e9f80193ddce78bfe0af5c427e7a9a3c"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-malformed-hook.command.json",
+      "bytes": 302,
+      "sha256": "c37be7a4d06cf85d18753917a5df9cc96a59190f2ec9dcd82ae421725bf604a4"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-malformed-hook.log",
+      "bytes": 98,
+      "sha256": "e218d74fa28de17d3f24094706b11895a012bff716200f7022b05f4e625452fc"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-missing-version.command.json",
+      "bytes": 287,
+      "sha256": "7d18c8ee01437254b47ddc1880c147df91e78a244bc30eef28b779828c3d73bc"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-missing-version.log",
+      "bytes": 82,
+      "sha256": "26b3deb8b60afd33b18764abbd8bd05f400f95a44bbb608825ca2137c1454e28"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-obsolete.command.json",
+      "bytes": 293,
+      "sha256": "c277d9dfedf10048f8f9577d3ca2a348a2dc0fe283715269ddca99ca07f5fff2"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-obsolete.log",
+      "bytes": 151,
+      "sha256": "71c6b6adb3c0a7069257315651d2041f45691e30a4ac5f481e0fa307a5af53ee"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-ordinary-help.command.json",
+      "bytes": 272,
+      "sha256": "2eed6b195944952c461b1ebc61933dd1e9eedc30e0bee1cb0dfd1eeb4e0d64af"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-ordinary-help.log",
+      "bytes": 82,
+      "sha256": "26b3deb8b60afd33b18764abbd8bd05f400f95a44bbb608825ca2137c1454e28"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-real-exit.command.json",
+      "bytes": 298,
+      "sha256": "25659f469fbfe34409f80818962392ae86783e9411877f9fbc4331b3c40e454d"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-real-exit.log",
+      "bytes": 72,
+      "sha256": "13adf55b371a5189792f2b8c11079ba5d5d1bf60b5dfc67c080388db3b1cadf3"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-restarted.command.json",
+      "bytes": 253,
+      "sha256": "a59575fa1cd8889d1f9575e40211324dcc133bb05e0147ae6e3c7bdca013781f"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-restarted.log",
+      "bytes": 138,
+      "sha256": "aebfe88a654560a60167d6bc1dd37f72a7f67ba357da582de4b768533b81052f"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-uninstall-throws.command.json",
+      "bytes": 301,
+      "sha256": "34646d5ac16bc3dffb7ae2e0d978f9592ffbb3e47368d1db5b1407ebb716b859"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-uninstall-throws.log",
+      "bytes": 154,
+      "sha256": "3704bd38732f031011253893e388c626cf29c91929df9dcfe637c15dfc17878d"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-uninstall.command.json",
+      "bytes": 295,
+      "sha256": "d6bf8de8eef800d87a6d6796c98df9d0513c96ca6160906ad710aae453017f41"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-uninstall.log",
+      "bytes": 152,
+      "sha256": "29ab1da4f249701c20ae1eeeaa3fb19f90be5c2d79438113677a8c37e689d038"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-updated.command.json",
+      "bytes": 291,
+      "sha256": "99fed1554fece5f83655820439d93670ca7c91e33fd11ba679c854c3e9ccdb0f"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/bootstrap-updated.log",
+      "bytes": 150,
+      "sha256": "fb14a7d8af9ff00a00e0d60927e57567dc9f3fe9141f928263d151d800da6d69"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/collect_evidence.py",
+      "bytes": 3739,
+      "sha256": "3753ef3d19fced43fb1fca156a84981e22853c58af99c8dc954ac55f644332a7"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/dotnet-stack-version.txt",
+      "bytes": 11,
+      "sha256": "f12e5f897dbe57d86af345e3f69e45d4540ab24cac7560abca190699618a4499"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/fetch-source.command.json",
+      "bytes": 129,
+      "sha256": "d17c7c5ae0adce8493c4de4a50216ff974273be0f17d620bc25ac0002e4970b8"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/fetch-source.log",
+      "bytes": 218,
+      "sha256": "f4021ac8709a1b7d231968569fc47760d2d5aaea759be9a7066b7e9fbe05f5ff"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/fetch_runtime_support.py",
+      "bytes": 508,
+      "sha256": "8964bc6c9cd3c14c06f591964160c0fff387b83a9452849a152e298bbf4fcc5b"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/fetch_source.py",
+      "bytes": 982,
+      "sha256": "1e32526e1ba43279c3a57a65871a674343ec7d15da7744a837d35a36eea071f2"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-full-2.command.json",
+      "bytes": 145,
+      "sha256": "a6a7c09b9b51a53f7fcc05763f2ca52f2d836487d1d2508b93b6b73405dca53a"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-full-2.log",
+      "bytes": 5367,
+      "sha256": "28ea92c1beea7632ea54eaa932ec7c8f599c805f893d398eae1ff16702d14b51"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-full-3.command.json",
+      "bytes": 136,
+      "sha256": "c16a95e3ad67f77dfd75f13b8c7bcc213365d0cec047a9a2b80ad7f19e0eced3"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-full-3.log",
+      "bytes": 3429,
+      "sha256": "9883242a38613da124a0e83dc3d65f7a2369ee6f62f046e80810603070786109"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-full-4.command.json",
+      "bytes": 136,
+      "sha256": "c16a95e3ad67f77dfd75f13b8c7bcc213365d0cec047a9a2b80ad7f19e0eced3"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-full-4.log",
+      "bytes": 3429,
+      "sha256": "ba2054223bf8bfa47167d240263c84f93f953684343999543d21fe4f901d4c5b"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-full.command.json",
+      "bytes": 136,
+      "sha256": "8151b77f7c521934d9188851754d0152cab971705f5aad219d998264bf9be564"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-full.log",
+      "bytes": 116131,
+      "sha256": "d1247b36bc54fcd86778dc5a58bd0203467a37c301d4f6fb0bd9c0fa5bb15b23"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-release-2.command.json",
+      "bytes": 137,
+      "sha256": "90ae05b19c12bc3738c5c654b6ae9f848bd92ae86334673a20f42c4bb9090d25"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-release-2.log",
+      "bytes": 1614,
+      "sha256": "4967fa6611dd4c320d4e768d1543518be619e2096d5bf099d7f066212866fc07"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-release-3.command.json",
+      "bytes": 137,
+      "sha256": "90ae05b19c12bc3738c5c654b6ae9f848bd92ae86334673a20f42c4bb9090d25"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-release-3.log",
+      "bytes": 1614,
+      "sha256": "49f80ab5a295b8b8f20f79713eceddac23a58126eaebe795062093ef387930e6"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-release-4.command.json",
+      "bytes": 137,
+      "sha256": "90ae05b19c12bc3738c5c654b6ae9f848bd92ae86334673a20f42c4bb9090d25"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-release-4.log",
+      "bytes": 1614,
+      "sha256": "3f4f923cfc2819b4795b7c22f6717c044895cd9f522ac8c3cb8859fb4060c2fa"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-release.command.json",
+      "bytes": 137,
+      "sha256": "90ae05b19c12bc3738c5c654b6ae9f848bd92ae86334673a20f42c4bb9090d25"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/final-release.log",
+      "bytes": 1608,
+      "sha256": "800ad2e08278be30fb76d455aa9b08890068d4f7745f5e287c420e8cb50aa7be"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/inspect_publish.py",
+      "bytes": 1548,
+      "sha256": "3f838ebad8105d974fdac353b6aca0608c4b959d236b3fa81f08b9d5b51f3be7"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-async-fields-help.command.json",
+      "bytes": 307,
+      "sha256": "805f45c773e16d5953f4c93794c778538636a2cc57c6413f5d22c6da87c3f6e9"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-async-fields-help.log",
+      "bytes": 4472,
+      "sha256": "55a4763f9bfd2b0543b13b9287ead6404f0e5d796a0161d06dd7f81c44731e97"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-async-stack.command.json",
+      "bytes": 251,
+      "sha256": "2c6adc2fc37603330982e0462560d63e5fb45de1e0477837fa79d260a215e846"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-async-stack.log",
+      "bytes": 13418,
+      "sha256": "e592d5ff9e7f27d31c6a074e62ba24fe9ffe4b56bbda8797879371a9527901c5"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-before/binding.json",
+      "bytes": 720,
+      "sha256": "53c898d04af78267b5040bbd4ef8687ab9a3606afdc1b416f919074ac82528df"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-before/IpcEarlyDisconnectTests.cs.txt",
+      "bytes": 7612,
+      "sha256": "371a40569d797941f08337dc21009a28ec0ccfaf09c48a8f4e672139f023a7d5"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-before/IpcPipeFactory.cs.txt",
+      "bytes": 2275,
+      "sha256": "1d6f35d82fc09c83d32822715ee5e6aafa015e098b58823a8fa8443e74cf0c5f"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-before/NamedPipeIpcServer.cs.txt",
+      "bytes": 5656,
+      "sha256": "aa932140ab8767981753bb0d16628e114ec60689aa3f6259a0684cdcdce4abfc"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-before/NamedPipeIpcTests-before-guard-review.cs.txt",
+      "bytes": 14892,
+      "sha256": "7c660fbd70f42361b0636fcc585163b65248abcae73360f5e02876092379e7ff"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-before/NamedPipeIpcTests.cs.txt",
+      "bytes": 14142,
+      "sha256": "bb9bb9fb0958d0bf0849954a71f7b0ed2819d97d34186817c4079ce1baced2a2"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-dump-tool-install.command.json",
+      "bytes": 295,
+      "sha256": "6073f0ff2f0ca433c02690adf71504644e2e307c202f422ceb82efa4407e3ee3"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-dump-tool-install.log",
+      "bytes": 116,
+      "sha256": "ed5234ba9962bb74ab2bf8a9f676bc28f38932b8f3aaa8384e32e828f68cd689"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-early-after-1.command.json",
+      "bytes": 303,
+      "sha256": "c91b9e0695108cae95f0e1dd35039ae5f360f2d28d3e209052464360e7ff6d94"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-early-after-1.log",
+      "bytes": 399,
+      "sha256": "a1a84156d8fbe6313af45b51318706b7452aa717a030136efdf14ce2aa569e2c"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-early-after-2.command.json",
+      "bytes": 303,
+      "sha256": "f75c3d29347c191b4ca87b0d34d2d315cfa151c026058a0bfd6969c28a5223df"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-early-after-2.log",
+      "bytes": 2241,
+      "sha256": "971724210dc7f0a8da86d646c113ad5a092ce33f25ba733a3a7a6477fd007e87"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-early-before.command.json",
+      "bytes": 303,
+      "sha256": "941671c0b02e23c692981303c94e43452a2ad0e5d313d8e17271d9967267b365"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-early-before.log",
+      "bytes": 6738,
+      "sha256": "13eaf1dbea2e3f505bf67013d73bc8d5c80ad28afd342566d167b9ff791b6608"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-dump.command.json",
+      "bytes": 264,
+      "sha256": "78daf94efa50a850f7a42e2a990067ee3385324f80788f047a4416c680a3a7f9"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-dump.log",
+      "bytes": 74,
+      "sha256": "1c74b2724072c94e3491bd3089d448b9302ff8f6befc4e87c39895fcc3dc4acd"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-fields.command.json",
+      "bytes": 291,
+      "sha256": "5edb3402632459d950a7fc4b60487738a57f24a26b09c57332da7a32ac3fb910"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-fields.log",
+      "bytes": 10434,
+      "sha256": "86fd83826b439a5571d8b62d4f3006d7f990b5a7c69cf2cbc7c1c5f89d351a48"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-fixture.command.json",
+      "bytes": 266,
+      "sha256": "03c57fed09a79e6ed6ad7259287a80a6c708798e21146d2d5ca0fb247161af6c"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-fixture.log",
+      "bytes": 1011,
+      "sha256": "da224cbce6f81e9a62400c81a1cb04e881ae80be9a79d5bc9522af2a674937a8"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-loop-pipe.command.json",
+      "bytes": 317,
+      "sha256": "f44f1c33816ebcad8ab348f73b0e35721b19626001de96c8c822f31cfc729e18"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-loop-pipe.log",
+      "bytes": 3481,
+      "sha256": "6a9a982e66c265d27a5907eb37cafe715fef6ce96ed0e43fc74fdb0ada4dedf5"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-server.command.json",
+      "bytes": 317,
+      "sha256": "fa86238c693201e23e7a76bb85970b9a693487a830a49e2d114bff4f6c963abe"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-server.log",
+      "bytes": 3800,
+      "sha256": "14888e3f9eaf6ae28f037e981c5b31f688597ce109438a49d1cf8df1a6e9e882"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-stack.command.json",
+      "bytes": 174,
+      "sha256": "a8c14bb8163d53c348d9f8d840c84e337352527ecfbd43c6fdb9772c2458e41e"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-stack.log",
+      "bytes": 5310,
+      "sha256": "de0322e438e7446fcab2c9ff085c4c1891c2c3b5791a80aeb37767a56ea8c9fd"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-hung-termination.json",
+      "bytes": 353,
+      "sha256": "6b1e56d364e6ff2f7c0bacf368a9db1cdf0d9d5e61c13fee3447fec17ab0401a"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-regression-2.command.json",
+      "bytes": 328,
+      "sha256": "add79566c4163293d740ec4632cdacf27c1494e33f24ab4ad6da723438010181"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-regression-2.log",
+      "bytes": 22874,
+      "sha256": "55359db101ea4c778d58b79d84451878e0ac535a4f9676bba7f3c4f6195e7829"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-regression-3.command.json",
+      "bytes": 328,
+      "sha256": "add79566c4163293d740ec4632cdacf27c1494e33f24ab4ad6da723438010181"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-regression-3.log",
+      "bytes": 23142,
+      "sha256": "f45c57b80a6dfa05977f72903692cc2e9ab2784e20e3c759cc2994c4b65b4b4a"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-regression.command.json",
+      "bytes": 289,
+      "sha256": "59aa56018123aa203a8aa5aa9ea8d2c52676948899ee8b82b94e9f3ba56aee5b"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-regression.log",
+      "bytes": 435,
+      "sha256": "6c2436c4b60dc0afffeee084a798e253552d4dfce3d6b400835af865159947ce"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-stack-tool-install.command.json",
+      "bytes": 296,
+      "sha256": "2fb135ea7a58acf4e555ea13d9a570afd6972aa25ecbad0f1efcb1a5f8b6d7a1"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ipc-stack-tool-install.log",
+      "bytes": 118,
+      "sha256": "790843955f7e4232fe95a8538a9f1c3cf79c24363d4bc94e870cb2d340837d59"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/iris-publish-baseline.command.json",
+      "bytes": 398,
+      "sha256": "5516dee5f7c294c6d29475b7df8103b7853350650ce39927bb0e0cddf27f09f1"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/iris-publish-baseline.log",
+      "bytes": 1457,
+      "sha256": "bf1a61eec2ef1211030a3aefbf5b55c7001fb5114437b041955f0a3d389e41b3"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-1.0.0-full.nuspec",
+      "bytes": 802,
+      "sha256": "96ac6050eb5717d8d57d8f5c0cde3b2ad8596bba209b158be985d5e2b4b9be0b"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-1.1.0-delta.nuspec",
+      "bytes": 802,
+      "sha256": "918b46551037caa37736906503eac134d4315f55d35fffc0ad5d0a0b2e354bb4"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb-1.1.0-full.nuspec",
+      "bytes": 802,
+      "sha256": "918b46551037caa37736906503eac134d4315f55d35fffc0ad5d0a0b2e354bb4"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/bootstrapping.html",
+      "bytes": 30605,
+      "sha256": "fc9fb6aafb960d610dec36ea7f465afe4fde67d8c64da98b45a4c6689fc51819"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/bootstrapping.txt",
+      "bytes": 3764,
+      "sha256": "9779ebf3a20f667e0d2a04f52e289ff1850a08370ce046b85958892782bbc42e"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/dotnet10-supported-os.md",
+      "bytes": 7009,
+      "sha256": "168f8bf76fdcaad9a1083ce5a96329291c17ef4c51e850b99c83f6e0457963f7"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/dotnet10-supported-os.source.json",
+      "bytes": 183,
+      "sha256": "87e6361833750ee3cfe27c6f742d8506748b8b830d7ac4a36cbd99d61eb909c8"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/github-actions.html",
+      "bytes": 43294,
+      "sha256": "6a3cde23eb2d3f4285c61907b46019626c9d4e09f187527cce623557414d1434"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/github-actions.txt",
+      "bytes": 5968,
+      "sha256": "94e0f0e4caf16356ffad0ff8fb1e2a29f0de05a550affac0c71238afdb9a391e"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/nuget-velopack.json",
+      "bytes": 2635,
+      "sha256": "27750a9aefd8ee3de622494d9c5b979d038718df751994daca6f14478730a818"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/nuget-vpk.json",
+      "bytes": 2610,
+      "sha256": "3da640f2753a417e4c56bb47f51b3022bc926b8d548f4e6cfef2b468f0b6c221"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/runtime.html",
+      "bytes": 24024,
+      "sha256": "da2c412ced08d1ed600c03f28db8d0163099ead95a12027b398ac9b52e992f3a"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/runtime.txt",
+      "bytes": 1688,
+      "sha256": "042c7ac60661159abb151cd11a8514bc068b516bff8c9516bc0772b66008e74b"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/uninstalling.html",
+      "bytes": 25446,
+      "sha256": "aea6a33d071c1b6eef4524b624c56625436abfc71e77c36701db1537d311ecf6"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/uninstalling.txt",
+      "bytes": 2421,
+      "sha256": "97263e4d55c796b08db9ad1465785ca3847a33ad0d1915c22b98bcf537f4da2c"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/velopack-csharp.html",
+      "bytes": 62771,
+      "sha256": "9882a1fdd1b12df4bc629b6b6ad1763aa94084dc113988b580832d3578caf3bb"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/velopack-csharp.html.txt",
+      "bytes": 10512,
+      "sha256": "b4022bcfc7ade1d65dc867993e35c21e38f8d409a4e063155994d5edbf26301f"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/velopack-index.html",
+      "bytes": 26485,
+      "sha256": "22aa39995b1c3e110474802a03ad5591c8e1d26686f7c1ae4418e5284f5b790e"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/velopack-index.html.txt",
+      "bytes": 4436,
+      "sha256": "f1c56ba284ecc4d37882800bcd7f6e9d9044c32fae85e5682e7e174dda6b29c6"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/velopack-latest.json",
+      "bytes": 12536,
+      "sha256": "cd21401a1f35e1c3faac328a84c9c620a9b4e0117913147be1604f96249af333"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-docs/velopack-sitemap.xml",
+      "bytes": 27667,
+      "sha256": "b510e0c998c7540cc94966ed6fcec35323c95ddffdff15d454e8c902dba9bbf4"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/LICENSE",
+      "bytes": 1091,
+      "sha256": "91845db83551c877ebbb1118e0fb92e4e527290d23b995c55dcd438b3293943f"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/bins/src/commands/apply_windows_impl.rs",
+      "bytes": 12142,
+      "sha256": "d3db6cfa465053f24245d41ab9532a002091829b2d051eb9942bc64147450d4d"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/bins/src/commands/install.rs",
+      "bytes": 9662,
+      "sha256": "6334153f7908de2343206cb6afae3835e89cd8390dc06aa78cc21220bfcd2e32"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/bins/src/commands/uninstall.rs",
+      "bytes": 1804,
+      "sha256": "9d26594bfd9320798f59d3c43544e4d0bef6f4e6da5b9830bf1b1c167fd865e8"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/bins/src/shared/util_common.rs",
+      "bytes": 4395,
+      "sha256": "4610125beb18c8766bc009afa2f92c6dc05914d14120d42b9de18fdf9499a5e5"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/bins/src/windows/registry.rs",
+      "bytes": 4775,
+      "sha256": "5a4867d468d2473ad6fd2b4851080f5f6f0a26b2aae3cb2d438c448677edc0e2"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/bins/src/windows/runtimes.rs",
+      "bytes": 36220,
+      "sha256": "81c1f8cbbc89ce848a3a70303dd32c36d241215cee58aca1a6756ca49f4e1fb0"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/bins/src/windows/util.rs",
+      "bytes": 13504,
+      "sha256": "2a049c423bae091f670c3748ce340af8f026f82b83bf785e7820cb40117c5ee9"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Locators/IVelopackLocator.cs",
+      "bytes": 3550,
+      "sha256": "8a0909060bb549c7a1a967e433b9e8ad30000a1f877554c09b1ac8d684009f3a"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Locators/TestVelopackLocator.cs",
+      "bytes": 5213,
+      "sha256": "c49a697afa2d21b705597a5331add516ad7ef4d58189586ca2e9bd64cd41c76b"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Locators/VelopackLocator.cs",
+      "bytes": 7887,
+      "sha256": "84df89fc41c204466e8dcc5137759d334ee8dd07433cd446c7ea7c4819d77c48"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Sources/GitBase.cs",
+      "bytes": 6956,
+      "sha256": "1165bedd575ab8018cf7cac4fc75dd04a07601f2814022cc80326807353d5b8f"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Sources/GithubSource.cs",
+      "bytes": 7503,
+      "sha256": "ef4bb04ae4c52c28b0e2b331abc5295e1829aec1947e349ee3d930432cbead60"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Sources/HttpClientFileDownloader.cs",
+      "bytes": 6473,
+      "sha256": "d8314b9a28f61154b280c482df72381412039ac5d32af12b134010e983fea82d"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Sources/IFileDownloader.cs",
+      "bytes": 1791,
+      "sha256": "f8ed0941210d47614d4c094ec5f6be57e7c8c3d695f27d723553f69d97d70e1c"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Sources/IUpdateSource.cs",
+      "bytes": 2856,
+      "sha256": "db3c4d2ca151a2591da9930eca6a040d61edb955cd449c23c3fcd0f8b11ab974"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Sources/SimpleFileSource.cs",
+      "bytes": 4175,
+      "sha256": "f3453eb87847e7a33ba7eda44eb0cb2d2d538cf37c07518c6f8982796380f4ff"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/UpdateExe.cs",
+      "bytes": 4890,
+      "sha256": "f93338a733ae836739dff61089423c25f1a9d84ba28cc66a6f6faea77331e969"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/UpdateManager.cs",
+      "bytes": 30316,
+      "sha256": "638bae24a68702ed1cf56a90fd21e9372138db4b04664c12ccb411cb5d27ddef"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/UpdateOptions.cs",
+      "bytes": 1714,
+      "sha256": "b47896c53cf4ba4e73459d64e493b46c44ad5632d44811c7471ee828ed97e2ed"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/VelopackApp.cs",
+      "bytes": 12359,
+      "sha256": "023081386b8dfbef3dcafaa97a014d6471587fbdaf44d15c0065d0b9d140fb34"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Windows/RuntimeInfo.cs",
+      "bytes": 28666,
+      "sha256": "feafba60913080782f4f7bcb6ea827f566dbda825cfa7882f0c2488acfc54756"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/lib-csharp/Windows/Runtimes.cs",
+      "bytes": 10843,
+      "sha256": "493c22248d43f627eccf5a948d7749a0e535bb5d1bd1e0afa757ea6d92e84bc1"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/vpk/Velopack.Packaging/PackageBuilder.cs",
+      "bytes": 18194,
+      "sha256": "5241dd2015061569e272ec5a05377486d472bafd5260c24959f18173f1f5bde1"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source/src/vpk/Velopack.Packaging.Windows/Commands/WindowsPackCommandRunner.cs",
+      "bytes": 17131,
+      "sha256": "782cf22a38f2363f1cc904157f96a3310d9adfa2453fc4e7e840c9c25f815124"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/official-source.json",
+      "bytes": 228,
+      "sha256": "162cb0660814bb7b398f95612b08b360291db238c8b769d1a57ff1e090edea17"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/pack_local.py",
+      "bytes": 1300,
+      "sha256": "1bd3524e9d7b961e3eb8eb47e3e6decaa8c7029868a85e2dc7bd4fffc2079145"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/package-and-source-inspection.command.json",
+      "bytes": 133,
+      "sha256": "487205cb7ec6ec1e081a162faa99ef04c21d4eb79f2b5ce9d2255d039180b37b"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/package-and-source-inspection.log",
+      "bytes": 2563,
+      "sha256": "c0e9fb5d6186dba1d84abb416cc2edfd799c7df2ce5dae51ecede790bfc1bbfc"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/package-inventory.json",
+      "bytes": 12941,
+      "sha256": "6992e2257017b0465c5114e01a8f28438498503ae7193a8697364ce6b14548a0"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/Payload/Payload.csproj",
+      "bytes": 496,
+      "sha256": "499eb001d2eba50572daba68bfddaaa98e6c935390d62de34fde702f60c1b600"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/Payload/Program.cs",
+      "bytes": 280,
+      "sha256": "d342d59b5ba5fb7f3e1cf3866f82ef70e745b8af082b36697f1a86960a618399"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/payload-publish-v1.command.json",
+      "bytes": 405,
+      "sha256": "31c25acaeef935f2697efd7a11f2f44a1ce40ad5894ab6d1836edc73885745c9"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/payload-publish-v1.log",
+      "bytes": 268,
+      "sha256": "ae3732e78d3a77fc016c3041d0b5b3f676122ce82795534a01dda1db3cad1455"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/payload-publish-v2.command.json",
+      "bytes": 400,
+      "sha256": "ea1674836912a6769195a027f3367db5b5ae3111654c0c7abe22021cc0f72737"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/payload-publish-v2.log",
+      "bytes": 266,
+      "sha256": "b53e69d3239cf94fef0f4b8197bb5085107f96a4dd18ac26fa9bd20cf37e52af"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/preparation.json",
+      "bytes": 1635,
+      "sha256": "0acfccb50237cbdaef3064c7f0fb333b30620c1ea0e3e626714ff5702fba0f95"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/prepare.py",
+      "bytes": 1834,
+      "sha256": "00419c1ffb8eb37eddeb86ff3d5e63b2fcc3d696530d240a5d13d65deeb391a5"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/Probe/Probe.csproj",
+      "bytes": 496,
+      "sha256": "499eb001d2eba50572daba68bfddaaa98e6c935390d62de34fde702f60c1b600"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/Probe/Program.cs",
+      "bytes": 19252,
+      "sha256": "493067d1dd8f86c1013b1d0ee33c9b8ac27553560e98f7f326928bed1fb3ba9f"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/probe-build-1.command.json",
+      "bytes": 245,
+      "sha256": "9a9ebf5ec46219641319f1274fcb7f359184d86597e764ab243fad5c7a459315"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/probe-build-1.log",
+      "bytes": 280,
+      "sha256": "02c84e32df2024b0e94ffc0e8df2096a283d978fbb7e9e5a04ef5baa06f0201f"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/probe-build-2.command.json",
+      "bytes": 245,
+      "sha256": "9a9ebf5ec46219641319f1274fcb7f359184d86597e764ab243fad5c7a459315"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/probe-build-2.log",
+      "bytes": 256,
+      "sha256": "16e7675637c3bfab589cc0f8cb756d52a14611dedafabb49d65d394dea105eac"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/probe-build-3.command.json",
+      "bytes": 191,
+      "sha256": "2858df5680b8bdea54a7401b7540bb9ba321280fb8d68ef04f899fa376e99d7a"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/probe-build-3.log",
+      "bytes": 174,
+      "sha256": "512dcfe846d86a00dd8a47c5da4ed2ef92d9ca192f61478748745d01ecfcffa9"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/Probe-v1.cs.txt",
+      "bytes": 13597,
+      "sha256": "4883635b977f645588bdfa2ec88954027329578760cb8236cab86d36e7dd61d5"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/ProposedContracts.cs.txt",
+      "bytes": 2644,
+      "sha256": "77f6243b1bf04452cdbced644740ac7bfb6fbb0030db14594a921ffa98e0e120"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/publish-inspection.command.json",
+      "bytes": 132,
+      "sha256": "b07cf440455c0fd645a01aa87b51d0a798c905e58a9ae1d664f8fe5d742252de"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/publish-inspection.log",
+      "bytes": 906,
+      "sha256": "1e38cd3fd6bd06ea435c1d0d402bd41306ea67ebb962d18d92e202232b19a603"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/publish-inventory.json",
+      "bytes": 39603,
+      "sha256": "bca5a3a21ba2f72226b307ed89d8f6fed6f97c5df92dea1afd7152b8bbbb5fcb"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/README.md",
+      "bytes": 3892,
+      "sha256": "774fc36e4a6fd7b63966c111cc196f069e40ac06165aad71fe4e69fd2ffdd3c4"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/recommendation.md",
+      "bytes": 14579,
+      "sha256": "8a376c52f8d5eba29f9695365f81b81d2c53128e2ceff9f4a02839f8e39d5920"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/RELEASES",
+      "bytes": 224,
+      "sha256": "c2eeba3b6a64c87c28d20fc6da0d32022dcd309b73041fd982fc33f64fa73ac0"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/releases.win.json",
+      "bytes": 935,
+      "sha256": "e9edd3f5ec512cfae1c8a1743e1529b7b92d9582ac8aa07a4ba4d24db0469442"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/run-before-culture-fix.py.txt",
+      "bytes": 1250,
+      "sha256": "5c1306b14c52c61e2d2f6ae13459750c3c0d060e4dd35f8f2514badb67cfeed7"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/run.py",
+      "bytes": 1203,
+      "sha256": "0019fd673127cbb40c450091cfc3afb963888c8dc88ae131c0763060364f3f2b"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/run_probes.py",
+      "bytes": 1571,
+      "sha256": "84d7ac7c686d7abb4ffca864b1bb60ae4239ffc7b34225ac8f5908a817dc4277"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/runtime-support-doc.command.json",
+      "bytes": 138,
+      "sha256": "d568743ace6bf2e1bfb844b68d9aac265b1fe5fbba436e0f32ebcc775665e7c9"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/runtime-support-doc.log",
+      "bytes": 7138,
+      "sha256": "0f85ff20abd0069ba9f262ae8f7e3ab336fdf24419374d58f301a82459724d68"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/sdk-probes-1.command.json",
+      "bytes": 320,
+      "sha256": "c745310538ed049d55c14cceeac954f7577fb70a49e33909c6303fd5f0f5fe5b"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/sdk-probes-1.log",
+      "bytes": 1809,
+      "sha256": "42a41051a7c242bc4605b0eddea9a13d3e237628512f33c922d489c193d36cd5"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/sdk-probes-2.command.json",
+      "bytes": 320,
+      "sha256": "fce6052a4a4084da16d3c0ef14df718b70369ba1417c2df807e07ba327c0b2ca"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/sdk-probes-2.log",
+      "bytes": 2293,
+      "sha256": "ddd90f03a1cce6edd7abe0adca34ff12e161bf7889b5b3800acf6fcd11e5a77d"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/source-bindings.json",
+      "bytes": 4407,
+      "sha256": "446eb0ad1aecb6fc99e28e92f0131e31cf7d8367b44fa3932c480d89a565a644"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/tool-install.command.json",
+      "bytes": 277,
+      "sha256": "958c6d97e99b35decacbef336b3b2c2014366647af8a6f74ff3173bdc08b402d"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/tool-install.log",
+      "bytes": 96,
+      "sha256": "fbe3779e05249efb4dd5c27cb01ca05e47af3ca396f8d3a5364dc60b0d2b7465"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/tool-list.command.json",
+      "bytes": 162,
+      "sha256": "087c7560b548e14d6874d68375680c22924b6a3b88b16875ee9331d567dc9dd8"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/tool-list.log",
+      "bytes": 117,
+      "sha256": "1767a5ada5c8878e0128bd2b3f7e470fa0703535929501b2e2630db7ef1ebbeb"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/uia-publish.command.json",
+      "bytes": 396,
+      "sha256": "2731b136c5180d3a532d0e4e8f5f20d5e8fe14dffb75753fa3cc75ff09af820f"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/uia-publish.log",
+      "bytes": 525,
+      "sha256": "e71f07c7425261117ca6a1cc013d2073999fcb9d57351cf906ffa29fac2f8d30"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-pack-1.0.0.command.json",
+      "bytes": 515,
+      "sha256": "42d99bc85ad53f12ccdffe09429b02e0cc17d1b9a3994995eef99bcb4c8e8baa"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-pack-1.0.0.log",
+      "bytes": 1232,
+      "sha256": "5617238916c58750cac8e82c48e67c34bd4aded546e29805bdf48e539635f31d"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-pack-1.1.0.command.json",
+      "bytes": 515,
+      "sha256": "24deaee7522e9ed16a356dc6bcfb9d07e92f86785bc3451e85a40a67b410b0cc"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-pack-1.1.0.log",
+      "bytes": 1512,
+      "sha256": "8805b293a24dff71d5a7d73a91e47392f9799996607b46749a208739179a6aa4"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-pack-full-help.command.json",
+      "bytes": 133,
+      "sha256": "1889cb3eb665594761d154961d14618686bcb4e843e8a22e9ab2790684ebbb3c"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-pack-full-help.log",
+      "bytes": 8163,
+      "sha256": "c5c29458a391c9316ff4ad21eeb1c095d04210058293218bd72737918ef49a6f"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-pack-help.command.json",
+      "bytes": 137,
+      "sha256": "05444175e126c862dd21b09670bf6ca9e1da74994820519eba4b5f965a29ddcd"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-pack-help.log",
+      "bytes": 5281,
+      "sha256": "36886bb36f306afaae9a7355294e923fd326d0f8d00297294fc19955314a25ef"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-version.command.json",
+      "bytes": 127,
+      "sha256": "1459795414d4029b977ebbc6510094d10be69ea1b956f7a02acaf6ce8a1230dc"
+    },
+    {
+      "path": "tasks/done/T-039A.evidence/vpk-version.log",
+      "bytes": 87,
+      "sha256": "10a81fb3d0c8ecefeac7de37aa449612cdc3784084f7e0909f33b490532217eb"
+    },
+    {
+      "path": "tasks/done/T-039A.review/audit-pre-delivery-1.json",
+      "bytes": 9802,
+      "sha256": "de984c8631bbd001b700cb136a03a2fcfb3f42254edd63759f5b1ccbc8e7fc05"
+    },
+    {
+      "path": "tasks/done/T-039A.review/audit_pre_delivery.py",
+      "bytes": 4595,
+      "sha256": "a7ce1c7d67359abe280148323bd9387bf39210de4e5a35d19a558f59657c0603"
+    },
+    {
+      "path": "tasks/done/T-039A.review/final-independent-full-20261013.command.json",
+      "bytes": 326,
+      "sha256": "bd3b98852ee6cdda42ca398997ad4ecfd3ff4691ceeaab6df2872893965b05d4"
+    },
+    {
+      "path": "tasks/done/T-039A.review/final-independent-full-20261013.log",
+      "bytes": 3431,
+      "sha256": "c7fd89f366f0e4f879ab76a7873046e50f4554316cd155111da2346e2719c81f"
+    },
+    {
+      "path": "tasks/done/T-039A.review/final-independent-release-20261013.command.json",
+      "bytes": 327,
+      "sha256": "af2299bee3f494c869be601af8efae00f5c2ba6756669c8279afd423d39b984a"
+    },
+    {
+      "path": "tasks/done/T-039A.review/final-independent-release-20261013.log",
+      "bytes": 1614,
+      "sha256": "7cf8ab933605e844571cfeb7f469cf94126e5c9230e8acfd7eb8b9198d3991a4"
+    },
+    {
+      "path": "tasks/done/T-039A.review/final-inputs-20261013.json",
+      "bytes": 125049,
+      "sha256": "6463bb4010ae54794da8b464a3cf8123e9c5479d879f5055de3a03428fad4848"
+    },
+    {
+      "path": "tasks/done/T-039A.review/finalize_evidence.py",
+      "bytes": 4570,
+      "sha256": "2114640a90e8cb619d6471879e5fa1fc8fa433c15cb961dc3b2c686e10f6e6e2"
+    },
+    {
+      "path": "tasks/done/T-039A.review/github-public-access.json",
+      "bytes": 246,
+      "sha256": "779fc08bfb5d237b5d4e1dd3df97374c9cfde4602bd62eaed59a84b844f3e13b"
+    },
+    {
+      "path": "tasks/done/T-039A.review/github-release-state.json",
+      "bytes": 527,
+      "sha256": "e59677245481b6499ae3169d4bac9392fcd2eb4a384a28f3300de9c9021e763d"
+    },
+    {
+      "path": "tasks/done/T-039A.review/historical-zip-retention.json",
+      "bytes": 428,
+      "sha256": "040235ce95665848c9f1acda7fb264c10fee765ccae8b3f09e9e250cd88a8f72"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-reading/official-reference-source.json",
+      "bytes": 1120,
+      "sha256": "da5e3ced37707b589f7942bf021c8a68925df20bf2b559626a1c8fcb39c54503"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-reading/official-source.json",
+      "bytes": 1066,
+      "sha256": "6ead40837ca1011ddfa720d82ad404ce886d218a68fae93c5f4f1e73d5b3b867"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-reading/v10.0.0-NamedPipeServerStream.cs.txt",
+      "bytes": 10345,
+      "sha256": "41cc2fc3e722cc9b52c4e5b2b272d5d3dbaef25016d6980c4052730ccff5a871"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-reading/v10.0.0-NamedPipeServerStream.Windows.cs.txt",
+      "bytes": 16333,
+      "sha256": "1dd634343353551f3c7f86aefc57c9a65e1740bda1ae73091cbe0294c8292073"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-reading/v10.0.0-PipeStream.Windows.cs.txt",
+      "bytes": 26301,
+      "sha256": "ca778607c32c02d25512d7163afd1a5e7c0e42b6be8f674cb92e50264a9fe4b3"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-source/binding.json",
+      "bytes": 1239,
+      "sha256": "9741e9baf914c25c0a65b1c472025dffd88023e14dbfbcf078fcf56eb0bedfdf"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-source/IpcCancellation.cs.txt",
+      "bytes": 1541,
+      "sha256": "095d2699da9acfd5e32113f481574edf73e5be3cb502d7dc76de2b8474f6b501"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-source/IpcPipeFactory.cs.txt",
+      "bytes": 2275,
+      "sha256": "1d6f35d82fc09c83d32822715ee5e6aafa015e098b58823a8fa8443e74cf0c5f"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-source/NamedPipeIpcClient.cs.txt",
+      "bytes": 3008,
+      "sha256": "0840c027fa1e217f35db116497b8b124c2077fdb5cb24e21321d023c70f566a7"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-source/NamedPipeIpcServer.cs.txt",
+      "bytes": 5656,
+      "sha256": "aa932140ab8767981753bb0d16628e114ec60689aa3f6259a0684cdcdce4abfc"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-baseline-source/NamedPipeIpcTests.cs.txt",
+      "bytes": 14142,
+      "sha256": "bb9bb9fb0958d0bf0849954a71f7b0ed2819d97d34186817c4079ce1baced2a2"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-early-close/baseline-binding.json",
+      "bytes": 2471,
+      "sha256": "46c144d4f6a74ebbe7d4953434fa3b74430595729ab6656bd4b6f7482569ccc2"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-early-close/candidate-binding.json",
+      "bytes": 3293,
+      "sha256": "5d291dec46a5c804bcb3b72a533ad04c7f66c9e59f6bf629116428f76e02ba7d"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-early-close/Program.cs",
+      "bytes": 7173,
+      "sha256": "4c814b2d113cb1469fa6e453b5fecef290ec544949a06fb85e887f483ea7997f"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-early-close/README.md",
+      "bytes": 1799,
+      "sha256": "b4c30b88bcc1d19f3fbec5a5ef2d0b3b0017f75a96d0c648991e0a653313de19"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-early-close/Review.csproj",
+      "bytes": 1004,
+      "sha256": "2cd2232875bd8355b594e5231267e90cbc1617b7e073dd29e0110c8a6f37f552"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/dump-binding.json",
+      "bytes": 400,
+      "sha256": "5395ca631fe5add0171f325c5268f0c9902f305eb8cf10ef411e5c5f43125251"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/dumpasync-1.command.json",
+      "bytes": 448,
+      "sha256": "5adece9e42e23cade90f03a093f4d00cf778464a6669116d58a376e8e2cab2ba"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/dumpasync-1.log",
+      "bytes": 1734,
+      "sha256": "88cf5290330762bd2e062e43acd59f0641ac977493b11f6cf9187a62e6ce3561"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/dumpasync-2.command.json",
+      "bytes": 431,
+      "sha256": "2981ed81eaa7c5e79d4b2f428db40ae56779ada652cbe4b15fafb57284098973"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/dumpasync-2.log",
+      "bytes": 10466,
+      "sha256": "4b95f764ba184763c4a723e9cebf432c30cc681a4fb123bb2e9481182d47abc4"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/inspect_dump.py",
+      "bytes": 1379,
+      "sha256": "13a6459db601f170da7c8ef9928997d1429907e6779162a384bd6a1764dc876d"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-1.command.json",
+      "bytes": 548,
+      "sha256": "c478cec8f9f058a624dc9e0bb61a734f147cb40a67af71ff2e1e1a1b27601ffe"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-1.log",
+      "bytes": 2370,
+      "sha256": "b0c8b0f1741f3626946d9198808e0a8023fecb82e37f2f366b7808302781e393"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-2.command.json",
+      "bytes": 592,
+      "sha256": "97330d57e261cb1d2b14913a9c0d3d0cd360deeed26163d770d672d27022b493"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-2.log",
+      "bytes": 4857,
+      "sha256": "efde8d8cc6dbc82460bfef3e76d138cb353be200506fdae8235e9b583e72b39c"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-3.command.json",
+      "bytes": 636,
+      "sha256": "86ebdd54b5bafb95331817a5fbf6270a81b465dfa305ca3e4a3cdf75b1b61f5b"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-3.log",
+      "bytes": 5059,
+      "sha256": "3cc3711c351e2237bbd3319bcfbbd95c04ba49624ca8c5874c6ec1b5858ebced"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-4.command.json",
+      "bytes": 660,
+      "sha256": "8aed61f506ef2d148ed943755dcf2f3b022a28c302c60a6f36a0355d52435014"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-4.log",
+      "bytes": 5896,
+      "sha256": "a5541e5b85de316c75c9b2d34fefc136b7d756284f74a9114009c04ebbca0de0"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-5.command.json",
+      "bytes": 592,
+      "sha256": "eb8bd1e4e6d0ed8f09756a7654dd6cacb985b30040bb787676c5dde180e997be"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/objects-5.log",
+      "bytes": 2962,
+      "sha256": "e989654026cd375277d5e913d510a6920beba334164a1ef327e80a8a4482d3a2"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-hang/README.md",
+      "bytes": 3588,
+      "sha256": "d3bb4e92990a350423ca0db30bc4ff339666dc2bb8d877b893baf9a72ff484fc"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-independent-baseline-build.command.json",
+      "bytes": 654,
+      "sha256": "b540e7b09e50eab9f6299726b2fbef3855342b200dc3e8f3b59482766f0c8fd0"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-independent-baseline-build.log",
+      "bytes": 405,
+      "sha256": "3e6460b7a78f2d105aa85fc6d47028ae15b17cfc72abd7c88f7119b7e6b3cffe"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-independent-baseline.command.json",
+      "bytes": 490,
+      "sha256": "fc3a36b1c4b64544b50276da3d698bed90344849e269b6651c05233febf1a45d"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-independent-baseline.log",
+      "bytes": 877,
+      "sha256": "860328888c73e5687ccea8d2f75aa542c60a61f9df983fc7c5b518d99e8ddd72"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-independent-candidate-1.command.json",
+      "bytes": 492,
+      "sha256": "9fb9a1a411870c4bb406f1f6d373dd371801b870edcc729c35c0eccff2df88c4"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-independent-candidate-1.log",
+      "bytes": 643,
+      "sha256": "abc0f231d54906e5c46f58cd9fa063fb130e480d2e3ebf2441a66d50803d49d2"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-independent-candidate-build-1.command.json",
+      "bytes": 656,
+      "sha256": "e1367b890fa8d5afb2e5985f02399bd635082e21ad26b475b740b47c1ab26c5a"
+    },
+    {
+      "path": "tasks/done/T-039A.review/ipc-independent-candidate-build-1.log",
+      "bytes": 407,
+      "sha256": "58223b5f3f85d6b11c7530292425f982e6f8d6bfc80155e9e62268768a903d89"
+    },
+    {
+      "path": "tasks/done/T-039A.review/README.md",
+      "bytes": 8267,
+      "sha256": "f9f292dff111e72ef94e2cebefb2e0e700c850174fa2423789031c6b61620620"
+    },
+    {
+      "path": "tasks/done/T-039A.review/replay_bootstrap.py",
+      "bytes": 4612,
+      "sha256": "2fcbda803f343da7aff94cce6a4a092b3ac0384fe38599817261909a82b886aa"
+    },
+    {
+      "path": "tasks/done/T-039A.review/run_review.py",
+      "bytes": 1573,
+      "sha256": "f584a8a5aab416c69533269be79b417c93f2707234abcf3a83d79e20242491b5"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/binding.json",
+      "bytes": 1406,
+      "sha256": "639fc266f75aa5cd42681cc6944f06a6d7c3488dcc23838722f22357ba10c891"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/inspect-environment.command.json",
+      "bytes": 1027,
+      "sha256": "fe9cabcc771e991182996497d4f1db9e7ad96a1e061ade8c67b380036d305585"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/inspect-environment.log",
+      "bytes": 23,
+      "sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/intent.json",
+      "bytes": 548,
+      "sha256": "767af464b8a05723da95592b4325288b87f9f065f9deeef007f3ad9bdaaf419d"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/list-after.command.json",
+      "bytes": 71,
+      "sha256": "4b6dedf0df2a9b1ea76327b4438f2c1f4e3531ea13930788977149834cb7d351"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/list-after.log",
+      "bytes": 42,
+      "sha256": "90255a0b24d45da9c2280c4628d0e08d80902949213f5f5f76d7f282b678a6bb"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/list-before.command.json",
+      "bytes": 71,
+      "sha256": "4b6dedf0df2a9b1ea76327b4438f2c1f4e3531ea13930788977149834cb7d351"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/list-before.log",
+      "bytes": 42,
+      "sha256": "90255a0b24d45da9c2280c4628d0e08d80902949213f5f5f76d7f282b678a6bb"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/output/environment.json",
+      "bytes": 269,
+      "sha256": "bb8871591413d6d169a7113b66226cd45b346303cd223fe4a98a1603a1f2e7fe"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/README.md",
+      "bytes": 945,
+      "sha256": "19aeb8c63e05dd38976140da6003940d6ec5490ff256e21a6b55d308d386eab7"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/sandbox_preflight.py",
+      "bytes": 4087,
+      "sha256": "ffade134e386f8353c85fefa4c3c7727c51253f189f07c769fb5fd510d240587"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/share-output.command.json",
+      "bytes": 325,
+      "sha256": "92b80416f456aaadd5b91b5a982fb58d6a23cf7f74b59f28de9ccbd3cf53d580"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/share-output.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/start.command.json",
+      "bytes": 432,
+      "sha256": "55225b89f02cc1d0afa0a4384a5891523317eefc3aa17549ed00c62fa836c664"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/start.log",
+      "bytes": 54,
+      "sha256": "9f9bcae570e6157a0682da40a3953b343bb0ea60d8902ed72f6ab15352159e05"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/stop.command.json",
+      "bytes": 129,
+      "sha256": "9768c8bf6473ea91d5b78b88172a70361fcf5e263db1e2763fcaa3c805d200bc"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sandbox-preflight/stop.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-auto-off.command.json",
+      "bytes": 620,
+      "sha256": "1a00e30c9547576c41f87be9a54afce5bf2ae460303d618bdf6c1bdc6ec3f8e8"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-auto-off.log",
+      "bytes": 230,
+      "sha256": "c2e48752905ea5e92b8ba08f966f664bfeeb187e6b2d2ab7a6eca6c3113f15f2"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-auto-on.command.json",
+      "bytes": 618,
+      "sha256": "d92f8631a784b308ac2eb3882327dbf8312c2ebdc9c685d399c090cbfe0504bb"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-auto-on.log",
+      "bytes": 244,
+      "sha256": "05e81fa94ba4521a85ed6f124af11b4156cd065cbc8dc47027ed56cf00c967cd"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-first-run.command.json",
+      "bytes": 578,
+      "sha256": "528bb2d0cec590fdffeb2edef8090ce9c2e52b220db97a7d3abcbf9f6b89017c"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-first-run.log",
+      "bytes": 161,
+      "sha256": "7bdf27bb0db922bf056c5747b2260d2f9dcaf2f3d58f37b45315c986d8c834be"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-install.command.json",
+      "bytes": 616,
+      "sha256": "7a39f5ba43ad855959d7167013d9fde15598541a3315c9338da2df4a2a8c7b8b"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-install.log",
+      "bytes": 173,
+      "sha256": "19bf5056bbaf05c2260d0c97962ad2ee182b60c8c0466afee4d78781ae453655"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-malformed-hook.command.json",
+      "bytes": 627,
+      "sha256": "e6c35a2e0c2aaea93da4dad0a5cc45134f6fd8f6e0667e9322438caa891cc21e"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-malformed-hook.log",
+      "bytes": 121,
+      "sha256": "530eca63abf96cf097a16e6098c297709801b8dfd07924d0c16955eaa29720b2"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-missing-version.command.json",
+      "bytes": 612,
+      "sha256": "4db79c16f83cb65c064c539d81a44b2fc2dc9388cd96b196a1e273ba4c467d34"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-missing-version.log",
+      "bytes": 105,
+      "sha256": "9658ae5085b11481de373d4bb38fd76a3f47660a0d2079b62c418fe7b48fc333"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-obsolete.command.json",
+      "bytes": 618,
+      "sha256": "7729f01193bf32507e585978dc8057e35058770af53d35bd7d1fc393b6b4d2fa"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-obsolete.log",
+      "bytes": 174,
+      "sha256": "95ad7783ed0b2089125efa6464ac5592dc9ecbf9fc0916ca9a1e18edc08477bb"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-ordinary-help.command.json",
+      "bytes": 597,
+      "sha256": "fdf115caddfd357101fbe0a5dffce331d0de9c9296254cd9f930365d40ccdf1c"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-ordinary-help.log",
+      "bytes": 105,
+      "sha256": "9658ae5085b11481de373d4bb38fd76a3f47660a0d2079b62c418fe7b48fc333"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-real-exit.command.json",
+      "bytes": 623,
+      "sha256": "3cc4dcb8fd10df248c37947e87c26f5eb84b6a1455402f12256891c77014c629"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-real-exit.log",
+      "bytes": 72,
+      "sha256": "13adf55b371a5189792f2b8c11079ba5d5d1bf60b5dfc67c080388db3b1cadf3"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-restarted.command.json",
+      "bytes": 578,
+      "sha256": "e794122073e19a49f10dfdc081d7f55c4dc2e3e4afadfcae9ef2cf24cf54fd41"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-restarted.log",
+      "bytes": 161,
+      "sha256": "92b8b12ffef78cc9ac0080f85fa6b2be5a7dfc84492e0d153148e4b835d9cad6"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-uninstall-throws.command.json",
+      "bytes": 626,
+      "sha256": "4d296d86ddc87ff7d27121ca6f75a3b21e4ee7a6c43bf9369378ee6047931af9"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-uninstall-throws.log",
+      "bytes": 177,
+      "sha256": "19f7992eb66d9d9faf2a320b66a331e451f45961a6fc1450c877d47875e4c0dc"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-uninstall.command.json",
+      "bytes": 620,
+      "sha256": "95c8be2ac2e7a9bc079324c682a12edef3a7c7d08dabcbfc4410b8f94b2361d3"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-uninstall.log",
+      "bytes": 175,
+      "sha256": "5fb4e5ccf986ea11ac8665bd50d55869365ace6a6035770359dbe5d8fc02eb9d"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-updated.command.json",
+      "bytes": 616,
+      "sha256": "cd93acc4b5a51edcc5af26955162dde9301489cdf407b03df55392b9866c7909"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-boot-updated.log",
+      "bytes": 173,
+      "sha256": "6bfac58b72a0d62ac054bca0f0165182d31b30a899af77484d1fb7693c36acf1"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-bootstrap-result.json",
+      "bytes": 3795,
+      "sha256": "a9059f72cbda1a520eaa2bd239734453d19cf2dd0e645c188d01fd2d5c85af15"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-build-1.command.json",
+      "bytes": 525,
+      "sha256": "c7817d0c6b5ced017c3bff2d979e8bada0ac786608a1fea929782bf0607703e3"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-build-1.log",
+      "bytes": 352,
+      "sha256": "705499663471b4f1ebff2d5ef372bb4aa442b579c89321da7c89456fc92553f1"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-replay-1.command.json",
+      "bytes": 608,
+      "sha256": "bee765f7d96b3499a7922191f6861d16f1e722090b2360af2249de6a2f17d19b"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-independent-replay-1.log",
+      "bytes": 2489,
+      "sha256": "e00ae9e85d8d8b8ec0e31dd8206a3ad7e9856753fd226114b52272f8703be283"
+    },
+    {
+      "path": "tasks/done/T-039A.review/sdk-replay-source-binding.json",
+      "bytes": 686,
+      "sha256": "cee06eb6a4038d9fcbac1abe322e2b8054b449094f6045f1795cffb2a398f6bd"
+    }
+  ]
+}

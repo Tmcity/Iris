@@ -1,0 +1,48 @@
+{
+  "settings": {
+    "Work": "F:\\Iris\\artifacts\\t039a",
+    "PackId": "Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb",
+    "Version": "1.2.161",
+    "ReleaseTarget": "https://github.com/Tmcity/Iris",
+    "Baseline": "6f14e81ebd298d83eda7330008310015efa1937b"
+  },
+  "baselineZipSha256": "5be728c23a894de34cb8f2dc7397486716298afa39384f13743024057f63aa68",
+  "initialDocuments": [
+    {
+      "File": "nuget-velopack.json",
+      "Sha256": "27750a9aefd8ee3de622494d9c5b979d038718df751994daca6f14478730a818"
+    },
+    {
+      "File": "nuget-vpk.json",
+      "Sha256": "3da640f2753a417e4c56bb47f51b3022bc926b8d548f4e6cfef2b468f0b6c221"
+    },
+    {
+      "File": "source-1.2.161.zip",
+      "Sha256": "fee1626d589f6bec9d2aebc25604eeb83ce912245667a458986ca96303f64e09"
+    },
+    {
+      "File": "velopack-csharp.html",
+      "Sha256": "9882a1fdd1b12df4bc629b6b6ad1763aa94084dc113988b580832d3578caf3bb"
+    },
+    {
+      "File": "velopack-csharp.html.txt",
+      "Sha256": "b4022bcfc7ade1d65dc867993e35c21e38f8d409a4e063155994d5edbf26301f"
+    },
+    {
+      "File": "velopack-index.html",
+      "Sha256": "22aa39995b1c3e110474802a03ad5591c8e1d26686f7c1ae4418e5284f5b790e"
+    },
+    {
+      "File": "velopack-index.html.txt",
+      "Sha256": "f1c56ba284ecc4d37882800bcd7f6e9d9044c32fae85e5682e7e174dda6b29c6"
+    },
+    {
+      "File": "velopack-latest.json",
+      "Sha256": "cd21401a1f35e1c3faac328a84c9c620a9b4e0117913147be1604f96249af333"
+    },
+    {
+      "File": "velopack-sitemap.xml",
+      "Sha256": "b510e0c998c7540cc94966ed6fcec35323c95ddffdff15d454e8c902dba9bbf4"
+    }
+  ]
+}

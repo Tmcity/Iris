@@ -1,0 +1,14 @@
+{
+  "Arguments": [
+    "share",
+    "--id",
+    "e8c707ca-e3e9-46b0-a882-b4418fea51c8",
+    "--host-path",
+    "F:\\Iris\\artifacts\\t039-sandbox-preflight\\e8c707ca-e3e9-46b0-a882-b4418fea51c8\\output",
+    "--sandbox-path",
+    "C:\\IrisPreflightOutput",
+    "--allow-write",
+    "--raw"
+  ],
+  "ExitCode": 0
+}

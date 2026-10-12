@@ -1,0 +1,14 @@
+{
+  "cwd": "F:/Iris",
+  "command": [
+    "F:/Iris/artifacts/t039a/diagnostics/dotnet-dump.exe",
+    "collect",
+    "--process-id",
+    "13528",
+    "--type",
+    "Heap",
+    "--output",
+    "F:/Iris/artifacts/t039a/ipc-hung.dmp"
+  ],
+  "exitCode": 0
+}

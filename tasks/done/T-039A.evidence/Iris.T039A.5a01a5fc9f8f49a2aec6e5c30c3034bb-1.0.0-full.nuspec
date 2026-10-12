@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+<metadata>
+<id>Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb</id>
+<title>Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb</title>
+<description>Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb</description>
+<authors>Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb</authors>
+<version>1.0.0</version>
+<channel>win</channel>
+<mainExe>Payload.exe</mainExe>
+<os>win</os>
+<rid>win-x64</rid>
+<runtimeDependencies>net10-x64-desktop</runtimeDependencies>
+<shortcutLocations>Desktop,StartMenuRoot</shortcutLocations>
+<shortcutAumid>velopack.Iris.T039A.5a01a5fc9f8f49a2aec6e5c30c3034bb</shortcutAumid>
+<osMinVersion>10.0.19041</osMinVersion>
+<machineArchitecture>x64</machineArchitecture>
+</metadata>
+</package>
