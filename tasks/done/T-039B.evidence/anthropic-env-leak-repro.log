@@ -1,0 +1,24 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+失败 Iris.Providers.Tests.Translation.Anthropic.AnthropicTranslationProviderTests.LocalProxy_WithoutKey_IsConfiguredAndSendsNoApiKeyOrAuthorization (336ms)
+  从 F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : capturedRequest.Headers.Authorization
+      should be null but was
+  Bearer test-env-token
+    在 Iris.Providers.Tests.Translation.Anthropic.AnthropicTranslationProviderTests.LocalProxy_WithoutKey_IsConfiguredAndSendsNoApiKeyOrAuthorization() 位于 F:\Iris\tests\Iris.Providers.Tests\Translation\Anthropic\AnthropicTranslationProviderTests.cs:214
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (1s 508ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 1
+  失败: 1
+  成功: 0
+  已跳过: 0
+  持续时间: 1s 721ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

@@ -1335,64 +1335,64 @@ Iris 命令行用法：
   <data name="LogError" xml:space="preserve">
     <value>错误</value>
   </data>
-  <data xml:space="preserve" name="MaintenanceBusy">
+  <data name="MaintenanceBusy" xml:space="preserve">
     <value>Iris 正在安装、更新或卸载，请等待维护完成后重试。</value>
   </data>
-  <data xml:space="preserve" name="UpdateTitle">
+  <data name="UpdateTitle" xml:space="preserve">
     <value>软件更新</value>
   </data>
-  <data xml:space="preserve" name="UpdatePreference">
+  <data name="UpdatePreference" xml:space="preserve">
     <value>启动时检查更新</value>
   </data>
-  <data xml:space="preserve" name="UpdateCheck">
+  <data name="UpdateCheck" xml:space="preserve">
     <value>检查更新</value>
   </data>
-  <data xml:space="preserve" name="UpdateDownload">
+  <data name="UpdateDownload" xml:space="preserve">
     <value>下载更新</value>
   </data>
-  <data xml:space="preserve" name="UpdateCancel">
+  <data name="UpdateCancel" xml:space="preserve">
     <value>取消／重试清理</value>
   </data>
-  <data xml:space="preserve" name="UpdateInstall">
+  <data name="UpdateInstall" xml:space="preserve">
     <value>安装并重启</value>
   </data>
-  <data xml:space="preserve" name="UpdateInstallConfirm">
+  <data name="UpdateInstallConfirm" xml:space="preserve">
     <value>安装更新需要关闭 Iris 并重新启动。未保存的设置草稿不会自动保存。是否继续？</value>
   </data>
-  <data xml:space="preserve" name="UpdateUnsupported">
+  <data name="UpdateUnsupported" xml:space="preserve">
     <value>此运行模式不支持自动更新。请使用 Iris 安装版。</value>
   </data>
-  <data xml:space="preserve" name="UpdateIdle">
+  <data name="UpdateIdle" xml:space="preserve">
     <value>尚未检查更新</value>
   </data>
-  <data xml:space="preserve" name="UpdateChecking">
+  <data name="UpdateChecking" xml:space="preserve">
     <value>正在检查更新…</value>
   </data>
-  <data xml:space="preserve" name="UpdateNoRelease">
+  <data name="UpdateNoRelease" xml:space="preserve">
     <value>尚无兼容的已发布版本</value>
   </data>
-  <data xml:space="preserve" name="UpdateUpToDate">
+  <data name="UpdateUpToDate" xml:space="preserve">
     <value>已是最新版本</value>
   </data>
-  <data xml:space="preserve" name="UpdateAvailable">
+  <data name="UpdateAvailable" xml:space="preserve">
     <value>有可用更新</value>
   </data>
-  <data xml:space="preserve" name="UpdateDownloading">
+  <data name="UpdateDownloading" xml:space="preserve">
     <value>正在下载更新…</value>
   </data>
-  <data xml:space="preserve" name="UpdateReady">
+  <data name="UpdateReady" xml:space="preserve">
     <value>更新已验证，可以安装</value>
   </data>
-  <data xml:space="preserve" name="UpdateCancelling">
+  <data name="UpdateCancelling" xml:space="preserve">
     <value>正在取消并清理…</value>
   </data>
-  <data xml:space="preserve" name="UpdateCleanupPending">
+  <data name="UpdateCleanupPending" xml:space="preserve">
     <value>清理未完成，请重试清理</value>
   </data>
-  <data xml:space="preserve" name="UpdateFailed">
+  <data name="UpdateFailed" xml:space="preserve">
     <value>更新操作失败</value>
   </data>
-  <data xml:space="preserve" name="UpdateStopped">
+  <data name="UpdateStopped" xml:space="preserve">
     <value>更新服务已停止</value>
   </data>
 </root>

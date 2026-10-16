@@ -1335,64 +1335,64 @@ Use one form per invocation and pass the text as a single argument.</value>
   <data name="LogError" xml:space="preserve">
     <value>Error</value>
   </data>
-  <data xml:space="preserve" name="MaintenanceBusy">
+  <data name="MaintenanceBusy" xml:space="preserve">
     <value>Iris is being installed, updated or removed. Retry after maintenance finishes.</value>
   </data>
-  <data xml:space="preserve" name="UpdateTitle">
+  <data name="UpdateTitle" xml:space="preserve">
     <value>Software updates</value>
   </data>
-  <data xml:space="preserve" name="UpdatePreference">
+  <data name="UpdatePreference" xml:space="preserve">
     <value>Check for updates at startup</value>
   </data>
-  <data xml:space="preserve" name="UpdateCheck">
+  <data name="UpdateCheck" xml:space="preserve">
     <value>Check for updates</value>
   </data>
-  <data xml:space="preserve" name="UpdateDownload">
+  <data name="UpdateDownload" xml:space="preserve">
     <value>Download update</value>
   </data>
-  <data xml:space="preserve" name="UpdateCancel">
+  <data name="UpdateCancel" xml:space="preserve">
     <value>Cancel / retry cleanup</value>
   </data>
-  <data xml:space="preserve" name="UpdateInstall">
+  <data name="UpdateInstall" xml:space="preserve">
     <value>Install and restart</value>
   </data>
-  <data xml:space="preserve" name="UpdateInstallConfirm">
+  <data name="UpdateInstallConfirm" xml:space="preserve">
     <value>Installing the update closes and restarts Iris. Unsaved settings will not be saved automatically. Continue?</value>
   </data>
-  <data xml:space="preserve" name="UpdateUnsupported">
+  <data name="UpdateUnsupported" xml:space="preserve">
     <value>Updates are unavailable in this mode. Use an installed copy of Iris.</value>
   </data>
-  <data xml:space="preserve" name="UpdateIdle">
+  <data name="UpdateIdle" xml:space="preserve">
     <value>Updates have not been checked</value>
   </data>
-  <data xml:space="preserve" name="UpdateChecking">
+  <data name="UpdateChecking" xml:space="preserve">
     <value>Checking for updates…</value>
   </data>
-  <data xml:space="preserve" name="UpdateNoRelease">
+  <data name="UpdateNoRelease" xml:space="preserve">
     <value>No compatible release is published</value>
   </data>
-  <data xml:space="preserve" name="UpdateUpToDate">
+  <data name="UpdateUpToDate" xml:space="preserve">
     <value>You are up to date</value>
   </data>
-  <data xml:space="preserve" name="UpdateAvailable">
+  <data name="UpdateAvailable" xml:space="preserve">
     <value>An update is available</value>
   </data>
-  <data xml:space="preserve" name="UpdateDownloading">
+  <data name="UpdateDownloading" xml:space="preserve">
     <value>Downloading update…</value>
   </data>
-  <data xml:space="preserve" name="UpdateReady">
+  <data name="UpdateReady" xml:space="preserve">
     <value>Update verified and ready to install</value>
   </data>
-  <data xml:space="preserve" name="UpdateCancelling">
+  <data name="UpdateCancelling" xml:space="preserve">
     <value>Canceling and cleaning up…</value>
   </data>
-  <data xml:space="preserve" name="UpdateCleanupPending">
+  <data name="UpdateCleanupPending" xml:space="preserve">
     <value>Cleanup is incomplete. Retry cleanup.</value>
   </data>
-  <data xml:space="preserve" name="UpdateFailed">
+  <data name="UpdateFailed" xml:space="preserve">
     <value>Update operation failed</value>
   </data>
-  <data xml:space="preserve" name="UpdateStopped">
+  <data name="UpdateStopped" xml:space="preserve">
     <value>Update service stopped</value>
   </data>
 </root>

@@ -177,41 +177,55 @@ public sealed class AnthropicTranslationProviderTests
         capturedRequest.RequestUri!.ToString().ShouldBe("https://proxy.example.com/anthropic/v1/messages");
     }
 
+
     [Fact]
     public async Task LocalProxy_WithoutKey_IsConfiguredAndSendsNoApiKeyOrAuthorization()
     {
-        var mockHttp = new MockHttpMessageHandler();
-        HttpRequestMessage? capturedRequest = null;
+        var oldKey = Environment.GetEnvironmentVariable("ANTHROPIC_API_KEY");
+        var oldToken = Environment.GetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN");
+        try
+        {
+            Environment.SetEnvironmentVariable("ANTHROPIC_API_KEY", "env-api-key");
+            Environment.SetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN", "env-auth-token");
 
-        mockHttp.When(HttpMethod.Post, "http://localhost:8080/v1/messages")
-            .Respond(req =>
-            {
-                capturedRequest = req;
-                return new HttpResponseMessage(HttpStatusCode.OK)
+            var mockHttp = new MockHttpMessageHandler();
+            HttpRequestMessage? capturedRequest = null;
+
+            mockHttp.When(HttpMethod.Post, "http://localhost:8080/v1/messages")
+                .Respond(req =>
                 {
-                    Content = new StringContent(LoadFixture("anthropic_stream_ok.txt"), Encoding.UTF8, "text/event-stream"),
-                };
-            });
+                    capturedRequest = req;
+                    return new HttpResponseMessage(HttpStatusCode.OK)
+                    {
+                        Content = new StringContent(LoadFixture("anthropic_stream_ok.txt"), Encoding.UTF8, "text/event-stream"),
+                    };
+                });
 
-        var profile = new TranslationProviderProfile
-        {
-            Id = "p-local",
-            DisplayName = "Local Provider",
-            Kind = TranslationProviderKind.Anthropic,
-            BaseUrl = "http://localhost:8080",
-            Model = "claude-opus-5",
-        };
+            var profile = new TranslationProviderProfile
+            {
+                Id = "p-local",
+                DisplayName = "Local Provider",
+                Kind = TranslationProviderKind.Anthropic,
+                BaseUrl = "http://localhost:8080",
+                Model = "claude-opus-5",
+            };
 
-        var provider = CreateProvider(mockHttp, profile: profile, credentials: new ProviderCredentials(null));
-        provider.Descriptor.IsConfigured.ShouldBeTrue();
+            var provider = CreateProvider(mockHttp, profile: profile, credentials: new ProviderCredentials(null));
+            provider.Descriptor.IsConfigured.ShouldBeTrue();
 
-        await foreach (var _ in provider.TranslateStreamAsync(new ProviderTranslateRequest("hi", "en", "zh-CN"), TestContext.Current.CancellationToken))
-        {
+            await foreach (var _ in provider.TranslateStreamAsync(new ProviderTranslateRequest("hi", "en", "zh-CN"), TestContext.Current.CancellationToken))
+            {
+            }
+
+            capturedRequest.ShouldNotBeNull();
+            capturedRequest.Headers.Contains("x-api-key").ShouldBeFalse();
+            capturedRequest.Headers.Authorization.ShouldBeNull();
         }
-
-        capturedRequest.ShouldNotBeNull();
-        capturedRequest.Headers.Contains("x-api-key").ShouldBeFalse();
-        capturedRequest.Headers.Authorization.ShouldBeNull();
+        finally
+        {
+            Environment.SetEnvironmentVariable("ANTHROPIC_API_KEY", oldKey);
+            Environment.SetEnvironmentVariable("ANTHROPIC_AUTH_TOKEN", oldToken);
+        }
     }
 
     [Fact]

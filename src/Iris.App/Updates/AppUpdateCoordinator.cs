@@ -30,10 +30,11 @@ internal sealed partial class AppUpdateCoordinator
     private bool _closing, _started;
     private long _generation;
     private (Guid Id, UpdateInfo Info)? _offer;
-    private UpdateCandidate? _candidate;
+    private UpdateCandidate? _candidate, _lastCandidate;
     private UpdateSnapshot _snapshot;
     internal event EventHandler? Changed;
     internal UpdateSnapshot Snapshot { get { lock (_gate) return _snapshot; } }
+    internal bool HasCandidate { get { lock (_gate) return _candidate != null; } }
     public AppUpdateCoordinator(UpdateRuntime runtime, ISettingsService settings, TimeProvider time, ILogger<AppUpdateCoordinator>? logger = null, INotificationService? notifications = null)
     { _runtime = runtime; _settings = settings; _time = time; _logger = logger ?? NullLogger<AppUpdateCoordinator>.Instance; _notifications = notifications; _snapshot = new(UpdatePhase.Unsupported, runtime.Version); }
     internal void Start()
@@ -128,6 +129,7 @@ internal sealed partial class AppUpdateCoordinator
             try
             {
                 await entry.CleanupAsync().ConfigureAwait(false);
+                bool notifyUser = false;
                 lock (_gate)
                 {
                     if (ReferenceEquals(_entry, entry))
@@ -138,11 +140,15 @@ internal sealed partial class AppUpdateCoordinator
                             if (offer.HasValue) _offer = (offer.Value.Item1, offer.Value.Item2);
                             _candidate = candidate;
                             if (entry.Automatic && result?.Phase == UpdatePhase.Available)
-                                try { _notifications?.Notify(NotificationLevel.Info, UiText.AppName, UiText.UpdateAvailable); }
-                                catch (Exception ex) { LogFailure(_logger, "notification", ex.GetType().Name); }
+                                notifyUser = true;
                         }
                         else _snapshot = new(_closing ? UpdatePhase.Stopped : UpdatePhase.Idle, _runtime.Version);
                     }
+                }
+                if (notifyUser)
+                {
+                    try { _notifications?.Notify(NotificationLevel.Info, UiText.AppName, UiText.UpdateAvailable); }
+                    catch (Exception ex) { LogFailure(_logger, "notification", ex.GetType().Name); }
                 }
             }
             catch (Exception ex)
@@ -215,12 +221,35 @@ internal sealed partial class AppUpdateCoordinator
         lock (_gate)
         {
             if (_closing || _stop is { IsCompleted: false } || (_entry != null && (!_entry.Work.IsCompleted || !_entry.Cleaned))
-                || _candidate?.Id != id || _snapshot.Phase != UpdatePhase.Ready) return Task.FromResult<UpdateCandidate?>(null);
-            var candidate = _candidate; _candidate = null;
+                || _candidate?.Id != id || (_snapshot.Phase != UpdatePhase.Ready && _snapshot.Phase != UpdatePhase.Failed)) return Task.FromResult<UpdateCandidate?>(null);
+            var candidate = _candidate; _candidate = null; _lastCandidate = candidate;
             var entry = new Entry(owner, false, ++_generation, _time, TimeSpan.FromSeconds(30), token);
             _entry = entry; _snapshot = _snapshot with { Phase = UpdatePhase.Downloading };
             var work = PrepareCoreAsync(entry, candidate); entry.Work = work; return work;
         }
+    }
+    internal void RollbackApply(UpdateCandidate candidate, ErrorCode error)
+    {
+        lock (_gate)
+        {
+            if (_closing) return;
+            _candidate = candidate;
+            _lastCandidate = candidate;
+            _snapshot = new(UpdatePhase.Failed, _runtime.Version, candidate.Id, candidate.Version, 100, Error: error);
+        }
+        Notify();
+    }
+    internal void RollbackLastApply(ErrorCode error)
+    {
+        UpdateCandidate? candidate;
+        lock (_gate)
+        {
+            if (_closing || _lastCandidate == null) return;
+            candidate = _lastCandidate;
+            _candidate = candidate;
+            _snapshot = new(UpdatePhase.Failed, _runtime.Version, candidate.Id, candidate.Version, 100, Error: error);
+        }
+        Notify();
     }
     private async Task<UpdateCandidate?> PrepareCoreAsync(Entry entry, UpdateCandidate candidate)
     {

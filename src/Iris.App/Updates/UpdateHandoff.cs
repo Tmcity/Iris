@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Pipes;
 using System.Security.Cryptography;
+using Iris.Core.Errors;
 using Iris.Platform.Windows.Maintenance;
 
 namespace Iris.App.Updates;
@@ -32,24 +33,27 @@ internal sealed class UpdateHandoff : IAsyncDisposable, IDisposable
         bool ownsAttempt = false;
         try
         {
+            CancellationToken attemptToken;
             lock (_cancelGate)
             {
-                if (_revoking) throw new OperationCanceledException(token);
+                if (_revoking)
+                    throw token.IsCancellationRequested ? new OperationCanceledException(token) : new IrisException(ErrorCode.Unknown, "更新交接已撤销", retryable: true);
                 if (_process != null || _pipe != null) throw new InvalidOperationException("Maintenance already prepared.");
                 _preparing = CancellationTokenSource.CreateLinkedTokenSource(token);
-                _preparing.CancelAfter(TimeSpan.FromSeconds(30)); token = _preparing.Token;
+                _preparing.CancelAfter(TimeSpan.FromSeconds(30));
+                attemptToken = _preparing.Token;
                 ownsAttempt = true;
             }
             _environment.ValidateInstallation();
-            await _environment.ValidateCandidateAsync(candidate, token).ConfigureAwait(false);
-            token.ThrowIfCancellationRequested();
+            await _environment.ValidateCandidateAsync(candidate, attemptToken).ConfigureAwait(false);
+            attemptToken.ThrowIfCancellationRequested();
             string original = _environment.HelperPath;
             MaintenancePaths.RequireNoLinks(original);
             _directory = MaintenanceWorkDirectory.Create(_environment.StateRoot);
             string executable = Path.Combine(_directory, "Iris.Maintenance.exe");
             await using (var input = File.OpenRead(original))
             await using (var output = new FileStream(executable, FileMode.CreateNew, FileAccess.Write, FileShare.None, 65536, FileOptions.Asynchronous))
-                await input.CopyToAsync(output, token).ConfigureAwait(false);
+                await input.CopyToAsync(output, attemptToken).ConfigureAwait(false);
             string name = "Iris.Maintenance." + Guid.NewGuid().ToString("N"); _token = Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
             _pipe = new NamedPipeServerStream(name, PipeDirection.InOut, 1, PipeTransmissionMode.Byte,
                 PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly | PipeOptions.FirstPipeInstance);
@@ -58,14 +62,27 @@ internal sealed class UpdateHandoff : IAsyncDisposable, IDisposable
             foreach (var argument in new[] { "--handoff", name, _token, parent.Id.ToString(System.Globalization.CultureInfo.InvariantCulture), parent.StartTime.ToUniversalTime().Ticks.ToString(System.Globalization.CultureInfo.InvariantCulture) }) start.ArgumentList.Add(argument);
             _process = Process.Start(start) ?? throw new IOException("Maintenance did not start.");
             watch = WatchExitAsync(_process, watchCancellation.Token);
-            await _pipe.WaitForConnectionAsync(token).ConfigureAwait(false); MaintenanceProtocol.VerifyPeer(_pipe, true, _process.Id);
-            await MaintenanceProtocol.WriteAsync(_pipe, new("prepare", _token, Path.GetFileName(candidate.Path), candidate.Sha256, candidate.Size, candidate.Version), token).ConfigureAwait(false);
-            var ready = await MaintenanceProtocol.ReadAsync(_pipe, token).ConfigureAwait(false);
+            await _pipe.WaitForConnectionAsync(attemptToken).ConfigureAwait(false); MaintenanceProtocol.VerifyPeer(_pipe, true, _process.Id);
+            await MaintenanceProtocol.WriteAsync(_pipe, new("prepare", _token, Path.GetFileName(candidate.Path), candidate.Sha256, candidate.Size, candidate.Version), attemptToken).ConfigureAwait(false);
+            var ready = await MaintenanceProtocol.ReadAsync(_pipe, attemptToken).ConfigureAwait(false);
             if (ready.Kind != "ready" || ready.Token != _token) throw ReleaseIdentity.Invalid();
         }
         catch (Exception ex)
         {
-            primary = ex;
+            Exception unwrap = ex is AggregateException ae && ae.InnerExceptions.Count == 1 ? ae.InnerExceptions[0] : ex;
+            if (unwrap is OperationCanceledException && !token.IsCancellationRequested)
+            {
+                if (_process?.HasExited == true)
+                    primary = new IrisException(ErrorCode.Unknown, "更新维护进程意外退出", ex, retryable: true);
+                else if (_revoking)
+                    primary = new IrisException(ErrorCode.Unknown, "更新交接已撤销", ex, retryable: true);
+                else
+                    primary = new IrisException(ErrorCode.Timeout, "准备更新维护进程超时（30秒）", ex, retryable: true);
+            }
+            else
+            {
+                primary = ex;
+            }
             try { if (ownsAttempt) await RevokeCoreAsync().ConfigureAwait(false); } catch (Exception failure) { cleanup.Add(failure); }
         }
         finally
@@ -100,6 +117,7 @@ internal sealed class UpdateHandoff : IAsyncDisposable, IDisposable
             if (receipt.Kind != "committed" || receipt.Token != _token) throw ReleaseIdentity.Invalid();
             await _pipe.DisposeAsync().ConfigureAwait(false); _pipe = null;
             _process?.Dispose(); _process = null; // Ownership transfers to helper; it still waits for actual parent exit.
+            _directory = null; // Helper process runs inside this directory; main app relinquishes ownership.
         }
         catch (Exception primary)
         {

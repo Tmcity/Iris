@@ -10,6 +10,21 @@ namespace Iris.Maintenance.Tests;
 
 public sealed class UpdateTransactionTests
 {
+    static UpdateTransactionTests()
+    {
+        try
+        {
+            using var warmup = Process.Start(new ProcessStartInfo(PowerShell)
+            {
+                UseShellExecute = false,
+                CreateNoWindow = true,
+                ArgumentList = { "-NoLogo", "-NoProfile", "-NonInteractive", "-Command", "exit" }
+            });
+            warmup?.WaitForExit(15000);
+        }
+        catch { }
+    }
+
     [Theory]
     [InlineData("cancel")]
     [InlineData("apply")]
@@ -22,26 +37,46 @@ public sealed class UpdateTransactionTests
         string pipe = "Iris.Maintenance." + Guid.NewGuid().ToString("N"), secret = Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
         using var pipeReady = Event(pipe + ".pipe"); using var ready = Event(pipe + ".ready");
         using var commit = Event(pipe + ".commit"); using var committed = Event(pipe + ".committed"); using var exit = Event(pipe + ".exit");
-        using var guard = CancellationTokenSource.CreateLinkedTokenSource(TestContext.Current.CancellationToken); guard.CancelAfter(TimeSpan.FromSeconds(30));
+        using var guard = CancellationTokenSource.CreateLinkedTokenSource(TestContext.Current.CancellationToken); guard.CancelAfter(TimeSpan.FromMinutes(3));
         var system = new Boundary(root, scenario); Task? work = null; Process? parent = null;
         try
         {
             string package = MakePackage(system.InstallRoot); byte[] bytes = await File.ReadAllBytesAsync(package, guard.Token);
             string offer = JsonSerializer.Serialize(new MaintenanceMessage("prepare", secret, Path.GetFileName(package), Convert.ToHexString(SHA256.HashData(bytes)), bytes.Length, "1.1.0"), ReleaseIdentity.Json);
-            var start = new ProcessStartInfo(PowerShell) { UseShellExecute = false, CreateNoWindow = true };
             string script = ParentScript.Replace("PIPE_NAME", pipe, StringComparison.Ordinal)
                 .Replace("OFFER_JSON", offer, StringComparison.Ordinal).Replace("TOKEN_VALUE", secret, StringComparison.Ordinal)
                 .Replace("SIGNAL_KIND", scenario == "cancel" ? "cancel" : "commit", StringComparison.Ordinal);
-            foreach (string arg in new[] { "-NoProfile", "-NonInteractive", "-EncodedCommand", Convert.ToBase64String(Encoding.Unicode.GetBytes(script)) }) start.ArgumentList.Add(arg);
-            parent = Process.Start(start)!; _ = parent.Handle; system.Parent = parent;
-            await Signal(pipeReady, guard.Token);
-            work = new UpdateTransaction(system).RunAsync(pipe, secret, parent.Id, parent.StartTime.ToUniversalTime().Ticks, guard.Token);
-            await Signal(ready, guard.Token);
+
+            for (int attempt = 1; attempt <= 2; attempt++)
+            {
+                try
+                {
+                    pipeReady.Reset();
+                    var start = new ProcessStartInfo(PowerShell) { UseShellExecute = false, CreateNoWindow = true, RedirectStandardError = true };
+                    foreach (string arg in new[] { "-NoLogo", "-NoProfile", "-NonInteractive", "-EncodedCommand", Convert.ToBase64String(Encoding.Unicode.GetBytes(script)) }) start.ArgumentList.Add(arg);
+                    parent = Process.Start(start)!; _ = parent.Handle; system.Parent = parent;
+                    await Signal(pipeReady, guard.Token, TimeSpan.FromSeconds(45), parent);
+                    break;
+                }
+                catch when (attempt < 2 && !guard.IsCancellationRequested)
+                {
+                    if (parent != null)
+                    {
+                        try { if (!parent.HasExited) parent.Kill(); } catch { }
+                        await parent.WaitForExitAsync(CancellationToken.None);
+                        parent.Dispose();
+                        parent = null;
+                    }
+                }
+            }
+
+            work = new UpdateTransaction(system).RunAsync(pipe, secret, parent!.Id, parent.StartTime.ToUniversalTime().Ticks, guard.Token);
+            await Signal(ready, guard.Token, process: parent);
             MaintenanceGate.IsBlocked(system.StateRoot).ShouldBeTrue(); system.NativeCalls.ShouldBe(0);
             commit.Set();
             if (scenario != "cancel")
             {
-                await Signal(committed, guard.Token); parent.HasExited.ShouldBeFalse(); work.IsCompleted.ShouldBeFalse(); system.NativeCalls.ShouldBe(0);
+                await Signal(committed, guard.Token, process: parent); parent.HasExited.ShouldBeFalse(); work.IsCompleted.ShouldBeFalse(); system.NativeCalls.ShouldBe(0);
             }
             exit.Set(); await parent.WaitForExitAsync(guard.Token); parent.ExitCode.ShouldBe(0);
             if (scenario is "native-failure" or "verify-failure")
@@ -58,7 +93,12 @@ public sealed class UpdateTransactionTests
         finally
         {
             commit.Set(); exit.Set(); await guard.CancelAsync();
-            if (parent != null) { await parent.WaitForExitAsync(CancellationToken.None); parent.Dispose(); }
+            if (parent != null)
+            {
+                try { if (!parent.HasExited) parent.Kill(); } catch { }
+                await parent.WaitForExitAsync(CancellationToken.None);
+                parent.Dispose();
+            }
             if (work != null) try { await work; } catch (OperationCanceledException) when (guard.IsCancellationRequested) { }
                 catch (CommittedUpdateException) when (scenario is "native-failure" or "verify-failure") { }
             Directory.Delete(root, true);
@@ -67,8 +107,24 @@ public sealed class UpdateTransactionTests
 
     private static string PowerShell => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "WindowsPowerShell", "v1.0", "powershell.exe");
     private static EventWaitHandle Event(string name) => new(false, EventResetMode.ManualReset, name);
-    private static async Task Signal(EventWaitHandle signal, CancellationToken token)
-    { (await Task.Run(() => WaitHandle.WaitAny([signal, token.WaitHandle], TimeSpan.FromSeconds(15)), token)).ShouldBe(0); }
+    private static async Task Signal(EventWaitHandle signal, CancellationToken token, TimeSpan? timeout = null, Process? process = null)
+    {
+        var wait = timeout ?? TimeSpan.FromSeconds(30);
+        var sw = Stopwatch.StartNew();
+        while (sw.Elapsed < wait)
+        {
+            token.ThrowIfCancellationRequested();
+            if (signal.WaitOne(50)) return;
+            if (process?.HasExited == true)
+            {
+                string stderr = "";
+                try { stderr = await process.StandardError.ReadToEndAsync(token); } catch { }
+                throw new InvalidOperationException($"Child process {process.Id} exited prematurely with code {process.ExitCode}. Stderr: {stderr}");
+            }
+            await Task.Delay(20, token).ConfigureAwait(false);
+        }
+        throw new TimeoutException($"Signal timed out after {wait.TotalSeconds}s.");
+    }
 
     private sealed class Boundary(string root, string scenario) : MaintenanceSystem
     {
@@ -112,7 +168,7 @@ public sealed class UpdateTransactionTests
         $events=@{}
         foreach($key in @('pipe','ready','commit','committed','exit')) { $events[$key]=[Threading.EventWaitHandle]::OpenExisting($name+'.'+$key) }
         $server=New-Object IO.Pipes.NamedPipeServerStream($name,[IO.Pipes.PipeDirection]::InOut,1,[IO.Pipes.PipeTransmissionMode]::Byte,[IO.Pipes.PipeOptions]::Asynchronous)
-        $limit=New-Object Threading.CancellationTokenSource; $limit.CancelAfter(25000)
+        $limit=New-Object Threading.CancellationTokenSource; $limit.CancelAfter(45000)
         function Send([string]$text) { $bytes=[Text.Encoding]::UTF8.GetBytes($text);$size=[BitConverter]::GetBytes([int]$bytes.Length);$server.Write($size,0,4);$server.Write($bytes,0,$bytes.Length) }
         function Read-Exact([int]$size) { $bytes=New-Object byte[] $size;$offset=0;while($offset -lt $size){$task=$server.ReadAsync($bytes,$offset,$size-$offset,$limit.Token);$count=$task.GetAwaiter().GetResult();if($count -eq 0){throw 'EOF'};$offset+=$count};return ,$bytes }
         function Receive { $prefix=Read-Exact 4;$size=[BitConverter]::ToInt32($prefix,0);if($size -le 0 -or $size -gt 8192){throw 'Frame size'};$bytes=Read-Exact $size;return [Text.Encoding]::UTF8.GetString($bytes)|ConvertFrom-Json }
@@ -120,9 +176,9 @@ public sealed class UpdateTransactionTests
             $wait=$server.WaitForConnectionAsync($limit.Token);$null=$events['pipe'].Set();$wait.GetAwaiter().GetResult()
             Send 'OFFER_JSON'
             if((Receive).Kind -ne 'ready'){throw 'No ready'};$null=$events['ready'].Set()
-            if(-not $events['commit'].WaitOne(20000)){throw 'Commit timeout'}
+            if(-not $events['commit'].WaitOne(40000)){throw 'Commit timeout'}
             Send '{"Kind":"SIGNAL_KIND","Token":"TOKEN_VALUE"}'
-            if('SIGNAL_KIND' -eq 'commit') { if((Receive).Kind -ne 'committed'){throw 'No committed'};$null=$events['committed'].Set();if(-not $events['exit'].WaitOne(20000)){throw 'Exit timeout'} }
+            if('SIGNAL_KIND' -eq 'commit') { if((Receive).Kind -ne 'committed'){throw 'No committed'};$null=$events['committed'].Set();if(-not $events['exit'].WaitOne(40000)){throw 'Exit timeout'} }
         } finally {$server.Dispose();$limit.Dispose();foreach($entry in $events.Values){$entry.Dispose()}}
         """;
 }

@@ -60,7 +60,7 @@ public sealed class UpdatePreferenceUiTests
     });
 
     [Fact]
-    public Task UpdatePreferenceOnlySaveHasNoApplyPendingAndFutureReadonlyCannotEdit() => NetworkSettingsUiScope.Run(async f =>
+    public Task UpdatePreferenceOnlySaveHasNoApplyPending_AndSecondSaveIsNoOp() => NetworkSettingsUiScope.Run(async f =>
     {
         f.Vm.CheckForUpdates.Value = false; await f.Vm.ExecuteSaveAsync();
         f.Updates.ShouldBe(1); f.Receipts.PendingCount.ShouldBe(0); f.Vm.IsDirty.ShouldBeFalse();

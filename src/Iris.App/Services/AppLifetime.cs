@@ -1,6 +1,7 @@
 using System;
 using System.Windows;
 using Iris.App.Hosting;
+using Iris.Core.Errors;
 using Iris.Core.Presentation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -44,6 +45,13 @@ internal sealed partial class AppLifetime : IAppLifetime
             var handoff = _serviceProvider.GetService<Iris.App.Updates.UpdateHandoff>();
             try { if (handoff != null) await handoff.RevokeAsync().ConfigureAwait(false); }
             catch (Exception cleanup) { throw new AggregateException(primary, cleanup); }
+            finally
+            {
+                var coordinator = _serviceProvider.GetService<Iris.App.Updates.AppUpdateCoordinator>();
+                coordinator?.RollbackLastApply(ErrorCode.Unknown);
+                var settingsVm = _serviceProvider.GetService<Iris.App.Settings.SettingsViewModel>();
+                settingsVm?.ResetHandoffTransferred();
+            }
             throw;
         }
     }

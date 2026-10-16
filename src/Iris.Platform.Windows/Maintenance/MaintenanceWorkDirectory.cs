@@ -4,9 +4,10 @@ namespace Iris.Platform.Windows.Maintenance;
 
 internal static class MaintenanceWorkDirectory
 {
-    internal static string Create(string stateRoot)
+    internal static void Clean(string stateRoot)
     {
-        MaintenancePaths.RequireNoLinks(stateRoot); Directory.CreateDirectory(stateRoot);
+        if (!Directory.Exists(stateRoot)) return;
+        MaintenancePaths.RequireNoLinks(stateRoot);
         var activePaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         foreach (var process in Process.GetProcessesByName("Iris.Maintenance"))
         {
@@ -14,7 +15,7 @@ internal static class MaintenanceWorkDirectory
             {
                 if (process.HasExited) continue;
                 try { if (process.MainModule?.FileName is string path) activePaths.Add(Path.GetFullPath(path)); }
-                catch (System.ComponentModel.Win32Exception) { throw new IOException("Maintenance process identity is unavailable."); }
+                catch (System.ComponentModel.Win32Exception) { }
             }
         }
         var directories = Directory.GetDirectories(stateRoot, "work-*");
@@ -26,10 +27,20 @@ internal static class MaintenanceWorkDirectory
             if (!File.Exists(marker)) continue;
             MaintenancePaths.RequireNoLinks(marker);
             if (new FileInfo(marker).Length > 2048) continue;
-            var owner = ReleaseIdentity.Parse<Owner>(File.ReadAllBytes(marker));
-            if (owner.Marker != "Iris.Maintenance.Work.1" || IsAlive(owner.Pid, owner.Started) || activePaths.Contains(Path.Combine(directory, "Iris.Maintenance.exe"))) continue;
-            MaintenancePaths.DeleteData(directory, directory);
+            try
+            {
+                var owner = ReleaseIdentity.Parse<Owner>(File.ReadAllBytes(marker));
+                if (owner.Marker != "Iris.Maintenance.Work.1" || IsAlive(owner.Pid, owner.Started) || activePaths.Contains(Path.Combine(directory, "Iris.Maintenance.exe"))) continue;
+                MaintenancePaths.DeleteData(directory, directory);
+            }
+            catch (Exception) { }
         }
+    }
+
+    internal static string Create(string stateRoot)
+    {
+        MaintenancePaths.RequireNoLinks(stateRoot); Directory.CreateDirectory(stateRoot);
+        Clean(stateRoot);
         if (Directory.GetDirectories(stateRoot, "work-*").Length >= 32) throw new IOException("Too many unfinished maintenance sessions.");
         string result = MaintenancePaths.Child(stateRoot, "work-" + Guid.NewGuid().ToString("N")); Directory.CreateDirectory(result);
         using var current = Process.GetCurrentProcess();

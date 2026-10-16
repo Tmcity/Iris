@@ -64,6 +64,8 @@ internal sealed record GeneralDraftSnapshot(
     bool LogLevelDirty)
 {
     public SettingsFieldEdit<string>? UiLanguage { get; init; }
+
+    /// <summary>仅供单元测试使用的兼容字段；生产代码在 src/ 中无调用者，统一使用 SettingsEditPlan 主管道。</summary>
     public SettingsFieldEdit<bool>? CheckForUpdates { get; init; }
     public bool HasAnyDirty => ThemeDirty || LaunchAtStartupDirty || ShowStartupNotificationDirty || LogLevelDirty || UiLanguage != null || CheckForUpdates != null;
 }
@@ -273,6 +275,9 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
         _gate.Release();
     }
 
+    /// <summary>
+    /// 仅供单元测试使用的兼容保存接口；生产代码在 src/ 中无调用者，统一使用 SettingsEditPlan 主管道（CommitPlanAsync）。
+    /// </summary>
     public async Task<GeneralSaveResult> SaveAsync(GeneralDraftSnapshot snapshot, CancellationToken cancellationToken)
     {
         ArgumentNullException.ThrowIfNull(snapshot);

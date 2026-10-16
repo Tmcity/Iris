@@ -36,7 +36,7 @@ internal sealed partial class SettingsViewModel
         CancelUpdateCommand = new AsyncRelayCommand(() => UpdateWorkAsync(() => _updates!.CancelAsync()),
             () => Active() && _updateSnapshot?.Phase is UpdatePhase.Checking or UpdatePhase.Downloading or UpdatePhase.CleanupPending);
         InstallUpdateCommand = new AsyncRelayCommand(() => UpdateWorkAsync(InstallUpdateAsync),
-            () => Active() && _handoff != null && _updateLifetime != null && _updateSnapshot?.Phase == UpdatePhase.Ready);
+            () => Active() && _handoff != null && _updateLifetime != null && (_updateSnapshot?.Phase == UpdatePhase.Ready || (_updateSnapshot?.Phase == UpdatePhase.Failed && _updates?.HasCandidate == true)));
         if (_updates != null) _updates.Changed += OnUpdateChanged;
     }
     private void OnUpdateChanged(object? sender, EventArgs args)
@@ -84,13 +84,39 @@ internal sealed partial class SettingsViewModel
         if (MessageBox.Show(UiText.UpdateInstallConfirm, UiText.AppName, MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK) return;
         var candidate = await _updates.PrepareApplyAsync(this, id, _updateWindowClosing.Token).ConfigureAwait(false);
         if (candidate == null) return;
-        await _handoff.PrepareAsync(candidate, _updateWindowClosing.Token).ConfigureAwait(false);
+        try
+        {
+            await _handoff.PrepareAsync(candidate, _updateWindowClosing.Token).ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) when (_updateWindowClosing.IsCancellationRequested)
+        {
+            return;
+        }
+        catch (Exception ex)
+        {
+            var code = ex switch
+            {
+                IrisException ie => ie.Code,
+                TimeoutException => ErrorCode.Timeout,
+                _ => ErrorCode.Unknown
+            };
+            _updates.RollbackApply(candidate, code);
+            LogCommandUnexpectedFailed(_logger, "InstallUpdate", ex.GetType().Name);
+            return;
+        }
         // No settings save is implicit. RequestShutdown yields before waiting for this window's active work.
         lock (_admissionLock)
         {
             _updateWindowClosing.Token.ThrowIfCancellationRequested();
             _updateHandoffTransferred = true;
             _updateLifetime.RequestShutdown();
+        }
+    }
+    internal void ResetHandoffTransferred()
+    {
+        lock (_admissionLock)
+        {
+            _updateHandoffTransferred = false;
         }
     }
     private void SealUpdates()

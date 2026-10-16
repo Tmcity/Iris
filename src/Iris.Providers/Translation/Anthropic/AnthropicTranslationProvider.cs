@@ -73,16 +73,19 @@ internal sealed partial class AnthropicTranslationProvider : ITranslationProvide
         var baseHttpClient = httpClientFactory.CreateClient(HttpClientNames.Llm);
         var trackingHandler = new AnthropicProgressTrackingHandler(() => _currentResetTimeout.Value);
 
-        _client = new AnthropicClient
+        var clientOptions = new ClientOptions
         {
             ApiKey = string.IsNullOrWhiteSpace(credentials.ApiKey) ? null : credentials.ApiKey,
             AuthToken = null,
+            Credentials = null,
             BaseUrl = string.IsNullOrWhiteSpace(profile.BaseUrl) ? EnvironmentUrl.Production : profile.BaseUrl.TrimEnd('/'),
             HttpClient = baseHttpClient,
             Handlers = [trackingHandler],
             MaxRetries = 0,
             Timeout = Timeout.InfiniteTimeSpan,
         };
+
+        _client = new AnthropicClient(clientOptions);
 
         Descriptor = new ProviderDescriptor(
             Id: _profile.Id,
