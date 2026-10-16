@@ -1,0 +1,359 @@
+﻿{
+    "Checks":  [
+                   {
+                       "Name":  "coverage-install-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "coverage-install-exit-zero",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "coverage-install-app-exists",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "coverage-install-no-autostart",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "coverage-install-final-registration",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "seed-data-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "seed-real-settings-secrets-history-log",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "installed-shortcut",
+                       "Value":  {
+                                     "Exists":  true,
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"
+                                 }
+                   },
+                   {
+                       "Name":  "installed-shortcut-state",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "installed-shortcut",
+                       "Value":  {
+                                     "Exists":  true,
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"
+                                 }
+                   },
+                   {
+                       "Name":  "installed-shortcut-state",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "maintenance-owner",
+                       "Value":  {
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\maintenance\\Iris.Maintenance.exe",
+                                     "Pid":  1976,
+                                     "Command":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\maintenance\\Iris.Maintenance.exe\" --uninstall",
+                                     "Started":  "2026-10-15T16:20:36.2660010+08:00"
+                                 }
+                   },
+                   {
+                       "Name":  "maintenance-owner",
+                       "Value":  {
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\work-a99e49e0a9e145dd933c71e738f2e85f\\Iris.Maintenance.exe",
+                                     "Pid":  3264,
+                                     "Command":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\work-a99e49e0a9e145dd933c71e738f2e85f\\Iris.Maintenance.exe\" --outside 1976 639276492362660019 --uninstall",
+                                     "Started":  "2026-10-15T16:20:36.8517150+08:00"
+                                 }
+                   },
+                   {
+                       "Name":  "full-data-keep-language",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-keep-choice-text",
+                       "Value":  "Iris\r\n是(\u0026Y)\r\n否(\u0026N)\r\n取消\r\n\r\nUninstall Iris?\r\nYes: keep settings, history and logs (default).\r\nNo: delete this data after uninstall succeeds.\r\nCancel: make no changes.\r\n"
+                   },
+                   {
+                       "Name":  "maintenance-owner",
+                       "Value":  {
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe",
+                                     "Pid":  2676,
+                                     "Command":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe\" --uninstall --silent",
+                                     "Started":  "2026-10-15T16:20:37.7526860+08:00"
+                                 }
+                   },
+                   {
+                       "Name":  "full-data-keep-choice-observed",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-keep-owner-finished",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-keep-entry-exit",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-keep-owner-exit",
+                       "Value":  {
+                                     "Code":  0,
+                                     "Pid":  3264
+                                 }
+                   },
+                   {
+                       "Name":  "full-data-keep-exit-3264",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-keep-owner-exit",
+                       "Value":  {
+                                     "Code":  0,
+                                     "Pid":  1976
+                                 }
+                   },
+                   {
+                       "Name":  "full-data-keep-exit-1976",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-keep-owner-exit",
+                       "Value":  {
+                                     "Code":  0,
+                                     "Pid":  2676
+                                 }
+                   },
+                   {
+                       "Name":  "full-data-keep-exit-2676",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-keep-removed-app",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-keep-removed-registration",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-keep-data-choice",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-keep-transaction-ended",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-readable-after-uninstall-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "full-data-readable-after-uninstall",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "owned-autostart-removed",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "other-registration-kept",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "uninstalled-keep-shortcut",
+                       "Value":  {
+                                     "Exists":  false,
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"
+                                 }
+                   },
+                   {
+                       "Name":  "uninstalled-keep-shortcut-state",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "uninstalled-keep-shortcut",
+                       "Value":  {
+                                     "Exists":  false,
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"
+                                 }
+                   },
+                   {
+                       "Name":  "uninstalled-keep-shortcut-state",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "coverage-reinstall-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "coverage-reinstall-exit-zero",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "coverage-reinstall-app-exists",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "coverage-reinstall-no-autostart",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "coverage-reinstall-final-registration",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-readable-after-reinstall-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "full-data-readable-after-reinstall",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "maintenance-owner",
+                       "Value":  {
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\maintenance\\Iris.Maintenance.exe",
+                                     "Pid":  2424,
+                                     "Command":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\maintenance\\Iris.Maintenance.exe\" --uninstall",
+                                     "Started":  "2026-10-15T16:20:45.7570620+08:00"
+                                 }
+                   },
+                   {
+                       "Name":  "maintenance-owner",
+                       "Value":  {
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\work-ceda016ac2db4fd69815cd517361f5b7\\Iris.Maintenance.exe",
+                                     "Pid":  7724,
+                                     "Command":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\work-ceda016ac2db4fd69815cd517361f5b7\\Iris.Maintenance.exe\" --outside 2424 639276492457570629 --uninstall",
+                                     "Started":  "2026-10-15T16:20:46.3559550+08:00"
+                                 }
+                   },
+                   {
+                       "Name":  "full-data-delete-language",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-delete-choice-text",
+                       "Value":  "Iris\r\n是(\u0026Y)\r\n否(\u0026N)\r\n取消\r\n\r\n卸载 Iris？\r\n选择“是”保留设置、历史和日志（默认）。\r\n选择“否”在卸载成功后删除这些数据。\r\n选择“取消”不作更改。\r\n"
+                   },
+                   {
+                       "Name":  "maintenance-owner",
+                       "Value":  {
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe",
+                                     "Pid":  7160,
+                                     "Command":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe\" --uninstall --silent",
+                                     "Started":  "2026-10-15T16:20:47.1427970+08:00"
+                                 }
+                   },
+                   {
+                       "Name":  "full-data-delete-choice-observed",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-delete-owner-finished",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-delete-entry-exit",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-delete-owner-exit",
+                       "Value":  {
+                                     "Code":  0,
+                                     "Pid":  2424
+                                 }
+                   },
+                   {
+                       "Name":  "full-data-delete-exit-2424",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-delete-owner-exit",
+                       "Value":  {
+                                     "Code":  0,
+                                     "Pid":  7160
+                                 }
+                   },
+                   {
+                       "Name":  "full-data-delete-exit-7160",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-delete-owner-exit",
+                       "Value":  {
+                                     "Code":  0,
+                                     "Pid":  7724
+                                 }
+                   },
+                   {
+                       "Name":  "full-data-delete-exit-7724",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-delete-removed-app",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-delete-removed-registration",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-delete-data-choice",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "full-data-delete-transaction-ended",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "deleted-settings.json",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "deleted-secrets.dat",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "deleted-history.db",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "deleted-logs\\owned-retention.log",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "standard-data-directory-deleted",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "foreign-autostart-retained",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "uninstalled-delete-shortcut",
+                       "Value":  {
+                                     "Exists":  false,
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"
+                                 }
+                   },
+                   {
+                       "Name":  "uninstalled-delete-shortcut-state",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "uninstalled-delete-shortcut",
+                       "Value":  {
+                                     "Exists":  false,
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"
+                                 }
+                   },
+                   {
+                       "Name":  "uninstalled-delete-shortcut-state",
+                       "Value":  true
+                   }
+               ],
+    "Failure":  "Exception calling \"Open\" with \"4\" argument(s): \"The process cannot access the file \u0027C:\\IrisBOutput\\coverage-final-2\\bad-installer.exe\u0027 because it is being used by another process.\""
+}

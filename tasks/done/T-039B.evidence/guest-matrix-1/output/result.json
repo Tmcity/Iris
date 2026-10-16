@@ -1,0 +1,212 @@
+﻿{
+    "Checks":  [
+                   {
+                       "Name":  "prior-silent-retention",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "reinstall-retained-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "reinstall-retained-exit-zero",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "reinstall-retained-app-exists",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "reinstall-retained-no-autostart",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "reinstall-retained-final-registration",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "reinstall-kept-original-data",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "maintenance-owner",
+                       "Value":  {
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\maintenance\\Iris.Maintenance.exe",
+                                     "Pid":  7184,
+                                     "Command":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\maintenance\\Iris.Maintenance.exe\" --uninstall",
+                                     "Started":  "2026-10-15T06:09:24.4025900+08:00"
+                                 }
+                   },
+                   {
+                       "Name":  "maintenance-owner",
+                       "Value":  {
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\work-d5bb7ee64e8f46b58d400fa31e49f29b\\Iris.Maintenance.exe",
+                                     "Pid":  2776,
+                                     "Command":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\work-d5bb7ee64e8f46b58d400fa31e49f29b\\Iris.Maintenance.exe\" --outside 7184 639276125644025907 --uninstall",
+                                     "Started":  "2026-10-15T06:09:24.9738290+08:00"
+                                 }
+                   },
+                   {
+                       "Name":  "en-cancel-language",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "en-cancel-choice-text",
+                       "Value":  "Iris\r\n是(\u0026Y)\r\n否(\u0026N)\r\n取消\r\n\r\nUninstall Iris?\r\nYes: keep settings, history and logs (default).\r\nNo: delete this data after uninstall succeeds.\r\nCancel: make no changes.\r\n"
+                   },
+                   {
+                       "Name":  "en-cancel-choice-observed",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "en-cancel-owner-finished",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "en-cancel-entry-exit",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "en-cancel-owner-exit",
+                       "Value":  {
+                                     "Code":  0,
+                                     "Pid":  2776
+                                 }
+                   },
+                   {
+                       "Name":  "en-cancel-exit-2776",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "en-cancel-owner-exit",
+                       "Value":  {
+                                     "Code":  0,
+                                     "Pid":  7184
+                                 }
+                   },
+                   {
+                       "Name":  "en-cancel-exit-7184",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "en-cancel-cancel-keeps-app",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "en-cancel-data-choice",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "en-cancel-transaction-ended",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "maintenance-owner",
+                       "Value":  {
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\maintenance\\Iris.Maintenance.exe",
+                                     "Pid":  2044,
+                                     "Command":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\maintenance\\Iris.Maintenance.exe\" --uninstall",
+                                     "Started":  "2026-10-15T06:09:25.9024270+08:00"
+                                 }
+                   },
+                   {
+                       "Name":  "maintenance-owner",
+                       "Value":  {
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\work-db74c973abbf4845a876263128769fb8\\Iris.Maintenance.exe",
+                                     "Pid":  5492,
+                                     "Command":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\work-db74c973abbf4845a876263128769fb8\\Iris.Maintenance.exe\" --outside 2044 639276125659024273 --uninstall",
+                                     "Started":  "2026-10-15T06:09:26.4775230+08:00"
+                                 }
+                   },
+                   {
+                       "Name":  "zh-cancel-language",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "zh-cancel-choice-text",
+                       "Value":  "Iris\r\n是(\u0026Y)\r\n否(\u0026N)\r\n取消\r\n\r\n卸载 Iris？\r\n选择“是”保留设置、历史和日志（默认）。\r\n选择“否”在卸载成功后删除这些数据。\r\n选择“取消”不作更改。\r\n"
+                   },
+                   {
+                       "Name":  "zh-cancel-choice-observed",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "zh-cancel-owner-finished",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "zh-cancel-entry-exit",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "zh-cancel-owner-exit",
+                       "Value":  {
+                                     "Code":  0,
+                                     "Pid":  2044
+                                 }
+                   },
+                   {
+                       "Name":  "zh-cancel-exit-2044",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "zh-cancel-owner-exit",
+                       "Value":  {
+                                     "Code":  0,
+                                     "Pid":  5492
+                                 }
+                   },
+                   {
+                       "Name":  "zh-cancel-exit-5492",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "zh-cancel-cancel-keeps-app",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "zh-cancel-data-choice",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "zh-cancel-transaction-ended",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "maintenance-owner",
+                       "Value":  {
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\maintenance\\Iris.Maintenance.exe",
+                                     "Pid":  6304,
+                                     "Command":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\maintenance\\Iris.Maintenance.exe\" --uninstall",
+                                     "Started":  "2026-10-15T06:09:27.3962000+08:00"
+                                 }
+                   },
+                   {
+                       "Name":  "maintenance-owner",
+                       "Value":  {
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\work-1e2e5ac9f42c4adc8dc3df4cc5853c96\\Iris.Maintenance.exe",
+                                     "Pid":  3872,
+                                     "Command":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\work-1e2e5ac9f42c4adc8dc3df4cc5853c96\\Iris.Maintenance.exe\" --outside 6304 639276125673962005 --uninstall",
+                                     "Started":  "2026-10-15T06:09:27.9706890+08:00"
+                                 }
+                   },
+                   {
+                       "Name":  "en-keep-language",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "en-keep-choice-text",
+                       "Value":  "Iris\r\n是(\u0026Y)\r\n否(\u0026N)\r\n取消\r\n\r\nUninstall Iris?\r\nYes: keep settings, history and logs (default).\r\nNo: delete this data after uninstall succeeds.\r\nCancel: make no changes.\r\n"
+                   },
+                   {
+                       "Name":  "maintenance-owner",
+                       "Value":  {
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe",
+                                     "Pid":  6168,
+                                     "Command":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe\" --uninstall --silent",
+                                     "Started":  "2026-10-15T06:09:28.7407110+08:00"
+                                 }
+                   }
+               ],
+    "Failure":  "Exception calling \"Click\" with \"2\" argument(s): \"Expected button is absent\""
+}

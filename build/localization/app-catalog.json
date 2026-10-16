@@ -1746,5 +1746,85 @@
   "LogError": {
     "zh-CN": "错误",
     "en-US": "Error"
+  },
+  "MaintenanceBusy": {
+    "zh-CN": "Iris 正在安装、更新或卸载，请等待维护完成后重试。",
+    "en-US": "Iris is being installed, updated or removed. Retry after maintenance finishes."
+  },
+  "UpdateTitle": {
+    "zh-CN": "软件更新",
+    "en-US": "Software updates"
+  },
+  "UpdatePreference": {
+    "zh-CN": "启动时检查更新",
+    "en-US": "Check for updates at startup"
+  },
+  "UpdateCheck": {
+    "zh-CN": "检查更新",
+    "en-US": "Check for updates"
+  },
+  "UpdateDownload": {
+    "zh-CN": "下载更新",
+    "en-US": "Download update"
+  },
+  "UpdateCancel": {
+    "zh-CN": "取消／重试清理",
+    "en-US": "Cancel / retry cleanup"
+  },
+  "UpdateInstall": {
+    "zh-CN": "安装并重启",
+    "en-US": "Install and restart"
+  },
+  "UpdateInstallConfirm": {
+    "zh-CN": "安装更新需要关闭 Iris 并重新启动。未保存的设置草稿不会自动保存。是否继续？",
+    "en-US": "Installing the update closes and restarts Iris. Unsaved settings will not be saved automatically. Continue?"
+  },
+  "UpdateUnsupported": {
+    "zh-CN": "此运行模式不支持自动更新。请使用 Iris 安装版。",
+    "en-US": "Updates are unavailable in this mode. Use an installed copy of Iris."
+  },
+  "UpdateIdle": {
+    "zh-CN": "尚未检查更新",
+    "en-US": "Updates have not been checked"
+  },
+  "UpdateChecking": {
+    "zh-CN": "正在检查更新…",
+    "en-US": "Checking for updates…"
+  },
+  "UpdateNoRelease": {
+    "zh-CN": "尚无兼容的已发布版本",
+    "en-US": "No compatible release is published"
+  },
+  "UpdateUpToDate": {
+    "zh-CN": "已是最新版本",
+    "en-US": "You are up to date"
+  },
+  "UpdateAvailable": {
+    "zh-CN": "有可用更新",
+    "en-US": "An update is available"
+  },
+  "UpdateDownloading": {
+    "zh-CN": "正在下载更新…",
+    "en-US": "Downloading update…"
+  },
+  "UpdateReady": {
+    "zh-CN": "更新已验证，可以安装",
+    "en-US": "Update verified and ready to install"
+  },
+  "UpdateCancelling": {
+    "zh-CN": "正在取消并清理…",
+    "en-US": "Canceling and cleaning up…"
+  },
+  "UpdateCleanupPending": {
+    "zh-CN": "清理未完成，请重试清理",
+    "en-US": "Cleanup is incomplete. Retry cleanup."
+  },
+  "UpdateFailed": {
+    "zh-CN": "更新操作失败",
+    "en-US": "Update operation failed"
+  },
+  "UpdateStopped": {
+    "zh-CN": "更新服务已停止",
+    "en-US": "Update service stopped"
   }
 }

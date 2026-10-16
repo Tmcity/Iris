@@ -1,0 +1,20 @@
+﻿[
+    {
+        "ProcessId":  3204,
+        "ParentProcessId":  5576,
+        "Name":  "Iris-0.2.0-Setup.exe",
+        "CommandLine":  "\"C:\\IrisBInput\\Iris-0.2.0-Setup.exe\" --silent --no-start"
+    },
+    {
+        "ProcessId":  6384,
+        "ParentProcessId":  3204,
+        "Name":  "Setup.exe",
+        "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\setup-91ef9024b96a4f2d8d236b976b162162\\Setup.exe\" --silent"
+    },
+    {
+        "ProcessId":  2572,
+        "ParentProcessId":  6384,
+        "Name":  "inst-dotnet-10.0.0-X64-WindowsDesktop.exe",
+        "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\Downloads\\inst-dotnet-10.0.0-X64-WindowsDesktop.exe\" /norestart /q"
+    }
+]

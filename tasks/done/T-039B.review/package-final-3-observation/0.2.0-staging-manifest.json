@@ -1,0 +1,512 @@
+[
+    {
+        "Path":  "Anthropic.dll",
+        "Sha256":  "156217193C2A4E8E217B86FB7711351BCA34916791ED660ABCE97896DAF2FA39",
+        "Bytes":  6387200
+    },
+    {
+        "Path":  "Dapper.dll",
+        "Sha256":  "BD8DC38353BCD816440737A840970552F6B4B527DB428EC0DD631111BD3F25B2",
+        "Bytes":  251392
+    },
+    {
+        "Path":  "e_sqlite3.dll",
+        "Sha256":  "B7385D722C83FB52142A00477A726723745916D22A555711EE89834C1111FB2E",
+        "Bytes":  1978880
+    },
+    {
+        "Path":  "H.GeneratedIcons.System.Drawing.dll",
+        "Sha256":  "062F717DA727DBD18E1EFC180918BD3913E34A80AF693AEBC140E33B9F10EC40",
+        "Bytes":  15872
+    },
+    {
+        "Path":  "H.NotifyIcon.dll",
+        "Sha256":  "0027E443A6121AF8FB616C0200D3C63BF4ABB72E3C548E119FEE1EAE321A8368",
+        "Bytes":  398848
+    },
+    {
+        "Path":  "H.NotifyIcon.Wpf.dll",
+        "Sha256":  "1A9BAAF2F4F385B1FE3FD59A35D42FC26341A900E55E8A26F8F10D33410EF360",
+        "Bytes":  194048
+    },
+    {
+        "Path":  "Iris.App.deps.json",
+        "Sha256":  "60A1D0E3841D25D1AEDC52894FECEE7783C09C465D2BCAB001E97C053DDFBFC0",
+        "Bytes":  53528
+    },
+    {
+        "Path":  "Iris.App.dll",
+        "Sha256":  "A2FDCDF20F3D9761CEFB84E99D0ADDF1027364399298FB071B9DF0412B404222",
+        "Bytes":  926720
+    },
+    {
+        "Path":  "Iris.App.exe",
+        "Sha256":  "2FB3658D4898752D9AAFB387C4CBA183B86AB07D7EB6564FFE70E55F3C1124BE",
+        "Bytes":  166400
+    },
+    {
+        "Path":  "Iris.App.pdb",
+        "Sha256":  "9F22810BAEE0719B06916E994276B1FB3079819B29BD687D756AEB21E0C71BF0",
+        "Bytes":  262856
+    },
+    {
+        "Path":  "Iris.App.runtimeconfig.json",
+        "Sha256":  "96BC2946DFF8790400D652EC7F8DE7BB043E954980D59470C112788B68A1FBD3",
+        "Bytes":  519
+    },
+    {
+        "Path":  "Iris.App.xml",
+        "Sha256":  "5E239FAE714844471503EBB0EC6208A409C586BB90BAE3B2781A9C2D080A8811",
+        "Bytes":  46510
+    },
+    {
+        "Path":  "Iris.Core.dll",
+        "Sha256":  "7C4E126FB8E1904277886761D2C7D6A616A3A8E8D78B32BE4D4E355941435E70",
+        "Bytes":  499200
+    },
+    {
+        "Path":  "Iris.Core.pdb",
+        "Sha256":  "5D741535BA57FAFBAAC55F2EE39B5DCAA0D7375E3576BA868E28BB1F2043162F",
+        "Bytes":  134572
+    },
+    {
+        "Path":  "Iris.Core.xml",
+        "Sha256":  "5C59B78B39B389F5D6B9E6FD494D7FEBC8056EEB6B80C87043F2E6CCD6A182D8",
+        "Bytes":  133795
+    },
+    {
+        "Path":  "Iris.Infrastructure.dll",
+        "Sha256":  "4BF9AA85085EFE83C192CD7275835362D89DFE94A7391B1CD98E042832D45850",
+        "Bytes":  144896
+    },
+    {
+        "Path":  "Iris.Infrastructure.pdb",
+        "Sha256":  "DFE141E7729304CF48C30D913854C22B9AC61C1626E01597067F88EBF5AEA151",
+        "Bytes":  48924
+    },
+    {
+        "Path":  "Iris.Infrastructure.xml",
+        "Sha256":  "0EF6543AF2DF5D0EE56D185AE15D57A548BFA33381D7ED76B0227204D7DBF9C8",
+        "Bytes":  2730
+    },
+    {
+        "Path":  "Iris.Platform.Windows.dll",
+        "Sha256":  "3CA5FCF230D638E8DA5541AA2CE59386627CA6A9F67FEA79B6641C5729B8F53F",
+        "Bytes":  748032
+    },
+    {
+        "Path":  "Iris.Platform.Windows.pdb",
+        "Sha256":  "8B923C906FE9F8941977DACC6874288C81B1DEA3F35E1C514BCEBBADE53EA65E",
+        "Bytes":  407276
+    },
+    {
+        "Path":  "Iris.Platform.Windows.xml",
+        "Sha256":  "F289AC7FF43C37370C344E5E7AD88238002216CF2CDA77151C124D57CEC8E424",
+        "Bytes":  808373
+    },
+    {
+        "Path":  "Iris.Providers.dll",
+        "Sha256":  "3FDAA3A5EE279464F5C55ED22499355480D89BEA529E04B5D02C80BA8C244A40",
+        "Bytes":  236032
+    },
+    {
+        "Path":  "Iris.Providers.pdb",
+        "Sha256":  "4E7F22DE6E2AE0C554845B1C3C9717D94B8F9111AFAA4C440C4D1B56B0E40B49",
+        "Bytes":  74204
+    },
+    {
+        "Path":  "Iris.Providers.xml",
+        "Sha256":  "F46BB5AA2EB347C07944C6DC16584E7539EF0CFC304E70A66A2D46126939C9CA",
+        "Bytes":  44860
+    },
+    {
+        "Path":  "Microsoft.Data.Sqlite.dll",
+        "Sha256":  "B98D957462BE432895B00DCCCA012D3C127E118D3D4262418014B92C7BBD66CF",
+        "Bytes":  177464
+    },
+    {
+        "Path":  "Microsoft.Extensions.AI.Abstractions.dll",
+        "Sha256":  "1D9E42C94E8B4E4B4DA051123DDDD96AE09E99FC1F42EB5437349C96F6269592",
+        "Bytes":  672056
+    },
+    {
+        "Path":  "Microsoft.Extensions.AmbientMetadata.Application.dll",
+        "Sha256":  "A7E80A5ED7EFAAA21DA13993A01BE345A3221CE92422C2CB33655399A357DC6F",
+        "Bytes":  34616
+    },
+    {
+        "Path":  "Microsoft.Extensions.Compliance.Abstractions.dll",
+        "Sha256":  "B99D010D6B9E5BB863399959D6140BC59ED29EF921957BEA3F666ADA7995AA50",
+        "Bytes":  43832
+    },
+    {
+        "Path":  "Microsoft.Extensions.Configuration.Abstractions.dll",
+        "Sha256":  "FB45286FA39F58B9E74B6346E31034E00031170169EE11FD0A15F99B6DCA0B56",
+        "Bytes":  28456
+    },
+    {
+        "Path":  "Microsoft.Extensions.Configuration.Binder.dll",
+        "Sha256":  "CDB9894A560842062C820E6335C445351BBA26FA92E27B3E703AD07E977C8227",
+        "Bytes":  43304
+    },
+    {
+        "Path":  "Microsoft.Extensions.Configuration.CommandLine.dll",
+        "Sha256":  "F1B5099D9105AE82076E53F8BC90F537A99004D27479BC9CF47712E6FC645711",
+        "Bytes":  25424
+    },
+    {
+        "Path":  "Microsoft.Extensions.Configuration.dll",
+        "Sha256":  "C11796AC536B45B6028527BB9543607F6A5FCA98B1784339226D68CB98705333",
+        "Bytes":  44840
+    },
+    {
+        "Path":  "Microsoft.Extensions.Configuration.EnvironmentVariables.dll",
+        "Sha256":  "F9D770C991B8CCD6402AA072949843132C00566B026EFAA95B63B117FA08517A",
+        "Bytes":  21800
+    },
+    {
+        "Path":  "Microsoft.Extensions.Configuration.FileExtensions.dll",
+        "Sha256":  "BCBDC341E7134C620E6427AB136CD80D8686F63152E17276AA80C63AFA6357CE",
+        "Bytes":  28496
+    },
+    {
+        "Path":  "Microsoft.Extensions.Configuration.Json.dll",
+        "Sha256":  "91238276267EA5AD2986A9BA6AEFBB6DC4643CCFD48167745EF963509407CF84",
+        "Bytes":  27944
+    },
+    {
+        "Path":  "Microsoft.Extensions.Configuration.UserSecrets.dll",
+        "Sha256":  "C235C7A18DCD91CB045BDB98FF26D78AFB06F7ED935B0F2CF1A1ADA07EC20A55",
+        "Bytes":  26448
+    },
+    {
+        "Path":  "Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "Sha256":  "DA04EDC338D5AA0F38A1F5FA5FF3EE7E36AFFE9C961DAF3EA724A428BD746BC6",
+        "Bytes":  65872
+    },
+    {
+        "Path":  "Microsoft.Extensions.DependencyInjection.AutoActivation.dll",
+        "Sha256":  "A73A6C6404212D70A80F8CCCDE2BC527976F9FCB693360F6CF32E9B2D38C9A8B",
+        "Bytes":  33632
+    },
+    {
+        "Path":  "Microsoft.Extensions.DependencyInjection.dll",
+        "Sha256":  "2D0E268BF76B4CE36A55EBB2767354DB956C6660DE65D6CCCFC35C957FB12CFC",
+        "Bytes":  95528
+    },
+    {
+        "Path":  "Microsoft.Extensions.Diagnostics.Abstractions.dll",
+        "Sha256":  "623879199A4D98248DBCE917E8B2C11B1F5EFF24A01CB3B50D772461566DBAD4",
+        "Bytes":  31016
+    },
+    {
+        "Path":  "Microsoft.Extensions.Diagnostics.dll",
+        "Sha256":  "C2B5E806A61D40CE428764647E8C2BCAD20283A3C87F081FF483923ED113AAA5",
+        "Bytes":  36136
+    },
+    {
+        "Path":  "Microsoft.Extensions.Diagnostics.ExceptionSummarization.dll",
+        "Sha256":  "476E2C7298B102B6CFCE2D6AE2ACAD52CE7248D4511F36D42CE35A77FDE1DF55",
+        "Bytes":  30008
+    },
+    {
+        "Path":  "Microsoft.Extensions.FileProviders.Abstractions.dll",
+        "Sha256":  "0AD9800893013D1E11C6B5AFC6EF8A3FC0F14D38FA80BF5D63485FC70F848216",
+        "Bytes":  23336
+    },
+    {
+        "Path":  "Microsoft.Extensions.FileProviders.Physical.dll",
+        "Sha256":  "D57F6E1BCF47468A053696EA34B08E7D04EDCC2681A5DF586145835BD3F0DB66",
+        "Bytes":  45392
+    },
+    {
+        "Path":  "Microsoft.Extensions.FileSystemGlobbing.dll",
+        "Sha256":  "56756B08CDFFE4F47F4CBA71C839375023930DF5A16227CF7523085D9137D08E",
+        "Bytes":  47912
+    },
+    {
+        "Path":  "Microsoft.Extensions.Hosting.Abstractions.dll",
+        "Sha256":  "37C244F5685CA031BE74A49BD23B2634588235F672F3A0B0B352CA8F6F6C3887",
+        "Bytes":  54056
+    },
+    {
+        "Path":  "Microsoft.Extensions.Hosting.dll",
+        "Sha256":  "A78489EB8DBC8A906865A9FE54DBDC51A270FFD1D1F7C70569B20F3D6E51D029",
+        "Bytes":  71976
+    },
+    {
+        "Path":  "Microsoft.Extensions.Http.Diagnostics.dll",
+        "Sha256":  "347D266ABD3C7376B56AB7B10B36510ABE2FE3A36E0CDA5E7AD0FD668F5F8102",
+        "Bytes":  118072
+    },
+    {
+        "Path":  "Microsoft.Extensions.Http.dll",
+        "Sha256":  "5F1F986DDA7614D800AAC232D54EF229C7E557C54A70B060D71752897E26C9BD",
+        "Bytes":  93008
+    },
+    {
+        "Path":  "Microsoft.Extensions.Http.Resilience.dll",
+        "Sha256":  "EB573EA6C8F24D2178D733C1F7F6FDF2856056C6AA5322F667D685AFDD20AFBB",
+        "Bytes":  135992
+    },
+    {
+        "Path":  "Microsoft.Extensions.Logging.Abstractions.dll",
+        "Sha256":  "7C242F8CA612FA1ACC61F78EFD5F8C89E01BD0BD47DC4ECC65E0E6E24F1A1668",
+        "Bytes":  66856
+    },
+    {
+        "Path":  "Microsoft.Extensions.Logging.Configuration.dll",
+        "Sha256":  "10465E68C4431D3FD790911B56FCD3CFCA89DFB4B0BA75D1AFFD970892824B2F",
+        "Bytes":  28456
+    },
+    {
+        "Path":  "Microsoft.Extensions.Logging.Console.dll",
+        "Sha256":  "8564374E3DD121FEDD5443A7755C8FE642D1408B45F73FC980B9D3FA99A47E79",
+        "Bytes":  76072
+    },
+    {
+        "Path":  "Microsoft.Extensions.Logging.Debug.dll",
+        "Sha256":  "6F8570299320CB4B7D732180E73FD4782E73D076B9031EDED7C15C94F6609C33",
+        "Bytes":  19792
+    },
+    {
+        "Path":  "Microsoft.Extensions.Logging.dll",
+        "Sha256":  "05B76234F2A5EB945B268CED706CB4D81446778EA6BD6910298B5E9111170B4A",
+        "Bytes":  51536
+    },
+    {
+        "Path":  "Microsoft.Extensions.Logging.EventLog.dll",
+        "Sha256":  "BB731E3ABD585D6903609629B763B8837E652C2DD95492A59F85BBE76C7BC6A1",
+        "Bytes":  24872
+    },
+    {
+        "Path":  "Microsoft.Extensions.Logging.EventSource.dll",
+        "Sha256":  "0672B48143F7C93DC38A5734800B651C246304D65B49CBD3B766E406B04407CD",
+        "Bytes":  34640
+    },
+    {
+        "Path":  "Microsoft.Extensions.ObjectPool.dll",
+        "Sha256":  "634CCA4D69263DF34F856A45D6F0EEA0FBD82929BA410718254BDBDB03E12B70",
+        "Bytes":  22312
+    },
+    {
+        "Path":  "Microsoft.Extensions.Options.ConfigurationExtensions.dll",
+        "Sha256":  "460A4AC4770F3E134454076AAF02A4774A25A40E03E3CEFBD5BC4C5F5A70AF9F",
+        "Bytes":  21840
+    },
+    {
+        "Path":  "Microsoft.Extensions.Options.dll",
+        "Sha256":  "B4FF561DA6A7B11B68341F9FD32CAB3F8B23CDD8B40332B9FD8BED73A9EE7DE3",
+        "Bytes":  65360
+    },
+    {
+        "Path":  "Microsoft.Extensions.Primitives.dll",
+        "Sha256":  "67642533EB87E8DADEB9026DE59FF4B66CC9BF35C0CFBEDFEF7B79BC6D8B30BC",
+        "Bytes":  44880
+    },
+    {
+        "Path":  "Microsoft.Extensions.Resilience.dll",
+        "Sha256":  "EF993ECA52F7D1DFA47D34678C4D4D69AD35E4052797F679A2F6FEC2EEA820EF",
+        "Bytes":  33120
+    },
+    {
+        "Path":  "Microsoft.Extensions.Telemetry.Abstractions.dll",
+        "Sha256":  "052AE9F51B926B0A61B06081EEBCA430C603CA41AF463FA925ABA4434D0B4628",
+        "Bytes":  58720
+    },
+    {
+        "Path":  "Microsoft.Extensions.Telemetry.dll",
+        "Sha256":  "7CEA61A2885A8FEF83E85DC3615A9E8ADD8748CEC129E45E7CF4240CCE61528B",
+        "Bytes":  150880
+    },
+    {
+        "Path":  "Microsoft.Windows.SDK.NET.dll",
+        "Sha256":  "0EC371D93798852E36461C8ADDDBEADCE0F963A04752F0B64E54FE19C1C834A7",
+        "Bytes":  24877600
+    },
+    {
+        "Path":  "Polly.Core.dll",
+        "Sha256":  "37762EA6FCF05154685B0A616461705C837C2F07D98E4037DC3A0E4B4C186EA5",
+        "Bytes":  242736
+    },
+    {
+        "Path":  "Polly.Extensions.dll",
+        "Sha256":  "8ADAC7A20CD056B9A8623EFB6E6F9B99A82E18D3C7B7F6C788F7FC4B20CE5F18",
+        "Bytes":  57120
+    },
+    {
+        "Path":  "Polly.RateLimiting.dll",
+        "Sha256":  "AFE3042CD4062438857D42880623845F32575375F460FD1AC07F705EA0211804",
+        "Bytes":  28208
+    },
+    {
+        "Path":  "release-source.json",
+        "Sha256":  "F69DC9B67F284C12422F4E5480FE0F8D560EE569D6C9DA7505D2DDCB9DC56462",
+        "Bytes":  122
+    },
+    {
+        "Path":  "Serilog.dll",
+        "Sha256":  "3EE17790B1BF00EABCA2176288DE6C058977BC5B07E6D9839CF6A88433D72311",
+        "Bytes":  163840
+    },
+    {
+        "Path":  "Serilog.Extensions.Hosting.dll",
+        "Sha256":  "3E6D0284179EE0E1C197568FD79B58F869D15298FFF8ECB8447322FE87D44F47",
+        "Bytes":  35840
+    },
+    {
+        "Path":  "Serilog.Extensions.Logging.dll",
+        "Sha256":  "80D3EDBE3E3AC0B4C5BC764474220E7DA11DF8D285E0098F3DC1B65A734C8507",
+        "Bytes":  28672
+    },
+    {
+        "Path":  "Serilog.Sinks.File.dll",
+        "Sha256":  "4F4282671C2AC68284B4DC99F7A76EAC9CBD4E659978CEF642CFF9E6C01B676D",
+        "Bytes":  36864
+    },
+    {
+        "Path":  "SQLitePCLRaw.batteries_v2.dll",
+        "Sha256":  "815CE410C9EAB531DD219318E3BA16C5E38E83D361CFBBDBB4BBCA222C497B0B",
+        "Bytes":  5120
+    },
+    {
+        "Path":  "SQLitePCLRaw.core.dll",
+        "Sha256":  "AF340AC9EB9195795660D7FC1114F486B6AB63998F33176E2F24C8E0ACB9AA84",
+        "Bytes":  51200
+    },
+    {
+        "Path":  "SQLitePCLRaw.provider.e_sqlite3.dll",
+        "Sha256":  "EB6696E55882C3000333146B1CD4970439601E11FDEDAE941105CA921F615BD6",
+        "Bytes":  36864
+    },
+    {
+        "Path":  "System.Threading.RateLimiting.dll",
+        "Sha256":  "95B7E590AE833A7842BB8C0453032661E4110678248B0E43D26C39B2CC00716D",
+        "Bytes":  68896
+    },
+    {
+        "Path":  "Velopack.dll",
+        "Sha256":  "969853E147E95B3F46192425CFEA7EAE8837AEA79F3E2B2C7CC0AA34B5703153",
+        "Bytes":  279040
+    },
+    {
+        "Path":  "WinRT.Runtime.dll",
+        "Sha256":  "BCF3A14E8712A90837FC5C0D8C8A24696AF2BD7F74E9767597EC81EDEDFB23DB",
+        "Bytes":  528944
+    },
+    {
+        "Path":  "Wpf.Ui.Abstractions.dll",
+        "Sha256":  "DEFCD3554E362CE84BE4DBBF98A18308705BF7C16EAC5F483532DF83CB1F87FE",
+        "Bytes":  7168
+    },
+    {
+        "Path":  "Wpf.Ui.dll",
+        "Sha256":  "966176695819E39752211DF271A53CEE7DF91F55A5E20EF9BF61FC7220FCAA1A",
+        "Bytes":  6565888
+    },
+    {
+        "Path":  "en-US\\Iris.App.resources.dll",
+        "Sha256":  "6BDDE6C7FC31A0A9EBD05A516F8A4A2F777AD0A6D4CBD2DE5A6BFFFBC58DFBCD",
+        "Bytes":  43008
+    },
+    {
+        "Path":  "en-US\\Iris.Core.resources.dll",
+        "Sha256":  "A67B2881A180CDCF6E1627BFED7D45B2776989631CD166B19577229396AA0B17",
+        "Bytes":  17920
+    },
+    {
+        "Path":  "maintenance\\Iris.Maintenance.exe",
+        "Sha256":  "D4D0BBAF049D5B99B00DF3294B3CA22E3CEA15D86657EF696E6C8A3C609534EE",
+        "Bytes":  44601490
+    },
+    {
+        "Path":  "uia\\Iris.Core.dll",
+        "Sha256":  "7C4E126FB8E1904277886761D2C7D6A616A3A8E8D78B32BE4D4E355941435E70",
+        "Bytes":  499200
+    },
+    {
+        "Path":  "uia\\Iris.Core.pdb",
+        "Sha256":  "5D741535BA57FAFBAAC55F2EE39B5DCAA0D7375E3576BA868E28BB1F2043162F",
+        "Bytes":  134572
+    },
+    {
+        "Path":  "uia\\Iris.Core.xml",
+        "Sha256":  "5C59B78B39B389F5D6B9E6FD494D7FEBC8056EEB6B80C87043F2E6CCD6A182D8",
+        "Bytes":  133795
+    },
+    {
+        "Path":  "uia\\Iris.Platform.Windows.dll",
+        "Sha256":  "3CA5FCF230D638E8DA5541AA2CE59386627CA6A9F67FEA79B6641C5729B8F53F",
+        "Bytes":  748032
+    },
+    {
+        "Path":  "uia\\Iris.Platform.Windows.pdb",
+        "Sha256":  "8B923C906FE9F8941977DACC6874288C81B1DEA3F35E1C514BCEBBADE53EA65E",
+        "Bytes":  407276
+    },
+    {
+        "Path":  "uia\\Iris.Platform.Windows.xml",
+        "Sha256":  "F289AC7FF43C37370C344E5E7AD88238002216CF2CDA77151C124D57CEC8E424",
+        "Bytes":  808373
+    },
+    {
+        "Path":  "uia\\Iris.UiaHost.deps.json",
+        "Sha256":  "7004EA7A711E190B12340F80AEFD7B1B99BB0A759E198647A5FAF85CD2FA0E4A",
+        "Bytes":  4659
+    },
+    {
+        "Path":  "uia\\Iris.UiaHost.dll",
+        "Sha256":  "D3500D4EC4379053917AAB7FD47E871E79709733985D3386D44B3C183ECEFC41",
+        "Bytes":  5632
+    },
+    {
+        "Path":  "uia\\Iris.UiaHost.exe",
+        "Sha256":  "8B33BA52E258C1121F6E5C39B00560D326D3A5ACEEDE415D59DB513F17443F50",
+        "Bytes":  162304
+    },
+    {
+        "Path":  "uia\\Iris.UiaHost.pdb",
+        "Sha256":  "626341E07897D3CCC349573B150F47DE82FE14CB8BC51C6DBCE64EFB8726CD2F",
+        "Bytes":  12652
+    },
+    {
+        "Path":  "uia\\Iris.UiaHost.runtimeconfig.json",
+        "Sha256":  "3E965CD7CFD553C2FF4E842D8D8019AAAE2DA0A21D92FF85A87573DD8D1B95C6",
+        "Bytes":  399
+    },
+    {
+        "Path":  "uia\\Iris.UiaHost.xml",
+        "Sha256":  "0F3A4594D422295B456EDC313FED259C217CCD4E0D6D58BB9E9E8100E9438F90",
+        "Bytes":  137
+    },
+    {
+        "Path":  "uia\\Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+        "Sha256":  "DA04EDC338D5AA0F38A1F5FA5FF3EE7E36AFFE9C961DAF3EA724A428BD746BC6",
+        "Bytes":  65872
+    },
+    {
+        "Path":  "uia\\Microsoft.Extensions.Logging.Abstractions.dll",
+        "Sha256":  "7C242F8CA612FA1ACC61F78EFD5F8C89E01BD0BD47DC4ECC65E0E6E24F1A1668",
+        "Bytes":  66856
+    },
+    {
+        "Path":  "uia\\Microsoft.Windows.SDK.NET.dll",
+        "Sha256":  "0EC371D93798852E36461C8ADDDBEADCE0F963A04752F0B64E54FE19C1C834A7",
+        "Bytes":  24877600
+    },
+    {
+        "Path":  "uia\\System.Security.Cryptography.ProtectedData.dll",
+        "Sha256":  "B61A1445B99A1486A5D9ABBD45D766497F136270F5B04862DEFEE1FC054DED14",
+        "Bytes":  39760
+    },
+    {
+        "Path":  "uia\\WinRT.Runtime.dll",
+        "Sha256":  "BCF3A14E8712A90837FC5C0D8C8A24696AF2BD7F74E9767597EC81EDEDFB23DB",
+        "Bytes":  528944
+    },
+    {
+        "Path":  "uia\\en-US\\Iris.Core.resources.dll",
+        "Sha256":  "A67B2881A180CDCF6E1627BFED7D45B2776989631CD166B19577229396AA0B17",
+        "Bytes":  17920
+    }
+]

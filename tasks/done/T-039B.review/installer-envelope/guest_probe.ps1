@@ -1,0 +1,64 @@
+$ErrorActionPreference = 'Stop'
+function Get-IrisProbeRuntimes {
+    $roots = @((Join-Path $env:ProgramFiles 'dotnet\shared'))
+    if (${env:ProgramFiles(x86)}) { $roots += (Join-Path ${env:ProgramFiles(x86)} 'dotnet\shared') }
+    @($roots | ForEach-Object {
+        Get-ChildItem -LiteralPath $_ -Directory -ErrorAction SilentlyContinue | ForEach-Object {
+            $family = $_.Name
+            Get-ChildItem -LiteralPath $_.FullName -Directory | ForEach-Object {
+                [pscustomobject]@{ Family = $family; Version = $_.Name; Path = $_.FullName }
+            }
+        }
+    })
+}
+$irisProbeBefore = @(Get-IrisProbeRuntimes)
+$irisProbeOs = Get-CimInstance Win32_OperatingSystem
+$irisProbeEnvironment = [ordered]@{ Caption = $irisProbeOs.Caption; Version = $irisProbeOs.Version; Context = 'Owned offline sandbox, System'; SharedRuntimesBefore = $irisProbeBefore }
+$irisProbeEnvironment | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath 'C:\IrisEnvelopeOutput\environment.json' -Encoding UTF8
+if (@($irisProbeBefore | Where-Object { $_.Version -like '10.*' }).Count -ne 0) { throw 'Guest already has a shared .NET 10 runtime; clean-runtime verification is not valid.' }
+$irisProbeWork = 'C:\IrisEnvelopeWork'
+New-Item -ItemType Directory -Path $irisProbeWork -Force | Out-Null
+New-Item -ItemType Directory -Path (Join-Path $irisProbeWork 'empty-dotnet-root') -Force | Out-Null
+$env:DOTNET_BUNDLE_EXTRACT_BASE_DIR = Join-Path $irisProbeWork 'bundle-extraction'
+$env:DOTNET_ROOT = Join-Path $irisProbeWork 'empty-dotnet-root'
+$env:DOTNET_ROOT_X64 = $env:DOTNET_ROOT
+$env:DOTNET_MULTILEVEL_LOOKUP = '0'
+$irisProbeCases = @(
+    [pscustomobject]@{ Name = 'valid'; Exit = 0; Outcome = 'Verified' },
+    [pscustomobject]@{ Name = 'corrupt'; Exit = 2; Outcome = 'HashOrContentMismatch' },
+    [pscustomobject]@{ Name = 'bounds'; Exit = 2; Outcome = 'InvalidBounds' }
+)
+$irisProbeResults = @()
+foreach ($case in $irisProbeCases) {
+    $exe = Join-Path 'C:\IrisEnvelopeInput' ('EnvelopeProbe-v2-' + $case.Name + '.exe')
+    $stdout = Join-Path 'C:\IrisEnvelopeOutput' ($case.Name + '.log')
+    $stderr = Join-Path 'C:\IrisEnvelopeOutput' ($case.Name + '.stderr.log')
+    $launch = New-Object System.Diagnostics.ProcessStartInfo
+    $launch.FileName = $exe
+    $launch.WorkingDirectory = $irisProbeWork
+    $launch.UseShellExecute = $false
+    $launch.CreateNoWindow = $true
+    $launch.RedirectStandardOutput = $true
+    $launch.RedirectStandardError = $true
+    $child = New-Object System.Diagnostics.Process
+    $child.StartInfo = $launch
+    if (-not $child.Start()) { throw 'Owned probe process did not start.' }
+    $ownedHandle = $child.Handle
+    $stdoutRead = $child.StandardOutput.ReadToEndAsync()
+    $stderrRead = $child.StandardError.ReadToEndAsync()
+    $finished = $child.WaitForExit(30000)
+    if (-not $finished) { $child.Kill(); $child.WaitForExit(); throw ('Owned probe timed out: ' + $case.Name) }
+    $child.WaitForExit()
+    $exitCode = $child.ExitCode
+    [IO.File]::WriteAllText($stdout, $stdoutRead.GetAwaiter().GetResult(), (New-Object Text.UTF8Encoding($false)))
+    [IO.File]::WriteAllText($stderr, $stderrRead.GetAwaiter().GetResult(), (New-Object Text.UTF8Encoding($false)))
+    $child.Dispose()
+    $observed = Get-Content -LiteralPath $stdout -Raw -Encoding UTF8 | ConvertFrom-Json
+    $passed = $exitCode -eq $case.Exit -and $observed.EntryPointReached -and $observed.Outcome -eq $case.Outcome -and $observed.RuntimeVersion -like '10.*' -and -not $observed.PayloadExecuted
+    $irisProbeResults += [pscustomobject]@{ Case = $case.Name; ExitCode = $exitCode; ExpectedExitCode = $case.Exit; Observed = $observed; Passed = $passed }
+}
+$irisProbeAfter = @(Get-IrisProbeRuntimes)
+$irisProbeReport = [ordered]@{ Environment = $irisProbeEnvironment; Cases = $irisProbeResults; SharedRuntimesAfter = $irisProbeAfter; SharedDotnet10Absent = @($irisProbeAfter | Where-Object { $_.Version -like '10.*' }).Count -eq 0; RealInstallerExecuted = $false }
+$irisProbeReport | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath 'C:\IrisEnvelopeOutput\result.json' -Encoding UTF8
+if (@($irisProbeResults | Where-Object { -not $_.Passed }).Count -ne 0 -or -not $irisProbeReport.SharedDotnet10Absent) { exit 2 }
+exit 0

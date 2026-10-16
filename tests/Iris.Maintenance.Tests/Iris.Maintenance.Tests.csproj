@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net10.0-windows10.0.19041.0</TargetFramework><OutputType>Exe</OutputType></PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Iris.Maintenance\Iris.Maintenance.csproj" />
+    <ProjectReference Include="..\..\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="Shouldly" />
+    <Using Include="Xunit" />
+  </ItemGroup>
+</Project>

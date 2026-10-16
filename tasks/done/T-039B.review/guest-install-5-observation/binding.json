@@ -1,0 +1,41 @@
+{
+  "atUtc": "2026-10-14T23:24:59.683079+00:00",
+  "sandboxId": "2ed0bc7d-2497-4e88-9f4e-e000b9105fde",
+  "verifiedInputs": [
+    {
+      "Name": "guest_install.ps1",
+      "Sha256": "18b8cf5f6838c5a6ef9ad354c16d3d66770ff4d8ab5fed1fe70e567bed0fc4f8"
+    },
+    {
+      "Name": "Iris-0.2.0-Setup.exe",
+      "Sha256": "7c00e7c731ca391a712ce03c06c7f2581b3ea0e28de923df8774a217f1e56e09"
+    }
+  ],
+  "intentSha256": "abf41b96615028bf6bfb9b64a0f490c84a386bea1f5af3325387e1174363200d",
+  "resultSha256": "f06d1f174d8d105d702fd297b6a5f720481cafc56b5136cdba40f41b75f27157",
+  "requiredObservations": {
+    "install-exit": 0,
+    "install-did-not-start-app": true,
+    "uia-start-and-eof-exit": 0,
+    "settings-window-appeared": true,
+    "uninstall-entry-exit": 0,
+    "external-maintenance-observed": true,
+    "all-owned-maintenance-exited": true,
+    "original-app-exit": 0,
+    "silent-uninstall-kept-data": true,
+    "uninstall-key-removed": true,
+    "transaction-completed": true,
+    "desktop-runtime-retained": true
+  },
+  "maintenanceOwnerExits": [
+    {
+      "Code": 0,
+      "Pid": 8028
+    }
+  ],
+  "screenshot": {
+    "path": "F:\\Iris\\artifacts\\t039b\\sandbox\\2ed0bc7d-2497-4e88-9f4e-e000b9105fde\\output\\installed-settings.png",
+    "sha256": "784f211945fbdb419a8691d20c8894b9596e876b46fd5f4ff0c8e9445dea7656"
+  },
+  "scope": "Independent read-only validation of the recorded guest scenario; no claim about unexecuted B scenarios"
+}

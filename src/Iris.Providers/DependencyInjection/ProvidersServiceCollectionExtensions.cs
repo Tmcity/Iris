@@ -118,6 +118,17 @@ public static class ProvidersServiceCollectionExtensions
         ocr.AddHttpMessageHandler<HttpLoggingHandler>();
         ocr.AddHttpMessageHandler<Iris.Providers.Ocr.Baidu.BaiduOcrTransportSafetyHandler>();
 
+        services.AddHttpClient(HttpClientNames.Updates)
+            .ConfigurePrimaryHttpMessageHandler(sp => new NetworkRoutingHandler(sp.GetRequiredService<NetworkTransportManager>()))
+            .ConfigureHttpClient(client =>
+            {
+                client.Timeout = Timeout.InfiniteTimeSpan;
+                client.DefaultRequestHeaders.UserAgent.ParseAdd(userAgent);
+            })
+            .RemoveAllLoggers()
+            .AddHttpMessageHandler(sp => new NetworkSnapshotHandler(HttpClientNames.Updates,
+                sp.GetRequiredService<Iris.Core.Network.INetworkProxySnapshotSource>(), sp.GetRequiredService<NetworkTransportManager>()));
+
         return services;
     }
 }

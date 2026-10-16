@@ -1,0 +1,156 @@
+﻿{
+    "Checks":  [
+                   {
+                       "Name":  "environment",
+                       "Value":  {
+                                     "RuntimesBefore":  [
+
+                                                        ],
+                                     "Administrator":  true,
+                                     "User":  "9FAE81B7-BC2B-4\\WDAGUtilityAccount",
+                                     "OS":  "Microsoft Windows 11 企业版",
+                                     "Version":  "10.0.26100"
+                                 }
+                   },
+                   {
+                       "Name":  "install-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "runtimes-after",
+                       "Value":  [
+                                     {
+                                         "Family":  "Microsoft.NETCore.App",
+                                         "Version":  "10.0.13"
+                                     },
+                                     {
+                                         "Family":  "Microsoft.WindowsDesktop.App",
+                                         "Version":  "10.0.13"
+                                     }
+                                 ]
+                   },
+                   {
+                       "Name":  "installed-identity",
+                       "Value":  {
+                                     "Version":  "0.2.0",
+                                     "Channel":  "win",
+                                     "PackageId":  "Iris",
+                                     "Repository":  "https://github.com/Tmcity/Iris",
+                                     "RuntimeId":  "win-x64"
+                                 }
+                   },
+                   {
+                       "Name":  "uninstall-registration",
+                       "Value":  {
+                                     "QuietUninstallString":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\maintenance\\Iris.Maintenance.exe\" --uninstall --silent",
+                                     "UninstallString":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\maintenance\\Iris.Maintenance.exe\" --uninstall"
+                                 }
+                   },
+                   {
+                       "Name":  "install-did-not-start-app",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "uia-start-and-eof-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "app-running",
+                       "Value":  {
+                                     "Handle":  196934,
+                                     "Title":  "Iris Settings",
+                                     "Pid":  5900
+                                 }
+                   },
+                   {
+                       "Name":  "settings-window-appeared",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "maintenance-owner",
+                       "Value":  {
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\work-fdf4a516006140119499c8ad534dd7e2\\Iris.Maintenance.exe",
+                                     "Pid":  5040,
+                                     "Command":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\work-fdf4a516006140119499c8ad534dd7e2\\Iris.Maintenance.exe\" --outside 4900 639276616262049109 --uninstall --silent",
+                                     "Started":  "2026-10-15T19:47:06.9597810+08:00"
+                                 }
+                   },
+                   {
+                       "Name":  "uninstall-entry-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "maintenance-owner",
+                       "Value":  {
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe",
+                                     "Pid":  3804,
+                                     "Command":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe\" --uninstall --silent",
+                                     "Started":  "2026-10-15T19:47:08.0029700+08:00"
+                                 }
+                   },
+                   {
+                       "Name":  "external-maintenance-observed",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "all-owned-maintenance-exited",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "maintenance-owner-exit",
+                       "Value":  {
+                                     "Code":  0,
+                                     "Pid":  3804
+                                 }
+                   },
+                   {
+                       "Name":  "maintenance-exit-zero-3804",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "maintenance-owner-exit",
+                       "Value":  {
+                                     "Code":  0,
+                                     "Pid":  5040
+                                 }
+                   },
+                   {
+                       "Name":  "maintenance-exit-zero-5040",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "original-app-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "silent-uninstall-kept-data",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "uninstall-key-removed",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "transaction-completed",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "runtime-retained",
+                       "Value":  [
+                                     {
+                                         "Family":  "Microsoft.NETCore.App",
+                                         "Version":  "10.0.13"
+                                     },
+                                     {
+                                         "Family":  "Microsoft.WindowsDesktop.App",
+                                         "Version":  "10.0.13"
+                                     }
+                                 ]
+                   },
+                   {
+                       "Name":  "desktop-runtime-retained",
+                       "Value":  true
+                   }
+               ],
+    "Failure":  null
+}

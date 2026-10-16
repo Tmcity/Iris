@@ -13011,5 +13011,29 @@
     "Context": "",
     "Reason": "Source documentation/comment; never evaluated as UI text.",
     "AllowedOccurrences": 1
+  },
+  {
+    "Path": "src/Iris.Core/Settings/SettingsEditingModels.cs",
+    "Kind": "comment",
+    "Text": " <summary>常规设置字段增量；null 项保留提交时的最新值。原四参数构造/解构保持。\n/// UiLanguage 只接受规范值zh-CN/en-US，保存后下次启动生效，完整规则见LOCALIZATION.md。\r\n/// CheckForUpdates只表示启动自动检查偏好；不触发下载/安装，null保留最新值，规则见DESKTOP_RELEASE.md。</summary>\r\n",
+    "Start": 288,
+    "Length": 198,
+    "Line": 12,
+    "Fingerprint": "73858402C2AF96131752CD1C6AFA2A7E063E867C91204F26E079CF839BA85890",
+    "SiteFingerprint": "320FA12EC3795408D91C08DC84A43671F5AD923EAAEDAE2637E07D6448F27463",
+    "AllowedOccurrences": 1,
+    "Reason": "T-039B / CCR-039 approved XML documentation of the update preference and credential-free Updates client; not executable UI."
+  },
+  {
+    "Path": "src/Iris.Providers/Http/ProviderHttp.cs",
+    "Kind": "comment",
+    "Text": " <summary>公开桌面更新客户端：复用版本化代理/响应所有权，不携带Provider或仓库凭据，不应用业务重试。</summary>\r\n",
+    "Start": 452,
+    "Length": 71,
+    "Line": 15,
+    "Fingerprint": "EC81281FE1FD510CA8E2F2677BC7CFFE6AED613122BD4509F59CC163A98878C3",
+    "SiteFingerprint": "4DBBD5D05603A4CDA725ED473CFBDAE6822005AAB0367F55DF729BAC1BC1EBD0",
+    "AllowedOccurrences": 1,
+    "Reason": "T-039B / CCR-039 approved XML documentation of the update preference and credential-free Updates client; not executable UI."
   }
 ]

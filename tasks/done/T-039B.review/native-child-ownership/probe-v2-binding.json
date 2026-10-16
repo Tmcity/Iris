@@ -1,0 +1,7 @@
+{
+  "programSha256": "7e2d768b301aa4cd6aa1f60700c80b2700252c959b7f758445b8bd526f1c1075",
+  "candidateAssemblies": "binding.json",
+  "result": "../child-ownership-before-2.log",
+  "productBehaviorFailed": true,
+  "probeCleanupCompleted": true
+}

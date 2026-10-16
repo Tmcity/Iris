@@ -1,0 +1,10 @@
+{
+  "files": {
+    "Program.cs": "c03221ab7f9731e74b3551c15d252a757aa2bd879dce15b1aa2d2be759df94fb",
+    "RecoveryProbe.cs": "8565b23bd83c1a3ade0412343b20a73f91332af3a84a6f7e177eb5462efa9895"
+  },
+  "candidateAssemblies": "binding.json",
+  "result": "../recovery-same-owner-before-1.log",
+  "nativeAndDataEffectsAreFakes": true,
+  "realEngineAndFileGate": true
+}

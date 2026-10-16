@@ -1,0 +1,18 @@
+{
+  "command": [
+    "dotnet",
+    "publish",
+    "EnvelopeProbe.csproj",
+    "-c",
+    "Release",
+    "-o",
+    "publish-v2",
+    "--no-restore",
+    "--disable-build-servers"
+  ],
+  "cwd": "C:/Users/28910/AppData/Local/Temp/iris-t039b-envelope-20261013",
+  "startedAt": "2026-10-12T18:12:17.337067+00:00",
+  "completedAt": "2026-10-12T18:12:19.872524+00:00",
+  "exitCode": 0,
+  "logSha256": "2736433967e46d5d507f59e7d505e69df17ee966d4f823f266513c8aed12e642"
+}

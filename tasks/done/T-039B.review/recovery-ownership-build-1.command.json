@@ -1,0 +1,16 @@
+{
+  "command": [
+    "dotnet",
+    "build",
+    "Review.csproj",
+    "-c",
+    "Release",
+    "--no-restore",
+    "--disable-build-servers"
+  ],
+  "cwd": "C:/Users/28910/AppData/Local/Temp/iris-t039b-child-ownership-20261013",
+  "startedAt": "2026-10-12T19:31:08.356379+00:00",
+  "completedAt": "2026-10-12T19:31:10.529771+00:00",
+  "exitCode": 0,
+  "logSha256": "3d61ddf0cbc927ed184d46f3a1dbdecc143124c0d20b47441cf28218ffdf6b7c"
+}

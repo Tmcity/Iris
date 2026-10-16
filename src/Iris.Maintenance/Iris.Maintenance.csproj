@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Iris.Core\Iris.Core.csproj" />
+    <ProjectReference Include="..\Iris.Platform.Windows\Iris.Platform.Windows.csproj" />
+    <PackageReference Include="Velopack" />
+    <InternalsVisibleTo Include="Iris.Maintenance.Tests" />
+  </ItemGroup>
+</Project>

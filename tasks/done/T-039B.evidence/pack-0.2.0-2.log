@@ -1,0 +1,7 @@
+dotnet failed with exit -1
+At F:\Iris\build\pack.ps1:23 char:32
++ ... XITCODE -ne 0) { throw ('dotnet failed with exit ' + $LASTEXITCODE) }
++                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (dotnet failed with exit -1:String) [], RuntimeException
+    + FullyQualifiedErrorId : dotnet failed with exit -1
+ 

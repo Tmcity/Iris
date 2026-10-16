@@ -1,0 +1,94 @@
+using System.Diagnostics;
+using Iris.Platform.Windows.Maintenance;
+
+namespace Iris.Maintenance;
+
+internal sealed class MaintenanceEngine(MaintenanceSystem system)
+{
+    private static MaintenanceTransaction Transaction(string kind, string phase, string version = "", bool delete = false)
+    {
+        using var process = Process.GetCurrentProcess();
+        return new(Guid.NewGuid(), kind, phase, process.Id, process.StartTime.ToUniversalTime().Ticks, version, delete);
+    }
+    internal async Task InstallAsync(string setup, bool start, CancellationToken token, string? expectedVersion = null, bool repair = false)
+    {
+        using (var gate = MaintenanceGate.Acquire(system.StateRoot, recovery: repair))
+        {
+            if (gate.Read() is { } previous)
+            {
+                RequireAvailableOwner(previous);
+                if (previous.Phase is not ("preparing" or "awaiting-commit")) system.EnsureNoNativeWorker(previous);
+                if (previous.Kind == "uninstall" && previous.DeleteData) throw new IOException("Complete requested data cleanup before reinstalling.");
+            }
+            var state = Transaction("install", "preparing", expectedVersion ?? ""); gate.Write(state);
+            try { await system.CloseApplicationsAsync(token).ConfigureAwait(false); token.ThrowIfCancellationRequested(); }
+            catch { gate.Complete(); throw; }
+            gate.Write(state = state with { Phase = "native-starting", WorkerPath = setup });
+            int code;
+            try { code = await system.RunAsync(setup, ["--silent"], (pid, ticks) => gate.Write(state = state with { Phase = "native-running", WorkerPid = pid, WorkerStartedUtcTicks = ticks })).ConfigureAwait(false); }
+            catch (Exception primary)
+            {
+                try { if (system.LastNativeExitCode is int exit) gate.Write(state with { Phase = "native-record-failed", WorkerExitCode = exit }); }
+                catch (Exception cleanup) { throw new AggregateException(primary, cleanup); }
+                throw;
+            }
+            gate.Write(state = state with { Phase = "verify", WorkerExitCode = code });
+            if (code != 0) throw new IOException("Installation did not complete successfully.");
+            var identity = ReleaseIdentity.Read(Path.Combine(system.InstallRoot, "current", ReleaseIdentity.FileName));
+            if (expectedVersion != null && identity.Version != expectedVersion) throw new IOException("Installed version does not match the installer.");
+            gate.Write(state with { Phase = "registration", Version = identity.Version });
+            await system.ConfigureAsync().ConfigureAwait(false); gate.Complete();
+        }
+        if (start) system.StartApplication();
+    }
+    internal async Task UninstallAsync(bool delete, CancellationToken token)
+    {
+        using var gate = MaintenanceGate.Acquire(system.StateRoot);
+        _ = ReleaseIdentity.Read(Path.Combine(system.InstallRoot, "current", ReleaseIdentity.FileName));
+        var state = Transaction("uninstall", "preparing", delete: delete); gate.Write(state);
+        try { await system.CloseApplicationsAsync(token).ConfigureAwait(false); token.ThrowIfCancellationRequested(); }
+        catch { gate.Complete(); throw; }
+        string worker = Path.Combine(system.InstallRoot, "Update.exe");
+        gate.Write(state = state with { Phase = "native-starting", WorkerPath = worker });
+        int code;
+        try { code = await system.RunAsync(worker, ["--uninstall", "--silent"],
+            (pid, ticks) => gate.Write(state = state with { Phase = "native-running", WorkerPid = pid, WorkerStartedUtcTicks = ticks })).ConfigureAwait(false); }
+        catch (Exception primary)
+        {
+            try { if (system.LastNativeExitCode is int exit) gate.Write(state with { Phase = "native-record-failed", WorkerExitCode = exit }); }
+            catch (Exception cleanup) { throw new AggregateException(primary, cleanup); }
+            throw;
+        }
+        gate.Write(state = state with { Phase = "verify", WorkerExitCode = code });
+        if (code != 0 || !system.IsUninstalled) throw new IOException("Uninstall did not complete.");
+        gate.Write(state = state with { Phase = "data-cleanup" });
+        system.RemoveAutoStart(); if (delete) system.DeleteData(); gate.Complete();
+    }
+    internal async Task RecoverAsync(CancellationToken token)
+    {
+        using var gate = MaintenanceGate.Acquire(system.StateRoot, recovery: true);
+        var state = gate.Read(); if (state == null) return;
+        RequireAvailableOwner(state);
+        if (state.Phase == "preparing" || state.Phase == "awaiting-commit") { gate.Complete(); return; }
+        if (state.Phase is "native-starting" or "native-running") throw new IOException("Native result is unknown; explicit installation repair is required.");
+        if (state.WorkerExitCode != 0) throw new IOException("Native success was not recorded; explicit installation repair is required.");
+        await system.CloseApplicationsAsync(token).ConfigureAwait(false);
+        if (state.Kind == "uninstall" && system.IsUninstalled)
+        { system.RemoveAutoStart(); if (state.DeleteData) system.DeleteData(); gate.Complete(); return; }
+        if (state.Kind is "install" or "update" && state.Phase is "verify" or "registration" && !string.IsNullOrEmpty(state.Version))
+        {
+            var identity = ReleaseIdentity.Read(Path.Combine(system.InstallRoot, "current", ReleaseIdentity.FileName));
+            if (!string.IsNullOrEmpty(state.Version) && identity.Version != state.Version) throw new IOException("Installation state needs repair.");
+            await system.ConfigureAsync().ConfigureAwait(false); gate.Complete(); return;
+        }
+        throw new IOException("Maintenance state needs repair.");
+    }
+    private static void RequireAvailableOwner(MaintenanceTransaction state)
+    {
+        using var current = Process.GetCurrentProcess();
+        bool ownedHere = state.OwnerPid == current.Id && state.OwnerStartedUtcTicks == current.StartTime.ToUniversalTime().Ticks;
+        if ((!ownedHere && MaintenanceSystem.IsAlive(state.OwnerPid, state.OwnerStartedUtcTicks))
+            || (state.WorkerPid is int worker && state.WorkerStartedUtcTicks is long ticks && MaintenanceSystem.IsAlive(worker, ticks)))
+            throw new IOException("Maintenance is still running.");
+    }
+}

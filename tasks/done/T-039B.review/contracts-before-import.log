@@ -1,0 +1,11 @@
+F:\Iris\specs\CONTRACTS.cs(1819,9): error CS0246: 未能找到类型或命名空间名“ErrorInfo”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t039b-contracts-20261013\ContractCheck.csproj]
+F:\Iris\specs\CONTRACTS.cs(1810,9): error CS0246: 未能找到类型或命名空间名“ErrorInfo”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t039b-contracts-20261013\ContractCheck.csproj]
+
+生成失败。
+
+F:\Iris\specs\CONTRACTS.cs(1819,9): error CS0246: 未能找到类型或命名空间名“ErrorInfo”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t039b-contracts-20261013\ContractCheck.csproj]
+F:\Iris\specs\CONTRACTS.cs(1810,9): error CS0246: 未能找到类型或命名空间名“ErrorInfo”(是否缺少 using 指令或程序集引用?) [C:\Users\28910\AppData\Local\Temp\iris-t039b-contracts-20261013\ContractCheck.csproj]
+    0 个警告
+    2 个错误
+
+已用时间 00:00:01.46

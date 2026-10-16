@@ -1,0 +1,1 @@
+[{"Name":"ready","Value":{"Gate":true,"ParentAlive":true}},{"Name":"real-iris-gracefully-closed-before-commit","Value":true},{"Name":"committed-parent-still-alive","Value":true},{"Name":"committed-failure-before-ui","Value":{"Gate":true,"Kind":"CommittedUpdateException"}}]

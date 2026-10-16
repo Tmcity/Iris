@@ -1,0 +1,16 @@
+{
+  "atUtc": "2026-10-14T19:27:15.155210+00:00",
+  "kind": "static-verifier-review",
+  "files": [
+    {
+      "source": "tasks/done/T-039B.evidence/guest_install.ps1",
+      "snapshot": "guest_install.ps1.txt",
+      "sha256": "9322ab6482541f0c9d8623003078062855af7b0e4ff36b5396a98bf3256e17e7"
+    },
+    {
+      "source": "tasks/done/T-039B.evidence/run_guest.py",
+      "snapshot": "run_guest.py.txt",
+      "sha256": "bccab0ecd57cb7d965e0a305eaf36f8813a763d3b71216443bd7c7b7d1e16b44"
+    }
+  ]
+}

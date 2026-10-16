@@ -83,7 +83,8 @@ public class DependencyRulesTests
             ["src/Iris.Infrastructure/Iris.Infrastructure.csproj"] = ["Iris.Core"],
             ["src/Iris.Platform.Windows/Iris.Platform.Windows.csproj"] = ["Iris.Core"],
             ["src/Iris.UiaHost/Iris.UiaHost.csproj"] = ["Iris.Core", "Iris.Platform.Windows"],
-            ["src/Iris.App/Iris.App.csproj"] = ["Iris.Core", "Iris.Providers", "Iris.Infrastructure", "Iris.Platform.Windows", "Iris.UiaHost"]
+            ["src/Iris.App/Iris.App.csproj"] = ["Iris.Core", "Iris.Providers", "Iris.Infrastructure", "Iris.Platform.Windows", "Iris.UiaHost", "Iris.Maintenance"],
+            ["src/Iris.Maintenance/Iris.Maintenance.csproj"] = ["Iris.Core", "Iris.Platform.Windows"]
         };
 
         foreach (var (relPath, expectedRefs) in projects)
@@ -135,6 +136,20 @@ public class DependencyRulesTests
 
         doc.Descendants("UseWPF").ShouldBeEmpty();
         doc.Descendants("UseWindowsForms").ShouldBeEmpty();
+    }
+
+    [Fact]
+    public void MaintenanceUsesNoWpfOrWinFormsAndAppDoesNotLoadItsAssembly()
+    {
+        var root = FindRepoRoot();
+        var project = XDocument.Load(Path.Combine(root, "src/Iris.Maintenance/Iris.Maintenance.csproj"));
+        project.Descendants("TargetFramework").Single().Value.ShouldBe("net10.0-windows10.0.19041.0");
+        project.Descendants("UseWPF").ShouldBeEmpty(); project.Descendants("UseWindowsForms").ShouldBeEmpty();
+        var app = XDocument.Load(Path.Combine(root, "src/Iris.App/Iris.App.csproj"));
+        var reference = app.Descendants("ProjectReference").Single(item => ((string?)item.Attribute("Include"))?.Contains("Iris.Maintenance", StringComparison.Ordinal) == true);
+        ((string?)reference.Attribute("ReferenceOutputAssembly")).ShouldBe("false");
+        var runtimeReferences = Assembly.Load("Iris.App").GetReferencedAssemblies().Select(item => item.Name);
+        runtimeReferences.ShouldNotContain("Iris.Maintenance");
     }
 
     [Fact]

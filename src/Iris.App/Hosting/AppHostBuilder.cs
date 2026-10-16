@@ -62,6 +62,9 @@ internal static class AppHostBuilder
         builder.Services.AddSingleton(new AppStartupInfo(startTimestamp, initialCommand));
         builder.Services.AddSingleton(_ => IpcIdentity.ForCurrentUser());
         builder.Services.AddSingleton<IpcPipeFactory>();
+        builder.Services.AddSingleton<Iris.App.Updates.UpdateHandoff>();
+        builder.Services.AddSingleton<Iris.App.Updates.UpdateRuntime>();
+        builder.Services.AddSingleton<Iris.App.Updates.AppUpdateCoordinator>();
 
         // 基础设施与平台层服务
         builder.Services.AddIrisInfrastructure();

@@ -1,0 +1,8 @@
+Get-FileHash : The term 'Get-FileHash' is not recognized as the name of a cmdlet, function, script file, or operable pr
+ogram. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At F:\Iris\tasks\done\T-039B.review\pack-static\parse-powershell51.ps1:11 char:15
++     Sha256 = (Get-FileHash -LiteralPath $irisPackFile -Algorithm SHA2 ...
++               ~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (Get-FileHash:String) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 

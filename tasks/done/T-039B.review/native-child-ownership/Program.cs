@@ -1,0 +1,87 @@
+using System.Diagnostics;
+using System.Text.Json;
+using Iris.Maintenance;
+
+internal static class Program
+{
+    private static async Task<int> Main(string[] args)
+    {
+        if (args is ["--retry-owner"]) return await RecoveryProbe.RunAsync();
+        if (args is ["--worker", var releaseName, var readyName])
+        {
+            using var release = EventWaitHandle.OpenExisting(releaseName);
+            using var ready = EventWaitHandle.OpenExisting(readyName);
+            ready.Set();
+            return release.WaitOne(TimeSpan.FromSeconds(20)) ? 0 : 3;
+        }
+
+        string suffix = Guid.NewGuid().ToString("N");
+        string releaseSignal = "Local\\Iris.Review.NativeChild.Release." + suffix;
+        string readySignal = "Local\\Iris.Review.NativeChild.Ready." + suffix;
+        using var releaseGate = new EventWaitHandle(false, EventResetMode.ManualReset, releaseSignal);
+        using var readyGate = new EventWaitHandle(false, EventResetMode.ManualReset, readySignal);
+        string workerPath = Path.Combine(AppContext.BaseDirectory, "Iris.Maintenance.Tests.exe");
+        int childId = 0;
+        long childStartedTicks = 0;
+        Process? observer = null;
+        var result = new Result();
+        var system = new MaintenanceSystem();
+        Task<int> work = system.RunAsync(workerPath, ["--worker", releaseSignal, readySignal], (id, ticks) =>
+        {
+            childId = id;
+            childStartedTicks = ticks;
+            result.StartedCallbackEntered = true;
+            throw new IOException("synthetic transaction-recording failure");
+        });
+        try
+        {
+            result.ChildReachedOwnedGate = await Task.Run(() => readyGate.WaitOne(TimeSpan.FromSeconds(10)));
+            if (!result.ChildReachedOwnedGate || childId == 0) throw new InvalidOperationException("Probe child did not reach the gate.");
+            observer = Process.GetProcessById(childId);
+            if (observer.StartTime.ToUniversalTime().Ticks != childStartedTicks) throw new InvalidOperationException("Owned child identity changed.");
+            _ = observer.Handle; // Retain the process handle so its exit code remains queryable after exit.
+            result.ChildAliveBeforeRelease = !observer.HasExited;
+            result.OwnerTaskCompletedBeforeRelease = work.IsCompleted;
+            result.OwnerTaskFaultedBeforeRelease = work.IsFaulted;
+        }
+        catch (Exception error) { result.ProbeError = error.GetType().Name; }
+        finally
+        {
+            releaseGate.Set();
+            try
+            {
+                if (observer == null && childId != 0) observer = Process.GetProcessById(childId);
+                if (observer != null)
+                {
+                    using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(25));
+                    await observer.WaitForExitAsync(timeout.Token);
+                    result.ChildJoinedByProbe = true;
+                    result.ChildExitCode = observer.ExitCode;
+                }
+            }
+            catch (Exception error) { result.ProbeError = error.GetType().Name; }
+            finally { observer?.Dispose(); }
+            try { await work; }
+            catch (Exception error) { result.OwnerException = error.GetType().Name; }
+        }
+        result.Passed = result.ProbeError == null && result.StartedCallbackEntered && result.ChildReachedOwnedGate
+            && result.ChildAliveBeforeRelease && !result.OwnerTaskCompletedBeforeRelease && result.ChildJoinedByProbe
+            && result.ChildExitCode == 0 && result.OwnerException == "IOException";
+        Console.WriteLine(JsonSerializer.Serialize(result));
+        return result.Passed ? 0 : 1;
+    }
+
+    private sealed class Result
+    {
+        public bool StartedCallbackEntered { get; set; }
+        public bool ChildReachedOwnedGate { get; set; }
+        public bool ChildAliveBeforeRelease { get; set; }
+        public bool OwnerTaskCompletedBeforeRelease { get; set; }
+        public bool OwnerTaskFaultedBeforeRelease { get; set; }
+        public bool ChildJoinedByProbe { get; set; }
+        public int? ChildExitCode { get; set; }
+        public string? OwnerException { get; set; }
+        public string? ProbeError { get; set; }
+        public bool Passed { get; set; }
+    }
+}

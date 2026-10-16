@@ -13,21 +13,21 @@
     <ProjectReference Include="..\Iris.Providers\Iris.Providers.csproj" />
     <ProjectReference Include="..\Iris.Infrastructure\Iris.Infrastructure.csproj" />
     <ProjectReference Include="..\Iris.Platform.Windows\Iris.Platform.Windows.csproj" />
-    <ProjectReference Include="..\Iris.UiaHost\Iris.UiaHost.csproj" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\Iris.UiaHost\Iris.UiaHost.csproj" ReferenceOutputAssembly="false" Private="false" />
+    <ProjectReference Include="..\Iris.Maintenance\Iris.Maintenance.csproj" ReferenceOutputAssembly="false" Private="false" />
   </ItemGroup>
 
   <Target Name="CopyUiaHostToOutput" AfterTargets="Build">
+    <PropertyGroup><_UiaOutput>..\Iris.UiaHost\bin\$(Configuration)\$(TargetFramework)\$(RuntimeIdentifier)\</_UiaOutput></PropertyGroup>
     <ItemGroup>
-      <_UiaHostFiles Include="..\Iris.UiaHost\bin\$(Configuration)\$(TargetFramework)\**\*.*" />
+      <_UiaHostFiles Include="$(_UiaOutput)*.*;$(_UiaOutput)en-US\*.*;$(_UiaOutput)runtimes\**\*.*" />
     </ItemGroup>
-    <Copy SourceFiles="@(_UiaHostFiles)" DestinationFolder="$(TargetDir)uia\%(RecursiveDir)" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(_UiaHostFiles)" DestinationFiles="@(_UiaHostFiles->'$(TargetDir)uia\$([MSBuild]::MakeRelative($(_UiaOutput), %(Identity)))')" SkipUnchangedFiles="true" />
   </Target>
 
   <Target Name="CopyUiaHostToPublish" AfterTargets="Publish">
-    <ItemGroup>
-      <_UiaHostPublishFiles Include="..\Iris.UiaHost\bin\$(Configuration)\$(TargetFramework)\**\*.*" />
-    </ItemGroup>
-    <Copy SourceFiles="@(_UiaHostPublishFiles)" DestinationFolder="$(PublishDir)uia\%(RecursiveDir)" SkipUnchangedFiles="true" />
+    <MSBuild Projects="..\Iris.UiaHost\Iris.UiaHost.csproj" Targets="Publish"
+             Properties="Configuration=$(Configuration);RuntimeIdentifier=$(RuntimeIdentifier);SelfContained=false;PublishDir=$([System.IO.Path]::GetFullPath('$(PublishDir)uia\'))" />
   </Target>
 
   <ItemGroup>
@@ -40,6 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Velopack" />
     <PackageReference Include="Serilog" />
     <PackageReference Include="Serilog.Sinks.File" />
     <PackageReference Include="Microsoft.Extensions.Hosting" />

@@ -1,0 +1,335 @@
+{
+  "Sandbox": "69e00710-ca7b-4fb0-83a7-6ceaa37781c2",
+  "Files": [
+    {
+      "Path": "guest_common.ps1",
+      "Bytes": 4769,
+      "Sha256": "d1de291eba91e14e3fe11123d9e4e139b8d9a02b876566c4565fb5a91161acf1"
+    },
+    {
+      "Path": "guest_coverage.ps1",
+      "Bytes": 5793,
+      "Sha256": "7b6c6b63e10911eebf4f2f337194a3602d156e28adce0f1b2cb99825e7e1fcc3"
+    },
+    {
+      "Path": "guest_dialogs.ps1",
+      "Bytes": 8057,
+      "Sha256": "690582bf10755b6d85369850965429220eaddff7a76e1d17b4e743595f750c80"
+    },
+    {
+      "Path": "guest_failure.ps1",
+      "Bytes": 3692,
+      "Sha256": "0b88b87be66c1ea6e1ca811f058a16465195d4009efdcab7fd0dd2dad7338185"
+    },
+    {
+      "Path": "guest_install.ps1",
+      "Bytes": 11363,
+      "Sha256": "6a03e64ad6693243cffa5b181e4eaa67f5223af1630cc2dc5576068ab67bafce"
+    },
+    {
+      "Path": "guest_update.ps1",
+      "Bytes": 4721,
+      "Sha256": "40adac8f68c4e7a51d5ca80ec4b671de9afb2478b32eb33ee21b8c509a1f163f"
+    },
+    {
+      "Path": "Iris-0.2.0-Setup.exe",
+      "Bytes": 116714229,
+      "Sha256": "bab357dfe409d3daf943be1a09c1540c1fa43d089d3230166a4b6054a6a8c3d8"
+    },
+    {
+      "Path": "Iris-0.2.1-full.nupkg",
+      "Bytes": 64598588,
+      "Sha256": "686888f23297b361ac62a511cfb76370c277c56baf3c3915ce0f41be9ef5b935"
+    },
+    {
+      "Path": "update-host-final\\Dapper.dll",
+      "Bytes": 251392,
+      "Sha256": "bd8dc38353bcd816440737a840970552f6b4b527db428ec0dd631111bd3f25b2"
+    },
+    {
+      "Path": "update-host-final\\Iris.Core.dll",
+      "Bytes": 499200,
+      "Sha256": "b0ca2990cd94548ba190fab69779cc915803f3267b075487a556a5011db6dcde"
+    },
+    {
+      "Path": "update-host-final\\Iris.Core.pdb",
+      "Bytes": 134584,
+      "Sha256": "fc863d7efd52e293f529e1ff6f63cdd6dd13ed279c7d330a5398b4d020ca8a00"
+    },
+    {
+      "Path": "update-host-final\\Iris.Core.xml",
+      "Bytes": 133795,
+      "Sha256": "5c59b78b39b389f5d6b9e6fd494d7febc8056eeb6b80c87043f2e6ccd6a182d8"
+    },
+    {
+      "Path": "update-host-final\\Iris.Infrastructure.dll",
+      "Bytes": 144896,
+      "Sha256": "02f5b0f734c3fa4a0743ed016b77f190394c7e6862cdd4207dde823f339a5bd6"
+    },
+    {
+      "Path": "update-host-final\\Iris.Infrastructure.pdb",
+      "Bytes": 48932,
+      "Sha256": "48f674d680f51b0292dd9b4c4b01f03cdace3e7ddd99f3bb89ba49a237033b94"
+    },
+    {
+      "Path": "update-host-final\\Iris.Infrastructure.xml",
+      "Bytes": 2730,
+      "Sha256": "0ef6543af2df5d0ee56d185ae15d57a548bfa33381d7ed76b0227204d7dbf9c8"
+    },
+    {
+      "Path": "update-host-final\\Iris.Maintenance.deps.json",
+      "Bytes": 5288,
+      "Sha256": "40ce24838bf73ea1f2fac842d252c884f595d25566c25496f7490397caa8e84a"
+    },
+    {
+      "Path": "update-host-final\\Iris.Maintenance.dll",
+      "Bytes": 67584,
+      "Sha256": "8a305e6ed1d25ff6c83bf02c133ad236abcaadf1ac0facdead6348b172e73124"
+    },
+    {
+      "Path": "update-host-final\\Iris.Maintenance.exe",
+      "Bytes": 162304,
+      "Sha256": "bbf1d1f62692990667dc9576ba0afa1c6ea04bcc7cee116fb7cdfacd10a2b8d8"
+    },
+    {
+      "Path": "update-host-final\\Iris.Maintenance.pdb",
+      "Bytes": 23008,
+      "Sha256": "55914c70e188d22d2157a666c84b0f484680825ff2c68d9400605e595e4e928f"
+    },
+    {
+      "Path": "update-host-final\\Iris.Maintenance.runtimeconfig.json",
+      "Bytes": 399,
+      "Sha256": "3e965cd7cfd553c2ff4e842d8d8019aaae2da0a21d92ff85a87573dd8d1b95c6"
+    },
+    {
+      "Path": "update-host-final\\Iris.Maintenance.Tests.deps.json",
+      "Bytes": 15490,
+      "Sha256": "b79c6693807e135d6fef4596439e365216acf566cfdd9b527cc8e91daeb6bf65"
+    },
+    {
+      "Path": "update-host-final\\Iris.Maintenance.Tests.dll",
+      "Bytes": 37888,
+      "Sha256": "61dd79ab0a50d1efe8461de0cf10ca5e9b52fe105c69f4742027e079ecaea17e"
+    },
+    {
+      "Path": "update-host-final\\Iris.Maintenance.Tests.exe",
+      "Bytes": 162304,
+      "Sha256": "702a53ee592fdc79edd44cf6c96267a1a60d973a391d6c23f3bb59a6f1633ef4"
+    },
+    {
+      "Path": "update-host-final\\Iris.Maintenance.Tests.pdb",
+      "Bytes": 16408,
+      "Sha256": "1a14344dd75f24249e77e7f54d092c5290b59072cf78091a770131d09f75ff29"
+    },
+    {
+      "Path": "update-host-final\\Iris.Maintenance.Tests.runtimeconfig.json",
+      "Bytes": 399,
+      "Sha256": "3e965cd7cfd553c2ff4e842d8d8019aaae2da0a21d92ff85a87573dd8d1b95c6"
+    },
+    {
+      "Path": "update-host-final\\Iris.Maintenance.Tests.xml",
+      "Bytes": 147,
+      "Sha256": "00778fa5358a603dd58a8702b25ea9d334f3b582b401dbc95750d9ea03af3d9d"
+    },
+    {
+      "Path": "update-host-final\\Iris.Maintenance.xml",
+      "Bytes": 346,
+      "Sha256": "d5b7222339429118c683f856dc2b6f751e3c36a5f4e63f9f3944aaf1113b9656"
+    },
+    {
+      "Path": "update-host-final\\Iris.Platform.Windows.dll",
+      "Bytes": 748032,
+      "Sha256": "26f0573a93459d6203fbb00c97c0672e83044d102dd3bbafdb15f1a61fc07fad"
+    },
+    {
+      "Path": "update-host-final\\Iris.Platform.Windows.pdb",
+      "Bytes": 407292,
+      "Sha256": "5b6a403b1ae73d849fc85268036ff9614d6ba7c4c77b35ac45d55ef0b750d2c8"
+    },
+    {
+      "Path": "update-host-final\\Iris.Platform.Windows.xml",
+      "Bytes": 808373,
+      "Sha256": "f289ac7ff43c37370c344e5e7ad88238002216cf2cda77151c124d57cec8e424"
+    },
+    {
+      "Path": "update-host-final\\Microsoft.Data.Sqlite.dll",
+      "Bytes": 177464,
+      "Sha256": "b98d957462be432895b00dccca012d3c127e118d3d4262418014b92c7bbd66cf"
+    },
+    {
+      "Path": "update-host-final\\Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "Bytes": 65872,
+      "Sha256": "da04edc338d5aa0f38a1f5fa5ff3ee7e36affe9c961daf3ea724a428bd746bc6"
+    },
+    {
+      "Path": "update-host-final\\Microsoft.Extensions.DependencyInjection.dll",
+      "Bytes": 95528,
+      "Sha256": "2d0e268bf76b4ce36a55ebb2767354db956c6660de65d6cccfc35c957fb12cfc"
+    },
+    {
+      "Path": "update-host-final\\Microsoft.Extensions.Logging.Abstractions.dll",
+      "Bytes": 66856,
+      "Sha256": "7c242f8ca612fa1acc61f78efd5f8c89e01bd0bd47dc4ecc65e0e6e24f1a1668"
+    },
+    {
+      "Path": "update-host-final\\Microsoft.Windows.SDK.NET.dll",
+      "Bytes": 24877600,
+      "Sha256": "0ec371d93798852e36461c8adddbeadce0f963a04752f0b64e54fe19c1c834a7"
+    },
+    {
+      "Path": "update-host-final\\parent.ps1",
+      "Bytes": 1791,
+      "Sha256": "b93dccfe3121b7df79c80c2dbe887cb1b694cbaba7a1d328c47ae0e68d2f2eab"
+    },
+    {
+      "Path": "update-host-final\\SQLitePCLRaw.batteries_v2.dll",
+      "Bytes": 5120,
+      "Sha256": "815ce410c9eab531dd219318e3ba16c5e38e83d361cfbbdbb4bbca222c497b0b"
+    },
+    {
+      "Path": "update-host-final\\SQLitePCLRaw.core.dll",
+      "Bytes": 51200,
+      "Sha256": "af340ac9eb9195795660d7fc1114f486b6ab63998f33176e2f24c8e0acb9aa84"
+    },
+    {
+      "Path": "update-host-final\\SQLitePCLRaw.provider.e_sqlite3.dll",
+      "Bytes": 36864,
+      "Sha256": "eb6696e55882c3000333146b1cd4970439601e11fdedae941105ca921f615bd6"
+    },
+    {
+      "Path": "update-host-final\\System.Security.Cryptography.ProtectedData.dll",
+      "Bytes": 39760,
+      "Sha256": "b61a1445b99a1486a5d9abbd45d766497f136270f5b04862defee1fc054ded14"
+    },
+    {
+      "Path": "update-host-final\\Velopack.dll",
+      "Bytes": 279040,
+      "Sha256": "969853e147e95b3f46192425cfea7eae8837aea79f3e2b2c7cc0aa34b5703153"
+    },
+    {
+      "Path": "update-host-final\\WinRT.Runtime.dll",
+      "Bytes": 528944,
+      "Sha256": "bcf3a14e8712a90837fc5c0d8c8a24696af2bd7f74e9767597ec81ededfb23db"
+    },
+    {
+      "Path": "update-host-final\\en-US\\Iris.Core.resources.dll",
+      "Bytes": 17920,
+      "Sha256": "eb1a83a38737fdd07e31e61dd396608cac9ec5aec35f4db85cc7d12423010ba0"
+    },
+    {
+      "Path": "update-host-final\\en-US\\Iris.Maintenance.resources.dll",
+      "Bytes": 4608,
+      "Sha256": "8a0530700cd396ed5d29587d36903045a724ce0d5d61d7ae3ff9dee4d90e45d4"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\browser-wasm\\nativeassets\\net9.0\\e_sqlite3.a",
+      "Bytes": 1308854,
+      "Sha256": "c64ae8d44dc3e1aa03aca4e79ccc501cbc3a3c490e8e2ea9e369367f68cf0f21"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\linux-arm\\native\\libe_sqlite3.so",
+      "Bytes": 982224,
+      "Sha256": "43556c2f5075857bf57be1136d556733bdc27195884fbdde127cd976d1c25ad5"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\linux-arm64\\native\\libe_sqlite3.so",
+      "Bytes": 1534296,
+      "Sha256": "707fff6b18c1f083158e7a543c8d2545d5485f547ffd96db29679a95f52878d5"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\linux-armel\\native\\libe_sqlite3.so",
+      "Bytes": 1375344,
+      "Sha256": "3f4d9b9ca49bb3f100882e78ba85807398cee19b481bfd4c301a8f5f58d48540"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\linux-mips64\\native\\libe_sqlite3.so",
+      "Bytes": 1756544,
+      "Sha256": "985884523e512414f3e50aa359f08dad3ce635e99405e7823de9b26a7db38d09"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\linux-musl-arm\\native\\libe_sqlite3.so",
+      "Bytes": 1322584,
+      "Sha256": "7fec7057d16e8b5ae54fed0c42a0e6b85e40df0d57092ef20cd647a4e1c1e0ed"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\linux-musl-arm64\\native\\libe_sqlite3.so",
+      "Bytes": 1450704,
+      "Sha256": "530e2f74f259fe04faa4b595336e671fab5eedbb6f4e94dad59494efb7b00c2a"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\linux-musl-riscv64\\native\\libe_sqlite3.so",
+      "Bytes": 1015888,
+      "Sha256": "d8e54eb7dc52ea0a7df9b78ac6feb85af429e7264613099df478825dea5805d4"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\linux-musl-s390x\\native\\libe_sqlite3.so",
+      "Bytes": 1685752,
+      "Sha256": "64260c0460ad6efa7dce9263bff7a4b64ad66172ccc580cb09181c845e1a3407"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\linux-musl-x64\\native\\libe_sqlite3.so",
+      "Bytes": 1445336,
+      "Sha256": "647b7b5886526691aed58e0fcbb56dc1e6dea8b1f9f5390782f0c95269250db1"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\linux-ppc64le\\native\\libe_sqlite3.so",
+      "Bytes": 1937408,
+      "Sha256": "1ef00b5e3ac63e491f59ecf587680fc52ad844cea62e0a879a1315ef6bd10fc6"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\linux-riscv64\\native\\libe_sqlite3.so",
+      "Bytes": 1291896,
+      "Sha256": "6b390eecbc6f55c44d9ab8a774f1fe4283dfb33a72e6f29f4e0b173065e7e105"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\linux-s390x\\native\\libe_sqlite3.so",
+      "Bytes": 1655776,
+      "Sha256": "dfd5ab35f6d61155a3c629d0bceff4d6e0f0f190983f3fb8f681fb34ec08c67e"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\linux-x64\\native\\libe_sqlite3.so",
+      "Bytes": 1470784,
+      "Sha256": "b0f5c48026fedcf9f05cf31c6fadf9e1e001ca59cd85aa68b8b6814e52c18a07"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\linux-x86\\native\\libe_sqlite3.so",
+      "Bytes": 1547984,
+      "Sha256": "fe8229e5baeaf21e721cf65626a6b07ec22d9b17d07bd624e7a77927174277f1"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\maccatalyst-arm64\\native\\libe_sqlite3.dylib",
+      "Bytes": 1695264,
+      "Sha256": "8d63d80bc6caa754679d6fc89fd741a32c156f136c34759cc8fff8cd51468a93"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\maccatalyst-x64\\native\\libe_sqlite3.dylib",
+      "Bytes": 1724352,
+      "Sha256": "43d27adbc5ba40850bac42a12aea08314a22a43d3ce77cdc7a6cc47ecffb5746"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\osx-arm64\\native\\libe_sqlite3.dylib",
+      "Bytes": 1696624,
+      "Sha256": "09fe20a6c050912a7944b2f2f2981debe31679f7919f523c87251ae8cf0f2daa"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\osx-x64\\native\\libe_sqlite3.dylib",
+      "Bytes": 1724472,
+      "Sha256": "02344e1d0bcb5ed447ad9b79ed19e37a590fb1ece3eba1e63efbc35e36e47bdf"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\win-arm64\\native\\e_sqlite3.dll",
+      "Bytes": 1814528,
+      "Sha256": "4177542756bd94f75b55fb74367e0cf34e66a88ffaf95755489af14c6ca2f792"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\win-x64\\native\\e_sqlite3.dll",
+      "Bytes": 1978880,
+      "Sha256": "b7385d722c83fb52142a00477a726723745916d22a555711ee89834c1111fb2e"
+    },
+    {
+      "Path": "update-host-final\\runtimes\\win-x86\\native\\e_sqlite3.dll",
+      "Bytes": 1533952,
+      "Sha256": "d13eb819d1353d98c684c88672868bbfcc6a52eb5987bdf2557ec02fabce4ea7"
+    }
+  ]
+}

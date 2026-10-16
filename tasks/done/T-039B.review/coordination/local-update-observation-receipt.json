@@ -1,0 +1,14 @@
+{
+  "atUtc": "2026-10-15T06:28:29.477130+00:00",
+  "thread": "01a11b01-c46b-74e1-9015-726c77ffbc9e",
+  "turn": "01a13e10-afe8-7e51-98e0-1650c3ed77c1",
+  "messages": [
+    {
+      "id": "01a13e3e-5509-77c3-9ef3-c35ff64e29dd",
+      "sha256": "def8cc3a5db05e27633414f96a4d57e6240d592f87df3df205d72313a334ce82",
+      "matchesExceptTrailingNewline": true
+    }
+  ],
+  "action": "Single inspected UI Send while developer was running; no separate CLI queue copy",
+  "clickedAtUtc": "2026-10-15T06:22:02.3670666Z"
+}

@@ -1,0 +1,5 @@
+2026-10-15 04:54:24.857 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置加载成功: C:\Users\WDAGUtilityAccount\AppData\Roaming\Iris\settings.json, SchemaVersion=1, 修复条数=0
+2026-10-15 04:54:25.353 +08:00 [INF] (Iris.App.Tray.TrayIconController) 系统托盘图标创建成功（共尝试 1 次）
+2026-10-15 04:54:25.421 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1411.8 ms，托盘图标已创建
+2026-10-15 04:54:27.770 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 正在退出
+2026-10-15 04:54:27.879 +08:00 [WRN] (Iris.App.Services.AppLifetime) Application shutdown incomplete: AggregateException

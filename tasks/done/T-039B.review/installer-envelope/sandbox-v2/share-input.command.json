@@ -1,0 +1,14 @@
+{
+  "command": [
+    "C:/Users/28910/AppData/Local/Microsoft/WindowsApps/wsb.exe",
+    "share",
+    "--id",
+    "2f6553a1-086c-4385-bae1-8e748a55756b",
+    "--host-path",
+    "F:\\Iris\\artifacts\\t039b-envelope-sandbox\\2f6553a1-086c-4385-bae1-8e748a55756b\\input",
+    "--sandbox-path",
+    "C:\\IrisEnvelopeInput",
+    "--raw"
+  ],
+  "exitCode": 0
+}

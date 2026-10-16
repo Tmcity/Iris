@@ -1,0 +1,11 @@
+{
+  "command": [
+    "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-maintenance-replay-20261013-1\\Iris.Maintenance.Tests.exe",
+    "--retry-owner"
+  ],
+  "cwd": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-maintenance-replay-20261013-1",
+  "startedAt": "2026-10-12T20:39:41.779074+00:00",
+  "completedAt": "2026-10-12T20:39:41.976629+00:00",
+  "exitCode": 0,
+  "logSha256": "a531a1466e8b31a2cc73439085f824e589d772b7579c731333124878020648d8"
+}

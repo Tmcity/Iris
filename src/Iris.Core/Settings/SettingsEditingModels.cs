@@ -10,7 +10,8 @@ public sealed record SettingsFieldEdit<T>(T Base, T Target)
 }
 
 /// <summary>常规设置字段增量；null 项保留提交时的最新值。原四参数构造/解构保持。
-/// UiLanguage 只接受规范值zh-CN/en-US，保存后下次启动生效，完整规则见LOCALIZATION.md。</summary>
+/// UiLanguage 只接受规范值zh-CN/en-US，保存后下次启动生效，完整规则见LOCALIZATION.md。
+/// CheckForUpdates只表示启动自动检查偏好；不触发下载/安装，null保留最新值，规则见DESKTOP_RELEASE.md。</summary>
 public sealed record GeneralSettingsPatch(
     SettingsFieldEdit<AppTheme>? Theme = null,
     SettingsFieldEdit<bool>? LaunchAtStartup = null,
@@ -18,6 +19,7 @@ public sealed record GeneralSettingsPatch(
     SettingsFieldEdit<string>? LogLevel = null)
 {
     public SettingsFieldEdit<string>? UiLanguage { get; init; }
+    public SettingsFieldEdit<bool>? CheckForUpdates { get; init; }
 }
 
 /// <summary>划词设置增量。null 项保留最新值；Base 只用于冲突比较，显式 Target 按 SELECTION_SETTINGS_UI.md / MOUSE_SELECTION_INTERACTION.md 验证。

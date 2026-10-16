@@ -61,7 +61,7 @@ internal sealed class NetworkSettingsUiScope : IAsyncDisposable
         Ocr = new() { Providers = [new() { Id = "same", Kind = OcrProviderKind.BaiduCloud, DisplayName = "Saved OCR", BaiduOptions = new() { BaseUrl = "http://ocr.example.test/" } },
             new() { Id = BuiltInProviderIds.WindowsOcr, Kind = OcrProviderKind.WindowsLocal, DisplayName = "Local", WindowsOptions = new() }] }
     };
-    private async Task InitializeAsync(AppSettings initial, bool readOnly)
+    private async Task InitializeAsync(AppSettings initial, bool readOnly, Action<IServiceCollection>? configure = null)
     {
         var text = JsonSerializer.Serialize(initial, IrisJson.Options);
         if (readOnly) text = text.Replace("\"schemaVersion\": 1", "\"schemaVersion\": 2147483648", StringComparison.Ordinal);
@@ -78,6 +78,7 @@ internal sealed class NetworkSettingsUiScope : IAsyncDisposable
         services.AddScoped<GeneralSettingsSaveCoordinator>(); services.AddScoped<SettingsViewModel>();
         services.AddSingleton<SettingsWindowPresenter>();
         services.AddTransient(_ => new SettingsWindow { ShowActivated = false, ShowInTaskbar = false, WindowStartupLocation = WindowStartupLocation.Manual, Left = -20000, Top = -20000 });
+        configure?.Invoke(services);
         Services = services.BuildServiceProvider(); Settings = Services.GetRequiredService<ISettingsService>(); await Settings.LoadAsync();
         Settings.Changed += (_, _) => Updates++;
         Scope = Services.CreateScope(); Vm = Scope.ServiceProvider.GetRequiredService<SettingsViewModel>();
@@ -90,10 +91,10 @@ internal sealed class NetworkSettingsUiScope : IAsyncDisposable
     internal T Track<T>(T task, Type? failure = null) where T : Task { Work.Add((task, failure)); return task; }
     internal async Task IdleAsync() => await Window.Dispatcher.InvokeAsync(Window.UpdateLayout, DispatcherPriority.ApplicationIdle);
 
-    internal static Task Run(Func<NetworkSettingsUiScope, Task> body, AppSettings? initial = null, bool readOnly = false) => WpfTestRunner.RunAsync(async () =>
+    internal static Task Run(Func<NetworkSettingsUiScope, Task> body, AppSettings? initial = null, bool readOnly = false, Action<IServiceCollection>? configure = null) => WpfTestRunner.RunAsync(async () =>
     {
         var f = new NetworkSettingsUiScope(); Exception? primary = null; var cleanup = new List<Exception>();
-        try { await f.InitializeAsync(initial ?? Initial(), readOnly); await body(f); }
+        try { await f.InitializeAsync(initial ?? Initial(), readOnly, configure); await body(f); }
         catch (Exception ex) { primary = ex; }
         finally
         {

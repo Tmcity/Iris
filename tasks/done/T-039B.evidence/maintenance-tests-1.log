@@ -1,0 +1,2 @@
+C:\Users\28910\.nuget\packages\xunit.v3.core.mtp-v2\4.0.1\buildTransitive\xunit.v3.core.mtp-v2.targets(15,5): error : xUnit.net v3 test projects must be executable (set project property '<OutputType>Exe</OutputType>'). If this is not a test project, reference xunit.v3.extensibility.core instead. [F:\Iris\tests\Iris.Maintenance.Tests\Iris.Maintenance.Tests.csproj]
+生成失败，退出代码: 1。

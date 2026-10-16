@@ -1,0 +1,2 @@
+F:\Iris\src\Iris.Maintenance\MaintenanceUi.cs(17,110): error CA1863: 缓存 "CompositeFormat" 以在此格式化操作中重复使用 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1863) [F:\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj]
+生成失败，退出代码: 1。

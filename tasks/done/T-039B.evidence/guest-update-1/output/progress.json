@@ -1,0 +1,55 @@
+﻿{
+    "Checks":  [
+                   {
+                       "Name":  "install-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "install-before-update",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "old-real-settings-visible",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "actual-update-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "update-host-exit-zero",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "old-real-process-exited",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "old-real-process-exit-zero",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "new-identity",
+                       "Value":  {
+                                     "Version":  "0.2.1",
+                                     "Channel":  "win",
+                                     "PackageId":  "Iris",
+                                     "Repository":  "https://github.com/Tmcity/Iris",
+                                     "RuntimeId":  "win-x64"
+                                 }
+                   },
+                   {
+                       "Name":  "new-version",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "preserved-data",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "exactly-one-restart",
+                       "Value":  false
+                   }
+               ],
+    "Failure":  null
+}

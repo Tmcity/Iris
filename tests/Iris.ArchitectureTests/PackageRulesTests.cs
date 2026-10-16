@@ -36,6 +36,7 @@ public class PackageRulesTests
             "System.Security.Cryptography.ProtectedData",
         },
         ["Iris.UiaHost"] = new HashSet<string>(StringComparer.OrdinalIgnoreCase),
+        ["Iris.Maintenance"] = new HashSet<string>(StringComparer.OrdinalIgnoreCase) { "Velopack" },
     };
 
     private static string FindRepoRoot()

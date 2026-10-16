@@ -1,0 +1,15 @@
+{
+  "command": [
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "-NoProfile",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "F:\\Iris\\tasks\\done\\T-039B.review\\pack-static\\parse-powershell51.ps1"
+  ],
+  "cwd": "F:\\Iris",
+  "startedAt": "2026-10-14T21:48:26.296200+00:00",
+  "completedAt": "2026-10-14T21:48:26.764923+00:00",
+  "exitCode": 1,
+  "logSha256": "5e14a6fea531989527b4f143d29ac9fe5320c8e797dc9153e205df70e63081d4"
+}

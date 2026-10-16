@@ -1,0 +1,47 @@
+[
+    {
+        "Sha256":  "119DF5DFF143FB5EA5E94281E31E573748E59D932F2F377AD7AFAD0E7C79A236",
+        "Name":  "assets.win.json",
+        "Bytes":  182
+    },
+    {
+        "Sha256":  "278D9E803A2C7B0D3F2861402E9416AE3F798B7535F956DF565E02547FEB6175",
+        "Name":  "Iris-0.2.0-full.nupkg",
+        "Bytes":  64598700
+    },
+    {
+        "Sha256":  "BB42A6976115DECC41FC2298E9AACFFD81852EC43702E10E75245AE42801F4AA",
+        "Name":  "Iris-0.2.1-delta.nupkg",
+        "Bytes":  500177
+    },
+    {
+        "Sha256":  "1216868B901DAF9F82C78B0703982C91561890140411E49341C3DCCD35EEC3F6",
+        "Name":  "Iris-0.2.1-full.nupkg",
+        "Bytes":  64598721
+    },
+    {
+        "Sha256":  "A737A2F67EA63FEF98DCC2AB5D55A9EFBF4874AAF02BF8D40C310799F53C1E03",
+        "Name":  "Iris-0.2.1-Setup.exe",
+        "Bytes":  116714378
+    },
+    {
+        "Sha256":  "6026DCAC1F1C6C359848E6F9CAACE8F12211A315E7CE1BA104DE3FE1DA114FBB",
+        "Name":  "payload-manifest.json",
+        "Bytes":  17644
+    },
+    {
+        "Sha256":  "84E468FD1C23720A40C8724F09885F9DAD19EBBBF64578FC8F87BF3A1BC96985",
+        "Name":  "RELEASES",
+        "Bytes":  146
+    },
+    {
+        "Sha256":  "00C8063FECA2C220B31B41BFC011BB3594FE89D9DFAFE82B7FD8CDF5BBB390BA",
+        "Name":  "releases.win.json",
+        "Bytes":  702
+    },
+    {
+        "Sha256":  "4136473B1FFB2E6FBAC6AA83F468F0763E0C476B9B3A858ABE070592A4098B74",
+        "Name":  "staging-manifest.json",
+        "Bytes":  18533
+    }
+]

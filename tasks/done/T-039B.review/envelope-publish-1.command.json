@@ -1,0 +1,19 @@
+{
+  "command": [
+    "dotnet",
+    "publish",
+    "EnvelopeProbe.csproj",
+    "-c",
+    "Release",
+    "-o",
+    "publish",
+    "-p:",
+    "RestoreConfigFile=C:/Users/28910/AppData/Local/Temp/iris-t039b-envelope-20261013/NuGet.Config",
+    "--disable-build-servers"
+  ],
+  "cwd": "C:/Users/28910/AppData/Local/Temp/iris-t039b-envelope-20261013",
+  "startedAt": "2026-10-12T17:58:18.914009+00:00",
+  "completedAt": "2026-10-12T17:58:22.402023+00:00",
+  "exitCode": 0,
+  "logSha256": "20316fd8532d99884d4b6e4482f662b299437a67c90a0aaa2eaea664e0de7cbf"
+}

@@ -1,0 +1,48 @@
+using System.IO;
+using System.Net.Http;
+using System.Reflection;
+using Iris.Platform.Windows.Maintenance;
+using Iris.Providers.Http;
+using Velopack;
+using Velopack.Locators;
+using Velopack.Logging;
+using Velopack.Sources;
+
+namespace Iris.App.Updates;
+
+internal class UpdateRuntime(IHttpClientFactory clients)
+{
+    internal virtual string Version => typeof(UpdateRuntime).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion.Split('+')[0] ?? "0.1.0";
+    internal virtual ReleaseIdentity? Identity()
+    {
+        if (!MaintenancePaths.IsInstalledApp(AppContext.BaseDirectory)) return null;
+        var identity = ReleaseIdentity.Read(Path.Combine(AppContext.BaseDirectory, ReleaseIdentity.FileName));
+        return identity.Version == Version ? identity : null;
+    }
+    internal virtual UpdateOperation Create(CancellationToken token)
+    {
+        if (Identity() == null) throw ReleaseIdentity.Invalid();
+        var downloader = new UpdateHttpDownloader(clients.CreateClient(HttpClientNames.Updates), token);
+        var source = new ValidatedUpdateSource(new LatestGithubSource(downloader), token);
+        var locator = new WindowsVelopackLocator(null, new NullVelopackLogger());
+        if (locator.IsPortable || locator.AppId != "Iris" || locator.Channel != "win"
+            || !MaintenancePaths.Same(locator.RootAppDir!, MaintenancePaths.InstallRoot)) throw ReleaseIdentity.Invalid();
+        return new(new UpdateManager(source, new UpdateOptions { MaximumDeltasBeforeFallback = -1 }, locator), downloader, locator.PackagesDir!);
+    }
+    private sealed class LatestGithubSource(IFileDownloader downloader) : GithubSource(ReleaseIdentity.OfficialRepository, null, false, downloader)
+    {
+        protected override async Task<GithubRelease[]> GetReleases(bool includePrereleases)
+        {
+            var releases = await base.GetReleases(false).ConfigureAwait(false);
+            // Each vpk feed already includes the version history. Do not merge copies of that history from older releases.
+            return releases.Take(1).ToArray();
+        }
+    }
+}
+
+internal sealed class UpdateOperation(UpdateManager sdk, IAsyncDisposable resources, string packages)
+{
+    internal UpdateManager Sdk => sdk;
+    internal string PackagePath(VelopackAsset asset) => MaintenancePaths.Child(packages, asset.FileName);
+    internal ValueTask DisposeAsync() => resources.DisposeAsync();
+}

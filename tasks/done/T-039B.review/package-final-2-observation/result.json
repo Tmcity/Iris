@@ -1,0 +1,56 @@
+{
+  "atUtc": "2026-10-15T07:41:18.352378+00:00",
+  "kind": "independent offline inspection; no package installation",
+  "results": [
+    {
+      "version": "0.2.0",
+      "directory": "F:\\Iris\\artifacts\\t039b\\release-0.2.0-final-2",
+      "topLevelHashMismatches": [],
+      "packageSha256": "5a252b9b3e819cad47ea7d743ea7acc56c959300e6920f1eeebd395f930e7b60",
+      "envelopePayloadHashMatches": true,
+      "stagingManifestEntries": 102,
+      "actualPayloadEntries": 97,
+      "manifestPathsMissingFromPackage": [
+        "Iris.App.pdb",
+        "Iris.Core.pdb",
+        "Iris.Infrastructure.pdb",
+        "Iris.Platform.Windows.pdb",
+        "Iris.Providers.pdb",
+        "uia/Iris.Core.pdb",
+        "uia/Iris.Platform.Windows.pdb",
+        "uia/Iris.UiaHost.pdb"
+      ],
+      "actualPayloadAbsentFromManifest": [
+        "Iris_ExecutionStub.exe",
+        "Squirrel.exe",
+        "sq.version"
+      ],
+      "sharedPayloadHashMismatches": []
+    },
+    {
+      "version": "0.2.1",
+      "directory": "F:\\Iris\\artifacts\\t039b\\release-0.2.1-final-2",
+      "topLevelHashMismatches": [],
+      "packageSha256": "686888f23297b361ac62a511cfb76370c277c56baf3c3915ce0f41be9ef5b935",
+      "envelopePayloadHashMatches": true,
+      "stagingManifestEntries": 102,
+      "actualPayloadEntries": 97,
+      "manifestPathsMissingFromPackage": [
+        "Iris.App.pdb",
+        "Iris.Core.pdb",
+        "Iris.Infrastructure.pdb",
+        "Iris.Platform.Windows.pdb",
+        "Iris.Providers.pdb",
+        "uia/Iris.Core.pdb",
+        "uia/Iris.Platform.Windows.pdb",
+        "uia/Iris.UiaHost.pdb"
+      ],
+      "actualPayloadAbsentFromManifest": [
+        "Iris_ExecutionStub.exe",
+        "Squirrel.exe",
+        "sq.version"
+      ],
+      "sharedPayloadHashMismatches": []
+    }
+  ]
+}

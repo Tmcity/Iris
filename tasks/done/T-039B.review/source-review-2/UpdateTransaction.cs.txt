@@ -1,0 +1,55 @@
+using System.Diagnostics;
+using System.IO.Pipes;
+using System.Security.Principal;
+using Iris.Platform.Windows.Maintenance;
+
+namespace Iris.Maintenance;
+
+internal sealed class UpdateTransaction(MaintenanceSystem system)
+{
+    internal async Task RunAsync(string pipeName, string tokenValue, int parentPid, long parentTicks, CancellationToken token)
+    {
+        if (!pipeName.StartsWith("Iris.Maintenance.", StringComparison.Ordinal) || tokenValue.Length != 64 || !tokenValue.All(Uri.IsHexDigit)) throw ReleaseIdentity.Invalid();
+        using var parent = Process.GetProcessById(parentPid);
+        if (parent.StartTime.ToUniversalTime().Ticks != parentTicks
+            || !MaintenancePaths.Same(parent.MainModule?.FileName ?? "", Path.Combine(system.InstallRoot, "current", "Iris.App.exe"))) throw ReleaseIdentity.Invalid();
+        using var self = Process.GetCurrentProcess();
+        if (parent.SessionId != self.SessionId) throw ReleaseIdentity.Invalid();
+        await using var pipe = new NamedPipeClientStream(".", pipeName, PipeDirection.InOut,
+            PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly, TokenImpersonationLevel.Identification);
+        await pipe.ConnectAsync(token).ConfigureAwait(false); MaintenanceProtocol.VerifyPeer(pipe, false, parentPid);
+        var offer = await MaintenanceProtocol.ReadAsync(pipe, token).ConfigureAwait(false);
+        if (offer.Kind != "prepare" || offer.Token != tokenValue || offer.File != Path.GetFileName(offer.File)
+            || offer.Version == null || offer.Sha256 == null || offer.File != $"Iris-{offer.Version}-full.nupkg") throw ReleaseIdentity.Invalid();
+        var path = MaintenancePaths.Child(Path.Combine(system.InstallRoot, "packages"), offer.File!);
+        await ReleasePackage.ValidateAsync(path, offer.Size, offer.Sha256, offer.Version, token).ConfigureAwait(false);
+        using (var gate = MaintenanceGate.Acquire(system.StateRoot))
+        {
+            var state = new MaintenanceTransaction(Guid.NewGuid(), "update", "awaiting-commit", self.Id, self.StartTime.ToUniversalTime().Ticks, offer.Version, false);
+            gate.Write(state);
+            bool committed = false;
+            try
+            {
+                await MaintenanceProtocol.WriteAsync(pipe, new("ready", tokenValue), token).ConfigureAwait(false);
+                var signal = await MaintenanceProtocol.ReadAsync(pipe, token).ConfigureAwait(false);
+                if (signal.Kind != "commit" || signal.Token != tokenValue) return;
+                // A commit without actual original process exit never authorizes native mutation.
+                await parent.WaitForExitAsync(token).ConfigureAwait(false);
+                if (parent.ExitCode != 0) return;
+                await system.CloseApplicationsAsync(token).ConfigureAwait(false);
+                await ReleasePackage.ValidateAsync(path, offer.Size, offer.Sha256, offer.Version, token).ConfigureAwait(false);
+                token.ThrowIfCancellationRequested(); committed = true;
+                gate.Write(state = state with { Phase = "native-starting" });
+                int code = await system.RunAsync(Path.Combine(system.InstallRoot, "Update.exe"),
+                    ["apply", "--package", path, "--norestart", "--rootDir", system.InstallRoot, "--packageDir", Path.GetDirectoryName(path)!],
+                    (id, ticks) => gate.Write(state = state with { Phase = "native-running", WorkerPid = id, WorkerStartedUtcTicks = ticks })).ConfigureAwait(false);
+                gate.Write(state = state with { Phase = "verify" });
+                if (code != 0 || ReleaseIdentity.Read(Path.Combine(system.InstallRoot, "current", ReleaseIdentity.FileName)).Version != offer.Version)
+                    throw new IOException("Update result could not be verified.");
+                await system.ConfigureAsync().ConfigureAwait(false); gate.Complete();
+            }
+            finally { if (!committed) gate.Complete(); }
+        }
+        system.StartApplication();
+    }
+}

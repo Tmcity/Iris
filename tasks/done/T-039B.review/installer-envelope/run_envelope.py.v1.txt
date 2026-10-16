@@ -1,0 +1,58 @@
+from pathlib import Path
+import datetime
+import hashlib
+import json
+import os
+import struct
+import subprocess
+
+review = Path(__file__).resolve().parent
+work = Path("C:/Users/28910/AppData/Local/Temp/iris-t039b-envelope-20261013")
+base = work / "publish/EnvelopeProbe.exe"
+original = base.read_bytes()
+payload = b"Iris owned synthetic installer payload; never executed."
+footer = b"IRIS-ENV-PROBE-1" + struct.pack("<qq", len(original), len(payload)) + hashlib.sha256(payload).digest()
+assert len(footer) == 64
+environment = dict(os.environ)
+environment["DOTNET_BUNDLE_EXTRACT_BASE_DIR"] = str(work / "extracted")
+environment["DOTNET_ROOT"] = str(work / "empty-dotnet-root")
+environment["DOTNET_ROOT_X64"] = environment["DOTNET_ROOT"]
+environment["DOTNET_MULTILEVEL_LOOKUP"] = "0"
+(work / "empty-dotnet-root").mkdir(exist_ok=True)
+cases = [
+    ("valid", payload, footer, 0, "Verified"),
+    ("corrupt", b"X" + payload[1:], footer, 2, "HashOrContentMismatch"),
+    ("bounds", payload, footer[:24] + struct.pack("<q", 2**63 - 1) + footer[32:], 2, "InvalidBounds"),
+]
+results = []
+for name, case_payload, case_footer, expected_exit, expected_outcome in cases:
+    executable = work / ("EnvelopeProbe-" + name + ".exe")
+    with executable.open("xb") as output:
+        output.write(original)
+        output.write(case_payload)
+        output.write(case_footer)
+    command = [str(executable)]
+    started = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    with (review / (name + ".log")).open("xb") as output:
+        process = subprocess.run(command, cwd=work, env=environment, stdin=subprocess.DEVNULL, stdout=output,
+                                 stderr=subprocess.STDOUT, creationflags=subprocess.CREATE_NO_WINDOW)
+    raw = (review / (name + ".log")).read_bytes()
+    observed = json.loads(raw.decode("utf-8-sig"))
+    passed = process.returncode == expected_exit and observed["Outcome"] == expected_outcome
+    passed = passed and observed["EntryPointReached"] and observed["OwnedPrivateRuntime"] and not observed["PayloadExecuted"]
+    record = {"case": name, "command": command, "startedAt": started, "completedAt": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+              "exitCode": process.returncode, "expectedExitCode": expected_exit, "executableBytes": executable.stat().st_size,
+              "executableSha256": hashlib.sha256(executable.read_bytes()).hexdigest(), "observed": observed, "passed": passed}
+    with (review / (name + ".command.json")).open("x", encoding="utf-8") as output:
+        json.dump(record, output, indent=2)
+    results.append(record)
+report = {"hostHasSharedDotnet": True, "cleanWindowsInstallNotTestedHere": True,
+          "publishedBaseBytes": len(original), "publishedBaseSha256": hashlib.sha256(original).hexdigest(),
+          "sourceSha256": {name: hashlib.sha256((review / name).read_bytes()).hexdigest() for name in ["Program.cs", "EnvelopeProbe.csproj"]},
+          "childEnvironmentOverrides": {key: environment[key] for key in ["DOTNET_BUNDLE_EXTRACT_BASE_DIR", "DOTNET_ROOT", "DOTNET_ROOT_X64", "DOTNET_MULTILEVEL_LOOKUP"]},
+          "cases": results}
+with (review / "result.json").open("x", encoding="utf-8") as output:
+    json.dump(report, output, indent=2)
+print(json.dumps({"cases": len(results), "passed": sum(result["passed"] for result in results), "outcomes": [result["observed"]["Outcome"] for result in results],
+                  "ownedRuntimeForAll": all(result["observed"]["OwnedPrivateRuntime"] for result in results), "realInstallerExecuted": False}))
+raise SystemExit(0 if all(result["passed"] for result in results) else 1)

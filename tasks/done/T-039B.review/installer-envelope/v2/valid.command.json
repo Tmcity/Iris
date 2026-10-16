@@ -1,0 +1,24 @@
+{
+  "case": "valid",
+  "command": [
+    "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-envelope-20261013\\EnvelopeProbe-v2-valid.exe"
+  ],
+  "startedAt": "2026-10-12T18:12:20.055047+00:00",
+  "completedAt": "2026-10-12T18:12:21.271360+00:00",
+  "exitCode": 0,
+  "expectedExitCode": 0,
+  "executableBytes": 73529184,
+  "executableSha256": "c826ef27147d5a0b35a1ce7cb349665d601efeb53a2a4574fd973b3de1e747e0",
+  "observed": {
+    "EntryPointReached": true,
+    "OwnedPrivateRuntime": false,
+    "RuntimeOriginNeedsGuestVerification": true,
+    "RuntimeVersion": "10.0.12",
+    "RuntimePath": null,
+    "RuntimeDirectory": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-envelope-20261013\\",
+    "Outcome": "Verified",
+    "PayloadBytes": 55,
+    "PayloadExecuted": false
+  },
+  "passed": true
+}

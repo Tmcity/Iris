@@ -1,0 +1,27 @@
+{
+  "observedAtUtc": "2026-10-14T20:27:05.506609+00:00",
+  "sandboxId": "cc685426-67ef-4b92-bd57-89334d6990fa",
+  "installer": {
+    "Name": "Iris-0.2.0-Setup.exe",
+    "Sha256": "127d65e653b75ce21932db4003c127262b698728ae0878d70274dfc19091df4e"
+  },
+  "inputIntentSha256": "0fd0c538484169cfe947b7b028d466f13763f6c77b0f881269cce02c07b364f0",
+  "capturedReports": [
+    {
+      "source": "F:\\Iris\\artifacts\\t039b\\sandbox\\cc685426-67ef-4b92-bd57-89334d6990fa\\output\\progress.json",
+      "copy": "progress.json",
+      "sha256": "c5108c309d1a1a42c8e2064ee8d2cb319cd067b2385163e034bad23fc13942a0"
+    },
+    {
+      "source": "F:\\Iris\\artifacts\\t039b\\sandbox\\cc685426-67ef-4b92-bd57-89334d6990fa\\output\\result.json",
+      "copy": "result.json",
+      "sha256": "79a0c16121966bf80ed8fb509b6146b671cb1a377b379d32b04522f683d1f79f"
+    }
+  ],
+  "visuallyReviewedScreenshot": {
+    "path": "F:\\Iris\\artifacts\\t039b\\sandbox\\cc685426-67ef-4b92-bd57-89334d6990fa\\output\\installed-settings.png",
+    "sha256": "0809f4ed82cadf911e35a78e6cac0c26ab8b10c2919363439eab8b41e9864a57"
+  },
+  "scope": "Read-only independent inspection of developer-owned guest output; no new installer, native update, or test process launched by architect",
+  "wholeScenarioPassed": false
+}

@@ -1,0 +1,14 @@
+{
+  "observedAt": "2026-10-14T20:10:38.006593+00:00",
+  "thread": "01a11b01-c46b-74e1-9015-726c77ffbc9e",
+  "turn": "01a13b95-7293-7130-9c6a-562e43d01b22",
+  "messages": [
+    {
+      "itemId": "01a13c06-cb5b-7290-ba9b-5d8f33511ef2",
+      "sha256": "de01bc09430304096a0e7e4f131d32acfdbf0baf907b4b0616e58e7d5192f4f9",
+      "matchesExceptTrailingNewline": true
+    }
+  ],
+  "submission": "Single inspected UI Send click during existing running turn; no CLI queue copy was created",
+  "clickedAtUtc": "2026-10-14T20:07:17.2822908Z"
+}

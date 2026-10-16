@@ -1,0 +1,104 @@
+using System.Diagnostics;
+using Iris.Core.Actions;
+using Iris.Platform.Windows.Maintenance;
+using Iris.Platform.Windows.SystemIntegration;
+
+namespace Iris.Maintenance;
+
+internal class MaintenanceSystem
+{
+    internal int? LastNativeExitCode { get; private set; }
+    internal virtual string InstallRoot => MaintenancePaths.InstallRoot;
+    internal virtual string StateRoot => MaintenancePaths.StateRoot;
+    internal virtual string DataRoot => MaintenancePaths.DataRoot;
+    internal virtual Task ConfigureAsync() { MaintenanceRegistration.Configure(InstallRoot); return Task.CompletedTask; }
+    internal virtual void RemoveAutoStart() => MaintenanceRegistration.RemoveOwnedAutoStart(InstallRoot);
+    internal virtual bool IsUninstalled => MaintenanceRegistration.IsUninstalled(InstallRoot);
+    internal virtual void DeleteData() => MaintenancePaths.DeleteData(DataRoot, MaintenancePaths.DataRoot);
+    internal virtual void ValidateParent(Process parent, long ticks)
+    {
+        using var self = Process.GetCurrentProcess();
+        if (parent.StartTime.ToUniversalTime().Ticks != ticks || parent.SessionId != self.SessionId
+            || !MaintenancePaths.Same(parent.MainModule?.FileName ?? "", Path.Combine(InstallRoot, "current", "Iris.App.exe"))) throw ReleaseIdentity.Invalid();
+    }
+    internal virtual async Task CloseApplicationsAsync(CancellationToken token)
+    {
+        using var current = Process.GetCurrentProcess();
+        var found = new List<Process>();
+        try
+        {
+            foreach (var process in Process.GetProcessesByName("Iris.App"))
+            {
+                try
+                {
+                    if (process.HasExited) { process.Dispose(); continue; }
+                    if (!MaintenancePaths.Same(process.MainModule?.FileName ?? throw ReleaseIdentity.Invalid(), Path.Combine(InstallRoot, "current", "Iris.App.exe")))
+                    { process.Dispose(); continue; }
+                    found.Add(process);
+                    if (process.SessionId != current.SessionId) throw new IOException("Another session is using Iris.");
+                }
+                catch { if (!found.Contains(process)) process.Dispose(); throw; }
+            }
+            if (found.Count != 0)
+            {
+                await using var client = new NamedPipeIpcClient(IpcIdentity.ForCurrentUser(), new IpcPipeFactory(), TimeProvider.System);
+                var result = await client.RunAsync(new(IrisAction.Exit), token).ConfigureAwait(false);
+                if (result != IpcSendResult.Accepted) throw new IOException("Iris did not accept shutdown.");
+                foreach (var process in found) await process.WaitForExitAsync(token).ConfigureAwait(false);
+            }
+            token.ThrowIfCancellationRequested();
+            // The maintenance gate is already held. A process still between Main admission and IPC readiness
+            // must release its original instance mutex before any native mutation may begin.
+            using var instance = SingleInstanceGuard.TryAcquire(IpcIdentity.ForCurrentUser().MutexName);
+            if (instance == null) throw new IOException("Iris is still starting or closing.");
+        }
+        finally { foreach (var process in found) process.Dispose(); }
+    }
+    internal virtual async Task<int> RunAsync(string executable, IReadOnlyList<string> arguments, Action<int, long> started)
+    {
+        LastNativeExitCode = null;
+        MaintenancePaths.RequireNoLinks(executable);
+        var info = new ProcessStartInfo(executable) { UseShellExecute = false, CreateNoWindow = true, WorkingDirectory = Path.GetDirectoryName(executable)! };
+        foreach (var argument in arguments) info.ArgumentList.Add(argument);
+        using var process = Process.Start(info) ?? throw new IOException("Maintenance process did not start.");
+        Exception? primary = null;
+        try { started(process.Id, process.StartTime.ToUniversalTime().Ticks); }
+        catch (Exception ex) { primary = ex; }
+        // Acquiring the real child establishes ownership even if journaling its PID fails.
+        try { await process.WaitForExitAsync().ConfigureAwait(false); }
+        catch (Exception ex) { if (primary != null) throw new AggregateException(primary, ex); throw; }
+        LastNativeExitCode = process.ExitCode;
+        if (primary != null) System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(primary).Throw();
+        return process.ExitCode;
+    }
+    internal virtual void EnsureNoNativeWorker(MaintenanceTransaction state)
+    {
+        if (state.WorkerPid is int id && state.WorkerStartedUtcTicks is long ticks && IsAlive(id, ticks)) throw new IOException("Maintenance is still running.");
+        if (state.WorkerPath == null) throw new IOException("Worker identity is unavailable.");
+        string fullPath = Path.GetFullPath(state.WorkerPath);
+        bool setup = fullPath.StartsWith(Path.TrimEndingDirectorySeparator(StateRoot) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)
+            && Path.GetFileName(fullPath).Equals("Setup.exe", StringComparison.OrdinalIgnoreCase);
+        if (!setup && !MaintenancePaths.Same(fullPath, Path.Combine(InstallRoot, "Update.exe"))) throw ReleaseIdentity.Invalid();
+        MaintenancePaths.RequireNoLinks(state.WorkerPath);
+        foreach (var process in Process.GetProcessesByName(Path.GetFileNameWithoutExtension(state.WorkerPath)))
+        {
+            using (process)
+            {
+                if (process.HasExited) continue;
+                if (MaintenancePaths.Same(process.MainModule?.FileName ?? throw new IOException("Worker identity cannot be checked."), state.WorkerPath))
+                    throw new IOException("Maintenance is still running.");
+            }
+        }
+    }
+    internal virtual void StartApplication()
+    {
+        string path = Path.Combine(InstallRoot, "current", "Iris.App.exe"); MaintenancePaths.RequireNoLinks(path);
+        using var process = Process.Start(new ProcessStartInfo(path) { UseShellExecute = false, WorkingDirectory = Path.GetDirectoryName(path)! });
+        if (process == null) throw new IOException("Iris could not be restarted.");
+    }
+    internal static bool IsAlive(int id, long ticks)
+    {
+        try { using var process = Process.GetProcessById(id); return !process.HasExited && process.StartTime.ToUniversalTime().Ticks == ticks; }
+        catch (ArgumentException) { return false; }
+    }
+}

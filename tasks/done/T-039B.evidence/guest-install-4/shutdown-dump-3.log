@@ -1,0 +1,133 @@
+Loading core dump: artifacts/t039b/sandbox/1035d4ff-d461-4bab-b9a4-f9a006808d27/output/iris-shutdown.dmp ...
+Current symbol store settings:
+Set load path for DAC/DBI to 'F:\Iris\artifacts\t039b\sandbox\1035d4ff-d461-4bab-b9a4-f9a006808d27\output'
+Exception object: 000001ca2bdeaef0
+Exception type:   System.AggregateException
+Message:          One or more errors occurred.
+InnerException:   System.InvalidOperationException, Use printexception 000001CA2BE5C4D0 to see more.
+StackTrace (generated):
+<none>
+StackTraceString: <none>
+HResult: 80131500
+         Address               MT           Size
+    01ca29000088     7ffb7c6a08c8            120 
+    01ca29000100     7ffb7c6a09f0            120 
+    01ca29000178     7ffb7c6a0b18            120 
+    01ca2900f570     7ffb7c83bb40             24 
+    01ca2900f588     7ffb7c83bd00             24 
+    01ca290231a8     7ffb7ca5c8d0             24 
+    01ca2903ed20     7ffb7cf35a20             64 
+    01ca290a9890     7ffb7d0583c8             64 
+    01ca290b27c8     7ffb7cf88708             24 
+    01ca290b2f60     7ffb7cc0cce0             56 
+    01ca290b5f10     7ffb7d151c90             32 
+    01ca290b5f30     7ffb7d151db8             64 
+    01ca290b5f70     7ffb7d151f30             64 
+    01ca290b6288     7ffb7d156c08             40 
+    01ca290b62b0     7ffb7d156d68             40 
+    01ca290ba768     7ffb7d1aa4b0             64 
+    01ca290ba7a8     7ffb7d1aa6c0             64 
+    01ca290ba800     7ffb7d1aac00             64 
+    01ca292fecc0     7ffb7d411f78             32 
+    01ca293d03c0     7ffb7d663058             64 
+    01ca293d08f0     7ffb7d663548             64 
+    01ca293d0b80     7ffb7d663948             64 
+    01ca293d0ec8     7ffb7d6622c0             64 
+    01ca293d1018     7ffb7d663b80             64 
+    01ca293d1180     7ffb7d663b80             64 
+    01ca293d12d8     7ffb7d663b80             64 
+    01ca293d14f0     7ffb7d663058             64 
+    01ca293d1718     7ffb7d663058             64 
+    01ca293d1880     7ffb7d663b80             64 
+    01ca293d1b78     7ffb7d663548             64 
+    01ca293d1df0     7ffb7d663058             64 
+    01ca293d1e30     7ffb7d66bdf8             64 
+    01ca298c88a8     7ffb7dd88d78             24 
+    01ca298c88c0     7ffb7dd88d78             24 
+    01ca298c9180     7ffb7dd88d78             24 
+    01ca298c9350     7ffb7dd88d78             24 
+    01ca298c9368     7ffb7dd88d78             24 
+    01ca298c95e8     7ffb7dd88d78             24 
+    01ca298c9600     7ffb7dd88d78             24 
+    01ca298c97a8     7ffb7dd88d78             24 
+    01ca298c97c0     7ffb7dd88d78             24 
+    01ca298c9940     7ffb7dd88d78             24 
+    01ca298c9958     7ffb7dd88d78             24 
+    01ca299182d8     7ffb7df756b0             64 
+    01ca29923cc0     7ffb7cf56628             24 
+    01ca2992a9b8     7ffb7df756b0             64 
+    01ca29b24240     7ffb7d0583c8             64 
+    01ca29b24670     7ffb7d0583c8             64 
+    01ca29b24810     7ffb7d0583c8             64 
+    01ca29b249b0     7ffb7d0583c8             64 
+    01ca29b24b50     7ffb7d0583c8             64 
+    01ca29b251b0     7ffb7d0583c8             64 
+    01ca29b25350     7ffb7d0583c8             64 
+    01ca29b25eb0     7ffb7d0583c8             64 
+    01ca29b26198     7ffb7d0583c8             64 
+    01ca29b27948     7ffb7d0583c8             64 
+    01ca2bdeaef0     7ffb7ce63188            136 
+    01ca2bdeafc8     7ffb7cf56628             32 
+    01ca2bdeb2f8     7ffb7df756b0             64 
+    01ca2bdec310     7ffb7d3cf7d8            128 
+    01ca2bdec510     7ffb7d161cf8             56 
+    01ca2bdef4f8     7ffb7df756b0             64 
+    01ca2bdfad30     7ffb7ce63440             32 
+    01ca2be5c090     7ffb7ce63440             32 
+    01ca2be5c4d0     7ffb7c807718            120 
+    01ca2be5ec10     7ffb7e72f558             48 
+    01ca2be5ec40     7ffb7e72f618             32 
+    01ca2be5ec60     7ffb7e72fba8             32 
+    01ca2be5ec80     7ffb7d161cf8             56 
+    01ca2be5ed08     7ffb7e72f558             48 
+    01ca2be5ed38     7ffb7e72f618             32 
+    01ca2be5ed58     7ffb7e72fba8             32 
+    01ca2be5f118     7ffb7e72f558             48 
+    01ca2be5f148     7ffb7e72f618             32 
+    01ca2be5f168     7ffb7e72fba8             32 
+    01ca2be5f188     7ffb7d161cf8             56 
+    01ca2be5f518     7ffb7d161cf8             56 
+    01ca2be5f7c8     7ffb7e72f558             48 
+    01ca2be5f7f8     7ffb7e72f618             32 
+    01ca2be5f818     7ffb7e72fba8             32 
+    01ca2be5f838     7ffb7d161cf8             56 
+
+Statistics:
+          MT Count TotalSize Class Name
+7ffb7c83bb40     1        24 System.Text.EncoderExceptionFallback
+7ffb7c83bd00     1        24 System.Text.DecoderExceptionFallback
+7ffb7ca5c8d0     1        24 System.ValueTuple<Velopack.Logging.VelopackLogLevel, System.String, System.Exception>[]
+7ffb7cf88708     1        24 Microsoft.Extensions.Logging.Logger<Iris.App.Hosting.GlobalExceptionHandler>
+7ffb7d151c90     1        32 System.Windows.Threading.ExceptionWrapper
+7ffb7d411f78     1        32 System.Windows.UncommonField<System.Exception>
+7ffb7d156c08     1        40 System.Windows.Threading.DispatcherUnhandledExceptionEventArgs
+7ffb7d156d68     1        40 System.Windows.Threading.DispatcherUnhandledExceptionFilterEventArgs
+7ffb7cc0cce0     1        56 Iris.App.Hosting.GlobalExceptionHandler
+7ffb7cf56628     2        56 System.Exception[]
+7ffb7cf35a20     1        64 System.Action<Microsoft.Extensions.Diagnostics.ExceptionSummarization.IExceptionSummarizationBuilder>
+7ffb7d151db8     1        64 System.Windows.Threading.ExceptionWrapper+CatchHandler
+7ffb7d151f30     1        64 System.Windows.Threading.ExceptionWrapper+FilterHandler
+7ffb7d1aa4b0     1        64 System.Windows.Threading.DispatcherUnhandledExceptionEventHandler
+7ffb7d1aa6c0     1        64 System.EventHandler<System.Threading.Tasks.UnobservedTaskExceptionEventArgs>
+7ffb7d1aac00     1        64 System.UnhandledExceptionEventHandler
+7ffb7d663948     1        64 System.Action<Microsoft.Extensions.Logging.ILogger, System.Int32, System.String, System.Exception>
+7ffb7d6622c0     1        64 System.Action<Microsoft.Extensions.Logging.ILogger, System.String, System.Int32, System.Int32, System.Exception>
+7ffb7d66bdf8     1        64 System.Func<Microsoft.Extensions.Logging.LoggerMessage+LogValues<System.String, System.Int32, System.Int32>, System.Exception, System.String>
+7ffb7ce63440     2        64 System.Collections.Generic.List<System.Exception>
+7ffb7c6a08c8     1       120 System.OutOfMemoryException
+7ffb7c6a09f0     1       120 System.StackOverflowException
+7ffb7c6a0b18     1       120 System.ExecutionEngineException
+7ffb7c807718     1       120 System.InvalidOperationException
+7ffb7d663548     2       128 System.Action<Microsoft.Extensions.Logging.ILogger, System.Int32, System.Int32, System.Exception>
+7ffb7d3cf7d8     1       128 System.OperationCanceledException
+7ffb7e72f618     4       128 System.Collections.Generic.List<System.Runtime.ExceptionServices.ExceptionDispatchInfo>
+7ffb7e72fba8     4       128 System.Runtime.ExceptionServices.ExceptionDispatchInfo[]
+7ffb7ce63188     1       136 System.AggregateException
+7ffb7e72f558     4       192 System.Threading.Tasks.TaskExceptionHolder
+7ffb7d663058     4       256 System.Action<Microsoft.Extensions.Logging.ILogger, System.String, System.Exception>
+7ffb7d663b80     4       256 System.Action<Microsoft.Extensions.Logging.ILogger, System.Exception>
+7ffb7df756b0     4       256 System.Func<Microsoft.Extensions.Logging.LoggerMessageState, System.Exception, System.String>
+7ffb7dd88d78    11       264 System.Windows.Media.UniqueEventHelper<System.Windows.Media.ExceptionEventArgs>
+7ffb7d161cf8     5       280 System.Runtime.ExceptionServices.ExceptionDispatchInfo
+7ffb7d0583c8    11       704 System.Action<System.Exception>
+Total 81 objects, 4,328 bytes

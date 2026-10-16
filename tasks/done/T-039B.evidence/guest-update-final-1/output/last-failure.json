@@ -1,0 +1,1 @@
+{"Stage":"guest-native-failure","Pid":2904,"StartedUtcTicks":639276503836292106,"ExitCode":2,"Failures":[{"Type":"CommittedUpdateException","HResult":"0x80131620"},{"Type":"IOException","HResult":"0x80131620"}]}

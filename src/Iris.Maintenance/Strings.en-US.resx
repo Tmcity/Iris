@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms</value>
+  </resheader>
+  <data xml:space="preserve" name="InstallConfirm">
+    <value>Install Iris. Setup will install the .NET 10 Desktop Runtime if it is missing; system permission may be required.</value>
+  </data>
+  <data xml:space="preserve" name="UninstallChoice">
+    <value>Uninstall Iris?
+Yes: keep settings, history and logs (default).
+No: delete this data after uninstall succeeds.
+Cancel: make no changes.</value>
+  </data>
+  <data xml:space="preserve" name="Retry">
+    <value>Maintenance is incomplete. Program or data cleanup may need a retry. Close other Iris instances and choose Retry, or Cancel to keep the current state.</value>
+  </data>
+  <data xml:space="preserve" name="Failed">
+    <value>Iris maintenance is incomplete; its transaction was retained. Run the official installer to repair the installation, or use this recovery entry to retry the requested cleanup:
+{0}
+Shared runtimes are never removed.</value>
+  </data>
+  <data xml:space="preserve" name="Completed">
+    <value>Iris maintenance completed.</value>
+  </data>
+</root>

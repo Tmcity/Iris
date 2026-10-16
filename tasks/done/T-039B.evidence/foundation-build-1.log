@@ -1,0 +1,23 @@
+  正在确定要还原的项目…
+  已还原 F:\Iris\src\Iris.Infrastructure\Iris.Infrastructure.csproj (用时 226 毫秒)。
+  已还原 F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 226 毫秒)。
+  已还原 F:\Iris\src\Iris.UiaHost\Iris.UiaHost.csproj (用时 226 毫秒)。
+  已还原 F:\Iris\src\Iris.Providers\Iris.Providers.csproj (用时 228 毫秒)。
+  已还原 F:\Iris\src\Iris.App\Iris.App.csproj (用时 231 毫秒)。
+  1 个项目(共 6 个)是最新的，无法还原。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Infrastructure -> F:\Iris\src\Iris.Infrastructure\bin\Release\net10.0\Iris.Infrastructure.dll
+  Iris.Providers -> F:\Iris\src\Iris.Providers\bin\Release\net10.0\Iris.Providers.dll
+F:\Iris\src\Iris.Platform.Windows\Maintenance\MaintenanceGate.cs(34,61): error CS7036: 未提供与“IrisException.IrisException(ErrorCode, string, Exception?, int?, bool, string?, string?)”的所需参数“message”对应的参数 [F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj]
+F:\Iris\src\Iris.Platform.Windows\Maintenance\ReleaseIdentity.cs(29,48): error CS7036: 未提供与“IrisException.IrisException(ErrorCode, string, Exception?, int?, bool, string?, string?)”的所需参数“message”对应的参数 [F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj]
+F:\Iris\src\Iris.Platform.Windows\Maintenance\ReleaseIdentity.cs(51,27): error CS7036: 未提供与“IrisException.IrisException(ErrorCode, string, Exception?, int?, bool, string?, string?)”的所需参数“message”对应的参数 [F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj]
+
+生成失败。
+
+F:\Iris\src\Iris.Platform.Windows\Maintenance\MaintenanceGate.cs(34,61): error CS7036: 未提供与“IrisException.IrisException(ErrorCode, string, Exception?, int?, bool, string?, string?)”的所需参数“message”对应的参数 [F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj]
+F:\Iris\src\Iris.Platform.Windows\Maintenance\ReleaseIdentity.cs(29,48): error CS7036: 未提供与“IrisException.IrisException(ErrorCode, string, Exception?, int?, bool, string?, string?)”的所需参数“message”对应的参数 [F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj]
+F:\Iris\src\Iris.Platform.Windows\Maintenance\ReleaseIdentity.cs(51,27): error CS7036: 未提供与“IrisException.IrisException(ErrorCode, string, Exception?, int?, bool, string?, string?)”的所需参数“message”对应的参数 [F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj]
+    0 个警告
+    3 个错误
+
+已用时间 00:00:06.12

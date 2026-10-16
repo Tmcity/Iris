@@ -1,0 +1,80 @@
+[
+    {
+        "Handle":  328344,
+        "Title":  "Iris",
+        "Pid":  6820,
+        "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"
+    },
+    {
+        "Handle":  197360,
+        "Title":  "H.NotifyIcon_c11be557-b800-40d0-85cd-943b14061451",
+        "Pid":  5664,
+        "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"
+    },
+    {
+        "Handle":  131816,
+        "Title":  "WISPTIS",
+        "Pid":  5664,
+        "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"
+    },
+    {
+        "Handle":  131820,
+        "Title":  "MediaContextNotificationWindow",
+        "Pid":  5664,
+        "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"
+    },
+    {
+        "Handle":  131828,
+        "Title":  ".NET-BroadcastEventWindow.3b95145.0",
+        "Pid":  5664,
+        "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"
+    },
+    {
+        "Handle":  131830,
+        "Title":  "",
+        "Pid":  5664,
+        "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"
+    },
+    {
+        "Handle":  131698,
+        "Title":  "SystemResourceNotifyWindow",
+        "Pid":  5664,
+        "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"
+    },
+    {
+        "Handle":  131750,
+        "Title":  "CiceroUIWndFrame",
+        "Pid":  5664,
+        "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"
+    },
+    {
+        "Handle":  197294,
+        "Title":  "CiceroUIWndFrame",
+        "Pid":  5664,
+        "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"
+    },
+    {
+        "Handle":  131754,
+        "Title":  "MSCTFIME UI",
+        "Pid":  5664,
+        "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"
+    },
+    {
+        "Handle":  131728,
+        "Title":  "Default IME",
+        "Pid":  5664,
+        "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"
+    },
+    {
+        "Handle":  131814,
+        "Title":  "Default IME",
+        "Pid":  5664,
+        "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"
+    },
+    {
+        "Handle":  131826,
+        "Title":  "Default IME",
+        "Pid":  5664,
+        "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"
+    }
+]

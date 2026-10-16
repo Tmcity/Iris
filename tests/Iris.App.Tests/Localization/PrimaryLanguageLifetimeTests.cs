@@ -32,6 +32,8 @@ public sealed class PrimaryLanguageLifetimeTests
     }
     private sealed class Runtime(string failure) : DesktopStartupRuntime
     {
+        internal override void BootstrapPrimary() { }
+        internal override bool MaintenanceBlocked() => false;
         internal readonly List<string> Messages = [], CleanupLanguages = [];
         internal bool MutexReleased;
         internal override IpcIdentity GetIdentity() => new("test-unused-pipe", "test-unused-mutex");

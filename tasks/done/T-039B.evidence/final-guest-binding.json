@@ -1,0 +1,47 @@
+{
+  "FinalSandbox": "69e00710-ca7b-4fb0-83a7-6ceaa37781c2",
+  "InstalledFilesMatchActualPackage": true,
+  "InstalledHashes": {
+    "en-US\\Iris.App.resources.dll": "04689628767BC5B5C58562BAA6C268E393955DE74C6634F5A8CE0C22F2FC1E0B",
+    "Iris.Core.dll": "96CAC6FBA77A6EA5FBD044614F85C3C987C697C09F63B0C6268983FFCEAF8BDB",
+    "maintenance\\Iris.Maintenance.exe": "F2A655E3A07A923E1C44BDE31A2264A3522A3B44518F0CD9A23E6E6FBC560571",
+    "Iris.App.dll": "35FC9738008AE57C773A1A621052446B97EDCCE1DD0A1FDC53C7159FE2E399D3",
+    "uia\\Iris.UiaHost.dll": "84B6BF73C0D0E0D00BAC05DDAD7CCA13FE5D1F00CF96A4C7EFB718D693D2F2B4"
+  },
+  "ImageFiles": [
+    {
+      "Path": "guest-update-final-1\\output\\updated-settings.png",
+      "Sha256": "6f386e7931800b3e0c77f9a1e8903b153e0272089377bf94aa1df9fdfb0041a5"
+    },
+    {
+      "Path": "guest-committed-failure-final-1\\output\\committed-failure.png",
+      "Sha256": "caf0ad227ccf20bba6dfc53f98ef7f03b0b1a8e39b118e813193c140650cf223"
+    },
+    {
+      "Path": "guest-remaining-final-1\\output\\installer-cancel.png",
+      "Sha256": "5847821e51159d21090ff1871b8eb3e28b1ba82f588ec11babcc1d7fb4cbacf3"
+    },
+    {
+      "Path": "guest-coverage-final-2\\output\\full-data-delete-choice.png",
+      "Sha256": "325a5967a0712de165b78d6bc043b9baca5bd7749aa4fd3d4e91b1cfeb110a8a"
+    },
+    {
+      "Path": "guest-coverage-final-2\\output\\full-data-delete-completed.png",
+      "Sha256": "8e5d26b4715a00b69df1154b260e882a5d28c5d6b54633efa6543434285136d2"
+    },
+    {
+      "Path": "guest-coverage-final-2\\output\\full-data-keep-choice.png",
+      "Sha256": "b2cb58c295da39751f1611b43ae7d2988b78935057d4656e0675ec23a3b9e819"
+    },
+    {
+      "Path": "guest-coverage-final-2\\output\\full-data-keep-completed.png",
+      "Sha256": "788ee9c0bb12fc9e2306e7d26a286d7499d58d7922173327ce0ff515093a3f8e"
+    },
+    {
+      "Path": "guest-final-cold-3\\output\\installed-settings.png",
+      "Sha256": "40b70bf52ae83855c1b39080af6d7aa1b68e194ed0932c5e771ba5fd5af686e2"
+    }
+  ],
+  "Reviewed": true,
+  "ReviewNote": "Every bound final guest image viewed: readable English/Chinese choices/completion, install cancellation, committed failure recovery route, updated real settings. The old title-only image remains in its original failed/partial evidence."
+}

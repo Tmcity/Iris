@@ -1,0 +1,28 @@
+Loading core dump: artifacts/t039b/sandbox/1035d4ff-d461-4bab-b9a4-f9a006808d27/output/iris-shutdown.dmp ...
+Current symbol store settings:
+Set load path for DAC/DBI to 'F:\Iris\artifacts\t039b\sandbox\1035d4ff-d461-4bab-b9a4-f9a006808d27\output'
+Exception object: 000001ca2be5c4d0
+Exception type:   System.InvalidOperationException
+Message:          
+InnerException:   <none>
+StackTrace (generated):
+    SP               IP               Function
+    00000004F0BFDFD0 00007FFB7E5FDA97 WindowsBase!System.Windows.Threading.Dispatcher.<VerifyAccess>g__ThrowVerifyAccess|7_0()+0x47
+    00000004F0BFE010 00007FFBA922B4E5 WindowsBase!System.Windows.DependencyObject.SetValue(System.Windows.DependencyProperty, System.Object)+0x35
+    00000004F0BFE080 00007FFB7DEE1D7C H.NotifyIcon.Wpf!H.NotifyIcon.TaskbarIcon.set_LeftClickCommand(System.Windows.Input.ICommand)+0x2c
+    00000004F0BFE0B0 00007FFB7E5FD95A Iris.App!Iris.App.Tray.TrayIconController.Dispose()+0x16a
+    00000004F0BFE110 00007FFB7E5FD148 Iris.App!Iris.App.Hosting.AppBootstrapper.StopSynchronousParts()+0x118
+    00000004F0BFE170 00007FFB7E5CB82F Iris.App!Iris.App.Hosting.AppBootstrapper+<StopCoreAsync>d__55.MoveNext()+0x1d4f
+    00000004F0BFB9B0 00007FFB7E5C7748 System.Private.CoreLib!System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()+0x38
+    00000004F0BFB9E0 00007FFBA9F6DCA9 System.Private.CoreLib!System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(System.Threading.Tasks.Task)+0x59
+    00000004F0BFBA20 00007FFBA9F6DC1D System.Private.CoreLib!System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(System.Threading.Tasks.Task, System.Threading.Tasks.ConfigureAwaitOptions)+0x4d
+    00000004F0BFBA60 00007FFB7DEE7DF3 Iris.App!Iris.App.Hosting.WpfUiDispatcher+<InvokeAsync>d__4.MoveNext()+0x3a3
+    00000004F0BF95D0 00007FFB7E5C7748 System.Private.CoreLib!System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()+0x38
+    00000004F0BF9600 00007FFBA9F6DCA9 System.Private.CoreLib!System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(System.Threading.Tasks.Task)+0x59
+    00000004F0BF9640 00007FFBA9F6DC1D System.Private.CoreLib!System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(System.Threading.Tasks.Task, System.Threading.Tasks.ConfigureAwaitOptions)+0x4d
+    00000004F0BF9680 00007FFB7E5C5F43 Iris.App!Iris.App.Services.AppLifetime+<ShutdownAsync>d__10.MoveNext()+0x263
+    00000004F0BF9650 00007FFB7E5C7748 System.Private.CoreLib!System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()+0x38
+    00000004F0BF9680 00007FFB7E5C60C3 Iris.App!Iris.App.Services.AppLifetime+<ShutdownAsync>d__10.MoveNext()+0x3e3
+
+StackTraceString: <none>
+HResult: 80131509

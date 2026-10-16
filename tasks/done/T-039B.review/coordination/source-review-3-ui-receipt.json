@@ -1,0 +1,17 @@
+{
+  "observedAt": "2026-10-14T19:07:46.299965+00:00",
+  "threadId": "01a11b01-c46b-74e1-9015-726c77ffbc9e",
+  "turnId": "01a13b95-7293-7130-9c6a-562e43d01b22",
+  "turnStatus": "interrupted",
+  "messages": [
+    {
+      "itemId": "01a13bcc-2bdb-7b20-aae7-e0cbd333853f",
+      "sha256": "6f40428ac91db115ab01d74f1d08434bf2e97af34465706dded1b8fa0df1caeb",
+      "matchesTransferredText": false,
+      "verifiedOnlyTextDifference": "The UI added one trailing newline; all original characters and instructions are unchanged.",
+      "length": 569
+    }
+  ],
+  "submissionMethod": "One UI Send click during the existing running turn; the message entered the transcript immediately and no further queue button appeared",
+  "previousOwnedQueueItemRemovedViaApi": "01a13b9f-9d97-7170-9f32-1f04479f10a4"
+}

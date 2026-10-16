@@ -12,6 +12,11 @@ namespace Iris.App.Hosting;
 
 internal abstract class StartupRuntime
 {
+    internal virtual bool IsFastHook(string[] args) => false;
+    internal virtual int RunFastHook(string[] args) => 2;
+    internal virtual bool MaintenanceBlocked() => false;
+    internal virtual void BootstrapPrimary() { }
+    internal virtual Task FinishPrimaryAsync(bool successful) => Task.CompletedTask;
     internal virtual IDisposable? BeginPrimaryRun() => null;
     internal abstract IpcIdentity GetIdentity();
     internal abstract IDisposable? Acquire(IpcIdentity identity);
@@ -25,8 +30,15 @@ internal abstract class StartupRuntime
     internal abstract void Show(string message);
 }
 
-internal class DesktopStartupRuntime : StartupRuntime
+internal class DesktopStartupRuntime : StartupRuntime, IDisposable
 {
+    private readonly Iris.App.Updates.UpdateHandoff _handoff = new();
+    internal override bool IsFastHook(string[] args) => Iris.App.Updates.VelopackStartup.IsHookRequest(args);
+    internal override int RunFastHook(string[] args) => Iris.App.Updates.VelopackStartup.RunHook(args);
+    internal override bool MaintenanceBlocked() => Iris.Platform.Windows.Maintenance.MaintenanceGate.IsBlocked(Iris.Platform.Windows.Maintenance.MaintenancePaths.StateRoot);
+    internal override void BootstrapPrimary() => Iris.App.Updates.VelopackStartup.RunPrimary();
+    internal override Task FinishPrimaryAsync(bool successful) => _handoff.CompleteMainAsync(successful);
+    public void Dispose() { _handoff.Dispose(); GC.SuppressFinalize(this); }
     internal override IDisposable BeginPrimaryRun() => Iris.App.Resources.AppLanguage.BeginRun();
     internal override IpcIdentity GetIdentity() => IpcIdentity.ForCurrentUser();
     internal override IDisposable? Acquire(IpcIdentity identity) => SingleInstanceGuard.TryAcquire(identity.MutexName);
@@ -40,7 +52,7 @@ internal class DesktopStartupRuntime : StartupRuntime
     internal override void OpenLogger(IAppPaths paths, LoggingLevelSwitch levelSwitch)
         => Log.Logger = IrisLogging.CreateLogger(paths, levelSwitch);
     internal override IHost BuildHost(IpcIdentity identity, IpcCommand? command, IAppPaths paths, LoggingLevelSwitch levelSwitch, long startTimestamp)
-        => AppHostBuilder.Build([], paths, levelSwitch, startTimestamp, services => services.AddSingleton(identity), command);
+        => AppHostBuilder.Build([], paths, levelSwitch, startTimestamp, services => { services.AddSingleton(identity); services.AddSingleton(_handoff); }, command);
     internal override int RunApplication(IHost host)
     {
         return RunWpfApplication(host);
@@ -49,7 +61,8 @@ internal class DesktopStartupRuntime : StartupRuntime
     {
         var app = host.Services.GetRequiredService<App>();
         app.InitializeComponent();
-        return app.Run();
+        int result = app.Run();
+        return result == 0 && !host.Services.GetRequiredService<AppBootstrapper>().CleanupCompleted ? 1 : result;
     }
     internal override void CloseLogger() => Log.CloseAndFlush();
     internal override void LogFailure(string exceptionType)

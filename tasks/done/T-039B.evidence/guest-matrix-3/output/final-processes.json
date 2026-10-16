@@ -1,0 +1,16 @@
+﻿[
+    {
+        "ProcessId":  1156,
+        "ParentProcessId":  1420,
+        "CreationDate":  "\/Date(1792025554019)\/",
+        "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\work-fc46f1375a4c4b5f9f3da782d079dabd\\Iris.Maintenance.exe",
+        "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\work-fc46f1375a4c4b5f9f3da782d079dabd\\Iris.Maintenance.exe\" --outside 1420 639276223534364151 --uninstall"
+    },
+    {
+        "ProcessId":  4628,
+        "ParentProcessId":  1156,
+        "CreationDate":  "\/Date(1792025554811)\/",
+        "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe",
+        "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe\" --uninstall --silent"
+    }
+]

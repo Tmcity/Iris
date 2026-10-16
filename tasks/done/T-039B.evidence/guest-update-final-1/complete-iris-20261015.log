@@ -1,0 +1,15 @@
+2026-10-15 16:39:42.590 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置加载成功: C:\Users\WDAGUtilityAccount\AppData\Roaming\Iris\settings.json, SchemaVersion=1, 修复条数=0
+2026-10-15 16:39:43.107 +08:00 [INF] (Iris.App.Tray.TrayIconController) 系统托盘图标创建成功（共尝试 1 次）
+2026-10-15 16:39:43.169 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1426.9 ms，托盘图标已创建
+2026-10-15 16:39:45.593 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 正在退出
+2026-10-15 16:39:45.681 +08:00 [INF] (Iris.App.App) Iris 已退出，退出码 0
+2026-10-15 16:45:06.712 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置加载成功: C:\Users\WDAGUtilityAccount\AppData\Roaming\Iris\settings.json, SchemaVersion=1, 修复条数=0
+2026-10-15 16:45:07.089 +08:00 [INF] (Iris.App.Tray.TrayIconController) 系统托盘图标创建成功（共尝试 1 次）
+2026-10-15 16:45:07.144 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1173.5 ms，托盘图标已创建
+2026-10-15 16:45:09.602 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 正在退出
+2026-10-15 16:45:09.682 +08:00 [INF] (Iris.App.App) Iris 已退出，退出码 0
+2026-10-15 16:45:11.536 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置加载成功: C:\Users\WDAGUtilityAccount\AppData\Roaming\Iris\settings.json, SchemaVersion=1, 修复条数=0
+2026-10-15 16:45:11.925 +08:00 [INF] (Iris.App.Tray.TrayIconController) 系统托盘图标创建成功（共尝试 1 次）
+2026-10-15 16:45:11.982 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1220.5 ms，托盘图标已创建
+2026-10-15 16:45:12.739 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 正在退出
+2026-10-15 16:45:12.808 +08:00 [INF] (Iris.App.App) Iris 已退出，退出码 0

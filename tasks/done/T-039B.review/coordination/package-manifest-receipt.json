@@ -1,0 +1,14 @@
+{
+  "atUtc": "2026-10-15T07:49:06.427604+00:00",
+  "thread": "01a11b01-c46b-74e1-9015-726c77ffbc9e",
+  "turn": "01a13e10-afe8-7e51-98e0-1650c3ed77c1",
+  "messages": [
+    {
+      "id": "01a13e88-84f6-77b0-b7ec-2683ae927374",
+      "sha256": "22fce27f7728d7996e41f44a20b0ed05873886528823627eed84168651c2fb13",
+      "matchesExceptTrailingNewline": true
+    }
+  ],
+  "clickedAtUtc": "2026-10-15T07:46:25.5886612Z",
+  "action": "Single inspected UI Send; no CLI duplicate"
+}

@@ -1,0 +1,50 @@
+{
+  "atUtc": "2026-10-15T07:48:20.834362+00:00",
+  "requiredObservations": [
+    "install-before-update",
+    "seed-real-data",
+    "old-real-settings-visible",
+    "update-host-exit-zero",
+    "old-real-process-exited",
+    "old-real-process-exit-zero",
+    "new-version",
+    "preserved-data",
+    "exactly-one-restart",
+    "open-updated-settings",
+    "updated-window-visible",
+    "maintenance-registration-after-update",
+    "updated-exit-command",
+    "updated-real-process-exited",
+    "updated-real-exit-zero",
+    "updated-data-readable"
+  ],
+  "reportedRetainedFileHashes": {
+    "settings.json": "34CE65C3CFDF6D81EC91986F070A41F68C529F89648A505E8DF04247FEB76E5A",
+    "secrets.dat": "F4346B6DA91568214EEAD76C9506483521D800AA47F25933AFA64EFBE1A83AD8",
+    "history.db": "7C6B202487F07D05F49A30A660117DFE530E4618AB677269FB1310751CA04340",
+    "logs\\owned-retention.log": "1FA937C13402A6CF13596D2F90F13B93B254AEFFDEB3CB72E9EDE4EFB6B39E49"
+  },
+  "reportFiles": [
+    {
+      "name": "result.json",
+      "sha256": "70534326c967332518f2b050349496fa7a79008493c477a7c9948e7a1add636e"
+    },
+    {
+      "name": "data-before.json",
+      "sha256": "a808aeb1550ce88ea0a785062f2d9d00b7f64da244cc0f134c4453b6595d151a"
+    },
+    {
+      "name": "data-after.json",
+      "sha256": "a808aeb1550ce88ea0a785062f2d9d00b7f64da244cc0f134c4453b6595d151a"
+    }
+  ],
+  "inputBindingSha256": "bc3fe344f4051d41e4e0af5097660173bb00933c9456fdde8e7dc274558363dc",
+  "inputCount": 91,
+  "stillMatchingInputs": 91,
+  "inputsChangedSinceExecution": [],
+  "updatedScreenshot": {
+    "path": "F:\\Iris\\tasks\\done\\T-039B.evidence\\guest-update-2\\output\\updated-settings.png",
+    "sha256": "36041aabf26c2721f48d2298b6bd58ed7fb4c7c7c1ea2941da7b8a4093c0a534"
+  },
+  "controlBoundary": "GuestUpdateHost substitutes the original control-parent executable with a real PowerShell worker; production transaction and native update perform mutation. This does not prove the public online UI chain."
+}

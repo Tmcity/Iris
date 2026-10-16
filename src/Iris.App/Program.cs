@@ -13,12 +13,18 @@ internal static class Program
     public static int Main(string[] args)
     {
         long started = Stopwatch.GetTimestamp();
-        return Run(args, new DesktopStartupRuntime(), started);
+        using var runtime = new DesktopStartupRuntime();
+        return Run(args, runtime, started);
     }
 
     internal static int Run(string[] args, StartupRuntime runtime, long? startTimestamp = null)
     {
         long started = startTimestamp ?? Stopwatch.GetTimestamp();
+        if (runtime.IsFastHook(args))
+        {
+            try { return runtime.RunFastHook(args); }
+            catch (Exception) { return 1; } // Fast hooks must not fall into normal startup or display a dialog.
+        }
         var request = CommandLineParser.Parse(args);
         if (request.Kind != CommandLineKind.Run)
         {
@@ -27,14 +33,19 @@ internal static class Program
         }
         IDisposable? guard = null;
         IDisposable? languageRun = null;
+        bool primary = false;
         int exitCode = 1;
         try
         {
             var identity = runtime.GetIdentity();
+            if (runtime.MaintenanceBlocked()) { runtime.Show(UiText.MaintenanceBusy); return 1; }
             guard = runtime.Acquire(identity);
+            if (runtime.MaintenanceBlocked()) { runtime.Show(UiText.MaintenanceBusy); return 1; }
             if (guard != null)
             {
+                primary = true;
                 languageRun = runtime.BeginPrimaryRun();
+                runtime.BootstrapPrimary();
                 exitCode = RunPrimary(runtime, identity, request.Command, started);
             }
             else
@@ -53,7 +64,16 @@ internal static class Program
             // Same Main thread releases the mutex, even when Host or logger cleanup throws.
             try { guard?.Dispose(); }
             catch (Exception) { runtime.Show(UiText.StartupFailed); exitCode = 1; }
-            finally { languageRun?.Dispose(); }
+            finally
+            {
+                try
+                {
+                    // Approved no-WPF final boundary: join cancellation/revoke before leaving Main.
+                    if (primary) runtime.FinishPrimaryAsync(exitCode == 0).GetAwaiter().GetResult();
+                }
+                catch (Exception) { runtime.Show(UiText.StartupFailed); exitCode = 1; }
+                finally { languageRun?.Dispose(); }
+            }
         }
         return exitCode;
     }

@@ -1,0 +1,262 @@
+{
+  "atUtc": "2026-10-15T02:08:51.670088+00:00",
+  "scenario": "matrix-4",
+  "observedChecks": 129,
+  "requiredNames": [
+    "prior-silent-retention",
+    "reinstall-kept-original-data",
+    "shared-runtime-retained",
+    "deleted-data-not-restored",
+    "en-cancel-language",
+    "en-cancel-choice-observed",
+    "en-cancel-owner-finished",
+    "en-cancel-entry-exit",
+    "en-cancel-data-choice",
+    "en-cancel-transaction-ended",
+    "en-cancel-cancel-keeps-app",
+    "zh-cancel-language",
+    "zh-cancel-choice-observed",
+    "zh-cancel-owner-finished",
+    "zh-cancel-entry-exit",
+    "zh-cancel-data-choice",
+    "zh-cancel-transaction-ended",
+    "zh-cancel-cancel-keeps-app",
+    "en-keep-language",
+    "en-keep-choice-observed",
+    "en-keep-owner-finished",
+    "en-keep-entry-exit",
+    "en-keep-data-choice",
+    "en-keep-transaction-ended",
+    "en-keep-removed-app",
+    "en-keep-removed-registration",
+    "zh-keep-language",
+    "zh-keep-choice-observed",
+    "zh-keep-owner-finished",
+    "zh-keep-entry-exit",
+    "zh-keep-data-choice",
+    "zh-keep-transaction-ended",
+    "zh-keep-removed-app",
+    "zh-keep-removed-registration",
+    "en-delete-retry-language",
+    "en-delete-retry-choice-observed",
+    "en-delete-retry-owner-finished",
+    "en-delete-retry-entry-exit",
+    "en-delete-retry-data-choice",
+    "en-delete-retry-transaction-ended",
+    "en-delete-retry-removed-app",
+    "en-delete-retry-removed-registration",
+    "zh-delete-language",
+    "zh-delete-choice-observed",
+    "zh-delete-owner-finished",
+    "zh-delete-entry-exit",
+    "zh-delete-data-choice",
+    "zh-delete-transaction-ended",
+    "zh-delete-removed-app",
+    "zh-delete-removed-registration",
+    "en-delete-retry-expected-retry",
+    "en-delete-retry-already-uninstalled-before-delete-retry",
+    "en-delete-retry-native-success-before-delete",
+    "en-delete-retry-retry-observed"
+  ],
+  "inputBindingSha256": "25e9d8bc2bfc99f4c8241640794ca03060f317ef7d80fa976b0af1da9caea9ba",
+  "inputs": [
+    {
+      "name": "guest_common.ps1",
+      "expectedSha256": "b3f313528c45aa1fcb19423a21c8aa4140014db6aeddffb210e8196e73d7f14b",
+      "currentInputMatches": true,
+      "sourceSnapshotPresent": true
+    },
+    {
+      "name": "guest_install.ps1",
+      "expectedSha256": "18b8cf5f6838c5a6ef9ad354c16d3d66770ff4d8ab5fed1fe70e567bed0fc4f8",
+      "currentInputMatches": true,
+      "sourceSnapshotPresent": true
+    },
+    {
+      "name": "guest_matrix.ps1",
+      "expectedSha256": "ac9238861c205ff9eb5acd8ae079195ab5283a0baa269733abb0d3327d5ff394",
+      "currentInputMatches": true,
+      "sourceSnapshotPresent": true
+    },
+    {
+      "name": "Iris-0.2.0-Setup.exe",
+      "expectedSha256": "7c00e7c731ca391a712ce03c06c7f2581b3ea0e28de923df8774a217f1e56e09",
+      "currentInputMatches": true,
+      "sourceSnapshotPresent": false
+    }
+  ],
+  "resultSha256": "857defd65d99293391782202675278b045acd56186ac4fb1268745906505348e",
+  "images": [
+    {
+      "file": "F:\\Iris\\artifacts\\t039b\\sandbox\\2ed0bc7d-2497-4e88-9f4e-e000b9105fde\\output\\matrix-4\\en-cancel-choice.png",
+      "size": [
+        2032,
+        1111
+      ],
+      "sha256": "24fe345f56db4376063000655383712b227759867b7ba7a541be27ce268dd223",
+      "crop": [
+        560,
+        330,
+        1480,
+        820
+      ],
+      "contact": 1
+    },
+    {
+      "file": "F:\\Iris\\artifacts\\t039b\\sandbox\\2ed0bc7d-2497-4e88-9f4e-e000b9105fde\\output\\matrix-4\\en-delete-retry-choice.png",
+      "size": [
+        2032,
+        1111
+      ],
+      "sha256": "235826041ee8bbec14903420031b049e134715e1f8ea148a21399a63ba089d90",
+      "crop": [
+        560,
+        330,
+        1480,
+        820
+      ],
+      "contact": 1
+    },
+    {
+      "file": "F:\\Iris\\artifacts\\t039b\\sandbox\\2ed0bc7d-2497-4e88-9f4e-e000b9105fde\\output\\matrix-4\\en-delete-retry-completed.png",
+      "size": [
+        2032,
+        1111
+      ],
+      "sha256": "b9fc6b9604cb8db5d072f8293b4d91645e2f09900dc73438c3d054b28631de18",
+      "crop": [
+        560,
+        330,
+        1480,
+        820
+      ],
+      "contact": 1
+    },
+    {
+      "file": "F:\\Iris\\artifacts\\t039b\\sandbox\\2ed0bc7d-2497-4e88-9f4e-e000b9105fde\\output\\matrix-4\\en-delete-retry-retry.png",
+      "size": [
+        2032,
+        1111
+      ],
+      "sha256": "743d1e58fbda7892f922afa25619579c6338e97bba81b76e656ca10351e4b215",
+      "crop": [
+        560,
+        330,
+        1480,
+        820
+      ],
+      "contact": 1
+    },
+    {
+      "file": "F:\\Iris\\artifacts\\t039b\\sandbox\\2ed0bc7d-2497-4e88-9f4e-e000b9105fde\\output\\matrix-4\\en-keep-choice.png",
+      "size": [
+        2032,
+        1111
+      ],
+      "sha256": "235826041ee8bbec14903420031b049e134715e1f8ea148a21399a63ba089d90",
+      "crop": [
+        560,
+        330,
+        1480,
+        820
+      ],
+      "contact": 1
+    },
+    {
+      "file": "F:\\Iris\\artifacts\\t039b\\sandbox\\2ed0bc7d-2497-4e88-9f4e-e000b9105fde\\output\\matrix-4\\en-keep-completed.png",
+      "size": [
+        2032,
+        1111
+      ],
+      "sha256": "03be322d4c0fa52ac805d06f89344fee1c10ed9dae98d85964722d87c0aced4c",
+      "crop": [
+        560,
+        330,
+        1480,
+        820
+      ],
+      "contact": 1
+    },
+    {
+      "file": "F:\\Iris\\artifacts\\t039b\\sandbox\\2ed0bc7d-2497-4e88-9f4e-e000b9105fde\\output\\matrix-4\\zh-cancel-choice.png",
+      "size": [
+        2032,
+        1111
+      ],
+      "sha256": "d7a0a0c9fcf724c6bea4011410d60390cd669440b0aaa30d587c545abeae073d",
+      "crop": [
+        560,
+        330,
+        1480,
+        820
+      ],
+      "contact": 2
+    },
+    {
+      "file": "F:\\Iris\\artifacts\\t039b\\sandbox\\2ed0bc7d-2497-4e88-9f4e-e000b9105fde\\output\\matrix-4\\zh-delete-choice.png",
+      "size": [
+        2032,
+        1111
+      ],
+      "sha256": "af7dda3388c275a52c4b1b078f2bd84ab31549d2529187b8b1d6355e37e9164f",
+      "crop": [
+        560,
+        330,
+        1480,
+        820
+      ],
+      "contact": 2
+    },
+    {
+      "file": "F:\\Iris\\artifacts\\t039b\\sandbox\\2ed0bc7d-2497-4e88-9f4e-e000b9105fde\\output\\matrix-4\\zh-delete-completed.png",
+      "size": [
+        2032,
+        1111
+      ],
+      "sha256": "5a2dcdac656372f4f536e520f1cb5c2938e2ec73bd87d4ae73316830df87fe91",
+      "crop": [
+        560,
+        330,
+        1480,
+        820
+      ],
+      "contact": 2
+    },
+    {
+      "file": "F:\\Iris\\artifacts\\t039b\\sandbox\\2ed0bc7d-2497-4e88-9f4e-e000b9105fde\\output\\matrix-4\\zh-keep-choice.png",
+      "size": [
+        2032,
+        1111
+      ],
+      "sha256": "af7dda3388c275a52c4b1b078f2bd84ab31549d2529187b8b1d6355e37e9164f",
+      "crop": [
+        560,
+        330,
+        1480,
+        820
+      ],
+      "contact": 2
+    },
+    {
+      "file": "F:\\Iris\\artifacts\\t039b\\sandbox\\2ed0bc7d-2497-4e88-9f4e-e000b9105fde\\output\\matrix-4\\zh-keep-completed.png",
+      "size": [
+        2032,
+        1111
+      ],
+      "sha256": "37a6ab07f965f3e7730b312cd9fdc5a0cfe0e6d8924f8adf454dcba0814df70f",
+      "crop": [
+        560,
+        330,
+        1480,
+        820
+      ],
+      "contact": 2
+    }
+  ],
+  "visualReviewCompleted": true,
+  "fullyRenderedImages": 10,
+  "incompleteVisualEvidence": [
+    "zh-delete-completed.png"
+  ],
+  "allImagesAccepted": false
+}

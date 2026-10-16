@@ -1,0 +1,60 @@
+using System.Buffers.Binary;
+using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+
+// Owned probe only: reads the synthetic trailer on its own executable, never executes a payload.
+internal static class Program
+{
+    private static int Main()
+    {
+        string self = Environment.ProcessPath ?? throw new InvalidOperationException("Missing process path.");
+        string extraction = Environment.GetEnvironmentVariable("DOTNET_BUNDLE_EXTRACT_BASE_DIR")
+            ?? throw new InvalidOperationException("Missing owned extraction root.");
+        using var process = Process.GetCurrentProcess();
+        string? runtimePath = process.Modules.Cast<ProcessModule>()
+            .FirstOrDefault(module => string.Equals(module.ModuleName, "coreclr.dll", StringComparison.OrdinalIgnoreCase))?.FileName;
+        bool ownedRuntime = runtimePath != null && Path.GetFullPath(runtimePath).StartsWith(
+            Path.GetFullPath(extraction).TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar,
+            StringComparison.OrdinalIgnoreCase);
+        string outcome = "InvalidFooter";
+        int payloadLength = 0;
+        using (var file = File.OpenRead(self))
+        {
+            if (file.Length >= 64)
+            {
+                file.Position = file.Length - 64;
+                byte[] footer = new byte[64];
+                file.ReadExactly(footer);
+                if (footer.AsSpan(0, 16).SequenceEqual("IRIS-ENV-PROBE-1"u8))
+                {
+                    long offset = BinaryPrimitives.ReadInt64LittleEndian(footer.AsSpan(16, 8));
+                    long length = BinaryPrimitives.ReadInt64LittleEndian(footer.AsSpan(24, 8));
+                    if (offset >= 0 && length is > 0 and <= 4096 && offset <= file.Length - 64 && length == file.Length - 64 - offset)
+                    {
+                        file.Position = offset;
+                        byte[] payload = new byte[(int)length];
+                        file.ReadExactly(payload);
+                        payloadLength = payload.Length;
+                        outcome = SHA256.HashData(payload).AsSpan().SequenceEqual(footer.AsSpan(32, 32))
+                            && Encoding.UTF8.GetString(payload) == "Iris owned synthetic installer payload; never executed."
+                            ? "Verified" : "HashOrContentMismatch";
+                    }
+                    else outcome = "InvalidBounds";
+                }
+            }
+        }
+        Console.WriteLine(JsonSerializer.Serialize(new
+        {
+            EntryPointReached = true,
+            OwnedPrivateRuntime = ownedRuntime,
+            RuntimeVersion = Environment.Version.ToString(),
+            RuntimePath = runtimePath,
+            Outcome = outcome,
+            PayloadBytes = payloadLength,
+            PayloadExecuted = false
+        }));
+        return ownedRuntime && outcome == "Verified" ? 0 : 2;
+    }
+}

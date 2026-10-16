@@ -46,6 +46,26 @@ public sealed class NetworkTransportTests
     });
 
     [Fact]
+    public Task UpdatesUsesActualProxyAuthenticationAndNextSnapshotWithoutBusinessRetry() => Run(async f =>
+    {
+        f.Seed("A"); var bodies = new List<string>();
+        f.Wire.Respond = (wire, _) => { bodies.Add(wire); return "HTTP/1.1 503 Unavailable\r\nContent-Length: 0\r\n\r\n"; };
+        using var client = f.Client(HttpClientNames.Updates);
+        using (var request = Request())
+        {
+            var response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, TestContext.Current.CancellationToken);
+            f.Responses.Add(response); response.StatusCode.ShouldBe(HttpStatusCode.ServiceUnavailable);
+        }
+        bodies.Count.ShouldBe(1); f.Wire.Auth.ToArray().ShouldBe(["synthetic-A:password-A"]);
+        bodies[0].ShouldNotContain("Bearer");
+        f.Seed("B");
+        using (var request = Request()) f.Responses.Add(await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, TestContext.Current.CancellationToken));
+        f.Wire.Auth.ToArray().ShouldBe(["synthetic-A:password-A", "synthetic-B:password-B"]);
+        f.Responses.ForEach(response => response.Dispose()); await f.Manager.StopAsync();
+        f.Manager.HandlerCount.ShouldBe(0); f.Wire.Streams.All(stream => stream.Disposed).ShouldBeTrue();
+    });
+
+    [Fact]
     public Task LateCapturedA_CannotReversePublishedB_AndSnapshotDraftDoesNotPublish() => Run(async f =>
     {
         f.Seed("A"); var first = await f.Source.CaptureCurrentAsync(Destination, TestContext.Current.CancellationToken);

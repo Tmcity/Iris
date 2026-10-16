@@ -1,0 +1,14 @@
+[lib-csharp:8088] [04:54:23] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:8088] [04:54:23] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:8088] [04:54:23] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:8088] [04:54:23] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:8088] [04:54:23] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:8088] [04:54:23] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:8088] [04:54:23] [Information] Found fast exit hook: --veloapp-install
+[lib-csharp:8088] [04:54:23] [Information] Completed hook, exiting...
+[lib-csharp:5664] [04:54:24] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:5664] [04:54:24] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:5664] [04:54:24] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:5664] [04:54:24] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:5664] [04:54:24] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:5664] [04:54:24] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'

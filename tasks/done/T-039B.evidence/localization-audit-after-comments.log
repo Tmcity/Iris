@@ -1,0 +1,3 @@
+{"sourceEntries": 1198, "commentEntries": 980, "reviewedNonUiEntries": 218, "resourceCounts": {"App": 457, "Core": 148, "Maintenance": 5}, "resourceErrors": [], "englishNativeNameExceptions": {"App:LanguageChineseNative": "简体中文"}, "exceptionManifestSha256": "6fc89a21ce5423b591851ece5ccb983e868a4fea8884b9fa9abfc52434dd39fe"}
+src/Iris.Core/Settings/SettingsEditingModels.cs 12 comment ' <summary>常规设置字段增量；null 项保留提交时的最新值。原四参数构造/解构保持。\n/// UiLanguage 只接受规范值zh-CN/en-US，保存后下次启动生效，完整规则见LOCALIZATION.md。\r\n/// CheckForUpdates只表示启动自动检查偏好；不触发下载/安装，null保留最新值，规则见DESKTOP_RELEASE.md。</summary>\r\n'
+src/Iris.Providers/Http/ProviderHttp.cs 15 comment ' <summary>公开桌面更新客户端：复用版本化代理/响应所有权，不携带Provider或仓库凭据，不应用业务重试。</summary>\r\n'

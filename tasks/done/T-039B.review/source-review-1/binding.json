@@ -1,0 +1,31 @@
+{
+  "capturedAt": "2026-10-12T18:52:17.836708+00:00",
+  "kind": "source review, not an executed failure",
+  "files": [
+    {
+      "source": "src/Iris.App/Updates/AppUpdateCoordinator.cs",
+      "snapshot": "AppUpdateCoordinator.cs.txt",
+      "sha256": "a85c30b3d8c9015bfe68e81276b37a52bac656f4a4e4baf668480e9bbd261d05"
+    },
+    {
+      "source": "src/Iris.App/Updates/UpdateRuntime.cs",
+      "snapshot": "UpdateRuntime.cs.txt",
+      "sha256": "f43b51d76d683b892210b7748fce78b308b1e6a21e63559bb51f5db7e25a73ce"
+    },
+    {
+      "source": "src/Iris.App/Updates/UpdateHttpDownloader.cs",
+      "snapshot": "UpdateHttpDownloader.cs.txt",
+      "sha256": "f79f63ce0688a91abaec318b77102e7fb74029c8907a93958f741662f2a8abb2"
+    },
+    {
+      "source": "src/Iris.App/Updates/ValidatedUpdateSource.cs",
+      "snapshot": "ValidatedUpdateSource.cs.txt",
+      "sha256": "92f0f18535c470d5dadf82a1c093d8fc62bacbe87758a16ae94c830db5b495cf"
+    },
+    {
+      "source": "src/Iris.Platform.Windows/Maintenance/MaintenanceGate.cs",
+      "snapshot": "MaintenanceGate.cs.txt",
+      "sha256": "924dd141bbc9d9fcd77b8beadc39386eeae269af27e10ea27aa86bc98644299d"
+    }
+  ]
+}

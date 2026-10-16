@@ -1,0 +1,3 @@
+$state=[ordered]@{Time=[DateTime]::UtcNow.ToString('o');Processes=@(Get-CimInstance Win32_Process|Where-Object{$_.Name -match 'Iris|Setup|dotnet|msiexec'}|Select-Object ProcessId,ParentProcessId,CreationDate,ExecutablePath,CommandLine);Downloads=@(Get-ChildItem (Join-Path $env:USERPROFILE 'Downloads') -Filter 'inst-dotnet*' -ErrorAction SilentlyContinue|Select-Object Name,Length,LastWriteTime)}
+$state|ConvertTo-Json -Depth 7|Set-Content C:\IrisBOutput\install-inspection.json -Encoding UTF8
+Get-ChildItem (Join-Path $env:LOCALAPPDATA 'Velopack') -Filter '*.log' -ErrorAction SilentlyContinue|ForEach-Object{Copy-Item $_.FullName ('C:\IrisBOutput\inspection-'+$_.Name)}

@@ -1,0 +1,1 @@
+{"Args": ["start", "--id", "cc685426-67ef-4b92-bd57-89334d6990fa", "--config", "<Configuration><vGPU>Disable</vGPU><Networking>Enable</Networking><AudioInput>Disable</AudioInput><VideoInput>Disable</VideoInput><ClipboardRedirection>Disable</ClipboardRedirection><PrinterRedirection>Disable</PrinterRedirection><MemoryInMB>6144</MemoryInMB></Configuration>", "--raw"], "ExitCode": 0}

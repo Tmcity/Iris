@@ -1,0 +1,101 @@
+﻿{
+    "Checks":  [
+                   {
+                       "Name":  "failure-baseline-install-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "failure-baseline-install-exit-zero",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "failure-baseline-install-app-exists",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "failure-baseline-install-no-autostart",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "failure-baseline-install-final-registration",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "old-app-window",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "actual-committed-failure-text",
+                       "Value":  "Iris\r\n确定\r\n\r\nIris maintenance is incomplete; its transaction was retained. Run the official installer to repair the installation, or use this recovery entry to retry the requested cleanup:\r\nC:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\recovery\\Iris.Maintenance.exe\r\nShared runtimes are never removed.\r\n"
+                   },
+                   {
+                       "Name":  "readable-recovery-route",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "original-app-really-exited-before-feedback",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "retained-transaction",
+                       "Value":  {
+                                     "Id":  "0ec9c6ff-3c46-4a10-96b0-2df993705e04",
+                                     "Kind":  "update",
+                                     "Phase":  "verify",
+                                     "OwnerPid":  2904,
+                                     "OwnerStartedUtcTicks":  639276503836292106,
+                                     "Version":  "0.2.1",
+                                     "DeleteData":  false,
+                                     "WorkerPid":  6316,
+                                     "WorkerStartedUtcTicks":  639276503858877270,
+                                     "WorkerPath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe",
+                                     "WorkerExitCode":  5
+                                 }
+                   },
+                   {
+                       "Name":  "native-failure-recorded",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "committed-failure-window-observed",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "failed-owner-ended",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "failed-owner-exit-two",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "transaction-still-seals-startup",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "explicit-install-repair-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "explicit-install-repair-exit-zero",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "explicit-install-repair-app-exists",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "explicit-install-repair-no-autostart",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "explicit-install-repair-final-registration",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "repair-unseals-startup",
+                       "Value":  true
+                   }
+               ],
+    "Failure":  null
+}

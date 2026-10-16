@@ -1,0 +1,18 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64)
+失败 Iris.Maintenance.Tests.MaintenanceTests.EnvelopeAcceptsBoundedPayloadAndRejectsChangedBytes(corrupt: False) (11ms)
+  从 F:\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.IO.InvalidDataException : Invalid installer bounds.
+    在 Iris.Maintenance.InstallerEnvelope.ExtractAsync(String executable, String destination, CancellationToken token) 位于 F:\Iris\src\Iris.Maintenance\InstallerEnvelope.cs:26
+    在 Iris.Maintenance.InstallerEnvelope.ExtractAsync(String executable, String destination, CancellationToken token) 位于 F:\Iris\src\Iris.Maintenance\InstallerEnvelope.cs:37
+    在 Iris.Maintenance.Tests.MaintenanceTests.EnvelopeAcceptsBoundedPayloadAndRejectsChangedBytes(Boolean corrupt) 位于 F:\Iris\tests\Iris.Maintenance.Tests\MaintenanceTests.cs:25
+    --- End of stack trace from previous location ---
+F:\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (3s 034ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 5
+  失败: 1
+  成功: 4
+  已跳过: 0
+  持续时间: 3s 413ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

@@ -1,0 +1,22 @@
+{
+  "InstallConfirm": {
+    "zh-CN": "安装 Iris。缺少 .NET 10 桌面运行时时将由安装程序引导安装，可能需要系统权限。",
+    "en-US": "Install Iris. Setup will install the .NET 10 Desktop Runtime if it is missing; system permission may be required."
+  },
+  "UninstallChoice": {
+    "zh-CN": "卸载 Iris？\n选择“是”保留设置、历史和日志（默认）。\n选择“否”在卸载成功后删除这些数据。\n选择“取消”不作更改。",
+    "en-US": "Uninstall Iris?\nYes: keep settings, history and logs (default).\nNo: delete this data after uninstall succeeds.\nCancel: make no changes."
+  },
+  "Retry": {
+    "zh-CN": "维护尚未完成。程序或数据清理可能需要重试。请关闭其它 Iris 实例，选择“重试”继续；“取消”保留当前状态。",
+    "en-US": "Maintenance is incomplete. Program or data cleanup may need a retry. Close other Iris instances and choose Retry, or Cancel to keep the current state."
+  },
+  "Failed": {
+    "zh-CN": "Iris 维护未完成，事务已保留。请重新运行正式安装器修复安装，或运行以下维护入口重试已请求的清理：\n{0}\n共享运行时不会被删除。",
+    "en-US": "Iris maintenance is incomplete; its transaction was retained. Run the official installer to repair the installation, or use this recovery entry to retry the requested cleanup:\n{0}\nShared runtimes are never removed."
+  },
+  "Completed": {
+    "zh-CN": "Iris 维护已完成。",
+    "en-US": "Iris maintenance completed."
+  }
+}

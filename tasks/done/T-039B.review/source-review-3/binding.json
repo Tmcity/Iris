@@ -1,0 +1,26 @@
+{
+  "capturedAt": "2026-10-14T18:14:37.812628+00:00",
+  "kind": "static-source-review-not-executed",
+  "files": [
+    {
+      "source": "src/Iris.Maintenance/MaintenanceEngine.cs",
+      "snapshot": "MaintenanceEngine.cs.txt",
+      "sha256": "42a3d23a5ab933785acbbfc3143becd724526360bcc6b6b015712b434bcade24"
+    },
+    {
+      "source": "src/Iris.Maintenance/Program.cs",
+      "snapshot": "Program.cs.txt",
+      "sha256": "06cea1a33e94ae735edf612d5ac845fabbb3774d7e4b731006e9732ab87e40f7"
+    },
+    {
+      "source": "src/Iris.Maintenance/UpdateTransaction.cs",
+      "snapshot": "UpdateTransaction.cs.txt",
+      "sha256": "06e2de6e3aad882b7f4d7b94acac729bdcaf348c811eb18fe8e429d0ec071210"
+    },
+    {
+      "source": "src/Iris.Maintenance/MaintenanceSystem.cs",
+      "snapshot": "MaintenanceSystem.cs.txt",
+      "sha256": "fc5354bb47b2a9d7197e104808206940066a1807e94e6edab12ea4b07203dc0c"
+    }
+  ]
+}

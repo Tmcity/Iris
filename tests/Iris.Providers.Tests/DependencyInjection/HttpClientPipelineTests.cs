@@ -350,6 +350,7 @@ public sealed class HttpClientPipelineTests
     [Theory]
     [InlineData(HttpClientNames.Llm)]
     [InlineData(HttpClientNames.Ocr)]
+    [InlineData(HttpClientNames.Updates)]
     public void ProductionNamedClients_SocketsHttpHandler_HasAllowAutoRedirectFalse(string clientName)
     {
         using var sp = CreateProductionServiceProvider();

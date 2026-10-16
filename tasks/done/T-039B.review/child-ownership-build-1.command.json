@@ -1,0 +1,17 @@
+{
+  "command": [
+    "dotnet",
+    "build",
+    "Review.csproj",
+    "-c",
+    "Release",
+    "-p:",
+    "RestoreConfigFile=C:/Users/28910/AppData/Local/Temp/iris-t039b-child-ownership-20261013/NuGet.Config",
+    "--disable-build-servers"
+  ],
+  "cwd": "C:/Users/28910/AppData/Local/Temp/iris-t039b-child-ownership-20261013",
+  "startedAt": "2026-10-12T19:13:55.380404+00:00",
+  "completedAt": "2026-10-12T19:13:58.238862+00:00",
+  "exitCode": 0,
+  "logSha256": "9fbf95a35ea15d480af3b329d3ad6ef6dc77c24f807ecd8a53b9882bcd029be7"
+}

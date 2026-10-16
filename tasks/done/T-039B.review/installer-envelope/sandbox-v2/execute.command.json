@@ -1,0 +1,14 @@
+{
+  "command": [
+    "C:/Users/28910/AppData/Local/Microsoft/WindowsApps/wsb.exe",
+    "exec",
+    "--id",
+    "2f6553a1-086c-4385-bae1-8e748a55756b",
+    "--command",
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\\IrisEnvelopeInput\\guest_probe.ps1",
+    "--run-as",
+    "System",
+    "--raw"
+  ],
+  "exitCode": 0
+}

@@ -1,0 +1,10 @@
+Loading core dump: artifacts/t039b/sandbox/1035d4ff-d461-4bab-b9a4-f9a006808d27/output/iris-shutdown.dmp ...
+Current symbol store settings:
+Set load path for DAC/DBI to 'F:\Iris\artifacts\t039b\sandbox\1035d4ff-d461-4bab-b9a4-f9a006808d27\output'
+         Address               MT           Size
+    01ca2bdeaef0     7ffb7ce63188            136 
+
+Statistics:
+          MT Count TotalSize Class Name
+7ffb7ce63188     1       136 System.AggregateException
+Total 1 objects, 136 bytes

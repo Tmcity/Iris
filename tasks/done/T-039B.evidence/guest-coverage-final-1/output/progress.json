@@ -1,0 +1,33 @@
+﻿{
+    "Checks":  [
+                   {
+                       "Name":  "coverage-install-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "coverage-install-exit-zero",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "coverage-install-app-exists",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "coverage-install-no-autostart",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "coverage-install-final-registration",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "seed-data-exit",
+                       "Value":  -532462766
+                   },
+                   {
+                       "Name":  "seed-real-settings-secrets-history-log",
+                       "Value":  false
+                   }
+               ],
+    "Failure":  null
+}

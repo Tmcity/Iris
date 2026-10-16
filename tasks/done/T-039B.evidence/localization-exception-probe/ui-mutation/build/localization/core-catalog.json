@@ -1,0 +1,594 @@
+{
+  "ErrorUnknown": {
+    "zh-CN": "发生未知错误，详情请查看日志",
+    "en-US": "An unexpected error occurred. See the log for details"
+  },
+  "ErrorCancelled": {
+    "zh-CN": "操作已取消",
+    "en-US": "Operation canceled"
+  },
+  "ErrorTimeout": {
+    "zh-CN": "请求超时，请检查网络或稍后重试",
+    "en-US": "The request timed out. Check the network or retry later"
+  },
+  "ErrorNetworkUnavailable": {
+    "zh-CN": "网络连接失败，请检查网络或代理设置",
+    "en-US": "Connection failed. Check the network or proxy settings"
+  },
+  "ErrorInvalidArgument": {
+    "zh-CN": "参数无效",
+    "en-US": "Invalid argument"
+  },
+  "ErrorNotConfigured": {
+    "zh-CN": "服务尚未配置，请先在设置中完成配置",
+    "en-US": "The provider is not configured. Complete its settings first"
+  },
+  "ErrorInputTooLong": {
+    "zh-CN": "文本过长，请缩短后重试",
+    "en-US": "The text is too long. Shorten it and retry"
+  },
+  "ErrorInputEmpty": {
+    "zh-CN": "没有需要翻译的文本",
+    "en-US": "There is no text to translate"
+  },
+  "ErrorAuthenticationFailed": {
+    "zh-CN": "API Key 无效或已过期，请检查设置",
+    "en-US": "The API key is invalid or expired. Check the settings"
+  },
+  "ErrorPermissionDenied": {
+    "zh-CN": "没有访问该服务的权限（可能未开通该接口）",
+    "en-US": "Access to this service is denied; the API may not be enabled for your account"
+  },
+  "ErrorRateLimited": {
+    "zh-CN": "请求过于频繁，请稍后重试",
+    "en-US": "Too many requests. Please retry later"
+  },
+  "ErrorQuotaExceeded": {
+    "zh-CN": "余额或调用额度不足",
+    "en-US": "Insufficient balance or API quota"
+  },
+  "ErrorProviderUnavailable": {
+    "zh-CN": "服务暂时不可用，请稍后重试",
+    "en-US": "The provider is unavailable. Please retry later"
+  },
+  "ErrorBadRequest": {
+    "zh-CN": "请求被服务拒绝，请检查模型名称与参数",
+    "en-US": "The provider rejected the request. Check the model name and parameters"
+  },
+  "ErrorEndpointNotFound": {
+    "zh-CN": "服务地址或模型不存在，请检查 BaseUrl 与模型名称",
+    "en-US": "The endpoint or model was not found. Check BaseUrl and the model name"
+  },
+  "ErrorInvalidResponse": {
+    "zh-CN": "服务返回了无法识别的响应",
+    "en-US": "The provider returned an unrecognized response"
+  },
+  "ErrorContentRefused": {
+    "zh-CN": "服务拒绝处理该内容",
+    "en-US": "The provider refused to process this content"
+  },
+  "ErrorContentTruncated": {
+    "zh-CN": "结果过长已被截断，内容可能不完整",
+    "en-US": "The result was truncated and may be incomplete"
+  },
+  "ErrorOcrNoTextFound": {
+    "zh-CN": "未识别到文字",
+    "en-US": "No text was recognized"
+  },
+  "ErrorImageInvalid": {
+    "zh-CN": "图片无效或格式不受支持",
+    "en-US": "The image is invalid or its format is unsupported"
+  },
+  "ErrorImageTooLarge": {
+    "zh-CN": "图片过大，请缩小截图范围",
+    "en-US": "The image is too large. Select a smaller capture area"
+  },
+  "ErrorOcrLanguageUnsupported": {
+    "zh-CN": "系统未安装该语言的 OCR 组件",
+    "en-US": "The OCR component for this language is not installed"
+  },
+  "ErrorHotkeyConflict": {
+    "zh-CN": "快捷键已被其他程序占用",
+    "en-US": "This shortcut is in use by another program"
+  },
+  "ErrorHotkeyInvalid": {
+    "zh-CN": "快捷键组合无效",
+    "en-US": "Invalid shortcut combination"
+  },
+  "ErrorSelectionEmpty": {
+    "zh-CN": "未检测到选中的文本",
+    "en-US": "No selected text was detected"
+  },
+  "ErrorClipboardBusy": {
+    "zh-CN": "剪贴板正被其他程序占用，请稍后重试",
+    "en-US": "Another program is using the clipboard. Please retry later"
+  },
+  "ErrorCaptureFailed": {
+    "zh-CN": "内容获取失败，请稍后重试",
+    "en-US": "Could not capture the content. Please retry later"
+  },
+  "ErrorHookInstallFailed": {
+    "zh-CN": "鼠标监听启动失败，划词功能不可用",
+    "en-US": "Mouse monitoring could not start. Selection translation is unavailable"
+  },
+  "ErrorSettingsCorrupted": {
+    "zh-CN": "设置文件已损坏，已恢复为默认设置（原文件已备份）",
+    "en-US": "The settings file was damaged and defaults were restored. The original file was backed up"
+  },
+  "ErrorSecretUnavailable": {
+    "zh-CN": "无法读取已保存的密钥，请重新填写",
+    "en-US": "Saved credentials could not be read. Enter them again"
+  },
+  "ErrorStorageFailure": {
+    "zh-CN": "读写本地数据失败",
+    "en-US": "Could not read or write local data"
+  },
+  "Text_b24f0a42109b": {
+    "zh-CN": "代理配置无效，请检查地址和凭据。",
+    "en-US": "Invalid proxy configuration. Check the address and credentials."
+  },
+  "Text_54ad39699841": {
+    "zh-CN": "代理凭据不可用，请重新输入。",
+    "en-US": "Proxy credentials are unavailable. Enter them again."
+  },
+  "Text_59475ef1beee": {
+    "zh-CN": "网络配置无法安全保存或加载。",
+    "en-US": "Network configuration could not be saved or loaded safely."
+  },
+  "Text_b6da60da9549": {
+    "zh-CN": "网络代理暂不可用。",
+    "en-US": "The network proxy is unavailable."
+  },
+  "Text_646cfa7d6429": {
+    "zh-CN": "配置已在其他位置发生更改，请刷新后重试",
+    "en-US": "Settings changed elsewhere. Refresh and retry"
+  },
+  "Text_5a6eb355f5d0": {
+    "zh-CN": "配置已提交保存，但部分服务或网络配置应用未完成，旧凭据已保留",
+    "en-US": "Settings were saved, but some provider or network changes are incomplete. Previous credentials were retained"
+  },
+  "Text_8ebb1568643a": {
+    "zh-CN": "配置已提交保存，但部分服务提供商刷新未完全完成，旧凭据已保留",
+    "en-US": "Settings were saved, but some providers have not finished refreshing. Previous credentials were retained"
+  },
+  "Text_823a12477db7": {
+    "zh-CN": "配置已生效，但部分旧凭据清理失败，可在重试中清理",
+    "en-US": "Settings are active, but cleanup of some old credentials failed. Retry cleanup"
+  },
+  "Text_99ba5ea63b92": {
+    "zh-CN": "网络配置应用未完成",
+    "en-US": "Network configuration is not fully applied"
+  },
+  "Text_b08a81be972d": {
+    "zh-CN": "部分服务提供商刷新未完成",
+    "en-US": "Some providers have not finished refreshing"
+  },
+  "Text_2fb7d75c324d": {
+    "zh-CN": "部分旧凭据清理未完成",
+    "en-US": "Cleanup of some old credentials is incomplete"
+  },
+  "Text_13f5554c85ea": {
+    "zh-CN": "读取当前配置失败",
+    "en-US": "Could not read the current settings"
+  },
+  "Text_0ee8cdd68ce4": {
+    "zh-CN": "服务凭据解析失败",
+    "en-US": "Could not resolve provider credentials"
+  },
+  "Text_e9867e8a22d2": {
+    "zh-CN": "无法创建服务实例",
+    "en-US": "Could not create the provider instance"
+  },
+  "Text_c9e24bc3378d": {
+    "zh-CN": "服务创建或测试失败",
+    "en-US": "Provider creation or testing failed"
+  },
+  "Text_d42544701705": {
+    "zh-CN": "当前服务不支持获取模型列表",
+    "en-US": "This provider does not support retrieving a model list"
+  },
+  "Text_813bec599861": {
+    "zh-CN": "获取模型列表失败",
+    "en-US": "Could not get the model list"
+  },
+  "Text_c5d4b8310a81": {
+    "zh-CN": "服务已不存在，请刷新后重试",
+    "en-US": "The provider no longer exists. Refresh and retry"
+  },
+  "Text_c867164793e4": {
+    "zh-CN": "草稿 Profile ID 必须与 BaseProfile ID 一致",
+    "en-US": "The draft Profile ID must match the BaseProfile ID"
+  },
+  "Text_5692606726ab": {
+    "zh-CN": "已有草稿不能修改 CredentialSetId 引用",
+    "en-US": "An existing draft cannot change its CredentialSetId reference"
+  },
+  "Text_cbf370d77d1b": {
+    "zh-CN": "凭据未配置",
+    "en-US": "Credentials are not configured"
+  },
+  "Text_3b5f7f06db59": {
+    "zh-CN": "未知的凭据编辑类型",
+    "en-US": "Unknown credential edit kind"
+  },
+  "Text_dde435b819e2": {
+    "zh-CN": "快捷键组合已分配给其他动作，不能重复使用",
+    "en-US": "This shortcut is assigned to another action and cannot be reused"
+  },
+  "Text_c95d52323038": {
+    "zh-CN": "Theme 含有未定义的值",
+    "en-US": "Theme contains an undefined value"
+  },
+  "Text_ed4a1fe3a942": {
+    "zh-CN": "LogLevel 目标值非法",
+    "en-US": "Invalid target LogLevel"
+  },
+  "Text_9195679f1083": {
+    "zh-CN": "LogLevel 基线值非法",
+    "en-US": "Invalid baseline LogLevel"
+  },
+  "Text_7372225545c3": {
+    "zh-CN": "计划中包含重复的 Profile ID 操作",
+    "en-US": "The plan contains duplicate operations for a Profile ID"
+  },
+  "Text_2d66d07d7d5f": {
+    "zh-CN": "未知的 ChangeKind",
+    "en-US": "Unknown ChangeKind"
+  },
+  "Text_1fbf1d53df1f": {
+    "zh-CN": "Add 操作的 BaseProfile 必须为 null",
+    "en-US": "BaseProfile must be null for Add"
+  },
+  "Text_88bb88e055cf": {
+    "zh-CN": "Add 操作的 TargetProfile 不能为空",
+    "en-US": "TargetProfile is required for Add"
+  },
+  "Text_5d3ac474e977": {
+    "zh-CN": "Add 操作不能任意指定 CredentialSetId",
+    "en-US": "Add cannot assign an arbitrary CredentialSetId"
+  },
+  "Text_e9d0be5babc8": {
+    "zh-CN": "新增 Profile ID 格式不符合规范",
+    "en-US": "The new Profile ID has an invalid format"
+  },
+  "Text_c39d89be8a24": {
+    "zh-CN": "Update 操作的 BaseProfile 不能为空",
+    "en-US": "BaseProfile is required for Update"
+  },
+  "Text_6567ec3e5ce4": {
+    "zh-CN": "Update 操作的 TargetProfile 不能为空",
+    "en-US": "TargetProfile is required for Update"
+  },
+  "Text_6b77c983c377": {
+    "zh-CN": "Update 操作的 BaseProfile 与 TargetProfile ID 不一致",
+    "en-US": "BaseProfile and TargetProfile IDs must match for Update"
+  },
+  "Text_bb89e4a6d141": {
+    "zh-CN": "Update 操作不能在 TargetProfile 中更改 CredentialSetId 引用",
+    "en-US": "Update cannot change CredentialSetId in TargetProfile"
+  },
+  "Text_8c2bba494229": {
+    "zh-CN": "Delete 操作的 BaseProfile 不能为空",
+    "en-US": "BaseProfile is required for Delete"
+  },
+  "Text_bdf5648ed234": {
+    "zh-CN": "Delete 操作的 TargetProfile 必须为 null",
+    "en-US": "TargetProfile must be null for Delete"
+  },
+  "Text_fa9b5ba9833d": {
+    "zh-CN": "Delete 操作的凭据意图只能为 Keep",
+    "en-US": "Delete requires the Keep credential intent"
+  },
+  "Text_8757324638ce": {
+    "zh-CN": "Replace 意图必须提供 Replacement 凭据",
+    "en-US": "Replace requires Replacement credentials"
+  },
+  "Text_e53237193fe8": {
+    "zh-CN": "Keep 或 Clear 意图的 Replacement 必须为 null",
+    "en-US": "Replacement must be null for Keep or Clear"
+  },
+  "Text_bb066abe0093": {
+    "zh-CN": "包含 Add 或 Delete 操作时必须附带 TranslationOrderChange",
+    "en-US": "TranslationOrderChange is required with Add or Delete operations"
+  },
+  "Text_31e97af4e348": {
+    "zh-CN": "TranslationOrderChange 的 BaseIds 或 TargetIds 不能为空",
+    "en-US": "TranslationOrderChange requires BaseIds and TargetIds"
+  },
+  "Text_fc1a8545b8a8": {
+    "zh-CN": "TargetIds 包含重复 ID",
+    "en-US": "TargetIds contains duplicate IDs"
+  },
+  "Text_cdfa48d9be39": {
+    "zh-CN": "TargetIds 与预期的 Profile ID 集合不匹配",
+    "en-US": "TargetIds does not match the expected set of Profile IDs"
+  },
+  "Text_539074888c60": {
+    "zh-CN": "快捷键目标绑定无效",
+    "en-US": "The target shortcut binding is invalid"
+  },
+  "Text_88de0b75493c": {
+    "zh-CN": "Profile Kind 未定义",
+    "en-US": "Profile Kind is undefined"
+  },
+  "Text_0d2c568b6d8e": {
+    "zh-CN": "DisplayName 不能为空",
+    "en-US": "DisplayName cannot be empty"
+  },
+  "Text_794ad749ed51": {
+    "zh-CN": "TimeoutSeconds 必须在 5 到 600 之间",
+    "en-US": "TimeoutSeconds must be between 5 and 600"
+  },
+  "Text_7591b5823ffe": {
+    "zh-CN": "MaxOutputTokens 必须为正整数",
+    "en-US": "MaxOutputTokens must be a positive integer"
+  },
+  "Text_fdef32da198a": {
+    "zh-CN": "Temperature 必须在 0.0 到 2.0 之间",
+    "en-US": "Temperature must be between 0.0 and 2.0"
+  },
+  "Text_e3c6bebfa1ee": {
+    "zh-CN": "启用服务的 Model 不能为空",
+    "en-US": "Model cannot be empty for an enabled provider"
+  },
+  "Text_3584a90d73bd": {
+    "zh-CN": "OpenAI 兼容服务的 BaseUrl 必须为合法绝对 HTTP(S) 地址",
+    "en-US": "An OpenAI-compatible provider's BaseUrl must be a valid absolute HTTP(S) address"
+  },
+  "Text_47c83176d03c": {
+    "zh-CN": "Anthropic 服务的 BaseUrl 必须为合法绝对 HTTP(S) 地址",
+    "en-US": "An Anthropic provider's BaseUrl must be a valid absolute HTTP(S) address"
+  },
+  "Text_19eecf82e5b9": {
+    "zh-CN": "BaseUrl 必须为合法绝对 HTTP(S) 地址",
+    "en-US": "BaseUrl must be a valid absolute HTTP(S) address"
+  },
+  "Text_b70890fbafd4": {
+    "zh-CN": "MaxTokensField 未定义",
+    "en-US": "MaxTokensField is undefined"
+  },
+  "Text_887484964876": {
+    "zh-CN": "ChatCompletionsPath 不能为空",
+    "en-US": "ChatCompletionsPath cannot be empty"
+  },
+  "Text_c073d46e8eda": {
+    "zh-CN": "ChatCompletionsPath 必须为非空相对路径且不包含查询或片段",
+    "en-US": "ChatCompletionsPath must be a nonempty relative path without a query or fragment"
+  },
+  "Text_aaca1618c7ec": {
+    "zh-CN": "ExtraHeaders 不能包含认证敏感请求头",
+    "en-US": "ExtraHeaders cannot contain sensitive authentication headers"
+  },
+  "Text_9daf1297c3be": {
+    "zh-CN": "ExtraHeaders 包含非法的请求头名称",
+    "en-US": "ExtraHeaders contains an invalid header name"
+  },
+  "Text_e9971e3aa748": {
+    "zh-CN": "ExtraHeaders 请求头值不能包含回车或换行",
+    "en-US": "ExtraHeaders values cannot contain carriage returns or line feeds"
+  },
+  "Text_2d9d1cba16ff": {
+    "zh-CN": "Anthropic Effort 必须为 low/medium/high/xhigh/max 或 null",
+    "en-US": "Anthropic Effort must be low, medium, high, xhigh, max, or null"
+  },
+  "Text_1e0f1d55206a": {
+    "zh-CN": "Haiku 模型不支持 Effort 参数，必须显式设置为 null",
+    "en-US": "Haiku does not support Effort. Set it explicitly to null"
+  },
+  "Text_c2439708babf": {
+    "zh-CN": "指定的 PromptTemplateId 不存在",
+    "en-US": "The specified PromptTemplateId does not exist"
+  },
+  "Text_92be3cc3d9d9": {
+    "zh-CN": "TranslationChanges 不能为空",
+    "en-US": "TranslationChanges cannot be null"
+  },
+  "Text_81f20e09b3ea": {
+    "zh-CN": "TranslationChanges 不能包含 null 元素",
+    "en-US": "TranslationChanges cannot contain null entries"
+  },
+  "Text_487ecf7b7200": {
+    "zh-CN": "未知的 Profile 变更类型",
+    "en-US": "Unknown Profile change kind"
+  },
+  "Text_c132242b9cc8": {
+    "zh-CN": "凭据意图不能为 null",
+    "en-US": "Credential intent cannot be null"
+  },
+  "Text_7096f3d36409": {
+    "zh-CN": "TranslationOrderChange 不能包含 null ID",
+    "en-US": "TranslationOrderChange cannot contain null IDs"
+  },
+  "Text_7177a14b6ebc": {
+    "zh-CN": "HotkeyChanges 不能为 null",
+    "en-US": "HotkeyChanges cannot be null"
+  },
+  "Text_7cc45bbeb7ba": {
+    "zh-CN": "HotkeyChanges 不能包含 null 元素",
+    "en-US": "HotkeyChanges cannot contain null entries"
+  },
+  "Text_839b70cf1003": {
+    "zh-CN": "HotkeyChanges 包含未知的 Action",
+    "en-US": "HotkeyChanges contains an unknown Action"
+  },
+  "Text_890ebd5ae96d": {
+    "zh-CN": "TargetBinding 不能为空",
+    "en-US": "TargetBinding is required"
+  },
+  "Text_85653ba72bf5": {
+    "zh-CN": "HotkeyChanges 包含重复的 Action 变更",
+    "en-US": "HotkeyChanges contains duplicate changes for an Action"
+  },
+  "Text_c4d61c3b7e92": {
+    "zh-CN": "Profile 不能为空",
+    "en-US": "Profile is required"
+  },
+  "Text_5cee7d9c04a4": {
+    "zh-CN": "Profile ID 不能为空",
+    "en-US": "Profile ID cannot be empty"
+  },
+  "Text_5c6f7f20d814": {
+    "zh-CN": "Credentials 不能为空",
+    "en-US": "Credentials cannot be null"
+  },
+  "Text_2e61f01ce8da": {
+    "zh-CN": "未知的 Profile Kind 类型",
+    "en-US": "Unknown Profile Kind"
+  },
+  "Text_f7f84688d00e": {
+    "zh-CN": "BaseProfile ID 不能为空",
+    "en-US": "BaseProfile ID cannot be empty"
+  },
+  "Text_820b7f28048d": {
+    "zh-CN": "新服务草稿不能指定 CredentialSetId",
+    "en-US": "A new provider draft cannot specify CredentialSetId"
+  },
+  "Text_1a8fdaa1d433": {
+    "zh-CN": "Keep 意图的 Replacement 必须为 null",
+    "en-US": "Replacement must be null for Keep"
+  },
+  "Text_f64a52bd3dfc": {
+    "zh-CN": "凭据引用格式无效",
+    "en-US": "The credential reference has an invalid format"
+  },
+  "Text_7938de18d1ca": {
+    "zh-CN": "Clear 意图的 Replacement 必须为 null",
+    "en-US": "Replacement must be null for Clear"
+  },
+  "Text_eb11d05aba48": {
+    "zh-CN": "Model 不能为空",
+    "en-US": "Model cannot be empty"
+  },
+  "Text_9f4aeb1e7d83": {
+    "zh-CN": "历史记录数量须为 100 至 100000 的整数。",
+    "en-US": "The history limit must be an integer from 100 to 100000."
+  },
+  "Text_8a27e21cae4a": {
+    "zh-CN": "划词设置目标无效，请检查读取顺序、等待时间和进程文件名。",
+    "en-US": "Invalid selection settings. Check the reading order, wait time, and process file names."
+  },
+  "Text_5520c80c1f25": {
+    "zh-CN": "翻译结果超过本地长度限制",
+    "en-US": "The translation exceeds the local length limit"
+  },
+  "Text_b922fe67a95c": {
+    "zh-CN": "正在识别文字…",
+    "en-US": "Recognizing text…"
+  },
+  "Text_1258dd08ed11": {
+    "zh-CN": "无法创建数据目录",
+    "en-US": "Could not create the data directory"
+  },
+  "Text_bda16101de59": {
+    "zh-CN": "桌面查询资源清理失败",
+    "en-US": "Desktop query resource cleanup failed"
+  },
+  "Text_036a995464fd": {
+    "zh-CN": "无法获取鼠标位置",
+    "en-US": "Could not obtain the cursor position"
+  },
+  "Text_18140661bf9b": {
+    "zh-CN": "无法获取显示器信息",
+    "en-US": "Could not obtain monitor information"
+  },
+  "Text_4c31a6597af9": {
+    "zh-CN": "无效的设置窗口句柄。",
+    "en-US": "Invalid settings window handle."
+  },
+  "Text_7f6aa73696e9": {
+    "zh-CN": "设置窗口不是当前前台活动窗口。",
+    "en-US": "The settings window is not the foreground window."
+  },
+  "Text_aed470d42b87": {
+    "zh-CN": "当前已有正在进行的按键录入会话。",
+    "en-US": "A shortcut capture session is already in progress."
+  },
+  "Text_d6315daa8917": {
+    "zh-CN": "安装键盘钩子失败 (Win32Error={0})。",
+    "en-US": "Could not install the keyboard hook (Win32Error={0})."
+  },
+  "Text_0b246a3867e0": {
+    "zh-CN": "消息循环异常终止。",
+    "en-US": "The message loop ended unexpectedly."
+  },
+  "Text_ac6ab950f7bc": {
+    "zh-CN": "录入消息循环意外退出。",
+    "en-US": "The shortcut capture message loop exited unexpectedly."
+  },
+  "Text_abd1c2ab4442": {
+    "zh-CN": "录入消息循环发生异常。",
+    "en-US": "An error occurred in the shortcut capture message loop."
+  },
+  "Text_c955eba2dbc4": {
+    "zh-CN": "卸载键盘钩子失败 (Win32Error={0})。",
+    "en-US": "Could not remove the keyboard hook (Win32Error={0})."
+  },
+  "Text_4973738aa92b": {
+    "zh-CN": "向录入消息线程发送退出消息失败 (Win32Error={0})。",
+    "en-US": "Could not send an exit message to the shortcut capture thread (Win32Error={0})."
+  },
+  "Text_2208df3e6f75": {
+    "zh-CN": "快捷键录入异常终止。",
+    "en-US": "Shortcut capture ended unexpectedly."
+  },
+  "Text_0ecffb155c24": {
+    "zh-CN": "多个按键同时按下，请松开后重试",
+    "en-US": "Multiple keys are pressed. Release them and retry"
+  },
+  "Text_0e69913da40f": {
+    "zh-CN": "无效的快捷键组合",
+    "en-US": "Invalid shortcut combination"
+  },
+  "Text_5ccb7938c6df": {
+    "zh-CN": "未知按键",
+    "en-US": "Unknown key"
+  },
+  "Text_b946ca79c3ca": {
+    "zh-CN": "键盘按键释放清理失败，部分按键未能成功释放。",
+    "en-US": "Keyboard cleanup failed; some keys could not be released."
+  },
+  "Text_e63a96455f53": {
+    "zh-CN": "键盘模拟输入失败",
+    "en-US": "Simulated keyboard input failed"
+  },
+  "Text_d4480321b4b5": {
+    "zh-CN": "开机启动配置读取失败",
+    "en-US": "Could not read startup settings"
+  },
+  "Text_334e5ee2f6a1": {
+    "zh-CN": "开机启动配置写入失败",
+    "en-US": "Could not write startup settings"
+  },
+  "Text_c17290ab65e9": {
+    "zh-CN": "开机启动配置删除失败",
+    "en-US": "Could not remove startup settings"
+  },
+  "Text_ce3c3cdbf8c7": {
+    "zh-CN": "获取应用程序路径失败",
+    "en-US": "Could not obtain the application path"
+  },
+  "Text_87bb7ae7d91c": {
+    "zh-CN": "未找到有效的应用程序路径",
+    "en-US": "No valid application path was found"
+  },
+  "Text_cc1010d2ab51": {
+    "zh-CN": "应用程序路径格式无效",
+    "en-US": "The application path has an invalid format"
+  },
+  "Text_12eefb70d6f9": {
+    "zh-CN": "不能使用 dotnet 托管进程作为开机自启命令",
+    "en-US": "A dotnet host process cannot be used as the startup command"
+  },
+  "Text_6ef775d7ce0c": {
+    "zh-CN": "应用程序路径必须为可执行文件",
+    "en-US": "The application path must point to an executable file"
+  },
+  "Text_ac952dd6d176": {
+    "zh-CN": "开机启动命令长度超出系统限制",
+    "en-US": "The startup command exceeds the system length limit"
+  },
+  "InvalidUiLanguage": {
+    "zh-CN": "界面语言必须为 zh-CN 或 en-US",
+    "en-US": "Interface language must be zh-CN or en-US"
+  }
+}

@@ -98,3 +98,5 @@ GdiFlush
 GetNamedPipeClientSessionId
 GetNamedPipeServerSessionId
 DisconnectNamedPipe
+GetNamedPipeClientProcessId
+GetNamedPipeServerProcessId

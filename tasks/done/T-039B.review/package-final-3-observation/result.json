@@ -1,0 +1,34 @@
+{
+  "atUtc": "2026-10-15T08:02:00.863245+00:00",
+  "kind": "independent offline package inspection; not installation or final whole-task acceptance",
+  "results": [
+    {
+      "version": "0.2.0",
+      "directory": "F:\\Iris\\artifacts\\t039b\\release-0.2.0-final-3",
+      "payloadEntries": 97,
+      "exactPayloadSetAndBytesMatch": true,
+      "topLevelHashedFiles": 7,
+      "installerPayloadHashMatches": true,
+      "packageSha256": "278d9e803a2c7b0d3f2861402e9416ae3f798b7535f956df565e02547feb6175",
+      "installerSha256": "a1e528839ea46ab539de12efb638c1036cd3f64bf31e3468e1a47e9f29ab3d72",
+      "otherManifestFiles": [
+        "payload-manifest.json",
+        "staging-manifest.json"
+      ]
+    },
+    {
+      "version": "0.2.1",
+      "directory": "F:\\Iris\\artifacts\\t039b\\release-0.2.1-final-3",
+      "payloadEntries": 97,
+      "exactPayloadSetAndBytesMatch": true,
+      "topLevelHashedFiles": 9,
+      "installerPayloadHashMatches": true,
+      "packageSha256": "1216868b901daf9f82c78b0703982c91561890140411e49341c3dccd35eec3f6",
+      "installerSha256": "a737a2f67ea63fef98dcc2ab5d55a9efbf4874aaf02bf8d40c310799f53c1e03",
+      "otherManifestFiles": [
+        "payload-manifest.json",
+        "staging-manifest.json"
+      ]
+    }
+  ]
+}

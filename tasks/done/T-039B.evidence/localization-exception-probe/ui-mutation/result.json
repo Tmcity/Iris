@@ -1,0 +1,32 @@
+{
+  "sourceEntries": 4,
+  "commentEntries": 0,
+  "reviewedNonUiEntries": 3,
+  "unapproved": [
+    {
+      "Path": "src/Iris.App/App.xaml.cs",
+      "Kind": "literal",
+      "Text": "Iris 已退出，退出码 {ExitCode}",
+      "Raw": "\"Iris 已退出，退出码 {ExitCode}\"",
+      "Start": 2416,
+      "Length": 25,
+      "Line": 69,
+      "Context": "_ = new System.Windows.Controls.TextBlock { Text = \"Iris 已退出，退出码 {ExitCode}\" };",
+      "CanonicalContext": "_ = new System.Windows.Controls.TextBlock\r\n{\r\n    Text = \"Iris 已退出，退出码 {ExitCode}\"\r\n};",
+      "Owner": "App.AuditUiMutation()",
+      "Arguments": [],
+      "Fingerprint": "3552895E76496ABE09151AE0507517A7AF5F315E8D70C4128BEBE0E2BE9C6033",
+      "SiteFingerprint": "85A33B81DCF7C25AB392CC8D3F7595049A7E8B80720A604CE5DF99438BF6A4EA"
+    }
+  ],
+  "resourceCounts": {
+    "App": 457,
+    "Core": 148,
+    "Maintenance": 5
+  },
+  "resourceErrors": [],
+  "englishNativeNameExceptions": {
+    "App:LanguageChineseNative": "简体中文"
+  },
+  "exceptionManifestSha256": "2d620105575400696d1f567460d883cf050ff511b49b6f64d5ea0b5192eb9a75"
+}

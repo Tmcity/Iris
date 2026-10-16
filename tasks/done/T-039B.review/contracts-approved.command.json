@@ -1,0 +1,16 @@
+{
+  "command": [
+    "dotnet",
+    "build",
+    "ContractCheck.csproj",
+    "-c",
+    "Release",
+    "--no-restore",
+    "--disable-build-servers"
+  ],
+  "cwd": "C:/Users/28910/AppData/Local/Temp/iris-t039b-contracts-20261013",
+  "startedAt": "2026-10-12T17:34:22.802690+00:00",
+  "completedAt": "2026-10-12T17:34:25.104316+00:00",
+  "exitCode": 0,
+  "logSha256": "f4a6b4cbdebc04281d7c90e79065f24b290e161843249c73d9d4e4dc15577d0f"
+}

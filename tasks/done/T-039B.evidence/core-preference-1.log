@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.Core.Tests\Settings\UpdatePreferenceEditingTests.cs(22,58): error CS1061: “ServiceCollection”未包含“AddLogging”的定义，并且找不到可接受第一个“ServiceCollection”类型参数的可访问扩展方法“AddLogging”(是否缺少 using 指令或程序集引用?) [F:\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj]
+生成失败，退出代码: 1。

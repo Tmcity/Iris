@@ -1,0 +1,13 @@
+﻿{
+    "TimeUtc":  "2026-10-15T07:27:00.5852013Z",
+    "Processes":  [
+
+                  ],
+    "Identity":  {
+                     "Version":  "0.2.1",
+                     "Channel":  "win",
+                     "PackageId":  "Iris",
+                     "Repository":  "https://github.com/Tmcity/Iris",
+                     "RuntimeId":  "win-x64"
+                 }
+}

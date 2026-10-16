@@ -958,8 +958,9 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             var notification = plan.General.ShowStartupNotification != null ? plan.General.ShowStartupNotification.Target : g.ShowStartupNotification;
             var logLevel = plan.General.LogLevel != null ? plan.General.LogLevel.Target : g.LogLevel;
             var uiLanguage = plan.General.UiLanguage != null ? plan.General.UiLanguage.Target : g.UiLanguage;
+            var checkForUpdates = plan.General.CheckForUpdates?.Target ?? g.CheckForUpdates;
 
-            if (theme != g.Theme || launch != g.LaunchAtStartup || notification != g.ShowStartupNotification || logLevel != g.LogLevel || uiLanguage != g.UiLanguage)
+            if (theme != g.Theme || launch != g.LaunchAtStartup || notification != g.ShowStartupNotification || logLevel != g.LogLevel || uiLanguage != g.UiLanguage || checkForUpdates != g.CheckForUpdates)
             {
                 newGeneral = g with
                 {
@@ -967,7 +968,8 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
                     LaunchAtStartup = launch,
                     ShowStartupNotification = notification,
                     LogLevel = logLevel,
-                    UiLanguage = uiLanguage
+                    UiLanguage = uiLanguage,
+                    CheckForUpdates = checkForUpdates
                 };
             }
         }
@@ -1247,6 +1249,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
 
     private static bool HasGeneralConflict(GeneralSettingsPatch patch, GeneralSettings current)
     {
+        if (patch.CheckForUpdates is { } updates && current.CheckForUpdates != updates.Base && current.CheckForUpdates != updates.Target) return true;
         if (patch.UiLanguage is { } language && current.UiLanguage != language.Base && current.UiLanguage != language.Target) return true;
         if (patch.Theme != null)
         {
@@ -2102,6 +2105,7 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
             if (g.ShowStartupNotification != null) return false;
             if (g.LogLevel != null) return false;
             if (g.UiLanguage != null) return false;
+            if (g.CheckForUpdates != null) return false;
         }
 
         return true;
@@ -2139,7 +2143,10 @@ internal sealed partial class SettingsEditCoordinator : ISettingsEditCoordinator
     private static SettingsEditPlan ClonePlan(SettingsEditPlan plan)
     {
         var general = plan.General is { } g ? g with
-        { UiLanguage = g.UiLanguage is { } language ? new(language.Base, language.Target) : null } : null!;
+        {
+            UiLanguage = g.UiLanguage is { } language ? new(language.Base, language.Target) : null,
+            CheckForUpdates = g.CheckForUpdates is { } updates ? new(updates.Base, updates.Target) : null
+        } : null!;
 
         var changes = new List<TranslationProfileChange>();
         if (plan.TranslationChanges != null)

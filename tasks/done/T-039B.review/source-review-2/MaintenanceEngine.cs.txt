@@ -1,0 +1,65 @@
+using System.Diagnostics;
+using Iris.Platform.Windows.Maintenance;
+
+namespace Iris.Maintenance;
+
+internal sealed class MaintenanceEngine(MaintenanceSystem system)
+{
+    private static MaintenanceTransaction Transaction(string kind, string phase, string version = "", bool delete = false)
+    {
+        using var process = Process.GetCurrentProcess();
+        return new(Guid.NewGuid(), kind, phase, process.Id, process.StartTime.ToUniversalTime().Ticks, version, delete);
+    }
+    internal async Task InstallAsync(string setup, bool start, CancellationToken token)
+    {
+        using (var gate = MaintenanceGate.Acquire(system.StateRoot))
+        {
+            var state = Transaction("install", "preparing"); gate.Write(state);
+            try { await system.CloseApplicationsAsync(token).ConfigureAwait(false); }
+            catch { gate.Complete(); throw; }
+            token.ThrowIfCancellationRequested();
+            gate.Write(state = state with { Phase = "native-starting" });
+            int code = await system.RunAsync(setup, ["--silent"], (pid, ticks) => gate.Write(state = state with { Phase = "native-running", WorkerPid = pid, WorkerStartedUtcTicks = ticks })).ConfigureAwait(false);
+            gate.Write(state = state with { Phase = "verify" });
+            if (code != 0) throw new IOException("Installation did not complete successfully.");
+            var identity = ReleaseIdentity.Read(Path.Combine(system.InstallRoot, "current", ReleaseIdentity.FileName));
+            gate.Write(state with { Phase = "registration", Version = identity.Version });
+            await system.ConfigureAsync().ConfigureAwait(false); gate.Complete();
+        }
+        if (start) system.StartApplication();
+    }
+    internal async Task UninstallAsync(bool delete, CancellationToken token)
+    {
+        using var gate = MaintenanceGate.Acquire(system.StateRoot);
+        _ = ReleaseIdentity.Read(Path.Combine(system.InstallRoot, "current", ReleaseIdentity.FileName));
+        var state = Transaction("uninstall", "preparing", delete: delete); gate.Write(state);
+        try { await system.CloseApplicationsAsync(token).ConfigureAwait(false); }
+        catch { gate.Complete(); throw; }
+        token.ThrowIfCancellationRequested();
+        gate.Write(state = state with { Phase = "native-starting" });
+        int code = await system.RunAsync(Path.Combine(system.InstallRoot, "Update.exe"), ["--uninstall", "--silent"],
+            (pid, ticks) => gate.Write(state = state with { Phase = "native-running", WorkerPid = pid, WorkerStartedUtcTicks = ticks })).ConfigureAwait(false);
+        if (code != 0 || !system.IsUninstalled) throw new IOException("Uninstall did not complete.");
+        gate.Write(state = state with { Phase = "data-cleanup" });
+        system.RemoveAutoStart(); if (delete) system.DeleteData(); gate.Complete();
+    }
+    internal async Task RecoverAsync(CancellationToken token)
+    {
+        using var gate = MaintenanceGate.Acquire(system.StateRoot, recovery: true);
+        var state = gate.Read(); if (state == null) return;
+        if (MaintenanceSystem.IsAlive(state.OwnerPid, state.OwnerStartedUtcTicks)
+            || (state.WorkerPid is int worker && state.WorkerStartedUtcTicks is long ticks && MaintenanceSystem.IsAlive(worker, ticks)))
+            throw new IOException("Maintenance is still running.");
+        if (state.Phase == "preparing" || state.Phase == "awaiting-commit") { gate.Complete(); return; }
+        await system.CloseApplicationsAsync(token).ConfigureAwait(false);
+        if (state.Kind == "uninstall" && system.IsUninstalled)
+        { system.RemoveAutoStart(); if (state.DeleteData) system.DeleteData(); gate.Complete(); return; }
+        if (state.Kind is "install" or "update")
+        {
+            var identity = ReleaseIdentity.Read(Path.Combine(system.InstallRoot, "current", ReleaseIdentity.FileName));
+            if (!string.IsNullOrEmpty(state.Version) && identity.Version != state.Version) throw new IOException("Installation state needs repair.");
+            await system.ConfigureAsync().ConfigureAwait(false); gate.Complete(); return;
+        }
+        throw new IOException("Maintenance state needs repair.");
+    }
+}

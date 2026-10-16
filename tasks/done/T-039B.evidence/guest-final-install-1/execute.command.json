@@ -1,0 +1,1 @@
+{"Args": ["exec", "--id", "69e00710-ca7b-4fb0-83a7-6ceaa37781c2", "--command", "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\\IrisBInput\\guest_install.ps1", "--run-as", "ExistingLogin", "--raw"], "ExitCode": 0}

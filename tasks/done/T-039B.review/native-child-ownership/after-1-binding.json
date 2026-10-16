@@ -1,0 +1,90 @@
+{
+  "capturedAt": "2026-10-12T20:37:28.630846+00:00",
+  "validatedFrozenArtifactCount": 227,
+  "sourceSnapshots": [
+    {
+      "Path": "src/Iris.Maintenance/MaintenanceEngine.cs",
+      "Sha256": "50d5e21622ac782da3bc566b9e63aea1b1447ed1d1c0596dc8009722a2f4b899"
+    },
+    {
+      "Path": "src/Iris.Maintenance/MaintenanceSystem.cs",
+      "Sha256": "da1f340467497f32913e187dfccb8e0ec678c859da36dfde89a7e8837aac29f5"
+    },
+    {
+      "Path": "tests/Iris.Maintenance.Tests/MaintenanceTests.cs",
+      "Sha256": "a1c858b23e49bd255b2161fd52664a59b4413a77a4f1ac0beb817ff07e93a26e"
+    }
+  ],
+  "assemblies": [
+    {
+      "source": "F:\\Iris\\artifacts\\t039b\\maintenance-review-candidate-1\\bin\\Iris.Core.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-maintenance-replay-20261013-1\\Iris.Core.dll",
+      "sha256": "3878cdd9ebe2982c5bb0fb4480ad8f084ecc9276f93ee7b2ed936bfe65f6c149"
+    },
+    {
+      "source": "F:\\Iris\\artifacts\\t039b\\maintenance-review-candidate-1\\bin\\Iris.Maintenance.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-maintenance-replay-20261013-1\\Iris.Maintenance.dll",
+      "sha256": "bda86bce94f6a264eb7b8de2d681a6b6ee44e02380519b69a6881c992399e744"
+    },
+    {
+      "source": "F:\\Iris\\artifacts\\t039b\\maintenance-review-candidate-1\\bin\\Iris.Platform.Windows.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-maintenance-replay-20261013-1\\Iris.Platform.Windows.dll",
+      "sha256": "16f983ed08c880b3195e50bf144e816a09f6710f5a003631172f4d3e42179cbc"
+    },
+    {
+      "source": "F:\\Iris\\artifacts\\t039b\\maintenance-review-candidate-1\\bin\\Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-maintenance-replay-20261013-1\\Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "sha256": "da04edc338d5aa0f38a1f5fa5ff3ee7e36affe9c961daf3ea724a428bd746bc6"
+    },
+    {
+      "source": "F:\\Iris\\artifacts\\t039b\\maintenance-review-candidate-1\\bin\\Microsoft.Extensions.Logging.Abstractions.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-maintenance-replay-20261013-1\\Microsoft.Extensions.Logging.Abstractions.dll",
+      "sha256": "7c242f8ca612fa1acc61f78efd5f8c89e01bd0bd47dc4ecc65e0e6e24f1a1668"
+    },
+    {
+      "source": "F:\\Iris\\artifacts\\t039b\\maintenance-review-candidate-1\\bin\\Microsoft.Windows.SDK.NET.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-maintenance-replay-20261013-1\\Microsoft.Windows.SDK.NET.dll",
+      "sha256": "0ec371d93798852e36461c8adddbeadce0f963a04752f0b64e54fe19c1c834a7"
+    },
+    {
+      "source": "F:\\Iris\\artifacts\\t039b\\maintenance-review-candidate-1\\bin\\System.Security.Cryptography.ProtectedData.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-maintenance-replay-20261013-1\\System.Security.Cryptography.ProtectedData.dll",
+      "sha256": "b61a1445b99a1486a5d9abbd45d766497f136270f5b04862defee1fc054ded14"
+    },
+    {
+      "source": "F:\\Iris\\artifacts\\t039b\\maintenance-review-candidate-1\\bin\\Velopack.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-maintenance-replay-20261013-1\\Velopack.dll",
+      "sha256": "969853e147e95b3f46192425cfea7eae8837aea79f3e2b2c7cc0aa34b5703153"
+    },
+    {
+      "source": "F:\\Iris\\artifacts\\t039b\\maintenance-review-candidate-1\\bin\\WinRT.Runtime.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-maintenance-replay-20261013-1\\WinRT.Runtime.dll",
+      "sha256": "bcf3a14e8712a90837fc5c0d8c8a24696af2bd7f74e9767597ec81ededfb23db"
+    }
+  ],
+  "unchangedProbe": [
+    {
+      "name": "Iris.Maintenance.Tests.deps.json",
+      "sha256": "bfdf7da4b3d8051e087b19ea94b36cba19902c0c60a9c0caaab12e579f1a580c"
+    },
+    {
+      "name": "Iris.Maintenance.Tests.dll",
+      "sha256": "742c065f98cb24b34fd57ee6d25f02a8b769712424e25aadc6ec7d2fc84450e9"
+    },
+    {
+      "name": "Iris.Maintenance.Tests.exe",
+      "sha256": "f4ee5202fedbc790ad5489367efb0a98562c124b94b74539bc7d3c6cd7c018d5"
+    },
+    {
+      "name": "Iris.Maintenance.Tests.pdb",
+      "sha256": "6da4532c006714c01047b26a930af8364e509f1ab3e6e621027ae8d8078f94d1"
+    },
+    {
+      "name": "Iris.Maintenance.Tests.runtimeconfig.json",
+      "sha256": "3e965cd7cfd553c2ff4e842d8d8019aaae2da0a21d92ff85a87573dd8d1b95c6"
+    }
+  ],
+  "replayDirectory": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-maintenance-replay-20261013-1",
+  "productWasRebuilt": false,
+  "probeWasRebuilt": false
+}

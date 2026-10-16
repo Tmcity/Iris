@@ -1,0 +1,16 @@
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.Infrastructure -> F:\Iris\src\Iris.Infrastructure\bin\Release\net10.0\Iris.Infrastructure.dll
+  Iris.Providers -> F:\Iris\src\Iris.Providers\bin\Release\net10.0\Iris.Providers.dll
+  Iris.UiaHost -> F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.UiaHost.dll
+F:\Iris\src\Iris.App\Updates\AppUpdateCoordinator.cs(203,26): error CA1001: 类型“Entry”具有可释放的字段“_source”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\src\Iris.App\Iris.App_xmla2qsh_wpftmp.csproj]
+
+生成失败。
+
+F:\Iris\src\Iris.App\Updates\AppUpdateCoordinator.cs(203,26): error CA1001: 类型“Entry”具有可释放的字段“_source”，但该类型是不可释放的 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1001) [F:\Iris\src\Iris.App\Iris.App_xmla2qsh_wpftmp.csproj]
+    0 个警告
+    1 个错误
+
+已用时间 00:00:02.25

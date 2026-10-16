@@ -1,6 +1,6 @@
 # Iris 架构设计说明书
 
-> **当前推进（2026-10-13）**：T-039A链路实证与补签IPC修正已独立验收；正式记录tasks/done/T-039A.md及T-039A.review/FINAL_REVIEW.md。现准备父T-039的正式安装、更新及维护入口实现，公开发布目标Tmcity/Iris；生产契约仍v1.56，后续扩展另行冻结。父任务真实安装/卸载/更新应用及VM验收尚未完成，M6继续延期。下方早期A执行/暂停状态作历史保留。
+> **当前推进（2026-10-13）**：T-039A在6256a3fb独立验收，现签T-039B，按DESKTOP_RELEASE.md / CCR-039完整实施打包、更新、维护入口及隔离Windows实证。T-039C保留GitHub分发与正式匿名源在线升级闭环；父任务未结案，M6继续延期。下方早期A执行/暂停状态作历史保留。
 
 > **当前推进（2026-10-10，用户已说“继续”）**：T-038/CCR038/R1结案保持，进入父T-039的A阶段，用实际Velopack发布与更新/卸载原型冻结后续正式实现；GitHub Releases目标Tmcity/Iris。当前契约仍v1.56，A不修改生产契约或包清单。下方T-038后暂停记录为历史；M6继续延期，真实安装/系统/NFR未验收。
 
@@ -10,7 +10,8 @@
 
 > 本轮范围调整（2026-10-06，用户决定）：M6 悬浮球 / T-033 延迟实现，不纳入本轮开发与发布验收；相关设计保留为后续需求，现有契约与默认配置保持。当前 T-031A 继续，M5 完成后跳过 T-033，按依赖推进 M7 未完成任务。
 
-> 版本：v1.56 · 2026-10-08 · 状态：**已冻结（首期）**
+> 版本：v1.57 · 2026-10-13 · 状态：**已冻结（首期）**
+> v1.57：T-039A实证及IPC修正独立结案；DESKTOP_RELEASE.md / CCR-039冻结正式桌面打包/更新/维护流程，GeneralSettingsPatch兼容新增CheckForUpdates、独立Updates客户端，新增无WPF的self-contained维护入口，主应用仍为框架依赖。B完成生产与本地隔离实证，C完成GitHub分发/线上升级闭环。
 > v1.56：T-037/CCR037在19e15f67独立验收结案。LOCALIZATION.md / CCR-038冻结T-038完整zh-CN/en-US界面、稳定启动语言、下次启动生效的General.UiLanguage联合编辑及资源/视觉审计；GeneralSettingsPatch仅兼容新增可选属性，原构造/默认/schema/包保持。
 > v1.55：T-036C/父T-036/CCR036独立验收结案。IPC_COMMAND_LINE.md / CCR-037冻结T-037完整CLI、同用户/同会话命名管道、无数据初始化的第二实例转发和完整停止；IpcCommand仅补安全ToString/说明，默认/包不变。
 > v1.54：T-036B/R1独立验收，按NETWORK_SETTINGS_UI.md签发C完整network页、联合保存、草稿HEAD与完整会话退出；CCR036声明保持，不返工B底座。
@@ -136,7 +137,7 @@ Iris 是一个 Windows 桌面翻译工具（对标 TTime / Pot），常驻系统
 | ADR-08 | **截图 = 先冻结整屏再框选**，每个显示器一个覆盖窗口 | 选区期间画面静止；多屏混合 DPI 下单一跨屏 WPF 窗口会错位 | 单窗口覆盖整个虚拟桌面 |
 | ADR-09 | **选区读取：UIAutomation 优先，模拟 Ctrl+C 兜底** | UIA 不污染剪贴板；很多应用不支持 UIA TextPattern，需要剪贴板兜底 | 仅剪贴板 |
 | ADR-10 | **SQLite + Dapper**（历史），**JSON 文件**（设置） | 零部署、FTS5 支持中文检索；设置需要人类可读 | EF Core（对这个规模太重）、LiteDB |
-| ADR-11 | **Velopack** 打包与自动更新 | 支持增量更新、自动安装 .NET 桌面运行时、无需管理员权限 | MSIX（签名与沙箱限制多）、ClickOnce |
+| ADR-11 | **Velopack** 打包与自动更新 | 每用户应用安装、自动引导 .NET 桌面运行时；共享运行时安装可能需要系统提升，首期使用完整更新包（DESKTOP_RELEASE.md） | MSIX（签名与沙箱限制多）、ClickOnce |
 
 ---
 
@@ -206,9 +207,12 @@ Iris 是一个 Windows 桌面翻译工具（对标 TTime / Pot），常驻系统
 | `Iris.Infrastructure` | `net10.0` | Core | Microsoft.Data.Sqlite、Dapper |
 | `Iris.Platform.Windows` | `net10.0-windows10.0.19041.0` | Core | CsWin32、UIAutomation、System.Security.Cryptography.ProtectedData；**不启用 UseWPF / UseWindowsForms** |
 | `Iris.UiaHost`（T-022B 新增） | `net10.0-windows10.0.19041.0`，Console/MTA | Core、Platform.Windows | 无新增 NuGet 包；不启用 WPF/WinForms，仅执行一个受控 UIA 请求 |
+| `Iris.Maintenance`（T-039B） | `net10.0-windows10.0.19041.0`，WinExe，发布为win-x64 self-contained单文件 | Core、Platform.Windows | Velopack 1.2.161；无WPF/WinForms，不加载主App，仅负责安装/更新/卸载维护 |
 | `Iris.App` | `net10.0-windows10.0.19041.0`，`UseWPF`，`WinExe` | 全部 | WPF-UI、CommunityToolkit.Mvvm、H.NotifyIcon.Wpf、Hosting、Serilog、Velopack |
 
 T-022B 允许 App 对 Iris.UiaHost 增加 ReferenceOutputAssembly=false 的构建/部署引用，发布到 uia/ 子目录；不在 App 进程内加载宿主程序集。Platform.Windows 仍只引用 Core，不能反向引用宿主。架构测试须明确覆盖这一新工程及其空包白名单，不使用 unrestricted 例外绕过检查。该隔离宿主为上方主程序分层图的附属进程，通信仅使用受控 stdin/stdout 协议。
+
+T-039B同样允许App对Maintenance的仅构建/部署引用及Platform必要内部友元；按DESKTOP_RELEASE.md实现独立维护拥有者。共享.NET10缺失时外层安装入口可运行，但主App/UiaHost的框架依赖要求保持。新工程加入明确的项目/包白名单，Providers不依赖Velopack。发布/维护与现有Main完整退出、语言及网络协议一并验证。
 
 `Microsoft.Extensions.*.Abstractions` 在所有层均可引用（各层的 `AddIris*` 扩展方法需要）。除此之外，每个项目的 NuGet 依赖以 `Iris.ArchitectureTests` 中的**包白名单**为准；新增依赖须经架构师批准后同时更新本表与白名单。
 

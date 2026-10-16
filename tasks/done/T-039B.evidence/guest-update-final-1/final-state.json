@@ -1,0 +1,20 @@
+﻿{
+    "TimeUtc":  "2026-10-15T08:49:03.5639406Z",
+    "Processes":  [
+
+                  ],
+    "Identity":  {
+                     "Version":  "0.2.1",
+                     "Channel":  "win",
+                     "PackageId":  "Iris",
+                     "Repository":  "https://github.com/Tmcity/Iris",
+                     "RuntimeId":  "win-x64"
+                 },
+    "InstalledHashes":  {
+                            "en-US\\Iris.App.resources.dll":  "04689628767BC5B5C58562BAA6C268E393955DE74C6634F5A8CE0C22F2FC1E0B",
+                            "Iris.Core.dll":  "96CAC6FBA77A6EA5FBD044614F85C3C987C697C09F63B0C6268983FFCEAF8BDB",
+                            "maintenance\\Iris.Maintenance.exe":  "F2A655E3A07A923E1C44BDE31A2264A3522A3B44518F0CD9A23E6E6FBC560571",
+                            "Iris.App.dll":  "35FC9738008AE57C773A1A621052446B97EDCCE1DD0A1FDC53C7159FE2E399D3",
+                            "uia\\Iris.UiaHost.dll":  "84B6BF73C0D0E0D00BAC05DDAD7CCA13FE5D1F00CF96A4C7EFB718D693D2F2B4"
+                        }
+}

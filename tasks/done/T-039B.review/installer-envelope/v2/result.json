@@ -1,0 +1,90 @@
+{
+  "hostHasSharedDotnet": true,
+  "cleanWindowsInstallNotTestedHere": true,
+  "publishedBaseBytes": 73529065,
+  "publishedBaseSha256": "db0c0b823178149ed36201488f634030051ea261e0eb67b1ac5ce81c53ca95ae",
+  "sourceSha256": {
+    "Program.cs": "5742f6681c38e9391e94fd15063b9478672920b06b0b238786fa7c6e518ec894",
+    "EnvelopeProbe.csproj": "c369f62edb6ada215d83f4dd986e12d95b8e2619eec76edf858cf4ec5df6feb0"
+  },
+  "childEnvironmentOverrides": {
+    "DOTNET_BUNDLE_EXTRACT_BASE_DIR": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-envelope-20261013\\extracted",
+    "DOTNET_ROOT": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-envelope-20261013\\empty-dotnet-root",
+    "DOTNET_ROOT_X64": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-envelope-20261013\\empty-dotnet-root",
+    "DOTNET_MULTILEVEL_LOOKUP": "0"
+  },
+  "cases": [
+    {
+      "case": "valid",
+      "command": [
+        "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-envelope-20261013\\EnvelopeProbe-v2-valid.exe"
+      ],
+      "startedAt": "2026-10-12T18:12:20.055047+00:00",
+      "completedAt": "2026-10-12T18:12:21.271360+00:00",
+      "exitCode": 0,
+      "expectedExitCode": 0,
+      "executableBytes": 73529184,
+      "executableSha256": "c826ef27147d5a0b35a1ce7cb349665d601efeb53a2a4574fd973b3de1e747e0",
+      "observed": {
+        "EntryPointReached": true,
+        "OwnedPrivateRuntime": false,
+        "RuntimeOriginNeedsGuestVerification": true,
+        "RuntimeVersion": "10.0.12",
+        "RuntimePath": null,
+        "RuntimeDirectory": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-envelope-20261013\\",
+        "Outcome": "Verified",
+        "PayloadBytes": 55,
+        "PayloadExecuted": false
+      },
+      "passed": true
+    },
+    {
+      "case": "corrupt",
+      "command": [
+        "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-envelope-20261013\\EnvelopeProbe-v2-corrupt.exe"
+      ],
+      "startedAt": "2026-10-12T18:12:21.363347+00:00",
+      "completedAt": "2026-10-12T18:12:22.126663+00:00",
+      "exitCode": 2,
+      "expectedExitCode": 2,
+      "executableBytes": 73529184,
+      "executableSha256": "24c430f6fc2b53749525a0c81a157906c8a9135fe4f6c8d833035bbb46520091",
+      "observed": {
+        "EntryPointReached": true,
+        "OwnedPrivateRuntime": false,
+        "RuntimeOriginNeedsGuestVerification": true,
+        "RuntimeVersion": "10.0.12",
+        "RuntimePath": null,
+        "RuntimeDirectory": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-envelope-20261013\\",
+        "Outcome": "HashOrContentMismatch",
+        "PayloadBytes": 55,
+        "PayloadExecuted": false
+      },
+      "passed": true
+    },
+    {
+      "case": "bounds",
+      "command": [
+        "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-envelope-20261013\\EnvelopeProbe-v2-bounds.exe"
+      ],
+      "startedAt": "2026-10-12T18:12:22.216501+00:00",
+      "completedAt": "2026-10-12T18:12:23.005188+00:00",
+      "exitCode": 2,
+      "expectedExitCode": 2,
+      "executableBytes": 73529184,
+      "executableSha256": "c343360c7e517c7405ecb20103e041b52dbd3b6c3321b0adb34d109564ab8b61",
+      "observed": {
+        "EntryPointReached": true,
+        "OwnedPrivateRuntime": false,
+        "RuntimeOriginNeedsGuestVerification": true,
+        "RuntimeVersion": "10.0.12",
+        "RuntimePath": null,
+        "RuntimeDirectory": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-envelope-20261013\\",
+        "Outcome": "InvalidBounds",
+        "PayloadBytes": 0,
+        "PayloadExecuted": false
+      },
+      "passed": true
+    }
+  ]
+}

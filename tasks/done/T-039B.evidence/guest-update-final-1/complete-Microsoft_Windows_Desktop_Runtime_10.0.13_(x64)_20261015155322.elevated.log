@@ -1,0 +1,11 @@
+[189C:1874][2026-10-15T15:53:22]i001: Burn x86 v6.0.3-dotnet.6, Windows v10.0 x64 (Build 26100: Service Pack 0), path: C:\Windows\TEMP\{9DBC0BA3-7105-4AAB-8D32-E223D9900D88}\.be\windowsdesktop-runtime-10.0.13-win-x64.exe
+[189C:1874][2026-10-15T15:53:22]i000: Initializing formatted variable 'DOTNETHOME' to value '[DOTNETHOME_X64]'
+[189C:1874][2026-10-15T15:53:22]i000: Initializing string variable 'BUNDLEMONIKER' to value 'Microsoft Windows Desktop Runtime'
+[189C:1874][2026-10-15T15:53:22]i000: Initializing string variable 'DOTNETRUNTIMEVERSION' to value '10.0.13'
+[189C:1874][2026-10-15T15:53:22]i000: Initializing string variable 'DOTNETHOMESIMILARITYCHECKOVERRIDE' to value ''
+[189C:1874][2026-10-15T15:53:22]i000: Initializing string variable 'VERSIONMAJOR' to value '10'
+[189C:1874][2026-10-15T15:53:22]i000: Initializing string variable 'VERSIONMINOR' to value '0'
+[189C:1874][2026-10-15T15:53:22]i000: Initializing string variable 'MINIMUMVSVERSION' to value ''
+[189C:1874][2026-10-15T15:53:22]i009: Command Line: '-q -burn.elevated ***** ***** *****'
+[189C:1874][2026-10-15T15:53:22]i000: Setting string variable 'WixBundleLog' to value 'C:\Users\WDAGUtilityAccount\AppData\Local\Temp\Microsoft_Windows_Desktop_Runtime_10.0.13_(x64)_20261015155322.elevated.log'
+[189C:1874][2026-10-15T16:01:29]i021: Exit code: 0x0

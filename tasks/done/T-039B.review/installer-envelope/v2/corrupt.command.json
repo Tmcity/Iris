@@ -1,0 +1,24 @@
+{
+  "case": "corrupt",
+  "command": [
+    "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-envelope-20261013\\EnvelopeProbe-v2-corrupt.exe"
+  ],
+  "startedAt": "2026-10-12T18:12:21.363347+00:00",
+  "completedAt": "2026-10-12T18:12:22.126663+00:00",
+  "exitCode": 2,
+  "expectedExitCode": 2,
+  "executableBytes": 73529184,
+  "executableSha256": "24c430f6fc2b53749525a0c81a157906c8a9135fe4f6c8d833035bbb46520091",
+  "observed": {
+    "EntryPointReached": true,
+    "OwnedPrivateRuntime": false,
+    "RuntimeOriginNeedsGuestVerification": true,
+    "RuntimeVersion": "10.0.12",
+    "RuntimePath": null,
+    "RuntimeDirectory": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-envelope-20261013\\",
+    "Outcome": "HashOrContentMismatch",
+    "PayloadBytes": 55,
+    "PayloadExecuted": false
+  },
+  "passed": true
+}

@@ -38,7 +38,7 @@ def read_resources(path):
 def placeholders(value):
     return sorted(re.findall(r'(?<!\{)\{(\d+)(?:,[^}:]+)?(?::([^}]+))?\}(?!\})', value))
 
-for project, folder, name in [('Iris.App', 'Resources', 'App'), ('Iris.Core', 'Localization', 'Core')]:
+for project, folder, name in [('Iris.App', 'Resources', 'App'), ('Iris.Core', 'Localization', 'Core'), ('Iris.Maintenance', '', 'Maintenance')]:
     directory = root / 'src' / project / folder
     zh = read_resources(directory / 'Strings.resx')
     en = read_resources(directory / 'Strings.en-US.resx')

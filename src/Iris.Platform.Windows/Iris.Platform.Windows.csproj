@@ -19,6 +19,8 @@
   <ItemGroup>
     <InternalsVisibleTo Include="Iris.Platform.Windows.Tests" />
     <InternalsVisibleTo Include="Iris.App" />
+    <InternalsVisibleTo Include="Iris.Maintenance" />
+    <InternalsVisibleTo Include="Iris.Maintenance.Tests" />
     <InternalsVisibleTo Include="Iris.App.Tests" />
     <InternalsVisibleTo Include="Iris.Clipboard.IsolatedHelper" />
     <InternalsVisibleTo Include="Iris.UiaHost" />

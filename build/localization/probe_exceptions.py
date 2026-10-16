@@ -29,13 +29,13 @@ for name, contents in [('baseline', source), ('ui-mutation', mutant), ('duplicat
     case = output / name
     (case / 'src/Iris.App').mkdir(parents=True, exist_ok=True)
     (case / 'src/Iris.App/App.xaml.cs').write_text(contents, encoding='utf-8')
-    for project, folder in [('Iris.App', 'Resources'), ('Iris.Core', 'Localization')]:
+    for project, folder in [('Iris.App', 'Resources'), ('Iris.Core', 'Localization'), ('Iris.Maintenance', '')]:
         destination = case / 'src' / project / folder
         destination.mkdir(parents=True, exist_ok=True)
         for filename in ['Strings.resx', 'Strings.en-US.resx']:
             shutil.copyfile(root / 'src' / project / folder / filename, destination / filename)
     (case / 'build/localization').mkdir(parents=True, exist_ok=True)
-    for filename in ['exceptions.json', 'app-catalog.json', 'core-catalog.json']:
+    for filename in ['exceptions.json', 'app-catalog.json', 'core-catalog.json', 'maintenance-catalog.json']:
         shutil.copyfile(root / 'build/localization' / filename, case / 'build/localization' / filename)
     inventory = case / 'inventory.json'
     scan = subprocess.run(['dotnet', str(scanner), str(case), str(inventory)], capture_output=True)

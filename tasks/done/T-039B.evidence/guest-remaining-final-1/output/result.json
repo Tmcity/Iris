@@ -1,0 +1,68 @@
+﻿{
+    "Checks":  [
+                   {
+                       "Name":  "bad-installer-exit",
+                       "Value":  2
+                   },
+                   {
+                       "Name":  "bad-installer-exit-two",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "checksum-rejection",
+                       "Value":  {
+                                     "Stage":  "installer-envelope",
+                                     "Pid":  7596,
+                                     "StartedUtcTicks":  639276502373516306,
+                                     "ExitCode":  2,
+                                     "Failures":  [
+                                                      {
+                                                          "Type":  "InvalidDataException",
+                                                          "HResult":  "0x80131501"
+                                                      }
+                                                  ]
+                                 }
+                   },
+                   {
+                       "Name":  "actual-checksum-rejected",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "bad-installer-no-app",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "bad-installer-no-registration",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "bad-installer-no-active-transaction",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "installer-confirmation-text",
+                       "Value":  "Iris\r\n确定\r\n取消\r\n\r\n安装 Iris。缺少 .NET 10 桌面运行时时将由安装程序引导安装，可能需要系统权限。\r\n"
+                   },
+                   {
+                       "Name":  "installer-confirmation-visible",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "cancelled-installer-finished",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "cancelled-installer-exit-zero",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "cancelled-install-no-app",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "runtime-still-present",
+                       "Value":  true
+                   }
+               ],
+    "Failure":  null
+}

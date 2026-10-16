@@ -1,0 +1,236 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Hosting.NetworkHostingTests.CompleteHost_PreparesNetworkBeforeProviderConstruction_AndDrainsWindowThenNetworkBeforeHost(failContent: True) (1s 010ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.InvalidOperationException : 无法对“Iris.App.Settings.SettingsViewModel”类型的只读属性“UpdateProgress”进行 TwoWay 或 OneWayToSource 绑定。
+    在 MS.Internal.Data.PropertyPathWorker.CheckReadOnly(Object item, Object info)
+    在 MS.Internal.Data.PropertyPathWorker.ReplaceItem(Int32 k, Object newO, Object parent)
+    在 MS.Internal.Data.PropertyPathWorker.UpdateSourceValueState(Int32 k, ICollectionView collectionView, Object newValue, Boolean isASubPropertyChange)
+    在 MS.Internal.Data.ClrBindingWorker.AttachDataItem()
+    在 System.Windows.Data.BindingExpression.Activate(Object item)
+    在 System.Windows.Data.BindingExpression.AttachToContext(AttachAttempt attempt)
+    在 System.Windows.Data.BindingExpression.MS.Internal.Data.IDataBindEngineClient.AttachToContext(Boolean lastChance)
+    在 MS.Internal.Data.DataBindEngine.Task.Run(Boolean lastChance)
+    在 MS.Internal.Data.DataBindEngine.Run(Object arg)
+    在 MS.Internal.Data.DataBindEngine.OnLayoutUpdated(Object sender, EventArgs e)
+    在 System.Windows.ContextLayoutManager.fireLayoutUpdateEvent()
+    在 System.Windows.ContextLayoutManager.UpdateLayout()
+    在 System.Windows.Interop.HwndSource.SetLayoutSize()
+    在 System.Windows.Interop.HwndSource.set_RootVisualInternal(Visual value)
+    在 System.Windows.Window.SetRootVisualAndUpdateSTC()
+    在 System.Windows.Window.SetupInitialState(Double requestedTop, Double requestedLeft, Double requestedWidth, Double requestedHeight)
+    在 System.Windows.Window.CreateSourceWindow(Boolean duringShow)
+    在 System.Windows.Window.ShowHelper(Object booleanBox)
+    在 System.Windows.Window.Show()
+    在 Iris.App.Settings.SettingsWindowPresenter.<>c__DisplayClass23_0.<<ShowCoreAsync>b__2>d.MoveNext() 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:287
+    --- End of stack trace from previous location ---
+    在 Iris.App.Settings.SettingsWindowPresenter.<>c__DisplayClass23_0.<<ShowCoreAsync>b__2>d.MoveNext() 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:337
+    --- End of stack trace from previous location ---
+    在 Iris.App.Hosting.WpfUiDispatcher.InvokeAsync(Func`1 callback, CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.App\Hosting\WpfUiDispatcher.cs:50
+    在 Iris.App.Tests.Capture.PreparationDispatcher.InvokeAsync(Func`1 callback, CancellationToken token) 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:92
+    在 Iris.App.Settings.SettingsWindowPresenter.ShowCoreAsync(String targetPage) 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:227
+    在 Iris.App.Settings.SettingsWindowPresenter.CompleteOpenAsync(String page, TaskCompletionSource completion) 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:119
+    在 Iris.App.Settings.SettingsWindowPresenter.ShutdownCoreAsync(SettingsWindowSession sessionToShutdown, PartialWindowCleanup rollbackToShutdown, CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:391
+    在 Iris.App.Tests.Hosting.NetworkHostingTests.<>c__DisplayClass1_0.<<CompleteHost_PreparesNetworkBeforeProviderConstruction_AndDrainsWindowThenNetworkBeforeHost>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\NetworkHostingTests.cs:137
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:40
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:60
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:133
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:153
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    --- End of stack trace from previous location ---
+失败 Iris.App.Tests.Hosting.NetworkHostingTests.CompleteHost_PreparesNetworkBeforeProviderConstruction_AndDrainsWindowThenNetworkBeforeHost(failContent: False) (199ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.InvalidOperationException : 无法对“Iris.App.Settings.SettingsViewModel”类型的只读属性“UpdateProgress”进行 TwoWay 或 OneWayToSource 绑定。
+    在 MS.Internal.Data.PropertyPathWorker.CheckReadOnly(Object item, Object info)
+    在 MS.Internal.Data.PropertyPathWorker.ReplaceItem(Int32 k, Object newO, Object parent)
+    在 MS.Internal.Data.PropertyPathWorker.UpdateSourceValueState(Int32 k, ICollectionView collectionView, Object newValue, Boolean isASubPropertyChange)
+    在 MS.Internal.Data.ClrBindingWorker.AttachDataItem()
+    在 System.Windows.Data.BindingExpression.Activate(Object item)
+    在 System.Windows.Data.BindingExpression.AttachToContext(AttachAttempt attempt)
+    在 System.Windows.Data.BindingExpression.MS.Internal.Data.IDataBindEngineClient.AttachToContext(Boolean lastChance)
+    在 MS.Internal.Data.DataBindEngine.Task.Run(Boolean lastChance)
+    在 MS.Internal.Data.DataBindEngine.Run(Object arg)
+    在 MS.Internal.Data.DataBindEngine.OnLayoutUpdated(Object sender, EventArgs e)
+    在 System.Windows.ContextLayoutManager.fireLayoutUpdateEvent()
+    在 System.Windows.ContextLayoutManager.UpdateLayout()
+    在 System.Windows.Interop.HwndSource.SetLayoutSize()
+    在 System.Windows.Interop.HwndSource.set_RootVisualInternal(Visual value)
+    在 System.Windows.Window.SetRootVisualAndUpdateSTC()
+    在 System.Windows.Window.SetupInitialState(Double requestedTop, Double requestedLeft, Double requestedWidth, Double requestedHeight)
+    在 System.Windows.Window.CreateSourceWindow(Boolean duringShow)
+    在 System.Windows.Window.ShowHelper(Object booleanBox)
+    在 System.Windows.Window.Show()
+    在 Iris.App.Settings.SettingsWindowPresenter.<>c__DisplayClass23_0.<<ShowCoreAsync>b__2>d.MoveNext() 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:287
+    --- End of stack trace from previous location ---
+    在 Iris.App.Settings.SettingsWindowPresenter.<>c__DisplayClass23_0.<<ShowCoreAsync>b__2>d.MoveNext() 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:337
+    --- End of stack trace from previous location ---
+    在 Iris.App.Hosting.WpfUiDispatcher.InvokeAsync(Func`1 callback, CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.App\Hosting\WpfUiDispatcher.cs:50
+    在 Iris.App.Tests.Capture.PreparationDispatcher.InvokeAsync(Func`1 callback, CancellationToken token) 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:92
+    在 Iris.App.Settings.SettingsWindowPresenter.ShowCoreAsync(String targetPage) 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:227
+    在 Iris.App.Settings.SettingsWindowPresenter.CompleteOpenAsync(String page, TaskCompletionSource completion) 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:119
+    在 Iris.App.Settings.SettingsWindowPresenter.ShutdownCoreAsync(SettingsWindowSession sessionToShutdown, PartialWindowCleanup rollbackToShutdown, CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:391
+    在 Iris.App.Tests.Hosting.NetworkHostingTests.<>c__DisplayClass1_0.<<CompleteHost_PreparesNetworkBeforeProviderConstruction_AndDrainsWindowThenNetworkBeforeHost>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\NetworkHostingTests.cs:137
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:40
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:60
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:133
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:153
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    --- End of stack trace from previous location ---
+失败 Iris.App.Tests.Hosting.OcrRegistryHostingTests.ActualWindowOwnerAndGenericHost_DrainRegistryBeforeHost(scenario: "normal") (113ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.InvalidOperationException : 无法对“Iris.App.Settings.SettingsViewModel”类型的只读属性“UpdateProgress”进行 TwoWay 或 OneWayToSource 绑定。
+    在 MS.Internal.Data.PropertyPathWorker.CheckReadOnly(Object item, Object info)
+    在 MS.Internal.Data.PropertyPathWorker.ReplaceItem(Int32 k, Object newO, Object parent)
+    在 MS.Internal.Data.PropertyPathWorker.UpdateSourceValueState(Int32 k, ICollectionView collectionView, Object newValue, Boolean isASubPropertyChange)
+    在 MS.Internal.Data.ClrBindingWorker.AttachDataItem()
+    在 System.Windows.Data.BindingExpression.Activate(Object item)
+    在 System.Windows.Data.BindingExpression.AttachToContext(AttachAttempt attempt)
+    在 System.Windows.Data.BindingExpression.MS.Internal.Data.IDataBindEngineClient.AttachToContext(Boolean lastChance)
+    在 MS.Internal.Data.DataBindEngine.Task.Run(Boolean lastChance)
+    在 MS.Internal.Data.DataBindEngine.Run(Object arg)
+    在 MS.Internal.Data.DataBindEngine.OnLayoutUpdated(Object sender, EventArgs e)
+    在 System.Windows.ContextLayoutManager.fireLayoutUpdateEvent()
+    在 System.Windows.ContextLayoutManager.UpdateLayout()
+    在 System.Windows.Interop.HwndSource.SetLayoutSize()
+    在 System.Windows.Interop.HwndSource.set_RootVisualInternal(Visual value)
+    在 System.Windows.Window.SetRootVisualAndUpdateSTC()
+    在 System.Windows.Window.SetupInitialState(Double requestedTop, Double requestedLeft, Double requestedWidth, Double requestedHeight)
+    在 System.Windows.Window.CreateSourceWindow(Boolean duringShow)
+    在 System.Windows.Window.ShowHelper(Object booleanBox)
+    在 System.Windows.Window.Show()
+    在 Iris.App.Settings.SettingsWindowPresenter.<>c__DisplayClass23_0.<<ShowCoreAsync>b__2>d.MoveNext() 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:287
+    --- End of stack trace from previous location ---
+    在 Iris.App.Settings.SettingsWindowPresenter.<>c__DisplayClass23_0.<<ShowCoreAsync>b__2>d.MoveNext() 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:337
+    --- End of stack trace from previous location ---
+    在 Iris.App.Hosting.WpfUiDispatcher.InvokeAsync(Func`1 callback, CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.App\Hosting\WpfUiDispatcher.cs:50
+    在 Iris.App.Tests.Capture.PreparationDispatcher.InvokeAsync(Func`1 callback, CancellationToken token) 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:92
+    在 Iris.App.Settings.SettingsWindowPresenter.ShowCoreAsync(String targetPage) 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:227
+    在 Iris.App.Settings.SettingsWindowPresenter.CompleteOpenAsync(String page, TaskCompletionSource completion) 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:119
+    在 Iris.App.Settings.SettingsWindowPresenter.ShutdownCoreAsync(SettingsWindowSession sessionToShutdown, PartialWindowCleanup rollbackToShutdown, CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:391
+    在 Iris.App.Tests.Hosting.OcrRegistryHostingTests.<>c__DisplayClass0_0.<<ActualWindowOwnerAndGenericHost_DrainRegistryBeforeHost>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\OcrRegistryHostingTests.cs:113
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:40
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:60
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:133
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:153
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    --- End of stack trace from previous location ---
+失败 Iris.App.Tests.Hosting.OcrRegistryHostingTests.ActualWindowOwnerAndGenericHost_DrainRegistryBeforeHost(scenario: "owner-failure") (118ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.InvalidOperationException : 无法对“Iris.App.Settings.SettingsViewModel”类型的只读属性“UpdateProgress”进行 TwoWay 或 OneWayToSource 绑定。
+    在 MS.Internal.Data.PropertyPathWorker.CheckReadOnly(Object item, Object info)
+    在 MS.Internal.Data.PropertyPathWorker.ReplaceItem(Int32 k, Object newO, Object parent)
+    在 MS.Internal.Data.PropertyPathWorker.UpdateSourceValueState(Int32 k, ICollectionView collectionView, Object newValue, Boolean isASubPropertyChange)
+    在 MS.Internal.Data.ClrBindingWorker.AttachDataItem()
+    在 System.Windows.Data.BindingExpression.Activate(Object item)
+    在 System.Windows.Data.BindingExpression.AttachToContext(AttachAttempt attempt)
+    在 System.Windows.Data.BindingExpression.MS.Internal.Data.IDataBindEngineClient.AttachToContext(Boolean lastChance)
+    在 MS.Internal.Data.DataBindEngine.Task.Run(Boolean lastChance)
+    在 MS.Internal.Data.DataBindEngine.Run(Object arg)
+    在 MS.Internal.Data.DataBindEngine.OnLayoutUpdated(Object sender, EventArgs e)
+    在 System.Windows.ContextLayoutManager.fireLayoutUpdateEvent()
+    在 System.Windows.ContextLayoutManager.UpdateLayout()
+    在 System.Windows.Interop.HwndSource.SetLayoutSize()
+    在 System.Windows.Interop.HwndSource.set_RootVisualInternal(Visual value)
+    在 System.Windows.Window.SetRootVisualAndUpdateSTC()
+    在 System.Windows.Window.SetupInitialState(Double requestedTop, Double requestedLeft, Double requestedWidth, Double requestedHeight)
+    在 System.Windows.Window.CreateSourceWindow(Boolean duringShow)
+    在 System.Windows.Window.ShowHelper(Object booleanBox)
+    在 System.Windows.Window.Show()
+    在 Iris.App.Settings.SettingsWindowPresenter.<>c__DisplayClass23_0.<<ShowCoreAsync>b__2>d.MoveNext() 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:287
+    --- End of stack trace from previous location ---
+    在 Iris.App.Settings.SettingsWindowPresenter.<>c__DisplayClass23_0.<<ShowCoreAsync>b__2>d.MoveNext() 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:337
+    --- End of stack trace from previous location ---
+    在 Iris.App.Hosting.WpfUiDispatcher.InvokeAsync(Func`1 callback, CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.App\Hosting\WpfUiDispatcher.cs:50
+    在 Iris.App.Tests.Capture.PreparationDispatcher.InvokeAsync(Func`1 callback, CancellationToken token) 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:92
+    在 Iris.App.Settings.SettingsWindowPresenter.ShowCoreAsync(String targetPage) 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:227
+    在 Iris.App.Settings.SettingsWindowPresenter.CompleteOpenAsync(String page, TaskCompletionSource completion) 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:119
+    在 Iris.App.Settings.SettingsWindowPresenter.ShutdownCoreAsync(SettingsWindowSession sessionToShutdown, PartialWindowCleanup rollbackToShutdown, CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:391
+    在 Iris.App.Tests.Hosting.OcrRegistryHostingTests.<>c__DisplayClass0_0.<<ActualWindowOwnerAndGenericHost_DrainRegistryBeforeHost>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\OcrRegistryHostingTests.cs:113
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:40
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:60
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:133
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:153
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    --- End of stack trace from previous location ---
+失败 Iris.App.Tests.Hosting.OcrRegistryHostingTests.ActualWindowOwnerAndGenericHost_DrainRegistryBeforeHost(scenario: "early-failure") (105ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.InvalidOperationException : 无法对“Iris.App.Settings.SettingsViewModel”类型的只读属性“UpdateProgress”进行 TwoWay 或 OneWayToSource 绑定。
+    在 MS.Internal.Data.PropertyPathWorker.CheckReadOnly(Object item, Object info)
+    在 MS.Internal.Data.PropertyPathWorker.ReplaceItem(Int32 k, Object newO, Object parent)
+    在 MS.Internal.Data.PropertyPathWorker.UpdateSourceValueState(Int32 k, ICollectionView collectionView, Object newValue, Boolean isASubPropertyChange)
+    在 MS.Internal.Data.ClrBindingWorker.AttachDataItem()
+    在 System.Windows.Data.BindingExpression.Activate(Object item)
+    在 System.Windows.Data.BindingExpression.AttachToContext(AttachAttempt attempt)
+    在 System.Windows.Data.BindingExpression.MS.Internal.Data.IDataBindEngineClient.AttachToContext(Boolean lastChance)
+    在 MS.Internal.Data.DataBindEngine.Task.Run(Boolean lastChance)
+    在 MS.Internal.Data.DataBindEngine.Run(Object arg)
+    在 MS.Internal.Data.DataBindEngine.OnLayoutUpdated(Object sender, EventArgs e)
+    在 System.Windows.ContextLayoutManager.fireLayoutUpdateEvent()
+    在 System.Windows.ContextLayoutManager.UpdateLayout()
+    在 System.Windows.Interop.HwndSource.SetLayoutSize()
+    在 System.Windows.Interop.HwndSource.set_RootVisualInternal(Visual value)
+    在 System.Windows.Window.SetRootVisualAndUpdateSTC()
+    在 System.Windows.Window.SetupInitialState(Double requestedTop, Double requestedLeft, Double requestedWidth, Double requestedHeight)
+    在 System.Windows.Window.CreateSourceWindow(Boolean duringShow)
+    在 System.Windows.Window.ShowHelper(Object booleanBox)
+    在 System.Windows.Window.Show()
+    在 Iris.App.Settings.SettingsWindowPresenter.<>c__DisplayClass23_0.<<ShowCoreAsync>b__2>d.MoveNext() 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:287
+    --- End of stack trace from previous location ---
+    在 Iris.App.Settings.SettingsWindowPresenter.<>c__DisplayClass23_0.<<ShowCoreAsync>b__2>d.MoveNext() 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:337
+    --- End of stack trace from previous location ---
+    在 Iris.App.Hosting.WpfUiDispatcher.InvokeAsync(Func`1 callback, CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.App\Hosting\WpfUiDispatcher.cs:50
+    在 Iris.App.Tests.Capture.PreparationDispatcher.InvokeAsync(Func`1 callback, CancellationToken token) 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:92
+    在 Iris.App.Settings.SettingsWindowPresenter.ShowCoreAsync(String targetPage) 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:227
+    在 Iris.App.Settings.SettingsWindowPresenter.CompleteOpenAsync(String page, TaskCompletionSource completion) 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:119
+    在 Iris.App.Settings.SettingsWindowPresenter.ShutdownCoreAsync(SettingsWindowSession sessionToShutdown, PartialWindowCleanup rollbackToShutdown, CancellationToken cancellationToken) 位于 F:\Iris\src\Iris.App\Settings\SettingsWindowPresenter.cs:391
+    在 Iris.App.Tests.Hosting.OcrRegistryHostingTests.<>c__DisplayClass0_0.<<ActualWindowOwnerAndGenericHost_DrainRegistryBeforeHost>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\OcrRegistryHostingTests.cs:113
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:40
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Capture.PreparationTestScope.<>c__DisplayClass19_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Capture\PreparationTestScope.cs:60
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:133
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.Selection.MouseInteractionTestScope.<>c__DisplayClass55_0.<<Run>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\Selection\MouseInteractionTestScope.cs:153
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass9_0.<<RunAsync>b__0>d.MoveNext() 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:64
+    --- End of stack trace from previous location ---
+    在 Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) 位于 F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:73
+    --- End of stack trace from previous location ---
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 5 个错误 (5s 113ms)
+退出代码: 2
+
+测试运行摘要: 失败!
+  总计: 157
+  失败: 5
+  成功: 152
+  已跳过: 0
+  持续时间: 5s 337ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

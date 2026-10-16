@@ -1,0 +1,1 @@
+{"Args": ["exec", "--id", "6c78cae4-13ed-4267-86cf-37929842317c", "--command", "cmd.exe /c exit 0", "--run-as", "ExistingLogin", "--raw"], "ExitCode": 2147943712}

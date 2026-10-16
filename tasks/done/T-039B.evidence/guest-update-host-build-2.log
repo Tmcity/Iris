@@ -1,0 +1,10 @@
+  正在确定要还原的项目…
+  已还原 F:\Iris\tasks\done\T-039B.evidence\GuestUpdateHost\GuestUpdateHost.csproj (用时 3.01 秒)。
+  4 个项目(共 5 个)是最新的，无法还原。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Infrastructure -> F:\Iris\src\Iris.Infrastructure\bin\Release\net10.0\Iris.Infrastructure.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.Maintenance -> F:\Iris\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.dll
+F:\Iris\tasks\done\T-039B.evidence\GuestUpdateHost\GuestData.cs(19,58): error CS1061: “ServiceCollection”未包含“AddLogging”的定义，并且找不到可接受第一个“ServiceCollection”类型参数的可访问扩展方法“AddLogging”(是否缺少 using 指令或程序集引用?) [F:\Iris\tasks\done\T-039B.evidence\GuestUpdateHost\GuestUpdateHost.csproj]
+F:\Iris\tasks\done\T-039B.evidence\GuestUpdateHost\GuestData.cs(21,45): error CS1061: “ServiceCollection”未包含“BuildServiceProvider”的定义，并且找不到可接受第一个“ServiceCollection”类型参数的可访问扩展方法“BuildServiceProvider”(是否缺少 using 指令或程序集引用?) [F:\Iris\tasks\done\T-039B.evidence\GuestUpdateHost\GuestUpdateHost.csproj]
+F:\Iris\tasks\done\T-039B.evidence\GuestUpdateHost\GuestData.cs(36,32): error CS1061: “PagedResult<HistorySummary>”未包含“Total”的定义，并且找不到可接受第一个“PagedResult<HistorySummary>”类型参数的可访问扩展方法“Total”(是否缺少 using 指令或程序集引用?) [F:\Iris\tasks\done\T-039B.evidence\GuestUpdateHost\GuestUpdateHost.csproj]

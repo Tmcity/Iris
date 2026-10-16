@@ -1,0 +1,52 @@
+{
+  "capturedAt": "2026-10-12T19:13:55.258774+00:00",
+  "assemblies": [
+    {
+      "source": "F:\\Iris\\src\\Iris.Maintenance\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Core.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-child-ownership-20261013\\candidate\\Iris.Core.dll",
+      "sha256": "ef091340cdaac50563fa71e351d27da2bda994923167cf533eb0d83cb9d921b1"
+    },
+    {
+      "source": "F:\\Iris\\src\\Iris.Maintenance\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Maintenance.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-child-ownership-20261013\\candidate\\Iris.Maintenance.dll",
+      "sha256": "6680a4de102360b06fc53d3411a67c4f89055f46035456ec3dedc81604061d45"
+    },
+    {
+      "source": "F:\\Iris\\src\\Iris.Maintenance\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Platform.Windows.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-child-ownership-20261013\\candidate\\Iris.Platform.Windows.dll",
+      "sha256": "c823c51229597e21850575d044dc9494f84fa4774d550df9959cc49fa8f1bcaf"
+    },
+    {
+      "source": "F:\\Iris\\src\\Iris.Maintenance\\bin\\Release\\net10.0-windows10.0.19041.0\\Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-child-ownership-20261013\\candidate\\Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "sha256": "da04edc338d5aa0f38a1f5fa5ff3ee7e36affe9c961daf3ea724a428bd746bc6"
+    },
+    {
+      "source": "F:\\Iris\\src\\Iris.Maintenance\\bin\\Release\\net10.0-windows10.0.19041.0\\Microsoft.Extensions.Logging.Abstractions.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-child-ownership-20261013\\candidate\\Microsoft.Extensions.Logging.Abstractions.dll",
+      "sha256": "7c242f8ca612fa1acc61f78efd5f8c89e01bd0bd47dc4ecc65e0e6e24f1a1668"
+    },
+    {
+      "source": "F:\\Iris\\src\\Iris.Maintenance\\bin\\Release\\net10.0-windows10.0.19041.0\\Microsoft.Windows.SDK.NET.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-child-ownership-20261013\\candidate\\Microsoft.Windows.SDK.NET.dll",
+      "sha256": "0ec371d93798852e36461c8adddbeadce0f963a04752f0b64e54fe19c1c834a7"
+    },
+    {
+      "source": "F:\\Iris\\src\\Iris.Maintenance\\bin\\Release\\net10.0-windows10.0.19041.0\\System.Security.Cryptography.ProtectedData.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-child-ownership-20261013\\candidate\\System.Security.Cryptography.ProtectedData.dll",
+      "sha256": "b61a1445b99a1486a5d9abbd45d766497f136270f5b04862defee1fc054ded14"
+    },
+    {
+      "source": "F:\\Iris\\src\\Iris.Maintenance\\bin\\Release\\net10.0-windows10.0.19041.0\\Velopack.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-child-ownership-20261013\\candidate\\Velopack.dll",
+      "sha256": "969853e147e95b3f46192425cfea7eae8837aea79f3e2b2c7cc0aa34b5703153"
+    },
+    {
+      "source": "F:\\Iris\\src\\Iris.Maintenance\\bin\\Release\\net10.0-windows10.0.19041.0\\WinRT.Runtime.dll",
+      "copy": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-child-ownership-20261013\\candidate\\WinRT.Runtime.dll",
+      "sha256": "bcf3a14e8712a90837fc5c0d8c8a24696af2bd7f74e9767597ec81ededfb23db"
+    }
+  ],
+  "sourceSha256": "dc82f552f6ebb99704593377329f85c0562315b0acfc0b65484812469a5258ab",
+  "probeSha256": "051a41378c0506cf5ae5abbf9592f0e268eaaa775395abb8160c5c138479268d"
+}

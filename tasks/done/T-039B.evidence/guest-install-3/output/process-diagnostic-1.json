@@ -1,0 +1,596 @@
+[
+    {
+        "ProcessId":  0,
+        "ParentProcessId":  0,
+        "CreationDate":  "\/Date(1791984421232)\/",
+        "CommandLine":  null
+    },
+    {
+        "ProcessId":  4,
+        "ParentProcessId":  0,
+        "CreationDate":  "\/Date(1791984421232)\/",
+        "CommandLine":  null
+    },
+    {
+        "ProcessId":  288,
+        "ParentProcessId":  4,
+        "CreationDate":  "\/Date(1791984415553)\/",
+        "CommandLine":  null
+    },
+    {
+        "ProcessId":  328,
+        "ParentProcessId":  4,
+        "CreationDate":  "\/Date(1791984415618)\/",
+        "CommandLine":  null
+    },
+    {
+        "ProcessId":  976,
+        "ParentProcessId":  4,
+        "CreationDate":  "\/Date(1791984421237)\/",
+        "CommandLine":  null
+    },
+    {
+        "ProcessId":  1080,
+        "ParentProcessId":  1068,
+        "CreationDate":  "\/Date(1791984421659)\/",
+        "CommandLine":  null
+    },
+    {
+        "ProcessId":  1144,
+        "ParentProcessId":  1068,
+        "CreationDate":  "\/Date(1791984421913)\/",
+        "CommandLine":  null
+    },
+    {
+        "ProcessId":  1208,
+        "ParentProcessId":  1144,
+        "CreationDate":  "\/Date(1791984421972)\/",
+        "CommandLine":  null
+    },
+    {
+        "ProcessId":  1228,
+        "ParentProcessId":  1144,
+        "CreationDate":  "\/Date(1791984422020)\/",
+        "CommandLine":  null
+    },
+    {
+        "ProcessId":  1236,
+        "ParentProcessId":  1144,
+        "CreationDate":  "\/Date(1791984422024)\/",
+        "CommandLine":  null
+    },
+    {
+        "ProcessId":  1376,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984422387)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k DcomLaunch -p"
+    },
+    {
+        "ProcessId":  1408,
+        "ParentProcessId":  1144,
+        "CreationDate":  "\/Date(1791984422400)\/",
+        "CommandLine":  "\"fontdrvhost.exe\""
+    },
+    {
+        "ProcessId":  1468,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984422445)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k RPCSS -p"
+    },
+    {
+        "ProcessId":  1640,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423127)\/",
+        "CommandLine":  "C:\\Windows\\System32\\svchost.exe -k LocalSystemNetworkRestricted -p"
+    },
+    {
+        "ProcessId":  1648,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423128)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k appmodel -p"
+    },
+    {
+        "ProcessId":  1660,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423128)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k netsvcs -p"
+    },
+    {
+        "ProcessId":  1684,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423130)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k NetworkService -p"
+    },
+    {
+        "ProcessId":  1844,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423167)\/",
+        "CommandLine":  null
+    },
+    {
+        "ProcessId":  1852,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423167)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k LocalService -p"
+    },
+    {
+        "ProcessId":  1860,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423168)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k LocalServiceNetworkRestricted -p"
+    },
+    {
+        "ProcessId":  1992,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423187)\/",
+        "CommandLine":  "C:\\Windows\\System32\\svchost.exe -k netprofm -p"
+    },
+    {
+        "ProcessId":  956,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423796)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k GPSvcGroup"
+    },
+    {
+        "ProcessId":  936,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423796)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k UserProfileService -p"
+    },
+    {
+        "ProcessId":  1028,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423798)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k LocalServiceRedirectionGuard -p"
+    },
+    {
+        "ProcessId":  1512,
+        "ParentProcessId":  4,
+        "CreationDate":  "\/Date(1791984423802)\/",
+        "CommandLine":  null
+    },
+    {
+        "ProcessId":  2104,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423822)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k netsvcsRedirectionGuard -p"
+    },
+    {
+        "ProcessId":  2260,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423855)\/",
+        "CommandLine":  "C:\\Windows\\System32\\svchost.exe -k LocalServiceNetworkRestricted -p"
+    },
+    {
+        "ProcessId":  2280,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423861)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k NetworkService -p"
+    },
+    {
+        "ProcessId":  2328,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423871)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k LocalServiceNoNetwork -p"
+    },
+    {
+        "ProcessId":  2432,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423946)\/",
+        "CommandLine":  "C:\\Windows\\System32\\svchost.exe -k LocalSystemNetworkRestricted -p"
+    },
+    {
+        "ProcessId":  2488,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423966)\/",
+        "CommandLine":  "C:\\Windows\\System32\\svchost.exe -k LocalServiceNetworkRestricted -p -s DusmSvc"
+    },
+    {
+        "ProcessId":  2548,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984423983)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k LocalServiceHttp -p"
+    },
+    {
+        "ProcessId":  2648,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984424006)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k LocalServiceNetworkRestricted -p -s Wcmsvc"
+    },
+    {
+        "ProcessId":  2764,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984424033)\/",
+        "CommandLine":  "C:\\Windows\\System32\\spoolsv.exe"
+    },
+    {
+        "ProcessId":  2852,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984424053)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k LocalServiceNoNetworkFirewall -p"
+    },
+    {
+        "ProcessId":  2880,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984424059)\/",
+        "CommandLine":  "C:\\Windows\\System32\\svchost.exe -k NetworkService -p"
+    },
+    {
+        "ProcessId":  2992,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984424096)\/",
+        "CommandLine":  "C:\\Windows\\System32\\svchost.exe -k TerminalService"
+    },
+    {
+        "ProcessId":  2656,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984424115)\/",
+        "CommandLine":  null
+    },
+    {
+        "ProcessId":  2620,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984424117)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k osprivacy -p"
+    },
+    {
+        "ProcessId":  2612,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984424117)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k LocalSystemNetworkRestricted"
+    },
+    {
+        "ProcessId":  2592,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984424118)\/",
+        "CommandLine":  null
+    },
+    {
+        "ProcessId":  2792,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984424118)\/",
+        "CommandLine":  "C:\\Windows\\System32\\svchost.exe -k utcsvc -p"
+    },
+    {
+        "ProcessId":  2836,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984424122)\/",
+        "CommandLine":  "C:\\Windows\\system32\\cexecsvc.exe"
+    },
+    {
+        "ProcessId":  3424,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984424180)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k WSAIFabricSvcGroup -p"
+    },
+    {
+        "ProcessId":  3560,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1791984424215)\/",
+        "CommandLine":  "C:\\Windows\\system32\\vmcomputeagent.exe"
+    },
+    {
+        "ProcessId":  2976,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792007890308)\/",
+        "CommandLine":  "C:\\Windows\\servicing\\TrustedInstaller.exe"
+    },
+    {
+        "ProcessId":  2068,
+        "ParentProcessId":  1376,
+        "CreationDate":  "\/Date(1792007890337)\/",
+        "CommandLine":  "C:\\Windows\\winsxs\\amd64_microsoft-windows-servicingstack_31bf3856ad364e35_10.0.26100.1_none_065309a92fd714e9\\TiWorker.exe -Embedding"
+    },
+    {
+        "ProcessId":  1460,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792007891045)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k NetworkServiceNetworkRestricted -p"
+    },
+    {
+        "ProcessId":  4232,
+        "ParentProcessId":  4224,
+        "CreationDate":  "\/Date(1792007892121)\/",
+        "CommandLine":  null
+    },
+    {
+        "ProcessId":  4280,
+        "ParentProcessId":  4224,
+        "CreationDate":  "\/Date(1792007892200)\/",
+        "CommandLine":  "winlogon.exe {01EE6C4D-AED9-4D36-90F8-9D2C20C65F88}"
+    },
+    {
+        "ProcessId":  4328,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792007892541)\/",
+        "CommandLine":  "\"C:\\Windows\\System32\\WUDFHost.exe\" -HostGUID:{193a1820-d9ac-4997-8c55-be817523f6aa} -IoEventPortName:\\UMDFCommunicationPorts\\WUDF\\HostProcess-4f402fb4-fe68-4b74-9592-8b593b7517d9 -SystemEventPortName:\\UMDFCommunicationPorts\\WUDF\\HostProcess-f12363a1-b99d-48f1-a021-b1d8155b50f5 -IoCancelEventPortName:\\UMDFCommunicationPorts\\WUDF\\HostProcess-d390c3b4-0110-4ff6-b46c-c5498625779a -NonStateChangingEventPortName:\\UMDFCommunicationPorts\\WUDF\\HostProcess-38387696-a018-48f5-a0f0-54c6707e6a97 -LifetimeId:8c83ad3f-23c4-48a2-8d70-0140529193dd -DeviceGroupId: -HostArg:16"
+    },
+    {
+        "ProcessId":  4348,
+        "ParentProcessId":  4280,
+        "CreationDate":  "\/Date(1792007892551)\/",
+        "CommandLine":  "\"fontdrvhost.exe\""
+    },
+    {
+        "ProcessId":  4444,
+        "ParentProcessId":  4280,
+        "CreationDate":  "\/Date(1792007892617)\/",
+        "CommandLine":  "\"dwm.exe\""
+    },
+    {
+        "ProcessId":  4888,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792007893069)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k WebThreatDefense -p"
+    },
+    {
+        "ProcessId":  5024,
+        "ParentProcessId":  2992,
+        "CreationDate":  "\/Date(1792007893176)\/",
+        "CommandLine":  "rdpclip"
+    },
+    {
+        "ProcessId":  5064,
+        "ParentProcessId":  1660,
+        "CreationDate":  "\/Date(1792007893210)\/",
+        "CommandLine":  "sihost.exe"
+    },
+    {
+        "ProcessId":  4220,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792007893236)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k UnistackSvcGroup"
+    },
+    {
+        "ProcessId":  3148,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792007893250)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k LocalSystemNetworkRestricted -p"
+    },
+    {
+        "ProcessId":  4400,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792007893292)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k netsvcs -p"
+    },
+    {
+        "ProcessId":  5276,
+        "ParentProcessId":  5024,
+        "CreationDate":  "\/Date(1792007893375)\/",
+        "CommandLine":  "\"C:\\Windows\\System32\\rdpinput.EXE\" "
+    },
+    {
+        "ProcessId":  5504,
+        "ParentProcessId":  5468,
+        "CreationDate":  "\/Date(1792007893489)\/",
+        "CommandLine":  "C:\\Windows\\Explorer.EXE"
+    },
+    {
+        "ProcessId":  5572,
+        "ParentProcessId":  5064,
+        "CreationDate":  "\/Date(1792007893518)\/",
+        "CommandLine":  "\"C:\\Windows\\System32\\ShellHost.exe\""
+    },
+    {
+        "ProcessId":  5784,
+        "ParentProcessId":  1660,
+        "CreationDate":  "\/Date(1792007893723)\/",
+        "CommandLine":  "taskhostw.exe {222A245B-E637-4AE9-A93F-A59CA119A75E}"
+    },
+    {
+        "ProcessId":  5984,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792007893989)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k ClipboardSvcGroup -p"
+    },
+    {
+        "ProcessId":  5616,
+        "ParentProcessId":  1376,
+        "CreationDate":  "\/Date(1792007894390)\/",
+        "CommandLine":  "\"C:\\Windows\\SystemApps\\Microsoft.Windows.StartMenuExperienceHost_cw5n1h2txyewy\\StartMenuExperienceHost.exe\" -ServerName:FullTrustApp.AppXykjsye98af63ez2annt9djke8trg8stn.mca"
+    },
+    {
+        "ProcessId":  5648,
+        "ParentProcessId":  1376,
+        "CreationDate":  "\/Date(1792007894390)\/",
+        "CommandLine":  "\"C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\SearchHost.exe\" -ServerName:CortanaUI.AppXstmwaab17q5s3y22tp6apqz7a45vwv65.mca"
+    },
+    {
+        "ProcessId":  5940,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792007894709)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k UdkSvcGroup"
+    },
+    {
+        "ProcessId":  5968,
+        "ParentProcessId":  1376,
+        "CreationDate":  "\/Date(1792007894717)\/",
+        "CommandLine":  "C:\\Windows\\System32\\RuntimeBroker.exe -Embedding"
+    },
+    {
+        "ProcessId":  6208,
+        "ParentProcessId":  2836,
+        "CreationDate":  "\/Date(1792007894992)\/",
+        "CommandLine":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\\IrisBInput\\guest_install.ps1"
+    },
+    {
+        "ProcessId":  6948,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792007895403)\/",
+        "CommandLine":  "C:\\Windows\\System32\\svchost.exe -k LocalServiceNetworkRestricted"
+    },
+    {
+        "ProcessId":  7020,
+        "ParentProcessId":  1376,
+        "CreationDate":  "\/Date(1792007895451)\/",
+        "CommandLine":  "C:\\Windows\\system32\\wbem\\wmiprvse.exe"
+    },
+    {
+        "ProcessId":  7096,
+        "ParentProcessId":  2432,
+        "CreationDate":  "\/Date(1792007895512)\/",
+        "CommandLine":  "/QuitInfo:0000000000000320;0000000000000324; "
+    },
+    {
+        "ProcessId":  6376,
+        "ParentProcessId":  2432,
+        "CreationDate":  "\/Date(1792007895629)\/",
+        "CommandLine":  "/QuitInfo:0000000000000344;0000000000000338;  "
+    },
+    {
+        "ProcessId":  6592,
+        "ParentProcessId":  5648,
+        "CreationDate":  "\/Date(1792007895641)\/",
+        "CommandLine":  "\"C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\155.0.4283.45\\msedgewebview2.exe\" --embedded-browser-webview=1 --webview-exe-name=SearchHost.exe --webview-exe-version=2608.25008.200.0 --user-data-dir=\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Packages\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\LocalState\\EBWebView\" --noerrdialogs --disable-features=msSmartScreenProtection --edge-webview-enable-mojo-ipcz --enable-features=msEdgeFluentOverlayScrollbar --user-agent=\"Mozilla/5.0 (Windows NT 10.0; Win64; x64; Cortana 1.18.9.23723; 10.0.0.0.26100.9550) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.26100 IsWebView2/True (WebView2Version 155.0.4283.45)\" --lang=zh-Hans-CN --mojo-named-platform-channel-pipe=5648.6296.7693432273765168832 /pfhostedapp:742b1f7ac3117afa3e29f47b6e2af0f1eea8bda4"
+    },
+    {
+        "ProcessId":  4564,
+        "ParentProcessId":  6592,
+        "CreationDate":  "\/Date(1792007895749)\/",
+        "CommandLine":  "\"C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\155.0.4283.45\\msedgewebview2.exe\" --type=crashpad-handler --user-data-dir=C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Packages\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\LocalState\\EBWebView /prefetch:4 /pfhostedapp:742b1f7ac3117afa3e29f47b6e2af0f1eea8bda4 --monitor-self-annotation=ptype=crashpad-handler --database=C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Packages\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\LocalState\\EBWebView\\Crashpad --annotation=IsOfficialBuild=1 --annotation=channel= --annotation=chromium-version=155.0.8059.40 \"--annotation=exe=C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\155.0.4283.45\\msedgewebview2.exe\" --annotation=plat=Win64 \"--annotation=prod=Edge WebView2\" --annotation=ver=155.0.4283.45 --initial-client-data=0x158,0x17c,0x180,0x138,0x188,0x7ffbc86183e0,0x7ffbc86183f0,0x7ffbc8618400"
+    },
+    {
+        "ProcessId":  7320,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792007896008)\/",
+        "CommandLine":  "C:\\Windows\\System32\\svchost.exe -k netsvcs -p"
+    },
+    {
+        "ProcessId":  7472,
+        "ParentProcessId":  1376,
+        "CreationDate":  "\/Date(1792007896575)\/",
+        "CommandLine":  "C:\\Windows\\System32\\InputMethod\\CHS\\ChsIME.exe -Embedding"
+    },
+    {
+        "ProcessId":  7792,
+        "ParentProcessId":  6592,
+        "CreationDate":  "\/Date(1792007898278)\/",
+        "CommandLine":  "\"C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\155.0.4283.45\\msedgewebview2.exe\" --type=gpu-process --gpu-recent-crash-count=0 --noerrdialogs --user-agent=\"Mozilla/5.0 (Windows NT 10.0; Win64; x64; Cortana 1.18.9.23723; 10.0.0.0.26100.9550) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.26100 IsWebView2/True (WebView2Version 155.0.4283.45)\" --user-data-dir=\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Packages\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\LocalState\\EBWebView\" --webview-exe-name=SearchHost.exe --webview-exe-version=2608.25008.200.0 --embedded-browser-webview=1 --gpu-preferences=WAAAAAAAAADgAAAEAAAAAAAAAAAAAGAAQAAAAAAAAAADAAAAAAAAADgAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAKAAAAAAAAAAoAAAAAAAAAAgAAAAAAAAAEAAAAAIAAAABAAAAAAAAAAgAAAAAAAAACAAAAAAAAAA= --startup-read-main-dll --metrics-shmem-handle=1980,i,2753550603433424016,2217818814953908344,262144 --field-trial-handle=2008,i,10795402519401024747,1576671335332794929,262144 --enable-features=msEdgeFluentOverlayScrollbar --disable-features=msSmartScreenProtection --variations-seed-version --pseudonymization-salt-handle=2016,i,11589141772614380749,14560256932520716617,4 --trace-process-track-uuid=3190708988185955192 --mojo-platform-channel-handle=2004 /prefetch:2 /pfhostedapp:742b1f7ac3117afa3e29f47b6e2af0f1eea8bda4"
+    },
+    {
+        "ProcessId":  7816,
+        "ParentProcessId":  6592,
+        "CreationDate":  "\/Date(1792007898280)\/",
+        "CommandLine":  "\"C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\155.0.4283.45\\msedgewebview2.exe\" --type=utility --utility-sub-type=network.mojom.NetworkService --lang=zh-CN --service-sandbox-type=none --noerrdialogs --user-agent=\"Mozilla/5.0 (Windows NT 10.0; Win64; x64; Cortana 1.18.9.23723; 10.0.0.0.26100.9550) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.26100 IsWebView2/True (WebView2Version 155.0.4283.45)\" --user-data-dir=\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Packages\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\LocalState\\EBWebView\" --webview-exe-name=SearchHost.exe --webview-exe-version=2608.25008.200.0 --embedded-browser-webview=1 --startup-read-main-dll --metrics-shmem-handle=2240,i,4748723342337394197,6848746980820087329,524288 --field-trial-handle=2008,i,10795402519401024747,1576671335332794929,262144 --enable-features=msEdgeFluentOverlayScrollbar --disable-features=msSmartScreenProtection --variations-seed-version --pseudonymization-salt-handle=2016,i,11589141772614380749,14560256932520716617,4 --trace-process-track-uuid=3190708989122997041 --mojo-platform-channel-handle=3108 /prefetch:11 /pfhostedapp:742b1f7ac3117afa3e29f47b6e2af0f1eea8bda4"
+    },
+    {
+        "ProcessId":  7884,
+        "ParentProcessId":  6592,
+        "CreationDate":  "\/Date(1792007898303)\/",
+        "CommandLine":  "\"C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\155.0.4283.45\\msedgewebview2.exe\" --type=utility --utility-sub-type=storage.mojom.StorageService --lang=zh-CN --service-sandbox-type=service --noerrdialogs --user-agent=\"Mozilla/5.0 (Windows NT 10.0; Win64; x64; Cortana 1.18.9.23723; 10.0.0.0.26100.9550) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.26100 IsWebView2/True (WebView2Version 155.0.4283.45)\" --user-data-dir=\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Packages\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\LocalState\\EBWebView\" --webview-exe-name=SearchHost.exe --webview-exe-version=2608.25008.200.0 --embedded-browser-webview=1 --startup-read-main-dll --metrics-shmem-handle=2444,i,16483404040711858890,1597408108355922534,524288 --field-trial-handle=2008,i,10795402519401024747,1576671335332794929,262144 --enable-features=msEdgeFluentOverlayScrollbar --disable-features=msSmartScreenProtection --variations-seed-version --pseudonymization-salt-handle=2016,i,11589141772614380749,14560256932520716617,4 --trace-process-track-uuid=3190708990060038890 --mojo-platform-channel-handle=3140 /prefetch:13 /pfhostedapp:742b1f7ac3117afa3e29f47b6e2af0f1eea8bda4"
+    },
+    {
+        "ProcessId":  8040,
+        "ParentProcessId":  6592,
+        "CreationDate":  "\/Date(1792007898428)\/",
+        "CommandLine":  "\"C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\155.0.4283.45\\msedgewebview2.exe\" --type=renderer --noerrdialogs --user-agent=\"Mozilla/5.0 (Windows NT 10.0; Win64; x64; Cortana 1.18.9.23723; 10.0.0.0.26100.9550) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 Edge/18.26100 IsWebView2/True (WebView2Version 155.0.4283.45)\" --user-data-dir=\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Packages\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\LocalState\\EBWebView\" --webview-exe-name=SearchHost.exe --webview-exe-version=2608.25008.200.0 --embedded-browser-webview=1 --video-capture-use-gpu-memory-buffer --lang=zh-CN --js-flags --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --renderer-client-id=5 --ram-no-pressure-read-main-dll --launch-time-ticks=47741595 --metrics-shmem-handle=3528,i,16483335590927484794,15775709605875626062,1048576 --field-trial-handle=2008,i,10795402519401024747,1576671335332794929,262144 --enable-features=msEdgeFluentOverlayScrollbar --disable-features=msSmartScreenProtection --variations-seed-version --pseudonymization-salt-handle=2016,i,11589141772614380749,14560256932520716617,4 --trace-process-track-uuid=3190708990997080739 --mojo-platform-channel-handle=3496 /pfhostedapp:742b1f7ac3117afa3e29f47b6e2af0f1eea8bda4 /prefetch:1"
+    },
+    {
+        "ProcessId":  6336,
+        "ParentProcessId":  6208,
+        "CreationDate":  "\/Date(1792007901561)\/",
+        "CommandLine":  "\"C:\\IrisBInput\\Iris-0.2.0-Setup.exe\" --silent --no-start"
+    },
+    {
+        "ProcessId":  6616,
+        "ParentProcessId":  6336,
+        "CreationDate":  "\/Date(1792007903152)\/",
+        "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\setup-3de6df1600aa41678e2e1ae25e604832\\Setup.exe\" --silent"
+    },
+    {
+        "ProcessId":  5056,
+        "ParentProcessId":  1376,
+        "CreationDate":  "\/Date(1792007906355)\/",
+        "CommandLine":  "\"C:\\Windows\\SystemApps\\MicrosoftWindows.Client.CBS_cw5n1h2txyewy\\TextInputHost.exe\" -ServerName:InputApp.AppXk0k6mrh4r2q0ct33a9wgbez0x7v9cz5y.mca"
+    },
+    {
+        "ProcessId":  6516,
+        "ParentProcessId":  1660,
+        "CreationDate":  "\/Date(1792007953770)\/",
+        "CommandLine":  "taskhostw.exe $(Arg0)"
+    },
+    {
+        "ProcessId":  5928,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792007958617)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k LocalServiceAndNoImpersonationRedirectionGuard -p"
+    },
+    {
+        "ProcessId":  3132,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792007979089)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k InvSvcGroup -p"
+    },
+    {
+        "ProcessId":  2784,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792007979373)\/",
+        "CommandLine":  "C:\\Windows\\System32\\svchost.exe -k LocalSystemNetworkRestricted -p"
+    },
+    {
+        "ProcessId":  4484,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792007979522)\/",
+        "CommandLine":  "C:\\Windows\\system32\\svchost.exe -k whesvc -p"
+    },
+    {
+        "ProcessId":  3288,
+        "ParentProcessId":  6616,
+        "CreationDate":  "\/Date(1792008218085)\/",
+        "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\Downloads\\inst-dotnet-10.0.0-X64-WindowsDesktop.exe\" /norestart /q"
+    },
+    {
+        "ProcessId":  7340,
+        "ParentProcessId":  3288,
+        "CreationDate":  "\/Date(1792008218352)\/",
+        "CommandLine":  "\"C:\\Windows\\TEMP\\{F1307848-8043-4CDB-8B65-E061246E2A4F}\\.ba\\wixstdba.exe\" -burn.ba.apiver 569705357157400576 -burn.ba.pipe BurnPipe.{90F4924E-F692-44F5-ACAB-B4C51715B971} {CB212056-F066-41F4-8EE8-EAF0EC35F0A5}"
+    },
+    {
+        "ProcessId":  2960,
+        "ParentProcessId":  1376,
+        "CreationDate":  "\/Date(1792008218927)\/",
+        "CommandLine":  "C:\\Windows\\System32\\smartscreen.exe -Embedding"
+    },
+    {
+        "ProcessId":  5084,
+        "ParentProcessId":  3288,
+        "CreationDate":  "\/Date(1792008218999)\/",
+        "CommandLine":  "\"C:\\Windows\\TEMP\\{F1307848-8043-4CDB-8B65-E061246E2A4F}\\.be\\windowsdesktop-runtime-10.0.13-win-x64.exe\" -q -burn.elevated BurnPipe.{D9CA6B61-95B2-4483-8A57-BB34A62AC472} {6C083398-29E4-4839-BE08-52740F4FE2E3} 3288"
+    },
+    {
+        "ProcessId":  5016,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792008219641)\/",
+        "CommandLine":  "C:\\Windows\\system32\\msiexec.exe /V"
+    },
+    {
+        "ProcessId":  5512,
+        "ParentProcessId":  1376,
+        "CreationDate":  "\/Date(1792008377644)\/",
+        "CommandLine":  "C:\\Windows\\system32\\wbem\\wmiprvse.exe"
+    },
+    {
+        "ProcessId":  4580,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792008377819)\/",
+        "CommandLine":  "C:\\Windows\\System32\\svchost.exe -k smphost"
+    },
+    {
+        "ProcessId":  5232,
+        "ParentProcessId":  1376,
+        "CreationDate":  "\/Date(1792008378140)\/",
+        "CommandLine":  "C:\\Windows\\system32\\wbem\\wmiprvse.exe"
+    },
+    {
+        "ProcessId":  4784,
+        "ParentProcessId":  3132,
+        "CreationDate":  "\/Date(1792008404695)\/",
+        "CommandLine":  "C:\\Windows\\system32\\compattelrunner.exe -cv:93bT9Xslck2D3+CW.0.6 -wce:0000000000000000  -fullsync -m:appraiser.dll -f:DoScheduledTelemetryRun "
+    },
+    {
+        "ProcessId":  5244,
+        "ParentProcessId":  2836,
+        "CreationDate":  "\/Date(1792008438391)\/",
+        "CommandLine":  "powershell.exe -NoProfile -Command Get-CimInstance Win32_Process | Select-Object ProcessId,ParentProcessId,CreationDate,CommandLine | ConvertTo-Json -Depth 4 | Set-Content C:\\IrisBOutput\\process-diagnostic-1.json"
+    }
+]

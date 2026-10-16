@@ -120,7 +120,7 @@ Console.WriteLine($"Scanned C# and XAML; Chinese entries including comments: {hi
 File.WriteAllText(output + ".ui.json", JsonSerializer.Serialize(named, new JsonSerializerOptions { WriteIndented = true, Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping }));
 if (args.Contains("--compiled"))
 {
-    var assemblies = new[] { ("Iris.App", "Resources"), ("Iris.Core", "Localization") };
+    var assemblies = new[] { ("Iris.App", "Resources"), ("Iris.Core", "Localization"), ("Iris.Maintenance", "") };
     int values = 0;
     foreach (var (project, resourceFolder) in assemblies)
     {
@@ -130,7 +130,7 @@ if (args.Contains("--compiled"))
         {
             string assemblyPath = language == "en-US" ? Path.Combine(Path.GetDirectoryName(bin)!, "en-US", project + ".resources.dll") : bin;
             var assembly = System.Reflection.Assembly.LoadFile(assemblyPath);
-            string name = project + "." + resourceFolder + ".Strings" + (language == "en-US" ? ".en-US" : "") + ".resources";
+            string name = project + (resourceFolder.Length == 0 ? "" : "." + resourceFolder) + ".Strings" + (language == "en-US" ? ".en-US" : "") + ".resources";
             using var stream = assembly.GetManifestResourceStream(name) ?? throw new InvalidOperationException("Compiled resource missing: " + name);
             using var reader = new System.Resources.ResourceReader(stream);
             var actual = reader.Cast<System.Collections.DictionaryEntry>().ToDictionary(e => (string)e.Key, e => ((string)e.Value!).ReplaceLineEndings("\n"));

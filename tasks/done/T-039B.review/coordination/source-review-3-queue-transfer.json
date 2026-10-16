@@ -1,0 +1,14 @@
+{
+  "atUtc": "2026-10-14T18:57:56.681666+00:00",
+  "thread": "01a11b01-c46b-74e1-9015-726c77ffbc9e",
+  "ownedQueueItem": "01a13b9f-9d97-7170-9f32-1f04479f10a4",
+  "action": "Removed only this owned pending item via official thread/queue/delete before a single visible UI submission",
+  "deletionResponse": {
+    "deleted": true
+  },
+  "originalPendingVerified": true,
+  "removedVerified": true,
+  "textSha256": "d4497e74a8de41b7161485e5c2423a2ae1ee59b2240beffaa60f23198635a9d6",
+  "textPath": "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-source-review-3-ui-message.txt",
+  "uiSubmissionCompleted": false
+}

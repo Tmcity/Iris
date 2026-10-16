@@ -1,0 +1,17 @@
+$ErrorActionPreference = 'Stop'
+Import-Module (Join-Path $PSHOME 'Modules\Microsoft.PowerShell.Utility\Microsoft.PowerShell.Utility.psd1')
+[Console]::OutputEncoding = New-Object System.Text.UTF8Encoding($false)
+$irisPackFile = 'F:\Iris\build\pack.ps1'
+$irisPackTokens = $null
+$irisPackErrors = $null
+$null = [System.Management.Automation.Language.Parser]::ParseFile($irisPackFile, [ref]$irisPackTokens, [ref]$irisPackErrors)
+[pscustomobject]@{
+    PowerShellVersion = $PSVersionTable.PSVersion.ToString()
+    PSEdition = $PSVersionTable.PSEdition
+    Script = $irisPackFile
+    Sha256 = (Get-FileHash -LiteralPath $irisPackFile -Algorithm SHA256).Hash
+    ParserErrors = @($irisPackErrors | ForEach-Object { [pscustomobject]@{Id=$_.ErrorId;Line=$_.Extent.StartLineNumber;Message=$_.Message} })
+    ScriptExecuted = $false
+} | ConvertTo-Json -Depth 5
+if ($irisPackErrors.Count -ne 0) { exit 1 }
+exit 0

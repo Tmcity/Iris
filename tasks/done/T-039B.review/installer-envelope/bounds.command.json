@@ -1,0 +1,22 @@
+{
+  "case": "bounds",
+  "command": [
+    "C:\\Users\\28910\\AppData\\Local\\Temp\\iris-t039b-envelope-20261013\\EnvelopeProbe-bounds.exe"
+  ],
+  "startedAt": "2026-10-12T18:01:39.458022+00:00",
+  "completedAt": "2026-10-12T18:01:40.245196+00:00",
+  "exitCode": 2,
+  "expectedExitCode": 2,
+  "executableBytes": 73529184,
+  "executableSha256": "d2c1898bd581a7f2c78a835a81911f4bc7af86c329473fc0eedae04d2a9fcf41",
+  "observed": {
+    "EntryPointReached": true,
+    "OwnedPrivateRuntime": false,
+    "RuntimeVersion": "10.0.12",
+    "RuntimePath": null,
+    "Outcome": "InvalidBounds",
+    "PayloadBytes": 0,
+    "PayloadExecuted": false
+  },
+  "passed": false
+}

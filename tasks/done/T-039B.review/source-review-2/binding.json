@@ -1,0 +1,30 @@
+{
+  "capturedAt": "2026-10-12T19:26:46.931254+00:00",
+  "files": [
+    {
+      "source": "src/Iris.Maintenance/MaintenanceSystem.cs",
+      "snapshot": "MaintenanceSystem.cs.txt",
+      "sha256": "dc82f552f6ebb99704593377329f85c0562315b0acfc0b65484812469a5258ab"
+    },
+    {
+      "source": "src/Iris.Maintenance/MaintenanceEngine.cs",
+      "snapshot": "MaintenanceEngine.cs.txt",
+      "sha256": "20f5433943b3d8c74a5996c6221b3387d4c3adb9a2b9c39489bca4a6d5dd1457"
+    },
+    {
+      "source": "src/Iris.Maintenance/UpdateTransaction.cs",
+      "snapshot": "UpdateTransaction.cs.txt",
+      "sha256": "d8bbb60a0978b85ea109e6ffad412b83633c538f7303b52fb9632a7aa9db035e"
+    },
+    {
+      "source": "src/Iris.Maintenance/Program.cs",
+      "snapshot": "Program.cs.txt",
+      "sha256": "d6029aeb7d00a7ccb9bce494f4a7996b4296d48b89c54dde33b1fb0a5b983c73"
+    },
+    {
+      "source": "src/Iris.App/Updates/UpdateHandoff.cs",
+      "snapshot": "UpdateHandoff.cs.txt",
+      "sha256": "bd39729d0e60b2fb5cec172f1eb3fbad69595742e47a1cda1feae2f6f5cf63bc"
+    }
+  ]
+}

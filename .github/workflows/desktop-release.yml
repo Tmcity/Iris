@@ -1,0 +1,56 @@
+name: Desktop release
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Numeric version (major.minor.patch)
+        required: true
+        type: string
+      publish:
+        description: Publish the verified files to GitHub Releases
+        default: false
+        type: boolean
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: windows-latest
+    env:
+      DOTNET_CLI_UI_LANGUAGE: zh-CN
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - name: Release build
+        run: dotnet build Iris.slnx -c Release
+      - name: Tests
+        run: dotnet test Iris.slnx -c Release
+      - name: Package
+        shell: powershell
+        env:
+          IRIS_RELEASE_VERSION: ${{ inputs.version }}
+        run: ./build/pack.ps1 -Version $env:IRIS_RELEASE_VERSION -OutputDirectory "$env:RUNNER_TEMP\iris-release"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: iris-windows-release
+          path: ${{ runner.temp }}/iris-release/*
+          if-no-files-found: error
+  publish:
+    if: ${{ inputs.publish }}
+    needs: package
+    runs-on: ubuntu-latest
+    environment: desktop-release
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: iris-windows-release
+          path: release
+      - name: Publish approved assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_VERSION: ${{ inputs.version }}
+        run: gh release create "v$RELEASE_VERSION" release/* --title "Iris $RELEASE_VERSION" --notes "Windows x64. See the installation guide. This build is unsigned."

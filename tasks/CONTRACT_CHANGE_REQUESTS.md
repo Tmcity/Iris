@@ -1103,3 +1103,17 @@ GeneralSettingsPatch 保留原四参数构造和解构，在record体内兼容�
 GeneralSettings.UiLanguage 已存在，默认zh-CN、N11正规化、JSON/schema不变。ErrorMessages.GetDefault 签名及ErrorCode、LanguageInfo/语言ID、Provider业务模型保持；允许必要内部资源/文化帮助类，用户文案随本次运行语言而变，未知码仍安全回退Unknown。不新增Core公共本地化服务或NuGet包。
 
 完整资源语义、跨UI/后台的一致性、启动期回退、非UI中文精确例外、真实联合保存和逐图验证见LOCALIZATION.md。提示词/原文/译文/用户命名及协议ID不改，翻译/OCR目标不随UI语言变化；网络/IPC/退出责任保持。M6延期，T-039不提前。
+
+## CCR-039：桌面更新偏好与独立网络客户端
+
+2026-10-13 · 架构师批准 · T-039B / DESKTOP_RELEASE.md / ARCH v1.57。
+
+状态：**已批准并预置精确声明，待开发落地及独立复审**。
+
+GeneralSettingsPatch在record体内兼容新增`SettingsFieldEdit<bool>? CheckForUpdates { get; init; }`，默认null；原四参数构造/解构及UiLanguage保持。复用既有联合编辑的捕获、冲突、合并和回执规则，General.CheckForUpdates原默认true及JSON/schema不变，不把检查偏好等同安装同意。
+
+HttpClientNames新增常量`Updates = "iris.updates"`及行为注释，原Llm/Ocr值不变。更新传输复用版本化代理/资源所有权；Velopack只进入App/Maintenance，Providers无SDK依赖。更新状态/会话/候选/维护交接保持内部实现，不新增Core公共更新服务、IrisAction或错误枚举。
+
+批准Maintenance的部署工程/内部友元和ARCH依赖表扩展；它以独立self-contained入口解决安装前无.NET10的问题，主Iris保持框架依赖并实际验证运行时自动引导。完整启动分流、维护互斥、清理后交接、卸载选择及隔离Windows验收按DESKTOP_RELEASE.md。B实现完整产品和本地实证，C保留公开GitHub线上发布/升级的父单闭环。
+
+本次独立编译发现CONTRACTS既有Network声明引用ErrorInfo但文件级未导入其命名空间；补齐`using Iris.Core.Errors`，不改变这些声明或行为。修正前CS0246原件及修正后编译证据保留于T-039B.review。

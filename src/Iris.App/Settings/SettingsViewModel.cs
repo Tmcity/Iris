@@ -167,7 +167,10 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         ILogger<SettingsViewModel>? logger = null,
         Iris.App.Selection.SelectionIconController? mouseController = null,
         Iris.Core.Network.IProxyConnectivityTester? networkTester = null,
-        TimeProvider? networkTime = null)
+        TimeProvider? networkTime = null,
+        Iris.App.Updates.AppUpdateCoordinator? updates = null,
+        Iris.App.Updates.UpdateHandoff? updateHandoff = null,
+        Iris.Core.Presentation.IAppLifetime? updateLifetime = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _themeService = themeService ?? throw new ArgumentNullException(nameof(themeService));
@@ -200,6 +203,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         _baseLogLevel = general.LogLevel;
         _targetLogLevel = general.LogLevel;
         InitializeInterfaceLanguage();
+        InitializeUpdatePreference();
 
         _canRetryAutoStart = false;
 
@@ -248,6 +252,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         InitializeOcr();
         _networkTester = networkTester; _networkTime = networkTime ?? TimeProvider.System;
         InitializeNetwork();
+        InitializeUpdates(updates, updateHandoff, updateLifetime);
         _settingsService.Changed += OnExternalSettingsChanged;
 
         _ = QueryAutoStartStatusAsync();
@@ -466,7 +471,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     {
         get
         {
-            if (_themeDirty || _launchAtStartupDirty || _showStartupNotificationDirty || _logLevelDirty || InterfaceLanguage.IsDirty)
+            if (_themeDirty || _launchAtStartupDirty || _showStartupNotificationDirty || _logLevelDirty || InterfaceLanguage.IsDirty || CheckForUpdates.IsDirty)
             {
                 return true;
             }
@@ -1121,6 +1126,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         }
         if (changed)
         {
+            SealUpdates();
             InvalidateNetworkTest();
             Interlocked.Increment(ref _ocrRequestSeq);
             _ocrOperationQueue.CancelInFlight();
@@ -1136,6 +1142,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     internal async Task WaitForActiveWorkAsync()
     {
         StopAcceptance();
+        await CloseUpdatesAsync().ConfigureAwait(false);
         await _operationQueue.DrainAndCancelAllAsync().ConfigureAwait(false);
         bool ocrDrained = await DrainOcrTestsAsync(closing: true).ConfigureAwait(false);
         bool networkDrained = await DrainNetworkTestsAsync(closing: true).ConfigureAwait(false);
@@ -1349,7 +1356,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                 var launchEdit = _launchAtStartupDirty ? new SettingsFieldEdit<bool>(_baseLaunchAtStartup, _targetLaunchAtStartup) : null;
                 var notifEdit = _showStartupNotificationDirty ? new SettingsFieldEdit<bool>(_baseShowStartupNotification, _targetShowStartupNotification) : null;
                 var logEdit = _logLevelDirty ? new SettingsFieldEdit<string>(_baseLogLevel, _targetLogLevel) : null;
-                var generalPatch = new GeneralSettingsPatch(themeEdit, launchEdit, notifEdit, logEdit) { UiLanguage = InterfaceLanguage.Edit() };
+                var generalPatch = new GeneralSettingsPatch(themeEdit, launchEdit, notifEdit, logEdit) { UiLanguage = InterfaceLanguage.Edit(), CheckForUpdates = CheckForUpdates.Edit() };
 
                 // 组装 Translation 变更
                 var translationChanges = new List<TranslationProfileChange>();
@@ -1404,7 +1411,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
                     }
                 }
 
-                bool hasGeneralDirty = _themeDirty || _launchAtStartupDirty || _showStartupNotificationDirty || _logLevelDirty || InterfaceLanguage.IsDirty;
+                bool hasGeneralDirty = _themeDirty || _launchAtStartupDirty || _showStartupNotificationDirty || _logLevelDirty || InterfaceLanguage.IsDirty || CheckForUpdates.IsDirty;
                 bool hasTranslationDirty = translationChanges.Count > 0 || orderChange != null;
                 bool hasHotkeyDirty = hotkeyChanges.Count > 0;
 
@@ -1654,6 +1661,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
     private void SyncBaselineFromCurrent()
     {
         MergeInterfaceLanguage(reset: true);
+        MergeUpdatePreference(reset: true);
         MergeOcrSettings(reset: true);
         MergeNetworkSettings(reset: true);
         Selection.Merge(_settingsService.Current.Selection, reset: true);
@@ -1714,6 +1722,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             return;
         }
         MergeInterfaceLanguage(reset: true);
+        MergeUpdatePreference(reset: true);
 
         if (IsAnyRecording)
         {
@@ -2628,6 +2637,7 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
 
             var currentGeneral = _settingsService.Current.General;
             MergeInterfaceLanguage();
+            MergeUpdatePreference();
 
             // 未编辑常规字段跟随最新当前值；已编辑字段保留草稿与原基线以支持冲突检测
             if (!_themeDirty)
@@ -2810,6 +2820,8 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
             FreezeAllDrafts();
         }
 
+        SealUpdates();
+        _updateWindowClosing.Dispose();
         _settingsService.Changed -= OnExternalSettingsChanged;
         if (_mouseController != null) _mouseController.RuntimeChanged -= OnMouseRuntimeChanged;
         if (_receiptManager != null)

@@ -1,0 +1,68 @@
+﻿{
+    "Environment":  {
+                        "Caption":  "Microsoft Windows 11 企业版",
+                        "Version":  "10.0.26100",
+                        "Context":  "Owned offline sandbox, System",
+                        "SharedRuntimesBefore":  [
+
+                                                 ]
+                    },
+    "Cases":  [
+                  {
+                      "Case":  "valid",
+                      "ExitCode":  0,
+                      "ExpectedExitCode":  0,
+                      "Observed":  {
+                                       "EntryPointReached":  true,
+                                       "OwnedPrivateRuntime":  false,
+                                       "RuntimeOriginNeedsGuestVerification":  true,
+                                       "RuntimeVersion":  "10.0.12",
+                                       "RuntimePath":  null,
+                                       "RuntimeDirectory":  "C:\\IrisEnvelopeInput\\",
+                                       "Outcome":  "Verified",
+                                       "PayloadBytes":  55,
+                                       "PayloadExecuted":  false
+                                   },
+                      "Passed":  true
+                  },
+                  {
+                      "Case":  "corrupt",
+                      "ExitCode":  2,
+                      "ExpectedExitCode":  2,
+                      "Observed":  {
+                                       "EntryPointReached":  true,
+                                       "OwnedPrivateRuntime":  false,
+                                       "RuntimeOriginNeedsGuestVerification":  true,
+                                       "RuntimeVersion":  "10.0.12",
+                                       "RuntimePath":  null,
+                                       "RuntimeDirectory":  "C:\\IrisEnvelopeInput\\",
+                                       "Outcome":  "HashOrContentMismatch",
+                                       "PayloadBytes":  55,
+                                       "PayloadExecuted":  false
+                                   },
+                      "Passed":  true
+                  },
+                  {
+                      "Case":  "bounds",
+                      "ExitCode":  2,
+                      "ExpectedExitCode":  2,
+                      "Observed":  {
+                                       "EntryPointReached":  true,
+                                       "OwnedPrivateRuntime":  false,
+                                       "RuntimeOriginNeedsGuestVerification":  true,
+                                       "RuntimeVersion":  "10.0.12",
+                                       "RuntimePath":  null,
+                                       "RuntimeDirectory":  "C:\\IrisEnvelopeInput\\",
+                                       "Outcome":  "InvalidBounds",
+                                       "PayloadBytes":  0,
+                                       "PayloadExecuted":  false
+                                   },
+                      "Passed":  true
+                  }
+              ],
+    "SharedRuntimesAfter":  [
+
+                            ],
+    "SharedDotnet10Absent":  true,
+    "RealInstallerExecuted":  false
+}

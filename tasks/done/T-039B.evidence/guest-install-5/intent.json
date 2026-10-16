@@ -1,0 +1,17 @@
+{
+  "SandboxId": "2ed0bc7d-2497-4e88-9f4e-e000b9105fde",
+  "Config": "<Configuration><vGPU>Disable</vGPU><Networking>Enable</Networking><AudioInput>Disable</AudioInput><VideoInput>Disable</VideoInput><ClipboardRedirection>Disable</ClipboardRedirection><PrinterRedirection>Disable</PrinterRedirection><MemoryInMB>6144</MemoryInMB></Configuration>",
+  "ReadOnlyInput": "F:\\Iris\\artifacts\\t039b\\sandbox\\2ed0bc7d-2497-4e88-9f4e-e000b9105fde\\input",
+  "WritableOutput": "F:\\Iris\\artifacts\\t039b\\sandbox\\2ed0bc7d-2497-4e88-9f4e-e000b9105fde\\output",
+  "Files": [
+    {
+      "Name": "guest_install.ps1",
+      "Sha256": "18b8cf5f6838c5a6ef9ad354c16d3d66770ff4d8ab5fed1fe70e567bed0fc4f8"
+    },
+    {
+      "Name": "Iris-0.2.0-Setup.exe",
+      "Sha256": "7c00e7c731ca391a712ce03c06c7f2581b3ea0e28de923df8774a217f1e56e09"
+    }
+  ],
+  "Purpose": "Real Iris installation/runtime bootstrap/application/UiaHost/silent uninstall with synthetic guest data; Microsoft runtime download allowed."
+}

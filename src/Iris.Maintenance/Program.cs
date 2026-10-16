@@ -1,0 +1,134 @@
+using System.Diagnostics;
+using System.Globalization;
+using System.Security.Cryptography;
+using System.Text.Json;
+using Iris.Platform.Windows.Maintenance;
+
+namespace Iris.Maintenance;
+
+internal static class Program
+{
+    private static async Task<int> Main(string[] args)
+    {
+        bool silent = args.Contains("--silent", StringComparer.Ordinal);
+        bool handoff = args.Length > 0 && args[0] == "--handoff";
+        string stage = "arguments";
+        try
+        {
+            string executable = Environment.ProcessPath ?? throw ReleaseIdentity.Invalid();
+            using var timeout = new CancellationTokenSource();
+            var system = new MaintenanceSystem(); var engine = new MaintenanceEngine(system);
+            if (args.Length == 0 && MaintenancePaths.Same(executable, MaintenanceCopy.RecoveryPath)
+                && MaintenanceGate.IsBlocked(system.StateRoot)) args = ["--recover"];
+            if (args.Length == 5 && args[0] == "--handoff")
+            {
+                stage = "handoff-copy";
+                timeout.CancelAfter(TimeSpan.FromMinutes(5));
+                await MaintenanceCopy.VerifyAsync(executable, timeout.Token).ConfigureAwait(false);
+                await MaintenanceCopy.PreserveRecoveryAsync(executable, timeout.Token).ConfigureAwait(false);
+                await SetInstalledLanguageAsync(system.DataRoot, timeout.Token).ConfigureAwait(false);
+                stage = "handoff-transaction";
+                await new UpdateTransaction(system).RunAsync(args[1], args[2], int.Parse(args[3], CultureInfo.InvariantCulture), long.Parse(args[4], CultureInfo.InvariantCulture), timeout.Token).ConfigureAwait(false);
+                return 0;
+            }
+            if (args.Length >= 3 && args[0] == "--outside")
+            {
+                stage = "outside-identity";
+                int id = int.Parse(args[1], CultureInfo.InvariantCulture); long ticks = long.Parse(args[2], CultureInfo.InvariantCulture);
+                await MaintenanceCopy.VerifyAsync(executable, timeout.Token).ConfigureAwait(false);
+                if (MaintenanceSystem.IsAlive(id, ticks))
+                {
+                    using var original = Process.GetProcessById(id); using var self = Process.GetCurrentProcess();
+                    if (original.SessionId != self.SessionId || !MaintenancePaths.Same(original.MainModule?.FileName ?? "",
+                        Path.Combine(system.InstallRoot, "current", "maintenance", "Iris.Maintenance.exe"))) throw ReleaseIdentity.Invalid();
+                    using var outsideWait = new CancellationTokenSource(TimeSpan.FromSeconds(30));
+                    await original.WaitForExitAsync(outsideWait.Token).ConfigureAwait(false);
+                }
+                args = args.Skip(3).ToArray();
+            }
+            if (args.Length == 0 || args.All(value => value is "--install" or "--silent" or "--no-start"))
+            {
+                stage = "installer-envelope";
+                if (!await InstallerEnvelope.HasPayloadAsync(executable, timeout.Token).ConfigureAwait(false)) throw ReleaseIdentity.Invalid();
+                if (!silent && !MaintenanceUi.ConfirmInstall()) return 0;
+                timeout.CancelAfter(TimeSpan.FromMinutes(5));
+                string work = MaintenancePaths.Child(system.StateRoot, "setup-" + Guid.NewGuid().ToString("N")); Directory.CreateDirectory(work);
+                string setup = Path.Combine(work, "Setup.exe");
+                try
+                {
+                    await InstallerEnvelope.ExtractAsync(executable, setup, timeout.Token).ConfigureAwait(false);
+                    string version = typeof(Program).Assembly.GetName().Version!.ToString(3);
+                    stage = "install-transaction";
+                    await engine.InstallAsync(setup, !silent && !args.Contains("--no-start", StringComparer.Ordinal), timeout.Token, version, repair: true).ConfigureAwait(false);
+                }
+                finally { MaintenancePaths.DeleteData(work, work); }
+                if (!silent) MaintenanceUi.Completed(); return 0;
+            }
+            if (args.Length is >= 1 and <= 2 && args[0] is "--uninstall" or "--recover"
+                && (args.Length == 1 || args[1] == "--silent"))
+            {
+                string installedHelper = Path.Combine(system.InstallRoot, "current", "maintenance", "Iris.Maintenance.exe");
+                stage = "uninstall-outside-copy";
+                if (MaintenancePaths.Same(executable, installedHelper))
+                { await StartOutsideAsync(executable, args, timeout.Token).ConfigureAwait(false); return 0; }
+                stage = "uninstall-copy-identity";
+                await MaintenanceCopy.VerifyAsync(executable, timeout.Token).ConfigureAwait(false);
+                await MaintenanceCopy.PreserveRecoveryAsync(executable, timeout.Token).ConfigureAwait(false);
+                stage = "uninstall-language";
+                await SetInstalledLanguageAsync(system.DataRoot, timeout.Token).ConfigureAwait(false);
+                if (args[0] == "--recover")
+                {
+                    using var recoverWait = new CancellationTokenSource(TimeSpan.FromMinutes(5));
+                    stage = "recover-transaction";
+                    await engine.RecoverAsync(recoverWait.Token, allowRetainedDelete: !silent).ConfigureAwait(false); return 0;
+                }
+                int choice = silent ? 6 : MaintenanceUi.UninstallChoice();
+                stage = "uninstall-transaction";
+                if (choice == 2) return 0;
+                bool completed = false;
+                do
+                {
+                    using var phase = new CancellationTokenSource(TimeSpan.FromMinutes(5));
+                    try
+                    {
+                        if (!system.IsUninstalled || MaintenanceGate.IsBlocked(system.StateRoot))
+                            await engine.UninstallAsync(choice == 7, phase.Token, allowRetainedDelete: !silent).ConfigureAwait(false);
+                        completed = true;
+                    }
+                    catch (Exception)
+                    {
+                        phase.CancelAfter(Timeout.InfiniteTimeSpan);
+                        if (silent || !MaintenanceUi.Retry()) throw;
+                    }
+                } while (!completed);
+                if (!silent) MaintenanceUi.Completed(); return 0;
+            }
+            throw ReleaseIdentity.Invalid();
+        }
+        catch (Exception ex)
+        {
+            return await MaintenanceFeedback.ReportFailureAsync(stage, silent, handoff, ex).ConfigureAwait(false);
+        }
+    }
+    private static async Task StartOutsideAsync(string executable, string[] args, CancellationToken token)
+    {
+        string directory = MaintenanceWorkDirectory.Create(MaintenancePaths.StateRoot);
+        string copy = Path.Combine(directory, "Iris.Maintenance.exe");
+        await using (var source = File.OpenRead(executable))
+        await using (var target = new FileStream(copy, FileMode.CreateNew, FileAccess.Write, FileShare.None, 65536, FileOptions.Asynchronous))
+            await source.CopyToAsync(target, token).ConfigureAwait(false);
+        using var original = Process.GetCurrentProcess();
+        var info = new ProcessStartInfo(copy) { UseShellExecute = false, CreateNoWindow = true };
+        foreach (var arg in new[] { "--outside", original.Id.ToString(CultureInfo.InvariantCulture), original.StartTime.ToUniversalTime().Ticks.ToString(CultureInfo.InvariantCulture) }.Concat(args)) info.ArgumentList.Add(arg);
+        using var process = Process.Start(info) ?? throw new IOException("Maintenance copy did not start.");
+    }
+    private static async Task SetInstalledLanguageAsync(string directory, CancellationToken token)
+    {
+        string path = Path.Combine(directory, "settings.json"); MaintenancePaths.RequireNoLinks(path);
+        if (!File.Exists(path) || new FileInfo(path).Length > 1024 * 1024) return;
+        await using var stream = File.OpenRead(path);
+        using var document = await JsonDocument.ParseAsync(stream, new JsonDocumentOptions { MaxDepth = 32 }, token).ConfigureAwait(false);
+        if (document.RootElement.TryGetProperty("general", out var general) && general.TryGetProperty("uiLanguage", out var language))
+            MaintenanceUi.Language = language.GetString() == "en-US" ? "en-US" : "zh-CN";
+    }
+}

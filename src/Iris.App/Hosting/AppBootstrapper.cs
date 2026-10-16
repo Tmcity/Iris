@@ -59,6 +59,8 @@ internal sealed partial class AppBootstrapper
     private readonly Iris.App.Capture.ScreenshotService? _screenshotService;
     private readonly Iris.Platform.Windows.Imaging.WinRtImagePreprocessor? _imagePreprocessor;
     private readonly IpcCommandCoordinator? _ipc;
+    private readonly Iris.App.Updates.AppUpdateCoordinator? _updates;
+    internal bool CleanupCompleted => Volatile.Read(ref _stopped) != 0;
 
     private readonly Lock _stopGate = new();
     private Task? _stopTask;
@@ -98,7 +100,8 @@ internal sealed partial class AppBootstrapper
         Iris.App.History.IHistoryShutdownCoordinator? historyShutdownCoordinator = null,
         Iris.Core.Network.INetworkProxySnapshotSource? networkSource = null,
         Iris.Core.Network.INetworkTransportLifetime? networkLifetime = null,
-        IpcCommandCoordinator? ipc = null)
+        IpcCommandCoordinator? ipc = null,
+        Iris.App.Updates.AppUpdateCoordinator? updates = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _translationRegistry = translationRegistry ?? throw new ArgumentNullException(nameof(translationRegistry));
@@ -130,6 +133,7 @@ internal sealed partial class AppBootstrapper
         _ocrService = ocrService;
         _screenshotOcrFeedback = screenshotOcrFeedback;
         _ipc = ipc;
+        _updates = updates;
     }
 
     internal static Action<string, string> FatalErrorShower { get; set; } = FatalErrorDialog.Show;
@@ -257,6 +261,7 @@ internal sealed partial class AppBootstrapper
             LogStartupReady(_logger, elapsedMs, trayState);
             LogDebugEnabled(_logger);
         }
+        _updates?.Start();
     }
 
     private void EnsureTrayAttached()
@@ -275,7 +280,7 @@ internal sealed partial class AppBootstrapper
     public void StopSynchronousParts()
     {
         StopIpcAcceptance();
-        if (Interlocked.Exchange(ref _syncStopped, 1) != 0)
+        if (Volatile.Read(ref _syncStopped) != 0)
         {
             return;
         }
@@ -286,11 +291,13 @@ internal sealed partial class AppBootstrapper
         _themeService.Dispose();
         _logLevelController.Dispose();
         _trayIconController.Dispose();
+        Volatile.Write(ref _syncStopped, 1);
     }
 
     public Task StopAsync()
     {
         StopIpcAcceptance();
+        _updates?.StopAcceptance();
         _networkLifetime?.StopAcceptance();
         _historyShutdownCoordinator?.StopAcceptance();
         _screenshotOcrFeedback?.StopAcceptance();
@@ -333,6 +340,9 @@ internal sealed partial class AppBootstrapper
     {
         await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
         var earlyFailures = new System.Collections.Generic.List<string>();
+        if (_updates != null)
+            try { await _updates.StopAsync().ConfigureAwait(false); }
+            catch (Exception) { earlyFailures.Add("UPDATES"); }
         if (_startTask != null)
             try { await _startTask.ConfigureAwait(false); }
             catch (Exception) { /* Start owns its safe user-facing failure; still close retained resources. */ }
@@ -514,8 +524,6 @@ internal sealed partial class AppBootstrapper
         if (_networkLifetime != null) await _networkLifetime.StopAsync().ConfigureAwait(false);
 
         // 4. Only successful owner/registry drain can proceed to Host and Dispatcher teardown.
-        StopSynchronousParts();
-
         using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(5));
         try
         {
@@ -524,7 +532,13 @@ internal sealed partial class AppBootstrapper
         catch (Exception ex)
         {
             LogHostStopFailed(_logger, ex);
+            throw;
         }
+
+        // Keep the tray Exit entry alive if Host shutdown fails, so the same owner can retry.
+        var dispatcher = Application.Current?.Dispatcher;
+        if (dispatcher == null || dispatcher.CheckAccess()) StopSynchronousParts();
+        else await dispatcher.InvokeAsync(StopSynchronousParts).Task.ConfigureAwait(false);
 
         lock (_stopGate)
         {

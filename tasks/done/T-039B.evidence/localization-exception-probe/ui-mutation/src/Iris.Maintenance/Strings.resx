@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='utf-8'?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms</value>
+  </resheader>
+  <data xml:space="preserve" name="InstallConfirm">
+    <value>安装 Iris。缺少 .NET 10 桌面运行时时将由安装程序引导安装，可能需要系统权限。</value>
+  </data>
+  <data xml:space="preserve" name="UninstallChoice">
+    <value>卸载 Iris？
+选择“是”保留设置、历史和日志（默认）。
+选择“否”在卸载成功后删除这些数据。
+选择“取消”不作更改。</value>
+  </data>
+  <data xml:space="preserve" name="Retry">
+    <value>维护尚未完成。程序或数据清理可能需要重试。请关闭其它 Iris 实例，选择“重试”继续；“取消”保留当前状态。</value>
+  </data>
+  <data xml:space="preserve" name="Failed">
+    <value>Iris 维护未完成，事务已保留。请重新运行正式安装器修复安装，或运行以下维护入口重试已请求的清理：
+{0}
+共享运行时不会被删除。</value>
+  </data>
+  <data xml:space="preserve" name="Completed">
+    <value>Iris 维护已完成。</value>
+  </data>
+</root>

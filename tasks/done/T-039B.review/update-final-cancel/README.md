@@ -1,0 +1,11 @@
+# 资源清理阶段的迟到取消探针
+
+此探针直接引用候选App程序集，使用真实AppUpdateCoordinator、UpdateOperation、ValidatedUpdateSource及Velopack UpdateManager；只替换发布源/资源释放和设置/HTTP外部边界。不启动窗口，不联网，不访问用户配置或生产IPC。
+
+先让真实检查进入资源DisposeAsync门闩，此时才调用CancelAsync并暂停其实际令牌回调；释放资源门闩后，检查与取消拥有者仍应等待已启动但尚未结束的回调。探针最后始终放行并join全部已观察任务和回调，不把这个兜底记为产品成功。
+
+编译/执行前仅为准备稿，结果以独立运行日志与候选绑定为准。它检查原source-review-1所要求的完整取消责任，不新增产品范围。
+
+另有`--cross-process-lock`准备场景：自有子进程实际以FileShare.None持有本次临时目录的`.velopack_lock`，SDK子类只观察base.AcquireUpdateLock返回的真实任务，不替换其锁实现。取消时应同步失效，协调器仍等待实际锁操作；放行并join自有worker后，不得再进入源的下载。这个场景也尚未编译/运行，不作为跨进程争锁已通过的证据。
+
+`prepare.py`只复制指定已构建程序集与探针到不存在的独立目录，生成离线NuGet.Config、临时项目和二进制指纹；不构建/启动产品。应在另行协调的串行窗口、稳定最终构建后运行，绑定源码和该构建，再编译/运行探针。使用现有run_review.py保存命令、所有失败与实际退出码；不得据生成项目或草稿结案。

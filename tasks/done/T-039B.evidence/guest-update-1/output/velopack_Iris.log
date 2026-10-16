@@ -1,0 +1,642 @@
+[lib-csharp:3456] [05:53:15] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:3456] [05:53:15] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:3456] [05:53:15] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:3456] [05:53:15] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:3456] [05:53:15] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:3456] [05:53:15] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:3456] [05:53:15] [Information] Found fast exit hook: --veloapp-install
+[lib-csharp:3456] [05:53:15] [Information] Completed hook, exiting...
+[lib-csharp:2780] [05:53:16] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:2780] [05:53:16] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:2780] [05:53:16] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:2780] [05:53:16] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:2780] [05:53:16] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:2780] [05:53:16] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[update:5648] [05:53:20] [INFO] --
+[update:5648] [05:53:20] [INFO] Starting Velopack Updater (1.2.161)
+[update:5648] [05:53:20] [INFO]     Location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe"
+[update:5648] [05:53:20] [INFO]     CWD: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"
+[update:5648] [05:53:20] [INFO]     Verbose: false
+[update:5648] [05:53:20] [INFO]     Silent: true
+[update:5648] [05:53:20] [INFO]     Root Directory: None
+[update:5648] [05:53:20] [INFO]     Log File: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\velopack\\velopack_Iris.log"
+[update:5648] [05:53:20] [INFO]     Context: IAmUpdateExe
+[update:5648] [05:53:20] [INFO] Command: Uninstall
+[update:5648] [05:53:20] [INFO] Auto-locating app manifest...
+[update:5648] [05:53:20] [INFO] Root directory 'C:\Users\WDAGUtilityAccount\AppData\Local\Iris' writable: true
+[update:5648] [05:53:20] [INFO] Using root packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[update:5648] [05:53:20] [INFO] Command: Uninstall
+[update:5648] [05:53:20] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:5648] [05:53:20] [INFO] Inspected 95 running processes in 41ms, 1 matched directory
+[update:5648] [05:53:20] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (5648)
+[update:5648] [05:53:20] [INFO] Force-stop check complete.
+[update:5648] [05:53:20] [INFO] Running --veloapp-uninstall hook...
+[update:5648] [05:53:20] [INFO] About to launch: 'WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe")' in dir 'Some(WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current"))' with arguments: WideString("\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" --veloapp-uninstall 0.2.0\0")
+[update:5648] [05:53:20] [INFO] Environment block present: true, flags: PROCESS_CREATION_FLAGS(134218752)
+[update:5648] [05:53:20] [INFO] Waiting 60000ms for process handle to exit.
+[lib-csharp:5400] [05:53:20] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:5400] [05:53:20] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:5400] [05:53:20] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:5400] [05:53:20] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:5400] [05:53:20] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:5400] [05:53:20] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:5400] [05:53:20] [Information] Found fast exit hook: --veloapp-uninstall
+[lib-csharp:5400] [05:53:20] [Information] Completed hook, exiting...
+[update:5648] [05:53:20] [INFO] Hook executed successfully (took 86.0818ms)
+[update:5648] [05:53:20] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:5648] [05:53:20] [INFO] Inspected 95 running processes in 37ms, 1 matched directory
+[update:5648] [05:53:20] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (5648)
+[update:5648] [05:53:20] [INFO] Force-stop check complete.
+[update:5648] [05:53:20] [INFO] COM context initialized in 5ms
+[update:5648] [05:53:20] [INFO] Searching for shortcuts containing root: '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:5648] [05:53:20] [INFO] Searching for shortcuts in: ShortcutLocationFlags(DESKTOP) (C:\Users\WDAGUtilityAccount\Desktop/*.lnk)
+[update:5648] [05:53:20] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:5648] [05:53:20] [INFO] Searching for shortcuts in: ShortcutLocationFlags(STARTUP) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup/*.lnk)
+[update:5648] [05:53:20] [INFO] Searching for shortcuts in: ShortcutLocationFlags(START_MENU) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs/**/*.lnk)
+[update:5648] [05:53:20] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:5648] [05:53:20] [INFO] Searching for shortcuts in: ShortcutLocationFlags(USER_PINNED) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned/**/*.lnk)
+[update:5648] [05:53:20] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' (ShortcutLocationFlags(DESKTOP)).
+[update:5648] [05:53:20] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' (ShortcutLocationFlags(START_MENU)).
+[update:5648] [05:53:20] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:5648] [05:53:20] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Temp\\velopack_Iris"'
+[update:5648] [05:53:20] [INFO] Removing uninstall registry keys...
+[update:5648] [05:53:20] [INFO] Finished successfully.
+[update:5648] [05:53:20] [INFO] Scheduling removal of install directory...
+[update:5648] [05:53:20] [INFO] Running: cmd.exe /C choice /C Y /N /D Y /T 3 & rmdir /s /q "C:\Users\WDAGUtilityAccount\AppData\Local\Iris"
+[lib-csharp:2240] [06:09:23] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:2240] [06:09:23] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:2240] [06:09:23] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:2240] [06:09:23] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:2240] [06:09:23] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:2240] [06:09:23] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:2240] [06:09:23] [Information] Found fast exit hook: --veloapp-install
+[lib-csharp:2240] [06:09:23] [Information] Completed hook, exiting...
+[update:6168] [06:09:28] [INFO] --
+[update:6168] [06:09:28] [INFO] Starting Velopack Updater (1.2.161)
+[update:6168] [06:09:28] [INFO]     Location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe"
+[update:6168] [06:09:28] [INFO]     CWD: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"
+[update:6168] [06:09:28] [INFO]     Verbose: false
+[update:6168] [06:09:28] [INFO]     Silent: true
+[update:6168] [06:09:28] [INFO]     Root Directory: None
+[update:6168] [06:09:28] [INFO]     Log File: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\velopack\\velopack_Iris.log"
+[update:6168] [06:09:28] [INFO]     Context: IAmUpdateExe
+[update:6168] [06:09:28] [INFO] Command: Uninstall
+[update:6168] [06:09:28] [INFO] Auto-locating app manifest...
+[update:6168] [06:09:28] [INFO] Root directory 'C:\Users\WDAGUtilityAccount\AppData\Local\Iris' writable: true
+[update:6168] [06:09:28] [INFO] Using root packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[update:6168] [06:09:28] [INFO] Command: Uninstall
+[update:6168] [06:09:28] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:6168] [06:09:28] [INFO] Inspected 89 running processes in 31ms, 1 matched directory
+[update:6168] [06:09:28] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (6168)
+[update:6168] [06:09:28] [INFO] Force-stop check complete.
+[update:6168] [06:09:28] [INFO] Running --veloapp-uninstall hook...
+[update:6168] [06:09:28] [INFO] About to launch: 'WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe")' in dir 'Some(WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current"))' with arguments: WideString("\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" --veloapp-uninstall 0.2.0\0")
+[update:6168] [06:09:28] [INFO] Environment block present: true, flags: PROCESS_CREATION_FLAGS(134218752)
+[update:6168] [06:09:28] [INFO] Waiting 60000ms for process handle to exit.
+[lib-csharp:5084] [06:09:28] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:5084] [06:09:28] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:5084] [06:09:28] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:5084] [06:09:28] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:5084] [06:09:28] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:5084] [06:09:28] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:5084] [06:09:28] [Information] Found fast exit hook: --veloapp-uninstall
+[lib-csharp:5084] [06:09:28] [Information] Completed hook, exiting...
+[update:6168] [06:09:28] [INFO] Hook executed successfully (took 85.34609ms)
+[update:6168] [06:09:28] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:6168] [06:09:28] [INFO] Inspected 89 running processes in 35ms, 1 matched directory
+[update:6168] [06:09:28] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (6168)
+[update:6168] [06:09:28] [INFO] Force-stop check complete.
+[update:6168] [06:09:28] [INFO] COM context initialized in 5ms
+[update:6168] [06:09:28] [INFO] Searching for shortcuts containing root: '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:6168] [06:09:28] [INFO] Searching for shortcuts in: ShortcutLocationFlags(DESKTOP) (C:\Users\WDAGUtilityAccount\Desktop/*.lnk)
+[update:6168] [06:09:28] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:6168] [06:09:28] [INFO] Searching for shortcuts in: ShortcutLocationFlags(STARTUP) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup/*.lnk)
+[update:6168] [06:09:28] [INFO] Searching for shortcuts in: ShortcutLocationFlags(START_MENU) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs/**/*.lnk)
+[update:6168] [06:09:28] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:6168] [06:09:28] [INFO] Searching for shortcuts in: ShortcutLocationFlags(USER_PINNED) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned/**/*.lnk)
+[update:6168] [06:09:28] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' (ShortcutLocationFlags(DESKTOP)).
+[update:6168] [06:09:29] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' (ShortcutLocationFlags(START_MENU)).
+[update:6168] [06:09:29] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:6168] [06:09:29] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Temp\\velopack_Iris"'
+[update:6168] [06:09:29] [INFO] Removing uninstall registry keys...
+[update:6168] [06:09:29] [INFO] Finished successfully.
+[update:6168] [06:09:29] [INFO] Scheduling removal of install directory...
+[update:6168] [06:09:29] [INFO] Running: cmd.exe /C choice /C Y /N /D Y /T 3 & rmdir /s /q "C:\Users\WDAGUtilityAccount\AppData\Local\Iris"
+[lib-csharp:4852] [07:00:41] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:4852] [07:00:41] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:4852] [07:00:41] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:4852] [07:00:41] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:4852] [07:00:41] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:4852] [07:00:41] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:4852] [07:00:41] [Information] Found fast exit hook: --veloapp-install
+[lib-csharp:4852] [07:00:41] [Information] Completed hook, exiting...
+[update:1224] [07:00:47] [INFO] --
+[update:1224] [07:00:47] [INFO] Starting Velopack Updater (1.2.161)
+[update:1224] [07:00:47] [INFO]     Location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe"
+[update:1224] [07:00:47] [INFO]     CWD: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"
+[update:1224] [07:00:47] [INFO]     Verbose: false
+[update:1224] [07:00:47] [INFO]     Silent: true
+[update:1224] [07:00:47] [INFO]     Root Directory: None
+[update:1224] [07:00:47] [INFO]     Log File: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\velopack\\velopack_Iris.log"
+[update:1224] [07:00:47] [INFO]     Context: IAmUpdateExe
+[update:1224] [07:00:47] [INFO] Command: Uninstall
+[update:1224] [07:00:47] [INFO] Auto-locating app manifest...
+[update:1224] [07:00:47] [INFO] Root directory 'C:\Users\WDAGUtilityAccount\AppData\Local\Iris' writable: true
+[update:1224] [07:00:47] [INFO] Using root packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[update:1224] [07:00:47] [INFO] Command: Uninstall
+[update:1224] [07:00:47] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:1224] [07:00:47] [INFO] Inspected 89 running processes in 21ms, 1 matched directory
+[update:1224] [07:00:47] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (1224)
+[update:1224] [07:00:47] [INFO] Force-stop check complete.
+[update:1224] [07:00:47] [INFO] Running --veloapp-uninstall hook...
+[update:1224] [07:00:47] [INFO] About to launch: 'WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe")' in dir 'Some(WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current"))' with arguments: WideString("\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" --veloapp-uninstall 0.2.0\0")
+[update:1224] [07:00:47] [INFO] Environment block present: true, flags: PROCESS_CREATION_FLAGS(134218752)
+[update:1224] [07:00:47] [INFO] Waiting 60000ms for process handle to exit.
+[lib-csharp:6480] [07:00:47] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:6480] [07:00:47] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:6480] [07:00:47] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:6480] [07:00:47] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:6480] [07:00:47] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:6480] [07:00:47] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:6480] [07:00:47] [Information] Found fast exit hook: --veloapp-uninstall
+[lib-csharp:6480] [07:00:47] [Information] Completed hook, exiting...
+[update:1224] [07:00:47] [INFO] Hook executed successfully (took 107.6892ms)
+[update:1224] [07:00:47] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:1224] [07:00:47] [INFO] Inspected 89 running processes in 46ms, 1 matched directory
+[update:1224] [07:00:47] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (1224)
+[update:1224] [07:00:47] [INFO] Force-stop check complete.
+[update:1224] [07:00:47] [INFO] COM context initialized in 5ms
+[update:1224] [07:00:47] [INFO] Searching for shortcuts containing root: '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:1224] [07:00:47] [INFO] Searching for shortcuts in: ShortcutLocationFlags(DESKTOP) (C:\Users\WDAGUtilityAccount\Desktop/*.lnk)
+[update:1224] [07:00:47] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:1224] [07:00:47] [INFO] Searching for shortcuts in: ShortcutLocationFlags(STARTUP) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup/*.lnk)
+[update:1224] [07:00:47] [INFO] Searching for shortcuts in: ShortcutLocationFlags(START_MENU) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs/**/*.lnk)
+[update:1224] [07:00:47] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:1224] [07:00:47] [INFO] Searching for shortcuts in: ShortcutLocationFlags(USER_PINNED) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned/**/*.lnk)
+[update:1224] [07:00:47] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' (ShortcutLocationFlags(DESKTOP)).
+[update:1224] [07:00:47] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' (ShortcutLocationFlags(START_MENU)).
+[update:1224] [07:00:47] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:1224] [07:00:47] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Temp\\velopack_Iris"'
+[update:1224] [07:00:47] [INFO] Removing uninstall registry keys...
+[update:1224] [07:00:47] [INFO] Finished successfully.
+[update:1224] [07:00:47] [INFO] Scheduling removal of install directory...
+[update:1224] [07:00:47] [INFO] Running: cmd.exe /C choice /C Y /N /D Y /T 3 & rmdir /s /q "C:\Users\WDAGUtilityAccount\AppData\Local\Iris"
+[lib-csharp:3044] [07:00:51] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:3044] [07:00:51] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:3044] [07:00:51] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:3044] [07:00:51] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:3044] [07:00:51] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:3044] [07:00:51] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:3044] [07:00:51] [Information] Found fast exit hook: --veloapp-install
+[lib-csharp:3044] [07:00:51] [Information] Completed hook, exiting...
+[update:5468] [07:00:54] [INFO] --
+[update:5468] [07:00:54] [INFO] Starting Velopack Updater (1.2.161)
+[update:5468] [07:00:54] [INFO]     Location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe"
+[update:5468] [07:00:54] [INFO]     CWD: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"
+[update:5468] [07:00:54] [INFO]     Verbose: false
+[update:5468] [07:00:54] [INFO]     Silent: true
+[update:5468] [07:00:54] [INFO]     Root Directory: None
+[update:5468] [07:00:54] [INFO]     Log File: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\velopack\\velopack_Iris.log"
+[update:5468] [07:00:54] [INFO]     Context: IAmUpdateExe
+[update:5468] [07:00:54] [INFO] Command: Uninstall
+[update:5468] [07:00:54] [INFO] Auto-locating app manifest...
+[update:5468] [07:00:54] [INFO] Root directory 'C:\Users\WDAGUtilityAccount\AppData\Local\Iris' writable: true
+[update:5468] [07:00:54] [INFO] Using root packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[update:5468] [07:00:54] [INFO] Command: Uninstall
+[update:5468] [07:00:54] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:5468] [07:00:54] [INFO] Inspected 90 running processes in 79ms, 1 matched directory
+[update:5468] [07:00:54] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (5468)
+[update:5468] [07:00:54] [INFO] Force-stop check complete.
+[update:5468] [07:00:54] [INFO] Running --veloapp-uninstall hook...
+[update:5468] [07:00:54] [INFO] About to launch: 'WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe")' in dir 'Some(WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current"))' with arguments: WideString("\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" --veloapp-uninstall 0.2.0\0")
+[update:5468] [07:00:54] [INFO] Environment block present: true, flags: PROCESS_CREATION_FLAGS(134218752)
+[update:5468] [07:00:54] [INFO] Waiting 60000ms for process handle to exit.
+[lib-csharp:6712] [07:00:54] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:6712] [07:00:54] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:6712] [07:00:54] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:6712] [07:00:54] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:6712] [07:00:54] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:6712] [07:00:54] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:6712] [07:00:54] [Information] Found fast exit hook: --veloapp-uninstall
+[lib-csharp:6712] [07:00:54] [Information] Completed hook, exiting...
+[update:5468] [07:00:54] [INFO] Hook executed successfully (took 79.7647ms)
+[update:5468] [07:00:54] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:5468] [07:00:54] [INFO] Inspected 89 running processes in 24ms, 1 matched directory
+[update:5468] [07:00:54] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (5468)
+[update:5468] [07:00:54] [INFO] Force-stop check complete.
+[update:5468] [07:00:54] [INFO] COM context initialized in 4ms
+[update:5468] [07:00:54] [INFO] Searching for shortcuts containing root: '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:5468] [07:00:54] [INFO] Searching for shortcuts in: ShortcutLocationFlags(DESKTOP) (C:\Users\WDAGUtilityAccount\Desktop/*.lnk)
+[update:5468] [07:00:54] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:5468] [07:00:54] [INFO] Searching for shortcuts in: ShortcutLocationFlags(STARTUP) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup/*.lnk)
+[update:5468] [07:00:54] [INFO] Searching for shortcuts in: ShortcutLocationFlags(START_MENU) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs/**/*.lnk)
+[update:5468] [07:00:54] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:5468] [07:00:54] [INFO] Searching for shortcuts in: ShortcutLocationFlags(USER_PINNED) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned/**/*.lnk)
+[update:5468] [07:00:54] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' (ShortcutLocationFlags(DESKTOP)).
+[update:5468] [07:00:54] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' (ShortcutLocationFlags(START_MENU)).
+[update:5468] [07:00:54] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:5468] [07:00:54] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Temp\\velopack_Iris"'
+[update:5468] [07:00:54] [INFO] Removing uninstall registry keys...
+[update:5468] [07:00:54] [INFO] Finished successfully.
+[update:5468] [07:00:54] [INFO] Scheduling removal of install directory...
+[update:5468] [07:00:54] [INFO] Running: cmd.exe /C choice /C Y /N /D Y /T 3 & rmdir /s /q "C:\Users\WDAGUtilityAccount\AppData\Local\Iris"
+[lib-csharp:4480] [08:52:29] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:4480] [08:52:29] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:4480] [08:52:29] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:4480] [08:52:29] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:4480] [08:52:29] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:4480] [08:52:29] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:4480] [08:52:29] [Information] Found fast exit hook: --veloapp-install
+[lib-csharp:4480] [08:52:29] [Information] Completed hook, exiting...
+[update:4628] [08:52:34] [INFO] --
+[update:4628] [08:52:34] [INFO] Starting Velopack Updater (1.2.161)
+[update:4628] [08:52:34] [INFO]     Location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe"
+[update:4628] [08:52:34] [INFO]     CWD: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"
+[update:4628] [08:52:34] [INFO]     Verbose: false
+[update:4628] [08:52:34] [INFO]     Silent: true
+[update:4628] [08:52:34] [INFO]     Root Directory: None
+[update:4628] [08:52:34] [INFO]     Log File: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\velopack\\velopack_Iris.log"
+[update:4628] [08:52:34] [INFO]     Context: IAmUpdateExe
+[update:4628] [08:52:34] [INFO] Command: Uninstall
+[update:4628] [08:52:34] [INFO] Auto-locating app manifest...
+[update:4628] [08:52:34] [INFO] Root directory 'C:\Users\WDAGUtilityAccount\AppData\Local\Iris' writable: true
+[update:4628] [08:52:34] [INFO] Using root packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[update:4628] [08:52:34] [INFO] Command: Uninstall
+[update:4628] [08:52:34] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:4628] [08:52:34] [INFO] Inspected 90 running processes in 105ms, 1 matched directory
+[update:4628] [08:52:34] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (4628)
+[update:4628] [08:52:34] [INFO] Force-stop check complete.
+[update:4628] [08:52:34] [INFO] Running --veloapp-uninstall hook...
+[update:4628] [08:52:34] [INFO] About to launch: 'WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe")' in dir 'Some(WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current"))' with arguments: WideString("\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" --veloapp-uninstall 0.2.0\0")
+[update:4628] [08:52:34] [INFO] Environment block present: true, flags: PROCESS_CREATION_FLAGS(134218752)
+[update:4628] [08:52:34] [INFO] Waiting 60000ms for process handle to exit.
+[lib-csharp:4452] [08:52:35] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:4452] [08:52:35] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:4452] [08:52:35] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:4452] [08:52:35] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:4452] [08:52:35] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:4452] [08:52:35] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:4452] [08:52:35] [Information] Found fast exit hook: --veloapp-uninstall
+[lib-csharp:4452] [08:52:35] [Information] Completed hook, exiting...
+[update:4628] [08:52:35] [INFO] Hook executed successfully (took 79.3932ms)
+[update:4628] [08:52:35] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:4628] [08:52:35] [INFO] Inspected 88 running processes in 25ms, 1 matched directory
+[update:4628] [08:52:35] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (4628)
+[update:4628] [08:52:35] [INFO] Force-stop check complete.
+[update:4628] [08:52:35] [INFO] COM context initialized in 4ms
+[update:4628] [08:52:35] [INFO] Searching for shortcuts containing root: '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:4628] [08:52:35] [INFO] Searching for shortcuts in: ShortcutLocationFlags(DESKTOP) (C:\Users\WDAGUtilityAccount\Desktop/*.lnk)
+[update:4628] [08:52:35] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:4628] [08:52:35] [INFO] Searching for shortcuts in: ShortcutLocationFlags(STARTUP) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup/*.lnk)
+[update:4628] [08:52:35] [INFO] Searching for shortcuts in: ShortcutLocationFlags(START_MENU) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs/**/*.lnk)
+[update:4628] [08:52:35] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:4628] [08:52:35] [INFO] Searching for shortcuts in: ShortcutLocationFlags(USER_PINNED) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned/**/*.lnk)
+[update:4628] [08:52:35] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' (ShortcutLocationFlags(DESKTOP)).
+[update:4628] [08:52:35] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' (ShortcutLocationFlags(START_MENU)).
+[update:4628] [08:52:35] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:4628] [08:52:35] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Temp\\velopack_Iris"'
+[update:4628] [08:52:35] [INFO] Removing uninstall registry keys...
+[update:4628] [08:52:35] [INFO] Finished successfully.
+[update:4628] [08:52:35] [INFO] Scheduling removal of install directory...
+[update:4628] [08:52:35] [INFO] Running: cmd.exe /C choice /C Y /N /D Y /T 3 & rmdir /s /q "C:\Users\WDAGUtilityAccount\AppData\Local\Iris"
+[lib-csharp:2352] [09:25:55] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:2352] [09:25:55] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:2352] [09:25:55] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:2352] [09:25:55] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:2352] [09:25:55] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:2352] [09:25:55] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:2352] [09:25:55] [Information] Found fast exit hook: --veloapp-install
+[lib-csharp:2352] [09:25:55] [Information] Completed hook, exiting...
+[update:5948] [09:26:01] [INFO] --
+[update:5948] [09:26:01] [INFO] Starting Velopack Updater (1.2.161)
+[update:5948] [09:26:01] [INFO]     Location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe"
+[update:5948] [09:26:01] [INFO]     CWD: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"
+[update:5948] [09:26:01] [INFO]     Verbose: false
+[update:5948] [09:26:01] [INFO]     Silent: true
+[update:5948] [09:26:01] [INFO]     Root Directory: None
+[update:5948] [09:26:01] [INFO]     Log File: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\velopack\\velopack_Iris.log"
+[update:5948] [09:26:01] [INFO]     Context: IAmUpdateExe
+[update:5948] [09:26:01] [INFO] Command: Uninstall
+[update:5948] [09:26:01] [INFO] Auto-locating app manifest...
+[update:5948] [09:26:01] [INFO] Root directory 'C:\Users\WDAGUtilityAccount\AppData\Local\Iris' writable: true
+[update:5948] [09:26:01] [INFO] Using root packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[update:5948] [09:26:01] [INFO] Command: Uninstall
+[update:5948] [09:26:01] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:5948] [09:26:01] [INFO] Inspected 89 running processes in 30ms, 1 matched directory
+[update:5948] [09:26:01] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (5948)
+[update:5948] [09:26:01] [INFO] Force-stop check complete.
+[update:5948] [09:26:01] [INFO] Running --veloapp-uninstall hook...
+[update:5948] [09:26:01] [INFO] About to launch: 'WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe")' in dir 'Some(WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current"))' with arguments: WideString("\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" --veloapp-uninstall 0.2.0\0")
+[update:5948] [09:26:01] [INFO] Environment block present: true, flags: PROCESS_CREATION_FLAGS(134218752)
+[update:5948] [09:26:01] [INFO] Waiting 60000ms for process handle to exit.
+[lib-csharp:960] [09:26:01] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:960] [09:26:01] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:960] [09:26:01] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:960] [09:26:01] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:960] [09:26:01] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:960] [09:26:01] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:960] [09:26:01] [Information] Found fast exit hook: --veloapp-uninstall
+[lib-csharp:960] [09:26:01] [Information] Completed hook, exiting...
+[update:5948] [09:26:01] [INFO] Hook executed successfully (took 77.8892ms)
+[update:5948] [09:26:01] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:5948] [09:26:01] [INFO] Inspected 88 running processes in 38ms, 1 matched directory
+[update:5948] [09:26:01] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (5948)
+[update:5948] [09:26:01] [INFO] Force-stop check complete.
+[update:5948] [09:26:01] [INFO] COM context initialized in 7ms
+[update:5948] [09:26:01] [INFO] Searching for shortcuts containing root: '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:5948] [09:26:01] [INFO] Searching for shortcuts in: ShortcutLocationFlags(DESKTOP) (C:\Users\WDAGUtilityAccount\Desktop/*.lnk)
+[update:5948] [09:26:01] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:5948] [09:26:01] [INFO] Searching for shortcuts in: ShortcutLocationFlags(STARTUP) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup/*.lnk)
+[update:5948] [09:26:01] [INFO] Searching for shortcuts in: ShortcutLocationFlags(START_MENU) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs/**/*.lnk)
+[update:5948] [09:26:01] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:5948] [09:26:01] [INFO] Searching for shortcuts in: ShortcutLocationFlags(USER_PINNED) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned/**/*.lnk)
+[update:5948] [09:26:01] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' (ShortcutLocationFlags(DESKTOP)).
+[update:5948] [09:26:01] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' (ShortcutLocationFlags(START_MENU)).
+[update:5948] [09:26:01] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:5948] [09:26:01] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Temp\\velopack_Iris"'
+[update:5948] [09:26:01] [INFO] Removing uninstall registry keys...
+[update:5948] [09:26:01] [INFO] Finished successfully.
+[update:5948] [09:26:01] [INFO] Scheduling removal of install directory...
+[update:5948] [09:26:01] [INFO] Running: cmd.exe /C choice /C Y /N /D Y /T 3 & rmdir /s /q "C:\Users\WDAGUtilityAccount\AppData\Local\Iris"
+[lib-csharp:5452] [09:26:06] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:5452] [09:26:06] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:5452] [09:26:06] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:5452] [09:26:06] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:5452] [09:26:06] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:5452] [09:26:06] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:5452] [09:26:06] [Information] Found fast exit hook: --veloapp-install
+[lib-csharp:5452] [09:26:06] [Information] Completed hook, exiting...
+[update:2716] [09:26:08] [INFO] --
+[update:2716] [09:26:08] [INFO] Starting Velopack Updater (1.2.161)
+[update:2716] [09:26:08] [INFO]     Location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe"
+[update:2716] [09:26:08] [INFO]     CWD: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"
+[update:2716] [09:26:08] [INFO]     Verbose: false
+[update:2716] [09:26:08] [INFO]     Silent: true
+[update:2716] [09:26:08] [INFO]     Root Directory: None
+[update:2716] [09:26:08] [INFO]     Log File: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\velopack\\velopack_Iris.log"
+[update:2716] [09:26:08] [INFO]     Context: IAmUpdateExe
+[update:2716] [09:26:08] [INFO] Command: Uninstall
+[update:2716] [09:26:08] [INFO] Auto-locating app manifest...
+[update:2716] [09:26:08] [INFO] Root directory 'C:\Users\WDAGUtilityAccount\AppData\Local\Iris' writable: true
+[update:2716] [09:26:08] [INFO] Using root packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[update:2716] [09:26:08] [INFO] Command: Uninstall
+[update:2716] [09:26:08] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:2716] [09:26:08] [INFO] Inspected 90 running processes in 53ms, 1 matched directory
+[update:2716] [09:26:08] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (2716)
+[update:2716] [09:26:08] [INFO] Force-stop check complete.
+[update:2716] [09:26:08] [INFO] Running --veloapp-uninstall hook...
+[update:2716] [09:26:08] [INFO] About to launch: 'WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe")' in dir 'Some(WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current"))' with arguments: WideString("\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" --veloapp-uninstall 0.2.0\0")
+[update:2716] [09:26:08] [INFO] Environment block present: true, flags: PROCESS_CREATION_FLAGS(134218752)
+[update:2716] [09:26:08] [INFO] Waiting 60000ms for process handle to exit.
+[lib-csharp:7928] [09:26:08] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7928] [09:26:08] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7928] [09:26:08] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7928] [09:26:08] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:7928] [09:26:08] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:7928] [09:26:08] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:7928] [09:26:08] [Information] Found fast exit hook: --veloapp-uninstall
+[lib-csharp:7928] [09:26:08] [Information] Completed hook, exiting...
+[update:2716] [09:26:08] [INFO] Hook executed successfully (took 82.61649ms)
+[update:2716] [09:26:08] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:2716] [09:26:08] [INFO] Inspected 90 running processes in 42ms, 1 matched directory
+[update:2716] [09:26:08] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (2716)
+[update:2716] [09:26:08] [INFO] Force-stop check complete.
+[update:2716] [09:26:08] [INFO] COM context initialized in 11ms
+[update:2716] [09:26:08] [INFO] Searching for shortcuts containing root: '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:2716] [09:26:08] [INFO] Searching for shortcuts in: ShortcutLocationFlags(DESKTOP) (C:\Users\WDAGUtilityAccount\Desktop/*.lnk)
+[update:2716] [09:26:08] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:2716] [09:26:08] [INFO] Searching for shortcuts in: ShortcutLocationFlags(STARTUP) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup/*.lnk)
+[update:2716] [09:26:08] [INFO] Searching for shortcuts in: ShortcutLocationFlags(START_MENU) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs/**/*.lnk)
+[update:2716] [09:26:08] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:2716] [09:26:08] [INFO] Searching for shortcuts in: ShortcutLocationFlags(USER_PINNED) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned/**/*.lnk)
+[update:2716] [09:26:08] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' (ShortcutLocationFlags(DESKTOP)).
+[update:2716] [09:26:08] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' (ShortcutLocationFlags(START_MENU)).
+[update:2716] [09:26:08] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:2716] [09:26:08] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Temp\\velopack_Iris"'
+[update:2716] [09:26:08] [INFO] Removing uninstall registry keys...
+[update:2716] [09:26:08] [INFO] Finished successfully.
+[update:2716] [09:26:08] [INFO] Scheduling removal of install directory...
+[update:2716] [09:26:08] [INFO] Running: cmd.exe /C choice /C Y /N /D Y /T 3 & rmdir /s /q "C:\Users\WDAGUtilityAccount\AppData\Local\Iris"
+[lib-csharp:3328] [09:26:13] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:3328] [09:26:13] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:3328] [09:26:13] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:3328] [09:26:13] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:3328] [09:26:13] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:3328] [09:26:13] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:3328] [09:26:13] [Information] Found fast exit hook: --veloapp-install
+[lib-csharp:3328] [09:26:13] [Information] Completed hook, exiting...
+[update:6700] [09:26:15] [INFO] --
+[update:6700] [09:26:15] [INFO] Starting Velopack Updater (1.2.161)
+[update:6700] [09:26:15] [INFO]     Location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe"
+[update:6700] [09:26:15] [INFO]     CWD: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"
+[update:6700] [09:26:15] [INFO]     Verbose: false
+[update:6700] [09:26:15] [INFO]     Silent: true
+[update:6700] [09:26:15] [INFO]     Root Directory: None
+[update:6700] [09:26:15] [INFO]     Log File: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\velopack\\velopack_Iris.log"
+[update:6700] [09:26:15] [INFO]     Context: IAmUpdateExe
+[update:6700] [09:26:15] [INFO] Command: Uninstall
+[update:6700] [09:26:15] [INFO] Auto-locating app manifest...
+[update:6700] [09:26:15] [INFO] Root directory 'C:\Users\WDAGUtilityAccount\AppData\Local\Iris' writable: true
+[update:6700] [09:26:15] [INFO] Using root packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[update:6700] [09:26:15] [INFO] Command: Uninstall
+[update:6700] [09:26:15] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:6700] [09:26:15] [INFO] Inspected 90 running processes in 38ms, 1 matched directory
+[update:6700] [09:26:15] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (6700)
+[update:6700] [09:26:15] [INFO] Force-stop check complete.
+[update:6700] [09:26:15] [INFO] Running --veloapp-uninstall hook...
+[update:6700] [09:26:15] [INFO] About to launch: 'WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe")' in dir 'Some(WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current"))' with arguments: WideString("\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" --veloapp-uninstall 0.2.0\0")
+[update:6700] [09:26:15] [INFO] Environment block present: true, flags: PROCESS_CREATION_FLAGS(134218752)
+[update:6700] [09:26:15] [INFO] Waiting 60000ms for process handle to exit.
+[lib-csharp:3512] [09:26:15] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:3512] [09:26:15] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:3512] [09:26:15] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:3512] [09:26:15] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:3512] [09:26:15] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:3512] [09:26:15] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:3512] [09:26:15] [Information] Found fast exit hook: --veloapp-uninstall
+[lib-csharp:3512] [09:26:15] [Information] Completed hook, exiting...
+[update:6700] [09:26:15] [INFO] Hook executed successfully (took 104.7024ms)
+[update:6700] [09:26:15] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:6700] [09:26:16] [INFO] Inspected 90 running processes in 150ms, 1 matched directory
+[update:6700] [09:26:16] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (6700)
+[update:6700] [09:26:16] [INFO] Force-stop check complete.
+[update:6700] [09:26:16] [INFO] COM context initialized in 9ms
+[update:6700] [09:26:16] [INFO] Searching for shortcuts containing root: '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:6700] [09:26:16] [INFO] Searching for shortcuts in: ShortcutLocationFlags(DESKTOP) (C:\Users\WDAGUtilityAccount\Desktop/*.lnk)
+[update:6700] [09:26:16] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:6700] [09:26:16] [INFO] Searching for shortcuts in: ShortcutLocationFlags(STARTUP) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup/*.lnk)
+[update:6700] [09:26:16] [INFO] Searching for shortcuts in: ShortcutLocationFlags(START_MENU) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs/**/*.lnk)
+[update:6700] [09:26:16] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:6700] [09:26:16] [INFO] Searching for shortcuts in: ShortcutLocationFlags(USER_PINNED) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned/**/*.lnk)
+[update:6700] [09:26:16] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' (ShortcutLocationFlags(DESKTOP)).
+[update:6700] [09:26:16] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' (ShortcutLocationFlags(START_MENU)).
+[update:6700] [09:26:16] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:6700] [09:26:16] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Temp\\velopack_Iris"'
+[update:6700] [09:26:16] [INFO] Removing uninstall registry keys...
+[update:6700] [09:26:16] [INFO] Finished successfully.
+[update:6700] [09:26:16] [INFO] Scheduling removal of install directory...
+[update:6700] [09:26:16] [INFO] Running: cmd.exe /C choice /C Y /N /D Y /T 3 & rmdir /s /q "C:\Users\WDAGUtilityAccount\AppData\Local\Iris"
+[lib-csharp:3276] [09:26:21] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:3276] [09:26:21] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:3276] [09:26:21] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:3276] [09:26:21] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:3276] [09:26:21] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:3276] [09:26:21] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:3276] [09:26:21] [Information] Found fast exit hook: --veloapp-install
+[lib-csharp:3276] [09:26:21] [Information] Completed hook, exiting...
+[update:6552] [09:26:23] [INFO] --
+[update:6552] [09:26:23] [INFO] Starting Velopack Updater (1.2.161)
+[update:6552] [09:26:23] [INFO]     Location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe"
+[update:6552] [09:26:23] [INFO]     CWD: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"
+[update:6552] [09:26:23] [INFO]     Verbose: false
+[update:6552] [09:26:23] [INFO]     Silent: true
+[update:6552] [09:26:23] [INFO]     Root Directory: None
+[update:6552] [09:26:23] [INFO]     Log File: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\velopack\\velopack_Iris.log"
+[update:6552] [09:26:23] [INFO]     Context: IAmUpdateExe
+[update:6552] [09:26:23] [INFO] Command: Uninstall
+[update:6552] [09:26:23] [INFO] Auto-locating app manifest...
+[update:6552] [09:26:23] [INFO] Root directory 'C:\Users\WDAGUtilityAccount\AppData\Local\Iris' writable: true
+[update:6552] [09:26:23] [INFO] Using root packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[update:6552] [09:26:23] [INFO] Command: Uninstall
+[update:6552] [09:26:23] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:6552] [09:26:23] [INFO] Inspected 90 running processes in 26ms, 1 matched directory
+[update:6552] [09:26:23] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (6552)
+[update:6552] [09:26:23] [INFO] Force-stop check complete.
+[update:6552] [09:26:23] [INFO] Running --veloapp-uninstall hook...
+[update:6552] [09:26:23] [INFO] About to launch: 'WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe")' in dir 'Some(WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current"))' with arguments: WideString("\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" --veloapp-uninstall 0.2.0\0")
+[update:6552] [09:26:23] [INFO] Environment block present: true, flags: PROCESS_CREATION_FLAGS(134218752)
+[update:6552] [09:26:23] [INFO] Waiting 60000ms for process handle to exit.
+[lib-csharp:2352] [09:26:23] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:2352] [09:26:23] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:2352] [09:26:23] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:2352] [09:26:23] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:2352] [09:26:23] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:2352] [09:26:23] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:2352] [09:26:23] [Information] Found fast exit hook: --veloapp-uninstall
+[lib-csharp:2352] [09:26:23] [Information] Completed hook, exiting...
+[update:6552] [09:26:23] [INFO] Hook executed successfully (took 83.1786ms)
+[update:6552] [09:26:23] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:6552] [09:26:23] [INFO] Inspected 90 running processes in 57ms, 1 matched directory
+[update:6552] [09:26:23] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (6552)
+[update:6552] [09:26:23] [INFO] Force-stop check complete.
+[update:6552] [09:26:23] [INFO] COM context initialized in 5ms
+[update:6552] [09:26:23] [INFO] Searching for shortcuts containing root: '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:6552] [09:26:23] [INFO] Searching for shortcuts in: ShortcutLocationFlags(DESKTOP) (C:\Users\WDAGUtilityAccount\Desktop/*.lnk)
+[update:6552] [09:26:23] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:6552] [09:26:23] [INFO] Searching for shortcuts in: ShortcutLocationFlags(STARTUP) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup/*.lnk)
+[update:6552] [09:26:23] [INFO] Searching for shortcuts in: ShortcutLocationFlags(START_MENU) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs/**/*.lnk)
+[update:6552] [09:26:23] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:6552] [09:26:23] [INFO] Searching for shortcuts in: ShortcutLocationFlags(USER_PINNED) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned/**/*.lnk)
+[update:6552] [09:26:23] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' (ShortcutLocationFlags(DESKTOP)).
+[update:6552] [09:26:23] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' (ShortcutLocationFlags(START_MENU)).
+[update:6552] [09:26:23] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:6552] [09:26:23] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Temp\\velopack_Iris"'
+[update:6552] [09:26:23] [INFO] Removing uninstall registry keys...
+[update:6552] [09:26:23] [INFO] Finished successfully.
+[update:6552] [09:26:23] [INFO] Scheduling removal of install directory...
+[update:6552] [09:26:23] [INFO] Running: cmd.exe /C choice /C Y /N /D Y /T 3 & rmdir /s /q "C:\Users\WDAGUtilityAccount\AppData\Local\Iris"
+[lib-csharp:6656] [11:05:44] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:6656] [11:05:44] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:6656] [11:05:44] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:6656] [11:05:44] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:6656] [11:05:44] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:6656] [11:05:44] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:6656] [11:05:44] [Information] Found fast exit hook: --veloapp-install
+[lib-csharp:6656] [11:05:44] [Information] Completed hook, exiting...
+[lib-csharp:2908] [11:05:45] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:2908] [11:05:45] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:2908] [11:05:45] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:2908] [11:05:45] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:2908] [11:05:45] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:2908] [11:05:45] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[update:2976] [11:05:48] [INFO] --
+[update:2976] [11:05:48] [INFO] Starting Velopack Updater (1.2.161)
+[update:2976] [11:05:48] [INFO]     Location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe"
+[update:2976] [11:05:48] [INFO]     CWD: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"
+[update:2976] [11:05:48] [INFO]     Verbose: false
+[update:2976] [11:05:48] [INFO]     Silent: false
+[update:2976] [11:05:48] [INFO]     Root Directory: Some("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris")
+[update:2976] [11:05:48] [INFO]     Log File: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\velopack\\velopack_Iris.log"
+[update:2976] [11:05:48] [INFO]     Context: FromSpecifiedRootDir("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris", Some("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages"))
+[update:2976] [11:05:48] [INFO] Command: Apply
+[update:2976] [11:05:48] [INFO]     Restart: false
+[update:2976] [11:05:48] [INFO]     Wait: NoWait
+[update:2976] [11:05:48] [INFO]     Package: Some("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\Iris-0.2.1-full.nupkg")
+[update:2976] [11:05:48] [INFO]     Exe Args: None
+[update:2976] [11:05:48] [INFO] Auto-locating app manifest...
+[update:2976] [11:05:48] [INFO] Root directory 'C:\Users\WDAGUtilityAccount\AppData\Local\Iris' writable: true
+[update:2976] [11:05:48] [INFO] Using root packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[update:2976] [11:05:48] [INFO] Getting ready to apply package to Iris ver 0.2.0: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\Iris-0.2.1-full.nupkg"
+[update:2976] [11:05:48] [INFO] Attempting to acquire exclusive lock on packages directory (non-blocking)...
+[update:2976] [11:05:48] [INFO] Applying package 0.2.1 to current: 0.2.0
+[update:2976] [11:05:48] [INFO] Checking application pre-requisites...
+[update:2976] [11:05:48] [INFO]     .NET 10.0.0 X64 WindowsDesktop is already installed.
+[update:2976] [11:05:48] [INFO] Extracting 100 app files to '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\VelopackTemp\\tmp_Y432EGiBktXLi3Ut"'...
+[update:2976] [11:05:49] [INFO] Running --veloapp-obsolete hook...
+[update:2976] [11:05:49] [INFO] About to launch: 'WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe")' in dir 'Some(WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current"))' with arguments: WideString("\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" --veloapp-obsolete 0.2.0\0")
+[update:2976] [11:05:49] [INFO] Environment block present: true, flags: PROCESS_CREATION_FLAGS(134218752)
+[update:2976] [11:05:49] [INFO] Waiting 15000ms for process handle to exit.
+[lib-csharp:3688] [11:05:49] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:3688] [11:05:49] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:3688] [11:05:49] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:3688] [11:05:49] [Information] Initialized WindowsVelopackLocator for Iris v0.2.0
+[lib-csharp:3688] [11:05:49] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:3688] [11:05:49] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:3688] [11:05:49] [Information] Found fast exit hook: --veloapp-obsolete
+[lib-csharp:3688] [11:05:49] [Information] Completed hook, exiting...
+[update:2976] [11:05:49] [INFO] Hook executed successfully (took 76.7093ms)
+[update:2976] [11:05:49] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:2976] [11:05:49] [INFO] Inspected 90 running processes in 41ms, 1 matched directory
+[update:2976] [11:05:49] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (2976)
+[update:2976] [11:05:49] [INFO] Force-stop check complete.
+[update:2976] [11:05:49] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:2976] [11:05:49] [INFO] Inspected 90 running processes in 38ms, 1 matched directory
+[update:2976] [11:05:49] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (2976)
+[update:2976] [11:05:49] [INFO] Force-stop check complete.
+[update:2976] [11:05:49] [INFO] Backing up current dir to "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\VelopackTemp\\tmp_qaj1YYbKKdgunacH"
+[update:2976] [11:05:49] [INFO] Replacing current dir with "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\VelopackTemp\\tmp_Y432EGiBktXLi3Ut"
+[update:2976] [11:05:49] [INFO] Writing uninstall registry key...
+[update:2976] [11:05:49] [INFO] Running --veloapp-updated hook...
+[update:2976] [11:05:49] [INFO] About to launch: 'WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe")' in dir 'Some(WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current"))' with arguments: WideString("\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" --veloapp-updated 0.2.1\0")
+[update:2976] [11:05:49] [INFO] Environment block present: true, flags: PROCESS_CREATION_FLAGS(134218752)
+[update:2976] [11:05:49] [INFO] Waiting 15000ms for process handle to exit.
+[lib-csharp:3600] [11:05:49] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:3600] [11:05:49] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:3600] [11:05:49] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:3600] [11:05:49] [Information] Initialized WindowsVelopackLocator for Iris v0.2.1
+[lib-csharp:3600] [11:05:49] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:3600] [11:05:49] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:3600] [11:05:49] [Information] Found fast exit hook: --veloapp-updated
+[lib-csharp:3600] [11:05:49] [Information] Completed hook, exiting...
+[update:2976] [11:05:49] [INFO] Hook executed successfully (took 132.5054ms)
+[update:2976] [11:05:49] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:2976] [11:05:49] [INFO] Inspected 90 running processes in 79ms, 1 matched directory
+[update:2976] [11:05:49] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (2976)
+[update:2976] [11:05:49] [INFO] Force-stop check complete.
+[update:2976] [11:05:49] [INFO] Removed temp dir "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\VelopackTemp\\tmp_qaj1YYbKKdgunacH" in 23ms
+[update:2976] [11:05:49] [INFO] COM context initialized in 2ms
+[update:2976] [11:05:49] [INFO] Shortcut Previous Locations: ShortcutLocationFlags(DESKTOP | START_MENU_ROOT) (Some("0.2.0"))
+[update:2976] [11:05:49] [INFO] Shortcut Next Locations: ShortcutLocationFlags(DESKTOP | START_MENU_ROOT) ("0.2.1")
+[update:2976] [11:05:49] [INFO] App Model ID: Some("velopack.Iris")
+[update:2976] [11:05:49] [INFO] Searching for shortcuts containing root: '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:2976] [11:05:49] [INFO] Searching for shortcuts in: ShortcutLocationFlags(DESKTOP) (C:\Users\WDAGUtilityAccount\Desktop/*.lnk)
+[update:2976] [11:05:49] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:2976] [11:05:49] [INFO] Searching for shortcuts in: ShortcutLocationFlags(STARTUP) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup/*.lnk)
+[update:2976] [11:05:49] [INFO] Searching for shortcuts in: ShortcutLocationFlags(START_MENU) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs/**/*.lnk)
+[update:2976] [11:05:49] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:2976] [11:05:49] [INFO] Searching for shortcuts in: ShortcutLocationFlags(USER_PINNED) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned/**/*.lnk)
+[update:2976] [11:05:49] [INFO] Will update all current shortcuts: [(ShortcutLocationFlags(DESKTOP), Lnk("C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk")), (ShortcutLocationFlags(START_MENU), Lnk("C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"))]
+[update:2976] [11:05:49] [INFO] Updating existing shortcut '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' (ShortcutLocationFlags(DESKTOP)).
+[update:2976] [11:05:49] [INFO] Updating existing shortcut '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' (ShortcutLocationFlags(START_MENU)).
+[update:2976] [11:05:49] [INFO] Package applied successfully.
+[update:2976] [11:05:49] [INFO] Update.exe is already in the correct location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe"
+[update:2976] [11:05:49] [INFO] Extracting stub 'Iris_ExecutionStub.exe' to '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Iris.exe"'
+[update:2976] [11:05:49] [INFO] Successfully extracted stub executable: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Iris.exe"
+[update:2976] [11:05:49] [INFO] Package version 0.2.1 applied successfully.
+[lib-csharp:3088] [11:05:49] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:3088] [11:05:49] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:3088] [11:05:49] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:3088] [11:05:49] [Information] Initialized WindowsVelopackLocator for Iris v0.2.1
+[lib-csharp:3088] [11:05:49] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:3088] [11:05:49] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:3088] [11:05:49] [Information] Removing old package: Iris-0.2.0-full.nupkg

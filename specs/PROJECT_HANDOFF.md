@@ -1,5 +1,45 @@
 # Iris 架构师接手记录
 
+**载荷清单已独立闭环，最终冷安装仍在观察（2026-10-15）**：开发接收了包清单补充，当前仍01a13e10-afe8-7e51-98e0-1650c3ed77c1，最后itemCount159，未交付。0.2.0-final-3/0.2.1-final-3的实际97项载荷清单、逐项大小/SHA、顶层7/9项以及外层附加载荷均独立匹配；staging另名保存，见package-final-3-observation，关闭该元数据缺陷。原final-2与C盘不足失败不覆盖。当前自有Sandbox为69e00710-ca7b-4fb0-83a7-6ceaa37781c2：外围20分钟观察期限已失败，原安装器/Setup仍在运行时下载阶段，尚无最终安装完成；开发已声明继续观察原进程、不重复启动。宿主官方运行时下载也慢，原下载记录有超时与部分字节；只供后续隔离诊断，不在宿主安装。接续先查实际进程/最新intent，不擅停此诊断来宾。架构师无构建/测试窗口占用，两个独立更新探针仍未编译/执行，完整B/C/父目标继续。
+
+**最新独立复核与待补清单（2026-10-15）**：guest-update-2无诊断干预的本地0.2.0→0.2.1路径已独立核对16个必要观察、91个输入指纹并查看新窗口；settings/secrets/history/log四类实际服务读验通过，4份数据文件报告哈希前后相同，见guest-update-2-observation。须保留控制父进程由专用宿主替换为PowerShell的边界，C在线真实UI链未验证。update-ui-2的64图也已通过8张联系表逐格查看并绑定，四个状态/两语言/两主题/两尺寸可读，不扩大为所有状态或安装按钮已执行。原独立运行探针仍待最终稳定构建的串行复验。
+
+实际PS5.1打包先因C盘临时空间不足失败，开发仅将该打包进程及子进程TEMP/TMP切到F盘专用目录，随后0.2.0-final-2/0.2.1-final-2均生成成功。架构师校验顶层文件哈希与外层载荷SHA一致，但发现payload-manifest为102项staging清单，实际包内97项（排除8个PDB，新增3个vpk文件）；已作为确定的元数据偏差发入当前开发轮，userMessage 01a13e88-84f6-77b0-b7ec-2683ae927374，见package-final-2-observation及coordination/package-manifest-receipt.json，等待修正实际包清单/重新绑定。不是包内容被破坏，不重复发送。
+
+开发当前继续01a13e10-afe8-7e51-98e0-1650c3ed77c1，未交付/未提交/未结案B。最终包的干净来宾、数据/自启动/快捷方式、稳定完成图和提交后失败提示等正在收尾；旧2ed0bc7d来宾已由开发收尾，后续有新自有实例，接续须从最新intent与wsb实际列表核对，勿沿用旧存活假设。架构师无构建/测试窗口占用，不push，不动.codex。
+
+**当前开发轮已因限流接续，仍为完整B（2026-10-15）**：原轮01a13b95-7293-7130-9c6a-562e43d01b22已明确failed/completedAt非空，错误rateLimitExceeded。架构师在同一开发聊天发送接续消息01a13e10-9cd2-7660-85c4-e5e501733a08，现执行轮01a13e10-afe8-7e51-98e0-1650c3ed77c1，开发已明确确认接续；不是重开聊天，不改模型，不重复启动来宾工作。final-coverage-notes.md已被实际读取，要求补稳定完成图、内容级数据/系统注册清理、实际PS5.1打包、最终源码产物绑定。当前架构师仍未占用构建/测试窗口。
+
+**新独立观察（2026-10-15）**：guest-install-5严格静默保留已独立逐项核对，源输入匹配；matrix-4的129项记录中54个必要断言另行确认，6个双语选择/重装/删除失败重试路径功能通过。11张图已逐格查看，10张可读，zh-delete-completed仅标题栏，待补稳定实际图；详见两个observation目录。系统标准按钮语言按LOCALIZATION第19行允许，不擅加翻译要求。PS5.1只做了静态语法解析，未执行完整打包；包装器初轮Get-FileHash失败及导入系统模块后的成功均保留。
+
+guest-update-1引擎记录实际0.2.1/NativeExit0/ParentExit0，外围却exactly-one-restart=false失败；process-diagnostic.json曾记录新App PID3088，开发随后作诊断Exit，不能据外围后续无进程断言从未重启。详见guest-update-1-observation.md；Run-Child等待重定向输出EOF而新App可能继承写句柄仅为待验证线索，未冒称独立实测根因。此线索已从实际界面发送一次，接收绑定见coordination/local-update-observation-receipt.json，不再排第二份CLI消息。自有Sandbox当前使用2ed0bc7d-2497-4e88-9f4e-e000b9105fde，保留用于后续工作，结束时必须显式停止自有实例；旧1035d4ff环境已停止，不能沿用下方旧保留状态。
+
+**最新为guest-install-4严格判定失败并保留来宾（2026-10-15）**：开发仍在B执行轮01a13b95-7293-7130-9c6a-562e43d01b22，最近itemCount214，未交付。修订脚本已实际观察外部Maintenance PID5044及启动时间/路径，入口exit0后外部拥有者exit2，因此maintenance-exit-zero-5044=false，整轮明确失败；安装、无.NET→10.0.13、实际窗口等前置检查为真。开发在定位安全阶段记录，不把入口成功当卸载成功。自有Sandbox 1035d4ff-d461-4bab-b9a4-f9a006808d27由--retain保留，见T-039B.evidence/guest-install-4/retained.json；接续先查询其真实状态并与开发协调，不擅自停止或重启该仍用于诊断的来宾。曾查询的output/maintenance-failure-1.json不存在，不能据文件名猜测根因。原guest-install-3失败和独立观察仍保留。HEAD仍6256a3fb，当前无架构师构建/测试窗口占用。
+
+**独立更新探针准备（2026-10-15，未执行）**：T-039B.review/update-final-cancel现有Program.cs、CrossProcessSdkLock.cs和prepare.py。默认场景验证资源Dispose期间才开始的实际取消回调仍被join；--cross-process-lock用自有worker实际持有.velopack_lock，只在SDK子类观察base.AcquireUpdateLock真实任务，验证取消仍等待外部锁且放行后零源下载。两者均未编译/运行，不能算通过或新增实测失败；prepare.py也尚未执行。后续在稳定最终构建与另行协调的短串行窗口绑定程序集/源码后执行，保留所有编译与运行结果。架构师当前无构建/测试/VM进程占用，开发继续原B修正和隔离验收。
+
+**已看到真正安装成功，但整轮静默卸载失败（2026-10-15）**：guest-install-3的自有Sandbox cc685426-67ef-4b92-bd57-89334d6990fa实际输出已独立核对：无共享.NET10→真实安装入口exit0→共享Core/Desktop10.0.13，Iris0.2.0及Maintenance卸载注册存在，安装未自启，UiaHost直接启动/EOF exit0，实际英文设置窗口已查看。整轮result的Failure为“Uninstall did not remove the installed app.”，不可据安装成功结案。原始报告快照、安装器与截图SHA及观察范围在T-039B.review/guest-install-3-observation。来宾管理员状态true，未验证非管理员依赖安装。开发继续处理失败及原完整矩阵，架构师未占用构建/测试窗口。
+
+R4来宾判定补充已由架构师实际界面发送，进入原B执行轮的userMessage 01a13c06-cb5b-7290-ba9b-5d8f33511ef2；正文仅被UI加尾换行，接收见coordination/source-review-4-ui-receipt.json，开发也明确确认。要求关键false/缺失条件失败、等待外部维护拥有者终态后才结束场景；新脚本已经在修改，旧轮次结果必须保留。B.evidence已补* -text保存原始字节，.codex仍未修改。
+
+**B已恢复并接收R3，当前无架构师占用的验证窗口（2026-10-15）**：归还通知01a13b93-955e-78d1-ba0a-529e7f9bbf3b已使原开发聊天进入执行轮01a13b95-7293-7130-9c6a-562e43d01b22，开发明确确认恢复构建/测试且技术协调不再交给用户。R3新增的两条源码意见已通过实际界面发送进入同一轮，userMessage 01a13bcc-2bdb-7b20-aae7-e0cbd333853f，开发明确“收到source-review-3”。见coordination/source-review-3-ui-receipt.json；除UI追加一个末尾换行外消息内容完全保持。此次CLI队列项在官方queue/list可见但目标界面未显示可引导条，已通过thread/queue/delete只移除自发R3原项并确认deleted=true，再从已核对为空的开发输入框一次发送，未重复投递，未改队列数据库或.codex工具。当前版本界面发送后立即进入运行轮，无需点击不存在的额外引导按钮；保留当次截图和工具结果，不复用旧坐标。
+
+开发已重生成安装包；首轮真实Sandbox在来宾脚本运行前因ExistingLogin未就绪失败，尚未运行安装器，已停止自有实例，正在修复就绪检查。R3仍为源码审查，完整B未交付/未验收。架构师的update-final-cancel仍仅为未编译草稿；开发已另行发现并修正资源Dispose期间的取消封口时序，需以实际定向/最终候选证据验收。
+
+**维护独立重放通过，串行窗口归还（2026-10-15）**：2026-10-13已对固定bda86bce候选复用原探针二进制完成两项独立重放，child-ownership-after-1与recovery-same-owner-after-1均Passed=true/exit0；具体边界与绑定见T-039B.review/native-child-ownership/README.md及after-1-binding.json。原失败保留，未运行真实安装器/用户数据。开发原B轮现已明确completed，仍未交付；本次继续同一B，恢复构建/测试，不再保留旧串行暂停。架构师当前没有在运行的构建/测试；后续独立运行另行串行协调，不让开发持续等待。update-final-cancel仅为未编译/未执行草稿，不是新失败或已通过证据。通信仍由架构师发送并在运行中实际插队，不让用户代答技术资源协调问题。
+
+**已恢复架构师实际插队（2026-10-13）**：通信/串行复验补充01a131b7-2bd9-7f73-89ad-7290395a28d8已发送，并实际点击指定开发聊天队列的“引导”。点击前核对目标聊天及消息、窗口身份/边界/前台/遮挡；点击后截图显示消息进入正文，App Server又在原B执行轮读到对应userMessage 01a131bd-657b-7643-a7b8-321c054b1669。见T-039B.review/coordination/steer-20261013.json。node_repl两次初始化均报kernel assets/os error3，Windows原生窗口操作成功；不需要用户代点，不重复两条已接收审查。已请开发在维护定向修正后提供串行复验窗口，尚未收到可运行通知，架构师暂只读代码/准备探针。
+
+**通信规则与B接收状态更新（2026-10-13，覆盖下方旧安排）**：用户明确“后续补充由你点击插队发送”，后续由架构师发送补充并执行插队/引导，不再等待用户代点。开发原执行轮01a1312f-18f0-7bf2-bd9e-76c2367237ee已明确回复“两组补充已收到”，并实际读取source-review-1/2和current_task尾部，开始优先修复更新与维护资源责任。消息01a13175-62b1-7a23-a1f2-56a6e701a3bd和01a13194-f4fc-7a02-a0b5-fb3c4dfd06e3无需重发；本次架构师尚未进行UI点击，不能把已接收误记为代点成功。B继续原轮，未交付/未验收；现有maintenance-tests-3.log只证明5/5初轮定向测试通过，不覆盖独立发现的两条失败或实际安装验收。
+
+**T-039B维护拥有关系已独立发现两条失败（2026-10-13）**：native-child-ownership固定真实Maintenance程序集，自有门闩worker证明started记录回调抛错后Run已fault返回而child仍活着；探针最终放行/join，child exit0，before-2无探针错误。另用真实MaintenanceEngine/文件gate、fake系统与删除，证明同一helper在首次数据清理失败后Recover仍被拒，DeleteAttempts=1且事务继续封口，recovery-same-owner-before-1 exit1。均未运行真实安装器或触及用户数据，原件/指纹保留。source-review-2另列撤销/EOF模态框、阶段预算及不明事务恢复的源码意见，尚不算实测。补充01a13194-f4fc-7a02-a0b5-fb3c4dfd06e3已排队，用户点击引导，以实际接收为准；B继续原轮、不重发、不另签任务。
+
+**T-039B独立封装预检完成，更新底座已发源码预审（2026-10-13）**：开发继续执行轮01a1312f-18f0-7bf2-bd9e-76c2367237ee，已有偏好/HTTP/协调器/维护身份与gate代码，尚未交付。架构师自有.NET10单文件附加载荷在干净离线Win11 26100、前后无共享.NET10的环境中3项通过，沙箱已停止；仅合成载荷，不是真正Iris安装器。证据T-039B.review/installer-envelope，首轮模块归属假设、PowerShell空退出码的失败均保留。可行性补充01a13161-da8f-7461-ac0b-dc867bcc8528已被开发实际确认收到；协调器通知异常/实际任务、同步取消与旧_stop竞争、PrepareApply归属等源码预审已绑定source-review-1，补充01a13175-62b1-7a23-a1f2-56a6e701a3bd已排队，后者仍以实际接收为准。不重发、不代点；源码预审不是已执行失败。B和父任务均未验收。
+
+**T-039B已实际接单（2026-10-13）**：工单消息`01a1312f-038c-7bb3-a85c-1ccf7fbc1b56`进入执行轮`01a1312f-18f0-7bf2-bd9e-76c2367237ee`，开发明确接单并开始读取App/Providers/设置及Sandbox资料。继续该轮，不重复发单、不把暂时interrupted且completedAt为空判作结束。基线6256a3fb，current_task / DESKTOP_RELEASE.md为唯一范围，架构师准备的声明/规范/原编译失败随B保留；仍由用户点击补充引导。
+
+**当前唯一工单T-039B（2026-10-13，用户确认开发恢复）**：A在`6256a3fba611b2cd94fc8dfa32480584c16d7bfe`恢复提交并独立验收，工作区原仅.codex未跟踪。现按DESKTOP_RELEASE.md / ARCHv1.57 / CCR039正式实施打包、完整更新UI/网络/生命周期、self-contained独立Maintenance入口与干净Windows实证，主App/UiaHost保持框架依赖。Core只兼容CheckForUpdates字段，Providers只增Updates常量/专用传输；CONTRACTS独立编译已0警告错误，原缺Errors using的CS0246保留在T-039B.review。B交付真实产品/本地实证，C保留公开GitHub线上分发/升级闭环，父T-039未结案。开发仍原会话，一次一单、不新增聊天/子代理；补充引导由用户点击，不push、不动.codex，M6延期。
+
 **T-039A恢复归档并独立验收（2026-10-13）**：开发完成final-release/full-4后多轮服务繁忙，A报告与本地提交未完成；架构师在现有成果上恢复归档，未重写生产。2026-10-13独立Release0警告错误、全量3660/3658成功/0失败/2既有环境跳过，640项输入保持；已运行的独立基线2失败/候选2通过及13项SDK bootstrap/检查下载取消重跑均与最终源/程序集绑定相符。Guard先等待body再清理的补充已落实并进入78项定向/最终全量。正式结论T-039A.review/FINAL_REVIEW.md，报告T-039A.md；原失败/中止保留，截断ZIP移至自有artifacts保留，证据目录禁止EOL改写以维护原始指纹。A结案，父T-039仍须正式安装/更新/卸载和干净Windows验收；后续工单由架构师继续冻结/签发，开发仍原聊天，M6延期、T-040未开始。补充引导由用户点击，不push、不动.codex。
 
 **T-039A候选通过定向/Release，夹具收尾仍待复核（2026-10-10 19:08）**：生产最小修改为IpcPipeFactory精确ERROR_NO_DATA同句柄复位及NativeMethods单项DisconnectNamedPipe；新增6项定向、SystemIntegration77项通过，final-release-3零警告错误。原BOOL编译失败、筛选0项exit5、全量中止与修正前3项失败均保留。final-full-3于19:05开始，尚无完成结果。新Guard夹具存在body未结束即遍历Clients、原裸I/O未全接Guard的源码预审点；current_task已要求完整收尾，补充01a12575-3b33-7a43-a980-be9828074ec9已排队待实际接收（用户点击引导）。这是源码审查，非已运行失败。A未交付/提交；不与开发并发构建/测试，独立baseline/fixed早断开探针仍待运行。

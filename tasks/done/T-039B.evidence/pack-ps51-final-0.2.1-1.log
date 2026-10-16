@@ -1,0 +1,77 @@
+{
+    "PSVersion":  "5.1.26100.9549",
+    "PSEdition":  "Desktop",
+    "ProcessPath":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+}
+可使用以下命令调用工具: vpk
+已成功安装工具“vpk”(版本“1.2.161”)。
+  正在确定要还原的项目…
+  已还原 F:\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj (用时 282 毫秒)。
+  已还原 F:\Iris\src\Iris.UiaHost\Iris.UiaHost.csproj (用时 282 毫秒)。
+  已还原 F:\Iris\src\Iris.Providers\Iris.Providers.csproj (用时 285 毫秒)。
+  已还原 F:\Iris\src\Iris.Infrastructure\Iris.Infrastructure.csproj (用时 282 毫秒)。
+  已还原 F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 282 毫秒)。
+  已还原 F:\Iris\src\Iris.Core\Iris.Core.csproj (用时 282 毫秒)。
+  已还原 F:\Iris\src\Iris.App\Iris.App.csproj (用时 293 毫秒)。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Infrastructure -> F:\Iris\src\Iris.Infrastructure\bin\Release\net10.0\Iris.Infrastructure.dll
+  Iris.Providers -> F:\Iris\src\Iris.Providers\bin\Release\net10.0\Iris.Providers.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.Maintenance -> F:\Iris\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.Maintenance.dll
+  Iris.App -> F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.App.dll
+  Iris.App -> F:\Iris\artifacts\pack-0.2.1-0e973655f65f409c8808c05d4803b61d\app\
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.UiaHost -> F:\Iris\artifacts\pack-0.2.1-0e973655f65f409c8808c05d4803b61d\app\uia\
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.UiaHost -> F:\Iris\artifacts\pack-0.2.1-0e973655f65f409c8808c05d4803b61d\uia\
+  正在确定要还原的项目…
+  已还原 F:\Iris\src\Iris.Core\Iris.Core.csproj (用时 253 毫秒)。
+  已还原 F:\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj (用时 253 毫秒)。
+  已还原 F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 253 毫秒)。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.Maintenance -> F:\Iris\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.Maintenance.dll
+  Iris.Maintenance -> F:\Iris\artifacts\pack-0.2.1-0e973655f65f409c8808c05d4803b61d\maintenance\
+[15:23:47 INF] Velopack CLI 1.2.161, for distributing applications.
+[15:23:47 INF] Beginning to package Velopack release 0.2.1.
+[15:23:47 INF] Releases Directory: F:\Iris\artifacts\t039b\release-0.2.1-final-1
+[15:23:47 INF] Starting: Pre-process steps
+[15:23:47 WRN] VelopackApp.Run() was found in method 'System.Int32 Iris.App.Updates.VelopackStartup::RunHook(System.String[])', which does not look like your application's entry point. It is strongly recommended that you move this to the very beginning of your Main() method. 
+[15:23:47 INF] Runtime Dependency: net10-x64-desktop
+[15:23:47 INF] Shortcuts: Desktop,StartMenuRoot
+[15:23:47 INF] Complete: Pre-process steps
+[15:23:47 INF] Starting: Code-sign application
+[15:23:47 WRN] No signing parameters provided, 83 file(s) will not be signed.
+[15:23:47 INF] Complete: Code-sign application
+[15:23:47 INF] Starting: Building release 0.2.1
+[15:23:48 FTL] 磁盘空间不足。 : 'C:\Users\28910\AppData\Local\Temp\velopack\temp.1\CreateReleasePackage\lib\app\uia\Iris.Platform.Windows.dll'.
+System.IO.IOException: 磁盘空间不足。 : 'C:\Users\28910\AppData\Local\Temp\velopack\temp.1\CreateReleasePackage\lib\app\uia\Iris.Platform.Windows.dll'.
+   at System.IO.FileSystem.CopyFile(String sourceFullPath, String destFullPath, Boolean overwrite)
+   at System.IO.FileInfo.CopyTo(String destFileName, Boolean overwrite)
+   at Velopack.Packaging.PackageBuilder`2.<CopyFiles>g__CopyFilesInternal|37_0(DirectoryInfo source, DirectoryInfo target, <>c__DisplayClass37_0&, <>c__DisplayClass37_1&) in ./vpk/Velopack.Packaging/PackageBuilder.cs:line 342
+   at Velopack.Packaging.PackageBuilder`2.<CopyFiles>g__CopyFilesInternal|37_0(DirectoryInfo source, DirectoryInfo target, <>c__DisplayClass37_0&, <>c__DisplayClass37_1&) in ./vpk/Velopack.Packaging/PackageBuilder.cs:line 347
+   at Velopack.Packaging.PackageBuilder`2.CopyFiles(DirectoryInfo source, DirectoryInfo target, Action`1 progress, Boolean excludeAnnoyances) in ./vpk/Velopack.Packaging/PackageBuilder.cs:line 351
+   at Velopack.Packaging.PackageBuilder`2.CreateReleasePackage(Action`1 progress, String packDir, String outputPath) in ./vpk/Velopack.Packaging/PackageBuilder.cs:line 294
+   at Velopack.Packaging.PackageBuilder`2.<>c__DisplayClass26_1.<<RunCoreAsync>b__4>d.MoveNext() in ./vpk/Velopack.Packaging/PackageBuilder.cs:line 151
+--- End of stack trace from previous location ---
+   at Velopack.Vpk.Logging.BasicConsole.Progress.RunTask(String name, Func`2 fn) in ./vpk/Velopack.Vpk/Logging/BasicConsole.cs:line 62
+   at Velopack.Packaging.PackageBuilder`2.<>c__DisplayClass26_0.<<RunCoreAsync>b__0>d.MoveNext() in ./vpk/Velopack.Packaging/PackageBuilder.cs:line 146
+--- End of stack trace from previous location ---
+   at Velopack.Vpk.Logging.BasicConsole.ExecuteProgressAsync(Func`2 action) in ./vpk/Velopack.Vpk/Logging/BasicConsole.cs:line 28
+   at Velopack.Packaging.PackageBuilder`2.RunCoreAsync(T options) in ./vpk/Velopack.Packaging/PackageBuilder.cs:line 113
+   at Velopack.Core.Abstractions.ValidatedCommand`1.Run(TOpt options) in ./vpk/Velopack.Core/Abstractions/ValidatedCommand.cs:line 18
+   at Velopack.Vpk.ProgramCommandExtensions.<>c__DisplayClass1_0`2.<<Add>b__0>d.MoveNext() in ./vpk/Velopack.Vpk/Program.cs:line 292
+vpk failed with exit -1
+At F:\Iris\build\pack.ps1:73 char:28
++ ... STEXITCODE -ne 0) { throw ('vpk failed with exit ' + $LASTEXITCODE) }
++                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (vpk failed with exit -1:String) [], RuntimeException
+    + FullyQualifiedErrorId : vpk failed with exit -1
+ 

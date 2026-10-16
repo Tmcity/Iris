@@ -1,0 +1,9 @@
+{
+  "attempt": "contact-1",
+  "failure": "RuntimeError: Screenshot dimensions need manual crop review: (2032, 1111)",
+  "incorrectAssumption": [
+    2032,
+    1143
+  ],
+  "kind": "review contact-sheet preparation failure; no product execution"
+}

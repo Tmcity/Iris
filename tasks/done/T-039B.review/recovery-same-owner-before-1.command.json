@@ -1,0 +1,11 @@
+{
+  "command": [
+    "C:/Users/28910/AppData/Local/Temp/iris-t039b-child-ownership-20261013/bin/Release/net10.0-windows10.0.19041.0/Iris.Maintenance.Tests.exe",
+    "--retry-owner"
+  ],
+  "cwd": "C:/Users/28910/AppData/Local/Temp/iris-t039b-child-ownership-20261013",
+  "startedAt": "2026-10-12T19:31:10.655938+00:00",
+  "completedAt": "2026-10-12T19:31:10.834177+00:00",
+  "exitCode": 1,
+  "logSha256": "18c326bcd2a1db06e0ca502da27fdd80a6580ce0f786cd549bd03a4826076193"
+}

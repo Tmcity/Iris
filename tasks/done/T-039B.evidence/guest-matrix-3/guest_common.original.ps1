@@ -1,0 +1,58 @@
+function Record([string]$Name, $Value) {
+    $script:report.Checks += [pscustomobject]@{Name=$Name;Value=$Value}
+    $script:report | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $output 'progress.json') -Encoding UTF8
+}
+function Require([string]$Name, [bool]$Value) {
+    Record $Name $Value
+    if (-not $Value) { throw ('Required guest observation failed: ' + $Name) }
+}
+function Runtimes {
+    @(Get-ChildItem -LiteralPath (Join-Path $env:ProgramFiles 'dotnet\shared') -Directory -ErrorAction SilentlyContinue | ForEach-Object {
+        $family = $_.Name
+        Get-ChildItem -LiteralPath $_.FullName -Directory | ForEach-Object { [pscustomobject]@{Family=$family;Version=$_.Name} }
+    })
+}
+function Copy-RuntimeLogs {
+    Get-ChildItem -LiteralPath $env:TEMP -File -Filter '*.log' -ErrorAction SilentlyContinue | Where-Object { $_.Name -match '^(dd_(windowsdesktop|dotnet|inst-dotnet)|Microsoft_Windows_Desktop_Runtime_)' } | ForEach-Object {
+        Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $output ('runtime-' + $_.Name)) -ErrorAction SilentlyContinue
+    }
+}
+function Observe-Maintenance {
+    $root = Join-Path $env:LOCALAPPDATA 'Iris.Maintenance'
+    foreach ($candidate in @(Get-CimInstance Win32_Process -Filter "Name='Iris.Maintenance.exe' OR Name='Update.exe'")) {
+        if ($candidate.CreationDate.ToUniversalTime() -lt $script:maintenanceStarted) { continue }
+        $identity = [string]$candidate.ProcessId + ':' + $candidate.CreationDate.ToUniversalTime().Ticks
+        if ($script:maintenanceOwners.ContainsKey($identity)) { continue }
+        try { $owned = [Diagnostics.Process]::GetProcessById($candidate.ProcessId); $handle = $owned.Handle }
+        catch [ArgumentException] { Record 'maintenance-finished-before-observation' $candidate.ProcessId; continue }
+        if ($owned.HasExited) { Record 'maintenance-exited-before-path-read' @{Pid=$candidate.ProcessId;Code=$owned.ExitCode}; $owned.Dispose(); continue }
+        if (-not $candidate.ExecutablePath) { $candidate.ExecutablePath = $owned.MainModule.FileName }
+        if (-not $candidate.ExecutablePath -or ($candidate.ExecutablePath -notlike ($root + '\*') -and $candidate.ExecutablePath -notlike ((Join-Path $env:LOCALAPPDATA 'Iris') + '\*'))) {
+            Record 'unverified-maintenance-identity' $candidate; $owned.Dispose(); throw 'Unexpected maintenance process path'
+        }
+        $script:maintenanceOwners[$identity] = $owned
+        Record 'maintenance-owner' @{Pid=$candidate.ProcessId;Started=$candidate.CreationDate.ToString('o');Path=$candidate.ExecutablePath;Command=$candidate.CommandLine}
+        if ($candidate.ExecutablePath -like ($root + '\*')) { $script:outsideObserved = $true }
+    }
+}
+function Run-Child([string]$Exe, [string]$Arguments, [string]$Label, [int]$TimeoutMs = 1200000, [switch]$CloseInput, [switch]$TrackMaintenance) {
+    $launch = New-Object Diagnostics.ProcessStartInfo
+    $launch.FileName = $Exe; $launch.Arguments = $Arguments; $launch.UseShellExecute = $false; $launch.CreateNoWindow = $true
+    $launch.RedirectStandardOutput = $true; $launch.RedirectStandardError = $true; $launch.RedirectStandardInput = $true
+    $child = New-Object Diagnostics.Process; $child.StartInfo = $launch
+    if (-not $child.Start()) { throw 'Process did not start' }
+    $ownedHandle = $child.Handle
+    $stdout = $child.StandardOutput.ReadToEndAsync(); $stderr = $child.StandardError.ReadToEndAsync()
+    if ($CloseInput) { $child.StandardInput.Close() }
+    $end = [DateTime]::UtcNow.AddMilliseconds($TimeoutMs)
+    while (-not $child.WaitForExit(1000)) {
+        if ($TrackMaintenance) { Observe-Maintenance }
+        Copy-RuntimeLogs
+        if ([DateTime]::UtcNow -ge $end) { Record ($Label + '-unfinished') @{Pid=$child.Id;Started=$child.StartTime.ToString('o')}; throw ('Child did not exit: ' + $Label) }
+    }
+    if ($TrackMaintenance) { Observe-Maintenance }
+    $child.WaitForExit(); $code = $child.ExitCode
+    [IO.File]::WriteAllText((Join-Path $output ($Label + '.stdout.log')), $stdout.GetAwaiter().GetResult())
+    [IO.File]::WriteAllText((Join-Path $output ($Label + '.stderr.log')), $stderr.GetAwaiter().GetResult())
+    $child.Dispose(); Record ($Label + '-exit') $code; return $code
+}

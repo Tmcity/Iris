@@ -1,0 +1,10 @@
+{
+  "recordedAtUtc": "2026-10-15T08:14:45.319802+00:00",
+  "action": "Initial prepare.py invocation",
+  "observedError": "FileNotFoundError: System.Security.Cryptography.ProtectedData.dll",
+  "stage": "Fixed-input preparation before destination creation; no compilation or product execution",
+  "initialScriptSha256": "affcba2081ce0c0e44b338a7289ee28deaee21b7b5f53dd569e9a4b36600f7ee",
+  "sourceDirectory": "F:/Iris/tests/Iris.App.Tests/bin/Release/net10.0-windows10.0.19041.0",
+  "destinationCreated": false,
+  "interpretation": "The preparation list incorrectly required a separate optional/framework assembly; not a product test failure."
+}

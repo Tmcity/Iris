@@ -1,0 +1,26 @@
+﻿{
+    "Time":  "2026-10-15T07:42:10.8531136Z",
+    "Processes":  [
+                      {
+                          "ProcessId":  7572,
+                          "ParentProcessId":  5820,
+                          "CreationDate":  "\/Date(1792049642380)\/",
+                          "ExecutablePath":  "C:\\IrisBInput\\Iris-0.2.0-Setup.exe",
+                          "CommandLine":  "\"C:\\IrisBInput\\Iris-0.2.0-Setup.exe\" --silent --no-start"
+                      },
+                      {
+                          "ProcessId":  6780,
+                          "ParentProcessId":  7572,
+                          "CreationDate":  "\/Date(1792049643833)\/",
+                          "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\setup-e706518eec6142f48e095b6d5a17f22d\\Setup.exe",
+                          "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\setup-e706518eec6142f48e095b6d5a17f22d\\Setup.exe\" --silent"
+                      }
+                  ],
+    "Downloads":  [
+                      {
+                          "Name":  "inst-dotnet-10.0.0-X64-WindowsDesktop.exe",
+                          "Length":  0,
+                          "LastWriteTime":  "\/Date(1792049646974)\/"
+                      }
+                  ]
+}

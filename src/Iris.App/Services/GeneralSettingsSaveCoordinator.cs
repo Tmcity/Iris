@@ -64,7 +64,8 @@ internal sealed record GeneralDraftSnapshot(
     bool LogLevelDirty)
 {
     public SettingsFieldEdit<string>? UiLanguage { get; init; }
-    public bool HasAnyDirty => ThemeDirty || LaunchAtStartupDirty || ShowStartupNotificationDirty || LogLevelDirty || UiLanguage != null;
+    public SettingsFieldEdit<bool>? CheckForUpdates { get; init; }
+    public bool HasAnyDirty => ThemeDirty || LaunchAtStartupDirty || ShowStartupNotificationDirty || LogLevelDirty || UiLanguage != null || CheckForUpdates != null;
 }
 
 /// <summary>
@@ -296,7 +297,7 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
         var notifEdit = snapshot.ShowStartupNotificationDirty ? new SettingsFieldEdit<bool>(snapshot.BaseShowStartupNotification, snapshot.TargetShowStartupNotification) : null;
         var logEdit = snapshot.LogLevelDirty ? new SettingsFieldEdit<string>(snapshot.BaseLogLevel, snapshot.TargetLogLevel) : null;
 
-        var generalPatch = new GeneralSettingsPatch(themeEdit, launchEdit, notifEdit, logEdit) { UiLanguage = snapshot.UiLanguage };
+        var generalPatch = new GeneralSettingsPatch(themeEdit, launchEdit, notifEdit, logEdit) { UiLanguage = snapshot.UiLanguage, CheckForUpdates = snapshot.CheckForUpdates };
         var plan = new SettingsEditPlan(generalPatch, []);
 
         return await CommitPlanAsync(plan, snapshot.LaunchAtStartupDirty, snapshot.TargetLaunchAtStartup, cancellationToken).ConfigureAwait(false);

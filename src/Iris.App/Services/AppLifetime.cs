@@ -38,7 +38,14 @@ internal sealed partial class AppLifetime : IAppLifetime
     {
         // Exit's Dispatcher task must be able to finish before shutdown drains accepted commands.
         await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
-        await _ui.InvokeAsync(() => _serviceProvider.GetRequiredService<AppBootstrapper>().StopAsync(), CancellationToken.None).ConfigureAwait(false);
+        try { await _ui.InvokeAsync(() => _serviceProvider.GetRequiredService<AppBootstrapper>().StopAsync(), CancellationToken.None).ConfigureAwait(false); }
+        catch (Exception primary)
+        {
+            var handoff = _serviceProvider.GetService<Iris.App.Updates.UpdateHandoff>();
+            try { if (handoff != null) await handoff.RevokeAsync().ConfigureAwait(false); }
+            catch (Exception cleanup) { throw new AggregateException(primary, cleanup); }
+            throw;
+        }
     }
     [LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = "Application shutdown incomplete: {ExceptionType}")]
     private static partial void LogShutdownFailed(ILogger logger, string exceptionType);

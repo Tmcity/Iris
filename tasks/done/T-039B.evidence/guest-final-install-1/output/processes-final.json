@@ -1,0 +1,30 @@
+﻿[
+    {
+        "ProcessId":  7572,
+        "ParentProcessId":  5820,
+        "CreationDate":  "\/Date(1792049642380)\/",
+        "ExecutablePath":  "C:\\IrisBInput\\Iris-0.2.0-Setup.exe",
+        "CommandLine":  "\"C:\\IrisBInput\\Iris-0.2.0-Setup.exe\" --silent --no-start"
+    },
+    {
+        "ProcessId":  6780,
+        "ParentProcessId":  7572,
+        "CreationDate":  "\/Date(1792049643833)\/",
+        "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\setup-e706518eec6142f48e095b6d5a17f22d\\Setup.exe",
+        "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\setup-e706518eec6142f48e095b6d5a17f22d\\Setup.exe\" --silent"
+    },
+    {
+        "ProcessId":  6916,
+        "ParentProcessId":  6780,
+        "CreationDate":  "\/Date(1792050801158)\/",
+        "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\Downloads\\inst-dotnet-10.0.0-X64-WindowsDesktop.exe",
+        "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\Downloads\\inst-dotnet-10.0.0-X64-WindowsDesktop.exe\" /norestart /q"
+    },
+    {
+        "ProcessId":  6604,
+        "ParentProcessId":  1208,
+        "CreationDate":  "\/Date(1792050802747)\/",
+        "ExecutablePath":  "C:\\Windows\\system32\\msiexec.exe",
+        "CommandLine":  "C:\\Windows\\system32\\msiexec.exe /V"
+    }
+]

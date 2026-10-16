@@ -49,6 +49,53 @@ public sealed class AppBootstrapperTests : IDisposable
     }
 
     [Fact]
+    public Task BackgroundShutdownReturnsToOriginalDispatcherForSynchronousResources() => WpfTestRunner.RunAsync(async () =>
+    {
+        var settings = Substitute.For<ISettingsService>(); settings.Current.Returns(new AppSettings());
+        var capture = Substitute.For<IHotkeyCaptureService>(); bool disposedOnUi = false;
+        capture.When(value => value.Dispose()).Do(_ => { Application.Current.Dispatcher.VerifyAccess(); disposedOnUi = true; });
+        var tray = new TrayIconController(Substitute.For<IAppLifetime>(), settings, Substitute.For<IActionDispatcher>(), NullLogger<TrayIconController>.Instance)
+        { SuppressIconCreationForTesting = true };
+        var bootstrapper = new AppBootstrapper(settings, Substitute.For<ITranslationProviderRegistry>(), Substitute.For<IDatabaseInitializer>(),
+            new LogLevelController(settings, new Serilog.Core.LoggingLevelSwitch(), NullLogger<LogLevelController>.Instance), new ThemeService(settings),
+            tray, new TrayNotificationService(NullLogger<TrayNotificationService>.Instance), Substitute.For<IHost>(),
+            NullLogger<AppBootstrapper>.Instance, new AppStartupInfo(Environment.TickCount64), captureService: capture);
+        try
+        {
+            await Task.Run(bootstrapper.StopAsync, TestContext.Current.CancellationToken);
+            disposedOnUi.ShouldBeTrue(); bootstrapper.CleanupCompleted.ShouldBeTrue();
+        }
+        finally { await bootstrapper.StopAsync(); }
+    });
+
+    [Fact]
+    public async Task HostStopFailureRetainsTrayAndSameBootstrapperCanCompleteRetry()
+    {
+        var settings = Substitute.For<ISettingsService>(); settings.Current.Returns(new AppSettings());
+        var theme = new ThemeService(settings);
+        var logs = new LogLevelController(settings, new Serilog.Core.LoggingLevelSwitch(), NullLogger<LogLevelController>.Instance);
+        var tray = new TrayIconController(Substitute.For<IAppLifetime>(), settings, Substitute.For<IActionDispatcher>(), NullLogger<TrayIconController>.Instance)
+        { SuppressIconCreationForTesting = true };
+        var host = Substitute.For<IHost>(); int attempts = 0, exits = 0;
+        var failure = new System.IO.IOException("synthetic Host failure");
+        host.StopAsync(Arg.Any<CancellationToken>()).Returns(_ => ++attempts == 1 ? Task.FromException(failure) : Task.CompletedTask);
+        AppBootstrapper.AppShutdowner = _ => exits++;
+        var bootstrapper = new AppBootstrapper(settings, Substitute.For<ITranslationProviderRegistry>(), Substitute.For<IDatabaseInitializer>(),
+            logs, theme, tray, new TrayNotificationService(NullLogger<TrayNotificationService>.Instance), host,
+            NullLogger<AppBootstrapper>.Instance, new AppStartupInfo(Environment.TickCount64));
+        try
+        {
+            (await Should.ThrowAsync<System.IO.IOException>(() => bootstrapper.StopAsync())).ShouldBeSameAs(failure);
+            bootstrapper.CleanupCompleted.ShouldBeFalse(); exits.ShouldBe(0);
+            tray.LeftClickCommand.CanExecute(null).ShouldBeTrue("tray resources must remain until Host cleanup succeeds");
+            await bootstrapper.StopAsync();
+            attempts.ShouldBe(2); exits.ShouldBe(1); bootstrapper.CleanupCompleted.ShouldBeTrue();
+            tray.LeftClickCommand.CanExecute(null).ShouldBeFalse();
+        }
+        finally { await bootstrapper.StopAsync(); }
+    }
+
+    [Fact]
     public async Task StartAsync_WhenAllServicesSucceed_ExecutesInStrictOrder_AndInitializesTrayAndHost()
     {
         var callOrder = new List<string>();

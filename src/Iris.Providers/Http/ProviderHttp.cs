@@ -11,6 +11,9 @@ public static class HttpClientNames
 
     /// <summary>OCR 与 Token 请求：标准弹性管道（重试 + 总超时）。</summary>
     public const string Ocr = "iris.ocr";
+
+    /// <summary>公开桌面更新客户端：复用版本化代理/响应所有权，不携带Provider或仓库凭据，不应用业务重试。</summary>
+    public const string Updates = "iris.updates";
 }
 
 /// <summary>线协议 JSON 选项：属性名一律由 [JsonPropertyName] 显式指定，写出时忽略 null。</summary>

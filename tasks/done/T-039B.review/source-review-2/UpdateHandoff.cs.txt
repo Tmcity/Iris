@@ -1,0 +1,82 @@
+using System.Diagnostics;
+using System.IO;
+using System.IO.Pipes;
+using System.Security.Cryptography;
+using Iris.Platform.Windows.Maintenance;
+
+namespace Iris.App.Updates;
+
+/// <summary>Transfers only a validated candidate to the out-of-process maintenance owner.</summary>
+internal sealed class UpdateHandoff : IAsyncDisposable, IDisposable
+{
+    private readonly SemaphoreSlim _mutex = new(1, 1);
+    private Process? _process;
+    private NamedPipeServerStream? _pipe;
+    private string? _token;
+    private string? _directory;
+    internal bool IsPrepared => _process != null && _pipe != null;
+    internal async Task PrepareAsync(UpdateCandidate candidate, CancellationToken token)
+    {
+        await _mutex.WaitAsync(token).ConfigureAwait(false);
+        try
+        {
+            if (_process != null || _pipe != null) throw new InvalidOperationException("Maintenance already prepared.");
+            if (!MaintenancePaths.IsInstalledApp(AppContext.BaseDirectory)) throw ReleaseIdentity.Invalid();
+            await ReleasePackage.ValidateAsync(candidate.Path, candidate.Size, candidate.Sha256, candidate.Version, token).ConfigureAwait(false);
+            string original = Path.Combine(AppContext.BaseDirectory, "maintenance", "Iris.Maintenance.exe");
+            MaintenancePaths.RequireNoLinks(original);
+            _directory = MaintenancePaths.Child(MaintenancePaths.StateRoot, "work-" + Guid.NewGuid().ToString("N"));
+            Directory.CreateDirectory(_directory);
+            string executable = Path.Combine(_directory, "Iris.Maintenance.exe");
+            await using (var input = File.OpenRead(original))
+            await using (var output = new FileStream(executable, FileMode.CreateNew, FileAccess.Write, FileShare.None, 65536, FileOptions.Asynchronous))
+                await input.CopyToAsync(output, token).ConfigureAwait(false);
+            string name = "Iris.Maintenance." + Guid.NewGuid().ToString("N"); _token = Convert.ToHexString(RandomNumberGenerator.GetBytes(32));
+            _pipe = new NamedPipeServerStream(name, PipeDirection.InOut, 1, PipeTransmissionMode.Byte,
+                PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly | PipeOptions.FirstPipeInstance);
+            using var parent = Process.GetCurrentProcess();
+            var start = new ProcessStartInfo(executable) { UseShellExecute = false, CreateNoWindow = true };
+            foreach (var argument in new[] { "--handoff", name, _token, parent.Id.ToString(System.Globalization.CultureInfo.InvariantCulture), parent.StartTime.ToUniversalTime().Ticks.ToString(System.Globalization.CultureInfo.InvariantCulture) }) start.ArgumentList.Add(argument);
+            _process = Process.Start(start) ?? throw new IOException("Maintenance did not start.");
+            await _pipe.WaitForConnectionAsync(token).ConfigureAwait(false); MaintenanceProtocol.VerifyPeer(_pipe, true, _process.Id);
+            await MaintenanceProtocol.WriteAsync(_pipe, new("prepare", _token, Path.GetFileName(candidate.Path), candidate.Sha256, candidate.Size, candidate.Version), token).ConfigureAwait(false);
+            var ready = await MaintenanceProtocol.ReadAsync(_pipe, token).ConfigureAwait(false);
+            if (ready.Kind != "ready" || ready.Token != _token) throw ReleaseIdentity.Invalid();
+        }
+        catch { await RevokeCoreAsync().ConfigureAwait(false); throw; }
+        finally { _mutex.Release(); }
+    }
+    internal async Task CompleteMainAsync(bool cleanExit)
+    {
+        await _mutex.WaitAsync().ConfigureAwait(false);
+        try
+        {
+            if (!cleanExit) { await RevokeCoreAsync().ConfigureAwait(false); return; }
+            if (_pipe == null) return;
+            await MaintenanceProtocol.WriteAsync(_pipe, new("commit", _token!), CancellationToken.None).ConfigureAwait(false);
+            await _pipe.DisposeAsync().ConfigureAwait(false); _pipe = null;
+            _process?.Dispose(); _process = null; // Ownership transfers to helper; it still waits for actual parent exit.
+        }
+        catch { await RevokeCoreAsync().ConfigureAwait(false); throw; }
+        finally { _mutex.Release(); }
+    }
+    internal async Task RevokeAsync()
+    {
+        await _mutex.WaitAsync().ConfigureAwait(false);
+        try { await RevokeCoreAsync().ConfigureAwait(false); } finally { _mutex.Release(); }
+    }
+    private async Task RevokeCoreAsync()
+    {
+        // Closing the control stream is the cancellation signal. No updater was started before commit.
+        if (_pipe != null) { await _pipe.DisposeAsync().ConfigureAwait(false); _pipe = null; }
+        if (_process != null) { await _process.WaitForExitAsync().ConfigureAwait(false); _process.Dispose(); _process = null; }
+        if (_directory != null && Directory.Exists(_directory))
+        { MaintenancePaths.DeleteData(_directory, _directory); _directory = null; }
+    }
+    public async ValueTask DisposeAsync() { await RevokeAsync().ConfigureAwait(false); _mutex.Dispose(); }
+    public void Dispose()
+    {
+        if (_process != null || _pipe != null) throw new InvalidOperationException("Maintenance ownership must be completed asynchronously.");
+        _mutex.Dispose();
+    }
+}

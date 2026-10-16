@@ -1,0 +1,8 @@
+{
+  "ParentProcessId": 30364,
+  "Reason": "Fixed vpk acquisition remained at zero bytes; use previously acquired identical version from local package source",
+  "ProcessId": 38404,
+  "Action": "Stop only this owned dependency acquisition process",
+  "Created": "2026-10-15T02:29:54.0657600+08:00",
+  "Command": "\"C:\\Program Files\\dotnet\\dotnet.exe\" tool install vpk --version 1.2.161 --tool-path F:\\Iris\\artifacts\\pack-0.2.0-a293a9e025fc46fba9462de18540d2db\\tools --configfile F:\\Iris\\artifacts\\pack-0.2.0-a293a9e025fc46fba9462de18540d2db\\NuGet.Config"
+}

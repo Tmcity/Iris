@@ -1,0 +1,6 @@
+{
+  "Recovery": "Stop only this controller; resume the same owned Sandbox through file-redirected CLI calls",
+  "Reason": "Connect launched the remote session but inherited captured stdout kept subprocess.communicate waiting; guest test has not been dispatched",
+  "ProcessId": 47180,
+  "Command": "\"D:\\anaconda3\\python.exe\" tasks/done/T-039B.evidence/run_guest.py guest-install-2 F:/Iris/artifacts/t039b/release-0.2.0-3/Iris-0.2.0-Setup.exe"
+}
