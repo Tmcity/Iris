@@ -44,6 +44,14 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
         if (_activeSession is { } session) await session.ViewModel.CancelRecordingForPreparationAsync();
     }, CancellationToken.None);
 
+    internal void ResetHandoffTransferred()
+    {
+        lock (_gate)
+        {
+            _activeSession?.ViewModel.ResetHandoffTransferred();
+        }
+    }
+
 
     public SettingsWindowPresenter(
         IServiceProvider serviceProvider,

@@ -46,6 +46,10 @@ internal sealed partial class SettingsViewModel
             if (!_disposed && !_isStopped)
             {
                 _updateSnapshot = _updates?.Snapshot;
+                if (_updateSnapshot?.Phase is UpdatePhase.Failed or UpdatePhase.Ready or UpdatePhase.Idle)
+                {
+                    lock (_admissionLock) _updateHandoffTransferred = false;
+                }
                 OnPropertyChanged(nameof(UpdateStatus)); OnPropertyChanged(nameof(UpdateDetail));
                 OnPropertyChanged(nameof(CurrentVersion)); OnPropertyChanged(nameof(UpdateProgress));
                 foreach (var command in new[] { CheckUpdateCommand, DownloadUpdateCommand, CancelUpdateCommand, InstallUpdateCommand })
@@ -112,11 +116,25 @@ internal sealed partial class SettingsViewModel
             _updateLifetime.RequestShutdown();
         }
     }
+    internal bool UpdateHandoffTransferred
+    {
+        get
+        {
+            lock (_admissionLock) return _updateHandoffTransferred;
+        }
+    }
     internal void ResetHandoffTransferred()
     {
         lock (_admissionLock)
         {
             _updateHandoffTransferred = false;
+        }
+    }
+    internal void SetHandoffTransferredForTesting(bool transferred)
+    {
+        lock (_admissionLock)
+        {
+            _updateHandoffTransferred = transferred;
         }
     }
     private void SealUpdates()

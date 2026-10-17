@@ -1,0 +1,319 @@
+{
+  "SandboxId": "d24833f8-2fc0-4b4a-bb59-52104cbba03a",
+  "Config": "<Configuration><vGPU>Disable</vGPU><Networking>Enable</Networking><AudioInput>Disable</AudioInput><VideoInput>Disable</VideoInput><ClipboardRedirection>Disable</ClipboardRedirection><PrinterRedirection>Disable</PrinterRedirection><MemoryInMB>6144</MemoryInMB></Configuration>",
+  "ReadOnlyInput": "F:\\Iris\\artifacts\\t039b\\sandbox\\d24833f8-2fc0-4b4a-bb59-52104cbba03a\\input",
+  "WritableOutput": "F:\\Iris\\artifacts\\t039b\\sandbox\\d24833f8-2fc0-4b4a-bb59-52104cbba03a\\output",
+  "Files": [
+    {
+      "Name": "guest_common.ps1",
+      "Bytes": 4766,
+      "Sha256": "d45cb5aad8f4c17f3e42677e52f5dc855f8ececdd70068873e452592aa2f2c11"
+    },
+    {
+      "Name": "guest_update.ps1",
+      "Bytes": 4985,
+      "Sha256": "264cfe1c876ba2075a89d8424e4269951300e51292061c07e655411047251256"
+    },
+    {
+      "Name": "Iris-0.2.0-Setup.exe",
+      "Bytes": 116738520,
+      "Sha256": "5181590d039c7558b8b82eb26f76002dd3cd76f04aea2cf51ae7e4abc3673b7d"
+    },
+    {
+      "Name": "Iris-0.2.1-full.nupkg",
+      "Bytes": 64610683,
+      "Sha256": "a18396552d546fb4bc17064a75f6e3c752bc1fd3f95dc0d19d2d37c55e328329"
+    },
+    {
+      "Name": "Dapper.dll",
+      "Bytes": 251392,
+      "Sha256": "bd8dc38353bcd816440737a840970552f6b4b527db428ec0dd631111bd3f25b2"
+    },
+    {
+      "Name": "Iris.Core.dll",
+      "Bytes": 499200,
+      "Sha256": "8ea31bbd7b113eb090e411112c0376c72a472fd1b2121dc125948052dc5eb6c6"
+    },
+    {
+      "Name": "Iris.Core.pdb",
+      "Bytes": 134620,
+      "Sha256": "7d20407c17a88442d98eac89080c6d156095d78edbb7e5f4760bf158052b18c6"
+    },
+    {
+      "Name": "Iris.Core.xml",
+      "Bytes": 133795,
+      "Sha256": "5c59b78b39b389f5d6b9e6fd494d7febc8056eeb6b80c87043f2e6ccd6a182d8"
+    },
+    {
+      "Name": "Iris.Infrastructure.dll",
+      "Bytes": 144896,
+      "Sha256": "1802b898b47dc5a457f66c5627d2272e3c9bc1b1b4d317a1b4ebacb6034abc6e"
+    },
+    {
+      "Name": "Iris.Infrastructure.pdb",
+      "Bytes": 48908,
+      "Sha256": "9fd5ef08665468107c51077eecf243c6e64c2381a94c4662c3e0691ce9817d1b"
+    },
+    {
+      "Name": "Iris.Infrastructure.xml",
+      "Bytes": 2730,
+      "Sha256": "0ef6543af2df5d0ee56d185ae15d57a548bfa33381d7ed76b0227204d7dbf9c8"
+    },
+    {
+      "Name": "Iris.Maintenance.deps.json",
+      "Bytes": 5288,
+      "Sha256": "40ce24838bf73ea1f2fac842d252c884f595d25566c25496f7490397caa8e84a"
+    },
+    {
+      "Name": "Iris.Maintenance.dll",
+      "Bytes": 67584,
+      "Sha256": "782e841ee480774fda812cdf2246ac0fc617573fe360b2d529e17673e02a761f"
+    },
+    {
+      "Name": "Iris.Maintenance.exe",
+      "Bytes": 162304,
+      "Sha256": "58ea3b20852acfe29e5727cbb7df01b99d12546f191578c78f5b1e61a639cc25"
+    },
+    {
+      "Name": "Iris.Maintenance.pdb",
+      "Bytes": 23008,
+      "Sha256": "301bba3b0d2ad336d14d00c346935af2767f9eb4c28a77f947aea5e5f6c3cfda"
+    },
+    {
+      "Name": "Iris.Maintenance.runtimeconfig.json",
+      "Bytes": 399,
+      "Sha256": "3e965cd7cfd553c2ff4e842d8d8019aaae2da0a21d92ff85a87573dd8d1b95c6"
+    },
+    {
+      "Name": "Iris.Maintenance.Tests.deps.json",
+      "Bytes": 15490,
+      "Sha256": "b79c6693807e135d6fef4596439e365216acf566cfdd9b527cc8e91daeb6bf65"
+    },
+    {
+      "Name": "Iris.Maintenance.Tests.dll",
+      "Bytes": 37888,
+      "Sha256": "382768f71e8b88f9d06f2c2dc80bd1d41c2487e16b04a2b0b52654c894743d61"
+    },
+    {
+      "Name": "Iris.Maintenance.Tests.exe",
+      "Bytes": 162304,
+      "Sha256": "3ddd9767a92385f08ad1f4f05085aa36db6834e3d7ddba0a9a767116e1275882"
+    },
+    {
+      "Name": "Iris.Maintenance.Tests.pdb",
+      "Bytes": 16428,
+      "Sha256": "0b1c0534689ddef871940ea492d5a096cf32e3155ae2a97096b6d8ede76d4085"
+    },
+    {
+      "Name": "Iris.Maintenance.Tests.runtimeconfig.json",
+      "Bytes": 399,
+      "Sha256": "3e965cd7cfd553c2ff4e842d8d8019aaae2da0a21d92ff85a87573dd8d1b95c6"
+    },
+    {
+      "Name": "Iris.Maintenance.Tests.xml",
+      "Bytes": 147,
+      "Sha256": "00778fa5358a603dd58a8702b25ea9d334f3b582b401dbc95750d9ea03af3d9d"
+    },
+    {
+      "Name": "Iris.Maintenance.xml",
+      "Bytes": 346,
+      "Sha256": "d5b7222339429118c683f856dc2b6f751e3c36a5f4e63f9f3944aaf1113b9656"
+    },
+    {
+      "Name": "Iris.Platform.Windows.dll",
+      "Bytes": 748032,
+      "Sha256": "8b256ad43a5cc2df111b65befd31798d6414fd72dad874633e131bf358869b04"
+    },
+    {
+      "Name": "Iris.Platform.Windows.pdb",
+      "Bytes": 407368,
+      "Sha256": "05fcf255a0e2af26bfeb36d7ddc582c44fe51ec9e063ce1ddb82874b18e39872"
+    },
+    {
+      "Name": "Iris.Platform.Windows.xml",
+      "Bytes": 808373,
+      "Sha256": "f289ac7ff43c37370c344e5e7ad88238002216cf2cda77151c124d57cec8e424"
+    },
+    {
+      "Name": "Microsoft.Data.Sqlite.dll",
+      "Bytes": 177464,
+      "Sha256": "b98d957462be432895b00dccca012d3c127e118d3d4262418014b92c7bbd66cf"
+    },
+    {
+      "Name": "Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "Bytes": 65872,
+      "Sha256": "da04edc338d5aa0f38a1f5fa5ff3ee7e36affe9c961daf3ea724a428bd746bc6"
+    },
+    {
+      "Name": "Microsoft.Extensions.DependencyInjection.dll",
+      "Bytes": 95528,
+      "Sha256": "2d0e268bf76b4ce36a55ebb2767354db956c6660de65d6cccfc35c957fb12cfc"
+    },
+    {
+      "Name": "Microsoft.Extensions.Logging.Abstractions.dll",
+      "Bytes": 66856,
+      "Sha256": "7c242f8ca612fa1acc61f78efd5f8c89e01bd0bd47dc4ecc65e0e6e24f1a1668"
+    },
+    {
+      "Name": "Microsoft.Windows.SDK.NET.dll",
+      "Bytes": 24877600,
+      "Sha256": "0ec371d93798852e36461c8adddbeadce0f963a04752f0b64e54fe19c1c834a7"
+    },
+    {
+      "Name": "parent.ps1",
+      "Bytes": 1791,
+      "Sha256": "b93dccfe3121b7df79c80c2dbe887cb1b694cbaba7a1d328c47ae0e68d2f2eab"
+    },
+    {
+      "Name": "SQLitePCLRaw.batteries_v2.dll",
+      "Bytes": 5120,
+      "Sha256": "815ce410c9eab531dd219318e3ba16c5e38e83d361cfbbdbb4bbca222c497b0b"
+    },
+    {
+      "Name": "SQLitePCLRaw.core.dll",
+      "Bytes": 51200,
+      "Sha256": "af340ac9eb9195795660d7fc1114f486b6ab63998f33176e2f24c8e0acb9aa84"
+    },
+    {
+      "Name": "SQLitePCLRaw.provider.e_sqlite3.dll",
+      "Bytes": 36864,
+      "Sha256": "eb6696e55882c3000333146b1cd4970439601e11fdedae941105ca921f615bd6"
+    },
+    {
+      "Name": "System.Security.Cryptography.ProtectedData.dll",
+      "Bytes": 39760,
+      "Sha256": "b61a1445b99a1486a5d9abbd45d766497f136270f5b04862defee1fc054ded14"
+    },
+    {
+      "Name": "Velopack.dll",
+      "Bytes": 279040,
+      "Sha256": "969853e147e95b3f46192425cfea7eae8837aea79f3e2b2c7cc0aa34b5703153"
+    },
+    {
+      "Name": "WinRT.Runtime.dll",
+      "Bytes": 528944,
+      "Sha256": "bcf3a14e8712a90837fc5c0d8c8a24696af2bd7f74e9767597ec81ededfb23db"
+    },
+    {
+      "Name": "Iris.Core.resources.dll",
+      "Bytes": 17920,
+      "Sha256": "086559794727da6e4b726bf9c152a8af29a597f58e698b820814cf060ccf0a5f"
+    },
+    {
+      "Name": "Iris.Maintenance.resources.dll",
+      "Bytes": 4608,
+      "Sha256": "cbf67d53cf828352336bef82eec1353e7e8002c08a224dbabbc1f9f0fdf9396a"
+    },
+    {
+      "Name": "e_sqlite3.a",
+      "Bytes": 1308854,
+      "Sha256": "c64ae8d44dc3e1aa03aca4e79ccc501cbc3a3c490e8e2ea9e369367f68cf0f21"
+    },
+    {
+      "Name": "libe_sqlite3.so",
+      "Bytes": 982224,
+      "Sha256": "43556c2f5075857bf57be1136d556733bdc27195884fbdde127cd976d1c25ad5"
+    },
+    {
+      "Name": "libe_sqlite3.so",
+      "Bytes": 1534296,
+      "Sha256": "707fff6b18c1f083158e7a543c8d2545d5485f547ffd96db29679a95f52878d5"
+    },
+    {
+      "Name": "libe_sqlite3.so",
+      "Bytes": 1375344,
+      "Sha256": "3f4d9b9ca49bb3f100882e78ba85807398cee19b481bfd4c301a8f5f58d48540"
+    },
+    {
+      "Name": "libe_sqlite3.so",
+      "Bytes": 1756544,
+      "Sha256": "985884523e512414f3e50aa359f08dad3ce635e99405e7823de9b26a7db38d09"
+    },
+    {
+      "Name": "libe_sqlite3.so",
+      "Bytes": 1322584,
+      "Sha256": "7fec7057d16e8b5ae54fed0c42a0e6b85e40df0d57092ef20cd647a4e1c1e0ed"
+    },
+    {
+      "Name": "libe_sqlite3.so",
+      "Bytes": 1450704,
+      "Sha256": "530e2f74f259fe04faa4b595336e671fab5eedbb6f4e94dad59494efb7b00c2a"
+    },
+    {
+      "Name": "libe_sqlite3.so",
+      "Bytes": 1015888,
+      "Sha256": "d8e54eb7dc52ea0a7df9b78ac6feb85af429e7264613099df478825dea5805d4"
+    },
+    {
+      "Name": "libe_sqlite3.so",
+      "Bytes": 1685752,
+      "Sha256": "64260c0460ad6efa7dce9263bff7a4b64ad66172ccc580cb09181c845e1a3407"
+    },
+    {
+      "Name": "libe_sqlite3.so",
+      "Bytes": 1445336,
+      "Sha256": "647b7b5886526691aed58e0fcbb56dc1e6dea8b1f9f5390782f0c95269250db1"
+    },
+    {
+      "Name": "libe_sqlite3.so",
+      "Bytes": 1937408,
+      "Sha256": "1ef00b5e3ac63e491f59ecf587680fc52ad844cea62e0a879a1315ef6bd10fc6"
+    },
+    {
+      "Name": "libe_sqlite3.so",
+      "Bytes": 1291896,
+      "Sha256": "6b390eecbc6f55c44d9ab8a774f1fe4283dfb33a72e6f29f4e0b173065e7e105"
+    },
+    {
+      "Name": "libe_sqlite3.so",
+      "Bytes": 1655776,
+      "Sha256": "dfd5ab35f6d61155a3c629d0bceff4d6e0f0f190983f3fb8f681fb34ec08c67e"
+    },
+    {
+      "Name": "libe_sqlite3.so",
+      "Bytes": 1470784,
+      "Sha256": "b0f5c48026fedcf9f05cf31c6fadf9e1e001ca59cd85aa68b8b6814e52c18a07"
+    },
+    {
+      "Name": "libe_sqlite3.so",
+      "Bytes": 1547984,
+      "Sha256": "fe8229e5baeaf21e721cf65626a6b07ec22d9b17d07bd624e7a77927174277f1"
+    },
+    {
+      "Name": "libe_sqlite3.dylib",
+      "Bytes": 1695264,
+      "Sha256": "8d63d80bc6caa754679d6fc89fd741a32c156f136c34759cc8fff8cd51468a93"
+    },
+    {
+      "Name": "libe_sqlite3.dylib",
+      "Bytes": 1724352,
+      "Sha256": "43d27adbc5ba40850bac42a12aea08314a22a43d3ce77cdc7a6cc47ecffb5746"
+    },
+    {
+      "Name": "libe_sqlite3.dylib",
+      "Bytes": 1696624,
+      "Sha256": "09fe20a6c050912a7944b2f2f2981debe31679f7919f523c87251ae8cf0f2daa"
+    },
+    {
+      "Name": "libe_sqlite3.dylib",
+      "Bytes": 1724472,
+      "Sha256": "02344e1d0bcb5ed447ad9b79ed19e37a590fb1ece3eba1e63efbc35e36e47bdf"
+    },
+    {
+      "Name": "e_sqlite3.dll",
+      "Bytes": 1814528,
+      "Sha256": "4177542756bd94f75b55fb74367e0cf34e66a88ffaf95755489af14c6ca2f792"
+    },
+    {
+      "Name": "e_sqlite3.dll",
+      "Bytes": 1978880,
+      "Sha256": "b7385d722c83fb52142a00477a726723745916d22a555711ee89834c1111fb2e"
+    },
+    {
+      "Name": "e_sqlite3.dll",
+      "Bytes": 1533952,
+      "Sha256": "d13eb819d1353d98c684c88672868bbfcc6a52eb5987bdf2557ec02fabce4ea7"
+    }
+  ],
+  "Purpose": "Two-version update verification (helper handoff, native apply, work-* cleanup, exactly one restart, updated settings window)."
+}

@@ -36,6 +36,9 @@ try {
     Require 'updated-exit-command' ((Run-Child $app '--action Exit' 'updated-exit') -eq 0)
     Require 'updated-real-process-exited' ($new.WaitForExit(30000));$new.WaitForExit();Require 'updated-real-exit-zero' ($new.ExitCode -eq 0);$new.Dispose()
     Require 'updated-data-readable' ((Run-Child $driver ('--data verify '+(Join-Path $output 'data-after.json')) 'verify-data') -eq 0)
+    $workDirs = @(Get-ChildItem (Join-Path $env:LOCALAPPDATA 'Iris.Maintenance') -Filter 'work-*' -Directory -ErrorAction SilentlyContinue)
+    Record 'work-dirs-after-update' @{Count=$workDirs.Count;Paths=@($workDirs | ForEach-Object { $_.Name })}
+    Require 'work-directories-bounded' ($workDirs.Count -le 1)
 }catch{$report.Failure=$_.ToString()}
 finally {
     Get-CimInstance Win32_Process|Where-Object{$_.Name -match 'Iris|Setup|Update'}|Select-Object ProcessId,ParentProcessId,CreationDate,ExecutablePath,CommandLine|ConvertTo-Json -Depth 4|Set-Content (Join-Path $output 'final-processes.json') -Encoding UTF8

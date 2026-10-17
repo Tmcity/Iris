@@ -49,8 +49,8 @@ internal sealed partial class AppLifetime : IAppLifetime
             {
                 var coordinator = _serviceProvider.GetService<Iris.App.Updates.AppUpdateCoordinator>();
                 coordinator?.RollbackLastApply(ErrorCode.Unknown);
-                var settingsVm = _serviceProvider.GetService<Iris.App.Settings.SettingsViewModel>();
-                settingsVm?.ResetHandoffTransferred();
+                var presenter = _serviceProvider.GetService<Iris.App.Settings.SettingsWindowPresenter>();
+                presenter?.ResetHandoffTransferred();
             }
             throw;
         }

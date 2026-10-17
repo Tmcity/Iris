@@ -1,0 +1,322 @@
+﻿Build started 2026/10/17 14:04:26.
+     1>Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" on node 1 (Restore target(s)).
+     1>_GetAllRestoreProjectPathItems:
+         Determining projects to restore...
+     1>Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" (1) is building "F:\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj" (7:4) on node 5 (_GenerateProjectRestoreGraph target(s)).
+     7>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.13
+     1>Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" (1) is building "F:\Iris\src\Iris.UiaHost\Iris.UiaHost.csproj" (8:4) on node 6 (_GenerateProjectRestoreGraph target(s)).
+     8>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+     7>AddPrunePackageReferences:
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.13\data\PackageOverrides.txt
+     1>Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" (1) is building "F:\Iris\src\Iris.Core\Iris.Core.csproj" (5:10) on node 4 (_GenerateProjectRestoreGraph target(s)).
+     5>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+     8>AddPrunePackageReferences:
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+     5>AddPrunePackageReferences:
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.13
+     1>Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" (1) is building "F:\Iris\src\Iris.Infrastructure\Iris.Infrastructure.csproj" (4:5) on node 2 (_GenerateProjectRestoreGraph target(s)).
+     4>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+     1>Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" (1) is building "F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj" (6:7) on node 3 (_GenerateProjectRestoreGraph target(s)).
+     6>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+     4>AddPrunePackageReferences:
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+     6>AddPrunePackageReferences:
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref
+     4>AddPrunePackageReferences:
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref
+     6>AddPrunePackageReferences:
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.13
+     4>AddPrunePackageReferences:
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.13
+     8>AddPrunePackageReferences:
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.13
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.13\data\PackageOverrides.txt
+     4>AddPrunePackageReferences:
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.13\data\PackageOverrides.txt
+     6>AddPrunePackageReferences:
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.13\data\PackageOverrides.txt
+     5>AddPrunePackageReferences:
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.13\data\PackageOverrides.txt
+     1>Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" (1) is building "F:\Iris\src\Iris.App\Iris.App.csproj" (2:4) on node 1 (_GenerateProjectRestoreGraph target(s)).
+     2>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.13
+     7>Done Building Project "F:\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj" (_GenerateProjectRestoreGraph target(s)).
+     2>AddPrunePackageReferences:
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.13\data\PackageOverrides.txt
+     8>Done Building Project "F:\Iris\src\Iris.UiaHost\Iris.UiaHost.csproj" (_GenerateProjectRestoreGraph target(s)).
+     4>Done Building Project "F:\Iris\src\Iris.Infrastructure\Iris.Infrastructure.csproj" (_GenerateProjectRestoreGraph target(s)).
+     2>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref
+     5>Done Building Project "F:\Iris\src\Iris.Core\Iris.Core.csproj" (_GenerateProjectRestoreGraph target(s)).
+     2>AddPrunePackageReferences:
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\10.0.13
+     6>Done Building Project "F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj" (_GenerateProjectRestoreGraph target(s)).
+     2>AddPrunePackageReferences:
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\10.0.13\data\PackageOverrides.txt
+     2>Done Building Project "F:\Iris\src\Iris.App\Iris.App.csproj" (_GenerateProjectRestoreGraph target(s)).
+     1>Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" (1) is building "F:\Iris\src\Iris.Providers\Iris.Providers.csproj" (3:4) on node 1 (_GenerateProjectRestoreGraph target(s)).
+     3>AddPrunePackageReferences:
+         Loading prune package data from PrunePackageData folder
+         Failed to load prune package data from PrunePackageData folder, loading from targeting packs instead
+         Looking for targeting packs in C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref
+         Pack directories found: C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.13
+         Found package overrides file C:\Program Files\dotnet\packs\Microsoft.NETCore.App.Ref\10.0.13\data\PackageOverrides.txt
+     3>Done Building Project "F:\Iris\src\Iris.Providers\Iris.Providers.csproj" (_GenerateProjectRestoreGraph target(s)).
+     1>Restore:
+         X.509 certificate chain validation will use the default trust store selected by .NET for code signing.
+         X.509 certificate chain validation will use the default trust store selected by .NET for timestamping.
+         Assets file has not changed. Skipping assets file writing. Path: F:\Iris\src\Iris.Maintenance\obj\project.assets.json
+         Assets file has not changed. Skipping assets file writing. Path: F:\Iris\src\Iris.Core\obj\project.assets.json
+         Assets file has not changed. Skipping assets file writing. Path: F:\Iris\src\Iris.Platform.Windows\obj\project.assets.json
+         Assets file has not changed. Skipping assets file writing. Path: F:\Iris\src\Iris.UiaHost\obj\project.assets.json
+         Assets file has not changed. Skipping assets file writing. Path: F:\Iris\src\Iris.Infrastructure\obj\project.assets.json
+         Assets file has not changed. Skipping assets file writing. Path: F:\Iris\src\Iris.Providers\obj\project.assets.json
+         Assets file has not changed. Skipping assets file writing. Path: F:\Iris\src\Iris.App\obj\project.assets.json
+         Restored F:\Iris\src\Iris.UiaHost\Iris.UiaHost.csproj (in 45 ms).
+         Restored F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (in 45 ms).
+         Restored F:\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj (in 45 ms).
+         Restored F:\Iris\src\Iris.Infrastructure\Iris.Infrastructure.csproj (in 45 ms).
+         Restored F:\Iris\src\Iris.Core\Iris.Core.csproj (in 45 ms).
+         Restored F:\Iris\src\Iris.Providers\Iris.Providers.csproj (in 48 ms).
+         Assets file has not changed. Skipping assets file writing. Path: F:\Iris\tests\Iris.App.Tests\obj\project.assets.json
+         Restored F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj (in 51 ms).
+         Restored F:\Iris\src\Iris.App\Iris.App.csproj (in 49 ms).
+         
+         NuGet Config files used:
+             C:\Users\28910\AppData\Roaming\NuGet\NuGet.Config
+             C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.FallbackLocation.config
+             C:\Program Files (x86)\NuGet\Config\Microsoft.VisualStudio.Offline.config
+         
+         Feeds used:
+             https://api.nuget.org/v3/index.json
+             C:\Program Files (x86)\Microsoft SDKs\NuGetPackages\
+         All projects are up-to-date for restore.
+     1>Done Building Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" (Restore target(s)).
+   1:7>Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" on node 4 (_MTPBuild target(s)).
+   1:7>Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" (1:7) is building "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" (1:8) on node 4 (default targets).
+   1:8>Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" (1:8) is building "F:\Iris\src\Iris.Core\Iris.Core.csproj" (5:12) on node 3 (default targets).
+     5>CoreResGen:
+         No resources are out of date with respect to their source files. Skipping resource generation.
+       GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+       _GenerateSourceLinkFile:
+         Source Link file 'obj\Release\net10.0\Iris.Core.sourcelink.json' is up-to-date.
+       CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+       CoreGenerateSatelliteAssemblies:
+       Skipping target "CoreGenerateSatelliteAssemblies" because all output files are up-to-date with respect to the input files.
+       GenerateBuildDependencyFile:
+       Skipping target "GenerateBuildDependencyFile" because all output files are up-to-date with respect to the input files.
+       CopyFilesToOutputDirectory:
+         Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+     5>Done Building Project "F:\Iris\src\Iris.Core\Iris.Core.csproj" (default targets).
+   1:8>Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" (1:8) is building "F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj" (6:9) on node 5 (default targets).
+     6>GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+   1:8>Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" (1:8) is building "F:\Iris\src\Iris.Infrastructure\Iris.Infrastructure.csproj" (4:7) on node 6 (default targets).
+     4>GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+   1:8>Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" (1:8) is building "F:\Iris\src\Iris.Providers\Iris.Providers.csproj" (3:6) on node 4 (default targets).
+     3>GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+     6>CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+     4>CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+     3>CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+     4>_GenerateSourceLinkFile:
+         Source Link file 'obj\Release\net10.0\Iris.Infrastructure.sourcelink.json' is up-to-date.
+     3>_GenerateSourceLinkFile:
+         Source Link file 'obj\Release\net10.0\Iris.Providers.sourcelink.json' is up-to-date.
+     6>_GenerateSourceLinkFile:
+         Source Link file 'obj\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.sourcelink.json' is up-to-date.
+     4>CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+     3>CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+     4>GenerateBuildDependencyFile:
+       Skipping target "GenerateBuildDependencyFile" because all output files are up-to-date with respect to the input files.
+     3>GenerateBuildDependencyFile:
+       Skipping target "GenerateBuildDependencyFile" because all output files are up-to-date with respect to the input files.
+     4>CopyFilesToOutputDirectory:
+         Iris.Infrastructure -> F:\Iris\src\Iris.Infrastructure\bin\Release\net10.0\Iris.Infrastructure.dll
+     6>CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+     3>CopyFilesToOutputDirectory:
+         Iris.Providers -> F:\Iris\src\Iris.Providers\bin\Release\net10.0\Iris.Providers.dll
+     4>Done Building Project "F:\Iris\src\Iris.Infrastructure\Iris.Infrastructure.csproj" (default targets).
+     3>Done Building Project "F:\Iris\src\Iris.Providers\Iris.Providers.csproj" (default targets).
+     6>GenerateBuildDependencyFile:
+       Skipping target "GenerateBuildDependencyFile" because all output files are up-to-date with respect to the input files.
+       CopyFilesToOutputDirectory:
+         Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+     6>Done Building Project "F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj" (default targets).
+   1:8>Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" (1:8) is building "F:\Iris\src\Iris.App\Iris.App.csproj" (2:6) on node 2 (default targets).
+   2:6>Project "F:\Iris\src\Iris.App\Iris.App.csproj" (2:6) is building "F:\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj" (7:6) on node 4 (default targets).
+     7>CoreResGen:
+         No resources are out of date with respect to their source files. Skipping resource generation.
+   2:6>Project "F:\Iris\src\Iris.App\Iris.App.csproj" (2:6) is building "F:\Iris\src\Iris.UiaHost\Iris.UiaHost.csproj" (8:6) on node 2 (default targets).
+     8>GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+     7>GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+       _GenerateSourceLinkFile:
+         Source Link file 'obj\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.sourcelink.json' is up-to-date.
+       CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+       _CreateAppHost:
+       Skipping target "_CreateAppHost" because all output files are up-to-date with respect to the input files.
+       CoreGenerateSatelliteAssemblies:
+       Skipping target "CoreGenerateSatelliteAssemblies" because all output files are up-to-date with respect to the input files.
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+       Skipping target "_CopyOutOfDateSourceItemsToOutputDirectory" because all output files are up-to-date with respect to the input files.
+       GenerateBuildDependencyFile:
+       Skipping target "GenerateBuildDependencyFile" because all output files are up-to-date with respect to the input files.
+       GenerateBuildRuntimeConfigurationFiles:
+       Skipping target "GenerateBuildRuntimeConfigurationFiles" because all output files are up-to-date with respect to the input files.
+       CopyFilesToOutputDirectory:
+         Iris.Maintenance -> F:\Iris\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.dll
+     7>Done Building Project "F:\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj" (default targets).
+     8>CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+       _GenerateSourceLinkFile:
+         Source Link file 'obj\Release\net10.0-windows10.0.19041.0\Iris.UiaHost.sourcelink.json' is up-to-date.
+       CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+       _CreateAppHost:
+       Skipping target "_CreateAppHost" because all output files are up-to-date with respect to the input files.
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+       Skipping target "_CopyOutOfDateSourceItemsToOutputDirectory" because all output files are up-to-date with respect to the input files.
+       GenerateBuildDependencyFile:
+       Skipping target "GenerateBuildDependencyFile" because all output files are up-to-date with respect to the input files.
+       GenerateBuildRuntimeConfigurationFiles:
+       Skipping target "GenerateBuildRuntimeConfigurationFiles" because all output files are up-to-date with respect to the input files.
+       CopyFilesToOutputDirectory:
+         Iris.UiaHost -> F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.UiaHost.dll
+     8>Done Building Project "F:\Iris\src\Iris.UiaHost\Iris.UiaHost.csproj" (default targets).
+     2>MainResourcesGeneration:
+       Skipping target "MainResourcesGeneration" because all output files are up-to-date with respect to the input files.
+       CoreResGen:
+         No resources are out of date with respect to their source files. Skipping resource generation.
+       GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+       _GenerateSourceLinkFile:
+         Source Link file 'obj\Release\net10.0-windows10.0.19041.0\Iris.App.sourcelink.json' is up-to-date.
+       CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+       _CreateAppHost:
+       Skipping target "_CreateAppHost" because all output files are up-to-date with respect to the input files.
+       CoreGenerateSatelliteAssemblies:
+       Skipping target "CoreGenerateSatelliteAssemblies" because all output files are up-to-date with respect to the input files.
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+       Skipping target "_CopyOutOfDateSourceItemsToOutputDirectory" because all output files are up-to-date with respect to the input files.
+       GenerateBuildDependencyFile:
+       Skipping target "GenerateBuildDependencyFile" because all output files are up-to-date with respect to the input files.
+       GenerateBuildRuntimeConfigurationFiles:
+       Skipping target "GenerateBuildRuntimeConfigurationFiles" because all output files are up-to-date with respect to the input files.
+       CopyFilesToOutputDirectory:
+         Iris.App -> F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\Iris.App.dll
+       CopyUiaHostToOutput:
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.Core.dll" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.Core.pdb" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.Core.xml" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.pdb" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.xml" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.UiaHost.deps.json" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.UiaHost.dll" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.UiaHost.exe" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.UiaHost.pdb" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.UiaHost.runtimeconfig.json" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.UiaHost.xml" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Microsoft.Extensions.Logging.Abstractions.dll" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Microsoft.Windows.SDK.NET.dll" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\System.Security.Cryptography.ProtectedData.dll" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\WinRT.Runtime.dll" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+         Copying file from "F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\en-US\Iris.Core.resources.dll" to "F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\uia\%(Identity)".
+     2>Done Building Project "F:\Iris\src\Iris.App\Iris.App.csproj" (default targets).
+     1>GenerateTargetFrameworkMonikerAttribute:
+       Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+       _GenerateSelfRegisteredExtensions:
+       Skipping target "_GenerateSelfRegisteredExtensions" because all output files are up-to-date with respect to the input files.
+       _XunitGenerateEntryPoint:
+       Skipping target "_XunitGenerateEntryPoint" because all output files are up-to-date with respect to the input files.
+       CoreGenerateAssemblyInfo:
+       Skipping target "CoreGenerateAssemblyInfo" because all output files are up-to-date with respect to the input files.
+       _GenerateSourceLinkFile:
+         Source Link file 'obj\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.sourcelink.json' is up-to-date.
+       CoreCompile:
+       Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+       _CreateAppHost:
+       Skipping target "_CreateAppHost" because all output files are up-to-date with respect to the input files.
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+       Skipping target "_CopyOutOfDateSourceItemsToOutputDirectory" because all output files are up-to-date with respect to the input files.
+       GenerateBuildDependencyFile:
+       Skipping target "GenerateBuildDependencyFile" because all output files are up-to-date with respect to the input files.
+       GenerateBuildRuntimeConfigurationFiles:
+       Skipping target "GenerateBuildRuntimeConfigurationFiles" because all output files are up-to-date with respect to the input files.
+       CopyFilesToOutputDirectory:
+         Iris.App.Tests -> F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll
+     1>Done Building Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" (default targets).
+     1>Done Building Project "F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj" (_MTPBuild target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:03.20
+Running tests from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+failed Iris.App.Tests.Updates.UpdateHandoffLifecycleTests.ShutdownFailureAfterHandoffPrepared_RollsBackCoordinator_AndResetsTransferredFlag (322ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : thrown is IOException || (thrown is AggregateException ae && ae.InnerExceptions.Any(e => e is IOException))
+      should be
+  True
+      but was
+  False
+    at Iris.App.Tests.Updates.UpdateHandoffLifecycleTests.ShutdownFailureAfterHandoffPrepared_RollsBackCoordinator_AndResetsTransferredFlag() in F:\Iris\tests\Iris.App.Tests\Updates\UpdateHandoffLifecycleTests.cs:144
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at Iris.App.Tests.Updates.UpdateHandoffLifecycleTests.ShutdownFailureAfterHandoffPrepared_RollsBackCoordinator_AndResetsTransferredFlag() in F:\Iris\tests\Iris.App.Tests\Updates\UpdateHandoffLifecycleTests.cs:152
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at Iris.App.Tests.Updates.UpdateHandoffLifecycleTests.ShutdownFailureAfterHandoffPrepared_RollsBackCoordinator_AndResetsTransferredFlag() in F:\Iris\tests\Iris.App.Tests\Updates\UpdateHandoffLifecycleTests.cs:156
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) failed with 1 error(s) (2s 330ms)
+Exit code: 2
+
+Test run summary: Failed!
+  total: 1
+  failed: 1
+  succeeded: 0
+  skipped: 0
+  duration: 2s 580ms
+Test run completed with non-success exit code: 2 (see: https://aka.ms/testingplatform/exitcodes)

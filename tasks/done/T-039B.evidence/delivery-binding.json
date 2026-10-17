@@ -1,8 +1,13 @@
 {
-  "BaseCommit": "6256a3fba611b2cd94fc8dfa32480584c16d7bfe",
-  "GitTree": "c7d12223b58d9223669b5e51afdd1fc55b86d37e",
+  "BaseCommit": "4d19a46cccfa1041a3838011abf4330ee035c89c",
+  "GitTree": "cdbd5dbefdd71629043ad0d2bfbad589159fbfc1",
+  "GitTreeSemantics": "GitTree 是使用 'git write-tree' 计算的暂存区源码树哈希（精确反映本次交付提交所包含的代码、配置、测试与证据树，不包含 commit 对象元数据自身）",
+  "BoundPackageVersions": [
+    "0.2.0",
+    "0.2.1"
+  ],
+  "BoundPackageArtifactTag": "final-4",
   "ProductSourcesMatchTestedCandidate": true,
-  "ColdBootstrapMaintenanceIdenticalFinal2ToFinal3": false,
   "SourceFiles": [
     {
       "Path": ".config/dotnet-tools.json",
@@ -326,13 +331,13 @@
     },
     {
       "Path": "src/Iris.App/Resources/Strings.en-US.resx",
-      "GitBlob": "304a0ba20a9f87b4b2c96e14421b8dc5658858bb",
-      "WorkingSha256": "1879a7cb879b6191a015636c3cf9d0d194c74bab58aa416b1f65ad645bcecdbc"
+      "GitBlob": "2029a222618b4e9a25d32d5de7132bc947a652e0",
+      "WorkingSha256": "12b16132c42c60126718b9276598879cc9aa29b29e3155c95f566514c702c248"
     },
     {
       "Path": "src/Iris.App/Resources/Strings.resx",
-      "GitBlob": "bc4a9fd350619c42a888d1e7221e52bdaff154d5",
-      "WorkingSha256": "b05a2f28ce4cd7a7d73fb2c77092a56ef078361e3205b1d542ae69996848cf43"
+      "GitBlob": "144d6c8c187b0417f56855347815e516b681d9cd",
+      "WorkingSha256": "2aa756853ebf18bbdc0c8ec83fbffd7a746dfd5bc6a37cd5ce35575e6872a74b"
     },
     {
       "Path": "src/Iris.App/Selection/SelectionIconController.cs",
@@ -351,13 +356,13 @@
     },
     {
       "Path": "src/Iris.App/Services/AppLifetime.cs",
-      "GitBlob": "bd9c0bd2a3a6ab344510dbeb92315d48988c2042",
-      "WorkingSha256": "45fbb8bd7639bc597c8838022267c4fb8b8b4b987df9d93aec865ccb3125f466"
+      "GitBlob": "b8d41fca10230cf8683c3ca27622959c8876b4a1",
+      "WorkingSha256": "bdfd760c499466a31c2fb397b9a4cf57f30a2dbfb1a92f7afbbbda84b8dd57b1"
     },
     {
       "Path": "src/Iris.App/Services/GeneralSettingsSaveCoordinator.cs",
-      "GitBlob": "87cde6b8a9c8a2bf10c81e83ced666cfec22fbfc",
-      "WorkingSha256": "6cb9a96852b0273082f16fed16f2dbaac4dcdaa1cfba3b0d0a10ec2f981cc63d"
+      "GitBlob": "2d35baa19213ab1b860481bd0819948111301136",
+      "WorkingSha256": "abd0fb110621b37ebd858036c6b12d3e27120ca0364105a582da80fc9f91aa31"
     },
     {
       "Path": "src/Iris.App/Services/ScreenshotOcrFeedback.cs",
@@ -471,8 +476,8 @@
     },
     {
       "Path": "src/Iris.App/Settings/SettingsViewModel.Updates.cs",
-      "GitBlob": "fbfbce9ad1809379d575fed26677a4491936eee3",
-      "WorkingSha256": "9dc53aaa9eea4b472d584497fdaa60c8d98a8d73c0d911cc19e1756b36076690"
+      "GitBlob": "db4026e826ebf8a1048c67f30dff83ba30d55554",
+      "WorkingSha256": "9204c5c0cfdea5c25b0892c1302a0b8b9fdc381b9d48791dada50c888313c860"
     },
     {
       "Path": "src/Iris.App/Settings/SettingsViewModel.cs",
@@ -491,8 +496,8 @@
     },
     {
       "Path": "src/Iris.App/Settings/SettingsWindowPresenter.cs",
-      "GitBlob": "f91117e622121d5de2a91f81ff8416c4d93ed554",
-      "WorkingSha256": "796d4949e0de6dec4eeda0912301f09ad679483b37d927a358747db5ac3aeff4"
+      "GitBlob": "a195d1f46719fd4a04b40e7bc831d51e0bcb7521",
+      "WorkingSha256": "ac4e9f890c48f88572d4d06cbce0196b69c58595d4733f027190d4db17b9b9c3"
     },
     {
       "Path": "src/Iris.App/Settings/SettingsWindowSession.cs",
@@ -611,13 +616,13 @@
     },
     {
       "Path": "src/Iris.App/Updates/AppUpdateCoordinator.cs",
-      "GitBlob": "475de983a8648b490a525ae3bfacfd098f9639c8",
-      "WorkingSha256": "9c606856de979e668a6050b25a08e5395f5cefec40e7acfc9ca62dda912b068e"
+      "GitBlob": "b45e46352f52004e03c1615520277d571766eea3",
+      "WorkingSha256": "868a30f0240612a52bec18c6203b58938e2df11fd1fa56e1ddaf15d884e7bd40"
     },
     {
       "Path": "src/Iris.App/Updates/UpdateHandoff.cs",
-      "GitBlob": "0cedfeeaf29235cd4c92271300ac38581bf4c31a",
-      "WorkingSha256": "23d2ecbc1e04a72583d1bf4278cf534857f4a0b42c594d9cf26e94294478e2e2"
+      "GitBlob": "860facce42e122c421bcd3f6c2073f7736f12f7d",
+      "WorkingSha256": "aa951bce899cec209ccb3980130c87b1dee3324571278d09c7b916f9038974f1"
     },
     {
       "Path": "src/Iris.App/Updates/UpdateHandoffEnvironment.cs",
@@ -1501,8 +1506,8 @@
     },
     {
       "Path": "src/Iris.Platform.Windows/Maintenance/MaintenanceWorkDirectory.cs",
-      "GitBlob": "8c66f5c93d0f69c99ebfda73743fbcd59d926dd5",
-      "WorkingSha256": "76fa1a6f355369905639792fa41440fc9401c8eb5933dab02811f0caf2af1339"
+      "GitBlob": "3180a74f3592d9be6aeea7e1d055af42d63e2bf9",
+      "WorkingSha256": "6d3a4af63bf95753d1f3973645a6d6748542ba582d7da72be9e301b3770946a0"
     },
     {
       "Path": "src/Iris.Platform.Windows/Maintenance/ReleaseIdentity.cs",
@@ -1831,8 +1836,8 @@
     },
     {
       "Path": "src/Iris.Providers/Translation/Anthropic/AnthropicTranslationProvider.cs",
-      "GitBlob": "201aa1458618cc6d2cb9e14af4b84075be088c56",
-      "WorkingSha256": "d5abad5d0e8e4d754088e068c361f2a18b26e5c82990185d178524d7ffd7fef1"
+      "GitBlob": "5bbeac681866fc3a753528791133a35d6ad807ca",
+      "WorkingSha256": "ea031c052a4f0de3fa534ca89b83a28e3b3a69234504f7900c0914cbd8cd7723"
     },
     {
       "Path": "src/Iris.Providers/Translation/Anthropic/AnthropicTranslationProviderFactory.cs",
@@ -2410,9 +2415,14 @@
       "WorkingSha256": "2b300404e3e819ae5fac12b43ba5876b808f4e017483979f1d29d79de5881dd0"
     },
     {
+      "Path": "tests/Iris.App.Tests/Updates/UpdateHandoffLifecycleTests.cs",
+      "GitBlob": "d2f9bfe602c0c3d784beaed7fa7e853da420bc4d",
+      "WorkingSha256": "e4ddb5a4457ac77c8be6ae2698afc803d52b61a66e80afc046548c1eeb989da9"
+    },
+    {
       "Path": "tests/Iris.App.Tests/Updates/UpdateHandoffTests.cs",
-      "GitBlob": "6df7dbad8e4232da2ee5ac70344bac118ca84cd3",
-      "WorkingSha256": "1008f6d4ece16350d07c40bc5bc3d8519e22cf99f041a8d041b2bd3b922bf175"
+      "GitBlob": "5185c8d490cf515c81175baf3685d58c6a6f96db",
+      "WorkingSha256": "d84c3379cd98c615718deb9f9999bda7530d47088b3e79e1b60c4706d01cf3b6"
     },
     {
       "Path": "tests/Iris.App.Tests/Updates/UpdateHttpTests.cs",
@@ -2421,8 +2431,8 @@
     },
     {
       "Path": "tests/Iris.App.Tests/Updates/UpdatePreferenceUiTests.cs",
-      "GitBlob": "7d181cf8353085dff5efebfe63163b17a8381fc6",
-      "WorkingSha256": "da0f133e0491b1232e6038a3bfe1226fef502a399bc0239e3cbb6b5ad00063ff"
+      "GitBlob": "a769783bb433eb8198fcc4d891faa8aadfc199bc",
+      "WorkingSha256": "d189e388d9b80ba7d8180306baeaa13704aae9a8cc870313d0ea9e353217b04b"
     },
     {
       "Path": "tests/Iris.App.Tests/Updates/UpdateRenderingTests.cs",
@@ -2876,8 +2886,8 @@
     },
     {
       "Path": "tests/Iris.Maintenance.Tests/UpdateTransactionTests.cs",
-      "GitBlob": "dfa390cf9b3c701f617a705932d1e6c15751d22c",
-      "WorkingSha256": "b512755d06df9f804f1109b44eecb310a6c6af101348b9f5431d6548c9eee146"
+      "GitBlob": "81fdfa90181dafbe7d2cc05cf8cae851094629f6",
+      "WorkingSha256": "834a793ffd6ca44d5b0474939a94789c5dc49a7ef8f9302d45ddbd0aafe9ec29"
     },
     {
       "Path": "tests/Iris.Platform.Windows.Tests/Capture/DesktopContextNativeReadOnlyTests.cs",
@@ -3456,8 +3466,8 @@
     },
     {
       "Path": "tests/Iris.Providers.Tests/Translation/Anthropic/AnthropicTranslationProviderTests.cs",
-      "GitBlob": "5febd6994ff0b476280a5daa951dec7631cb1ce2",
-      "WorkingSha256": "4839ca46d672cc2a2ae5fd987988f1f8690c5dc7327bebd86f6b4615a6f953a6"
+      "GitBlob": "c801038980787d38ec5396f5be242a651d9246b3",
+      "WorkingSha256": "b4045b4c326a0b212bc069b9acb75370365d2f35c9e76626d04261a471e52c96"
     },
     {
       "Path": "tests/Iris.Providers.Tests/Translation/OpenAICompatible/OpenAICompatibleTranslationProviderFactoryTests.cs",
@@ -3493,7 +3503,7 @@
   "ReleasePackages": [
     {
       "Version": "0.2.0",
-      "Directory": "F:\\Iris\\artifacts\\t039b\\release-0.2.0-final-3",
+      "Directory": "F:/Iris/artifacts/t039b/release-0.2.0-final-4",
       "Files": [
         {
           "Name": "assets.win.json",
@@ -3502,95 +3512,95 @@
         },
         {
           "Name": "Iris-0.2.0-full.nupkg",
-          "Bytes": 64598700,
-          "Sha256": "278d9e803a2c7b0d3f2861402e9416ae3f798b7535f956df565e02547feb6175"
+          "Bytes": 64610657,
+          "Sha256": "8d4708fe7d9bc9c54a0129a4d0fad6f1690db58cbebddbd7d4b3d988fb458c4f"
         },
         {
           "Name": "Iris-0.2.0-Setup.exe",
-          "Bytes": 116714358,
-          "Sha256": "a1e528839ea46ab539de12efb638c1036cd3f64bf31e3468e1a47e9f29ab3d72"
+          "Bytes": 116738520,
+          "Sha256": "5181590d039c7558b8b82eb26f76002dd3cd76f04aea2cf51ae7e4abc3673b7d"
         },
         {
           "Name": "payload-manifest.json",
           "Bytes": 17644,
-          "Sha256": "35f402ed23e7c573480b4d19e64ef4e5ad24de7be3a0a9b2c4621f0f405693da"
+          "Sha256": "014d66c8c7ffc868564831432cf6b68ca24b79546ef37203b20634e27f11cc31"
         },
         {
           "Name": "RELEASES",
           "Bytes": 74,
-          "Sha256": "fdabf22e9bef6fe018e4ad50309bb93ec0e9446760c23ae66f0dde8123c88dd2"
+          "Sha256": "39f3f18df38e9fc30cc4347318734287df71e64d11cea20d56e12a6b2c04531d"
         },
         {
           "Name": "releases.win.json",
           "Bytes": 242,
-          "Sha256": "00cb76e61ea0d3cbc82a9f503db8d0c486b04f04f616f384dc4ea6408b7019b3"
+          "Sha256": "dd4a48a478fe28c18ef625cb65ceb1665272e646693695673c0511bd4dcba298"
         },
         {
           "Name": "SHA256.json",
           "Bytes": 1176,
-          "Sha256": "8c1e01e51c7da43d2c689af51dc8ff05dcb550e71cdc61a9a09729819f5ef93f"
+          "Sha256": "f754d32c1525af459970af90cfdc1ad245ab03a8d6f75742cb304fab91016ed0"
         },
         {
           "Name": "staging-manifest.json",
           "Bytes": 18533,
-          "Sha256": "834cd308d005af143f609d46fa68454ddc3484c0de1e21376ccff5bacd3d9a9e"
+          "Sha256": "721cfa836bacb68b970774ed49cc8e2b7937b2bac21e0cc404dc0294dd1cdf2c"
         }
       ],
       "PayloadManifestEntries": 97
     },
     {
       "Version": "0.2.1",
-      "Directory": "F:\\Iris\\artifacts\\t039b\\release-0.2.1-final-3",
+      "Directory": "F:/Iris/artifacts/t039b/release-0.2.1-final-4",
       "Files": [
         {
           "Name": "assets.win.json",
           "Bytes": 182,
-          "Sha256": "119df5dff143fb5ea5e94281e31e573748e59d932f2f377ad7afad0e7c79a236"
+          "Sha256": "8969124804bbc357eeb559fad9220954147dceeee2790d6503347443c935cd4d"
         },
         {
           "Name": "Iris-0.2.0-full.nupkg",
-          "Bytes": 64598700,
-          "Sha256": "278d9e803a2c7b0d3f2861402e9416ae3f798b7535f956df565e02547feb6175"
+          "Bytes": 64610657,
+          "Sha256": "8d4708fe7d9bc9c54a0129a4d0fad6f1690db58cbebddbd7d4b3d988fb458c4f"
         },
         {
           "Name": "Iris-0.2.1-delta.nupkg",
-          "Bytes": 500177,
-          "Sha256": "bb42a6976115decc41fc2298e9aacffd81852ec43702e10e75245ae42801f4aa"
+          "Bytes": 493731,
+          "Sha256": "54b59cb76c303348a7e22cc224a48c84402b9c7f1b8b8d11ee61aee4278edd3d"
         },
         {
           "Name": "Iris-0.2.1-full.nupkg",
-          "Bytes": 64598721,
-          "Sha256": "1216868b901daf9f82c78b0703982c91561890140411e49341c3dccd35eec3f6"
+          "Bytes": 64610683,
+          "Sha256": "a18396552d546fb4bc17064a75f6e3c752bc1fd3f95dc0d19d2d37c55e328329"
         },
         {
           "Name": "Iris-0.2.1-Setup.exe",
-          "Bytes": 116714378,
-          "Sha256": "a737a2f67ea63fef98dcc2ab5d55a9efbf4874aaf02bf8d40c310799f53c1e03"
+          "Bytes": 116738553,
+          "Sha256": "cd5057ecacfe415ae838552f939a189f4ba00eaf46bc86dee3bf5ffc88b1e0dc"
         },
         {
           "Name": "payload-manifest.json",
           "Bytes": 17644,
-          "Sha256": "6026dcac1f1c6c359848e6f9caace8f12211a315e7ce1ba104de3fe1da114fbb"
+          "Sha256": "461667a3ca7f15840e6757f6e6b14de4fe3cfb75de6a5899acbad9830fd5233d"
         },
         {
           "Name": "RELEASES",
           "Bytes": 146,
-          "Sha256": "84e468fd1c23720a40c8724f09885f9dad19ebbbf64578fc8f87bf3a1bc96985"
+          "Sha256": "0519798c1dc47ecb6857ce52893f47ff6f9a3a6978cffd6b52f060750ee24b9f"
         },
         {
           "Name": "releases.win.json",
           "Bytes": 702,
-          "Sha256": "00c8063feca2c220b31b41bfc011bb3594fe89d9dfafe82b7fd8cdf5bbb390ba"
+          "Sha256": "16e5f0b4e16adcbc9c4ef106d1f58029bacc4160a09f71847d1e0a3bd647942f"
         },
         {
           "Name": "SHA256.json",
           "Bytes": 1524,
-          "Sha256": "66c09ce9b951e3580cb6c32e07b016ae92f324fb15ded2d4e69592a3db433230"
+          "Sha256": "f09b484f334065ad4508eeda530aad6ff75e54a5afa5466bb932fc34a9dab614"
         },
         {
           "Name": "staging-manifest.json",
           "Bytes": 18533,
-          "Sha256": "4136473b1ffb2e6fbac6aa83f468f0763e0c476b9b3a858abe070592a4098b74"
+          "Sha256": "4fa89b3e124afa7a349d5e7218cc2e847ff45a99c03bb3ca4840ebb76a5af1b1"
         }
       ],
       "PayloadManifestEntries": 97
@@ -3599,20 +3609,20 @@
   "TestVerification": {
     "BuildRelease": {
       "Command": "dotnet build Iris.slnx -c Release",
-      "Log": "tasks/done/T-039B.evidence/final-r1-release-2.log",
+      "Log": "tasks/done/T-039B.evidence/final-r3-release.log",
       "Warnings": 0,
       "Errors": 0,
       "Status": "Success",
-      "CorruptedEncodingLogRetained": "tasks/done/T-039B.evidence/final-r1-release-1.log"
+      "TimeElapsed": "00:00:07.89"
     },
     "FullTests": {
       "Command": "dotnet test Iris.slnx -c Release",
-      "Log": "tasks/done/T-039B.evidence/final-r1-full-1.log",
-      "Total": 3704,
+      "Log": "tasks/done/T-039B.evidence/final-r3-full.log",
+      "Total": 3707,
       "Failed": 0,
-      "Passed": 3701,
+      "Passed": 3704,
       "Skipped": 3,
-      "Duration": "4m 51s 550ms",
+      "Duration": "5m 03s 861ms",
       "SkippedTests": [
         {
           "Name": "Iris.Platform.Windows.Capture.DesktopContextNativeReadOnlyTests.NativeDesktopContext_GetCursorPosition_ReturnsPhysicalCoordinates",
@@ -3633,16 +3643,90 @@
       "PreviousInteractiveRunLog": "tasks/done/T-039B.evidence/final-full-1.log"
     }
   },
+  "SandboxVerificationR3": {
+    "Scenario1_InstallAndSilentRetentionUninstall": {
+      "Environment": "Clean Windows Sandbox (Windows 11 Enterprise 10.0.26100, WDAGUtilityAccount, Admin)",
+      "Package": "artifacts/t039b/release-0.2.0-final-4/Iris-0.2.0-Setup.exe",
+      "Status": "Success (22/22 checks passed, Failure: null)",
+      "EvidenceDir": "tasks/done/T-039B.evidence/guest-install-r3-2",
+      "Screenshot": "tasks/done/T-039B.evidence/guest-install-r3-2/output/installed-settings.png",
+      "ScreenshotSha256": "4edbeaf8d1a9612d23bec7a47f397acc6003784b6bae090448725bb1cf5c1a93",
+      "TransientFailureRetained": "tasks/done/T-039B.evidence/guest-install-r3-1 (transient network download error retained)"
+    },
+    "Scenario2_TwoVersionUpdateAndReclaim": {
+      "Environment": "Clean Windows Sandbox",
+      "Packages": [
+        "artifacts/t039b/release-0.2.0-final-4",
+        "artifacts/t039b/release-0.2.1-final-4"
+      ],
+      "Status": "Success (25/25 checks passed, Failure: null)",
+      "EvidenceDir": "tasks/done/T-039B.evidence/guest-update-r3-1",
+      "Screenshot": "tasks/done/T-039B.evidence/guest-update-r3-1/output/update-r3/updated-settings.png",
+      "ScreenshotSha256": "3a80cb74d1327f253c148adea3bb32d37142622368ce017043d034cf940df126",
+      "WorkDirectoryCountAfterUpdate": 0
+    },
+    "UnaffectedScenariosNote": "未受本次产品改动影响的场景（覆盖矩阵全量卸载保留/删除分支、提交失败恢复、安装取消）沿用 release-*-final-3 的结果，全部原始日志与截图均完整保留在相应 guest-* 目录中。"
+  },
   "Evidence": [
     {
       "Path": "tasks/done/T-039B.md",
-      "GitBlob": "6705df17eb9978491542bb22edfb612b80f9bf01",
-      "Sha256": "d9bab4c25ccb0df42370d95e148afbf00c6d21bae96c1cd808dad565b3f5f7dc"
+      "GitBlob": "75bfd3bacde68a8b620636b91989eee2fd20a866",
+      "Sha256": "ee5db3154c0677af0314872252270faf8a4baf43e979f11b9b4c619b989a2f24"
     },
     {
       "Path": "tasks/done/T-039B.evidence/signed-order.md",
       "GitBlob": "f0f40583f604417386d4eafa3bd050bd111812e1",
       "Sha256": "48f3b40302f5e29937a1a3116372c11a7c702955fb6e4381d56d38193558db87"
+    },
+    {
+      "Path": "tasks/done/T-039B.evidence/signed-order-r3.md",
+      "GitBlob": "70fa3fe46a32e5a11478b8e7b7e787d53cc0d5b2",
+      "Sha256": "6993e2e5f85f20c0985b692290449faf8df1a7bc9653e2cf0b5a6649145126a4"
+    },
+    {
+      "Path": "tasks/done/T-039B.evidence/di-scope-repro.log",
+      "GitBlob": "0a94b2844892c073a62402bc2ae28b748e5009f3",
+      "Sha256": "d94a0580ad77f2a1af1acd33da5e1e09622e93cf1c0160c5dd79c35d364c97b8"
+    },
+    {
+      "Path": "tasks/done/T-039B.evidence/final-r3-release.log",
+      "GitBlob": "b7d9829e392346a6f42ca6b16c464720ab2c2318",
+      "Sha256": "0dd4057f8441888abd06ec02f5167fafeedc8f7f97c64f6f4f3c043f9523c7ae"
+    },
+    {
+      "Path": "tasks/done/T-039B.evidence/final-r3-full.log",
+      "GitBlob": "287a377a7a37eaf76374b63420edd839625383d2",
+      "Sha256": "7f3dc6d284bf806b02f5393a62bd01d76c81cfff92abfc6d5f1ba78a6a46aab9"
+    },
+    {
+      "Path": "tasks/done/T-039B.evidence/pack-ps51-final-0.2.0-4.log",
+      "GitBlob": "0121f8e0466138f9153bf74a0d37cec5d6471ca5",
+      "Sha256": "28df4c716e374c6ac4d8947b9b6a5de41ca0b291871c7a44ff0718ff7ec87472"
+    },
+    {
+      "Path": "tasks/done/T-039B.evidence/pack-ps51-final-0.2.1-4.log",
+      "GitBlob": "1dc8f563cf337816ebe0949865ae76fde56d8765",
+      "Sha256": "664389975d4f98312b7e5b815b67e6c055765a53208e48fe758fd542d89cb108"
+    },
+    {
+      "Path": "tasks/done/T-039B.evidence/guest-update-host-build-final-3.log",
+      "GitBlob": "0859ceface429d777c92d30d01f8e7aa23260931",
+      "Sha256": "d74e7289a70c7ad6b39e856071601b7655a630a15a7068504c80588aa4bb0c1b"
+    },
+    {
+      "Path": "tasks/done/T-039B.evidence/run_guest_update.py",
+      "GitBlob": "028f734d5edfe6bdd02ad48490d8d4d869bdecdc",
+      "Sha256": "6c5ec6b9a351b83c1e45065e7eb773736057eab8d2db60daca79fd9c8000564a"
+    },
+    {
+      "Path": "tasks/done/T-039B.evidence/guest_update.ps1",
+      "GitBlob": "4b33fe014e7cc947cb3cc126a71a20bd679afeb6",
+      "Sha256": "264cfe1c876ba2075a89d8424e4269951300e51292061c07e655411047251256"
+    },
+    {
+      "Path": "tasks/done/T-039B.evidence/finalize_binding_r3.py",
+      "GitBlob": "23008d1be721effd7eccd1db3d9191c095e495ed",
+      "Sha256": "ae7ff4312b6dc4b092aa21f4e5fd3421881cc2a4572a8e8e92c7afdca6978bbd"
     },
     {
       "Path": "tasks/done/T-039B.evidence/final-release-1.log",
@@ -3670,6 +3754,16 @@
       "Sha256": "42d8a59947e6ad28c61aa01e26206151508209b6ab7b2a5ddb69d25e6d86fdc7"
     },
     {
+      "Path": "tasks/done/T-039B.evidence/final-r2-release.log",
+      "GitBlob": "58b9338e7a64b50a017153bbfaea7bd963ef2345",
+      "Sha256": "d1753936c8b8a148b7730d8fe640fa6462f7ca3bf9f28895efceb3469dac3c7a"
+    },
+    {
+      "Path": "tasks/done/T-039B.evidence/final-r2-full.log",
+      "GitBlob": "174054d48f59dc6511851684b5412b6e84785a90",
+      "Sha256": "87d61b61cd33a5cb3d081a7ad9d99819483badca766ec4151a06e6405c60bde3"
+    },
+    {
       "Path": "tasks/done/T-039B.evidence/final-guest-binding.json",
       "GitBlob": "97ab754f36d666ef4658b500f2a96d7596277c00",
       "Sha256": "902c54a53013f579b9d42aaa95cb8305ee4e3572830c346bfabdf45f764c5071"
@@ -3688,6 +3782,21 @@
       "Path": "tasks/done/T-039B.evidence/binding-precheck-note.md",
       "GitBlob": "629dcb1783f1452c64b3612ad769f2f0a2f2e84c",
       "Sha256": "32c1640b3671dfd3ebdaadf87b20811c160ef42927124f728a6a65486fc9fa49"
+    },
+    {
+      "Path": "tasks/done/T-039B.evidence/guest-install-r3-2/output/result.json",
+      "GitBlob": "cefd3a19810dad3dda2ecb850d6617c66500378c",
+      "Sha256": "7927c82b1d7d8f7ce363bada4c7c048042b5a3be13d3a6cf7906d27434908f38"
+    },
+    {
+      "Path": "tasks/done/T-039B.evidence/guest-update-r3-1/output/update-r3/result.json",
+      "GitBlob": "0f77737ff12b550b277dbfa6e850898818d5847c",
+      "Sha256": "34c2c7f2fad13dd1f9f8140c2633379fe7190e0ce33e79ac82a9c674010d27b3"
+    },
+    {
+      "Path": "tasks/done/T-039B.review/acceptance-review-2/README.md",
+      "GitBlob": "a261a478f4743f6d6f819eef4b64cfb21a270f3a",
+      "Sha256": "c074e39d5592207cb2760c6dcab0c2f16610c8959572cca154991fbabaff5507"
     }
   ],
   "FinalGuestImages": [
@@ -3730,10 +3839,20 @@
       "Path": "tasks/done/T-039B.evidence/guest-final-cold-3/output/installed-settings.png",
       "Bytes": 1911927,
       "Sha256": "40b70bf52ae83855c1b39080af6d7aa1b68e194ed0932c5e771ba5fd5af686e2"
+    },
+    {
+      "Path": "tasks/done/T-039B.evidence/guest-install-r3-2/output/installed-settings.png",
+      "Bytes": 1911895,
+      "Sha256": "4edbeaf8d1a9612d23bec7a47f397acc6003784b6bae090448725bb1cf5c1a93"
+    },
+    {
+      "Path": "tasks/done/T-039B.evidence/guest-update-r3-1/output/update-r3/updated-settings.png",
+      "Bytes": 1911858,
+      "Sha256": "3a80cb74d1327f253c148adea3bb32d37142622368ce017043d034cf940df126"
     }
   ],
-  "ArchivedOrderSha256": "48f3b40302f5e29937a1a3116372c11a7c702955fb6e4381d56d38193558db87",
-  "ExplicitlyIncludedLogs": 392,
+  "ArchivedOrderSha256": "6993e2e5f85f20c0985b692290449faf8df1a7bc9653e2cf0b5a6649145126a4",
+  "ExplicitlyIncludedLogs": 459,
   "StagedCodexFiles": 0,
   "UnverifiedItems": [
     "标准用户拒绝系统运行时提升场景（仅在管理员 WDAGUtilityAccount 验证）",

@@ -15,6 +15,7 @@ using Iris.Core.Storage;
 using Iris.Core.Translation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Time.Testing;
 using NSubstitute;
@@ -43,16 +44,40 @@ public sealed class UpdateHandoffLifecycleTests
 
             var env = new FailingHandoffEnvironment(new IrisException(ErrorCode.Timeout, "prepare timed out"));
             await using var handoff = new UpdateHandoff(env);
-            var lifetime = Substitute.For<IAppLifetime>();
 
             var uiDispatcher = Substitute.For<IUiDispatcher>();
             uiDispatcher.InvokeAsync(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>())
                 .Returns(callInfo => callInfo.Arg<Func<Task>>()());
+            uiDispatcher.CheckAccess().Returns(true);
 
             var autoStart = Substitute.For<IAutoStartService>();
-            var saveCoordinator = new GeneralSettingsSaveCoordinator(settings, new TestSettingsEditCoordinator(settings), autoStart, null, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
-            using var vm = new SettingsViewModel(settings, new ThemeService(settings), saveCoordinator, null, null, uiDispatcher, null,
-                updates: coordinator, updateHandoff: handoff, updateLifetime: lifetime);
+            var theme = new ThemeService(settings);
+
+            var services = new ServiceCollection();
+            services.AddLogging();
+            services.AddSingleton(settings);
+            services.AddSingleton(theme);
+            services.AddSingleton(handoff);
+            services.AddSingleton(coordinator);
+            services.AddSingleton(uiDispatcher);
+            services.AddSingleton<IAppLifetime, AppLifetime>();
+            services.AddSingleton<SettingsWindowPresenter>();
+            services.AddTransient<SettingsWindow>();
+            services.AddScoped<GeneralSettingsSaveCoordinator>(sp => new GeneralSettingsSaveCoordinator(
+                settings, new TestSettingsEditCoordinator(settings), autoStart, null, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
+            services.AddScoped<SettingsViewModel>(sp => new SettingsViewModel(
+                settings, sp.GetRequiredService<ThemeService>(), sp.GetRequiredService<GeneralSettingsSaveCoordinator>(),
+                null, null, uiDispatcher, null,
+                updates: coordinator, updateHandoff: handoff, updateLifetime: sp.GetRequiredService<IAppLifetime>()));
+
+            using var provider = services.BuildServiceProvider(new ServiceProviderOptions
+            {
+                ValidateScopes = true,
+                ValidateOnBuild = true
+            });
+
+            using var scope = provider.CreateScope();
+            var vm = scope.ServiceProvider.GetRequiredService<SettingsViewModel>();
 
             // Execute install directly via private/internal path with candidate already prepared
             var candidate = await coordinator.PrepareApplyAsync(vm, offer, CancellationToken.None);
@@ -79,80 +104,106 @@ public sealed class UpdateHandoffLifecycleTests
     [Fact]
     public async Task ShutdownFailureAfterHandoffPrepared_RollsBackCoordinator_AndResetsTransferredFlag()
     {
-        var settings = Substitute.For<ISettingsService>();
-        settings.Current.Returns(new AppSettings { General = new() { CheckForUpdates = false } });
-        using var directory = new TempDirectory();
-        var source = new UpdateCoordinatorTests.Source { Package = UpdateCoordinatorTests.PackageBytes() };
-        var runtime = new UpdateCoordinatorTests.Runtime(directory.Path, source);
-        var coordinator = new AppUpdateCoordinator(runtime, settings, new FakeTimeProvider());
-        coordinator.Start();
-        try
+        await WpfTestRunner.RunAsync(async () =>
         {
-            await coordinator.CheckAsync(this);
-            var offer = coordinator.Snapshot.OfferId!.Value;
-            await coordinator.DownloadAsync(this, offer);
-            coordinator.Snapshot.Phase.ShouldBe(UpdatePhase.Ready);
+            var settings = Substitute.For<ISettingsService>();
+            settings.Current.Returns(new AppSettings { General = new() { CheckForUpdates = false } });
+            using var directory = new TempDirectory();
+            var source = new UpdateCoordinatorTests.Source { Package = UpdateCoordinatorTests.PackageBytes() };
+            var runtime = new UpdateCoordinatorTests.Runtime(directory.Path, source);
+            var coordinator = new AppUpdateCoordinator(runtime, settings, new FakeTimeProvider());
+            coordinator.Start();
+            try
+            {
+                await coordinator.CheckAsync(this);
+                var offer = coordinator.Snapshot.OfferId!.Value;
+                await coordinator.DownloadAsync(this, offer);
+                coordinator.Snapshot.Phase.ShouldBe(UpdatePhase.Ready);
 
-            var candidate = await coordinator.PrepareApplyAsync(this, offer, CancellationToken.None);
-            candidate.ShouldNotBeNull();
+                var candidate = await coordinator.PrepareApplyAsync(this, offer, CancellationToken.None);
+                candidate.ShouldNotBeNull();
 
-            var host = Substitute.For<IHost>();
-            var failure = new IOException("simulated host shutdown failure");
-            host.StopAsync(Arg.Any<CancellationToken>()).Returns(_ => Task.FromException(failure));
+                var host = Substitute.For<IHost>();
+                var failure = new IOException("simulated host shutdown failure");
+                host.StopAsync(Arg.Any<CancellationToken>()).Returns(_ => Task.FromException(failure));
 
-            var logs = new LogLevelController(settings, new Serilog.Core.LoggingLevelSwitch(), NullLogger<LogLevelController>.Instance);
-            var theme = new ThemeService(settings);
-            var tray = new TrayIconController(Substitute.For<IAppLifetime>(), settings, Substitute.For<IActionDispatcher>(), NullLogger<TrayIconController>.Instance)
-            { SuppressIconCreationForTesting = true };
+                var logs = new LogLevelController(settings, new Serilog.Core.LoggingLevelSwitch(), NullLogger<LogLevelController>.Instance);
+                var theme = new ThemeService(settings);
+                var tray = new TrayIconController(Substitute.For<IAppLifetime>(), settings, Substitute.For<IActionDispatcher>(), NullLogger<TrayIconController>.Instance)
+                { SuppressIconCreationForTesting = true };
 
-            var bootstrapper = new AppBootstrapper(settings, Substitute.For<ITranslationProviderRegistry>(), Substitute.For<IDatabaseInitializer>(),
-                logs, theme, tray, new TrayNotificationService(NullLogger<TrayNotificationService>.Instance), host,
-                NullLogger<AppBootstrapper>.Instance, new AppStartupInfo(Environment.TickCount64));
+                var bootstrapper = new AppBootstrapper(settings, Substitute.For<ITranslationProviderRegistry>(), Substitute.For<IDatabaseInitializer>(),
+                    logs, theme, tray, new TrayNotificationService(NullLogger<TrayNotificationService>.Instance), host,
+                    NullLogger<AppBootstrapper>.Instance, new AppStartupInfo(Environment.TickCount64));
 
-            var env = new ControlledHandoffEnvironment();
-            await using var handoff = new UpdateHandoff(env);
+                var env = new ControlledHandoffEnvironment();
+                await using var handoff = new UpdateHandoff(env);
 
-            var uiDispatcher = Substitute.For<IUiDispatcher>();
-            uiDispatcher.InvokeAsync(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>())
-                .Returns(callInfo => callInfo.Arg<Func<Task>>()());
+                var uiDispatcher = Substitute.For<IUiDispatcher>();
+                uiDispatcher.InvokeAsync(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>())
+                    .Returns(callInfo => callInfo.Arg<Func<Task>>()());
+                uiDispatcher.CheckAccess().Returns(true);
 
-            var autoStart = Substitute.For<IAutoStartService>();
-            var saveCoordinator = new GeneralSettingsSaveCoordinator(settings, new TestSettingsEditCoordinator(settings), autoStart, null, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
+                var autoStart = Substitute.For<IAutoStartService>();
 
-            var services = new ServiceCollection();
-            services.AddSingleton(bootstrapper);
-            services.AddSingleton(handoff);
-            services.AddSingleton(coordinator);
+                var services = new ServiceCollection();
+                services.AddLogging();
+                services.AddSingleton(settings);
+                services.AddSingleton(theme);
+                services.AddSingleton(bootstrapper);
+                services.AddSingleton(handoff);
+                services.AddSingleton(coordinator);
+                services.AddSingleton(uiDispatcher);
+                services.AddSingleton<IAppLifetime, AppLifetime>();
+                services.AddSingleton<SettingsWindowPresenter>();
+                services.AddTransient<SettingsWindow>();
+                services.AddScoped<GeneralSettingsSaveCoordinator>(sp => new GeneralSettingsSaveCoordinator(
+                    settings, new TestSettingsEditCoordinator(settings), autoStart, null, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
+                services.AddScoped<SettingsViewModel>(sp => new SettingsViewModel(
+                    settings, sp.GetRequiredService<ThemeService>(), sp.GetRequiredService<GeneralSettingsSaveCoordinator>(),
+                    null, null, uiDispatcher, null,
+                    updates: coordinator, updateHandoff: handoff, updateLifetime: sp.GetRequiredService<IAppLifetime>()));
 
-            var provider = services.BuildServiceProvider();
-            var lifetime = new AppLifetime(provider, uiDispatcher, NullLogger<AppLifetime>.Instance);
+                using var provider = services.BuildServiceProvider(new ServiceProviderOptions
+                {
+                    ValidateScopes = true,
+                    ValidateOnBuild = true
+                });
 
-            var vm = new SettingsViewModel(settings, theme, saveCoordinator, null, null, uiDispatcher, null,
-                updates: coordinator, updateHandoff: handoff, updateLifetime: lifetime);
+                var presenter = provider.GetRequiredService<SettingsWindowPresenter>();
+                await presenter.ShowAsync("general");
+                presenter.ActiveSession.ShouldNotBeNull();
+                var vm = presenter.ActiveSession!.ViewModel;
 
-            // Re-build provider with SettingsViewModel
-            services.AddSingleton(vm);
-            var providerWithVm = services.BuildServiceProvider();
-            var lifetimeWithVm = new AppLifetime(providerWithVm, uiDispatcher, NullLogger<AppLifetime>.Instance);
+                // Simulate handoff transferred flag being set before shutdown
+                vm.SetHandoffTransferredForTesting(true);
+                vm.UpdateHandoffTransferred.ShouldBeTrue();
 
-            lifetimeWithVm.RequestShutdown();
-            (lifetimeWithVm.ShutdownWork != null).ShouldBeTrue();
+                var lifetime = (AppLifetime)provider.GetRequiredService<IAppLifetime>();
+                lifetime.RequestShutdown();
+                (lifetime.ShutdownWork != null).ShouldBeTrue();
 
-            var thrown = await Should.ThrowAsync<Exception>(lifetimeWithVm.ShutdownWork!);
-            (thrown is IOException || (thrown is AggregateException ae && ae.InnerExceptions.Any(e => e is IOException))).ShouldBeTrue();
+                var thrown = await Should.ThrowAsync<Exception>(lifetime.ShutdownWork!);
+                (thrown is IOException || (thrown is AggregateException ae && ae.InnerExceptions.Any(e => e is IOException))).ShouldBeTrue();
 
-            coordinator.Snapshot.Phase.ShouldBe(UpdatePhase.Failed);
-            coordinator.Snapshot.Error.ShouldBe(ErrorCode.Unknown);
-            coordinator.HasCandidate.ShouldBeTrue();
+                // Coordinator rolled back to Failed with Unknown error
+                coordinator.Snapshot.Phase.ShouldBe(UpdatePhase.Failed);
+                coordinator.Snapshot.Error.ShouldBe(ErrorCode.Unknown);
+                coordinator.HasCandidate.ShouldBeTrue();
 
-            vm.UpdateStatus.ShouldBe(UiText.UpdateState(UpdatePhase.Failed));
-            vm.InstallUpdateCommand.CanExecute(null).ShouldBeTrue();
-            vm.CheckUpdateCommand.CanExecute(null).ShouldBeTrue();
-        }
-        finally
-        {
-            await coordinator.StopAsync();
-        }
+                // Window VM handoff transferred flag is indeed reset
+                vm.UpdateHandoffTransferred.ShouldBeFalse();
+                vm.UpdateStatus.ShouldBe(UiText.UpdateState(UpdatePhase.Failed));
+                vm.InstallUpdateCommand.CanExecute(null).ShouldBeTrue();
+                vm.CheckUpdateCommand.CanExecute(null).ShouldBeTrue();
+
+                try { presenter.ActiveSession?.Window?.Close(); } catch { }
+            }
+            finally
+            {
+                await coordinator.StopAsync();
+            }
+        });
     }
 
     private sealed class FailingHandoffEnvironment(Exception error) : UpdateHandoffEnvironment
