@@ -104,12 +104,8 @@ try {
 $internal = Join-Path $work 'internal-Setup.exe'
 Move-Item -LiteralPath $setup -Destination $internal
 # vpk names its internal Setup in this index. Public assets must reference the outer Iris entry instead.
-$assetIndexPath = Join-Path $OutputDirectory 'assets.win.json'
-$assetIndex = @(Get-Content -LiteralPath $assetIndexPath -Raw | ConvertFrom-Json)
-$installerEntries = @($assetIndex | Where-Object { $_.Type -eq 'Installer' })
-if ($installerEntries.Count -ne 1 -or $installerEntries[0].RelativeFileName -ne 'Iris-win-Setup.exe') { throw 'Unexpected SDK installer asset index.' }
-$installerEntries[0].RelativeFileName = [IO.Path]::GetFileName($outer)
-[IO.File]::WriteAllText($assetIndexPath, ($assetIndex | ConvertTo-Json -Depth 4), $utf8)
+& python -B (Join-Path $PSScriptRoot 'release_manifest.py') normalize-assets --version $Version --directory $OutputDirectory
+if ($LASTEXITCODE -ne 0) { throw 'Public asset index normalization failed.' }
 $stagingManifest = @(Get-ChildItem -LiteralPath $staging -File -Recurse | ForEach-Object { @{Path=$_.FullName.Substring($staging.Length + 1);Bytes=$_.Length;Sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash} })
 [IO.File]::WriteAllText((Join-Path $OutputDirectory 'staging-manifest.json'), ($stagingManifest | ConvertTo-Json -Depth 4), $utf8)
 # vpk filters debugging files and adds execution/identity files. The payload inventory must describe

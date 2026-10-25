@@ -35,6 +35,12 @@ class PublicAssetTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "missing public file"):
             release.verify_indexes(self.directory, "0.2.0")
 
+    def test_sdk_index_is_normalized_to_existing_outer_entry(self):
+        self.write("assets.win.json", [{"RelativeFileName": self.name, "Type": "Full"}, {"RelativeFileName": "Iris-win-Setup.exe", "Type": "Installer"}])
+        result = release.normalize_assets(self.directory, "0.2.0")
+        self.assertEqual("Iris-0.2.0-Setup.exe", result["IndexedOuterInstaller"])
+        self.assertEqual(1, len(release.verify_indexes(self.directory, "0.2.0")))
+
     def test_internal_setup_is_rejected_even_if_accidentally_present(self):
         (self.directory / "Iris-win-Setup.exe").write_bytes(b"wrong entry")
         self.write("assets.win.json", [{"RelativeFileName": "Iris-win-Setup.exe", "Type": "Installer"}])

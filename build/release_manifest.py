@@ -126,6 +126,16 @@ def verify_indexes(directory, version):
     require(legacy_names == names, "Legacy feed/package set differs")
     return feed
 
+def normalize_assets(directory, version):
+    directory = Path(directory)
+    path = directory / "assets.win.json"
+    assets = read_json(path)
+    installers = [item for item in assets if item["Type"] == "Installer"]
+    require(len(installers) == 1 and installers[0]["RelativeFileName"] == "Iris-win-Setup.exe", "Unexpected SDK installer asset index")
+    installers[0]["RelativeFileName"] = f"Iris-{version}-Setup.exe"
+    path.write_text(json.dumps(assets, indent=2) + "\n", encoding="utf-8", newline="\n")
+    return {"IndexedOuterInstaller": installers[0]["RelativeFileName"], "FeedEntries": len(verify_indexes(directory, version))}
+
 def verify_payload(directory, version):
     directory = Path(directory)
     package = directory / f"Iris-{version}-full.nupkg"
@@ -201,7 +211,7 @@ def finalize(directory, version, source):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("command", choices=["capture-source", "finalize", "verify", "indexes"])
+    parser.add_argument("command", choices=["capture-source", "finalize", "verify", "indexes", "normalize-assets"])
     parser.add_argument("--version", required=True)
     parser.add_argument("--directory", type=Path)
     parser.add_argument("--output", type=Path)
@@ -217,6 +227,8 @@ if __name__ == "__main__":
         result = finalize(args.directory, args.version, args.source)
     elif args.command == "indexes":
         result = {"Assets": len(verify_indexes(args.directory, args.version))}
+    elif args.command == "normalize-assets":
+        result = normalize_assets(args.directory, args.version)
     else:
         result = verify_directory(args.directory, args.version)
     print(json.dumps(result, indent=2))
