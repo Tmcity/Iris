@@ -1,5 +1,7 @@
 # Iris 架构师接手记录
 
+**当前唯一工单T-039C（2026-10-25）**：B验收归档7e852917…完成后已签current_task C；先准备可审发布材料/完整历史整合方案/CI和真实验证方案，经架构师核准具体commit/refs/tag/资产再首次push/发布。C必须真实公开匿名生产用户UI升级及默认未预填缓存运行时引导，不借B专用宿主或缓存条件提前结案父T-039。工程师仍01a16ef2-a0bb-71a1-8230-57165c05cc5b；T-040待C后，M6延期。下方R4进度均作历史保留。
+
 **当前有效状态（2026-10-25，覆盖下方R4阻塞/未完成历史）**：T-039B/R4在最终535ec169…（主实现0bc11fc7…）独立验收通过，Release零警告错误，全量3728/3726成功/0失败/2既有跳过。candidate-3/final-8的本地恢复15/15、来源1258项、审计和视觉通过；两项实际来宾已成功，142项独立复核、两图及真实终态确认。缓存辅助由来宾内官方签名/SHA512验证、Setup实际安装，未预装.NET；默认native下载失败未关闭，C必须核对默认完整引导及正式匿名用户UI线上升级。结论 `T-039B.review/acceptance-review-4/FINAL_REVIEW.md`，旧失败/候选和用户工具保持；无运行中自有Sandbox，架构师最终建测已结束。下一步签T-039C，父T-039保持进行中，T-040随后，M6延期，尚未push/发布。
 
 **最新收尾（2026-10-25，仍未整单完成）**：R4 首轮本地通过后，架构师又实际发现完整 LOCALIZATION 审计缺项（5个新资源目录键与6个未批准站点），已在同一工单修正，source/compiled/catalog 独立修后审计通过，例外清单未放宽。当前为 candidate-3 / final-8，源码树 `d7ca8024ba8a7feea9fa75c61d7785b1edd77b5a`；开发全量3728/3726成功/0失败/2既有跳过，架构师新候选独立15/15通过、1258项字节核对匹配。旧包/旧快照/所有失败保留。真实来宾仍因 Sandbox Disabled、无当前可用 VM 权限而待用户回复；/NoRestart 脚本没有执行。架构师已明确归还运行窗口，工程师只同步可审报告，不重复建测、最终提交或结案。详见 `acceptance-review-4/PARTIAL_REVIEW.md`、`localization-after-1`、`independent-runtime-candidate3-binding.json` 及 r4/active_round.json，接续须刷新真实状态。
