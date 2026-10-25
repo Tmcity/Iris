@@ -1,0 +1,41 @@
+# Owned guest fixture only. Download the official runtime into Velopack's normal
+# Downloads cache; do not install it. Production setup still owns installation.
+if ([Environment]::UserName -ne 'WDAGUtilityAccount') { throw 'Owned Sandbox only.' }
+$prefetchOutput = Join-Path $output 'runtime-prefetch'
+New-Item -ItemType Directory -Path $prefetchOutput | Out-Null
+function Fetch-MicrosoftFile([string]$Name, [string]$Url, [string]$Destination) {
+    $start = New-Object Diagnostics.ProcessStartInfo
+    $start.FileName = (Join-Path $env:SystemRoot 'System32\curl.exe')
+    $arguments = @('--fail','--silent','--show-error','--location','--retry','2','--connect-timeout','30','--max-time','600','--output',$Destination,$Url)
+    $start.Arguments = (($arguments | ForEach-Object { '"' + $_ + '"' }) -join ' ')
+    $start.UseShellExecute=$false; $start.CreateNoWindow=$true
+    $start.RedirectStandardOutput=$true; $start.RedirectStandardError=$true
+    $child=[Diagnostics.Process]::Start($start)
+    $stdout=$child.StandardOutput.ReadToEndAsync(); $stderr=$child.StandardError.ReadToEndAsync()
+    $child.WaitForExit()
+    [IO.File]::WriteAllText((Join-Path $prefetchOutput ($Name+'.stdout.log')), $stdout.GetAwaiter().GetResult())
+    [IO.File]::WriteAllText((Join-Path $prefetchOutput ($Name+'.stderr.log')), $stderr.GetAwaiter().GetResult())
+    $code=$child.ExitCode; $child.Dispose()
+    Record ('runtime-prefetch-'+$Name) @{Url=$Url;ExitCode=$code}
+    if ($code -ne 0) { throw ('Microsoft runtime fetch failed: '+$Name) }
+}
+Fetch-MicrosoftFile 'metadata' 'https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/10.0/releases.json' (Join-Path $prefetchOutput 'releases.json')
+$metadata=Get-Content -Raw -LiteralPath (Join-Path $prefetchOutput 'releases.json') | ConvertFrom-Json
+$latest=[string]$metadata.'latest-runtime'
+$release=@($metadata.releases | Where-Object { $_.windowsdesktop.version -eq $latest })[0]
+$runtime=@($release.windowsdesktop.files | Where-Object { $_.rid -eq 'win-x64' -and $_.name -like '*.exe' })[0]
+if (-not $runtime -or $latest -notmatch '^10\.0\.\d+$') { throw 'Microsoft runtime metadata did not contain the expected Desktop runtime.' }
+$download=Join-Path $prefetchOutput ('windowsdesktop-runtime-'+$latest+'-win-x64.exe')
+Fetch-MicrosoftFile 'installer' ('https://dotnetcli.blob.core.windows.net/dotnet/WindowsDesktop/'+$latest+'/windowsdesktop-runtime-'+$latest+'-win-x64.exe') $download
+$stream=[IO.File]::OpenRead($download); $hash=[Security.Cryptography.SHA512]::Create()
+try { $actual=([BitConverter]::ToString($hash.ComputeHash($stream))).Replace('-','').ToLowerInvariant() }
+finally { $hash.Dispose(); $stream.Dispose() }
+Require 'official-runtime-sha512-matches' ($actual -eq $runtime.hash.ToLowerInvariant())
+Import-Module Microsoft.PowerShell.Security
+$signature=Get-AuthenticodeSignature -LiteralPath $download
+Record 'runtime-prefetch-signature' @{Status=$signature.Status.ToString();Subject=$signature.SignerCertificate.Subject;Thumbprint=$signature.SignerCertificate.Thumbprint;Bytes=(Get-Item -LiteralPath $download).Length;Sha512=$actual;Version=$latest}
+Require 'official-runtime-signature-valid' ($signature.Status.ToString() -eq 'Valid')
+$cache=Join-Path (Join-Path $env:USERPROFILE 'Downloads') 'inst-dotnet-10.0.0-X64-WindowsDesktop.exe'
+Copy-Item -LiteralPath $download -Destination $cache
+Record 'runtime-prefetched-not-installed' @{CachePath=$cache;Runtimes=@(Runtimes)}
+Require 'still-no-shared-dotnet10-before-iris-installer' (@(Runtimes | Where-Object {$_.Version -like '10.*'}).Count -eq 0)

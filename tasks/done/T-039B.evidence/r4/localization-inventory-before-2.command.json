@@ -1,0 +1,14 @@
+{
+  "Command": [
+    "dotnet",
+    "build\\LocalizationAudit\\bin\\Release\\net10.0\\LocalizationAudit.dll",
+    "F:\\Iris",
+    "F:\\Iris\\tasks\\done\\T-039B.evidence\\r4\\localization-before-2\\source-inventory.json",
+    "--compiled"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-24T21:27:16.714743+00:00",
+  "FinishedUtc": "2026-10-24T21:27:17.321063+00:00",
+  "ExitCode": 0,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\localization-inventory-before-2.log"
+}

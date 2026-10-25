@@ -1,0 +1,13 @@
+{
+  "Command": [
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "-NoProfile",
+    "-File",
+    "tasks\\done\\T-039B.evidence\\r4\\sandbox_enabled_preflight_1.ps1"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-25T05:54:38.971219+00:00",
+  "FinishedUtc": "2026-10-25T05:54:39.831226+00:00",
+  "ExitCode": 0,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\sandbox-enabled-preflight-1.log"
+}

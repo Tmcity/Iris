@@ -1,0 +1,13 @@
+{
+  "Command": [
+    "python",
+    "tasks\\done\\T-039B.evidence\\r4\\run_guest.py",
+    "network",
+    "guest-network-r4-3"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-25T06:04:17.309022+00:00",
+  "FinishedUtc": "2026-10-25T06:04:38.996714+00:00",
+  "ExitCode": 0,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\guest-network-r4-3-run.log"
+}

@@ -1,0 +1,41 @@
+﻿{
+    "Checks":  [
+                   {
+                       "Name":  "guest-only-diagnostic",
+                       "Value":  {
+                                     "RuntimeInstallPerformed":  false,
+                                     "IrisExecuted":  false,
+                                     "User":  "WDAGUtilityAccount"
+                                 }
+                   },
+                   {
+                       "Name":  "blob-version",
+                       "Value":  {
+                                     "Url":  "https://dotnetcli.blob.core.windows.net/dotnet/WindowsDesktop/10.0/latest.version",
+                                     "ExitCode":  0
+                                 }
+                   },
+                   {
+                       "Name":  "builds-version",
+                       "Value":  {
+                                     "Url":  "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/10.0/latest.version",
+                                     "ExitCode":  0
+                                 }
+                   },
+                   {
+                       "Name":  "builds-runtime-head",
+                       "Value":  {
+                                     "Url":  "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/10.0.13/windowsdesktop-runtime-10.0.13-win-x64.exe",
+                                     "ExitCode":  0
+                                 }
+                   },
+                   {
+                       "Name":  "blob-runtime-head",
+                       "Value":  {
+                                     "Url":  "https://dotnetcli.blob.core.windows.net/dotnet/WindowsDesktop/10.0.13/windowsdesktop-runtime-10.0.13-win-x64.exe",
+                                     "ExitCode":  0
+                                 }
+                   }
+               ],
+    "Failure":  null
+}

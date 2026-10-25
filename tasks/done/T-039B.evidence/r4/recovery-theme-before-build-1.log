@@ -1,0 +1,30 @@
+  正在确定要还原的项目…
+  已还原 F:\Iris\src\Iris.Core\Iris.Core.csproj (用时 1.45 秒)。
+  已还原 F:\Iris\src\Iris.UiaHost\Iris.UiaHost.csproj (用时 1.45 秒)。
+  已还原 F:\Iris\src\Iris.Infrastructure\Iris.Infrastructure.csproj (用时 1.45 秒)。
+  已还原 F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 1.45 秒)。
+  已还原 F:\Iris\src\Iris.Providers\Iris.Providers.csproj (用时 1.45 秒)。
+  已还原 F:\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj (用时 1.45 秒)。
+  已还原 F:\Iris\src\Iris.App\Iris.App.csproj (用时 1.45 秒)。
+  2 个项目(共 9 个)是最新的，无法还原。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Infrastructure -> F:\Iris\src\Iris.Infrastructure\bin\Release\net10.0\Iris.Infrastructure.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.Providers -> F:\Iris\src\Iris.Providers\bin\Release\net10.0\Iris.Providers.dll
+  Iris.UiaHost -> F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.UiaHost.dll
+  Iris.Maintenance -> F:\Iris\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.dll
+  Iris.App -> F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\Iris.App.dll
+  Iris.UpdateHandoffWorker -> F:\Iris\tests\Iris.UpdateHandoffWorker\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs(74,83): error CA1305: “Color.ToString()”的行为可能因当前用户的区域设置而异。请将“UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(string, int, bool)”中的此调用替换为对“Color.ToString(IFormatProvider)”的调用。 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1305) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs(74,119): error CA1305: “Color.ToString()”的行为可能因当前用户的区域设置而异。请将“UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(string, int, bool)”中的此调用替换为对“Color.ToString(IFormatProvider)”的调用。 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1305) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs(92,65): error CA1305: “Color.ToString()”的行为可能因当前用户的区域设置而异。请将“UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(string, int, bool)”中的此调用替换为对“Color.ToString(IFormatProvider)”的调用。 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1305) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+
+生成失败。
+
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs(74,83): error CA1305: “Color.ToString()”的行为可能因当前用户的区域设置而异。请将“UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(string, int, bool)”中的此调用替换为对“Color.ToString(IFormatProvider)”的调用。 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1305) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs(74,119): error CA1305: “Color.ToString()”的行为可能因当前用户的区域设置而异。请将“UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(string, int, bool)”中的此调用替换为对“Color.ToString(IFormatProvider)”的调用。 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1305) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs(92,65): error CA1305: “Color.ToString()”的行为可能因当前用户的区域设置而异。请将“UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(string, int, bool)”中的此调用替换为对“Color.ToString(IFormatProvider)”的调用。 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1305) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+    0 个警告
+    3 个错误
+
+已用时间 00:00:15.08

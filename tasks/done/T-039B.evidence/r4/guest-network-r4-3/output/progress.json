@@ -1,0 +1,84 @@
+﻿{
+    "Checks":  [
+                   {
+                       "Name":  "guest-only-diagnostic",
+                       "Value":  {
+                                     "RuntimeInstallPerformed":  false,
+                                     "IrisExecuted":  false,
+                                     "User":  "WDAGUtilityAccount"
+                                 }
+                   },
+                   {
+                       "Name":  "public-dns-1.1.1.1",
+                       "Value":  [
+                                     {
+                                         "Name":  "builds.dotnet.microsoft.com",
+                                         "Type":  1,
+                                         "IPAddress":  "198.18.9.39",
+                                         "NameHost":  null
+                                     }
+                                 ]
+                   },
+                   {
+                       "Name":  "public-dns-8.8.8.8",
+                       "Value":  [
+                                     {
+                                         "Name":  "builds.dotnet.microsoft.com",
+                                         "Type":  1,
+                                         "IPAddress":  "198.18.9.39",
+                                         "NameHost":  null
+                                     }
+                                 ]
+                   },
+                   {
+                       "Name":  "blob-version",
+                       "Value":  {
+                                     "Url":  "https://dotnetcli.blob.core.windows.net/dotnet/WindowsDesktop/10.0/latest.version",
+                                     "ExitCode":  0
+                                 }
+                   },
+                   {
+                       "Name":  "builds-version",
+                       "Value":  {
+                                     "Url":  "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/10.0/latest.version",
+                                     "ExitCode":  0
+                                 }
+                   },
+                   {
+                       "Name":  "builds-runtime-head",
+                       "Value":  {
+                                     "Url":  "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/10.0.13/windowsdesktop-runtime-10.0.13-win-x64.exe",
+                                     "ExitCode":  0
+                                 }
+                   },
+                   {
+                       "Name":  "blob-runtime-head",
+                       "Value":  {
+                                     "Url":  "https://dotnetcli.blob.core.windows.net/dotnet/WindowsDesktop/10.0.13/windowsdesktop-runtime-10.0.13-win-x64.exe",
+                                     "ExitCode":  0
+                                 }
+                   },
+                   {
+                       "Name":  "public-doh",
+                       "Value":  {
+                                     "Url":  "https://dns.google/resolve?name=builds.dotnet.microsoft.com\u0026type=A",
+                                     "ExitCode":  0
+                                 }
+                   },
+                   {
+                       "Name":  "metadata-default",
+                       "Value":  {
+                                     "Url":  "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/10.0/releases.json",
+                                     "ExitCode":  0
+                                 }
+                   },
+                   {
+                       "Name":  "metadata-tls12",
+                       "Value":  {
+                                     "Url":  "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/10.0/releases.json",
+                                     "ExitCode":  56
+                                 }
+                   }
+               ],
+    "Failure":  null
+}

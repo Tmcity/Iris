@@ -1,0 +1,12 @@
+{
+  "Checks": 1021,
+  "AllBoundBytesMatch": true,
+  "CompletionStatus": "AwaitingOwnedSandboxEnvironment_NotComplete",
+  "RequiredUnfinished": [
+    "final-7 install and running silent retention uninstall in clean owned guest",
+    "final-7 two-version local full-package apply in clean owned guest"
+  ],
+  "GitTree": "c6fd6c81f2d6b553d6b8a30390794c2d6a00683d",
+  "CurrentHead": "05452e0a85a36982ef8bfd22d5a981e581eeafcf",
+  "BindingSha256": "c79e56472ca560303c5a65fea1ac07e56d199ffafaf4953c2a7e3cf1ab2e24bb"
+}

@@ -65,7 +65,7 @@ internal sealed record GeneralDraftSnapshot(
 {
     public SettingsFieldEdit<string>? UiLanguage { get; init; }
 
-    /// <summary>仅供单元测试使用的兼容字段；生产代码在 src/ 中无调用者，统一使用 SettingsEditPlan 主管道。</summary>
+    /// <summary>Compatibility field for unit tests only; production code under src/ uses the SettingsEditPlan pipeline.</summary>
     public SettingsFieldEdit<bool>? CheckForUpdates { get; init; }
     public bool HasAnyDirty => ThemeDirty || LaunchAtStartupDirty || ShowStartupNotificationDirty || LogLevelDirty || UiLanguage != null || CheckForUpdates != null;
 }
@@ -276,7 +276,7 @@ internal sealed partial class GeneralSettingsSaveCoordinator : IDisposable
     }
 
     /// <summary>
-    /// 仅供单元测试使用的兼容保存接口；生产代码在 src/ 中无调用者，统一使用 SettingsEditPlan 主管道（CommitPlanAsync）。
+    /// Compatibility save entry for unit tests only; production code under src/ uses the SettingsEditPlan pipeline (CommitPlanAsync).
     /// </summary>
     public async Task<GeneralSaveResult> SaveAsync(GeneralDraftSnapshot snapshot, CancellationToken cancellationToken)
     {

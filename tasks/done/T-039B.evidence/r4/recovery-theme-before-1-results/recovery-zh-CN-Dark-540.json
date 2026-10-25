@@ -1,0 +1,31 @@
+{
+  "RequestedLanguage": "zh-CN",
+  "ActualLanguage": "zh-CN",
+  "RequestedTheme": "Dark",
+  "ActualTheme": "Dark",
+  "RequestedWidth": 540,
+  "ActualWidth": 540,
+  "ActualHeight": 277.08000000000004,
+  "WindowBackground": "#FFFFFFFF",
+  "BodyContrast": [
+    21,
+    21,
+    21
+  ],
+  "Buttons": [
+    {
+      "Label": "\u91CD\u8BD5\u5B89\u88C5",
+      "Foreground": "#FFFFFFFF",
+      "Background": "#FFFFFFFF",
+      "Contrast": 1
+    },
+    {
+      "Label": "\u53D6\u6D88\u66F4\u65B0\u5E76\u9000\u51FA",
+      "Foreground": "#FFFFFFFF",
+      "Background": "#FFFFFFFF",
+      "Contrast": 1
+    }
+  ],
+  "Sha256": "20EA7A7873CE9BE2FE6DB77452F6B838B2A80048E9D497365609BC61B63D51A2",
+  "AppDllSha256": "773CB4A713DC5A057E12BBDB92477BD3FE60DAADC2F85A5B55FA1B61804334B1"
+}

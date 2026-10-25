@@ -1,0 +1,14 @@
+﻿
+
+InterfaceAlias       : 以太网
+InterfaceIndex       : 205
+InterfaceDescription : Microsoft Hyper-V Network Adapter
+NetProfile.Name      : 网络
+IPv4Address          : 172.28.242.121
+IPv6DefaultGateway   : 
+IPv4DefaultGateway   : 172.28.240.1
+DNSServer            : 172.28.240.1
+
+
+
+

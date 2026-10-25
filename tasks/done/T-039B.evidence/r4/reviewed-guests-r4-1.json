@@ -1,0 +1,29 @@
+{
+  "Frames": [
+    {
+      "Scenario": "install",
+      "Image": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-install-r4-6/output/installed-settings.png",
+        "Bytes": 5619096,
+        "Sha256": "5f191f344860650492f2778940ca51bb531b366c66590318e066e28657c8c5dc"
+      },
+      "VersionFromRawResult": "0.2.0",
+      "IndividuallyViewedWith": "functions view_image",
+      "Observed": "Actual guest desktop with English Iris Settings / General, visible software update version, readable text and Save/Cancel buttons; Light appearance.",
+      "Limit": "The viewport does not show every update action. These PNGs are not recovery-window Dark/UI or public online-path acceptance; separately bound rendering/regressions cover their stated scope."
+    },
+    {
+      "Scenario": "update",
+      "Image": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-update-r4-1/output/update-r4/updated-settings.png",
+        "Bytes": 5619074,
+        "Sha256": "af6560105c9858db0b40ab0e81e1b030fc067eb12511f027b0454211b8195770"
+      },
+      "VersionFromRawResult": "0.2.1",
+      "IndividuallyViewedWith": "functions view_image",
+      "Observed": "Actual guest desktop with English Iris Settings / General, visible software update version, readable text and Save/Cancel buttons; Light appearance.",
+      "Limit": "The viewport does not show every update action. These PNGs are not recovery-window Dark/UI or public online-path acceptance; separately bound rendering/regressions cover their stated scope."
+    }
+  ],
+  "Scope": "Engineer actual per-image observation, distinct from architect independent visual review and future whole-task acceptance."
+}

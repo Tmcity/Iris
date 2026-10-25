@@ -1,0 +1,27 @@
+{
+  "GitTree": "d7ca8024ba8a7feea9fa75c61d7785b1edd77b5a",
+  "SourceFiles": 702,
+  "Packages": [
+    {
+      "Version": "0.2.0",
+      "PayloadEntries": 97
+    },
+    {
+      "Version": "0.2.1",
+      "PayloadEntries": 97
+    }
+  ],
+  "FullTests": {
+    "Total": 3728,
+    "Passed": 3726,
+    "Failed": 0,
+    "Skipped": 2
+  },
+  "FixedProductionTests": {
+    "Total": 9,
+    "Passed": 9,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "GuestResults": []
+}

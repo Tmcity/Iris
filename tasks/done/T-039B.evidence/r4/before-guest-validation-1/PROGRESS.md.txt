@@ -1,0 +1,29 @@
+# T-039B-R4 当前工程状态（不是完整交付）
+
+2026-10-25。同一R4继续，HEAD仍为基线05452e0a85a36982ef8bfd22d5a981e581eeafcf；没有最终提交，工单保留。
+
+当前可审候选为 artifacts/t039b/r4-tested-candidate-3，702项源码、321项冻结文件，规范源码树 d7ca8024ba8a7feea9fa75c61d7785b1edd77b5a。active_round.json 指向 tested-source-binding-3.json 与新 final-8 两版包；final-4、失败final-5、final-6、final-7和候选1/2均保留。最新工单原文归档 signed-order-r4-localization-supplement-20261025.md，之前各快照不动。修正前报告、来源绑定、脚本及目标源文件另存before-localization-fix，原审计失败不覆盖。
+
+最新本地化收尾：按架构师approved-catalog-additions.json仅同步五对现存值，App catalog 457→462，原457对未变；中英文resx原字节未变。测试兼容字段/接口说明转为英文XML且保留其意图；四处交接异常使用对应ErrorCode既有本地化消息，类型/错误码/retryable/inner及撤销责任保持。没有执行migration、改审计工具、放宽扫描或增加例外预算，exceptions.json SHA仍为2d620105575400696d1f567460d883cf050ff511b49b6f64d5ea0b5192eb9a75。
+
+原文证据：localization-inventory-before-2.log为1203项扫描/1230编译资源匹配、exit0；localization-catalog-before-2.log为exit1、6个未批准站点及catalog缺键。修后localization-inventory-after-1.log为1197项扫描/1230资源及格式匹配、exit0；localization-catalog-after-1.log为exit0、未批准0、资源错误空、App/Core/Maintenance 462/148/5。localization-verification-1.json校验既有值、资源原字节、扫描器和预算不变。六份实际加载的编译资源程序集另冻结于artifacts/t039b/r4-localization-compiled-1，compiled-binding.json给出路径/大小/SHA。
+
+最终验证：handoff-localization-tests-1.log为15成功/0失败/0跳过；release-build-4.log为0警告/0错误；full-tests-3.log为3728总计、3726成功、0失败、2既有Clipboard窗口站跳过；fixed-production-after-3.log为新冻结候选9/9。全量生成的8张当前DLL明暗图已逐张查看，reviewed-recovery-localization-after-1.json与帧JSON给出实际语言/主题/图片/加载DLL指纹。受控内部取消测试不宣称实际30秒超时或真实安装；helper/Dispatcher/scoped关停责任由完整生产拓扑回归覆盖。
+
+final-8两版均使用系统Windows PowerShell5.1打包成功，package-inspection-3.json与feed-inspection-2.json重新读取实际97项full载荷、清单/feed、外层入口与内层Setup/Maintenance字节。delta仅生成，真实来宾将使用full包。
+
+架构师此前的independent-runtime-candidate2-binding.json（9/9）、candidate-check-2.json（1258/1258）、recovery-ui/after-observation-1/reviewed.json（8图视觉关闭）明确限定候选2/源码树c6fd6c81f2d6b553d6b8a30390794c2d6a00683d/final-7，原件保持为历史。
+
+当前candidate-3的独立受控回归已完成并明确归还窗口：independent-runtime-candidate3-1.log为15总计/15成功/0失败/0跳过、exit0，绑定核对xUnit、9个worker和321项输入字节保持，源码树d7ca8024ba8a7feea9fa75c61d7785b1edd77b5a。candidate-check-3.json记录final-8的1258/1258只读字节核对；localization-after-1记录当前source/compiled/catalog独立审计两阶段exit0、1197源记录/1230资源格式匹配、无未批准/资源错误、旧457对不变仅加批准5对、例外SHA不变。candidate3-visual-carry-forward.json因8张新PNG与已独立逐图查看的通过PNG字节相同承接视觉，并绑定新DLL；不声称另行执行了架构师渲染。上述原件/指纹已同步报告和绑定，本次只改tasks下的报告/来源/续跑说明，不修改已验证源码，不重复建测。受控边界与图片承接都不等于真实安装或线上路径通过。C/T-040未开始，M6延期。
+
+首要未完成项仍是最新final-8的自有干净Sandbox安装+运行中静默保留卸载、两版本full应用。此前guest-install-r4-1在旧wsb入口缺失时未进入来宾，失败原件保留。架构师已接管环境选择/唯一管理员确认，工单所记Sandbox Disabled、当前账户Hyper-V被拒绝及待批准/NoRestart方案保持原记录；工程师不重复问用户，不自行改宿主功能，不在宿主运行Iris，不用旧来宾替代。
+
+环境就绪后串行续跑（所有label必须唯一，先检查不存在）：
+
+1. 运行 run_command.py guest-install-r4-2-run -- python tasks/done/T-039B.evidence/r4/run_guest.py install guest-install-r4-2；runner按active_round.json只输入final-8。
+2. 安装场景完整结束自有Sandbox后，运行同一包装器及run_guest.py update guest-update-r4-1，保留真实结果、脚本、输入SHA与截图。成功并结束来宾后才生成guest-run-manifest.json。
+3. inspect_delivery.py --guests生成delivery-inspection-3.json；实际查看来宾图，分别按观察/布尔断言/退出码取数。当前localization审计不被旧结果替代，来宾也不可借用final-7。
+4. 运行write_report.py、finalize_binding_r4.py与verify_binding.py（新的binding-check标签），保证报告/来源字节闭合；不改冻结源码。若再改产品代码，必须重新固定、验证并生成另一唯一新包。
+5. 只有全部必需来宾完成且核对工单后才归档并移除current_task、创建新的独立本地提交，再以source_binding.py verify-head完整commit复算同一源码范围；请求架构师复审，不自行结案。
+
+BACKLOG与架构师handoff/复审/协调记录不修改；.codex原样保留、不读取或提交；包/工具/转储不提交。当前index未做全工作区暂存，不push/reset/clean/rebase/amend。

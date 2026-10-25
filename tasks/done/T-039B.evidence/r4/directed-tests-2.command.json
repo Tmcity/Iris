@@ -1,0 +1,22 @@
+{
+  "Command": [
+    "dotnet",
+    "test",
+    "tests\\Iris.App.Tests\\Iris.App.Tests.csproj",
+    "-c",
+    "Release",
+    "--no-build",
+    "--filter",
+    "FullyQualifiedName~UpdateHandoffLifecycleTests|FullyQualifiedName~UpdateCoordinatorTests|FullyQualifiedName~UpdateRecoveryRenderingTests",
+    "--no-ansi",
+    "--no-progress",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:\\Iris\\tasks\\done\\T-039B.evidence\\r4\\directed-tests-2-reports"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-24T19:12:59.029553+00:00",
+  "FinishedUtc": "2026-10-24T19:13:12.347829+00:00",
+  "ExitCode": 0,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\directed-tests-2.log"
+}

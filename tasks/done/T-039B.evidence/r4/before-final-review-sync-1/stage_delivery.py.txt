@@ -1,0 +1,42 @@
+"""Stage explicit verified source/evidence scopes; leave architect backlog/handoff and user tooling alone."""
+from pathlib import Path
+import json
+import subprocess
+from inspect_delivery import json_read, sha
+
+evidence = Path(__file__).resolve().parent
+root = evidence.parents[3]
+active = json_read(evidence / "active_round.json")
+binding = json_read(evidence.parent / "delivery-binding.json")
+source = json_read(evidence / active["SourceBinding"])
+assert binding["CompletionStatus"] == "ReadyForIndependentReview" and not binding["RequiredUnfinished"]
+assert not (root / "tasks/current_task.md").exists()
+assert not subprocess.check_output(["git", "diff", "--cached", "--name-only"], cwd=root)
+assert subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root).decode().strip() == source["BaseCommit"]
+known_sources = {entry["Path"] for entry in source["SourceFiles"]}
+for entry in source["SourceFiles"]:
+    assert sha(root / entry["Path"]) == entry["Sha256"], entry["Path"]
+changed = subprocess.check_output(["git", "diff", "--name-only", "-z", "--", *source["Roots"]], cwd=root).decode().strip("\0").split("\0")
+new = subprocess.check_output(["git", "ls-files", "--others", "--exclude-standard", "-z", "--", *source["Roots"]], cwd=root).decode().strip("\0").split("\0")
+selected = {path for path in changed + new if path}
+assert selected <= known_sources
+selected.update(["tasks/done/T-039B.md", "tasks/done/T-039B.evidence/delivery-binding.json"])
+allowed_suffixes = {".md", ".txt", ".json", ".log", ".xml", ".png", ".py", ".ps1", ".diff", ".cs", ".csproj", ".props", ".resx"}
+evidence_roots = [evidence, root / "tasks/done/T-039B.review/acceptance-review-3",
+    root / "tasks/done/T-039B.review/acceptance-review-4", root / "tasks/done/T-039B.review/coordination/r4-handoff-20261025"]
+for directory in evidence_roots:
+    for path in directory.rglob("*"):
+        if path.is_file() and path.suffix.lower() in allowed_suffixes and "__pycache__" not in path.parts:
+            selected.add(path.relative_to(root).as_posix())
+assert all(not p.startswith((".codex/", "artifacts/")) and p not in {"tasks/BACKLOG.md", "tasks/current_task.md", "specs/PROJECT_HANDOFF.md", "specs/DEVELOPER_HANDOFF.md"} for p in selected)
+selection = sorted(selected)
+summary = root / "artifacts/t039b/r4-staged-selection-1.json"
+if summary.exists():
+    raise FileExistsError(summary)
+subprocess.run(["git", "add", "-f", "--", *selection], cwd=root, check=True)
+actual = subprocess.check_output(["git", "diff", "--cached", "--name-only", "-z"], cwd=root).decode().strip("\0").split("\0")
+assert all(path in selected for path in actual)
+summary.write_text(json.dumps({"ExplicitSelectedFiles": len(selection), "ChangedStagedFiles": len(actual), "Paths": actual,
+    "PreservedUnstagedArchitectFiles": ["tasks/BACKLOG.md", "specs/PROJECT_HANDOFF.md", "specs/DEVELOPER_HANDOFF.md", "tasks/done/T-039B.review/update-final-cancel"],
+    "UserCodexStaged": False, "BinaryPackagesStaged": False}, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+print(json.dumps({"ChangedStagedFiles": len(actual), "SelectionRecord": str(summary)}, ensure_ascii=False))

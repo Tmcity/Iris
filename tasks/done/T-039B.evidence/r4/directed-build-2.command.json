@@ -1,0 +1,15 @@
+{
+  "Command": [
+    "dotnet",
+    "build",
+    "tests\\Iris.App.Tests\\Iris.App.Tests.csproj",
+    "-c",
+    "Release",
+    "--tl:off"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-24T19:11:23.630430+00:00",
+  "FinishedUtc": "2026-10-24T19:11:36.982903+00:00",
+  "ExitCode": 1,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\directed-build-2.log"
+}

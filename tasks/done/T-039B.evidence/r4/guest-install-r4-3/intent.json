@@ -1,0 +1,21 @@
+{
+  "SandboxId": "24791af4-f766-48c2-8954-574dfb0151c8",
+  "Scenario": "install",
+  "PackageTag": "final-8",
+  "Config": "<Configuration><vGPU>Disable</vGPU><Networking>Enable</Networking><AudioInput>Disable</AudioInput><VideoInput>Disable</VideoInput><ClipboardRedirection>Disable</ClipboardRedirection><PrinterRedirection>Disable</PrinterRedirection><MemoryInMB>6144</MemoryInMB></Configuration>",
+  "ReadOnlyInput": "F:\\Iris\\artifacts\\t039b\\sandbox\\24791af4-f766-48c2-8954-574dfb0151c8\\input",
+  "WritableOutput": "F:\\Iris\\artifacts\\t039b\\sandbox\\24791af4-f766-48c2-8954-574dfb0151c8\\output",
+  "Files": [
+    {
+      "Path": "guest_install.ps1",
+      "Bytes": 11548,
+      "Sha256": "aa067e83378ed6f3091544bb61bec91d54ae9c2ceeeb5875166fe2c9a6a1e62f"
+    },
+    {
+      "Path": "Iris-0.2.0-Setup.exe",
+      "Bytes": 116743948,
+      "Sha256": "511dd8dd16fd516f159d311e0ed835912c0500ad62cea849651c694268df8c9d"
+    }
+  ],
+  "Purpose": "Owned guest synthetic data only; Microsoft runtime download permitted. Local full-package apply, no GitHub user path claim."
+}

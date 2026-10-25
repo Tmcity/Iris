@@ -1,0 +1,216 @@
+﻿{
+    "Checks":  [
+                   {
+                       "Name":  "environment",
+                       "Value":  {
+                                     "RuntimesBefore":  [
+
+                                                        ],
+                                     "Administrator":  true,
+                                     "User":  "86386AD9-0CF1-4\\WDAGUtilityAccount",
+                                     "OS":  "Microsoft Windows 11 企业版",
+                                     "Version":  "10.0.26100"
+                                 }
+                   },
+                   {
+                       "Name":  "runtime-prefetch-metadata",
+                       "Value":  {
+                                     "Url":  "https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/10.0/releases.json",
+                                     "ExitCode":  0
+                                 }
+                   },
+                   {
+                       "Name":  "runtime-prefetch-installer",
+                       "Value":  {
+                                     "Url":  "https://dotnetcli.blob.core.windows.net/dotnet/WindowsDesktop/10.0.13/windowsdesktop-runtime-10.0.13-win-x64.exe",
+                                     "ExitCode":  0
+                                 }
+                   },
+                   {
+                       "Name":  "official-runtime-sha512-matches",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "runtime-prefetch-signature",
+                       "Value":  {
+                                     "Version":  "10.0.13",
+                                     "Thumbprint":  "BB793DB742624269BB5F4515BBE9A3DF418F588D",
+                                     "Bytes":  60056984,
+                                     "Subject":  "CN=.NET, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+                                     "Sha512":  "adaf5e06b66b145848f3a994b51ea1590d19a5c02f6e7c5899ed896bbdb020af6386d2eaef613034d697388adaf48aa8c3291343f0bbb5f8e62e37aff9564a00",
+                                     "Status":  "Valid"
+                                 }
+                   },
+                   {
+                       "Name":  "official-runtime-signature-valid",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "runtime-prefetched-not-installed",
+                       "Value":  {
+                                     "CachePath":  "C:\\Users\\WDAGUtilityAccount\\Downloads\\inst-dotnet-10.0.0-X64-WindowsDesktop.exe",
+                                     "Runtimes":  [
+
+                                                  ]
+                                 }
+                   },
+                   {
+                       "Name":  "still-no-shared-dotnet10-before-iris-installer",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "install-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "runtimes-after",
+                       "Value":  [
+                                     {
+                                         "Family":  "Microsoft.NETCore.App",
+                                         "Version":  "10.0.13"
+                                     },
+                                     {
+                                         "Family":  "Microsoft.WindowsDesktop.App",
+                                         "Version":  "10.0.13"
+                                     }
+                                 ]
+                   },
+                   {
+                       "Name":  "installed-identity",
+                       "Value":  {
+                                     "Version":  "0.2.0",
+                                     "Channel":  "win",
+                                     "PackageId":  "Iris",
+                                     "Repository":  "https://github.com/Tmcity/Iris",
+                                     "RuntimeId":  "win-x64"
+                                 }
+                   },
+                   {
+                       "Name":  "uninstall-registration",
+                       "Value":  {
+                                     "QuietUninstallString":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\maintenance\\Iris.Maintenance.exe\" --uninstall --silent",
+                                     "UninstallString":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\maintenance\\Iris.Maintenance.exe\" --uninstall"
+                                 }
+                   },
+                   {
+                       "Name":  "install-did-not-start-app",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "uia-start-and-eof-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "app-running",
+                       "Value":  {
+                                     "Handle":  131842,
+                                     "Title":  "Iris Settings",
+                                     "Pid":  2548
+                                 }
+                   },
+                   {
+                       "Name":  "settings-window-appeared",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "maintenance-owner",
+                       "Value":  {
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\work-ed86938272544d809fc1566b6a901b8a\\Iris.Maintenance.exe",
+                                     "Pid":  4844,
+                                     "Command":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\work-ed86938272544d809fc1566b6a901b8a\\Iris.Maintenance.exe\" --outside 7536 639285057807923866 --uninstall --silent",
+                                     "Started":  "2026-10-25T14:16:21.3240660+08:00"
+                                 }
+                   },
+                   {
+                       "Name":  "uninstall-entry-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "maintenance-owner",
+                       "Value":  {
+                                     "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe",
+                                     "Pid":  5408,
+                                     "Command":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe\" --uninstall --silent",
+                                     "Started":  "2026-10-25T14:16:22.0171380+08:00"
+                                 }
+                   },
+                   {
+                       "Name":  "external-maintenance-observed",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "all-owned-maintenance-exited",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "maintenance-owner-exit",
+                       "Value":  {
+                                     "Code":  0,
+                                     "Pid":  5408
+                                 }
+                   },
+                   {
+                       "Name":  "maintenance-exit-zero-5408",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "maintenance-owner-exit",
+                       "Value":  {
+                                     "Code":  0,
+                                     "Pid":  4844
+                                 }
+                   },
+                   {
+                       "Name":  "maintenance-exit-zero-4844",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "original-app-exit",
+                       "Value":  0
+                   },
+                   {
+                       "Name":  "original-app-exit-zero",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "silent-uninstall-kept-data",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "uninstall-key-removed",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "transaction-completed",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "runtime-retained",
+                       "Value":  [
+                                     {
+                                         "Family":  "Microsoft.NETCore.App",
+                                         "Version":  "10.0.13"
+                                     },
+                                     {
+                                         "Family":  "Microsoft.WindowsDesktop.App",
+                                         "Version":  "10.0.13"
+                                     }
+                                 ]
+                   },
+                   {
+                       "Name":  "desktop-runtime-retained",
+                       "Value":  true
+                   },
+                   {
+                       "Name":  "owned-iris-processes-after-uninstall",
+                       "Value":  [
+
+                                 ]
+                   },
+                   {
+                       "Name":  "no-owned-iris-processes-after-uninstall",
+                       "Value":  true
+                   }
+               ],
+    "Failure":  null
+}

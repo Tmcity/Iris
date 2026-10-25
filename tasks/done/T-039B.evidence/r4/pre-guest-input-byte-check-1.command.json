@@ -1,0 +1,11 @@
+{
+  "Command": [
+    "python",
+    "tasks\\done\\T-039B.evidence\\r4\\verify_frozen_guest_inputs.py"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-25T05:59:25.682191+00:00",
+  "FinishedUtc": "2026-10-25T05:59:28.054289+00:00",
+  "ExitCode": 0,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\pre-guest-input-byte-check-1.log"
+}

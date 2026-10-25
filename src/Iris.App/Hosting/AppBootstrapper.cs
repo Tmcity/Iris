@@ -298,6 +298,7 @@ internal sealed partial class AppBootstrapper
     {
         StopIpcAcceptance();
         _updates?.StopAcceptance();
+        (_settingsShutdownCoordinator as Iris.App.Settings.SettingsWindowPresenter)?.StopAcceptance();
         _networkLifetime?.StopAcceptance();
         _historyShutdownCoordinator?.StopAcceptance();
         _screenshotOcrFeedback?.StopAcceptance();
@@ -340,6 +341,9 @@ internal sealed partial class AppBootstrapper
     {
         await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
         var earlyFailures = new System.Collections.Generic.List<string>();
+        if (_settingsShutdownCoordinator is Iris.App.Settings.SettingsWindowPresenter settingsPresenter)
+            try { await settingsPresenter.StopSessionAcceptanceAsync().ConfigureAwait(false); }
+            catch (Exception) { earlyFailures.Add("SETTINGS_ADMISSION"); }
         if (_updates != null)
             try { await _updates.StopAsync().ConfigureAwait(false); }
             catch (Exception) { earlyFailures.Add("UPDATES"); }

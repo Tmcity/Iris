@@ -1,0 +1,34 @@
+* Host dotnetcli.blob.core.windows.net:443 was resolved.
+* IPv6: (none)
+* IPv4: 198.18.9.38
+*   Trying 198.18.9.38:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server did not agree on a protocol. Uses default.
+* Established connection to dotnetcli.blob.core.windows.net (198.18.9.38 port 443) from 172.28.247.208 port 62786 
+* using HTTP/1.x
+> GET /dotnet/release-metadata/10.0/releases.json HTTP/1.1
+> Host: dotnetcli.blob.core.windows.net
+> User-Agent: curl/8.21.0
+> Accept: */*
+> 
+* Request completely sent off
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+< HTTP/1.1 200 OK
+< Cache-Control: public, max-age=900
+< Content-Length: 1100901
+< Content-Type: application/json
+< Content-MD5: kFjgfaKx5K3myrIVt5yjtQ==
+< Last-Modified: Tue, 13 Oct 2026 19:53:02 GMT
+< ETag: 0x8DF296397676D3B
+< Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
+< x-ms-request-id: d6973ef3-201e-0081-1c46-64c5ba000000
+< x-ms-version: 2009-09-19
+< x-ms-lease-status: unlocked
+< x-ms-blob-type: BlockBlob
+< Date: Sun, 25 Oct 2026 06:04:34 GMT
+< 
+{ [15934 bytes data]
+* Connection #0 to host dotnetcli.blob.core.windows.net:443 left intact

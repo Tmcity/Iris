@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "F:\Iris\tasks\done\T-039B.evidence\r4\verify_binding.py", line 23, in <module>
+    if current.exists(): assert current.read_bytes() == (root / binding["ActiveOrderSnapshot"]["Path"]).read_bytes()
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

@@ -1,0 +1,31 @@
+{
+  "RequestedLanguage": "en-US",
+  "ActualLanguage": "en-US",
+  "RequestedTheme": "Dark",
+  "ActualTheme": "Dark",
+  "RequestedWidth": 540,
+  "ActualWidth": 540,
+  "ActualHeight": 294.86,
+  "WindowBackground": "#FFFFFFFF",
+  "BodyContrast": [
+    21,
+    21,
+    21
+  ],
+  "Buttons": [
+    {
+      "Label": "Retry installation",
+      "Foreground": "#FFFFFFFF",
+      "Background": "#FFFFFFFF",
+      "Contrast": 1
+    },
+    {
+      "Label": "Cancel update and exit",
+      "Foreground": "#FFFFFFFF",
+      "Background": "#FFFFFFFF",
+      "Contrast": 1
+    }
+  ],
+  "Sha256": "3D1171D472AF8B09A23D40A2B838F141F7C3F09D813E1D38A70517FB9E344996",
+  "AppDllSha256": "773CB4A713DC5A057E12BBDB92477BD3FE60DAADC2F85A5B55FA1B61804334B1"
+}

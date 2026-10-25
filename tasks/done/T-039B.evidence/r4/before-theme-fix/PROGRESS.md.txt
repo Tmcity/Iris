@@ -1,0 +1,19 @@
+# T-039B-R4 当前工程状态（不是完整交付）
+
+2026-10-25。原基线 HEAD 仍为 `05452e0a85a36982ef8bfd22d5a981e581eeafcf`。
+
+产品实现、真实生产拓扑回归、Release/full 和 final-6 新包字节验真已完成。原文：release-build-2.log（0警告/0错误）、full-tests-1.log（3720总计、3718成功、0失败、2既有Clipboard窗口站跳过）、fixed-production-after-1.log（冻结R4程序集9/9）。修前冻结R3反例已重放失败并完整join；见 frozen-r3-production-before-1.log。完整实现/边界/偏差见 tasks/done/T-039B.md 的 R4 段。
+
+尚欠 final-6 的实际干净来宾安装+运行中静默保留卸载、两版本full应用。首次来宾入口尚未启动：旧wsb.exe路径不存在，WindowsSandbox.exe和Sandbox Appx也未检出；系统已为Windows11专业工作站版26200。sandbox-preflight-1.log记录只读可选功能查询要求提升。架构师已独立确认Sandbox Disabled（CIM InstallState=2）及当前账户Hyper-V访问被拒绝，见acceptance-review-4/host-isolation-preflight-1.json；环境选择/唯一一次管理员确认由架构师接管，/NoRestart脚本尚未获准执行，工程师不要重复询问用户。没有修改宿主系统功能或启动真实Iris安装。旧final-4及所有失败保留，不冒充新包通过。
+
+同一R4执行轮继续。已核对并向架构师归还约3分钟串行窗口，工程师没有建测/打包/来宾任务在跑；收到明确归还前只做报告与来源归档，不因时间经过自动恢复建测。初版signed-order-r4.md保留原字节；最新含环境补充的current_task全文另存signed-order-r4-env-supplement-20261025.md，不覆盖旧快照。
+
+恢复环境后按顺序继续（不同构建/测试/来宾不要重叠）：
+
+1. 使用新的唯一失败后标签运行 `python tasks/done/T-039B.evidence/r4/run_command.py guest-install-r4-2-run -- python tasks/done/T-039B.evidence/r4/run_guest.py install guest-install-r4-2`。原guest-install-r4-1保留。
+2. 安装场景完整结束自有Sandbox后，运行同一包装器及 `run_guest.py update guest-update-r4-1`。runner只映射本单专用输入/输出，显式final-6，成功并结束来宾后才写guest-run-manifest.json。
+3. `inspect_delivery.py --guests` 重新核对输入/实际包/原结果/执行及停止exit，生成delivery-inspection.json；实际查看新来宾截图，按真实观察/布尔断言分别取数。
+4. 运行write_report.py、finalize_binding_r4.py与verify_binding.py，确认所有原文/来源字节匹配。源码范围冻结，GitTree=`cb3199ef8b546cffe0cb435fc0e10d64227888d6`（702项）；如需再改产品源码必须重跑受影响验证并生成另一唯一新包，不能覆盖final-6。
+5. 所有必需场景完成才核对并移除current_task、创建新的独立本地提交、以source_binding.py verify-head完整commit核对规范源码树；只请求架构师复审，不结案父单或开始C/T-040。
+
+当前未创建最终提交、未删除current_task。架构师未提交的BACKLOG/handoff/复审/协调等文件与.codex保持原样；只暂存本单产品/测试/报告与自有r4证据，不能批量git add全工作区。包/工具/转储不提交。

@@ -1,0 +1,36 @@
+from pathlib import Path
+import json
+import subprocess
+import sys
+from inspect_delivery import file_record, json_read, sha
+
+sys.stdout.reconfigure(encoding="utf-8")
+evidence = Path(__file__).resolve().parent
+root = evidence.parents[3]
+binding = json_read(evidence.parent / "delivery-binding.json")
+checks = 0
+for entry in binding["Evidence"] + binding.get("IndependentReviewRecords", []):
+    assert file_record(root / entry["Path"]) == entry, entry["Path"]
+    checks += 1
+for entry in binding.get("RuntimeBinaryArtifacts", []):
+    assert file_record(root / entry["Path"]) == entry, entry["Path"]
+    checks += 1
+for entry in binding["SourceFiles"]:
+    assert sha(root / entry["Path"]) == entry["WorkingSha256"], entry["Path"]
+    checks += 1
+for package in binding["ReleasePackages"]:
+    for entry in package["Files"]:
+        assert file_record(Path(package["Directory"]) / entry["Path"], Path(package["Directory"])) == entry
+        checks += 1
+current = root / "tasks/current_task.md"
+if current.exists(): assert current.read_bytes() == (root / binding["ActiveOrderSnapshot"]["Path"]).read_bytes()
+else: assert not binding["RequiredUnfinished"]
+assert not subprocess.check_output(["git", "diff", "--cached", "--name-only", "--", ".codex"], cwd=root)
+result = {"Checks": checks, "AllBoundBytesMatch": True, "CompletionStatus": binding["CompletionStatus"],
+    "RequiredUnfinished": binding["RequiredUnfinished"], "GitTree": binding["GitTree"],
+    "CurrentHead": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root).decode().strip(),
+    "BindingSha256": sha(evidence.parent / "delivery-binding.json")}
+target = evidence / (sys.argv[1] if len(sys.argv) > 1 else "binding-check-1.json")
+if target.exists(): raise FileExistsError(target)
+target.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+print(json.dumps(result, ensure_ascii=False, indent=2))

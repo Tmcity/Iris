@@ -1,0 +1,16 @@
+{
+  "Command": [
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "F:\\Iris\\tasks\\done\\T-039B.evidence\\r4\\capture_localization_compiled.ps1"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-24T21:36:49.040624+00:00",
+  "FinishedUtc": "2026-10-24T21:36:49.358871+00:00",
+  "ExitCode": 0,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\localization-compiled-capture-1.log"
+}

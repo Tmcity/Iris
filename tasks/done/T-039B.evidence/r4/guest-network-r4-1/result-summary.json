@@ -1,0 +1,6 @@
+{
+  "ObservationRecords": 1,
+  "BooleanAssertions": 0,
+  "FalseAssertions": [],
+  "Failure": "* Host dotnetcli.blob.core.windows.net:443 was resolved."
+}

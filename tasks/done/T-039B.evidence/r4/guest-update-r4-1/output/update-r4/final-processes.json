@@ -1,0 +1,9 @@
+﻿[
+    {
+        "ProcessId":  5960,
+        "ParentProcessId":  1144,
+        "CreationDate":  "\/Date(1792909127173)\/",
+        "ExecutablePath":  "C:\\Windows\\system32\\msiexec.exe",
+        "CommandLine":  "C:\\Windows\\system32\\msiexec.exe /V"
+    }
+]

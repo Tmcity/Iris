@@ -31,6 +31,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
     private SettingsWindowSession? _activeSession;
     private PartialWindowCleanup? _pendingRollback;
     private bool _isShuttingDown;
+    private bool _applicationClosing;
     private Task? _shutdownTask;
     private Task? _openTask;
     private readonly Iris.App.Capture.WindowPreparationIntent _preparationIntent;
@@ -51,6 +52,29 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
             _activeSession?.ViewModel.ResetHandoffTransferred();
         }
     }
+
+    internal void StopAcceptance()
+    {
+        lock (_gate) { _applicationClosing = true; _isShuttingDown = true; }
+    }
+
+    internal Task StopSessionAcceptanceAsync() => _uiDispatcher.InvokeAsync(() =>
+    {
+        lock (_gate) _activeSession?.StopAcceptance();
+        return Task.CompletedTask;
+    }, CancellationToken.None);
+
+    internal Task ReportUpdateShutdownFailureAsync(Iris.App.Updates.UpdateSnapshot snapshot) => _uiDispatcher.InvokeAsync(() =>
+    {
+        // No new scope and no navigation. Only the still-owned, live VM receives
+        // feedback; a disposed session is never touched by the lifetime owner.
+        lock (_gate)
+        {
+            _isShuttingDown = true;
+            _activeSession?.ViewModel.ReportUpdateShutdownFailure(snapshot);
+        }
+        return Task.CompletedTask;
+    }, CancellationToken.None);
 
 
     public SettingsWindowPresenter(
@@ -421,7 +445,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
             {
                 lock (_gate)
                 {
-                    _isShuttingDown = false;
+                    _isShuttingDown = _applicationClosing;
                 }
                 LogSettingsShutdownError(_logger, ex.GetType().Name);
                 throw;
@@ -448,7 +472,7 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
             {
                 lock (_gate)
                 {
-                    _isShuttingDown = false;
+                    _isShuttingDown = _applicationClosing;
                 }
                 LogSettingsShutdownError(_logger, ex.GetType().Name);
                 throw;

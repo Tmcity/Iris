@@ -1,0 +1,46 @@
+{
+  "Files": [
+    {
+      "PreviousEvidenceDuplicate": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-install-r4-6/output/runtime-prefetch/windowsdesktop-runtime-10.0.13-win-x64.exe",
+        "Bytes": 60056984,
+        "Sha256": "f5f0268b3d89ec3b9eb952b620330360b35c63593ead45816aeb26e934a4b7b6"
+      },
+      "OriginalArtifactOutputRetained": {
+        "Path": "artifacts/t039b/sandbox/e8c8cf4e-db9a-4618-a95e-1d0fdbddd2bd/output/runtime-prefetch/windowsdesktop-runtime-10.0.13-win-x64.exe",
+        "Bytes": 60056984,
+        "Sha256": "f5f0268b3d89ec3b9eb952b620330360b35c63593ead45816aeb26e934a4b7b6"
+      },
+      "PreservedArtifactCopy": {
+        "Path": "artifacts/t039b/r4-runtime-cache-preserved-1/guest-install-r4-6/windowsdesktop-runtime-10.0.13-win-x64.exe",
+        "Bytes": 60056984,
+        "Sha256": "f5f0268b3d89ec3b9eb952b620330360b35c63593ead45816aeb26e934a4b7b6"
+      },
+      "Sha512": "adaf5e06b66b145848f3a994b51ea1590d19a5c02f6e7c5899ed896bbdb020af6386d2eaef613034d697388adaf48aa8c3291343f0bbb5f8e62e37aff9564a00",
+      "AllThreeByteSequencesMatchedBeforeRemoval": true,
+      "Disposition": "Only the duplicate runtime exe under tasks evidence is removed; original artifact output, stable artifact copy, raw logs, metadata and screenshots remain."
+    },
+    {
+      "PreviousEvidenceDuplicate": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-update-r4-1/output/update-r4/runtime-prefetch/windowsdesktop-runtime-10.0.13-win-x64.exe",
+        "Bytes": 60056984,
+        "Sha256": "f5f0268b3d89ec3b9eb952b620330360b35c63593ead45816aeb26e934a4b7b6"
+      },
+      "OriginalArtifactOutputRetained": {
+        "Path": "artifacts/t039b/sandbox/6a7bd901-cb6a-48cb-b7d0-8c276ecb0708/output/update-r4/runtime-prefetch/windowsdesktop-runtime-10.0.13-win-x64.exe",
+        "Bytes": 60056984,
+        "Sha256": "f5f0268b3d89ec3b9eb952b620330360b35c63593ead45816aeb26e934a4b7b6"
+      },
+      "PreservedArtifactCopy": {
+        "Path": "artifacts/t039b/r4-runtime-cache-preserved-1/guest-update-r4-1/windowsdesktop-runtime-10.0.13-win-x64.exe",
+        "Bytes": 60056984,
+        "Sha256": "f5f0268b3d89ec3b9eb952b620330360b35c63593ead45816aeb26e934a4b7b6"
+      },
+      "Sha512": "adaf5e06b66b145848f3a994b51ea1590d19a5c02f6e7c5899ed896bbdb020af6386d2eaef613034d697388adaf48aa8c3291343f0bbb5f8e62e37aff9564a00",
+      "AllThreeByteSequencesMatchedBeforeRemoval": true,
+      "Disposition": "Only the duplicate runtime exe under tasks evidence is removed; original artifact output, stable artifact copy, raw logs, metadata and screenshots remain."
+    }
+  ],
+  "InstallerDependencyPackageOrDumpBinariesUnderR4Evidence": 0,
+  "NoLogsOrRawResultsRewritten": true
+}

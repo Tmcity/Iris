@@ -1,0 +1,13 @@
+{
+  "SourceBinding": "tested-source-binding-2.json",
+  "OrderSnapshot": "signed-order-r4-scope-supplement-20261025.md",
+  "CandidateDirectory": "artifacts/t039b/r4-tested-candidate-2",
+  "PackageTag": "final-7",
+  "PackageInspection": "package-inspection-2.json",
+  "GuestInspection": "delivery-inspection-2.json",
+  "ReleaseBuild": "release-build-3",
+  "FullTests": "full-tests-2",
+  "FixedProduction": "fixed-production-after-2",
+  "RenderingBefore": "recovery-theme-before-1",
+  "RenderingAfter": "recovery-theme-after-1"
+}

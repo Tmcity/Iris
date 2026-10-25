@@ -1,0 +1,27 @@
+$ErrorActionPreference = 'Stop'
+$output = 'C:\IrisBOutput'
+$report = [ordered]@{ Checks=@(); Failure=$null }
+function Record([string]$Name, $Value) {
+    $script:report.Checks += [pscustomobject]@{Name=$Name;Value=$Value}
+    $script:report | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $output 'progress.json') -Encoding UTF8
+}
+try {
+    Record 'guest-only-diagnostic' @{User=[Environment]::UserName;RuntimeInstallPerformed=$false;IrisExecuted=$false}
+    Get-NetIPConfiguration | Format-List | Out-String | Set-Content -LiteralPath (Join-Path $output 'guest-ip.txt') -Encoding UTF8
+    $endpoints = @(
+        @('blob-version','https://dotnetcli.blob.core.windows.net/dotnet/WindowsDesktop/10.0/latest.version'),
+        @('builds-version','https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/10.0/latest.version'),
+        @('builds-runtime-head','https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/10.0.13/windowsdesktop-runtime-10.0.13-win-x64.exe'),
+        @('blob-runtime-head','https://dotnetcli.blob.core.windows.net/dotnet/WindowsDesktop/10.0.13/windowsdesktop-runtime-10.0.13-win-x64.exe')
+    )
+    foreach ($endpoint in $endpoints) {
+        $name=$endpoint[0]; $url=$endpoint[1]
+        $arguments=@('--silent','--show-error','--verbose','--location','--max-time','40','--output',(Join-Path $output ($name+'.body.txt')))
+        if ($name -like '*-head') { $arguments += '--head' }
+        $arguments += $url
+        & curl.exe @arguments 2> (Join-Path $output ($name+'.stderr.txt'))
+        Record $name @{Url=$url;ExitCode=$LASTEXITCODE}
+    }
+} catch { $report.Failure=$_.ToString() }
+finally { $report | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $output 'result.json') -Encoding UTF8 }
+if ($report.Failure) { exit 2 }; exit 0

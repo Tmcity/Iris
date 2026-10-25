@@ -1,0 +1,6 @@
+MSBUILD : error MSB1008: 只能指定一个项目。
+    完整命令行:“C:\Program Files\dotnet\sdk\10.0.402\MSBuild.exe -maxcpucount --verbosity:m -tlp:default=auto --property:Configuration=Release --property:NuGetInteractive=false --restoreProperty:Configuration=Release --restoreProperty:NuGetInteractive=false --restoreProperty:EnableDefaultCompileItems=false --restoreProperty:EnableDefaultEmbeddedResourceItems=false --restoreProperty:EnableDefaultNoneItems=false --nologo tests\Iris.App.Tests\Iris.App.Tests.csproj -tl: off -consoleloggerparameters:Summary -restore -distributedlogger:Microsoft.DotNet.Cli.Commands.MSBuild.MSBuildLogger,C:\Program Files\dotnet\sdk\10.0.402\dotnet.dll*Microsoft.DotNet.Cli.Commands.MSBuild.MSBuildForwardingLogger,C:\Program Files\dotnet\sdk\10.0.402\dotnet.dll”
+  响应文件追加的开关: 
+开关:off
+
+若要显示开关的语法，请键入“MSBuild -help”

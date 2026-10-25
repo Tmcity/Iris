@@ -1,0 +1,15 @@
+HTTP/1.1 200 OK
+Content-Type: application/octet-stream
+Content-MD5: rNqzmQT3has9euiD917WIQ==
+Last-Modified: Tue, 13 Oct 2026 17:23:49 GMT
+ETag: 0x8DF294EBEFC5E0C
+x-ms-request-id: 548072fd-301e-0079-52e3-5f9944000000
+x-ms-version: 2009-09-19
+x-ms-lease-status: unlocked
+x-ms-blob-type: BlockBlob
+Cache-Control: public, max-age=381794
+Date: Sun, 25 Oct 2026 06:04:32 GMT
+Connection: keep-alive
+Content-Length: 60056984
+Akamai-GRN: 0.695c1002.1792908272.559bf20d
+

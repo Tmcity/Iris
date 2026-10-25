@@ -1,0 +1,12 @@
+正在从以下位置运行测试 F:\Iris\artifacts\t039b\r4-tested-candidate-2\Iris.App.Tests.dll (net10.0|x64)
+F:\Iris\artifacts\t039b\r4-tested-candidate-2\Iris.App.Tests.dll (net10.0|x64) 已通过 (9s 596ms)
+
+  生成的进程内文件项目:
+    - F:\Iris\tasks\done\T-039B.evidence\r4\fixed-production-after-2-reports\28910_SKYRIU-PC_2026-10-24_20_19_29.809561.xunit.xml
+
+测试运行摘要: 已通过!
+  总计: 9
+  失败: 0
+  成功: 9
+  已跳过: 0
+  持续时间: 9s 843ms

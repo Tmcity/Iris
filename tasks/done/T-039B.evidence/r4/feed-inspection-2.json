@@ -1,0 +1,90 @@
+{
+  "PackageTag": "final-8",
+  "Results": [
+    {
+      "Version": "0.2.0",
+      "Feed": {
+        "Path": "artifacts/t039b/release-0.2.0-final-8/releases.win.json",
+        "Bytes": 242,
+        "Sha256": "4a2a339b0b7d2ef83284fd9249c805836bdcddaf1805e5b73f7afdcdeb93fb0a"
+      },
+      "Assets": [
+        {
+          "PackageId": "Iris",
+          "Version": "0.2.0",
+          "Type": "Full",
+          "FileName": "Iris-0.2.0-full.nupkg",
+          "SHA1": "6C23E9FFA2DB7890F3D286344154738BC58B429F",
+          "SHA256": "A17679F5C532A2DBD40B2ACE9CF040A8BB3A9C273CC9FBADFE06194821EBFCC6",
+          "Size": 64616102
+        }
+      ],
+      "LegacyFeed": {
+        "Path": "artifacts/t039b/release-0.2.0-final-8/RELEASES",
+        "Bytes": 74,
+        "Sha256": "569ca72310da43f29b7c7354fd9fe5a9eab0d2f21186b89b63c62b750f4260fe"
+      },
+      "LegacyEntries": [
+        {
+          "FileName": "Iris-0.2.0-full.nupkg",
+          "Size": 64616102,
+          "SHA1": "6C23E9FFA2DB7890F3D286344154738BC58B429F"
+        }
+      ]
+    },
+    {
+      "Version": "0.2.1",
+      "Feed": {
+        "Path": "artifacts/t039b/release-0.2.1-final-8/releases.win.json",
+        "Bytes": 702,
+        "Sha256": "ce06e5699da798dd1e4695fa56488ebf76e41637d0e95d4a396bfd97133aa29e"
+      },
+      "Assets": [
+        {
+          "PackageId": "Iris",
+          "Version": "0.2.1",
+          "Type": "Full",
+          "FileName": "Iris-0.2.1-full.nupkg",
+          "SHA1": "BF13AE6B533D012F3281F005654760565212DBE4",
+          "SHA256": "D975D37222D14B797DA135AC74C6D92905405E8D9FAC5AB0866D167A0D2AF3BF",
+          "Size": 64616132
+        },
+        {
+          "PackageId": "Iris",
+          "Version": "0.2.1",
+          "Type": "Delta",
+          "FileName": "Iris-0.2.1-delta.nupkg",
+          "SHA1": "13089B6DB4A922F50CE3F8902BE42EF8F5B5EE28",
+          "SHA256": "CF7BDC1CB9E536899C672CD71271ABB14AB272A029F914A7087E09B6F5562DAE",
+          "Size": 514171
+        },
+        {
+          "PackageId": "Iris",
+          "Version": "0.2.0",
+          "Type": "Full",
+          "FileName": "Iris-0.2.0-full.nupkg",
+          "SHA1": "6C23E9FFA2DB7890F3D286344154738BC58B429F",
+          "SHA256": "A17679F5C532A2DBD40B2ACE9CF040A8BB3A9C273CC9FBADFE06194821EBFCC6",
+          "Size": 64616102
+        }
+      ],
+      "LegacyFeed": {
+        "Path": "artifacts/t039b/release-0.2.1-final-8/RELEASES",
+        "Bytes": 146,
+        "Sha256": "8643b0dad1b68880338a4b9d2e73fd5087d5f487ab6dcb9a3d432d90560c201a"
+      },
+      "LegacyEntries": [
+        {
+          "FileName": "Iris-0.2.0-full.nupkg",
+          "Size": 64616102,
+          "SHA1": "6C23E9FFA2DB7890F3D286344154738BC58B429F"
+        },
+        {
+          "FileName": "Iris-0.2.1-full.nupkg",
+          "Size": 64616132,
+          "SHA1": "BF13AE6B533D012F3281F005654760565212DBE4"
+        }
+      ]
+    }
+  ]
+}

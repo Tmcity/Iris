@@ -37,8 +37,8 @@ internal sealed class UpdateHandoff : IAsyncDisposable, IDisposable
             lock (_cancelGate)
             {
                 if (_revoking)
-                    throw token.IsCancellationRequested ? new OperationCanceledException(token) : new IrisException(ErrorCode.Unknown, "更新交接已撤销", retryable: true);
-                if (_process != null || _pipe != null) throw new InvalidOperationException("Maintenance already prepared.");
+                    throw token.IsCancellationRequested ? new OperationCanceledException(token) : new IrisException(ErrorCode.Unknown, ErrorMessages.GetDefault(ErrorCode.Unknown), retryable: true);
+                if (_process != null || _pipe != null || _directory != null) throw new InvalidOperationException("Maintenance preparation or cleanup is already owned.");
                 _preparing = CancellationTokenSource.CreateLinkedTokenSource(token);
                 _preparing.CancelAfter(TimeSpan.FromSeconds(30));
                 attemptToken = _preparing.Token;
@@ -60,7 +60,7 @@ internal sealed class UpdateHandoff : IAsyncDisposable, IDisposable
             using var parent = Process.GetCurrentProcess();
             var start = new ProcessStartInfo(executable) { UseShellExecute = false, CreateNoWindow = true };
             foreach (var argument in new[] { "--handoff", name, _token, parent.Id.ToString(System.Globalization.CultureInfo.InvariantCulture), parent.StartTime.ToUniversalTime().Ticks.ToString(System.Globalization.CultureInfo.InvariantCulture) }) start.ArgumentList.Add(argument);
-            _process = Process.Start(start) ?? throw new IOException("Maintenance did not start.");
+            _process = _environment.StartHelper(start);
             watch = WatchExitAsync(_process, watchCancellation.Token);
             await _pipe.WaitForConnectionAsync(attemptToken).ConfigureAwait(false); MaintenanceProtocol.VerifyPeer(_pipe, true, _process.Id);
             await MaintenanceProtocol.WriteAsync(_pipe, new("prepare", _token, Path.GetFileName(candidate.Path), candidate.Sha256, candidate.Size, candidate.Version), attemptToken).ConfigureAwait(false);
@@ -73,11 +73,11 @@ internal sealed class UpdateHandoff : IAsyncDisposable, IDisposable
             if (unwrap is OperationCanceledException && !token.IsCancellationRequested)
             {
                 if (_process?.HasExited == true)
-                    primary = new IrisException(ErrorCode.Unknown, "更新维护进程意外退出", ex, retryable: true);
+                    primary = new IrisException(ErrorCode.Unknown, ErrorMessages.GetDefault(ErrorCode.Unknown), ex, retryable: true);
                 else if (_revoking)
-                    primary = new IrisException(ErrorCode.Unknown, "更新交接已撤销", ex, retryable: true);
+                    primary = new IrisException(ErrorCode.Unknown, ErrorMessages.GetDefault(ErrorCode.Unknown), ex, retryable: true);
                 else
-                    primary = new IrisException(ErrorCode.Timeout, "准备更新维护进程超时（30秒）", ex, retryable: true);
+                    primary = new IrisException(ErrorCode.Timeout, ErrorMessages.GetDefault(ErrorCode.Timeout), ex, retryable: true);
             }
             else
             {
@@ -160,7 +160,7 @@ internal sealed class UpdateHandoff : IAsyncDisposable, IDisposable
         }
         if (_process != null) { await _process.WaitForExitAsync().ConfigureAwait(false); _process.Dispose(); _process = null; }
         if (_directory != null && Directory.Exists(_directory))
-        { MaintenancePaths.DeleteData(_directory, _directory); _directory = null; }
+        { _environment.DeleteWorkDirectory(_directory); _directory = null; }
         lock (_cancelGate) _revoking = _revokeWaiters != 0;
     }
     public async ValueTask DisposeAsync() { await RevokeAsync().ConfigureAwait(false); _mutex.Dispose(); }

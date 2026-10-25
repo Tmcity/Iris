@@ -79,6 +79,12 @@ internal sealed class SettingsWindowSession : IDisposable
         }
     }
 
+    internal void StopAcceptance()
+    {
+        _saveCoordinator.StopAcceptanceAndCancelPreCommit();
+        _viewModel.StopAcceptance();
+    }
+
     public void ActivateAndNavigate(string pageKey)
     {
         lock (_gate)
@@ -166,8 +172,7 @@ internal sealed class SettingsWindowSession : IDisposable
         // 1. 停止接纳新工作并取消提交前工作
         await InvokeOnUiAsync(() =>
         {
-            _saveCoordinator.StopAcceptanceAndCancelPreCommit();
-            _viewModel.StopAcceptance();
+            StopAcceptance();
         }).ConfigureAwait(false);
 
         // 2. 等待协调器中所有已接纳的后台保存/重试/查询任务完成

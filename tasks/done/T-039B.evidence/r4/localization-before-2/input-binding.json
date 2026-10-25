@@ -1,0 +1,67 @@
+[
+  {
+    "Path": "build/LocalizationAudit/bin/Release/net10.0/LocalizationAudit.dll",
+    "Bytes": 46080,
+    "Sha256": "61aff96a3c8d76e5628a56f431a01e52b85f2ea23eb78f3ec4eb73824d749ba1"
+  },
+  {
+    "Path": "build/LocalizationAudit/Program.cs",
+    "Bytes": 11707,
+    "Sha256": "1d2145d7eb8b131d8075c300a26e4542813409994d2534c66200400c39e71e8b"
+  },
+  {
+    "Path": "build/localization/audit.py",
+    "Bytes": 3683,
+    "Sha256": "790e94126326c68cffe151e689e643cb25a5ed032452708aa50a014a83fe96f1"
+  },
+  {
+    "Path": "build/localization/exceptions.json",
+    "Bytes": 694214,
+    "Sha256": "2d620105575400696d1f567460d883cf050ff511b49b6f64d5ea0b5192eb9a75"
+  },
+  {
+    "Path": "build/localization/app-catalog.json",
+    "Bytes": 60648,
+    "Sha256": "5b240c825e33f37ac90ee90d43f386e3f68b040c36ba33dfb9cbd3e1b2a05a2d"
+  },
+  {
+    "Path": "src/Iris.App/Services/GeneralSettingsSaveCoordinator.cs",
+    "Bytes": 22508,
+    "Sha256": "abd0fb110621b37ebd858036c6b12d3e27120ca0364105a582da80fc9f91aa31"
+  },
+  {
+    "Path": "src/Iris.App/Updates/UpdateHandoff.cs",
+    "Bytes": 9933,
+    "Sha256": "7ecf31a916cc5936f1e7239c369618ce1c2afa73cef1649fc5abe1fb502a11b3"
+  },
+  {
+    "Path": "src/Iris.App/Resources/Strings.resx",
+    "Bytes": 55880,
+    "Sha256": "0698b8eabb0130970b0e1bd9c117e5b679c9fa8f8c0102698c5d8a84b88e597b"
+  },
+  {
+    "Path": "src/Iris.App/Resources/Strings.en-US.resx",
+    "Bytes": 57682,
+    "Sha256": "5b833873729402888a42cdfac75ac8c77c72e141e2660dc7e0cba43013c6f8c2"
+  },
+  {
+    "Path": "src/Iris.Core/Localization/Strings.resx",
+    "Bytes": 19337,
+    "Sha256": "c6e0ee0edea6aa65b9b6737914dd6e2a50720fe383450f09fed23c6123cc67aa"
+  },
+  {
+    "Path": "src/Iris.Core/Localization/Strings.en-US.resx",
+    "Bytes": 20132,
+    "Sha256": "8466d873085cff8c6ea9990782a5c40d8d511d3e4e61bab69322075b27081c33"
+  },
+  {
+    "Path": "src/Iris.Maintenance/Strings.resx",
+    "Bytes": 1495,
+    "Sha256": "2afe54f32aa2b0a08cd55b787a969eaa3a2a291d151409c55b8d841516009d9c"
+  },
+  {
+    "Path": "src/Iris.Maintenance/Strings.en-US.resx",
+    "Bytes": 1509,
+    "Sha256": "334b33a0a383fb865175a7672a46429bb61725147c1883d2f935a3be35cbf4c2"
+  }
+]

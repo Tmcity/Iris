@@ -1,0 +1,36 @@
+* Host dns.google:443 was resolved.
+* IPv6: (none)
+* IPv4: 198.18.4.224
+*   Trying 198.18.4.224:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server accepted http/1.1
+* Established connection to dns.google (198.18.4.224 port 443) from 172.28.247.208 port 57062 
+* using HTTP/1.x
+> GET /resolve?name=builds.dotnet.microsoft.com&type=A HTTP/1.1
+> Host: dns.google
+> User-Agent: curl/8.21.0
+> Accept: */*
+> 
+* Request completely sent off
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+< HTTP/1.1 200 OK
+< X-Content-Type-Options: nosniff
+< Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+< Access-Control-Allow-Origin: *
+< Date: Sun, 25 Oct 2026 06:04:34 GMT
+< Expires: Sun, 25 Oct 2026 06:04:34 GMT
+< Cache-Control: private, max-age=20
+< Content-Type: application/json; charset=UTF-8
+< Server: HTTP server (unknown)
+< X-XSS-Protection: 0
+< X-Frame-Options: SAMEORIGIN
+< Alt-Svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+< Accept-Ranges: none
+< Vary: Accept-Encoding
+< Transfer-Encoding: chunked
+< 
+{ [654 bytes data]
+* Connection #0 to host dns.google:443 left intact

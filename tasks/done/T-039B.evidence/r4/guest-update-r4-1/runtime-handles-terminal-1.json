@@ -1,0 +1,89 @@
+﻿{
+    "ObservedUtc":  "2026-10-25T06:24:08.1576900Z",
+    "CapturedHandles":  [
+                            {
+                                "Pid":  5056,
+                                "ParentPid":  6024,
+                                "StartedUtc":  "2026-10-25T06:18:43.7568773Z",
+                                "Path":  "C:\\IrisBInput\\Iris-0.2.0-Setup.exe"
+                            },
+                            {
+                                "Pid":  7580,
+                                "ParentPid":  5056,
+                                "StartedUtc":  "2026-10-25T06:18:44.9457216Z",
+                                "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\setup-0028773d99e444c1ba466b890ed9ab5d\\Setup.exe"
+                            },
+                            {
+                                "Pid":  1984,
+                                "ParentPid":  7580,
+                                "StartedUtc":  "2026-10-25T06:18:46.1321668Z",
+                                "Path":  "C:\\Users\\WDAGUtilityAccount\\Downloads\\inst-dotnet-10.0.0-X64-WindowsDesktop.exe"
+                            },
+                            {
+                                "Pid":  6728,
+                                "ParentPid":  1984,
+                                "StartedUtc":  "2026-10-25T06:18:46.2903906Z",
+                                "Path":  "C:\\Windows\\TEMP\\{76CC5E91-B644-4259-A813-BEA25160E594}\\.ba\\wixstdba.exe"
+                            },
+                            {
+                                "Pid":  7624,
+                                "ParentPid":  1984,
+                                "StartedUtc":  "2026-10-25T06:18:46.8164186Z",
+                                "Path":  "C:\\Windows\\TEMP\\{76CC5E91-B644-4259-A813-BEA25160E594}\\.be\\windowsdesktop-runtime-10.0.13-win-x64.exe"
+                            }
+                        ],
+    "Terminal":  [
+                     {
+                         "HasExited":  true,
+                         "ExitCode":  0,
+                         "Identity":  {
+                                          "Pid":  5056,
+                                          "ParentPid":  6024,
+                                          "StartedUtc":  "2026-10-25T06:18:43.7568773Z",
+                                          "Path":  "C:\\IrisBInput\\Iris-0.2.0-Setup.exe"
+                                      }
+                     },
+                     {
+                         "HasExited":  true,
+                         "ExitCode":  0,
+                         "Identity":  {
+                                          "Pid":  7580,
+                                          "ParentPid":  5056,
+                                          "StartedUtc":  "2026-10-25T06:18:44.9457216Z",
+                                          "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\setup-0028773d99e444c1ba466b890ed9ab5d\\Setup.exe"
+                                      }
+                     },
+                     {
+                         "HasExited":  true,
+                         "ExitCode":  0,
+                         "Identity":  {
+                                          "Pid":  1984,
+                                          "ParentPid":  7580,
+                                          "StartedUtc":  "2026-10-25T06:18:46.1321668Z",
+                                          "Path":  "C:\\Users\\WDAGUtilityAccount\\Downloads\\inst-dotnet-10.0.0-X64-WindowsDesktop.exe"
+                                      }
+                     },
+                     {
+                         "HasExited":  true,
+                         "ExitCode":  0,
+                         "Identity":  {
+                                          "Pid":  6728,
+                                          "ParentPid":  1984,
+                                          "StartedUtc":  "2026-10-25T06:18:46.2903906Z",
+                                          "Path":  "C:\\Windows\\TEMP\\{76CC5E91-B644-4259-A813-BEA25160E594}\\.ba\\wixstdba.exe"
+                                      }
+                     },
+                     {
+                         "HasExited":  true,
+                         "ExitCode":  0,
+                         "Identity":  {
+                                          "Pid":  7624,
+                                          "ParentPid":  1984,
+                                          "StartedUtc":  "2026-10-25T06:18:46.8164186Z",
+                                          "Path":  "C:\\Windows\\TEMP\\{76CC5E91-B644-4259-A813-BEA25160E594}\\.be\\windowsdesktop-runtime-10.0.13-win-x64.exe"
+                                      }
+                     }
+                 ],
+    "Failure":  null,
+    "InstallerStartedOrRetriedByObservation":  false
+}

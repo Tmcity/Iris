@@ -1,0 +1,50 @@
+[
+    {
+        "Project":  "Iris.App",
+        "Language":  "zh-CN",
+        "ActualLoadedPath":  "F:\\Iris\\src\\Iris.App\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.App.dll",
+        "FrozenCopy":  "F:\\Iris\\artifacts\\t039b\\r4-localization-compiled-1\\Iris.App\\zh-CN\\Iris.App.dll",
+        "Bytes":  943104,
+        "Sha256":  "B68571121BCAC2CBD81AFCB6A9A8882B9A90FF6981F06E9F428CEFAC38A1EEF6"
+    },
+    {
+        "Project":  "Iris.App",
+        "Language":  "en-US",
+        "ActualLoadedPath":  "F:\\Iris\\src\\Iris.App\\bin\\Release\\net10.0-windows10.0.19041.0\\en-US\\Iris.App.resources.dll",
+        "FrozenCopy":  "F:\\Iris\\artifacts\\t039b\\r4-localization-compiled-1\\Iris.App\\en-US\\Iris.App.resources.dll",
+        "Bytes":  43520,
+        "Sha256":  "FF98D82631A487C9F6CED022DE5B1A8479133559854D9570CD82CFAD63F30459"
+    },
+    {
+        "Project":  "Iris.Core",
+        "Language":  "zh-CN",
+        "ActualLoadedPath":  "F:\\Iris\\src\\Iris.Core\\bin\\Release\\net10.0\\Iris.Core.dll",
+        "FrozenCopy":  "F:\\Iris\\artifacts\\t039b\\r4-localization-compiled-1\\Iris.Core\\zh-CN\\Iris.Core.dll",
+        "Bytes":  499200,
+        "Sha256":  "E233639E5CFAAFFD306671442DB24A9B7473F1080142AA82AA3BA377E4022725"
+    },
+    {
+        "Project":  "Iris.Core",
+        "Language":  "en-US",
+        "ActualLoadedPath":  "F:\\Iris\\src\\Iris.Core\\bin\\Release\\net10.0\\en-US\\Iris.Core.resources.dll",
+        "FrozenCopy":  "F:\\Iris\\artifacts\\t039b\\r4-localization-compiled-1\\Iris.Core\\en-US\\Iris.Core.resources.dll",
+        "Bytes":  17920,
+        "Sha256":  "4E87880CA2D8EE26C0B75CA1A42A49FAF7E0346AF44227824C2958A461663B38"
+    },
+    {
+        "Project":  "Iris.Maintenance",
+        "Language":  "zh-CN",
+        "ActualLoadedPath":  "F:\\Iris\\src\\Iris.Maintenance\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Maintenance.dll",
+        "FrozenCopy":  "F:\\Iris\\artifacts\\t039b\\r4-localization-compiled-1\\Iris.Maintenance\\zh-CN\\Iris.Maintenance.dll",
+        "Bytes":  67584,
+        "Sha256":  "5BFCA55449FE88D990AF399BE7BAD062F027017BF955AB6D879696BE841ADE2D"
+    },
+    {
+        "Project":  "Iris.Maintenance",
+        "Language":  "en-US",
+        "ActualLoadedPath":  "F:\\Iris\\src\\Iris.Maintenance\\bin\\Release\\net10.0-windows10.0.19041.0\\en-US\\Iris.Maintenance.resources.dll",
+        "FrozenCopy":  "F:\\Iris\\artifacts\\t039b\\r4-localization-compiled-1\\Iris.Maintenance\\en-US\\Iris.Maintenance.resources.dll",
+        "Bytes":  4608,
+        "Sha256":  "97782A7623B31769874A338DF170FECDB5FDC9CA89D646937B2D0D8CF613DA51"
+    }
+]

@@ -1,0 +1,79 @@
+{
+  "Files": [
+    {
+      "Name": "install",
+      "Prior": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-install-r4-2/input-scripts/guest_install.ps1.txt",
+        "Bytes": 11548,
+        "Sha256": "aa067e83378ed6f3091544bb61bec91d54ae9c2ceeeb5875166fe2c9a6a1e62f"
+      },
+      "PreservedPrior": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-fixture-changes-1/install-prior-source.txt",
+        "Bytes": 11548,
+        "Sha256": "aa067e83378ed6f3091544bb61bec91d54ae9c2ceeeb5875166fe2c9a6a1e62f"
+      },
+      "Current": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest_install_r4.ps1",
+        "Bytes": 12336,
+        "Sha256": "7ae67b8f5097f7adb0c0ccdfdfba2fd631a96fec48c4b5f96449c24c2a4cdf99"
+      },
+      "Diff": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-fixture-changes-1/install.diff",
+        "Bytes": 3492,
+        "Sha256": "58780091441762ebc0f16f528f629f700c8600bb8f81447a3d5b1132e495eef1"
+      },
+      "Scope": "Actual initial R4 executed install input"
+    },
+    {
+      "Name": "update",
+      "Prior": {
+        "Path": "tasks/done/T-039B.evidence/guest_update.ps1",
+        "Bytes": 4985,
+        "Sha256": "264cfe1c876ba2075a89d8424e4269951300e51292061c07e655411047251256"
+      },
+      "PreservedPrior": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-fixture-changes-1/update-prior-source.txt",
+        "Bytes": 4985,
+        "Sha256": "264cfe1c876ba2075a89d8424e4269951300e51292061c07e655411047251256"
+      },
+      "Current": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest_update_r4.ps1",
+        "Bytes": 6289,
+        "Sha256": "b5fe6960198101c65c2fe86b4ef394227bd729a6e09a32c691fecc04423dec28"
+      },
+      "Diff": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-fixture-changes-1/update.diff",
+        "Bytes": 4487,
+        "Sha256": "df8973c477178033e344d619133538feea73ec5fac2e0fd08d50f5c904c00eff"
+      },
+      "Scope": "Preserved historical update base; includes earlier R4 observation improvements and current cache/terminal observations. Not an executed pre-change R4 update proof."
+    },
+    {
+      "Name": "runner",
+      "Prior": {
+        "Path": "tasks/done/T-039B.evidence/r4/before-guest-validation-1/run_guest.py.txt",
+        "Bytes": 6935,
+        "Sha256": "b5476893bb308a0716f0360470b093b00dfe236bada0189230e2a8e8a79a7b98"
+      },
+      "PreservedPrior": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-fixture-changes-1/runner-prior-source.txt",
+        "Bytes": 6935,
+        "Sha256": "b5476893bb308a0716f0360470b093b00dfe236bada0189230e2a8e8a79a7b98"
+      },
+      "Current": {
+        "Path": "tasks/done/T-039B.evidence/r4/run_guest.py",
+        "Bytes": 7490,
+        "Sha256": "07b0697d8451fe0d0cc77b268fc88e32b21f9d8004b0daf7371a3d6eabf68133"
+      },
+      "Diff": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-fixture-changes-1/runner.diff",
+        "Bytes": 3231,
+        "Sha256": "91e8c98c7de4f93350901b48a6d3dcc75945379bfa040ff9bf4c891ffc0a9953"
+      },
+      "Scope": "Host runner snapshot after initial diagnostic mode was added, before cache/DNS/terminal fixture changes; prior full snapshots also remain."
+    }
+  ],
+  "ProductOrFinal8Changed": false,
+  "RuntimePreinstalledByFixture": false,
+  "Scope": "All new actually executed input scripts retain their raw bytes and SHA in each unique guest intent/input-scripts directory. Differences concern the owned guest fixture only; defaults and product source are unchanged."
+}

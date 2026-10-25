@@ -1,0 +1,16 @@
+{
+  "SandboxId": "9ed2fc1a-ebe5-4756-99dd-8cc1df5f699e",
+  "Scenario": "network",
+  "PackageTag": "final-8",
+  "Config": "<Configuration><vGPU>Disable</vGPU><Networking>Enable</Networking><AudioInput>Disable</AudioInput><VideoInput>Disable</VideoInput><ClipboardRedirection>Disable</ClipboardRedirection><PrinterRedirection>Disable</PrinterRedirection><MemoryInMB>6144</MemoryInMB></Configuration>",
+  "ReadOnlyInput": "F:\\Iris\\artifacts\\t039b\\sandbox\\9ed2fc1a-ebe5-4756-99dd-8cc1df5f699e\\input",
+  "WritableOutput": "F:\\Iris\\artifacts\\t039b\\sandbox\\9ed2fc1a-ebe5-4756-99dd-8cc1df5f699e\\output",
+  "Files": [
+    {
+      "Path": "guest_network.ps1",
+      "Bytes": 2517,
+      "Sha256": "2c60fe7ac1b44e2491dc952dec67aa057c7a32f79e45151eff543eb07962edc3"
+    }
+  ],
+  "Purpose": "Owned guest synthetic data only; Microsoft runtime download permitted. Local full-package apply, no GitHub user path claim."
+}

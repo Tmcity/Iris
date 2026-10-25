@@ -1,0 +1,156 @@
+﻿param([switch]$PrefetchRuntime,[switch]$PublicRuntimeDns)
+$ErrorActionPreference = 'Stop'
+$output = 'C:\IrisBOutput'
+$inputDirectory = 'C:\IrisBInput'
+$report = [ordered]@{ Checks = @(); Failure = $null }
+function Record([string]$Name, $Value) {
+    $script:report.Checks += [pscustomobject]@{Name=$Name;Value=$Value}
+    $script:report | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $output 'progress.json') -Encoding UTF8
+}
+function Require([string]$Name, [bool]$Value) {
+    Record $Name $Value
+    if (-not $Value) { throw ('Required guest observation failed: ' + $Name) }
+}
+function Runtimes {
+    @(Get-ChildItem -LiteralPath (Join-Path $env:ProgramFiles 'dotnet\shared') -Directory -ErrorAction SilentlyContinue | ForEach-Object {
+        $family = $_.Name
+        Get-ChildItem -LiteralPath $_.FullName -Directory | ForEach-Object { [pscustomobject]@{Family=$family;Version=$_.Name} }
+    })
+}
+function Copy-RuntimeLogs {
+    Get-ChildItem -LiteralPath $env:TEMP -File -Filter '*.log' -ErrorAction SilentlyContinue | Where-Object { $_.Name -match '^(dd_(windowsdesktop|dotnet|inst-dotnet)|Microsoft_Windows_Desktop_Runtime_)' } | ForEach-Object {
+        Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $output ('runtime-' + $_.Name)) -ErrorAction SilentlyContinue
+    }
+}
+function Observe-Maintenance {
+    $root = Join-Path $env:LOCALAPPDATA 'Iris.Maintenance'
+    foreach ($candidate in @(Get-CimInstance Win32_Process -Filter "Name='Iris.Maintenance.exe' OR Name='Update.exe'")) {
+        if ($candidate.CreationDate.ToUniversalTime() -lt $script:maintenanceStarted) { continue }
+        $identity = [string]$candidate.ProcessId + ':' + $candidate.CreationDate.ToUniversalTime().Ticks
+        if ($script:maintenanceOwners.ContainsKey($identity)) { continue }
+        try { $owned = [Diagnostics.Process]::GetProcessById($candidate.ProcessId); $handle = $owned.Handle }
+        catch [ArgumentException] { Record 'maintenance-finished-before-observation' $candidate.ProcessId; continue }
+        if ($owned.HasExited) { Record 'maintenance-exited-before-path-read' @{Pid=$candidate.ProcessId;Code=$owned.ExitCode}; $owned.Dispose(); continue }
+        $candidatePath = $candidate.ExecutablePath
+        if (-not $candidatePath) { $candidatePath = $owned.MainModule.FileName }
+        if (-not $candidatePath -and $owned.HasExited) { Record 'maintenance-exited-during-path-read' @{Pid=$candidate.ProcessId;Code=$owned.ExitCode}; $owned.Dispose(); continue }
+        if (-not $candidatePath -or ($candidatePath -notlike ($root + '\*') -and $candidatePath -notlike ((Join-Path $env:LOCALAPPDATA 'Iris') + '\*'))) {
+            Record 'unverified-maintenance-identity' $candidate; $owned.Dispose(); throw 'Unexpected maintenance process path'
+        }
+        $script:maintenanceOwners[$identity] = $owned
+        Record 'maintenance-owner' @{Pid=$candidate.ProcessId;Started=$candidate.CreationDate.ToString('o');Path=$candidatePath;Command=$candidate.CommandLine}
+        if ($candidatePath -like ($root + '\*')) { $script:outsideObserved = $true }
+    }
+}
+function Run-Child([string]$Exe, [string]$Arguments, [string]$Label, [int]$TimeoutMs = 1200000, [switch]$CloseInput, [switch]$TrackMaintenance) {
+    $launch = New-Object Diagnostics.ProcessStartInfo
+    $launch.FileName = $Exe; $launch.Arguments = $Arguments; $launch.UseShellExecute = $false; $launch.CreateNoWindow = $true
+    # UiaHost needs captured stdin/stdout. GUI owners can launch a replacement process; inherited
+    # redirected pipes would make ReadToEnd wait for that replacement rather than this owned child.
+    $launch.RedirectStandardOutput = [bool]$CloseInput; $launch.RedirectStandardError = [bool]$CloseInput; $launch.RedirectStandardInput = [bool]$CloseInput
+    $child = New-Object Diagnostics.Process; $child.StartInfo = $launch
+    if (-not $child.Start()) { throw 'Process did not start' }
+    $ownedHandle = $child.Handle
+    if ($CloseInput) { $stdout = $child.StandardOutput.ReadToEndAsync(); $stderr = $child.StandardError.ReadToEndAsync() }
+    if ($CloseInput) { $child.StandardInput.Close() }
+    $end = [DateTime]::UtcNow.AddMilliseconds($TimeoutMs)
+    while (-not $child.WaitForExit(1000)) {
+        if ($TrackMaintenance) { Observe-Maintenance }
+        Copy-RuntimeLogs
+        if ([DateTime]::UtcNow -ge $end) { Record ($Label + '-unfinished') @{Pid=$child.Id;Started=$child.StartTime.ToString('o')}; throw ('Child did not exit: ' + $Label) }
+    }
+    if ($TrackMaintenance) { Observe-Maintenance }
+    $child.WaitForExit(); $code = $child.ExitCode
+    if ($CloseInput) {
+        [IO.File]::WriteAllText((Join-Path $output ($Label + '.stdout.log')), $stdout.GetAwaiter().GetResult())
+        [IO.File]::WriteAllText((Join-Path $output ($Label + '.stderr.log')), $stderr.GetAwaiter().GetResult())
+    }
+    $child.Dispose(); Record ($Label + '-exit') $code; return $code
+}
+try {
+    $os = Get-CimInstance Win32_OperatingSystem
+    $identity = [Security.Principal.WindowsIdentity]::GetCurrent()
+    $principal = New-Object Security.Principal.WindowsPrincipal($identity)
+    Record 'environment' @{OS=$os.Caption;Version=$os.Version;User=$identity.Name;Administrator=$principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator);RuntimesBefore=@(Runtimes)}
+    if (@(Runtimes | Where-Object {$_.Version -like '10.*'}).Count -ne 0) { throw 'Guest is not clean: shared .NET10 exists.' }
+    if ($PublicRuntimeDns) { . C:\IrisBInput\guest_runtime_dns.ps1 }
+    if ($PrefetchRuntime) { . C:\IrisBInput\guest_runtime_prefetch.ps1 }
+    $installer = Join-Path $inputDirectory 'Iris-0.2.0-Setup.exe'
+    $code = Run-Child $installer '--silent --no-start' 'install'
+    if ($code -ne 0) { throw ('Real installer failed: ' + $code) }
+    $runtimes = @(Runtimes); Record 'runtimes-after' $runtimes
+    if (@($runtimes | Where-Object {$_.Family -eq 'Microsoft.WindowsDesktop.App' -and $_.Version -like '10.*'}).Count -eq 0) { throw 'Desktop runtime was not installed.' }
+    $root = Join-Path $env:LOCALAPPDATA 'Iris'
+    $app = Join-Path $root 'current\Iris.App.exe'
+    Record 'installed-identity' (Get-Content -LiteralPath (Join-Path $root 'current\release-source.json') -Raw | ConvertFrom-Json)
+    $key = Get-ItemProperty 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\Iris'
+    Record 'uninstall-registration' @{UninstallString=$key.UninstallString;QuietUninstallString=$key.QuietUninstallString}
+    if ($key.UninstallString -notlike '*Iris.Maintenance.exe*') { throw 'Final uninstall entry is not Maintenance.' }
+    Require 'install-did-not-start-app' (@(Get-Process Iris.App -ErrorAction SilentlyContinue).Count -eq 0)
+    $code = Run-Child (Join-Path $root 'current\uia\Iris.UiaHost.exe') '' 'uia-start-and-eof' 30000 -CloseInput
+    if ($code -ne 0) { throw 'Published UiaHost did not start and exit on EOF.' }
+    # Only synthetic guest settings, before the first real Iris launch.
+    $data = Join-Path $env:APPDATA 'Iris'; New-Item -ItemType Directory -Path $data -Force | Out-Null
+    [IO.File]::WriteAllText((Join-Path $data 'settings.json'), '{"schemaVersion":1,"general":{"checkForUpdates":false,"uiLanguage":"en-US"}}')
+    $launch = New-Object Diagnostics.ProcessStartInfo
+    $launch.FileName = $app; $launch.Arguments = '--action OpenSettings'; $launch.UseShellExecute = $false
+    $running = [Diagnostics.Process]::Start($launch); $appHandle = $running.Handle
+    $deadline = (Get-Date).AddSeconds(30)
+    do { $running.Refresh(); if ($running.HasExited) { throw 'Installed Iris exited before its settings window appeared.' }; Start-Sleep -Milliseconds 200 } while ($running.MainWindowHandle -eq 0 -and (Get-Date) -lt $deadline)
+    Record 'app-running' @{Pid=$running.Id;Handle=$running.MainWindowHandle.ToInt64();Title=$running.MainWindowTitle}
+    Require 'settings-window-appeared' ($running.MainWindowHandle -ne 0)
+    Start-Sleep -Milliseconds 600
+    Add-Type -AssemblyName System.Drawing
+    Add-Type -AssemblyName System.Windows.Forms
+    $bounds = [Windows.Forms.SystemInformation]::VirtualScreen
+    $bitmap = New-Object Drawing.Bitmap($bounds.Width,$bounds.Height)
+    $graphics = [Drawing.Graphics]::FromImage($bitmap)
+    try { $graphics.CopyFromScreen($bounds.Location,[Drawing.Point]::Empty,$bounds.Size); $bitmap.Save((Join-Path $output 'installed-settings.png')) }
+    finally { $graphics.Dispose(); $bitmap.Dispose() }
+    [IO.File]::WriteAllText((Join-Path $data 'synthetic-retention.txt'), 'owned B guest data')
+    $helper = Join-Path $root 'current\maintenance\Iris.Maintenance.exe'
+    $script:maintenanceStarted = [DateTime]::UtcNow
+    $script:maintenanceOwners = @{}; $script:outsideObserved = $false
+    $code = Run-Child $helper '--uninstall --silent' 'uninstall-entry' 30000 -TrackMaintenance
+    if ($code -ne 0) { throw 'Uninstall entry did not launch.' }
+    $deadline = (Get-Date).AddSeconds(90)
+    do {
+        Observe-Maintenance
+        $alive = @($script:maintenanceOwners.Values | Where-Object { -not $_.HasExited })
+        if ($script:outsideObserved -and $alive.Count -eq 0) { break }
+        Start-Sleep -Milliseconds 100
+    } while ((Get-Date) -lt $deadline)
+    Require 'external-maintenance-observed' $script:outsideObserved
+    Require 'all-owned-maintenance-exited' ($alive.Count -eq 0)
+    foreach ($owned in $script:maintenanceOwners.Values) {
+        $owned.WaitForExit(); Record 'maintenance-owner-exit' @{Pid=$owned.Id;Code=$owned.ExitCode}
+        Require ('maintenance-exit-zero-' + $owned.Id) ($owned.ExitCode -eq 0); $owned.Dispose()
+    }
+    if (Test-Path -LiteralPath $app) { throw 'Uninstall did not remove the installed app.' }
+    if (-not $running.WaitForExit(30000)) { throw 'Original Iris did not exit gracefully.' }
+    $running.WaitForExit(); Record 'original-app-exit' $running.ExitCode
+    Require 'original-app-exit-zero' ($running.ExitCode -eq 0); $running.Dispose()
+    Require 'silent-uninstall-kept-data' (Test-Path -LiteralPath (Join-Path $data 'synthetic-retention.txt'))
+    Require 'uninstall-key-removed' (-not (Test-Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\Iris'))
+    Require 'transaction-completed' (-not (Test-Path -LiteralPath (Join-Path $env:LOCALAPPDATA 'Iris.Maintenance\transaction.json')))
+    Record 'runtime-retained' @(Runtimes)
+    Require 'desktop-runtime-retained' (@(Runtimes | Where-Object {$_.Family -eq 'Microsoft.WindowsDesktop.App' -and $_.Version -like '10.*'}).Count -gt 0)
+    $residual=@(Get-CimInstance Win32_Process | Where-Object { $_.Name -match '^Iris\.' -or $_.ExecutablePath -like ((Join-Path $env:LOCALAPPDATA 'Iris')+'\*') -or $_.ExecutablePath -like ((Join-Path $env:LOCALAPPDATA 'Iris.Maintenance')+'\*') } | Select-Object ProcessId,ParentProcessId,CreationDate,ExecutablePath,CommandLine)
+    Record 'owned-iris-processes-after-uninstall' $residual
+    Require 'no-owned-iris-processes-after-uninstall' ($residual.Count -eq 0)
+} catch { $report.Failure = $_.ToString() }
+finally {
+    $finalProcesses=@(Get-CimInstance Win32_Process | Where-Object { $_.Name -match 'Iris|Update|Setup|dotnet|msiexec' } | Select-Object ProcessId,ParentProcessId,CreationDate,ExecutablePath,CommandLine)
+    ConvertTo-Json -InputObject $finalProcesses -Depth 4 | Set-Content (Join-Path $output 'processes-final.json') -Encoding UTF8
+    Copy-RuntimeLogs
+    foreach ($folder in @((Join-Path $env:LOCALAPPDATA 'Iris.Maintenance'),(Join-Path $env:LOCALAPPDATA 'Iris'),(Join-Path $env:LOCALAPPDATA 'Velopack'))) {
+        if (Test-Path -LiteralPath $folder) {
+                Get-ChildItem -LiteralPath $folder -Recurse -File -ErrorAction SilentlyContinue | Where-Object { $_.Extension -eq '.log' -or $_.Name -in @('transaction.json','last-failure.json') } | ForEach-Object {
+                $name = ($_.FullName.Substring($env:LOCALAPPDATA.Length + 1) -replace '[\\/:]','_')
+                Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $output $name) -ErrorAction SilentlyContinue
+            }
+        }
+    }
+    $report | ConvertTo-Json -Depth 10 | Set-Content -LiteralPath (Join-Path $output 'result.json') -Encoding UTF8
+}
+if ($report.Failure) { exit 2 }; exit 0

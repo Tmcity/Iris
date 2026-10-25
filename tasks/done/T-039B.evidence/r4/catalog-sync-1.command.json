@@ -1,0 +1,11 @@
+{
+  "Command": [
+    "python",
+    "tasks\\done\\T-039B.evidence\\r4\\sync_approved_catalog.py"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-24T21:29:26.928948+00:00",
+  "FinishedUtc": "2026-10-24T21:29:27.039956+00:00",
+  "ExitCode": 0,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\catalog-sync-1.log"
+}

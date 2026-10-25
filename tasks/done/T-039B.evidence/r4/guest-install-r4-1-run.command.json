@@ -1,0 +1,13 @@
+{
+  "Command": [
+    "python",
+    "tasks\\done\\T-039B.evidence\\r4\\run_guest.py",
+    "install",
+    "guest-install-r4-1"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-24T19:32:05.692766+00:00",
+  "FinishedUtc": "2026-10-24T19:32:05.907552+00:00",
+  "ExitCode": 1,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\guest-install-r4-1-run.log"
+}

@@ -1,0 +1,30 @@
+{
+    "ObservedUtc":  "2026-10-25T06:49:19.2974916Z",
+    "UserReportedState":  "Windows Sandbox enabled; continue the already authorized owned guest verification",
+    "PowerShellVersion":  "5.1.26100.9549",
+    "Feature":  {
+                    "Name":  "Containers-DisposableClientVM",
+                    "InstallState":  1
+                },
+    "Entries":  [
+                    {
+                        "Name":  "WindowsSandbox.exe",
+                        "Path":  "C:\\Windows\\system32\\WindowsSandbox.exe",
+                        "Bytes":  1088872,
+                        "Version":  "10.0.26100.8875 (WinBuild.160101.0800)"
+                    },
+                    {
+                        "Name":  "wsb.exe",
+                        "Path":  "C:\\Users\\28910\\AppData\\Local\\Microsoft\\WindowsApps\\wsb.exe",
+                        "Bytes":  0,
+                        "Version":  null
+                    }
+                ],
+    "RelatedProcesses":  [
+
+                         ],
+    "HostFeatureChangesPerformedByThisScript":  false
+}
+{
+  "WindowsSandboxEnvironments": []
+}

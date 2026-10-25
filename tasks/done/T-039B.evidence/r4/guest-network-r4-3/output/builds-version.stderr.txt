@@ -1,0 +1,38 @@
+* Host builds.dotnet.microsoft.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 198.18.9.39
+*   Trying 198.18.9.39:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server accepted http/1.1
+* Established connection to builds.dotnet.microsoft.com (198.18.9.39 port 443) from 172.28.247.208 port 57054 
+* using HTTP/1.x
+> GET /dotnet/WindowsDesktop/10.0/latest.version HTTP/1.1
+> Host: builds.dotnet.microsoft.com
+> User-Agent: curl/8.21.0
+> Accept: */*
+> 
+* Request completely sent off
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+< HTTP/1.1 200 OK
+< Content-Type: text/plain
+< Content-MD5: 1XbYRWwDRGvLmaMrimtMJQ==
+< Last-Modified: Tue, 13 Oct 2026 19:53:07 GMT
+< ETag: 0x8DF29639A6C9B7C
+< x-ms-request-id: 252a6f97-301e-001b-7c45-645b63000000
+< x-ms-version: 2009-09-19
+< x-ms-lease-status: unlocked
+< x-ms-blob-type: BlockBlob
+< Cache-Control: public, max-age=577
+< Date: Sun, 25 Oct 2026 06:04:31 GMT
+< Content-Length: 7
+< Connection: keep-alive
+< Akamai-GRN: 0.695c1002.1792908271.559be686
+< 
+{ [7 bytes data]
+* Connection #0 to host builds.dotnet.microsoft.com:443 left intact

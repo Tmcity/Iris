@@ -1,0 +1,12 @@
+{
+  "Command": [
+    "python",
+    "tasks\\done\\T-039B.evidence\\r4\\verify_binding.py",
+    "binding-check-3.json"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-24T20:35:36.958895+00:00",
+  "FinishedUtc": "2026-10-24T20:35:37.479413+00:00",
+  "ExitCode": 1,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\order-snapshot-drift-1.log"
+}

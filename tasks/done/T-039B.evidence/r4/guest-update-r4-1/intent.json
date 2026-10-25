@@ -1,0 +1,223 @@
+{
+  "SandboxId": "6a7bd901-cb6a-48cb-b7d0-8c276ecb0708",
+  "Scenario": "update",
+  "PackageTag": "final-8",
+  "Config": "<Configuration><vGPU>Disable</vGPU><Networking>Enable</Networking><AudioInput>Disable</AudioInput><VideoInput>Disable</VideoInput><ClipboardRedirection>Disable</ClipboardRedirection><PrinterRedirection>Disable</PrinterRedirection><MemoryInMB>6144</MemoryInMB></Configuration>",
+  "PrefetchRuntimeCache": true,
+  "PublicRuntimeDns": false,
+  "ReadOnlyInput": "F:\\Iris\\artifacts\\t039b\\sandbox\\6a7bd901-cb6a-48cb-b7d0-8c276ecb0708\\input",
+  "WritableOutput": "F:\\Iris\\artifacts\\t039b\\sandbox\\6a7bd901-cb6a-48cb-b7d0-8c276ecb0708\\output",
+  "Files": [
+    {
+      "Path": "guest_common.ps1",
+      "Bytes": 4766,
+      "Sha256": "d45cb5aad8f4c17f3e42677e52f5dc855f8ececdd70068873e452592aa2f2c11"
+    },
+    {
+      "Path": "guest_runtime_prefetch.ps1",
+      "Bytes": 3585,
+      "Sha256": "a0fa31b75e076b1856f916a3698531718f24de53e5e6c503eba37e86d51df78a"
+    },
+    {
+      "Path": "guest_update.ps1",
+      "Bytes": 6289,
+      "Sha256": "b5fe6960198101c65c2fe86b4ef394227bd729a6e09a32c691fecc04423dec28"
+    },
+    {
+      "Path": "Iris-0.2.0-Setup.exe",
+      "Bytes": 116743948,
+      "Sha256": "511dd8dd16fd516f159d311e0ed835912c0500ad62cea849651c694268df8c9d"
+    },
+    {
+      "Path": "Iris-0.2.1-full.nupkg",
+      "Bytes": 64616132,
+      "Sha256": "d975d37222d14b797da135ac74c6d92905405e8d9fac5ab0866d167a0d2af3bf"
+    },
+    {
+      "Path": "update-host-r4/Dapper.dll",
+      "Bytes": 251392,
+      "Sha256": "bd8dc38353bcd816440737a840970552f6b4b527db428ec0dd631111bd3f25b2"
+    },
+    {
+      "Path": "update-host-r4/e_sqlite3.dll",
+      "Bytes": 1978880,
+      "Sha256": "b7385d722c83fb52142a00477a726723745916d22a555711ee89834c1111fb2e"
+    },
+    {
+      "Path": "update-host-r4/en-US/Iris.Core.resources.dll",
+      "Bytes": 17920,
+      "Sha256": "4e87880ca2d8ee26c0b75ca1a42a49faf7e0346af44227824c2958a461663b38"
+    },
+    {
+      "Path": "update-host-r4/en-US/Iris.Maintenance.resources.dll",
+      "Bytes": 4608,
+      "Sha256": "97782a7623b31769874a338df170fecdb5fdc9ca89d646937b2d0d8cf613da51"
+    },
+    {
+      "Path": "update-host-r4/Iris.Core.dll",
+      "Bytes": 499200,
+      "Sha256": "4761cc603f7727d46e88b07170b5577c52b140555b351884fd94605975f2563e"
+    },
+    {
+      "Path": "update-host-r4/Iris.Core.pdb",
+      "Bytes": 134564,
+      "Sha256": "c2e47af9130d5e57d2fe132534189ea1c0654f05be8b3e0685b0f30c36a4e71e"
+    },
+    {
+      "Path": "update-host-r4/Iris.Core.xml",
+      "Bytes": 133795,
+      "Sha256": "5c59b78b39b389f5d6b9e6fd494d7febc8056eeb6b80c87043f2e6ccd6a182d8"
+    },
+    {
+      "Path": "update-host-r4/Iris.Infrastructure.dll",
+      "Bytes": 144896,
+      "Sha256": "3633e9ea993d75caa52f8e1c608ca07ae65feb9e067eb8becc43f8bfa59972ab"
+    },
+    {
+      "Path": "update-host-r4/Iris.Infrastructure.pdb",
+      "Bytes": 48920,
+      "Sha256": "4ee340fa40aad4f9ed064b3b4a549dfb02af5cbe31a7b3d9653570a8390ceea4"
+    },
+    {
+      "Path": "update-host-r4/Iris.Infrastructure.xml",
+      "Bytes": 2730,
+      "Sha256": "0ef6543af2df5d0ee56d185ae15d57a548bfa33381d7ed76b0227204d7dbf9c8"
+    },
+    {
+      "Path": "update-host-r4/Iris.Maintenance.deps.json",
+      "Bytes": 5342,
+      "Sha256": "3326335b2e109724c499f8f402ef9fd5074097d46a77db548388ad27af4865b5"
+    },
+    {
+      "Path": "update-host-r4/Iris.Maintenance.dll",
+      "Bytes": 66560,
+      "Sha256": "3fc98efb4779210c7f4a380102b06c5c9334e937b1e61594ec05b5fe61116462"
+    },
+    {
+      "Path": "update-host-r4/Iris.Maintenance.exe",
+      "Bytes": 162304,
+      "Sha256": "fa1cec8dc07ad1f4a13e7d88f97ba38a9a4427a3a8c1f8e2ee3ee5384589a5c3"
+    },
+    {
+      "Path": "update-host-r4/Iris.Maintenance.pdb",
+      "Bytes": 23020,
+      "Sha256": "354648171bdbd8ca48740a3d39fd9fe2d0ce90af12c7f1f7bbb6c9b464ecdb1a"
+    },
+    {
+      "Path": "update-host-r4/Iris.Maintenance.runtimeconfig.json",
+      "Bytes": 399,
+      "Sha256": "3e965cd7cfd553c2ff4e842d8d8019aaae2da0a21d92ff85a87573dd8d1b95c6"
+    },
+    {
+      "Path": "update-host-r4/Iris.Maintenance.Tests.deps.json",
+      "Bytes": 11565,
+      "Sha256": "99c60797ea84258ef77e3334805580eec7c66b3aca93f569f95119d78930e60c"
+    },
+    {
+      "Path": "update-host-r4/Iris.Maintenance.Tests.dll",
+      "Bytes": 37376,
+      "Sha256": "f176e1152df6a90c7f1e3833ac7cfc88991e06d11fd72f42a7bd8ed671526803"
+    },
+    {
+      "Path": "update-host-r4/Iris.Maintenance.Tests.exe",
+      "Bytes": 162304,
+      "Sha256": "88fbafdc2108b6fdd3207f4421f4998163b79069a0944d6b56af3044375a2069"
+    },
+    {
+      "Path": "update-host-r4/Iris.Maintenance.Tests.pdb",
+      "Bytes": 16440,
+      "Sha256": "3522f3eae8ce836d69badff6692de96aad806f0a1389c79d1dda3e1bfdb23ab5"
+    },
+    {
+      "Path": "update-host-r4/Iris.Maintenance.Tests.runtimeconfig.json",
+      "Bytes": 399,
+      "Sha256": "3e965cd7cfd553c2ff4e842d8d8019aaae2da0a21d92ff85a87573dd8d1b95c6"
+    },
+    {
+      "Path": "update-host-r4/Iris.Maintenance.Tests.xml",
+      "Bytes": 147,
+      "Sha256": "00778fa5358a603dd58a8702b25ea9d334f3b582b401dbc95750d9ea03af3d9d"
+    },
+    {
+      "Path": "update-host-r4/Iris.Maintenance.xml",
+      "Bytes": 346,
+      "Sha256": "d5b7222339429118c683f856dc2b6f751e3c36a5f4e63f9f3944aaf1113b9656"
+    },
+    {
+      "Path": "update-host-r4/Iris.Platform.Windows.dll",
+      "Bytes": 748032,
+      "Sha256": "798a61d6c24d91dc0c860752c7f0410817c3571526d0b5983dd7300ef43bea7e"
+    },
+    {
+      "Path": "update-host-r4/Iris.Platform.Windows.pdb",
+      "Bytes": 407376,
+      "Sha256": "243cb424577dc4fed6d51bc940237fda810dfb45164a108b18e339742228b336"
+    },
+    {
+      "Path": "update-host-r4/Iris.Platform.Windows.xml",
+      "Bytes": 808373,
+      "Sha256": "f289ac7ff43c37370c344e5e7ad88238002216cf2cda77151c124d57cec8e424"
+    },
+    {
+      "Path": "update-host-r4/Microsoft.Data.Sqlite.dll",
+      "Bytes": 177464,
+      "Sha256": "b98d957462be432895b00dccca012d3c127e118d3d4262418014b92c7bbd66cf"
+    },
+    {
+      "Path": "update-host-r4/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "Bytes": 65872,
+      "Sha256": "da04edc338d5aa0f38a1f5fa5ff3ee7e36affe9c961daf3ea724a428bd746bc6"
+    },
+    {
+      "Path": "update-host-r4/Microsoft.Extensions.DependencyInjection.dll",
+      "Bytes": 95528,
+      "Sha256": "2d0e268bf76b4ce36a55ebb2767354db956c6660de65d6cccfc35c957fb12cfc"
+    },
+    {
+      "Path": "update-host-r4/Microsoft.Extensions.Logging.Abstractions.dll",
+      "Bytes": 66856,
+      "Sha256": "7c242f8ca612fa1acc61f78efd5f8c89e01bd0bd47dc4ecc65e0e6e24f1a1668"
+    },
+    {
+      "Path": "update-host-r4/Microsoft.Windows.SDK.NET.dll",
+      "Bytes": 24877600,
+      "Sha256": "0ec371d93798852e36461c8adddbeadce0f963a04752f0b64e54fe19c1c834a7"
+    },
+    {
+      "Path": "update-host-r4/parent.ps1",
+      "Bytes": 1791,
+      "Sha256": "b93dccfe3121b7df79c80c2dbe887cb1b694cbaba7a1d328c47ae0e68d2f2eab"
+    },
+    {
+      "Path": "update-host-r4/SQLitePCLRaw.batteries_v2.dll",
+      "Bytes": 5120,
+      "Sha256": "815ce410c9eab531dd219318e3ba16c5e38e83d361cfbbdbb4bbca222c497b0b"
+    },
+    {
+      "Path": "update-host-r4/SQLitePCLRaw.core.dll",
+      "Bytes": 51200,
+      "Sha256": "af340ac9eb9195795660d7fc1114f486b6ab63998f33176e2f24c8e0acb9aa84"
+    },
+    {
+      "Path": "update-host-r4/SQLitePCLRaw.provider.e_sqlite3.dll",
+      "Bytes": 36864,
+      "Sha256": "eb6696e55882c3000333146b1cd4970439601e11fdedae941105ca921f615bd6"
+    },
+    {
+      "Path": "update-host-r4/System.Security.Cryptography.ProtectedData.dll",
+      "Bytes": 39760,
+      "Sha256": "b61a1445b99a1486a5d9abbd45d766497f136270f5b04862defee1fc054ded14"
+    },
+    {
+      "Path": "update-host-r4/Velopack.dll",
+      "Bytes": 279040,
+      "Sha256": "969853e147e95b3f46192425cfea7eae8837aea79f3e2b2c7cc0aa34b5703153"
+    },
+    {
+      "Path": "update-host-r4/WinRT.Runtime.dll",
+      "Bytes": 528944,
+      "Sha256": "bcf3a14e8712a90837fc5c0d8c8a24696af2bd7f74e9767597ec81ededfb23db"
+    }
+  ],
+  "Purpose": "Owned guest synthetic data only; Microsoft runtime download permitted. Local full-package apply, no GitHub user path claim."
+}

@@ -1,0 +1,30 @@
+  正在确定要还原的项目…
+  已还原 F:\Iris\tests\Iris.UpdateHandoffWorker\Iris.UpdateHandoffWorker.csproj (用时 1.75 秒)。
+  8 个项目(共 9 个)是最新的，无法还原。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Providers -> F:\Iris\src\Iris.Providers\bin\Release\net10.0\Iris.Providers.dll
+  Iris.Infrastructure -> F:\Iris\src\Iris.Infrastructure\bin\Release\net10.0\Iris.Infrastructure.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.UiaHost.dll
+  Iris.Maintenance -> F:\Iris\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.dll
+  Iris.App -> F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\Iris.App.dll
+  Iris.UpdateHandoffWorker -> F:\Iris\tests\Iris.UpdateHandoffWorker\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateHandoffLifecycleTests.cs(74,13): error CS4014: 由于此调用不会等待，因此在此调用完成之前将会继续执行当前方法。请考虑将 "await" 运算符应用于调用结果。 [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateHandoffLifecycleTests.cs(111,13): error CS4014: 由于此调用不会等待，因此在此调用完成之前将会继续执行当前方法。请考虑将 "await" 运算符应用于调用结果。 [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateHandoffLifecycleTests.cs(393,13): error CS4014: 由于此调用不会等待，因此在此调用完成之前将会继续执行当前方法。请考虑将 "await" 运算符应用于调用结果。 [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateHandoffLifecycleTests.cs(426,13): error CS4014: 由于此调用不会等待，因此在此调用完成之前将会继续执行当前方法。请考虑将 "await" 运算符应用于调用结果。 [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateHandoffLifecycleTests.cs(445,100): error CA1869: 避免为每个序列化操作创建新的“JsonSerializerOptions”实例。请改为缓存和重用实例。 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1869) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateHandoffLifecycleTests.cs(440,23): error CA1822: 成员“Record”不访问实例数据，可标记为 static (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1822) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+
+生成失败。
+
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateHandoffLifecycleTests.cs(74,13): error CS4014: 由于此调用不会等待，因此在此调用完成之前将会继续执行当前方法。请考虑将 "await" 运算符应用于调用结果。 [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateHandoffLifecycleTests.cs(111,13): error CS4014: 由于此调用不会等待，因此在此调用完成之前将会继续执行当前方法。请考虑将 "await" 运算符应用于调用结果。 [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateHandoffLifecycleTests.cs(393,13): error CS4014: 由于此调用不会等待，因此在此调用完成之前将会继续执行当前方法。请考虑将 "await" 运算符应用于调用结果。 [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateHandoffLifecycleTests.cs(426,13): error CS4014: 由于此调用不会等待，因此在此调用完成之前将会继续执行当前方法。请考虑将 "await" 运算符应用于调用结果。 [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateHandoffLifecycleTests.cs(445,100): error CA1869: 避免为每个序列化操作创建新的“JsonSerializerOptions”实例。请改为缓存和重用实例。 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1869) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+F:\Iris\tests\Iris.App.Tests\Updates\UpdateHandoffLifecycleTests.cs(440,23): error CA1822: 成员“Record”不访问实例数据，可标记为 static (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1822) [F:\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+    0 个警告
+    6 个错误
+
+已用时间 00:00:13.11

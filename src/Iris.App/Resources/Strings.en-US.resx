@@ -1395,4 +1395,19 @@ Use one form per invocation and pass the text as a single argument.</value>
   <data name="UpdateStopped" xml:space="preserve">
     <value>Update service stopped</value>
   </data>
+  <data name="UpdateRecoveryRequired" xml:space="preserve">
+    <value>Iris could not finish closing, so the update has not been installed. Your confirmed update is retained. Retry installation, or cancel the update and exit.</value>
+  </data>
+  <data name="UpdateRecoveryRetry" xml:space="preserve">
+    <value>Retry installation</value>
+  </data>
+  <data name="UpdateRecoveryCancel" xml:space="preserve">
+    <value>Cancel update and exit</value>
+  </data>
+  <data name="UpdateRecoveryCleanupPending" xml:space="preserve">
+    <value>Some cleanup is incomplete. Retrying will finish cleanup first.</value>
+  </data>
+  <data name="ShutdownIncomplete" xml:space="preserve">
+    <value>Shutdown did not complete. Retry closing Iris.</value>
+  </data>
 </root>

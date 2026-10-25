@@ -1,0 +1,11 @@
+{
+  "Command": [
+    "python",
+    "tasks\\done\\T-039B.evidence\\r4\\inspect_delivery.py"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-24T21:50:04.432062+00:00",
+  "FinishedUtc": "2026-10-24T21:50:06.655673+00:00",
+  "ExitCode": 0,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\inspect-packages-3.log"
+}

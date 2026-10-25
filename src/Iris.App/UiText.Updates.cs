@@ -22,5 +22,10 @@ internal static partial class UiText
     public static string UpdateCleanupPending => global::Iris.App.Resources.AppResources.Get("UpdateCleanupPending");
     public static string UpdateFailed => global::Iris.App.Resources.AppResources.Get("UpdateFailed");
     public static string UpdateStopped => global::Iris.App.Resources.AppResources.Get("UpdateStopped");
+    public static string UpdateRecoveryRequired => global::Iris.App.Resources.AppResources.Get("UpdateRecoveryRequired");
+    public static string UpdateRecoveryRetry => global::Iris.App.Resources.AppResources.Get("UpdateRecoveryRetry");
+    public static string UpdateRecoveryCancel => global::Iris.App.Resources.AppResources.Get("UpdateRecoveryCancel");
+    public static string UpdateRecoveryCleanupPending => global::Iris.App.Resources.AppResources.Get("UpdateRecoveryCleanupPending");
+    public static string ShutdownIncomplete => global::Iris.App.Resources.AppResources.Get("ShutdownIncomplete");
     internal static string UpdateState(Updates.UpdatePhase phase) => global::Iris.App.Resources.AppResources.Get("Update" + phase);
 }

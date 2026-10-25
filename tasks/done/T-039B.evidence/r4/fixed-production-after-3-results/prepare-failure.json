@@ -1,0 +1,23 @@
+{
+  "Data": {
+    "ActualCommandExecuted": true,
+    "Phase": "Failed",
+    "HasCandidate": true
+  },
+  "Current": {
+    "Phase": "Failed",
+    "HasCandidate": true,
+    "HasConfirmedUpdate": false,
+    "SettingsSessionAlive": true,
+    "ScopedVmCount": 1,
+    "DisposedVmCount": 0,
+    "HelpersStarted": 0,
+    "HelpersExited": 0,
+    "Requests": 1,
+    "Downloads": 1,
+    "Commits": 0,
+    "DraftTests": 0,
+    "ModelQueries": 0,
+    "HostStops": 0
+  }
+}

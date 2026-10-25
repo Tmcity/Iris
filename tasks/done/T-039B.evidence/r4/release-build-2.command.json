@@ -1,0 +1,15 @@
+{
+  "Command": [
+    "dotnet",
+    "build",
+    "Iris.slnx",
+    "-c",
+    "Release",
+    "--tl:off"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-24T19:17:37.245666+00:00",
+  "FinishedUtc": "2026-10-24T19:17:40.158996+00:00",
+  "ExitCode": 0,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\release-build-2.log"
+}

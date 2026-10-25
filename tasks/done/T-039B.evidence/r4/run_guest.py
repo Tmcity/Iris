@@ -1,0 +1,111 @@
+"""Validate the active frozen package bytes inside one uniquely owned clean Windows Sandbox."""
+from pathlib import Path
+import hashlib
+import json
+import shutil
+import subprocess
+import sys
+import time
+import uuid
+
+sys.stdout.reconfigure(encoding="utf-8")
+evidence = Path(__file__).resolve().parent
+legacy = evidence.parent
+repo = evidence.parents[3]
+active = json.loads((evidence / "active_round.json").read_text(encoding="utf-8")) if (evidence / "active_round.json").exists() else {}
+package_tag = active.get("PackageTag", "final-6")
+scenario, label = sys.argv[1:3]
+prefetch_runtime = "--prefetch-runtime" in sys.argv[3:]
+public_runtime_dns = "--public-runtime-dns" in sys.argv[3:]
+if scenario not in ("install", "update", "network") or Path(label).name != label:
+    raise ValueError("scenario and unique label required")
+report = evidence / label
+report.mkdir(exist_ok=False)
+identifier = str(uuid.uuid4())
+work = repo / "artifacts/t039b/sandbox" / identifier
+inputs, output = work / "input", work / "output"
+inputs.mkdir(parents=True); output.mkdir()
+if scenario != "network":
+    shutil.copyfile(repo / ("artifacts/t039b/release-0.2.0-" + package_tag + "/Iris-0.2.0-Setup.exe"), inputs / "Iris-0.2.0-Setup.exe")
+shutil.copyfile(evidence / ("guest_" + scenario + "_r4.ps1"), inputs / ("guest_" + scenario + ".ps1"))
+if prefetch_runtime:
+    shutil.copyfile(evidence / "guest_runtime_prefetch_r4.ps1", inputs / "guest_runtime_prefetch.ps1")
+if public_runtime_dns:
+    shutil.copyfile(evidence / "guest_runtime_dns_r4.ps1", inputs / "guest_runtime_dns.ps1")
+if scenario == "update":
+    shutil.copyfile(repo / ("artifacts/t039b/release-0.2.1-" + package_tag + "/Iris-0.2.1-full.nupkg"), inputs / "Iris-0.2.1-full.nupkg")
+    shutil.copyfile(legacy / "guest_common.ps1", inputs / "guest_common.ps1")
+    shutil.copytree(repo / "artifacts/t039b/guest-update-host-r4-1", inputs / "update-host-r4")
+for file in inputs.rglob("*.ps1"):
+    destination = report / "input-scripts" / file.relative_to(inputs)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copyfile(file, destination.with_suffix(".ps1.txt"))
+
+cli = "C:/Users/28910/AppData/Local/Microsoft/WindowsApps/wsb.exe"
+config = '<Configuration><vGPU>Disable</vGPU><Networking>Enable</Networking><AudioInput>Disable</AudioInput><VideoInput>Disable</VideoInput><ClipboardRedirection>Disable</ClipboardRedirection><PrinterRedirection>Disable</PrinterRedirection><MemoryInMB>6144</MemoryInMB></Configuration>'
+(report / "intent.json").write_text(json.dumps({
+    "SandboxId": identifier, "Scenario": scenario, "PackageTag": package_tag, "Config": config, "PrefetchRuntimeCache": prefetch_runtime, "PublicRuntimeDns": public_runtime_dns,
+    "ReadOnlyInput": str(inputs), "WritableOutput": str(output),
+    "Files": [{"Path": p.relative_to(inputs).as_posix(), "Bytes": p.stat().st_size,
+        "Sha256": hashlib.file_digest(p.open("rb"), "sha256").hexdigest()} for p in sorted(inputs.rglob("*")) if p.is_file()],
+    "Purpose": "Owned guest synthetic data only; Microsoft runtime download permitted. Local full-package apply, no GitHub user path claim."
+}, ensure_ascii=False, indent=2), encoding="utf-8")
+
+def run(name, arguments):
+    with (report / (name + ".log")).open("xb") as log:
+        result = subprocess.run([cli, *arguments], stdout=log, stderr=subprocess.STDOUT, creationflags=subprocess.CREATE_NO_WINDOW)
+    raw = (report / (name + ".log")).read_bytes()
+    (report / (name + ".command.json")).write_text(json.dumps({"Command": [cli, *arguments], "ExitCode": result.returncode}), encoding="utf-8")
+    print(name, "exit=" + str(result.returncode), flush=True)
+    return result.returncode, raw
+
+code, before = run("list-before", ["list", "--raw"])
+if code or json.loads(before.decode("utf-8-sig")).get("WindowsSandboxEnvironments"):
+    raise RuntimeError("Existing Sandbox or listing failure; no other instance touched")
+started = False
+try:
+    if run("start", ["start", "--id", identifier, "--config", config, "--raw"])[0]: raise RuntimeError("Sandbox start failed")
+    started = True
+    if run("share-input", ["share", "--id", identifier, "--host-path", str(inputs), "--sandbox-path", r"C:\IrisBInput", "--raw"])[0]: raise RuntimeError("Read-only input mapping failed")
+    if run("share-output", ["share", "--id", identifier, "--host-path", str(output), "--sandbox-path", r"C:\IrisBOutput", "--allow-write", "--raw"])[0]: raise RuntimeError("Owned output mapping failed")
+    if run("connect", ["connect", "--id", identifier, "--raw"])[0]: raise RuntimeError("Guest login connection failed")
+    for attempt in range(30):
+        if not run("login-ready-" + str(attempt), ["exec", "--id", identifier, "--command", "cmd.exe /c exit 0", "--run-as", "ExistingLogin", "--raw"])[0]: break
+        time.sleep(1)
+    else: raise RuntimeError("Guest login did not become ready")
+    command = [r"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File", r"C:\IrisBInput\guest_" + scenario + ".ps1"]
+    if scenario == "update": command += ["-Label", "update-r4", "-HostDirectory", "update-host-r4"]
+    if prefetch_runtime: command += ["-PrefetchRuntime"]
+    if public_runtime_dns: command += ["-PublicRuntimeDns"]
+    if run("execute", ["exec", "--id", identifier, "--command", subprocess.list2cmdline(command), "--run-as", "ExistingLogin", "--raw"])[0]: raise RuntimeError("Guest execution failed")
+    target = output / ("update-r4" if scenario == "update" else "") / "result.json"
+    deadline, previous = time.monotonic() + 1500, None
+    while not target.exists() and time.monotonic() < deadline:
+        progress = target.with_name("progress.json")
+        if progress.exists():
+            try:
+                current = progress.read_text(encoding="utf-8-sig")
+                if current != previous: print(current[-1300:], flush=True); previous = current
+            except (OSError, UnicodeError): pass
+        time.sleep(1)
+    if not target.exists(): raise TimeoutError("Owned guest did not produce its result")
+    result = json.loads(target.read_text(encoding="utf-8-sig"))
+    boolean = [item for item in result["Checks"] if type(item["Value"]) is bool]
+    summary = {"ObservationRecords": len(result["Checks"]), "BooleanAssertions": len(boolean),
+        "FalseAssertions": [item["Name"] for item in boolean if not item["Value"]], "Failure": result["Failure"]}
+    (report / "result-summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2), encoding="utf-8")
+    print(json.dumps(summary, ensure_ascii=False), flush=True)
+    if result["Failure"] or summary["FalseAssertions"]: raise RuntimeError("Guest validation failed; original output retained")
+finally:
+    shutil.copytree(output, report / "output", dirs_exist_ok=True)
+    if started and run("stop", ["stop", "--id", identifier, "--raw"])[0]: raise RuntimeError("Owned Sandbox stop failed")
+    if run("list-after", ["list", "--raw"])[0]: raise RuntimeError("Final Sandbox listing failed")
+
+# Explicitly bind only the newly successful scenario after its owned guest was
+# stopped. A previous preflight failure keeps its distinct immutable directory.
+if scenario == "network":
+    sys.exit(0)
+manifest = evidence / "guest-run-manifest.json"
+scenarios = json.loads(manifest.read_text(encoding="utf-8")) if manifest.exists() else {}
+scenarios[scenario] = label
+manifest.write_text(json.dumps(scenarios, indent=2) + "\n", encoding="utf-8")

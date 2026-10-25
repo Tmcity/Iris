@@ -1826,5 +1826,25 @@
   "UpdateStopped": {
     "zh-CN": "更新服务已停止",
     "en-US": "Update service stopped"
+  },
+  "ShutdownIncomplete": {
+    "zh-CN": "应用退出未完成，请重试退出。",
+    "en-US": "Shutdown did not complete. Retry closing Iris."
+  },
+  "UpdateRecoveryCancel": {
+    "zh-CN": "取消更新并退出",
+    "en-US": "Cancel update and exit"
+  },
+  "UpdateRecoveryCleanupPending": {
+    "zh-CN": "部分清理尚未完成，重试会先完成清理。",
+    "en-US": "Some cleanup is incomplete. Retrying will finish cleanup first."
+  },
+  "UpdateRecoveryRequired": {
+    "zh-CN": "Iris 未能完成退出，更新尚未安装。已保留您确认的更新，请重试安装，或取消更新并退出。",
+    "en-US": "Iris could not finish closing, so the update has not been installed. Your confirmed update is retained. Retry installation, or cancel the update and exit."
+  },
+  "UpdateRecoveryRetry": {
+    "zh-CN": "重试安装",
+    "en-US": "Retry installation"
   }
 }

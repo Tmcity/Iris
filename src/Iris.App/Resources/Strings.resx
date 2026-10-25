@@ -1395,4 +1395,19 @@ Iris 命令行用法：
   <data name="UpdateStopped" xml:space="preserve">
     <value>更新服务已停止</value>
   </data>
+  <data name="UpdateRecoveryRequired" xml:space="preserve">
+    <value>Iris 未能完成退出，更新尚未安装。已保留您确认的更新，请重试安装，或取消更新并退出。</value>
+  </data>
+  <data name="UpdateRecoveryRetry" xml:space="preserve">
+    <value>重试安装</value>
+  </data>
+  <data name="UpdateRecoveryCancel" xml:space="preserve">
+    <value>取消更新并退出</value>
+  </data>
+  <data name="UpdateRecoveryCleanupPending" xml:space="preserve">
+    <value>部分清理尚未完成，重试会先完成清理。</value>
+  </data>
+  <data name="ShutdownIncomplete" xml:space="preserve">
+    <value>应用退出未完成，请重试退出。</value>
+  </data>
 </root>

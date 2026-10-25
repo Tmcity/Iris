@@ -1,0 +1,14 @@
+{
+  "Command": [
+    "python",
+    "tasks\\done\\T-039B.evidence\\r4\\run_guest.py",
+    "install",
+    "guest-install-r4-6",
+    "--prefetch-runtime"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-25T06:07:38.856787+00:00",
+  "FinishedUtc": "2026-10-25T06:16:23.948106+00:00",
+  "ExitCode": 0,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\guest-install-r4-6-run.log"
+}

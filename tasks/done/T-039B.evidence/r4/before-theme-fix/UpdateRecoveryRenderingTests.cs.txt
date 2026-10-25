@@ -1,0 +1,56 @@
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using Iris.App.Resources;
+using Iris.App.Tests.TestSupport;
+using Iris.App.Updates;
+using Shouldly;
+
+namespace Iris.App.Tests.Updates;
+
+[Collection("Localization")]
+public sealed class UpdateRecoveryRenderingTests
+{
+    [Theory]
+    [InlineData("zh-CN", 540)]
+    [InlineData("en-US", 540)]
+    [InlineData("zh-CN", 380)]
+    [InlineData("en-US", 380)]
+    public async Task DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(string language, int width)
+    {
+        using var run = AppLanguage.BeginRun();
+        AppLanguage.Select(language);
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            int retries = 0, cancellations = 0;
+            var window = new UpdateRecoveryWindow(() => { retries++; return Task.CompletedTask; }, () => { cancellations++; return Task.CompletedTask; }) { Width = width };
+            try
+            {
+                window.ShowFailure("1.1.0", cleanupPending: true);
+                window.FailureText.ShouldContain(UiText.UpdateRecoveryRequired);
+                UiText.UpdateRecoveryRetry.ShouldBe(language == "zh-CN" ? "重试安装" : "Retry installation");
+                UiText.UpdateRecoveryCancel.ShouldBe(language == "zh-CN" ? "取消更新并退出" : "Cancel update and exit");
+                window.RetryCommand.Execute(null); await window.RetryCommand.ExecutionTask!;
+                window.CancelUpdateCommand.Execute(null); await window.CancelUpdateCommand.ExecutionTask!;
+                retries.ShouldBe(1); cancellations.ShouldBe(1);
+                window.UpdateLayout();
+                await window.Dispatcher.InvokeAsync(() => { }, System.Windows.Threading.DispatcherPriority.Render);
+                var panel = (StackPanel)window.Content;
+                foreach (var text in panel.Children.OfType<TextBlock>()) text.ActualHeight.ShouldBeGreaterThan(0);
+                var actions = panel.Children.OfType<WrapPanel>().Single();
+                foreach (var button in actions.Children.OfType<Button>()) button.ActualWidth.ShouldBeLessThanOrEqualTo(panel.ActualWidth);
+                string? output = Environment.GetEnvironmentVariable("IRIS_R4_EVIDENCE");
+                if (output != null)
+                {
+                    Directory.CreateDirectory(output);
+                    var image = new RenderTargetBitmap((int)Math.Ceiling(window.ActualWidth), (int)Math.Ceiling(window.ActualHeight), 96, 96, PixelFormats.Pbgra32);
+                    image.Render(window);
+                    using var stream = File.Create(Path.Combine(output, "recovery-" + language + "-" + width + ".png"));
+                    var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(image)); encoder.Save(stream);
+                }
+            }
+            finally { window.Close(); }
+        });
+    }
+}

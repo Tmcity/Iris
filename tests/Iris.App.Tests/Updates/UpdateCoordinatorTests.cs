@@ -129,6 +129,35 @@ public sealed class UpdateCoordinatorTests
         }
         finally { runtime.ValidationRelease.TrySetResult(); await preparing; if (closing != null) await closing; await coordinator.StopAsync(); }
     }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task PreparedReceiptCannotTransferAfterCancellationOrNewOffer(bool newOffer)
+    {
+        using var directory = new TempDirectory();
+        var source = new Source { Package = PackageBytes() };
+        var settings = Substitute.For<ISettingsService>();
+        settings.Current.Returns(new AppSettings { General = new() { CheckForUpdates = false } });
+        var coordinator = new AppUpdateCoordinator(new Runtime(directory.Path, source), settings, new FakeTimeProvider());
+        coordinator.Start();
+        try
+        {
+            await coordinator.CheckAsync(this);
+            var offer = coordinator.Snapshot.OfferId!.Value;
+            await coordinator.DownloadAsync(this, offer);
+            var prepared = (await coordinator.PrepareApplyAsync(this, offer, CancellationToken.None)).ShouldNotBeNull();
+            coordinator.TryTransferApply(prepared, new object()).ShouldBeFalse();
+            if (newOffer) await coordinator.CheckAsync(this);
+            else await coordinator.CancelAsync();
+            coordinator.TryTransferApply(prepared, this).ShouldBeFalse();
+            await coordinator.StopAsync();
+            coordinator.ReportTransferredApplyFailure(prepared, Iris.Core.Errors.ErrorCode.Unknown).ShouldBeFalse();
+            coordinator.HasCandidate.ShouldBeFalse();
+            coordinator.Snapshot.Phase.ShouldBe(UpdatePhase.Stopped);
+        }
+        finally { await coordinator.StopAsync(); }
+    }
     internal static byte[] PackageBytes()
     {
         using var output = new MemoryStream();

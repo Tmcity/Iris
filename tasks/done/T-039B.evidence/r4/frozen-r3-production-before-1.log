@@ -1,0 +1,3 @@
+{"WireProductionUpdates":true,"Phase":"Stopped","HasCandidate":false,"UpdateHandoffTransferred":false,"InstallCanExecute":false,"CheckCanExecute":false,"ShutdownException":"IOException"}
+{"WireProductionUpdates":true,"RequirementPassed":false,"ErrorType":"ShouldAssertException","Detail":"coordinator.Snapshot.Phase\r\n    should be\r\nUpdatePhase.Failed\r\n    but was\r\nUpdatePhase.Stopped"}
+{"AllOwnedStaWorkJoined":true}

@@ -1,0 +1,211 @@
+"""Recompute evidence from bytes; no install, network, host-user data or Git index changes."""
+from pathlib import Path
+import hashlib
+import json
+import struct
+import subprocess
+import sys
+import xml.etree.ElementTree as ET
+import zipfile
+
+sys.stdout.reconfigure(encoding="utf-8")
+evidence = Path(__file__).resolve().parent
+root = evidence.parents[3]
+active = json.loads((evidence / "active_round.json").read_text(encoding="utf-8")) if (evidence / "active_round.json").exists() else {}
+package_tag = active.get("PackageTag", "final-6")
+full_label = active.get("FullTests", "full-tests-1")
+fixed_label = active.get("FixedProduction", "fixed-production-after-1")
+
+def sha(path):
+    with path.open("rb") as file: return hashlib.file_digest(file, "sha256").hexdigest()
+
+def file_record(path, base=root):
+    return {"Path": path.relative_to(base).as_posix(), "Bytes": path.stat().st_size, "Sha256": sha(path)}
+
+def json_read(path): return json.loads(path.read_text(encoding="utf-8-sig"))
+
+def range_sha(file, length):
+    digest = hashlib.sha256()
+    while length:
+        chunk = file.read(min(1024 * 1024, length))
+        if not chunk: raise EOFError()
+        digest.update(chunk); length -= len(chunk)
+    return digest.hexdigest()
+
+def package(version):
+    directory = root / ("artifacts/t039b/release-" + version + "-" + package_tag)
+    checks = json_read(directory / "SHA256.json")
+    assert {item["Name"] for item in checks} == {p.name for p in directory.iterdir() if p.name != "SHA256.json"}
+    for item in checks:
+        path = directory / item["Name"]
+        assert path.stat().st_size == item["Bytes"] and sha(path).upper() == item["Sha256"].upper(), path
+    manifest = json_read(directory / "payload-manifest.json")
+    with zipfile.ZipFile(directory / ("Iris-" + version + "-full.nupkg")) as archive:
+        entries = {p.filename[8:]: p for p in archive.infolist() if p.filename.startswith("lib/app/") and not p.is_dir()}
+        assert set(entries) == {p["Path"].replace("\\", "/") for p in manifest}
+        for item in manifest:
+            entry = entries[item["Path"].replace("\\", "/")]
+            with archive.open(entry) as stream: actual = hashlib.file_digest(stream, "sha256").hexdigest()
+            assert entry.file_size == item["Bytes"] and actual.upper() == item["Sha256"].upper(), entry.filename
+        release = json.loads(archive.read("lib/app/release-source.json"))
+        assert release["Version"] == version and release["PackageId"] == "Iris"
+        assert not any("Tests" in name or "update-worker" in name or "GuestUpdateHost" in name for name in entries)
+        helper = entries["maintenance/Iris.Maintenance.exe"]
+        with archive.open(helper) as stream: helper_sha = hashlib.file_digest(stream, "sha256").hexdigest()
+    log = (evidence / ("pack-ps51-" + version + "-" + package_tag + ".log")).read_text(encoding="utf-8")
+    metadata = json.loads(log[log.rfind("{"):log.rfind("}") + 1])
+    setup = Path(metadata["WorkDirectory"]) / "internal-Setup.exe"
+    outer = directory / ("Iris-" + version + "-Setup.exe")
+    magic = b"IRIS-INSTALL-V1!"
+    footer_size = len(magic) + 8 + 32
+    with outer.open("rb") as file:
+        file.seek(-footer_size, 2); footer = file.read()
+        assert footer[:len(magic)] == magic
+        length = struct.unpack("<q", footer[len(magic):len(magic) + 8])[0]
+        start = outer.stat().st_size - footer_size - length
+        assert start == helper.file_size and length == setup.stat().st_size
+        file.seek(0); assert range_sha(file, start) == helper_sha
+        payload_sha = range_sha(file, length)
+        assert payload_sha == footer[-32:].hex() == sha(setup)
+    return {"Version": version, "Directory": str(directory), "Files": [file_record(p, directory) for p in sorted(directory.iterdir()) if p.is_file()],
+        "PayloadManifestEntries": len(manifest), "Payload": manifest, "InstallerEnvelope": {"Magic": magic.decode(), "SetupBytes": length,
+        "SetupSha256": payload_sha, "MaintenancePrefixBytes": start, "MaintenancePrefixSha256": helper_sha, "InternalSetup": str(setup)},
+        "AppliedPackageType": "full", "DeltaApplicationTested": False}
+
+def test_reports(folder, name_filter=None):
+    reports = []
+    for path in sorted(folder.glob("*.xml")):
+        xml = ET.parse(path)
+        for assembly in xml.iter("assembly"):
+            if name_filter is not None:
+                tests = [item for item in assembly.iter("test") if name_filter in item.attrib["name"]]
+                if not tests: continue
+                reports.append({"Name": assembly.attrib["name"], "Filter": name_filter, "Total": len(tests),
+                    "Passed": sum(item.attrib["result"] == "Pass" for item in tests), "Failed": sum(item.attrib["result"] == "Fail" for item in tests),
+                    "Skipped": sum(item.attrib["result"] == "Skip" for item in tests), "Report": file_record(path), "SkippedTests": []})
+                continue
+            reports.append({"Name": assembly.attrib["name"], "Total": int(assembly.attrib["total"]), "Passed": int(assembly.attrib["passed"]),
+                "Failed": int(assembly.attrib["failed"]), "Skipped": int(assembly.attrib["skipped"]), "Report": file_record(path),
+                "SkippedTests": [{"Name": item.attrib["name"], "Reason": "".join(item.find("reason").itertext())} for item in assembly.iter("test") if item.attrib["result"] == "Skip"]})
+    return {"Total": sum(p["Total"] for p in reports), "Passed": sum(p["Passed"] for p in reports), "Failed": sum(p["Failed"] for p in reports),
+        "Skipped": sum(p["Skipped"] for p in reports), "Assemblies": reports}
+
+def guest(label, scenario):
+    directory = evidence / label
+    intent = json_read(directory / "intent.json")
+    inputs = Path(intent["ReadOnlyInput"])
+    actual = [file_record(p, inputs) for p in sorted(inputs.rglob("*")) if p.is_file()]
+    assert actual == intent["Files"]
+    assert intent["PackageTag"] == package_tag
+    for name, expected in [("Iris-0.2.0-Setup.exe", root / ("artifacts/t039b/release-0.2.0-" + package_tag + "/Iris-0.2.0-Setup.exe"))]:
+        assert sha(inputs / name) == sha(expected)
+    if scenario == "update": assert sha(inputs / "Iris-0.2.1-full.nupkg") == sha(root / ("artifacts/t039b/release-0.2.1-" + package_tag + "/Iris-0.2.1-full.nupkg"))
+    result_path = directory / "output" / ("update-r4" if scenario == "update" else "") / "result.json"
+    result = json_read(result_path)
+    boolean = [item for item in result["Checks"] if type(item["Value"]) is bool]
+    assert not result["Failure"] and all(item["Value"] for item in boolean)
+    observations = {item["Name"]: item["Value"] for item in result["Checks"]}
+    assert observations["environment"]["RuntimesBefore"] == []
+    assert intent["PrefetchRuntimeCache"] and not intent["PublicRuntimeDns"]
+    assert observations["still-no-shared-dotnet10-before-iris-installer"]
+    assert observations["runtime-prefetched-not-installed"]["Runtimes"] == []
+    assert observations["official-runtime-sha512-matches"] and observations["official-runtime-signature-valid"]
+    signature = observations["runtime-prefetch-signature"]
+    assert signature["Status"] == "Valid" and "Microsoft Corporation" in signature["Subject"]
+    scope = {"Bootstrap": "Verified official Microsoft runtime in normal Downloads cache; no shared .NET10 before unmodified production Setup installed it",
+        "RuntimeSignature": signature, "DefaultNativeCompleteDownloadVerified": False,
+        "FinalProcesses": file_record(result_path.parent / ("final-processes.json" if scenario == "update" else "processes-final.json")),
+        "WindowsInstallerService": "msiexec.exe /V remained in the final snapshot. This is not claimed to have exited; Iris-owned processes were separately required absent."}
+    if scenario == "update":
+        terminal_path = directory / "output/runtime-handles-terminal-1.json"
+        terminal = json_read(terminal_path)
+        assert terminal["Failure"] is None and len(terminal["CapturedHandles"]) == len(terminal["Terminal"]) == 5
+        assert all(item["HasExited"] and item["ExitCode"] == 0 for item in terminal["Terminal"])
+        engine_path = result_path.parent / "engine/result.json"
+        engine = json_read(engine_path)
+        assert engine["Failure"] is None and engine["Cleanup"] == []
+        native = next(item["Value"] for item in engine["Results"] if item["Name"] == "actual-update-completed")
+        assert native["ParentExit"] == native["LastNativeExitCode"] == 0 and native["Version"] == "0.2.1"
+        scope["HeldRuntimeHandles"] = file_record(terminal_path)
+        scope["HeldRuntimeHandlesExited"] = len(terminal["Terminal"])
+        scope["UpdateEngine"] = file_record(engine_path)
+        scope["NativeResult"] = native
+    for name in ("execute", "stop"):
+        assert json_read(directory / (name + ".command.json"))["ExitCode"] == 0
+    guest_command = json_read(directory / "execute.log")
+    assert guest_command["ExitCode"] == 0
+    assert not json.loads((directory / "list-after.log").read_text(encoding="utf-8-sig")).get("WindowsSandboxEnvironments")
+    return {"EvidenceDir": str(directory.relative_to(root)), "SandboxId": intent["SandboxId"], "Input": file_record(directory / "intent.json"),
+        "Result": file_record(result_path), "ObservationRecords": len(result["Checks"]), "BooleanAssertions": len(boolean), "FalseAssertions": 0,
+        "Failure": result["Failure"], "ExecuteExitCode": 0, "GuestCommandExitCode": guest_command["ExitCode"], "StopExitCode": 0, "Inputs": actual, "VerifiedScope": scope,
+        "Screenshots": [file_record(p) for p in sorted((directory / "output").rglob("*.png"))]}
+
+def historical_r3():
+    results = []
+    for relative in ["guest-install-r3-2/output/result.json", "guest-update-r3-1/output/update-r3/result.json"]:
+        path = evidence.parent / relative
+        result = json_read(path)
+        boolean = [p for p in result["Checks"] if type(p["Value"]) is bool]
+        results.append({"Result": file_record(path), "PackageTag": "final-4", "ObservationRecords": len(result["Checks"]),
+            "BooleanAssertions": len(boolean), "FalseAssertions": sum(not p["Value"] for p in boolean), "Failure": result["Failure"],
+            "AppliedPackageType": "full", "DeltaApplicationTested": False})
+    return results
+
+def inspect(include_guests):
+    source = json_read(evidence / active.get("SourceBinding", "tested-source-binding.json"))
+    for entry in source["SourceFiles"]:
+        assert file_record(root / entry["Path"]) == {k: v for k, v in entry.items() if k != "GitBlob"}, entry["Path"]
+    candidate = Path(source["TestedCandidateDirectory"])
+    for entry in source["TestedCandidateFiles"]: assert file_record(candidate / entry["Path"], candidate) == entry
+    if "LocalizationAfter" in active:
+        localization = json_read(evidence / "localization-verification-1.json")
+        assert not localization["After"]["UnapprovedSites"] and not localization["After"]["ResourceErrors"]
+        for item in localization["UnchangedScannerBudgetAndResources"]: assert sha(root / item["Path"]) == item["Sha256"]
+        for item in localization["CompiledInputs"]:
+            assert sha(Path(item["FrozenCopy"])).upper() == item["Sha256"].upper()
+            if item["Project"] == "Iris.App" and item["Language"] == "zh-CN": assert sha(candidate / "Iris.App.dll").upper() == item["Sha256"].upper()
+    theme_frames = []
+    if "RenderingAfter" in active:
+        for path in sorted((evidence / (active["RenderingAfter"] + "-results")).glob("recovery-*.json")):
+            frame = json_read(path)
+            assert frame["ActualLanguage"] == frame["RequestedLanguage"]
+            assert frame["ActualTheme"] == frame["RequestedTheme"]
+            assert frame["AppDllSha256"].lower() == sha(candidate / "Iris.App.dll")
+            assert frame["Sha256"].lower() == sha(path.with_suffix(".png"))
+            assert all(button["Contrast"] >= 4.5 for button in frame["Buttons"])
+            assert all(ratio >= 4.5 for ratio in frame["BodyContrast"])
+            theme_frames.append(file_record(path))
+        assert len(theme_frames) == 8
+        prior_source = json_read(evidence / "tested-source-binding.json")
+        prior_app = Path(prior_source["TestedCandidateDirectory"]) / "Iris.App.dll"
+        for path in (evidence / (active["RenderingBefore"] + "-results")).glob("recovery-*.json"):
+            frame = json_read(path)
+            assert frame["AppDllSha256"].lower() == sha(prior_app)
+            assert frame["Sha256"].lower() == sha(path.with_suffix(".png"))
+    before = json_read(root / "tasks/done/T-039B.review/acceptance-review-3/rollback-probe-binding.json")
+    baseline = root / "artifacts/t039b/independent-r3-rollback-1/bin/Release/net10.0-windows10.0.19041.0"
+    for entry in before["assemblies"]: assert sha(baseline / Path(entry["path"]).name) == entry["sha256"]
+    for directory in [full_label + "-results", fixed_label + "-results"]:
+        for path in (evidence / directory).glob("*-worker-*.json"):
+            worker = json_read(path)
+            assert worker["Failure"] is None and worker["NativeCalls"] == worker["Restarts"] == 0 and not worker["GateBlocked"]
+    report = {"GitTree": source["GitTree"], "GitTreeSemantics": source["GitTreeSemantics"], "SourceFiles": len(source["SourceFiles"]),
+        "TestedCandidateFiles": len(source["TestedCandidateFiles"]), "FrozenR3DependenciesVerified": len(before["assemblies"]),
+        "ReleasePackages": [package("0.2.0"), package("0.2.1")], "FullTestReports": test_reports(evidence / (full_label + "-reports")),
+        "FixedProductionReports": test_reports(evidence / (fixed_label + "-reports")), "CorrectedR3Observations": historical_r3(), "RecoveryThemeFrames": theme_frames}
+    if include_guests:
+        scenarios = json_read(evidence / "guest-run-manifest.json")
+        report["SandboxVerificationR4"] = [guest(scenarios["install"], "install"), guest(scenarios["update"], "update")]
+    return report
+
+if __name__ == "__main__":
+    include_guests = "--guests" in sys.argv
+    report = inspect(include_guests)
+    target = evidence / (active.get("GuestInspection", "delivery-inspection.json") if include_guests else active.get("PackageInspection", "package-inspection.json"))
+    if target.exists(): raise FileExistsError(target)
+    target.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    print(json.dumps({"GitTree": report["GitTree"], "SourceFiles": report["SourceFiles"],
+        "Packages": [{"Version": p["Version"], "PayloadEntries": p["PayloadManifestEntries"]} for p in report["ReleasePackages"]],
+        "FullTests": {k: v for k, v in report["FullTestReports"].items() if k != "Assemblies"},
+        "FixedProductionTests": {k: v for k, v in report["FixedProductionReports"].items() if k != "Assemblies"},
+        "GuestResults": report.get("SandboxVerificationR4", [])}, ensure_ascii=False, indent=2))

@@ -1,0 +1,13 @@
+﻿{
+    "Checks":  [
+                   {
+                       "Name":  "guest-only-diagnostic",
+                       "Value":  {
+                                     "RuntimeInstallPerformed":  false,
+                                     "IrisExecuted":  false,
+                                     "User":  "WDAGUtilityAccount"
+                                 }
+                   }
+               ],
+    "Failure":  null
+}

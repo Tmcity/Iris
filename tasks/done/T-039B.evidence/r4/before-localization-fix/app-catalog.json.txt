@@ -1,0 +1,1830 @@
+{
+  "ActionNotAvailable": {
+    "zh-CN": "该功能尚未开放",
+    "en-US": "This feature is not available yet"
+  },
+  "AppName": {
+    "zh-CN": "Iris",
+    "en-US": "Iris"
+  },
+  "CommandLineInvalid": {
+    "zh-CN": "命令行参数无效。\n\nIris 命令行用法：\n无参数：启动托盘；已运行时打开输入翻译。\n--action <动作名称>：执行已开放动作（不接受数字）。\n--translate <文本>：翻译完整文本。TranslateText 必须使用此形式。\n--help 或 -h：显示帮助。\n每次只能使用一种形式，文本作为一个参数传入。",
+    "en-US": "Invalid command line arguments.\n\nIris command line usage:\nNo arguments: start in the tray; if Iris is running, open input translation.\n--action <ActionName>: run an available action (names only, no numbers).\n--translate <text>: translate the complete text. Use this form for TranslateText.\n--help or -h: show help.\nUse one form per invocation and pass the text as a single argument."
+  },
+  "CommandLineUsage": {
+    "zh-CN": "Iris 命令行用法：\n无参数：启动托盘；已运行时打开输入翻译。\n--action <动作名称>：执行已开放动作（不接受数字）。\n--translate <文本>：翻译完整文本。TranslateText 必须使用此形式。\n--help 或 -h：显示帮助。\n每次只能使用一种形式，文本作为一个参数传入。",
+    "en-US": "Iris command line usage:\nNo arguments: start in the tray; if Iris is running, open input translation.\n--action <ActionName>: run an available action (names only, no numbers).\n--translate <text>: translate the complete text. Use this form for TranslateText.\n--help or -h: show help.\nUse one form per invocation and pass the text as a single argument."
+  },
+  "DispatcherUnhandledMessage": {
+    "zh-CN": "发生未知错误，详情请查看日志",
+    "en-US": "An unexpected error occurred. See the log for details"
+  },
+  "ErrorUnknown": {
+    "zh-CN": "发生未知错误，详情请查看日志",
+    "en-US": "An unexpected error occurred. See the log for details"
+  },
+  "FatalUnknown": {
+    "zh-CN": "发生未知严重错误，应用程序即将退出：",
+    "en-US": "An unexpected fatal error occurred. Iris will exit:"
+  },
+  "HistoryCancel": {
+    "zh-CN": "取消",
+    "en-US": "Cancel"
+  },
+  "HistoryClear": {
+    "zh-CN": "清空…",
+    "en-US": "Clear…"
+  },
+  "HistoryClearConfirm": {
+    "zh-CN": "确认清空历史记录？此操作无法撤销。",
+    "en-US": "Clear translation history? This cannot be undone."
+  },
+  "HistoryClose": {
+    "zh-CN": "关闭",
+    "en-US": "Close"
+  },
+  "HistoryCloseFailed": {
+    "zh-CN": "历史窗口尚未完成关闭，请重试关闭。",
+    "en-US": "The history window has not finished closing. Please retry."
+  },
+  "HistoryClosing": {
+    "zh-CN": "正在等待历史操作结束…",
+    "en-US": "Waiting for history operations to finish…"
+  },
+  "HistoryConfirm": {
+    "zh-CN": "确认删除",
+    "en-US": "Confirm deletion"
+  },
+  "HistoryCopied": {
+    "zh-CN": "已复制全文",
+    "en-US": "Full text copied"
+  },
+  "HistoryCopyFailed": {
+    "zh-CN": "复制失败，请重试。",
+    "en-US": "Could not copy. Please retry."
+  },
+  "HistoryCopyResult": {
+    "zh-CN": "复制此服务译文",
+    "en-US": "Copy this provider's translation"
+  },
+  "HistoryCopySource": {
+    "zh-CN": "复制原文全文",
+    "en-US": "Copy full source text"
+  },
+  "HistoryDelete": {
+    "zh-CN": "删除此记录",
+    "en-US": "Delete this record"
+  },
+  "HistoryDeleteConfirm": {
+    "zh-CN": "删除所选记录？此操作无法撤销。",
+    "en-US": "Delete the selected record? This cannot be undone."
+  },
+  "HistoryDetailsLoading": {
+    "zh-CN": "正在读取全文…",
+    "en-US": "Loading full text…"
+  },
+  "HistoryEmpty": {
+    "zh-CN": "没有符合条件的历史记录",
+    "en-US": "No matching history records"
+  },
+  "HistoryEnabled": {
+    "zh-CN": "记录后续翻译历史",
+    "en-US": "Record future translations"
+  },
+  "HistoryEnabledHelp": {
+    "zh-CN": "关闭后不再记录新的翻译；已有历史仍可查看和管理。",
+    "en-US": "Turning this off stops recording new translations. Existing history can still be viewed and managed."
+  },
+  "HistoryFavorite": {
+    "zh-CN": "收藏",
+    "en-US": "Favorite"
+  },
+  "HistoryFavoritesOnly": {
+    "zh-CN": "仅看收藏",
+    "en-US": "Favorites only"
+  },
+  "HistoryKeepFavorites": {
+    "zh-CN": "保留收藏（只删除非收藏记录）",
+    "en-US": "Keep favorites (delete only records that are not favorites)"
+  },
+  "HistoryKeywordError": {
+    "zh-CN": "搜索词包含无效字符，请修改后重试。",
+    "en-US": "The search contains invalid characters. Please edit it and retry."
+  },
+  "HistoryLoading": {
+    "zh-CN": "正在加载历史记录…",
+    "en-US": "Loading history…"
+  },
+  "HistoryMaxError": {
+    "zh-CN": "历史记录数量须为 100 至 100000 的整数。",
+    "en-US": "The history limit must be an integer from 100 to 100000."
+  },
+  "HistoryMaxHelp": {
+    "zh-CN": "100–100000 条。降低上限不会立即删除历史，将在下次写入或取消收藏时修剪。",
+    "en-US": "100–100000 records. Lowering the limit does not delete history immediately; trimming occurs on the next write or when a favorite is removed."
+  },
+  "HistoryMaxLabel": {
+    "zh-CN": "最多保留的非收藏记录数，收藏额外保留",
+    "en-US": "Maximum records excluding favorites; favorites are kept separately"
+  },
+  "HistoryMetadataFormat": {
+    "zh-CN": "{0:g} · {1} · {2} → {3} · {4} 个结果",
+    "en-US": "{0:g} · {1} · {2} → {3} · {4} results"
+  },
+  "HistoryMissing": {
+    "zh-CN": "记录已不存在，请刷新列表。",
+    "en-US": "This record no longer exists. Please refresh the list."
+  },
+  "HistoryNext": {
+    "zh-CN": "下一页",
+    "en-US": "Next"
+  },
+  "HistoryOriginClipboard": {
+    "zh-CN": "剪贴板",
+    "en-US": "Clipboard"
+  },
+  "HistoryOriginCommandLine": {
+    "zh-CN": "命令行",
+    "en-US": "Command line"
+  },
+  "HistoryOriginHistory": {
+    "zh-CN": "历史重译",
+    "en-US": "Retranslated history"
+  },
+  "HistoryOriginInput": {
+    "zh-CN": "输入",
+    "en-US": "Input"
+  },
+  "HistoryOriginOther": {
+    "zh-CN": "翻译",
+    "en-US": "Translation"
+  },
+  "HistoryOriginScreenshot": {
+    "zh-CN": "截图",
+    "en-US": "Screenshot"
+  },
+  "HistoryOriginSelection": {
+    "zh-CN": "划词",
+    "en-US": "Selected text"
+  },
+  "HistoryPageFormat": {
+    "zh-CN": "第 {0} / {1} 页 · 共 {2} 条",
+    "en-US": "Page {0} / {1} · {2} records"
+  },
+  "HistoryPrevious": {
+    "zh-CN": "上一页",
+    "en-US": "Previous"
+  },
+  "HistoryRefresh": {
+    "zh-CN": "刷新",
+    "en-US": "Refresh"
+  },
+  "HistoryRetranslate": {
+    "zh-CN": "按当前设置重新翻译",
+    "en-US": "Retranslate with current settings"
+  },
+  "HistorySearch": {
+    "zh-CN": "搜索原文或译文",
+    "en-US": "Search source text or translations"
+  },
+  "HistorySelect": {
+    "zh-CN": "选择一条记录查看全文和全部服务结果",
+    "en-US": "Select a record to view the full text and all provider results"
+  },
+  "HistorySource": {
+    "zh-CN": "原文全文",
+    "en-US": "Full source text"
+  },
+  "HistoryStorageError": {
+    "zh-CN": "历史记录操作失败，请重试。",
+    "en-US": "The history operation failed. Please retry."
+  },
+  "HistoryTitle": {
+    "zh-CN": "翻译历史",
+    "en-US": "Translation history"
+  },
+  "HistoryTranslated": {
+    "zh-CN": "已按当前设置发送到翻译窗口",
+    "en-US": "Sent to the translation window with current settings"
+  },
+  "HistoryTranslateFailed": {
+    "zh-CN": "暂时无法打开翻译，请重试。",
+    "en-US": "Cannot open translation right now. Please retry."
+  },
+  "HistoryTruncated": {
+    "zh-CN": "结果已截断",
+    "en-US": "Result truncated"
+  },
+  "HistoryTruncatedSuffix": {
+    "zh-CN": "[结果已截断]",
+    "en-US": "[Result truncated]"
+  },
+  "HistoryUnfavorite": {
+    "zh-CN": "取消收藏",
+    "en-US": "Remove favorite"
+  },
+  "HistoryWriteDone": {
+    "zh-CN": "历史操作已完成",
+    "en-US": "History operation completed"
+  },
+  "HistoryWriting": {
+    "zh-CN": "正在保存历史操作…",
+    "en-US": "Saving history changes…"
+  },
+  "IpcRejected": {
+    "zh-CN": "Iris 未接纳此命令，可能正在退出或忙于处理已有请求。",
+    "en-US": "Iris did not accept the command. It may be closing or busy with existing requests."
+  },
+  "IpcUnavailable": {
+    "zh-CN": "无法连接到当前用户会话中的 Iris，请稍后重试。",
+    "en-US": "Cannot connect to Iris in the current user session. Please retry later."
+  },
+  "IpcUnconfirmed": {
+    "zh-CN": "未能确认命令是否已接收。命令可能已经执行，请先检查 Iris 的状态；本次不会自动重发。",
+    "en-US": "Could not confirm whether the command was received. It may already have run. Check Iris before retrying; this attempt will not resend automatically."
+  },
+  "LanguageChineseNative": {
+    "zh-CN": "简体中文",
+    "en-US": "简体中文"
+  },
+  "LanguageEnglishNative": {
+    "zh-CN": "English",
+    "en-US": "English"
+  },
+  "LanguageNextStart": {
+    "zh-CN": "保存后下次启动生效；不会自动重启或切换当前界面。",
+    "en-US": "Changes take effect on the next launch. Iris will not restart or change this session's language automatically."
+  },
+  "LanguageRestartPending": {
+    "zh-CN": "已保存的界面语言与本次运行不同，将在下次启动时生效。",
+    "en-US": "The saved interface language differs from this session. It will take effect on the next launch."
+  },
+  "LanguageTitle": {
+    "zh-CN": "界面语言",
+    "en-US": "Interface language"
+  },
+  "MouseApplyFailed": {
+    "zh-CN": "鼠标设置已保存，应用未完成。请重试鼠标监听。",
+    "en-US": "Mouse settings were saved but not fully applied. Retry mouse monitoring."
+  },
+  "MouseApplying": {
+    "zh-CN": "鼠标设置已保存，正在应用…",
+    "en-US": "Mouse settings saved; applying…"
+  },
+  "MouseBeamLabel": {
+    "zh-CN": "仅在文本光标下识别选区",
+    "en-US": "Read selections only under a text cursor"
+  },
+  "MouseDragError": {
+    "zh-CN": "拖动距离须为 2–50 的整数。",
+    "en-US": "Drag distance must be an integer from 2 to 50."
+  },
+  "MouseDragLabel": {
+    "zh-CN": "最小拖动距离（物理像素）",
+    "en-US": "Minimum drag distance (physical pixels)"
+  },
+  "MouseExcludedLabel": {
+    "zh-CN": "完全排除鼠标划词的进程",
+    "en-US": "Processes excluded from mouse selection"
+  },
+  "MouseExplanation": {
+    "zh-CN": "显示图标时会预读选区，点击后翻译已读取的文本。关闭剪贴板恢复可能改变剪贴板内容。",
+    "en-US": "Showing the icon reads the selection in advance; clicking translates that text. Disabling clipboard restoration may change clipboard contents."
+  },
+  "MouseHideError": {
+    "zh-CN": "图标停留时间须为 500–10000 的整数。",
+    "en-US": "Icon duration must be an integer from 500 to 10000."
+  },
+  "MouseHideLabel": {
+    "zh-CN": "图标停留时间（毫秒）",
+    "en-US": "Icon duration (milliseconds)"
+  },
+  "MouseIconTranslate": {
+    "zh-CN": "翻译选中的文本",
+    "en-US": "Translate selected text"
+  },
+  "MouseModeAuto": {
+    "zh-CN": "自动翻译",
+    "en-US": "Translate automatically"
+  },
+  "MouseModeError": {
+    "zh-CN": "请选择有效的鼠标划词模式。",
+    "en-US": "Select a valid mouse selection mode."
+  },
+  "MouseModeIcon": {
+    "zh-CN": "显示翻译图标",
+    "en-US": "Show translation icon"
+  },
+  "MouseModeLabel": {
+    "zh-CN": "鼠标划词模式",
+    "en-US": "Mouse selection mode"
+  },
+  "MouseModeOff": {
+    "zh-CN": "关闭鼠标划词",
+    "en-US": "Disable mouse selection"
+  },
+  "MouseReadFailed": {
+    "zh-CN": "选区预读未完成，请重新选择文本。",
+    "en-US": "The selection could not be read. Please select the text again."
+  },
+  "MouseRetry": {
+    "zh-CN": "重试鼠标监听",
+    "en-US": "Retry mouse monitoring"
+  },
+  "MouseRunning": {
+    "zh-CN": "鼠标监听已启用",
+    "en-US": "Mouse monitoring enabled"
+  },
+  "MouseStopped": {
+    "zh-CN": "鼠标监听已关闭",
+    "en-US": "Mouse monitoring disabled"
+  },
+  "MouseToggle": {
+    "zh-CN": "切换鼠标划词",
+    "en-US": "Toggle mouse selection"
+  },
+  "MouseToggleDescription": {
+    "zh-CN": "切换鼠标划词的启用状态（默认未设置快捷键）",
+    "en-US": "Enable or disable mouse selection (no default shortcut)"
+  },
+  "NetworkAddressNeedsCredentials": {
+    "zh-CN": "代理地址已改变，请明确选择替换或清除凭据。",
+    "en-US": "The proxy address changed. Explicitly choose to replace or clear credentials."
+  },
+  "NetworkBypass": {
+    "zh-CN": "本地地址绕过代理",
+    "en-US": "Bypass proxy for local addresses"
+  },
+  "NetworkBypassDescription": {
+    "zh-CN": "启用后，回环、私网、.local 和单段主机名直接连接；系统代理自身的例外规则仍生效。",
+    "en-US": "Connect directly to loopback, private, .local, and single-label hosts. The system proxy's own exceptions still apply."
+  },
+  "NetworkCancel": {
+    "zh-CN": "取消测试",
+    "en-US": "Cancel test"
+  },
+  "NetworkCanceled": {
+    "zh-CN": "网络测试已取消。",
+    "en-US": "Network test canceled."
+  },
+  "NetworkChooseEndpoint": {
+    "zh-CN": "请选择已保存的测试目标。",
+    "en-US": "Select a saved test target."
+  },
+  "NetworkCleanupFailed": {
+    "zh-CN": "测试清理未完成，请重试结束；再次清理不会重新发送请求。",
+    "en-US": "Test cleanup is incomplete. Retry cleanup; it will not send another request."
+  },
+  "NetworkClear": {
+    "zh-CN": "清除凭据（无凭据）",
+    "en-US": "Clear credentials (no credentials)"
+  },
+  "NetworkConfigurationUnavailable": {
+    "zh-CN": "网络代理配置暂不可用，请检查配置后重试。",
+    "en-US": "Proxy configuration is unavailable. Check the configuration and retry."
+  },
+  "NetworkCredentialHint": {
+    "zh-CN": "不会回填已保存密码。替换时不移除首尾空格；HTTP(S) 允许明确的空密码，SOCKS5 要求非空。",
+    "en-US": "Saved passwords are never filled in. Replacement preserves spaces. HTTP(S) allows an explicitly empty password; SOCKS5 requires a nonempty one."
+  },
+  "NetworkCredentialLabel": {
+    "zh-CN": "代理凭据",
+    "en-US": "Proxy credentials"
+  },
+  "NetworkCustom": {
+    "zh-CN": "使用自定义代理",
+    "en-US": "Use a custom proxy"
+  },
+  "NetworkDescription": {
+    "zh-CN": "保存后，新请求立即使用当前网络设置；正在进行的请求会完成原有连接。",
+    "en-US": "After saving, new requests use the current network settings. Requests already in progress finish on their existing connections."
+  },
+  "NetworkDirect": {
+    "zh-CN": "直接连接",
+    "en-US": "Direct connection"
+  },
+  "NetworkEnding": {
+    "zh-CN": "正在结束测试，等待实际请求与清理完成…",
+    "en-US": "Finishing the test; waiting for the actual request and cleanup…"
+  },
+  "NetworkEndpointChanged": {
+    "zh-CN": "已保存的测试端点已更改，请重新选择后测试。",
+    "en-US": "The saved endpoint changed. Select it again before testing."
+  },
+  "NetworkInvalidConfiguration": {
+    "zh-CN": "网络草稿或已保存端点不可用，请检查配置。",
+    "en-US": "The network draft or saved endpoint is unavailable. Check the configuration."
+  },
+  "NetworkInvalidEndpoint": {
+    "zh-CN": "该服务端点无效，请先在对应服务页修正并保存。",
+    "en-US": "This endpoint is invalid. Correct and save it on its provider page first."
+  },
+  "NetworkInvalidInput": {
+    "zh-CN": "代理地址或凭据无效，请检查协议、主机、端口和输入长度。",
+    "en-US": "The proxy address or credentials are invalid. Check the scheme, host, port, and input length."
+  },
+  "NetworkKeep": {
+    "zh-CN": "保持现有凭据（如有）",
+    "en-US": "Keep existing credentials (if any)"
+  },
+  "NetworkLocalDirect": {
+    "zh-CN": "直接连接（本地绕过）",
+    "en-US": "Direct connection (local bypass)"
+  },
+  "NetworkModeLabel": {
+    "zh-CN": "连接模式",
+    "en-US": "Connection mode"
+  },
+  "NetworkNoEndpoints": {
+    "zh-CN": "尚无可测试的已保存翻译或百度 OCR 服务。",
+    "en-US": "There are no saved translation or Baidu OCR endpoints available for testing."
+  },
+  "NetworkNone": {
+    "zh-CN": "不使用代理（直接连接）",
+    "en-US": "No proxy (direct connection)"
+  },
+  "NetworkOcrEndpoint": {
+    "zh-CN": "OCR · ",
+    "en-US": "OCR · "
+  },
+  "NetworkOfficialEndpoint": {
+    "zh-CN": "Anthropic 官方默认端点",
+    "en-US": "Anthropic's default official endpoint"
+  },
+  "NetworkPassword": {
+    "zh-CN": "密码",
+    "en-US": "Password"
+  },
+  "NetworkProxyAuthentication": {
+    "zh-CN": "代理要求认证",
+    "en-US": "Proxy authentication required"
+  },
+  "NetworkRedirect": {
+    "zh-CN": "收到重定向，未跟随",
+    "en-US": "Redirect received; not followed"
+  },
+  "NetworkReplace": {
+    "zh-CN": "替换凭据",
+    "en-US": "Replace credentials"
+  },
+  "NetworkResponded": {
+    "zh-CN": "端点有响应",
+    "en-US": "Endpoint responded"
+  },
+  "NetworkResponseDisclaimer": {
+    "zh-CN": "HTTP 响应可能来自代理；有响应不代表 API 鉴权或业务可用。",
+    "en-US": "The HTTP response may come from a proxy. A response does not prove API authentication or service availability."
+  },
+  "NetworkRetryCleanup": {
+    "zh-CN": "重试结束网络测试",
+    "en-US": "Retry network test cleanup"
+  },
+  "NetworkRouteUnknown": {
+    "zh-CN": "连接方式未确认",
+    "en-US": "Connection route unconfirmed"
+  },
+  "NetworkSaveBlocked": {
+    "zh-CN": "网络测试尚未结束，完成清理后才能保存或重新载入。",
+    "en-US": "The network test has not finished. Complete cleanup before saving or reloading."
+  },
+  "NetworkSystem": {
+    "zh-CN": "使用系统代理",
+    "en-US": "Use the system proxy"
+  },
+  "NetworkSystemDirect": {
+    "zh-CN": "直接连接（系统代理例外）",
+    "en-US": "Direct connection (system proxy exception)"
+  },
+  "NetworkTargetHint": {
+    "zh-CN": "仅测试此端点的 HTTP 连通性，不验证 API 密钥、模型或业务。不会保存草稿。",
+    "en-US": "Tests HTTP connectivity only, not API keys, models, or service operations. Does not save the draft."
+  },
+  "NetworkTargetLabel": {
+    "zh-CN": "测试目标（已保存的服务）",
+    "en-US": "Test target (saved providers)"
+  },
+  "NetworkTest": {
+    "zh-CN": "测试连通性",
+    "en-US": "Test connectivity"
+  },
+  "NetworkTesting": {
+    "zh-CN": "正在测试连接…",
+    "en-US": "Testing the connection…"
+  },
+  "NetworkTimedOut": {
+    "zh-CN": "连接测试超时，实际请求已结束。",
+    "en-US": "Connection test timed out. The actual request has ended."
+  },
+  "NetworkTitle": {
+    "zh-CN": "网络与代理",
+    "en-US": "Network and proxy"
+  },
+  "NetworkTranslationEndpoint": {
+    "zh-CN": "翻译 · ",
+    "en-US": "Translation · "
+  },
+  "NetworkTransportFailed": {
+    "zh-CN": "连接失败，未确认端点响应。",
+    "en-US": "Connection failed. No endpoint response was confirmed."
+  },
+  "NetworkUrlHint": {
+    "zh-CN": "支持 http、https、socks5；socks5 默认端口为 1080。切换模式会保留此处未保存的草稿。",
+    "en-US": "Supports http, https, and socks5. SOCKS5 defaults to port 1080. Changing mode keeps this unsaved draft."
+  },
+  "NetworkUrlLabel": {
+    "zh-CN": "自定义代理地址",
+    "en-US": "Custom proxy address"
+  },
+  "NetworkUserName": {
+    "zh-CN": "用户名",
+    "en-US": "User name"
+  },
+  "NetworkViaProxy": {
+    "zh-CN": "通过代理",
+    "en-US": "Via proxy"
+  },
+  "OcrAddBaidu": {
+    "zh-CN": "添加百度服务",
+    "en-US": "Add Baidu provider"
+  },
+  "OcrAddWindows": {
+    "zh-CN": "添加本地服务",
+    "en-US": "Add local provider"
+  },
+  "OcrApiKey": {
+    "zh-CN": "新的 API Key",
+    "en-US": "New API Key"
+  },
+  "OcrBaidu": {
+    "zh-CN": "百度智能云 OCR",
+    "en-US": "Baidu Cloud OCR"
+  },
+  "OcrBaseUrl": {
+    "zh-CN": "百度 BaseUrl",
+    "en-US": "Baidu BaseUrl"
+  },
+  "OcrCancelTest": {
+    "zh-CN": "取消测试",
+    "en-US": "Cancel test"
+  },
+  "OcrCopiedFormat": {
+    "zh-CN": "已复制 {0} 个字符",
+    "en-US": "Copied {0} characters"
+  },
+  "OcrCopySource": {
+    "zh-CN": "截图 OCR 后复制原文",
+    "en-US": "Copy source text after screenshot OCR"
+  },
+  "OcrCredentialClear": {
+    "zh-CN": "保存后清除凭据",
+    "en-US": "Clear credentials on save"
+  },
+  "OcrCredentialDescription": {
+    "zh-CN": "不回填已保存密钥。替换时须填写完整密钥对；空框不表示清除。",
+    "en-US": "Saved keys are never filled in. Replacement requires both keys; empty fields do not mean clear."
+  },
+  "OcrCredentialError": {
+    "zh-CN": "百度替换凭据须填写完整 API Key 和 Secret Key；本地服务仅支持保持或清除。",
+    "en-US": "Replacing Baidu credentials requires both API Key and Secret Key. Local OCR supports only keep or clear."
+  },
+  "OcrCredentialKeep": {
+    "zh-CN": "保持现有凭据（如有）",
+    "en-US": "Keep existing credentials (if any)"
+  },
+  "OcrCredentialReplace": {
+    "zh-CN": "替换凭据",
+    "en-US": "Replace credentials"
+  },
+  "OcrCredentials": {
+    "zh-CN": "凭据处理方式",
+    "en-US": "Credential handling"
+  },
+  "OcrDelete": {
+    "zh-CN": "删除自定义服务",
+    "en-US": "Delete custom provider"
+  },
+  "OcrDetectDirection": {
+    "zh-CN": "检测文字方向",
+    "en-US": "Detect text orientation"
+  },
+  "OcrEnabled": {
+    "zh-CN": "启用此服务",
+    "en-US": "Enable this provider"
+  },
+  "OcrEndFailed": {
+    "zh-CN": "结束测试失败，请重试。",
+    "en-US": "Could not finish test cleanup. Please retry."
+  },
+  "OcrEnding": {
+    "zh-CN": "正在结束测试…",
+    "en-US": "Finishing the test…"
+  },
+  "OcrEndpointError": {
+    "zh-CN": "请选择有效模式和 HTTP(S) 地址；地址不能包含账号、查询或片段。",
+    "en-US": "Select a valid mode and HTTP(S) address without user information, a query, or a fragment."
+  },
+  "OcrFallback": {
+    "zh-CN": "已使用备用 OCR",
+    "en-US": "Fallback OCR used"
+  },
+  "OcrFallbackLabel": {
+    "zh-CN": "备用服务",
+    "en-US": "Fallback provider"
+  },
+  "OcrKeepLines": {
+    "zh-CN": "保留原始分行",
+    "en-US": "Keep original line breaks"
+  },
+  "OcrLanguageHint": {
+    "zh-CN": "语言提示（留空为 auto）",
+    "en-US": "Language hint (blank means auto)"
+  },
+  "OcrLanguageTag": {
+    "zh-CN": "本地 BCP-47 LanguageTag（可选）",
+    "en-US": "Local BCP-47 LanguageTag (optional)"
+  },
+  "OcrLanguageType": {
+    "zh-CN": "显式 LanguageType（可选）",
+    "en-US": "Explicit LanguageType (optional)"
+  },
+  "OcrLayout": {
+    "zh-CN": "识别文本布局",
+    "en-US": "Recognized text layout"
+  },
+  "OcrLayoutError": {
+    "zh-CN": "请选择有效的文本布局。",
+    "en-US": "Select a valid text layout."
+  },
+  "OcrLocalCredentialDescription": {
+    "zh-CN": "本地识别无需密钥；可保持现有状态，或保存后清除旧凭据。",
+    "en-US": "Local OCR needs no keys. Keep the current state or clear old credentials on save."
+  },
+  "OcrMergeParagraphs": {
+    "zh-CN": "合并段落内换行",
+    "en-US": "Merge lines within paragraphs"
+  },
+  "OcrMissingSelection": {
+    "zh-CN": "服务已不存在，请重新选择",
+    "en-US": "Provider no longer exists; select another"
+  },
+  "OcrMode": {
+    "zh-CN": "百度识别模式",
+    "en-US": "Baidu recognition mode"
+  },
+  "OcrModeAccurate": {
+    "zh-CN": "高精度版（含位置）",
+    "en-US": "High accuracy (with positions)"
+  },
+  "OcrModeAccurateBasic": {
+    "zh-CN": "高精度版",
+    "en-US": "High accuracy"
+  },
+  "OcrModeGeneral": {
+    "zh-CN": "标准版（含位置）",
+    "en-US": "Standard (with positions)"
+  },
+  "OcrModeGeneralBasic": {
+    "zh-CN": "标准版",
+    "en-US": "Standard"
+  },
+  "OcrName": {
+    "zh-CN": "显示名称",
+    "en-US": "Display name"
+  },
+  "OcrNameError": {
+    "zh-CN": "请输入服务显示名称。",
+    "en-US": "Enter a provider display name."
+  },
+  "OcrNoFallback": {
+    "zh-CN": "无备用服务",
+    "en-US": "No fallback provider"
+  },
+  "OcrNotifySilent": {
+    "zh-CN": "静默 OCR 复制成功后通知",
+    "en-US": "Notify after silent OCR copies text"
+  },
+  "OcrPageDescription": {
+    "zh-CN": "识别结果填入翻译窗口原文框，可编辑并按需翻译。",
+    "en-US": "Recognized text goes into the translation window's source field, where you can edit and translate it."
+  },
+  "OcrPageTitle": {
+    "zh-CN": "OCR 文字识别",
+    "en-US": "Text recognition (OCR)"
+  },
+  "OcrParagraph": {
+    "zh-CN": "请求段落信息",
+    "en-US": "Request paragraph information"
+  },
+  "OcrPrimary": {
+    "zh-CN": "主服务",
+    "en-US": "Primary provider"
+  },
+  "OcrProviderSelectionError": {
+    "zh-CN": "请选择存在的主服务；备用服务须与主服务不同，也可选择无。",
+    "en-US": "Select an existing primary provider. Choose a different fallback provider or none."
+  },
+  "OcrRetryCleanup": {
+    "zh-CN": "重试结束测试",
+    "en-US": "Retry test cleanup"
+  },
+  "OcrSaveBlocked": {
+    "zh-CN": "未保存：请先重试结束测试。",
+    "en-US": "Not saved: retry test cleanup first."
+  },
+  "OcrSecretKey": {
+    "zh-CN": "新的 Secret Key",
+    "en-US": "New Secret Key"
+  },
+  "OcrServices": {
+    "zh-CN": "识别服务",
+    "en-US": "OCR providers"
+  },
+  "OcrTest": {
+    "zh-CN": "测试连接",
+    "en-US": "Test connection"
+  },
+  "OcrTestCanceled": {
+    "zh-CN": "测试已取消",
+    "en-US": "Test canceled"
+  },
+  "OcrTestDescription": {
+    "zh-CN": "测试只验证连接或本机能力，不进行图像识别。",
+    "en-US": "Checks connectivity or local capability only; no image recognition is performed."
+  },
+  "OcrTesting": {
+    "zh-CN": "测试中…",
+    "en-US": "Testing…"
+  },
+  "OcrTestPassed": {
+    "zh-CN": "连接测试通过（未保存）",
+    "en-US": "Connection test passed (not saved)"
+  },
+  "OcrTimeout": {
+    "zh-CN": "超时（5–120 秒）",
+    "en-US": "Timeout (5–120 seconds)"
+  },
+  "OcrTimeoutError": {
+    "zh-CN": "超时须为 5–120 的整数。",
+    "en-US": "Timeout must be an integer from 5 to 120."
+  },
+  "OcrUnnamed": {
+    "zh-CN": "未命名服务",
+    "en-US": "Unnamed provider"
+  },
+  "OcrWindows": {
+    "zh-CN": "Windows 本地 OCR",
+    "en-US": "Windows local OCR"
+  },
+  "ScreenshotConfirmHint": {
+    "zh-CN": "Enter / 双击确认 · 右键清除 · Esc 取消",
+    "en-US": "Enter / double-click to confirm · Right-click to clear · Esc to cancel"
+  },
+  "ScreenshotConfirmOnMouseUp": {
+    "zh-CN": "松开鼠标后确认选区",
+    "en-US": "Confirm selection when the mouse is released"
+  },
+  "ScreenshotCopyFailed": {
+    "zh-CN": "截图已完成，但图片未能复制到剪贴板。",
+    "en-US": "Screenshot captured, but the image could not be copied to the clipboard."
+  },
+  "ScreenshotCopyImage": {
+    "zh-CN": "确认后复制截图到剪贴板",
+    "en-US": "Copy screenshot to clipboard on confirmation"
+  },
+  "ScreenshotDragHint": {
+    "zh-CN": "拖动选择区域 · Esc 取消",
+    "en-US": "Drag to select an area · Esc to cancel"
+  },
+  "ScreenshotHideWindows": {
+    "zh-CN": "截图前隐藏 Iris 窗口",
+    "en-US": "Hide Iris windows before capture"
+  },
+  "ScreenshotOpacity": {
+    "zh-CN": "遮罩透明度（0–0.9）",
+    "en-US": "Mask opacity (0–0.9)"
+  },
+  "ScreenshotOpacityError": {
+    "zh-CN": "请输入 0–0.9 之间的有限数值。",
+    "en-US": "Enter a finite number from 0 to 0.9."
+  },
+  "ScreenshotPageTitle": {
+    "zh-CN": "截图",
+    "en-US": "Screenshot"
+  },
+  "ScreenshotSettingsDescription": {
+    "zh-CN": "保存后用于下一次截图，不改变正在选择的区域。",
+    "en-US": "Saved settings apply to the next capture, not to a selection already in progress."
+  },
+  "ScreenshotShowMagnifier": {
+    "zh-CN": "显示放大镜",
+    "en-US": "Show magnifier"
+  },
+  "SelectionEmptyDescription": {
+    "zh-CN": "关闭后仅显示提示，不打开翻译窗口。",
+    "en-US": "When off, show a notice without opening the translation window."
+  },
+  "SelectionEmptyLabel": {
+    "zh-CN": "无选区时打开输入框",
+    "en-US": "Open input when there is no selection"
+  },
+  "SelectionHotkeyDescription": {
+    "zh-CN": "读取当前选区并翻译；仅在确认复制安全时模拟复制",
+    "en-US": "Read and translate the current selection; simulate copying only when confirmed safe"
+  },
+  "SelectionOrderClipboardFirst": {
+    "zh-CN": "模拟复制优先",
+    "en-US": "Simulated copy first"
+  },
+  "SelectionOrderClipboardOnly": {
+    "zh-CN": "仅模拟复制",
+    "en-US": "Simulated copy only"
+  },
+  "SelectionOrderError": {
+    "zh-CN": "请选择有效的读取方式。",
+    "en-US": "Select a valid reading method."
+  },
+  "SelectionOrderLabel": {
+    "zh-CN": "读取方式",
+    "en-US": "Reading method"
+  },
+  "SelectionOrderUiaFirst": {
+    "zh-CN": "UI 自动化优先",
+    "en-US": "UI Automation first"
+  },
+  "SelectionOrderUiaOnly": {
+    "zh-CN": "仅 UI 自动化",
+    "en-US": "UI Automation only"
+  },
+  "SelectionProcessesDescription": {
+    "zh-CN": "每行一个文件名，例如 app.exe；不支持路径或通配符。空白行忽略，清空列表表示不额外排除。",
+    "en-US": "One file name per line, such as app.exe. No paths or wildcards. Blank lines are ignored; an empty list adds no exclusions."
+  },
+  "SelectionProcessesError": {
+    "zh-CN": "进程列表最多 256 项；每项须为 1–255 字符的文件名，不能含路径、控制字符或通配符。",
+    "en-US": "Use at most 256 entries. Each must be a file name of 1–255 characters without paths, control characters, or wildcards."
+  },
+  "SelectionProcessesLabel": {
+    "zh-CN": "禁止模拟复制的进程",
+    "en-US": "Processes where simulated copy is blocked"
+  },
+  "SelectionRestoreDescription": {
+    "zh-CN": "检测到外部新复制时保留新内容。关闭恢复后，模拟复制会改变剪贴板。",
+    "en-US": "New clipboard content from other sources is preserved. Turning restoration off allows simulated copy to change the clipboard."
+  },
+  "SelectionRestoreLabel": {
+    "zh-CN": "恢复原剪贴板",
+    "en-US": "Restore the original clipboard"
+  },
+  "SelectionSafetyDescription": {
+    "zh-CN": "仅对确认复制安全的控件模拟复制。不支持的控件可能无法读取选区。",
+    "en-US": "Simulate copying only in controls confirmed safe. Selections in unsupported controls may be unavailable."
+  },
+  "SelectionTimeoutDescription": {
+    "zh-CN": "100–2000 毫秒；用于等待复制后的新文本，不包含准备和恢复耗时。",
+    "en-US": "100–2000 milliseconds to wait for new text after copying; preparation and restoration time are separate."
+  },
+  "SelectionTimeoutError": {
+    "zh-CN": "等待时间须为 100–2000 的整数，请检查当前输入。",
+    "en-US": "Wait time must be an integer from 100 to 2000. Check the current input."
+  },
+  "SelectionTimeoutLabel": {
+    "zh-CN": "复制后等待时间（毫秒）",
+    "en-US": "Wait after copying (milliseconds)"
+  },
+  "SettingsAddProfile": {
+    "zh-CN": "添加服务",
+    "en-US": "Add provider"
+  },
+  "SettingsAnthropicV1Warning": {
+    "zh-CN": "官方 SDK 已自动包含 /v1 路径，反代地址通常不需要以 /v1 结尾",
+    "en-US": "The official SDK already includes /v1. Reverse-proxy addresses usually do not need a trailing /v1"
+  },
+  "SettingsCancel": {
+    "zh-CN": "取消",
+    "en-US": "Cancel"
+  },
+  "SettingsChatCompletionsPath": {
+    "zh-CN": "Completions 相对路径",
+    "en-US": "Relative Completions path"
+  },
+  "SettingsCloseFailed": {
+    "zh-CN": "设置窗口尚未完成关闭，请重试。",
+    "en-US": "The settings window has not finished closing. Please retry."
+  },
+  "SettingsCorruptedNotice": {
+    "zh-CN": "设置文件已损坏，已重置为默认值并将原文件备份。",
+    "en-US": "The settings file was damaged. Defaults were restored and the original file was backed up."
+  },
+  "SettingsCredClear": {
+    "zh-CN": "保存后清除凭据",
+    "en-US": "Clear credentials on save"
+  },
+  "SettingsCredKeep": {
+    "zh-CN": "保持现有凭据（如有）",
+    "en-US": "Keep existing credentials (if any)"
+  },
+  "SettingsCredReplace": {
+    "zh-CN": "替换 API Key",
+    "en-US": "Replace API Key"
+  },
+  "SettingsDeleteProfile": {
+    "zh-CN": "删除服务",
+    "en-US": "Delete provider"
+  },
+  "SettingsEffort": {
+    "zh-CN": "推理强度 (Effort)",
+    "en-US": "Reasoning effort (Effort)"
+  },
+  "SettingsExtraHeaders": {
+    "zh-CN": "附加请求头 (格式: Name: Value 每行一个)",
+    "en-US": "Extra request headers (one Name: Value per line)"
+  },
+  "SettingsFutureReadOnly": {
+    "zh-CN": "配置来自更新版本，当前为只读模式。请使用匹配版本打开；保存和联网测试已禁用。",
+    "en-US": "This configuration is from a newer version and is read-only. Open it with a matching version; saving and network tests are disabled."
+  },
+  "SettingsHaikuEffortWarning": {
+    "zh-CN": "Haiku 模型不支持 Effort，已自动清空",
+    "en-US": "Haiku does not support Effort; the value was cleared automatically"
+  },
+  "SettingsHotkeyCancel": {
+    "zh-CN": "取消",
+    "en-US": "Cancel"
+  },
+  "SettingsHotkeyCleanupFailed": {
+    "zh-CN": "结束录入失败，可重试",
+    "en-US": "Shortcut cleanup failed; retry is available"
+  },
+  "SettingsHotkeyClear": {
+    "zh-CN": "清除",
+    "en-US": "Clear"
+  },
+  "SettingsHotkeyDisabled": {
+    "zh-CN": "未设置 / 已禁用",
+    "en-US": "Not set / disabled"
+  },
+  "SettingsHotkeyDuplicateConflict": {
+    "zh-CN": "快捷键冲突：与【{0}】重复",
+    "en-US": "Shortcut conflict: duplicates [{0}]"
+  },
+  "SettingsHotkeyEnable": {
+    "zh-CN": "启用",
+    "en-US": "Enable"
+  },
+  "SettingsHotkeyEnding": {
+    "zh-CN": "正在结束录入…",
+    "en-US": "Finishing shortcut capture…"
+  },
+  "SettingsHotkeyPreparing": {
+    "zh-CN": "正在准备录入…",
+    "en-US": "Preparing shortcut capture…"
+  },
+  "SettingsHotkeyRecord": {
+    "zh-CN": "录入",
+    "en-US": "Record"
+  },
+  "SettingsHotkeyRecordingPrompt": {
+    "zh-CN": "请按下快捷键组合…",
+    "en-US": "Press a shortcut combination…"
+  },
+  "SettingsHotkeyReleasePrompt": {
+    "zh-CN": "请松开按键…",
+    "en-US": "Release the keys…"
+  },
+  "SettingsHotkeyReservedConflict": {
+    "zh-CN": "快捷键冲突：与预留功能【{0}】重复",
+    "en-US": "Shortcut conflict: duplicates reserved action [{0}]"
+  },
+  "SettingsHotkeysDescription": {
+    "zh-CN": "配置触发常用功能的全局快捷键。支持包含 Win 键的组合键。",
+    "en-US": "Configure global shortcuts for common actions. Combinations with the Win key are supported."
+  },
+  "SettingsHotkeysGroup": {
+    "zh-CN": "全局快捷键",
+    "en-US": "Global shortcuts"
+  },
+  "SettingsHotkeyStatusApplying": {
+    "zh-CN": "正在应用…",
+    "en-US": "Applying…"
+  },
+  "SettingsHotkeyStatusConflict": {
+    "zh-CN": "系统冲突（已被其他程序占用）",
+    "en-US": "System conflict (in use by another program)"
+  },
+  "SettingsHotkeyStatusFailed": {
+    "zh-CN": "应用失败",
+    "en-US": "Could not apply"
+  },
+  "SettingsHotkeyStatusInvalid": {
+    "zh-CN": "无效的快捷键组合",
+    "en-US": "Invalid shortcut combination"
+  },
+  "SettingsHotkeyStatusPaused": {
+    "zh-CN": "录入中（已暂停）",
+    "en-US": "Recording (temporarily paused)"
+  },
+  "SettingsHotkeyStatusRegistered": {
+    "zh-CN": "已生效",
+    "en-US": "Applied"
+  },
+  "SettingsHotkeyStatusSavedPartialFailed": {
+    "zh-CN": "已保存，部分快捷键未应用（可重试）",
+    "en-US": "Saved; some shortcuts were not applied (retry available)"
+  },
+  "SettingsHotkeyStatusSavedPending": {
+    "zh-CN": "已保存，录入结束后应用",
+    "en-US": "Saved; will apply when shortcut capture ends"
+  },
+  "SettingsIncludeStreamUsage": {
+    "zh-CN": "流式 Token 用量统计 (IncludeStreamUsage)",
+    "en-US": "Streaming token usage (IncludeStreamUsage)"
+  },
+  "SettingsLaunchAtStartup": {
+    "zh-CN": "开机自动启动 Iris",
+    "en-US": "Start Iris when Windows starts"
+  },
+  "SettingsListDraftModels": {
+    "zh-CN": "获取模型列表",
+    "en-US": "Get model list"
+  },
+  "SettingsListingModels": {
+    "zh-CN": "正在获取模型列表…",
+    "en-US": "Getting the model list…"
+  },
+  "SettingsListModelsFailed": {
+    "zh-CN": "获取模型列表失败",
+    "en-US": "Could not get the model list"
+  },
+  "SettingsLogDescription": {
+    "zh-CN": "控制应用程序运行时输出的最小日志记录级别。",
+    "en-US": "Control the minimum severity recorded in the application log."
+  },
+  "SettingsLogGroup": {
+    "zh-CN": "日志",
+    "en-US": "Logging"
+  },
+  "SettingsLogLevel": {
+    "zh-CN": "日志级别",
+    "en-US": "Log level"
+  },
+  "SettingsMaxTokensField": {
+    "zh-CN": "Token 上限字段",
+    "en-US": "Token limit field"
+  },
+  "SettingsMoveDown": {
+    "zh-CN": "下移",
+    "en-US": "Move down"
+  },
+  "SettingsMoveUp": {
+    "zh-CN": "上移",
+    "en-US": "Move up"
+  },
+  "SettingsNavGeneral": {
+    "zh-CN": "常规",
+    "en-US": "General"
+  },
+  "SettingsNavHotkeys": {
+    "zh-CN": "快捷键",
+    "en-US": "Shortcuts"
+  },
+  "SettingsNavSelection": {
+    "zh-CN": "划词翻译",
+    "en-US": "Selection translation"
+  },
+  "SettingsNavTranslation": {
+    "zh-CN": "翻译服务",
+    "en-US": "Translation providers"
+  },
+  "SettingsProfileAdvanced": {
+    "zh-CN": "高级选项",
+    "en-US": "Advanced options"
+  },
+  "SettingsProfileApiKey": {
+    "zh-CN": "API Key",
+    "en-US": "API Key"
+  },
+  "SettingsProfileBaseUrl": {
+    "zh-CN": "API 地址",
+    "en-US": "API address"
+  },
+  "SettingsProfileEnabled": {
+    "zh-CN": "已启用",
+    "en-US": "Enabled"
+  },
+  "SettingsProfileKind": {
+    "zh-CN": "协议类型",
+    "en-US": "Protocol"
+  },
+  "SettingsProfileMaxTokens": {
+    "zh-CN": "最大输出 Tokens",
+    "en-US": "Maximum output tokens"
+  },
+  "SettingsProfileModel": {
+    "zh-CN": "模型名称",
+    "en-US": "Model name"
+  },
+  "SettingsProfileName": {
+    "zh-CN": "服务名称",
+    "en-US": "Provider name"
+  },
+  "SettingsProfilePrompt": {
+    "zh-CN": "Prompt 模板",
+    "en-US": "Prompt template"
+  },
+  "SettingsProfilePromptDefault": {
+    "zh-CN": "跟随默认模板",
+    "en-US": "Use the default template"
+  },
+  "SettingsProfileTemperature": {
+    "zh-CN": "采样温度",
+    "en-US": "Temperature"
+  },
+  "SettingsProfileTimeout": {
+    "zh-CN": "超时时间（秒）",
+    "en-US": "Timeout (seconds)"
+  },
+  "SettingsRefusalFallback": {
+    "zh-CN": "服务端拒答回退",
+    "en-US": "Fallback on provider refusal"
+  },
+  "SettingsReload": {
+    "zh-CN": "重新载入当前设置",
+    "en-US": "Reload current settings"
+  },
+  "SettingsRetry": {
+    "zh-CN": "重试应用",
+    "en-US": "Retry applying"
+  },
+  "SettingsRetryHotkeys": {
+    "zh-CN": "重试快捷键应用",
+    "en-US": "Retry applying shortcuts"
+  },
+  "SettingsRetryPendingApply": {
+    "zh-CN": "重试服务应用",
+    "en-US": "Retry provider changes"
+  },
+  "SettingsSave": {
+    "zh-CN": "保存",
+    "en-US": "Save"
+  },
+  "SettingsShowStartupNotification": {
+    "zh-CN": "启动时显示后台运行通知",
+    "en-US": "Notify when Iris starts in the background"
+  },
+  "SettingsStartupGroup": {
+    "zh-CN": "开机自启与通知",
+    "en-US": "Startup and notifications"
+  },
+  "SettingsStatusAutoStartApplied": {
+    "zh-CN": "开机启动设置已生效",
+    "en-US": "Startup settings applied"
+  },
+  "SettingsStatusAutoStartRetryFailed": {
+    "zh-CN": "重试开机启动设置未生效",
+    "en-US": "Startup settings are still not applied"
+  },
+  "SettingsStatusCanceled": {
+    "zh-CN": "保存已取消",
+    "en-US": "Save canceled"
+  },
+  "SettingsStatusConflict": {
+    "zh-CN": "保存冲突：设置已被其他操作修改，请重新载入后再次编辑",
+    "en-US": "Save conflict: settings changed elsewhere. Reload them before editing again"
+  },
+  "SettingsStatusFileError": {
+    "zh-CN": "保存设置文件失败",
+    "en-US": "Could not save the settings file"
+  },
+  "SettingsStatusHotkeysApplied": {
+    "zh-CN": "快捷键应用已生效",
+    "en-US": "Shortcuts applied"
+  },
+  "SettingsStatusHotkeysRetryFailed": {
+    "zh-CN": "重试快捷键应用未完成",
+    "en-US": "Applying shortcuts is still incomplete"
+  },
+  "SettingsStatusInvalidLogLevel": {
+    "zh-CN": "无效的日志级别设置",
+    "en-US": "Invalid log level"
+  },
+  "SettingsStatusInvalidTheme": {
+    "zh-CN": "无效的主题设置",
+    "en-US": "Invalid theme"
+  },
+  "SettingsStatusPendingApplyCompleted": {
+    "zh-CN": "翻译服务应用已完成",
+    "en-US": "Translation provider changes applied"
+  },
+  "SettingsStatusPendingApplyFailed": {
+    "zh-CN": "重试翻译服务应用未完成",
+    "en-US": "Translation provider changes are still not fully applied"
+  },
+  "SettingsStatusPendingApplyQuotaFull": {
+    "zh-CN": "待应用的服务清理事项过多，请先重试未完成的待应用事项",
+    "en-US": "Too many pending provider cleanup operations. Retry the unfinished operations first"
+  },
+  "SettingsStatusRetryingAutoStart": {
+    "zh-CN": "正在重试开机启动设置…",
+    "en-US": "Retrying startup settings…"
+  },
+  "SettingsStatusRetryingHotkeys": {
+    "zh-CN": "正在重试快捷键应用…",
+    "en-US": "Retrying shortcut settings…"
+  },
+  "SettingsStatusRetryingPendingApply": {
+    "zh-CN": "正在重试翻译服务应用…",
+    "en-US": "Retrying translation provider changes…"
+  },
+  "SettingsStatusSaved": {
+    "zh-CN": "设置已保存",
+    "en-US": "Settings saved"
+  },
+  "SettingsStatusSavedAutoStartPending": {
+    "zh-CN": "已保存，但开机启动设置未生效（可重试）",
+    "en-US": "Saved; startup settings were not applied (retry available)"
+  },
+  "SettingsStatusSavedAutoStartStillPending": {
+    "zh-CN": "设置已保存，但开机启动设置仍未生效（可重试）",
+    "en-US": "Settings saved; startup settings are still not applied (retry available)"
+  },
+  "SettingsStatusSavedPendingApply": {
+    "zh-CN": "设置已保存，但翻译服务刷新/清理未完成（可重试）",
+    "en-US": "Settings saved; translation provider refresh or cleanup is incomplete (retry available)"
+  },
+  "SettingsStatusSavedPendingApplyAndAutoStart": {
+    "zh-CN": "设置已保存，但服务刷新与开机启动均未完成（可重试）",
+    "en-US": "Settings saved; provider refresh and startup settings are incomplete (retry available)"
+  },
+  "SettingsStatusSaveFailed": {
+    "zh-CN": "保存失败",
+    "en-US": "Save failed"
+  },
+  "SettingsStatusSaving": {
+    "zh-CN": "正在保存…",
+    "en-US": "Saving…"
+  },
+  "SettingsStatusStopped": {
+    "zh-CN": "保存已停止",
+    "en-US": "Saving stopped"
+  },
+  "SettingsStream": {
+    "zh-CN": "流式响应 (Stream)",
+    "en-US": "Stream responses (Stream)"
+  },
+  "SettingsStripThinkTags": {
+    "zh-CN": "移除思考标记 (<think> tags)",
+    "en-US": "Remove reasoning tags (<think> tags)"
+  },
+  "SettingsTestDraft": {
+    "zh-CN": "测试连接",
+    "en-US": "Test connection"
+  },
+  "SettingsTestDraftFailed": {
+    "zh-CN": "连接测试失败",
+    "en-US": "Connection test failed"
+  },
+  "SettingsTestDraftSuccess": {
+    "zh-CN": "连接测试成功",
+    "en-US": "Connection test succeeded"
+  },
+  "SettingsTestingDraft": {
+    "zh-CN": "正在测试连接…",
+    "en-US": "Testing the connection…"
+  },
+  "SettingsThemeDark": {
+    "zh-CN": "深色",
+    "en-US": "Dark"
+  },
+  "SettingsThemeDescription": {
+    "zh-CN": "选择应用程序的色彩主题模式。",
+    "en-US": "Choose the application's color theme."
+  },
+  "SettingsThemeGroup": {
+    "zh-CN": "外观与主题",
+    "en-US": "Appearance and theme"
+  },
+  "SettingsThemeLight": {
+    "zh-CN": "浅色",
+    "en-US": "Light"
+  },
+  "SettingsThemeSystem": {
+    "zh-CN": "跟随系统",
+    "en-US": "Follow system"
+  },
+  "SettingsTitle": {
+    "zh-CN": "设置",
+    "en-US": "Settings"
+  },
+  "SettingsWindowTitle": {
+    "zh-CN": "Iris 设置",
+    "en-US": "Iris Settings"
+  },
+  "StartupFailed": {
+    "zh-CN": "Iris 启动或清理失败，请稍后重试。",
+    "en-US": "Iris startup or cleanup failed. Please retry later."
+  },
+  "StartupRunningInBackground": {
+    "zh-CN": "Iris 已在后台运行",
+    "en-US": "Iris is running in the background"
+  },
+  "TranslateBusy": {
+    "zh-CN": "系统忙碌，请稍后再试",
+    "en-US": "The system is busy. Please retry later"
+  },
+  "TranslateButton": {
+    "zh-CN": "翻译",
+    "en-US": "Translate"
+  },
+  "TranslateClose": {
+    "zh-CN": "关闭",
+    "en-US": "Close"
+  },
+  "TranslateCopy": {
+    "zh-CN": "复制",
+    "en-US": "Copy"
+  },
+  "TranslateCopyVisible": {
+    "zh-CN": "复制可见内容",
+    "en-US": "Copy visible content"
+  },
+  "TranslateEmptyPrompt": {
+    "zh-CN": "请输入要翻译的文本",
+    "en-US": "Enter text to translate"
+  },
+  "TranslateFromCache": {
+    "zh-CN": "缓存",
+    "en-US": "Cached"
+  },
+  "TranslateGoToSettings": {
+    "zh-CN": "去设置",
+    "en-US": "Open settings"
+  },
+  "TranslateInputPlaceholder": {
+    "zh-CN": "输入文本，按 Enter 翻译…",
+    "en-US": "Enter text and press Enter to translate…"
+  },
+  "TranslateInputTooLong": {
+    "zh-CN": "输入文本超出最大字符限制",
+    "en-US": "Input exceeds the maximum character limit"
+  },
+  "TranslateLastResult": {
+    "zh-CN": "上次结果",
+    "en-US": "Previous result"
+  },
+  "TranslateLocalTruncated": {
+    "zh-CN": "本地显示已截断",
+    "en-US": "Local display truncated"
+  },
+  "TranslateModelTruncated": {
+    "zh-CN": "结果不完整 (模型截断)",
+    "en-US": "Incomplete result (model limit)"
+  },
+  "TranslateNoConfiguredProviders": {
+    "zh-CN": "未配置任何可用的翻译服务，请前往设置配置。",
+    "en-US": "No translation providers are configured. Add one in settings."
+  },
+  "TranslatePinWindow": {
+    "zh-CN": "钉住窗口",
+    "en-US": "Pin window"
+  },
+  "TranslateRetry": {
+    "zh-CN": "重试",
+    "en-US": "Retry"
+  },
+  "TranslateSettings": {
+    "zh-CN": "设置",
+    "en-US": "Settings"
+  },
+  "TranslateStopButton": {
+    "zh-CN": "停止",
+    "en-US": "Stop"
+  },
+  "TranslateStopped": {
+    "zh-CN": "翻译已停止",
+    "en-US": "Translation stopped"
+  },
+  "TranslateSwapLanguages": {
+    "zh-CN": "交换语言",
+    "en-US": "Swap languages"
+  },
+  "TranslateUnpinWindow": {
+    "zh-CN": "取消钉住",
+    "en-US": "Unpin window"
+  },
+  "TranslateWindowTitle": {
+    "zh-CN": "Iris 翻译",
+    "en-US": "Iris Translate"
+  },
+  "TrayMenuClipboardTranslate": {
+    "zh-CN": "剪贴板翻译",
+    "en-US": "Translate clipboard"
+  },
+  "TrayMenuDebugTaskException": {
+    "zh-CN": "调试：后台任务异常",
+    "en-US": "Debug: background task exception"
+  },
+  "TrayMenuDebugToggleTheme": {
+    "zh-CN": "调试：切换主题",
+    "en-US": "Debug: toggle theme"
+  },
+  "TrayMenuDebugUiException": {
+    "zh-CN": "调试：UI 线程异常",
+    "en-US": "Debug: UI thread exception"
+  },
+  "TrayMenuExit": {
+    "zh-CN": "退出",
+    "en-US": "Exit"
+  },
+  "TrayMenuInputTranslate": {
+    "zh-CN": "输入翻译",
+    "en-US": "Input translation"
+  },
+  "TrayMenuScreenshotOcr": {
+    "zh-CN": "截图 OCR",
+    "en-US": "Screenshot OCR"
+  },
+  "TrayMenuScreenshotTranslate": {
+    "zh-CN": "截图翻译",
+    "en-US": "Screenshot translation"
+  },
+  "TrayMenuSettings": {
+    "zh-CN": "设置…",
+    "en-US": "Settings…"
+  },
+  "TrayMenuSilentScreenshotOcr": {
+    "zh-CN": "静默截图 OCR",
+    "en-US": "Silent screenshot OCR"
+  },
+  "TrayToolTip": {
+    "zh-CN": "Iris",
+    "en-US": "Iris"
+  },
+  "Text_ee86d366961c": {
+    "zh-CN": "(未设置)",
+    "en-US": "(Not set)"
+  },
+  "Text_130b4f7f9f33": {
+    "zh-CN": "注销失败",
+    "en-US": "Unregistration failed"
+  },
+  "Text_c0aa76aebce6": {
+    "zh-CN": "占用",
+    "en-US": "In use"
+  },
+  "Text_2c944b654a3b": {
+    "zh-CN": "翻译文本",
+    "en-US": "Translate text"
+  },
+  "Text_3b02edcd404d": {
+    "zh-CN": "划词翻译",
+    "en-US": "Selection translation"
+  },
+  "Text_03261c064096": {
+    "zh-CN": "截图翻译",
+    "en-US": "Screenshot translation"
+  },
+  "Text_a03a94a2f826": {
+    "zh-CN": "截图 OCR",
+    "en-US": "Screenshot OCR"
+  },
+  "Text_501fb7e80e5a": {
+    "zh-CN": "静默截图 OCR",
+    "en-US": "Silent screenshot OCR"
+  },
+  "Text_72704d8e1e47": {
+    "zh-CN": "悬浮球",
+    "en-US": "Floating button"
+  },
+  "Text_6417027b65c2": {
+    "zh-CN": "(无效键)",
+    "en-US": "(Invalid key)"
+  },
+  "Text_37e627acd92a": {
+    "zh-CN": "{0} (已禁用)",
+    "en-US": "{0} (disabled)"
+  },
+  "Text_8a6cb14e2f9a": {
+    "zh-CN": "译",
+    "en-US": "T"
+  },
+  "Text_3070ed21a7ed": {
+    "zh-CN": "[已移除] {0}",
+    "en-US": "[Removed] {0}"
+  },
+  "Text_733881723d47": {
+    "zh-CN": "成功获取 {0} 个模型",
+    "en-US": "Retrieved {0} models"
+  },
+  "Text_99729d9d15a4": {
+    "zh-CN": "快捷键录入清理未完成，无法保存",
+    "en-US": "Cannot save until shortcut capture cleanup finishes"
+  },
+  "Text_af3fd060dd39": {
+    "zh-CN": "请先修正快捷键冲突或错误",
+    "en-US": "Resolve shortcut conflicts or errors first"
+  },
+  "Text_6410e0ade8fd": {
+    "zh-CN": "打开输入翻译窗口快速翻译文本",
+    "en-US": "Open the input translation window to translate text"
+  },
+  "Text_d681ffc969c1": {
+    "zh-CN": "读取剪贴板内容并进行翻译",
+    "en-US": "Read and translate clipboard contents"
+  },
+  "Text_c7d8838aeb65": {
+    "zh-CN": "打开 Iris 设置界面",
+    "en-US": "Open Iris settings"
+  },
+  "Text_e8df05872569": {
+    "zh-CN": "基本信息",
+    "en-US": "Basic information"
+  },
+  "Text_a943c0367b80": {
+    "zh-CN": "凭据管理",
+    "en-US": "Credentials"
+  },
+  "Text_9541ee3d4b15": {
+    "zh-CN": "请求参数",
+    "en-US": "Request parameters"
+  },
+  "Text_30315c37c118": {
+    "zh-CN": "max_tokens (默认)",
+    "en-US": "max_tokens (default)"
+  },
+  "Text_e674ecde293f": {
+    "zh-CN": "max_completion_tokens (推理)",
+    "en-US": "max_completion_tokens (reasoning)"
+  },
+  "Text_28293356d695": {
+    "zh-CN": "默认 (null)",
+    "en-US": "Default (null)"
+  },
+  "Text_906a2400f060": {
+    "zh-CN": "请求头格式错误，应为 'Name: Value'",
+    "en-US": "Invalid header format; use 'Name: Value'"
+  },
+  "Text_525a47965e10": {
+    "zh-CN": "无效的请求头名称: {0}",
+    "en-US": "Invalid request header name: {0}"
+  },
+  "Text_668be3ef6c0d": {
+    "zh-CN": "不得在附加头中包含敏感身份头: {0}",
+    "en-US": "Sensitive authentication headers are not allowed in extra headers: {0}"
+  },
+  "Text_0bdec2522201": {
+    "zh-CN": "存在重复的请求头名称: {0}",
+    "en-US": "Duplicate request header name: {0}"
+  },
+  "Text_ca2e5cc0561d": {
+    "zh-CN": "服务显示名称不能为空",
+    "en-US": "The provider display name cannot be empty"
+  },
+  "Text_f3bbfa20ffbe": {
+    "zh-CN": "超时时间必须在 5 到 600 秒之间",
+    "en-US": "Timeout must be between 5 and 600 seconds"
+  },
+  "Text_29ee8b1d8422": {
+    "zh-CN": "最大输出 Tokens 必须为正整数",
+    "en-US": "Maximum output tokens must be a positive integer"
+  },
+  "Text_6124b5028ecd": {
+    "zh-CN": "采样温度必须在 0.0 到 2.0 之间",
+    "en-US": "Temperature must be between 0.0 and 2.0"
+  },
+  "Text_77beb03033cb": {
+    "zh-CN": "OpenAI 兼容协议必须提供 BaseUrl",
+    "en-US": "OpenAI-compatible providers require a BaseUrl"
+  },
+  "Text_9d819d38d5cd": {
+    "zh-CN": "BaseUrl 必须为合法的 http(s) 地址",
+    "en-US": "BaseUrl must be a valid HTTP(S) address"
+  },
+  "Text_887484964876": {
+    "zh-CN": "ChatCompletionsPath 不能为空",
+    "en-US": "ChatCompletionsPath cannot be empty"
+  },
+  "Text_15eca5fee02d": {
+    "zh-CN": "ChatCompletionsPath 必须为相对路径且不包含查询或片段",
+    "en-US": "ChatCompletionsPath must be a relative path without a query or fragment"
+  },
+  "Text_98de13c4b263": {
+    "zh-CN": "Anthropic BaseUrl 必须为合法的 http(s) 地址",
+    "en-US": "Anthropic BaseUrl must be a valid HTTP(S) address"
+  },
+  "Text_f842c928e8e3": {
+    "zh-CN": "Effort 必须为 low/medium/high/xhigh/max 或 null",
+    "en-US": "Effort must be low, medium, high, xhigh, max, or null"
+  },
+  "Text_e8189e624897": {
+    "zh-CN": "Haiku 模型不支持 Effort 参数，请清空 Effort",
+    "en-US": "Haiku does not support Effort. Clear the value"
+  },
+  "Text_93c96aec66da": {
+    "zh-CN": "已启用的服务必须指定模型名称",
+    "en-US": "Enabled providers must specify a model name"
+  },
+  "Text_b9763286f171": {
+    "zh-CN": "已选择替换 API Key，但尚未输入新 Key",
+    "en-US": "API Key replacement is selected, but no new key was entered"
+  },
+  "Text_3a713e0a1fc2": {
+    "zh-CN": "测试连接必须指定模型名称",
+    "en-US": "A model name is required for the connection test"
+  },
+  "Text_9937e365aaf3": {
+    "zh-CN": "简体中文",
+    "en-US": "Chinese (Simplified)"
+  },
+  "Text_7bf7a60617de": {
+    "zh-CN": "繁体中文",
+    "en-US": "Chinese (Traditional)"
+  },
+  "Text_d1648bacbc16": {
+    "zh-CN": "英语",
+    "en-US": "English"
+  },
+  "Text_3a944ddb3868": {
+    "zh-CN": "日语",
+    "en-US": "Japanese"
+  },
+  "Text_259cdcf75199": {
+    "zh-CN": "韩语",
+    "en-US": "Korean"
+  },
+  "Text_99cdf164a814": {
+    "zh-CN": "法语",
+    "en-US": "French"
+  },
+  "Text_7566092dce72": {
+    "zh-CN": "德语",
+    "en-US": "German"
+  },
+  "Text_6c872d27f835": {
+    "zh-CN": "西班牙语",
+    "en-US": "Spanish"
+  },
+  "Text_bdb6608a4dc8": {
+    "zh-CN": "俄语",
+    "en-US": "Russian"
+  },
+  "Text_6ce072a79389": {
+    "zh-CN": "葡萄牙语",
+    "en-US": "Portuguese"
+  },
+  "Text_5bdde8257c53": {
+    "zh-CN": "意大利语",
+    "en-US": "Italian"
+  },
+  "Text_8648ba069ee0": {
+    "zh-CN": "越南语",
+    "en-US": "Vietnamese"
+  },
+  "Text_a15fb0d0595f": {
+    "zh-CN": "泰语",
+    "en-US": "Thai"
+  },
+  "Text_fc9a0bdeb77f": {
+    "zh-CN": "阿拉伯语",
+    "en-US": "Arabic"
+  },
+  "Text_3b89fd6b0ced": {
+    "zh-CN": "自动检测",
+    "en-US": "Auto-detect"
+  },
+  "Text_90df77bfc309": {
+    "zh-CN": "自动 (按设置)",
+    "en-US": "Auto (from settings)"
+  },
+  "Preset_dashscope": {
+    "zh-CN": "通义千问 (DashScope)",
+    "en-US": "Qwen (DashScope)"
+  },
+  "Preset_zhipu": {
+    "zh-CN": "智谱 GLM",
+    "en-US": "Zhipu GLM"
+  },
+  "Preset_gemini": {
+    "zh-CN": "Gemini (OpenAI 兼容端点)",
+    "en-US": "Gemini (OpenAI-compatible endpoint)"
+  },
+  "Preset_ollama": {
+    "zh-CN": "Ollama (本地)",
+    "en-US": "Ollama (local)"
+  },
+  "Preset_custom": {
+    "zh-CN": "自定义 OpenAI 兼容服务",
+    "en-US": "Custom OpenAI-compatible provider"
+  },
+  "AccessibilitySourceLanguage": {
+    "zh-CN": "原文语言",
+    "en-US": "Source language"
+  },
+  "AccessibilityTargetLanguage": {
+    "zh-CN": "目标语言",
+    "en-US": "Target language"
+  },
+  "AccessibilitySourceText": {
+    "zh-CN": "原文",
+    "en-US": "Source text"
+  },
+  "LogVerbose": {
+    "zh-CN": "详细",
+    "en-US": "Verbose"
+  },
+  "LogDebug": {
+    "zh-CN": "调试",
+    "en-US": "Debug"
+  },
+  "LogInformation": {
+    "zh-CN": "信息",
+    "en-US": "Information"
+  },
+  "LogWarning": {
+    "zh-CN": "警告",
+    "en-US": "Warning"
+  },
+  "LogError": {
+    "zh-CN": "错误",
+    "en-US": "Error"
+  },
+  "MaintenanceBusy": {
+    "zh-CN": "Iris 正在安装、更新或卸载，请等待维护完成后重试。",
+    "en-US": "Iris is being installed, updated or removed. Retry after maintenance finishes."
+  },
+  "UpdateTitle": {
+    "zh-CN": "软件更新",
+    "en-US": "Software updates"
+  },
+  "UpdatePreference": {
+    "zh-CN": "启动时检查更新",
+    "en-US": "Check for updates at startup"
+  },
+  "UpdateCheck": {
+    "zh-CN": "检查更新",
+    "en-US": "Check for updates"
+  },
+  "UpdateDownload": {
+    "zh-CN": "下载更新",
+    "en-US": "Download update"
+  },
+  "UpdateCancel": {
+    "zh-CN": "取消／重试清理",
+    "en-US": "Cancel / retry cleanup"
+  },
+  "UpdateInstall": {
+    "zh-CN": "安装并重启",
+    "en-US": "Install and restart"
+  },
+  "UpdateInstallConfirm": {
+    "zh-CN": "安装更新需要关闭 Iris 并重新启动。未保存的设置草稿不会自动保存。是否继续？",
+    "en-US": "Installing the update closes and restarts Iris. Unsaved settings will not be saved automatically. Continue?"
+  },
+  "UpdateUnsupported": {
+    "zh-CN": "此运行模式不支持自动更新。请使用 Iris 安装版。",
+    "en-US": "Updates are unavailable in this mode. Use an installed copy of Iris."
+  },
+  "UpdateIdle": {
+    "zh-CN": "尚未检查更新",
+    "en-US": "Updates have not been checked"
+  },
+  "UpdateChecking": {
+    "zh-CN": "正在检查更新…",
+    "en-US": "Checking for updates…"
+  },
+  "UpdateNoRelease": {
+    "zh-CN": "尚无兼容的已发布版本",
+    "en-US": "No compatible release is published"
+  },
+  "UpdateUpToDate": {
+    "zh-CN": "已是最新版本",
+    "en-US": "You are up to date"
+  },
+  "UpdateAvailable": {
+    "zh-CN": "有可用更新",
+    "en-US": "An update is available"
+  },
+  "UpdateDownloading": {
+    "zh-CN": "正在下载更新…",
+    "en-US": "Downloading update…"
+  },
+  "UpdateReady": {
+    "zh-CN": "更新已验证，可以安装",
+    "en-US": "Update verified and ready to install"
+  },
+  "UpdateCancelling": {
+    "zh-CN": "正在取消并清理…",
+    "en-US": "Canceling and cleaning up…"
+  },
+  "UpdateCleanupPending": {
+    "zh-CN": "清理未完成，请重试清理",
+    "en-US": "Cleanup is incomplete. Retry cleanup."
+  },
+  "UpdateFailed": {
+    "zh-CN": "更新操作失败",
+    "en-US": "Update operation failed"
+  },
+  "UpdateStopped": {
+    "zh-CN": "更新服务已停止",
+    "en-US": "Update service stopped"
+  }
+}

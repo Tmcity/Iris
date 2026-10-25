@@ -1,0 +1,12 @@
+{
+  "Command": [
+    "python",
+    "tasks\\done\\T-039B.evidence\\r4\\source_binding.py",
+    "capture"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-24T21:41:30.464174+00:00",
+  "FinishedUtc": "2026-10-24T21:41:37.112049+00:00",
+  "ExitCode": 0,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\freeze-tested-source-3.log"
+}

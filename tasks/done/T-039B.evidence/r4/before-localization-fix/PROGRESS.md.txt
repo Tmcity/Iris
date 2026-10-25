@@ -1,0 +1,23 @@
+# T-039B-R4 当前工程状态（不是完整交付）
+
+2026-10-25。原基线 HEAD 仍为 `05452e0a85a36982ef8bfd22d5a981e581eeafcf`。
+
+同一R4继续实施，已处理source-feedback-2的Dark按钮不可读：生产Window接入动态背景/前景资源并使用WPF-UI主题按钮，没有改主题草稿或默认值。修前recovery-theme-before-1.log为8总计/4失败/4成功（Dark动作对比度1）；相同回归修后recovery-theme-after-1.log为8成功/0失败，8张真实Light/Dark × zh-CN/en-US × 380/540图已逐张查看，见reviewed-recovery-theme-after-1.json。原独立失败、final-6及旧冻结快照不动，修前报告/绑定/脚本另存before-theme-fix并保留字节指纹。
+
+主题修复后的最终原文：release-build-3.log（0警告/0错误）、full-tests-2.log（3724总计、3722成功、0失败、2既有Clipboard窗口站跳过）、fixed-production-after-2.log（新冻结候选2的生产拓扑9/9）。final-7两版新包均经实际Windows PowerShell5.1生成并完成实际97项载荷/清单/外层入口核对，见package-inspection-2.json。修前冻结R3反例仍保留在frozen-r3-production-before-1.log。完整实现/边界/偏差见tasks/done/T-039B.md的R4段。
+
+尚欠当前final-7的实际干净来宾安装+运行中静默保留卸载、两版本full应用。此前final-6来宾入口尚未启动：旧wsb.exe路径不存在，WindowsSandbox.exe和Sandbox Appx也未检出；系统已为Windows11专业工作站版26200。sandbox-preflight-1.log记录只读可选功能查询要求提升。架构师已独立确认Sandbox Disabled（CIM InstallState=2）及当前账户Hyper-V访问被拒绝，见acceptance-review-4/host-isolation-preflight-1.json；环境选择/唯一一次管理员确认由架构师接管，截至工单补充/NoRestart脚本尚未获准执行，工程师不要重复询问用户。没有修改宿主系统功能或启动真实Iris安装。旧final-4/final-6及所有失败保留，不冒充新包通过。
+
+架构师已明确归还此前约3分钟独立复核窗口，工程师才执行上述主题修复、最终建测和新包生成；不重启任务或执行轮。初版signed-order-r4.md和环境补充signed-order-r4-env-supplement-20261025.md保留原字节；当前工单另增加自有测试worker及Iris.slnx明确接线范围，最新全文存signed-order-r4-scope-supplement-20261025.md并由active_round.json指向，不覆盖旧快照。order-snapshot-drift-1.log保留旧快照与新活动工单不一致的校验记录，产品源码和冻结包不受该文档补充影响。
+
+架构师随后借用约2分钟窗口执行candidate-2独立生产拓扑回归，现已结束并明确归还。independent-runtime-candidate2-1.log为9总计/9成功/0失败/0跳过，command退出码0；独立绑定见acceptance-review-4/independent-runtime-candidate2-binding.json，321项冻结输入保持不变。candidate-check-2.json记录final-7的1258/1258字节核对；recovery-ui/after-observation-1/reviewed.json记录修后8图独立逐图观察与视觉范围关闭。来源清单已关联这些原始文件，不扩大为架构师完整Release/full或真实安装验收。此后不需改动冻结源码或重复已通过的建测；首要未完成项仍是隔离环境就绪后的新包真实来宾复验，环境由架构师继续协调，工程师不重复询问用户，也不提交/结案不完整工单。
+
+恢复环境后按顺序继续（不同构建/测试/来宾不要重叠）：
+
+1. 使用新的唯一失败后标签运行 `python tasks/done/T-039B.evidence/r4/run_command.py guest-install-r4-2-run -- python tasks/done/T-039B.evidence/r4/run_guest.py install guest-install-r4-2`。原guest-install-r4-1保留。
+2. 安装场景完整结束自有Sandbox后，运行同一包装器及 `run_guest.py update guest-update-r4-1`。runner只映射本单专用输入/输出，按active_round.json显式使用final-7，成功并结束来宾后才写guest-run-manifest.json。
+3. `inspect_delivery.py --guests` 重新核对输入/实际包/原结果/执行及停止exit，生成delivery-inspection-2.json；实际查看新来宾截图，按真实观察/布尔断言分别取数。
+4. 运行write_report.py、finalize_binding_r4.py与verify_binding.py，确认所有原文/来源字节匹配。源码冻结于tested-source-binding-2.json / artifacts/t039b/r4-tested-candidate-2，GitTree=`c6fd6c81f2d6b553d6b8a30390794c2d6a00683d`（702项）；如需再改产品源码必须重跑受影响验证并生成另一唯一新包，不能覆盖final-7或旧包。
+5. 所有必需场景完成才核对并移除current_task、创建新的独立本地提交、以source_binding.py verify-head完整commit核对规范源码树；只请求架构师复审，不结案父单或开始C/T-040。
+
+当前未创建最终提交、未删除current_task。架构师未提交的BACKLOG/handoff/复审/协调等文件与.codex保持原样；只暂存本单产品/测试/报告与自有r4证据，不能批量git add全工作区。包/工具/转储不提交。

@@ -1,0 +1,57 @@
+[
+  {
+    "Original": "src/Iris.App/Updates/UpdateRecoveryWindow.cs",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-theme-fix/UpdateRecoveryWindow.cs.txt",
+    "Sha256": "ef16dc921e4058d4d203b6d787b5f8de9eb3a4c6791883b11f224b674d88efcd"
+  },
+  {
+    "Original": "tests/Iris.App.Tests/Updates/UpdateRecoveryRenderingTests.cs",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-theme-fix/UpdateRecoveryRenderingTests.cs.txt",
+    "Sha256": "2b75f6620712cfaf0861d6fc94d108ccb0e5939b4cec7fe7d1d8c924554832e4"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/delivery-binding.json",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-theme-fix/delivery-binding.json.txt",
+    "Sha256": "581bb6f2dcc566a9fcf53998e18d1733fa9876f1be56fb403dd32cadcdb53552"
+  },
+  {
+    "Original": "tasks/done/T-039B.md",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-theme-fix/T-039B.md.txt",
+    "Sha256": "b008779317b6aa4491e8341fc8718a4f89d38173933b6a507e71d1c57d741cc6"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/r4/source_binding.py",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-theme-fix/source_binding.py.txt",
+    "Sha256": "a3b1c0445c8380c4c19f0c5e8f7997bcea86c737407082e1eec2d8b324a3e566"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/r4/inspect_delivery.py",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-theme-fix/inspect_delivery.py.txt",
+    "Sha256": "0536770cc2fca8f3309078b1141ff2aa59face63c5feca95d93cc559b4dd397d"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/r4/finalize_binding_r4.py",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-theme-fix/finalize_binding_r4.py.txt",
+    "Sha256": "1751cd75aa966b9f0517b2edda91f181c3f4605f2dad1f14fe2fee57571737d0"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/r4/write_report.py",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-theme-fix/write_report.py.txt",
+    "Sha256": "9a2ec2c081b6094833b2b1230bec159434df2a43636d65d8f62b8000be53b725"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/r4/verify_binding.py",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-theme-fix/verify_binding.py.txt",
+    "Sha256": "4a23c2fae182ef94716347ce06df6df8ed7bfa5ae1405b8a3ef8321bb56f677f"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/r4/run_guest.py",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-theme-fix/run_guest.py.txt",
+    "Sha256": "cac9db14bb9a32ca2dbae5e2f0a12e0dec4f03ae3d27079cf3298fbef241b21f"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/r4/PROGRESS.md",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-theme-fix/PROGRESS.md.txt",
+    "Sha256": "5ea432f39c31edb198bb53ad417cd39fcc3aa33541356e615e0d18b2496d4dc2"
+  }
+]

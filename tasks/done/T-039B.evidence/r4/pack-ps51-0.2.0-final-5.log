@@ -1,0 +1,72 @@
+{
+    "PSVersion":  "5.1.26100.9549",
+    "PSEdition":  "Desktop",
+    "ProcessPath":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe"
+}
+{
+    "TemporaryDirectory":  "F:\\Iris\\artifacts\\t039b\\pack-temp-4f5a337ae6074899a764d9f3c37392c8"
+}
+可使用以下命令调用工具: vpk
+已成功安装工具“vpk”(版本“1.2.161”)。
+  正在确定要还原的项目…
+  已还原 F:\Iris\src\Iris.Core\Iris.Core.csproj (用时 263 毫秒)。
+  已还原 F:\Iris\src\Iris.UiaHost\Iris.UiaHost.csproj (用时 263 毫秒)。
+  已还原 F:\Iris\src\Iris.Infrastructure\Iris.Infrastructure.csproj (用时 263 毫秒)。
+  已还原 F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 263 毫秒)。
+  已还原 F:\Iris\src\Iris.Providers\Iris.Providers.csproj (用时 264 毫秒)。
+  已还原 F:\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj (用时 263 毫秒)。
+  已还原 F:\Iris\src\Iris.App\Iris.App.csproj (用时 272 毫秒)。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Infrastructure -> F:\Iris\src\Iris.Infrastructure\bin\Release\net10.0\Iris.Infrastructure.dll
+  Iris.Providers -> F:\Iris\src\Iris.Providers\bin\Release\net10.0\Iris.Providers.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.Maintenance -> F:\Iris\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.Maintenance.dll
+  Iris.App -> F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.App.dll
+  Iris.App -> F:\Iris\artifacts\pack-0.2.0-da575d719a584a089622e6c2f60678ef\app\
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.UiaHost -> F:\Iris\artifacts\pack-0.2.0-da575d719a584a089622e6c2f60678ef\app\uia\
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.UiaHost -> F:\Iris\artifacts\pack-0.2.0-da575d719a584a089622e6c2f60678ef\uia\
+  正在确定要还原的项目…
+  已还原 F:\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj (用时 217 毫秒)。
+  已还原 F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 217 毫秒)。
+  已还原 F:\Iris\src\Iris.Core\Iris.Core.csproj (用时 217 毫秒)。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.Maintenance -> F:\Iris\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.Maintenance.dll
+  Iris.Maintenance -> F:\Iris\artifacts\pack-0.2.0-da575d719a584a089622e6c2f60678ef\maintenance\
+[03:23:35 INF] Velopack CLI 1.2.161, for distributing applications.
+[03:23:36 INF] Beginning to package Velopack release 0.2.0.
+[03:23:36 INF] Releases Directory: F:\Iris\artifacts\t039b\release-0.2.0-final-5
+[03:23:36 INF] Starting: Pre-process steps
+[03:23:36 WRN] VelopackApp.Run() was found in method 'System.Int32 Iris.App.Updates.VelopackStartup::RunHook(System.String[])', which does not look like your application's entry point. It is strongly recommended that you move this to the very beginning of your Main() method. 
+[03:23:36 INF] Runtime Dependency: net10-x64-desktop
+[03:23:36 INF] Shortcuts: Desktop,StartMenuRoot
+[03:23:36 INF] Complete: Pre-process steps
+[03:23:36 INF] Starting: Code-sign application
+[03:23:36 WRN] No signing parameters provided, 83 file(s) will not be signed.
+[03:23:36 INF] Complete: Code-sign application
+[03:23:36 INF] Starting: Building release 0.2.0
+[03:23:38 INF] Complete: Building release 0.2.0
+[03:23:38 INF] Starting: Building setup package
+[03:23:38 INF] Setup bundle created 'Iris-win-Setup.exe'.
+[03:23:38 WRN] No signing parameters provided, 1 file(s) will not be signed.
+[03:23:38 INF] Complete: Building setup package
+[03:23:38 INF] Starting: Post-process steps
+[03:23:38 INF] Complete: Post-process steps
+[03:23:38 INF] Finished in 00:00:02.4151392.
+ForEach-Object : The term 'Get-FileHash' is not recognized as the name of a cmdlet, function, script file, or operable 
+program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+At F:\Iris\build\pack.ps1:96 char:75
++ ...  -Recurse | ForEach-Object { @{Path=$_.FullName.Substring($staging.Le ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (Get-FileHash:String) [ForEach-Object], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException,Microsoft.PowerShell.Commands.ForEachObjectCommand
+ 

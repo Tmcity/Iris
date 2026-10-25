@@ -11,6 +11,7 @@
     <ProjectReference Include="..\..\src\Iris.Core\Iris.Core.csproj" />
     <ProjectReference Include="..\..\src\Iris.Infrastructure\Iris.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj" />
+    <ProjectReference Include="..\Iris.UpdateHandoffWorker\Iris.UpdateHandoffWorker.csproj" ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,4 +43,11 @@
     <Compile Include="..\Iris.Platform.Windows.Tests\Imaging\ImagePreparationTestScope.cs" Link="Imaging\ImagePreparationTestScope.cs" />
     <Compile Include="..\Iris.Platform.Windows.Tests\Capture\FakeScreenEncoderIo.cs" Link="Capture\Boundaries\FakeScreenEncoderIo.cs" />
   </ItemGroup>
+
+  <Target Name="CopyOwnedUpdateHandoffWorker" AfterTargets="Build">
+    <ItemGroup>
+      <OwnedUpdateWorker Include="$(MSBuildProjectDirectory)\..\Iris.UpdateHandoffWorker\bin\$(Configuration)\$(TargetFramework)\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(OwnedUpdateWorker)" DestinationFiles="@(OwnedUpdateWorker->'$(TargetDir)update-worker\%(RecursiveDir)%(Filename)%(Extension)')" SkipUnchangedFiles="true" />
+  </Target>
 </Project>

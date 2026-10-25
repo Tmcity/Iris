@@ -1,0 +1,17 @@
+{
+  "Command": [
+    "python",
+    "build\\localization\\audit.py",
+    "--root",
+    "F:\\Iris",
+    "--inventory",
+    "F:\\Iris\\tasks\\done\\T-039B.evidence\\r4\\localization-after-1\\source-inventory.json",
+    "--output",
+    "F:\\Iris\\tasks\\done\\T-039B.evidence\\r4\\localization-after-1\\audit-result.json"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-24T21:35:47.820889+00:00",
+  "FinishedUtc": "2026-10-24T21:35:47.972025+00:00",
+  "ExitCode": 0,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\localization-catalog-after-1.log"
+}

@@ -1,0 +1,104 @@
+from pathlib import Path
+import json
+import re
+import subprocess
+import sys
+from inspect_delivery import file_record, json_read, sha, test_reports
+
+sys.stdout.reconfigure(encoding="utf-8")
+evidence = Path(__file__).resolve().parent
+root = evidence.parents[3]
+active = json_read(evidence / "active_round.json")
+source = json_read(evidence / active["SourceBinding"])
+review = root / "tasks/done/T-039B.review/acceptance-review-4"
+independent_runtime = json_read(review / "independent-runtime-candidate2-binding.json")
+independent_bytes = json_read(review / "candidate-check-2.json")
+independent_visual = json_read(review / "recovery-ui/after-observation-1/reviewed.json")
+assert independent_runtime["sourceBindingSha256"] == sha(evidence / active["SourceBinding"])
+assert independent_runtime["sourceGitTree"] == source["GitTree"]
+assert independent_runtime["allFrozenInputsUnchanged"] and not independent_runtime["inputErrors"]
+assert independent_bytes["sourceBindingSha256"] == sha(evidence / active["SourceBinding"])
+assert independent_bytes["passed"] == independent_bytes["checks"] and not independent_bytes["failures"]
+assert independent_visual["sourceGitTree"] == source["GitTree"]
+independent_files = [review / name for name in ["independent-runtime-candidate2-1.log", "independent-runtime-candidate2-1.command.json",
+    "independent-runtime-candidate2-binding.json", "candidate-check-2.json", "candidate-check-2.log", "candidate-check-2.command.json",
+    "recovery-ui/after-observation-1/reviewed.json"]]
+independent_files += sorted((review / "independent-runtime-1-reports").glob("*.xml"))
+independent_files += [root / item["path"] for item in independent_runtime["workerResults"]]
+complete = (evidence / active["GuestInspection"]).exists()
+inspection = json_read(evidence / (active["GuestInspection"] if complete else active["PackageInspection"]))
+for entry in source["SourceFiles"]: assert sha(root / entry["Path"]) == entry["Sha256"], entry["Path"]
+old = json_read(evidence / "historical-delivery-binding-r3.json")
+build = (evidence / (active["ReleaseBuild"] + ".log")).read_text(encoding="utf-8")
+assert re.search(r"0 个警告", build) and re.search(r"0 个错误", build)
+assert json_read(evidence / (active["ReleaseBuild"] + ".command.json"))["ExitCode"] == 0
+assert json_read(evidence / (active["FullTests"] + ".command.json"))["ExitCode"] == 0
+assert inspection["FullTestReports"]["Failed"] == 0
+assert inspection["FixedProductionReports"]["Total"] == 9 and inspection["FixedProductionReports"]["Failed"] == 0
+constraints = []
+for path in ["specs/CONTRACTS.cs", "specs/DB_SCHEMA.sql", "specs/settings.example.json", "Directory.Packages.props"]:
+    current = subprocess.check_output(["git", "hash-object", "--path", path, path], cwd=root).decode().strip()
+    baseline = subprocess.check_output(["git", "rev-parse", source["BaseCommit"] + ":" + path], cwd=root).decode().strip()
+    assert current == baseline, path
+    constraints.append(dict(file_record(root / path), GitBlob=current))
+
+scenarios = [
+    {"Scenario": "Bilingual uninstall choices, reinstall, failed data cleanup and retry", "EvidenceDir": "tasks/done/T-039B.evidence/guest-matrix-4",
+     "PackageTag": "release-0.2.0-6", "InputBinding": file_record(evidence.parent / "guest-matrix-4/input-binding.json")},
+    {"Scenario": "Full synthetic data retention/deletion and ownership branches", "EvidenceDir": "tasks/done/T-039B.evidence/guest-coverage-final-2",
+     "PackageTag": "final-3", "InputBinding": file_record(evidence.parent / "guest-final-inputs-3/input-binding.json")},
+    {"Scenario": "Installer cancellation and checksum failure", "EvidenceDir": "tasks/done/T-039B.evidence/guest-remaining-final-1",
+     "PackageTag": "final-3", "InputBinding": file_record(evidence.parent / "guest-remaining-final-1/input-binding.json")},
+    {"Scenario": "Committed native failure feedback and recovery", "EvidenceDir": "tasks/done/T-039B.evidence/guest-committed-failure-final-1",
+     "PackageTag": "final-3", "InputBinding": file_record(evidence.parent / "guest-final-inputs-2/input-binding.json")},
+]
+binding = {
+    "BaseCommit": source["BaseCommit"], "GitTree": source["GitTree"], "GitTreeSemantics": source["GitTreeSemantics"], "GitTreeScope": source["Roots"],
+    "CompletionStatus": "ReadyForIndependentReview" if complete else "AwaitingOwnedSandboxEnvironment_NotComplete",
+    "RequiredUnfinished": [] if complete else [active["PackageTag"] + " install and running silent retention uninstall in clean owned guest", active["PackageTag"] + " two-version local full-package apply in clean owned guest"],
+    "BoundPackageVersions": ["0.2.0", "0.2.1"], "BoundPackageArtifactTag": active["PackageTag"], "ProductSourcesMatchTestedCandidate": True,
+    "SourceFiles": [dict(entry, WorkingSha256=entry["Sha256"]) for entry in source["SourceFiles"]],
+    "TestedCandidate": file_record(evidence / active["SourceBinding"]), "UnchangedContractsSchemaAndVersions": constraints,
+    "SupersededCandidatePreserved": {"SourceBinding": file_record(evidence / "tested-source-binding.json"), "PackageInspection": file_record(evidence / "package-inspection.json"), "PackageTag": "final-6", "BeforeThemeFix": file_record(evidence / "before-theme-fix/binding.json")},
+    "ReleasePackages": inspection["ReleasePackages"],
+    "FeedVerification": file_record(evidence / "feed-inspection-1.json"),
+    "TestVerification": {"BuildRelease": {"Command": json_read(evidence / (active["ReleaseBuild"] + ".command.json")), "Warnings": 0, "Errors": 0},
+        "FullTests": inspection["FullTestReports"], "FixedProductionTopology": inspection["FixedProductionReports"]},
+    "RecoveryThemeVerification": {"IndependentFailure": file_record(root / "tasks/done/T-039B.review/acceptance-review-4/source-feedback-2/README.md"),
+        "IndependentReviewedImages": file_record(root / "tasks/done/T-039B.review/acceptance-review-4/recovery-ui/attempt-2/reviewed.json"),
+        "BeforeRegression": test_reports(evidence / (active["RenderingBefore"] + "-reports")),
+        "AfterRegression": test_reports(evidence / (active["RenderingAfter"] + "-reports")),
+        "AfterViewedImages": file_record(evidence / "reviewed-recovery-theme-after-1.json"),
+        "ResourceScope": "App.xaml global ThemesDictionary and ControlsDictionary plus production ApplicationThemeManager.Apply; no window dictionaries or brush overrides from the test."},
+    "IndependentReviewR4": {"RuntimeAssemblies": independent_runtime["assemblies"], "RuntimeScope": independent_runtime["scope"],
+        "FrozenInputsUnchanged": independent_runtime["allFrozenInputsUnchanged"], "ByteChecks": independent_bytes["checks"],
+        "ByteChecksPassed": independent_bytes["passed"], "ByteCheckScope": independent_bytes["scope"],
+        "VisualScope": independent_visual["scope"], "ThemeDefectVisuallyClosed": independent_visual["themeDefectVisuallyClosedForCandidate2"]},
+    "IndependentReviewRecords": [file_record(path) for path in independent_files],
+    "BeforeAfter": {"Before": file_record(evidence / "frozen-r3-production-before-1.log"), "BeforeExit": 1,
+        "FrozenR3Binding": file_record(root / "tasks/done/T-039B.review/acceptance-review-3/rollback-probe-binding.json"),
+        "FrozenDependenciesVerified": inspection["FrozenR3DependenciesVerified"], "After": file_record(evidence / (active["FixedProduction"] + ".log")), "AfterExit": 0,
+        "Scope": "Before replays the unmodified frozen R3 counterexample; after runs the published complete production topology with actual settings shutdown, Dispatcher, preparation, revoke and recovery receipt ownership. Different fixtures are disclosed; no claim that the old binary was rerun against new internal APIs."},
+    "SandboxVerificationR4": inspection.get("SandboxVerificationR4", {"Status": "NotRun_PrerequisiteMissing", "PrerequisiteLog": file_record(evidence / "sandbox-preflight-1.log"),
+        "FailedAttemptLog": file_record(evidence / "guest-install-r4-1-run.log"), "NoGuestStarted": True}),
+    "HistoricalR3Correction": {"OriginalBinding": file_record(evidence / "historical-delivery-binding-r3.json"), "OriginalReport": file_record(evidence / "historical-report-r3.md"),
+        "OriginalGitTree": old["GitTree"], "OriginalTreeSemanticsCorrection": "Earlier index snapshot differed from the final R3 commit at delivery-binding.json itself. It is preserved as history, not asserted as the final R4 commit or complete evidence tree.",
+        "ActualObservations": inspection["CorrectedR3Observations"], "AppliedPackage": "Iris-0.2.1-full.nupkg", "Delta": "Generated only; application unverified"},
+    "RetainedUnaffectedScenarios": scenarios,
+    "ActiveOrderSnapshot": file_record(evidence / active["OrderSnapshot"]),
+    "ArchivedOrderSha256": sha(evidence / active["OrderSnapshot"]),
+    "PriorOrderSnapshots": [file_record(evidence / "signed-order-r4.md"), file_record(evidence / "signed-order-r4-env-supplement-20261025.md")],
+    "EnvironmentCoordination": {"Owner": "Architect", "Source": file_record(root / "tasks/done/T-039B.review/acceptance-review-4/host-isolation-preflight-1.json"),
+        "SandboxFeatureState": "Disabled (Win32_OptionalFeature InstallState=2)", "HyperVAccess": "Current account denied",
+        "HostFeatureEnablement": "Architect awaiting the user's one environment choice/approval; not executed as of the archived supplement",
+        "EngineerMustNotRepeatUserRequest": True, "CurrentTaskRetainedUntilNewGuestVerificationCompletes": True},
+    "UnverifiedItems": ["Standard-user runtime elevation refusal", "System restart branch", "Cross-user install", "Physical portable environment", "Public anonymous GitHub user UI update path (T-039C)", "Final NFR (T-040)"],
+    "EvidenceScope": "Exact file records below, created after logs finished. Binding excludes itself and any later verification output. GitTree deliberately excludes all evidence; no self-reference.",
+    "Evidence": [file_record(p) for p in sorted(evidence.rglob("*")) if p.is_file() and "__pycache__" not in p.parts
+        and not p.name.startswith(("binding-check-", "source-commit-check-"))]
+        + [file_record(root / "tasks/done/T-039B.md")],
+    "StagedCodexFiles": 0,
+}
+destination = evidence.parent / "delivery-binding.json"
+destination.write_text(json.dumps(binding, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
+print(json.dumps({"Binding": str(destination), "Sha256": sha(destination), "CompletionStatus": binding["CompletionStatus"], "GitTree": binding["GitTree"]}, ensure_ascii=False))

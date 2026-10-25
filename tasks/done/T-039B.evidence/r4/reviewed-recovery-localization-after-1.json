@@ -1,0 +1,239 @@
+{
+  "Scope": "New final-source rendering from full-tests-3; previous candidate-2 review remains historical.",
+  "Frames": [
+    {
+      "Image": "tasks/done/T-039B.evidence/r4/full-tests-3-results/recovery-en-US-Dark-380.png",
+      "Sha256": "44BD88284E56D096774715926B5EC06ED3096EE428B317E40844EE58E748BDE5",
+      "ActualLanguage": "en-US",
+      "ActualTheme": "Dark",
+      "Width": 380,
+      "AppDllSha256": "B68571121BCAC2CBD81AFCB6A9A8882B9A90FF6981F06E9F428CEFAC38A1EEF6",
+      "Buttons": [
+        {
+          "Label": "Retry installation",
+          "Foreground": "#FF000000",
+          "Background": "#FF73C2FF",
+          "Contrast": 10.889682171145143
+        },
+        {
+          "Label": "Cancel update and exit",
+          "Foreground": "#FFFFFFFF",
+          "Background": "#FF2D2D2D",
+          "Contrast": 13.772077281869057
+        }
+      ],
+      "BodyContrast": [
+        16.29325535858735,
+        16.29325535858735,
+        16.29325535858735
+      ],
+      "Viewed": true,
+      "VisualVerdict": "Body and both action labels and surfaces remain readable in the newly executed final-source render."
+    },
+    {
+      "Image": "tasks/done/T-039B.evidence/r4/full-tests-3-results/recovery-en-US-Dark-540.png",
+      "Sha256": "78EF6D82A21490FCFD87D602A876013DC7DB17129998E395A486BB9A5B96EF30",
+      "ActualLanguage": "en-US",
+      "ActualTheme": "Dark",
+      "Width": 540,
+      "AppDllSha256": "B68571121BCAC2CBD81AFCB6A9A8882B9A90FF6981F06E9F428CEFAC38A1EEF6",
+      "Buttons": [
+        {
+          "Label": "Retry installation",
+          "Foreground": "#FF000000",
+          "Background": "#FF73C2FF",
+          "Contrast": 10.889682171145143
+        },
+        {
+          "Label": "Cancel update and exit",
+          "Foreground": "#FFFFFFFF",
+          "Background": "#FF2D2D2D",
+          "Contrast": 13.772077281869057
+        }
+      ],
+      "BodyContrast": [
+        16.29325535858735,
+        16.29325535858735,
+        16.29325535858735
+      ],
+      "Viewed": true,
+      "VisualVerdict": "Body and both action labels and surfaces remain readable in the newly executed final-source render."
+    },
+    {
+      "Image": "tasks/done/T-039B.evidence/r4/full-tests-3-results/recovery-en-US-Light-380.png",
+      "Sha256": "ED3856181B506DE15AD5DCC1206412B920445ADA1BD289676D9B19520C18419A",
+      "ActualLanguage": "en-US",
+      "ActualTheme": "Light",
+      "Width": 380,
+      "AppDllSha256": "B68571121BCAC2CBD81AFCB6A9A8882B9A90FF6981F06E9F428CEFAC38A1EEF6",
+      "Buttons": [
+        {
+          "Label": "Retry installation",
+          "Foreground": "#FFFFFFFF",
+          "Background": "#FF006ABB",
+          "Contrast": 5.556753797448295
+        },
+        {
+          "Label": "Cancel update and exit",
+          "Foreground": "#FF1B1B1B",
+          "Background": "#FFFBFBFB",
+          "Contrast": 16.645089946653748
+        }
+      ],
+      "BodyContrast": [
+        15.684935009830374,
+        15.684935009830374,
+        15.684935009830374
+      ],
+      "Viewed": true,
+      "VisualVerdict": "Body and both action labels and surfaces remain readable in the newly executed final-source render."
+    },
+    {
+      "Image": "tasks/done/T-039B.evidence/r4/full-tests-3-results/recovery-en-US-Light-540.png",
+      "Sha256": "7E0968F3745A5497F22BF21A70921AFCAB2292CCA4D6637E0E625EDD509015E7",
+      "ActualLanguage": "en-US",
+      "ActualTheme": "Light",
+      "Width": 540,
+      "AppDllSha256": "B68571121BCAC2CBD81AFCB6A9A8882B9A90FF6981F06E9F428CEFAC38A1EEF6",
+      "Buttons": [
+        {
+          "Label": "Retry installation",
+          "Foreground": "#FFFFFFFF",
+          "Background": "#FF006ABB",
+          "Contrast": 5.556753797448295
+        },
+        {
+          "Label": "Cancel update and exit",
+          "Foreground": "#FF1B1B1B",
+          "Background": "#FFFBFBFB",
+          "Contrast": 16.645089946653748
+        }
+      ],
+      "BodyContrast": [
+        15.684935009830374,
+        15.684935009830374,
+        15.684935009830374
+      ],
+      "Viewed": true,
+      "VisualVerdict": "Body and both action labels and surfaces remain readable in the newly executed final-source render."
+    },
+    {
+      "Image": "tasks/done/T-039B.evidence/r4/full-tests-3-results/recovery-zh-CN-Dark-380.png",
+      "Sha256": "F68B5A5419CE778DB6756BEB3B16C2E00954F1053C10EC8DAE866359FC565304",
+      "ActualLanguage": "zh-CN",
+      "ActualTheme": "Dark",
+      "Width": 380,
+      "AppDllSha256": "B68571121BCAC2CBD81AFCB6A9A8882B9A90FF6981F06E9F428CEFAC38A1EEF6",
+      "Buttons": [
+        {
+          "Label": "重试安装",
+          "Foreground": "#FF000000",
+          "Background": "#FF73C2FF",
+          "Contrast": 10.889682171145143
+        },
+        {
+          "Label": "取消更新并退出",
+          "Foreground": "#FFFFFFFF",
+          "Background": "#FF2D2D2D",
+          "Contrast": 13.772077281869057
+        }
+      ],
+      "BodyContrast": [
+        16.29325535858735,
+        16.29325535858735,
+        16.29325535858735
+      ],
+      "Viewed": true,
+      "VisualVerdict": "Body and both action labels and surfaces remain readable in the newly executed final-source render."
+    },
+    {
+      "Image": "tasks/done/T-039B.evidence/r4/full-tests-3-results/recovery-zh-CN-Dark-540.png",
+      "Sha256": "A58430362A7597FCF07D3E391281D9213C8582B55C12A189F930C033069286C4",
+      "ActualLanguage": "zh-CN",
+      "ActualTheme": "Dark",
+      "Width": 540,
+      "AppDllSha256": "B68571121BCAC2CBD81AFCB6A9A8882B9A90FF6981F06E9F428CEFAC38A1EEF6",
+      "Buttons": [
+        {
+          "Label": "重试安装",
+          "Foreground": "#FF000000",
+          "Background": "#FF73C2FF",
+          "Contrast": 10.889682171145143
+        },
+        {
+          "Label": "取消更新并退出",
+          "Foreground": "#FFFFFFFF",
+          "Background": "#FF2D2D2D",
+          "Contrast": 13.772077281869057
+        }
+      ],
+      "BodyContrast": [
+        16.29325535858735,
+        16.29325535858735,
+        16.29325535858735
+      ],
+      "Viewed": true,
+      "VisualVerdict": "Body and both action labels and surfaces remain readable in the newly executed final-source render."
+    },
+    {
+      "Image": "tasks/done/T-039B.evidence/r4/full-tests-3-results/recovery-zh-CN-Light-380.png",
+      "Sha256": "CB10AF4163B1CD1D7ADF9423965159D49762B65D639F4FDD2A7CC1EBE7955473",
+      "ActualLanguage": "zh-CN",
+      "ActualTheme": "Light",
+      "Width": 380,
+      "AppDllSha256": "B68571121BCAC2CBD81AFCB6A9A8882B9A90FF6981F06E9F428CEFAC38A1EEF6",
+      "Buttons": [
+        {
+          "Label": "重试安装",
+          "Foreground": "#FFFFFFFF",
+          "Background": "#FF006ABB",
+          "Contrast": 5.556753797448295
+        },
+        {
+          "Label": "取消更新并退出",
+          "Foreground": "#FF1B1B1B",
+          "Background": "#FFFBFBFB",
+          "Contrast": 16.645089946653748
+        }
+      ],
+      "BodyContrast": [
+        15.684935009830374,
+        15.684935009830374,
+        15.684935009830374
+      ],
+      "Viewed": true,
+      "VisualVerdict": "Body and both action labels and surfaces remain readable in the newly executed final-source render."
+    },
+    {
+      "Image": "tasks/done/T-039B.evidence/r4/full-tests-3-results/recovery-zh-CN-Light-540.png",
+      "Sha256": "C0DB423DA2350B5DFB5D11B859C3B50DE8409668DDD710CEBA008F780FBCFEE1",
+      "ActualLanguage": "zh-CN",
+      "ActualTheme": "Light",
+      "Width": 540,
+      "AppDllSha256": "B68571121BCAC2CBD81AFCB6A9A8882B9A90FF6981F06E9F428CEFAC38A1EEF6",
+      "Buttons": [
+        {
+          "Label": "重试安装",
+          "Foreground": "#FFFFFFFF",
+          "Background": "#FF006ABB",
+          "Contrast": 5.556753797448295
+        },
+        {
+          "Label": "取消更新并退出",
+          "Foreground": "#FF1B1B1B",
+          "Background": "#FFFBFBFB",
+          "Contrast": 16.645089946653748
+        }
+      ],
+      "BodyContrast": [
+        15.684935009830374,
+        15.684935009830374,
+        15.684935009830374
+      ],
+      "Viewed": true,
+      "VisualVerdict": "Body and both action labels and surfaces remain readable in the newly executed final-source render."
+    }
+  ],
+  "MinimumActionContrast": 5.556753797448295,
+  "MinimumBodyContrast": 15.684935009830374
+}

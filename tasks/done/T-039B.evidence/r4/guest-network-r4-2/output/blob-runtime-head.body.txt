@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Cache-Control: public, max-age=864000
+Content-Length: 60056984
+Content-Type: application/octet-stream
+Content-MD5: rNqzmQT3has9euiD917WIQ==
+Last-Modified: Tue, 13 Oct 2026 17:23:49 GMT
+ETag: 0x8DF294EBEFC5E0C
+Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
+x-ms-request-id: 455e1a76-101e-0033-2f45-643acb000000
+x-ms-version: 2009-09-19
+x-ms-lease-status: unlocked
+x-ms-blob-type: BlockBlob
+Date: Sun, 25 Oct 2026 05:59:08 GMT
+

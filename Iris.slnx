@@ -17,5 +17,6 @@
     <Project Path="tests/Iris.Platform.Windows.Tests/Iris.Platform.Windows.Tests.csproj" />
     <Project Path="tests/Iris.Providers.Tests/Iris.Providers.Tests.csproj" />
     <Project Path="tests/Iris.Maintenance.Tests/Iris.Maintenance.Tests.csproj" />
+    <Project Path="tests/Iris.UpdateHandoffWorker/Iris.UpdateHandoffWorker.csproj" />
   </Folder>
 </Solution>

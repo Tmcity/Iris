@@ -1,0 +1,76 @@
+﻿{
+    "Checks":  [
+                   {
+                       "Name":  "environment",
+                       "Value":  {
+                                     "RuntimesBefore":  [
+
+                                                        ],
+                                     "Administrator":  true,
+                                     "User":  "86386AD9-0CF1-4\\WDAGUtilityAccount",
+                                     "OS":  "Microsoft Windows 11 企业版",
+                                     "Version":  "10.0.26100"
+                                 }
+                   },
+                   {
+                       "Name":  "guest-runtime-doh-builds.dotnet.microsoft.com",
+                       "Value":  {
+                                     "OriginalAnswers":  [
+                                                             {
+                                                                 "Name":  "builds.dotnet.microsoft.com",
+                                                                 "Type":  1,
+                                                                 "IPAddress":  "198.18.9.39",
+                                                                 "NameHost":  null
+                                                             }
+                                                         ],
+                                     "ExitCode":  0
+                                 }
+                   },
+                   {
+                       "Name":  "guest-runtime-address-builds.dotnet.microsoft.com",
+                       "Value":  {
+                                     "HostNetworkChanged":  false,
+                                     "TlsValidationUnchanged":  true,
+                                     "Source":  "https://dns.google/resolve",
+                                     "Address":  "23.11.207.144"
+                                 }
+                   },
+                   {
+                       "Name":  "guest-runtime-doh-dotnetcli.blob.core.windows.net",
+                       "Value":  {
+                                     "OriginalAnswers":  [
+                                                             {
+                                                                 "Name":  "dotnetcli.blob.core.windows.net",
+                                                                 "Type":  1,
+                                                                 "IPAddress":  "198.18.9.38",
+                                                                 "NameHost":  null
+                                                             }
+                                                         ],
+                                     "ExitCode":  0
+                                 }
+                   },
+                   {
+                       "Name":  "guest-runtime-address-dotnetcli.blob.core.windows.net",
+                       "Value":  {
+                                     "HostNetworkChanged":  false,
+                                     "TlsValidationUnchanged":  true,
+                                     "Source":  "https://dns.google/resolve",
+                                     "Address":  "20.60.81.165"
+                                 }
+                   },
+                   {
+                       "Name":  "guest-runtime-dns-applied",
+                       "Value":  {
+                                     "Runtimes":  [
+
+                                                  ],
+                                     "NoRuntimeInstalledByFixture":  true
+                                 }
+                   },
+                   {
+                       "Name":  "install-exit",
+                       "Value":  2
+                   }
+               ],
+    "Failure":  null
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "Original": {
+      "Path": "tasks/done/T-039B.md",
+      "Bytes": 85918,
+      "Sha256": "db929e77bba08550d4104442ffeff2e25a3d7e36c9df4e766668b13dc4fe0746"
+    },
+    "Snapshot": {
+      "Path": "tasks/done/T-039B.evidence/r4/before-final-review-sync-1/T-039B.md.txt",
+      "Bytes": 85918,
+      "Sha256": "db929e77bba08550d4104442ffeff2e25a3d7e36c9df4e766668b13dc4fe0746"
+    }
+  },
+  {
+    "Original": {
+      "Path": "tasks/done/T-039B.evidence/delivery-binding.json",
+      "Bytes": 514318,
+      "Sha256": "1bc13aa5e7ff4dd4d96a5a654adfee20fd45939c5e51ec7ae1bba8fe48134b76"
+    },
+    "Snapshot": {
+      "Path": "tasks/done/T-039B.evidence/r4/before-final-review-sync-1/delivery-binding.json.txt",
+      "Bytes": 514318,
+      "Sha256": "1bc13aa5e7ff4dd4d96a5a654adfee20fd45939c5e51ec7ae1bba8fe48134b76"
+    }
+  },
+  {
+    "Original": {
+      "Path": "tasks/done/T-039B.evidence/r4/PROGRESS.md",
+      "Bytes": 4117,
+      "Sha256": "7e402912f78ef084b746de12eae0e9dfbe655585e5bff912d5ed79950a21cd7f"
+    },
+    "Snapshot": {
+      "Path": "tasks/done/T-039B.evidence/r4/before-final-review-sync-1/PROGRESS.md.txt",
+      "Bytes": 4117,
+      "Sha256": "7e402912f78ef084b746de12eae0e9dfbe655585e5bff912d5ed79950a21cd7f"
+    }
+  },
+  {
+    "Original": {
+      "Path": "tasks/done/T-039B.evidence/r4/write_report.py",
+      "Bytes": 29475,
+      "Sha256": "0b4b175343fccfa38c325599e7c2bbf86876d56cc4605b8f6b3437e090126ed0"
+    },
+    "Snapshot": {
+      "Path": "tasks/done/T-039B.evidence/r4/before-final-review-sync-1/write_report.py.txt",
+      "Bytes": 29475,
+      "Sha256": "0b4b175343fccfa38c325599e7c2bbf86876d56cc4605b8f6b3437e090126ed0"
+    }
+  },
+  {
+    "Original": {
+      "Path": "tasks/done/T-039B.evidence/r4/finalize_binding_r4.py",
+      "Bytes": 16608,
+      "Sha256": "903c04d92dd9664375efe6ba2c59052b70bf73bab106a64af4913393e567542f"
+    },
+    "Snapshot": {
+      "Path": "tasks/done/T-039B.evidence/r4/before-final-review-sync-1/finalize_binding_r4.py.txt",
+      "Bytes": 16608,
+      "Sha256": "903c04d92dd9664375efe6ba2c59052b70bf73bab106a64af4913393e567542f"
+    }
+  },
+  {
+    "Original": {
+      "Path": "tasks/done/T-039B.evidence/r4/stage_delivery.py",
+      "Bytes": 3154,
+      "Sha256": "0bde9cc55370a11c67c9f6fe4a8d7c832186ceef67610c2ee840f1debfdddfe0"
+    },
+    "Snapshot": {
+      "Path": "tasks/done/T-039B.evidence/r4/before-final-review-sync-1/stage_delivery.py.txt",
+      "Bytes": 3154,
+      "Sha256": "0bde9cc55370a11c67c9f6fe4a8d7c832186ceef67610c2ee840f1debfdddfe0"
+    }
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "Command": [
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "F:\\Iris\\tasks\\done\\T-039B.evidence\\r4\\pack_ps51_r4.ps1",
+    "-Version",
+    "0.2.1",
+    "-OutputDirectory",
+    "F:\\Iris\\artifacts\\t039b\\release-0.2.1-final-6",
+    "-PreviousReleaseDirectory",
+    "F:\\Iris\\artifacts\\t039b\\release-0.2.0-final-6"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-24T19:26:56.346658+00:00",
+  "FinishedUtc": "2026-10-24T19:27:15.963092+00:00",
+  "ExitCode": 0,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\pack-ps51-0.2.1-final-6.log"
+}

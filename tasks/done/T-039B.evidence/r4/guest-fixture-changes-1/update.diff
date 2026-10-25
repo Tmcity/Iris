@@ -1,0 +1,46 @@
+--- tasks\done\T-039B.evidence\guest_update.ps1
++++ tasks\done\T-039B.evidence\r4\guest_update_r4.ps1
+@@ -1,10 +1,17 @@
+-param([string]$Label='update-2',[string]$HostDirectory='update-host-3')
++param([string]$Label='update-2',[string]$HostDirectory='update-host-3',[switch]$PrefetchRuntime,[switch]$PublicRuntimeDns)
+ $ErrorActionPreference='Stop'
+ $output=Join-Path 'C:\IrisBOutput' $Label;New-Item -ItemType Directory -Path $output|Out-Null
+ $report=[ordered]@{Checks=@();Failure=$null}
+ . C:\IrisBInput\guest_common.ps1
+ $root=Join-Path $env:LOCALAPPDATA 'Iris';$app=Join-Path $root 'current\Iris.App.exe';$data=Join-Path $env:APPDATA 'Iris'
+ try {
++    $os=Get-CimInstance Win32_OperatingSystem
++    $identity=[Security.Principal.WindowsIdentity]::GetCurrent()
++    $principal=New-Object Security.Principal.WindowsPrincipal($identity)
++    Record 'environment' @{OS=$os.Caption;Version=$os.Version;User=$identity.Name;Administrator=$principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator);RuntimesBefore=@(Runtimes)}
++    Require 'clean-no-shared-dotnet10' (@(Runtimes | Where-Object {$_.Version -like '10.*'}).Count -eq 0)
++    if ($PublicRuntimeDns) { . C:\IrisBInput\guest_runtime_dns.ps1 }
++    if ($PrefetchRuntime) { . C:\IrisBInput\guest_runtime_prefetch.ps1 }
+     Require 'install-before-update' ((Run-Child 'C:\IrisBInput\Iris-0.2.0-Setup.exe' '--silent --no-start' 'install') -eq 0)
+     New-Item -ItemType Directory -Path $data -Force|Out-Null
+     [IO.File]::WriteAllText((Join-Path $data 'settings.json'),'{"schemaVersion":1,"general":{"checkForUpdates":false,"uiLanguage":"en-US"}}')
+@@ -27,6 +34,7 @@
+     $deadline=[DateTime]::UtcNow.AddSeconds(20)
+     do{$new.Refresh();if($new.MainWindowHandle -ne 0){break};Start-Sleep -Milliseconds 100}while([DateTime]::UtcNow -lt $deadline)
+     Require 'updated-window-visible' ($new.MainWindowHandle -ne 0)
++    Start-Sleep -Milliseconds 600
+     Add-Type -AssemblyName System.Drawing;Add-Type -AssemblyName System.Windows.Forms
+     $bounds=[Windows.Forms.SystemInformation]::VirtualScreen;$bitmap=New-Object Drawing.Bitmap($bounds.Width,$bounds.Height);$graphics=[Drawing.Graphics]::FromImage($bitmap)
+     try{$graphics.CopyFromScreen($bounds.Location,[Drawing.Point]::Empty,$bounds.Size);$bitmap.Save((Join-Path $output 'updated-settings.png'))}finally{$graphics.Dispose();$bitmap.Dispose()}
+@@ -38,10 +46,14 @@
+     Require 'updated-data-readable' ((Run-Child $driver ('--data verify '+(Join-Path $output 'data-after.json')) 'verify-data') -eq 0)
+     $workDirs = @(Get-ChildItem (Join-Path $env:LOCALAPPDATA 'Iris.Maintenance') -Filter 'work-*' -Directory -ErrorAction SilentlyContinue)
+     Record 'work-dirs-after-update' @{Count=$workDirs.Count;Paths=@($workDirs | ForEach-Object { $_.Name })}
+-    Require 'work-directories-bounded' ($workDirs.Count -le 1)
++    Require 'work-directories-bounded' ($workDirs.Count -eq 0)
++    $residual=@(Get-CimInstance Win32_Process | Where-Object { $_.Name -match '^Iris\.' -or $_.ExecutablePath -like ((Join-Path $env:LOCALAPPDATA 'Iris')+'\*') -or $_.ExecutablePath -like ((Join-Path $env:LOCALAPPDATA 'Iris.Maintenance')+'\*') } | Select-Object ProcessId,ParentProcessId,CreationDate,ExecutablePath,CommandLine)
++    Record 'owned-iris-processes-after-exit' $residual
++    Require 'no-owned-iris-processes-after-exit' ($residual.Count -eq 0)
+ }catch{$report.Failure=$_.ToString()}
+ finally {
+-    Get-CimInstance Win32_Process|Where-Object{$_.Name -match 'Iris|Setup|Update'}|Select-Object ProcessId,ParentProcessId,CreationDate,ExecutablePath,CommandLine|ConvertTo-Json -Depth 4|Set-Content (Join-Path $output 'final-processes.json') -Encoding UTF8
++    $finalProcesses=@(Get-CimInstance Win32_Process|Where-Object{$_.Name -match 'Iris|Setup|Update|dotnet|msiexec'}|Select-Object ProcessId,ParentProcessId,CreationDate,ExecutablePath,CommandLine)
++    ConvertTo-Json -InputObject $finalProcesses -Depth 4|Set-Content (Join-Path $output 'final-processes.json') -Encoding UTF8
+     foreach($folder in @((Join-Path $env:LOCALAPPDATA 'Iris.Maintenance'),(Join-Path $env:LOCALAPPDATA 'Velopack'))){Get-ChildItem $folder -Recurse -File -ErrorAction SilentlyContinue|Where-Object{$_.Extension -eq '.log' -or $_.Name -in @('transaction.json','last-failure.json')}|ForEach-Object{Copy-Item $_.FullName (Join-Path $output $_.Name) -ErrorAction SilentlyContinue}}
+     $report|ConvertTo-Json -Depth 10|Set-Content (Join-Path $output 'result.json') -Encoding UTF8
+ }

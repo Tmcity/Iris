@@ -1,0 +1,1 @@
+{"Command": ["C:/Users/28910/AppData/Local/Microsoft/WindowsApps/wsb.exe", "exec", "--id", "9ed2fc1a-ebe5-4756-99dd-8cc1df5f699e", "--command", "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\\IrisBInput\\guest_network.ps1", "--run-as", "ExistingLogin", "--raw"], "ExitCode": 0}

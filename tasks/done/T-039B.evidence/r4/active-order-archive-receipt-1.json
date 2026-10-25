@@ -1,0 +1,20 @@
+{
+  "ArchivedOrder": {
+    "Path": "tasks/done/T-039B.evidence/r4/signed-order-r4-sandbox-enabled-20261025.md",
+    "Bytes": 9644,
+    "Sha256": "b1250a541c29f7d0373e63cbf4360dc45f1500cb8f06ff368b5b1182e328d803"
+  },
+  "RemovedOnly": "tasks/current_task.md",
+  "RemovedUtc": "2026-10-25T06:35:31.312325+00:00",
+  "GuestInspection": {
+    "Path": "tasks/done/T-039B.evidence/r4/delivery-inspection-3.json",
+    "Bytes": 64850,
+    "Sha256": "d260f6d48e69be6cafeb35d8eae02b7393f37b14ba9648b43071f5264ae297e2"
+  },
+  "EngineerViewedImages": {
+    "Path": "tasks/done/T-039B.evidence/r4/reviewed-guests-r4-1.json",
+    "Bytes": 1662,
+    "Sha256": "4a245ac53862b4834d11f225dec378e1eda3fe91b132654fca60c146cdd1259a"
+  },
+  "Purpose": "Engineering delivery for independent review. No parent acceptance, BACKLOG change or next task."
+}

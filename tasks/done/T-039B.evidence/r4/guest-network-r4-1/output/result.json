@@ -1,0 +1,13 @@
+﻿{
+    "Checks":  [
+                   {
+                       "Name":  "guest-only-diagnostic",
+                       "Value":  {
+                                     "RuntimeInstallPerformed":  false,
+                                     "IrisExecuted":  false,
+                                     "User":  "WDAGUtilityAccount"
+                                 }
+                   }
+               ],
+    "Failure":  "* Host dotnetcli.blob.core.windows.net:443 was resolved."
+}

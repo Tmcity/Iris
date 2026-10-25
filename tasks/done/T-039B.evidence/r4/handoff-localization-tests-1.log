@@ -1,0 +1,12 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (11s 003ms)
+
+  生成的进程内文件项目:
+    - F:\Iris\tasks\done\T-039B.evidence\r4\handoff-localization-tests-1-reports\28910_SKYRIU-PC_2026-10-24_21_32_01.453239.xunit.xml
+
+测试运行摘要: 已通过!
+  总计: 15
+  失败: 0
+  成功: 15
+  已跳过: 0
+  持续时间: 11s 255ms

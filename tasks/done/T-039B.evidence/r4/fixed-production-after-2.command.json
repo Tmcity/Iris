@@ -1,0 +1,20 @@
+{
+  "Command": [
+    "dotnet",
+    "test",
+    "--test-modules",
+    "artifacts\\t039b\\r4-tested-candidate-2\\Iris.App.Tests.dll",
+    "--filter",
+    "FullyQualifiedName~UpdateHandoffLifecycleTests",
+    "--no-ansi",
+    "--no-progress",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:\\Iris\\tasks\\done\\T-039B.evidence\\r4\\fixed-production-after-2-reports"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-24T20:19:29.585158+00:00",
+  "FinishedUtc": "2026-10-24T20:19:39.597512+00:00",
+  "ExitCode": 0,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\fixed-production-after-2.log"
+}

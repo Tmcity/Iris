@@ -1,0 +1,41 @@
+﻿{
+    "ObservedUtc":  "2026-10-25T06:22:17.8727122Z",
+    "Processes":  [
+                      {
+                          "ProcessId":  5056,
+                          "ParentProcessId":  6024,
+                          "CreationDate":  "\/Date(1792909123756)\/",
+                          "ExecutablePath":  "C:\\IrisBInput\\Iris-0.2.0-Setup.exe",
+                          "CommandLine":  "\"C:\\IrisBInput\\Iris-0.2.0-Setup.exe\" --silent --no-start"
+                      },
+                      {
+                          "ProcessId":  7580,
+                          "ParentProcessId":  5056,
+                          "CreationDate":  "\/Date(1792909124945)\/",
+                          "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\setup-0028773d99e444c1ba466b890ed9ab5d\\Setup.exe",
+                          "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\setup-0028773d99e444c1ba466b890ed9ab5d\\Setup.exe\" --silent"
+                      },
+                      {
+                          "ProcessId":  1984,
+                          "ParentProcessId":  7580,
+                          "CreationDate":  "\/Date(1792909126132)\/",
+                          "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\Downloads\\inst-dotnet-10.0.0-X64-WindowsDesktop.exe",
+                          "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\Downloads\\inst-dotnet-10.0.0-X64-WindowsDesktop.exe\" /norestart /q"
+                      },
+                      {
+                          "ProcessId":  7624,
+                          "ParentProcessId":  1984,
+                          "CreationDate":  "\/Date(1792909126816)\/",
+                          "ExecutablePath":  "C:\\Windows\\TEMP\\{76CC5E91-B644-4259-A813-BEA25160E594}\\.be\\windowsdesktop-runtime-10.0.13-win-x64.exe",
+                          "CommandLine":  "\"C:\\Windows\\TEMP\\{76CC5E91-B644-4259-A813-BEA25160E594}\\.be\\windowsdesktop-runtime-10.0.13-win-x64.exe\" -q -burn.elevated BurnPipe.{EE206F97-1F52-4D4A-937C-28734FF111F4} {D8D5D964-DB04-4B2B-9A34-8AD544661FC1} 1984"
+                      },
+                      {
+                          "ProcessId":  5960,
+                          "ParentProcessId":  1144,
+                          "CreationDate":  "\/Date(1792909127173)\/",
+                          "ExecutablePath":  "C:\\Windows\\system32\\msiexec.exe",
+                          "CommandLine":  "C:\\Windows\\system32\\msiexec.exe /V"
+                      }
+                  ],
+    "InstallerStartedOrRetriedByObservation":  false
+}

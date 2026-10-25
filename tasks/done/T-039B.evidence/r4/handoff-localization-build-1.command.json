@@ -1,0 +1,16 @@
+{
+  "Command": [
+    "dotnet",
+    "build",
+    "tests\\Iris.App.Tests\\Iris.App.Tests.csproj",
+    "-c",
+    "Release",
+    "--no-restore",
+    "--tl:off"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-24T21:30:35.868231+00:00",
+  "FinishedUtc": "2026-10-24T21:30:52.684728+00:00",
+  "ExitCode": 0,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\handoff-localization-build-1.log"
+}

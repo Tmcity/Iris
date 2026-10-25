@@ -15,6 +15,7 @@ internal sealed partial class SettingsViewModel
     private readonly CancellationTokenSource _updateWindowClosing = new();
     private UpdateSnapshot? _updateSnapshot;
     private bool _updateHandoffTransferred;
+    private bool _updateHandoffOwned;
     private Task? _updateCancelTask;
     private bool _updateCancelJoined;
     public string CurrentVersion => _updateSnapshot?.CurrentVersion ?? typeof(SettingsViewModel).Assembly.GetName().Version?.ToString(3) ?? "";
@@ -30,13 +31,13 @@ internal sealed partial class SettingsViewModel
         _updates = coordinator; _handoff = handoff; _updateLifetime = lifetime; _updateSnapshot = coordinator?.Snapshot;
         bool Active() => !_disposed && !_isStopped && _updates != null;
         CheckUpdateCommand = new AsyncRelayCommand(() => UpdateWorkAsync(() => _updates!.CheckAsync(this)),
-            () => Active() && _updateSnapshot?.Phase is UpdatePhase.Idle or UpdatePhase.UpToDate or UpdatePhase.NoRelease or UpdatePhase.Failed or UpdatePhase.Available or UpdatePhase.Ready);
+            () => Active() && !_updates!.IsAcceptanceClosed && _updateSnapshot?.Phase is UpdatePhase.Idle or UpdatePhase.UpToDate or UpdatePhase.NoRelease or UpdatePhase.Failed or UpdatePhase.Available or UpdatePhase.Ready);
         DownloadUpdateCommand = new AsyncRelayCommand(() => UpdateWorkAsync(() => _updates!.DownloadAsync(this, _updateSnapshot!.OfferId!.Value)),
-            () => Active() && _updateSnapshot?.Phase == UpdatePhase.Available);
+            () => Active() && !_updates!.IsAcceptanceClosed && _updateSnapshot?.Phase == UpdatePhase.Available);
         CancelUpdateCommand = new AsyncRelayCommand(() => UpdateWorkAsync(() => _updates!.CancelAsync()),
             () => Active() && _updateSnapshot?.Phase is UpdatePhase.Checking or UpdatePhase.Downloading or UpdatePhase.CleanupPending);
         InstallUpdateCommand = new AsyncRelayCommand(() => UpdateWorkAsync(InstallUpdateAsync),
-            () => Active() && _handoff != null && _updateLifetime != null && (_updateSnapshot?.Phase == UpdatePhase.Ready || (_updateSnapshot?.Phase == UpdatePhase.Failed && _updates?.HasCandidate == true)));
+            () => Active() && !_updates!.IsAcceptanceClosed && _handoff != null && _updateLifetime != null && (_updateSnapshot?.Phase == UpdatePhase.Ready || (_updateSnapshot?.Phase == UpdatePhase.Failed && _updates?.HasCandidate == true)));
         if (_updates != null) _updates.Changed += OnUpdateChanged;
     }
     private void OnUpdateChanged(object? sender, EventArgs args)
@@ -82,15 +83,30 @@ internal sealed partial class SettingsViewModel
             completion.TrySetResult();
         }
     }
+    internal Func<bool> ConfirmUpdateInstall { get; set; } = () =>
+        MessageBox.Show(UiText.UpdateInstallConfirm, UiText.AppName, MessageBoxButton.OKCancel, MessageBoxImage.Question) == MessageBoxResult.OK;
     private async Task InstallUpdateAsync()
     {
-        if (_updates == null || _handoff == null || _updateLifetime == null || _updateSnapshot?.OfferId is not Guid id) return;
-        if (MessageBox.Show(UiText.UpdateInstallConfirm, UiText.AppName, MessageBoxButton.OKCancel, MessageBoxImage.Question) != MessageBoxResult.OK) return;
-        var candidate = await _updates.PrepareApplyAsync(this, id, _updateWindowClosing.Token).ConfigureAwait(false);
-        if (candidate == null) return;
+        if (_updates == null || _handoff == null || _updateLifetime is not AppLifetime lifetime || _updateSnapshot?.OfferId is not Guid id) return;
+        if (!ConfirmUpdateInstall()) return;
+        var prepared = await _updates.PrepareApplyAsync(this, id, _updateWindowClosing.Token).ConfigureAwait(false);
+        if (prepared == null) return;
         try
         {
-            await _handoff.PrepareAsync(candidate, _updateWindowClosing.Token).ConfigureAwait(false);
+            if (_updateHandoffOwned) await _handoff.RevokeAsync().ConfigureAwait(false);
+            lock (_admissionLock) _updateHandoffOwned = true;
+            await _handoff.PrepareAsync(prepared.Candidate, _updateWindowClosing.Token).ConfigureAwait(false);
+            // The receipt is consumed exactly once by the lifetime owner. The
+            // scope cannot disappear between accepting transfer and setting its
+            // flag: both this check and StopAcceptance use the admission lock.
+            lock (_admissionLock)
+            {
+                _updateWindowClosing.Token.ThrowIfCancellationRequested();
+                if (!lifetime.TryRequestUpdateShutdown(this, prepared))
+                    throw new InvalidOperationException("The prepared update could not be transferred.");
+                _updateHandoffTransferred = true;
+                _updateHandoffOwned = false;
+            }
         }
         catch (OperationCanceledException) when (_updateWindowClosing.IsCancellationRequested)
         {
@@ -98,23 +114,34 @@ internal sealed partial class SettingsViewModel
         }
         catch (Exception ex)
         {
+            try { await _handoff.RevokeAsync().ConfigureAwait(false); lock (_admissionLock) _updateHandoffOwned = false; }
+            catch (Exception cleanup) { ex = new AggregateException(ex, cleanup); }
             var code = ex switch
             {
                 IrisException ie => ie.Code,
                 TimeoutException => ErrorCode.Timeout,
                 _ => ErrorCode.Unknown
             };
-            _updates.RollbackApply(candidate, code);
+            _updates.RollbackApply(prepared, code);
             LogCommandUnexpectedFailed(_logger, "InstallUpdate", ex.GetType().Name);
             return;
         }
-        // No settings save is implicit. RequestShutdown yields before waiting for this window's active work.
+    }
+    internal void ReportUpdateShutdownFailure(UpdateSnapshot snapshot)
+    {
+        if (_disposed) return;
+        StopAcceptance();
         lock (_admissionLock)
         {
-            _updateWindowClosing.Token.ThrowIfCancellationRequested();
-            _updateHandoffTransferred = true;
-            _updateLifetime.RequestShutdown();
+            _updateHandoffTransferred = false;
+            _updateSnapshot = snapshot;
         }
+        OnPropertyChanged(nameof(UpdateStatus));
+        OnPropertyChanged(nameof(UpdateDetail));
+        OnPropertyChanged(nameof(CurrentVersion));
+        OnPropertyChanged(nameof(UpdateProgress));
+        foreach (var command in new[] { CheckUpdateCommand, DownloadUpdateCommand, CancelUpdateCommand, InstallUpdateCommand })
+            (command as AsyncRelayCommand)?.RaiseCanExecuteChanged();
     }
     internal bool UpdateHandoffTransferred
     {
@@ -130,13 +157,6 @@ internal sealed partial class SettingsViewModel
             _updateHandoffTransferred = false;
         }
     }
-    internal void SetHandoffTransferredForTesting(bool transferred)
-    {
-        lock (_admissionLock)
-        {
-            _updateHandoffTransferred = transferred;
-        }
-    }
     private void SealUpdates()
     {
         if (_updates != null) _updates.Changed -= OnUpdateChanged;
@@ -150,7 +170,14 @@ internal sealed partial class SettingsViewModel
             try { await _updateCancelTask.ConfigureAwait(false); } catch (Exception ex) { errors.Add(ex); }
             finally { _updateCancelJoined = true; }
         }
-        try { if (_handoff?.IsPrepared == true && !_updateHandoffTransferred) await _handoff.RevokeAsync().ConfigureAwait(false); }
+        try
+        {
+            if (_handoff != null && _updateHandoffOwned)
+            {
+                await _handoff.RevokeAsync().ConfigureAwait(false);
+                lock (_admissionLock) _updateHandoffOwned = false;
+            }
+        }
         catch (Exception ex) { errors.Add(ex); }
         try
         {

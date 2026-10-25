@@ -1,0 +1,29 @@
+{
+    "OS":  "Microsoft Windows 11 专业工作站版",
+    "Version":  "10.0.26200",
+    "Build":  "26200",
+    "PowerShell":  "5.1.26100.9549",
+    "SandboxAliasExists":  false,
+    "SandboxSystemExeExists":  false,
+    "SandboxCommands":  [
+
+                        ],
+    "SandboxPackages":  [
+
+                        ],
+    "VirtualizationServices":  [
+                                   {
+                                       "Name":  "hns",
+                                       "Status":  4
+                                   },
+                                   {
+                                       "Name":  "vmcompute",
+                                       "Status":  4
+                                   },
+                                   {
+                                       "Name":  "vmms",
+                                       "Status":  4
+                                   }
+                               ],
+    "FeatureInspectionError":  "The requested operation requires elevation.\r\n"
+}

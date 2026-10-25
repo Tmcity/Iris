@@ -1,0 +1,301 @@
+{
+  "Attempts": [
+    {
+      "Label": "guest-install-r4-1",
+      "Scenario": "install",
+      "Intent": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-install-r4-1/intent.json",
+        "Bytes": 1098,
+        "Sha256": "163bdcc00e2aef1c961734f6b52799c0bc4b16b2a687a2f930ce4c5e54a0c194"
+      },
+      "SandboxId": "13f95972-4498-474f-9788-fe40255084e6",
+      "PrefetchRuntimeCache": false,
+      "PublicRuntimeDns": false,
+      "RunnerExitCode": 1,
+      "GuestCommandExitCode": null,
+      "CommandExitCodes": {
+        "start": null,
+        "execute": null,
+        "stop": null,
+        "list-after": null
+      },
+      "ObservationRecords": 0,
+      "BooleanAssertions": 0,
+      "FalseAssertions": [],
+      "Failure": "No guest result; see original runner/preflight log",
+      "Result": null,
+      "Status": "RetainedFailure"
+    },
+    {
+      "Label": "guest-install-r4-2",
+      "Scenario": "install",
+      "Intent": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-install-r4-2/intent.json",
+        "Bytes": 1098,
+        "Sha256": "131ab0b7bfe8dd45145ef940d5ee6f3b983a443d281a40872fb4116008b06c1e"
+      },
+      "SandboxId": "074d5027-9b7e-4de8-8348-db74d6bb9766",
+      "PrefetchRuntimeCache": false,
+      "PublicRuntimeDns": false,
+      "RunnerExitCode": 1,
+      "GuestCommandExitCode": 2,
+      "CommandExitCodes": {
+        "start": 0,
+        "execute": 0,
+        "stop": 0,
+        "list-after": 0
+      },
+      "ObservationRecords": 2,
+      "BooleanAssertions": 0,
+      "FalseAssertions": [],
+      "Failure": "Real installer failed: 2",
+      "Result": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-install-r4-2/output/result.json",
+        "Bytes": 795,
+        "Sha256": "ece686f7c2063c63b66471ff78ff59cd7888902eaf3bc77191c3c1a6e42d9899"
+      },
+      "Status": "RetainedFailure"
+    },
+    {
+      "Label": "guest-install-r4-3",
+      "Scenario": "install",
+      "Intent": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-install-r4-3/intent.json",
+        "Bytes": 1098,
+        "Sha256": "f6e2eb8961106f3ebe56d3961f9b5d799fe259bbecb641fe9f84d56825c019f1"
+      },
+      "SandboxId": "24791af4-f766-48c2-8954-574dfb0151c8",
+      "PrefetchRuntimeCache": false,
+      "PublicRuntimeDns": false,
+      "RunnerExitCode": 1,
+      "GuestCommandExitCode": 2,
+      "CommandExitCodes": {
+        "start": 0,
+        "execute": 0,
+        "stop": 0,
+        "list-after": 0
+      },
+      "ObservationRecords": 2,
+      "BooleanAssertions": 0,
+      "FalseAssertions": [],
+      "Failure": "Real installer failed: 2",
+      "Result": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-install-r4-3/output/result.json",
+        "Bytes": 795,
+        "Sha256": "ece686f7c2063c63b66471ff78ff59cd7888902eaf3bc77191c3c1a6e42d9899"
+      },
+      "Status": "RetainedFailure"
+    },
+    {
+      "Label": "guest-install-r4-4",
+      "Scenario": "install",
+      "Intent": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-install-r4-4/intent.json",
+        "Bytes": 1297,
+        "Sha256": "ee91ad1e4ccce3a7f15dd89ca72dcfcff4df5e242565aef25c42f1f145fc2fe6"
+      },
+      "SandboxId": "7c4bcfb6-4463-4b44-9e46-80777d6a2f43",
+      "PrefetchRuntimeCache": true,
+      "PublicRuntimeDns": false,
+      "RunnerExitCode": 1,
+      "GuestCommandExitCode": 2,
+      "CommandExitCodes": {
+        "start": 0,
+        "execute": 0,
+        "stop": 0,
+        "list-after": 0
+      },
+      "ObservationRecords": 2,
+      "BooleanAssertions": 0,
+      "FalseAssertions": [],
+      "Failure": "Microsoft runtime fetch failed: metadata",
+      "Result": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-install-r4-4/output/result.json",
+        "Bytes": 1046,
+        "Sha256": "10bade8a91bc7441cd22115bad71f85c65028561164230d1371b09de8e035a95"
+      },
+      "Status": "RetainedFailure"
+    },
+    {
+      "Label": "guest-install-r4-5",
+      "Scenario": "install",
+      "Intent": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-install-r4-5/intent.json",
+        "Bytes": 1322,
+        "Sha256": "b33d52fbe1e2e0bf5637f46f774284cdbf8a7fe99f06bbbe71d4826498baaf40"
+      },
+      "SandboxId": "2ea4dd14-77f8-49cb-8fd7-d3fb846b51d5",
+      "PrefetchRuntimeCache": false,
+      "PublicRuntimeDns": true,
+      "RunnerExitCode": 1,
+      "GuestCommandExitCode": 2,
+      "CommandExitCodes": {
+        "start": 0,
+        "execute": 0,
+        "stop": 0,
+        "list-after": 0
+      },
+      "ObservationRecords": 7,
+      "BooleanAssertions": 0,
+      "FalseAssertions": [],
+      "Failure": "Real installer failed: 2",
+      "Result": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-install-r4-5/output/result.json",
+        "Bytes": 3871,
+        "Sha256": "c6c855665b1bbcf89404982257ce8021fa213cf323055ff3c44445e7372f5e95"
+      },
+      "Status": "RetainedFailure"
+    },
+    {
+      "Label": "guest-install-r4-6",
+      "Scenario": "install",
+      "Intent": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-install-r4-6/intent.json",
+        "Bytes": 1327,
+        "Sha256": "572f9c4deabbaa6c6c7871d539652245ebf40d8866419fdd4be83247aa953035"
+      },
+      "SandboxId": "e8c8cf4e-db9a-4618-a95e-1d0fdbddd2bd",
+      "PrefetchRuntimeCache": true,
+      "PublicRuntimeDns": false,
+      "RunnerExitCode": 0,
+      "GuestCommandExitCode": 0,
+      "CommandExitCodes": {
+        "start": 0,
+        "execute": 0,
+        "stop": 0,
+        "list-after": 0
+      },
+      "ObservationRecords": 34,
+      "BooleanAssertions": 15,
+      "FalseAssertions": [],
+      "Failure": null,
+      "Result": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-install-r4-6/output/result.json",
+        "Bytes": 10008,
+        "Sha256": "ee0596dfa183bbf1a4565275fd6b39ba80753e74ada3b5d7b13aa52215a0d99c"
+      },
+      "Status": "CompletedScenario"
+    },
+    {
+      "Label": "guest-network-r4-1",
+      "Scenario": "network",
+      "Intent": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-network-r4-1/intent.json",
+        "Bytes": 932,
+        "Sha256": "8efd93690070cae8f6a0ece43a3baf93901c9a83cf41c4d9ed1a5a332fcf6d56"
+      },
+      "SandboxId": "5657b978-7068-49b4-8ddb-df7464670dd5",
+      "PrefetchRuntimeCache": false,
+      "PublicRuntimeDns": false,
+      "RunnerExitCode": 1,
+      "GuestCommandExitCode": 2,
+      "CommandExitCodes": {
+        "start": 0,
+        "execute": 0,
+        "stop": 0,
+        "list-after": 0
+      },
+      "ObservationRecords": 1,
+      "BooleanAssertions": 0,
+      "FalseAssertions": [],
+      "Failure": "* Host dotnetcli.blob.core.windows.net:443 was resolved.",
+      "Result": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-network-r4-1/output/result.json",
+        "Bytes": 499,
+        "Sha256": "8b5a8f81d86e6abd28224035103c69fa3ee844340631521416e18b90dd9288bb"
+      },
+      "Status": "RetainedFailure"
+    },
+    {
+      "Label": "guest-network-r4-2",
+      "Scenario": "network",
+      "Intent": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-network-r4-2/intent.json",
+        "Bytes": 932,
+        "Sha256": "76a08ea74058f1b3002de7cf7d35ac8f83d1b13abfc460a591f87ad3afb035a2"
+      },
+      "SandboxId": "9ed2fc1a-ebe5-4756-99dd-8cc1df5f699e",
+      "PrefetchRuntimeCache": false,
+      "PublicRuntimeDns": false,
+      "RunnerExitCode": 0,
+      "GuestCommandExitCode": 0,
+      "CommandExitCodes": {
+        "start": 0,
+        "execute": 0,
+        "stop": 0,
+        "list-after": 0
+      },
+      "ObservationRecords": 5,
+      "BooleanAssertions": 0,
+      "FalseAssertions": [],
+      "Failure": null,
+      "Result": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-network-r4-2/output/result.json",
+        "Bytes": 1913,
+        "Sha256": "985a9d504134ada9ded72f85899031625b0e2c49be30d8db38cadda0b8070ed8"
+      },
+      "Status": "CompletedScenario"
+    },
+    {
+      "Label": "guest-network-r4-3",
+      "Scenario": "network",
+      "Intent": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-network-r4-3/intent.json",
+        "Bytes": 966,
+        "Sha256": "795d9f40c66d86ed3f7f7419e0a6a7b528cdcf8d0ba5d7bb7a24e8f889e8cf7c"
+      },
+      "SandboxId": "0cf8469b-f915-431c-88ec-9bf68da9e812",
+      "PrefetchRuntimeCache": false,
+      "PublicRuntimeDns": false,
+      "RunnerExitCode": 0,
+      "GuestCommandExitCode": 0,
+      "CommandExitCodes": {
+        "start": 0,
+        "execute": 0,
+        "stop": 0,
+        "list-after": 0
+      },
+      "ObservationRecords": 10,
+      "BooleanAssertions": 0,
+      "FalseAssertions": [],
+      "Failure": null,
+      "Result": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-network-r4-3/output/result.json",
+        "Bytes": 3998,
+        "Sha256": "205b9c6702826b4e6706832c4b1bea950c7414397a19558513cde47379dec8be"
+      },
+      "Status": "CompletedScenario"
+    },
+    {
+      "Label": "guest-update-r4-1",
+      "Scenario": "update",
+      "Intent": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-update-r4-1/intent.json",
+        "Bytes": 8381,
+        "Sha256": "3aa8ae03fa0093323f454ae42b6096023805d2d82649e628adc29a07098295e8"
+      },
+      "SandboxId": "6a7bd901-cb6a-48cb-b7d0-8c276ecb0708",
+      "PrefetchRuntimeCache": true,
+      "PublicRuntimeDns": false,
+      "RunnerExitCode": 0,
+      "GuestCommandExitCode": 0,
+      "CommandExitCodes": {
+        "start": 0,
+        "execute": 0,
+        "stop": 0,
+        "list-after": 0
+      },
+      "ObservationRecords": 37,
+      "BooleanAssertions": 22,
+      "FalseAssertions": [],
+      "Failure": null,
+      "Result": {
+        "Path": "tasks/done/T-039B.evidence/r4/guest-update-r4-1/output/update-r4/result.json",
+        "Bytes": 8129,
+        "Sha256": "5228a58a0e1086dba3890391834d71405ad37b2d09cdcf7c85a07fc02439171b"
+      },
+      "Status": "CompletedScenario"
+    }
+  ],
+  "Scope": "Network diagnostics are not installation/update proofs; each failed installer had a real nonzero exit and its own Sandbox was stopped. Runtime prefetch does not install a runtime."
+}

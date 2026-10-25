@@ -1,0 +1,107 @@
+[
+  {
+    "Original": "src/Iris.App/Services/GeneralSettingsSaveCoordinator.cs",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/GeneralSettingsSaveCoordinator.cs.txt",
+    "Sha256": "abd0fb110621b37ebd858036c6b12d3e27120ca0364105a582da80fc9f91aa31"
+  },
+  {
+    "Original": "src/Iris.App/Updates/UpdateHandoff.cs",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/UpdateHandoff.cs.txt",
+    "Sha256": "7ecf31a916cc5936f1e7239c369618ce1c2afa73cef1649fc5abe1fb502a11b3"
+  },
+  {
+    "Original": "src/Iris.App/Resources/Strings.resx",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/Strings.resx.txt",
+    "Sha256": "0698b8eabb0130970b0e1bd9c117e5b679c9fa8f8c0102698c5d8a84b88e597b"
+  },
+  {
+    "Original": "src/Iris.App/Resources/Strings.en-US.resx",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/Strings.en-US.resx.txt",
+    "Sha256": "5b833873729402888a42cdfac75ac8c77c72e141e2660dc7e0cba43013c6f8c2"
+  },
+  {
+    "Original": "build/localization/app-catalog.json",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/app-catalog.json.txt",
+    "Sha256": "5b240c825e33f37ac90ee90d43f386e3f68b040c36ba33dfb9cbd3e1b2a05a2d"
+  },
+  {
+    "Original": "build/localization/exceptions.json",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/exceptions.json.txt",
+    "Sha256": "2d620105575400696d1f567460d883cf050ff511b49b6f64d5ea0b5192eb9a75"
+  },
+  {
+    "Original": "build/localization/audit.py",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/audit.py.txt",
+    "Sha256": "790e94126326c68cffe151e689e643cb25a5ed032452708aa50a014a83fe96f1"
+  },
+  {
+    "Original": "build/LocalizationAudit/Program.cs",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/Program.cs.txt",
+    "Sha256": "1d2145d7eb8b131d8075c300a26e4542813409994d2534c66200400c39e71e8b"
+  },
+  {
+    "Original": "tests/Iris.App.Tests/Updates/UpdateHandoffTests.cs",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/UpdateHandoffTests.cs.txt",
+    "Sha256": "d84c3379cd98c615718deb9f9999bda7530d47088b3e79e1b60c4706d01cf3b6"
+  },
+  {
+    "Original": "tasks/current_task.md",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/current_task.md.txt",
+    "Sha256": "437c45fe75b97e76651a23949d8916fc28e838d209ef8839534f489bec050e2b"
+  },
+  {
+    "Original": "tasks/done/T-039B.md",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/T-039B.md.txt",
+    "Sha256": "adac829b13bfb5dd97c7200f2d747b774849608d16afd531fb06270a958445b9"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/delivery-binding.json",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/delivery-binding.json.txt",
+    "Sha256": "c79e56472ca560303c5a65fea1ac07e56d199ffafaf4953c2a7e3cf1ab2e24bb"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/r4/active_round.json",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/active_round.json.txt",
+    "Sha256": "137f2d21170098df9eb1101df2ff128ffeaa465dd922f4c4a0b342403c3d0ff0"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/r4/source_binding.py",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/source_binding.py.txt",
+    "Sha256": "a591b74592a22c026f6192e8f70b20ac0a9c0d506a41ea0d9809fa268c4b43e7"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/r4/inspect_delivery.py",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/inspect_delivery.py.txt",
+    "Sha256": "fc79ec544eda87e02794bc5a3f47fb01a1dca2b01d91b50a2bab97997d372585"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/r4/inspect_feeds.py",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/inspect_feeds.py.txt",
+    "Sha256": "c6b1521926a67e2edd8ee2424e539a8375e3c10600584f153af75f2e90eb0059"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/r4/finalize_binding_r4.py",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/finalize_binding_r4.py.txt",
+    "Sha256": "aacf3f2eb574697ccc82a453e4e6c2e9863bf47d5b3d5762ab6c1616184d9acb"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/r4/write_report.py",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/write_report.py.txt",
+    "Sha256": "cf37df096edb495d3d51a8c0740c28db74bda2eea35ce26fc08123a8b10fc940"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/r4/verify_binding.py",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/verify_binding.py.txt",
+    "Sha256": "a01648a1328f3d592f0015bc28d5120f36e77eb5f4288b13c309aa9d304d48fc"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/r4/run_guest.py",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/run_guest.py.txt",
+    "Sha256": "995499a7132aa3bf86191ea580218b50ceb1c9e9c635185c48777c01125e7bc6"
+  },
+  {
+    "Original": "tasks/done/T-039B.evidence/r4/PROGRESS.md",
+    "Archive": "tasks/done/T-039B.evidence/r4/before-localization-fix/PROGRESS.md.txt",
+    "Sha256": "1dd9938e53ad4d4f0406285fb9b4361542124a65adc9ef1526bfa7ffc784b82c"
+  }
+]

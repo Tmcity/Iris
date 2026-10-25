@@ -1,0 +1,117 @@
+<assemblies schema-version="3" id="03495954-2ac7-473f-a31f-c59d9e8a4d18" computer="SKYRIU-PC" user="28910" start-rtf="2026-10-24T20:09:03.0531514+00:00" finish-rtf="2026-10-24T20:09:07.2019891+00:00" timestamp="10/25/2026 04:09:07"><assembly environment="64-bit (x64) .NET 10.0.13 [collection-per-class, parallel (collections, 20 threads)]" id="3d5b3e83-02aa-4d54-b1cf-01d6e4e46bfd" name="F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll" run-date="2026-10-24" run-time="20:09:03" start-rtf="2026-10-24T20:09:03.0531514+00:00" test-framework="xUnit.net v3 4.0.1+8ed8aa354c" target-framework=".NETCoreApp,Version=v10.0" errors="0" failed="4" finish-rtf="2026-10-24T20:09:07.2019891+00:00" not-run="0" passed="4" skipped="0" time="4.108" time-rtf="00:00:04.1080000" total="8"><collection name="Localization" id="7f55af33-8cd3-4093-a21f-33343c004a4d" failed="4" not-run="0" passed="4" skipped="0" time="3.987" time-rtf="00:00:03.9870000" total="8"><test id="1314759b-dab8-4930-bf11-939c9bb63f79" name="Iris.App.Tests.Updates.UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(language: \&quot;en-US\&quot;, width: 380, dark: True)" result="Fail" time="1.011" time-rtf="00:00:01.0109999" start-rtf="2026-10-24T20:09:03.1248153+00:00" finish-rtf="2026-10-24T20:09:04.1532320+00:00" type="Iris.App.Tests.Updates.UpdateRecoveryRenderingTests" method="DedicatedRecoveryShowsCurrentLanguageAndExecutableActions" source-file="F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs" source-line="21"><failure exception-type="Shouldly.ShouldAssertException"><message>Shouldly.ShouldAssertException : foreach (var button in buttonPaint)
+                    button.Contrast
+    should be greater than or equal to
+4.5d
+    but was
+1d
+
+Additional Info:
+    the actual action label must be readable against its painted surface</message><stack-trace>   at Iris.App.Tests.Updates.UpdateRecoveryRenderingTests.&lt;&gt;c__DisplayClass1_0.&lt;&lt;DedicatedRecoveryShowsCurrentLanguageAndExecutableActions&gt;b__0&gt;d.MoveNext() in F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs:line 101
+--- End of stack trace from previous location ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+   at Iris.App.Tests.TestSupport.WpfTestRunner.&lt;&gt;c__DisplayClass9_0.&lt;&lt;RunAsync&gt;b__0&gt;d.MoveNext() in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:line 64
+--- End of stack trace from previous location ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+   at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:line 73
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+   at Iris.App.Tests.Updates.UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(String language, Int32 width, Boolean dark) in F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs:line 35
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+--- End of stack trace from previous location ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)</stack-trace></failure></test><test id="7a13244f-fab1-4c14-b09e-a3fa3df77891" name="Iris.App.Tests.Updates.UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(language: \&quot;zh-CN\&quot;, width: 380, dark: False)" result="Pass" time="0.356" time-rtf="00:00:00.3560000" start-rtf="2026-10-24T20:09:04.1593846+00:00" finish-rtf="2026-10-24T20:09:04.5169800+00:00" type="Iris.App.Tests.Updates.UpdateRecoveryRenderingTests" method="DedicatedRecoveryShowsCurrentLanguageAndExecutableActions" source-file="F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs" source-line="21" /><test id="ee418c65-a18d-4738-a29a-61105278a282" name="Iris.App.Tests.Updates.UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(language: \&quot;en-US\&quot;, width: 380, dark: False)" result="Pass" time="0.408" time-rtf="00:00:00.4079999" start-rtf="2026-10-24T20:09:04.5175991+00:00" finish-rtf="2026-10-24T20:09:04.9262784+00:00" type="Iris.App.Tests.Updates.UpdateRecoveryRenderingTests" method="DedicatedRecoveryShowsCurrentLanguageAndExecutableActions" source-file="F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs" source-line="21" /><test id="100f7d92-ae31-4544-b1ff-7684df4742ff" name="Iris.App.Tests.Updates.UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(language: \&quot;en-US\&quot;, width: 540, dark: False)" result="Pass" time="0.416" time-rtf="00:00:00.4160000" start-rtf="2026-10-24T20:09:04.9265455+00:00" finish-rtf="2026-10-24T20:09:05.3426574+00:00" type="Iris.App.Tests.Updates.UpdateRecoveryRenderingTests" method="DedicatedRecoveryShowsCurrentLanguageAndExecutableActions" source-file="F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs" source-line="21" /><test id="454775bc-604e-4cd5-97c3-48a92ffc17bb" name="Iris.App.Tests.Updates.UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(language: \&quot;zh-CN\&quot;, width: 540, dark: True)" result="Fail" time="0.348" time-rtf="00:00:00.3479999" start-rtf="2026-10-24T20:09:05.3428448+00:00" finish-rtf="2026-10-24T20:09:05.6925551+00:00" type="Iris.App.Tests.Updates.UpdateRecoveryRenderingTests" method="DedicatedRecoveryShowsCurrentLanguageAndExecutableActions" source-file="F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs" source-line="21"><failure exception-type="Shouldly.ShouldAssertException"><message>Shouldly.ShouldAssertException : foreach (var button in buttonPaint)
+                    button.Contrast
+    should be greater than or equal to
+4.5d
+    but was
+1d
+
+Additional Info:
+    the actual action label must be readable against its painted surface</message><stack-trace>   at Iris.App.Tests.Updates.UpdateRecoveryRenderingTests.&lt;&gt;c__DisplayClass1_0.&lt;&lt;DedicatedRecoveryShowsCurrentLanguageAndExecutableActions&gt;b__0&gt;d.MoveNext() in F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs:line 101
+--- End of stack trace from previous location ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+   at Iris.App.Tests.TestSupport.WpfTestRunner.&lt;&gt;c__DisplayClass9_0.&lt;&lt;RunAsync&gt;b__0&gt;d.MoveNext() in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:line 64
+--- End of stack trace from previous location ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+   at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:line 73
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+   at Iris.App.Tests.Updates.UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(String language, Int32 width, Boolean dark) in F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs:line 35
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+--- End of stack trace from previous location ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)</stack-trace></failure></test><test id="e36684e8-afc3-4d36-af0d-f56b9814b0f9" name="Iris.App.Tests.Updates.UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(language: \&quot;en-US\&quot;, width: 540, dark: True)" result="Fail" time="0.437" time-rtf="00:00:00.4370000" start-rtf="2026-10-24T20:09:05.6929124+00:00" finish-rtf="2026-10-24T20:09:06.1314740+00:00" type="Iris.App.Tests.Updates.UpdateRecoveryRenderingTests" method="DedicatedRecoveryShowsCurrentLanguageAndExecutableActions" source-file="F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs" source-line="21"><failure exception-type="Shouldly.ShouldAssertException"><message>Shouldly.ShouldAssertException : foreach (var button in buttonPaint)
+                    button.Contrast
+    should be greater than or equal to
+4.5d
+    but was
+1d
+
+Additional Info:
+    the actual action label must be readable against its painted surface</message><stack-trace>   at Iris.App.Tests.Updates.UpdateRecoveryRenderingTests.&lt;&gt;c__DisplayClass1_0.&lt;&lt;DedicatedRecoveryShowsCurrentLanguageAndExecutableActions&gt;b__0&gt;d.MoveNext() in F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs:line 101
+--- End of stack trace from previous location ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+   at Iris.App.Tests.TestSupport.WpfTestRunner.&lt;&gt;c__DisplayClass9_0.&lt;&lt;RunAsync&gt;b__0&gt;d.MoveNext() in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:line 64
+--- End of stack trace from previous location ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+   at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:line 73
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+   at Iris.App.Tests.Updates.UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(String language, Int32 width, Boolean dark) in F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs:line 35
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+--- End of stack trace from previous location ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)</stack-trace></failure></test><test id="54d8ee47-1ca8-472d-bcb1-ce4be9db8b6b" name="Iris.App.Tests.Updates.UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(language: \&quot;zh-CN\&quot;, width: 380, dark: True)" result="Fail" time="0.508" time-rtf="00:00:00.5080000" start-rtf="2026-10-24T20:09:06.1318788+00:00" finish-rtf="2026-10-24T20:09:06.6411739+00:00" type="Iris.App.Tests.Updates.UpdateRecoveryRenderingTests" method="DedicatedRecoveryShowsCurrentLanguageAndExecutableActions" source-file="F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs" source-line="21"><failure exception-type="Shouldly.ShouldAssertException"><message>Shouldly.ShouldAssertException : foreach (var button in buttonPaint)
+                    button.Contrast
+    should be greater than or equal to
+4.5d
+    but was
+1d
+
+Additional Info:
+    the actual action label must be readable against its painted surface</message><stack-trace>   at Iris.App.Tests.Updates.UpdateRecoveryRenderingTests.&lt;&gt;c__DisplayClass1_0.&lt;&lt;DedicatedRecoveryShowsCurrentLanguageAndExecutableActions&gt;b__0&gt;d.MoveNext() in F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs:line 101
+--- End of stack trace from previous location ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+   at Iris.App.Tests.TestSupport.WpfTestRunner.&lt;&gt;c__DisplayClass9_0.&lt;&lt;RunAsync&gt;b__0&gt;d.MoveNext() in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:line 64
+--- End of stack trace from previous location ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+   at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Func`1 work) in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:line 73
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+   at Iris.App.Tests.Updates.UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(String language, Int32 width, Boolean dark) in F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs:line 35
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+--- End of stack trace from previous location ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)</stack-trace></failure></test><test id="c4ca52b8-5376-49e9-b53b-0166589d2092" name="Iris.App.Tests.Updates.UpdateRecoveryRenderingTests.DedicatedRecoveryShowsCurrentLanguageAndExecutableActions(language: \&quot;zh-CN\&quot;, width: 540, dark: False)" result="Pass" time="0.503" time-rtf="00:00:00.5030000" start-rtf="2026-10-24T20:09:06.6414494+00:00" finish-rtf="2026-10-24T20:09:07.1451942+00:00" type="Iris.App.Tests.Updates.UpdateRecoveryRenderingTests" method="DedicatedRecoveryShowsCurrentLanguageAndExecutableActions" source-file="F:\Iris\tests\Iris.App.Tests\Updates\UpdateRecoveryRenderingTests.cs" source-line="21" /></collection></assembly></assemblies>

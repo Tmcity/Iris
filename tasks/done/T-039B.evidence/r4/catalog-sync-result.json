@@ -1,0 +1,14 @@
+{
+  "OriginalCatalogKeys": 457,
+  "AddedKeys": [
+    "ShutdownIncomplete",
+    "UpdateRecoveryCancel",
+    "UpdateRecoveryCleanupPending",
+    "UpdateRecoveryRequired",
+    "UpdateRecoveryRetry"
+  ],
+  "CurrentCatalogKeys": 462,
+  "ApprovedInputSha256": "f57cbd32da01286676d2c2794844a7838dfa2a02d65cd8af06c7afce779be0e2",
+  "ExistingPairsUnchanged": true,
+  "ExceptionManifestSha256": "2d620105575400696d1f567460d883cf050ff511b49b6f64d5ea0b5192eb9a75"
+}

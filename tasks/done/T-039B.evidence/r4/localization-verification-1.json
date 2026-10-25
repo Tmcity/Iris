@@ -1,0 +1,174 @@
+{
+  "Before": {
+    "Result": {
+      "Path": "tasks/done/T-039B.evidence/r4/localization-before-2/audit-result.json",
+      "Bytes": 5364,
+      "Sha256": "0cbb69e55e15ec26451dc0d1b7510a4284d9b6a0daba7d8c34b3fe4e85b33446"
+    },
+    "SourceEntries": 1203,
+    "UnapprovedSites": 6,
+    "ResourceErrors": [
+      "App: key sets differ",
+      "App:ShutdownIncomplete: resource differs from reviewed bilingual catalog",
+      "App:UpdateRecoveryCleanupPending: resource differs from reviewed bilingual catalog",
+      "App:UpdateRecoveryRequired: resource differs from reviewed bilingual catalog",
+      "App:UpdateRecoveryRetry: resource differs from reviewed bilingual catalog",
+      "App:UpdateRecoveryCancel: resource differs from reviewed bilingual catalog"
+    ]
+  },
+  "After": {
+    "Result": {
+      "Path": "tasks/done/T-039B.evidence/r4/localization-after-1/audit-result.json",
+      "Bytes": 408,
+      "Sha256": "c699dc9332b3b6350104c813726dafa7c511bfc5edfced99b68de95f32b92a08"
+    },
+    "SourceEntries": 1197,
+    "UnapprovedSites": 0,
+    "ResourceErrors": [],
+    "ResourceCounts": {
+      "App": 462,
+      "Core": 148,
+      "Maintenance": 5
+    },
+    "CompiledResourceValuesMatched": 1230
+  },
+  "ApprovedAdditions": {
+    "Path": "tasks/done/T-039B.review/acceptance-review-4/localization-before-1/approved-catalog-additions.json",
+    "Bytes": 1141,
+    "Sha256": "f57cbd32da01286676d2c2794844a7838dfa2a02d65cd8af06c7afce779be0e2"
+  },
+  "AddedKeys": [
+    "ShutdownIncomplete",
+    "UpdateRecoveryCancel",
+    "UpdateRecoveryCleanupPending",
+    "UpdateRecoveryRequired",
+    "UpdateRecoveryRetry"
+  ],
+  "OriginalCatalogPairsUnchanged": 457,
+  "CurrentCatalogKeys": 462,
+  "UnchangedScannerBudgetAndResources": [
+    {
+      "Path": "build/LocalizationAudit/bin/Release/net10.0/LocalizationAudit.dll",
+      "Bytes": 46080,
+      "Sha256": "61aff96a3c8d76e5628a56f431a01e52b85f2ea23eb78f3ec4eb73824d749ba1"
+    },
+    {
+      "Path": "build/LocalizationAudit/Program.cs",
+      "Bytes": 11707,
+      "Sha256": "1d2145d7eb8b131d8075c300a26e4542813409994d2534c66200400c39e71e8b"
+    },
+    {
+      "Path": "build/localization/audit.py",
+      "Bytes": 3683,
+      "Sha256": "790e94126326c68cffe151e689e643cb25a5ed032452708aa50a014a83fe96f1"
+    },
+    {
+      "Path": "build/localization/exceptions.json",
+      "Bytes": 694214,
+      "Sha256": "2d620105575400696d1f567460d883cf050ff511b49b6f64d5ea0b5192eb9a75"
+    },
+    {
+      "Path": "src/Iris.App/Resources/Strings.resx",
+      "Bytes": 55880,
+      "Sha256": "0698b8eabb0130970b0e1bd9c117e5b679c9fa8f8c0102698c5d8a84b88e597b"
+    },
+    {
+      "Path": "src/Iris.App/Resources/Strings.en-US.resx",
+      "Bytes": 57682,
+      "Sha256": "5b833873729402888a42cdfac75ac8c77c72e141e2660dc7e0cba43013c6f8c2"
+    },
+    {
+      "Path": "src/Iris.Core/Localization/Strings.resx",
+      "Bytes": 19337,
+      "Sha256": "c6e0ee0edea6aa65b9b6737914dd6e2a50720fe383450f09fed23c6123cc67aa"
+    },
+    {
+      "Path": "src/Iris.Core/Localization/Strings.en-US.resx",
+      "Bytes": 20132,
+      "Sha256": "8466d873085cff8c6ea9990782a5c40d8d511d3e4e61bab69322075b27081c33"
+    },
+    {
+      "Path": "src/Iris.Maintenance/Strings.resx",
+      "Bytes": 1495,
+      "Sha256": "2afe54f32aa2b0a08cd55b787a969eaa3a2a291d151409c55b8d841516009d9c"
+    },
+    {
+      "Path": "src/Iris.Maintenance/Strings.en-US.resx",
+      "Bytes": 1509,
+      "Sha256": "334b33a0a383fb865175a7672a46429bb61725147c1883d2f935a3be35cbf4c2"
+    }
+  ],
+  "CompiledInputs": [
+    {
+      "Project": "Iris.App",
+      "Language": "zh-CN",
+      "ActualLoadedPath": "F:\\Iris\\src\\Iris.App\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.App.dll",
+      "FrozenCopy": "F:\\Iris\\artifacts\\t039b\\r4-localization-compiled-1\\Iris.App\\zh-CN\\Iris.App.dll",
+      "Bytes": 943104,
+      "Sha256": "B68571121BCAC2CBD81AFCB6A9A8882B9A90FF6981F06E9F428CEFAC38A1EEF6"
+    },
+    {
+      "Project": "Iris.App",
+      "Language": "en-US",
+      "ActualLoadedPath": "F:\\Iris\\src\\Iris.App\\bin\\Release\\net10.0-windows10.0.19041.0\\en-US\\Iris.App.resources.dll",
+      "FrozenCopy": "F:\\Iris\\artifacts\\t039b\\r4-localization-compiled-1\\Iris.App\\en-US\\Iris.App.resources.dll",
+      "Bytes": 43520,
+      "Sha256": "FF98D82631A487C9F6CED022DE5B1A8479133559854D9570CD82CFAD63F30459"
+    },
+    {
+      "Project": "Iris.Core",
+      "Language": "zh-CN",
+      "ActualLoadedPath": "F:\\Iris\\src\\Iris.Core\\bin\\Release\\net10.0\\Iris.Core.dll",
+      "FrozenCopy": "F:\\Iris\\artifacts\\t039b\\r4-localization-compiled-1\\Iris.Core\\zh-CN\\Iris.Core.dll",
+      "Bytes": 499200,
+      "Sha256": "E233639E5CFAAFFD306671442DB24A9B7473F1080142AA82AA3BA377E4022725"
+    },
+    {
+      "Project": "Iris.Core",
+      "Language": "en-US",
+      "ActualLoadedPath": "F:\\Iris\\src\\Iris.Core\\bin\\Release\\net10.0\\en-US\\Iris.Core.resources.dll",
+      "FrozenCopy": "F:\\Iris\\artifacts\\t039b\\r4-localization-compiled-1\\Iris.Core\\en-US\\Iris.Core.resources.dll",
+      "Bytes": 17920,
+      "Sha256": "4E87880CA2D8EE26C0B75CA1A42A49FAF7E0346AF44227824C2958A461663B38"
+    },
+    {
+      "Project": "Iris.Maintenance",
+      "Language": "zh-CN",
+      "ActualLoadedPath": "F:\\Iris\\src\\Iris.Maintenance\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Maintenance.dll",
+      "FrozenCopy": "F:\\Iris\\artifacts\\t039b\\r4-localization-compiled-1\\Iris.Maintenance\\zh-CN\\Iris.Maintenance.dll",
+      "Bytes": 67584,
+      "Sha256": "5BFCA55449FE88D990AF399BE7BAD062F027017BF955AB6D879696BE841ADE2D"
+    },
+    {
+      "Project": "Iris.Maintenance",
+      "Language": "en-US",
+      "ActualLoadedPath": "F:\\Iris\\src\\Iris.Maintenance\\bin\\Release\\net10.0-windows10.0.19041.0\\en-US\\Iris.Maintenance.resources.dll",
+      "FrozenCopy": "F:\\Iris\\artifacts\\t039b\\r4-localization-compiled-1\\Iris.Maintenance\\en-US\\Iris.Maintenance.resources.dll",
+      "Bytes": 4608,
+      "Sha256": "97782A7623B31769874A338DF170FECDB5FDC9CA89D646937B2D0D8CF613DA51"
+    }
+  ],
+  "Commands": {
+    "localization-inventory-before-2": {
+      "Path": "tasks/done/T-039B.evidence/r4/localization-inventory-before-2.command.json",
+      "Bytes": 499,
+      "Sha256": "39ffadf7d1ef42e86e388666c3a470163428f4eab7dacc05c00647af5033f8c3"
+    },
+    "localization-catalog-before-2": {
+      "Path": "tasks/done/T-039B.evidence/r4/localization-catalog-before-2.command.json",
+      "Bytes": 582,
+      "Sha256": "7712200de422bdd5beaab4d4ea17cfe925037188e9aff169cc7cdcecab15f75c"
+    },
+    "localization-inventory-after-1": {
+      "Path": "tasks/done/T-039B.evidence/r4/localization-inventory-after-1.command.json",
+      "Bytes": 497,
+      "Sha256": "1b6e60427b36d46f744637b699b31084c123fbff38b23156db15f1525a88cc34"
+    },
+    "localization-catalog-after-1": {
+      "Path": "tasks/done/T-039B.evidence/r4/localization-catalog-after-1.command.json",
+      "Bytes": 579,
+      "Sha256": "905eb5a87ba7c24c1525eb4064d963d8d5207dd97d1e0575e16a2196f12eb974"
+    }
+  },
+  "MigrationExecuted": false
+}

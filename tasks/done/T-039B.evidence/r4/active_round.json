@@ -1,0 +1,17 @@
+{
+  "SourceBinding": "tested-source-binding-3.json",
+  "OrderSnapshot": "signed-order-r4-sandbox-enabled-20261025.md",
+  "CandidateDirectory": "artifacts/t039b/r4-tested-candidate-3",
+  "PackageTag": "final-8",
+  "PackageInspection": "package-inspection-3.json",
+  "FeedInspection": "feed-inspection-2.json",
+  "GuestInspection": "delivery-inspection-3.json",
+  "ReleaseBuild": "release-build-4",
+  "FullTests": "full-tests-3",
+  "FixedProduction": "fixed-production-after-3",
+  "RenderingBefore": "recovery-theme-before-1",
+  "RenderingAfter": "full-tests-3",
+  "RenderingReviewed": "reviewed-recovery-localization-after-1.json",
+  "LocalizationBefore": "localization-before-2",
+  "LocalizationAfter": "localization-after-1"
+}

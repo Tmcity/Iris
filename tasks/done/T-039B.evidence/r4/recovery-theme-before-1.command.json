@@ -1,0 +1,22 @@
+{
+  "Command": [
+    "dotnet",
+    "test",
+    "tests\\Iris.App.Tests\\Iris.App.Tests.csproj",
+    "-c",
+    "Release",
+    "--no-build",
+    "--filter",
+    "FullyQualifiedName~UpdateRecoveryRenderingTests",
+    "--no-ansi",
+    "--no-progress",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:\\Iris\\tasks\\done\\T-039B.evidence\\r4\\recovery-theme-before-1-reports"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-24T20:09:02.106825+00:00",
+  "FinishedUtc": "2026-10-24T20:09:08.165910+00:00",
+  "ExitCode": 2,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\recovery-theme-before-1.log"
+}

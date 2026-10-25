@@ -1,0 +1,40 @@
+--- tasks\done\T-039B.evidence\r4\before-guest-validation-1\run_guest.py.txt
++++ tasks\done\T-039B.evidence\r4\run_guest.py
+@@ -15,6 +15,8 @@
+ active = json.loads((evidence / "active_round.json").read_text(encoding="utf-8")) if (evidence / "active_round.json").exists() else {}
+ package_tag = active.get("PackageTag", "final-6")
+ scenario, label = sys.argv[1:3]
++prefetch_runtime = "--prefetch-runtime" in sys.argv[3:]
++public_runtime_dns = "--public-runtime-dns" in sys.argv[3:]
+ if scenario not in ("install", "update", "network") or Path(label).name != label:
+     raise ValueError("scenario and unique label required")
+ report = evidence / label
+@@ -26,6 +28,10 @@
+ if scenario != "network":
+     shutil.copyfile(repo / ("artifacts/t039b/release-0.2.0-" + package_tag + "/Iris-0.2.0-Setup.exe"), inputs / "Iris-0.2.0-Setup.exe")
+ shutil.copyfile(evidence / ("guest_" + scenario + "_r4.ps1"), inputs / ("guest_" + scenario + ".ps1"))
++if prefetch_runtime:
++    shutil.copyfile(evidence / "guest_runtime_prefetch_r4.ps1", inputs / "guest_runtime_prefetch.ps1")
++if public_runtime_dns:
++    shutil.copyfile(evidence / "guest_runtime_dns_r4.ps1", inputs / "guest_runtime_dns.ps1")
+ if scenario == "update":
+     shutil.copyfile(repo / ("artifacts/t039b/release-0.2.1-" + package_tag + "/Iris-0.2.1-full.nupkg"), inputs / "Iris-0.2.1-full.nupkg")
+     shutil.copyfile(legacy / "guest_common.ps1", inputs / "guest_common.ps1")
+@@ -38,7 +44,7 @@
+ cli = "C:/Users/28910/AppData/Local/Microsoft/WindowsApps/wsb.exe"
+ config = '<Configuration><vGPU>Disable</vGPU><Networking>Enable</Networking><AudioInput>Disable</AudioInput><VideoInput>Disable</VideoInput><ClipboardRedirection>Disable</ClipboardRedirection><PrinterRedirection>Disable</PrinterRedirection><MemoryInMB>6144</MemoryInMB></Configuration>'
+ (report / "intent.json").write_text(json.dumps({
+-    "SandboxId": identifier, "Scenario": scenario, "PackageTag": package_tag, "Config": config,
++    "SandboxId": identifier, "Scenario": scenario, "PackageTag": package_tag, "Config": config, "PrefetchRuntimeCache": prefetch_runtime, "PublicRuntimeDns": public_runtime_dns,
+     "ReadOnlyInput": str(inputs), "WritableOutput": str(output),
+     "Files": [{"Path": p.relative_to(inputs).as_posix(), "Bytes": p.stat().st_size,
+         "Sha256": hashlib.file_digest(p.open("rb"), "sha256").hexdigest()} for p in sorted(inputs.rglob("*")) if p.is_file()],
+@@ -69,6 +75,8 @@
+     else: raise RuntimeError("Guest login did not become ready")
+     command = [r"C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe", "-NoProfile", "-NonInteractive", "-ExecutionPolicy", "Bypass", "-File", r"C:\IrisBInput\guest_" + scenario + ".ps1"]
+     if scenario == "update": command += ["-Label", "update-r4", "-HostDirectory", "update-host-r4"]
++    if prefetch_runtime: command += ["-PrefetchRuntime"]
++    if public_runtime_dns: command += ["-PublicRuntimeDns"]
+     if run("execute", ["exec", "--id", identifier, "--command", subprocess.list2cmdline(command), "--run-as", "ExistingLogin", "--raw"])[0]: raise RuntimeError("Guest execution failed")
+     target = output / ("update-r4" if scenario == "update" else "") / "result.json"
+     deadline, previous = time.monotonic() + 1500, None

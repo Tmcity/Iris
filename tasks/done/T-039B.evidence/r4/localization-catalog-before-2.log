@@ -1,0 +1,7 @@
+{"sourceEntries": 1203, "commentEntries": 981, "reviewedNonUiEntries": 218, "resourceCounts": {"App": 462, "Core": 148, "Maintenance": 5}, "resourceErrors": ["App: key sets differ", "App:ShutdownIncomplete: resource differs from reviewed bilingual catalog", "App:UpdateRecoveryCleanupPending: resource differs from reviewed bilingual catalog", "App:UpdateRecoveryRequired: resource differs from reviewed bilingual catalog", "App:UpdateRecoveryRetry: resource differs from reviewed bilingual catalog", "App:UpdateRecoveryCancel: resource differs from reviewed bilingual catalog"], "englishNativeNameExceptions": {"App:LanguageChineseNative": "简体中文"}, "exceptionManifestSha256": "2d620105575400696d1f567460d883cf050ff511b49b6f64d5ea0b5192eb9a75"}
+src/Iris.App/Services/GeneralSettingsSaveCoordinator.cs 68 comment ' <summary>仅供单元测试使用的兼容字段；生产代码在 src/ 中无调用者，统一使用 SettingsEditPlan 主管道。</summary>\n'
+src/Iris.App/Services/GeneralSettingsSaveCoordinator.cs 278 comment ' <summary>\n    /// 仅供单元测试使用的兼容保存接口；生产代码在 src/ 中无调用者，统一使用 SettingsEditPlan 主管道（CommitPlanAsync）。\n    /// </summary>\n'
+src/Iris.App/Updates/UpdateHandoff.cs 40 literal '更新交接已撤销'
+src/Iris.App/Updates/UpdateHandoff.cs 76 literal '更新维护进程意外退出'
+src/Iris.App/Updates/UpdateHandoff.cs 78 literal '更新交接已撤销'
+src/Iris.App/Updates/UpdateHandoff.cs 80 literal '准备更新维护进程超时（30秒）'

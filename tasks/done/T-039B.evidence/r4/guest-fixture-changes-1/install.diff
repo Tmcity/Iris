@@ -1,0 +1,39 @@
+--- tasks\done\T-039B.evidence\r4\guest-install-r4-2\input-scripts\guest_install.ps1.txt
++++ tasks\done\T-039B.evidence\r4\guest_install_r4.ps1
+@@ -1,3 +1,4 @@
++param([switch]$PrefetchRuntime,[switch]$PublicRuntimeDns)
+ $ErrorActionPreference = 'Stop'
+ $output = 'C:\IrisBOutput'
+ $inputDirectory = 'C:\IrisBInput'
+@@ -72,6 +73,8 @@
+     $principal = New-Object Security.Principal.WindowsPrincipal($identity)
+     Record 'environment' @{OS=$os.Caption;Version=$os.Version;User=$identity.Name;Administrator=$principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator);RuntimesBefore=@(Runtimes)}
+     if (@(Runtimes | Where-Object {$_.Version -like '10.*'}).Count -ne 0) { throw 'Guest is not clean: shared .NET10 exists.' }
++    if ($PublicRuntimeDns) { . C:\IrisBInput\guest_runtime_dns.ps1 }
++    if ($PrefetchRuntime) { . C:\IrisBInput\guest_runtime_prefetch.ps1 }
+     $installer = Join-Path $inputDirectory 'Iris-0.2.0-Setup.exe'
+     $code = Run-Child $installer '--silent --no-start' 'install'
+     if ($code -ne 0) { throw ('Real installer failed: ' + $code) }
+@@ -125,15 +128,20 @@
+     }
+     if (Test-Path -LiteralPath $app) { throw 'Uninstall did not remove the installed app.' }
+     if (-not $running.WaitForExit(30000)) { throw 'Original Iris did not exit gracefully.' }
+-    $running.WaitForExit(); Record 'original-app-exit' $running.ExitCode; $running.Dispose()
++    $running.WaitForExit(); Record 'original-app-exit' $running.ExitCode
++    Require 'original-app-exit-zero' ($running.ExitCode -eq 0); $running.Dispose()
+     Require 'silent-uninstall-kept-data' (Test-Path -LiteralPath (Join-Path $data 'synthetic-retention.txt'))
+     Require 'uninstall-key-removed' (-not (Test-Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\Iris'))
+     Require 'transaction-completed' (-not (Test-Path -LiteralPath (Join-Path $env:LOCALAPPDATA 'Iris.Maintenance\transaction.json')))
+     Record 'runtime-retained' @(Runtimes)
+     Require 'desktop-runtime-retained' (@(Runtimes | Where-Object {$_.Family -eq 'Microsoft.WindowsDesktop.App' -and $_.Version -like '10.*'}).Count -gt 0)
++    $residual=@(Get-CimInstance Win32_Process | Where-Object { $_.Name -match '^Iris\.' -or $_.ExecutablePath -like ((Join-Path $env:LOCALAPPDATA 'Iris')+'\*') -or $_.ExecutablePath -like ((Join-Path $env:LOCALAPPDATA 'Iris.Maintenance')+'\*') } | Select-Object ProcessId,ParentProcessId,CreationDate,ExecutablePath,CommandLine)
++    Record 'owned-iris-processes-after-uninstall' $residual
++    Require 'no-owned-iris-processes-after-uninstall' ($residual.Count -eq 0)
+ } catch { $report.Failure = $_.ToString() }
+ finally {
+-    Get-CimInstance Win32_Process | Where-Object { $_.Name -match 'Iris|Update|Setup|dotnet|msiexec' } | Select-Object ProcessId,ParentProcessId,CreationDate,ExecutablePath,CommandLine | ConvertTo-Json -Depth 4 | Set-Content (Join-Path $output 'processes-final.json') -Encoding UTF8
++    $finalProcesses=@(Get-CimInstance Win32_Process | Where-Object { $_.Name -match 'Iris|Update|Setup|dotnet|msiexec' } | Select-Object ProcessId,ParentProcessId,CreationDate,ExecutablePath,CommandLine)
++    ConvertTo-Json -InputObject $finalProcesses -Depth 4 | Set-Content (Join-Path $output 'processes-final.json') -Encoding UTF8
+     Copy-RuntimeLogs
+     foreach ($folder in @((Join-Path $env:LOCALAPPDATA 'Iris.Maintenance'),(Join-Path $env:LOCALAPPDATA 'Iris'),(Join-Path $env:LOCALAPPDATA 'Velopack'))) {
+         if (Test-Path -LiteralPath $folder) {

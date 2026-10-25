@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO;
 using Iris.Platform.Windows.Maintenance;
 
@@ -11,4 +12,6 @@ internal class UpdateHandoffEnvironment
         => ReleasePackage.ValidateAsync(candidate.Path, candidate.Size, candidate.Sha256, candidate.Version, token);
     internal virtual string HelperPath => Path.Combine(AppContext.BaseDirectory, "maintenance", "Iris.Maintenance.exe");
     internal virtual string StateRoot => MaintenancePaths.StateRoot;
+    internal virtual Process StartHelper(ProcessStartInfo start) => Process.Start(start) ?? throw new IOException("Maintenance did not start.");
+    internal virtual void DeleteWorkDirectory(string directory) => MaintenancePaths.DeleteData(directory, directory);
 }

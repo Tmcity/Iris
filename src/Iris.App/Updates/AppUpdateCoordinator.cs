@@ -15,6 +15,10 @@ internal sealed record UpdateCandidate(Guid Id, string Path, long Size, string S
 {
     public override string ToString() => "UpdateCandidate";
 }
+internal sealed record PreparedUpdate(UpdateCandidate Candidate, object Owner, long Generation)
+{
+    public override string ToString() => "PreparedUpdate";
+}
 
 /// <summary>Single owner of SDK tasks and all operation resources; cleanup retries never repeat network work.</summary>
 internal sealed partial class AppUpdateCoordinator
@@ -30,11 +34,13 @@ internal sealed partial class AppUpdateCoordinator
     private bool _closing, _started;
     private long _generation;
     private (Guid Id, UpdateInfo Info)? _offer;
-    private UpdateCandidate? _candidate, _lastCandidate;
+    private UpdateCandidate? _candidate;
+    private PreparedUpdate? _preparedApply, _transferredApply;
     private UpdateSnapshot _snapshot;
     internal event EventHandler? Changed;
     internal UpdateSnapshot Snapshot { get { lock (_gate) return _snapshot; } }
     internal bool HasCandidate { get { lock (_gate) return _candidate != null; } }
+    internal bool IsAcceptanceClosed { get { lock (_gate) return _closing; } }
     public AppUpdateCoordinator(UpdateRuntime runtime, ISettingsService settings, TimeProvider time, ILogger<AppUpdateCoordinator>? logger = null, INotificationService? notifications = null)
     { _runtime = runtime; _settings = settings; _time = time; _logger = logger ?? NullLogger<AppUpdateCoordinator>.Instance; _notifications = notifications; _snapshot = new(UpdatePhase.Unsupported, runtime.Version); }
     internal void Start()
@@ -65,9 +71,9 @@ internal sealed partial class AppUpdateCoordinator
         Entry entry;
         lock (_gate)
         {
-            if (_closing || _stop is { IsCompleted: false } || (_entry != null && (!_entry.Work.IsCompleted || !_entry.Cleaned)) || _snapshot.Phase == UpdatePhase.Unsupported) return Task.CompletedTask;
+            if (_closing || _transferredApply != null || _stop is { IsCompleted: false } || (_entry != null && (!_entry.Work.IsCompleted || !_entry.Cleaned)) || _snapshot.Phase == UpdatePhase.Unsupported) return Task.CompletedTask;
             if (download && (_offer == null || _offer.Value.Id != offerId || _snapshot.Phase != UpdatePhase.Available)) return Task.CompletedTask;
-            _candidate = null;
+            _candidate = null; _preparedApply = null;
             entry = new(owner, automatic, ++_generation, _time, download ? TimeSpan.FromMinutes(30) : TimeSpan.FromSeconds(30));
             _entry = entry;
             _snapshot = _snapshot with { Phase = download ? UpdatePhase.Downloading : UpdatePhase.Checking, Progress = 0, Error = null };
@@ -175,7 +181,7 @@ internal sealed partial class AppUpdateCoordinator
         {
             entry = _entry;
             if (!ReferenceEquals(entry?.Owner, owner)) return;
-            stopping = CancelAsync();
+            stopping = CancelAsync(preserveTransferred: true);
         }
         await stopping.ConfigureAwait(false);
         lock (_gate)
@@ -183,12 +189,15 @@ internal sealed partial class AppUpdateCoordinator
                 throw new IrisException(ErrorCode.StorageFailure, ErrorMessages.GetDefault(ErrorCode.StorageFailure));
     }
     internal Task CancelAsync()
+        => CancelAsync(preserveTransferred: false);
+    private Task CancelAsync(bool preserveTransferred)
     {
         lock (_gate)
         {
             _entry?.Cancel();
             if (_stop is { IsCompleted: false }) return _stop;
-            ++_generation; _candidate = null;
+            ++_generation; _candidate = null; _preparedApply = null;
+            if (!preserveTransferred) _transferredApply = null;
             _snapshot = _snapshot with { Phase = UpdatePhase.Cancelling };
             return _stop = CancelCoreAsync(_entry, _generation, _entry?.Work.IsCompleted == true);
         }
@@ -216,42 +225,76 @@ internal sealed partial class AppUpdateCoordinator
         }
         Notify();
     }
-    internal Task<UpdateCandidate?> PrepareApplyAsync(object owner, Guid id, CancellationToken token)
+    internal Task<PreparedUpdate?> PrepareApplyAsync(object owner, Guid id, CancellationToken token)
     {
         lock (_gate)
         {
-            if (_closing || _stop is { IsCompleted: false } || (_entry != null && (!_entry.Work.IsCompleted || !_entry.Cleaned))
-                || _candidate?.Id != id || (_snapshot.Phase != UpdatePhase.Ready && _snapshot.Phase != UpdatePhase.Failed)) return Task.FromResult<UpdateCandidate?>(null);
-            var candidate = _candidate; _candidate = null; _lastCandidate = candidate;
+            if (_closing || _transferredApply != null || _stop is { IsCompleted: false } || (_entry != null && (!_entry.Work.IsCompleted || !_entry.Cleaned))
+                || _candidate?.Id != id || (_snapshot.Phase != UpdatePhase.Ready && _snapshot.Phase != UpdatePhase.Failed)) return Task.FromResult<PreparedUpdate?>(null);
+            var candidate = _candidate; _candidate = null; _preparedApply = null;
             var entry = new Entry(owner, false, ++_generation, _time, TimeSpan.FromSeconds(30), token);
             _entry = entry; _snapshot = _snapshot with { Phase = UpdatePhase.Downloading };
-            var work = PrepareCoreAsync(entry, candidate); entry.Work = work; return work;
+            var work = PrepareCoreAsync(entry, candidate, owner); entry.Work = work; return work;
         }
     }
-    internal void RollbackApply(UpdateCandidate candidate, ErrorCode error)
+    internal void RollbackApply(PreparedUpdate prepared, ErrorCode error)
     {
         lock (_gate)
         {
-            if (_closing) return;
+            if (_closing || !ReferenceEquals(_preparedApply, prepared) || prepared.Generation != _generation) return;
+            var candidate = prepared.Candidate;
             _candidate = candidate;
-            _lastCandidate = candidate;
+            _preparedApply = null;
             _snapshot = new(UpdatePhase.Failed, _runtime.Version, candidate.Id, candidate.Version, 100, Error: error);
         }
         Notify();
     }
-    internal void RollbackLastApply(ErrorCode error)
+    internal bool TryTransferApply(PreparedUpdate prepared, object owner)
     {
-        UpdateCandidate? candidate;
         lock (_gate)
         {
-            if (_closing || _lastCandidate == null) return;
-            candidate = _lastCandidate;
+            if (_closing || _transferredApply != null || !ReferenceEquals(_preparedApply, prepared)
+                || !ReferenceEquals(prepared.Owner, owner) || prepared.Generation != _generation
+                || _entry is not { Cleaned: true, TokenCanceled: false, Work.IsCompletedSuccessfully: true }) return false;
+            _preparedApply = null;
+            _transferredApply = prepared;
+            return true;
+        }
+    }
+    internal bool ReportTransferredApplyFailure(PreparedUpdate prepared, ErrorCode error)
+    {
+        lock (_gate)
+        {
+            if (!ReferenceEquals(_transferredApply, prepared)) return false;
+            var candidate = prepared.Candidate;
             _candidate = candidate;
             _snapshot = new(UpdatePhase.Failed, _runtime.Version, candidate.Id, candidate.Version, 100, Error: error);
         }
         Notify();
+        return true;
     }
-    private async Task<UpdateCandidate?> PrepareCoreAsync(Entry entry, UpdateCandidate candidate)
+    internal Task ValidateTransferredApplyAsync(PreparedUpdate prepared, CancellationToken token)
+    {
+        lock (_gate)
+        {
+            if (!_closing || !ReferenceEquals(_transferredApply, prepared) || _stop is { IsCompleted: false }
+                || _entry is { Cleaned: false } || _entry is { Work.IsCompleted: false }) throw new InvalidOperationException("Update recovery does not own a drained candidate.");
+        }
+        // Local validation only. The shutdown owner owns and joins this task;
+        // neither the SDK operation factory nor the stopped transport is reopened.
+        return _runtime.ValidateAsync(prepared.Candidate, token);
+    }
+    internal void CancelTransferredApply(PreparedUpdate prepared)
+    {
+        lock (_gate)
+        {
+            if (!ReferenceEquals(_transferredApply, prepared)) return;
+            _transferredApply = null; _candidate = null;
+            _snapshot = new(_closing ? UpdatePhase.Stopped : UpdatePhase.Idle, _runtime.Version);
+        }
+        Notify();
+    }
+    private async Task<PreparedUpdate?> PrepareCoreAsync(Entry entry, UpdateCandidate candidate, object owner)
     {
         await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding); Notify();
         bool valid = false;
@@ -265,15 +308,36 @@ internal sealed partial class AppUpdateCoordinator
             try { await entry.CleanupAsync().ConfigureAwait(false); }
             catch (Exception ex) { LogFailure(_logger, "cleanup", ex.GetType().Name); }
         }
-        lock (_gate) _snapshot = new(entry.Cleaned ? (_closing ? UpdatePhase.Stopped : failure == null ? UpdatePhase.Idle : UpdatePhase.Failed) : UpdatePhase.CleanupPending, _runtime.Version, Error: failure);
+        PreparedUpdate? prepared = null;
+        lock (_gate)
+        {
+            if (ReferenceEquals(_entry, entry) && entry.Generation == _generation)
+            {
+                if (!_closing && !entry.TokenCanceled)
+                {
+                    if (valid && entry.Cleaned) _preparedApply = prepared = new(candidate, owner, entry.Generation);
+                    else if (failure != null) _candidate = candidate;
+                }
+                _snapshot = new(entry.Cleaned ? (_closing ? UpdatePhase.Stopped : failure == null ? UpdatePhase.Idle : UpdatePhase.Failed) : UpdatePhase.CleanupPending,
+                    _runtime.Version, _candidate?.Id, _candidate?.Version, _candidate == null ? 0 : 100, failure);
+            }
+        }
         Notify();
-        lock (_gate) return valid && entry.Cleaned && !_closing && entry.Generation == _generation && !entry.TokenCanceled ? candidate : null;
+        return prepared;
     }
-    internal void StopAcceptance() { lock (_gate) { _closing = true; _entry?.Cancel(); _candidate = null; } }
+    internal void StopAcceptance()
+    {
+        lock (_gate)
+        {
+            _closing = true;
+            _entry?.Cancel();
+            _candidate = null; _preparedApply = null;
+        }
+    }
     internal async Task StopAsync()
     {
         StopAcceptance(); _settings.Changed -= OnSettingsChanged;
-        await CancelAsync().ConfigureAwait(false);
+        await CancelAsync(preserveTransferred: true).ConfigureAwait(false);
         if (Snapshot.Phase == UpdatePhase.CleanupPending) throw new IrisException(ErrorCode.StorageFailure, ErrorMessages.GetDefault(ErrorCode.StorageFailure));
     }
     private void Set(UpdatePhase phase, ErrorCode? error = null) { lock (_gate) _snapshot = _snapshot with { Phase = phase, Error = error }; Notify(); }

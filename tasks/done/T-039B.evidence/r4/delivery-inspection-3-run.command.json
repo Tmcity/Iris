@@ -1,0 +1,12 @@
+{
+  "Command": [
+    "python",
+    "tasks\\done\\T-039B.evidence\\r4\\inspect_delivery.py",
+    "--guests"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-25T06:33:06.398439+00:00",
+  "FinishedUtc": "2026-10-25T06:33:09.809524+00:00",
+  "ExitCode": 0,
+  "Output": "tasks\\done\\T-039B.evidence\\r4\\delivery-inspection-3-run.log"
+}
