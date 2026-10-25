@@ -2,6 +2,8 @@
 
 Iris 是一个 Windows 桌面翻译工具（C# / .NET 10 / WPF），常驻系统托盘，支持全局热键、悬浮球、划词翻译与截图 OCR 翻译。
 
+Windows x64 安装入口为公开 [GitHub Releases](https://github.com/Tmcity/Iris/releases) 中的 `Iris-<版本>-Setup.exe`，安装、运行时要求、更新及卸载说明见 [安装指南](docs/INSTALLATION.md)。首期构建未签名；下载后按该 Release 的 `SHA256.json` 核对。源代码构建成功不代表在线升级已经验证，实际验证状态见任务报告。
+
 ## 架构
 
 项目采用 Clean Architecture 架构风格：
@@ -22,3 +24,5 @@ dotnet build Iris.slnx -c Release
 # 运行测试
 dotnet test Iris.slnx -c Release
 ```
+
+正式发布的版本计划、正常历史整合、tag/CI 准入及实际用户路径验证顺序见 [发布流程](docs/RELEASING.md)。初始公开 README 原字节保留在 [历史记录](docs/history/README.initial-github.md)。

@@ -5,6 +5,9 @@ param(
     [string]$ToolPackageDirectory
 )
 $ErrorActionPreference = 'Stop'
+# Resolve the native modules in this process only; callers may provide a PSModulePath for another PowerShell edition.
+Import-Module (Join-Path $PSHOME 'Modules\Microsoft.PowerShell.Utility\Microsoft.PowerShell.Utility.psd1')
+Import-Module (Join-Path $PSHOME 'Modules\Microsoft.PowerShell.Security\Microsoft.PowerShell.Security.psd1')
 if ($Version -notmatch '^\d+\.\d+\.\d+$') { throw 'Version must be major.minor.patch.' }
 $workspace = Split-Path -Parent $PSScriptRoot
 $packageDocument = [xml](Get-Content -LiteralPath (Join-Path $workspace 'Directory.Packages.props') -Raw)
@@ -18,9 +21,16 @@ if (Test-Path -LiteralPath $OutputDirectory) {
     if (@(Get-ChildItem -LiteralPath $OutputDirectory -Force).Count -ne 0) { throw 'Output directory must be empty; existing releases are never overwritten.' }
 } else { $null = New-Item -ItemType Directory -Path $OutputDirectory }
 $utf8 = New-Object Text.UTF8Encoding($false)
+$sourceCapture = Join-Path $work 'release-source-capture.json'
+& python -B (Join-Path $PSScriptRoot 'release_manifest.py') capture-source --version $Version --output $sourceCapture --powershell $PSVersionTable.PSVersion.ToString()
+if ($LASTEXITCODE -ne 0) { throw 'Release source capture failed; package only committed sources.' }
 if ($PreviousReleaseDirectory) {
     $previous = [IO.Path]::GetFullPath($PreviousReleaseDirectory)
     if (-not (Test-Path -LiteralPath $previous -PathType Container)) { throw 'Previous release directory does not exist.' }
+    $previousIdentity = Get-Content -LiteralPath (Join-Path $previous 'release-provenance.json') -Raw | ConvertFrom-Json
+    if ($previousIdentity.Version -notmatch '^\d+\.\d+\.\d+$' -or [version]$previousIdentity.Version -ge [version]$Version) { throw 'Previous release version must be older.' }
+    & python -B (Join-Path $PSScriptRoot 'release_manifest.py') verify --version $previousIdentity.Version --directory $previous
+    if ($LASTEXITCODE -ne 0) { throw 'Previous public release verification failed.' }
     Get-ChildItem -LiteralPath $previous -File | Where-Object { $_.Name -like 'Iris-*-full.nupkg' } | ForEach-Object { Copy-Item -LiteralPath $_.FullName -Destination (Join-Path $OutputDirectory $_.Name) }
 }
 $config = Join-Path $work 'NuGet.Config'
@@ -93,6 +103,13 @@ try {
 # The raw Setup is an internal payload, excluded from public release assets.
 $internal = Join-Path $work 'internal-Setup.exe'
 Move-Item -LiteralPath $setup -Destination $internal
+# vpk names its internal Setup in this index. Public assets must reference the outer Iris entry instead.
+$assetIndexPath = Join-Path $OutputDirectory 'assets.win.json'
+$assetIndex = @(Get-Content -LiteralPath $assetIndexPath -Raw | ConvertFrom-Json)
+$installerEntries = @($assetIndex | Where-Object { $_.Type -eq 'Installer' })
+if ($installerEntries.Count -ne 1 -or $installerEntries[0].RelativeFileName -ne 'Iris-win-Setup.exe') { throw 'Unexpected SDK installer asset index.' }
+$installerEntries[0].RelativeFileName = [IO.Path]::GetFileName($outer)
+[IO.File]::WriteAllText($assetIndexPath, ($assetIndex | ConvertTo-Json -Depth 4), $utf8)
 $stagingManifest = @(Get-ChildItem -LiteralPath $staging -File -Recurse | ForEach-Object { @{Path=$_.FullName.Substring($staging.Length + 1);Bytes=$_.Length;Sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash} })
 [IO.File]::WriteAllText((Join-Path $OutputDirectory 'staging-manifest.json'), ($stagingManifest | ConvertTo-Json -Depth 4), $utf8)
 # vpk filters debugging files and adds execution/identity files. The payload inventory must describe
@@ -111,4 +128,6 @@ if ($manifest.Count -eq 0) { throw 'The full package has no application payload.
 [IO.File]::WriteAllText((Join-Path $OutputDirectory 'payload-manifest.json'), ($manifest | ConvertTo-Json -Depth 4), $utf8)
 $hashes = @(Get-ChildItem -LiteralPath $OutputDirectory -File | ForEach-Object { @{Name=$_.Name;Bytes=$_.Length;Sha256=(Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256).Hash} })
 [IO.File]::WriteAllText((Join-Path $OutputDirectory 'SHA256.json'), ($hashes | ConvertTo-Json -Depth 4), $utf8)
+& python -B (Join-Path $PSScriptRoot 'release_manifest.py') finalize --version $Version --directory $OutputDirectory --source $sourceCapture
+if ($LASTEXITCODE -ne 0) { throw 'Public release asset verification failed.' }
 [pscustomobject]@{Version=$Version;SdkVersion=$sdkVersion;WorkDirectory=$work;OutputDirectory=$OutputDirectory;Installer=$outer;Signed=$false} | ConvertTo-Json

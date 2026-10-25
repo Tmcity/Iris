@@ -1,56 +1,130 @@
 name: Desktop release
+
 on:
+  push:
+    tags:
+      - 'v*.*.*'
   workflow_dispatch:
     inputs:
       version:
-        description: Numeric version (major.minor.patch)
+        description: Build-only numeric version from the reviewed release plan
         required: true
         type: string
-      publish:
-        description: Publish the verified files to GitHub Releases
-        default: false
-        type: boolean
+
 permissions:
   contents: read
+
+concurrency:
+  group: desktop-release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   package:
     runs-on: windows-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     env:
       DOTNET_CLI_UI_LANGUAGE: zh-CN
+      PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
       - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 10.0.x
-      - name: Release build
-        run: dotnet build Iris.slnx -c Release
-      - name: Tests
-        run: dotnet test Iris.slnx -c Release
-      - name: Package
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Validate immutable release intent
+        id: version
         shell: powershell
         env:
-          IRIS_RELEASE_VERSION: ${{ inputs.version }}
-        run: ./build/pack.ps1 -Version $env:IRIS_RELEASE_VERSION -OutputDirectory "$env:RUNNER_TEMP\iris-release"
+          IRIS_INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          if ($env:GITHUB_REPOSITORY -ne 'Tmcity/Iris') { throw 'Unexpected repository.' }
+          $version = $env:IRIS_INPUT_VERSION
+          if ($env:GITHUB_EVENT_NAME -eq 'push') {
+            if (-not $env:GITHUB_REF.StartsWith('refs/tags/v')) { throw 'Release requires a version tag.' }
+            $version = $env:GITHUB_REF.Substring(11)
+          }
+          if ($version -notmatch '\A\d+\.\d+\.\d+\z') { throw 'Numeric version required.' }
+          $plan = Get-Content build/release-plan.json -Raw | ConvertFrom-Json
+          $item = @($plan.Versions | Where-Object { $_.Version -eq $version })
+          if ($item.Count -ne 1) { throw 'Version is outside the reviewed release plan.' }
+          "version=$version" | Out-File $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "previous=$($item[0].PreviousVersion)" | Out-File $env:GITHUB_OUTPUT -Encoding utf8 -Append
+      - name: Release build, full tests and offline publishing regressions
+        shell: powershell
+        run: |
+          python -B build/release_pipeline.py validate --output "$env:RUNNER_TEMP/iris-validation"
+          if ($LASTEXITCODE -ne 0) { throw 'Recorded validation failed.' }
+      - name: Read and validate the previous public release
+        if: ${{ steps.version.outputs.previous != '' }}
+        shell: powershell
+        env:
+          GH_TOKEN: ${{ github.token }}
+          IRIS_PREVIOUS: ${{ steps.version.outputs.previous }}
+        run: |
+          gh release download "v$env:IRIS_PREVIOUS" --repo Tmcity/Iris --dir "$env:RUNNER_TEMP/iris-previous"
+          if ($LASTEXITCODE -ne 0) { throw 'Previous release is unavailable; no history fallback.' }
+          python -B build/release_manifest.py verify --version $env:IRIS_PREVIOUS --directory "$env:RUNNER_TEMP/iris-previous"
+          if ($LASTEXITCODE -ne 0) { throw 'Previous release bytes failed validation.' }
+      - name: Build and bind exact public assets with Windows PowerShell 5.1
+        shell: powershell
+        env:
+          IRIS_VERSION: ${{ steps.version.outputs.version }}
+          IRIS_PREVIOUS: ${{ steps.version.outputs.previous }}
+        run: |
+          $arguments = @('-B','build/release_pipeline.py','package','--version',$env:IRIS_VERSION,'--output',"$env:RUNNER_TEMP/iris-release",'--logs',"$env:RUNNER_TEMP/iris-package-logs",'--validation',"$env:RUNNER_TEMP/iris-validation")
+          if ($env:IRIS_PREVIOUS) { $arguments += @('--previous',"$env:RUNNER_TEMP/iris-previous") }
+          & python @arguments
+          if ($LASTEXITCODE -ne 0) { throw 'Public package verification failed.' }
       - uses: actions/upload-artifact@v4
         with:
-          name: iris-windows-release
+          name: iris-windows-${{ steps.version.outputs.version }}
           path: ${{ runner.temp }}/iris-release/*
           if-no-files-found: error
+      - name: Preserve completed logs and original failures
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: iris-validation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/iris-validation
+            ${{ runner.temp }}/iris-package-logs/*.log
+            ${{ runner.temp }}/iris-package-logs/*.json
+          if-no-files-found: warn
+
   publish:
-    if: ${{ inputs.publish }}
+    if: ${{ github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v') && github.repository == 'Tmcity/Iris' }}
     needs: package
     runs-on: ubuntu-latest
-    environment: desktop-release
     permissions:
       contents: write
     steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
       - uses: actions/download-artifact@v4
         with:
-          name: iris-windows-release
+          name: iris-windows-${{ needs.package.outputs.version }}
           path: release
-      - name: Publish approved assets
+      - name: Create draft, verify downloaded asset bytes, then publish
         env:
           GH_TOKEN: ${{ github.token }}
-          GH_REPO: ${{ github.repository }}
-          RELEASE_VERSION: ${{ inputs.version }}
-        run: gh release create "v$RELEASE_VERSION" release/* --title "Iris $RELEASE_VERSION" --notes "Windows x64. See the installation guide. This build is unsigned."
+          IRIS_VERSION: ${{ needs.package.outputs.version }}
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: python -B build/publish_release.py --version "$IRIS_VERSION" --directory release --receipt publish-result.json
+      - name: Preserve publication boundary result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: iris-publication-${{ github.run_id }}-${{ github.run_attempt }}
+          path: publish-result.json
+          if-no-files-found: warn
