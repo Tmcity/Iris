@@ -4564,6 +4564,11 @@
       "Sha256": "a15c002da97b869ee16d244ec6522f347faec82780e1162035b2fc446bf0fd36"
     },
     {
+      "Path": "tasks/done/T-039C.evidence/before-stage1-report-supplement-1/stage1-binding.json.txt",
+      "Bytes": 250760,
+      "Sha256": "0ed8623b65bbcc45d2bfcab47c0d061e99e1111dd997000c6521551575921ed6"
+    },
+    {
       "Path": "tasks/done/T-039C.evidence/bind_stage1.py",
       "Bytes": 3846,
       "Sha256": "6377df7305c99eaef712c94e0a480056fcd458929658757188a238107beda3ee"
@@ -5879,6 +5884,11 @@
       "Sha256": "383f62e7fd361f9bf3c8533cb9f78064db3ec15a8f00a5714fa1437a17028372"
     },
     {
+      "Path": "tasks/done/T-039C.evidence/staging-scope-1.py",
+      "Bytes": 1617,
+      "Sha256": "b47ddd358712de8fa5ea87d005ae7d9d0d644902c4b1b80aedc3af7c9f538fca"
+    },
+    {
       "Path": "tasks/done/T-039C.evidence/validate_release_tools.py",
       "Bytes": 1994,
       "Sha256": "e74d86d47f6ae0b2d8bc92ba077d6bd6ac60573b4864c2033775ad385ed933ad"
@@ -5906,8 +5916,8 @@
   ],
   "Report": {
     "Path": "tasks/T-039C.stage1.md",
-    "Bytes": 4651,
-    "Sha256": "b38ec55d2afadaa4a80f80c0c6a9aaa59fd21f20dfe7dafe0cba89972783813b"
+    "Bytes": 6620,
+    "Sha256": "b70a6f766ee3cba84da5a6ea4542226e7fee70744e4a1b139cda2b17ff6efd9c"
   },
   "Outstanding": [
     "Architect checkpoint review before first remote write",
