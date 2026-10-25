@@ -1,0 +1,19 @@
+{
+  "observedAt": "2026-10-24T18:20:30.184205+00:00",
+  "threadId": "01a16ef2-a0bb-71a1-8230-57165c05cc5b",
+  "turnId": "01a16efb-17fe-7c13-b06d-d96408ee117c",
+  "status": "interrupted",
+  "completedAt": null,
+  "error": null,
+  "previousItemCount": 115,
+  "itemCount": 120,
+  "newVisibleItems": [
+    {
+      "type": "commandExecution",
+      "id": "exec-40818203-26ea-4877-95d8-cf9e3d7e9e00",
+      "command": "\"C:\\\\Users\\\\28910\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -NoProfile -Command \"git diff -- src/Iris.App/Updates/AppUpdateCoordinator.cs; rg -n 'PrepareCoreAsync|RollbackLastApply|IsRecovery|StopAcceptance' src/Iris.App/Updates/AppUpdateCoordinator.cs\"",
+      "status": "completed",
+      "exitCode": 0
+    }
+  ]
+}

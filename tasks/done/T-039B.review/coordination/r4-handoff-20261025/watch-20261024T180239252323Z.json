@@ -1,0 +1,19 @@
+{
+  "observedAt": "2026-10-24T18:02:39.252323+00:00",
+  "threadId": "01a16ef2-a0bb-71a1-8230-57165c05cc5b",
+  "turnId": "01a16efb-17fe-7c13-b06d-d96408ee117c",
+  "status": "interrupted",
+  "completedAt": null,
+  "error": null,
+  "previousItemCount": 89,
+  "itemCount": 93,
+  "newVisibleItems": [
+    {
+      "type": "commandExecution",
+      "id": "exec-0dcaf281-f9ca-48d7-a147-db1be08ee6d6",
+      "command": "\"C:\\\\Users\\\\28910\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -NoProfile -Command \"Get-Content -Raw -LiteralPath 'src\\\\Iris.App\\\\UiText.Updates.cs'; rg -n 'UpdateFailed|UpdateStopped|Update.*Error|Shutdown|退出|更新' src/Iris.App/Resources -g '*.resx' | Select-Object -First 300; rg -n 'enum NotificationLevel|NotificationLevel\\\\.' src/Iris.Core src/Iris.App -g '*.cs' | Select-Object -First 200\"",
+      "status": "completed",
+      "exitCode": 0
+    }
+  ]
+}

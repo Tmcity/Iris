@@ -1,0 +1,113 @@
+{
+  "scope": "Client-area rendering/readability only, inert callbacks; not lifecycle/installation evidence.",
+  "appDllSha256": "773cb4a713dc5a057e12bbdb92477bd3fe60daadc2f85a5b55fa1b61804334b1",
+  "images": [
+    {
+      "language": "zh-CN",
+      "RequestedTheme": "Light",
+      "ActualApplicationTheme": "Light",
+      "RequestedWidth": 540,
+      "ActualWidth": 540,
+      "ActualHeight": 277.08000000000004,
+      "FailureText": "Iris 未能完成退出，更新尚未安装。已保留您确认的更新，请重试安装，或取消更新并退出。\n\n0.2.1",
+      "File": "recovery-zh-CN-Light-540.png",
+      "Sha256": "2fc00189307dc980ab9f9cd92827b0e725ba023678d227433ff28ab360daca3b",
+      "VisualVerdict": "Pass: visible body and action labels are readable",
+      "Viewed": true
+    },
+    {
+      "language": "zh-CN",
+      "RequestedTheme": "Light",
+      "ActualApplicationTheme": "Light",
+      "RequestedWidth": 380,
+      "ActualWidth": 380,
+      "ActualHeight": 277.08000000000004,
+      "FailureText": "Iris 未能完成退出，更新尚未安装。已保留您确认的更新，请重试安装，或取消更新并退出。\n\n0.2.1",
+      "File": "recovery-zh-CN-Light-380.png",
+      "Sha256": "90d35937d45666cc7777aa49aaa54e6dae7fcab1d410a28e0ed899cbbea6be1c",
+      "VisualVerdict": "Pass: visible body and action labels are readable",
+      "Viewed": true
+    },
+    {
+      "language": "zh-CN",
+      "RequestedTheme": "Dark",
+      "ActualApplicationTheme": "Dark",
+      "RequestedWidth": 540,
+      "ActualWidth": 540,
+      "ActualHeight": 277.08000000000004,
+      "FailureText": "Iris 未能完成退出，更新尚未安装。已保留您确认的更新，请重试安装，或取消更新并退出。\n\n0.2.1",
+      "File": "recovery-zh-CN-Dark-540.png",
+      "Sha256": "0823cb807ef59bca4de61187afda65a2f9cb185de6dbd6a4755cb00b8715f013",
+      "VisualVerdict": "Fail: both action labels are near-white on white and unreadable",
+      "Viewed": true
+    },
+    {
+      "language": "zh-CN",
+      "RequestedTheme": "Dark",
+      "ActualApplicationTheme": "Dark",
+      "RequestedWidth": 380,
+      "ActualWidth": 380,
+      "ActualHeight": 277.08000000000004,
+      "FailureText": "Iris 未能完成退出，更新尚未安装。已保留您确认的更新，请重试安装，或取消更新并退出。\n\n0.2.1",
+      "File": "recovery-zh-CN-Dark-380.png",
+      "Sha256": "ed4055bb9943dab4402d6220d259ae95e9952afce977174781cc005ceb596abd",
+      "VisualVerdict": "Fail: both action labels are near-white on white and unreadable",
+      "Viewed": true
+    },
+    {
+      "language": "en-US",
+      "RequestedTheme": "Light",
+      "ActualApplicationTheme": "Light",
+      "RequestedWidth": 540,
+      "ActualWidth": 540,
+      "ActualHeight": 294.86,
+      "FailureText": "Iris could not finish closing, so the update has not been installed. Your confirmed update is retained. Retry installation, or cancel the update and exit.\n\n0.2.1",
+      "File": "recovery-en-US-Light-540.png",
+      "Sha256": "cabda0fe1a602bb4b87689ef4b14aa0e460ec506c41b0781e66ad737ba7de8ea",
+      "VisualVerdict": "Pass: visible body and action labels are readable",
+      "Viewed": true
+    },
+    {
+      "language": "en-US",
+      "RequestedTheme": "Light",
+      "ActualApplicationTheme": "Light",
+      "RequestedWidth": 380,
+      "ActualWidth": 380,
+      "ActualHeight": 362.20000000000005,
+      "FailureText": "Iris could not finish closing, so the update has not been installed. Your confirmed update is retained. Retry installation, or cancel the update and exit.\n\n0.2.1",
+      "File": "recovery-en-US-Light-380.png",
+      "Sha256": "4ac34033ba425b5cf6143e7d496d90d3091eb3f37c87fd4d007c4b8282a14c93",
+      "VisualVerdict": "Pass: visible body and action labels are readable",
+      "Viewed": true
+    },
+    {
+      "language": "en-US",
+      "RequestedTheme": "Dark",
+      "ActualApplicationTheme": "Dark",
+      "RequestedWidth": 540,
+      "ActualWidth": 540,
+      "ActualHeight": 294.86,
+      "FailureText": "Iris could not finish closing, so the update has not been installed. Your confirmed update is retained. Retry installation, or cancel the update and exit.\n\n0.2.1",
+      "File": "recovery-en-US-Dark-540.png",
+      "Sha256": "4794c64669a6e3d7f8060b7e7c0cf45cbc713d75de4a70365f8adbb722ae8510",
+      "VisualVerdict": "Fail: both action labels are near-white on white and unreadable",
+      "Viewed": true
+    },
+    {
+      "language": "en-US",
+      "RequestedTheme": "Dark",
+      "ActualApplicationTheme": "Dark",
+      "RequestedWidth": 380,
+      "ActualWidth": 380,
+      "ActualHeight": 362.20000000000005,
+      "FailureText": "Iris could not finish closing, so the update has not been installed. Your confirmed update is retained. Retry installation, or cancel the update and exit.\n\n0.2.1",
+      "File": "recovery-en-US-Dark-380.png",
+      "Sha256": "cecd1f8529cdaabb684fb42ae7301be34b7e1806108230f0dd42f2563bc9ca51",
+      "VisualVerdict": "Fail: both action labels are near-white on white and unreadable",
+      "Viewed": true
+    }
+  ],
+  "lightReadable": 4,
+  "darkUnreadable": 4,
+  "priorFixtureLimitation": "Attempt 1 re-used a frozen language run; its en-US labels are invalid. Original source, command logs and outputs retained. Attempt 2 runs separate processes and validates actual language."
+}

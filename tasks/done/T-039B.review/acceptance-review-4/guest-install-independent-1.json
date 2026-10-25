@@ -1,0 +1,224 @@
+{
+  "scope": "Independent reads of completed real guest inputs, outcome assertions, process exits, data and images. Screenshots still require actual visual inspection; controlled GuestUpdateHost is not the public online user UI path.",
+  "packageTag": "final-8",
+  "checks": 44,
+  "passed": 44,
+  "failures": [],
+  "scenarios": [
+    {
+      "label": "guest-install-r4-6",
+      "sandboxId": "e8c8cf4e-db9a-4618-a95e-1d0fdbddd2bd",
+      "environment": {
+        "RuntimesBefore": [],
+        "Administrator": true,
+        "User": "86386AD9-0CF1-4\\WDAGUtilityAccount",
+        "OS": "Microsoft Windows 11 企业版",
+        "Version": "10.0.26100"
+      },
+      "runtimeDownloadCachePrefilled": true,
+      "prerequisiteEvidenceScope": "No shared .NET10 before the real Setup installed the verified cached Microsoft runtime; native default complete-download path is not proved",
+      "observations": 34,
+      "booleanAssertions": 15,
+      "resultSha256": "ee0596dfa183bbf1a4565275fd6b39ba80753e74ada3b5d7b13aa52215a0d99c"
+    }
+  ],
+  "images": [
+    {
+      "path": "tasks/done/T-039B.evidence/r4/guest-install-r4-6/output/installed-settings.png",
+      "bytes": 5619096,
+      "sha256": "5f191f344860650492f2778940ca51bb531b366c66590318e066e28657c8c5dc",
+      "visuallyReviewed": false
+    }
+  ],
+  "records": [
+    {
+      "name": "guest-install-r4-6:scenario",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:package-tag",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:input-set",
+      "passed": true,
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "name": "guest-install-r4-6:input:guest_install.ps1",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:input:guest_runtime_prefetch.ps1",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:input:Iris-0.2.0-Setup.exe",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:actual-installer",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:read-only-share",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:output-share",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:exit:start",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:exit:share-input",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:exit:share-output",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:exit:connect",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:exit:execute",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:exit:stop",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:exit:list-after",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:no-sandbox-left",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:failure-null",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:no-false-assertions",
+      "passed": true,
+      "falseAssertions": []
+    },
+    {
+      "name": "guest-install-r4-6:clean-dotnet10",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:guest-user",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:windows-guest",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:prerequisite:official-runtime-sha512-matches",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:prerequisite:official-runtime-signature-valid",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:prerequisite:still-no-shared-dotnet10-before-iris-installer",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:runtime-not-preinstalled",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:runtime-signer",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:actual-runtime-sha512",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:install-did-not-start-app",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:settings-window-appeared",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:external-maintenance-observed",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:all-owned-maintenance-exited",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:silent-uninstall-kept-data",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:uninstall-key-removed",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:transaction-completed",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:desktop-runtime-retained",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:install-exit",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:uia-start-and-eof-exit",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:uninstall-entry-exit",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:original-app-exit",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:desktop-runtime-installed",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:installed-version",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:real-maintenance-owners",
+      "passed": true,
+      "exits": [
+        {
+          "Code": 0,
+          "Pid": 5408
+        },
+        {
+          "Code": 0,
+          "Pid": 4844
+        }
+      ]
+    },
+    {
+      "name": "guest-install-r4-6:screenshot-exists",
+      "passed": true
+    }
+  ]
+}

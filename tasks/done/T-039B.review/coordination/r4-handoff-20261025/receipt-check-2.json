@@ -1,0 +1,13 @@
+{
+  "observedAt": "2026-10-24T17:37:07.152300+00:00",
+  "threadId": "01a16ef2-a0bb-71a1-8230-57165c05cc5b",
+  "turnId": "01a16efb-17fe-7c13-b06d-d96408ee117c",
+  "status": "interrupted",
+  "completedAt": null,
+  "itemCount": 1,
+  "exactUserMessageMatches": true,
+  "agentMessages": [],
+  "recentItemTypes": [
+    "userMessage"
+  ]
+}

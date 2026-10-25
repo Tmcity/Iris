@@ -1,0 +1,176 @@
+{
+  "semantics": "Executed on 2026-10-15; archived on 2026-10-25. No compilation or probe execution occurred during archival. Preparation binding's probeCompiledOrRun=false predates execution; actual execution is proved by raw command/log records. Historical candidate, not final R3/R4 evidence.",
+  "assemblies": [
+    {
+      "name": "Iris.App.dll",
+      "expectedSha256": "9dbea82b986f0caf3d43bc211490226bce60556bac137639724c44a7371560f1",
+      "probeFrozenSha256": "9dbea82b986f0caf3d43bc211490226bce60556bac137639724c44a7371560f1",
+      "candidateSha256": "9dbea82b986f0caf3d43bc211490226bce60556bac137639724c44a7371560f1"
+    },
+    {
+      "name": "Iris.Core.dll",
+      "expectedSha256": "a868126bd5cab962de74b9b1d9abea00267d80ed53470048dea153a706b37b36",
+      "probeFrozenSha256": "a868126bd5cab962de74b9b1d9abea00267d80ed53470048dea153a706b37b36",
+      "candidateSha256": "a868126bd5cab962de74b9b1d9abea00267d80ed53470048dea153a706b37b36"
+    },
+    {
+      "name": "Iris.Platform.Windows.dll",
+      "expectedSha256": "6313f6503a833e60c9af9d4c027f1e95757fd17ce837e71e689e8128bfce2e08",
+      "probeFrozenSha256": "6313f6503a833e60c9af9d4c027f1e95757fd17ce837e71e689e8128bfce2e08",
+      "candidateSha256": "6313f6503a833e60c9af9d4c027f1e95757fd17ce837e71e689e8128bfce2e08"
+    },
+    {
+      "name": "Velopack.dll",
+      "expectedSha256": "969853e147e95b3f46192425cfea7eae8837aea79f3e2b2c7cc0aa34b5703153",
+      "probeFrozenSha256": "969853e147e95b3f46192425cfea7eae8837aea79f3e2b2c7cc0aa34b5703153",
+      "candidateSha256": "969853e147e95b3f46192425cfea7eae8837aea79f3e2b2c7cc0aa34b5703153"
+    },
+    {
+      "name": "Microsoft.Extensions.Http.dll",
+      "expectedSha256": "5f1f986dda7614d800aac232d54ef229c7e557c54a70b060d71752897e26c9bd",
+      "probeFrozenSha256": "5f1f986dda7614d800aac232d54ef229c7e557c54a70b060d71752897e26c9bd",
+      "candidateSha256": "5f1f986dda7614d800aac232d54ef229c7e557c54a70b060d71752897e26c9bd"
+    },
+    {
+      "name": "Microsoft.Extensions.Logging.Abstractions.dll",
+      "expectedSha256": "7c242f8ca612fa1acc61f78efd5f8c89e01bd0bd47dc4ecc65e0e6e24f1a1668",
+      "probeFrozenSha256": "7c242f8ca612fa1acc61f78efd5f8c89e01bd0bd47dc4ecc65e0e6e24f1a1668",
+      "candidateSha256": "7c242f8ca612fa1acc61f78efd5f8c89e01bd0bd47dc4ecc65e0e6e24f1a1668"
+    },
+    {
+      "name": "Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "expectedSha256": "da04edc338d5aa0f38a1f5fa5ff3ee7e36affe9c961daf3ea724a428bd746bc6",
+      "probeFrozenSha256": "da04edc338d5aa0f38a1f5fa5ff3ee7e36affe9c961daf3ea724a428bd746bc6",
+      "candidateSha256": "da04edc338d5aa0f38a1f5fa5ff3ee7e36affe9c961daf3ea724a428bd746bc6"
+    },
+    {
+      "name": "WinRT.Runtime.dll",
+      "expectedSha256": "bcf3a14e8712a90837fc5c0d8c8a24696af2bd7f74e9767597ec81ededfb23db",
+      "probeFrozenSha256": "bcf3a14e8712a90837fc5c0d8c8a24696af2bd7f74e9767597ec81ededfb23db",
+      "candidateSha256": "bcf3a14e8712a90837fc5c0d8c8a24696af2bd7f74e9767597ec81ededfb23db"
+    },
+    {
+      "name": "Microsoft.Windows.SDK.NET.dll",
+      "expectedSha256": "0ec371d93798852e36461c8adddbeadce0f963a04752f0b64e54fe19c1c834a7",
+      "probeFrozenSha256": "0ec371d93798852e36461c8adddbeadce0f963a04752f0b64e54fe19c1c834a7",
+      "candidateSha256": "0ec371d93798852e36461c8adddbeadce0f963a04752f0b64e54fe19c1c834a7"
+    }
+  ],
+  "commands": [
+    {
+      "command": [
+        "dotnet",
+        "build",
+        "Review.csproj",
+        "-c",
+        "Release",
+        "--configfile",
+        "NuGet.Config",
+        "--disable-build-servers",
+        "-p:UseSharedCompilation=false",
+        "-m:1"
+      ],
+      "cwd": "F:\\Iris\\artifacts\\t039b\\independent-update-review-1",
+      "startedAt": "2026-10-15T11:12:05.155346+00:00",
+      "completedAt": "2026-10-15T11:12:10.254099+00:00",
+      "exitCode": 0,
+      "logSha256": "93454c08fce6300b8013d255d78e30a77b14626c7093e0cd7a32a6b6918f0ef3"
+    },
+    {
+      "command": [
+        "F:\\Iris\\artifacts\\t039b\\independent-update-review-1\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.App.Tests.exe"
+      ],
+      "cwd": "F:\\Iris\\artifacts\\t039b\\independent-update-review-1",
+      "startedAt": "2026-10-15T11:21:29.657456+00:00",
+      "completedAt": "2026-10-15T11:21:30.902864+00:00",
+      "exitCode": 0,
+      "logSha256": "12272ec57f7a07285373d8780e1dcdeeeb2e73694ad9d963feb7e623bda21c0f"
+    },
+    {
+      "command": [
+        "F:\\Iris\\artifacts\\t039b\\independent-update-review-1\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.App.Tests.exe",
+        "--cross-process-lock"
+      ],
+      "cwd": "F:\\Iris\\artifacts\\t039b\\independent-update-review-1",
+      "startedAt": "2026-10-15T11:26:05.416946+00:00",
+      "completedAt": "2026-10-15T11:26:06.765245+00:00",
+      "exitCode": 0,
+      "logSha256": "3f064dfa0a1541446f6d1c737d72cb6d12e6d9cd8d222326a8fa778f7675f3b7"
+    }
+  ],
+  "sourceSnapshotCount": 348,
+  "currentSourceDifferences": [
+    "src\\Iris.App\\Resources\\Strings.en-US.resx",
+    "src\\Iris.App\\Resources\\Strings.resx",
+    "src\\Iris.App\\Services\\AppLifetime.cs",
+    "src\\Iris.App\\Services\\GeneralSettingsSaveCoordinator.cs",
+    "src\\Iris.App\\Settings\\SettingsViewModel.Updates.cs",
+    "src\\Iris.App\\Settings\\SettingsWindowPresenter.cs",
+    "src\\Iris.App\\Updates\\AppUpdateCoordinator.cs",
+    "src\\Iris.App\\Updates\\UpdateHandoff.cs",
+    "src\\Iris.Platform.Windows\\Maintenance\\MaintenanceWorkDirectory.cs",
+    "src\\Iris.Providers\\Translation\\Anthropic\\AnthropicTranslationProvider.cs"
+  ],
+  "archivedFiles": [
+    {
+      "name": "binding.json",
+      "bytes": 3596,
+      "sha256": "0b593c76a1827c548f81b0c2d01a9db6c20f350535162e60adbc7e0e5de464a9"
+    },
+    {
+      "name": "Review.csproj",
+      "bytes": 2195,
+      "sha256": "7b35c3a6ec539a2d243777e323dc0fec1962d20a58d5c782a37dd68ec96d8b9f"
+    },
+    {
+      "name": "Program.cs",
+      "bytes": 7815,
+      "sha256": "8d8dad4ce4c881deb3cc28baec71be8e1d25ada2fc6d9f4be90f8b94a5347a35"
+    },
+    {
+      "name": "CrossProcessSdkLock.cs",
+      "bytes": 9074,
+      "sha256": "f7fd07a500cb56a8983f93362814cf6cb4b288650f2cee09d38789d626a4b335"
+    },
+    {
+      "name": "NuGet.Config",
+      "bytes": 72,
+      "sha256": "e55025a896f8fbe147f99d8f85afe2377f9dc0e65cd4527be17bb2850ac85fdc"
+    },
+    {
+      "name": "run_review.py",
+      "bytes": 1573,
+      "sha256": "f584a8a5aab416c69533269be79b417c93f2707234abcf3a83d79e20242491b5"
+    },
+    {
+      "name": "build-1.log",
+      "bytes": 347,
+      "sha256": "93454c08fce6300b8013d255d78e30a77b14626c7093e0cd7a32a6b6918f0ef3"
+    },
+    {
+      "name": "build-1.command.json",
+      "bytes": 504,
+      "sha256": "b1f023edcb234e2fa177c35e8ac4913403403f22bd503c173b5bc5f0f9f2d999"
+    },
+    {
+      "name": "late-cancel-1.log",
+      "bytes": 286,
+      "sha256": "12272ec57f7a07285373d8780e1dcdeeeb2e73694ad9d963feb7e623bda21c0f"
+    },
+    {
+      "name": "late-cancel-1.command.json",
+      "bytes": 428,
+      "sha256": "275dd48165923137d051284c981b1c36be6a8720ed4519a46711fdcfafa5a0e8"
+    },
+    {
+      "name": "process-lock-1.log",
+      "bytes": 341,
+      "sha256": "3f064dfa0a1541446f6d1c737d72cb6d12e6d9cd8d222326a8fa778f7675f3b7"
+    },
+    {
+      "name": "process-lock-1.command.json",
+      "bytes": 457,
+      "sha256": "522785d8e3434d0b20c754b7edcc9ac7242495dae058f12bfe14cf61447bed4a"
+    }
+  ]
+}

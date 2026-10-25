@@ -1,0 +1,23 @@
+{
+  "ObservedUtc": "2026-10-25T05:54:54.1711550Z",
+  "UserStatement": "已经启用Windows Sandbox",
+  "HostFeatureModifiedByArchitect": false,
+  "OperatingSystem": {
+    "Caption": "Microsoft Windows 11 专业工作站版",
+    "Version": "10.0.26200",
+    "BuildNumber": "26200"
+  },
+  "SandboxFeature": {
+    "Name": "Containers-DisposableClientVM",
+    "InstallState": 1
+  },
+  "WindowsSandboxExeExists": true,
+  "WsbAliasExists": true,
+  "Packages": [
+    {
+      "Name": "MicrosoftWindows.WindowsSandbox",
+      "Version": "0.8.107.0",
+      "InstallLocation": "C:\\Program Files\\WindowsApps\\MicrosoftWindows.WindowsSandbox_0.8.107.0_x64__cw5n1h2txyewy"
+    }
+  ]
+}

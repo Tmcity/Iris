@@ -1,0 +1,15 @@
+{
+  "observedAt": "2026-10-24T20:15:35.926859+00:00",
+  "command": [
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-Command",
+    "$irisTokens=$null; $irisErrors=$null; $null=[System.Management.Automation.Language.Parser]::ParseFile('F:\\Iris\\tasks\\done\\T-039B.review\\coordination\\r4-handoff-20261025\\enable-windows-sandbox.ps1',[ref]$irisTokens,[ref]$irisErrors); [Console]::WriteLine('ParseErrors='+$irisErrors.Count); foreach($irisError in $irisErrors){ [Console]::WriteLine($irisError.ToString()) }; if($irisErrors.Count -ne 0){exit 1}"
+  ],
+  "scriptSha256": "922ad31f32b2f3f2b812c9b78b6daf6584fe95b1cc8eb1a4928f031546c0780f",
+  "exitCode": 0,
+  "stdout": "ParseErrors=0\n",
+  "stderr": "",
+  "scope": "Parse only. The script, DISM, feature enablement and elevation were not executed."
+}

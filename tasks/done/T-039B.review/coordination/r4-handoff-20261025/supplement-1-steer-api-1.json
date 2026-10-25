@@ -1,0 +1,10 @@
+{
+  "observedAt": "2026-10-24T18:11:13.087720+00:00",
+  "documentation": "https://learn.chatgpt.com/docs/app-server",
+  "threadId": "01a16ef2-a0bb-71a1-8230-57165c05cc5b",
+  "actions": [],
+  "error": {
+    "type": "RuntimeError",
+    "message": "{'code': -32600, 'message': 'thread/queue/list requires experimentalApi capability'}"
+  }
+}

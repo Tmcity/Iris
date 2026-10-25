@@ -1,5 +1,15 @@
 # 资源清理阶段的迟到取消探针
 
+## 已有实际执行记录补归档（2026-10-25）
+
+2026-10-15 的实际编译、迟到取消和跨进程锁探针日志已从固定 artifacts 目录按字节补归档到 `executed-candidate-1/`。三条命令 exit 0；两个运行结果 `Passed=true`，全部自有任务/worker 已等待结束。原始命令时间与日志指纹保留在 `.command.json`。
+
+归档时独立核对 9 个固定输入程序集均与开发 `review-final-candidate-1/App` 相同；12 个归档文本文件与原件逐字节一致，详见 `archive-verification.json`。没有在归档过程中重编译或重跑探针。准备阶段 `binding.json` 内的 `probeCompiledOrRun=false` 原样保留，其后的真实执行以命令/日志证明，不改写旧准备记录。
+
+这些结果只绑定 2026-10-15 的历史候选。348 项源指纹与本日工作区已有 10 项差异，不能把旧结果写成 R3/R4 最终代码通过。下方是原准备说明；旧窗口未获授予、results 为空的记录仍不算执行证据。
+
+## 原准备说明
+
 此探针直接引用候选App程序集，使用真实AppUpdateCoordinator、UpdateOperation、ValidatedUpdateSource及Velopack UpdateManager；只替换发布源/资源释放和设置/HTTP外部边界。不启动窗口，不联网，不访问用户配置或生产IPC。
 
 先让真实检查进入资源DisposeAsync门闩，此时才调用CancelAsync并暂停其实际令牌回调；释放资源门闩后，检查与取消拥有者仍应等待已启动但尚未结束的回调。探针最后始终放行并join全部已观察任务和回调，不把这个兜底记为产品成功。

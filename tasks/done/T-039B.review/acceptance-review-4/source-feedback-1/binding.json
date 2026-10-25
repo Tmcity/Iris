@@ -1,0 +1,37 @@
+{
+  "capturedAt": "2026-10-24T18:37:58.159727+00:00",
+  "head": "05452e0a85a36982ef8bfd22d5a981e581eeafcf",
+  "nature": "Source review of intermediate R4 worktree; not an executed regression or final verdict.",
+  "files": [
+    {
+      "path": "src/Iris.App/Services/AppLifetime.cs",
+      "snapshot": "AppLifetime.cs",
+      "sha256": "5d889350f38e55d5262401c44ffe23d9f685e36a634680eb0c87fd4ebfdab36b",
+      "bytes": 4317
+    },
+    {
+      "path": "src/Iris.App/Settings/SettingsWindowPresenter.cs",
+      "snapshot": "SettingsWindowPresenter.cs",
+      "sha256": "75f236c1079e1886a28d304503bdfa707045bd37769cde6f32da950b4a06bba9",
+      "bytes": 20838
+    },
+    {
+      "path": "src/Iris.App/Settings/SettingsViewModel.cs",
+      "snapshot": "SettingsViewModel.cs",
+      "sha256": "6beab0baa106d39817a710a5ca398cb62b5d5346b429224b272207469bacfa62",
+      "bytes": 109633
+    },
+    {
+      "path": "src/Iris.App/Settings/SettingsViewModel.Updates.cs",
+      "snapshot": "SettingsViewModel.Updates.cs",
+      "sha256": "e59c58beeb81992d6ef212d1a833784bf682efdb86e792c3ac8dee38eaa7b321",
+      "bytes": 9379
+    },
+    {
+      "path": "src/Iris.App/Updates/AppUpdateCoordinator.cs",
+      "snapshot": "AppUpdateCoordinator.cs",
+      "sha256": "1380a49c82d949c0d2ec099c7bd7c335cec44edbc7f8c7b30f7438106f934de9",
+      "bytes": 19208
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "ObservedUtc": "2026-10-24T19:46:41.0303095Z",
+  "OperatingSystem": {
+    "Caption": "Microsoft Windows 11 专业工作站版",
+    "Version": "10.0.26200",
+    "BuildNumber": "26200"
+  },
+  "SandboxFeature": {
+    "Name": "Containers-DisposableClientVM",
+    "InstallState": 2
+  },
+  "WindowsSandboxExeExists": false,
+  "WsbAliasExists": false,
+  "HyperVReadError": "你没有完成此任务所需的权限。请与计算机“SKYRIU-PC”授权策略的管理员联系。",
+  "HyperVReadErrorType": "VirtualizationException"
+}

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "C:\\Users\\28910\\AppData\\Local\\Microsoft\\WindowsApps\\wsb.exe",
+    "list",
+    "--raw"
+  ],
+  "cwd": "F:\\Iris",
+  "startedAt": "2026-10-25T05:53:33.769932+00:00",
+  "completedAt": "2026-10-25T05:53:34.461045+00:00",
+  "exitCode": 0,
+  "logSha256": "90255a0b24d45da9c2280c4628d0e08d80902949213f5f5f76d7f282b678a6bb"
+}

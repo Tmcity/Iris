@@ -1,0 +1,20 @@
+{
+  "observedAt": "2026-10-24T18:16:24.146445+00:00",
+  "reason": "Engineer independently stated the same recovery design while the nonessential supplement remained queued. Withdraw only that unsent duplicate advice; original R4 remains active.",
+  "actions": [
+    {
+      "method": "thread/queue/list",
+      "matchingPendingIds": [
+        "01a16f12-913d-7590-bf7d-41886f7e37a3"
+      ]
+    },
+    {
+      "method": "thread/queue/delete",
+      "id": "01a16f12-913d-7590-bf7d-41886f7e37a3",
+      "result": {
+        "deleted": true
+      }
+    }
+  ],
+  "pendingOwnSupplementAfter": false
+}

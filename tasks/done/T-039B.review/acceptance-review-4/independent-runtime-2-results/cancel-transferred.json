@@ -1,0 +1,23 @@
+{
+  "Data": {
+    "Helpers": 1,
+    "ShutdownCalls": 1,
+    "HasConfirmedUpdate": false
+  },
+  "Current": {
+    "Phase": "Stopped",
+    "HasCandidate": false,
+    "HasConfirmedUpdate": false,
+    "SettingsSessionAlive": false,
+    "ScopedVmCount": 1,
+    "DisposedVmCount": 1,
+    "HelpersStarted": 1,
+    "HelpersExited": 1,
+    "Requests": 1,
+    "Downloads": 1,
+    "Commits": 0,
+    "DraftTests": 0,
+    "ModelQueries": 0,
+    "HostStops": 3
+  }
+}

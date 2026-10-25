@@ -1,0 +1,9 @@
+{
+  "observedAt": "2026-10-24T20:01:45.419402+00:00",
+  "sha256": "7c5514531726dad65772648fd349f8263a84473af328a52d4b97c731a1a906cc",
+  "exitCode": 0,
+  "stdout": "{\n  \"queueResult\": \"Queued message 01a16f81-45af-7152-a01d-f5d074ae6dc4 for thread 01a16ef2-a0bb-71a1-8230-57165c05cc5b.\"\n}\n",
+  "stderr": "",
+  "reviewWindowReturned": true,
+  "semantics": "Dispatched once; verify actual receipt separately."
+}

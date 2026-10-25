@@ -1,0 +1,10 @@
+{
+  "threadId": "01a16ef2-a0bb-71a1-8230-57165c05cc5b",
+  "startedAt": "2026-10-24T18:00:49.623079+00:00",
+  "completedAt": "2026-10-24T18:00:50.262015+00:00",
+  "messageSha256": "44602452601774d5b693c8ae7ea4410608d975487d0be920139f11596f9889be",
+  "exitCode": 0,
+  "stdout": "{\n  \"queueResult\": \"Queued message 01a16f12-913d-7590-bf7d-41886f7e37a3 for thread 01a16ef2-a0bb-71a1-8230-57165c05cc5b.\"\n}\n",
+  "stderr": "",
+  "semantics": "Queued once; not yet evidence of engineer receipt."
+}

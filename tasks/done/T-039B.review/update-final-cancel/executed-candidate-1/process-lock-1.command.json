@@ -1,0 +1,11 @@
+{
+  "command": [
+    "F:\\Iris\\artifacts\\t039b\\independent-update-review-1\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.App.Tests.exe",
+    "--cross-process-lock"
+  ],
+  "cwd": "F:\\Iris\\artifacts\\t039b\\independent-update-review-1",
+  "startedAt": "2026-10-15T11:26:05.416946+00:00",
+  "completedAt": "2026-10-15T11:26:06.765245+00:00",
+  "exitCode": 0,
+  "logSha256": "3f064dfa0a1541446f6d1c737d72cb6d12e6d9cd8d222326a8fa778f7675f3b7"
+}

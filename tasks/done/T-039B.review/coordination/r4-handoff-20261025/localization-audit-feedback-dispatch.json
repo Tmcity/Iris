@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-24T21:21:52.797384+00:00",
+  "messageSha256": "16b1d96ce2ecf667bdd94e66b7517c19eb34884dd15771a7aeca95c9068e2ed0",
+  "exitCode": 0,
+  "stdout": "{\n  \"queueResult\": \"Queued message 01a16fca-a084-71a0-a463-82fe5e5150dd for thread 01a16ef2-a0bb-71a1-8230-57165c05cc5b.\"\n}\n",
+  "stderr": "",
+  "scope": "Continuation of original localization gate; actual receipt must be verified."
+}

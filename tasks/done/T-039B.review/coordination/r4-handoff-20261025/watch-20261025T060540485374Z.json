@@ -1,0 +1,50 @@
+{
+  "observedAt": "2026-10-25T06:05:40.485374+00:00",
+  "threadId": "01a16ef2-a0bb-71a1-8230-57165c05cc5b",
+  "turnId": "01a1719c-a8d0-7e43-891b-3842d7c4c14b",
+  "status": "interrupted",
+  "completedAt": null,
+  "error": null,
+  "previousItemCount": 83,
+  "itemCount": 93,
+  "newVisibleItems": [
+    {
+      "type": "fileChange",
+      "id": "exec-403a1b61-680e-42d5-9cde-51257c405d7a",
+      "status": "completed",
+      "paths": [
+        "F:\\Iris\\tasks\\done\\T-039B.evidence\\r4\\guest_network_r4.ps1"
+      ]
+    },
+    {
+      "type": "commandExecution",
+      "id": "exec-2b335311-620e-4f7f-9d5d-fbba0c9e0241",
+      "command": "\"C:\\\\Users\\\\28910\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -Command \"python tasks\\\\done\\\\T-039B.evidence\\\\r4\\\\run_command.py guest-network-r4-3-run -- python tasks\\\\done\\\\T-039B.evidence\\\\r4\\\\run_guest.py network guest-network-r4-3\"",
+      "status": "completed",
+      "exitCode": 0
+    },
+    {
+      "type": "fileChange",
+      "id": "exec-a5492955-e360-4a7a-95d3-ea10bda42d1c",
+      "status": "completed",
+      "paths": [
+        "F:\\Iris\\tasks\\done\\T-039B.evidence\\r4\\guest_install_r4.ps1",
+        "F:\\Iris\\tasks\\done\\T-039B.evidence\\r4\\guest_update_r4.ps1"
+      ]
+    },
+    {
+      "type": "commandExecution",
+      "id": "exec-75518ad6-3fb2-4fdf-bd1e-8062455afcac",
+      "command": "\"C:\\\\Users\\\\28910\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -Command \"Get-Content tasks\\\\done\\\\T-039B.evidence\\\\r4\\\\guest-network-r4-3-run.log -Tail 12; Get-Content -Raw tasks\\\\done\\\\T-039B.evidence\\\\r4\\\\guest-network-r4-3\\\\output\\\\result.json -ErrorAction SilentlyContinue\"",
+      "status": "completed",
+      "exitCode": 0
+    },
+    {
+      "type": "commandExecution",
+      "id": "exec-6b729abe-b1e3-46e6-9029-58ff4609e21f",
+      "command": "\"C:\\\\Users\\\\28910\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -Command \"Get-Content -Raw tasks\\\\done\\\\T-039B.evidence\\\\r4\\\\guest-network-r4-3\\\\output\\\\public-doh.body.txt; Get-Content -Raw tasks\\\\done\\\\T-039B.evidence\\\\r4\\\\guest-network-r4-3\\\\output\\\\metadata-default.stderr.txt; Get-Content -Raw tasks\\\\done\\\\T-039B.evidence\\\\r4\\\\guest-network-r4-3\\\\output\\\\metadata-tls12.stderr.txt\"",
+      "status": "completed",
+      "exitCode": 0
+    }
+  ]
+}

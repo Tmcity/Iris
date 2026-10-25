@@ -1,0 +1,13 @@
+{
+  "image": {
+    "path": "tasks/done/T-039B.evidence/r4/guest-install-r4-6/output/installed-settings.png",
+    "bytes": 5619096,
+    "sha256": "5f191f344860650492f2778940ca51bb531b366c66590318e066e28657c8c5dc",
+    "visuallyReviewed": true,
+    "visualVerdict": "Actual English Iris Settings window, version 0.2.0; visible general/update copy and Save/Cancel are readable. Image does not show full update button area."
+  },
+  "nativeSetupLogSha256": "012a8be56cb02c0eb27b1804e395ba39c83b6dbfdcd79acc59605d5a8983ab37",
+  "bootstrapScope": "Real Setup observed missing shared runtime, launched verified cached Microsoft runtime with /norestart /q, then completed Iris install. The cache prefetch did not install .NET. Default native download failures are preserved and remain outside this success.",
+  "independentAssertionsPassed": 44,
+  "realInstallerExecutedByArchitect": false
+}

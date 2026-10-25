@@ -1,0 +1,641 @@
+{
+  "scope": "Independent reads of completed real guest inputs, outcome assertions, process exits, data and images. Screenshots still require actual visual inspection; controlled GuestUpdateHost is not the public online user UI path.",
+  "packageTag": "final-8",
+  "checks": 142,
+  "passed": 142,
+  "failures": [],
+  "scenarios": [
+    {
+      "label": "guest-install-r4-6",
+      "sandboxId": "e8c8cf4e-db9a-4618-a95e-1d0fdbddd2bd",
+      "environment": {
+        "RuntimesBefore": [],
+        "Administrator": true,
+        "User": "86386AD9-0CF1-4\\WDAGUtilityAccount",
+        "OS": "Microsoft Windows 11 企业版",
+        "Version": "10.0.26100"
+      },
+      "runtimeDownloadCachePrefilled": true,
+      "prerequisiteEvidenceScope": "No shared .NET10 before the real Setup installed the verified cached Microsoft runtime; native default complete-download path is not proved",
+      "observations": 34,
+      "booleanAssertions": 15,
+      "resultSha256": "ee0596dfa183bbf1a4565275fd6b39ba80753e74ada3b5d7b13aa52215a0d99c"
+    },
+    {
+      "label": "guest-update-r4-1",
+      "sandboxId": "6a7bd901-cb6a-48cb-b7d0-8c276ecb0708",
+      "environment": {
+        "RuntimesBefore": [],
+        "Administrator": true,
+        "User": "86386AD9-0CF1-4\\WDAGUtilityAccount",
+        "OS": "Microsoft Windows 11 企业版",
+        "Version": "10.0.26100"
+      },
+      "runtimeDownloadCachePrefilled": true,
+      "prerequisiteEvidenceScope": "No shared .NET10 before the real Setup installed the verified cached Microsoft runtime; native default complete-download path is not proved",
+      "observations": 37,
+      "booleanAssertions": 22,
+      "resultSha256": "5228a58a0e1086dba3890391834d71405ad37b2d09cdcf7c85a07fc02439171b"
+    }
+  ],
+  "images": [
+    {
+      "path": "tasks/done/T-039B.evidence/r4/guest-install-r4-6/output/installed-settings.png",
+      "bytes": 5619096,
+      "sha256": "5f191f344860650492f2778940ca51bb531b366c66590318e066e28657c8c5dc",
+      "visuallyReviewed": false
+    },
+    {
+      "path": "tasks/done/T-039B.evidence/r4/guest-update-r4-1/output/update-r4/updated-settings.png",
+      "bytes": 5619074,
+      "sha256": "af6560105c9858db0b40ab0e81e1b030fc067eb12511f027b0454211b8195770",
+      "visuallyReviewed": false
+    }
+  ],
+  "records": [
+    {
+      "name": "guest-install-r4-6:scenario",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:package-tag",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:input-set",
+      "passed": true,
+      "expected": 3,
+      "actual": 3
+    },
+    {
+      "name": "guest-install-r4-6:input:guest_install.ps1",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:input:guest_runtime_prefetch.ps1",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:input:Iris-0.2.0-Setup.exe",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:actual-installer",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:read-only-share",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:output-share",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:exit:start",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:exit:share-input",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:exit:share-output",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:exit:connect",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:exit:execute",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:exit:stop",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:exit:list-after",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:no-sandbox-left",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:failure-null",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:no-false-assertions",
+      "passed": true,
+      "falseAssertions": []
+    },
+    {
+      "name": "guest-install-r4-6:clean-dotnet10",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:guest-user",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:windows-guest",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:prerequisite:official-runtime-sha512-matches",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:prerequisite:official-runtime-signature-valid",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:prerequisite:still-no-shared-dotnet10-before-iris-installer",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:runtime-not-preinstalled",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:runtime-signer",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:actual-runtime-sha512",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:install-did-not-start-app",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:settings-window-appeared",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:external-maintenance-observed",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:all-owned-maintenance-exited",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:silent-uninstall-kept-data",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:uninstall-key-removed",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:transaction-completed",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:desktop-runtime-retained",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:install-exit",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:uia-start-and-eof-exit",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:uninstall-entry-exit",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:required:original-app-exit",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:desktop-runtime-installed",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:installed-version",
+      "passed": true
+    },
+    {
+      "name": "guest-install-r4-6:real-maintenance-owners",
+      "passed": true,
+      "exits": [
+        {
+          "Code": 0,
+          "Pid": 5408
+        },
+        {
+          "Code": 0,
+          "Pid": 4844
+        }
+      ]
+    },
+    {
+      "name": "guest-install-r4-6:screenshot-exists",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:scenario",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:package-tag",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input-set",
+      "passed": true,
+      "expected": 42,
+      "actual": 42
+    },
+    {
+      "name": "guest-update-r4-1:input:guest_common.ps1",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:guest_runtime_prefetch.ps1",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:guest_update.ps1",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:Iris-0.2.0-Setup.exe",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:Iris-0.2.1-full.nupkg",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Dapper.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/e_sqlite3.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/en-US/Iris.Core.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/en-US/Iris.Maintenance.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Core.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Core.pdb",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Core.xml",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Infrastructure.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Infrastructure.pdb",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Infrastructure.xml",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Maintenance.deps.json",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Maintenance.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Maintenance.exe",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Maintenance.pdb",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Maintenance.runtimeconfig.json",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Maintenance.Tests.deps.json",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Maintenance.Tests.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Maintenance.Tests.exe",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Maintenance.Tests.pdb",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Maintenance.Tests.runtimeconfig.json",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Maintenance.Tests.xml",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Maintenance.xml",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Platform.Windows.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Platform.Windows.pdb",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Iris.Platform.Windows.xml",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Microsoft.Data.Sqlite.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Microsoft.Extensions.DependencyInjection.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Microsoft.Extensions.Logging.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Microsoft.Windows.SDK.NET.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/parent.ps1",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/SQLitePCLRaw.batteries_v2.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/SQLitePCLRaw.core.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/SQLitePCLRaw.provider.e_sqlite3.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/System.Security.Cryptography.ProtectedData.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/Velopack.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:input:update-host-r4/WinRT.Runtime.dll",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:actual-installer",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:read-only-share",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:output-share",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:exit:start",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:exit:share-input",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:exit:share-output",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:exit:connect",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:exit:execute",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:exit:stop",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:exit:list-after",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:no-sandbox-left",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:failure-null",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:no-false-assertions",
+      "passed": true,
+      "falseAssertions": []
+    },
+    {
+      "name": "guest-update-r4-1:clean-dotnet10",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:guest-user",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:windows-guest",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:prerequisite:official-runtime-sha512-matches",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:prerequisite:official-runtime-signature-valid",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:prerequisite:still-no-shared-dotnet10-before-iris-installer",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:runtime-not-preinstalled",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:runtime-signer",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:actual-runtime-sha512",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:actual-full-package",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:clean-no-shared-dotnet10",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:install-before-update",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:seed-real-data",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:old-real-settings-visible",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:update-host-exit-zero",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:old-real-process-exited",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:old-real-process-exit-zero",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:new-version",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:preserved-data",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:exactly-one-restart",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:open-updated-settings",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:updated-window-visible",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:maintenance-registration-after-update",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:updated-exit-command",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:updated-real-process-exited",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:updated-real-exit-zero",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:updated-data-readable",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:required:work-directories-bounded",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:new-identity",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:work-directories-zero",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:engine-failure-null",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:engine:real-iris-gracefully-closed-before-commit",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:engine:committed-parent-still-alive",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:native-success",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:data:SettingsReadable",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:data:SecretDecrypts",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:data:HistoryReadable",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:data:LogPreserved",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:data-hashes",
+      "passed": true
+    },
+    {
+      "name": "guest-update-r4-1:screenshot-exists",
+      "passed": true
+    }
+  ]
+}

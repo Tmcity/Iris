@@ -1,0 +1,14 @@
+{
+  "command": [
+    "dotnet",
+    "build\\LocalizationAudit\\bin\\Release\\net10.0\\LocalizationAudit.dll",
+    "F:\\Iris",
+    "F:\\Iris\\tasks\\done\\T-039B.review\\acceptance-review-4\\localization-after-1\\source-inventory.json",
+    "--compiled"
+  ],
+  "cwd": "F:\\Iris",
+  "startedAt": "2026-10-24T21:42:31.190044+00:00",
+  "completedAt": "2026-10-24T21:42:31.793306+00:00",
+  "exitCode": 0,
+  "logSha256": "de53736ab2cb90ed8710cb21064f11cc42a8b53ffe0134e71db441ca4b36e282"
+}

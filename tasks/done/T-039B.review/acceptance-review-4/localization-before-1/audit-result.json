@@ -1,0 +1,104 @@
+{
+  "sourceEntries": 1203,
+  "commentEntries": 981,
+  "reviewedNonUiEntries": 218,
+  "unapproved": [
+    {
+      "Path": "src/Iris.App/Services/GeneralSettingsSaveCoordinator.cs",
+      "Kind": "comment",
+      "Text": " <summary>仅供单元测试使用的兼容字段；生产代码在 src/ 中无调用者，统一使用 SettingsEditPlan 主管道。</summary>\n",
+      "Start": 2186,
+      "Length": 78,
+      "Line": 68,
+      "Fingerprint": "A5CBADDA59D29797A8363416DFA2F0F8D5A3931BF2678F6006D1651FA56E87C9",
+      "SiteFingerprint": "0B467356EF374EB204190A4E4FF2157DA2EF4F6B33851E238C3FF8560ADA5B29"
+    },
+    {
+      "Path": "src/Iris.App/Services/GeneralSettingsSaveCoordinator.cs",
+      "Kind": "comment",
+      "Text": " <summary>\n    /// 仅供单元测试使用的兼容保存接口；生产代码在 src/ 中无调用者，统一使用 SettingsEditPlan 主管道（CommitPlanAsync）。\n    /// </summary>\n",
+      "Start": 8859,
+      "Length": 115,
+      "Line": 278,
+      "Fingerprint": "D387E1B5FB0A573E348E354484BE8A275F54D376EDED72D92FFED147B7863632",
+      "SiteFingerprint": "5E25820E5D23D1C812BBFD7EB7B75989FF60EC28363CC696D54DDC74ACDDA727"
+    },
+    {
+      "Path": "src/Iris.App/Updates/UpdateHandoff.cs",
+      "Kind": "literal",
+      "Text": "更新交接已撤销",
+      "Raw": "\"更新交接已撤销\"",
+      "Start": 1641,
+      "Length": 9,
+      "Line": 40,
+      "Context": "throw token.IsCancellationRequested ? new OperationCanceledException(token) : new IrisException(ErrorCode.Unknown, \"更新交接已撤销\", retryable: true);",
+      "CanonicalContext": "throw token.IsCancellationRequested ? new OperationCanceledException(token) : new IrisException(ErrorCode.Unknown, \"更新交接已撤销\", retryable: true);",
+      "Owner": "UpdateHandoff.PrepareAsync(UpdateCandidate candidate, CancellationToken token)",
+      "Arguments": [],
+      "Fingerprint": "705D7C7810DCE44AD9D6941C3266A484B3E5EEC9D0BCF534F7675C39876D4C69",
+      "SiteFingerprint": "E4FD6F47F272ED5CEEB5D3F1FAF6AFEDF1889C03070396A26F4DD858D0658727"
+    },
+    {
+      "Path": "src/Iris.App/Updates/UpdateHandoff.cs",
+      "Kind": "literal",
+      "Text": "更新维护进程意外退出",
+      "Raw": "\"更新维护进程意外退出\"",
+      "Start": 4737,
+      "Length": 12,
+      "Line": 76,
+      "Context": "primary = new IrisException(ErrorCode.Unknown, \"更新维护进程意外退出\", ex, retryable: true);",
+      "CanonicalContext": "primary = new IrisException(ErrorCode.Unknown, \"更新维护进程意外退出\", ex, retryable: true);",
+      "Owner": "UpdateHandoff.PrepareAsync(UpdateCandidate candidate, CancellationToken token)",
+      "Arguments": [],
+      "Fingerprint": "C4CD3F5EB53D10ED429308CEEF15BD52DAB5CA23D7BA53CFDD22E11E018AB98A",
+      "SiteFingerprint": "DE63033050C67F39DA813B22D25808F4B15F46CAA82343B5F1F922FEA416DD12"
+    },
+    {
+      "Path": "src/Iris.App/Updates/UpdateHandoff.cs",
+      "Kind": "literal",
+      "Text": "更新交接已撤销",
+      "Raw": "\"更新交接已撤销\"",
+      "Start": 4876,
+      "Length": 9,
+      "Line": 78,
+      "Context": "primary = new IrisException(ErrorCode.Unknown, \"更新交接已撤销\", ex, retryable: true);",
+      "CanonicalContext": "primary = new IrisException(ErrorCode.Unknown, \"更新交接已撤销\", ex, retryable: true);",
+      "Owner": "UpdateHandoff.PrepareAsync(UpdateCandidate candidate, CancellationToken token)",
+      "Arguments": [],
+      "Fingerprint": "705D7C7810DCE44AD9D6941C3266A484B3E5EEC9D0BCF534F7675C39876D4C69",
+      "SiteFingerprint": "278260AA1C57E93EB151A6A596797CF7AC7E76F71EFFEDFDD0B9B8B9E89A8EFA"
+    },
+    {
+      "Path": "src/Iris.App/Updates/UpdateHandoff.cs",
+      "Kind": "literal",
+      "Text": "准备更新维护进程超时（30秒）",
+      "Raw": "\"准备更新维护进程超时（30秒）\"",
+      "Start": 4997,
+      "Length": 17,
+      "Line": 80,
+      "Context": "primary = new IrisException(ErrorCode.Timeout, \"准备更新维护进程超时（30秒）\", ex, retryable: true);",
+      "CanonicalContext": "primary = new IrisException(ErrorCode.Timeout, \"准备更新维护进程超时（30秒）\", ex, retryable: true);",
+      "Owner": "UpdateHandoff.PrepareAsync(UpdateCandidate candidate, CancellationToken token)",
+      "Arguments": [],
+      "Fingerprint": "222D892F5BBAA72480CDADF86A43BE519A36227D88B76DFAFABB71856D8EA70F",
+      "SiteFingerprint": "3DE3E58791D00066E01E83A89C5981C927F8D7C714DF8006696A552D61296560"
+    }
+  ],
+  "resourceCounts": {
+    "App": 462,
+    "Core": 148,
+    "Maintenance": 5
+  },
+  "resourceErrors": [
+    "App: key sets differ",
+    "App:UpdateRecoveryRequired: resource differs from reviewed bilingual catalog",
+    "App:ShutdownIncomplete: resource differs from reviewed bilingual catalog",
+    "App:UpdateRecoveryCleanupPending: resource differs from reviewed bilingual catalog",
+    "App:UpdateRecoveryCancel: resource differs from reviewed bilingual catalog",
+    "App:UpdateRecoveryRetry: resource differs from reviewed bilingual catalog"
+  ],
+  "englishNativeNameExceptions": {
+    "App:LanguageChineseNative": "简体中文"
+  },
+  "exceptionManifestSha256": "2d620105575400696d1f567460d883cf050ff511b49b6f64d5ea0b5192eb9a75"
+}

@@ -1,0 +1,17 @@
+{
+  "command": [
+    "python",
+    "tasks\\done\\T-039B.review\\acceptance-review-4\\verify_guest_round.py",
+    "--install",
+    "guest-install-r4-6",
+    "--tag",
+    "final-8",
+    "--output",
+    "guest-install-independent-1.json"
+  ],
+  "cwd": "F:\\Iris",
+  "startedAt": "2026-10-25T06:24:22.624085+00:00",
+  "completedAt": "2026-10-25T06:24:22.968133+00:00",
+  "exitCode": 0,
+  "logSha256": "8a9aee6d0d01d7ecaf0426a9a150b44e6ec150fb12cd969e040f8df925692cff"
+}

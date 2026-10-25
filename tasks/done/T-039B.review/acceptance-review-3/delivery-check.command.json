@@ -1,0 +1,11 @@
+{
+  "command": [
+    "python",
+    "tasks\\done\\T-039B.review\\acceptance-review-3\\verify_delivery.py"
+  ],
+  "cwd": "F:\\Iris",
+  "startedAt": "2026-10-24T17:14:50.614249+00:00",
+  "completedAt": "2026-10-24T17:14:52.936622+00:00",
+  "exitCode": 0,
+  "logSha256": "91d5b9505c4aadd58bd8786893c7a5f3498b0d905e11348cf00ceafd631e5573"
+}

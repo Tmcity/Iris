@@ -1,0 +1,94 @@
+{
+  "Scope": "Rendering only, with inert callbacks. No host, update, installation, network, production IPC or user settings are started.",
+  "Frames": [
+    {
+      "language": "zh-CN",
+      "RequestedTheme": "Light",
+      "ActualApplicationTheme": "Light",
+      "RequestedWidth": 540,
+      "ActualWidth": 540,
+      "ActualHeight": 277.08000000000004,
+      "FailureText": "Iris \u672A\u80FD\u5B8C\u6210\u9000\u51FA\uFF0C\u66F4\u65B0\u5C1A\u672A\u5B89\u88C5\u3002\u5DF2\u4FDD\u7559\u60A8\u786E\u8BA4\u7684\u66F4\u65B0\uFF0C\u8BF7\u91CD\u8BD5\u5B89\u88C5\uFF0C\u6216\u53D6\u6D88\u66F4\u65B0\u5E76\u9000\u51FA\u3002\n\n0.2.1",
+      "File": "recovery-zh-CN-Light-540.png",
+      "Sha256": "2FC00189307DC980AB9F9CD92827B0E725BA023678D227433FF28AB360DACA3B"
+    },
+    {
+      "language": "zh-CN",
+      "RequestedTheme": "Light",
+      "ActualApplicationTheme": "Light",
+      "RequestedWidth": 380,
+      "ActualWidth": 380,
+      "ActualHeight": 277.08000000000004,
+      "FailureText": "Iris \u672A\u80FD\u5B8C\u6210\u9000\u51FA\uFF0C\u66F4\u65B0\u5C1A\u672A\u5B89\u88C5\u3002\u5DF2\u4FDD\u7559\u60A8\u786E\u8BA4\u7684\u66F4\u65B0\uFF0C\u8BF7\u91CD\u8BD5\u5B89\u88C5\uFF0C\u6216\u53D6\u6D88\u66F4\u65B0\u5E76\u9000\u51FA\u3002\n\n0.2.1",
+      "File": "recovery-zh-CN-Light-380.png",
+      "Sha256": "90D35937D45666CC7777AA49AAA54E6DAE7FCAB1D410A28E0ED899CBBEA6BE1C"
+    },
+    {
+      "language": "en-US",
+      "RequestedTheme": "Light",
+      "ActualApplicationTheme": "Light",
+      "RequestedWidth": 540,
+      "ActualWidth": 540,
+      "ActualHeight": 277.08000000000004,
+      "FailureText": "Iris \u672A\u80FD\u5B8C\u6210\u9000\u51FA\uFF0C\u66F4\u65B0\u5C1A\u672A\u5B89\u88C5\u3002\u5DF2\u4FDD\u7559\u60A8\u786E\u8BA4\u7684\u66F4\u65B0\uFF0C\u8BF7\u91CD\u8BD5\u5B89\u88C5\uFF0C\u6216\u53D6\u6D88\u66F4\u65B0\u5E76\u9000\u51FA\u3002\n\n0.2.1",
+      "File": "recovery-en-US-Light-540.png",
+      "Sha256": "2FC00189307DC980AB9F9CD92827B0E725BA023678D227433FF28AB360DACA3B"
+    },
+    {
+      "language": "en-US",
+      "RequestedTheme": "Light",
+      "ActualApplicationTheme": "Light",
+      "RequestedWidth": 380,
+      "ActualWidth": 380,
+      "ActualHeight": 277.08000000000004,
+      "FailureText": "Iris \u672A\u80FD\u5B8C\u6210\u9000\u51FA\uFF0C\u66F4\u65B0\u5C1A\u672A\u5B89\u88C5\u3002\u5DF2\u4FDD\u7559\u60A8\u786E\u8BA4\u7684\u66F4\u65B0\uFF0C\u8BF7\u91CD\u8BD5\u5B89\u88C5\uFF0C\u6216\u53D6\u6D88\u66F4\u65B0\u5E76\u9000\u51FA\u3002\n\n0.2.1",
+      "File": "recovery-en-US-Light-380.png",
+      "Sha256": "90D35937D45666CC7777AA49AAA54E6DAE7FCAB1D410A28E0ED899CBBEA6BE1C"
+    },
+    {
+      "language": "zh-CN",
+      "RequestedTheme": "Dark",
+      "ActualApplicationTheme": "Dark",
+      "RequestedWidth": 540,
+      "ActualWidth": 540,
+      "ActualHeight": 277.08000000000004,
+      "FailureText": "Iris \u672A\u80FD\u5B8C\u6210\u9000\u51FA\uFF0C\u66F4\u65B0\u5C1A\u672A\u5B89\u88C5\u3002\u5DF2\u4FDD\u7559\u60A8\u786E\u8BA4\u7684\u66F4\u65B0\uFF0C\u8BF7\u91CD\u8BD5\u5B89\u88C5\uFF0C\u6216\u53D6\u6D88\u66F4\u65B0\u5E76\u9000\u51FA\u3002\n\n0.2.1",
+      "File": "recovery-zh-CN-Dark-540.png",
+      "Sha256": "0823CB807EF59BCA4DE61187AFDA65A2F9CB185DE6DBD6A4755CB00B8715F013"
+    },
+    {
+      "language": "zh-CN",
+      "RequestedTheme": "Dark",
+      "ActualApplicationTheme": "Dark",
+      "RequestedWidth": 380,
+      "ActualWidth": 380,
+      "ActualHeight": 277.08000000000004,
+      "FailureText": "Iris \u672A\u80FD\u5B8C\u6210\u9000\u51FA\uFF0C\u66F4\u65B0\u5C1A\u672A\u5B89\u88C5\u3002\u5DF2\u4FDD\u7559\u60A8\u786E\u8BA4\u7684\u66F4\u65B0\uFF0C\u8BF7\u91CD\u8BD5\u5B89\u88C5\uFF0C\u6216\u53D6\u6D88\u66F4\u65B0\u5E76\u9000\u51FA\u3002\n\n0.2.1",
+      "File": "recovery-zh-CN-Dark-380.png",
+      "Sha256": "ED4055BB9943DAB4402D6220D259AE95E9952AFCE977174781CC005CEB596ABD"
+    },
+    {
+      "language": "en-US",
+      "RequestedTheme": "Dark",
+      "ActualApplicationTheme": "Dark",
+      "RequestedWidth": 540,
+      "ActualWidth": 540,
+      "ActualHeight": 277.08000000000004,
+      "FailureText": "Iris \u672A\u80FD\u5B8C\u6210\u9000\u51FA\uFF0C\u66F4\u65B0\u5C1A\u672A\u5B89\u88C5\u3002\u5DF2\u4FDD\u7559\u60A8\u786E\u8BA4\u7684\u66F4\u65B0\uFF0C\u8BF7\u91CD\u8BD5\u5B89\u88C5\uFF0C\u6216\u53D6\u6D88\u66F4\u65B0\u5E76\u9000\u51FA\u3002\n\n0.2.1",
+      "File": "recovery-en-US-Dark-540.png",
+      "Sha256": "0823CB807EF59BCA4DE61187AFDA65A2F9CB185DE6DBD6A4755CB00B8715F013"
+    },
+    {
+      "language": "en-US",
+      "RequestedTheme": "Dark",
+      "ActualApplicationTheme": "Dark",
+      "RequestedWidth": 380,
+      "ActualWidth": 380,
+      "ActualHeight": 277.08000000000004,
+      "FailureText": "Iris \u672A\u80FD\u5B8C\u6210\u9000\u51FA\uFF0C\u66F4\u65B0\u5C1A\u672A\u5B89\u88C5\u3002\u5DF2\u4FDD\u7559\u60A8\u786E\u8BA4\u7684\u66F4\u65B0\uFF0C\u8BF7\u91CD\u8BD5\u5B89\u88C5\uFF0C\u6216\u53D6\u6D88\u66F4\u65B0\u5E76\u9000\u51FA\u3002\n\n0.2.1",
+      "File": "recovery-en-US-Dark-380.png",
+      "Sha256": "ED4055BB9943DAB4402D6220D259AE95E9952AFCE977174781CC005CEB596ABD"
+    }
+  ],
+  "Failure": null
+}

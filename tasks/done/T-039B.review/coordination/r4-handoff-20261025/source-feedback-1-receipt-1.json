@@ -1,0 +1,35 @@
+{
+  "observedAt": "2026-10-24T18:50:34.863754+00:00",
+  "threadId": "01a16ef2-a0bb-71a1-8230-57165c05cc5b",
+  "turnId": "01a16efb-17fe-7c13-b06d-d96408ee117c",
+  "itemCount": 162,
+  "receivedMatches": [],
+  "queueCount": 0,
+  "agentRepliesAfterSupplement": [],
+  "screenshots": [
+    {
+      "name": "window-1.png",
+      "sha256": "62aed258afe55b17f270c27353597bd45362d37feb655f15d94b885cd4d25ce3"
+    },
+    {
+      "name": "window-2.png",
+      "sha256": "3d7154d05bca7b4ed44105de47dcc2d01ad0264742daa08a3c007307a2e64e2c"
+    },
+    {
+      "name": "window-3.png",
+      "sha256": "b612558a58ec3642b94c0155ebc02d9f77b620953636ed0a560696ec94dde3ba"
+    },
+    {
+      "name": "window-4-typed.png",
+      "sha256": "da87ad5246633769467eb1cb3e98309ab6f5b0768c797b7aeeb671de4916ce4d"
+    },
+    {
+      "name": "window-5-remove-stale-row.png",
+      "sha256": "8f8011c8f26c151dd37f7c132db55e198ece28b2ec2f44fdc58865307129431c"
+    },
+    {
+      "name": "window-6-send.png",
+      "sha256": "7e772d7e42f4a0975ab4148713046fc98ce7d10d791ee9c9fcfc021cf1184964"
+    }
+  ]
+}

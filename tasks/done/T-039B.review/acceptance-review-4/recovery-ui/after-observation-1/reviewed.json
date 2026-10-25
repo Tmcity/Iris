@@ -1,0 +1,90 @@
+{
+  "scope": "Independent viewing/hash verification of developer-produced production rendering frames, not a claim of an independently executed after-fix render. Before-fix independent reproduction is retained separately. Final independent build/tests and real guest gate remain.",
+  "appDllSha256": "b43abf9473adb385f6c679bad51a903fddfcdbb5b63cafe3780729d0e1ccea44",
+  "sourceBindingSha256": "b02f8424c131f4e5c3c02df07bba2e528e7adcae6b491734b96adec214af0ad3",
+  "sourceGitTree": "c6fd6c81f2d6b553d6b8a30390794c2d6a00683d",
+  "testResourcePathReviewed": "Exactly App.xaml global dictionaries and ApplicationThemeManager.Apply; no window-specific test overrides.",
+  "frames": [
+    {
+      "image": "tasks/done/T-039B.evidence/r4/recovery-theme-after-1-results/recovery-en-US-Dark-380.png",
+      "sha256": "44bd88284e56d096774715926b5ec06ed3096ee428b317e40844ee58e748bde5",
+      "language": "en-US",
+      "theme": "Dark",
+      "width": 380,
+      "minimumActionContrast": 10.889682171145143,
+      "viewedIndependently": true,
+      "verdict": "Readable body and both action labels; wrapped English actions fit."
+    },
+    {
+      "image": "tasks/done/T-039B.evidence/r4/recovery-theme-after-1-results/recovery-en-US-Dark-540.png",
+      "sha256": "78ef6d82a21490fcfd87d602a876013dc7db17129998e395a486bb9a5b96ef30",
+      "language": "en-US",
+      "theme": "Dark",
+      "width": 540,
+      "minimumActionContrast": 10.889682171145143,
+      "viewedIndependently": true,
+      "verdict": "Readable body and both action labels; wrapped English actions fit."
+    },
+    {
+      "image": "tasks/done/T-039B.evidence/r4/recovery-theme-after-1-results/recovery-en-US-Light-380.png",
+      "sha256": "ed3856181b506de15ad5dcc1206412b920445ada1bd289676d9b19520c18419a",
+      "language": "en-US",
+      "theme": "Light",
+      "width": 380,
+      "minimumActionContrast": 5.556753797448295,
+      "viewedIndependently": true,
+      "verdict": "Readable body and both action labels; wrapped English actions fit."
+    },
+    {
+      "image": "tasks/done/T-039B.evidence/r4/recovery-theme-after-1-results/recovery-en-US-Light-540.png",
+      "sha256": "7e0968f3745a5497f22bf21a70921afcab2292cca4d6637e0e625edd509015e7",
+      "language": "en-US",
+      "theme": "Light",
+      "width": 540,
+      "minimumActionContrast": 5.556753797448295,
+      "viewedIndependently": true,
+      "verdict": "Readable body and both action labels; wrapped English actions fit."
+    },
+    {
+      "image": "tasks/done/T-039B.evidence/r4/recovery-theme-after-1-results/recovery-zh-CN-Dark-380.png",
+      "sha256": "f68b5a5419ce778db6756beb3b16c2e00954f1053c10ec8dae866359fc565304",
+      "language": "zh-CN",
+      "theme": "Dark",
+      "width": 380,
+      "minimumActionContrast": 10.889682171145143,
+      "viewedIndependently": true,
+      "verdict": "Readable body and both action labels; wrapped English actions fit."
+    },
+    {
+      "image": "tasks/done/T-039B.evidence/r4/recovery-theme-after-1-results/recovery-zh-CN-Dark-540.png",
+      "sha256": "a58430362a7597fcf07d3e391281d9213c8582b55c12a189f930c033069286c4",
+      "language": "zh-CN",
+      "theme": "Dark",
+      "width": 540,
+      "minimumActionContrast": 10.889682171145143,
+      "viewedIndependently": true,
+      "verdict": "Readable body and both action labels; wrapped English actions fit."
+    },
+    {
+      "image": "tasks/done/T-039B.evidence/r4/recovery-theme-after-1-results/recovery-zh-CN-Light-380.png",
+      "sha256": "cb10af4163b1cd1d7adf9423965159d49762b65d639f4fdd2a7cc1ebe7955473",
+      "language": "zh-CN",
+      "theme": "Light",
+      "width": 380,
+      "minimumActionContrast": 5.556753797448295,
+      "viewedIndependently": true,
+      "verdict": "Readable body and both action labels; wrapped English actions fit."
+    },
+    {
+      "image": "tasks/done/T-039B.evidence/r4/recovery-theme-after-1-results/recovery-zh-CN-Light-540.png",
+      "sha256": "c0db423da2350b5dfb5d11b859c3b50de8409668ddd710ceba008f780fbcfee1",
+      "language": "zh-CN",
+      "theme": "Light",
+      "width": 540,
+      "minimumActionContrast": 5.556753797448295,
+      "viewedIndependently": true,
+      "verdict": "Readable body and both action labels; wrapped English actions fit."
+    }
+  ],
+  "themeDefectVisuallyClosedForCandidate2": true
+}

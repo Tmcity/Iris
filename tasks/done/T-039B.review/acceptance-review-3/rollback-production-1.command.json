@@ -1,0 +1,12 @@
+{
+  "command": [
+    "dotnet",
+    "artifacts\\t039b\\independent-r3-rollback-1\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.App.Tests.dll",
+    "--production-updates"
+  ],
+  "cwd": "F:\\Iris",
+  "startedAt": "2026-10-24T17:17:37.639177+00:00",
+  "completedAt": "2026-10-24T17:17:38.968869+00:00",
+  "exitCode": 1,
+  "logSha256": "ce57e10f3041c830c11998813b65276771fb18a58893f8da6d49ff1be5fe23de"
+}

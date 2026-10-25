@@ -1,0 +1,12 @@
+{
+  "scope": "Independent inspection of accessible absolute/repository-relative bound records only; not package-relative rows or final acceptance.",
+  "bindingSha256": "c79e56472ca560303c5a65fea1ac07e56d199ffafaf4953c2a7e3cf1ab2e24bb",
+  "checkedRecords": 1042,
+  "failed": [],
+  "activeOrderCurrentlyMatchesSnapshot": false,
+  "completionStatus": "AwaitingOwnedSandboxEnvironment_NotComplete",
+  "requiredUnfinished": [
+    "final-7 install and running silent retention uninstall in clean owned guest",
+    "final-7 two-version local full-package apply in clean owned guest"
+  ]
+}

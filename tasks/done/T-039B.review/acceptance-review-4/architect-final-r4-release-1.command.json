@@ -1,0 +1,15 @@
+{
+  "command": [
+    "dotnet",
+    "build",
+    "Iris.slnx",
+    "-c",
+    "Release",
+    "--no-incremental"
+  ],
+  "cwd": "F:\\Iris",
+  "startedAt": "2026-10-25T07:09:17.262424+00:00",
+  "completedAt": "2026-10-25T07:09:55.629843+00:00",
+  "exitCode": 0,
+  "logSha256": "c23b8be7ea3748f8730c6b3523bfcb49c19d1e671d85d4d8561b5b87dc05944c"
+}

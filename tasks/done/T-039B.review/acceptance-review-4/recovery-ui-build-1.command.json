@@ -1,0 +1,19 @@
+{
+  "command": [
+    "dotnet",
+    "build",
+    "Review.csproj",
+    "-c",
+    "Release",
+    "--configfile",
+    "NuGet.Config",
+    "--disable-build-servers",
+    "-p:UseSharedCompilation=false",
+    "-m:1"
+  ],
+  "cwd": "F:\\Iris\\artifacts\\t039b\\independent-r4-recovery-ui-1",
+  "startedAt": "2026-10-24T19:52:43.933887+00:00",
+  "completedAt": "2026-10-24T19:52:46.826556+00:00",
+  "exitCode": 0,
+  "logSha256": "c42dce8a7509efcae5ea0ae911cf966bdc79f6f478414d55112df1eb23b4ad87"
+}

@@ -1,0 +1,8 @@
+{
+  "observedAt": "2026-10-24T19:50:08.069582+00:00",
+  "sha256": "aa8b11ba2c84b766f6bc299dc4040b4a0ad9f77110b1b4b78ee1b29f206be085",
+  "exitCode": 0,
+  "stdout": "{\n  \"queueResult\": \"Queued message 01a16f76-a1ad-7aa0-9950-cd1c03159611 for thread 01a16ef2-a0bb-71a1-8230-57165c05cc5b.\"\n}\n",
+  "stderr": "",
+  "semantics": "Queue only; no review window grant is implied."
+}

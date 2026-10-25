@@ -1,0 +1,12 @@
+{
+  "command": [
+    "dotnet",
+    "F:\\Iris\\artifacts\\t039b\\independent-r4-recovery-ui-1\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.App.Tests.dll",
+    "F:\\Iris\\artifacts\\t039b\\independent-r4-recovery-ui-1\\output"
+  ],
+  "cwd": "F:\\Iris",
+  "startedAt": "2026-10-24T19:53:17.516590+00:00",
+  "completedAt": "2026-10-24T19:53:20.986719+00:00",
+  "exitCode": 0,
+  "logSha256": "051ce910119cc1abb110fa2fdfae8c4c93f758b3828f36120c3a9f2146c35e78"
+}

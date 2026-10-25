@@ -1,0 +1,79 @@
+{
+  "scope": "Carry forward prior independent visual review only because all eight PNG bytes match exactly; new loaded App DLL is independently bound to candidate-3. No new architect rendering execution is claimed.",
+  "appDllSha256": "b68571121bcac2cbd81afcb6a9a8882b9a90ff6981f06e9f428cefac38a1eef6",
+  "sourceGitTree": "d7ca8024ba8a7feea9fa75c61d7785b1edd77b5a",
+  "frames": [
+    {
+      "image": "tasks/done/T-039B.evidence/r4/full-tests-3-results/recovery-en-US-Dark-380.png",
+      "sha256": "44bd88284e56d096774715926b5ec06ed3096ee428b317e40844ee58e748bde5",
+      "actualLanguage": "en-US",
+      "actualTheme": "Dark",
+      "width": 380,
+      "identicalToIndependentlyViewedFrame": true,
+      "priorViewedImage": "tasks/done/T-039B.evidence/r4/recovery-theme-after-1-results/recovery-en-US-Dark-380.png"
+    },
+    {
+      "image": "tasks/done/T-039B.evidence/r4/full-tests-3-results/recovery-en-US-Dark-540.png",
+      "sha256": "78ef6d82a21490fcfd87d602a876013dc7db17129998e395a486bb9a5b96ef30",
+      "actualLanguage": "en-US",
+      "actualTheme": "Dark",
+      "width": 540,
+      "identicalToIndependentlyViewedFrame": true,
+      "priorViewedImage": "tasks/done/T-039B.evidence/r4/recovery-theme-after-1-results/recovery-en-US-Dark-540.png"
+    },
+    {
+      "image": "tasks/done/T-039B.evidence/r4/full-tests-3-results/recovery-en-US-Light-380.png",
+      "sha256": "ed3856181b506de15ad5dcc1206412b920445ada1bd289676d9b19520c18419a",
+      "actualLanguage": "en-US",
+      "actualTheme": "Light",
+      "width": 380,
+      "identicalToIndependentlyViewedFrame": true,
+      "priorViewedImage": "tasks/done/T-039B.evidence/r4/recovery-theme-after-1-results/recovery-en-US-Light-380.png"
+    },
+    {
+      "image": "tasks/done/T-039B.evidence/r4/full-tests-3-results/recovery-en-US-Light-540.png",
+      "sha256": "7e0968f3745a5497f22bf21a70921afcab2292cca4d6637e0e625edd509015e7",
+      "actualLanguage": "en-US",
+      "actualTheme": "Light",
+      "width": 540,
+      "identicalToIndependentlyViewedFrame": true,
+      "priorViewedImage": "tasks/done/T-039B.evidence/r4/recovery-theme-after-1-results/recovery-en-US-Light-540.png"
+    },
+    {
+      "image": "tasks/done/T-039B.evidence/r4/full-tests-3-results/recovery-zh-CN-Dark-380.png",
+      "sha256": "f68b5a5419ce778db6756beb3b16c2e00954f1053c10ec8dae866359fc565304",
+      "actualLanguage": "zh-CN",
+      "actualTheme": "Dark",
+      "width": 380,
+      "identicalToIndependentlyViewedFrame": true,
+      "priorViewedImage": "tasks/done/T-039B.evidence/r4/recovery-theme-after-1-results/recovery-zh-CN-Dark-380.png"
+    },
+    {
+      "image": "tasks/done/T-039B.evidence/r4/full-tests-3-results/recovery-zh-CN-Dark-540.png",
+      "sha256": "a58430362a7597fcf07d3e391281d9213c8582b55c12a189f930c033069286c4",
+      "actualLanguage": "zh-CN",
+      "actualTheme": "Dark",
+      "width": 540,
+      "identicalToIndependentlyViewedFrame": true,
+      "priorViewedImage": "tasks/done/T-039B.evidence/r4/recovery-theme-after-1-results/recovery-zh-CN-Dark-540.png"
+    },
+    {
+      "image": "tasks/done/T-039B.evidence/r4/full-tests-3-results/recovery-zh-CN-Light-380.png",
+      "sha256": "cb10af4163b1cd1d7adf9423965159d49762b65d639f4fdd2a7cc1ebe7955473",
+      "actualLanguage": "zh-CN",
+      "actualTheme": "Light",
+      "width": 380,
+      "identicalToIndependentlyViewedFrame": true,
+      "priorViewedImage": "tasks/done/T-039B.evidence/r4/recovery-theme-after-1-results/recovery-zh-CN-Light-380.png"
+    },
+    {
+      "image": "tasks/done/T-039B.evidence/r4/full-tests-3-results/recovery-zh-CN-Light-540.png",
+      "sha256": "c0db423da2350b5dfb5d11b859c3b50de8409668ddd710ceba008f780fbcfee1",
+      "actualLanguage": "zh-CN",
+      "actualTheme": "Light",
+      "width": 540,
+      "identicalToIndependentlyViewedFrame": true,
+      "priorViewedImage": "tasks/done/T-039B.evidence/r4/recovery-theme-after-1-results/recovery-zh-CN-Light-540.png"
+    }
+  ]
+}

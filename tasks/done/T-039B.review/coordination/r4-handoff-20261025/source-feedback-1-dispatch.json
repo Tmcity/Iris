@@ -1,0 +1,8 @@
+{
+  "observedAt": "2026-10-24T18:37:59.196474+00:00",
+  "messageSha256": "53ccb10c0a214f6a48eaa90808e952be31c668ffc7f7fed147c3c66a6c1aa9b3",
+  "exitCode": 0,
+  "stdout": "{\n  \"queueResult\": \"Queued message 01a16f34-93ff-7862-a48d-5e694ab2eccb for thread 01a16ef2-a0bb-71a1-8230-57165c05cc5b.\"\n}\n",
+  "stderr": "",
+  "status": "Queued once; actual steering/receipt not yet proved"
+}

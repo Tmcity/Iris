@@ -1,0 +1,20 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--test-modules",
+    "artifacts\\t039b\\r4-tested-candidate-3\\Iris.App.Tests.dll",
+    "--filter",
+    "FullyQualifiedName~UpdateHandoffTests|FullyQualifiedName~UpdateHandoffLifecycleTests",
+    "--no-ansi",
+    "--no-progress",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:\\Iris\\tasks\\done\\T-039B.review\\acceptance-review-4\\independent-runtime-2-reports"
+  ],
+  "cwd": "F:\\Iris",
+  "startedAt": "2026-10-24T22:02:42.561100+00:00",
+  "completedAt": "2026-10-24T22:02:52.718799+00:00",
+  "exitCode": 0,
+  "logSha256": "7defacc860f93efdbc4e832fcad10ce7834d5bdb4d9f1f3ef67fc2667049456d"
+}

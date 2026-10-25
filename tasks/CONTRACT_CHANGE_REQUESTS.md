@@ -1108,7 +1108,7 @@ GeneralSettings.UiLanguage 已存在，默认zh-CN、N11正规化、JSON/schema�
 
 2026-10-13 · 架构师批准 · T-039B / DESKTOP_RELEASE.md / ARCH v1.57。
 
-状态：**已批准并预置精确声明，待开发落地及独立复审**。
+状态：**B 实施已落地并独立验收（2026-10-25，T-039B 含 R4；最终交付 `535ec1693ee4a656524bb1b0403d68ab7ce8ccfd`）**。兼容字段、命名客户端和内部更新/维护接线按约束通过，未扩张公共契约。父 T-039 的公开分发、默认运行时下载复核与正式匿名用户 UI 线上升级仍须 T-039C，不因本契约实施结案而提前结案父任务。
 
 GeneralSettingsPatch在record体内兼容新增`SettingsFieldEdit<bool>? CheckForUpdates { get; init; }`，默认null；原四参数构造/解构及UiLanguage保持。复用既有联合编辑的捕获、冲突、合并和回执规则，General.CheckForUpdates原默认true及JSON/schema不变，不把检查偏好等同安装同意。
 

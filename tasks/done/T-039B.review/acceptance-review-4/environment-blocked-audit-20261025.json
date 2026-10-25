@@ -1,0 +1,27 @@
+{
+  "observedAt": "2026-10-24T22:13:35.242451+00:00",
+  "head": "05452e0a85a36982ef8bfd22d5a981e581eeafcf",
+  "sourceGitTree": "d7ca8024ba8a7feea9fa75c61d7785b1edd77b5a",
+  "sourceFileCount": 702,
+  "sourceDrift": [],
+  "completionStatus": "AwaitingOwnedSandboxEnvironment_NotComplete",
+  "requiredUnfinished": [
+    "final-8 install and running silent retention uninstall in clean owned guest",
+    "final-8 two-version local full-package apply in clean owned guest"
+  ],
+  "blocker": "Windows Sandbox disabled and executable/alias absent; current account Hyper-V access denied; no user approval to change host features and no alternative owned Windows VM entry supplied.",
+  "sameConditionGoalTurns": 3,
+  "priorRevalidations": [
+    "2026-10-24T19:46:41Z independent host preflight and one user input request",
+    "2026-10-24T20:59:54Z Sandbox InstallState=2, executables absent",
+    "2026-10-24T22:08:21Z Sandbox InstallState=2, executables absent"
+  ],
+  "engineerTurn": "01a16ff1-d40c-7031-a9e0-35ea1ad838d7",
+  "engineerStatus": "completed",
+  "engineerCompletedAt": 1792879787,
+  "hostFeatureEnablementExecuted": false,
+  "approvalRequestRepeated": false,
+  "currentTaskRetained": true,
+  "remainingLocalWork": "No required implementation/verification currently available outside the prerequisite gate. Real guest validation must precede final commit and final-HEAD independent checks; C/T-040 remain gated by B.",
+  "resumeAction": "After explicit approval, enable only the prepared Sandbox feature with /NoRestart and manual administrator confirmation, or use the user-supplied owned Windows VM; then revalidate the actual environment and continue the preserved R4 guest commands."
+}

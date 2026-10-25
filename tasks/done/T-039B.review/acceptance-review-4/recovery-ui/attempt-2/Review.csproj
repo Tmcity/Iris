@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>Iris.App.Tests</AssemblyName>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Reference Include="Anthropic">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Anthropic.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Castle.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="DiffEngine">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\DiffEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="EmptyFiles">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\EmptyFiles.dll</HintPath>
+    </Reference>
+    <Reference Include="H.GeneratedIcons.System.Drawing">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\H.GeneratedIcons.System.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="H.NotifyIcon">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\H.NotifyIcon.dll</HintPath>
+    </Reference>
+    <Reference Include="H.NotifyIcon.Wpf">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\H.NotifyIcon.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="Iris.App">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Iris.App.dll</HintPath>
+    </Reference>
+    <Reference Include="Iris.Core">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Iris.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Iris.Infrastructure">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Iris.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="Iris.Platform.Windows">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Iris.Platform.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="Iris.Providers">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Iris.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.ApplicationInsights.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Data.Sqlite">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Data.Sqlite.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.AI.Abstractions">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.AI.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.AmbientMetadata.Application">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.AmbientMetadata.Application.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Compliance.Abstractions">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Compliance.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Abstractions">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Configuration.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Binder">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Configuration.Binder.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.CommandLine">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Configuration.CommandLine.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.EnvironmentVariables">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Configuration.EnvironmentVariables.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.FileExtensions">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Configuration.FileExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.Json">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Configuration.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Configuration.UserSecrets">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Configuration.UserSecrets.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.AutoActivation">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.DependencyInjection.AutoActivation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Diagnostics.Abstractions">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Diagnostics.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Diagnostics">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Diagnostics.ExceptionSummarization">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Diagnostics.ExceptionSummarization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Abstractions">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.FileProviders.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileProviders.Physical">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.FileProviders.Physical.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.FileSystemGlobbing">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.FileSystemGlobbing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Hosting.Abstractions">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Hosting">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Http.Diagnostics">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Http.Diagnostics.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Http">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Http.Resilience">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Http.Resilience.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Abstractions">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Configuration">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Logging.Configuration.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Console">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Logging.Console.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.Debug">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Logging.Debug.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.EventLog">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Logging.EventLog.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Logging.EventSource">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Logging.EventSource.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.ObjectPool">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.ObjectPool.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options.ConfigurationExtensions">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Options.ConfigurationExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Options">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Options.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Primitives">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Resilience">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Resilience.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Telemetry.Abstractions">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Telemetry.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.Telemetry">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.Telemetry.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.TimeProvider.Testing">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Extensions.TimeProvider.Testing.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Testing.Extensions.MSBuild">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Testing.Extensions.MSBuild.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Testing.Extensions.Telemetry">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Testing.Extensions.Telemetry.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Testing.Extensions.TrxReport.Abstractions">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Testing.Extensions.TrxReport.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Testing.Platform">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Testing.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.TestPlatform.CommunicationUtilities">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.TestPlatform.CommunicationUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.TestPlatform.CoreUtilities">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.TestPlatform.CoreUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.TestPlatform.CrossPlatEngine">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.TestPlatform.CrossPlatEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.TestPlatform.PlatformAbstractions">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.TestPlatform.PlatformAbstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.TestPlatform.Utilities">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.TestPlatform.Utilities.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.CodeCoverage.Shim">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.VisualStudio.CodeCoverage.Shim.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.Common">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.VisualStudio.TestPlatform.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.TestPlatform.ObjectModel">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Windows.SDK.NET">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Microsoft.Windows.SDK.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="NSubstitute">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\NSubstitute.dll</HintPath>
+    </Reference>
+    <Reference Include="Polly.Core">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Polly.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Polly.Extensions">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Polly.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Polly.RateLimiting">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Polly.RateLimiting.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Serilog.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Extensions.Hosting">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Serilog.Extensions.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Extensions.Logging">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Serilog.Extensions.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Serilog.Sinks.File">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Serilog.Sinks.File.dll</HintPath>
+    </Reference>
+    <Reference Include="Shouldly">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Shouldly.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\SQLitePCLRaw.batteries_v2.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.core">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\SQLitePCLRaw.core.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.e_sqlite3">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\SQLitePCLRaw.provider.e_sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Management">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\System.Management.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.RateLimiting">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\System.Threading.RateLimiting.dll</HintPath>
+    </Reference>
+    <Reference Include="testhost">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\testhost.dll</HintPath>
+    </Reference>
+    <Reference Include="Velopack">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Velopack.dll</HintPath>
+    </Reference>
+    <Reference Include="WinRT.Runtime">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\WinRT.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Wpf.Ui.Abstractions">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Wpf.Ui.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Wpf.Ui">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\Wpf.Ui.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.abstractions">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\xunit.abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.runner.visualstudio.testadapter">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\xunit.runner.visualstudio.testadapter.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.v3.assert">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\xunit.v3.assert.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.v3.common">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\xunit.v3.common.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.v3.core">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\xunit.v3.core.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.v3.mtp-v2">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\xunit.v3.mtp-v2.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.v3.runner.common">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\xunit.v3.runner.common.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.v3.runner.inproc.console">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\xunit.v3.runner.inproc.console.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.v3.runner.utility.netcore">
+      <HintPath>F:\Iris\artifacts\t039b\independent-r4-recovery-ui-2\candidate\xunit.v3.runner.utility.netcore.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

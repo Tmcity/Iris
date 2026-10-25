@@ -1,0 +1,15 @@
+{
+  "nature": "Actual independent render failure, not only source inference",
+  "frozenAppDllSha256": "773cb4a713dc5a057e12bbdb92477bd3fe60daadc2f85a5b55fa1b61804334b1",
+  "sources": [
+    {
+      "path": "src/Iris.App/Updates/UpdateRecoveryWindow.cs",
+      "sha256": "ef16dc921e4058d4d203b6d787b5f8de9eb3a4c6791883b11f224b674d88efcd"
+    },
+    {
+      "path": "src/Iris.App/App.xaml",
+      "sha256": "dfab264f0786f1979c413e23effc3d54594604fcd003c022b6fcad910c7e660f"
+    }
+  ],
+  "renderReview": "../recovery-ui/attempt-2/reviewed.json"
+}

@@ -1,0 +1,59 @@
+{
+  "head": "05452e0a85a36982ef8bfd22d5a981e581eeafcf",
+  "sourceInputs": [
+    {
+      "path": "build/localization/app-catalog.json",
+      "sha256": "5b240c825e33f37ac90ee90d43f386e3f68b040c36ba33dfb9cbd3e1b2a05a2d",
+      "bytes": 60648
+    },
+    {
+      "path": "build/localization/exceptions.json",
+      "sha256": "2d620105575400696d1f567460d883cf050ff511b49b6f64d5ea0b5192eb9a75",
+      "bytes": 694214
+    },
+    {
+      "path": "build/localization/audit.py",
+      "sha256": "790e94126326c68cffe151e689e643cb25a5ed032452708aa50a014a83fe96f1",
+      "bytes": 3683
+    },
+    {
+      "path": "build/LocalizationAudit/Program.cs",
+      "sha256": "1d2145d7eb8b131d8075c300a26e4542813409994d2534c66200400c39e71e8b",
+      "bytes": 11707
+    },
+    {
+      "path": "src/Iris.App/Resources/Strings.resx",
+      "sha256": "0698b8eabb0130970b0e1bd9c117e5b679c9fa8f8c0102698c5d8a84b88e597b",
+      "bytes": 55880
+    },
+    {
+      "path": "src/Iris.App/Resources/Strings.en-US.resx",
+      "sha256": "5b833873729402888a42cdfac75ac8c77c72e141e2660dc7e0cba43013c6f8c2",
+      "bytes": 57682
+    },
+    {
+      "path": "src/Iris.App/Updates/UpdateHandoff.cs",
+      "sha256": "7ecf31a916cc5936f1e7239c369618ce1c2afa73cef1649fc5abe1fb502a11b3",
+      "bytes": 9933
+    },
+    {
+      "path": "src/Iris.App/Services/GeneralSettingsSaveCoordinator.cs",
+      "sha256": "abd0fb110621b37ebd858036c6b12d3e27120ca0364105a582da80fc9f91aa31",
+      "bytes": 22508
+    }
+  ],
+  "scannerDllSha256": "61aff96a3c8d76e5628a56f431a01e52b85f2ea23eb78f3ec4eb73824d749ba1",
+  "scannerSourcesHaveNoWorkingDiff": true,
+  "sourceEntries": 1203,
+  "unapprovedSites": 6,
+  "resourceErrors": [
+    "App: key sets differ",
+    "App:UpdateRecoveryRequired: resource differs from reviewed bilingual catalog",
+    "App:ShutdownIncomplete: resource differs from reviewed bilingual catalog",
+    "App:UpdateRecoveryCleanupPending: resource differs from reviewed bilingual catalog",
+    "App:UpdateRecoveryCancel: resource differs from reviewed bilingual catalog",
+    "App:UpdateRecoveryRetry: resource differs from reviewed bilingual catalog"
+  ],
+  "actualCatalogAuditExit": 1,
+  "scope": "Existing scanner executed on current source and compiled resources; no product build or installer was run."
+}

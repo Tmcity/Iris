@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-25T06:06:50.918641+00:00",
+  "sha256": "0ee46c1313d2c4b14b992dc00053e6b264ef8b200e6924c011f1e78da264969a",
+  "exitCode": 0,
+  "stdout": "{\n  \"queueResult\": \"Queued message 01a171ab-4010-7a92-a3c7-506e68fbadb0 for thread 01a16ef2-a0bb-71a1-8230-57165c05cc5b.\"\n}\n",
+  "stderr": "",
+  "nature": "Evidence classification for same R4, not waiver of runtime bootstrap or a new task."
+}

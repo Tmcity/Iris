@@ -1,0 +1,19 @@
+{
+  "observedAt": "2026-10-24T18:24:51.919323+00:00",
+  "threadId": "01a16ef2-a0bb-71a1-8230-57165c05cc5b",
+  "turnId": "01a16efb-17fe-7c13-b06d-d96408ee117c",
+  "status": "interrupted",
+  "completedAt": null,
+  "error": null,
+  "previousItemCount": 120,
+  "itemCount": 126,
+  "newVisibleItems": [
+    {
+      "type": "commandExecution",
+      "id": "exec-7058b7dd-2751-43c8-a022-145db863fbe5",
+      "command": "\"C:\\\\Users\\\\28910\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -NoProfile -Command '$p='\"'src\\\\Iris.Core\\\\Presentation\\\\PresentationPorts.cs'; (Get-Content \"'$p | Select-Object -Skip 85 -First 50) -join \"`n\"; Get-Content -Raw -LiteralPath '\"'src\\\\Iris.App\\\\Services\\\\TrayNotificationService.cs' | Select-Object -First 500\"",
+      "status": "completed",
+      "exitCode": 0
+    }
+  ]
+}

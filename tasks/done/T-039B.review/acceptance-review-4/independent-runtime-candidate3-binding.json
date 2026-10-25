@@ -1,0 +1,119 @@
+{
+  "observedAt": "2026-10-24T22:04:36.681846+00:00",
+  "head": "05452e0a85a36982ef8bfd22d5a981e581eeafcf",
+  "sourceBindingSha256": "276c42ecfe6fa38cf1e01845c5f93a2b13d855e11b650c3f0d29bc95c26e0c24",
+  "sourceGitTree": "d7ca8024ba8a7feea9fa75c61d7785b1edd77b5a",
+  "candidateDirectory": "F:\\Iris\\artifacts\\t039b\\r4-tested-candidate-3",
+  "allFrozenInputsUnchanged": true,
+  "assemblies": [
+    {
+      "name": "F:\\Iris\\artifacts\\t039b\\r4-tested-candidate-3\\Iris.App.Tests.dll",
+      "total": "15",
+      "passed": "15",
+      "failed": "0",
+      "skipped": "0"
+    }
+  ],
+  "workerResults": [
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/cancel-transferred-worker-0.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "result": {
+        "Failure": null,
+        "Canceled": false,
+        "NativeCalls": 0,
+        "Restarts": 0,
+        "GateBlocked": false
+      }
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/cleanup-failure-then-success-worker-0.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "result": {
+        "Failure": null,
+        "Canceled": false,
+        "NativeCalls": 0,
+        "Restarts": 0,
+        "GateBlocked": false
+      }
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/cleanup-failure-then-success-worker-1.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "result": {
+        "Failure": null,
+        "Canceled": false,
+        "NativeCalls": 0,
+        "Restarts": 0,
+        "GateBlocked": false
+      }
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/disposed-failure-worker-0.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "result": {
+        "Failure": null,
+        "Canceled": false,
+        "NativeCalls": 0,
+        "Restarts": 0,
+        "GateBlocked": false
+      }
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/disposed-failure-worker-1.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "result": {
+        "Failure": null,
+        "Canceled": false,
+        "NativeCalls": 0,
+        "Restarts": 0,
+        "GateBlocked": false
+      }
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/disposed-failure-worker-2.json",
+      "sha256": "bb5a12933e3189de5613691561bb597833ab1100b09341905c06043f462d35d0",
+      "result": {
+        "Failure": null,
+        "Canceled": true,
+        "NativeCalls": 0,
+        "Restarts": 0,
+        "GateBlocked": false
+      }
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/retained-failure-worker-0.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "result": {
+        "Failure": null,
+        "Canceled": false,
+        "NativeCalls": 0,
+        "Restarts": 0,
+        "GateBlocked": false
+      }
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/retained-failure-worker-1.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "result": {
+        "Failure": null,
+        "Canceled": false,
+        "NativeCalls": 0,
+        "Restarts": 0,
+        "GateBlocked": false
+      }
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/retained-failure-worker-2.json",
+      "sha256": "bb5a12933e3189de5613691561bb597833ab1100b09341905c06043f462d35d0",
+      "result": {
+        "Failure": null,
+        "Canceled": true,
+        "NativeCalls": 0,
+        "Restarts": 0,
+        "GateBlocked": false
+      }
+    }
+  ],
+  "scope": "Independent execution of 15 selected-language, handoff/cancellation and production-topology regressions from candidate-3. External installation/registry/restart boundaries remain controlled; no real installation or final-commit acceptance is claimed."
+}

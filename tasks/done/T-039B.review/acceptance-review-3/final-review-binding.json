@@ -1,0 +1,184 @@
+{
+  "head": "05452e0a85a36982ef8bfd22d5a981e581eeafcf",
+  "productAndTestsDiff": [],
+  "fixtureBindingErrors": [],
+  "commandRecords": [
+    {
+      "commandRecord": "architect-r3-full-run.command.json",
+      "exitCode": 0,
+      "logHashMatches": true
+    },
+    {
+      "commandRecord": "architect-r3-release-build.command.json",
+      "exitCode": 0,
+      "logHashMatches": true
+    },
+    {
+      "commandRecord": "delivery-check.command.json",
+      "exitCode": 0,
+      "logHashMatches": true
+    },
+    {
+      "commandRecord": "rollback-control-1.command.json",
+      "exitCode": 0,
+      "logHashMatches": true
+    },
+    {
+      "commandRecord": "rollback-probe-build-1.command.json",
+      "exitCode": 1,
+      "logHashMatches": true
+    },
+    {
+      "commandRecord": "rollback-probe-build-2.command.json",
+      "exitCode": 0,
+      "logHashMatches": true
+    },
+    {
+      "commandRecord": "rollback-production-1.command.json",
+      "exitCode": 1,
+      "logHashMatches": true
+    }
+  ],
+  "files": [
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/architect-r3-full-run.command.json",
+      "sha256": "9154feaa78f2db62e0908349f0373836d6d8443bff49c6b48e535e63d5225af0",
+      "bytes": 346
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/architect-r3-full-run.log",
+      "sha256": "a9d55099ce21f4ec74008738c37bc5b09478923b2c22c302d8b882c48c2bcbf9",
+      "bytes": 3864
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/architect-r3-release-build.command.json",
+      "sha256": "850abcf62155e30a18d2b22db751009345ed55a7764e7270da76df36928b2b41",
+      "bytes": 353
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/architect-r3-release-build.log",
+      "sha256": "d6b7678a4bd4e2ce89bdd7570649421615e864bdf245dda2ce41ac92f75c01ff",
+      "bytes": 1860
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/delivery-check.command.json",
+      "sha256": "dfc5bb353faf559e04f591eee46b081ef91e40ed03198bc0014f76d11af500ed",
+      "bytes": 345
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/delivery-check.json",
+      "sha256": "7d91fa7079a13fa056282812d4278cd68bc035a4980becc2b41f8573053bfc23",
+      "bytes": 428487
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/delivery-check.log",
+      "sha256": "91d5b9505c4aadd58bd8786893c7a5f3498b0d905e11348cf00ceafd631e5573",
+      "bytes": 957
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/prepare_rollback_probe.py",
+      "sha256": "a938af74253029d994d764b97b3e240b9ca7d949c2022595eb7bcf7978368cfc",
+      "bytes": 5475
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/README.md",
+      "sha256": "134c675daaf4dc646239834b703b24d766639f9107a310b2ced448c76a1c7e82",
+      "bytes": 7484
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/rollback-control-1.command.json",
+      "sha256": "a3162adb8b6b2fdf8f01848849fcdd1ba98b436d5063bc2f98fed35663ae4065",
+      "bytes": 384
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/rollback-control-1.log",
+      "sha256": "0272739eb359b9bde94058f13e8f54a3ed1780e676bd8bf7293dd8bc3eebd3be",
+      "bytes": 275
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/rollback-probe-binding.json",
+      "sha256": "286222d349a4a7d1dc93b6c8c6b9a448ffc796f10bcbd313433dd3c099661710",
+      "bytes": 24352
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/rollback-probe-build-1.command.json",
+      "sha256": "4e247616bc6b9c193ea63fa2a99e8934651beedc9b505a38a6498960f2a9bfcc",
+      "bytes": 377
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/rollback-probe-build-1.log",
+      "sha256": "94797d94341f668ff222f6530e0e1bd424ded250fce21394385400d79ec934d3",
+      "bytes": 2360
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/rollback-probe-build-2.command.json",
+      "sha256": "33005c655bcbba0afed8077f47ff2b780ce8bb9c8d27ba600d6e642c9f0c7ec3",
+      "bytes": 377
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/rollback-probe-build-2.log",
+      "sha256": "1452ec971fad3ee89397400ead0d9fd0db2dec01488edbbab05a8ce323301f33",
+      "bytes": 292
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/rollback-probe-source/Program.cs",
+      "sha256": "857f906ee7fe3ebb0c1004627e6d73498c18e127e27477472f575f95fbcdd06f",
+      "bytes": 1031
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/rollback-probe-source/Program.initial.cs.txt",
+      "sha256": "bd56d5f8793a6c1d2e7b0cbe78e1a0031738300f8bba075a59a0a78fe7ca9e9a",
+      "bytes": 1006
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/rollback-probe-source/Review.csproj",
+      "sha256": "b244a4b3df8701017487405b1b0fd526a1d6954e6119dd9a6d5776bf02917a05",
+      "bytes": 19807
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/rollback-probe-source/TempDirectory.cs",
+      "sha256": "7104a3d3894ed950c3ee362d4706c81e5c3d1d170bd171ec6b43f367143f5535",
+      "bytes": 655
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/rollback-probe-source/TestSettingsEditCoordinator.cs",
+      "sha256": "56d7da5900a677903579c30a52fff2eb649828eba5eb9b817997bb87396b52c1",
+      "bytes": 5061
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/rollback-probe-source/UpdateCoordinatorTests.cs",
+      "sha256": "2b300404e3e819ae5fac12b43ba5876b808f4e017483979f1d29d79de5881dd0",
+      "bytes": 18878
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/rollback-probe-source/UpdateHandoffLifecycleTests.cs",
+      "sha256": "ce5295cb0965720b41a6210ebecb5273da3d21f22ce4e1bd168deb5625882bf1",
+      "bytes": 11769
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/rollback-probe-source/WpfTestRunner.cs",
+      "sha256": "5dc15afa3d8f3552e0e31114159d393e509a58a7c75a5c5214bf630d05ed5fc2",
+      "bytes": 6934
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/rollback-production-1.command.json",
+      "sha256": "e6aeff9729c20da87db295b33767d5335f43d3565a5115ef79ea52e07045c3ba",
+      "bytes": 413
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/rollback-production-1.log",
+      "sha256": "ce57e10f3041c830c11998813b65276771fb18a58893f8da6d49ff1be5fe23de",
+      "bytes": 429
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/run_review.py",
+      "sha256": "f584a8a5aab416c69533269be79b417c93f2707234abcf3a83d79e20242491b5",
+      "bytes": 1573
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-3/verify_delivery.py",
+      "sha256": "476e496848b6c2b491efcf926b825d00ea417d961deb64338c16ab3ce59e20ae",
+      "bytes": 6783
+    }
+  ]
+}

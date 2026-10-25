@@ -1,0 +1,23 @@
+global using Xunit;
+using Iris.App.Tests.Updates;
+using Iris.App.Tests.TestSupport;
+bool wired = args.Contains("--production-updates");
+int result = 0;
+try
+{
+    var fixture = new UpdateHandoffLifecycleTests { WireProductionUpdates = wired };
+    await fixture.ShutdownFailureAfterHandoffPrepared_RollsBackCoordinator_AndResetsTransferredFlag();
+    Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(new { WireProductionUpdates = wired, RequirementPassed = true }));
+}
+catch (Exception error)
+{
+    result = 1;
+    Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(new { WireProductionUpdates = wired, RequirementPassed = false, ErrorType = error.GetType().Name, Detail = error.Message }));
+}
+finally
+{
+    await WpfTestRunner.CleanupWindowsAsync();
+    await WpfTestRunner.TeardownAsync(TimeSpan.FromSeconds(10));
+    Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(new { AllOwnedStaWorkJoined = !WpfTestRunner.IsStaThreadAlive }));
+}
+return result;

@@ -1,0 +1,19 @@
+{
+  "command": [
+    "dotnet",
+    "build",
+    "Review.csproj",
+    "-c",
+    "Release",
+    "--configfile",
+    "NuGet.Config",
+    "--disable-build-servers",
+    "-p:UseSharedCompilation=false",
+    "-m:1"
+  ],
+  "cwd": "F:\\Iris\\artifacts\\t039b\\independent-update-review-1",
+  "startedAt": "2026-10-15T11:12:05.155346+00:00",
+  "completedAt": "2026-10-15T11:12:10.254099+00:00",
+  "exitCode": 0,
+  "logSha256": "93454c08fce6300b8013d255d78e30a77b14626c7093e0cd7a32a6b6918f0ef3"
+}

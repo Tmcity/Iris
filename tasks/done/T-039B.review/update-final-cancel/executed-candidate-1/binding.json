@@ -1,0 +1,63 @@
+{
+  "capturedAt": "2026-10-15T08:14:45.883636+00:00",
+  "assemblies": [
+    {
+      "source": "F:\\Iris\\tests\\Iris.App.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.App.dll",
+      "copy": "F:\\Iris\\artifacts\\t039b\\independent-update-review-1\\candidate\\Iris.App.dll",
+      "sha256": "9dbea82b986f0caf3d43bc211490226bce60556bac137639724c44a7371560f1"
+    },
+    {
+      "source": "F:\\Iris\\tests\\Iris.App.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Core.dll",
+      "copy": "F:\\Iris\\artifacts\\t039b\\independent-update-review-1\\candidate\\Iris.Core.dll",
+      "sha256": "a868126bd5cab962de74b9b1d9abea00267d80ed53470048dea153a706b37b36"
+    },
+    {
+      "source": "F:\\Iris\\tests\\Iris.App.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Platform.Windows.dll",
+      "copy": "F:\\Iris\\artifacts\\t039b\\independent-update-review-1\\candidate\\Iris.Platform.Windows.dll",
+      "sha256": "6313f6503a833e60c9af9d4c027f1e95757fd17ce837e71e689e8128bfce2e08"
+    },
+    {
+      "source": "F:\\Iris\\tests\\Iris.App.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\Velopack.dll",
+      "copy": "F:\\Iris\\artifacts\\t039b\\independent-update-review-1\\candidate\\Velopack.dll",
+      "sha256": "969853e147e95b3f46192425cfea7eae8837aea79f3e2b2c7cc0aa34b5703153"
+    },
+    {
+      "source": "F:\\Iris\\tests\\Iris.App.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\Microsoft.Extensions.Http.dll",
+      "copy": "F:\\Iris\\artifacts\\t039b\\independent-update-review-1\\candidate\\Microsoft.Extensions.Http.dll",
+      "sha256": "5f1f986dda7614d800aac232d54ef229c7e557c54a70b060d71752897e26c9bd"
+    },
+    {
+      "source": "F:\\Iris\\tests\\Iris.App.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\Microsoft.Extensions.Logging.Abstractions.dll",
+      "copy": "F:\\Iris\\artifacts\\t039b\\independent-update-review-1\\candidate\\Microsoft.Extensions.Logging.Abstractions.dll",
+      "sha256": "7c242f8ca612fa1acc61f78efd5f8c89e01bd0bd47dc4ecc65e0e6e24f1a1668"
+    },
+    {
+      "source": "F:\\Iris\\tests\\Iris.App.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "copy": "F:\\Iris\\artifacts\\t039b\\independent-update-review-1\\candidate\\Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "sha256": "da04edc338d5aa0f38a1f5fa5ff3ee7e36affe9c961daf3ea724a428bd746bc6"
+    },
+    {
+      "source": "F:\\Iris\\tests\\Iris.App.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\WinRT.Runtime.dll",
+      "copy": "F:\\Iris\\artifacts\\t039b\\independent-update-review-1\\candidate\\WinRT.Runtime.dll",
+      "sha256": "bcf3a14e8712a90837fc5c0d8c8a24696af2bd7f74e9767597ec81ededfb23db"
+    },
+    {
+      "source": "F:\\Iris\\tests\\Iris.App.Tests\\bin\\Release\\net10.0-windows10.0.19041.0\\Microsoft.Windows.SDK.NET.dll",
+      "copy": "F:\\Iris\\artifacts\\t039b\\independent-update-review-1\\candidate\\Microsoft.Windows.SDK.NET.dll",
+      "sha256": "0ec371d93798852e36461c8adddbeadce0f963a04752f0b64e54fe19c1c834a7"
+    }
+  ],
+  "probeSources": [
+    {
+      "name": "Program.cs",
+      "sha256": "8d8dad4ce4c881deb3cc28baec71be8e1d25ada2fc6d9f4be90f8b94a5347a35"
+    },
+    {
+      "name": "CrossProcessSdkLock.cs",
+      "sha256": "f7fd07a500cb56a8983f93362814cf6cb4b288650f2cee09d38789d626a4b335"
+    }
+  ],
+  "sourceToBinaryBuildBinding": "Must be established separately against the final stable build; this record binds binary inputs only.",
+  "productRebuilt": false,
+  "probeCompiledOrRun": false
+}

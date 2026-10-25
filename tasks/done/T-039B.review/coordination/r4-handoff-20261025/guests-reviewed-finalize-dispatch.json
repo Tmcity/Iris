@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-25T06:35:53.909448+00:00",
+  "messageSha256": "c5d1c7f60744b58b448ad992a9a9df51c58b550a2685ccea707aacd5f9baa891",
+  "exitCode": 0,
+  "stdout": "{\n  \"queueResult\": \"Queued message 01a171c5-d897-7060-b3cc-571565824333 for thread 01a16ef2-a0bb-71a1-8230-57165c05cc5b.\"\n}\n",
+  "stderr": "",
+  "scope": "R4 finalization after independently reviewed real guests; not project completion."
+}

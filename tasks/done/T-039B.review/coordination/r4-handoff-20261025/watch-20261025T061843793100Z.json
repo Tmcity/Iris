@@ -1,0 +1,23 @@
+{
+  "observedAt": "2026-10-25T06:18:43.793100+00:00",
+  "threadId": "01a16ef2-a0bb-71a1-8230-57165c05cc5b",
+  "turnId": "01a1719c-a8d0-7e43-891b-3842d7c4c14b",
+  "status": "interrupted",
+  "completedAt": null,
+  "error": null,
+  "previousItemCount": 150,
+  "itemCount": 154,
+  "newVisibleItems": [
+    {
+      "type": "commandExecution",
+      "id": "exec-b3e2f533-c092-4713-bbcd-0a3fce621f76",
+      "command": "\"C:\\\\Users\\\\28910\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -Command \"Get-Content -Raw tasks\\\\done\\\\T-039B.evidence\\\\r4\\\\guest-install-r4-6\\\\result-summary.json; Get-Content -Raw tasks\\\\done\\\\T-039B.evidence\\\\r4\\\\guest-install-r4-6\\\\output\\\\processes-final.json; Get-Content -Raw tasks\\\\done\\\\T-039B.evidence\\\\r4\\\\guest-install-r4-6\\\\list-after.log; Get-Content -LiteralPath tasks\\\\done\\\\T-039B.evidence\\\\r4\\\\guest-install-r4-6\\\\output\\\\Velopack_velopack.log -Tail 9; Get-Content -Raw tasks\\\\done\\\\T-039B.evidence\\\\r4\\\\guest-run-manifest.json\"",
+      "status": "completed",
+      "exitCode": 0
+    },
+    {
+      "type": "agentMessage",
+      "text": "安装及运行中静默保留卸载已完成：34 个观察记录、15 个布尔断言，无失败；真实 Iris、UiaHost 和维护拥有者均已退出，来宾已停止，Sandbox 列表为空。已查看 0.2.0 安装后截图。现在启动独立干净来宾 `guest-update-r4-1`，验证 0.2.0→0.2.1 full 包更新。\n"
+    }
+  ]
+}

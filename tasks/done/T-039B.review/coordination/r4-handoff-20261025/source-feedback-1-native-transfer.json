@@ -1,0 +1,14 @@
+{
+  "observedAt": "2026-10-24T18:40:56.022991+00:00",
+  "reason": "Transfer one pending own supplement to the verified desktop composer for same-turn steering; do not duplicate or touch received messages.",
+  "actions": [
+    {
+      "method": "thread/queue/delete",
+      "id": "01a16f34-93ff-7862-a48d-5e694ab2eccb",
+      "result": {
+        "deleted": true
+      }
+    }
+  ],
+  "ownPendingCopyAbsent": true
+}

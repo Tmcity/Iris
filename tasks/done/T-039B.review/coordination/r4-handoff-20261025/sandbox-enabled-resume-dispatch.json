@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-25T05:54:56.928218+00:00",
+  "messageSha256": "81048f25291120ba6045f8ed5e589d556f874e5a0dba30e33f289647c8be7786",
+  "exitCode": 0,
+  "stdout": "{\n  \"queueResult\": \"Queued message 01a171a0-5b07-7390-b6ec-d2f1fd9a439b for thread 01a16ef2-a0bb-71a1-8230-57165c05cc5b.\"\n}\n",
+  "stderr": "",
+  "scope": "Continue same R4 after user restored prerequisite. Queue ack is not engineer acceptance."
+}

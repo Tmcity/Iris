@@ -1,0 +1,29 @@
+{
+  "scope": "Independent current-source/compiled/catalog audit; no product build or installer executed.",
+  "sourceEntries": 1197,
+  "compiledResourceValuesMatched": 1230,
+  "unapproved": 0,
+  "resourceErrors": 0,
+  "originalCatalogPairsUnchanged": 457,
+  "approvedNewPairs": 5,
+  "currentAppKeys": 462,
+  "exceptionManifestSha256": "2d620105575400696d1f567460d883cf050ff511b49b6f64d5ea0b5192eb9a75",
+  "inputs": [
+    {
+      "path": "build/localization/app-catalog.json",
+      "sha256": "e4cc49f8c86a5600bc97923b78e70a2abe8c86295308161031857fea547f1724"
+    },
+    {
+      "path": "build/localization/exceptions.json",
+      "sha256": "2d620105575400696d1f567460d883cf050ff511b49b6f64d5ea0b5192eb9a75"
+    },
+    {
+      "path": "src/Iris.App/Services/GeneralSettingsSaveCoordinator.cs",
+      "sha256": "f4161a380965be00d7f902c29baaa93f4497ec48ebaece5ce01534fbdf34a80c"
+    },
+    {
+      "path": "src/Iris.App/Updates/UpdateHandoff.cs",
+      "sha256": "6863c3f81f6eb644364b27dfebc94607f4372c550945b90d2fcfda2de398ee14"
+    }
+  ]
+}

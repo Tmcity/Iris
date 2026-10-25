@@ -1,0 +1,289 @@
+{
+  "observedAt": "2026-10-25T07:14:44.772928+00:00",
+  "head": "535ec1693ee4a656524bb1b0403d68ab7ce8ccfd",
+  "engineeringEvidenceRecordsInCommitAndByteMatched": 859,
+  "boundRecordsCheckedOnDisk": 905,
+  "architectEvidenceDeferredToAcceptanceCommit": [
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-candidate2-1.log",
+      "sha256": "8b91b833fff1dba42aae12bd263f5d8e73d76e3285f50f34b647558261eed458",
+      "gitBlobWithoutFilters": "945e814c3774fa2be7cd803bb8e9f4bce48c88b8",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-candidate2-1.command.json",
+      "sha256": "c052b6e9ebde8364da6f8d197097f3fef57b197a550f7008435acc9e1dbaa0b9",
+      "gitBlobWithoutFilters": "69d9e3e06328638ce82bf8a76a13966b45fce976",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-candidate2-binding.json",
+      "sha256": "12d6254c42b0888b97f76695ecbf0c95d717fc9b4ca8ef4e5fadaf134fb3901c",
+      "gitBlobWithoutFilters": "adfb32ed5c3e7697710b63b4795f22a5ab0ae7e8",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/candidate-check-2.json",
+      "sha256": "0ef6ebcac814837c82f0521038b1a6e8a8fa375349ef9b260170dfbf2d8c9206",
+      "gitBlobWithoutFilters": "5a6b09749596a585431916280f8b7d2570527c55",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/candidate-check-2.log",
+      "sha256": "a7c70d02343254f9741942242a5b59d580bbe970e13b6601f862f829ac2c9f53",
+      "gitBlobWithoutFilters": "94a4930bfb930cb57ed09d4868dae2d9badcbb31",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/candidate-check-2.command.json",
+      "sha256": "b08b1fc6a76f769a023605a5d413522f1e4ea22f8c8e94f88e0c76b3d05eadbb",
+      "gitBlobWithoutFilters": "7dfa43853f1ae515853275ef843dce51dcdae9e9",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/recovery-ui/after-observation-1/reviewed.json",
+      "sha256": "dadbe84862c9277dac97b3e3afa5c5e83da33eefe79b29d3b68b1039836de560",
+      "gitBlobWithoutFilters": "a3986f0e995378303c8943cb637d5fb4e4d1d617",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-reports/28910_SKYRIU-PC_2026-10-24_20_45_09.236867.xunit.xml",
+      "sha256": "eb6b84a74c2b491451864ef5a1d3a900e136e1cb34312f8de7c46274a4decf8c",
+      "gitBlobWithoutFilters": "07974fc18c1f8602f28cde877a5e57a9b75ee81d",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/cancel-transferred-worker-0.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "gitBlobWithoutFilters": "038124c1c1cda9686d734b2d569b156d2f4d7c0c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/cleanup-failure-then-success-worker-0.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "gitBlobWithoutFilters": "038124c1c1cda9686d734b2d569b156d2f4d7c0c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/cleanup-failure-then-success-worker-1.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "gitBlobWithoutFilters": "038124c1c1cda9686d734b2d569b156d2f4d7c0c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/disposed-failure-worker-0.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "gitBlobWithoutFilters": "038124c1c1cda9686d734b2d569b156d2f4d7c0c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/disposed-failure-worker-1.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "gitBlobWithoutFilters": "038124c1c1cda9686d734b2d569b156d2f4d7c0c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/disposed-failure-worker-2.json",
+      "sha256": "bb5a12933e3189de5613691561bb597833ab1100b09341905c06043f462d35d0",
+      "gitBlobWithoutFilters": "9368d7b1c687a6e8322d6fe69cf2148037eb8d7c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/retained-failure-worker-0.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "gitBlobWithoutFilters": "038124c1c1cda9686d734b2d569b156d2f4d7c0c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/retained-failure-worker-1.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "gitBlobWithoutFilters": "038124c1c1cda9686d734b2d569b156d2f4d7c0c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/retained-failure-worker-2.json",
+      "sha256": "bb5a12933e3189de5613691561bb597833ab1100b09341905c06043f462d35d0",
+      "gitBlobWithoutFilters": "9368d7b1c687a6e8322d6fe69cf2148037eb8d7c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-candidate3-1.log",
+      "sha256": "7defacc860f93efdbc4e832fcad10ce7834d5bdb4d9f1f3ef67fc2667049456d",
+      "gitBlobWithoutFilters": "58a3d4418eb4f7a9f2c16fc50e7c91df3ea7048c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-candidate3-1.command.json",
+      "sha256": "28daf150dffb05f517f9e1a9667cfe546466242ff35f6fe3730de0a02d27c96c",
+      "gitBlobWithoutFilters": "21f1ca46beb451fb9af987da7ea2b26b492ce93c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-candidate3-binding.json",
+      "sha256": "a2b924067d2dab5b4bfa5648d8f657c65bdd31ff0dd1c4be8b50c58d66d9114d",
+      "gitBlobWithoutFilters": "3c0dc90eb7d0a2e5415c14fac53713bb4c6934bc",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/candidate-check-3.json",
+      "sha256": "f797379976b3ef3c4295f7c5617e6b453a1679657b59c53bb9667e4c727848eb",
+      "gitBlobWithoutFilters": "b0f8241e6fa6397946565e513904831926f9e46e",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/candidate-check-3.log",
+      "sha256": "24c680039c5b0f8c6b4b38bd5c6d2bc78fd85f2e79985b73ae57cba1b3cce9ee",
+      "gitBlobWithoutFilters": "118fa1812fb9fae9d0b4c053b7665151ffeaf489",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/candidate-check-3.command.json",
+      "sha256": "01874cab96523919bedba758fc579e386ef0dca4fbd011321458d8659f74e0af",
+      "gitBlobWithoutFilters": "74c1cd82f9bb54c21572b82490d1f2e95ba47ac9",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/recovery-ui/candidate3-visual-carry-forward.json",
+      "sha256": "bc2bb415152d7a822247ce35881a38584206ee3a2b9f1165485db7f43730e112",
+      "gitBlobWithoutFilters": "7ac92723e49d18ce5ed9c59323eeefe715d0a82c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/localization-after-1/verification.json",
+      "sha256": "78f77268453bb717edf3a6977f9ffcac52c86bc861af19c2cdaeb9b79743f9a9",
+      "gitBlobWithoutFilters": "cfb126df08eb756740d9d6df80e3a5b69efb21fb",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/localization-after-1/README.md",
+      "sha256": "07e7b2b58b956e278de28978e4ce6b3bd148379db0037277f1a2dd4f6e9c1812",
+      "gitBlobWithoutFilters": "5caabd87daeec5336f426a203f4442ee7d66580b",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/localization-after-1/audit-result.json",
+      "sha256": "c699dc9332b3b6350104c813726dafa7c511bfc5edfced99b68de95f32b92a08",
+      "gitBlobWithoutFilters": "0a46cd3472c0d5dd88815b4d2878c5e9c283c676",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/localization-inventory-after-independent-1.log",
+      "sha256": "de53736ab2cb90ed8710cb21064f11cc42a8b53ffe0134e71db441ca4b36e282",
+      "gitBlobWithoutFilters": "96cb607eb56d5a10061e6dc7301ed467ff77c8ca",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/localization-inventory-after-independent-1.command.json",
+      "sha256": "48ac3ece565240fa5565d8a41dbd5e7c25a333c4ecfa566b6d31ffd4e880aa02",
+      "gitBlobWithoutFilters": "ec6970276a92b80fb8acb28b9342fb39c0f6a675",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/localization-catalog-after-independent-1.log",
+      "sha256": "c0d037d1e96830d85bc8c7d13b286cc82d84f97ac11e9520e9e08b5ed50b63d1",
+      "gitBlobWithoutFilters": "3d4c849bb247ce1994d49c4cdf2f5e957bc7e685",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/localization-catalog-after-independent-1.command.json",
+      "sha256": "d5e617943714b7c706ddb24c1f86be12db3fc06e85a80ab7b40e5f775570e586",
+      "gitBlobWithoutFilters": "5625fb62927fa1573f77808446e8ecf2c73831ac",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-reports/28910_SKYRIU-PC_2026-10-24_22_02_42.783910.xunit.xml",
+      "sha256": "8c27198b75dfa23e11d911618fb2c505371fe200218b41466313290431e1599e",
+      "gitBlobWithoutFilters": "7ac2f6cd93e3799123d02f006ea0b42b88f21e4b",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/cancel-transferred-worker-0.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "gitBlobWithoutFilters": "038124c1c1cda9686d734b2d569b156d2f4d7c0c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/cleanup-failure-then-success-worker-0.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "gitBlobWithoutFilters": "038124c1c1cda9686d734b2d569b156d2f4d7c0c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/cleanup-failure-then-success-worker-1.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "gitBlobWithoutFilters": "038124c1c1cda9686d734b2d569b156d2f4d7c0c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/disposed-failure-worker-0.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "gitBlobWithoutFilters": "038124c1c1cda9686d734b2d569b156d2f4d7c0c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/disposed-failure-worker-1.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "gitBlobWithoutFilters": "038124c1c1cda9686d734b2d569b156d2f4d7c0c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/disposed-failure-worker-2.json",
+      "sha256": "bb5a12933e3189de5613691561bb597833ab1100b09341905c06043f462d35d0",
+      "gitBlobWithoutFilters": "9368d7b1c687a6e8322d6fe69cf2148037eb8d7c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/retained-failure-worker-0.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "gitBlobWithoutFilters": "038124c1c1cda9686d734b2d569b156d2f4d7c0c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/retained-failure-worker-1.json",
+      "sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266",
+      "gitBlobWithoutFilters": "038124c1c1cda9686d734b2d569b156d2f4d7c0c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/retained-failure-worker-2.json",
+      "sha256": "bb5a12933e3189de5613691561bb597833ab1100b09341905c06043f462d35d0",
+      "gitBlobWithoutFilters": "9368d7b1c687a6e8322d6fe69cf2148037eb8d7c",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/host-isolation-enabled-1.json",
+      "sha256": "c2804e712c5aa1b4e65f8e957059fce955b206256ff17eb2e33e29770db11095",
+      "gitBlobWithoutFilters": "f23f46fa3a896f5b48c381ed466d0cd84384a714",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/sandbox-list-enabled-1.log",
+      "sha256": "90255a0b24d45da9c2280c4628d0e08d80902949213f5f5f76d7f282b678a6bb",
+      "gitBlobWithoutFilters": "67b1de476ed78a5b1917492b7b22cbf6a19f839f",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/sandbox-list-enabled-1.command.json",
+      "sha256": "bdc6422579cedafcd0b951114c9dee7e98303c0122dd58bc394f882ded3c416b",
+      "gitBlobWithoutFilters": "09722b915420c7784a2f1d6217809b7bcbd65e85",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/guests-independent-final8-1.json",
+      "sha256": "bb5854eb842f86bb865f1ec5ac2501091bfb99c1a76cea888b527ccd8d9eedcf",
+      "gitBlobWithoutFilters": "b212ec96c4b5ef29e84373387dadb832b6c1c171",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/guests-independent-final8-1.command.json",
+      "sha256": "f61f1971848715829f0ef43f03b30af70692acac4997180805484f74b435aec7",
+      "gitBlobWithoutFilters": "75196f1d125a5985d4074aaaf612b271b076aae3",
+      "status": "Architect evidence intentionally uncommitted by engineer; to be archived with acceptance"
+    }
+  ],
+  "sourceFilesMatchedToCommit": 702,
+  "sourceGitTree": "d7ca8024ba8a7feea9fa75c61d7785b1edd77b5a",
+  "failures": [],
+  "priorCheckerCorrection": "Attempt 1 incorrectly required the engineer to commit architect review files even though current instructions explicitly left those uncommitted. All those raw files matched their declared SHA; the failed assertion was a review scope assumption, not a product or log-byte failure. Raw attempt 1 remains.",
+  "bindingSha256": "a1920cb03c8c167007830814110fc60bb649e2d6ffeea5f50662be2eb6ba65f4"
+}

@@ -1,0 +1,17 @@
+{
+  "command": [
+    "python",
+    "build\\localization\\audit.py",
+    "--root",
+    "F:\\Iris",
+    "--inventory",
+    "F:\\Iris\\tasks\\done\\T-039B.review\\acceptance-review-4\\localization-after-1\\source-inventory.json",
+    "--output",
+    "F:\\Iris\\tasks\\done\\T-039B.review\\acceptance-review-4\\localization-after-1\\audit-result.json"
+  ],
+  "cwd": "F:\\Iris",
+  "startedAt": "2026-10-24T21:42:31.902925+00:00",
+  "completedAt": "2026-10-24T21:42:32.025156+00:00",
+  "exitCode": 0,
+  "logSha256": "c0d037d1e96830d85bc8c7d13b286cc82d84f97ac11e9520e9e08b5ed50b63d1"
+}

@@ -1,0 +1,316 @@
+{
+  "observedAt": "2026-10-25T07:11:21.632168+00:00",
+  "head": "535ec1693ee4a656524bb1b0403d68ab7ce8ccfd",
+  "base": "05452e0a85a36982ef8bfd22d5a981e581eeafcf",
+  "commitParents": "0bc11fc7bbd099eaf205717fadb1cfd7b4f87007",
+  "sourceFilesChecked": 702,
+  "exactRawEvidenceRecordsChecked": 905,
+  "failures": [
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-candidate2-1.log",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-candidate2-1.command.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-candidate2-binding.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/candidate-check-2.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/candidate-check-2.log",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/candidate-check-2.command.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/recovery-ui/after-observation-1/reviewed.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-reports/28910_SKYRIU-PC_2026-10-24_20_45_09.236867.xunit.xml",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/cancel-transferred-worker-0.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/cleanup-failure-then-success-worker-0.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/cleanup-failure-then-success-worker-1.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/disposed-failure-worker-0.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/disposed-failure-worker-1.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/disposed-failure-worker-2.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/retained-failure-worker-0.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/retained-failure-worker-1.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-1-results/retained-failure-worker-2.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-candidate3-1.log",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-candidate3-1.command.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-candidate3-binding.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/candidate-check-3.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/candidate-check-3.log",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/candidate-check-3.command.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/recovery-ui/candidate3-visual-carry-forward.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/localization-after-1/verification.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/localization-after-1/README.md",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/localization-after-1/audit-result.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/localization-inventory-after-independent-1.log",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/localization-inventory-after-independent-1.command.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/localization-catalog-after-independent-1.log",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/localization-catalog-after-independent-1.command.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-reports/28910_SKYRIU-PC_2026-10-24_22_02_42.783910.xunit.xml",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/cancel-transferred-worker-0.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/cleanup-failure-then-success-worker-0.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/cleanup-failure-then-success-worker-1.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/disposed-failure-worker-0.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/disposed-failure-worker-1.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/disposed-failure-worker-2.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/retained-failure-worker-0.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/retained-failure-worker-1.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/independent-runtime-2-results/retained-failure-worker-2.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/host-isolation-enabled-1.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/sandbox-list-enabled-1.log",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/sandbox-list-enabled-1.command.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/guests-independent-final8-1.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    },
+    {
+      "path": "tasks/done/T-039B.review/acceptance-review-4/guests-independent-final8-1.command.json",
+      "workingHashMatches": true,
+      "rawWorkingBytesMatchCommit": false,
+      "presentInCommit": false
+    }
+  ],
+  "changedImplementationFiles": [
+    "Iris.slnx",
+    "build/localization/app-catalog.json",
+    "src/Iris.App/Hosting/AppBootstrapper.cs",
+    "src/Iris.App/Resources/Strings.en-US.resx",
+    "src/Iris.App/Resources/Strings.resx",
+    "src/Iris.App/Services/AppLifetime.cs",
+    "src/Iris.App/Services/GeneralSettingsSaveCoordinator.cs",
+    "src/Iris.App/Settings/SettingsViewModel.Updates.cs",
+    "src/Iris.App/Settings/SettingsWindowPresenter.cs",
+    "src/Iris.App/Settings/SettingsWindowSession.cs",
+    "src/Iris.App/UiText.Updates.cs",
+    "src/Iris.App/Updates/AppUpdateCoordinator.cs",
+    "src/Iris.App/Updates/UpdateHandoff.cs",
+    "src/Iris.App/Updates/UpdateHandoffEnvironment.cs",
+    "src/Iris.App/Updates/UpdateRecoveryWindow.cs",
+    "tests/Iris.App.Tests/Iris.App.Tests.csproj",
+    "tests/Iris.App.Tests/Updates/UpdateCoordinatorTests.cs",
+    "tests/Iris.App.Tests/Updates/UpdateHandoffLifecycleTests.cs",
+    "tests/Iris.App.Tests/Updates/UpdateHandoffTests.cs",
+    "tests/Iris.App.Tests/Updates/UpdateRecoveryRenderingTests.cs",
+    "tests/Iris.UpdateHandoffWorker/Iris.UpdateHandoffWorker.csproj",
+    "tests/Iris.UpdateHandoffWorker/Program.cs"
+  ],
+  "protectedFilesChanged": [],
+  "binaryExtensionsInR4Commit": [],
+  "currentTaskExists": false,
+  "completionStatus": "ReadyForIndependentReview",
+  "guestScope": "Only newly owned clean Sandbox instances. Optional runtime prefetch places SHA512/Authenticode-verified official Microsoft bytes in the normal Downloads cache without installing .NET; production final-8 Setup still owns runtime detection and actual installation. No claim that the vendor's complete internet download succeeded. Public DNS was a failed guest-only experiment, not used by successful scenarios. No host network/product installation changes.",
+  "bindingSha256": "a1920cb03c8c167007830814110fc60bb649e2d6ffeea5f50662be2eb6ba65f4"
+}

@@ -1,0 +1,5159 @@
+{
+  "observedHead": "05452e0a85a36982ef8bfd22d5a981e581eeafcf",
+  "scope": "Source snapshot, fixed tested binaries and final-7 package bytes only; no final commit, independent tests, installer execution or guest completion is claimed.",
+  "sourceBindingSha256": "b02f8424c131f4e5c3c02df07bba2e528e7adcae6b491734b96adec214af0ad3",
+  "verifierSha256": "1d4c2f16e71d3f33c7d07c507d57286cac6dec02661501ec5ba8c22ed0448bbd",
+  "sourceFiles": 702,
+  "testedFiles": 321,
+  "checks": 1258,
+  "passed": 1258,
+  "failures": [],
+  "packages": [
+    {
+      "version": "0.2.0",
+      "payloadEntries": 97,
+      "topLevelFiles": 8,
+      "fullFeedEntries": 1,
+      "files": [
+        {
+          "name": "Iris-0.2.0-Setup.exe",
+          "bytes": 116744113,
+          "sha256": "b3838173106def0da1caedcf365750b58916d5eb91a1a704586970708ad463c6"
+        },
+        {
+          "name": "Iris-0.2.0-full.nupkg",
+          "bytes": 64616257,
+          "sha256": "4932a3955c9cea8e931b418232b118c83a72d1de4d55118bb15288c233baaebb"
+        },
+        {
+          "name": "RELEASES",
+          "bytes": 74,
+          "sha256": "4f3c9e58ccb9c11eb3a719e545b6e59ab38e98cf0199a07e3e8b3c3adae394ae"
+        },
+        {
+          "name": "SHA256.json",
+          "bytes": 1176,
+          "sha256": "50611d50c1301f380f3303c974f0852591a531687a5c02788571995b05e23be6"
+        },
+        {
+          "name": "assets.win.json",
+          "bytes": 121,
+          "sha256": "41f4f0ac35790a4b43daa05c334773e4be24a5d7f6c0b1a2ba1b38b6408c192c"
+        },
+        {
+          "name": "payload-manifest.json",
+          "bytes": 17644,
+          "sha256": "6e2cdf39734e3736ddf4e34d1911bc5a0d4f2ce7d30a94f4a960accca0678e06"
+        },
+        {
+          "name": "releases.win.json",
+          "bytes": 242,
+          "sha256": "ad5f496c9609eda992a5a070c0d3d42552be0e1cefd279219fb452868172a220"
+        },
+        {
+          "name": "staging-manifest.json",
+          "bytes": 18533,
+          "sha256": "e71b6c304c996a4e29d9cd6cfba7395f528bf5b34a77129d547c1d6e344a1608"
+        }
+      ]
+    },
+    {
+      "version": "0.2.1",
+      "payloadEntries": 97,
+      "topLevelFiles": 10,
+      "fullFeedEntries": 2,
+      "files": [
+        {
+          "name": "Iris-0.2.0-full.nupkg",
+          "bytes": 64616257,
+          "sha256": "4932a3955c9cea8e931b418232b118c83a72d1de4d55118bb15288c233baaebb"
+        },
+        {
+          "name": "Iris-0.2.1-Setup.exe",
+          "bytes": 116744119,
+          "sha256": "3f0f2fd370e344095fc398fe74b5de7eea80b6c3b5dda8ae86a4963a880074c0"
+        },
+        {
+          "name": "Iris-0.2.1-delta.nupkg",
+          "bytes": 483021,
+          "sha256": "4018648335fac9949a16a208eed6b6136a1c3324397042999df1d43c83610d8c"
+        },
+        {
+          "name": "Iris-0.2.1-full.nupkg",
+          "bytes": 64616261,
+          "sha256": "ccbabcc823e5617a1f8b5facca65b155dcf48b181099d5ae2a18c8e195620b9f"
+        },
+        {
+          "name": "RELEASES",
+          "bytes": 146,
+          "sha256": "2315f6d7c6fd06a4f85b8a417380785bf64caafe61c1de26d20ad9b069db0acb"
+        },
+        {
+          "name": "SHA256.json",
+          "bytes": 1524,
+          "sha256": "38813736f9218fcc9189fe437335deaf18240b3b0e3d31ff1f485b846b3bb766"
+        },
+        {
+          "name": "assets.win.json",
+          "bytes": 182,
+          "sha256": "8969124804bbc357eeb559fad9220954147dceeee2790d6503347443c935cd4d"
+        },
+        {
+          "name": "payload-manifest.json",
+          "bytes": 17644,
+          "sha256": "6df649a112134c33f74d381ae600808da4fb0dc0091d4133d5351819eb4888d6"
+        },
+        {
+          "name": "releases.win.json",
+          "bytes": 702,
+          "sha256": "2a7ae2c2f9ad77faa6e9ad8a231116ad79139c90e764a346b6e406b7c4b10642"
+        },
+        {
+          "name": "staging-manifest.json",
+          "bytes": 18533,
+          "sha256": "b3aa08160e7dd47a56eaef70476147981b03e78abbfc735f18b5cf3a548ee19c"
+        }
+      ]
+    }
+  ],
+  "records": [
+    {
+      "name": "source-path-set",
+      "passed": true,
+      "bound": 702,
+      "current": 702
+    },
+    {
+      "name": "source:.github/workflows/desktop-release.yml",
+      "passed": true
+    },
+    {
+      "name": "source:Directory.Build.props",
+      "passed": true
+    },
+    {
+      "name": "source:Directory.Packages.props",
+      "passed": true
+    },
+    {
+      "name": "source:Iris.slnx",
+      "passed": true
+    },
+    {
+      "name": "source:build/LocalizationAudit/LocalizationAudit.csproj",
+      "passed": true
+    },
+    {
+      "name": "source:build/LocalizationAudit/Migration.cs",
+      "passed": true
+    },
+    {
+      "name": "source:build/LocalizationAudit/Program.cs",
+      "passed": true
+    },
+    {
+      "name": "source:build/audit-localization.ps1",
+      "passed": true
+    },
+    {
+      "name": "source:build/localization/README.md",
+      "passed": true
+    },
+    {
+      "name": "source:build/localization/app-catalog.json",
+      "passed": true
+    },
+    {
+      "name": "source:build/localization/app.en.json",
+      "passed": true
+    },
+    {
+      "name": "source:build/localization/audit.py",
+      "passed": true
+    },
+    {
+      "name": "source:build/localization/core-catalog.json",
+      "passed": true
+    },
+    {
+      "name": "source:build/localization/errors.en.json",
+      "passed": true
+    },
+    {
+      "name": "source:build/localization/errors.zh.json",
+      "passed": true
+    },
+    {
+      "name": "source:build/localization/exceptions.json",
+      "passed": true
+    },
+    {
+      "name": "source:build/localization/generic-catalog.json",
+      "passed": true
+    },
+    {
+      "name": "source:build/localization/generic.en.json",
+      "passed": true
+    },
+    {
+      "name": "source:build/localization/maintenance-catalog.json",
+      "passed": true
+    },
+    {
+      "name": "source:build/localization/migration-plan.json",
+      "passed": true
+    },
+    {
+      "name": "source:build/localization/probe_exceptions.py",
+      "passed": true
+    },
+    {
+      "name": "source:build/localization/review_images.py",
+      "passed": true
+    },
+    {
+      "name": "source:build/measure-startup.ps1",
+      "passed": true
+    },
+    {
+      "name": "source:build/pack.ps1",
+      "passed": true
+    },
+    {
+      "name": "source:global.json",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/App.xaml",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/App.xaml.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/AssemblyInfo.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Capture/ScreenshotErrors.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Capture/ScreenshotFrameView.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Capture/ScreenshotNative.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Capture/ScreenshotOverlayWindow.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Capture/ScreenshotPreparationCoordinator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Capture/ScreenshotSelection.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Capture/ScreenshotService.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Capture/WindowPreparationIntent.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/History/HistoryViewModel.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/History/HistoryWindow.xaml",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/History/HistoryWindow.xaml.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/History/HistoryWindowPresenter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/History/HistoryWindowSession.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/ActionDispatcher.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/AppBootstrapper.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/AppHostBuilder.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/CommandLineParser.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/ExitActionHandler.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/FatalErrorFormatter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/GlobalExceptionHandler.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/HotkeyCoordinator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/HotkeyRecordingCoordinator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/HotkeyRuntimeModels.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/IUiDispatcher.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/IpcCommandCoordinator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/IrisLogging.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/LogLevelController.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/NotificationThrottle.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/StartupRuntime.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/WpfHostLifetime.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Hosting/WpfUiDispatcher.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Iris.App.csproj",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Program.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Resources/AppLanguage.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Resources/AppResources.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Resources/Icons/iris.ico",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Resources/Strings.en-US.resx",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Resources/Strings.resx",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Selection/SelectionIconController.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Selection/SelectionIconNative.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Selection/SelectionIconWindow.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Services/AppLifetime.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Services/GeneralSettingsSaveCoordinator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Services/ScreenshotOcrFeedback.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Services/SelectionReadCoordinator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Services/SettingsApplyReceiptManager.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Services/ThemeService.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Services/TrayNotificationService.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/DraftValue.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/HistorySettingsDraftViewModel.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/HotkeyItemDraftViewModel.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/HotkeyRecorderBox.xaml",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/HotkeyRecorderBox.xaml.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/NetworkSettingsDraftViewModel.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/OcrProfileDraftViewModel.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/OcrSettingsDraftViewModel.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/RelayCommand.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/SelectionSettingsDraftViewModel.Mouse.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/SelectionSettingsDraftViewModel.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/SettingsDraftOperationQueue.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/SettingsViewModel.Language.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/SettingsViewModel.Mouse.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/SettingsViewModel.Network.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/SettingsViewModel.Ocr.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/SettingsViewModel.UpdatePreference.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/SettingsViewModel.Updates.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/SettingsViewModel.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/SettingsWindow.xaml",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/SettingsWindow.xaml.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/SettingsWindowPresenter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/SettingsWindowSession.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Translation/ITranslateWindowShutdownCoordinator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Translation/NativeWindowPlacementAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Translation/ProviderResultCardViewModel.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Translation/TranslateWindow.xaml",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Translation/TranslateWindow.xaml.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Translation/TranslateWindowOperation.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Translation/TranslateWindowPresenter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Translation/TranslateWindowViewModel.Ocr.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Translation/TranslateWindowViewModel.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Translation/TranslationDeltaBuffer.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Translation/WindowPlacementHelper.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Tray/ITrayNotificationNative.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Tray/TrayCreationRetryPolicy.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Tray/TrayIconController.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/UiText.Extra.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/UiText.History.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/UiText.Ipc.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/UiText.Language.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/UiText.Network.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/UiText.Updates.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/UiText.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Updates/AppUpdateCoordinator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Updates/UpdateHandoff.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Updates/UpdateHandoffEnvironment.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Updates/UpdateHttpDownloader.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Updates/UpdateRecoveryWindow.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Updates/UpdateRuntime.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Updates/ValidatedUpdateSource.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/Updates/VelopackStartup.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.App/app.manifest",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Actions/Ipc.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Actions/IrisAction.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Common/ProviderModels.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/DependencyInjection/CoreServiceCollectionExtensions.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/DependencyInjection/OcrProviderConfigurationObserver.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/DependencyInjection/TranslationProviderConfigurationObserver.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Diagnostics/LogText.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Errors/ErrorCode.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Errors/ErrorInfo.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Errors/ErrorMessages.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Errors/IrisException.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/IO/AtomicFile.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Imaging/Geometry.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Imaging/ImageData.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Iris.Core.csproj",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Languages/ILanguageCatalog.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Languages/ILanguageDetector.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Languages/LanguageCatalog.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Languages/LanguageCodes.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Languages/LanguageModels.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Languages/ScriptLanguageDetector.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Languages/TargetLanguageResolver.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Languages/UnicodeScripts.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Localization/CoreText.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Localization/Strings.en-US.resx",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Localization/Strings.resx",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Localization/UiLanguage.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Network/NetworkAddressClassifier.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Network/NetworkModels.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Network/NetworkProxyCodec.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Ocr/IOcrProvider.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Ocr/OcrModels.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Ocr/OcrProviderRegistry.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Ocr/OcrRegistrySnapshot.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Ocr/OcrService.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Ocr/OcrTextNormalizer.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Platform/DesktopModels.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Platform/IClipboardService.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Platform/IHotkeyCaptureService.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Platform/IHotkeyService.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Platform/IMouseSelectionMonitor.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Platform/IScreenCapturer.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Platform/ISelectionTextReader.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Presentation/PresentationPorts.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Security/ISecretStore.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Serialization/IrisJson.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Settings/AppSettings.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Settings/HotkeyBinding.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Settings/HotkeyBindingPolicy.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Settings/IHotkeyBindingPolicy.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Settings/IProviderConfigurationObserver.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Settings/ISettingsEditCoordinator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Settings/ISettingsService.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Settings/NetworkEditingModels.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Settings/ProviderProfiles.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Settings/SettingsEditCoordinator.History.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Settings/SettingsEditCoordinator.Network.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Settings/SettingsEditCoordinator.Ocr.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Settings/SettingsEditCoordinator.OcrDraft.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Settings/SettingsEditCoordinator.Selection.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Settings/SettingsEditingModels.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Storage/History.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Storage/IAppPaths.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Text/SoftLineBreakMerger.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Translation/ITranslationCache.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Translation/ITranslationOrchestrator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Translation/ITranslationProvider.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Translation/LruTranslationCache.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Translation/PromptRenderer.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Translation/PromptTemplateProvider.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Translation/Prompts.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Translation/ProviderCredentialResolver.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Translation/ProviderRegistryModels.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Translation/TextPreprocessor.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Translation/TranslationCacheKeyFactory.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Translation/TranslationModels.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Translation/TranslationOrchestrator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Translation/TranslationProviderRegistry.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Translation/TranslationProviderSnapshot.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Translation/UnavailableTranslationProvider.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Workflows/ClipboardTranslateHandler.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Workflows/InputTranslateHandler.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Workflows/OpenHistoryHandler.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Workflows/OpenSettingsHandler.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Workflows/ScreenshotOcrCancellation.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Workflows/ScreenshotOcrHandler.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Workflows/ScreenshotOcrWorkflow.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Workflows/ScreenshotTranslateHandler.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Workflows/SelectionTranslateHandler.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Workflows/SilentScreenshotOcrHandler.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Workflows/ToggleMouseSelectionHandler.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Core/Workflows/TranslateTextHandler.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Infrastructure/DependencyInjection/InfrastructureServiceCollectionExtensions.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Infrastructure/Iris.Infrastructure.csproj",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Infrastructure/Settings/JsonSettingsService.Network.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Infrastructure/Settings/SettingsMigrationRunner.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Infrastructure/Settings/SettingsSalvager.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Infrastructure/Settings/SettingsSnapshot.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Infrastructure/Storage/AppPaths.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Infrastructure/Storage/AppPathsFactory.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Infrastructure/Storage/DatabaseInitializer.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Infrastructure/Storage/SqliteConnectionFactory.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Infrastructure/Storage/SqliteHistoryRepository.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Maintenance/InstallerEnvelope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Maintenance/Iris.Maintenance.csproj",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Maintenance/MaintenanceCopy.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Maintenance/MaintenanceEngine.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Maintenance/MaintenanceFeedback.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Maintenance/MaintenanceResult.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Maintenance/MaintenanceSystem.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Maintenance/MaintenanceUi.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Maintenance/Program.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Maintenance/Strings.en-US.resx",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Maintenance/Strings.resx",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Maintenance/UpdateTransaction.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Capture/DesktopContext.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Capture/DesktopGeometryHelper.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Capture/GdiCaptureSession.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Capture/GdiCaptureWorker.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Capture/GdiScreenCapturer.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Capture/IGdiCaptureApi.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Capture/INativeDesktopAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Capture/IScreenEncoderIo.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Capture/MonitorEnumerator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Capture/NativeDesktopAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Capture/NativeGdiCaptureAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Capture/ScreenCaptureErrors.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Capture/ScreenMemoryEncoder.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Capture/ScreenPixelLayout.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Capture/Win32GdiCaptureApi.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Capture/WinRtScreenEncoderIo.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Clipboard/ClipboardSnapshot.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Clipboard/ClipboardSnapshotService.Text.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Clipboard/ClipboardSnapshotService.Worker.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Clipboard/ClipboardSnapshotService.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Clipboard/DibV5Helper.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Clipboard/IClipboardSnapshotNative.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Clipboard/INativeClipboardAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Clipboard/NativeClipboardAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Clipboard/NativeClipboardSnapshotAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Clipboard/Win32ClipboardService.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Clipboard/WindowsImageDecoder.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/DependencyInjection/PlatformWindowsServiceCollectionExtensions.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Hooks/GestureRecognizer.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Hooks/IMouseHookApi.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Hooks/MouseSample.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Hooks/MouseSelectionMonitor.Consumer.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Hooks/MouseSelectionMonitor.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Hooks/NativeMouseAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Hooks/Win32MouseHookApi.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Hotkey/HotkeyCaptureSession.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Hotkey/HotkeyService.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Hotkey/IHotkeyIdAllocator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Hotkey/INativeHotkeyAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Hotkey/INativeKeyboardHookAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Hotkey/KeyNameMapper.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Hotkey/NativeHotkeyAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Hotkey/NativeKeyboardHookAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Imaging/FormUrlEncodedImageLength.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Imaging/ImagePreparationRules.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Imaging/WinRtImageDecoderIo.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Imaging/WinRtImagePreprocessor.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Iris.Platform.Windows.csproj",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Maintenance/MaintenanceGate.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Maintenance/MaintenanceProtocol.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Maintenance/MaintenanceRegistration.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Maintenance/MaintenanceWorkDirectory.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Maintenance/ReleaseIdentity.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Maintenance/ReleasePackage.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/NativeMethods.txt",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Ocr/WindowsOcrCall.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Ocr/WindowsOcrImage.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Ocr/WindowsOcrNative.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Ocr/WindowsOcrProvider.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Ocr/WindowsOcrResults.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Security/DpapiSecretStore.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Security/SecretsFileCodec.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/CompositeSelectionReader.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/CopySafetyPolicy.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/INativeKeyboardInputAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/INativeUiaAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/ITargetWindowValidator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/IUiaProcessRunner.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/KeyboardCopyOutcome.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/KeyboardCopyResult.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/KeyboardCopyTarget.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/KeyboardSimulator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/NativeCopySafetyAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/RealNativeUiaAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/RealTargetWindowValidator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/RealUiaProcessRunner.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/SelectionReadOptionsSnapshot.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/UiaProtocol.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/UiaSelectionReader.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/UiaSelectionResult.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/UiaSelectionStatus.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/UiaSelectionWorker.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/Selection/Win32KeyboardInputAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/SystemIntegration/FatalErrorDialog.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/SystemIntegration/IpcCancellation.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/SystemIntegration/IpcPipeFactory.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/SystemIntegration/IpcProtocol.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/SystemIntegration/NamedPipeIpcClient.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/SystemIntegration/NamedPipeIpcServer.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Platform.Windows/SystemIntegration/SingleInstanceGuard.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/DependencyInjection/ProvidersServiceCollectionExtensions.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Http/DynamicWebProxy.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Http/HttpErrorMapper.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Http/HttpLoggingHandler.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Http/LimitedReadStream.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Http/LlmRetryDelay.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Http/NetworkHandlers.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Http/NetworkResponseContent.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Http/NetworkRoute.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Http/NetworkTransportManager.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Http/ProviderHttp.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Http/ProxyConnectivitySession.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Http/ProxyConnectivityTester.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Http/SafeHttpDiagnostics.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Http/SecretRedactor.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Http/SseParser.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Iris.Providers.csproj",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Ocr/Baidu/BaiduCall.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Ocr/Baidu/BaiduConfiguration.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Ocr/Baidu/BaiduErrors.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Ocr/Baidu/BaiduHttpExchange.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Ocr/Baidu/BaiduOcrProvider.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Ocr/Baidu/BaiduOcrTransportSafetyHandler.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Ocr/Baidu/BaiduResponseParser.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Ocr/Baidu/Wire/BaiduDtos.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Translation/Anthropic/AnthropicProgressTrackingHandler.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Translation/Anthropic/AnthropicTranslationProvider.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Translation/Anthropic/AnthropicTranslationProviderFactory.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Translation/Anthropic/SseEventBoundaryStream.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Translation/Anthropic/SseEventBoundaryTracker.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProvider.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProviderFactory.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Translation/OpenAICompatible/ThinkTagStripper.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Translation/OpenAICompatible/Wire/ChatCompletionDtos.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.Providers/Translation/ProviderCallGuard.cs",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.UiaHost/Iris.UiaHost.csproj",
+      "passed": true
+    },
+    {
+      "name": "source:src/Iris.UiaHost/Program.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Fixtures/hotkey-edit-expected-vectors.json",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Fixtures/hotkey-expected-vectors.json",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Capture/ImagePreprocessorShutdownTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Capture/OcrPipelineShutdownTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Capture/PreparationShutdownTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Capture/PreparationTestScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Capture/ScreenshotBoundaryTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Capture/ScreenshotInteractionTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Capture/ScreenshotLifecycleTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Capture/ScreenshotPreparationR1Tests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Capture/ScreenshotPreparationR2Tests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Capture/ScreenshotPreparationRaceTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Capture/ScreenshotPreparationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Capture/ScreenshotR1RenderingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Capture/ScreenshotR1Tests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Capture/ScreenshotR2Tests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Capture/ScreenshotRenderingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Capture/ScreenshotShutdownTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Capture/ScreenshotTestScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/History/HistoryLifecycleTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/History/HistoryRenderingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/History/HistoryTestScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/History/HistoryWindowTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Hosting/ActionDispatcherTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Hosting/AppBootstrapperTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Hosting/AppHostBuilderTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Hosting/HotkeyCoordinatorPauseTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Hosting/HotkeyCoordinatorTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Hosting/IpcIntegrationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Hosting/IpcStartupTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Hosting/IrisLoggingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Hosting/LogLevelControllerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Hosting/NetworkConnectivityHostingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Hosting/NetworkHostingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Hosting/NotificationThrottleTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Hosting/OcrRegistryHostingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Hosting/ScreenCaptureShutdownTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Hosting/SelectionShutdownTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Iris.App.Tests.csproj",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Localization/LocalizationRenderingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Localization/LocalizationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Localization/PrimaryLanguageLifetimeTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Ocr/OcrEntrypointScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Ocr/OcrEntrypointTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Ocr/OcrLifecycleTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Ocr/OcrPublicationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Ocr/OcrRenderingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Selection/IconDeadlineTimeProvider.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Selection/KeyboardSimulatorUiDispatcherTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Selection/MouseBootstrapperTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Selection/MouseIconGeometryTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Selection/MouseInteractionTestScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Selection/MouseInteractionTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Selection/MousePartialShowFailureTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Selection/MouseRenderingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Selection/SelectionCoordinationDrainTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Selection/SelectionCoordinationIntegrationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Selection/SelectionCoordinatorTestScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Selection/SelectionReadCoordinatorTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Services/GeneralSettingsSaveCoordinatorTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Services/ThemeServicePreviewTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/HistorySettingsUiTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/MouseSettingsUiTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/NetworkSettingsFoundationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/NetworkSettingsRenderingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/NetworkSettingsUiScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/NetworkSettingsUiTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/OcrSettingsLifecycleTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/OcrSettingsRenderingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/OcrSettingsUiScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/OcrSettingsUiTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/SelectionSettingsPersistenceTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/SelectionSettingsRenderingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/SelectionSettingsTestScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/SelectionSettingsUiTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/SettingsDraftAndSaveRegressionTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/SettingsDraftOperationQueueTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/SettingsHotkeysIntegrationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/SettingsReceiptManagerAndRetryTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/SettingsShutdownWithPendingOperationsTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/SettingsTranslationSaveIntegrationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/SettingsViewModelTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/SettingsWindowPresenterTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/SettingsWindowTranslationUiTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Settings/TestSettingsEditCoordinator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/TestSupport/AppShutdownerSharedStateCollectionDefinition.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/TestSupport/FakeAppPaths.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/TestSupport/FakeNativeHotkeyAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/TestSupport/ImmediateUiDispatcher.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/TestSupport/IsolatedAppHost.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/TestSupport/OwnedCleanup.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/TestSupport/TempDirectory.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/TestSupport/WpfTestAssemblyFixture.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/TestSupport/WpfTestRunner.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Translation/TranslateWindowIntegrationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Translation/TranslateWindowOperationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Translation/TranslateWindowPlacementTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Translation/TranslateWindowPresenterTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Translation/TranslateWindowUiTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Translation/TranslateWindowViewModelTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Translation/TranslationOrchestratorIntegrationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Tray/TrayCreationRetryPolicyTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Tray/TrayIconControllerSettingsTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Tray/TrayIconControllerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Updates/UpdateCoordinatorTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Updates/UpdateHandoffLifecycleTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Updates/UpdateHandoffTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Updates/UpdateHttpTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Updates/UpdatePreferenceUiTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Updates/UpdateRecoveryRenderingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Updates/UpdateRenderingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Workflows/SelectionEntryTestScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Workflows/SelectionEntrypointIntegrationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Workflows/SelectionOperationNotificationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Workflows/TranslationEndToEndTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.App.Tests/Workflows/TranslationWorkflowLateArrivalTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.ArchitectureTests/ContractFidelityTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.ArchitectureTests/DependencyRulesTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.ArchitectureTests/Iris.ArchitectureTests.csproj",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.ArchitectureTests/PackageRulesTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.ArchitectureTests/xunit.runner.json",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Clipboard.IsolatedHelper/Iris.Clipboard.IsolatedHelper.csproj",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Clipboard.IsolatedHelper/IsolatedStationCoordinator.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Clipboard.IsolatedHelper/Program.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Clipboard.IsolatedHelper/SnapshotValidation.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Contracts/AppSettingsSerializationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Contracts/ErrorCodeTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Contracts/GeometryTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Contracts/ProviderCredentialsTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Contracts/SecretKeysTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/DependencyInjection/CoreRegistrationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Diagnostics/LogTextTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Errors/ErrorMessagesTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/IO/AtomicFileTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Iris.Core.Tests.csproj",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Languages/LanguageCatalogTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Languages/ScriptLanguageDetectorTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Languages/TargetLanguageResolverTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Languages/UnicodeScriptsTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Ocr/OcrNormalizerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Ocr/OcrPipelineLifecycleTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Ocr/OcrPipelineRegistryTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Ocr/OcrPipelineTestScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Ocr/OcrPipelineTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Ocr/OcrProviderRegistryTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Ocr/OcrRegistryCoordinatorTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Ocr/OcrRegistryRaceTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Ocr/OcrRegistryTestScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Settings/HistorySettingsEditTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Settings/HotkeyBindingPolicyTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Settings/MouseSettingsEditTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Settings/NetworkSettingsTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Settings/OcrDraftTestSessionTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Settings/OcrEditingBoundaryTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Settings/OcrEditingTestScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Settings/OcrSettingsEditingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Settings/SelectionSettingsEditTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Settings/SettingsEditCoordinatorHotkeyTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Settings/SettingsEditCoordinatorTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Settings/UiLanguageEditingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Settings/UpdatePreferenceEditingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Text/SoftLineBreakMergerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Translation/LruTranslationCacheTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Translation/PromptRendererTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Translation/PromptTemplateProviderTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Translation/ProviderCredentialResolverTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Translation/TextPreprocessorTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Translation/TranslationCacheKeyFactoryTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Translation/TranslationOrchestratorTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Translation/TranslationProviderRegistryTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Workflows/ClipboardTranslateHandlerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Workflows/InputTranslateHandlerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Workflows/MouseSelectionWorkflowTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Workflows/OpenHistoryHandlerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Workflows/OpenSettingsHandlerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Workflows/ScreenshotOcrHandlerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Workflows/SelectionTranslateHandlerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/Workflows/TranslateTextHandlerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Core.Tests/xunit.runner.json",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/DependencyInjection/InfrastructureRegistrationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/Fixtures/settings.all-null.json",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/Iris.Infrastructure.Tests.csproj",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/Settings/JsonSettingsServiceCoordinatorIntegrationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/Settings/JsonSettingsServiceHotkeyTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/Settings/JsonSettingsServiceTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/Settings/NetworkPersistenceTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/Settings/SettingsMigrationRunnerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/Settings/SettingsNormalizerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/Settings/SettingsSalvagerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/Settings/SettingsSnapshotTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/Storage/AppPathsTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/Storage/DatabaseInitializerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/Storage/SqliteHistoryRepositoryTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/TestSupport/FakeAppPaths.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/TestSupport/SettingsTestInvariants.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/TestSupport/TempDirectory.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/TestSupport/TestMigration.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Infrastructure.Tests/xunit.runner.json",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Maintenance.Tests/Iris.Maintenance.Tests.csproj",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Maintenance.Tests/MaintenanceTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Maintenance.Tests/UpdateTransactionTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Capture/DesktopContextNativeReadOnlyTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Capture/DesktopContextTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Capture/DesktopGeometryHelperTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Capture/FakeNativeDesktopAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Capture/FakeScreenEncoderIo.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Capture/GdiScreenCapturerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Capture/MonitorEnumeratorTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Capture/ScreenCaptureTestScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Capture/ScreenCropTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Clipboard/ClipboardSnapshotIsolatedTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Clipboard/ClipboardSnapshotServiceTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Clipboard/ConditionalClipboardTextTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Clipboard/TestSupport/FakeClipboardSnapshotNative.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Clipboard/TestSupport/FakeNativeClipboardAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Clipboard/TestSupport/MemoryLogger.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardIsolatedIntegrationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServiceConcurrencyAndOwnershipTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServiceImageTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServicePrivacyAndSequenceTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServiceRetryAndCancellationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServiceTextTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/DependencyInjection/PlatformWindowsRegistrationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Hooks/GestureRecognizerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Hooks/MouseLifecycleEvidenceTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Hooks/MousePipelineTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Hooks/MouseSelectionMonitorTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Hooks/MouseTestBoundary.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Hooks/NativeMouseAdapterTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Hotkey/HotkeyCaptureServiceTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Hotkey/HotkeyServiceTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Hotkey/KeyNameMapperTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Hotkey/NativeMessageWindowTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Imaging/FormImageBudgetTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Imaging/ImagePreparationTestScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Imaging/ImagePreprocessorLifecycleTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Imaging/ImagePreprocessorTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Iris.Platform.Windows.Tests.csproj",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Ocr/Fixtures/hello.png",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrLifecycleTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrProviderTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrRegistryTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrResultTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrSdkSmokeTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrTestScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Security/DpapiSecretStoreTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Security/SecretsFileCodecTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/CompositeSelectionReaderTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/CopySafetyPolicyTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/ExpectedSelectionSourceTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/FakeCopySafetyNative.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/FakeNativeKeyboardInputAdapter.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/FakeUiaProcessSessionTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/FakeUiaTestAdapters.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/IrisUiaHostProcessSmokeTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/KeyboardPreparationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/KeyboardSimulatorTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/RealNativeUiaAdapterTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/RealUiaProcessSessionTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/SelectionTestScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/SelectionTimeProvider.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/SelectionVersionRegressionTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/TrackingFakeTimeProvider.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/UiaProtocolCodecTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/UiaSelectionReaderTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/UiaSelectionWorkerTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/Selection/UiaStartupCleanupTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/SystemIntegration/AutoStartServiceTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/SystemIntegration/IpcCancellationFenceTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/SystemIntegration/IpcEarlyDisconnectTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/SystemIntegration/IpcLifecycleTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/SystemIntegration/IpcProtocolTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/SystemIntegration/NamedPipeIpcTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/SystemIntegration/SingleInstanceGuardTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/TestSupport/FakeAppPaths.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/TestSupport/ListLogger.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/TestSupport/TempDirectory.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Platform.Windows.Tests/xunit.runner.json",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/DependencyInjection/HttpClientPipelineTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Fixtures/anthropic_models_page1.json",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Fixtures/anthropic_models_page2.json",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Fixtures/anthropic_stream_error.txt",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Fixtures/anthropic_stream_fallback.txt",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Fixtures/anthropic_stream_max_tokens.txt",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Fixtures/anthropic_stream_ok.txt",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Fixtures/anthropic_stream_refusal.txt",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Fixtures/anthropic_stream_thinking.txt",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Fixtures/anthropic_stream_truncated.txt",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Fixtures/openai_stream_error.txt",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Fixtures/openai_stream_length.txt",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Fixtures/openai_stream_ok.txt",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Fixtures/openai_stream_reasoning.txt",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Fixtures/openai_stream_think.txt",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Fixtures/openai_stream_usage.txt",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Http/DynamicWebProxyTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Http/HttpErrorMapperTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Http/LimitedReadStreamTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Http/LlmRetryDelayTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Http/NetworkContentCleanupCoordinationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Http/NetworkContentLifecycleTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Http/NetworkTestBoundary.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Http/NetworkTransportTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Http/ProxyConnectivityTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Http/SafeHttpDiagnosticsTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Http/SecretRedactorTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Http/SseParserTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Iris.Providers.Tests.csproj",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Ocr/Baidu/BaiduNamedPipelineTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Ocr/Baidu/BaiduOwnershipTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Ocr/Baidu/BaiduParsingTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Ocr/Baidu/BaiduProviderTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Ocr/Baidu/BaiduRegistryTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Ocr/Baidu/BaiduTestScope.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Ocr/Baidu/BaiduTokenTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Translation/Anthropic/AnthropicReworkR1Tests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Translation/Anthropic/AnthropicTranslationProviderFactoryTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Translation/Anthropic/AnthropicTranslationProviderTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Translation/OpenAICompatible/OpenAICompatibleTranslationProviderFactoryTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Translation/OpenAICompatible/OpenAICompatibleTranslationProviderTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Translation/OpenAICompatible/ThinkTagStripperTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Translation/ProviderCallGuardTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/Wire/WireSerializationTests.cs",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.Providers.Tests/xunit.runner.json",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.UpdateHandoffWorker/Iris.UpdateHandoffWorker.csproj",
+      "passed": true
+    },
+    {
+      "name": "source:tests/Iris.UpdateHandoffWorker/Program.cs",
+      "passed": true
+    },
+    {
+      "name": "canonical-source-tree",
+      "passed": true,
+      "independentlyCalculated": "c6fd6c81f2d6b553d6b8a30390794c2d6a00683d",
+      "expected": "c6fd6c81f2d6b553d6b8a30390794c2d6a00683d"
+    },
+    {
+      "name": "tested-binary:.msCoverageSourceRootsMapping_Iris.App.Tests",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Anthropic.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Castle.Core.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:cs/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:cs/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:cs/Microsoft.Testing.Platform.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:cs/Microsoft.TestPlatform.CommunicationUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:cs/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:cs/Microsoft.TestPlatform.CrossPlatEngine.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:cs/Microsoft.VisualStudio.TestPlatform.Common.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:cs/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Dapper.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:de/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:de/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:de/Microsoft.Testing.Platform.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:de/Microsoft.TestPlatform.CommunicationUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:de/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:de/Microsoft.TestPlatform.CrossPlatEngine.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:de/Microsoft.VisualStudio.TestPlatform.Common.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:de/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:DiffEngine.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/archive/empty.7z",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/archive/empty.bz2",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/archive/empty.gz",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/archive/empty.tar",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/archive/empty.xz",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/archive/empty.zip",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/document/empty.docx",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/document/empty.odt",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/document/empty.pdf",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/document/empty.rtf",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.avif",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.bmp",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.dds",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.dib",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.emf",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.exif",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.gif",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.heic",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.heif",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.ico",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.j2c",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.jfif",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.jp2",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.jpc",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.jpe",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.jpg",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.jxr",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.pbm",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.pcx",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.pgm",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.png",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.ppm",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.rle",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.tga",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.tif",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.wdp",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.webp",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/image/empty.wmp",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/sheet/empty.ods",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/sheet/empty.xlsx",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/slide/empty.odp",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles/slide/empty.pptx",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:EmptyFiles.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:en-US/Iris.App.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:en-US/Iris.Core.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:es/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:es/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:es/Microsoft.Testing.Platform.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:es/Microsoft.TestPlatform.CommunicationUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:es/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:es/Microsoft.TestPlatform.CrossPlatEngine.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:es/Microsoft.VisualStudio.TestPlatform.Common.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:es/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:fr/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:fr/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:fr/Microsoft.Testing.Platform.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:fr/Microsoft.TestPlatform.CommunicationUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:fr/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:fr/Microsoft.TestPlatform.CrossPlatEngine.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:fr/Microsoft.VisualStudio.TestPlatform.Common.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:fr/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:H.GeneratedIcons.System.Drawing.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:H.NotifyIcon.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:H.NotifyIcon.Wpf.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.App.deps.json",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.App.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.App.exe",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.App.pdb",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.App.runtimeconfig.json",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.App.Tests.deps.json",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.App.Tests.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.App.Tests.exe",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.App.Tests.pdb",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.App.Tests.runtimeconfig.json",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.App.Tests.xml",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.App.xml",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Core.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Core.pdb",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Core.xml",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Infrastructure.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Infrastructure.pdb",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Infrastructure.xml",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Maintenance.deps.json",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Maintenance.exe",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Maintenance.runtimeconfig.json",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Maintenance.Tests.deps.json",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Maintenance.Tests.exe",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Maintenance.Tests.runtimeconfig.json",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Platform.Windows.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Platform.Windows.pdb",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Platform.Windows.xml",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Providers.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Providers.pdb",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Iris.Providers.xml",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:it/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:it/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:it/Microsoft.Testing.Platform.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:it/Microsoft.TestPlatform.CommunicationUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:it/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:it/Microsoft.TestPlatform.CrossPlatEngine.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:it/Microsoft.VisualStudio.TestPlatform.Common.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:it/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ja/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ja/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ja/Microsoft.Testing.Platform.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ja/Microsoft.TestPlatform.CommunicationUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ja/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ja/Microsoft.TestPlatform.CrossPlatEngine.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ja/Microsoft.VisualStudio.TestPlatform.Common.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ja/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ko/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ko/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ko/Microsoft.Testing.Platform.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ko/Microsoft.TestPlatform.CommunicationUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ko/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ko/Microsoft.TestPlatform.CrossPlatEngine.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ko/Microsoft.VisualStudio.TestPlatform.Common.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ko/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.ApplicationInsights.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Bcl.AsyncInterfaces.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Data.Sqlite.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.AI.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.AmbientMetadata.Application.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Compliance.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Configuration.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Configuration.Binder.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Configuration.CommandLine.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Configuration.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Configuration.EnvironmentVariables.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Configuration.FileExtensions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Configuration.Json.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Configuration.UserSecrets.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.DependencyInjection.AutoActivation.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.DependencyInjection.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Diagnostics.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Diagnostics.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Diagnostics.ExceptionSummarization.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.FileProviders.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.FileProviders.Physical.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.FileSystemGlobbing.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Hosting.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Hosting.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Http.Diagnostics.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Http.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Http.Resilience.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Logging.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Logging.Configuration.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Logging.Console.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Logging.Debug.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Logging.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Logging.EventLog.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Logging.EventSource.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.ObjectPool.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Options.ConfigurationExtensions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Options.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Primitives.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Resilience.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Telemetry.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.Telemetry.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Extensions.TimeProvider.Testing.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Testing.Extensions.MSBuild.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Testing.Extensions.Telemetry.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Testing.Extensions.TrxReport.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Testing.Platform.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.TestPlatform.CommunicationUtilities.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.TestPlatform.CoreUtilities.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.TestPlatform.CrossPlatEngine.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.TestPlatform.PlatformAbstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.TestPlatform.Utilities.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.VisualStudio.CodeCoverage.Shim.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.VisualStudio.TestPlatform.Common.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.VisualStudio.TestPlatform.ObjectModel.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Microsoft.Windows.SDK.NET.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:NSubstitute.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:pl/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:pl/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:pl/Microsoft.Testing.Platform.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:pl/Microsoft.TestPlatform.CommunicationUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:pl/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:pl/Microsoft.TestPlatform.CrossPlatEngine.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:pl/Microsoft.VisualStudio.TestPlatform.Common.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:pl/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Polly.Core.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Polly.Extensions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Polly.RateLimiting.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:pt-BR/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:pt-BR/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:pt-BR/Microsoft.Testing.Platform.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:pt-BR/Microsoft.TestPlatform.CommunicationUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:pt-BR/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:pt-BR/Microsoft.TestPlatform.CrossPlatEngine.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:pt-BR/Microsoft.VisualStudio.TestPlatform.Common.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:pt-BR/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ru/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ru/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ru/Microsoft.Testing.Platform.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ru/Microsoft.TestPlatform.CommunicationUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ru/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ru/Microsoft.TestPlatform.CrossPlatEngine.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ru/Microsoft.VisualStudio.TestPlatform.Common.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:ru/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/browser-wasm/nativeassets/net9.0/e_sqlite3.a",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/linux-arm/native/libe_sqlite3.so",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/linux-arm64/native/libe_sqlite3.so",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/linux-armel/native/libe_sqlite3.so",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/linux-mips64/native/libe_sqlite3.so",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/linux-musl-arm/native/libe_sqlite3.so",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/linux-musl-arm64/native/libe_sqlite3.so",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/linux-musl-riscv64/native/libe_sqlite3.so",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/linux-musl-s390x/native/libe_sqlite3.so",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/linux-musl-x64/native/libe_sqlite3.so",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/linux-ppc64le/native/libe_sqlite3.so",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/linux-riscv64/native/libe_sqlite3.so",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/linux-s390x/native/libe_sqlite3.so",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/linux-x64/native/libe_sqlite3.so",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/linux-x86/native/libe_sqlite3.so",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/maccatalyst-arm64/native/libe_sqlite3.dylib",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/maccatalyst-x64/native/libe_sqlite3.dylib",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/osx-arm64/native/libe_sqlite3.dylib",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/osx-x64/native/libe_sqlite3.dylib",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/win/lib/net6.0/System.Management.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/win-arm64/native/e_sqlite3.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/win-x64/native/e_sqlite3.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:runtimes/win-x86/native/e_sqlite3.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Serilog.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Serilog.Extensions.Hosting.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Serilog.Extensions.Logging.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Serilog.Sinks.File.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Shouldly.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:SQLitePCLRaw.batteries_v2.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:SQLitePCLRaw.core.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:SQLitePCLRaw.provider.e_sqlite3.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:System.Management.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:System.Threading.RateLimiting.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:testhost.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:testhost.exe",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:tr/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:tr/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:tr/Microsoft.Testing.Platform.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:tr/Microsoft.TestPlatform.CommunicationUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:tr/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:tr/Microsoft.TestPlatform.CrossPlatEngine.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:tr/Microsoft.VisualStudio.TestPlatform.Common.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:tr/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/en-US/Iris.Core.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/en-US/Iris.Maintenance.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Core.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Core.pdb",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Core.xml",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Maintenance.deps.json",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Maintenance.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Maintenance.exe",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Maintenance.pdb",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Maintenance.runtimeconfig.json",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Maintenance.Tests.deps.json",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Maintenance.Tests.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Maintenance.Tests.exe",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Maintenance.Tests.pdb",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Maintenance.Tests.runtimeconfig.json",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Maintenance.Tests.xml",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Maintenance.xml",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Platform.Windows.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Platform.Windows.pdb",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Iris.Platform.Windows.xml",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Microsoft.Extensions.Logging.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Microsoft.Windows.SDK.NET.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/System.Security.Cryptography.ProtectedData.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/Velopack.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:update-worker/WinRT.Runtime.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Velopack.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:WinRT.Runtime.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Wpf.Ui.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:Wpf.Ui.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:xunit.abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:xunit.runner.visualstudio.testadapter.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:xunit.v3.assert.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:xunit.v3.common.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:xunit.v3.core.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:xunit.v3.mtp-v2.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:xunit.v3.runner.common.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:xunit.v3.runner.inproc.console.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:xunit.v3.runner.utility.netcore.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:zh-Hans/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:zh-Hans/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:zh-Hans/Microsoft.Testing.Platform.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:zh-Hans/Microsoft.TestPlatform.CommunicationUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:zh-Hans/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:zh-Hans/Microsoft.TestPlatform.CrossPlatEngine.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:zh-Hans/Microsoft.VisualStudio.TestPlatform.Common.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:zh-Hans/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:zh-Hant/Microsoft.Testing.Extensions.MSBuild.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:zh-Hant/Microsoft.Testing.Extensions.Telemetry.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:zh-Hant/Microsoft.Testing.Platform.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:zh-Hant/Microsoft.TestPlatform.CommunicationUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:zh-Hant/Microsoft.TestPlatform.CoreUtilities.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:zh-Hant/Microsoft.TestPlatform.CrossPlatEngine.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:zh-Hant/Microsoft.VisualStudio.TestPlatform.Common.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "tested-binary:zh-Hant/Microsoft.VisualStudio.TestPlatform.ObjectModel.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload-set",
+      "passed": true,
+      "entries": 97
+    },
+    {
+      "name": "0.2.0:payload:Anthropic.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Dapper.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:e_sqlite3.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:H.GeneratedIcons.System.Drawing.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:H.NotifyIcon.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:H.NotifyIcon.Wpf.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Iris_ExecutionStub.exe",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Iris.App.deps.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Iris.App.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Iris.App.exe",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Iris.App.runtimeconfig.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Iris.App.xml",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Iris.Core.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Iris.Core.xml",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Iris.Infrastructure.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Iris.Infrastructure.xml",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Iris.Platform.Windows.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Iris.Platform.Windows.xml",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Iris.Providers.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Iris.Providers.xml",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Data.Sqlite.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.AI.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.AmbientMetadata.Application.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Compliance.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Configuration.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Configuration.Binder.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Configuration.CommandLine.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Configuration.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Configuration.EnvironmentVariables.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Configuration.FileExtensions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Configuration.Json.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Configuration.UserSecrets.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.DependencyInjection.AutoActivation.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.DependencyInjection.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Diagnostics.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Diagnostics.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Diagnostics.ExceptionSummarization.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.FileProviders.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.FileProviders.Physical.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.FileSystemGlobbing.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Hosting.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Hosting.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Http.Diagnostics.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Http.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Http.Resilience.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Logging.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Logging.Configuration.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Logging.Console.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Logging.Debug.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Logging.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Logging.EventLog.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Logging.EventSource.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.ObjectPool.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Options.ConfigurationExtensions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Options.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Primitives.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Resilience.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Telemetry.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Extensions.Telemetry.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Microsoft.Windows.SDK.NET.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Polly.Core.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Polly.Extensions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Polly.RateLimiting.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:release-source.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Serilog.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Serilog.Extensions.Hosting.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Serilog.Extensions.Logging.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Serilog.Sinks.File.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:sq.version",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:SQLitePCLRaw.batteries_v2.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:SQLitePCLRaw.core.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:SQLitePCLRaw.provider.e_sqlite3.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Squirrel.exe",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:System.Threading.RateLimiting.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Velopack.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:WinRT.Runtime.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Wpf.Ui.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:Wpf.Ui.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:uia/Iris.Core.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:uia/Iris.Core.xml",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:uia/Iris.Platform.Windows.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:uia/Iris.Platform.Windows.xml",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:uia/Iris.UiaHost.deps.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:uia/Iris.UiaHost.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:uia/Iris.UiaHost.exe",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:uia/Iris.UiaHost.runtimeconfig.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:uia/Iris.UiaHost.xml",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:uia/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:uia/Microsoft.Extensions.Logging.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:uia/Microsoft.Windows.SDK.NET.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:uia/System.Security.Cryptography.ProtectedData.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:uia/WinRT.Runtime.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:uia/en-US/Iris.Core.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:maintenance/Iris.Maintenance.exe",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:en-US/Iris.App.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:payload:en-US/Iris.Core.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:identity",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:framework-dependent-app",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:no-test-payload",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:bundle-magic",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:bundle-size",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:bundle-setup-hash",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:bundle-maintenance",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:top-level-hash-set",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:top-level:assets.win.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:top-level:Iris-0.2.0-full.nupkg",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:top-level:Iris-0.2.0-Setup.exe",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:top-level:payload-manifest.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:top-level:RELEASES",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:top-level:releases.win.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:top-level:staging-manifest.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:feed-has-current-full",
+      "passed": true
+    },
+    {
+      "name": "0.2.0:feed-full:Iris-0.2.0-full.nupkg",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload-set",
+      "passed": true,
+      "entries": 97
+    },
+    {
+      "name": "0.2.1:payload:Anthropic.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Dapper.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:e_sqlite3.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:H.GeneratedIcons.System.Drawing.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:H.NotifyIcon.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:H.NotifyIcon.Wpf.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Iris_ExecutionStub.exe",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Iris.App.deps.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Iris.App.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Iris.App.exe",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Iris.App.runtimeconfig.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Iris.App.xml",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Iris.Core.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Iris.Core.xml",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Iris.Infrastructure.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Iris.Infrastructure.xml",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Iris.Platform.Windows.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Iris.Platform.Windows.xml",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Iris.Providers.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Iris.Providers.xml",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Data.Sqlite.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.AI.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.AmbientMetadata.Application.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Compliance.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Configuration.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Configuration.Binder.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Configuration.CommandLine.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Configuration.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Configuration.EnvironmentVariables.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Configuration.FileExtensions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Configuration.Json.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Configuration.UserSecrets.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.DependencyInjection.AutoActivation.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.DependencyInjection.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Diagnostics.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Diagnostics.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Diagnostics.ExceptionSummarization.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.FileProviders.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.FileProviders.Physical.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.FileSystemGlobbing.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Hosting.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Hosting.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Http.Diagnostics.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Http.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Http.Resilience.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Logging.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Logging.Configuration.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Logging.Console.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Logging.Debug.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Logging.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Logging.EventLog.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Logging.EventSource.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.ObjectPool.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Options.ConfigurationExtensions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Options.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Primitives.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Resilience.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Telemetry.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Extensions.Telemetry.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Microsoft.Windows.SDK.NET.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Polly.Core.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Polly.Extensions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Polly.RateLimiting.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:release-source.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Serilog.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Serilog.Extensions.Hosting.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Serilog.Extensions.Logging.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Serilog.Sinks.File.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:sq.version",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:SQLitePCLRaw.batteries_v2.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:SQLitePCLRaw.core.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:SQLitePCLRaw.provider.e_sqlite3.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Squirrel.exe",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:System.Threading.RateLimiting.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Velopack.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:WinRT.Runtime.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Wpf.Ui.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:Wpf.Ui.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:uia/Iris.Core.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:uia/Iris.Core.xml",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:uia/Iris.Platform.Windows.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:uia/Iris.Platform.Windows.xml",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:uia/Iris.UiaHost.deps.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:uia/Iris.UiaHost.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:uia/Iris.UiaHost.exe",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:uia/Iris.UiaHost.runtimeconfig.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:uia/Iris.UiaHost.xml",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:uia/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:uia/Microsoft.Extensions.Logging.Abstractions.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:uia/Microsoft.Windows.SDK.NET.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:uia/System.Security.Cryptography.ProtectedData.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:uia/WinRT.Runtime.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:uia/en-US/Iris.Core.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:maintenance/Iris.Maintenance.exe",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:en-US/Iris.App.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:payload:en-US/Iris.Core.resources.dll",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:identity",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:framework-dependent-app",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:no-test-payload",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:bundle-magic",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:bundle-size",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:bundle-setup-hash",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:bundle-maintenance",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:top-level-hash-set",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:top-level:assets.win.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:top-level:Iris-0.2.0-full.nupkg",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:top-level:Iris-0.2.1-delta.nupkg",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:top-level:Iris-0.2.1-full.nupkg",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:top-level:Iris-0.2.1-Setup.exe",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:top-level:payload-manifest.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:top-level:RELEASES",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:top-level:releases.win.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:top-level:staging-manifest.json",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:feed-has-current-full",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:feed-full:Iris-0.2.1-full.nupkg",
+      "passed": true
+    },
+    {
+      "name": "0.2.1:feed-full:Iris-0.2.0-full.nupkg",
+      "passed": true
+    }
+  ]
+}

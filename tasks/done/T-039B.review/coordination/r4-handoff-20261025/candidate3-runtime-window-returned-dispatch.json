@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-24T22:04:37.710867+00:00",
+  "messageSha256": "43ed3f9344a105f86826a9e1ee833961cbe4d46e5267cef2e18f93c216bca38d",
+  "exitCode": 0,
+  "stdout": "{\n  \"queueResult\": \"Queued message 01a16ff1-c3b6-7ae2-8e40-9302f97e41f2 for thread 01a16ef2-a0bb-71a1-8230-57165c05cc5b.\"\n}\n",
+  "stderr": "",
+  "reviewWindowReturned": true
+}

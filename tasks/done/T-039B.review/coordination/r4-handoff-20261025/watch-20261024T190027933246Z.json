@@ -1,0 +1,39 @@
+{
+  "observedAt": "2026-10-24T19:00:27.933246+00:00",
+  "threadId": "01a16ef2-a0bb-71a1-8230-57165c05cc5b",
+  "turnId": "01a16efb-17fe-7c13-b06d-d96408ee117c",
+  "status": "interrupted",
+  "completedAt": null,
+  "error": null,
+  "previousItemCount": 189,
+  "itemCount": 200,
+  "newVisibleItems": [
+    {
+      "type": "agentMessage",
+      "text": "已读完预审原文，两项意见成立。我会把恢复操作移到 `AppLifetime` 持有的专用窗口，设置 Presenter 保持关闭，不再创建普通 Scoped VM；同时用一次性的准备收据关联候选、代次、所属会话和责任转移。普通 Ready、取消、后续新 offer 都不能成为退出恢复的安装意图。新回归会直接执行真实安装命令路径、真实 helper 握手与撤销，而不是设置 transferred 标志。"
+    },
+    {
+      "type": "fileChange",
+      "id": "exec-f8230994-69fe-4565-a9f1-c0ca37c085f5",
+      "status": "completed",
+      "paths": [
+        "F:\\Iris\\tasks\\done\\T-039B.evidence\\r4\\run_command.py"
+      ]
+    },
+    {
+      "type": "commandExecution",
+      "id": "exec-de139fb6-978f-42b8-a492-6d865e8e0678",
+      "command": "\"C:\\\\Users\\\\28910\\\\.cache\\\\codex-runtimes\\\\codex-primary-runtime\\\\dependencies\\\\native\\\\powershell\\\\pwsh.exe\" -NoProfile -Command \"git diff -- src/Iris.App src/Iris.App/Hosting tests/Iris.App.Tests/Updates | Out-File -LiteralPath 'tasks\\\\done\\\\T-039B.evidence\\\\r4\\\\intermediate-source-1.patch' -Encoding utf8; Get-Content -Raw -LiteralPath 'tasks\\\\done\\\\T-039B.review\\\\acceptance-review-3\\\\rollback-probe-binding.json' | ConvertFrom-Json | Select-Object -Property head,@{Name='SourceCount';Expression={\"'$_.sources.Count}},@{Name='\"'AssemblyCount';Expression={\"'$_.assemblies.Count}}'",
+      "status": "completed",
+      "exitCode": 0
+    },
+    {
+      "type": "fileChange",
+      "id": "exec-153fb057-6471-4260-92c3-1ed4335c8174",
+      "status": "completed",
+      "paths": [
+        "F:\\Iris\\src\\Iris.App\\Updates\\AppUpdateCoordinator.cs"
+      ]
+    }
+  ]
+}

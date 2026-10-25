@@ -1,0 +1,14 @@
+{
+  "command": [
+    "dotnet",
+    "build",
+    "artifacts\\t039b\\independent-r3-rollback-1\\Review.csproj",
+    "-c",
+    "Release"
+  ],
+  "cwd": "F:\\Iris",
+  "startedAt": "2026-10-24T17:17:16.355879+00:00",
+  "completedAt": "2026-10-24T17:17:17.907486+00:00",
+  "exitCode": 0,
+  "logSha256": "1452ec971fad3ee89397400ead0d9fd0db2dec01488edbbab05a8ce323301f33"
+}

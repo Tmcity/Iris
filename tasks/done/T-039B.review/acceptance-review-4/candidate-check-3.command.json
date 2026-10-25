@@ -1,0 +1,11 @@
+{
+  "command": [
+    "python",
+    "tasks\\done\\T-039B.review\\acceptance-review-4\\inspect_candidates_3.py"
+  ],
+  "cwd": "F:\\Iris",
+  "startedAt": "2026-10-24T21:50:23.178338+00:00",
+  "completedAt": "2026-10-24T21:50:25.496164+00:00",
+  "exitCode": 0,
+  "logSha256": "24c680039c5b0f8c6b4b38bd5c6d2bc78fd85f2e79985b73ae57cba1b3cce9ee"
+}
