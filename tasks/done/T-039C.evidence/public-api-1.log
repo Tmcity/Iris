@@ -1,0 +1,47 @@
+[
+  {
+    "Name": "repository",
+    "Url": "https://api.github.com/repos/Tmcity/Iris",
+    "Status": 200,
+    "Bytes": 4680,
+    "Sha256": "c0d86511e4d6baa424c32745e0fe25364bf0436cca8d4e94deba69f225d9a8c6",
+    "Headers": {
+      "Date": "Sun, 25 Oct 2026 07:39:12 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "X-RateLimit-Limit": "60",
+      "X-RateLimit-Remaining": "2"
+    },
+    "AuthorizationSent": false,
+    "ObservedUtc": "2026-10-25T07:39:11.594461+00:00"
+  },
+  {
+    "Name": "releases",
+    "Url": "https://api.github.com/repos/Tmcity/Iris/releases?per_page=100",
+    "Status": 200,
+    "Bytes": 2,
+    "Sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+    "Headers": {
+      "Date": "Sun, 25 Oct 2026 07:39:12 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "X-RateLimit-Limit": "60",
+      "X-RateLimit-Remaining": "1"
+    },
+    "AuthorizationSent": false,
+    "ObservedUtc": "2026-10-25T07:39:12.212605+00:00"
+  },
+  {
+    "Name": "latest",
+    "Url": "https://api.github.com/repos/Tmcity/Iris/releases/latest",
+    "Status": 404,
+    "Bytes": 130,
+    "Sha256": "d9e37600354c1839f6b22cebde497e9d14750d2401a06c9a51b1619baf991613",
+    "Headers": {
+      "Date": "Sun, 25 Oct 2026 07:39:13 GMT",
+      "Content-Type": "application/json; charset=utf-8",
+      "X-RateLimit-Limit": "60",
+      "X-RateLimit-Remaining": "0"
+    },
+    "AuthorizationSent": false,
+    "ObservedUtc": "2026-10-25T07:39:12.880045+00:00"
+  }
+]

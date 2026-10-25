@@ -1,0 +1,42 @@
+{
+  "Head": "45434b50c84053d2d7f3b480deecf70b85599202",
+  "Files": [
+    {
+      "Path": "build/publish_release.py",
+      "Snapshot": "build_publish_release.py.txt",
+      "Bytes": 3601,
+      "Sha256": "a12a7e22f57920463ab249ec7c27ae5e750cf05a7d0dfb397d390deda3f7c8f7"
+    },
+    {
+      "Path": "build/tests/test_publish_release.py",
+      "Snapshot": "build_tests_test_publish_release.py.txt",
+      "Bytes": 1487,
+      "Sha256": "31c726825f59b60b52fe2c7df394dedf8263a21b72cf6c5fbf559229c659de09"
+    },
+    {
+      "Path": "README.md",
+      "Snapshot": "README.md.txt",
+      "Bytes": 1465,
+      "Sha256": "074df3e8c7edd179352f8237057fc9ec7a90a6bfb55636194433908bb4d9a6d9"
+    },
+    {
+      "Path": "build/release_pipeline.py",
+      "Snapshot": "build_release_pipeline.py.txt",
+      "Bytes": 6514,
+      "Sha256": "1523846329ba66954c2cb8d6337e907038a2271948a053e01afda30436e6dbaa"
+    },
+    {
+      "Path": "build/release_manifest.py",
+      "Snapshot": "build_release_manifest.py.txt",
+      "Bytes": 15931,
+      "Sha256": "755fe55708d168c16c7d94cc25eff113446b8244427039e30a4f56654cb298b3"
+    },
+    {
+      "Path": "tasks/T-039C.coordination/source-feedback-1/README.md",
+      "Snapshot": "tasks_T-039C.coordination_source-feedback-1_README.md.txt",
+      "Bytes": 1798,
+      "Sha256": "a15c002da97b869ee16d244ec6522f347faec82780e1162035b2fc446bf0fd36"
+    }
+  ],
+  "Scope": "Preserve current intermediate source before the architect's local inference feedback; no real publishing failure is claimed."
+}

@@ -1,0 +1,21 @@
+{
+  "Command": [
+    "git",
+    "-c",
+    "credential.helper=",
+    "-c",
+    "http.extraHeader=",
+    "-c",
+    "url.https://github.com/Tmcity/Iris.git.insteadOf=https://github.com/Tmcity/Iris.git",
+    "fetch",
+    "--no-tags",
+    "--no-write-fetch-head",
+    "https://github.com/Tmcity/Iris.git",
+    "main:refs/remotes/t039c-public/direct-main"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-25T07:42:06.185216+00:00",
+  "FinishedUtc": "2026-10-25T07:42:07.322451+00:00",
+  "ExitCode": 0,
+  "Output": "tasks/done/T-039C.evidence/public-direct-fetch-1.log"
+}

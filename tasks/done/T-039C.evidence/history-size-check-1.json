@@ -1,0 +1,67 @@
+{
+  "ReachableBlobCount": 7069,
+  "TotalUncompressedBlobBytes": 260697336,
+  "Largest": [
+    {
+      "Object": "278056060a25b5afc4c6bb40067ed4d122bf3cda",
+      "Path": "tasks/done/T-039B.evidence/r4/guest-install-r4-6/output/installed-settings.png",
+      "Bytes": 5619096
+    },
+    {
+      "Object": "9d56ea4d904e7150a29ca52b58513542dad4a024",
+      "Path": "tasks/done/T-039B.evidence/r4/guest-update-r4-1/output/update-r4/updated-settings.png",
+      "Bytes": 5619074
+    },
+    {
+      "Object": "8f223d24ea6cbbc113581fa1431f2314b11cdd06",
+      "Path": "tasks/done/T-039B.evidence/guest-install-3/output/diagnostic-screen.png",
+      "Bytes": 2538569
+    },
+    {
+      "Object": "43ce08f9930b3e25ee46098ee78bcca47c66a61a",
+      "Path": "tasks/done/T-039B.evidence/guest-install-4/output/diagnose-window.png",
+      "Bytes": 2537870
+    },
+    {
+      "Object": "f36a5ce2142137238909ad20870dfa6736092210",
+      "Path": "tasks/done/T-039B.evidence/guest-matrix-4/output/zh-delete-completed.png",
+      "Bytes": 2521932
+    },
+    {
+      "Object": "23431795f241a9491b455527e0ee2067d4eedc0c",
+      "Path": "tasks/done/T-039B.evidence/guest-matrix-4/output/zh-keep-completed.png",
+      "Bytes": 2445464
+    },
+    {
+      "Object": "e999dac713c4c54e544a6e6799e00e96da12bc6b",
+      "Path": "tasks/done/T-039B.evidence/guest-matrix-4/output/en-keep-completed.png",
+      "Bytes": 2409869
+    },
+    {
+      "Object": "2d10c8cf1e8deed766c92783455f0dc945aadb54",
+      "Path": "tasks/done/T-039B.evidence/guest-matrix-4/output/en-delete-retry-completed.png",
+      "Bytes": 2409797
+    },
+    {
+      "Object": "5b9d8ba4bcdfd4d84557dda4b0ce8f218998724a",
+      "Path": "tasks/done/T-039B.evidence/guest-matrix-1/output/en-keep-completed.png",
+      "Bytes": 2407118
+    },
+    {
+      "Object": "59aa0dfa8a4b1f4ac6bbd342ac0ad5753cb12a51",
+      "Path": "tasks/done/T-039B.evidence/guest-matrix-2/output/en-keep-completed.png",
+      "Bytes": 2407078
+    },
+    {
+      "Object": "3e448d3c22b50d7312119c1a9f4fdd48b6423b62",
+      "Path": "tasks/done/T-028A.review/fixtures/white-1024x768.bmp",
+      "Bytes": 2359350
+    },
+    {
+      "Object": "0ea537284aaaf23561d75731a257471f7b92f0d5",
+      "Path": "tasks/done/T-039B.evidence/guest-matrix-4/output/zh-delete-choice.png",
+      "Bytes": 2337148
+    }
+  ],
+  "AboveGitHub100MiB": []
+}

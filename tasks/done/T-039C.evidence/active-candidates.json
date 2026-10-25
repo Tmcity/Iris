@@ -1,0 +1,26 @@
+{
+  "SourceCommit": "dcdfdded311fa00671dfd9747bb2101cbf8964f3",
+  "SourceGitTree": "1e80bd260c0ae08934c638ec2bce2301d6a372d6",
+  "Versions": [
+    {
+      "Version": "0.2.0",
+      "Directory": "artifacts/t039c/release-0.2.0-candidate-3",
+      "PackageRole": "older public candidate"
+    },
+    {
+      "Version": "0.2.1",
+      "Directory": "artifacts/t039c/release-0.2.1-candidate-3",
+      "PackageRole": "newer public candidate"
+    }
+  ],
+  "PlannedRefs": {
+    "Branch": "codex/t039c-public-release",
+    "PublicMain": "main",
+    "Tags": ["v0.2.0", "v0.2.1"],
+    "FirstRemoteWrite": "Architect checkpoint required before any push, tag, workflow trigger or Release API call"
+  },
+  "RemoteWritePerformed": false,
+  "PublicReleaseVerified": false,
+  "DefaultRuntimeBootstrapVerified": false,
+  "ProductionAnonymousUiUpgradeVerified": false
+}

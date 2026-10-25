@@ -1,0 +1,14 @@
+{
+  "Command": [
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-File",
+    "tasks\\done\\T-039C.evidence\\parse_powershell.ps1"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-25T08:19:11.786820+00:00",
+  "FinishedUtc": "2026-10-25T08:19:12.070487+00:00",
+  "ExitCode": 0,
+  "Output": "tasks/done/T-039C.evidence/powershell51-parse-1.log"
+}

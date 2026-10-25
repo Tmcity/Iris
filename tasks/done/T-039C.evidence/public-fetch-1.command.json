@@ -1,0 +1,19 @@
+{
+  "Command": [
+    "git",
+    "-c",
+    "credential.helper=",
+    "-c",
+    "http.extraHeader=",
+    "fetch",
+    "--no-tags",
+    "--no-write-fetch-head",
+    "https://github.com/Tmcity/Iris.git",
+    "main:refs/remotes/t039c-public/main"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-25T07:39:13.509520+00:00",
+  "FinishedUtc": "2026-10-25T07:39:15.150804+00:00",
+  "ExitCode": 0,
+  "Output": "tasks/done/T-039C.evidence/public-fetch-1.log"
+}

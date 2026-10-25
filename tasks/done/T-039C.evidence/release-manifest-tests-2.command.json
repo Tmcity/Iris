@@ -1,0 +1,19 @@
+{
+  "Command": [
+    "python",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "build\\tests",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-25T08:15:48.846640+00:00",
+  "FinishedUtc": "2026-10-25T08:15:49.113164+00:00",
+  "ExitCode": 0,
+  "Output": "tasks/done/T-039C.evidence/release-manifest-tests-2.log"
+}

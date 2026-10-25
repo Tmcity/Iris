@@ -1,0 +1,37 @@
+{
+  "Status": "Prepared; no remote write or new real public installation executed",
+  "ProductBaseline": "535ec1693ee4a656524bb1b0403d68ab7ce8ccfd",
+  "SignedOrderHead": "5077d5000de7304117eb54d3a89a5a23325e5360",
+  "PublicationCheckpoint": "Architect reviews the exact local source/checkpoint commits, refs, tag targets, candidates and assets before the first push/upload/publish/workflow trigger",
+  "RemoteWriteSequenceAfterReview": [
+    "Recheck public main/tags/Releases anonymously without credential helpers; public main must be an ancestor of the reviewed integration commit",
+    "Push codex/t039c-public-release and fast-forward main to the reviewed checkpoint commit; do not create tags implicitly",
+    "Push only the reviewed v0.2.0 tag; wait for final CI/job result, public Release and exact anonymous read-back bytes",
+    "Start one new owned clean guest and install the older version from its public outer Setup without a prefilled runtime cache or manual .NET install",
+    "After the real old Iris is running with owned synthetic data, push the reviewed v0.2.1 tag only; wait for CI/public Release and anonymously verified byte binding",
+    "Use the still-running old real application settings UI for check/download/Ready/confirmation/restart; preserve that original guest until verification ends"
+  ],
+  "DefaultBootstrap": {
+    "Input": "Public GitHub versioned outer Iris-0.2.0-Setup.exe; no local package mapping",
+    "GuestBefore": ["Unique owned Sandbox ID", "Clean Windows/user/privilege record", "No shared .NET10", "No inst-dotnet runtime cache", "No runtime preinstallation", "TLS/certificate validation unchanged"],
+    "Observed": ["Installer/payload SHA256 against anonymous public manifest", "Outer/native/runtime parent-child IDs and start times", "Held process handles and real exits", "Microsoft runtime logs and installed Desktop runtime", "Iris and UiaHost start/exit"],
+    "FailureAction": "Retain same instance/handles/logs; do not relaunch while any installer remains active. Report an actionable diagnosis/production-fix scope to the architect before implementing prerequisite changes. No host proxy/certificate changes and no cache-assisted success substitution."
+  },
+  "ProductionUI": {
+    "Control": "Owned guest PowerShell UIAutomation InvokePattern/TogglePattern against visible real settings controls; ordinary Iris CLI OpenSettings/Exit allowed for navigation/normal exit only",
+    "ForbiddenSubstitutes": ["GuestUpdateHost", "fake source", "replacement UpdateRuntime", "internal coordinator invocation", "changed parent path", "prefilled update packages", "GitHub token in guest"],
+    "Stages": [
+      "Record old version/process start/held handle and current UI language; disable/save automatic startup check using settings UI to make manual sequence observable",
+      "Seed only synthetic guest settings/DPAPI/history/log data with a data-only helper; helper has no update/maintenance methods and is not used to drive the upgrade",
+      "After newer publication, click Check; retain available-version screenshot and prove no newer nupkg or install/restart occurred",
+      "Click Download; retain actual Ready screenshot, newly verified full nupkg hash and prove old version/process remains and no apply/restart occurred",
+      "Click Install and restart; retain unsaved-draft/confirmation behavior, accept through visible confirmation UI and observe original held handle exit",
+      "Observe actual native apply/helper identities, maintenance transaction/start gate ordering, exactly one new Iris and new version",
+      "Read synthetic settings/DPAPI secret/SQLite history/log via production services and compare four before/after file hashes; verify uninstall registration, cleared transaction/work directories",
+      "Exit updated Iris normally, wait on same real handle, record zero exit and no Iris-owned processes; stop only the owned Sandbox ID and verify empty owned list"
+    ]
+  },
+  "Evidence": ["Public API/Release/run/job URLs and final statuses", "Immutable source commit/scoped tree", "Every actual asset path/size/SHA", "Unique attempt labels and original failures", "Screenshot language/version/button state and actual per-image visual review", "Observation count separate from boolean count and command/process exits"],
+  "AnonymousRateLimit": "The first current read observed API remaining=0. Respect reset headers and wait without credentials; neither a token nor a proxy/TLS workaround is an acceptable public client substitute.",
+  "NonClaims": ["Local and CI build bytes are not presumed identical", "A YAML file/workflow start/CLI success does not prove public release completion", "B cache-assisted bootstrap is historical only", "Full application is not delta application", "No C/parent acceptance or T-040/NFR start before architect review"]
+}

@@ -1,0 +1,24 @@
+test_ambiguous_edit_response_keeps_requested_outcome_unknown (build.tests.test_publish_release.PublicationReceiptTests.test_ambiguous_edit_response_keeps_requested_outcome_unknown) ... ok
+test_draft_readback_failure_never_requests_publication (build.tests.test_publish_release.PublicationReceiptTests.test_draft_readback_failure_never_requests_publication) ... ok
+test_edit_success_and_view_failure_retains_confirmed_request_unknown_visibility (build.tests.test_publish_release.PublicationReceiptTests.test_edit_success_and_view_failure_retains_confirmed_request_unknown_visibility) ... ok
+test_public_is_true_only_after_actual_visibility_response (build.tests.test_publish_release.PublicationReceiptTests.test_public_is_true_only_after_actual_visibility_response) ... ok
+test_local_process_cannot_publish (build.tests.test_publish_release.PublishingAdmissionTests.test_local_process_cannot_publish) ... ok
+test_manual_workflow_cannot_publish (build.tests.test_publish_release.PublishingAdmissionTests.test_manual_workflow_cannot_publish) ... ok
+test_wrong_repository_cannot_publish (build.tests.test_publish_release.PublishingAdmissionTests.test_wrong_repository_cannot_publish) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.112s
+
+OK
+{
+  "Tag": "v0.2.0",
+  "SourceCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "SourceGitTree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "Stage": "published-and-listed",
+  "Public": true,
+  "PublicationRequestAttempted": true,
+  "PublicationCliConfirmed": true,
+  "VisibilityVerification": "completed",
+  "ReleaseUrl": "https://github.com/Tmcity/Iris/releases/tag/v0.2.0",
+  "RunUrl": "https://github.com/Tmcity/Iris/actions/runs/123"
+}

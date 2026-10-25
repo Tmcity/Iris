@@ -1,0 +1,20 @@
+{
+  "PinnedVersion": "1.7.7",
+  "Files": [
+    {
+      "Url": "https://github.com/rhysd/actionlint/releases/download/v1.7.7/actionlint_1.7.7_checksums.txt",
+      "Path": "artifacts/t039c/actionlint-1.7.7/actionlint_1.7.7_checksums.txt",
+      "Bytes": 1119,
+      "Sha256": "ac22e6577b8d133c7cd779682e65712ef722e719a297633699a4da05e9f351e0"
+    },
+    {
+      "Url": "https://github.com/rhysd/actionlint/releases/download/v1.7.7/actionlint_1.7.7_windows_amd64.zip",
+      "Path": "artifacts/t039c/actionlint-1.7.7/actionlint_1.7.7_windows_amd64.zip",
+      "Bytes": 2229473,
+      "Sha256": "7f12f1801bca3d480d67aaf7774f4c2a6359a3ca8eebe382c95c10c9704aa731"
+    }
+  ],
+  "ReleaseChecksumMatched": true,
+  "ExecutablePath": "F:\\Iris\\artifacts\\t039c\\actionlint-1.7.7\\actionlint.exe",
+  "ExecutableSha256": "6d470a52039a433bccdf57bd65170885a5b23e511155d0de587c2c3ce0eb1c24"
+}

@@ -1,0 +1,11 @@
+package: exit=1
+Traceback (most recent call last):
+  File "F:\Iris\build\release_pipeline.py", line 97, in <module>
+    package(args.version, args.output.resolve(), args.logs.resolve(), args.validation.resolve(), args.previous.resolve() if args.previous else None, args.tool_source.resolve() if args.tool_source else None)
+  File "F:\Iris\build\release_pipeline.py", line 67, in package
+    run(command, logs, "package", environment)
+  File "F:\Iris\build\release_pipeline.py", line 24, in run
+    require(result.returncode == 0, "Recorded command failed: " + label)
+  File "F:\Iris\build\release_manifest.py", line 36, in require
+    raise ValueError(message)
+ValueError: Recorded command failed: package

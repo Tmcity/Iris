@@ -1,0 +1,32 @@
+test_ambiguous_edit_response_keeps_requested_outcome_unknown (test_publish_release.PublicationReceiptTests.test_ambiguous_edit_response_keeps_requested_outcome_unknown) ... ok
+test_draft_readback_failure_never_requests_publication (test_publish_release.PublicationReceiptTests.test_draft_readback_failure_never_requests_publication) ... ok
+test_edit_success_and_view_failure_retains_confirmed_request_unknown_visibility (test_publish_release.PublicationReceiptTests.test_edit_success_and_view_failure_retains_confirmed_request_unknown_visibility) ... ok
+test_public_is_true_only_after_actual_visibility_response (test_publish_release.PublicationReceiptTests.test_public_is_true_only_after_actual_visibility_response) ... ok
+test_local_process_cannot_publish (test_publish_release.PublishingAdmissionTests.test_local_process_cannot_publish) ... ok
+test_manual_workflow_cannot_publish (test_publish_release.PublishingAdmissionTests.test_manual_workflow_cannot_publish) ... ok
+test_wrong_repository_cannot_publish (test_publish_release.PublishingAdmissionTests.test_wrong_repository_cannot_publish) ... ok
+test_corrupted_full_package_is_rejected (test_release_manifest.PublicAssetTests.test_corrupted_full_package_is_rejected) ... ok
+test_hash_manifest_requires_exact_asset_set (test_release_manifest.PublicAssetTests.test_hash_manifest_requires_exact_asset_set) ... ok
+test_internal_setup_is_rejected_even_if_accidentally_present (test_release_manifest.PublicAssetTests.test_internal_setup_is_rejected_even_if_accidentally_present) ... ok
+test_json_duplicate_property_is_rejected (test_release_manifest.PublicAssetTests.test_json_duplicate_property_is_rejected) ... ok
+test_original_internal_setup_reference_is_rejected (test_release_manifest.PublicAssetTests.test_original_internal_setup_reference_is_rejected) ... ok
+test_public_index_uses_outer_installer_and_matches_actual_package (test_release_manifest.PublicAssetTests.test_public_index_uses_outer_installer_and_matches_actual_package) ... ok
+test_sdk_index_is_normalized_to_existing_outer_entry (test_release_manifest.PublicAssetTests.test_sdk_index_is_normalized_to_existing_outer_entry) ... ok
+test_unsafe_feed_name_is_rejected_before_opening_it (test_release_manifest.PublicAssetTests.test_unsafe_feed_name_is_rejected_before_opening_it) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.150s
+
+OK
+{
+  "Tag": "v0.2.0",
+  "SourceCommit": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "SourceGitTree": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "Stage": "published-and-listed",
+  "Public": true,
+  "PublicationRequestAttempted": true,
+  "PublicationCliConfirmed": true,
+  "VisibilityVerification": "completed",
+  "ReleaseUrl": "https://github.com/Tmcity/Iris/releases/tag/v0.2.0",
+  "RunUrl": "https://github.com/Tmcity/Iris/actions/runs/123"
+}

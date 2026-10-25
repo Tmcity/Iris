@@ -1,0 +1,16 @@
+test_local_process_cannot_publish (test_publish_release.PublishingAdmissionTests.test_local_process_cannot_publish) ... ok
+test_manual_workflow_cannot_publish (test_publish_release.PublishingAdmissionTests.test_manual_workflow_cannot_publish) ... ok
+test_wrong_repository_cannot_publish (test_publish_release.PublishingAdmissionTests.test_wrong_repository_cannot_publish) ... ok
+test_corrupted_full_package_is_rejected (test_release_manifest.PublicAssetTests.test_corrupted_full_package_is_rejected) ... ok
+test_hash_manifest_requires_exact_asset_set (test_release_manifest.PublicAssetTests.test_hash_manifest_requires_exact_asset_set) ... ok
+test_internal_setup_is_rejected_even_if_accidentally_present (test_release_manifest.PublicAssetTests.test_internal_setup_is_rejected_even_if_accidentally_present) ... ok
+test_json_duplicate_property_is_rejected (test_release_manifest.PublicAssetTests.test_json_duplicate_property_is_rejected) ... ok
+test_original_internal_setup_reference_is_rejected (test_release_manifest.PublicAssetTests.test_original_internal_setup_reference_is_rejected) ... ok
+test_public_index_uses_outer_installer_and_matches_actual_package (test_release_manifest.PublicAssetTests.test_public_index_uses_outer_installer_and_matches_actual_package) ... ok
+test_sdk_index_is_normalized_to_existing_outer_entry (test_release_manifest.PublicAssetTests.test_sdk_index_is_normalized_to_existing_outer_entry) ... ok
+test_unsafe_feed_name_is_rejected_before_opening_it (test_release_manifest.PublicAssetTests.test_unsafe_feed_name_is_rejected_before_opening_it) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.045s
+
+OK

@@ -1,0 +1,23 @@
+{
+  "Command": [
+    "python",
+    "-B",
+    "build\\release_pipeline.py",
+    "package",
+    "--version",
+    "0.2.0",
+    "--output",
+    "F:\\Iris\\artifacts\\t039c\\release-0.2.0-candidate-2",
+    "--logs",
+    "F:\\Iris\\artifacts\\t039c\\package-0.2.0-candidate-2",
+    "--validation",
+    "F:\\Iris\\tasks\\done\\T-039C.evidence\\local-validation-3-results",
+    "--tool-source",
+    "F:\\Iris\\artifacts\\t039b\\tool-feed"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-25T09:34:57.419766+00:00",
+  "FinishedUtc": "2026-10-25T09:35:53.011470+00:00",
+  "ExitCode": 0,
+  "Output": "tasks/done/T-039C.evidence/package-0.2.0-candidate-2.log"
+}

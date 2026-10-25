@@ -1,0 +1,17 @@
+{
+  "Command": [
+    "python",
+    "-B",
+    "build\\release_manifest.py",
+    "indexes",
+    "--version",
+    "0.2.1",
+    "--directory",
+    "artifacts\\t039b\\release-0.2.1-final-8"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-25T08:03:09.062899+00:00",
+  "FinishedUtc": "2026-10-25T08:03:09.397362+00:00",
+  "ExitCode": 1,
+  "Output": "tasks/done/T-039C.evidence/public-assets-before-1.log"
+}

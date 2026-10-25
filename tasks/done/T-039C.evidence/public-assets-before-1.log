@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "F:\Iris\build\release_manifest.py", line 209, in <module>
+    result = {"Assets": len(verify_indexes(args.directory, args.version))}
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Iris\build\release_manifest.py", line 112, in verify_indexes
+    require((directory / name).is_file(), "Asset index references missing public file: " + name)
+  File "F:\Iris\build\release_manifest.py", line 36, in require
+    raise ValueError(message)
+ValueError: Asset index references missing public file: Iris-win-Setup.exe

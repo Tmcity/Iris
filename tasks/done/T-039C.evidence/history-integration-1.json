@@ -1,0 +1,10 @@
+{
+  "LocalParent": "5077d5000de7304117eb54d3a89a5a23325e5360",
+  "PublicParent": "877491e1421197ed6394f53d7f4d6ef57ab22e5e",
+  "Conflict": "README.md add/add",
+  "Resolution": "Keep the complete local README, whose first heading preserves the public README text; also retain exact initial public README bytes under docs/history and both histories via a normal two-parent merge.",
+  "PublicReadmeSha256": "7f580a0be3abafda1f3aa0e44801e13fd8b55592bd48dde8399f25ce003e274e",
+  "PublicReadmeBytes": 6,
+  "ArchivedPath": "docs/history/README.initial-github.md",
+  "RemoteWritePerformed": false
+}

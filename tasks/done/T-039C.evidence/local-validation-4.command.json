@@ -1,0 +1,15 @@
+{
+  "Command": [
+    "python",
+    "-B",
+    "build\\release_pipeline.py",
+    "validate",
+    "--output",
+    "F:\\Iris\\tasks\\done\\T-039C.evidence\\local-validation-4-results"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-25T09:40:26.189242+00:00",
+  "FinishedUtc": "2026-10-25T09:42:31.601866+00:00",
+  "ExitCode": 0,
+  "Output": "tasks/done/T-039C.evidence/local-validation-4.log"
+}

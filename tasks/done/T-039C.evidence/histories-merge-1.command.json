@@ -1,0 +1,15 @@
+{
+  "Command": [
+    "git",
+    "merge",
+    "--no-commit",
+    "--no-ff",
+    "--allow-unrelated-histories",
+    "refs/remotes/t039c-public/direct-main"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-25T07:48:42.784990+00:00",
+  "FinishedUtc": "2026-10-25T07:48:43.533423+00:00",
+  "ExitCode": 1,
+  "Output": "tasks/done/T-039C.evidence/histories-merge-1.log"
+}

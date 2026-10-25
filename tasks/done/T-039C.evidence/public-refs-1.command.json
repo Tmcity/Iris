@@ -1,0 +1,18 @@
+{
+  "Command": [
+    "git",
+    "-c",
+    "credential.helper=",
+    "-c",
+    "http.extraHeader=",
+    "ls-remote",
+    "--heads",
+    "--tags",
+    "https://github.com/Tmcity/Iris.git"
+  ],
+  "WorkingDirectory": "F:\\Iris",
+  "StartedUtc": "2026-10-25T07:39:08.267051+00:00",
+  "FinishedUtc": "2026-10-25T07:39:09.889528+00:00",
+  "ExitCode": 0,
+  "Output": "tasks/done/T-039C.evidence/public-refs-1.log"
+}
