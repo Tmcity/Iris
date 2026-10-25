@@ -30,6 +30,15 @@ class PublicAssetTests(unittest.TestCase):
     def test_public_index_uses_outer_installer_and_matches_actual_package(self):
         self.assertEqual(1, len(release.verify_indexes(self.directory, "0.2.0")))
 
+    def test_legacy_feed_contains_full_packages_while_json_feed_may_include_delta(self):
+        delta = b"synthetic delta bytes"
+        delta_name = "Iris-0.2.0-delta.nupkg"
+        (self.directory / delta_name).write_bytes(delta)
+        delta_entry = {"PackageId": "Iris", "Version": "0.2.0", "Type": "Delta", "FileName": delta_name,
+            "Size": len(delta), "SHA256": hashlib.sha256(delta).hexdigest(), "SHA1": hashlib.sha1(delta).hexdigest()}
+        self.write("releases.win.json", {"Assets": [self.entry, delta_entry]})
+        self.assertEqual(2, len(release.verify_indexes(self.directory, "0.2.0")))
+
     def test_original_internal_setup_reference_is_rejected(self):
         self.write("assets.win.json", [{"RelativeFileName": "Iris-win-Setup.exe", "Type": "Installer"}])
         with self.assertRaisesRegex(ValueError, "missing public file"):

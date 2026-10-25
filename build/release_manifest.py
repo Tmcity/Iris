@@ -123,7 +123,8 @@ def verify_indexes(directory, version):
         require(name in names and name not in legacy_names, "Invalid legacy feed entry")
         require(int(size) == (directory / name).stat().st_size and digest(directory / name, "sha1").upper() == sha1.upper(), "Legacy feed bytes differ")
         legacy_names.add(name)
-    require(legacy_names == names, "Legacy feed/package set differs")
+    full_names = {entry["FileName"] for entry in feed if entry["Type"] == "Full"}
+    require(legacy_names == full_names, "Legacy feed/full-package set differs")
     return feed
 
 def normalize_assets(directory, version):
