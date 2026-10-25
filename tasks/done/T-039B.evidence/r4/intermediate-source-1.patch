@@ -1,0 +1,549 @@
+diff --git a/src/Iris.App/Resources/Strings.en-US.resx b/src/Iris.App/Resources/Strings.en-US.resx
+index 2029a22..11c6d4e 100644
+--- a/src/Iris.App/Resources/Strings.en-US.resx
++++ b/src/Iris.App/Resources/Strings.en-US.resx
+@@ -1395,4 +1395,10 @@ Use one form per invocation and pass the text as a single argument.</value>
+   <data name="UpdateStopped" xml:space="preserve">
+     <value>Update service stopped</value>
+   </data>
+-</root>
+\ No newline at end of file
++  <data name="UpdateRecoveryRequired" xml:space="preserve">
++    <value>Shutdown did not complete. The confirmed update is still available to retry in the update window.</value>
++  </data>
++  <data name="ShutdownIncomplete" xml:space="preserve">
++    <value>Shutdown did not complete. Retry closing Iris.</value>
++  </data>
++</root>
+diff --git a/src/Iris.App/Resources/Strings.resx b/src/Iris.App/Resources/Strings.resx
+index 144d6c8..87515b9 100644
+--- a/src/Iris.App/Resources/Strings.resx
++++ b/src/Iris.App/Resources/Strings.resx
+@@ -1395,4 +1395,10 @@ Iris 命令行用法：
+   <data name="UpdateStopped" xml:space="preserve">
+     <value>更新服务已停止</value>
+   </data>
+-</root>
+\ No newline at end of file
++  <data name="UpdateRecoveryRequired" xml:space="preserve">
++    <value>退出未完成，已确认的更新仍可重试。请在更新窗口中重新安装。</value>
++  </data>
++  <data name="ShutdownIncomplete" xml:space="preserve">
++    <value>应用退出未完成，请重试退出。</value>
++  </data>
++</root>
+diff --git a/src/Iris.App/Services/AppLifetime.cs b/src/Iris.App/Services/AppLifetime.cs
+index b8d41fc..825fe53 100644
+--- a/src/Iris.App/Services/AppLifetime.cs
++++ b/src/Iris.App/Services/AppLifetime.cs
+@@ -1,4 +1,5 @@
+ using System;
++using System.Collections.Generic;
+ using System.Windows;
+ using Iris.App.Hosting;
+ using Iris.Core.Errors;
+@@ -42,17 +43,52 @@ internal sealed partial class AppLifetime : IAppLifetime
+         try { await _ui.InvokeAsync(() => _serviceProvider.GetRequiredService<AppBootstrapper>().StopAsync(), CancellationToken.None).ConfigureAwait(false); }
+         catch (Exception primary)
+         {
++            var cleanupFailures = new List<Exception>();
+             var handoff = _serviceProvider.GetService<Iris.App.Updates.UpdateHandoff>();
+-            try { if (handoff != null) await handoff.RevokeAsync().ConfigureAwait(false); }
+-            catch (Exception cleanup) { throw new AggregateException(primary, cleanup); }
+-            finally
++            try
+             {
+-                var coordinator = _serviceProvider.GetService<Iris.App.Updates.AppUpdateCoordinator>();
+-                coordinator?.RollbackLastApply(ErrorCode.Unknown);
+-                var presenter = _serviceProvider.GetService<Iris.App.Settings.SettingsWindowPresenter>();
+-                presenter?.ResetHandoffTransferred();
++                if (handoff != null) await handoff.RevokeAsync().ConfigureAwait(false);
+             }
+-            throw;
++            catch (Exception cleanup) { cleanupFailures.Add(cleanup); }
++
++            var coordinator = _serviceProvider.GetService<Iris.App.Updates.AppUpdateCoordinator>();
++            bool recoveryAvailable = false;
++            try { recoveryAvailable = coordinator?.RollbackLastApply(ErrorCode.Unknown) == true; }
++            catch (Exception cleanup) { cleanupFailures.Add(cleanup); }
++
++            var presenter = _serviceProvider.GetService<Iris.App.Settings.SettingsWindowPresenter>();
++            if (recoveryAvailable && presenter != null)
++            {
++                try
++                {
++                    await _ui.InvokeAsync(async () =>
++                    {
++                        // The presenter is the owner of the real scoped VM. If the
++                        // previous settings session survived, resume that VM; if it
++                        // was already cleaned up, ShowAsync creates a new scope.
++                        presenter.ResumeUpdateRecovery();
++                        await presenter.ShowAsync("general").ConfigureAwait(true);
++                    }, CancellationToken.None).ConfigureAwait(false);
++                }
++                catch (Exception cleanup) { cleanupFailures.Add(cleanup); }
++            }
++
++            try
++            {
++                var notifications = _serviceProvider.GetService<INotificationService>();
++                notifications?.Notify(NotificationLevel.Error, UiText.AppName,
++                    recoveryAvailable ? UiText.UpdateRecoveryRequired : UiText.ShutdownIncomplete);
++            }
++            catch (Exception cleanup) { cleanupFailures.Add(cleanup); }
++
++            if (cleanupFailures.Count != 0)
++            {
++                cleanupFailures.Insert(0, primary);
++                throw new AggregateException(cleanupFailures);
++            }
++
++            System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(primary).Throw();
++            throw new InvalidOperationException("Shutdown failure was not rethrown.");
+         }
+     }
+     [LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = "Application shutdown incomplete: {ExceptionType}")]
+diff --git a/src/Iris.App/Settings/SettingsViewModel.Updates.cs b/src/Iris.App/Settings/SettingsViewModel.Updates.cs
+index db4026e..2738b1e 100644
+--- a/src/Iris.App/Settings/SettingsViewModel.Updates.cs
++++ b/src/Iris.App/Settings/SettingsViewModel.Updates.cs
+@@ -12,9 +12,10 @@ internal sealed partial class SettingsViewModel
+     private AppUpdateCoordinator? _updates;
+     private UpdateHandoff? _handoff;
+     private IAppLifetime? _updateLifetime;
+-    private readonly CancellationTokenSource _updateWindowClosing = new();
++    private CancellationTokenSource _updateWindowClosing = new();
+     private UpdateSnapshot? _updateSnapshot;
+     private bool _updateHandoffTransferred;
++    private bool _updateRecoveryMode;
+     private Task? _updateCancelTask;
+     private bool _updateCancelJoined;
+     public string CurrentVersion => _updateSnapshot?.CurrentVersion ?? typeof(SettingsViewModel).Assembly.GetName().Version?.ToString(3) ?? "";
+@@ -28,15 +29,17 @@ internal sealed partial class SettingsViewModel
+     private void InitializeUpdates(AppUpdateCoordinator? coordinator, UpdateHandoff? handoff, IAppLifetime? lifetime)
+     {
+         _updates = coordinator; _handoff = handoff; _updateLifetime = lifetime; _updateSnapshot = coordinator?.Snapshot;
++        _updateRecoveryMode = coordinator?.IsRecoveryAvailable == true;
+         bool Active() => !_disposed && !_isStopped && _updates != null;
++        bool RecoveryActive() => !_disposed && _updateRecoveryMode && _updates != null && _updates.IsRecoveryAvailable;
+         CheckUpdateCommand = new AsyncRelayCommand(() => UpdateWorkAsync(() => _updates!.CheckAsync(this)),
+-            () => Active() && _updateSnapshot?.Phase is UpdatePhase.Idle or UpdatePhase.UpToDate or UpdatePhase.NoRelease or UpdatePhase.Failed or UpdatePhase.Available or UpdatePhase.Ready);
++            () => Active() && !_updates!.IsAcceptanceClosed && _updateSnapshot?.Phase is UpdatePhase.Idle or UpdatePhase.UpToDate or UpdatePhase.NoRelease or UpdatePhase.Failed or UpdatePhase.Available or UpdatePhase.Ready);
+         DownloadUpdateCommand = new AsyncRelayCommand(() => UpdateWorkAsync(() => _updates!.DownloadAsync(this, _updateSnapshot!.OfferId!.Value)),
+-            () => Active() && _updateSnapshot?.Phase == UpdatePhase.Available);
++            () => Active() && !_updates!.IsAcceptanceClosed && _updateSnapshot?.Phase == UpdatePhase.Available);
+         CancelUpdateCommand = new AsyncRelayCommand(() => UpdateWorkAsync(() => _updates!.CancelAsync()),
+             () => Active() && _updateSnapshot?.Phase is UpdatePhase.Checking or UpdatePhase.Downloading or UpdatePhase.CleanupPending);
+-        InstallUpdateCommand = new AsyncRelayCommand(() => UpdateWorkAsync(InstallUpdateAsync),
+-            () => Active() && _handoff != null && _updateLifetime != null && (_updateSnapshot?.Phase == UpdatePhase.Ready || (_updateSnapshot?.Phase == UpdatePhase.Failed && _updates?.HasCandidate == true)));
++        InstallUpdateCommand = new AsyncRelayCommand(() => UpdateWorkAsync(InstallUpdateAsync, allowRecovery: true),
++            () => (Active() || RecoveryActive()) && _handoff != null && _updateLifetime != null && (_updateSnapshot?.Phase == UpdatePhase.Ready || (_updateSnapshot?.Phase == UpdatePhase.Failed && _updates?.HasCandidate == true)));
+         if (_updates != null) _updates.Changed += OnUpdateChanged;
+     }
+     private void OnUpdateChanged(object? sender, EventArgs args)
+@@ -58,12 +61,12 @@ internal sealed partial class SettingsViewModel
+             return Task.CompletedTask;
+         }, CancellationToken.None));
+     }
+-    private async Task UpdateWorkAsync(Func<Task> action)
++    private async Task UpdateWorkAsync(Func<Task> action, bool allowRecovery = false)
+     {
+         TaskCompletionSource completion;
+         lock (_admissionLock)
+         {
+-            if (_isStopped || _disposed) return;
++            if ((_isStopped && !(allowRecovery && _updateRecoveryMode)) || _disposed) return;
+             completion = new(TaskCreationOptions.RunContinuationsAsynchronously); _activeWork.Add(completion.Task);
+         }
+         try { await action().ConfigureAwait(false); }
+@@ -116,6 +119,35 @@ internal sealed partial class SettingsViewModel
+             _updateLifetime.RequestShutdown();
+         }
+     }
++    /// <summary>
++    /// Reopens only the local prepared-update recovery action after application
++    /// shutdown failed. Ordinary settings and network work remains stopped.
++    /// Must be called by the owning SettingsWindowPresenter on the WPF dispatcher.
++    /// </summary>
++    internal void ResumeUpdateRecovery()
++    {
++        if (_disposed || _updates?.IsRecoveryAvailable != true) return;
++        lock (_admissionLock)
++        {
++            _updateRecoveryMode = true;
++            _updates.Changed -= OnUpdateChanged;
++            _updates.Changed += OnUpdateChanged;
++            if (_updateWindowClosing.IsCancellationRequested)
++            {
++                _updateWindowClosing.Dispose();
++                _updateWindowClosing = new CancellationTokenSource();
++            }
++            _updateCancelTask = null;
++            _updateCancelJoined = false;
++            _updateSnapshot = _updates.Snapshot;
++        }
++        OnPropertyChanged(nameof(UpdateStatus));
++        OnPropertyChanged(nameof(UpdateDetail));
++        OnPropertyChanged(nameof(CurrentVersion));
++        OnPropertyChanged(nameof(UpdateProgress));
++        foreach (var command in new[] { CheckUpdateCommand, DownloadUpdateCommand, CancelUpdateCommand, InstallUpdateCommand })
++            (command as AsyncRelayCommand)?.RaiseCanExecuteChanged();
++    }
+     internal bool UpdateHandoffTransferred
+     {
+         get
+diff --git a/src/Iris.App/Settings/SettingsWindowPresenter.cs b/src/Iris.App/Settings/SettingsWindowPresenter.cs
+index a195d1f..e47dfc4 100644
+--- a/src/Iris.App/Settings/SettingsWindowPresenter.cs
++++ b/src/Iris.App/Settings/SettingsWindowPresenter.cs
+@@ -52,6 +52,25 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
+         }
+     }
+ 
++    /// <summary>
++    /// Reopens the failed-update recovery action without reopening ordinary
++    /// settings admission. The caller owns the WPF dispatcher boundary.
++    /// </summary>
++    internal void ResumeUpdateRecovery()
++    {
++        SettingsWindowSession? session;
++        lock (_gate)
++        {
++            _isShuttingDown = false;
++            session = _activeSession;
++        }
++        if (session != null)
++        {
++            session.ViewModel.ResetHandoffTransferred();
++            session.ViewModel.ResumeUpdateRecovery();
++        }
++    }
++
+ 
+     public SettingsWindowPresenter(
+         IServiceProvider serviceProvider,
+diff --git a/src/Iris.App/UiText.Updates.cs b/src/Iris.App/UiText.Updates.cs
+index cce01a6..076ce47 100644
+--- a/src/Iris.App/UiText.Updates.cs
++++ b/src/Iris.App/UiText.Updates.cs
+@@ -22,5 +22,7 @@ internal static partial class UiText
+     public static string UpdateCleanupPending => global::Iris.App.Resources.AppResources.Get("UpdateCleanupPending");
+     public static string UpdateFailed => global::Iris.App.Resources.AppResources.Get("UpdateFailed");
+     public static string UpdateStopped => global::Iris.App.Resources.AppResources.Get("UpdateStopped");
++    public static string UpdateRecoveryRequired => global::Iris.App.Resources.AppResources.Get("UpdateRecoveryRequired");
++    public static string ShutdownIncomplete => global::Iris.App.Resources.AppResources.Get("ShutdownIncomplete");
+     internal static string UpdateState(Updates.UpdatePhase phase) => global::Iris.App.Resources.AppResources.Get("Update" + phase);
+ }
+diff --git a/src/Iris.App/Updates/AppUpdateCoordinator.cs b/src/Iris.App/Updates/AppUpdateCoordinator.cs
+index b45e463..70cba17 100644
+--- a/src/Iris.App/Updates/AppUpdateCoordinator.cs
++++ b/src/Iris.App/Updates/AppUpdateCoordinator.cs
+@@ -27,7 +27,7 @@ internal sealed partial class AppUpdateCoordinator
+     private readonly INotificationService? _notifications;
+     private Entry? _entry;
+     private Task? _stop;
+-    private bool _closing, _started;
++    private bool _closing, _started, _recoveryAvailable;
+     private long _generation;
+     private (Guid Id, UpdateInfo Info)? _offer;
+     private UpdateCandidate? _candidate, _lastCandidate;
+@@ -35,6 +35,13 @@ internal sealed partial class AppUpdateCoordinator
+     internal event EventHandler? Changed;
+     internal UpdateSnapshot Snapshot { get { lock (_gate) return _snapshot; } }
+     internal bool HasCandidate { get { lock (_gate) return _candidate != null; } }
++    /// <summary>
++    /// Indicates that shutdown admission is closed but a previously validated local
++    /// candidate can still be prepared again by the shutdown recovery owner.
++    /// Ordinary checks and downloads remain closed in this state.
++    /// </summary>
++    internal bool IsRecoveryAvailable { get { lock (_gate) return _recoveryAvailable && _candidate != null; } }
++    internal bool IsAcceptanceClosed { get { lock (_gate) return _closing; } }
+     public AppUpdateCoordinator(UpdateRuntime runtime, ISettingsService settings, TimeProvider time, ILogger<AppUpdateCoordinator>? logger = null, INotificationService? notifications = null)
+     { _runtime = runtime; _settings = settings; _time = time; _logger = logger ?? NullLogger<AppUpdateCoordinator>.Instance; _notifications = notifications; _snapshot = new(UpdatePhase.Unsupported, runtime.Version); }
+     internal void Start()
+@@ -220,38 +227,41 @@ internal sealed partial class AppUpdateCoordinator
+     {
+         lock (_gate)
+         {
+-            if (_closing || _stop is { IsCompleted: false } || (_entry != null && (!_entry.Work.IsCompleted || !_entry.Cleaned))
++            bool recovery = _closing && _recoveryAvailable && _candidate?.Id == id;
++            if ((_closing && !recovery) || _stop is { IsCompleted: false } || (_entry != null && (!_entry.Work.IsCompleted || !_entry.Cleaned))
+                 || _candidate?.Id != id || (_snapshot.Phase != UpdatePhase.Ready && _snapshot.Phase != UpdatePhase.Failed)) return Task.FromResult<UpdateCandidate?>(null);
+             var candidate = _candidate; _candidate = null; _lastCandidate = candidate;
+             var entry = new Entry(owner, false, ++_generation, _time, TimeSpan.FromSeconds(30), token);
+             _entry = entry; _snapshot = _snapshot with { Phase = UpdatePhase.Downloading };
+-            var work = PrepareCoreAsync(entry, candidate); entry.Work = work; return work;
++            var work = PrepareCoreAsync(entry, candidate, recovery); entry.Work = work; return work;
+         }
+     }
+     internal void RollbackApply(UpdateCandidate candidate, ErrorCode error)
+     {
+         lock (_gate)
+         {
+-            if (_closing) return;
+             _candidate = candidate;
+             _lastCandidate = candidate;
++            _recoveryAvailable = _closing;
+             _snapshot = new(UpdatePhase.Failed, _runtime.Version, candidate.Id, candidate.Version, 100, Error: error);
+         }
+         Notify();
+     }
+-    internal void RollbackLastApply(ErrorCode error)
++    internal bool RollbackLastApply(ErrorCode error)
+     {
+         UpdateCandidate? candidate;
+         lock (_gate)
+         {
+-            if (_closing || _lastCandidate == null) return;
++            if (_lastCandidate == null) return false;
+             candidate = _lastCandidate;
+             _candidate = candidate;
++            _recoveryAvailable = true;
+             _snapshot = new(UpdatePhase.Failed, _runtime.Version, candidate.Id, candidate.Version, 100, Error: error);
+         }
+         Notify();
++        return true;
+     }
+-    private async Task<UpdateCandidate?> PrepareCoreAsync(Entry entry, UpdateCandidate candidate)
++    private async Task<UpdateCandidate?> PrepareCoreAsync(Entry entry, UpdateCandidate candidate, bool recovery)
+     {
+         await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding); Notify();
+         bool valid = false;
+@@ -265,11 +275,32 @@ internal sealed partial class AppUpdateCoordinator
+             try { await entry.CleanupAsync().ConfigureAwait(false); }
+             catch (Exception ex) { LogFailure(_logger, "cleanup", ex.GetType().Name); }
+         }
+-        lock (_gate) _snapshot = new(entry.Cleaned ? (_closing ? UpdatePhase.Stopped : failure == null ? UpdatePhase.Idle : UpdatePhase.Failed) : UpdatePhase.CleanupPending, _runtime.Version, Error: failure);
++        lock (_gate)
++        {
++            bool keepCandidate = failure != null || !entry.Cleaned || (recovery && _closing);
++            if (keepCandidate)
++            {
++                _candidate = candidate;
++                _lastCandidate = candidate;
++                _recoveryAvailable = _closing || _recoveryAvailable;
++            }
++            _snapshot = new(entry.Cleaned ? (_closing && !recovery ? UpdatePhase.Stopped : failure == null ? UpdatePhase.Idle : UpdatePhase.Failed) : UpdatePhase.CleanupPending, _runtime.Version,
++                keepCandidate ? candidate.Id : null, keepCandidate ? candidate.Version : null, keepCandidate ? 100 : 0, failure);
++        }
+         Notify();
+-        lock (_gate) return valid && entry.Cleaned && !_closing && entry.Generation == _generation && !entry.TokenCanceled ? candidate : null;
++        lock (_gate) return valid && entry.Cleaned && (!_closing || recovery) && entry.Generation == _generation && !entry.TokenCanceled ? candidate : null;
++    }
++    internal void StopAcceptance()
++    {
++        lock (_gate)
++        {
++            _closing = true;
++            _entry?.Cancel();
++            if (_candidate != null) _lastCandidate = _candidate;
++            _candidate = null;
++            _recoveryAvailable = false;
++        }
+     }
+-    internal void StopAcceptance() { lock (_gate) { _closing = true; _entry?.Cancel(); _candidate = null; } }
+     internal async Task StopAsync()
+     {
+         StopAcceptance(); _settings.Changed -= OnSettingsChanged;
+diff --git a/tests/Iris.App.Tests/Updates/UpdateCoordinatorTests.cs b/tests/Iris.App.Tests/Updates/UpdateCoordinatorTests.cs
+index cff751c..98bd2c3 100644
+--- a/tests/Iris.App.Tests/Updates/UpdateCoordinatorTests.cs
++++ b/tests/Iris.App.Tests/Updates/UpdateCoordinatorTests.cs
+@@ -129,6 +129,64 @@ public sealed class UpdateCoordinatorTests
+         }
+         finally { runtime.ValidationRelease.TrySetResult(); await preparing; if (closing != null) await closing; await coordinator.StopAsync(); }
+     }
++
++    [Fact]
++    public async Task ShutdownFailureRecoveryRetainsCandidate_ClosesNetworkAdmission_AndAllowsRepeatedLocalPrepare()
++    {
++        using var directory = new TempDirectory();
++        var source = new Source { Package = PackageBytes() };
++        var settings = Substitute.For<ISettingsService>();
++        settings.Current.Returns(new AppSettings { General = new() { CheckForUpdates = false } });
++        var coordinator = new AppUpdateCoordinator(new Runtime(directory.Path, source), settings, new FakeTimeProvider());
++        coordinator.Start();
++
++        try
++        {
++            await coordinator.CheckAsync(this);
++            var offer = coordinator.Snapshot.OfferId!.Value;
++            await coordinator.DownloadAsync(this, offer);
++            var prepared = await coordinator.PrepareApplyAsync(this, offer, CancellationToken.None);
++            prepared.ShouldNotBeNull();
++
++            // This is the production stop boundary: acceptance is closed and the
++            // already prepared candidate is no longer a normal install button.
++            await coordinator.StopAsync();
++            coordinator.Snapshot.Phase.ShouldBe(UpdatePhase.Stopped);
++            coordinator.HasCandidate.ShouldBeFalse();
++            var stoppedCheck = coordinator.CheckAsync(this);
++            stoppedCheck.ShouldBe(Task.CompletedTask);
++            await stoppedCheck;
++            source.Requests.ShouldBe(1);
++
++            coordinator.RollbackLastApply(ErrorCode.Unknown).ShouldBeTrue();
++            coordinator.Snapshot.Phase.ShouldBe(UpdatePhase.Failed);
++            coordinator.HasCandidate.ShouldBeTrue();
++            coordinator.IsRecoveryAvailable.ShouldBeTrue();
++
++            // Recovery never reopens the stopped feed/download path.
++            await coordinator.CheckAsync(this);
++            source.Requests.ShouldBe(1);
++
++            var firstRetry = await coordinator.PrepareApplyAsync(this, prepared!.Id, CancellationToken.None);
++            firstRetry.ShouldNotBeNull();
++            coordinator.RollbackApply(firstRetry!, ErrorCode.Timeout);
++            coordinator.Snapshot.Phase.ShouldBe(UpdatePhase.Failed);
++            coordinator.HasCandidate.ShouldBeTrue();
++
++            // A second handoff failure still leaves the same candidate owned by
++            // the recovery path, and a later local validation can succeed.
++            var secondRetry = await coordinator.PrepareApplyAsync(this, prepared.Id, CancellationToken.None);
++            secondRetry.ShouldNotBeNull();
++            coordinator.RollbackApply(secondRetry!, ErrorCode.Unknown);
++            var successfulRetry = await coordinator.PrepareApplyAsync(this, prepared.Id, CancellationToken.None);
++            successfulRetry.ShouldNotBeNull();
++            source.Requests.ShouldBe(1);
++        }
++        finally
++        {
++            await coordinator.StopAsync();
++        }
++    }
+     internal static byte[] PackageBytes()
+     {
+         using var output = new MemoryStream();
+diff --git a/tests/Iris.App.Tests/Updates/UpdateHandoffLifecycleTests.cs b/tests/Iris.App.Tests/Updates/UpdateHandoffLifecycleTests.cs
+index d2f9bfe..122f9a0 100644
+--- a/tests/Iris.App.Tests/Updates/UpdateHandoffLifecycleTests.cs
++++ b/tests/Iris.App.Tests/Updates/UpdateHandoffLifecycleTests.cs
+@@ -125,37 +125,35 @@ public sealed class UpdateHandoffLifecycleTests
+ 
+                 var host = Substitute.For<IHost>();
+                 var failure = new IOException("simulated host shutdown failure");
+-                host.StopAsync(Arg.Any<CancellationToken>()).Returns(_ => Task.FromException(failure));
++                int hostStops = 0;
++                host.StopAsync(Arg.Any<CancellationToken>()).Returns(_ =>
++                    Interlocked.Increment(ref hostStops) == 1 ? Task.FromException(failure) : Task.CompletedTask);
+ 
+                 var logs = new LogLevelController(settings, new Serilog.Core.LoggingLevelSwitch(), NullLogger<LogLevelController>.Instance);
+                 var theme = new ThemeService(settings);
+                 var tray = new TrayIconController(Substitute.For<IAppLifetime>(), settings, Substitute.For<IActionDispatcher>(), NullLogger<TrayIconController>.Instance)
+                 { SuppressIconCreationForTesting = true };
+ 
+-                var bootstrapper = new AppBootstrapper(settings, Substitute.For<ITranslationProviderRegistry>(), Substitute.For<IDatabaseInitializer>(),
+-                    logs, theme, tray, new TrayNotificationService(NullLogger<TrayNotificationService>.Instance), host,
+-                    NullLogger<AppBootstrapper>.Instance, new AppStartupInfo(Environment.TickCount64));
+-
+                 var env = new ControlledHandoffEnvironment();
+                 await using var handoff = new UpdateHandoff(env);
+ 
+-                var uiDispatcher = Substitute.For<IUiDispatcher>();
+-                uiDispatcher.InvokeAsync(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>())
+-                    .Returns(callInfo => callInfo.Arg<Func<Task>>()());
+-                uiDispatcher.CheckAccess().Returns(true);
++                var uiDispatcher = new WpfUiDispatcher();
+ 
+                 var autoStart = Substitute.For<IAutoStartService>();
++                var notifications = Substitute.For<INotificationService>();
+ 
+                 var services = new ServiceCollection();
+                 services.AddLogging();
+                 services.AddSingleton(settings);
+                 services.AddSingleton(theme);
+-                services.AddSingleton(bootstrapper);
+                 services.AddSingleton(handoff);
+                 services.AddSingleton(coordinator);
+                 services.AddSingleton(uiDispatcher);
++                services.AddSingleton<IUiDispatcher>(uiDispatcher);
++                services.AddSingleton<INotificationService>(notifications);
+                 services.AddSingleton<IAppLifetime, AppLifetime>();
+                 services.AddSingleton<SettingsWindowPresenter>();
++                services.AddSingleton<ISettingsShutdownCoordinator>(sp => sp.GetRequiredService<SettingsWindowPresenter>());
+                 services.AddTransient<SettingsWindow>();
+                 services.AddScoped<GeneralSettingsSaveCoordinator>(sp => new GeneralSettingsSaveCoordinator(
+                     settings, new TestSettingsEditCoordinator(settings), autoStart, null, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
+@@ -163,6 +161,12 @@ public sealed class UpdateHandoffLifecycleTests
+                     settings, sp.GetRequiredService<ThemeService>(), sp.GetRequiredService<GeneralSettingsSaveCoordinator>(),
+                     null, null, uiDispatcher, null,
+                     updates: coordinator, updateHandoff: handoff, updateLifetime: sp.GetRequiredService<IAppLifetime>()));
++                services.AddSingleton<AppBootstrapper>(sp => new AppBootstrapper(
++                    settings, Substitute.For<ITranslationProviderRegistry>(), Substitute.For<IDatabaseInitializer>(),
++                    logs, theme, tray, new TrayNotificationService(NullLogger<TrayNotificationService>.Instance), host,
++                    NullLogger<AppBootstrapper>.Instance, new AppStartupInfo(Environment.TickCount64),
++                    settingsShutdownCoordinator: sp.GetRequiredService<ISettingsShutdownCoordinator>(),
++                    updates: sp.GetRequiredService<AppUpdateCoordinator>()));
+ 
+                 using var provider = services.BuildServiceProvider(new ServiceProviderOptions
+                 {
+@@ -175,29 +179,47 @@ public sealed class UpdateHandoffLifecycleTests
+                 presenter.ActiveSession.ShouldNotBeNull();
+                 var vm = presenter.ActiveSession!.ViewModel;
+ 
+-                // Simulate handoff transferred flag being set before shutdown
+-                vm.SetHandoffTransferredForTesting(true);
+-                vm.UpdateHandoffTransferred.ShouldBeTrue();
+-
++                var originalShutdowner = AppBootstrapper.AppShutdowner;
+                 var lifetime = (AppLifetime)provider.GetRequiredService<IAppLifetime>();
+-                lifetime.RequestShutdown();
+-                (lifetime.ShutdownWork != null).ShouldBeTrue();
+-
+-                var thrown = await Should.ThrowAsync<Exception>(lifetime.ShutdownWork!);
+-                (thrown is IOException || (thrown is AggregateException ae && ae.InnerExceptions.Any(e => e is IOException))).ShouldBeTrue();
+-
+-                // Coordinator rolled back to Failed with Unknown error
+-                coordinator.Snapshot.Phase.ShouldBe(UpdatePhase.Failed);
+-                coordinator.Snapshot.Error.ShouldBe(ErrorCode.Unknown);
+-                coordinator.HasCandidate.ShouldBeTrue();
+-
+-                // Window VM handoff transferred flag is indeed reset
+-                vm.UpdateHandoffTransferred.ShouldBeFalse();
+-                vm.UpdateStatus.ShouldBe(UiText.UpdateState(UpdatePhase.Failed));
+-                vm.InstallUpdateCommand.CanExecute(null).ShouldBeTrue();
+-                vm.CheckUpdateCommand.CanExecute(null).ShouldBeTrue();
+-
+-                try { presenter.ActiveSession?.Window?.Close(); } catch { }
++                try
++                {
++                    AppBootstrapper.AppShutdowner = _ => { };
++                    lifetime.RequestShutdown();
++                    lifetime.ShutdownWork.ShouldNotBeNull();
++
++                    var thrown = await Should.ThrowAsync<Exception>(lifetime.ShutdownWork!);
++                    (thrown is IOException || (thrown is AggregateException ae && ae.InnerExceptions.Any(e => e is IOException))).ShouldBeTrue();
++
++                    // Production topology: updates and the real settings shutdown
++                    // coordinator both participated before Host.StopAsync failed.
++                    coordinator.Snapshot.Phase.ShouldBe(UpdatePhase.Failed);
++                    coordinator.Snapshot.Error.ShouldBe(ErrorCode.Unknown);
++                    coordinator.HasCandidate.ShouldBeTrue();
++                    coordinator.IsRecoveryAvailable.ShouldBeTrue();
++                    notifications.Received().Notify(NotificationLevel.Error, UiText.AppName, UiText.UpdateRecoveryRequired);
++
++                    // The old VM was normally disposed. Recovery uses a new scoped
++                    // VM owned by the singleton presenter and keeps network checks closed.
++                    presenter.ActiveSession.ShouldNotBeNull();
++                    var recoveryVm = presenter.ActiveSession!.ViewModel;
++                    recoveryVm.ShouldNotBeSameAs(vm);
++                    recoveryVm.UpdateStatus.ShouldBe(UiText.UpdateState(UpdatePhase.Failed));
++                    recoveryVm.InstallUpdateCommand.CanExecute(null).ShouldBeTrue();
++                    recoveryVm.CheckUpdateCommand.CanExecute(null).ShouldBeFalse();
++
++                    // A second shutdown attempt succeeds without reopening the feed
++                    // or issuing another check/download request.
++                    lifetime.RequestShutdown();
++                    lifetime.ShutdownWork.ShouldNotBeNull();
++                    await lifetime.ShutdownWork!;
++                    hostStops.ShouldBe(2);
++                    source.Requests.ShouldBe(1);
++                }
++                finally
++                {
++                    AppBootstrapper.AppShutdowner = originalShutdowner;
++                    try { presenter.ActiveSession?.Window?.Close(); } catch { }
++                }
+             }
+             finally
+             {
