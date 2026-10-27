@@ -478,3 +478,7 @@ T-030 签发前须按 PROVIDER_REGISTRY.md 将 OCR 注册表原型同步为租�
 **T-039B / R4 独立验收结案（2026-10-25）** — 最终交付535ec169…（主实现0bc11fc7…）通过最终HEAD独立Release零警告错误、全量3728/3726成功/0失败/2既有跳过；新候选15/15独立受控回归、1258项源/包字节核对、完整本地化审计和修后8图确认通过。final-8真实安装/运行中静默保留卸载34观察/15布尔、两版本full更新37/22均成功，142项独立来宾核对及两张实际图通过，真实进程终态/数据保持/单次重启/实例结束已证。两成功轮次采用来宾内官方SHA512/签名校验缓存，由未修改Setup在无.NET10条件下实际安装；默认native完整下载Peer disconnected仍保留，C必须继续无夹具缓存的正式引导和匿名用户UI线上闭环。859工程证据原字节与commit匹配，46架构记录随验收归档，原失败/旧候选保持。结论见acceptance-review-4/FINAL_REVIEW.md。B/CCR039实施结案，父T-039仍▶，T-040未开始，M6延期，本轮未push/发布。
 
 **T-039C签发（2026-10-25）** — B验收归档commit为7e852917…，当前唯一单C。先完成正式两版本发布材料、完整历史整合方案、CI/资产/来源与真实验证方案，架构师复核具体commit/refs/tag/资产后才首次push或发布；再完成真实公开匿名下载和生产用户UI升级，复核未预填缓存的默认运行时引导。不得用B缓存/专用host替代父单线上门禁。工程师仍既有新会话，架构师直接协调；T-040未签，M6延期。
+
+**T-039C 第一阶段通过检查点、首轮真实 CI 失败（2026-10-25）** — 已审 source dcdfdde、checkpoint 3bb5204 正常保留两段历史并按核准推送 main/codex 分支；annotated v0.2.0 固定指向该 source。实际 GitHub run40193113435 构建零警告错误、工具16/16，但全量3728/3726成功/1失败/1跳过；原生剪贴板用例成功建立隔离站后占用/取消断言失败，package/publish skipped，未产生本轮公开安装资产。原 archive digest及51份解包原件/xUnit已独立匹配。原 tag/source/候选/失败保留，未推第二版。允许同一C最小扩展测试范围，在自有Sandbox先诊断未改产品；产品修正与新远端动作未批准。见 T-039C.coordination/CI_FAILURE_SCOPE_APPROVAL_20261025.md。
+
+**T-039C 定向诊断已实际接单（2026-10-27）** — 既有工程师聊天01a16ef2…执行轮01a17cd6…已确认接续并实际读取最新current_task、精确诊断批准、原helper/native adapter/规范及进程与Sandbox状态，三个读取命令exit0；桌面和API相互印证，见ci-failure-scope-received-20261027.json。工程师会话正在重连，不把interrupted/completedAt=null当终态，不重复派单/重开。架构师已准备DIAGNOSTIC_REVIEW_GATES.md，等待真实线程/桌面/占用与取消/join证据后裁定。当前仍唯一C，父T-039保持▶，默认无缓存运行时引导与真实线上设置UI升级未验收，T-040未签，M6延期。

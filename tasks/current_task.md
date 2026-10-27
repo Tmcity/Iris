@@ -34,6 +34,14 @@ B的新包来宾在当前网络中native完整下载报Peer disconnected，成�
 - 若默认路径仍失败，保留真实日志并区分环境传输故障与产品缺陷，直接向架构师回报可执行的修复/环境方案，不自行缩小父任务验收。可以在自有来宾做受控诊断；宿主代理/证书/安全设置不改。必要生产下载/引导改动先说明原因、范围、所有权和用户行为，经架构师在本单批准后实施；不未经评估升级SDK或把App改SC。
 - 验证发现真正产品缺陷在本单闭合，保留原失败，受影响本地验证与新版本包/来源重新绑定。不能仅补文档把必需的用户链路降为未验证，再宣布父T-039完成。
 
+### 2026-10-25 实际首轮CI失败后的定向诊断批准（同一C）
+
+首次已核准远端写入完成：main和codex分支均为3bb52042184b4c4aef8ad75dfab9bf0f40c1f666；annotated v0.2.0解引用为dcdfdded311fa00671dfd9747bb2101cbf8964f3，tag必须保持。实际run40193113435失败于已建立隔离站的原生剪贴板用例，full为3728/3726成功/1失败/1跳过，打包和publish跳过。原证据、archive digest和51份原始文件已独立匹配，不能把此失败改记为error183环境跳过。
+
+允许在本单最小扩展 `tests/Iris.Clipboard.IsolatedHelper/` 和对应 `tests/Iris.Platform.Windows.Tests/Clipboard/` 的夹具/协议诊断与修复，必要时调整该自有测试worker构建接线；不得删弱断言、过滤测试、把已运行失败改skip或只靠延长sleep。先冻结修前源码/实际程序集，**仅在自有干净Sandbox**运行真实未改产品的诊断（测试工具运行时可明确准备，但不得充作默认安装引导）；不要在宿主运行可能落入交互剪贴板的helper。记录真实TID、station/desktop/占用owner身份与Open/Close结果、取消接纳、work完成和所有线程/进程完整join；参与者须在同一明确自有隔离站/桌面。若实证为夹具问题只修夹具；如需改产品，先向架构师提交具体最小反例/改动方案再实施。
+
+可按提出的版本方案本地准备 `0.2.1 (PreviousVersion=null)` → `0.2.2 (PreviousVersion=0.2.1)`，前提是匿名远端确认未占用，并保存旧release-plan/候选/原始失败。本地新source独立提交、适当定向/Release/full、两版唯一候选和来源绑定完成后，再回架构师复核精确新source/checkpoint/refs/tag。**本条只批准本地诊断与准备，不批准新push、tag创建/推送、workflow重跑/触发或Release写入**。之前v0.2.1的同旧source有条件批准因首版未发布而未满足；在新检查点前保持未执行，不覆写v0.2.0、不删除失败artifact/草稿、不自行重跑。父C/T-039和真实UI/默认无缓存引导要求保持完整，T-040未签，M6延期。
+
 ## 范围、验证与收尾
 
 - 允许`.github/workflows/desktop-release.yml`、`build/pack.ps1`及发布辅助、用户安装/README/发布文档、Git发布分支/历史整合和本单证据。允许正式源接线所需的App内部Updates/启动退出/Maintenance相关最小修正与测试，但应先说明具体实证；超范围契约/默认/schema/依赖版本变化先交架构师，不自行扩张。

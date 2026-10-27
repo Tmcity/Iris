@@ -1,0 +1,70 @@
+{
+  "ObservedAt": "2026-10-27T11:06:11.929092+00:00",
+  "Repository": "https://github.com/Tmcity/Iris",
+  "Identity": "Unauthenticated GET requests; no authorization headers, cookies or proxy credentials",
+  "Observations": [
+    {
+      "Label": "original-ci-run",
+      "Url": "https://api.github.com/repos/Tmcity/Iris/actions/runs/40193113435",
+      "HttpStatus": 200,
+      "Bytes": 11170,
+      "Sha256": "2058247fb1da734903b233bb79e56762f4f21cfccec0c4dcd6b2195e389c22be",
+      "RawPath": "artifacts/t039c/public-observations/20261027T110611929092Z/original-ci-run.json"
+    },
+    {
+      "Label": "public-main",
+      "Url": "https://api.github.com/repos/Tmcity/Iris/git/ref/heads/main",
+      "HttpStatus": 200,
+      "Bytes": 320,
+      "Sha256": "49eb84a8146f0be698901d824bc58244b9406ed4707173e7a879e8cd071aa9e5",
+      "RawPath": "artifacts/t039c/public-observations/20261027T110611929092Z/public-main.json"
+    },
+    {
+      "Label": "public-releases",
+      "Url": "https://api.github.com/repos/Tmcity/Iris/releases?per_page=10",
+      "HttpStatus": 200,
+      "Bytes": 2,
+      "Sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "RawPath": "artifacts/t039c/public-observations/20261027T110611929092Z/public-releases.json"
+    },
+    {
+      "Label": "v021-release",
+      "Url": "https://api.github.com/repos/Tmcity/Iris/releases/tags/v0.2.1",
+      "HttpStatus": 404,
+      "Bytes": 133,
+      "Sha256": "010563d2cfb8f1e87f700936ce59ee3a33364da46e3db41b0049227918ece74d",
+      "RawPath": "artifacts/t039c/public-observations/20261027T110611929092Z/v021-release.json"
+    },
+    {
+      "Label": "v022-release",
+      "Url": "https://api.github.com/repos/Tmcity/Iris/releases/tags/v0.2.2",
+      "HttpStatus": 404,
+      "Bytes": 133,
+      "Sha256": "010563d2cfb8f1e87f700936ce59ee3a33364da46e3db41b0049227918ece74d",
+      "RawPath": "artifacts/t039c/public-observations/20261027T110611929092Z/v022-release.json"
+    },
+    {
+      "Label": "version-tag-refs",
+      "Url": "https://api.github.com/repos/Tmcity/Iris/git/matching-refs/tags/v0.2.",
+      "HttpStatus": 200,
+      "Bytes": 319,
+      "Sha256": "01ffc47f4a0de377e034c0bfd38f2cb6326697e08350d5c13988921ccf8ecc58",
+      "RawPath": "artifacts/t039c/public-observations/20261027T110611929092Z/version-tag-refs.json"
+    }
+  ],
+  "OriginalRun": {
+    "id": 40193113435,
+    "status": "completed",
+    "conclusion": "failure",
+    "run_attempt": 1,
+    "head_sha": "dcdfdded311fa00671dfd9747bb2101cbf8964f3",
+    "event": "push",
+    "html_url": "https://github.com/Tmcity/Iris/actions/runs/40193113435"
+  },
+  "PublicReleaseTags": [],
+  "VersionTagRefs": {
+    "refs/tags/v0.2.0": "ebe194564c5ada606744b4e484b09f3182e04eae"
+  },
+  "PublicMain": "3bb52042184b4c4aef8ad75dfab9bf0f40c1f666",
+  "Scope": "Public-state observation only. Anonymous release 404 cannot rule out hidden drafts. No workflow run, push, tag creation, Release write, download or installation performed."
+}

@@ -1,0 +1,182 @@
+{
+  "ObservedAt": "2026-10-27T10:42:17.5689791Z",
+  "Head": "3bb52042184b4c4aef8ad75dfab9bf0f40c1f666",
+  "CIReleaseSource": "dcdfdded311fa00671dfd9747bb2101cbf8964f3",
+  "ObservedBuildProcesses": 0,
+  "Inputs": [
+    {
+      "Path": "src/Iris.Platform.Windows/Clipboard/Win32ClipboardService.cs",
+      "Kind": "source",
+      "Length": 23082,
+      "Sha256": "781985bffbd8b1e99ecefb01536677edd9804548fcf15a75d5f42f2fd8350190",
+      "GitBlob": "0d6b948e2c24d99847d2a5f19a530fb7baf9df3f",
+      "WorkingTreeGitBlob": "0d6b948e2c24d99847d2a5f19a530fb7baf9df3f",
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\src\\Iris.Platform.Windows\\Clipboard\\Win32ClipboardService.cs"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Clipboard/NativeClipboardAdapter.cs",
+      "Kind": "source",
+      "Length": 2804,
+      "Sha256": "d08e59d60cb2474c8facdc66f22e55ae6f6eab6113bbfe3239c9be3714e49e8a",
+      "GitBlob": "018e4056e0a180d9a9b72167afe09003ed044d00",
+      "WorkingTreeGitBlob": "018e4056e0a180d9a9b72167afe09003ed044d00",
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\src\\Iris.Platform.Windows\\Clipboard\\NativeClipboardAdapter.cs"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Clipboard/INativeClipboardAdapter.cs",
+      "Kind": "source",
+      "Length": 659,
+      "Sha256": "00a55ec797a019c42e0f609d41b769069d26cff18fb104ab03ddff99ea97f265",
+      "GitBlob": "cc2771b2a3307d56d5e21d331ddb305716049fa7",
+      "WorkingTreeGitBlob": "cc2771b2a3307d56d5e21d331ddb305716049fa7",
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\src\\Iris.Platform.Windows\\Clipboard\\INativeClipboardAdapter.cs"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Iris.Platform.Windows.csproj",
+      "Kind": "source",
+      "Length": 1207,
+      "Sha256": "54203a1318f1ad48fe3dab5fb3bcc60a2c066e78b9f54615f1e0610c4f75e333",
+      "GitBlob": "7456291b2e7eee3344970f51dbacbc2be06ba973",
+      "WorkingTreeGitBlob": "7456291b2e7eee3344970f51dbacbc2be06ba973",
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\src\\Iris.Platform.Windows\\Iris.Platform.Windows.csproj"
+    },
+    {
+      "Path": "src/Iris.Core/Iris.Core.csproj",
+      "Kind": "source",
+      "Length": 703,
+      "Sha256": "def62f01de0917f694ed5e1fbf514d25851ded56acddd485869ce40b49c727d3",
+      "GitBlob": "ae66f168fbb851b9595174e057f066ddceb5aadc",
+      "WorkingTreeGitBlob": "ae66f168fbb851b9595174e057f066ddceb5aadc",
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\src\\Iris.Core\\Iris.Core.csproj"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/Program.cs",
+      "Kind": "source",
+      "Length": 12368,
+      "Sha256": "81d95c798bdb2af3f1acd240db1921192245d90cc8339dc302e01611625c7bca",
+      "GitBlob": "1fed1c5088f61b0851d7bfda7448f7d8044df140",
+      "WorkingTreeGitBlob": "1fed1c5088f61b0851d7bfda7448f7d8044df140",
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\tests\\Iris.Clipboard.IsolatedHelper\\Program.cs"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/IsolatedStationCoordinator.cs",
+      "Kind": "source",
+      "Length": 6757,
+      "Sha256": "c49989fc167d9e9df928b2009d366d9d57eb980c25c9fabfcfc33674232e450a",
+      "GitBlob": "952fa7c33604bb25d8e6a1779d7b44d75da9e00e",
+      "WorkingTreeGitBlob": "952fa7c33604bb25d8e6a1779d7b44d75da9e00e",
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\tests\\Iris.Clipboard.IsolatedHelper\\IsolatedStationCoordinator.cs"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/SnapshotValidation.cs",
+      "Kind": "source",
+      "Length": 7538,
+      "Sha256": "2b9266b08a40a85259953a1fbac9cba57b0be6d72b85ffbcf5c425db5ea3616f",
+      "GitBlob": "03ed768e88f2fd6f4861ad8cf2e24f4b134781e7",
+      "WorkingTreeGitBlob": "03ed768e88f2fd6f4861ad8cf2e24f4b134781e7",
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\tests\\Iris.Clipboard.IsolatedHelper\\SnapshotValidation.cs"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/Iris.Clipboard.IsolatedHelper.csproj",
+      "Kind": "source",
+      "Length": 578,
+      "Sha256": "f6e6a04bd54ac726f0290621a7f741be33531279b71f6a8f5e7a0128829347ef",
+      "GitBlob": "f83abe4d5f42f1946c9606452838fbb12002281d",
+      "WorkingTreeGitBlob": "f83abe4d5f42f1946c9606452838fbb12002281d",
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\tests\\Iris.Clipboard.IsolatedHelper\\Iris.Clipboard.IsolatedHelper.csproj"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardIsolatedIntegrationTests.cs",
+      "Kind": "source",
+      "Length": 15955,
+      "Sha256": "ca470ce9c42935994bfebad6e5bc068462c277330f6035a21f18facc5d87d2b5",
+      "GitBlob": "1cb03b0d9bd09687a83864361743f79af29d1a84",
+      "WorkingTreeGitBlob": "1cb03b0d9bd09687a83864361743f79af29d1a84",
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\tests\\Iris.Platform.Windows.Tests\\Clipboard\\Win32ClipboardIsolatedIntegrationTests.cs"
+    },
+    {
+      "Path": "Directory.Build.props",
+      "Kind": "source",
+      "Length": 1094,
+      "Sha256": "c32e046fc5f05f24df4925c1c689129e058df7f7d9908fad6d7e7392e2ae3c16",
+      "GitBlob": "880071bd50801bff9a4068b091a792ebb7c08ff7",
+      "WorkingTreeGitBlob": "880071bd50801bff9a4068b091a792ebb7c08ff7",
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\Directory.Build.props"
+    },
+    {
+      "Path": "Directory.Packages.props",
+      "Kind": "source",
+      "Length": 2105,
+      "Sha256": "d82b12343552b47080dff574fa4461874fa8200c18f03aaae919c8385cfc7096",
+      "GitBlob": "77f76d16344e6bd1b253da8dde6fe559d6b5988b",
+      "WorkingTreeGitBlob": "77f76d16344e6bd1b253da8dde6fe559d6b5988b",
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\Directory.Packages.props"
+    },
+    {
+      "Path": "global.json",
+      "Kind": "source",
+      "Length": 170,
+      "Sha256": "fddf025247274c696cad0caa013fa3bc4a07de2d7fb6c1c2c805164a72b1716d",
+      "GitBlob": "a3218f544b10ae6d6d30a33b10e8f5060809912c",
+      "WorkingTreeGitBlob": "a3218f544b10ae6d6d30a33b10e8f5060809912c",
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\global.json"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/bin/Release/net10.0-windows10.0.19041.0/Iris.Clipboard.IsolatedHelper.exe",
+      "Kind": "available-original-binary",
+      "Length": 162816,
+      "Sha256": "c652d65018bd01b63999159d30af12737dba2cbff5c362e0db85cb154c07a808",
+      "GitBlob": null,
+      "WorkingTreeGitBlob": null,
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\tests\\Iris.Clipboard.IsolatedHelper\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Clipboard.IsolatedHelper.exe"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/bin/Release/net10.0-windows10.0.19041.0/Iris.Clipboard.IsolatedHelper.dll",
+      "Kind": "available-original-binary",
+      "Length": 25600,
+      "Sha256": "762452a7e72b85ff136b88bd0296accfe91f11e0875862aa6779b77234a6c57a",
+      "GitBlob": null,
+      "WorkingTreeGitBlob": null,
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\tests\\Iris.Clipboard.IsolatedHelper\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Clipboard.IsolatedHelper.dll"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/bin/Release/net10.0-windows10.0.19041.0/Iris.Clipboard.IsolatedHelper.deps.json",
+      "Kind": "available-original-binary",
+      "Length": 4656,
+      "Sha256": "b8c1a2a7e8b70fc64f6f409d765e0550ddd18163cda92e50ac14298127759c9e",
+      "GitBlob": null,
+      "WorkingTreeGitBlob": null,
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\tests\\Iris.Clipboard.IsolatedHelper\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Clipboard.IsolatedHelper.deps.json"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/bin/Release/net10.0-windows10.0.19041.0/Iris.Clipboard.IsolatedHelper.runtimeconfig.json",
+      "Kind": "available-original-binary",
+      "Length": 399,
+      "Sha256": "3e965cd7cfd553c2ff4e842d8d8019aaae2da0a21d92ff85a87573dd8d1b95c6",
+      "GitBlob": null,
+      "WorkingTreeGitBlob": null,
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\tests\\Iris.Clipboard.IsolatedHelper\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Clipboard.IsolatedHelper.runtimeconfig.json"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/bin/Release/net10.0-windows10.0.19041.0/Iris.Platform.Windows.dll",
+      "Kind": "available-original-binary",
+      "Length": 748032,
+      "Sha256": "b8ad9c8635dc46838d15de420be902c637b77eee3d7708d498e336fca5a1dc07",
+      "GitBlob": null,
+      "WorkingTreeGitBlob": null,
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\tests\\Iris.Clipboard.IsolatedHelper\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Platform.Windows.dll"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/bin/Release/net10.0-windows10.0.19041.0/Iris.Core.dll",
+      "Kind": "available-original-binary",
+      "Length": 499200,
+      "Sha256": "b9b71562834d5859894fcb1bd86cf94e568020805b656d1423cf66b225bf8d9c",
+      "GitBlob": null,
+      "WorkingTreeGitBlob": null,
+      "FrozenPath": "F:\\Iris\\artifacts\\t039c\\architect-diagnostic-prestate-20261027\\tests\\Iris.Clipboard.IsolatedHelper\\bin\\Release\\net10.0-windows10.0.19041.0\\Iris.Core.dll"
+    }
+  ],
+  "SourceRecords": 13,
+  "BinaryRecords": 6,
+  "Scope": "Independent preserved pre-diagnosis available inputs only. No compilation, helper execution, guest operation or assertion of CI binary identity; no runtime bootstrap result is implied."
+}

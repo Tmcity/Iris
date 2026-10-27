@@ -1,0 +1,38 @@
+{
+  "observedAt": "2026-10-27T10:33:04.371466+00:00",
+  "threadId": "01a16ef2-a0bb-71a1-8230-57165c05cc5b",
+  "turnId": "01a17cd6-daa3-72c2-863a-e10b65b791a6",
+  "scopeFile": "tasks/T-039C.coordination/CI_FAILURE_SCOPE_APPROVAL_20261025.md",
+  "originalDispatch": "tasks/T-039C.coordination/ci-failure-scope-approved-dispatch.json",
+  "incrementalObservation": "tasks/T-039C.coordination/watch-20261027T103304371466Z.json",
+  "observedApiStatus": "interrupted",
+  "observedCompletedAt": null,
+  "visibleAcknowledgment": "我会接续同一 T-039C，核对最新工单、HEAD 和自有进程状态，然后在 Sandbox 内完成已批准的剪贴板定向诊断。现有源码、`v0.2.0` 和原失败证据保持，诊断完成前不做新的远端写入。\n",
+  "actualCompletedCommands": [
+    {
+      "id": "exec-9d8ec616-94d3-44df-b762-d38d8d93dc4a",
+      "scope": "Read original helper, native adapter, project and clipboard specification",
+      "exitCode": 0
+    },
+    {
+      "id": "exec-87fa7c92-30e9-413c-9b9b-5f5a32a5d978",
+      "scope": "Read HEAD, branch, status, current_task and exact CI diagnostic approval",
+      "exitCode": 0
+    },
+    {
+      "id": "exec-067f64ed-aa8e-40d1-bc77-3d47ba05257d",
+      "scope": "Read actual owned build/helper processes, Sandbox list and available diagnostic inputs",
+      "exitCode": 0
+    }
+  ],
+  "desktopCorroboration": {
+    "processId": 22344,
+    "windowHandle": 329750,
+    "width": 2560,
+    "height": 1392,
+    "capturePath": "artifacts/t039c/coordination-window-20261027/engineer-window-1.png",
+    "sha256": "3780825f1faa0503bb78edd91637a9d6bb30a81b2e906eda10ca9a93f84da9b7",
+    "observed": "Exact original supplement displayed as a sent user message; matching engineer acknowledgment, completed-command markers and reconnecting state visible"
+  },
+  "conclusion": "The diagnostic scope was actually read and acknowledged. Engineering completion is not proven; API interrupted/completedAt=null is not treated as terminal. No duplicate message, restart or remote operation was performed by this receipt."
+}

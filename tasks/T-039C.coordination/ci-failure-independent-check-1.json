@@ -1,0 +1,22 @@
+{
+  "observedAt": "2026-10-25T14:15:28.988688+00:00",
+  "scope": "Independent verification of preserved GitHub CI archive digest and all extracted raw files; no CI rerun or publication performed.",
+  "runId": 40193113435,
+  "artifactId": 12599196026,
+  "archiveSha256": "92ea446dc1ac476513110559fa7d90b0cad5b79edea4d870ae653b78062d904b",
+  "apiDigestMatches": true,
+  "extractedByteRecordsMatched": 51,
+  "xunitCounts": {
+    "total": 3728,
+    "passed": 3726,
+    "failed": 1,
+    "skipped": 1
+  },
+  "failedTests": [
+    {
+      "name": "Iris.Platform.Windows.Tests.Clipboard.Win32ClipboardIsolatedIntegrationTests.IsolatedWindowStation_NativeClipboardIntegration_ExecutesInDedicatedProcess",
+      "message": "System.InvalidOperationException : Isolated helper failed with exit code 1.\nSTDOUT:\n[ISOLATED_CLIPBOARD] Isolated window station & desktop successfully established.\n[ISOLATED_CLIPBOARD] FAIL: Expected cancellation/busy when occupied.\n\nSTDERR:\n"
+    }
+  ],
+  "diagnosticApprovalRequired": true
+}

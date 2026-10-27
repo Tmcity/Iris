@@ -1,0 +1,8 @@
+{
+  "at": "2026-10-25T14:15:30.113508+00:00",
+  "messageSha256": "72c63e05d5d54636e0417144bf4230104e749e7c4e3c65a34943ebbd213c4c56",
+  "exitCode": 0,
+  "stdout": "{\n  \"queueResult\": \"Queued message 01a1736a-a028-7293-8168-a63d96fcce1e for thread 01a16ef2-a0bb-71a1-8230-57165c05cc5b.\"\n}\n",
+  "stderr": "",
+  "scope": "Same-C test diagnosis/local preparation only. No new remote write or production modification approved."
+}
