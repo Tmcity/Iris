@@ -1,0 +1,16 @@
+{
+  "Command": [
+    "dotnet",
+    "build",
+    "Iris.slnx",
+    "-c",
+    "Release",
+    "--no-incremental"
+  ],
+  "StartedUtc": "2026-10-25T12:27:00.841128+00:00",
+  "FinishedUtc": "2026-10-25T12:28:49.757096+00:00",
+  "ExitCode": 0,
+  "Log": "release-build.log",
+  "Bytes": 3667,
+  "Sha256": "c260be37c3f45c1569f7adc6b2975014fafcb6958d8a1ac00825cd02b5d5f56b"
+}

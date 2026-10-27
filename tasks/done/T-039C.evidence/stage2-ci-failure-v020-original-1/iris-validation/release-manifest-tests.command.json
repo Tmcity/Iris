@@ -1,0 +1,20 @@
+{
+  "Command": [
+    "C:\\hostedtoolcache\\windows\\Python\\3.13.16\\x64\\python.exe",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "build/tests",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "StartedUtc": "2026-10-25T12:27:00.048670+00:00",
+  "FinishedUtc": "2026-10-25T12:27:00.840365+00:00",
+  "ExitCode": 0,
+  "Log": "release-manifest-tests.log",
+  "Bytes": 3079,
+  "Sha256": "22fff46505d9d10facda50aa119b575acb52d4ff943a1bd52d39174bcf4a8b36"
+}

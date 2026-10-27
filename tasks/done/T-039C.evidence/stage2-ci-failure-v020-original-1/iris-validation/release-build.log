@@ -1,0 +1,39 @@
+  正在确定要还原的项目…
+  已还原 D:\a\Iris\Iris\src\Iris.Infrastructure\Iris.Infrastructure.csproj (用时 9.29 秒)。
+  已还原 D:\a\Iris\Iris\src\Iris.Core\Iris.Core.csproj (用时 9.29 秒)。
+  已还原 D:\a\Iris\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj (用时 15 毫秒)。
+  已还原 D:\a\Iris\Iris\src\Iris.UiaHost\Iris.UiaHost.csproj (用时 5 毫秒)。
+  已还原 D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\Iris.Maintenance.Tests.csproj (用时 19 秒)。
+  已还原 D:\a\Iris\Iris\src\Iris.Providers\Iris.Providers.csproj (用时 9.13 秒)。
+  已还原 D:\a\Iris\Iris\tests\Iris.UpdateHandoffWorker\Iris.UpdateHandoffWorker.csproj (用时 2 毫秒)。
+  已还原 D:\a\Iris\Iris\src\Iris.App\Iris.App.csproj (用时 22.97 秒)。
+  已还原 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\Iris.Platform.Windows.Tests.csproj (用时 1.67 秒)。
+  已还原 D:\a\Iris\Iris\tests\Iris.Providers.Tests\Iris.Providers.Tests.csproj (用时 2.51 秒)。
+  已还原 D:\a\Iris\Iris\tests\Iris.App.Tests\Iris.App.Tests.csproj (用时 12.12 秒)。
+  已还原 D:\a\Iris\Iris\tests\Iris.Core.Tests\Iris.Core.Tests.csproj (用时 3 毫秒)。
+  已还原 D:\a\Iris\Iris\tests\Iris.Clipboard.IsolatedHelper\Iris.Clipboard.IsolatedHelper.csproj (用时 2 毫秒)。
+  已还原 D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\Iris.Infrastructure.Tests.csproj (用时 4 毫秒)。
+  已还原 D:\a\Iris\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 6.04 秒)。
+  已还原 D:\a\Iris\Iris\tests\Iris.ArchitectureTests\Iris.ArchitectureTests.csproj (用时 796 毫秒)。
+  Iris.Core -> D:\a\Iris\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Core.Tests -> D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll
+  Iris.Providers -> D:\a\Iris\Iris\src\Iris.Providers\bin\Release\net10.0\Iris.Providers.dll
+  Iris.Platform.Windows -> D:\a\Iris\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.Infrastructure -> D:\a\Iris\Iris\src\Iris.Infrastructure\bin\Release\net10.0\Iris.Infrastructure.dll
+  Iris.Providers.Tests -> D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll
+  Iris.Infrastructure.Tests -> D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll
+  Iris.UiaHost -> D:\a\Iris\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\Iris.UiaHost.dll
+  Iris.Clipboard.IsolatedHelper -> D:\a\Iris\Iris\tests\Iris.Clipboard.IsolatedHelper\bin\Release\net10.0-windows10.0.19041.0\Iris.Clipboard.IsolatedHelper.dll
+  Iris.Maintenance -> D:\a\Iris\Iris\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.dll
+  Iris.Maintenance.Tests -> D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll
+  Iris.UpdateHandoffWorker -> D:\a\Iris\Iris\tests\Iris.UpdateHandoffWorker\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll
+  Iris.Platform.Windows.Tests -> D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll
+  Iris.App -> D:\a\Iris\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\Iris.App.dll
+  Iris.ArchitectureTests -> D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll
+  Iris.App.Tests -> D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:01:45.16
