@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Compile Include="..\Iris.Clipboard.IsolatedHelper\IsolatedStationCoordinator.cs" Link="Clipboard\IsolatedStationCoordinator.cs" />
+    <Compile Include="..\Iris.Clipboard.IsolatedHelper\ClipboardOccupancyCoordinator.cs" Link="Clipboard\ClipboardOccupancyCoordinator.cs" />
   </ItemGroup>
 
   <ItemGroup>

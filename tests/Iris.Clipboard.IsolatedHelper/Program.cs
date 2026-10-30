@@ -122,7 +122,8 @@ internal static class Program
         {
             var env = new RealIsolatedStationEnvironment();
             bool snapshots = Array.IndexOf(args, "--snapshots") >= 0;
-            exitCode = IsolatedStationCoordinator.Run(env, snapshots ? SnapshotValidation.Run : RunIsolatedBody);
+            bool diagnostics = Array.IndexOf(args, "--diagnostics") >= 0;
+            exitCode = IsolatedStationCoordinator.Run(env, diagnostics ? ClipboardDiagnostics.Run : snapshots ? SnapshotValidation.Run : RunIsolatedBody);
             if (snapshots && SnapshotValidation.Skipped && exitCode == 0) exitCode = IsolatedStationCoordinator.ExitCodeSkip;
         });
         thread.SetApartmentState(ApartmentState.MTA);
@@ -136,7 +137,8 @@ internal static class Program
         uint initialIsolatedSeq = env.GetClipboardSequenceNumber();
 
         // Run actual Win32ClipboardService operations in the isolated station
-        var service = new Win32ClipboardService(null, null);
+        nint isolatedDesktop = env.GetThreadDesktop(env.GetCurrentThreadId());
+        var service = new Win32ClipboardService(null, null, new DiagnosticClipboardAdapter(isolatedDesktop));
 
         // 1. Text roundtrip and owner window destruction check
         const string expectedText = "Iris isolated clipboard text roundtrip - 100% genuine Win32!";
@@ -147,16 +149,19 @@ internal static class Program
         {
             return (false, $"Text mismatch. Expected '{expectedText}', Got '{readText}'");
         }
+        ClipboardDiagnostics.Log("coordinator", "text-roundtrip-verified", true);
 
         // 2. Synthetic 2x2 24bpp BMP image publish and CF_DIBV5 read-back with pixel comparison
         byte[] syntheticBmp = CreateSynthetic2x2Bmp();
         var imageData = new ImageData(syntheticBmp, ImageFormat.Bmp, 2, 2);
         service.SetImageAsync(imageData).GetAwaiter().GetResult();
 
-        if (!OpenClipboard(0))
+        bool dibOpened = OpenClipboard(0);
+        int dibOpenError = Marshal.GetLastWin32Error();
+        ClipboardDiagnostics.Log("coordinator", "DIB-read-OpenClipboard", dibOpened, dibOpenError);
+        if (!dibOpened)
         {
-            int err = Marshal.GetLastWin32Error();
-            return (false, $"Failed to open clipboard for DIBV5 read (error={err})");
+            return (false, $"Failed to open clipboard for DIBV5 read (error={dibOpenError})");
         }
 
         bool dibUnlockFailed = false;
@@ -233,56 +238,24 @@ internal static class Program
         }
         finally
         {
-            if (!CloseClipboard())
+            bool dibClosed = CloseClipboard();
+            int closeError = Marshal.GetLastWin32Error();
+            ClipboardDiagnostics.Log("coordinator", "DIB-read-CloseClipboard", dibClosed, closeError);
+            if (!dibClosed)
             {
                 dibCloseFailed = true;
-                dibCloseError = Marshal.GetLastWin32Error();
+                dibCloseError = closeError;
             }
         }
 
         if (dibError != null) return (false, dibError);
         if (dibUnlockFailed) return (false, $"GlobalUnlock failed on DIBV5 (error={dibUnlockError})");
         if (dibCloseFailed) return (false, $"CloseClipboard failed after DIBV5 read (error={dibCloseError})");
+        ClipboardDiagnostics.Log("coordinator", "DIBV5-pixels-verified", true);
 
         // 3. Occupancy failure and cancellation test
-        if (!OpenClipboard(0))
-        {
-            int err = Marshal.GetLastWin32Error();
-            return (false, $"Failed to open clipboard to establish occupancy condition (error={err})");
-        }
-
-        bool occupancyCloseFailed = false;
-        int occupancyCloseError = 0;
-        string? occupancyError = null;
-
-        try
-        {
-            using var cts = new CancellationTokenSource(TimeSpan.FromMilliseconds(50));
-            try
-            {
-                service.GetTextAsync(cts.Token).GetAwaiter().GetResult();
-                occupancyError = "Expected cancellation/busy when occupied.";
-            }
-            catch (OperationCanceledException)
-            {
-                // Expected cancellation
-            }
-            catch (IrisException ex) when (ex.Code == ErrorCode.ClipboardBusy)
-            {
-                // Expected busy exhaustion
-            }
-        }
-        finally
-        {
-            if (!CloseClipboard())
-            {
-                occupancyCloseFailed = true;
-                occupancyCloseError = Marshal.GetLastWin32Error();
-            }
-        }
-
-        if (occupancyError != null) return (false, occupancyError);
-        if (occupancyCloseFailed) return (false, $"CloseClipboard failed after occupancy test (error={occupancyCloseError})");
+        if (!ClipboardDiagnostics.WindowOccupancy(isolatedDesktop, service))
+            return (false, "Expected cancellation/busy when occupied.");
 
         // 4. Verify sequence number changed in isolated window station
         uint isolatedSeq = service.GetSequenceNumber();
@@ -290,6 +263,7 @@ internal static class Program
         {
             return (false, "Expected sequence number to advance in isolated window station.");
         }
+        ClipboardDiagnostics.Log("coordinator", "sequence-advanced-verified", new { Initial = initialIsolatedSeq, Final = isolatedSeq });
 
         return (true, null);
     }
