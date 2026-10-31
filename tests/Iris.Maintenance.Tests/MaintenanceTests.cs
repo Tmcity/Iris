@@ -61,6 +61,18 @@ public sealed class MaintenanceTests
         }
         finally { system.NativeRelease.TrySetResult(); await work; }
     }
+    [Theory][InlineData(false)][InlineData(true)]
+    public async Task RuntimePreparationFailureNeverStartsSetupAndRestoresPreviousGateState(bool retained)
+    {
+        using var temp = new TemporaryDirectory();
+        var system = new SystemBoundary(temp.Path) { RuntimeFailure = new IOException("synthetic prerequisite failure") };
+        var previous = new MaintenanceTransaction(Guid.NewGuid(), "install", "preparing", int.MaxValue, 0, "1.0.0", false);
+        if (retained) using (var gate = MaintenanceGate.Acquire(system.StateRoot)) gate.Write(previous);
+        await Should.ThrowAsync<IOException>(() => new MaintenanceEngine(system).InstallAsync("owned-setup", false, TestContext.Current.CancellationToken, repair: retained));
+        system.NativeCalls.ShouldBe(0); system.Registered.ShouldBeFalse(); system.Starts.ShouldBe(0);
+        if (retained) using (var gate = MaintenanceGate.Acquire(system.StateRoot, true)) gate.Read().ShouldBe(previous);
+        else MaintenanceGate.IsBlocked(system.StateRoot).ShouldBeFalse();
+    }
     [Fact]
     public async Task UninstalledDataFailureRetryNeverRunsNativeUninstallAgain()
     {
@@ -168,6 +180,7 @@ public sealed class MaintenanceTests
     {
         private readonly string _root;
         internal bool HoldNative, Registered, Uninstalled, FailDelete, Deleted;
+        internal Exception? RuntimeFailure;
         internal int NativeCalls, Starts;
         internal int NativeExitCode;
         internal string InstallVersion = "1.0.0";
@@ -181,6 +194,7 @@ public sealed class MaintenanceTests
         internal override string StateRoot => Path.Combine(_root, "state");
         internal override string DataRoot => Path.Combine(_root, "data");
         internal override Task CloseApplicationsAsync(CancellationToken token) { token.ThrowIfCancellationRequested(); return Task.CompletedTask; }
+        internal override Task PrepareRuntimeAsync(CancellationToken token) { token.ThrowIfCancellationRequested(); return RuntimeFailure == null ? Task.CompletedTask : Task.FromException(RuntimeFailure); }
         internal override async Task<int> RunAsync(string executable, IReadOnlyList<string> arguments, Action<int, long> started)
         {
             NativeCalls++; started(int.MaxValue, 0); NativeEntered.TrySetResult(); if (HoldNative) await NativeRelease.Task;

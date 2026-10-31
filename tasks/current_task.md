@@ -28,6 +28,8 @@ T-039B/CCR039实施已独立验收，结论 `tasks/done/T-039B.review/acceptance
 
 ### 3. 默认运行时引导与失败闭合
 
+2026-10-30直接接管后，本主会话已实际以source88cde3d的候选在无.NET10/无下载缓存的新Sandbox重現native Peer disconnected，外层code2、nativecode1，产品/桌面运行时未装入；失败保留于direct-default-installer-smoke-1。按RUNTIME_DOWNLOAD_FIX_SCOPE_20261030.md批准Maintenance内部安装前提准备：在门禁与应用排空后由系统HTTP从微软官方源下载桌面运行时，严格来源/预算及官方SHA512/Windows微软签名，完整校验后交标准Setup安装；不修改公共契约/schema、SDK和主App/UiaHost的FDD形式。需要离线失败/取消/缓存竞争回归和新无缓存来宾/正式公开源复验，旧候选保留。
+
 B的新包来宾在当前网络中native完整下载报Peer disconnected，成功轮先在来宾curl校验官方安装器放入正常缓存，再由未修改Setup在无共享.NET10时安装。该边界**没有被记成默认下载故障已解决**。
 
 - 本单必须再用正式公开安装入口验证默认缺失运行时引导；该轮不允许夹具预填Downloads缓存、手动预装.NET或修改证书/TLS校验来绕过。记录实际网络/运行时/用户权限与真实Setup链。

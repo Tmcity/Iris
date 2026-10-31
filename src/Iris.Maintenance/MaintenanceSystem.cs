@@ -11,6 +11,7 @@ internal class MaintenanceSystem
     internal virtual string InstallRoot => MaintenancePaths.InstallRoot;
     internal virtual string StateRoot => MaintenancePaths.StateRoot;
     internal virtual string DataRoot => MaintenancePaths.DataRoot;
+    internal virtual Task PrepareRuntimeAsync(CancellationToken token) => DesktopRuntimeDownload.PrepareAsync(token);
     internal virtual Task ConfigureAsync() { MaintenanceRegistration.Configure(InstallRoot); return Task.CompletedTask; }
     internal virtual void RemoveAutoStart() => MaintenanceRegistration.RemoveOwnedAutoStart(InstallRoot);
     internal virtual bool IsUninstalled => MaintenanceRegistration.IsUninstalled(InstallRoot);

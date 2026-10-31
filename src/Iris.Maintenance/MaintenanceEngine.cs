@@ -23,7 +23,13 @@ internal sealed class MaintenanceEngine(MaintenanceSystem system)
                 pendingUninstall = previous.Kind is "uninstall" or "install" && previous.DeleteData;
             }
             var state = Transaction("install", "preparing", expectedVersion ?? "", pendingUninstall); gate.Write(state);
-            try { await system.CloseApplicationsAsync(token).ConfigureAwait(false); token.ThrowIfCancellationRequested(); }
+            try
+            {
+                await system.CloseApplicationsAsync(token).ConfigureAwait(false);
+                token.ThrowIfCancellationRequested();
+                await system.PrepareRuntimeAsync(token).ConfigureAwait(false);
+                token.ThrowIfCancellationRequested();
+            }
             catch { if (previous == null) gate.Complete(); else gate.Write(previous); throw; }
             gate.Write(state = state with { Phase = "native-starting", WorkerPath = setup });
             int code;
