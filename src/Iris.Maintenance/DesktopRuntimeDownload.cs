@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text.Json;
@@ -6,8 +7,15 @@ using Iris.Platform.Windows.Maintenance;
 
 namespace Iris.Maintenance;
 
+internal enum DesktopRuntimeStep { Metadata, MetadataValidation, CacheValidation, Download, Signature, Publish }
+internal enum RuntimeTransferStep { Response, ResponseValidation, OpenInput, OpenOutput, Read, Write, Flush, Hash }
+
 internal sealed class DesktopRuntimeDownload(HttpClient http, string cachePath, string workRoot, Func<bool> installed, Action<string> verifySignature)
 {
+    internal const string FailureStepKey = "Iris.DesktopRuntimeStep";
+    internal const string HttpStatusKey = "Iris.DesktopRuntimeHttpStatus";
+    internal const string TransferStepKey = "Iris.RuntimeTransferStep";
+    internal const string TransferBytesKey = "Iris.RuntimeTransferBytes";
     private const long MaxInstallerBytes = 192L * 1024 * 1024;
     private const int MaxMetadataBytes = 2 * 1024 * 1024;
     private static readonly Uri MetadataUri = new("https://dotnetcli.blob.core.windows.net/dotnet/release-metadata/10.0/releases.json");
@@ -32,31 +40,35 @@ internal sealed class DesktopRuntimeDownload(HttpClient http, string cachePath, 
         MaintenancePaths.RequireNoLinks(workRoot);
         using var budget = CancellationTokenSource.CreateLinkedTokenSource(token);
         budget.CancelAfter(TimeSpan.FromMinutes(3));
-        byte[] metadata = await MetadataAsync(budget.Token).ConfigureAwait(false);
-        var release = Parse(metadata);
+        byte[] metadata = await AtStepAsync(DesktopRuntimeStep.Metadata, () => MetadataAsync(budget.Token)).ConfigureAwait(false);
+        var release = AtStep(DesktopRuntimeStep.MetadataValidation, () => Parse(metadata));
         if (File.Exists(cachePath))
         {
-            var info = new FileInfo(cachePath);
-            if (info.Length is <= 0 or > MaxInstallerBytes) throw new InvalidDataException("The existing desktop runtime download is invalid.");
-            await using var cache = new FileStream(cachePath, FileMode.Open, FileAccess.Read, FileShare.Read, 65536, FileOptions.Asynchronous);
-            byte[] hash = await SHA512.HashDataAsync(cache, budget.Token).ConfigureAwait(false);
-            if (!release.AllowedHashes.Any(allowed => CryptographicOperations.FixedTimeEquals(hash, allowed)))
-                throw new InvalidDataException("The existing desktop runtime download does not match Microsoft metadata.");
-            verifySignature(cachePath);
+            await using var cache = AtStep(DesktopRuntimeStep.CacheValidation,
+                () => new FileStream(cachePath, FileMode.Open, FileAccess.Read, FileShare.Read, 65536, FileOptions.Asynchronous));
+            await AtStepAsync(DesktopRuntimeStep.CacheValidation, async () =>
+            {
+                if (cache.Length is <= 0 or > MaxInstallerBytes) throw new InvalidDataException("The existing desktop runtime download is invalid.");
+                byte[] hash = await SHA512.HashDataAsync(cache, budget.Token).ConfigureAwait(false);
+                if (!release.AllowedHashes.Any(allowed => CryptographicOperations.FixedTimeEquals(hash, allowed)))
+                    throw new InvalidDataException("The existing desktop runtime download does not match Microsoft metadata.");
+                return true;
+            }).ConfigureAwait(false);
+            AtStep(DesktopRuntimeStep.Signature, () => { verifySignature(cachePath); return true; });
             budget.Token.ThrowIfCancellationRequested();
             return;
         }
         Directory.CreateDirectory(workRoot);
-        string temporary = MaintenancePaths.Child(workRoot, "desktop-runtime-" + Guid.NewGuid().ToString("N") + ".download");
+        string temporary = MaintenancePaths.Child(workRoot, "desktop-runtime-" + Guid.NewGuid().ToString("N") + ".exe");
         try
         {
-            await DownloadAsync(release.Download, temporary, release.Sha512, budget.Token).ConfigureAwait(false);
-            verifySignature(temporary);
+            await AtStepAsync(DesktopRuntimeStep.Download, async () => { await DownloadAsync(release.Download, temporary, release.Sha512, budget.Token).ConfigureAwait(false); return true; }).ConfigureAwait(false);
+            AtStep(DesktopRuntimeStep.Signature, () => { verifySignature(temporary); return true; });
             budget.Token.ThrowIfCancellationRequested();
             MaintenancePaths.RequireNoLinks(cachePath);
             Directory.CreateDirectory(Path.GetDirectoryName(cachePath)!);
             // Never overwrite a shared SDK cache that appeared while this download was in flight.
-            File.Move(temporary, cachePath, overwrite: false);
+            AtStep(DesktopRuntimeStep.Publish, () => { File.Move(temporary, cachePath, overwrite: false); return true; });
         }
         finally
         {
@@ -64,10 +76,21 @@ internal sealed class DesktopRuntimeDownload(HttpClient http, string cachePath, 
         }
     }
 
+    private static T AtStep<T>(DesktopRuntimeStep step, Func<T> action)
+    {
+        try { return action(); }
+        catch (Exception error) { error.Data[FailureStepKey] = step; throw; }
+    }
+
+    private static async Task<T> AtStepAsync<T>(DesktopRuntimeStep step, Func<Task<T>> action)
+    {
+        try { return await action().ConfigureAwait(false); }
+        catch (Exception error) { error.Data[FailureStepKey] = step; throw; }
+    }
+
     private async Task<byte[]> MetadataAsync(CancellationToken token)
     {
-        using var request = new HttpRequestMessage(HttpMethod.Get, MetadataUri);
-        using var response = await http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+        using var response = await ResponseAsync(MetadataUri, token).ConfigureAwait(false);
         ValidateResponse(response, MaxMetadataBytes);
         await using var stream = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
         using var output = new MemoryStream();
@@ -83,33 +106,115 @@ internal sealed class DesktopRuntimeDownload(HttpClient http, string cachePath, 
 
     private async Task DownloadAsync(Uri uri, string path, byte[] expected, CancellationToken token)
     {
-        using var request = new HttpRequestMessage(HttpMethod.Get, uri);
-        using var response = await http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
-        ValidateResponse(response, MaxInstallerBytes);
-        await using var input = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
-        await using var output = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None, 65536, FileOptions.Asynchronous);
-        using var hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA512);
-        byte[] buffer = new byte[65536];
+        var step = RuntimeTransferStep.Response;
         long length = 0;
-        int count;
-        while ((count = await input.ReadAsync(buffer, token).ConfigureAwait(false)) != 0)
+        try
         {
-            length += count;
-            if (length > MaxInstallerBytes) throw new InvalidDataException("Desktop runtime installer exceeds its budget.");
-            hash.AppendData(buffer, 0, count);
-            await output.WriteAsync(buffer.AsMemory(0, count), token).ConfigureAwait(false);
+            step = RuntimeTransferStep.OpenOutput;
+            await using var output = new FileStream(path, FileMode.CreateNew, FileAccess.Write, FileShare.None, 65536, FileOptions.Asynchronous);
+            using var hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA512);
+            long? total = null;
+            const int blockBytes = 8 * 1024 * 1024;
+            do
+            {
+                byte[]? block = null;
+                for (int attempt = 0; block == null; attempt++)
+                {
+                    try
+                    {
+                        step = RuntimeTransferStep.Response;
+                        using var response = await ResponseAsync(uri, token, length, length + blockBytes - 1).ConfigureAwait(false);
+                        step = RuntimeTransferStep.ResponseValidation;
+                        long expectedLength;
+                        long maximum;
+                        if (response.StatusCode == HttpStatusCode.PartialContent)
+                        {
+                            var range = response.Content.Headers.ContentRange;
+                            if (range?.Unit != "bytes" || range.From != length || range.To == null || range.Length == null
+                                || range.To < range.From || range.To > length + blockBytes - 1 || range.Length > MaxInstallerBytes
+                                || range.Length <= range.To || (total.HasValue && total != range.Length))
+                                throw new InvalidDataException("Desktop runtime response range is invalid.");
+                            total = range.Length;
+                            expectedLength = range.To.Value - length + 1;
+                            maximum = blockBytes;
+                        }
+                        else
+                        {
+                            ValidateResponse(response, MaxInstallerBytes);
+                            if (length != 0) throw new InvalidDataException("Desktop runtime source ignored a continuation range.");
+                            expectedLength = response.Content.Headers.ContentLength ?? -1;
+                            maximum = MaxInstallerBytes;
+                        }
+                        step = RuntimeTransferStep.OpenInput;
+                        await using var input = await response.Content.ReadAsStreamAsync(token).ConfigureAwait(false);
+                        using var buffer = new MemoryStream();
+                        byte[] bytes = new byte[65536];
+                        int count;
+                        step = RuntimeTransferStep.Read;
+                        while ((count = await input.ReadAsync(bytes, token).ConfigureAwait(false)) != 0)
+                        {
+                            if (buffer.Length + count > maximum) throw new InvalidDataException("Desktop runtime response exceeds its range budget.");
+                            buffer.Write(bytes, 0, count);
+                        }
+                        if (buffer.Length == 0 || (expectedLength >= 0 && expectedLength != buffer.Length))
+                            throw new InvalidDataException("Desktop runtime response length differs.");
+                        block = buffer.ToArray();
+                        if (response.StatusCode == HttpStatusCode.OK) total = block.Length;
+                    }
+                    catch (IOException) when (attempt < 2)
+                    {
+                        await Task.Delay(TimeSpan.FromMilliseconds(500 * (attempt + 1)), token).ConfigureAwait(false);
+                    }
+                    catch (HttpRequestException) when (attempt < 2)
+                    {
+                        await Task.Delay(TimeSpan.FromMilliseconds(500 * (attempt + 1)), token).ConfigureAwait(false);
+                    }
+                }
+                hash.AppendData(block);
+                step = RuntimeTransferStep.Write;
+                await output.WriteAsync(block, token).ConfigureAwait(false);
+                length += block.Length;
+            }
+            while (length < total);
+            step = RuntimeTransferStep.Flush;
+            await output.FlushAsync(token).ConfigureAwait(false);
+            step = RuntimeTransferStep.Hash;
+            if (length == 0 || length != total || !CryptographicOperations.FixedTimeEquals(hash.GetHashAndReset(), expected))
+                throw new InvalidDataException("Desktop runtime installer does not match Microsoft metadata.");
         }
-        await output.FlushAsync(token).ConfigureAwait(false);
-        if (length == 0 || (response.Content.Headers.ContentLength is long declared && declared != length)
-            || !CryptographicOperations.FixedTimeEquals(hash.GetHashAndReset(), expected))
-            throw new InvalidDataException("Desktop runtime installer does not match Microsoft metadata.");
+        catch (Exception error)
+        {
+            error.Data[TransferStepKey] = step;
+            error.Data[TransferBytesKey] = length;
+            throw;
+        }
     }
 
     private static void ValidateResponse(HttpResponseMessage response, long maximum)
     {
-        if (response.StatusCode != HttpStatusCode.OK) throw new IOException("Microsoft desktop runtime download was unsuccessful.");
+        if (response.StatusCode != HttpStatusCode.OK)
+        {
+            var error = new IOException("Microsoft desktop runtime download was unsuccessful.");
+            error.Data[HttpStatusKey] = (int)response.StatusCode;
+            throw error;
+        }
         if (response.Content.Headers.ContentLength is long size && (size <= 0 || size > maximum))
             throw new InvalidDataException("Microsoft desktop runtime response exceeds its budget.");
+    }
+
+    private async Task<HttpResponseMessage> ResponseAsync(Uri uri, CancellationToken token, long? from = null, long? to = null)
+    {
+        for (int attempt = 0; ; attempt++)
+        {
+            token.ThrowIfCancellationRequested();
+            using var request = new HttpRequestMessage(HttpMethod.Get, uri);
+            if (from.HasValue) request.Headers.Range = new RangeHeaderValue(from, to);
+            var response = await http.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+            int status = (int)response.StatusCode;
+            if (attempt >= 2 || status is not (429 or 500 or 502 or 503 or 504)) return response;
+            response.Dispose();
+            await Task.Delay(TimeSpan.FromMilliseconds(500 * (attempt + 1)), token).ConfigureAwait(false);
+        }
     }
 
     private sealed record RuntimeRelease(Uri Download, byte[] Sha512, IReadOnlyList<byte[]> AllowedHashes);

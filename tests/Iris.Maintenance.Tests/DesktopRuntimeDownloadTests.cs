@@ -1,4 +1,5 @@
 using System.Net;
+using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text.Json;
 using Shouldly;
@@ -117,12 +118,87 @@ public sealed class DesktopRuntimeDownloadTests
         File.Exists(files.Cache).ShouldBeFalse(); if (Directory.Exists(files.Work)) Directory.GetFiles(files.Work).ShouldBeEmpty();
     }
 
-    private static byte[] Metadata(string? url = null) => JsonSerializer.SerializeToUtf8Bytes(new Dictionary<string, object>
+    [Fact]
+    public async Task TransientMetadataFailureRetriesWithinTheSameRequestBudget()
+    {
+        using var files = new OwnedFiles(); int calls = 0;
+        using var http = new HttpClient(new Handler((_, _) => Task.FromResult(++calls switch
+        {
+            1 => new HttpResponseMessage(HttpStatusCode.ServiceUnavailable) { Content = new ByteArrayContent([]) },
+            2 => Ok(Metadata()),
+            _ => Ok(s_installer)
+        })));
+        await new DesktopRuntimeDownload(http, files.Cache, files.Work, () => false, _ => { }).PrepareCacheAsync(TestContext.Current.CancellationToken);
+        calls.ShouldBe(3); File.ReadAllBytes(files.Cache).ShouldBe(s_installer);
+    }
+
+    [Fact]
+    public async Task RangeDownloadsRetryInterruptedBlockWithoutDuplicatingEarlierBytes()
+    {
+        using var files = new OwnedFiles();
+        byte[] payload = new byte[9 * 1024 * 1024 + 7];
+        for (int i = 0; i < payload.Length; i++) payload[i] = (byte)(i % 251);
+        int requests = 0; var starts = new List<long>();
+        using var http = new HttpClient(new Handler((request, _) =>
+        {
+            if (++requests == 1) return Task.FromResult(Ok(Metadata(installer: payload)));
+            var range = request.Headers.Range!.Ranges.Single();
+            long start = range.From!.Value, end = Math.Min(range.To!.Value, payload.Length - 1);
+            starts.Add(start);
+            HttpContent content = requests == 3 ? new StreamContent(new InterruptedReadStream(payload.AsSpan((int)start, 128 * 1024).ToArray()))
+                : new ByteArrayContent(payload.AsSpan((int)start, (int)(end - start + 1)).ToArray());
+            content.Headers.ContentRange = new ContentRangeHeaderValue(start, end, payload.Length);
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.PartialContent) { Content = content });
+        }));
+        await new DesktopRuntimeDownload(http, files.Cache, files.Work, () => false, _ => { }).PrepareCacheAsync(TestContext.Current.CancellationToken);
+        File.ReadAllBytes(files.Cache).ShouldBe(payload); starts.ShouldBe([0L, 8L * 1024 * 1024, 8L * 1024 * 1024]);
+        Directory.GetFiles(files.Work).ShouldBeEmpty();
+    }
+
+    [Theory]
+    [InlineData("changed-total")]
+    [InlineData("ignored-range")]
+    public async Task InvalidContinuationIsRejectedWithoutPublishingEarlierBytes(string scenario)
+    {
+        using var files = new OwnedFiles(); int requests = 0;
+        using var http = new HttpClient(new Handler((request, _) =>
+        {
+            if (++requests == 1) return Task.FromResult(Ok(Metadata(installer: [1, 2])));
+            var range = request.Headers.Range!.Ranges.Single();
+            range.From.ShouldBe(requests == 2 ? 0L : 1L);
+            if (requests == 3 && scenario == "ignored-range") return Task.FromResult(Ok([2]));
+            var content = new ByteArrayContent(requests == 2 ? [1] : [2]);
+            content.Headers.ContentRange = requests == 2 ? new ContentRangeHeaderValue(0, 0, 2) : new ContentRangeHeaderValue(1, 1, 3);
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.PartialContent) { Content = content });
+        }));
+        await Should.ThrowAsync<InvalidDataException>(() => new DesktopRuntimeDownload(http, files.Cache, files.Work, () => false,
+            _ => throw new InvalidOperationException("No signer call expected"))
+            .PrepareCacheAsync(TestContext.Current.CancellationToken));
+        File.Exists(files.Cache).ShouldBeFalse(); requests.ShouldBe(3); Directory.GetFiles(files.Work).ShouldBeEmpty();
+    }
+
+    [Fact]
+    public async Task UnexpectedRangeOffsetIsRejectedBeforePublishing()
+    {
+        using var files = new OwnedFiles(); int requests = 0;
+        using var http = new HttpClient(new Handler((_, _) =>
+        {
+            if (++requests == 1) return Task.FromResult(Ok(Metadata()));
+            var content = new ByteArrayContent(s_installer);
+            content.Headers.ContentRange = new ContentRangeHeaderValue(1, s_installer.Length, s_installer.Length + 1);
+            return Task.FromResult(new HttpResponseMessage(HttpStatusCode.PartialContent) { Content = content });
+        }));
+        await Should.ThrowAsync<InvalidDataException>(() => new DesktopRuntimeDownload(http, files.Cache, files.Work, () => false, _ => { })
+            .PrepareCacheAsync(TestContext.Current.CancellationToken));
+        File.Exists(files.Cache).ShouldBeFalse(); requests.ShouldBe(2); Directory.GetFiles(files.Work).ShouldBeEmpty();
+    }
+
+    private static byte[] Metadata(string? url = null, byte[]? installer = null) => JsonSerializer.SerializeToUtf8Bytes(new Dictionary<string, object>
     {
         ["latest-runtime"] = "10.0.13",
         ["releases"] = new[] { new { windowsdesktop = new { version = "10.0.13", files = new[] { new
         {
-            rid = "win-x64", name = "windowsdesktop-runtime-win-x64.exe", hash = Convert.ToHexString(SHA512.HashData(s_installer)),
+            rid = "win-x64", name = "windowsdesktop-runtime-win-x64.exe", hash = Convert.ToHexString(SHA512.HashData(installer ?? s_installer)),
             url = url ?? "https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/10.0.13/windowsdesktop-runtime-10.0.13-win-x64.exe"
         } } } } }
     });
@@ -130,6 +206,36 @@ public sealed class DesktopRuntimeDownloadTests
     private sealed class Handler(Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> response) : HttpMessageHandler
     {
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) => response(request, cancellationToken);
+    }
+    private sealed class InterruptedReadStream(byte[] prefix) : Stream
+    {
+        private int _position;
+        public override bool CanRead => true;
+        public override bool CanSeek => false;
+        public override bool CanWrite => false;
+        public override long Length => throw new NotSupportedException();
+        public override long Position { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            if (_position == prefix.Length) throw new IOException("synthetic interrupted block");
+            int copied = Math.Min(count, prefix.Length - _position);
+            prefix.AsSpan(_position, copied).CopyTo(buffer.AsSpan(offset, copied));
+            _position += copied;
+            return copied;
+        }
+        public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (_position == prefix.Length) return ValueTask.FromException<int>(new IOException("synthetic interrupted block"));
+            int copied = Math.Min(buffer.Length, prefix.Length - _position);
+            prefix.AsMemory(_position, copied).CopyTo(buffer);
+            _position += copied;
+            return ValueTask.FromResult(copied);
+        }
+        public override void Flush() => throw new NotSupportedException();
+        public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+        public override void SetLength(long value) => throw new NotSupportedException();
+        public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
     }
     private sealed class OwnedFiles : IDisposable
     {

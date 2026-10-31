@@ -1,10 +1,22 @@
+using System.Formats.Asn1;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Iris.Maintenance;
 
+internal enum RuntimeTrustFailure { Verification, ProviderCertificate, CertificateContext, CertificateEncoding, Publisher }
+
 internal static class RuntimeInstallerTrust
 {
+    internal const string FailureKey = "Iris.RuntimeTrustFailure";
+    internal const string StatusKey = "Iris.RuntimeTrustStatus";
+    private static InvalidDataException Invalid(RuntimeTrustFailure reason, int? status = null)
+    {
+        var error = new InvalidDataException("The desktop runtime installer signature is not trusted.");
+        error.Data[FailureKey] = reason;
+        if (status.HasValue) error.Data[StatusKey] = status.Value;
+        return error;
+    }
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     private struct TrustFile
     {
@@ -70,20 +82,21 @@ internal static class RuntimeInstallerTrust
         Marshal.StructureToPtr(file, pointer, false);
         try
         {
-            if (WinVerifyTrust(0, in action, ref data) != 0) throw new InvalidDataException("The desktop runtime installer signature is not trusted.");
+            int status = WinVerifyTrust(0, in action, ref data);
+            if (status != 0) throw Invalid(RuntimeTrustFailure.Verification, status);
             nint provider = WTHelperProvDataFromStateData(data.State);
             nint signer = provider == 0 ? 0 : WTHelperGetProvSignerFromChain(provider, 0, false, 0);
             nint signerCertificate = signer == 0 ? 0 : WTHelperGetProvCertFromChain(signer, 0);
-            if (signerCertificate == 0) throw new InvalidDataException("The trusted runtime signer is unavailable.");
+            if (signerCertificate == 0) throw Invalid(RuntimeTrustFailure.ProviderCertificate);
             nint contextPointer = Marshal.PtrToStructure<ProviderCertificate>(signerCertificate).Certificate;
-            if (contextPointer == 0) throw new InvalidDataException("The runtime signer certificate is unavailable.");
+            if (contextPointer == 0) throw Invalid(RuntimeTrustFailure.CertificateContext);
             var context = Marshal.PtrToStructure<CertificateContext>(contextPointer);
-            if (context.Encoded == 0 || context.EncodedSize is 0 or > 1048576) throw new InvalidDataException("The runtime signer certificate is invalid.");
+            if (context.Encoded == 0 || context.EncodedSize is 0 or > 1048576) throw Invalid(RuntimeTrustFailure.CertificateEncoding);
             byte[] encoded = new byte[context.EncodedSize];
             Marshal.Copy(context.Encoded, encoded, 0, encoded.Length);
             using var certificate = X509CertificateLoader.LoadCertificate(encoded);
-            if (!string.Equals(certificate.GetNameInfo(X509NameType.SimpleName, false), "Microsoft Corporation", StringComparison.Ordinal))
-                throw new InvalidDataException("The desktop runtime installer publisher is not Microsoft.");
+            if (!IsMicrosoftPublisher(certificate))
+                throw Invalid(RuntimeTrustFailure.Publisher);
         }
         finally
         {
@@ -92,5 +105,33 @@ internal static class RuntimeInstallerTrust
             Marshal.DestroyStructure<TrustFile>(pointer);
             Marshal.FreeHGlobal(pointer);
         }
+    }
+
+    internal static bool IsMicrosoftPublisher(X509Certificate2 certificate)
+    {
+        var reader = new AsnReader(certificate.SubjectName.RawData, AsnEncodingRules.DER);
+        var name = reader.ReadSequence();
+        bool organization = false;
+        while (name.HasData)
+        {
+            var attributes = name.ReadSetOf();
+            while (attributes.HasData)
+            {
+                var attribute = attributes.ReadSequence();
+                string oid = attribute.ReadObjectIdentifier();
+                if (oid == "2.5.4.10")
+                {
+                    Asn1Tag tag = attribute.PeekTag();
+                    if (tag.TagClass != TagClass.Universal || organization) return false;
+                    string value = attribute.ReadCharacterString((UniversalTagNumber)tag.TagValue);
+                    if (value != "Microsoft Corporation") return false;
+                    organization = true;
+                }
+                else _ = attribute.ReadEncodedValue();
+                attribute.ThrowIfNotEmpty();
+            }
+        }
+        reader.ThrowIfNotEmpty();
+        return organization;
     }
 }
