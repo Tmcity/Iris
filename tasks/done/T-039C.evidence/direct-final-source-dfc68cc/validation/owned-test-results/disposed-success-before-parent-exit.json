@@ -1,0 +1,27 @@
+{
+  "Data": {
+    "ShutdownCalls": 1,
+    "PreparedWorkers": 3,
+    "CommitReceiptCompleted": true,
+    "RepeatedFinalBoundaryCompleted": true,
+    "ParentStillAlive": true,
+    "Requests": 1,
+    "Downloads": 1
+  },
+  "Current": {
+    "Phase": "Stopped",
+    "HasCandidate": false,
+    "HasConfirmedUpdate": false,
+    "SettingsSessionAlive": false,
+    "ScopedVmCount": 1,
+    "DisposedVmCount": 1,
+    "HelpersStarted": 3,
+    "HelpersExited": 2,
+    "Requests": 1,
+    "Downloads": 1,
+    "Commits": 0,
+    "DraftTests": 0,
+    "ModelQueries": 0,
+    "HostStops": 3
+  }
+}

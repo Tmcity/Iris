@@ -1,0 +1,17 @@
+{
+  "Command": [
+    "C:/Users/28910/AppData/Local/Microsoft/WindowsApps/wsb.exe",
+    "start",
+    "--id",
+    "c93f59ce-6e56-44d2-8402-aca4837f017b",
+    "--config",
+    "<Configuration><vGPU>Disable</vGPU><Networking>Enable</Networking><ClipboardRedirection>Disable</ClipboardRedirection><AudioInput>Disable</AudioInput><VideoInput>Disable</VideoInput><PrinterRedirection>Disable</PrinterRedirection><MemoryInMB>4096</MemoryInMB></Configuration>",
+    "--raw"
+  ],
+  "StartedUtc": "2026-11-01T04:12:54.750132+00:00",
+  "FinishedUtc": "2026-11-01T04:12:56.614139+00:00",
+  "ExitCode": 0,
+  "Log": "start.log",
+  "Bytes": 54,
+  "Sha256": "347c56e9b4434727b5afc2031d52810cfec704ed53f6d19283574066f7edabe4"
+}

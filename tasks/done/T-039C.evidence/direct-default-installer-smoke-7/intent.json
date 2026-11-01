@@ -1,0 +1,13 @@
+{
+  "SandboxId": "2729174d-64da-4400-b757-6d181a64f2b2",
+  "Input": "F:\\Iris\\artifacts\\t039c\\direct-default-installer-smoke-7\\2729174d-64da-4400-b757-6d181a64f2b2\\input",
+  "Output": "F:\\Iris\\artifacts\\t039c\\direct-default-installer-smoke-7\\2729174d-64da-4400-b757-6d181a64f2b2\\output",
+  "Config": "<Configuration><vGPU>Disable</vGPU><Networking>Enable</Networking><ClipboardRedirection>Disable</ClipboardRedirection><AudioInput>Disable</AudioInput><VideoInput>Disable</VideoInput><PrinterRedirection>Disable</PrinterRedirection><MemoryInMB>4096</MemoryInMB></Configuration>",
+  "Installer": {
+    "Name": "Iris-0.2.1-Setup.exe",
+    "Bytes": 116765245,
+    "Sha256": "0cd69b67b63cf8045dfb8959b342b8de79414232f40f2f097bb00da645e749f0",
+    "SourceCommit": "b4ba0966bcd049cc8ed544d42a6f5ab98b81b899+working-tree-step-diagnostic"
+  },
+  "Role": "Local uncached prerequisite diagnostic only; not public-source C acceptance"
+}

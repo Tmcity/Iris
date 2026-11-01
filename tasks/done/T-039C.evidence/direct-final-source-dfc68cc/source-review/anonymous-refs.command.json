@@ -1,0 +1,17 @@
+{
+  "Command": [
+    "git",
+    "-c",
+    "credential.helper=",
+    "-c",
+    "http.extraHeader=",
+    "ls-remote",
+    "https://github.com/Tmcity/Iris.git",
+    "refs/heads/main",
+    "refs/heads/codex/t039c-public-release",
+    "refs/tags/v*"
+  ],
+  "StartedUtc": "2026-11-01T04:17:14.105022+00:00",
+  "FinishedUtc": "2026-11-01T04:17:15.577439+00:00",
+  "ExitCode": 0
+}

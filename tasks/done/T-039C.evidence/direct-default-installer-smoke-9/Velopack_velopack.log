@@ -1,0 +1,28 @@
+[setup:4084] [12:43:09] [INFO] Starting Velopack Setup (1.2.161)
+[setup:4084] [12:43:09] [INFO]     Location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\setup-59c83906618947a9891698a78c3a0560\\Setup.exe"
+[setup:4084] [12:43:09] [INFO]     Silent: true
+[setup:4084] [12:43:09] [INFO]     Verbose: false
+[setup:4084] [12:43:09] [INFO]     Log: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\velopack\\velopack.log"
+[setup:4084] [12:43:09] [INFO]     Install To: None
+[setup:4084] [12:43:09] [INFO] OS: Windows 10.0.26100 (Windows 11 Enterprise) [64-bit], Arch=Some(
+    X64,
+)
+[setup:4084] [12:43:09] [INFO] Reading bundle header...
+[setup:4084] [12:43:09] [INFO] Bundle offset = 7514112, length = 64625851
+[setup:4084] [12:43:09] [INFO] Loading bundle from embedded zip...
+[setup:4084] [12:43:09] [INFO] No channel override tag found in installer signature.
+[setup:4084] [12:43:09] [INFO] Loading bundle from embedded zip...
+[setup:4084] [12:43:09] [INFO] Reading package manifest...
+[setup:4084] [12:43:09] [INFO] Package manifest loaded successfully.
+[setup:4084] [12:43:09] [INFO]     Package ID: Iris
+[setup:4084] [12:43:09] [INFO]     Package Version: 0.2.1
+[setup:4084] [12:43:09] [INFO]     Package Title: Iris
+[setup:4084] [12:43:09] [INFO]     Package Authors: Iris
+[setup:4084] [12:43:09] [INFO]     Package Description: Iris
+[setup:4084] [12:43:09] [INFO]     Package Machine Architecture: x64
+[setup:4084] [12:43:09] [INFO]     Package Runtime Dependencies: net10-x64-desktop
+[setup:4084] [12:43:09] [INFO] Checking application pre-requisites...
+[setup:4084] [12:43:09] [INFO]     .NET 10.0.0 X64 WindowsDesktop is missing.
+[setup:4084] [12:43:09] [INFO] Downloading 1 missing pre-requisites...
+[setup:4084] [12:43:10] [INFO]     Installing .NET 10.0.0 X64 WindowsDesktop...
+[setup:4084] [12:43:10] [INFO] Running installer: '"C:\\Users\\WDAGUtilityAccount\\Downloads\\inst-dotnet-10.0.0-X64-WindowsDesktop.exe"', args=["/norestart", "/q"]

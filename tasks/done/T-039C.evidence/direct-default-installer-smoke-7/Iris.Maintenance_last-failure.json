@@ -1,0 +1,1 @@
+{"Stage":"install-transaction","Pid":8120,"StartedUtcTicks":639290177265767575,"ExitCode":2,"Failures":[{"Type":"IOException","HResult":"0x80131620","RuntimeStep":"Download","SignatureReason":null,"SignatureStatus":null,"RuntimeHttpStatus":null,"RuntimeTransferStep":"Read","RuntimeTransferBytes":19480576}]}

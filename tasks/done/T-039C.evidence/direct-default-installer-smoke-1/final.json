@@ -1,0 +1,7 @@
+{
+  "SandboxId": "df5a2a2d-6ee2-435b-9a3b-9f22f0f5fcd9",
+  "Stopped": false,
+  "Failure": "Actual default installer diagnostic failed; retain original logs; Owned Sandbox stop not confirmed",
+  "FixturePrefill": false,
+  "PublishedSourceTest": false
+}

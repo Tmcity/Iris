@@ -1,0 +1,15 @@
+{
+  "Command": [
+    "C:/Users/28910/AppData/Local/Microsoft/WindowsApps/wsb.exe",
+    "stop",
+    "--id",
+    "acfc6bc3-094b-4876-96e4-1838d5bdfde0",
+    "--raw"
+  ],
+  "StartedUtc": "2026-11-01T05:28:59.566352+00:00",
+  "FinishedUtc": "2026-11-01T05:29:00.384607+00:00",
+  "ExitCode": 0,
+  "Log": "stop.log",
+  "Bytes": 0,
+  "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

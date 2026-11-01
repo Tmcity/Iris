@@ -1,0 +1,52 @@
+{
+    "Observations":  [
+                         {
+                             "Value":  {
+                                           "Runtimes":  [
+
+                                                        ],
+                                           "Administrator":  true,
+                                           "User":  "342B3B96-7D24-4\\WDAGUtilityAccount",
+                                           "OS":  "10.0.26100.0",
+                                           "RuntimeCacheExists":  false
+                                       },
+                             "Name":  "clean-environment"
+                         },
+                         {
+                             "Value":  {
+                                           "SourceCommit":  "b4ba0966bcd049cc8ed544d42a6f5ab98b81b899",
+                                           "Sha256":  "9e9e529debd52c33a4d0a18c8437289456c250ff1c16c9c13395c72cb82d5808",
+                                           "Name":  "Iris-0.2.1-Setup.exe",
+                                           "Bytes":  116761654
+                                       },
+                             "Name":  "installer-input"
+                         },
+                         {
+                             "Value":  {
+                                           "Arguments":  "--silent --no-start",
+                                           "Path":  "C:\\IrisInstallerInput\\Iris-0.2.1-Setup.exe",
+                                           "Pid":  7172,
+                                           "StartedUtc":  "2026-10-31T03:55:03.1936690Z"
+                                       },
+                             "Name":  "outer-owner"
+                         },
+                         {
+                             "Value":  {
+                                           "HasExited":  true,
+                                           "ExitCode":  2,
+                                           "Pid":  7172
+                                       },
+                             "Name":  "outer-exit"
+                         },
+                         {
+                             "Value":  [
+
+                                       ],
+                             "Name":  "runtimes-after"
+                         }
+                     ],
+    "Failure":  "Default native install failed: 2",
+    "Installed":  false,
+    "CacheAssistance":  false,
+    "PublishedSourceTest":  false
+}

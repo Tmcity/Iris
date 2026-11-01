@@ -1,0 +1,16 @@
+{
+  "Command": [
+    "C:/Users/28910/AppData/Local/Microsoft/WindowsApps/wsb.exe",
+    "exec",
+    "--id",
+    "28f940be-d2bb-4b30-aaec-65ad386c42c0",
+    "--command",
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\\IrisInstallerInput\\guest.ps1",
+    "--run-as",
+    "ExistingLogin",
+    "--raw"
+  ],
+  "StartedUtc": "2026-10-31T04:42:49.237210+00:00",
+  "FinishedUtc": "2026-10-31T04:49:57.287424+00:00",
+  "ExitCode": 0
+}

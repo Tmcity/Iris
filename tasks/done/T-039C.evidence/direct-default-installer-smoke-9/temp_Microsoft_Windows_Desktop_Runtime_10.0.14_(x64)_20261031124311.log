@@ -1,0 +1,90 @@
+[0A7C:0A80][2026-10-31T12:43:11]i001: Burn x86 v6.0.3-dotnet.6, Windows v10.0 x64 (Build 26100: Service Pack 0), path: C:\Users\WDAGUtilityAccount\Downloads\inst-dotnet-10.0.0-X64-WindowsDesktop.exe
+[0A7C:0A80][2026-10-31T12:43:11]i000: Initializing formatted variable 'DOTNETHOME' to value '[DOTNETHOME_X64]'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Initializing string variable 'BUNDLEMONIKER' to value 'Microsoft Windows Desktop Runtime'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Initializing string variable 'DOTNETRUNTIMEVERSION' to value '10.0.14'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Initializing string variable 'DOTNETHOMESIMILARITYCHECKOVERRIDE' to value ''
+[0A7C:0A80][2026-10-31T12:43:11]i000: Initializing string variable 'VERSIONMAJOR' to value '10'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Initializing string variable 'VERSIONMINOR' to value '0'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Initializing string variable 'MINIMUMVSVERSION' to value ''
+[0A7C:0A80][2026-10-31T12:43:11]i009: Command Line: '/norestart /q'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting string variable 'WixBundleSourceProcessPath' to value 'C:\Users\WDAGUtilityAccount\Downloads\inst-dotnet-10.0.0-X64-WindowsDesktop.exe'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting string variable 'WixBundleSourceProcessFolder' to value 'C:\Users\WDAGUtilityAccount\Downloads\'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting string variable 'WixBundleOriginalSource' to value 'C:\Users\WDAGUtilityAccount\Downloads\inst-dotnet-10.0.0-X64-WindowsDesktop.exe'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting string variable 'WixBundleOriginalSourceFolder' to value 'C:\Users\WDAGUtilityAccount\Downloads\'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting string variable 'WixBundleLog' to value 'C:\Users\WDAGUtilityAccount\AppData\Local\Temp\Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261031124311.log'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting string variable 'WixBundleInProgressName' to value ''
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting string variable 'WixBundleName' to value 'Microsoft Windows Desktop Runtime 10.0.14 (x64)'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting string variable 'WixBundleManufacturer' to value 'Microsoft Corporation'
+[0A7C:0C30][2026-10-31T12:43:11]i000: Setting version variable 'WixBundleFileVersion' to value '6.0.3.6'
+[0A7C:0C30][2026-10-31T12:43:11]i000: Setting numeric variable 'WixStdBASuppressOptionsUI' to value 1
+[0A7C:0C30][2026-10-31T12:43:11]i000: Setting numeric variable 'WixStdBAShowVersion' to value 1
+[0A7C:0C30][2026-10-31T12:43:11]i000: Setting numeric variable 'WixStdBALanguageId' to value 2052
+[0A7C:0A80][2026-10-31T12:43:11]i100: Detect begin, 4 packages
+[0A7C:0A80][2026-10-31T12:43:11]i000: Registry key not found. Key = 'SOFTWARE\dotnet\Setup\InstalledVersions\x64'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting numeric variable 'DotnetInstallLocationExists_x64' to value 0
+[0A7C:0A80][2026-10-31T12:43:11]i000: Registry key not found. Key = 'SOFTWARE\dotnet\Setup\InstalledVersions\x86'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting numeric variable 'DotnetInstallLocationExists_x86' to value 0
+[0A7C:0A80][2026-10-31T12:43:11]i052: Condition 'DotnetInstallLocationExists_x64' evaluates to false.
+[0A7C:0A80][2026-10-31T12:43:11]i052: Condition 'NOT DotnetInstallLocationExists_x64 AND NOT NativeMachine="x64"' evaluates to true.
+[0A7C:0A80][2026-10-31T12:43:11]i000: File search: DotnetExeSearch_alt_x64, did not find path: [ProgramFiles64Folder]dotnet\x64\dotnet.exe
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting numeric variable 'DotnetExeExists_alt_x64' to value 0
+[0A7C:0A80][2026-10-31T12:43:11]i052: Condition 'DotnetExeExists_alt_x64' evaluates to false.
+[0A7C:0A80][2026-10-31T12:43:11]i052: Condition 'NOT DotnetInstallLocationExists_x64 AND (NOT NativeMachine OR NativeMachine="x64")' evaluates to false.
+[0A7C:0A80][2026-10-31T12:43:11]i052: Condition 'DotnetExeExists_x64' evaluates to false.
+[0A7C:0A80][2026-10-31T12:43:11]i052: Condition 'DotnetInstallLocationExists_x86' evaluates to false.
+[0A7C:0A80][2026-10-31T12:43:11]i052: Condition 'NOT DotnetInstallLocationExists_x86' evaluates to true.
+[0A7C:0A80][2026-10-31T12:43:11]i000: File search: DotnetExeSearch_x86, did not find path: [ProgramFilesFolder]dotnet\dotnet.exe
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting numeric variable 'DotnetExeExists_x86' to value 0
+[0A7C:0A80][2026-10-31T12:43:11]i052: Condition 'DotnetExeExists_x86' evaluates to false.
+[0A7C:0A80][2026-10-31T12:43:11]i000: Registry key not found. Key = 'SOFTWARE\Microsoft\.NET'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Registry key not found. Key = 'SOFTWARE\Microsoft\.NET\10.0'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting numeric variable 'RemoveSpecificPreviousVersionRegistryKeyExists' to value 0
+[0A7C:0A80][2026-10-31T12:43:11]i052: Condition 'RemoveSpecificPreviousVersionRegistryKeyExists=1' evaluates to false.
+[0A7C:0A80][2026-10-31T12:43:11]i101: Detected package: DotNetHost, state: Absent, cached: No, install registration state: Absent, cache registration state: Absent
+[0A7C:0A80][2026-10-31T12:43:11]i101: Detected package: DotNetHostFxr, state: Absent, cached: No, install registration state: Absent, cache registration state: Absent
+[0A7C:0A80][2026-10-31T12:43:11]i101: Detected package: DotNetRuntime, state: Absent, cached: No, install registration state: Absent, cache registration state: Absent
+[0A7C:0A80][2026-10-31T12:43:11]i101: Detected package: WindowsDesktopRuntime, state: Absent, cached: No, install registration state: Absent, cache registration state: Absent
+[0A7C:0C30][2026-10-31T12:43:11]i000: Setting string variable 'RemoveUpgradeRelatedBundle' to value 'always'
+[0A7C:0C30][2026-10-31T12:43:11]i052: Condition 'WixBundleInstalled OR (NOT DOTNETHOME_X64 ~= DOTNETHOME_X86) OR DOTNETHOMESIMILARITYCHECKOVERRIDE' evaluates to true.
+[0A7C:0C30][2026-10-31T12:43:11]i052: Condition 'WixBundleInstalled OR (NOT DOTNETHOME_ARM64 ~= DOTNETHOME_X86) OR DOTNETHOMESIMILARITYCHECKOVERRIDE' evaluates to true.
+[0A7C:0C30][2026-10-31T12:43:11]i052: Condition 'WixBundleInstalled OR (NOT DOTNETHOME_ARM64 ~= DOTNETHOME_X64) OR (NOT NativeMachine="arm64") OR DOTNETHOMESIMILARITYCHECKOVERRIDE' evaluates to true.
+[0A7C:0A80][2026-10-31T12:43:11]i199: Detect complete, result: 0x0, registration state: None, cached: No, eligible for cleanup: No
+[0A7C:0A80][2026-10-31T12:43:11]i200: Plan begin, 4 packages, action: Install
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting string variable 'WixBundleRollbackLog_DotNetHost' to value 'C:\Users\WDAGUtilityAccount\AppData\Local\Temp\Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261031124311_000_DotNetHost_rollback.log'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting string variable 'WixBundleLog_DotNetHost' to value 'C:\Users\WDAGUtilityAccount\AppData\Local\Temp\Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261031124311_000_DotNetHost.log'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting string variable 'WixBundleRollbackLog_DotNetHostFxr' to value 'C:\Users\WDAGUtilityAccount\AppData\Local\Temp\Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261031124311_001_DotNetHostFxr_rollback.log'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting string variable 'WixBundleLog_DotNetHostFxr' to value 'C:\Users\WDAGUtilityAccount\AppData\Local\Temp\Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261031124311_001_DotNetHostFxr.log'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting string variable 'WixBundleRollbackLog_DotNetRuntime' to value 'C:\Users\WDAGUtilityAccount\AppData\Local\Temp\Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261031124311_002_DotNetRuntime_rollback.log'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting string variable 'WixBundleLog_DotNetRuntime' to value 'C:\Users\WDAGUtilityAccount\AppData\Local\Temp\Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261031124311_002_DotNetRuntime.log'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting string variable 'WixBundleRollbackLog_WindowsDesktopRuntime' to value 'C:\Users\WDAGUtilityAccount\AppData\Local\Temp\Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261031124311_003_WindowsDesktopRuntime_rollback.log'
+[0A7C:0A80][2026-10-31T12:43:11]i000: Setting string variable 'WixBundleLog_WindowsDesktopRuntime' to value 'C:\Users\WDAGUtilityAccount\AppData\Local\Temp\Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261031124311_003_WindowsDesktopRuntime.log'
+[0A7C:0A80][2026-10-31T12:43:11]i222: Planned rollback boundary: 'WindowsDesktopBoundary', vital: Yes, transaction: No (default: No)
+[0A7C:0A80][2026-10-31T12:43:11]i201: Planned package: DotNetHost, state: Absent, default requested: Present, ba requested: Present, execute: Install, rollback: Uninstall, default cache strategy: Keep, ba requested strategy: Keep, cache: Vital, uncache: No, dependency: Register, expected install registration state: Present, expected cache registration state: Present
+[0A7C:0A80][2026-10-31T12:43:11]i201: Planned package: DotNetHostFxr, state: Absent, default requested: Present, ba requested: Present, execute: Install, rollback: Uninstall, default cache strategy: Keep, ba requested strategy: Keep, cache: Vital, uncache: No, dependency: Register, expected install registration state: Present, expected cache registration state: Present
+[0A7C:0A80][2026-10-31T12:43:11]i201: Planned package: DotNetRuntime, state: Absent, default requested: Present, ba requested: Present, execute: Install, rollback: Uninstall, default cache strategy: Keep, ba requested strategy: Keep, cache: Vital, uncache: No, dependency: Register, expected install registration state: Present, expected cache registration state: Present
+[0A7C:0A80][2026-10-31T12:43:11]i201: Planned package: WindowsDesktopRuntime, state: Absent, default requested: Present, ba requested: Present, execute: Install, rollback: Uninstall, default cache strategy: Keep, ba requested strategy: Keep, cache: Vital, uncache: No, dependency: Register, expected install registration state: Present, expected cache registration state: Present
+[0A7C:0A80][2026-10-31T12:43:11]i299: Plan complete, result: 0x0
+[0A7C:0A80][2026-10-31T12:43:11]i300: Apply begin
+[0A7C:0A80][2026-10-31T12:43:11]i010: Launching elevated engine process.
+[0A7C:0A80][2026-10-31T12:43:11]i011: Launched elevated engine process.
+[0A7C:0A80][2026-10-31T12:43:11]i012: Connected to elevated engine.
+[12D0:12D4][2026-10-31T12:43:11]i358: Pausing automatic updates.
+[12D0:12D4][2026-10-31T12:43:11]i359: Paused automatic updates.
+[12D0:12D4][2026-10-31T12:43:11]i370: Session begin, registration key: SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{29A18B06-B190-4463-9FFC-BC0D70D80B7C}, scope: PerMachine, options: 0x3, disable resume: No
+[12D0:12D4][2026-10-31T12:43:11]i000: Caching bundle from: 'C:\Windows\TEMP\{C76BBB88-D8A1-494B-8D1F-40FB90BDB930}\.be\windowsdesktop-runtime-10.0.14-win-x64.exe' to: 'C:\ProgramData\Package Cache\{29A18B06-B190-4463-9FFC-BC0D70D80B7C}\windowsdesktop-runtime-10.0.14-win-x64.exe'
+[12D0:12D4][2026-10-31T12:43:11]i320: Registering bundle dependency provider: {29A18B06-B190-4463-9FFC-BC0D70D80B7C}, version: 10.0.14.50000
+[12D0:12D4][2026-10-31T12:43:11]i371: Updating session, registration key: SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{29A18B06-B190-4463-9FFC-BC0D70D80B7C}, scope: PerMachine, resume: Active, restart initiated: No, disable resume: No
+[12D0:1ED0][2026-10-31T12:43:11]i305: Verified acquired payload: DotNetHost at path: C:\ProgramData\Package Cache\.unverified\DotNetHost, moving to: C:\ProgramData\Package Cache\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\dotnet-host-10.0.14-win-x64.msi.
+[12D0:12D4][2026-10-31T12:43:11]i301: Applying execute package: DotNetHost, action: Install, path: C:\ProgramData\Package Cache\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\dotnet-host-10.0.14-win-x64.msi, arguments: ' DOTNETHOME="" ALLOWMSIINSTALL="True" ARPSYSTEMCOMPONENT="1" BURNMSIINSTALL=1 REINSTALLMODE="muso" REBOOT=ReallySuppress'
+[12D0:1ED0][2026-10-31T12:43:11]i305: Verified acquired payload: DotNetHostFxr at path: C:\ProgramData\Package Cache\.unverified\DotNetHostFxr, moving to: C:\ProgramData\Package Cache\{3887007B-C74B-4DF7-8155-F3838C013D2C}v80.56.61678\dotnet-hostfxr-10.0.14-win-x64.msi.
+[12D0:1ED0][2026-10-31T12:43:11]i305: Verified acquired payload: DotNetRuntime at path: C:\ProgramData\Package Cache\.unverified\DotNetRuntime, moving to: C:\ProgramData\Package Cache\{941B1F64-FCD9-4C40-B927-E75F49DD96D8}v80.56.61678\dotnet-runtime-10.0.14-win-x64.msi.
+[12D0:1ED0][2026-10-31T12:43:12]i305: Verified acquired payload: WindowsDesktopRuntime at path: C:\ProgramData\Package Cache\.unverified\WindowsDesktopRuntime, moving to: C:\ProgramData\Package Cache\{64BFC674-D664-480B-AFF2-D47C5531D6D2}v80.56.61678\windowsdesktop-runtime-10.0.14-win-x64.msi.
+[0A7C:0A80][2026-10-31T12:45:12]i319: Applied execute package: DotNetHost, result: 0x0, restart: None
+[12D0:12D4][2026-10-31T12:45:12]i325: Registering dependency: {29A18B06-B190-4463-9FFC-BC0D70D80B7C} on package provider: Dotnet_CLI_SharedHost_10.0_x64, package: DotNetHost
+[12D0:12D4][2026-10-31T12:45:12]i301: Applying execute package: DotNetHostFxr, action: Install, path: C:\ProgramData\Package Cache\{3887007B-C74B-4DF7-8155-F3838C013D2C}v80.56.61678\dotnet-hostfxr-10.0.14-win-x64.msi, arguments: ' DOTNETHOME="" ALLOWMSIINSTALL="True" ARPSYSTEMCOMPONENT="1" BURNMSIINSTALL=1 REINSTALLMODE="muso" REBOOT=ReallySuppress'
+[0A7C:0A80][2026-10-31T12:47:13]i319: Applied execute package: DotNetHostFxr, result: 0x0, restart: None
+[12D0:12D4][2026-10-31T12:47:13]i325: Registering dependency: {29A18B06-B190-4463-9FFC-BC0D70D80B7C} on package provider: Dotnet_CLI_HostFxr_80.56.61678_x64, package: DotNetHostFxr
+[12D0:12D4][2026-10-31T12:47:13]i301: Applying execute package: DotNetRuntime, action: Install, path: C:\ProgramData\Package Cache\{941B1F64-FCD9-4C40-B927-E75F49DD96D8}v80.56.61678\dotnet-runtime-10.0.14-win-x64.msi, arguments: ' DOTNETHOME="" ALLOWMSIINSTALL="True" ARPSYSTEMCOMPONENT="1" BURNMSIINSTALL=1 REINSTALLMODE="muso" REBOOT=ReallySuppress'
+[0A7C:0A80][2026-10-31T12:49:15]i319: Applied execute package: DotNetRuntime, result: 0x0, restart: None
+[12D0:12D4][2026-10-31T12:49:15]i325: Registering dependency: {29A18B06-B190-4463-9FFC-BC0D70D80B7C} on package provider: dotnet_runtime_80.56.61678_x64, package: DotNetRuntime
+[12D0:12D4][2026-10-31T12:49:15]i301: Applying execute package: WindowsDesktopRuntime, action: Install, path: C:\ProgramData\Package Cache\{64BFC674-D664-480B-AFF2-D47C5531D6D2}v80.56.61678\windowsdesktop-runtime-10.0.14-win-x64.msi, arguments: ' DOTNETHOME="" ALLOWMSIINSTALL="True" ARPSYSTEMCOMPONENT="0" BURNMSIINSTALL=1 REINSTALLMODE="muso" REBOOT=ReallySuppress'

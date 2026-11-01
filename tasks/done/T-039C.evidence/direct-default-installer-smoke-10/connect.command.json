@@ -1,0 +1,12 @@
+{
+  "Command": [
+    "C:/Users/28910/AppData/Local/Microsoft/WindowsApps/wsb.exe",
+    "connect",
+    "--id",
+    "577365d7-a87f-49b1-b8e2-6157a27dc95a",
+    "--raw"
+  ],
+  "StartedUtc": "2026-10-31T05:01:06.833321+00:00",
+  "FinishedUtc": "2026-10-31T05:01:07.435688+00:00",
+  "ExitCode": 0
+}

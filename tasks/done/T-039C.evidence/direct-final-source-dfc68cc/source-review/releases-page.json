@@ -1,0 +1,17 @@
+{
+  "Name": "releases-page",
+  "Url": "https://github.com/Tmcity/Iris/releases",
+  "StartedUtc": "2026-11-01T04:17:17.159967+00:00",
+  "FinishedUtc": "2026-11-01T04:17:18.099621+00:00",
+  "Status": 200,
+  "Headers": {
+    "Content-Type": "text/html; charset=utf-8",
+    "Date": "Sun, 01 Nov 2026 04:17:26 GMT",
+    "X-RateLimit-Limit": null,
+    "X-RateLimit-Remaining": null,
+    "X-RateLimit-Reset": null
+  },
+  "Bytes": 136173,
+  "Sha256": "a0929ad319ef88a6666af2bf8d4d9be9d067830140867091fa47cdff3af86725",
+  "IdentityHeaders": false
+}

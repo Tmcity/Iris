@@ -1,0 +1,7 @@
+{
+  "SandboxId": "28f940be-d2bb-4b30-aaec-65ad386c42c0",
+  "Stopped": true,
+  "Failure": "Actual default installer diagnostic failed; retain original logs",
+  "FixturePrefill": false,
+  "PublishedSourceTest": false
+}

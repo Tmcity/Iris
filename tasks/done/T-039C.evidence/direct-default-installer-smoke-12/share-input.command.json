@@ -1,0 +1,19 @@
+{
+  "Command": [
+    "C:/Users/28910/AppData/Local/Microsoft/WindowsApps/wsb.exe",
+    "share",
+    "--id",
+    "b5b790bf-0924-4e5c-af36-64c3e9d6381c",
+    "--host-path",
+    "F:\\Iris\\artifacts\\t039c\\direct-default-installer-smoke-12\\b5b790bf-0924-4e5c-af36-64c3e9d6381c\\input",
+    "--sandbox-path",
+    "C:\\IrisInstallerInput",
+    "--raw"
+  ],
+  "StartedUtc": "2026-11-01T05:01:04.034334+00:00",
+  "FinishedUtc": "2026-11-01T05:01:04.332941+00:00",
+  "ExitCode": 0,
+  "Log": "share-input.log",
+  "Bytes": 0,
+  "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,31 @@
+[setup:7972] [20:51:45] [INFO] Starting Velopack Setup (1.2.161)
+[setup:7972] [20:51:45] [INFO]     Location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\setup-69db5e6349eb4cb9a398389058db8264\\Setup.exe"
+[setup:7972] [20:51:45] [INFO]     Silent: true
+[setup:7972] [20:51:45] [INFO]     Verbose: false
+[setup:7972] [20:51:45] [INFO]     Log: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\velopack\\velopack.log"
+[setup:7972] [20:51:45] [INFO]     Install To: None
+[setup:7972] [20:51:45] [INFO] OS: Windows 10.0.26100 (Windows 11 Enterprise) [64-bit], Arch=Some(
+    X64,
+)
+[setup:7972] [20:51:45] [INFO] Reading bundle header...
+[setup:7972] [20:51:45] [INFO] Bundle offset = 7514112, length = 64616213
+[setup:7972] [20:51:45] [INFO] Loading bundle from embedded zip...
+[setup:7972] [20:51:45] [INFO] No channel override tag found in installer signature.
+[setup:7972] [20:51:45] [INFO] Loading bundle from embedded zip...
+[setup:7972] [20:51:45] [INFO] Reading package manifest...
+[setup:7972] [20:51:45] [INFO] Package manifest loaded successfully.
+[setup:7972] [20:51:45] [INFO]     Package ID: Iris
+[setup:7972] [20:51:45] [INFO]     Package Version: 0.2.1
+[setup:7972] [20:51:45] [INFO]     Package Title: Iris
+[setup:7972] [20:51:45] [INFO]     Package Authors: Iris
+[setup:7972] [20:51:45] [INFO]     Package Description: Iris
+[setup:7972] [20:51:45] [INFO]     Package Machine Architecture: x64
+[setup:7972] [20:51:45] [INFO]     Package Runtime Dependencies: net10-x64-desktop
+[setup:7972] [20:51:45] [INFO] Checking application pre-requisites...
+[setup:7972] [20:51:45] [INFO]     .NET 10.0.0 X64 WindowsDesktop is missing.
+[setup:7972] [20:51:45] [INFO] Downloading 1 missing pre-requisites...
+[setup:7972] [20:51:46] [INFO]     Downloading .NET 10.0.0 X64 WindowsDesktop...
+[setup:7972] [20:51:51] [ERROR] An error has occurred: IO error: Peer disconnected
+
+Caused by:
+    Peer disconnected

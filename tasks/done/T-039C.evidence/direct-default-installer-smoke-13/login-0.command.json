@@ -1,0 +1,19 @@
+{
+  "Command": [
+    "C:/Users/28910/AppData/Local/Microsoft/WindowsApps/wsb.exe",
+    "exec",
+    "--id",
+    "acfc6bc3-094b-4876-96e4-1838d5bdfde0",
+    "--command",
+    "cmd.exe /c exit 0",
+    "--run-as",
+    "ExistingLogin",
+    "--raw"
+  ],
+  "StartedUtc": "2026-11-01T05:20:26.383604+00:00",
+  "FinishedUtc": "2026-11-01T05:20:26.725069+00:00",
+  "ExitCode": 2147943712,
+  "Log": "login-0.log",
+  "Bytes": 87,
+  "Sha256": "b8cb89b7a2c579c1a63c0ef244c65e02a39b414ea4ace7cbeb1dafe89785e98e"
+}

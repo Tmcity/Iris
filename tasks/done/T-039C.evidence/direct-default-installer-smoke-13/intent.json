@@ -1,0 +1,50 @@
+{
+  "SandboxId": "acfc6bc3-094b-4876-96e4-1838d5bdfde0",
+  "Input": "F:\\Iris\\artifacts\\t039c\\direct-default-installer-smoke-13\\acfc6bc3-094b-4876-96e4-1838d5bdfde0\\input",
+  "Output": "F:\\Iris\\artifacts\\t039c\\direct-default-installer-smoke-13\\acfc6bc3-094b-4876-96e4-1838d5bdfde0\\output",
+  "Config": "<Configuration><vGPU>Disable</vGPU><Networking>Enable</Networking><ClipboardRedirection>Disable</ClipboardRedirection><AudioInput>Disable</AudioInput><VideoInput>Disable</VideoInput><PrinterRedirection>Disable</PrinterRedirection><MemoryInMB>4096</MemoryInMB></Configuration>",
+  "Installer": {
+    "Name": "Iris-0.2.1-Setup.exe",
+    "Version": "0.2.1",
+    "Bytes": 116768926,
+    "Sha256": "d086e9b8937b269080eb5388c2bf393669bc50af68fd7e773c1f22e68cac9e51",
+    "SourceCommit": "dfc68ccba422c735edeab42635c19b7767b9f2c2",
+    "SourceGitTree": "396b90efadba83b7caa53789d6c9364fd4c54539",
+    "PayloadManifestSha256": "4abd238c2096b859ddbbe3fd84c25d20767949bc0b4ef2e0b950009f5f0b1e3f"
+  },
+  "CandidateVerification": {
+    "Version": "0.2.1",
+    "SourceCommit": "dfc68ccba422c735edeab42635c19b7767b9f2c2",
+    "SourceGitTree": "396b90efadba83b7caa53789d6c9364fd4c54539",
+    "PublicAssets": 16,
+    "PayloadEntries": 97,
+    "MaintenancePrefixBytes": 44626424,
+    "InternalSetupBytes": 72142446,
+    "InternalSetupSha256": "4d213b0936409233f3f6f0e7d5cb2b481b42949f4ae71c3322d775192e80b1b0",
+    "FullSha256": "ecebe2905f6264c847c6e618ebecb540b8afd994b9de04e55fa243f387820e9e",
+    "OuterSha256": "d086e9b8937b269080eb5388c2bf393669bc50af68fd7e773c1f22e68cac9e51"
+  },
+  "InputFiles": [
+    {
+      "Name": "guest.ps1",
+      "Bytes": 7998,
+      "Sha256": "8ac829513a2da5aed357a4fd3f5f140d8d93bf6175dd1884f8963366ab655244"
+    },
+    {
+      "Name": "Iris-0.2.1-Setup.exe",
+      "Bytes": 116768926,
+      "Sha256": "d086e9b8937b269080eb5388c2bf393669bc50af68fd7e773c1f22e68cac9e51"
+    },
+    {
+      "Name": "manifest.json",
+      "Bytes": 390,
+      "Sha256": "f3b08c75f80ad1811916ef38ffb4f64dabde66f045b539827e14f744f13ce8ab"
+    },
+    {
+      "Name": "payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "4abd238c2096b859ddbbe3fd84c25d20767949bc0b4ef2e0b950009f5f0b1e3f"
+    }
+  ],
+  "Role": "Complete reviewed local candidate, uncached default prerequisite verification; public-source/UI verification still required"
+}

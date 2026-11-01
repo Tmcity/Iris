@@ -1,0 +1,16 @@
+{
+  "Command": [
+    "C:/Users/28910/AppData/Local/Microsoft/WindowsApps/wsb.exe",
+    "exec",
+    "--id",
+    "577365d7-a87f-49b1-b8e2-6157a27dc95a",
+    "--command",
+    "cmd.exe /c exit 0",
+    "--run-as",
+    "ExistingLogin",
+    "--raw"
+  ],
+  "StartedUtc": "2026-10-31T05:01:08.824727+00:00",
+  "FinishedUtc": "2026-10-31T05:01:09.226933+00:00",
+  "ExitCode": 0
+}

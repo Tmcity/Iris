@@ -1,0 +1,9 @@
+{
+  "SandboxId": "b5b790bf-0924-4e5c-af36-64c3e9d6381c",
+  "Stopped": true,
+  "Failure": "ValueError: Default candidate verification failed; preserve logs",
+  "FixturePrefill": false,
+  "PublishedSourceTest": false,
+  "SourceCommit": "dfc68ccba422c735edeab42635c19b7767b9f2c2",
+  "CandidateOuterSha256": "d086e9b8937b269080eb5388c2bf393669bc50af68fd7e773c1f22e68cac9e51"
+}

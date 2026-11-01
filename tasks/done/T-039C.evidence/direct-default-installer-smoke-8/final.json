@@ -1,0 +1,7 @@
+{
+  "SandboxId": "6aa47753-fbca-40e1-ba64-0c82b001fbe9",
+  "Stopped": true,
+  "Failure": "RuntimeError: Default diagnostic admission failed",
+  "FixturePrefill": false,
+  "PublishedSourceTest": false
+}

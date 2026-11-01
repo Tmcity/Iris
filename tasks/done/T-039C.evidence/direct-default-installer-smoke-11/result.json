@@ -1,0 +1,74 @@
+{
+    "Observations":  [
+                         {
+                             "Value":  {
+                                           "Runtimes":  [
+
+                                                        ],
+                                           "Administrator":  true,
+                                           "User":  "342B3B96-7D24-4\\WDAGUtilityAccount",
+                                           "OS":  "10.0.26100.0",
+                                           "RuntimeCacheExists":  false
+                                       },
+                             "Name":  "clean-environment"
+                         },
+                         {
+                             "Value":  {
+                                           "Name":  "Iris-0.2.1-Setup.exe",
+                                           "Version":  "0.2.1",
+                                           "Bytes":  116768926,
+                                           "Sha256":  "d086e9b8937b269080eb5388c2bf393669bc50af68fd7e773c1f22e68cac9e51",
+                                           "SourceCommit":  "dfc68ccba422c735edeab42635c19b7767b9f2c2",
+                                           "SourceGitTree":  "396b90efadba83b7caa53789d6c9364fd4c54539",
+                                           "PayloadManifestSha256":  "4abd238c2096b859ddbbe3fd84c25d20767949bc0b4ef2e0b950009f5f0b1e3f"
+                                       },
+                             "Name":  "installer-input"
+                         },
+                         {
+                             "Value":  {
+                                           "Arguments":  "--silent --no-start",
+                                           "Path":  "C:\\IrisInstallerInput\\Iris-0.2.1-Setup.exe",
+                                           "Pid":  8108,
+                                           "StartedUtc":  "2026-11-01T04:13:07.5614047Z"
+                                       },
+                             "Name":  "outer-owner"
+                         },
+                         {
+                             "Value":  {
+                                           "HasExited":  true,
+                                           "ExitCode":  0,
+                                           "Pid":  8108
+                                       },
+                             "Name":  "outer-exit"
+                         },
+                         {
+                             "Value":  [
+                                           {
+                                               "Root":  "C:\\Program Files",
+                                               "Family":  "Microsoft.NETCore.App",
+                                               "Version":  "10.0.14"
+                                           },
+                                           {
+                                               "Root":  "C:\\Program Files",
+                                               "Family":  "Microsoft.WindowsDesktop.App",
+                                               "Version":  "10.0.14"
+                                           }
+                                       ],
+                             "Name":  "runtimes-after"
+                         },
+                         {
+                             "Value":  {
+                                           "Version":  "0.2.1",
+                                           "Channel":  "win",
+                                           "PackageId":  "Iris",
+                                           "Repository":  "https://github.com/Tmcity/Iris",
+                                           "RuntimeId":  "win-x64"
+                                       },
+                             "Name":  "installed-source"
+                         }
+                     ],
+    "Failure":  "Cannot convert \u0027System.Object[]\u0027 to the type \u0027System.String\u0027 required by parameter \u0027ChildPath\u0027. Specified method is not supported.",
+    "Installed":  false,
+    "CacheAssistance":  false,
+    "PublishedSourceTest":  false
+}

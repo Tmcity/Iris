@@ -1,0 +1,45 @@
+{
+    "Observations":  [
+                         {
+                             "Value":  {
+                                           "Runtimes":  [
+
+                                                        ],
+                                           "Administrator":  true,
+                                           "User":  "342B3B96-7D24-4\\WDAGUtilityAccount",
+                                           "OS":  "10.0.26100.0",
+                                           "RuntimeCacheExists":  false
+                                       },
+                             "Name":  "clean-environment"
+                         },
+                         {
+                             "Value":  {
+                                           "SourceCommit":  "b4ba0966bcd049cc8ed544d42a6f5ab98b81b899+working-tree-step-diagnostic",
+                                           "Sha256":  "c7e50fe59eac0e0bdf091b2d9ebe1cf08a886014d220025917a15b463d8fa533",
+                                           "Name":  "Iris-0.2.1-Setup.exe",
+                                           "Bytes":  116766149
+                                       },
+                             "Name":  "installer-input"
+                         },
+                         {
+                             "Value":  {
+                                           "Arguments":  "--silent --no-start",
+                                           "Path":  "C:\\IrisInstallerInput\\Iris-0.2.1-Setup.exe",
+                                           "Pid":  8040,
+                                           "StartedUtc":  "2026-10-31T04:42:56.2168212Z"
+                                       },
+                             "Name":  "outer-owner"
+                         },
+                         {
+                             "Value":  {
+                                           "HasExited":  false,
+                                           "Pid":  8040
+                                       },
+                             "Name":  "outer-timeout"
+                         }
+                     ],
+    "Failure":  null,
+    "Installed":  false,
+    "CacheAssistance":  false,
+    "PublishedSourceTest":  false
+}

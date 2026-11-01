@@ -1,0 +1,287 @@
+{
+  "ReviewedAtUtc": "2026-11-01T04:17:18.099621+00:00",
+  "SourceCommit": "dfc68ccba422c735edeab42635c19b7767b9f2c2",
+  "SourceGitTree": "396b90efadba83b7caa53789d6c9364fd4c54539",
+  "CommittedSourceFiles": 720,
+  "FullTests": {
+    "Total": 3754,
+    "Passed": 3752,
+    "Failed": 0,
+    "Skipped": 2
+  },
+  "BuildWarnings": 0,
+  "BuildErrors": 0,
+  "ReleaseRegressions": 16,
+  "RawSkips": [
+    {
+      "Name": "Iris.Platform.Windows.Tests.Clipboard.Win32ClipboardIsolatedIntegrationTests.IsolatedWindowStation_NativeClipboardIntegration_ExecutesInDedicatedProcess",
+      "Reason": "[ENVIRONMENT LIMITATION] Native isolated window station test skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)"
+    },
+    {
+      "Name": "Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotIsolatedTests.SnapshotHelper_UsesExclusiveNonInteractiveStation_AndJoinsOwnedProcess",
+      "Reason": "[ENVIRONMENT LIMITATION] Snapshot isolated helper skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)"
+    }
+  ],
+  "Packages": [
+    {
+      "Version": "0.2.1",
+      "SourceCommit": "dfc68ccba422c735edeab42635c19b7767b9f2c2",
+      "SourceGitTree": "396b90efadba83b7caa53789d6c9364fd4c54539",
+      "PublicAssets": 16,
+      "PayloadEntries": 97,
+      "MaintenancePrefixBytes": 44626424,
+      "InternalSetupBytes": 72142446,
+      "InternalSetupSha256": "4d213b0936409233f3f6f0e7d5cb2b481b42949f4ae71c3322d775192e80b1b0",
+      "FullSha256": "ecebe2905f6264c847c6e618ebecb540b8afd994b9de04e55fa243f387820e9e",
+      "OuterSha256": "d086e9b8937b269080eb5388c2bf393669bc50af68fd7e773c1f22e68cac9e51",
+      "Path": "F:\\Iris\\artifacts\\t039c\\release-0.2.1-direct-candidate-3",
+      "Assets": [
+        {
+          "Name": "assets.win.json",
+          "Bytes": 161,
+          "Sha256": "c8518cab5099ba8e3f6cb0c75472eb48d9fc3b9ad50930cb4fbe7c299b600f3d"
+        },
+        {
+          "Name": "full-tests.log",
+          "Bytes": 4685,
+          "Sha256": "9c9a78819c7ddebc9dfb4510fbc875981f375c261d768220e16e297858b340b9"
+        },
+        {
+          "Name": "INSTALLATION.md",
+          "Bytes": 5055,
+          "Sha256": "2d57883be10c6f3581234a687b564d7f322936064dc4233a5276de425038d756"
+        },
+        {
+          "Name": "Iris-0.2.1-full.nupkg",
+          "Bytes": 64628334,
+          "Sha256": "ecebe2905f6264c847c6e618ebecb540b8afd994b9de04e55fa243f387820e9e"
+        },
+        {
+          "Name": "Iris-0.2.1-Setup.exe",
+          "Bytes": 116768926,
+          "Sha256": "d086e9b8937b269080eb5388c2bf393669bc50af68fd7e773c1f22e68cac9e51"
+        },
+        {
+          "Name": "package.log",
+          "Bytes": 5588,
+          "Sha256": "e49448bdd5dfd883c36d2e6586792ef103a35ceac5b5801ffcd36902c07fefaa"
+        },
+        {
+          "Name": "payload-manifest.json",
+          "Bytes": 17644,
+          "Sha256": "4abd238c2096b859ddbbe3fd84c25d20767949bc0b4ef2e0b950009f5f0b1e3f"
+        },
+        {
+          "Name": "release-build.log",
+          "Bytes": 2332,
+          "Sha256": "a6bfe24455071751688ed29e73c938e26918ce81182d181c71f39a642cd94e0f"
+        },
+        {
+          "Name": "release-manifest-tests.log",
+          "Bytes": 3079,
+          "Sha256": "6f6021996f38e075463b743c82e446dc23f8527e01a3b56b3d81acd74ec02450"
+        },
+        {
+          "Name": "release-provenance.json",
+          "Bytes": 192354,
+          "Sha256": "0c1df8ee2cef9098d4f8f4a40b3bc534b69436b911baad02767722bb59cb18f3"
+        },
+        {
+          "Name": "RELEASE_NOTES.md",
+          "Bytes": 676,
+          "Sha256": "e0b66554a722b9d6d5c327f132d08dadf2c77eb45c00137a121ed8f482654c85"
+        },
+        {
+          "Name": "RELEASES",
+          "Bytes": 74,
+          "Sha256": "93d735224b78bede4af622449b19952fbfed37e7068f4bcbe64b6c73ba8eb53a"
+        },
+        {
+          "Name": "releases.win.json",
+          "Bytes": 242,
+          "Sha256": "79222510fa7e9c2f695e5aeda23342eb7ad09068977320703da339be343b3d85"
+        },
+        {
+          "Name": "SHA256.json",
+          "Bytes": 2154,
+          "Sha256": "09fadeaa3c3eede0ef3bc966bcfff180cfc60aa2d9d2059c695487f58f2dc979"
+        },
+        {
+          "Name": "staging-manifest.json",
+          "Bytes": 18533,
+          "Sha256": "ca20cb8feb4e1b5e6ee5aaa589bc279a81f9d6dccf234b68ba68bb407ce65f9c"
+        },
+        {
+          "Name": "validation-summary.json",
+          "Bytes": 3801,
+          "Sha256": "0b07c132d74600638d4266ad19068c6ce96364a64c610bcc325db8716fcbc48b"
+        }
+      ]
+    },
+    {
+      "Version": "0.2.2",
+      "SourceCommit": "dfc68ccba422c735edeab42635c19b7767b9f2c2",
+      "SourceGitTree": "396b90efadba83b7caa53789d6c9364fd4c54539",
+      "PublicAssets": 18,
+      "PayloadEntries": 97,
+      "MaintenancePrefixBytes": 44626415,
+      "InternalSetupBytes": 72142393,
+      "InternalSetupSha256": "1ddecfc8735205ffe42d3b35b8fb268e1f908ebcc7d943b4ed2feae9f237dc13",
+      "FullSha256": "0269c4d141d237fc9fad6da8fcb9017fb4b3f35456e0cae3e58d728daf0cad45",
+      "OuterSha256": "cc05b9c7ae988192bed0667e6b54da8b56b765d885a9a5a024282023c6f9771e",
+      "Path": "F:\\Iris\\artifacts\\t039c\\release-0.2.2-direct-candidate-3",
+      "Assets": [
+        {
+          "Name": "assets.win.json",
+          "Bytes": 240,
+          "Sha256": "faf7fadf0823f7c12b7a1ec66e7c04e8ac3792fc6cd89f7e66127b5de3a51d62"
+        },
+        {
+          "Name": "full-tests.log",
+          "Bytes": 4685,
+          "Sha256": "9c9a78819c7ddebc9dfb4510fbc875981f375c261d768220e16e297858b340b9"
+        },
+        {
+          "Name": "INSTALLATION.md",
+          "Bytes": 5055,
+          "Sha256": "2d57883be10c6f3581234a687b564d7f322936064dc4233a5276de425038d756"
+        },
+        {
+          "Name": "Iris-0.2.1-full.nupkg",
+          "Bytes": 64628334,
+          "Sha256": "ecebe2905f6264c847c6e618ebecb540b8afd994b9de04e55fa243f387820e9e"
+        },
+        {
+          "Name": "Iris-0.2.2-delta.nupkg",
+          "Bytes": 492473,
+          "Sha256": "96cd9fe38e5af2aaa97387e1cfd7ea9b71eb76113798db7d28d24a505dc6e407"
+        },
+        {
+          "Name": "Iris-0.2.2-full.nupkg",
+          "Bytes": 64628281,
+          "Sha256": "0269c4d141d237fc9fad6da8fcb9017fb4b3f35456e0cae3e58d728daf0cad45"
+        },
+        {
+          "Name": "Iris-0.2.2-Setup.exe",
+          "Bytes": 116768864,
+          "Sha256": "cc05b9c7ae988192bed0667e6b54da8b56b765d885a9a5a024282023c6f9771e"
+        },
+        {
+          "Name": "package.log",
+          "Bytes": 6391,
+          "Sha256": "182c4b089d2663224379e788ef2d4954df13f468dc23290227a13554b760f5df"
+        },
+        {
+          "Name": "payload-manifest.json",
+          "Bytes": 17644,
+          "Sha256": "2f98e937e57e4adcbc145ccd9ce08dab627cce3e22847650060de8a7591fc82e"
+        },
+        {
+          "Name": "release-build.log",
+          "Bytes": 2332,
+          "Sha256": "a6bfe24455071751688ed29e73c938e26918ce81182d181c71f39a642cd94e0f"
+        },
+        {
+          "Name": "release-manifest-tests.log",
+          "Bytes": 3079,
+          "Sha256": "6f6021996f38e075463b743c82e446dc23f8527e01a3b56b3d81acd74ec02450"
+        },
+        {
+          "Name": "release-provenance.json",
+          "Bytes": 192354,
+          "Sha256": "fe718fb49666cdc28ec012978d2931b1c6a9ddbbf4ed0e2bee58f81eed7594b8"
+        },
+        {
+          "Name": "RELEASE_NOTES.md",
+          "Bytes": 676,
+          "Sha256": "c67492916eeab10c88a65ec115d2fc67b7ca63c7c12a700b7dad7c89c02d053e"
+        },
+        {
+          "Name": "RELEASES",
+          "Bytes": 146,
+          "Sha256": "4f6f1bb0bdbba0e405b9847a0a92e41488ee1538ae37b22b3bbce2a678c837ae"
+        },
+        {
+          "Name": "releases.win.json",
+          "Bytes": 702,
+          "Sha256": "f7abb9ce9d3e9b4a026c02f96bc3c7db6530d13e3c162e000873491e6434eb49"
+        },
+        {
+          "Name": "SHA256.json",
+          "Bytes": 2454,
+          "Sha256": "16bd0bb7f97b197a9c7f1880e3846357d797ad3f6d9bee83f2cc0556fcd1d067"
+        },
+        {
+          "Name": "staging-manifest.json",
+          "Bytes": 18533,
+          "Sha256": "1d04575139d92bc48ec60b008a9ef8c953d65054eb89b066aad63af0abbfca8b"
+        },
+        {
+          "Name": "validation-summary.json",
+          "Bytes": 3801,
+          "Sha256": "0b07c132d74600638d4266ad19068c6ce96364a64c610bcc325db8716fcbc48b"
+        }
+      ]
+    }
+  ],
+  "AnonymousRefs": {
+    "refs/heads/codex/t039c-public-release": "3bb52042184b4c4aef8ad75dfab9bf0f40c1f666",
+    "refs/heads/main": "3bb52042184b4c4aef8ad75dfab9bf0f40c1f666",
+    "refs/tags/v0.2.0": "ebe194564c5ada606744b4e484b09f3182e04eae",
+    "refs/tags/v0.2.0^{}": "dcdfdded311fa00671dfd9747bb2101cbf8964f3"
+  },
+  "PublicObservations": [
+    {
+      "Name": "releases-api",
+      "Url": "https://api.github.com/repos/Tmcity/Iris/releases?per_page=100",
+      "StartedUtc": "2026-11-01T04:17:15.635848+00:00",
+      "FinishedUtc": "2026-11-01T04:17:16.338472+00:00",
+      "Status": 200,
+      "Headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sun, 01 Nov 2026 04:17:24 GMT",
+        "X-RateLimit-Limit": "60",
+        "X-RateLimit-Remaining": "46",
+        "X-RateLimit-Reset": "1793509555"
+      },
+      "Bytes": 2,
+      "Sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "IdentityHeaders": false
+    },
+    {
+      "Name": "runs-api",
+      "Url": "https://api.github.com/repos/Tmcity/Iris/actions/runs?per_page=20",
+      "StartedUtc": "2026-11-01T04:17:16.339485+00:00",
+      "FinishedUtc": "2026-11-01T04:17:17.159967+00:00",
+      "Status": 200,
+      "Headers": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sun, 01 Nov 2026 04:17:25 GMT",
+        "X-RateLimit-Limit": "60",
+        "X-RateLimit-Remaining": "44",
+        "X-RateLimit-Reset": "1793509555"
+      },
+      "Bytes": 11206,
+      "Sha256": "3c8ff3d381076adcecfe8424e69374ca9e24e6e07da88ce46b75eff8986d8769",
+      "IdentityHeaders": false
+    },
+    {
+      "Name": "releases-page",
+      "Url": "https://github.com/Tmcity/Iris/releases",
+      "StartedUtc": "2026-11-01T04:17:17.159967+00:00",
+      "FinishedUtc": "2026-11-01T04:17:18.099621+00:00",
+      "Status": 200,
+      "Headers": {
+        "Content-Type": "text/html; charset=utf-8",
+        "Date": "Sun, 01 Nov 2026 04:17:26 GMT",
+        "X-RateLimit-Limit": null,
+        "X-RateLimit-Remaining": null,
+        "X-RateLimit-Reset": null
+      },
+      "Bytes": 136173,
+      "Sha256": "a0929ad319ef88a6666af2bf8d4d9be9d067830140867091fa47cdff3af86725",
+      "IdentityHeaders": false
+    }
+  ],
+  "Scope": "Source, local candidate bytes, validation and public read preflight. Guest result/checkpoint/publication are separate."
+}

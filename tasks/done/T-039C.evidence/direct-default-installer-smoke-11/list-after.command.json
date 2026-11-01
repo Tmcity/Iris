@@ -1,0 +1,13 @@
+{
+  "Command": [
+    "C:/Users/28910/AppData/Local/Microsoft/WindowsApps/wsb.exe",
+    "list",
+    "--raw"
+  ],
+  "StartedUtc": "2026-11-01T04:21:38.901072+00:00",
+  "FinishedUtc": "2026-11-01T04:21:39.226669+00:00",
+  "ExitCode": 0,
+  "Log": "list-after.log",
+  "Bytes": 42,
+  "Sha256": "90255a0b24d45da9c2280c4628d0e08d80902949213f5f5f76d7f282b678a6bb"
+}

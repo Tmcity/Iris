@@ -1,0 +1,15 @@
+{
+  "Command": [
+    "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-File",
+    "F:\\Iris\\artifacts\\t039c\\verify_manual_inputs.ps1"
+  ],
+  "StartedUtc": "2026-11-01T07:37:59.148814+00:00",
+  "FinishedUtc": "2026-11-01T07:37:59.447816+00:00",
+  "ExitCode": 0,
+  "Log": "ps51-input-parse.log",
+  "Bytes": 537,
+  "Sha256": "6369a05ed4ac28c5e2dbab0932df690caca311adf136ce48186e7d6d37146641"
+}

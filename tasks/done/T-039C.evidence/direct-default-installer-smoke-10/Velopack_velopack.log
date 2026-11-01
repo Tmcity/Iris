@@ -1,0 +1,67 @@
+[setup:7892] [13:01:36] [INFO] Starting Velopack Setup (1.2.161)
+[setup:7892] [13:01:36] [INFO]     Location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris.Maintenance\\setup-dd165e75191e4c10bfaef2956453d316\\Setup.exe"
+[setup:7892] [13:01:36] [INFO]     Silent: true
+[setup:7892] [13:01:36] [INFO]     Verbose: false
+[setup:7892] [13:01:36] [INFO]     Log: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\velopack\\velopack.log"
+[setup:7892] [13:01:36] [INFO]     Install To: None
+[setup:7892] [13:01:36] [INFO] OS: Windows 10.0.26100 (Windows 11 Enterprise) [64-bit], Arch=Some(
+    X64,
+)
+[setup:7892] [13:01:36] [INFO] Reading bundle header...
+[setup:7892] [13:01:36] [INFO] Bundle offset = 7514112, length = 64625851
+[setup:7892] [13:01:36] [INFO] Loading bundle from embedded zip...
+[setup:7892] [13:01:36] [INFO] No channel override tag found in installer signature.
+[setup:7892] [13:01:36] [INFO] Loading bundle from embedded zip...
+[setup:7892] [13:01:36] [INFO] Reading package manifest...
+[setup:7892] [13:01:36] [INFO] Package manifest loaded successfully.
+[setup:7892] [13:01:36] [INFO]     Package ID: Iris
+[setup:7892] [13:01:36] [INFO]     Package Version: 0.2.1
+[setup:7892] [13:01:36] [INFO]     Package Title: Iris
+[setup:7892] [13:01:36] [INFO]     Package Authors: Iris
+[setup:7892] [13:01:36] [INFO]     Package Description: Iris
+[setup:7892] [13:01:36] [INFO]     Package Machine Architecture: x64
+[setup:7892] [13:01:36] [INFO]     Package Runtime Dependencies: net10-x64-desktop
+[setup:7892] [13:01:36] [INFO] Checking application pre-requisites...
+[setup:7892] [13:01:36] [INFO]     .NET 10.0.0 X64 WindowsDesktop is missing.
+[setup:7892] [13:01:36] [INFO] Downloading 1 missing pre-requisites...
+[setup:7892] [13:01:37] [INFO]     Installing .NET 10.0.0 X64 WindowsDesktop...
+[setup:7892] [13:01:37] [INFO] Running installer: '"C:\\Users\\WDAGUtilityAccount\\Downloads\\inst-dotnet-10.0.0-X64-WindowsDesktop.exe"', args=["/norestart", "/q"]
+[setup:7892] [13:09:44] [INFO] Determining install directory...
+[setup:7892] [13:09:44] [INFO] Installation Directory: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"
+[setup:7892] [13:09:44] [INFO] There is 82.64 GB free space available at destination, this package requires 241.76 MB.
+[setup:7892] [13:09:44] [INFO] Preparing and cleaning installation directory...
+[setup:7892] [13:09:44] [INFO] Acquiring lock...
+[setup:7892] [13:09:44] [INFO] Root directory 'C:\Users\WDAGUtilityAccount\AppData\Local\Iris' writable: true
+[setup:7892] [13:09:44] [INFO] Using root packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[setup:7892] [13:09:44] [INFO] Attempting to acquire exclusive lock on packages directory (non-blocking)...
+[setup:7892] [13:09:44] [INFO] Will not show splash because silent mode is on.
+[setup:7892] [13:09:44] [INFO] Starting installation!
+[setup:7892] [13:09:44] [INFO] Extracting Update.exe...
+[setup:7892] [13:09:44] [INFO] Extracting stub 'Iris_ExecutionStub.exe' to '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Iris.exe"'
+[setup:7892] [13:09:44] [INFO] Successfully extracted stub executable: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Iris.exe"
+[setup:7892] [13:09:44] [INFO] Copying nupkg to packages directory...
+[setup:7892] [13:09:44] [INFO] Extracting 100 app files to '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current"'...
+[setup:7892] [13:09:45] [INFO] Creating shortcuts...
+[setup:7892] [13:09:45] [INFO] COM context initialized in 6ms
+[setup:7892] [13:09:45] [INFO] Shortcut Previous Locations: ShortcutLocationFlags(0x0) (None)
+[setup:7892] [13:09:45] [INFO] Shortcut Next Locations: ShortcutLocationFlags(DESKTOP | START_MENU_ROOT) ("0.2.1")
+[setup:7892] [13:09:45] [INFO] App Model ID: Some("velopack.Iris")
+[setup:7892] [13:09:45] [INFO] Searching for shortcuts containing root: '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[setup:7892] [13:09:45] [INFO] Searching for shortcuts in: ShortcutLocationFlags(DESKTOP) (C:\Users\WDAGUtilityAccount\Desktop/*.lnk)
+[setup:7892] [13:09:45] [INFO] Searching for shortcuts in: ShortcutLocationFlags(STARTUP) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup/*.lnk)
+[setup:7892] [13:09:45] [INFO] Searching for shortcuts in: ShortcutLocationFlags(START_MENU) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs/**/*.lnk)
+[setup:7892] [13:09:45] [INFO] Searching for shortcuts in: ShortcutLocationFlags(USER_PINNED) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned/**/*.lnk)
+[setup:7892] [13:09:45] [INFO] Will update all current shortcuts: []
+[setup:7892] [13:09:45] [INFO] Creating new shortcut for flag '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' (ShortcutLocationFlags(DESKTOP)).
+[setup:7892] [13:09:45] [INFO] Creating new shortcut for flag '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' (ShortcutLocationFlags(START_MENU_ROOT)).
+[setup:7892] [13:09:45] [INFO] Starting process install hook
+[setup:7892] [13:09:45] [INFO] Running --veloapp-install hook...
+[setup:7892] [13:09:45] [INFO] About to launch: 'WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe")' in dir 'Some(WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current"))' with arguments: WideString("\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" --veloapp-install 0.2.1\0")
+[setup:7892] [13:09:45] [INFO] Environment block present: true, flags: PROCESS_CREATION_FLAGS(134218752)
+[setup:7892] [13:09:45] [INFO] Waiting 30000ms for process handle to exit.
+[setup:7892] [13:09:45] [INFO] Hook executed successfully (took 284.3058ms)
+[setup:7892] [13:09:45] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[setup:7892] [13:09:45] [INFO] Inspected 85 running processes in 14ms, 0 matched directory
+[setup:7892] [13:09:45] [INFO] Force-stop check complete.
+[setup:7892] [13:09:45] [INFO] Writing uninstall registry key...
+[setup:7892] [13:09:45] [INFO] Installation completed successfully!

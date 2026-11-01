@@ -1,0 +1,1 @@
+{"Stage":"install-transaction","Pid":7976,"StartedUtcTicks":639290161864889170,"ExitCode":2,"Failures":[{"Type":"InvalidDataException","HResult":"0x80131501","RuntimeStep":"Signature"}]}

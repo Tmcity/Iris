@@ -1,0 +1,14 @@
+{
+    "PowerShell":  "5.1.26100.9549",
+    "ParsedScripts":  [
+                          "manual-capture-state.ps1",
+                          "manual-process-watch.ps1",
+                          "manual-provider.ps1",
+                          "manual-start-evidence.ps1",
+                          "manual-stop-evidence.ps1"
+                      ],
+    "ParseErrors":  0,
+    "MappedFolders":  2,
+    "AutomaticLogonCommand":  false,
+    "Scope":  "Syntax/configuration checks only; scripts and user UI not executed"
+}
