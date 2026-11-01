@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -83,15 +84,16 @@ public sealed class TranslationOrchestratorTests
 
     private sealed class TestRegistry : ITranslationProviderRegistry
     {
+        private int _acquireCount;
         public Func<CancellationToken, Task<ITranslationProviderSnapshot>>? AcquireSnapshotHandler { get; set; }
         public Func<ITranslationProviderSnapshot>? SnapshotFactory { get; set; }
         public ITranslationProviderSnapshot? CurrentSnapshot { get; set; }
-        public int AcquireCount { get; private set; }
+        public int AcquireCount => Volatile.Read(ref _acquireCount);
         public event EventHandler? Changed { add { } remove { } }
 
         public Task<ITranslationProviderSnapshot> AcquireSnapshotAsync(CancellationToken cancellationToken = default)
         {
-            AcquireCount++;
+            Interlocked.Increment(ref _acquireCount);
             if (AcquireSnapshotHandler != null)
             {
                 return AcquireSnapshotHandler(cancellationToken);
@@ -1364,13 +1366,25 @@ public sealed class TranslationOrchestratorTests
     {
         var (reg1, prov1) = CreateRegisteredProvider("prov-1");
         var settings = CreateDefaultSettings(reg1.Profile);
-        var snapshot = new TestSnapshot(settings, [reg1]);
-        var registry = new TestRegistry { CurrentSnapshot = snapshot };
-
-        prov1.StreamHandler = (req, ct) => DelayStream(req.Text, ct);
-        static async IAsyncEnumerable<TranslationChunk> DelayStream(string text, [EnumeratorCancellation] CancellationToken ct)
+        var snapshots = new ConcurrentBag<TestSnapshot>();
+        var registry = new TestRegistry
         {
-            await Task.Delay(10, ct);
+            SnapshotFactory = () =>
+            {
+                var lease = new TestSnapshot(settings, [reg1]);
+                snapshots.Add(lease);
+                return lease;
+            }
+        };
+        var bothStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseFirst = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var releaseSecond = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        int started = 0;
+        prov1.StreamHandler = (req, ct) => ControlledStream(req.Text, ct);
+        async IAsyncEnumerable<TranslationChunk> ControlledStream(string text, [EnumeratorCancellation] CancellationToken ct)
+        {
+            if (Interlocked.Increment(ref started) == 2) bothStarted.TrySetResult();
+            await (text == "Request One" ? releaseFirst.Task : releaseSecond.Task).WaitAsync(ct);
             yield return new TranslationChunk($"Response to: {text}", FinishReason: TranslationFinishReason.Completed);
         }
 
@@ -1401,15 +1415,64 @@ public sealed class TranslationOrchestratorTests
             return list;
         }, TestContext.Current.CancellationToken);
 
-        var results = await Task.WhenAll(task1, task2);
-        var events1 = results[0];
-        var events2 = results[1];
+        try
+        {
+            await bothStarted.Task.WaitAsync(TimeSpan.FromSeconds(10), TestContext.Current.CancellationToken);
+            registry.AcquireCount.ShouldBe(2);
+            snapshots.Count.ShouldBe(2);
+            prov1.ActiveCalls.ShouldBe(2);
+            snapshots.All(lease => !lease.IsDisposed).ShouldBeTrue();
 
-        events1.All(e => e.RequestId == id1).ShouldBeTrue();
-        events2.All(e => e.RequestId == id2).ShouldBeTrue();
+            releaseFirst.TrySetResult();
+            var events1 = await task1.WaitAsync(TimeSpan.FromSeconds(10), TestContext.Current.CancellationToken);
+            snapshots.Count(lease => lease.IsDisposed).ShouldBe(1);
+            snapshots.Single(lease => !lease.IsDisposed).Settings.ShouldBeSameAs(settings);
+            prov1.ActiveCalls.ShouldBe(1);
 
-        events1.OfType<ProviderCompleted>().Single().Text.ShouldBe("Response to: Request One");
-        events2.OfType<ProviderCompleted>().Single().Text.ShouldBe("Response to: Request Two");
+            releaseSecond.TrySetResult();
+            var events2 = await task2.WaitAsync(TimeSpan.FromSeconds(10), TestContext.Current.CancellationToken);
+            snapshots.All(lease => lease.IsDisposed).ShouldBeTrue();
+            events1.All(e => e.RequestId == id1).ShouldBeTrue();
+            events2.All(e => e.RequestId == id2).ShouldBeTrue();
+            events1.OfType<ProviderCompleted>().Single().Text.ShouldBe("Response to: Request One");
+            events2.OfType<ProviderCompleted>().Single().Text.ShouldBe("Response to: Request Two");
+        }
+        finally
+        {
+            releaseFirst.TrySetResult();
+            releaseSecond.TrySetResult();
+            await Task.WhenAll(task1, task2);
+        }
+    }
+
+    [Fact]
+    public async Task TranslateAsync_RequestStartingAfterEarlierCompletion_AcquiresItsOwnLease()
+    {
+        var (registration, _) = CreateRegisteredProvider("prov-1");
+        var settings = CreateDefaultSettings(registration.Profile);
+        var snapshots = new List<TestSnapshot>();
+        var registry = new TestRegistry
+        {
+            SnapshotFactory = () =>
+            {
+                var lease = new TestSnapshot(settings, [registration]);
+                snapshots.Add(lease);
+                return lease;
+            }
+        };
+        var orchestrator = CreateOrchestrator(registry);
+        for (int i = 0; i < 2; i++)
+        {
+            var request = new TranslationRequest { RequestId = Guid.NewGuid(), Text = "Request " + i, Origin = TextOrigin.Input };
+            var events = new List<TranslationEvent>();
+            await foreach (var item in orchestrator.TranslateAsync(request, TestContext.Current.CancellationToken)) events.Add(item);
+            events.All(item => item.RequestId == request.RequestId).ShouldBeTrue();
+            events.OfType<ProviderCompleted>().Single().Text.ShouldBe("translated text");
+            snapshots.Count.ShouldBe(i + 1);
+            snapshots.All(lease => lease.IsDisposed).ShouldBeTrue();
+        }
+        registry.AcquireCount.ShouldBe(2);
+        snapshots[0].ShouldNotBeSameAs(snapshots[1]);
     }
 
     #endregion

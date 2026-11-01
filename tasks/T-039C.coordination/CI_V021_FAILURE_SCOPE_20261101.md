@@ -1,0 +1,9 @@
+# 第二轮CI真实失败与同一C最小夹具修正
+
+用户已批准仅第一版0.2.1。实际branch推送dcc9ccc和annotated v0.2.1→dfc68cc完成，原v0.2.0保持。run41289210712在建测验证失败，后续打包/发布跳过，没有本轮正式安装资产；不重写或删除v0.2.1，不自行重跑工作流。新的远端版本需完成本地材料后再按用户手工安排确认。
+
+官方API原artifact13076313916，ZIP503625字节，SHA256 9c1f5e441d542332d58e7c6694541c3eaedc3e1ba7f8de17006b7984153c2e45。GitHub直接下载401；匿名relay的完整ZIP与独立官方digest精确一致后才接纳，其身份不作为source或包来源。原ZIP、全部原日志/XML与before源码已冻结，实际full3754/3752成功/1失败/1跳过。失败为TranslationOrchestratorTests.TranslateAsync_ConcurrentRequestsOnSameOrchestrator_AreCompletelyIsolated，读到已释放TestSnapshot，不能改记环境skip。
+
+源代码实证：该并发夹具通过TestRegistry.CurrentSnapshot向两次Acquire返回同一对象，仅以10ms延迟希望重叠；一旦第一请求正常释放其租约后另一请求获取，就得到已Disposed对象。产品每次请求只释放本次取得的lease，符合原编排契约。允许本主会话在同一C定向修正tests/Iris.Core.Tests/Translation/TranslationOrchestratorTests.cs内的夹具：每次Acquire新lease、线程安全计数、以真正双方已进入的握手控制并发，验证先完成的一项只释放一个lease、另一项保持可读，保留原RequestId/结果隔离断言；另覆盖先完成再开始的请求顺序。产品翻译实现、公共契约/schema、依赖版本与已验收其它功能保持。
+
+原失败tag/source/候选保留；修后适当回归、独立source提交与Release/full、新唯一版本计划和两版候选完成后再提供具体检查点。因0.2.1未发布，不能继续把0.2.2的前版设为0.2.1；下一本地计划应为未占用的0.2.2首版(null)→0.2.3前版0.2.2，实际远端写入待用户新确认。C/父T-039、正式匿名新来宾/UI升级、T-040全功能/NFR及M6延期范围保持。
