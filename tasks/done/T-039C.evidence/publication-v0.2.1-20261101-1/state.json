@@ -1,0 +1,14 @@
+{
+  "SourceCommit": "dfc68ccba422c735edeab42635c19b7767b9f2c2",
+  "ArchiveCommit": "dcc9ccc9c07546565475bdfc1bb78dd29e0cf5db",
+  "Version": "0.2.1",
+  "Stage": "preflight",
+  "Failure": {
+    "Type": "ValueError",
+    "Reason": "Recorded operation failed or has unknown outcome: remote-before"
+  },
+  "BranchesPushAttempted": false,
+  "TagPushAttempted": false,
+  "TagObject": null,
+  "RemoteConfirmed": false
+}

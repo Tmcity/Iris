@@ -1,0 +1,20 @@
+{
+  "Command": [
+    "D:\\anaconda3\\python.exe",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "build/tests",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "StartedUtc": "2026-11-01T08:57:06.891014+00:00",
+  "FinishedUtc": "2026-11-01T08:57:07.279658+00:00",
+  "ExitCode": 0,
+  "Log": "release-manifest-tests.log",
+  "Bytes": 3079,
+  "Sha256": "ed97c4fbe0c3e0c6ef58299670bb152a5b89f1877284fa47559d8c920a28db24"
+}

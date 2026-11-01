@@ -1,0 +1,19 @@
+{
+  "SourceCommit": "dfc68ccba422c735edeab42635c19b7767b9f2c2",
+  "ArchiveCommit": "dcc9ccc9c07546565475bdfc1bb78dd29e0cf5db",
+  "Version": "0.2.1",
+  "Stage": "remote-refs-confirmed-ci-pending",
+  "Failure": null,
+  "BranchesPushAttempted": true,
+  "TagPushAttempted": true,
+  "TagObject": "b9f33fd9755684c889a948dafd79dfd53c15caf8",
+  "RemoteConfirmed": true,
+  "RemoteAfter": {
+    "refs/heads/codex/t039c-public-release": "dcc9ccc9c07546565475bdfc1bb78dd29e0cf5db",
+    "refs/heads/main": "dcc9ccc9c07546565475bdfc1bb78dd29e0cf5db",
+    "refs/tags/v0.2.0": "ebe194564c5ada606744b4e484b09f3182e04eae",
+    "refs/tags/v0.2.0^{}": "dcdfdded311fa00671dfd9747bb2101cbf8964f3",
+    "refs/tags/v0.2.1": "b9f33fd9755684c889a948dafd79dfd53c15caf8",
+    "refs/tags/v0.2.1^{}": "dfc68ccba422c735edeab42635c19b7767b9f2c2"
+  }
+}

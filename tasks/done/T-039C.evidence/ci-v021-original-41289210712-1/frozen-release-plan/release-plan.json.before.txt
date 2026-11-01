@@ -1,0 +1,9 @@
+{
+  "Repository": "Tmcity/Iris",
+  "Channel": "win",
+  "RuntimeId": "win-x64",
+  "Versions": [
+    { "Version": "0.2.1", "PreviousVersion": null },
+    { "Version": "0.2.2", "PreviousVersion": "0.2.1" }
+  ]
+}

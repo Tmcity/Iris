@@ -1,0 +1,101 @@
+{
+  "Version": "0.2.3",
+  "SourceCommit": "fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11",
+  "SourceGitTree": "60422257ce3c47f3eb83b291b02a84d4c75add8a"
+}
+{
+  "Version": "0.2.2",
+  "SourceCommit": "fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11",
+  "SourceGitTree": "60422257ce3c47f3eb83b291b02a84d4c75add8a",
+  "PublicAssets": 16,
+  "PayloadEntries": 97,
+  "MaintenancePrefixBytes": 44626415,
+  "InternalSetupBytes": 72142426,
+  "InternalSetupSha256": "48f85b161e730223e682ea719999713a17a7e3909ba722660f859fe9d45005cc",
+  "FullSha256": "de674716802f97dd301a13254b083ed27916ea5a484c0e7482f1e4cf5b822864",
+  "OuterSha256": "ddbcd4ac5779a82a534b478cbe20b5466289516c03e2d22156d69fe9fbe3048d"
+}
+可使用以下命令调用工具: vpk
+已成功安装工具“vpk”(版本“1.2.161”)。
+  正在确定要还原的项目…
+  已还原 F:\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj (用时 242 毫秒)。
+  已还原 F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 241 毫秒)。
+  已还原 F:\Iris\src\Iris.Infrastructure\Iris.Infrastructure.csproj (用时 241 毫秒)。
+  已还原 F:\Iris\src\Iris.Core\Iris.Core.csproj (用时 241 毫秒)。
+  已还原 F:\Iris\src\Iris.Providers\Iris.Providers.csproj (用时 243 毫秒)。
+  已还原 F:\Iris\src\Iris.UiaHost\Iris.UiaHost.csproj (用时 242 毫秒)。
+  已还原 F:\Iris\src\Iris.App\Iris.App.csproj (用时 250 毫秒)。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Infrastructure -> F:\Iris\src\Iris.Infrastructure\bin\Release\net10.0\Iris.Infrastructure.dll
+  Iris.Providers -> F:\Iris\src\Iris.Providers\bin\Release\net10.0\Iris.Providers.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.Maintenance -> F:\Iris\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.Maintenance.dll
+  Iris.App -> F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.App.dll
+  Iris.App -> F:\Iris\artifacts\pack-0.2.3-cf219cf764834253b4923f58bcde78d1\app\
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.UiaHost -> F:\Iris\artifacts\pack-0.2.3-cf219cf764834253b4923f58bcde78d1\app\uia\
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.UiaHost -> F:\Iris\artifacts\pack-0.2.3-cf219cf764834253b4923f58bcde78d1\uia\
+  正在确定要还原的项目…
+  已还原 F:\Iris\src\Iris.Core\Iris.Core.csproj (用时 211 毫秒)。
+  已还原 F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 211 毫秒)。
+  已还原 F:\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj (用时 211 毫秒)。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.Maintenance -> F:\Iris\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.Maintenance.dll
+  Iris.Maintenance -> F:\Iris\artifacts\pack-0.2.3-cf219cf764834253b4923f58bcde78d1\maintenance\
+[17:04:31 INF] Velopack CLI 1.2.161, for distributing applications.
+[17:04:31 INF] Beginning to package Velopack release 0.2.3.
+[17:04:31 INF] Releases Directory: F:\Iris\artifacts\t039c\release-0.2.3-direct-candidate-1
+[17:04:31 INF] Starting: Pre-process steps
+[17:04:31 WRN] VelopackApp.Run() was found in method 'System.Int32 Iris.App.Updates.VelopackStartup::RunHook(System.String[])', which does not look like your application's entry point. It is strongly recommended that you move this to the very beginning of your Main() method. 
+[17:04:31 INF] Runtime Dependency: net10-x64-desktop
+[17:04:31 INF] Shortcuts: Desktop,StartMenuRoot
+[17:04:31 INF] Complete: Pre-process steps
+[17:04:31 INF] Starting: Code-sign application
+[17:04:31 WRN] No signing parameters provided, 83 file(s) will not be signed.
+[17:04:31 INF] Complete: Code-sign application
+[17:04:31 INF] Starting: Building release 0.2.3
+[17:04:33 INF] Complete: Building release 0.2.3
+[17:04:33 INF] Starting: Building setup package
+[17:04:33 INF] Starting: Building delta 0.2.2 -> 0.2.3
+[17:04:33 INF] Creating delta for 0.2.2 -> 0.2.3 with 8 parallel threads.
+[17:04:33 INF] Setup bundle created 'Iris-win-Setup.exe'.
+[17:04:33 WRN] No signing parameters provided, 1 file(s) will not be signed.
+[17:04:33 INF] Complete: Building setup package
+[17:04:34 INF] Delta processed 0097 files. 0019 patched, 0078 unchanged, 0000 new, 0000 removed
+[17:04:34 INF] Complete: Building delta 0.2.2 -> 0.2.3
+[17:04:34 INF] Starting: Post-process steps
+[17:04:34 INF] Complete: Post-process steps
+[17:04:34 INF] Finished in 00:00:03.2908995.
+{
+  "IndexedOuterInstaller": "Iris-0.2.3-Setup.exe",
+  "FeedEntries": 3
+}
+{
+  "Version": "0.2.3",
+  "SourceCommit": "fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11",
+  "SourceGitTree": "60422257ce3c47f3eb83b291b02a84d4c75add8a",
+  "PublicAssets": 13,
+  "PayloadEntries": 97,
+  "MaintenancePrefixBytes": 44626440,
+  "InternalSetupBytes": 72142508,
+  "InternalSetupSha256": "b7e67cd2bcd6d2fcd81f22a409f836817576eb1b435a9083b8b489f2e8a75555",
+  "FullSha256": "44bd292f6babd7d03e1556e0588e6adbecec4c67686bfe2d4d25500d2ff54739",
+  "OuterSha256": "ab88550182f72de8f06e3ce9e0649ba00599e21bc5d0150435dba98d1f3e956b"
+}
+{
+    "Version":  "0.2.3",
+    "SdkVersion":  "1.2.161",
+    "WorkDirectory":  "F:\\Iris\\artifacts\\pack-0.2.3-cf219cf764834253b4923f58bcde78d1",
+    "OutputDirectory":  "F:\\Iris\\artifacts\\t039c\\release-0.2.3-direct-candidate-1",
+    "Installer":  "F:\\Iris\\artifacts\\t039c\\release-0.2.3-direct-candidate-1\\Iris-0.2.3-Setup.exe",
+    "Signed":  false
+}

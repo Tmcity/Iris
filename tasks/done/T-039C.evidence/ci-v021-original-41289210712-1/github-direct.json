@@ -1,0 +1,13 @@
+{
+  "Label": "github-direct",
+  "RequestUrl": "https://api.github.com/repos/Tmcity/Iris/actions/artifacts/13076313916/zip",
+  "StartedUtc": "2026-11-01T08:43:29.320363+00:00",
+  "FinishedUtc": "2026-11-01T08:43:29.929950+00:00",
+  "ExitCode": 0,
+  "Status": "401",
+  "Bytes": 120,
+  "Sha256": "b7dbd173f33b19650f61b1c528737e2037cf768d90076fdfce5d32541765e29e",
+  "AuthorizationSent": false,
+  "SignedRedirectQueryRecorded": false,
+  "MatchesOfficialDigest": false
+}

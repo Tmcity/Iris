@@ -1,0 +1,10 @@
+{
+  "Url": "https://api.github.com/repos/Tmcity/Iris/actions/runs/41289210712",
+  "StartedUtc": "2026-11-01T08:38:30.952536+00:00",
+  "FinishedUtc": "2026-11-01T08:38:32.073630+00:00",
+  "ExitCode": 0,
+  "HttpStatus": "200",
+  "IdentityHeaders": false,
+  "BodyBytes": 11165,
+  "BodySha256": "e01605d39a8a7b33c0a96a8a210334fb71457595207f2e9e6a47ffd4152cb6ee"
+}

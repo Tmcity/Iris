@@ -1,0 +1,13 @@
+{
+  "Label": "anonymous-relay",
+  "RequestUrl": "https://nightly.link/Tmcity/Iris/actions/runs/41289210712/iris-validation-41289210712-1.zip",
+  "StartedUtc": "2026-11-01T08:43:29.929950+00:00",
+  "FinishedUtc": "2026-11-01T08:43:33.938853+00:00",
+  "ExitCode": 0,
+  "Status": "200",
+  "Bytes": 503625,
+  "Sha256": "9c1f5e441d542332d58e7c6694541c3eaedc3e1ba7f8de17006b7984153c2e45",
+  "AuthorizationSent": false,
+  "SignedRedirectQueryRecorded": false,
+  "MatchesOfficialDigest": true
+}

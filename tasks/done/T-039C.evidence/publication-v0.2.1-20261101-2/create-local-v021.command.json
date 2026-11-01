@@ -1,0 +1,16 @@
+{
+  "Command": [
+    "git",
+    "tag",
+    "-a",
+    "v0.2.1",
+    "dfc68ccba422c735edeab42635c19b7767b9f2c2",
+    "-m",
+    "Iris 0.2.1 approved source for the first public release"
+  ],
+  "StartedUtc": "2026-11-01T08:31:03.195329+00:00",
+  "FinishedUtc": "2026-11-01T08:31:03.238477+00:00",
+  "ExitCode": 0,
+  "Bytes": 0,
+  "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

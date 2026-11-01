@@ -1,0 +1,13 @@
+{
+  "Url": "https://api.github.com/repos/Tmcity/Iris/releases/tags/v0.2.1",
+  "Status": 404,
+  "Headers": {
+    "Date": "Sun, 01 Nov 2026 08:31:05 GMT",
+    "X-RateLimit-Limit": "60",
+    "X-RateLimit-Remaining": "43",
+    "X-RateLimit-Reset": "1793524625"
+  },
+  "IdentityHeaders": false,
+  "Bytes": 133,
+  "Sha256": "010563d2cfb8f1e87f700936ce59ee3a33364da46e3db41b0049227918ece74d"
+}

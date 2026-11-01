@@ -1,0 +1,357 @@
+{
+  "RunId": 41289210712,
+  "SourceCommit": "dfc68ccba422c735edeab42635c19b7767b9f2c2",
+  "ArtifactId": 13076313916,
+  "OfficialDigest": "sha256:9c1f5e441d542332d58e7c6694541c3eaedc3e1ba7f8de17006b7984153c2e45",
+  "ExactArchiveDigestMatched": true,
+  "OriginalArchive": "F:\\Iris\\artifacts\\t039c\\ci-v021-original-41289210712-1\\original.zip",
+  "Downloads": [
+    {
+      "Label": "github-direct",
+      "RequestUrl": "https://api.github.com/repos/Tmcity/Iris/actions/artifacts/13076313916/zip",
+      "StartedUtc": "2026-11-01T08:43:29.320363+00:00",
+      "FinishedUtc": "2026-11-01T08:43:29.929950+00:00",
+      "ExitCode": 0,
+      "Status": "401",
+      "Bytes": 120,
+      "Sha256": "b7dbd173f33b19650f61b1c528737e2037cf768d90076fdfce5d32541765e29e",
+      "AuthorizationSent": false,
+      "SignedRedirectQueryRecorded": false,
+      "MatchesOfficialDigest": false
+    },
+    {
+      "Label": "anonymous-relay",
+      "RequestUrl": "https://nightly.link/Tmcity/Iris/actions/runs/41289210712/iris-validation-41289210712-1.zip",
+      "StartedUtc": "2026-11-01T08:43:29.929950+00:00",
+      "FinishedUtc": "2026-11-01T08:43:33.938853+00:00",
+      "ExitCode": 0,
+      "Status": "200",
+      "Bytes": 503625,
+      "Sha256": "9c1f5e441d542332d58e7c6694541c3eaedc3e1ba7f8de17006b7984153c2e45",
+      "AuthorizationSent": false,
+      "SignedRedirectQueryRecorded": false,
+      "MatchesOfficialDigest": true
+    }
+  ],
+  "Files": [
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/full-tests.command.json",
+      "ArchivePath": "iris-validation/full-tests.command.json",
+      "Bytes": 491,
+      "Sha256": "40f1e6bd65b2865f336a4282c950b4c4c2d0a2b69ad72ad04b123abd73f2ff93"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/cancel-transferred-worker-0.json",
+      "ArchivePath": "iris-validation/owned-test-results/cancel-transferred-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/full-tests.log",
+      "ArchivePath": "iris-validation/full-tests.log",
+      "Bytes": 6785,
+      "Sha256": "228953c22ad8d490c79d5f12a01ae73a8c29072f5fbfe3abea0061ecddf36b92"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/cancel-transferred.json",
+      "ArchivePath": "iris-validation/owned-test-results/cancel-transferred.json",
+      "Bytes": 473,
+      "Sha256": "9df55ab43fc68d2dc57c597e00cbc9acc02cb722ec11646ef6e22e1993827800"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/cleanup-failure-then-success-worker-0.json",
+      "ArchivePath": "iris-validation/owned-test-results/cleanup-failure-then-success-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/cleanup-failure-then-success-worker-1.json",
+      "ArchivePath": "iris-validation/owned-test-results/cleanup-failure-then-success-worker-1.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/cleanup-failure-then-success.json",
+      "ArchivePath": "iris-validation/owned-test-results/cleanup-failure-then-success.json",
+      "Bytes": 476,
+      "Sha256": "d457255a1fbc2459486241ca2952e133be348bdeebc7324344bb631107057179"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/disposed-failure-worker-0.json",
+      "ArchivePath": "iris-validation/owned-test-results/disposed-failure-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/disposed-failure-worker-1.json",
+      "ArchivePath": "iris-validation/owned-test-results/disposed-failure-worker-1.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/disposed-failure-worker-2.json",
+      "ArchivePath": "iris-validation/owned-test-results/disposed-failure-worker-2.json",
+      "Bytes": 81,
+      "Sha256": "bb5a12933e3189de5613691561bb597833ab1100b09341905c06043f462d35d0"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/disposed-failure.json",
+      "ArchivePath": "iris-validation/owned-test-results/disposed-failure.json",
+      "Bytes": 742,
+      "Sha256": "724f78bb26909c7fa3d5e87d949088e5b6eb4e2c55d5c2049e7aa18fb3d56f06"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/disposed-recovery.png",
+      "ArchivePath": "iris-validation/owned-test-results/disposed-recovery.png",
+      "Bytes": 19644,
+      "Sha256": "93d857ff0641d8ba1d049a0f1f41f04369204b618816ade56608b4e1fd0b9c4c"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/disposed-success-before-parent-exit.json",
+      "ArchivePath": "iris-validation/owned-test-results/disposed-success-before-parent-exit.json",
+      "Bytes": 601,
+      "Sha256": "6d44012eecd537d46643f9db0eb3bc2870877a78208ebb12f2f8dd9a55e215e6"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/ordinary-accepted-then-canceled.json",
+      "ArchivePath": "iris-validation/owned-test-results/ordinary-accepted-then-canceled.json",
+      "Bytes": 485,
+      "Sha256": "6747874e0a51938573809cfc360f68294d169f4d296e4a179243b59573f798fa"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/ordinary-confirmation-canceled.json",
+      "ArchivePath": "iris-validation/owned-test-results/ordinary-confirmation-canceled.json",
+      "Bytes": 485,
+      "Sha256": "6747874e0a51938573809cfc360f68294d169f4d296e4a179243b59573f798fa"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/ordinary-new-offer.json",
+      "ArchivePath": "iris-validation/owned-test-results/ordinary-new-offer.json",
+      "Bytes": 485,
+      "Sha256": "3bd8dffa3ab9b5bca3946fc5d50d57979cb7ea9c4c31aa1a4a2e1e3ba9a58d75"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/ordinary-ready.json",
+      "ArchivePath": "iris-validation/owned-test-results/ordinary-ready.json",
+      "Bytes": 485,
+      "Sha256": "6747874e0a51938573809cfc360f68294d169f4d296e4a179243b59573f798fa"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/prepare-failure.json",
+      "ArchivePath": "iris-validation/owned-test-results/prepare-failure.json",
+      "Bytes": 479,
+      "Sha256": "bd8d8d1ff736e2aabb95f80275dc7a04e9f8a3984ad917d0e3b99d7ea504d94e"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/recovery-en-US-Dark-380.json",
+      "ArchivePath": "iris-validation/owned-test-results/recovery-en-US-Dark-380.json",
+      "Bytes": 854,
+      "Sha256": "2388cd407bb8460823b23b2104e270da9cc83a7026ac93f191e2a0099f72aaee"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/recovery-en-US-Dark-380.png",
+      "ArchivePath": "iris-validation/owned-test-results/recovery-en-US-Dark-380.png",
+      "Bytes": 15707,
+      "Sha256": "10a720e1a62a70cc887fed35522563754143ce1f6844d438ef51f6b68c92cab3"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/recovery-en-US-Dark-540.json",
+      "ArchivePath": "iris-validation/owned-test-results/recovery-en-US-Dark-540.json",
+      "Bytes": 854,
+      "Sha256": "a65258bbfe04b8d242e2074454fb6c0fc3422e6fd65444abd807e5e510b2e98b"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/recovery-en-US-Dark-540.png",
+      "ArchivePath": "iris-validation/owned-test-results/recovery-en-US-Dark-540.png",
+      "Bytes": 16031,
+      "Sha256": "387d913b959c3a4adc20358db947142a7d23dec715c7110fb38e8227b49edb24"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/recovery-en-US-Light-380.json",
+      "ArchivePath": "iris-validation/owned-test-results/recovery-en-US-Light-380.json",
+      "Bytes": 858,
+      "Sha256": "b6d536c9ee614e7b47a9c846f9325f04aa01c0a1255bbc71b048355c2505174e"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/recovery-en-US-Light-380.png",
+      "ArchivePath": "iris-validation/owned-test-results/recovery-en-US-Light-380.png",
+      "Bytes": 15713,
+      "Sha256": "578b89095228045c9d09c4e23dde5e01406092de260f46bf3ea7c047dd9209a1"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/recovery-en-US-Light-540.json",
+      "ArchivePath": "iris-validation/owned-test-results/recovery-en-US-Light-540.json",
+      "Bytes": 858,
+      "Sha256": "5b8886650296dd16a2d6f557288239a78bfcb59194de766d1219f8e36ffba31a"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/recovery-en-US-Light-540.png",
+      "ArchivePath": "iris-validation/owned-test-results/recovery-en-US-Light-540.png",
+      "Bytes": 16013,
+      "Sha256": "b2a2c48285477a38865fdb3839c49d9d8e488d92614066694d91168b29150290"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/recovery-zh-CN-Dark-380.json",
+      "ArchivePath": "iris-validation/owned-test-results/recovery-zh-CN-Dark-380.json",
+      "Bytes": 880,
+      "Sha256": "55fbb7d851b635e38093da4f79a2ce6e434ff581543fb91bc456f190cfc24478"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/recovery-zh-CN-Dark-380.png",
+      "ArchivePath": "iris-validation/owned-test-results/recovery-zh-CN-Dark-380.png",
+      "Bytes": 22254,
+      "Sha256": "f76847cae534103ee7d1131c74f25f7cfe67af99a44d8f4d68b49a361a49d344"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/recovery-zh-CN-Dark-540.json",
+      "ArchivePath": "iris-validation/owned-test-results/recovery-zh-CN-Dark-540.json",
+      "Bytes": 880,
+      "Sha256": "335c89e62d660200f8fb79b766ac39d9f24d9183827ef82512ab600edb2056e8"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/recovery-zh-CN-Dark-540.png",
+      "ArchivePath": "iris-validation/owned-test-results/recovery-zh-CN-Dark-540.png",
+      "Bytes": 23296,
+      "Sha256": "6bdb5d9fe82d3eaab9316d73707d550ee7ddc3e5216f3ce4d8f7d5d7b7a2ae8e"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/recovery-zh-CN-Light-380.json",
+      "ArchivePath": "iris-validation/owned-test-results/recovery-zh-CN-Light-380.json",
+      "Bytes": 884,
+      "Sha256": "f1846901d4d9c9ba55c79d59518cc8d7d78080295829d92aa8f4224fe725d68c"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/recovery-zh-CN-Light-380.png",
+      "ArchivePath": "iris-validation/owned-test-results/recovery-zh-CN-Light-380.png",
+      "Bytes": 22129,
+      "Sha256": "bbc8a43d737c9bcecf1ae7f4b134511d6574b009e241cdd41209b985c4012c48"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/recovery-zh-CN-Light-540.json",
+      "ArchivePath": "iris-validation/owned-test-results/recovery-zh-CN-Light-540.json",
+      "Bytes": 884,
+      "Sha256": "edbfe340c997bb695e63ad3657f67e5ad066c966fa5432913e4a3b1a125f84e7"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/recovery-zh-CN-Light-540.png",
+      "ArchivePath": "iris-validation/owned-test-results/recovery-zh-CN-Light-540.png",
+      "Bytes": 23186,
+      "Sha256": "3f623949d7fc929a2c1b0e4f312094af53b12cff91375479fd673892aae30451"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/retained-failure-worker-0.json",
+      "ArchivePath": "iris-validation/owned-test-results/retained-failure-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/retained-failure-worker-1.json",
+      "ArchivePath": "iris-validation/owned-test-results/retained-failure-worker-1.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/retained-failure-worker-2.json",
+      "ArchivePath": "iris-validation/owned-test-results/retained-failure-worker-2.json",
+      "Bytes": 81,
+      "Sha256": "bb5a12933e3189de5613691561bb597833ab1100b09341905c06043f462d35d0"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/retained-failure.json",
+      "ArchivePath": "iris-validation/owned-test-results/retained-failure.json",
+      "Bytes": 740,
+      "Sha256": "2b05dbfa8d83590dff71324c395c26d3bade8f3e0ce82ffe9da5b95bab98d04f"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/retained-recovery.png",
+      "ArchivePath": "iris-validation/owned-test-results/retained-recovery.png",
+      "Bytes": 19644,
+      "Sha256": "93d857ff0641d8ba1d049a0f1f41f04369204b618816ade56608b4e1fd0b9c4c"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/owned-test-results/retained-success-before-parent-exit.json",
+      "ArchivePath": "iris-validation/owned-test-results/retained-success-before-parent-exit.json",
+      "Bytes": 601,
+      "Sha256": "8b71436cd352b520a9f0d304642da8157cef1920f2571bdb64b4941bcdf4aaca"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/release-build.command.json",
+      "ArchivePath": "iris-validation/release-build.command.json",
+      "Bytes": 364,
+      "Sha256": "94c36fd2265422269aff888b67e23e9dde59393741e4f98e54159bfb40492544"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/release-build.log",
+      "ArchivePath": "iris-validation/release-build.log",
+      "Bytes": 3666,
+      "Sha256": "25624096c4f26e5ae64ab8099bfab40263b32a66f4316a722a0c96091227e884"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/release-manifest-tests.command.json",
+      "ArchivePath": "iris-validation/release-manifest-tests.command.json",
+      "Bytes": 468,
+      "Sha256": "36a60bd7efdf1a5f715a456e476b3737e511829b75c0b88bd500b209cfa8d008"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/release-manifest-tests.log",
+      "ArchivePath": "iris-validation/release-manifest-tests.log",
+      "Bytes": 3079,
+      "Sha256": "3555fd9e20542d425a6c17b5b3c1a1d910bc6c96b221d5f0aa65c2d794afd270"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/reports/runneradmin_runnervmdaln5_2026-11-01_08_33_29.435433.xunit.xml",
+      "ArchivePath": "iris-validation/reports/runneradmin_runnervmdaln5_2026-11-01_08_33_29.435433.xunit.xml",
+      "Bytes": 361045,
+      "Sha256": "221c75281f71adf588c263ca848165d14fe016662b2303c3256ecf4b1a0c3f58"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/reports/runneradmin_runnervmdaln5_2026-11-01_08_33_29.457875.xunit.xml",
+      "ArchivePath": "iris-validation/reports/runneradmin_runnervmdaln5_2026-11-01_08_33_29.457875.xunit.xml",
+      "Bytes": 502915,
+      "Sha256": "2c5d7bcb3424d60ebfd40af8dbc8ad2e475e344848ac0119d674b7e56afe0a0f"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/reports/runneradmin_runnervmdaln5_2026-11-01_08_33_29.501593.xunit.xml",
+      "ArchivePath": "iris-validation/reports/runneradmin_runnervmdaln5_2026-11-01_08_33_29.501593.xunit.xml",
+      "Bytes": 665329,
+      "Sha256": "c0ff735512df0454246b3951378be8735bb402b66d2c07f6ae407623260f4fac"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/reports/runneradmin_runnervmdaln5_2026-11-01_08_33_29.541751.xunit.xml",
+      "ArchivePath": "iris-validation/reports/runneradmin_runnervmdaln5_2026-11-01_08_33_29.541751.xunit.xml",
+      "Bytes": 7057,
+      "Sha256": "1d02a858bc54ddec83cedcbaf6f541816465bc1266b9a0a3ec5f8715e79d7d07"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/reports/runneradmin_runnervmdaln5_2026-11-01_08_33_32.728069.xunit.xml",
+      "ArchivePath": "iris-validation/reports/runneradmin_runnervmdaln5_2026-11-01_08_33_32.728069.xunit.xml",
+      "Bytes": 564852,
+      "Sha256": "61f117336c07f9228118952a627f5bb2bb204754c20ad7b97621aa62a7807411"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/reports/runneradmin_runnervmdaln5_2026-11-01_08_33_36.384348.xunit.xml",
+      "ArchivePath": "iris-validation/reports/runneradmin_runnervmdaln5_2026-11-01_08_33_36.384348.xunit.xml",
+      "Bytes": 115145,
+      "Sha256": "81ece96a28afe0f25a6a9ab5daae79e27a87571d7cab0ca01b6a8de4e6760e9e"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/ci-v021-original-41289210712-1/original/iris-validation/reports/runneradmin_runnervmdaln5_2026-11-01_08_33_39.225894.xunit.xml",
+      "ArchivePath": "iris-validation/reports/runneradmin_runnervmdaln5_2026-11-01_08_33_39.225894.xunit.xml",
+      "Bytes": 23788,
+      "Sha256": "7522459f3286a32509c42c1b711764cade3376ba3b5d30e86218475b195c004d"
+    }
+  ],
+  "FullTests": {
+    "Total": 3754,
+    "Passed": 3752,
+    "Failed": 1,
+    "Skipped": 1
+  },
+  "FailedTests": [
+    {
+      "Name": "Iris.Core.Tests.Translation.TranslationOrchestratorTests.TranslateAsync_ConcurrentRequestsOnSameOrchestrator_AreCompletelyIsolated",
+      "Failure": "<failure exception-type=\"System.ObjectDisposedException\"><message>System.ObjectDisposedException : Cannot access a disposed object.\nObject name: 'TestSnapshot'.</message><stack-trace>   at Iris.Core.Tests.Translation.TranslationOrchestratorTests.TestSnapshot.get_Settings() in D:\\a\\Iris\\Iris\\tests\\Iris.Core.Tests\\Translation\\TranslationOrchestratorTests.cs:line 67\n   at Iris.Core.Translation.TranslationOrchestrator.TranslateInternalAsync(TranslationRequest request, CancellationToken methodToken, CancellationToken enumeratorToken)+MoveNext() in D:\\a\\Iris\\Iris\\src\\Iris.Core\\Translation\\TranslationOrchestrator.cs:line 136\n   at Iris.Core.Translation.TranslationOrchestrator.TranslateInternalAsync(TranslationRequest request, CancellationToken methodToken, CancellationToken enumeratorToken)+MoveNext() in D:\\a\\Iris\\Iris\\src\\Iris.Core\\Translation\\TranslationOrchestrator.cs:line 381\n   at Iris.Core.Translation.TranslationOrchestrator.TranslateInternalAsync(TranslationRequest request, CancellationToken methodToken, CancellationToken enumeratorToken)+System.Threading.Tasks.Sources.IValueTaskSource&lt;System.Boolean&gt;.GetResult()\n   at Iris.Core.Tests.Translation.TranslationOrchestratorTests.&lt;&gt;c__DisplayClass49_0.&lt;&lt;TranslateAsync_ConcurrentRequestsOnSameOrchestrator_AreCompletelyIsolated&gt;b__3&gt;d.MoveNext() in D:\\a\\Iris\\Iris\\tests\\Iris.Core.Tests\\Translation\\TranslationOrchestratorTests.cs:line 1397\n--- End of stack trace from previous location ---\n   at Iris.Core.Tests.Translation.TranslationOrchestratorTests.&lt;&gt;c__DisplayClass49_0.&lt;&lt;TranslateAsync_ConcurrentRequestsOnSameOrchestrator_AreCompletelyIsolated&gt;b__3&gt;d.MoveNext() in D:\\a\\Iris\\Iris\\tests\\Iris.Core.Tests\\Translation\\TranslationOrchestratorTests.cs:line 1397\n--- End of stack trace from previous location ---\n   at Iris.Core.Tests.Translation.TranslationOrchestratorTests.TranslateAsync_ConcurrentRequestsOnSameOrchestrator_AreCompletelyIsolated() in D:\\a\\Iris\\Iris\\tests\\Iris.Core.Tests\\Translation\\TranslationOrchestratorTests.cs:line 1404\n--- End of stack trace from previous location ---</stack-trace></failure>"
+    }
+  ],
+  "Scope": "Original CI evidence accepted solely by official archive digest. Relay identity is not source/provenance authority."
+}

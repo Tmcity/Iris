@@ -1,0 +1,57 @@
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 748ms)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (6s 552ms)
+失败 Iris.Core.Tests.Translation.TranslationOrchestratorTests.TranslateAsync_ConcurrentRequestsOnSameOrchestrator_AreCompletelyIsolated (35ms)
+  从 D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.ObjectDisposedException : Cannot access a disposed object.
+  Object name: 'TestSnapshot'.
+    在 Iris.Core.Tests.Translation.TranslationOrchestratorTests.TestSnapshot.get_Settings() 位于 D:\a\Iris\Iris\tests\Iris.Core.Tests\Translation\TranslationOrchestratorTests.cs:67
+    在 Iris.Core.Translation.TranslationOrchestrator.TranslateInternalAsync(TranslationRequest request, CancellationToken methodToken, CancellationToken enumeratorToken)+MoveNext() 位于 D:\a\Iris\Iris\src\Iris.Core\Translation\TranslationOrchestrator.cs:136
+    在 Iris.Core.Translation.TranslationOrchestrator.TranslateInternalAsync(TranslationRequest request, CancellationToken methodToken, CancellationToken enumeratorToken)+MoveNext() 位于 D:\a\Iris\Iris\src\Iris.Core\Translation\TranslationOrchestrator.cs:381
+    在 Iris.Core.Translation.TranslationOrchestrator.TranslateInternalAsync(TranslationRequest request, CancellationToken methodToken, CancellationToken enumeratorToken)+System.Threading.Tasks.Sources.IValueTaskSource<System.Boolean>.GetResult()
+    在 Iris.Core.Tests.Translation.TranslationOrchestratorTests.<>c__DisplayClass49_0.<<TranslateAsync_ConcurrentRequestsOnSameOrchestrator_AreCompletelyIsolated>b__3>d.MoveNext() 位于 D:\a\Iris\Iris\tests\Iris.Core.Tests\Translation\TranslationOrchestratorTests.cs:1397
+    --- End of stack trace from previous location ---
+    在 Iris.Core.Tests.Translation.TranslationOrchestratorTests.<>c__DisplayClass49_0.<<TranslateAsync_ConcurrentRequestsOnSameOrchestrator_AreCompletelyIsolated>b__3>d.MoveNext() 位于 D:\a\Iris\Iris\tests\Iris.Core.Tests\Translation\TranslationOrchestratorTests.cs:1397
+    --- End of stack trace from previous location ---
+    在 Iris.Core.Tests.Translation.TranslationOrchestratorTests.TranslateAsync_ConcurrentRequestsOnSameOrchestrator_AreCompletelyIsolated() 位于 D:\a\Iris\Iris\tests\Iris.Core.Tests\Translation\TranslationOrchestratorTests.cs:1404
+    --- End of stack trace from previous location ---
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotIsolatedTests.SnapshotHelper_UsesExclusiveNonInteractiveStation_AndJoinsOwnedProcess
+  [ENVIRONMENT LIMITATION] Snapshot isolated helper skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (6s 017ms)
+退出代码: 2
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (12s 444ms)
+D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64) 已通过 (8s 949ms)
+D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (29s 603ms)
+D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (2m 51s 475ms)
+
+  生成的进程内文件项目:
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-01_08_33_29.541751.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-01_08_33_29.435433.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-01_08_33_32.728069.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-01_08_33_29.501593.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-01_08_33_39.225894.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-01_08_33_36.384348.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-01_08_33_29.457875.xunit.xml
+
+测试运行摘要: 失败!
+  D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (6s 017ms)
+  D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64) 已通过 (8s 949ms)
+  D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (12s 444ms)
+  D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (2m 51s 475ms)
+  D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (6s 552ms)
+  D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (29s 603ms)
+  D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 748ms)
+
+  总计: 3754
+  失败: 1
+  成功: 3752
+  已跳过: 1
+  持续时间: 2m 51s 932ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

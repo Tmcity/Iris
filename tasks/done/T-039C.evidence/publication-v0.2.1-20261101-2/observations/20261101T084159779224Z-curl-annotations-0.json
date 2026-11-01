@@ -1,0 +1,10 @@
+{
+  "Url": "https://api.github.com/repos/Tmcity/Iris/check-runs/124796749827/annotations?per_page=100",
+  "StartedUtc": "2026-11-01T08:41:59.779224+00:00",
+  "FinishedUtc": "2026-11-01T08:42:00.612805+00:00",
+  "ExitCode": 0,
+  "HttpStatus": "200",
+  "IdentityHeaders": false,
+  "BodyBytes": 872,
+  "BodySha256": "6fe1662a889bb11648658c17296515d121b15543c4e6fb6b1bbb94ff0641cdf8"
+}

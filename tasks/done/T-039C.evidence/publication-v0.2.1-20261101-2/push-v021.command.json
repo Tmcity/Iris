@@ -1,0 +1,17 @@
+{
+  "Command": [
+    "git",
+    "-c",
+    "url.git@github.com:Tmcity/Iris.git.insteadOf=git@github.com:Tmcity/Iris.git",
+    "-c",
+    "url.git@github.com:Tmcity/Iris.git.pushInsteadOf=git@github.com:Tmcity/Iris.git",
+    "push",
+    "origin",
+    "refs/tags/v0.2.1:refs/tags/v0.2.1"
+  ],
+  "StartedUtc": "2026-11-01T08:31:03.334828+00:00",
+  "FinishedUtc": "2026-11-01T08:31:07.709679+00:00",
+  "ExitCode": 0,
+  "Bytes": 68,
+  "Sha256": "ae96f556fb2b2c6a3a580fc2c27078d1101450138aae2b2d440cb584a47d9cb5"
+}

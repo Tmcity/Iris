@@ -1,0 +1,10 @@
+[
+  {
+    "Path": "build/release-plan.json",
+    "Sha256": "096a06aaaef8e6d5560f13568f377d2b05a17f5d1b3474320d07eb2e90b4dd4b"
+  },
+  {
+    "Path": "docs/RELEASING.md",
+    "Sha256": "5bc61d6813e0aea8c1ad13a08b52d3741c49c412ed221eb1490aec8d10eafcfe"
+  }
+]

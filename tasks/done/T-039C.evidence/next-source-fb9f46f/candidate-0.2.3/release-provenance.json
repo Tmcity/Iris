@@ -1,0 +1,4403 @@
+{
+  "Version": "0.2.3",
+  "PackageId": "Iris",
+  "Channel": "win",
+  "RuntimeId": "win-x64",
+  "Repository": "https://github.com/Tmcity/Iris",
+  "SourceCommit": "fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11",
+  "SourceGitTree": "60422257ce3c47f3eb83b291b02a84d4c75add8a",
+  "SourceRoots": [
+    "src",
+    "tests",
+    "build",
+    ".github",
+    "docs",
+    "README.md",
+    "Iris.slnx",
+    "Directory.Build.props",
+    "Directory.Packages.props",
+    "global.json"
+  ],
+  "SourceTreeSemantics": "Canonical tree of the listed committed roots. Tasks, artifacts and generated release files are excluded; no self-reference.",
+  "SourceFiles": [
+    {
+      "Path": ".github/workflows/desktop-release.yml",
+      "GitBlob": "4d31611ebf9938b92e95c23a3969a86fffdc920e",
+      "WorkingBytes": 5432,
+      "WorkingSha256": "7d2d02500c3940c5fc99ad6be6697bd975263c871aaf2886e5c3a99ff2227f49"
+    },
+    {
+      "Path": "Directory.Build.props",
+      "GitBlob": "880071bd50801bff9a4068b091a792ebb7c08ff7",
+      "WorkingBytes": 1094,
+      "WorkingSha256": "c32e046fc5f05f24df4925c1c689129e058df7f7d9908fad6d7e7392e2ae3c16"
+    },
+    {
+      "Path": "Directory.Packages.props",
+      "GitBlob": "77f76d16344e6bd1b253da8dde6fe559d6b5988b",
+      "WorkingBytes": 2105,
+      "WorkingSha256": "d82b12343552b47080dff574fa4461874fa8200c18f03aaae919c8385cfc7096"
+    },
+    {
+      "Path": "Iris.slnx",
+      "GitBlob": "b3756964d7fbb679ebc463d8ff94e95fe400b412",
+      "WorkingBytes": 1307,
+      "WorkingSha256": "519a44c934aa205858f87aeaa99c2e2d2fd42bb69c3de682477253978e206880"
+    },
+    {
+      "Path": "README.md",
+      "GitBlob": "287c40a5aeb041b3eaddd83d96e4e95d4f866118",
+      "WorkingBytes": 1492,
+      "WorkingSha256": "be0f5a4bd92c0aa611226d25e9fb130cf8647fc6f6326dfbb2f15695d9854b44"
+    },
+    {
+      "Path": "build/LocalizationAudit/LocalizationAudit.csproj",
+      "GitBlob": "77cdf5e93fdb11f3589b677872588af3757a1191",
+      "WorkingBytes": 611,
+      "WorkingSha256": "86bcbe105623b6a5d843a450f95b14f0985cd71619ec4bed3007a3403eff5710"
+    },
+    {
+      "Path": "build/LocalizationAudit/Migration.cs",
+      "GitBlob": "81f635eea17a567cd5f3a108e6787b607378b3ef",
+      "WorkingBytes": 6186,
+      "WorkingSha256": "5e4f24a081eac01bc53966db3c83e26f1af4ecfd5f9befe43a4aeedd0b807386"
+    },
+    {
+      "Path": "build/LocalizationAudit/Program.cs",
+      "GitBlob": "07f5b8228bb401920f7a603fc60b235496c68d3b",
+      "WorkingBytes": 11707,
+      "WorkingSha256": "1d2145d7eb8b131d8075c300a26e4542813409994d2534c66200400c39e71e8b"
+    },
+    {
+      "Path": "build/audit-localization.ps1",
+      "GitBlob": "aa66f3703eaaf6722acffba914d43863c6897c2f",
+      "WorkingBytes": 830,
+      "WorkingSha256": "3710b5f7ebda2de793a7e9884457fb9187d43e9a924fa39b9dc7bedfef86a42b"
+    },
+    {
+      "Path": "build/localization/README.md",
+      "GitBlob": "b730d970ddf5c73b96df5fd87baf16df41a80fcf",
+      "WorkingBytes": 2658,
+      "WorkingSha256": "1d095a93b2cc9139b6b220c5990284943229ca7cdacb131c50ed44992ea286af"
+    },
+    {
+      "Path": "build/localization/app-catalog.json",
+      "GitBlob": "6ee4bcd8f131127129620ea1b0fdad2667217d12",
+      "WorkingBytes": 59709,
+      "WorkingSha256": "e4cc49f8c86a5600bc97923b78e70a2abe8c86295308161031857fea547f1724"
+    },
+    {
+      "Path": "build/localization/app.en.json",
+      "GitBlob": "1cd3c55bbcd170ca9e83fbed221c8dad855e5348",
+      "WorkingBytes": 24163,
+      "WorkingSha256": "363cc3a3b8949ff21b2bf7363bea3dcdd070cafc59214c30c1d4ab54430a923b"
+    },
+    {
+      "Path": "build/localization/audit.py",
+      "GitBlob": "ef3dbc5d4d2b391f4e6452feba03caf3d489649e",
+      "WorkingBytes": 3683,
+      "WorkingSha256": "790e94126326c68cffe151e689e643cb25a5ed032452708aa50a014a83fe96f1"
+    },
+    {
+      "Path": "build/localization/core-catalog.json",
+      "GitBlob": "72ff51406b8aa801099da60177aacdd1c3b1f6d5",
+      "WorkingBytes": 22356,
+      "WorkingSha256": "c24ee9f107083f3cf124a28b874d3e772ca5533058cd3029065899870a8a5052"
+    },
+    {
+      "Path": "build/localization/errors.en.json",
+      "GitBlob": "f0c3f30ea262bc41b6ba28d908f0f56513b9b502",
+      "WorkingBytes": 2378,
+      "WorkingSha256": "c5568be109bd034874cd91aa118705b7df6cad9fa6ebd93b1fc3f8a8f1c50987"
+    },
+    {
+      "Path": "build/localization/errors.zh.json",
+      "GitBlob": "51d573e0dd090ae078413f3a7ff7eaac140d39ac",
+      "WorkingBytes": 2131,
+      "WorkingSha256": "c418221c677372205b37b46779954c4d46090833b571f2add407d593bb4c5c32"
+    },
+    {
+      "Path": "build/localization/exceptions.json",
+      "GitBlob": "314c916f410c3964ac965f60ad1cb7fa01d815f5",
+      "WorkingBytes": 694214,
+      "WorkingSha256": "2d620105575400696d1f567460d883cf050ff511b49b6f64d5ea0b5192eb9a75"
+    },
+    {
+      "Path": "build/localization/generic-catalog.json",
+      "GitBlob": "8cdc502c18776f63cd60c8ee21496ba8252cc643",
+      "WorkingBytes": 47478,
+      "WorkingSha256": "ade5363acf452de97b4dde9957f137388b43e6c7dc74df4d57c7f0a2a55b4006"
+    },
+    {
+      "Path": "build/localization/generic.en.json",
+      "GitBlob": "b0973c71fa978834cc83a4434e4d096867e5a5c1",
+      "WorkingBytes": 8906,
+      "WorkingSha256": "ec150723e8f15e050b33c2ef27dd1ad3d6b371a5788233dec1859a17db870ef2"
+    },
+    {
+      "Path": "build/localization/maintenance-catalog.json",
+      "GitBlob": "380b5d98ec03901ba6ae42472260afade3e4bed5",
+      "WorkingBytes": 1578,
+      "WorkingSha256": "e4db8c4aa783f5b7684edaf81f9655231b0b24f71156fc8e35d97473dfeb4c49"
+    },
+    {
+      "Path": "build/localization/migration-plan.json",
+      "GitBlob": "8873035c4009ad8484bd64c49b7fc9dda40ee6e3",
+      "WorkingBytes": 68967,
+      "WorkingSha256": "70eb3f89595abd8e00a6b2d4fd4377dd9bce1d39249826d32da6d76cdfcce10a"
+    },
+    {
+      "Path": "build/localization/probe_exceptions.py",
+      "GitBlob": "23848e36bdf2e0f12fea053e301e548c75fe5c66",
+      "WorkingBytes": 3323,
+      "WorkingSha256": "b9a68400dd34204748c9dcf6e70dfd60644bcca3c38bd888c574ae05d46c4242"
+    },
+    {
+      "Path": "build/localization/review_images.py",
+      "GitBlob": "a7096cdc89be759c2908fcb5518f6beb2a18735f",
+      "WorkingBytes": 2939,
+      "WorkingSha256": "2092fc1eaf7d73e9743373388ec802ada41e7b9df8ab17ef3d04f5e3be2b7364"
+    },
+    {
+      "Path": "build/measure-startup.ps1",
+      "GitBlob": "5ad4a48a3d17f97d6925ca05a20b9ce78415737e",
+      "WorkingBytes": 8015,
+      "WorkingSha256": "ef68d42f6a3c0c75c17cbdf5c2241ee8b754a8fc9fc2948a5a5942ea69013c63"
+    },
+    {
+      "Path": "build/pack.ps1",
+      "GitBlob": "d89988c32b3cd7d7020bd112313a473beaa7f893",
+      "WorkingBytes": 11226,
+      "WorkingSha256": "fb2114cff937f8e6a3205246614bcb8e2c42759bd14f8497e9f78ed04143166d"
+    },
+    {
+      "Path": "build/publish_release.py",
+      "GitBlob": "d84b4df19df37636514e841372b1cf006adbbdf9",
+      "WorkingBytes": 4909,
+      "WorkingSha256": "cdd34a669bc3afbdd9a595ece445b74bb192daa20e215cbe396bc131640bb851"
+    },
+    {
+      "Path": "build/release-plan.json",
+      "GitBlob": "c5b85e9a262e3581a09bb1a905f94206b1ee63e4",
+      "WorkingBytes": 209,
+      "WorkingSha256": "67ae2d5562e58c1fb3a5b945503c6920072641ee1a722067ca94d48168b4571b"
+    },
+    {
+      "Path": "build/release_manifest.py",
+      "GitBlob": "4964d3a1c1caf2a98ac85dcb34baa2e228ac26c5",
+      "WorkingBytes": 16023,
+      "WorkingSha256": "08d6fcfe221aceaa0ec1df0f06a145bd75451bd530c271a795591f44e238e216"
+    },
+    {
+      "Path": "build/release_pipeline.py",
+      "GitBlob": "fceeab535114cfec8fef3bdbe08946092c4985ca",
+      "WorkingBytes": 6514,
+      "WorkingSha256": "1523846329ba66954c2cb8d6337e907038a2271948a053e01afda30436e6dbaa"
+    },
+    {
+      "Path": "build/tests/test_publish_release.py",
+      "GitBlob": "d95de845733a7354ff442a07a3a44ba9034f5604",
+      "WorkingBytes": 5647,
+      "WorkingSha256": "1f3cd214240682dbba202abb05f7a45d7c1df6f0525d00560951a3c35c0ba62e"
+    },
+    {
+      "Path": "build/tests/test_release_manifest.py",
+      "GitBlob": "c0350227ccbb0bb329ce37026776515dfac0c892",
+      "WorkingBytes": 4543,
+      "WorkingSha256": "0f605e2a8bbc669c665e63b38ab6a7a5cc7d6bbb8761eb9bdb78df626ccfba77"
+    },
+    {
+      "Path": "docs/INSTALLATION.md",
+      "GitBlob": "01a2282746ec993e7a2ceb9ed4509f780418bf71",
+      "WorkingBytes": 5055,
+      "WorkingSha256": "2d57883be10c6f3581234a687b564d7f322936064dc4233a5276de425038d756"
+    },
+    {
+      "Path": "docs/RELEASING.md",
+      "GitBlob": "1554a0b4d1875a39b6b88c590ee52caa64332b1e",
+      "WorkingBytes": 9215,
+      "WorkingSha256": "f130824e027e2c88e407ee39b9d58e9c64b3b25abb0d50b1ec555456fffd7927"
+    },
+    {
+      "Path": "docs/history/.gitattributes",
+      "GitBlob": "fcc2af397fc9d54421ede644c24879aa72240d71",
+      "WorkingBytes": 32,
+      "WorkingSha256": "df503d95ff9fe6867e9583da44c8028f8607489cb8690f98127e3cf334890922"
+    },
+    {
+      "Path": "docs/history/README.initial-github.md",
+      "GitBlob": "5c1d97be7bee66ecc1a2739620cbb046475b678f",
+      "WorkingBytes": 6,
+      "WorkingSha256": "7f580a0be3abafda1f3aa0e44801e13fd8b55592bd48dde8399f25ce003e274e"
+    },
+    {
+      "Path": "global.json",
+      "GitBlob": "a3218f544b10ae6d6d30a33b10e8f5060809912c",
+      "WorkingBytes": 170,
+      "WorkingSha256": "fddf025247274c696cad0caa013fa3bc4a07de2d7fb6c1c2c805164a72b1716d"
+    },
+    {
+      "Path": "src/Iris.App/App.xaml",
+      "GitBlob": "aad646bb2737c5156cc80b346de899efb65cf3e0",
+      "WorkingBytes": 633,
+      "WorkingSha256": "dfab264f0786f1979c413e23effc3d54594604fcd003c022b6fcad910c7e660f"
+    },
+    {
+      "Path": "src/Iris.App/App.xaml.cs",
+      "GitBlob": "f3221dd86669a9b813819d39aabad176a7347970",
+      "WorkingBytes": 2302,
+      "WorkingSha256": "d2d4ebaaf247a3ecdd84a916abce9584968386e02a01b266433a57422f5dc168"
+    },
+    {
+      "Path": "src/Iris.App/AssemblyInfo.cs",
+      "GitBlob": "cc29e7f74114aefdbef8164f7696c6e31d85d150",
+      "WorkingBytes": 643,
+      "WorkingSha256": "3fac2af92385f676e9a941befd23fe38f0a5fa6167d4a3a88f07e730c5595ca3"
+    },
+    {
+      "Path": "src/Iris.App/Capture/ScreenshotErrors.cs",
+      "GitBlob": "3b2d3020bb86a66685a481a1027154dc67346558",
+      "WorkingBytes": 881,
+      "WorkingSha256": "f275dab1dbf40f76feb6f1c220123f70bcc0eb90fc1b57ef016a4aa4577d0a20"
+    },
+    {
+      "Path": "src/Iris.App/Capture/ScreenshotFrameView.cs",
+      "GitBlob": "c280ad44bc28eba306b7ceff0d278b957dabc1d5",
+      "WorkingBytes": 2183,
+      "WorkingSha256": "56d81e09614c266227195899b9b1e435add87f86763d524b7d73ca1c3d7947cb"
+    },
+    {
+      "Path": "src/Iris.App/Capture/ScreenshotNative.cs",
+      "GitBlob": "bb59c5733a9ca70cf23ad3259307e301bbbc76a1",
+      "WorkingBytes": 3384,
+      "WorkingSha256": "9763d87bac698efb5baf5d9a9019f495de5b06c1e14880b05c22c3cd1d667305"
+    },
+    {
+      "Path": "src/Iris.App/Capture/ScreenshotOverlayWindow.cs",
+      "GitBlob": "e511b0d8d027147ba4bb3634ba71daeb0f39c614",
+      "WorkingBytes": 14016,
+      "WorkingSha256": "f97552722a5a582960d4524887f96c6da7b02cf8357fba98fc63c2f0f75e38f1"
+    },
+    {
+      "Path": "src/Iris.App/Capture/ScreenshotPreparationCoordinator.cs",
+      "GitBlob": "212b0b74355bb072f1452d0367b7eddd2e46805c",
+      "WorkingBytes": 14182,
+      "WorkingSha256": "95e9c3defc2ff50affcdf72bdd0cf2c772dbde163d4db3bee2d428b84dd7d231"
+    },
+    {
+      "Path": "src/Iris.App/Capture/ScreenshotSelection.cs",
+      "GitBlob": "cbd0ee2420c2c40e63d0aeff7499504aa83425f0",
+      "WorkingBytes": 2464,
+      "WorkingSha256": "eaba5e0d68ba61b024f22ef9d593dc5016de1504c3974f33cadcd03e7988ce44"
+    },
+    {
+      "Path": "src/Iris.App/Capture/ScreenshotService.cs",
+      "GitBlob": "df750e25eba94e0ed01f491c3f2f3fd119b03555",
+      "WorkingBytes": 24245,
+      "WorkingSha256": "61a661ade7a74b787aba80a63edbca3e35cc8b12a60d86415bdb217e9100d47f"
+    },
+    {
+      "Path": "src/Iris.App/Capture/WindowPreparationIntent.cs",
+      "GitBlob": "c3213ec6f46445fc2fd131745847cf50149361ef",
+      "WorkingBytes": 7224,
+      "WorkingSha256": "920997214306841c1371e16c684a3c59407cc71df119d175821c0c33ad4604b2"
+    },
+    {
+      "Path": "src/Iris.App/History/HistoryViewModel.cs",
+      "GitBlob": "09cc06204ef5850cf116334c5e88bbcc0a775116",
+      "WorkingBytes": 20548,
+      "WorkingSha256": "703d9bd78112fb7c44fa094d99bcfa8efe937a2f3a81a0f1a589b9dd2c2a3b07"
+    },
+    {
+      "Path": "src/Iris.App/History/HistoryWindow.xaml",
+      "GitBlob": "c9990074fada8e403524ce25b13f905bf6785fc9",
+      "WorkingBytes": 11147,
+      "WorkingSha256": "23f634521f85bd69c115f54cb9b28c0db18d7a531175da8d4dd64529c05b876a"
+    },
+    {
+      "Path": "src/Iris.App/History/HistoryWindow.xaml.cs",
+      "GitBlob": "a8590783511fb8d6d11a50f70078715ce1e09164",
+      "WorkingBytes": 1871,
+      "WorkingSha256": "6533a3366fc22280f6f9b7c36daabfa50f2aa80610c48eb6e602259a0ec04369"
+    },
+    {
+      "Path": "src/Iris.App/History/HistoryWindowPresenter.cs",
+      "GitBlob": "a5c63fb4d7886fdf284bc0d824b7129181e4cf31",
+      "WorkingBytes": 4653,
+      "WorkingSha256": "11ff1b8ece1ed236ae86b73362387b94a818353efb3e1114eb1480fd55e01893"
+    },
+    {
+      "Path": "src/Iris.App/History/HistoryWindowSession.cs",
+      "GitBlob": "bef6365b82a7baa5a68df60864ff42dd969718f1",
+      "WorkingBytes": 4756,
+      "WorkingSha256": "ed4603c53667035ab6893476bf607fc063a47ec2acd6373a42ff739dbd17fc74"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/ActionDispatcher.cs",
+      "GitBlob": "70305dc80383003995b2312d121d9bd72fe831d2",
+      "WorkingBytes": 7386,
+      "WorkingSha256": "58c434c42cf11dd3c9beb5382c9f6e5381334d7d95720d828946ebf3a72090db"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/AppBootstrapper.cs",
+      "GitBlob": "4ea2e9225b8f931211313d6ec6f918269c0aa8d3",
+      "WorkingBytes": 27867,
+      "WorkingSha256": "99dc62dca220d15f8dfab018b373c61627a74b072646b211c6f18da9c870aeba"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/AppHostBuilder.cs",
+      "GitBlob": "da55e0565a731c16f9bda0b95edf83e4141bf594",
+      "WorkingBytes": 8244,
+      "WorkingSha256": "359e6da26ca137acba10822f3aeb863486d890e12b4ca07af490c72a61972a8e"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/CommandLineParser.cs",
+      "GitBlob": "0ed0299be356e9ca9bec66660fb7c4502697cdbc",
+      "WorkingBytes": 1245,
+      "WorkingSha256": "75bf1ea73905ae1d457d784b1e2daa16f691e131a44c345a239e2ec454079b70"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/ExitActionHandler.cs",
+      "GitBlob": "57c7b1f05ea3f0db0a73c31b6049b50b5b6187f7",
+      "WorkingBytes": 539,
+      "WorkingSha256": "bf3ee28b94a6fbb932a922776442311a17d8cef2ddae5ccf01a82c057e8760ff"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/FatalErrorFormatter.cs",
+      "GitBlob": "dd1b9bfd3eba1553b5868e0b517c29d67549167c",
+      "WorkingBytes": 458,
+      "WorkingSha256": "196f4b803be6e3493951d73f6e2eab5c46e90798aebf64b31fb834b078f94d7a"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/GlobalExceptionHandler.cs",
+      "GitBlob": "f67793ad839da507d3b4cac703681c2671357c4b",
+      "WorkingBytes": 3684,
+      "WorkingSha256": "f7c4d9913949a9a83db698530b353afc1eed34384bd64511f8403c669650f2a8"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+      "GitBlob": "0c593a4ea49d2fa9ae1a19a4db0c0de29bb21080",
+      "WorkingBytes": 38340,
+      "WorkingSha256": "2d90e919e7c369082aa90cad6918cd416b67897abc6d30039211ac8e2ce10387"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/HotkeyRecordingCoordinator.cs",
+      "GitBlob": "9402843b9db5b861faa90ef99c5c578a890d350b",
+      "WorkingBytes": 14449,
+      "WorkingSha256": "7f0706853be9f4b1c8dee25b798e238b1eb4d78b4e84870011e0625659a3cc19"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/HotkeyRuntimeModels.cs",
+      "GitBlob": "6fde6fb70b03f3e816c5eb3cb533264bfa8d5aad",
+      "WorkingBytes": 1697,
+      "WorkingSha256": "97724b831092e848c81f57f6504ca4cb011fcb643ca710f021d5cb29f0e1dd95"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/IUiDispatcher.cs",
+      "GitBlob": "dc9f35026a0219182b978f308955644fbe670b9a",
+      "WorkingBytes": 596,
+      "WorkingSha256": "35ba81f49850d3383d16cc0824cfc097d71aa2dff208019059c0353d11ff98d3"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/IpcCommandCoordinator.cs",
+      "GitBlob": "c148e3b1139e6516914ffe3ba251d6b53deedd20",
+      "WorkingBytes": 3198,
+      "WorkingSha256": "54270cde79f01b6a3a343431400748cc38744ea3dedb5d1cd3f6ad9a93b35720"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/IrisLogging.cs",
+      "GitBlob": "f066dce8ffe64bcea5db6ad303561c6e35fcd7e2",
+      "WorkingBytes": 2636,
+      "WorkingSha256": "27e97ffbe124942c35eb1d91953fa9f3d31e60146de84d73e1b5481d1c5af25a"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/LogLevelController.cs",
+      "GitBlob": "090b4b3d10d43023a98b40e34385def0cf52ec86",
+      "WorkingBytes": 2186,
+      "WorkingSha256": "c3d82f6571b2c379466fb86be6efcdf8446fcb74161eaec7bf6d66e2aef99399"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/NotificationThrottle.cs",
+      "GitBlob": "b074bd89e5ed2d13d2717f07aafbf6c80eabb8ee",
+      "WorkingBytes": 908,
+      "WorkingSha256": "b8716b051711f5367b72e25e434c4a9917f203b1a117af1a961e3df2a67080eb"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/StartupRuntime.cs",
+      "GitBlob": "a2a72e920e4c5baa7c60853df385d246528156f9",
+      "WorkingBytes": 4136,
+      "WorkingSha256": "798e12d40e3ef492f5652f00f88c96270239d58980dfbe14d4f790a0db7770d4"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/WpfHostLifetime.cs",
+      "GitBlob": "b23d0bc517b3d2ba4cb191429fc9483d52ca781c",
+      "WorkingBytes": 483,
+      "WorkingSha256": "5bd1f1df756f2babcd62f42b8fbb6c1f7732d44fe06688c4b515c3bd95a08554"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/WpfUiDispatcher.cs",
+      "GitBlob": "d05e9ef1413bc9a61e568fac0184a0d9ed25a238",
+      "WorkingBytes": 2254,
+      "WorkingSha256": "37ff130844a214468e55ae959689df91a6a8d2d450db4c51a25c7a2743914d5e"
+    },
+    {
+      "Path": "src/Iris.App/Iris.App.csproj",
+      "GitBlob": "95e74807968f22082f809b263137db80264d9ee2",
+      "WorkingBytes": 2635,
+      "WorkingSha256": "d34264c14bf00b52806a1397e3a4ae72d9001908c1f1c5f3e7450164afe85b91"
+    },
+    {
+      "Path": "src/Iris.App/Program.cs",
+      "GitBlob": "3c19a7fcd1952aba87f547fbaaa9164ef83e085e",
+      "WorkingBytes": 4647,
+      "WorkingSha256": "a5420c1dc018edaee4e05e762f4ec255c7a4dee127fa5c083e39af6ded90e5fc"
+    },
+    {
+      "Path": "src/Iris.App/Resources/AppLanguage.cs",
+      "GitBlob": "a6ec71f9bff79f49092532b7095ad27b6ce3ff2b",
+      "WorkingBytes": 297,
+      "WorkingSha256": "a3ddf8ffb491e6456248dcbc2e75d07953742ea0bb92b51090c353c90a7383e4"
+    },
+    {
+      "Path": "src/Iris.App/Resources/AppResources.cs",
+      "GitBlob": "cfa6f265b1ac8d701735fec6807b8345155b702b",
+      "WorkingBytes": 950,
+      "WorkingSha256": "0afb54c70acbffc1ea6036abc5de1dc8b2a80e2c9dadc5d037018048b32232f7"
+    },
+    {
+      "Path": "src/Iris.App/Resources/Icons/iris.ico",
+      "GitBlob": "316aef055ae92f6a4e076df317a04735e9a870ba",
+      "WorkingBytes": 3246,
+      "WorkingSha256": "ebfe066500f2e911520de8bd70c0dd38360c9d15125e8dc66afd71a7ceec6d09"
+    },
+    {
+      "Path": "src/Iris.App/Resources/Strings.en-US.resx",
+      "GitBlob": "9ca4e464982f5ad4b998f890281c09daf37a43af",
+      "WorkingBytes": 57682,
+      "WorkingSha256": "5b833873729402888a42cdfac75ac8c77c72e141e2660dc7e0cba43013c6f8c2"
+    },
+    {
+      "Path": "src/Iris.App/Resources/Strings.resx",
+      "GitBlob": "4fb1d5b08c91c4629c2b09580ba0603aaabc1fe1",
+      "WorkingBytes": 55880,
+      "WorkingSha256": "0698b8eabb0130970b0e1bd9c117e5b679c9fa8f8c0102698c5d8a84b88e597b"
+    },
+    {
+      "Path": "src/Iris.App/Selection/SelectionIconController.cs",
+      "GitBlob": "bfa24df52bccb5045a850887084d7ae89cdc625e",
+      "WorkingBytes": 31297,
+      "WorkingSha256": "119d68c6d2e91868e97a848a1e6cda7d15db9ab669dfa939e418b5dc6d0d2e52"
+    },
+    {
+      "Path": "src/Iris.App/Selection/SelectionIconNative.cs",
+      "GitBlob": "c66dfb4b8f607bae7153ed7ac92ef5b379331305",
+      "WorkingBytes": 3384,
+      "WorkingSha256": "a010d583e19a52c63c1d8fa6fc5198f438be52a46ae84f579801e28be590b834"
+    },
+    {
+      "Path": "src/Iris.App/Selection/SelectionIconWindow.cs",
+      "GitBlob": "1c3b0fcf9b7ed6312e3d2d0aa0eed7f6eb15dfb3",
+      "WorkingBytes": 4126,
+      "WorkingSha256": "871b1d5c9c1e552f0b1ca7f2c6396cdf72cf6fc58d4e8c0b67820f457fa01d95"
+    },
+    {
+      "Path": "src/Iris.App/Services/AppLifetime.cs",
+      "GitBlob": "1afdfa15eb0c00e2c4982dee15b39acf56968b05",
+      "WorkingBytes": 8812,
+      "WorkingSha256": "ff6bd0b64dc95c5030078765af82ec9ce9e97a3b62c84e76ed6b563b639709bf"
+    },
+    {
+      "Path": "src/Iris.App/Services/GeneralSettingsSaveCoordinator.cs",
+      "GitBlob": "551fd2387ac2954d116a63c2aef6920dd966bbd6",
+      "WorkingBytes": 22466,
+      "WorkingSha256": "f4161a380965be00d7f902c29baaa93f4497ec48ebaece5ce01534fbdf34a80c"
+    },
+    {
+      "Path": "src/Iris.App/Services/ScreenshotOcrFeedback.cs",
+      "GitBlob": "6fa098ac71f01b0ff954124ed1ed5780c346026f",
+      "WorkingBytes": 3826,
+      "WorkingSha256": "8b94c7839e162e4503a37c673b1908a0d4b2763220425554820d91b888605399"
+    },
+    {
+      "Path": "src/Iris.App/Services/SelectionReadCoordinator.cs",
+      "GitBlob": "0fd7537224b6a2c52ce3c2f67fa1f67acab6b98b",
+      "WorkingBytes": 7937,
+      "WorkingSha256": "98be98bcf5e18f1aecf98a9572824fe56989bbdf84ddf25181b7d765cc413836"
+    },
+    {
+      "Path": "src/Iris.App/Services/SettingsApplyReceiptManager.cs",
+      "GitBlob": "38edb7f222eebb51637a7c78cede1aca2414647b",
+      "WorkingBytes": 5750,
+      "WorkingSha256": "4c073cb883bacddff59efaa85471366b36ce4be354273587c244b941efaeaaf1"
+    },
+    {
+      "Path": "src/Iris.App/Services/ThemeService.cs",
+      "GitBlob": "c3931c22a40be6b7fa1f56f42f386dc29ecf292b",
+      "WorkingBytes": 8625,
+      "WorkingSha256": "bac5f0fe71b619eca1b4f33644e09afae6669f26cf8320bc09c06cddd89c4c34"
+    },
+    {
+      "Path": "src/Iris.App/Services/TrayNotificationService.cs",
+      "GitBlob": "2ffbf3be4b23db148474a9beed95c66d494219ab",
+      "WorkingBytes": 4533,
+      "WorkingSha256": "e86db6be61e5e337362a0348cb9deecf79b04180bd4cbe12fccad3fbb473a3ac"
+    },
+    {
+      "Path": "src/Iris.App/Settings/DraftValue.cs",
+      "GitBlob": "353953c58424e814c814522b967d628a028f7dd9",
+      "WorkingBytes": 1085,
+      "WorkingSha256": "4aa3286d849bdbf5d762b4676e47d5b420971c4bf7871b6abbf21cc77caa7545"
+    },
+    {
+      "Path": "src/Iris.App/Settings/HistorySettingsDraftViewModel.cs",
+      "GitBlob": "87d78aaaae23d016d219fd023ef59b889d3e6066",
+      "WorkingBytes": 1851,
+      "WorkingSha256": "6e3557fd48a76cbf1daddcd0f4081064781e2be51820dc9e2655bca1a5fc8fac"
+    },
+    {
+      "Path": "src/Iris.App/Settings/HotkeyItemDraftViewModel.cs",
+      "GitBlob": "f597cfc6dfdd780bc3a214574edbe9fb2d2ff8b2",
+      "WorkingBytes": 11425,
+      "WorkingSha256": "6bee4b81247d458851778ceab7007c26f30a38fb297e4cb6aaddbfabfc207351"
+    },
+    {
+      "Path": "src/Iris.App/Settings/HotkeyRecorderBox.xaml",
+      "GitBlob": "36e12af9dc63271bd7775171ec9fd14169e032d2",
+      "WorkingBytes": 6424,
+      "WorkingSha256": "b037634e445cdf62cacd94ee3cfe01fcacc1e28a780b0b6f300bd59faf56012d"
+    },
+    {
+      "Path": "src/Iris.App/Settings/HotkeyRecorderBox.xaml.cs",
+      "GitBlob": "9507b11bfcb18896e8377b79b83189f07dd1ac75",
+      "WorkingBytes": 1532,
+      "WorkingSha256": "b911936e834a5d5f3881382aa1eedb89cff2d88b6653fe782611420b5abcb4d7"
+    },
+    {
+      "Path": "src/Iris.App/Settings/NetworkSettingsDraftViewModel.cs",
+      "GitBlob": "0f9fb8f6b097c469555c46a0305ea8d749fdd4d2",
+      "WorkingBytes": 8663,
+      "WorkingSha256": "b4ec4946c78f9d53afae9bb16ff161e6a10adcfc55a2cf5ca2cb84c2258ac98a"
+    },
+    {
+      "Path": "src/Iris.App/Settings/OcrProfileDraftViewModel.cs",
+      "GitBlob": "b4763e05ea1bdb05d7c9d92698a61ff3f322f0d6",
+      "WorkingBytes": 8127,
+      "WorkingSha256": "5cf6bfbfdf4dce9fd4be58f7eaf47006b9b29fbafcf6aeb8decb67f52e475881"
+    },
+    {
+      "Path": "src/Iris.App/Settings/OcrSettingsDraftViewModel.cs",
+      "GitBlob": "6261e355981387925f30b6b85b83e8ad1d624d3a",
+      "WorkingBytes": 5861,
+      "WorkingSha256": "4b84570f8d5a58897c818e9620f7a029438e601847e29b6a443b4bb7587711ac"
+    },
+    {
+      "Path": "src/Iris.App/Settings/RelayCommand.cs",
+      "GitBlob": "633f275c09081c1c1926e7ab3607fb875484b124",
+      "WorkingBytes": 3396,
+      "WorkingSha256": "b86c287d86f19ccaac554116138788c47f75a305e447cb31e9b11ca7acc5c8c9"
+    },
+    {
+      "Path": "src/Iris.App/Settings/SelectionSettingsDraftViewModel.Mouse.cs",
+      "GitBlob": "f7f9a9f23d47c1927aa5bc537839c057c94e63e9",
+      "WorkingBytes": 4176,
+      "WorkingSha256": "4384590415909aa0a7dfc1334c1645962e49edc4c81ae79bb0a68568dd9b218f"
+    },
+    {
+      "Path": "src/Iris.App/Settings/SelectionSettingsDraftViewModel.cs",
+      "GitBlob": "27cffe048bfde4db27d6370f67778f97f9e1ee6c",
+      "WorkingBytes": 6894,
+      "WorkingSha256": "8769dd39d83b9fe6d9cb68a3dae9fea0f6c956c78406592efd3c5bd8ca26704e"
+    },
+    {
+      "Path": "src/Iris.App/Settings/SettingsDraftOperationQueue.cs",
+      "GitBlob": "a87bdfa36eada0feb51d8a3615b6d31a5b66b120",
+      "WorkingBytes": 7757,
+      "WorkingSha256": "7ec316a53ef0160fa842a3c78bc6c37a310fd4774ef4bd3f1284b4e0c2365f75"
+    },
+    {
+      "Path": "src/Iris.App/Settings/SettingsViewModel.Language.cs",
+      "GitBlob": "472c112f86bd5b31c82995c31fa6b71f3084b9e8",
+      "WorkingBytes": 1007,
+      "WorkingSha256": "1eb0a2774ded60afafd25095dba6afc0cdcf4f2597ff09d8a8c87c094179a0a4"
+    },
+    {
+      "Path": "src/Iris.App/Settings/SettingsViewModel.Mouse.cs",
+      "GitBlob": "4a04c2bcf67499ac3689abc82d26fca446ae9264",
+      "WorkingBytes": 3115,
+      "WorkingSha256": "5ce7aa08b4d6916d4b9c9aded2190cd94d541330a17dcf00d9b8d216d9c9d901"
+    },
+    {
+      "Path": "src/Iris.App/Settings/SettingsViewModel.Network.cs",
+      "GitBlob": "39701eb72248ed817c5cea19653b7e0924adf83d",
+      "WorkingBytes": 18016,
+      "WorkingSha256": "cfe8bbdc61ed2424eaba12d806cbf6afbc84f39570eb1698c646a9cb5813b19b"
+    },
+    {
+      "Path": "src/Iris.App/Settings/SettingsViewModel.Ocr.cs",
+      "GitBlob": "2a83b4209966edb52d32b923fe5a22f70a8f3549",
+      "WorkingBytes": 20844,
+      "WorkingSha256": "639da8e58bdc82d7f2e3ba427133e52f6d01e19ec28a2f6437d4587dba02ed77"
+    },
+    {
+      "Path": "src/Iris.App/Settings/SettingsViewModel.UpdatePreference.cs",
+      "GitBlob": "14f04fb6e5bc857a85a0f1d2e136438b978ba43e",
+      "WorkingBytes": 521,
+      "WorkingSha256": "48b9c32d2007e71ee6c5c4dbef46d6aa6c6baa5d3cf630f1d4f0123637464988"
+    },
+    {
+      "Path": "src/Iris.App/Settings/SettingsViewModel.Updates.cs",
+      "GitBlob": "7b2eeeac5b9f02ea4a2c4323d082862207c295ca",
+      "WorkingBytes": 9209,
+      "WorkingSha256": "eada9b58e834f601e9111a3733cb99c4bdda74ae65daafd420e6ede8d6e49f3a"
+    },
+    {
+      "Path": "src/Iris.App/Settings/SettingsViewModel.cs",
+      "GitBlob": "584a56017dc00ff5a69b10b39a70a22ec347e2e8",
+      "WorkingBytes": 109633,
+      "WorkingSha256": "6beab0baa106d39817a710a5ca398cb62b5d5346b429224b272207469bacfa62"
+    },
+    {
+      "Path": "src/Iris.App/Settings/SettingsWindow.xaml",
+      "GitBlob": "d1452ddfdc2627e545bf90698bcf067c0f73fae6",
+      "WorkingBytes": 90975,
+      "WorkingSha256": "28bc80866a315d0f2f1102f2adc6a9f9e6ff1e69f746c188eb67b0a039e023a3"
+    },
+    {
+      "Path": "src/Iris.App/Settings/SettingsWindow.xaml.cs",
+      "GitBlob": "7eadec2c4a1004d867924ce7c74bb48d932579b0",
+      "WorkingBytes": 15815,
+      "WorkingSha256": "06b648deb571ad4eccb3d5e08c446dec36e32974e729db3191941a95cd100d7a"
+    },
+    {
+      "Path": "src/Iris.App/Settings/SettingsWindowPresenter.cs",
+      "GitBlob": "97d8d26c7b8de55ae8e76b283443ee44e42c6a70",
+      "WorkingBytes": 21206,
+      "WorkingSha256": "45535ca2eea351fffa5596c3d948e4ed4a5effd639e1b398d44712e524555ed6"
+    },
+    {
+      "Path": "src/Iris.App/Settings/SettingsWindowSession.cs",
+      "GitBlob": "4285f2264764c24cde8a071443950cd313442981",
+      "WorkingBytes": 8890,
+      "WorkingSha256": "1eca18badef96d1998cfe6447bc148392b77e17bbd621e49e76173329f7f8534"
+    },
+    {
+      "Path": "src/Iris.App/Settings/TranslationProfileDraftViewModel.cs",
+      "GitBlob": "522ec06540ddb57c546aa3d209d6cc115055a679",
+      "WorkingBytes": 36511,
+      "WorkingSha256": "ada1e67ab3134a61ef039a31844ebda568c758cb3a184e7287eef11efcf9ff4c"
+    },
+    {
+      "Path": "src/Iris.App/Translation/ITranslateWindowShutdownCoordinator.cs",
+      "GitBlob": "82db127e591dd4fb053721d8bbc5e9c32d2e8ee6",
+      "WorkingBytes": 218,
+      "WorkingSha256": "a1398f7f1a4d71a54179ef4e1a1c9bddfa74a237b9ab8f6364a709c9a7d97b93"
+    },
+    {
+      "Path": "src/Iris.App/Translation/NativeWindowPlacementAdapter.cs",
+      "GitBlob": "8f61b5453b5dc33dd5d029dce78c4bc038dbcfd8",
+      "WorkingBytes": 2272,
+      "WorkingSha256": "d869c95b7436295a1a4e4d418cf22ea28b23bb1c05e0510e962d83c966c4dc88"
+    },
+    {
+      "Path": "src/Iris.App/Translation/ProviderResultCardViewModel.cs",
+      "GitBlob": "9469fda85af139229fed46f66775da82f5578797",
+      "WorkingBytes": 6737,
+      "WorkingSha256": "b981601e1300da7524e3919f2b63caa4a02756c98e1a639c95e82fadba17cc85"
+    },
+    {
+      "Path": "src/Iris.App/Translation/TranslateWindow.xaml",
+      "GitBlob": "62f3a6c41373540582a1ce9b0868c1ca80b35d3f",
+      "WorkingBytes": 20521,
+      "WorkingSha256": "80100af9914fb53d15750096f4276bcfc6fbff03e6f80e8007e9924494f07e0e"
+    },
+    {
+      "Path": "src/Iris.App/Translation/TranslateWindow.xaml.cs",
+      "GitBlob": "8c02ce36f7c72fb3e3504747677b46defd7d7b03",
+      "WorkingBytes": 6100,
+      "WorkingSha256": "09459944f1be19a35d70bfd618f449f343b2bc2f4a775081be6dc18768dc6004"
+    },
+    {
+      "Path": "src/Iris.App/Translation/TranslateWindowOperation.cs",
+      "GitBlob": "e4354ad899584c4a0901a6ebb18cba3cf93495c3",
+      "WorkingBytes": 10251,
+      "WorkingSha256": "083bd4a49e6a1dc717779af30971c463f8e2cf9b03729612d527f41760b6d952"
+    },
+    {
+      "Path": "src/Iris.App/Translation/TranslateWindowPresenter.cs",
+      "GitBlob": "05d8bb3fac0a1cd8749a69121dc0f3265bc3282b",
+      "WorkingBytes": 33984,
+      "WorkingSha256": "8997b48fef88b909ca8c39eb6543343ce76dd4b11730896fe2f0d77951fd8395"
+    },
+    {
+      "Path": "src/Iris.App/Translation/TranslateWindowViewModel.Ocr.cs",
+      "GitBlob": "684a5a9aa8be4456388f32eb10f4b2bf60c9efef",
+      "WorkingBytes": 2041,
+      "WorkingSha256": "542245e3c50cb836308482cdb6349561099850b9ecb90a72cec403b8b501cd2a"
+    },
+    {
+      "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+      "GitBlob": "63306c6de145d1e6348dcc4b92d647184e6f3f01",
+      "WorkingBytes": 61017,
+      "WorkingSha256": "60b2948cb438380137a350a5b0a989e4ea96f2c2e3ebc96b19c659aa5f256965"
+    },
+    {
+      "Path": "src/Iris.App/Translation/TranslationDeltaBuffer.cs",
+      "GitBlob": "039bfdc1bf6966906910fac49c215a0cec5af4a0",
+      "WorkingBytes": 4750,
+      "WorkingSha256": "53a5767b3953e0344e0fb23cfda816ddedad3b223df9792ef22112d8e082a638"
+    },
+    {
+      "Path": "src/Iris.App/Translation/WindowPlacementHelper.cs",
+      "GitBlob": "8d03943699f3deff0b4da188e8ec963f6092b211",
+      "WorkingBytes": 7428,
+      "WorkingSha256": "a074b85eee7449e9562cf0394463aedc050df56e62b9f8a0a096fd5e591e797f"
+    },
+    {
+      "Path": "src/Iris.App/Tray/ITrayNotificationNative.cs",
+      "GitBlob": "5fa8c76e2569c14fc96ccddfc485c9d9697e0c99",
+      "WorkingBytes": 291,
+      "WorkingSha256": "6a329565d8ad8cf7d9817dea5d399633566117d7e84bc52ef3ab9f644924cfc4"
+    },
+    {
+      "Path": "src/Iris.App/Tray/TrayCreationRetryPolicy.cs",
+      "GitBlob": "ddde4df988141135490e89007cb146eab40a1b33",
+      "WorkingBytes": 849,
+      "WorkingSha256": "fddb9a5b44d28d419295ac9f8540581cf0694d0170704265c515490a734cab5a"
+    },
+    {
+      "Path": "src/Iris.App/Tray/TrayIconController.cs",
+      "GitBlob": "17254e6e047fcf3992b084764370d66c637f2d0f",
+      "WorkingBytes": 18374,
+      "WorkingSha256": "7aa3313c420a5f492febbd5613b94c56d8bb15ad2eaed10b326fb23d2276ff4c"
+    },
+    {
+      "Path": "src/Iris.App/UiText.Extra.cs",
+      "GitBlob": "40aeedebf1a15a5040936916d617eb1f0a269a42",
+      "WorkingBytes": 1631,
+      "WorkingSha256": "5e816dafdd387fb72600d261e0df519b29878235db31fb1750c8ac8c62c23d67"
+    },
+    {
+      "Path": "src/Iris.App/UiText.History.cs",
+      "GitBlob": "adc513ca22948ad22cc90477e108d4cc8cf60858",
+      "WorkingBytes": 5734,
+      "WorkingSha256": "22817ccdddce5da8bdc85ca037f01955243d6512deea0b06d9288469d2ccedeb"
+    },
+    {
+      "Path": "src/Iris.App/UiText.Ipc.cs",
+      "GitBlob": "5220d4375c50560c58a0665e2272dc4f4919b1d4",
+      "WorkingBytes": 702,
+      "WorkingSha256": "fbcd9c1b1bad14575a3a53fa3ec0b404e285b90c09710ca1251aeab96963e459"
+    },
+    {
+      "Path": "src/Iris.App/UiText.Language.cs",
+      "GitBlob": "0a453d05bf597df4bd7e342e1c0d2b024c15ca0d",
+      "WorkingBytes": 640,
+      "WorkingSha256": "30920b39bfc02d58e54979f572f4f808bf316662908e44cab025a8b8236039ef"
+    },
+    {
+      "Path": "src/Iris.App/UiText.Network.cs",
+      "GitBlob": "0f2fef706983340bd6e4943644d937f683ea7946",
+      "WorkingBytes": 5498,
+      "WorkingSha256": "67614ccc24b783b28756572f88488dfc625c7e4f2e4bef53b84010a77d99bb59"
+    },
+    {
+      "Path": "src/Iris.App/UiText.Updates.cs",
+      "GitBlob": "9303b830021d705ee8f9f8bcfdc15cfa7afbbdd1",
+      "WorkingBytes": 2961,
+      "WorkingSha256": "439a11f8b56f077c6fc27e2d3a52d7e33320d302158a02b2fb3ac473ca213d5f"
+    },
+    {
+      "Path": "src/Iris.App/UiText.cs",
+      "GitBlob": "f1b5554e1b651aab70c566c5e6567bffea311f60",
+      "WorkingBytes": 30464,
+      "WorkingSha256": "18472a8aa18653ec93d5aff0e7ae9f56a241c5258b54a9a3baf6e1ef48f40eaf"
+    },
+    {
+      "Path": "src/Iris.App/Updates/AppUpdateCoordinator.cs",
+      "GitBlob": "f464cc6b2fe8daa76628552cccf58cce08a4c2fe",
+      "WorkingBytes": 20789,
+      "WorkingSha256": "578cdaa0803c3b39d5a7a2cb54dbef187da9083494eb0973d00709cd57314495"
+    },
+    {
+      "Path": "src/Iris.App/Updates/UpdateHandoff.cs",
+      "GitBlob": "22c3ab520bccd187ee1d9d5a617475d20bb131e3",
+      "WorkingBytes": 9984,
+      "WorkingSha256": "6863c3f81f6eb644364b27dfebc94607f4372c550945b90d2fcfda2de398ee14"
+    },
+    {
+      "Path": "src/Iris.App/Updates/UpdateHandoffEnvironment.cs",
+      "GitBlob": "ca96dc406410bb380dbc0cc3f91cbb3ccf9e1ba3",
+      "WorkingBytes": 983,
+      "WorkingSha256": "f5efc8465f613a5f09d2fcf4558d243c91d402c0c039c6fa72e00f81011cdd3a"
+    },
+    {
+      "Path": "src/Iris.App/Updates/UpdateHttpDownloader.cs",
+      "GitBlob": "2adea3c699771aab2760dda64ba7f9b6ae0180dd",
+      "WorkingBytes": 8483,
+      "WorkingSha256": "0c9f0c02bebc598650904e7fe726675004a6fd99a18f909876f38553e101092c"
+    },
+    {
+      "Path": "src/Iris.App/Updates/UpdateRecoveryWindow.cs",
+      "GitBlob": "08cf33becb71d4569d71f98194994d513c453870",
+      "WorkingBytes": 2948,
+      "WorkingSha256": "b81d83f03a9966378b17886d7c90aa3605aa52a55fed661a7cebf61567c242e7"
+    },
+    {
+      "Path": "src/Iris.App/Updates/UpdateRuntime.cs",
+      "GitBlob": "2b6aa0a4b251314e9f15973ed64d18d9af2707a9",
+      "WorkingBytes": 3001,
+      "WorkingSha256": "b30da30b388429e59c58ba78db48139a900e69cc38bd67838df91f614eb5b161"
+    },
+    {
+      "Path": "src/Iris.App/Updates/ValidatedUpdateSource.cs",
+      "GitBlob": "4a5c4a499b2510af8da3270d930d4888f88c7a18",
+      "WorkingBytes": 2400,
+      "WorkingSha256": "92f0f18535c470d5dadf82a1c093d8fc62bacbe87758a16ae94c830db5b495cf"
+    },
+    {
+      "Path": "src/Iris.App/Updates/VelopackStartup.cs",
+      "GitBlob": "d6e39830d8a90eebd0e9d1b35fbd5a33a491dddc",
+      "WorkingBytes": 1312,
+      "WorkingSha256": "3d0db5eaccdce8ee900ddf515c6076242132e831f36fa4b6144aa305de8ae598"
+    },
+    {
+      "Path": "src/Iris.App/app.manifest",
+      "GitBlob": "7884900d2bae6a733277fa3e5b7be02030bf7e21",
+      "WorkingBytes": 1104,
+      "WorkingSha256": "2d332e45db500ed00b0ccf68db15787da94107fe8b2e5d90c4aad836cf42ec32"
+    },
+    {
+      "Path": "src/Iris.Core/Actions/Ipc.cs",
+      "GitBlob": "fbeba84e9eec8422f444769e302a141c01f27245",
+      "WorkingBytes": 782,
+      "WorkingSha256": "09ae2e00e7ae8ddf8c3a3de9454741f2ac0d9864bd547cccc8f8c4e588673291"
+    },
+    {
+      "Path": "src/Iris.Core/Actions/IrisAction.cs",
+      "GitBlob": "cb7649b5825c605483601642f10e98c8eb61ba93",
+      "WorkingBytes": 3188,
+      "WorkingSha256": "bd287954a8282bb1d4bd8febdbe9730677eb287e43c48c847e049375a5f2570b"
+    },
+    {
+      "Path": "src/Iris.Core/Common/ProviderModels.cs",
+      "GitBlob": "59a1810f2c9634214c8db8b8dc4041971fec1616",
+      "WorkingBytes": 1392,
+      "WorkingSha256": "b1cc46d676923839d3076bc5a5b6bc2b23c7ade1d6060a2e6527a413d23e2baa"
+    },
+    {
+      "Path": "src/Iris.Core/DependencyInjection/CoreServiceCollectionExtensions.cs",
+      "GitBlob": "7c1db427228f704d847e77d2a72eefdfe414bddd",
+      "WorkingBytes": 3919,
+      "WorkingSha256": "4462f8f062693e68db864d4e9bbfb405e32ae16c4357738da2bac43547ab7ea0"
+    },
+    {
+      "Path": "src/Iris.Core/DependencyInjection/OcrProviderConfigurationObserver.cs",
+      "GitBlob": "b4092947805f2b1426f9ca9523901c79b7e514af",
+      "WorkingBytes": 334,
+      "WorkingSha256": "96fe50976cf9aea343bb5198f9ccab466ad7b9d5d67eaedc0e8362002ac940e3"
+    },
+    {
+      "Path": "src/Iris.Core/DependencyInjection/TranslationProviderConfigurationObserver.cs",
+      "GitBlob": "50fe970d4c149dd12119287800552887a997c461",
+      "WorkingBytes": 776,
+      "WorkingSha256": "8efeae79031d2d7643e3a6292d603c74c454d63e7d70568ce66f0bea10602fc0"
+    },
+    {
+      "Path": "src/Iris.Core/Diagnostics/LogText.cs",
+      "GitBlob": "05e292e552c3f88b104ffd31c8a82fdef93c9ac1",
+      "WorkingBytes": 2655,
+      "WorkingSha256": "c9ca8009501a5cc9e3d42b120feec98a65fdca1d74344bbd2702c7167d6b7611"
+    },
+    {
+      "Path": "src/Iris.Core/Errors/ErrorCode.cs",
+      "GitBlob": "f4e04c50c448bace6bafcfdc1e8ff25e51f6d12c",
+      "WorkingBytes": 2204,
+      "WorkingSha256": "c0207652911aa374b8a6c05c6dd1f51128fe3a50341d2b13c8f508745b9da25b"
+    },
+    {
+      "Path": "src/Iris.Core/Errors/ErrorInfo.cs",
+      "GitBlob": "d79cd913bd0fcef7e4c13e180a34a5fb2895f79b",
+      "WorkingBytes": 474,
+      "WorkingSha256": "d137686eb68d89d6c3167755046469e8ae33a432afa7eda7e835509466e60cc3"
+    },
+    {
+      "Path": "src/Iris.Core/Errors/ErrorMessages.cs",
+      "GitBlob": "cbc697c4cb9a759d1777509ee48e779415775d8f",
+      "WorkingBytes": 443,
+      "WorkingSha256": "2943e9694a89f65dfe572488236733cf23a130b3ab2a1574c941047a674e590a"
+    },
+    {
+      "Path": "src/Iris.Core/Errors/IrisException.cs",
+      "GitBlob": "90a8c2f87766de9962750e5c76ff9cbf360a06cf",
+      "WorkingBytes": 1120,
+      "WorkingSha256": "2fd816b9a42a2a76273d5d284ccc7ae2cdee9e4a9a754b29e0ea86c1ccc459a0"
+    },
+    {
+      "Path": "src/Iris.Core/IO/AtomicFile.cs",
+      "GitBlob": "bb3000204fabd226df5c74efd090feed6c58f633",
+      "WorkingBytes": 11096,
+      "WorkingSha256": "06eebcfa85d14003c88f92f7f9146f0c3bdacd8d82e4ce56e10bf1a3079296eb"
+    },
+    {
+      "Path": "src/Iris.Core/Imaging/Geometry.cs",
+      "GitBlob": "ef08340fb0781e6195b4ccbc5f9d8252ebb52e42",
+      "WorkingBytes": 612,
+      "WorkingSha256": "494f0079d7162faa70d24e87f53ad310da9d7eed63f323d4ce63d9f034e17b94"
+    },
+    {
+      "Path": "src/Iris.Core/Imaging/ImageData.cs",
+      "GitBlob": "86f42c4624965a32df37786b6933e19872cfe79d",
+      "WorkingBytes": 2504,
+      "WorkingSha256": "0228e6d9dd9c429dcf6874eb0848283300c257e41a1f8797cdfe72d2f5ba32f4"
+    },
+    {
+      "Path": "src/Iris.Core/Iris.Core.csproj",
+      "GitBlob": "ae66f168fbb851b9595174e057f066ddceb5aadc",
+      "WorkingBytes": 703,
+      "WorkingSha256": "def62f01de0917f694ed5e1fbf514d25851ded56acddd485869ce40b49c727d3"
+    },
+    {
+      "Path": "src/Iris.Core/Languages/ILanguageCatalog.cs",
+      "GitBlob": "71441a1a2cf3b2b112d72e867e1ec152be772987",
+      "WorkingBytes": 772,
+      "WorkingSha256": "be9b49212ffb6102d6acea89ccfca6528b5b6903c62c7414a64a0730c1454391"
+    },
+    {
+      "Path": "src/Iris.Core/Languages/ILanguageDetector.cs",
+      "GitBlob": "30ad08d6362567642ed4b990f8a92ed2062aae7d",
+      "WorkingBytes": 1258,
+      "WorkingSha256": "aebc9442d0ddd93b34563bad2afa79ae3a84f0729f1588a0985f521a2e42e407"
+    },
+    {
+      "Path": "src/Iris.Core/Languages/LanguageCatalog.cs",
+      "GitBlob": "30f08e39203c34fb9b4099ec8d335c49cf1cd9a2",
+      "WorkingBytes": 3314,
+      "WorkingSha256": "4bf556542da6b8c5688a1a8d857653e18aa1ebdfd3abb77b055a815ca89c06c1"
+    },
+    {
+      "Path": "src/Iris.Core/Languages/LanguageCodes.cs",
+      "GitBlob": "4e52d65991930913fd5c16bcc7b705e471f05aad",
+      "WorkingBytes": 866,
+      "WorkingSha256": "b0e5ca4fe5a3be13cbef171079ba36cb46806bda65a5956ec412b9853b9957a6"
+    },
+    {
+      "Path": "src/Iris.Core/Languages/LanguageModels.cs",
+      "GitBlob": "b63869b2f2854c31cdb42005eb11ec0d506a606c",
+      "WorkingBytes": 935,
+      "WorkingSha256": "238d2dadef6edc8d0d3360bc2f5e98b9c65a91c7c200b92da89fd973a795228e"
+    },
+    {
+      "Path": "src/Iris.Core/Languages/ScriptLanguageDetector.cs",
+      "GitBlob": "f994d0990c99465086756c8193ea2347d8020937",
+      "WorkingBytes": 8349,
+      "WorkingSha256": "6b7eaef44efd24e92f9deecdf288506340cff54b6e0d6c38e6b61bc290dcd308"
+    },
+    {
+      "Path": "src/Iris.Core/Languages/TargetLanguageResolver.cs",
+      "GitBlob": "a6a80358cacdce8eb5c024673e7dc7658b020962",
+      "WorkingBytes": 3744,
+      "WorkingSha256": "471f88c4b3d23ee44c3d37b60ff238ccc87cc12395cf3b9200dcc23e9b32ccd8"
+    },
+    {
+      "Path": "src/Iris.Core/Languages/UnicodeScripts.cs",
+      "GitBlob": "d47069e2ef8009914852431079242a4c8519903f",
+      "WorkingBytes": 2992,
+      "WorkingSha256": "ba8111a6ded4d60c19610bb2bd71bf78eea73accc37e31c52d42b9df16b15eec"
+    },
+    {
+      "Path": "src/Iris.Core/Localization/CoreText.cs",
+      "GitBlob": "bbb70807809e8c6f52def8ec3defd12f1273ebb6",
+      "WorkingBytes": 867,
+      "WorkingSha256": "58753b3e6a959a63a91afcb6f7592c8b65ce7974e3bc8df4f84ee9e3e4ea40b0"
+    },
+    {
+      "Path": "src/Iris.Core/Localization/Strings.en-US.resx",
+      "GitBlob": "1f7000059f247f635ab4030b6c08a7f119a3cf26",
+      "WorkingBytes": 20132,
+      "WorkingSha256": "8466d873085cff8c6ea9990782a5c40d8d511d3e4e61bab69322075b27081c33"
+    },
+    {
+      "Path": "src/Iris.Core/Localization/Strings.resx",
+      "GitBlob": "0258b8dfb858ad5de4d7f613e2e54d651ea7c52a",
+      "WorkingBytes": 19337,
+      "WorkingSha256": "c6e0ee0edea6aa65b9b6737914dd6e2a50720fe383450f09fed23c6123cc67aa"
+    },
+    {
+      "Path": "src/Iris.Core/Localization/UiLanguage.cs",
+      "GitBlob": "32c13146ffce37dfa571af2f83e030dcb5ce3dd8",
+      "WorkingBytes": 1289,
+      "WorkingSha256": "f15ec4f97fe2c2dd3a4eed7e645445aa463742653fb4046d0bca650fc564495f"
+    },
+    {
+      "Path": "src/Iris.Core/Network/NetworkAddressClassifier.cs",
+      "GitBlob": "e3337ecaf546de8306464c3595b283df022fb3ab",
+      "WorkingBytes": 1484,
+      "WorkingSha256": "720094d06c8c90fba814e00244bbb8d8beff76e13cba28fd7aec06da7dd1b7d4"
+    },
+    {
+      "Path": "src/Iris.Core/Network/NetworkModels.cs",
+      "GitBlob": "8adf2f3201a34597b83a42c38038f5b1987b9242",
+      "WorkingBytes": 3626,
+      "WorkingSha256": "62380ccfbd286c0f1f5af45fc272e503353f4d70ef039c6fa158502b397444ca"
+    },
+    {
+      "Path": "src/Iris.Core/Network/NetworkProxyCodec.cs",
+      "GitBlob": "50316e2c5817584f83f97688d1b7d243c091bb51",
+      "WorkingBytes": 6327,
+      "WorkingSha256": "95eabe28a85a7fbd963a5dcf0fa99a153f86caf1439b2c7466636c64b413a9e0"
+    },
+    {
+      "Path": "src/Iris.Core/Ocr/IOcrProvider.cs",
+      "GitBlob": "557354ff5ae727e2a69496e5ab815df57cd0cd63",
+      "WorkingBytes": 5089,
+      "WorkingSha256": "b3615692e9de51b24c317e62156edffb3ade23b15c5700da00a0a964b8074332"
+    },
+    {
+      "Path": "src/Iris.Core/Ocr/OcrModels.cs",
+      "GitBlob": "72e9c453f2caef3416b4092a1c25b34a2857c4e7",
+      "WorkingBytes": 1226,
+      "WorkingSha256": "0c00b30aadcf8ccf5822355c432a37890bdc93d00a624051330abe8748599be8"
+    },
+    {
+      "Path": "src/Iris.Core/Ocr/OcrProviderRegistry.cs",
+      "GitBlob": "a5da762c5201effd0cc1a79e52125d0d497c4b00",
+      "WorkingBytes": 20957,
+      "WorkingSha256": "780ff86a833dadf13c8567a297d12f7088ea05e9be19b1654689fa599785f810"
+    },
+    {
+      "Path": "src/Iris.Core/Ocr/OcrRegistrySnapshot.cs",
+      "GitBlob": "533068d2aa7cf58aa722ee64462ac4edc0ed0178",
+      "WorkingBytes": 5037,
+      "WorkingSha256": "f952f1354bb56ccac20f24d9b445e2d710afbf393715ac6587a8547a8c566ca0"
+    },
+    {
+      "Path": "src/Iris.Core/Ocr/OcrService.cs",
+      "GitBlob": "22221e5ba56eb5346a30bffefcd842ace44436bb",
+      "WorkingBytes": 10485,
+      "WorkingSha256": "6b492a7ed7d438e07af530f15f742bada0c973ad81c50e31f229f223f83cc4b2"
+    },
+    {
+      "Path": "src/Iris.Core/Ocr/OcrTextNormalizer.cs",
+      "GitBlob": "418da8bbcd9fe4a35ff9833e94c06fdac732ca67",
+      "WorkingBytes": 1378,
+      "WorkingSha256": "ade48a95e259fee29ae8157234f241ae6e0cb9d183c9e46e9e46ba20e6a6f762"
+    },
+    {
+      "Path": "src/Iris.Core/Platform/DesktopModels.cs",
+      "GitBlob": "b903cb9541058adfced0a81451638ef151ae7461",
+      "WorkingBytes": 3058,
+      "WorkingSha256": "db2bab0ebbcbde6c85f0eb27f420783b791161bbc9a5bd46a61257ac11c5d503"
+    },
+    {
+      "Path": "src/Iris.Core/Platform/IClipboardService.cs",
+      "GitBlob": "30f572023352fef2f026a10f8986f0d811cca126",
+      "WorkingBytes": 1608,
+      "WorkingSha256": "9cf7f4086f8a12b549a0776c2afb5cf8d3754b808d5eeb6dd17f92955c11ca22"
+    },
+    {
+      "Path": "src/Iris.Core/Platform/IHotkeyCaptureService.cs",
+      "GitBlob": "7e668fd9ec0eb38c6d3a49ba44bfc3251739a1ee",
+      "WorkingBytes": 2076,
+      "WorkingSha256": "5e1894af499ff1bff3bf0e8919731c218895889b5cf065e688f5af77d2cc1580"
+    },
+    {
+      "Path": "src/Iris.Core/Platform/IHotkeyService.cs",
+      "GitBlob": "4a3831fdcd55106e7530221bd586ee0b722bb751",
+      "WorkingBytes": 1477,
+      "WorkingSha256": "6f6b7f202c7fc0b62a7b462828312ccbe018b8cd42136b0902d3a8ec5842fe0c"
+    },
+    {
+      "Path": "src/Iris.Core/Platform/IMouseSelectionMonitor.cs",
+      "GitBlob": "7000e7eb3c5d27142acd7d1474ad17961361fdfa",
+      "WorkingBytes": 3165,
+      "WorkingSha256": "1c0c907fbd4da400aefc895971b052055a1136d7f6f0a4455b36f53ee1bf28d1"
+    },
+    {
+      "Path": "src/Iris.Core/Platform/IScreenCapturer.cs",
+      "GitBlob": "284a0c50940e8b245825b55e064352f6d25e3ae2",
+      "WorkingBytes": 1935,
+      "WorkingSha256": "ba23d013d90740f76103745f16f01d56f82acbdaed360026bf30ee00dc3456ba"
+    },
+    {
+      "Path": "src/Iris.Core/Platform/ISelectionTextReader.cs",
+      "GitBlob": "7ba0272bcbff2e676d555afc79b328e5706ed4ea",
+      "WorkingBytes": 2014,
+      "WorkingSha256": "62426ee535f53e7864250362aa0bb6fad8762d01422ac197c78f0aa0735c1631"
+    },
+    {
+      "Path": "src/Iris.Core/Presentation/PresentationPorts.cs",
+      "GitBlob": "a0daea230edaf39a1921457545a1794db82d1dca",
+      "WorkingBytes": 6731,
+      "WorkingSha256": "865f2a42709f2928c352e85490d46e4ebf38596e2334147b45290f9004e64b94"
+    },
+    {
+      "Path": "src/Iris.Core/Security/ISecretStore.cs",
+      "GitBlob": "3640fccb32b45d832c6271d1293dbd77d823894d",
+      "WorkingBytes": 1739,
+      "WorkingSha256": "76eb1442a305a066eaf4e94d71d89bd8a62698e5f9a1d0430cef4c8742fcdaaa"
+    },
+    {
+      "Path": "src/Iris.Core/Serialization/IrisJson.cs",
+      "GitBlob": "8effad682d58cff47fce94df99212b2d55fe8121",
+      "WorkingBytes": 960,
+      "WorkingSha256": "e678bf4e2b751fad45a6f07831136d64a8c03776b3d9f6f5fbefbdc1cb1f4fb3"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/AppSettings.cs",
+      "GitBlob": "54c2e5f7c9ea1b4a46fe10927c93c7594777cdb0",
+      "WorkingBytes": 10040,
+      "WorkingSha256": "3644ba060c2a7d548e1baef8886c7ab133fdc555633674745d6626aa82b6976e"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/HotkeyBinding.cs",
+      "GitBlob": "14d34b104ced5203a21dcdd798f8111781f36f3f",
+      "WorkingBytes": 508,
+      "WorkingSha256": "622ab72193a6008d100d0a6f7096bcc56a82a91a32cd68d41d113a5da5c00e36"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/HotkeyBindingPolicy.cs",
+      "GitBlob": "3fdd7b10b72ebced36a33a8d97d7344eda663d21",
+      "WorkingBytes": 5098,
+      "WorkingSha256": "509eec44d66451316f3190e91d887658d0de33d93669f38b5d90558f9814fc4b"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/IHotkeyBindingPolicy.cs",
+      "GitBlob": "df8b1fc370917406b43988705a4d6e807e1265a6",
+      "WorkingBytes": 449,
+      "WorkingSha256": "d9aa855d5d6550e732ab8a150dd221b815967bcc142d97d74a2a31779117b1b8"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/IProviderConfigurationObserver.cs",
+      "GitBlob": "a366df54233f0afb9f8dbdfab5209de7fb4a7d26",
+      "WorkingBytes": 349,
+      "WorkingSha256": "dd467920f7b472cd27223823ec8247c22815dd5d985aaf1bea806dd4de241a37"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/ISettingsEditCoordinator.cs",
+      "GitBlob": "b3800d7e2de4558184733d242f603cc78c6ca7cc",
+      "WorkingBytes": 2272,
+      "WorkingSha256": "69ee04cee194eb8feae723bb68cc54e35a3b77f7441478ecc476f31e151e238f"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/ISettingsService.cs",
+      "GitBlob": "0db855ad6ab3a750c3edacc6d4a4ac22692f30ad",
+      "WorkingBytes": 3337,
+      "WorkingSha256": "ea60af9c003ef60d0d724a52327b15e1ed65eaee82b3d69b96c204a702f02d76"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/NetworkEditingModels.cs",
+      "GitBlob": "ed7e8dbe2628402cab0745e45731ce5018834867",
+      "WorkingBytes": 1025,
+      "WorkingSha256": "23f0ce281e5dab182982638c7c1f50b6826d56eee4f9aa3ffa66d21a6e10a4ea"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/ProviderProfiles.cs",
+      "GitBlob": "3b2958e4702aa6da40f44187d10b926f45ddb08f",
+      "WorkingBytes": 7810,
+      "WorkingSha256": "7a57b3fc06ea2a4e2a502ebd61741b4b3679e0236c45749227775d5dc732d927"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.History.cs",
+      "GitBlob": "b80fe81aee20232036d3263d6ace5108679765c2",
+      "WorkingBytes": 1382,
+      "WorkingSha256": "795002f8453646f5118ce6f7e180418d7af253e1b4dc31b1369ad70dae73f11e"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.Network.cs",
+      "GitBlob": "f0b832f5cb3ea8ce2e61776518d07158d73e628b",
+      "WorkingBytes": 17132,
+      "WorkingSha256": "8ab20be33ddfe3b9d92da0899c5e6760f5daab6ee32c324a9adf5623ca5c86bc"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.Ocr.cs",
+      "GitBlob": "d1b00bafdc53e92533a63c2ada3c6c446adc2039",
+      "WorkingBytes": 12971,
+      "WorkingSha256": "173d05a1c63671fcd523a1a610fc90a68454d9d50994767a28dd8647544597bf"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.OcrDraft.cs",
+      "GitBlob": "5c5b776825bfef014cc5e3adeb553ddc6c10d5df",
+      "WorkingBytes": 9766,
+      "WorkingSha256": "dfd34475ad35cef450f6a0262ee103739845513a8cd78fcc3caa8d6002a4b7c8"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.Selection.cs",
+      "GitBlob": "2a4b913f6024fd83637c1d2939f81f0e9615d04b",
+      "WorkingBytes": 7444,
+      "WorkingSha256": "e1e81cca1a9c583368e2f2b7294db245dc726e6cc1aeb8badc56a7cdcae786b9"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+      "GitBlob": "d698a07127b6e87ae439c883ed35b7566a9ac6df",
+      "WorkingBytes": 104161,
+      "WorkingSha256": "380dd2d4b2dba63f2ae68d4d48d51fea2cc38909fa29421f4159c9857add0362"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/SettingsEditingModels.cs",
+      "GitBlob": "d9cfe73518c092985ae376ef314d9a76b1669ece",
+      "WorkingBytes": 9396,
+      "WorkingSha256": "a85afeb5e3bb98c831044cdfc3ead2aa4a2edfb233a4f8b2fbebcc0f53f5e062"
+    },
+    {
+      "Path": "src/Iris.Core/Storage/History.cs",
+      "GitBlob": "b9dee917900d90a350cfd49af7c85e4a700b14e2",
+      "WorkingBytes": 3473,
+      "WorkingSha256": "85618620c40a941c69ca8d83ac543efc803c7526860579003874420d45d9123d"
+    },
+    {
+      "Path": "src/Iris.Core/Storage/IAppPaths.cs",
+      "GitBlob": "5c66509a3fd6f8f7b20f72e3be6bbe4e43aba4cd",
+      "WorkingBytes": 471,
+      "WorkingSha256": "10d96355a169dc269e0f23e7a6c4826219d4c5e87247e00112232a67bdb54625"
+    },
+    {
+      "Path": "src/Iris.Core/Text/SoftLineBreakMerger.cs",
+      "GitBlob": "1e88f2adf7667e34ca0e557d553a4e507ef4474f",
+      "WorkingBytes": 5986,
+      "WorkingSha256": "322fb372e7340673e105da562326b47b0af2d960eb0201d65cce5b15130b035d"
+    },
+    {
+      "Path": "src/Iris.Core/Translation/ITranslationCache.cs",
+      "GitBlob": "63778a80c9258372689da069dd2b71eb6b87a805",
+      "WorkingBytes": 1814,
+      "WorkingSha256": "f6b84bc6c4247147e18f88187fac06e3edc9dce24341b6b66cf079ef6dba55fc"
+    },
+    {
+      "Path": "src/Iris.Core/Translation/ITranslationOrchestrator.cs",
+      "GitBlob": "b6c3163369086a70b023d4ae96ec96982ec740f6",
+      "WorkingBytes": 2381,
+      "WorkingSha256": "920de6d778c68cf840a2b1ca14dea68f046f1adddb98ec828c1c18bcd086033c"
+    },
+    {
+      "Path": "src/Iris.Core/Translation/ITranslationProvider.cs",
+      "GitBlob": "073a81e9039399dac6b43c39e0dbd4c05d741ec6",
+      "WorkingBytes": 3143,
+      "WorkingSha256": "c01fb0f9460b22a2c2cc022e5f7f8f02e45988d3f795648f0a05f24c5b3bc6a3"
+    },
+    {
+      "Path": "src/Iris.Core/Translation/LruTranslationCache.cs",
+      "GitBlob": "da3b3f3422dbb792404c967da69ad3481710ffc9",
+      "WorkingBytes": 8198,
+      "WorkingSha256": "8423169f07f93e8d82b4b28b3355eba546201e4f2f0839d52289ff67c3fa4654"
+    },
+    {
+      "Path": "src/Iris.Core/Translation/PromptRenderer.cs",
+      "GitBlob": "452375b23ff1d96128f944254ef3071fa0224556",
+      "WorkingBytes": 1292,
+      "WorkingSha256": "4e490d6c16ef593a1614e1dec616301b06be2984f4ac444a2ffb7f3cf776e7a9"
+    },
+    {
+      "Path": "src/Iris.Core/Translation/PromptTemplateProvider.cs",
+      "GitBlob": "ee469c2466f60bd1d1f37ef1b0fba49a204ef183",
+      "WorkingBytes": 3138,
+      "WorkingSha256": "947e7787e0aed418a9a73aca2178beb1fc47ab0778c4974b0ec695414080a697"
+    },
+    {
+      "Path": "src/Iris.Core/Translation/Prompts.cs",
+      "GitBlob": "f7475193eda79ad1557b557260bfe940dbed197c",
+      "WorkingBytes": 2611,
+      "WorkingSha256": "3512cd6f07c0854f78694f78edb7fa6d6de8aee18d45e163f5d31d1c3cfbe4f3"
+    },
+    {
+      "Path": "src/Iris.Core/Translation/ProviderCredentialResolver.cs",
+      "GitBlob": "9a9e5be7207a928c6dda557cc51ea0b66489d09d",
+      "WorkingBytes": 14316,
+      "WorkingSha256": "a0417c191ec52c57b5d6e67181cb3a1e8624215a88ff9095668ef17a7f1a55f7"
+    },
+    {
+      "Path": "src/Iris.Core/Translation/ProviderRegistryModels.cs",
+      "GitBlob": "6bf41a37db9561c590e211e5996e236eb85abb0c",
+      "WorkingBytes": 824,
+      "WorkingSha256": "fb5a09ef3ca9884c3b41d930c6985b5035d16217e5914ed61d6a29c6b3e2ff61"
+    },
+    {
+      "Path": "src/Iris.Core/Translation/TextPreprocessor.cs",
+      "GitBlob": "9be63373ba40a1e47fd0e0200652f0541c9cd375",
+      "WorkingBytes": 3376,
+      "WorkingSha256": "47486902be150505e7922c79b3e28159f4d86c5a2108190c2590f4e6044033b6"
+    },
+    {
+      "Path": "src/Iris.Core/Translation/TranslationCacheKeyFactory.cs",
+      "GitBlob": "7c6d9c0290faff30f9b0878a00d1ce9d3fe6d6f2",
+      "WorkingBytes": 2484,
+      "WorkingSha256": "6c263d3a9c951ad0c20f3e4c01c22a5a05c9ae7930c628eb05ee78270ef167cc"
+    },
+    {
+      "Path": "src/Iris.Core/Translation/TranslationModels.cs",
+      "GitBlob": "87e190ad44e48698bd20ae900e486d9cc71559b3",
+      "WorkingBytes": 3883,
+      "WorkingSha256": "ee283f8e58b7789ffb07fadf961b80cac5d078706097a9b403dde31cdeafff70"
+    },
+    {
+      "Path": "src/Iris.Core/Translation/TranslationOrchestrator.cs",
+      "GitBlob": "10be995848962b8260e1c9b6a45c9fac2c10ed76",
+      "WorkingBytes": 32284,
+      "WorkingSha256": "347c972e070134d15434b352c42990a7ae27d1a1658d4711fd27fdda8de195b2"
+    },
+    {
+      "Path": "src/Iris.Core/Translation/TranslationProviderRegistry.cs",
+      "GitBlob": "cc5cc8932ae181f03091de9b1b1aec3cf9d3460c",
+      "WorkingBytes": 23153,
+      "WorkingSha256": "cb1dce45caa74e20551cb890f1988921cfa79094ac847faf79e57aed069b4f0c"
+    },
+    {
+      "Path": "src/Iris.Core/Translation/TranslationProviderSnapshot.cs",
+      "GitBlob": "282840e1158be78fff467803155782a08ce60814",
+      "WorkingBytes": 11021,
+      "WorkingSha256": "9416785583d33ddb588ca358ae55c9649ea494f3e3a172fe2a236c60c466452c"
+    },
+    {
+      "Path": "src/Iris.Core/Translation/UnavailableTranslationProvider.cs",
+      "GitBlob": "705616473340c9182e0ce4bb4a1e5d035a2edada",
+      "WorkingBytes": 2221,
+      "WorkingSha256": "b6b93e0969a2b6f40119b49ed9b9a37fef1db7195165b923dd5c9febe2ea178b"
+    },
+    {
+      "Path": "src/Iris.Core/Workflows/ClipboardTranslateHandler.cs",
+      "GitBlob": "91b43aad5ade2f4ef5eb79635f41791e6ea0e1f1",
+      "WorkingBytes": 3779,
+      "WorkingSha256": "cfe610210b61ab9a0c275c081495b091aa2776f3488829f5e6ac431aad5f0c4d"
+    },
+    {
+      "Path": "src/Iris.Core/Workflows/InputTranslateHandler.cs",
+      "GitBlob": "92b3304dfb78488e6a8d7eda95eab31533c70429",
+      "WorkingBytes": 1569,
+      "WorkingSha256": "dc33985e73c89d358c76b78fe7ecf91aed5ed97b44d989257452d5ea104b4fa0"
+    },
+    {
+      "Path": "src/Iris.Core/Workflows/OpenHistoryHandler.cs",
+      "GitBlob": "e165260f151281043dba5903e9d579069099915c",
+      "WorkingBytes": 515,
+      "WorkingSha256": "a0af5708bbf58ef23afd848b747b15b2d8d4b4040136dbe030de47307302833b"
+    },
+    {
+      "Path": "src/Iris.Core/Workflows/OpenSettingsHandler.cs",
+      "GitBlob": "b497dfdadae412c9314af8e169ed6ed2a07edf11",
+      "WorkingBytes": 930,
+      "WorkingSha256": "12a461614b8a57aa78393d6b7b3444704989a56a682274978a2f666b3ba1b88e"
+    },
+    {
+      "Path": "src/Iris.Core/Workflows/ScreenshotOcrCancellation.cs",
+      "GitBlob": "00ebcdcc49c128b8de67491557aeda318b4f5287",
+      "WorkingBytes": 1723,
+      "WorkingSha256": "f48a384b9e502d7b818c97e2e1e7c0d1858b0e82cf85af504e58910933eab7dc"
+    },
+    {
+      "Path": "src/Iris.Core/Workflows/ScreenshotOcrHandler.cs",
+      "GitBlob": "f258c9afa6a35d215262a244fbf5832ef66fc343",
+      "WorkingBytes": 884,
+      "WorkingSha256": "837520d68ac1f670012af4c8dd976767b97608f14a28ccfc14c859e098a98abf"
+    },
+    {
+      "Path": "src/Iris.Core/Workflows/ScreenshotOcrWorkflow.cs",
+      "GitBlob": "f212be43db467883b1a3e042e1ad03fca8039d5b",
+      "WorkingBytes": 4017,
+      "WorkingSha256": "466da28aebdb4c466ae29abc44bd2d7113b16b967c38b02d8f2ff9a19209fa59"
+    },
+    {
+      "Path": "src/Iris.Core/Workflows/ScreenshotTranslateHandler.cs",
+      "GitBlob": "7e7bbe3c6c945f8785a949e3beef5d35c8ffe0d7",
+      "WorkingBytes": 676,
+      "WorkingSha256": "48bfb4c48e21697b437e661fb9aaebc40a935cbea93866f361c9fd0b2954d252"
+    },
+    {
+      "Path": "src/Iris.Core/Workflows/SelectionTranslateHandler.cs",
+      "GitBlob": "2c9bf9de5c03fd87d7f77ee156abbbcc5b166e33",
+      "WorkingBytes": 6381,
+      "WorkingSha256": "a9e7686266a02417a2ff4c3b3df7dff49543362f044622da46301c606cbe7b01"
+    },
+    {
+      "Path": "src/Iris.Core/Workflows/SilentScreenshotOcrHandler.cs",
+      "GitBlob": "da9653c3c48cc384dc73087ff4e6dc0eff19c1b7",
+      "WorkingBytes": 2454,
+      "WorkingSha256": "7bf4c4dd4c81368eb5a70cd0aa54a331c0c20b2ac25cfb88ab030b81631d7ed6"
+    },
+    {
+      "Path": "src/Iris.Core/Workflows/ToggleMouseSelectionHandler.cs",
+      "GitBlob": "16824ef09ca03f1148b7717f3010adf95d4d5b2e",
+      "WorkingBytes": 1552,
+      "WorkingSha256": "c74f552f37042645aba5560ab687a16a8359bfa6ad71807e67f05e99c8f4c26b"
+    },
+    {
+      "Path": "src/Iris.Core/Workflows/TranslateTextHandler.cs",
+      "GitBlob": "1e7aadb1be3c271f150611553607e4ea626db60d",
+      "WorkingBytes": 1834,
+      "WorkingSha256": "e7967492138db74481d26ec39f646106911190e5edf9ea0c9329d5a0284ce463"
+    },
+    {
+      "Path": "src/Iris.Infrastructure/DependencyInjection/InfrastructureServiceCollectionExtensions.cs",
+      "GitBlob": "d85005e5ecf40c0b630adf2d4f8f0b8f5569aa4c",
+      "WorkingBytes": 1412,
+      "WorkingSha256": "08377be1119ca7f25289b28478e8551f41844b494800f7951d516c988c8cd52a"
+    },
+    {
+      "Path": "src/Iris.Infrastructure/Iris.Infrastructure.csproj",
+      "GitBlob": "ccf62ae3c70e10c1adf03b052e83a11ffef5c9f8",
+      "WorkingBytes": 674,
+      "WorkingSha256": "f51c6b0fd95845da23fffbc75e182739a212a2e036eff1195be749d4bdf4b87c"
+    },
+    {
+      "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.Network.cs",
+      "GitBlob": "dbd2799408bad986000cf4604e8f4cf13f55df5c",
+      "WorkingBytes": 10385,
+      "WorkingSha256": "da2504007adfc0b3059fc6b91c3ab487e1cbf30248111dbe9bce0f0a374b0fc3"
+    },
+    {
+      "Path": "src/Iris.Infrastructure/Settings/JsonSettingsService.cs",
+      "GitBlob": "44638ad085f98b8a31a3a20bc4e051bfdf3e5461",
+      "WorkingBytes": 17665,
+      "WorkingSha256": "9709c2f5c1348e25203b995b69ea07f71c5d841fa4f6be2b656d51e7a992ab1f"
+    },
+    {
+      "Path": "src/Iris.Infrastructure/Settings/SettingsMigrationRunner.cs",
+      "GitBlob": "49191ffbf5b89b5d9ec707112c84a19ec0a5cc0c",
+      "WorkingBytes": 1954,
+      "WorkingSha256": "891f82197b304beb3783265c7c79affd1c80ee01c6abd09aa563188e91a5eb86"
+    },
+    {
+      "Path": "src/Iris.Infrastructure/Settings/SettingsNormalizer.cs",
+      "GitBlob": "8ff91add1760ce4586c91ade2746c028103d5fbf",
+      "WorkingBytes": 38117,
+      "WorkingSha256": "46c5a7c1ee58e53162c8d4b28f66e280eaea361a1c17fad7a4b41ec91bac9c46"
+    },
+    {
+      "Path": "src/Iris.Infrastructure/Settings/SettingsSalvager.cs",
+      "GitBlob": "19a09ff47cedf353f432aa69513c3d7a768fb4e4",
+      "WorkingBytes": 7216,
+      "WorkingSha256": "7aed2ff1b3a530dd281d2e11cf2e5700a5a58f160f096115226947d68253cec6"
+    },
+    {
+      "Path": "src/Iris.Infrastructure/Settings/SettingsSnapshot.cs",
+      "GitBlob": "67126a9e872555a310f49259b10001ca616ebba5",
+      "WorkingBytes": 4461,
+      "WorkingSha256": "b5505551ad6261ecb913eff519e7acd24d6ad61a5d596affa0c57fda5fac185c"
+    },
+    {
+      "Path": "src/Iris.Infrastructure/Storage/AppPaths.cs",
+      "GitBlob": "24822050d4121ef610766054c9c7c5413e653a32",
+      "WorkingBytes": 2501,
+      "WorkingSha256": "e5ec2041a0edfc7216d6a02c1d51d7c7fcac79dfb4b34de450ee05c86f893ebd"
+    },
+    {
+      "Path": "src/Iris.Infrastructure/Storage/AppPathsFactory.cs",
+      "GitBlob": "897f555b8ded5c726b7bf1a286d3f420dcb31704",
+      "WorkingBytes": 550,
+      "WorkingSha256": "634de6e952c7f81e6ad3e7ef92039845145e8d4704225f9ea49f2cb2eaf5edea"
+    },
+    {
+      "Path": "src/Iris.Infrastructure/Storage/DatabaseInitializer.cs",
+      "GitBlob": "2916f1005f78324a3fe3ccf049a6eb4cfcf4481b",
+      "WorkingBytes": 28166,
+      "WorkingSha256": "3248c6919718ea3e8e0f14565fa9b4576b256aa40edcb9b91f946c1c2488d532"
+    },
+    {
+      "Path": "src/Iris.Infrastructure/Storage/SqliteConnectionFactory.cs",
+      "GitBlob": "a3bc0c8f7ade02a994954f3e4727ed38c86ec4c3",
+      "WorkingBytes": 4562,
+      "WorkingSha256": "4b51ad757c99bacbde1280a6176a3aeb122dd393d9f883c96f9bc2f4799926b8"
+    },
+    {
+      "Path": "src/Iris.Infrastructure/Storage/SqliteHistoryRepository.cs",
+      "GitBlob": "4f43f98437846dd2b50c1e830f56b5f17941bf85",
+      "WorkingBytes": 38996,
+      "WorkingSha256": "44da753ed3c6478e056b0956183405305a7a08c3e479c344e5322b5f217e7492"
+    },
+    {
+      "Path": "src/Iris.Maintenance/DesktopRuntimeDownload.cs",
+      "GitBlob": "85fcde8741d740628f95d7e1e9c3b44a9b070712",
+      "WorkingBytes": 16028,
+      "WorkingSha256": "090ad0e4446a12ae522d75c0a89291839f2e5606ab251b0f8f7b2209089b73d0"
+    },
+    {
+      "Path": "src/Iris.Maintenance/InstallerEnvelope.cs",
+      "GitBlob": "d19f3de07e63dc84568d9f67207aeb9a07f57ca8",
+      "WorkingBytes": 2499,
+      "WorkingSha256": "717874967780241b0bb9174df979f9fb06f94dd370415fe5549f146a49035d3a"
+    },
+    {
+      "Path": "src/Iris.Maintenance/Iris.Maintenance.csproj",
+      "GitBlob": "03370be04ad8536e034e18fa5935af3d1003b022",
+      "WorkingBytes": 546,
+      "WorkingSha256": "f281f1c87d796a1bf1adf2eff38b62da8661d149242a31811336221067b95834"
+    },
+    {
+      "Path": "src/Iris.Maintenance/MaintenanceCopy.cs",
+      "GitBlob": "bc4ab813115a74c492302ca58fb63c611d802e90",
+      "WorkingBytes": 3159,
+      "WorkingSha256": "b809463aa3eb087940c00a8bbb1d44ed49730bad853c09eab25c0ffd4050ff39"
+    },
+    {
+      "Path": "src/Iris.Maintenance/MaintenanceEngine.cs",
+      "GitBlob": "57f595a84525a527f43cea4b4b8415de0a90daa3",
+      "WorkingBytes": 9267,
+      "WorkingSha256": "0bc542e560dce20b3845f418b7b5a0256eff4ad39e02768d594bf107f9aec828"
+    },
+    {
+      "Path": "src/Iris.Maintenance/MaintenanceFeedback.cs",
+      "GitBlob": "d3c48bcc9ad4695b752527030c1e74b646998bb5",
+      "WorkingBytes": 651,
+      "WorkingSha256": "f81ace4bcabd99ff05d978397b70621d97b4927f07400778236a0c97503aecea"
+    },
+    {
+      "Path": "src/Iris.Maintenance/MaintenanceResult.cs",
+      "GitBlob": "026cade01bebdc542596c841c69247c8c2dfa05c",
+      "WorkingBytes": 2298,
+      "WorkingSha256": "8f3e5af83c6b80e452c2abf6c3ce1e3722e50ba28ede1d14bf1389b25deb0d9f"
+    },
+    {
+      "Path": "src/Iris.Maintenance/MaintenanceSystem.cs",
+      "GitBlob": "f3d447e8f2b7f27ebd450f9ad67faaa1151752c3",
+      "WorkingBytes": 6561,
+      "WorkingSha256": "b944daed49acbea7f375f7c9c480597365630ff73c35c10e23cdc481a1d285a7"
+    },
+    {
+      "Path": "src/Iris.Maintenance/MaintenanceUi.cs",
+      "GitBlob": "abf03632499a5d5a575f232753ef497d36c22acc",
+      "WorkingBytes": 1650,
+      "WorkingSha256": "144ab08e551e433e770824f91bc0e5e8424d585598ad122a4c500162c5c59b49"
+    },
+    {
+      "Path": "src/Iris.Maintenance/Program.cs",
+      "GitBlob": "19fe1ae770a6adb6edd6edfc98eef44cc5ca1a69",
+      "WorkingBytes": 8389,
+      "WorkingSha256": "41aa6d0a2745ca788cdeff16a9af302789e8579d6aa3fc549fcd0a3bce4eaa2a"
+    },
+    {
+      "Path": "src/Iris.Maintenance/RuntimeInstallerTrust.cs",
+      "GitBlob": "99d973f07e5fbf7102d1cd19cbb30d1e93c6f934",
+      "WorkingBytes": 5759,
+      "WorkingSha256": "300c2fd7c2ed5af5e2a6b79e399d246bf613d1115ef7ab2c2eb40e706f331b96"
+    },
+    {
+      "Path": "src/Iris.Maintenance/Strings.en-US.resx",
+      "GitBlob": "0ce6108b01a9c8d16dabd2ec746715e086fc9750",
+      "WorkingBytes": 1509,
+      "WorkingSha256": "334b33a0a383fb865175a7672a46429bb61725147c1883d2f935a3be35cbf4c2"
+    },
+    {
+      "Path": "src/Iris.Maintenance/Strings.resx",
+      "GitBlob": "17537995a75ca9a92c6df5396bcec66b6f2e19a5",
+      "WorkingBytes": 1495,
+      "WorkingSha256": "2afe54f32aa2b0a08cd55b787a969eaa3a2a291d151409c55b8d841516009d9c"
+    },
+    {
+      "Path": "src/Iris.Maintenance/UpdateTransaction.cs",
+      "GitBlob": "10f174b84c59c732cc259c5d3a2da74827324793",
+      "WorkingBytes": 6098,
+      "WorkingSha256": "3c7071a2cefd3066ea6a60fad6eab1a83692e0ff97b942e020a18bdbb2c899b0"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Capture/DesktopContext.cs",
+      "GitBlob": "180d597806b00a29cd352b523415907503714c51",
+      "WorkingBytes": 4987,
+      "WorkingSha256": "f450010b3951fda0a01eeb7a5991d4e105c09d79f40830583fe8fd69b63a55a0"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Capture/DesktopGeometryHelper.cs",
+      "GitBlob": "96608615592f48b2a8cd98406d104adb5beeb55f",
+      "WorkingBytes": 4182,
+      "WorkingSha256": "c032e2f23b0e282380778b91bc9805b474bce28b3dd9010b69af9213259bf02a"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Capture/GdiCaptureSession.cs",
+      "GitBlob": "a91ea51865ecbc0fb4f2eaf8d2674fb29e3d5d40",
+      "WorkingBytes": 4423,
+      "WorkingSha256": "0c3693237661dbe1cc61c70959f5c63c1a2310d9b8351839e77945372962c4da"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Capture/GdiCaptureWorker.cs",
+      "GitBlob": "44b9d64412bc72261f1638396a7b18e90444fe79",
+      "WorkingBytes": 4870,
+      "WorkingSha256": "625d2a1be38ff2308a3599194a69cc33753579cb3a59268c06533e4d3daa4e8b"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Capture/GdiScreenCapturer.cs",
+      "GitBlob": "1597a6977b84c18629047ecec7f34f3b434b30ee",
+      "WorkingBytes": 6774,
+      "WorkingSha256": "3e46676e626a4d85059f3e65d6d219672a525fffd2520ef7756b16049ca88ab6"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Capture/IGdiCaptureApi.cs",
+      "GitBlob": "7486c5381b20f08fc7eeabbb0e9b75fd96010abb",
+      "WorkingBytes": 668,
+      "WorkingSha256": "36d3c45d1c267189d508a19d6fb4cdc69e1597ed9198491921a38ec03caaa601"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Capture/INativeDesktopAdapter.cs",
+      "GitBlob": "1eb799f8b4167115068bde373c95388e6cef05b5",
+      "WorkingBytes": 1347,
+      "WorkingSha256": "049508fb584ef5683f5ee8436969f3e7da17ed5a529d4b2671088a2389b9f583"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Capture/IScreenEncoderIo.cs",
+      "GitBlob": "fe6dc15473cd288252913eeebbc1ef7cf6fe18b7",
+      "WorkingBytes": 491,
+      "WorkingSha256": "e8186f94ad56bf23274994ed7296b72466d96a0bbb4ce314b8a286d34a0909de"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Capture/MonitorEnumerator.cs",
+      "GitBlob": "6ae8510fc13affad6a656ad2cb0de01cca779835",
+      "WorkingBytes": 10544,
+      "WorkingSha256": "2c64f416356d0ede34af61613e70284a0e77aa3122a15e83aa3ad59219deb50a"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Capture/NativeDesktopAdapter.cs",
+      "GitBlob": "dc43b0bae663c17ce68c3df0498f9d5dc40a6ee7",
+      "WorkingBytes": 6322,
+      "WorkingSha256": "3c87d1e93124d55d30833a061ec0fb7e37ad6ff3e8370ed0b68685975120af4d"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Capture/NativeGdiCaptureAdapter.cs",
+      "GitBlob": "8f35aaedca492c16768e3913045bf28f2b1740bf",
+      "WorkingBytes": 2170,
+      "WorkingSha256": "5f3c4f3d0774192ff604f445f20f8e3c3b267168ff21a6ca5c7a3b3f46ca749d"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Capture/ScreenCaptureErrors.cs",
+      "GitBlob": "c582b4151da6aedef489019540ee94d6a538b7f0",
+      "WorkingBytes": 1507,
+      "WorkingSha256": "9c6491e6c380299c16d152574dd4a6f505d905c1df0541068f85531c04104872"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Capture/ScreenMemoryEncoder.cs",
+      "GitBlob": "972a03f3e292cde65589c30c249dc2832b355017",
+      "WorkingBytes": 2998,
+      "WorkingSha256": "4cb64b32fa814e3931bafb60860d17ae606546a144df21dfa3ddf18dc50f5dfc"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Capture/ScreenPixelLayout.cs",
+      "GitBlob": "6beb17f4cefb5045d072b0362c5fd340bdfa55ec",
+      "WorkingBytes": 5516,
+      "WorkingSha256": "feb550ccc6441d2eef7d6b1f02f325bbd877dccd61c7e8fe5c6c9ae587d21a76"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Capture/Win32GdiCaptureApi.cs",
+      "GitBlob": "82b1fe8b597801f915a8d31f507a070425820916",
+      "WorkingBytes": 1868,
+      "WorkingSha256": "fa112a892f64ce25c13ef0cd839de76219590e0e121066c7ff4c561a6dc466c0"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Capture/WinRtScreenEncoderIo.cs",
+      "GitBlob": "3b20f867052e5ebe6fee0aa5ac0edd9ff349f60d",
+      "WorkingBytes": 2846,
+      "WorkingSha256": "604add5e365a53c77be8fbc719bb999708c79dc494d8ee97cf68328779615248"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Clipboard/ClipboardSnapshot.cs",
+      "GitBlob": "1aa451ae86ec55adf9abfba83a23b67f4c3abd8e",
+      "WorkingBytes": 2569,
+      "WorkingSha256": "1b06b0a1c57e685dfdfed3ab4d4d602e32af9eac44b842685489cfa20f093938"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Clipboard/ClipboardSnapshotService.Text.cs",
+      "GitBlob": "f0c8b218744eb0232c56dac237b6d7fa45f7e7ef",
+      "WorkingBytes": 3696,
+      "WorkingSha256": "c342c271e231307a1f5ce41e1b0d910bd23f4d404404d0061564a7154042d780"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Clipboard/ClipboardSnapshotService.Worker.cs",
+      "GitBlob": "9910a1d105d4595fd855672280ac9dc3960dc331",
+      "WorkingBytes": 12536,
+      "WorkingSha256": "f2001445823ee1f63c20120d0c0a0ae0688642b93a044e4d06997c79091010d9"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Clipboard/ClipboardSnapshotService.cs",
+      "GitBlob": "2d8a51d4af91e8b64688bedd9eaf26bef3926c38",
+      "WorkingBytes": 10554,
+      "WorkingSha256": "fd4a645b80bdb9a2c30d67b6f17ebe66e2ac4200f34f4c3316aba14e4f2c4a99"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Clipboard/DibV5Helper.cs",
+      "GitBlob": "5c29f3844c92e826558325b19342ea51f90b2684",
+      "WorkingBytes": 3680,
+      "WorkingSha256": "c60541d7c87632856fc9678bc115f5afe13c3abfedcc003209ed08957cc1f960"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Clipboard/IClipboardSnapshotNative.cs",
+      "GitBlob": "8284b79896477e4b972288687e34f5620e683790",
+      "WorkingBytes": 525,
+      "WorkingSha256": "281453e60bd3e33983793d52974bde96b415953df3aebca00e63789ccf1066c0"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Clipboard/INativeClipboardAdapter.cs",
+      "GitBlob": "cc2771b2a3307d56d5e21d331ddb305716049fa7",
+      "WorkingBytes": 659,
+      "WorkingSha256": "00a55ec797a019c42e0f609d41b769069d26cff18fb104ab03ddff99ea97f265"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Clipboard/NativeClipboardAdapter.cs",
+      "GitBlob": "018e4056e0a180d9a9b72167afe09003ed044d00",
+      "WorkingBytes": 2804,
+      "WorkingSha256": "d08e59d60cb2474c8facdc66f22e55ae6f6eab6113bbfe3239c9be3714e49e8a"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Clipboard/NativeClipboardSnapshotAdapter.cs",
+      "GitBlob": "6525908b4fc4292306f0f3e80f5cd78f39882425",
+      "WorkingBytes": 3693,
+      "WorkingSha256": "4f33bc1427bfb4503eb98cac8408efae855597651c1d0078219c5342714546dc"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Clipboard/Win32ClipboardService.cs",
+      "GitBlob": "0d6b948e2c24d99847d2a5f19a530fb7baf9df3f",
+      "WorkingBytes": 23082,
+      "WorkingSha256": "781985bffbd8b1e99ecefb01536677edd9804548fcf15a75d5f42f2fd8350190"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Clipboard/WindowsImageDecoder.cs",
+      "GitBlob": "4ddd7d28f028010fe34b7e35911b45fa32bf92b2",
+      "WorkingBytes": 6138,
+      "WorkingSha256": "553fbcc993529a127041ee9d7ad1b51cc453c3ebd10e42078999209e5c5091da"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/DependencyInjection/PlatformWindowsServiceCollectionExtensions.cs",
+      "GitBlob": "617d3f6b1c0288a94eafb53fbe92c39e620deb59",
+      "WorkingBytes": 4083,
+      "WorkingSha256": "e97c787dbcb149674dee177aac18a24b485c366f203297118a45640b6287958c"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Hooks/GestureRecognizer.cs",
+      "GitBlob": "0c1a7844bd8d028e011561725ff13dcf9946960e",
+      "WorkingBytes": 3233,
+      "WorkingSha256": "421c380cc8bb7d5b1bcab8477e1bd4ed1f9063bc02b6396816cf59e51c7c5b15"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Hooks/IMouseHookApi.cs",
+      "GitBlob": "9435e3f0f041111386a7b83a18ab21723f5995cf",
+      "WorkingBytes": 1571,
+      "WorkingSha256": "18ec2cf5ac68a5ce5411e2547ffd6d3854cadec439bc30cc75ffa98ba8f11863"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Hooks/MouseSample.cs",
+      "GitBlob": "667ecffb8065bd885d8efb18daa108f0de592823",
+      "WorkingBytes": 1042,
+      "WorkingSha256": "c22e99d17f9a85ee3ea02a78ee598d105d4e9b983bc0fb28ce1bb298b73215d5"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Hooks/MouseSelectionMonitor.Consumer.cs",
+      "GitBlob": "c9e628336df670957594f64509dd831ad78513a3",
+      "WorkingBytes": 7256,
+      "WorkingSha256": "4b206b906c31e20b2354e7836c33afaf6bb5805a6c44dd7da00ce5a857d0315b"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Hooks/MouseSelectionMonitor.cs",
+      "GitBlob": "2eb4482c60506025e2be15569ea45b3c8cd6dcfc",
+      "WorkingBytes": 15958,
+      "WorkingSha256": "ce26af499861568b37423cdef991cd1e02830194cf20be43c139161cb8620275"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Hooks/NativeMouseAdapter.cs",
+      "GitBlob": "d233f6f99018c4de8055d47c93b8d579d43ccc95",
+      "WorkingBytes": 3192,
+      "WorkingSha256": "c66d728f6c550ae80629e7af7cb56bd48ba1ef6ff7a6a7a0435130dd124827a5"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Hooks/Win32MouseHookApi.cs",
+      "GitBlob": "66b69262db3a8108bca1b27357c8f312edd6bb16",
+      "WorkingBytes": 2514,
+      "WorkingSha256": "39b894a4844cbe673665382027eb0b2f94e9b9eb0f4e4c7bc5ea6eb318888e46"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs",
+      "GitBlob": "fb7d2bb530f40a89cb131bfc95a5f5825524c7c9",
+      "WorkingBytes": 14897,
+      "WorkingSha256": "bf4bf72a3885c0ae25f5745cbd1c8684c8a4a249b5974cb14d695d81d781bc34"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureSession.cs",
+      "GitBlob": "9d8b72387f6ce018a15aa81da9078baf888664a2",
+      "WorkingBytes": 23034,
+      "WorkingSha256": "fae455cafd9249172b40dc3f3b8eeefedfdbf0de55647a03fb12d04cf94a218c"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyService.cs",
+      "GitBlob": "12976e7c10552464e0b58636d575035ba13a6fd0",
+      "WorkingBytes": 15430,
+      "WorkingSha256": "f4feffc31d7b9f51e4e747eb4ef496a1781d48cf7cf67334dce5266fde8ebd73"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Hotkey/IHotkeyIdAllocator.cs",
+      "GitBlob": "35eccb3532e3db3f7f37c92ba8149e95fdfb5176",
+      "WorkingBytes": 1009,
+      "WorkingSha256": "40e0f82b8d59ef81171dc61d5c486f65d8b79b7633b6433e60656be3a4202a73"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Hotkey/INativeHotkeyAdapter.cs",
+      "GitBlob": "4008a2981953662fee8d0648c51c52d5d87b5c1e",
+      "WorkingBytes": 834,
+      "WorkingSha256": "3af569c68e88abf4653fbdd89d37b44cedade5fa0628cc992a64e12e8c7ea63a"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Hotkey/INativeKeyboardHookAdapter.cs",
+      "GitBlob": "3afd92a3d3e64aa994450cb8aa2af2d8056a61b2",
+      "WorkingBytes": 1117,
+      "WorkingSha256": "c15d1d4a7c26ab0a97f985cddb339b381f2d95a61681b9912b65bb0acafa36de"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Hotkey/KeyNameMapper.cs",
+      "GitBlob": "0fb0ae48c9be163b92b95175f13739822df89411",
+      "WorkingBytes": 6298,
+      "WorkingSha256": "011737d6ad22a75977adb52d55402c08bc65250e26e33d8a4ea3a74643951f3c"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Hotkey/NativeHotkeyAdapter.cs",
+      "GitBlob": "a04d080257bb52819ca8a4e585f3a0ca79cc6927",
+      "WorkingBytes": 4080,
+      "WorkingSha256": "fabbbabc4fb263f5ec7bdcf6ab717f0a36a762dbe5c1126cd0d3e345902b9749"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Hotkey/NativeKeyboardHookAdapter.cs",
+      "GitBlob": "4f37dbdb7148f9a51b615369be58b3857cd22003",
+      "WorkingBytes": 3826,
+      "WorkingSha256": "11ca119a72a03ba38b239a391dd9fbd0068c57ec7132dd2f5227a33da49fb9b5"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Imaging/FormUrlEncodedImageLength.cs",
+      "GitBlob": "0362a53d5ebc0de769dcbaa7793f904d0bee9283",
+      "WorkingBytes": 1331,
+      "WorkingSha256": "58f0a06f4dca3f092db491f5e5e8c1631f040591f19512e1e74b0b659cc7bc34"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Imaging/ImagePreparationRules.cs",
+      "GitBlob": "29690a04351dfa57d32e11e87967629a937ca73d",
+      "WorkingBytes": 4312,
+      "WorkingSha256": "65eb19f087a4565c696a214a95e0b816c2648ec30c71d032d99fe0d1f06cffca"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Imaging/WinRtImageDecoderIo.cs",
+      "GitBlob": "2f4a6ff149a1133fd9113f37ebdbdc9a0cb757df",
+      "WorkingBytes": 3428,
+      "WorkingSha256": "6dac9f12aaaa5864696d824ceccd56fdf7cf10f87d33f395327193a209f33e15"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Imaging/WinRtImagePreprocessor.cs",
+      "GitBlob": "e87e459c3866211cd527e5198fad25890c7d07f1",
+      "WorkingBytes": 13044,
+      "WorkingSha256": "cb1c2580aa31f21e5fd6f1fb24735b9fd486e047fdc99f736b084dfe58b70657"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Iris.Platform.Windows.csproj",
+      "GitBlob": "7456291b2e7eee3344970f51dbacbc2be06ba973",
+      "WorkingBytes": 1207,
+      "WorkingSha256": "54203a1318f1ad48fe3dab5fb3bcc60a2c066e78b9f54615f1e0610c4f75e333"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Maintenance/MaintenanceGate.cs",
+      "GitBlob": "42ca1a3dd90c97117d1421c80c236bd9d7120f5b",
+      "WorkingBytes": 3377,
+      "WorkingSha256": "ccd0361ed30cd543a7255420f2d90c55ab293a9c810203107797577640f52d71"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Maintenance/MaintenanceProtocol.cs",
+      "GitBlob": "957b60d1615688ac263e2ac2143065c490143deb",
+      "WorkingBytes": 2528,
+      "WorkingSha256": "25c497f713983469aaa94e01518b1047851742224279f5b9b7356186fe0ab4e7"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Maintenance/MaintenanceRegistration.cs",
+      "GitBlob": "f1e3d43acb98f09e5933511d5dbc2920a928696b",
+      "WorkingBytes": 2026,
+      "WorkingSha256": "9e84f6b42245d542de7d6a627d916a1724f84fef765ed05fdd3bdde29d54371e"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Maintenance/MaintenanceWorkDirectory.cs",
+      "GitBlob": "3180a74f3592d9be6aeea7e1d055af42d63e2bf9",
+      "WorkingBytes": 2749,
+      "WorkingSha256": "6d3a4af63bf95753d1f3973645a6d6748542ba582d7da72be9e301b3770946a0"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Maintenance/ReleaseIdentity.cs",
+      "GitBlob": "375c01ce0bdebe8c92738d42b1ab10e28b10af73",
+      "WorkingBytes": 4938,
+      "WorkingSha256": "870214835c38d3e5a2aa90828f964ea86d933e28d944880fb5e750078b9cfbf4"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Maintenance/ReleasePackage.cs",
+      "GitBlob": "c0f06bcce19bbb6f62ac102af6b25245718e961f",
+      "WorkingBytes": 3190,
+      "WorkingSha256": "971a2c308a763bc9a2a110d742140b1060e05011be4b8ffedd726b167e4cfce4"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/NativeMethods.txt",
+      "GitBlob": "65a5ebc2ebc6c1aaa48c6da0e811877ecbd0e896",
+      "WorkingBytes": 1692,
+      "WorkingSha256": "1151e9167f2c4e3dd56b9ee5ca0e9e44243b77efdc6e75dcb7736dc1bbf67f81"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Ocr/WindowsOcrCall.cs",
+      "GitBlob": "722ad5a76f7f1a7f9a3b57f92b9559c3f198b6a3",
+      "WorkingBytes": 3231,
+      "WorkingSha256": "096631332d1fd5193c294edb9e1596394623b2d10d23ccf406138fac28a4526f"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Ocr/WindowsOcrImage.cs",
+      "GitBlob": "6b463e2a74ea9e04794ac90e2001b299ce3eea15",
+      "WorkingBytes": 3120,
+      "WorkingSha256": "425371791aabcdd8ba025ebb0b22986782747b6e0325d9ffdf4065a82032394f"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Ocr/WindowsOcrNative.cs",
+      "GitBlob": "6030dcb0c18a570eef3f43470d5078e2bbe456c7",
+      "WorkingBytes": 2716,
+      "WorkingSha256": "b0499d947af0228fcb1c8a2fcc73ceddf4393c68cccc8582c27c0f9734a7245c"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Ocr/WindowsOcrProvider.cs",
+      "GitBlob": "710344387062cf5f3ada4e0f91399682f88eaefc",
+      "WorkingBytes": 14120,
+      "WorkingSha256": "77efcbfb885f6eade2acac97c7253d3a2a3828c22bad85ec1d77ef83f110eb12"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Ocr/WindowsOcrResults.cs",
+      "GitBlob": "cbc6dab1cb9c6d735e11b94d5bd212d28470613d",
+      "WorkingBytes": 4627,
+      "WorkingSha256": "8b99a21e3d81a1ea43f7c814bf1a523b4cbdf527c00a45c69852827d5562fcef"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Security/DpapiSecretStore.cs",
+      "GitBlob": "05cbcfa2f6391de4092a5e8fc7b49aafaa0883ad",
+      "WorkingBytes": 9392,
+      "WorkingSha256": "d2b0a08687178e8c1e3764bbafda6c6e22f76cb8394164d148cb12f2a78ed95a"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Security/SecretsFileCodec.cs",
+      "GitBlob": "034b09a4161350ef4becf0c4cbf95129a65607cc",
+      "WorkingBytes": 4709,
+      "WorkingSha256": "f81a29cb79087faa6a92a993c49de2276b86f1abe145ba7d1cc2b0df2df35fb3"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/CompositeSelectionReader.cs",
+      "GitBlob": "dbcb8b8cbe2abd0e0b38409944d84886599abfc5",
+      "WorkingBytes": 16362,
+      "WorkingSha256": "ed775744cd7d2c3f3b0feb9d3592c3b1da854e9c78b7fdfaaaf8f95d63b0fe00"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/CopySafetyPolicy.cs",
+      "GitBlob": "f9ebc0029682199168c7267e1adb1286f6138287",
+      "WorkingBytes": 2397,
+      "WorkingSha256": "4b78e012a3c6d3189efb425ce6f67853ed18ac5fd2cdeb7d770c1886c0253a57"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/INativeKeyboardInputAdapter.cs",
+      "GitBlob": "fc796acece22875229261ac0e4ba6f2d46e086da",
+      "WorkingBytes": 580,
+      "WorkingSha256": "7ab49ef39822d762e9e4dd6d11ec932469c5da606e9bd012753131eca7e4667d"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/INativeUiaAdapter.cs",
+      "GitBlob": "34fb863039e258d656d0489f56f6d89c219131a5",
+      "WorkingBytes": 989,
+      "WorkingSha256": "de074e6d2f3bb47114c006533159296d808868cfc86e03d8699a09294240c269"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/ITargetWindowValidator.cs",
+      "GitBlob": "6e9ca1d88ea5874554d62b61195263e3b26771f8",
+      "WorkingBytes": 411,
+      "WorkingSha256": "31fc69c51d9baf9b1d2743c2ae1722e1e3c30368f0e1c710d72a9610bf053da3"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/IUiaProcessRunner.cs",
+      "GitBlob": "c93c10b265136805cf826efee270aad5183aca82",
+      "WorkingBytes": 515,
+      "WorkingSha256": "ca8bd5283228f606980cf7809ff8e6431e4dc95a59b8801048c8dcd86835831d"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/KeyboardCopyOutcome.cs",
+      "GitBlob": "177feae10b8fdbb434611299f7f5715e96e3f09c",
+      "WorkingBytes": 728,
+      "WorkingSha256": "64d96969bddc284993149faa124c15949a21111695cb1add508b6deb0398fdf5"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/KeyboardCopyResult.cs",
+      "GitBlob": "10e1d242062fa2a7f29454501af65931a4fff033",
+      "WorkingBytes": 274,
+      "WorkingSha256": "fcf12a1c2187148e1b2a80f9598ea5049b771cd469e51ad3bcbe8a8b2ad6c047"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/KeyboardCopyTarget.cs",
+      "GitBlob": "845880a1d48adc917b3b41b4271a544e4f66f235",
+      "WorkingBytes": 322,
+      "WorkingSha256": "f3d73da7f0cc27dc5e876f62aeb44a65255be592a28d97df3ba0ecedd2863473"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/KeyboardSimulator.cs",
+      "GitBlob": "bd8ce4243bf5f929731c2d1926ae831447700582",
+      "WorkingBytes": 22461,
+      "WorkingSha256": "4581ecf7c4d4d21cf7cedd96c98b4ebbd7aa724d0fd6938c4b93935cf1878d1f"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/NativeCopySafetyAdapter.cs",
+      "GitBlob": "541cc80b9e74037ef0a353c352215ebc0f863926",
+      "WorkingBytes": 2558,
+      "WorkingSha256": "b959be88b43bee1d201889a013a231e43d506704f1335dd34d1719ea38130d9d"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/RealNativeUiaAdapter.cs",
+      "GitBlob": "85ec0645698bff4f947544f66bdafa4b6a1c69bc",
+      "WorkingBytes": 20105,
+      "WorkingSha256": "8d363f24205bb26e31d4391b77bfc23b3bfa7d5f6e632bd985eeb666ab1582af"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/RealTargetWindowValidator.cs",
+      "GitBlob": "89a2fe2918c5fc0064f53ea7c282b2092d8af361",
+      "WorkingBytes": 1143,
+      "WorkingSha256": "5daad2904ab8253206732f680b5957a3fba25f017bd38114c8764a62fc98aa17"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/RealUiaProcessRunner.cs",
+      "GitBlob": "b0903db7a7b79936e4d743ce740d43da47c7bded",
+      "WorkingBytes": 17105,
+      "WorkingSha256": "79bafc601f6e0baaaaa758e894f6ec91e596e83907ab19d7f17dd39c5fb7ff22"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/SelectionReadOptionsSnapshot.cs",
+      "GitBlob": "d1e19624f8825856bb1413513d15634b5e159cac",
+      "WorkingBytes": 1735,
+      "WorkingSha256": "cacee2a4defbef0e9205c87d018bf5dfb4eebd01e9a888ecc1698d3cd88cdc8e"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/UiaProtocol.cs",
+      "GitBlob": "7451b409d24484b15d96ff8ba024c48491c346ab",
+      "WorkingBytes": 15552,
+      "WorkingSha256": "149b20d7aa20065a3585c1e5410548ffc453d04626c44928baa501eb6b3a46fe"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/UiaSelectionReader.cs",
+      "GitBlob": "4e9dba9362a34eb4de3fa5eef0d85b8d4155bb19",
+      "WorkingBytes": 32496,
+      "WorkingSha256": "59dfc0a095a23bf59c3f929bbae74d45500cd777646700dbfa4344197f0a9995"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/UiaSelectionResult.cs",
+      "GitBlob": "e04da6dbb02b40b97995fa24e6ab55463568614e",
+      "WorkingBytes": 2889,
+      "WorkingSha256": "954bc69a5897dd546331f6659461032537c2f7563fbda0a63f5e692bd471c8ce"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/UiaSelectionStatus.cs",
+      "GitBlob": "eee24c5f829de9b270eaabf53bb707e862048620",
+      "WorkingBytes": 405,
+      "WorkingSha256": "d5426612d238c58a11b8eab51b36835ec82e88b3a0227a03b70d550a01dd0c7b"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/UiaSelectionWorker.cs",
+      "GitBlob": "b3dbb164b8d3fe4e2552c70ee00417ee594ca964",
+      "WorkingBytes": 12346,
+      "WorkingSha256": "1cafe26cc2017128cef56c0de61f17166f61abdee617f893988bd87166fd636c"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/Win32KeyboardInputAdapter.cs",
+      "GitBlob": "e73664ebbe2dacb7a31f4d45017567e0834d01dd",
+      "WorkingBytes": 1782,
+      "WorkingSha256": "9f792ab72cff82e6b871e0f867d0b2e6fc57ee56d11d26fad549338ebf63d213"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/SystemIntegration/AutoStartService.cs",
+      "GitBlob": "987e0108128c5a911ddd024e5bc00da15ce81d7d",
+      "WorkingBytes": 7559,
+      "WorkingSha256": "d8b5905de0d3cdabc9a8e90e01e2239b19ea9027d6a0e0ec7f231cb1e7bb775c"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/SystemIntegration/FatalErrorDialog.cs",
+      "GitBlob": "e1229c714f322c6b30a0b4f1b747327d268450b0",
+      "WorkingBytes": 779,
+      "WorkingSha256": "9d506e64a62de4539ca4ddc4f9c11688a9c57bf6a9b765677d58ba017d106072"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/SystemIntegration/IpcCancellation.cs",
+      "GitBlob": "56c10c76e7149c8e1bc8700eab728c632c53d08d",
+      "WorkingBytes": 1541,
+      "WorkingSha256": "095d2699da9acfd5e32113f481574edf73e5be3cb502d7dc76de2b8474f6b501"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/SystemIntegration/IpcPipeFactory.cs",
+      "GitBlob": "9fbab59f6c6c61f359056527f06df3d8deff2710",
+      "WorkingBytes": 3190,
+      "WorkingSha256": "66af4136b70fe12a8c798e833c5d5d924ce250170173b5f2256024aabd1cfbf0"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/SystemIntegration/IpcProtocol.cs",
+      "GitBlob": "c834d4c0b1991d796f0bd9dd813a608c669c8ca7",
+      "WorkingBytes": 5649,
+      "WorkingSha256": "b23e19b42734b7385adfc89284001ac9275337dfd6778fd987d22db1acba3ef4"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/SystemIntegration/NamedPipeIpcClient.cs",
+      "GitBlob": "aa5f0a0839dc19e264d085fe942aea2b56468ee4",
+      "WorkingBytes": 3008,
+      "WorkingSha256": "0840c027fa1e217f35db116497b8b124c2077fdb5cb24e21321d023c70f566a7"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/SystemIntegration/NamedPipeIpcServer.cs",
+      "GitBlob": "1dacbbbf88cdd1ee0e8887dcc94da8dccd5ba381",
+      "WorkingBytes": 5656,
+      "WorkingSha256": "aa932140ab8767981753bb0d16628e114ec60689aa3f6259a0684cdcdce4abfc"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/SystemIntegration/SingleInstanceGuard.cs",
+      "GitBlob": "5903a85084e67ed4ea49438182a5299d859a3ca9",
+      "WorkingBytes": 2312,
+      "WorkingSha256": "3a9b2c064f0f43bb640f517987a02867cac5b90b7d40e8117807b8baa6f27fa8"
+    },
+    {
+      "Path": "src/Iris.Providers/DependencyInjection/ProvidersServiceCollectionExtensions.cs",
+      "GitBlob": "81cfa7640aadd68e3775340727b982547cdc7a11",
+      "WorkingBytes": 6533,
+      "WorkingSha256": "fb6fa850cae9715ed2a5e1feba0b31b5ef49d72cc52faeef69bd0fc3fc4f4d93"
+    },
+    {
+      "Path": "src/Iris.Providers/Http/DynamicWebProxy.cs",
+      "GitBlob": "2fcc0a43cf59686a4885200241a369656883ba5c",
+      "WorkingBytes": 305,
+      "WorkingSha256": "955effb24b0873085093d4f090937c2cc6c2cdb540388567f2c8b29ea7064418"
+    },
+    {
+      "Path": "src/Iris.Providers/Http/HttpErrorMapper.cs",
+      "GitBlob": "ccffe665213d22b53474a613496dee08a17a5651",
+      "WorkingBytes": 11989,
+      "WorkingSha256": "718ebded3584ef80940d8a09e468e51d0d762bb8434c7fa90f93ed69c13d920f"
+    },
+    {
+      "Path": "src/Iris.Providers/Http/HttpLoggingHandler.cs",
+      "GitBlob": "a50e05f605c835c213c71e3a38e873e3c409f412",
+      "WorkingBytes": 2003,
+      "WorkingSha256": "c0e37bf09a0d901a67ecf87c9b44829c9063946552b940fc8edd8b4b4ce68dba"
+    },
+    {
+      "Path": "src/Iris.Providers/Http/LimitedReadStream.cs",
+      "GitBlob": "9e41608cd20f0a2caff0f8404c3033388d90d210",
+      "WorkingBytes": 3456,
+      "WorkingSha256": "b2bd42f4e9e92432617553b82bff20bc55859651a9e378601f9be579e7f85e4b"
+    },
+    {
+      "Path": "src/Iris.Providers/Http/LlmRetryDelay.cs",
+      "GitBlob": "27abd51e2eb9a223eb91a1a413615b05da187ba4",
+      "WorkingBytes": 1069,
+      "WorkingSha256": "bd0d0b526d542ad9fe9e21730fb2a703de03b6e26fcf279e99e672aedfb6dda9"
+    },
+    {
+      "Path": "src/Iris.Providers/Http/NetworkHandlers.cs",
+      "GitBlob": "bddb4db4f8602d24f2f3c5d5db86d327ff3cd70d",
+      "WorkingBytes": 2801,
+      "WorkingSha256": "8508fff6246e5f4b0eb0161e4a3640e6deae8322a909fdfd4d854e19c486d7bf"
+    },
+    {
+      "Path": "src/Iris.Providers/Http/NetworkResponseContent.cs",
+      "GitBlob": "571f1610d892aba430c257b59aa0db3f649b2a2e",
+      "WorkingBytes": 10100,
+      "WorkingSha256": "b5f610aa0c6629485bbec297d3603c2ef52ddcc38d01dd84ee74e4c92b4c3087"
+    },
+    {
+      "Path": "src/Iris.Providers/Http/NetworkRoute.cs",
+      "GitBlob": "f33cb7d2ee22e12cf9df97a0b2b79d941844e97b",
+      "WorkingBytes": 6864,
+      "WorkingSha256": "66f02521d9d967a8b72056a4334498f47a86e838da1c7fed5062b3104283d579"
+    },
+    {
+      "Path": "src/Iris.Providers/Http/NetworkTransportManager.cs",
+      "GitBlob": "b73ceffbb5059c0526460ea120bc768ab963ec7f",
+      "WorkingBytes": 13857,
+      "WorkingSha256": "2d5934ca1c638f9eb3d3db4e8b61000b7492031f335099f27ca3c4cfab77b4c0"
+    },
+    {
+      "Path": "src/Iris.Providers/Http/ProviderHttp.cs",
+      "GitBlob": "322be33acf100b7350f0942e391c4c2e32db29ef",
+      "WorkingBytes": 1595,
+      "WorkingSha256": "d7b7e623db45dcd91fdaf775f9ada82f7cd09da7a36418a4d17f8ad0402f5340"
+    },
+    {
+      "Path": "src/Iris.Providers/Http/ProxyConnectivitySession.cs",
+      "GitBlob": "37760498346bbc548770ce36f945a2b09a877384",
+      "WorkingBytes": 10975,
+      "WorkingSha256": "30b9768a2eaadc42cfd695bb4e659aa7e8b0886607363d5b0d1c1e13dfb9a2d7"
+    },
+    {
+      "Path": "src/Iris.Providers/Http/ProxyConnectivityTester.cs",
+      "GitBlob": "777599589e1e83dfa3e0cd5f02bd00f4e9c3e107",
+      "WorkingBytes": 5153,
+      "WorkingSha256": "16d82e9454c3f727a5be8170ae78d60cebb1bfca9c3499848b1c48db9eb7146a"
+    },
+    {
+      "Path": "src/Iris.Providers/Http/SafeHttpDiagnostics.cs",
+      "GitBlob": "8391ba10dc7f4d7141a6e6a7f57b5169e8556faf",
+      "WorkingBytes": 6239,
+      "WorkingSha256": "97e831eb1d277cad4191af2fa91df95647fed27cb155e8d4a7469ce327326918"
+    },
+    {
+      "Path": "src/Iris.Providers/Http/SecretRedactor.cs",
+      "GitBlob": "5b81064e8adefb9aa06cd7e1f84eda4c2f190079",
+      "WorkingBytes": 4093,
+      "WorkingSha256": "e6717d3262a3f32a7df3c79a2c0f7af871569df9712cc093261b53926fc97992"
+    },
+    {
+      "Path": "src/Iris.Providers/Http/SseParser.cs",
+      "GitBlob": "061824d4b39a87d60eaf2def9e55260cb0228552",
+      "WorkingBytes": 1657,
+      "WorkingSha256": "7c6ff7dcb60de7b6e3d4eab3bf15e23268f1f1565f048da3ae949ae02da5f41a"
+    },
+    {
+      "Path": "src/Iris.Providers/Iris.Providers.csproj",
+      "GitBlob": "1ca8e23d611a9202ccf2c6a2c90ca8ac322aa1c8",
+      "WorkingBytes": 823,
+      "WorkingSha256": "93cc4659527b98dbf782ad35649bb8710e8d3118ddd5c6a2f9ffc31f075f7b2d"
+    },
+    {
+      "Path": "src/Iris.Providers/Ocr/Baidu/BaiduCall.cs",
+      "GitBlob": "5f72b775cc0b12c55a34768bb5fa1d1c6c66abac",
+      "WorkingBytes": 3497,
+      "WorkingSha256": "7e500af83f44b0917af246567d5e9a261c8eef364d4aeede2283b1d84794ff03"
+    },
+    {
+      "Path": "src/Iris.Providers/Ocr/Baidu/BaiduConfiguration.cs",
+      "GitBlob": "63a8223655c0417d18235f80e146c7424b0c2fe2",
+      "WorkingBytes": 5673,
+      "WorkingSha256": "62ebd7bbf354e943429931091d28e8f8842e0d596f3a36517c3d573c2439b1af"
+    },
+    {
+      "Path": "src/Iris.Providers/Ocr/Baidu/BaiduErrors.cs",
+      "GitBlob": "8d32f5e24c86e3f34ff9d153adc961c0f71c02dc",
+      "WorkingBytes": 2491,
+      "WorkingSha256": "3ec658562ae2bac69c8501c66f40b972fff1f32ea2d8ffa4e8865225ef08807c"
+    },
+    {
+      "Path": "src/Iris.Providers/Ocr/Baidu/BaiduHttpExchange.cs",
+      "GitBlob": "e709c30b4e04387437df2a0b78ee7cbcd5b48a7a",
+      "WorkingBytes": 4443,
+      "WorkingSha256": "86ed5f0a2ead64042a847411fbee66346de297257f21bb1f7e4e79128fb8f50c"
+    },
+    {
+      "Path": "src/Iris.Providers/Ocr/Baidu/BaiduOcrProvider.cs",
+      "GitBlob": "3370e2f8cc159d693fcb30b16da21ce14fe00b87",
+      "WorkingBytes": 11973,
+      "WorkingSha256": "283e7747b55489ddd13dbb37d21e7615cbf5d22152a175feeeeb4c4c5219a7c8"
+    },
+    {
+      "Path": "src/Iris.Providers/Ocr/Baidu/BaiduOcrTransportSafetyHandler.cs",
+      "GitBlob": "262a0c349361b758ea981e52c24106bb4085770d",
+      "WorkingBytes": 1702,
+      "WorkingSha256": "abefdab718089150dd36d2d29413cf48fe3427a6ef6b896c520b8f41400209b4"
+    },
+    {
+      "Path": "src/Iris.Providers/Ocr/Baidu/BaiduResponseParser.cs",
+      "GitBlob": "48ea0d0aca36df869a9c342627d2810374654a59",
+      "WorkingBytes": 9590,
+      "WorkingSha256": "ac675dd23a0bcb07cae64e30a82ad19af5eb1071476c15410472986818845279"
+    },
+    {
+      "Path": "src/Iris.Providers/Ocr/Baidu/Wire/BaiduDtos.cs",
+      "GitBlob": "e3430616395cd486cade41348ffadcad3dceb799",
+      "WorkingBytes": 5065,
+      "WorkingSha256": "c65302e0e7301193be604b5c35d6ee1a73ca9e5fb269fc507bc2af1930302f3b"
+    },
+    {
+      "Path": "src/Iris.Providers/Translation/Anthropic/AnthropicProgressTrackingHandler.cs",
+      "GitBlob": "0c8e68f2359fab65bbae6768f209503762b4dc06",
+      "WorkingBytes": 2084,
+      "WorkingSha256": "54fb806edcabe9fe9f2942ce183fd244bb263257a44cafd1b342fb39eb6bd2e2"
+    },
+    {
+      "Path": "src/Iris.Providers/Translation/Anthropic/AnthropicTranslationProvider.cs",
+      "GitBlob": "5bbeac681866fc3a753528791133a35d6ad807ca",
+      "WorkingBytes": 20991,
+      "WorkingSha256": "ea031c052a4f0de3fa534ca89b83a28e3b3a69234504f7900c0914cbd8cd7723"
+    },
+    {
+      "Path": "src/Iris.Providers/Translation/Anthropic/AnthropicTranslationProviderFactory.cs",
+      "GitBlob": "d6c15560e70ccac2f8db1840ff47cc0c6661f363",
+      "WorkingBytes": 2356,
+      "WorkingSha256": "afd4ab0b9f6635ddbbb7c930a2edc17be6727a226202dd4ba735430eb64af8a7"
+    },
+    {
+      "Path": "src/Iris.Providers/Translation/Anthropic/SseEventBoundaryStream.cs",
+      "GitBlob": "0aca52413d72ef472993845895cfc88b63851d2b",
+      "WorkingBytes": 4016,
+      "WorkingSha256": "b6994563cf0721df08ad6301c6627099f9ce7d3cffdf4e434f73a96aff7c8a63"
+    },
+    {
+      "Path": "src/Iris.Providers/Translation/Anthropic/SseEventBoundaryTracker.cs",
+      "GitBlob": "fdab5b52137c05c6bc9706553a6b4e1bd14c7ed5",
+      "WorkingBytes": 3975,
+      "WorkingSha256": "23cabb4213fc176805472487b9ff9f18040931819e6c865717c7d760d15e6f07"
+    },
+    {
+      "Path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProvider.cs",
+      "GitBlob": "94dd673efab7987e883cca9fb27e1d5e5829510a",
+      "WorkingBytes": 23692,
+      "WorkingSha256": "d2f4736675c9f7c34553f0f5e1e9084635764066288ad73702eddc8e9f95ddfa"
+    },
+    {
+      "Path": "src/Iris.Providers/Translation/OpenAICompatible/OpenAICompatibleTranslationProviderFactory.cs",
+      "GitBlob": "58e0904d48f9c547a3db0a5fd6fa26f832aa5635",
+      "WorkingBytes": 2360,
+      "WorkingSha256": "42c2b000c9f59b669ad63d9f6e76aa3b677be0a807304680b0d04281f7b7997b"
+    },
+    {
+      "Path": "src/Iris.Providers/Translation/OpenAICompatible/ThinkTagStripper.cs",
+      "GitBlob": "3c9fe038ddb949643ce3f5a40580d8841b79449d",
+      "WorkingBytes": 5470,
+      "WorkingSha256": "6093123975f8991b54e19e7187c4b4f3fd6feac28911de6beb3c9ca28aadf07f"
+    },
+    {
+      "Path": "src/Iris.Providers/Translation/OpenAICompatible/Wire/ChatCompletionDtos.cs",
+      "GitBlob": "1a8cdaa9fc6d387e90e88b68dcd0d21c94b41775",
+      "WorkingBytes": 4754,
+      "WorkingSha256": "eedfb1d92fd6db28d3d6ab7076e3a3f3b66aeba36a0e2a2c9858ec8f46a4cdf8"
+    },
+    {
+      "Path": "src/Iris.Providers/Translation/ProviderCallGuard.cs",
+      "GitBlob": "6c63f6a8094c1dd6127463fa0403a5b9da6a82fa",
+      "WorkingBytes": 6954,
+      "WorkingSha256": "0163127ff57eeff3cfbac69abc5c2edb93d3fb6ae688fd163b1d958bcf09ea3b"
+    },
+    {
+      "Path": "src/Iris.UiaHost/Iris.UiaHost.csproj",
+      "GitBlob": "dea043b68f1e2f45431604a340c911484d2db37c",
+      "WorkingBytes": 683,
+      "WorkingSha256": "932a0e6b6311f5e6c73d1c39855e27ba7f3e222bef68fa7dda6815aa4efcb3e7"
+    },
+    {
+      "Path": "src/Iris.UiaHost/Program.cs",
+      "GitBlob": "74cd709884b2f598cb8264cb36dbf2c35fd45d2a",
+      "WorkingBytes": 2935,
+      "WorkingSha256": "51c837189edc4fa7866d3ca12ce763cb19b4dc434a39ba8cb1b19a001bcf8b26"
+    },
+    {
+      "Path": "tests/Fixtures/hotkey-edit-expected-vectors.json",
+      "GitBlob": "008024c123156935c46b970b2459fc56155b62c0",
+      "WorkingBytes": 663463,
+      "WorkingSha256": "07fb8beac11e768cde2029e6a0cb8ac4f46a52f2f1f53365cbc8f1541dcda329"
+    },
+    {
+      "Path": "tests/Fixtures/hotkey-expected-vectors.json",
+      "GitBlob": "a597211fab7da81bdca67c4cf6f380b8b99f7100",
+      "WorkingBytes": 162182,
+      "WorkingSha256": "5ae162867a50a563cbb06bdbd10560efcd317dedf1b699d96838cf194ce3e48d"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Capture/ImagePreprocessorShutdownTests.cs",
+      "GitBlob": "0f846039c1abb188b78e74a28946b2ddb763e021",
+      "WorkingBytes": 5134,
+      "WorkingSha256": "e6559940d9820ce7e958a090e3be90edbe73dc2bbaefe7d9ae392bd695434dc2"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Capture/OcrPipelineShutdownTests.cs",
+      "GitBlob": "df3ef974068a7828b261c46e7a52b29ba8483be5",
+      "WorkingBytes": 8256,
+      "WorkingSha256": "356cae50e7cbfb37b6830ca5c4220791bc8e32333471477902bbe7ccf90efa8c"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Capture/PreparationShutdownTests.cs",
+      "GitBlob": "b484c9b8110c68e3edad4a7950bf471f99571c0d",
+      "WorkingBytes": 4157,
+      "WorkingSha256": "f01cb07865a54208c6c58fae5b2305b915a6dc709751a174b36697452e098daa"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Capture/PreparationTestScope.cs",
+      "GitBlob": "7cdb07f7b274b3553e901d2c3c4f0da920d9682c",
+      "WorkingBytes": 6877,
+      "WorkingSha256": "a363f6fb93a145531aea5bc252401f6b2421d9955c2f7bb2c2da6328a8187d46"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Capture/ScreenshotBoundaryTests.cs",
+      "GitBlob": "7eae708aa42e8618e3c8eb430da9937882fb5534",
+      "WorkingBytes": 9523,
+      "WorkingSha256": "ebcfb866b544451d0ad3fbcacae361d82e9fd9c6c1b9b0ea2f9110643db0338f"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Capture/ScreenshotInteractionTests.cs",
+      "GitBlob": "1df9caa5b8e669bfd326b1b9b5f1ae0e1affb934",
+      "WorkingBytes": 7156,
+      "WorkingSha256": "1141e0224556018ee24a0df3d87b9d554076795e9f51399797c7818f88515f54"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Capture/ScreenshotLifecycleTests.cs",
+      "GitBlob": "366be95462244d0706ade5b8122677e1dbcd8399",
+      "WorkingBytes": 9151,
+      "WorkingSha256": "123261e19debd951429043cfe81f23364f692a7fba2fb2540a0a36865c9a89d6"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Capture/ScreenshotPreparationR1Tests.cs",
+      "GitBlob": "6ccf3ab2bf9e43dbab743441d8470cc5844532ec",
+      "WorkingBytes": 8683,
+      "WorkingSha256": "7563defcbf5af6cbadb66818404590d3a652f1c3bcb7341c0b8b423f503bd4fc"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Capture/ScreenshotPreparationR2Tests.cs",
+      "GitBlob": "f85adf0563a91c644ffeb87956562bd46d607566",
+      "WorkingBytes": 7456,
+      "WorkingSha256": "f10e08f2552068215985147f450043627149e5f1cb9903bc2707b5f9a6daa69e"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Capture/ScreenshotPreparationRaceTests.cs",
+      "GitBlob": "97f06741ed75a1de485541d6ff10c0864637a929",
+      "WorkingBytes": 17037,
+      "WorkingSha256": "94ebd0184062f108d38bd66719f9856bf1e2699d2bdb3dd2a1a11e06b05a9117"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Capture/ScreenshotPreparationTests.cs",
+      "GitBlob": "64b093032d3ac78a5b9b940fb908132e8228fbb3",
+      "WorkingBytes": 9614,
+      "WorkingSha256": "0a70693d11bd1d54f02351b46fe9644fa378f451955a34b57c2450f696c3bed7"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Capture/ScreenshotR1RenderingTests.cs",
+      "GitBlob": "886c3c7e7c15d3fefe8645d2534d18111856b50f",
+      "WorkingBytes": 6577,
+      "WorkingSha256": "a2feabd01a66e13203b5728b6519e44b21b49eb6a5bf3549b4ae9a4b16fa96c1"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Capture/ScreenshotR1Tests.cs",
+      "GitBlob": "b68a5e0fb74edd1444b863ccee11fecf0913a99b",
+      "WorkingBytes": 9842,
+      "WorkingSha256": "23b65c3764ad5f3756c81ae48291f7c491e0f4ca6b4d8827b79ac00cf474865f"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Capture/ScreenshotR2Tests.cs",
+      "GitBlob": "4a22055f23e989a4988b3c8bc7085ee4b4ff7b0f",
+      "WorkingBytes": 3769,
+      "WorkingSha256": "4ef9490300c359e61fff98309e4b50d5efc8104ca24ff4d543ea483f11db51b5"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Capture/ScreenshotRenderingTests.cs",
+      "GitBlob": "1da18ea612b398c66448a44db142da59f3142381",
+      "WorkingBytes": 4734,
+      "WorkingSha256": "a119b0cbeaad23abe319d5f3fd21c56a15f717276e5075841184065cf6701499"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Capture/ScreenshotShutdownTests.cs",
+      "GitBlob": "28ec2ef4ce131840636621f06dea581f44fb5fa1",
+      "WorkingBytes": 5686,
+      "WorkingSha256": "509dfecc8434acf3fa46ffb7841f7b78ec68450f76e9e3beb9d1924b2cf56a8e"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Capture/ScreenshotTestScope.cs",
+      "GitBlob": "5ddbbc6af45bfb451e55dad4435aa8f437340a16",
+      "WorkingBytes": 10250,
+      "WorkingSha256": "5330639a27ac6e08ab717629b18d4cd609f053dc26c23c53668bd77d4ce3df87"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/History/HistoryLifecycleTests.cs",
+      "GitBlob": "7d9faf2290e462b77ad839f12a550356f9f46287",
+      "WorkingBytes": 14405,
+      "WorkingSha256": "5ed7dababc7209dd572e1dd42353c1886de4a51f67c20b21ae0be3d6f9a37fed"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/History/HistoryRenderingTests.cs",
+      "GitBlob": "de363f96ecb0b6bc6a1faddea61e01c8eba2cf74",
+      "WorkingBytes": 8073,
+      "WorkingSha256": "2b8fa5c6aee7977cd99db41389e1ab2cdcfdfdd324fb0c682164645a64ba0f58"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/History/HistoryTestScope.cs",
+      "GitBlob": "077e4cc894a93b954fff8a22e26e5d3206de2b90",
+      "WorkingBytes": 12945,
+      "WorkingSha256": "531be272059b652ab2b861f4649577cae072f8498545dd8eb01fab0c5e36fe4d"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/History/HistoryWindowTests.cs",
+      "GitBlob": "ee8897517dc8f837027b44bb6035f66709c39f48",
+      "WorkingBytes": 9515,
+      "WorkingSha256": "9c0df7630146f8c983b2810496a28714ba5c7f9cde036adb1809f889d2afd747"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Hosting/ActionDispatcherTests.cs",
+      "GitBlob": "21b21ed36092a634d0ae33d18d58713b65990f5b",
+      "WorkingBytes": 59799,
+      "WorkingSha256": "1ed269948775a3d80f15416bdfe5d3258811e35ee08c68ce9e84b3c19e09334f"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Hosting/AppBootstrapperTests.cs",
+      "GitBlob": "c53a76449b29974655430355997f571bba219d6e",
+      "WorkingBytes": 49432,
+      "WorkingSha256": "ec5e9cc815c38078b491770f9b6a778c8437ac75702dfa6a13d0971d2db56749"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Hosting/AppHostBuilderTests.cs",
+      "GitBlob": "82834ba836fa66539209badf8cc2192bcd0877ee",
+      "WorkingBytes": 15685,
+      "WorkingSha256": "f449ba3a4f2f9402f43e9df608852c8e16c00f674533bd13cc1144e4eccf3316"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Hosting/HotkeyCoordinatorPauseTests.cs",
+      "GitBlob": "9ff1e5f8fd9dcf3d523e0908cc0bda2de932054a",
+      "WorkingBytes": 35477,
+      "WorkingSha256": "f2649d0b43fc9e04eada45d5e7480ada1e2d66eec5672d747355ce9637498bba"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Hosting/HotkeyCoordinatorTests.cs",
+      "GitBlob": "7be4beeaa2be66fb8eb8360c272b7c32b6c0d9be",
+      "WorkingBytes": 57586,
+      "WorkingSha256": "377636ca314d9cc82385792b92a073a2d78d6efb13f600322e4f38574a521a30"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Hosting/IpcIntegrationTests.cs",
+      "GitBlob": "9a9eed692af83ff4f44980ab280025cf7a04e0b8",
+      "WorkingBytes": 13376,
+      "WorkingSha256": "a7d5485f2ae49548d81cbf1c2e6d58a506de720d4d6243e46d594d14a56c1290"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Hosting/IpcStartupTests.cs",
+      "GitBlob": "d1542a9299e941c896c651d7b87bed096c824929",
+      "WorkingBytes": 9526,
+      "WorkingSha256": "122a9a14aff051e3010c9c56913586a1624e98f05e726a02468d2c53242a8548"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Hosting/IrisLoggingTests.cs",
+      "GitBlob": "a9e86cee4f98a593028f39ac211516470adc3a2d",
+      "WorkingBytes": 2917,
+      "WorkingSha256": "436b634512f45738cac748ca73cac538e7bd7ec5cafcb3a178317660eccaf90f"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Hosting/LogLevelControllerTests.cs",
+      "GitBlob": "9fa51ad50b18c6da045db97d90f680fc96368a96",
+      "WorkingBytes": 2758,
+      "WorkingSha256": "082c22f0d1a167788bba4e390b56ecea21311a00e9c97ac1fe4fd22c315a3f01"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Hosting/NetworkConnectivityHostingTests.cs",
+      "GitBlob": "9b8586e418f42f8955f238783b908b8cd438f3dc",
+      "WorkingBytes": 6926,
+      "WorkingSha256": "ea9fd016c67c1f5f5d29a8cf1ae85b499d6ed300ffb9b163fdc31e8d947ace57"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Hosting/NetworkHostingTests.cs",
+      "GitBlob": "38d61972a73c539206df1f46c646c7e52c3e9cf4",
+      "WorkingBytes": 10159,
+      "WorkingSha256": "1cfc126133dcac519266701b866a3affca2f09280931ee7bf5a242bc9fa2c075"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Hosting/NotificationThrottleTests.cs",
+      "GitBlob": "e9a2ca48322fdcab3918c6683abc54fd6830d5e3",
+      "WorkingBytes": 1331,
+      "WorkingSha256": "ac91d83ec6cffea4f303233ddcc91c8a431b480d73e4dbda788312a421d3fe38"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Hosting/OcrRegistryHostingTests.cs",
+      "GitBlob": "c6183be6835f2e4cfd2bc1fe74f99effd7e6b5af",
+      "WorkingBytes": 9079,
+      "WorkingSha256": "241b9a6aaba4db112a6f43caa77e9cd1c1572b33785c3969aeba425c82b60edd"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Hosting/ScreenCaptureShutdownTests.cs",
+      "GitBlob": "107d7e7e5db25efdc077fb507192fd11fb9fdb38",
+      "WorkingBytes": 7028,
+      "WorkingSha256": "86d09fae49c8db71ddd7c86002e3c441bfe23a50067d09c252f6c71863de9433"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Hosting/SelectionShutdownTests.cs",
+      "GitBlob": "4f552f0010cec2be0de29d0898c0f6906d2511b3",
+      "WorkingBytes": 8522,
+      "WorkingSha256": "608eaafb8e4e92d485661dda8880788611b04ca37e0907ce51c38b4177b8f88f"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Iris.App.Tests.csproj",
+      "GitBlob": "658912779af65c81b91aa671df7c5f3d27c5abea",
+      "WorkingBytes": 3443,
+      "WorkingSha256": "d081f68d2b80f846c63bc3cbeead52757162deca44b9336292fccf19ed4428db"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Localization/LocalizationRenderingTests.cs",
+      "GitBlob": "5ed3939a85429f7e6686cea8c9854684c88ab1ea",
+      "WorkingBytes": 17782,
+      "WorkingSha256": "d4cade9f48e41cc6116fe494985babfb12070faa6a579fd02ca31e2774312643"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Localization/LocalizationTests.cs",
+      "GitBlob": "35ee91a89718decf6ce3249fd4345bf186a944f0",
+      "WorkingBytes": 20813,
+      "WorkingSha256": "cc99339bbe3825e5bfdf641ee5c26bb479b3d26e79035dc8fa6c97649f33ff75"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Localization/PrimaryLanguageLifetimeTests.cs",
+      "GitBlob": "bc8ba0340822727b547399864879c76120e68f14",
+      "WorkingBytes": 3155,
+      "WorkingSha256": "ca5193a69063f5317bf278a463e1862065be33768a74a0223fca26a808c7ffcd"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Ocr/OcrEntrypointScope.cs",
+      "GitBlob": "fa3307a8bdc8640d8865755daf36de7ad0584ac6",
+      "WorkingBytes": 7220,
+      "WorkingSha256": "5b05f93f5ee4638df24ada2fe6e63db7afacd9fcbb9228ef40a07caefa340f39"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Ocr/OcrEntrypointTests.cs",
+      "GitBlob": "51e30e6b642e4cb90febea14731a52491c76d2ab",
+      "WorkingBytes": 14322,
+      "WorkingSha256": "625b05b430aea21cc9492e437b67f993153d220e52f001395528588e18f6f914"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Ocr/OcrLifecycleTests.cs",
+      "GitBlob": "d33955d24523a73a8f90cf6ac7703bc1ce02dd42",
+      "WorkingBytes": 9779,
+      "WorkingSha256": "55caed29ca3e4baed2cfb1bfc4a4daf25718dad124db6f757ec5ba51b05f4cce"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Ocr/OcrPublicationTests.cs",
+      "GitBlob": "2909b5ad56779d48dba8d937a7abc424cf0719c1",
+      "WorkingBytes": 8513,
+      "WorkingSha256": "d9fcb2273f40f52254ebb3f7a60d4f26e8a1c0beff19d7b033fbf399c64e54de"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Ocr/OcrRenderingTests.cs",
+      "GitBlob": "f8ffa87c876bdcbce1f86148bb00909f9595e650",
+      "WorkingBytes": 4940,
+      "WorkingSha256": "9ddec025aca5417293a3d68909c54be0439277c7fd0951c885b87023ad0b9eb5"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Selection/IconDeadlineTimeProvider.cs",
+      "GitBlob": "ae1d4f52a8609c5c9897ebfddb80ad18a16bcb57",
+      "WorkingBytes": 2068,
+      "WorkingSha256": "1c74821146caafac953638f7eb4bd9423831786c29104bffb5d00dde697f3e71"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Selection/KeyboardSimulatorUiDispatcherTests.cs",
+      "GitBlob": "dc411cd002130a52346249a2a30588b09f9fd7bc",
+      "WorkingBytes": 21110,
+      "WorkingSha256": "90f7bf2e1897e1dd0440a0e5ccab4e9357af4f9bb355fb5127a124fa14fc293d"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Selection/MouseBootstrapperTests.cs",
+      "GitBlob": "ab7926f86da583e601fa2cd53fc389c143dd3251",
+      "WorkingBytes": 4241,
+      "WorkingSha256": "400cdfed084b73edc1a61abec3923c6ad5630d48a934846ea0d859e21edca4ba"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Selection/MouseIconGeometryTests.cs",
+      "GitBlob": "6e071818a22d955ffb003a28f5def6036a6ba0de",
+      "WorkingBytes": 1402,
+      "WorkingSha256": "e07c654aa79098a4ff5c2c0ac77be6377b534eca8b4c5a36119cc4a6c4855b5e"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Selection/MouseInteractionTestScope.cs",
+      "GitBlob": "193533af55ac4672db7a1e3374e5af538c513338",
+      "WorkingBytes": 14801,
+      "WorkingSha256": "eb6eb74353de6f63dba466a64816bc2357cfb7ac9e5341220635e60f3aca9936"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Selection/MouseInteractionTests.cs",
+      "GitBlob": "d38bc4f7a0396781b3058d730af48d8ef4674650",
+      "WorkingBytes": 12947,
+      "WorkingSha256": "de00109fd19969f8e6cc5c4f6ea8c82c8e7b3146ba64d1b01bb1e47b23a7a45d"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Selection/MousePartialShowFailureTests.cs",
+      "GitBlob": "00a8cde8c564a638cb954cdae36e840e78077edf",
+      "WorkingBytes": 13223,
+      "WorkingSha256": "1c484ad2cca35c8787d4512af522232cc468138221cee129159ad823e16b8140"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Selection/MouseRenderingTests.cs",
+      "GitBlob": "746f823321536a37cbc49796a7516d7a009f71c1",
+      "WorkingBytes": 7893,
+      "WorkingSha256": "215ab3cfeb510eb931f78066976b6edf1ac51ae551656a64ea45e8866ca9c7bf"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Selection/SelectionCoordinationDrainTests.cs",
+      "GitBlob": "0623dd54838513a13161d05fbe120bc50b1243d2",
+      "WorkingBytes": 10325,
+      "WorkingSha256": "a203f0038a14b59103936fb4fc8c94b542ee3569832ac61ed2a0586eb556cf82"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Selection/SelectionCoordinationIntegrationTests.cs",
+      "GitBlob": "2130eec1ebdc9d1278e651054c770c4ffee38bc2",
+      "WorkingBytes": 11265,
+      "WorkingSha256": "f47664a73d1b6e9331f2bb1c4386ce142b328de56407bd29a52157ada5927e4d"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Selection/SelectionCoordinatorTestScope.cs",
+      "GitBlob": "20b66f437e760d2293fd5e6bb30438475ea98008",
+      "WorkingBytes": 1334,
+      "WorkingSha256": "d8099852324c07d5f82cd87548db62d5ee1f79f95f65285bcd2a2a0688b88290"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Selection/SelectionReadCoordinatorTests.cs",
+      "GitBlob": "094951069fc49e2dd066db7d20ba6109f2c2361c",
+      "WorkingBytes": 13050,
+      "WorkingSha256": "0368860757f5c6d43e2dd643f9d20c548202d7d001d1972e40e4552f49231e3b"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Services/GeneralSettingsSaveCoordinatorTests.cs",
+      "GitBlob": "e4c34a4f5549eb595fb5d0d34076b3625440ae79",
+      "WorkingBytes": 14189,
+      "WorkingSha256": "38412dfb4b63cd101e1f4a7bece199bf89816abaeb24ee6ef5da93c89b76e921"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Services/ThemeServicePreviewTests.cs",
+      "GitBlob": "a1698101e3bd7ae7843ff63a803d7eb5617631d7",
+      "WorkingBytes": 8790,
+      "WorkingSha256": "8851e0145cd3de7b82e0163bcacd65217c69468e6d631b98007df740ecdb8a25"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/HistorySettingsUiTests.cs",
+      "GitBlob": "58c2de6a7bd460bf44459f74d1dd560abc95965e",
+      "WorkingBytes": 5404,
+      "WorkingSha256": "c34af8b38724afb9af01d0977b5e8cfb921c6ffa02b4bf98dd91bb84573c3d9c"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/MouseSettingsUiTests.cs",
+      "GitBlob": "b3d62dbb8ee0b32c6ab531fa0fb5aedc76a7a838",
+      "WorkingBytes": 5310,
+      "WorkingSha256": "62788e301b2a67e0b76273dbbcde60cfe264dadf65629ed67125115b5df825b2"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/NetworkSettingsFoundationTests.cs",
+      "GitBlob": "62d77e96a2be0d4ffd874a3fd754f51346b2b339",
+      "WorkingBytes": 7944,
+      "WorkingSha256": "6c35a049e699eed97c5447ee1c33c998bae3293f171d49c0ddea1fb20877fcfb"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/NetworkSettingsRenderingTests.cs",
+      "GitBlob": "c99537c5f34eff39820c1c32853d3a84f6541dfd",
+      "WorkingBytes": 9204,
+      "WorkingSha256": "1c65ee623595eb9680c5e7145c562cbc11dcf9cd0073e55e1d94c58ef5775ed5"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/NetworkSettingsUiScope.cs",
+      "GitBlob": "dbc374dac1d43f57b15320932e1fda11f2953755",
+      "WorkingBytes": 12473,
+      "WorkingSha256": "e9ae09550a39b9d2783801dde07739660eeefe43b02593ba71cb9d15436a22bd"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/NetworkSettingsUiTests.cs",
+      "GitBlob": "7bd574aee9c096068426df0baa447b9da8409cf8",
+      "WorkingBytes": 17582,
+      "WorkingSha256": "92921a7f78d91e6e39778630b7633f5648f3a9a9063fd2edd195f4a8f7ee7eb9"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/OcrSettingsLifecycleTests.cs",
+      "GitBlob": "0c8d7eec7080d9f963739a51ce6d87b69b27e56c",
+      "WorkingBytes": 13947,
+      "WorkingSha256": "bb7fe3f8ae935ffa042528c060e02c52f354736bd730401c62b03dbe8b127097"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/OcrSettingsRenderingTests.cs",
+      "GitBlob": "eacb89584e1b72c468e8f0507ee8613d5fc39a19",
+      "WorkingBytes": 9088,
+      "WorkingSha256": "d3aebd5987b555faf555e8b85726058318f4f13bf690bd69bcd342804a011c9a"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/OcrSettingsUiScope.cs",
+      "GitBlob": "ac7946211f0da7fc62dba865026b4954c2db2902",
+      "WorkingBytes": 11449,
+      "WorkingSha256": "1d4f8b6f565cc3c6a60cf264297e2737e3c20fd609c75f42f238b7d196290309"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/OcrSettingsUiTests.cs",
+      "GitBlob": "9715e0c097a76bc9446506b4d590593f0d6c2575",
+      "WorkingBytes": 15529,
+      "WorkingSha256": "020261ac33038ef86368b5ae5b988a8566efe31b71bca97f4987571f28564b4c"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/SelectionSettingsPersistenceTests.cs",
+      "GitBlob": "72e99d6735d4468566b054050cb6b38fd2acc4b5",
+      "WorkingBytes": 2774,
+      "WorkingSha256": "e8a26b8578a174bf2ac5c851fa451c0b40e56c4d418a6923e91159a142c46094"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/SelectionSettingsRenderingTests.cs",
+      "GitBlob": "a37a9c193b95a0a6d3e4bf6fd8473ba01a8b90b8",
+      "WorkingBytes": 5482,
+      "WorkingSha256": "277ee6b69d9a67a3ea5a72ca751facf9a81c57a94aab3434b82bf1dc2a2b53fd"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/SelectionSettingsTestScope.cs",
+      "GitBlob": "b1559ac256ea4578454284e0eae959279c324de5",
+      "WorkingBytes": 11514,
+      "WorkingSha256": "545724d640d527d4bf9cd1a409f524dbf459f28cae91bd2421bce1e48e4f2ffb"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/SelectionSettingsUiTests.cs",
+      "GitBlob": "13aa8033f4a01e1f43c2debaf90af6f1b4145753",
+      "WorkingBytes": 13583,
+      "WorkingSha256": "8a4ab612aecaf3b71767f4fd9bd915ef1c6cc885f32c4e7dd5fc83d598fafd25"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/SettingsDraftAndSaveRegressionTests.cs",
+      "GitBlob": "ade432c7fbf3440ed2c2fd02b5001afeb9778229",
+      "WorkingBytes": 98989,
+      "WorkingSha256": "cf870bda8e72e5db2553871ade9b2a64b09809ff6016855aa10b3e950793b28c"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/SettingsDraftOperationQueueTests.cs",
+      "GitBlob": "cbf51359b8919786ec0a82832c1102fcdf636e65",
+      "WorkingBytes": 6867,
+      "WorkingSha256": "1bd8f42281cdf12be2ee342706627bb4a2afde701820bd9fc89a06e7741f6f93"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/SettingsHotkeysIntegrationTests.cs",
+      "GitBlob": "c2361ca0af2698c03817b0d2b2018b331953354a",
+      "WorkingBytes": 98251,
+      "WorkingSha256": "044a69379285057767227b25ba146573da79a0b7091f272136fcd3d3267bd9b4"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/SettingsReceiptManagerAndRetryTests.cs",
+      "GitBlob": "e960a5a0bc26ab30310ed29c72102cb412c6a75b",
+      "WorkingBytes": 5689,
+      "WorkingSha256": "08211a993cac218ffbed65e4fe70986ce30369024aa4fac4ca12cc845e9d5180"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/SettingsShutdownWithPendingOperationsTests.cs",
+      "GitBlob": "2f15be71ba15db18463186afaed5c5f47cfbf240",
+      "WorkingBytes": 5593,
+      "WorkingSha256": "712b9e562d012cdb08625ec154aee6966217b8edac0a2ddba4d7d1dc433ccf88"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/SettingsTranslationSaveIntegrationTests.cs",
+      "GitBlob": "6ca526902cdbb569ff2dc3d56c2f34f38a389cb3",
+      "WorkingBytes": 18836,
+      "WorkingSha256": "5afc8b580d74d9602d623f33a07d97713fecae3835a9c93ab90584ae6a29b4ea"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/SettingsViewModelTests.cs",
+      "GitBlob": "d6768652de51ac8b6ad893a63a0676d05f26dcf0",
+      "WorkingBytes": 37464,
+      "WorkingSha256": "45746fa7a9cd9cedb050e2429e99c70dfd6b4800e1026142deba03af3576f16c"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/SettingsWindowPresenterTests.cs",
+      "GitBlob": "ea6bf976156645e3d90e02464fa8c3cf15b6bfcb",
+      "WorkingBytes": 72227,
+      "WorkingSha256": "2382f84152d3db0c76c3029a1ac1880f19850a85c73e94af76d0ce5b251e28cd"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/SettingsWindowTranslationUiTests.cs",
+      "GitBlob": "4b34d8fe66492a2b730eba5b1f07cfe6803d4507",
+      "WorkingBytes": 21207,
+      "WorkingSha256": "20eea9ee79733ed078e5beb39a9562f3f9ce1c34117e713e76057955b4cb6ef5"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Settings/TestSettingsEditCoordinator.cs",
+      "GitBlob": "4433b28304b8ccc89d553e9beef9f6bdafad25c0",
+      "WorkingBytes": 5061,
+      "WorkingSha256": "56d7da5900a677903579c30a52fff2eb649828eba5eb9b817997bb87396b52c1"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/TestSupport/AppShutdownerSharedStateCollectionDefinition.cs",
+      "GitBlob": "f93404202b3ac830bc44b4dadebf34e71aea143a",
+      "WorkingBytes": 514,
+      "WorkingSha256": "21c76fb0d36bd8b9561ee0bffbd9822e6e15bd4ebdaec92d5a7927df510f6cba"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/TestSupport/FakeAppPaths.cs",
+      "GitBlob": "3588ffce09f07665275be1ad5bbdb0caca6f7e5c",
+      "WorkingBytes": 553,
+      "WorkingSha256": "c5926a965cc7b4c8fc2186df7c7f893795f64e566ea9417c171322e36b5be998"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/TestSupport/FakeNativeHotkeyAdapter.cs",
+      "GitBlob": "b26110239167b66bd7e9b7282c75ec1452fa59a1",
+      "WorkingBytes": 2297,
+      "WorkingSha256": "aff75b96e36d225a84dde4f84b0117c5a649627deede4a83ac5f3bdcbb558dfd"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/TestSupport/ImmediateUiDispatcher.cs",
+      "GitBlob": "db3ca0355129bc8a08c3382c4c5364cb352036e4",
+      "WorkingBytes": 361,
+      "WorkingSha256": "c9de99306e032da389bd7b8013565a4cd9655acd79e04197716941804ff95544"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/TestSupport/IsolatedAppHost.cs",
+      "GitBlob": "2fe2f0e953285dc56ccaa9def96ca8bb22ee2e03",
+      "WorkingBytes": 866,
+      "WorkingSha256": "3a969c2f40deb5fc2b3049038bc8e62ae19d19046bb4b206dd64c157d72b2a1c"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/TestSupport/OwnedCleanup.cs",
+      "GitBlob": "91660710d33c13be37b759c2d236fbff52d472d9",
+      "WorkingBytes": 4154,
+      "WorkingSha256": "4e377a43211873fda57225770d9952ee4f121d182afc2bf6c6eade8fb3eded25"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/TestSupport/TempDirectory.cs",
+      "GitBlob": "2401a8229ce4acb7cf049f202bab2bea9838f208",
+      "WorkingBytes": 625,
+      "WorkingSha256": "feb99feb2d4368bb8e4f9c8ac0dfbe52256ba0a74829057cdcde3505168ab642"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/TestSupport/WpfTestAssemblyFixture.cs",
+      "GitBlob": "5fbff4fe2570ef525e0b31150c7b3c981ae6b714",
+      "WorkingBytes": 485,
+      "WorkingSha256": "d36b9c0db9c8bec968e2ef6988bfc8138b5df4b36e950876f3a40920e2523a2c"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/TestSupport/WpfTestRunner.cs",
+      "GitBlob": "80f36d01f9fac57f7a9ee7089fd84c2253d44bf6",
+      "WorkingBytes": 6702,
+      "WorkingSha256": "43c5d43ad331f396690908a0578c7e75b92d97c3046159f21cae22f9d8668d80"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Translation/TranslateWindowIntegrationTests.cs",
+      "GitBlob": "73b100d62128e3922e1af78f233b4ccda91dc126",
+      "WorkingBytes": 68934,
+      "WorkingSha256": "324f3a219a4008a4a0fdd1997a33c25ec22196ba7d33bb5bab63bec437285c2f"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Translation/TranslateWindowOperationTests.cs",
+      "GitBlob": "d86458d6863e30e99bc7d0164b8fe507c0911297",
+      "WorkingBytes": 12586,
+      "WorkingSha256": "99798b89265399e35af1da058ffa369679c68b1deff149bb13a3bbd0df7dae92"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Translation/TranslateWindowPlacementTests.cs",
+      "GitBlob": "27ff1348d5858169f3c4f1bd365aa3b22a30f237",
+      "WorkingBytes": 8811,
+      "WorkingSha256": "fb62e73f75af4ab8f85cfe75699ed5ef9e1099fd4124878a343b5103da533bf8"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Translation/TranslateWindowPresenterTests.cs",
+      "GitBlob": "fc87d2b8ff934f6026aa83b3a215c8aff7331fb5",
+      "WorkingBytes": 36716,
+      "WorkingSha256": "08c6f40f7da8f794f230734b744de88bfc73f729d78b2dc67a6a469a2d7e9617"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Translation/TranslateWindowUiTests.cs",
+      "GitBlob": "5c2e7675825259b7248a6d970e56f7f1e4652e25",
+      "WorkingBytes": 15522,
+      "WorkingSha256": "caaf912424141622ec987c012b38231682aa28765c510834d377a49674616c7b"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Translation/TranslateWindowViewModelTests.cs",
+      "GitBlob": "24c7bc28fd13cfb4597c39bcea7611dcb314376f",
+      "WorkingBytes": 65370,
+      "WorkingSha256": "38b9ad6536eb659dfcb1d690ce3835d1d938ab720100eb799999c33e7031458e"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Translation/TranslationOrchestratorIntegrationTests.cs",
+      "GitBlob": "780380eb6c6e77f035b7123b3daa261db3f510e6",
+      "WorkingBytes": 16102,
+      "WorkingSha256": "92e4bbe1e162d26644de59d49ec3a93b873c8226c58d19a705a90da00ec9968f"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Tray/TrayCreationRetryPolicyTests.cs",
+      "GitBlob": "c6bc35d0288893100512af4a94261e144e62713d",
+      "WorkingBytes": 1208,
+      "WorkingSha256": "2d9b41a69e5c9da2b76089bdf9386c05be5ace8087a5a74ed32e5dc742812168"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Tray/TrayIconControllerSettingsTests.cs",
+      "GitBlob": "6dc684652f6700fa1546642355c6ae4ebf56f976",
+      "WorkingBytes": 3270,
+      "WorkingSha256": "6904df1c24d35d9874785337d6ac980dc635a3a68535034f5eaf7d75fe7dc65c"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Tray/TrayIconControllerTests.cs",
+      "GitBlob": "b1cc48bd2624987d72db37fd51fa5cba41b78626",
+      "WorkingBytes": 12250,
+      "WorkingSha256": "593cc8fa060e45b4a7b675baffa0807373ebfc5b6982395f11c128131213642c"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Updates/UpdateCoordinatorTests.cs",
+      "GitBlob": "1c25c90efda16e68cce4c460e54496018ea23faa",
+      "WorkingBytes": 20420,
+      "WorkingSha256": "71340f95de02ae9bea86adbc1ae695cdd68af5f3feea301315734ca7c0f80fef"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Updates/UpdateHandoffLifecycleTests.cs",
+      "GitBlob": "6588a87cfd171ed8237e27585ffec099ab11fd38",
+      "WorkingBytes": 30896,
+      "WorkingSha256": "a125cd3cab9d12929e7aab8cf7ec13f27d3851d5884bf09e964382f2c3aae35b"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Updates/UpdateHandoffTests.cs",
+      "GitBlob": "9c8c0427e33026b484db9094bcc1e0e3813c1c9e",
+      "WorkingBytes": 5482,
+      "WorkingSha256": "30fc148955d42d4a8c776a6de90874700fb71f35dab8304ab9fa461c836cd583"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Updates/UpdateHttpTests.cs",
+      "GitBlob": "f2d590a64f0e63a573f5eb85304ef9d13ddbf1e9",
+      "WorkingBytes": 7553,
+      "WorkingSha256": "1f0aedb268f11299dd104bd9d7c2b70cad8cdd6aa592687c8764a81095fb040c"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Updates/UpdatePreferenceUiTests.cs",
+      "GitBlob": "a769783bb433eb8198fcc4d891faa8aadfc199bc",
+      "WorkingBytes": 5851,
+      "WorkingSha256": "d189e388d9b80ba7d8180306baeaa13704aae9a8cc870313d0ea9e353217b04b"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Updates/UpdateRecoveryRenderingTests.cs",
+      "GitBlob": "239f488974bebefd38cdbc73e4a3bef22d2c3be1",
+      "WorkingBytes": 8456,
+      "WorkingSha256": "545a88121dc71b8078ff62899e52b165100a570b5a43fc158c93c0ae38ad7765"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Updates/UpdateRenderingTests.cs",
+      "GitBlob": "ed7d20affb46634d7de52caee4448937390453c9",
+      "WorkingBytes": 7132,
+      "WorkingSha256": "e1cfe3477a9f5b06ebdda5c490307a98c5dfcc04fd3931f2816b1de9d984fce3"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Workflows/SelectionEntryTestScope.cs",
+      "GitBlob": "2a57fde9a1e0097cc28a429381451ac769466186",
+      "WorkingBytes": 11062,
+      "WorkingSha256": "940eda1ef91da3d94a985b8fb8b4b8777f288f8fa8fec2eb80c668835bf43542"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Workflows/SelectionEntrypointIntegrationTests.cs",
+      "GitBlob": "6fb9d11b58df155f1805414394e763cf6dcfb243",
+      "WorkingBytes": 8259,
+      "WorkingSha256": "187a281c474d80085d8395201dde3eceacac65fb259e6b43187195dbf4e9f7fd"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Workflows/SelectionOperationNotificationTests.cs",
+      "GitBlob": "5b3104b10ec56facbd82b86d790ab0123f6d48fd",
+      "WorkingBytes": 10608,
+      "WorkingSha256": "f211c8f00b80097922e56d3b3d6865dac8163fdefe198c1b67eb95ea7e0ce810"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Workflows/TranslationEndToEndTests.cs",
+      "GitBlob": "9611c6fff4114f2e077d15378fcaaa4ae7840f09",
+      "WorkingBytes": 12011,
+      "WorkingSha256": "26d28f990378c251a80c8a674fe5cb6cacc957fefcd6eb5e91b0be9af65a927c"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Workflows/TranslationWorkflowLateArrivalTests.cs",
+      "GitBlob": "32593331ce18e8eb75634929bbbf01831fe3d6ce",
+      "WorkingBytes": 22069,
+      "WorkingSha256": "f6d96499b53c15a05d9f03e542b5781859d3c407d6c884e7e896a84b535ac3ee"
+    },
+    {
+      "Path": "tests/Iris.ArchitectureTests/ContractFidelityTests.cs",
+      "GitBlob": "dab7052b2b06fda8eaad4c6be95fe20137d5b6ea",
+      "WorkingBytes": 5094,
+      "WorkingSha256": "34f5a7220d5f9b20d73c878e4f21f2450b1db99e43c8b3c836eb1641a02525ec"
+    },
+    {
+      "Path": "tests/Iris.ArchitectureTests/DependencyRulesTests.cs",
+      "GitBlob": "985f1f2de119d63ac4538c2bc1b1a3093def1cc6",
+      "WorkingBytes": 7007,
+      "WorkingSha256": "8fb4961b60982919bd869c11e4a8c33bff127ab59d0468c80c5a1c04941a92ac"
+    },
+    {
+      "Path": "tests/Iris.ArchitectureTests/Iris.ArchitectureTests.csproj",
+      "GitBlob": "f80d2d0a2a2460a6bb2f10606b606fd722ea1744",
+      "WorkingBytes": 1009,
+      "WorkingSha256": "a04e0cd2f267d019dd7e2a7c256f10d449da52a5bc3a4d5fe94e30fc3f349e4f"
+    },
+    {
+      "Path": "tests/Iris.ArchitectureTests/PackageRulesTests.cs",
+      "GitBlob": "db56f54ce36a1bf6097ff48d6c3d63551704738c",
+      "WorkingBytes": 3977,
+      "WorkingSha256": "77d6cb966459db45f2bfc66472b1e41447b7903a5a6c78d9d1408d04bdc4a857"
+    },
+    {
+      "Path": "tests/Iris.ArchitectureTests/xunit.runner.json",
+      "GitBlob": "86c7ea05b16cbf881dc404c70dedc3a905805498",
+      "WorkingBytes": 82,
+      "WorkingSha256": "c000bc0d17a0c54872293a50c4f5cd19b041611bd0c5494c444a47262adb0792"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/ClipboardDiagnostics.cs",
+      "GitBlob": "64316f60dbb59a4327b7dae14660cdecd666aa61",
+      "WorkingBytes": 12859,
+      "WorkingSha256": "c262a0b975f81ed3f2cd85a94871be476c6b8412805609ec8a994b6de795fd19"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/ClipboardOccupancyCoordinator.cs",
+      "GitBlob": "84c1dcc9501602cbdfa6abcd1d44047375344cf9",
+      "WorkingBytes": 3129,
+      "WorkingSha256": "b65a66085ec3da6ad8838ae174651f563712a67f0159716dda13096077af8ea0"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/Iris.Clipboard.IsolatedHelper.csproj",
+      "GitBlob": "f83abe4d5f42f1946c9606452838fbb12002281d",
+      "WorkingBytes": 578,
+      "WorkingSha256": "f6e6a04bd54ac726f0290621a7f741be33531279b71f6a8f5e7a0128829347ef"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/IsolatedStationCoordinator.cs",
+      "GitBlob": "952fa7c33604bb25d8e6a1779d7b44d75da9e00e",
+      "WorkingBytes": 6757,
+      "WorkingSha256": "c49989fc167d9e9df928b2009d366d9d57eb980c25c9fabfcfc33674232e450a"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/Program.cs",
+      "GitBlob": "1abe23858cfd611fbc31ec866906815c30fe73a8",
+      "WorkingBytes": 12078,
+      "WorkingSha256": "b566acbe8d7c018fae482106c18fabc45a6afff12c2aa42604ce7fd917fad1df"
+    },
+    {
+      "Path": "tests/Iris.Clipboard.IsolatedHelper/SnapshotValidation.cs",
+      "GitBlob": "03ed768e88f2fd6f4861ad8cf2e24f4b134781e7",
+      "WorkingBytes": 7538,
+      "WorkingSha256": "2b9266b08a40a85259953a1fbac9cba57b0be6d72b85ffbcf5c425db5ea3616f"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Contracts/AppSettingsSerializationTests.cs",
+      "GitBlob": "f4b8885ec4200f003064fb95c2c3473da4d2a920",
+      "WorkingBytes": 2235,
+      "WorkingSha256": "4a5c5846f72a1c69b98fc6a292a77c2640130572ca86b70d89452f0510668b91"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Contracts/ErrorCodeTests.cs",
+      "GitBlob": "22fc3e089dedadc5baa26500511e739978c8ed4f",
+      "WorkingBytes": 2923,
+      "WorkingSha256": "5c6329b0c70038eaea8e026b23becf543950e78caf1cb14553b900c1dc302fee"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Contracts/GeometryTests.cs",
+      "GitBlob": "cbc244cb5db70d02079e2a099fe242ca503a83a5",
+      "WorkingBytes": 1415,
+      "WorkingSha256": "9ee1407a8e20e76076d242c706153109a415c1b4ba443f9d02d38e0dba012436"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Contracts/ProviderCredentialsTests.cs",
+      "GitBlob": "d6f290d026a7603a4d9c2cf508cb1bba8868d6e9",
+      "WorkingBytes": 387,
+      "WorkingSha256": "2ff86f5bae63003857c3c8f5d0d7eaa0d6032dd0a50e2bf4940d386c961deca2"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Contracts/SecretKeysTests.cs",
+      "GitBlob": "2ef6088a634f143fa2219f2b94783fc9b6eb1345",
+      "WorkingBytes": 426,
+      "WorkingSha256": "a6a0c1463f245dafd808a8e4c685f4e61a4066a68e977ff3950cc7d722eec91e"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/DependencyInjection/CoreRegistrationTests.cs",
+      "GitBlob": "63ccd737d43aecb9e2e054b1c2c3b1326c93c383",
+      "WorkingBytes": 10163,
+      "WorkingSha256": "de239b0f28e409f5ea0a483788ee384eed470f8a8a2823ce30faf74fd25fa58f"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Diagnostics/LogTextTests.cs",
+      "GitBlob": "9f8d5487cc06482a1e52cc97c57c0f2148c6ab34",
+      "WorkingBytes": 2923,
+      "WorkingSha256": "2ec82b82e45f45ee3ca1e66ffcae56ded05b4b55847db7641f35a0916ff34a8c"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Errors/ErrorMessagesTests.cs",
+      "GitBlob": "39992efb2f3a6868734ab0eea5758885cdfc8494",
+      "WorkingBytes": 1806,
+      "WorkingSha256": "34f1217488827c6b556e994e56d0609ad80de3d0ce66d9dc01368e937a433d17"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/IO/AtomicFileTests.cs",
+      "GitBlob": "d4e953c60d2c92762d652d2595001ae6b8684397",
+      "WorkingBytes": 17556,
+      "WorkingSha256": "e082e650b4444ec2b421a684f1db0ba1255bbb9d1bbb9fd4ffd93d9adc51d552"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Iris.Core.Tests.csproj",
+      "GitBlob": "c4f94e4d4aee3bae87bd01f51a80647889256496",
+      "WorkingBytes": 1198,
+      "WorkingSha256": "e27b6f19085f4a07f2427a2f8464326fb7170cfa8cfe43d4bc6af76bd2e2e891"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Languages/LanguageCatalogTests.cs",
+      "GitBlob": "2b2c346d865a9c453146d5a28ac4578346b410b5",
+      "WorkingBytes": 3506,
+      "WorkingSha256": "4fc7238866337f5e8f20dfada4b118f2a46b7ac6901b335d1072a050bfad7c24"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Languages/ScriptLanguageDetectorTests.cs",
+      "GitBlob": "34cd237014ad483b5e9574afe271d5200afcf5c0",
+      "WorkingBytes": 7593,
+      "WorkingSha256": "b5f778d9a677e198e53233ea29f2cf2584a2a3718a56c3fc2f29bae9e793cabd"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Languages/TargetLanguageResolverTests.cs",
+      "GitBlob": "994abaf471c5345fca80d4862d8b4c857303f7a3",
+      "WorkingBytes": 7824,
+      "WorkingSha256": "bef081c99b95b7e52f373c02e7f6b5d2cd36c726474bedccf7ad7be765398e5d"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Languages/UnicodeScriptsTests.cs",
+      "GitBlob": "098c814eca7e8469a2c7b977b781e8bdca363a2f",
+      "WorkingBytes": 3914,
+      "WorkingSha256": "77edcf26c8b8ab11141b1bf29d85900d297ba66fbd56322fb30c86e1be2c759c"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Ocr/OcrNormalizerTests.cs",
+      "GitBlob": "69bb639d7cabdc11b3d28dd6fd89db5475dfce87",
+      "WorkingBytes": 2903,
+      "WorkingSha256": "d228d8c57a0715f3cd7ec720f6739da999c3223dd010c21dcdc0bb851358d146"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Ocr/OcrPipelineLifecycleTests.cs",
+      "GitBlob": "1b6992166a12b85b2a4c4713048ecbaaa178c3b7",
+      "WorkingBytes": 10804,
+      "WorkingSha256": "b142bcaedc9b437479ec7139782494e6783f9f317bdf74264fb972cf39ecf335"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Ocr/OcrPipelineRegistryTests.cs",
+      "GitBlob": "2d1bdb49c541ddd6225a0adb11d9c11a5abeb18d",
+      "WorkingBytes": 3655,
+      "WorkingSha256": "bdde137f7c402c04487acd7321427765671fa70dfb9b02209ee46bf18e7f6524"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Ocr/OcrPipelineTestScope.cs",
+      "GitBlob": "4bc603e4296998da64fbf7d040e14842fc33f6f9",
+      "WorkingBytes": 5180,
+      "WorkingSha256": "240b0cc9a6666d9c7a4b7dd771921a4a6b8a4872e0763fc0905b337bf65d9a19"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Ocr/OcrPipelineTests.cs",
+      "GitBlob": "123a6c56c49afd5b581881c3cf6de9c91e8b48ab",
+      "WorkingBytes": 5314,
+      "WorkingSha256": "d53d6c554e023642432a7a7b0bc696cf89553a115bb8878427cede36281d8ae4"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Ocr/OcrProviderRegistryTests.cs",
+      "GitBlob": "bd590696c77d43a69b361f8100b7953b242fd462",
+      "WorkingBytes": 13560,
+      "WorkingSha256": "0693cac1d57636b991dab167d6cbbc1e1adf051999627dd917020e5a33a5c4db"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Ocr/OcrRegistryCoordinatorTests.cs",
+      "GitBlob": "5f1818800beb9a9bef7cc4e69f14f475491579cc",
+      "WorkingBytes": 2950,
+      "WorkingSha256": "88233b33879e6087d09544eb2872904f06f65b36d05e0ad3e8902e23e71a0525"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Ocr/OcrRegistryRaceTests.cs",
+      "GitBlob": "439cd3e96d1a19dc415a47ebc6bed16f4351256b",
+      "WorkingBytes": 9291,
+      "WorkingSha256": "775fbd40fad1ac47f53313db79b32bfad421ae4ec46137eb0a074978a11382f2"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Ocr/OcrRegistryTestScope.cs",
+      "GitBlob": "67c8acc7d1e914c723466bb8dc703b60b3e3143e",
+      "WorkingBytes": 8548,
+      "WorkingSha256": "5cf74e1770e7385e28850ce579b1626385ccb1fa90b6fce5e1f6792e228defbb"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Settings/HistorySettingsEditTests.cs",
+      "GitBlob": "d23bae016a2591b1c46feeffd59f5cde6abd29fe",
+      "WorkingBytes": 4841,
+      "WorkingSha256": "b8cbf31b83aa293fb6cc8b2387c98db5512cbfda043682807554f8e452d23bd4"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Settings/HotkeyBindingPolicyTests.cs",
+      "GitBlob": "2075d16370cb80e4089d67184efcce31c2ed2955",
+      "WorkingBytes": 13626,
+      "WorkingSha256": "b9129ce2c297518e07e84aaef6a4657bda0b464835b1f65802dcfa45d7eea0b4"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Settings/MouseSettingsEditTests.cs",
+      "GitBlob": "2091265162650387c86c7d8286b19ff7d1c24237",
+      "WorkingBytes": 7980,
+      "WorkingSha256": "b7a6a3db8c0f696f9c111222ea995b15502eea20c0dea60c5f0d6db81254e59b"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Settings/NetworkSettingsTests.cs",
+      "GitBlob": "5f13b804a032e18a9ff1cd1d7c5401eb346d525c",
+      "WorkingBytes": 16200,
+      "WorkingSha256": "ae8a65de3f9937b6fbe2dce08ccb34569365b8dfe63ecd42c47e40cbd5be4119"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Settings/OcrDraftTestSessionTests.cs",
+      "GitBlob": "b2a00034c1e008b84bc674995c0b7c11f8a92695",
+      "WorkingBytes": 13013,
+      "WorkingSha256": "75faad9f36a1d523d60e332b4802cd081f67d58f49d33ad7f8bd732659d98a95"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Settings/OcrEditingBoundaryTests.cs",
+      "GitBlob": "2b0eecb721fb4b49329cd669ad56fc9d8f872626",
+      "WorkingBytes": 7863,
+      "WorkingSha256": "eacb5ab041e84583a59ac35511ec42cda2fce7740c82cb1c84a070df9cbcdaa4"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Settings/OcrEditingTestScope.cs",
+      "GitBlob": "4ad4eb81d44370988539208566191d067c889d22",
+      "WorkingBytes": 9211,
+      "WorkingSha256": "a83462520958bbb096c0a6026c9f685d807b8dc6206880270cff295fd0354490"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Settings/OcrSettingsEditingTests.cs",
+      "GitBlob": "492ca75461c25e0f7d19e4bb520fd32b4f129dc8",
+      "WorkingBytes": 15991,
+      "WorkingSha256": "44320491899714c269191e27c180d3b315b52bf5a228024590e7d40f1df1e7ad"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Settings/SelectionSettingsEditTests.cs",
+      "GitBlob": "eedfd66c1cfbf825e4cdc46dc79c2b94aeb0bd63",
+      "WorkingBytes": 16602,
+      "WorkingSha256": "8b90098f37dc7b50c67a554f183eda77bcb6f749ef9bdc6e56cef2e2b2ae4b8d"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Settings/SettingsEditCoordinatorHotkeyTests.cs",
+      "GitBlob": "85341bf53dc1cd446ef0a46ddf673553052b5fae",
+      "WorkingBytes": 28836,
+      "WorkingSha256": "ef80ebe056d2b14833e51362c176f4c9836abb1aa412f2314eadbc9aa4c74003"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Settings/SettingsEditCoordinatorTests.cs",
+      "GitBlob": "23e579518c82d58fbec574f075f4ef31b7e2081f",
+      "WorkingBytes": 142573,
+      "WorkingSha256": "472a42b4c5bf4a1b2d7f922c3b8b936a6a88a65aa001bfda931233426e66d96d"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Settings/UiLanguageEditingTests.cs",
+      "GitBlob": "fefcbf1e8b3db35cd931d2f0a0f007e799c8d44b",
+      "WorkingBytes": 6428,
+      "WorkingSha256": "a0ca9dbf98cbee187faad44e7b3701a1134499fe4c425da5a5e046bdcb751681"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Settings/UpdatePreferenceEditingTests.cs",
+      "GitBlob": "0e9d6968dbe6a7a81cbbc61ed6112e07d2491c7f",
+      "WorkingBytes": 2479,
+      "WorkingSha256": "f5928d5e1b5f4248ea85777b8120291ba1d365a6a9465285247c509b8055bec8"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Text/SoftLineBreakMergerTests.cs",
+      "GitBlob": "92dd8efd56dd0feca772efacfe5acab5e0a8d111",
+      "WorkingBytes": 4750,
+      "WorkingSha256": "e70c7e0c5bb9c0988d002e2f222e128add5623126b7d27e352b9ec2529c83cf0"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Translation/LruTranslationCacheTests.cs",
+      "GitBlob": "a0bde723860cdc7c44a39b39085ffa9b107cb4ab",
+      "WorkingBytes": 35220,
+      "WorkingSha256": "c33ff3c87bd9231b77fcc2b82da9da2f647ce342e52c35d5d5260c615545ee29"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Translation/PromptRendererTests.cs",
+      "GitBlob": "bf85bac48aac641a979e20adcd8de0e32c8fd9ce",
+      "WorkingBytes": 3326,
+      "WorkingSha256": "015e3045d07ef3cbc118d5ca5eb38f6f91590ee4da80dcdace4f01bdac7c1073"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Translation/PromptTemplateProviderTests.cs",
+      "GitBlob": "a7bf1e86867c74a452cb3175878e46a31cbac6b0",
+      "WorkingBytes": 7738,
+      "WorkingSha256": "466f8d728ae9a743ac2be6d49e010dd61d0bb133ac6ff53ebbfbfad944fdc378"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Translation/ProviderCredentialResolverTests.cs",
+      "GitBlob": "6fc4088ab0725acd1a8e314b0cde448064d13b04",
+      "WorkingBytes": 13909,
+      "WorkingSha256": "41c3b37386e25151e19f1e8b2e7e32233c5034193e713e566f6c4782d5d57535"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Translation/TextPreprocessorTests.cs",
+      "GitBlob": "66259d9321fbb7391acf7d602ddd478ca8d9daab",
+      "WorkingBytes": 5895,
+      "WorkingSha256": "eaab21cfed1cf101a941f0d253fbaec0bc5b6d9deba3d89a19eff84b0a3b9a51"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Translation/TranslationCacheKeyFactoryTests.cs",
+      "GitBlob": "721fd9f1e5e25fdb949286ea969df68966adfe27",
+      "WorkingBytes": 9354,
+      "WorkingSha256": "29a018731e443bafdb13bc0aa58dc96082bfe5ec3df1fd8f83a6e488f62b42bf"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Translation/TranslationOrchestratorTests.cs",
+      "GitBlob": "95b46e8732f56b955901a61b42f714c50d85f120",
+      "WorkingBytes": 100613,
+      "WorkingSha256": "db688e52df42ce3bc8a2508880521e2859fc83f5f4423ea74151a05ea8066f39"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Translation/TranslationProviderRegistryTests.cs",
+      "GitBlob": "8edf401a558fc44c8e33d34f990b2dd6170d740b",
+      "WorkingBytes": 76357,
+      "WorkingSha256": "15c57669f5b997335778c884c76a6ca644725b9b9f92200e588672a060ab1dd1"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Workflows/ClipboardTranslateHandlerTests.cs",
+      "GitBlob": "0958abcc0b9622d28b14d3a7540a01c18e8aebac",
+      "WorkingBytes": 15484,
+      "WorkingSha256": "a8a350ffc1387a37940997a1856b8462ca9d8f4dde5094920c84bbadc859540b"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Workflows/InputTranslateHandlerTests.cs",
+      "GitBlob": "2655c7ed117e873bbb1293d0c4832870a182f522",
+      "WorkingBytes": 7683,
+      "WorkingSha256": "a48c79401ac40bb96ab01a4d62e8fe03fbe4247f2f64f4ffc0e9d73270db48bb"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Workflows/MouseSelectionWorkflowTests.cs",
+      "GitBlob": "e0ae13be4af4d5b021601425865261e841813ff8",
+      "WorkingBytes": 6213,
+      "WorkingSha256": "523425c7ebea3b309717d2f40bb534aead85a4a415843c5a891ac56ede885b86"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Workflows/OpenHistoryHandlerTests.cs",
+      "GitBlob": "a7737924cd5875056b02d08e3b182c53d7c5d04f",
+      "WorkingBytes": 1019,
+      "WorkingSha256": "38a22448b8891ea858de1b94bd7f9333a35c5a95b2c492eb25514bd8a5665a4f"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Workflows/OpenSettingsHandlerTests.cs",
+      "GitBlob": "08d6ffed72262c90185e1452aae4e88ba9db4261",
+      "WorkingBytes": 4396,
+      "WorkingSha256": "84e93fb0e56c7808fda2b99a83ae6797c74d404158e46760d7553ce4e1bfcae0"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Workflows/ScreenshotOcrHandlerTests.cs",
+      "GitBlob": "84d8787e2e6a590bf3dac851878933067c619ad0",
+      "WorkingBytes": 13056,
+      "WorkingSha256": "d800e885f256f8fd414a6eade27eb0b3fbbfa67fc1834fbc7551a9830e71c8e3"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Workflows/SelectionTranslateHandlerTests.cs",
+      "GitBlob": "04fc44f81d9bdd585c38033526afc84108830042",
+      "WorkingBytes": 12507,
+      "WorkingSha256": "d0cb43ac88b48edd633fd45118f85848bc9864ebfb515fb1df16328127f016d1"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Workflows/TranslateTextHandlerTests.cs",
+      "GitBlob": "7c67debdf7fc76914ad7da646af4e53caa69d783",
+      "WorkingBytes": 5916,
+      "WorkingSha256": "72ed548d047d9bb979b6e61b9456b7c6681a22c73b4940a80063bb5794d3e929"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/xunit.runner.json",
+      "GitBlob": "86c7ea05b16cbf881dc404c70dedc3a905805498",
+      "WorkingBytes": 82,
+      "WorkingSha256": "c000bc0d17a0c54872293a50c4f5cd19b041611bd0c5494c444a47262adb0792"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/DependencyInjection/InfrastructureRegistrationTests.cs",
+      "GitBlob": "03c81cc9f00360bee00b3de99842ce5051fc865e",
+      "WorkingBytes": 1172,
+      "WorkingSha256": "ddd2f35814f55f83dc8623e3a5919db0bdb74d55ec62b8ec9d2b3c688a9901ae"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/Fixtures/settings.all-null.json",
+      "GitBlob": "facd7692cc8db60951a6238f4401b2b4fb5984f3",
+      "WorkingBytes": 2379,
+      "WorkingSha256": "5788936f8fd3ea575a3790b32a3e919b69bfcdab194ebfa0a787d777c24b41b4"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/Iris.Infrastructure.Tests.csproj",
+      "GitBlob": "050b723db0d47f5e5568839e3b91ae631a00d647",
+      "WorkingBytes": 1114,
+      "WorkingSha256": "5cb362e9cbcddb616c4ed794f9a9f4876aec7cac07f8c6681cf70f137a8ffaff"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/Settings/JsonSettingsServiceCoordinatorIntegrationTests.cs",
+      "GitBlob": "350536fad206090a696b0aea3c2d369f3fafc7b4",
+      "WorkingBytes": 20382,
+      "WorkingSha256": "bd5eb5f0a2d6782d45c61ffb13700026f8464f7f7abd9d986d730db48eff6c12"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/Settings/JsonSettingsServiceHotkeyTests.cs",
+      "GitBlob": "e87b9873bacaf4d368d6c77a4bf88c18abbb2537",
+      "WorkingBytes": 6372,
+      "WorkingSha256": "960e266a4b2bcb0a63b78fb38eda0b74723724af9f4de03c1f78f4025580696a"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/Settings/JsonSettingsServiceTests.cs",
+      "GitBlob": "de20fead600f774c834cf1ad94ddf8e4e7646092",
+      "WorkingBytes": 52786,
+      "WorkingSha256": "3d65ce2152fc6bd910d349cd414bbd64309d23d678208901820408a86090bf62"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/Settings/NetworkPersistenceTests.cs",
+      "GitBlob": "2a2e7f997f0b2470030e9fcda8463c9bf3aaf6e0",
+      "WorkingBytes": 28828,
+      "WorkingSha256": "46e9e2b4087682c28eb11f54707e7045fe53eea11c592cc12b9978ac2595b36f"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/Settings/SettingsMigrationRunnerTests.cs",
+      "GitBlob": "f109c0760ab23011359b7bbd192fe191cb10a236",
+      "WorkingBytes": 2250,
+      "WorkingSha256": "0b80d355deec721af6426d5873f0b4843d8127f0a028e23e708f4a297e02ddb6"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/Settings/SettingsNormalizerTests.cs",
+      "GitBlob": "c085cf3f352034b033c034c448362160f075cae7",
+      "WorkingBytes": 44615,
+      "WorkingSha256": "39f936d49417d15335559c4304aa664d5b2f66dacb5aae1fa0b9f4591c33b17a"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/Settings/SettingsSalvagerTests.cs",
+      "GitBlob": "2fcf1adfe96e67d634ed55de0bd43adf1983162b",
+      "WorkingBytes": 8535,
+      "WorkingSha256": "3fe964e2777b30ee77360c5073f63bd5a54ee377c46849a24459c150f9d5358d"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/Settings/SettingsSnapshotTests.cs",
+      "GitBlob": "b1e1ef35fae4ef43293e82ea0c98fd93288214ed",
+      "WorkingBytes": 22561,
+      "WorkingSha256": "faf68eca8cae0f3adf7569262ca80f2c56a793b51fe3c68b888742f392df7a0b"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/Storage/AppPathsTests.cs",
+      "GitBlob": "b920c971711690313b46af3fad2a9ac9fea6a19d",
+      "WorkingBytes": 4076,
+      "WorkingSha256": "3e2dc51b2ccf8aaef51aa14bbef5d032390cd0342947be45eec4cf29aced0392"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/Storage/DatabaseInitializerTests.cs",
+      "GitBlob": "d3360baf910dc0c5f214ab7fe33ce84c47d84068",
+      "WorkingBytes": 26887,
+      "WorkingSha256": "d3f94db135194315b4a702df884b042540e0bd0194aa1ed73e93caf19fca9a72"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/Storage/SqliteHistoryRepositoryTests.cs",
+      "GitBlob": "862b302e3d274ca531bb70ec339f673061526cd7",
+      "WorkingBytes": 50254,
+      "WorkingSha256": "cfc38baad57003b05bb4e5b77eec51bc64fc8d0e203d309cdd589563b41d43b6"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/TestSupport/FakeAppPaths.cs",
+      "GitBlob": "3d9e89389e301d86a7ac68f640b7193f349e2264",
+      "WorkingBytes": 564,
+      "WorkingSha256": "1ba496af7ad9dc614c311e8dc76b036bf746db22cec092585573b295d647ad5b"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/TestSupport/SettingsTestInvariants.cs",
+      "GitBlob": "cb8a330f1ef67169bfb8133ae484a4ab7ecca07f",
+      "WorkingBytes": 5372,
+      "WorkingSha256": "db49db4643d178b18f53ed86b7f04ebd4ceb102ee75d0067d14e5ae60aabf12c"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/TestSupport/TempDirectory.cs",
+      "GitBlob": "d6db8afc128dfd36a1a924873836ae4bf016bf8d",
+      "WorkingBytes": 634,
+      "WorkingSha256": "31befef513986cf2afbaa9fdfda285d74e9f4e5631ee8baecae628e657bf54a4"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/TestSupport/TestMigration.cs",
+      "GitBlob": "0d5539a3a1ec0f58d1579b81c1f9c596aa4fb58f",
+      "WorkingBytes": 522,
+      "WorkingSha256": "0f2ed160d295e5503f940e96e4eaac867729e88de9f828308ffe3bcb2db55eb0"
+    },
+    {
+      "Path": "tests/Iris.Infrastructure.Tests/xunit.runner.json",
+      "GitBlob": "86c7ea05b16cbf881dc404c70dedc3a905805498",
+      "WorkingBytes": 82,
+      "WorkingSha256": "c000bc0d17a0c54872293a50c4f5cd19b041611bd0c5494c444a47262adb0792"
+    },
+    {
+      "Path": "tests/Iris.Maintenance.Tests/DesktopRuntimeDownloadTests.cs",
+      "GitBlob": "d7ce8460c79c589aa2468ea8f95ba75304c7869b",
+      "WorkingBytes": 14250,
+      "WorkingSha256": "24349d53d2127ede2b0983ad43d508f0b11a3f199af1552218fddd8ee399bc94"
+    },
+    {
+      "Path": "tests/Iris.Maintenance.Tests/Iris.Maintenance.Tests.csproj",
+      "GitBlob": "3de292420c53f52e9c7a57d16e15be6132c028e9",
+      "WorkingBytes": 559,
+      "WorkingSha256": "617f92a92af0c9d702e114d4abba2f967c9d8614f4a7aa9944b4d18da0619b8e"
+    },
+    {
+      "Path": "tests/Iris.Maintenance.Tests/MaintenanceTests.cs",
+      "GitBlob": "141e3c62bea37ddf7810bdc4330afd8e98a3545b",
+      "WorkingBytes": 15229,
+      "WorkingSha256": "76171708feb8986aec075b0dcb7409bb76b06673fadf1225ec9abd2037f4c66b"
+    },
+    {
+      "Path": "tests/Iris.Maintenance.Tests/RuntimeInstallerTrustTests.cs",
+      "GitBlob": "92c5c88f522cebd8dbbcccd00bcc3c032aa6604d",
+      "WorkingBytes": 952,
+      "WorkingSha256": "80083702c6be8138113f75bc2350a534a9c179e80536a2192927e65af69acdbe"
+    },
+    {
+      "Path": "tests/Iris.Maintenance.Tests/UpdateTransactionTests.cs",
+      "GitBlob": "81fdfa90181dafbe7d2cc05cf8cae851094629f6",
+      "WorkingBytes": 11084,
+      "WorkingSha256": "834a793ffd6ca44d5b0474939a94789c5dc49a7ef8f9302d45ddbd0aafe9ec29"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Capture/DesktopContextNativeReadOnlyTests.cs",
+      "GitBlob": "15185e61fadac368b2df7b6dd5741afc469fd2f6",
+      "WorkingBytes": 2897,
+      "WorkingSha256": "fba85aec3c9507254555f4597203982e78f2cf787d00fbb685c3d72e2aa0a9f1"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Capture/DesktopContextTests.cs",
+      "GitBlob": "174723b93c0ef5387de71d587429fc8bacb43f2b",
+      "WorkingBytes": 8646,
+      "WorkingSha256": "4b9ee56778c2eed6f53de3c1b56d8dbe77521cc6783609cb3e78f4469c46e87e"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Capture/DesktopGeometryHelperTests.cs",
+      "GitBlob": "6cc2b9e3d1c0c39b47cdd6850ab57b83175f07d9",
+      "WorkingBytes": 12427,
+      "WorkingSha256": "0621427737248be280c11254343c486cc1920ccddfa10e597d02d43cf24885c9"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Capture/FakeNativeDesktopAdapter.cs",
+      "GitBlob": "b003dd344cfe8a5998cebcd932c889d836375ab2",
+      "WorkingBytes": 8384,
+      "WorkingSha256": "ce6f14b0e5c4649410a438fcb023f6e72aa8079d42c7c645f9834b7f7fbb40c8"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Capture/FakeScreenEncoderIo.cs",
+      "GitBlob": "05d2ceb76f40af4229c71bb27012a1248cd16b9c",
+      "WorkingBytes": 2507,
+      "WorkingSha256": "a235a2edec9f5e568af1c7bc683c57c0a2e3fc48f8f416f614e70e33904af3dc"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Capture/GdiScreenCapturerTests.cs",
+      "GitBlob": "9482220665eca29fae0984ff26404840db9d00bc",
+      "WorkingBytes": 19428,
+      "WorkingSha256": "76247aa6d0db08131ac84b34c4437c2985a384b72be62b4a80e9b6c674449b81"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Capture/MonitorEnumeratorTests.cs",
+      "GitBlob": "a507b19c5cf73e30fb51a2d1f1d700c80dc66f1e",
+      "WorkingBytes": 23507,
+      "WorkingSha256": "8f0c1231859ab24eb9ca27084086b86bed5b75aae2e0d4a56ef67eb71fbbdf73"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Capture/ScreenCaptureTestScope.cs",
+      "GitBlob": "c9859624faaabb45b320a803503e92f3616cdf21",
+      "WorkingBytes": 10146,
+      "WorkingSha256": "9c033881a9a55e3f2429647fd1bbe152822bdd19002a42e0bfb1d1ff2e25a5b9"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Capture/ScreenCropTests.cs",
+      "GitBlob": "9868b7ba0d90226642de6ecdd877aa826f433286",
+      "WorkingBytes": 13917,
+      "WorkingSha256": "00cdb2a31c717f408c6802e93234f1c070307f2f0d665258fd0f73a401ed8873"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Clipboard/ClipboardOccupancyCoordinatorTests.cs",
+      "GitBlob": "cdc8e37450a7655b2d12ad1ce1a6bdf244ddd869",
+      "WorkingBytes": 4159,
+      "WorkingSha256": "b258e6bf3c484c54bb906b4bae5bda30251f4894a9234716093deda79863ea78"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Clipboard/ClipboardSnapshotIsolatedTests.cs",
+      "GitBlob": "70b8fd560eaad16bc7c553c1e61c469d3848ba64",
+      "WorkingBytes": 2766,
+      "WorkingSha256": "c8cd0ad1e7163e8bf0ae869f8f8203b04a4386d7490a7b61b598b93636b6e89b"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Clipboard/ClipboardSnapshotServiceTests.cs",
+      "GitBlob": "71386f094fa7050d2cc7261e76dc807053a153d6",
+      "WorkingBytes": 27696,
+      "WorkingSha256": "2294ee2553766f3818bbf030aec6489597771df89709bde425d3daa72a9c6567"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Clipboard/ConditionalClipboardTextTests.cs",
+      "GitBlob": "3e2199b398515c2bae60b15b16de9a119d3c9931",
+      "WorkingBytes": 2506,
+      "WorkingSha256": "5a71c4f318addaad8ac972d64e56af939fadba26dcc54caede507760c05a6f8e"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Clipboard/TestSupport/FakeClipboardSnapshotNative.cs",
+      "GitBlob": "842449a9e8747f3292f031e2424d6dfe2e9de521",
+      "WorkingBytes": 6462,
+      "WorkingSha256": "58a3baec2c3aa38ab4a9f773130f4e88c03a901f956c4e2207382d1b937be6ac"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Clipboard/TestSupport/FakeNativeClipboardAdapter.cs",
+      "GitBlob": "cca783c129d58f2fb72186addb4373f3f4c499e1",
+      "WorkingBytes": 6799,
+      "WorkingSha256": "26ea8075be969979403732cfccc2cbcfcda635de00daf15db05be76473fde12b"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Clipboard/TestSupport/MemoryLogger.cs",
+      "GitBlob": "751306aec931fd2c7b33c1cff73252c4967e43c2",
+      "WorkingBytes": 987,
+      "WorkingSha256": "22c7ffea7f01a73fb1139d8f2f812b6964c9f59a78482412b10f34e54139bc68"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardIsolatedIntegrationTests.cs",
+      "GitBlob": "1cb03b0d9bd09687a83864361743f79af29d1a84",
+      "WorkingBytes": 15955,
+      "WorkingSha256": "ca470ce9c42935994bfebad6e5bc068462c277330f6035a21f18facc5d87d2b5"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServiceConcurrencyAndOwnershipTests.cs",
+      "GitBlob": "ba181653602a5d63724523b0e5576e7c0aa9dda1",
+      "WorkingBytes": 22763,
+      "WorkingSha256": "87d12174b8dc9ff65ee1ed3993f6c08c65dbb845b26cae8ae295505f88c91790"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServiceImageTests.cs",
+      "GitBlob": "8ea7cb4f40eafd41401a3b10635b7e9ec29c1b55",
+      "WorkingBytes": 13948,
+      "WorkingSha256": "4f75771073433cc7863a24ec70e022cdff8a9c53bff905ddab0faf99f8cf61b7"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServicePrivacyAndSequenceTests.cs",
+      "GitBlob": "3ec9576afcb4c66e2c7688fa779f483a3ae5cdbf",
+      "WorkingBytes": 3463,
+      "WorkingSha256": "2c2d201366bb58320e52384ad773e152ee2cfe805f5c8741a6fba749b901b4b4"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServiceRetryAndCancellationTests.cs",
+      "GitBlob": "92dd6069edad5191ca95638b1462389278c19148",
+      "WorkingBytes": 8341,
+      "WorkingSha256": "5bddbd1eb52b767b0dd98f3d4eba0bb15f3240d534a055c7ed67d48782cc61e2"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Clipboard/Win32ClipboardServiceTextTests.cs",
+      "GitBlob": "5d72b8a42537caff372888c9c56ae689d1d4fa13",
+      "WorkingBytes": 9830,
+      "WorkingSha256": "d315751ceca97fc8ecad03b1e64deb6e2e691e964d350578d0821f8e648aa709"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/DependencyInjection/PlatformWindowsRegistrationTests.cs",
+      "GitBlob": "83383e319cb95e293ced8b322968f582cf44dcc0",
+      "WorkingBytes": 2112,
+      "WorkingSha256": "07d6391618d5f68435441a227671bbb72223d218107e2418294f02562b8f3a19"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Hooks/GestureRecognizerTests.cs",
+      "GitBlob": "9a66f7601625ceeb11ae0e3655440b4b2503d464",
+      "WorkingBytes": 6782,
+      "WorkingSha256": "dac3b9e8defec10c834828053407cc31391b7dc3619f0d210ed9c5c30f6b8151"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Hooks/MouseLifecycleEvidenceTests.cs",
+      "GitBlob": "b4b5815a96511cb850d1c5761afcf626c521d746",
+      "WorkingBytes": 11609,
+      "WorkingSha256": "0ebfe1fb1eb8429e7e1752738941543323ad4dbbaa918b48a8a1cfccb5139a07"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Hooks/MousePipelineTests.cs",
+      "GitBlob": "fe1be2d60be6d13138bb9806957514780a1f3173",
+      "WorkingBytes": 5108,
+      "WorkingSha256": "c98ddaf5064000e5771050b70470836a896b0c9cef4238ab2059e2249c622728"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Hooks/MouseSelectionMonitorTests.cs",
+      "GitBlob": "177561ea526a079f6103314912f8032206a8cc5c",
+      "WorkingBytes": 18133,
+      "WorkingSha256": "1489e418bf45df6ca22d2df5095793a6dfc9a9c5a7f1e7fd1750da392071d041"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Hooks/MouseTestBoundary.cs",
+      "GitBlob": "eb4375ad0df8b52713e84ddaf5df005fd1c17870",
+      "WorkingBytes": 12228,
+      "WorkingSha256": "2c662af0863f7ccd8f6b02b390a0e1a4c9efc8cc6073006874a3348cfd8c9aab"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Hooks/NativeMouseAdapterTests.cs",
+      "GitBlob": "84089e07d5649e1c54e11cfb6a51139b7251781e",
+      "WorkingBytes": 4901,
+      "WorkingSha256": "e22fa8fac9af5e7976b0db5373728dac7bbc0602a2f1585a06bb4258ad162e90"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Hotkey/HotkeyCaptureServiceTests.cs",
+      "GitBlob": "1e0c4a8bda088ea608da3d6bb20ac1d1fdc1344d",
+      "WorkingBytes": 34973,
+      "WorkingSha256": "9d3b012f90beb9ff9b1ba9ff886bcaa888e27804b3bfca7b03d963e72977ad52"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Hotkey/HotkeyServiceTests.cs",
+      "GitBlob": "7b32d7e58ffc87800c682059946f9df499e4292d",
+      "WorkingBytes": 26830,
+      "WorkingSha256": "f0a526942f4b896c514b76e1e51589b8fa7dab6651b31e91a3fa86be9dc5c98e"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Hotkey/KeyNameMapperTests.cs",
+      "GitBlob": "15574ac0c9556bd0ff5609642301bf513a2784ae",
+      "WorkingBytes": 13335,
+      "WorkingSha256": "261b8a743fd46e6b904ae2298b44b8edc83b977e0239751d9db4868621801735"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Hotkey/NativeMessageWindowTests.cs",
+      "GitBlob": "d4a36b870d142188c480244a857f4ee03fd37e3e",
+      "WorkingBytes": 2467,
+      "WorkingSha256": "760b48342f8531d84c9104f9c5186864abcd0f132e0d640f84678d3d5faedfa7"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Imaging/FormImageBudgetTests.cs",
+      "GitBlob": "541376521b2e7e4f364d1cd65097c745dcc2934c",
+      "WorkingBytes": 10968,
+      "WorkingSha256": "0a123093f0d8a99b837c944434bbb74e68c6774b5e52529a36cd756f9d1084c7"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Imaging/ImagePreparationTestScope.cs",
+      "GitBlob": "8320b874596e2d3380083ff314bd60a451d11d41",
+      "WorkingBytes": 8444,
+      "WorkingSha256": "65afb89412b4f339838b794c95cb9e36e1e9d61a04aee5f3e4bd00f5fccde4a2"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Imaging/ImagePreprocessorLifecycleTests.cs",
+      "GitBlob": "75e8c7864785779f9ed40db3964f592e8fb193a0",
+      "WorkingBytes": 10000,
+      "WorkingSha256": "ef4c0d6f3202132663703d3b1d499684581989ae2d982e2f0fd24130e2583cad"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Imaging/ImagePreprocessorTests.cs",
+      "GitBlob": "7174a7a5f73305a4da35ceebe38d7a9cc32f89f4",
+      "WorkingBytes": 9950,
+      "WorkingSha256": "2453f34f6c38f66111d1c5a0ec6b783e461e287f2270ad698b873790d73a20a4"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Iris.Platform.Windows.Tests.csproj",
+      "GitBlob": "1da344eef90068860da448b46175680e89643b8c",
+      "WorkingBytes": 1766,
+      "WorkingSha256": "8b1d2d4a228b36349693713856b4fa1d804d0c79468379a5933fb2d8f15ccd28"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Ocr/Fixtures/hello.png",
+      "GitBlob": "c16a99d2c169e2ce34cd0427a1a084d6c4a7896e",
+      "WorkingBytes": 5686,
+      "WorkingSha256": "801a64db5c32204ad0a239028a05149ef353da8aada65a5e242a45947040da02"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrLifecycleTests.cs",
+      "GitBlob": "dc4da7dcfcb1980b37cdada2adbeae82f6a82c34",
+      "WorkingBytes": 12272,
+      "WorkingSha256": "e41441983c7d2be5f7b216cde09200cd64b7531c8fe97b762370409cd38a4a64"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrProviderTests.cs",
+      "GitBlob": "0e9d4a8166fc54229df2caf173d418b71264b801",
+      "WorkingBytes": 8209,
+      "WorkingSha256": "810d4c580783eac6bc7088058aae992c949327a9147555cdc93a43563b4436ee"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrRegistryTests.cs",
+      "GitBlob": "ec8ace44ac3f88517dae0980cbd195dc55c1332f",
+      "WorkingBytes": 3749,
+      "WorkingSha256": "682242879a59d026a68b639df3d94ff0c75b193f411a7deda3cb9bb2bd84b3c0"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrResultTests.cs",
+      "GitBlob": "96269ce9291bb7fc42674a1b714e0571e269c3c7",
+      "WorkingBytes": 3247,
+      "WorkingSha256": "983976ba3699d0938df86071089671575fdac642e81836788cfe1f9e636c038e"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrSdkSmokeTests.cs",
+      "GitBlob": "760e4d3b081853060a9159dad1a6432d989e8ae1",
+      "WorkingBytes": 4703,
+      "WorkingSha256": "0fbbee1e7912b38bfeb1de852966b4c06127c5eebd8bbb38e415882071607bd2"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Ocr/WindowsOcrTestScope.cs",
+      "GitBlob": "bdef7b08dde42458c3ad17ad220f25f1696f8d8d",
+      "WorkingBytes": 9510,
+      "WorkingSha256": "3892acb369b0676b31192e21ae3888689cb3b702f9739904262039057ee15032"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Security/DpapiSecretStoreTests.cs",
+      "GitBlob": "9ab1e732e9aaa2d370034052288593a999257881",
+      "WorkingBytes": 15566,
+      "WorkingSha256": "84e90cee189ba6b2e598aa3b0c9a7d6302720a366bf8b781832b0ae62cb793ca"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Security/SecretsFileCodecTests.cs",
+      "GitBlob": "42988c06b5bf510e30d37acbde60be5aa7ff9929",
+      "WorkingBytes": 4221,
+      "WorkingSha256": "c8847e33a6cc73fc4ffa31b4ab4c1dfd8aa81fab8098cae9e5b08aad20ce6be8"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/CompositeSelectionReaderTests.cs",
+      "GitBlob": "a618d5c42f8564a5e2479bcf68ed464161c91c5d",
+      "WorkingBytes": 19458,
+      "WorkingSha256": "bac8ab39fdeeb28173b4a01d7b90626db10076f6f67b81f594ab69a7ad2a8cd7"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/CopySafetyPolicyTests.cs",
+      "GitBlob": "6777d5bce3b26ad85e61282e81b7357146336e65",
+      "WorkingBytes": 2567,
+      "WorkingSha256": "e7a80809055eda8d8cafcd8a1d5c2b40f18e6e46e204024c1cb5ad95be13ac9b"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/ExpectedSelectionSourceTests.cs",
+      "GitBlob": "89a5589c642498c2ec46313181e6f552a5aa9f76",
+      "WorkingBytes": 7271,
+      "WorkingSha256": "aad9b822b7a776db81db90da43bc6ffb592a9d9a1c9946f377d1a79077d1e8be"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/FakeCopySafetyNative.cs",
+      "GitBlob": "90e45eb97cff2d4484e065a7ec61bc10cefba016",
+      "WorkingBytes": 1671,
+      "WorkingSha256": "b09e93fee801266e4baaf78a3026e756825d61c8b7a232dd56a2c0c25aca5a12"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/FakeNativeKeyboardInputAdapter.cs",
+      "GitBlob": "eed128be37de5289e5069341d1ea6671efa2d948",
+      "WorkingBytes": 3584,
+      "WorkingSha256": "bc8d6d1e76d6f85c65eae2e723b919d841aea41758100ae2a9511c962a3c884e"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/FakeUiaProcessSessionTests.cs",
+      "GitBlob": "d336925882afb758f6fd4496e39f9bfb2eb59e03",
+      "WorkingBytes": 2615,
+      "WorkingSha256": "b597a11fb4a0dee27ea5a8950bd065136bd1bdd265c521e1d3509c155dc34d5f"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/FakeUiaTestAdapters.cs",
+      "GitBlob": "c624a13f5d942cb6f4ecea10b5977e7516895c5a",
+      "WorkingBytes": 20838,
+      "WorkingSha256": "70d9878013e8dd3b5001a106dcf8442717c9f3f07643ef5492c9b3cad9ecdf8d"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/IrisUiaHostProcessSmokeTests.cs",
+      "GitBlob": "cff443c02b4ded006bd692cd04e598dc2618f1d5",
+      "WorkingBytes": 4773,
+      "WorkingSha256": "5b2f78a245cf5750a260ddd9a533da66edae2646ae82fb5ffe24b78ee293f360"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/KeyboardPreparationTests.cs",
+      "GitBlob": "b507ae3df954292456a8e17f250e09c49ca37063",
+      "WorkingBytes": 3713,
+      "WorkingSha256": "fae6035282844527165688fce6a1738cbdea979aef8a54d6aa971b2d2b6b4165"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/KeyboardSimulatorTests.cs",
+      "GitBlob": "6c2203816f3ac53899119c42d6c351d399439306",
+      "WorkingBytes": 45250,
+      "WorkingSha256": "5fcf2b5e069d076190a893ae9b99547edaa2bddc4ddab4fe4f5cc506f9213f8d"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/RealNativeUiaAdapterTests.cs",
+      "GitBlob": "174603f2b67ccf7dee1bcbde049a70dbe6a954b3",
+      "WorkingBytes": 15503,
+      "WorkingSha256": "5730615efb1ce06bf800e55055487dac49843b013379e7e05d32160c40c69612"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/RealUiaProcessSessionTests.cs",
+      "GitBlob": "691375864d360e92eb5559dfe2aa5f3537b82077",
+      "WorkingBytes": 11421,
+      "WorkingSha256": "663855bac09d7b7eb9473395bcb20f6b9cba6e5cc04a6d214e7bce480934fdac"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/SelectionTestScope.cs",
+      "GitBlob": "de8e0f40ead283169899fdafedcda9efbb707f0a",
+      "WorkingBytes": 7111,
+      "WorkingSha256": "d5cb9806c01ec2dad0e4ecef0b5346fcc2b0bb11909c311b19504fd60734bc9e"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/SelectionTimeProvider.cs",
+      "GitBlob": "85eb8c45f7a0a0a79396f7d4b48ea96ac87a781a",
+      "WorkingBytes": 1203,
+      "WorkingSha256": "aca4493e6d5f6b27632f454da7fd0139efa8d2c0b3dc63de65adc177a5974f90"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/SelectionVersionRegressionTests.cs",
+      "GitBlob": "d9d2e191fc378690dc5f8f486519cbfee1a4e392",
+      "WorkingBytes": 11948,
+      "WorkingSha256": "99338d68ee4c44a0126d953d336626a01b902dccde0cff4e851d8c6701a4005d"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/TrackingFakeTimeProvider.cs",
+      "GitBlob": "4dd38c65b89676cd288fee4b1b9c3942032fee3f",
+      "WorkingBytes": 1819,
+      "WorkingSha256": "be88a287d530cf9025bedb9b55769c8f7ada89526cacf8ff293eaa72a5f6411d"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/UiaProtocolCodecTests.cs",
+      "GitBlob": "0d66cfa51f8e62da239ddfb08db2af4407141145",
+      "WorkingBytes": 10947,
+      "WorkingSha256": "165050335f267c3725e7ebec317e13476afb97db8ba11895d38393b8a82f3689"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/UiaSelectionReaderTests.cs",
+      "GitBlob": "bb1be18ee0dfccad623c286cf316c4c21e606a2d",
+      "WorkingBytes": 50546,
+      "WorkingSha256": "cdc6816d4854fc8e38e7ab68e38b66eff31ff14cc5d14db766ae687244f42bab"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/UiaSelectionWorkerTests.cs",
+      "GitBlob": "9cc39cad0a7840ef29df3f06eb3f5ededbbd8e78",
+      "WorkingBytes": 18648,
+      "WorkingSha256": "ce42703774911db4c4ced56ca68a746c8093679f75ff1e7601d8ca655f95352c"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/UiaStartupCleanupTests.cs",
+      "GitBlob": "44b68d42deab71cfd2c25927856e72baff21db77",
+      "WorkingBytes": 25714,
+      "WorkingSha256": "55e6d542e773522a04a656c6941cf43bbbdc834601600d42a70ae45441a8b739"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/AutoStartServiceTests.cs",
+      "GitBlob": "301325d4d1a454ba5edb70b23a2e75d5d73b8888",
+      "WorkingBytes": 9638,
+      "WorkingSha256": "59a2e5c8287a1f7ab9f355166712c7aa19b3e0d55ff30ecd2ab3386840193c44"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/IpcCancellationFenceTests.cs",
+      "GitBlob": "d91556116313e2904d0edcd7cab7a7b5faa62558",
+      "WorkingBytes": 8159,
+      "WorkingSha256": "add97c06f010d18469516c482a62ae0ec42c9055089925d164f96e1aa099d276"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/IpcEarlyDisconnectTests.cs",
+      "GitBlob": "f371e907ecd4ee4f793142b724df84c5dfcce501",
+      "WorkingBytes": 12186,
+      "WorkingSha256": "c5b469ff3386173ebb1507803f099ac797ebd62f7a940afdb4ec40738c404c2e"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/IpcLifecycleTests.cs",
+      "GitBlob": "42dd26822c5fd2870750be161cd537d03be0fd77",
+      "WorkingBytes": 7820,
+      "WorkingSha256": "d028fcce89e883d0f92ae3aacd894d9bb5fa7c07a029565fa5ea20f3a95b31be"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/IpcProtocolTests.cs",
+      "GitBlob": "2f81b516e7a9891ce6a6a2a67ddc8e7768aa91c3",
+      "WorkingBytes": 4022,
+      "WorkingSha256": "36579ebc6d304ec67adf731909ab9e2c1b6fe2baef35ebd060423fc2a27165da"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/NamedPipeIpcTests.cs",
+      "GitBlob": "55f89231a6feb2431feb1a519f62c76c214b9878",
+      "WorkingBytes": 16171,
+      "WorkingSha256": "9d6673d9470f6c43820ca71a2d8a16d0a05ecb48c98ba8947caacd5668a378fe"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/SystemIntegration/SingleInstanceGuardTests.cs",
+      "GitBlob": "adfcdac42509cf286ee13dc3603c8c131756404f",
+      "WorkingBytes": 4527,
+      "WorkingSha256": "9ffe3c673a2729248dc32f09172d86e6693255af31102f35abc14a9db0d52c55"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/TestSupport/FakeAppPaths.cs",
+      "GitBlob": "33551a2d29cb41b459187c95f112d893f96ae3d0",
+      "WorkingBytes": 566,
+      "WorkingSha256": "986e2e7b521faa6ac9440a2325bc1f9908bd3423398b55d5aa74d76b9df6f237"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/TestSupport/ListLogger.cs",
+      "GitBlob": "612863462d9bf12fe00bea8f773e0c8d9652fa56",
+      "WorkingBytes": 1354,
+      "WorkingSha256": "d3be6ebbbfe8225c218af907a8f3149f850a8e14e17626cdf534889aa18a2c34"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/TestSupport/TempDirectory.cs",
+      "GitBlob": "fc785d7f3b0b31e4c915bbe6ef5a73d97bfd0289",
+      "WorkingBytes": 639,
+      "WorkingSha256": "bf189b88fe856a31a7dce0586e166e25cc8870a1b1fef50dbad9fe1c875de584"
+    },
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/xunit.runner.json",
+      "GitBlob": "86c7ea05b16cbf881dc404c70dedc3a905805498",
+      "WorkingBytes": 82,
+      "WorkingSha256": "c000bc0d17a0c54872293a50c4f5cd19b041611bd0c5494c444a47262adb0792"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/DependencyInjection/HttpClientPipelineTests.cs",
+      "GitBlob": "7afe90dc72284674ffdda0a51002de6a4bc15994",
+      "WorkingBytes": 15606,
+      "WorkingSha256": "bbc1237bc4953cb033252e9f99634505ced27a304467f8c55989047ddb408f39"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Fixtures/anthropic_models_page1.json",
+      "GitBlob": "23abef5417303a0afddfe918cd00eeb171702ac0",
+      "WorkingBytes": 400,
+      "WorkingSha256": "e4c55dd69d446f4f92c8700b1fac5fda347cc9b3792f908432bebfbf7170943a"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Fixtures/anthropic_models_page2.json",
+      "GitBlob": "db473bc1b6420178fbbe154937dfaee07d64938c",
+      "WorkingBytes": 260,
+      "WorkingSha256": "1708d0406b5e83563d3bae49488b0632fe40b211f3529ae10ecffac18c822948"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_error.txt",
+      "GitBlob": "565bf03b5c4adf7ee23ca6d25235fe6988dbb02a",
+      "WorkingBytes": 552,
+      "WorkingSha256": "9dc8e8dd67e0f99a81132818a938f7c37c7ce5b144ff1a23e71315071aae1497"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_fallback.txt",
+      "GitBlob": "bb155422b0b24b649c2d9d0e14c71aef508fa616",
+      "WorkingBytes": 1339,
+      "WorkingSha256": "1db152b14a77e789d602e1c16c55d843835bad6eb6bd8cc9c4c22c987242ba6f"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_max_tokens.txt",
+      "GitBlob": "628f243b363fa7ff3a2b29527133290ffbde3f36",
+      "WorkingBytes": 726,
+      "WorkingSha256": "c41d593c89b76ab26ea7ab065d6ccbd3e25927837787b89a04a4897a45ed8154"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_ok.txt",
+      "GitBlob": "1c6d0d4a6073c958abc12dfff12536f6e82b91ae",
+      "WorkingBytes": 715,
+      "WorkingSha256": "2d1c534f8dc8ad9744dfdd9c31300e01660717aa0bde7b1c861518119efb2920"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_refusal.txt",
+      "GitBlob": "e8086437ddcb78614cfbf182b8780ccdba5d5ca1",
+      "WorkingBytes": 723,
+      "WorkingSha256": "f8403b6963ac76a603250065fa9b9272e34f294ff4a4504b2153d663be2b2b7f"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_thinking.txt",
+      "GitBlob": "6c7c35afafe99c284e44acfe23a3094c62754ea8",
+      "WorkingBytes": 1390,
+      "WorkingSha256": "bb0adf3c13e48fd914669220e377fe021a2442412aa3536982175306a44f3f87"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Fixtures/anthropic_stream_truncated.txt",
+      "GitBlob": "aa2ed41b30dcce9dada82175687ee745b2d5b7cf",
+      "WorkingBytes": 458,
+      "WorkingSha256": "c1489f3fe126a3f1b16fb58eb69aede3973f2cb63f92bc8078d7dc2ddf9d7e5b"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_error.txt",
+      "GitBlob": "cd490a06e2dcc1ee428f36f9289f1a1d89fce4ef",
+      "WorkingBytes": 169,
+      "WorkingSha256": "261fbd7ebe071549d39fc7239646ac3b901ee01b5f57c1159368e1aa161d5674"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_length.txt",
+      "GitBlob": "1ab893ae9360b49c05db896aadc4652f69e942d2",
+      "WorkingBytes": 120,
+      "WorkingSha256": "cf819f5e8c364383a117b4e5d7182c2c39e2241feb235adc27d1ea62c5415219"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_ok.txt",
+      "GitBlob": "38a86ffd62b1d134765aabf2b429eaa6f07d20d4",
+      "WorkingBytes": 386,
+      "WorkingSha256": "a16a10fa5b7bff9679afabc74862c45fbb88e512431d9b436112ddcea5b24545"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_reasoning.txt",
+      "GitBlob": "fe8e029fbf0bc5f7169dffa1c6e8963ee7dd9111",
+      "WorkingBytes": 538,
+      "WorkingSha256": "ae04267a5f9130b57723e9854159b0ec2130387d04fd27b4e26e8faa644be5ad"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_think.txt",
+      "GitBlob": "91c0b72d41960977a09a94a6bf902cf3d0fa2fbe",
+      "WorkingBytes": 662,
+      "WorkingSha256": "62c27ca5f7e98754322f1a8976d8cac423c6378ee95c644f3f8bce034c126bce"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Fixtures/openai_stream_usage.txt",
+      "GitBlob": "2c4751178d0e156f5718ac97897c01ba450faa8c",
+      "WorkingBytes": 291,
+      "WorkingSha256": "3d5ad617ded466311fc2eea597ba6ae90fe6adfd9e6663355c5e8b9dcb46ac67"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Http/DynamicWebProxyTests.cs",
+      "GitBlob": "abcd06a8a9fb4300d3770dede69a20f26083858e",
+      "WorkingBytes": 6817,
+      "WorkingSha256": "6f1b54f23143e017e14f00b92d8058080b961377dce3da11031b9018962931a0"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Http/HttpErrorMapperTests.cs",
+      "GitBlob": "572b99adef58e0abf70c872e892364240a2f0faa",
+      "WorkingBytes": 11112,
+      "WorkingSha256": "0afd2d99dea824b92115d0160294202434a36bb8385ec70caca2ab2ce582b18f"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Http/LimitedReadStreamTests.cs",
+      "GitBlob": "30708c24b4bf5b5b9206afaedd7632d0ba603b64",
+      "WorkingBytes": 5283,
+      "WorkingSha256": "f70a39b2eb0558ddcfc0838e28e772412df6de49f6a2fcae83e7d47a78ab0c14"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Http/LlmRetryDelayTests.cs",
+      "GitBlob": "859bb046914b57d0949ec5ddba7879eaf0e97987",
+      "WorkingBytes": 2924,
+      "WorkingSha256": "47dc69e139081a3d2cc8a827bc6c8cd3ffe980e15bd8823377c11bc87e249a19"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Http/NetworkContentCleanupCoordinationTests.cs",
+      "GitBlob": "ff53bae1483e5b31eecc0e61fab48aca9ebc50cc",
+      "WorkingBytes": 7243,
+      "WorkingSha256": "a74a7cc09f9d958ad65def3362edae21f0d5e7fb99b9b8fd9be2c207ecdb2ef5"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Http/NetworkContentLifecycleTests.cs",
+      "GitBlob": "3159ecc36357d551286b5d0e4e029099159a1d59",
+      "WorkingBytes": 14264,
+      "WorkingSha256": "7223beb555e2d8945553ec38035bf66edece1e9cac1b9fc6be1c0e720c158c10"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Http/NetworkTestBoundary.cs",
+      "GitBlob": "6276c4dce12f76bf0dae481132707599318d6606",
+      "WorkingBytes": 6874,
+      "WorkingSha256": "6a4c10b19220b17695535698b1494e4bf04b641daf5efa9f8d73348a455cfa75"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Http/NetworkTransportTests.cs",
+      "GitBlob": "6017bfbbdfeefb91f20ea103d91a05a31b5fb5a0",
+      "WorkingBytes": 21949,
+      "WorkingSha256": "163709f7c554bdebe87cc94cf1b6267b212968ed7be00716fed855419735769c"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Http/ProxyConnectivityTests.cs",
+      "GitBlob": "2963444f07e6357a10487c7fb6e0cf32e72ce8c9",
+      "WorkingBytes": 25412,
+      "WorkingSha256": "1f61fcec5c2d26f50d6a472b8a1db1b7e70e92de3788ce6389528aca45527fa0"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Http/SafeHttpDiagnosticsTests.cs",
+      "GitBlob": "40f6ed160b32161d07aebc701732ca1efecdbfd4",
+      "WorkingBytes": 7278,
+      "WorkingSha256": "6ac254577e16fc6a3380b2eec58a4539b8c8fa0523bcc958daa3c73ad50051a3"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Http/SecretRedactorTests.cs",
+      "GitBlob": "07407bf27b0834725f6c2f5c8db50425a32515f6",
+      "WorkingBytes": 6474,
+      "WorkingSha256": "238488a97de5e0bc845280d06a2a8e12080b88347ef04fa78d59f975c85543f5"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Http/SseParserTests.cs",
+      "GitBlob": "8e010015dfba0a52fc3ecff123e1ebe0fb81f49c",
+      "WorkingBytes": 9733,
+      "WorkingSha256": "8c8bddda9bd07127f85b97234ced8d605eab23a47ed92aab8e7c63a82c75aebf"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Iris.Providers.Tests.csproj",
+      "GitBlob": "b6be6abae6ddeccef5d6f80d9575d94809d8dba5",
+      "WorkingBytes": 1150,
+      "WorkingSha256": "c6cedacca1f4b8f17de19d363ec32df0e55c87120cd8c7e3bd947cc29406f8c2"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduNamedPipelineTests.cs",
+      "GitBlob": "a8ab13b53aa4e1aec9a3f625969bab093ec7cc5e",
+      "WorkingBytes": 5149,
+      "WorkingSha256": "91ce47ee00b4fecfb9a57b32c9909d9565382bffab78b5aebff052fc9b6227d9"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduOwnershipTests.cs",
+      "GitBlob": "833ce8357a747d26903d404966745d4b36641104",
+      "WorkingBytes": 9648,
+      "WorkingSha256": "db8597484f10380ba19cd0ecdfab3f027b4aca88e689881d664902f8003500b3"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduParsingTests.cs",
+      "GitBlob": "e165927d3adab734cfcde38f4991dd89a3d80860",
+      "WorkingBytes": 5942,
+      "WorkingSha256": "2d63c3572c01665f0b20b5f19e3583b196034323ae84f5d1eee76b2e2bee7d90"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduProviderTests.cs",
+      "GitBlob": "a8f6fdc5cfb39104694d26526a89f69502ed0e32",
+      "WorkingBytes": 10898,
+      "WorkingSha256": "1b3defaa7dd9c249df83c0a3960709d5cd402af03ed92c486492a193d1869b35"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduRegistryTests.cs",
+      "GitBlob": "a044ed173d560c30829ebbf45e7e3f454f83f966",
+      "WorkingBytes": 3589,
+      "WorkingSha256": "a7cae994a1c00bb1b883f02f9f6982d3452cdb15704b0932692b8f98b184631a"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduTestScope.cs",
+      "GitBlob": "5f0d830ad115e23576e34766b7bf0f39dc218aad",
+      "WorkingBytes": 9476,
+      "WorkingSha256": "9953be0c4cae1902ecd2a3426f7106f0ff5a047a0c1462959d1b6cd14d07653b"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Ocr/Baidu/BaiduTokenTests.cs",
+      "GitBlob": "e7f70cf22a2e92cdbd3f9c1f811a43be11d42a2e",
+      "WorkingBytes": 9814,
+      "WorkingSha256": "c411e3128b72822be2b37e313e6350f6c9982c40cb7045b7f4fa1938654311ce"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Translation/Anthropic/AnthropicReworkR1Tests.cs",
+      "GitBlob": "83bb02c989a273922cacbe91c65a95bd1ea45448",
+      "WorkingBytes": 48898,
+      "WorkingSha256": "2e25c6aa6b3a346ff43d90e43f3b943ad74c3fc241acd2830cfda925c2c8459a"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Translation/Anthropic/AnthropicTranslationProviderFactoryTests.cs",
+      "GitBlob": "e17e7a57d4088b0d22ac4eeed36344b24428fc6b",
+      "WorkingBytes": 5109,
+      "WorkingSha256": "241ad42dcaa78245f4dd2026f9f363880439151180b9b799ed8883ab76780b8d"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Translation/Anthropic/AnthropicTranslationProviderTests.cs",
+      "GitBlob": "c801038980787d38ec5396f5be242a651d9246b3",
+      "WorkingBytes": 81224,
+      "WorkingSha256": "b4045b4c326a0b212bc069b9acb75370365d2f35c9e76626d04261a471e52c96"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Translation/OpenAICompatible/OpenAICompatibleTranslationProviderFactoryTests.cs",
+      "GitBlob": "8a1a94592e47eee0e88ec1510004b5cd89af251d",
+      "WorkingBytes": 5155,
+      "WorkingSha256": "b0e70985c0a4388a3dd7ce440956282a353a0f3c99ef4bf5adf83c40b1597b82"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Translation/OpenAICompatible/OpenAICompatibleTranslationProviderTests.cs",
+      "GitBlob": "ee63afd6e3c6be0fe46c3bcc3568a5a59b25330a",
+      "WorkingBytes": 79116,
+      "WorkingSha256": "6e84ef56d1a6159489afe13bf48ab037116f185479095c155cbb9c7f15644a1f"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Translation/OpenAICompatible/ThinkTagStripperTests.cs",
+      "GitBlob": "12b3d16fccd47633267053a9b64bedb3ecf55b3d",
+      "WorkingBytes": 4505,
+      "WorkingSha256": "be4641bb52095731f27b6040281f1ea1495093cf8d152f07753779dbfc0e7328"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Translation/ProviderCallGuardTests.cs",
+      "GitBlob": "72e07f81ff7987283d55d4923c4e52c0c5751711",
+      "WorkingBytes": 15531,
+      "WorkingSha256": "c849e31e2a572e78496391b07a8f6e4b308322957712391dd87a057488060905"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/Wire/WireSerializationTests.cs",
+      "GitBlob": "cf5fd0b98d249afd985a512724527cc07a79332b",
+      "WorkingBytes": 4107,
+      "WorkingSha256": "8d3a564ac558a959834c6694bb08e854369dc6f0631c8b00fe0b8849b4c3f13e"
+    },
+    {
+      "Path": "tests/Iris.Providers.Tests/xunit.runner.json",
+      "GitBlob": "86c7ea05b16cbf881dc404c70dedc3a905805498",
+      "WorkingBytes": 82,
+      "WorkingSha256": "c000bc0d17a0c54872293a50c4f5cd19b041611bd0c5494c444a47262adb0792"
+    },
+    {
+      "Path": "tests/Iris.UpdateHandoffWorker/Iris.UpdateHandoffWorker.csproj",
+      "GitBlob": "581f32dc793c154dd8a8d5f489cbc257c721a3e0",
+      "WorkingBytes": 353,
+      "WorkingSha256": "415b5ae70d98bffb721b55c73be7240c7620a50bd74f29fc5d1219c99eeabdc5"
+    },
+    {
+      "Path": "tests/Iris.UpdateHandoffWorker/Program.cs",
+      "GitBlob": "fcfa97717c6420168a3ab23b5a89803cad821e5d",
+      "WorkingBytes": 2985,
+      "WorkingSha256": "0887511b5578b42f3cb23fa38a0414f0cccd59b14f5d03a4aa970e0d9bcb4807"
+    }
+  ],
+  "IntendedTag": "v0.2.3",
+  "Build": {
+    "DotnetSdk": "10.0.402",
+    "Python": "3.12.7",
+    "PowerShell": "5.1.26100.9549",
+    "Vpk": "1.2.161",
+    "GitHubRunId": null,
+    "GitHubRunAttempt": null,
+    "GitHubRef": null,
+    "RunnerImage": null
+  },
+  "Signed": false,
+  "AppliedPackageType": "full",
+  "DeltaApplicationVerified": false,
+  "Payload": {
+    "PayloadEntries": 97,
+    "MaintenancePrefixBytes": 44626440,
+    "InternalSetupBytes": 72142508,
+    "InternalSetupSha256": "b7e67cd2bcd6d2fcd81f22a409f836817576eb1b435a9083b8b489f2e8a75555",
+    "FullSha256": "44bd292f6babd7d03e1556e0588e6adbecec4c67686bfe2d4d25500d2ff54739",
+    "OuterSha256": "ab88550182f72de8f06e3ce9e0649ba00599e21bc5d0150435dba98d1f3e956b"
+  },
+  "Validation": {
+    "Files": [
+      {
+        "Name": "release-manifest-tests.log",
+        "Bytes": 3079,
+        "Sha256": "ed97c4fbe0c3e0c6ef58299670bb152a5b89f1877284fa47559d8c920a28db24"
+      },
+      {
+        "Name": "release-build.log",
+        "Bytes": 2528,
+        "Sha256": "0bb9c9d4d583053f0002b47bb4817c811752753cc5a17c62a168df17650b0875"
+      },
+      {
+        "Name": "full-tests.log",
+        "Bytes": 4685,
+        "Sha256": "f5eaed1742880ee64abafbd460965cd082acf1d436152a00a54bd97bf8a9f092"
+      },
+      {
+        "Name": "validation-summary.json",
+        "Bytes": 3801,
+        "Sha256": "f82a7e0bc3c4a71d2cfdc3c26a41392fd6ee824703026ef11ba1b9fec359327c"
+      },
+      {
+        "Name": "package.log",
+        "Bytes": 6410,
+        "Sha256": "a5ffb8be6665b29e6b7cc5c50a90ccd60d58a0ef58cd0994ec818d504c99c546"
+      }
+    ],
+    "BuildWarnings": 0,
+    "BuildErrors": 0,
+    "FullTests": {
+      "Total": 3755,
+      "Passed": 3753,
+      "Failed": 0,
+      "Skipped": 2
+    }
+  }
+}
