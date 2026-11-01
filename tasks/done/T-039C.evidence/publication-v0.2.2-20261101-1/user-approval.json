@@ -1,0 +1,13 @@
+{
+  "Received": "Explicit user reply",
+  "Answer": "确认发布0.2.2（仅第一版）",
+  "ArchiveCommit": "285df3a2986f3379994eb56dd8b75617db9f470d",
+  "SourceCommit": "fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11",
+  "BranchTargets": [
+    "refs/heads/main",
+    "refs/heads/codex/t039c-public-release"
+  ],
+  "Tag": "v0.2.2",
+  "LaterVersionAuthorized": false,
+  "RecordedUtc": "2026-11-01T09:25:01.485010+00:00"
+}

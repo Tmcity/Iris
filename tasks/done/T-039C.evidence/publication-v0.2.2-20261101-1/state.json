@@ -1,0 +1,14 @@
+{
+  "SourceCommit": "fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11",
+  "ArchiveCommit": "285df3a2986f3379994eb56dd8b75617db9f470d",
+  "Version": "0.2.2",
+  "Stage": "preflight",
+  "Failure": {
+    "Type": "ValueError",
+    "Reason": "Public Release absence could not be confirmed; no mutation attempted"
+  },
+  "BranchesPushAttempted": false,
+  "TagPushAttempted": false,
+  "TagObject": null,
+  "RemoteConfirmed": false
+}

@@ -1,0 +1,23 @@
+{
+  "Command": [
+    "git",
+    "-c",
+    "url.https://github.com/Tmcity/Iris.git.insteadOf=https://github.com/Tmcity/Iris.git",
+    "-c",
+    "http.version=HTTP/1.1",
+    "-c",
+    "credential.helper=",
+    "-c",
+    "http.extraHeader=",
+    "ls-remote",
+    "https://github.com/Tmcity/Iris.git",
+    "refs/heads/main",
+    "refs/heads/codex/t039c-public-release",
+    "refs/tags/v*"
+  ],
+  "StartedUtc": "2026-11-01T09:33:42.309842+00:00",
+  "FinishedUtc": "2026-11-01T09:33:43.362229+00:00",
+  "ExitCode": 0,
+  "Bytes": 374,
+  "Sha256": "d834ff9ee349ef9e87cc832a93c0ab2e5eca482cece861e9659d948be7b5dc8b"
+}

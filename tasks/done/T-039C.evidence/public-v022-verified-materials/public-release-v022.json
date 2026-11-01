@@ -1,0 +1,19 @@
+{
+  "Version": "0.2.2",
+  "SourceCommit": "fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11",
+  "SourceGitTree": "60422257ce3c47f3eb83b291b02a84d4c75add8a",
+  "RunId": 41293681371,
+  "ReleaseUrl": "https://github.com/Tmcity/Iris/releases/tag/v0.2.2",
+  "InstallerUrl": "https://github.com/Tmcity/Iris/releases/download/v0.2.2/Iris-0.2.2-Setup.exe",
+  "InstallerBytes": 116767621,
+  "InstallerSha256": "ddae984ba4bcc65e5398ecd7a036afe0485966c5d61fe9b1603cc9bb487e7a0c",
+  "ActualCiFullTests": {
+    "Total": 3755,
+    "Passed": 3755,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "UserInstallExecuted": false,
+  "LaterVersionAuthorized": false,
+  "Scope": "Actual public installer metadata, not the earlier local candidate hash."
+}

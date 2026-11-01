@@ -1,0 +1,14 @@
+{
+  "ArtifactName": "iris-publication-41293681371-1",
+  "ArtifactId": 13078906492,
+  "OfficialDigest": "sha256:be6a0873799c35e07cde10b69bb62ca7e5b612d41c12c8c39800e05a87355ecd",
+  "RequestUrl": "https://nightly.link/Tmcity/Iris/actions/runs/41293681371/iris-publication-41293681371-1.zip",
+  "StartedUtc": "2026-11-01T11:20:37.943656+00:00",
+  "FinishedUtc": "2026-11-01T11:20:40.315181+00:00",
+  "ExitCode": 0,
+  "Status": "200",
+  "Bytes": 423,
+  "Sha256": "be6a0873799c35e07cde10b69bb62ca7e5b612d41c12c8c39800e05a87355ecd",
+  "MatchesOfficialDigest": true,
+  "AuthorizationSent": false
+}

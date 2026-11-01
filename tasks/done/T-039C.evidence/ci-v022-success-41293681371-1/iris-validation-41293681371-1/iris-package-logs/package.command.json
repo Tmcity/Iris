@@ -1,0 +1,21 @@
+{
+  "Command": [
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "D:\\a\\Iris\\Iris\\build\\pack.ps1",
+    "-Version",
+    "0.2.2",
+    "-OutputDirectory",
+    "D:\\a\\_temp\\iris-release"
+  ],
+  "StartedUtc": "2026-11-01T09:38:53.822757+00:00",
+  "FinishedUtc": "2026-11-01T09:40:08.400772+00:00",
+  "ExitCode": 0,
+  "Log": "package.log",
+  "Bytes": 5697,
+  "Sha256": "35dbd36f34630960c9af353013f873b1fcf88fd1863ce1a067c52c339a0a67fc"
+}

@@ -1,0 +1,258 @@
+[
+  {
+    "Name": "INSTALLATION.md",
+    "Bytes": 5088,
+    "Sha256": "c6aca79261915f9b2d98489304a0d788e267d755110ea1384585730d83ccca4d",
+    "Hops": [
+      {
+        "Host": "github.com",
+        "Status": 302
+      },
+      {
+        "Host": "release-assets.githubusercontent.com",
+        "Status": 200
+      }
+    ],
+    "IdentityHeaders": false
+  },
+  {
+    "Name": "Iris-0.2.2-Setup.exe",
+    "Bytes": 116767621,
+    "Sha256": "ddae984ba4bcc65e5398ecd7a036afe0485966c5d61fe9b1603cc9bb487e7a0c",
+    "Hops": [
+      {
+        "Host": "github.com",
+        "Status": 302
+      },
+      {
+        "Host": "release-assets.githubusercontent.com",
+        "Status": 200
+      }
+    ],
+    "IdentityHeaders": false
+  },
+  {
+    "Name": "Iris-0.2.2-full.nupkg",
+    "Bytes": 64627273,
+    "Sha256": "c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14",
+    "Hops": [
+      {
+        "Host": "github.com",
+        "Status": 302
+      },
+      {
+        "Host": "release-assets.githubusercontent.com",
+        "Status": 200
+      }
+    ],
+    "IdentityHeaders": false
+  },
+  {
+    "Name": "RELEASES",
+    "Bytes": 74,
+    "Sha256": "44fa4df2ac3f6cee935a880ffcc7e1f9bd8e69ef7908dc191bfc459978182e13",
+    "Hops": [
+      {
+        "Host": "github.com",
+        "Status": 302
+      },
+      {
+        "Host": "release-assets.githubusercontent.com",
+        "Status": 200
+      }
+    ],
+    "IdentityHeaders": false
+  },
+  {
+    "Name": "RELEASE_NOTES.md",
+    "Bytes": 676,
+    "Sha256": "f6e81faf2f98a5c6cd5cad3f9188d41105b4d1eb2ef3081780395699f437dcf1",
+    "Hops": [
+      {
+        "Host": "github.com",
+        "Status": 302
+      },
+      {
+        "Host": "release-assets.githubusercontent.com",
+        "Status": 200
+      }
+    ],
+    "IdentityHeaders": false
+  },
+  {
+    "Name": "SHA256.json",
+    "Bytes": 2154,
+    "Sha256": "17ca55d56899a3e9a8598fcd2f423f60809cf1c4b5f6b72fd0eaba57ee95e1d4",
+    "Hops": [
+      {
+        "Host": "github.com",
+        "Status": 302
+      },
+      {
+        "Host": "release-assets.githubusercontent.com",
+        "Status": 200
+      }
+    ],
+    "IdentityHeaders": false
+  },
+  {
+    "Name": "assets.win.json",
+    "Bytes": 161,
+    "Sha256": "8635055a2ef2123fb3db3403a8c8ec780bd7a70860ff34a68b3c89b6f9bf7e38",
+    "Hops": [
+      {
+        "Host": "github.com",
+        "Status": 302
+      },
+      {
+        "Host": "release-assets.githubusercontent.com",
+        "Status": 200
+      }
+    ],
+    "IdentityHeaders": false
+  },
+  {
+    "Name": "full-tests.log",
+    "Bytes": 3869,
+    "Sha256": "46af340c7a2428f97e3d3e52c49a215c9adaf8c404323d647bb3584b48cdd5ed",
+    "Hops": [
+      {
+        "Host": "github.com",
+        "Status": 302
+      },
+      {
+        "Host": "release-assets.githubusercontent.com",
+        "Status": 200
+      }
+    ],
+    "IdentityHeaders": false
+  },
+  {
+    "Name": "package.log",
+    "Bytes": 5697,
+    "Sha256": "35dbd36f34630960c9af353013f873b1fcf88fd1863ce1a067c52c339a0a67fc",
+    "Hops": [
+      {
+        "Host": "github.com",
+        "Status": 302
+      },
+      {
+        "Host": "release-assets.githubusercontent.com",
+        "Status": 200
+      }
+    ],
+    "IdentityHeaders": false
+  },
+  {
+    "Name": "payload-manifest.json",
+    "Bytes": 17644,
+    "Sha256": "8ef7f6edac3f9317fb8bc97b0da80db169d76579219279f455925ea6d1028637",
+    "Hops": [
+      {
+        "Host": "github.com",
+        "Status": 302
+      },
+      {
+        "Host": "release-assets.githubusercontent.com",
+        "Status": 200
+      }
+    ],
+    "IdentityHeaders": false
+  },
+  {
+    "Name": "release-build.log",
+    "Bytes": 3670,
+    "Sha256": "af0d7f828b3c7d8604f7b7c81c65594b1803faf5ef77f087cd502e12aa3859ea",
+    "Hops": [
+      {
+        "Host": "github.com",
+        "Status": 302
+      },
+      {
+        "Host": "release-assets.githubusercontent.com",
+        "Status": 200
+      }
+    ],
+    "IdentityHeaders": false
+  },
+  {
+    "Name": "release-manifest-tests.log",
+    "Bytes": 3079,
+    "Sha256": "258ca6548266290cce35b4df285e5b63dbe1ab4ce3741f213294ebd39c7aa5f3",
+    "Hops": [
+      {
+        "Host": "github.com",
+        "Status": 302
+      },
+      {
+        "Host": "release-assets.githubusercontent.com",
+        "Status": 200
+      }
+    ],
+    "IdentityHeaders": false
+  },
+  {
+    "Name": "release-provenance.json",
+    "Bytes": 192397,
+    "Sha256": "10dba107a5664c3e021b97963e4f3cf6616cbf6195f3a923f0f1644ba84b652e",
+    "Hops": [
+      {
+        "Host": "github.com",
+        "Status": 302
+      },
+      {
+        "Host": "release-assets.githubusercontent.com",
+        "Status": 200
+      }
+    ],
+    "IdentityHeaders": false
+  },
+  {
+    "Name": "releases.win.json",
+    "Bytes": 242,
+    "Sha256": "4bfe1c324f39b4ae96a77557429ec4a017958a07f7431022538be6c69705930c",
+    "Hops": [
+      {
+        "Host": "github.com",
+        "Status": 302
+      },
+      {
+        "Host": "release-assets.githubusercontent.com",
+        "Status": 200
+      }
+    ],
+    "IdentityHeaders": false
+  },
+  {
+    "Name": "staging-manifest.json",
+    "Bytes": 18533,
+    "Sha256": "0dfb70c40327627fd3faa31b54a8b96c526f43c6bb69780076d7ebe4a597d862",
+    "Hops": [
+      {
+        "Host": "github.com",
+        "Status": 302
+      },
+      {
+        "Host": "release-assets.githubusercontent.com",
+        "Status": 200
+      }
+    ],
+    "IdentityHeaders": false
+  },
+  {
+    "Name": "validation-summary.json",
+    "Bytes": 3066,
+    "Sha256": "6695c361f5dea378f1e919f8698fe1daadfabaeb5a843481208872a7ab1677fa",
+    "Hops": [
+      {
+        "Host": "github.com",
+        "Status": 302
+      },
+      {
+        "Host": "release-assets.githubusercontent.com",
+        "Status": 200
+      }
+    ],
+    "IdentityHeaders": false
+  }
+]

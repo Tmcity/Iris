@@ -66,3 +66,9 @@ B的新包来宾在当前网络中native完整下载报Peer disconnected，成�
 ## 新0.2.2/0.2.3本地材料已齐备
 
 新source fb9f46f，Release0/0/full3755/3753成功/0失败/2既有跳过，两版candidate4/candidate1与720项源码/资产匹配，旧v0.2.0/v0.2.1完整保留。更新手工清单MANUAL_ACCEPTANCE_V022_20261101.md和检查点PREPUBLICATION_REVIEW_V022_20261101.md取代旧待执行版本指令；新tag/远端写入仍待用户确认。新0.2.2正式源安装及之后实际UI升级由用户操作，不再自动启动来宾。原始建测/CI失败和新材料归档后提供精确commit，再请求仅第一新版本0.2.2确认，0.2.3单独保留。
+
+## 正式0.2.2已发布，待用户第1/2项实际反馈
+
+用户确认仅0.2.2，正常推送main/codex→285df3a，annotated v0.2.2对象a4cf0938b4e291005dfdb3fa4dfeabc646d6b6c6→fb9f46f；旧v0.2.0/v0.2.1保持。实际run41293681371/package与publish均成功，原validation及publication ZIP与官方digests匹配，原full3755/3755通过/0失败/0跳过；发布receipt为published-and-listed/Public=true。正式Release v0.2.2/id430484182，16个资产已匿名下载、原长度/SHA与source/tree/feed/full/外层prefix逐项通过。正式外层116767621字节/SHA256 ddae984ba4bcc65e5398ecd7a036afe0485966c5d61fe9b1603cc9bb487e7a0c，与本地候选SHA不混用。
+
+已提供MANUAL_FIRST_INSTALL_V022_20261101.md及真实公开元数据给用户手工全新Sandbox安装、关闭启动检查并保存、合成设置/DPAPI/历史/日志和old-ready证据；实际用户安装未执行/未收到反馈，不记通过。0.2.3未创建/推送/授权，必须等旧版就绪和单独用户确认再发布。C/父T-039、生产UI升级/默认正式源引导/单次重启/保留数据/更新后卸载及T-040/NFR仍未结案，M6延期保留。

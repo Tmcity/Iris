@@ -1,0 +1,10 @@
+[
+  {
+    "RelativeFileName": "Iris-0.2.2-Setup.exe",
+    "Type": "Installer"
+  },
+  {
+    "RelativeFileName": "Iris-0.2.2-full.nupkg",
+    "Type": "Full"
+  }
+]
