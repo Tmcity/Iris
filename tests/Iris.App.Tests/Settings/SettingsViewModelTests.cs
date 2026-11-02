@@ -195,30 +195,47 @@ public sealed class SettingsViewModelTests
     [Fact]
     public async Task ExecuteSaveAsync_WhenAutoStartPending_UpdatesBase_SetsSavedApplicationPending_AndEnablesRetry()
     {
-        var (vm, settingsService, _, _, autoStart) = CreateSut();
+        var (vm, settingsService, _, coordinator, autoStart) = CreateSut();
         using (vm)
+        using (coordinator)
         {
-            settingsService.UpdateAsync(Arg.Any<Func<AppSettings, AppSettings>>(), Arg.Any<CancellationToken>())
-                .Returns(callInfo =>
-                {
-                    var mutate = callInfo.Arg<Func<AppSettings, AppSettings>>();
-                    var updated = mutate(settingsService.Current);
-                    settingsService.Current.Returns(updated);
-                    return Task.CompletedTask;
-                });
+            var retryAvailable = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            System.ComponentModel.PropertyChangedEventHandler observeRetry = (_, args) =>
+            {
+                if (args.PropertyName == nameof(vm.CanRetryAutoStart) && vm.CanRetryAutoStart) retryAvailable.TrySetResult();
+            };
+            vm.PropertyChanged += observeRetry;
+            try
+            {
+                settingsService.UpdateAsync(Arg.Any<Func<AppSettings, AppSettings>>(), Arg.Any<CancellationToken>())
+                    .Returns(callInfo =>
+                    {
+                        var mutate = callInfo.Arg<Func<AppSettings, AppSettings>>();
+                        var updated = mutate(settingsService.Current);
+                        settingsService.Current.Returns(updated);
+                        return Task.CompletedTask;
+                    });
 
-            autoStart.When(x => x.SetEnabled(true)).Do(_ => throw new InvalidOperationException("Registry permission denied"));
+                autoStart.When(x => x.SetEnabled(true)).Do(_ => throw new InvalidOperationException("Registry permission denied"));
 
-            vm.LaunchAtStartup = true;
-            vm.IsDirty.ShouldBeTrue();
+                vm.LaunchAtStartup = true;
+                vm.IsDirty.ShouldBeTrue();
 
-            await vm.ExecuteSaveAsync();
+                await vm.ExecuteSaveAsync();
+                await retryAvailable.Task.WaitAsync(TimeSpan.FromSeconds(10), TestContext.Current.CancellationToken);
 
-            vm.IsDirty.ShouldBeFalse();
-            vm.CanRetryAutoStart.ShouldBeTrue();
-            vm.RetryAutoStartCommand.CanExecute(null).ShouldBeTrue();
-            vm.StatusMessage.ShouldNotBeNull();
-            vm.StatusMessage!.ShouldContain("开机启动设置未生效");
+                vm.IsDirty.ShouldBeFalse();
+                vm.CanRetryAutoStart.ShouldBeTrue();
+                vm.RetryAutoStartCommand.CanExecute(null).ShouldBeTrue();
+                vm.StatusMessage.ShouldNotBeNull();
+                vm.StatusMessage!.ShouldContain("开机启动设置未生效");
+            }
+            finally
+            {
+                vm.PropertyChanged -= observeRetry;
+                await coordinator.WaitForActiveWorkAsync();
+                await vm.WaitForActiveWorkAsync();
+            }
         }
     }
 
