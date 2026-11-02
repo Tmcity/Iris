@@ -4,6 +4,7 @@
   "RuntimeId": "win-x64",
   "Versions": [
     { "Version": "0.2.2", "PreviousVersion": null },
-    { "Version": "0.2.3", "PreviousVersion": "0.2.2" }
+    { "Version": "0.2.3", "PreviousVersion": "0.2.2" },
+    { "Version": "0.2.4", "PreviousVersion": "0.2.2" }
   ]
 }
