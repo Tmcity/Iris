@@ -1,0 +1,15 @@
+{
+  "Command": [
+    "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-File",
+    "F:\\Iris\\artifacts\\t039c\\verify_sandbox_launcher_inputs.ps1"
+  ],
+  "StartedUtc": "2026-11-02T02:24:26.122946+00:00",
+  "FinishedUtc": "2026-11-02T02:24:26.468685+00:00",
+  "ExitCode": 0,
+  "Log": "ps51-validate.log",
+  "Bytes": 1283,
+  "Sha256": "5d51dc9c4dec02e9daaacc85418451edde03b69a480323bcec831b55c1434b29"
+}

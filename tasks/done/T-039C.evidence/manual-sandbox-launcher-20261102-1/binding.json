@@ -1,0 +1,43 @@
+{
+  "Files": [
+    {
+      "Source": "artifacts/t039c/manual-verification-v022-20261101-1/Start-Iris-Acceptance-Sandbox.ps1",
+      "Name": "Start-Iris-Acceptance-Sandbox.ps1",
+      "Bytes": 4776,
+      "Sha256": "ff3a87c68c067b0b2c9f6a704a658cf492bd28447b14ef7f359028d16ea6b9d5"
+    },
+    {
+      "Source": "artifacts/t039c/manual-verification-v022-20261101-1/Open-Iris-Sandbox.cmd",
+      "Name": "Open-Iris-Sandbox.cmd",
+      "Bytes": 166,
+      "Sha256": "e41e6bdae4b72c5e3a991cc1856b24e26dde8bb0cebac86930912e16e31d53f9"
+    },
+    {
+      "Source": "artifacts/t039c/manual-verification-v022-20261101-1/Reconnect-Iris-Acceptance-Sandbox.ps1",
+      "Name": "Reconnect-Iris-Acceptance-Sandbox.ps1",
+      "Bytes": 1255,
+      "Sha256": "13ed3800aaa5b9236463da27f36393bf2db6e4cae03cb02e0e782f43804583d0"
+    },
+    {
+      "Source": "artifacts/t039c/manual-verification-v022-20261101-1/Reconnect-Iris-Sandbox.cmd",
+      "Name": "Reconnect-Iris-Sandbox.cmd",
+      "Bytes": 170,
+      "Sha256": "9ceeed37cb80d696e8f24b19264db854484c00b1d126a1315594d926ead142be"
+    },
+    {
+      "Source": "tasks/T-039C.coordination/sandbox-launcher-check-20261102-2/ps51-validate.log",
+      "Name": "ps51-validate.log",
+      "Bytes": 1283,
+      "Sha256": "5d51dc9c4dec02e9daaacc85418451edde03b69a480323bcec831b55c1434b29"
+    },
+    {
+      "Source": "tasks/T-039C.coordination/sandbox-launcher-check-20261102-2/ps51-validate.command.json",
+      "Name": "ps51-validate.command.json",
+      "Bytes": 460,
+      "Sha256": "3bef2bcaa49a9a337a018f528bce32047212a2ee16cf601639b4960df34ac764"
+    }
+  ],
+  "ActualSandboxLaunchTested": false,
+  "WindowVisibilityVerified": false,
+  "Method": "User manual start/share/connect using supported CLI"
+}

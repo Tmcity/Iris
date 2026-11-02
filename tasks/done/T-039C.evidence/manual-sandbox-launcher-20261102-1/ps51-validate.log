@@ -1,0 +1,20 @@
+{
+    "PowerShell":  "5.1.26100.9549",
+    "Launchers":  [
+                      {
+                          "ParseErrors":  0,
+                          "Name":  "Start-Iris-Acceptance-Sandbox.ps1",
+                          "Sha256":  "FF3A87C68C067B0B2C9F6A704A658CF492BD28447B14EF7F359028D16EA6B9D5"
+                      },
+                      {
+                          "ParseErrors":  0,
+                          "Name":  "Reconnect-Iris-Acceptance-Sandbox.ps1",
+                          "Sha256":  "13ED3800AAA5B9236463DA27F36393BF2DB6E4CAE03CB02E0E782F43804583D0"
+                      }
+                  ],
+    "Mappings":  2,
+    "HostFoldersExist":  true,
+    "CliStartConfig":  "\u003cConfiguration\u003e\u003cvGPU\u003eDisable\u003c/vGPU\u003e\u003cNetworking\u003eEnable\u003c/Networking\u003e\u003cClipboardRedirection\u003eDisable\u003c/ClipboardRedirection\u003e\u003cAudioInput\u003eDisable\u003c/AudioInput\u003e\u003cVideoInput\u003eDisable\u003c/VideoInput\u003e\u003cPrinterRedirection\u003eDisable\u003c/PrinterRedirection\u003e\u003cMemoryInMB\u003e4096\u003c/MemoryInMB\u003e\u003c/Configuration\u003e",
+    "ActualSandboxStarted":  false,
+    "Scope":  "Syntax/path/configuration validation only; actual launch is for the user"
+}
