@@ -100,3 +100,18 @@ source3372f79的首轮本地full3756/3752成功/2失败/2既有跳过保持；�
 最终发布source942b0ddeb62d9eb3e4f244574c0c093ab2942ffc/tree0146030d392a0dfef7e481e2e467c3fdd67bf8f6，Release0/0/full3756/3754成功/0失败/2既有error183跳过，Core984/App866/维护39、发布工具16通过。正式0.2.2以前版构建的release-0.2.4-public-base-candidate-1：18资产/97实际载荷、720源码blob/工作字节独立匹配，旧full c86982…保持；本地外层047d1acf…/full964621da…与未来CI字节分开。源分支已正常合并回本主分支，标签目标仍为具体发布source942b0dd，报告提交不冒充打包源。next-source-v024-20261102-1及原CI/本地失败原件完整归档。
 
 最新用户Sandbox590f8848…只读07:03:17UTC仍为原正常0.2.2/PID6604、V2watcher6956 Ready，settings/secrets/history哈希与原old-ready一致，未有新版本包；用户实际准备已通过，产品UI仍由用户操作。PREPUBLICATION_REVIEW_V024_20261102.md与MANUAL_UPDATE_V024_20261102.md已完成。此前0.2.3授权不扩展到0.2.4或分支推送；新tag未授权/创建/推送。下一步精确新检查点用户确认，仅v0.2.4→942b0dd，实际CI/匿名资产完整校验后再逐段真实UI检查→下载→Ready→安装确认/完整退出/native顺序/单次重启/旧设置Key历史保留及更新后卸载。C/父T-039/T-040/NFR不结案，M6延期；原旧tag/候选/失败、user .codex及当前Sandbox保持。
+
+## 2026-11-02 原0.2.4实际失败与新0.2.5完整准备
+
+用户已确认仅0.2.4，annotated09ee251c…→942b0dd正常推送，没有推分支。CI41407242768建测失败、打包/publish skipped，无正式0.2.4资产；原artifact13124257001/ZIP505866字节/SHA6140c82bf59d2d373b1e9a31c4cfa551be0e04e0cf48e00411d9c5cb67cce685与官方digest完全匹配，51原件保留。原full3756/3753成功/2失败/1跳过，两个Core测试在约5秒失败；六秒延迟反例复现原场景27同步门5秒自行失效。最小夹具修正仅使测试控制线程独立、完整join，显式保持阻塞并在finally放行/观察全部任务；生产读与factory仍真线程池且被断言；0秒与6秒延迟场景、编辑锁/网络阶段释放/旧键删除与取消等到factory退出/一次provider释放断言保留，3/3针对性通过。原编译错误及全部受控失败不覆盖。
+
+最终source4e9484a20b40338595ad34a4843e652436a1de6f/tree907154ddcce091c6c0dfa1058df01f8621d06203；Release0/0/full3757/3755成功/0失败/2既有error183跳过，Core985/App866/维护39、发布工具16通过。仅两个Core测试文件/一个测试驱动helper与release-plan/说明改动，src/公共契约/schema/依赖/测试选择不变。0.2.5唯一release-0.2.5-public-base-candidate-1以前版真实正式0.2.2构建，721来源blob和工作字节、18资产/97载荷及旧full c86982…全部独立通过；外层23184e57…/full33005d43…为本地实测，不冒充未来CI字节。源分支已正常本地合并，标签须固定发布source4e9484a而非整合/报告提交。
+
+新PREPUBLICATION_REVIEW_V025_20261102.md与MANUAL_UPDATE_V025_20261102.md已完成，0.2.5未授权/创建/推送。当前main/codex285df3a/原五个tag保持，新的用户确认只请求v0.2.5→4e9484a，不扩展0.2.4授权或推分支。原用户Sandbox12:09UTC仍为同一0.2.2/PID6604、V2watcher6956 Ready及settings/secrets/history原哈希，真实合成Key/旧历史此前已证；UI仍用户手工操作。实际新CI/草稿读回/全部公开资产字节通过后才逐段检查→下载→Ready→确认安装/完整退出/native顺序/一次重启/原设置Key历史/更新后卸载。C/父T-039/T-040/NFR未结案、M6延期；全部旧失败/tag/候选及user .codex保持，不重开工程师或在宿主安装Iris。
+
+
+## 0.2.5最终来源检查点
+
+**0.2.5最终源校正（2026-11-02）**：原4e9484a/验证1/候选1保持，最后修正发布说明旧候选文字后的发布source为ee2d7118597d07b891066256349098877e65f794/tree9dff0cd9e8f7ef4da5ac1aa82d3b233c885a0883。完整验证2 Release0/0/full3757/3755成功/0失败/2既有error183跳过，candidate2打包与独立721来源/18资产/97载荷/正式0.2.2前版核对通过；本地外层a557738f…/fullc215ffe7…。新source已正常本地整合，PREPUBLICATION_REVIEW_V025已更新此检查点，待用户新确认仅v0.2.5→ee2d711，不推分支，不指向下面旧源或报告。旧用户Sandbox13:19UTC仍原0.2.2/PID6604、V2watcher6956 Ready及原三项数据哈希。C/父T-039/T-040/NFR未结案、M6延期；下面源/候选/过程均为完整历史。
+
+最终本地SHA256：外层a557738f3cf56a594b9c49d0a5c2204248e450764dd36767f0dff9544eaa9581，full c215ffe7f7a64701a29f48b04c902583204450fc7ba18c1c58714d8e9449198f。PREPUBLICATION_REVIEW_V025确认动作仅v0.2.5→ee2d711，不扩展此前0.2.4授权；实际新CI/草稿读回/正式18资产通过后才交用户真实UI升级、单次重启、数据保留与卸载。原tag/失败/全部source/candidate以及user .codex保持。

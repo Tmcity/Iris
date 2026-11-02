@@ -1,0 +1,59 @@
+{
+  "Files": [
+    {
+      "Path": "core-owned-drivers-after-20261102-2/28910_SKYRIU-PC_2026-11-02_10_34_22.506866.xunit.xml",
+      "Bytes": 2771,
+      "Sha256": "6684b353a7d673ea1f951ca1a2e6d31c935e472cc7a516350d6bb957feee7981"
+    },
+    {
+      "Path": "owned-driver-delayed-regressions-20261102-1/28910_SKYRIU-PC_2026-11-02_10_36_55.797554.xunit.xml",
+      "Bytes": 3452,
+      "Sha256": "ffe6b8c462d495adcdd5e10660637b21093b5d850610c3ebe1ebf5fcdb052472"
+    },
+    {
+      "Path": "scenario27-expiry-before-20261102-1/28910_SKYRIU-PC_2026-11-02_09_29_55.859215.xunit.xml",
+      "Bytes": 3018,
+      "Sha256": "d22f189864abbfdf476b84bbc938d601437eb0d108496670eb11c8ad9d19a46a"
+    },
+    {
+      "Path": "v024-core-owned-drivers-after-1.command.json",
+      "Bytes": 807,
+      "Sha256": "94b62c1ff843be319f0358232ac32f7b91c786fa55fcb30ad0f7b01dbbc5230e"
+    },
+    {
+      "Path": "v024-core-owned-drivers-after-1.log",
+      "Bytes": 1195,
+      "Sha256": "f510a8f12c52fbe254d9bd781f2bc105f043b59e5b48e22a67d4280adab2f177"
+    },
+    {
+      "Path": "v024-core-owned-drivers-after-2.command.json",
+      "Bytes": 807,
+      "Sha256": "aa9c87b974be7b589a2dc8b9aa17c45bff3baa1d23a6ed662daae6a26c559d12"
+    },
+    {
+      "Path": "v024-core-owned-drivers-after-2.log",
+      "Bytes": 601,
+      "Sha256": "1c7e21984ddc3c159f4875e3cba748f469282e30635f3b11ab0f6a4d41c9e9be"
+    },
+    {
+      "Path": "v024-owned-driver-delayed-regressions-1.command.json",
+      "Bytes": 815,
+      "Sha256": "e966016e15586f4f6cb7781fe1d5f7e65676d2980a71ae7ff542c39461d1fa27"
+    },
+    {
+      "Path": "v024-owned-driver-delayed-regressions-1.log",
+      "Bytes": 609,
+      "Sha256": "d8641316649ecab8e81d06a24e28ee0a7a6edcf46885b3cf1e259825dfd5a3f1"
+    },
+    {
+      "Path": "v024-scenario27-expiry-before-1.command.json",
+      "Bytes": 705,
+      "Sha256": "7db351d60ddb3c2e910810a55441de11c24222b58ae0d3b83f157362ed98f207"
+    },
+    {
+      "Path": "v024-scenario27-expiry-before-1.log",
+      "Bytes": 2154,
+      "Sha256": "edb83fcb342a853ea08be9abe58b6c7e922626b8f877119540892bb6255ab337"
+    }
+  ]
+}

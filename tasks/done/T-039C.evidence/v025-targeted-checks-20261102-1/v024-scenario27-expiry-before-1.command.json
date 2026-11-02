@@ -1,0 +1,22 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.Core.Tests/Iris.Core.Tests.csproj",
+    "-c",
+    "Release",
+    "--filter-method",
+    "*Scenario27_KeepCapture_SuspendedGet_LocksOutCommit_ReleasesBeforeNetwork*",
+    "--no-ansi",
+    "--no-progress",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:/Iris/artifacts/t039c/scenario27-expiry-before-20261102-1/reports"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v025-ci-fix-20261102-1",
+  "startedAt": "2026-11-02T09:29:42.950404+00:00",
+  "completedAt": "2026-11-02T09:30:03.765071+00:00",
+  "exitCode": 2,
+  "logSha256": "edb83fcb342a853ea08be9abe58b6c7e922626b8f877119540892bb6255ab337"
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "RelativeFileName": "Iris-0.2.5-delta.nupkg",
+    "Type": "Delta"
+  },
+  {
+    "RelativeFileName": "Iris-0.2.5-Setup.exe",
+    "Type": "Installer"
+  },
+  {
+    "RelativeFileName": "Iris-0.2.5-full.nupkg",
+    "Type": "Full"
+  }
+]

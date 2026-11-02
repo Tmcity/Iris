@@ -1,0 +1,14 @@
+diff --git a/tests/Iris.Core.Tests/Settings/SettingsEditCoordinatorTests.cs b/tests/Iris.Core.Tests/Settings/SettingsEditCoordinatorTests.cs
+index 23e5795..02fb87c 100644
+--- a/tests/Iris.Core.Tests/Settings/SettingsEditCoordinatorTests.cs
++++ b/tests/Iris.Core.Tests/Settings/SettingsEditCoordinatorTests.cs
+@@ -2503,6 +2503,9 @@ public sealed class SettingsEditCoordinatorTests
+         // 1. 等待草稿进入后台读取
+         await entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+ 
++        // Controlled counterexample: the original fake opens itself after five seconds.
++        await Task.Delay(TimeSpan.FromSeconds(6), TestContext.Current.CancellationToken);
++
+         // 2. 发起 Replace 提交
+         var replacePlan = new SettingsEditPlan(
+             General: new GeneralSettingsPatch(),

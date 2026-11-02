@@ -1,0 +1,30 @@
+正在从以下位置运行测试 F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+失败 Iris.Core.Tests.Settings.SettingsEditCoordinatorTests.Scenario27_KeepCapture_SuspendedGet_LocksOutCommit_ReleasesBeforeNetwork (6s 191ms)
+  从 F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : await Task.WhenAny(commitTask, Task.Delay(100, TestContext.Current.CancellationToken)) == commitTask;
+          completedPrematurely
+      should be
+  False
+      but was
+  True
+    在 Iris.Core.Tests.Settings.SettingsEditCoordinatorTests.Scenario27_KeepCapture_SuspendedGet_LocksOutCommit_ReleasesBeforeNetwork() 位于 F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\tests\Iris.Core.Tests\Settings\SettingsEditCoordinatorTests.cs:2524
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (7s 636ms)
+退出代码: 2
+
+  生成的进程内文件项目:
+    - F:\Iris\artifacts\t039c\scenario27-expiry-before-20261102-1\reports\28910_SKYRIU-PC_2026-11-02_09_29_55.859215.xunit.xml
+
+测试运行摘要: 失败!
+  总计: 1
+  失败: 1
+  成功: 0
+  已跳过: 0
+  持续时间: 7s 937ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

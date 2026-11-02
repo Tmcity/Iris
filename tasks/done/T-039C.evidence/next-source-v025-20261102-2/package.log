@@ -1,0 +1,101 @@
+{
+  "Version": "0.2.5",
+  "SourceCommit": "ee2d7118597d07b891066256349098877e65f794",
+  "SourceGitTree": "9dff0cd9e8f7ef4da5ac1aa82d3b233c885a0883"
+}
+{
+  "Version": "0.2.2",
+  "SourceCommit": "fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11",
+  "SourceGitTree": "60422257ce3c47f3eb83b291b02a84d4c75add8a",
+  "PublicAssets": 16,
+  "PayloadEntries": 97,
+  "MaintenancePrefixBytes": 44626180,
+  "InternalSetupBytes": 72141385,
+  "InternalSetupSha256": "e3ed4dd80e9301be4c64cd04a3cf222c9324d00e10e85c60dde5539c4cf212a7",
+  "FullSha256": "c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14",
+  "OuterSha256": "ddae984ba4bcc65e5398ecd7a036afe0485966c5d61fe9b1603cc9bb487e7a0c"
+}
+可使用以下命令调用工具: vpk
+已成功安装工具“vpk”(版本“1.2.161”)。
+  正在确定要还原的项目…
+  已还原 F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Infrastructure\Iris.Infrastructure.csproj (用时 2.18 秒)。
+  已还原 F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Core\Iris.Core.csproj (用时 2.18 秒)。
+  已还原 F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 2.18 秒)。
+  已还原 F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.UiaHost\Iris.UiaHost.csproj (用时 2.18 秒)。
+  已还原 F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Maintenance\Iris.Maintenance.csproj (用时 2.18 秒)。
+  已还原 F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Providers\Iris.Providers.csproj (用时 2.22 秒)。
+  已还原 F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.App\Iris.App.csproj (用时 2.25 秒)。
+  Iris.Core -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Infrastructure -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Infrastructure\bin\Release\net10.0\Iris.Infrastructure.dll
+  Iris.Providers -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Providers\bin\Release\net10.0\Iris.Providers.dll
+  Iris.Platform.Windows -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.Maintenance -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.Maintenance.dll
+  Iris.App -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.App.dll
+  Iris.App -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\artifacts\pack-0.2.5-a4041df523d64cf3a4f866507ecb854d\app\
+  Iris.Core -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.UiaHost -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\artifacts\pack-0.2.5-a4041df523d64cf3a4f866507ecb854d\app\uia\
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  Iris.Core -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.UiaHost -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\artifacts\pack-0.2.5-a4041df523d64cf3a4f866507ecb854d\uia\
+  正在确定要还原的项目…
+  已还原 F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 222 毫秒)。
+  已还原 F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Maintenance\Iris.Maintenance.csproj (用时 222 毫秒)。
+  已还原 F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Core\Iris.Core.csproj (用时 222 毫秒)。
+  Iris.Core -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.Maintenance -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.Maintenance.dll
+  Iris.Maintenance -> F:\Iris\artifacts\t039c\worktree-v025-ci-fix-20261102-1\artifacts\pack-0.2.5-a4041df523d64cf3a4f866507ecb854d\maintenance\
+[21:01:08 INF] Velopack CLI 1.2.161, for distributing applications.
+[21:01:08 INF] Beginning to package Velopack release 0.2.5.
+[21:01:08 INF] Releases Directory: F:\Iris\artifacts\t039c\release-0.2.5-public-base-candidate-2
+[21:01:08 INF] Starting: Pre-process steps
+[21:01:08 WRN] VelopackApp.Run() was found in method 'System.Int32 Iris.App.Updates.VelopackStartup::RunHook(System.String[])', which does not look like your application's entry point. It is strongly recommended that you move this to the very beginning of your Main() method. 
+[21:01:08 INF] Runtime Dependency: net10-x64-desktop
+[21:01:08 INF] Shortcuts: Desktop,StartMenuRoot
+[21:01:08 INF] Complete: Pre-process steps
+[21:01:08 INF] Starting: Code-sign application
+[21:01:08 WRN] No signing parameters provided, 83 file(s) will not be signed.
+[21:01:08 INF] Complete: Code-sign application
+[21:01:08 INF] Starting: Building release 0.2.5
+[21:01:10 INF] Complete: Building release 0.2.5
+[21:01:10 INF] Starting: Building setup package
+[21:01:10 INF] Starting: Building delta 0.2.2 -> 0.2.5
+[21:01:10 INF] Creating delta for 0.2.2 -> 0.2.5 with 8 parallel threads.
+[21:01:11 INF] Setup bundle created 'Iris-win-Setup.exe'.
+[21:01:11 WRN] No signing parameters provided, 1 file(s) will not be signed.
+[21:01:11 INF] Complete: Building setup package
+[21:01:13 INF] Delta processed 0097 files. 0019 patched, 0078 unchanged, 0000 new, 0000 removed
+[21:01:13 INF] Complete: Building delta 0.2.2 -> 0.2.5
+[21:01:13 INF] Starting: Post-process steps
+[21:01:13 INF] Complete: Post-process steps
+[21:01:13 INF] Finished in 00:00:05.2361542.
+{
+  "IndexedOuterInstaller": "Iris-0.2.5-Setup.exe",
+  "FeedEntries": 3
+}
+{
+  "Version": "0.2.5",
+  "SourceCommit": "ee2d7118597d07b891066256349098877e65f794",
+  "SourceGitTree": "9dff0cd9e8f7ef4da5ac1aa82d3b233c885a0883",
+  "PublicAssets": 13,
+  "PayloadEntries": 97,
+  "MaintenancePrefixBytes": 44626580,
+  "InternalSetupBytes": 72143196,
+  "InternalSetupSha256": "a3b862c46f0cc8a57ecde4dddb7356779c2bf4bc9a20255f8b164a2db40c2ce2",
+  "FullSha256": "c215ffe7f7a64701a29f48b04c902583204450fc7ba18c1c58714d8e9449198f",
+  "OuterSha256": "a557738f3cf56a594b9c49d0a5c2204248e450764dd36767f0dff9544eaa9581"
+}
+{
+    "Version":  "0.2.5",
+    "SdkVersion":  "1.2.161",
+    "WorkDirectory":  "F:\\Iris\\artifacts\\t039c\\worktree-v025-ci-fix-20261102-1\\artifacts\\pack-0.2.5-a4041df523d64cf3a4f866507ecb854d",
+    "OutputDirectory":  "F:\\Iris\\artifacts\\t039c\\release-0.2.5-public-base-candidate-2",
+    "Installer":  "F:\\Iris\\artifacts\\t039c\\release-0.2.5-public-base-candidate-2\\Iris-0.2.5-Setup.exe",
+    "Signed":  false
+}

@@ -1,0 +1,55 @@
+{
+  "SourceCommit": "ee2d7118597d07b891066256349098877e65f794",
+  "Files": [
+    {
+      "Path": "active-recorder-v2.json",
+      "Bytes": 467,
+      "Sha256": "22b94b383527b6d101ea48a14ff88be81f53b4ed067ad3230e5a21af7d54cd53"
+    },
+    {
+      "Path": "old-ready-20261102T1319296238404Z.json",
+      "Bytes": 3434,
+      "Sha256": "ebf524e279499f1dafbdeac422e01302cd85ba243a1d29d99768589c508f48cd"
+    },
+    {
+      "Path": "process-events-v2.jsonl",
+      "Bytes": 324,
+      "Sha256": "896572cd26530e6ccb9b656fef9ddd11b86ae83040a7b83c3063460bf6d23461"
+    },
+    {
+      "Path": "process-events.jsonl",
+      "Bytes": 393,
+      "Sha256": "92886eacf4e4655a1496938294b3d7e38de3715cb81a90d2cc62372699654073"
+    },
+    {
+      "Path": "product-iris-20261102.log",
+      "Bytes": 1122,
+      "Sha256": "732b3fd255edcee8c455d60f07755815919766adf453d54d21fb539492991588"
+    },
+    {
+      "Path": "provider-requests.jsonl",
+      "Bytes": 255,
+      "Sha256": "5fa542aaa931b41a722d838aa4c99dbd0385ebb5e57bb7e5d41814af7805ba87"
+    },
+    {
+      "Path": "provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "supplement.json",
+      "Bytes": 2464,
+      "Sha256": "63207375c1325882d5aa6a67259d27aa22957be2469e7f9172e1bb4bf9edfac1"
+    },
+    {
+      "Path": "watcher-status.json",
+      "Bytes": 30,
+      "Sha256": "16f1d5778342d13e9bfa04251ba4be8ada3fc52a3eea90bac7ea2c5373746718"
+    },
+    {
+      "Path": "watcher-v2-status.json",
+      "Bytes": 176,
+      "Sha256": "33fb5574a2f0524d35fde741530eb473a0c837ab08738fe73c07e4a9043426eb"
+    }
+  ]
+}

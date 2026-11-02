@@ -1,0 +1,25 @@
+{
+  "SourceCommit": "942b0ddeb62d9eb3e4f244574c0c093ab2942ffc",
+  "Files": [
+    {
+      "Path": "tests/Iris.Core.Tests/Settings/SettingsEditCoordinatorTests.cs",
+      "Bytes": 142573,
+      "Sha256": "472a42b4c5bf4a1b2d7f922c3b8b936a6a88a65aa001bfda931233426e66d96d"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Translation/TranslationProviderRegistryTests.cs",
+      "Bytes": 78028,
+      "Sha256": "f8d4cd9a1d11f332560a5e75d0815917f122065199e8a87507fbb41a46000f22"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.cs",
+      "Bytes": 104197,
+      "Sha256": "5bf648071744710e374f740a4944ebfe067b8bb414ad7967bfcc5956bbce8546"
+    },
+    {
+      "Path": "src/Iris.Core/Translation/TranslationProviderRegistry.cs",
+      "Bytes": 23795,
+      "Sha256": "864b26375ba1602320dd01a88f79270ec29527256a1796931d05ad6f60a33bb8"
+    }
+  ]
+}

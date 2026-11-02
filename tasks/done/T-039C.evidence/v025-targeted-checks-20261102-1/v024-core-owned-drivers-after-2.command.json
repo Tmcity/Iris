@@ -1,0 +1,24 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.Core.Tests/Iris.Core.Tests.csproj",
+    "-c",
+    "Release",
+    "--filter-method",
+    "*Scenario27_KeepCapture_SuspendedGet_LocksOutCommit_ReleasesBeforeNetwork*",
+    "--filter-method",
+    "*R1_3_Ownership_Transient_CancellationDuringFactory_DisposesProvider*",
+    "--no-ansi",
+    "--no-progress",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:/Iris/artifacts/t039c/core-owned-drivers-after-20261102-2/reports"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v025-ci-fix-20261102-1",
+  "startedAt": "2026-11-02T10:34:19.593841+00:00",
+  "completedAt": "2026-11-02T10:34:24.169553+00:00",
+  "exitCode": 0,
+  "logSha256": "1c7e21984ddc3c159f4875e3cba748f469282e30635f3b11ab0f6a4d41c9e9be"
+}
