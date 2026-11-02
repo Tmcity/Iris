@@ -2438,8 +2438,11 @@ public sealed class SettingsEditCoordinatorTests
     // 场景 27: Keep 凭据捕获期间持有编辑权，网络阶段释放编辑权 (R2-1)
     // 关键断言: 密钥读取期间持有 gate 阻止 Commit，网络阶段释放 gate 允许 Commit 完成并删除旧键，草稿测试成功
     // =========================================================================
-    [Fact]
-    public async Task Scenario27_KeepCapture_SuspendedGet_LocksOutCommit_ReleasesBeforeNetwork()
+    [Theory]
+    [InlineData(0)]
+    [InlineData(6)]
+    public Task Scenario27_KeepCapture_SuspendedGet_LocksOutCommit_ReleasesBeforeNetwork(int controllerDelaySeconds) =>
+        Iris.Core.Tests.TestSupport.OwnedAsyncTestDriver.RunAsync(async () =>
     {
         var initial = CreateInitialSettings(out _, out _);
         var oldProfile = initial.Translation.Providers[0];
@@ -2454,15 +2457,19 @@ public sealed class SettingsEditCoordinatorTests
         var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         using var release = new ManualResetEventSlim();
         var networkEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        using var networkRelease = new ManualResetEventSlim();
+        var networkRelease = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         int gated = 0;
+        int controllerThreadId = Environment.CurrentManagedThreadId;
+        Thread.CurrentThread.IsThreadPoolThread.ShouldBeFalse();
 
         secretStore.OnGetHook = key =>
         {
             if (key == SecretKeys.CredentialSet(set) && Interlocked.CompareExchange(ref gated, 1, 0) == 0)
             {
+                Thread.CurrentThread.IsThreadPoolThread.ShouldBeTrue();
+                Environment.CurrentManagedThreadId.ShouldNotBe(controllerThreadId);
                 entered.TrySetResult();
-                if (!release.Wait(TimeSpan.FromSeconds(5))) throw new TimeoutException();
+                release.Wait();
             }
         };
 
@@ -2472,9 +2479,8 @@ public sealed class SettingsEditCoordinatorTests
             var provider = new TestTranslationProvider(p, c);
             provider.OnTestAsync = async ct =>
             {
-                await Task.Yield();
                 networkEntered.TrySetResult();
-                if (!networkRelease.Wait(TimeSpan.FromSeconds(5), ct)) throw new TimeoutException();
+                await networkRelease.Task.WaitAsync(ct).ConfigureAwait(false);
                 return new ProviderTestResult(true, TimeSpan.FromMilliseconds(5));
             };
             return provider;
@@ -2484,7 +2490,7 @@ public sealed class SettingsEditCoordinatorTests
         var promptProvider = Substitute.For<IPromptTemplateProvider>();
         promptProvider.Get(Arg.Any<string?>()).Returns(BuiltInPrompts.Default);
 
-        var coordinator = new SettingsEditCoordinator(
+        using var coordinator = new SettingsEditCoordinator(
             settingsService,
             secretStore,
             registry,
@@ -2498,44 +2504,60 @@ public sealed class SettingsEditCoordinatorTests
             BaseProfile: profileWithSet,
             Credentials: new ProviderCredentialEdit(CredentialEditKind.Keep));
 
-        var draftTask = coordinator.TestDraftAsync(draft, TestContext.Current.CancellationToken);
+        Task<ProviderTestResult>? draftTask = null;
+        Task<SettingsEditResult>? commitTask = null;
+        try
+        {
+            draftTask = coordinator.TestDraftAsync(draft, TestContext.Current.CancellationToken);
 
-        // 1. 等待草稿进入后台读取
-        await entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+            // 1. 等待草稿进入后台读取；仅测试驱动有自己的调度线程。
+            await entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+            if (controllerDelaySeconds != 0)
+                await Task.Delay(TimeSpan.FromSeconds(controllerDelaySeconds), TestContext.Current.CancellationToken);
 
-        // 2. 发起 Replace 提交
-        var replacePlan = new SettingsEditPlan(
-            General: new GeneralSettingsPatch(),
-            TranslationChanges: new[]
-            {
-                new TranslationProfileChange(
-                    TranslationProfileChangeKind.Update,
-                    BaseProfile: profileWithSet,
-                    TargetProfile: profileWithSet,
-                    Credentials: new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials("new-key", null)))
-            });
+            // 2. 发起 Replace 提交
+            var replacePlan = new SettingsEditPlan(
+                General: new GeneralSettingsPatch(),
+                TranslationChanges: new[]
+                {
+                    new TranslationProfileChange(
+                        TranslationProfileChangeKind.Update,
+                        BaseProfile: profileWithSet,
+                        TargetProfile: profileWithSet,
+                        Credentials: new ProviderCredentialEdit(CredentialEditKind.Replace, new ProviderCredentials("new-key", null)))
+                });
 
-        var commitTask = coordinator.CommitAsync(replacePlan, TestContext.Current.CancellationToken);
+            commitTask = coordinator.CommitAsync(replacePlan, TestContext.Current.CancellationToken);
 
-        // 3. 断言 Commit 在读取结束前被编辑锁阻塞，旧密钥未被删除
-        var completedPrematurely = await Task.WhenAny(commitTask, Task.Delay(100, TestContext.Current.CancellationToken)) == commitTask;
-        completedPrematurely.ShouldBeFalse();
-        secretStore.Storage.ContainsKey(SecretKeys.CredentialSet(set)).ShouldBeTrue();
+            // 3. 断言 Commit 在读取结束前被编辑锁阻塞，旧密钥未被删除
+            var completedPrematurely = await Task.WhenAny(commitTask, Task.Delay(100, TestContext.Current.CancellationToken)) == commitTask;
+            completedPrematurely.ShouldBeFalse();
+            secretStore.Storage.ContainsKey(SecretKeys.CredentialSet(set)).ShouldBeTrue();
 
-        // 4. 放行凭据读取，进入网络阶段
-        release.Set();
+            // 4. 放行凭据读取，进入网络阶段
+            release.Set();
 
-        // 5. 等待草稿进入网络测试，此时编辑锁已释放，Commit 能够顺利完成并清理旧键
-        await networkEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
-        var commitResult = await commitTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
-        commitResult.Status.ShouldBe(SettingsEditStatus.Applied);
-        secretStore.Storage.ContainsKey(SecretKeys.CredentialSet(set)).ShouldBeFalse();
+            // 5. 等待草稿进入网络测试，此时编辑锁已释放，Commit 能够顺利完成并清理旧键
+            await networkEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+            var commitResult = await commitTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+            commitResult.Status.ShouldBe(SettingsEditStatus.Applied);
+            secretStore.Storage.ContainsKey(SecretKeys.CredentialSet(set)).ShouldBeFalse();
 
-        // 6. 放行网络调用，草稿测试成功
-        networkRelease.Set();
-        var draftResult = await draftTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
-        draftResult.Success.ShouldBeTrue();
-    }
+            // 6. 放行网络调用，草稿测试成功
+            networkRelease.TrySetResult();
+            var draftResult = await draftTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+            draftResult.Success.ShouldBeTrue();
+        }
+        finally
+        {
+            release.Set();
+            networkRelease.TrySetResult();
+            var ownedTasks = new List<Task>();
+            if (draftTask != null) ownedTasks.Add(draftTask);
+            if (commitTask != null) ownedTasks.Add(commitTask);
+            await Task.WhenAll(ownedTasks);
+        }
+    });
 
     // =========================================================================
     // 场景 28: 草稿错误路径脱敏与安全边界 (R2-2)

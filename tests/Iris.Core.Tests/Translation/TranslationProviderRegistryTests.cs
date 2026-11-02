@@ -1234,34 +1234,51 @@ public sealed class TranslationProviderRegistryTests : IDisposable
     }
 
     [Fact]
-    public async Task R1_3_Ownership_Transient_CancellationDuringFactory_DisposesProvider()
+    public Task R1_3_Ownership_Transient_CancellationDuringFactory_DisposesProvider() =>
+        Iris.Core.Tests.TestSupport.OwnedAsyncTestDriver.RunAsync(async () =>
     {
+        int controllerThreadId = Environment.CurrentManagedThreadId;
+        Thread.CurrentThread.IsThreadPoolThread.ShouldBeFalse();
         var draft = new TranslationProviderProfile { Id = "tp-t", Kind = TranslationProviderKind.OpenAICompatible, DisplayName = "T", Model = "m", Enabled = true };
-        using var gate = new TestGate();
+        var factoryEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        using var factoryRelease = new ManualResetEventSlim();
         TestDisposableProvider? prov = null;
 
         var factory = new DelegatingFactory(TranslationProviderKind.OpenAICompatible, (p, c) =>
         {
+            Thread.CurrentThread.IsThreadPoolThread.ShouldBeTrue();
+            Environment.CurrentManagedThreadId.ShouldNotBe(controllerThreadId);
             prov = new TestDisposableProvider(p, c);
-            gate.Pause();
+            factoryEntered.TrySetResult();
+            factoryRelease.Wait();
             return prov;
         });
 
         using var registry = new TranslationProviderRegistry(_settingsService, _secretStore, [factory], _logger);
 
         using var cts = new CancellationTokenSource();
-        var transientTask = registry.CreateTransientAsync(draft, ProviderCredentials.None, cts.Token);
-
-        await gate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
-
-        cts.Cancel();
-        gate.Open();
-
-        await Should.ThrowAsync<OperationCanceledException>(async () => await transientTask);
-
-        prov.ShouldNotBeNull();
-        prov!.DisposeCount.ShouldBe(1);
-    }
+        Task<ITranslationProviderSnapshot>? transientTask = null;
+        try
+        {
+            transientTask = registry.CreateTransientAsync(draft, ProviderCredentials.None, cts.Token);
+            await factoryEntered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+            cts.Cancel();
+            transientTask.IsCompleted.ShouldBeFalse("Cancellation must join the still-running factory.");
+            factoryRelease.Set();
+            await Should.ThrowAsync<OperationCanceledException>(async () => await transientTask);
+            prov.ShouldNotBeNull();
+            prov!.DisposeCount.ShouldBe(1);
+        }
+        finally
+        {
+            factoryRelease.Set();
+            if (transientTask != null)
+            {
+                try { using var unexpected = await transientTask; }
+                catch (OperationCanceledException) when (cts.IsCancellationRequested) { }
+            }
+        }
+    });
 
     [Fact]
     public async Task R1_3_Ownership_Transient_DisposeDuringFactory_DisposesProvider()
