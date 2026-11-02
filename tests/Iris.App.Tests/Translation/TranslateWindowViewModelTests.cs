@@ -934,7 +934,7 @@ public sealed class TranslateWindowViewModelTests
         var callbackExited = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         clipboard.SetTextAsync(Arg.Any<string>(), Arg.Any<CancellationToken>())
-            .Returns(async ci =>
+            .Returns(ci =>
             {
                 var ct = ci.Arg<CancellationToken>();
                 ct.Register(() =>
@@ -943,9 +943,8 @@ public sealed class TranslateWindowViewModelTests
                     callbackRelease.Task.GetAwaiter().GetResult();
                     callbackExited.TrySetResult();
                 });
-
                 writeEntered.TrySetResult();
-                await writeRelease.Task;
+                return writeRelease.Task;
             });
 
         var reqId = Guid.NewGuid();
@@ -967,14 +966,16 @@ public sealed class TranslateWindowViewModelTests
             // 1. 等待写入进入并到达原生提交点
             await writeEntered.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
 
-            // 2. 写入返回（write returned）
-            writeRelease.TrySetResult();
-
-            // 3. 此时取消会话/隐藏窗口，触发取消
+            // 2. 写入仍在执行时接纳取消，保证该注册的回调确实进入。
             vm.OnWindowHidden();
 
-            // 4. 等待取消回调进入（callback entered）
+            // 3. 等待取消回调进入并阻塞。
             await callbackEntered.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+
+            // 4. 此时放行写入，并观察实际写入任务返回；取消回调仍然挂起。
+            writeRelease.TrySetResult();
+            await writeRelease.Task.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+            writeRelease.Task.IsCompletedSuccessfully.ShouldBeTrue();
 
             // 5. 核心验证：写入已经返回，但取消回调仍在执行（阻塞在 callbackRelease），WaitForActiveWorkAsync 不得完成！
             var waitTask = vm.WaitForActiveWorkAsync();

@@ -216,10 +216,49 @@ public sealed class NetworkSettingsTests
         var first = await c.CaptureCurrentAsync(Remote);
         f.SecretStore.Values[SecretKeys.ProxyCredentialSet(OldId)] = NetworkProxyCodec.Serialize(Proxy, new("replacement", "replacement"));
         (await c.CaptureCurrentAsync(Remote)).GenerationId.ShouldNotBe(first.GenerationId);
-        int reads = f.SecretStore.Reads.Count, changes = 0;
-        f.SecretStore.BeforeGet = key => f.SecretStore.Values[key] = NetworkProxyCodec.Serialize(Proxy, new("changing", (++changes).ToString(System.Globalization.CultureInfo.InvariantCulture)));
+        string proxyKey = SecretKeys.ProxyCredentialSet(OldId);
+        int reads = f.SecretStore.Reads.Count(key => key == proxyKey), changes = 0;
+        f.SecretStore.BeforeGet = key =>
+        {
+            if (key == proxyKey)
+                f.SecretStore.Values[key] = NetworkProxyCodec.Serialize(Proxy, new("changing", Interlocked.Increment(ref changes).ToString(System.Globalization.CultureInfo.InvariantCulture)));
+        };
         var error = await Should.ThrowAsync<IrisException>(() => c.CaptureCurrentAsync(Remote)); error.Code.ShouldBe(ErrorCode.NetworkUnavailable);
-        (f.SecretStore.Reads.Count - reads).ShouldBe(8);
+        (f.SecretStore.Reads.Count(key => key == proxyKey) - reads).ShouldBe(8);
+    });
+
+    [Fact]
+    public Task ContinuouslyChangingProxyReadBudget_IgnoresConcurrentOcrReads() => Run(async f =>
+    {
+        Seed(f); using var c = Coordinator(f, new());
+        string proxyKey = SecretKeys.ProxyCredentialSet(OldId);
+        const string otherKey = "ocr/read-budget-regression/apiKey";
+        f.SecretStore.Values[otherKey] = "unchanged-synthetic-value";
+        int reads = f.SecretStore.Reads.Count(key => key == proxyKey);
+        int otherReads = f.SecretStore.Reads.Count(key => key == otherKey);
+        int totalReads = f.SecretStore.Reads.Count, changes = 0;
+        var gate = f.NewGate();
+        f.SecretStore.BeforeGet = key =>
+        {
+            if (key != proxyKey) return;
+            int change = Interlocked.Increment(ref changes);
+            if (change == 1) gate.Pause();
+            f.SecretStore.Values[key] = NetworkProxyCodec.Serialize(Proxy, new("changing", change.ToString(System.Globalization.CultureInfo.InvariantCulture)));
+        };
+        var capture = f.Track(c.CaptureCurrentAsync(Remote), typeof(IrisException));
+        await gate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        var otherWork = f.Track(Task.Run(() =>
+        {
+            for (int index = 0; index < 4; index++) f.SecretStore.Get(otherKey);
+        }));
+        await otherWork;
+        gate.Open();
+        var error = await Should.ThrowAsync<IrisException>(() => capture);
+        error.Code.ShouldBe(ErrorCode.NetworkUnavailable);
+        (f.SecretStore.Reads.Count(key => key == proxyKey) - reads).ShouldBe(8);
+        (f.SecretStore.Reads.Count(key => key == otherKey) - otherReads).ShouldBe(4);
+        (f.SecretStore.Reads.Count - totalReads).ShouldBeGreaterThanOrEqualTo(12);
+        f.SecretStore.Values[otherKey].ShouldBe("unchanged-synthetic-value");
     });
 
     private sealed class Observer : INetworkConfigurationObserver
