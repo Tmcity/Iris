@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Begin-Manual-Evidence.cmd",
+    "Bytes": 346,
+    "Sha256": "356baaf51ef969d38d4fbb9fe9a969ced5121f8e74c465d85cd41627428ced81"
+  },
+  {
+    "Name": "Save-Installed-State.cmd",
+    "Bytes": 174,
+    "Sha256": "552fe3c42ef70e6b8d689efdf6aaf82a1e8a4a1eaa859199a42a509edc4c6250"
+  },
+  {
+    "Name": "Iris-0.2.2-Official-Download.url",
+    "Bytes": 100,
+    "Sha256": "36ed43ca43aeef0ac5a61c39d4dae07afee8d64ff62ff0cb2674ba1f501a5e47"
+  }
+]

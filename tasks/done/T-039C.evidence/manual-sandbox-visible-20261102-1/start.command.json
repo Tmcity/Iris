@@ -1,0 +1,13 @@
+{
+    "StartedUtc":  "2026-11-02T02:35:45.4500878Z",
+    "FinishedUtc":  "2026-11-02T02:35:47.0414240Z",
+    "Arguments":  [
+                      "start",
+                      "--id",
+                      "590f8848-f6b4-4bdb-a151-85c4a4f19305",
+                      "--config",
+                      "\u003cConfiguration\u003e\u003cvGPU\u003eDisable\u003c/vGPU\u003e\u003cNetworking\u003eEnable\u003c/Networking\u003e\u003cClipboardRedirection\u003eDisable\u003c/ClipboardRedirection\u003e\u003cAudioInput\u003eDisable\u003c/AudioInput\u003e\u003cVideoInput\u003eDisable\u003c/VideoInput\u003e\u003cPrinterRedirection\u003eDisable\u003c/PrinterRedirection\u003e\u003cMemoryInMB\u003e4096\u003c/MemoryInMB\u003e\u003c/Configuration\u003e",
+                      "--raw"
+                  ],
+    "ExitCode":  0
+}

@@ -1,0 +1,54 @@
+{
+  "SandboxId": "590f8848-f6b4-4bdb-a151-85c4a4f19305",
+  "UserReply": "出现了",
+  "UserWindowVisibleConfirmed": true,
+  "OriginalLauncherStage": "connection-requested",
+  "ActualIrisInstallationVerified": false,
+  "Files": [
+    {
+      "Name": "list-before.command.json",
+      "Bytes": 234,
+      "Sha256": "3fa73829c4ee86a376524a8f1f3b703f5af3f9767337263bd34e04e09abfdf8b"
+    },
+    {
+      "Name": "list-before.log",
+      "Bytes": 40,
+      "Sha256": "ffc3b12010eaff5cafdc2773e1f31851c7069b35cf93b503e12642bbe0ab4f0f"
+    },
+    {
+      "Name": "share-0.command.json",
+      "Bytes": 555,
+      "Sha256": "f6ffa328bd2bd32e9b4946cd31efe159d0751fae42a3d4e5ae5c8115d8831d92"
+    },
+    {
+      "Name": "share-0.log",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Name": "share-1.command.json",
+      "Bytes": 597,
+      "Sha256": "c8932e56509e9f7ce5ee8fcc1eadad581590dcabb54f8e29e76d5444ecbc7e8e"
+    },
+    {
+      "Name": "share-1.log",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Name": "start.command.json",
+      "Bytes": 826,
+      "Sha256": "5128a0f94f1831a4621c30e839d2300bb3a0238ddb1e3f52fe99a7ac0ddcb7f3"
+    },
+    {
+      "Name": "start.log",
+      "Bytes": 52,
+      "Sha256": "e00ba175d9876e80fe8a5d8be4f69721db7efa810c3f97aeff5dd48bd0ca2372"
+    },
+    {
+      "Name": "state.json",
+      "Bytes": 455,
+      "Sha256": "cb317ce4b485de682e841feedc411caa2f5e82846eb0e4755f7f1bee9b4bbd9a"
+    }
+  ]
+}

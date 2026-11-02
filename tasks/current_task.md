@@ -76,3 +76,7 @@ B的新包来宾在当前网络中native完整下载报Peer disconnected，成�
 ## 2026-11-02 用户Sandbox入口尚未成功
 
 用户已说明双击wsb文件无窗口，之前没问题/继续不作为实际0.2.2安装通过。只读配置、路径、选定入口与wsb0.8.107/list-empty核对已完成；准备Open-Iris-Sandbox.cmd显式start/share/connect入口，PS5.1语法/目录/配置检查通过，实际启动和桌面可见由用户执行反馈。参考MANUAL_SANDBOX_LAUNCH_20261102.md与SANDBOX_MANUAL_LAUNCH_FIX_20261102.md；保留原配置/系统设置，0.2.3未授权/发布。以正式0.2.2为前版的新0.2.3候选public-base-candidate-2本地已完成，97载荷/18资产，旧0.2.2full SHA c86982…；实际用户UI链仍未完成，C/父T-039/T-040不结案，M6延期。
+
+## 用户已确认Sandbox桌面可见
+
+用户反馈出现了，实际list包含本单ID590f8848-f6b4-4bdb-a151-85c4a4f19305，start/两次share日志与原connection-requested状态保留于manual-sandbox-visible-20261102-1。窗口已由用户确认可见，不等于Iris已安装；下一段按MANUAL_SANDBOX_VISIBLE_NEXT_20261102.md先用户点击记录clean、下载正式0.2.2并安装、保存installed和反馈版本。0.2.3仍未授权/推送，合成Key/历史旧版就绪及完整生产UI升级仍欠，C/父T-039/T-040/M6状态保持。

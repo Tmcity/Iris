@@ -1,0 +1,16 @@
+{
+    "StartedUtc":  "2026-11-02T02:35:47.3350168Z",
+    "FinishedUtc":  "2026-11-02T02:35:47.6268543Z",
+    "Arguments":  [
+                      "share",
+                      "--id",
+                      "590f8848-f6b4-4bdb-a151-85c4a4f19305",
+                      "--host-path",
+                      "F:\\Iris\\artifacts\\t039c\\manual-verification-v022-20261101-1\\output",
+                      "--sandbox-path",
+                      "C:\\IrisAcceptanceOutput",
+                      "--allow-write",
+                      "--raw"
+                  ],
+    "ExitCode":  0
+}
