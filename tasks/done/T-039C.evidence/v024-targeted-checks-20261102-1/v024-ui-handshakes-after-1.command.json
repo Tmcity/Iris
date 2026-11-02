@@ -1,0 +1,24 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.App.Tests/Iris.App.Tests.csproj",
+    "-c",
+    "Release",
+    "--filter-class",
+    "Iris.App.Tests.Settings.SettingsViewModelTests",
+    "--filter-class",
+    "Iris.App.Tests.Translation.TranslateWindowViewModelTests",
+    "--no-ansi",
+    "--no-progress",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:/Iris/artifacts/t039c/ui-handshakes-after-20261102-1/reports"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v024-ci-fix-20261102-1",
+  "startedAt": "2026-11-02T06:45:55.326633+00:00",
+  "completedAt": "2026-11-02T06:46:14.224210+00:00",
+  "exitCode": 2,
+  "logSha256": "23a8e0b9ec680bbef6898c3b47d606040fe6097f5ed64a5013cb1bd9d6df742c"
+}

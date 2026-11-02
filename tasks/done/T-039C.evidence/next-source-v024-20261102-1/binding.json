@@ -1,0 +1,320 @@
+{
+  "SourceCommit": "942b0ddeb62d9eb3e4f244574c0c093ab2942ffc",
+  "Files": [
+    {
+      "Path": "assets.win.json",
+      "Bytes": 240,
+      "Sha256": "0dd65aa1c97b0d20031bd4dbf7f04a3a6a49e304c883671a45528536b01dfb39"
+    },
+    {
+      "Path": "INSTALLATION.md",
+      "Bytes": 5088,
+      "Sha256": "c6aca79261915f9b2d98489304a0d788e267d755110ea1384585730d83ccca4d"
+    },
+    {
+      "Path": "package.log",
+      "Bytes": 7902,
+      "Sha256": "55e9038f3f540141d8ae3dcf5fcf42d559bf53e7de990b4da0d623db9c235bf7"
+    },
+    {
+      "Path": "payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "469a1e8ad701a95ce278a3f6d70c3cedf4dae775dd2a14c5865ed068be5f1736"
+    },
+    {
+      "Path": "release-provenance.json",
+      "Bytes": 192362,
+      "Sha256": "789d91e62e7666f0637b2fa407b32952e2efd7ba5d83254d8b6d4613872c193b"
+    },
+    {
+      "Path": "RELEASE_NOTES.md",
+      "Bytes": 676,
+      "Sha256": "c3ebc0f4659928fcf65e62319e5e551cea040509caa8a4d994ed4118f879dc57"
+    },
+    {
+      "Path": "RELEASES",
+      "Bytes": 146,
+      "Sha256": "38184918c50c3928fb9ed3a7d5268f52ef2101602339194812ae275a5219323a"
+    },
+    {
+      "Path": "releases.win.json",
+      "Bytes": 704,
+      "Sha256": "f4cfa866e235344ac8ca6c967b4e4c583ce4f08773d0a83f2f604b5c3b4334e6"
+    },
+    {
+      "Path": "review.json",
+      "Bytes": 4447,
+      "Sha256": "759daa16278ead0e0630a1baa4cdeb04715491782286b93e26ae217026491b37"
+    },
+    {
+      "Path": "SHA256.json",
+      "Bytes": 2456,
+      "Sha256": "b9d93bb85cffef63cb347ff96a1593dbd141ed9013873c7d1ebcd6f4574d8360"
+    },
+    {
+      "Path": "staging-manifest.json",
+      "Bytes": 18533,
+      "Sha256": "28fb7ce5211e75cb51666d72fd97274fac22eb59f9c1625deb839342de8a1b2c"
+    },
+    {
+      "Path": "validation/full-tests.command.json",
+      "Bytes": 522,
+      "Sha256": "22131e501e003e341a15a6f265b2ba5d66cdc70744cf233ea9b8d9fb72b0e024"
+    },
+    {
+      "Path": "validation/full-tests.log",
+      "Bytes": 5880,
+      "Sha256": "dbed2c6d23054ca272b6bbc369bc0ae74e592939e8d75fab830a96a03a532844"
+    },
+    {
+      "Path": "validation/owned-test-results/cancel-transferred-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "validation/owned-test-results/cancel-transferred.json",
+      "Bytes": 473,
+      "Sha256": "9df55ab43fc68d2dc57c597e00cbc9acc02cb722ec11646ef6e22e1993827800"
+    },
+    {
+      "Path": "validation/owned-test-results/cleanup-failure-then-success-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "validation/owned-test-results/cleanup-failure-then-success-worker-1.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "validation/owned-test-results/cleanup-failure-then-success.json",
+      "Bytes": 476,
+      "Sha256": "d457255a1fbc2459486241ca2952e133be348bdeebc7324344bb631107057179"
+    },
+    {
+      "Path": "validation/owned-test-results/disposed-failure-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "validation/owned-test-results/disposed-failure-worker-1.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "validation/owned-test-results/disposed-failure-worker-2.json",
+      "Bytes": 81,
+      "Sha256": "bb5a12933e3189de5613691561bb597833ab1100b09341905c06043f462d35d0"
+    },
+    {
+      "Path": "validation/owned-test-results/disposed-failure.json",
+      "Bytes": 742,
+      "Sha256": "724f78bb26909c7fa3d5e87d949088e5b6eb4e2c55d5c2049e7aa18fb3d56f06"
+    },
+    {
+      "Path": "validation/owned-test-results/disposed-recovery.png",
+      "Bytes": 14068,
+      "Sha256": "f1f7653e58d69150af7ee805812a27d35ea948bf5d08cc5e97d06d8ab6930023"
+    },
+    {
+      "Path": "validation/owned-test-results/disposed-success-before-parent-exit.json",
+      "Bytes": 601,
+      "Sha256": "6d44012eecd537d46643f9db0eb3bc2870877a78208ebb12f2f8dd9a55e215e6"
+    },
+    {
+      "Path": "validation/owned-test-results/ordinary-accepted-then-canceled.json",
+      "Bytes": 485,
+      "Sha256": "6747874e0a51938573809cfc360f68294d169f4d296e4a179243b59573f798fa"
+    },
+    {
+      "Path": "validation/owned-test-results/ordinary-confirmation-canceled.json",
+      "Bytes": 485,
+      "Sha256": "6747874e0a51938573809cfc360f68294d169f4d296e4a179243b59573f798fa"
+    },
+    {
+      "Path": "validation/owned-test-results/ordinary-new-offer.json",
+      "Bytes": 485,
+      "Sha256": "3bd8dffa3ab9b5bca3946fc5d50d57979cb7ea9c4c31aa1a4a2e1e3ba9a58d75"
+    },
+    {
+      "Path": "validation/owned-test-results/ordinary-ready.json",
+      "Bytes": 485,
+      "Sha256": "6747874e0a51938573809cfc360f68294d169f4d296e4a179243b59573f798fa"
+    },
+    {
+      "Path": "validation/owned-test-results/prepare-failure.json",
+      "Bytes": 479,
+      "Sha256": "bd8d8d1ff736e2aabb95f80275dc7a04e9f8a3984ad917d0e3b99d7ea504d94e"
+    },
+    {
+      "Path": "validation/owned-test-results/recovery-en-US-Dark-380.json",
+      "Bytes": 854,
+      "Sha256": "adde1622695a82584fc06bdf743d959d52d60a4fa24ceff94c36ff0772c1196c"
+    },
+    {
+      "Path": "validation/owned-test-results/recovery-en-US-Dark-380.png",
+      "Bytes": 17188,
+      "Sha256": "44bd88284e56d096774715926b5ec06ed3096ee428b317e40844ee58e748bde5"
+    },
+    {
+      "Path": "validation/owned-test-results/recovery-en-US-Dark-540.json",
+      "Bytes": 842,
+      "Sha256": "5fdfe2e0fef57c66a748bd28f60e2972c10d8fac88585b33dceecc4c603282d3"
+    },
+    {
+      "Path": "validation/owned-test-results/recovery-en-US-Dark-540.png",
+      "Bytes": 17444,
+      "Sha256": "78ef6d82a21490fcfd87d602a876013dc7db17129998e395a486bb9a5b96ef30"
+    },
+    {
+      "Path": "validation/owned-test-results/recovery-en-US-Light-380.json",
+      "Bytes": 858,
+      "Sha256": "24c5b62eaa0b3e6b09c06fd37e25e4c6799f2324e46537680176b25ecf81b015"
+    },
+    {
+      "Path": "validation/owned-test-results/recovery-en-US-Light-380.png",
+      "Bytes": 17121,
+      "Sha256": "ed3856181b506de15ad5dcc1206412b920445ada1bd289676d9b19520c18419a"
+    },
+    {
+      "Path": "validation/owned-test-results/recovery-en-US-Light-540.json",
+      "Bytes": 846,
+      "Sha256": "c6761e320a8ea93757477371a9547a1e2b4b42aa11b18fb1efdd7079a7747f23"
+    },
+    {
+      "Path": "validation/owned-test-results/recovery-en-US-Light-540.png",
+      "Bytes": 17379,
+      "Sha256": "7e0968f3745a5497f22bf21a70921afcab2292cca4d6637e0e625edd509015e7"
+    },
+    {
+      "Path": "validation/owned-test-results/recovery-zh-CN-Dark-380.json",
+      "Bytes": 880,
+      "Sha256": "7f82425ba11fa6554672b0dba35134de3671c5cf6246838abe9ab331089eb727"
+    },
+    {
+      "Path": "validation/owned-test-results/recovery-zh-CN-Dark-380.png",
+      "Bytes": 16286,
+      "Sha256": "f68b5a5419ce778db6756beb3b16c2e00954f1053c10ec8dae866359fc565304"
+    },
+    {
+      "Path": "validation/owned-test-results/recovery-zh-CN-Dark-540.json",
+      "Bytes": 880,
+      "Sha256": "599bfca72a03d79ff4e53c82c8786187420190f746494bf7539096a0d481e773"
+    },
+    {
+      "Path": "validation/owned-test-results/recovery-zh-CN-Dark-540.png",
+      "Bytes": 16768,
+      "Sha256": "a58430362a7597fcf07d3e391281d9213c8582b55c12a189f930c033069286c4"
+    },
+    {
+      "Path": "validation/owned-test-results/recovery-zh-CN-Light-380.json",
+      "Bytes": 884,
+      "Sha256": "886e834ea2f8691d2185124384f3e260ecde556905dce5a569a236b99b1cd4fa"
+    },
+    {
+      "Path": "validation/owned-test-results/recovery-zh-CN-Light-380.png",
+      "Bytes": 16071,
+      "Sha256": "cb10af4163b1cd1d7adf9423965159d49762b65d639f4fdd2a7cc1ebe7955473"
+    },
+    {
+      "Path": "validation/owned-test-results/recovery-zh-CN-Light-540.json",
+      "Bytes": 884,
+      "Sha256": "0f9088ef9363fb860c799e7a1d3dbadcf906f9908e6d92dd961ae8ffa2a16aa1"
+    },
+    {
+      "Path": "validation/owned-test-results/recovery-zh-CN-Light-540.png",
+      "Bytes": 16552,
+      "Sha256": "c0db423da2350b5dfb5d11b859c3b50de8409668ddd710ceba008f780fbcfee1"
+    },
+    {
+      "Path": "validation/owned-test-results/retained-failure-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "validation/owned-test-results/retained-failure-worker-1.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "validation/owned-test-results/retained-failure-worker-2.json",
+      "Bytes": 81,
+      "Sha256": "bb5a12933e3189de5613691561bb597833ab1100b09341905c06043f462d35d0"
+    },
+    {
+      "Path": "validation/owned-test-results/retained-failure.json",
+      "Bytes": 740,
+      "Sha256": "2b05dbfa8d83590dff71324c395c26d3bade8f3e0ce82ffe9da5b95bab98d04f"
+    },
+    {
+      "Path": "validation/owned-test-results/retained-recovery.png",
+      "Bytes": 14068,
+      "Sha256": "f1f7653e58d69150af7ee805812a27d35ea948bf5d08cc5e97d06d8ab6930023"
+    },
+    {
+      "Path": "validation/owned-test-results/retained-success-before-parent-exit.json",
+      "Bytes": 601,
+      "Sha256": "8b71436cd352b520a9f0d304642da8157cef1920f2571bdb64b4941bcdf4aaca"
+    },
+    {
+      "Path": "validation/release-build.command.json",
+      "Bytes": 364,
+      "Sha256": "7ef44c722e23876efeaf56afeaa160eb905816d150ea139cfa504215eb62ca57"
+    },
+    {
+      "Path": "validation/release-build.log",
+      "Bytes": 2765,
+      "Sha256": "dd456af5820745c3dc72417c82f8a643e1b37c659ac5057446fa1f2276d1407e"
+    },
+    {
+      "Path": "validation/release-manifest-tests.command.json",
+      "Bytes": 431,
+      "Sha256": "1257bcaa09674e1e2e9d275bc0cead4f80a81d54d3ea33f27d89e92d2a8ab675"
+    },
+    {
+      "Path": "validation/release-manifest-tests.log",
+      "Bytes": 3079,
+      "Sha256": "c435ee1904170b2e9ce1b5a68fe219b3186f115cb20e9ed3a65f333912b30796"
+    },
+    {
+      "Path": "validation/reports/28910_SKYRIU-PC_2026-11-02_06_53_44.533571.xunit.xml",
+      "Bytes": 7544,
+      "Sha256": "f09b295a2b06e28c14683f6eb863a933c843cbe2633815930f6900f7bc2f7cd0"
+    },
+    {
+      "Path": "validation/reports/28910_SKYRIU-PC_2026-11-02_06_53_44.548858.xunit.xml",
+      "Bytes": 710110,
+      "Sha256": "e2011cb1f6b13159cd7991405140ba75088545eb8ab8e26eefa912ec47afcd0c"
+    },
+    {
+      "Path": "validation/reports/28910_SKYRIU-PC_2026-11-02_06_53_44.551476.xunit.xml",
+      "Bytes": 604546,
+      "Sha256": "b0b771faf7d7ab319ae97f7f8c6f0177b0e67a3f08a934466d330b58e9c61e35"
+    },
+    {
+      "Path": "validation/reports/28910_SKYRIU-PC_2026-11-02_06_53_44.555088.xunit.xml",
+      "Bytes": 122928,
+      "Sha256": "d26605541a5142c90aca870d09fee6d13c307e1baf184f0dcd793f50993bdb83"
+    },
+    {
+      "Path": "validation/reports/28910_SKYRIU-PC_2026-11-02_06_53_44.558482.xunit.xml",
+      "Bytes": 25418,
+      "Sha256": "070e65f684cd72338d47f9794be91d3fcfebf1d4a770ef645077149ff24ee5ff"
+    },
+    {
+      "Path": "validation/reports/28910_SKYRIU-PC_2026-11-02_06_53_44.564363.xunit.xml",
+      "Bytes": 538505,
+      "Sha256": "b02966be1e8b16b36df54f28c6293d15ae3c2bb0c4c26ff3b73c4325946084f7"
+    },
+    {
+      "Path": "validation/reports/28910_SKYRIU-PC_2026-11-02_06_53_44.571139.xunit.xml",
+      "Bytes": 385158,
+      "Sha256": "8d3ee03f396831f9cfb8d22fad3553d36d9f078a1527b63ac9704d92fcb456ad"
+    },
+    {
+      "Path": "validation/validation-summary.json",
+      "Bytes": 3814,
+      "Sha256": "40ace27aee5a731b9c86e0dc56a6d2326ade028bcaef926c05b945ff107a285d"
+    }
+  ]
+}

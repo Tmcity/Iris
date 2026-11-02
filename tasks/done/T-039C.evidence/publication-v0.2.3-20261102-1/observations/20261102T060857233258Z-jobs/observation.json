@@ -1,0 +1,17 @@
+{
+  "RequestUrl": "https://api.github.com/repos/Tmcity/Iris/actions/runs/41397874525/jobs?per_page=100",
+  "StartedUtc": "2026-11-02T06:08:57.233258+00:00",
+  "ObservedUtc": "2026-11-02T06:08:58.163490+00:00",
+  "Status": 200,
+  "Bytes": 2833,
+  "Sha256": "4387c72cd6239052313144728bdf2738dfa7ced4f5fc4ef175b879c9ab972cbb",
+  "AuthorizationSent": false,
+  "Headers": {
+    "Date": "Mon, 02 Nov 2026 06:09:02 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "ETag": "W/\"cba463a5e85314250fb936493a4fe883fc6b1fdf2bdb6f9b8eb6c0bec662c9f4\"",
+    "X-RateLimit-Remaining": "14",
+    "X-RateLimit-Reset": "1793602397",
+    "Retry-After": null
+  }
+}

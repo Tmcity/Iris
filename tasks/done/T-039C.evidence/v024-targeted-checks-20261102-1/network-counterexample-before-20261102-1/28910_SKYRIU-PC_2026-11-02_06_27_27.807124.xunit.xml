@@ -1,0 +1,19 @@
+<assemblies schema-version="3" id="4ab792d7-9446-4143-bf20-a2f0ca6d5c78" computer="SKYRIU-PC" user="28910" start-rtf="2026-11-02T06:27:28.2466281+00:00" finish-rtf="2026-11-02T06:27:28.7158953+00:00" timestamp="11/02/2026 14:27:28"><assembly environment="64-bit (x64) .NET 10.0.13 [collection-per-class, parallel (collections, 20 threads)]" id="e19fdb22-5131-4fcb-8070-1731a5e3cfac" name="F:\Iris\artifacts\t039c\worktree-v024-ci-fix-20261102-1\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll" run-date="2026-11-02" run-time="06:27:28" start-rtf="2026-11-02T06:27:28.2466281+00:00" test-framework="xUnit.net v3 4.0.1+8ed8aa354c" target-framework=".NETCoreApp,Version=v10.0" errors="0" failed="1" finish-rtf="2026-11-02T06:27:28.7158953+00:00" not-run="0" passed="0" skipped="0" time="0.469" time-rtf="00:00:00.4690000" total="1"><collection name="Test collection for Iris.Core.Tests.Settings.NetworkSettingsTests (id: fa3a0d69103858dac2554186c7a97fa35a44519a8d2c81971fd3d0f77c85747c)" id="434816e3-4577-4801-bac2-f08ea872fc52" failed="1" not-run="0" passed="0" skipped="0" time="0.305" time-rtf="00:00:00.3050000" total="1"><test id="5862a333-399d-411c-b606-b0eda13e934e" name="Iris.Core.Tests.Settings.NetworkSettingsTests.InPlaceValueWithoutEventIsDetected_AndContinuouslyChangingStoreIsBounded" result="Fail" time="0.305" time-rtf="00:00:00.3050000" start-rtf="2026-11-02T06:27:28.3617243+00:00" finish-rtf="2026-11-02T06:27:28.6900212+00:00" type="Iris.Core.Tests.Settings.NetworkSettingsTests" method="InPlaceValueWithoutEventIsDetected_AndContinuouslyChangingStoreIsBounded" source-file="F:\Iris\artifacts\t039c\worktree-v024-ci-fix-20261102-1\tests\Iris.Core.Tests\Settings\NetworkSettingsTests.cs" source-line="212"><failure exception-type="Shouldly.ShouldAssertException"><message>Shouldly.ShouldAssertException : f.SecretStore.Reads.Count - reads
+    should be
+8
+    but was
+12</message><stack-trace>   at Iris.Core.Tests.Settings.NetworkSettingsTests.&lt;&gt;c.&lt;&lt;InPlaceValueWithoutEventIsDetected_AndContinuouslyChangingStoreIsBounded&gt;b__19_0&gt;d.MoveNext() in F:\Iris\artifacts\t039c\worktree-v024-ci-fix-20261102-1\tests\Iris.Core.Tests\Settings\NetworkSettingsTests.cs:line 233
+--- End of stack trace from previous location ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+   at Iris.Core.Tests.Settings.OcrEditingTestScope.Run(Func`2 body) in F:\Iris\artifacts\t039c\worktree-v024-ci-fix-20261102-1\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs:line 53
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at Iris.Core.Tests.Settings.OcrEditingTestScope.Run(Func`2 body) in F:\Iris\artifacts\t039c\worktree-v024-ci-fix-20261102-1\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs:line 71
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+--- End of stack trace from previous location ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)</stack-trace></failure></test></collection></assembly></assemblies>

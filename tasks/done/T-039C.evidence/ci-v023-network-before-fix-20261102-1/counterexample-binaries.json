@@ -1,0 +1,25 @@
+{
+  "Directory": "F:\\Iris\\artifacts\\t039c\\network-counterexample-before-20261102-1\\binaries",
+  "Files": [
+    {
+      "Name": "Iris.Core.Tests.dll",
+      "Bytes": 1075712,
+      "Sha256": "454b9bb0c41ea6cd51c7819966ba821859df6a0ff40930b46a38b028a91ce3e0"
+    },
+    {
+      "Name": "Iris.Core.Tests.pdb",
+      "Bytes": 192568,
+      "Sha256": "e93d2764d9032bef4998d02cef673268696bce24e91ea9a05d5193c8e515baf9"
+    },
+    {
+      "Name": "Iris.Core.dll",
+      "Bytes": 499200,
+      "Sha256": "94600f4d05a686a9a03edeb6f663dfa4833b2cf9ace68ec83eb9316479d8bd0c"
+    },
+    {
+      "Name": "Iris.Core.pdb",
+      "Bytes": 134960,
+      "Sha256": "9257ba5a6b49fdbd6e0b1d6388910d46a6fe9458596e89c11d7c0f932212c54a"
+    }
+  ]
+}

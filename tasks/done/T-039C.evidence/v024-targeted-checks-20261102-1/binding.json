@@ -1,0 +1,130 @@
+{
+  "SourceCommit": "942b0ddeb62d9eb3e4f244574c0c093ab2942ffc",
+  "Files": [
+    {
+      "Path": "copy-handshake-after-20261102-2/28910_SKYRIU-PC_2026-11-02_06_49_39.272265.xunit.xml",
+      "Bytes": 2640,
+      "Sha256": "36e96d53efede9dcb6b402856b312f165358d0f7cb9769e46b24c2a04b90c8cf"
+    },
+    {
+      "Path": "copy-handshake-after-20261102-3/28910_SKYRIU-PC_2026-11-02_06_51_20.327410.xunit.xml",
+      "Bytes": 1859,
+      "Sha256": "45a62f5aaec885ddce05ca372e9565f554812801a65b87f07b75fdf026b052d3"
+    },
+    {
+      "Path": "network-counterexample-before-20261102-1/28910_SKYRIU-PC_2026-11-02_06_27_27.807124.xunit.xml",
+      "Bytes": 3692,
+      "Sha256": "1a1002eec9244ac435762248bca04d57e41801e53bbce8b1955a3ae94236c73d"
+    },
+    {
+      "Path": "network-tests-after-20261102-1/28910_SKYRIU-PC_2026-11-02_06_30_35.525836.xunit.xml",
+      "Bytes": 16943,
+      "Sha256": "15f6e7d9f3bd95f1b31e4a7ee4c2b6eb25933a77aa105e36d0a23f101858969d"
+    },
+    {
+      "Path": "old-ready-20261102T0703177190970Z.json",
+      "Bytes": 3434,
+      "Sha256": "736c85be35169278709c5b1e8b12dcf0911da35245b582bdb58d51792468cc90"
+    },
+    {
+      "Path": "old-ready-rechecked/active-recorder-v2.json",
+      "Bytes": 467,
+      "Sha256": "22b94b383527b6d101ea48a14ff88be81f53b4ed067ad3230e5a21af7d54cd53"
+    },
+    {
+      "Path": "old-ready-rechecked/process-events-v2.jsonl",
+      "Bytes": 324,
+      "Sha256": "896572cd26530e6ccb9b656fef9ddd11b86ae83040a7b83c3063460bf6d23461"
+    },
+    {
+      "Path": "old-ready-rechecked/process-events.jsonl",
+      "Bytes": 393,
+      "Sha256": "92886eacf4e4655a1496938294b3d7e38de3715cb81a90d2cc62372699654073"
+    },
+    {
+      "Path": "old-ready-rechecked/product-iris-20261102.log",
+      "Bytes": 1122,
+      "Sha256": "732b3fd255edcee8c455d60f07755815919766adf453d54d21fb539492991588"
+    },
+    {
+      "Path": "old-ready-rechecked/provider-requests.jsonl",
+      "Bytes": 255,
+      "Sha256": "5fa542aaa931b41a722d838aa4c99dbd0385ebb5e57bb7e5d41814af7805ba87"
+    },
+    {
+      "Path": "old-ready-rechecked/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "old-ready-rechecked/supplement.json",
+      "Bytes": 2464,
+      "Sha256": "9aac407d4d6c10e368696a7b8600c763c73f18e4207271f3c250baf6b9159745"
+    },
+    {
+      "Path": "old-ready-rechecked/watcher-status.json",
+      "Bytes": 30,
+      "Sha256": "16f1d5778342d13e9bfa04251ba4be8ada3fc52a3eea90bac7ea2c5373746718"
+    },
+    {
+      "Path": "old-ready-rechecked/watcher-v2-status.json",
+      "Bytes": 176,
+      "Sha256": "b933d196ecdd7d2f022253591871cd5a27e6ed38b2d0bdc2ad6ef076a4f31194"
+    },
+    {
+      "Path": "ui-handshakes-after-20261102-1/28910_SKYRIU-PC_2026-11-02_06_46_09.119993.xunit.xml",
+      "Bytes": 25164,
+      "Sha256": "23cdb9242ad502c99a133d80987c410a81b6d30df2033956c21e0905e660e05a"
+    },
+    {
+      "Path": "v023-network-counterexample-before-1.command.json",
+      "Bytes": 710,
+      "Sha256": "bed492ab9e398b7e3a2fe33616c518ef074262c00c00aef2b86385cb78beb951"
+    },
+    {
+      "Path": "v023-network-counterexample-before-1.log",
+      "Bytes": 2849,
+      "Sha256": "ed62fbf9f9a83c260c56731bd16fc248997c8d125cdd1a923595bcea5b2b6b9d"
+    },
+    {
+      "Path": "v023-network-tests-after-1.command.json",
+      "Bytes": 670,
+      "Sha256": "7a940d6c437ad8cbcf9849f2f0199e53ed37f971053ca42b60ebd34c507c0461"
+    },
+    {
+      "Path": "v023-network-tests-after-1.log",
+      "Bytes": 598,
+      "Sha256": "5d51c1da01c8830eb455a5fb2dabcdb2a6c2f0212fc3f66123b556c42bf1d22d"
+    },
+    {
+      "Path": "v024-copy-handshake-after-2.command.json",
+      "Bytes": 709,
+      "Sha256": "c9a03c3391228f0aacad078c2d9ce7675093894b1bdc89c6e29cafab89ec8dca"
+    },
+    {
+      "Path": "v024-copy-handshake-after-2.log",
+      "Bytes": 1823,
+      "Sha256": "6571c06c525337aeccd8808f4c0a01e6ee2c3f76d74ee65bd55fa36a35f3b0ba"
+    },
+    {
+      "Path": "v024-copy-handshake-after-3.command.json",
+      "Bytes": 709,
+      "Sha256": "296fcb8be213c0ae5c130584b7f3059ec750b9ea9b661ae5fe646954b0d58155"
+    },
+    {
+      "Path": "v024-copy-handshake-after-3.log",
+      "Bytes": 633,
+      "Sha256": "4bf69043430dc8c48a933b1f4ed90f63b70a22a1577298b0bd08678ceb162234"
+    },
+    {
+      "Path": "v024-ui-handshakes-after-1.command.json",
+      "Bytes": 757,
+      "Sha256": "041da6b5b63954cc117add5f65cfb88f5692268d7a51673cc0b6804e9d67b73b"
+    },
+    {
+      "Path": "v024-ui-handshakes-after-1.log",
+      "Bytes": 1824,
+      "Sha256": "23a8e0b9ec680bbef6898c3b47d606040fe6097f5ed64a5013cb1bd9d6df742c"
+    }
+  ]
+}

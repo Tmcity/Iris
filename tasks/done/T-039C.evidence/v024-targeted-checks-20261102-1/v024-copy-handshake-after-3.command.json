@@ -1,0 +1,22 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.App.Tests/Iris.App.Tests.csproj",
+    "-c",
+    "Release",
+    "--filter-method",
+    "*CopyCancellation_WhenCallbackBlocked_WaitForActiveWorkAsyncWaitsUntilCallbackExits*",
+    "--no-ansi",
+    "--no-progress",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:/Iris/artifacts/t039c/copy-handshake-after-20261102-3/reports"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v024-ci-fix-20261102-1",
+  "startedAt": "2026-11-02T06:51:15.906133+00:00",
+  "completedAt": "2026-11-02T06:51:22.310268+00:00",
+  "exitCode": 0,
+  "logSha256": "4bf69043430dc8c48a933b1f4ed90f63b70a22a1577298b0bd08678ceb162234"
+}

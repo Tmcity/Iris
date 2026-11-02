@@ -1,0 +1,17 @@
+{
+  "RequestUrl": "https://api.github.com/repos/Tmcity/Iris/actions/workflows/desktop-release.yml/runs?event=push&per_page=10",
+  "StartedUtc": "2026-11-02T06:07:54.646758+00:00",
+  "ObservedUtc": "2026-11-02T06:07:55.808086+00:00",
+  "Status": 200,
+  "Bytes": 44713,
+  "Sha256": "eca7e1a6d334db2215d6f41110d3068b15ef80c50000c8c449b8c5fe64a210b2",
+  "AuthorizationSent": false,
+  "Headers": {
+    "Date": "Mon, 02 Nov 2026 06:08:00 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "ETag": "W/\"1a49864f39dd435e281e0d28383d936a242ac97d338199f716d5b3ea1025a0cd\"",
+    "X-RateLimit-Remaining": "16",
+    "X-RateLimit-Reset": "1793602397",
+    "Retry-After": null
+  }
+}

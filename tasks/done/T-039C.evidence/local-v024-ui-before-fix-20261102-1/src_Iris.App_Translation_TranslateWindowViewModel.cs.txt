@@ -1,0 +1,1718 @@
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Iris.App.Hosting;
+using Iris.App.Services;
+using Iris.App.Settings;
+using Iris.Core.Errors;
+using Iris.Core.Languages;
+using Iris.Core.Platform;
+using Iris.Core.Presentation;
+using Iris.Core.Settings;
+using Iris.Core.Translation;
+using Microsoft.Extensions.Logging;
+
+namespace Iris.App.Translation;
+
+internal sealed record LanguageOption(string Code, string DisplayName);
+
+/// <summary>
+/// 翻译窗口主 ViewModel。
+/// 规则见 TRANSLATION_WINDOW.md 全文与 ARCH §14。
+/// </summary>
+internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged, IDisposable
+{
+    private readonly ISettingsService _settingsService;
+    private readonly ITranslationOrchestrator _orchestrator;
+    private readonly IClipboardService _clipboardService;
+    private readonly ISettingsWindowPresenter _settingsPresenter;
+    private readonly IUiDispatcher _uiDispatcher;
+    private readonly ILogger<TranslateWindowViewModel> _logger;
+    private readonly ITextPreprocessor _textPreprocessor;
+    private readonly TranslationDeltaBuffer _deltaBuffer = new();
+
+    private readonly Lock _gate = new();
+    private bool _disposed;
+    private int _programmaticTextUpdateDepth;
+    private bool _programmaticTextUpdate => _programmaticTextUpdateDepth > 0;
+
+    private string _inputText = string.Empty;
+    private string _sourceLanguage = LanguageCodes.Auto;
+    private string _targetLanguage = LanguageCodes.Auto;
+    private string? _resolvedSourceLanguage;
+    private string? _resolvedTargetLanguage;
+
+    private string? _statusMessage;
+    private ErrorInfo? _error;
+    private bool _isTranslating;
+    private bool _isPinned;
+
+    private TranslateWindowOperation? _activeOperation;
+    private string _sessionOriginalText = string.Empty;
+    private TextOrigin _sessionOrigin = TextOrigin.Input;
+    private AutoCopyMode _sessionAutoCopyMode = AutoCopyMode.None;
+    private int _autoCopyClaimed;
+
+    private Task? _activeMainTask;
+    private Task? _activeRetryTask;
+    private Task? _mainCoordinatorTask;
+    private Task? _retryCoordinatorTask;
+    private Task? _flushTask;
+    private Task? _settingsTask;
+    private Task? _settingsChangedTask;
+
+    private readonly Lock _copyGate = new();
+    private Task? _inFlightCopyTask;
+    private QueuedCopyItem? _inFlightCopyItem;
+    private CancellationTokenSource? _inFlightCopyCts;
+    private QueuedCopyItem? _pendingCopy;
+    private readonly List<Task> _copyCancelTasks = [];
+    private readonly HashSet<CancellationTokenSource> _cancelingCtsSet = [];
+
+    private QueuedMainRequest? _pendingMain;
+    private QueuedRetryRequest? _pendingRetry;
+
+    public TranslateWindowViewModel(
+        ISettingsService settingsService,
+        ITranslationOrchestrator orchestrator,
+        IClipboardService clipboardService,
+        ISettingsWindowPresenter settingsPresenter,
+        IUiDispatcher uiDispatcher,
+        ILogger<TranslateWindowViewModel> logger,
+        ITextPreprocessor textPreprocessor)
+    {
+        _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
+        _orchestrator = orchestrator ?? throw new ArgumentNullException(nameof(orchestrator));
+        _clipboardService = clipboardService ?? throw new ArgumentNullException(nameof(clipboardService));
+        _settingsPresenter = settingsPresenter ?? throw new ArgumentNullException(nameof(settingsPresenter));
+        _uiDispatcher = uiDispatcher ?? throw new ArgumentNullException(nameof(uiDispatcher));
+        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _textPreprocessor = textPreprocessor ?? throw new ArgumentNullException(nameof(textPreprocessor));
+
+        var trSettings = _settingsService.Current.Translation;
+        _sourceLanguage = trSettings.DefaultSourceLanguage ?? LanguageCodes.Auto;
+        _targetLanguage = trSettings.PrimaryTargetLanguage ?? LanguageCodes.Auto;
+
+        InitializeLanguageLists();
+
+        TranslateCommand = new RelayCommand(ExecuteTranslateFromUser, () => CanTranslate);
+        StopCommand = new RelayCommand(ExecuteStop, () => IsTranslating);
+        SwapLanguagesCommand = new RelayCommand(ExecuteSwapLanguages, () => CanSwapLanguages);
+        PinCommand = new RelayCommand(() => IsPinned = !IsPinned);
+        GoToSettingsCommand = new RelayCommand(ExecuteGoToSettings);
+
+        _settingsService.Changed += OnSettingsChanged;
+    }
+
+    public ObservableCollection<LanguageOption> AvailableSourceLanguages { get; } = [];
+    public ObservableCollection<LanguageOption> AvailableTargetLanguages { get; } = [];
+    public ObservableCollection<ProviderResultCardViewModel> Cards { get; } = [];
+
+    public string InputText
+    {
+        get => _inputText;
+        set
+        {
+            if (!string.Equals(_inputText, value, StringComparison.Ordinal)) _inputRevision++;
+            if (SetField(ref _inputText, value))
+            {
+                OnPropertyChanged(nameof(InputLength));
+                OnPropertyChanged(nameof(CanTranslate));
+                ((RelayCommand)TranslateCommand).RaiseCanExecuteChanged();
+
+                if (!_programmaticTextUpdate)
+                {
+                    OnUserInputChanged();
+                }
+            }
+        }
+    }
+
+    public int InputLength => _inputText?.Length ?? 0;
+
+    public int MaxInputChars => _settingsService.Current.Translation.MaxInputChars;
+
+    public string SourceLanguage
+    {
+        get => _sourceLanguage;
+        set
+        {
+            if (SetField(ref _sourceLanguage, value))
+            {
+                OnPropertyChanged(nameof(CanSwapLanguages));
+                if (!_programmaticTextUpdate)
+                {
+                    OnUserInputChanged();
+                }
+            }
+        }
+    }
+
+    public string TargetLanguage
+    {
+        get => _targetLanguage;
+        set
+        {
+            if (SetField(ref _targetLanguage, value))
+            {
+                OnPropertyChanged(nameof(CanSwapLanguages));
+                if (!_programmaticTextUpdate)
+                {
+                    OnUserInputChanged();
+                }
+            }
+        }
+    }
+
+    public bool CanSwapLanguages
+    {
+        get
+        {
+            string effSource = _sourceLanguage;
+            string effTarget = _targetLanguage;
+
+            if (effSource == LanguageCodes.Auto)
+            {
+                if (string.IsNullOrEmpty(_resolvedSourceLanguage) || _resolvedSourceLanguage == LanguageCodes.Auto)
+                {
+                    return false;
+                }
+                effSource = _resolvedSourceLanguage;
+            }
+
+            if (effTarget == LanguageCodes.Auto)
+            {
+                if (string.IsNullOrEmpty(_resolvedTargetLanguage) || _resolvedTargetLanguage == LanguageCodes.Auto)
+                {
+                    return false;
+                }
+                effTarget = _resolvedTargetLanguage;
+            }
+
+            return !string.Equals(effSource, effTarget, StringComparison.OrdinalIgnoreCase);
+        }
+    }
+
+    public string? StatusMessage
+    {
+        get => _statusMessage;
+        set
+        {
+            if (SetField(ref _statusMessage, value))
+            {
+                OnPropertyChanged(nameof(HasStatus));
+            }
+        }
+    }
+
+    public bool HasStatus => !string.IsNullOrEmpty(StatusMessage);
+
+    public ErrorInfo? Error
+    {
+        get => _error;
+        set
+        {
+            if (SetField(ref _error, value))
+            {
+                OnPropertyChanged(nameof(HasError));
+                OnPropertyChanged(nameof(ShowGoToSettingsForError));
+            }
+        }
+    }
+
+    public bool HasError => _error != null;
+
+    public bool ShowGoToSettingsForError => _error?.Code is ErrorCode.NotConfigured or ErrorCode.AuthenticationFailed;
+
+    public bool IsTranslating
+    {
+        get => _isTranslating;
+        private set
+        {
+            if (SetField(ref _isTranslating, value))
+            {
+                OnPropertyChanged(nameof(CanTranslate));
+                if (TranslateCommand is RelayCommand tc)
+                {
+                    tc.RaiseCanExecuteChanged();
+                }
+                if (StopCommand is RelayCommand sc)
+                {
+                    sc.RaiseCanExecuteChanged();
+                }
+                foreach (var card in Cards)
+                {
+                    card.RefreshCanRetry();
+                }
+            }
+        }
+    }
+
+    internal static ErrorInfo SanitizeErrorInfo(ErrorInfo error)
+    {
+        string safeMessage = error.Code switch
+        {
+            ErrorCode.InputEmpty => UiText.TranslateEmptyPrompt,
+            ErrorCode.InputTooLong => UiText.TranslateInputTooLong,
+            ErrorCode.NotConfigured => UiText.TranslateNoConfiguredProviders,
+            _ => ErrorMessages.GetDefault(error.Code)
+        };
+
+        return new ErrorInfo(
+            error.Code,
+            safeMessage,
+            Detail: null,
+            HttpStatus: error.HttpStatus,
+            Retryable: error.Retryable,
+            ProviderId: error.ProviderId);
+    }
+
+    public bool CanTranslate => !string.IsNullOrWhiteSpace(_inputText) && !_disposed;
+
+    public bool IsPinned
+    {
+        get => _isPinned;
+        set
+        {
+            if (SetField(ref _isPinned, value))
+            {
+                OnPropertyChanged(nameof(Topmost));
+            }
+        }
+    }
+
+    public bool Topmost => _settingsService.Current.TranslateWindow.Topmost || _isPinned;
+
+    public double WindowWidth => _settingsService.Current.TranslateWindow.Width;
+
+    public double FontSize => _settingsService.Current.TranslateWindow.FontSize;
+
+    public bool EnterToTranslate => _settingsService.Current.TranslateWindow.EnterToTranslate;
+
+    public bool HideOnDeactivate => _settingsService.Current.TranslateWindow.HideOnDeactivate;
+
+    public ICommand TranslateCommand { get; }
+    public ICommand StopCommand { get; }
+    public ICommand SwapLanguagesCommand { get; }
+    public ICommand PinCommand { get; }
+    public ICommand GoToSettingsCommand { get; }
+
+    internal TranslateWindowOperation? ActiveOperation => _activeOperation;
+
+    private void InitializeLanguageLists()
+    {
+        var all = new (string Code, string Name)[]
+        {
+            (LanguageCodes.ChineseSimplified, global::Iris.App.Resources.AppResources.Get("Text_9937e365aaf3")),
+            (LanguageCodes.ChineseTraditional, global::Iris.App.Resources.AppResources.Get("Text_7bf7a60617de")),
+            (LanguageCodes.English, global::Iris.App.Resources.AppResources.Get("Text_d1648bacbc16")),
+            (LanguageCodes.Japanese, global::Iris.App.Resources.AppResources.Get("Text_3a944ddb3868")),
+            (LanguageCodes.Korean, global::Iris.App.Resources.AppResources.Get("Text_259cdcf75199")),
+            (LanguageCodes.French, global::Iris.App.Resources.AppResources.Get("Text_99cdf164a814")),
+            (LanguageCodes.German, global::Iris.App.Resources.AppResources.Get("Text_7566092dce72")),
+            (LanguageCodes.Spanish, global::Iris.App.Resources.AppResources.Get("Text_6c872d27f835")),
+            (LanguageCodes.Russian, global::Iris.App.Resources.AppResources.Get("Text_bdb6608a4dc8")),
+            (LanguageCodes.Portuguese, global::Iris.App.Resources.AppResources.Get("Text_6ce072a79389")),
+            (LanguageCodes.Italian, global::Iris.App.Resources.AppResources.Get("Text_5bdde8257c53")),
+            (LanguageCodes.Vietnamese, global::Iris.App.Resources.AppResources.Get("Text_8648ba069ee0")),
+            (LanguageCodes.Thai, global::Iris.App.Resources.AppResources.Get("Text_a15fb0d0595f")),
+            (LanguageCodes.Arabic, global::Iris.App.Resources.AppResources.Get("Text_fc9a0bdeb77f")),
+        };
+
+        AvailableSourceLanguages.Add(new LanguageOption(LanguageCodes.Auto, global::Iris.App.Resources.AppResources.Get("Text_3b89fd6b0ced")));
+        foreach (var (code, name) in all)
+        {
+            AvailableSourceLanguages.Add(new LanguageOption(code, name));
+        }
+
+        AvailableTargetLanguages.Add(new LanguageOption(LanguageCodes.Auto, global::Iris.App.Resources.AppResources.Get("Text_90df77bfc309")));
+        foreach (var (code, name) in all)
+        {
+            AvailableTargetLanguages.Add(new LanguageOption(code, name));
+        }
+    }
+
+    private bool IsCurrentOperation(TranslateWindowOperation operation)
+    {
+        lock (_gate)
+        {
+            return !_disposed
+                && ReferenceEquals(_activeOperation, operation)
+                && !operation.IsCancellationRequested;
+        }
+    }
+
+    internal bool ApplyRequest(TranslateWindowRequest request, TranslateWindowOperation operation)
+    {
+        ArgumentNullException.ThrowIfNull(request);
+        ArgumentNullException.ThrowIfNull(operation);
+
+        TranslateWindowOperation? oldOp = null;
+        bool updateText = request.Text != null;
+        bool statusChanged;
+        bool errorChanged;
+        long appliedRevision;
+
+        lock (_gate)
+        {
+            if (operation.IsRetired || operation.IsCancellationRequested || _disposed)
+            {
+                return false;
+            }
+
+            if (_activeOperation != null && !ReferenceEquals(_activeOperation, operation))
+            {
+                oldOp = _activeOperation;
+            }
+
+            _activeOperation = operation;
+            if (!operation.AttachSession())
+            {
+                if (ReferenceEquals(_activeOperation, operation))
+                {
+                    _activeOperation = null;
+                }
+                return false;
+            }
+
+            if (updateText)
+            {
+                if (!string.Equals(_inputText, request.Text, StringComparison.Ordinal)) _inputRevision++;
+                _inputText = request.Text!;
+            }
+            appliedRevision = _inputRevision;
+
+            string? newStatus = request.StatusMessage;
+            statusChanged = !string.Equals(_statusMessage, newStatus, StringComparison.Ordinal);
+            _statusMessage = newStatus;
+
+            ErrorInfo? newError = request.Error != null ? SanitizeErrorInfo(request.Error) : null;
+            errorChanged = !Equals(_error, newError);
+            _error = newError;
+        }
+
+        if (oldOp != null)
+        {
+            oldOp.Cancel();
+            oldOp.DetachSession();
+        }
+
+        if (!IsCurrentOperation(operation))
+        {
+            return false;
+        }
+
+        _programmaticTextUpdateDepth++;
+        try
+        {
+            if (updateText)
+            {
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(InputText));
+
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(InputLength));
+
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(CanTranslate));
+                if (!IsCurrentOperation(operation) || _inputRevision != appliedRevision) return false;
+                ((RelayCommand)TranslateCommand).RaiseCanExecuteChanged();
+            }
+
+            if (statusChanged)
+            {
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(StatusMessage));
+
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(HasStatus));
+            }
+
+            if (errorChanged)
+            {
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(Error));
+
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(HasError));
+
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(ShowGoToSettingsForError));
+            }
+
+            if (!IsCurrentOperation(operation)) return false;
+
+            if (_inputRevision != appliedRevision) return false;
+
+            bool isNewMain = request.AutoTranslate
+                && !string.IsNullOrWhiteSpace(request.Text)
+                && request.Error == null
+                && string.IsNullOrWhiteSpace(request.StatusMessage)
+                && operation.TryClaimAutoTranslate();
+
+            if (isNewMain)
+            {
+                _sessionOriginalText = _inputText;
+                _sessionOrigin = request.Origin;
+                _sessionAutoCopyMode = _settingsService.Current.Translation.AutoCopy;
+                Interlocked.Exchange(ref _autoCopyClaimed, 0);
+
+                SubmitMainTranslation(operation, _inputText, request.Origin);
+            }
+
+            return IsCurrentOperation(operation) && _inputRevision == appliedRevision;
+        }
+        finally
+        {
+            _programmaticTextUpdateDepth--;
+        }
+    }
+
+    internal void RevokeOperation(Guid operationId)
+    {
+        lock (_gate)
+        {
+            if (_activeOperation != null && _activeOperation.Id == operationId)
+            {
+                _pendingMain = null;
+                _pendingRetry = null;
+                _sessionAutoCopyMode = AutoCopyMode.None;
+                Interlocked.Exchange(ref _autoCopyClaimed, 1);
+                _activeOperation.Cancel();
+                _activeOperation.DetachSession();
+                _activeOperation = null;
+                IsTranslating = false;
+            }
+        }
+        CancelPendingAndActiveCopies();
+    }
+
+    internal void OnWindowHidden()
+    {
+        TranslateWindowOperation? opToCancel = null;
+        Guid? currentOpId = null;
+        lock (_gate)
+        {
+            _pendingMain = null;
+            _pendingRetry = null;
+            opToCancel = _activeOperation;
+            currentOpId = _activeOperation?.Id;
+            _activeOperation = null;
+        }
+
+        opToCancel?.Cancel();
+        opToCancel?.DetachSession();
+        CancelPendingAndActiveCopies();
+        _deltaBuffer.Reset();
+
+        IsTranslating = false;
+        foreach (var card in Cards.Where(c => c.IsStreaming))
+        {
+            card.SetCanceled();
+        }
+    }
+
+    private void OnUserInputChanged()
+    {
+        TranslateWindowOperation? opToCancel;
+        lock (_gate)
+        {
+            opToCancel = _activeOperation;
+            _pendingMain = null;
+            _pendingRetry = null;
+        }
+
+        opToCancel?.Cancel();
+
+        StatusMessage = null;
+        Error = null;
+
+        foreach (var card in Cards)
+        {
+            card.RefreshCanRetry();
+        }
+    }
+
+    public void ExecuteTranslateFromUser()
+    {
+        string prepared = _textPreprocessor.Prepare(_inputText, TextOrigin.Input);
+        if (string.IsNullOrWhiteSpace(prepared))
+        {
+            Error = new ErrorInfo(ErrorCode.InputEmpty, UiText.TranslateEmptyPrompt);
+            return;
+        }
+
+        if (prepared.Length > MaxInputChars)
+        {
+            Error = new ErrorInfo(ErrorCode.InputTooLong, UiText.TranslateInputTooLong);
+            return;
+        }
+
+        var opObj = _presenterRef?.TryBeginOperation();
+        if (opObj == null)
+        {
+            StatusMessage = UiText.TranslateBusy;
+            return;
+        }
+
+        var op = (TranslateWindowOperation)opObj;
+        if (_activeOperation != null && !ReferenceEquals(_activeOperation, op))
+        {
+            _activeOperation.Cancel();
+            _activeOperation.DetachSession();
+        }
+
+        _activeOperation = op;
+        op.AttachSession();
+        op.Dispose(); // Releases caller ownership so VM session owns it
+
+        _sessionOriginalText = _inputText;
+        _sessionOrigin = TextOrigin.Input;
+        _sessionAutoCopyMode = _settingsService.Current.Translation.AutoCopy;
+        Interlocked.Exchange(ref _autoCopyClaimed, 0);
+        StatusMessage = null;
+        Error = null;
+
+        SubmitMainTranslation(op, _inputText, TextOrigin.Input);
+    }
+
+    private void ExecuteStop()
+    {
+        TranslateWindowOperation? opToCancel;
+        lock (_gate)
+        {
+            opToCancel = _activeOperation;
+            _pendingMain = null;
+            _pendingRetry = null;
+        }
+
+        opToCancel?.Cancel();
+        _deltaBuffer.Reset();
+        StatusMessage = UiText.TranslateStopped;
+        IsTranslating = false;
+
+        foreach (var card in Cards)
+        {
+            if (card.IsStreaming)
+            {
+                card.SetCanceled();
+            }
+            card.RefreshCanRetry();
+        }
+    }
+
+    private void ExecuteSwapLanguages()
+    {
+        string newTarget = _sourceLanguage == LanguageCodes.Auto ? (_resolvedSourceLanguage ?? LanguageCodes.English) : _sourceLanguage;
+        string newSource = _targetLanguage == LanguageCodes.Auto ? (_resolvedTargetLanguage ?? LanguageCodes.Auto) : _targetLanguage;
+
+        _programmaticTextUpdateDepth++;
+        try
+        {
+            SourceLanguage = newSource;
+            TargetLanguage = newTarget;
+            _resolvedSourceLanguage = null;
+            _resolvedTargetLanguage = null;
+        }
+        finally
+        {
+            _programmaticTextUpdateDepth--;
+        }
+
+        OnUserInputChanged();
+    }
+
+    private void SubmitMainTranslation(TranslateWindowOperation operation, string text, TextOrigin origin)
+    {
+        string prepared = _textPreprocessor.Prepare(text, origin);
+        if (prepared.Length > MaxInputChars)
+        {
+            Error = new ErrorInfo(ErrorCode.InputTooLong, UiText.TranslateInputTooLong);
+            return;
+        }
+
+        IsTranslating = true;
+        Cards.Clear();
+        StatusMessage = null;
+        Error = null;
+
+        var req = new TranslationRequest
+        {
+            RequestId = Guid.NewGuid(),
+            Text = text,
+            SourceLanguage = _sourceLanguage,
+            TargetLanguage = _targetLanguage == LanguageCodes.Auto ? null : _targetLanguage,
+            Origin = origin,
+            BypassCache = false,
+            RecordHistory = true,
+        };
+
+        lock (_gate)
+        {
+            _pendingMain = new QueuedMainRequest(operation, req);
+            _pendingRetry = null;
+            if (_mainCoordinatorTask == null || _mainCoordinatorTask.IsCompleted)
+            {
+                _mainCoordinatorTask = Task.Run(CoordinateMainQueueAsync, CancellationToken.None);
+            }
+        }
+    }
+
+    private async Task CoordinateMainQueueAsync()
+    {
+        while (true)
+        {
+            Task? waitMain;
+            Task? waitRetry;
+            lock (_gate)
+            {
+                waitMain = _activeMainTask;
+                waitRetry = _activeRetryTask;
+            }
+
+            if (waitMain != null)
+            {
+                try { await waitMain.ConfigureAwait(false); } catch { }
+            }
+
+            if (waitRetry != null)
+            {
+                try { await waitRetry.ConfigureAwait(false); } catch { }
+            }
+
+            Task? currentTask = null;
+            lock (_gate)
+            {
+                var current = _pendingMain;
+                _pendingMain = null;
+
+                if (current == null)
+                {
+                    _mainCoordinatorTask = null;
+                    return;
+                }
+
+                if (current.Operation.IsRetired || current.Operation.IsCancellationRequested)
+                {
+                    _ = _uiDispatcher.InvokeAsync(() =>
+                    {
+                        if (_activeOperation != null && _activeOperation.Id == current.Operation.Id)
+                        {
+                            IsTranslating = false;
+                        }
+                        return Task.CompletedTask;
+                    }, CancellationToken.None);
+                    continue;
+                }
+
+                currentTask = RunMainTranslationAsync(current.Operation, current.Request);
+                _activeMainTask = currentTask;
+            }
+
+            if (currentTask != null)
+            {
+                try
+                {
+                    await currentTask.ConfigureAwait(false);
+                }
+                finally
+                {
+                    lock (_gate)
+                    {
+                        if (ReferenceEquals(_activeMainTask, currentTask))
+                        {
+                            _activeMainTask = null;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private async Task RunMainTranslationAsync(TranslateWindowOperation operation, TranslationRequest request)
+    {
+        if (!operation.IncrementWork())
+        {
+            await _uiDispatcher.InvokeAsync(() =>
+            {
+                if (_activeOperation != null && _activeOperation.Id == operation.Id)
+                {
+                    IsTranslating = false;
+                }
+                return Task.CompletedTask;
+            }, CancellationToken.None).ConfigureAwait(false);
+            return;
+        }
+
+        IAsyncEnumerator<TranslationEvent>? enumerator = null;
+        try
+        {
+            await _uiDispatcher.InvokeAsync(() =>
+            {
+                if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.IsCancellationRequested)
+                {
+                    return Task.CompletedTask;
+                }
+                IsTranslating = true;
+                Cards.Clear();
+                StatusMessage = null;
+                Error = null;
+                return Task.CompletedTask;
+            }, CancellationToken.None).ConfigureAwait(false);
+
+            var token = operation.CancellationToken;
+            try
+            {
+                var stream = _orchestrator.TranslateAsync(request, token);
+                enumerator = stream.GetAsyncEnumerator(token);
+
+                while (await enumerator.MoveNextAsync().ConfigureAwait(false))
+                {
+                    if (token.IsCancellationRequested || _activeOperation == null || _activeOperation.Id != operation.Id)
+                    {
+                        break;
+                    }
+                    var evt = enumerator.Current;
+                    await HandleTranslationEventAsync(operation, evt).ConfigureAwait(false);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    if (_activeOperation != null && _activeOperation.Id == operation.Id)
+                    {
+                        foreach (var card in Cards.Where(c => c.IsStreaming))
+                        {
+                            card.SetCanceled();
+                        }
+                    }
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+            }
+            catch (IrisException ex)
+            {
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    if (_activeOperation != null && _activeOperation.Id == operation.Id && !operation.IsCancellationRequested)
+                    {
+                        Error = SanitizeErrorInfo(ex.ToErrorInfo());
+                    }
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                LogTranslationUnexpectedError(_logger, ex.GetType().Name);
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    if (_activeOperation != null && _activeOperation.Id == operation.Id && !operation.IsCancellationRequested)
+                    {
+                        Error = new ErrorInfo(ErrorCode.Unknown, UiText.ErrorUnknown);
+                    }
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+            }
+        }
+        finally
+        {
+            if (enumerator != null)
+            {
+                try
+                {
+                    await enumerator.DisposeAsync().ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    LogTranslationUnexpectedError(_logger, ex.GetType().Name);
+                }
+            }
+
+            try
+            {
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    FlushDeltaBufferToUi();
+                    if (_activeOperation != null && _activeOperation.Id == operation.Id)
+                    {
+                        IsTranslating = false;
+                    }
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                LogTranslationUnexpectedError(_logger, ex.GetType().Name);
+            }
+            finally
+            {
+                operation.DecrementWork();
+            }
+        }
+    }
+
+    private async Task HandleTranslationEventAsync(TranslateWindowOperation operation, TranslationEvent evt, bool isRetry = false)
+    {
+        if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.IsCancellationRequested)
+        {
+            return;
+        }
+
+        switch (evt)
+        {
+            case TranslationStarted started:
+                _resolvedSourceLanguage = started.Languages.Source;
+                _resolvedTargetLanguage = started.Languages.Target;
+
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.IsCancellationRequested)
+                    {
+                        return Task.CompletedTask;
+                    }
+
+                    OnPropertyChanged(nameof(CanSwapLanguages));
+                    if (!isRetry)
+                    {
+                        Cards.Clear();
+                        foreach (var p in started.Providers)
+                        {
+                            var card = new ProviderResultCardViewModel(
+                                operation.Id,
+                                p.Id,
+                                p.DisplayName,
+                                p.Model,
+                                started.RequestId,
+                                OnCardRetry,
+                                OnCardCopy,
+                                OnCardGoToSettings,
+                                _ => CanRetryCard(operation));
+                            Cards.Add(card);
+                        }
+                    }
+                    else
+                    {
+                        foreach (var p in started.Providers)
+                        {
+                            var card = Cards.FirstOrDefault(c => c.OperationId == operation.Id && c.ProviderId == p.Id);
+                            if (card != null)
+                            {
+                                card.UpdateDescriptor(p.DisplayName, p.Model);
+                            }
+                        }
+                    }
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+                break;
+
+            case ProviderStarted ps:
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.IsCancellationRequested)
+                    {
+                        return Task.CompletedTask;
+                    }
+
+                    var card = FindCard(operation.Id, ps.ProviderId, ps.RequestId);
+                    if (card != null && !card.IsTerminal)
+                    {
+                        card.State = CardState.Streaming;
+                    }
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+                break;
+
+            case ProviderDelta pd:
+                if (_activeOperation != null && _activeOperation.Id == operation.Id && !operation.IsCancellationRequested)
+                {
+                    await _deltaBuffer.EnqueueAsync(new QueuedDelta(operation.Id, pd.ProviderId, pd.RequestId, pd.Delta), operation.CancellationToken).ConfigureAwait(false);
+                    ScheduleUiFlush();
+                }
+                break;
+
+            case ProviderCompleted pc:
+                _deltaBuffer.DiscardForCard(operation.Id, pc.ProviderId, pc.RequestId);
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.IsCancellationRequested)
+                    {
+                        return Task.CompletedTask;
+                    }
+
+                    var card = FindCard(operation.Id, pc.ProviderId, pc.RequestId);
+                    if (card != null)
+                    {
+                        int currentTotal = Cards.Where(c => !ReferenceEquals(c, card)).Sum(c => c.Text.Length);
+                        int remainingBudget = Math.Max(0, TextBudgetManager.MaxTotalChars - currentTotal);
+                        int allowedForCard = Math.Min(TextBudgetManager.MaxCardChars, remainingBudget);
+
+                        bool locallyTruncated = pc.Text.Length > allowedForCard;
+                        string safeText = locallyTruncated
+                            ? TextBudgetManager.TruncateSurrogateSafe(pc.Text, allowedForCard)
+                            : pc.Text;
+
+                        card.SetCompleted(safeText, pc.Elapsed, pc.FromCache, pc.Truncated, locallyTruncated);
+
+                        // 自动复制：仅初始主请求首个有效完整（非截断）结果参与一次，重试不参与
+                        if (!isRetry && !locallyTruncated && !pc.Truncated && _sessionAutoCopyMode == AutoCopyMode.FirstResult)
+                        {
+                            if (Interlocked.CompareExchange(ref _autoCopyClaimed, 1, 0) == 0)
+                            {
+                                TrackCopy(safeText, operation.CancellationToken);
+                            }
+                        }
+                    }
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+                break;
+
+            case ProviderFailed pf:
+                _deltaBuffer.DiscardForCard(operation.Id, pf.ProviderId, pf.RequestId);
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.IsCancellationRequested)
+                    {
+                        return Task.CompletedTask;
+                    }
+
+                    var card = FindCard(operation.Id, pf.ProviderId, pf.RequestId);
+                    if (card != null)
+                    {
+                        bool showSettings = pf.Error.Code is ErrorCode.NotConfigured or ErrorCode.AuthenticationFailed;
+                        string safeMsg = ErrorMessages.GetDefault(pf.Error.Code);
+                        card.SetFailed(safeMsg, showSettings, pf.Elapsed);
+                    }
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+                break;
+
+            case TranslationFinished:
+                break;
+        }
+    }
+
+    private void ScheduleUiFlush()
+    {
+        lock (_gate)
+        {
+            if (_flushTask != null && !_flushTask.IsCompleted)
+            {
+                return;
+            }
+
+            _flushTask = Task.Run(async () =>
+            {
+                await Task.Delay(33).ConfigureAwait(false);
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    FlushDeltaBufferToUi();
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+            }, CancellationToken.None);
+        }
+    }
+
+    private void FlushDeltaBufferToUi()
+    {
+        var deltas = _deltaBuffer.Drain();
+        if (deltas.Count == 0)
+        {
+            return;
+        }
+
+        var groups = deltas.GroupBy(d => (d.OperationId, d.ProviderId, d.RequestId));
+        foreach (var group in groups)
+        {
+            var card = FindCard(group.Key.OperationId, group.Key.ProviderId, group.Key.RequestId);
+            if (card == null || card.IsTerminal || card.IsLocallyTruncated)
+            {
+                continue;
+            }
+
+            var sb = new StringBuilder();
+            foreach (var d in group)
+            {
+                sb.Append(d.Delta);
+            }
+            string combinedDelta = sb.ToString();
+
+            int currentTotal = Cards.Sum(c => c.Text.Length);
+            int remainingTotal = Math.Max(0, TextBudgetManager.MaxTotalChars - currentTotal);
+            int allowedForCard = Math.Min(TextBudgetManager.MaxCardChars - card.Text.Length, remainingTotal);
+
+            if (allowedForCard <= 0)
+            {
+                card.IsLocallyTruncated = true;
+                continue;
+            }
+
+            if (combinedDelta.Length > allowedForCard)
+            {
+                string safe = TextBudgetManager.TruncateSurrogateSafe(combinedDelta, allowedForCard);
+                card.AppendText(safe);
+                card.IsLocallyTruncated = true;
+            }
+            else
+            {
+                card.AppendText(combinedDelta);
+            }
+        }
+    }
+
+    private void OnCardRetry(ProviderResultCardViewModel card)
+    {
+        if (_activeOperation == null || _activeOperation.IsRetired || _activeOperation.IsCancellationRequested)
+        {
+            return;
+        }
+
+        if (card.OperationId != _activeOperation.Id || !card.IsTerminal)
+        {
+            return;
+        }
+
+        lock (_gate)
+        {
+            if (_pendingRetry?.Card.ProviderId == card.ProviderId)
+            {
+                return; // 同卡正在等待，忽略
+            }
+
+            if (_pendingRetry != null && _pendingRetry.Card.ProviderId != card.ProviderId)
+            {
+                _pendingRetry.Card.SetCanceled();
+            }
+
+            var newReqId = Guid.NewGuid();
+            card.ResetForRetry(newReqId);
+
+            var retryReq = new TranslationRequest
+            {
+                RequestId = newReqId,
+                Text = _sessionOriginalText,
+                SourceLanguage = _resolvedSourceLanguage ?? _sourceLanguage,
+                TargetLanguage = _resolvedTargetLanguage ?? (_targetLanguage == LanguageCodes.Auto ? null : _targetLanguage),
+                ProviderIds = [card.ProviderId],
+                Origin = _sessionOrigin,
+                BypassCache = true,
+                RecordHistory = false,
+            };
+
+            _pendingRetry = new QueuedRetryRequest(_activeOperation, card, retryReq);
+            if (_retryCoordinatorTask == null || _retryCoordinatorTask.IsCompleted)
+            {
+                _retryCoordinatorTask = Task.Run(CoordinateRetryQueueAsync, CancellationToken.None);
+            }
+        }
+    }
+
+    private async Task CoordinateRetryQueueAsync()
+    {
+        while (true)
+        {
+            Task? waitRetry;
+            lock (_gate)
+            {
+                waitRetry = _activeRetryTask;
+            }
+
+            if (waitRetry != null)
+            {
+                try { await waitRetry.ConfigureAwait(false); } catch { }
+            }
+
+            Task? currentTask = null;
+            lock (_gate)
+            {
+                var current = _pendingRetry;
+                _pendingRetry = null;
+
+                if (current == null)
+                {
+                    _retryCoordinatorTask = null;
+                    return;
+                }
+
+                if (current.Operation.IsRetired || current.Operation.IsCancellationRequested)
+                {
+                    continue;
+                }
+
+                currentTask = RunRetryTranslationAsync(current.Operation, current.Card, current.Request);
+                _activeRetryTask = currentTask;
+            }
+
+            if (currentTask != null)
+            {
+                try
+                {
+                    await currentTask.ConfigureAwait(false);
+                }
+                finally
+                {
+                    lock (_gate)
+                    {
+                        if (ReferenceEquals(_activeRetryTask, currentTask))
+                        {
+                            _activeRetryTask = null;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private async Task RunRetryTranslationAsync(TranslateWindowOperation operation, ProviderResultCardViewModel card, TranslationRequest request)
+    {
+        if (!operation.IncrementWork())
+        {
+            return;
+        }
+
+        IAsyncEnumerator<TranslationEvent>? enumerator = null;
+        try
+        {
+            var token = operation.CancellationToken;
+            try
+            {
+                var stream = _orchestrator.TranslateAsync(request, token);
+                enumerator = stream.GetAsyncEnumerator(token);
+
+                while (await enumerator.MoveNextAsync().ConfigureAwait(false))
+                {
+                    if (token.IsCancellationRequested || _activeOperation == null || _activeOperation.Id != operation.Id)
+                    {
+                        break;
+                    }
+                    var evt = enumerator.Current;
+                    await HandleTranslationEventAsync(operation, evt, isRetry: true).ConfigureAwait(false);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    if (card.RequestId == request.RequestId)
+                    {
+                        card.SetCanceled();
+                    }
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+            }
+            catch (IrisException ex)
+            {
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    if (card.RequestId == request.RequestId)
+                    {
+                        string safeMsg = ErrorMessages.GetDefault(ex.Code);
+                        card.SetFailed(safeMsg, ex.Code is ErrorCode.NotConfigured or ErrorCode.AuthenticationFailed, TimeSpan.Zero);
+                    }
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                LogRetryUnexpectedError(_logger, ex.GetType().Name);
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    if (card.RequestId == request.RequestId)
+                    {
+                        card.SetFailed(UiText.ErrorUnknown, false, TimeSpan.Zero);
+                    }
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+            }
+        }
+        finally
+        {
+            if (enumerator != null)
+            {
+                try
+                {
+                    await enumerator.DisposeAsync().ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    LogRetryUnexpectedError(_logger, ex.GetType().Name);
+                }
+            }
+
+            try
+            {
+                await _uiDispatcher.InvokeAsync(() =>
+                {
+                    FlushDeltaBufferToUi();
+                    card.RefreshCanRetry();
+                    return Task.CompletedTask;
+                }, CancellationToken.None).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                LogRetryUnexpectedError(_logger, ex.GetType().Name);
+            }
+            finally
+            {
+                operation.DecrementWork();
+            }
+        }
+    }
+
+    private bool CanRetryCard(TranslateWindowOperation operation)
+    {
+        return _activeOperation != null
+            && _activeOperation.Id == operation.Id
+            && !operation.IsRetired
+            && !operation.IsCancellationRequested
+            && !_disposed;
+    }
+
+    private void OnCardCopy(ProviderResultCardViewModel card)
+    {
+        if (!string.IsNullOrEmpty(card.Text))
+        {
+            TrackCopy(card.Text, CancellationToken.None);
+        }
+    }
+
+    private void ExecuteGoToSettings()
+    {
+        OpenSettingsAsync("translation");
+    }
+
+    private void OnCardGoToSettings(ProviderResultCardViewModel card)
+    {
+        OpenSettingsAsync("translation");
+    }
+
+    private void OpenSettingsAsync(string? section = null)
+    {
+        lock (_gate)
+        {
+            _settingsTask = Task.Run(async () =>
+            {
+                try
+                {
+                    await _settingsPresenter.ShowAsync(section).ConfigureAwait(false);
+                }
+                catch (Exception ex)
+                {
+                    LogGoToSettingsError(_logger, ex.GetType().Name);
+                }
+            }, CancellationToken.None);
+        }
+    }
+
+    private sealed class QueuedCopyItem
+    {
+        private int _writeDone;
+        private int _cancelDone;
+        private int _cancelRequested;
+        private int _disposed;
+
+        public string Text { get; }
+        public CancellationTokenSource Cts { get; }
+        public TranslateWindowOperation? SourceOperation { get; }
+        public long SourceRevision { get; }
+        public bool CancelRequested
+        {
+            get => Volatile.Read(ref _cancelRequested) == 1;
+            set => Volatile.Write(ref _cancelRequested, value ? 1 : 0);
+        }
+        public bool IsCancelRegistered { get; set; }
+
+        public QueuedCopyItem(string text, CancellationTokenSource cts, TranslateWindowOperation? sourceOperation, long sourceRevision)
+        {
+            Text = text;
+            Cts = cts;
+            SourceOperation = sourceOperation;
+            SourceRevision = sourceRevision;
+        }
+
+        public void MarkWriteFinished()
+        {
+            if (Interlocked.Exchange(ref _writeDone, 1) == 0) SourceOperation?.DecrementWork();
+            TryDispose();
+        }
+
+        public void MarkCancelFinished()
+        {
+            Interlocked.Exchange(ref _cancelDone, 1);
+            TryDispose();
+        }
+
+        public void TryDispose()
+        {
+            if (Volatile.Read(ref _writeDone) == 1)
+            {
+                if (!CancelRequested || Volatile.Read(ref _cancelDone) == 1)
+                {
+                    if (Interlocked.Exchange(ref _disposed, 1) == 0)
+                    {
+                        try { Cts.Dispose(); } catch { }
+                    }
+                }
+            }
+        }
+    }
+
+    private TaskCompletionSource? TryRegisterCopyCancelUnderLock(QueuedCopyItem item)
+    {
+        if (item.IsCancelRegistered)
+        {
+            return null;
+        }
+        item.IsCancelRegistered = true;
+        item.CancelRequested = true;
+
+        var cancelTcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        _copyCancelTasks.Add(cancelTcs.Task);
+        _cancelingCtsSet.Add(item.Cts);
+        return cancelTcs;
+    }
+
+    private async Task RunCancelWorkerAsync(QueuedCopyItem item, TaskCompletionSource cancelTcs)
+    {
+        try
+        {
+            await item.Cts.CancelAsync().ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            LogClipboardError(_logger, ex.GetType().Name);
+        }
+        finally
+        {
+            item.MarkCancelFinished();
+            lock (_copyGate)
+            {
+                _cancelingCtsSet.Remove(item.Cts);
+                _copyCancelTasks.Remove(cancelTcs.Task);
+                _copyCancelTasks.RemoveAll(t => t.IsCompleted);
+            }
+            cancelTcs.TrySetResult();
+        }
+    }
+
+    private void TrackCopy(string text, CancellationToken token, TranslateWindowOperation? sourceOperation = null, long sourceRevision = 0)
+    {
+        if (sourceOperation != null && !sourceOperation.IncrementWork()) return;
+        CancellationTokenSource cts;
+        if (token.CanBeCanceled)
+        {
+            cts = CancellationTokenSource.CreateLinkedTokenSource(token);
+        }
+        else
+        {
+            cts = new CancellationTokenSource();
+        }
+
+        QueuedCopyItem? oldPending = null;
+        TaskCompletionSource? cancelTcs = null;
+        var newItem = new QueuedCopyItem(text, cts, sourceOperation, sourceRevision);
+        lock (_copyGate)
+        {
+            if (_pendingCopy != null)
+            {
+                oldPending = _pendingCopy;
+                cancelTcs = TryRegisterCopyCancelUnderLock(oldPending);
+            }
+
+            _pendingCopy = newItem;
+
+            if (_inFlightCopyTask == null || _inFlightCopyTask.IsCompleted)
+            {
+                _inFlightCopyTask = Task.Run(ProcessCopyQueueAsync, CancellationToken.None);
+            }
+        }
+
+        if (oldPending != null && cancelTcs != null)
+        {
+            oldPending.MarkWriteFinished();
+            _ = RunCancelWorkerAsync(oldPending, cancelTcs);
+        }
+    }
+
+    private async Task ProcessCopyQueueAsync()
+    {
+        while (true)
+        {
+            QueuedCopyItem? current;
+            lock (_copyGate)
+            {
+                current = _pendingCopy;
+                _pendingCopy = null;
+                if (current == null)
+                {
+                    _inFlightCopyTask = null;
+                    _inFlightCopyItem = null;
+                    _inFlightCopyCts = null;
+                    return;
+                }
+                _inFlightCopyItem = current;
+                _inFlightCopyCts = current.Cts;
+            }
+
+            try
+            {
+                if (!current.Cts.IsCancellationRequested)
+                {
+                    if (current.SourceOperation != null) await CopySourceAsync(current).ConfigureAwait(false);
+                    else await _clipboardService.SetTextAsync(current.Text, current.Cts.Token).ConfigureAwait(false);
+                }
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            catch (Exception ex)
+            {
+                LogClipboardError(_logger, ex.GetType().Name);
+                if (current.SourceOperation != null) await ShowSourceCopyErrorAsync(current, ex).ConfigureAwait(false);
+            }
+            finally
+            {
+                TaskCompletionSource? cancelTcs = null;
+                lock (_copyGate)
+                {
+                    if (ReferenceEquals(_inFlightCopyItem, current))
+                    {
+                        _inFlightCopyItem = null;
+                        _inFlightCopyCts = null;
+                    }
+                    if (!current.IsCancelRegistered && current.Cts.IsCancellationRequested)
+                    {
+                        cancelTcs = TryRegisterCopyCancelUnderLock(current);
+                    }
+                }
+
+                if (cancelTcs != null)
+                {
+                    _ = RunCancelWorkerAsync(current, cancelTcs);
+                }
+
+                current.MarkWriteFinished();
+            }
+        }
+    }
+
+    private void CancelPendingAndActiveCopies()
+    {
+        QueuedCopyItem? toCancelPending = null;
+        TaskCompletionSource? cancelPendingTcs = null;
+        QueuedCopyItem? toCancelInFlight = null;
+        TaskCompletionSource? cancelInFlightTcs = null;
+
+        lock (_copyGate)
+        {
+            if (_pendingCopy != null)
+            {
+                toCancelPending = _pendingCopy;
+                _pendingCopy = null;
+                cancelPendingTcs = TryRegisterCopyCancelUnderLock(toCancelPending);
+            }
+
+            if (_inFlightCopyItem != null)
+            {
+                toCancelInFlight = _inFlightCopyItem;
+                cancelInFlightTcs = TryRegisterCopyCancelUnderLock(toCancelInFlight);
+            }
+        }
+
+        if (toCancelPending != null && cancelPendingTcs != null)
+        {
+            toCancelPending.MarkWriteFinished();
+            _ = RunCancelWorkerAsync(toCancelPending, cancelPendingTcs);
+        }
+
+        if (toCancelInFlight != null && cancelInFlightTcs != null)
+        {
+            _ = RunCancelWorkerAsync(toCancelInFlight, cancelInFlightTcs);
+        }
+    }
+
+    private ProviderResultCardViewModel? FindCard(Guid opId, string providerId, Guid reqId)
+    {
+        return Cards.FirstOrDefault(c => c.OperationId == opId && c.ProviderId == providerId && c.RequestId == reqId);
+    }
+
+    private void OnSettingsChanged(object? sender, SettingsChangedEventArgs e)
+    {
+        lock (_gate)
+        {
+            _settingsChangedTask = _uiDispatcher.InvokeAsync(() =>
+            {
+                if (_disposed) return Task.CompletedTask;
+                OnPropertyChanged(nameof(Topmost));
+                OnPropertyChanged(nameof(WindowWidth));
+                OnPropertyChanged(nameof(FontSize));
+                OnPropertyChanged(nameof(EnterToTranslate));
+                OnPropertyChanged(nameof(HideOnDeactivate));
+                OnPropertyChanged(nameof(MaxInputChars));
+                return Task.CompletedTask;
+            }, CancellationToken.None);
+        }
+    }
+
+    private TranslateWindowPresenter? _presenterRef;
+    internal void AttachPresenter(TranslateWindowPresenter presenter) => _presenterRef = presenter;
+
+    public async Task WaitForActiveWorkAsync()
+    {
+        while (true)
+        {
+            Task? mainCoord;
+            Task? retryCoord;
+            Task? main;
+            Task? retry;
+            Task? flush;
+            Task? copy;
+            Task? settings;
+            Task? settingsChanged;
+
+            lock (_gate)
+            {
+                mainCoord = _mainCoordinatorTask;
+                retryCoord = _retryCoordinatorTask;
+                main = _activeMainTask;
+                retry = _activeRetryTask;
+                flush = _flushTask;
+                settings = _settingsTask;
+                settingsChanged = _settingsChangedTask;
+            }
+
+            List<Task> copyCancels;
+            lock (_copyGate)
+            {
+                copy = _inFlightCopyTask;
+                copyCancels = _copyCancelTasks.ToList();
+            }
+
+            if (mainCoord != null)
+            {
+                try { await mainCoord.ConfigureAwait(false); } catch { }
+            }
+
+            if (retryCoord != null)
+            {
+                try { await retryCoord.ConfigureAwait(false); } catch { }
+            }
+
+            if (main != null)
+            {
+                try { await main.ConfigureAwait(false); } catch { }
+            }
+
+            if (retry != null)
+            {
+                try { await retry.ConfigureAwait(false); } catch { }
+            }
+
+            if (flush != null)
+            {
+                try { await flush.ConfigureAwait(false); } catch { }
+            }
+
+            if (copy != null)
+            {
+                try { await copy.ConfigureAwait(false); } catch { }
+            }
+
+            foreach (var ct in copyCancels)
+            {
+                try { await ct.ConfigureAwait(false); } catch { }
+            }
+
+            if (settings != null)
+            {
+                try { await settings.ConfigureAwait(false); } catch { }
+            }
+
+            if (settingsChanged != null)
+            {
+                try { await settingsChanged.ConfigureAwait(false); } catch { }
+            }
+
+            bool allCompleted;
+            lock (_gate)
+            {
+                allCompleted = (_mainCoordinatorTask == null || _mainCoordinatorTask.IsCompleted) &&
+                               (_retryCoordinatorTask == null || _retryCoordinatorTask.IsCompleted) &&
+                               (_activeMainTask == null || _activeMainTask.IsCompleted) &&
+                               (_activeRetryTask == null || _activeRetryTask.IsCompleted) &&
+                               (_flushTask == null || _flushTask.IsCompleted) &&
+                               (_settingsTask == null || _settingsTask.IsCompleted) &&
+                               (_settingsChangedTask == null || _settingsChangedTask.IsCompleted);
+            }
+
+            lock (_copyGate)
+            {
+                _copyCancelTasks.RemoveAll(t => t.IsCompleted);
+                allCompleted &= (_inFlightCopyTask == null || _inFlightCopyTask.IsCompleted)
+                             && _pendingCopy == null
+                             && _inFlightCopyItem == null
+                             && _copyCancelTasks.Count == 0;
+            }
+
+            if (allCompleted)
+            {
+                break;
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        TranslateWindowOperation? opToCancel;
+        lock (_gate)
+        {
+            if (_disposed) return;
+            _disposed = true;
+            opToCancel = _activeOperation;
+            _activeOperation = null;
+        }
+
+        opToCancel?.Cancel();
+        opToCancel?.DetachSession();
+        CancelPendingAndActiveCopies();
+
+        _settingsService.Changed -= OnSettingsChanged;
+        _deltaBuffer.Dispose();
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    private bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        field = value;
+        OnPropertyChanged(propertyName);
+        return true;
+    }
+
+    private sealed record QueuedMainRequest(TranslateWindowOperation Operation, TranslationRequest Request);
+    private sealed record QueuedRetryRequest(TranslateWindowOperation Operation, ProviderResultCardViewModel Card, TranslationRequest Request);
+
+    [LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = "剪贴板复制失败：{ErrorType}")]
+    private static partial void LogClipboardError(ILogger logger, string errorType);
+
+    [LoggerMessage(EventId = 2, Level = LogLevel.Error, Message = "翻译过程发生未预期异常：{ExceptionType}")]
+    private static partial void LogTranslationUnexpectedError(ILogger logger, string exceptionType);
+
+    [LoggerMessage(EventId = 3, Level = LogLevel.Error, Message = "重试翻译过程发生未预期异常：{ExceptionType}")]
+    private static partial void LogRetryUnexpectedError(ILogger logger, string exceptionType);
+
+    [LoggerMessage(EventId = 4, Level = LogLevel.Warning, Message = "打开设置界面失败：{ErrorType}")]
+    private static partial void LogGoToSettingsError(ILogger logger, string errorType);
+}

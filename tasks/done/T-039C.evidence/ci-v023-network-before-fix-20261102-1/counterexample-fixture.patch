@@ -1,0 +1,25 @@
+diff --git a/tests/Iris.Core.Tests/Settings/NetworkSettingsTests.cs b/tests/Iris.Core.Tests/Settings/NetworkSettingsTests.cs
+index 5f13b80..a21a129 100644
+--- a/tests/Iris.Core.Tests/Settings/NetworkSettingsTests.cs
++++ b/tests/Iris.Core.Tests/Settings/NetworkSettingsTests.cs
+@@ -216,8 +216,19 @@ public sealed class NetworkSettingsTests
+         var first = await c.CaptureCurrentAsync(Remote);
+         f.SecretStore.Values[SecretKeys.ProxyCredentialSet(OldId)] = NetworkProxyCodec.Serialize(Proxy, new("replacement", "replacement"));
+         (await c.CaptureCurrentAsync(Remote)).GenerationId.ShouldNotBe(first.GenerationId);
++        await f.Registry.RefreshAsync();
+         int reads = f.SecretStore.Reads.Count, changes = 0;
+-        f.SecretStore.BeforeGet = key => f.SecretStore.Values[key] = NetworkProxyCodec.Serialize(Proxy, new("changing", (++changes).ToString(System.Globalization.CultureInfo.InvariantCulture)));
++        string proxyKey = SecretKeys.ProxyCredentialSet(OldId);
++        bool injectedOtherReads = false;
++        f.SecretStore.BeforeGet = key =>
++        {
++            f.SecretStore.Values[key] = NetworkProxyCodec.Serialize(Proxy, new("changing", (++changes).ToString(System.Globalization.CultureInfo.InvariantCulture)));
++            if (key == proxyKey && !injectedOtherReads)
++            {
++                injectedOtherReads = true;
++                for (int index = 0; index < 4; index++) f.SecretStore.Get("ocr/read-budget-probe/" + index);
++            }
++        };
+         var error = await Should.ThrowAsync<IrisException>(() => c.CaptureCurrentAsync(Remote)); error.Code.ShouldBe(ErrorCode.NetworkUnavailable);
+         (f.SecretStore.Reads.Count - reads).ShouldBe(8);
+     });

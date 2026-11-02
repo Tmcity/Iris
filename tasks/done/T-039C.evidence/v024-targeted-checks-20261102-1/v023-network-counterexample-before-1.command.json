@@ -1,0 +1,22 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.Core.Tests/Iris.Core.Tests.csproj",
+    "-c",
+    "Release",
+    "--filter-method",
+    "*InPlaceValueWithoutEventIsDetected_AndContinuouslyChangingStoreIsBounded*",
+    "--no-ansi",
+    "--no-progress",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:/Iris/artifacts/t039c/network-counterexample-before-20261102-1/reports"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v024-ci-fix-20261102-1",
+  "startedAt": "2026-11-02T06:27:14.665102+00:00",
+  "completedAt": "2026-11-02T06:27:29.985549+00:00",
+  "exitCode": 2,
+  "logSha256": "ed62fbf9f9a83c260c56731bd16fc248997c8d125cdd1a923595bcea5b2b6b9d"
+}

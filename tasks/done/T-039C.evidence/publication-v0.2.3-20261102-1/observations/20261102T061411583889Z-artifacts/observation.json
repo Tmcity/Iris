@@ -1,0 +1,17 @@
+{
+  "RequestUrl": "https://api.github.com/repos/Tmcity/Iris/actions/runs/41397874525/artifacts?per_page=100",
+  "StartedUtc": "2026-11-02T06:14:11.583889+00:00",
+  "ObservedUtc": "2026-11-02T06:14:12.284039+00:00",
+  "Status": 403,
+  "Bytes": 279,
+  "Sha256": "abd22b2287fa5048c72fe0c12ff43b02263695f30288cbc2e67f5a054d051341",
+  "AuthorizationSent": false,
+  "Headers": {
+    "Date": "Mon, 02 Nov 2026 06:14:16 GMT",
+    "Content-Type": "application/json; charset=utf-8",
+    "ETag": null,
+    "X-RateLimit-Remaining": "0",
+    "X-RateLimit-Reset": "1793602397",
+    "Retry-After": null
+  }
+}

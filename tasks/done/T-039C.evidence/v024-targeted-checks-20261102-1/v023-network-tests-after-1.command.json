@@ -1,0 +1,22 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.Core.Tests/Iris.Core.Tests.csproj",
+    "-c",
+    "Release",
+    "--filter-class",
+    "Iris.Core.Tests.Settings.NetworkSettingsTests",
+    "--no-ansi",
+    "--no-progress",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:/Iris/artifacts/t039c/network-tests-after-20261102-1/reports"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v024-ci-fix-20261102-1",
+  "startedAt": "2026-11-02T06:30:30.335746+00:00",
+  "completedAt": "2026-11-02T06:30:37.419650+00:00",
+  "exitCode": 0,
+  "logSha256": "5d51c1da01c8830eb455a5fb2dabcdb2a6c2f0212fc3f66123b556c42bf1d22d"
+}

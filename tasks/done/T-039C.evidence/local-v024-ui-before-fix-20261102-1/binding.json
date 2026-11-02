@@ -1,0 +1,26 @@
+{
+  "SourceCommit": "3372f79070773a370117a4a244dd06313bade165",
+  "Validation": "F:/Iris/artifacts/t039c/local-validation-v024-20261102-1",
+  "Files": [
+    {
+      "Path": "tests/Iris.App.Tests/Settings/SettingsViewModelTests.cs",
+      "Bytes": 37464,
+      "Sha256": "45746fa7a9cd9cedb050e2429e99c70dfd6b4800e1026142deba03af3576f16c"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/Translation/TranslateWindowViewModelTests.cs",
+      "Bytes": 66847,
+      "Sha256": "731d6659ebc585cb65ed76881db67a3cedf527184292a91d762212335470f3c1"
+    },
+    {
+      "Path": "src/Iris.App/Settings/SettingsViewModel.cs",
+      "Bytes": 109633,
+      "Sha256": "6beab0baa106d39817a710a5ca398cb62b5d5346b429224b272207469bacfa62"
+    },
+    {
+      "Path": "src/Iris.App/Translation/TranslateWindowViewModel.cs",
+      "Bytes": 61057,
+      "Sha256": "a955e19c832d762d44391d035d55ad45223a219d8a56845551fc68879a8e165f"
+    }
+  ]
+}

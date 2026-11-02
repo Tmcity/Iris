@@ -1,0 +1,138 @@
+{
+  "ReviewedUtc": "2026-11-02T07:02:17.734952+00:00",
+  "Version": "0.2.4",
+  "SourceCommit": "942b0ddeb62d9eb3e4f244574c0c093ab2942ffc",
+  "SourceGitTree": "0146030d392a0dfef7e481e2e467c3fdd67bf8f6",
+  "PublicAssets": 18,
+  "PayloadEntries": 97,
+  "MaintenancePrefixBytes": 44626575,
+  "InternalSetupBytes": 72143071,
+  "InternalSetupSha256": "63a2a1788cb67608fe89eb75e39871cdb629a89524431d405abbefa33d7e2749",
+  "FullSha256": "964621da098da7c2fa2b00caa36024d23bc24557f09a32153c24558bf857a3dc",
+  "OuterSha256": "047d1acf375a169f5bf07aa009e7be898bee80235d013616a669c5afc0d8cea7",
+  "Candidate": "F:\\Iris\\artifacts\\t039c\\release-0.2.4-public-base-candidate-1",
+  "CommittedSourceEntriesMatched": 720,
+  "WorkingSourceEntriesMatched": 720,
+  "SourceChanges": [
+    "build/release-plan.json",
+    "docs/RELEASING.md",
+    "tests/Iris.App.Tests/Settings/SettingsViewModelTests.cs",
+    "tests/Iris.App.Tests/Translation/TranslateWindowViewModelTests.cs",
+    "tests/Iris.Core.Tests/Settings/NetworkSettingsTests.cs"
+  ],
+  "ProductSourceChanges": [],
+  "BuildWarnings": 0,
+  "BuildErrors": 0,
+  "FullTests": {
+    "Total": 3756,
+    "Passed": 3754,
+    "Failed": 0,
+    "Skipped": 2
+  },
+  "ReleaseRegressions": 16,
+  "PreviousPublicFull": {
+    "PackageId": "Iris",
+    "Version": "0.2.2",
+    "Type": "Full",
+    "FileName": "Iris-0.2.2-full.nupkg",
+    "SHA1": "58A2504B4BDD9DA82BA23D3C7AEEA5B58D0D7B9F",
+    "SHA256": "C86982F930AAFCD142167BBD871D03B588630F7D1D625DA968A811DAA2DD5D14",
+    "Size": 64627273
+  },
+  "Assets": [
+    {
+      "Name": "assets.win.json",
+      "Bytes": 240,
+      "Sha256": "0dd65aa1c97b0d20031bd4dbf7f04a3a6a49e304c883671a45528536b01dfb39"
+    },
+    {
+      "Name": "full-tests.log",
+      "Bytes": 5880,
+      "Sha256": "dbed2c6d23054ca272b6bbc369bc0ae74e592939e8d75fab830a96a03a532844"
+    },
+    {
+      "Name": "INSTALLATION.md",
+      "Bytes": 5088,
+      "Sha256": "c6aca79261915f9b2d98489304a0d788e267d755110ea1384585730d83ccca4d"
+    },
+    {
+      "Name": "Iris-0.2.2-full.nupkg",
+      "Bytes": 64627273,
+      "Sha256": "c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14"
+    },
+    {
+      "Name": "Iris-0.2.4-delta.nupkg",
+      "Bytes": 25994234,
+      "Sha256": "cf802d74837489b2682452b1a1365b494103a452ef7974f2d7445c6442635ebf"
+    },
+    {
+      "Name": "Iris-0.2.4-full.nupkg",
+      "Bytes": 64628959,
+      "Sha256": "964621da098da7c2fa2b00caa36024d23bc24557f09a32153c24558bf857a3dc"
+    },
+    {
+      "Name": "Iris-0.2.4-Setup.exe",
+      "Bytes": 116769702,
+      "Sha256": "047d1acf375a169f5bf07aa009e7be898bee80235d013616a669c5afc0d8cea7"
+    },
+    {
+      "Name": "package.log",
+      "Bytes": 7902,
+      "Sha256": "55e9038f3f540141d8ae3dcf5fcf42d559bf53e7de990b4da0d623db9c235bf7"
+    },
+    {
+      "Name": "payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "469a1e8ad701a95ce278a3f6d70c3cedf4dae775dd2a14c5865ed068be5f1736"
+    },
+    {
+      "Name": "release-build.log",
+      "Bytes": 2765,
+      "Sha256": "dd456af5820745c3dc72417c82f8a643e1b37c659ac5057446fa1f2276d1407e"
+    },
+    {
+      "Name": "release-manifest-tests.log",
+      "Bytes": 3079,
+      "Sha256": "c435ee1904170b2e9ce1b5a68fe219b3186f115cb20e9ed3a65f333912b30796"
+    },
+    {
+      "Name": "release-provenance.json",
+      "Bytes": 192362,
+      "Sha256": "789d91e62e7666f0637b2fa407b32952e2efd7ba5d83254d8b6d4613872c193b"
+    },
+    {
+      "Name": "RELEASE_NOTES.md",
+      "Bytes": 676,
+      "Sha256": "c3ebc0f4659928fcf65e62319e5e551cea040509caa8a4d994ed4118f879dc57"
+    },
+    {
+      "Name": "RELEASES",
+      "Bytes": 146,
+      "Sha256": "38184918c50c3928fb9ed3a7d5268f52ef2101602339194812ae275a5219323a"
+    },
+    {
+      "Name": "releases.win.json",
+      "Bytes": 704,
+      "Sha256": "f4cfa866e235344ac8ca6c967b4e4c583ce4f08773d0a83f2f604b5c3b4334e6"
+    },
+    {
+      "Name": "SHA256.json",
+      "Bytes": 2456,
+      "Sha256": "b9d93bb85cffef63cb347ff96a1593dbd141ed9013873c7d1ebcd6f4574d8360"
+    },
+    {
+      "Name": "staging-manifest.json",
+      "Bytes": 18533,
+      "Sha256": "28fb7ce5211e75cb51666d72fd97274fac22eb59f9c1625deb839342de8a1b2c"
+    },
+    {
+      "Name": "validation-summary.json",
+      "Bytes": 3814,
+      "Sha256": "40ace27aee5a731b9c86e0dc56a6d2326ade028bcaef926c05b945ff107a285d"
+    }
+  ],
+  "PublicationAuthorized": false,
+  "RealUiUpgradeVerified": false,
+  "RestartCountVerified": false,
+  "PostUpdateUninstallVerified": false
+}

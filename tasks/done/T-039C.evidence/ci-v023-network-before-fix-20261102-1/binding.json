@@ -1,0 +1,31 @@
+{
+  "SourceCommit": "fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11",
+  "SourceWorkingTree": "F:\\Iris\\artifacts\\t039c\\worktree-v024-ci-fix-20261102-1",
+  "Scope": "Unmodified source before the independently controlled counterexample; CI relay digest is not yet verified",
+  "Files": [
+    {
+      "Path": "tests/Iris.Core.Tests/Settings/NetworkSettingsTests.cs",
+      "GitBlob": "5f13b804a032e18a9ff1cd1d7c5401eb346d525c",
+      "WorkingBytes": 16228,
+      "WorkingSha256": "dee49bb2d69241ecf242cd5211f8b2d717f2e4146210ce5708a9e939d3b8ec16"
+    },
+    {
+      "Path": "tests/Iris.Core.Tests/Settings/OcrEditingTestScope.cs",
+      "GitBlob": "4ad4eb81d44370988539208566191d067c889d22",
+      "WorkingBytes": 9211,
+      "WorkingSha256": "a83462520958bbb096c0a6026c9f685d807b8dc6206880270cff295fd0354490"
+    },
+    {
+      "Path": "src/Iris.Core/Settings/SettingsEditCoordinator.Network.cs",
+      "GitBlob": "f0b832f5cb3ea8ce2e61776518d07158d73e628b",
+      "WorkingBytes": 17423,
+      "WorkingSha256": "8637ea63266026c7f50df52677ca3cb8e38c47afeb8915195e108eda0b01bb79"
+    },
+    {
+      "Path": "src/Iris.Core/Ocr/OcrProviderRegistry.cs",
+      "GitBlob": "a5da762c5201effd0cc1a79e52125d0d497c4b00",
+      "WorkingBytes": 20968,
+      "WorkingSha256": "9b8335e6ef23103801ff66ba8e4271f48f861109095587926cbe1a6cd358dea9"
+    }
+  ]
+}

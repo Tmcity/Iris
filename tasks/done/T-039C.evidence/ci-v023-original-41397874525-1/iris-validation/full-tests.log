@@ -1,0 +1,62 @@
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 964ms)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (8s 434ms)
+失败 Iris.Core.Tests.Settings.NetworkSettingsTests.InPlaceValueWithoutEventIsDetected_AndContinuouslyChangingStoreIsBounded (46ms)
+  从 D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : f.SecretStore.Reads.Count - reads
+      should be
+  8
+      but was
+  12
+    在 Iris.Core.Tests.Settings.NetworkSettingsTests.<>c.<<InPlaceValueWithoutEventIsDetected_AndContinuouslyChangingStoreIsBounded>b__19_0>d.MoveNext() 位于 D:\a\Iris\Iris\tests\Iris.Core.Tests\Settings\NetworkSettingsTests.cs:222
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Core.Tests.Settings.OcrEditingTestScope.Run(Func`2 body) 位于 D:\a\Iris\Iris\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs:53
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.Core.Tests.Settings.OcrEditingTestScope.Run(Func`2 body) 位于 D:\a\Iris\Iris\tests\Iris.Core.Tests\Settings\OcrEditingTestScope.cs:71
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (10s 242ms)
+退出代码: 2
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (19s 196ms)
+D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64) 已通过 (10s 524ms)
+D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (34s 450ms)
+D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (3m 01s 288ms)
+
+  生成的进程内文件项目:
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-02_06_08_54.886938.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-02_06_08_54.969541.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-02_06_08_58.523023.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-02_06_08_54.841280.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-02_06_09_09.384866.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-02_06_09_04.107996.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-02_06_08_54.848040.xunit.xml
+
+测试运行摘要: 失败!
+  D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (3m 01s 288ms)
+  D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (10s 242ms)
+  D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (34s 450ms)
+  D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 964ms)
+  D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64) 已通过 (10s 524ms)
+  D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (19s 196ms)
+  D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (8s 434ms)
+
+  总计: 3755
+  失败: 1
+  成功: 3754
+  已跳过: 0
+  持续时间: 3m 01s 891ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

@@ -90,3 +90,13 @@ B的新包来宾在当前网络中native完整下载报Peer disconnected，成�
 source仍fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11/tree60422257ce3c47f3eb83b291b02a84d4c75add8a；public-base-candidate-2的720项源码、18资产/97载荷、包含正式0.2.2旧full均独立匹配。本轮无产品/测试/契约/schema/依赖改动，不重复全量建测；原源Release0/0、本地full3755/3753成功/2既有跳过及正式0.2.2 CI3755/3755成功/0跳过保留。新的0.2.3 CI仍未运行，候选SHA不冒充正式CI包SHA。
 
 见PREPUBLICATION_REVIEW_V023_20261102.md与MANUAL_UPDATE_V023_20261102.md。匿名refs仍main/codex285df3a，三个原标签保持；匿名API200只列正式v0.2.2/16资产，v0.2.3未占用。此前用户只确认第一版0.2.2；第二版尚未授权/创建标签/发布，下一步单独确认仅创建并推送v0.2.3→fb9f46f，不扩大到分支推送。确认后才执行实际CI/公开资产读回，再交用户分段真实UI检查→下载→Ready→确认安装/单次重启/原设置Key历史保留及更新后卸载。C/父T-039/T-040/NFR未结案，M6延期。原Sandbox由用户保留用于后续，未停止或控制真实Iris。
+
+## 2026-11-02 原0.2.3实际失败与新0.2.4完整本地准备
+
+用户仅确认第二版0.2.3，已正常推送annotated b4b8be76…→fb9f46f；没有推分支或其他标签。实际CI41397874525建测失败、打包/publish skipped，唯一Core网络测试全局秘密读取计数预期8/实际12；原artifact13120282071、ZIP504414字节/SHA256 9a33ebe306fb94f929e99ec32cad0caa01f7fff765978a2806abb209f51cb61c精确匹配官方digest，51原件保留，不重跑、不改skip或覆写tag。独立控制其他键读取反例同样失败，计数/变更钩子改为仅当前代理键，新增真正并发读取回归，保留8次/4轮及其他键不被修改断言。
+
+source3372f79的首轮本地full3756/3752成功/2失败/2既有跳过保持；两项UI测试分别过早断言异步自启重试状态，以及先完成写入再期待取消回调进入。自启改为观察状态通知；剪贴板先确认取消进入，再完成直接外部writer promise，并保留回调未退出时必须等待的断言。两个仍失败的异步writer中间改写原件同样保持。仅三个测试文件、发布计划和说明改动；产品src/契约/schema/依赖无差异。
+
+最终发布source942b0ddeb62d9eb3e4f244574c0c093ab2942ffc/tree0146030d392a0dfef7e481e2e467c3fdd67bf8f6，Release0/0/full3756/3754成功/0失败/2既有error183跳过，Core984/App866/维护39、发布工具16通过。正式0.2.2以前版构建的release-0.2.4-public-base-candidate-1：18资产/97实际载荷、720源码blob/工作字节独立匹配，旧full c86982…保持；本地外层047d1acf…/full964621da…与未来CI字节分开。源分支已正常合并回本主分支，标签目标仍为具体发布source942b0dd，报告提交不冒充打包源。next-source-v024-20261102-1及原CI/本地失败原件完整归档。
+
+最新用户Sandbox590f8848…只读07:03:17UTC仍为原正常0.2.2/PID6604、V2watcher6956 Ready，settings/secrets/history哈希与原old-ready一致，未有新版本包；用户实际准备已通过，产品UI仍由用户操作。PREPUBLICATION_REVIEW_V024_20261102.md与MANUAL_UPDATE_V024_20261102.md已完成。此前0.2.3授权不扩展到0.2.4或分支推送；新tag未授权/创建/推送。下一步精确新检查点用户确认，仅v0.2.4→942b0dd，实际CI/匿名资产完整校验后再逐段真实UI检查→下载→Ready→安装确认/完整退出/native顺序/单次重启/旧设置Key历史保留及更新后卸载。C/父T-039/T-040/NFR不结案，M6延期；原旧tag/候选/失败、user .codex及当前Sandbox保持。
