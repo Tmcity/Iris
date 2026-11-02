@@ -1,0 +1,91 @@
+{
+  "UserReply": "安装成功，0.2.2",
+  "SandboxId": "590f8848-f6b4-4bdb-a151-85c4a4f19305",
+  "PublicDefaultInstallVerified": true,
+  "InstalledPayloadEntries": 97,
+  "InstallerSha256": "ddae984ba4bcc65e5398ecd7a036afe0485966c5d61fe9b1603cc9bb487e7a0c",
+  "SyntheticDataReadyVerified": false,
+  "ProcessTimelineVerified": false,
+  "Files": [
+    {
+      "Path": "clean-20261102T0415525582508Z.json",
+      "Bytes": 344,
+      "Sha256": "0a35da009a9e5b885d6f6404be81f56fd98474ff5f174f0e582c25e6c270f1ea"
+    },
+    {
+      "Path": "installed-20261102T0438145410163Z.json",
+      "Bytes": 2916,
+      "Sha256": "b8c6487026df37c0455843d2a905a1c39460cebf551431e433df1bdf87ee0e8d"
+    },
+    {
+      "Path": "process-events.jsonl",
+      "Bytes": 393,
+      "Sha256": "92886eacf4e4655a1496938294b3d7e38de3715cb81a90d2cc62372699654073"
+    },
+    {
+      "Path": "provider-requests.jsonl",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "public-install-verification-20261102T0505212757621Z.json",
+      "Bytes": 40561,
+      "Sha256": "650f9fd491956440faeb1d68d91e8cfbd41ec368b294724a396305fc4cca2b01"
+    },
+    {
+      "Path": "watcher-status.json",
+      "Bytes": 30,
+      "Sha256": "16f1d5778342d13e9bfa04251ba4be8ada3fc52a3eea90bac7ea2c5373746718"
+    },
+    {
+      "Path": "logs-installed-7e80f33dba9c458aa179223a0ebc5db6/logs-iris-20261102.log",
+      "Bytes": 595,
+      "Sha256": "d1681284687a52706cd43bad285fab148b51326fcb992cb6699280aa22111536"
+    },
+    {
+      "Path": "logs-installed-7e80f33dba9c458aa179223a0ebc5db6/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261102121652.elevated.log",
+      "Bytes": 1338,
+      "Sha256": "cf3b2319c492e67ac646153132d32c8a54ec040ea566babd3ce755b6c921583f"
+    },
+    {
+      "Path": "logs-installed-7e80f33dba9c458aa179223a0ebc5db6/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261102121652.log",
+      "Bytes": 22097,
+      "Sha256": "ad049d302da68c04bace648a16e9269c2e481b94863c87663eee65992cb565e5"
+    },
+    {
+      "Path": "logs-installed-7e80f33dba9c458aa179223a0ebc5db6/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261102121652_000_DotNetHost.log",
+      "Bytes": 112808,
+      "Sha256": "29cbc103a65244e03832351f7a20d51eb217f8f58b6375e3521c34238dd94ef7"
+    },
+    {
+      "Path": "logs-installed-7e80f33dba9c458aa179223a0ebc5db6/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261102121652_001_DotNetHostFxr.log",
+      "Bytes": 101374,
+      "Sha256": "05bcad6a03301441bfbc6de67692dafe1124250495565faa9ca51f4fbead0221"
+    },
+    {
+      "Path": "logs-installed-7e80f33dba9c458aa179223a0ebc5db6/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261102121652_002_DotNetRuntime.log",
+      "Bytes": 490362,
+      "Sha256": "7e2178531b3785b9226c7a8ad85ed8a7b18d3a2b8c72f832f3b3b2cbbbec79a5"
+    },
+    {
+      "Path": "logs-installed-7e80f33dba9c458aa179223a0ebc5db6/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261102121652_003_WindowsDesktopRuntime.log",
+      "Bytes": 728258,
+      "Sha256": "1d1289c4f5142a715a2c78a50acebfb861248af4b920ccea197d2d19616aa95d"
+    },
+    {
+      "Path": "logs-installed-7e80f33dba9c458aa179223a0ebc5db6/Velopack-velopack.log",
+      "Bytes": 6190,
+      "Sha256": "d0b22c25cc8517eb958878070789f3014ab4ecaf0c86558dc21087547e72fa73"
+    },
+    {
+      "Path": "logs-installed-7e80f33dba9c458aa179223a0ebc5db6/Velopack-velopack_Iris.log",
+      "Bytes": 3395,
+      "Sha256": "6b700a9aac199cfd8b3bc8b08f15f8566517984eb13e9306bb7da48ba43718e3"
+    }
+  ]
+}

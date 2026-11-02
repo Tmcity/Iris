@@ -1,0 +1,22 @@
+{
+  "ObservedUtc": "2026-11-02T05:54:42.019082+00:00",
+  "Url": "https://api.github.com/repos/Tmcity/Iris/releases?per_page=10",
+  "StatusCode": 200,
+  "AuthorizationSent": false,
+  "RateLimitRemaining": "58",
+  "BodySha256": "964dd7dc384e5480b150c380de04438ffebb9bc311c1df2ad449bd3854f51573",
+  "PublicTags": [
+    "v0.2.2"
+  ],
+  "PublicV023Exists": false,
+  "PublicV022": {
+    "Id": 430484182,
+    "Url": "https://github.com/Tmcity/Iris/releases/tag/v0.2.2",
+    "Assets": 16
+  },
+  "PublicV022Full": {
+    "Name": "Iris-0.2.2-full.nupkg",
+    "Bytes": 64627273,
+    "Digest": "sha256:c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14"
+  }
+}

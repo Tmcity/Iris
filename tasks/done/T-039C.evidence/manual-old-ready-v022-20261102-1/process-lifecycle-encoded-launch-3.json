@@ -1,0 +1,9 @@
+{
+  "Utc": "2026-11-02T05:45:59.905593+00:00",
+  "SourcePath": "F:\\Iris\\artifacts\\t039c\\manual-verification-v022-20261101-1\\input\\probe-process-event-lifecycle.ps1",
+  "SourceSha256": "d490e1177580857255da90a083b6063d98fad5aabbd04d2519ab2e707a26c576",
+  "Transport": "EncodedCommand from exact UTF-8 source, no projection dependency",
+  "OuterExitCode": 0,
+  "Stdout": "{\r\n  \"ExitCode\": 0\r\n}\r\n",
+  "Stderr": ""
+}

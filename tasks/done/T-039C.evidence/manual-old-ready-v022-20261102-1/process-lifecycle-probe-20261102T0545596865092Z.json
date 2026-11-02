@@ -1,0 +1,26 @@
+{
+    "Utc":  "2026-11-02T05:45:57.6370905Z",
+    "Scope":  "Owned hidden cmd.exe only; no product process controlled",
+    "ProbePid":  5972,
+    "ActualExitCode":  0,
+    "Events":  [
+                   {
+                       "Name":  "cmd.exe",
+                       "ExitCode":  0,
+                       "Pid":  5972,
+                       "NativeEventUtc":  "2026-11-02T05:45:59.5445474Z",
+                       "Kind":  "Exited",
+                       "ArgsType":  "System.Management.EventArrivedEventArgs"
+                   },
+                   {
+                       "Name":  "cmd.exe",
+                       "ExitCode":  null,
+                       "Pid":  5972,
+                       "NativeEventUtc":  "2026-11-02T05:45:59.5445472Z",
+                       "Kind":  "Started",
+                       "ArgsType":  "System.Management.EventArrivedEventArgs"
+                   }
+               ],
+    "Passed":  true,
+    "Failure":  null
+}

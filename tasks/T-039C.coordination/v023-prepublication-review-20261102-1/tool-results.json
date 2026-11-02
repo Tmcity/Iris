@@ -1,0 +1,52 @@
+{
+  "CandidateVerification": {
+    "chunk_id": "fc85f5",
+    "wall_time_seconds": 1.9915305,
+    "exit_code": 0,
+    "original_token_count": 136,
+    "output": "{\r\n  \"Version\": \"0.2.3\",\r\n  \"SourceCommit\": \"fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11\",\r\n  \"SourceGitTree\": \"60422257ce3c47f3eb83b291b02a84d4c75add8a\",\r\n  \"PublicAssets\": 18,\r\n  \"PayloadEntries\": 97,\r\n  \"MaintenancePrefixBytes\": 44626570,\r\n  \"InternalSetupBytes\": 72143044,\r\n  \"InternalSetupSha256\": \"71c9c0366a6df90e649ee3fdc606ebf3612b084c4bd36542694f687abfb0aeb9\",\r\n  \"FullSha256\": \"248f61cf237bc192c736dc21e538a24a8d88adda7b44ec7d46c2885892db9dc5\",\r\n  \"OuterSha256\": \"a139c60f6bedad3304fc4dd091e9669d371c58d427d9b7badac3f0199b4c2447\"\r\n}\r\n"
+  },
+  "AnonymousRemoteRefs": {
+    "chunk_id": "2555c3",
+    "wall_time_seconds": 1.7750234,
+    "exit_code": 0,
+    "original_token_count": 124,
+    "output": "285df3a2986f3379994eb56dd8b75617db9f470d\trefs/heads/codex/t039c-public-release\n285df3a2986f3379994eb56dd8b75617db9f470d\trefs/heads/main\nebe194564c5ada606744b4e484b09f3182e04eae\trefs/tags/v0.2.0\ndcdfdded311fa00671dfd9747bb2101cbf8964f3\trefs/tags/v0.2.0^{}\nb9f33fd9755684c889a948dafd79dfd53c15caf8\trefs/tags/v0.2.1\ndfc68ccba422c735edeab42635c19b7767b9f2c2\trefs/tags/v0.2.1^{}\na4cf0938b4e291005dfdb3fa4dfeabc646d6b6c6\trefs/tags/v0.2.2\nfb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11\trefs/tags/v0.2.2^{}\n"
+  },
+  "OldReadyInspectionCommand": {
+    "chunk_id": "52ed22",
+    "wall_time_seconds": 3.0504043,
+    "exit_code": 0,
+    "original_token_count": 6,
+    "output": "{\r\n  \"ExitCode\": 0\r\n}\r\n"
+  },
+  "PowerShell51Syntax": {
+    "chunk_id": "2329f1",
+    "wall_time_seconds": 0.8663233,
+    "exit_code": 0,
+    "original_token_count": 464,
+    "output": "[\r\n    {\r\n        \"Name\":  \"diagnose-installed-state-readonly.ps1\",\r\n        \"ParseErrors\":  0,\r\n        \"Messages\":  [\r\n\r\n                     ]\r\n    },\r\n    {\r\n        \"Name\":  \"inspect-old-ready-readonly.ps1\",\r\n        \"ParseErrors\":  0,\r\n        \"Messages\":  [\r\n\r\n                     ]\r\n    },\r\n    {\r\n        \"Name\":  \"manual-capture-state.ps1\",\r\n        \"ParseErrors\":  0,\r\n        \"Messages\":  [\r\n\r\n                     ]\r\n    },\r\n    {\r\n        \"Name\":  \"manual-process-watch-v2.ps1\",\r\n        \"ParseErrors\":  0,\r\n        \"Messages\":  [\r\n\r\n                     ]\r\n    },\r\n    {\r\n        \"Name\":  \"manual-process-watch.ps1\",\r\n        \"ParseErrors\":  0,\r\n        \"Messages\":  [\r\n\r\n                     ]\r\n    },\r\n    {\r\n        \"Name\":  \"manual-provider.ps1\",\r\n        \"ParseErrors\":  0,\r\n        \"Messages\":  [\r\n\r\n                     ]\r\n    },\r\n    {\r\n        \"Name\":  \"manual-start-evidence.ps1\",\r\n        \"ParseErrors\":  0,\r\n        \"Messages\":  [\r\n\r\n                     ]\r\n    },\r\n    {\r\n        \"Name\":  \"manual-stop-evidence.ps1\",\r\n        \"ParseErrors\":  0,\r\n        \"Messages\":  [\r\n\r\n                     ]\r\n    },\r\n    {\r\n        \"Name\":  \"probe-process-event-lifecycle.ps1\",\r\n        \"ParseErrors\":  0,\r\n        \"Messages\":  [\r\n\r\n                     ]\r\n    },\r\n    {\r\n        \"Name\":  \"probe-process-events.ps1\",\r\n        \"ParseErrors\":  0,\r\n        \"Messages\":  [\r\n\r\n                     ]\r\n    },\r\n    {\r\n        \"Name\":  \"save-update-evidence.ps1\",\r\n        \"ParseErrors\":  0,\r\n        \"Messages\":  [\r\n\r\n                     ]\r\n    },\r\n    {\r\n        \"Name\":  \"start-process-evidence-v2.ps1\",\r\n        \"ParseErrors\":  0,\r\n        \"Messages\":  [\r\n\r\n                     ]\r\n    },\r\n    {\r\n        \"Name\":  \"verify-public-install-readonly.ps1\",\r\n        \"ParseErrors\":  0,\r\n        \"Messages\":  [\r\n\r\n                     ]\r\n    }\r\n]\r\n"
+  },
+  "ReadOnlyUpgradeShare": {
+    "chunk_id": "3a935d",
+    "wall_time_seconds": 0.6470248,
+    "exit_code": 0,
+    "original_token_count": 0,
+    "output": ""
+  },
+  "RecorderV2Launch": {
+    "chunk_id": "132114",
+    "wall_time_seconds": 6.5111721,
+    "exit_code": 0,
+    "original_token_count": 6,
+    "output": "{\r\n  \"ExitCode\": 0\r\n}\r\n"
+  },
+  "LifecycleLaunch2": {
+    "chunk_id": "c450f7",
+    "wall_time_seconds": 1.4839996,
+    "exit_code": 0,
+    "original_token_count": 8,
+    "output": "{\r\n  \"ExitCode\": -196608\r\n}\r\n"
+  }
+}
+

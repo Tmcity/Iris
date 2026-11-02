@@ -1,0 +1,120 @@
+{
+  "ReviewedUtc": "2026-11-02T05:54:24.434378+00:00",
+  "Version": "0.2.3",
+  "SourceCommit": "fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11",
+  "SourceGitTree": "60422257ce3c47f3eb83b291b02a84d4c75add8a",
+  "PublicAssets": 18,
+  "PayloadEntries": 97,
+  "MaintenancePrefixBytes": 44626570,
+  "InternalSetupBytes": 72143044,
+  "InternalSetupSha256": "71c9c0366a6df90e649ee3fdc606ebf3612b084c4bd36542694f687abfb0aeb9",
+  "FullSha256": "248f61cf237bc192c736dc21e538a24a8d88adda7b44ec7d46c2885892db9dc5",
+  "OuterSha256": "a139c60f6bedad3304fc4dd091e9669d371c58d427d9b7badac3f0199b4c2447",
+  "Candidate": "F:\\Iris\\artifacts\\t039c\\release-0.2.3-public-base-candidate-2",
+  "SourceEntriesMatchedToCommit": 720,
+  "SourceWorkingBytesMatched": 720,
+  "SourceMismatches": [],
+  "EvidenceHead": "531ca41acbca65dac9c9336aa0fad85c56381783",
+  "ReleaseSourceDeltaSinceSourceCommit": [],
+  "PreviousPublicFull": {
+    "PackageId": "Iris",
+    "Version": "0.2.2",
+    "Type": "Full",
+    "FileName": "Iris-0.2.2-full.nupkg",
+    "SHA1": "58A2504B4BDD9DA82BA23D3C7AEEA5B58D0D7B9F",
+    "SHA256": "C86982F930AAFCD142167BBD871D03B588630F7D1D625DA968A811DAA2DD5D14",
+    "Size": 64627273
+  },
+  "Assets": [
+    {
+      "Name": "assets.win.json",
+      "Bytes": 240,
+      "Sha256": "4ddf16b77f070b83bb852670956addc6d6149110c2a031d40d3b598aa08ce0aa"
+    },
+    {
+      "Name": "full-tests.log",
+      "Bytes": 4685,
+      "Sha256": "f5eaed1742880ee64abafbd460965cd082acf1d436152a00a54bd97bf8a9f092"
+    },
+    {
+      "Name": "INSTALLATION.md",
+      "Bytes": 5088,
+      "Sha256": "c6aca79261915f9b2d98489304a0d788e267d755110ea1384585730d83ccca4d"
+    },
+    {
+      "Name": "Iris-0.2.2-full.nupkg",
+      "Bytes": 64627273,
+      "Sha256": "c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14"
+    },
+    {
+      "Name": "Iris-0.2.3-delta.nupkg",
+      "Bytes": 25981514,
+      "Sha256": "6d9f71789075976dd2bf2ec70c3b8eb84c838b34d9f90ce0555facc78842de88"
+    },
+    {
+      "Name": "Iris-0.2.3-full.nupkg",
+      "Bytes": 64628932,
+      "Sha256": "248f61cf237bc192c736dc21e538a24a8d88adda7b44ec7d46c2885892db9dc5"
+    },
+    {
+      "Name": "Iris-0.2.3-Setup.exe",
+      "Bytes": 116769670,
+      "Sha256": "a139c60f6bedad3304fc4dd091e9669d371c58d427d9b7badac3f0199b4c2447"
+    },
+    {
+      "Name": "package.log",
+      "Bytes": 7927,
+      "Sha256": "1e22e203ac26d533be31d2175bcb3e61b0798364e48713201da75df4a6b67dd8"
+    },
+    {
+      "Name": "payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "db0f835b465b70af40c130637318b39c6733e3c628e3b0b2851109feb3c308ab"
+    },
+    {
+      "Name": "release-build.log",
+      "Bytes": 2528,
+      "Sha256": "0bb9c9d4d583053f0002b47bb4817c811752753cc5a17c62a168df17650b0875"
+    },
+    {
+      "Name": "release-manifest-tests.log",
+      "Bytes": 3079,
+      "Sha256": "ed97c4fbe0c3e0c6ef58299670bb152a5b89f1877284fa47559d8c920a28db24"
+    },
+    {
+      "Name": "release-provenance.json",
+      "Bytes": 192361,
+      "Sha256": "8b529f8bb82af58545e8f8d895fab72a50e8b66268a02337b6ccc20508d56b3b"
+    },
+    {
+      "Name": "RELEASE_NOTES.md",
+      "Bytes": 676,
+      "Sha256": "e9e23404e3a22dcde8f70c497d2795bd238d3c83d81f10e1b57b756851bd7b60"
+    },
+    {
+      "Name": "RELEASES",
+      "Bytes": 146,
+      "Sha256": "4c83d8d602a674c81a9622d49272340f27ae897e3f2a3da35d2fc7b9e9affa8a"
+    },
+    {
+      "Name": "releases.win.json",
+      "Bytes": 704,
+      "Sha256": "45952c9b7ea5e7cff2ae7541628e3163fcd0811743ca13010e579de257f9363f"
+    },
+    {
+      "Name": "SHA256.json",
+      "Bytes": 2456,
+      "Sha256": "258b7bfdcaf3f374f0c70fa0e84d5cb38d10b8873e26c04f60f38f8abcba15be"
+    },
+    {
+      "Name": "staging-manifest.json",
+      "Bytes": 18533,
+      "Sha256": "514a465e968b740a602a05b8f9f042a50ef2f9a43d45f099330b8751f418fada"
+    },
+    {
+      "Name": "validation-summary.json",
+      "Bytes": 3801,
+      "Sha256": "f82a7e0bc3c4a71d2cfdc3c26a41392fd6ee824703026ef11ba1b9fec359327c"
+    }
+  ]
+}

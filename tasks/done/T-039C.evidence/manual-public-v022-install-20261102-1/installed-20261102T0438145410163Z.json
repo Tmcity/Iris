@@ -1,0 +1,68 @@
+{
+    "Stage":  "installed",
+    "Utc":  "2026-11-02T04:38:14.5390099Z",
+    "Os":  "10.0.26100.0",
+    "Runtimes":  [
+                     {
+                         "Version":  "10.0.14",
+                         "Family":  "Microsoft.NETCore.App"
+                     },
+                     {
+                         "Version":  "10.0.14",
+                         "Family":  "Microsoft.WindowsDesktop.App"
+                     }
+                 ],
+    "RuntimeCacheExists":  true,
+    "InstalledSource":  {
+                            "Version":  "0.2.2",
+                            "Channel":  "win",
+                            "PackageId":  "Iris",
+                            "Repository":  "https://github.com/Tmcity/Iris",
+                            "RuntimeId":  "win-x64"
+                        },
+    "Processes":  [
+                      {
+                          "StartedUtc":  "2026-11-02T04:25:01.2204360Z",
+                          "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+                          "Pid":  6604,
+                          "Name":  "Iris.App.exe",
+                          "ParentPid":  3612
+                      }
+                  ],
+    "Packages":  [
+                     {
+                         "Sha256":  "6b201da3de27757586d8ef30651a303fecf4dde6564f187beeddbebcfcf70593",
+                         "Name":  ".betaId",
+                         "Bytes":  35
+                     },
+                     {
+                         "Sha256":  "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                         "Name":  ".velopack_lock",
+                         "Bytes":  0
+                     },
+                     {
+                         "Sha256":  "c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14",
+                         "Name":  "Iris-0.2.2-full.nupkg",
+                         "Bytes":  64627273
+                     }
+                 ],
+    "DataHashes":  [
+                       {
+                           "Path":  "history.db",
+                           "Sha256":  "bc1046b11908c3172251103cbbe6e96003fb1dfb0a8ea247eb5bb841faacca86",
+                           "Bytes":  53248
+                       },
+                       {
+                           "Path":  "settings.json",
+                           "Sha256":  "2dac3723bbb35358c0af23873e7849f51e6f7d62e9f4847028438530c730d6cd",
+                           "Bytes":  3746
+                       },
+                       {
+                           "Path":  "logs\\iris-20261102.log",
+                           "HResult":  -2146233087,
+                           "Type":  "WriteErrorException",
+                           "Bytes":  0,
+                           "Unreadable":  true
+                       }
+                   ]
+}

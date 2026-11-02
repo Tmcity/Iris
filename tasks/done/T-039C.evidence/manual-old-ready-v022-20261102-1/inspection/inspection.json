@@ -1,0 +1,73 @@
+{
+    "Utc":  "2026-11-02T05:40:27.4743304Z",
+    "ReadOnlyProductInspection":  true,
+    "SessionDirectory":  "C:\\IrisAcceptanceOutput\\session-1c8333f923744572ac2c71bab9576af5",
+    "ProductSource":  {
+                          "Version":  "0.2.2",
+                          "Channel":  "win",
+                          "PackageId":  "Iris",
+                          "Repository":  "https://github.com/Tmcity/Iris",
+                          "RuntimeId":  "win-x64"
+                      },
+    "CheckForUpdates":  false,
+    "ProviderCount":  1,
+    "SyntheticProfiles":  [
+                              {
+                                  "Id":  "tp-524b38eb5999",
+                                  "DisplayName":  "T039C Synthetic",
+                                  "HasCredentialSetReference":  true,
+                                  "Model":  "iris-fixture",
+                                  "BaseUrl":  "http://127.0.0.1:18039/v1",
+                                  "Kind":  "OpenAICompatible",
+                                  "Enabled":  true
+                              }
+                          ],
+    "SettingsSha256":  "4b94fbcbe8058b3b7415d1264f7e0766c49f3cd9bc9d9777c96e0fef156a2101",
+    "SecretsSha256":  "6029155b4f25ed9ffd4d4091ebd6e8b5adbb380d23aaaadc7828e65e403886a9",
+    "Processes":  [
+                      {
+                          "Role":  "SyntheticProvider",
+                          "Name":  "powershell.exe",
+                          "Pid":  4440,
+                          "Path":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                          "ParentPid":  6764,
+                          "CreatedUtc":  "2026-11-02T04:15:50.2956160Z"
+                      },
+                      {
+                          "Role":  "ProcessRecorder",
+                          "Name":  "powershell.exe",
+                          "Pid":  3572,
+                          "Path":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                          "ParentPid":  6764,
+                          "CreatedUtc":  "2026-11-02T04:15:50.3073450Z"
+                      },
+                      {
+                          "Role":  "InstalledProduct",
+                          "Name":  "Iris.App.exe",
+                          "Pid":  6604,
+                          "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+                          "ParentPid":  3612,
+                          "CreatedUtc":  "2026-11-02T04:25:01.2204360Z"
+                      }
+                  ],
+    "RecorderFiles":  [
+                          {
+                              "Bytes":  393,
+                              "Name":  "process-events.jsonl"
+                          },
+                          {
+                              "Bytes":  255,
+                              "Name":  "provider-requests.jsonl"
+                          },
+                          {
+                              "Bytes":  30,
+                              "Name":  "watcher-status.json"
+                          },
+                          {
+                              "Bytes":  96,
+                              "Name":  "provider-status.json"
+                          }
+                      ],
+    "EvidenceDirectory":  "C:\\IrisAcceptanceOutput\\session-1c8333f923744572ac2c71bab9576af5\\old-ready-readonly-20261102T0540269551179Z",
+    "Failure":  null
+}

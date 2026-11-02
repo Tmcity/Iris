@@ -80,3 +80,13 @@ B的新包来宾在当前网络中native完整下载报Peer disconnected，成�
 ## 用户已确认Sandbox桌面可见
 
 用户反馈出现了，实际list包含本单ID590f8848-f6b4-4bdb-a151-85c4a4f19305，start/两次share日志与原connection-requested状态保留于manual-sandbox-visible-20261102-1。窗口已由用户确认可见，不等于Iris已安装；下一段按MANUAL_SANDBOX_VISIBLE_NEXT_20261102.md先用户点击记录clean、下载正式0.2.2并安装、保存installed和反馈版本。0.2.3仍未授权/推送，合成Key/历史旧版就绪及完整生产UI升级仍欠，C/父T-039/T-040/M6状态保持。
+
+## 2026-11-02 正式旧版安装及合成数据已独立核对
+
+用户依次确认“安装成功，0.2.2”和“开关已保存、翻译成功、历史可打开”。同一 Sandbox590f8848… 的无.NET10/无缓存初态、正式安装器/完整包、依赖安装及最终97/97文件在 manual-public-v022-install-20261102-1 已核对；本轮在原PID6604（04:25:01.2204360Z开始）仍运行时读回 CheckForUpdates=false、一个启用的合成服务/凭据集引用、实际POST200与虚构Key匹配、history integrity_check=ok及原合成记录。秘密只记哈希，未收集内容。本轮冻结证据 manual-old-ready-v022-20261102-1；原早期models401、启动更新警告和所有旧失败均保留。
+
+原进程记录保留；辅助cmd生命周期探针实测退出0且启动/退出事件可乱序送达，新增只读V2记录器保存原始时间和未解析事件供SDK日志关联，实际PID6956/Ready/原App基线6604已核对。辅助新增文件在原input投影未及时出现的两次 -196608 失败、原日志及精确源编码探针成功保留；同一本单input新增只读入口C:\IrisAcceptanceUpgrade，未增加宿主秘密共享。Save-Offer/Ready/Updated/Uninstalled-State.cmd及Stop-Manual-Evidence.cmd已准备；PS5.1共13份脚本语法通过，实际来宾old-ready补充采集exit0。
+
+source仍fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11/tree60422257ce3c47f3eb83b291b02a84d4c75add8a；public-base-candidate-2的720项源码、18资产/97载荷、包含正式0.2.2旧full均独立匹配。本轮无产品/测试/契约/schema/依赖改动，不重复全量建测；原源Release0/0、本地full3755/3753成功/2既有跳过及正式0.2.2 CI3755/3755成功/0跳过保留。新的0.2.3 CI仍未运行，候选SHA不冒充正式CI包SHA。
+
+见PREPUBLICATION_REVIEW_V023_20261102.md与MANUAL_UPDATE_V023_20261102.md。匿名refs仍main/codex285df3a，三个原标签保持；匿名API200只列正式v0.2.2/16资产，v0.2.3未占用。此前用户只确认第一版0.2.2；第二版尚未授权/创建标签/发布，下一步单独确认仅创建并推送v0.2.3→fb9f46f，不扩大到分支推送。确认后才执行实际CI/公开资产读回，再交用户分段真实UI检查→下载→Ready→确认安装/单次重启/原设置Key历史保留及更新后卸载。C/父T-039/T-040/NFR未结案，M6延期。原Sandbox由用户保留用于后续，未停止或控制真实Iris。

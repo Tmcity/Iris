@@ -1,0 +1,288 @@
+{
+  "ReviewedUtc": "2026-11-02T05:54:42.152878+00:00",
+  "UserReply": "开关已保存、翻译成功、历史可打开",
+  "SandboxId": "590f8848-f6b4-4bdb-a151-85c4a4f19305",
+  "SessionDirectory": "F:\\Iris\\artifacts\\t039c\\manual-verification-v022-20261101-1\\output\\session-1c8333f923744572ac2c71bab9576af5",
+  "OfficialV022InstalledPayloadPreviouslyVerified": 97,
+  "SyntheticOldDataReadyVerified": true,
+  "OldNormalApp": {
+    "Role": "ApplicationOrClient",
+    "Name": "Iris.App.exe",
+    "OwnedPathVerified": true,
+    "Pid": 6604,
+    "Path": "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+    "ParentPid": 3612,
+    "CreatedUtc": "2026-11-02T04:25:01.2204360Z"
+  },
+  "SettingsSha256": "4b94fbcbe8058b3b7415d1264f7e0766c49f3cd9bc9d9777c96e0fef156a2101",
+  "SecretsSha256": "6029155b4f25ed9ffd4d4091ebd6e8b5adbb380d23aaaadc7828e65e403886a9",
+  "SecretsContentsCollected": false,
+  "HistorySnapshot": {
+    "Path": "F:\\Iris\\artifacts\\t039c\\manual-verification-v022-20261101-1\\output\\session-1c8333f923744572ac2c71bab9576af5\\old-ready-supplement-20261102T0551544662793Z\\history.db",
+    "Sha256": "8bb46ccb59258f8ce804a0b941635de6e031e68c618375306c7ccae08538f223",
+    "IntegrityCheck": "ok",
+    "Rows": [
+      {
+        "id": 1,
+        "created_at": "2026-11-02T05:15:47.7824919+00:00",
+        "origin": "Input",
+        "source_text": "Iris acceptance check",
+        "provider_id": "tp-524b38eb5999",
+        "provider_name": "T039C Synthetic",
+        "model": "iris-fixture",
+        "result_text": "Iris 公共升级验证"
+      }
+    ]
+  },
+  "ProviderRequests": [
+    {
+      "Method": null,
+      "Utc": "2026-11-02T05:14:57.7094957Z",
+      "Path": "/v1/models",
+      "Status": 401,
+      "SyntheticCredentialMatched": false
+    },
+    {
+      "Method": "POST",
+      "Utc": "2026-11-02T05:15:47.7647685Z",
+      "Path": "/v1/chat/completions",
+      "Status": 200,
+      "SyntheticCredentialMatched": true
+    }
+  ],
+  "LifecycleProbePassed": true,
+  "LifecycleProbeIsProductionUpgrade": false,
+  "ObserverV2Ready": true,
+  "ObserverPid": 6956,
+  "V023Source": "fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11",
+  "V023Candidate": "F:\\Iris\\artifacts\\t039c\\release-0.2.3-public-base-candidate-2",
+  "V023PublicAssets": 18,
+  "V023PublicationAuthorized": false,
+  "ProductionUiUpgradeVerified": false,
+  "RestartCountVerified": false,
+  "PostUpdateUninstallVerified": false,
+  "OriginalLaunchFailure": "Two -File probe launch attempts returned Sandbox ExitCode -196608; the raw second log states that the new input file did not exist in the existing projection. The exact-source EncodedCommand probe passed; the same input root was additionally shared read-only as C:\\IrisAcceptanceUpgrade for the new helpers.",
+  "OriginalProductLogObservations": "Initial startup update warning and a pre-save /v1/models 401 remain in raw logs. The later actual translation POST returned 200 with SyntheticCredentialMatched=true and persisted the expected history result.",
+  "Files": [
+    {
+      "Path": "candidate-source-review.json",
+      "Bytes": 3962,
+      "Sha256": "fcf7fc4f0b841576b45881ac0106710d93572a8482f69dc3db953425fbd52971"
+    },
+    {
+      "Path": "inspection/inspection.json",
+      "Bytes": 3537,
+      "Sha256": "9b6debb809a1677d970ad805ed7b97be1243d215a44d2ef9a81dc0ceb9810bba"
+    },
+    {
+      "Path": "inspection/process-events.jsonl",
+      "Bytes": 393,
+      "Sha256": "92886eacf4e4655a1496938294b3d7e38de3715cb81a90d2cc62372699654073"
+    },
+    {
+      "Path": "inspection/product-iris-20261102.log",
+      "Bytes": 1122,
+      "Sha256": "732b3fd255edcee8c455d60f07755815919766adf453d54d21fb539492991588"
+    },
+    {
+      "Path": "inspection/provider-requests.jsonl",
+      "Bytes": 255,
+      "Sha256": "5fa542aaa931b41a722d838aa4c99dbd0385ebb5e57bb7e5d41814af7805ba87"
+    },
+    {
+      "Path": "inspection/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "inspection/watcher-status.json",
+      "Bytes": 30,
+      "Sha256": "16f1d5778342d13e9bfa04251ba4be8ada3fc52a3eea90bac7ea2c5373746718"
+    },
+    {
+      "Path": "manual-input/Begin-Manual-Evidence.cmd",
+      "Bytes": 346,
+      "Sha256": "356baaf51ef969d38d4fbb9fe9a969ced5121f8e74c465d85cd41627428ced81"
+    },
+    {
+      "Path": "manual-input/diagnose-installed-state-readonly.ps1",
+      "Bytes": 826,
+      "Sha256": "42bb6538c0801aace47c606e0e0e9cadb0be81f5af3d2fb96436003af1b63c63"
+    },
+    {
+      "Path": "manual-input/inspect-old-ready-readonly.ps1",
+      "Bytes": 4463,
+      "Sha256": "e5ed474f262dadc743c68cfbd5b89ead068ecf1d5be39f82d5d8ee3e6d18b17c"
+    },
+    {
+      "Path": "manual-input/manual-capture-state.ps1",
+      "Bytes": 4421,
+      "Sha256": "13217a63ae3d9ae5cb0d384641355060de72ac27ab46c62d9ff6f36270f1460a"
+    },
+    {
+      "Path": "manual-input/manual-process-watch-v2.ps1",
+      "Bytes": 5546,
+      "Sha256": "322bc2f93560f345c5371a6506d9beead0bc170519eaad938ad4b254e7d6ba2d"
+    },
+    {
+      "Path": "manual-input/manual-process-watch.ps1",
+      "Bytes": 4399,
+      "Sha256": "94321a9bccfabf758450902ef44b92878ac8ee9fdc36f458114b7348416f8d4b"
+    },
+    {
+      "Path": "manual-input/manual-provider.ps1",
+      "Bytes": 3794,
+      "Sha256": "eaf11f5f4891c02474f39411dfd8788fa3972f5db3b781f6c11552cc14b17cf6"
+    },
+    {
+      "Path": "manual-input/manual-start-evidence.ps1",
+      "Bytes": 1410,
+      "Sha256": "6e5929387f2327bf3295470db6fbc73ee09f806645b888ade587c29c4d04b900"
+    },
+    {
+      "Path": "manual-input/manual-stop-evidence.ps1",
+      "Bytes": 649,
+      "Sha256": "16d044fb2052ba43d797f0c7cc421f3db4c1057acc4be156b1d9f6a3a41238b2"
+    },
+    {
+      "Path": "manual-input/probe-process-event-lifecycle.ps1",
+      "Bytes": 3670,
+      "Sha256": "d490e1177580857255da90a083b6063d98fad5aabbd04d2519ab2e707a26c576"
+    },
+    {
+      "Path": "manual-input/probe-process-events.ps1",
+      "Bytes": 1850,
+      "Sha256": "44699440ab123c165c5ee43cc369b2421e486663d92fae4d757097db49190546"
+    },
+    {
+      "Path": "manual-input/Save-Installed-State.cmd",
+      "Bytes": 174,
+      "Sha256": "552fe3c42ef70e6b8d689efdf6aaf82a1e8a4a1eaa859199a42a509edc4c6250"
+    },
+    {
+      "Path": "manual-input/Save-Offer-State.cmd",
+      "Bytes": 178,
+      "Sha256": "53d59c58206560a3648a805bc61fc8f6d941a27554d37ed5e4e5df8dbb7873bc"
+    },
+    {
+      "Path": "manual-input/Save-Old-Ready-State.cmd",
+      "Bytes": 174,
+      "Sha256": "5c37e53c7e95310c0752c081b5aaa5da3a86f88a1f7f681bad17369064db3732"
+    },
+    {
+      "Path": "manual-input/Save-Ready-State.cmd",
+      "Bytes": 178,
+      "Sha256": "54238c26c8e26a5ef8098e42ea7b398fd25c53221f6f63ef873dea2042e15749"
+    },
+    {
+      "Path": "manual-input/Save-Uninstalled-State.cmd",
+      "Bytes": 184,
+      "Sha256": "b74e93a7bddcdd1d1c67180e16e1c2728f8ee6ef3c26a5f7646aa033293b189c"
+    },
+    {
+      "Path": "manual-input/save-update-evidence.ps1",
+      "Bytes": 5285,
+      "Sha256": "a75fb4f73645b7198213a7d244dc1d50c13b89169ca1bfcbae9629d267a966f7"
+    },
+    {
+      "Path": "manual-input/Save-Updated-State.cmd",
+      "Bytes": 180,
+      "Sha256": "1393d4b6b406f38455b2d3ff95f554369e8e7fa05a0b2e06ef95b0e2b672f759"
+    },
+    {
+      "Path": "manual-input/start-process-evidence-v2.ps1",
+      "Bytes": 2562,
+      "Sha256": "48a0a48b4684a4644f6bb3a2ddce7dc7277144ea321757f78dec2f789a19c5e9"
+    },
+    {
+      "Path": "manual-input/Stop-Manual-Evidence.cmd",
+      "Bytes": 184,
+      "Sha256": "0240940845071160584831bfc2f75860d560e63def305c91100add3808cc03a4"
+    },
+    {
+      "Path": "manual-input/verify-public-install-readonly.ps1",
+      "Bytes": 3403,
+      "Sha256": "e46da2415bc8bbb7ed8b1297b44f07e1b9b16ab66dc16966f341b664a83f027c"
+    },
+    {
+      "Path": "old-ready-20261102T0551542054134Z.json",
+      "Bytes": 3434,
+      "Sha256": "4ec63049b3b68baf74c1e0dc147b60144bb0acf3bd6f2f3a509b7b9fafeebdfb"
+    },
+    {
+      "Path": "original-missing-input-file-launch-2.log",
+      "Bytes": 276,
+      "Sha256": "ad64c60f0d056b569773e794b6fdb9e4ea482a60a9db41253ed8249374846842"
+    },
+    {
+      "Path": "prepublication-supplement/active-recorder-v2.json",
+      "Bytes": 467,
+      "Sha256": "22b94b383527b6d101ea48a14ff88be81f53b4ed067ad3230e5a21af7d54cd53"
+    },
+    {
+      "Path": "prepublication-supplement/process-events-v2.jsonl",
+      "Bytes": 324,
+      "Sha256": "896572cd26530e6ccb9b656fef9ddd11b86ae83040a7b83c3063460bf6d23461"
+    },
+    {
+      "Path": "prepublication-supplement/process-events.jsonl",
+      "Bytes": 393,
+      "Sha256": "92886eacf4e4655a1496938294b3d7e38de3715cb81a90d2cc62372699654073"
+    },
+    {
+      "Path": "prepublication-supplement/product-iris-20261102.log",
+      "Bytes": 1122,
+      "Sha256": "732b3fd255edcee8c455d60f07755815919766adf453d54d21fb539492991588"
+    },
+    {
+      "Path": "prepublication-supplement/provider-requests.jsonl",
+      "Bytes": 255,
+      "Sha256": "5fa542aaa931b41a722d838aa4c99dbd0385ebb5e57bb7e5d41814af7805ba87"
+    },
+    {
+      "Path": "prepublication-supplement/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "prepublication-supplement/supplement.json",
+      "Bytes": 2464,
+      "Sha256": "046617b1b830f4eb0b19380513cf5060b311d60b04e8ebf6076658537454ce5c"
+    },
+    {
+      "Path": "prepublication-supplement/watcher-status.json",
+      "Bytes": 30,
+      "Sha256": "16f1d5778342d13e9bfa04251ba4be8ada3fc52a3eea90bac7ea2c5373746718"
+    },
+    {
+      "Path": "prepublication-supplement/watcher-v2-status.json",
+      "Bytes": 176,
+      "Sha256": "26d40eb07312eed8b57b9ffd508dae0e6fa39da1320de7b7c366a63126b44ccd"
+    },
+    {
+      "Path": "process-lifecycle-encoded-launch-3.json",
+      "Bytes": 434,
+      "Sha256": "394f437d0fa9adc4e4acec149544b008dd74ee9d351f3a6d287cd8fd7ac2c337"
+    },
+    {
+      "Path": "process-lifecycle-probe-20261102T0545596865092Z.json",
+      "Bytes": 987,
+      "Sha256": "5498cfe4add6b6df514e26017ab558ff015f5829fbb31fa5dc926bb39cebd748"
+    },
+    {
+      "Path": "public-release-list.body",
+      "Bytes": 28521,
+      "Sha256": "964dd7dc384e5480b150c380de04438ffebb9bc311c1df2ad449bd3854f51573"
+    },
+    {
+      "Path": "public-state.json",
+      "Bytes": 661,
+      "Sha256": "b4dcdc480f71f78ca0c852d802fb481bd858f42aa0f2d80137bdd4e6c9cd63d6"
+    },
+    {
+      "Path": "tool-results.json",
+      "Bytes": 4496,
+      "Sha256": "7130f67cd539235266acb522f9169cd24701ba67f4b8d9a6d6faf17f753f4795"
+    }
+  ]
+}
