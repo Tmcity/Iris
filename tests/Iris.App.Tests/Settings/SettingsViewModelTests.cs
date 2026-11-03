@@ -16,7 +16,7 @@ namespace Iris.App.Tests.Settings;
 
 public sealed class SettingsViewModelTests
 {
-    private static (SettingsViewModel ViewModel, ISettingsService SettingsService, ThemeService ThemeService, GeneralSettingsSaveCoordinator Coordinator, IAutoStartService AutoStart) CreateSut(AppSettings? initialSettings = null)
+    private static (SettingsViewModel ViewModel, ISettingsService SettingsService, ThemeService ThemeService, GeneralSettingsSaveCoordinator Coordinator, IAutoStartService AutoStart) CreateSut(AppSettings? initialSettings = null, WpfUiDispatcher? uiDispatcher = null)
     {
         var settings = initialSettings ?? new AppSettings
         {
@@ -36,15 +36,14 @@ public sealed class SettingsViewModelTests
         var autoStartService = Substitute.For<IAutoStartService>();
         var coordinator = new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, null, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
 
-        var uiDispatcher = Substitute.For<IUiDispatcher>();
-        uiDispatcher.InvokeAsync(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>())
-            .Returns(callInfo =>
-            {
-                var fn = callInfo.Arg<Func<Task>>();
-                return fn();
-            });
+        IUiDispatcher dispatcher = uiDispatcher ?? (IUiDispatcher)Substitute.For<IUiDispatcher>();
+        if (uiDispatcher == null)
+        {
+            dispatcher.InvokeAsync(Arg.Any<Func<Task>>(), Arg.Any<CancellationToken>())
+                .Returns(callInfo => callInfo.Arg<Func<Task>>()());
+        }
 
-        var vm = new SettingsViewModel(settingsService, themeService, coordinator, uiDispatcher);
+        var vm = new SettingsViewModel(settingsService, themeService, coordinator, dispatcher);
         return (vm, settingsService, themeService, coordinator, autoStartService);
     }
 
@@ -369,61 +368,114 @@ public sealed class SettingsViewModelTests
         }
     }
 
-    [Fact]
-    public async Task SaveAsync_WhenAutoStartApplyFails_PreservesRetryEligibility_AcrossUnrelatedSavesAndReload()
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public async Task SaveAsync_WhenAutoStartApplyFails_PreservesRetryEligibility_AcrossUnrelatedSavesAndReload(bool delayQueryUntilSaveCompletes)
     {
-        var (vm, settingsService, _, _, autoStart) = CreateSut();
-        using (vm)
+        await WpfTestRunner.RunAsync(async () =>
         {
-            settingsService.UpdateAsync(Arg.Any<Func<AppSettings, AppSettings>>(), Arg.Any<CancellationToken>())
-                .Returns(callInfo =>
-                {
-                    var mutate = callInfo.Arg<Func<AppSettings, AppSettings>>();
-                    var updated = mutate(settingsService.Current);
-                    settingsService.Current.Returns(updated);
-                    return Task.CompletedTask;
-                });
-
-            // 模拟自启注册失败
-            var failAutoStart = true;
-            autoStart.When(x => x.SetEnabled(true)).Do(_ =>
+            var (vm, settingsService, theme, coordinator, autoStart) = CreateSut(uiDispatcher: new WpfUiDispatcher());
+            using (vm)
+            using (theme)
+            using (coordinator)
+            using (var releaseQuery = new ManualResetEventSlim())
             {
-                if (failAutoStart)
+                settingsService.UpdateAsync(Arg.Any<Func<AppSettings, AppSettings>>(), Arg.Any<CancellationToken>())
+                    .Returns(callInfo =>
+                    {
+                        var mutate = callInfo.Arg<Func<AppSettings, AppSettings>>();
+                        settingsService.Current.Returns(mutate(settingsService.Current));
+                        return Task.CompletedTask;
+                    });
+
+                var failAutoStart = true;
+                var saveFailureObserved = false;
+                var queryEntered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                var retryAvailable = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                autoStart.When(x => x.SetEnabled(true)).Do(_ =>
                 {
-                    throw new InvalidOperationException("Registry error");
+                    if (Volatile.Read(ref failAutoStart))
+                    {
+                        Volatile.Write(ref saveFailureObserved, true);
+                        throw new InvalidOperationException("Registry error");
+                    }
+                });
+                autoStart.IsEnabled().Returns(_ =>
+                {
+                    if (delayQueryUntilSaveCompletes && Volatile.Read(ref saveFailureObserved))
+                    {
+                        Thread.CurrentThread.IsThreadPoolThread.ShouldBeTrue();
+                        queryEntered.TrySetResult();
+                        releaseQuery.Wait(); // Fake query; only the controller/finally releases it.
+                    }
+                    return !Volatile.Read(ref failAutoStart);
+                });
+                System.ComponentModel.PropertyChangedEventHandler observeRetry = (_, args) =>
+                {
+                    if (args.PropertyName == nameof(vm.CanRetryAutoStart) && vm.CanRetryAutoStart)
+                        retryAvailable.TrySetResult();
+                };
+                vm.PropertyChanged += observeRetry; // Subscribe before saving can publish the query result.
+                Task? operation = null;
+                Exception? primary = null;
+                var cleanupErrors = new System.Collections.Generic.List<Exception>();
+                try
+                {
+                    vm.LaunchAtStartup = true;
+                    operation = vm.ExecuteSaveAsync();
+                    await operation;
+                    if (delayQueryUntilSaveCompletes)
+                    {
+                        await queryEntered.Task.WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
+                        vm.CanRetryAutoStart.ShouldBeFalse("the fresh query remains blocked after save completes");
+                        retryAvailable.Task.IsCompleted.ShouldBeFalse();
+                    }
+                    releaseQuery.Set();
+                    await retryAvailable.Task.WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
+
+                    vm.CanRetryAutoStart.ShouldBeTrue();
+                    vm.StatusMessage.ShouldNotBeNull();
+                    vm.StatusMessage!.ShouldContain("开机启动设置未生效");
+                    settingsService.Current.General.LaunchAtStartup.ShouldBeTrue();
+                    vm.IsDirty.ShouldBeFalse();
+
+                    // 保存无关字段，重试资格独立保留。
+                    vm.LogLevel = "Debug";
+                    operation = vm.ExecuteSaveAsync();
+                    await operation;
+                    vm.CanRetryAutoStart.ShouldBeTrue();
+                    vm.StatusMessage.ShouldNotBeNull();
+                    vm.StatusMessage!.ShouldContain("开机启动设置仍未生效");
+                    settingsService.Current.General.LogLevel.ShouldBe("Debug");
+
+                    vm.ExecuteReload();
+                    vm.CanRetryAutoStart.ShouldBeTrue();
+                    vm.LogLevel.ShouldBe("Debug");
+
+                    Volatile.Write(ref failAutoStart, false);
+                    operation = vm.ExecuteRetryAutoStartAsync();
+                    await operation;
+                    vm.CanRetryAutoStart.ShouldBeFalse();
+                    vm.StatusMessage.ShouldNotBeNull();
+                    vm.StatusMessage!.ShouldContain("已生效");
+                    autoStart.Received(2).SetEnabled(true);
                 }
-                autoStart.IsEnabled().Returns(true);
-            });
-            autoStart.IsEnabled().Returns(_ => !failAutoStart);
-
-            vm.LaunchAtStartup = true;
-            await vm.ExecuteSaveAsync();
-
-            vm.CanRetryAutoStart.ShouldBeTrue();
-            vm.StatusMessage.ShouldNotBeNull();
-            vm.StatusMessage!.ShouldContain("开机启动设置未生效");
-
-            // 保存无关字段（如 LogLevel）
-            vm.LogLevel = "Debug";
-            await vm.ExecuteSaveAsync();
-
-            // 自启仍待应用，重试资格独立保留
-            vm.CanRetryAutoStart.ShouldBeTrue();
-            vm.StatusMessage.ShouldNotBeNull();
-            vm.StatusMessage!.ShouldContain("开机启动设置仍未生效");
-
-            // 执行 Reload，重试资格依然保留
-            vm.ExecuteReload();
-            vm.CanRetryAutoStart.ShouldBeTrue();
-
-            // 重试成功
-            failAutoStart = false;
-            await vm.ExecuteRetryAutoStartAsync();
-
-            vm.CanRetryAutoStart.ShouldBeFalse();
-            vm.StatusMessage.ShouldNotBeNull();
-            vm.StatusMessage!.ShouldContain("已生效");
-        }
+                catch (Exception ex) { primary = ex; }
+                finally
+                {
+                    releaseQuery.Set();
+                    if (operation != null) try { await operation; } catch (Exception ex) { cleanupErrors.Add(ex); }
+                    try { await coordinator.WaitForActiveWorkAsync(); } catch (Exception ex) { cleanupErrors.Add(ex); }
+                    try { await vm.WaitForActiveWorkAsync(); } catch (Exception ex) { cleanupErrors.Add(ex); }
+                    vm.PropertyChanged -= observeRetry;
+                }
+                if (primary != null && cleanupErrors.Count == 0) System.Runtime.ExceptionServices.ExceptionDispatchInfo.Capture(primary).Throw();
+                if (primary != null) cleanupErrors.Insert(0, primary);
+                if (cleanupErrors.Count != 0) throw new AggregateException(cleanupErrors);
+                vm.CanRetryAutoStart.ShouldBeFalse("all queries are joined before checking the successful retry remains applied");
+            }
+        });
     }
 
     [Fact]
@@ -757,28 +809,32 @@ public sealed class SettingsViewModelTests
             auto.BeforeSet = () =>
             {
                 entered.TrySetResult();
-                if (!release.Wait(TimeSpan.FromSeconds(5)))
-                {
-                    throw new TimeoutException("BeforeSet wait timed out");
-                }
+                release.Wait(); // Fake synchronous apply; finally always releases it.
             };
 
             using var theme = new ThemeService(state);
             using var coordinator = new GeneralSettingsSaveCoordinator(state, new TestSettingsEditCoordinator(state), auto, null, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
             using var vm = new SettingsViewModel(state, theme, coordinator, new WpfUiDispatcher());
+            var retryAvailable = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            System.ComponentModel.PropertyChangedEventHandler observeRetry = (_, args) =>
+            {
+                if (args.PropertyName == nameof(vm.CanRetryAutoStart) && vm.CanRetryAutoStart) retryAvailable.TrySetResult();
+            };
+            vm.PropertyChanged += observeRetry;
 
             vm.LaunchAtStartup = true;
             var saveTask = vm.ExecuteSaveAsync();
 
             try
             {
-                await entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                await entered.Task.WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
 
                 // 在 SetEnabled 挂起期间，外部将已保存意图改为 false
                 await state.UpdateAsync(s => s with { General = s.General with { LaunchAtStartup = false } });
 
                 release.Set();
-                await saveTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                await saveTask.WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
+                await retryAvailable.Task.WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
 
                 // 验证应用完成后协调结果
                 state.Current.General.LaunchAtStartup.ShouldBeFalse("已保存意图不得被陈旧目标覆盖");
@@ -796,9 +852,10 @@ public sealed class SettingsViewModelTests
             finally
             {
                 release.Set();
-                await saveTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
-                await coordinator.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
-                await vm.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
+                await saveTask;
+                await coordinator.WaitForActiveWorkAsync();
+                await vm.WaitForActiveWorkAsync();
+                vm.PropertyChanged -= observeRetry;
             }
         });
     }
@@ -826,33 +883,38 @@ public sealed class SettingsViewModelTests
                     throw new System.IO.IOException("Simulated save auto start failure");
                 }
                 entered.TrySetResult();
-                if (!release.Wait(TimeSpan.FromSeconds(5)))
-                {
-                    throw new TimeoutException("BeforeSet wait timed out");
-                }
+                release.Wait(); // The controller owns this fake apply gate until explicit release.
             };
 
             using var theme = new ThemeService(state);
             using var coordinator = new GeneralSettingsSaveCoordinator(state, new TestSettingsEditCoordinator(state), auto, null, NullLogger<GeneralSettingsSaveCoordinator>.Instance);
             using var vm = new SettingsViewModel(state, theme, coordinator, new WpfUiDispatcher());
-
-            // 首次保存：由于自启失败获得重试资格
-            vm.LaunchAtStartup = true;
-            await vm.ExecuteSaveAsync().WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
-            vm.CanRetryAutoStart.ShouldBeTrue("首次保存自启失败后应具有重试资格");
-
-            // 发起重试
-            var retryTask = vm.ExecuteRetryAutoStartAsync();
+            var retryAvailable = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            System.ComponentModel.PropertyChangedEventHandler observeRetry = (_, args) =>
+            {
+                if (args.PropertyName == nameof(vm.CanRetryAutoStart) && vm.CanRetryAutoStart) retryAvailable.TrySetResult();
+            };
+            vm.PropertyChanged += observeRetry;
+            Task? initialSave = null;
+            Task? retryTask = null;
 
             try
             {
-                await entered.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                // 首次保存：先观察异步状态查询完成，再断言并发起重试。
+                vm.LaunchAtStartup = true;
+                initialSave = vm.ExecuteSaveAsync();
+                await initialSave.WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
+                await retryAvailable.Task.WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
+                vm.CanRetryAutoStart.ShouldBeTrue("首次保存自启失败后应具有重试资格");
+
+                retryTask = vm.ExecuteRetryAutoStartAsync();
+                await entered.Task.WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
 
                 // 在重试应用的 SetEnabled 挂起期间，外部把已保存意图改为 false
                 await state.UpdateAsync(s => s with { General = s.General with { LaunchAtStartup = false } });
 
                 release.Set();
-                await retryTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+                await retryTask.WaitAsync(TimeSpan.FromSeconds(15), TestContext.Current.CancellationToken);
 
                 // 验证重试完成后协调结果
                 state.Current.General.LaunchAtStartup.ShouldBeFalse("已保存意图不得被覆盖");
@@ -870,9 +932,11 @@ public sealed class SettingsViewModelTests
             finally
             {
                 release.Set();
-                await retryTask.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
-                await coordinator.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
-                await vm.WaitForActiveWorkAsync().WaitAsync(TestContext.Current.CancellationToken);
+                if (initialSave != null) await initialSave;
+                if (retryTask != null) await retryTask;
+                await coordinator.WaitForActiveWorkAsync();
+                await vm.WaitForActiveWorkAsync();
+                vm.PropertyChanged -= observeRetry;
             }
         });
     }
