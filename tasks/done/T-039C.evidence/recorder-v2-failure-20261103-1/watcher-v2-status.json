@@ -1,0 +1,12 @@
+{
+    "LastHeartbeatUtc":  "2026-11-03T10:36:00.0613756Z",
+    "ReadOnly":  true,
+    "Failure":  {
+                    "Position":  "At C:\\IrisAcceptanceUpgrade\\manual-process-watch-v2.ps1:67 char:13\r\n+             Remove-Event -EventIdentifier $taskEventItem.EventIdentif ...\r\n+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "Message":  "Event with identifier \u00271830\u0027 does not exist.",
+                    "Type":  "System.ArgumentException"
+                },
+    "Ready":  false,
+    "RecorderPid":  6956,
+    "Records":  2
+}

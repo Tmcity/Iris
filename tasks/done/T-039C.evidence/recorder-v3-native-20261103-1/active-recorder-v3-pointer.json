@@ -1,0 +1,58 @@
+{
+    "RecorderVersion":  3,
+    "Utc":  "2026-11-03T14:11:19.0566836Z",
+    "OutputDirectory":  "C:\\IrisAcceptanceOutput\\session-1c8333f923744572ac2c71bab9576af5\\recorder-v3-fcf5444ba627427aa2a4fe856f72da43",
+    "SourceSha256":  "3515546d9e344331cc2c95fc4c97f60b213bfc06ae11ada98d96349b3e3dac62",
+    "RecorderPid":  4604,
+    "AuxiliaryProbe":  {
+                           "SystemCmdCopySha256":  "15cd209c995b7d3009c91ca40892d5b8f1fb162f3e5f10716642ea278e8e0d7b",
+                           "Path":  "C:\\IrisAcceptanceOutput\\session-1c8333f923744572ac2c71bab9576af5\\recorder-v3-fcf5444ba627427aa2a4fe856f72da43\\probe\\Iris.exe",
+                           "ExitEvent":  {
+                                             "NativeEventUtc":  "2026-11-03T14:11:18.7823962Z",
+                                             "Pid":  7944,
+                                             "ExitCode":  0,
+                                             "NeedsLogCorrelation":  false,
+                                             "Sequence":  5,
+                                             "RecorderVersion":  3,
+                                             "ObservedUtc":  "2026-11-03T14:11:18.8621664Z",
+                                             "Name":  "Iris.exe",
+                                             "Identity":  {
+                                                              "Role":  "AuxiliaryProbe",
+                                                              "Name":  "Iris.exe",
+                                                              "OwnedPathVerified":  true,
+                                                              "Pid":  7944,
+                                                              "Path":  "C:\\IrisAcceptanceOutput\\session-1c8333f923744572ac2c71bab9576af5\\recorder-v3-fcf5444ba627427aa2a4fe856f72da43\\probe\\Iris.exe",
+                                                              "ParentPid":  2676,
+                                                              "CreatedUtc":  "2026-11-03T14:11:15.5108740Z"
+                                                          },
+                                             "Kind":  "Exited"
+                                         },
+                           "Pid":  7944,
+                           "StartEvent":  {
+                                              "NativeEventUtc":  "2026-11-03T14:11:16.7503757Z",
+                                              "Pid":  7944,
+                                              "ExitCode":  null,
+                                              "NeedsLogCorrelation":  false,
+                                              "Sequence":  4,
+                                              "RecorderVersion":  3,
+                                              "ObservedUtc":  "2026-11-03T14:11:16.9430293Z",
+                                              "Name":  "Iris.exe",
+                                              "Identity":  {
+                                                               "Role":  "AuxiliaryProbe",
+                                                               "Name":  "Iris.exe",
+                                                               "OwnedPathVerified":  true,
+                                                               "Pid":  7944,
+                                                               "Path":  "C:\\IrisAcceptanceOutput\\session-1c8333f923744572ac2c71bab9576af5\\recorder-v3-fcf5444ba627427aa2a4fe856f72da43\\probe\\Iris.exe",
+                                                               "ParentPid":  2676,
+                                                               "CreatedUtc":  "2026-11-03T14:11:15.5108740Z"
+                                                           },
+                                              "Kind":  "Started"
+                                          },
+                           "RealIrisExecutable":  false
+                       },
+    "Ready":  true,
+    "ReadOnlyProductObserver":  true,
+    "SourcePath":  "C:\\IrisAcceptanceOutput\\session-1c8333f923744572ac2c71bab9576af5\\recorder-v3-fcf5444ba627427aa2a4fe856f72da43\\manual-process-watch-v3.ps1",
+    "ProductOperationPerformed":  false,
+    "Failure":  null
+}

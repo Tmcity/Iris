@@ -1,0 +1,31 @@
+正在从以下位置运行测试 F:\Iris\artifacts\t039c\worktree-v026-ci-fix-20261103-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Settings.SettingsViewModelTests.SaveAsync_WhenAutoStartApplyFails_PreservesRetryEligibility_AcrossUnrelatedSavesAndReload (162ms)
+  从 F:\Iris\artifacts\t039c\worktree-v026-ci-fix-20261103-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : vm.CanRetryAutoStart
+      should be
+  True
+      but was
+  False
+    在 Iris.App.Tests.Settings.SettingsViewModelTests.SaveAsync_WhenAutoStartApplyFails_PreservesRetryEligibility_AcrossUnrelatedSavesAndReload() 位于 F:\Iris\artifacts\t039c\worktree-v026-ci-fix-20261103-1\tests\Iris.App.Tests\Settings\SettingsViewModelTests.cs:412
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Settings.SettingsViewModelTests.SaveAsync_WhenAutoStartApplyFails_PreservesRetryEligibility_AcrossUnrelatedSavesAndReload() 位于 F:\Iris\artifacts\t039c\worktree-v026-ci-fix-20261103-1\tests\Iris.App.Tests\Settings\SettingsViewModelTests.cs:441
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\artifacts\t039c\worktree-v026-ci-fix-20261103-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (1s 535ms)
+退出代码: 2
+
+  生成的进程内文件项目:
+    - F:\Iris\artifacts\t039c\query-counterexample-before-20261103-2\reports\28910_SKYRIU-PC_2026-11-03_09_20_02.917425.xunit.xml
+
+测试运行摘要: 失败!
+  总计: 1
+  失败: 1
+  成功: 0
+  已跳过: 0
+  持续时间: 1s 812ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/launch_v3_recorder_20261103.py"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-03T14:11:09.706716+00:00",
+  "completedAt": "2026-11-03T14:11:19.231889+00:00",
+  "exitCode": 0,
+  "logSha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+}

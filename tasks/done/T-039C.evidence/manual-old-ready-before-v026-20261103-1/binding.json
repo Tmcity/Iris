@@ -1,0 +1,90 @@
+{
+  "ObservedUtc": "2026-11-03T14:13:32.5032553Z",
+  "GuestId": "590f8848-f6b4-4bdb-a151-85c4a4f19305",
+  "Version": "0.2.2",
+  "AppPid": 6604,
+  "AppStartedUtc": "2026-11-02T04:25:01.2204360Z",
+  "CheckForUpdates": false,
+  "RecorderPid": 4604,
+  "RecorderVersion": 3,
+  "RecorderReady": true,
+  "DataHashesUnchanged": {
+    "settings.json": "4b94fbcbe8058b3b7415d1264f7e0766c49f3cd9bc9d9777c96e0fef156a2101",
+    "secrets.dat": "6029155b4f25ed9ffd4d4091ebd6e8b5adbb380d23aaaadc7828e65e403886a9",
+    "history.db": "8bb46ccb59258f8ce804a0b941635de6e031e68c618375306c7ccae08538f223"
+  },
+  "SecretsContentsCollected": false,
+  "PreviousPublicFull": {
+    "Sha256": "c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14",
+    "Name": "Iris-0.2.2-full.nupkg",
+    "Bytes": 64627273
+  },
+  "NewVersionPackagePresent": false,
+  "Files": [
+    {
+      "Path": "active-recorder-v2.json",
+      "Bytes": 4296,
+      "Sha256": "cef00c0d36e779c90882e2f9c3b50888524e5b6476411534c04c42bfcd0b874c"
+    },
+    {
+      "Path": "history.db",
+      "Bytes": 53248,
+      "Sha256": "8bb46ccb59258f8ce804a0b941635de6e031e68c618375306c7ccae08538f223"
+    },
+    {
+      "Path": "old-ready.json",
+      "Bytes": 3434,
+      "Sha256": "3387e634d98b57e012d11083a49ff0368cf8908bf8189d1616010af9951f69f2"
+    },
+    {
+      "Path": "process-events-v2.jsonl",
+      "Bytes": 1738,
+      "Sha256": "b6fbe2606a7e8ad7322efe48fc456ce2ddfbd03cca22b34e89e8613f155be858"
+    },
+    {
+      "Path": "process-events.jsonl",
+      "Bytes": 469,
+      "Sha256": "096484f4d5bdd29741ada0296ae3f12a7bece9541e2ae21209b088e281e40f43"
+    },
+    {
+      "Path": "product-iris-20261102.log",
+      "Bytes": 1122,
+      "Sha256": "732b3fd255edcee8c455d60f07755815919766adf453d54d21fb539492991588"
+    },
+    {
+      "Path": "provider-requests.jsonl",
+      "Bytes": 255,
+      "Sha256": "5fa542aaa931b41a722d838aa4c99dbd0385ebb5e57bb7e5d41814af7805ba87"
+    },
+    {
+      "Path": "provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "supplement.json",
+      "Bytes": 7205,
+      "Sha256": "8f44b0ce516cb049badef60dce6dc39cb7322e2dfaaf68b31cd0fa1743c53dd5"
+    },
+    {
+      "Path": "v026-old-ready-before-approval-2.command.json",
+      "Bytes": 544,
+      "Sha256": "540bfddfec947d26a07053161250e58dccf115f49b4978443c3f5195728af961"
+    },
+    {
+      "Path": "v026-old-ready-before-approval-2.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "watcher-status.json",
+      "Bytes": 30,
+      "Sha256": "16f1d5778342d13e9bfa04251ba4be8ada3fc52a3eea90bac7ea2c5373746718"
+    },
+    {
+      "Path": "watcher-v2-status.json",
+      "Bytes": 242,
+      "Sha256": "c821c63c2ee0d320ecd16ab4a36ab597ba86f7a5d35dd4098a94816203d207a4"
+    }
+  ]
+}

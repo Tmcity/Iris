@@ -1,0 +1,53 @@
+{
+  "OriginalFailure": {
+    "LastHeartbeatUtc": "2026-11-03T10:36:00.0613756Z",
+    "ReadOnly": true,
+    "Failure": {
+      "Position": "At C:\\IrisAcceptanceUpgrade\\manual-process-watch-v2.ps1:67 char:13\r\n+             Remove-Event -EventIdentifier $taskEventItem.EventIdentif ...\r\n+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+      "Message": "Event with identifier '1830' does not exist.",
+      "Type": "System.ArgumentException"
+    },
+    "Ready": false,
+    "RecorderPid": 6956,
+    "Records": 2
+  },
+  "SourceSha256": "322bc2f93560f345c5371a6506d9beead0bc170519eaad938ad4b254e7d6ba2d",
+  "Files": [
+    {
+      "Path": "active-recorder-v2.json",
+      "Bytes": 467,
+      "Sha256": "22b94b383527b6d101ea48a14ff88be81f53b4ed067ad3230e5a21af7d54cd53"
+    },
+    {
+      "Path": "manual-process-watch-v2.ps1",
+      "Bytes": 5546,
+      "Sha256": "322bc2f93560f345c5371a6506d9beead0bc170519eaad938ad4b254e7d6ba2d"
+    },
+    {
+      "Path": "old-ready-at-observer-failure.json",
+      "Bytes": 3434,
+      "Sha256": "a2a1600bf613a896ad7c78a71f7fb659c23c2e69b24e90f5691167bad1a0eabf"
+    },
+    {
+      "Path": "process-events-v2.jsonl",
+      "Bytes": 759,
+      "Sha256": "187df2285619e58e22095dda6ce6abadbd4c14ff49095afdaa0296b3359b9b7f"
+    },
+    {
+      "Path": "v026-old-ready-before-approval-1.command.json",
+      "Bytes": 544,
+      "Sha256": "f7f752903ecd02d962a448e218bb6c55100ea74c737405b7505315fe5065ca6e"
+    },
+    {
+      "Path": "v026-old-ready-before-approval-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "watcher-v2-status.json",
+      "Bytes": 601,
+      "Sha256": "9ad6c231be6bd01901b4a9c78127b3cd7a1ee822558f6cbb0edfcb15666be3a6"
+    }
+  ],
+  "ProductChanged": false
+}

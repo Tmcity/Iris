@@ -1,0 +1,97 @@
+diff --git a/tests/Iris.App.Tests/Settings/SettingsViewModelTests.cs b/tests/Iris.App.Tests/Settings/SettingsViewModelTests.cs
+index 32728b5..f7f8c2c 100644
+--- a/tests/Iris.App.Tests/Settings/SettingsViewModelTests.cs
++++ b/tests/Iris.App.Tests/Settings/SettingsViewModelTests.cs
+@@ -372,8 +372,10 @@ public sealed class SettingsViewModelTests
+     [Fact]
+     public async Task SaveAsync_WhenAutoStartApplyFails_PreservesRetryEligibility_AcrossUnrelatedSavesAndReload()
+     {
+-        var (vm, settingsService, _, _, autoStart) = CreateSut();
++        var (vm, settingsService, _, coordinator, autoStart) = CreateSut();
+         using (vm)
++        using (coordinator)
++        using (var releaseQuery = new ManualResetEventSlim())
+         {
+             settingsService.UpdateAsync(Arg.Any<Func<AppSettings, AppSettings>>(), Arg.Any<CancellationToken>())
+                 .Returns(callInfo =>
+@@ -386,43 +388,58 @@ public sealed class SettingsViewModelTests
+ 
+             // 模拟自启注册失败
+             var failAutoStart = true;
++            var queryBlocked = false;
+             autoStart.When(x => x.SetEnabled(true)).Do(_ =>
+             {
+                 if (failAutoStart)
+                 {
++                    Volatile.Write(ref queryBlocked, true);
+                     throw new InvalidOperationException("Registry error");
+                 }
+                 autoStart.IsEnabled().Returns(true);
+             });
+-            autoStart.IsEnabled().Returns(_ => !failAutoStart);
++            autoStart.IsEnabled().Returns(_ =>
++            {
++                if (Volatile.Read(ref queryBlocked)) releaseQuery.Wait();
++                return !failAutoStart;
++            });
+ 
+-            vm.LaunchAtStartup = true;
+-            await vm.ExecuteSaveAsync();
++            try
++            {
++                vm.LaunchAtStartup = true;
++                await vm.ExecuteSaveAsync();
+ 
+-            vm.CanRetryAutoStart.ShouldBeTrue();
+-            vm.StatusMessage.ShouldNotBeNull();
+-            vm.StatusMessage!.ShouldContain("开机启动设置未生效");
++                vm.CanRetryAutoStart.ShouldBeTrue();
++                vm.StatusMessage.ShouldNotBeNull();
++                vm.StatusMessage!.ShouldContain("开机启动设置未生效");
+ 
+-            // 保存无关字段（如 LogLevel）
+-            vm.LogLevel = "Debug";
+-            await vm.ExecuteSaveAsync();
++                // 保存无关字段（如 LogLevel）
++                vm.LogLevel = "Debug";
++                await vm.ExecuteSaveAsync();
+ 
+-            // 自启仍待应用，重试资格独立保留
+-            vm.CanRetryAutoStart.ShouldBeTrue();
+-            vm.StatusMessage.ShouldNotBeNull();
+-            vm.StatusMessage!.ShouldContain("开机启动设置仍未生效");
++                // 自启仍待应用，重试资格独立保留
++                vm.CanRetryAutoStart.ShouldBeTrue();
++                vm.StatusMessage.ShouldNotBeNull();
++                vm.StatusMessage!.ShouldContain("开机启动设置仍未生效");
+ 
+-            // 执行 Reload，重试资格依然保留
+-            vm.ExecuteReload();
+-            vm.CanRetryAutoStart.ShouldBeTrue();
++                // 执行 Reload，重试资格依然保留
++                vm.ExecuteReload();
++                vm.CanRetryAutoStart.ShouldBeTrue();
+ 
+-            // 重试成功
+-            failAutoStart = false;
+-            await vm.ExecuteRetryAutoStartAsync();
++                // 重试成功
++                failAutoStart = false;
++                await vm.ExecuteRetryAutoStartAsync();
+ 
+-            vm.CanRetryAutoStart.ShouldBeFalse();
+-            vm.StatusMessage.ShouldNotBeNull();
+-            vm.StatusMessage!.ShouldContain("已生效");
++                vm.CanRetryAutoStart.ShouldBeFalse();
++                vm.StatusMessage.ShouldNotBeNull();
++                vm.StatusMessage!.ShouldContain("已生效");
++            }
++            finally
++            {
++                releaseQuery.Set();
++                await coordinator.WaitForActiveWorkAsync();
++                await vm.WaitForActiveWorkAsync();
++            }
+         }
+     }
+ 

@@ -1,0 +1,100 @@
+{
+  "RecorderVersion": 3,
+  "RecorderPid": 4604,
+  "SourceSha256": "3515546d9e344331cc2c95fc4c97f60b213bfc06ae11ada98d96349b3e3dac62",
+  "OriginalFailurePreserved": "recorder-v2-failure-20261103-1",
+  "QueueRemovalRaceHandled": true,
+  "ActualNativeAuxiliaryProbePid": 7944,
+  "ActualNativeAuxiliaryExitCode": 0,
+  "ProbeBinarySha256": "15cd209c995b7d3009c91ca40892d5b8f1fb162f3e5f10716642ea278e8e0d7b",
+  "OldNormalAppBaselinePid": 6604,
+  "ProductOperationPerformed": false,
+  "ProductionUpgradeOrRestartInferred": false,
+  "Files": [
+    {
+      "Path": "active-recorder-v3-pointer.json",
+      "Bytes": 4296,
+      "Sha256": "cef00c0d36e779c90882e2f9c3b50888524e5b6476411534c04c42bfcd0b874c"
+    },
+    {
+      "Path": "auxiliary-probe.cmd",
+      "Bytes": 122,
+      "Sha256": "60def942fbd1225b57984d0eb28d46e4f9e65cf785d7e41e6aeefc72df489fe9"
+    },
+    {
+      "Path": "check_recorder_powershell51.ps1",
+      "Bytes": 708,
+      "Sha256": "4de513fa06b92a4f1d12c0025073a67a1cf345e4e7b4e39205517bff01a83c35"
+    },
+    {
+      "Path": "launch_v3_recorder_20261103.py",
+      "Bytes": 879,
+      "Sha256": "a7de3d6c52be38e7137e3eade67d66ea85746f12ed3afda0f9796f22a936ab31"
+    },
+    {
+      "Path": "manual-process-watch-v3.ps1",
+      "Bytes": 7733,
+      "Sha256": "3515546d9e344331cc2c95fc4c97f60b213bfc06ae11ada98d96349b3e3dac62"
+    },
+    {
+      "Path": "previous-recorder-pointer.json",
+      "Bytes": 467,
+      "Sha256": "22b94b383527b6d101ea48a14ff88be81f53b4ed067ad3230e5a21af7d54cd53"
+    },
+    {
+      "Path": "process-events-v2.jsonl",
+      "Bytes": 1738,
+      "Sha256": "b6fbe2606a7e8ad7322efe48fc456ce2ddfbd03cca22b34e89e8613f155be858"
+    },
+    {
+      "Path": "start-process-watch-v3.ps1",
+      "Bytes": 16443,
+      "Sha256": "216fb11f24759242707e9b3b64cf47faa1ef9dbe41da73d65c0c6ccdf2f0ab87"
+    },
+    {
+      "Path": "startup-result.json",
+      "Bytes": 4296,
+      "Sha256": "cef00c0d36e779c90882e2f9c3b50888524e5b6476411534c04c42bfcd0b874c"
+    },
+    {
+      "Path": "v3-native-observer-start-1.command.json",
+      "Bytes": 344,
+      "Sha256": "c121ee80e94d602f3282c77935a1312201c940d8f44e79a06c9c28e9aada53cd"
+    },
+    {
+      "Path": "v3-native-observer-start-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "v3-recorder-launch-20261103-1.json",
+      "Bytes": 23563,
+      "Sha256": "7637dfb9192eb7cd98159ff003d7c7198dec1128445639e98ad4784af5d3cda7"
+    },
+    {
+      "Path": "v3-recorder-powershell51-parse-1.command.json",
+      "Bytes": 593,
+      "Sha256": "b8264c44e35afc5c50791c7c59c75bd38c59f8414629b889e1a8e373a14c3c34"
+    },
+    {
+      "Path": "v3-recorder-powershell51-parse-1.log",
+      "Bytes": 201,
+      "Sha256": "b6d8e303eb32aa518a99d20d07b1f7b370ae6faade5f287daa531c1c1dc81f80"
+    },
+    {
+      "Path": "v3-recorder-powershell51-parse-2.command.json",
+      "Bytes": 629,
+      "Sha256": "01a62e7e6e62ec5630b272fead60389b006e453fdd4f144334f42b17e1b47439"
+    },
+    {
+      "Path": "v3-recorder-powershell51-parse-2.log",
+      "Bytes": 203,
+      "Sha256": "1ffe61084a256d1fb924d24aa7839f1c78f090f0a918a258d2b5336b83b24e2a"
+    },
+    {
+      "Path": "watcher-v2-status.json",
+      "Bytes": 242,
+      "Sha256": "014df57d198098f3f6c94b9ea94815def2ea8b1fb6d57cb53795eb1afc5020c3"
+    }
+  ]
+}

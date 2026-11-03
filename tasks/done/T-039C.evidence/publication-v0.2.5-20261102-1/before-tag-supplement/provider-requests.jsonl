@@ -1,0 +1,2 @@
+{"Method":null,"Utc":"2026-11-02T05:14:57.7094957Z","Path":"/v1/models","Status":401,"SyntheticCredentialMatched":false}
+{"Method":"POST","Utc":"2026-11-02T05:15:47.7647685Z","Path":"/v1/chat/completions","Status":200,"SyntheticCredentialMatched":true}

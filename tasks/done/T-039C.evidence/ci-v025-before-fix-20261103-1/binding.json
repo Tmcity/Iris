@@ -1,0 +1,20 @@
+{
+  "SourceCommit": "ee2d7118597d07b891066256349098877e65f794",
+  "Files": [
+    {
+      "Path": "tests/Iris.App.Tests/Settings/SettingsViewModelTests.cs",
+      "Bytes": 37485,
+      "Sha256": "b77c8daa0cd911a80b059b3969e26631c9e9949b77a278f8883eaa6857051c4a"
+    },
+    {
+      "Path": "src/Iris.App/Settings/SettingsViewModel.cs",
+      "Bytes": 106693,
+      "Sha256": "2d80dffe81db58a372ce3147726388ef284a2d1ee84653685c544baa94c11dad"
+    },
+    {
+      "Path": "src/Iris.App/Services/GeneralSettingsSaveCoordinator.cs",
+      "Bytes": 21890,
+      "Sha256": "be1b94c4de9f94e899fb67b08f9837e14c99d0f69b745bb7de28bd9e25e1dd1d"
+    }
+  ]
+}

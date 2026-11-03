@@ -1,0 +1,48 @@
+{
+  "SourceCommit": "c32fcb283e417ab11715c46207fdc8cfde4baedf",
+  "SourceGitTree": "c39947f03475872a5178929e32b078a383d537e2",
+  "LocalMergeCommit": "92c1e9867a450682b770a9fdec42c8ed546b4886",
+  "PublicationAuthorized": false,
+  "Files": [
+    {
+      "Path": "FINAL_REVIEW.md",
+      "Bytes": 1537,
+      "Sha256": "df3803fc8fd83c98f2bd883cab37308274fad647eed3f2e1b638c41a06f42a4a"
+    },
+    {
+      "Path": "original-ci-v025.zip",
+      "Bytes": 506060,
+      "Sha256": "e3916ed568433386720fbacf81ab41c2c33016f30792fd0c32680ffbd5d69f0f"
+    },
+    {
+      "Path": "v026-candidate-independent-review-1.command.json",
+      "Bytes": 347,
+      "Sha256": "5d9a1c1b96770dc09c462dcb2a358d5a38539e37ca6cc51bbf36316675d5eb2b"
+    },
+    {
+      "Path": "v026-candidate-independent-review-1.log",
+      "Bytes": 551,
+      "Sha256": "a3c4400c9458265fc0190e94be1e1d7729f2e06b83c8c9b59ff1dd87b4eea9e6"
+    },
+    {
+      "Path": "v026-remote-before-approval-2.command.json",
+      "Bytes": 583,
+      "Sha256": "48e3e95483706b177991c88dbe61374694f0bc31090b20e96b4a26c0c42a2b44"
+    },
+    {
+      "Path": "v026-remote-before-approval-2.log",
+      "Bytes": 850,
+      "Sha256": "af7c492c62e55a91c85792e47a1094054fae2497c5e3b83b4106393740e4ab8c"
+    },
+    {
+      "Path": "v026-reviewed-source-local-merge-1.command.json",
+      "Bytes": 420,
+      "Sha256": "f2d946eebe8c836f0c8257772e2892d39e03ce83219cf15f25a6f6fb6dded6b0"
+    },
+    {
+      "Path": "v026-reviewed-source-local-merge-1.log",
+      "Bytes": 904,
+      "Sha256": "71e02683c033d48caad43caa19717c64d8aa099ecabf99af37b3cd422c6a1930"
+    }
+  ]
+}

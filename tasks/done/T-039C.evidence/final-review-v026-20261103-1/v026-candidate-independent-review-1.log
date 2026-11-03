@@ -1,0 +1,17 @@
+{
+  "Version": "0.2.6",
+  "SourceCommit": "c32fcb283e417ab11715c46207fdc8cfde4baedf",
+  "SourceGitTree": "c39947f03475872a5178929e32b078a383d537e2",
+  "PublicAssets": 18,
+  "PayloadEntries": 97,
+  "CommittedSourceEntriesMatched": 721,
+  "FullTests": {
+    "Total": 3758,
+    "Passed": 3756,
+    "Failed": 0,
+    "Skipped": 2
+  },
+  "FullSha256": "e478bb4b6accab61e5e7dc25229f8306771abf6c914026f75700ad7f45e75d8b",
+  "OuterSha256": "10274bb583095de434874cb15c95839c503d3be4bd21fc6d7f5c38102401ed02",
+  "PublicationAuthorized": false
+}

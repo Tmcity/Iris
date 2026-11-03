@@ -1,0 +1,9 @@
+{
+  "SourceCommit": "ee2d7118597d07b891066256349098877e65f794",
+  "ProductChanged": false,
+  "FakeQueryBlockedUntilFinally": true,
+  "SourcePath": "tests/Iris.App.Tests/Settings/SettingsViewModelTests.cs",
+  "Bytes": 38132,
+  "Sha256": "4153b6d0397df4f66a910028af45e8e49a79d4eb3b6095c9fd4dc68cb4436e66",
+  "DiffSha256": "994d4809ec1fd1c45211aa1e0c39900119eb727df720b4eaf87ef3b0cb9c6d16"
+}

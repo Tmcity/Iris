@@ -1,0 +1,18 @@
+{
+  "command": [
+    "git",
+    "ls-remote",
+    "origin",
+    "refs/heads/main",
+    "refs/heads/codex/t039c-public-release",
+    "refs/tags/v0.2.5",
+    "refs/tags/v0.2.5^{}",
+    "refs/tags/v0.2.6",
+    "refs/tags/v0.2.6^{}"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-03T09:31:16.510199+00:00",
+  "completedAt": "2026-11-03T09:31:20.919564+00:00",
+  "exitCode": 0,
+  "logSha256": "dbf81dc8614de0714bea45c712148221335a8c13f670c363ff509f2bd2aa790d"
+}

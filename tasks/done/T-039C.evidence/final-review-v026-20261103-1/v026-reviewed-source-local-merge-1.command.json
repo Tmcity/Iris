@@ -1,0 +1,15 @@
+{
+  "command": [
+    "git",
+    "merge",
+    "--no-ff",
+    "c32fcb283e417ab11715c46207fdc8cfde4baedf",
+    "-m",
+    "Merge reviewed 0.2.6 source for the public 0.2.2 upgrade"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-03T10:05:51.823652+00:00",
+  "completedAt": "2026-11-03T10:05:52.100044+00:00",
+  "exitCode": 0,
+  "logSha256": "71e02683c033d48caad43caa19717c64d8aa099ecabf99af37b3cd422c6a1930"
+}

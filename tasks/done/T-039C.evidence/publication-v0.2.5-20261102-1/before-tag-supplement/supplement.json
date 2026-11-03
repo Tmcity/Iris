@@ -1,0 +1,47 @@
+{
+    "Stage":  "old-ready",
+    "Utc":  "2026-11-02T14:20:28.1293744Z",
+    "ReadOnlyProductInspection":  true,
+    "ProductRootExists":  true,
+    "ProductCurrentExists":  true,
+    "UserDataExists":  true,
+    "CheckForUpdates":  false,
+    "SyntheticProfiles":  [
+                              {
+                                  "HasCredentialSetReference":  true,
+                                  "DisplayName":  "T039C Synthetic",
+                                  "Id":  "tp-524b38eb5999",
+                                  "Enabled":  true
+                              }
+                          ],
+    "Registrations":  [
+                          {
+                              "UninstallString":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\maintenance\\Iris.Maintenance.exe\" --uninstall",
+                              "DisplayVersion":  "0.2.2",
+                              "DisplayName":  "Iris",
+                              "RegistryPath":  "Microsoft.PowerShell.Core\\Registry::HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Iris",
+                              "InstallLocation":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"
+                          }
+                      ],
+    "Shortcuts":  [
+                      "C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk",
+                      "C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"
+                  ],
+    "MaintenanceFiles":  [
+                             {
+                                 "Bytes":  0,
+                                 "Path":  "transaction.lock"
+                             }
+                         ],
+    "V2Recorder":  {
+                       "Utc":  "2026-11-02T05:49:55.2752504Z",
+                       "RecorderPid":  6956,
+                       "OutputDirectory":  "C:\\IrisAcceptanceOutput\\session-1c8333f923744572ac2c71bab9576af5\\recorder-v2-4899864fb0194d729e0d8a118b9588c1",
+                       "SourcePath":  "C:\\IrisAcceptanceUpgrade\\manual-process-watch-v2.ps1",
+                       "SourceSha256":  "322bc2f93560f345c5371a6506d9beead0bc170519eaad938ad4b254e7d6ba2d",
+                       "Ready":  true,
+                       "ReadOnlyProductObserver":  true,
+                       "Failure":  null
+                   },
+    "SecretsContentsCollected":  false
+}

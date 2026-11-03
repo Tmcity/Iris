@@ -1,0 +1,22 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.App.Tests/Iris.App.Tests.csproj",
+    "-c",
+    "Release",
+    "--filter-class",
+    "Iris.App.Tests.Settings.SettingsViewModelTests",
+    "--no-ansi",
+    "--no-progress",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:/Iris/artifacts/t039c/autostart-handshakes-after-20261103-1/reports"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v026-ci-fix-20261103-1",
+  "startedAt": "2026-11-03T09:22:03.407012+00:00",
+  "completedAt": "2026-11-03T09:22:10.650936+00:00",
+  "exitCode": 1,
+  "logSha256": "0ed3b0b9002bc76354de2ff229aef0657e688cfcfa4851112cde54da0c53728c"
+}

@@ -1,0 +1,2 @@
+F:\Iris\artifacts\t039c\worktree-v026-ci-fix-20261103-1\tests\Iris.App.Tests\Settings\SettingsViewModelTests.cs(19,246): error CA1859: 将参数“uiDispatcher”的类型从“Iris.App.Hosting.IUiDispatcher?”更改为“Iris.App.Hosting.WpfUiDispatcher?”以提高性能 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1859) [F:\Iris\artifacts\t039c\worktree-v026-ci-fix-20261103-1\tests\Iris.App.Tests\Iris.App.Tests.csproj]
+生成失败，退出代码: 1。

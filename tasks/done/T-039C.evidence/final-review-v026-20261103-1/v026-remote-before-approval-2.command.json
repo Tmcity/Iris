@@ -1,0 +1,23 @@
+{
+  "command": [
+    "git",
+    "-c",
+    "credential.helper=",
+    "-c",
+    "http.extraHeader=",
+    "-c",
+    "core.askPass=",
+    "-c",
+    "url.https://github.com/.insteadOf=",
+    "ls-remote",
+    "https://github.com/Tmcity/Iris.git",
+    "refs/heads/main",
+    "refs/heads/codex/t039c-public-release",
+    "refs/tags/v0.2.*"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-03T14:16:13.321380+00:00",
+  "completedAt": "2026-11-03T14:16:16.487339+00:00",
+  "exitCode": 0,
+  "logSha256": "af7c492c62e55a91c85792e47a1094054fae2497c5e3b83b4106393740e4ab8c"
+}

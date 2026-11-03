@@ -1,0 +1,20 @@
+{
+  "command": [
+    "powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "F:/Iris/tasks/T-039C.coordination/check_recorder_powershell51.ps1",
+    "-ObserverPath",
+    "F:/Iris/tasks/T-039C.coordination/manual-process-watch-v3.ps1",
+    "-StarterPath",
+    "F:/Iris/tasks/T-039C.coordination/start-process-watch-v3.ps1"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-03T14:11:08.787650+00:00",
+  "completedAt": "2026-11-03T14:11:09.074515+00:00",
+  "exitCode": 0,
+  "logSha256": "1ffe61084a256d1fb924d24aa7839f1c78f090f0a918a258d2b5336b83b24e2a"
+}

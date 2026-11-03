@@ -1,0 +1,10 @@
+warning: in the working copy of 'specs/DEVELOPER_HANDOFF.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'specs/DEVELOPER_RECOVERY.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'specs/PROJECT_HANDOFF.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/SESSION_STATUS_20261102.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/current_task.md', LF will be replaced by CRLF the next time Git touches it
+Merge made by the 'ort' strategy.
+ build/release-plan.json                            |   3 +-
+ docs/RELEASING.md                                  |   8 +-
+ .../Settings/SettingsViewModelTests.cs             | 232 +++++++++++++--------
+ 3 files changed, 155 insertions(+), 88 deletions(-)

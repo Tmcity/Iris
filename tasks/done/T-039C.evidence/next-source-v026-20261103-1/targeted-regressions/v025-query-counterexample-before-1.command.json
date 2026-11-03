@@ -1,0 +1,22 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.App.Tests/Iris.App.Tests.csproj",
+    "-c",
+    "Release",
+    "--filter-method",
+    "SaveAsync_WhenAutoStartApplyFails_PreservesRetryEligibility_AcrossUnrelatedSavesAndReload",
+    "--no-ansi",
+    "--no-progress",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:/Iris/artifacts/t039c/query-counterexample-before-20261103-1/reports"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v026-ci-fix-20261103-1",
+  "startedAt": "2026-11-03T05:52:58.063013+00:00",
+  "completedAt": "2026-11-03T05:53:43.631526+00:00",
+  "exitCode": 8,
+  "logSha256": "ea8e9b9726b1374e73854918f0806d6a4d0d5caf056b4a1eacb51506960fc561"
+}

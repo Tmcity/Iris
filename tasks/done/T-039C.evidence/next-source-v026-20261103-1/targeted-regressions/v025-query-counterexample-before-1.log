@@ -1,0 +1,16 @@
+正在从以下位置运行测试 F:\Iris\artifacts\t039c\worktree-v026-ci-fix-20261103-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+F:\Iris\artifacts\t039c\worktree-v026-ci-fix-20261103-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 运行了零个测试 (1s 186ms)
+退出代码: 8
+
+  生成的进程内文件项目:
+    - F:\Iris\artifacts\t039c\query-counterexample-before-20261103-1\reports\28910_SKYRIU-PC_2026-11-03_05_53_42.223445.xunit.xml
+
+测试运行摘要: 运行了零个测试
+  错误: 1
+
+  总计: 0
+  失败: 0
+  成功: 0
+  已跳过: 0
+  持续时间: 1s 454ms
+已完成测试运行，但显示非成功退出代码: 8 (请参阅: https://aka.ms/testingplatform/exitcodes)

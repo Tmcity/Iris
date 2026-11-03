@@ -1,0 +1,3 @@
+{"Role":"NeedsLogCorrelation","Utc":"2026-11-02T04:25:02.0333649Z","Pid":7676,"Name":"Iris.App.exe","Kind":"StartedUnresolved"}
+{"Pid":6604,"CreatedUtc":"2026-11-02T04:25:01.2204360Z","ParentPid":3612,"Role":"ApplicationOrClient","Utc":"2026-11-02T04:25:02.9752526Z","Name":"Iris.App.exe","Kind":"Started","Path":"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"}
+{"HResult":-2147024809,"Type":"ArgumentException","Kind":"WatcherFailure"}

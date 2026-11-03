@@ -1,0 +1,72 @@
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (3s 716ms)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (9s 491ms)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotIsolatedTests.SnapshotHelper_UsesExclusiveNonInteractiveStation_AndJoinsOwnedProcess
+  [ENVIRONMENT LIMITATION] Snapshot isolated helper skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (14s 640ms)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (10s 557ms)
+D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64) 已通过 (12s 336ms)
+失败 Iris.App.Tests.Settings.SettingsViewModelTests.SaveAsync_WhenAutoStartApplyFails_PreservesRetryEligibility_AcrossUnrelatedSavesAndReload (32ms)
+  从 D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : vm.CanRetryAutoStart
+      should be
+  True
+      but was
+  False
+    在 Iris.App.Tests.Settings.SettingsViewModelTests.SaveAsync_WhenAutoStartApplyFails_PreservesRetryEligibility_AcrossUnrelatedSavesAndReload() 位于 D:\a\Iris\Iris\tests\Iris.App.Tests\Settings\SettingsViewModelTests.cs:402
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (41s 029ms)
+D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (3m 05s 905ms)
+退出代码: 2
+  标准输出: DWM_FAILURE code=CaptureFailed nativeHResultPreserved=True captures=0
+  FOREGROUND_QUERY newIntentObserved=True emptyQueries=2 resultCanceled=True nativeRestores=0
+  LATE_POINTER_AFTER_CONFIRM imagePreserved=True crops=1
+  PREPARATION_ERRORS settingsRecorded=True translationRecorded=True settingsRestored=True translationRestored=True
+  NETWORK_VISUAL files=48 directory=C:\Users\runneradmin\AppData\Local\Temp\iris-t036c-render-5d4dee862a6544209a68c91718b0654d
+  RIGHT_CLEAR handled=True displayedX=100 displayedY=100
+  RIGHT_CLEAR handled=True displayedX=100 displayedY=100
+  LABEL_LAYOUT opaqueLabels=3 overlappingPairs=0
+  LABEL_LAYOUT opaqueLabels=3 overlappingPairs=0
+  LOCALIZATION_VISUAL files=426 directory=C:\Users\runneradmin\AppData\Local\Temp\iris-t038-visual-eee01d487fc6472e8e15ba61f5a6204a
+  R1_BEFORE_RELEASE persisted=en-US draft=zh-CN dirty=False
+  R1_JOINED persisted=en-US draft=en-US dirty=False
+  R1_JOINED persisted=en-US draft=zh-CN dirty=True
+  UPDATE_UI images=64 directory=C:\Users\runneradmin\AppData\Local\Temp\iris-t039b-ui-06436843353f46c580673f3425e1d439
+
+  生成的进程内文件项目:
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-02_14_23_27.257410.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-02_14_23_27.241215.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-02_14_23_27.263002.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-02_14_23_31.774911.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-02_14_23_42.459465.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-02_14_23_37.343044.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmdaln5_2026-11-02_14_23_27.238829.xunit.xml
+
+测试运行摘要: 失败!
+  D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (10s 557ms)
+  D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (41s 029ms)
+  D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (14s 640ms)
+  D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (9s 491ms)
+  D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (3s 716ms)
+  D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64) 已通过 (12s 336ms)
+  D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (3m 05s 905ms)
+
+  总计: 3757
+  失败: 1
+  成功: 3755
+  已跳过: 1
+  持续时间: 3m 06s 563ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

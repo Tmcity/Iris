@@ -1,0 +1,11 @@
+{
+  "Url": "https://api.github.com/repos/Tmcity/Iris/actions/runs/41461057191/jobs?per_page=100&filter=all&iris_observation=v026-preparation-20261103-1",
+  "StartedUtc": "2026-11-03T09:49:35.101447+00:00",
+  "FinishedUtc": "2026-11-03T09:49:36.199834+00:00",
+  "ExitCode": 0,
+  "HttpStatus": "200",
+  "AuthorizationSent": false,
+  "CacheControl": "no-cache",
+  "BodyBytes": 4151,
+  "BodySha256": "f6826e6a703b4e41ff8d97f664a2c5f1cbd69dac24bba576f9f5e7e1e7ca01f6"
+}
