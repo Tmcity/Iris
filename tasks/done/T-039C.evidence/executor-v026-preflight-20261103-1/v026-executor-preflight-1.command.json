@@ -1,0 +1,14 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/execute_v026_20261103.py",
+    "--mode",
+    "preflight"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-03T15:02:43.185374+00:00",
+  "completedAt": "2026-11-03T15:02:51.035308+00:00",
+  "exitCode": 0,
+  "logSha256": "5e3ff89d844a726ec84b485b9da8c90419677acaeefce8a96d830f3631f8abba"
+}

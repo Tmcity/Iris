@@ -1,0 +1,155 @@
+{
+  "SourceCommit": "c32fcb283e417ab11715c46207fdc8cfde4baedf",
+  "ReviewArchiveCommit": "2ccad4d210d5e76c0cd2d598037372f940da67ae",
+  "PublicationAuthorized": false,
+  "TagCreated": false,
+  "RemoteWriteRequested": false,
+  "MissingApprovalGuardExitCode": 2,
+  "Files": [
+    {
+      "Path": "base-reachable-from-main.command.json",
+      "Bytes": 384,
+      "Sha256": "a8f43aea1cc1fcbfd545664252e8d1e8d1f365e0c017cdb4fdaf89d41ad8e383"
+    },
+    {
+      "Path": "base-reachable-from-main.log",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "before-tag-supplement/active-recorder-v2.json",
+      "Bytes": 4296,
+      "Sha256": "cef00c0d36e779c90882e2f9c3b50888524e5b6476411534c04c42bfcd0b874c"
+    },
+    {
+      "Path": "before-tag-supplement/process-events-v2.jsonl",
+      "Bytes": 1943,
+      "Sha256": "13dc516866df05e02f400e545ce480de66b3b9578535e8100ea48bf8f7f3101a"
+    },
+    {
+      "Path": "before-tag-supplement/process-events.jsonl",
+      "Bytes": 469,
+      "Sha256": "096484f4d5bdd29741ada0296ae3f12a7bece9541e2ae21209b088e281e40f43"
+    },
+    {
+      "Path": "before-tag-supplement/product-iris-20261102.log",
+      "Bytes": 1122,
+      "Sha256": "732b3fd255edcee8c455d60f07755815919766adf453d54d21fb539492991588"
+    },
+    {
+      "Path": "before-tag-supplement/provider-requests.jsonl",
+      "Bytes": 255,
+      "Sha256": "5fa542aaa931b41a722d838aa4c99dbd0385ebb5e57bb7e5d41814af7805ba87"
+    },
+    {
+      "Path": "before-tag-supplement/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "before-tag-supplement/supplement.json",
+      "Bytes": 7205,
+      "Sha256": "efff2279cf2cdbaa1667c298de765d755c0288168e290e3256577ae1cf794923"
+    },
+    {
+      "Path": "before-tag-supplement/watcher-status.json",
+      "Bytes": 30,
+      "Sha256": "16f1d5778342d13e9bfa04251ba4be8ada3fc52a3eea90bac7ea2c5373746718"
+    },
+    {
+      "Path": "before-tag-supplement/watcher-v2-status.json",
+      "Bytes": 242,
+      "Sha256": "19439d9f8747f2cc5ce9d995052a87c9918ab86c80b9312c263e22b2f0ce1f45"
+    },
+    {
+      "Path": "fresh-guest-old-ready.command.json",
+      "Bytes": 521,
+      "Sha256": "7f772f1436dc08d3f854d330dedfc855a3c54e5876285d96c143bc35ce6043f5"
+    },
+    {
+      "Path": "fresh-guest-old-ready.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "gates.json",
+      "Bytes": 1440,
+      "Sha256": "358ff81f3c529d5e27e266955af007750a29811ee08120d06c6b4f55d38fd4a1"
+    },
+    {
+      "Path": "local-tag-absence.command.json",
+      "Bytes": 320,
+      "Sha256": "2164629dc413bfcb1db264d9375f917b4584126a2c72153f176d9d4a041ee5f0"
+    },
+    {
+      "Path": "local-tag-absence.log",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "origin-target.command.json",
+      "Bytes": 497,
+      "Sha256": "ca78a20de443bb8ac2fd4b93e6c54ecbba54c67dfc2f6835ea9160e50a14c9a3"
+    },
+    {
+      "Path": "origin-target.log",
+      "Bytes": 31,
+      "Sha256": "c835522c1eaaca27d779e61731ade9e63c19117f408b3fbb2811802282cd8a0d"
+    },
+    {
+      "Path": "remote-before.command.json",
+      "Bytes": 556,
+      "Sha256": "828dd7220aa776addbee73fd71c338944a68ed9591ea1478ae6d54a034325c16"
+    },
+    {
+      "Path": "remote-before.log",
+      "Bytes": 850,
+      "Sha256": "af7c492c62e55a91c85792e47a1094054fae2497c5e3b83b4106393740e4ab8c"
+    },
+    {
+      "Path": "reviewed-source-descends-from-base.command.json",
+      "Bytes": 384,
+      "Sha256": "3d7b85d7b270cfc53c31c82d6da1398446c791abb15c69d57331890d796128b9"
+    },
+    {
+      "Path": "reviewed-source-descends-from-base.log",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "reviewed-source-integrated-locally.command.json",
+      "Bytes": 384,
+      "Sha256": "161307fa8bd58ba62bb6fa37463628d7bb0d6d975c8520159cdda54182f93cac"
+    },
+    {
+      "Path": "reviewed-source-integrated-locally.log",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "state.json",
+      "Bytes": 319,
+      "Sha256": "3f6f6965c6dda9296fbb37ac9c81ea2d7e99a68afc0aad15d1107f01b86f0d9e"
+    },
+    {
+      "Path": "v026-executor-missing-approval-guard-1.command.json",
+      "Bytes": 369,
+      "Sha256": "2ef43b852d5913081565c0e4497e934b703490472af6e414fd9544be7a9f8a1c"
+    },
+    {
+      "Path": "v026-executor-missing-approval-guard-1.log",
+      "Bytes": 257,
+      "Sha256": "dd13a2eacad09911c07803162fcca34aaa8c50dedf0b1400cb63a67ac1541a07"
+    },
+    {
+      "Path": "v026-executor-preflight-1.command.json",
+      "Bytes": 371,
+      "Sha256": "29b6baeec6b4d9c874cde01759bd1c8c306f2e513cfbe7d9f16b7604b757d4af"
+    },
+    {
+      "Path": "v026-executor-preflight-1.log",
+      "Bytes": 383,
+      "Sha256": "5e3ff89d844a726ec84b485b9da8c90419677acaeefce8a96d830f3631f8abba"
+    }
+  ]
+}

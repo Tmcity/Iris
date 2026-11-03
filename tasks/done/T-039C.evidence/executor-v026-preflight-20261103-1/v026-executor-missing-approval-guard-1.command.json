@@ -1,0 +1,14 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/execute_v026_20261103.py",
+    "--mode",
+    "publish"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-03T15:04:38.640064+00:00",
+  "completedAt": "2026-11-03T15:04:38.827420+00:00",
+  "exitCode": 2,
+  "logSha256": "dd13a2eacad09911c07803162fcca34aaa8c50dedf0b1400cb63a67ac1541a07"
+}

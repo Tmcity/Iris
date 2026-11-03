@@ -1,0 +1,3 @@
+usage: execute_v026_20261103.py [-h] [--mode {preflight,publish}]
+                                [--approval-file APPROVAL_FILE]
+execute_v026_20261103.py: error: Publish requires the separate explicit user approval for v0.2.6; no approval was provided.

@@ -1,0 +1,27 @@
+{
+  "ObservedUtc": "2026-11-03T15:02:51.014726+00:00",
+  "SourceCommit": "c32fcb283e417ab11715c46207fdc8cfde4baedf",
+  "ReviewArchiveCommit": "2ccad4d210d5e76c0cd2d598037372f940da67ae",
+  "RemoteBefore": {
+    "refs/heads/codex/t039c-public-release": "285df3a2986f3379994eb56dd8b75617db9f470d",
+    "refs/heads/main": "285df3a2986f3379994eb56dd8b75617db9f470d",
+    "refs/tags/v0.2.0": "ebe194564c5ada606744b4e484b09f3182e04eae",
+    "refs/tags/v0.2.0^{}": "dcdfdded311fa00671dfd9747bb2101cbf8964f3",
+    "refs/tags/v0.2.1": "b9f33fd9755684c889a948dafd79dfd53c15caf8",
+    "refs/tags/v0.2.1^{}": "dfc68ccba422c735edeab42635c19b7767b9f2c2",
+    "refs/tags/v0.2.2": "a4cf0938b4e291005dfdb3fa4dfeabc646d6b6c6",
+    "refs/tags/v0.2.2^{}": "fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11",
+    "refs/tags/v0.2.3": "b4b8be76b6f4f08f62067d2a73f3e443fc439481",
+    "refs/tags/v0.2.3^{}": "fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11",
+    "refs/tags/v0.2.4": "09ee251c853b03e628b8099a439c5dd75faf3141",
+    "refs/tags/v0.2.4^{}": "942b0ddeb62d9eb3e4f244574c0c093ab2942ffc",
+    "refs/tags/v0.2.5": "95c9c344ac385798503a317b8a9ac2fb57485134",
+    "refs/tags/v0.2.5^{}": "ee2d7118597d07b891066256349098877e65f794"
+  },
+  "OldAppPid": 6604,
+  "OldVersion": "0.2.2",
+  "ObserverPid": 4604,
+  "CheckForUpdates": false,
+  "NewPackageBeforePublication": false,
+  "Scope": "Only one annotated version tag; no branch push, rerun, asset overwrite or other version"
+}
