@@ -1,0 +1,30 @@
+{
+  "Command": [
+    "curl.exe",
+    "--silent",
+    "--show-error",
+    "--location",
+    "--max-time",
+    "40",
+    "--retry",
+    "0",
+    "-H",
+    "Accept: application/vnd.github+json",
+    "-H",
+    "Cache-Control: no-cache",
+    "-A",
+    "Iris-public-release-verification",
+    "-D",
+    "F:\\Iris\\tasks\\T-039C.coordination\\v027-execution-preflight-20261105T053038728572Z\\previous-public-release.headers",
+    "-o",
+    "F:\\Iris\\tasks\\T-039C.coordination\\v027-execution-preflight-20261105T053038728572Z\\previous-public-release.body",
+    "--write-out",
+    "%{http_code}",
+    "https://api.github.com/repos/Tmcity/Iris/releases/tags/v0.2.2?iris_observation=v027-20261105T053043910614Z"
+  ],
+  "StartedUtc": "2026-11-05T05:30:43.910614+00:00",
+  "FinishedUtc": "2026-11-05T05:30:44.648576+00:00",
+  "ExitCode": 0,
+  "Bytes": 3,
+  "Sha256": "27badc983df1780b60c2b3fa9d3a19a00e46aac798451f0febdca52920faaddf"
+}

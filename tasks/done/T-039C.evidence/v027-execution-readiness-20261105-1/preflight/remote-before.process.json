@@ -1,0 +1,12 @@
+{
+  "Pid": 38844,
+  "Command": [
+    "git",
+    "ls-remote",
+    "origin",
+    "refs/heads/main",
+    "refs/heads/codex/t039c-public-release",
+    "refs/tags/v0.2.*"
+  ],
+  "StartedUtc": "2026-11-05T05:30:39.250195+00:00"
+}

@@ -1,5 +1,7 @@
 # T-039C：0.2.7 发布检查点
 
+正常本地审阅归档提交为 `06b282bd928249519ea07b3eea999238f1202328`，发布源码固定为 `fc44a3a78c2729c25dfb91296c51602b843a94f9`。407 份原始证据（11625584 字节）已同时匹配 index 和该提交的实际 blob 字节。[最终执行准备](F:/Iris/tasks/T-039C.coordination/EXECUTION_READY_V027_20261105.md)记录只读预检与缺少授权时的拒绝证据。
+
 用户授权的 0.2.6 已仅推送原 annotated tag `dc8caf8b0c6501639c61dc26801595340386a4cb` → `c32fcb283e417ab11715c46207fdc8cfde4baedf`。[实际 CI 41663111425](https://github.com/Tmcity/Iris/actions/runs/41663111425) attempt 1 建测失败，打包及发布跳过，原标签、CI 和候选保留。正式版本仍只有 [0.2.2](https://github.com/Tmcity/Iris/releases/tag/v0.2.2)。
 
 官方 artifact `13244736238` 的 506283 字节 ZIP 已独立匹配官方 API digest `sha256:0eddaa74a4ecad4296c5c17a74ae1079394ec56a06ee892046ad68afd046bc7b`；51 份原文件、公开网页、官方 API 响应、修前源码与发布失败 receipt 均已归档。原全量 3758 / 3756 成功 / 1 失败 / 1 跳过。唯一失败为 UIA 夹具在 StartAsync 同步 factory/rollback 尚未返回时反射读取 null StartTask。
@@ -23,7 +25,7 @@
 | 正式前版 full | 0.2.2；64627273 字节；SHA256 `c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14`，与新鲜官方 API digest 及候选中的旧包匹配 |
 | 本地正常整合 | `e4951aa` 合并固定发布源码，两个源码提交与既有历史全部保持 |
 
-[独立候选审阅](F:/Iris/tasks/done/T-039C.evidence/next-source-v027-20261105-1/review.json)与全部原始验证、反例、打包、源码记录已准备。辅助审阅工具最初有日志路径拼接错误，修正后完整复核通过；原工具输出及源码版本保留。Git index 的原始证据字节将在正常归档提交前再次核对。
+[独立候选审阅](F:/Iris/tasks/done/T-039C.evidence/next-source-v027-20261105-1/review.json)与全部原始验证、反例、打包、源码记录已归档。辅助审阅工具最初有日志路径拼接错误，修正后完整复核通过；原工具输出及源码版本保留。Git index 与归档提交的原始证据字节均已核对。
 
 固定 vpk 1.2.161；App/UiaHost FDD、Maintenance SC，未签名；full 应用，delta 只生成。CI 会生成自己的字节，本地候选 SHA 不充当正式公开资产 SHA。
 

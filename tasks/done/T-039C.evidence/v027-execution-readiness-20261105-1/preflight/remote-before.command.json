@@ -1,0 +1,15 @@
+{
+  "Command": [
+    "git",
+    "ls-remote",
+    "origin",
+    "refs/heads/main",
+    "refs/heads/codex/t039c-public-release",
+    "refs/tags/v0.2.*"
+  ],
+  "StartedUtc": "2026-11-05T05:30:39.250195+00:00",
+  "FinishedUtc": "2026-11-05T05:30:43.833289+00:00",
+  "ExitCode": 0,
+  "Bytes": 969,
+  "Sha256": "923408140f13c0eba3a65858f7240b7a9769c061a3f75492ece2e4f4a725c54b"
+}

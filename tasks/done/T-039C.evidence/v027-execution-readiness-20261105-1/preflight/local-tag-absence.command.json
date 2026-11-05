@@ -1,0 +1,14 @@
+{
+  "Command": [
+    "git",
+    "show-ref",
+    "--verify",
+    "--quiet",
+    "refs/tags/v0.2.7"
+  ],
+  "StartedUtc": "2026-11-05T05:30:43.833289+00:00",
+  "FinishedUtc": "2026-11-05T05:30:43.909596+00:00",
+  "ExitCode": 1,
+  "Bytes": 0,
+  "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
