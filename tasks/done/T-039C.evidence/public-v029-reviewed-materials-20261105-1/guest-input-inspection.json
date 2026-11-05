@@ -1,0 +1,32 @@
+{
+    "Utc":  "2026-11-05T12:58:36.1141815Z",
+    "Root":  "C:\\IrisAcceptanceFixed029",
+    "ProductOperationPerformed":  false,
+    "Rows":  [
+                 {
+                     "Sha256":  "3f629d7717f9673a4739da8102b781ee9cd5e242d25930f8262ee3f96ba0ad6a",
+                     "Name":  "PUBLIC_V029_payload-manifest.json",
+                     "Exists":  true
+                 },
+                 {
+                     "Sha256":  "ad94085d069f6f756cc1fe702295db1e414b971ca88767ef48b5bac638e5e48b",
+                     "Name":  "verify-v029-install-readonly.ps1",
+                     "Exists":  true
+                 },
+                 {
+                     "Sha256":  "9685d1c440f7bb67403274859caea5bb2b4618f00b1c19b990b185f555543cb6",
+                     "Name":  "Save-Fixed-V029-State.cmd",
+                     "Exists":  true
+                 },
+                 {
+                     "Sha256":  "4feb0976c234ebda93c948b4f8bde3fd7d97ec465d2306cf7c3d9a14edd3f991",
+                     "Name":  "Capture-Fixed-V029-View.cmd",
+                     "Exists":  true
+                 },
+                 {
+                     "Sha256":  "6f7379175b6aa25fdb30d709f787804f39d16dfce0bde5caa3d8819edc4d41b4",
+                     "Name":  "Iris-0.2.9-Official-Download.url",
+                     "Exists":  true
+                 }
+             ]
+}

@@ -1,4 +1,8 @@
-# 当前交接：0.2.9 审阅与执行预检完成，待单独授权
+# 当前交接：0.2.9 正式发布核对通过，待用户手工安装
+
+12:58 UTC 最新：正式CI42028799541/attempt1与package/publish成功，原full3771/3770成功/0失败/1既有error183环境跳过，原55文件及发布回执与两份ZIP官网digest匹配；正式匿名19资产/97载荷/721来源、全部官网SHA及外层/feed/history通过。正式Setup116768884/SHA69ab96bb1f700b21fa430d69eab85d6d4a5c606c377424222f0f97af0e7f2891；full64628500/SHA42c32435e5883608c77f097befd2b9a7f91845b35942a09966018361c40a779e。029新API补验仍限额，reset13:25:19UTC，使用官网字节验证完成正式分发检查，原403保留。手工验证新入口C:\IrisAcceptanceFixed029只读共享input，5个新文件指纹在来宾实际匹配、PS5.1解析通过。按MANUAL_INSTALL_FIXED_V029_20261105.md仅由用户正式下载安装修正版、截图版本、原历史/原服务新翻译及Save-Fixed-V029-State。实际用户029安装未收到反馈；下一正式版未授权，C真实UI/native一次重启/卸载和父/T040/NFR未结案。
+
+12:39 UTC 最新：用户在 call_2fGzwrWEMco5efV9nKXVJskO 明确确认“确认发布0.2.9（仅修正版）”。授权记录 v029-user-approval-20261105-1.json；仅 annotated v0.2.9 已正常推送，object3c3a615234c77d61441ce60c6cbfe07f02f37f65→source0b3267f1f6cdc1a9fb8cfe1c93dde22da273ecd2，全部旧refs/main/codex保持。receipt publication-v0.2.9-20261105-1/state.json为tag-remotely-verified-awaiting-ci，实际CI42028799541/attempt1/source一致，正在运行。不能重复调用publish来再推标签；跟进同一CI最终结果/正式匿名19资产后才给用户手工安装。下一版本仍未授权。下方未授权/待确认描述均为发布前历史。
 
 12:28 UTC 最新：审阅归档7662ed580eb924756885db7ab3a7d7a04e8ea8ea已完成，430原件/10626856字节与Git index一致；execute_v029默认只读预检通过，原远端refs/正式027匿名full和当前用户基线保持，029无标签/发布。缺少授权及旧028授权均在任何发布目录/标签创建前拒绝。官方API恢复后原028run/jobs/artifacts和Release404补验也通过，原ZIP/API完整digest匹配；初次403和未补验绑定保留为原始状态。下一步归档执行材料后只请求v0.2.9→0b3267f的明确授权，不推分支或其他版本；当前仍未收到029授权。
 

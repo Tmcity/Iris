@@ -1,0 +1,30 @@
+HTTP/1.1 302 Found
+Server: nginx/1.30.6
+Date: Thu, 05 Nov 2026 12:48:12 GMT
+Content-Type: text/html
+Content-Length: 0
+Connection: keep-alive
+Location: https://productionresultssa4.blob.core.windows.net/actions-results/6c57a867-1a4b-8907-954b-760932c70b86/workflow-job-run-2b86beef-68a5-5c32-8543-bbf22202b18a/artifacts/9da9fbd367291d4482d7e6ed8d98dce821297aeaa20e1a6f03e2cf9ea738b6b4.zip?rscd=attachment%3B+filename%3D%22iris-publication-42028799541-1.zip%22&rsct=application%2Fzip&se=2026-11-05T12%3A58%3A12Z&sig=Cw53JrupakLj9YXZwYkf6%2Ft2Gq1F124%2F%2BvvqIvNN1gk%3D&ske=2026-11-05T15%3A29%3A51Z&skoid=ca7593d4-ee42-46cd-af88-8b886a2f84eb&sks=b&skt=2026-11-05T11%3A29%3A51Z&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skv=2025-11-05&sp=r&spr=https&sr=b&st=2026-11-05T12%3A48%3A07Z&sv=2025-11-05
+
+HTTP/1.1 200 OK
+Content-Length: 422
+Content-Type: application/zip
+Last-Modified: Thu, 05 Nov 2026 12:46:35 GMT
+Accept-Ranges: bytes
+ETag: "0x8DF3B3AD39733B2"
+Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
+x-ms-request-id: 35965d4d-901e-00a2-7e23-6d0881000000
+x-ms-version: 2025-11-05
+x-ms-creation-time: Thu, 05 Nov 2026 12:46:35 GMT
+x-ms-lease-status: unlocked
+x-ms-lease-state: available
+x-ms-blob-type: BlockBlob
+Content-Disposition: attachment; filename="iris-publication-42028799541-1.zip"
+x-ms-server-encrypted: true
+x-ms-access-tier: Hot
+x-ms-access-tier-inferred: true
+x-ms-last-access-time: Thu, 05 Nov 2026 12:46:35 GMT
+Access-Control-Expose-Headers: x-ms-request-id,Server,x-ms-version,Content-Type,ETag,Last-Modified,x-ms-creation-time,x-ms-lease-status,x-ms-lease-state,x-ms-blob-type,Content-Disposition,x-ms-server-encrypted,x-ms-access-tier,x-ms-access-tier-inferred,Accept-Ranges,x-ms-last-access-time,Content-Length,Date,Transfer-Encoding
+Access-Control-Allow-Origin: *
+Date: Thu, 05 Nov 2026 12:48:13 GMT
+

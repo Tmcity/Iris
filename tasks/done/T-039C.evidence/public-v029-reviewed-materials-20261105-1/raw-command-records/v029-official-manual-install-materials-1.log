@@ -1,0 +1,12 @@
+{
+  "PreparedVersion": "0.2.9",
+  "ManifestSha256": "3f629d7717f9673a4739da8102b781ee9cd5e242d25930f8262ee3f96ba0ad6a",
+  "PreparedInputFiles": [
+    "PUBLIC_V029_payload-manifest.json",
+    "verify-v029-install-readonly.ps1",
+    "Save-Fixed-V029-State.cmd",
+    "Capture-Fixed-V029-View.cmd",
+    "Iris-0.2.9-Official-Download.url"
+  ],
+  "UserOperationPerformed": false
+}

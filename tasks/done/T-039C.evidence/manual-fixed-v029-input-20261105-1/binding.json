@@ -1,0 +1,62 @@
+{
+  "Version": "0.2.9",
+  "SourceCommit": "0b3267f1f6cdc1a9fb8cfe1c93dde22da273ecd2",
+  "SourceGitTree": "fcb432c3df3b5930bbc2900f43235384130b97ae",
+  "OfficialSetupBytes": 116768884,
+  "OfficialSetupSha256": "69ab96bb1f700b21fa430d69eab85d6d4a5c606c377424222f0f97af0e7f2891",
+  "OfficialFullBytes": 64628500,
+  "OfficialFullSha256": "42c32435e5883608c77f097befd2b9a7f91845b35942a09966018361c40a779e",
+  "PublicPayloadManifestSha256": "3f629d7717f9673a4739da8102b781ee9cd5e242d25930f8262ee3f96ba0ad6a",
+  "PayloadEntries": 97,
+  "UserPerformsProductOperations": true,
+  "Fixed029InstalledVerified": false,
+  "ScreenshotActuallyCaptured": false,
+  "InputDirectory": "F:\\Iris\\artifacts\\t039c\\manual-verification-v022-20261105-1\\input",
+  "Files": [
+    {
+      "Name": "PUBLIC_V029_payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "3f629d7717f9673a4739da8102b781ee9cd5e242d25930f8262ee3f96ba0ad6a"
+    },
+    {
+      "Name": "verify-v029-install-readonly.ps1",
+      "Bytes": 3631,
+      "Sha256": "ad94085d069f6f756cc1fe702295db1e414b971ca88767ef48b5bac638e5e48b"
+    },
+    {
+      "Name": "Save-Fixed-V029-State.cmd",
+      "Bytes": 418,
+      "Sha256": "9685d1c440f7bb67403274859caea5bb2b4618f00b1c19b990b185f555543cb6"
+    },
+    {
+      "Name": "Capture-Fixed-V029-View.cmd",
+      "Bytes": 178,
+      "Sha256": "4feb0976c234ebda93c948b4f8bde3fd7d97ec465d2306cf7c3d9a14edd3f991"
+    },
+    {
+      "Name": "Iris-0.2.9-Official-Download.url",
+      "Bytes": 102,
+      "Sha256": "6f7379175b6aa25fdb30d709f787804f39d16dfce0bde5caa3d8819edc4d41b4"
+    },
+    {
+      "Name": "save-update-evidence.ps1",
+      "Bytes": 5285,
+      "Sha256": "a75fb4f73645b7198213a7d244dc1d50c13b89169ca1bfcbae9629d267a966f7"
+    },
+    {
+      "Name": "manual-capture-state.ps1",
+      "Bytes": 4421,
+      "Sha256": "13217a63ae3d9ae5cb0d384641355060de72ac27ab46c62d9ff6f36270f1460a"
+    },
+    {
+      "Name": "capture-manual-view.ps1",
+      "Bytes": 2082,
+      "Sha256": "5db6504b385d4b5068af56cbb54656a95ceff9548b3d9e94b30f59fc0cd6d384"
+    },
+    {
+      "Name": "inspect-old-ready-readonly.ps1",
+      "Bytes": 4463,
+      "Sha256": "e5ed474f262dadc743c68cfbd5b89ead068ecf1d5be39f82d5d8ee3e6d18b17c"
+    }
+  ]
+}

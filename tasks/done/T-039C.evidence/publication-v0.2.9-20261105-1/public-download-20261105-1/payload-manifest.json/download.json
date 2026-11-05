@@ -1,0 +1,12 @@
+{
+  "Url": "https://github.com/Tmcity/Iris/releases/download/v0.2.9/payload-manifest.json?iris_public_read=20261105T124917417626Z",
+  "StartedUtc": "2026-11-05T12:49:17.417626+00:00",
+  "FinishedUtc": "2026-11-05T12:49:19.607709+00:00",
+  "AuthorizationSent": false,
+  "UsesGitHubRestApi": false,
+  "HttpStatus": "200",
+  "ExitCode": 0,
+  "Bytes": 17644,
+  "Sha256": "3f629d7717f9673a4739da8102b781ee9cd5e242d25930f8262ee3f96ba0ad6a",
+  "LocalPath": "F:\\Iris\\artifacts\\t039c\\public-0.2.9-download-20261105-1\\payload-manifest.json"
+}

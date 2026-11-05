@@ -1,0 +1,14 @@
+{
+  "Version": "0.2.9",
+  "FullTests": {
+    "Total": 3771,
+    "Passed": 3770,
+    "Failed": 0,
+    "Skipped": 1
+  },
+  "OriginalCiFiles": 55,
+  "All19AssetsMatchOfficialWebsiteDigests": true,
+  "PublicationReceiptVerified": true,
+  "OfficialApiMetadataVerified": false,
+  "ReleasePublic": true
+}

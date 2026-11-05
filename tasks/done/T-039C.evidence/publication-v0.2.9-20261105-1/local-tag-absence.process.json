@@ -1,0 +1,11 @@
+{
+  "Pid": 27452,
+  "Command": [
+    "git",
+    "show-ref",
+    "--verify",
+    "--quiet",
+    "refs/tags/v0.2.9"
+  ],
+  "StartedUtc": "2026-11-05T12:37:23.619215+00:00"
+}

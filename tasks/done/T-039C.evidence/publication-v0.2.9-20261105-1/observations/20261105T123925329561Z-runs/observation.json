@@ -1,0 +1,9 @@
+{
+  "Url": "https://api.github.com/repos/Tmcity/Iris/actions/workflows/desktop-release.yml/runs?event=push&branch=v0.2.9&per_page=20&iris_observation=v029-20261105T123925329561Z",
+  "ObservedUtc": "2026-11-05T12:39:26.225917+00:00",
+  "HttpStatus": "200",
+  "ExitCode": 0,
+  "AuthorizationSent": false,
+  "BodyBytes": 11204,
+  "BodySha256": "99e61d3b761be4dae51b72f81348adf4356ff7049ccc2ff7a1fc6a95dd375783"
+}

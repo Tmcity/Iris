@@ -1,0 +1,119 @@
+{
+  "ReviewedUtc": "2026-11-05T12:53:30.874238+00:00",
+  "Version": "0.2.9",
+  "SourceCommit": "0b3267f1f6cdc1a9fb8cfe1c93dde22da273ecd2",
+  "SourceGitTree": "fcb432c3df3b5930bbc2900f43235384130b97ae",
+  "GitHubRunId": 42028799541,
+  "GitHubRunAttempt": 1,
+  "All19PublicAssetBytesMatchOfficialPageDigests": true,
+  "Assets": [
+    {
+      "Name": "assets.win.json",
+      "Bytes": 240,
+      "Sha256": "78dc0e3453cbe4d5cea6823329f4dc20a8935273d192dd8f5feae4e226e8a2a1"
+    },
+    {
+      "Name": "full-tests.log",
+      "Bytes": 4325,
+      "Sha256": "eb3e3337e8e0a6b25e49c0be80896ecc5174e69a3295257e2c3cf0a986daa251"
+    },
+    {
+      "Name": "INSTALLATION.md",
+      "Bytes": 5088,
+      "Sha256": "c6aca79261915f9b2d98489304a0d788e267d755110ea1384585730d83ccca4d"
+    },
+    {
+      "Name": "Iris-0.2.2-full.nupkg",
+      "Bytes": 64627273,
+      "Sha256": "c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14"
+    },
+    {
+      "Name": "Iris-0.2.7-full.nupkg",
+      "Bytes": 64627391,
+      "Sha256": "f8f9de897b637f8c98a07d601420885bf65529701d014fc52b59f87ce75bace8"
+    },
+    {
+      "Name": "Iris-0.2.9-delta.nupkg",
+      "Bytes": 626479,
+      "Sha256": "59d12809bdd2ef48665e6693a8f40b52dcd5802ecd24451e89b5069003b45d3a"
+    },
+    {
+      "Name": "Iris-0.2.9-full.nupkg",
+      "Bytes": 64628500,
+      "Sha256": "42c32435e5883608c77f097befd2b9a7f91845b35942a09966018361c40a779e"
+    },
+    {
+      "Name": "Iris-0.2.9-Setup.exe",
+      "Bytes": 116768884,
+      "Sha256": "69ab96bb1f700b21fa430d69eab85d6d4a5c606c377424222f0f97af0e7f2891"
+    },
+    {
+      "Name": "package.log",
+      "Bytes": 6519,
+      "Sha256": "2bfb33b389fc4ea91e645fd81143e564e9af8f59ae3ee9cce097f0a1119882c8"
+    },
+    {
+      "Name": "payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "3f629d7717f9673a4739da8102b781ee9cd5e242d25930f8262ee3f96ba0ad6a"
+    },
+    {
+      "Name": "release-build.log",
+      "Bytes": 3671,
+      "Sha256": "0100daa29138fdfb0da62fcee3f9a19af2cf8fd8853fbb1165ee17eb2a15cf7f"
+    },
+    {
+      "Name": "release-manifest-tests.log",
+      "Bytes": 3079,
+      "Sha256": "8f87f9db97948fe610c83082dfd4ef47792c1a85a32bee80dea003e8acd2e498"
+    },
+    {
+      "Name": "release-provenance.json",
+      "Bytes": 192666,
+      "Sha256": "cc3fc55147b1eb1a057ede449bed23d13ae94d66db1194ad9e7754f5fc4882b7"
+    },
+    {
+      "Name": "RELEASES",
+      "Bytes": 218,
+      "Sha256": "79745cb78e2af77ce7304d5988677afe95a3f2f4558e58ae80cfc9b717d745ec"
+    },
+    {
+      "Name": "releases.win.json",
+      "Bytes": 932,
+      "Sha256": "86374faeaf9f44909454669f24546c57135da5e6dc989f004f7f25625bf47028"
+    },
+    {
+      "Name": "RELEASE_NOTES.md",
+      "Bytes": 676,
+      "Sha256": "b547a7ff174312598d719223cc4a8677249c5e48ad82a21d55bcea3c5ab594f4"
+    },
+    {
+      "Name": "SHA256.json",
+      "Bytes": 2604,
+      "Sha256": "d3ef7d86466db3e26d15d3e8f9eed1da104ca6bccf24269653ae729e5feb636a"
+    },
+    {
+      "Name": "staging-manifest.json",
+      "Bytes": 18533,
+      "Sha256": "7c99919391a82cb6615081b868dddfaaa62a7e4d1d3e87e83f73834500417433"
+    },
+    {
+      "Name": "validation-summary.json",
+      "Bytes": 3434,
+      "Sha256": "f8fd547bc5bdc321e42a4bb71a686230b01484cc852ccdf5e16c434ec678ce41"
+    }
+  ],
+  "AssetPage": "F:\\Iris\\tasks\\done\\T-039C.evidence\\publication-v0.2.9-20261105-1\\observations\\20261105T124757627859Z-web-assets\\response.body",
+  "AssetPageSha256": "27b81811e62b9d7e495c4e3f2200d40841cfe96ef760e23b8b0e86351197a465",
+  "FullTests": {
+    "Total": 3771,
+    "Passed": 3770,
+    "Failed": 0,
+    "Skipped": 1
+  },
+  "OriginalCiAndPublicationReceiptVerified": true,
+  "OfficialRestApiAssetMetadataVerified": false,
+  "RawApiQuotaResponseRetained": true,
+  "ReleasePublic": true,
+  "RealUiUpgradeVerified": false
+}

@@ -1,0 +1,17 @@
+{
+  "Version": "0.2.7",
+  "Full": {
+    "PackageId": "Iris",
+    "Version": "0.2.7",
+    "Type": "Full",
+    "FileName": "Iris-0.2.7-full.nupkg",
+    "SHA1": "BCEC3791111A82276096ED4CA2EDD18A54CA356E",
+    "SHA256": "F8F9DE897B637F8C98A07D601420885BF65529701D014FC52B59F87CE75BACE8",
+    "Size": 64627391
+  },
+  "OfficialApiDigestAlreadyBoundInReview": true,
+  "FreshAnonymousFullBytesMatched": true,
+  "SourceOfCurrentObservations": "GitHub official public website and published download URLs",
+  "GitHubRestApiQuotaBypassAttempted": false,
+  "PublicationAuthorized": true
+}

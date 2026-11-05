@@ -1,0 +1,14 @@
+{
+  "command": [
+    "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-Command",
+    "$taskFiles = @(\"F:/Iris/artifacts/t039c/manual-verification-v022-20261105-1/input/verify-v029-install-readonly.ps1\", \"F:/Iris/artifacts/t039c/manual-verification-v022-20261105-1/input/capture-manual-view.ps1\", \"F:/Iris/artifacts/t039c/manual-verification-v022-20261105-1/input/save-update-evidence.ps1\"); foreach ($taskFile in $taskFiles) { $taskTokens = $null; $taskParseErrors = $null; $null = [Management.Automation.Language.Parser]::ParseFile($taskFile, [ref]$taskTokens, [ref]$taskParseErrors); if ($taskParseErrors.Count -ne 0) { $taskParseErrors | Out-String | Write-Output; exit 1 } }; Write-Output \"Three user-operated helpers parsed under Windows PowerShell 5.1\""
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T12:56:24.268056+00:00",
+  "completedAt": "2026-11-05T12:56:24.625793+00:00",
+  "exitCode": 0,
+  "logSha256": "83b17b1b7a04ab1905f2920eca772966b257a9e4ee77ab4bf3261fdaa3af2280"
+}

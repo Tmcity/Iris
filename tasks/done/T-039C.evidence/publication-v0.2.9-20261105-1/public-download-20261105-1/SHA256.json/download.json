@@ -1,0 +1,12 @@
+{
+  "Url": "https://github.com/Tmcity/Iris/releases/download/v0.2.9/SHA256.json?iris_public_read=20261105T124903388864Z",
+  "StartedUtc": "2026-11-05T12:49:03.388864+00:00",
+  "FinishedUtc": "2026-11-05T12:49:04.968627+00:00",
+  "AuthorizationSent": false,
+  "UsesGitHubRestApi": false,
+  "HttpStatus": "200",
+  "ExitCode": 0,
+  "Bytes": 2604,
+  "Sha256": "d3ef7d86466db3e26d15d3e8f9eed1da104ca6bccf24269653ae729e5feb636a",
+  "LocalPath": "F:\\Iris\\artifacts\\t039c\\public-0.2.9-download-20261105-1\\SHA256.json"
+}

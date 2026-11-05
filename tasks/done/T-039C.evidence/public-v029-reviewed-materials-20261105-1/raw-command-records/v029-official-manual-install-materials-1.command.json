@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/prepare_manual_fixed_v029_20261105.py"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T12:56:23.477312+00:00",
+  "completedAt": "2026-11-05T12:56:23.622830+00:00",
+  "exitCode": 0,
+  "logSha256": "4ed1f7d2302dd3ae2f32303a618be273c705edf0b8baf0f0e8f25fa831a2d395"
+}

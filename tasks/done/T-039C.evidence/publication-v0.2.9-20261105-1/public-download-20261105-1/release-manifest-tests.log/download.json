@@ -1,0 +1,12 @@
+{
+  "Url": "https://github.com/Tmcity/Iris/releases/download/v0.2.9/release-manifest-tests.log?iris_public_read=20261105T124919607709Z",
+  "StartedUtc": "2026-11-05T12:49:19.607709+00:00",
+  "FinishedUtc": "2026-11-05T12:49:21.081982+00:00",
+  "AuthorizationSent": false,
+  "UsesGitHubRestApi": false,
+  "HttpStatus": "200",
+  "ExitCode": 0,
+  "Bytes": 3079,
+  "Sha256": "8f87f9db97948fe610c83082dfd4ef47792c1a85a32bee80dea003e8acd2e498",
+  "LocalPath": "F:\\Iris\\artifacts\\t039c\\public-0.2.9-download-20261105-1\\release-manifest-tests.log"
+}

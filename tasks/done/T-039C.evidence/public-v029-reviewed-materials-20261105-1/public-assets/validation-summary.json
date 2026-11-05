@@ -1,0 +1,134 @@
+{
+  "SourceCommit": "0b3267f1f6cdc1a9fb8cfe1c93dde22da273ecd2",
+  "BuildWarnings": 0,
+  "BuildErrors": 0,
+  "FullTests": {
+    "Total": 3771,
+    "Passed": 3770,
+    "Failed": 0,
+    "Skipped": 1
+  },
+  "Assemblies": [
+    {
+      "Name": "Iris.Platform.Windows.Tests.dll",
+      "Total": 1085,
+      "Passed": 1084,
+      "Failed": 0,
+      "Skipped": 1,
+      "SkippedTests": [
+        {
+          "Name": "Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotIsolatedTests.SnapshotHelper_UsesExclusiveNonInteractiveStation_AndJoinsOwnedProcess",
+          "Reason": "[ENVIRONMENT LIMITATION] Snapshot isolated helper skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)"
+        }
+      ]
+    },
+    {
+      "Name": "Iris.ArchitectureTests.dll",
+      "Total": 11,
+      "Passed": 11,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    },
+    {
+      "Name": "Iris.Providers.Tests.dll",
+      "Total": 584,
+      "Passed": 584,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    },
+    {
+      "Name": "Iris.App.Tests.dll",
+      "Total": 879,
+      "Passed": 879,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    },
+    {
+      "Name": "Iris.Core.Tests.dll",
+      "Total": 985,
+      "Passed": 985,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    },
+    {
+      "Name": "Iris.Infrastructure.Tests.dll",
+      "Total": 188,
+      "Passed": 188,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    },
+    {
+      "Name": "Iris.Maintenance.Tests.dll",
+      "Total": 39,
+      "Passed": 39,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    }
+  ],
+  "Commands": [
+    {
+      "Command": [
+        "C:\\hostedtoolcache\\windows\\Python\\3.13.17\\x64\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "build/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "StartedUtc": "2026-11-05T12:38:28.872008+00:00",
+      "FinishedUtc": "2026-11-05T12:38:29.650520+00:00",
+      "ExitCode": 0,
+      "Log": "release-manifest-tests.log",
+      "Bytes": 3079,
+      "Sha256": "8f87f9db97948fe610c83082dfd4ef47792c1a85a32bee80dea003e8acd2e498"
+    },
+    {
+      "Command": [
+        "dotnet",
+        "build",
+        "Iris.slnx",
+        "-c",
+        "Release",
+        "--no-incremental"
+      ],
+      "StartedUtc": "2026-11-05T12:38:29.651309+00:00",
+      "FinishedUtc": "2026-11-05T12:40:20.179791+00:00",
+      "ExitCode": 0,
+      "Log": "release-build.log",
+      "Bytes": 3671,
+      "Sha256": "0100daa29138fdfb0da62fcee3f9a19af2cf8fd8853fbb1165ee17eb2a15cf7f"
+    },
+    {
+      "Command": [
+        "dotnet",
+        "test",
+        "Iris.slnx",
+        "-c",
+        "Release",
+        "--no-build",
+        "--no-ansi",
+        "--no-progress",
+        "--report-xunit-xml",
+        "--results-directory",
+        "D:\\a\\_temp\\iris-validation\\reports"
+      ],
+      "StartedUtc": "2026-11-05T12:40:20.180590+00:00",
+      "FinishedUtc": "2026-11-05T12:43:50.330189+00:00",
+      "ExitCode": 0,
+      "Log": "full-tests.log",
+      "Bytes": 4325,
+      "Sha256": "eb3e3337e8e0a6b25e49c0be80896ecc5174e69a3295257e2c3cf0a986daa251"
+    }
+  ],
+  "Scope": "Local/CI checks only; no real installation, public UI upgrade, default prerequisite download or whole-task acceptance is inferred."
+}

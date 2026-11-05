@@ -1,0 +1,12 @@
+{
+  "Url": "https://github.com/Tmcity/Iris/releases/download/v0.2.9/staging-manifest.json?iris_public_read=20261105T124922927057Z",
+  "StartedUtc": "2026-11-05T12:49:22.928122+00:00",
+  "FinishedUtc": "2026-11-05T12:49:24.298148+00:00",
+  "AuthorizationSent": false,
+  "UsesGitHubRestApi": false,
+  "HttpStatus": "200",
+  "ExitCode": 0,
+  "Bytes": 18533,
+  "Sha256": "7c99919391a82cb6615081b868dddfaaa62a7e4d1d3e87e83f73834500417433",
+  "LocalPath": "F:\\Iris\\artifacts\\t039c\\public-0.2.9-download-20261105-1\\staging-manifest.json"
+}

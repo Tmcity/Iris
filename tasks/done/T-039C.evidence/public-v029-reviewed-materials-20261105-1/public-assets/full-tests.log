@@ -1,0 +1,41 @@
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 268ms)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (8s 491ms)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotIsolatedTests.SnapshotHelper_UsesExclusiveNonInteractiveStation_AndJoinsOwnedProcess
+  [ENVIRONMENT LIMITATION] Snapshot isolated helper skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (10s 859ms)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (15s 463ms)
+D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64) 已通过 (7s 467ms)
+D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (20s 797ms)
+D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (3m 28s 228ms)
+
+  生成的进程内文件项目:
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_12_40_21.554285.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_12_40_21.562317.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_12_40_24.649617.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_12_40_21.549017.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_12_40_36.413171.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_12_40_30.605026.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_12_40_21.609165.xunit.xml
+
+测试运行摘要: 已通过!
+  D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (20s 797ms)
+  D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64) 已通过 (7s 467ms)
+  D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (10s 859ms)
+  D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (15s 463ms)
+  D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (3m 28s 228ms)
+  D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 268ms)
+  D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (8s 491ms)
+
+  总计: 3771
+  失败: 0
+  成功: 3770
+  已跳过: 1
+  持续时间: 3m 29s 031ms
