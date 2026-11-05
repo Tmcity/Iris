@@ -1,0 +1,42 @@
+{
+  "PreparedUtc": "2026-11-05T13:14:38.483543+00:00",
+  "ObservedInstalledVersion": "0.2.7",
+  "ObservedAppPid": 8820,
+  "UserManual029FeedbackPending": true,
+  "Manual029ActuallyAccepted": false,
+  "UserScreenshotActuallyReviewed": false,
+  "Official029ApiSupplementActuallyPerformed": false,
+  "NewVersionAuthorized": false,
+  "Files": [
+    {
+      "Path": "live-progress.json",
+      "Bytes": 923,
+      "Sha256": "ed7d26c5a56206e2c5c008a2da556c8c976f7f7cfad1df66072a67bcf1439682"
+    },
+    {
+      "Path": "inspect-v029-progress-readonly.ps1",
+      "Bytes": 2096,
+      "Sha256": "d1b58b67f8ffb1c00cefd28255e8f0197129d435898bfecece443d9111d0db2b"
+    },
+    {
+      "Path": "review_manual_fixed_v029_20261105.py",
+      "Bytes": 7983,
+      "Sha256": "8db7bc9556a5bd8af65d69ffb72ce9dc0053df0fbb06f59061da1b23295ce134"
+    },
+    {
+      "Path": "supplement_v029_official_api_20261105.py",
+      "Bytes": 4448,
+      "Sha256": "78f2dd0b7d1f813ed373b59a69dbb3b78d9db171ed1e5b333d7c031464bb2306"
+    },
+    {
+      "Path": "v029-manual-progress-readonly-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "v029-manual-progress-readonly-1.command.json",
+      "Bytes": 538,
+      "Sha256": "52f3dd0f80ee80f971d30819a384a46f31bc1379f3135c0e8a97849b54e20ce9"
+    }
+  ]
+}

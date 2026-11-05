@@ -1,0 +1,22 @@
+{
+    "Utc":  "2026-11-05T13:08:20.1499296Z",
+    "ReadOnlyProductInspection":  true,
+    "ProductOperationPerformed":  false,
+    "InstalledSource":  {
+                            "Version":  "0.2.7",
+                            "Channel":  "win",
+                            "PackageId":  "Iris",
+                            "Repository":  "https://github.com/Tmcity/Iris",
+                            "RuntimeId":  "win-x64"
+                        },
+    "SourceReadFailureType":  null,
+    "Processes":  [
+                      {
+                          "StartedUtc":  "2026-11-05T09:31:12.4245570Z",
+                          "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+                          "Pid":  8820,
+                          "Name":  "Iris.App.exe",
+                          "ParentPid":  6308
+                      }
+                  ]
+}
