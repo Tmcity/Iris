@@ -113,6 +113,48 @@ public sealed class UiaStartupCleanupTests
         process.DisposeCallCount.ShouldBe(1);
     });
 
+    [Fact]
+    public Task LateStartAwaitObservation_WhenRunnerStartHasNotReturned_WaitsForPublicationAndActualDrain() => new TestScope().RunAsync(async scope =>
+    {
+        var stderr = new GatedReadStream();
+        scope.Release.Add(stderr.Release);
+        var releaseFactory = new ManualResetEventSlim();
+        scope.Release.Add(releaseFactory.Set);
+        scope.AfterJoin.Add(releaseFactory.Dispose);
+        var process = scope.Own(new FakeProcessAdapter { StandardErrorOverride = stderr });
+        var captured = new TaskCompletionSource<Task>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var waiting = Gate();
+        process.OnWaitForExit = () => waiting.TrySetResult();
+        var reader = scope.CreateReader(process, (_, drain) =>
+        {
+            scope.Track(drain);
+            captured.TrySetResult(drain);
+            releaseFactory.Wait(); // The synchronous part of StartAsync has not returned its Task.
+            throw new InvalidOperationException("Controlled wrapping failure before start-task publication");
+        });
+        var read = scope.Track(reader.ReadAsync(0x1000, 4242), typeof(OperationCanceledException));
+        var actualDrain = await captured.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        await Entered(stderr.Entered.Task);
+        var stopping = scope.Track(reader.StopAsync());
+        var observation = scope.Track(WaitForLateStartAwaitAsync(reader));
+        observation.IsCompleted.ShouldBeFalse("the start Task has not been published yet");
+        stopping.IsCompleted.ShouldBeFalse();
+        read.IsCompleted.ShouldBeFalse();
+        releaseFactory.Set();
+        await Entered(waiting.Task);
+        await Entered(stderr.Closed.Task);
+        await observation;
+        actualDrain.IsCompleted.ShouldBeFalse();
+        stopping.IsCompleted.ShouldBeFalse("publishing the start Task cannot bypass the real stderr drain");
+        read.IsCompleted.ShouldBeFalse();
+        stderr.Release();
+        await stopping;
+        await Should.ThrowAsync<OperationCanceledException>(() => read);
+        await actualDrain;
+        await stderr.Completed.Task;
+        process.DisposeCallCount.ShouldBe(1);
+    });
+
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
@@ -365,7 +407,12 @@ public sealed class UiaStartupCleanupTests
     {
         var operation = typeof(UiaSelectionReader).GetField("_activeOperation", BindingFlags.Instance | BindingFlags.NonPublic)!
             .GetValue(reader)!;
-        var start = (Task)operation.GetType().GetProperty("StartTask")!.GetValue(operation)!;
+        var startProperty = operation.GetType().GetProperty("StartTask")!;
+        Task? publishedStart = null;
+        // StartAsync can still be executing its synchronous factory/rollback when
+        // another controller observes its gates. Wait for the Task publication.
+        await WaitUntilAsync(() => (publishedStart = (Task?)startProperty.GetValue(operation)) != null);
+        var start = publishedStart!;
         await WaitUntilAsync(() =>
         {
             var continuation = typeof(Task).GetField("m_continuationObject", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(start);

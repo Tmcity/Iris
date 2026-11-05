@@ -472,73 +472,82 @@ public sealed class HotkeyCoordinatorTests
     [Fact]
     public async Task H13_OnHotkeyPressed_DoesNotBlockWndProc_RunsOnThreadPool()
     {
-        var fakeNative = new FakeNativeHotkeyAdapter();
-        using var hotkeyService = new HotkeyService(NullLogger<HotkeyService>.Instance, fakeNative);
-
-        var settings = new AppSettings();
-        var settingsService = Substitute.For<ISettingsService>();
-        settingsService.Current.Returns(settings);
-
-        int callerThreadId = Environment.CurrentManagedThreadId;
-        int? dispatchThreadId = null;
-        bool insideWndProc = false;
-        bool? handlerStartedInsideWndProc = null;
-        var dispatchStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var dispatchFinish = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-
-        var actionDispatcher = Substitute.For<IActionDispatcher>();
-        actionDispatcher.DispatchAsync(Arg.Any<IrisAction>(), Arg.Any<ActionContext>(), Arg.Any<CancellationToken>())
-            .Returns(async _ =>
-            {
-                handlerStartedInsideWndProc = insideWndProc;
-                dispatchThreadId = Environment.CurrentManagedThreadId;
-                dispatchStarted.TrySetResult();
-                await dispatchFinish.Task;
-            });
-
-        var uiDispatcher = new ImmediateUiDispatcher();
-        var notificationService = new FakeNotificationService();
-
-        var handlers = new IActionHandler[] { new TestActionHandler(IrisAction.InputTranslate) };
-
-        using var coordinator = new HotkeyCoordinator(
-            settingsService,
-            hotkeyService,
-            actionDispatcher,
-            handlers,
-            uiDispatcher,
-            notificationService,
-            NullLogger<HotkeyCoordinator>.Instance);
-
-        await coordinator.StartAsync();
-
-        int id = fakeNative.RegisteredHotkeys[0].Id;
-
-        try
+        await WpfTestRunner.RunAsync(async () =>
         {
-            // Send hotkey: SendWmHotkey must return immediately even though dispatch is held
-            insideWndProc = true;
+            var fakeNative = new FakeNativeHotkeyAdapter();
+            using var hotkeyService = new HotkeyService(NullLogger<HotkeyService>.Instance, fakeNative);
+
+            var settings = new AppSettings();
+            var settingsService = Substitute.For<ISettingsService>();
+            settingsService.Current.Returns(settings);
+
+            int callerThreadId = Environment.CurrentManagedThreadId;
+            int? dispatchThreadId = null;
+            bool insideWndProc = false;
+            bool? handlerStartedInsideWndProc = null;
+            bool? dispatchOnThreadPool = null;
+            var dispatchStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var dispatchFinish = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+            var actionDispatcher = Substitute.For<IActionDispatcher>();
+            actionDispatcher.DispatchAsync(Arg.Any<IrisAction>(), Arg.Any<ActionContext>(), Arg.Any<CancellationToken>())
+                .Returns(async _ =>
+                {
+                    dispatchThreadId = Environment.CurrentManagedThreadId;
+                    // A pool worker may start while the native sender is still unwinding.
+                    // Only execution on the sender's own stack would be inline dispatch.
+                    handlerStartedInsideWndProc = dispatchThreadId == callerThreadId && insideWndProc;
+                    dispatchOnThreadPool = Thread.CurrentThread.IsThreadPoolThread;
+                    dispatchStarted.TrySetResult();
+                    await dispatchFinish.Task;
+                });
+
+            var uiDispatcher = new ImmediateUiDispatcher();
+            var notificationService = new FakeNotificationService();
+
+            var handlers = new IActionHandler[] { new TestActionHandler(IrisAction.InputTranslate) };
+
+            using var coordinator = new HotkeyCoordinator(
+                settingsService,
+                hotkeyService,
+                actionDispatcher,
+                handlers,
+                uiDispatcher,
+                notificationService,
+                NullLogger<HotkeyCoordinator>.Instance);
+
+            await coordinator.StartAsync();
+            Thread.CurrentThread.IsThreadPoolThread.ShouldBeFalse();
+            int id = fakeNative.RegisteredHotkeys[0].Id;
+
             try
             {
-                fakeNative.SendWmHotkey(id, (uint)(HotkeyModifiers.Control | HotkeyModifiers.Alt), 0x46u);
+                // The native sender uses the owned UI thread, which cannot be reused by Task.Run.
+                insideWndProc = true;
+                try
+                {
+                    fakeNative.SendWmHotkey(id, (uint)(HotkeyModifiers.Control | HotkeyModifiers.Alt), 0x46u);
+                }
+                finally
+                {
+                    insideWndProc = false;
+                }
+
+                // The native callback returned while the actual dispatch is still held.
+                await dispatchStarted.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+
+                handlerStartedInsideWndProc.ShouldBe(false, "分发绝不得在 WndProc 栈内同步开始");
+                dispatchThreadId.ShouldNotBeNull();
+                dispatchThreadId.Value.ShouldNotBe(callerThreadId, "分发绝不得在 WndProc 发送线程上同步执行");
+                dispatchOnThreadPool.ShouldBe(true);
+                coordinator.WaitForInFlightDispatchesAsync().IsCompleted.ShouldBeFalse();
             }
             finally
             {
-                insideWndProc = false;
+                dispatchFinish.TrySetResult();
+                await coordinator.WaitForInFlightDispatchesAsync();
             }
-
-            // WndProc did NOT block and has already returned before handler was started!
-            await dispatchStarted.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
-
-            handlerStartedInsideWndProc.ShouldBe(false, "分发绝不得在 WndProc 栈内同步开始");
-            dispatchThreadId.ShouldNotBeNull();
-            dispatchThreadId.Value.ShouldNotBe(callerThreadId, "分发绝不得在 WndProc 发送线程上同步执行");
-        }
-        finally
-        {
-            dispatchFinish.TrySetResult();
-            await coordinator.WaitForInFlightDispatchesAsync();
-        }
+        });
     }
 
     [Fact]
