@@ -1,0 +1,12 @@
+{
+  "Command": [
+    "git",
+    "show",
+    "2cedde27acf5e5457dbc848283c10c93b274309d:tasks/done/T-039C.evidence/next-source-v028-20261105-1/review.json"
+  ],
+  "StartedUtc": "2026-11-05T07:48:44.637734+00:00",
+  "FinishedUtc": "2026-11-05T07:48:44.689388+00:00",
+  "ExitCode": 0,
+  "Bytes": 4519,
+  "Sha256": "234ba7cddd0edf90c5bd52fcdc4ce1fe9c0407ac5dab5af654cd21b3baa06e01"
+}

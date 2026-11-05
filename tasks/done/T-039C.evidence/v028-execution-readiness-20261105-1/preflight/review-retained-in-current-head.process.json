@@ -1,0 +1,11 @@
+{
+  "Pid": 27704,
+  "Command": [
+    "git",
+    "merge-base",
+    "--is-ancestor",
+    "2cedde27acf5e5457dbc848283c10c93b274309d",
+    "HEAD"
+  ],
+  "StartedUtc": "2026-11-05T07:48:44.789077+00:00"
+}

@@ -1,0 +1,14 @@
+{
+  "Command": [
+    "git",
+    "remote",
+    "get-url",
+    "--push",
+    "origin"
+  ],
+  "StartedUtc": "2026-11-05T07:48:44.592265+00:00",
+  "FinishedUtc": "2026-11-05T07:48:44.637734+00:00",
+  "ExitCode": 0,
+  "Bytes": 31,
+  "Sha256": "c835522c1eaaca27d779e61731ade9e63c19117f408b3fbb2811802282cd8a0d"
+}

@@ -1,5 +1,7 @@
 # T-039C：0.2.8 更新发现修正检查点
 
+固定正常审阅归档提交为 `2cedde27acf5e5457dbc848283c10c93b274309d`；[最终只读执行准备](F:/Iris/tasks/T-039C.coordination/EXECUTION_READY_V028_20261105.md)已成功核对，同一旧实例/数据保持，0.2.8标签尚未创建。
+
 正式 [0.2.7](https://github.com/Tmcity/Iris/releases/tag/v0.2.7)已成功发布，原 CI、Source `fc44a3a`、所有标签和资产完整保持。用户最新实际反馈原 0.2.2 持续出现“请求过于频繁”，此前正向 offer 反馈不足以证明成功；真实更新/下载/升级仍未通过。
 
 主会话也独立读取到共享匿名 REST 额度 60 用尽。修前受控用例使 REST 返回 403，而同仓库正式 latest feed 返回 200，实际复现相同 IrisException 限流错误。官网直接 latest feed 已实际返回 200，字节与正式 0.2.7 feed 相同。

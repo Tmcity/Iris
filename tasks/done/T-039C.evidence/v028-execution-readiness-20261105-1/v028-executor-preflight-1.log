@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "F:\Iris\tasks\T-039C.coordination\execute_v028_20261105.py", line 176, in <module>
+    verify_public_website()
+  File "F:\Iris\tasks\T-039C.coordination\execute_v028_20261105.py", line 140, in verify_public_website
+    assert len(feed) == 2
+           ^^^^^^^^^^^^^^
+AssertionError
