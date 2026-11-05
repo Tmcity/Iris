@@ -1,0 +1,138 @@
+{
+  "ReviewedUtc": "2026-11-05T05:20:21.646801+00:00",
+  "SandboxId": "2fc7c168-2f34-437a-8319-8974e6f592b2",
+  "Version": "0.2.2",
+  "AppPid": 7312,
+  "AppStartedUtc": "2026-11-05T05:05:27.9287450Z",
+  "RecorderPid": 8152,
+  "ProviderPid": 7328,
+  "CheckForUpdates": false,
+  "SyntheticProfile": {
+    "Id": "tp-28c361470883",
+    "DisplayName": "T039C Synthetic",
+    "HasCredentialSetReference": true,
+    "Model": "iris-fixture",
+    "BaseUrl": "http://127.0.0.1:18039/v1",
+    "Kind": "OpenAICompatible",
+    "Enabled": true
+  },
+  "DataHashes": {
+    "settings.json": "84d85182866599005f6802db616fb89094d6c19dd1d7ade8ca15db9fa11d30e8",
+    "secrets.dat": "b977aecf397ecc9dc57f2301181a20372f7e7bc37b468091cd4fb1764e97f9d7",
+    "history.db": "c4960f0964e6d1ad267f6e735da6ddaea70e4b7ef63bb4d22a0dd76c6e67a497"
+  },
+  "SyntheticCredentialMatchedInRealPost": true,
+  "OldSyntheticHistoryIndependentlyVerified": true,
+  "OldReadyVerified": true,
+  "SecretContentsCollected": false,
+  "NewVersionPackagePresent": false,
+  "RealUiUpgradeVerified": false,
+  "RestartCountVerified": false,
+  "Files": [
+    {
+      "Path": "coordination/v027-fresh-old-ready-detail-readonly-1.command.json",
+      "Bytes": 531,
+      "Sha256": "2f06df01f67a2705c242f0669edf5303a530f9cec0a9debd25687f347491a7f0"
+    },
+    {
+      "Path": "coordination/v027-fresh-old-ready-detail-readonly-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "coordination/v027-fresh-old-ready-readonly-1.command.json",
+      "Bytes": 542,
+      "Sha256": "a3e49902854c6724ef2033fcb995f6127a227c0d8d56cd28f1ad55c05ed19268"
+    },
+    {
+      "Path": "coordination/v027-fresh-old-ready-readonly-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "history-independent.json",
+      "Bytes": 703,
+      "Sha256": "55f29780680617213d75225e8ec98f2436fa2bd1a2f523c6efa6a5a616c2d629"
+    },
+    {
+      "Path": "old-ready-20261105T0515422970754Z.json",
+      "Bytes": 3434,
+      "Sha256": "f66a18cd5deb7151f6d0e33b81c19570da636f438a5e2291692364f7f11c48dc"
+    },
+    {
+      "Path": "old-ready-20261105T0517214550335Z.json",
+      "Bytes": 3434,
+      "Sha256": "3ddd3ff6c48a6fcfb6a78090edbfcf7c7675f5b7a2aed1fdcf72d07912079a2b"
+    },
+    {
+      "Path": "old-ready-supplement/active-recorder-v2.json",
+      "Bytes": 4296,
+      "Sha256": "7f9a0f591fdf9e65a3eba29b227f04e224082371636aed34afe03597ceb51d04"
+    },
+    {
+      "Path": "old-ready-supplement/history.db",
+      "Bytes": 53248,
+      "Sha256": "c4960f0964e6d1ad267f6e735da6ddaea70e4b7ef63bb4d22a0dd76c6e67a497"
+    },
+    {
+      "Path": "old-ready-supplement/process-events-v2.jsonl",
+      "Bytes": 2334,
+      "Sha256": "69b24e23623266991cf470b6510561c48d250053f7c62b429b1fe13298a69536"
+    },
+    {
+      "Path": "old-ready-supplement/product-iris-20261105.log",
+      "Bytes": 1963,
+      "Sha256": "635f42576f25eadf60338ef60dd979ba6be592587f24478eb23f86158655da88"
+    },
+    {
+      "Path": "old-ready-supplement/provider-requests.jsonl",
+      "Bytes": 133,
+      "Sha256": "0ed59f5140bbf9ae41d18f34e29bed3a10c1fcb078630426d3a7265b75244109"
+    },
+    {
+      "Path": "old-ready-supplement/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "old-ready-supplement/supplement.json",
+      "Bytes": 7205,
+      "Sha256": "6492e750c986fe3d54696221769d22a7f344c198dc9deaf8eeaddd05358b33c8"
+    },
+    {
+      "Path": "old-ready-supplement/watcher-v2-status.json",
+      "Bytes": 242,
+      "Sha256": "7c3384719d23783cc4e7814cf37f81df52006d3249d238b11533da319a57b787"
+    },
+    {
+      "Path": "read-only-inspection/history.db",
+      "Bytes": 53248,
+      "Sha256": "c4960f0964e6d1ad267f6e735da6ddaea70e4b7ef63bb4d22a0dd76c6e67a497"
+    },
+    {
+      "Path": "read-only-inspection/inspection.json",
+      "Bytes": 3203,
+      "Sha256": "f11321f663c812a9efd8667af223ffe33c19dd8addb710ceb128803c1395adb1"
+    },
+    {
+      "Path": "read-only-inspection/product-iris-20261105.log",
+      "Bytes": 1963,
+      "Sha256": "635f42576f25eadf60338ef60dd979ba6be592587f24478eb23f86158655da88"
+    },
+    {
+      "Path": "read-only-inspection/provider-requests.jsonl",
+      "Bytes": 133,
+      "Sha256": "0ed59f5140bbf9ae41d18f34e29bed3a10c1fcb078630426d3a7265b75244109"
+    },
+    {
+      "Path": "read-only-inspection/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "user-feedback.json",
+      "Bytes": 518,
+      "Sha256": "614876c40aa1aad72eecb8fd6864170984fa15138d3407d7996106b8b7a2fa5b"
+    }
+  ]
+}

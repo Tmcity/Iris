@@ -1,3 +1,5 @@
+当前补充：用户已明确确认0.2.7，实际授权文件v027-user-approval-20261105-1.json。首次发布执行在任何标签创建前遇共享匿名REST限额403（reset UTC06:25:19），原publication-v0.2.7-20261105-1保持。官网页面/正式下载路径的完整预检已通过；正在以同一源码fc44a3a和同一审阅06b282b继续已授权的单一v0.2.7，不推分支，无需再次确认。详见CONTINUE_APPROVED_V027_20261105.md。
+
 # T-039C 当前接续状态（2026-11-05）
 
 唯一活跃工单仍为 T-039C。0.2.6 已得到用户明确授权，只创建并推送 annotated tag `dc8caf8b0c6501639c61dc26801595340386a4cb` → 源码 `c32fcb283e417ab11715c46207fdc8cfde4baedf`；main/codex 分支没有推送。实际 [CI 41663111425](https://github.com/Tmcity/Iris/actions/runs/41663111425) attempt 1 已失败，打包和发布跳过，正式版本仍只有 0.2.2。原标签、CI 和候选全部保留。

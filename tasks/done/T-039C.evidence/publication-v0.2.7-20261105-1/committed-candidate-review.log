@@ -1,0 +1,178 @@
+{
+  "ReviewedUtc": "2026-11-05T05:04:56.860173+00:00",
+  "Version": "0.2.7",
+  "SourceCommit": "fc44a3a78c2729c25dfb91296c51602b843a94f9",
+  "SourceGitTree": "81aea2fa6cad8a3dcde34b081185dd03aae9c31c",
+  "PublicAssets": 18,
+  "PayloadEntries": 97,
+  "MaintenancePrefixBytes": 44626590,
+  "InternalSetupBytes": 72143188,
+  "InternalSetupSha256": "63e21dbda60a633da88b7824ae6f05cc5357ac6a974dc5ceacaa0e1f093c33f1",
+  "FullSha256": "ea4aff9842f8e1155c69f920e108e126f6c9a8409409c8d68827cc16ad5e68ed",
+  "OuterSha256": "f66cc74886ea273b439ce241993f11d95ad5882be477a0464d043057c082d294",
+  "Candidate": "F:\\Iris\\artifacts\\t039c\\release-0.2.7-public-base-candidate-1",
+  "CommittedSourceEntriesMatched": 721,
+  "WorkingSourceEntriesMatched": 721,
+  "IndependentGitTreeMatched": true,
+  "SourceChanges": [
+    "build/release-plan.json",
+    "docs/RELEASING.md",
+    "tests/Iris.App.Tests/Hosting/HotkeyCoordinatorTests.cs",
+    "tests/Iris.Platform.Windows.Tests/Selection/UiaStartupCleanupTests.cs"
+  ],
+  "ProductSourceChanges": [],
+  "BuildWarnings": 0,
+  "BuildErrors": 0,
+  "FullTests": {
+    "Total": 3759,
+    "Passed": 3757,
+    "Failed": 0,
+    "Skipped": 2
+  },
+  "UiaTargetedRegressions": {
+    "Total": 16,
+    "Passed": 16,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "HotkeyTargetedRegressions": {
+    "Total": 1,
+    "Passed": 1,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "ControlledBeforeFailure": {
+    "Total": 1,
+    "Passed": 0,
+    "Failed": 1,
+    "Skipped": 0
+  },
+  "ReleaseRegressions": 16,
+  "PreviousPublicFull": {
+    "PackageId": "Iris",
+    "Version": "0.2.2",
+    "Type": "Full",
+    "FileName": "Iris-0.2.2-full.nupkg",
+    "SHA1": "58A2504B4BDD9DA82BA23D3C7AEEA5B58D0D7B9F",
+    "SHA256": "C86982F930AAFCD142167BBD871D03B588630F7D1D625DA968A811DAA2DD5D14",
+    "Size": 64627273
+  },
+  "Assets": [
+    {
+      "Name": "assets.win.json",
+      "Bytes": 240,
+      "Sha256": "057729a19eef41bafb147e37734c55f15e9a4c3fb6c75edaf0cb6e959e0cf66c"
+    },
+    {
+      "Name": "full-tests.log",
+      "Bytes": 5880,
+      "Sha256": "3191f198b8ddf502d6800179742dd7c4fd8b9072933b50046d27e123380f8c34"
+    },
+    {
+      "Name": "INSTALLATION.md",
+      "Bytes": 5088,
+      "Sha256": "c6aca79261915f9b2d98489304a0d788e267d755110ea1384585730d83ccca4d"
+    },
+    {
+      "Name": "Iris-0.2.2-full.nupkg",
+      "Bytes": 64627273,
+      "Sha256": "c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14"
+    },
+    {
+      "Name": "Iris-0.2.7-delta.nupkg",
+      "Bytes": 26017218,
+      "Sha256": "85257359b90647b404d15006f3fa65a963317648da8407e0c28fffd143df8409"
+    },
+    {
+      "Name": "Iris-0.2.7-full.nupkg",
+      "Bytes": 64629076,
+      "Sha256": "ea4aff9842f8e1155c69f920e108e126f6c9a8409409c8d68827cc16ad5e68ed"
+    },
+    {
+      "Name": "Iris-0.2.7-Setup.exe",
+      "Bytes": 116769834,
+      "Sha256": "f66cc74886ea273b439ce241993f11d95ad5882be477a0464d043057c082d294"
+    },
+    {
+      "Name": "package.log",
+      "Bytes": 7896,
+      "Sha256": "d81a0ca8a6562763ee6a9127c667bf47c14f805c677387cd8fb119f3aa2f06b2"
+    },
+    {
+      "Name": "payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "8c2dc3d54be833350f56931f35da53ef97bc2d1289f1f0a22e3e19f17b71209c"
+    },
+    {
+      "Name": "release-build.log",
+      "Bytes": 2765,
+      "Sha256": "aacf044796532fe08ae12441f9c606e918fe2fe42d0e7bd0071ac8d35c2e88d0"
+    },
+    {
+      "Name": "release-manifest-tests.log",
+      "Bytes": 3079,
+      "Sha256": "0931a7e9e6895436c0730b22fa0fd0a8ab6e3250a3361920363a0c1164b7517c"
+    },
+    {
+      "Name": "release-provenance.json",
+      "Bytes": 192629,
+      "Sha256": "b76bd2ba222af55d46741fb72581dce4190271481015fbfc177dda8fc8faa25a"
+    },
+    {
+      "Name": "RELEASE_NOTES.md",
+      "Bytes": 676,
+      "Sha256": "8b1e670e472849aa84daba533e7a83c0ca5d229de46b1c4cfbde1af3e11ed31c"
+    },
+    {
+      "Name": "RELEASES",
+      "Bytes": 146,
+      "Sha256": "ce6d28a3c9d22ceaaf173ea2f8d48f1bb909bd5984e1ee9e1a349ebdd7c1ee01"
+    },
+    {
+      "Name": "releases.win.json",
+      "Bytes": 704,
+      "Sha256": "bda264a36f0f0068a079918b72a400ca5eea81a4334b38dbe19f423210e5c3b0"
+    },
+    {
+      "Name": "SHA256.json",
+      "Bytes": 2456,
+      "Sha256": "acc974562d018432aaf3267e735d8ef527dd4e362f7447b500d783b42c5e4d56"
+    },
+    {
+      "Name": "staging-manifest.json",
+      "Bytes": 18533,
+      "Sha256": "dfce0fbe89df26ed91584ed2f32df29c0280bb90a76c4e64e982e412d3b480dd"
+    },
+    {
+      "Name": "validation-summary.json",
+      "Bytes": 3814,
+      "Sha256": "6cad92b8a55bcbb09323b223fd92fa6984e81792f8a02c34a4641b7579d86b0f"
+    }
+  ],
+  "OriginalCiRun": 41663111425,
+  "OriginalCiAttempt": 1,
+  "OriginalCiPublicationSkipped": true,
+  "RemoteBefore": {
+    "refs/heads/codex/t039c-public-release": "285df3a2986f3379994eb56dd8b75617db9f470d",
+    "refs/heads/main": "285df3a2986f3379994eb56dd8b75617db9f470d",
+    "refs/tags/v0.2.0": "ebe194564c5ada606744b4e484b09f3182e04eae",
+    "refs/tags/v0.2.0^{}": "dcdfdded311fa00671dfd9747bb2101cbf8964f3",
+    "refs/tags/v0.2.1": "b9f33fd9755684c889a948dafd79dfd53c15caf8",
+    "refs/tags/v0.2.1^{}": "dfc68ccba422c735edeab42635c19b7767b9f2c2",
+    "refs/tags/v0.2.2": "a4cf0938b4e291005dfdb3fa4dfeabc646d6b6c6",
+    "refs/tags/v0.2.2^{}": "fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11",
+    "refs/tags/v0.2.3": "b4b8be76b6f4f08f62067d2a73f3e443fc439481",
+    "refs/tags/v0.2.3^{}": "fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11",
+    "refs/tags/v0.2.4": "09ee251c853b03e628b8099a439c5dd75faf3141",
+    "refs/tags/v0.2.4^{}": "942b0ddeb62d9eb3e4f244574c0c093ab2942ffc",
+    "refs/tags/v0.2.5": "95c9c344ac385798503a317b8a9ac2fb57485134",
+    "refs/tags/v0.2.5^{}": "ee2d7118597d07b891066256349098877e65f794",
+    "refs/tags/v0.2.6": "dc8caf8b0c6501639c61dc26801595340386a4cb",
+    "refs/tags/v0.2.6^{}": "c32fcb283e417ab11715c46207fdc8cfde4baedf"
+  },
+  "PublicationAuthorized": false,
+  "RealUiUpgradeVerified": false,
+  "RestartCountVerified": false,
+  "PostUpdateUninstallVerified": false,
+  "CurrentOldGuestReadyVerified": false
+}

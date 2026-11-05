@@ -19,7 +19,11 @@ CANDIDATE_PATH = "tasks/done/T-039C.evidence/next-source-v027-20261105-1/review.
 parser = argparse.ArgumentParser()
 parser.add_argument("--mode", choices=("preflight", "publish"), default="preflight")
 parser.add_argument("--approval-file", type=Path)
+parser.add_argument("--publication-attempt", type=int, default=1)
+parser.add_argument("--public-verification", choices=("api", "website"), default="api")
 args = parser.parse_args()
+if not 1 <= args.publication_attempt <= 10:
+    parser.error("Publication attempt must identify a new retained receipt between 1 and 10.")
 approval = None
 if args.mode == "publish":
     if args.approval_file is None:
@@ -53,11 +57,12 @@ def save(path, value):
     path.open("x", encoding="utf-8", newline="\n").write(json.dumps(value, indent=2) + "\n")
 
 
-EVIDENCE = ROOT / ("tasks/done/T-039C.evidence/publication-v0.2.7-20261105-1" if args.mode == "publish" else
+EVIDENCE = ROOT / ("tasks/done/T-039C.evidence/publication-v0.2.7-20261105-" + str(args.publication_attempt) if args.mode == "publish" else
     "tasks/T-039C.coordination/v027-execution-preflight-" + datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%S%fZ"))
 EVIDENCE.mkdir(parents=True, exist_ok=False)
 environment = dict(os.environ, GIT_TERMINAL_PROMPT="0")
 state = {"Tag": TAG, "SourceCommit": SOURCE, "ReviewArchiveCommit": REVIEW,
+         "PublicVerificationMode": args.public_verification,
          "Stage": "approval-recorded" if approval else "read-only-preflight-no-user-approval",
          "PublicationAuthorized": approval is not None, "PushRequestAttempted": False,
          "PushCliConfirmed": False, "TagRemoteVerified": False, "ReleasePublic": None, "Failure": None}
@@ -102,8 +107,47 @@ def anonymous_release(label, version, expected_status):
     save(EVIDENCE / (label + ".observation.json"), {"Url": url, "HttpStatus": status.strip(),
         "ExitCode": code, "ObservedUtc": now(), "AuthorizationSent": False,
         "BodyBytes": len(body), "BodySha256": hashlib.sha256(body).hexdigest()})
-    assert code == 0 and status.strip() == expected_status
+    if code != 0 or status.strip() != expected_status:
+        raise RuntimeError(label + " observation incomplete: curl=" + str(code) + ", HTTP=" + status.strip())
     return json.loads(body)
+
+
+def public_website_asset(label, url, expected_status, timeout=40):
+    stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
+    observed_url = url + "?iris_observation=v027-" + stamp
+    command = ["curl.exe", "--silent", "--show-error", "--location", "--max-time", str(timeout), "--retry", "0",
+        "--proto", "=https", "--proto-redir", "=https", "-H", "Cache-Control: no-cache",
+        "-A", "Iris-public-release-verification", "-D", str(EVIDENCE / (label + ".headers")),
+        "-o", str(EVIDENCE / (label + ".body")), "--write-out", "%{http_code}", observed_url]
+    code, status = run(label, command, allow_nonzero=True)
+    body_path = EVIDENCE / (label + ".body")
+    size = body_path.stat().st_size if body_path.exists() else 0
+    save(EVIDENCE / (label + ".observation.json"), {"Url": observed_url, "HttpStatus": status.strip(),
+        "ExitCode": code, "ObservedUtc": now(), "AuthorizationSent": False, "UsesGitHubRestApi": False,
+        "BodyBytes": size, "BodySha256": sha(body_path) if size else hashlib.sha256(b"").hexdigest()})
+    if code != 0 or status.strip() != expected_status:
+        raise RuntimeError(label + " observation incomplete: curl=" + str(code) + ", HTTP=" + status.strip())
+    return body_path
+
+
+def verify_public_website():
+    base = "https://github.com/Tmcity/Iris/releases"
+    previous_page = public_website_asset("previous-public-page", base + "/tag/v0.2.2", "200")
+    assert "/Tmcity/Iris/releases/tag/v0.2.2" in previous_page.read_text(encoding="utf-8")
+    public_website_asset("new-public-page-absence", base + "/tag/v0.2.7", "404")
+    previous_feed = public_website_asset("previous-public-feed", base + "/download/v0.2.2/releases.win.json", "200")
+    feed = read(previous_feed)["Assets"]
+    assert len(feed) == 1
+    previous = feed[0]
+    assert previous["PackageId"] == "Iris" and previous["Version"] == "0.2.2" and previous["Type"] == "Full"
+    assert previous["FileName"] == "Iris-0.2.2-full.nupkg" and previous["Size"] == 64627273
+    assert previous["SHA256"].lower() == "c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14"
+    previous_full = public_website_asset("previous-public-full", base + "/download/v0.2.2/Iris-0.2.2-full.nupkg", "200", timeout=90)
+    assert previous_full.stat().st_size == previous["Size"] and sha(previous_full) == previous["SHA256"].lower()
+    save(EVIDENCE / "website-public-base-binding.json", {"Version": "0.2.2", "Full": previous,
+        "OfficialApiDigestAlreadyBoundInReview": True, "FreshAnonymousFullBytesMatched": True,
+        "SourceOfCurrentObservations": "GitHub official public website and published download URLs",
+        "GitHubRestApiQuotaBypassAttempted": False, "PublicationAuthorized": approval is not None})
 
 
 persist()
@@ -127,12 +171,15 @@ try:
     assert before == candidate["RemoteBefore"] and "refs/tags/" + TAG not in before
     local_code, _ = run("local-tag-absence", ["git", "show-ref", "--verify", "--quiet", "refs/tags/" + TAG], allow_nonzero=True)
     assert local_code == 1
-    release = anonymous_release("previous-public-release", "0.2.2", "200")
-    assert release["draft"] is False and release["prerelease"] is False
-    previous = next(item for item in release["assets"] if item["name"] == "Iris-0.2.2-full.nupkg")
-    assert previous["size"] == 64627273 and previous["digest"] == (
-        "sha256:c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14")
-    anonymous_release("new-public-release-absence", "0.2.7", "404")
+    if args.public_verification == "website":
+        verify_public_website()
+    else:
+        release = anonymous_release("previous-public-release", "0.2.2", "200")
+        assert release["draft"] is False and release["prerelease"] is False
+        previous = next(item for item in release["assets"] if item["name"] == "Iris-0.2.2-full.nupkg")
+        assert previous["size"] == 64627273 and previous["digest"] == (
+            "sha256:c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14")
+        anonymous_release("new-public-release-absence", "0.2.7", "404")
     candidate_directory = ROOT / "artifacts/t039c/release-0.2.7-public-base-candidate-1"
     assert {path.name for path in candidate_directory.iterdir()} == {item["Name"] for item in candidate["Assets"]}
     for item in candidate["Assets"]:
@@ -181,6 +228,7 @@ try:
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.open("xb").write(path.read_bytes())
     save(EVIDENCE / "gates.json", {"ObservedUtc": now(), "SourceCommit": SOURCE, "ReviewArchiveCommit": REVIEW,
+        "PublicVerificationMode": args.public_verification,
         "RemoteBefore": before, "OldAppPid": baseline["AppPid"], "OldAppStartedUtc": baseline["AppStartedUtc"],
         "OldVersion": "0.2.2", "RecorderPid": baseline["RecorderPid"], "SyntheticProviderPid": baseline["ProviderPid"],
         "CheckForUpdates": False, "OldDataHashesMatched": True, "AllCandidateAssetBytesMatched": True,

@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "F:\Iris\tasks\T-039C.coordination\execute_v027_20261105.py", line 130, in <module>
+    release = anonymous_release("previous-public-release", "0.2.2", "200")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Iris\tasks\T-039C.coordination\execute_v027_20261105.py", line 105, in anonymous_release
+    assert code == 0 and status.strip() == expected_status
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

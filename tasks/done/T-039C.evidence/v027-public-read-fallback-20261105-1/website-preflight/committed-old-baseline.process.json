@@ -1,0 +1,9 @@
+{
+  "Pid": 74520,
+  "Command": [
+    "git",
+    "show",
+    "06b282bd928249519ea07b3eea999238f1202328:tasks/done/T-039C.evidence/manual-old-ready-before-v027-20261105-1/binding.json"
+  ],
+  "StartedUtc": "2026-11-05T05:48:38.302452+00:00"
+}
