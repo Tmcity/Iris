@@ -1,0 +1,18 @@
+{
+  "command": [
+    "wsb.exe",
+    "exec",
+    "--id",
+    "2fc7c168-2f34-437a-8319-8974e6f592b2",
+    "--run-as",
+    "ExistingLogin",
+    "--command",
+    "powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\\IrisAcceptanceInput\\save-update-evidence.ps1 -Stage offer",
+    "--raw"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T06:32:24.011152+00:00",
+  "completedAt": "2026-11-05T06:32:26.473524+00:00",
+  "exitCode": 0,
+  "logSha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+}

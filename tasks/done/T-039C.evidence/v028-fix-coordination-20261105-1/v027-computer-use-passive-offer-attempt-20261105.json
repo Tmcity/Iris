@@ -1,0 +1,9 @@
+{
+  "Purpose": "Passive inspection of the existing Sandbox window for UI offer evidence",
+  "Skill": "C:/Users/28910/.codex/plugins/cache/openai-bundled/computer-use/26.609.41114/skills/computer-use/SKILL.md",
+  "OfficialClientModule": "C:/Users/28910/.codex/plugins/cache/openai-bundled/computer-use/26.609.41114/scripts/computer-use-client.mjs",
+  "BootstrapError": "Package subpath './dist/project/cua/sky_js/src/targets/windows/internal/computer_use_client_base.js' is not defined by exports in C:/Users/28910/AppData/Local/OpenAI/Codex/runtimes/cua_node/9c26d707817e90a7/bin/node_modules/@oai/sky/package.json",
+  "ScreenshotCaptured": false,
+  "UiInputPerformed": false,
+  "UserUiFeedbackAndNativeStateUsedForOfferReview": true
+}

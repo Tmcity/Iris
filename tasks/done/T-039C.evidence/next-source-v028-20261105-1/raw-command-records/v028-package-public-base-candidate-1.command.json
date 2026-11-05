@@ -1,0 +1,25 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "build/release_pipeline.py",
+    "package",
+    "--version",
+    "0.2.8",
+    "--output",
+    "F:/Iris/artifacts/t039c/release-0.2.8-public-base-candidate-1",
+    "--logs",
+    "F:/Iris/artifacts/t039c/package-0.2.8-public-base-candidate-1",
+    "--validation",
+    "F:/Iris/artifacts/t039c/local-validation-v028-20261105-1",
+    "--previous",
+    "F:/Iris/artifacts/t039c/public-0.2.7-download-20261105-1",
+    "--tool-source",
+    "F:/Iris/artifacts/t039b/tool-feed"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v028-update-source-20261105-1",
+  "startedAt": "2026-11-05T07:14:33.294243+00:00",
+  "completedAt": "2026-11-05T07:15:42.820070+00:00",
+  "exitCode": 0,
+  "logSha256": "ab5fb55321eb575c942f6bf65dac795bb9b6cd4a76efba2cfe49232007686945"
+}

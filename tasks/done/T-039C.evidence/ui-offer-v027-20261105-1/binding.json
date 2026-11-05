@@ -1,0 +1,79 @@
+{
+  "ReviewedUtc": "2026-11-05T06:42:58.491568+00:00",
+  "SandboxId": "2fc7c168-2f34-437a-8319-8974e6f592b2",
+  "AppPid": 7312,
+  "CurrentVersion": "0.2.2",
+  "UserUiOfferedVersion": "0.2.7",
+  "OriginalOldDataMatched": true,
+  "NoNewPackageDownloaded": true,
+  "ScreenshotCaptured": false,
+  "DownloadVerified": false,
+  "UpgradeVerified": false,
+  "Files": [
+    {
+      "Path": "offer-20261105T0632262037877Z.json",
+      "Bytes": 3430,
+      "Sha256": "31e81bdeb566b8491612992c6ef5ee733f94c6bf1ca6a971b2d3f04372250d7e"
+    },
+    {
+      "Path": "supplement/active-recorder-v2.json",
+      "Bytes": 4296,
+      "Sha256": "7f9a0f591fdf9e65a3eba29b227f04e224082371636aed34afe03597ceb51d04"
+    },
+    {
+      "Path": "supplement/history.db",
+      "Bytes": 53248,
+      "Sha256": "c4960f0964e6d1ad267f6e735da6ddaea70e4b7ef63bb4d22a0dd76c6e67a497"
+    },
+    {
+      "Path": "supplement/process-events-v2.jsonl",
+      "Bytes": 2334,
+      "Sha256": "69b24e23623266991cf470b6510561c48d250053f7c62b429b1fe13298a69536"
+    },
+    {
+      "Path": "supplement/product-iris-20261105.log",
+      "Bytes": 1963,
+      "Sha256": "635f42576f25eadf60338ef60dd979ba6be592587f24478eb23f86158655da88"
+    },
+    {
+      "Path": "supplement/provider-requests.jsonl",
+      "Bytes": 133,
+      "Sha256": "0ed59f5140bbf9ae41d18f34e29bed3a10c1fcb078630426d3a7265b75244109"
+    },
+    {
+      "Path": "supplement/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "supplement/supplement.json",
+      "Bytes": 7201,
+      "Sha256": "d5eecda851d1f47ebe686c4e85e0493dd4452ce1c82da9e9200cb84783230b42"
+    },
+    {
+      "Path": "supplement/watcher-v2-status.json",
+      "Bytes": 242,
+      "Sha256": "431ec95d05f12432502eeaeed8650031ab22aff3d6e44e648fffee365720a614"
+    },
+    {
+      "Path": "v027-computer-use-passive-offer-attempt-20261105.json",
+      "Bytes": 736,
+      "Sha256": "672dbc11f2457c874f2145a0e1ec8be1651f293aa456af3992c96b0741bf037a"
+    },
+    {
+      "Path": "v027-ui-offer-readonly-1.command.json",
+      "Bytes": 538,
+      "Sha256": "499cb20dfaf6332c3a04bb33eb06ac25e793ab298090026bf4779d4a65c730e6"
+    },
+    {
+      "Path": "v027-ui-offer-readonly-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "v027-user-offer-feedback-20261105.json",
+      "Bytes": 363,
+      "Sha256": "25f02800efdda0780ac0d795170255fd2abbc8f5a8dba63ebbff5e4d3d640ed7"
+    }
+  ]
+}

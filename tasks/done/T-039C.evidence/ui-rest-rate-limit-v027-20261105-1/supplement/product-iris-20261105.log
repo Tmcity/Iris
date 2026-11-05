@@ -1,0 +1,30 @@
+2026-11-05 13:05:28.820 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置文件不存在，已初始化为默认设置并写入 C:\Users\WDAGUtilityAccount\AppData\Roaming\Iris\settings.json
+2026-11-05 13:05:29.269 +08:00 [INF] (Iris.App.Tray.TrayIconController) 系统托盘图标创建成功（共尝试 1 次）
+2026-11-05 13:05:29.332 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1371.0 ms，托盘图标已创建
+2026-11-05 13:05:29.954 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:50.819 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:51.536 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:52.839 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:53.379 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:53.776 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:54.505 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:55.109 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:55.669 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:56.148 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:14:08.306 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:15:18.687 +08:00 [INF] (Polly) Execution attempt. Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '200', Handled: 'false', Attempt: '0', Execution Time: 170.5196ms
+2026-11-05 14:42:50.573 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:52.025 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:52.697 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:53.312 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:53.822 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:54.363 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:55.293 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:55.769 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:56.140 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:56.345 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:57.786 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:58.096 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:58.460 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:43:02.873 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:43:07.316 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException

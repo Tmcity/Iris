@@ -1,0 +1,50 @@
+{
+  "SourceCommit": "2b2bbe70f765f9805471a0d555874f8e2383923a",
+  "Files": [
+    {
+      "Path": "v027-computer-use-passive-offer-attempt-20261105.json",
+      "Bytes": 736,
+      "Sha256": "672dbc11f2457c874f2145a0e1ec8be1651f293aa456af3992c96b0741bf037a"
+    },
+    {
+      "Path": "v027-user-offer-feedback-20261105.json",
+      "Bytes": 363,
+      "Sha256": "25f02800efdda0780ac0d795170255fd2abbc8f5a8dba63ebbff5e4d3d640ed7"
+    },
+    {
+      "Path": "v027-user-rate-limit-feedback-20261105.json",
+      "Bytes": 465,
+      "Sha256": "3a44ae74561f352b047717f6f117ba7e5bb58b899bc2ab235beaadc27003be57"
+    },
+    {
+      "Path": "v028-candidate-independent-review-1.command.json",
+      "Bytes": 347,
+      "Sha256": "e05e82f5421ac5ead524044760e2680131aa32d8a905c8ccd6568ffe1729da9a"
+    },
+    {
+      "Path": "v028-candidate-independent-review-1.log",
+      "Bytes": 510,
+      "Sha256": "a929a3943cfddb0af9ed25015a762143c05b9f34af0ebfc1999d267f47507bf8"
+    },
+    {
+      "Path": "v028-fix-worktree-create-1.command.json",
+      "Bytes": 462,
+      "Sha256": "9ae354f6155f3bbd17d63348ea465d5468e4663d998b452156d7c39a4229695f"
+    },
+    {
+      "Path": "v028-fix-worktree-create-1.log",
+      "Bytes": 3068,
+      "Sha256": "fb9c83cfc92eb10a41277362b780caa4f6c0f0a8ce8e7c3e3a40599446b3aa87"
+    },
+    {
+      "Path": "v028-reviewed-source-local-merge-1.command.json",
+      "Bytes": 431,
+      "Sha256": "279bd0e64d23ba900db6931fee495658ce1efcc3ef9255d443c804d50d43caff"
+    },
+    {
+      "Path": "v028-reviewed-source-local-merge-1.log",
+      "Bytes": 1018,
+      "Sha256": "2a799137926f555e7463de2289c8eed88992c386492e045a12f6fabc7b786a0d"
+    }
+  ]
+}

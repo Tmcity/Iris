@@ -1,0 +1,108 @@
+{
+  "SourceCommit": "fc44a3a78c2729c25dfb91296c51602b843a94f9",
+  "UserUiCheckFailedWithRateLimit": true,
+  "UiOfferVerified": false,
+  "DownloadVerified": false,
+  "UpgradeVerified": false,
+  "HostApiLimit": 60,
+  "HostApiRemaining": 0,
+  "HostApiResetUtc": "2026-11-05T07:22:08Z",
+  "NewSourceWorktree": "F:/Iris/artifacts/t039c/worktree-v028-update-source-20261105-1",
+  "Files": [
+    {
+      "Path": "before-source/src/Iris.App/Updates/UpdateHttpDownloader.cs",
+      "Bytes": 8483,
+      "Sha256": "0c9f0c02bebc598650904e7fe726675004a6fd99a18f909876f38553e101092c"
+    },
+    {
+      "Path": "before-source/src/Iris.App/Updates/UpdateRuntime.cs",
+      "Bytes": 3001,
+      "Sha256": "b30da30b388429e59c58ba78db48139a900e69cc38bd67838df91f614eb5b161"
+    },
+    {
+      "Path": "before-source/tests/Iris.App.Tests/Updates/UpdateHttpTests.cs",
+      "Bytes": 7440,
+      "Sha256": "0f57dffc5ec7e16f1591a66db622d63240f4a89bba1076a840e3739bad46b221"
+    },
+    {
+      "Path": "host-api-observation/observation.json",
+      "Bytes": 349,
+      "Sha256": "f23a453a1a52ce78a9b7db5f938bf9187c8f9ed49ebf4cd633537344162c4587"
+    },
+    {
+      "Path": "host-api-observation/response.body",
+      "Bytes": 279,
+      "Sha256": "beff7aa2f6df5bd2ea2fd9ccdc24cd539edb6ec614a8343a012427638a9dff4f"
+    },
+    {
+      "Path": "host-api-observation/response.headers",
+      "Bytes": 1052,
+      "Sha256": "82bf09dbd3cbff0fdc8d3c2395131753809b4eb0b56570b02602a3b2f5c8312f"
+    },
+    {
+      "Path": "host-api-observation/stderr.log",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "offer-20261105T0646251798013Z.json",
+      "Bytes": 3430,
+      "Sha256": "dcbab0b8ea08220b22ea6b407e61f9c06c2b116e42fe53405bea703e2e805f0e"
+    },
+    {
+      "Path": "supplement/active-recorder-v2.json",
+      "Bytes": 4296,
+      "Sha256": "7f9a0f591fdf9e65a3eba29b227f04e224082371636aed34afe03597ceb51d04"
+    },
+    {
+      "Path": "supplement/history.db",
+      "Bytes": 53248,
+      "Sha256": "c4960f0964e6d1ad267f6e735da6ddaea70e4b7ef63bb4d22a0dd76c6e67a497"
+    },
+    {
+      "Path": "supplement/process-events-v2.jsonl",
+      "Bytes": 2334,
+      "Sha256": "69b24e23623266991cf470b6510561c48d250053f7c62b429b1fe13298a69536"
+    },
+    {
+      "Path": "supplement/product-iris-20261105.log",
+      "Bytes": 3718,
+      "Sha256": "6dc2fc09c112682d5e7cac6479d899d79ea78c3761b4d2d162ff9e45729f56b5"
+    },
+    {
+      "Path": "supplement/provider-requests.jsonl",
+      "Bytes": 133,
+      "Sha256": "0ed59f5140bbf9ae41d18f34e29bed3a10c1fcb078630426d3a7265b75244109"
+    },
+    {
+      "Path": "supplement/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "supplement/supplement.json",
+      "Bytes": 7201,
+      "Sha256": "7c17e6d259829cf6eda6adf305a37f016cb8e4e838ebafe4580024d6005c4b59"
+    },
+    {
+      "Path": "supplement/watcher-v2-status.json",
+      "Bytes": 242,
+      "Sha256": "635160a1f1ecfd3c48c54c8391ce5c8482a36e1e63d0c84c19300a2b87a937c6"
+    },
+    {
+      "Path": "v027-ui-rate-limit-readonly-1.command.json",
+      "Bytes": 538,
+      "Sha256": "009145d2a7cfeacc6d5ecd1a053a7420f5d8f52653f4f4fce2fcf89244ca04c4"
+    },
+    {
+      "Path": "v027-ui-rate-limit-readonly-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "v027-user-rate-limit-feedback-20261105.json",
+      "Bytes": 465,
+      "Sha256": "3a44ae74561f352b047717f6f117ba7e5bb58b899bc2ab235beaadc27003be57"
+    }
+  ]
+}
