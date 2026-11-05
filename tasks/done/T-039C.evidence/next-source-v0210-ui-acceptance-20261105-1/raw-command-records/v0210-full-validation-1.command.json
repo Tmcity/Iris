@@ -1,0 +1,15 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "build/release_pipeline.py",
+    "validate",
+    "--output",
+    "F:/Iris/artifacts/t039c/local-validation-v0210-20261105-1"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v0210-ui-acceptance-source-20261105-1",
+  "startedAt": "2026-11-05T13:26:09.588981+00:00",
+  "completedAt": "2026-11-05T13:30:19.155473+00:00",
+  "exitCode": 0,
+  "logSha256": "5d291ec02e3facae7c8b9bdd9f0cc2a59bc85cb903e3378f1608f056644f9da1"
+}

@@ -1,5 +1,7 @@
 # 当前交接：0.2.9 正式发布核对通过，待用户手工安装
 
+13:29 UTC 更新：用户已确认029安装/原历史/新翻译成功、用时不到1秒，97载荷/正式包/当前5672进程/简中版本截图及原资料实际匹配；新请求尚未出现在采集记录，已发仅补一次“Iris fixed baseline 029”输入翻译并保存的请求。官方API的run/jobs/ZIP/19资产digest补验已通过，Release id435193220。正在本地准备0210/source227b3d8完整验证，不创建新tag或发布；最新接续见 [0210当前交接](F:/Iris/tasks/T-039C.coordination/CURRENT_RELEASE_GATE_V0210_20261105.md)。下方用户安装未完成/API待补描述为当时历史。
+
 12:58 UTC 最新：正式CI42028799541/attempt1与package/publish成功，原full3771/3770成功/0失败/1既有error183环境跳过，原55文件及发布回执与两份ZIP官网digest匹配；正式匿名19资产/97载荷/721来源、全部官网SHA及外层/feed/history通过。正式Setup116768884/SHA69ab96bb1f700b21fa430d69eab85d6d4a5c606c377424222f0f97af0e7f2891；full64628500/SHA42c32435e5883608c77f097befd2b9a7f91845b35942a09966018361c40a779e。029新API补验仍限额，reset13:25:19UTC，使用官网字节验证完成正式分发检查，原403保留。手工验证新入口C:\IrisAcceptanceFixed029只读共享input，5个新文件指纹在来宾实际匹配、PS5.1解析通过。按MANUAL_INSTALL_FIXED_V029_20261105.md仅由用户正式下载安装修正版、截图版本、原历史/原服务新翻译及Save-Fixed-V029-State。实际用户029安装未收到反馈；下一正式版未授权，C真实UI/native一次重启/卸载和父/T040/NFR未结案。
 
 12:39 UTC 最新：用户在 call_2fGzwrWEMco5efV9nKXVJskO 明确确认“确认发布0.2.9（仅修正版）”。授权记录 v029-user-approval-20261105-1.json；仅 annotated v0.2.9 已正常推送，object3c3a615234c77d61441ce60c6cbfe07f02f37f65→source0b3267f1f6cdc1a9fb8cfe1c93dde22da273ecd2，全部旧refs/main/codex保持。receipt publication-v0.2.9-20261105-1/state.json为tag-remotely-verified-awaiting-ci，实际CI42028799541/attempt1/source一致，正在运行。不能重复调用publish来再推标签；跟进同一CI最终结果/正式匿名19资产后才给用户手工安装。下一版本仍未授权。下方未授权/待确认描述均为发布前历史。

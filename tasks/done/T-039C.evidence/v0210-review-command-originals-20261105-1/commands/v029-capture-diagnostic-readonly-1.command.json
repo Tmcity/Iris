@@ -1,0 +1,18 @@
+{
+  "command": [
+    "wsb.exe",
+    "exec",
+    "--id",
+    "2fc7c168-2f34-437a-8319-8974e6f592b2",
+    "--run-as",
+    "ExistingLogin",
+    "--command",
+    "powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\\IrisAcceptanceFixed029\\diagnose-v029-capture-readonly.ps1",
+    "--raw"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T13:39:44.898428+00:00",
+  "completedAt": "2026-11-05T13:39:45.737222+00:00",
+  "exitCode": 0,
+  "logSha256": "cf79288e0fba3b2ae9b1dc3da62d8591aad62b2fccf11add01081d941eb72def"
+}

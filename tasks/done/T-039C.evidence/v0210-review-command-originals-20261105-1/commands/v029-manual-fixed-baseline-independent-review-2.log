@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "F:\Iris\tasks\T-039C.coordination\review_manual_fixed_v029_20261105.py", line 39, in <module>
+    updated, supplement = read(updated_path), read(supplement_path / "supplement.json")
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Iris\tasks\T-039C.coordination\review_manual_fixed_v029_20261105.py", line 22, in read
+    return json.loads(path.read_text(encoding="utf-8-sig"))
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\anaconda3\Lib\pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\anaconda3\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'F:\\Iris\\artifacts\\t039c\\manual-verification-v022-20261105-1\\output\\session-14d55ff50fd94d3abe8d4474aafd5365\\updated-supplement-20261105T1337036142082Z\\supplement.json'

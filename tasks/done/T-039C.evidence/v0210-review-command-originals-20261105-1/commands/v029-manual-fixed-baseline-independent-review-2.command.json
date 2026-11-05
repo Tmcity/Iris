@@ -1,0 +1,16 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/review_manual_fixed_v029_20261105.py",
+    "--feedback-file",
+    "F:/Iris/tasks/T-039C.coordination/v029-manual-user-feedback-20261105-1.json",
+    "--new-source-text",
+    "Iris fixed baseline 029"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T13:37:13.238850+00:00",
+  "completedAt": "2026-11-05T13:37:13.418041+00:00",
+  "exitCode": 1,
+  "logSha256": "bee44d481bc5893686f22e8ae08e9a2d3ecaca96f48c13b2272a27eedb2eb230"
+}

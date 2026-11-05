@@ -1,0 +1,16 @@
+{
+  "command": [
+    "git",
+    "worktree",
+    "add",
+    "-b",
+    "codex/t039c-ui-acceptance-source",
+    "F:/Iris/artifacts/t039c/worktree-v0210-ui-acceptance-source-20261105-1",
+    "0b3267f1f6cdc1a9fb8cfe1c93dde22da273ecd2"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T13:23:03.398235+00:00",
+  "completedAt": "2026-11-05T13:23:13.550132+00:00",
+  "exitCode": 0,
+  "logSha256": "a5b700b9897052e5c7faa604db3884166bb8202c51dd8ad0a209bc229bf6ac63"
+}

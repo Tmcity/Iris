@@ -1,0 +1,25 @@
+{
+  "Command": [
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "F:\\Iris\\artifacts\\t039c\\worktree-v0210-ui-acceptance-source-20261105-1\\build\\pack.ps1",
+    "-Version",
+    "0.2.10",
+    "-OutputDirectory",
+    "F:\\Iris\\artifacts\\t039c\\release-0.2.10-public-base-candidate-1",
+    "-PreviousReleaseDirectory",
+    "F:\\Iris\\artifacts\\t039c\\public-0.2.9-download-20261105-1",
+    "-ToolPackageDirectory",
+    "F:\\Iris\\artifacts\\t039b\\tool-feed"
+  ],
+  "StartedUtc": "2026-11-05T13:31:59.767512+00:00",
+  "FinishedUtc": "2026-11-05T13:33:28.843751+00:00",
+  "ExitCode": 0,
+  "Log": "package.log",
+  "Bytes": 8400,
+  "Sha256": "fdfc938969c2488c68b03a4a01385199d3c62119f1b153d1eb73c727241cbbd2"
+}

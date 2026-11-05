@@ -11,6 +11,7 @@ SESSION = ROOT / "artifacts/t039c/manual-verification-v022-20261105-1/output/ses
 BASE = ROOT / "tasks/done/T-039C.evidence/manual-old-ready-v027-before-v029-20261105-1"
 parser = argparse.ArgumentParser()
 parser.add_argument("--feedback-file", type=Path, required=True)
+parser.add_argument("--new-source-text", default="Iris acceptance check after fixed install")
 parser.add_argument("--attempt", type=int, default=1)
 args = parser.parse_args()
 assert args.feedback_file.resolve().is_relative_to(ROOT / "tasks/T-039C.coordination")
@@ -61,12 +62,14 @@ with sqlite3.connect(db.as_uri() + "?mode=ro", uri=True) as connection:
     columns = "h.id, h.source_text, r.provider_id, r.model, r.result_text"
     join = " FROM translation_history h JOIN translation_result r ON r.history_id = h.id WHERE h.source_text = ?"
     old_rows = connection.execute("SELECT " + columns + join, ("Iris acceptance check",)).fetchall()
-    new_rows = connection.execute("SELECT " + columns + join, ("Iris acceptance check after fixed install",)).fetchall()
+    new_rows = connection.execute("SELECT " + columns + join, (args.new_source_text,)).fetchall()
 expected_old = read(BASE / "history-independent.json")["Rows"]
 assert [list(row) for row in old_rows] == expected_old
 assert new_rows and all(row[2] == baseline["SyntheticProfile"]["Id"] and row[3] == "iris-fixture" and row[4] == "Iris 公共升级验证" for row in new_rows)
 requests = [json.loads(line) for line in (supplement_path / "provider-requests.jsonl").read_text(encoding="utf-8-sig").splitlines() if line]
-assert any(row["Method"] == "POST" and row["Status"] == 200 and row["SyntheticCredentialMatched"] is True for row in requests)
+assert any(row["Method"] == "POST" and row["Status"] == 200 and row["SyntheticCredentialMatched"] is True
+           and datetime.datetime.fromisoformat(row["Utc"].replace("Z", "+00:00")) > datetime.datetime.fromisoformat(app["StartedUtc"].replace("Z", "+00:00"))
+           for row in requests)
 pointer, recorder = read(supplement_path / "active-recorder-v2.json"), read(supplement_path / "watcher-v2-status.json")
 assert pointer["RecorderVersion"] == recorder["RecorderVersion"] == 3 and pointer["Ready"] and recorder["Ready"]
 assert recorder["Failure"] is None and pointer["RecorderPid"] == recorder["RecorderPid"] == baseline["RecorderPid"]
@@ -100,7 +103,7 @@ for folder, name in ((supplement_path, "supplement"), (inspection_path, "inspect
         if path.is_file():
             copy(path, REPORT / name / path.name)
 (REPORT / "history-independent.json").open("x", encoding="utf-8", newline="\n").write(json.dumps(
-    {"QuickCheck": "ok", "OldRows": old_rows, "NewRows": new_rows, "SourceDbSha256": sha(db)}, ensure_ascii=False, indent=2) + "\n")
+    {"QuickCheck": "ok", "OldRows": old_rows, "NewSourceText": args.new_source_text, "NewRows": new_rows, "SourceDbSha256": sha(db)}, ensure_ascii=False, indent=2) + "\n")
 files = [{"Path": path.relative_to(REPORT).as_posix(), "Bytes": path.stat().st_size, "Sha256": sha(path)}
          for path in sorted(REPORT.rglob("*")) if path.is_file()]
 binding = {"Version": "0.2.9", "SourceCommit": "0b3267f1f6cdc1a9fb8cfe1c93dde22da273ecd2",

@@ -3,7 +3,7 @@
   "SourceCommit": "0b3267f1f6cdc1a9fb8cfe1c93dde22da273ecd2",
   "ReviewArchiveCommit": "7662ed580eb924756885db7ab3a7d7a04e8ea8ea",
   "PublicVerificationMode": "website",
-  "Stage": "published-official-website-and-anonymous-bytes-verified",
+  "Stage": "published-official-api-website-and-anonymous-bytes-verified",
   "PublicationAuthorized": true,
   "PushRequestAttempted": true,
   "PushCliConfirmed": true,
@@ -51,5 +51,6 @@
     "Failed": 0,
     "Skipped": 1
   },
-  "OfficialRestApiMetadataVerified": false
+  "OfficialRestApiMetadataVerified": true,
+  "ReleaseId": 435193220
 }

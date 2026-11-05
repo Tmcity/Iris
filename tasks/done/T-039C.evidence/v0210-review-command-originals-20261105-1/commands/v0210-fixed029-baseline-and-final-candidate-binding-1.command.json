@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/finalize_fixed029_baseline_20261105.py"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T13:45:50.035943+00:00",
+  "completedAt": "2026-11-05T13:45:50.294064+00:00",
+  "exitCode": 0,
+  "logSha256": "870457aeee8b9a2e132b1a3856cef54141b7d3dc0a04f646c0c2d375b24ebce9"
+}

@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "F:\Iris\tasks\T-039C.coordination\review_manual_fixed_v029_20261105.py", line 67, in <module>
+    assert new_rows and all(row[2] == baseline["SyntheticProfile"]["Id"] and row[3] == "iris-fixture" and row[4] == "Iris 公共升级验证" for row in new_rows)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

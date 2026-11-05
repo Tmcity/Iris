@@ -1,0 +1,14 @@
+{
+  "command": [
+    "git",
+    "add",
+    "--",
+    "build/release-plan.json",
+    "docs/RELEASING.md"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v0210-ui-acceptance-source-20261105-1",
+  "startedAt": "2026-11-05T13:26:07.111589+00:00",
+  "completedAt": "2026-11-05T13:26:07.359706+00:00",
+  "exitCode": 0,
+  "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

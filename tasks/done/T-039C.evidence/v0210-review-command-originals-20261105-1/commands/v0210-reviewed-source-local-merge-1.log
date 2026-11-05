@@ -1,0 +1,6 @@
+warning: in the working copy of 'tasks/T-039C.coordination/CURRENT_RELEASE_GATE_V029_20261105.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/review_manual_fixed_v029_20261105.py', LF will be replaced by CRLF the next time Git touches it
+Merge made by the 'ort' strategy.
+ build/release-plan.json |  3 ++-
+ docs/RELEASING.md       | 14 +++++++-------
+ 2 files changed, 9 insertions(+), 8 deletions(-)
