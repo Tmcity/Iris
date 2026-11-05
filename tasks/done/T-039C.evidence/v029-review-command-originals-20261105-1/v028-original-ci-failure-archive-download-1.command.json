@@ -1,0 +1,28 @@
+{
+  "command": [
+    "curl.exe",
+    "--silent",
+    "--show-error",
+    "--location",
+    "--max-time",
+    "90",
+    "--retry",
+    "0",
+    "--proto",
+    "=https",
+    "--proto-redir",
+    "=https",
+    "-D",
+    "F:/Iris/artifacts/t039c/ci-v028-original-42015639513-1.headers",
+    "-o",
+    "F:/Iris/artifacts/t039c/ci-v028-original-42015639513-1.zip",
+    "--write-out",
+    "%{http_code}",
+    "https://nightly.link/Tmcity/Iris/actions/runs/42015639513/iris-validation-42015639513-1.zip"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T11:19:17.074336+00:00",
+  "completedAt": "2026-11-05T11:19:20.875922+00:00",
+  "exitCode": 0,
+  "logSha256": "27badc983df1780b60c2b3fa9d3a19a00e46aac798451f0febdca52920faaddf"
+}

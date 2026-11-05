@@ -1,0 +1,15 @@
+{
+  "ExplicitUserConfirmation": true,
+  "QuestionItemId": "[\"request_user_input_async\",\"call_gfHOcQMTL6ymuSWE20hrrdGl\",0]",
+  "Answer": "确认发布最终0.2.8，随后手工安装修正版",
+  "Tag": "v0.2.8",
+  "SourceCommit": "0c9b0a1881d07224597163b1e9b2f080ab60d434",
+  "ReviewArchiveCommit": "422525535cdc46fcc10a6533d0f88e2cac2a89e8",
+  "ExecutionMaterialsCommit": "fed6cbf57e7a9a9995ade106d347b23c68a554bc",
+  "BranchPushAuthorized": false,
+  "OtherVersionsAuthorized": false,
+  "OverwriteExistingReleaseAuthorized": false,
+  "RerunOldCiAuthorized": false,
+  "UserWillManuallyInstallFixedVersionAfterPublicAssetVerification": true,
+  "FollowingVersionPublicationAuthorized": false
+}

@@ -1,0 +1,21 @@
+{
+  "Pid": 25088,
+  "Command": [
+    "git",
+    "diff",
+    "--quiet",
+    "0c9b0a1881d07224597163b1e9b2f080ab60d434",
+    "--",
+    "src",
+    "tests",
+    "build",
+    ".github",
+    "docs",
+    "README.md",
+    "Iris.slnx",
+    "Directory.Build.props",
+    "Directory.Packages.props",
+    "global.json"
+  ],
+  "StartedUtc": "2026-11-05T11:01:30.140742+00:00"
+}

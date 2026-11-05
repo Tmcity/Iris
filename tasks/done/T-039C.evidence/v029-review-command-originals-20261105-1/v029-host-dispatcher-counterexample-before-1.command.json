@@ -1,0 +1,22 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.App.Tests/Iris.App.Tests.csproj",
+    "-c",
+    "Release",
+    "--no-ansi",
+    "--no-progress",
+    "--filter-method",
+    "*Host_ResolvesRequiredServices*",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:/Iris/artifacts/t039c/host-dispatcher-counterexample-before-20261105-1/reports"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v029-ci-fix-20261105-1",
+  "startedAt": "2026-11-05T11:41:51.836582+00:00",
+  "completedAt": "2026-11-05T11:42:31.321220+00:00",
+  "exitCode": 2,
+  "logSha256": "466c6ef7a328dec8cf464fb53a7564a4ca8f1654885aaa877c67fedb553dad1f"
+}

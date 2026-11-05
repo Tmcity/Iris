@@ -1,0 +1,22 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.App.Tests/Iris.App.Tests.csproj",
+    "-c",
+    "Release",
+    "--no-ansi",
+    "--no-progress",
+    "--filter-method",
+    "*HeldSharedDispatcher_ReproducesOriginalThemeCallbackTimeout*",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:/Iris/artifacts/t039c/theme-dispatcher-interference-before-20261105-1/reports"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v029-ci-fix-20261105-1",
+  "startedAt": "2026-11-05T12:02:52.547018+00:00",
+  "completedAt": "2026-11-05T12:02:58.210888+00:00",
+  "exitCode": 1,
+  "logSha256": "4c433b674e25eb014b6f70cbfb9231d5d87f1f8e68a999b799d30d80ac3cecab"
+}

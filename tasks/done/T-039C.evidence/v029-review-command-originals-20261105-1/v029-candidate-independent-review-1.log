@@ -1,0 +1,17 @@
+{
+  "Version": "0.2.9",
+  "SourceCommit": "0b3267f1f6cdc1a9fb8cfe1c93dde22da273ecd2",
+  "SourceGitTree": "fcb432c3df3b5930bbc2900f43235384130b97ae",
+  "PublicAssets": 19,
+  "PayloadEntries": 97,
+  "FullTests": {
+    "Total": 3771,
+    "Passed": 3769,
+    "Failed": 0,
+    "Skipped": 2
+  },
+  "FullSha256": "f6cb7e169b0881a5ff2ecb2437a52b02716396ea68841a786e51dbc8cd22675b",
+  "OuterSha256": "370940ddcba17c92f6778a863f85f6b93f2b4ee4c7f563e4c6e80357b242b302",
+  "ThemePreviewTestIntervalsDoNotOverlapOtherAppTests": true,
+  "PublicationAuthorized": false
+}

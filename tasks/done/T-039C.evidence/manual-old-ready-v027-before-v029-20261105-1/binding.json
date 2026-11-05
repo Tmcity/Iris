@@ -1,0 +1,162 @@
+{
+  "ReviewedUtc": "2026-11-05T12:16:49.251043+00:00",
+  "SandboxId": "2fc7c168-2f34-437a-8319-8974e6f592b2",
+  "Version": "0.2.7",
+  "AppPid": 8820,
+  "AppStartedUtc": "2026-11-05T09:31:12.4245570Z",
+  "ProviderPid": 7328,
+  "RecorderPid": 8152,
+  "CheckForUpdates": false,
+  "DataHashes": {
+    "settings.json": "84d85182866599005f6802db616fb89094d6c19dd1d7ade8ca15db9fa11d30e8",
+    "secrets.dat": "b977aecf397ecc9dc57f2301181a20372f7e7bc37b468091cd4fb1764e97f9d7",
+    "history.db": "c4960f0964e6d1ad267f6e735da6ddaea70e4b7ef63bb4d22a0dd76c6e67a497"
+  },
+  "SyntheticProfile": {
+    "Id": "tp-28c361470883",
+    "DisplayName": "T039C Synthetic",
+    "HasCredentialSetReference": true,
+    "Model": "iris-fixture",
+    "BaseUrl": "http://127.0.0.1:18039/v1",
+    "Kind": "OpenAICompatible",
+    "Enabled": true
+  },
+  "SyntheticCredentialMatchedInRealPost": true,
+  "OldSyntheticHistoryIndependentlyVerified": true,
+  "ProductLogs": [
+    {
+      "Name": "product-iris-20261105.log",
+      "Bytes": 5238,
+      "Sha256": "3ea86cd20e8eaac91c5fa281745fce5e55e68f85b2550d311513b6be9179ea36",
+      "OriginalLogPrefixRetained": true
+    }
+  ],
+  "OldReadyVerified": true,
+  "PendingTransactionAbsent": true,
+  "ManualRepairVerified": true,
+  "FirstUiUpgradeVerified": false,
+  "SecretContentsCollected": false,
+  "PublicationAuthorized": false,
+  "Files": [
+    {
+      "Path": "history-independent.json",
+      "Bytes": 261,
+      "Sha256": "15fe288499646ff6c73fc39850766007a433422090f888981c70d83e1d85077c"
+    },
+    {
+      "Path": "inspection/history.db",
+      "Bytes": 53248,
+      "Sha256": "c4960f0964e6d1ad267f6e735da6ddaea70e4b7ef63bb4d22a0dd76c6e67a497"
+    },
+    {
+      "Path": "inspection/inspection.json",
+      "Bytes": 3203,
+      "Sha256": "e553d4a486c0b3d4986b65f74ca273f4e512a2fc813570abd2a66a5361990402"
+    },
+    {
+      "Path": "inspection/product-iris-20261105.log",
+      "Bytes": 5238,
+      "Sha256": "3ea86cd20e8eaac91c5fa281745fce5e55e68f85b2550d311513b6be9179ea36"
+    },
+    {
+      "Path": "inspection/provider-requests.jsonl",
+      "Bytes": 133,
+      "Sha256": "0ed59f5140bbf9ae41d18f34e29bed3a10c1fcb078630426d3a7265b75244109"
+    },
+    {
+      "Path": "inspection/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "old-ready-20261105T1214205097612Z.json",
+      "Bytes": 3195,
+      "Sha256": "6d990752b002c13503a28dad281ac002cbbe98375d502444c6b3cf828cda736a"
+    },
+    {
+      "Path": "raw-command-records/v029-current-old-processes-readonly-1.command.json",
+      "Bytes": 533,
+      "Sha256": "bbf89bd6c1d7b76faeb88c7ef35d5d487c88a9f9ad82a3486bc5053336d199b2"
+    },
+    {
+      "Path": "raw-command-records/v029-current-old-processes-readonly-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "raw-command-records/v029-current-old-ready-readonly-1.command.json",
+      "Bytes": 544,
+      "Sha256": "eab5f0de6145bd3ffe54a5dac35ca75d26a20f68c9f037b9f14acd7a6d91272e"
+    },
+    {
+      "Path": "raw-command-records/v029-current-old-ready-readonly-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "raw-command-records/v029-current-sandbox-list-1.command.json",
+      "Bytes": 296,
+      "Sha256": "412dc7ac49488d6bb695c92129e8425b27fd20fb131892a60fa9c75ddee93d6f"
+    },
+    {
+      "Path": "raw-command-records/v029-current-sandbox-list-1.log",
+      "Bytes": 112,
+      "Sha256": "1ab9f53fab8bbe1106bf7c56c9ff8cc47ea23e72af0c22b3d8d4abdf35d47c6b"
+    },
+    {
+      "Path": "supplement/active-recorder-v2.json",
+      "Bytes": 4296,
+      "Sha256": "7f9a0f591fdf9e65a3eba29b227f04e224082371636aed34afe03597ceb51d04"
+    },
+    {
+      "Path": "supplement/history.db",
+      "Bytes": 53248,
+      "Sha256": "c4960f0964e6d1ad267f6e735da6ddaea70e4b7ef63bb4d22a0dd76c6e67a497"
+    },
+    {
+      "Path": "supplement/history.db-shm",
+      "Bytes": 32768,
+      "Sha256": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb"
+    },
+    {
+      "Path": "supplement/history.db-wal",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "supplement/process-events-v2.jsonl",
+      "Bytes": 7055,
+      "Sha256": "8012c9beb5ff3a2e6afceddea627517134027af4d31e1db25e95efacff197419"
+    },
+    {
+      "Path": "supplement/product-iris-20261105.log",
+      "Bytes": 5238,
+      "Sha256": "3ea86cd20e8eaac91c5fa281745fce5e55e68f85b2550d311513b6be9179ea36"
+    },
+    {
+      "Path": "supplement/provider-requests.jsonl",
+      "Bytes": 133,
+      "Sha256": "0ed59f5140bbf9ae41d18f34e29bed3a10c1fcb078630426d3a7265b75244109"
+    },
+    {
+      "Path": "supplement/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "supplement/supplement.json",
+      "Bytes": 8205,
+      "Sha256": "1bf737e7b4e120984d6b161eb975e00aab1d811173f1187e026d4dafe1669f63"
+    },
+    {
+      "Path": "supplement/watcher-v2-status.json",
+      "Bytes": 243,
+      "Sha256": "38a076cdcfbb7af77d0aa9e28fe8cb524efb51d71187ae7b0d9534c25c24468e"
+    },
+    {
+      "Path": "user-confirmed-manual-repair.json",
+      "Bytes": 297,
+      "Sha256": "4b04a3b294e8a8a1babc251a6a60e760ce7c44f4a434166c7cee37369ef6d2b4"
+    }
+  ]
+}

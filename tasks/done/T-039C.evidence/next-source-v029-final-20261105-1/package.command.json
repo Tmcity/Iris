@@ -1,0 +1,25 @@
+{
+  "Command": [
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "F:\\Iris\\artifacts\\t039c\\worktree-v029-ci-fix-20261105-1\\build\\pack.ps1",
+    "-Version",
+    "0.2.9",
+    "-OutputDirectory",
+    "F:\\Iris\\artifacts\\t039c\\release-0.2.9-public-base-candidate-1",
+    "-PreviousReleaseDirectory",
+    "F:\\Iris\\artifacts\\t039c\\public-0.2.7-download-20261105-1",
+    "-ToolPackageDirectory",
+    "F:\\Iris\\artifacts\\t039b\\tool-feed"
+  ],
+  "StartedUtc": "2026-11-05T12:10:10.517384+00:00",
+  "FinishedUtc": "2026-11-05T12:12:07.568507+00:00",
+  "ExitCode": 0,
+  "Log": "package.log",
+  "Bytes": 7916,
+  "Sha256": "54665ddbd7f6c5428a0c8b322599b9aa8369423fe0fe842193a012e3c63edf85"
+}

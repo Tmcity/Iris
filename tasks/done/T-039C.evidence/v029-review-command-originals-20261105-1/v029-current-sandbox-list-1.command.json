@@ -1,0 +1,12 @@
+{
+  "command": [
+    "wsb.exe",
+    "list",
+    "--raw"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T12:14:15.149468+00:00",
+  "completedAt": "2026-11-05T12:14:15.654047+00:00",
+  "exitCode": 0,
+  "logSha256": "1ab9f53fab8bbe1106bf7c56c9ff8cc47ea23e72af0c22b3d8d4abdf35d47c6b"
+}

@@ -1,0 +1,13 @@
+{
+  "Pid": 25208,
+  "Command": [
+    "git",
+    "tag",
+    "-a",
+    "v0.2.8",
+    "0c9b0a1881d07224597163b1e9b2f080ab60d434",
+    "-m",
+    "Iris 0.2.8 approved source for the repaired 0.2.7 baseline"
+  ],
+  "StartedUtc": "2026-11-05T11:02:03.868014+00:00"
+}

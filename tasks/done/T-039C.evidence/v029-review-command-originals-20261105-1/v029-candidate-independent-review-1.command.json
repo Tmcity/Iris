@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/review_v029_candidate_20261105.py"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T12:13:21.744813+00:00",
+  "completedAt": "2026-11-05T12:13:28.086954+00:00",
+  "exitCode": 0,
+  "logSha256": "197e29083ba85bdc7e5982c681498212418e5bcf71a9c1f671430c4301447581"
+}

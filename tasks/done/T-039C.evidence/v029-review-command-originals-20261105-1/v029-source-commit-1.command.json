@@ -1,0 +1,13 @@
+{
+  "command": [
+    "git",
+    "commit",
+    "-m",
+    "Initialize the owned WPF dispatcher before composition tests"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v029-ci-fix-20261105-1",
+  "startedAt": "2026-11-05T11:58:03.288074+00:00",
+  "completedAt": "2026-11-05T11:58:03.529112+00:00",
+  "exitCode": 0,
+  "logSha256": "323337c2efe234cf57825ff58ee4633ccd2eab5a559f9466b8b295a60f4716fb"
+}

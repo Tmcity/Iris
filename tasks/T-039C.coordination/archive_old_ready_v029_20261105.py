@@ -1,0 +1,103 @@
+"""Freeze fresh read-only observations of the continuing repaired 0.2.7 Sandbox."""
+from pathlib import Path
+import datetime
+import hashlib
+import json
+import sqlite3
+
+ROOT = Path("F:/Iris")
+SESSION = ROOT / "artifacts/t039c/manual-verification-v022-20261105-1/output/session-14d55ff50fd94d3abe8d4474aafd5365"
+PREVIOUS = ROOT / "tasks/done/T-039C.evidence/manual-old-ready-v027-before-final028-20261105-1"
+REPORT = ROOT / "tasks/done/T-039C.evidence/manual-old-ready-v027-before-v029-20261105-1"
+
+
+def read(path):
+    return json.loads(path.read_text(encoding="utf-8-sig"))
+
+
+def sha(path):
+    with path.open("rb") as stream:
+        return hashlib.file_digest(stream, "sha256").hexdigest()
+
+
+baseline = read(PREVIOUS / "binding.json")
+old_path = sorted(SESSION.glob("old-ready-*.json"))[-1]
+supplement_path = sorted(SESSION.glob("old-ready-supplement-*"))[-1]
+inspection_path = sorted(SESSION.glob("old-ready-readonly-*"))[-1]
+old, supplement = read(old_path), read(supplement_path / "supplement.json")
+inspection = read(inspection_path / "inspection.json")
+status, pointer = read(supplement_path / "watcher-v2-status.json"), read(supplement_path / "active-recorder-v2.json")
+command = read(ROOT / "tasks/T-039C.coordination/v029-current-old-ready-readonly-1.command.json")
+assert datetime.datetime.fromisoformat(old["Utc"].replace("Z", "+00:00")) >= datetime.datetime.fromisoformat(command["startedAt"])
+assert old["InstalledSource"]["Version"] == inspection["ProductSource"]["Version"] == baseline["Version"] == "0.2.7"
+assert len(old["Processes"]) == 1 and old["Processes"][0]["Pid"] == baseline["AppPid"]
+assert old["Processes"][0]["StartedUtc"] == baseline["AppStartedUtc"]
+assert {item["Pid"] for item in inspection["Processes"]} == {baseline["AppPid"], baseline["RecorderPid"], baseline["ProviderPid"]}
+assert supplement["CheckForUpdates"] is inspection["CheckForUpdates"] is False
+assert inspection["SyntheticProfiles"] == [baseline["SyntheticProfile"]]
+data_hashes = {item["Path"]: item.get("Sha256") for item in old["DataHashes"]}
+assert all(data_hashes[name] == value for name, value in baseline["DataHashes"].items())
+assert inspection["SettingsSha256"] == data_hashes["settings.json"] and inspection["SecretsSha256"] == data_hashes["secrets.dat"]
+assert sha(supplement_path / "history.db") == sha(inspection_path / "history.db") == data_hashes["history.db"]
+assert pointer["RecorderVersion"] == status["RecorderVersion"] == 3
+assert pointer["RecorderPid"] == status["RecorderPid"] == baseline["RecorderPid"]
+assert pointer["Ready"] and status["Ready"] and status["Failure"] is None
+assert pointer["SourceSha256"] == "3515546d9e344331cc2c95fc4c97f60b213bfc06ae11ada98d96349b3e3dac62"
+assert not any("transaction.json" in item["Path"].lower() for item in supplement["MaintenanceFiles"])
+assert not any("0.2.8" in item["Name"] or "0.2.9" in item["Name"] for item in old["Packages"])
+requests = [json.loads(line) for line in (supplement_path / "provider-requests.jsonl").read_text(encoding="utf-8-sig").splitlines() if line]
+assert any(row["Method"] == "POST" and row["Path"] == "/v1/chat/completions" and row["Status"] == 200
+           and row["SyntheticCredentialMatched"] is True for row in requests)
+with sqlite3.connect((supplement_path / "history.db").as_uri() + "?mode=ro", uri=True) as connection:
+    connection.execute("PRAGMA query_only=ON")
+    assert connection.execute("PRAGMA quick_check").fetchall() == [("ok",)]
+    history = connection.execute("""SELECT h.id, h.source_text, r.provider_id, r.model, r.result_text
+        FROM translation_history h JOIN translation_result r ON r.history_id = h.id WHERE h.source_text = ?""",
+        ("Iris acceptance check",)).fetchall()
+assert len(history) == 1 and history[0][2] == baseline["SyntheticProfile"]["Id"]
+assert history[0][3:] == ("iris-fixture", "Iris 公共升级验证")
+logs = []
+for path in sorted((PREVIOUS / "inspection").glob("product-*.log")):
+    fresh = inspection_path / path.name
+    assert fresh.is_file() and fresh.read_bytes().startswith(path.read_bytes())
+    logs.append({"Name": path.name, "Bytes": fresh.stat().st_size, "Sha256": sha(fresh), "OriginalLogPrefixRetained": True})
+assert logs
+for label in ("v029-current-sandbox-list-1", "v029-current-old-ready-readonly-1", "v029-current-old-processes-readonly-1"):
+    path = ROOT / "tasks/T-039C.coordination" / (label + ".command.json")
+    log_path = path.with_name(label + ".log")
+    record = read(path)
+    assert record["exitCode"] == 0 and sha(log_path) == record["logSha256"]
+    if "readonly" in label:
+        assert json.loads(log_path.read_text(encoding="utf-8-sig"))["ExitCode"] == 0
+REPORT.mkdir(exist_ok=False)
+
+
+def copy(source, target):
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.open("xb").write(source.read_bytes())
+
+
+copy(old_path, REPORT / old_path.name)
+for folder, name in ((supplement_path, "supplement"), (inspection_path, "inspection")):
+    for path in sorted(folder.iterdir()):
+        if path.is_file():
+            copy(path, REPORT / name / path.name)
+for label in ("v029-current-sandbox-list-1", "v029-current-old-ready-readonly-1", "v029-current-old-processes-readonly-1"):
+    for suffix in (".log", ".command.json"):
+        copy(ROOT / "tasks/T-039C.coordination" / (label + suffix), REPORT / "raw-command-records" / (label + suffix))
+copy(ROOT / "tasks/T-039C.coordination/v027-user-repair-success-20261105.json", REPORT / "user-confirmed-manual-repair.json")
+(REPORT / "history-independent.json").open("x", encoding="utf-8", newline="\n").write(
+    json.dumps({"QuickCheck": "ok", "Rows": history, "SourceDbSha256": data_hashes["history.db"]}, ensure_ascii=False, indent=2) + "\n")
+files = [{"Path": path.relative_to(REPORT).as_posix(), "Bytes": path.stat().st_size, "Sha256": sha(path)}
+         for path in sorted(REPORT.rglob("*")) if path.is_file()]
+binding = {"ReviewedUtc": datetime.datetime.now(datetime.timezone.utc).isoformat(), "SandboxId": baseline["SandboxId"],
+           "Version": "0.2.7", "AppPid": baseline["AppPid"], "AppStartedUtc": baseline["AppStartedUtc"],
+           "ProviderPid": baseline["ProviderPid"], "RecorderPid": baseline["RecorderPid"], "CheckForUpdates": False,
+           "DataHashes": baseline["DataHashes"], "SyntheticProfile": baseline["SyntheticProfile"],
+           "SyntheticCredentialMatchedInRealPost": True, "OldSyntheticHistoryIndependentlyVerified": True,
+           "ProductLogs": logs, "OldReadyVerified": True, "PendingTransactionAbsent": True,
+           "ManualRepairVerified": True, "FirstUiUpgradeVerified": False, "SecretContentsCollected": False,
+           "PublicationAuthorized": False, "Files": files}
+(REPORT / "binding.json").open("x", encoding="utf-8", newline="\n").write(json.dumps(binding, indent=2) + "\n")
+print(json.dumps({key: binding[key] for key in ("SandboxId", "Version", "AppPid", "RecorderPid", "ProviderPid",
+    "OldReadyVerified", "OldSyntheticHistoryIndependentlyVerified", "PendingTransactionAbsent", "PublicationAuthorized")}, indent=2))

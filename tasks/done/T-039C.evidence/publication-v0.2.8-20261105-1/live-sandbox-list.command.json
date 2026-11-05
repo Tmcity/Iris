@@ -1,0 +1,12 @@
+{
+  "Command": [
+    "wsb.exe",
+    "list",
+    "--raw"
+  ],
+  "StartedUtc": "2026-11-05T11:01:58.399452+00:00",
+  "FinishedUtc": "2026-11-05T11:01:58.693101+00:00",
+  "ExitCode": 0,
+  "Bytes": 112,
+  "Sha256": "1ab9f53fab8bbe1106bf7c56c9ff8cc47ea23e72af0c22b3d8d4abdf35d47c6b"
+}

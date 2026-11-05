@@ -1,0 +1,65 @@
+正在从以下位置运行测试 F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 684ms)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.Win32ClipboardIsolatedIntegrationTests.IsolatedWindowStation_NativeClipboardIntegration_ExecutesInDedicatedProcess
+  [ENVIRONMENT LIMITATION] Native isolated window station test skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotIsolatedTests.SnapshotHelper_UsesExclusiveNonInteractiveStation_AndJoinsOwnedProcess
+  [ENVIRONMENT LIMITATION] Snapshot isolated helper skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (4s 925ms)
+F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (5s 541ms)
+F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64) 已通过 (7s 027ms)
+失败 Iris.App.Tests.Services.ThemeServicePreviewTests.VisualThemeApplier_IsInvoked_WhenThemeChanges (5s 010ms)
+  从 F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.TimeoutException : The operation has timed out.
+    在 Iris.App.Tests.Services.ThemeServicePreviewTests.VisualThemeApplier_IsInvoked_WhenThemeChanges() 位于 F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.App.Tests\Services\ThemeServicePreviewTests.cs:141
+    --- End of stack trace from previous location ---
+F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (9s 067ms)
+F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (9s 561ms)
+F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (2m 46s 514ms)
+退出代码: 2
+  标准输出: LOCALIZATION_VISUAL files=418 directory=C:\Users\28910\AppData\Local\Temp\iris-t038-visual-50cfe7c376764b1098df19d01f751e80
+  UPDATE_UI images=64 directory=C:\Users\28910\AppData\Local\Temp\iris-t039b-ui-8a97edda41e94eb6986c927fac45f902
+  R1_BEFORE_RELEASE persisted=en-US draft=zh-CN dirty=False
+  R1_JOINED persisted=en-US draft=en-US dirty=False
+  R1_JOINED persisted=en-US draft=zh-CN dirty=True
+  LATE_POINTER_AFTER_CONFIRM imagePreserved=True crops=1
+  FOREGROUND_QUERY newIntentObserved=True emptyQueries=2 resultCanceled=True nativeRestores=0
+  DWM_FAILURE code=CaptureFailed nativeHResultPreserved=True captures=0
+  PREPARATION_ERRORS settingsRecorded=True translationRecorded=True settingsRestored=True translationRestored=True
+  RIGHT_CLEAR handled=True displayedX=100 displayedY=100
+  RIGHT_CLEAR handled=True displayedX=100 displayedY=100
+  LABEL_LAYOUT opaqueLabels=3 overlappingPairs=0
+  LABEL_LAYOUT opaqueLabels=3 overlappingPairs=0
+  NETWORK_VISUAL files=48 directory=C:\Users\28910\AppData\Local\Temp\iris-t036c-render-11003c7976be4eb39a3c63b90efe5820
+
+  生成的进程内文件项目:
+    - F:\Iris\artifacts\t039c\local-validation-v029-20261105-1\reports\28910_SKYRIU-PC_2026-11-05_11_58_45.322075.xunit.xml
+    - F:\Iris\artifacts\t039c\local-validation-v029-20261105-1\reports\28910_SKYRIU-PC_2026-11-05_11_58_45.237772.xunit.xml
+    - F:\Iris\artifacts\t039c\local-validation-v029-20261105-1\reports\28910_SKYRIU-PC_2026-11-05_11_58_45.329525.xunit.xml
+    - F:\Iris\artifacts\t039c\local-validation-v029-20261105-1\reports\28910_SKYRIU-PC_2026-11-05_11_58_45.289513.xunit.xml
+    - F:\Iris\artifacts\t039c\local-validation-v029-20261105-1\reports\28910_SKYRIU-PC_2026-11-05_11_58_45.290813.xunit.xml
+    - F:\Iris\artifacts\t039c\local-validation-v029-20261105-1\reports\28910_SKYRIU-PC_2026-11-05_11_58_45.313699.xunit.xml
+    - F:\Iris\artifacts\t039c\local-validation-v029-20261105-1\reports\28910_SKYRIU-PC_2026-11-05_11_58_45.273798.xunit.xml
+
+测试运行摘要: 失败!
+  F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 684ms)
+  F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (9s 561ms)
+  F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (9s 067ms)
+  F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (4s 925ms)
+  F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64) 已通过 (7s 027ms)
+  F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (2m 46s 514ms)
+  F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (5s 541ms)
+
+  总计: 3771
+  失败: 1
+  成功: 3768
+  已跳过: 2
+  持续时间: 2m 47s 000ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

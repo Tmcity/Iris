@@ -1,0 +1,182 @@
+{
+  "Version": "0.2.9",
+  "SourceCommit": "0b3267f1f6cdc1a9fb8cfe1c93dde22da273ecd2",
+  "SourceGitTree": "fcb432c3df3b5930bbc2900f43235384130b97ae",
+  "PublicAssets": 19,
+  "PayloadEntries": 97,
+  "MaintenancePrefixBytes": 44626593,
+  "InternalSetupBytes": 72144280,
+  "InternalSetupSha256": "13a647401b53ba8674b287c9e0d0b1e69470d76188610d81444b29960c0fc37d",
+  "FullSha256": "f6cb7e169b0881a5ff2ecb2437a52b02716396ea68841a786e51dbc8cd22675b",
+  "OuterSha256": "370940ddcba17c92f6778a863f85f6b93f2b4ee4c7f563e4c6e80357b242b302",
+  "CommittedSourceEntriesMatched": 721,
+  "WorkingSourceEntriesMatched": 721,
+  "SourceChanges": [
+    "build/release-plan.json",
+    "docs/RELEASING.md",
+    "tests/Iris.App.Tests/Services/ThemeServicePreviewTests.cs",
+    "tests/Iris.App.Tests/TestSupport/WpfTestAssemblyFixture.cs"
+  ],
+  "ProductionCodeChangedFromFailed028": false,
+  "FullTests": {
+    "Total": 3771,
+    "Passed": 3769,
+    "Failed": 0,
+    "Skipped": 2
+  },
+  "HostTests": {
+    "Total": 13,
+    "Passed": 13,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "ThemePreviewTests": 8,
+  "ThemePreviewTestIntervalsDoNotOverlapOtherAppTests": true,
+  "ThemePreviewTestBodiesUnchanged": true,
+  "TargetedUpdateHttpTests": 15,
+  "ColdHostBefore": {
+    "Total": 1,
+    "Passed": 0,
+    "Failed": 1,
+    "Skipped": 0
+  },
+  "ColdHostAfter": {
+    "Total": 1,
+    "Passed": 1,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "OriginalFailureBindings": {
+    "ci-v028-original-42015639513-1": {
+      "BindingSha256": "35593bc6f0a79369ec5f2d2f344ad6c8594b00b077af149b0c89322aac59c931",
+      "SourceCommit": "0c9b0a1881d07224597163b1e9b2f080ab60d434"
+    },
+    "ci-v028-failure-analysis-20261105-1": {
+      "BindingSha256": "492ef3f1636c87a806b6ac73e3bc5a2f75083f42e272b53dbd703fa25e15d301",
+      "SourceCommit": "0c9b0a1881d07224597163b1e9b2f080ab60d434"
+    },
+    "next-source-v029-local-failure-20261105-1": {
+      "BindingSha256": "19e1ee9a862ae356f6b839521ac480ec44671395cf51e88500a88e99f3597bca",
+      "SourceCommit": "f2526abcdae9d2ed587fa8579a1a956f929d583d"
+    }
+  },
+  "PreviousPublicFull": {
+    "PackageId": "Iris",
+    "Version": "0.2.7",
+    "Type": "Full",
+    "FileName": "Iris-0.2.7-full.nupkg",
+    "SHA1": "BCEC3791111A82276096ED4CA2EDD18A54CA356E",
+    "SHA256": "F8F9DE897B637F8C98A07D601420885BF65529701D014FC52B59F87CE75BACE8",
+    "Size": 64627391
+  },
+  "OlderPublicFull": {
+    "PackageId": "Iris",
+    "Version": "0.2.2",
+    "Type": "Full",
+    "FileName": "Iris-0.2.2-full.nupkg",
+    "SHA1": "58A2504B4BDD9DA82BA23D3C7AEEA5B58D0D7B9F",
+    "SHA256": "C86982F930AAFCD142167BBD871D03B588630F7D1D625DA968A811DAA2DD5D14",
+    "Size": 64627273
+  },
+  "Assets": [
+    {
+      "Name": "assets.win.json",
+      "Bytes": 240,
+      "Sha256": "78dc0e3453cbe4d5cea6823329f4dc20a8935273d192dd8f5feae4e226e8a2a1"
+    },
+    {
+      "Name": "full-tests.log",
+      "Bytes": 5882,
+      "Sha256": "6bc168b7c4fff71fbb48804af49b12cb9dbd7c35767d86add7a2385bb632e938"
+    },
+    {
+      "Name": "INSTALLATION.md",
+      "Bytes": 5088,
+      "Sha256": "c6aca79261915f9b2d98489304a0d788e267d755110ea1384585730d83ccca4d"
+    },
+    {
+      "Name": "Iris-0.2.2-full.nupkg",
+      "Bytes": 64627273,
+      "Sha256": "c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14"
+    },
+    {
+      "Name": "Iris-0.2.7-full.nupkg",
+      "Bytes": 64627391,
+      "Sha256": "f8f9de897b637f8c98a07d601420885bf65529701d014fc52b59f87ce75bace8"
+    },
+    {
+      "Name": "Iris-0.2.9-delta.nupkg",
+      "Bytes": 26122897,
+      "Sha256": "c438499a4b95ffe271dd3399894a98bb8fcf9758ef5d62793331d8abb0f1100a"
+    },
+    {
+      "Name": "Iris-0.2.9-full.nupkg",
+      "Bytes": 64630168,
+      "Sha256": "f6cb7e169b0881a5ff2ecb2437a52b02716396ea68841a786e51dbc8cd22675b"
+    },
+    {
+      "Name": "Iris-0.2.9-Setup.exe",
+      "Bytes": 116770929,
+      "Sha256": "370940ddcba17c92f6778a863f85f6b93f2b4ee4c7f563e4c6e80357b242b302"
+    },
+    {
+      "Name": "package.log",
+      "Bytes": 7916,
+      "Sha256": "54665ddbd7f6c5428a0c8b322599b9aa8369423fe0fe842193a012e3c63edf85"
+    },
+    {
+      "Name": "payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "01dfc8232e2b445810102052c6c2c16d1df44f16024bc4fb565e812205f69d05"
+    },
+    {
+      "Name": "release-build.log",
+      "Bytes": 2765,
+      "Sha256": "cf96ad1680978f9e9ff0cfc2d1ae6de2ff2492b8c5df79c4d3832639fc8f805d"
+    },
+    {
+      "Name": "release-manifest-tests.log",
+      "Bytes": 3079,
+      "Sha256": "77942c21732b68669e9e732b85614fb506c329bf22b1d6664f6f9264de7868b6"
+    },
+    {
+      "Name": "release-provenance.json",
+      "Bytes": 192630,
+      "Sha256": "fcc94e9a3ed4c758b8ceb940482e7d497a962061dde38b328410a0b534a6ed85"
+    },
+    {
+      "Name": "RELEASE_NOTES.md",
+      "Bytes": 676,
+      "Sha256": "b547a7ff174312598d719223cc4a8677249c5e48ad82a21d55bcea3c5ab594f4"
+    },
+    {
+      "Name": "RELEASES",
+      "Bytes": 218,
+      "Sha256": "6da4d30528c660d8d331628ef9d201022b8e98d214818fea562afc4b1b110ac1"
+    },
+    {
+      "Name": "releases.win.json",
+      "Bytes": 934,
+      "Sha256": "0d7cd6e9c50459cc44170f1a91987eb30a46ed7fd027dd23e37aa97af6dff733"
+    },
+    {
+      "Name": "SHA256.json",
+      "Bytes": 2606,
+      "Sha256": "83900066a0cfe0aab461f41361e1b120e3282ad083a1eb94c944d39b6c33e00a"
+    },
+    {
+      "Name": "staging-manifest.json",
+      "Bytes": 18533,
+      "Sha256": "d9e15530852bfd27f3f017b6795bc90dd781ba27cfb133c3c49e39802f83a059"
+    },
+    {
+      "Name": "validation-summary.json",
+      "Bytes": 3814,
+      "Sha256": "dad49a7ab0684d038520c6fc74b5e99f5cd3a9b826463fabf1200a7d0c5ee102"
+    }
+  ],
+  "PublicationAuthorized": false,
+  "RealUiUpgradeVerified": false,
+  "RestartCountVerified": false,
+  "NextUserActionAfterOfficialVerification": "Manually install fixed 0.2.9; separately review and authorize its later UI upgrade target."
+}

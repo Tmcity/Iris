@@ -1,0 +1,30 @@
+{
+  "CiOriginal": {
+    "Total": 3771,
+    "Passed": 3769,
+    "Failed": 2,
+    "Skipped": 0
+  },
+  "FirstLocalFull": {
+    "Total": 3771,
+    "Passed": 3768,
+    "Failed": 1,
+    "Skipped": 2
+  },
+  "ControlledCounterexample": {
+    "Total": 1,
+    "Passed": 0,
+    "Failed": 1,
+    "Skipped": 0
+  },
+  "ThemePreviewAfterIsolation": {
+    "Total": 8,
+    "Passed": 8,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "Reports": [
+    "F:\\Iris\\tasks\\done\\T-039C.evidence\\ci-v028-failure-analysis-20261105-1",
+    "F:\\Iris\\tasks\\done\\T-039C.evidence\\next-source-v029-local-failure-20261105-1"
+  ]
+}

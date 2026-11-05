@@ -1,0 +1,13 @@
+package: exit=0
+{
+  "Version": "0.2.9",
+  "SourceCommit": "0b3267f1f6cdc1a9fb8cfe1c93dde22da273ecd2",
+  "SourceGitTree": "fcb432c3df3b5930bbc2900f43235384130b97ae",
+  "PublicAssets": 19,
+  "PayloadEntries": 97,
+  "MaintenancePrefixBytes": 44626593,
+  "InternalSetupBytes": 72144280,
+  "InternalSetupSha256": "13a647401b53ba8674b287c9e0d0b1e69470d76188610d81444b29960c0fc37d",
+  "FullSha256": "f6cb7e169b0881a5ff2ecb2437a52b02716396ea68841a786e51dbc8cd22675b",
+  "OuterSha256": "370940ddcba17c92f6778a863f85f6b93f2b4ee4c7f563e4c6e80357b242b302"
+}

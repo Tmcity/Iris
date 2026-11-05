@@ -1,0 +1,14 @@
+release-manifest-tests: exit=0
+release-build: exit=0
+full-tests: exit=2
+Traceback (most recent call last):
+  File "F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\build\release_pipeline.py", line 95, in <module>
+    validate(args.output.resolve())
+  File "F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\build\release_pipeline.py", line 36, in validate
+    records.append(run(["dotnet", "test", "Iris.slnx", "-c", "Release", "--no-build", "--no-ansi", "--no-progress", "--report-xunit-xml", "--results-directory", str(directory / "reports")], directory, "full-tests", environment))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\build\release_pipeline.py", line 24, in run
+    require(result.returncode == 0, "Recorded command failed: " + label)
+  File "F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\build\release_manifest.py", line 36, in require
+    raise ValueError(message)
+ValueError: Recorded command failed: full-tests

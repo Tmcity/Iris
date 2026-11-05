@@ -1,0 +1,15 @@
+{
+  "command": [
+    "git",
+    "merge",
+    "--no-ff",
+    "codex/t039c-ci-v028-dispatcher",
+    "-m",
+    "Merge final WPF test initialization and theme observation corrections"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T12:16:49.926968+00:00",
+  "completedAt": "2026-11-05T12:16:50.432511+00:00",
+  "exitCode": 0,
+  "logSha256": "354bbc1647dd14d9e477b67a96e19954cac0a399677690909a813a8d56bbf2be"
+}

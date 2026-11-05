@@ -1,0 +1,15 @@
+{
+  "command": [
+    "git",
+    "add",
+    "--",
+    "build/release-plan.json",
+    "docs/RELEASING.md",
+    "tests/Iris.App.Tests/TestSupport/WpfTestAssemblyFixture.cs"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v029-ci-fix-20261105-1",
+  "startedAt": "2026-11-05T11:58:02.439900+00:00",
+  "completedAt": "2026-11-05T11:58:02.547307+00:00",
+  "exitCode": 0,
+  "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

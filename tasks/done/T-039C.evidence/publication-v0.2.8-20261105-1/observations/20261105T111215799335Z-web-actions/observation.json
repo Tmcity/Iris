@@ -1,0 +1,10 @@
+{
+  "Url": "https://github.com/Tmcity/Iris/actions/workflows/desktop-release.yml?query=branch%3Av0.2.8&iris_observation=v028-20261105T111215799335Z",
+  "ObservedUtc": "2026-11-05T11:12:17.094209+00:00",
+  "HttpStatus": "200",
+  "ExitCode": 0,
+  "AuthorizationSent": false,
+  "UsesGitHubRestApi": false,
+  "BodyBytes": 202950,
+  "BodySha256": "41e5b62710f4fa25fda3b520e8aa3baf0187b29263a397586c111a94bc6c2e27"
+}

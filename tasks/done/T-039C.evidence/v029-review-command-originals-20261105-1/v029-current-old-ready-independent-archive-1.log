@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "F:\Iris\tasks\T-039C.coordination\archive_old_ready_v029_20261105.py", line 68, in <module>
+    assert record["exitCode"] == 0 and sha(path.with_suffix(".log")) == record["logSha256"]
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Iris\tasks\T-039C.coordination\archive_old_ready_v029_20261105.py", line 19, in sha
+    with path.open("rb") as stream:
+         ^^^^^^^^^^^^^^^
+  File "D:\anaconda3\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'F:\\Iris\\tasks\\T-039C.coordination\\v029-current-sandbox-list-1.command.log'

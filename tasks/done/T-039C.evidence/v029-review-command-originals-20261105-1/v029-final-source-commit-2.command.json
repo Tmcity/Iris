@@ -1,0 +1,13 @@
+{
+  "command": [
+    "git",
+    "commit",
+    "-m",
+    "Isolate theme callback observations from shared WPF test work"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v029-ci-fix-20261105-1",
+  "startedAt": "2026-11-05T12:05:18.499008+00:00",
+  "completedAt": "2026-11-05T12:05:18.717098+00:00",
+  "exitCode": 0,
+  "logSha256": "9c4fc35274db814de9515c2c99b9f7802406c33e85a1d27d0aab357b71b34c1f"
+}

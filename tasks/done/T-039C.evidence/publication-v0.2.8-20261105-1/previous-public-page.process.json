@@ -1,0 +1,29 @@
+{
+  "Pid": 31964,
+  "Command": [
+    "curl.exe",
+    "--silent",
+    "--show-error",
+    "--location",
+    "--max-time",
+    "40",
+    "--retry",
+    "0",
+    "--proto",
+    "=https",
+    "--proto-redir",
+    "=https",
+    "-H",
+    "Cache-Control: no-cache",
+    "-A",
+    "Iris-public-release-verification",
+    "-D",
+    "F:\\Iris\\tasks\\done\\T-039C.evidence\\publication-v0.2.8-20261105-1\\previous-public-page.headers",
+    "-o",
+    "F:\\Iris\\tasks\\done\\T-039C.evidence\\publication-v0.2.8-20261105-1\\previous-public-page.body",
+    "--write-out",
+    "%{http_code}",
+    "https://github.com/Tmcity/Iris/releases/tag/v0.2.7?iris_observation=v028-20261105T110134764568Z"
+  ],
+  "StartedUtc": "2026-11-05T11:01:34.764568+00:00"
+}

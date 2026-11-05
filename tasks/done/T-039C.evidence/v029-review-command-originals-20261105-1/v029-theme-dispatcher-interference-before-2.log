@@ -1,0 +1,21 @@
+正在从以下位置运行测试 F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.TestSupport.ThemeDispatchInterferenceProbe.HeldSharedDispatcher_ReproducesOriginalThemeCallbackTimeout (5s 095ms)
+  从 F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.TimeoutException : The operation has timed out.
+    在 Iris.App.Tests.Services.ThemeServicePreviewTests.VisualThemeApplier_IsInvoked_WhenThemeChanges() 位于 F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.App.Tests\Services\ThemeServicePreviewTests.cs:141
+    在 Iris.App.Tests.TestSupport.ThemeDispatchInterferenceProbe.HeldSharedDispatcher_ReproducesOriginalThemeCallbackTimeout() 位于 F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.App.Tests\TestSupport\ThemeDispatchInterferenceProbe.cs:25
+    在 Iris.App.Tests.TestSupport.ThemeDispatchInterferenceProbe.HeldSharedDispatcher_ReproducesOriginalThemeCallbackTimeout() 位于 F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.App.Tests\TestSupport\ThemeDispatchInterferenceProbe.cs:31
+    --- End of stack trace from previous location ---
+F:\Iris\artifacts\t039c\worktree-v029-ci-fix-20261105-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (6s 730ms)
+退出代码: 2
+
+  生成的进程内文件项目:
+    - F:\Iris\artifacts\t039c\theme-dispatcher-interference-before-20261105-2\reports\28910_SKYRIU-PC_2026-11-05_12_03_19.598154.xunit.xml
+
+测试运行摘要: 失败!
+  总计: 1
+  失败: 1
+  成功: 0
+  已跳过: 0
+  持续时间: 7s 012ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

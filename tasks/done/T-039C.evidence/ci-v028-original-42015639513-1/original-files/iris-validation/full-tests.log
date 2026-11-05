@@ -1,0 +1,78 @@
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 239ms)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (5s 871ms)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (10s 782ms)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesRequiredServices (2s 064ms)
+  从 D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: Iris.Core.Errors.IrisException : 鼠标监听启动失败，划词功能不可用
+    在 Iris.App.Selection.SelectionIconController.StopCoreAsync() 位于 D:\a\Iris\Iris\src\Iris.App\Selection\SelectionIconController.cs:542
+    在 Iris.App.Selection.SelectionIconController.DisposeAsync() 位于 D:\a\Iris\Iris\src\Iris.App\Selection\SelectionIconController.cs:544
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.<DisposeAsync>g__Await|26_0(Int32 i, ValueTask vt, List`1 toDispose)
+    在 Microsoft.Extensions.Hosting.Internal.Host.DisposeAsync()
+    在 Microsoft.Extensions.Hosting.Internal.Host.Dispose()
+    在 Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesRequiredServices() 位于 D:\a\Iris\Iris\tests\Iris.App.Tests\Hosting\AppHostBuilderTests.cs:95
+    在 Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesRequiredServices() 位于 D:\a\Iris\Iris\tests\Iris.App.Tests\Hosting\AppHostBuilderTests.cs:46
+    在 System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    在 System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (15s 298ms)
+失败 Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesSettingsPresenterAndAutoStart_AsSingletons_WithoutInstantiatingSettingsWindow (50ms)
+  从 D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: Iris.Core.Errors.IrisException : 鼠标监听启动失败，划词功能不可用
+    在 Iris.App.Selection.SelectionIconController.StopCoreAsync() 位于 D:\a\Iris\Iris\src\Iris.App\Selection\SelectionIconController.cs:542
+    在 Iris.App.Selection.SelectionIconController.DisposeAsync() 位于 D:\a\Iris\Iris\src\Iris.App\Selection\SelectionIconController.cs:544
+    在 Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.<DisposeAsync>g__Await|26_0(Int32 i, ValueTask vt, List`1 toDispose)
+    在 Microsoft.Extensions.Hosting.Internal.Host.DisposeAsync()
+    在 Microsoft.Extensions.Hosting.Internal.Host.Dispose()
+    在 Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesSettingsPresenterAndAutoStart_AsSingletons_WithoutInstantiatingSettingsWindow() 位于 D:\a\Iris\Iris\tests\Iris.App.Tests\Hosting\AppHostBuilderTests.cs:281
+    在 Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesSettingsPresenterAndAutoStart_AsSingletons_WithoutInstantiatingSettingsWindow() 位于 D:\a\Iris\Iris\tests\Iris.App.Tests\Hosting\AppHostBuilderTests.cs:253
+    在 System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)
+    在 System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)
+D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64) 已通过 (35s 671ms)
+D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (1m 14s 185ms)
+D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 2 个错误 (3m 53s 468ms)
+退出代码: 2
+  标准输出: DWM_FAILURE code=CaptureFailed nativeHResultPreserved=True captures=0
+  FOREGROUND_QUERY newIntentObserved=True emptyQueries=2 resultCanceled=True nativeRestores=0
+  LATE_POINTER_AFTER_CONFIRM imagePreserved=True crops=1
+  PREPARATION_ERRORS settingsRecorded=True translationRecorded=True settingsRestored=True translationRestored=True
+  NETWORK_VISUAL files=48 directory=C:\Users\runneradmin\AppData\Local\Temp\iris-t036c-render-fbe5aa3689c24603868059ede7ede715
+  RIGHT_CLEAR handled=True displayedX=100 displayedY=100
+  RIGHT_CLEAR handled=True displayedX=100 displayedY=100
+  LABEL_LAYOUT opaqueLabels=3 overlappingPairs=0
+  LABEL_LAYOUT opaqueLabels=3 overlappingPairs=0
+  LOCALIZATION_VISUAL files=426 directory=C:\Users\runneradmin\AppData\Local\Temp\iris-t038-visual-58f101e42cef45f585b345ab9187b8fe
+  R1_BEFORE_RELEASE persisted=en-US draft=zh-CN dirty=False
+  R1_JOINED persisted=en-US draft=en-US dirty=False
+  R1_JOINED persisted=en-US draft=zh-CN dirty=True
+  UPDATE_UI images=64 directory=C:\Users\runneradmin\AppData\Local\Temp\iris-t039b-ui-fcbf9a701bb843969333cb884aa1ade9
+
+  生成的进程内文件项目:
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_11_04_43.803226.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_11_04_43.760519.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_11_04_43.757455.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_11_04_43.786646.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_11_04_54.880134.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_11_04_50.014015.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_11_04_47.122221.xunit.xml
+
+测试运行摘要: 失败!
+  D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 2 个错误 (3m 53s 468ms)
+  D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (5s 871ms)
+  D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (10s 782ms)
+  D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (15s 298ms)
+  D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (1m 14s 185ms)
+  D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64) 已通过 (35s 671ms)
+  D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 239ms)
+
+  总计: 3771
+  失败: 2
+  成功: 3769
+  已跳过: 0
+  持续时间: 3m 58s 239ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

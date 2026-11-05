@@ -1,0 +1,16 @@
+{
+  "Command": [
+    "git",
+    "-c",
+    "push.followTags=false",
+    "push",
+    "--no-follow-tags",
+    "origin",
+    "refs/tags/v0.2.8:refs/tags/v0.2.8"
+  ],
+  "StartedUtc": "2026-11-05T11:02:04.035452+00:00",
+  "FinishedUtc": "2026-11-05T11:02:08.790833+00:00",
+  "ExitCode": 0,
+  "Bytes": 68,
+  "Sha256": "7515a202988192c195ec7c9b2699df3b4691d5c05754fdc8468a1c14adbe45b1"
+}

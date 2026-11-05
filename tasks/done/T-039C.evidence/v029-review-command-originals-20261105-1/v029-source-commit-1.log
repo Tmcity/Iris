@@ -1,0 +1,2 @@
+[codex/t039c-ci-v028-dispatcher f2526ab] Initialize the owned WPF dispatcher before composition tests
+ 3 files changed, 10 insertions(+), 9 deletions(-)

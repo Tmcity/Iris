@@ -1,0 +1,16 @@
+{
+  "command": [
+    "git",
+    "worktree",
+    "add",
+    "-b",
+    "codex/t039c-ci-v028-dispatcher",
+    "F:/Iris/artifacts/t039c/worktree-v029-ci-fix-20261105-1",
+    "0c9b0a1881d07224597163b1e9b2f080ab60d434"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T11:38:52.223425+00:00",
+  "completedAt": "2026-11-05T11:39:02.079588+00:00",
+  "exitCode": 0,
+  "logSha256": "900f028c81f5dada03e2bc62f891239ec7cea898e4b84ae7d799610d67b43ef0"
+}

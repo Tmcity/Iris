@@ -1,0 +1,22 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.App.Tests/Iris.App.Tests.csproj",
+    "-c",
+    "Release",
+    "--no-ansi",
+    "--no-progress",
+    "--filter-class",
+    "Iris.App.Tests.Services.ThemeServicePreviewTests",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:/Iris/artifacts/t039c/theme-preview-after-20261105-2/reports"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v029-ci-fix-20261105-1",
+  "startedAt": "2026-11-05T12:04:46.327313+00:00",
+  "completedAt": "2026-11-05T12:04:53.780729+00:00",
+  "exitCode": 0,
+  "logSha256": "92a5d96c8f262acf2ab4be7c5176cce4af89c5c5292d73d12a201adc03da7391"
+}

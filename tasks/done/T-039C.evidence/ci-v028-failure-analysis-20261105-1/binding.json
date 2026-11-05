@@ -1,0 +1,204 @@
+{
+  "SourceCommit": "0c9b0a1881d07224597163b1e9b2f080ab60d434",
+  "Tag": "v0.2.8",
+  "RunId": 42015639513,
+  "RunAttempt": 1,
+  "TagObject": "8c1f34e73014d21236d3a77b960cb4e24a1bec8b",
+  "OriginalArtifactDigestMatchedOfficialPage": true,
+  "OfficialRestApiArtifactMetadataVerified": false,
+  "FullTests": {
+    "Total": 3771,
+    "Passed": 3769,
+    "Failed": 2,
+    "Skipped": 0
+  },
+  "Failures": [
+    "Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesRequiredServices",
+    "Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesSettingsPresenterAndAutoStart_AsSingletons_WithoutInstantiatingSettingsWindow"
+  ],
+  "PackageJobId": 127205378609,
+  "PackageSteps": [
+    {
+      "Name": "Set up job",
+      "Conclusion": "success"
+    },
+    {
+      "Name": "Run actions/checkout@v4",
+      "Conclusion": "success"
+    },
+    {
+      "Name": "Run actions/setup-dotnet@v4",
+      "Conclusion": "success"
+    },
+    {
+      "Name": "Run actions/setup-python@v5",
+      "Conclusion": "success"
+    },
+    {
+      "Name": "Validate immutable release intent",
+      "Conclusion": "success"
+    },
+    {
+      "Name": "Release build, full tests and offline publishing regressions",
+      "Conclusion": "failure"
+    },
+    {
+      "Name": "Read and validate the previous public release",
+      "Conclusion": "skipped"
+    },
+    {
+      "Name": "Build and bind exact public assets with Windows PowerShell 5.1",
+      "Conclusion": "skipped"
+    },
+    {
+      "Name": "Run actions/upload-artifact@v4",
+      "Conclusion": "skipped"
+    },
+    {
+      "Name": "Preserve completed logs and original failures",
+      "Conclusion": "success"
+    },
+    {
+      "Name": "Post Run actions/setup-python@v5",
+      "Conclusion": "skipped"
+    },
+    {
+      "Name": "Post Run actions/setup-dotnet@v4",
+      "Conclusion": "skipped"
+    },
+    {
+      "Name": "Post Run actions/checkout@v4",
+      "Conclusion": "success"
+    },
+    {
+      "Name": "Complete job",
+      "Conclusion": "success"
+    }
+  ],
+  "PublishJobId": 127208381501,
+  "PublishConclusion": "skipped",
+  "ReleasePublic": false,
+  "FailedTagOrRunRewritten": false,
+  "Files": [
+    {
+      "Path": "failed-source/src/Iris.App/Hosting/AppHostBuilder.cs",
+      "Bytes": 8129,
+      "Sha256": "8b0d4c8c2b3dcd7a61d5ddba3da0e8877d286ed82b7f48374d920efae042bed3"
+    },
+    {
+      "Path": "failed-source/src/Iris.App/Selection/SelectionIconController.cs",
+      "Bytes": 30683,
+      "Sha256": "a1faf7675c972354c4f227bb7b285d0c01b9fd0174fc695c331aa1e91e7a55be"
+    },
+    {
+      "Path": "failed-source/tests/Iris.App.Tests/Hosting/AppHostBuilderTests.cs",
+      "Bytes": 15366,
+      "Sha256": "3c7d6900b0922cdecfa91e08416f8081111b2a60b513bce775135a74b0366ff3"
+    },
+    {
+      "Path": "failed-source/tests/Iris.App.Tests/TestSupport/WpfTestAssemblyFixture.cs",
+      "Bytes": 485,
+      "Sha256": "d36b9c0db9c8bec968e2ef6988bfc8138b5df4b36e950876f3a40920e2523a2c"
+    },
+    {
+      "Path": "failed-source/tests/Iris.App.Tests/TestSupport/WpfTestRunner.cs",
+      "Bytes": 6702,
+      "Sha256": "43c5d43ad331f396690908a0578c7e75b92d97c3046159f21cae22f9d8668d80"
+    },
+    {
+      "Path": "official-api-artifact-quota-response/observation.json",
+      "Bytes": 376,
+      "Sha256": "6d93ddf9c95b9e73a21b2c4d4e4386f0b13f5b3f423bcefbfa3d98f85796fcce"
+    },
+    {
+      "Path": "official-api-artifact-quota-response/response.body",
+      "Bytes": 280,
+      "Sha256": "10e1f21e8c9aed73184df70fb5e0438cb54f729b5578d87810e9a664cd7c622b"
+    },
+    {
+      "Path": "official-api-artifact-quota-response/response.headers",
+      "Bytes": 1052,
+      "Sha256": "562948a6ed7c0dd93ed068c3007d6acd03f699b17c8eabafecf3c4f9e19815c4"
+    },
+    {
+      "Path": "official-api-artifact-quota-response/stderr.log",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "official-public-pages/20261105T111426616159Z-web-run/observation.json",
+      "Bytes": 376,
+      "Sha256": "3927b3e26f8e02aa97a24bd69cabf87e516afc442e962c3513680ea13b2f932a"
+    },
+    {
+      "Path": "official-public-pages/20261105T111426616159Z-web-run/response.body",
+      "Bytes": 170930,
+      "Sha256": "ccf03705effa8ba4d4f3ad86cfd01c5ee6126efa769bb3321bf66f5d9bb4a604"
+    },
+    {
+      "Path": "official-public-pages/20261105T111426616159Z-web-run/response.headers",
+      "Bytes": 5426,
+      "Sha256": "7607e1e58562d6719911ee00329c76814a108feee51123e46a0724cd0b2c76bf"
+    },
+    {
+      "Path": "official-public-pages/20261105T111426616159Z-web-run/stderr.log",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "official-public-pages/20261105T111710122482Z-web-job/observation.json",
+      "Bytes": 393,
+      "Sha256": "22a06325fcbfa41f8399b2045c1690026c036613e08dafec68297a6aea03ed44"
+    },
+    {
+      "Path": "official-public-pages/20261105T111710122482Z-web-job/response.body",
+      "Bytes": 170485,
+      "Sha256": "6512a95b72e2881c6656334e9f30b28930ff9db15943f049d2af9d3386ded16b"
+    },
+    {
+      "Path": "official-public-pages/20261105T111710122482Z-web-job/response.headers",
+      "Bytes": 5430,
+      "Sha256": "c078a5930b0f92d00fed86d807c5df0ed1127ca6d1fa5e7b7ba53260d0c17baa"
+    },
+    {
+      "Path": "official-public-pages/20261105T111710122482Z-web-job/stderr.log",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "official-public-pages/20261105T111710133995Z-web-job/observation.json",
+      "Bytes": 393,
+      "Sha256": "4a40c951ed071e140ef382fa5e06b5995639f0cac6c24cc146f2ea3d6ca52390"
+    },
+    {
+      "Path": "official-public-pages/20261105T111710133995Z-web-job/response.body",
+      "Bytes": 151421,
+      "Sha256": "9193a240520a5490029b96fa527abc031e363ee2646dd956432d38c60ae1732c"
+    },
+    {
+      "Path": "official-public-pages/20261105T111710133995Z-web-job/response.headers",
+      "Bytes": 5427,
+      "Sha256": "4686d51a3e603b2982ebd95bd19c42c478043db274b7df4c72b4befcbb2d10bc"
+    },
+    {
+      "Path": "official-public-pages/20261105T111710133995Z-web-job/stderr.log",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "original-ci-binding.json",
+      "Bytes": 14276,
+      "Sha256": "35593bc6f0a79369ec5f2d2f344ad6c8594b00b077af149b0c89322aac59c931"
+    },
+    {
+      "Path": "publication-state.json",
+      "Bytes": 2220,
+      "Sha256": "b23b87c039178c5807ca9ddc15447785ae775a9eac8ff3ec8903a1863bb19fa0"
+    },
+    {
+      "Path": "user-approval.json",
+      "Bytes": 797,
+      "Sha256": "f1127d2812b09fb528596ad0f56bf3ce1d97c8e22bffc8782622bb74db59bbd8"
+    }
+  ]
+}

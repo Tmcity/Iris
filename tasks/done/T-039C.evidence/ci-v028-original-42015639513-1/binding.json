@@ -1,0 +1,285 @@
+{
+  "SourceCommit": "0c9b0a1881d07224597163b1e9b2f080ab60d434",
+  "Tag": "v0.2.8",
+  "RunId": 42015639513,
+  "RunAttempt": 1,
+  "ArtifactId": 13409681541,
+  "OriginalBytes": 505370,
+  "OfficialPageDigest": "9dff4e9062a80911c2b351bbdbec213d1b2e80f7a5adaf58fe629cf115f2639b",
+  "OfficialApiDigestVerified": false,
+  "Totals": {
+    "Total": 3771,
+    "Passed": 3769,
+    "Failed": 2,
+    "Skipped": 0
+  },
+  "Failures": [
+    {
+      "Name": "Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesRequiredServices",
+      "Message": "Iris.Core.Errors.IrisException : \u9f20\u6807\u76d1\u542c\u542f\u52a8\u5931\u8d25\uff0c\u5212\u8bcd\u529f\u80fd\u4e0d\u53ef\u7528",
+      "Stack": "   at Iris.App.Selection.SelectionIconController.StopCoreAsync() in D:\\a\\Iris\\Iris\\src\\Iris.App\\Selection\\SelectionIconController.cs:line 542\n   at Iris.App.Selection.SelectionIconController.DisposeAsync() in D:\\a\\Iris\\Iris\\src\\Iris.App\\Selection\\SelectionIconController.cs:line 544\n   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.<DisposeAsync>g__Await|26_0(Int32 i, ValueTask vt, List`1 toDispose)\n   at Microsoft.Extensions.Hosting.Internal.Host.DisposeAsync()\n   at Microsoft.Extensions.Hosting.Internal.Host.Dispose()\n   at Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesRequiredServices() in D:\\a\\Iris\\Iris\\tests\\Iris.App.Tests\\Hosting\\AppHostBuilderTests.cs:line 95\n   at Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesRequiredServices() in D:\\a\\Iris\\Iris\\tests\\Iris.App.Tests\\Hosting\\AppHostBuilderTests.cs:line 46\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)"
+    },
+    {
+      "Name": "Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesSettingsPresenterAndAutoStart_AsSingletons_WithoutInstantiatingSettingsWindow",
+      "Message": "Iris.Core.Errors.IrisException : \u9f20\u6807\u76d1\u542c\u542f\u52a8\u5931\u8d25\uff0c\u5212\u8bcd\u529f\u80fd\u4e0d\u53ef\u7528",
+      "Stack": "   at Iris.App.Selection.SelectionIconController.StopCoreAsync() in D:\\a\\Iris\\Iris\\src\\Iris.App\\Selection\\SelectionIconController.cs:line 542\n   at Iris.App.Selection.SelectionIconController.DisposeAsync() in D:\\a\\Iris\\Iris\\src\\Iris.App\\Selection\\SelectionIconController.cs:line 544\n   at Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceProviderEngineScope.<DisposeAsync>g__Await|26_0(Int32 i, ValueTask vt, List`1 toDispose)\n   at Microsoft.Extensions.Hosting.Internal.Host.DisposeAsync()\n   at Microsoft.Extensions.Hosting.Internal.Host.Dispose()\n   at Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesSettingsPresenterAndAutoStart_AsSingletons_WithoutInstantiatingSettingsWindow() in D:\\a\\Iris\\Iris\\tests\\Iris.App.Tests\\Hosting\\AppHostBuilderTests.cs:line 281\n   at Iris.App.Tests.Hosting.AppHostBuilderTests.Host_ResolvesSettingsPresenterAndAutoStart_AsSingletons_WithoutInstantiatingSettingsWindow() in D:\\a\\Iris\\Iris\\tests\\Iris.App.Tests\\Hosting\\AppHostBuilderTests.cs:line 253\n   at System.Reflection.MethodBaseInvoker.InterpretedInvoke_Method(Object obj, IntPtr* args)\n   at System.Reflection.MethodBaseInvoker.InvokeWithNoArgs(Object obj, BindingFlags invokeAttr)"
+    }
+  ],
+  "Files": [
+    {
+      "Path": "original-files/iris-validation/full-tests.log",
+      "Bytes": 8208,
+      "Sha256": "add4f1014752d799ad5a0f41a0a6fba9247545124c292950f1865fcfbefbe566"
+    },
+    {
+      "Path": "original-files/iris-validation/full-tests.command.json",
+      "Bytes": 491,
+      "Sha256": "30187102eb7114c4ce5a643630ff8250fbbc62cc1c67721f67439b1ddbce20d4"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/cancel-transferred-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/cancel-transferred.json",
+      "Bytes": 473,
+      "Sha256": "9df55ab43fc68d2dc57c597e00cbc9acc02cb722ec11646ef6e22e1993827800"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/cleanup-failure-then-success-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/cleanup-failure-then-success-worker-1.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/cleanup-failure-then-success.json",
+      "Bytes": 476,
+      "Sha256": "d457255a1fbc2459486241ca2952e133be348bdeebc7324344bb631107057179"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/disposed-failure-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/disposed-failure-worker-1.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/disposed-failure-worker-2.json",
+      "Bytes": 81,
+      "Sha256": "bb5a12933e3189de5613691561bb597833ab1100b09341905c06043f462d35d0"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/disposed-failure.json",
+      "Bytes": 742,
+      "Sha256": "724f78bb26909c7fa3d5e87d949088e5b6eb4e2c55d5c2049e7aa18fb3d56f06"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/disposed-recovery.png",
+      "Bytes": 19644,
+      "Sha256": "93d857ff0641d8ba1d049a0f1f41f04369204b618816ade56608b4e1fd0b9c4c"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/disposed-success-before-parent-exit.json",
+      "Bytes": 601,
+      "Sha256": "6d44012eecd537d46643f9db0eb3bc2870877a78208ebb12f2f8dd9a55e215e6"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/ordinary-accepted-then-canceled.json",
+      "Bytes": 485,
+      "Sha256": "6747874e0a51938573809cfc360f68294d169f4d296e4a179243b59573f798fa"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/ordinary-confirmation-canceled.json",
+      "Bytes": 485,
+      "Sha256": "6747874e0a51938573809cfc360f68294d169f4d296e4a179243b59573f798fa"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/ordinary-new-offer.json",
+      "Bytes": 485,
+      "Sha256": "3bd8dffa3ab9b5bca3946fc5d50d57979cb7ea9c4c31aa1a4a2e1e3ba9a58d75"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/ordinary-ready.json",
+      "Bytes": 485,
+      "Sha256": "6747874e0a51938573809cfc360f68294d169f4d296e4a179243b59573f798fa"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/prepare-failure.json",
+      "Bytes": 479,
+      "Sha256": "bd8d8d1ff736e2aabb95f80275dc7a04e9f8a3984ad917d0e3b99d7ea504d94e"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/recovery-en-US-Dark-380.json",
+      "Bytes": 854,
+      "Sha256": "b6cd38e9fe04780955e2ec735beb46c400fcda307f0aff1c87a62aea6967b7e4"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/recovery-en-US-Dark-380.png",
+      "Bytes": 15707,
+      "Sha256": "10a720e1a62a70cc887fed35522563754143ce1f6844d438ef51f6b68c92cab3"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/recovery-en-US-Dark-540.json",
+      "Bytes": 854,
+      "Sha256": "c9cdfbb2d18244f2cfab7275dd50c82f78f55826001b091ceb0aa39d8544a590"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/recovery-en-US-Dark-540.png",
+      "Bytes": 16031,
+      "Sha256": "387d913b959c3a4adc20358db947142a7d23dec715c7110fb38e8227b49edb24"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/recovery-en-US-Light-380.json",
+      "Bytes": 858,
+      "Sha256": "985d9128e2b165bd5bdfc7b1226da94b08f58a92ad1298c07a7f92a783085fe7"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/recovery-en-US-Light-380.png",
+      "Bytes": 15713,
+      "Sha256": "578b89095228045c9d09c4e23dde5e01406092de260f46bf3ea7c047dd9209a1"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/recovery-en-US-Light-540.json",
+      "Bytes": 858,
+      "Sha256": "4e48619e4a1a26111a37a3d32de309d8dacb86391c57bd74bb5a0c067faef1de"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/recovery-en-US-Light-540.png",
+      "Bytes": 16013,
+      "Sha256": "b2a2c48285477a38865fdb3839c49d9d8e488d92614066694d91168b29150290"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/recovery-zh-CN-Dark-380.json",
+      "Bytes": 880,
+      "Sha256": "699e65130d18e9f62cfa2c5407bc13576e370249f7b35655c5efa76694ce91db"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/recovery-zh-CN-Dark-380.png",
+      "Bytes": 22254,
+      "Sha256": "f76847cae534103ee7d1131c74f25f7cfe67af99a44d8f4d68b49a361a49d344"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/recovery-zh-CN-Dark-540.json",
+      "Bytes": 880,
+      "Sha256": "246cd49dd581e26c31ee66b8125414d6bc6eb481b74fec7503a769d94224217f"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/recovery-zh-CN-Dark-540.png",
+      "Bytes": 23296,
+      "Sha256": "6bdb5d9fe82d3eaab9316d73707d550ee7ddc3e5216f3ce4d8f7d5d7b7a2ae8e"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/recovery-zh-CN-Light-380.json",
+      "Bytes": 884,
+      "Sha256": "8be2761a17b80f48959a55308038361c51274b4cd40d76e148189eca26bb247b"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/recovery-zh-CN-Light-380.png",
+      "Bytes": 22129,
+      "Sha256": "bbc8a43d737c9bcecf1ae7f4b134511d6574b009e241cdd41209b985c4012c48"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/recovery-zh-CN-Light-540.json",
+      "Bytes": 884,
+      "Sha256": "3404b8285f7280f5c959e0422119a724ee574296c6a44f9c3ac64694d7c1c41d"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/recovery-zh-CN-Light-540.png",
+      "Bytes": 23186,
+      "Sha256": "3f623949d7fc929a2c1b0e4f312094af53b12cff91375479fd673892aae30451"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/retained-failure-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/retained-failure-worker-1.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/retained-failure-worker-2.json",
+      "Bytes": 81,
+      "Sha256": "bb5a12933e3189de5613691561bb597833ab1100b09341905c06043f462d35d0"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/retained-failure.json",
+      "Bytes": 740,
+      "Sha256": "2b05dbfa8d83590dff71324c395c26d3bade8f3e0ce82ffe9da5b95bab98d04f"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/retained-recovery.png",
+      "Bytes": 19644,
+      "Sha256": "93d857ff0641d8ba1d049a0f1f41f04369204b618816ade56608b4e1fd0b9c4c"
+    },
+    {
+      "Path": "original-files/iris-validation/owned-test-results/retained-success-before-parent-exit.json",
+      "Bytes": 601,
+      "Sha256": "8b71436cd352b520a9f0d304642da8157cef1920f2571bdb64b4941bcdf4aaca"
+    },
+    {
+      "Path": "original-files/iris-validation/release-build.command.json",
+      "Bytes": 364,
+      "Sha256": "1ea59de09be254f02f4ee9ceb3c51d89c44e6681a1d2c2a4c723e7ed1ac07d59"
+    },
+    {
+      "Path": "original-files/iris-validation/release-build.log",
+      "Bytes": 3673,
+      "Sha256": "5c0cae8596ae9d7e43f486b21fc8246a4c701d6f533a5a0be2cb205c5ed8d578"
+    },
+    {
+      "Path": "original-files/iris-validation/release-manifest-tests.command.json",
+      "Bytes": 468,
+      "Sha256": "13c3401557ebc3cf51e5ccea4e0bd759dc7b4aef85240f9ad1435c793b144fe5"
+    },
+    {
+      "Path": "original-files/iris-validation/release-manifest-tests.log",
+      "Bytes": 3079,
+      "Sha256": "3ba7ff8c5860d5e0cb009f534d84dee3ed12a518eedb0494e17e9b22d8bf514a"
+    },
+    {
+      "Path": "original-files/iris-validation/reports/runneradmin_runnervmhao91_2026-11-05_11_04_43.757455.xunit.xml",
+      "Bytes": 564560,
+      "Sha256": "044f9c5f831b437f86e146455dec12bc02be1e2d6fd1f9c246a8c6c03042d057"
+    },
+    {
+      "Path": "original-files/iris-validation/reports/runneradmin_runnervmhao91_2026-11-05_11_04_43.786646.xunit.xml",
+      "Bytes": 665672,
+      "Sha256": "ef75ae214929e4446806a5c6dda04bc10a5a7e6d10f52fb28c9d3ad4e9b29f80"
+    },
+    {
+      "Path": "original-files/iris-validation/reports/runneradmin_runnervmhao91_2026-11-05_11_04_43.760519.xunit.xml",
+      "Bytes": 361096,
+      "Sha256": "12aacf975f046868289aeb83e5b849323d8ca97c797fbf1c11e15c48f2006ebb"
+    },
+    {
+      "Path": "original-files/iris-validation/reports/runneradmin_runnervmhao91_2026-11-05_11_04_43.803226.xunit.xml",
+      "Bytes": 7057,
+      "Sha256": "ebef5e4f57d84e7a9cc14a24780f9738090f90e29a4dcd672689e772f4f9e716"
+    },
+    {
+      "Path": "original-files/iris-validation/reports/runneradmin_runnervmhao91_2026-11-05_11_04_47.122221.xunit.xml",
+      "Bytes": 512743,
+      "Sha256": "10341a08a431ed2fed7d1adecb6ad03ac9df3b7a3949ee239be02edbaeb791d1"
+    },
+    {
+      "Path": "original-files/iris-validation/reports/runneradmin_runnervmhao91_2026-11-05_11_04_50.014015.xunit.xml",
+      "Bytes": 115131,
+      "Sha256": "377076fe7d4820f7111efd8e830b925dc5d3383be48f01d66b4b6bb2555b5168"
+    },
+    {
+      "Path": "original-files/iris-validation/reports/runneradmin_runnervmhao91_2026-11-05_11_04_54.880134.xunit.xml",
+      "Bytes": 23793,
+      "Sha256": "53625a26bb01dbceea47487286d6daa918597e16ca643934c303eecf1a38023c"
+    }
+  ]
+}
