@@ -7,6 +7,12 @@ using Xunit;
 
 namespace Iris.App.Tests.Services;
 
+[CollectionDefinition("ThemeServiceDispatcher", DisableParallelization = true)]
+public sealed class ThemeServiceDispatcherDefinition;
+
+// Other test classes deliberately occupy Application.Current's dispatcher.
+// Observe these real background-to-UI callbacks separately from those fixtures.
+[Collection("ThemeServiceDispatcher")]
 public sealed class ThemeServicePreviewTests
 {
     [Fact]
