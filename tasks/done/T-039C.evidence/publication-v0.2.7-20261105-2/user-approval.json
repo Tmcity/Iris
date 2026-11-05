@@ -1,0 +1,14 @@
+{
+  "ExplicitUserConfirmation": true,
+  "QuestionItemId": "[\"request_user_input_async\",\"call_YAIpktcEutb9gWMkUu5Yjqlk\",0]",
+  "Answer": "\u786e\u8ba4\u53d1\u5e030.2.7\uff08\u4ec5\u65b0\u7248\u672c\uff09",
+  "Tag": "v0.2.7",
+  "SourceCommit": "fc44a3a78c2729c25dfb91296c51602b843a94f9",
+  "ReviewArchiveCommit": "06b282bd928249519ea07b3eea999238f1202328",
+  "ExecutionMaterialsCommit": "320e05bc4c5c04a1f6a69147e418156c524110cb",
+  "BranchPushAuthorized": false,
+  "OtherVersionsAuthorized": false,
+  "OverwriteExistingReleaseAuthorized": false,
+  "RerunOldCiAuthorized": false,
+  "RecordedUtc": "2026-11-05T05:54:04.542558+00:00"
+}

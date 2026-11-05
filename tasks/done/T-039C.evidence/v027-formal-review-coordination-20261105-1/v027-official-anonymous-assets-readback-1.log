@@ -1,0 +1,35 @@
+{"Asset": "SHA256.json", "Bytes": 2454, "Verified": true}
+{"Asset": "assets.win.json", "Bytes": 240, "Verified": true}
+{"Asset": "full-tests.log", "Bytes": 3879, "Verified": true}
+{"Asset": "INSTALLATION.md", "Bytes": 5088, "Verified": true}
+{"Asset": "Iris-0.2.7-delta.nupkg", "Bytes": 538726, "Verified": true}
+{"Asset": "Iris-0.2.2-full.nupkg", "Bytes": 64627273, "Verified": true}
+{"Asset": "Iris-0.2.7-full.nupkg", "Bytes": 64627391, "Verified": true}
+{"Asset": "package.log", "Bytes": 6520, "Verified": true}
+{"Asset": "payload-manifest.json", "Bytes": 17644, "Verified": true}
+{"Asset": "release-build.log", "Bytes": 3673, "Verified": true}
+{"Asset": "release-manifest-tests.log", "Bytes": 3079, "Verified": true}
+{"Asset": "release-provenance.json", "Bytes": 192665, "Verified": true}
+{"Asset": "RELEASE_NOTES.md", "Bytes": 676, "Verified": true}
+{"Asset": "RELEASES", "Bytes": 146, "Verified": true}
+{"Asset": "releases.win.json", "Bytes": 702, "Verified": true}
+{"Asset": "staging-manifest.json", "Bytes": 18533, "Verified": true}
+{"Asset": "validation-summary.json", "Bytes": 3066, "Verified": true}
+{"Asset": "Iris-0.2.7-Setup.exe", "Bytes": 116767767, "Verified": true}
+{
+  "Version": "0.2.7",
+  "SourceCommit": "fc44a3a78c2729c25dfb91296c51602b843a94f9",
+  "SourceGitTree": "81aea2fa6cad8a3dcde34b081185dd03aae9c31c",
+  "PublicAssets": 18,
+  "PayloadEntries": 97,
+  "CommittedSourceEntriesMatched": 721,
+  "FullTests": {
+    "Total": 3759,
+    "Passed": 3759,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "FullSha256": "f8f9de897b637f8c98a07d601420885bf65529701d014fc52b59f87ce75bace8",
+  "OuterSha256": "d294341700e1d9155567fadc56b9c3f1883217bd3cf0ce23102c94f57c83d570",
+  "AnonymousPublicReadback": true
+}

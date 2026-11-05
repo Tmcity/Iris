@@ -1,3 +1,7 @@
+最新权威状态：正式v0.2.7已公开。实际CI41976966535/attempt1/package127077966898/publish127080878399成功；原XML3759全部成功0跳过，原验证ZIP506138字节/官网SHAf74d5800…，原发布ZIP423字节/SHA22e043ef…已冻结。正式匿名18资产/97载荷/721来源及官网每项SHA全部匹配；正式Setup116767767/SHA d294341700e1d9155567fadc56b9c3f1883217bd3cf0ce23102c94f57c83d570，full64627391/SHA f8f9de897b637f8c98a07d601420885bf65529701d014fc52b59f87ce75bace8。API元数据限额仍待resetUTC06:25:19后补。已部署公开027安装载荷核对材料，user UI offer question已发，当前待用户反馈；不要先下载/安装/卸载。保留新Sandbox2fc7c168…原App7312/V3 8152/fixture7328和三项old-ready哈希，真实升级/一次重启/卸载/数据及T040/NFR仍未结案。
+
+最新实际状态：已授权的v0.2.7于2026-11-05T05:54:37UTC正常推送，annotated tag51b6a3d3c334ce604e9479948ef9f10fafd7d7c5→源码fc44a3a78c2729c25dfb91296c51602b843a94f9；main/codex和所有旧标签均保持。原匿名API限额失败receipt1保留，使用官网/正式下载验证的receipt2实际退出0。当前CI为https://github.com/Tmcity/Iris/actions/runs/41976966535，package job127077966898，官网实际显示In progress；API限额resetUTC06:25:19，届时再恢复API核对。v027正式新资产与真实UI升级尚未验证，tag页面200可能仅为annotated tag，不能当Release成功。用户新Sandbox2fc7c168…/原App7312、V3/8152、合成服务7328及old-ready保持，正式资产通过后才让用户分段手工更新。不要再次调用publish来重复本标签推送。
+
 当前补充：用户已明确确认0.2.7，实际授权文件v027-user-approval-20261105-1.json。首次发布执行在任何标签创建前遇共享匿名REST限额403（reset UTC06:25:19），原publication-v0.2.7-20261105-1保持。官网页面/正式下载路径的完整预检已通过；正在以同一源码fc44a3a和同一审阅06b282b继续已授权的单一v0.2.7，不推分支，无需再次确认。详见CONTINUE_APPROVED_V027_20261105.md。
 
 # T-039C 当前接续状态（2026-11-05）

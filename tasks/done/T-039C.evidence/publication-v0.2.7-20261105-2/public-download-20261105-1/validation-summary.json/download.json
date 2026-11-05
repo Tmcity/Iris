@@ -1,0 +1,12 @@
+{
+  "Url": "https://github.com/Tmcity/Iris/releases/download/v0.2.7/validation-summary.json?iris_public_read=20261105T060531305531Z",
+  "StartedUtc": "2026-11-05T06:05:31.305531+00:00",
+  "FinishedUtc": "2026-11-05T06:05:32.558306+00:00",
+  "AuthorizationSent": false,
+  "UsesGitHubRestApi": false,
+  "HttpStatus": "200",
+  "ExitCode": 0,
+  "Bytes": 3066,
+  "Sha256": "7c09c6bf898978b6316d44b10f4a318360afab56b0a6b73bb0c6666e9cb37d4a",
+  "LocalPath": "F:\\Iris\\artifacts\\t039c\\public-0.2.7-download-20261105-1\\validation-summary.json"
+}

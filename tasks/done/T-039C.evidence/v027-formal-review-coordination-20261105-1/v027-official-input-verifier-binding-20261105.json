@@ -1,0 +1,24 @@
+{
+  "Version": "0.2.7",
+  "PayloadManifestSha256": "ccfc49c983054e4007dad14fe9222219df8ca2cd34230daeeae0b35e620371b3",
+  "VerifierSha256": "3b8b1faa758d8a6ec6e738b5168e682128427934af57aca6e6fd231a24832666",
+  "InstallationPerformed": false,
+  "ProductModified": false,
+  "InputFiles": [
+    {
+      "Path": "PUBLIC_V027_payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "ccfc49c983054e4007dad14fe9222219df8ca2cd34230daeeae0b35e620371b3"
+    },
+    {
+      "Path": "PUBLIC_V027_release-provenance.json",
+      "Bytes": 192665,
+      "Sha256": "5be6f4ef007d9f734e99351b47d9b2187524aafbddfac12434eaaec06f60f591"
+    },
+    {
+      "Path": "PUBLIC_V027_SHA256.json",
+      "Bytes": 2454,
+      "Sha256": "729140a97419e6ea56fc35868f1c46f5f6bd56372c9b53476d0cce2be0986e1d"
+    }
+  ]
+}

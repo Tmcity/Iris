@@ -1,0 +1,101 @@
+{
+  "Version": "0.2.7",
+  "SourceCommit": "fc44a3a78c2729c25dfb91296c51602b843a94f9",
+  "SourceGitTree": "81aea2fa6cad8a3dcde34b081185dd03aae9c31c"
+}
+{
+  "Version": "0.2.2",
+  "SourceCommit": "fb9f46f247e2ed4f6b2ee849e67b4b7d9afbdb11",
+  "SourceGitTree": "60422257ce3c47f3eb83b291b02a84d4c75add8a",
+  "PublicAssets": 16,
+  "PayloadEntries": 97,
+  "MaintenancePrefixBytes": 44626180,
+  "InternalSetupBytes": 72141385,
+  "InternalSetupSha256": "e3ed4dd80e9301be4c64cd04a3cf222c9324d00e10e85c60dde5539c4cf212a7",
+  "FullSha256": "c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14",
+  "OuterSha256": "ddae984ba4bcc65e5398ecd7a036afe0485966c5d61fe9b1603cc9bb487e7a0c"
+}
+可使用以下命令调用工具: vpk
+已成功安装工具“vpk”(版本“1.2.161”)。
+  正在确定要还原的项目…
+  已还原 D:\a\Iris\Iris\src\Iris.Providers\Iris.Providers.csproj (用时 391 毫秒)。
+  已还原 D:\a\Iris\Iris\src\Iris.App\Iris.App.csproj (用时 403 毫秒)。
+  已还原 D:\a\Iris\Iris\src\Iris.Infrastructure\Iris.Infrastructure.csproj (用时 411 毫秒)。
+  已还原 D:\a\Iris\Iris\src\Iris.UiaHost\Iris.UiaHost.csproj (用时 383 毫秒)。
+  已还原 D:\a\Iris\Iris\src\Iris.Core\Iris.Core.csproj (用时 4 毫秒)。
+  已还原 D:\a\Iris\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj (用时 5 毫秒)。
+  已还原 D:\a\Iris\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 12 毫秒)。
+  Iris.Core -> D:\a\Iris\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Infrastructure -> D:\a\Iris\Iris\src\Iris.Infrastructure\bin\Release\net10.0\Iris.Infrastructure.dll
+  Iris.Providers -> D:\a\Iris\Iris\src\Iris.Providers\bin\Release\net10.0\Iris.Providers.dll
+  Iris.Platform.Windows -> D:\a\Iris\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> D:\a\Iris\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.Maintenance -> D:\a\Iris\Iris\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.Maintenance.dll
+  Iris.App -> D:\a\Iris\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.App.dll
+  Iris.App -> D:\a\Iris\Iris\artifacts\pack-0.2.7-1d6d7b25df62477e82b6ea5dda8e9de7\app\
+  Iris.Core -> D:\a\Iris\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> D:\a\Iris\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> D:\a\Iris\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.UiaHost -> D:\a\Iris\Iris\artifacts\pack-0.2.7-1d6d7b25df62477e82b6ea5dda8e9de7\app\uia\
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  Iris.Core -> D:\a\Iris\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> D:\a\Iris\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> D:\a\Iris\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.UiaHost -> D:\a\Iris\Iris\artifacts\pack-0.2.7-1d6d7b25df62477e82b6ea5dda8e9de7\uia\
+  正在确定要还原的项目…
+  已还原 D:\a\Iris\Iris\src\Iris.Core\Iris.Core.csproj (用时 11.68 秒)。
+  已还原 D:\a\Iris\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 11.68 秒)。
+  已还原 D:\a\Iris\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj (用时 11.68 秒)。
+  Iris.Core -> D:\a\Iris\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> D:\a\Iris\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.Maintenance -> D:\a\Iris\Iris\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.Maintenance.dll
+  Iris.Maintenance -> D:\a\Iris\Iris\artifacts\pack-0.2.7-1d6d7b25df62477e82b6ea5dda8e9de7\maintenance\
+[06:02:39 INF] Velopack CLI 1.2.161, for distributing applications.
+[06:02:39 INF] Beginning to package Velopack release 0.2.7.
+[06:02:39 INF] Releases Directory: D:\a\_temp\iris-release
+[06:02:40 INF] Starting: Pre-process steps
+[06:02:40 WRN] VelopackApp.Run() was found in method 'System.Int32 Iris.App.Updates.VelopackStartup::RunHook(System.String[])', which does not look like your application's entry point. It is strongly recommended that you move this to the very beginning of your Main() method. 
+[06:02:40 INF] Runtime Dependency: net10-x64-desktop
+[06:02:40 INF] Shortcuts: Desktop,StartMenuRoot
+[06:02:40 INF] Complete: Pre-process steps
+[06:02:40 INF] Starting: Code-sign application
+[06:02:40 WRN] No signing parameters provided, 83 file(s) will not be signed.
+[06:02:40 INF] Complete: Code-sign application
+[06:02:40 INF] Starting: Building release 0.2.7
+[06:02:43 INF] Complete: Building release 0.2.7
+[06:02:43 INF] Starting: Building setup package
+[06:02:43 INF] Starting: Building delta 0.2.2 -> 0.2.7
+[06:02:43 INF] Creating delta for 0.2.2 -> 0.2.7 with 3 parallel threads.
+[06:02:43 INF] Setup bundle created 'Iris-win-Setup.exe'.
+[06:02:43 WRN] No signing parameters provided, 1 file(s) will not be signed.
+[06:02:43 INF] Complete: Building setup package
+[06:02:44 INF] Delta processed 0097 files. 0019 patched, 0078 unchanged, 0000 new, 0000 removed
+[06:02:44 INF] Complete: Building delta 0.2.2 -> 0.2.7
+[06:02:44 INF] Starting: Post-process steps
+[06:02:44 INF] Complete: Post-process steps
+[06:02:44 INF] Finished in 00:00:04.5786207.
+{
+  "IndexedOuterInstaller": "Iris-0.2.7-Setup.exe",
+  "FeedEntries": 3
+}
+{
+  "Version": "0.2.7",
+  "SourceCommit": "fc44a3a78c2729c25dfb91296c51602b843a94f9",
+  "SourceGitTree": "81aea2fa6cad8a3dcde34b081185dd03aae9c31c",
+  "PublicAssets": 13,
+  "PayloadEntries": 97,
+  "MaintenancePrefixBytes": 44626208,
+  "InternalSetupBytes": 72141503,
+  "InternalSetupSha256": "e82a59a0abe8494ce63f3c721f8cfbed8599a9dc5231e11fb1e66df4865085d3",
+  "FullSha256": "f8f9de897b637f8c98a07d601420885bf65529701d014fc52b59f87ce75bace8",
+  "OuterSha256": "d294341700e1d9155567fadc56b9c3f1883217bd3cf0ce23102c94f57c83d570"
+}
+{
+    "Version":  "0.2.7",
+    "SdkVersion":  "1.2.161",
+    "WorkDirectory":  "D:\\a\\Iris\\Iris\\artifacts\\pack-0.2.7-1d6d7b25df62477e82b6ea5dda8e9de7",
+    "OutputDirectory":  "D:\\a\\_temp\\iris-release",
+    "Installer":  "D:\\a\\_temp\\iris-release\\Iris-0.2.7-Setup.exe",
+    "Signed":  false
+}

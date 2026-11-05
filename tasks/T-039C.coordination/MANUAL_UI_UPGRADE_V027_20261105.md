@@ -2,7 +2,7 @@
 
 此清单待 0.2.7 的单独发布确认、实际 CI 成功及正式资产核对完成后使用。保留当前 Sandbox `2fc7c168-2f34-437a-8319-8974e6f592b2`、现有 0.2.2、合成服务和 V3 记录器；每段等待助手复核后再进行下一段。
 
-1. Iris 设置 → 关于/更新，点击检查更新；确认显示可更新至 0.2.7，在来宾 `C:\IrisAcceptanceInput` 点击 `Save-Offer-State.cmd`。反馈旧版、提供的新版本和界面状态/错误原文。
+1. Iris 设置 → 常规页的更新区域，点击检查更新；确认显示可更新至 0.2.7，在来宾 `C:\IrisAcceptanceInput` 点击 `Save-Offer-State.cmd`。反馈旧版、提供的新版本和界面状态/错误原文。
 2. 收到下载步骤后，在同一界面点击下载，等待可安装状态；点击 `Save-Ready-State.cmd`。反馈实际状态与开始/结束时间，错误保留原文。
 3. 收到安装步骤后，在界面确认安装，等待正常重启。从设置查看新版本；打开升级前历史；沿用保存的合成服务翻译 `Iris acceptance check after upgrade`，预期 `Iris 公共升级验证`；点击 `Save-Updated-State.cmd`。反馈版本、历史/翻译结果、是否出现额外提示和安装等待时长。
 4. 助手独立核对真实退出、native 先后顺序、一次正常重启、正式安装载荷、设置/秘密/旧历史和本次新历史后，才执行卸载。在 Windows 应用设置卸载 Iris，保留默认“保留用户数据”选择；点击 `Save-Uninstalled-State.cmd`，再点击 `Stop-Manual-Evidence.cmd`。反馈卸载结果与提示/错误原文。

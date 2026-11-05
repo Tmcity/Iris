@@ -1,0 +1,100 @@
+{
+  "SourceCommit": "fc44a3a78c2729c25dfb91296c51602b843a94f9",
+  "Files": [
+    {
+      "Path": "input/PUBLIC_V027_payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "ccfc49c983054e4007dad14fe9222219df8ca2cd34230daeeae0b35e620371b3"
+    },
+    {
+      "Path": "input/PUBLIC_V027_release-provenance.json",
+      "Bytes": 192665,
+      "Sha256": "5be6f4ef007d9f734e99351b47d9b2187524aafbddfac12434eaaec06f60f591"
+    },
+    {
+      "Path": "input/PUBLIC_V027_SHA256.json",
+      "Bytes": 2454,
+      "Sha256": "729140a97419e6ea56fc35868f1c46f5f6bd56372c9b53476d0cce2be0986e1d"
+    },
+    {
+      "Path": "input/Save-Updated-State-before-v027-verifier.cmd.txt",
+      "Bytes": 180,
+      "Sha256": "1393d4b6b406f38455b2d3ff95f554369e8e7fa05a0b2e06ef95b0e2b672f759"
+    },
+    {
+      "Path": "input/Save-Updated-State.cmd",
+      "Bytes": 418,
+      "Sha256": "98c61e7474ca7b776aaa069a38d35cf02e0b785b04dd9dd62413749f0ff321af"
+    },
+    {
+      "Path": "input/verify-v027-install-readonly.ps1",
+      "Bytes": 3665,
+      "Sha256": "3b8b1faa758d8a6ec6e738b5168e682128427934af57aca6e6fd231a24832666"
+    },
+    {
+      "Path": "v027-approved-tag-publication-2.command.json",
+      "Bytes": 556,
+      "Sha256": "0eea0bf5ddc5a8290ecaa739650a1fd7e0ebea8f34fa413d9600ca15def775d1"
+    },
+    {
+      "Path": "v027-approved-tag-publication-2.log",
+      "Bytes": 259,
+      "Sha256": "b6caffa447888cb67f89f8c563c640e0b9f958ba568c475a80d58a90275588c6"
+    },
+    {
+      "Path": "v027-official-anonymous-assets-readback-1.command.json",
+      "Bytes": 346,
+      "Sha256": "f2bf2f8af9531c06954348cc44bec87dfcd4b935d04656865332f60548edee93"
+    },
+    {
+      "Path": "v027-official-anonymous-assets-readback-1.log",
+      "Bytes": 1753,
+      "Sha256": "caa9a2ff34a0b7902b4769536257ef10aec6c230e09486825dcaf2cf5b06f9ff"
+    },
+    {
+      "Path": "v027-official-input-verifier-binding-20261105.json",
+      "Bytes": 815,
+      "Sha256": "ee9eed780fa0397134af4c83f4323eb9560c08220c7e98d1dfc9ca50920ddefd"
+    },
+    {
+      "Path": "v027-official-manual-verifier-ps51-parse-1.command.json",
+      "Bytes": 547,
+      "Sha256": "52028e30c6a6fb9bf6708eafeb8c98c0c5e5c1981ab77d9004c4927beaefc069"
+    },
+    {
+      "Path": "v027-official-manual-verifier-ps51-parse-1.log",
+      "Bytes": 82,
+      "Sha256": "6d4e75079e75a793593dad476c03505dbdee808db8dd61c0efcf01bdb6a2a2eb"
+    },
+    {
+      "Path": "v027-old-ready-before-offer-readonly-1.command.json",
+      "Bytes": 542,
+      "Sha256": "96bbff9c54b02098bf2ff0815c2aeb9a55bdc88171632418d5a446e86b674f65"
+    },
+    {
+      "Path": "v027-old-ready-before-offer-readonly-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "v027-original-ci-and-published-assets-independent-archive-1.command.json",
+      "Bytes": 350,
+      "Sha256": "823db74012a6b9089ab89d3f0ad6b3a6a515416f8a72366d306800eca805fe49"
+    },
+    {
+      "Path": "v027-original-ci-and-published-assets-independent-archive-1.log",
+      "Bytes": 221,
+      "Sha256": "8e5e486b1175314ce09fe293f7d01f23a4c4975674eab78c61c3f11013e7a9ef"
+    },
+    {
+      "Path": "v027-original-ci-artifact-readback-1.command.json",
+      "Bytes": 351,
+      "Sha256": "182862490cec5f8f3f4c9c06ac131d864d629c742468f9ad1afcf75ca86e4ab1"
+    },
+    {
+      "Path": "v027-original-ci-artifact-readback-1.log",
+      "Bytes": 188,
+      "Sha256": "84500381fb7ce448c8b9349335a97e684bc5b562212f4071ae7ab091f20a1560"
+    }
+  ]
+}

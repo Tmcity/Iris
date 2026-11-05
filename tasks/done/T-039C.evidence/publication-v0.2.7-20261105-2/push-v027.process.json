@@ -1,0 +1,13 @@
+{
+  "Pid": 28984,
+  "Command": [
+    "git",
+    "-c",
+    "push.followTags=false",
+    "push",
+    "--no-follow-tags",
+    "origin",
+    "refs/tags/v0.2.7:refs/tags/v0.2.7"
+  ],
+  "StartedUtc": "2026-11-05T05:54:28.433870+00:00"
+}

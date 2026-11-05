@@ -1,0 +1,11 @@
+{
+  "Pid": 67576,
+  "Command": [
+    "git",
+    "remote",
+    "get-url",
+    "--push",
+    "origin"
+  ],
+  "StartedUtc": "2026-11-05T05:54:04.543589+00:00"
+}

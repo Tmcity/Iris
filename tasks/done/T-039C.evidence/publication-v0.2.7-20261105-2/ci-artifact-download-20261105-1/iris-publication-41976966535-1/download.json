@@ -1,0 +1,15 @@
+{
+  "Url": "https://nightly.link/Tmcity/Iris/actions/runs/41976966535/iris-publication-41976966535-1.zip",
+  "ObservedUtc": "2026-11-05T06:08:30.764978+00:00",
+  "ExitCode": 0,
+  "HttpStatus": "200",
+  "AuthorizationSent": false,
+  "OriginalPath": "F:\\Iris\\artifacts\\t039c\\ci-v027-publication-41976966535-1.zip",
+  "Bytes": 423,
+  "Sha256": "22e043efae52700f56676539b6c87848ac86d4b2bd71d7755129656454b72cb8",
+  "OfficialArtifactId": 13392428250,
+  "OfficialPageDigest": "22e043efae52700f56676539b6c87848ac86d4b2bd71d7755129656454b72cb8",
+  "OfficialPagePath": "F:\\Iris\\tasks\\done\\T-039C.evidence\\publication-v0.2.7-20261105-2\\observations\\20261105T060422754203Z-web-run\\response.body",
+  "OfficialPageSha256": "3b2937481afe83998b0f3423b2e8f51696470181e1eb0898f3ee0438b6d4dfc9",
+  "OfficialRestApiDigestVerified": false
+}

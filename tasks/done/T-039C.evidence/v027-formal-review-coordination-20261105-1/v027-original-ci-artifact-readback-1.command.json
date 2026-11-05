@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/download_v027_ci_evidence_20261105.py"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T06:08:28.302901+00:00",
+  "completedAt": "2026-11-05T06:08:31.829200+00:00",
+  "exitCode": 0,
+  "logSha256": "84500381fb7ce448c8b9349335a97e684bc5b562212f4071ae7ab091f20a1560"
+}

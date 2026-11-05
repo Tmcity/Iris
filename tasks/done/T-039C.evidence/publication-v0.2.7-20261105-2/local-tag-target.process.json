@@ -1,0 +1,9 @@
+{
+  "Pid": 9476,
+  "Command": [
+    "git",
+    "rev-parse",
+    "refs/tags/v0.2.7^{}"
+  ],
+  "StartedUtc": "2026-11-05T05:54:28.343515+00:00"
+}

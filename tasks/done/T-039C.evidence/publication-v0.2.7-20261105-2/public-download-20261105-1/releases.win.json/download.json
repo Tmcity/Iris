@@ -1,0 +1,12 @@
+{
+  "Url": "https://github.com/Tmcity/Iris/releases/download/v0.2.7/releases.win.json?iris_public_read=20261105T060530007969Z",
+  "StartedUtc": "2026-11-05T06:05:30.008469+00:00",
+  "FinishedUtc": "2026-11-05T06:05:31.304527+00:00",
+  "AuthorizationSent": false,
+  "UsesGitHubRestApi": false,
+  "HttpStatus": "200",
+  "ExitCode": 0,
+  "Bytes": 702,
+  "Sha256": "c7a881635b112c4158761196a5a83617f7339a25c3b0562e87c41351c6958812",
+  "LocalPath": "F:\\Iris\\artifacts\\t039c\\public-0.2.7-download-20261105-1\\releases.win.json"
+}

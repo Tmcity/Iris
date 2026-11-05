@@ -1,0 +1,129 @@
+{
+  "SourceCommit": "fc44a3a78c2729c25dfb91296c51602b843a94f9",
+  "BuildWarnings": 0,
+  "BuildErrors": 0,
+  "FullTests": {
+    "Total": 3759,
+    "Passed": 3759,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "Assemblies": [
+    {
+      "Name": "Iris.Platform.Windows.Tests.dll",
+      "Total": 1085,
+      "Passed": 1085,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    },
+    {
+      "Name": "Iris.Providers.Tests.dll",
+      "Total": 584,
+      "Passed": 584,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    },
+    {
+      "Name": "Iris.ArchitectureTests.dll",
+      "Total": 11,
+      "Passed": 11,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    },
+    {
+      "Name": "Iris.App.Tests.dll",
+      "Total": 867,
+      "Passed": 867,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    },
+    {
+      "Name": "Iris.Infrastructure.Tests.dll",
+      "Total": 188,
+      "Passed": 188,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    },
+    {
+      "Name": "Iris.Maintenance.Tests.dll",
+      "Total": 39,
+      "Passed": 39,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    },
+    {
+      "Name": "Iris.Core.Tests.dll",
+      "Total": 985,
+      "Passed": 985,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    }
+  ],
+  "Commands": [
+    {
+      "Command": [
+        "C:\\hostedtoolcache\\windows\\Python\\3.13.17\\x64\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "build/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "StartedUtc": "2026-11-05T05:55:23.893441+00:00",
+      "FinishedUtc": "2026-11-05T05:55:25.172876+00:00",
+      "ExitCode": 0,
+      "Log": "release-manifest-tests.log",
+      "Bytes": 3079,
+      "Sha256": "664c7be5cc10823a6c3703e8a2c997d54d3aca1d844b5002186e6aa4ef093db9"
+    },
+    {
+      "Command": [
+        "dotnet",
+        "build",
+        "Iris.slnx",
+        "-c",
+        "Release",
+        "--no-incremental"
+      ],
+      "StartedUtc": "2026-11-05T05:55:25.173691+00:00",
+      "FinishedUtc": "2026-11-05T05:57:14.563771+00:00",
+      "ExitCode": 0,
+      "Log": "release-build.log",
+      "Bytes": 3673,
+      "Sha256": "74eb0105c6193cc7e59ea532e1c03d33021e2c4b57e86476a98b87bbe8547369"
+    },
+    {
+      "Command": [
+        "dotnet",
+        "test",
+        "Iris.slnx",
+        "-c",
+        "Release",
+        "--no-build",
+        "--no-ansi",
+        "--no-progress",
+        "--report-xunit-xml",
+        "--results-directory",
+        "D:\\a\\_temp\\iris-validation\\reports"
+      ],
+      "StartedUtc": "2026-11-05T05:57:14.564671+00:00",
+      "FinishedUtc": "2026-11-05T06:01:09.517004+00:00",
+      "ExitCode": 0,
+      "Log": "full-tests.log",
+      "Bytes": 3879,
+      "Sha256": "f402ab91d09847708a29158aa46b428cdd03ecde4fd4d552c6b5c9e1bbd3ea5d"
+    }
+  ],
+  "Scope": "Local/CI checks only; no real installation, public UI upgrade, default prerequisite download or whole-task acceptance is inferred."
+}

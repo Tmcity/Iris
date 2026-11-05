@@ -1,0 +1,15 @@
+{
+  "Url": "https://nightly.link/Tmcity/Iris/actions/runs/41976966535/iris-validation-41976966535-1.zip",
+  "ObservedUtc": "2026-11-05T06:08:31.821625+00:00",
+  "ExitCode": 0,
+  "HttpStatus": "200",
+  "AuthorizationSent": false,
+  "OriginalPath": "F:\\Iris\\artifacts\\t039c\\ci-v027-original-41976966535-1.zip",
+  "Bytes": 506138,
+  "Sha256": "f74d5800df0525b1594f5793394c8d6992f35b442ed429d9a7504bd4389f27a9",
+  "OfficialArtifactId": 13392382636,
+  "OfficialPageDigest": "f74d5800df0525b1594f5793394c8d6992f35b442ed429d9a7504bd4389f27a9",
+  "OfficialPagePath": "F:\\Iris\\tasks\\done\\T-039C.evidence\\publication-v0.2.7-20261105-2\\observations\\20261105T060422754203Z-web-run\\response.body",
+  "OfficialPageSha256": "3b2937481afe83998b0f3423b2e8f51696470181e1eb0898f3ee0438b6d4dfc9",
+  "OfficialRestApiDigestVerified": false
+}

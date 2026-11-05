@@ -1,0 +1,77 @@
+{
+  "Source": "GitHub official expanded_assets public page",
+  "Files": [
+    {
+      "Name": "assets.win.json",
+      "OfficialPageSha256": "057729a19eef41bafb147e37734c55f15e9a4c3fb6c75edaf0cb6e959e0cf66c"
+    },
+    {
+      "Name": "full-tests.log",
+      "OfficialPageSha256": "f402ab91d09847708a29158aa46b428cdd03ecde4fd4d552c6b5c9e1bbd3ea5d"
+    },
+    {
+      "Name": "INSTALLATION.md",
+      "OfficialPageSha256": "c6aca79261915f9b2d98489304a0d788e267d755110ea1384585730d83ccca4d"
+    },
+    {
+      "Name": "Iris-0.2.2-full.nupkg",
+      "OfficialPageSha256": "c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14"
+    },
+    {
+      "Name": "Iris-0.2.7-delta.nupkg",
+      "OfficialPageSha256": "a598a0b8899f5b97ac685d0c97b7594f17cea4b3e0749bc34c1d2706ccadb395"
+    },
+    {
+      "Name": "Iris-0.2.7-full.nupkg",
+      "OfficialPageSha256": "f8f9de897b637f8c98a07d601420885bf65529701d014fc52b59f87ce75bace8"
+    },
+    {
+      "Name": "Iris-0.2.7-Setup.exe",
+      "OfficialPageSha256": "d294341700e1d9155567fadc56b9c3f1883217bd3cf0ce23102c94f57c83d570"
+    },
+    {
+      "Name": "package.log",
+      "OfficialPageSha256": "4bcca0ef24a4fb8ff90c6c34dbd3e518e5792cb2898e032d3ed61996ff536222"
+    },
+    {
+      "Name": "payload-manifest.json",
+      "OfficialPageSha256": "ccfc49c983054e4007dad14fe9222219df8ca2cd34230daeeae0b35e620371b3"
+    },
+    {
+      "Name": "release-build.log",
+      "OfficialPageSha256": "74eb0105c6193cc7e59ea532e1c03d33021e2c4b57e86476a98b87bbe8547369"
+    },
+    {
+      "Name": "release-manifest-tests.log",
+      "OfficialPageSha256": "664c7be5cc10823a6c3703e8a2c997d54d3aca1d844b5002186e6aa4ef093db9"
+    },
+    {
+      "Name": "release-provenance.json",
+      "OfficialPageSha256": "5be6f4ef007d9f734e99351b47d9b2187524aafbddfac12434eaaec06f60f591"
+    },
+    {
+      "Name": "RELEASES",
+      "OfficialPageSha256": "ee8ddccbb8f8b8fa7c8e9e3ded72907e281f04385aa6318e191cceb750879e6f"
+    },
+    {
+      "Name": "releases.win.json",
+      "OfficialPageSha256": "c7a881635b112c4158761196a5a83617f7339a25c3b0562e87c41351c6958812"
+    },
+    {
+      "Name": "RELEASE_NOTES.md",
+      "OfficialPageSha256": "8b1e670e472849aa84daba533e7a83c0ca5d229de46b1c4cfbde1af3e11ed31c"
+    },
+    {
+      "Name": "SHA256.json",
+      "OfficialPageSha256": "729140a97419e6ea56fc35868f1c46f5f6bd56372c9b53476d0cce2be0986e1d"
+    },
+    {
+      "Name": "staging-manifest.json",
+      "OfficialPageSha256": "33982e04d5f7834672f2b732648bc0544ad907477954917d940d8cd90680c00e"
+    },
+    {
+      "Name": "validation-summary.json",
+      "OfficialPageSha256": "7c09c6bf898978b6316d44b10f4a318360afab56b0a6b73bb0c6666e9cb37d4a"
+    }
+  ]
+}

@@ -1,0 +1,516 @@
+<div data-view-component="true" class="Box Box--condensed tmp-mt-3">
+  
+  
+    <ul data-view-component="true">
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/assets.win.json" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">assets.win.json</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:057729a19eef41bafb147e37734c55f15e9a4c3fb6c75edaf0cb6e959e0cf66c</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:057729a19eef41bafb147e37734c55f15e9a4c3fb6c75edaf0cb6e959e0cf66c" aria-label="Copy to clipboard digest for assets.win.json" type="button" value="sha256:057729a19eef41bafb147e37734c55f15e9a4c3fb6c75edaf0cb6e959e0cf66c" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">240 Bytes</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:44Z" class="no-wrap" prefix="">2026-11-05T06:03:44Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/full-tests.log" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">full-tests.log</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:f402ab91d09847708a29158aa46b428cdd03ecde4fd4d552c6b5c9e1bbd3ea5d</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:f402ab91d09847708a29158aa46b428cdd03ecde4fd4d552c6b5c9e1bbd3ea5d" aria-label="Copy to clipboard digest for full-tests.log" type="button" value="sha256:f402ab91d09847708a29158aa46b428cdd03ecde4fd4d552c6b5c9e1bbd3ea5d" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">3.79 KB</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:44Z" class="no-wrap" prefix="">2026-11-05T06:03:44Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/INSTALLATION.md" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">INSTALLATION.md</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:c6aca79261915f9b2d98489304a0d788e267d755110ea1384585730d83ccca4d</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:c6aca79261915f9b2d98489304a0d788e267d755110ea1384585730d83ccca4d" aria-label="Copy to clipboard digest for INSTALLATION.md" type="button" value="sha256:c6aca79261915f9b2d98489304a0d788e267d755110ea1384585730d83ccca4d" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">4.97 KB</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:42Z" class="no-wrap" prefix="">2026-11-05T06:03:42Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/Iris-0.2.2-full.nupkg" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">Iris-0.2.2-full.nupkg</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14" aria-label="Copy to clipboard digest for Iris-0.2.2-full.nupkg" type="button" value="sha256:c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">61.6 MB</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:42Z" class="no-wrap" prefix="">2026-11-05T06:03:42Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/Iris-0.2.7-delta.nupkg" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">Iris-0.2.7-delta.nupkg</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:a598a0b8899f5b97ac685d0c97b7594f17cea4b3e0749bc34c1d2706ccadb395</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:a598a0b8899f5b97ac685d0c97b7594f17cea4b3e0749bc34c1d2706ccadb395" aria-label="Copy to clipboard digest for Iris-0.2.7-delta.nupkg" type="button" value="sha256:a598a0b8899f5b97ac685d0c97b7594f17cea4b3e0749bc34c1d2706ccadb395" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">526 KB</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:42Z" class="no-wrap" prefix="">2026-11-05T06:03:42Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/Iris-0.2.7-full.nupkg" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">Iris-0.2.7-full.nupkg</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:f8f9de897b637f8c98a07d601420885bf65529701d014fc52b59f87ce75bace8</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:f8f9de897b637f8c98a07d601420885bf65529701d014fc52b59f87ce75bace8" aria-label="Copy to clipboard digest for Iris-0.2.7-full.nupkg" type="button" value="sha256:f8f9de897b637f8c98a07d601420885bf65529701d014fc52b59f87ce75bace8" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">61.6 MB</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:42Z" class="no-wrap" prefix="">2026-11-05T06:03:42Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/Iris-0.2.7-Setup.exe" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">Iris-0.2.7-Setup.exe</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:d294341700e1d9155567fadc56b9c3f1883217bd3cf0ce23102c94f57c83d570</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:d294341700e1d9155567fadc56b9c3f1883217bd3cf0ce23102c94f57c83d570" aria-label="Copy to clipboard digest for Iris-0.2.7-Setup.exe" type="button" value="sha256:d294341700e1d9155567fadc56b9c3f1883217bd3cf0ce23102c94f57c83d570" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">111 MB</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:42Z" class="no-wrap" prefix="">2026-11-05T06:03:42Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/package.log" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">package.log</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:4bcca0ef24a4fb8ff90c6c34dbd3e518e5792cb2898e032d3ed61996ff536222</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:4bcca0ef24a4fb8ff90c6c34dbd3e518e5792cb2898e032d3ed61996ff536222" aria-label="Copy to clipboard digest for package.log" type="button" value="sha256:4bcca0ef24a4fb8ff90c6c34dbd3e518e5792cb2898e032d3ed61996ff536222" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">6.37 KB</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:44Z" class="no-wrap" prefix="">2026-11-05T06:03:44Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/payload-manifest.json" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">payload-manifest.json</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:ccfc49c983054e4007dad14fe9222219df8ca2cd34230daeeae0b35e620371b3</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:ccfc49c983054e4007dad14fe9222219df8ca2cd34230daeeae0b35e620371b3" aria-label="Copy to clipboard digest for payload-manifest.json" type="button" value="sha256:ccfc49c983054e4007dad14fe9222219df8ca2cd34230daeeae0b35e620371b3" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">17.2 KB</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:44Z" class="no-wrap" prefix="">2026-11-05T06:03:44Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/release-build.log" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">release-build.log</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:74eb0105c6193cc7e59ea532e1c03d33021e2c4b57e86476a98b87bbe8547369</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:74eb0105c6193cc7e59ea532e1c03d33021e2c4b57e86476a98b87bbe8547369" aria-label="Copy to clipboard digest for release-build.log" type="button" value="sha256:74eb0105c6193cc7e59ea532e1c03d33021e2c4b57e86476a98b87bbe8547369" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">3.59 KB</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:45Z" class="no-wrap" prefix="">2026-11-05T06:03:45Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/release-manifest-tests.log" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">release-manifest-tests.log</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:664c7be5cc10823a6c3703e8a2c997d54d3aca1d844b5002186e6aa4ef093db9</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:664c7be5cc10823a6c3703e8a2c997d54d3aca1d844b5002186e6aa4ef093db9" aria-label="Copy to clipboard digest for release-manifest-tests.log" type="button" value="sha256:664c7be5cc10823a6c3703e8a2c997d54d3aca1d844b5002186e6aa4ef093db9" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">3.01 KB</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:45Z" class="no-wrap" prefix="">2026-11-05T06:03:45Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/release-provenance.json" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">release-provenance.json</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:5be6f4ef007d9f734e99351b47d9b2187524aafbddfac12434eaaec06f60f591</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:5be6f4ef007d9f734e99351b47d9b2187524aafbddfac12434eaaec06f60f591" aria-label="Copy to clipboard digest for release-provenance.json" type="button" value="sha256:5be6f4ef007d9f734e99351b47d9b2187524aafbddfac12434eaaec06f60f591" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">188 KB</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:45Z" class="no-wrap" prefix="">2026-11-05T06:03:45Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/RELEASES" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">RELEASES</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:ee8ddccbb8f8b8fa7c8e9e3ded72907e281f04385aa6318e191cceb750879e6f</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:ee8ddccbb8f8b8fa7c8e9e3ded72907e281f04385aa6318e191cceb750879e6f" aria-label="Copy to clipboard digest for RELEASES" type="button" value="sha256:ee8ddccbb8f8b8fa7c8e9e3ded72907e281f04385aa6318e191cceb750879e6f" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">146 Bytes</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:43Z" class="no-wrap" prefix="">2026-11-05T06:03:43Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/releases.win.json" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">releases.win.json</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:c7a881635b112c4158761196a5a83617f7339a25c3b0562e87c41351c6958812</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:c7a881635b112c4158761196a5a83617f7339a25c3b0562e87c41351c6958812" aria-label="Copy to clipboard digest for releases.win.json" type="button" value="sha256:c7a881635b112c4158761196a5a83617f7339a25c3b0562e87c41351c6958812" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">702 Bytes</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:45Z" class="no-wrap" prefix="">2026-11-05T06:03:45Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/RELEASE_NOTES.md" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">RELEASE_NOTES.md</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:8b1e670e472849aa84daba533e7a83c0ca5d229de46b1c4cfbde1af3e11ed31c</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:8b1e670e472849aa84daba533e7a83c0ca5d229de46b1c4cfbde1af3e11ed31c" aria-label="Copy to clipboard digest for RELEASE_NOTES.md" type="button" value="sha256:8b1e670e472849aa84daba533e7a83c0ca5d229de46b1c4cfbde1af3e11ed31c" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">676 Bytes</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:43Z" class="no-wrap" prefix="">2026-11-05T06:03:43Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/SHA256.json" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">SHA256.json</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:729140a97419e6ea56fc35868f1c46f5f6bd56372c9b53476d0cce2be0986e1d</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:729140a97419e6ea56fc35868f1c46f5f6bd56372c9b53476d0cce2be0986e1d" aria-label="Copy to clipboard digest for SHA256.json" type="button" value="sha256:729140a97419e6ea56fc35868f1c46f5f6bd56372c9b53476d0cce2be0986e1d" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">2.4 KB</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:43Z" class="no-wrap" prefix="">2026-11-05T06:03:43Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/staging-manifest.json" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">staging-manifest.json</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:33982e04d5f7834672f2b732648bc0544ad907477954917d940d8cd90680c00e</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:33982e04d5f7834672f2b732648bc0544ad907477954917d940d8cd90680c00e" aria-label="Copy to clipboard digest for staging-manifest.json" type="button" value="sha256:33982e04d5f7834672f2b732648bc0544ad907477954917d940d8cd90680c00e" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">18.1 KB</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:46Z" class="no-wrap" prefix="">2026-11-05T06:03:46Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-package color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="m8.878.392 5.25 3.045c.54.314.872.89.872 1.514v6.098a1.75 1.75 0 0 1-.872 1.514l-5.25 3.045a1.75 1.75 0 0 1-1.756 0l-5.25-3.045A1.75 1.75 0 0 1 1 11.049V4.951c0-.624.332-1.201.872-1.514L7.122.392a1.75 1.75 0 0 1 1.756 0ZM7.875 1.69l-4.63 2.685L8 7.133l4.755-2.758-4.63-2.685a.248.248 0 0 0-.25 0ZM2.5 5.677v5.372c0 .09.047.171.125.216l4.625 2.683V8.432Zm6.25 8.271 4.625-2.683a.25.25 0 0 0 .125-.216V5.677L8.75 8.432Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/releases/download/v0.2.7/validation-summary.json" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">validation-summary.json</span>
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <div style="overflow: hidden;" data-view-component="true" class="d-flex flex-items-center flex-justify-end flex-1">
+            <span style="min-width: 0; max-width: 250px" data-view-component="true" class="Truncate text-mono text-small color-fg-muted">
+    <span data-view-component="true" class="Truncate-text">sha256:7c09c6bf898978b6316d44b10f4a318360afab56b0a6b73bb0c6666e9cb37d4a</span>
+</span>            <span data-view-component="true">
+  <clipboard-copy id="clipboard-button-sha256:7c09c6bf898978b6316d44b10f4a318360afab56b0a6b73bb0c6666e9cb37d4a" aria-label="Copy to clipboard digest for validation-summary.json" type="button" value="sha256:7c09c6bf898978b6316d44b10f4a318360afab56b0a6b73bb0c6666e9cb37d4a" data-view-component="true" class="Button--invisible Button--small Button Button--invisible-noVisuals color-fg-muted">
+      <svg aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-copy">
+    <path d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z"></path><path d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z"></path>
+</svg>
+      <svg style="display: none;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-check color-fg-success">
+    <path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z"></path>
+</svg>
+</clipboard-copy>  <div aria-live="polite" aria-atomic="true" class="sr-only" data-clipboard-copy-feedback></div>
+</span>
+
+</div>          <span style="white-space: nowrap; min-width: clamp(50px, 15vw, 75px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4">2.99 KB</span>
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T06:03:46Z" class="no-wrap" prefix="">2026-11-05T06:03:46Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-file-zip color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="M3.5 1.75v11.5c0 .09.048.173.126.217a.75.75 0 0 1-.752 1.298A1.748 1.748 0 0 1 2 13.25V1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.185 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v8.586A1.75 1.75 0 0 1 12.25 15h-.5a.75.75 0 0 1 0-1.5h.5a.25.25 0 0 0 .25-.25V4.664a.25.25 0 0 0-.073-.177L9.513 1.573a.25.25 0 0 0-.177-.073H7.25a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1 0-1.5h-3a.25.25 0 0 0-.25.25Zm3.75 8.75h.5c.966 0 1.75.784 1.75 1.75v3a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1-.75-.75v-3c0-.966.784-1.75 1.75-1.75ZM6 5.25a.75.75 0 0 1 .75-.75h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 6 5.25Zm.75 2.25h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1 0-1.5ZM8 6.75A.75.75 0 0 1 8.75 6h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 8 6.75ZM8.75 3h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1 0-1.5ZM8 9.75A.75.75 0 0 1 8.75 9h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 8 9.75Zm-1 2.5v2.25h1v-2.25a.25.25 0 0 0-.25-.25h-.5a.25.25 0 0 0-.25.25Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/archive/refs/tags/v0.2.7.zip" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">Source code</span> (zip)
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T05:54:28Z" class="no-wrap" prefix="">2026-11-05T05:54:28Z</relative-time></span>
+</div></li>
+        <li data-view-component="true" class="Box-row d-flex flex-column flex-md-row">      <div data-view-component="true" class="d-flex flex-justify-start flex-items-center col-12 col-lg-6">
+        <span class="d-flex flex-items-start">
+          <svg style="height: 1lh;" aria-hidden="true" data-component="Octicon" height="16" viewBox="0 0 16 16" version="1.1" width="16" data-view-component="true" class="octicon octicon-file-zip color-fg-muted mr-2 tmp-mr-2 flex-shrink-0">
+    <path d="M3.5 1.75v11.5c0 .09.048.173.126.217a.75.75 0 0 1-.752 1.298A1.748 1.748 0 0 1 2 13.25V1.75C2 .784 2.784 0 3.75 0h5.586c.464 0 .909.185 1.237.513l2.914 2.914c.329.328.513.773.513 1.237v8.586A1.75 1.75 0 0 1 12.25 15h-.5a.75.75 0 0 1 0-1.5h.5a.25.25 0 0 0 .25-.25V4.664a.25.25 0 0 0-.073-.177L9.513 1.573a.25.25 0 0 0-.177-.073H7.25a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1 0-1.5h-3a.25.25 0 0 0-.25.25Zm3.75 8.75h.5c.966 0 1.75.784 1.75 1.75v3a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1-.75-.75v-3c0-.966.784-1.75 1.75-1.75ZM6 5.25a.75.75 0 0 1 .75-.75h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 6 5.25Zm.75 2.25h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1 0-1.5ZM8 6.75A.75.75 0 0 1 8.75 6h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 8 6.75ZM8.75 3h.5a.75.75 0 0 1 0 1.5h-.5a.75.75 0 0 1 0-1.5ZM8 9.75A.75.75 0 0 1 8.75 9h.5a.75.75 0 0 1 0 1.5h-.5A.75.75 0 0 1 8 9.75Zm-1 2.5v2.25h1v-2.25a.25.25 0 0 0-.25-.25h-.5a.25.25 0 0 0-.25.25Z"></path>
+</svg>
+          <a href="/Tmcity/Iris/archive/refs/tags/v0.2.7.tar.gz" rel="nofollow" data-turbo="false" class="wb-break-all">
+            <span class="text-bold">Source code</span> (tar.gz)
+          </a>
+        </span>
+</div>      <div data-view-component="true" class="d-flex flex-auto flex-justify-end flex-items-center col-md-6 ml-3 tmp-ml-3 ml-md-0 tmp-ml-md-0 mt-1 tmp-mt-1 mt-md-0 tmp-mt-md-0 pl-1 tmp-pl-1 pl-md-0 tmp-pl-md-0">
+          <span style="white-space: nowrap; min-width: clamp(75px, 15vw, 100px);" data-view-component="true" class="color-fg-muted text-right flex-shrink-0 flex-grow-0 ml-2 tmp-ml-2 ml-sm-3 tmp-ml-sm-3 ml-md-4 tmp-ml-md-4"><relative-time datetime="2026-11-05T05:54:28Z" class="no-wrap" prefix="">2026-11-05T05:54:28Z</relative-time></span>
+</div></li>
+</ul>  
+</div>
