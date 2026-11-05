@@ -1,6 +1,8 @@
 # 0.2.9 发布检查点
 
-0.2.9 已完成固定源码、完整 Release/full 验证、唯一新候选和独立来源/资产核对。此前用户只确认最终 0.2.8；0.2.9 尚未授权或创建标签。审阅归档与最后只读执行预检见 [执行准备](F:/Iris/tasks/T-039C.coordination/EXECUTION_READY_V029_20261105.md)。
+0.2.9 已完成固定源码、完整 Release/full 验证、唯一新候选和独立来源/资产核对；审阅归档为 `7662ed580eb924756885db7ab3a7d7a04e8ea8ea`，最后只读执行预检已通过。此前用户只确认最终 0.2.8；0.2.9 尚未授权或创建标签。完整执行材料见 [执行准备](F:/Iris/tasks/T-039C.coordination/EXECUTION_READY_V029_20261105.md)。
+
+12:28 UTC 补充：官方匿名 API 已恢复，原 run/jobs/artifacts 的 source/attempt1/最终失败与跳过状态、505370 字节原 ZIP 的完整 API digest均匹配，Release返回HTTP404。见 [官方API补验绑定](F:/Iris/tasks/done/T-039C.evidence/ci-v028-api-supplement-20261105-1/binding.json)。下段和归档提交中的403/待补验描述保留该时点的原始状态。
 
 已授权的 [0.2.8 原 CI](https://github.com/Tmcity/Iris/actions/runs/42015639513) attempt 1 在两项 host composition 测试中失败，publish skipped，没有正式 0.2.8 安装资产。原 annotated tag `8c1f34e73014d21236d3a77b960cb4e24a1bec8b`→`0c9b0a1881d07224597163b1e9b2f080ab60d434` 保持。原 ZIP 505370 字节、SHA256 `9dff4e9062a80911c2b351bbdbec213d1b2e80f7a5adaf58fe629cf115f2639b` 与官网完整 artifact digest 匹配，51 原件及失败源已归档；匿名 REST artifact 元数据补验仍遇限流，原响应保留。
 

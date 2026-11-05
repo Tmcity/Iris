@@ -1,0 +1,23 @@
+warning: in the working copy of 'specs/DEVELOPER_HANDOFF.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'specs/PROJECT_HANDOFF.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/CURRENT_RELEASE_GATE_V028_FINAL_20261105.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/SESSION_STATUS_20261105.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/current_task.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/CI_V028_FAILURE_SCOPE_20261105.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/CURRENT_RELEASE_GATE_V029_20261105.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/PREPUBLICATION_REVIEW_V029_20261105.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/archive_old_ready_v029_20261105.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/archive_v028_failure_and_v029_initial_20261105.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/observe_v028_release_20261105.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/observe_v028_web_20261105.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/prepare_v029_review_archive_20261105.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/review_v029_candidate_20261105.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/v028-final-user-approval-20261105-2.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/v029-review-archive-index-byte-check-1.json', LF will be replaced by CRLF the next time Git touches it
+{
+  "StagedFiles": 446,
+  "RawEvidenceFilesVerified": 430,
+  "RawEvidenceBytesVerified": 10626856,
+  "SourceCommit": "0b3267f1f6cdc1a9fb8cfe1c93dde22da273ecd2",
+  "UnrelatedFilesStaged": false
+}

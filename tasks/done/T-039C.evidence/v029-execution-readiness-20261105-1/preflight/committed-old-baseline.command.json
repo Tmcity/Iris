@@ -1,0 +1,12 @@
+{
+  "Command": [
+    "git",
+    "show",
+    "7662ed580eb924756885db7ab3a7d7a04e8ea8ea:tasks/done/T-039C.evidence/manual-old-ready-v027-before-v029-20261105-1/binding.json"
+  ],
+  "StartedUtc": "2026-11-05T12:25:33.599251+00:00",
+  "FinishedUtc": "2026-11-05T12:25:33.684814+00:00",
+  "ExitCode": 0,
+  "Bytes": 5492,
+  "Sha256": "c12fbc089ace33813946ba979620070ea5875fad5523275dc429c9f39c173fc9"
+}

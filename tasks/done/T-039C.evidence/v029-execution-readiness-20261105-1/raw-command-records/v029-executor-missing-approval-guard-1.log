@@ -1,0 +1,5 @@
+usage: execute_v029_20261105.py [-h] [--mode {preflight,publish}]
+                                [--approval-file APPROVAL_FILE]
+                                [--publication-attempt PUBLICATION_ATTEMPT]
+                                [--public-verification {api,website}]
+execute_v029_20261105.py: error: Publish requires the separate explicit user approval for v0.2.9; no approval was provided.

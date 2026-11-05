@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/archive_v028_api_supplement_20261105.py"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T12:30:06.862797+00:00",
+  "completedAt": "2026-11-05T12:30:07.073030+00:00",
+  "exitCode": 0,
+  "logSha256": "27747e24f4e8be538b9924de94421ba091fee1cabbdd3d9400796707be368c03"
+}

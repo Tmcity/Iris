@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/prepare_v029_review_archive_20261105.py"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T12:22:15.057781+00:00",
+  "completedAt": "2026-11-05T12:22:17.306119+00:00",
+  "exitCode": 0,
+  "logSha256": "aef5e46f8b2587be880da76e875f3f82ae9890a44fd1fc75f080b758db901fc0"
+}
