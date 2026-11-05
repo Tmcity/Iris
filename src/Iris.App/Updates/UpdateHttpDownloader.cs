@@ -23,7 +23,8 @@ internal sealed class UpdateHttpDownloader(HttpClient client, CancellationToken 
         bool allowed = uri.Host switch
         {
             "api.github.com" => uri.AbsolutePath.Equals("/repos/Tmcity/Iris/releases", StringComparison.OrdinalIgnoreCase),
-            "github.com" => uri.AbsolutePath.StartsWith("/Tmcity/Iris/releases/download/", StringComparison.OrdinalIgnoreCase),
+            "github.com" => uri.AbsolutePath.Equals("/Tmcity/Iris/releases/latest/download/releases.win.json", StringComparison.OrdinalIgnoreCase)
+                || uri.AbsolutePath.StartsWith("/Tmcity/Iris/releases/download/", StringComparison.OrdinalIgnoreCase),
             "release-assets.githubusercontent.com" or "objects.githubusercontent.com" => redirect,
             _ => false
         };
