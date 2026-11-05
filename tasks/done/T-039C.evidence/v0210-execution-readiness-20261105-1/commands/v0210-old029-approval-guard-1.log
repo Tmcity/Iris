@@ -1,0 +1,5 @@
+usage: execute_v0210_20261105.py [-h] [--mode {preflight,publish}]
+                                 [--approval-file APPROVAL_FILE]
+                                 [--publication-attempt PUBLICATION_ATTEMPT]
+                                 [--public-verification {api,website}]
+execute_v0210_20261105.py: error: Approval does not match the reviewed v0.2.10 tag-only scope.

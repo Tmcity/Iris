@@ -1,0 +1,12 @@
+{
+  "Command": [
+    "git",
+    "show",
+    "d77973943421bd0aeb9d69d09edb4992e0c94688:tasks/done/T-039C.evidence/next-source-v0210-ui-acceptance-20261105-1/final-review.json"
+  ],
+  "StartedUtc": "2026-11-05T13:57:31.000023+00:00",
+  "FinishedUtc": "2026-11-05T13:57:31.053962+00:00",
+  "ExitCode": 0,
+  "Bytes": 5323,
+  "Sha256": "896775ac93d591f7023d8be5c63b88afec72434d84f285b066c60a0389100ba2"
+}

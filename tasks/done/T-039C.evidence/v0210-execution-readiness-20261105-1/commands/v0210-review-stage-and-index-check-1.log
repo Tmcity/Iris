@@ -1,0 +1,21 @@
+warning: in the working copy of 'specs/DEVELOPER_HANDOFF.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'specs/PROJECT_HANDOFF.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/CURRENT_RELEASE_GATE_V029_20261105.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/SESSION_STATUS_20261105.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/review_manual_fixed_v029_20261105.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/current_task.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/CURRENT_RELEASE_GATE_V0210_20261105.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/PREPUBLICATION_REVIEW_V0210_20261105.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/archive_v0210_review_20261105.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/finalize_fixed029_baseline_20261105.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/review_v0210_candidate_20261105.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/v029-manual-translation-feedback-20261105-1.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/v029-manual-user-feedback-20261105-1.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/v0210-review-index-byte-check-1.json', LF will be replaced by CRLF the next time Git touches it
+{
+  "RawFilesVerified": 210,
+  "RawBytesVerified": 6602131,
+  "NextSource": "227b3d88938543766a27d86a94ade52f9e5b89b7",
+  "Fixed029BaselineVerified": true,
+  "PublicationAuthorized": false
+}
