@@ -1,0 +1,22 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.Platform.Windows.Tests/Iris.Platform.Windows.Tests.csproj",
+    "-c",
+    "Release",
+    "--filter-method",
+    "*LateStartAwaitObservation_WhenRunnerStartHasNotReturned_WaitsForPublicationAndActualDrain*",
+    "--no-ansi",
+    "--no-progress",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:/Iris/artifacts/t039c/start-publication-counterexample-before-20261103-1/reports"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v027-ci-fix-20261103-1",
+  "startedAt": "2026-11-03T15:52:22.175638+00:00",
+  "completedAt": "2026-11-03T15:52:46.644226+00:00",
+  "exitCode": 2,
+  "logSha256": "fcdcdc8e7fcf8b805bb0f5349e376a03c9076297c0b65b8a3d4ae47a5d7e959a"
+}

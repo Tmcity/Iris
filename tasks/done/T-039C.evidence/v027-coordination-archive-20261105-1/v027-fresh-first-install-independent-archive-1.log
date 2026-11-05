@@ -1,0 +1,10 @@
+{
+  "SandboxId": "2fc7c168-2f34-437a-8319-8974e6f592b2",
+  "PublicInstalledPayloadMatched": 97,
+  "CleanGuestWithoutRuntimeOrCacheVerified": true,
+  "V3ReadyAtInspectionVerified": true,
+  "RuntimeInstallSeconds": 487.0,
+  "SignatureWaitSeconds": 481.262,
+  "IrisDeploymentLogWindowSeconds": 1,
+  "UpgradeOldReadyVerified": false
+}

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/archive_manual_install_v022_20261105.py"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T05:14:41.595238+00:00",
+  "completedAt": "2026-11-05T05:14:41.796519+00:00",
+  "exitCode": 0,
+  "logSha256": "e1a984da457b57d1dde6b843fa5476548ada49816aa9399e087122b73bf6ca8d"
+}

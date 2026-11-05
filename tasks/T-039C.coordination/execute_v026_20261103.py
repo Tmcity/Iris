@@ -68,7 +68,7 @@ def run(label, args, allow_nonzero=False):
     return result.returncode, raw.decode("utf-8-sig", errors="replace")
 
 def remote(label):
-    _, raw = run(label, ["git", "-c", "credential.helper=", "-c", "http.extraHeader=", "-c", "core.askPass=", "-c", "url.https://github.com/.insteadOf=", "ls-remote", "https://github.com/Tmcity/Iris.git", "refs/heads/main", "refs/heads/codex/t039c-public-release", "refs/tags/v0.2.*"])
+    _, raw = run(label, ["git", *IDENTITY, "ls-remote", "origin", "refs/heads/main", "refs/heads/codex/t039c-public-release", "refs/tags/v0.2.*"])
     return {name: sha for sha, name in (row.split() for row in raw.splitlines() if row.strip())}
 
 persist_state()

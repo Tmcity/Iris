@@ -1,0 +1,32 @@
+<assemblies schema-version="3" id="ce184ce6-7fa0-4093-93c8-229818323731" computer="SKYRIU-PC" user="28910" start-rtf="2026-11-03T15:52:45.4053130+00:00" finish-rtf="2026-11-03T15:52:45.5949894+00:00" timestamp="11/03/2026 23:52:45"><assembly environment="64-bit (x64) .NET 10.0.13 [collection-per-class, parallel (collections, 20 threads)]" id="53fc9acf-ae0c-49aa-ad0e-ee1b03954f08" name="F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll" run-date="2026-11-03" run-time="15:52:45" start-rtf="2026-11-03T15:52:45.4053130+00:00" test-framework="xUnit.net v3 4.0.1+8ed8aa354c" target-framework=".NETCoreApp,Version=v10.0" errors="0" failed="1" finish-rtf="2026-11-03T15:52:45.5949894+00:00" not-run="0" passed="0" skipped="0" time="0.190" time-rtf="00:00:00.1900000" total="1"><collection name="Test collection for Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests (id: 4b5b2af827511b02387b2c0827ccb032b7160f84c764032c80f9a1eabf1d2b38)" id="b83b5658-0dd1-4ae2-a207-f1a88b3feabb" failed="1" not-run="0" passed="0" skipped="0" time="0.081" time-rtf="00:00:00.0810000" total="1"><test id="1c8f828e-96bc-46e8-b2aa-43a4a55edb73" name="Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.LateStartAwaitObservation_WhenRunnerStartHasNotReturned_WaitsForPublicationAndActualDrain" result="Fail" time="0.081" time-rtf="00:00:00.0810000" start-rtf="2026-11-03T15:52:45.4785886+00:00" finish-rtf="2026-11-03T15:52:45.5778546+00:00" type="Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests" method="LateStartAwaitObservation_WhenRunnerStartHasNotReturned_WaitsForPublicationAndActualDrain" source-file="F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs" source-line="116"><failure exception-type="System.AggregateException"><message>System.AggregateException : R6 body/cleanup failures (observation.IsCompleted
+    should be
+False
+    but was
+True
+
+Additional Info:
+    the start Task has not been published yet) (Non-static field requires a target.)
+---- Shouldly.ShouldAssertException : observation.IsCompleted
+    should be
+False
+    but was
+True
+
+Additional Info:
+    the start Task has not been published yet
+---- System.Reflection.TargetException : Non-static field requires a target.</message><stack-trace>   at Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.TestScope.RunAsync(Func`1 body) in F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:line 558
+--- End of stack trace from previous location ---
+----- Inner Stack Trace #1 (Shouldly.ShouldAssertException) -----
+   at Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.&lt;&gt;c.&lt;&lt;LateStartAwaitObservation_WhenRunnerStartHasNotReturned_WaitsForPublicationAndActualDrain&gt;b__6_0&gt;d.MoveNext() in F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:line 139
+--- End of stack trace from previous location ---
+   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+   at Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.TestScope.RunAsync(Func`1 body) in F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:line 528
+----- Inner Stack Trace #2 (System.Reflection.TargetException) -----
+   at System.Reflection.FieldAccessor.ThrowHelperTargetException()
+   at System.Reflection.FieldAccessor.GetValue(Object obj)
+   at Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.&lt;&gt;c__DisplayClass13_0.&lt;WaitForLateStartAwaitAsync&gt;b__0() in F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:line 412
+   at Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.WaitUntilAsync(Func`1 predicate) in F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:line 434
+   at Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.WaitForLateStartAwaitAsync(UiaSelectionReader reader) in F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:line 410
+   at Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.TestScope.RunAsync(Func`1 body) in F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:line 542</stack-trace></failure></test></collection></assembly></assemblies>

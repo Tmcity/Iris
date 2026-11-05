@@ -1,0 +1,14 @@
+{
+  "Command": [
+    "git",
+    "merge-base",
+    "--is-ancestor",
+    "c32fcb283e417ab11715c46207fdc8cfde4baedf",
+    "2ccad4d210d5e76c0cd2d598037372f940da67ae"
+  ],
+  "StartedUtc": "2026-11-03T15:21:28.251313+00:00",
+  "FinishedUtc": "2026-11-03T15:21:28.292039+00:00",
+  "ExitCode": 0,
+  "Bytes": 0,
+  "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

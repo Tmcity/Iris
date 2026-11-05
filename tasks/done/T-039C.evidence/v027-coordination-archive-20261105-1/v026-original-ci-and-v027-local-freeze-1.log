@@ -1,0 +1,17 @@
+{
+  "OfficialCiDigestMatched": true,
+  "CiOriginalFiles": 51,
+  "CiFullTests": {
+    "Total": 3758,
+    "Passed": 3756,
+    "Failed": 1,
+    "Skipped": 1
+  },
+  "LocalOriginalFiles": 51,
+  "LocalFullTests": {
+    "Total": 3759,
+    "Passed": 3756,
+    "Failed": 1,
+    "Skipped": 2
+  }
+}

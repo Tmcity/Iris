@@ -1,0 +1,17 @@
+{
+  "command": [
+    "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+    "-NoProfile",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "tasks/T-039C.coordination/check_manual_powershell51_20261105.ps1",
+    "-Root",
+    "F:/Iris/artifacts/t039c/manual-verification-v022-20261105-1"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T04:54:08.417054+00:00",
+  "completedAt": "2026-11-05T04:54:08.668386+00:00",
+  "exitCode": 0,
+  "logSha256": "b5c750a8b54b260e0910020a8324f55a53bec9700cbab1512d4049091e383c93"
+}

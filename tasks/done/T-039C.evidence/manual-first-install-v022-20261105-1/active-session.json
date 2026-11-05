@@ -1,0 +1,10 @@
+{
+    "SessionDirectory":  "C:\\IrisAcceptanceOutput\\session-14d55ff50fd94d3abe8d4474aafd5365",
+    "StartedUtc":  "2026-11-05T04:56:10.2854739Z",
+    "ProviderPid":  7328,
+    "WatcherPid":  8152,
+    "RecorderVersion":  3,
+    "Ready":  true,
+    "Failure":  null,
+    "Scope":  "Owned synthetic provider and read-only process observer; user manually installs and updates production Iris"
+}

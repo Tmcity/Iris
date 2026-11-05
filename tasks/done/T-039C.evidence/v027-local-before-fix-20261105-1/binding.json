@@ -1,0 +1,301 @@
+{
+  "SourceCommit": "1f4a0f393dc68cb5904828fe5f186af37cec6015",
+  "ValidationSource": "F:\\Iris\\artifacts\\t039c\\local-validation-v027-20261104-1",
+  "FullTests": {
+    "Total": 3759,
+    "Passed": 3756,
+    "Failed": 1,
+    "Skipped": 2
+  },
+  "Failures": [
+    {
+      "Name": "Iris.App.Tests.Hosting.HotkeyCoordinatorTests.H13_OnHotkeyPressed_DoesNotBlockWndProc_RunsOnThreadPool",
+      "Message": "Shouldly.ShouldAssertException : dispatchThreadId.Value\n    should not be\n4\n    but was\n\nAdditional Info:\n    \u5206\u53d1\u7edd\u4e0d\u5f97\u5728 WndProc \u53d1\u9001\u7ebf\u7a0b\u4e0a\u540c\u6b65\u6267\u884c",
+      "StackTrace": "   at Iris.App.Tests.Hosting.HotkeyCoordinatorTests.H13_OnHotkeyPressed_DoesNotBlockWndProc_RunsOnThreadPool() in F:\\Iris\\artifacts\\t039c\\worktree-v027-ci-fix-20261103-1\\tests\\Iris.App.Tests\\Hosting\\HotkeyCoordinatorTests.cs:line 535\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\n   at Iris.App.Tests.Hosting.HotkeyCoordinatorTests.H13_OnHotkeyPressed_DoesNotBlockWndProc_RunsOnThreadPool() in F:\\Iris\\artifacts\\t039c\\worktree-v027-ci-fix-20261103-1\\tests\\Iris.App.Tests\\Hosting\\HotkeyCoordinatorTests.cs:line 540\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)\n--- End of stack trace from previous location ---\n   at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()\n   at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)\n   at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)"
+    }
+  ],
+  "Skipped": [
+    {
+      "Name": "Iris.Platform.Windows.Tests.Clipboard.Win32ClipboardIsolatedIntegrationTests.IsolatedWindowStation_NativeClipboardIntegration_ExecutesInDedicatedProcess",
+      "Reason": "[ENVIRONMENT LIMITATION] Native isolated window station test skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)"
+    },
+    {
+      "Name": "Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotIsolatedTests.SnapshotHelper_UsesExclusiveNonInteractiveStation_AndJoinsOwnedProcess",
+      "Reason": "[ENVIRONMENT LIMITATION] Snapshot isolated helper skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)"
+    }
+  ],
+  "Files": [
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/full-tests.command.json",
+      "Bytes": 522,
+      "Sha256": "7627db2ca4990b504ae163a00c415767011acbe35fa1539b2672ea275706bb9f"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/full-tests.log",
+      "Bytes": 8784,
+      "Sha256": "3b0e7c1d39c10cc48ff39aa1659e95327a059e69e6262c4bd3c18628acd196f6"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/cancel-transferred-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/cancel-transferred.json",
+      "Bytes": 473,
+      "Sha256": "9df55ab43fc68d2dc57c597e00cbc9acc02cb722ec11646ef6e22e1993827800"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/cleanup-failure-then-success-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/cleanup-failure-then-success-worker-1.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/cleanup-failure-then-success.json",
+      "Bytes": 476,
+      "Sha256": "d457255a1fbc2459486241ca2952e133be348bdeebc7324344bb631107057179"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/disposed-failure-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/disposed-failure-worker-1.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/disposed-failure-worker-2.json",
+      "Bytes": 81,
+      "Sha256": "bb5a12933e3189de5613691561bb597833ab1100b09341905c06043f462d35d0"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/disposed-failure.json",
+      "Bytes": 742,
+      "Sha256": "724f78bb26909c7fa3d5e87d949088e5b6eb4e2c55d5c2049e7aa18fb3d56f06"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/disposed-recovery.png",
+      "Bytes": 14068,
+      "Sha256": "f1f7653e58d69150af7ee805812a27d35ea948bf5d08cc5e97d06d8ab6930023"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/disposed-success-before-parent-exit.json",
+      "Bytes": 601,
+      "Sha256": "6d44012eecd537d46643f9db0eb3bc2870877a78208ebb12f2f8dd9a55e215e6"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/ordinary-accepted-then-canceled.json",
+      "Bytes": 485,
+      "Sha256": "6747874e0a51938573809cfc360f68294d169f4d296e4a179243b59573f798fa"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/ordinary-confirmation-canceled.json",
+      "Bytes": 485,
+      "Sha256": "6747874e0a51938573809cfc360f68294d169f4d296e4a179243b59573f798fa"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/ordinary-new-offer.json",
+      "Bytes": 485,
+      "Sha256": "3bd8dffa3ab9b5bca3946fc5d50d57979cb7ea9c4c31aa1a4a2e1e3ba9a58d75"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/ordinary-ready.json",
+      "Bytes": 485,
+      "Sha256": "6747874e0a51938573809cfc360f68294d169f4d296e4a179243b59573f798fa"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/prepare-failure.json",
+      "Bytes": 479,
+      "Sha256": "bd8d8d1ff736e2aabb95f80275dc7a04e9f8a3984ad917d0e3b99d7ea504d94e"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/recovery-en-US-Dark-380.json",
+      "Bytes": 854,
+      "Sha256": "4943803545a840761ebf6510f3be19128a541746a3a0827ddb711df2b53b2286"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/recovery-en-US-Dark-380.png",
+      "Bytes": 17188,
+      "Sha256": "44bd88284e56d096774715926b5ec06ed3096ee428b317e40844ee58e748bde5"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/recovery-en-US-Dark-540.json",
+      "Bytes": 842,
+      "Sha256": "6788043ec5e03691f96982bc5d23f4932159c81ea8802d3aaa585f0e0c7a850e"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/recovery-en-US-Dark-540.png",
+      "Bytes": 17444,
+      "Sha256": "78ef6d82a21490fcfd87d602a876013dc7db17129998e395a486bb9a5b96ef30"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/recovery-en-US-Light-380.json",
+      "Bytes": 858,
+      "Sha256": "573b4fab5e94625d984eb5bfdc7fc5196fea823599b67d5c83a4f3309f186a2e"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/recovery-en-US-Light-380.png",
+      "Bytes": 17121,
+      "Sha256": "ed3856181b506de15ad5dcc1206412b920445ada1bd289676d9b19520c18419a"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/recovery-en-US-Light-540.json",
+      "Bytes": 846,
+      "Sha256": "227f2d96de3e41465048238d096340abb982af4cca699e35a5639017af0b48f7"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/recovery-en-US-Light-540.png",
+      "Bytes": 17379,
+      "Sha256": "7e0968f3745a5497f22bf21a70921afcab2292cca4d6637e0e625edd509015e7"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/recovery-zh-CN-Dark-380.json",
+      "Bytes": 880,
+      "Sha256": "4bd3ff9fcf7b89be85e411e993e4484e61df4cfac7e25554d5dd58cc5b9bb258"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/recovery-zh-CN-Dark-380.png",
+      "Bytes": 16286,
+      "Sha256": "f68b5a5419ce778db6756beb3b16c2e00954f1053c10ec8dae866359fc565304"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/recovery-zh-CN-Dark-540.json",
+      "Bytes": 880,
+      "Sha256": "917ae71a371e7bf7b5fadb62d8cac031d19bdbbc339f603d991bc59b1380df9d"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/recovery-zh-CN-Dark-540.png",
+      "Bytes": 16768,
+      "Sha256": "a58430362a7597fcf07d3e391281d9213c8582b55c12a189f930c033069286c4"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/recovery-zh-CN-Light-380.json",
+      "Bytes": 884,
+      "Sha256": "f2e66f1342e1f83706b7061754fac036410edd0b330eaf29f7486c1195c257ee"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/recovery-zh-CN-Light-380.png",
+      "Bytes": 16071,
+      "Sha256": "cb10af4163b1cd1d7adf9423965159d49762b65d639f4fdd2a7cc1ebe7955473"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/recovery-zh-CN-Light-540.json",
+      "Bytes": 884,
+      "Sha256": "d46586024acff4808e8bb12023fccc5c65afee428626d60200490548dc4c765b"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/recovery-zh-CN-Light-540.png",
+      "Bytes": 16552,
+      "Sha256": "c0db423da2350b5dfb5d11b859c3b50de8409668ddd710ceba008f780fbcfee1"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/retained-failure-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/retained-failure-worker-1.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/retained-failure-worker-2.json",
+      "Bytes": 81,
+      "Sha256": "bb5a12933e3189de5613691561bb597833ab1100b09341905c06043f462d35d0"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/retained-failure.json",
+      "Bytes": 740,
+      "Sha256": "2b05dbfa8d83590dff71324c395c26d3bade8f3e0ce82ffe9da5b95bab98d04f"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/retained-recovery.png",
+      "Bytes": 14068,
+      "Sha256": "f1f7653e58d69150af7ee805812a27d35ea948bf5d08cc5e97d06d8ab6930023"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/owned-test-results/retained-success-before-parent-exit.json",
+      "Bytes": 601,
+      "Sha256": "8b71436cd352b520a9f0d304642da8157cef1920f2571bdb64b4941bcdf4aaca"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/release-build.command.json",
+      "Bytes": 364,
+      "Sha256": "307ae3aedda9d0e7e46b4fc8eba7847471a098718cc188dd0825f079a8747098"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/release-build.log",
+      "Bytes": 4445,
+      "Sha256": "c3f764d7866527e8addb7ad322fb6fddbe0d5f1c45152abadb22a0873a69d77e"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/release-manifest-tests.command.json",
+      "Bytes": 431,
+      "Sha256": "5b429ca0bbeb5f96be9f3ea302b2751ace51c0e890f0fadc3a957a53923d820f"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/release-manifest-tests.log",
+      "Bytes": 3079,
+      "Sha256": "4eeb243383b3f075c3b7854b0dff9592518f7a73a9f563f112de721e67b6711c"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/reports/28910_SKYRIU-PC_2026-11-04_04_47_09.733142.xunit.xml",
+      "Bytes": 710640,
+      "Sha256": "e437cbcc806b492f520c92837bf4bcc9a4c0d347007906a62dc310914be1b07a"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/reports/28910_SKYRIU-PC_2026-11-04_04_47_09.766778.xunit.xml",
+      "Bytes": 122896,
+      "Sha256": "1ad354f8e93e2f24b59b36e803fb8d1f998c74f1d06b41d93398dad2e657e356"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/reports/28910_SKYRIU-PC_2026-11-04_04_47_09.770959.xunit.xml",
+      "Bytes": 605126,
+      "Sha256": "4534873d9ce4b76c6886d061a54c85c1ecf1baa5630a727d8e6bf94400eb079f"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/reports/28910_SKYRIU-PC_2026-11-04_04_47_09.774084.xunit.xml",
+      "Bytes": 540599,
+      "Sha256": "6b6d43bfe1aaff696913575711a4564e250c22ed9f569ffc54e56e6be49b9bab"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/reports/28910_SKYRIU-PC_2026-11-04_04_47_09.777872.xunit.xml",
+      "Bytes": 25420,
+      "Sha256": "240d2ade07f25789ec4b6d097c4cd77fd7a444f3e0cb25828313808756bfe3fd"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/reports/28910_SKYRIU-PC_2026-11-04_04_47_09.785255.xunit.xml",
+      "Bytes": 385078,
+      "Sha256": "dee49355b9bf351f14ab865c4c58945818da5efaa177abba2036849fd20e0fed"
+    },
+    {
+      "Path": "tasks/done/T-039C.evidence/v027-local-before-fix-20261105-1/original-validation/reports/28910_SKYRIU-PC_2026-11-04_04_47_09.791504.xunit.xml",
+      "Bytes": 7546,
+      "Sha256": "78ed8bd70a9685eacaadf3f1a59d3612c1d78884352baf450931c1a51c01a519"
+    }
+  ],
+  "FrozenSources": [
+    {
+      "Path": "tests/Iris.App.Tests/Hosting/HotkeyCoordinatorTests.cs",
+      "Bytes": 57586,
+      "Sha256": "377636ca314d9cc82385792b92a073a2d78d6efb13f600322e4f38574a521a30"
+    },
+    {
+      "Path": "src/Iris.App/Hosting/HotkeyCoordinator.cs",
+      "Bytes": 37277,
+      "Sha256": "718952c0e51d5c8ba458f93dc29a77c1c109a2ab84afe4091faa9fb0b1a23299"
+    },
+    {
+      "Path": "tests/Iris.App.Tests/TestSupport/FakeNativeHotkeyAdapter.cs",
+      "Bytes": 2297,
+      "Sha256": "aff75b96e36d225a84dde4f84b0117c5a649627deede4a83ac5f3bdcbb558dfd"
+    }
+  ]
+}

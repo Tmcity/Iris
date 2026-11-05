@@ -1,0 +1,250 @@
+"""Independently bind fixed sources, raw results, candidate bytes and the public 0.2.2 base."""
+from pathlib import Path
+import datetime
+import hashlib
+import importlib.util
+import json
+import re
+import subprocess
+import xml.etree.ElementTree as ET
+import zipfile
+
+ROOT = Path("F:/Iris")
+WORK = ROOT / "artifacts/t039c/worktree-v027-ci-fix-20261103-1"
+CANDIDATE = ROOT / "artifacts/t039c/release-0.2.7-public-base-candidate-1"
+VALIDATION = ROOT / "artifacts/t039c/local-validation-v027-20261105-1"
+PACKAGE = ROOT / "artifacts/t039c/package-0.2.7-public-base-candidate-1"
+PUBLIC = ROOT / "tasks/T-039C.coordination/v027-prepublication-review-20261105-1"
+REPORT = ROOT / "tasks/done/T-039C.evidence/next-source-v027-20261105-1"
+SOURCE = "fc44a3a78c2729c25dfb91296c51602b843a94f9"
+PREVIOUS_SOURCE = "c32fcb283e417ab11715c46207fdc8cfde4baedf"
+TREE = "81aea2fa6cad8a3dcde34b081185dd03aae9c31c"
+SOURCE_ROOTS = ["src", "tests", "build", ".github", "docs", "README.md", "Iris.slnx",
+                "Directory.Build.props", "Directory.Packages.props", "global.json"]
+EXPECTED = {"Total": 3759, "Passed": 3757, "Failed": 0, "Skipped": 2}
+
+
+def read(path):
+    return json.loads(Path(path).read_text(encoding="utf-8-sig"))
+
+
+def digest(path):
+    with Path(path).open("rb") as stream:
+        return hashlib.file_digest(stream, "sha256").hexdigest()
+
+
+def git(*args):
+    return subprocess.check_output(["git", *args], cwd=WORK)
+
+
+def results(directory):
+    total = {key: 0 for key in EXPECTED}
+    tests = []
+    for path in sorted(Path(directory).glob("*.xml")):
+        tree = ET.parse(path)
+        for assembly in tree.iter("assembly"):
+            assert int(assembly.get("errors", 0)) == int(assembly.get("not-run", 0)) == 0
+            for key in total:
+                total[key] += int(assembly.get(key.lower(), 0))
+        tests.extend(tree.iter("test"))
+    assert sum(total[key] for key in ("Passed", "Failed", "Skipped")) == total["Total"]
+    return total, tests
+
+
+def check_log(label, expected_code):
+    path = ROOT / "tasks/T-039C.coordination" / (label + ".command.json")
+    record = read(path)
+    assert record["exitCode"] == expected_code
+    assert digest(path.with_name(label + ".log")) == record["logSha256"]
+    return record
+
+
+def public(name, expected_status="200"):
+    record = read(PUBLIC / (name + ".json"))
+    body = PUBLIC / (name + ".body")
+    assert record["HttpStatus"] == expected_status and record["ExitCode"] == 0
+    assert record["AuthorizationSent"] is False
+    assert body.stat().st_size == record["BodyBytes"] and digest(body) == record["BodySha256"]
+    return json.loads(body.read_bytes())
+
+
+assert git("rev-parse", "HEAD").decode().strip() == SOURCE
+subprocess.run(["git", "diff", "--quiet", SOURCE, "--", *SOURCE_ROOTS], cwd=WORK, check=True)
+subprocess.run(["git", "diff", "--cached", "--quiet", "--", *SOURCE_ROOTS], cwd=WORK, check=True)
+assert not git("ls-files", "--others", "--exclude-standard", "--", *SOURCE_ROOTS).strip()
+spec = importlib.util.spec_from_file_location("candidate_manifest", WORK / "build/release_manifest.py")
+manifest = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(manifest)
+assert manifest.SOURCE_ROOTS == SOURCE_ROOTS
+verified = manifest.verify_directory(CANDIDATE, "0.2.7")
+assert verified["SourceCommit"] == SOURCE and verified["SourceGitTree"] == TREE
+assert verified["PublicAssets"] == 18 and verified["PayloadEntries"] == 97
+assert verified["OuterSha256"] == "f66cc74886ea273b439ce241993f11d95ad5882be477a0464d043057c082d294"
+assert verified["FullSha256"] == "ea4aff9842f8e1155c69f920e108e126f6c9a8409409c8d68827cc16ad5e68ed"
+provenance = read(CANDIDATE / "release-provenance.json")
+assert provenance["SourceRoots"] == SOURCE_ROOTS
+committed = {}
+nodes = {}
+for row in git("ls-tree", "-r", "-z", SOURCE, "--", *SOURCE_ROOTS).decode().strip("\0").split("\0"):
+    metadata, path = row.split("\t")
+    mode, kind, blob = metadata.split()
+    assert (mode, kind) == ("100644", "blob")
+    committed[path] = blob
+    current = nodes
+    parts = path.split("/")
+    for part in parts[:-1]:
+        current = current.setdefault(part, {})
+    current[parts[-1]] = blob
+
+
+def independent_git_tree(current):
+    # Git sorts directory names as if followed by '/', and omits leading mode zeros.
+    ordered = sorted(current.items(), key=lambda pair: pair[0].encode("utf-8") +
+                     (b"/" if isinstance(pair[1], dict) else b"\0"))
+    data = b""
+    for name, value in ordered:
+        if isinstance(value, dict):
+            mode, blob = b"40000", independent_git_tree(value)
+        else:
+            mode, blob = b"100644", value
+        data += mode + b" " + name.encode("utf-8") + b"\0" + bytes.fromhex(blob)
+    return hashlib.sha1(b"tree " + str(len(data)).encode("ascii") + b"\0" + data).hexdigest()
+
+
+assert independent_git_tree(nodes) == TREE
+assert len(committed) == len(provenance["SourceFiles"]) == 721
+assert {item["Path"]: item["GitBlob"] for item in provenance["SourceFiles"]} == committed
+for item in provenance["SourceFiles"]:
+    path = WORK / item["Path"]
+    assert path.stat().st_size == item["WorkingBytes"] and digest(path) == item["WorkingSha256"]
+changes = git("diff", "--name-only", PREVIOUS_SOURCE, SOURCE).decode().splitlines()
+assert set(changes) == {"build/release-plan.json", "docs/RELEASING.md",
+                        "tests/Iris.Platform.Windows.Tests/Selection/UiaStartupCleanupTests.cs",
+                        "tests/Iris.App.Tests/Hosting/HotkeyCoordinatorTests.cs"}
+assert not git("diff", "--name-only", PREVIOUS_SOURCE, SOURCE, "--", "src").strip()
+
+summary = read(VALIDATION / "validation-summary.json")
+raw_totals, raw_tests = results(VALIDATION / "reports")
+assert raw_totals == summary["FullTests"] == EXPECTED
+assert summary["SourceCommit"] == SOURCE and summary["BuildWarnings"] == summary["BuildErrors"] == 0
+build = (VALIDATION / "release-build.log").read_text(encoding="utf-8-sig")
+assert re.search(r"(?m)^\s*0 个警告\s*$", build) and re.search(r"(?m)^\s*0 个错误\s*$", build)
+assert re.search(r"Ran 16 tests", (VALIDATION / "release-manifest-tests.log").read_text(encoding="utf-8-sig"))
+for command in summary["Commands"]:
+    assert command["ExitCode"] == 0 and digest(VALIDATION / command["Log"]) == command["Sha256"]
+    assert command == read(VALIDATION / (Path(command["Log"]).stem + ".command.json"))
+full_command = read(VALIDATION / "full-tests.command.json")["Command"]
+assert full_command[0:3] == ["dotnet", "test", "Iris.slnx"]
+assert not any("filter" in arg for arg in full_command)
+for name in ("LateStartAwaitObservation_WhenRunnerStartHasNotReturned_WaitsForPublicationAndActualDrain",
+             "H13_OnHotkeyPressed_DoesNotBlockWndProc_RunsOnThreadPool",
+             "RealIntegration_HotkeyTrigger_RunsOnOwnerUiThread_AfterLeavingWndProc"):
+    selected = [test for test in raw_tests if test.get("name", "").endswith(name)]
+    assert len(selected) == 1 and selected[0].get("result") == "Pass", name
+uia = [test for test in raw_tests if "UiaStartupCleanupTests." in test.get("name", "")]
+assert len(uia) == 16 and all(test.get("result") == "Pass" for test in uia)
+assert all("error=183" in test.findtext("reason", "") for test in raw_tests if test.get("result") == "Skip")
+package = read(PACKAGE / "package.command.json")
+assert package["ExitCode"] == 0 and digest(PACKAGE / "package.log") == package["Sha256"]
+assert Path(package["Command"][0]).as_posix().endswith("System32/WindowsPowerShell/v1.0/powershell.exe")
+assert str(WORK / "build/pack.ps1") in package["Command"] and "0.2.7" in package["Command"]
+for label in ("v027-full-validation-after-1", "v027-package-public-base-candidate-1",
+              "v027-fresh-manual-materials-1", "v027-fresh-manual-ps51-parse-1"):
+    check_log(label, 0)
+before, before_tests = results(ROOT / "artifacts/t039c/start-publication-counterexample-before-20261103-1/reports")
+assert before == {"Total": 1, "Passed": 0, "Failed": 1, "Skipped": 0}
+assert "Non-static field requires a target" in "".join(before_tests[0].find("failure").itertext())
+after, _ = results(ROOT / "artifacts/t039c/start-publication-after-20261104-1/reports")
+assert after == {"Total": 16, "Passed": 16, "Failed": 0, "Skipped": 0}
+hotkey, _ = results(ROOT / "artifacts/t039c/hotkey-callback-after-20261105-1/reports")
+assert hotkey == {"Total": 1, "Passed": 1, "Failed": 0, "Skipped": 0}
+target_labels = (("v026-start-publication-counterexample-before-1", 2),
+                 ("v026-start-publication-after-1", 0), ("v027-hotkey-callback-after-1", 0))
+for label, code in target_labels:
+    check_log(label, code)
+
+releases = public("releases")
+public_v022 = public("release-v022")
+public("release-v027", "404")
+assert {release["tag_name"] for release in releases} == {"v0.2.2"}
+assert public_v022["draft"] is False and public_v022["prerelease"] is False and len(public_v022["assets"]) == 16
+previous = next(item for item in read(CANDIDATE / "releases.win.json")["Assets"] if item["Version"] == "0.2.2")
+assert previous["FileName"] == "Iris-0.2.2-full.nupkg" and previous["Type"] == "Full"
+official_old = next(item for item in public_v022["assets"] if item["name"] == previous["FileName"])
+assert official_old["size"] == previous["Size"] == 64627273
+assert official_old["digest"] == "sha256:" + previous["SHA256"].lower() == (
+    "sha256:c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14")
+old_full = ROOT / "artifacts/t039c/public-0.2.2-download-20261101-1" / previous["FileName"]
+assert digest(old_full) == digest(CANDIDATE / previous["FileName"]) == previous["SHA256"].lower()
+with zipfile.ZipFile(CANDIDATE / "Iris-0.2.7-full.nupkg") as zipped:
+    entries = [item for item in zipped.infolist() if item.filename.startswith("lib/app/") and not item.is_dir()]
+    assert len(entries) == len({item.filename for item in entries}) == 97
+    for item in read(CANDIDATE / "payload-manifest.json"):
+        data = zipped.read("lib/app/" + item["Path"].replace("\\", "/"))
+        assert len(data) == item["Bytes"] and hashlib.sha256(data).hexdigest() == item["Sha256"].lower()
+
+remote_label = "v027-all-remote-refs-before-1"
+check_log(remote_label, 0)
+remote_log = ROOT / "tasks/T-039C.coordination" / (remote_label + ".log")
+remote = {name: blob for blob, name in (row.split() for row in remote_log.read_text(encoding="utf-8-sig").splitlines())}
+publication = read(ROOT / "tasks/done/T-039C.evidence/publication-v0.2.6-20261103-1/state.json")
+assert remote == publication["RemoteAfter"]
+assert publication["Stage"] == "ci-validation-failed-publication-skipped" and publication["OriginalArtifactDigestVerified"]
+ci = read(ROOT / "tasks/done/T-039C.evidence/ci-v026-original-41663111425-1/binding.json")
+assert ci["ExactArchiveMatchedGitHubApiDigest"] and ci["SourceCommit"] == PREVIOUS_SOURCE
+assert digest(ROOT / "tasks/done/T-039C.evidence/ci-v026-original-41663111425-1/original-artifact.zip") == ci["OfficialDigest"][7:]
+assert "refs/tags/v0.2.7" not in remote and not git("tag", "--list", "v0.2.7").strip()
+
+REPORT.mkdir(exist_ok=False)
+
+
+def copy(source, destination):
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    data = source.read_bytes()
+    destination.open("xb").write(data)
+    assert destination.read_bytes() == data
+
+
+for directory, target in ((VALIDATION, "validation"), (PUBLIC, "public-observations")):
+    for path in sorted(directory.rglob("*")):
+        if path.is_file():
+            assert not path.is_symlink()
+            copy(path, REPORT / target / path.relative_to(directory))
+for name in ("release-provenance.json", "SHA256.json", "payload-manifest.json", "staging-manifest.json",
+             "releases.win.json", "assets.win.json", "RELEASES", "RELEASE_NOTES.md", "INSTALLATION.md", "package.log"):
+    copy(CANDIDATE / name, REPORT / name)
+copy(PACKAGE / "package.command.json", REPORT / "package.command.json")
+for label, _ in target_labels:
+    for suffix in (".command.json", ".log"):
+        copy(ROOT / "tasks/T-039C.coordination" / (label + suffix), REPORT / "targeted-regressions" / (label + suffix))
+for name in ("start-publication-counterexample-before-20261103-1", "start-publication-after-20261104-1",
+             "hotkey-callback-after-20261105-1"):
+    for path in (ROOT / "artifacts/t039c" / name).rglob("*.xml"):
+        copy(path, REPORT / "targeted-regressions" / name / path.name)
+for label in (remote_label, "v027-full-validation-after-1", "v027-package-public-base-candidate-1",
+              "v027-fresh-manual-materials-1", "v027-fresh-manual-ps51-parse-1", "v027-current-sandbox-list-1"):
+    for suffix in (".command.json", ".log"):
+        copy(ROOT / "tasks/T-039C.coordination" / (label + suffix), REPORT / "coordination" / (label + suffix))
+for path in changes:
+    data = git("show", SOURCE + ":" + path)
+    destination = REPORT / "source" / path
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.open("xb").write(data)
+assets = [{"Name": path.name, "Bytes": path.stat().st_size, "Sha256": digest(path)} for path in sorted(CANDIDATE.iterdir())]
+review = {"ReviewedUtc": datetime.datetime.now(datetime.timezone.utc).isoformat(), **verified,
+          "Candidate": str(CANDIDATE), "CommittedSourceEntriesMatched": 721, "WorkingSourceEntriesMatched": 721,
+          "IndependentGitTreeMatched": True, "SourceChanges": changes, "ProductSourceChanges": [],
+          "BuildWarnings": 0, "BuildErrors": 0, "FullTests": raw_totals, "UiaTargetedRegressions": after,
+          "HotkeyTargetedRegressions": hotkey, "ControlledBeforeFailure": before, "ReleaseRegressions": 16,
+          "PreviousPublicFull": previous, "Assets": assets, "OriginalCiRun": 41663111425,
+          "OriginalCiAttempt": 1, "OriginalCiPublicationSkipped": True, "RemoteBefore": remote,
+          "PublicationAuthorized": False, "RealUiUpgradeVerified": False, "RestartCountVerified": False,
+          "PostUpdateUninstallVerified": False, "CurrentOldGuestReadyVerified": False}
+(REPORT / "review.json").write_text(json.dumps(review, indent=2) + "\n", encoding="utf-8", newline="\n")
+records = [{"Path": path.relative_to(REPORT).as_posix(), "Bytes": path.stat().st_size, "Sha256": digest(path)}
+           for path in sorted(REPORT.rglob("*")) if path.is_file()]
+(REPORT / "binding.json").write_text(json.dumps({"SourceCommit": SOURCE, "Files": records}, indent=2) + "\n",
+                                     encoding="utf-8", newline="\n")
+print(json.dumps({key: review[key] for key in ("Version", "SourceCommit", "SourceGitTree", "PublicAssets",
+    "PayloadEntries", "CommittedSourceEntriesMatched", "FullTests", "FullSha256", "OuterSha256",
+    "PublicationAuthorized", "CurrentOldGuestReadyVerified")}, indent=2))

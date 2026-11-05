@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/archive_ci_v026_failure_20261105.py"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T04:47:14.019930+00:00",
+  "completedAt": "2026-11-05T04:47:14.484252+00:00",
+  "exitCode": 0,
+  "logSha256": "d8e4572402e5ecf6c44211e83d8a43d532e7e402ea8ad83651abbd75eb0e2543"
+}

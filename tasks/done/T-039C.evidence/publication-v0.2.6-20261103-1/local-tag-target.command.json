@@ -1,0 +1,12 @@
+{
+  "Command": [
+    "git",
+    "rev-parse",
+    "refs/tags/v0.2.6^{}"
+  ],
+  "StartedUtc": "2026-11-03T15:21:31.988298+00:00",
+  "FinishedUtc": "2026-11-03T15:21:32.023826+00:00",
+  "ExitCode": 0,
+  "Bytes": 41,
+  "Sha256": "1d43f3d7243e337fd9b7b673e380b3f9925ebc4f072e3dad3e0813cb12f48af8"
+}

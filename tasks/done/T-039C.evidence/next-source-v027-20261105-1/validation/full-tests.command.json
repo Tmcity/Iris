@@ -1,0 +1,21 @@
+{
+  "Command": [
+    "dotnet",
+    "test",
+    "Iris.slnx",
+    "-c",
+    "Release",
+    "--no-build",
+    "--no-ansi",
+    "--no-progress",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:\\Iris\\artifacts\\t039c\\local-validation-v027-20261105-1\\reports"
+  ],
+  "StartedUtc": "2026-11-05T04:52:16.824510+00:00",
+  "FinishedUtc": "2026-11-05T04:54:15.130538+00:00",
+  "ExitCode": 0,
+  "Log": "full-tests.log",
+  "Bytes": 5880,
+  "Sha256": "3191f198b8ddf502d6800179742dd7c4fd8b9072933b50046d27e123380f8c34"
+}

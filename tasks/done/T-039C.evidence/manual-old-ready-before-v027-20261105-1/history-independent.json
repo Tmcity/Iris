@@ -1,0 +1,33 @@
+{
+  "Columns": [
+    "HistoryId",
+    "CreatedAt",
+    "Origin",
+    "SourceText",
+    "SourceLanguage",
+    "TargetLanguage",
+    "ResultId",
+    "ProviderId",
+    "ProviderName",
+    "Model",
+    "ResultText"
+  ],
+  "Rows": [
+    [
+      1,
+      "2026-11-05T05:15:18.7072223+00:00",
+      "Input",
+      "Iris acceptance check",
+      "auto",
+      "zh-Hans",
+      1,
+      "tp-28c361470883",
+      "T039C Synthetic",
+      "iris-fixture",
+      "Iris 公共升级验证"
+    ]
+  ],
+  "QuickCheck": "ok",
+  "ReadOnlyHostCopy": "F:\\Iris\\artifacts\\t039c\\old-history-independent-v027-20261105-1\\history.db",
+  "SourceDbSha256": "c4960f0964e6d1ad267f6e735da6ddaea70e4b7ef63bb4d22a0dd76c6e67a497"
+}

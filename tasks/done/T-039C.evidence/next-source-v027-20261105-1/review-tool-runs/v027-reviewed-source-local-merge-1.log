@@ -1,0 +1,13 @@
+warning: in the working copy of 'specs/DEVELOPER_HANDOFF.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'specs/DEVELOPER_RECOVERY.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'specs/PROJECT_HANDOFF.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/EXECUTION_READY_V026_20261103.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/SESSION_STATUS_20261103.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/T-039C.coordination/execute_v026_20261103.py', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tasks/current_task.md', LF will be replaced by CRLF the next time Git touches it
+Merge made by the 'ort' strategy.
+ build/release-plan.json                            |   3 +-
+ docs/RELEASING.md                                  |  10 +-
+ .../Hosting/HotkeyCoordinatorTests.cs              | 115 +++++++++++----------
+ .../Selection/UiaStartupCleanupTests.cs            |  49 ++++++++-
+ 4 files changed, 119 insertions(+), 58 deletions(-)

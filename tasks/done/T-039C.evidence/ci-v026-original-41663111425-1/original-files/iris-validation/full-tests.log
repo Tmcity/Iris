@@ -1,0 +1,61 @@
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 673ms)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+失败 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.ReadAsync_WhenRealRunnerWrappingFails_WaitsForActualStderrDrain(stop: True) (8ms)
+  从 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.Reflection.TargetException : Non-static field requires a target.
+    在 System.Reflection.FieldAccessor.ThrowHelperTargetException()
+    在 System.Reflection.FieldAccessor.GetValue(Object obj)
+    在 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.<>c__DisplayClass12_0.<WaitForLateStartAwaitAsync>b__0() 位于 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:371
+    在 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.WaitUntilAsync(Func`1 predicate) 位于 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:393
+    在 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.WaitForLateStartAwaitAsync(UiaSelectionReader reader) 位于 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:369
+    在 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.<>c__DisplayClass6_0.<<ReadAsync_WhenRealRunnerWrappingFails_WaitsForActualStderrDrain>b__0>d.MoveNext() 位于 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:142
+    --- End of stack trace from previous location ---
+    在 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.TestScope.RunAsync(Func`1 body) 位于 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:487
+    在 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.TestScope.RunAsync(Func`1 body) 位于 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:515
+    --- End of stack trace from previous location ---
+D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (8s 458ms)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+已跳过 Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotIsolatedTests.SnapshotHelper_UsesExclusiveNonInteractiveStation_AndJoinsOwnedProcess
+  [ENVIRONMENT LIMITATION] Snapshot isolated helper skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)
+  从 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (10s 643ms)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (16s 290ms)
+退出代码: 2
+  标准输出: EARLY_PRODUCT_ACCEPT reject=False hresult= servers=1
+  EARLY_PRODUCT_ACCEPT reject=True hresult= servers=1
+  EARLY_NATIVE_ACCEPT type=IOException hresult=800700E8 connected=False
+  EARLY_NATIVE_RESET sameHandle=True acceptedNext=True
+  错误输出: Unsupported marker type 0x46
+D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64) 已通过 (10s 604ms)
+D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (30s 483ms)
+D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (3m 31s 214ms)
+
+  生成的进程内文件项目:
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-03_15_24_41.817203.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-03_15_24_41.807710.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-03_15_24_45.457127.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-03_15_24_41.740853.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-03_15_24_57.006244.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-03_15_24_50.835798.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-03_15_24_41.819739.xunit.xml
+
+测试运行摘要: 失败!
+  D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (10s 643ms)
+  D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (16s 290ms)
+  D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (30s 483ms)
+  D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (3m 31s 214ms)
+  D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (8s 458ms)
+  D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (2s 673ms)
+  D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64) 已通过 (10s 604ms)
+
+  总计: 3758
+  失败: 1
+  成功: 3756
+  已跳过: 1
+  持续时间: 3m 31s 936ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

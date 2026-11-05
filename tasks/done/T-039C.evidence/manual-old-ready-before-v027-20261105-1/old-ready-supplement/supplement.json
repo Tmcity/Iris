@@ -1,0 +1,95 @@
+{
+    "Stage":  "old-ready",
+    "Utc":  "2026-11-05T05:17:21.5934950Z",
+    "ReadOnlyProductInspection":  true,
+    "ProductRootExists":  true,
+    "ProductCurrentExists":  true,
+    "UserDataExists":  true,
+    "CheckForUpdates":  false,
+    "SyntheticProfiles":  [
+                              {
+                                  "HasCredentialSetReference":  true,
+                                  "DisplayName":  "T039C Synthetic",
+                                  "Id":  "tp-28c361470883",
+                                  "Enabled":  true
+                              }
+                          ],
+    "Registrations":  [
+                          {
+                              "UninstallString":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\maintenance\\Iris.Maintenance.exe\" --uninstall",
+                              "DisplayVersion":  "0.2.2",
+                              "DisplayName":  "Iris",
+                              "RegistryPath":  "Microsoft.PowerShell.Core\\Registry::HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Iris",
+                              "InstallLocation":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"
+                          }
+                      ],
+    "Shortcuts":  [
+                      "C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk",
+                      "C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"
+                  ],
+    "MaintenanceFiles":  [
+                             {
+                                 "Bytes":  0,
+                                 "Path":  "transaction.lock"
+                             }
+                         ],
+    "V2Recorder":  {
+                       "RecorderVersion":  3,
+                       "Utc":  "2026-11-05T04:56:20.5631363Z",
+                       "OutputDirectory":  "C:\\IrisAcceptanceOutput\\session-14d55ff50fd94d3abe8d4474aafd5365\\recorder-v3-789dd351ea894aa0a5df69ad1ad1808c",
+                       "SourceSha256":  "3515546d9e344331cc2c95fc4c97f60b213bfc06ae11ada98d96349b3e3dac62",
+                       "RecorderPid":  8152,
+                       "AuxiliaryProbe":  {
+                                              "SystemCmdCopySha256":  "15cd209c995b7d3009c91ca40892d5b8f1fb162f3e5f10716642ea278e8e0d7b",
+                                              "Path":  "C:\\IrisAcceptanceOutput\\session-14d55ff50fd94d3abe8d4474aafd5365\\recorder-v3-789dd351ea894aa0a5df69ad1ad1808c\\probe\\Iris.exe",
+                                              "ExitEvent":  {
+                                                                "NativeEventUtc":  "2026-11-05T04:56:20.2542263Z",
+                                                                "Pid":  5784,
+                                                                "ExitCode":  0,
+                                                                "NeedsLogCorrelation":  false,
+                                                                "Sequence":  4,
+                                                                "RecorderVersion":  3,
+                                                                "ObservedUtc":  "2026-11-05T04:56:20.4374705Z",
+                                                                "Name":  "Iris.exe",
+                                                                "Identity":  {
+                                                                                 "Role":  "AuxiliaryProbe",
+                                                                                 "Name":  "Iris.exe",
+                                                                                 "OwnedPathVerified":  true,
+                                                                                 "Pid":  5784,
+                                                                                 "Path":  "C:\\IrisAcceptanceOutput\\session-14d55ff50fd94d3abe8d4474aafd5365\\recorder-v3-789dd351ea894aa0a5df69ad1ad1808c\\probe\\Iris.exe",
+                                                                                 "ParentPid":  6604,
+                                                                                 "CreatedUtc":  "2026-11-05T04:56:16.1819640Z"
+                                                                             },
+                                                                "Kind":  "Exited"
+                                                            },
+                                              "Pid":  5784,
+                                              "StartEvent":  {
+                                                                 "NativeEventUtc":  "2026-11-05T04:56:17.2450052Z",
+                                                                 "Pid":  5784,
+                                                                 "ExitCode":  null,
+                                                                 "NeedsLogCorrelation":  false,
+                                                                 "Sequence":  3,
+                                                                 "RecorderVersion":  3,
+                                                                 "ObservedUtc":  "2026-11-05T04:56:17.3798145Z",
+                                                                 "Name":  "Iris.exe",
+                                                                 "Identity":  {
+                                                                                  "Role":  "AuxiliaryProbe",
+                                                                                  "Name":  "Iris.exe",
+                                                                                  "OwnedPathVerified":  true,
+                                                                                  "Pid":  5784,
+                                                                                  "Path":  "C:\\IrisAcceptanceOutput\\session-14d55ff50fd94d3abe8d4474aafd5365\\recorder-v3-789dd351ea894aa0a5df69ad1ad1808c\\probe\\Iris.exe",
+                                                                                  "ParentPid":  6604,
+                                                                                  "CreatedUtc":  "2026-11-05T04:56:16.1819640Z"
+                                                                              },
+                                                                 "Kind":  "Started"
+                                                             },
+                                              "RealIrisExecutable":  false
+                                          },
+                       "Ready":  true,
+                       "ReadOnlyProductObserver":  true,
+                       "SourcePath":  "C:\\IrisAcceptanceOutput\\session-14d55ff50fd94d3abe8d4474aafd5365\\recorder-v3-789dd351ea894aa0a5df69ad1ad1808c\\manual-process-watch-v3.ps1",
+                       "ProductOperationPerformed":  false,
+                       "Failure":  null
+                   },
+    "SecretsContentsCollected":  false
+}

@@ -1,0 +1,15 @@
+{
+  "command": [
+    "git",
+    "merge",
+    "--no-ff",
+    "fc44a3a78c2729c25dfb91296c51602b843a94f9",
+    "-m",
+    "Merge reviewed 0.2.7 source and preserve original 0.2.6 CI"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T05:05:48.642441+00:00",
+  "completedAt": "2026-11-05T05:05:48.966395+00:00",
+  "exitCode": 0,
+  "logSha256": "d1c6369b4640b9d3ff118631907324daf0cce81cd219ec1460d8369abe7d053a"
+}

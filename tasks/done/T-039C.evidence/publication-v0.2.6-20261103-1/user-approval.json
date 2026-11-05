@@ -1,0 +1,17 @@
+{
+  "ExplicitUserConfirmation": true,
+  "Tag": "v0.2.6",
+  "SourceCommit": "c32fcb283e417ab11715c46207fdc8cfde4baedf",
+  "ReviewArchiveCommit": "2ccad4d210d5e76c0cd2d598037372f940da67ae",
+  "BranchPushAuthorized": false,
+  "OtherVersionsAuthorized": false,
+  "Answer": "\u786e\u8ba4\u53d1\u5e030.2.6\uff08\u4ec5\u65b0\u7248\u672c\uff09",
+  "QuestionItemId": [
+    "request_user_input_async",
+    "call_AquNJAAv7ExdkPumfKEgv6ZE",
+    0
+  ],
+  "RecordedUtc": "2026-11-03T15:21:23.933541+00:00",
+  "ClientTimezone": "Asia/Shanghai",
+  "ClientDate": "2026-11-03"
+}

@@ -1,0 +1,49 @@
+正在从以下位置运行测试 F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+失败 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.LateStartAwaitObservation_WhenRunnerStartHasNotReturned_WaitsForPublicationAndActualDrain (81ms)
+  从 F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.AggregateException : R6 body/cleanup failures (observation.IsCompleted
+      should be
+  False
+      but was
+  True
+  
+  Additional Info:
+      the start Task has not been published yet) (Non-static field requires a target.)
+  ---- Shouldly.ShouldAssertException : observation.IsCompleted
+      should be
+  False
+      but was
+  True
+  
+  Additional Info:
+      the start Task has not been published yet
+  ---- System.Reflection.TargetException : Non-static field requires a target.
+    在 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.TestScope.RunAsync(Func`1 body) 位于 F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:558
+    --- End of stack trace from previous location ---
+    ----- Inner Stack Trace #1 (Shouldly.ShouldAssertException) -----
+    在 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.<>c.<<LateStartAwaitObservation_WhenRunnerStartHasNotReturned_WaitsForPublicationAndActualDrain>b__6_0>d.MoveNext() 位于 F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:139
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.TestScope.RunAsync(Func`1 body) 位于 F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:528
+    ----- Inner Stack Trace #2 (System.Reflection.TargetException) -----
+    在 System.Reflection.FieldAccessor.ThrowHelperTargetException()
+    在 System.Reflection.FieldAccessor.GetValue(Object obj)
+    在 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.<>c__DisplayClass13_0.<WaitForLateStartAwaitAsync>b__0() 位于 F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:412
+    在 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.WaitUntilAsync(Func`1 predicate) 位于 F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:434
+    在 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.WaitForLateStartAwaitAsync(UiaSelectionReader reader) 位于 F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:410
+    在 Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests.TestScope.RunAsync(Func`1 body) 位于 F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\Selection\UiaStartupCleanupTests.cs:542
+F:\Iris\artifacts\t039c\worktree-v027-ci-fix-20261103-1\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (1s 372ms)
+退出代码: 2
+
+  生成的进程内文件项目:
+    - F:\Iris\artifacts\t039c\start-publication-counterexample-before-20261103-1\reports\28910_SKYRIU-PC_2026-11-03_15_52_45.072196.xunit.xml
+
+测试运行摘要: 失败!
+  总计: 1
+  失败: 1
+  成功: 0
+  已跳过: 0
+  持续时间: 1s 617ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

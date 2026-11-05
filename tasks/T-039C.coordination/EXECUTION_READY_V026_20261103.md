@@ -1,4 +1,8 @@
-# 0.2.6 执行准备（等待用户确认）
+# 0.2.6 执行记录（已授权、CI失败）
+
+用户已明确确认仅0.2.6。原标签已推送，实际CI41663111425/attempt1失败，官方artifact digest匹配的51原件已归档，publication state已更新。当前候选与新会话准备见 [SESSION_STATUS_20261105.md](F:/Iris/tasks/T-039C.coordination/SESSION_STATUS_20261105.md)。
+
+以下为当时执行前记录：
 
 发布源码仍为 `c32fcb283e417ab11715c46207fdc8cfde4baedf`，已审阅检查点仍为 `2ccad4d210d5e76c0cd2d598037372f940da67ae`。0.2.6 的发布问题已发送，尚未收到用户确认；持续目标的自动继续消息不作为版本发布授权。
 

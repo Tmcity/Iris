@@ -1,0 +1,22 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.App.Tests/Iris.App.Tests.csproj",
+    "-c",
+    "Release",
+    "--no-ansi",
+    "--no-progress",
+    "--filter-method",
+    "*H13_OnHotkeyPressed*",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:/Iris/artifacts/t039c/hotkey-callback-after-20261105-1/reports"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v027-ci-fix-20261103-1",
+  "startedAt": "2026-11-05T04:48:00.435168+00:00",
+  "completedAt": "2026-11-05T04:48:17.132377+00:00",
+  "exitCode": 0,
+  "logSha256": "8440592a7a1b70b6a1497098d5d2fc98cfe8e40364fa5dde7a3b55e8e8f6bc8f"
+}

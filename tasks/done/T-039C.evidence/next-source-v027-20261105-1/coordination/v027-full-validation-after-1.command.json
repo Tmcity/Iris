@@ -1,0 +1,15 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "build/release_pipeline.py",
+    "validate",
+    "--output",
+    "F:/Iris/artifacts/t039c/local-validation-v027-20261105-1"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v027-ci-fix-20261103-1",
+  "startedAt": "2026-11-05T04:51:47.657121+00:00",
+  "completedAt": "2026-11-05T04:54:15.220559+00:00",
+  "exitCode": 0,
+  "logSha256": "3d5a5b4fbc2cca17834bfadc66a576a9d1d2d175f7e79e3bda1244ef9af525d3"
+}

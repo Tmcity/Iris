@@ -1,0 +1,13 @@
+2026-11-05 13:05:28.820 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置文件不存在，已初始化为默认设置并写入 C:\Users\WDAGUtilityAccount\AppData\Roaming\Iris\settings.json
+2026-11-05 13:05:29.269 +08:00 [INF] (Iris.App.Tray.TrayIconController) 系统托盘图标创建成功（共尝试 1 次）
+2026-11-05 13:05:29.332 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1371.0 ms，托盘图标已创建
+2026-11-05 13:05:29.954 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:50.819 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:51.536 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:52.839 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:53.379 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:53.776 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:54.505 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:55.109 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:55.669 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:56.148 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException

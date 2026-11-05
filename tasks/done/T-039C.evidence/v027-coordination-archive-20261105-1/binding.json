@@ -1,0 +1,45 @@
+{
+  "SourceCommit": "fc44a3a78c2729c25dfb91296c51602b843a94f9",
+  "Files": [
+    {
+      "Path": "v026-original-ci-and-v027-local-freeze-1.command.json",
+      "Bytes": 349,
+      "Sha256": "7e2a6a7a1f9243806078b6f19e409083a9a01939c0e68d1bfe79fb89e83b5aae"
+    },
+    {
+      "Path": "v026-original-ci-and-v027-local-freeze-1.log",
+      "Bytes": 305,
+      "Sha256": "d8e4572402e5ecf6c44211e83d8a43d532e7e402ea8ad83651abbd75eb0e2543"
+    },
+    {
+      "Path": "v027-fresh-first-install-independent-archive-1.command.json",
+      "Bytes": 353,
+      "Sha256": "996b0ca4eabb25da9f55bd958101ef807bd14fc9b00cc9b9110ba5e4876b716f"
+    },
+    {
+      "Path": "v027-fresh-first-install-independent-archive-1.log",
+      "Bytes": 341,
+      "Sha256": "e1a984da457b57d1dde6b843fa5476548ada49816aa9399e087122b73bf6ca8d"
+    },
+    {
+      "Path": "v027-new-old-ready-independent-archive-1.command.json",
+      "Bytes": 348,
+      "Sha256": "85b0f85ee1f4d9d2e3ca93a1325430ddc163b7fb357450d3747f1a9c2a9fe792"
+    },
+    {
+      "Path": "v027-new-old-ready-independent-archive-1.log",
+      "Bytes": 293,
+      "Sha256": "0bdafefd6cb5ebc027420485c0d1625cc06902d97512cfe2def90e5ed0ce2601"
+    },
+    {
+      "Path": "v026-executor-before-ssh-read-20261103-1.py.txt",
+      "Bytes": 10489,
+      "Sha256": "e56a1d91eb0e4f8a62ea050c5a132c8826bd695fc52d59e2b00cfad6bc69c2c0"
+    },
+    {
+      "Path": "execute_v026_20261103.py",
+      "Bytes": 10350,
+      "Sha256": "d73413d87027841b1941abd3bceb131d72a53c07af1d382176f1971fae5c401c"
+    }
+  ]
+}

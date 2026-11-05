@@ -1,0 +1,337 @@
+{
+  "ArchivedUtc": "2026-11-05T05:14:41.787114+00:00",
+  "SandboxId": "2fc7c168-2f34-437a-8319-8974e6f592b2",
+  "Version": "0.2.2",
+  "App": {
+    "StartedUtc": "2026-11-05T05:05:27.9287450Z",
+    "Path": "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+    "Pid": 7312,
+    "Name": "Iris.App.exe",
+    "ParentPid": 9132
+  },
+  "CleanGuestWithoutRuntimeOrCacheVerified": true,
+  "OfficialSetup": {
+    "LastWriteUtc": "2026-11-05T04:56:57.1459005Z",
+    "Sha256": "ddae984ba4bcc65e5398ecd7a036afe0485966c5d61fe9b1603cc9bb487e7a0c",
+    "Name": "Iris-0.2.2-Setup.exe",
+    "Bytes": 116767621,
+    "CreatedUtc": "2026-11-05T04:56:40.1029044Z"
+  },
+  "PublicInstalledPayloadMatched": 97,
+  "V3ReadyAtInspectionVerified": true,
+  "RecorderPid": 8152,
+  "SyntheticProviderPid": 7328,
+  "RuntimeInstallSeconds": 487.0,
+  "SoftwareRestrictionPolicySignatureWaits": [
+    {
+      "File": "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261105125719_000_DotNetHost.log",
+      "StartLine": 25,
+      "EndLine": 26,
+      "Seconds": 120.227,
+      "StartMessage": "MSI (s) (F4:68) [12:57:20:815]: SOFTWARE RESTRICTION POLICY: Verifying package --> 'C:\\ProgramData\\Package Cache\\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\\dotnet-host-10.0.14-win-x64.msi' against software restriction policy",
+      "EndMessage": "MSI (s) (F4:68) [12:59:21:042]: SOFTWARE RESTRICTION POLICY: C:\\ProgramData\\Package Cache\\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\\dotnet-host-10.0.14-win-x64.msi has a digital signature"
+    },
+    {
+      "File": "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261105125719_001_DotNetHostFxr.log",
+      "StartLine": 25,
+      "EndLine": 26,
+      "Seconds": 120.177,
+      "StartMessage": "MSI (s) (F4:B4) [12:59:21:947]: SOFTWARE RESTRICTION POLICY: Verifying package --> 'C:\\ProgramData\\Package Cache\\{3887007B-C74B-4DF7-8155-F3838C013D2C}v80.56.61678\\dotnet-hostfxr-10.0.14-win-x64.msi' against software restriction policy",
+      "EndMessage": "MSI (s) (F4:B4) [13:01:22:124]: SOFTWARE RESTRICTION POLICY: C:\\ProgramData\\Package Cache\\{3887007B-C74B-4DF7-8155-F3838C013D2C}v80.56.61678\\dotnet-hostfxr-10.0.14-win-x64.msi has a digital signature"
+    },
+    {
+      "File": "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261105125719_002_DotNetRuntime.log",
+      "StartLine": 25,
+      "EndLine": 26,
+      "Seconds": 120.394,
+      "StartMessage": "MSI (s) (F4:E4) [13:01:22:565]: SOFTWARE RESTRICTION POLICY: Verifying package --> 'C:\\ProgramData\\Package Cache\\{941B1F64-FCD9-4C40-B927-E75F49DD96D8}v80.56.61678\\dotnet-runtime-10.0.14-win-x64.msi' against software restriction policy",
+      "EndMessage": "MSI (s) (F4:E4) [13:03:22:959]: SOFTWARE RESTRICTION POLICY: C:\\ProgramData\\Package Cache\\{941B1F64-FCD9-4C40-B927-E75F49DD96D8}v80.56.61678\\dotnet-runtime-10.0.14-win-x64.msi has a digital signature"
+    },
+    {
+      "File": "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261105125719_003_WindowsDesktopRuntime.log",
+      "StartLine": 25,
+      "EndLine": 26,
+      "Seconds": 120.464,
+      "StartMessage": "MSI (s) (F4:78) [13:03:24:410]: SOFTWARE RESTRICTION POLICY: Verifying package --> 'C:\\ProgramData\\Package Cache\\{64BFC674-D664-480B-AFF2-D47C5531D6D2}v80.56.61678\\windowsdesktop-runtime-10.0.14-win-x64.msi' against software restriction policy",
+      "EndMessage": "MSI (s) (F4:78) [13:05:24:874]: SOFTWARE RESTRICTION POLICY: C:\\ProgramData\\Package Cache\\{64BFC674-D664-480B-AFF2-D47C5531D6D2}v80.56.61678\\windowsdesktop-runtime-10.0.14-win-x64.msi has a digital signature"
+    }
+  ],
+  "SignatureWaitSeconds": 481.262,
+  "IrisDeploymentLogWindowSeconds": 1,
+  "SpecificCertificateNetworkFailureProven": false,
+  "CapiDetailedLogEnabled": false,
+  "UpgradeOldReadyVerified": false,
+  "RealUiUpgradeVerified": false,
+  "Files": [
+    {
+      "Path": "active-session.json",
+      "Bytes": 402,
+      "Sha256": "5a91b12593917f5445eb77c1cc88d5b89da64f604e9b6a4ffad61797a2c8411d"
+    },
+    {
+      "Path": "clean-20261105T0456228888339Z.json",
+      "Bytes": 344,
+      "Sha256": "4933aeb64d4b68c1812d50a755529e092ee1bd7e274eef8a360e97c9809d6c10"
+    },
+    {
+      "Path": "coordination/v027-fresh-install-diagnostics-readonly-1.command.json",
+      "Bytes": 529,
+      "Sha256": "4ee6619301fab236cbb70da2f9205184f82a2e9cd474c25b23585ccc22663317"
+    },
+    {
+      "Path": "coordination/v027-fresh-install-diagnostics-readonly-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "coordination/v027-fresh-install-inspection-ps51-parse-1.command.json",
+      "Bytes": 547,
+      "Sha256": "75dade043fb269835de75918a5e27f7d79f5d51dbeb955e18ed36f1789a1a3f7"
+    },
+    {
+      "Path": "coordination/v027-fresh-install-inspection-ps51-parse-1.log",
+      "Bytes": 82,
+      "Sha256": "67ddbe837113b526991f478773f8707e28526f2f556ce8616b41ec2392a0551b"
+    },
+    {
+      "Path": "coordination/v027-fresh-installed-payload-readonly-1.command.json",
+      "Bytes": 535,
+      "Sha256": "5114e9435ed525a65dac0c585e735c8e0d96633295b91308351d0d38fd073e37"
+    },
+    {
+      "Path": "coordination/v027-fresh-installed-payload-readonly-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "coordination/v027-fresh-installed-readonly-1.command.json",
+      "Bytes": 542,
+      "Sha256": "b15b23f10831e37f73cf1f64848f64f010e77ab63a97bccebf5537a3cc1c5c20"
+    },
+    {
+      "Path": "coordination/v027-fresh-installed-readonly-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "initial-input-fingerprints.json",
+      "Bytes": 11538,
+      "Sha256": "3707e86f76d7d6a16d5a86ac40bd113229fdf4d961594403889706e9ea387477"
+    },
+    {
+      "Path": "input/Begin-Manual-Evidence.cmd",
+      "Bytes": 346,
+      "Sha256": "356baaf51ef969d38d4fbb9fe9a969ced5121f8e74c465d85cd41627428ced81"
+    },
+    {
+      "Path": "input/FIRST_INSTALL.md",
+      "Bytes": 1626,
+      "Sha256": "444401c5a7f30378d502f967b4da8ee4362170fd8093fe605da05557318c29cd"
+    },
+    {
+      "Path": "input/inspect-install-readonly.ps1",
+      "Bytes": 3158,
+      "Sha256": "7ce54deb9df3ab4da8b419d4aecce64cf577e8e3296e3ca74ca7e96a9dcffb60"
+    },
+    {
+      "Path": "input/inspect-old-ready-readonly.ps1",
+      "Bytes": 4463,
+      "Sha256": "e5ed474f262dadc743c68cfbd5b89ead068ecf1d5be39f82d5d8ee3e6d18b17c"
+    },
+    {
+      "Path": "input/Iris-0.2.2-Official-Download.url",
+      "Bytes": 100,
+      "Sha256": "36ed43ca43aeef0ac5a61c39d4dae07afee8d64ff62ff0cb2674ba1f501a5e47"
+    },
+    {
+      "Path": "input/manual-capture-state.ps1",
+      "Bytes": 4421,
+      "Sha256": "13217a63ae3d9ae5cb0d384641355060de72ac27ab46c62d9ff6f36270f1460a"
+    },
+    {
+      "Path": "input/manual-process-watch-v3.ps1",
+      "Bytes": 7733,
+      "Sha256": "3515546d9e344331cc2c95fc4c97f60b213bfc06ae11ada98d96349b3e3dac62"
+    },
+    {
+      "Path": "input/manual-provider.ps1",
+      "Bytes": 3794,
+      "Sha256": "eaf11f5f4891c02474f39411dfd8788fa3972f5db3b781f6c11552cc14b17cf6"
+    },
+    {
+      "Path": "input/manual-start-evidence.ps1",
+      "Bytes": 3095,
+      "Sha256": "db1e68f6bbc7f14e06c15b840e7a47f7877e9baf9830cdcb8a6ec235f57b1eea"
+    },
+    {
+      "Path": "input/manual-stop-evidence.ps1",
+      "Bytes": 649,
+      "Sha256": "16d044fb2052ba43d797f0c7cc421f3db4c1057acc4be156b1d9f6a3a41238b2"
+    },
+    {
+      "Path": "input/public-release-v022.json",
+      "Bytes": 718,
+      "Sha256": "92f27ec983ff1a382b9dccb3f090a84aa04bf1a6faf3c4d0cbef8b79d779af85"
+    },
+    {
+      "Path": "input/PUBLIC_payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "8ef7f6edac3f9317fb8bc97b0da80db169d76579219279f455925ea6d1028637"
+    },
+    {
+      "Path": "input/PUBLIC_release-provenance.json",
+      "Bytes": 192397,
+      "Sha256": "10dba107a5664c3e021b97963e4f3cf6616cbf6195f3a923f0f1644ba84b652e"
+    },
+    {
+      "Path": "input/PUBLIC_SHA256.json",
+      "Bytes": 2154,
+      "Sha256": "17ca55d56899a3e9a8598fcd2f423f60809cf1c4b5f6b72fd0eaba57ee95e1d4"
+    },
+    {
+      "Path": "input/Save-Installed-State.cmd",
+      "Bytes": 174,
+      "Sha256": "552fe3c42ef70e6b8d689efdf6aaf82a1e8a4a1eaa859199a42a509edc4c6250"
+    },
+    {
+      "Path": "input/Save-Offer-State.cmd",
+      "Bytes": 178,
+      "Sha256": "53d59c58206560a3648a805bc61fc8f6d941a27554d37ed5e4e5df8dbb7873bc"
+    },
+    {
+      "Path": "input/Save-Old-Ready-State.cmd",
+      "Bytes": 178,
+      "Sha256": "81f8d4f255a7e1f454abc63de73f6527ece47c702a8a9e019e1c617eba9b5b23"
+    },
+    {
+      "Path": "input/Save-Ready-State.cmd",
+      "Bytes": 178,
+      "Sha256": "54238c26c8e26a5ef8098e42ea7b398fd25c53221f6f63ef873dea2042e15749"
+    },
+    {
+      "Path": "input/Save-Uninstalled-State.cmd",
+      "Bytes": 184,
+      "Sha256": "b74e93a7bddcdd1d1c67180e16e1c2728f8ee6ef3c26a5f7646aa033293b189c"
+    },
+    {
+      "Path": "input/save-update-evidence.ps1",
+      "Bytes": 5285,
+      "Sha256": "a75fb4f73645b7198213a7d244dc1d50c13b89169ca1bfcbae9629d267a966f7"
+    },
+    {
+      "Path": "input/Save-Updated-State.cmd",
+      "Bytes": 180,
+      "Sha256": "1393d4b6b406f38455b2d3ff95f554369e8e7fa05a0b2e06ef95b0e2b672f759"
+    },
+    {
+      "Path": "input/start-process-watch-v3.ps1",
+      "Bytes": 16443,
+      "Sha256": "216fb11f24759242707e9b3b64cf47faa1ef9dbe41da73d65c0c6ccdf2f0ab87"
+    },
+    {
+      "Path": "input/Stop-Manual-Evidence.cmd",
+      "Bytes": 184,
+      "Sha256": "0240940845071160584831bfc2f75860d560e63def305c91100add3808cc03a4"
+    },
+    {
+      "Path": "input/verify-public-install-readonly.ps1",
+      "Bytes": 3403,
+      "Sha256": "e46da2415bc8bbb7ed8b1297b44f07e1b9b16ab66dc16966f341b664a83f027c"
+    },
+    {
+      "Path": "install-inspection-20261105T0511043530281Z.json",
+      "Bytes": 3173,
+      "Sha256": "abd75e0be9d8e8c5aee2798337cdb983c2e28bfc8541446803b896ff306a0ff3"
+    },
+    {
+      "Path": "installed-20261105T0508186955676Z.json",
+      "Bytes": 2916,
+      "Sha256": "fb9425703496a039b4e2437e499af47b2606b4362bbcb82ec96feee26d7cb8c5"
+    },
+    {
+      "Path": "Iris-Manual-Acceptance.wsb",
+      "Bytes": 703,
+      "Sha256": "d5b6cb8754f27ac065b11f695d37f15cec192f61953e8de7a2070bc93329fff7"
+    },
+    {
+      "Path": "manual-sandbox-session.json",
+      "Bytes": 455,
+      "Sha256": "400866d3c20282317595a3578e7d2dc8120c42ca4335bfac65d0b692527a1954"
+    },
+    {
+      "Path": "original-logs/logs-iris-20261105.log",
+      "Bytes": 1648,
+      "Sha256": "585a20af0765818b9c721864bbb7807f5b602d2c296acaf837e9a2cdb1d8ccd4"
+    },
+    {
+      "Path": "original-logs/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261105125719.log",
+      "Bytes": 22097,
+      "Sha256": "8af05580008195de294843713dfe0feab1f09feaeac88ae5d3d7c012e3e3ab74"
+    },
+    {
+      "Path": "original-logs/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261105125719_000_DotNetHost.log",
+      "Bytes": 112794,
+      "Sha256": "000a8118d84c0ea7b5270e7753f3da70caa665e66cc28c05de1afd10a373505d"
+    },
+    {
+      "Path": "original-logs/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261105125719_001_DotNetHostFxr.log",
+      "Bytes": 101360,
+      "Sha256": "10e0f09e21555245eb0553cb31d592ffcb033db19af5d5659897927f50cf4ad3"
+    },
+    {
+      "Path": "original-logs/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261105125719_002_DotNetRuntime.log",
+      "Bytes": 490350,
+      "Sha256": "252361bb7d25b6a8601e1a4e1c6045000b79173168a8a280c412da2aa21dc2a1"
+    },
+    {
+      "Path": "original-logs/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261105125719_003_WindowsDesktopRuntime.log",
+      "Bytes": 728242,
+      "Sha256": "11c8b1a36cff33cb04f748f2980fa9960b4ec677c690acaca3642b369ddf7650"
+    },
+    {
+      "Path": "original-logs/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261105125720.elevated.log",
+      "Bytes": 1338,
+      "Sha256": "cfaafd65e56ef325cc172093318b437805a92b029e1a0549f46d74490673ad93"
+    },
+    {
+      "Path": "original-logs/Velopack-velopack.log",
+      "Bytes": 6189,
+      "Sha256": "9e3e7d0ccf1d8509d64e09538114ed11b9625a221776344f171370de23df41d7"
+    },
+    {
+      "Path": "original-logs/Velopack-velopack_Iris.log",
+      "Bytes": 9423,
+      "Sha256": "e03fba97907b92dafbe3b289f80f30b0d65378c2aa30a799223efbdb1c69924c"
+    },
+    {
+      "Path": "public-install-verification-20261105T0508214758587Z.json",
+      "Bytes": 40338,
+      "Sha256": "22ab7dbf0c8757d1463b7aa6ac41d5b3de0dae085a242030adbec19e1ba3565b"
+    },
+    {
+      "Path": "recorder/active-recorder-v2.json",
+      "Bytes": 4296,
+      "Sha256": "7f9a0f591fdf9e65a3eba29b227f04e224082371636aed34afe03597ceb51d04"
+    },
+    {
+      "Path": "recorder/process-events-v2.jsonl",
+      "Bytes": 2334,
+      "Sha256": "69b24e23623266991cf470b6510561c48d250053f7c62b429b1fe13298a69536"
+    },
+    {
+      "Path": "recorder/startup-result.json",
+      "Bytes": 4296,
+      "Sha256": "7f9a0f591fdf9e65a3eba29b227f04e224082371636aed34afe03597ceb51d04"
+    },
+    {
+      "Path": "recorder/watcher-v2-status.json",
+      "Bytes": 242,
+      "Sha256": "da4649acea4d815aa5b88229fc19b956c720157d875330ce3c1ebc3bbea09812"
+    },
+    {
+      "Path": "user-feedback.json",
+      "Bytes": 542,
+      "Sha256": "50694c6506c14f291e47cedad2e5428598cb2f8a95071786c57f7cfd0e598de9"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "QuestionItemId": "[\"request_user_input_async\",\"call_AVAsDGINCItCXwtnEZITlMzs\",0]",
+  "UserAnswer": "已完成：安装成功，版本0.2.2，但安装过于耗时（10min）",
+  "Version": "0.2.2",
+  "SandboxId": "2fc7c168-2f34-437a-8319-8974e6f592b2",
+  "SessionDirectory": "F:/Iris/artifacts/t039c/manual-verification-v022-20261105-1/output/session-14d55ff50fd94d3abe8d4474aafd5365",
+  "UserReportedInstallationSuccessful": true,
+  "UserReportedApproximateMinutes": 10,
+  "UpgradeVerified": false,
+  "NewOldReadyVerified": false
+}

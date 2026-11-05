@@ -1,0 +1,20 @@
+{
+  "SourceCommit": "c32fcb283e417ab11715c46207fdc8cfde4baedf",
+  "Files": [
+    {
+      "Path": "tests/Iris.Platform.Windows.Tests/Selection/UiaStartupCleanupTests.cs",
+      "Bytes": 25714,
+      "Sha256": "55e6d542e773522a04a656c6941cf43bbbdc834601600d42a70ae45441a8b739"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/UiaSelectionReader.cs",
+      "Bytes": 32496,
+      "Sha256": "59dfc0a095a23bf59c3f929bbae74d45500cd777646700dbfa4344197f0a9995"
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Selection/RealUiaProcessRunner.cs",
+      "Bytes": 17105,
+      "Sha256": "79bafc601f6e0baaaaa758e894f6ec91e596e83907ab19d7f17dd39c5fb7ff22"
+    }
+  ]
+}

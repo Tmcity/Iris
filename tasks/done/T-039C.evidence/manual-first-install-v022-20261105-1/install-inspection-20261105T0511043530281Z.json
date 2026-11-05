@@ -1,0 +1,67 @@
+{
+    "Utc":  "2026-11-05T05:11:04.3436300Z",
+    "ReadOnlyProductInspection":  true,
+    "Downloads":  [
+                      {
+                          "LastWriteUtc":  "2026-11-05T04:57:16.8453050Z",
+                          "Sha256":  "91c2795a7b1e2480caa83fce9514dc2e2d21e277d9a297311faba6040bad7330",
+                          "Name":  "inst-dotnet-10.0.0-X64-WindowsDesktop.exe",
+                          "Bytes":  60035296,
+                          "CreatedUtc":  "2026-11-05T04:57:04.4217247Z"
+                      },
+                      {
+                          "LastWriteUtc":  "2026-11-05T04:56:57.1459005Z",
+                          "Sha256":  "ddae984ba4bcc65e5398ecd7a036afe0485966c5d61fe9b1603cc9bb487e7a0c",
+                          "Name":  "Iris-0.2.2-Setup.exe",
+                          "Bytes":  116767621,
+                          "CreatedUtc":  "2026-11-05T04:56:40.1029044Z"
+                      }
+                  ],
+    "Processes":  [
+                      {
+                          "StartedUtc":  "2026-11-05T04:56:10.3340600Z",
+                          "Path":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                          "Pid":  7328,
+                          "Name":  "powershell.exe",
+                          "ParentPid":  6604
+                      },
+                      {
+                          "StartedUtc":  "2026-11-05T04:56:12.7460920Z",
+                          "Path":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                          "Pid":  8152,
+                          "Name":  "powershell.exe",
+                          "ParentPid":  6604
+                      },
+                      {
+                          "StartedUtc":  "2026-11-05T05:05:27.9287450Z",
+                          "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+                          "Pid":  7312,
+                          "Name":  "Iris.App.exe",
+                          "ParentPid":  9132
+                      }
+                  ],
+    "RecorderVersion":  3,
+    "RecorderSourceSha256":  "3515546d9e344331cc2c95fc4c97f60b213bfc06ae11ada98d96349b3e3dac62",
+    "RecorderStatus":  {
+                           "RecorderVersion":  3,
+                           "LastHeartbeatUtc":  "2026-11-05T05:11:02.6918000Z",
+                           "QueueRemovalAlreadyAbsent":  1,
+                           "ReadOnly":  true,
+                           "RecorderPid":  8152,
+                           "Ready":  true,
+                           "Records":  7,
+                           "Failure":  null
+                       },
+    "CapiLogEnabled":  false,
+    "CapiLogRecordCount":  null,
+    "CapiRecentEvents":  [
+
+                         ],
+    "ProviderStatus":  {
+                           "Ready":  true,
+                           "BaseUrl":  "http://127.0.0.1:18039/v1",
+                           "Model":  "iris-fixture",
+                           "SyntheticOnly":  true
+                       },
+    "ProductOperationPerformed":  false
+}

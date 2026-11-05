@@ -1,0 +1,22 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.Platform.Windows.Tests/Iris.Platform.Windows.Tests.csproj",
+    "-c",
+    "Release",
+    "--filter-class",
+    "Iris.Platform.Windows.Tests.Selection.UiaStartupCleanupTests",
+    "--no-ansi",
+    "--no-progress",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:/Iris/artifacts/t039c/start-publication-after-20261104-1/reports"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v027-ci-fix-20261103-1",
+  "startedAt": "2026-11-03T16:06:00.184272+00:00",
+  "completedAt": "2026-11-03T16:06:06.776594+00:00",
+  "exitCode": 0,
+  "logSha256": "f070358f0bf6ea2959caf3b9cd89ec215e2464183456813e6363a0e2ca27f615"
+}
