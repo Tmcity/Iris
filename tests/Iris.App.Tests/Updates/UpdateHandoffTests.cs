@@ -9,6 +9,46 @@ namespace Iris.App.Tests.Updates;
 public sealed class UpdateHandoffTests
 {
     [Fact]
+    public async Task HelperLaunch_UsesOwnedWorkDirectoryOutsideReplaceableInstallation()
+    {
+        string root = Path.Combine(Path.GetTempPath(), "iris-handoff-cwd-" + Guid.NewGuid().ToString("N"));
+        Directory.CreateDirectory(root);
+        var environment = new StartRecordingBoundary(root);
+        File.WriteAllText(environment.HelperPath, "synthetic helper contents");
+        try
+        {
+            await using var handoff = new UpdateHandoff(environment);
+            await Should.ThrowAsync<IOException>(() => handoff.PrepareAsync(
+                new(Guid.NewGuid(), "unused", 1, new string('A', 64), "1.0.0"), TestContext.Current.CancellationToken));
+
+            var info = environment.StartInfo.ShouldNotBeNull();
+            info.WorkingDirectory.ShouldBe(Path.GetDirectoryName(info.FileName),
+                "a copied maintenance process must not inherit the application's replaceable current directory");
+            Path.GetDirectoryName(info.WorkingDirectory).ShouldBe(root);
+            handoff.IsPrepared.ShouldBeFalse();
+        }
+        finally
+        {
+            File.Delete(environment.HelperPath);
+            Directory.Delete(root);
+        }
+    }
+
+    private sealed class StartRecordingBoundary(string root) : UpdateHandoffEnvironment
+    {
+        internal System.Diagnostics.ProcessStartInfo? StartInfo;
+        internal override string StateRoot => root;
+        internal override string HelperPath => Path.Combine(root, "source-helper.bin");
+        internal override void ValidateInstallation() { }
+        internal override Task ValidateCandidateAsync(UpdateCandidate candidate, CancellationToken token) => Task.CompletedTask;
+        internal override System.Diagnostics.Process StartHelper(System.Diagnostics.ProcessStartInfo start)
+        {
+            StartInfo = start;
+            throw new IOException("synthetic stop at the real launch boundary");
+        }
+    }
+
+    [Fact]
     public async Task RevokeCancelsHeldPreparationBeforeWaitingForSemaphoreAndJoinsIt()
     {
         var environment = new EnvironmentBoundary();
