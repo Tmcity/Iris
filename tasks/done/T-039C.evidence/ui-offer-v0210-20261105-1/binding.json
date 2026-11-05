@@ -1,0 +1,90 @@
+{
+  "CurrentVersion": "0.2.9",
+  "OfferedVersion": "0.2.10",
+  "AppPid": 5672,
+  "OriginalDataHashesMatched": true,
+  "TwoHistoryRowsRetained": true,
+  "NewPackageAbsent": true,
+  "ActualUserScreenshotReviewed": true,
+  "UiOfferVerified": true,
+  "DownloadReadyVerified": false,
+  "RealUiUpgradeVerified": false,
+  "HistoryOperationWarningsRetained": true,
+  "Files": [
+    {
+      "Path": "offer-20261105T1444460625219Z.json",
+      "Bytes": 3430,
+      "Sha256": "c37c8e969963ef2220075a1c757b92b3d425f6653b0a3465e70858a5f6f457db"
+    },
+    {
+      "Path": "supplement/active-recorder-v2.json",
+      "Bytes": 4296,
+      "Sha256": "7f9a0f591fdf9e65a3eba29b227f04e224082371636aed34afe03597ceb51d04"
+    },
+    {
+      "Path": "supplement/history.db",
+      "Bytes": 53248,
+      "Sha256": "49b163279267243d7d648b08423d73561bc25f90c60d043286f0411502a436e8"
+    },
+    {
+      "Path": "supplement/history.db-shm",
+      "Bytes": 32768,
+      "Sha256": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb"
+    },
+    {
+      "Path": "supplement/history.db-wal",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "supplement/process-events-v2.jsonl",
+      "Bytes": 10079,
+      "Sha256": "5a6ec7908e95e56c00f9ff17cdcd144f2cb84f70fff1424889e2e11afc0a66b7"
+    },
+    {
+      "Path": "supplement/product-iris-20261105.log",
+      "Bytes": 7230,
+      "Sha256": "a3f8e383b5bd4026bfee280b4e8454a4c74e7f4eacc55a73956f273631372722"
+    },
+    {
+      "Path": "supplement/provider-requests.jsonl",
+      "Bytes": 266,
+      "Sha256": "2c9554929899d196817b7e72bcba92b1af0fcf8ccad094273a6b2237fe6f6c66"
+    },
+    {
+      "Path": "supplement/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "supplement/supplement.json",
+      "Bytes": 8201,
+      "Sha256": "ef2a624fd2b4c359b2a39d9bd7218c1414fe0b99398dc9ace87d0752baf59a31"
+    },
+    {
+      "Path": "supplement/watcher-v2-status.json",
+      "Bytes": 243,
+      "Sha256": "6f7cc4008ab6d98283832cf037918ad3b814a0905345b9f89d4de8328ab3e94d"
+    },
+    {
+      "Path": "ui-v0210-offer-capture-20261105T1444463285304Z.json",
+      "Bytes": 237,
+      "Sha256": "f8a49729e12be981a67170a149d26c6fcb031f5f7c1a7cf1348a52f746e38662"
+    },
+    {
+      "Path": "view-offer-v0210-20261105T1444344237852Z.png",
+      "Bytes": 2635966,
+      "Sha256": "f5ac5f2e2605a7f33afab1e3f14a20aef1fc6cd21d27d8bf58930179e3853b67"
+    },
+    {
+      "Path": "view-offer-v0210-20261105T1444344237852Z.png.json",
+      "Bytes": 488,
+      "Sha256": "448ac7fb4b38c91dc41009630d286c0b4f870fb43323423c331fd2afdad37de0"
+    },
+    {
+      "Path": "visual-review.json",
+      "Bytes": 266,
+      "Sha256": "6de4a7d055e271b1b17c56db2a953742b9528a1250ed75d1a5010f01c99f7cb5"
+    }
+  ]
+}

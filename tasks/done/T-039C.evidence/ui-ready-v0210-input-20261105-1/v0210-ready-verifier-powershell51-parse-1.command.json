@@ -1,0 +1,14 @@
+{
+  "command": [
+    "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-Command",
+    "$taskTokens=$null;$taskErrors=$null;$null=[Management.Automation.Language.Parser]::ParseFile(\"F:/Iris/artifacts/t039c/manual-verification-v022-20261105-1/input/verify-ready-v0210-readonly.ps1\",[ref]$taskTokens,[ref]$taskErrors);if($taskErrors.Count){$taskErrors|Out-String|Write-Output;exit 1};Write-Output \"Official Ready verifier parses under Windows PowerShell 5.1\""
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T14:52:58.969256+00:00",
+  "completedAt": "2026-11-05T14:52:59.180930+00:00",
+  "exitCode": 0,
+  "logSha256": "1ac8776959c0c16964ebee87d814d6b4330080f66a4222903768139cb1a81a2b"
+}

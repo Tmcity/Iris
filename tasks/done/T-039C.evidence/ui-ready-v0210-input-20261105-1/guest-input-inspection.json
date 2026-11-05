@@ -1,0 +1,22 @@
+{
+    "Utc":  "2026-11-05T14:56:10.2575304Z",
+    "ProductOperationPerformed":  false,
+    "InputRoot":  "C:\\IrisAcceptanceDownload0210",
+    "Rows":  [
+                 {
+                     "Sha256":  "a723ac3d8d047fb0f7d1fdfc4abf3c230a570989860e9f55b742aef0f2c27e55",
+                     "Name":  "Save-Ready-V0210-State.cmd",
+                     "Exists":  true
+                 },
+                 {
+                     "Sha256":  "8fdeb69aaf7a2a829f7100fe49dcca7a9eb95d53d94242e2912b14508da2f08d",
+                     "Name":  "Capture-Ready-V0210-View.cmd",
+                     "Exists":  true
+                 },
+                 {
+                     "Sha256":  "51f2f700175472621681dbd0d8a6cf20525341f928c01ba866cd0a9d0c566775",
+                     "Name":  "verify-ready-v0210-readonly.ps1",
+                     "Exists":  true
+                 }
+             ]
+}

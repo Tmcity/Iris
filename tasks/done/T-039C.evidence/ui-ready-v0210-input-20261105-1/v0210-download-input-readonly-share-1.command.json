@@ -1,0 +1,18 @@
+{
+  "command": [
+    "wsb.exe",
+    "share",
+    "--id",
+    "2fc7c168-2f34-437a-8319-8974e6f592b2",
+    "--host-path",
+    "F:/Iris/artifacts/t039c/manual-verification-v022-20261105-1/input",
+    "--sandbox-path",
+    "C:\\IrisAcceptanceDownload0210",
+    "--raw"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T14:52:59.604995+00:00",
+  "completedAt": "2026-11-05T14:52:59.902191+00:00",
+  "exitCode": 0,
+  "logSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
