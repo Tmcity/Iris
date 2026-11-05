@@ -16,3 +16,5 @@
 证据证明长等待发生在 Windows Installer 的签名/软件策略核验阶段。CAPI2 Operational 详细日志当时未启用；尚不能认定具体 CRL/AIA 地址、代理或网络请求超时，也不能把此问题归因为 Iris 解包。没有更改系统策略、证书配置或共享运行时。
 
 此首次安装性能问题保持待处理。完成 T-039C 的真实更新/卸载闭环后，在 T-040/NFR 纳入首次安装阶段耗时和签名核验网络诊断；若用户允许另一个干净环境的诊断安装，先准备可审操作清单，再由用户执行。当前已安装运行时的生产升级单独计时，不据现有观察预先宣称升级性能通过。
+
+2026-11-05T10:36:30UTC 补充只读诊断：实际.NET安装器和四个MSI使用同一.NET/Microsoft Code Signing PCA 2024公开叶证书。其CRL与AIA两个原HTTP地址及对应HTTPS地址均当前返回200，耗时138–768ms；这排除了“现在该叶证书的两个地址不可达”的推断，未证明首次安装时的完整签名链/时间戳链等待原因。详细原件在 [certificate network binding](F:/Iris/tasks/done/T-039C.evidence/runtime-public-certificate-network-20261105-1/binding.json)。尚需下一次用户控制的干净安装中记录CAPI2完整链事件，不能据当前可达性关闭安装性能问题。

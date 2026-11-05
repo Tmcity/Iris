@@ -1,0 +1,10 @@
+{
+  "StartedUtc": "2026-11-05T10:34:51.280091+00:00",
+  "FinishedUtc": "2026-11-05T10:34:53.423549+00:00",
+  "ShellExitCode": 0,
+  "GuestResult": {
+    "ExitCode": 0
+  },
+  "SourceSha256": "11a42a8521c92b3ecdfd7e707ca3343f790cbdd7f14e68b52fbe770e3748c621",
+  "ReadOnly": true
+}

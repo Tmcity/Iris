@@ -1,0 +1,52 @@
+{
+  "ObservedUtc": "2026-11-05T10:36:30.3647792Z",
+  "SandboxId": "2fc7c168-2f34-437a-8319-8974e6f592b2",
+  "MicrosoftSignedFilesInspected": 5,
+  "PublicLeafSignerThumbprint": "BB793DB742624269BB5F4515BBE9A3DF418F588D",
+  "CurrentCertificateEndpointRequestsSucceeded": 4,
+  "OriginalEightMinuteDelayCauseProven": false,
+  "ProductOperationPerformed": false,
+  "SystemSettingsChanged": false,
+  "Files": [
+    {
+      "Path": "runtime-certificate-network-20261105-1.json",
+      "Bytes": 3343,
+      "Sha256": "28843f49bdead585d302dddba81d5613341b7d684809bb0a11bf20b236ecf90c"
+    },
+    {
+      "Path": "runtime-certificate-network-readonly-20261105-1.command.json",
+      "Bytes": 288,
+      "Sha256": "dcd72bd9c24e8f1b3b5d403a627816225a9633244e75280f162ce088d46d7e0b"
+    },
+    {
+      "Path": "runtime-certificate-network-readonly-20261105-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "runtime-certificate-network-readonly-20261105-1.ps1",
+      "Bytes": 3732,
+      "Sha256": "839f44381b98c0ae841cf77eaa4cd1abbca629068ee7c1ac21e121d170cc1e82"
+    },
+    {
+      "Path": "runtime-certificate-readonly-20261105-1.ps1",
+      "Bytes": 2672,
+      "Sha256": "11a42a8521c92b3ecdfd7e707ca3343f790cbdd7f14e68b52fbe770e3748c621"
+    },
+    {
+      "Path": "runtime-public-certificates-20261105-1.json",
+      "Bytes": 10539,
+      "Sha256": "ff2486216bd2b53e2e39579f7faa2fd5a9b9abd1967283965ac34d9f3f9f67d5"
+    },
+    {
+      "Path": "runtime-public-certificates-readonly-20261105-1.command.json",
+      "Bytes": 288,
+      "Sha256": "2c7b94f2598894211420e7a2b83415e34cd6519a8d58cb99fc182b5c955c2d51"
+    },
+    {
+      "Path": "runtime-public-certificates-readonly-20261105-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    }
+  ]
+}

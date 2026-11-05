@@ -1,0 +1,57 @@
+{
+    "CertificateStoreChanged":  false,
+    "ProductOperationPerformed":  false,
+    "ReadOnlyNetworkDiagnostic":  true,
+    "SystemSettingsChanged":  false,
+    "Utc":  "2026-11-05T10:36:30.3647792Z",
+    "Rows":  [
+                 {
+                     "Url":  "http://www.microsoft.com/pkiops/crl/Microsoft%20Code%20Signing%20PCA%202024.crl",
+                     "OriginalCertificateUrl":  "http://www.microsoft.com/pkiops/crl/Microsoft%20Code%20Signing%20PCA%202024.crl",
+                     "Status":  200,
+                     "FinalUrl":  "http://www.microsoft.com/pkiops/crl/Microsoft%20Code%20Signing%20PCA%202024.crl",
+                     "Bytes":  773,
+                     "BodySha256":  "1ff877f6f9c032381b42f6db05134c258518fd5a384753311285a5cc802d18b3",
+                     "BodyExcerpt":  null,
+                     "ElapsedMilliseconds":  375,
+                     "Failure":  null,
+                     "AuthenticationAdded":  false
+                 },
+                 {
+                     "Url":  "https://www.microsoft.com/pkiops/crl/Microsoft%20Code%20Signing%20PCA%202024.crl",
+                     "OriginalCertificateUrl":  "http://www.microsoft.com/pkiops/crl/Microsoft%20Code%20Signing%20PCA%202024.crl",
+                     "Status":  200,
+                     "FinalUrl":  "https://www.microsoft.com/pkiops/crl/Microsoft%20Code%20Signing%20PCA%202024.crl",
+                     "Bytes":  773,
+                     "BodySha256":  "1ff877f6f9c032381b42f6db05134c258518fd5a384753311285a5cc802d18b3",
+                     "BodyExcerpt":  null,
+                     "ElapsedMilliseconds":  768,
+                     "Failure":  null,
+                     "AuthenticationAdded":  false
+                 },
+                 {
+                     "Url":  "http://www.microsoft.com/pkiops/certs/Microsoft%20Code%20Signing%20PCA%202024.crt",
+                     "OriginalCertificateUrl":  "http://www.microsoft.com/pkiops/certs/Microsoft%20Code%20Signing%20PCA%202024.crt",
+                     "Status":  200,
+                     "FinalUrl":  "http://www.microsoft.com/pkiops/certs/Microsoft%20Code%20Signing%20PCA%202024.crt",
+                     "Bytes":  1729,
+                     "BodySha256":  "3dadfaf812dd1bbaef45834ccbd188f3cd97139e2ed1aca69c2dd63082142f8f",
+                     "BodyExcerpt":  null,
+                     "ElapsedMilliseconds":  138,
+                     "Failure":  null,
+                     "AuthenticationAdded":  false
+                 },
+                 {
+                     "Url":  "https://www.microsoft.com/pkiops/certs/Microsoft%20Code%20Signing%20PCA%202024.crt",
+                     "OriginalCertificateUrl":  "http://www.microsoft.com/pkiops/certs/Microsoft%20Code%20Signing%20PCA%202024.crt",
+                     "Status":  200,
+                     "FinalUrl":  "https://www.microsoft.com/pkiops/certs/Microsoft%20Code%20Signing%20PCA%202024.crt",
+                     "Bytes":  1729,
+                     "BodySha256":  "3dadfaf812dd1bbaef45834ccbd188f3cd97139e2ed1aca69c2dd63082142f8f",
+                     "BodyExcerpt":  null,
+                     "ElapsedMilliseconds":  521,
+                     "Failure":  null,
+                     "AuthenticationAdded":  false
+                 }
+             ]
+}
