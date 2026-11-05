@@ -1,0 +1,29 @@
+{
+  "Version": "0.2.10",
+  "PublicFullSha256": "dca307a0afc1827e27bc7ec2614e5ead3a30978d4c5d318e4d0d842ebc73f136",
+  "PublicManifestSha256": "516e959fb1b7015a51ee3da41e7de160dfb35607447e45cdbdd3190884e88686",
+  "UserControlsRealUiInstall": true,
+  "ProductOperationPerformed": false,
+  "Files": [
+    {
+      "Path": "PUBLIC_V0210_payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "516e959fb1b7015a51ee3da41e7de160dfb35607447e45cdbdd3190884e88686"
+    },
+    {
+      "Path": "verify-v0210-install-readonly.ps1",
+      "Bytes": 3637,
+      "Sha256": "7c7daf22d6acc29699424fe9030942f06dc621a2f4626abc2b5e6fd6bc1b9861"
+    },
+    {
+      "Path": "Save-Updated-V0210-State.cmd",
+      "Bytes": 415,
+      "Sha256": "b8520497dc23000b66d89d6b8a3edb0df18ff2f9d614ae1d5b8cc4d08416869a"
+    },
+    {
+      "Path": "Capture-Updated-V0210-View.cmd",
+      "Bytes": 181,
+      "Sha256": "56f5a151cba3672f173ef04562f676d49a0b427850bd27144e6bbb24ba8257a6"
+    }
+  ]
+}

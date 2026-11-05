@@ -1,0 +1,14 @@
+{
+  "command": [
+    "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-Command",
+    "$taskTokens=$null;$taskErrors=$null;$null=[Management.Automation.Language.Parser]::ParseFile(\"F:/Iris/artifacts/t039c/manual-verification-v022-20261105-1/input/verify-v0210-install-readonly.ps1\",[ref]$taskTokens,[ref]$taskErrors);if($taskErrors.Count){$taskErrors|Out-String|Write-Output;exit 1};Write-Output \"Official 0.2.10 installed verifier parses under Windows PowerShell 5.1\""
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T15:16:23.981468+00:00",
+  "completedAt": "2026-11-05T15:16:24.196204+00:00",
+  "exitCode": 0,
+  "logSha256": "35dab848fb8b3915438c0d200415327e68baeff416d2a342e5134be44d5daac5"
+}

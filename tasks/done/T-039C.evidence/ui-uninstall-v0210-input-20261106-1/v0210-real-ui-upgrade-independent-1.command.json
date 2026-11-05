@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/review_ui_upgrade_v0210_20261106.py"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T18:44:01.486943+00:00",
+  "completedAt": "2026-11-05T18:44:01.618363+00:00",
+  "exitCode": 0,
+  "logSha256": "4a0afe793cb8d24f21d4996b736915615e8dd78dc41e83d9c7f80363a6cf8e53"
+}

@@ -1,0 +1,104 @@
+{
+  "UiReadyVerified": true,
+  "OldVersion": "0.2.9",
+  "TargetVersion": "0.2.10",
+  "OldAppPid": 5672,
+  "OfficialFullBytes": 64628628,
+  "OfficialFullSha256": "dca307a0afc1827e27bc7ec2614e5ead3a30978d4c5d318e4d0d842ebc73f136",
+  "OriginalDataHashesMatched": true,
+  "OriginalTwoHistoryRowsRetained": true,
+  "RecorderReady": true,
+  "UiInstallPerformed": false,
+  "Files": [
+    {
+      "Path": "ready-20261105T1500358784172Z.json",
+      "Bytes": 3431,
+      "Sha256": "9cb1c6893c4fe9baa1aa38bd8f30c688541f775ff2ff51faec3a4ab152138ac5"
+    },
+    {
+      "Path": "ready-v0210-verification-20261105T1500378838664Z.json",
+      "Bytes": 669,
+      "Sha256": "7147f3a43a15243019594857ae1af1c61190ff798cb16df96c41b0921febb85d"
+    },
+    {
+      "Path": "supplement/active-recorder-v2.json",
+      "Bytes": 4296,
+      "Sha256": "7f9a0f591fdf9e65a3eba29b227f04e224082371636aed34afe03597ceb51d04"
+    },
+    {
+      "Path": "supplement/history.db",
+      "Bytes": 53248,
+      "Sha256": "49b163279267243d7d648b08423d73561bc25f90c60d043286f0411502a436e8"
+    },
+    {
+      "Path": "supplement/history.db-shm",
+      "Bytes": 32768,
+      "Sha256": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb"
+    },
+    {
+      "Path": "supplement/history.db-wal",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "supplement/process-events-v2.jsonl",
+      "Bytes": 10079,
+      "Sha256": "5a6ec7908e95e56c00f9ff17cdcd144f2cb84f70fff1424889e2e11afc0a66b7"
+    },
+    {
+      "Path": "supplement/product-iris-20261105.log",
+      "Bytes": 7230,
+      "Sha256": "a3f8e383b5bd4026bfee280b4e8454a4c74e7f4eacc55a73956f273631372722"
+    },
+    {
+      "Path": "supplement/provider-requests.jsonl",
+      "Bytes": 266,
+      "Sha256": "2c9554929899d196817b7e72bcba92b1af0fcf8ccad094273a6b2237fe6f6c66"
+    },
+    {
+      "Path": "supplement/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "supplement/supplement.json",
+      "Bytes": 8201,
+      "Sha256": "d2d51e050519e9d9dca71ccd7107c723a7cf7a72cb701dc08a4771cc093a684f"
+    },
+    {
+      "Path": "supplement/watcher-v2-status.json",
+      "Bytes": 243,
+      "Sha256": "298c2bf6be678bda2280cc96faff6b21255175ed8b4dfbfc4ed5a038914333fb"
+    },
+    {
+      "Path": "ui-v0210-ready-capture-20261105T1500361176980Z.json",
+      "Bytes": 237,
+      "Sha256": "b1e625456362a07ec140874719bb8af3a806618d7fdb0e265346e66aaf929a08"
+    },
+    {
+      "Path": "view-ready-v0210-20261105T1459275210657Z.png",
+      "Bytes": 2612354,
+      "Sha256": "8d36bc291b0b056542b02c2c8f94c7e5affd093ec65195a32b06bbbc73b330d1"
+    },
+    {
+      "Path": "view-ready-v0210-20261105T1459275210657Z.png.json",
+      "Bytes": 488,
+      "Sha256": "bb2bf12cce0b17383bb05b901103ec32399d68ea699aabeae4030bbe9630020c"
+    },
+    {
+      "Path": "view-ready-v0210-20261105T1459443977126Z.png",
+      "Bytes": 2632323,
+      "Sha256": "f5473c42aa747ec5a73a309019ef0bb3db43247ed40a9a5d7589a1a745aa4359"
+    },
+    {
+      "Path": "view-ready-v0210-20261105T1459443977126Z.png.json",
+      "Bytes": 488,
+      "Sha256": "5da2e040673c1ea150b83552f2f79789b4b00a72f3ac10122a02683a32b27d3b"
+    },
+    {
+      "Path": "visual-review.json",
+      "Bytes": 236,
+      "Sha256": "8724812650fa31c3371a80a60bb78af65e941ccb4d1a256e6181b9f9d7a9b94c"
+    }
+  ]
+}

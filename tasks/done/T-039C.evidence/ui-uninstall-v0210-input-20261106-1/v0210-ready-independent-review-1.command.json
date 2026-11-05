@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/archive_ui_ready_v0210_20261105.py"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T15:11:30.946841+00:00",
+  "completedAt": "2026-11-05T15:11:31.085131+00:00",
+  "exitCode": 0,
+  "logSha256": "0991bd903dc9138dc1ee3261dc9ecaf576ac149afa070ef15e736a89bcc452ee"
+}

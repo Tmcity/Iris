@@ -1,0 +1,57 @@
+2026-11-05 13:05:28.820 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置文件不存在，已初始化为默认设置并写入 C:\Users\WDAGUtilityAccount\AppData\Roaming\Iris\settings.json
+2026-11-05 13:05:29.269 +08:00 [INF] (Iris.App.Tray.TrayIconController) 系统托盘图标创建成功（共尝试 1 次）
+2026-11-05 13:05:29.332 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1371.0 ms，托盘图标已创建
+2026-11-05 13:05:29.954 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:50.819 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:51.536 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:52.839 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:53.379 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:53.776 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:54.505 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:55.109 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:55.669 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:05:56.148 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:14:08.306 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 13:15:18.687 +08:00 [INF] (Polly) Execution attempt. Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '200', Handled: 'false', Attempt: '0', Execution Time: 170.5196ms
+2026-11-05 14:42:50.573 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:52.025 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:52.697 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:53.312 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:53.822 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:54.363 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:55.293 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:55.769 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:56.140 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:56.345 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:57.786 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:58.096 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:42:58.460 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:43:02.873 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:43:07.316 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 14:46:51.014 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 16:02:48.130 +08:00 [WRN] (Iris.App.Updates.AppUpdateCoordinator) Update operation failed: IrisException
+2026-11-05 16:48:07.854 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 正在退出
+2026-11-05 16:48:07.942 +08:00 [INF] (Iris.App.App) Iris 已退出，退出码 0
+2026-11-05 17:30:46.406 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置加载成功: C:\Users\WDAGUtilityAccount\AppData\Roaming\Iris\settings.json, SchemaVersion=1, 修复条数=0
+2026-11-05 17:30:46.818 +08:00 [INF] (Iris.App.Tray.TrayIconController) 系统托盘图标创建成功（共尝试 1 次）
+2026-11-05 17:30:46.890 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1295.9 ms，托盘图标已创建
+2026-11-05 17:31:10.612 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 正在退出
+2026-11-05 17:31:10.657 +08:00 [INF] (Iris.App.App) Iris 已退出，退出码 0
+2026-11-05 17:31:13.226 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置加载成功: C:\Users\WDAGUtilityAccount\AppData\Roaming\Iris\settings.json, SchemaVersion=1, 修复条数=0
+2026-11-05 17:31:13.610 +08:00 [INF] (Iris.App.Tray.TrayIconController) 系统托盘图标创建成功（共尝试 1 次）
+2026-11-05 17:31:13.663 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1192.4 ms，托盘图标已创建
+2026-11-05 21:15:01.519 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 正在退出
+2026-11-05 21:15:01.716 +08:00 [INF] (Iris.App.App) Iris 已退出，退出码 0
+2026-11-05 21:15:04.816 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置加载成功: C:\Users\WDAGUtilityAccount\AppData\Roaming\Iris\settings.json, SchemaVersion=1, 修复条数=0
+2026-11-05 21:15:05.263 +08:00 [INF] (Iris.App.Tray.TrayIconController) 系统托盘图标创建成功（共尝试 1 次）
+2026-11-05 21:15:05.319 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1322.1 ms，托盘图标已创建
+2026-11-05 21:15:07.636 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 正在退出
+2026-11-05 21:15:07.689 +08:00 [INF] (Iris.App.App) Iris 已退出，退出码 0
+2026-11-05 21:15:10.358 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置加载成功: C:\Users\WDAGUtilityAccount\AppData\Roaming\Iris\settings.json, SchemaVersion=1, 修复条数=0
+2026-11-05 21:15:10.754 +08:00 [INF] (Iris.App.Tray.TrayIconController) 系统托盘图标创建成功（共尝试 1 次）
+2026-11-05 21:15:10.813 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1196.9 ms，托盘图标已创建
+2026-11-05 21:34:01.459 +08:00 [INF] (Polly) Execution attempt. Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '200', Handled: 'false', Attempt: '0', Execution Time: 125.4978ms
+2026-11-05 22:43:38.376 +08:00 [WRN] (Iris.App.History.HistoryViewModel) 历史窗口操作失败：InvalidOperationException
+2026-11-05 22:43:39.188 +08:00 [WRN] (Iris.App.History.HistoryViewModel) 历史窗口操作失败：InvalidOperationException
+2026-11-05 22:43:39.625 +08:00 [WRN] (Iris.App.History.HistoryViewModel) 历史窗口操作失败：InvalidOperationException
+2026-11-05 22:43:40.164 +08:00 [WRN] (Iris.App.History.HistoryViewModel) 历史窗口操作失败：InvalidOperationException

@@ -1,0 +1,17 @@
+{
+    "Utc":  "2026-11-05T15:00:37.8798547Z",
+    "CurrentVersion":  "0.2.9",
+    "TargetVersion":  "0.2.10",
+    "PackagePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\Iris-0.2.10-full.nupkg",
+    "Bytes":  64628628,
+    "Sha256":  "dca307a0afc1827e27bc7ec2614e5ead3a30978d4c5d318e4d0d842ebc73f136",
+    "OfficialFullMatches":  true,
+    "Processes":  [
+                      {
+                          "StartedUtc":  "2026-11-05T13:15:09.5871510Z",
+                          "Pid":  5672,
+                          "Name":  "Iris.App.exe"
+                      }
+                  ],
+    "ProductOperationPerformed":  false
+}

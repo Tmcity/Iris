@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/prepare_ui_install_v0210_20261105.py"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T15:16:23.457126+00:00",
+  "completedAt": "2026-11-05T15:16:23.554389+00:00",
+  "exitCode": 0,
+  "logSha256": "bea87039565240e77b28a5074787d2ee6882ffe84869af78887a393ca091daec"
+}

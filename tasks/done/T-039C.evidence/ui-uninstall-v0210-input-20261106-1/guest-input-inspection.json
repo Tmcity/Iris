@@ -1,0 +1,25 @@
+{
+    "Utc":  "2026-11-05T18:47:45.5782783Z",
+    "ProductOperationPerformed":  false,
+    "InputRoot":  "C:\\IrisAcceptanceUninstall0210",
+    "Rows":  [
+                 {
+                     "Sha256":  "db2448424b90bc89c5ca5ed193e00e6f23a7677c4b23980da3be51f87b4c37b1",
+                     "Name":  "Save-Uninstalled-V0210-State.cmd",
+                     "Exists":  true
+                 },
+                 {
+                     "Sha256":  "95e526da2b6750420b1dd3e8532afcaf1c1e063478974c7d65dbb29b7027f5fe",
+                     "Name":  "Capture-Uninstalled-V0210-View.cmd",
+                     "Exists":  true
+                 }
+             ],
+    "Processes":  [
+                      {
+                          "StartedUtc":  "2026-11-05T15:53:28.2094930Z",
+                          "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+                          "Pid":  8980,
+                          "Name":  "Iris.App.exe"
+                      }
+                  ]
+}

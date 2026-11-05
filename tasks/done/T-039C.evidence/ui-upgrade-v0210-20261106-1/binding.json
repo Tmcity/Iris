@@ -1,0 +1,123 @@
+{
+  "OldVersion": "0.2.9",
+  "NewVersion": "0.2.10",
+  "OldAppPid": 5672,
+  "NativeWorkerPid": 5516,
+  "NewAppPid": 8980,
+  "NativeWorkerExitCode": 0,
+  "ExactlyOneNormalNewInstanceVerified": true,
+  "VelopackHookPids": [
+    6616,
+    7456
+  ],
+  "NativeAndProductLogsCorrelated": true,
+  "NativeEventDeliveryTimesPreservedWithoutTreatingThemAsExactProcessCreationTimes": true,
+  "OfficialPayloadEntriesMatched": 97,
+  "SettingsAndSecretsHashesRetained": true,
+  "OldTwoRowsRetainedAndNewTranslationVerified": true,
+  "ActualVersionScreenshotReviewed": true,
+  "NoNewHistoryWarningAfterRestartInCapturedLogs": true,
+  "OriginalHistoryWarningsStillRetained": true,
+  "HistoricalLastFailureTimestampUtc": "2026-11-05T08:48:07.1200732Z",
+  "PendingTransactionAbsent": true,
+  "OwnedHelperCopiesRetainedForNextMaintenanceCleanup": true,
+  "RealUiUpgradeVerified": true,
+  "PostUpdateUninstallVerified": false,
+  "Files": [
+    {
+      "Path": "history-independent.json",
+      "Bytes": 438,
+      "Sha256": "d574e85d5aeec786908c1bbb445601a4412bc2f24ea36fab1605e3d517698e33"
+    },
+    {
+      "Path": "native-and-product-logs/Iris.Maintenance-last-failure.json",
+      "Bytes": 500,
+      "Sha256": "d3af6134009e858b6acc22d25dee85adff387006f13cce2b70708a05af7a2029"
+    },
+    {
+      "Path": "native-and-product-logs/logs-iris-20261105.log",
+      "Bytes": 8071,
+      "Sha256": "8b42e00a3a8fc1650480324ad2d487a39a09ce32fd8104cc9f465c7e205fdae8"
+    },
+    {
+      "Path": "native-and-product-logs/Velopack-velopack_Iris.log",
+      "Bytes": 52147,
+      "Sha256": "80323e4602a77e865f231a2921fbb1e6889506818be68a90d6babaa473f75208"
+    },
+    {
+      "Path": "public-v0210-install-verification-20261105T1555356063950Z.json",
+      "Bytes": 40256,
+      "Sha256": "cad8467abe600a390a0683cc930e8aa58b368cae28d00a097e5fc9e3d8b15ed2"
+    },
+    {
+      "Path": "supplement/active-recorder-v2.json",
+      "Bytes": 4296,
+      "Sha256": "7f9a0f591fdf9e65a3eba29b227f04e224082371636aed34afe03597ceb51d04"
+    },
+    {
+      "Path": "supplement/history.db",
+      "Bytes": 53248,
+      "Sha256": "8d6126a579fa5c450cb6549ca777853d239d7a81e07f2ec0ede357b059934b55"
+    },
+    {
+      "Path": "supplement/history.db-shm",
+      "Bytes": 32768,
+      "Sha256": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb"
+    },
+    {
+      "Path": "supplement/history.db-wal",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "supplement/process-events-v2.jsonl",
+      "Bytes": 12964,
+      "Sha256": "2f3e9f863a3f1173d4c1dbf63d789dd3ca95af7b29fcc51784ff5835df30befb"
+    },
+    {
+      "Path": "supplement/product-iris-20261105.log",
+      "Bytes": 8071,
+      "Sha256": "8b42e00a3a8fc1650480324ad2d487a39a09ce32fd8104cc9f465c7e205fdae8"
+    },
+    {
+      "Path": "supplement/provider-requests.jsonl",
+      "Bytes": 399,
+      "Sha256": "cfa2cea40cd75d2f0b937b83a000235c3ffd04d4fabbba830f02d95136c9e15a"
+    },
+    {
+      "Path": "supplement/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "supplement/supplement.json",
+      "Bytes": 8204,
+      "Sha256": "be980931cb92847eb081d40b8c516d8ce846e583b95b05c5e0ab32a4a7533cd5"
+    },
+    {
+      "Path": "supplement/watcher-v2-status.json",
+      "Bytes": 243,
+      "Sha256": "db5205a143ac83d1ede9c088fede653d09cdce37be510f8b1da11d2ce6a1a504"
+    },
+    {
+      "Path": "updated-20261105T1555332655996Z.json",
+      "Bytes": 3434,
+      "Sha256": "b816055b06c46f7aa9f5798c45165a93c88f4d5620673ca4b0f21b6c6041e2d7"
+    },
+    {
+      "Path": "v0210-user-ui-install-feedback-20261106-1.json",
+      "Bytes": 382,
+      "Sha256": "c06ba9f1b014cdfa79707da664b32a439dd7f32b4ca334f4f87ed5ab3ac7eef2"
+    },
+    {
+      "Path": "view-updated-v0210-20261105T1554242085979Z.png",
+      "Bytes": 2403814,
+      "Sha256": "c060b0d61b711e3170afc695417969420da40aa8d6b4bff1b47d9d630e3848cc"
+    },
+    {
+      "Path": "view-updated-v0210-20261105T1554242085979Z.png.json",
+      "Bytes": 492,
+      "Sha256": "0245115a436c3e23ff2389c30b57ee100520202af4f9e861910ed70ac8e2454e"
+    }
+  ]
+}
