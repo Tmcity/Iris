@@ -1,0 +1,161 @@
+{
+  "DefaultRetainDataUninstallVerified": true,
+  "UserConfirmedRetainData": true,
+  "OldApplicationExitCode": 0,
+  "NativeUninstallerPid": 8280,
+  "NativeUninstallerExitCode": 0,
+  "InstallRootAbsent": true,
+  "ProductProcessesAbsent": true,
+  "UninstallRegistrationAndShortcutsAbsent": true,
+  "IrisAutoStartValueAbsent": true,
+  "ThreeHistoryRowsRetained": true,
+  "SettingsSecretsHistoryHashesRetained": true,
+  "LogDataRetained": true,
+  "SharedNet10RuntimeStillInstalled": true,
+  "PendingTransactionAbsent": true,
+  "UserSystemAppListScreenshotReviewed": true,
+  "RetainedMaintenanceFiles": [
+    {
+      "Bytes": 500,
+      "Path": "last-failure.json"
+    },
+    {
+      "Bytes": 0,
+      "Path": "transaction.lock"
+    },
+    {
+      "Bytes": 44626228,
+      "Path": "recovery\\Iris.Maintenance.exe"
+    },
+    {
+      "Bytes": 64,
+      "Path": "recovery\\Iris.Maintenance.exe.sha256"
+    },
+    {
+      "Bytes": 44626228,
+      "Path": "work-ce7f7a338ff34311b04b1eaf78b72764\\Iris.Maintenance.exe"
+    },
+    {
+      "Bytes": 76,
+      "Path": "work-ce7f7a338ff34311b04b1eaf78b72764\\owned.json"
+    }
+  ],
+  "RetainedMaintenanceSemantics": "Bounded outside recovery and last owned executable copy, not installed app or pending native transaction; audit against MaintenanceWorkDirectory.Clean contract.",
+  "Files": [
+    {
+      "Path": "history-independent.json",
+      "Bytes": 438,
+      "Sha256": "d574e85d5aeec786908c1bbb445601a4412bc2f24ea36fab1605e3d517698e33"
+    },
+    {
+      "Path": "native-and-product-logs/logs-iris-20261105.log",
+      "Bytes": 8071,
+      "Sha256": "8b42e00a3a8fc1650480324ad2d487a39a09ce32fd8104cc9f465c7e205fdae8"
+    },
+    {
+      "Path": "native-and-product-logs/logs-iris-20261106.log",
+      "Bytes": 173,
+      "Sha256": "3a9aa85b8ce129e82782c8e0f8adc02d477e788cfbe6802601dcffb93fafef99"
+    },
+    {
+      "Path": "native-and-product-logs/Velopack-velopack_Iris.log",
+      "Bytes": 57828,
+      "Sha256": "e81be2cd9af4ed40e796cdf7b0f6f1fee38b487de2bbd23c36bd07ab02db19e4"
+    },
+    {
+      "Path": "run-v0210-final-inspection-20261105T1858495803725Z.json",
+      "Bytes": 132,
+      "Sha256": "79091e2b2406a6336d15a747405fa4f55fd01f5fcdd669d5b164e03d7e19a1fa"
+    },
+    {
+      "Path": "supplement/active-recorder-v2.json",
+      "Bytes": 4296,
+      "Sha256": "7f9a0f591fdf9e65a3eba29b227f04e224082371636aed34afe03597ceb51d04"
+    },
+    {
+      "Path": "supplement/history.db",
+      "Bytes": 53248,
+      "Sha256": "8d6126a579fa5c450cb6549ca777853d239d7a81e07f2ec0ede357b059934b55"
+    },
+    {
+      "Path": "supplement/history.db-shm",
+      "Bytes": 32768,
+      "Sha256": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb"
+    },
+    {
+      "Path": "supplement/history.db-wal",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "supplement/process-events-v2.jsonl",
+      "Bytes": 15153,
+      "Sha256": "0506e16d42648d02a79fce63e90b4b62dfb4ec9a60a074872fd0cd140db67c55"
+    },
+    {
+      "Path": "supplement/product-iris-20261105.log",
+      "Bytes": 8071,
+      "Sha256": "8b42e00a3a8fc1650480324ad2d487a39a09ce32fd8104cc9f465c7e205fdae8"
+    },
+    {
+      "Path": "supplement/product-iris-20261106.log",
+      "Bytes": 173,
+      "Sha256": "3a9aa85b8ce129e82782c8e0f8adc02d477e788cfbe6802601dcffb93fafef99"
+    },
+    {
+      "Path": "supplement/provider-requests.jsonl",
+      "Bytes": 399,
+      "Sha256": "cfa2cea40cd75d2f0b937b83a000235c3ffd04d4fabbba830f02d95136c9e15a"
+    },
+    {
+      "Path": "supplement/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "supplement/supplement.json",
+      "Bytes": 7401,
+      "Sha256": "8cf7bf4cf13abd2259b112ab7177e2f6483062e65878490a5aab291591963ed8"
+    },
+    {
+      "Path": "supplement/watcher-v2-status.json",
+      "Bytes": 243,
+      "Sha256": "db96463119989e82b3abccbc420a050610885419fdbeb4e1768d3157bd6b5739"
+    },
+    {
+      "Path": "ui-v0210-uninstalled-capture-20261105T1853071498772Z.json",
+      "Bytes": 243,
+      "Sha256": "fe29a9dd511b8323359fbb7d08411b8590fc22c08c1da28952fee4da4c92b67c"
+    },
+    {
+      "Path": "uninstall-v0210-final-inspection-20261105T1857409337467Z.json",
+      "Bytes": 344,
+      "Sha256": "ebdad4f99651f0ba79545121471ad30516de0d211bac549159806cc91d0c3811"
+    },
+    {
+      "Path": "uninstalled-20261105T1853068852976Z.json",
+      "Bytes": 2228,
+      "Sha256": "bafdeaa43a4b85792656b99e735723778cc4c3a58835d4c24fd348ee07a67de1"
+    },
+    {
+      "Path": "v0210-user-uninstall-feedback-20261106-1.json",
+      "Bytes": 333,
+      "Sha256": "70818018949b4a893f1183fbbe432ac0573de9875d72f3f02db53111806e894c"
+    },
+    {
+      "Path": "view-uninstalled-v0210-20261105T1852533805867Z.png",
+      "Bytes": 1597787,
+      "Sha256": "7c3c1768f1e12a0f91a3b730ef7d788c44d08c79c3b27df0f12dfa80de666d85"
+    },
+    {
+      "Path": "view-uninstalled-v0210-20261105T1852533805867Z.png.json",
+      "Bytes": 500,
+      "Sha256": "b1de527791da103c4d02166ac9ef4e4a616b3403ec4b25365d06ee095f6e3437"
+    },
+    {
+      "Path": "visual-review.json",
+      "Bytes": 177,
+      "Sha256": "fb49f29652105a41cfc58fe48ce306e18a00a3e6dc8c5dbddb1897b9b2818959"
+    }
+  ]
+}

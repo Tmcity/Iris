@@ -373,11 +373,11 @@ T-030 签发前须按 PROVIDER_REGISTRY.md 将 OCR 注册表原型同步为租�
 | T-036C | ☑ | 完整网络设置页、联合保存与草稿连通性测试 | T-036B, T-018 | — |
 | T-037 | ☑ | 命名管道 IPC + 命令行参数 | T-014 | 1d |
 | T-038 | ☑ | 国际化：全部 UI 字符串资源化（zh-CN / en-US） | T-035 | 1d |
-| T-039 | ▶ | Velopack 打包、安装、自动更新检查 | T-038 | 1d |
+| T-039 | ☑ | Velopack 打包、安装、自动更新检查 | T-038 | 1d |
 | T-039A | ☑ | Velopack安装/更新/卸载链路实证与契约建议（父任务实施前置） | T-038 | — |
 | T-039B | ☑ | 正式打包、更新UI/网络/退出、安装维护入口与隔离Windows实证 | T-039A | — |
-| T-039C | ▶ | GitHub分发与正式匿名源在线升级闭环、父任务最终验收 | T-039B | — |
-| T-040 | ☐ | 端到端手动验收清单 + NFR 性能测量 + 缺陷修复 | T-039 | 2d |
+| T-039C | ☑ | GitHub分发与正式匿名源在线升级闭环、父任务最终验收 | T-039B | — |
+| T-040 | ▶ | 端到端手动验收清单 + NFR 性能测量 + 缺陷修复 | T-039 | 2d |
 
 **T-034** 已前移至 M1，交付 `specs/DB_SCHEMA.sql` V1→V2 和 HISTORY_STORAGE.md 全部行为。验收：事务与幂等迁移、Unicode 字面量检索、摘要/详情分离、收藏保护、截断标记、稳定分页、非收藏容量修剪与 FTS/子表一致。
 **T-035** 验收：搜索防抖、摘要分页，展开时 GetAsync 读取各服务完整结果；收藏 / 删除 / 清空（可保留收藏）/ 重新翻译 / 复制。复制/重译不得使用 SourcePreview 代替全文，截断标记保留。
@@ -482,3 +482,5 @@ T-030 签发前须按 PROVIDER_REGISTRY.md 将 OCR 注册表原型同步为租�
 **T-039C 第一阶段通过检查点、首轮真实 CI 失败（2026-10-25）** — 已审 source dcdfdde、checkpoint 3bb5204 正常保留两段历史并按核准推送 main/codex 分支；annotated v0.2.0 固定指向该 source。实际 GitHub run40193113435 构建零警告错误、工具16/16，但全量3728/3726成功/1失败/1跳过；原生剪贴板用例成功建立隔离站后占用/取消断言失败，package/publish skipped，未产生本轮公开安装资产。原 archive digest及51份解包原件/xUnit已独立匹配。原 tag/source/候选/失败保留，未推第二版。允许同一C最小扩展测试范围，在自有Sandbox先诊断未改产品；产品修正与新远端动作未批准。见 T-039C.coordination/CI_FAILURE_SCOPE_APPROVAL_20261025.md。
 
 **T-039C 定向诊断已实际接单（2026-10-27）** — 既有工程师聊天01a16ef2…执行轮01a17cd6…已确认接续并实际读取最新current_task、精确诊断批准、原helper/native adapter/规范及进程与Sandbox状态，三个读取命令exit0；桌面和API相互印证，见ci-failure-scope-received-20261027.json。工程师会话正在重连，不把interrupted/completedAt=null当终态，不重复派单/重开。架构师已准备DIAGNOSTIC_REVIEW_GATES.md，等待真实线程/桌面/占用与取消/join证据后裁定。当前仍唯一C，父T-039保持▶，默认无缓存运行时引导与真实线上设置UI升级未验收，T-040未签，M6延期。
+
+**2026-11-06 T-039C/父T039结案，T-040签发** — 正式匿名资产、无.NET/无缓存默认022安装、真实029→0210 UI/native一次正常启动/资料、默认保留数据卸载均逐项独立通过。审计tasks/done/T-039C.review-final-20261106；9证据集236原件再次匹配。下一唯一T-040全功能/NFR/缺陷复核，项目目标未完成，M6延期。

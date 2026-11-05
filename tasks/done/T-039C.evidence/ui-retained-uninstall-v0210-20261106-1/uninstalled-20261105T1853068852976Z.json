@@ -1,0 +1,55 @@
+{
+    "Stage":  "uninstalled",
+    "Utc":  "2026-11-05T18:53:06.8832936Z",
+    "Os":  "10.0.26100.0",
+    "Runtimes":  [
+                     {
+                         "Version":  "10.0.14",
+                         "Family":  "Microsoft.NETCore.App"
+                     },
+                     {
+                         "Version":  "10.0.14",
+                         "Family":  "Microsoft.WindowsDesktop.App"
+                     }
+                 ],
+    "RuntimeCacheExists":  true,
+    "InstalledSource":  null,
+    "Processes":  [
+
+                  ],
+    "Packages":  [
+
+                 ],
+    "DataHashes":  [
+                       {
+                           "Path":  "history.db",
+                           "Sha256":  "8d6126a579fa5c450cb6549ca777853d239d7a81e07f2ec0ede357b059934b55",
+                           "Bytes":  53248
+                       },
+                       {
+                           "Path":  "secrets.dat",
+                           "Sha256":  "b977aecf397ecc9dc57f2301181a20372f7e7bc37b468091cd4fb1764e97f9d7",
+                           "Bytes":  580
+                       },
+                       {
+                           "Path":  "settings.json",
+                           "Sha256":  "84d85182866599005f6802db616fb89094d6c19dd1d7ade8ca15db9fa11d30e8",
+                           "Bytes":  4349
+                       },
+                       {
+                           "Path":  "settings.json.bak",
+                           "Sha256":  "7dbe6bd020ac30f2ac0b5464712cb516db7b69a31f76fd334a6f632c3d04c99c",
+                           "Bytes":  3747
+                       },
+                       {
+                           "Path":  "logs\\iris-20261105.log",
+                           "Sha256":  "8b42e00a3a8fc1650480324ad2d487a39a09ce32fd8104cc9f465c7e205fdae8",
+                           "Bytes":  8071
+                       },
+                       {
+                           "Path":  "logs\\iris-20261106.log",
+                           "Sha256":  "3a9aa85b8ce129e82782c8e0f8adc02d477e788cfbe6802601dcffb93fafef99",
+                           "Bytes":  173
+                       }
+                   ]
+}

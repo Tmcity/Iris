@@ -1,0 +1,475 @@
+[lib-csharp:3612] [13:05:27] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:3612] [13:05:27] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:3612] [13:05:27] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:3612] [13:05:27] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:3612] [13:05:27] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:3612] [13:05:27] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:3612] [13:05:27] [Information] Found fast exit hook: --veloapp-install
+[lib-csharp:3612] [13:05:27] [Information] Completed hook, exiting...
+[lib-csharp:7312] [13:05:28] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [13:05:28] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [13:05:28] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [13:05:28] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [13:05:28] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:7312] [13:05:28] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:7312] [13:05:29] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [13:05:29] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [13:05:29] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [13:05:29] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [13:05:29] [Warning] No staging userId in file 'C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId', creating a new one.
+[lib-csharp:7312] [13:05:29] [Information] Generated new staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948
+[lib-csharp:7312] [13:05:29] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [13:05:50] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [13:05:50] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [13:05:50] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [13:05:50] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [13:05:50] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [13:05:50] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [13:05:51] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [13:05:51] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [13:05:51] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [13:05:51] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [13:05:51] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [13:05:51] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [13:05:52] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [13:05:52] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [13:05:52] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [13:05:52] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [13:05:52] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [13:05:52] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [13:05:53] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [13:05:53] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [13:05:53] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [13:05:53] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [13:05:53] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [13:05:53] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [13:05:53] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [13:05:53] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [13:05:53] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [13:05:53] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [13:05:53] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [13:05:53] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [13:05:53] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [13:05:53] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [13:05:53] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [13:05:53] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [13:05:53] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [13:05:53] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [13:05:54] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [13:05:54] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [13:05:54] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [13:05:54] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [13:05:54] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [13:05:54] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [13:05:55] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [13:05:55] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [13:05:55] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [13:05:55] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [13:05:55] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [13:05:55] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [13:05:55] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [13:05:55] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [13:05:55] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [13:05:55] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [13:05:55] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [13:05:55] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [13:14:07] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [13:14:07] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [13:14:07] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [13:14:07] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [13:14:07] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [13:14:07] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [14:42:50] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [14:42:50] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [14:42:50] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [14:42:50] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [14:42:50] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [14:42:50] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [14:42:51] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [14:42:51] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [14:42:51] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [14:42:51] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [14:42:51] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [14:42:51] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [14:42:52] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [14:42:52] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [14:42:52] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [14:42:52] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [14:42:52] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [14:42:52] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [14:42:53] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [14:42:53] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [14:42:53] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [14:42:53] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [14:42:53] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [14:42:53] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [14:42:53] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [14:42:53] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [14:42:53] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [14:42:53] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [14:42:53] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [14:42:53] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [14:42:54] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [14:42:54] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [14:42:54] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [14:42:54] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [14:42:54] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [14:42:54] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [14:42:55] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [14:42:55] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [14:42:55] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [14:42:55] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [14:42:55] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [14:42:55] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [14:42:55] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [14:42:55] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [14:42:55] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [14:42:55] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [14:42:55] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [14:42:55] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [14:42:55] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [14:42:55] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [14:42:55] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [14:42:55] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [14:42:55] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [14:42:55] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [14:42:56] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [14:42:56] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [14:42:56] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [14:42:56] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [14:42:56] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [14:42:56] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [14:42:57] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [14:42:57] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [14:42:57] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [14:42:57] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [14:42:57] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [14:42:57] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [14:42:57] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [14:42:57] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [14:42:57] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [14:42:57] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [14:42:57] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [14:42:57] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [14:42:58] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [14:42:58] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [14:42:58] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [14:42:58] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [14:42:58] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [14:42:58] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [14:43:02] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [14:43:02] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [14:43:02] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [14:43:02] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [14:43:02] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [14:43:02] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [14:43:07] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [14:43:07] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [14:43:07] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [14:43:07] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [14:43:07] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [14:43:07] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [14:46:50] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [14:46:50] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [14:46:50] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [14:46:50] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [14:46:50] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [14:46:50] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [16:02:47] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [16:02:47] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [16:02:47] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [16:02:47] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [16:02:47] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [16:02:47] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [16:33:59] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [16:33:59] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [16:33:59] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [16:33:59] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [16:33:59] [Information] Loaded existing staging userId: b2df6f24-c4f0-441c-8c10-a337632a0948 from C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId
+[lib-csharp:7312] [16:33:59] [Debug] Retrieving latest release feed.
+[lib-csharp:7312] [16:34:01] [Information] Found newer remote release available (0.2.2 -> 0.2.7).
+[lib-csharp:7312] [16:34:01] [Information] Unable to find any delta matching version 0.2.7, so delta updates will be disabled.
+[lib-csharp:7312] [16:38:11] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7312] [16:38:11] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7312] [16:38:11] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7312] [16:38:11] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:7312] [16:38:11] [Information] Downloading full release (Iris-0.2.7-full.nupkg)
+[lib-csharp:7312] [16:38:25] [Information] Verifying package checksum...
+[lib-csharp:7312] [16:38:25] [Information] Full release download complete. Package moved to: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\Iris-0.2.7-full.nupkg
+[lib-csharp:7312] [16:38:25] [Information] Extracting new Update.exe to C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe
+[lib-csharp:7312] [16:38:25] [Information] Cleaning up incomplete and delta packages from packages directory.
+[lib-csharp:7312] [16:38:25] [Trace] C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\Iris-0.2.2-full.nupkg deleted.
+[update:3716] [16:48:08] [INFO] --
+[update:3716] [16:48:08] [INFO] Starting Velopack Updater (1.2.161)
+[update:3716] [16:48:08] [INFO]     Location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe"
+[update:3716] [16:48:08] [INFO]     CWD: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"
+[update:3716] [16:48:08] [INFO]     Verbose: false
+[update:3716] [16:48:08] [INFO]     Silent: false
+[update:3716] [16:48:08] [INFO]     Root Directory: Some("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris")
+[update:3716] [16:48:08] [INFO]     Log File: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\velopack\\velopack_Iris.log"
+[update:3716] [16:48:08] [INFO]     Context: FromSpecifiedRootDir("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris", Some("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages"))
+[update:3716] [16:48:08] [INFO] Command: Apply
+[update:3716] [16:48:08] [INFO]     Restart: false
+[update:3716] [16:48:08] [INFO]     Wait: NoWait
+[update:3716] [16:48:08] [INFO]     Package: Some("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\Iris-0.2.7-full.nupkg")
+[update:3716] [16:48:08] [INFO]     Exe Args: None
+[update:3716] [16:48:08] [INFO] Auto-locating app manifest...
+[update:3716] [16:48:08] [INFO] Root directory 'C:\Users\WDAGUtilityAccount\AppData\Local\Iris' writable: true
+[update:3716] [16:48:08] [INFO] Using root packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[update:3716] [16:48:08] [INFO] Getting ready to apply package to Iris ver 0.2.2: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\Iris-0.2.7-full.nupkg"
+[update:3716] [16:48:08] [INFO] Attempting to acquire exclusive lock on packages directory (non-blocking)...
+[update:3716] [16:48:08] [INFO] Applying package 0.2.7 to current: 0.2.2
+[update:3716] [16:48:08] [INFO] Checking application pre-requisites...
+[update:3716] [16:48:08] [INFO]     .NET 10.0.0 X64 WindowsDesktop is already installed.
+[update:3716] [16:48:08] [INFO] Extracting 100 app files to '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\VelopackTemp\\tmp_navclxTspbUja9K4"'...
+[update:3716] [16:48:08] [INFO] Running --veloapp-obsolete hook...
+[update:3716] [16:48:08] [INFO] About to launch: 'WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe")' in dir 'Some(WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current"))' with arguments: WideString("\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" --veloapp-obsolete 0.2.2\0")
+[update:3716] [16:48:08] [INFO] Environment block present: true, flags: PROCESS_CREATION_FLAGS(134218752)
+[update:3716] [16:48:08] [INFO] Waiting 15000ms for process handle to exit.
+[lib-csharp:8036] [16:48:08] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:8036] [16:48:08] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:8036] [16:48:08] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:8036] [16:48:08] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:8036] [16:48:08] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:8036] [16:48:08] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:8036] [16:48:08] [Information] Found fast exit hook: --veloapp-obsolete
+[lib-csharp:8036] [16:48:08] [Information] Completed hook, exiting...
+[update:3716] [16:48:08] [INFO] Hook executed successfully (took 127.5852ms)
+[update:3716] [16:48:08] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:3716] [16:48:09] [INFO] Inspected 95 running processes in 40ms, 1 matched directory
+[update:3716] [16:48:09] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (3716)
+[update:3716] [16:48:09] [INFO] Force-stop check complete.
+[update:3716] [16:48:09] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:3716] [16:48:09] [INFO] Inspected 95 running processes in 43ms, 1 matched directory
+[update:3716] [16:48:09] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (3716)
+[update:3716] [16:48:09] [INFO] Force-stop check complete.
+[update:3716] [16:48:09] [INFO] Backing up current dir to "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\VelopackTemp\\tmp_LOsLUkEohTohg8C1"
+[update:3716] [16:48:09] [WARN] Retrying operation in 1000ms... (error was: Some(Os { code: 32, kind: Uncategorized, message: "另一个程序正在使用此文件，进程无法访问。" }))
+[update:3716] [16:48:10] [WARN] Retrying operation in 1000ms... (error was: Some(Os { code: 32, kind: Uncategorized, message: "另一个程序正在使用此文件，进程无法访问。" }))
+[update:3716] [16:48:11] [WARN] Retrying operation in 1000ms... (error was: Some(Os { code: 32, kind: Uncategorized, message: "另一个程序正在使用此文件，进程无法访问。" }))
+[update:3716] [16:48:12] [WARN] Retrying operation in 1000ms... (error was: Some(Os { code: 32, kind: Uncategorized, message: "另一个程序正在使用此文件，进程无法访问。" }))
+[update:3716] [16:48:13] [WARN] Retrying operation in 1000ms... (error was: Some(Os { code: 32, kind: Uncategorized, message: "另一个程序正在使用此文件，进程无法访问。" }))
+[update:3716] [16:48:14] [WARN] Retrying operation in 1000ms... (error was: Some(Os { code: 32, kind: Uncategorized, message: "另一个程序正在使用此文件，进程无法访问。" }))
+[update:3716] [16:48:15] [WARN] Retrying operation in 1000ms... (error was: Some(Os { code: 32, kind: Uncategorized, message: "另一个程序正在使用此文件，进程无法访问。" }))
+[update:3716] [16:48:16] [WARN] Retrying operation in 1000ms... (error was: Some(Os { code: 32, kind: Uncategorized, message: "另一个程序正在使用此文件，进程无法访问。" }))
+[update:3716] [16:48:17] [WARN] Retrying operation in 1000ms... (error was: Some(Os { code: 32, kind: Uncategorized, message: "另一个程序正在使用此文件，进程无法访问。" }))
+[update:3716] [16:48:18] [WARN] Retrying operation in 1000ms... (error was: Some(Os { code: 32, kind: Uncategorized, message: "另一个程序正在使用此文件，进程无法访问。" }))
+[update:3716] [16:48:19] [INFO] Removed temp dir "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\VelopackTemp\\tmp_navclxTspbUja9K4" in 13ms
+[update:3716] [16:48:19] [ERROR] Apply error: Error applying package: Unable to start the update, because one or more running processes prevented it. Try again later, or if the issue persists, restart your computer.
+[update:3716] [16:48:19] [ERROR] An error has occurred: Apply error: Error applying package: Unable to start the update, because one or more running processes prevented it. Try again later, or if the issue persists, restart your computer.
+[lib-csharp:4060] [17:30:45] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:4060] [17:30:45] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:4060] [17:30:45] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:4060] [17:30:45] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:4060] [17:30:45] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:4060] [17:30:45] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:4060] [17:30:45] [Information] Found fast exit hook: --veloapp-install
+[lib-csharp:4060] [17:30:45] [Information] Completed hook, exiting...
+[lib-csharp:1372] [17:30:45] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:1372] [17:30:45] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:1372] [17:30:45] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:1372] [17:30:45] [Information] Initialized WindowsVelopackLocator for Iris v0.2.2
+[lib-csharp:1372] [17:30:45] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:1372] [17:30:45] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:4808] [17:31:12] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:4808] [17:31:12] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:4808] [17:31:12] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:4808] [17:31:12] [Information] Initialized WindowsVelopackLocator for Iris v0.2.7
+[lib-csharp:4808] [17:31:12] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:4808] [17:31:12] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:4808] [17:31:12] [Information] Found fast exit hook: --veloapp-install
+[lib-csharp:4808] [17:31:12] [Information] Completed hook, exiting...
+[lib-csharp:8820] [17:31:12] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:8820] [17:31:12] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:8820] [17:31:12] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:8820] [17:31:12] [Information] Initialized WindowsVelopackLocator for Iris v0.2.7
+[lib-csharp:8820] [17:31:12] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:8820] [17:31:12] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:2552] [21:15:03] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:2552] [21:15:03] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:2552] [21:15:03] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:2552] [21:15:03] [Information] Initialized WindowsVelopackLocator for Iris v0.2.9
+[lib-csharp:2552] [21:15:03] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:2552] [21:15:03] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:2552] [21:15:03] [Information] Found fast exit hook: --veloapp-install
+[lib-csharp:2552] [21:15:03] [Information] Completed hook, exiting...
+[lib-csharp:7052] [21:15:04] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7052] [21:15:04] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7052] [21:15:04] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7052] [21:15:04] [Information] Initialized WindowsVelopackLocator for Iris v0.2.9
+[lib-csharp:7052] [21:15:04] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:7052] [21:15:04] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:8204] [21:15:09] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:8204] [21:15:09] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:8204] [21:15:09] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:8204] [21:15:09] [Information] Initialized WindowsVelopackLocator for Iris v0.2.9
+[lib-csharp:8204] [21:15:09] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:8204] [21:15:09] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:8204] [21:15:09] [Information] Found fast exit hook: --veloapp-install
+[lib-csharp:8204] [21:15:09] [Information] Completed hook, exiting...
+[lib-csharp:5672] [21:15:09] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:5672] [21:15:09] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:5672] [21:15:09] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:5672] [21:15:09] [Information] Initialized WindowsVelopackLocator for Iris v0.2.9
+[lib-csharp:5672] [21:15:09] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:5672] [21:15:09] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:5672] [22:43:46] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:5672] [22:43:46] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:5672] [22:43:46] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:5672] [22:43:46] [Information] Initialized WindowsVelopackLocator for Iris v0.2.9
+[lib-csharp:5672] [22:43:46] [Warning] No staging userId in file 'C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\.betaId', creating a new one.
+[lib-csharp:5672] [22:43:46] [Information] Generated new staging userId: e6276831-eba2-4202-bf9e-51828bd9ed6c
+[lib-csharp:5672] [22:43:46] [Debug] Retrieving latest release feed.
+[lib-csharp:5672] [22:43:55] [Information] Found newer remote release available (0.2.9 -> 0.2.10).
+[lib-csharp:5672] [22:43:55] [Information] Unable to find any delta matching version 0.2.10, so delta updates will be disabled.
+[lib-csharp:5672] [22:58:52] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:5672] [22:58:52] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:5672] [22:58:52] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:5672] [22:58:52] [Information] Initialized WindowsVelopackLocator for Iris v0.2.9
+[lib-csharp:5672] [22:58:52] [Information] Downloading full release (Iris-0.2.10-full.nupkg)
+[lib-csharp:5672] [22:59:01] [Information] Verifying package checksum...
+[lib-csharp:5672] [22:59:01] [Information] Full release download complete. Package moved to: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\Iris-0.2.10-full.nupkg
+[lib-csharp:5672] [22:59:01] [Information] Extracting new Update.exe to C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe
+[lib-csharp:5672] [22:59:01] [Information] Cleaning up incomplete and delta packages from packages directory.
+[lib-csharp:5672] [22:59:01] [Trace] C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages\Iris-0.2.9-full.nupkg deleted.
+[update:5516] [23:53:27] [INFO] --
+[update:5516] [23:53:27] [INFO] Starting Velopack Updater (1.2.161)
+[update:5516] [23:53:27] [INFO]     Location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe"
+[update:5516] [23:53:27] [INFO]     CWD: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"
+[update:5516] [23:53:27] [INFO]     Verbose: false
+[update:5516] [23:53:27] [INFO]     Silent: false
+[update:5516] [23:53:27] [INFO]     Root Directory: Some("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris")
+[update:5516] [23:53:27] [INFO]     Log File: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\velopack\\velopack_Iris.log"
+[update:5516] [23:53:27] [INFO]     Context: FromSpecifiedRootDir("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris", Some("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages"))
+[update:5516] [23:53:27] [INFO] Command: Apply
+[update:5516] [23:53:27] [INFO]     Restart: false
+[update:5516] [23:53:27] [INFO]     Wait: NoWait
+[update:5516] [23:53:27] [INFO]     Package: Some("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\Iris-0.2.10-full.nupkg")
+[update:5516] [23:53:27] [INFO]     Exe Args: None
+[update:5516] [23:53:27] [INFO] Auto-locating app manifest...
+[update:5516] [23:53:27] [INFO] Root directory 'C:\Users\WDAGUtilityAccount\AppData\Local\Iris' writable: true
+[update:5516] [23:53:27] [INFO] Using root packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[update:5516] [23:53:27] [INFO] Getting ready to apply package to Iris ver 0.2.9: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\Iris-0.2.10-full.nupkg"
+[update:5516] [23:53:27] [INFO] Attempting to acquire exclusive lock on packages directory (non-blocking)...
+[update:5516] [23:53:27] [INFO] Applying package 0.2.10 to current: 0.2.9
+[update:5516] [23:53:27] [INFO] Checking application pre-requisites...
+[update:5516] [23:53:27] [INFO]     .NET 10.0.0 X64 WindowsDesktop is already installed.
+[update:5516] [23:53:27] [INFO] Extracting 100 app files to '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\VelopackTemp\\tmp_0NThMbirihD2dIHg"'...
+[update:5516] [23:53:27] [INFO] Running --veloapp-obsolete hook...
+[update:5516] [23:53:27] [INFO] About to launch: 'WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe")' in dir 'Some(WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current"))' with arguments: WideString("\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" --veloapp-obsolete 0.2.9\0")
+[update:5516] [23:53:27] [INFO] Environment block present: true, flags: PROCESS_CREATION_FLAGS(134218752)
+[update:5516] [23:53:27] [INFO] Waiting 15000ms for process handle to exit.
+[lib-csharp:6616] [23:53:27] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:6616] [23:53:27] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:6616] [23:53:27] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:6616] [23:53:27] [Information] Initialized WindowsVelopackLocator for Iris v0.2.9
+[lib-csharp:6616] [23:53:27] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:6616] [23:53:27] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:6616] [23:53:27] [Information] Found fast exit hook: --veloapp-obsolete
+[lib-csharp:6616] [23:53:27] [Information] Completed hook, exiting...
+[update:5516] [23:53:27] [INFO] Hook executed successfully (took 92.1778ms)
+[update:5516] [23:53:27] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:5516] [23:53:27] [INFO] Inspected 102 running processes in 110ms, 1 matched directory
+[update:5516] [23:53:27] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (5516)
+[update:5516] [23:53:27] [INFO] Force-stop check complete.
+[update:5516] [23:53:27] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:5516] [23:53:27] [INFO] Inspected 102 running processes in 63ms, 1 matched directory
+[update:5516] [23:53:27] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (5516)
+[update:5516] [23:53:27] [INFO] Force-stop check complete.
+[update:5516] [23:53:27] [INFO] Backing up current dir to "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\VelopackTemp\\tmp_mTvM1JL4tIdiOLK6"
+[update:5516] [23:53:27] [INFO] Replacing current dir with "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\VelopackTemp\\tmp_0NThMbirihD2dIHg"
+[update:5516] [23:53:27] [INFO] Writing uninstall registry key...
+[update:5516] [23:53:27] [INFO] Running --veloapp-updated hook...
+[update:5516] [23:53:27] [INFO] About to launch: 'WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe")' in dir 'Some(WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current"))' with arguments: WideString("\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" --veloapp-updated 0.2.10\0")
+[update:5516] [23:53:27] [INFO] Environment block present: true, flags: PROCESS_CREATION_FLAGS(134218752)
+[update:5516] [23:53:27] [INFO] Waiting 15000ms for process handle to exit.
+[lib-csharp:7456] [23:53:27] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:7456] [23:53:27] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:7456] [23:53:27] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:7456] [23:53:27] [Information] Initialized WindowsVelopackLocator for Iris v0.2.10
+[lib-csharp:7456] [23:53:27] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:7456] [23:53:27] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:7456] [23:53:27] [Information] Found fast exit hook: --veloapp-updated
+[lib-csharp:7456] [23:53:28] [Information] Completed hook, exiting...
+[update:5516] [23:53:28] [INFO] Hook executed successfully (took 132.13431ms)
+[update:5516] [23:53:28] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:5516] [23:53:28] [INFO] Inspected 102 running processes in 35ms, 1 matched directory
+[update:5516] [23:53:28] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (5516)
+[update:5516] [23:53:28] [INFO] Force-stop check complete.
+[update:5516] [23:53:28] [INFO] Removed temp dir "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\packages\\VelopackTemp\\tmp_mTvM1JL4tIdiOLK6" in 23ms
+[update:5516] [23:53:28] [INFO] COM context initialized in 2ms
+[update:5516] [23:53:28] [INFO] Shortcut Previous Locations: ShortcutLocationFlags(DESKTOP | START_MENU_ROOT) (Some("0.2.9"))
+[update:5516] [23:53:28] [INFO] Shortcut Next Locations: ShortcutLocationFlags(DESKTOP | START_MENU_ROOT) ("0.2.10")
+[update:5516] [23:53:28] [INFO] App Model ID: Some("velopack.Iris")
+[update:5516] [23:53:28] [INFO] Searching for shortcuts containing root: '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:5516] [23:53:28] [INFO] Searching for shortcuts in: ShortcutLocationFlags(DESKTOP) (C:\Users\WDAGUtilityAccount\Desktop/*.lnk)
+[update:5516] [23:53:28] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:5516] [23:53:28] [INFO] Searching for shortcuts in: ShortcutLocationFlags(STARTUP) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup/*.lnk)
+[update:5516] [23:53:28] [INFO] Searching for shortcuts in: ShortcutLocationFlags(START_MENU) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs/**/*.lnk)
+[update:5516] [23:53:28] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:5516] [23:53:28] [INFO] Searching for shortcuts in: ShortcutLocationFlags(USER_PINNED) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned/**/*.lnk)
+[update:5516] [23:53:28] [INFO] Will update all current shortcuts: [(ShortcutLocationFlags(DESKTOP), Lnk("C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk")), (ShortcutLocationFlags(START_MENU), Lnk("C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"))]
+[update:5516] [23:53:28] [INFO] Updating existing shortcut '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' (ShortcutLocationFlags(DESKTOP)).
+[update:5516] [23:53:28] [INFO] Updating existing shortcut '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' (ShortcutLocationFlags(START_MENU)).
+[update:5516] [23:53:28] [INFO] Package applied successfully.
+[update:5516] [23:53:28] [INFO] Update.exe is already in the correct location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe"
+[update:5516] [23:53:28] [INFO] Extracting stub 'Iris_ExecutionStub.exe' to '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Iris.exe"'
+[update:5516] [23:53:28] [INFO] Successfully extracted stub executable: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Iris.exe"
+[update:5516] [23:53:28] [INFO] Package version 0.2.10 applied successfully.
+[lib-csharp:8980] [23:53:28] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:8980] [23:53:28] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:8980] [23:53:28] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:8980] [23:53:28] [Information] Initialized WindowsVelopackLocator for Iris v0.2.10
+[lib-csharp:8980] [23:53:28] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:8980] [23:53:28] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[update:8280] [02:51:41] [INFO] --
+[update:8280] [02:51:41] [INFO] Starting Velopack Updater (1.2.161)
+[update:8280] [02:51:41] [INFO]     Location: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe"
+[update:8280] [02:51:41] [INFO]     CWD: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"
+[update:8280] [02:51:41] [INFO]     Verbose: false
+[update:8280] [02:51:41] [INFO]     Silent: true
+[update:8280] [02:51:41] [INFO]     Root Directory: None
+[update:8280] [02:51:41] [INFO]     Log File: "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\velopack\\velopack_Iris.log"
+[update:8280] [02:51:41] [INFO]     Context: IAmUpdateExe
+[update:8280] [02:51:41] [INFO] Command: Uninstall
+[update:8280] [02:51:41] [INFO] Auto-locating app manifest...
+[update:8280] [02:51:41] [INFO] Root directory 'C:\Users\WDAGUtilityAccount\AppData\Local\Iris' writable: true
+[update:8280] [02:51:41] [INFO] Using root packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[update:8280] [02:51:41] [INFO] Command: Uninstall
+[update:8280] [02:51:41] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:8280] [02:51:41] [INFO] Inspected 109 running processes in 74ms, 1 matched directory
+[update:8280] [02:51:41] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (8280)
+[update:8280] [02:51:41] [INFO] Force-stop check complete.
+[update:8280] [02:51:41] [INFO] Running --veloapp-uninstall hook...
+[update:8280] [02:51:41] [INFO] About to launch: 'WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe")' in dir 'Some(WideString("C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current"))' with arguments: WideString("\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" --veloapp-uninstall 0.2.10\0")
+[update:8280] [02:51:41] [INFO] Environment block present: true, flags: PROCESS_CREATION_FLAGS(134218752)
+[update:8280] [02:51:41] [INFO] Waiting 60000ms for process handle to exit.
+[lib-csharp:8384] [02:51:41] [Information] Initializing WindowsVelopackLocator
+[lib-csharp:8384] [02:51:41] [Information] WindowsVelopackLocator: Update.exe in parent dir, Located valid manifest file at: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\current\sq.version
+[lib-csharp:8384] [02:51:41] [Information] Root directory is writable, using packages directory: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\packages
+[lib-csharp:8384] [02:51:41] [Information] Initialized WindowsVelopackLocator for Iris v0.2.10
+[lib-csharp:8384] [02:51:41] [Information] Starting VelopackApp.Run (library version 1.2.161).
+[lib-csharp:8384] [02:51:41] [Information] Setting current process explicit AppUserModelID to 'velopack.Iris'
+[lib-csharp:8384] [02:51:41] [Information] Found fast exit hook: --veloapp-uninstall
+[lib-csharp:8384] [02:51:41] [Information] Completed hook, exiting...
+[update:8280] [02:51:41] [INFO] Hook executed successfully (took 120.5044ms)
+[update:8280] [02:51:41] [INFO] Checking for running processes in: C:\Users\WDAGUtilityAccount\AppData\Local\Iris
+[update:8280] [02:51:41] [INFO] Inspected 109 running processes in 51ms, 1 matched directory
+[update:8280] [02:51:41] [WARN] Skipping killing self: C:\Users\WDAGUtilityAccount\AppData\Local\Iris\Update.exe (8280)
+[update:8280] [02:51:41] [INFO] Force-stop check complete.
+[update:8280] [02:51:41] [INFO] COM context initialized in 6ms
+[update:8280] [02:51:41] [INFO] Searching for shortcuts containing root: '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:8280] [02:51:41] [INFO] Searching for shortcuts in: ShortcutLocationFlags(DESKTOP) (C:\Users\WDAGUtilityAccount\Desktop/*.lnk)
+[update:8280] [02:51:41] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:8280] [02:51:41] [INFO] Searching for shortcuts in: ShortcutLocationFlags(STARTUP) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup/*.lnk)
+[update:8280] [02:51:41] [INFO] Searching for shortcuts in: ShortcutLocationFlags(START_MENU) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Windows\Start Menu\Programs/**/*.lnk)
+[update:8280] [02:51:41] [INFO] Selected shortcut for update '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' because target '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"' matched.
+[update:8280] [02:51:41] [INFO] Searching for shortcuts in: ShortcutLocationFlags(USER_PINNED) (C:\Users\WDAGUtilityAccount\AppData\Roaming\Microsoft\Internet Explorer\Quick Launch\User Pinned/**/*.lnk)
+[update:8280] [02:51:41] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\Desktop\\Iris.lnk"' (ShortcutLocationFlags(DESKTOP)).
+[update:8280] [02:51:42] [INFO] Removing shortcut '"C:\\Users\\WDAGUtilityAccount\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Iris.lnk"' (ShortcutLocationFlags(START_MENU)).
+[update:8280] [02:51:42] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris"'
+[update:8280] [02:51:42] [INFO] Removing directory '"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Temp\\velopack_Iris"'
+[update:8280] [02:51:42] [INFO] Removing uninstall registry keys...
+[update:8280] [02:51:42] [INFO] Finished successfully.
+[update:8280] [02:51:42] [INFO] Scheduling removal of install directory...
+[update:8280] [02:51:42] [INFO] Running: cmd.exe /C choice /C Y /N /D Y /T 3 & rmdir /s /q "C:\Users\WDAGUtilityAccount\AppData\Local\Iris"

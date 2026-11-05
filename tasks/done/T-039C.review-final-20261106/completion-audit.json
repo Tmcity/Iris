@@ -1,0 +1,55 @@
+{
+  "CRequiredEvidenceSets": 9,
+  "ExactOriginalFilesVerified": 236,
+  "SourceCommit": "227b3d88938543766a27d86a94ade52f9e5b89b7",
+  "CAndParentT039Completed": true,
+  "WholeProjectGoalCompleted": false,
+  "NextWorkOrder": "T-040",
+  "Evidence": [
+    {
+      "Evidence": "manual-first-install-v022-20261105-1",
+      "BindingSha256": "3eb6b2d67fa9243387b649d47d01943023d82c49bce3a7ca72e17aa5bd956aaf",
+      "FilesVerified": 54
+    },
+    {
+      "Evidence": "ci-v029-api-supplement-20261105-1",
+      "BindingSha256": "d4567084ebce86597a6a492699142bcf80764b968e9841c5bd51b2887d698c88",
+      "FilesVerified": 16
+    },
+    {
+      "Evidence": "ci-v0210-original-42042550153-1",
+      "BindingSha256": "d88e6b6e9e22321073a761b20a240c39816c7d9cd0a7cd77f7fb8f4d806556f6",
+      "FilesVerified": 57
+    },
+    {
+      "Evidence": "ci-v0210-api-supplement-20261105-1",
+      "BindingSha256": "c9b57c4ef2a033263256732ccfdbb9a64df005ff240ba3b2a167f95056a28fed",
+      "FilesVerified": 16
+    },
+    {
+      "Evidence": "manual-old-ready-v029-before-v0210-20261105-1",
+      "BindingSha256": "458c76bc6c89e964ec4c98b108923131d565b1cbe32bfc43dde2b67bc8802aa3",
+      "FilesVerified": 18
+    },
+    {
+      "Evidence": "ui-offer-v0210-20261105-1",
+      "BindingSha256": "cfd29393337c7e767b48d22649e3358fdc168b793a9dc518945e19506e2924f8",
+      "FilesVerified": 15
+    },
+    {
+      "Evidence": "ui-ready-v0210-20261105-1",
+      "BindingSha256": "eca5df0ab4d7ec8c1699919e9aa0bbe2024d5c283c3cdcabea696f619cce6aa9",
+      "FilesVerified": 18
+    },
+    {
+      "Evidence": "ui-upgrade-v0210-20261106-1",
+      "BindingSha256": "10769697aac7b1e27a82eab8c27e29adb3880d2578e3c13d0d51dd0089499ca4",
+      "FilesVerified": 19
+    },
+    {
+      "Evidence": "ui-retained-uninstall-v0210-20261106-1",
+      "BindingSha256": "493c2c78cba4a794daab5425dee73413cb10b77ec919e8ffa5e6f250b5b92838",
+      "FilesVerified": 23
+    }
+  ]
+}
