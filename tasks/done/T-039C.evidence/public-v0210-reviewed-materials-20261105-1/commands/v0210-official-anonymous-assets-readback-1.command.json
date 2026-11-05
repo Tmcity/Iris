@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/download_public_v0210_20261105.py"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T14:22:55.699089+00:00",
+  "completedAt": "2026-11-05T14:24:38.027864+00:00",
+  "exitCode": 1,
+  "logSha256": "a88f0f124d01f5fb5ed94781817bc0186a48cba2f8dc490d46dab96b0a3ca125"
+}

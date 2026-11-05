@@ -1,0 +1,9 @@
+{
+  "Url": "https://api.github.com/repos/Tmcity/Iris/actions/runs/42042550153/jobs?per_page=100&iris_observation=v0210-20261105T143353676846Z",
+  "ObservedUtc": "2026-11-05T14:34:00.078042+00:00",
+  "HttpStatus": "200",
+  "ExitCode": 0,
+  "AuthorizationSent": false,
+  "BodyBytes": 5719,
+  "BodySha256": "67b9ac434eae0dd2618e45e69e8ad5b8ed3a9e35c3bd8864a8df45fa42f87bc5"
+}

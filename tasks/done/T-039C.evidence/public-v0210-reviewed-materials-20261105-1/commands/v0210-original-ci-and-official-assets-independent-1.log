@@ -1,0 +1,14 @@
+{
+  "Version": "0.2.10",
+  "FullTests": {
+    "Total": 3771,
+    "Passed": 3771,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "OriginalCiFiles": 55,
+  "All20AssetsMatchOfficialWebsiteDigests": true,
+  "PublicationReceiptVerified": true,
+  "OfficialApiMetadataVerified": false,
+  "ReleasePublic": true
+}

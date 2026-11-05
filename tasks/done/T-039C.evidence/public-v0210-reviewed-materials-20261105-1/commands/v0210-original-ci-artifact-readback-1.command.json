@@ -1,0 +1,14 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/download_v0210_ci_evidence_20261105.py",
+    "--run-page",
+    "F:/Iris/tasks/done/T-039C.evidence/publication-v0.2.10-20261105-1/observations/20261105T142114319569Z-web-run/response.body"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T14:22:55.697056+00:00",
+  "completedAt": "2026-11-05T14:23:00.519133+00:00",
+  "exitCode": 0,
+  "logSha256": "2ef4f7d8716406f85d52b032628b9eac91c8ceb7a7587a3a6681aad23ccabec4"
+}

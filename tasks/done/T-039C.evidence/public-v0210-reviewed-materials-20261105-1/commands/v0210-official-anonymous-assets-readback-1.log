@@ -1,0 +1,35 @@
+{"Asset": "SHA256.json", "Bytes": 2758, "Verified": true}
+{"Asset": "full-tests.log", "Bytes": 3873, "Verified": true}
+{"Asset": "INSTALLATION.md", "Bytes": 5088, "Verified": true}
+{"Asset": "assets.win.json", "Bytes": 243, "Verified": true}
+{"Asset": "Iris-0.2.10-delta.nupkg", "Bytes": 550246, "Verified": true}
+{"Asset": "Iris-0.2.10-full.nupkg", "Bytes": 64628628, "Verified": true}
+{"Asset": "Iris-0.2.10-Setup.exe", "Bytes": 116769024, "Verified": true}
+{"Asset": "Iris-0.2.2-full.nupkg", "Bytes": 64627273, "Verified": true}
+{"Asset": "Iris-0.2.7-full.nupkg", "Bytes": 64627391, "Verified": true}
+{"Asset": "package.log", "Bytes": 6534, "Verified": true}
+{"Asset": "payload-manifest.json", "Bytes": 17644, "Verified": true}
+{"Asset": "Iris-0.2.9-full.nupkg", "Bytes": 64628500, "Verified": true}
+{"Asset": "release-build.log", "Bytes": 3669, "Verified": true}
+{"Asset": "release-manifest-tests.log", "Bytes": 3079, "Verified": true}
+{"Asset": "RELEASE_NOTES.md", "Bytes": 678, "Verified": true}
+{"Asset": "release-provenance.json", "Bytes": 192669, "Verified": true}
+{"Asset": "releases.win.json", "Bytes": 1166, "Verified": true}
+{"Asset": "staging-manifest.json", "Bytes": 18533, "Verified": true}
+{"Asset": "validation-summary.json", "Bytes": 3066, "Verified": true}
+Traceback (most recent call last):
+  File "F:\Iris\tasks\T-039C.coordination\download_public_v0210_20261105.py", line 76, in <module>
+    records.append(future.result())
+                   ^^^^^^^^^^^^^^^
+  File "D:\anaconda3\Lib\concurrent\futures\_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "D:\anaconda3\Lib\concurrent\futures\_base.py", line 401, in __get_result
+    raise self._exception
+  File "D:\anaconda3\Lib\concurrent\futures\thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "F:\Iris\tasks\T-039C.coordination\download_public_v0210_20261105.py", line 58, in download
+    assert process.returncode == 0 and record["HttpStatus"] == "200", name
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RELEASES

@@ -1,0 +1,12 @@
+{
+  "Url": "https://github.com/Tmcity/Iris/releases/download/v0.2.10/release-provenance.json?iris_public_read=20261105T142405243576Z",
+  "StartedUtc": "2026-11-05T14:24:05.244076+00:00",
+  "FinishedUtc": "2026-11-05T14:24:16.576821+00:00",
+  "AuthorizationSent": false,
+  "UsesGitHubRestApi": false,
+  "HttpStatus": "200",
+  "ExitCode": 0,
+  "Bytes": 192669,
+  "Sha256": "78930f144ed358fd4923d0da8e8adc31eafd142f3f6d9b51f4c44abaa9650019",
+  "LocalPath": "F:\\Iris\\artifacts\\t039c\\public-0.2.10-download-20261105-1\\release-provenance.json"
+}

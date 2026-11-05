@@ -1,0 +1,320 @@
+{
+  "RunId": 42042550153,
+  "RunAttempt": 1,
+  "SourceCommit": "227b3d88938543766a27d86a94ade52f9e5b89b7",
+  "SourceGitTree": "69d4faf228d9d0b98d77ecb4a8dac582ad33421b",
+  "ArtifactDigestsMatchedOfficialPublicPage": true,
+  "OfficialRestApiArtifactMetadataVerified": false,
+  "FullTests": {
+    "Total": 3771,
+    "Passed": 3771,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "SkippedTests": [],
+  "HostTests": 13,
+  "ThemeTests": 8,
+  "UpdateHttpTests": 15,
+  "ThemeIntervalsDoNotOverlapOtherAppTests": true,
+  "PublicValidationAssetsMatchOriginalCiBytes": true,
+  "PublicationReceipt": {
+    "Tag": "v0.2.10",
+    "SourceCommit": "227b3d88938543766a27d86a94ade52f9e5b89b7",
+    "SourceGitTree": "69d4faf228d9d0b98d77ecb4a8dac582ad33421b",
+    "Stage": "published-and-listed",
+    "Public": true,
+    "PublicationRequestAttempted": true,
+    "PublicationCliConfirmed": true,
+    "VisibilityVerification": "completed",
+    "ReleaseUrl": "https://github.com/Tmcity/Iris/releases/tag/v0.2.10",
+    "RunUrl": "https://github.com/Tmcity/Iris/actions/runs/42042550153"
+  },
+  "ArchiveExtractedFiles": 55,
+  "Files": [
+    {
+      "Path": "ci-v0210-original-42042550153-1.zip",
+      "Bytes": 509556,
+      "Sha256": "237f8958d4e8ddbf6ae28bddbf38c5c63598673a57d2413dbc6017105ae48e36"
+    },
+    {
+      "Path": "ci-v0210-publication-42042550153-1.zip",
+      "Bytes": 424,
+      "Sha256": "d08fde86b418f15fafbe090e0d62e504350e2f1520fdfcffbbab61ee410ec55d"
+    },
+    {
+      "Path": "publication/publish-result.json",
+      "Bytes": 458,
+      "Sha256": "2386087f584ea4e36f9f67f90b3656cab2bb07ff5041665eb32464de914b1a67"
+    },
+    {
+      "Path": "validation/iris-package-logs/package.command.json",
+      "Bytes": 625,
+      "Sha256": "d8280ecf5f59e5238ecc16614ebd50a33d310e9383377786df20efc791a1f96b"
+    },
+    {
+      "Path": "validation/iris-package-logs/package.log",
+      "Bytes": 6534,
+      "Sha256": "d07ca2cd70b0b5b3f1f6890f98c69f4e029ec2153b77cf29b3d8cf9f6df4773c"
+    },
+    {
+      "Path": "validation/iris-validation/full-tests.command.json",
+      "Bytes": 491,
+      "Sha256": "d97a299f5800624853333dd042077b786450b429f2b12769957917511da851ab"
+    },
+    {
+      "Path": "validation/iris-validation/full-tests.log",
+      "Bytes": 3873,
+      "Sha256": "bb2ba3dc96d1cfcdfa924a8d49285891993b1193b3df372b39554eb4205a6792"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/cancel-transferred-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/cancel-transferred.json",
+      "Bytes": 473,
+      "Sha256": "9df55ab43fc68d2dc57c597e00cbc9acc02cb722ec11646ef6e22e1993827800"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/cleanup-failure-then-success-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/cleanup-failure-then-success-worker-1.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/cleanup-failure-then-success.json",
+      "Bytes": 476,
+      "Sha256": "d457255a1fbc2459486241ca2952e133be348bdeebc7324344bb631107057179"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/disposed-failure-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/disposed-failure-worker-1.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/disposed-failure-worker-2.json",
+      "Bytes": 81,
+      "Sha256": "bb5a12933e3189de5613691561bb597833ab1100b09341905c06043f462d35d0"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/disposed-failure.json",
+      "Bytes": 742,
+      "Sha256": "724f78bb26909c7fa3d5e87d949088e5b6eb4e2c55d5c2049e7aa18fb3d56f06"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/disposed-recovery.png",
+      "Bytes": 19644,
+      "Sha256": "93d857ff0641d8ba1d049a0f1f41f04369204b618816ade56608b4e1fd0b9c4c"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/disposed-success-before-parent-exit.json",
+      "Bytes": 601,
+      "Sha256": "6d44012eecd537d46643f9db0eb3bc2870877a78208ebb12f2f8dd9a55e215e6"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/ordinary-accepted-then-canceled.json",
+      "Bytes": 485,
+      "Sha256": "6747874e0a51938573809cfc360f68294d169f4d296e4a179243b59573f798fa"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/ordinary-confirmation-canceled.json",
+      "Bytes": 485,
+      "Sha256": "6747874e0a51938573809cfc360f68294d169f4d296e4a179243b59573f798fa"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/ordinary-new-offer.json",
+      "Bytes": 485,
+      "Sha256": "3bd8dffa3ab9b5bca3946fc5d50d57979cb7ea9c4c31aa1a4a2e1e3ba9a58d75"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/ordinary-ready.json",
+      "Bytes": 485,
+      "Sha256": "6747874e0a51938573809cfc360f68294d169f4d296e4a179243b59573f798fa"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/prepare-failure.json",
+      "Bytes": 479,
+      "Sha256": "bd8d8d1ff736e2aabb95f80275dc7a04e9f8a3984ad917d0e3b99d7ea504d94e"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/recovery-en-US-Dark-380.json",
+      "Bytes": 854,
+      "Sha256": "a5412cfe5a8bf02d5f1e662f002509160ddd4f3665450ad6c2f9a6273b3f470e"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/recovery-en-US-Dark-380.png",
+      "Bytes": 15707,
+      "Sha256": "10a720e1a62a70cc887fed35522563754143ce1f6844d438ef51f6b68c92cab3"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/recovery-en-US-Dark-540.json",
+      "Bytes": 854,
+      "Sha256": "c4c471409736589946eb26b0193fd8f8cf48666a633e06707a85ef7f3165a71a"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/recovery-en-US-Dark-540.png",
+      "Bytes": 16031,
+      "Sha256": "387d913b959c3a4adc20358db947142a7d23dec715c7110fb38e8227b49edb24"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/recovery-en-US-Light-380.json",
+      "Bytes": 858,
+      "Sha256": "579a38522e6fb04bf225a7e335c65c0ad6605deda36b0aebefca74dad89a05b1"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/recovery-en-US-Light-380.png",
+      "Bytes": 15713,
+      "Sha256": "578b89095228045c9d09c4e23dde5e01406092de260f46bf3ea7c047dd9209a1"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/recovery-en-US-Light-540.json",
+      "Bytes": 858,
+      "Sha256": "4956ed72e595d5e215238156cc0f63bb92dfefaee5ac3ab8cbb2b3964a2d9e19"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/recovery-en-US-Light-540.png",
+      "Bytes": 16013,
+      "Sha256": "b2a2c48285477a38865fdb3839c49d9d8e488d92614066694d91168b29150290"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/recovery-zh-CN-Dark-380.json",
+      "Bytes": 880,
+      "Sha256": "0d9e0b4a808213429c5e4af37aa05fa358909db3f35da008f49cead16a1f2940"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/recovery-zh-CN-Dark-380.png",
+      "Bytes": 22254,
+      "Sha256": "f76847cae534103ee7d1131c74f25f7cfe67af99a44d8f4d68b49a361a49d344"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/recovery-zh-CN-Dark-540.json",
+      "Bytes": 880,
+      "Sha256": "8782b1315ad5f439452c96d4d05711effeab8601cbf244956c6c25c40b7b84af"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/recovery-zh-CN-Dark-540.png",
+      "Bytes": 23296,
+      "Sha256": "6bdb5d9fe82d3eaab9316d73707d550ee7ddc3e5216f3ce4d8f7d5d7b7a2ae8e"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/recovery-zh-CN-Light-380.json",
+      "Bytes": 884,
+      "Sha256": "444358d3fcd3abe70820d3973546d3c3b1d6241219ad694765e95d0adde649ac"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/recovery-zh-CN-Light-380.png",
+      "Bytes": 22129,
+      "Sha256": "bbc8a43d737c9bcecf1ae7f4b134511d6574b009e241cdd41209b985c4012c48"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/recovery-zh-CN-Light-540.json",
+      "Bytes": 884,
+      "Sha256": "c7c0f7df6a4b1fecabe45a487ed4bae81c10d52d7c3893a58251e5a5b30d7a44"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/recovery-zh-CN-Light-540.png",
+      "Bytes": 23186,
+      "Sha256": "3f623949d7fc929a2c1b0e4f312094af53b12cff91375479fd673892aae30451"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/retained-failure-worker-0.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/retained-failure-worker-1.json",
+      "Bytes": 82,
+      "Sha256": "9ec21996c93f67959f8a34c8b480390c879cab743924bdad7aaa5f07f181d266"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/retained-failure-worker-2.json",
+      "Bytes": 81,
+      "Sha256": "bb5a12933e3189de5613691561bb597833ab1100b09341905c06043f462d35d0"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/retained-failure.json",
+      "Bytes": 740,
+      "Sha256": "2b05dbfa8d83590dff71324c395c26d3bade8f3e0ce82ffe9da5b95bab98d04f"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/retained-recovery.png",
+      "Bytes": 19644,
+      "Sha256": "93d857ff0641d8ba1d049a0f1f41f04369204b618816ade56608b4e1fd0b9c4c"
+    },
+    {
+      "Path": "validation/iris-validation/owned-test-results/retained-success-before-parent-exit.json",
+      "Bytes": 601,
+      "Sha256": "8b71436cd352b520a9f0d304642da8157cef1920f2571bdb64b4941bcdf4aaca"
+    },
+    {
+      "Path": "validation/iris-validation/release-build.command.json",
+      "Bytes": 364,
+      "Sha256": "10d3a21cb789b7367fd28f8320b8e4dc74262708c512c73b5988637f47832ae5"
+    },
+    {
+      "Path": "validation/iris-validation/release-build.log",
+      "Bytes": 3669,
+      "Sha256": "ffa8ee4e60129678bfb9bbc698566a9946b88e55e867d3e9bb48daef6ec93a63"
+    },
+    {
+      "Path": "validation/iris-validation/release-manifest-tests.command.json",
+      "Bytes": 468,
+      "Sha256": "3b9fc2bfd3f1352efd4745ac6d2ff5c97111529cc0dfad1c438b1049832f06c9"
+    },
+    {
+      "Path": "validation/iris-validation/release-manifest-tests.log",
+      "Bytes": 3079,
+      "Sha256": "470cb6914bd2cba859acacdd3e47065d437b20eb137da1d291c3c1bc56472e22"
+    },
+    {
+      "Path": "validation/iris-validation/reports/runneradmin_runnervmhao91_2026-11-05_14_13_39.702421.xunit.xml",
+      "Bytes": 361147,
+      "Sha256": "66d78a873cdb1546697c250adfd60831acc22021ddb941b04d37c11a3d32a079"
+    },
+    {
+      "Path": "validation/iris-validation/reports/runneradmin_runnervmhao91_2026-11-05_14_13_39.702425.xunit.xml",
+      "Bytes": 665958,
+      "Sha256": "20eccc5058cbfbb1b7e80062978dfc2681bd0aabcdda63afe62a0e7e9cf6f596"
+    },
+    {
+      "Path": "validation/iris-validation/reports/runneradmin_runnervmhao91_2026-11-05_14_13_39.704371.xunit.xml",
+      "Bytes": 564662,
+      "Sha256": "dafbdb39e5302f2e5d1eb856541a971777e2cc4b2f26814f347c075b51beffac"
+    },
+    {
+      "Path": "validation/iris-validation/reports/runneradmin_runnervmhao91_2026-11-05_14_13_39.885763.xunit.xml",
+      "Bytes": 7063,
+      "Sha256": "87fa53124e5623ade7eb62e375da952945e86f5433899707d5e3c8de06c7c651"
+    },
+    {
+      "Path": "validation/iris-validation/reports/runneradmin_runnervmhao91_2026-11-05_14_13_45.400803.xunit.xml",
+      "Bytes": 115148,
+      "Sha256": "851d0a4fdaeac8510facbd08b21bc7d410f343e561489c8c469df8e439ef09d5"
+    },
+    {
+      "Path": "validation/iris-validation/reports/runneradmin_runnervmhao91_2026-11-05_14_13_49.624334.xunit.xml",
+      "Bytes": 23793,
+      "Sha256": "bf687b9ecd79557cb4afa3c4aabfdae73587eeca7627d38ab4890da0f15c71ec"
+    },
+    {
+      "Path": "validation/iris-validation/reports/runneradmin_runnervmhao91_2026-11-05_14_13_53.034760.xunit.xml",
+      "Bytes": 509965,
+      "Sha256": "5e21f4d14328167398f0548bfba7e4b7493a11b0438c46d09e783a82cb6cc615"
+    },
+    {
+      "Path": "validation/iris-validation/validation-summary.json",
+      "Bytes": 3066,
+      "Sha256": "224770e6390e90a7f1df414b55d528b9bb456875948ee1b54d6055126d93d91a"
+    }
+  ]
+}

@@ -1,0 +1,124 @@
+{
+  "ReviewedUtc": "2026-11-05T14:32:56.403121+00:00",
+  "Version": "0.2.10",
+  "SourceCommit": "227b3d88938543766a27d86a94ade52f9e5b89b7",
+  "SourceGitTree": "69d4faf228d9d0b98d77ecb4a8dac582ad33421b",
+  "GitHubRunId": 42042550153,
+  "GitHubRunAttempt": 1,
+  "All20PublicAssetBytesMatchOfficialPageDigests": true,
+  "Assets": [
+    {
+      "Name": "assets.win.json",
+      "Bytes": 243,
+      "Sha256": "456fb4c1ba44c274dcb123773838e9f4481e342469f60ba2dc7c0d488168e032"
+    },
+    {
+      "Name": "full-tests.log",
+      "Bytes": 3873,
+      "Sha256": "bb2ba3dc96d1cfcdfa924a8d49285891993b1193b3df372b39554eb4205a6792"
+    },
+    {
+      "Name": "INSTALLATION.md",
+      "Bytes": 5088,
+      "Sha256": "c6aca79261915f9b2d98489304a0d788e267d755110ea1384585730d83ccca4d"
+    },
+    {
+      "Name": "Iris-0.2.10-delta.nupkg",
+      "Bytes": 550246,
+      "Sha256": "94d1362195ec2b7d6b84ecfedf99a8f5bd13389f7167cbf31a77be236ba2f9e1"
+    },
+    {
+      "Name": "Iris-0.2.10-full.nupkg",
+      "Bytes": 64628628,
+      "Sha256": "dca307a0afc1827e27bc7ec2614e5ead3a30978d4c5d318e4d0d842ebc73f136"
+    },
+    {
+      "Name": "Iris-0.2.10-Setup.exe",
+      "Bytes": 116769024,
+      "Sha256": "56166ec3e71a0fad72b1eb135e119635e63720ebe0a8fcf301f58d7ef8e053c7"
+    },
+    {
+      "Name": "Iris-0.2.2-full.nupkg",
+      "Bytes": 64627273,
+      "Sha256": "c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14"
+    },
+    {
+      "Name": "Iris-0.2.7-full.nupkg",
+      "Bytes": 64627391,
+      "Sha256": "f8f9de897b637f8c98a07d601420885bf65529701d014fc52b59f87ce75bace8"
+    },
+    {
+      "Name": "Iris-0.2.9-full.nupkg",
+      "Bytes": 64628500,
+      "Sha256": "42c32435e5883608c77f097befd2b9a7f91845b35942a09966018361c40a779e"
+    },
+    {
+      "Name": "package.log",
+      "Bytes": 6534,
+      "Sha256": "d07ca2cd70b0b5b3f1f6890f98c69f4e029ec2153b77cf29b3d8cf9f6df4773c"
+    },
+    {
+      "Name": "payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "516e959fb1b7015a51ee3da41e7de160dfb35607447e45cdbdd3190884e88686"
+    },
+    {
+      "Name": "release-build.log",
+      "Bytes": 3669,
+      "Sha256": "ffa8ee4e60129678bfb9bbc698566a9946b88e55e867d3e9bb48daef6ec93a63"
+    },
+    {
+      "Name": "release-manifest-tests.log",
+      "Bytes": 3079,
+      "Sha256": "470cb6914bd2cba859acacdd3e47065d437b20eb137da1d291c3c1bc56472e22"
+    },
+    {
+      "Name": "release-provenance.json",
+      "Bytes": 192669,
+      "Sha256": "78930f144ed358fd4923d0da8e8adc31eafd142f3f6d9b51f4c44abaa9650019"
+    },
+    {
+      "Name": "RELEASES",
+      "Bytes": 291,
+      "Sha256": "23e9962ee05a7c44e7abe39f47479e4fbfc68031dbdf4cf0feefa619db24ed5a"
+    },
+    {
+      "Name": "releases.win.json",
+      "Bytes": 1166,
+      "Sha256": "9aa2c088bdc3eee9dfa5f8c5ff96a3e0b4280feed5093e4c976e26a7290502b4"
+    },
+    {
+      "Name": "RELEASE_NOTES.md",
+      "Bytes": 678,
+      "Sha256": "5aec4a21ce07590af761e8bbbe49f1ee97a625362e904c4c65ec9d6d14729ca4"
+    },
+    {
+      "Name": "SHA256.json",
+      "Bytes": 2758,
+      "Sha256": "174c94d743269155fe077dab6c32d4824ecab76041d77f7b5b65a3a5056d2f9e"
+    },
+    {
+      "Name": "staging-manifest.json",
+      "Bytes": 18533,
+      "Sha256": "ab05e22826c914df68e1687c4dfb4842a0a9276ec98facbd510903ab36a20f3a"
+    },
+    {
+      "Name": "validation-summary.json",
+      "Bytes": 3066,
+      "Sha256": "224770e6390e90a7f1df414b55d528b9bb456875948ee1b54d6055126d93d91a"
+    }
+  ],
+  "AssetPage": "F:\\Iris\\tasks\\done\\T-039C.evidence\\publication-v0.2.10-20261105-1\\observations\\20261105T142255665078Z-web-assets\\response.body",
+  "AssetPageSha256": "7bf6c37d07288ce9ad351711a93c3d40e8fa00eb5842d99b9bed36ae961dafe3",
+  "FullTests": {
+    "Total": 3771,
+    "Passed": 3771,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "OriginalCiAndPublicationReceiptVerified": true,
+  "OfficialRestApiAssetMetadataVerified": false,
+  "RawApiQuotaResponseRetained": true,
+  "ReleasePublic": true,
+  "RealUiUpgradeVerified": false
+}

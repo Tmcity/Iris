@@ -1,0 +1,22 @@
+{
+    "Utc":  "2026-11-05T14:39:50.7463089Z",
+    "ProductOperationPerformed":  false,
+    "InputRoot":  "C:\\IrisAcceptanceUI0210",
+    "Rows":  [
+                 {
+                     "Sha256":  "363c24da7f8788d7f4b4241d7ce46aa4e5a0aca4a2a878a3a1b43183c4f0330c",
+                     "Name":  "Save-Offer-V0210-State.cmd",
+                     "Exists":  true
+                 },
+                 {
+                     "Sha256":  "e9dc93e4274fe1eed201cc1a6c2175f0f620ad38cdd013b62b2263ab68cf405b",
+                     "Name":  "Capture-Offer-V0210-View.cmd",
+                     "Exists":  true
+                 },
+                 {
+                     "Sha256":  "4fdffe067410d93625e24f1eb63a22c07d6900da58fdf7d9b1bf977d4bcf9d8d",
+                     "Name":  "save-ui-v0210-evidence.ps1",
+                     "Exists":  true
+                 }
+             ]
+}

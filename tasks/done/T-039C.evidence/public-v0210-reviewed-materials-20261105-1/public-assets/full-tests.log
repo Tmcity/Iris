@@ -1,0 +1,38 @@
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (4s 234ms)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (9s 200ms)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (12s 617ms)
+正在从以下位置运行测试 D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (19s 366ms)
+D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64) 已通过 (10s 842ms)
+D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (33s 673ms)
+D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (3m 26s 286ms)
+
+  生成的进程内文件项目:
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_14_13_39.885763.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_14_13_39.702421.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_14_13_39.704371.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_14_13_39.702425.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_14_13_49.624334.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_14_13_45.400803.xunit.xml
+    - D:\a\_temp\iris-validation\reports\runneradmin_runnervmhao91_2026-11-05_14_13_53.034760.xunit.xml
+
+测试运行摘要: 已通过!
+  D:\a\Iris\Iris\tests\Iris.Providers.Tests\bin\Release\net10.0\Iris.Providers.Tests.dll (net10.0|x64) 已通过 (9s 200ms)
+  D:\a\Iris\Iris\tests\Iris.Infrastructure.Tests\bin\Release\net10.0\Iris.Infrastructure.Tests.dll (net10.0|x64) 已通过 (33s 673ms)
+  D:\a\Iris\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (3m 26s 286ms)
+  D:\a\Iris\Iris\tests\Iris.Maintenance.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Maintenance.Tests.dll (net10.0|x64) 已通过 (10s 842ms)
+  D:\a\Iris\Iris\tests\Iris.Core.Tests\bin\Release\net10.0\Iris.Core.Tests.dll (net10.0|x64) 已通过 (12s 617ms)
+  D:\a\Iris\Iris\tests\Iris.ArchitectureTests\bin\Release\net10.0-windows10.0.19041.0\Iris.ArchitectureTests.dll (net10.0|x64) 已通过 (4s 234ms)
+  D:\a\Iris\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) 已通过 (19s 366ms)
+
+  总计: 3771
+  失败: 0
+  成功: 3771
+  已跳过: 0
+  持续时间: 3m 40s 314ms

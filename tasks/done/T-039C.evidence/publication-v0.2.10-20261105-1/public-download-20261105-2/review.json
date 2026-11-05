@@ -1,0 +1,23 @@
+{
+  "Version": "0.2.10",
+  "SourceCommit": "227b3d88938543766a27d86a94ade52f9e5b89b7",
+  "SourceGitTree": "69d4faf228d9d0b98d77ecb4a8dac582ad33421b",
+  "PublicAssets": 20,
+  "PayloadEntries": 97,
+  "MaintenancePrefixBytes": 44626228,
+  "InternalSetupBytes": 72142740,
+  "InternalSetupSha256": "45ccbd0d3fda4d03b3d3f48b13252f91a24dd739b4464dbea30bb3def9aecaec",
+  "FullSha256": "dca307a0afc1827e27bc7ec2614e5ead3a30978d4c5d318e4d0d842ebc73f136",
+  "OuterSha256": "56166ec3e71a0fad72b1eb135e119635e63720ebe0a8fcf301f58d7ef8e053c7",
+  "FullTests": {
+    "Total": 3771,
+    "Passed": 3771,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "Directory": "F:\\Iris\\artifacts\\t039c\\public-0.2.10-download-20261105-2",
+  "Original504Retained": true,
+  "OnlyFailedAssetRedownloaded": true,
+  "All20AssetsValidated": true,
+  "AnonymousPublicReadback": true
+}

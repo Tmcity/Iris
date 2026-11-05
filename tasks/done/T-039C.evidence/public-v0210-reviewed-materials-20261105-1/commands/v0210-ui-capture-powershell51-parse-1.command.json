@@ -1,0 +1,14 @@
+{
+  "command": [
+    "C:/Windows/System32/WindowsPowerShell/v1.0/powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-Command",
+    "$taskTokens = $null; $taskErrors = $null; $null = [Management.Automation.Language.Parser]::ParseFile(\"F:/Iris/artifacts/t039c/manual-verification-v022-20261105-1/input/save-ui-v0210-evidence.ps1\", [ref]$taskTokens, [ref]$taskErrors); if ($taskErrors.Count -ne 0) { $taskErrors | Out-String | Write-Output; exit 1 }; Write-Output \"UI evidence helper parses in Windows PowerShell 5.1; no product operation performed\""
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T14:37:26.039087+00:00",
+  "completedAt": "2026-11-05T14:37:26.260307+00:00",
+  "exitCode": 0,
+  "logSha256": "786d8fd1fa46957e3f42a36b3b502eb1f65a9e7ce9bbfb28721c50b2ec84fbfc"
+}

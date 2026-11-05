@@ -1,0 +1,18 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/execute_v0210_20261105.py",
+    "--mode",
+    "publish",
+    "--approval-file",
+    "F:/Iris/tasks/T-039C.coordination/v0210-user-approval-20261105-1.json",
+    "--publication-attempt",
+    "1"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T14:10:08.414791+00:00",
+  "completedAt": "2026-11-05T14:10:59.824621+00:00",
+  "exitCode": 0,
+  "logSha256": "758f64c8507e925c9ec3891bd992a8149fb8eccfa2363c443257cf15c41a0020"
+}

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/recover_public_v0210_readback_20261105.py"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T14:29:32.822678+00:00",
+  "completedAt": "2026-11-05T14:29:46.636796+00:00",
+  "exitCode": 0,
+  "logSha256": "9cc867331d8d9b9b8d4aa75a265141b185ea3f67ded07e243807366aa3c1115c"
+}

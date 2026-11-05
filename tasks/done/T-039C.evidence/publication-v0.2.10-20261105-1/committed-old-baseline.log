@@ -1,0 +1,125 @@
+{
+  "ReviewedUtc": "2026-11-05T13:45:50.229044+00:00",
+  "SandboxId": "2fc7c168-2f34-437a-8319-8974e6f592b2",
+  "Version": "0.2.9",
+  "SourceCommit": "0b3267f1f6cdc1a9fb8cfe1c93dde22da273ecd2",
+  "AppPid": 5672,
+  "AppStartedUtc": "2026-11-05T13:15:09.5871510Z",
+  "ProviderPid": 7328,
+  "RecorderPid": 8152,
+  "CheckForUpdates": false,
+  "DataHashes": {
+    "settings.json": "84d85182866599005f6802db616fb89094d6c19dd1d7ade8ca15db9fa11d30e8",
+    "secrets.dat": "b977aecf397ecc9dc57f2301181a20372f7e7bc37b468091cd4fb1764e97f9d7",
+    "history.db": "49b163279267243d7d648b08423d73561bc25f90c60d043286f0411502a436e8"
+  },
+  "SyntheticProfile": {
+    "Id": "tp-28c361470883",
+    "DisplayName": "T039C Synthetic",
+    "HasCredentialSetReference": true,
+    "Model": "iris-fixture",
+    "BaseUrl": "http://127.0.0.1:18039/v1",
+    "Kind": "OpenAICompatible",
+    "Enabled": true
+  },
+  "OldReadyVerified": true,
+  "PendingTransactionAbsent": true,
+  "OldAndNewSyntheticHistoryVerified": true,
+  "UserScreenshotVisuallyReviewed": true,
+  "UserConfirmedManualInstallation": true,
+  "UserReportedInstallationDuration": "\u4e0d\u52301\u79d2",
+  "RealUiUpgradeVerified": false,
+  "HistoryHashSemantics": "Record DB/WAL bytes; post-shutdown checkpoint changes require row-level retention verification, not a fabricated hash equality.",
+  "Files": [
+    {
+      "Path": "accepted-manual-fixed029-binding.json",
+      "Bytes": 4936,
+      "Sha256": "3f7975e10feb2e70772adf3a391c108ffcc50b3bd74fe4cee21f49c729f0c155"
+    },
+    {
+      "Path": "history-independent.json",
+      "Bytes": 395,
+      "Sha256": "0bfd453e0810345b1142f0a14e3a974ac1eaeaf361b3883b61ccecd76dd9b0c2"
+    },
+    {
+      "Path": "inspection/history.db",
+      "Bytes": 53248,
+      "Sha256": "49b163279267243d7d648b08423d73561bc25f90c60d043286f0411502a436e8"
+    },
+    {
+      "Path": "inspection/inspection.json",
+      "Bytes": 3203,
+      "Sha256": "b7b2ac4758e1472b7afd330f6a5fe3947f924d3af1dd78e925136a6b90193924"
+    },
+    {
+      "Path": "inspection/product-iris-20261105.log",
+      "Bytes": 6722,
+      "Sha256": "d245933f951d52dede517e54d1303c7773b40eadec87a7a093277c02f2796ff0"
+    },
+    {
+      "Path": "inspection/provider-requests.jsonl",
+      "Bytes": 266,
+      "Sha256": "2c9554929899d196817b7e72bcba92b1af0fcf8ccad094273a6b2237fe6f6c66"
+    },
+    {
+      "Path": "inspection/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "old-ready-20261105T1343491671740Z.json",
+      "Bytes": 3195,
+      "Sha256": "7007936ed1c71dc03440f4ce394a9b8eae3fb1abc2422f1b47fe42ec2a170ab8"
+    },
+    {
+      "Path": "supplement/active-recorder-v2.json",
+      "Bytes": 4296,
+      "Sha256": "7f9a0f591fdf9e65a3eba29b227f04e224082371636aed34afe03597ceb51d04"
+    },
+    {
+      "Path": "supplement/history.db",
+      "Bytes": 53248,
+      "Sha256": "49b163279267243d7d648b08423d73561bc25f90c60d043286f0411502a436e8"
+    },
+    {
+      "Path": "supplement/history.db-shm",
+      "Bytes": 32768,
+      "Sha256": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb"
+    },
+    {
+      "Path": "supplement/history.db-wal",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "supplement/process-events-v2.jsonl",
+      "Bytes": 9871,
+      "Sha256": "e2b9991d60c45a5430f406eec5ca349d1c7910d7493cd421b9e417cee33ee3ae"
+    },
+    {
+      "Path": "supplement/product-iris-20261105.log",
+      "Bytes": 6722,
+      "Sha256": "d245933f951d52dede517e54d1303c7773b40eadec87a7a093277c02f2796ff0"
+    },
+    {
+      "Path": "supplement/provider-requests.jsonl",
+      "Bytes": 266,
+      "Sha256": "2c9554929899d196817b7e72bcba92b1af0fcf8ccad094273a6b2237fe6f6c66"
+    },
+    {
+      "Path": "supplement/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "supplement/supplement.json",
+      "Bytes": 8205,
+      "Sha256": "c2abe63899d5deb693faef63cb6c2e749e6c1a8429fd84ca08ffe7ff3ab710bf"
+    },
+    {
+      "Path": "supplement/watcher-v2-status.json",
+      "Bytes": 243,
+      "Sha256": "968be5258737cac780e696b7da4a11084bd16d4903944e89202e89725a02290d"
+    }
+  ]
+}

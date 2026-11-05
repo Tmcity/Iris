@@ -1,0 +1,20 @@
+{
+  "command": [
+    "python",
+    "-B",
+    "tasks/T-039C.coordination/supplement_v0210_official_api_20261105.py",
+    "--run",
+    "F:/Iris/tasks/done/T-039C.evidence/publication-v0.2.10-20261105-1/observations/20261105T143353662751Z-run/response.body",
+    "--jobs",
+    "F:/Iris/tasks/done/T-039C.evidence/publication-v0.2.10-20261105-1/observations/20261105T143353676846Z-jobs/response.body",
+    "--artifacts",
+    "F:/Iris/tasks/done/T-039C.evidence/publication-v0.2.10-20261105-1/observations/20261105T143253979682Z-artifacts/response.body",
+    "--release",
+    "F:/Iris/tasks/done/T-039C.evidence/publication-v0.2.10-20261105-1/observations/20261105T143353675831Z-release/response.body"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T14:35:40.647311+00:00",
+  "completedAt": "2026-11-05T14:35:40.977986+00:00",
+  "exitCode": 0,
+  "logSha256": "c53913f81de59d3961d18008d1b8b5d2c8efead370e083f0aa3e77495b4e3f47"
+}

@@ -1,0 +1,29 @@
+{
+  "Pid": 16648,
+  "Command": [
+    "curl.exe",
+    "--silent",
+    "--show-error",
+    "--location",
+    "--max-time",
+    "180",
+    "--retry",
+    "0",
+    "--proto",
+    "=https",
+    "--proto-redir",
+    "=https",
+    "-H",
+    "Cache-Control: no-cache",
+    "-A",
+    "Iris-public-asset-verification",
+    "-D",
+    "F:\\Iris\\tasks\\done\\T-039C.evidence\\publication-v0.2.10-20261105-1\\public-download-20261105-1\\release-manifest-tests.log\\response.headers",
+    "-o",
+    "F:\\Iris\\artifacts\\t039c\\public-0.2.10-download-20261105-1\\release-manifest-tests.log",
+    "--write-out",
+    "%{http_code}",
+    "https://github.com/Tmcity/Iris/releases/download/v0.2.10/release-manifest-tests.log?iris_public_read=20261105T142404004155Z"
+  ],
+  "StartedUtc": "2026-11-05T14:24:04.005194+00:00"
+}

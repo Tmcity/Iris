@@ -1,0 +1,12 @@
+{
+  "Url": "https://github.com/Tmcity/Iris/releases/download/v0.2.10/package.log?iris_public_read=20261105T142344307441Z",
+  "StartedUtc": "2026-11-05T14:23:44.307441+00:00",
+  "FinishedUtc": "2026-11-05T14:23:55.644602+00:00",
+  "AuthorizationSent": false,
+  "UsesGitHubRestApi": false,
+  "HttpStatus": "200",
+  "ExitCode": 0,
+  "Bytes": 6534,
+  "Sha256": "d07ca2cd70b0b5b3f1f6890f98c69f4e029ec2153b77cf29b3d8cf9f6df4773c",
+  "LocalPath": "F:\\Iris\\artifacts\\t039c\\public-0.2.10-download-20261105-1\\package.log"
+}

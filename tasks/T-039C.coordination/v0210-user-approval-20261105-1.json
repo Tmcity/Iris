@@ -1,0 +1,13 @@
+{
+  "QuestionItemId": "[\"request_user_input_async\",\"call_pIjS2IrxpvdTukf3xVStNhE2\",0]",
+  "Answer": "确认发布0.2.10（仅真实升级目标）",
+  "ExplicitUserConfirmation": true,
+  "Tag": "v0.2.10",
+  "SourceCommit": "227b3d88938543766a27d86a94ade52f9e5b89b7",
+  "ReviewArchiveCommit": "d77973943421bd0aeb9d69d09edb4992e0c94688",
+  "ExecutionMaterialCommit": "f5c5669b2cdbbad2e47b13240c329dacec42e849",
+  "BranchPushAuthorized": false,
+  "OtherVersionsAuthorized": false,
+  "UserPerformsProductOperations": true,
+  "PublicRepository": "https://github.com/Tmcity/Iris"
+}

@@ -1,0 +1,9 @@
+{
+  "Url": "https://api.github.com/repos/Tmcity/Iris/actions/runs/42042550153/artifacts?per_page=100&iris_observation=v0210-20261105T143253979682Z",
+  "ObservedUtc": "2026-11-05T14:32:54.821018+00:00",
+  "HttpStatus": "200",
+  "ExitCode": 0,
+  "AuthorizationSent": false,
+  "BodyBytes": 2071,
+  "BodySha256": "fbc83fd7fb4c9fe378900820229146d638ac9f17b7e7cb2c44b2949024e7ac49"
+}

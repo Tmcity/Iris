@@ -1,0 +1,14 @@
+{
+  "QuestionItemId": "[\"request_user_input_async\",\"call_pIjS2IrxpvdTukf3xVStNhE2\",0]",
+  "Answer": "\u786e\u8ba4\u53d1\u5e030.2.10\uff08\u4ec5\u771f\u5b9e\u5347\u7ea7\u76ee\u6807\uff09",
+  "ExplicitUserConfirmation": true,
+  "Tag": "v0.2.10",
+  "SourceCommit": "227b3d88938543766a27d86a94ade52f9e5b89b7",
+  "ReviewArchiveCommit": "d77973943421bd0aeb9d69d09edb4992e0c94688",
+  "ExecutionMaterialCommit": "f5c5669b2cdbbad2e47b13240c329dacec42e849",
+  "BranchPushAuthorized": false,
+  "OtherVersionsAuthorized": false,
+  "UserPerformsProductOperations": true,
+  "PublicRepository": "https://github.com/Tmcity/Iris",
+  "RecordedUtc": "2026-11-05T14:10:08.516921+00:00"
+}
