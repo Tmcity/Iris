@@ -1,0 +1,44 @@
+{
+  "VerifiedUtc": "2026-11-05T06:29:00.972838+00:00",
+  "RunId": 41976966535,
+  "RunAttempt": 1,
+  "ReleaseId": 434836973,
+  "SourceCommit": "fc44a3a78c2729c25dfb91296c51602b843a94f9",
+  "OfficialApiArtifactDigestsMatched": [
+    {
+      "Name": "iris-validation-41976966535-1",
+      "ArtifactId": 13392382636,
+      "Bytes": 506138,
+      "OfficialApiDigest": "sha256:f74d5800df0525b1594f5793394c8d6992f35b442ed429d9a7504bd4389f27a9"
+    },
+    {
+      "Name": "iris-publication-41976966535-1",
+      "ArtifactId": 13392428250,
+      "Bytes": 423,
+      "OfficialApiDigest": "sha256:22e043efae52700f56676539b6c87848ac86d4b2bd71d7755129656454b72cb8"
+    }
+  ],
+  "All18PublicAssetBytesMatchedOfficialApiDigests": true,
+  "ObservationBindings": [
+    {
+      "Resource": "run",
+      "Path": "F:\\Iris\\tasks\\done\\T-039C.evidence\\publication-v0.2.7-20261105-2\\observations\\20261105T062635087790Z-run",
+      "BodySha256": "d00d0b427e24bef368066445f021e1c3a2e64ccfa8e08135c44f5703415f7f83"
+    },
+    {
+      "Resource": "jobs",
+      "Path": "F:\\Iris\\tasks\\done\\T-039C.evidence\\publication-v0.2.7-20261105-2\\observations\\20261105T062705315717Z-jobs",
+      "BodySha256": "73b0538a848394756bb23d2d1b5329f5f55edd4c34a33102089a8cb1537cf879"
+    },
+    {
+      "Resource": "artifacts",
+      "Path": "F:\\Iris\\tasks\\done\\T-039C.evidence\\publication-v0.2.7-20261105-2\\observations\\20261105T062705322854Z-artifacts",
+      "BodySha256": "e416e9051bc93baa949312d9aafd3525780bbeb65583939f5c13830061770153"
+    },
+    {
+      "Resource": "release",
+      "Path": "F:\\Iris\\tasks\\done\\T-039C.evidence\\publication-v0.2.7-20261105-2\\observations\\20261105T062705308596Z-release",
+      "BodySha256": "8798d8b678b59bfd1bb33ef8144ede7d22bc4c159d777317b6d732ae4d0b3f73"
+    }
+  ]
+}

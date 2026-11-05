@@ -15,7 +15,7 @@
 | 正式 full | 64627391 字节，SHA256 `f8f9de897b637f8c98a07d601420885bf65529701d014fc52b59f87ce75bace8` |
 | 正式旧 full | 0.2.2 原 64627273 字节 / SHA256 `c86982f930aafcd142167bbd871d03b588630f7d1d625da968a811daa2dd5d14` 保持 |
 
-正式下载目录为 `F:/Iris/artifacts/t039c/public-0.2.7-download-20261105-1`。[公开回读](F:/Iris/tasks/done/T-039C.evidence/publication-v0.2.7-20261105-2/public-download-20261105-1/review.json)与[原 CI/发布原件](F:/Iris/tasks/done/T-039C.evidence/ci-v027-original-41976966535-1/binding.json)已准备归档。官网 digest 证明原 ZIP 和下载资产，新的 REST artifact 元数据因共享限额尚未复核；没有声称其 API digest 已验证。
+正式下载目录为 `F:/Iris/artifacts/t039c/public-0.2.7-download-20261105-1`。[公开回读](F:/Iris/tasks/done/T-039C.evidence/publication-v0.2.7-20261105-2/public-download-20261105-1/review.json)与[原 CI/发布原件](F:/Iris/tasks/done/T-039C.evidence/ci-v027-original-41976966535-1/binding.json)已准备归档。官网 digest 与恢复后的官方 REST API 均已独立匹配两份原 ZIP 和全部18项下载资产；Release id434836973、公开状态和最终 run/job 均由官方 API 再次确认。
 
 2026-11-05T06:14:26UTC 的实际只读复核仍为同一新 Sandbox 的原 0.2.2/PID7312、V3/PID8152、开关false及原三项数据哈希。正式新载荷验收辅助材料已部署到当前映射输入目录，PowerShell5.1解析通过；没有在宿主或来宾自动安装/升级 Iris。
 

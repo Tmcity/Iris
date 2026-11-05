@@ -3,7 +3,7 @@
   "RunAttempt": 1,
   "SourceCommit": "fc44a3a78c2729c25dfb91296c51602b843a94f9",
   "ArtifactDigestsMatchedOfficialPublicPage": true,
-  "OfficialRestApiArtifactMetadataVerified": false,
+  "OfficialRestApiArtifactMetadataVerified": true,
   "FullTests": {
     "Total": 3759,
     "Passed": 3759,
@@ -310,5 +310,6 @@
       "Bytes": 3066,
       "Sha256": "7c09c6bf898978b6316d44b10f4a318360afab56b0a6b73bb0c6666e9cb37d4a"
     }
-  ]
+  ],
+  "OfficialApiSupplementPath": "F:\\Iris\\tasks\\done\\T-039C.evidence\\publication-v0.2.7-20261105-2\\official-api-supplement-20261105.json"
 }

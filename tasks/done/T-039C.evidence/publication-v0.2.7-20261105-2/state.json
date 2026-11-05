@@ -47,5 +47,8 @@
   },
   "UiUpgradeVerified": false,
   "PostUpdateUninstallVerified": false,
-  "ObservedUtc": "2026-11-05T06:19:14.609841+00:00"
+  "ObservedUtc": "2026-11-05T06:19:14.609841+00:00",
+  "ReleaseId": 434836973,
+  "OfficialApiArtifactDigestsVerified": true,
+  "OfficialApiAssetDigestsVerified": 18
 }
