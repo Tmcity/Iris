@@ -1,0 +1,81 @@
+{
+  "Version": "0.2.7",
+  "AppPid": 8820,
+  "AppStartedUtc": "2026-11-05T09:31:12.4245570Z",
+  "InstalledPayloadMatched": 97,
+  "OriginalDataHashesMatched": true,
+  "ManualRepairVerified": true,
+  "FirstUiUpgradeVerified": false,
+  "Files": [
+    {
+      "Path": "public-v027-install-verification-20261105T0934350662228Z.json",
+      "Bytes": 40561,
+      "Sha256": "f7c2c02700396798252ed4e17edf424154b71779db06d121793a02feba8b424c"
+    },
+    {
+      "Path": "supplement/active-recorder-v2.json",
+      "Bytes": 4296,
+      "Sha256": "7f9a0f591fdf9e65a3eba29b227f04e224082371636aed34afe03597ceb51d04"
+    },
+    {
+      "Path": "supplement/history.db",
+      "Bytes": 53248,
+      "Sha256": "c4960f0964e6d1ad267f6e735da6ddaea70e4b7ef63bb4d22a0dd76c6e67a497"
+    },
+    {
+      "Path": "supplement/process-events-v2.jsonl",
+      "Bytes": 7055,
+      "Sha256": "8012c9beb5ff3a2e6afceddea627517134027af4d31e1db25e95efacff197419"
+    },
+    {
+      "Path": "supplement/product-iris-20261105.log",
+      "Bytes": 5238,
+      "Sha256": "3ea86cd20e8eaac91c5fa281745fce5e55e68f85b2550d311513b6be9179ea36"
+    },
+    {
+      "Path": "supplement/provider-requests.jsonl",
+      "Bytes": 133,
+      "Sha256": "0ed59f5140bbf9ae41d18f34e29bed3a10c1fcb078630426d3a7265b75244109"
+    },
+    {
+      "Path": "supplement/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "supplement/supplement.json",
+      "Bytes": 8203,
+      "Sha256": "d58f45cd9655b7c2ade6a2d7802ae0a91a7262c539e41842e8e9c542c1a12cb9"
+    },
+    {
+      "Path": "supplement/watcher-v2-status.json",
+      "Bytes": 243,
+      "Sha256": "4b2b35ed701dd53b94969456b3dab88b4537f7ad8d84231594ee91dbb82a59f3"
+    },
+    {
+      "Path": "updated-20261105T0934322396007Z.json",
+      "Bytes": 3193,
+      "Sha256": "a10d62f6785d7bf7276c7a6e5843488b0f68dd7273f51f356838edf50d855440"
+    },
+    {
+      "Path": "v027-manual-repair-payload-readonly-1.command.json",
+      "Bytes": 535,
+      "Sha256": "473d4764ecb7efec9b09f89242edf05a9168b4e2712abcc52985d2949a7014f6"
+    },
+    {
+      "Path": "v027-manual-repair-payload-readonly-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "v027-manual-repair-state-readonly-1.command.json",
+      "Bytes": 542,
+      "Sha256": "7c31f7cacb2ae162cbfbc54606c03f9a5ad7fe8dd9da6e2dbccd6accc141dce0"
+    },
+    {
+      "Path": "v027-manual-repair-state-readonly-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    }
+  ]
+}

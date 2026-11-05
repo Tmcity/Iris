@@ -1,0 +1,22 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.App.Tests/Iris.App.Tests.csproj",
+    "-c",
+    "Release",
+    "--no-ansi",
+    "--no-progress",
+    "--filter-method",
+    "*HelperLaunch_UsesOwnedWorkDirectoryOutsideReplaceableInstallation*",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:/Iris/artifacts/t039c/working-directory-counterexample-before-20261105-1/reports"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v028-update-source-20261105-1",
+  "startedAt": "2026-11-05T09:12:07.664871+00:00",
+  "completedAt": "2026-11-05T09:12:49.511125+00:00",
+  "exitCode": 2,
+  "logSha256": "6e18a0fcfe627097d2838ffb84dd4cb1526689204746fdb60ca55db737424491"
+}

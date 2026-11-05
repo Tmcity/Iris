@@ -1,0 +1,7 @@
+warning: in the working copy of 'tasks/T-039C.coordination/SESSION_STATUS_20261105.md', LF will be replaced by CRLF the next time Git touches it
+Merge made by the 'ort' strategy.
+ docs/RELEASING.md                                  |  2 ++
+ src/Iris.App/Updates/UpdateHandoff.cs              |  2 +-
+ src/Iris.Maintenance/Program.cs                    |  5 ++-
+ tests/Iris.App.Tests/Updates/UpdateHandoffTests.cs | 40 ++++++++++++++++++++++
+ 4 files changed, 47 insertions(+), 2 deletions(-)

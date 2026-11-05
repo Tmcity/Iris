@@ -1,0 +1,28 @@
+{
+    "Scope":  "Two owned auxiliary processes and synthetic directories only",
+    "Utc":  "2026-11-05T09:22:34.0574088Z",
+    "ProductOperationPerformed":  false,
+    "Rows":  [
+                 {
+                     "RenameSucceeded":  false,
+                     "Case":  "inherited-current",
+                     "ChildExitCode":  0,
+                     "ChildPid":  2316,
+                     "ChildStillRunningBeforeRename":  true,
+                     "WorkingDirectory":  "C:\\IrisAcceptanceOutput\\session-14d55ff50fd94d3abe8d4474aafd5365\\cwd-rename-probe-332a93238d4c4f7f96e99c8812df460b\\inherited-current\\current",
+                     "ChildStillRunningAfterRename":  true,
+                     "ErrorType":  "System.IO.IOException",
+                     "HResult":  -2147024864
+                 },
+                 {
+                     "RenameSucceeded":  true,
+                     "Case":  "owned-outside",
+                     "ChildExitCode":  0,
+                     "ChildPid":  7568,
+                     "ChildStillRunningBeforeRename":  true,
+                     "WorkingDirectory":  "C:\\IrisAcceptanceOutput\\session-14d55ff50fd94d3abe8d4474aafd5365\\cwd-rename-probe-332a93238d4c4f7f96e99c8812df460b\\owned-outside\\work",
+                     "ChildStillRunningAfterRename":  true,
+                     "HResult":  null
+                 }
+             ]
+}

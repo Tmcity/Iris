@@ -1,0 +1,113 @@
+正在从以下位置运行测试 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Updates.UpdateHttpTests.LatestOfficialFeed_RemainsAvailableWhenRestQuotaIsExhausted (36ms)
+  从 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : uri.AbsoluteUri
+      should be
+  "https://github.com/Tmcity/Iris/releases/latest/download/releases.win.json"
+      but was
+  "https://github.com/Tmcity/Iris/releases/latest/download/releases.win.json?arch=x64&os=win&rid=win-x64"
+      difference
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |        
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/       
+  Index          | ...  73   74   75   76   77   78   79   80   81   82   83   84   85   86   87   88   89   90   91   92   93   ...  
+  Expected Value | ...                                                                                                           ...  
+  Actual Value   | ...  ?    a    r    c    h    =    x    6    4    &    o    s    =    w    i    n    &    r    i    d    =    ...  
+  Expected Code  | ...                                                                                                           ...  
+  Actual Code    | ...  63   97   114  99   104  61   120  54   52   38   111  115  61   119  105  110  38   114  105  100  61   ...  
+  
+  Difference     |       |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |    |   
+                 |      \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | ...  80   81   82   83   84   85   86   87   88   89   90   91   92   93   94   95   96   97   98   99   100  
+  Expected Value | ...                                                                                                           
+  Actual Value   | ...  6    4    &    o    s    =    w    i    n    &    r    i    d    =    w    i    n    -    x    6    4    
+  Expected Code  | ...                                                                                                           
+  Actual Code    | ...  54   52   38   111  115  61   119  105  110  38   114  105  100  61   119  105  110  45   120  54   52   
+    在 Iris.App.Tests.Updates.UpdateHttpTests.<>c__DisplayClass0_0.<LatestOfficialFeed_RemainsAvailableWhenRestQuotaIsExhausted>b__0(HttpRequestMessage request) 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\Updates\UpdateHttpTests.cs:26
+    在 Iris.App.Tests.Updates.UpdateHttpTests.Handler.SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\Updates\UpdateHttpTests.cs:176
+    在 System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+    在 Iris.App.Updates.UpdateHttpDownloader.OpenAsync(String url) 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.App\Updates\UpdateHttpDownloader.cs:42
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+    在 Iris.App.Updates.UpdateHttpDownloader.CopyAsync(String url, Stream output, Int64 budget, Action`1 progress) 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.App\Updates\UpdateHttpDownloader.cs:59
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 Iris.App.Updates.UpdateHttpDownloader.DownloadBytes(String url, IDictionary`2 headers, Double timeout) 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.App\Updates\UpdateHttpDownloader.cs:108
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+    在 Iris.App.Updates.UpdateHttpDownloader.DownloadString(String url, IDictionary`2 headers, Double timeout) 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.App\Updates\UpdateHttpDownloader.cs:114
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+    在 Velopack.Sources.SimpleWebSource.GetReleaseFeed(IVelopackLogger logger, String appId, String channel, Nullable`1 stagingId, VelopackAsset latestLocalRelease)
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+    在 Iris.App.Updates.UpdateRuntime.LatestGithubSource.GetReleaseFeed(IVelopackLogger logger, String appId, String channel, Nullable`1 stagingId, VelopackAsset latestLocalRelease) 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.App\Updates\UpdateRuntime.cs:47
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 System.Runtime.CompilerServices.ConfiguredTaskAwaitable`1.ConfiguredTaskAwaiter.GetResult()
+    在 Iris.App.Updates.ValidatedUpdateSource.GetReleaseFeed(IVelopackLogger logger, String appId, String channel, Nullable`1 stagingId, VelopackAsset latestLocalRelease) 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.App\Updates\ValidatedUpdateSource.cs:15
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    在 System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+    在 Iris.App.Tests.Updates.UpdateHttpTests.LatestOfficialFeed_RemainsAvailableWhenRestQuotaIsExhausted() 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\Updates\UpdateHttpTests.cs:32
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Updates.UpdateHttpTests.LatestOfficialFeed_RemainsAvailableWhenRestQuotaIsExhausted() 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\Updates\UpdateHttpTests.cs:38
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.App.Tests.Updates.UpdateHttpTests.GitHubSelectsCompatibleFeedBeforeNewestReleaseAnd404RemainsFailure (22ms)
+  从 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.Text.Json.JsonException : The JSON value could not be converted to Velopack.VelopackAssetFeed. Path: $ | LineNumber: 0 | BytePositionInLine: 1.
+    在 System.Text.Json.ThrowHelper.ThrowJsonException_DeserializeUnableToConvertValue(Type propertyType)
+    在 System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value)
+    在 System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value, Boolean& isPopulatedValue)
+    在 System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, T& value, JsonSerializerOptions options, ReadStack& state)
+    在 System.Text.Json.Serialization.Metadata.JsonTypeInfo`1.Deserialize(Utf8JsonReader& reader, ReadStack& state)
+    在 System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 utf8Json, JsonTypeInfo`1 jsonTypeInfo, Nullable`1 actualByteCount)
+    在 System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1 json, JsonTypeInfo`1 jsonTypeInfo)
+    在 System.Text.Json.JsonSerializer.Deserialize[TValue](String json, JsonTypeInfo`1 jsonTypeInfo)
+    在 Velopack.Util.CompiledJson.DeserializeVelopackAssetFeed(String json)
+    在 Velopack.VelopackAssetFeed.FromJson(String json)
+    在 Velopack.Sources.SimpleWebSource.GetReleaseFeed(IVelopackLogger logger, String appId, String channel, Nullable`1 stagingId, VelopackAsset latestLocalRelease)
+    在 Iris.App.Updates.UpdateRuntime.LatestGithubSource.GetReleaseFeed(IVelopackLogger logger, String appId, String channel, Nullable`1 stagingId, VelopackAsset latestLocalRelease) 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.App\Updates\UpdateRuntime.cs:47
+    在 Iris.App.Tests.Updates.UpdateHttpTests.GitHubSelectsCompatibleFeedBeforeNewestReleaseAnd404RemainsFailure() 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\Updates\UpdateHttpTests.cs:57
+    --- End of stack trace from previous location ---
+失败 Iris.App.Tests.Updates.UpdateHttpTests.OfferDownload_RemainsPinnedWhenLatestReleaseChanges (0ms)
+  从 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: System.InvalidOperationException : REST discovery must not run
+    在 Iris.App.Tests.Updates.UpdateHttpTests.PinningDownloader.DownloadString(String url, IDictionary`2 headers, Double timeout) 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\Updates\UpdateHttpTests.cs:211
+    在 Velopack.Sources.SimpleWebSource.GetReleaseFeed(IVelopackLogger logger, String appId, String channel, Nullable`1 stagingId, VelopackAsset latestLocalRelease)
+    在 Iris.App.Updates.UpdateRuntime.LatestGithubSource.GetReleaseFeed(IVelopackLogger logger, String appId, String channel, Nullable`1 stagingId, VelopackAsset latestLocalRelease) 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.App\Updates\UpdateRuntime.cs:47
+    在 Iris.App.Tests.Updates.UpdateHttpTests.OfferDownload_RemainsPinnedWhenLatestReleaseChanges() 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\Updates\UpdateHttpTests.cs:66
+    --- End of stack trace from previous location ---
+F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 3 个错误 (2s 043ms)
+退出代码: 2
+
+  生成的进程内文件项目:
+    - F:\Iris\artifacts\t039c\official-feed-after-20261105-1\reports\28910_SKYRIU-PC_2026-11-05_07_01_32.458181.xunit.xml
+
+测试运行摘要: 失败!
+  总计: 13
+  失败: 3
+  成功: 10
+  已跳过: 0
+  持续时间: 2s 300ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

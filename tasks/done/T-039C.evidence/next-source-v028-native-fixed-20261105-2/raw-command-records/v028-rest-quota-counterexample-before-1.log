@@ -1,0 +1,28 @@
+正在从以下位置运行测试 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Updates.UpdateHttpTests.LatestOfficialFeed_RemainsAvailableWhenRestQuotaIsExhausted (25ms)
+  从 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: Iris.Core.Errors.IrisException : 请求过于频繁，请稍后重试
+    在 Iris.App.Updates.UpdateHttpDownloader.OpenAsync(String url) 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.App\Updates\UpdateHttpDownloader.cs:51
+    在 Iris.App.Updates.UpdateHttpDownloader.CopyAsync(String url, Stream output, Int64 budget, Action`1 progress) 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.App\Updates\UpdateHttpDownloader.cs:58
+    在 Iris.App.Updates.UpdateHttpDownloader.DownloadBytes(String url, IDictionary`2 headers, Double timeout) 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.App\Updates\UpdateHttpDownloader.cs:107
+    在 Iris.App.Updates.UpdateHttpDownloader.DownloadString(String url, IDictionary`2 headers, Double timeout) 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.App\Updates\UpdateHttpDownloader.cs:113
+    在 Velopack.Sources.GithubSource.GetReleases(Boolean includePrereleases)
+    在 Iris.App.Updates.UpdateRuntime.LatestGithubSource.GetReleases(Boolean includePrereleases) 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.App\Updates\UpdateRuntime.cs:39
+    在 Velopack.Sources.GitBase`1.GetReleaseFeed(IVelopackLogger logger, String appId, String channel, Nullable`1 stagingId, VelopackAsset latestLocalRelease)
+    在 Iris.App.Updates.ValidatedUpdateSource.GetReleaseFeed(IVelopackLogger logger, String appId, String channel, Nullable`1 stagingId, VelopackAsset latestLocalRelease) 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.App\Updates\ValidatedUpdateSource.cs:15
+    在 Iris.App.Tests.Updates.UpdateHttpTests.LatestOfficialFeed_RemainsAvailableWhenRestQuotaIsExhausted() 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\Updates\UpdateHttpTests.cs:32
+    在 Iris.App.Tests.Updates.UpdateHttpTests.LatestOfficialFeed_RemainsAvailableWhenRestQuotaIsExhausted() 位于 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\Updates\UpdateHttpTests.cs:38
+    --- End of stack trace from previous location ---
+F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 1 个错误 (1s 577ms)
+退出代码: 2
+
+  生成的进程内文件项目:
+    - F:\Iris\artifacts\t039c\rest-quota-counterexample-before-20261105-1\reports\28910_SKYRIU-PC_2026-11-05_06_57_10.644325.xunit.xml
+
+测试运行摘要: 失败!
+  总计: 1
+  失败: 1
+  成功: 0
+  已跳过: 0
+  持续时间: 1s 796ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

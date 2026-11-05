@@ -1,0 +1,101 @@
+{
+  "Version": "0.2.8",
+  "SourceCommit": "0c9b0a1881d07224597163b1e9b2f080ab60d434",
+  "SourceGitTree": "6928cec3575944b9154abbc129ac848ab943b872"
+}
+{
+  "Version": "0.2.7",
+  "SourceCommit": "fc44a3a78c2729c25dfb91296c51602b843a94f9",
+  "SourceGitTree": "81aea2fa6cad8a3dcde34b081185dd03aae9c31c",
+  "PublicAssets": 18,
+  "PayloadEntries": 97,
+  "MaintenancePrefixBytes": 44626208,
+  "InternalSetupBytes": 72141503,
+  "InternalSetupSha256": "e82a59a0abe8494ce63f3c721f8cfbed8599a9dc5231e11fb1e66df4865085d3",
+  "FullSha256": "f8f9de897b637f8c98a07d601420885bf65529701d014fc52b59f87ce75bace8",
+  "OuterSha256": "d294341700e1d9155567fadc56b9c3f1883217bd3cf0ce23102c94f57c83d570"
+}
+可使用以下命令调用工具: vpk
+已成功安装工具“vpk”(版本“1.2.161”)。
+  正在确定要还原的项目…
+  已还原 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.UiaHost\Iris.UiaHost.csproj (用时 1.71 秒)。
+  已还原 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Infrastructure\Iris.Infrastructure.csproj (用时 1.71 秒)。
+  已还原 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Providers\Iris.Providers.csproj (用时 1.72 秒)。
+  已还原 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Core\Iris.Core.csproj (用时 1.71 秒)。
+  已还原 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 1.71 秒)。
+  已还原 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Maintenance\Iris.Maintenance.csproj (用时 1.71 秒)。
+  已还原 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.App\Iris.App.csproj (用时 1.73 秒)。
+  Iris.Core -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Infrastructure -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Infrastructure\bin\Release\net10.0\Iris.Infrastructure.dll
+  Iris.Providers -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Providers\bin\Release\net10.0\Iris.Providers.dll
+  Iris.Platform.Windows -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.Maintenance -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.Maintenance.dll
+  Iris.UiaHost -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.App -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.App.dll
+  Iris.App -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\artifacts\pack-0.2.8-5103dd942cd4494898526077f6ee60ef\app\
+  Iris.Core -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.UiaHost -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\artifacts\pack-0.2.8-5103dd942cd4494898526077f6ee60ef\app\uia\
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+  Iris.Core -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.UiaHost -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\artifacts\pack-0.2.8-5103dd942cd4494898526077f6ee60ef\uia\
+  正在确定要还原的项目…
+  已还原 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 226 毫秒)。
+  已还原 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Maintenance\Iris.Maintenance.csproj (用时 226 毫秒)。
+  已还原 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Core\Iris.Core.csproj (用时 226 毫秒)。
+  Iris.Core -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.Maintenance -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.Maintenance.dll
+  Iris.Maintenance -> F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\artifacts\pack-0.2.8-5103dd942cd4494898526077f6ee60ef\maintenance\
+[17:54:30 INF] Velopack CLI 1.2.161, for distributing applications.
+[17:54:30 INF] Beginning to package Velopack release 0.2.8.
+[17:54:30 INF] Releases Directory: F:\Iris\artifacts\t039c\release-0.2.8-public-base-candidate-2
+[17:54:30 INF] Starting: Pre-process steps
+[17:54:30 WRN] VelopackApp.Run() was found in method 'System.Int32 Iris.App.Updates.VelopackStartup::RunHook(System.String[])', which does not look like your application's entry point. It is strongly recommended that you move this to the very beginning of your Main() method. 
+[17:54:30 INF] Runtime Dependency: net10-x64-desktop
+[17:54:30 INF] Shortcuts: Desktop,StartMenuRoot
+[17:54:31 INF] Complete: Pre-process steps
+[17:54:31 INF] Starting: Code-sign application
+[17:54:31 WRN] No signing parameters provided, 83 file(s) will not be signed.
+[17:54:31 INF] Complete: Code-sign application
+[17:54:31 INF] Starting: Building release 0.2.8
+[17:54:33 INF] Complete: Building release 0.2.8
+[17:54:33 INF] Starting: Building setup package
+[17:54:33 INF] Starting: Building delta 0.2.7 -> 0.2.8
+[17:54:33 INF] Creating delta for 0.2.7 -> 0.2.8 with 8 parallel threads.
+[17:54:33 INF] Setup bundle created 'Iris-win-Setup.exe'.
+[17:54:33 WRN] No signing parameters provided, 1 file(s) will not be signed.
+[17:54:33 INF] Complete: Building setup package
+[17:54:34 INF] Delta processed 0097 files. 0019 patched, 0078 unchanged, 0000 new, 0000 removed
+[17:54:34 INF] Complete: Building delta 0.2.7 -> 0.2.8
+[17:54:34 INF] Starting: Post-process steps
+[17:54:35 INF] Complete: Post-process steps
+[17:54:35 INF] Finished in 00:00:04.3105197.
+{
+  "IndexedOuterInstaller": "Iris-0.2.8-Setup.exe",
+  "FeedEntries": 4
+}
+{
+  "Version": "0.2.8",
+  "SourceCommit": "0c9b0a1881d07224597163b1e9b2f080ab60d434",
+  "SourceGitTree": "6928cec3575944b9154abbc129ac848ab943b872",
+  "PublicAssets": 14,
+  "PayloadEntries": 97,
+  "MaintenancePrefixBytes": 44626587,
+  "InternalSetupBytes": 72144235,
+  "InternalSetupSha256": "7025ebb4c483beea7b923b088f29f46da355e8819e114aef47abd948f2a32314",
+  "FullSha256": "50a0723141c32034f9137bd0fb4d2832706c0a53c7a20f83ff28401fb56d5665",
+  "OuterSha256": "a595455e28ebe036fb151110d73a1dc1def4e3c6d72a880467b349d77688de34"
+}
+{
+    "Version":  "0.2.8",
+    "SdkVersion":  "1.2.161",
+    "WorkDirectory":  "F:\\Iris\\artifacts\\t039c\\worktree-v028-update-source-20261105-1\\artifacts\\pack-0.2.8-5103dd942cd4494898526077f6ee60ef",
+    "OutputDirectory":  "F:\\Iris\\artifacts\\t039c\\release-0.2.8-public-base-candidate-2",
+    "Installer":  "F:\\Iris\\artifacts\\t039c\\release-0.2.8-public-base-candidate-2\\Iris-0.2.8-Setup.exe",
+    "Signed":  false
+}

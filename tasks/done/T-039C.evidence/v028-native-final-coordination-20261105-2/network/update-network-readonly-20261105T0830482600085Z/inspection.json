@@ -1,0 +1,32 @@
+{
+    "Utc":  "2026-11-05T08:30:48.3296238Z",
+    "ReadOnlyDiagnostic":  true,
+    "ProductOperationPerformed":  false,
+    "ProductNetworkSnapshotInvoked":  false,
+    "NoAuthenticationAdded":  true,
+    "NetworkPropertyNames":  [
+                                 "proxyMode",
+                                 "bypassProxyOnLocal"
+                             ],
+    "ProxyMode":  null,
+    "Status":  200,
+    "Headers":  {
+                    "Date":  [
+                                 "Thu, 05 Nov 2026 08:31:01 GMT"
+                             ],
+                    "X-RateLimit-Limit":  [
+                                              "60"
+                                          ],
+                    "X-RateLimit-Reset":  [
+                                              "1793870719"
+                                          ],
+                    "X-RateLimit-Remaining":  [
+                                                  "30"
+                                              ]
+                },
+    "ReleaseTags":  [
+                        "v0.2.7",
+                        "v0.2.2"
+                    ],
+    "Failure":  null
+}

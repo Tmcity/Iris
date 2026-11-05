@@ -1,0 +1,32 @@
+{
+  "command": [
+    "curl.exe",
+    "--silent",
+    "--show-error",
+    "--location",
+    "--max-time",
+    "40",
+    "--retry",
+    "0",
+    "--proto",
+    "=https",
+    "--proto-redir",
+    "=https",
+    "-H",
+    "Cache-Control: no-cache",
+    "-A",
+    "Iris-public-update-source-verification",
+    "-D",
+    "F:/Iris/artifacts/t039c/latest-feed-v028-read-20261105-1.headers",
+    "-o",
+    "F:/Iris/artifacts/t039c/latest-feed-v028-read-20261105-1.body",
+    "--write-out",
+    "%{http_code}",
+    "https://github.com/Tmcity/Iris/releases/latest/download/releases.win.json?iris_source_review=20261105-1"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T07:12:49.092798+00:00",
+  "completedAt": "2026-11-05T07:12:50.940916+00:00",
+  "exitCode": 0,
+  "logSha256": "27badc983df1780b60c2b3fa9d3a19a00e46aac798451f0febdca52920faaddf"
+}

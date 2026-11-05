@@ -1,0 +1,22 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.App.Tests/Iris.App.Tests.csproj",
+    "-c",
+    "Release",
+    "--no-ansi",
+    "--no-progress",
+    "--filter-method",
+    "*LatestOfficialFeed_RemainsAvailableWhenRestQuotaIsExhausted*",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:/Iris/artifacts/t039c/rest-quota-counterexample-before-20261105-1/reports"
+  ],
+  "cwd": "F:/Iris/artifacts/t039c/worktree-v028-update-source-20261105-1",
+  "startedAt": "2026-11-05T06:56:50.371325+00:00",
+  "completedAt": "2026-11-05T06:57:12.377985+00:00",
+  "exitCode": 2,
+  "logSha256": "c8d502929d864240ad4914997e3f067ca8088fe05257d2e288cd1b02ee076d15"
+}

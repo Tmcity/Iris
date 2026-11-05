@@ -1,0 +1,155 @@
+{
+  "SourceCommit": "fc44a3a78c2729c25dfb91296c51602b843a94f9",
+  "OriginalAppExitedNormally": true,
+  "InstalledVersionAfterFailure": "0.2.2",
+  "WorkerExitCode": 1,
+  "WorkerError": "Win32 sharing violation 32 while renaming current directory",
+  "DataHashesMatchedOriginal": true,
+  "OriginalTransaction": {
+    "Id": "4cf0acea-f666-4a3f-8e5b-b2c841e67036",
+    "Kind": "update",
+    "Phase": "verify",
+    "OwnerPid": 4936,
+    "OwnerStartedUtcTicks": 639294652871200732,
+    "Version": "0.2.7",
+    "DeleteData": false,
+    "WorkerPid": 3716,
+    "WorkerStartedUtcTicks": 639294652884199730,
+    "WorkerPath": "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\Update.exe",
+    "WorkerExitCode": 1
+  },
+  "UiUpgradeVerified": false,
+  "NormalRestartVerified": false,
+  "Files": [
+    {
+      "Path": "original-logs/Iris.Maintenance-last-failure.json",
+      "Bytes": 500,
+      "Sha256": "d3af6134009e858b6acc22d25dee85adff387006f13cce2b70708a05af7a2029"
+    },
+    {
+      "Path": "original-logs/Iris.Maintenance-transaction.json",
+      "Bytes": 331,
+      "Sha256": "33dc3b4a25825847f386ced0d0659f9417400442ea45c17fca42ae7bdcc54376"
+    },
+    {
+      "Path": "original-logs/Iris.Maintenance-work-0ebf88eb09f640dfbddb4e6bb8dc2208_owned.json",
+      "Bytes": 76,
+      "Sha256": "c74f56f00b04489b776c5626d3558950ce35a7829174a70958c9bc865cb82b6d"
+    },
+    {
+      "Path": "original-logs/logs-iris-20261105.log",
+      "Bytes": 4125,
+      "Sha256": "f4495b1cc7cbd8370dd8b49afac17de60c63d2788f3a7bfc57a21bc8d873eb34"
+    },
+    {
+      "Path": "original-logs/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261105125719.log",
+      "Bytes": 22097,
+      "Sha256": "8af05580008195de294843713dfe0feab1f09feaeac88ae5d3d7c012e3e3ab74"
+    },
+    {
+      "Path": "original-logs/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261105125719_000_DotNetHost.log",
+      "Bytes": 112794,
+      "Sha256": "000a8118d84c0ea7b5270e7753f3da70caa665e66cc28c05de1afd10a373505d"
+    },
+    {
+      "Path": "original-logs/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261105125719_001_DotNetHostFxr.log",
+      "Bytes": 101360,
+      "Sha256": "10e0f09e21555245eb0553cb31d592ffcb033db19af5d5659897927f50cf4ad3"
+    },
+    {
+      "Path": "original-logs/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261105125719_002_DotNetRuntime.log",
+      "Bytes": 490350,
+      "Sha256": "252361bb7d25b6a8601e1a4e1c6045000b79173168a8a280c412da2aa21dc2a1"
+    },
+    {
+      "Path": "original-logs/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261105125719_003_WindowsDesktopRuntime.log",
+      "Bytes": 728242,
+      "Sha256": "11c8b1a36cff33cb04f748f2980fa9960b4ec677c690acaca3642b369ddf7650"
+    },
+    {
+      "Path": "original-logs/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261105125720.elevated.log",
+      "Bytes": 1338,
+      "Sha256": "cfaafd65e56ef325cc172093318b437805a92b029e1a0549f46d74490673ad93"
+    },
+    {
+      "Path": "original-logs/Velopack-velopack.log",
+      "Bytes": 6189,
+      "Sha256": "9e3e7d0ccf1d8509d64e09538114ed11b9625a221776344f171370de23df41d7"
+    },
+    {
+      "Path": "original-logs/Velopack-velopack_Iris.log",
+      "Bytes": 32752,
+      "Sha256": "0054d1a835412ae36bdb198a69458bf8fe6981bd28422785674940628d1a1348"
+    },
+    {
+      "Path": "original-source/src/Iris.App/Updates/UpdateHandoff.cs",
+      "Bytes": 9984,
+      "Sha256": "6863c3f81f6eb644364b27dfebc94607f4372c550945b90d2fcfda2de398ee14"
+    },
+    {
+      "Path": "original-source/src/Iris.Maintenance/MaintenanceSystem.cs",
+      "Bytes": 6561,
+      "Sha256": "b944daed49acbea7f375f7c9c480597365630ff73c35c10e23cdc481a1d285a7"
+    },
+    {
+      "Path": "original-source/src/Iris.Maintenance/Program.cs",
+      "Bytes": 8389,
+      "Sha256": "41aa6d0a2745ca788cdeff16a9af302789e8579d6aa3fc549fcd0a3bce4eaa2a"
+    },
+    {
+      "Path": "original-source/src/Iris.Maintenance/UpdateTransaction.cs",
+      "Bytes": 6098,
+      "Sha256": "3c7071a2cefd3066ea6a60fad6eab1a83692e0ff97b942e020a18bdbb2c899b0"
+    },
+    {
+      "Path": "owned-native-cwd-probe-result.json",
+      "Bytes": 1417,
+      "Sha256": "77c6afa7db2b769abcac66318ace3e15d5262f07d76429c6098a90c0f753dac9"
+    },
+    {
+      "Path": "supplement/active-recorder-v2.json",
+      "Bytes": 4296,
+      "Sha256": "7f9a0f591fdf9e65a3eba29b227f04e224082371636aed34afe03597ceb51d04"
+    },
+    {
+      "Path": "supplement/history.db",
+      "Bytes": 53248,
+      "Sha256": "c4960f0964e6d1ad267f6e735da6ddaea70e4b7ef63bb4d22a0dd76c6e67a497"
+    },
+    {
+      "Path": "supplement/process-events-v2.jsonl",
+      "Bytes": 4704,
+      "Sha256": "c0e40b40644a423849221298941b2b6e4b211bb65137cba31f021af8017c2353"
+    },
+    {
+      "Path": "supplement/product-iris-20261105.log",
+      "Bytes": 4125,
+      "Sha256": "f4495b1cc7cbd8370dd8b49afac17de60c63d2788f3a7bfc57a21bc8d873eb34"
+    },
+    {
+      "Path": "supplement/provider-requests.jsonl",
+      "Bytes": 133,
+      "Sha256": "0ed59f5140bbf9ae41d18f34e29bed3a10c1fcb078630426d3a7265b75244109"
+    },
+    {
+      "Path": "supplement/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "supplement/supplement.json",
+      "Bytes": 8379,
+      "Sha256": "433909988b96b69fb3b2de96d70441ad4c7290a1c84308631b9064582a65d2dd"
+    },
+    {
+      "Path": "supplement/watcher-v2-status.json",
+      "Bytes": 243,
+      "Sha256": "ffd83868cb0b9eee5c0d84ae1f4b1fe799a2049f8da3383cf01ccb191a9d85b5"
+    },
+    {
+      "Path": "updated-20261105T0852341579539Z.json",
+      "Bytes": 3002,
+      "Sha256": "1e5be3182a0d706a5fb6eec627b6f5b224cbe3a572810dfb4b5fdcc289d241cf"
+    }
+  ]
+}

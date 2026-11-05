@@ -1,0 +1,12 @@
+正在从以下位置运行测试 F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+F:\Iris\artifacts\t039c\worktree-v028-update-source-20261105-1\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 已通过 (1s 552ms)
+
+  生成的进程内文件项目:
+    - F:\Iris\artifacts\t039c\working-directory-after-20261105-1\reports\28910_SKYRIU-PC_2026-11-05_09_15_50.229591.xunit.xml
+
+测试运行摘要: 已通过!
+  总计: 7
+  失败: 0
+  成功: 7
+  已跳过: 0
+  持续时间: 1s 786ms

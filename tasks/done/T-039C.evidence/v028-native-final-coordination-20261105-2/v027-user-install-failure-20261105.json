@@ -1,0 +1,8 @@
+{
+  "QuestionItemId": "[\"request_user_input_async\",\"call_5N820ZTyHgNl3Pie6fmGXPL5\",0]",
+  "UserAnswer": "Iris维护未完成，事务已保留。请重新运行正式安装器修复安装，或运行以下维护入口重试已请求的清理；共享运行时不会被删除。",
+  "SandboxId": "2fc7c168-2f34-437a-8319-8974e6f592b2",
+  "AttemptedUiUpgrade": "0.2.2 -> 0.2.7",
+  "UpgradeSucceeded": false,
+  "OriginalNativeFailureEvidence": "tasks/done/T-039C.evidence/ui-native-update-failure-v027-20261105-1"
+}
