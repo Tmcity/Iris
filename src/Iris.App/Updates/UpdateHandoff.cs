@@ -58,7 +58,7 @@ internal sealed class UpdateHandoff : IAsyncDisposable, IDisposable
             _pipe = new NamedPipeServerStream(name, PipeDirection.InOut, 1, PipeTransmissionMode.Byte,
                 PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly | PipeOptions.FirstPipeInstance);
             using var parent = Process.GetCurrentProcess();
-            var start = new ProcessStartInfo(executable) { UseShellExecute = false, CreateNoWindow = true };
+            var start = new ProcessStartInfo(executable) { UseShellExecute = false, CreateNoWindow = true, WorkingDirectory = _directory };
             foreach (var argument in new[] { "--handoff", name, _token, parent.Id.ToString(System.Globalization.CultureInfo.InvariantCulture), parent.StartTime.ToUniversalTime().Ticks.ToString(System.Globalization.CultureInfo.InvariantCulture) }) start.ArgumentList.Add(argument);
             _process = _environment.StartHelper(start);
             watch = WatchExitAsync(_process, watchCancellation.Token);

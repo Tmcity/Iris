@@ -26,6 +26,9 @@ internal static class Program
                 timeout.CancelAfter(TimeSpan.FromMinutes(5));
                 await MaintenanceCopy.VerifyAsync(executable, timeout.Token).ConfigureAwait(false);
                 await MaintenanceCopy.PreserveRecoveryAsync(executable, timeout.Token).ConfigureAwait(false);
+                // A legacy caller can launch the outside copy with an inherited current-directory handle.
+                // Release that handle before the native updater renames the installation's current directory.
+                Directory.SetCurrentDirectory(Path.GetDirectoryName(executable)!);
                 await SetInstalledLanguageAsync(system.DataRoot, timeout.Token).ConfigureAwait(false);
                 stage = "handoff-transaction";
                 await new UpdateTransaction(system).RunAsync(args[1], args[2], int.Parse(args[3], CultureInfo.InvariantCulture), long.Parse(args[4], CultureInfo.InvariantCulture), timeout.Token).ConfigureAwait(false);
@@ -118,7 +121,7 @@ internal static class Program
         await using (var target = new FileStream(copy, FileMode.CreateNew, FileAccess.Write, FileShare.None, 65536, FileOptions.Asynchronous))
             await source.CopyToAsync(target, token).ConfigureAwait(false);
         using var original = Process.GetCurrentProcess();
-        var info = new ProcessStartInfo(copy) { UseShellExecute = false, CreateNoWindow = true };
+        var info = new ProcessStartInfo(copy) { UseShellExecute = false, CreateNoWindow = true, WorkingDirectory = directory };
         foreach (var arg in new[] { "--outside", original.Id.ToString(CultureInfo.InvariantCulture), original.StartTime.ToUniversalTime().Ticks.ToString(CultureInfo.InvariantCulture) }.Concat(args)) info.ArgumentList.Add(arg);
         using var process = Process.Start(info) ?? throw new IOException("Maintenance copy did not start.");
     }
