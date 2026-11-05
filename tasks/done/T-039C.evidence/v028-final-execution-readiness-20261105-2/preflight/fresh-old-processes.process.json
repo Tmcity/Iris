@@ -1,0 +1,15 @@
+{
+  "Pid": 33024,
+  "Command": [
+    "wsb.exe",
+    "exec",
+    "--id",
+    "2fc7c168-2f34-437a-8319-8974e6f592b2",
+    "--run-as",
+    "ExistingLogin",
+    "--command",
+    "powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\\IrisAcceptanceInput\\inspect-old-ready-readonly.ps1",
+    "--raw"
+  ],
+  "StartedUtc": "2026-11-05T10:14:07.671350+00:00"
+}

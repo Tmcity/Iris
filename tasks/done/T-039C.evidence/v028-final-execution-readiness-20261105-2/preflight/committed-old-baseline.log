@@ -1,0 +1,119 @@
+{
+  "SandboxId": "2fc7c168-2f34-437a-8319-8974e6f592b2",
+  "Version": "0.2.7",
+  "AppPid": 8820,
+  "AppStartedUtc": "2026-11-05T09:31:12.4245570Z",
+  "ProviderPid": 7328,
+  "RecorderPid": 8152,
+  "CheckForUpdates": false,
+  "DataHashes": {
+    "settings.json": "84d85182866599005f6802db616fb89094d6c19dd1d7ade8ca15db9fa11d30e8",
+    "secrets.dat": "b977aecf397ecc9dc57f2301181a20372f7e7bc37b468091cd4fb1764e97f9d7",
+    "history.db": "c4960f0964e6d1ad267f6e735da6ddaea70e4b7ef63bb4d22a0dd76c6e67a497"
+  },
+  "SyntheticProfile": {
+    "Id": "tp-28c361470883",
+    "DisplayName": "T039C Synthetic",
+    "HasCredentialSetReference": true,
+    "Model": "iris-fixture",
+    "BaseUrl": "http://127.0.0.1:18039/v1",
+    "Kind": "OpenAICompatible",
+    "Enabled": true
+  },
+  "OldReadyVerified": true,
+  "PendingTransactionAbsent": true,
+  "ManualRepairVerified": true,
+  "FirstUiUpgradeVerified": false,
+  "Files": [
+    {
+      "Path": "inspection/history.db",
+      "Bytes": 53248,
+      "Sha256": "c4960f0964e6d1ad267f6e735da6ddaea70e4b7ef63bb4d22a0dd76c6e67a497"
+    },
+    {
+      "Path": "inspection/inspection.json",
+      "Bytes": 3203,
+      "Sha256": "930c35b86709dfdd1dcfbdcbac77f5c358edb4107c0f39b098258a74ae627984"
+    },
+    {
+      "Path": "inspection/product-iris-20261105.log",
+      "Bytes": 5238,
+      "Sha256": "3ea86cd20e8eaac91c5fa281745fce5e55e68f85b2550d311513b6be9179ea36"
+    },
+    {
+      "Path": "inspection/provider-requests.jsonl",
+      "Bytes": 133,
+      "Sha256": "0ed59f5140bbf9ae41d18f34e29bed3a10c1fcb078630426d3a7265b75244109"
+    },
+    {
+      "Path": "inspection/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "old-ready-20261105T0959598943433Z.json",
+      "Bytes": 3195,
+      "Sha256": "759e6bda41f6af78eda1c3c1c4fabecdb36c09d8789fd40443e646238e68049d"
+    },
+    {
+      "Path": "supplement/active-recorder-v2.json",
+      "Bytes": 4296,
+      "Sha256": "7f9a0f591fdf9e65a3eba29b227f04e224082371636aed34afe03597ceb51d04"
+    },
+    {
+      "Path": "supplement/history.db",
+      "Bytes": 53248,
+      "Sha256": "c4960f0964e6d1ad267f6e735da6ddaea70e4b7ef63bb4d22a0dd76c6e67a497"
+    },
+    {
+      "Path": "supplement/process-events-v2.jsonl",
+      "Bytes": 7055,
+      "Sha256": "8012c9beb5ff3a2e6afceddea627517134027af4d31e1db25e95efacff197419"
+    },
+    {
+      "Path": "supplement/product-iris-20261105.log",
+      "Bytes": 5238,
+      "Sha256": "3ea86cd20e8eaac91c5fa281745fce5e55e68f85b2550d311513b6be9179ea36"
+    },
+    {
+      "Path": "supplement/provider-requests.jsonl",
+      "Bytes": 133,
+      "Sha256": "0ed59f5140bbf9ae41d18f34e29bed3a10c1fcb078630426d3a7265b75244109"
+    },
+    {
+      "Path": "supplement/provider-status.json",
+      "Bytes": 96,
+      "Sha256": "760e7dfda5edd11669066175f963bef45a805a9de440b0f14e95ff817b998d13"
+    },
+    {
+      "Path": "supplement/supplement.json",
+      "Bytes": 8205,
+      "Sha256": "96f552735831e560ad51fa67c3b087ab7ddcbd9a397e658f2a1ec3a7b762f248"
+    },
+    {
+      "Path": "supplement/watcher-v2-status.json",
+      "Bytes": 243,
+      "Sha256": "e22caf894100444c47ebf0889857ccd1a1868b558edd349e217dce45f4c5c928"
+    },
+    {
+      "Path": "v028-repaired-old-process-readonly-1.command.json",
+      "Bytes": 533,
+      "Sha256": "7d5d0ad76168d30c6a19429f771a02dce305308dda593cea024139a63446fc82"
+    },
+    {
+      "Path": "v028-repaired-old-process-readonly-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "v028-repaired-old-ready-readonly-1.command.json",
+      "Bytes": 544,
+      "Sha256": "16d76bd329f276ac9c4f4b0b610ff3847d26a615652f330f4540e17384e25693"
+    },
+    {
+      "Path": "v028-repaired-old-ready-readonly-1.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    }
+  ]
+}

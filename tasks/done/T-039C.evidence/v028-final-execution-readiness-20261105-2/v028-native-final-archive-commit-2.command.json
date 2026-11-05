@@ -1,0 +1,13 @@
+{
+  "command": [
+    "git",
+    "commit",
+    "-m",
+    "Archive first native upgrade failure, manual repair and final working-directory fix"
+  ],
+  "cwd": "F:/Iris",
+  "startedAt": "2026-11-05T10:10:07.971949+00:00",
+  "completedAt": "2026-11-05T10:10:08.259056+00:00",
+  "exitCode": 0,
+  "logSha256": "5685ed92622ddc1cce18ad68a919af036a64b7fa4635be302f8610d5c172eab2"
+}
