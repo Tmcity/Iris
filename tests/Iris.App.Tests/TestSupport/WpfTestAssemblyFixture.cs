@@ -9,9 +9,7 @@ namespace Iris.App.Tests.TestSupport;
 public sealed class WpfTestAssemblyFixture : IAsyncLifetime
 {
     public ValueTask InitializeAsync()
-    {
-        return ValueTask.CompletedTask;
-    }
+        => new(WpfTestRunner.RunAsync(() => Task.CompletedTask));
 
     public async ValueTask DisposeAsync()
     {
