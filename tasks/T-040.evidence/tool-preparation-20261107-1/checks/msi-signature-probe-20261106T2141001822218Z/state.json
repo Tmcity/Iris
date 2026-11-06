@@ -1,0 +1,18 @@
+{
+    "StartedUtc":  "2026-11-06T21:41:01.5771535Z",
+    "ProbePid":  7444,
+    "Username":  "WDAGUtilityAccount",
+    "MsiPath":  "C:\\ProgramData\\Package Cache\\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\\dotnet-host-10.0.14-win-x64.msi",
+    "ProductOperationPerformed":  false,
+    "SecurityPolicyChanged":  false,
+    "Ready":  false,
+    "Completed":  true,
+    "Failure":  null,
+    "SignatureStatus":  "Valid",
+    "ElapsedMs":  316.7522,
+    "SignerSubject":  "CN=.NET, O=Microsoft Corporation, L=Redmond, S=Washington, C=US",
+    "SignerThumbprint":  "BB793DB742624269BB5F4515BBE9A3DF418F588D",
+    "MsiBytes":  868352,
+    "MsiSha256":  "ABF9056691AC5C463120C59943BCC7B3FF8CC45E9430F5260D6383108F0F2839",
+    "FinishedUtc":  "2026-11-06T21:41:02.2185710Z"
+}

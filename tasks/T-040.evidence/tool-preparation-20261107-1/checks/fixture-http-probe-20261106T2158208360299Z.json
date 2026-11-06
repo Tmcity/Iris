@@ -1,0 +1,37 @@
+{
+    "Passed":  true,
+    "Utc":  "2026-11-06T21:58:20.8360299Z",
+    "ProductOperationPerformed":  false,
+    "Results":  [
+                    {
+                        "Path":  "/v1/models",
+                        "Body":  "{\"data\":[{\"id\":\"iris-fixture\",\"type\":\"model\",\"display_name\":\"Iris synthetic model\"}],\"has_more\":false}",
+                        "Status":  200
+                    },
+                    {
+                        "Path":  "/anthropic/v1/models",
+                        "Body":  "{\"data\":[{\"id\":\"iris-fixture\",\"type\":\"model\",\"display_name\":\"Iris synthetic model\"}],\"has_more\":false}",
+                        "Status":  200
+                    },
+                    {
+                        "ContentType":  "text/event-stream",
+                        "Path":  "/v1/chat/completions",
+                        "Body":  "data: {\"id\":\"iris_fixture\",\"object\":\"chat.completion.chunk\",\"model\":\"iris-fixture\",\"choices\":[{\"index\":0,\"delta\":{\"content\":\"Iris T040 synthetic translation\"},\"finish_reason\":null}]}\n\ndata: {\"id\":\"iris_fixture\",\"object\":\"chat.completion.chunk\",\"model\":\"iris-fixture\",\"choices\":[{\"index\":0,\"delta\":{\"content\":null},\"finish_reason\":\"stop\"}]}\n\ndata: [DONE]\n\n",
+                        "Status":  200
+                    },
+                    {
+                        "ContentType":  "text/event-stream",
+                        "Path":  "/anthropic/v1/messages",
+                        "Body":  "event: message_start\ndata: {\"type\":\"message_start\",\"message\":{\"id\":\"msg_iris_fixture\",\"type\":\"message\",\"role\":\"assistant\",\"model\":\"iris-fixture\",\"content\":[],\"stop_reason\":null,\"stop_sequence\":null,\"usage\":{\"input_tokens\":10,\"output_tokens\":0}}}\n\nevent: content_block_start\ndata: {\"type\":\"content_block_start\",\"index\":0,\"content_block\":{\"type\":\"text\",\"text\":\"\"}}\n\nevent: content_block_delta\ndata: {\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"text_delta\",\"text\":\"Iris T040 synthetic translation\"}}\n\nevent: content_block_stop\ndata: {\"type\":\"content_block_stop\",\"index\":0}\n\nevent: message_delta\ndata: {\"type\":\"message_delta\",\"delta\":{\"stop_reason\":\"end_turn\",\"stop_sequence\":null},\"usage\":{\"output_tokens\":5}}\n\nevent: message_stop\ndata: {\"type\":\"message_stop\"}\n\n",
+                        "Status":  200
+                    },
+                    {
+                        "FastBody":  "event: message_start\ndata: {\"type\":\"message_start\",\"message\":{\"id\":\"msg_iris_fixture\",\"type\":\"message\",\"role\":\"assistant\",\"model\":\"iris-fixture\",\"content\":[],\"stop_reason\":null,\"stop_sequence\":null,\"usage\":{\"input_tokens\":10,\"output_tokens\":0}}}\n\nevent: content_block_start\ndata: {\"type\":\"content_block_start\",\"index\":0,\"content_block\":{\"type\":\"text\",\"text\":\"\"}}\n\nevent: content_block_delta\ndata: {\"type\":\"content_block_delta\",\"index\":0,\"delta\":{\"type\":\"text_delta\",\"text\":\"Iris T040 synthetic translation\"}}\n\nevent: content_block_stop\ndata: {\"type\":\"content_block_stop\",\"index\":0}\n\nevent: message_delta\ndata: {\"type\":\"message_delta\",\"delta\":{\"stop_reason\":\"end_turn\",\"stop_sequence\":null},\"usage\":{\"output_tokens\":5}}\n\nevent: message_stop\ndata: {\"type\":\"message_stop\"}\n\n",
+                        "Path":  "concurrency",
+                        "FastCompletionMs":  153.16500000000002,
+                        "SlowWasComplete":  false,
+                        "SlowCompletionMs":  9998.0626000000011
+                    }
+                ],
+    "OnlySyntheticLoopbackRequests":  true
+}

@@ -1,0 +1,1001 @@
+{
+  "RecordedUtc": "2026-11-06T21:42:13.795398+00:00",
+  "Task": "T-040",
+  "Complete": false,
+  "SandboxId": "4fc7c24d-f1e5-4b3e-adaa-2abe01f643fe",
+  "UserFeedback": {
+    "QuestionCall": "call_2XGzIYJjmMdFv9XqVUGw5ufI",
+    "Raw": "启用，0.2.10，用时9分钟，启动/正常退出",
+    "InstallationOrderClarificationPending": true
+  },
+  "OfficialInstalledPayload": {
+    "Version": "0.2.10",
+    "SourceCommit": "227b3d88938543766a27d86a94ade52f9e5b89b7",
+    "MatchedFiles": 97
+  },
+  "ObserverV1": {
+    "Samples": 4199,
+    "StoppedNormally": true,
+    "EncodingDefect": "UTF-8 without BOM in PS5.1; startup Chinese regex misread",
+    "RawProcessSamplesPreserved": true
+  },
+  "ObserverV2": {
+    "SourceSha256": "37bfd2c5fb2858df68513c1151495c849442543094e9af7c2689c5281cfe5b32",
+    "FrozenCompleteLinePrefixSamples": 1083
+  },
+  "StartupRecovered": {
+    "BootstrapReadyUtc": "2026-11-06T17:47:50.5120000Z",
+    "Kind": "StartupLogCorrelated",
+    "SystemCpuLoadPercentage": 2,
+    "BootstrapReportedMs": 795.1,
+    "ProcessCreatedUtc": "2026-11-06T17:47:49.6799850Z",
+    "LogName": "iris-20261107.log",
+    "Sequence": 4,
+    "Pid": 1804,
+    "CreationToBootstrapReadyMs": 832.015,
+    "LogLine": "2026-11-07 01:47:50.512 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 795.1 ms，托盘图标已创建",
+    "ObservedUtc": "2026-11-06T21:04:23.2696674Z",
+    "CpuAtOriginalFirstObservation": 9,
+    "LaterObserverCpuIsNotStartupCpu": true,
+    "FirstObservationIsNotContinuousCpuCoverage": true
+  },
+  "Idle30To60Seconds": {
+    "Samples": 15,
+    "WorkingSetMedianMiB": 129.6796875,
+    "WorkingSetMaxMiB": 129.734375,
+    "PrivateBytesMedianMiB": 36.671875,
+    "ProcessCpuMaxPercentage": 0,
+    "FirstObservedUtc": "2026-11-06T17:48:20.8621386Z",
+    "LastObservedUtc": "2026-11-06T17:48:50.1562841Z"
+  },
+  "LaterSamples": {
+    "Samples": 4071,
+    "WorkingSetMedianMiB": 170.91015625,
+    "WorkingSetMaxMiB": 175.61328125,
+    "PrivateBytesMedianMiB": 50.390625,
+    "ProcessCpuMaxPercentage": 1.6101264932148345,
+    "FirstObservedUtc": "2026-11-06T17:49:50.8378418Z",
+    "LastObservedUtc": "2026-11-06T20:13:50.5688831Z"
+  },
+  "FirstAboveWorkingSetLimit": {
+    "Pid": 1804,
+    "SystemCpuLoadPercentage": 7,
+    "Sequence": 106,
+    "ObservedUtc": "2026-11-06T17:49:04.9589270Z",
+    "PrivateBytes": 55799808,
+    "ProcessCpuPercentage": 1.306411162464301,
+    "SinceCreatedSeconds": 74.1706212,
+    "Kind": "ProcessSample",
+    "ProcessCpuTotalSeconds": 1.640625,
+    "WorkingSetBytes": 173113344
+  },
+  "MemoryConclusion": "Working Set is above 160 MiB in later observations. Window usage and full-GC state remain unresolved; not an NFR pass.",
+  "MsiPolicyWaits": [
+    {
+      "File": "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755_000_DotNetHost.log",
+      "Group": "20261107012755",
+      "StartUtc": "2026-11-06T17:27:57.085000+00:00",
+      "EndUtc": "2026-11-06T17:29:57.274000+00:00",
+      "SignaturePolicyWaitSeconds": 120.189,
+      "StartLine": "MSI (s) (6C:EC) [01:27:57:085]: SOFTWARE RESTRICTION POLICY: Verifying package --> 'C:\\ProgramData\\Package Cache\\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\\dotnet-host-10.0.14-win-x64.msi' against software restriction policy",
+      "EndLine": "MSI (s) (6C:EC) [01:29:57:274]: SOFTWARE RESTRICTION POLICY: C:\\ProgramData\\Package Cache\\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\\dotnet-host-10.0.14-win-x64.msi has a digital signature"
+    },
+    {
+      "File": "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755_001_DotNetHostFxr.log",
+      "Group": "20261107012755",
+      "StartUtc": "2026-11-06T17:29:57.976000+00:00",
+      "EndUtc": "2026-11-06T17:31:58.107000+00:00",
+      "SignaturePolicyWaitSeconds": 120.131,
+      "StartLine": "MSI (s) (6C:64) [01:29:57:976]: SOFTWARE RESTRICTION POLICY: Verifying package --> 'C:\\ProgramData\\Package Cache\\{3887007B-C74B-4DF7-8155-F3838C013D2C}v80.56.61678\\dotnet-hostfxr-10.0.14-win-x64.msi' against software restriction policy",
+      "EndLine": "MSI (s) (6C:64) [01:31:58:107]: SOFTWARE RESTRICTION POLICY: C:\\ProgramData\\Package Cache\\{3887007B-C74B-4DF7-8155-F3838C013D2C}v80.56.61678\\dotnet-hostfxr-10.0.14-win-x64.msi has a digital signature"
+    },
+    {
+      "File": "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755_002_DotNetRuntime.log",
+      "Group": "20261107012755",
+      "StartUtc": "2026-11-06T17:31:58.616000+00:00",
+      "EndUtc": "2026-11-06T17:33:58.936000+00:00",
+      "SignaturePolicyWaitSeconds": 120.32,
+      "StartLine": "MSI (s) (6C:C4) [01:31:58:616]: SOFTWARE RESTRICTION POLICY: Verifying package --> 'C:\\ProgramData\\Package Cache\\{941B1F64-FCD9-4C40-B927-E75F49DD96D8}v80.56.61678\\dotnet-runtime-10.0.14-win-x64.msi' against software restriction policy",
+      "EndLine": "MSI (s) (6C:C4) [01:33:58:936]: SOFTWARE RESTRICTION POLICY: C:\\ProgramData\\Package Cache\\{941B1F64-FCD9-4C40-B927-E75F49DD96D8}v80.56.61678\\dotnet-runtime-10.0.14-win-x64.msi has a digital signature"
+    },
+    {
+      "File": "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755_003_WindowsDesktopRuntime.log",
+      "Group": "20261107012755",
+      "StartUtc": "2026-11-06T17:34:00.693000+00:00",
+      "EndUtc": "2026-11-06T17:36:01.009000+00:00",
+      "SignaturePolicyWaitSeconds": 120.316,
+      "StartLine": "MSI (s) (6C:30) [01:34:00:693]: SOFTWARE RESTRICTION POLICY: Verifying package --> 'C:\\ProgramData\\Package Cache\\{64BFC674-D664-480B-AFF2-D47C5531D6D2}v80.56.61678\\windowsdesktop-runtime-10.0.14-win-x64.msi' against software restriction policy",
+      "EndLine": "MSI (s) (6C:30) [01:36:01:009]: SOFTWARE RESTRICTION POLICY: C:\\ProgramData\\Package Cache\\{64BFC674-D664-480B-AFF2-D47C5531D6D2}v80.56.61678\\windowsdesktop-runtime-10.0.14-win-x64.msi has a digital signature"
+    },
+    {
+      "File": "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751_000_DotNetHost.log",
+      "Group": "20261107013751",
+      "StartUtc": "2026-11-06T17:37:52.693000+00:00",
+      "EndUtc": "2026-11-06T17:39:52.866000+00:00",
+      "SignaturePolicyWaitSeconds": 120.173,
+      "StartLine": "MSI (s) (6C:08) [01:37:52:693]: SOFTWARE RESTRICTION POLICY: Verifying package --> 'C:\\ProgramData\\Package Cache\\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\\dotnet-host-10.0.14-win-x64.msi' against software restriction policy",
+      "EndLine": "MSI (s) (6C:08) [01:39:52:866]: SOFTWARE RESTRICTION POLICY: C:\\ProgramData\\Package Cache\\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\\dotnet-host-10.0.14-win-x64.msi has a digital signature"
+    },
+    {
+      "File": "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751_001_DotNetHostFxr.log",
+      "Group": "20261107013751",
+      "StartUtc": "2026-11-06T17:39:53.536000+00:00",
+      "EndUtc": "2026-11-06T17:41:53.638000+00:00",
+      "SignaturePolicyWaitSeconds": 120.102,
+      "StartLine": "MSI (s) (6C:D0) [01:39:53:536]: SOFTWARE RESTRICTION POLICY: Verifying package --> 'C:\\ProgramData\\Package Cache\\{3887007B-C74B-4DF7-8155-F3838C013D2C}v80.56.61678\\dotnet-hostfxr-10.0.14-win-x64.msi' against software restriction policy",
+      "EndLine": "MSI (s) (6C:D0) [01:41:53:638]: SOFTWARE RESTRICTION POLICY: C:\\ProgramData\\Package Cache\\{3887007B-C74B-4DF7-8155-F3838C013D2C}v80.56.61678\\dotnet-hostfxr-10.0.14-win-x64.msi has a digital signature"
+    },
+    {
+      "File": "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751_002_DotNetRuntime.log",
+      "Group": "20261107013751",
+      "StartUtc": "2026-11-06T17:41:54.028000+00:00",
+      "EndUtc": "2026-11-06T17:43:54.305000+00:00",
+      "SignaturePolicyWaitSeconds": 120.277,
+      "StartLine": "MSI (s) (6C:88) [01:41:54:028]: SOFTWARE RESTRICTION POLICY: Verifying package --> 'C:\\ProgramData\\Package Cache\\{941B1F64-FCD9-4C40-B927-E75F49DD96D8}v80.56.61678\\dotnet-runtime-10.0.14-win-x64.msi' against software restriction policy",
+      "EndLine": "MSI (s) (6C:88) [01:43:54:305]: SOFTWARE RESTRICTION POLICY: C:\\ProgramData\\Package Cache\\{941B1F64-FCD9-4C40-B927-E75F49DD96D8}v80.56.61678\\dotnet-runtime-10.0.14-win-x64.msi has a digital signature"
+    },
+    {
+      "File": "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751_003_WindowsDesktopRuntime.log",
+      "Group": "20261107013751",
+      "StartUtc": "2026-11-06T17:43:55.904000+00:00",
+      "EndUtc": "2026-11-06T17:45:56.197000+00:00",
+      "SignaturePolicyWaitSeconds": 120.293,
+      "StartLine": "MSI (s) (6C:98) [01:43:55:904]: SOFTWARE RESTRICTION POLICY: Verifying package --> 'C:\\ProgramData\\Package Cache\\{64BFC674-D664-480B-AFF2-D47C5531D6D2}v80.56.61678\\windowsdesktop-runtime-10.0.14-win-x64.msi' against software restriction policy",
+      "EndLine": "MSI (s) (6C:98) [01:45:56:197]: SOFTWARE RESTRICTION POLICY: C:\\ProgramData\\Package Cache\\{64BFC674-D664-480B-AFF2-D47C5531D6D2}v80.56.61678\\windowsdesktop-runtime-10.0.14-win-x64.msi has a digital signature"
+    }
+  ],
+  "MsiPolicyWaitTotalSecondsByInstallGroup": {
+    "20261107012755": 480.956,
+    "20261107013751": 480.845
+  },
+  "MsiInstallOrder": "Two installs separated by uninstall; CAPI2 enabled between them. Do not combine as one standard install.",
+  "AppLockerEvents": [
+    {
+      "EventId": 8037,
+      "Utc": "2026-11-06T17:45:56.2015332Z",
+      "Pid": 3692,
+      "Data": {
+        "FilePathLength": "122",
+        "FilePath": "C:\\ProgramData\\Package Cache\\{64BFC674-D664-480B-AFF2-D47C5531D6D2}v80.56.61678\\windowsdesktop-runtime-10.0.14-win-x64.msi",
+        "Sha1Hash": "C89C7788F505EC043FFC7501C88C1CBE0C7F431A",
+        "Sha256Hash": "715758CC753C5055A878DE5A914FC0F982AB86836DD424291292C5C783A80608",
+        "Result": "0",
+        "USN": "8351744",
+        "Sha1CatalogHash": "C89C7788F505EC043FFC7501C88C1CBE0C7F431A",
+        "Sha256CatalogHash": "CD1659987AD005184E83139F89FD0F073005916311F3426AE2152E0FC942A2C9",
+        "UserWriteable": "false",
+        "DetachedSignatureFilePathLength": "0",
+        "DetachedSignatureFilePath": null,
+        "OriginalFileNameLength": "0",
+        "OriginalFilename": null,
+        "InternalNameLength": "0",
+        "InternalName": null,
+        "FileDescriptionLength": "0",
+        "FileDescription": null,
+        "ProductNameLength": "0",
+        "ProductName": null,
+        "FileVersionLength": "7",
+        "FileVersion": "0.0.0.0"
+      }
+    },
+    {
+      "EventId": 8045,
+      "Utc": "2026-11-06T17:45:56.1191350Z",
+      "Pid": 3692,
+      "Data": {
+        "FilePathLength": "122",
+        "FilePathBuffer": "C:\\ProgramData\\Package Cache\\{64BFC674-D664-480B-AFF2-D47C5531D6D2}v80.56.61678\\windowsdesktop-runtime-10.0.14-win-x64.msi",
+        "FileSha256Hash": "CD1659987AD005184E83139F89FD0F073005916311F3426AE2152E0FC942A2C9",
+        "DefenderScanResultDetails": "0",
+        "DefenderClientStatusCode": "0",
+        "DefenderCloudHTTPCode": "0x0",
+        "DefenderEngineReportGUID": "{00000000-0000-0000-0000-000000000000}",
+        "DefenderFlags": "0",
+        "DefenderCalled": "0",
+        "DefenderCallAttempted": "1",
+        "DefenderCloudCallRequested": "0",
+        "DefenderMadeCloudCall": "0",
+        "ExternalAuthorizationFlags": "2228224"
+      }
+    },
+    {
+      "EventId": 8037,
+      "Utc": "2026-11-06T17:43:54.3148192Z",
+      "Pid": 3692,
+      "Data": {
+        "FilePathLength": "114",
+        "FilePath": "C:\\ProgramData\\Package Cache\\{941B1F64-FCD9-4C40-B927-E75F49DD96D8}v80.56.61678\\dotnet-runtime-10.0.14-win-x64.msi",
+        "Sha1Hash": "ABA29671DC9F147325DDEA11ECB3CF909179D92D",
+        "Sha256Hash": "56F6959247FCA7E95657C815259A8B3AFDDB389821952D2EA717A4C8CB4FF761",
+        "Result": "0",
+        "USN": "8349888",
+        "Sha1CatalogHash": "ABA29671DC9F147325DDEA11ECB3CF909179D92D",
+        "Sha256CatalogHash": "36C8067684AEB83228B44ECB3D4C103379017CA87E3E007E51105A91E404D97A",
+        "UserWriteable": "false",
+        "DetachedSignatureFilePathLength": "0",
+        "DetachedSignatureFilePath": null,
+        "OriginalFileNameLength": "0",
+        "OriginalFilename": null,
+        "InternalNameLength": "0",
+        "InternalName": null,
+        "FileDescriptionLength": "0",
+        "FileDescription": null,
+        "ProductNameLength": "0",
+        "ProductName": null,
+        "FileVersionLength": "7",
+        "FileVersion": "0.0.0.0"
+      }
+    },
+    {
+      "EventId": 8045,
+      "Utc": "2026-11-06T17:43:54.2474835Z",
+      "Pid": 3692,
+      "Data": {
+        "FilePathLength": "114",
+        "FilePathBuffer": "C:\\ProgramData\\Package Cache\\{941B1F64-FCD9-4C40-B927-E75F49DD96D8}v80.56.61678\\dotnet-runtime-10.0.14-win-x64.msi",
+        "FileSha256Hash": "36C8067684AEB83228B44ECB3D4C103379017CA87E3E007E51105A91E404D97A",
+        "DefenderScanResultDetails": "0",
+        "DefenderClientStatusCode": "0",
+        "DefenderCloudHTTPCode": "0x0",
+        "DefenderEngineReportGUID": "{00000000-0000-0000-0000-000000000000}",
+        "DefenderFlags": "0",
+        "DefenderCalled": "0",
+        "DefenderCallAttempted": "1",
+        "DefenderCloudCallRequested": "0",
+        "DefenderMadeCloudCall": "0",
+        "ExternalAuthorizationFlags": "2228224"
+      }
+    },
+    {
+      "EventId": 8037,
+      "Utc": "2026-11-06T17:41:53.6394052Z",
+      "Pid": 3692,
+      "Data": {
+        "FilePathLength": "114",
+        "FilePath": "C:\\ProgramData\\Package Cache\\{3887007B-C74B-4DF7-8155-F3838C013D2C}v80.56.61678\\dotnet-hostfxr-10.0.14-win-x64.msi",
+        "Sha1Hash": "3F896332365A4AE79B8AEB632A1A66E4F1A323EB",
+        "Sha256Hash": "9B4FD1BCFD94997DA82514223071670451C3E563F2BCCDCF745E60BFCC9D8F4E",
+        "Result": "0",
+        "USN": "8347144",
+        "Sha1CatalogHash": "3F896332365A4AE79B8AEB632A1A66E4F1A323EB",
+        "Sha256CatalogHash": "B26EB4B947543EE2BECAF5F71D8736F5BBDCB340EB1259856BDAF64BC11C7782",
+        "UserWriteable": "false",
+        "DetachedSignatureFilePathLength": "0",
+        "DetachedSignatureFilePath": null,
+        "OriginalFileNameLength": "0",
+        "OriginalFilename": null,
+        "InternalNameLength": "0",
+        "InternalName": null,
+        "FileDescriptionLength": "0",
+        "FileDescription": null,
+        "ProductNameLength": "0",
+        "ProductName": null,
+        "FileVersionLength": "7",
+        "FileVersion": "0.0.0.0"
+      }
+    },
+    {
+      "EventId": 8045,
+      "Utc": "2026-11-06T17:41:53.6367452Z",
+      "Pid": 3692,
+      "Data": {
+        "FilePathLength": "114",
+        "FilePathBuffer": "C:\\ProgramData\\Package Cache\\{3887007B-C74B-4DF7-8155-F3838C013D2C}v80.56.61678\\dotnet-hostfxr-10.0.14-win-x64.msi",
+        "FileSha256Hash": "B26EB4B947543EE2BECAF5F71D8736F5BBDCB340EB1259856BDAF64BC11C7782",
+        "DefenderScanResultDetails": "0",
+        "DefenderClientStatusCode": "0",
+        "DefenderCloudHTTPCode": "0x0",
+        "DefenderEngineReportGUID": "{00000000-0000-0000-0000-000000000000}",
+        "DefenderFlags": "0",
+        "DefenderCalled": "0",
+        "DefenderCallAttempted": "1",
+        "DefenderCloudCallRequested": "0",
+        "DefenderMadeCloudCall": "0",
+        "ExternalAuthorizationFlags": "2228224"
+      }
+    },
+    {
+      "EventId": 8037,
+      "Utc": "2026-11-06T17:39:52.8733477Z",
+      "Pid": 3692,
+      "Data": {
+        "FilePathLength": "111",
+        "FilePath": "C:\\ProgramData\\Package Cache\\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\\dotnet-host-10.0.14-win-x64.msi",
+        "Sha1Hash": "A7CC343E6A9E2D2EECAF468D19B99D2F35DE768E",
+        "Sha256Hash": "97F19E13D9EC8198BA8E6F1D44D0A831D6E63DCD5AA4C546D6056F2FB107EBD3",
+        "Result": "0",
+        "USN": "8345544",
+        "Sha1CatalogHash": "A7CC343E6A9E2D2EECAF468D19B99D2F35DE768E",
+        "Sha256CatalogHash": "ABF9056691AC5C463120C59943BCC7B3FF8CC45E9430F5260D6383108F0F2839",
+        "UserWriteable": "false",
+        "DetachedSignatureFilePathLength": "0",
+        "DetachedSignatureFilePath": null,
+        "OriginalFileNameLength": "0",
+        "OriginalFilename": null,
+        "InternalNameLength": "0",
+        "InternalName": null,
+        "FileDescriptionLength": "0",
+        "FileDescription": null,
+        "ProductNameLength": "0",
+        "ProductName": null,
+        "FileVersionLength": "7",
+        "FileVersion": "0.0.0.0"
+      }
+    },
+    {
+      "EventId": 8045,
+      "Utc": "2026-11-06T17:39:52.8713987Z",
+      "Pid": 3692,
+      "Data": {
+        "FilePathLength": "111",
+        "FilePathBuffer": "C:\\ProgramData\\Package Cache\\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\\dotnet-host-10.0.14-win-x64.msi",
+        "FileSha256Hash": "ABF9056691AC5C463120C59943BCC7B3FF8CC45E9430F5260D6383108F0F2839",
+        "DefenderScanResultDetails": "0",
+        "DefenderClientStatusCode": "0",
+        "DefenderCloudHTTPCode": "0x0",
+        "DefenderEngineReportGUID": "{00000000-0000-0000-0000-000000000000}",
+        "DefenderFlags": "0",
+        "DefenderCalled": "0",
+        "DefenderCallAttempted": "1",
+        "DefenderCloudCallRequested": "0",
+        "DefenderMadeCloudCall": "0",
+        "ExternalAuthorizationFlags": "2228224"
+      }
+    },
+    {
+      "EventId": 8037,
+      "Utc": "2026-11-06T17:36:01.0249065Z",
+      "Pid": 3692,
+      "Data": {
+        "FilePathLength": "122",
+        "FilePath": "C:\\ProgramData\\Package Cache\\{64BFC674-D664-480B-AFF2-D47C5531D6D2}v80.56.61678\\windowsdesktop-runtime-10.0.14-win-x64.msi",
+        "Sha1Hash": "C89C7788F505EC043FFC7501C88C1CBE0C7F431A",
+        "Sha256Hash": "715758CC753C5055A878DE5A914FC0F982AB86836DD424291292C5C783A80608",
+        "Result": "0",
+        "USN": "6624904",
+        "Sha1CatalogHash": "C89C7788F505EC043FFC7501C88C1CBE0C7F431A",
+        "Sha256CatalogHash": "CD1659987AD005184E83139F89FD0F073005916311F3426AE2152E0FC942A2C9",
+        "UserWriteable": "false",
+        "DetachedSignatureFilePathLength": "0",
+        "DetachedSignatureFilePath": null,
+        "OriginalFileNameLength": "0",
+        "OriginalFilename": null,
+        "InternalNameLength": "0",
+        "InternalName": null,
+        "FileDescriptionLength": "0",
+        "FileDescription": null,
+        "ProductNameLength": "0",
+        "ProductName": null,
+        "FileVersionLength": "7",
+        "FileVersion": "0.0.0.0"
+      }
+    },
+    {
+      "EventId": 8045,
+      "Utc": "2026-11-06T17:36:00.9472654Z",
+      "Pid": 3692,
+      "Data": {
+        "FilePathLength": "122",
+        "FilePathBuffer": "C:\\ProgramData\\Package Cache\\{64BFC674-D664-480B-AFF2-D47C5531D6D2}v80.56.61678\\windowsdesktop-runtime-10.0.14-win-x64.msi",
+        "FileSha256Hash": "CD1659987AD005184E83139F89FD0F073005916311F3426AE2152E0FC942A2C9",
+        "DefenderScanResultDetails": "0",
+        "DefenderClientStatusCode": "0",
+        "DefenderCloudHTTPCode": "0x0",
+        "DefenderEngineReportGUID": "{00000000-0000-0000-0000-000000000000}",
+        "DefenderFlags": "0",
+        "DefenderCalled": "0",
+        "DefenderCallAttempted": "1",
+        "DefenderCloudCallRequested": "0",
+        "DefenderMadeCloudCall": "0",
+        "ExternalAuthorizationFlags": "2228224"
+      }
+    },
+    {
+      "EventId": 8037,
+      "Utc": "2026-11-06T17:33:58.9470392Z",
+      "Pid": 3692,
+      "Data": {
+        "FilePathLength": "114",
+        "FilePath": "C:\\ProgramData\\Package Cache\\{941B1F64-FCD9-4C40-B927-E75F49DD96D8}v80.56.61678\\dotnet-runtime-10.0.14-win-x64.msi",
+        "Sha1Hash": "ABA29671DC9F147325DDEA11ECB3CF909179D92D",
+        "Sha256Hash": "56F6959247FCA7E95657C815259A8B3AFDDB389821952D2EA717A4C8CB4FF761",
+        "Result": "0",
+        "USN": "6621920",
+        "Sha1CatalogHash": "ABA29671DC9F147325DDEA11ECB3CF909179D92D",
+        "Sha256CatalogHash": "36C8067684AEB83228B44ECB3D4C103379017CA87E3E007E51105A91E404D97A",
+        "UserWriteable": "false",
+        "DetachedSignatureFilePathLength": "0",
+        "DetachedSignatureFilePath": null,
+        "OriginalFileNameLength": "0",
+        "OriginalFilename": null,
+        "InternalNameLength": "0",
+        "InternalName": null,
+        "FileDescriptionLength": "0",
+        "FileDescription": null,
+        "ProductNameLength": "0",
+        "ProductName": null,
+        "FileVersionLength": "7",
+        "FileVersion": "0.0.0.0"
+      }
+    },
+    {
+      "EventId": 8045,
+      "Utc": "2026-11-06T17:33:58.8712961Z",
+      "Pid": 3692,
+      "Data": {
+        "FilePathLength": "114",
+        "FilePathBuffer": "C:\\ProgramData\\Package Cache\\{941B1F64-FCD9-4C40-B927-E75F49DD96D8}v80.56.61678\\dotnet-runtime-10.0.14-win-x64.msi",
+        "FileSha256Hash": "36C8067684AEB83228B44ECB3D4C103379017CA87E3E007E51105A91E404D97A",
+        "DefenderScanResultDetails": "0",
+        "DefenderClientStatusCode": "0",
+        "DefenderCloudHTTPCode": "0x0",
+        "DefenderEngineReportGUID": "{00000000-0000-0000-0000-000000000000}",
+        "DefenderFlags": "0",
+        "DefenderCalled": "0",
+        "DefenderCallAttempted": "1",
+        "DefenderCloudCallRequested": "0",
+        "DefenderMadeCloudCall": "0",
+        "ExternalAuthorizationFlags": "2228224"
+      }
+    },
+    {
+      "EventId": 8037,
+      "Utc": "2026-11-06T17:31:58.1121079Z",
+      "Pid": 3692,
+      "Data": {
+        "FilePathLength": "114",
+        "FilePath": "C:\\ProgramData\\Package Cache\\{3887007B-C74B-4DF7-8155-F3838C013D2C}v80.56.61678\\dotnet-hostfxr-10.0.14-win-x64.msi",
+        "Sha1Hash": "3F896332365A4AE79B8AEB632A1A66E4F1A323EB",
+        "Sha256Hash": "9B4FD1BCFD94997DA82514223071670451C3E563F2BCCDCF745E60BFCC9D8F4E",
+        "Result": "0",
+        "USN": "6618864",
+        "Sha1CatalogHash": "3F896332365A4AE79B8AEB632A1A66E4F1A323EB",
+        "Sha256CatalogHash": "B26EB4B947543EE2BECAF5F71D8736F5BBDCB340EB1259856BDAF64BC11C7782",
+        "UserWriteable": "false",
+        "DetachedSignatureFilePathLength": "0",
+        "DetachedSignatureFilePath": null,
+        "OriginalFileNameLength": "0",
+        "OriginalFilename": null,
+        "InternalNameLength": "0",
+        "InternalName": null,
+        "FileDescriptionLength": "0",
+        "FileDescription": null,
+        "ProductNameLength": "0",
+        "ProductName": null,
+        "FileVersionLength": "7",
+        "FileVersion": "0.0.0.0"
+      }
+    },
+    {
+      "EventId": 8045,
+      "Utc": "2026-11-06T17:31:58.1099710Z",
+      "Pid": 3692,
+      "Data": {
+        "FilePathLength": "114",
+        "FilePathBuffer": "C:\\ProgramData\\Package Cache\\{3887007B-C74B-4DF7-8155-F3838C013D2C}v80.56.61678\\dotnet-hostfxr-10.0.14-win-x64.msi",
+        "FileSha256Hash": "B26EB4B947543EE2BECAF5F71D8736F5BBDCB340EB1259856BDAF64BC11C7782",
+        "DefenderScanResultDetails": "0",
+        "DefenderClientStatusCode": "0",
+        "DefenderCloudHTTPCode": "0x0",
+        "DefenderEngineReportGUID": "{00000000-0000-0000-0000-000000000000}",
+        "DefenderFlags": "0",
+        "DefenderCalled": "0",
+        "DefenderCallAttempted": "1",
+        "DefenderCloudCallRequested": "0",
+        "DefenderMadeCloudCall": "0",
+        "ExternalAuthorizationFlags": "2228224"
+      }
+    },
+    {
+      "EventId": 8037,
+      "Utc": "2026-11-06T17:29:57.2761241Z",
+      "Pid": 3692,
+      "Data": {
+        "FilePathLength": "111",
+        "FilePath": "C:\\ProgramData\\Package Cache\\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\\dotnet-host-10.0.14-win-x64.msi",
+        "Sha1Hash": "A7CC343E6A9E2D2EECAF468D19B99D2F35DE768E",
+        "Sha256Hash": "97F19E13D9EC8198BA8E6F1D44D0A831D6E63DCD5AA4C546D6056F2FB107EBD3",
+        "Result": "0",
+        "USN": "6617104",
+        "Sha1CatalogHash": "A7CC343E6A9E2D2EECAF468D19B99D2F35DE768E",
+        "Sha256CatalogHash": "ABF9056691AC5C463120C59943BCC7B3FF8CC45E9430F5260D6383108F0F2839",
+        "UserWriteable": "false",
+        "DetachedSignatureFilePathLength": "0",
+        "DetachedSignatureFilePath": null,
+        "OriginalFileNameLength": "0",
+        "OriginalFilename": null,
+        "InternalNameLength": "0",
+        "InternalName": null,
+        "FileDescriptionLength": "0",
+        "FileDescription": null,
+        "ProductNameLength": "0",
+        "ProductName": null,
+        "FileVersionLength": "7",
+        "FileVersion": "0.0.0.0"
+      }
+    },
+    {
+      "EventId": 8045,
+      "Utc": "2026-11-06T17:29:57.2745681Z",
+      "Pid": 3692,
+      "Data": {
+        "FilePathLength": "111",
+        "FilePathBuffer": "C:\\ProgramData\\Package Cache\\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\\dotnet-host-10.0.14-win-x64.msi",
+        "FileSha256Hash": "ABF9056691AC5C463120C59943BCC7B3FF8CC45E9430F5260D6383108F0F2839",
+        "DefenderScanResultDetails": "0",
+        "DefenderClientStatusCode": "0",
+        "DefenderCloudHTTPCode": "0x0",
+        "DefenderEngineReportGUID": "{00000000-0000-0000-0000-000000000000}",
+        "DefenderFlags": "0",
+        "DefenderCalled": "0",
+        "DefenderCallAttempted": "1",
+        "DefenderCloudCallRequested": "0",
+        "DefenderMadeCloudCall": "0",
+        "ExternalAuthorizationFlags": "2228224"
+      }
+    }
+  ],
+  "InstallDiagnosis": "AppLocker 8045/8037 events correlate with policy completion. DefenderCallAttempted=1, DefenderCalled=0; no evidence of a Defender cloud call. Root cause still unproved.",
+  "CapiSnapshotEventCounts": {
+    "30": 66,
+    "11": 72,
+    "10": 71,
+    "80": 20,
+    "82": 20,
+    "81": 19,
+    "90": 30
+  },
+  "CapiSnapshotTimes": {
+    "MinUtc": "2026-11-06T17:46:00.8875478Z",
+    "MaxUtc": "2026-11-06T17:46:40.6635356Z"
+  },
+  "WindowsOcrCapability": {
+    "Utc": "2026-11-06T21:38:18.0775465+00:00",
+    "ProductOperationPerformed": false,
+    "Scope": "Read-only Windows OCR API capability using the .NET Windows SDK projection; no image processed.",
+    "Languages": [],
+    "LanguageCount": 0,
+    "MaxImageDimension": 10000,
+    "ErrorType": null,
+    "ErrorHResult": null
+  },
+  "Single4KNfrWaived": false,
+  "LatestObservedProcesses": [
+    {
+      "ProcessId": 1804,
+      "ParentProcessId": 5764,
+      "Name": "Iris.App.exe",
+      "CreationDate": "/Date(1793987269679)/",
+      "ExecutablePath": "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+      "CommandLine": "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" "
+    },
+    {
+      "ProcessId": 2560,
+      "ParentProcessId": 3120,
+      "Name": "powershell.exe",
+      "CreationDate": "/Date(1793999059445)/",
+      "ExecutablePath": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "CommandLine": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\IrisT040MetricsV2\\observe-process-metrics-v2-readonly.ps1 -OutputDirectory C:\\IrisT040Output\\metrics-c4cdd9b216e34b3e90ef4c889256b95a "
+    }
+  ],
+  "Pending": [
+    "manual clean-tray 120-second restart",
+    "full-GC steady memory",
+    "full manual feature coverage",
+    "single4K screenshot metric",
+    "selection window timing",
+    "streaming first-character overhead",
+    "mouse-hook CPU",
+    "installation order reply",
+    "MSI policy wait root cause",
+    "legacy history warnings reproduction"
+  ],
+  "Files": [
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\metrics-3799919aaaaa40ae8babeb9826d3ba9f\\samples.jsonl",
+      "ArchivePath": "originals/output/metrics-3799919aaaaa40ae8babeb9826d3ba9f/samples.jsonl",
+      "Bytes": 1143707,
+      "Sha256": "81b349e9ab26d5cb385e6dc0346319bd027ccab7bd1243fe65e9ddc7116cd065",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\metrics-3799919aaaaa40ae8babeb9826d3ba9f\\status.json",
+      "ArchivePath": "originals/output/metrics-3799919aaaaa40ae8babeb9826d3ba9f/status.json",
+      "Bytes": 287,
+      "Sha256": "325f8e354c3b54c7ca228efc02cd33a5b621adf60812d3143d2b8da9ea24e80a",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\metrics-3799919aaaaa40ae8babeb9826d3ba9f\\saved-state-20261106T1721239053371Z.json",
+      "ArchivePath": "originals/output/metrics-3799919aaaaa40ae8babeb9826d3ba9f/saved-state-20261106T1721239053371Z.json",
+      "Bytes": 656,
+      "Sha256": "394317caa447430d56f4ab51880375fd94ec0f3df7d5717dc748b60ce8d26a15",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\metrics-3799919aaaaa40ae8babeb9826d3ba9f\\saved-state-20261106T1748482756101Z.json",
+      "ArchivePath": "originals/output/metrics-3799919aaaaa40ae8babeb9826d3ba9f/saved-state-20261106T1748482756101Z.json",
+      "Bytes": 962,
+      "Sha256": "0a7db962ff1848002763e01affd027b9c7d23d7a35d01af57d315ddc2c2e2f64",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\metrics-c4cdd9b216e34b3e90ef4c889256b95a\\samples.jsonl",
+      "ArchivePath": "originals/output/metrics-c4cdd9b216e34b3e90ef4c889256b95a/samples.jsonl",
+      "Bytes": 295884,
+      "Sha256": "9c19db557c1ed8b57eb70149f8f82429cc50fb7efd028469bad892b947a87e1e",
+      "LiveCompleteLinePrefix": true
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\metrics-c4cdd9b216e34b3e90ef4c889256b95a\\status.json",
+      "ArchivePath": "originals/output/metrics-c4cdd9b216e34b3e90ef4c889256b95a/status.json",
+      "Bytes": 286,
+      "Sha256": "0ee46717aa90b904e73dc57a19159b2b2300c7cf31a3635e1b0ba491a4a3ab52",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\active-metrics.json",
+      "ArchivePath": "originals/output/active-metrics.json",
+      "Bytes": 303,
+      "Sha256": "2c097dc55d57b51c509d905ec7caae44e948f5793099720fe2375f6c2c12c8c3",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\active-metrics-v1-preserved.json",
+      "ArchivePath": "originals/output/active-metrics-v1-preserved.json",
+      "Bytes": 303,
+      "Sha256": "abc57ffede6d94e75c65ba268004633594972e7e8d12d38b6aacf9e8795ae283",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\capi2-events.xml",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/capi2-events.xml",
+      "Bytes": 857246,
+      "Sha256": "b89d8d885ddfb95af66d17d3b4ad9088844c4273297c454624cd0fe155f8ca65",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\logs-iris-20261107.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/logs-iris-20261107.log",
+      "Bytes": 478,
+      "Sha256": "2c469c81a53bdfdf313b971a4e2bd7bcb92809ed6a45fe753326c2e015fe24c3",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\snapshot.json",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/snapshot.json",
+      "Bytes": 2619,
+      "Sha256": "dab5bffbb270ee321ec6efc35df90d2bfb58a4ccebbabaccebadf6e0519ff8ff",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755.log",
+      "Bytes": 22097,
+      "Sha256": "5ba8ff54a5870abb7e0b9ca9a7ad1d69a485ad352f3d1561cebf1d30b6ee498c",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755_000_DotNetHost.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755_000_DotNetHost.log",
+      "Bytes": 112670,
+      "Sha256": "329623367d2b5bd101e293cb6126b6db478b5d5759cd20f7b55216b2bc3032b9",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755_001_DotNetHostFxr.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755_001_DotNetHostFxr.log",
+      "Bytes": 101256,
+      "Sha256": "754b04b1e9cfcd6d484861cf566634b24b0faf933572a28a40fd0990d5f5912a",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755_002_DotNetRuntime.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755_002_DotNetRuntime.log",
+      "Bytes": 490246,
+      "Sha256": "83d7f596166824e9a0a8b2a880ee0944ae18a1027e69d6ac58985a6a30e70073",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755_003_WindowsDesktopRuntime.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755_003_WindowsDesktopRuntime.log",
+      "Bytes": 728138,
+      "Sha256": "6719e6b9e1be56dcc9687d0d5831e170f77798a3657404fa1d892e663a5f7d7c",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012756.elevated.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012756.elevated.log",
+      "Bytes": 1338,
+      "Sha256": "25d0888b4f3fe47ae2df8150b775d60f0737cf310ac9121f80f961f90d4ca89a",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013644.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013644.log",
+      "Bytes": 23305,
+      "Sha256": "3b559a8a5c24e49725b1452a33eb336a13d5039528f7d1623da4756f3331beb7",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013644_000_WindowsDesktopRuntime.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013644_000_WindowsDesktopRuntime.log",
+      "Bytes": 576656,
+      "Sha256": "abd6bfe663dd67f209eeefecb879c465780e0c9f9c7cbd7f9976da741f30fa2e",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013644_001_DotNetRuntime.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013644_001_DotNetRuntime.log",
+      "Bytes": 400312,
+      "Sha256": "f3b7b52656d4ce94e0d6ead12db7cf2886475b0459bde3ab9997b3553b14379c",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013644_002_DotNetHostFxr.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013644_002_DotNetHostFxr.log",
+      "Bytes": 89132,
+      "Sha256": "ea3a32c96197e243cc43ccde41d16dd3ce6dda3772cd4822c668d2b87f8c0af4",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013644_003_DotNetHost.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013644_003_DotNetHost.log",
+      "Bytes": 97766,
+      "Sha256": "506456a24f271a1d8a086c06809b8cf474905f04dcf5bee39697a938903c1b6b",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013646.elevated.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013646.elevated.log",
+      "Bytes": 1347,
+      "Sha256": "bd93cf1805303a69ae2e581fba65b73da205520c74156fed3f05215978482134",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751.log",
+      "Bytes": 22097,
+      "Sha256": "0cf6575cd036866d95586deebdb858e8dd47a93d6fcb0de9d5e75824f27f604a",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751_000_DotNetHost.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751_000_DotNetHost.log",
+      "Bytes": 112966,
+      "Sha256": "be9282760711a2d94329aaea557ebc2eb53708d20eac4931d3f6d0f8f6d0f877",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751_001_DotNetHostFxr.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751_001_DotNetHostFxr.log",
+      "Bytes": 101538,
+      "Sha256": "13d0a80c706dbe3dfe46dd6b63d0a5213eb7d0b5fcfb8e73b9035fc91eaee7cf",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751_002_DotNetRuntime.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751_002_DotNetRuntime.log",
+      "Bytes": 490544,
+      "Sha256": "f82033d6ea1c6a8cc5fbdefaef1fbb2c2319e21e14340d490b3ae428b4d80220",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751_003_WindowsDesktopRuntime.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751_003_WindowsDesktopRuntime.log",
+      "Bytes": 728436,
+      "Sha256": "1b012181e01bf82b8ef92c386338eb461dd6974aefe81bf5b8e6952699c5da69",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013752.elevated.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013752.elevated.log",
+      "Bytes": 1338,
+      "Sha256": "7c58cbe9837e10cebd39778626811cff1416d819034d311a1441a8e906ab51f7",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\Velopack-velopack.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/Velopack-velopack.log",
+      "Bytes": 12387,
+      "Sha256": "e5c583f15964d6d1b7785bf6cc058ee8635407586528bfa7e199cce7ceae77d2",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-20261106T1746402597639Z\\Velopack-velopack_Iris.log",
+      "ArchivePath": "originals/output/installed-20261106T1746402597639Z/Velopack-velopack_Iris.log",
+      "Bytes": 10929,
+      "Sha256": "8846ec4794acc7b79f637efac2b4f9c2a6e1c5348caf4c92d3902d30938ecde0",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\signature-diagnostic-enabled-20261106T1737091878430Z.json",
+      "ArchivePath": "originals/output/signature-diagnostic-enabled-20261106T1737091878430Z.json",
+      "Bytes": 302,
+      "Sha256": "ec98cea04f3fb69b09c8f126abb54862b3a9c34be15faf654cc26bae21484112",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\installed-payload-20261106T2138176291300Z.json",
+      "ArchivePath": "originals/output/installed-payload-20261106T2138176291300Z.json",
+      "Bytes": 33070,
+      "Sha256": "fd05c59d3c754b6954828904827f61e7e94a130096ea94300cc84c5841ead9b1",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\ocr-dotnet-probe-20261106T2138180777767Z.json",
+      "ArchivePath": "originals/output/ocr-dotnet-probe-20261106T2138180777767Z.json",
+      "Bytes": 321,
+      "Sha256": "42e333ab6fd10d817e2e7adfb8afaf52e050363001a8a6edd4bc9a9ed59225e7",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\manual-input-validated-20261106T2139001847436Z.json",
+      "ArchivePath": "originals/output/manual-input-validated-20261106T2139001847436Z.json",
+      "Bytes": 1324,
+      "Sha256": "458dcc919955934f04211b39eef8aab899caba4585a665701bed03b63d3db193",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\environment-20261106T1353585349334Z.json",
+      "ArchivePath": "originals/output/environment-20261106T1353585349334Z.json",
+      "Bytes": 2018,
+      "Sha256": "780c42b5071988c3c5b966f14ed01b79c2dff333dd356c82fb92800fc3d94f7d",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\tool-transcript-20261106T213640534992Z.txt",
+      "ArchivePath": "originals/output/tool-transcript-20261106T213640534992Z.txt",
+      "Bytes": 4290,
+      "Sha256": "a129727432858f0118661215512497ec0dc07aa40e965ca42771154f1e293807",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\tool-transcript-20261106T213706875299Z.txt",
+      "ArchivePath": "originals/output/tool-transcript-20261106T213706875299Z.txt",
+      "Bytes": 2730,
+      "Sha256": "bb2bdbb1d4927af2c5f0fdf4a354cebce63031b6079625c45db4292288e17dfe",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\tool-transcript-20261106T213814739584Z.txt",
+      "ArchivePath": "originals/output/tool-transcript-20261106T213814739584Z.txt",
+      "Bytes": 1926,
+      "Sha256": "1e4e4d240ce95ac11346f3e5df420a53df91a679bd19edb4f68eeb161f7e43e3",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\tool-transcript-20261106T213857577365Z.txt",
+      "ArchivePath": "originals/output/tool-transcript-20261106T213857577365Z.txt",
+      "Bytes": 1916,
+      "Sha256": "07ef5e7881b1e064237a50719b120ae0986954613fa3e0a1b42097929e610fa6",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\tool-transcript-20261106T214002873021Z.txt",
+      "ArchivePath": "originals/output/tool-transcript-20261106T214002873021Z.txt",
+      "Bytes": 2816,
+      "Sha256": "1d2fd03f9dc13ea0e8b02a89e7f55f901b43323237f8c31ef050f73618e509f9",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\tool-transcript-20261106T214057847259Z.txt",
+      "ArchivePath": "originals/output/tool-transcript-20261106T214057847259Z.txt",
+      "Bytes": 1916,
+      "Sha256": "805baae2c1947a91470e3efee969237b012ca36a14e45c24a6a07ac538e21433",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261106T2133583455929Z\\iris-20261107.log",
+      "ArchivePath": "originals/output/readonly-state-20261106T2133583455929Z/iris-20261107.log",
+      "Bytes": 1120,
+      "Sha256": "48a95387212870d6d90b44efc910f82d4fe3cfde6917d75e7e754383c878bd31",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261106T2133583455929Z\\state.json",
+      "ArchivePath": "originals/output/readonly-state-20261106T2133583455929Z/state.json",
+      "Bytes": 100295,
+      "Sha256": "9458dbd3ac3cd4c54dd466141a65d5f19d88f1360b1db87bfe92a5480d57f531",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\install-system-events-20261106T2140052097852Z\\Application.xml",
+      "ArchivePath": "originals/output/install-system-events-20261106T2140052097852Z/Application.xml",
+      "Bytes": 64098,
+      "Sha256": "516a895b043b7bb9fb0a0aae47e20d9264a694fb737f1597e378222f62b56365",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\install-system-events-20261106T2140052097852Z\\Microsoft-Windows-AppLocker-EXE_and_DLL.xml",
+      "ArchivePath": "originals/output/install-system-events-20261106T2140052097852Z/Microsoft-Windows-AppLocker-EXE_and_DLL.xml",
+      "Bytes": 17,
+      "Sha256": "3f2e879941c23cc4ba822b7fcf62857c830f2fa62498f01cee12bb1dab15ab44",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\install-system-events-20261106T2140052097852Z\\Microsoft-Windows-AppLocker-MSI_and_Script.xml",
+      "ArchivePath": "originals/output/install-system-events-20261106T2140052097852Z/Microsoft-Windows-AppLocker-MSI_and_Script.xml",
+      "Bytes": 26541,
+      "Sha256": "255a9add3ef5134259b24c2019821e4ac74799d6f53957553c65cdf5298dbd1b",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\install-system-events-20261106T2140052097852Z\\Microsoft-Windows-CAPI2-Operational.xml",
+      "ArchivePath": "originals/output/install-system-events-20261106T2140052097852Z/Microsoft-Windows-CAPI2-Operational.xml",
+      "Bytes": 17,
+      "Sha256": "3f2e879941c23cc4ba822b7fcf62857c830f2fa62498f01cee12bb1dab15ab44",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\install-system-events-20261106T2140052097852Z\\Microsoft-Windows-CodeIntegrity-Operational.xml",
+      "ArchivePath": "originals/output/install-system-events-20261106T2140052097852Z/Microsoft-Windows-CodeIntegrity-Operational.xml",
+      "Bytes": 17,
+      "Sha256": "3f2e879941c23cc4ba822b7fcf62857c830f2fa62498f01cee12bb1dab15ab44",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\install-system-events-20261106T2140052097852Z\\Microsoft-Windows-Windows_Defender-Operational.xml",
+      "ArchivePath": "originals/output/install-system-events-20261106T2140052097852Z/Microsoft-Windows-Windows_Defender-Operational.xml",
+      "Bytes": 17,
+      "Sha256": "3f2e879941c23cc4ba822b7fcf62857c830f2fa62498f01cee12bb1dab15ab44",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\install-system-events-20261106T2140052097852Z\\state.json",
+      "ArchivePath": "originals/output/install-system-events-20261106T2140052097852Z/state.json",
+      "Bytes": 1824,
+      "Sha256": "a6a6e93b317e25b141eddd4f49f2cd9d2fa3dbaa79b9152b541702b31e1572ef",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\install-system-events-20261106T2140052097852Z\\System.xml",
+      "ArchivePath": "originals/output/install-system-events-20261106T2140052097852Z/System.xml",
+      "Bytes": 1682,
+      "Sha256": "e08b94894802977bfe3928c5d7668a548f51dac2a938e340ddda35bbd658d7bf",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\input\\observe-process-metrics-v1-original.ps1.txt",
+      "ArchivePath": "originals/input/observe-process-metrics-v1-original.ps1.txt",
+      "Bytes": 6065,
+      "Sha256": "423b3619b8a5e9f0cb2db6909fc6bdc31abc3fe8dfe92fefaec0fb56b0e6327e",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\input\\observe-process-metrics-v2-readonly.ps1",
+      "ArchivePath": "originals/input/observe-process-metrics-v2-readonly.ps1",
+      "Bytes": 6068,
+      "Sha256": "37bfd2c5fb2858df68513c1151495c849442543094e9af7c2689c5281cfe5b32",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\input\\save-metrics-state-v2-readonly.ps1",
+      "ArchivePath": "originals/input/save-metrics-state-v2-readonly.ps1",
+      "Bytes": 1602,
+      "Sha256": "b92b4a1d1208db5fe7241b6e076110c2e3f58ee3fccfb8d28f5113548d027dc5",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\input\\start-metrics-observer-v2.ps1",
+      "ArchivePath": "originals/input/start-metrics-observer-v2.ps1",
+      "Bytes": 1163,
+      "Sha256": "c6486b5aea2b00a46edce40a1ec4e729ddfae9c53ea93f87bc7776b7d8128740",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\input\\official-0210-payload-manifest.json",
+      "ArchivePath": "originals/input/official-0210-payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "516e959fb1b7015a51ee3da41e7de160dfb35607447e45cdbdd3190884e88686",
+      "LiveCompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\input\\Save-Clean-Idle-State.cmd",
+      "ArchivePath": "originals/input/Save-Clean-Idle-State.cmd",
+      "Bytes": 144,
+      "Sha256": "eb9a39a1261235ba9d8d3a97985bf534c05ca436cfcf4fd8235c2b6f42528fb1",
+      "LiveCompleteLinePrefix": false
+    }
+  ]
+}

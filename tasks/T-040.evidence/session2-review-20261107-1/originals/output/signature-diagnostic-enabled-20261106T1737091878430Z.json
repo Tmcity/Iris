@@ -1,0 +1,9 @@
+{
+    "Utc":  "2026-11-06T17:37:09.1848310Z",
+    "UserInvokedManualDiagnosticLogging":  true,
+    "Channel":  "Microsoft-Windows-CAPI2/Operational",
+    "BeforeEnabled":  false,
+    "AfterEnabled":  true,
+    "CertificateTrustOrTlsPolicyChanged":  false,
+    "IrisOperationPerformed":  false
+}

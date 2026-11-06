@@ -1,0 +1,58 @@
+{
+    "Utc":  "2026-11-06T13:53:58.5107942Z",
+    "ProductOperationPerformed":  false,
+    "Os":  {
+               "Caption":  "Microsoft Windows 11 企业版",
+               "BuildNumber":  "26100",
+               "Version":  "10.0.26100"
+           },
+    "Computer":  {
+                     "TotalPhysicalMemoryBytes":  4293857280,
+                     "Manufacturer":  "Microsoft Corporation",
+                     "Model":  "Virtual Machine"
+                 },
+    "Cpu":  [
+                {
+                    "LogicalProcessors":  20,
+                    "LoadPercentage":  3,
+                    "Name":  "13th Gen Intel(R) Core(TM) i5-13600KF"
+                }
+            ],
+    "Screens":  [
+                    {
+                        "WorkingArea":  {
+                                            "Height":  1063,
+                                            "Width":  2032
+                                        },
+                        "Primary":  true,
+                        "DeviceName":  "\\\\.\\DISPLAY1",
+                        "Bounds":  {
+                                       "Y":  0,
+                                       "Width":  2032,
+                                       "Height":  1111,
+                                       "X":  0
+                                   }
+                    }
+                ],
+    "ReportedDesktopDpi":  {
+                               "Y":  96,
+                               "X":  96
+                           },
+    "DpiMeasurementScope":  "Windows Forms and desktop Graphics in this helper process; record awareness limits",
+    "OcrLanguages":  [
+
+                     ],
+    "OcrQueryErrorType":  null,
+    "Runtimes":  [
+
+                 ],
+    "ProductRootExists":  false,
+    "UserDataExists":  false,
+    "RetainedDataFingerprints":  [
+
+                                 ],
+    "ProductProcesses":  [
+
+                         ],
+    "Single4KConditionPresent":  false
+}

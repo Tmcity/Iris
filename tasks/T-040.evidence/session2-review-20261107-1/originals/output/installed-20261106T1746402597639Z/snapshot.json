@@ -1,0 +1,36 @@
+{
+    "Utc":  "2026-11-06T17:46:41.6702833Z",
+    "ReadOnlyInspection":  true,
+    "ProductOperationPerformed":  false,
+    "InstalledSource":  {
+                            "Version":  "0.2.10",
+                            "Channel":  "win",
+                            "PackageId":  "Iris",
+                            "Repository":  "https://github.com/Tmcity/Iris",
+                            "RuntimeId":  "win-x64"
+                        },
+    "Capi2QueryFailureType":  null,
+    "Files":  [
+                  "Velopack-velopack.log",
+                  "Velopack-velopack_Iris.log",
+                  "logs-iris-20261107.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755_000_DotNetHost.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755_001_DotNetHostFxr.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755_002_DotNetRuntime.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012755_003_WindowsDesktopRuntime.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107012756.elevated.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013644.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013644_000_WindowsDesktopRuntime.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013644_001_DotNetRuntime.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013644_002_DotNetHostFxr.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013644_003_DotNetHost.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013646.elevated.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751_000_DotNetHost.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751_001_DotNetHostFxr.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751_002_DotNetRuntime.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013751_003_WindowsDesktopRuntime.log",
+                  "temp-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107013752.elevated.log"
+              ]
+}

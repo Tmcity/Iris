@@ -1,0 +1,14 @@
+{"Kind":"Models","Utc":"2026-11-06T21:58:10.3363133+00:00","Sequence":1,"Path":"/v1/models"}
+{"Kind":"Models","Utc":"2026-11-06T21:58:10.3959813+00:00","Sequence":2,"Path":"/anthropic/v1/models"}
+{"Kind":"Request","Utc":"2026-11-06T21:58:10.4832725+00:00","ReceivedQpc":292018129558,"Sequence":3,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 protocol probe","SourceSha256":"CAB6D6B08CCF441527A1AEB91BD786ADBF3B34570C084B8B6342AD17C87BD41D","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-06T21:58:10.4898215+00:00","Qpc":292018340814,"Sequence":3}
+{"Kind":"Completed","Utc":"2026-11-06T21:58:10.6540505+00:00","Qpc":292019983108,"Sequence":3,"Truncated":false}
+{"Kind":"Request","Utc":"2026-11-06T21:58:10.6630539+00:00","ReceivedQpc":292020068745,"Sequence":4,"Path":"/anthropic/v1/messages","Protocol":"Anthropic","Attempt":2,"SyntheticText":"Iris T040 protocol probe","SourceSha256":"CAB6D6B08CCF441527A1AEB91BD786ADBF3B34570C084B8B6342AD17C87BD41D","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-06T21:58:10.668894+00:00","Qpc":292020131539,"Sequence":4}
+{"Kind":"Completed","Utc":"2026-11-06T21:58:10.8221358+00:00","Qpc":292021663959,"Sequence":4,"Truncated":false}
+{"Kind":"Request","Utc":"2026-11-06T21:58:10.8255564+00:00","ReceivedQpc":292021695676,"Sequence":5,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 cancel probe","SourceSha256":"059D389955AA98C28B0AB284A231461A7B3D0D13E501B70B08124D665DF5186E","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-06T21:58:10.8260223+00:00","Qpc":292021702820,"Sequence":5}
+{"Kind":"Request","Utc":"2026-11-06T21:58:10.8262755+00:00","ReceivedQpc":292021701343,"Sequence":6,"Path":"/anthropic/v1/messages","Protocol":"Anthropic","Attempt":1,"SyntheticText":"Iris T040 concurrent probe","SourceSha256":"EA5B0A0082DCB857DB11E44DFDBFAF0D9F8D8ACAFBF75E14EF4FA2178925F463","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-06T21:58:10.8266626+00:00","Qpc":292021709223,"Sequence":6}
+{"Kind":"Completed","Utc":"2026-11-06T21:58:10.9764925+00:00","Qpc":292023207528,"Sequence":6,"Truncated":false}
+{"Kind":"Completed","Utc":"2026-11-06T21:58:20.8219976+00:00","Qpc":292121662578,"Sequence":5,"Truncated":false}

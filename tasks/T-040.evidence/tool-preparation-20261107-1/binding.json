@@ -1,0 +1,447 @@
+{
+  "Utc": "2026-11-06T22:08:13.988385+00:00",
+  "Task": "T-040",
+  "TaskComplete": false,
+  "Scope": "Helper preparation and validation only; no Iris UI action or installer execution.",
+  "SyntheticHttpChecked": true,
+  "RealProviderAccountsChecked": false,
+  "IrisUiFeatureAcceptanceChecked": false,
+  "CounterTargetWasSyntheticFixture": true,
+  "IrisRuntimeTraceStarted": false,
+  "IrisFullGcProved": false,
+  "SnapshotReadOnlyCheckedAgainstNewSessionSchema2": true,
+  "SnapshotHistoryEntriesAtCheck": 0,
+  "PendingUserAction": "Manual clean-tray restart and 120-second idle checkpoint; no checkpoint received yet.",
+  "BinaryManifest": [
+    {
+      "Path": "tools/runtime-counters/Dia2Lib.dll",
+      "Bytes": 59024,
+      "Sha256": "6c4cac68010fe032218efe5e9fcf46eef9f77bfaa5f3bd33f03c5ff77d5a8fac"
+    },
+    {
+      "Path": "tools/runtime-counters/Microsoft.Diagnostics.FastSerialization.dll",
+      "Bytes": 76600,
+      "Sha256": "ad9c4e4001b2aed5e7337188747d0791c2a8d6058fd9a7eb5f12832982f76934"
+    },
+    {
+      "Path": "tools/runtime-counters/Microsoft.Diagnostics.NETCore.Client.dll",
+      "Bytes": 154424,
+      "Sha256": "ba7a29d7747a73a7687fe092d65659a3e8e44d69938319422df3e729bac75725"
+    },
+    {
+      "Path": "tools/runtime-counters/Microsoft.Diagnostics.Tracing.TraceEvent.dll",
+      "Bytes": 3327800,
+      "Sha256": "9e20d3797881c237e891dd97b5137f0d738fd4ecbbda7e64568a6a21171ff4b7"
+    },
+    {
+      "Path": "tools/runtime-counters/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+      "Bytes": 63768,
+      "Sha256": "67fa4325000db017dc0c35829b416f024f042d24efb868bcf17a895ee6500a93"
+    },
+    {
+      "Path": "tools/runtime-counters/Microsoft.Extensions.Logging.Abstractions.dll",
+      "Bytes": 65288,
+      "Sha256": "bb853130f5afaf335be7858d661f8212ec653835100f5a4e3aa2c66a4d4f685d"
+    },
+    {
+      "Path": "tools/runtime-counters/Microsoft.Windows.SDK.NET.dll",
+      "Bytes": 24877600,
+      "Sha256": "0ec371d93798852e36461c8adddbeadce0f963a04752f0b64e54fe19c1c834a7"
+    },
+    {
+      "Path": "tools/runtime-counters/RuntimeCounterProbe.deps.json",
+      "Bytes": 4775,
+      "Sha256": "7802439ec595c349f0922867c0594ab0edfc90fb9f5ecce86febb153960db232"
+    },
+    {
+      "Path": "tools/runtime-counters/RuntimeCounterProbe.dll",
+      "Bytes": 26624,
+      "Sha256": "6fa0e252bd7aac5510445f5944f800b475ff5e15634062374a9e1a1f18294e7c"
+    },
+    {
+      "Path": "tools/runtime-counters/RuntimeCounterProbe.exe",
+      "Bytes": 162304,
+      "Sha256": "6419e6c20b047d3aa5603c2a846ac5548d9dd80b2329556b9ac8ac1d85e1b8cd"
+    },
+    {
+      "Path": "tools/runtime-counters/RuntimeCounterProbe.pdb",
+      "Bytes": 16084,
+      "Sha256": "6ff8c5c57cfa12f7e01633eaaf32f4c67a28fe3a30751f0289e9dba70027d599"
+    },
+    {
+      "Path": "tools/runtime-counters/RuntimeCounterProbe.runtimeconfig.json",
+      "Bytes": 399,
+      "Sha256": "3e965cd7cfd553c2ff4e842d8d8019aaae2da0a21d92ff85a87573dd8d1b95c6"
+    },
+    {
+      "Path": "tools/runtime-counters/RuntimeCounterProbe.xml",
+      "Bytes": 144,
+      "Sha256": "4da52a0dbe8812206f1e89ab34e5bc699673695f506a00a15af1bbebc3f650aa"
+    },
+    {
+      "Path": "tools/runtime-counters/TraceReloggerLib.dll",
+      "Bytes": 23216,
+      "Sha256": "6830c0f1d3f3c17719181e73dd5cfa8ccbb3f3c575329d2120576545103467b5"
+    },
+    {
+      "Path": "tools/runtime-counters/WinRT.Runtime.dll",
+      "Bytes": 528944,
+      "Sha256": "bcf3a14e8712a90837fc5c0d8c8a24696af2bd7f74e9767597ec81ededfb23db"
+    },
+    {
+      "Path": "tools/synthetic-provider/T040SyntheticProvider.deps.json",
+      "Bytes": 511,
+      "Sha256": "23e4510cf45118cb8d39a5867fad8ef99461c259bb315a294f4fa6aef25c19aa"
+    },
+    {
+      "Path": "tools/synthetic-provider/T040SyntheticProvider.dll",
+      "Bytes": 49152,
+      "Sha256": "00dbbec373a8e1348148bb9291812850a5e3a54bdc4c3d1c82691cf712b49227"
+    },
+    {
+      "Path": "tools/synthetic-provider/T040SyntheticProvider.exe",
+      "Bytes": 162304,
+      "Sha256": "861ebf02953264a57d067ce17bb0d2ef687f809b7a8a5db3aebd03530b957e68"
+    },
+    {
+      "Path": "tools/synthetic-provider/T040SyntheticProvider.pdb",
+      "Bytes": 17720,
+      "Sha256": "4370645883134c06c0e5fc97af9fcbdb623414d38c6f579096daa2f3dee3c65b"
+    },
+    {
+      "Path": "tools/synthetic-provider/T040SyntheticProvider.runtimeconfig.json",
+      "Bytes": 342,
+      "Sha256": "c230a317a54dd960bcbeb5f347f52e18dc665a26f7efda2159fced9a5ac7e097"
+    },
+    {
+      "Path": "tools/synthetic-provider/T040SyntheticProvider.xml",
+      "Bytes": 146,
+      "Sha256": "112314bf094b9d97e485951fe279fc2dca1615859e3a36274d55e7f25510c402"
+    },
+    {
+      "Path": "tools/state-snapshot/e_sqlite3.dll",
+      "Bytes": 1978880,
+      "Sha256": "b7385d722c83fb52142a00477a726723745916d22a555711ee89834c1111fb2e"
+    },
+    {
+      "Path": "tools/state-snapshot/Microsoft.Data.Sqlite.dll",
+      "Bytes": 177464,
+      "Sha256": "b98d957462be432895b00dccca012d3c127e118d3d4262418014b92c7bbd66cf"
+    },
+    {
+      "Path": "tools/state-snapshot/SQLitePCLRaw.batteries_v2.dll",
+      "Bytes": 5120,
+      "Sha256": "815ce410c9eab531dd219318e3ba16c5e38e83d361cfbbdbb4bbca222c497b0b"
+    },
+    {
+      "Path": "tools/state-snapshot/SQLitePCLRaw.core.dll",
+      "Bytes": 51200,
+      "Sha256": "af340ac9eb9195795660d7fc1114f486b6ab63998f33176e2f24c8e0acb9aa84"
+    },
+    {
+      "Path": "tools/state-snapshot/SQLitePCLRaw.provider.e_sqlite3.dll",
+      "Bytes": 36864,
+      "Sha256": "df996bcae63c2cabcfe8d4b9c5110eb39a2a4706178b07d875665391c6eb3995"
+    },
+    {
+      "Path": "tools/state-snapshot/T040StateProbe.deps.json",
+      "Bytes": 4355,
+      "Sha256": "187b56b78064c6addf1c6f9cd6730257c0d51d0f3022858299170a4608e13994"
+    },
+    {
+      "Path": "tools/state-snapshot/T040StateProbe.dll",
+      "Bytes": 19968,
+      "Sha256": "253c55d9d605ecf5bffb1f44f5469a774167af9ff808fe579a9fd2e7f7d726f8"
+    },
+    {
+      "Path": "tools/state-snapshot/T040StateProbe.exe",
+      "Bytes": 162304,
+      "Sha256": "bce8e00b3eb4b86bf0439d0ff9e79762a6cc5f86d79be8ce2ab83cef5cd4a1a6"
+    },
+    {
+      "Path": "tools/state-snapshot/T040StateProbe.pdb",
+      "Bytes": 15052,
+      "Sha256": "36121f2bee7bfcf5191f3d3473dbd9a2fd404e99e5d02db66d1baa7ae9df3b13"
+    },
+    {
+      "Path": "tools/state-snapshot/T040StateProbe.runtimeconfig.json",
+      "Bytes": 342,
+      "Sha256": "c230a317a54dd960bcbeb5f347f52e18dc665a26f7efda2159fced9a5ac7e097"
+    },
+    {
+      "Path": "tools/state-snapshot/T040StateProbe.xml",
+      "Bytes": 139,
+      "Sha256": "32c2a8a2c196d73a3a1dc19ad04d73d2eace2fe8ec073c0b1ee5f28394b0c4d3"
+    },
+    {
+      "Path": "tools/ocr-capability/Microsoft.Windows.SDK.NET.dll",
+      "Bytes": 24877600,
+      "Sha256": "0ec371d93798852e36461c8adddbeadce0f963a04752f0b64e54fe19c1c834a7"
+    },
+    {
+      "Path": "tools/ocr-capability/OcrCapabilityProbe.deps.json",
+      "Bytes": 1162,
+      "Sha256": "7b97bcbf8da088dfeb0a52b9110acb5b78d549244b8fb9a68397bad649df6790"
+    },
+    {
+      "Path": "tools/ocr-capability/OcrCapabilityProbe.dll",
+      "Bytes": 11264,
+      "Sha256": "665fafb46de980826629603d9e3a87142d5c37da2324f6de9fa318662e9ac80f"
+    },
+    {
+      "Path": "tools/ocr-capability/OcrCapabilityProbe.exe",
+      "Bytes": 162304,
+      "Sha256": "bcbf9e1495c0da2fc26c382758e54c77e860d00690c48ab0506993ed333e505c"
+    },
+    {
+      "Path": "tools/ocr-capability/OcrCapabilityProbe.pdb",
+      "Bytes": 13292,
+      "Sha256": "b4efa971ec176d3f74233cfb6278391b6ec4e82ae1b9295a79f1b21554692190"
+    },
+    {
+      "Path": "tools/ocr-capability/OcrCapabilityProbe.runtimeconfig.json",
+      "Bytes": 399,
+      "Sha256": "3e965cd7cfd553c2ff4e842d8d8019aaae2da0a21d92ff85a87573dd8d1b95c6"
+    },
+    {
+      "Path": "tools/ocr-capability/OcrCapabilityProbe.xml",
+      "Bytes": 143,
+      "Sha256": "1b9bb4c870b96aaaa40d4178876f8c6833824058f43c2f1d85c4b1a05535aeb4"
+    },
+    {
+      "Path": "tools/ocr-capability/WinRT.Runtime.dll",
+      "Bytes": 528944,
+      "Sha256": "bcf3a14e8712a90837fc5c0d8c8a24696af2bd7f74e9767597ec81ededfb23db"
+    }
+  ],
+  "Files": [
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\runtime-counters-20261107-1\\Program.cs",
+      "Path": "source/runtime-counters-20261107-1/Program.cs",
+      "Bytes": 5338,
+      "Sha256": "2c0bea3ff3ba69bcc978dc5cdb8c16ac8a82caf98318729a28a8efbf8015e44c"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\runtime-counters-20261107-1\\RuntimeCounterProbe.csproj",
+      "Path": "source/runtime-counters-20261107-1/RuntimeCounterProbe.csproj",
+      "Bytes": 563,
+      "Sha256": "7ec2266fb43207fbfde12e691ba6c134faaa1074edf9a33476a3d25d9cf6dff2"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\synthetic-provider-20261107-1\\Program.cs",
+      "Path": "source/synthetic-provider-20261107-1/Program.cs",
+      "Bytes": 10959,
+      "Sha256": "8ab7d039b10b492bcbb22112e670229d1f1515e5f6b8a0cea46febba9e46c941"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\synthetic-provider-20261107-1\\T040SyntheticProvider.csproj",
+      "Path": "source/synthetic-provider-20261107-1/T040SyntheticProvider.csproj",
+      "Bytes": 254,
+      "Sha256": "b57c3a18bc6ecd70c64746c813c00febe7bec86d590b1727c24aa757b8234e47"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\state-snapshot-20261107-1\\Program.cs",
+      "Path": "source/state-snapshot-20261107-1/Program.cs",
+      "Bytes": 4376,
+      "Sha256": "adc5d323704ff9b2ad2dfbebe6ff154773d47342cde8e4823bf6788e0f8299bb"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\state-snapshot-20261107-1\\T040StateProbe.csproj",
+      "Path": "source/state-snapshot-20261107-1/T040StateProbe.csproj",
+      "Bytes": 340,
+      "Sha256": "b9a1a01b338eeb62107efd8029ccaf33ae03b1ef8d1ac4bddfe8e5e0be978bf6"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\ocr-capability-20261106-1\\OcrCapabilityProbe.csproj",
+      "Path": "source/ocr-capability-20261106-1/OcrCapabilityProbe.csproj",
+      "Bytes": 350,
+      "Sha256": "b02dfabd93c62b30a4a0ba183134aa498caff41d1517c3f95e8850836a240aa6"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\ocr-capability-20261106-1\\Program.cs",
+      "Path": "source/ocr-capability-20261106-1/Program.cs",
+      "Bytes": 1402,
+      "Sha256": "a37ed60548f3c4fa87e15d6415b7b5255421d27eec2a7fc091ad75af259fd44d"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\runtime-counters-publish-20261107-1.log",
+      "Path": "build/runtime-counters-publish-20261107-1.log",
+      "Bytes": 430,
+      "Sha256": "c6b450912e517b152dd927bc9ada1094eb23cdc2d1f7157c4334cd16757edbf0"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\runtime-counters-publish-20261107-2.log",
+      "Path": "build/runtime-counters-publish-20261107-2.log",
+      "Bytes": 356,
+      "Sha256": "25a31b5587fbf99765da8d87d22f847e15db629b375f685fdc93d4e5a5843588"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\state-snapshot-publish-20261107-1.log",
+      "Path": "build/state-snapshot-publish-20261107-1.log",
+      "Bytes": 386,
+      "Sha256": "c085074e55b6e2fd514b4ca100369cdf378e2a06a62a0f82ad4c285da9077b86"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\state-snapshot-publish-20261107-2.log",
+      "Path": "build/state-snapshot-publish-20261107-2.log",
+      "Bytes": 317,
+      "Sha256": "a7c4778ed5216cc94c4401d8ed101b379f49766f9125b14551f157d59c6bb97e"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\synthetic-provider-publish-20261107-1.log",
+      "Path": "build/synthetic-provider-publish-20261107-1.log",
+      "Bytes": 425,
+      "Sha256": "c57b0fc21560213e274bddc70c51d55e27f5478f74b0a6b0665cb3c5342ba6ca"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\synthetic-provider-publish-20261107-2.log",
+      "Path": "build/synthetic-provider-publish-20261107-2.log",
+      "Bytes": 346,
+      "Sha256": "532014899d3d47536e8e600bc9f86d331c5b49ffab1ce2411af28dbeb3445dc9"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\msi-signature-probe-20261106T2141001822218Z\\launch.json",
+      "Path": "checks/msi-signature-probe-20261106T2141001822218Z/launch.json",
+      "Bytes": 334,
+      "Sha256": "90650df6b49f1b287cd5b6d2e9b8773f34c06595640356697234aaa688b7b641"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\msi-signature-probe-20261106T2141001822218Z\\state.json",
+      "Path": "checks/msi-signature-probe-20261106T2141001822218Z/state.json",
+      "Bytes": 794,
+      "Sha256": "4758c10a851c8e07f6cb33c9aff5f7654d0efc82e14c3c04e59de486a28c4dee"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\msi-signature-probe-20261106T2141001822218Z\\stderr.txt",
+      "Path": "checks/msi-signature-probe-20261106T2141001822218Z/stderr.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\msi-signature-probe-20261106T2141001822218Z\\stdout.txt",
+      "Path": "checks/msi-signature-probe-20261106T2141001822218Z/stdout.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\msi-policy-probe-20261106T2147311226861Z\\launch.json",
+      "Path": "checks/msi-policy-probe-20261106T2147311226861Z/launch.json",
+      "Bytes": 331,
+      "Sha256": "34e16d1122e069be8f6b31922f5665977ef9f237f0db18e0ad059b11c97e7e9d"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\msi-policy-probe-20261106T2147311226861Z\\state.json",
+      "Path": "checks/msi-policy-probe-20261106T2147311226861Z/state.json",
+      "Bytes": 1390,
+      "Sha256": "6a14124065a3f087f20b9926c0cf2b0ef2e3dbe95883963599dcad7f017d65cb"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\msi-policy-probe-20261106T2147311226861Z\\stderr.txt",
+      "Path": "checks/msi-policy-probe-20261106T2147311226861Z/stderr.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\msi-policy-probe-20261106T2147311226861Z\\stdout.txt",
+      "Path": "checks/msi-policy-probe-20261106T2147311226861Z/stdout.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\runtime-counters-20261106T2158074961005Z\\events.jsonl",
+      "Path": "checks/runtime-counters-20261106T2158074961005Z/events.jsonl",
+      "Bytes": 28035,
+      "Sha256": "937c00cc40d061928aaf247778a8aee81754c7ade0c9ac08a3e656faa15da4d2"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\runtime-counters-20261106T2158074961005Z\\state.json",
+      "Path": "checks/runtime-counters-20261106T2158074961005Z/state.json",
+      "Bytes": 201,
+      "Sha256": "2bb0e484244275b10de2df69ba2ff716b5ae2b9cc5df2e0ae819d623bc8b988b"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\fixture-http-probe-20261106T2158208360299Z.json",
+      "Path": "checks/fixture-http-probe-20261106T2158208360299Z.json",
+      "Bytes": 3771,
+      "Sha256": "76337902ecf077ebfe9a62b3c7fc3234f9337dc8278e6f2caceda77810efa4ba"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\counter-fixture-launch-20261106T2158073147068Z.json",
+      "Path": "checks/counter-fixture-launch-20261106T2158073147068Z.json",
+      "Bytes": 226,
+      "Sha256": "487ea7a4792e278efea2dc8702f73d6baa17ea3f345f855275a6223c27bb5e36"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\fixture-launch-20261106T2157094560743Z.json",
+      "Path": "checks/fixture-launch-20261106T2157094560743Z.json",
+      "Bytes": 337,
+      "Sha256": "f67aa0b33a1282d0afdf90e24068b656f3f2333ba5fc2c0adbc519f5a7213550"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\manual-input-validated-20261106T2139001847436Z.json",
+      "Path": "checks/manual-input-validated-20261106T2139001847436Z.json",
+      "Bytes": 1324,
+      "Sha256": "458dcc919955934f04211b39eef8aab899caba4585a665701bed03b63d3db193"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261106T2203511972678Z\\iris-20261107.log",
+      "Path": "checks/feature-data-20261106T2203511972678Z/iris-20261107.log",
+      "Bytes": 1120,
+      "Sha256": "48a95387212870d6d90b44efc910f82d4fe3cfde6917d75e7e754383c878bd31"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261106T2203511972678Z\\settings.json",
+      "Path": "checks/feature-data-20261106T2203511972678Z/settings.json",
+      "Bytes": 3746,
+      "Sha256": "2dac3723bbb35358c0af23873e7849f51e6f7d62e9f4847028438530c730d6cd"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261106T2203511972678Z\\state.json",
+      "Path": "checks/feature-data-20261106T2203511972678Z/state.json",
+      "Bytes": 442,
+      "Sha256": "7b9fb979f120421b9068d41db061129a9f4b80335abe988f5db3d3a69a71f402"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261106T2203518656524Z\\iris-20261107.log",
+      "Path": "checks/readonly-state-20261106T2203518656524Z/iris-20261107.log",
+      "Bytes": 1120,
+      "Sha256": "48a95387212870d6d90b44efc910f82d4fe3cfde6917d75e7e754383c878bd31"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261106T2203518656524Z\\state.json",
+      "Path": "checks/readonly-state-20261106T2203518656524Z/state.json",
+      "Bytes": 100298,
+      "Sha256": "d41220db9eb6afb7a5f36682f889663c8b102a77166080b4d276cd7c9a43201d"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\synthetic-provider-20261106T2157097276547Z\\state.json",
+      "Path": "checks/synthetic-provider-20261106T2157097276547Z/state.json",
+      "Bytes": 315,
+      "Sha256": "3fc035f1881154527ca8b12c36f2e288cbe32e9a0561d269427925b4debacc2a"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\synthetic-provider-20261106T2157097276547Z\\requests.jsonl",
+      "Path": "checks/synthetic-provider-20261106T2157097276547Z/requests-prefix.jsonl",
+      "Bytes": 2323,
+      "Sha256": "df5ecef5373b05da6265d0eda3d86e645e0c5cab25643532f2057b86881b49c6"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\input\\Save-Clean-Idle-State.cmd",
+      "Path": "manual-input/Save-Clean-Idle-State.cmd",
+      "Bytes": 144,
+      "Sha256": "eb9a39a1261235ba9d8d3a97985bf534c05ca436cfcf4fd8235c2b6f42528fb1"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\input\\Save-Feature-State.cmd",
+      "Path": "manual-input/Save-Feature-State.cmd",
+      "Bytes": 147,
+      "Sha256": "590765ddd0fd55011fe7efabc1cf768bf96efb4b479ad6fe498f8abda0feede9"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\input\\Capture-Feature-View.cmd",
+      "Path": "manual-input/Capture-Feature-View.cmd",
+      "Bytes": 147,
+      "Sha256": "68087c0a3290a2bdbe32524a5a6272b7e0392bdd4269f631d00aaa384ff7ad95"
+    }
+  ]
+}

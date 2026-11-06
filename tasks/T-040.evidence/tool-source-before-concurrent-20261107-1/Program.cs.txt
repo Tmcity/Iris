@@ -1,0 +1,138 @@
+using System.Diagnostics;
+using System.Globalization;
+using System.Net;
+using System.Text;
+using System.Text.Json;
+
+if (Environment.UserName != "WDAGUtilityAccount") throw new InvalidOperationException("Owned T-040 Sandbox only.");
+const string expectedKey = "iris-t040-not-a-real-key";
+const string prefix = "http://127.0.0.1:18040/";
+string root = @"C:\IrisT040Output";
+if (!Directory.Exists(root)) throw new InvalidOperationException("Missing owned output mapping.");
+string output = Path.Combine(root, "synthetic-provider-" + DateTimeOffset.UtcNow.ToString("yyyyMMddTHHmmssfffffffZ", CultureInfo.InvariantCulture));
+Directory.CreateDirectory(output);
+using var listener = new HttpListener();
+listener.Prefixes.Add(prefix);
+using var lifetime = new CancellationTokenSource(TimeSpan.FromHours(1));
+using var registration = lifetime.Token.Register(listener.Stop);
+using var records = new StreamWriter(Path.Combine(output, "requests.jsonl"), false, new UTF8Encoding(false));
+var attempts = new Dictionary<string, int>(StringComparer.Ordinal);
+int sequence = 0;
+void Record(object data) { records.WriteLine(JsonSerializer.Serialize(data)); records.Flush(); }
+listener.Start();
+await File.WriteAllTextAsync(Path.Combine(output, "state.json"), JsonSerializer.Serialize(new {
+    Utc = DateTimeOffset.UtcNow, Ready = true, Pid = Environment.ProcessId, Prefix = prefix,
+    Scope = "Owned synthetic OpenAI/DeepSeek/Anthropic HTTP protocols. No upstream service or real account authentication.",
+    ProductOperationPerformed = false, ExpectedKeyIsSynthetic = true, StopwatchFrequency = Stopwatch.Frequency
+})).ConfigureAwait(false);
+try
+{
+    while (!lifetime.IsCancellationRequested)
+    {
+        HttpListenerContext context;
+        try { context = await listener.GetContextAsync().ConfigureAwait(false); }
+        catch (HttpListenerException) when (lifetime.IsCancellationRequested) { break; }
+        sequence++;
+        long received = Stopwatch.GetTimestamp();
+        var response = context.Response;
+        try
+        {
+            string path = context.Request.Url?.AbsolutePath ?? "/";
+            bool fakeKey = string.Equals(context.Request.Headers["Authorization"], "Bearer " + expectedKey, StringComparison.Ordinal)
+                || string.Equals(context.Request.Headers["x-api-key"], expectedKey, StringComparison.Ordinal);
+            if (!fakeKey)
+            {
+                response.StatusCode = 401;
+                response.ContentType = "application/json";
+                await SendAsync(response, JsonSerializer.Serialize(new { error = new { message = "Use the dedicated synthetic key for this fixture." } }), lifetime.Token).ConfigureAwait(false);
+                Record(new { Kind = "RejectedCredential", Utc = DateTimeOffset.UtcNow, Sequence = sequence, Path = path });
+                continue;
+            }
+            if (context.Request.HttpMethod == "GET" && path.EndsWith("/models", StringComparison.Ordinal))
+            {
+                response.ContentType = "application/json";
+                await SendAsync(response, JsonSerializer.Serialize(new { data = new[] { new { id = "iris-fixture", type = "model", display_name = "Iris synthetic model" } }, has_more = false }), lifetime.Token).ConfigureAwait(false);
+                Record(new { Kind = "Models", Utc = DateTimeOffset.UtcNow, Sequence = sequence, Path = path });
+                continue;
+            }
+            if (context.Request.HttpMethod != "POST" || context.Request.ContentLength64 > 1048576)
+            { response.StatusCode = 400; continue; }
+            using var reader = new StreamReader(context.Request.InputStream, Encoding.UTF8);
+            string body = await reader.ReadToEndAsync(lifetime.Token).ConfigureAwait(false);
+            using var request = JsonDocument.Parse(body);
+            string source = ExtractSource(request.RootElement);
+            bool syntheticText = source.Contains("Iris T040", StringComparison.Ordinal);
+            string key = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(Encoding.UTF8.GetBytes(source)));
+            int attempt = attempts.GetValueOrDefault(key) + 1;
+            attempts[key] = attempt;
+            bool anthropic = path.EndsWith("/messages", StringComparison.Ordinal);
+            Record(new { Kind = "Request", Utc = DateTimeOffset.UtcNow, ReceivedQpc = received, Sequence = sequence,
+                Path = path, Protocol = anthropic ? "Anthropic" : "OpenAI", Attempt = attempt,
+                SyntheticText = syntheticText ? source : null, SourceSha256 = key, FakeKeyAccepted = true });
+            if (source.Contains("Iris T040 error", StringComparison.Ordinal)
+                || source.Contains("Iris T040 retry", StringComparison.Ordinal) && attempt == 1)
+            {
+                response.StatusCode = source.Contains("Iris T040 retry", StringComparison.Ordinal) ? 429 : 503;
+                response.Headers["Retry-After"] = "1";
+                response.ContentType = "application/json";
+                await SendAsync(response, JsonSerializer.Serialize(new { type = "error", error = new { type = "overloaded_error", message = "Synthetic temporary failure." } }), lifetime.Token).ConfigureAwait(false);
+                Record(new { Kind = "HttpError", Utc = DateTimeOffset.UtcNow, Sequence = sequence, response.StatusCode });
+                continue;
+            }
+            response.ContentType = "text/event-stream";
+            response.SendChunked = true;
+            string text = syntheticText ? "Iris T040 synthetic translation" : "OK";
+            if (anthropic)
+            {
+                await EventAsync(response, "message_start", new { type = "message_start", message = new { id = "msg_iris_fixture", type = "message", role = "assistant", model = "iris-fixture", content = Array.Empty<object>(), stop_reason = (string?)null, stop_sequence = (string?)null, usage = new { input_tokens = 10, output_tokens = 0 } } }, lifetime.Token).ConfigureAwait(false);
+                await EventAsync(response, "content_block_start", new { type = "content_block_start", index = 0, content_block = new { type = "text", text = "" } }, lifetime.Token).ConfigureAwait(false);
+                await EventAsync(response, "content_block_delta", new { type = "content_block_delta", index = 0, delta = new { type = "text_delta", text } }, lifetime.Token).ConfigureAwait(false);
+            }
+            else await OpenAiDeltaAsync(response, text, null, lifetime.Token).ConfigureAwait(false);
+            Record(new { Kind = "FirstTextWritten", Utc = DateTimeOffset.UtcNow, Qpc = Stopwatch.GetTimestamp(), Sequence = sequence });
+            if (source.Contains("Iris T040 cancel", StringComparison.Ordinal)) await Task.Delay(TimeSpan.FromSeconds(10), lifetime.Token).ConfigureAwait(false);
+            else await Task.Delay(TimeSpan.FromMilliseconds(150), lifetime.Token).ConfigureAwait(false);
+            bool truncated = source.Contains("Iris T040 truncated", StringComparison.Ordinal);
+            if (anthropic)
+            {
+                await EventAsync(response, "content_block_stop", new { type = "content_block_stop", index = 0 }, lifetime.Token).ConfigureAwait(false);
+                await EventAsync(response, "message_delta", new { type = "message_delta", delta = new { stop_reason = truncated ? "max_tokens" : "end_turn", stop_sequence = (string?)null }, usage = new { output_tokens = 5 } }, lifetime.Token).ConfigureAwait(false);
+                await EventAsync(response, "message_stop", new { type = "message_stop" }, lifetime.Token).ConfigureAwait(false);
+            }
+            else
+            {
+                await OpenAiDeltaAsync(response, null, truncated ? "length" : "stop", lifetime.Token).ConfigureAwait(false);
+                await SendAsync(response, "data: [DONE]\n\n", lifetime.Token).ConfigureAwait(false);
+            }
+            Record(new { Kind = "Completed", Utc = DateTimeOffset.UtcNow, Qpc = Stopwatch.GetTimestamp(), Sequence = sequence, Truncated = truncated });
+        }
+        catch (Exception error) when (error is IOException or HttpListenerException or OperationCanceledException)
+        { Record(new { Kind = "ConnectionEnded", Utc = DateTimeOffset.UtcNow, Sequence = sequence, Type = error.GetType().FullName }); }
+        catch (JsonException) { response.StatusCode = 400; }
+        finally { response.Close(); }
+    }
+}
+finally
+{
+    listener.Stop();
+    await File.WriteAllTextAsync(Path.Combine(output, "final-state.json"), JsonSerializer.Serialize(new {
+        Utc = DateTimeOffset.UtcNow, Ready = false, Pid = Environment.ProcessId, Requests = sequence, ProductOperationPerformed = false
+    })).ConfigureAwait(false);
+}
+static string ExtractSource(JsonElement request)
+{
+    if (!request.TryGetProperty("messages", out JsonElement messages) || messages.GetArrayLength() == 0) return "";
+    JsonElement content = messages[messages.GetArrayLength() - 1].GetProperty("content");
+    return content.ValueKind == JsonValueKind.String ? content.GetString() ?? ""
+        : string.Join("\n", content.EnumerateArray().Where(x => x.TryGetProperty("text", out _)).Select(x => x.GetProperty("text").GetString()));
+}
+static Task OpenAiDeltaAsync(HttpListenerResponse response, string? text, string? finish, CancellationToken token) =>
+    SendAsync(response, "data: " + JsonSerializer.Serialize(new { id = "iris_fixture", @object = "chat.completion.chunk", model = "iris-fixture", choices = new[] { new { index = 0, delta = new { content = text }, finish_reason = finish } } }) + "\n\n", token);
+static Task EventAsync(HttpListenerResponse response, string name, object data, CancellationToken token) =>
+    SendAsync(response, "event: " + name + "\ndata: " + JsonSerializer.Serialize(data) + "\n\n", token);
+static async Task SendAsync(HttpListenerResponse response, string text, CancellationToken token)
+{
+    byte[] bytes = Encoding.UTF8.GetBytes(text);
+    await response.OutputStream.WriteAsync(bytes, token).ConfigureAwait(false);
+    await response.OutputStream.FlushAsync(token).ConfigureAwait(false);
+}

@@ -1,0 +1,30 @@
+{
+    "ObserverPid":  2560,
+    "ProductOperationPerformed":  false,
+    "Scripts":  [
+                    {
+                        "ParseErrors":  0,
+                        "Name":  "t040_save_clean_idle_readonly.ps1",
+                        "Sha256":  "A63BCC76A673AEEC70039A3AD49700FB6EAD0BF8D66A3A2B2CBE6772016F8DCC"
+                    },
+                    {
+                        "ParseErrors":  0,
+                        "Name":  "t040_collect_current_readonly.ps1",
+                        "Sha256":  "CFBDB92DD21CD249257ACB41A7565D0A2ABBA866F7A9290AF4AAFD08ABF63A69"
+                    },
+                    {
+                        "ParseErrors":  0,
+                        "Name":  "save-metrics-state-v2-readonly.ps1",
+                        "Sha256":  "B92B4A1D1208DB5FE7241B6E076110C2E3F58EE3FCCFB8D28F5113548D027DC5"
+                    },
+                    {
+                        "ParseErrors":  0,
+                        "Name":  "observe-process-metrics-v2-readonly.ps1",
+                        "Sha256":  "37BFD2C5FB2858DF68513C1151495C849442543094E9AF7C2689C5281CFE5B32"
+                    }
+                ],
+    "PsVersion":  "5.1.26100.9549",
+    "ObserverAlive":  true,
+    "Utc":  "2026-11-06T21:39:00.1746257Z",
+    "ManualWrapperPresent":  true
+}

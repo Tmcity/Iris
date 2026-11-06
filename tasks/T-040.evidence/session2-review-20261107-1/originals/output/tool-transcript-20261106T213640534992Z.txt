@@ -1,0 +1,57 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261107053642
+Username: D488342E-D666-4\WDAGUtilityAccount
+RunAs User: D488342E-D666-4\WDAGUtilityAccount
+Configuration Name: 
+Machine: D488342E-D666-4 (Microsoft Windows NT 10.0.26100.0)
+Host Application: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -EncodedCommand JABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQA9ACcAUwB0AG8AcAAnADsAIABTAHQAYQByAHQALQBUAHIAYQBuAHMAYwByAGkAcAB0ACAALQBMAGkAdABlAHIAYQBsAFAAYQB0AGgAIAAnAEMAOgBcAEkAcgBpAHMAVAAwADQAMABPAHUAdABwAHUAdABcAHQAbwBvAGwALQB0AHIAYQBuAHMAYwByAGkAcAB0AC0AMgAwADIANgAxADEAMAA2AFQAMgAxADMANgA0ADAANQAzADQAOQA5ADIAWgAuAHQAeAB0ACcAIAB8ACAATwB1AHQALQBOAHUAbABsADsAIAB0AHIAeQAgAHsAIAAmACAAJwBDADoAXABJAHIAaQBzAFQAMAA0ADAATQBlAHQAcgBpAGMAcwBWADIAXAB0ADAANAAwAF8AdgBlAHIAaQBmAHkAXwBpAG4AcwB0AGEAbABsAGUAZABfAHIAZQBhAGQAbwBuAGwAeQAuAHAAcwAxACcAOwAgAGkAZgAgACgAJABMAEEAUwBUAEUAWABJAFQAQwBPAEQARQAgAC0AYQBuAGQAIAAkAEwAQQBTAFQARQBYAEkAVABDAE8ARABFACAALQBuAGUAIAAwACkAIAB7ACAAdABoAHIAbwB3ACAAJwBOAGUAcwB0AGUAZAAgAGQAaQBhAGcAbgBvAHMAdABpAGMAIABmAGEAaQBsAGUAZAAnACAAfQAgAH0AIABjAGEAdABjAGgAIAB7ACAAJABfACAAfAAgAEYAbwByAG0AYQB0AC0ATABpAHMAdAAgACoAIAAtAEYAbwByAGMAZQAgAHwAIABPAHUAdAAtAFMAdAByAGkAbgBnACAAfAAgAFcAcgBpAHQAZQAtAE8AdQB0AHAAdQB0ADsAIABTAHQAbwBwAC0AVAByAGEAbgBzAGMAcgBpAHAAdAAgAHwAIABPAHUAdAAtAE4AdQBsAGwAOwAgAGUAeABpAHQAIAAxACAAfQA7ACAAUwB0AG8AcAAtAFQAcgBhAG4AcwBjAHIAaQBwAHQAIAB8ACAATwB1AHQALQBOAHUAbABsADsAIABlAHgAaQB0ACAAMAA=
+Process ID: 3940
+PSVersion: 5.1.26100.9549
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9549
+BuildVersion: 10.0.26100.9549
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+PS>TerminatingError(Join-Path): "Cannot convert 'System.Object[]' to the type 'System.String' required by parameter 'ChildPath'. Specified method is not supported."
+>> TerminatingError(Join-Path): "Cannot convert 'System.Object[]' to the type 'System.String' required by parameter 'ChildPath'. Specified method is not supported."
+
+
+PSMessageDetails      : 
+Exception             : System.Management.Automation.ParameterBindingException:
+                         Cannot convert 'System.Object[]' to the type 'System.S
+                        tring' required by parameter 'ChildPath'. Specified met
+                        hod is not supported. ---> System.NotSupportedException
+                        : Specified method is not supported.
+                           at System.Management.Automation.ParameterBinderBase.
+                        CoerceTypeAsNeeded(CommandParameterInternal argument, S
+                        tring parameterName, Type toType, ParameterCollectionTy
+                        peInformation collectionTypeInfo, Object currentValue)
+                           --- End of inner exception stack trace ---
+                           at System.Management.Automation.ExceptionHandlingOps
+                        .CheckActionPreference(FunctionContext funcContext, Exc
+                        eption exception)
+                           at System.Management.Automation.Interpreter.ActionCa
+                        llInstruction`2.Run(InterpretedFrame frame)
+                           at System.Management.Automation.Interpreter.EnterTry
+                        CatchFinallyInstruction.Run(InterpretedFrame frame)
+                           at System.Management.Automation.Interpreter.EnterTry
+                        CatchFinallyInstruction.Run(InterpretedFrame frame)
+TargetObject          : 
+CategoryInfo          : InvalidArgument: (:) [Join-Path], ParameterBindingExcep
+                        tion
+FullyQualifiedErrorId : CannotConvertArgument,Microsoft.PowerShell.Commands.Joi
+                        nPathCommand
+ErrorDetails          : 
+InvocationInfo        : System.Management.Automation.InvocationInfo
+ScriptStackTrace      : at <ScriptBlock>, C:\IrisT040MetricsV2\t040_verify_inst
+                        alled_readonly.ps1: line 7
+                        at <ScriptBlock>, <No file>: line 1
+PipelineIterationInfo : {}
+**********************
+Windows PowerShell transcript end
+End time: 20261107053642
+**********************

@@ -1,0 +1,51 @@
+{
+    "Logs":  [
+                 {
+                     "Events":  2,
+                     "LogName":  "System",
+                     "Failure":  null,
+                     "Enabled":  true
+                 },
+                 {
+                     "Events":  77,
+                     "LogName":  "Application",
+                     "Failure":  null,
+                     "Enabled":  true
+                 },
+                 {
+                     "Events":  16,
+                     "LogName":  "Microsoft-Windows-AppLocker/MSI and Script",
+                     "Failure":  null,
+                     "Enabled":  true
+                 },
+                 {
+                     "Events":  0,
+                     "LogName":  "Microsoft-Windows-AppLocker/EXE and DLL",
+                     "Failure":  null,
+                     "Enabled":  true
+                 },
+                 {
+                     "Events":  0,
+                     "LogName":  "Microsoft-Windows-CodeIntegrity/Operational",
+                     "Failure":  null,
+                     "Enabled":  true
+                 },
+                 {
+                     "Events":  0,
+                     "LogName":  "Microsoft-Windows-Windows Defender/Operational",
+                     "Failure":  null,
+                     "Enabled":  true
+                 },
+                 {
+                     "Events":  0,
+                     "LogName":  "Microsoft-Windows-CAPI2/Operational",
+                     "Failure":  null,
+                     "Enabled":  true
+                 }
+             ],
+    "ProductOperationPerformed":  false,
+    "EndUtc":  "2026-11-06T17:47:00Z",
+    "StartUtc":  "2026-11-06T17:26:00Z",
+    "SecurityPolicyChanged":  false,
+    "Utc":  "2026-11-06T21:40:05.8442008Z"
+}

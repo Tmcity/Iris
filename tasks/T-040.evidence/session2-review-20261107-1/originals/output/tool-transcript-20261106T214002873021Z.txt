@@ -1,0 +1,26 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261107054005
+Username: D488342E-D666-4\WDAGUtilityAccount
+RunAs User: D488342E-D666-4\WDAGUtilityAccount
+Configuration Name: 
+Machine: D488342E-D666-4 (Microsoft Windows NT 10.0.26100.0)
+Host Application: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -EncodedCommand JABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQA9ACcAUwB0AG8AcAAnADsAIABTAHQAYQByAHQALQBUAHIAYQBuAHMAYwByAGkAcAB0ACAALQBMAGkAdABlAHIAYQBsAFAAYQB0AGgAIAAnAEMAOgBcAEkAcgBpAHMAVAAwADQAMABPAHUAdABwAHUAdABcAHQAbwBvAGwALQB0AHIAYQBuAHMAYwByAGkAcAB0AC0AMgAwADIANgAxADEAMAA2AFQAMgAxADQAMAAwADIAOAA3ADMAMAAyADEAWgAuAHQAeAB0ACcAIAB8ACAATwB1AHQALQBOAHUAbABsADsAIAB0AHIAeQAgAHsAIAAmACAAJwBDADoAXABJAHIAaQBzAFQAMAA0ADAATQBlAHQAcgBpAGMAcwBWADIAXAB0ADAANAAwAF8AYwBvAGwAbABlAGMAdABfAGkAbgBzAHQAYQBsAGwAXwBlAHYAZQBuAHQAcwBfAHIAZQBhAGQAbwBuAGwAeQAuAHAAcwAxACcAOwAgAGkAZgAgACgAJABMAEEAUwBUAEUAWABJAFQAQwBPAEQARQAgAC0AYQBuAGQAIAAkAEwAQQBTAFQARQBYAEkAVABDAE8ARABFACAALQBuAGUAIAAwACkAIAB7ACAAdABoAHIAbwB3ACAAJwBOAGUAcwB0AGUAZAAgAGQAaQBhAGcAbgBvAHMAdABpAGMAIABmAGEAaQBsAGUAZAAnACAAfQAgAH0AIABjAGEAdABjAGgAIAB7ACAAJABfACAAfAAgAEYAbwByAG0AYQB0AC0ATABpAHMAdAAgACoAIAAtAEYAbwByAGMAZQAgAHwAIABPAHUAdAAtAFMAdAByAGkAbgBnACAAfAAgAFcAcgBpAHQAZQAtAE8AdQB0AHAAdQB0ADsAIABTAHQAbwBwAC0AVAByAGEAbgBzAGMAcgBpAHAAdAAgAHwAIABPAHUAdAAtAE4AdQBsAGwAOwAgAGUAeABpAHQAIAAxACAAfQA7ACAAUwB0AG8AcAAtAFQAcgBhAG4AcwBjAHIAaQBwAHQAIAB8ACAATwB1AHQALQBOAHUAbABsADsAIABlAHgAaQB0ACAAMAA=
+Process ID: 2780
+PSVersion: 5.1.26100.9549
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9549
+BuildVersion: 10.0.26100.9549
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+PS>TerminatingError(Get-WinEvent): "The running command stopped because the preference variable "ErrorActionPreference" or common parameter is set to Stop: No events were found that match the specified selection criteria."
+PS>TerminatingError(Get-WinEvent): "The running command stopped because the preference variable "ErrorActionPreference" or common parameter is set to Stop: No events were found that match the specified selection criteria."
+PS>TerminatingError(Get-WinEvent): "The running command stopped because the preference variable "ErrorActionPreference" or common parameter is set to Stop: No events were found that match the specified selection criteria."
+PS>TerminatingError(Get-WinEvent): "The running command stopped because the preference variable "ErrorActionPreference" or common parameter is set to Stop: No events were found that match the specified selection criteria."
+**********************
+Windows PowerShell transcript end
+End time: 20261107054005
+**********************

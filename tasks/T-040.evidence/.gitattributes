@@ -1,0 +1,2 @@
+# Frozen observations retain their original bytes and are reviewed via SHA256 manifests.
+* -text -diff

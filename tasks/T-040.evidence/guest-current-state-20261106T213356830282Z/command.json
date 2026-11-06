@@ -1,0 +1,18 @@
+{
+  "Command": [
+    "wsb.exe",
+    "exec",
+    "--id",
+    "4fc7c24d-f1e5-4b3e-adaa-2abe01f643fe",
+    "--run-as",
+    "ExistingLogin",
+    "--command",
+    "powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\\IrisT040MetricsV2\\t040_collect_current_readonly.ps1",
+    "--raw"
+  ],
+  "StartedUtc": "20261106T213356830282Z",
+  "FinishedUtc": "2026-11-06T21:33:59.259664+00:00",
+  "RunnerExitCode": 0,
+  "Script": "F:\\Iris\\tasks\\t040_collect_current_readonly.ps1",
+  "ProductOperationPerformed": false
+}
