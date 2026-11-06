@@ -1,0 +1,110 @@
+{
+  "Utc": "2026-11-06T22:31:29.543394+00:00",
+  "Task": "T-040",
+  "Complete": false,
+  "ProviderInterfaceChecks": 15,
+  "AllProviderChecksPassed": true,
+  "SourceMatchesFormal0210Code": true,
+  "ProviderChecksScope": "Actual factories and Provider interfaces, default profile options, synthetic loopback transport; installed Iris UI, production proxy pipeline and real accounts excluded.",
+  "WorkingSetMiB": 170.83203125,
+  "ResidentCoverage": 0.9997942057485194,
+  "MemoryTypes": [
+    {
+      "Type": "Private",
+      "ResidentBytes": 41279488,
+      "SharedResidentBytes": 8192,
+      "PrivateResidentBytes": 41271296
+    },
+    {
+      "Type": "Mapped",
+      "ResidentBytes": 41963520,
+      "SharedResidentBytes": 41238528,
+      "PrivateResidentBytes": 724992
+    },
+    {
+      "Type": "Image",
+      "ResidentBytes": 95850496,
+      "SharedResidentBytes": 91336704,
+      "PrivateResidentBytes": 4513792
+    }
+  ],
+  "WindowsSdkResidentBytes": 4141056,
+  "GcRequested": false,
+  "WorkingSetTrimmed": false,
+  "Conclusion": "Late working set remains above the target. Mapped size is not resident size. Shared mapped pages remain in the raw working-set measure; pure-tray restart and full-GC condition remain unresolved.",
+  "PendingUserCleanIdleFeedback": true,
+  "Files": [
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\provider-adapter-probe-20261106T2221566336829Z\\state.json",
+      "Path": "checks/provider-adapter-probe-20261106T2221566336829Z/state.json",
+      "Bytes": 1776,
+      "Sha256": "fb3daee6ea91dc2c466b0e9b24b3a6731567d6efbfeb243878a18ec499f1ebf7"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\memory-map-20261106T2226000765599Z.json",
+      "Path": "checks/memory-map-20261106T2226000765599Z.json",
+      "Bytes": 163809,
+      "Sha256": "e7751690f6c90ea5458ac54bd9082f2e963dad3b78768933930dedc17e5d0358"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\memory-map-20261106T2228199141668Z.json",
+      "Path": "checks/memory-map-20261106T2228199141668Z.json",
+      "Bytes": 202425,
+      "Sha256": "0f89375374c68049d94a3c205d601123ac1cc7e3bccbaae17ecc2273c0bbb432"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\actual-helper-processes-20261106T2218146840589Z.json",
+      "Path": "checks/actual-helper-processes-20261106T2218146840589Z.json",
+      "Bytes": 1875,
+      "Sha256": "da142fd8255efe0e8a2bf89a8b3e351812138d96fb83e19a56d0ff7426b83be6"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\provider-adapter-probe-20261107-1\\Program.cs",
+      "Path": "source/provider-adapter-probe-20261107-1/Program.cs",
+      "Bytes": 7643,
+      "Sha256": "59ef30b32b7ed737dc24e54d91b4a293bcb27f9ccd010136f324a899e5c4bee7"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\provider-adapter-probe-20261107-1\\ProviderAdapterProbe.csproj",
+      "Path": "source/provider-adapter-probe-20261107-1/ProviderAdapterProbe.csproj",
+      "Bytes": 371,
+      "Sha256": "ddf2bd90bbcc90642ccc92b6b672e12ab0a3b649837957d032fb736c4fcb9a62"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\memory-map-20261107-1\\MemoryMapProbe.csproj",
+      "Path": "source/memory-map-20261107-1/MemoryMapProbe.csproj",
+      "Bytes": 274,
+      "Sha256": "f73e2feda7b6b48456e67bfbd2127f2d3fa24b68f7be5f3aa685c9ad30748e6e"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\memory-map-20261107-1\\Program.cs",
+      "Path": "source/memory-map-20261107-1/Program.cs",
+      "Bytes": 6149,
+      "Sha256": "b74ed950f528eb5c2dd6305e251ac9979921026ab497c3f7cd966f5d2658fb88"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\provider-adapter-publish-20261107-1.log",
+      "Path": "build/provider-adapter-publish-20261107-1.log",
+      "Bytes": 792,
+      "Sha256": "9692c0263585fb1ce3b41111e60ddb6deb25318d58bc977cf249f8fef89512e9"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\provider-adapter-publish-20261107-2.log",
+      "Path": "build/provider-adapter-publish-20261107-2.log",
+      "Bytes": 510,
+      "Sha256": "aeb341bfd5a96ac8668a0ebcdb985ee6b0bcadaad13b3118eb6cf986f0033aa7"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\memory-map-publish-20261107-1.log",
+      "Path": "build/memory-map-publish-20261107-1.log",
+      "Bytes": 394,
+      "Sha256": "1efc9d76243c01651c97174c6a9372b48cf56e9d843a0123bc0b9c8b5fa9d836"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\memory-map-publish-20261107-2.log",
+      "Path": "build/memory-map-publish-20261107-2.log",
+      "Bytes": 329,
+      "Sha256": "f791541b6e0aa2090381a3dbb37ed999ecf97f221cb9abdcedde3a6ffa34f41d"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+  正在确定要还原的项目…
+  已还原 F:\Iris\artifacts\t040\toolsource\provider-adapter-probe-20261107-1\ProviderAdapterProbe.csproj (用时 1.79 秒)。
+  2 个项目(共 3 个)是最新的，无法还原。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Providers -> F:\Iris\src\Iris.Providers\bin\Release\net10.0\Iris.Providers.dll
+F:\Iris\artifacts\t040\toolsource\provider-adapter-probe-20261107-1\Program.cs(47,35): error CA1861: 如果调用的方法重复调用且未改变传递的数组，则首选 "static readonly" 字段而不是常量数组参数 (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1861) [F:\Iris\artifacts\t040\toolsource\provider-adapter-probe-20261107-1\ProviderAdapterProbe.csproj]
