@@ -1,0 +1,49 @@
+{
+  "Utc": "2026-11-06T22:37:55.542304+00:00",
+  "PreviousGoalTurn": "progress: 15 Provider checks, resident map, commit698036d",
+  "ConsecutiveGoalTurnsWithSameRequiredManualBlocker": 3,
+  "ActualAppPid": 1804,
+  "ActualObserverPid": 2560,
+  "CheckpointCount": 0,
+  "TaskComplete": false,
+  "EligibleStatus": "blocked",
+  "ObjectivePreserved": true,
+  "WhyNoIndependentCriticalPathAction": "Actual Iris operations are assigned to the user; prepared diagnostics cannot produce the required fresh restart and no-window condition.",
+  "Lifecycle": [
+    {
+      "Pid": 1804,
+      "SystemCpuLoadPercentage": 2,
+      "ObservedUtc": "2026-11-06T21:04:23.1515011Z",
+      "Sequence": 2,
+      "ParentPid": 5764,
+      "Kind": "ProcessFirstObserved",
+      "ExecutablePath": "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+      "StartedUtc": "2026-11-06T17:47:49.6799850Z"
+    },
+    {
+      "BootstrapReadyUtc": "2026-11-06T17:47:50.5120000Z",
+      "Kind": "StartupLogCorrelated",
+      "SystemCpuLoadPercentage": 2,
+      "BootstrapReportedMs": 795.1,
+      "ProcessCreatedUtc": "2026-11-06T17:47:49.6799850Z",
+      "LogName": "iris-20261107.log",
+      "Sequence": 4,
+      "Pid": 1804,
+      "CreationToBootstrapReadyMs": 832.015,
+      "LogLine": "2026-11-07 01:47:50.512 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 795.1 ms，托盘图标已创建",
+      "ObservedUtc": "2026-11-06T21:04:23.2696674Z"
+    }
+  ],
+  "RawFiles": [
+    {
+      "Name": "actual-helper-processes-20261106T2235404431284Z.json",
+      "Bytes": 1875,
+      "Sha256": "723cff457d031f48210904e8d714c1aca12ad28b68db9a49b397955f3b2a0b9e"
+    },
+    {
+      "Name": "samples-prefix.jsonl",
+      "Bytes": 731164,
+      "Sha256": "d4f49607f2513c758bf55e9fd67cb6d5aea8ead107906ffdd52148cf682b3cd2"
+    }
+  ]
+}
