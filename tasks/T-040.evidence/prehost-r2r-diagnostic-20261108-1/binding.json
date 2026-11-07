@@ -1,0 +1,63 @@
+{
+  "DiagnosticOnly": true,
+  "ProductSourceChanged": false,
+  "FormalNfrResult": false,
+  "BaselineDiagnosticMs": 1212.3,
+  "R2rDiagnosticMs": 1107.2,
+  "BuildHostBaselineMs": 243.849,
+  "BuildHostR2rMs": 239.972,
+  "SingleRoundCannotProveFix": true,
+  "InstalledRestoredPid": 5312,
+  "Files": [
+    {
+      "Path": "startup-clone-run-20261107T1825362699802Z/exit.json",
+      "Bytes": 398,
+      "Sha256": "b96e8a52deca2d5b5f512516ca6f9db36aad795647aecaa27e6319988abd4ac4"
+    },
+    {
+      "Path": "startup-clone-run-20261107T1825362699802Z/iris-20261108.log",
+      "Bytes": 520,
+      "Sha256": "14fbebc7d4d63c749a3a96ea14141059066fd22dfe6824280512e6cf953d07f4"
+    },
+    {
+      "Path": "startup-clone-run-20261107T1825362699802Z/launch.json",
+      "Bytes": 673,
+      "Sha256": "ff13a98438962268a748d11f081ffba2ef7cdb404e857d186d6febc5e58d44af"
+    },
+    {
+      "Path": "startup-clone-run-20261107T1825362699802Z/startup-phases.txt",
+      "Bytes": 234,
+      "Sha256": "e4585ce37d4fc5b21f4255d7f0c390e12a0fd8aa544d6d0fae351a661fcaabb5"
+    },
+    {
+      "Path": "startup-clone-run-20261107T1825362699802Z/startup-prehost.txt",
+      "Bytes": 130,
+      "Sha256": "6491c1d12873480e4527e651b97e210ed6a5e394af8440f45784d4a727d756da"
+    },
+    {
+      "Path": "startup-clone-run-20261107T1839104298056Z/exit.json",
+      "Bytes": 398,
+      "Sha256": "cb7a56410b628755e50ca7ea84427faaaa55d7291e66b8e0dee879fc19940df9"
+    },
+    {
+      "Path": "startup-clone-run-20261107T1839104298056Z/iris-20261108.log",
+      "Bytes": 520,
+      "Sha256": "1be179b156a889e2d1b456c8c0519aabca36a8fc59713ab1475f6d5e55590554"
+    },
+    {
+      "Path": "startup-clone-run-20261107T1839104298056Z/launch.json",
+      "Bytes": 673,
+      "Sha256": "095999c86d5e67ca1d3b87641f4f4f2ba45e98a250f13f7893879c801bfcd278"
+    },
+    {
+      "Path": "startup-clone-run-20261107T1839104298056Z/startup-phases.txt",
+      "Bytes": 235,
+      "Sha256": "72a9fe953ca5a0517ac000414ed041d4f797da213a996df32c335df65d109a25"
+    },
+    {
+      "Path": "startup-clone-run-20261107T1839104298056Z/startup-prehost.txt",
+      "Bytes": 129,
+      "Sha256": "26fd7233621a9391e0f49d85afd3efb6871eb4b95eb59245ca809523e949f7fa"
+    }
+  ]
+}
