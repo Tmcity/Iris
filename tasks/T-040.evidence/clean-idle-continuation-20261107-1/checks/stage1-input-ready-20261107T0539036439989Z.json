@@ -1,0 +1,34 @@
+{
+    "FixtureModelHttpStatus":  200,
+    "ProductOperationPerformed":  false,
+    "Scripts":  [
+                    {
+                        "Sha256":  "68087C0A3290A2BDBE32524A5A6272B7E0392BDD4269F631D00AAA384FF7AD95",
+                        "Name":  "Capture-Feature-View.cmd",
+                        "ParseErrors":  1
+                    },
+                    {
+                        "Sha256":  "590765DDD0FD55011FE7EFABC1CF768BF96EFB4B479AD6FE498F8ABDA0FEEDE9",
+                        "Name":  "Save-Feature-State.cmd",
+                        "ParseErrors":  1
+                    },
+                    {
+                        "Sha256":  "CC2981FB2AD67E484A5C5EF32846494A90B3E039E264C38FB618C5E12524C257",
+                        "Name":  "t040_capture_feature_view_manual.ps1",
+                        "ParseErrors":  0
+                    },
+                    {
+                        "Sha256":  "30C98D8E1275707087BB636D22D0CEB532BD60F856C2D9654C9267992A9AF5A5",
+                        "Name":  "t040_save_feature_state_readonly.ps1",
+                        "ParseErrors":  0
+                    },
+                    {
+                        "Sha256":  "BCE8E00B3EB4B86BF0439D0FF9E79762A6CC5F86D79BE8CE2AB83CEF5CD4A1A6",
+                        "Name":  "tools\\state-snapshot\\T040StateProbe.exe",
+                        "ParseErrors":  1
+                    }
+                ],
+    "PsVersion":  "5.1.26100.9549",
+    "FixtureActualPid":  5824,
+    "Utc":  "2026-11-07T05:39:03.6282273Z"
+}

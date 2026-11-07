@@ -7,6 +7,7 @@ import argparse
 import base64
 import datetime
 import json
+import re
 import subprocess
 
 ROOT = Path('F:/Iris')
@@ -16,7 +17,10 @@ SANDBOX_ID = '4fc7c24d-f1e5-4b3e-adaa-2abe01f643fe'
 parser = argparse.ArgumentParser()
 parser.add_argument('script', help='ASCII or UTF-8-BOM PowerShell tool under tasks or session input')
 parser.add_argument('--label', required=True)
+parser.add_argument('--guest-root', default=r'C:\IrisT040MetricsV2', help='Already mapped owned read-only input alias')
 args = parser.parse_args()
+if not re.fullmatch(r'C:\\IrisT040[A-Za-z0-9]+', args.guest_root):
+    raise ValueError('Unexpected owned guest input alias')
 script = Path(args.script).resolve(strict=True)
 allowed = [ROOT / 'tasks', SESSION / 'input']
 if not any(script.is_relative_to(p) for p in allowed):
@@ -39,7 +43,7 @@ if SANDBOX_ID not in {item['Id'] for item in listed}:
 stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ')
 archive = ROOT / 'tasks/T-040.evidence' / ('guest-'+args.label+'-'+stamp)
 archive.mkdir(parents=True,exist_ok=False)
-guest_script = ('C:\\IrisT040MetricsV2\\'+script.name).replace("'", "''")
+guest_script = (args.guest_root+'\\'+script.name).replace("'", "''")
 transcript = 'C:\\IrisT040Output\\tool-transcript-'+stamp+'.txt'
 invocation = ("$ErrorActionPreference='Stop'; Start-Transcript -LiteralPath '"+transcript+"' | Out-Null; "
               "try { & '"+guest_script+"'; if ($LASTEXITCODE -and $LASTEXITCODE -ne 0) { throw 'Nested diagnostic failed' } } "

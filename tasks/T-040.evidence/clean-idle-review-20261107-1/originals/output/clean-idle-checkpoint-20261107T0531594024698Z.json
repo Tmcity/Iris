@@ -1,0 +1,15 @@
+{
+    "Utc":  "2026-11-07T05:31:59.9742315Z",
+    "Checkpoint":  "clean-tray-idle-after-manual-restart",
+    "ProductOperationPerformed":  false,
+    "Processes":  [
+                      {
+                          "ProcessId":  3032,
+                          "ParentProcessId":  5764,
+                          "CreationDate":  "\/Date(1794029360658)\/",
+                          "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe"
+                      }
+                  ],
+    "ObserverPid":  2560,
+    "ObserverSourceSha256":  "37bfd2c5fb2858df68513c1151495c849442543094e9af7c2689c5281cfe5b32"
+}

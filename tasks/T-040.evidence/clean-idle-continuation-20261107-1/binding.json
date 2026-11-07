@@ -1,0 +1,65 @@
+{
+  "Utc": "2026-11-07T05:41:04.707586+00:00",
+  "Task": "T-040",
+  "Complete": false,
+  "UserCleanIdleFeedbackReceived": true,
+  "PriorManualRestartBlockerResolved": true,
+  "GoalResumedByUser": true,
+  "ActualAppPid": 3032,
+  "ActualMetricsObserverPid": 2560,
+  "ActualSyntheticServicePid": 5824,
+  "ActualGcObserverPid": 6852,
+  "FullGcSteadyMemoryProved": false,
+  "Stage1ManualUiAcceptancePending": true,
+  "Files": [
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\runtime-observer-launch-20261107T0537254178779Z.json",
+      "Path": "checks/runtime-observer-launch-20261107T0537254178779Z.json",
+      "Bytes": 323,
+      "Sha256": "2670df10f9fe693ec02db67a2f55c78f223b0c44774fd7dee23acc262dce7994",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\stage1-input-ready-20261107T0539036439989Z.json",
+      "Path": "checks/stage1-input-ready-20261107T0539036439989Z.json",
+      "Bytes": 1553,
+      "Sha256": "10992eb4ee1def486638c60fd4ef7fb1d5c9cb49dc062e363ad453fb008e2ad2",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\actual-helper-processes-20261107T0537284290031Z.json",
+      "Path": "checks/actual-helper-processes-20261107T0537284290031Z.json",
+      "Bytes": 2412,
+      "Sha256": "e907e77992e1c4d6616399037e4374738025690eb5c82f88daa92de97b3b5493",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\synthetic-provider-20261107T0535457545842Z\\state.json",
+      "Path": "checks/synthetic-provider-20261107T0535457545842Z/state.json",
+      "Bytes": 316,
+      "Sha256": "b3cf716b3c766266a943a856232c486461e73f4e218af8a15f0e992187c84829",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\runtime-counters-20261107T0537257455600Z\\events.jsonl",
+      "Path": "checks/runtime-counters-20261107T0537257455600Z/events-prefix.jsonl",
+      "Bytes": 858381,
+      "Sha256": "428c2263caf2c5cb4a3ad179382aba3971b6897003ca15e4d9c60b0ff55e8d45",
+      "CompleteLinePrefix": true
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\tool-transcript-20261107T053543264197Z.txt",
+      "Path": "checks/tool-transcript-20261107T053543264197Z.txt",
+      "Bytes": 1900,
+      "Sha256": "d153c2d05d12fb71f9dcce7d70676b334544fc3ca1b3c831ed43614efc0821a0",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\tool-transcript-20261107T053546379136Z.txt",
+      "Path": "checks/tool-transcript-20261107T053546379136Z.txt",
+      "Bytes": 3583,
+      "Sha256": "6729b72da30dc66229bafc8c0de4c8c5b09d2f3edb5c9bdb0a94aae55565264b",
+      "CompleteLinePrefix": false
+    }
+  ]
+}

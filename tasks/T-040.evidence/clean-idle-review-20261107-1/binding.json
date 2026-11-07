@@ -1,0 +1,141 @@
+{
+  "Utc": "2026-11-07T05:35:42.869144+00:00",
+  "Task": "T-040",
+  "Complete": false,
+  "UserFeedback": {
+    "QuestionCall": "call_dqLWzpCKHwctnSuvWSJ7qS7L",
+    "Raw": "已记录",
+    "TaskInstructionsReportedCompleted": true
+  },
+  "OldAppExit": {
+    "Kind": "ProcessExited",
+    "ExitUtc": "2026-11-07T05:29:00.8204600Z",
+    "Sequence": 14408,
+    "Pid": 1804,
+    "ObservedUtc": "2026-11-07T05:29:01.7299382Z",
+    "ExitCode": 0
+  },
+  "NewAppPid": 3032,
+  "NewAppCreatedUtc": "2026-11-07T05:29:20.6580790Z",
+  "Startup": {
+    "BootstrapReadyUtc": "2026-11-07T05:29:21.5210000Z",
+    "Kind": "StartupLogCorrelated",
+    "SystemCpuLoadPercentage": 22,
+    "BootstrapReportedMs": 832.3,
+    "ProcessCreatedUtc": "2026-11-07T05:29:20.6580790Z",
+    "LogName": "iris-20261107.log",
+    "Sequence": 14411,
+    "Pid": 3032,
+    "CreationToBootstrapReadyMs": 862.921,
+    "LogLine": "2026-11-07 13:29:21.521 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 832.3 ms，托盘图标已创建",
+    "ObservedUtc": "2026-11-07T05:29:22.4624426Z"
+  },
+  "OriginalFirstObservationCpuPercent": 22,
+  "CheckpointElapsedSeconds": 159.316152,
+  "StatisticsTimeBasis": "ObservedUtc minus actual process creation; legacy SinceCreatedSeconds is a loop-start timestamp and can precede memory reads.",
+  "Windows": [
+    {
+      "SinceActualProcessCreationSeconds": [
+        30,
+        60
+      ],
+      "Samples": 14,
+      "WorkingSetMedianMiB": 126.46875,
+      "WorkingSetMaxMiB": 126.51171875,
+      "PrivateBytesMedianMiB": 36.8671875,
+      "PrivateBytesMaxMiB": 36.91796875,
+      "ProcessCpuMaxPercent": 0.03817592894923327
+    },
+    {
+      "SinceActualProcessCreationSeconds": [
+        60,
+        120
+      ],
+      "Samples": 29,
+      "WorkingSetMedianMiB": 126.58203125,
+      "WorkingSetMaxMiB": 126.6640625,
+      "PrivateBytesMedianMiB": 36.671875,
+      "PrivateBytesMaxMiB": 36.8046875,
+      "ProcessCpuMaxPercent": 0.037865079343153675
+    },
+    {
+      "SinceActualProcessCreationSeconds": [
+        120,
+        160.316152
+      ],
+      "Samples": 19,
+      "WorkingSetMedianMiB": 125.84765625,
+      "WorkingSetMaxMiB": 126.00390625,
+      "PrivateBytesMedianMiB": 35.80078125,
+      "PrivateBytesMaxMiB": 36.1015625,
+      "ProcessCpuMaxPercent": 0
+    }
+  ],
+  "Version": "0.2.10",
+  "CheckpointFunctionalWindowHandle": 0,
+  "CleanTrayMeasuredWindowWithinLimits": true,
+  "FullGcSteadyMemoryProved": false,
+  "WholeNfrPassed": false,
+  "Prior171MiBFailurePreserved": true,
+  "PriorLateMemoryCauseProved": false,
+  "ManualRestartBlockerResolved": true,
+  "Next": "Actual stage1 synthetic service/input/history UI acceptance; observe natural GC without using trace-active memory as formal idle readings.",
+  "Files": [
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\clean-idle-checkpoint-20261107T0531594024698Z.json",
+      "Path": "originals/output/clean-idle-checkpoint-20261107T0531594024698Z.json",
+      "Bytes": 662,
+      "Sha256": "9a81ae693ce03bfdc39f0e18fb701e61bb33c78e1b63eacb4f7413a5d44d73a5",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\metrics-c4cdd9b216e34b3e90ef4c889256b95a\\samples.jsonl",
+      "Path": "originals/output/metrics-c4cdd9b216e34b3e90ef4c889256b95a/samples.jsonl",
+      "Bytes": 4006141,
+      "Sha256": "a59a894a6872d68fd1904062981a527ec01c54312e102216b0eeb69fca87e9c7",
+      "CompleteLinePrefix": true
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\metrics-c4cdd9b216e34b3e90ef4c889256b95a\\saved-state-20261107T0532000275142Z.json",
+      "Path": "originals/output/metrics-c4cdd9b216e34b3e90ef4c889256b95a/saved-state-20261107T0532000275142Z.json",
+      "Bytes": 965,
+      "Sha256": "3b01a1c05907132d124a984cf8271611f1a592453c17922c3b3fbf52a380676e",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\metrics-c4cdd9b216e34b3e90ef4c889256b95a\\status.json",
+      "Path": "originals/output/metrics-c4cdd9b216e34b3e90ef4c889256b95a/status.json",
+      "Bytes": 287,
+      "Sha256": "93cd0b48e32130210226622d59c4a2514d2d4e441ddd5e271a89e462aac40219",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T0532000744828Z\\iris-20261107.log",
+      "Path": "originals/output/readonly-state-20261107T0532000744828Z/iris-20261107.log",
+      "Bytes": 1762,
+      "Sha256": "98b1bcfdd7f092c6da79e10432a0bc34c32ec5e249f7777807abcb38393bc033",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T0532000744828Z\\state.json",
+      "Path": "originals/output/readonly-state-20261107T0532000744828Z/state.json",
+      "Bytes": 90910,
+      "Sha256": "beadc7d2c6772edb6deb1f6c0918415a12c82532efc4070e12704e1ab07b4b7f",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\actual-helper-processes-20261107T0532493805740Z.json",
+      "Path": "originals/output/actual-helper-processes-20261107T0532493805740Z.json",
+      "Bytes": 1338,
+      "Sha256": "2b59409fd810a79d7e4787ed67e05a815530865ea2e08d4125b4f567c1998a4f",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\synthetic-provider-20261106T2157097276547Z\\final-state.json",
+      "Path": "originals/output/synthetic-provider-20261106T2157097276547Z/final-state.json",
+      "Bytes": 116,
+      "Sha256": "defb3e7cbf9e24ad1a7e91113b841e06089eaa87fd953712240391b198e199e3",
+      "CompleteLinePrefix": false
+    }
+  ]
+}

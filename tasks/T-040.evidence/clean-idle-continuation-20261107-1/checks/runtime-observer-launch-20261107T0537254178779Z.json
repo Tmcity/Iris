@@ -1,0 +1,11 @@
+{
+    "DurationSeconds":  600,
+    "ObserverPid":  6852,
+    "Utc":  "2026-11-07T05:37:25.5876077Z",
+    "FormalMemorySamplesDuringTraceEligible":  false,
+    "ProductOperationPerformed":  false,
+    "TargetPid":  3032,
+    "TargetRole":  "InstalledIris",
+    "GcRequested":  false,
+    "EventPipeBufferMiB":  1
+}

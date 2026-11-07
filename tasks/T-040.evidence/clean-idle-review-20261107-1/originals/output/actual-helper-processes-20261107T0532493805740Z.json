@@ -1,0 +1,22 @@
+{
+    "Utc":  "2026-11-07T05:32:49.3765399Z",
+    "Processes":  [
+                      {
+                          "ProcessId":  2560,
+                          "ParentProcessId":  3120,
+                          "Name":  "powershell.exe",
+                          "CreationDate":  "\/Date(1793999059445)\/",
+                          "ExecutablePath":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                          "CommandLine":  "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\IrisT040MetricsV2\\observe-process-metrics-v2-readonly.ps1 -OutputDirectory C:\\IrisT040Output\\metrics-c4cdd9b216e34b3e90ef4c889256b95a "
+                      },
+                      {
+                          "ProcessId":  3032,
+                          "ParentProcessId":  5764,
+                          "Name":  "Iris.App.exe",
+                          "CreationDate":  "\/Date(1794029360658)\/",
+                          "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+                          "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" "
+                      }
+                  ],
+    "ProductOperationPerformed":  false
+}

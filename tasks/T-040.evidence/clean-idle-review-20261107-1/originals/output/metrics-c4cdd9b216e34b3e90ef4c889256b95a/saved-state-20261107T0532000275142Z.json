@@ -1,0 +1,21 @@
+{
+    "Utc":  "2026-11-07T05:32:00.0275142Z",
+    "ObserverActualProcessAlive":  true,
+    "ObserverStatus":  {
+                           "ObserverPid":  2560,
+                           "LastHeartbeatUtc":  "2026-11-07T05:31:59.3967137Z",
+                           "Failure":  null,
+                           "Samples":  14486,
+                           "Ready":  true,
+                           "ProductOperationPerformed":  false,
+                           "OutputDirectory":  "C:\\IrisT040Output\\metrics-c4cdd9b216e34b3e90ef4c889256b95a"
+                       },
+    "InstalledSource":  {
+                            "Version":  "0.2.10",
+                            "Channel":  "win",
+                            "PackageId":  "Iris",
+                            "Repository":  "https://github.com/Tmcity/Iris",
+                            "RuntimeId":  "win-x64"
+                        },
+    "ProductOperationPerformed":  false
+}
