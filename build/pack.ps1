@@ -2,7 +2,8 @@ param(
     [Parameter(Mandatory=$true)][string]$Version,
     [string]$OutputDirectory,
     [string]$PreviousReleaseDirectory,
-    [string]$ToolPackageDirectory
+    [string]$ToolPackageDirectory,
+    [switch]$ReadyToRun
 )
 $ErrorActionPreference = 'Stop'
 # Resolve the native modules in this process only; callers may provide a PSModulePath for another PowerShell edition.
@@ -53,7 +54,9 @@ $staging = Join-Path $work 'app'
 $uia = Join-Path $work 'uia'
 $maintenance = Join-Path $work 'maintenance'
 $common = @('-c','Release','-r','win-x64',('-p:Version=' + $Version),('-p:RestoreConfigFile=' + $config))
-Invoke-Dotnet (@('publish',(Join-Path $workspace 'src\Iris.App\Iris.App.csproj')) + $common + @('--self-contained','false','-o',$staging))
+$appPublish = @('--self-contained','false','-o',$staging)
+if ($ReadyToRun) { $appPublish += '-p:PublishReadyToRun=true' }
+Invoke-Dotnet (@('publish',(Join-Path $workspace 'src\Iris.App\Iris.App.csproj')) + $common + $appPublish)
 Invoke-Dotnet (@('publish',(Join-Path $workspace 'src\Iris.UiaHost\Iris.UiaHost.csproj')) + $common + @('--self-contained','false','-o',$uia))
 Invoke-Dotnet (@('publish',(Join-Path $workspace 'src\Iris.Maintenance\Iris.Maintenance.csproj')) + $common + @('--self-contained','true','-p:PublishSingleFile=true','-p:IncludeNativeLibrariesForSelfExtract=true','-p:EnableCompressionInSingleFile=true','-o',$maintenance))
 # Only exact root duplicates are removed from this newly created staging directory.
@@ -126,4 +129,4 @@ $hashes = @(Get-ChildItem -LiteralPath $OutputDirectory -File | ForEach-Object {
 [IO.File]::WriteAllText((Join-Path $OutputDirectory 'SHA256.json'), ($hashes | ConvertTo-Json -Depth 4), $utf8)
 & python -B (Join-Path $PSScriptRoot 'release_manifest.py') finalize --version $Version --directory $OutputDirectory --source $sourceCapture
 if ($LASTEXITCODE -ne 0) { throw 'Public release asset verification failed.' }
-[pscustomobject]@{Version=$Version;SdkVersion=$sdkVersion;WorkDirectory=$work;OutputDirectory=$OutputDirectory;Installer=$outer;Signed=$false} | ConvertTo-Json
+[pscustomobject]@{Version=$Version;SdkVersion=$sdkVersion;WorkDirectory=$work;OutputDirectory=$OutputDirectory;Installer=$outer;Signed=$false;ReadyToRun=$ReadyToRun.IsPresent} | ConvertTo-Json

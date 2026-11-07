@@ -51,7 +51,7 @@ def validate(directory):
     (directory / "validation-summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
     print(json.dumps(summary, ensure_ascii=False, indent=2))
 
-def package(version, directory, logs, validation, previous, tool_source):
+def package(version, directory, logs, validation, previous, tool_source, ready_to_run=False):
     logs.mkdir(parents=True, exist_ok=False)
     environment = os.environ.copy()
     temporary = logs / "temp"
@@ -64,6 +64,8 @@ def package(version, directory, logs, validation, previous, tool_source):
         command += ["-PreviousReleaseDirectory", str(previous)]
     if tool_source:
         command += ["-ToolPackageDirectory", str(tool_source)]
+    if ready_to_run:
+        command += ["-ReadyToRun"]
     run(command, logs, "package", environment)
     provenance = read_json(directory / "release-provenance.json")
     summary = read_json(validation / "validation-summary.json")
@@ -90,8 +92,9 @@ if __name__ == "__main__":
     parser.add_argument("--validation", type=Path)
     parser.add_argument("--previous", type=Path)
     parser.add_argument("--tool-source", type=Path)
+    parser.add_argument("--ready-to-run", action="store_true")
     args = parser.parse_args()
     if args.command == "validate":
         validate(args.output.resolve())
     else:
-        package(args.version, args.output.resolve(), args.logs.resolve(), args.validation.resolve(), args.previous.resolve() if args.previous else None, args.tool_source.resolve() if args.tool_source else None)
+        package(args.version, args.output.resolve(), args.logs.resolve(), args.validation.resolve(), args.previous.resolve() if args.previous else None, args.tool_source.resolve() if args.tool_source else None, args.ready_to_run)
