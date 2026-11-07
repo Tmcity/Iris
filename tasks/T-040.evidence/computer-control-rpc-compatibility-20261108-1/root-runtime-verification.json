@@ -1,0 +1,56 @@
+{
+  "RecordedUtc": "2026-11-07T20:46:54.847930+00:00",
+  "Source": "Root independent live official-wrapper calls and visual observations, relayed to this child",
+  "RawToolReturnsCopiedByChild": false,
+  "ScreenshotLocation": "Actual screenshots remain in root get_window_state tool outputs",
+  "ScreenshotDataDecodedOrWrittenByChild": false,
+  "OfficialAbsoluteWrapperBootstrapSucceeded": true,
+  "ListAppsSucceeded": true,
+  "SkyTarget": "windows",
+  "ActualWindowApiMethodCount": 13,
+  "EarlierOralMethodCount14WasCorrected": true,
+  "Window": {
+    "App": "WindowsSandboxAppCli",
+    "Id": 461388
+  },
+  "WindowApiCalls": {
+    "get_window": "completed",
+    "activate_window": "completed",
+    "get_window_state": "returned visible screenshots"
+  },
+  "MouseEffects": [
+    {
+      "Action": "Right-click the guest Iris tray icon",
+      "ObservedEffect": "Iris menu visibly opened",
+      "Passed": true
+    },
+    {
+      "Action": "Click an empty area",
+      "ObservedEffect": "Tray menu visibly closed",
+      "Passed": true
+    },
+    {
+      "Action": "Click guest Explorer taskbar icon",
+      "ObservedEffect": "Explorer window visibly opened",
+      "Passed": true
+    }
+  ],
+  "KeyboardEffects": {
+    "Actions": [
+      "Focus Explorer address bar",
+      "Ctrl+L",
+      "type_text literal path",
+      "Return"
+    ],
+    "LiteralPath": "C:\\IrisT040R2rCandidate",
+    "ObservedEffect": "Explorer navigated to that directory; title/address and candidate installation package files were visible",
+    "KeyboardShortcutAndLiteralTextInputPassed": true
+  },
+  "SeparateEscapeObservation": {
+    "ApiCallCompleted": true,
+    "TrayMenuStillVisibleInFollowingScreenshot": true,
+    "UsedAsProofOfKeyboardEffect": false
+  },
+  "SdkApprovalTransportAndInterruptionSourcesUnchanged": true,
+  "BroaderIrisAcceptanceOrNfrClaimedComplete": false
+}

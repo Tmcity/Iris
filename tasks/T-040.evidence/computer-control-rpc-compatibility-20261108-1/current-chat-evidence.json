@@ -1,0 +1,23 @@
+{
+  "Utc": "2026-11-07T20:38:33.664918+00:00",
+  "UserReportsOtherChatsControlNormally": true,
+  "UserReportsAnyAppEnabled": true,
+  "RootReportedFreshDirectNativeApiAbsent": true,
+  "RootReportedOfficialRpcSkySetupSucceeded": true,
+  "RootReportedRpcTarget": "windows",
+  "RootRuntimeApiReported": [
+    "cwd",
+    "env",
+    "homeDir",
+    "tmpDir",
+    "requestMeta",
+    "write",
+    "emitImage",
+    "rpc"
+  ],
+  "GlobalHostControlFailureEstablished": false,
+  "DiagnosisScope": "Current chat wrapper/Node runtime API compatibility",
+  "Source": "Root reports of actual current-chat tools and direct user confirmation; no other chat was read",
+  "ActualWindowApiMethodCount": 13,
+  "RootControlConnectionAndEssentialInputVerified": true
+}

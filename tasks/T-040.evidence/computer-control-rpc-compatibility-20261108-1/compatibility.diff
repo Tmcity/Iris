@@ -1,0 +1,47 @@
+--- original/computer-use-client.mjs
++++ patched/computer-use-client.mjs
+@@ -9,8 +9,22 @@
+ let activeSkyClient = null;
+ 
+ export async function setupComputerUseRuntime({ globals = globalThis } = {}) {
+-  if (platform() !== "win32") {
++  const useNativeWindowsPipe =
++    platform() === "win32" &&
++    typeof getComputerUsePrivilegedNodeRepl()?.nativePipe?.createConnection === "function";
++  if (!useNativeWindowsPipe) {
++    if (platform() === "win32" && typeof globals.nodeRepl?.rpc !== "function") {
++      throw new Error("Computer Use requires a trusted Node REPL Sky service or native pipe");
++    }
+     const { sky } = await import("@oai/sky");
++    if (
++      platform() === "win32" &&
++      (sky.target !== "windows" ||
++        typeof sky.list_apps !== "function" ||
++        typeof sky.get_window_state !== "function")
++    ) {
++      throw new Error("Computer Use requires the Windows window API from the trusted Sky service");
++    }
+     return installComputerUseRuntime({ globals, sky });
+   }
+ 
+@@ -222,12 +236,14 @@
+       }
+ 
+       return (...args) => {
+-        globals.nodeRepl?.setResponseMeta({
+-          [TOOL_SURFACE_META_KEY]: {
+-            kind: "computerUse",
+-            app: getComputerUseAppReference(args[0]),
+-          },
+-        });
++        if (typeof globals.nodeRepl?.setResponseMeta === "function") {
++          globals.nodeRepl.setResponseMeta({
++            [TOOL_SURFACE_META_KEY]: {
++              kind: "computerUse",
++              app: getComputerUseAppReference(args[0]),
++            },
++          });
++        }
+         return Reflect.apply(value, target, args);
+       };
+     },

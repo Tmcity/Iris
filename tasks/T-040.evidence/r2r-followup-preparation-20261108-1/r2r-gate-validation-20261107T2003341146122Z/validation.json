@@ -1,0 +1,35 @@
+{
+    "Cases":  [
+                  {
+                      "Case":  "MissingReceipt",
+                      "Rejected":  true,
+                      "Reason":  "Verified R2R installation receipt required"
+                  },
+                  {
+                      "Case":  "ForgedClaimWithOriginalPayload",
+                      "Rejected":  true,
+                      "Reason":  "Actual payload differs from the reviewed R2R candidate"
+                  },
+                  {
+                      "Case":  "t040_r2r_window_cycle_native.ps1",
+                      "Rejected":  true,
+                      "Reason":  "Verified R2R installation receipt required"
+                  },
+                  {
+                      "Case":  "t040_start_r2r_runtime_observer.ps1",
+                      "Rejected":  true,
+                      "Reason":  "Verified R2R installation receipt required"
+                  },
+                  {
+                      "Case":  "t040_start_r2r_tray_steady_readonly.ps1",
+                      "Rejected":  true,
+                      "Reason":  "Verified R2R installation receipt required"
+                  }
+              ],
+    "ProductOperationPerformed":  false,
+    "InstallerExecuted":  false,
+    "NativeCliExecuted":  false,
+    "PrimaryUnchanged":  true,
+    "Utc":  "2026-11-07T20:03:34.7443863Z",
+    "PowerShellVersion":  "5.1.26100.9549"
+}

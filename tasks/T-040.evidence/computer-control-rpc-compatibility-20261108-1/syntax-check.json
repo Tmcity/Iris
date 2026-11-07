@@ -1,0 +1,11 @@
+{
+  "Command": [
+    "node",
+    "--check",
+    "C:\\Users\\28910\\.codex\\plugins\\cache\\openai-bundled\\computer-use\\26.609.41114\\scripts\\computer-use-client.mjs"
+  ],
+  "ExitCode": 0,
+  "NodeVersion": "v22.23.2",
+  "Source": "Direct exec syntax check; chunk 2d5f86",
+  "ExecutionDidNotRunModuleBody": true
+}

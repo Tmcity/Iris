@@ -1,0 +1,82 @@
+{
+  "Files": [
+    {
+      "Path": "gc-pair-validation/GenOne.jsonl",
+      "Bytes": 101,
+      "Sha256": "6d72ac55eb63d3741db5c75494258bf34f892eb295f5de45e972978252978c35"
+    },
+    {
+      "Path": "gc-pair-validation/Induced.jsonl",
+      "Bytes": 98,
+      "Sha256": "1763c5f9b60ba2967b53d156f6ae935831c73b70ad473593602b64b340693df9"
+    },
+    {
+      "Path": "gc-pair-validation/StartOnly.jsonl",
+      "Bytes": 62,
+      "Sha256": "4e29350fbd2123be5949f113b7ab0f97e1b9a501adc8c77353812a4f0d17231e"
+    },
+    {
+      "Path": "gc-pair-validation/validation.json",
+      "Bytes": 1765,
+      "Sha256": "5016e41263facb250605a851d5c87ac7cd5826be811d7bd22211f95d1c0fe4b2"
+    },
+    {
+      "Path": "gc-pair-validation/WrongCount.jsonl",
+      "Bytes": 101,
+      "Sha256": "4655590817db8c9c2fbe206f764e3ba200f3852bfee0384e2a31d6eb1bf49bb6"
+    },
+    {
+      "Path": "r2r-gate-validation-20261107T2003341146122Z/synthetic-untrusted-receipt.json",
+      "Bytes": 321,
+      "Sha256": "a6137ff0bd5c56541a8200866d86fc8b4c17081f516ea5222376544069ee9379"
+    },
+    {
+      "Path": "r2r-gate-validation-20261107T2003341146122Z/validation.json",
+      "Bytes": 1431,
+      "Sha256": "9f0249ba957470b7a32708358dacb82e1c01a5baf857bf3c2c8807cc19e02cc0"
+    },
+    {
+      "Path": "tool-source/t040_archive_control_recovery_and_followup_20261108.py",
+      "Bytes": 3857,
+      "Sha256": "acc735cb06ec1111de092e6d13ede5760e52ad97d54706aa07cb474dc5ffc11f"
+    },
+    {
+      "Path": "tool-source/t040_r2r_candidate_gate.psm1",
+      "Bytes": 4078,
+      "Sha256": "251437c732083da28bf56ceaf5e57fd746f762664a59a6d1510b3c682d39f320"
+    },
+    {
+      "Path": "tool-source/t040_r2r_tray_steady_readonly.ps1",
+      "Bytes": 6741,
+      "Sha256": "ca750df438aa0ec0fe60ff68e65fcc29e51dcc2f0bff77cda22d1312e407b003"
+    },
+    {
+      "Path": "tool-source/t040_r2r_window_cycle_native.ps1",
+      "Bytes": 2987,
+      "Sha256": "db92aa67e5d6030d97f8c4a16a84f77745eadbb1f95dc3766138cf275224312b"
+    },
+    {
+      "Path": "tool-source/t040_start_r2r_runtime_observer.ps1",
+      "Bytes": 3648,
+      "Sha256": "fda812f66de17a809add2c5d87abd266884dd84b5d6c2536f3e6735a3c1ceafc"
+    },
+    {
+      "Path": "tool-source/t040_start_r2r_tray_steady_readonly.ps1",
+      "Bytes": 1487,
+      "Sha256": "87a4dbd7cc96ba0601e0a7c20da1f1203572b60e60f3247d3c377ffa100bfdce"
+    },
+    {
+      "Path": "tool-source/t040_validate_natural_gc_pairs_ps51.ps1",
+      "Bytes": 2274,
+      "Sha256": "3061375561cd0f7218f9d90f2599100d14e148d049e34990dcf8bbae70322d03"
+    },
+    {
+      "Path": "tool-source/t040_validate_r2r_candidate_guard_readonly.ps1",
+      "Bytes": 3337,
+      "Sha256": "5be6f10275d4f35198846e88ecc45c6ce594318517c635f4e46cfb805b730115"
+    }
+  ],
+  "ActualR2rFollowupExecutionPending": true,
+  "FormalNfrResult": false,
+  "ProductOperationPerformed": false
+}

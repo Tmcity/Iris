@@ -1,0 +1,34 @@
+{
+  "name": "@oai/cua-repl",
+  "version": "0.1.3",
+  "description": "CUA MCP interface for NodeREPL.",
+  "author": "noahj",
+  "private": false,
+  "bazel_only": false,
+  "type": "module",
+  "main": "dist\\lib\\js\\oai_js_cua_repl\\src\\index.js",
+  "exports": {
+    ".": "./dist\\lib\\js\\oai_js_cua_repl\\src\\index.js",
+    "./environment": "./dist\\lib\\js\\oai_js_cua_repl\\src\\environment.js"
+  },
+  "imports": {
+    "#instructions/*": "./instructions/*"
+  },
+  "bin": {
+    "cua-repl": "bin/cua-repl.mjs"
+  },
+  "files": [
+    "bin",
+    "plugin",
+    "instructions",
+    "dist/**/*"
+  ],
+  "dependencies": {},
+  "types": "dist\\lib\\js\\oai_js_cua_repl\\src\\index.d.ts",
+  "scripts": {
+    "format": "oai-prettier --check --cache --ignore-path .gitignore --ignore-path .prettierignore '**/*.{cjs,mjs,js,jsx,ts,tsx,json,css,scss,md}'",
+    "format:write": "pnpm format --write",
+    "test": "bun test src",
+    "types": "tsc"
+  }
+}

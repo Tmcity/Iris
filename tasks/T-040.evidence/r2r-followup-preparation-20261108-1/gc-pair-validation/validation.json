@@ -1,0 +1,45 @@
+{
+    "Cases":  [
+                  {
+                      "Case":  "StartOnly",
+                      "Rejected":  true,
+                      "Result":  {
+                                     "NaturalFullGcStarts":  1,
+                                     "CompletedNaturalFullGcPairs":  0
+                                 }
+                  },
+                  {
+                      "Case":  "WrongCount",
+                      "Rejected":  true,
+                      "Result":  {
+                                     "NaturalFullGcStarts":  1,
+                                     "CompletedNaturalFullGcPairs":  0
+                                 }
+                  },
+                  {
+                      "Case":  "GenOne",
+                      "Rejected":  true,
+                      "Result":  {
+                                     "NaturalFullGcStarts":  0,
+                                     "CompletedNaturalFullGcPairs":  0
+                                 }
+                  },
+                  {
+                      "Case":  "Induced",
+                      "Rejected":  true,
+                      "Result":  {
+                                     "NaturalFullGcStarts":  0,
+                                     "CompletedNaturalFullGcPairs":  0
+                                 }
+                  }
+              ],
+    "ProductOperationPerformed":  false,
+    "FormalR2rNfrResult":  false,
+    "ProductGcRequested":  false,
+    "OriginalControl":  {
+                            "NaturalFullGcStarts":  1,
+                            "CompletedNaturalFullGcPairs":  1
+                        },
+    "Utc":  "2026-11-07T20:06:52.7734124Z",
+    "PowerShellVersion":  "5.1.26100.9549"
+}

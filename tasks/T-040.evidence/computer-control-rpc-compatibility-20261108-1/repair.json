@@ -1,0 +1,97 @@
+{
+  "Utc": "2026-11-07T20:31:49.741901+00:00",
+  "ClientPath": "C:\\Users\\28910\\.codex\\plugins\\cache\\openai-bundled\\computer-use\\26.609.41114\\scripts\\computer-use-client.mjs",
+  "BeforeSha256": "bdc61752e0f9d9b1e73e3cba25ca71d3d9fe54d335ed8196378106081474d7c1",
+  "AfterSha256": "aa7cf705c7b4c93ea52d8f2ac6dd81de841a3297da0e4b53c78cebd117d35a7b",
+  "Changes": [
+    "Select the existing official trusted Sky RPC adapter when the direct native Node API is unavailable",
+    "Use setResponseMeta only when the runtime supplies that optional function"
+  ],
+  "SdkServiceBaseTransportChanged": false,
+  "ApprovalFunctionsFabricated": false,
+  "ApprovalHeadersFabricated": false,
+  "NativePipeFabricated": false,
+  "HelperProcessStartedDirectly": false,
+  "SharedKernelResetPerformed": false,
+  "RootReportedOfficialRpcSetup": {
+    "Target": "windows",
+    "WindowApiMethodsPresent": true
+  },
+  "RootRuntimeVerificationPending": false,
+  "OfficialSourceBindings": [
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\sky.js",
+      "ArchivePath": "official-source/sky.js",
+      "Bytes": 1269,
+      "Sha256": "91a38110155e2d48ca376752cd66918e77fbf9457605c3fccc4ca3097684517a"
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\sky_service_rpc.js",
+      "ArchivePath": "official-source/sky_service_rpc.js",
+      "Bytes": 1109,
+      "Sha256": "87b037bfa736500f6700824099d569cb8add10140c66ad6039e6d21f3f5c2f7d"
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\service.js",
+      "ArchivePath": "official-source/service.js",
+      "Bytes": 3494,
+      "Sha256": "efd97700bc9d87fc6c2e7ef262d49eb638123c52fff92ff680ebd1bbb0e7cb81"
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\targets\\windows\\create_client.js",
+      "ArchivePath": "official-source/windows-create-client.js",
+      "Bytes": 132,
+      "Sha256": "43935a185c83827ea87e23295c7a44327f43e933da97da7cd1b8b7eb23aa6fab"
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\targets\\windows\\internal\\computer_use_client.js",
+      "ArchivePath": "official-source/windows-client.js",
+      "Bytes": 8451,
+      "Sha256": "1d472472c615143c1f4f7d6ba083225a743e8f705c1042dc6ed64260bb3c116f"
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\targets\\windows\\internal\\computer_use_client_base.js",
+      "ArchivePath": "official-source/windows-client-base.js",
+      "Bytes": 10627,
+      "Sha256": "5e54867417cb120477455e069c2eb53b6513b8e076a06143d4d207cc8a293d95"
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\targets\\windows\\internal\\helper_transport.js",
+      "ArchivePath": "official-source/windows-helper-transport.js",
+      "Bytes": 11728,
+      "Sha256": "502b93f0d8be7847e3415c7913451c35acdd8dd41fc85202a06429e263d9ffc8"
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\targets\\windows\\internal\\codex_turn_metadata.js",
+      "ArchivePath": "official-source/codex-turn-metadata.js",
+      "Bytes": 744,
+      "Sha256": "284ca7197ed514ca272c728d6ab0eda116f4fc44b3485435c004adcf2d95f3fb"
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\cua-repl\\dist\\lib\\js\\oai_js_cua_repl\\src\\environment.js",
+      "ArchivePath": "official-source/cua-repl-environment.js",
+      "Bytes": 1656,
+      "Sha256": "0160beba37aa314e2f04a6febaa1a633b59fd59ff65b4e2282dc0926070d40ab"
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\cua-repl\\dist\\lib\\js\\oai_js_cua_repl\\src\\launch.js",
+      "ArchivePath": "official-source/cua-repl-launch.js",
+      "Bytes": 838,
+      "Sha256": "2b94afb931a6fd654b07957a04e3269710be747a1f3680cf2d0a007b6598f000"
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\package.json",
+      "ArchivePath": "official-source/sky-package.json",
+      "Bytes": 1500,
+      "Sha256": "babaa17c7a26204a5937476427506545aa662703c68a90286cfc217a8730a407"
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\cua-repl\\package.json",
+      "ArchivePath": "official-source/cua-repl-package.json",
+      "Bytes": 938,
+      "Sha256": "1072f03a5848266d34771e69d3af233ac0573831fd41787f3b4e0be1ff82ee2e"
+    }
+  ],
+  "RootControlConnectionAndEssentialInputVerified": true,
+  "RootRuntimeVerificationSource": "root-runtime-verification.json"
+}

@@ -1,0 +1,127 @@
+{
+  "Utc": "2026-11-07T20:46:54.857234+00:00",
+  "Files": [
+    {
+      "Path": "compatibility.diff",
+      "Bytes": 1729,
+      "Sha256": "5559785c95dd8b9062716ef01c700c224c9859fd7533e9bb5872b5dac1eda0da"
+    },
+    {
+      "Path": "computer-use-client.mjs.original",
+      "Bytes": 8453,
+      "Sha256": "bdc61752e0f9d9b1e73e3cba25ca71d3d9fe54d335ed8196378106081474d7c1"
+    },
+    {
+      "Path": "computer-use-client.mjs.patched",
+      "Bytes": 9184,
+      "Sha256": "aa7cf705c7b4c93ea52d8f2ac6dd81de841a3297da0e4b53c78cebd117d35a7b"
+    },
+    {
+      "Path": "current-chat-evidence.json",
+      "Bytes": 767,
+      "Sha256": "312c31c622085ea6ad8927c9ec65dab97de4772f31ce573c30dc04096deda942"
+    },
+    {
+      "Path": "manifest-before-runtime-verification.json",
+      "Bytes": 3640,
+      "Sha256": "f02b94ceaf0f1a05a2aa5a809520e3efef073eba9eb8eec42774771d8afbeb8e"
+    },
+    {
+      "Path": "official-source/codex-turn-metadata.js",
+      "Bytes": 744,
+      "Sha256": "284ca7197ed514ca272c728d6ab0eda116f4fc44b3485435c004adcf2d95f3fb"
+    },
+    {
+      "Path": "official-source/cua-repl-environment.js",
+      "Bytes": 1656,
+      "Sha256": "0160beba37aa314e2f04a6febaa1a633b59fd59ff65b4e2282dc0926070d40ab"
+    },
+    {
+      "Path": "official-source/cua-repl-launch.js",
+      "Bytes": 838,
+      "Sha256": "2b94afb931a6fd654b07957a04e3269710be747a1f3680cf2d0a007b6598f000"
+    },
+    {
+      "Path": "official-source/cua-repl-package.json",
+      "Bytes": 938,
+      "Sha256": "1072f03a5848266d34771e69d3af233ac0573831fd41787f3b4e0be1ff82ee2e"
+    },
+    {
+      "Path": "official-source/service.js",
+      "Bytes": 3494,
+      "Sha256": "efd97700bc9d87fc6c2e7ef262d49eb638123c52fff92ff680ebd1bbb0e7cb81"
+    },
+    {
+      "Path": "official-source/sky-package.json",
+      "Bytes": 1500,
+      "Sha256": "babaa17c7a26204a5937476427506545aa662703c68a90286cfc217a8730a407"
+    },
+    {
+      "Path": "official-source/sky.js",
+      "Bytes": 1269,
+      "Sha256": "91a38110155e2d48ca376752cd66918e77fbf9457605c3fccc4ca3097684517a"
+    },
+    {
+      "Path": "official-source/sky_service_rpc.js",
+      "Bytes": 1109,
+      "Sha256": "87b037bfa736500f6700824099d569cb8add10140c66ad6039e6d21f3f5c2f7d"
+    },
+    {
+      "Path": "official-source/windows-client-base.js",
+      "Bytes": 10627,
+      "Sha256": "5e54867417cb120477455e069c2eb53b6513b8e076a06143d4d207cc8a293d95"
+    },
+    {
+      "Path": "official-source/windows-client.js",
+      "Bytes": 8451,
+      "Sha256": "1d472472c615143c1f4f7d6ba083225a743e8f705c1042dc6ed64260bb3c116f"
+    },
+    {
+      "Path": "official-source/windows-create-client.js",
+      "Bytes": 132,
+      "Sha256": "43935a185c83827ea87e23295c7a44327f43e933da97da7cd1b8b7eb23aa6fab"
+    },
+    {
+      "Path": "official-source/windows-helper-transport.js",
+      "Bytes": 11728,
+      "Sha256": "502b93f0d8be7847e3415c7913451c35acdd8dd41fc85202a06429e263d9ffc8"
+    },
+    {
+      "Path": "repair-before-runtime-verification.json",
+      "Bytes": 5479,
+      "Sha256": "243acd3bd803e58fc629cc5029a65e2451066fd7d08efd8e2edf3971767b7320"
+    },
+    {
+      "Path": "repair.json",
+      "Bytes": 5609,
+      "Sha256": "8ae40610a594ba4dfea4cb7a8ba9b5dbac1c77dde6ca6d963bc8388a8f1f6f8e"
+    },
+    {
+      "Path": "repair_rpc_wrapper.py",
+      "Bytes": 5910,
+      "Sha256": "8a5874be79c1f0737ea6a7ca124d64a8f6a36612798a8dba2f241fc7b8475a4d"
+    },
+    {
+      "Path": "REVIEW.md",
+      "Bytes": 4573,
+      "Sha256": "ab1678de5bc8cca63d1adf00f89aa2be26005fe4833ef37ba3396fb6e13ec4ea"
+    },
+    {
+      "Path": "rollback.py",
+      "Bytes": 525,
+      "Sha256": "9342bf1ee684d78006d96f5e8e1b642b3cab790cc967224eded0331c18a569a3"
+    },
+    {
+      "Path": "root-runtime-verification.json",
+      "Bytes": 1912,
+      "Sha256": "ad26eb5b5a42d0ad7df46cc66a6301942024ca2cf38f08cf5ac8b62a50d0ee3a"
+    },
+    {
+      "Path": "syntax-check.json",
+      "Bytes": 326,
+      "Sha256": "44c612ecdf23b6b34a66c2344e7e2b88b6856e2d4f46df35d21d6336892e4d6d"
+    }
+  ],
+  "RootRuntimeVerificationPending": false,
+  "RootControlConnectionAndEssentialInputVerified": true
+}
