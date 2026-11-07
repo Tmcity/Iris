@@ -2,8 +2,8 @@ $ErrorActionPreference='Stop'
 if([Environment]::UserName-ne'WDAGUtilityAccount'){throw 'Owned Sandbox only'}
 $taskInstalled=Join-Path $env:LOCALAPPDATA 'Iris\current\Iris.App.exe'
 $taskApps=@(Get-CimInstance Win32_Process -Filter "Name='Iris.App.exe'"|Where-Object{$_.ExecutablePath-eq$taskInstalled})
-if($taskApps.Count-ne1-or$taskApps[0].ProcessId-ne6040){throw 'Expected current installed Iris6040'}
-$taskOriginal=[Diagnostics.Process]::GetProcessById(6040);$null=$taskOriginal.Handle
+if($taskApps.Count-ne1-or$taskApps[0].ProcessId-ne6320){throw 'Expected restored installed Iris6320'}
+$taskOriginal=[Diagnostics.Process]::GetProcessById(6320);$null=$taskOriginal.Handle
 $taskOut=Join-Path 'C:\IrisT040Output' ('startup-clone-run-'+[DateTime]::UtcNow.ToString('yyyyMMddTHHmmssfffffffZ'));$null=New-Item -ItemType Directory -Path $taskOut
 $taskApp=Join-Path (Join-Path $env:LOCALAPPDATA 'IrisT040Diagnostic') ([Guid]::NewGuid().ToString('N'));$null=New-Item -ItemType Directory -Path $taskApp
 Get-ChildItem -LiteralPath (Join-Path $PSScriptRoot 'tools\startup-diagnostic') | Copy-Item -Destination $taskApp -Recurse
@@ -18,6 +18,6 @@ if(-not$taskOriginal.WaitForExit(15000)){throw 'Installed primary is still shutt
 $taskExitCode=$taskOriginal.ExitCode;$taskOriginal.Dispose()
 $taskExe=Join-Path $taskApp 'Iris.App.exe'
 $taskProcess=Start-Process -FilePath $taskExe -WindowStyle Hidden -PassThru;$null=$taskProcess.Handle
-$taskRecord=@{Utc=[DateTime]::UtcNow.ToString('o');OriginalPid=6040;OriginalExitCode=$taskExitCode;DiagnosticPid=$taskProcess.Id;DiagnosticCreatedUtc=$taskProcess.StartTime.ToUniversalTime().ToString('o');DiagnosticPath=$taskExe;OutputDirectory=$taskOut;DiagnosticDataLocalToGuest=$true;ProductOperationPerformed=$true;InstalledBinaryChanged=$false;InstalledDataChanged=$false;FormalNfrResult=$false;OnlyCurrentSidSyntheticCredentialsCopied=$true}
+$taskRecord=@{Utc=[DateTime]::UtcNow.ToString('o');OriginalPid=6320;OriginalExitCode=$taskExitCode;DiagnosticPid=$taskProcess.Id;DiagnosticCreatedUtc=$taskProcess.StartTime.ToUniversalTime().ToString('o');DiagnosticPath=$taskExe;OutputDirectory=$taskOut;DiagnosticDataLocalToGuest=$true;ProductOperationPerformed=$true;InstalledBinaryChanged=$false;InstalledDataChanged=$false;FormalNfrResult=$false;OnlyCurrentSidSyntheticCredentialsCopied=$true}
 [IO.File]::WriteAllText((Join-Path $taskOut 'launch.json'),($taskRecord|ConvertTo-Json -Depth 7),(New-Object Text.UTF8Encoding($false)))
 Write-Output $taskOut

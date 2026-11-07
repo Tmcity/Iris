@@ -1,0 +1,34 @@
+{
+  "DiagnosticSuccess": true,
+  "DiagnosticFormalNfrResult": false,
+  "DiagnosticExitCode": 0,
+  "RestoredInstalledPid": 7520,
+  "InstalledSourceChanged": false,
+  "Files": [
+    {
+      "Path": "actual-process.json",
+      "Bytes": 391,
+      "Sha256": "d8c39b88755e57d30a69d9031eb46b2ee7e525d2ba06138fbcb094bf9136ade6"
+    },
+    {
+      "Path": "exit.json",
+      "Bytes": 398,
+      "Sha256": "fc2a66421a467c21580853ab4d3ab2e69ee4f4469e74cc86eef5e91870b1a956"
+    },
+    {
+      "Path": "iris-20261108.log",
+      "Bytes": 520,
+      "Sha256": "9658c1d32b2ad25df3835821f00d8e32f15e61ba9c1f815cf21c9c8b756ee0c6"
+    },
+    {
+      "Path": "launch.json",
+      "Bytes": 673,
+      "Sha256": "39355fd9d3e6b402000860d8824ecd033baca6e43c258be62dd5f6afdb016aa5"
+    },
+    {
+      "Path": "startup-phases.txt",
+      "Bytes": 234,
+      "Sha256": "6b1ccd678ef49071cb3f7ce3029005ef50d4ad3d4c4e5795d89fbaceb23d05eb"
+    }
+  ]
+}
