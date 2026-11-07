@@ -1,0 +1,16 @@
+{
+    "IrisActionsPerformed":  false,
+    "PsVersion":  "5.1.26100.9549",
+    "Scripts":  [
+                    {
+                        "Sha256":  "9B804893BC49A043E27DD11F7A5DABC773C34399D1A99267D6D7B45B1BC689B2",
+                        "File":  "t040_save_cache_checkpoint_readonly.ps1",
+                        "ParserErrors":  0
+                    },
+                    {
+                        "Sha256":  "70B7A2CFEA66770CDC9FF6AAC1B82E48984F07A77C9D94FD09AE2396AB08E83F",
+                        "File":  "t040_collect_cache_baseline_readonly.ps1",
+                        "ParserErrors":  0
+                    }
+                ]
+}

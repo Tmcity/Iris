@@ -1,0 +1,49 @@
+{
+    "AppPid":  476,
+    "Phase":  "prime",
+    "FinishedUtc":  "2026-11-07T11:01:54.7866351Z",
+    "SnapshotPaths":  [
+
+                      ],
+    "WorkingSetTrimmed":  false,
+    "GcRequested":  false,
+    "ProviderProcesses":  [
+
+                          ],
+    "IdentityFilesVerified":  [
+                                  {
+                                      "Path":  "Iris.App.exe",
+                                      "Sha256":  "8AE2E8AC75DB29A06EEDD5300A99C74D801A29EE307C2F64C924CF5E246D6EB7",
+                                      "Bytes":  166400,
+                                      "Matches":  true
+                                  },
+                                  {
+                                      "Path":  "Iris.App.dll",
+                                      "Sha256":  "668F221F644C9F6B968E0C9324D419F7F202C1753D263383FBEDD100EEFADF6C",
+                                      "Bytes":  945664,
+                                      "Matches":  true
+                                  },
+                                  {
+                                      "Path":  "Iris.Core.dll",
+                                      "Sha256":  "89B334C79AB585CD9A14265AD1EE17289ECCF6A7CB76C3E85370389605C37932",
+                                      "Bytes":  499200,
+                                      "Matches":  true
+                                  },
+                                  {
+                                      "Path":  "Iris.Providers.dll",
+                                      "Sha256":  "6B714B5A10A6339FA41095AA536EDAC1BB2CA8D6144F5A0F70E7FFEE809830C1",
+                                      "Bytes":  236032,
+                                      "Matches":  true
+                                  }
+                              ],
+    "Failure":  "System.Management.Automation.RuntimeException",
+    "IrisUiActionPerformed":  false,
+    "ProviderOriginalStatePath":  null,
+    "CacheBehaviorProved":  false,
+    "StartedUtc":  "2026-11-07T11:01:54.5654872Z",
+    "PreparationBaseline":  false,
+    "ServiceReady":  false,
+    "Version":  "0.2.11",
+    "ExpectedSourceCommit":  "dccc0dbd3054122e34e27842d55c6585ff953812",
+    "ProductOperationPerformed":  false
+}

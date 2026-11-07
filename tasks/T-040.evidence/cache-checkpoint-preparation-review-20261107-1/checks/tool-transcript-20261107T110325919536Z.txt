@@ -1,0 +1,74 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261107190328
+Username: D488342E-D666-4\WDAGUtilityAccount
+RunAs User: D488342E-D666-4\WDAGUtilityAccount
+Configuration Name: 
+Machine: D488342E-D666-4 (Microsoft Windows NT 10.0.26100.0)
+Host Application: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -EncodedCommand JABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQA9ACcAUwB0AG8AcAAnADsAIABTAHQAYQByAHQALQBUAHIAYQBuAHMAYwByAGkAcAB0ACAALQBMAGkAdABlAHIAYQBsAFAAYQB0AGgAIAAnAEMAOgBcAEkAcgBpAHMAVAAwADQAMABPAHUAdABwAHUAdABcAHQAbwBvAGwALQB0AHIAYQBuAHMAYwByAGkAcAB0AC0AMgAwADIANgAxADEAMAA3AFQAMQAxADAAMwAyADUAOQAxADkANQAzADYAWgAuAHQAeAB0ACcAIAB8ACAATwB1AHQALQBOAHUAbABsADsAIAB0AHIAeQAgAHsAIAAmACAAJwBDADoAXABJAHIAaQBzAFQAMAA0ADAAQwBhAGMAaABlAEMAaABlAGMAawBwAG8AaQBuAHQAcwBcAHQAMAA0ADAAXwB2AGEAbABpAGQAYQB0AGUAXwBjAGEAYwBoAGUAXwBjAGgAZQBjAGsAcABvAGkAbgB0AF8AbABpAHYAZQBfAGYAaQB4AHQAdQByAGUAXwByAGUAYQBkAG8AbgBsAHkALgBwAHMAMQAnADsAIABpAGYAIAAoACQATABBAFMAVABFAFgASQBUAEMATwBEAEUAIAAtAGEAbgBkACAAJABMAEEAUwBUAEUAWABJAFQAQwBPAEQARQAgAC0AbgBlACAAMAApACAAewAgAHQAaAByAG8AdwAgACcATgBlAHMAdABlAGQAIABkAGkAYQBnAG4AbwBzAHQAaQBjACAAZgBhAGkAbABlAGQAJwAgAH0AIAB9ACAAYwBhAHQAYwBoACAAewAgACQAXwAgAHwAIABGAG8AcgBtAGEAdAAtAEwAaQBzAHQAIAAqACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBTAHQAcgBpAG4AZwAgAHwAIABXAHIAaQB0AGUALQBPAHUAdABwAHUAdAA7ACAAUwB0AG8AcAAtAFQAcgBhAG4AcwBjAHIAaQBwAHQAIAB8ACAATwB1AHQALQBOAHUAbABsADsAIABlAHgAaQB0ACAAMQAgAH0AOwAgAFMAdABvAHAALQBUAHIAYQBuAHMAYwByAGkAcAB0ACAAfAAgAE8AdQB0AC0ATgB1AGwAbAA7ACAAZQB4AGkAdAAgADAA
+Process ID: 7012
+PSVersion: 5.1.26100.9549
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9549
+BuildVersion: 10.0.26100.9549
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+
+C:\IrisT040Output\metrics-c4cdd9b216e34b3e90ef4c889256b95a\saved-state-20261107T1103293834926Z.json
+Feature data, log and process snapshots saved.
+Saved baseline evidence; observed UI behavior still requires independent review.
+PS>TerminatingError(): "Exception calling "ReadAllBytes" with "1" argument(s): "The process cannot access the file 'C:\IrisT040Output\synthetic-provider-20261107T1102155667317Z\requests.jsonl' because it is being used by another process.""
+
+
+PSMessageDetails      : 
+Exception             : System.Management.Automation.MethodInvocationException:
+                         Exception calling "ReadAllBytes" with "1" argument(s):
+                         "The process cannot access the file 'C:\IrisT040Output
+                        \synthetic-provider-20261107T1102155667317Z\requests.js
+                        onl' because it is being used by another process." --->
+                         System.IO.IOException: The process cannot access the f
+                        ile 'C:\IrisT040Output\synthetic-provider-20261107T1102
+                        155667317Z\requests.jsonl' because it is being used by 
+                        another process.
+                           at System.IO.__Error.WinIOError(Int32 errorCode, Str
+                        ing maybeFullPath)
+                           at System.IO.FileStream.Init(String path, FileMode m
+                        ode, FileAccess access, Int32 rights, Boolean useRights
+                        , FileShare share, Int32 bufferSize, FileOptions option
+                        s, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolea
+                        n bFromProxy, Boolean useLongPath, Boolean checkHost)
+                           at System.IO.FileStream..ctor(String path, FileMode 
+                        mode, FileAccess access, FileShare share, Int32 bufferS
+                        ize, FileOptions options, String msgPath, Boolean bFrom
+                        Proxy, Boolean useLongPath, Boolean checkHost)
+                           at System.IO.File.InternalReadAllBytes(String path, 
+                        Boolean checkHost)
+                           at CallSite.Target(Closure , CallSite , Type , Objec
+                        t )
+                           --- End of inner exception stack trace ---
+                           at System.Management.Automation.ExceptionHandlingOps
+                        .CheckActionPreference(FunctionContext funcContext, Exc
+                        eption exception)
+                           at System.Management.Automation.Interpreter.ActionCa
+                        llInstruction`2.Run(InterpretedFrame frame)
+                           at System.Management.Automation.Interpreter.EnterTry
+                        CatchFinallyInstruction.Run(InterpretedFrame frame)
+                           at System.Management.Automation.Interpreter.EnterTry
+                        CatchFinallyInstruction.Run(InterpretedFrame frame)
+TargetObject          : 
+CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+FullyQualifiedErrorId : IOException
+ErrorDetails          : 
+InvocationInfo        : System.Management.Automation.InvocationInfo
+ScriptStackTrace      : at <ScriptBlock>, C:\IrisT040CacheCheckpoints\t040_vali
+                        date_cache_checkpoint_live_fixture_readonly.ps1: line 1
+                        2
+                        at <ScriptBlock>, <No file>: line 1
+PipelineIterationInfo : {}
+**********************
+Windows PowerShell transcript end
+End time: 20261107190330
+**********************

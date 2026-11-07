@@ -1,0 +1,315 @@
+{
+  "Utc": "2026-11-07T11:08:41.625545+00:00",
+  "Task": "T-040",
+  "Complete": false,
+  "CollectorPreparationValidated": true,
+  "ActualManualCacheStageStarted": false,
+  "ActualIrisCacheBehaviorProved": false,
+  "CandidateClosedWindowMemoryProved": false,
+  "AppPid": 476,
+  "Version": "0.2.11",
+  "ExpectedSourceCommit": "dccc0dbd3054122e34e27842d55c6585ff953812",
+  "IdentityFilesVerifiedPerCheckpoint": 4,
+  "All97InstalledFilesWerePreviouslyVerified": true,
+  "SettingsAndSecretHashesPreserved": true,
+  "HistoryTotalUnchanged": 2,
+  "AbsentFixtureGuardValidated": true,
+  "RejectedPrimeCheckpointWasToolValidationOnly": true,
+  "EmptyAndNonemptyFixturePrefixesValidated": true,
+  "OriginalNonemptyPrefixBytesMatched": 188,
+  "InitialValidationFailureRetained": "ReadAllBytes used its default sharing mode against a live writer.",
+  "CorrectedValidation": "V2 opens the original log with FileShare.ReadWrite; exact byte-prefix comparison passes.",
+  "SyntheticServiceRestartedOnlyAfterVerifiedTermination": true,
+  "SyntheticServicePid": 7676,
+  "LiveFixtureHttpStatus": 200,
+  "StandaloneModelsRequests": 2,
+  "StandaloneProbeRequestsDoNotProveIrisModelOrCacheUi": true,
+  "VisibleIrisWindowTitles": [
+    "翻译历史",
+    "Iris 设置"
+  ],
+  "ManualCacheInputAlias": "C:/IrisT040CacheCheckpoints",
+  "ManualMemoryCheckpointStillPending": true,
+  "ProductOperationPerformed": false,
+  "GcRequested": false,
+  "WorkingSetTrimmed": false,
+  "PublicWritePerformed": false,
+  "Files": [
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\cache-checkpoint-baseline-20261107T1059500282094Z\\state.json",
+      "Path": "checkpoints/cache-checkpoint-baseline-20261107T1059500282094Z/state.json",
+      "Bytes": 2403,
+      "Sha256": "4f59a282ffb257fad645af79f2d9acf465f580e1fb9c57e70ef578c2b84ba406"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T1059506815142Z\\iris-20261107.log",
+      "Path": "snapshots/feature-data-20261107T1059506815142Z/iris-20261107.log",
+      "Bytes": 3965,
+      "Sha256": "eea18fe1af2dbb1b874689a28c16eff0211607af93e1c4a70c8522b0b6e2c70a"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T1059506815142Z\\settings.json",
+      "Path": "snapshots/feature-data-20261107T1059506815142Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "70173c64d43cba8a1bb81b5e77598c1b6d31024d976d0eb0d68aacdab33dde2f"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T1059506815142Z\\state.json",
+      "Path": "snapshots/feature-data-20261107T1059506815142Z/state.json",
+      "Bytes": 1198,
+      "Sha256": "b8f46686552e5df473d82d59bac676afdc7158a331a84bf976588f346b7f153e"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T1059509664607Z\\iris-20261107.log",
+      "Path": "snapshots/readonly-state-20261107T1059509664607Z/iris-20261107.log",
+      "Bytes": 3965,
+      "Sha256": "eea18fe1af2dbb1b874689a28c16eff0211607af93e1c4a70c8522b0b6e2c70a"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T1059509664607Z\\state.json",
+      "Path": "snapshots/readonly-state-20261107T1059509664607Z/state.json",
+      "Bytes": 105939,
+      "Sha256": "78d13af278e382c0c621242169c1149b53c14e0b3b328316eff66cf457a3afb4"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\cache-checkpoint-baseline-20261107T1102185508953Z\\provider-requests-prefix.jsonl",
+      "Path": "checkpoints/cache-checkpoint-baseline-20261107T1102185508953Z/provider-requests-prefix.jsonl",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\cache-checkpoint-baseline-20261107T1102185508953Z\\provider-state.json",
+      "Path": "checkpoints/cache-checkpoint-baseline-20261107T1102185508953Z/provider-state.json",
+      "Bytes": 316,
+      "Sha256": "e96c16f291666a86bb21eb7849581fca3047d3b54d6f7d19ee726b478b3080d9"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\cache-checkpoint-baseline-20261107T1102185508953Z\\state.json",
+      "Path": "checkpoints/cache-checkpoint-baseline-20261107T1102185508953Z/state.json",
+      "Bytes": 289847,
+      "Sha256": "11bed2c544efaf285853008da2e89b8d000b03e8b9ee5f2f34c6d08a62f6db2d"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T1102191154807Z\\iris-20261107.log",
+      "Path": "snapshots/feature-data-20261107T1102191154807Z/iris-20261107.log",
+      "Bytes": 3965,
+      "Sha256": "eea18fe1af2dbb1b874689a28c16eff0211607af93e1c4a70c8522b0b6e2c70a"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T1102191154807Z\\settings.json",
+      "Path": "snapshots/feature-data-20261107T1102191154807Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "70173c64d43cba8a1bb81b5e77598c1b6d31024d976d0eb0d68aacdab33dde2f"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T1102191154807Z\\state.json",
+      "Path": "snapshots/feature-data-20261107T1102191154807Z/state.json",
+      "Bytes": 1198,
+      "Sha256": "1f90a9a9762ea700d468c3f21326d11e7b0fb21d25b88df25b949101dd3b6f7e"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T1102193357735Z\\iris-20261107.log",
+      "Path": "snapshots/readonly-state-20261107T1102193357735Z/iris-20261107.log",
+      "Bytes": 3965,
+      "Sha256": "eea18fe1af2dbb1b874689a28c16eff0211607af93e1c4a70c8522b0b6e2c70a"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T1102193357735Z\\state.json",
+      "Path": "snapshots/readonly-state-20261107T1102193357735Z/state.json",
+      "Bytes": 105939,
+      "Sha256": "0e12efa23f10ce487b03fe293c678023d6febd70b06a06599e80716159456ccc"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\cache-checkpoint-baseline-20261107T1103287303796Z\\provider-requests-prefix.jsonl",
+      "Path": "checkpoints/cache-checkpoint-baseline-20261107T1103287303796Z/provider-requests-prefix.jsonl",
+      "Bytes": 94,
+      "Sha256": "aa22f1260904416ec57f4b888c912f6e40ad5f360716a92c3b051c482f8b1c36"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\cache-checkpoint-baseline-20261107T1103287303796Z\\provider-state.json",
+      "Path": "checkpoints/cache-checkpoint-baseline-20261107T1103287303796Z/provider-state.json",
+      "Bytes": 316,
+      "Sha256": "e96c16f291666a86bb21eb7849581fca3047d3b54d6f7d19ee726b478b3080d9"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\cache-checkpoint-baseline-20261107T1103287303796Z\\state.json",
+      "Path": "checkpoints/cache-checkpoint-baseline-20261107T1103287303796Z/state.json",
+      "Bytes": 289850,
+      "Sha256": "a0703b2c01805f73663e53f2255bc2957b3690131d9b8960d5065887bff2418d"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T1103291751169Z\\iris-20261107.log",
+      "Path": "snapshots/feature-data-20261107T1103291751169Z/iris-20261107.log",
+      "Bytes": 3965,
+      "Sha256": "eea18fe1af2dbb1b874689a28c16eff0211607af93e1c4a70c8522b0b6e2c70a"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T1103291751169Z\\settings.json",
+      "Path": "snapshots/feature-data-20261107T1103291751169Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "70173c64d43cba8a1bb81b5e77598c1b6d31024d976d0eb0d68aacdab33dde2f"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T1103291751169Z\\state.json",
+      "Path": "snapshots/feature-data-20261107T1103291751169Z/state.json",
+      "Bytes": 1198,
+      "Sha256": "9f3023996311dde6e04b48fb39d5a176c60099439fd5ae391731847b87ac5df9"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T1103294170222Z\\iris-20261107.log",
+      "Path": "snapshots/readonly-state-20261107T1103294170222Z/iris-20261107.log",
+      "Bytes": 3965,
+      "Sha256": "eea18fe1af2dbb1b874689a28c16eff0211607af93e1c4a70c8522b0b6e2c70a"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T1103294170222Z\\state.json",
+      "Path": "snapshots/readonly-state-20261107T1103294170222Z/state.json",
+      "Bytes": 105939,
+      "Sha256": "b628f174d8a845a7d7b7dfece7ad59a5af400f445fc956e968f612d3bc19529c"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\cache-checkpoint-baseline-20261107T1104426051158Z\\provider-requests-prefix.jsonl",
+      "Path": "checkpoints/cache-checkpoint-baseline-20261107T1104426051158Z/provider-requests-prefix.jsonl",
+      "Bytes": 188,
+      "Sha256": "0af8241484f15268d3e6d00151ccf9369e1fcade724efe1c4bf79581692659e1"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\cache-checkpoint-baseline-20261107T1104426051158Z\\provider-state.json",
+      "Path": "checkpoints/cache-checkpoint-baseline-20261107T1104426051158Z/provider-state.json",
+      "Bytes": 316,
+      "Sha256": "e96c16f291666a86bb21eb7849581fca3047d3b54d6f7d19ee726b478b3080d9"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\cache-checkpoint-baseline-20261107T1104426051158Z\\state.json",
+      "Path": "checkpoints/cache-checkpoint-baseline-20261107T1104426051158Z/state.json",
+      "Bytes": 289853,
+      "Sha256": "7596b99c4c04931c2c603f4ec20e08aeb0baf8b8e283ba17c9b78998ca818cce"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T1104431141083Z\\iris-20261107.log",
+      "Path": "snapshots/feature-data-20261107T1104431141083Z/iris-20261107.log",
+      "Bytes": 3965,
+      "Sha256": "eea18fe1af2dbb1b874689a28c16eff0211607af93e1c4a70c8522b0b6e2c70a"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T1104431141083Z\\settings.json",
+      "Path": "snapshots/feature-data-20261107T1104431141083Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "70173c64d43cba8a1bb81b5e77598c1b6d31024d976d0eb0d68aacdab33dde2f"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T1104431141083Z\\state.json",
+      "Path": "snapshots/feature-data-20261107T1104431141083Z/state.json",
+      "Bytes": 1197,
+      "Sha256": "c143460d88f7b2563f550dc3151916335bf660ca83263b2e4570348affe40095"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T1104433555023Z\\iris-20261107.log",
+      "Path": "snapshots/readonly-state-20261107T1104433555023Z/iris-20261107.log",
+      "Bytes": 3965,
+      "Sha256": "eea18fe1af2dbb1b874689a28c16eff0211607af93e1c4a70c8522b0b6e2c70a"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T1104433555023Z\\state.json",
+      "Path": "snapshots/readonly-state-20261107T1104433555023Z/state.json",
+      "Bytes": 105939,
+      "Sha256": "a27f179c061c6aea30322c98ae5174caf8bab103c733ba60d0d71a8bac8081cb"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\cache-checkpoint-prime-20261107T1101545654872Z\\state.json",
+      "Path": "checkpoints/cache-checkpoint-prime-20261107T1101545654872Z/state.json",
+      "Bytes": 2271,
+      "Sha256": "da73edf2b2e9f3f9c30aefe624e3b8944b6427f7ee54972bbe7979c2c8cdab05"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\cache-service-guard-validation-20261107T1101548362316Z.json",
+      "Path": "checks/cache-service-guard-validation-20261107T1101548362316Z.json",
+      "Bytes": 339,
+      "Sha256": "b84b5eb838114a6a1e1ae83d190dde93f37bc221ddabe2af504330e6c1512ee9"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\cache-live-fixture-validation-20261107T1104439484896Z.json",
+      "Path": "checks/cache-live-fixture-validation-20261107T1104439484896Z.json",
+      "Bytes": 583,
+      "Sha256": "909dedb5fad4730000422d26be1ee348921fbf6bfc72103bd29195562af2b4c1"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\stage1-view-metadata-20261107T1106058007135Z.json",
+      "Path": "checks/stage1-view-metadata-20261107T1106058007135Z.json",
+      "Bytes": 812,
+      "Sha256": "a465ef9634fca3067c23fcaa65da01c08745ebd8b9060522f2e8e6033fc9d2c8"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\tool-transcript-20261107T110325919536Z.txt",
+      "Path": "checks/tool-transcript-20261107T110325919536Z.txt",
+      "Bytes": 5503,
+      "Sha256": "cd5128c66fa625ceb903d3542b71a11753f044dd2f562e694a026ce4b5d130e7"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\cache-checkpoint-input-20261107-1.json",
+      "Path": "preparation/cache-checkpoint-input-20261107-1.json",
+      "Bytes": 993,
+      "Sha256": "a83c7482dc12634f9e3b713e88e8c2977e8cf12cd818a11bdae960393eedaa43"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\cache-checkpoint-ps51-parse-20261107-1.json",
+      "Path": "preparation/cache-checkpoint-ps51-parse-20261107-1.json",
+      "Bytes": 660,
+      "Sha256": "879e060302c4ebb5d8b2243bfd66428cbb7074f0cfc00cc54b3f951e8ba99a1b"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\tasks\\t040_save_cache_checkpoint_readonly.ps1",
+      "Path": "tool-source/t040_save_cache_checkpoint_readonly.ps1",
+      "Bytes": 6106,
+      "Sha256": "9b804893bc49a043e27dd11f7a5dabc773c34399d1a99267d6d7b45b1bc689b2"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\tasks\\t040_collect_cache_baseline_readonly.ps1",
+      "Path": "tool-source/t040_collect_cache_baseline_readonly.ps1",
+      "Bytes": 116,
+      "Sha256": "70b7a2cfea66770cdc9ff6aac1b82e48984f07a77c9d94fd09ae2396ab08e83f"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\tasks\\t040_validate_cache_service_guard_readonly.ps1",
+      "Path": "tool-source/t040_validate_cache_service_guard_readonly.ps1",
+      "Bytes": 1734,
+      "Sha256": "0983c6003159720e06375e638cbeb0d264a7b4b6741d705c4eed171c26d44909"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\tasks\\t040_validate_cache_checkpoint_live_fixture_readonly.ps1",
+      "Path": "tool-source/t040_validate_cache_checkpoint_live_fixture_readonly.ps1",
+      "Bytes": 2582,
+      "Sha256": "e16106f2153802cd4010b49910f2dd922bd72263ced4b9f98c41b5399931647f"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\tasks\\t040_validate_cache_checkpoint_live_prefix_v2_readonly.ps1",
+      "Path": "tool-source/t040_validate_cache_checkpoint_live_prefix_v2_readonly.ps1",
+      "Bytes": 2855,
+      "Sha256": "7ed75369fda2645cceec6e8917bd6a2776384376e74eebaec320c6646524960f"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\tasks\\t040_prepare_cache_checkpoint_input_20261107.py",
+      "Path": "tool-source/t040_prepare_cache_checkpoint_input_20261107.py",
+      "Bytes": 2369,
+      "Sha256": "136e594875f079796609c8355ef220eac082dd8bddd6f41ea91231907532ee6a"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\input\\Save-Cache-Prime-State.cmd",
+      "Path": "manual-input/Save-Cache-Prime-State.cmd",
+      "Bytes": 286,
+      "Sha256": "371c77eaa50b45c6263712af176411a73358a60f27356574ea78eacdade7aa5e"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\input\\Save-Cache-Hit-State.cmd",
+      "Path": "manual-input/Save-Cache-Hit-State.cmd",
+      "Bytes": 286,
+      "Sha256": "55fc8b0ad6523647b1eac2a4b7b4a0fb7c7d88403f20be85fbcb35109a7c63a7"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\input\\Save-Card-Retry-State.cmd",
+      "Path": "manual-input/Save-Card-Retry-State.cmd",
+      "Bytes": 286,
+      "Sha256": "be831d6e90b974392ee66b2410f9eaa339b7066e9a6913c8603d487e6f5ad512"
+    }
+  ]
+}

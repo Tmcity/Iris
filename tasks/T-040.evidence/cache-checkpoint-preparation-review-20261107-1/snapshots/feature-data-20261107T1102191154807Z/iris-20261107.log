@@ -1,0 +1,27 @@
+2026-11-07 01:46:00.010 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置文件不存在，已初始化为默认设置并写入 C:\Users\WDAGUtilityAccount\AppData\Roaming\Iris\settings.json
+2026-11-07 01:46:00.439 +08:00 [INF] (Iris.App.Tray.TrayIconController) 系统托盘图标创建成功（共尝试 1 次）
+2026-11-07 01:46:00.505 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1359.0 ms，托盘图标已创建
+2026-11-07 01:47:38.953 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 正在退出
+2026-11-07 01:47:38.994 +08:00 [INF] (Iris.App.App) Iris 已退出，退出码 0
+2026-11-07 01:47:50.228 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置加载成功: C:\Users\WDAGUtilityAccount\AppData\Roaming\Iris\settings.json, SchemaVersion=1, 修复条数=0
+2026-11-07 01:47:50.465 +08:00 [INF] (Iris.App.Tray.TrayIconController) 系统托盘图标创建成功（共尝试 1 次）
+2026-11-07 01:47:50.512 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 795.1 ms，托盘图标已创建
+2026-11-07 13:29:00.740 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 正在退出
+2026-11-07 13:29:00.789 +08:00 [INF] (Iris.App.App) Iris 已退出，退出码 0
+2026-11-07 13:29:21.204 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置加载成功: C:\Users\WDAGUtilityAccount\AppData\Roaming\Iris\settings.json, SchemaVersion=1, 修复条数=0
+2026-11-07 13:29:21.475 +08:00 [INF] (Iris.App.Tray.TrayIconController) 系统托盘图标创建成功（共尝试 1 次）
+2026-11-07 13:29:21.521 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 832.3 ms，托盘图标已创建
+2026-11-07 13:44:28.241 +08:00 [INF] (Polly) Execution attempt. Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '200', Handled: 'false', Attempt: '0', Execution Time: 8.7112ms
+2026-11-07 13:44:30.411 +08:00 [INF] (Polly) Execution attempt. Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '200', Handled: 'false', Attempt: '0', Execution Time: 16.1615ms
+2026-11-07 13:44:42.697 +08:00 [INF] (Polly) Execution attempt. Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '200', Handled: 'false', Attempt: '0', Execution Time: 1.3128ms
+2026-11-07 14:26:33.902 +08:00 [WRN] (Iris.App.History.HistoryViewModel) 历史窗口操作失败：InvalidOperationException
+2026-11-07 14:26:36.461 +08:00 [WRN] (Iris.App.History.HistoryViewModel) 历史窗口操作失败：InvalidOperationException
+2026-11-07 14:26:39.016 +08:00 [WRN] (Iris.App.History.HistoryViewModel) 历史窗口操作失败：InvalidOperationException
+2026-11-07 16:27:44.726 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 正在退出
+2026-11-07 16:27:44.889 +08:00 [INF] (Iris.App.App) Iris 已退出，退出码 0
+2026-11-07 16:27:48.481 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置加载成功: C:\Users\WDAGUtilityAccount\AppData\Roaming\Iris\settings.json, SchemaVersion=1, 修复条数=0
+2026-11-07 16:27:48.968 +08:00 [INF] (Iris.App.Tray.TrayIconController) 系统托盘图标创建成功（共尝试 1 次）
+2026-11-07 16:27:49.037 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1418.6 ms，托盘图标已创建
+2026-11-07 16:42:52.471 +08:00 [INF] (Polly) Execution attempt. Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '200', Handled: 'false', Attempt: '0', Execution Time: 53.3357ms
+2026-11-07 16:42:53.132 +08:00 [INF] (Polly) Execution attempt. Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '200', Handled: 'false', Attempt: '0', Execution Time: 15.4933ms
+2026-11-07 16:43:06.188 +08:00 [INF] (Polly) Execution attempt. Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '200', Handled: 'false', Attempt: '0', Execution Time: 2.0659ms

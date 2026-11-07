@@ -1,0 +1,15 @@
+{
+    "ActualManualCacheStageStarted":  false,
+    "ValidatedBaselinePath":  "C:\\IrisT040Output\\cache-checkpoint-baseline-20261107T1104426051158Z",
+    "WorkingSetTrimmed":  false,
+    "LiveFixtureResponseStatus":  200,
+    "CopiedPrefixMatchesOriginalBytes":  true,
+    "Utc":  "2026-11-07T11:04:43.9373273Z",
+    "ToolValidation":  true,
+    "HealthRequestWasStandaloneFixtureProbe":  true,
+    "ActualIrisCacheBehaviorProved":  false,
+    "GcRequested":  false,
+    "ProductOperationPerformed":  false,
+    "PrefixBytes":  188,
+    "PsVersion":  "5.1.26100.9549"
+}

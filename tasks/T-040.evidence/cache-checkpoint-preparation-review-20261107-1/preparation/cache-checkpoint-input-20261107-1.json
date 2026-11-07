@@ -1,0 +1,32 @@
+{
+  "Files": [
+    {
+      "Path": "t040_save_cache_checkpoint_readonly.ps1",
+      "Bytes": 6106,
+      "Sha256": "9b804893bc49a043e27dd11f7a5dabc773c34399d1a99267d6d7b45b1bc689b2"
+    },
+    {
+      "Path": "t040_collect_cache_baseline_readonly.ps1",
+      "Bytes": 116,
+      "Sha256": "70b7a2cfea66770cdc9ff6aac1b82e48984f07a77c9d94fd09ae2396ab08e83f"
+    },
+    {
+      "Path": "Save-Cache-Prime-State.cmd",
+      "Bytes": 286,
+      "Sha256": "371c77eaa50b45c6263712af176411a73358a60f27356574ea78eacdade7aa5e"
+    },
+    {
+      "Path": "Save-Cache-Hit-State.cmd",
+      "Bytes": 286,
+      "Sha256": "55fc8b0ad6523647b1eac2a4b7b4a0fb7c7d88403f20be85fbcb35109a7c63a7"
+    },
+    {
+      "Path": "Save-Card-Retry-State.cmd",
+      "Bytes": 286,
+      "Sha256": "be831d6e90b974392ee66b2410f9eaa339b7066e9a6913c8603d487e6f5ad512"
+    }
+  ],
+  "PublishedIntoExistingInputOnly": true,
+  "ProductOperationPerformed": false,
+  "ManualCacheStageStarted": false
+}
