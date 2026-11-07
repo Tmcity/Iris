@@ -227,6 +227,10 @@ public static class WpfTestRunner
             var app = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
             app.Resources.MergedDictionaries.Add(new Wpf.Ui.Markup.ThemesDictionary { Theme = Wpf.Ui.Appearance.ApplicationTheme.Light });
             app.Resources.MergedDictionaries.Add(new Wpf.Ui.Markup.ControlsDictionary());
+            app.Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new Uri("pack://application:,,,/Iris.App;component/Resources/EditingMenus.xaml", UriKind.Absolute)
+            });
         }
     }
 }
