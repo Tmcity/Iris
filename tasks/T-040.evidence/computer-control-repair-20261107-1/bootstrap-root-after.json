@@ -1,0 +1,16 @@
+{
+  "ReportedUtc": "2026-11-07T15:14:28.554849+00:00",
+  "Source": "Root independent verification reported via collaboration message",
+  "KernelResetPerformed": true,
+  "OfficialBootstrapUsed": true,
+  "ImportPathErrorResolved": true,
+  "ListAppsReached": false,
+  "content": [
+    {
+      "type": "text",
+      "text": "Computer Use native pipe is unavailable"
+    }
+  ],
+  "isError": true,
+  "IrisOperated": false
+}

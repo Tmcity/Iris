@@ -1,0 +1,26 @@
+{
+    "Processes":  [
+                      {
+                          "ProcessId":  2440,
+                          "Name":  "powershell.exe",
+                          "CreationDate":  "\/Date(1794063822428)\/",
+                          "ExecutablePath":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                          "CommandLine":  "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\\IrisT040Repair\\observe-process-metrics-v3-readonly.ps1 -OutputDirectory C:\\IrisT040Output\\metrics-v3-e6edd1908748410dad950652b608224b "
+                      },
+                      {
+                          "ProcessId":  1456,
+                          "Name":  "T040SyntheticProvider.exe",
+                          "CreationDate":  "\/Date(1794066527854)\/",
+                          "ExecutablePath":  "C:\\IrisT040CliInput\\tools\\synthetic-provider\\T040SyntheticProvider.exe",
+                          "CommandLine":  "\"C:\\IrisT040CliInput\\tools\\synthetic-provider\\T040SyntheticProvider.exe\""
+                      },
+                      {
+                          "ProcessId":  6880,
+                          "Name":  "powershell.exe",
+                          "CreationDate":  "\/Date(1794066997309)\/",
+                          "ExecutablePath":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                          "CommandLine":  "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\\IrisT040StartupRepeat\\t040_repeat_native_startup.ps1 -OutputDirectory C:\\IrisT040Output\\startup-repeat-20261107T1556371876766Z "
+                      }
+                  ],
+    "Utc":  "2026-11-07T15:57:17.8957578Z"
+}

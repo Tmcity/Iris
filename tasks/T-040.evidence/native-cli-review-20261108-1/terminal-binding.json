@@ -1,0 +1,16 @@
+{
+  "Utc": "2026-11-07T16:30:41.877973+00:00",
+  "FullGcProved": false,
+  "Files": [
+    {
+      "Path": "terminal/final-session3-20261107T1629162937069Z.json",
+      "Bytes": 1688,
+      "Sha256": "98d55094e7181312111699489b7f46469df0bb8830ced621a327379203d66f9d"
+    },
+    {
+      "Path": "terminal/state.json",
+      "Bytes": 203,
+      "Sha256": "05e5c4474ee8d11ef532b7a56333b9aff1a65064f2656b10ba9470b9adae49db"
+    }
+  ]
+}

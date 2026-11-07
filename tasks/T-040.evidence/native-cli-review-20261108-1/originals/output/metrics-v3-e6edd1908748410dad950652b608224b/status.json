@@ -1,0 +1,14 @@
+{
+    "StartedUtc":  "2026-11-07T15:03:44.5181793Z",
+    "Failure":  null,
+    "Ready":  true,
+    "ConfirmedProcessRaces":  4,
+    "ObserverPid":  2440,
+    "ProductOperationPerformed":  false,
+    "LastHeartbeatUtc":  "2026-11-07T16:06:04.7705091Z",
+    "Completed":  false,
+    "OutputDirectory":  "C:\\IrisT040Output\\metrics-v3-e6edd1908748410dad950652b608224b",
+    "ProcessSamples":  1772,
+    "Stage":  "Observe",
+    "Samples":  1787
+}

@@ -1,0 +1,65 @@
+{
+    "Stage":  "Complete",
+    "ObserverPid":  5260,
+    "ForegroundKeyboardOrMouseInputUsed":  false,
+    "ManualHistoryRefreshButtonProved":  false,
+    "ManualStopButtonProved":  false,
+    "Commands":  [
+                     {
+                         "ExitCode":  0,
+                         "Pid":  7048,
+                         "Arguments":  "--translate \"Iris T040 retry native 02\"",
+                         "Utc":  "2026-11-07T16:01:48.3789782Z"
+                     },
+                     {
+                         "ExitCode":  0,
+                         "Pid":  2800,
+                         "Arguments":  "--translate \"Iris T040 error native 03\"",
+                         "Utc":  "2026-11-07T16:01:52.6352859Z"
+                     },
+                     {
+                         "ExitCode":  0,
+                         "Pid":  4064,
+                         "Arguments":  "--translate \"Iris T040 recover native 03b\"",
+                         "Utc":  "2026-11-07T16:01:56.0837700Z"
+                     },
+                     {
+                         "ExitCode":  0,
+                         "Pid":  1808,
+                         "Arguments":  "--translate \"Iris T040 truncated native 04\"",
+                         "Utc":  "2026-11-07T16:01:59.5783230Z"
+                     },
+                     {
+                         "ExitCode":  0,
+                         "Pid":  3204,
+                         "Arguments":  "--translate \"Iris T040 cancel native 05\"",
+                         "Utc":  "2026-11-07T16:02:03.0562514Z"
+                     },
+                     {
+                         "ExitCode":  0,
+                         "Pid":  1536,
+                         "Arguments":  "--translate \"Iris T040 after cancel native 06\"",
+                         "Utc":  "2026-11-07T16:02:05.6412468Z"
+                     },
+                     {
+                         "ExitCode":  0,
+                         "Pid":  3884,
+                         "Arguments":  "--action OpenHistory",
+                         "Utc":  "2026-11-07T16:02:15.5563306Z"
+                     },
+                     {
+                         "ExitCode":  0,
+                         "Pid":  2620,
+                         "Arguments":  "--action OpenHistory",
+                         "Utc":  "2026-11-07T16:02:16.7152395Z"
+                     }
+                 ],
+    "NativeCliUsed":  true,
+    "TargetPid":  6040,
+    "Completed":  true,
+    "FinishedUtc":  "2026-11-07T16:02:18.0785559Z",
+    "ProductOperationPerformed":  true,
+    "InstallerExecuted":  false,
+    "Failure":  null,
+    "StartedUtc":  "2026-11-07T16:01:47.8459216Z"
+}

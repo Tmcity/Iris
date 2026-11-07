@@ -1,0 +1,12 @@
+{
+  "platform": "win32",
+  "hasTrustedConfig": false,
+  "hasNativePipe": false,
+  "canCreateNativePipeConnection": false,
+  "hasNativePipeDirectory": false,
+  "canRequestAppApproval": false,
+  "skyInstalled": false,
+  "Scope": "Exact booleans from child Node REPL after official bootstrap",
+  "RootIndependentBootstrapError": "Computer Use native pipe is unavailable",
+  "RootBooleanCapabilitiesNotQueried": true
+}

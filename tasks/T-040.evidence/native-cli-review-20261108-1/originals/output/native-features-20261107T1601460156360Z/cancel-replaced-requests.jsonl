@@ -1,0 +1,23 @@
+{"Kind":"Request","Utc":"2026-11-07T15:51:55.3812811+00:00","ReceivedQpc":101198254199,"Sequence":1,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 CLI 01","SourceSha256":"DC3CAAAD58BF555DEC2560BAEAD7A4AEBF2621065E818051C4768BE73FCA0327","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-07T15:51:55.4054739+00:00","Qpc":101198897085,"Sequence":1}
+{"Kind":"Completed","Utc":"2026-11-07T15:51:55.5626287+00:00","Qpc":101200468633,"Sequence":1,"Truncated":false}
+{"Kind":"Request","Utc":"2026-11-07T16:01:48.8766367+00:00","ReceivedQpc":107133601406,"Sequence":2,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 retry native 02","SourceSha256":"078EEBAD7B133D59C2C9E079FE9B00F05A540DD7659BA9A7E5BBA38D1EB33E46","FakeKeyAccepted":true}
+{"Kind":"HttpError","Utc":"2026-11-07T16:01:48.8789258+00:00","Sequence":2,"StatusCode":429}
+{"Kind":"Request","Utc":"2026-11-07T16:01:49.9023978+00:00","ReceivedQpc":107143864285,"Sequence":3,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":2,"SyntheticText":"Iris T040 retry native 02","SourceSha256":"078EEBAD7B133D59C2C9E079FE9B00F05A540DD7659BA9A7E5BBA38D1EB33E46","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-07T16:01:49.9028533+00:00","Qpc":107143870872,"Sequence":3}
+{"Kind":"Completed","Utc":"2026-11-07T16:01:50.0634124+00:00","Qpc":107145476467,"Sequence":3,"Truncated":false}
+{"Kind":"Request","Utc":"2026-11-07T16:01:52.6314094+00:00","ReceivedQpc":107171153418,"Sequence":4,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 error native 03","SourceSha256":"864A74ACDF0300B2FD8B4CFBE8E5780F9FC0E267C5C080ED3E2BD3339626D72E","FakeKeyAccepted":true}
+{"Kind":"HttpError","Utc":"2026-11-07T16:01:52.6323308+00:00","Sequence":4,"StatusCode":503}
+{"Kind":"Request","Utc":"2026-11-07T16:01:53.638579+00:00","ReceivedQpc":107181224753,"Sequence":5,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":2,"SyntheticText":"Iris T040 error native 03","SourceSha256":"864A74ACDF0300B2FD8B4CFBE8E5780F9FC0E267C5C080ED3E2BD3339626D72E","FakeKeyAccepted":true}
+{"Kind":"HttpError","Utc":"2026-11-07T16:01:53.6394916+00:00","Sequence":5,"StatusCode":503}
+{"Kind":"Request","Utc":"2026-11-07T16:01:56.0808722+00:00","ReceivedQpc":107205648968,"Sequence":6,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 recover native 03b","SourceSha256":"D1CD4C2C2983CB57F1BC3464E5D1AC521D41A95DA034D1C1AC3D67C9DE22A42F","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-07T16:01:56.0814925+00:00","Qpc":107205657265,"Sequence":6}
+{"Kind":"Completed","Utc":"2026-11-07T16:01:56.2389139+00:00","Qpc":107207231481,"Sequence":6,"Truncated":false}
+{"Kind":"Request","Utc":"2026-11-07T16:01:59.5862051+00:00","ReceivedQpc":107240702927,"Sequence":7,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 truncated native 04","SourceSha256":"F8BDF126CD4A7F0CB0D341CB741545DF4959B102E73E3EED88011C88E00DCA04","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-07T16:01:59.5873854+00:00","Qpc":107240716195,"Sequence":7}
+{"Kind":"Completed","Utc":"2026-11-07T16:01:59.7287876+00:00","Qpc":107242130223,"Sequence":7,"Truncated":true}
+{"Kind":"Request","Utc":"2026-11-07T16:02:03.0577705+00:00","ReceivedQpc":107275414899,"Sequence":8,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 cancel native 05","SourceSha256":"71BEBE4C94FB395120BAAF13F027B06448A40A9740418843F0CB5BB591E0D9CF","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-07T16:02:03.0582365+00:00","Qpc":107275424704,"Sequence":8}
+{"Kind":"Request","Utc":"2026-11-07T16:02:05.6368592+00:00","ReceivedQpc":107301208006,"Sequence":9,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 after cancel native 06","SourceSha256":"E92C4312BEB2ECDB183CCDD131BB7B4276DEE3B979FE052E12141D8226695019","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-07T16:02:05.6373161+00:00","Qpc":107301215501,"Sequence":9}
+{"Kind":"Completed","Utc":"2026-11-07T16:02:05.7856175+00:00","Qpc":107302698523,"Sequence":9,"Truncated":false}

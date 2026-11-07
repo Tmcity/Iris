@@ -1,0 +1,3 @@
+{"Kind":"Request","Utc":"2026-11-07T15:51:55.3812811+00:00","ReceivedQpc":101198254199,"Sequence":1,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 CLI 01","SourceSha256":"DC3CAAAD58BF555DEC2560BAEAD7A4AEBF2621065E818051C4768BE73FCA0327","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-07T15:51:55.4054739+00:00","Qpc":101198897085,"Sequence":1}
+{"Kind":"Completed","Utc":"2026-11-07T15:51:55.5626287+00:00","Qpc":101200468633,"Sequence":1,"Truncated":false}

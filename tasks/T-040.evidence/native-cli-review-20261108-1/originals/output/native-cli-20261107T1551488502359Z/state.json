@@ -1,0 +1,114 @@
+{
+    "StartedUtc":  "2026-11-07T15:51:51.5248399Z",
+    "Commands":  [
+                     {
+                         "FinishedUtc":  "2026-11-07T15:51:52.4246635Z",
+                         "ExitCode":  0,
+                         "Pid":  7836,
+                         "Arguments":  "--action Exit",
+                         "ElapsedMs":  407.6916,
+                         "CreatedUtc":  "2026-11-07T15:51:52.2101254Z"
+                     },
+                     {
+                         "FinishedUtc":  "2026-11-07T15:51:54.8063226Z",
+                         "ExitCode":  0,
+                         "Pid":  7432,
+                         "Arguments":  "--translate \"Iris T040 CLI 01\"",
+                         "ElapsedMs":  208.58200000000002,
+                         "CreatedUtc":  "2026-11-07T15:51:54.6093960Z"
+                     },
+                     {
+                         "FinishedUtc":  "2026-11-07T15:52:00.5172893Z",
+                         "ExitCode":  0,
+                         "Pid":  4324,
+                         "Arguments":  "--translate \"Iris T040 CLI 01\"",
+                         "ElapsedMs":  189.9562,
+                         "CreatedUtc":  "2026-11-07T15:52:00.3378579Z"
+                     }
+                 ],
+    "InstallerExecuted":  false,
+    "OriginalExitCode":  0,
+    "Failure":  null,
+    "OriginalPid":  5568,
+    "PrimaryCreatedUtc":  "2026-11-07T15:51:52.9662866Z",
+    "CpuSamples":  [
+                       {
+                           "IntervalEndedUtc":  "2026-11-07T15:51:53.0960477Z",
+                           "LoadPercent":  3.1185031185031185,
+                           "IntervalStartedUtc":  "2026-11-07T15:51:52.7366799Z"
+                       },
+                       {
+                           "IntervalEndedUtc":  "2026-11-07T15:51:53.3838819Z",
+                           "LoadPercent":  15.294117647058824,
+                           "IntervalStartedUtc":  "2026-11-07T15:51:53.0960477Z"
+                       },
+                       {
+                           "IntervalEndedUtc":  "2026-11-07T15:51:53.5039131Z",
+                           "LoadPercent":  9.8159509202453989,
+                           "IntervalStartedUtc":  "2026-11-07T15:51:53.3838819Z"
+                       },
+                       {
+                           "IntervalEndedUtc":  "2026-11-07T15:51:53.6466090Z",
+                           "LoadPercent":  10.497237569060774,
+                           "IntervalStartedUtc":  "2026-11-07T15:51:53.5039131Z"
+                       },
+                       {
+                           "IntervalEndedUtc":  "2026-11-07T15:51:53.7583292Z",
+                           "LoadPercent":  6.5217391304347823,
+                           "IntervalStartedUtc":  "2026-11-07T15:51:53.6466090Z"
+                       },
+                       {
+                           "IntervalEndedUtc":  "2026-11-07T15:51:53.8849598Z",
+                           "LoadPercent":  4.45859872611465,
+                           "IntervalStartedUtc":  "2026-11-07T15:51:53.7583292Z"
+                       },
+                       {
+                           "IntervalEndedUtc":  "2026-11-07T15:51:53.9962370Z",
+                           "LoadPercent":  5.8394160583941606,
+                           "IntervalStartedUtc":  "2026-11-07T15:51:53.8849598Z"
+                       },
+                       {
+                           "IntervalEndedUtc":  "2026-11-07T15:51:54.1111780Z",
+                           "LoadPercent":  5.161290322580645,
+                           "IntervalStartedUtc":  "2026-11-07T15:51:53.9962370Z"
+                       },
+                       {
+                           "IntervalEndedUtc":  "2026-11-07T15:51:54.2339356Z",
+                           "LoadPercent":  6.4935064935064934,
+                           "IntervalStartedUtc":  "2026-11-07T15:51:54.1111780Z"
+                       },
+                       {
+                           "IntervalEndedUtc":  "2026-11-07T15:51:54.3449684Z",
+                           "LoadPercent":  12.080536912751677,
+                           "IntervalStartedUtc":  "2026-11-07T15:51:54.2339356Z"
+                       },
+                       {
+                           "IntervalEndedUtc":  "2026-11-07T15:51:54.4722373Z",
+                           "LoadPercent":  4.7904191616766463,
+                           "IntervalStartedUtc":  "2026-11-07T15:51:54.3449684Z"
+                       },
+                       {
+                           "IntervalEndedUtc":  "2026-11-07T15:51:54.5836701Z",
+                           "LoadPercent":  14.035087719298245,
+                           "IntervalStartedUtc":  "2026-11-07T15:51:54.4722373Z"
+                       }
+                   ],
+    "ForegroundKeyboardOrMouseInputUsed":  false,
+    "CreationToBootstrapMs":  1599.7134,
+    "ProductOperationPerformed":  true,
+    "BootstrapReportedMs":  1555,
+    "ActualAppProcessesAfter":  {
+                                    "ProcessId":  7544,
+                                    "CreationDate":  "\/Date(1794066712966)\/",
+                                    "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+                                    "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" "
+                                },
+    "BootstrapLine":  "2026-11-07 23:51:54.566 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1555.0 ms，托盘图标已创建",
+    "FinishedUtc":  "2026-11-07T15:52:05.9816481Z",
+    "NativeCliUsed":  true,
+    "Stage":  "Complete",
+    "ObserverPid":  7064,
+    "Completed":  true,
+    "PrimaryPid":  7544,
+    "BootstrapReadyUtc":  "2026-11-07T15:51:54.5660000Z"
+}

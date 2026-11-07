@@ -22,5 +22,5 @@ if(-not$taskRecord.AllFilesMatch){throw 'Local candidate installed payload misma
 & (Join-Path $PSScriptRoot 'tools\state-snapshot\T040StateProbe.exe')
 if($LASTEXITCODE-ne0){throw 'Local candidate data snapshot failed'}
 & (Join-Path $PSScriptRoot 't040_collect_current_readonly.ps1')
-& (Join-Path $PSScriptRoot 'save-metrics-state-v2-readonly.ps1')
+& (Join-Path $PSScriptRoot 'save-metrics-state-v3-readonly.ps1')
 Write-Host 'Local memory candidate installed-state evidence saved.'

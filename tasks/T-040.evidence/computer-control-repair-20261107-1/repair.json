@@ -1,0 +1,18 @@
+{
+  "Utc": "2026-11-07T15:11:33.384588+00:00",
+  "PackagePath": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\package.json",
+  "Version": "0.7.17",
+  "OnlySemanticChange": {
+    "ExportsAdded": {
+      "./dist/project/cua/sky_js/src/targets/windows/internal/computer_use_client_base.js": "./dist/project/cua/sky_js/src/targets/windows/internal/computer_use_client_base.js"
+    }
+  },
+  "OriginalPackageSha256": "e2bf504d3054e3f16679a18026b28479e188e4411cf673416df5006230cbcc7f",
+  "PatchedPackageSha256": "babaa17c7a26204a5937476427506545aa662703c68a90286cfc217a8730a407",
+  "PluginClientSha256": "bdc61752e0f9d9b1e73e3cba25ca71d3d9fe54d335ed8196378106081474d7c1",
+  "InternalClientBaseSha256": "5e54867417cb120477455e069c2eb53b6513b8e076a06143d4d207cc8a293d95",
+  "ClientCodeChanged": false,
+  "ApprovalLogicChanged": false,
+  "InterruptionHandlingChanged": false,
+  "IrisOperated": false
+}

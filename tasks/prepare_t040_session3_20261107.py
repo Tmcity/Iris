@@ -17,13 +17,17 @@ INPUT.mkdir()
 (DEST / 'output').mkdir()
 (DEST / 'launcher').mkdir()
 for name in ('Iris-0.2.11-Setup.exe', 'LOCAL_0211_payload-manifest.json',
-             'observe-process-metrics-v2-readonly.ps1', 'start-metrics-observer-v2.ps1',
-             'save-metrics-state-v2-readonly.ps1', 't040_collect_current_readonly.ps1',
+             't040_collect_current_readonly.ps1',
              't040_save_memory_candidate_installed_readonly.ps1'):
     shutil.copyfile(OLD / name, INPUT / name)
 shutil.copytree(OLD / 'tools/state-snapshot', INPUT / 'tools/state-snapshot')
-for name in ('t040_capture_live_capi2_readonly.ps1', 't040_begin_cold_install_diagnostics_manual.ps1'):
+for name in ('t040_capture_live_capi2_readonly.ps1', 't040_begin_cold_install_diagnostics_manual.ps1',
+             't040_metrics_process_readonly.psm1', 'observe-process-metrics-v3-readonly.ps1',
+             'start-metrics-observer-v3-readonly.ps1', 'save-metrics-state-v3-readonly.ps1'):
     shutil.copyfile(ROOT / 'tasks' / name, INPUT / name)
+candidate_save = INPUT / 't040_save_memory_candidate_installed_readonly.ps1'
+candidate_save.write_text(candidate_save.read_text(encoding='utf-8-sig').replace(
+    'save-metrics-state-v2-readonly.ps1', 'save-metrics-state-v3-readonly.ps1'), encoding='utf-8-sig')
 for name, script in (
     ('Begin-Install-Diagnostics.cmd', 't040_begin_cold_install_diagnostics_manual.ps1'),
     ('Save-Installed-State.cmd', 't040_save_memory_candidate_installed_readonly.ps1')):

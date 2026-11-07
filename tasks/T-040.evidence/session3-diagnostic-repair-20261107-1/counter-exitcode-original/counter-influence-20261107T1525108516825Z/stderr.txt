@@ -1,0 +1,7 @@
+Counter influence audit failed; original state retained
+At C:\IrisT040CounterAudit\t040_audit_counter_influence_readonly.ps1:56 char:28
++ ... .Failure) { throw 'Counter influence audit failed; original state ret ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Counter influen... state retained:String) [], RuntimeException
+    + FullyQualifiedErrorId : Counter influence audit failed; original state retained
+ 

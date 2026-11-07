@@ -1,0 +1,51 @@
+{
+    "RepairedResult":  {
+                           "ExitUtc":  null,
+                           "ExitCode":  null,
+                           "Error":  {
+                                         "Position":  "At C:\\IrisT040Repair\\t040_metrics_process_readonly.psm1:17 char:33\r\n+ ... edHandle) { $Process = [Diagnostics.Process]::GetProcessById([int]$Id ...\r\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+                                         "ScriptStackTrace":  "at Read-T040ProcessCounters, C:\\IrisT040Repair\\t040_metrics_process_readonly.psm1: line 17\r\nat \u003cScriptBlock\u003e, C:\\IrisT040Repair\\validate-t040-metrics-v3-readonly.ps1: line 26\r\nat \u003cScriptBlock\u003e, \u003cNo file\u003e: line 1",
+                                         "Exceptions":  [
+                                                            {
+                                                                "Message":  "Exception calling \"GetProcessById\" with \"1\" argument(s): \"Process with an Id of 5536 is not running.\"",
+                                                                "HResult":  -2146233087,
+                                                                "Type":  "System.Management.Automation.MethodInvocationException"
+                                                            },
+                                                            {
+                                                                "Message":  "Process with an Id of 5536 is not running.",
+                                                                "HResult":  -2147024809,
+                                                                "Type":  "System.ArgumentException"
+                                                            }
+                                                        ],
+                                         "Stage":  "OpenProcess",
+                                         "FullyQualifiedErrorId":  "ArgumentException"
+                                     },
+                           "Reason":  "ProcessAbsent",
+                           "VerifiedUtc":  "2026-11-07T15:03:21.5259989Z",
+                           "State":  "Unavailable"
+                       },
+    "ProductOperationPerformed":  false,
+    "LegacyFailure":  {
+                          "Position":  "At C:\\IrisT040Repair\\validate-t040-metrics-v3-readonly.ps1:23 char:7\r\n+ try { $taskLegacy = [Diagnostics.Process]::GetProcessById([int]$taskI ...\r\n+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+                          "ScriptStackTrace":  "at \u003cScriptBlock\u003e, C:\\IrisT040Repair\\validate-t040-metrics-v3-readonly.ps1: line 23\r\nat \u003cScriptBlock\u003e, \u003cNo file\u003e: line 1",
+                          "Exceptions":  [
+                                             {
+                                                 "Message":  "Exception calling \"GetProcessById\" with \"1\" argument(s): \"Process with an Id of 5536 is not running.\"",
+                                                 "HResult":  -2146233087,
+                                                 "Type":  "System.Management.Automation.MethodInvocationException"
+                                             },
+                                             {
+                                                 "Message":  "Process with an Id of 5536 is not running.",
+                                                 "HResult":  -2147024809,
+                                                 "Type":  "System.ArgumentException"
+                                             }
+                                         ],
+                          "Stage":  "LegacyAcquireAfterExit",
+                          "FullyQualifiedErrorId":  "ArgumentException"
+                      },
+    "LiveProcessReadPassed":  true,
+    "OriginalObserverRootCauseProved":  false,
+    "EnumerateThenExitRaceHandled":  true,
+    "Utc":  "2026-11-07T15:03:21.5300228Z",
+    "PsVersion":  "5.1.26100.9549"
+}

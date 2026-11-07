@@ -1,0 +1,45 @@
+{
+    "ObserverStatus":  {
+                           "StartedUtc":  "2026-11-07T15:03:44.5181793Z",
+                           "Failure":  null,
+                           "Ready":  true,
+                           "ConfirmedProcessRaces":  0,
+                           "ObserverPid":  2440,
+                           "ProductOperationPerformed":  false,
+                           "LastHeartbeatUtc":  "2026-11-07T15:03:53.2720796Z",
+                           "Completed":  false,
+                           "OutputDirectory":  "C:\\IrisT040Output\\metrics-v3-e6edd1908748410dad950652b608224b",
+                           "ProcessSamples":  4,
+                           "Stage":  "Observe",
+                           "Samples":  7
+                       },
+    "InstalledSource":  {
+                            "Version":  "0.2.11",
+                            "Channel":  "win",
+                            "PackageId":  "Iris",
+                            "Repository":  "https://github.com/Tmcity/Iris",
+                            "RuntimeId":  "win-x64"
+                        },
+    "Utc":  "2026-11-07T15:03:53.9028343Z",
+    "HeartbeatAgeSeconds":  0.6226067,
+    "ObserverActualProcessAlive":  true,
+    "ProductOperationPerformed":  false,
+    "OriginalColdStartupCpuRecovered":  false,
+    "ObserverPointer":  {
+                            "StartedUtc":  "2026-11-07T15:03:42.4425538Z",
+                            "ObserverPid":  2440,
+                            "ExistingAppIdentities":  [
+                                                          {
+                                                              "ProcessId":  5568,
+                                                              "CreationDate":  "\/Date(1794058440292)\/"
+                                                          }
+                                                      ],
+                            "ProductOperationPerformed":  false,
+                            "OutputDirectory":  "C:\\IrisT040Output\\metrics-v3-e6edd1908748410dad950652b608224b",
+                            "SourceSha256":  "a6b1cfb9a84abaeb46ee39899948db72b36c889d7530dd84684bbbec80eacfff",
+                            "ObserverScript":  "C:\\IrisT040Repair\\observe-process-metrics-v3-readonly.ps1",
+                            "ObserverCreatedUtc":  "2026-11-07T15:03:42.4282042Z",
+                            "OriginalColdStartupCpuRecovered":  false
+                        },
+    "ObserverHealthy":  true
+}

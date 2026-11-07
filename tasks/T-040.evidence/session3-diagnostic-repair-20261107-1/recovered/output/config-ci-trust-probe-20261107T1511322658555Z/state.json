@@ -1,0 +1,45 @@
+{
+    "Completed":  true,
+    "SecurityPolicyChanged":  false,
+    "PolicyCallback":  "NULL",
+    "ProbePid":  5536,
+    "StartedUtc":  "2026-11-07T15:11:37.4848790Z",
+    "SipClientData":  "NULL",
+    "OriginalCallbackDataNotCaptured":  true,
+    "OriginalInstallRootCauseProved":  false,
+    "Failure":  null,
+    "RevocationCheck":  1,
+    "FinishedUtc":  "2026-11-07T15:13:38.0084636Z",
+    "CurrentCall":  null,
+    "ProductOperationPerformed":  false,
+    "MsiPath":  "C:\\ProgramData\\Package Cache\\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\\dotnet-host-10.0.14-win-x64.msi",
+    "InstallerExecuted":  false,
+    "UIChoice":  2,
+    "MsiSha256":  "ABF9056691AC5C463120C59943BCC7B3FF8CC45E9430F5260D6383108F0F2839",
+    "Calls":  [
+                  {
+                      "StartedUtc":  "2026-11-07T15:11:37.7854312Z",
+                      "FileInfoBytes":  32,
+                      "TrustDataBytes":  88,
+                      "ElapsedMs":  20.328200000000002,
+                      "Name":  "GenericAuthenticode",
+                      "ResultHex":  "00000000",
+                      "CloseResultHex":  "00000000",
+                      "FinishedUtc":  "2026-11-07T15:11:37.8171535Z",
+                      "ActionId":  "00aac56b-cd44-11d0-8cc2-00c04fc295ee"
+                  },
+                  {
+                      "StartedUtc":  "2026-11-07T15:11:37.8307160Z",
+                      "FileInfoBytes":  32,
+                      "TrustDataBytes":  88,
+                      "ElapsedMs":  120169.29340000001,
+                      "Name":  "ConfigCI",
+                      "ResultHex":  "00000000",
+                      "CloseResultHex":  "00000000",
+                      "FinishedUtc":  "2026-11-07T15:13:38.0016359Z",
+                      "ActionId":  "6078065b-8f22-4b13-bd9b-5b762776f386"
+                  }
+              ],
+    "ProviderFlags":  "80001080",
+    "OriginalActionId":  "6078065b-8f22-4b13-bd9b-5b762776f386"
+}

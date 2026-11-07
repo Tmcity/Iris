@@ -1,0 +1,55 @@
+{
+    "AllPassed":  true,
+    "PsVersion":  "5.1.26100.9549",
+    "Files":  [
+                  {
+                      "Errors":  [
+
+                                 ],
+                      "File":  "observe-process-metrics-v3-readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Errors":  [
+
+                                 ],
+                      "File":  "save-metrics-state-v3-readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Errors":  [
+
+                                 ],
+                      "File":  "start-metrics-observer-v3-readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Errors":  [
+
+                                 ],
+                      "File":  "t040_collect_current_readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Errors":  [
+
+                                 ],
+                      "File":  "t040_metrics_process_readonly.psm1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Errors":  [
+
+                                 ],
+                      "File":  "t040_save_memory_candidate_installed_readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Errors":  [
+
+                                 ],
+                      "File":  "validate-t040-metrics-v3-readonly.ps1",
+                      "ErrorCount":  0
+                  }
+              ]
+}

@@ -1,0 +1,12 @@
+{
+    "ProbeCreatedUtc":  "2026-11-07T15:11:35.0328212Z",
+    "CapiPid":  7476,
+    "Utc":  "2026-11-07T15:11:35.0353224Z",
+    "InstallerExecuted":  false,
+    "OutputDirectory":  "C:\\IrisT040Output\\config-ci-trust-probe-20261107T1511322658555Z",
+    "ProductOperationPerformed":  false,
+    "ProbePid":  5536,
+    "SecurityPolicyChanged":  false,
+    "SourceSha256":  "8984411FFF3E3EA151C069E93DAA86038DAB198499624E28C2CC4368BE3F47D2",
+    "CapiOutputDirectory":  "C:\\IrisT040Output\\live-capi2-20261107T1511343623850Z"
+}

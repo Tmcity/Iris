@@ -1,0 +1,22 @@
+{
+    "Utc":  "2026-11-07T14:56:13.6627942Z",
+    "Processes":  [
+                      {
+                          "ProcessId":  5568,
+                          "ParentProcessId":  2680,
+                          "Name":  "Iris.App.exe",
+                          "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+                          "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\"",
+                          "CreationDate":  "\/Date(1794058440292)\/"
+                      },
+                      {
+                          "ProcessId":  5884,
+                          "ParentProcessId":  2676,
+                          "Name":  "powershell.exe",
+                          "ExecutablePath":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                          "CommandLine":  "powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -EncodedCommand JABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQA9ACcAUwB0AG8AcAAnAAoAJAB0AGEAcwBrAFAAcgBvAGMAZQBzAHMAZQBzACAAPQAgAEAAKABHAGUAdAAtAEMAaQBtAEkAbgBzAHQAYQBuAGMAZQAgAFcAaQBuADMAMgBfAFAAcgBvAGMAZQBzAHMAIAB8ACAAVwBoAGUAcgBlAC0ATwBiAGoAZQBjAHQAIAB7ACAAJABfAC4ATgBhAG0AZQAgAC0AaQBuACAAQAAoACcASQByAGkAcwAuAEEAcABwAC4AZQB4AGUAJwAsACcAcABvAHcAZQByAHMAaABlAGwAbAAuAGUAeABlACcALAAnAEkAcgBpAHMALQAwAC4AMgAuADEAMQAtAFMAZQB0AHUAcAAuAGUAeABlACcALAAnAG0AcwBpAGUAeABlAGMALgBlAHgAZQAnACkAIAB9ACAAfAAgAFMAZQBsAGUAYwB0AC0ATwBiAGoAZQBjAHQAIABQAHIAbwBjAGUAcwBzAEkAZAAsACAAUABhAHIAZQBuAHQAUAByAG8AYwBlAHMAcwBJAGQALAAgAE4AYQBtAGUALAAgAEUAeABlAGMAdQB0AGEAYgBsAGUAUABhAHQAaAAsACAAQwBvAG0AbQBhAG4AZABMAGkAbgBlACwAIABDAHIAZQBhAHQAaQBvAG4ARABhAHQAZQApAAoAJAB0AGEAcwBrAFIAZQBjAG8AcgBkAD0AWwBvAHIAZABlAHIAZQBkAF0AQAB7AFUAdABjAD0AWwBEAGEAdABlAFQAaQBtAGUAXQA6ADoAVQB0AGMATgBvAHcALgBUAG8AUwB0AHIAaQBuAGcAKAAnAG8AJwApADsAUAByAG8AYwBlAHMAcwBlAHMAPQAkAHQAYQBzAGsAUAByAG8AYwBlAHMAcwBlAHMAOwBQAHIAbwBkAHUAYwB0AE8AcABlAHIAYQB0AGkAbwBuAFAAZQByAGYAbwByAG0AZQBkAD0AJABmAGEAbABzAGUAfQAKAFsASQBPAC4ARgBpAGwAZQBdADoAOgBXAHIAaQB0AGUAQQBsAGwAVABlAHgAdAAoACcAQwA6AFwASQByAGkAcwBUADAANAAwAE8AdQB0AHAAdQB0AFwAcwBlAHMAcwBpAG8AbgAzAC0AYwB1AHIAcgBlAG4AdAAtAHAAcgBvAGMAZQBzAHMAZQBzAC0AMgAwADIANgAxADEAMAA3AFQAMQA0ADUAOAAuAGoAcwBvAG4AJwAsACgAJAB0AGEAcwBrAFIAZQBjAG8AcgBkACAAfAAgAEMAbwBuAHYAZQByAHQAVABvAC0ASgBzAG8AbgAgAC0ARABlAHAAdABoACAANgApACwAKABOAGUAdwAtAE8AYgBqAGUAYwB0ACAAVABlAHgAdAAuAFUAVABGADgARQBuAGMAbwBkAGkAbgBnACgAJABmAGEAbABzAGUAKQApACkA",
+                          "CreationDate":  "\/Date(1794063372048)\/"
+                      }
+                  ],
+    "ProductOperationPerformed":  false
+}

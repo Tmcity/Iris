@@ -1,0 +1,27 @@
+{
+    "VisibleAfter":  [
+
+                     ],
+    "VisibleBefore":  [
+
+                      ],
+    "NaturalFullGcProved":  false,
+    "Utc":  "2026-11-07T15:34:53.9257678Z",
+    "RuntimeTraceActualProcessAbsent":  true,
+    "TargetPid":  5568,
+    "IdleStartedUtc":  "2026-11-07T15:34:08.5237984Z",
+    "WorkingSetTrimmed":  false,
+    "GcRequested":  false,
+    "ProductOperationPerformed":  false,
+    "Counters":  {
+                     "MainWindowHandle":  0,
+                     "ReadCompletedUtc":  "2026-11-07T15:34:53.5638270Z",
+                     "ReadStartedUtc":  "2026-11-07T15:34:53.5481228Z",
+                     "ProcessCpuTotalSeconds":  6.9375,
+                     "WorkingSetBytes":  184467456,
+                     "PrivateBytes":  55459840,
+                     "ProcessCreatedUtc":  "2026-11-07T13:34:00.2928453Z"
+                 },
+    "Scope":  "Tray idle after settings closed; full-GC steady-state acceptance remains separate",
+    "RequestedIdleSeconds":  45
+}

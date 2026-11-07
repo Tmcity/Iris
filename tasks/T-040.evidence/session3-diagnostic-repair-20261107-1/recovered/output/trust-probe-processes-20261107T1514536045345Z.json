@@ -1,0 +1,16 @@
+{
+    "CapiActualProcess":  {
+                              "ProcessId":  7476,
+                              "CreationDate":  "\/Date(1794064292390)\/",
+                              "ExecutablePath":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                              "CommandLine":  "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\\IrisT040TrustProbe\\t040_capture_live_capi2_readonly.ps1 -DurationSeconds 300 "
+                          },
+    "Utc":  "2026-11-07T15:14:53.5784633Z",
+    "ProbeThreads":  [
+
+                     ],
+    "ProductOperationPerformed":  false,
+    "ProbeActualProcess":  {
+
+                           }
+}

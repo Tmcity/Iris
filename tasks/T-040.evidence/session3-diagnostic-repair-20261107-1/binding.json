@@ -1,0 +1,838 @@
+{
+  "Utc": "2026-11-07T15:30:08.575697+00:00",
+  "Task": "T-040",
+  "Complete": false,
+  "SandboxId": "edf31417-4146-4ccb-9b48-feb98ccb6871",
+  "ProductPid": 5568,
+  "Version": "0.2.11",
+  "SourceCommit": "dccc0dbd3054122e34e27842d55c6585ff953812",
+  "SourceTree": "d5d9f93f1eb294e55a83aeb0b3801c19dab3deaf",
+  "InstalledFilesIndependentlyMatched": 97,
+  "InstallationVerified": true,
+  "SaveRecovered": true,
+  "OriginalMetricsFailurePreserved": true,
+  "OriginalMetricsRootCauseUniquelyProved": false,
+  "EnumerateThenExitFailureBoundedlyReproducedAndHandled": true,
+  "PowerShell51ValidationPassed": true,
+  "MetricsObserverPid": 2440,
+  "MetricsProcessSamples": 745,
+  "OpenWindowMetrics": {
+    "WorkingSetMedianMiB": 176.69921875,
+    "PrivateBytesMedianMiB": 53.3828125
+  },
+  "OriginalColdStartupCpuRecovered": false,
+  "ColdStartupNumericMs": 1410.1547,
+  "ColdStartupLowLoadConditionProved": false,
+  "HistoryTotal": 0,
+  "SyntheticServiceConfiguredInThisNewSession": false,
+  "OriginalCapiEvents": 2901,
+  "OriginalCapiIntegrity": {
+    "Gaps": [],
+    "UniqueRecordIds": 2901,
+    "ColdInstallRootCauseProved": false,
+    "CapturedEvents": 2901,
+    "ProductOperationPerformed": false,
+    "DuplicateDeliveries": 0
+  },
+  "OriginalTrustCalls": [
+    {
+      "TaskId": "{831CC10B-2C77-42AB-A4D1-86787B44E961}",
+      "Pid": 760,
+      "FilePath": "C:\\ProgramData\\Package Cache\\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\\dotnet-host-10.0.14-win-x64.msi",
+      "ActionId": "6078065b-8f22-4b13-bd9b-5b762776f386",
+      "Flags": "80001080",
+      "Result": "0",
+      "StartedUtc": "2026-11-07T13:25:53.9525996Z",
+      "FinishedUtc": "2026-11-07T13:27:54.1060471Z",
+      "ElapsedSeconds": 120.153448,
+      "Policies": [
+        {
+          "Utc": "2026-11-07T13:25:53.9566405Z",
+          "Result": "0"
+        },
+        {
+          "Utc": "2026-11-07T13:25:53.9566684Z",
+          "Result": "0"
+        },
+        {
+          "Utc": "2026-11-07T13:26:54.0647471Z",
+          "Result": "0"
+        },
+        {
+          "Utc": "2026-11-07T13:26:54.0647809Z",
+          "Result": "0"
+        }
+      ],
+      "StartRecordId": 673,
+      "EndRecordId": 712
+    },
+    {
+      "TaskId": "{42D2FD14-CBFF-4566-9B52-E8FE4CC45B94}",
+      "Pid": 760,
+      "FilePath": "C:\\ProgramData\\Package Cache\\{3887007B-C74B-4DF7-8155-F3838C013D2C}v80.56.61678\\dotnet-hostfxr-10.0.14-win-x64.msi",
+      "ActionId": "6078065b-8f22-4b13-bd9b-5b762776f386",
+      "Flags": "80001080",
+      "Result": "0",
+      "StartedUtc": "2026-11-07T13:27:54.7770771Z",
+      "FinishedUtc": "2026-11-07T13:29:54.8734313Z",
+      "ElapsedSeconds": 120.096354,
+      "Policies": [
+        {
+          "Utc": "2026-11-07T13:27:54.7793286Z",
+          "Result": "0"
+        },
+        {
+          "Utc": "2026-11-07T13:27:54.7793532Z",
+          "Result": "0"
+        },
+        {
+          "Utc": "2026-11-07T13:28:54.8396898Z",
+          "Result": "0"
+        },
+        {
+          "Utc": "2026-11-07T13:28:54.8397197Z",
+          "Result": "0"
+        }
+      ],
+      "StartRecordId": 713,
+      "EndRecordId": 725
+    },
+    {
+      "TaskId": "{925731C5-14C7-432F-9586-B638C3965C31}",
+      "Pid": 760,
+      "FilePath": "C:\\ProgramData\\Package Cache\\{941B1F64-FCD9-4C40-B927-E75F49DD96D8}v80.56.61678\\dotnet-runtime-10.0.14-win-x64.msi",
+      "ActionId": "6078065b-8f22-4b13-bd9b-5b762776f386",
+      "Flags": "80001080",
+      "Result": "0",
+      "StartedUtc": "2026-11-07T13:29:55.4453675Z",
+      "FinishedUtc": "2026-11-07T13:31:55.6844490Z",
+      "ElapsedSeconds": 120.239082,
+      "Policies": [
+        {
+          "Utc": "2026-11-07T13:29:55.4496242Z",
+          "Result": "0"
+        },
+        {
+          "Utc": "2026-11-07T13:29:55.4496756Z",
+          "Result": "0"
+        },
+        {
+          "Utc": "2026-11-07T13:30:55.6636707Z",
+          "Result": "0"
+        },
+        {
+          "Utc": "2026-11-07T13:30:55.6637281Z",
+          "Result": "0"
+        }
+      ],
+      "StartRecordId": 726,
+      "EndRecordId": 803
+    },
+    {
+      "TaskId": "{A3C52BC1-B7DD-4E14-8630-23A11E2C9720}",
+      "Pid": 760,
+      "FilePath": "C:\\ProgramData\\Package Cache\\{64BFC674-D664-480B-AFF2-D47C5531D6D2}v80.56.61678\\windowsdesktop-runtime-10.0.14-win-x64.msi",
+      "ActionId": "6078065b-8f22-4b13-bd9b-5b762776f386",
+      "Flags": "80001080",
+      "Result": "0",
+      "StartedUtc": "2026-11-07T13:31:57.1895298Z",
+      "FinishedUtc": "2026-11-07T13:33:57.4704892Z",
+      "ElapsedSeconds": 120.28096,
+      "Policies": [
+        {
+          "Utc": "2026-11-07T13:31:57.1918089Z",
+          "Result": "0"
+        },
+        {
+          "Utc": "2026-11-07T13:31:57.1918359Z",
+          "Result": "0"
+        },
+        {
+          "Utc": "2026-11-07T13:32:57.3535982Z",
+          "Result": "0"
+        },
+        {
+          "Utc": "2026-11-07T13:32:57.3536338Z",
+          "Result": "0"
+        }
+      ],
+      "StartRecordId": 804,
+      "EndRecordId": 834
+    }
+  ],
+  "MsiSignaturePolicyIntervals": [
+    {
+      "File": "002-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_000_DotNetHost.log",
+      "StartedUtc": "2026-11-07T13:25:53.927000+00:00",
+      "FinishedUtc": "2026-11-07T13:27:54.103000+00:00",
+      "Seconds": 120.176,
+      "StartLine": "MSI (s) (F8:28) [21:25:53:927]: SOFTWARE RESTRICTION POLICY: Verifying package --> 'C:\\ProgramData\\Package Cache\\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\\dotnet-host-10.0.14-win-x64.msi' against software restriction policy",
+      "EndLine": "MSI (s) (F8:28) [21:27:54:103]: SOFTWARE RESTRICTION POLICY: C:\\ProgramData\\Package Cache\\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\\dotnet-host-10.0.14-win-x64.msi has a digital signature"
+    },
+    {
+      "File": "003-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_001_DotNetHostFxr.log",
+      "StartedUtc": "2026-11-07T13:27:54.768000+00:00",
+      "FinishedUtc": "2026-11-07T13:29:54.871000+00:00",
+      "Seconds": 120.103,
+      "StartLine": "MSI (s) (F8:78) [21:27:54:768]: SOFTWARE RESTRICTION POLICY: Verifying package --> 'C:\\ProgramData\\Package Cache\\{3887007B-C74B-4DF7-8155-F3838C013D2C}v80.56.61678\\dotnet-hostfxr-10.0.14-win-x64.msi' against software restriction policy",
+      "EndLine": "MSI (s) (F8:78) [21:29:54:871]: SOFTWARE RESTRICTION POLICY: C:\\ProgramData\\Package Cache\\{3887007B-C74B-4DF7-8155-F3838C013D2C}v80.56.61678\\dotnet-hostfxr-10.0.14-win-x64.msi has a digital signature"
+    },
+    {
+      "File": "004-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_002_DotNetRuntime.log",
+      "StartedUtc": "2026-11-07T13:29:55.412000+00:00",
+      "FinishedUtc": "2026-11-07T13:31:55.792000+00:00",
+      "Seconds": 120.38,
+      "StartLine": "MSI (s) (F8:5C) [21:29:55:412]: SOFTWARE RESTRICTION POLICY: Verifying package --> 'C:\\ProgramData\\Package Cache\\{941B1F64-FCD9-4C40-B927-E75F49DD96D8}v80.56.61678\\dotnet-runtime-10.0.14-win-x64.msi' against software restriction policy",
+      "EndLine": "MSI (s) (F8:5C) [21:31:55:792]: SOFTWARE RESTRICTION POLICY: C:\\ProgramData\\Package Cache\\{941B1F64-FCD9-4C40-B927-E75F49DD96D8}v80.56.61678\\dotnet-runtime-10.0.14-win-x64.msi has a digital signature"
+    },
+    {
+      "File": "005-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_003_WindowsDesktopRuntime.log",
+      "StartedUtc": "2026-11-07T13:31:57.163000+00:00",
+      "FinishedUtc": "2026-11-07T13:33:57.547000+00:00",
+      "Seconds": 120.384,
+      "StartLine": "MSI (s) (F8:A4) [21:31:57:163]: SOFTWARE RESTRICTION POLICY: Verifying package --> 'C:\\ProgramData\\Package Cache\\{64BFC674-D664-480B-AFF2-D47C5531D6D2}v80.56.61678\\windowsdesktop-runtime-10.0.14-win-x64.msi' against software restriction policy",
+      "EndLine": "MSI (s) (F8:A4) [21:33:57:547]: SOFTWARE RESTRICTION POLICY: C:\\ProgramData\\Package Cache\\{64BFC674-D664-480B-AFF2-D47C5531D6D2}v80.56.61678\\windowsdesktop-runtime-10.0.14-win-x64.msi has a digital signature"
+    }
+  ],
+  "TotalMsiSignaturePolicySeconds": 481.043,
+  "ConfigCiActionIdentifiedBySdkAndRegistry": true,
+  "IndependentTrustCalls": [
+    {
+      "StartedUtc": "2026-11-07T15:11:37.7854312Z",
+      "FileInfoBytes": 32,
+      "TrustDataBytes": 88,
+      "ElapsedMs": 20.328200000000002,
+      "Name": "GenericAuthenticode",
+      "ResultHex": "00000000",
+      "CloseResultHex": "00000000",
+      "FinishedUtc": "2026-11-07T15:11:37.8171535Z",
+      "ActionId": "00aac56b-cd44-11d0-8cc2-00c04fc295ee"
+    },
+    {
+      "StartedUtc": "2026-11-07T15:11:37.8307160Z",
+      "FileInfoBytes": 32,
+      "TrustDataBytes": 88,
+      "ElapsedMs": 120169.29340000001,
+      "Name": "ConfigCI",
+      "ResultHex": "00000000",
+      "CloseResultHex": "00000000",
+      "FinishedUtc": "2026-11-07T15:13:38.0016359Z",
+      "ActionId": "6078065b-8f22-4b13-bd9b-5b762776f386"
+    }
+  ],
+  "IndependentTrustCapiCalls": [
+    {
+      "TaskId": "{F69EB64A-C6D4-44BC-A792-80415A907DB8}",
+      "Pid": 5536,
+      "FilePath": "C:\\ProgramData\\Package Cache\\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\\dotnet-host-10.0.14-win-x64.msi",
+      "ActionId": "00aac56b-cd44-11d0-8cc2-00c04fc295ee",
+      "Flags": "80001080",
+      "Result": "0",
+      "StartedUtc": "2026-11-07T15:11:37.8101036Z",
+      "FinishedUtc": "2026-11-07T15:11:37.8132845Z",
+      "ElapsedSeconds": 0.003181,
+      "Policies": [
+        {
+          "Utc": "2026-11-07T15:11:37.8116281Z",
+          "Result": "0"
+        },
+        {
+          "Utc": "2026-11-07T15:11:37.8116574Z",
+          "Result": "0"
+        }
+      ],
+      "StartRecordId": 4879,
+      "EndRecordId": 4889
+    },
+    {
+      "TaskId": "{000018AC-D052-4F96-AFF4-1A3020F0080E}",
+      "Pid": 5536,
+      "FilePath": "C:\\ProgramData\\Package Cache\\{7A1A9C6B-1386-478E-9C35-7242968A5634}v80.56.61678\\dotnet-host-10.0.14-win-x64.msi",
+      "ActionId": "6078065b-8f22-4b13-bd9b-5b762776f386",
+      "Flags": "80001080",
+      "Result": "0",
+      "StartedUtc": "2026-11-07T15:11:37.8398797Z",
+      "FinishedUtc": "2026-11-07T15:13:38.0034889Z",
+      "ElapsedSeconds": 120.163609,
+      "Policies": [
+        {
+          "Utc": "2026-11-07T15:11:37.8460467Z",
+          "Result": "0"
+        },
+        {
+          "Utc": "2026-11-07T15:11:37.8460930Z",
+          "Result": "0"
+        },
+        {
+          "Utc": "2026-11-07T15:12:37.9218906Z",
+          "Result": "0"
+        },
+        {
+          "Utc": "2026-11-07T15:12:37.9219727Z",
+          "Result": "0"
+        }
+      ],
+      "StartRecordId": 4890,
+      "EndRecordId": 4902
+    }
+  ],
+  "IndependentTrustCapiIntegrity": {
+    "Gaps": [],
+    "UniqueRecordIds": 234,
+    "ColdInstallRootCauseProved": false,
+    "CapturedEvents": 234,
+    "ProductOperationPerformed": false,
+    "DuplicateDeliveries": 0
+  },
+  "SlowConfigCiCallReproducedWithoutIrisOrInstallerExecution": true,
+  "OriginalCallbackDataCaptured": false,
+  "ConfigCiInternalWaitCauseAndRemediationStillOpen": true,
+  "CounterInfluenceComparison": {
+    "BeforeMiB": 176.69921875,
+    "AfterAtLeast45SecondsMiB": 177.4609375,
+    "ElapsedAfterTraceSeconds": 288.3874561,
+    "WorkingSetDeltaMiB": 0.76171875,
+    "PrivateBytesDeltaMiB": 0.7265625,
+    "SettingsHashesEqual": true,
+    "MainWindowHandlesEqual": true,
+    "NaturalFullGcStarts": 0,
+    "OriginalNullExitCodeFailurePreserved": true,
+    "NoTracingRepeatedForRecovery": true,
+    "FormalIdleMemoryProved": false
+  },
+  "ComputerUseImportFixReviewed": true,
+  "ComputerUseDesktopBridgeAvailable": false,
+  "ProductCodeChangedInThisReview": false,
+  "PublicVersionPublished": false,
+  "WorkingSet160MiBLimitUnchanged": true,
+  "Prior203_867MiBFailurePreserved": true,
+  "FullFunctionalAndNfrAcceptanceComplete": false,
+  "FourKProved": false,
+  "Files": [
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\candidate-installed-20261107T1503523742561Z.json",
+      "ArchivePath": "recovered/output/candidate-installed-20261107T1503523742561Z.json",
+      "Bytes": 29909,
+      "Sha256": "70a5ac02f40d4d19b0e6b1b3dbbfc2650adb0f9fad409afff1d4557a823fb6bf",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\metrics-v3-ps51-parse.json",
+      "ArchivePath": "recovered/output/metrics-v3-ps51-parse.json",
+      "Bytes": 1721,
+      "Sha256": "3236d4792afa5540c0afa741f9123fa1724732a50e1fe6acbb60fca2cedae543",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\metrics-v3-validation.json",
+      "ArchivePath": "recovered/output/metrics-v3-validation.json",
+      "Bytes": 4097,
+      "Sha256": "ff2f87cde4b86ff38f9836cc9e7504ca3e86794a59394e821c60cd520930846d",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\active-metrics.json",
+      "ArchivePath": "recovered/output/active-metrics.json",
+      "Bytes": 783,
+      "Sha256": "d63b812513e96d5552742da99a32a030fd86bf22042a6a700449084e66ace798",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\active-metrics-preserved-20261107T1503423116018Z.json",
+      "ArchivePath": "recovered/output/active-metrics-preserved-20261107T1503423116018Z.json",
+      "Bytes": 303,
+      "Sha256": "c76f027bbde59aa8ebd78b1cdebfc0af6e2f3426f26f93a1dcbf2dd6481ad04f",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\tool-transcript-20261107T150314495864Z.txt",
+      "ArchivePath": "recovered/output/tool-transcript-20261107T150314495864Z.txt",
+      "Bytes": 1961,
+      "Sha256": "478e6e701277271d70363f7a34c4ae0b58916e85bfd36e7bc6c16694463a735c",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\tool-transcript-20261107T150339387455Z.txt",
+      "ArchivePath": "recovered/output/tool-transcript-20261107T150339387455Z.txt",
+      "Bytes": 1988,
+      "Sha256": "ff9a36d1bf2e64831567bbfaf8f73a659c15351fbd82bdb3056a0b19317eed6e",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\tool-transcript-20261107T150348835123Z.txt",
+      "ArchivePath": "recovered/output/tool-transcript-20261107T150348835123Z.txt",
+      "Bytes": 2098,
+      "Sha256": "9e5b49cc9b48c17242214cfe4a2223824b018c945fdc4c638055e068fc1ddfb7",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\tool-transcript-20261107T150646213891Z.txt",
+      "ArchivePath": "recovered/output/tool-transcript-20261107T150646213891Z.txt",
+      "Bytes": 2681,
+      "Sha256": "b87eaa75988245e8001276790f00a07d0680862d6d5447ae9ba15b5af613b61d",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\tool-transcript-20261107T151122452241Z.txt",
+      "ArchivePath": "recovered/output/tool-transcript-20261107T151122452241Z.txt",
+      "Bytes": 2677,
+      "Sha256": "c97a365ffa8e252793c8cf81b8a8d0d8ce61b8e4dab7cecb1e79285453d88161",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\tool-transcript-20261107T151129478861Z.txt",
+      "ArchivePath": "recovered/output/tool-transcript-20261107T151129478861Z.txt",
+      "Bytes": 2001,
+      "Sha256": "75ab9b27466377d7c4cb6913f1d7990840d3b794d715afc302a59d8657c419e6",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\tool-transcript-20261107T152052460218Z.txt",
+      "ArchivePath": "recovered/output/tool-transcript-20261107T152052460218Z.txt",
+      "Bytes": 1997,
+      "Sha256": "b7b2b567e055fcf7f3bc1da66eff58384408355cc6a6b5d193ad89d65c6db54f",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\tool-transcript-20261107T152508145029Z.txt",
+      "ArchivePath": "recovered/output/tool-transcript-20261107T152508145029Z.txt",
+      "Bytes": 2009,
+      "Sha256": "55a4b78bc2280fee7ad1f3642273f2c9f1fa6e031050ab2033a8da5ec765a607",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\tool-transcript-20261107T153004953270Z.txt",
+      "ArchivePath": "recovered/output/tool-transcript-20261107T153004953270Z.txt",
+      "Bytes": 2026,
+      "Sha256": "f9fee302a1b137a24ef5877d69a3a59a0b221fce8aa9adba5339b3625cce6bf8",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\session3-helpers-20261107T1520558494426Z.json",
+      "ArchivePath": "recovered/output/session3-helpers-20261107T1520558494426Z.json",
+      "Bytes": 7537,
+      "Sha256": "c2971322933c42f80a4617d5abbb3d9b9de292a7687195f1f49e22c77c947a7c",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\trust-probe-processes-20261107T1514536045345Z.json",
+      "ArchivePath": "recovered/output/trust-probe-processes-20261107T1514536045345Z.json",
+      "Bytes": 761,
+      "Sha256": "5ef721de661370c159a6dd342f5c3cdf049395f34e9f37bea9742ea72156e430",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\metrics-v3-e6edd1908748410dad950652b608224b\\samples.jsonl",
+      "ArchivePath": "recovered/output/metrics-v3-e6edd1908748410dad950652b608224b/samples.jsonl",
+      "Bytes": 390404,
+      "Sha256": "53f31d2fd19bb7e414d3c9e0d75d21385fcf1dc1e7cadc1acb9b1130be38df4b",
+      "CompleteLinePrefix": true
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\metrics-v3-e6edd1908748410dad950652b608224b\\status.json",
+      "ArchivePath": "recovered/output/metrics-v3-e6edd1908748410dad950652b608224b/status.json",
+      "Bytes": 455,
+      "Sha256": "a1fe5632da7377aea2a9e2b2cb4c02071e369cf0e3e04e51f96278a943e693e4",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\metrics-v3-e6edd1908748410dad950652b608224b\\saved-state-20261107T1503539048446Z.json",
+      "ArchivePath": "recovered/output/metrics-v3-e6edd1908748410dad950652b608224b/saved-state-20261107T1503539048446Z.json",
+      "Bytes": 2533,
+      "Sha256": "bbf1f0fce20282910d80bf90f7786a4df3741c7ae92d21d1466b2a9463d9419b",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\readonly-state-20261107T1503529812358Z\\iris-20261107.log",
+      "ArchivePath": "recovered/output/readonly-state-20261107T1503529812358Z/iris-20261107.log",
+      "Bytes": 478,
+      "Sha256": "ba77c46de7ef28c3d4020e85e536ac99bd75d437cd67ad5ffbc79e817d15d948",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\readonly-state-20261107T1503529812358Z\\state.json",
+      "ArchivePath": "recovered/output/readonly-state-20261107T1503529812358Z/state.json",
+      "Bytes": 101742,
+      "Sha256": "061b98f987f4680b381e26a0cdc6c3046e929505f71e7be9ae2222ff4fbb79b0",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1503526621294Z\\iris-20261107.log",
+      "ArchivePath": "recovered/output/feature-data-20261107T1503526621294Z/iris-20261107.log",
+      "Bytes": 478,
+      "Sha256": "ba77c46de7ef28c3d4020e85e536ac99bd75d437cd67ad5ffbc79e817d15d948",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1503526621294Z\\settings.json",
+      "ArchivePath": "recovered/output/feature-data-20261107T1503526621294Z/settings.json",
+      "Bytes": 3746,
+      "Sha256": "2dac3723bbb35358c0af23873e7849f51e6f7d62e9f4847028438530c730d6cd",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1503526621294Z\\state.json",
+      "ArchivePath": "recovered/output/feature-data-20261107T1503526621294Z/state.json",
+      "Bytes": 442,
+      "Sha256": "8ad1d32c7f06c0c0eb5c8b97b435d4500cc7f3c1680047bb174d01e6a5fc394d",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\session3-install-logs-20261107T1511248273120Z\\001-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552.log",
+      "ArchivePath": "recovered/output/session3-install-logs-20261107T1511248273120Z/001-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552.log",
+      "Bytes": 22097,
+      "Sha256": "7d255af37d521c2458f0085f994dfb83ade08aab49e360aad706379df86cd724",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\session3-install-logs-20261107T1511248273120Z\\002-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_000_DotNetHost.log",
+      "ArchivePath": "recovered/output/session3-install-logs-20261107T1511248273120Z/002-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_000_DotNetHost.log",
+      "Bytes": 112808,
+      "Sha256": "f5988cb110f32d12d7206d25c70ed7bd564ef32879fc72771b183cde8f470a01",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\session3-install-logs-20261107T1511248273120Z\\003-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_001_DotNetHostFxr.log",
+      "ArchivePath": "recovered/output/session3-install-logs-20261107T1511248273120Z/003-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_001_DotNetHostFxr.log",
+      "Bytes": 101374,
+      "Sha256": "f8479aebd2d1239e47d6a79f060dd83af36c204fad07945b1416c6a41f83105f",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\session3-install-logs-20261107T1511248273120Z\\004-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_002_DotNetRuntime.log",
+      "ArchivePath": "recovered/output/session3-install-logs-20261107T1511248273120Z/004-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_002_DotNetRuntime.log",
+      "Bytes": 490364,
+      "Sha256": "5474266deaa65f35aba761509c41d5648d3f8bd5f75b27cf2e6c8855c10303a0",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\session3-install-logs-20261107T1511248273120Z\\005-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_003_WindowsDesktopRuntime.log",
+      "ArchivePath": "recovered/output/session3-install-logs-20261107T1511248273120Z/005-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_003_WindowsDesktopRuntime.log",
+      "Bytes": 728258,
+      "Sha256": "4ff898166ccce819b1288a35b3ca158036adf67db3c73af90c279bba67069b94",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\session3-install-logs-20261107T1511248273120Z\\006-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212553.elevated.log",
+      "ArchivePath": "recovered/output/session3-install-logs-20261107T1511248273120Z/006-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212553.elevated.log",
+      "Bytes": 1338,
+      "Sha256": "eee471d4343198248e1f09a568a05998e542325bfbe819dda15270fabf3ca80e",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\session3-install-logs-20261107T1511248273120Z\\007-velopack.log",
+      "ArchivePath": "recovered/output/session3-install-logs-20261107T1511248273120Z/007-velopack.log",
+      "Bytes": 6193,
+      "Sha256": "40c9fd6b54b433c4b72f6df2e6ed1453303f6c1460b4657c5bd320d5184b7b89",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\session3-install-logs-20261107T1511248273120Z\\008-velopack_Iris.log",
+      "ArchivePath": "recovered/output/session3-install-logs-20261107T1511248273120Z/008-velopack_Iris.log",
+      "Bytes": 2627,
+      "Sha256": "f8efb1e18de4971536f148cc4d73c0c8358aa2348fa72a4f6d900967ffa135d0",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\session3-install-logs-20261107T1511248273120Z\\Application.xml",
+      "ArchivePath": "recovered/output/session3-install-logs-20261107T1511248273120Z/Application.xml",
+      "Bytes": 24410,
+      "Sha256": "e7d4a8c39e5289b0b8cd27dba943eb1f2942a34a903c9fe728b902582bb71045",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\session3-install-logs-20261107T1511248273120Z\\Microsoft-Windows-AppLocker-EXE_and_DLL.xml",
+      "ArchivePath": "recovered/output/session3-install-logs-20261107T1511248273120Z/Microsoft-Windows-AppLocker-EXE_and_DLL.xml",
+      "Bytes": 17,
+      "Sha256": "3f2e879941c23cc4ba822b7fcf62857c830f2fa62498f01cee12bb1dab15ab44",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\session3-install-logs-20261107T1511248273120Z\\Microsoft-Windows-AppLocker-MSI_and_Script.xml",
+      "ArchivePath": "recovered/output/session3-install-logs-20261107T1511248273120Z/Microsoft-Windows-AppLocker-MSI_and_Script.xml",
+      "Bytes": 13275,
+      "Sha256": "93a61016793f6f62de24cea462b942d8e2933bd9d8ba7a5b669a572509ff1328",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\session3-install-logs-20261107T1511248273120Z\\Microsoft-Windows-CodeIntegrity-Operational.xml",
+      "ArchivePath": "recovered/output/session3-install-logs-20261107T1511248273120Z/Microsoft-Windows-CodeIntegrity-Operational.xml",
+      "Bytes": 17,
+      "Sha256": "3f2e879941c23cc4ba822b7fcf62857c830f2fa62498f01cee12bb1dab15ab44",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\session3-install-logs-20261107T1511248273120Z\\Microsoft-Windows-Windows_Defender-Operational.xml",
+      "ArchivePath": "recovered/output/session3-install-logs-20261107T1511248273120Z/Microsoft-Windows-Windows_Defender-Operational.xml",
+      "Bytes": 17,
+      "Sha256": "3f2e879941c23cc4ba822b7fcf62857c830f2fa62498f01cee12bb1dab15ab44",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\session3-install-logs-20261107T1511248273120Z\\state.json",
+      "ArchivePath": "recovered/output/session3-install-logs-20261107T1511248273120Z/state.json",
+      "Bytes": 12060,
+      "Sha256": "6862b6bb5957e924972aaab8e2948e0f6ab96acb34fc913d95f819f9b11869d2",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\session3-install-logs-20261107T1511248273120Z\\System.xml",
+      "ArchivePath": "recovered/output/session3-install-logs-20261107T1511248273120Z/System.xml",
+      "Bytes": 850,
+      "Sha256": "23c29255e1d7accb5b057b888b8b31fd286f7129b8a8272a60d526876bddbae6",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\config-ci-trust-probe-20261107T1511322658555Z\\capi-stderr.txt",
+      "ArchivePath": "recovered/output/config-ci-trust-probe-20261107T1511322658555Z/capi-stderr.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\config-ci-trust-probe-20261107T1511322658555Z\\capi-stdout.txt",
+      "ArchivePath": "recovered/output/config-ci-trust-probe-20261107T1511322658555Z/capi-stdout.txt",
+      "Bytes": 80,
+      "Sha256": "79fca8b886e34e83f2855f711122c4dd9c7f14bccce606bc3497c7c5eb123a91",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\config-ci-trust-probe-20261107T1511322658555Z\\launch.json",
+      "ArchivePath": "recovered/output/config-ci-trust-probe-20261107T1511322658555Z/launch.json",
+      "Bytes": 537,
+      "Sha256": "b086f30a0b390c8bb7bb18e01c4bfda872b7dafe10a1069110a226499107ab00",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\config-ci-trust-probe-20261107T1511322658555Z\\state.json",
+      "ArchivePath": "recovered/output/config-ci-trust-probe-20261107T1511322658555Z/state.json",
+      "Bytes": 2004,
+      "Sha256": "4ca6216b4fb72bb635065444298f499c035b0db320e71ea4191ad3dd77e58703",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\config-ci-trust-probe-20261107T1511322658555Z\\stderr.txt",
+      "ArchivePath": "recovered/output/config-ci-trust-probe-20261107T1511322658555Z/stderr.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\config-ci-trust-probe-20261107T1511322658555Z\\stdout.txt",
+      "ArchivePath": "recovered/output/config-ci-trust-probe-20261107T1511322658555Z/stdout.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\live-capi2-20261107T1511343623850Z\\events.jsonl",
+      "ArchivePath": "recovered/output/live-capi2-20261107T1511343623850Z/events.jsonl",
+      "Bytes": 875824,
+      "Sha256": "67b56aaf0aecfac6687549197a491f1cf1e839311be049cb6371905187b1ed22",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\live-capi2-20261107T1511343623850Z\\record-integrity.json",
+      "ArchivePath": "recovered/output/live-capi2-20261107T1511343623850Z/record-integrity.json",
+      "Bytes": 214,
+      "Sha256": "fa6e9c3e1d15c0a681bff3700c43864f0d0e4f5274e7e5d4f2be8215b187e1c7",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\live-capi2-20261107T1511343623850Z\\state.json",
+      "ArchivePath": "recovered/output/live-capi2-20261107T1511343623850Z/state.json",
+      "Bytes": 749,
+      "Sha256": "44d3a1dc39decd19837d55fa958c8a6f8a0f016527603fdb10940f010f48199b",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\counter-influence-20261107T1525108516825Z\\counter-stderr.txt",
+      "ArchivePath": "recovered/output/counter-influence-20261107T1525108516825Z/counter-stderr.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\counter-influence-20261107T1525108516825Z\\counter-stdout.txt",
+      "ArchivePath": "recovered/output/counter-influence-20261107T1525108516825Z/counter-stdout.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\counter-influence-20261107T1525108516825Z\\launch.json",
+      "ArchivePath": "recovered/output/counter-influence-20261107T1525108516825Z/launch.json",
+      "Bytes": 415,
+      "Sha256": "b31da603fccc1a230f806da054f5939247f56c24f91de0c97fe9e13784e42461",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\counter-influence-20261107T1525108516825Z\\recovery.json",
+      "ArchivePath": "recovered/output/counter-influence-20261107T1525108516825Z/recovery.json",
+      "Bytes": 1779,
+      "Sha256": "5a0a0893f33b1ac3429d1916ab03ea8c2b08de64b76b1db48402c01f681c8cac",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\counter-influence-20261107T1525108516825Z\\state.json",
+      "ArchivePath": "recovered/output/counter-influence-20261107T1525108516825Z/state.json",
+      "Bytes": 2466,
+      "Sha256": "6513ea550bf2e0ee3b83169f2da85e0ee2e6d6b6b896606d50e014ffd6ed3d37",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\counter-influence-20261107T1525108516825Z\\stderr.txt",
+      "ArchivePath": "recovered/output/counter-influence-20261107T1525108516825Z/stderr.txt",
+      "Bytes": 499,
+      "Sha256": "f5e8b726cabca0c2fbd35f2de1517f97ac575c82aed083979c787e38596bf6e5",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\counter-influence-20261107T1525108516825Z\\stdout.txt",
+      "ArchivePath": "recovered/output/counter-influence-20261107T1525108516825Z/stdout.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\runtime-counters-20261107T1525137777835Z\\events.jsonl",
+      "ArchivePath": "recovered/output/runtime-counters-20261107T1525137777835Z/events.jsonl",
+      "Bytes": 20403,
+      "Sha256": "0c5b947404e169743b5a8586b3e3490d128875549a84cd5bb890792d8f476dbb",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\runtime-counters-20261107T1525137777835Z\\state.json",
+      "ArchivePath": "recovered/output/runtime-counters-20261107T1525137777835Z/state.json",
+      "Bytes": 201,
+      "Sha256": "3bc7092f9b678cb4e915a804946f2be70227fd9f926b294db4fe90d08117c432",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\repair-input\\LOCAL_0211_payload-manifest.json",
+      "ArchivePath": "recovered/repair-input/LOCAL_0211_payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "e6ca24777e59c989cca301328958a9a22d144f437b5702f5d61e6b75bb5e46d7",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\repair-input\\observe-process-metrics-v3-readonly.ps1",
+      "ArchivePath": "recovered/repair-input/observe-process-metrics-v3-readonly.ps1",
+      "Bytes": 9410,
+      "Sha256": "a6b1cfb9a84abaeb46ee39899948db72b36c889d7530dd84684bbbec80eacfff",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\repair-input\\save-metrics-state-v3-readonly.ps1",
+      "ArchivePath": "recovered/repair-input/save-metrics-state-v3-readonly.ps1",
+      "Bytes": 2188,
+      "Sha256": "e41987750d49101927daa4eb16f93e4339dd8350aecd27b8dfb3cbac4f7be56f",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\repair-input\\start-metrics-observer-v3-readonly.ps1",
+      "ArchivePath": "recovered/repair-input/start-metrics-observer-v3-readonly.ps1",
+      "Bytes": 2992,
+      "Sha256": "9d7192f94850c5ae63bfa5bd08390b693411954249b364c09009aa9f348450bf",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\repair-input\\t040_audit_counter_influence_readonly.ps1",
+      "ArchivePath": "recovered/repair-input/t040_audit_counter_influence_readonly.ps1",
+      "Bytes": 4325,
+      "Sha256": "ce312806d135222a5377b010ff7be47f70dcf7d24e2b0369624eaf6537415fa5",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\repair-input\\t040_capture_live_capi2_readonly.ps1",
+      "ArchivePath": "recovered/repair-input/t040_capture_live_capi2_readonly.ps1",
+      "Bytes": 5885,
+      "Sha256": "060a0c7027052e3033c206c06b8da9e9236618968ad1beee1a71876cddafee58",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\repair-input\\t040_collect_current_readonly.ps1",
+      "ArchivePath": "recovered/repair-input/t040_collect_current_readonly.ps1",
+      "Bytes": 3285,
+      "Sha256": "cfbdb92dd21cd249257acb41a7565d0a2abba866f7a9290af4aafd08abf63a69",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\repair-input\\t040_collect_session3_install_logs_readonly.ps1",
+      "ArchivePath": "recovered/repair-input/t040_collect_session3_install_logs_readonly.ps1",
+      "Bytes": 4936,
+      "Sha256": "abd8831d1e6d2d5d757092b71a782494bdf7a66cd64196eb7b68879e97d4183f",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\repair-input\\t040_inspect_session3_helpers_readonly.ps1",
+      "ArchivePath": "recovered/repair-input/t040_inspect_session3_helpers_readonly.ps1",
+      "Bytes": 2586,
+      "Sha256": "f7f472f5bdf0d7831202c88a5e8bd04d23f47946664509c042c0638b5043aede",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\repair-input\\t040_metrics_process_readonly.psm1",
+      "ArchivePath": "recovered/repair-input/t040_metrics_process_readonly.psm1",
+      "Bytes": 3507,
+      "Sha256": "b297cf65d4bfea787c01b41632bcc71c9ff230bb1f0912a2a923d7df6df26355",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\repair-input\\t040_probe_config_ci_trust_readonly.ps1",
+      "ArchivePath": "recovered/repair-input/t040_probe_config_ci_trust_readonly.ps1",
+      "Bytes": 5217,
+      "Sha256": "8984411fff3e3ea151c069e93daa86038dab198499624e28c2cc4368be3f47d2",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\repair-input\\t040_recover_counter_influence_readonly.ps1",
+      "ArchivePath": "recovered/repair-input/t040_recover_counter_influence_readonly.ps1",
+      "Bytes": 3213,
+      "Sha256": "56ead50a89bc22b5f381c9edeb99464302a37e2c6b1ece5353af58f7eed50d12",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\repair-input\\t040_save_memory_candidate_installed_readonly.ps1",
+      "ArchivePath": "recovered/repair-input/t040_save_memory_candidate_installed_readonly.ps1",
+      "Bytes": 2266,
+      "Sha256": "9ed1e138400ee2c8929058550081ec7140a74515853635d65b486fdeb591db85",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\repair-input\\t040_start_config_ci_trust_probe_readonly.ps1",
+      "ArchivePath": "recovered/repair-input/t040_start_config_ci_trust_probe_readonly.ps1",
+      "Bytes": 3025,
+      "Sha256": "33d3913fb3beba2e4ccb4cf811616f05d622970fb3500d216afae23cc9e70814",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\repair-input\\t040_start_counter_influence_audit_readonly.ps1",
+      "ArchivePath": "recovered/repair-input/t040_start_counter_influence_audit_readonly.ps1",
+      "Bytes": 1534,
+      "Sha256": "d7632de981b343bf4ab6f1d4b46dcd19786d600efb77d9eb5e8f7eb6737ac58b",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\repair-input\\validate-t040-metrics-v3-readonly.ps1",
+      "ArchivePath": "recovered/repair-input/validate-t040-metrics-v3-readonly.ps1",
+      "Bytes": 3029,
+      "Sha256": "80d7e6d80b9fc4359cb766db649a25bab5f7b74a05d3be3b341cd1ac99511c73",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22000.0\\um\\SoftPub.h",
+      "ArchivePath": "recovered/sdk-headers/SoftPub.h",
+      "Bytes": 14339,
+      "Sha256": "9832e8f66f7037088fd13e195950a11a1a872c873aeb14c32225d9e8139321e6",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22000.0\\um\\WinTrust.h",
+      "ArchivePath": "recovered/sdk-headers/WinTrust.h",
+      "Bytes": 70996,
+      "Sha256": "6eb6912c98115efa6699edb066f8d876b7179e871721fdc2d04242915cd46993",
+      "CompleteLinePrefix": false
+    }
+  ]
+}

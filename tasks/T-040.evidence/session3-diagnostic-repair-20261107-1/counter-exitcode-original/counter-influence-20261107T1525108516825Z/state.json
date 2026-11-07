@@ -1,0 +1,44 @@
+{
+    "Completed":  true,
+    "FinishedUtc":  "2026-11-07T15:25:19.0923594Z",
+    "CounterPid":  3816,
+    "QuietPeriodAfterTraceSeconds":  45,
+    "Snapshots":  [
+                      {
+                          "PrivateBytes":  55975936,
+                          "SettingsSha256":  "2DAC3723BBB35358C0AF23873E7849F51E6F7D62E9F4847028438530C730D6CD",
+                          "ProcessCreatedUtc":  "2026-11-07T13:34:00.2928453Z",
+                          "ReadStartedUtc":  "2026-11-07T15:25:13.4479700Z",
+                          "Phase":  "BeforeTrace",
+                          "ProcessCpuTotalSeconds":  6.125,
+                          "MainWindowHandle":  197360,
+                          "WorkingSetBytes":  185282560,
+                          "ReadCompletedUtc":  "2026-11-07T15:25:13.4555094Z"
+                      }
+                  ],
+    "TargetPid":  5568,
+    "ForceGcRequested":  false,
+    "WorkingSetTrimmed":  false,
+    "CounterExecutableSha256":  "6419E6C20B047D3AA5603C2A846AC5548D9DD80B2329556B9AC8AC1D85E1B8CD",
+    "ProductOperationPerformed":  false,
+    "Stage":  "Failed",
+    "TargetCreatedUtc":  "2026-11-07T13:34:00.2928450Z",
+    "Failure":  {
+                    "Position":  "At C:\\IrisT040CounterAudit\\t040_audit_counter_influence_readonly.ps1:36 char:46\r\n+ ... de -ne 0) { throw \u0027Counter observation failed; preserve stderr and th ...\r\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "ScriptStackTrace":  "at \u003cScriptBlock\u003e, C:\\IrisT040CounterAudit\\t040_audit_counter_influence_readonly.ps1: line 36",
+                    "Exceptions":  [
+                                       {
+                                           "Message":  "Counter observation failed; preserve stderr and the trace state",
+                                           "HResult":  -2146233087,
+                                           "Type":  "System.Management.Automation.RuntimeException"
+                                       }
+                                   ],
+                    "Stage":  "ObserveTrace",
+                    "FullyQualifiedErrorId":  "Counter observation failed; preserve stderr and the trace state"
+                },
+    "StartedUtc":  "2026-11-07T15:25:13.3034744Z",
+    "CounterDurationSeconds":  5,
+    "ObserverPid":  1240,
+    "CounterExitCode":  null,
+    "FormalIdleMemoryProved":  false
+}

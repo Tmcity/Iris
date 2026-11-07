@@ -1,0 +1,260 @@
+{
+    "Runs":  [
+                 {
+                     "ReadyUtc":  "2026-11-07T15:56:42.2630000Z",
+                     "CreatedUtc":  "2026-11-07T15:56:40.8584776Z",
+                     "CpuSamples":  [
+                                        {
+                                            "EndUtc":  "2026-11-07T15:56:40.9784013Z",
+                                            "StartUtc":  "2026-11-07T15:56:40.6472715Z",
+                                            "LoadPercent":  3.755868544600939
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:56:41.2795999Z",
+                                            "StartUtc":  "2026-11-07T15:56:40.9784013Z",
+                                            "LoadPercent":  8.51063829787234
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:56:41.3908641Z",
+                                            "StartUtc":  "2026-11-07T15:56:41.2795999Z",
+                                            "LoadPercent":  8.9743589743589745
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:56:41.5096695Z",
+                                            "StartUtc":  "2026-11-07T15:56:41.3908641Z",
+                                            "LoadPercent":  4.8275862068965516
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:56:41.6287427Z",
+                                            "StartUtc":  "2026-11-07T15:56:41.5096695Z",
+                                            "LoadPercent":  5.4878048780487809
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:56:41.7399612Z",
+                                            "StartUtc":  "2026-11-07T15:56:41.6287427Z",
+                                            "LoadPercent":  5.46875
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:56:41.8513315Z",
+                                            "StartUtc":  "2026-11-07T15:56:41.7399612Z",
+                                            "LoadPercent":  5
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:56:41.9621271Z",
+                                            "StartUtc":  "2026-11-07T15:56:41.8513315Z",
+                                            "LoadPercent":  4.6511627906976747
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:56:42.0707233Z",
+                                            "StartUtc":  "2026-11-07T15:56:41.9621271Z",
+                                            "LoadPercent":  9.3525179856115113
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:56:42.1839766Z",
+                                            "StartUtc":  "2026-11-07T15:56:42.0707233Z",
+                                            "LoadPercent":  6.8493150684931505
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:56:42.2945939Z",
+                                            "StartUtc":  "2026-11-07T15:56:42.1839766Z",
+                                            "LoadPercent":  7.3529411764705879
+                                        }
+                                    ],
+                     "InitialTraySample":  {
+                                               "MainWindowHandle":  0,
+                                               "WorkingSetBytes":  132231168,
+                                               "Utc":  "2026-11-07T15:57:17.3408343Z",
+                                               "PrivateBytes":  37851136
+                                           },
+                     "Iteration":  1,
+                     "BootstrapReportedMs":  1369.9,
+                     "CreationToBootstrapMs":  1404.5224,
+                     "BootstrapLine":  "2026-11-07 23:56:42.263 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1369.9 ms，托盘图标已创建",
+                     "OldPid":  7544,
+                     "Pid":  5524,
+                     "OldExitCode":  0
+                 },
+                 {
+                     "ReadyUtc":  "2026-11-07T15:57:19.3980000Z",
+                     "CreatedUtc":  "2026-11-07T15:57:17.9535510Z",
+                     "CpuSamples":  [
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:18.0694942Z",
+                                            "StartUtc":  "2026-11-07T15:57:17.7339026Z",
+                                            "LoadPercent":  9.8086124401913874
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:18.1961987Z",
+                                            "StartUtc":  "2026-11-07T15:57:18.0694942Z",
+                                            "LoadPercent":  7.9096045197740112
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:18.3063800Z",
+                                            "StartUtc":  "2026-11-07T15:57:18.1961987Z",
+                                            "LoadPercent":  8.73015873015873
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:18.4172666Z",
+                                            "StartUtc":  "2026-11-07T15:57:18.3063800Z",
+                                            "LoadPercent":  4.9645390070921982
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:18.5270865Z",
+                                            "StartUtc":  "2026-11-07T15:57:18.4172666Z",
+                                            "LoadPercent":  4.929577464788732
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:18.6383858Z",
+                                            "StartUtc":  "2026-11-07T15:57:18.5270865Z",
+                                            "LoadPercent":  10.48951048951049
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:18.7497304Z",
+                                            "StartUtc":  "2026-11-07T15:57:18.6383858Z",
+                                            "LoadPercent":  7.4829931972789119
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:18.8602002Z",
+                                            "StartUtc":  "2026-11-07T15:57:18.7497304Z",
+                                            "LoadPercent":  6.9444444444444446
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:18.9714438Z",
+                                            "StartUtc":  "2026-11-07T15:57:18.8602002Z",
+                                            "LoadPercent":  5.7142857142857144
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:19.0729319Z",
+                                            "StartUtc":  "2026-11-07T15:57:18.9714438Z",
+                                            "LoadPercent":  5.5555555555555554
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:19.1774555Z",
+                                            "StartUtc":  "2026-11-07T15:57:19.0729319Z",
+                                            "LoadPercent":  4.929577464788732
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:19.2879914Z",
+                                            "StartUtc":  "2026-11-07T15:57:19.1774555Z",
+                                            "LoadPercent":  6.3829787234042552
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:19.3991443Z",
+                                            "StartUtc":  "2026-11-07T15:57:19.2879914Z",
+                                            "LoadPercent":  6.8493150684931505
+                                        }
+                                    ],
+                     "InitialTraySample":  {
+                                               "MainWindowHandle":  0,
+                                               "WorkingSetBytes":  132517888,
+                                               "Utc":  "2026-11-07T15:57:54.4011529Z",
+                                               "PrivateBytes":  38342656
+                                           },
+                     "Iteration":  2,
+                     "BootstrapReportedMs":  1397.1,
+                     "CreationToBootstrapMs":  1444.449,
+                     "BootstrapLine":  "2026-11-07 23:57:19.398 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1397.1 ms，托盘图标已创建",
+                     "OldPid":  5524,
+                     "Pid":  984,
+                     "OldExitCode":  0
+                 },
+                 {
+                     "ReadyUtc":  "2026-11-07T15:57:56.3470000Z",
+                     "CreatedUtc":  "2026-11-07T15:57:54.9878735Z",
+                     "CpuSamples":  [
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:55.0864055Z",
+                                            "StartUtc":  "2026-11-07T15:57:54.7756218Z",
+                                            "LoadPercent":  2.5
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:55.1965653Z",
+                                            "StartUtc":  "2026-11-07T15:57:55.0864055Z",
+                                            "LoadPercent":  5
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:55.3075868Z",
+                                            "StartUtc":  "2026-11-07T15:57:55.1965653Z",
+                                            "LoadPercent":  4.929577464788732
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:55.4187687Z",
+                                            "StartUtc":  "2026-11-07T15:57:55.3075868Z",
+                                            "LoadPercent":  6.666666666666667
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:55.5299373Z",
+                                            "StartUtc":  "2026-11-07T15:57:55.4187687Z",
+                                            "LoadPercent":  9.0909090909090917
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:55.6409153Z",
+                                            "StartUtc":  "2026-11-07T15:57:55.5299373Z",
+                                            "LoadPercent":  9.5238095238095237
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:55.7520973Z",
+                                            "StartUtc":  "2026-11-07T15:57:55.6409153Z",
+                                            "LoadPercent":  5.0724637681159424
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:55.8635456Z",
+                                            "StartUtc":  "2026-11-07T15:57:55.7520973Z",
+                                            "LoadPercent":  5.384615384615385
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:55.9730997Z",
+                                            "StartUtc":  "2026-11-07T15:57:55.8635456Z",
+                                            "LoadPercent":  4.5454545454545459
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:56.0836359Z",
+                                            "StartUtc":  "2026-11-07T15:57:55.9730997Z",
+                                            "LoadPercent":  6.5217391304347823
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:56.1940354Z",
+                                            "StartUtc":  "2026-11-07T15:57:56.0836359Z",
+                                            "LoadPercent":  4.25531914893617
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:56.3044177Z",
+                                            "StartUtc":  "2026-11-07T15:57:56.1940354Z",
+                                            "LoadPercent":  4.6979865771812079
+                                        },
+                                        {
+                                            "EndUtc":  "2026-11-07T15:57:56.4160146Z",
+                                            "StartUtc":  "2026-11-07T15:57:56.3044177Z",
+                                            "LoadPercent":  5.8536585365853657
+                                        }
+                                    ],
+                     "InitialTraySample":  {
+                                               "MainWindowHandle":  0,
+                                               "WorkingSetBytes":  132542464,
+                                               "Utc":  "2026-11-07T15:58:31.4200923Z",
+                                               "PrivateBytes":  38338560
+                                           },
+                     "Iteration":  3,
+                     "BootstrapReportedMs":  1323.6,
+                     "CreationToBootstrapMs":  1359.1265,
+                     "BootstrapLine":  "2026-11-07 23:57:56.347 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1323.6 ms，托盘图标已创建",
+                     "OldPid":  984,
+                     "Pid":  6040,
+                     "OldExitCode":  0
+                 }
+             ],
+    "StartedUtc":  "2026-11-07T15:56:39.4158676Z",
+    "InstallerExecuted":  false,
+    "BeforeSecretsHash":  "60D78472E3E206A670A708D39457527CED1DDE4CD06736839808E3571B9FED4B",
+    "Prior1599msFailurePreserved":  true,
+    "BeforeSettingsHash":  "1AC857BB5C7D34CB40E1DDB440585FF23A0D3D0C9BB63AFA3BFD0ED1A110F2AC",
+    "ProductOperationPerformed":  true,
+    "Failure":  null,
+    "AfterSecretsHash":  "60D78472E3E206A670A708D39457527CED1DDE4CD06736839808E3571B9FED4B",
+    "FinishedUtc":  "2026-11-07T15:58:31.4380361Z",
+    "NativeCliUsed":  true,
+    "Stage":  "Complete",
+    "ObserverPid":  6880,
+    "Completed":  true,
+    "AfterSettingsHash":  "1AC857BB5C7D34CB40E1DDB440585FF23A0D3D0C9BB63AFA3BFD0ED1A110F2AC"
+}

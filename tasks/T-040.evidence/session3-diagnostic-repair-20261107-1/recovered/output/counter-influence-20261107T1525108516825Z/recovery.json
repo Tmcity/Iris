@@ -1,0 +1,35 @@
+{
+    "WorkingSetTrimmed":  false,
+    "OriginalExitCodeWasNull":  true,
+    "ElapsedAfterTraceSeconds":  288.3874561,
+    "Utc":  "2026-11-07T15:30:07.5380385Z",
+    "ForceGcRequested":  false,
+    "PostTraceSample":  {
+                            "PrivateBytes":  56737792,
+                            "SettingsSha256":  "2DAC3723BBB35358C0AF23873E7849F51E6F7D62E9F4847028438530C730D6CD",
+                            "ProcessCreatedUtc":  "2026-11-07T13:34:00.2928453Z",
+                            "ReadStartedUtc":  "2026-11-07T15:30:07.4733420Z",
+                            "Phase":  "AfterCompletedTraceAtLeast45Seconds",
+                            "ProcessCpuTotalSeconds":  6.484375,
+                            "MainWindowHandle":  197360,
+                            "WorkingSetBytes":  186081280,
+                            "ReadCompletedUtc":  "2026-11-07T15:30:07.4791001Z"
+                        },
+    "CounterTraceDirectory":  "C:\\IrisT040Output\\runtime-counters-20261107T1525137777835Z",
+    "Completed":  true,
+    "CounterActualProcessAbsent":  true,
+    "ProductOperationPerformed":  false,
+    "FormalIdleMemoryProved":  false,
+    "CounterTraceState":  {
+                              "Utc":  "2026-11-07T15:25:18.9924814+00:00",
+                              "Pid":  5568,
+                              "ObserverPid":  3816,
+                              "Completed":  true,
+                              "ProductOperationPerformed":  false,
+                              "ForceGcRequested":  false,
+                              "Failure":  null,
+                              "NaturalFullGcStarts":  0,
+                              "Events":  137
+                          },
+    "OriginalStatePreserved":  true
+}

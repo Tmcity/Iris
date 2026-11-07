@@ -1,0 +1,26 @@
+{
+    "Processes":  [
+                      {
+                          "ProcessId":  2440,
+                          "Name":  "powershell.exe",
+                          "CreationDate":  "\/Date(1794063822428)\/",
+                          "ExecutablePath":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                          "CommandLine":  "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\\IrisT040Repair\\observe-process-metrics-v3-readonly.ps1 -OutputDirectory C:\\IrisT040Output\\metrics-v3-e6edd1908748410dad950652b608224b "
+                      },
+                      {
+                          "ProcessId":  1456,
+                          "Name":  "T040SyntheticProvider.exe",
+                          "CreationDate":  "\/Date(1794066527854)\/",
+                          "ExecutablePath":  "C:\\IrisT040CliInput\\tools\\synthetic-provider\\T040SyntheticProvider.exe",
+                          "CommandLine":  "\"C:\\IrisT040CliInput\\tools\\synthetic-provider\\T040SyntheticProvider.exe\""
+                      },
+                      {
+                          "ProcessId":  6040,
+                          "Name":  "Iris.App.exe",
+                          "CreationDate":  "\/Date(1794067074987)\/",
+                          "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+                          "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" "
+                      }
+                  ],
+    "Utc":  "2026-11-07T16:00:02.9347528Z"
+}

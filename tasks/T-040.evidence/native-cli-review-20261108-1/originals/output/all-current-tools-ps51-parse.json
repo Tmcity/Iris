@@ -1,0 +1,135 @@
+{
+    "AllPassed":  true,
+    "Utc":  "2026-11-07T15:32:35.4832119Z",
+    "PsVersion":  "5.1.26100.9549",
+    "Files":  [
+                  {
+                      "Sha256":  "A6B1CFB9A84ABAEB46EE39899948DB72B36C889D7530DD84684BBBEC80EACFFF",
+                      "Errors":  [
+
+                                 ],
+                      "File":  "observe-process-metrics-v3-readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Sha256":  "E41987750D49101927DAA4EB16F93E4339DD8350AECD27B8DFB3CBAC4F7BE56F",
+                      "Errors":  [
+
+                                 ],
+                      "File":  "save-metrics-state-v3-readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Sha256":  "9D7192F94850C5AE63BFA5BD08390B693411954249B364C09009AA9F348450BF",
+                      "Errors":  [
+
+                                 ],
+                      "File":  "start-metrics-observer-v3-readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Sha256":  "CE312806D135222A5377B010FF7BE47F70DCF7D24E2B0369624EAF6537415FA5",
+                      "Errors":  [
+
+                                 ],
+                      "File":  "t040_audit_counter_influence_readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Sha256":  "060A0C7027052E3033C206C06B8DA9E9236618968AD1BEEE1A71876CDDAFEE58",
+                      "Errors":  [
+
+                                 ],
+                      "File":  "t040_capture_live_capi2_readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Sha256":  "CFBDB92DD21CD249257ACB41A7565D0A2ABBA866F7A9290AF4AAFD08ABF63A69",
+                      "Errors":  [
+
+                                 ],
+                      "File":  "t040_collect_current_readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Sha256":  "ABD8831D1E6D2D5D757092B71A782494BDF7A66CD64196EB7B68879E97D4183F",
+                      "Errors":  [
+
+                                 ],
+                      "File":  "t040_collect_session3_install_logs_readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Sha256":  "F7F472F5BDF0D7831202C88A5E8BD04D23F47946664509C042C0638B5043AEDE",
+                      "Errors":  [
+
+                                 ],
+                      "File":  "t040_inspect_session3_helpers_readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Sha256":  "B297CF65D4BFEA787C01B41632BCC71C9FF230BB1F0912A2A923D7DF6DF26355",
+                      "Errors":  [
+
+                                 ],
+                      "File":  "t040_metrics_process_readonly.psm1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Sha256":  "8984411FFF3E3EA151C069E93DAA86038DAB198499624E28C2CC4368BE3F47D2",
+                      "Errors":  [
+
+                                 ],
+                      "File":  "t040_probe_config_ci_trust_readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Sha256":  "56EAD50A89BC22B5F381C9EDEB99464302A37E2C6B1ECE5353AF58F7EED50D12",
+                      "Errors":  [
+
+                                 ],
+                      "File":  "t040_recover_counter_influence_readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Sha256":  "9ED1E138400EE2C8929058550081EC7140A74515853635D65B486FDEB591DB85",
+                      "Errors":  [
+
+                                 ],
+                      "File":  "t040_save_memory_candidate_installed_readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Sha256":  "82C71E397DD435532D2471B89991AE7EA480729453427D0A2E2FC84323909512",
+                      "Errors":  [
+
+                                 ],
+                      "File":  "t040_save_session3_tray_idle_readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Sha256":  "33D3913FB3BEBA2E4CCB4CF811616F05D622970FB3500D216AFAE23CC9E70814",
+                      "Errors":  [
+
+                                 ],
+                      "File":  "t040_start_config_ci_trust_probe_readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Sha256":  "D7632DE981B343BF4AB6F1D4B46DCD19786D600EFB77D9EB5E8F7EB6737AC58B",
+                      "Errors":  [
+
+                                 ],
+                      "File":  "t040_start_counter_influence_audit_readonly.ps1",
+                      "ErrorCount":  0
+                  },
+                  {
+                      "Sha256":  "80D7E6D80B9FC4359CB766DB649A25BAB5F7B74A05D3BE3B341CD1AC99511C73",
+                      "Errors":  [
+
+                                 ],
+                      "File":  "validate-t040-metrics-v3-readonly.ps1",
+                      "ErrorCount":  0
+                  }
+              ]
+}

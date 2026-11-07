@@ -1,0 +1,200 @@
+{
+    "SecurityPolicyChanged":  false,
+    "EndUtc":  "2026-11-07T13:36:00Z",
+    "ToolSha256":  "ABD8831D1E6D2D5D757092B71A782494BDF7A66CD64196EB7B68879E97D4183F",
+    "Logs":  [
+                 {
+                     "LastWriteUtc":  "2026-11-07T13:33:59.4100359Z",
+                     "Sha256":  "7D255AF37D521C2458F0085F994DFB83ADE08AAB49E360AAD706379DF86CD724",
+                     "CopiedName":  "001-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552.log",
+                     "Bytes":  22097,
+                     "SourcePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Temp\\Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552.log"
+                 },
+                 {
+                     "LastWriteUtc":  "2026-11-07T13:27:54.7368307Z",
+                     "Sha256":  "F5988CB110F32D12D7206D25C70ED7BD564EF32879FC72771B183CDE8F470A01",
+                     "CopiedName":  "002-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_000_DotNetHost.log",
+                     "Bytes":  112808,
+                     "SourcePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Temp\\Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_000_DotNetHost.log"
+                 },
+                 {
+                     "LastWriteUtc":  "2026-11-07T13:29:55.3491967Z",
+                     "Sha256":  "F8479AEBD2D1239E47D6A79F060DD83AF36C204FAD07945B1416C6A41F83105F",
+                     "CopiedName":  "003-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_001_DotNetHostFxr.log",
+                     "Bytes":  101374,
+                     "SourcePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Temp\\Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_001_DotNetHostFxr.log"
+                 },
+                 {
+                     "LastWriteUtc":  "2026-11-07T13:31:57.1231750Z",
+                     "Sha256":  "5474266DEAA65F35ABA761509C41D5648D3F8BD5F75B27CF2E6C8855C10303A0",
+                     "CopiedName":  "004-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_002_DotNetRuntime.log",
+                     "Bytes":  490364,
+                     "SourcePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Temp\\Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_002_DotNetRuntime.log"
+                 },
+                 {
+                     "LastWriteUtc":  "2026-11-07T13:33:59.3943181Z",
+                     "Sha256":  "4FF898166CCCE819B1288A35B3CA158036ADF67DB3C73AF90C279BBA67069B94",
+                     "CopiedName":  "005-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_003_WindowsDesktopRuntime.log",
+                     "Bytes":  728258,
+                     "SourcePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Temp\\Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212552_003_WindowsDesktopRuntime.log"
+                 },
+                 {
+                     "LastWriteUtc":  "2026-11-07T13:33:59.4118716Z",
+                     "Sha256":  "EEE471D4343198248E1F09A568A05998E542325BFBE819DDA15270FABF3CA80E",
+                     "CopiedName":  "006-Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212553.elevated.log",
+                     "Bytes":  1338,
+                     "SourcePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Temp\\Microsoft_Windows_Desktop_Runtime_10.0.14_(x64)_20261107212553.elevated.log"
+                 },
+                 {
+                     "LastWriteUtc":  "2026-11-07T13:34:00.2640118Z",
+                     "Sha256":  "40C9FD6B54B433C4B72F6DF2E6ED1453303F6C1460B4657C5BD320D5184B7B89",
+                     "CopiedName":  "007-velopack.log",
+                     "Bytes":  6193,
+                     "SourcePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Velopack\\velopack.log"
+                 },
+                 {
+                     "LastWriteUtc":  "2026-11-07T13:34:03.8574440Z",
+                     "Sha256":  "F8EFB1E18DE4971536F148CC4D73C0C8358AA2348FA72A4F6D900967FFA135D0",
+                     "CopiedName":  "008-velopack_Iris.log",
+                     "Bytes":  2627,
+                     "SourcePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Velopack\\velopack_Iris.log"
+                 }
+             ],
+    "StartUtc":  "2026-11-07T13:24:00Z",
+    "Utc":  "2026-11-07T15:11:28.0360772Z",
+    "RuntimeInfo":  [
+                        "Microsoft.NETCore.App 10.0.14 [C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App]",
+                        "Microsoft.WindowsDesktop.App 10.0.14 [C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App]"
+                    ],
+    "CurrentProcesses":  [
+                             {
+                                 "ProcessId":  5568,
+                                 "Name":  "Iris.App.exe",
+                                 "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+                                 "CreationDate":  "\/Date(1794058440292)\/"
+                             }
+                         ],
+    "CurrentServices":  [
+                            {
+                                "Name":  "AppIDSvc",
+                                "State":  "Running",
+                                "StartMode":  "Manual",
+                                "ProcessId":  1928
+                            },
+                            {
+                                "Name":  "CryptSvc",
+                                "State":  "Running",
+                                "StartMode":  "Auto",
+                                "ProcessId":  1732
+                            },
+                            {
+                                "Name":  "msiserver",
+                                "State":  "Stopped",
+                                "StartMode":  "Manual",
+                                "ProcessId":  0
+                            },
+                            {
+                                "Name":  "WinDefend",
+                                "State":  "Stopped",
+                                "StartMode":  "Disabled",
+                                "ProcessId":  0
+                            }
+                        ],
+    "ProductOperationPerformed":  false,
+    "InstallerExecuted":  false,
+    "TrustProviderRegistration":  [
+                                      {
+                                          "Path":  "HKLM:\\SOFTWARE\\Microsoft\\Cryptography\\Providers\\Trust\\Initialization\\{6078065B-8F22-4B13-BD9B-5B762776F386}",
+                                          "Values":  {
+                                                         "$Function":  "DriverInitializePolicy",
+                                                         "$DLL":  "WINTRUST.DLL"
+                                                     },
+                                          "Stage":  "Initialization"
+                                      },
+                                      {
+                                          "Path":  "HKLM:\\SOFTWARE\\Microsoft\\Cryptography\\Providers\\Trust\\Message\\{6078065B-8F22-4B13-BD9B-5B762776F386}",
+                                          "Values":  {
+                                                         "$Function":  "SoftpubLoadMessage",
+                                                         "$DLL":  "WINTRUST.DLL"
+                                                     },
+                                          "Stage":  "Message"
+                                      },
+                                      {
+                                          "Path":  "HKLM:\\SOFTWARE\\Microsoft\\Cryptography\\Providers\\Trust\\Signature\\{6078065B-8F22-4B13-BD9B-5B762776F386}",
+                                          "Values":  {
+                                                         "$Function":  "SoftpubLoadSignature",
+                                                         "$DLL":  "WINTRUST.DLL"
+                                                     },
+                                          "Stage":  "Signature"
+                                      },
+                                      {
+                                          "Path":  "HKLM:\\SOFTWARE\\Microsoft\\Cryptography\\Providers\\Trust\\Certificate\\{6078065B-8F22-4B13-BD9B-5B762776F386}",
+                                          "Values":  {
+                                                         "$Function":  "WintrustCertificateTrust",
+                                                         "$DLL":  "WINTRUST.DLL"
+                                                     },
+                                          "Stage":  "Certificate"
+                                      },
+                                      {
+                                          "Path":  "HKLM:\\SOFTWARE\\Microsoft\\Cryptography\\Providers\\Trust\\FinalPolicy\\{6078065B-8F22-4B13-BD9B-5B762776F386}",
+                                          "Values":  {
+                                                         "$Function":  "ConfigCiFinalPolicy",
+                                                         "$DLL":  "WINTRUST.DLL"
+                                                     },
+                                          "Stage":  "FinalPolicy"
+                                      },
+                                      {
+                                          "Path":  "HKLM:\\SOFTWARE\\Microsoft\\Cryptography\\Providers\\Trust\\Cleanup\\{6078065B-8F22-4B13-BD9B-5B762776F386}",
+                                          "Values":  {
+                                                         "$Function":  "DriverCleanupPolicy",
+                                                         "$DLL":  "WINTRUST.DLL"
+                                                     },
+                                          "Stage":  "Cleanup"
+                                      }
+                                  ],
+    "EventLogs":  [
+                      {
+                          "Events":  1,
+                          "MayBeTruncated":  false,
+                          "LogName":  "System",
+                          "Failure":  null,
+                          "Enabled":  true
+                      },
+                      {
+                          "Events":  29,
+                          "MayBeTruncated":  false,
+                          "LogName":  "Application",
+                          "Failure":  null,
+                          "Enabled":  true
+                      },
+                      {
+                          "Events":  8,
+                          "MayBeTruncated":  false,
+                          "LogName":  "Microsoft-Windows-AppLocker/MSI and Script",
+                          "Failure":  null,
+                          "Enabled":  true
+                      },
+                      {
+                          "Events":  0,
+                          "MayBeTruncated":  false,
+                          "LogName":  "Microsoft-Windows-AppLocker/EXE and DLL",
+                          "Failure":  null,
+                          "Enabled":  true
+                      },
+                      {
+                          "Events":  0,
+                          "MayBeTruncated":  false,
+                          "LogName":  "Microsoft-Windows-CodeIntegrity/Operational",
+                          "Failure":  null,
+                          "Enabled":  true
+                      },
+                      {
+                          "Events":  0,
+                          "MayBeTruncated":  false,
+                          "LogName":  "Microsoft-Windows-Windows Defender/Operational",
+                          "Failure":  null,
+                          "Enabled":  true
+                      }
+                  ],
+    "PsVersion":  "5.1.26100.9549"
+}

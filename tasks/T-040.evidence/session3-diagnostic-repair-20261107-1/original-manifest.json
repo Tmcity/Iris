@@ -1,0 +1,82 @@
+[
+  {
+    "Path": "input\\observe-process-metrics-v2-readonly.ps1",
+    "Bytes": 6068,
+    "Sha256": "37bfd2c5fb2858df68513c1151495c849442543094e9af7c2689c5281cfe5b32"
+  },
+  {
+    "Path": "input\\save-metrics-state-v2-readonly.ps1",
+    "Bytes": 1602,
+    "Sha256": "b92b4a1d1208db5fe7241b6e076110c2e3f58ee3fccfb8d28f5113548d027dc5"
+  },
+  {
+    "Path": "input\\start-metrics-observer-v2.ps1",
+    "Bytes": 1163,
+    "Sha256": "c6486b5aea2b00a46edce40a1ec4e729ddfae9c53ea93f87bc7776b7d8128740"
+  },
+  {
+    "Path": "input\\t040_save_memory_candidate_installed_readonly.ps1",
+    "Bytes": 2237,
+    "Sha256": "d7d3d9210a1d33769a4d64ad3e32e7f1f6c6464c193fb211c8f5c6e1ed0c14cc"
+  },
+  {
+    "Path": "output\\metrics-fc8b4d54561e4766b014472e46cd7b3b\\samples.jsonl",
+    "Bytes": 282,
+    "Sha256": "f949c3ff69fa602a67246017f05cc2a9c970a517d93aced094fdbe9c34ff11bf"
+  },
+  {
+    "Path": "output\\metrics-fc8b4d54561e4766b014472e46cd7b3b\\saved-state-20261107T1334388597903Z.json",
+    "Bytes": 1181,
+    "Sha256": "61ce2897eaf51bf9ef21822867fe0448b59a3fd8ed91ff29657f7467237e072e"
+  },
+  {
+    "Path": "output\\metrics-fc8b4d54561e4766b014472e46cd7b3b\\saved-state-20261107T1334562021922Z.json",
+    "Bytes": 1181,
+    "Sha256": "a114b8d9c7ced566f317ae96850777266141a972110c91163a8ea5129a5d6bff"
+  },
+  {
+    "Path": "output\\metrics-fc8b4d54561e4766b014472e46cd7b3b\\status.json",
+    "Bytes": 433,
+    "Sha256": "131788665aacd07ff18845029c4fc7b8cd628a5ecd740d323762b62e6bddc6b6"
+  },
+  {
+    "Path": "output\\active-metrics.json",
+    "Bytes": 303,
+    "Sha256": "c76f027bbde59aa8ebd78b1cdebfc0af6e2f3426f26f93a1dcbf2dd6481ad04f"
+  },
+  {
+    "Path": "output\\candidate-installed-20261107T1334380879921Z.json",
+    "Bytes": 29909,
+    "Sha256": "2745159aa44ef4d09080e8f0e49a1dc59f5ca12a085fa091532c60f978755d1b"
+  },
+  {
+    "Path": "output\\candidate-installed-20261107T1334555295958Z.json",
+    "Bytes": 29909,
+    "Sha256": "55f697a2d557debf864f3719996efee959e002d9869769d590fc8302b7d6aed8"
+  },
+  {
+    "Path": "output\\session3-current-processes-20261107T1458.json",
+    "Bytes": 2674,
+    "Sha256": "0a35b20d92dafcb6a81da5c9426f68e741d67a8579b1ea2dfc024a35bf195cc7"
+  },
+  {
+    "Path": "output\\cold-diagnostics-launch-20261107T1325281505907Z.json",
+    "Bytes": 287,
+    "Sha256": "2ddac6e705824956f4014b39e537a1c4535d3d820ce49e1d71bc4642fd619fa9"
+  },
+  {
+    "Path": "output\\live-capi2-20261107T1325298890045Z\\events.jsonl",
+    "Bytes": 11657458,
+    "Sha256": "c0ac73f070ce111ba34f6cc1f91273e96758ba20e3ebb8e1561f8f79ab1f59de"
+  },
+  {
+    "Path": "output\\live-capi2-20261107T1325298890045Z\\record-integrity.json",
+    "Bytes": 216,
+    "Sha256": "2c4543e2b06f6617de8111241650a02c64fad85d5c70f99c1ac915742000efd7"
+  },
+  {
+    "Path": "output\\live-capi2-20261107T1325298890045Z\\state.json",
+    "Bytes": 751,
+    "Sha256": "2a22a58c22b2a3d09d2dd39b9ded2223a228e1b0c3a9dd90c7cab9c30753d03b"
+  }
+]

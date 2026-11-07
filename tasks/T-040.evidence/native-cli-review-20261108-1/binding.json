@@ -1,0 +1,700 @@
+{
+  "Utc": "2026-11-07T16:06:05.207178+00:00",
+  "Task": "T-040",
+  "Complete": false,
+  "SandboxId": "edf31417-4146-4ccb-9b48-feb98ccb6871",
+  "InstalledVersion": "0.2.11",
+  "SourceCommit": "dccc0dbd3054122e34e27842d55c6585ff953812",
+  "FinalPrimaryPid": 6040,
+  "CliOriginalNormalExitCode": 0,
+  "NativeCliCommandsAccepted": 11,
+  "SinglePrimaryAndCliTranslationProved": true,
+  "CacheNetworkAvoidanceAndHistoryDedupProved": true,
+  "DeduplicatedHistoryTimestampRefreshedAsSpecified": true,
+  "InitialLowCpuStartupMs": 1599.7134,
+  "InitialLowCpuStartupFailed": true,
+  "InitialPeakIntervalCpuPercent": 15.294117647058824,
+  "StartupRepeats": [
+    {
+      "Pid": 5524,
+      "CreationToBootstrapMs": 1404.5224,
+      "PeakIntervalCpuPercent": 9.352517985611511,
+      "WorkingSetMiB": 126.10546875,
+      "PrivateBytesMiB": 36.09765625
+    },
+    {
+      "Pid": 984,
+      "CreationToBootstrapMs": 1444.449,
+      "PeakIntervalCpuPercent": 10.48951048951049,
+      "WorkingSetMiB": 126.37890625,
+      "PrivateBytesMiB": 36.56640625
+    },
+    {
+      "Pid": 6040,
+      "CreationToBootstrapMs": 1359.1265,
+      "PeakIntervalCpuPercent": 9.523809523809524,
+      "WorkingSetMiB": 126.40234375,
+      "PrivateBytesMiB": 36.5625
+    }
+  ],
+  "Original1599msFailureDiscarded": false,
+  "StartupNfrFullyClosed": false,
+  "Native429RetryProved": true,
+  "Native503FailureThenRecoveryProved": true,
+  "NativeTruncationHistoryProved": true,
+  "NativeReplacementCancellationProved": true,
+  "ManualStopButtonProved": false,
+  "CardRetryButtonProved": false,
+  "HistoryCliShowRefreshExercised": true,
+  "ManualHistoryRefreshAndCopyReproduced": false,
+  "FullGcObservedInCapturedPrefix": false,
+  "WorkingSet160MiBLimitUnchanged": true,
+  "FourKProved": false,
+  "PublicVersionPublished": false,
+  "Files": [
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1551599834805Z\\iris-20261107.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1551599834805Z/iris-20261107.log",
+      "Bytes": 1317,
+      "Sha256": "e4f4b843a6e58fe472ad35589af57906830135f7fa00a7cf36f2957b33a71316",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1551599834805Z\\settings.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1551599834805Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "1ac857bb5c7d34cb40e1ddb440585ff23a0d3d0c9bb63afa3bfd0ed1a110f2ac",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1551599834805Z\\state.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1551599834805Z/state.json",
+      "Bytes": 881,
+      "Sha256": "6401aad87890e6c1e9be58775bd5a3ecab95772bf9e53f15e527b19fa1347600",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1552056344502Z\\iris-20261107.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1552056344502Z/iris-20261107.log",
+      "Bytes": 1317,
+      "Sha256": "e4f4b843a6e58fe472ad35589af57906830135f7fa00a7cf36f2957b33a71316",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1552056344502Z\\settings.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1552056344502Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "1ac857bb5c7d34cb40e1ddb440585ff23a0d3d0c9bb63afa3bfd0ed1a110f2ac",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1552056344502Z\\state.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1552056344502Z/state.json",
+      "Bytes": 881,
+      "Sha256": "e24f67c8a829288a4d39179e3754796c3f1fc0bf8e95db8d054011073f5974f9",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1601517697503Z\\iris-20261107.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1601517697503Z/iris-20261107.log",
+      "Bytes": 3246,
+      "Sha256": "c2eab1918f85ff2b467d8921a009d168ad027853ae438905744f0fdf97ec3196",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1601517697503Z\\iris-20261108.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1601517697503Z/iris-20261108.log",
+      "Bytes": 560,
+      "Sha256": "8bdca6182a4813da5f9f3888aedaead7d798df322fcbb3b7de9b7b8c57e565f3",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1601517697503Z\\settings.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1601517697503Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "1ac857bb5c7d34cb40e1ddb440585ff23a0d3d0c9bb63afa3bfd0ed1a110f2ac",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1601517697503Z\\state.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1601517697503Z/state.json",
+      "Bytes": 1242,
+      "Sha256": "3a59dfc8fb1f2c83692b2277142d372a87d3bc988543e90dc2af15de761438d5",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1601557410282Z\\iris-20261107.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1601557410282Z/iris-20261107.log",
+      "Bytes": 3246,
+      "Sha256": "c2eab1918f85ff2b467d8921a009d168ad027853ae438905744f0fdf97ec3196",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1601557410282Z\\iris-20261108.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1601557410282Z/iris-20261108.log",
+      "Bytes": 1331,
+      "Sha256": "ef783f44cbf908ee6803e3b83377c53dfa3b783f386afea7519bfbc5705d98e9",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1601557410282Z\\settings.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1601557410282Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "1ac857bb5c7d34cb40e1ddb440585ff23a0d3d0c9bb63afa3bfd0ed1a110f2ac",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1601557410282Z\\state.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1601557410282Z/state.json",
+      "Bytes": 1243,
+      "Sha256": "6d58967aaee097c09e216b617eb42bc23a827718d6c5e9822d127af3f3e0668a",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1601592453432Z\\iris-20261107.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1601592453432Z/iris-20261107.log",
+      "Bytes": 3246,
+      "Sha256": "c2eab1918f85ff2b467d8921a009d168ad027853ae438905744f0fdf97ec3196",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1601592453432Z\\iris-20261108.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1601592453432Z/iris-20261108.log",
+      "Bytes": 1527,
+      "Sha256": "a58a19eec31f290cf9915eb0fc6d47018e882e6e8b16b180d12946472ffe7dd5",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1601592453432Z\\settings.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1601592453432Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "1ac857bb5c7d34cb40e1ddb440585ff23a0d3d0c9bb63afa3bfd0ed1a110f2ac",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1601592453432Z\\state.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1601592453432Z/state.json",
+      "Bytes": 1608,
+      "Sha256": "1a08c64cc2c50d9b57a39595b044e033f542d3566bcd9e2c75fc157905572c50",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602027269666Z\\iris-20261107.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1602027269666Z/iris-20261107.log",
+      "Bytes": 3246,
+      "Sha256": "c2eab1918f85ff2b467d8921a009d168ad027853ae438905744f0fdf97ec3196",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602027269666Z\\iris-20261108.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1602027269666Z/iris-20261108.log",
+      "Bytes": 1723,
+      "Sha256": "a22c74d59fb2a074bd135c85a44cbac2b95868a2db12ad735a38f0eab9294919",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602027269666Z\\settings.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1602027269666Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "1ac857bb5c7d34cb40e1ddb440585ff23a0d3d0c9bb63afa3bfd0ed1a110f2ac",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602027269666Z\\state.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1602027269666Z/state.json",
+      "Bytes": 1974,
+      "Sha256": "cb5a552493f8e1d91f211c8660d1a1645b17244acc0ccfe45cc813228d6bd94a",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602052318429Z\\iris-20261107.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1602052318429Z/iris-20261107.log",
+      "Bytes": 3246,
+      "Sha256": "c2eab1918f85ff2b467d8921a009d168ad027853ae438905744f0fdf97ec3196",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602052318429Z\\iris-20261108.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1602052318429Z/iris-20261108.log",
+      "Bytes": 1919,
+      "Sha256": "0390f637c37807d8bf91eb3faba9359bb597e777de3b5e9b6431cf4e962dbd2b",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602052318429Z\\settings.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1602052318429Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "1ac857bb5c7d34cb40e1ddb440585ff23a0d3d0c9bb63afa3bfd0ed1a110f2ac",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602052318429Z\\state.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1602052318429Z/state.json",
+      "Bytes": 1974,
+      "Sha256": "51146264cf691f70cc6ea8d15dc54f93af1fed0d9abafefd4339febc1f021bfb",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602087468400Z\\iris-20261107.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1602087468400Z/iris-20261107.log",
+      "Bytes": 3246,
+      "Sha256": "c2eab1918f85ff2b467d8921a009d168ad027853ae438905744f0fdf97ec3196",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602087468400Z\\iris-20261108.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1602087468400Z/iris-20261108.log",
+      "Bytes": 2115,
+      "Sha256": "02d0df26c4c17bf87a214b10104b128d0b7781eaf2654e8b848fa2220e46df2d",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602087468400Z\\settings.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1602087468400Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "1ac857bb5c7d34cb40e1ddb440585ff23a0d3d0c9bb63afa3bfd0ed1a110f2ac",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602087468400Z\\state.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1602087468400Z/state.json",
+      "Bytes": 2343,
+      "Sha256": "097931ceacb59140eeb0fa79ddc43ee56206e165c733ed30301d7ec7d4bc3d6c",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602152175924Z\\iris-20261107.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1602152175924Z/iris-20261107.log",
+      "Bytes": 3246,
+      "Sha256": "c2eab1918f85ff2b467d8921a009d168ad027853ae438905744f0fdf97ec3196",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602152175924Z\\iris-20261108.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1602152175924Z/iris-20261108.log",
+      "Bytes": 2115,
+      "Sha256": "02d0df26c4c17bf87a214b10104b128d0b7781eaf2654e8b848fa2220e46df2d",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602152175924Z\\settings.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1602152175924Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "1ac857bb5c7d34cb40e1ddb440585ff23a0d3d0c9bb63afa3bfd0ed1a110f2ac",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602152175924Z\\state.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1602152175924Z/state.json",
+      "Bytes": 2343,
+      "Sha256": "cb5b03db61ca5875474b723139dc3b0f22f191b64e5a3b8528de44b5f6fb85c6",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602178239622Z\\iris-20261107.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1602178239622Z/iris-20261107.log",
+      "Bytes": 3246,
+      "Sha256": "c2eab1918f85ff2b467d8921a009d168ad027853ae438905744f0fdf97ec3196",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602178239622Z\\iris-20261108.log",
+      "ArchivePath": "originals/output/feature-data-20261107T1602178239622Z/iris-20261108.log",
+      "Bytes": 2115,
+      "Sha256": "02d0df26c4c17bf87a214b10104b128d0b7781eaf2654e8b848fa2220e46df2d",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602178239622Z\\settings.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1602178239622Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "1ac857bb5c7d34cb40e1ddb440585ff23a0d3d0c9bb63afa3bfd0ed1a110f2ac",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261107T1602178239622Z\\state.json",
+      "ArchivePath": "originals/output/feature-data-20261107T1602178239622Z/state.json",
+      "Bytes": 2343,
+      "Sha256": "596076691f3b082cb7e2b67b2db088c421e6b82fba77ee0337793553655a52b2",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\fixture-config-20261107T1548512705205Z\\settings-after.json",
+      "ArchivePath": "originals/output/fixture-config-20261107T1548512705205Z/settings-after.json",
+      "Bytes": 4352,
+      "Sha256": "1ac857bb5c7d34cb40e1ddb440585ff23a0d3d0c9bb63afa3bfd0ed1a110f2ac",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\fixture-config-20261107T1548512705205Z\\settings-before.json",
+      "ArchivePath": "originals/output/fixture-config-20261107T1548512705205Z/settings-before.json",
+      "Bytes": 3746,
+      "Sha256": "2dac3723bbb35358c0af23873e7849f51e6f7d62e9f4847028438530c730d6cd",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\fixture-config-20261107T1548512705205Z\\state.json",
+      "ArchivePath": "originals/output/fixture-config-20261107T1548512705205Z/state.json",
+      "Bytes": 846,
+      "Sha256": "b933cbe5bc00f5409d4680e7330a786cfc0a955f12930fc5de680cf161b6624d",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-cli-20261107T1551488502359Z\\cache-requests.jsonl",
+      "ArchivePath": "originals/output/native-cli-20261107T1551488502359Z/cache-requests.jsonl",
+      "Bytes": 521,
+      "Sha256": "9ed87c84d7cc63e2f403e9eb7a8c6e74fd3bbd842f4dea96f17b398af6ec84b0",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-cli-20261107T1551488502359Z\\cache-snapshot.json",
+      "ArchivePath": "originals/output/native-cli-20261107T1551488502359Z/cache-snapshot.json",
+      "Bytes": 2821,
+      "Sha256": "2422e503a90766fec87a4bce71d2f74850e9475077b0f6d47934d56485bf76d2",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-cli-20261107T1551488502359Z\\launch.json",
+      "ArchivePath": "originals/output/native-cli-20261107T1551488502359Z/launch.json",
+      "Bytes": 463,
+      "Sha256": "2cf1df3bdd5601391f67f37f6b453d1c428cbc8b1f1ceb26c9259515ff173b84",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-cli-20261107T1551488502359Z\\prime-requests.jsonl",
+      "ArchivePath": "originals/output/native-cli-20261107T1551488502359Z/prime-requests.jsonl",
+      "Bytes": 521,
+      "Sha256": "9ed87c84d7cc63e2f403e9eb7a8c6e74fd3bbd842f4dea96f17b398af6ec84b0",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-cli-20261107T1551488502359Z\\prime-snapshot.json",
+      "ArchivePath": "originals/output/native-cli-20261107T1551488502359Z/prime-snapshot.json",
+      "Bytes": 2821,
+      "Sha256": "a911f406293b1a3c0a38c9a2825d747c9b19741b431597a26bbd90113d6597fc",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-cli-20261107T1551488502359Z\\state.json",
+      "ArchivePath": "originals/output/native-cli-20261107T1551488502359Z/state.json",
+      "Bytes": 5926,
+      "Sha256": "400c84a72a47ce9e393edb0a8e8bda44f175a0f09ac41230cdc8184c6e4c98ae",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-cli-20261107T1551488502359Z\\stderr.txt",
+      "ArchivePath": "originals/output/native-cli-20261107T1551488502359Z/stderr.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-cli-20261107T1551488502359Z\\stdout.txt",
+      "ArchivePath": "originals/output/native-cli-20261107T1551488502359Z/stdout.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\cancel-replaced-requests.jsonl",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/cancel-replaced-requests.jsonl",
+      "Bytes": 4291,
+      "Sha256": "c40bd1e48de51f46c6ee732aaca36b423ec776d1627cb3d0bc2ab5c9bf30d877",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\cancel-replaced-snapshot.json",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/cancel-replaced-snapshot.json",
+      "Bytes": 6843,
+      "Sha256": "b0a60d149e857fc44c0f350990bad61d17dc22d05f23b3a4181941d480cbecc6",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\cancel-start-requests.jsonl",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/cancel-start-requests.jsonl",
+      "Bytes": 3754,
+      "Sha256": "8ef47a36603aed4937a7f3adf343162075f3e40c62b5eb7987fcd83a6c71c27d",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\cancel-start-snapshot.json",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/cancel-start-snapshot.json",
+      "Bytes": 5798,
+      "Sha256": "96c6176cfe9b3c9410b9056b856ce6dd1ba0a0b6d5e2a840ae682aec2a5e0484",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\cancel-terminal-requests.jsonl",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/cancel-terminal-requests.jsonl",
+      "Bytes": 4416,
+      "Sha256": "61eff6fd7df20a723fc193178c32ab5f94d415e7020a697a20e02d671f96f0a2",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\cancel-terminal-snapshot.json",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/cancel-terminal-snapshot.json",
+      "Bytes": 6843,
+      "Sha256": "d5119fda7881af7ba2ef05658920cfbfe68ebe07b905f525225e574c7ec96dbd",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\error-requests.jsonl",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/error-requests.jsonl",
+      "Bytes": 2271,
+      "Sha256": "93ae08458365571b302a4f9d2ad8763f38004a439d09ae310bd406db83c44909",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\error-snapshot.json",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/error-snapshot.json",
+      "Bytes": 3714,
+      "Sha256": "0e251a694d99b9bb0ff3465122a24b8bbf692cfcd73055409f892abf771a3ca5",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\history-shows-requests.jsonl",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/history-shows-requests.jsonl",
+      "Bytes": 4416,
+      "Sha256": "61eff6fd7df20a723fc193178c32ab5f94d415e7020a697a20e02d671f96f0a2",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\history-shows-snapshot.json",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/history-shows-snapshot.json",
+      "Bytes": 6841,
+      "Sha256": "52e7e3a39598286668c8eadaa483b56f82501b9c690dd8f7615e8811a319ddcc",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\launch.json",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/launch.json",
+      "Bytes": 329,
+      "Sha256": "6a303adefae3339eea0230a2e64ab4bc3ee6ba0d9cb048637b4e2cb5ab78eec8",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\recovery-requests.jsonl",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/recovery-requests.jsonl",
+      "Bytes": 2804,
+      "Sha256": "2bf1d80c7deff4d29fe6ad2eb3b2f9b5f7da261345736205015c1c156e8ccf9a",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\recovery-snapshot.json",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/recovery-snapshot.json",
+      "Bytes": 4755,
+      "Sha256": "18118000a1662c1a133866141ca3d7cd3d889426d67c0497bf0e4011100d82a7",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\retry-requests.jsonl",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/retry-requests.jsonl",
+      "Bytes": 1458,
+      "Sha256": "17e08f03dad6495f260967bf6fec2b48010936fde5dac2a81011e8822d1526bd",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\retry-snapshot.json",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/retry-snapshot.json",
+      "Bytes": 3713,
+      "Sha256": "c3cb64b66d1d3bf4a963337fbb04a9366673caf11f0c297721c634bb0a8b54a3",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\state.json",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/state.json",
+      "Bytes": 2739,
+      "Sha256": "3192f2d3bf7f0aa5395defefd1b8f6aeaae0118fdeaa9fe409bd2ed4369ff8b8",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\stderr.txt",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/stderr.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\stdout.txt",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/stdout.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\truncated-requests.jsonl",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/truncated-requests.jsonl",
+      "Bytes": 3337,
+      "Sha256": "32aa23a48c22aab9209ce08f07ad829ac1daced04a8c8bc9cc1c6f44b18060cd",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-features-20261107T1601460156360Z\\truncated-snapshot.json",
+      "ArchivePath": "originals/output/native-features-20261107T1601460156360Z/truncated-snapshot.json",
+      "Bytes": 5795,
+      "Sha256": "a92f3c2ef3193c864f6e262f3f7fbe1ef1bebecf7a73aa90ac1c23a3e0c47e5a",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\startup-repeat-20261107T1556371876766Z\\launch.json",
+      "ArchivePath": "originals/output/startup-repeat-20261107T1556371876766Z/launch.json",
+      "Bytes": 329,
+      "Sha256": "e86cab5870898f2ead3ed51a1dd65c021fc455afa828f8d325f96dc667a44305",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\startup-repeat-20261107T1556371876766Z\\state.json",
+      "ArchivePath": "originals/output/startup-repeat-20261107T1556371876766Z/state.json",
+      "Bytes": 16788,
+      "Sha256": "f5647d4d1a778ae3da2d989ec1cfce8fb6fa05e11c9b0d8dcb18d7d17b385d96",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\startup-repeat-20261107T1556371876766Z\\stderr.txt",
+      "ArchivePath": "originals/output/startup-repeat-20261107T1556371876766Z/stderr.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\startup-repeat-20261107T1556371876766Z\\stdout.txt",
+      "ArchivePath": "originals/output/startup-repeat-20261107T1556371876766Z/stdout.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\session3-tray-idle-20261107T1534539257678Z.json",
+      "ArchivePath": "originals/output/session3-tray-idle-20261107T1534539257678Z.json",
+      "Bytes": 1023,
+      "Sha256": "43470b76b9b0a7586adf772c5db5ac65a4919daff0161061a7bc3f108055d4d1",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-cli-ps51-parse.json",
+      "ArchivePath": "originals/output/native-cli-ps51-parse.json",
+      "Bytes": 192,
+      "Sha256": "6ae4d687619b252518c52d210eaefb228e7e9fe7f64d078f5bcceceac4a4e384",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\all-current-tools-ps51-parse.json",
+      "ArchivePath": "originals/output/all-current-tools-ps51-parse.json",
+      "Bytes": 5525,
+      "Sha256": "5185c4291f2c001fa820b362840805efaa142e9bd45789c607ab0320472499d0",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-current-processes-20261107T1557178957578Z.json",
+      "ArchivePath": "originals/output/native-current-processes-20261107T1557178957578Z.json",
+      "Bytes": 1857,
+      "Sha256": "310cee5dc1afeb04be366a52cf5fc4f9605bf88faaed954712251317abcfc0c7",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-final-processes-20261107T1600029269043Z.json",
+      "ArchivePath": "originals/output/native-final-processes-20261107T1600029269043Z.json",
+      "Bytes": 1688,
+      "Sha256": "ec23167e1240eea2e782e252811e2420a41d1dc803463861dcd2a70a3bb2bc81",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\native-feature-processes-20261107T1603223186771Z.json",
+      "ArchivePath": "originals/output/native-feature-processes-20261107T1603223186771Z.json",
+      "Bytes": 2178,
+      "Sha256": "720601ff190e948a6325ecff87ada168b1a4067bc95423dfec94d3c739ba3cc8",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\runtime-observer-launch-20261107T1600455265507Z.json",
+      "ArchivePath": "originals/output/runtime-observer-launch-20261107T1600455265507Z.json",
+      "Bytes": 323,
+      "Sha256": "fac1184d0ed91c66bf082a0d3bed63fcfafc420891540a57b7e799ef933b8a64",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\metrics-v3-e6edd1908748410dad950652b608224b\\samples.jsonl",
+      "ArchivePath": "originals/output/metrics-v3-e6edd1908748410dad950652b608224b/samples.jsonl",
+      "Bytes": 931454,
+      "Sha256": "31fab38ac6e7398f2fce4c86aec41f74f81f830bbfddc4b738b9c60d87c35a9e",
+      "CompleteLinePrefix": true
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\metrics-v3-e6edd1908748410dad950652b608224b\\status.json",
+      "ArchivePath": "originals/output/metrics-v3-e6edd1908748410dad950652b608224b/status.json",
+      "Bytes": 457,
+      "Sha256": "86c68825b740627f189b8f4e0112d977c5a85df7f4cb5f87e2ca9a834ee2e50f",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\runtime-counters-20261107T1600458226738Z\\events.jsonl",
+      "ArchivePath": "originals/output/runtime-counters-20261107T1600458226738Z/events.jsonl",
+      "Bytes": 1261803,
+      "Sha256": "c061da11a054f91a9ca5c2797c02a987affa756b81b32e7d06221b5b0b2fa5e3",
+      "CompleteLinePrefix": true
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\cli-input\\t040_native_cli_acceptance.ps1",
+      "ArchivePath": "originals/cli-input/t040_native_cli_acceptance.ps1",
+      "Bytes": 9241,
+      "Sha256": "da729d72ea80ae3bae7b1166e5a165a57439b258527b684d23dd545f2578bc8b",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\cli-input\\t040_start_native_cli_acceptance.ps1",
+      "ArchivePath": "originals/cli-input/t040_start_native_cli_acceptance.ps1",
+      "Bytes": 1471,
+      "Sha256": "2a763dc1bbb096c8516153df9219e33e3d04ba9336acc14ad4b8719f69f7375c",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\cli-input\\t040_repeat_native_startup.ps1",
+      "ArchivePath": "originals/cli-input/t040_repeat_native_startup.ps1",
+      "Bytes": 6524,
+      "Sha256": "9d80293815e86e380f0f4f401caea401909f27ab5e1ab5aefcbbacb29ad07284",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\cli-input\\t040_start_native_startup_repeat.ps1",
+      "ArchivePath": "originals/cli-input/t040_start_native_startup_repeat.ps1",
+      "Bytes": 1369,
+      "Sha256": "d5f05961796bfbf386c237fb99340d2828cacf6f4c5b0d4debd92869e811d4b7",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\cli-input\\t040_native_cli_feature_cases.ps1",
+      "ArchivePath": "originals/cli-input/t040_native_cli_feature_cases.ps1",
+      "Bytes": 5099,
+      "Sha256": "518df5011fa97faed40a425520201f2d8087f5a8d59e3acbde285da5857cb32b",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\cli-input\\t040_start_native_feature_cases.ps1",
+      "ArchivePath": "originals/cli-input/t040_start_native_feature_cases.ps1",
+      "Bytes": 1369,
+      "Sha256": "53d07f2c775425d4a8284f8eec379edb63ae09cd30b99df902b3a7f74a828a74",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\cli-input\\t040_start_runtime_observer_readonly.ps1",
+      "ArchivePath": "originals/cli-input/t040_start_runtime_observer_readonly.ps1",
+      "Bytes": 1544,
+      "Sha256": "72e07b7562d9cf603baa0ba6414a1fe828df83a1cf5a3884ae1e5b433b9d2b8a",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\cli-input\\t040_configure_session3_fixture.ps1",
+      "ArchivePath": "originals/cli-input/t040_configure_session3_fixture.ps1",
+      "Bytes": 1621,
+      "Sha256": "c13948a35632d60025d2ba4b58af1c7711f4bc857d3c9bd526e63606114a4984",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\cli-input\\t040_validate_native_fixture_tool.ps1",
+      "ArchivePath": "originals/cli-input/t040_validate_native_fixture_tool.ps1",
+      "Bytes": 335,
+      "Sha256": "419c85df937c3d0a483948dfbc973b1314894f62e960870ac41b436affef93ad",
+      "CompleteLinePrefix": false
+    }
+  ]
+}

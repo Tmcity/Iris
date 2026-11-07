@@ -1,0 +1,74 @@
+{
+  "Utc": "2026-11-07T15:14:28.563228+00:00",
+  "Files": [
+    {
+      "Path": "bootstrap-after.json",
+      "Bytes": 141,
+      "Sha256": "c1060b5128f2a9af20d1774d1c687be4b426cb924e19e8dd311a01f581f64635"
+    },
+    {
+      "Path": "bootstrap-before.json",
+      "Bytes": 365,
+      "Sha256": "de0134d633ef9f837a970daa632f901e0bd94b6103ab5fffae69c5c3e80f26fe"
+    },
+    {
+      "Path": "bootstrap-root-after.json",
+      "Bytes": 434,
+      "Sha256": "c1266e50931140261edaf04a0f674d84c596a4ab07c7bafea1a80290ca5d3cf0"
+    },
+    {
+      "Path": "computer-use-client.mjs.original",
+      "Bytes": 8453,
+      "Sha256": "bdc61752e0f9d9b1e73e3cba25ca71d3d9fe54d335ed8196378106081474d7c1"
+    },
+    {
+      "Path": "computer_use_client_base.js.original",
+      "Bytes": 10627,
+      "Sha256": "5e54867417cb120477455e069c2eb53b6513b8e076a06143d4d207cc8a293d95"
+    },
+    {
+      "Path": "package.json.original",
+      "Bytes": 1324,
+      "Sha256": "e2bf504d3054e3f16679a18026b28479e188e4411cf673416df5006230cbcc7f"
+    },
+    {
+      "Path": "package.json.patched",
+      "Bytes": 1500,
+      "Sha256": "babaa17c7a26204a5937476427506545aa662703c68a90286cfc217a8730a407"
+    },
+    {
+      "Path": "repair.json",
+      "Bytes": 982,
+      "Sha256": "59c2cbb90b65a968eea1b1185dffd014f6cceccce6f4e4773e8957bca7388343"
+    },
+    {
+      "Path": "repair.py",
+      "Bytes": 2918,
+      "Sha256": "7d5cba9cdc550a9845a35fe2a2e71bb4b582ecbde7593ebb56b9775e6bc7741e"
+    },
+    {
+      "Path": "REVIEW-before-root-confirmation.md",
+      "Bytes": 1958,
+      "Sha256": "89f200c27dffc1cf153c11205ef8134a49fe84155fda7831394231351b032d37"
+    },
+    {
+      "Path": "REVIEW.md",
+      "Bytes": 2778,
+      "Sha256": "99333a230ef193e79cc7afce13e19fb3f8f465ba7cf22d5856dcc59ce6a030e0"
+    },
+    {
+      "Path": "rollback.py",
+      "Bytes": 572,
+      "Sha256": "e4deb8eb8da9bf56f6b2c5a1981ec2b43b5e0651785ceee6637e8bb4ade10eaf"
+    },
+    {
+      "Path": "runtime-capabilities.json",
+      "Bytes": 427,
+      "Sha256": "1f2e69676c51be53ff0b97d53ba3a6c120f018c666cf7e535e7085ff0f989ea6"
+    }
+  ],
+  "PackageImportFixed": true,
+  "RootWindowsControlAvailable": false,
+  "TrustedBridgeMissing": true,
+  "RollbackSyntaxVerified": true
+}
