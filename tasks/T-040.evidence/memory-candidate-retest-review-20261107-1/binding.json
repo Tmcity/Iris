@@ -1,0 +1,263 @@
+{
+  "Utc": "2026-11-07T12:51:42.898826+00:00",
+  "Task": "T-040",
+  "Complete": false,
+  "UserFeedback": {
+    "Calls": [
+      "call_J0bpQf8ymEN0QlVC3udlk9oJ",
+      "call_DJEOmE9HZB4j1rlwBNBJwc5x"
+    ],
+    "Raw": [
+      "已执行",
+      "保存成功"
+    ]
+  },
+  "PriorManualCheckpointBlockerResolved": true,
+  "Version": "0.2.11",
+  "AppPid": 476,
+  "ExpectedSourceCommit": "dccc0dbd3054122e34e27842d55c6585ff953812",
+  "Statistics": {
+    "Samples": 22,
+    "WorkingSetMedianMiB": 203.8671875,
+    "WorkingSetMaxMiB": 212.99609375,
+    "PrivateBytesMedianMiB": 63.6171875,
+    "PrivateBytesMaxMiB": 70.65234375,
+    "ProcessCpuMaxPercent": 0.14950448472788966,
+    "SystemCpuMaxPercent": 62
+  },
+  "WorkingSetLimitMiB": 160,
+  "PrivateBytesLimitMiB": 100,
+  "WorkingSetPassed": false,
+  "PrivateBytesPassed": true,
+  "ClosedSettingsAndHistoryNoLongerStronglyReachable": true,
+  "EditingMenuFixEffectiveInRealProcess": true,
+  "RemainingNativeMetadataResidentAllocationUnresolved": true,
+  "NativeHeapReportedRangesContainDuplicates": true,
+  "UniqueNativeHeapRanges": 579,
+  "MappedWritableMatchedLowAndHighFrequencyHeapMiB": 32.640625,
+  "JsonPrototypeContractChecks": {
+    "InitialFailed": 4,
+    "FixedPassed": 11
+  },
+  "IsolatedSerializerRuns": 8,
+  "AllSerializedBytesMatched": true,
+  "JsonSourceGenerationMemoryBenefitProved": false,
+  "JsonSourceGenerationWithdrawnFromProduct": true,
+  "ProductAndTestSourcesMatchPriorCommit": true,
+  "NoNewCandidateOrPublicReleaseCreated": true,
+  "GcRequested": false,
+  "WorkingSetTrimmed": false,
+  "OtherFullFeatureAndNfrRequirementsRemainOpen": true,
+  "Files": [
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\candidate-post-gc-steady-checkpoint-20261107T1200359140717Z.json",
+      "Path": "manual/candidate-post-gc-steady-checkpoint-20261107T1200359140717Z.json",
+      "Bytes": 537,
+      "Sha256": "21a9bcc071adcb31b8722293910d41d8d03e35675492d2f98b49cdab76a566be"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\stage1-view-metadata-20261107T1200355936039Z.json",
+      "Path": "diagnostics/stage1-view-metadata-20261107T1200355936039Z.json",
+      "Bytes": 710,
+      "Sha256": "2c0de5218c9a80a3741f38aad6f9f9590a11306473dbe4323df3ac07275e0bbf"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\memory-map-20261107T1204055352358Z.json",
+      "Path": "diagnostics/memory-map-20261107T1204055352358Z.json",
+      "Bytes": 234701,
+      "Sha256": "8b8d3a4477441df2af3cd257748b52f46b7cea53cbed2cf26701bf8e9a085028"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\heap-metadata-20261107T1205263847870Z.json",
+      "Path": "diagnostics/heap-metadata-20261107T1205263847870Z.json",
+      "Bytes": 1216216,
+      "Sha256": "736cbb166a5c87e552f88c04746356b37906068506c6c86b47e60ea905d208d9"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\native-heap-metadata-20261107T1212152406598Z.json",
+      "Path": "diagnostics/native-heap-metadata-20261107T1212152406598Z.json",
+      "Bytes": 225675,
+      "Sha256": "caf0bfd057a6871c373f967a57b42c65b0312ccf31803a0de0b6c9d5e948ac05"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T1200357602845Z\\iris-20261107.log",
+      "Path": "manual/readonly-state-20261107T1200357602845Z/iris-20261107.log",
+      "Bytes": 4473,
+      "Sha256": "66d85083c1deca2f123bc7e1559b88d0eb7d66d7883cb15cf3115d01b05f1f94"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T1200357602845Z\\state.json",
+      "Path": "manual/readonly-state-20261107T1200357602845Z/state.json",
+      "Bytes": 105922,
+      "Sha256": "635f129f73810e97c43563a1c3e3f4607ae63fa65fcee3c5411bf9ca3bfa2307"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\metrics-c4cdd9b216e34b3e90ef4c889256b95a\\samples.jsonl",
+      "Path": "metrics/samples-prefix.jsonl",
+      "Bytes": 7312050,
+      "Sha256": "ed8543d62fb9b8cf9745b82ea13a7770af8009a13d1c299eb9cf5e955689f957"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\serializer-metadata-cost-generated-20261107T1225058454912Z.json",
+      "Path": "experiments/serializer-metadata-cost-generated-20261107T1225058454912Z.json",
+      "Bytes": 1585,
+      "Sha256": "86c35e888a843a1c2d519f6f13afcadc0109bbadb421397c2ad47ee9ed56efe6"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\serializer-metadata-cost-generated-20261107T1225139243901Z.json",
+      "Path": "experiments/serializer-metadata-cost-generated-20261107T1225139243901Z.json",
+      "Bytes": 1582,
+      "Sha256": "24c7c51a755ae3a592b1dfe0f10f75a8b15447e0725ff6b85811030926c0e63c"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\serializer-metadata-cost-generated-20261107T1225219702780Z.json",
+      "Path": "experiments/serializer-metadata-cost-generated-20261107T1225219702780Z.json",
+      "Bytes": 1585,
+      "Sha256": "985cb6f5df2a2f5eb407af7e087bd41b02e4adcb0dab01afd82c8f567578c337"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\serializer-metadata-cost-reflection-20261107T1225016906028Z.json",
+      "Path": "experiments/serializer-metadata-cost-reflection-20261107T1225016906028Z.json",
+      "Bytes": 1592,
+      "Sha256": "e352d4336ea1d23f339de3176e5d9fcc3b6c64a3bd358fa39305a83e4be762d9"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\serializer-metadata-cost-reflection-20261107T1225098607524Z.json",
+      "Path": "experiments/serializer-metadata-cost-reflection-20261107T1225098607524Z.json",
+      "Bytes": 1596,
+      "Sha256": "c88f22530febf05876f5551d301347c08f02b37e79c99e2677540dc86fd3aa69"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\serializer-metadata-cost-reflection-20261107T1225179233828Z.json",
+      "Path": "experiments/serializer-metadata-cost-reflection-20261107T1225179233828Z.json",
+      "Bytes": 1593,
+      "Sha256": "16c8d6b8a63193b4764b3ac0c099cc0d9c74170a1fb036f0347a49c3449657fe"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\serializer-metadata-hot-cost-generated-20261107T1236279903781Z.json",
+      "Path": "experiments/serializer-metadata-hot-cost-generated-20261107T1236279903781Z.json",
+      "Bytes": 1605,
+      "Sha256": "8d1a7ac4779431f84e74d070c1710b34bb3d673036016931e3354e147ed4811d"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\serializer-metadata-hot-cost-reflection-20261107T1236239316872Z.json",
+      "Path": "experiments/serializer-metadata-hot-cost-reflection-20261107T1236239316872Z.json",
+      "Bytes": 1603,
+      "Sha256": "a6d72945339f854f44fcf6cc59db3687d612fac27c4e466d0c553e5f08bd4a4d"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\native-heap-metadata-20261107-1\\NativeHeapMetadataProbe.csproj",
+      "Path": "tool-source/native-heap-metadata-20261107-1/NativeHeapMetadataProbe.csproj",
+      "Bytes": 456,
+      "Sha256": "f6a5a85ab5c46af3ab64a7613ce03e4affbf7d7afb5a038dfdd868bd26ac04dd"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\native-heap-metadata-20261107-1\\Program.cs",
+      "Path": "tool-source/native-heap-metadata-20261107-1/Program.cs",
+      "Bytes": 2744,
+      "Sha256": "d01538dbb75eafb7387b35e261a08558765bec735489e87e76a580d4be01f9d9"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\serializer-metadata-cost-20261107-1\\Program.cs",
+      "Path": "tool-source/serializer-metadata-cost-20261107-1/Program.cs",
+      "Bytes": 2997,
+      "Sha256": "fde54937a4aea0e4aa7497e0d98865ac8444ae089255747ae8030733899e6713"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\serializer-metadata-cost-20261107-1\\SerializerMetadataCostProbe.csproj",
+      "Path": "tool-source/serializer-metadata-cost-20261107-1/SerializerMetadataCostProbe.csproj",
+      "Bytes": 353,
+      "Sha256": "b53a4d093ae14eb6b8abda417d6bc351cf2c40f60741ca0a3ec016d1f827e98f"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\serializer-metadata-hot-cost-20261107-1\\Program.cs",
+      "Path": "tool-source/serializer-metadata-hot-cost-20261107-1/Program.cs",
+      "Bytes": 3345,
+      "Sha256": "b36879845177c66cd10c4fb7b512d5d31e94869eea304fa171f8a553ca10e90e"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\serializer-metadata-hot-cost-20261107-1\\SerializerMetadataHotCostProbe.csproj",
+      "Path": "tool-source/serializer-metadata-hot-cost-20261107-1/SerializerMetadataHotCostProbe.csproj",
+      "Bytes": 427,
+      "Sha256": "729e9b8f08a13de36e699a0b86d1813854c9d4d9f9df8accce09e45dc050dd22"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\json-sourcegen-prototype-20261107-1\\IrisJson.cs",
+      "Path": "withdrawn-prototype/IrisJson.cs",
+      "Bytes": 1222,
+      "Sha256": "203527b5ff2890f10492c496d181c42ac101eccb117ec9bdb124c6d9e77975b7"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\json-sourcegen-prototype-20261107-1\\IrisJsonCompatibilityTests.cs",
+      "Path": "withdrawn-prototype/IrisJsonCompatibilityTests.cs",
+      "Bytes": 4417,
+      "Sha256": "94bfac59ae27bd712628b8411cc0cd6af07c06135293e585d2a8a6a22942a10f"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\json-sourcegen-prototype-20261107-1\\IrisJsonContext.cs",
+      "Path": "withdrawn-prototype/IrisJsonContext.cs",
+      "Bytes": 581,
+      "Sha256": "9e2fbd6c096fedb4f0c6b947ca9101debd23e51501a1afeb693d5be7ff0215fb"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\json-sourcegen-prototype-20261107-1\\IrisJsonDefaults.cs",
+      "Path": "withdrawn-prototype/IrisJsonDefaults.cs",
+      "Bytes": 2231,
+      "Sha256": "0fdac401a7353737ef8101e053c0408d2b37d834854b8923fd33514d8235a504"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\json-sourcegen-prototype-20261107-1\\source-before-withdrawal.json",
+      "Path": "withdrawn-prototype/source-before-withdrawal.json",
+      "Bytes": 1162,
+      "Sha256": "f4246bfe8fd54a528c9102c1bb4bcaeeb1ac2f1c0667aa3474f1bcffddad912b"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\json-sourcegen-prototype-20261107-1\\withdrawn-IrisJsonCompatibilityTests.cs",
+      "Path": "withdrawn-prototype/withdrawn-IrisJsonCompatibilityTests.cs",
+      "Bytes": 4417,
+      "Sha256": "94bfac59ae27bd712628b8411cc0cd6af07c06135293e585d2a8a6a22942a10f"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\json-sourcegen-prototype-20261107-1\\withdrawn-IrisJsonContext.cs",
+      "Path": "withdrawn-prototype/withdrawn-IrisJsonContext.cs",
+      "Bytes": 581,
+      "Sha256": "9e2fbd6c096fedb4f0c6b947ca9101debd23e51501a1afeb693d5be7ff0215fb"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\json-sourcegen-prototype-20261107-1\\withdrawn-IrisJsonDefaults.cs",
+      "Path": "withdrawn-prototype/withdrawn-IrisJsonDefaults.cs",
+      "Bytes": 2231,
+      "Sha256": "0fdac401a7353737ef8101e053c0408d2b37d834854b8923fd33514d8235a504"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\json-sourcegen-contract-tests-20261107-1.log",
+      "Path": "validation/json-sourcegen-contract-tests-20261107-1.log",
+      "Bytes": 73285,
+      "Sha256": "090daf22b693c91b0b8171f58c8d0500966dec18d00877830704a80cced6d57e"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\json-sourcegen-contract-tests-20261107-2.log",
+      "Path": "validation/json-sourcegen-contract-tests-20261107-2.log",
+      "Bytes": 342,
+      "Sha256": "33e82a7a93ea56e8e234957f6ab7e0ec33c0172a87bdb1ff7f41d303fb840ec2"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\native-heap-metadata-publish-20261107-1.log",
+      "Path": "validation/native-heap-metadata-publish-20261107-1.log",
+      "Bytes": 458,
+      "Sha256": "030b0089f7248ec49d668cbd12dc3c39a3cbfe6fe32fb1b30bf07b7937b3796b"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\serializer-metadata-cost-publish-20261107-1.log",
+      "Path": "validation/serializer-metadata-cost-publish-20261107-1.log",
+      "Bytes": 615,
+      "Sha256": "bb8763fdfbaf8b66e4f77388c6efec5403e4d510f2d6585c88caf4976e51d5c7"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\serializer-metadata-hot-cost-publish-20261107-1.log",
+      "Path": "validation/serializer-metadata-hot-cost-publish-20261107-1.log",
+      "Bytes": 620,
+      "Sha256": "1727acdac677cbbc794236dcf76f71773015973f7caba110c8333fcaef49dedf"
+    }
+  ]
+}

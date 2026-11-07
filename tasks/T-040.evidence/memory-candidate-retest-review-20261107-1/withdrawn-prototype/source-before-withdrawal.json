@@ -1,0 +1,26 @@
+[
+  {
+    "SourcePath": "src/Iris.Core/Serialization/IrisJson.cs",
+    "SavedPath": "F:\\Iris\\artifacts\\t040\\json-sourcegen-prototype-20261107-1\\IrisJson.cs",
+    "Bytes": 1222,
+    "Sha256": "203527b5ff2890f10492c496d181c42ac101eccb117ec9bdb124c6d9e77975b7"
+  },
+  {
+    "SourcePath": "src/Iris.Core/Serialization/IrisJsonContext.cs",
+    "SavedPath": "F:\\Iris\\artifacts\\t040\\json-sourcegen-prototype-20261107-1\\IrisJsonContext.cs",
+    "Bytes": 581,
+    "Sha256": "9e2fbd6c096fedb4f0c6b947ca9101debd23e51501a1afeb693d5be7ff0215fb"
+  },
+  {
+    "SourcePath": "src/Iris.Core/Serialization/IrisJsonDefaults.cs",
+    "SavedPath": "F:\\Iris\\artifacts\\t040\\json-sourcegen-prototype-20261107-1\\IrisJsonDefaults.cs",
+    "Bytes": 2231,
+    "Sha256": "0fdac401a7353737ef8101e053c0408d2b37d834854b8923fd33514d8235a504"
+  },
+  {
+    "SourcePath": "tests/Iris.Core.Tests/Contracts/IrisJsonCompatibilityTests.cs",
+    "SavedPath": "F:\\Iris\\artifacts\\t040\\json-sourcegen-prototype-20261107-1\\IrisJsonCompatibilityTests.cs",
+    "Bytes": 4417,
+    "Sha256": "94bfac59ae27bd712628b8411cc0cd6af07c06135293e585d2a8a6a22942a10f"
+  }
+]
