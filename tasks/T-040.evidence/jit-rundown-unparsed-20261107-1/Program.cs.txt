@@ -1,0 +1,37 @@
+using System.Diagnostics;
+using System.Diagnostics.Tracing;
+using System.Globalization;
+using System.Text;
+using System.Text.Json;
+using Microsoft.Diagnostics.NETCore.Client;
+using Microsoft.Diagnostics.Tracing;
+
+if(Environment.UserName!="WDAGUtilityAccount")throw new InvalidOperationException("Owned T-040 Sandbox only.");
+if(args.Length!=1||!int.TryParse(args[0],NumberStyles.None,CultureInfo.InvariantCulture,out int pid))throw new ArgumentException("Expected owned Iris PID.");
+using var process=Process.GetProcessById(pid);
+string expected=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"Iris","current","Iris.App.exe");
+if(!string.Equals(process.MainModule?.FileName,expected,StringComparison.OrdinalIgnoreCase))throw new InvalidOperationException("Unexpected target.");
+string root=@"C:\IrisT040Output";
+if(!Directory.Exists(root))throw new InvalidOperationException("Missing output mapping.");
+string output=Path.Combine(root,"jit-rundown-"+DateTimeOffset.UtcNow.ToString("yyyyMMddTHHmmssfffffffZ",CultureInfo.InvariantCulture));
+Directory.CreateDirectory(output);
+using var writer=new StreamWriter(Path.Combine(output,"events.jsonl"),false,new UTF8Encoding(false));
+int count=0;
+var client=new DiagnosticsClient(pid);
+var providers=new[]{new EventPipeProvider("Microsoft-Windows-DotNETRuntime",EventLevel.Verbose,0x18)};
+using var session=client.StartEventPipeSession(providers,requestRundown:true,circularBufferMB:1);
+using var source=new EventPipeEventSource(session.EventStream);
+source.Dynamic.All+=data=>{
+    if(!data.ProviderName.Contains("DotNETRuntime",StringComparison.Ordinal))return;
+    if(!data.EventName.Contains("Method",StringComparison.Ordinal)&&!data.EventName.Contains("Module",StringComparison.Ordinal))return;
+    var fields=new Dictionary<string,object?>(StringComparer.Ordinal);
+    for(int i=0;i<data.PayloadNames.Length;i++)fields[data.PayloadNames[i]]=data.PayloadValue(i);
+    writer.WriteLine(JsonSerializer.Serialize(new{Utc=DateTimeOffset.UtcNow,data.ProviderName,data.EventName,Payload=fields}));writer.Flush();count++;
+};
+Task stop=Task.Run(async()=>{await Task.Delay(TimeSpan.FromSeconds(2)).ConfigureAwait(false);session.Stop();});
+source.Process();
+await stop.ConfigureAwait(false);
+await File.WriteAllTextAsync(Path.Combine(output,"state.json"),JsonSerializer.Serialize(new{
+    Utc=DateTimeOffset.UtcNow,Pid=pid,ObserverPid=Environment.ProcessId,Completed=true,Events=count,ProductOperationPerformed=false,
+    ForceGcRequested=false,Scope="Runtime code/module rundown metadata only; event tracing is excluded from formal idle-memory measurements."
+})).ConfigureAwait(false);

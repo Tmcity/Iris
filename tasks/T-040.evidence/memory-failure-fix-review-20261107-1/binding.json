@@ -1,0 +1,283 @@
+{
+  "Utc": "2026-11-07T08:10:25.876337+00:00",
+  "Task": "T-040",
+  "Complete": false,
+  "FailureStatistics": {
+    "Samples": 22,
+    "WorkingSetMedianMiB": 205.705078125,
+    "WorkingSetMaxMiB": 208.33203125,
+    "PrivateBytesMedianMiB": 66.875,
+    "ProcessCpuMaxPercent": 0.11054311797104951
+  },
+  "NaturalFullGcAndClosedWindowsProved": true,
+  "OldFullGcSteadyWorkingSetPassed": false,
+  "ClosedSettingsWindowStrongReferenceProved": true,
+  "RetainingProperty": "IWindowService",
+  "ReferenceChain": "App -> Bootstrapper -> TranslateWindowPresenter -> hidden TranslateWindow -> ComboBox -> shared ContextMenu -> closed SettingsWindow",
+  "Fix": "Application-level DefaultControlContextMenu resource becomes non-shared while preserving Copy/Cut/Paste routed commands",
+  "SharedMenuRegressionCounterexample": "2 failed, 0 passed",
+  "NonSharedMenuRegression": "2 passed, 0 failed",
+  "ReleaseBuild": "0 warnings, 0 errors",
+  "FullTests": {
+    "Total": 3773,
+    "Passed": 3771,
+    "Failed": 0,
+    "ExistingEnvironmentSkipped": 2
+  },
+  "ActualCandidateInstallationAndNfrRetestPending": true,
+  "NoPublicReleaseAuthorized": true,
+  "Files": [
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\post-gc-steady-checkpoint-20261107T0627163516210Z.json",
+      "Path": "failure/post-gc-steady-checkpoint-20261107T0627163516210Z.json",
+      "Bytes": 539,
+      "Sha256": "51e45f88dde8d95a95ef536e2aa133d7b2669c015f0fdbd086d4742fa74a6146",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T0627161639808Z\\iris-20261107.log",
+      "Path": "failure/readonly-state-20261107T0627161639808Z/iris-20261107.log",
+      "Bytes": 2732,
+      "Sha256": "ac6ba53def92463d076b369e3cb2a2a5031fa91f85841aef890628ffe58ef0ac",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T0627161639808Z\\state.json",
+      "Path": "failure/readonly-state-20261107T0627161639808Z/state.json",
+      "Bytes": 105574,
+      "Sha256": "1205de098fc75885b917f366674d5b5718b7e56a59e8b71893d70df37b6f9da0",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\stage1-view-metadata-20261107T0627159855154Z.json",
+      "Path": "failure/stage1-view-metadata-20261107T0627159855154Z.json",
+      "Bytes": 710,
+      "Sha256": "a9e129036bdb3931720f4077bb265eed662bafbfdbb9949b48a505ee2d713895",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\memory-map-20261107T0633465460276Z.json",
+      "Path": "diagnostics/memory-map-20261107T0633465460276Z.json",
+      "Bytes": 239605,
+      "Sha256": "dff8cd7d17b7d3e121c5ce0c93fea2c88ab5c000cd4187bc3cad9e9509932f67",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\heap-metadata-20261107T0652235755843Z.json",
+      "Path": "diagnostics/heap-metadata-20261107T0652235755843Z.json",
+      "Bytes": 646648,
+      "Sha256": "f66036f2914569f5573329effdd51065f42bb4b3b6bbf8048f282c7d73457c0a",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\heap-metadata-20261107T0658379886617Z.json",
+      "Path": "diagnostics/heap-metadata-20261107T0658379886617Z.json",
+      "Bytes": 1249560,
+      "Sha256": "53f0e73f8fa7e5be02157b205421dccab7d0d84a58c75686493db8ff1eac528a",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\heap-metadata-20261107T0705043698385Z.json",
+      "Path": "diagnostics/heap-metadata-20261107T0705043698385Z.json",
+      "Bytes": 1249560,
+      "Sha256": "549051e7dfd58391995c1ae78783e28178682485fb118f01384e0b628da32b72",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\heap-metadata-20261107T0709402533520Z.json",
+      "Path": "diagnostics/heap-metadata-20261107T0709402533520Z.json",
+      "Bytes": 1250306,
+      "Sha256": "90d29f95d914f7d774c72c0e7ceb2f1b992956915743ea42e2d5abdc97557f78",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\heap-metadata-20261107T0715434379853Z.json",
+      "Path": "diagnostics/heap-metadata-20261107T0715434379853Z.json",
+      "Bytes": 1250462,
+      "Sha256": "e6ddb5889b1def35bfe7a141c2b08455166c679afab84c5f14cb697b34f0920e",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\heap-metadata-20261107T0719131086053Z.json",
+      "Path": "diagnostics/heap-metadata-20261107T0719131086053Z.json",
+      "Bytes": 1251225,
+      "Sha256": "3621e6dda4b74f4cae99885e8bb3f66715f860b2c5e08115d17033909aaf8620",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\heap-metadata-20261107T0723223961298Z.json",
+      "Path": "diagnostics/heap-metadata-20261107T0723223961298Z.json",
+      "Bytes": 1251297,
+      "Sha256": "5b5747ab915a29721a5d0233701f455fb22cdcb7c746449a028bd1e7ef9cf08c",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\jit-rundown-20261107T0641055298769Z\\events.jsonl",
+      "Path": "diagnostics/jit-rundown-20261107T0641055298769Z/events.jsonl",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\jit-rundown-20261107T0641055298769Z\\state.json",
+      "Path": "diagnostics/jit-rundown-20261107T0641055298769Z/state.json",
+      "Bytes": 277,
+      "Sha256": "8d62bb3e51585eb688ab44dcf07091ffe2ccfb5b82e494a971d0d7db36093736",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\jit-rundown-20261107T0644285361196Z\\events.jsonl",
+      "Path": "diagnostics/jit-rundown-20261107T0644285361196Z/events.jsonl",
+      "Bytes": 950976,
+      "Sha256": "be106ae7f97bc96c975449a950f29a3c80a31b742c6b4b4bc811f6b7dbe34769",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\jit-rundown-20261107T0644285361196Z\\state.json",
+      "Path": "diagnostics/jit-rundown-20261107T0644285361196Z/state.json",
+      "Bytes": 280,
+      "Sha256": "6a04d68b0418c6caa57592a5456ed91fe792b99ca1945cd3d725c175a3e49ea5",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\jit-rundown-20261107-1\\JitRundownProbe.csproj",
+      "Path": "tool-source/jit-rundown-20261107-1/JitRundownProbe.csproj",
+      "Bytes": 563,
+      "Sha256": "7ec2266fb43207fbfde12e691ba6c134faaa1074edf9a33476a3d25d9cf6dff2",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\jit-rundown-20261107-1\\Program.cs",
+      "Path": "tool-source/jit-rundown-20261107-1/Program.cs",
+      "Bytes": 2727,
+      "Sha256": "ed8c86ee408ca9d049b6fdc7868b1cfe398c4125ff4f0d2f1e9bb82600d6a92c",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\heap-metadata-20261107-1\\HeapMetadataProbe.csproj",
+      "Path": "tool-source/heap-metadata-20261107-1/HeapMetadataProbe.csproj",
+      "Bytes": 456,
+      "Sha256": "f6a5a85ab5c46af3ab64a7613ce03e4affbf7d7afb5a038dfdd868bd26ac04dd",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\toolsource\\heap-metadata-20261107-1\\Program.cs",
+      "Path": "tool-source/heap-metadata-20261107-1/Program.cs",
+      "Bytes": 6352,
+      "Sha256": "74016f655e5a01361825990902e23ca9a87def3b280087a3b1aaaa5ad7325d89",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\heap-metadata-publish-20261107-1.log",
+      "Path": "validation/heap-metadata-publish-20261107-1.log",
+      "Bytes": 368,
+      "Sha256": "095b328852d3e7581a91993e4be0f07cef3faaf1216d66367fd9e32ac34826c3",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\heap-metadata-publish-20261107-2.log",
+      "Path": "validation/heap-metadata-publish-20261107-2.log",
+      "Bytes": 344,
+      "Sha256": "b9f64806f11f25ebc81b5fd0e94aae9fa3235d6119840ed3dadafed246c727e2",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\heap-metadata-publish-20261107-3.log",
+      "Path": "validation/heap-metadata-publish-20261107-3.log",
+      "Bytes": 344,
+      "Sha256": "b9f64806f11f25ebc81b5fd0e94aae9fa3235d6119840ed3dadafed246c727e2",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\heap-metadata-publish-20261107-4.log",
+      "Path": "validation/heap-metadata-publish-20261107-4.log",
+      "Bytes": 407,
+      "Sha256": "43fe53324fc210a78172857e1e39becfa35927931265793a2ba7f40f02bc3d0d",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\heap-metadata-publish-20261107-5.log",
+      "Path": "validation/heap-metadata-publish-20261107-5.log",
+      "Bytes": 344,
+      "Sha256": "b9f64806f11f25ebc81b5fd0e94aae9fa3235d6119840ed3dadafed246c727e2",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\heap-metadata-publish-20261107-6.log",
+      "Path": "validation/heap-metadata-publish-20261107-6.log",
+      "Bytes": 344,
+      "Sha256": "b9f64806f11f25ebc81b5fd0e94aae9fa3235d6119840ed3dadafed246c727e2",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\heap-metadata-publish-20261107-7.log",
+      "Path": "validation/heap-metadata-publish-20261107-7.log",
+      "Bytes": 344,
+      "Sha256": "b9f64806f11f25ebc81b5fd0e94aae9fa3235d6119840ed3dadafed246c727e2",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\heap-metadata-publish-20261107-8.log",
+      "Path": "validation/heap-metadata-publish-20261107-8.log",
+      "Bytes": 344,
+      "Sha256": "b9f64806f11f25ebc81b5fd0e94aae9fa3235d6119840ed3dadafed246c727e2",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\jit-rundown-publish-20261107-1.log",
+      "Path": "validation/jit-rundown-publish-20261107-1.log",
+      "Bytes": 399,
+      "Sha256": "2c376f721f42df27a55c55a83ebaada885d870619ce50776a91e493680a0435e",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\jit-rundown-publish-20261107-2.log",
+      "Path": "validation/jit-rundown-publish-20261107-2.log",
+      "Bytes": 334,
+      "Sha256": "14e999430210c224980ba55c7c290680b6bdd35ecc1c7b3e51aec1f1d34de51f",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\editing-menu-lifetime-shared-counterexample-20261107-1.log",
+      "Path": "validation/editing-menu-lifetime-shared-counterexample-20261107-1.log",
+      "Bytes": 4709,
+      "Sha256": "58f23c88dcd117a123f555e0369733167f10800feb7eeb4504f1c5f12280e402",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\editing-menu-lifetime-tests-20261107-1.log",
+      "Path": "validation/editing-menu-lifetime-tests-20261107-1.log",
+      "Bytes": 4789,
+      "Sha256": "33880c5d0ba3c024cdde8ec69425192e6db845cb1e088f191fb43e6f3b7e9681",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\editing-menu-lifetime-tests-20261107-2.log",
+      "Path": "validation/editing-menu-lifetime-tests-20261107-2.log",
+      "Bytes": 2987,
+      "Sha256": "2105beb012902133624fa6c73e2d6ed7f43b90a52870dfdec9514461717d45c3",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\editing-menu-lifetime-tests-20261107-3.log",
+      "Path": "validation/editing-menu-lifetime-tests-20261107-3.log",
+      "Bytes": 376,
+      "Sha256": "655ecb9fea287b5d7ac8cc4f5ee63ba35995b32cd0c11bb080dbdc2f86d6b3cb",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\memory-fix-release-build-20261107-1.log",
+      "Path": "validation/memory-fix-release-build-20261107-1.log",
+      "Bytes": 1997,
+      "Sha256": "5f1d5e2cda1bc7a7d91d0bfd6ef6d84893f6b939e47e895d3be1a7c7f2902104",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\memory-fix-full-tests-20261107-1.log",
+      "Path": "validation/memory-fix-full-tests-20261107-1.log",
+      "Bytes": 3864,
+      "Sha256": "b8352e065dd1f2694854dbd288d38cd6671219f6063c724373a115ac590c7d8e",
+      "CompleteLinePrefix": false
+    }
+  ]
+}

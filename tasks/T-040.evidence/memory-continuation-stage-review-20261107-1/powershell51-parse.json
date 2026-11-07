@@ -1,0 +1,37 @@
+{
+    "IrisExecuted":  false,
+    "PsVersion":  "5.1.26100.9549",
+    "InstallersExecuted":  false,
+    "Scripts":  [
+                    {
+                        "EncodingValid":  true,
+                        "Sha256":  "55682B80431C53FE76AA7F80EA04B6C688476AF2C83F8E0F8F3F619341F9C66A",
+                        "File":  "t040_save_candidate_post_gc_steady_readonly.ps1",
+                        "ParserErrors":  0
+                    },
+                    {
+                        "EncodingValid":  true,
+                        "Sha256":  "D7D3D9210A1D33769A4D64AD3E32E7F1F6C6464C193FB211C8F5C6E1ED0C14CC",
+                        "File":  "t040_save_memory_candidate_installed_readonly.ps1",
+                        "ParserErrors":  0
+                    },
+                    {
+                        "EncodingValid":  true,
+                        "Sha256":  "030417D741EAC5BD908012E3BE7F711BFA2CBC6062413DD6AEE7D76C6E74DD33",
+                        "File":  "t040_validate_memory_candidate_input_readonly.ps1",
+                        "ParserErrors":  0
+                    },
+                    {
+                        "EncodingValid":  true,
+                        "Sha256":  "80A1B0398AEE699C7B9E664FEDE87F36E0FC127839AD36123367FE60D1C8A9AB",
+                        "File":  "t040_observe_heap_metadata_readonly.ps1",
+                        "ParserErrors":  0
+                    },
+                    {
+                        "EncodingValid":  true,
+                        "Sha256":  "90C994FBE1033ABAF2121F858D41AD293C7D947E3C4C626880CF0BC7DAFD307D",
+                        "File":  "t040_observe_jit_rundown_readonly.ps1",
+                        "ParserErrors":  0
+                    }
+                ]
+}

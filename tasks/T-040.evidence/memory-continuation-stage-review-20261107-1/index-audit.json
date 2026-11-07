@@ -1,0 +1,778 @@
+{
+  "Utc": "2026-11-07T10:52:12.753405+00:00",
+  "Task": "T-040",
+  "SelectedFiles": 141,
+  "ChangedFiles": 141,
+  "FrozenEvidenceFilesByteMatched": 124,
+  "Evidence": [
+    {
+      "Path": "tasks/T-040.evidence/guest-candidate-continuation-process-check-20261107T104250759276Z/command.json",
+      "Bytes": 1665,
+      "Sha256": "4f0bf002de6db36e52453401414b6ec68af1d4db176e0bb038f03db70288a612"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-candidate-continuation-process-check-20261107T104250759276Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-candidate-continuation-visible-state-20261107T104308931635Z/command.json",
+      "Bytes": 1659,
+      "Sha256": "6362701308f9ca40d976053f3780f85cea31034433f2ec0b7ef8edde2165dec2"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-candidate-continuation-visible-state-20261107T104308931635Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-candidate-ui-cycle-feedback-live-20261107T084433350041Z/command.json",
+      "Bytes": 1649,
+      "Sha256": "dafe46f37d3f9be93949b9980c58b0626aa68e5be8a84a944c7729157e8c91d8"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-candidate-ui-cycle-feedback-live-20261107T084433350041Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-closed-settings-root-path-20261107T070457938609Z/command.json",
+      "Bytes": 1644,
+      "Sha256": "171954ad37fa0e2b2d37de367d738c0c1054c0ad18b2cb8a2ed6bc50c66d7561"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-closed-settings-root-path-20261107T070457938609Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-closed-settings-root-path-corrected-20261107T070934148626Z/command.json",
+      "Bytes": 1644,
+      "Sha256": "5f879a48d6f6899fd76d9a964d99727e8378bdfd01c2d16bf2dd3aa306332a03"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-closed-settings-root-path-corrected-20261107T070934148626Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-closed-window-heap-metadata-20261107T065218366047Z/command.json",
+      "Bytes": 1644,
+      "Sha256": "2d6392e8ddc045d812c1cbc08c968ca11231f08249644748e8f8378abe367d51"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-closed-window-heap-metadata-20261107T065218366047Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-closed-window-reachable-heap-20261107T065832016681Z/command.json",
+      "Bytes": 1644,
+      "Sha256": "3494302ec4a0d1191b4c52516b036f46b5854ba47929f434dc48f310214122ed"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-closed-window-reachable-heap-20261107T065832016681Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-formal-0210-data-baseline-before-local-candidate-20261107T082055819704Z/command.json",
+      "Bytes": 1633,
+      "Sha256": "a586ca9e6ead99fa5dbbf3cf97af2296378d5962e9fb6a597d42463af12f102b"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-formal-0210-data-baseline-before-local-candidate-20261107T082055819704Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-local-candidate-user-install-live-check-20261107T082914838718Z/command.json",
+      "Bytes": 1649,
+      "Sha256": "e4121fae99bff72ed11e48cd7210bff18c898b21c9b2ff93d376099ac93e20ea"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-local-candidate-user-install-live-check-20261107T082914838718Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-local-memory-candidate-input-ready-20261107T082050897296Z/command.json",
+      "Bytes": 1702,
+      "Sha256": "ecb659a15c1667e60f678d1781f4c50448787a2f48dd16ef24ba81ec0da2fabd"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-local-memory-candidate-input-ready-20261107T082050897296Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-memory-candidate-gc-observer-20261107T083352733527Z/command.json",
+      "Bytes": 1649,
+      "Sha256": "0b67b45ce864543f2f29f10dd2bdbc9eef880bf1120c0e62ec7af990abb72ae8"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-memory-candidate-gc-observer-20261107T083352733527Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-memory-candidate-observer-service-live-20261107T083357555050Z/command.json",
+      "Bytes": 1649,
+      "Sha256": "3c5dfac8c2fda5389166a476efd5975372f405c055a8ff3af578ca5ed8c24e8d"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-memory-candidate-observer-service-live-20261107T083357555050Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-memory-candidate-synthetic-service-20261107T083347514462Z/command.json",
+      "Bytes": 1622,
+      "Sha256": "6fd42709b035b613d87d15b0bce7bfda60364aa40c8582195c499eada9efc44a"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-memory-candidate-synthetic-service-20261107T083347514462Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-memory-investigation-service-state-20261107T070017302261Z/command.json",
+      "Bytes": 1649,
+      "Sha256": "aa4266b79f62d7c153f6aa9149fb62b30e8bc67a39d4a69053265f1272d7f593"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-memory-investigation-service-state-20261107T070017302261Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-post-gc-save-feedback-live-check-20261107T062949945790Z/command.json",
+      "Bytes": 1649,
+      "Sha256": "195becab03b75c822d71fccb93a39fa705ff44e856b5bc4c07319c9bf6a632c2"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-post-gc-save-feedback-live-check-20261107T062949945790Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-post-gc-steady-resident-map-20261107T063343780414Z/command.json",
+      "Bytes": 1643,
+      "Sha256": "0c26e64e5ac79fd65fd556036252b36166942d516ee234e67a3e16c24040a12d"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-post-gc-steady-resident-map-20261107T063343780414Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-property-identifier-metadata-20261107T071906581745Z/command.json",
+      "Bytes": 1644,
+      "Sha256": "3bbd48ae581a5559dd8470c7c988b0295b10bc3dbe39a4d45ef8da859827c3d0"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-property-identifier-metadata-20261107T071906581745Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-retaining-property-name-20261107T072316410987Z/command.json",
+      "Bytes": 1644,
+      "Sha256": "74ed80604336c3cc071c233d6d6652f1663c2b8732ec48391aca630696afac72"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-retaining-property-name-20261107T072316410987Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-runtime-code-rundown-20261107T064102754434Z/command.json",
+      "Bytes": 1634,
+      "Sha256": "3428b97881dc29a56301c83d9b74e5387a5cd880d4c795cf30d6b561eb0abe68"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-runtime-code-rundown-20261107T064102754434Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-runtime-code-rundown-typed-parser-20261107T064426069539Z/command.json",
+      "Bytes": 1634,
+      "Sha256": "338811c33f950017b171405737f591f095f79109b97aef28922182cb5d0e8160"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-runtime-code-rundown-typed-parser-20261107T064426069539Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-shared-context-menu-property-20261107T071538472986Z/command.json",
+      "Bytes": 1644,
+      "Sha256": "0627ab8aac03d394dc45daf5f9617a50aadf8466c5d8033357e6590e1d424449"
+    },
+    {
+      "Path": "tasks/T-040.evidence/guest-shared-context-menu-property-20261107T071538472986Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "tasks/T-040.evidence/heap-before-root-graph-20261107-1/Program.cs.txt",
+      "Bytes": 2794,
+      "Sha256": "217eb6192af2a0c29c9e9e7a56fddf214ef5e57e11d11a0cd63af5920ad2218d"
+    },
+    {
+      "Path": "tasks/T-040.evidence/jit-rundown-unparsed-20261107-1/Program.cs.txt",
+      "Bytes": 2664,
+      "Sha256": "838cd76bd5294ed36e61baccced43791a6dea54e24ac6de2db7798e2e1ab5f0a"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/binding.json",
+      "Bytes": 20038,
+      "Sha256": "67331959f7a1e2104f6a31e4c07789c5f150b4fa49bc546a0845d54832296623"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/INSTALLATION.md",
+      "Bytes": 5055,
+      "Sha256": "2d57883be10c6f3581234a687b564d7f322936064dc4233a5276de425038d756"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/RELEASES",
+      "Bytes": 75,
+      "Sha256": "85af25c8ed06690ade19d1d39acf97f0cca27b77d53d82e491dfcfd9a31c3ea1"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/RELEASE_NOTES.md",
+      "Bytes": 678,
+      "Sha256": "fb2a8252c41266d98739cee96b77a7650072dcad924a7344c9dd49ee7c6c3dcd"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/SHA256.json",
+      "Bytes": 1440,
+      "Sha256": "f48e609bee6fd6cae40c1425bbe513568e289003212a5dcc5e99bfb759d377d1"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/assets.win.json",
+      "Bytes": 163,
+      "Sha256": "e37861172c26929c4191771f65cad7190b59427e6b9f9df7d12cf5689e9145e2"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "e6ca24777e59c989cca301328958a9a22d144f437b5702f5d61e6b75bb5e46d7"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/release-provenance.json",
+      "Bytes": 192131,
+      "Sha256": "5679fc3450e9c6f2554dae270da1e4dd1bd25b93de50aef1d6f17de12f6f1293"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/releases.win.json",
+      "Bytes": 244,
+      "Sha256": "854de4c2e9aaeda5cf2f01da4d257e9b80e9d42d83706c218b5138a1749bd11a"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/staging-manifest.json",
+      "Bytes": 18533,
+      "Sha256": "233de5800dd4ea2db732ef521bb758aa1824f7756a765a8fa7991922f89a02c8"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/checks/memory-candidate-input-ready-20261107T0820548143067Z.json",
+      "Bytes": 398,
+      "Sha256": "2748a98b39e92b31500bbb652a814668cb115e1aeb478d00d73acdad22ab2366"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/checks/runtime-observer-launch-20261107T0833564837951Z.json",
+      "Bytes": 322,
+      "Sha256": "2ab81cde981dcd4b194a3876d2dda2be8bc8d2982007f17b236f4627f59e32d5"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/continuation/actual-helper-processes-20261107T1042531002020Z.json",
+      "Bytes": 1336,
+      "Sha256": "782f3f65bae31f837b05828e1bac04656e077fba4d07bf52bb52aa706819a0b7"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/continuation/stage1-view-metadata-20261107T1043114531236Z.json",
+      "Bytes": 812,
+      "Sha256": "caea12531db3b6c0d1190c0d917bfc308287876473cd320bd1572a85c2f6f837"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/continuation/status.json",
+      "Bytes": 287,
+      "Sha256": "6f5a93d442d67e47e3e3e73d21bfaa4f412ace1d9c1f1bee390424ee9744c3d4"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/installation/candidate-installed-20261107T0828139464469Z.json",
+      "Bytes": 29909,
+      "Sha256": "d313601fe253579af6d10e3cb0c4321763d03669aa9788183eb3a39d2e270e7f"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/installation/candidate-installed-20261107T0843357291348Z.json",
+      "Bytes": 29909,
+      "Sha256": "ebe6cc707a96486c18e38b68dd15e1558e0c8c49ea4f6b0a432c060284e44b69"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/installed-state/readonly-state-20261107T0828144006806Z/iris-20261107.log",
+      "Bytes": 3375,
+      "Sha256": "8c2daefeaf1ba1e7f213030a45ae988f503cec49e934305fcf9c32f44132c2a5"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/installed-state/readonly-state-20261107T0828144006806Z/state.json",
+      "Bytes": 101912,
+      "Sha256": "839cb42af591e70c10608b5bccc16ba04c7a129c54012f9a989aeac7d1a68915"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/installed-state/readonly-state-20261107T0843360964906Z/iris-20261107.log",
+      "Bytes": 3965,
+      "Sha256": "eea18fe1af2dbb1b874689a28c16eff0211607af93e1c4a70c8522b0b6e2c70a"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/installed-state/readonly-state-20261107T0843360964906Z/state.json",
+      "Bytes": 105926,
+      "Sha256": "1e6af51c39aa24a1b82d4a92f673ad1e40571588efbcd1b6c0dde138ddd4041d"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/metrics/samples-prefix.jsonl",
+      "Bytes": 6444360,
+      "Sha256": "d82d0056570d839e70fa5250c3361f906d8a48de0c62d335a29e28b1cca72c41"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/metrics/saved-state-20261107T0828148162677Z.json",
+      "Bytes": 965,
+      "Sha256": "697a92a548f00c51c0582fa5fdc0ff1c224f2f17330e23c468fbc65b524c33b3"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/metrics/saved-state-20261107T0843366185076Z.json",
+      "Bytes": 965,
+      "Sha256": "1abc0eb854b5dd3b7accb4ec485ab5ed8a4aa790ebe8ea411edd10540a88ab64"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/plans-before-update/T-040.manual-stage2a-cache-20261107.md",
+      "Bytes": 1630,
+      "Sha256": "be56e215f3588e70f2bfa081d3f525ab4402299800ae505fb832e4f7192f6a73"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/plans-before-update/T-040.progress-20261107.md",
+      "Bytes": 10282,
+      "Sha256": "38461de4b97fcbfe40c9300af60c0258a383829e4665a2dc0124f7f7a7d4701d"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/plans-before-update/current_task.md",
+      "Bytes": 8009,
+      "Sha256": "985a9227804f98477aaf2be56580fb5d554083f3e6e69e51f0bd961273ea2c65"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/provider/final-state.json",
+      "Bytes": 115,
+      "Sha256": "2be0cb28b4eb26383480510e888a75c26ee40e528181be863655ffe435229a74"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/provider/requests.jsonl",
+      "Bytes": 1107,
+      "Sha256": "d9130add937b4043d248863d1c866747815bfc46ebf100a0660dd44edd70f1f3"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/provider/state.json",
+      "Bytes": 316,
+      "Sha256": "b81401f88d7063a0b6d3f99e2742e04d2abba340e43d963c06d481cf67e43d6a"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/runtime/events.jsonl",
+      "Bytes": 2379963,
+      "Sha256": "a50bfd8e8c4605d6de937789d34182e1284bfbe9a28b261565a59b628eaccfd3"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/runtime/state.json",
+      "Bytes": 201,
+      "Sha256": "a08e182d0409d5905873a93104bfc00fa82ae80feacd38244001adfddc065de5"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0820590344758Z/iris-20261107.log",
+      "Bytes": 2732,
+      "Sha256": "ac6ba53def92463d076b369e3cb2a2a5031fa91f85841aef890628ffe58ef0ac"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0820590344758Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "70173c64d43cba8a1bb81b5e77598c1b6d31024d976d0eb0d68aacdab33dde2f"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0820590344758Z/state.json",
+      "Bytes": 877,
+      "Sha256": "8b28c027868e09c48a6b15108e2b8591ea805dbc35d78ab23951d51de7673ba9"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0828141819868Z/iris-20261107.log",
+      "Bytes": 3375,
+      "Sha256": "8c2daefeaf1ba1e7f213030a45ae988f503cec49e934305fcf9c32f44132c2a5"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0828141819868Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "70173c64d43cba8a1bb81b5e77598c1b6d31024d976d0eb0d68aacdab33dde2f"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0828141819868Z/state.json",
+      "Bytes": 877,
+      "Sha256": "e188ec7a60bd6d875addbf60540d885264eb35eb6ce72941cd380c9eb24c2a96"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0843359011266Z/iris-20261107.log",
+      "Bytes": 3965,
+      "Sha256": "eea18fe1af2dbb1b874689a28c16eff0211607af93e1c4a70c8522b0b6e2c70a"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0843359011266Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "70173c64d43cba8a1bb81b5e77598c1b6d31024d976d0eb0d68aacdab33dde2f"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0843359011266Z/state.json",
+      "Bytes": 1198,
+      "Sha256": "1c10354a4779643a89f45775eea467a3827b783c078a862e32c6940c04e5a2c5"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-continuation-stage-review-20261107-1/powershell51-parse.json",
+      "Bytes": 1773,
+      "Sha256": "26c0088315e841e5837df82e834bb50fe1fee13625e12762885e0c5009099868"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/binding.json",
+      "Bytes": 13583,
+      "Sha256": "2717b66fd444c494d4bc6a58a14f66cbeb6d534c6edf84d21caf5b957e744a81"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/heap-metadata-20261107T0652235755843Z.json",
+      "Bytes": 646648,
+      "Sha256": "f66036f2914569f5573329effdd51065f42bb4b3b6bbf8048f282c7d73457c0a"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/heap-metadata-20261107T0658379886617Z.json",
+      "Bytes": 1249560,
+      "Sha256": "53f0e73f8fa7e5be02157b205421dccab7d0d84a58c75686493db8ff1eac528a"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/heap-metadata-20261107T0705043698385Z.json",
+      "Bytes": 1249560,
+      "Sha256": "549051e7dfd58391995c1ae78783e28178682485fb118f01384e0b628da32b72"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/heap-metadata-20261107T0709402533520Z.json",
+      "Bytes": 1250306,
+      "Sha256": "90d29f95d914f7d774c72c0e7ceb2f1b992956915743ea42e2d5abdc97557f78"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/heap-metadata-20261107T0715434379853Z.json",
+      "Bytes": 1250462,
+      "Sha256": "e6ddb5889b1def35bfe7a141c2b08455166c679afab84c5f14cb697b34f0920e"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/heap-metadata-20261107T0719131086053Z.json",
+      "Bytes": 1251225,
+      "Sha256": "3621e6dda4b74f4cae99885e8bb3f66715f860b2c5e08115d17033909aaf8620"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/heap-metadata-20261107T0723223961298Z.json",
+      "Bytes": 1251297,
+      "Sha256": "5b5747ab915a29721a5d0233701f455fb22cdcb7c746449a028bd1e7ef9cf08c"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/jit-rundown-20261107T0641055298769Z/events.jsonl",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/jit-rundown-20261107T0641055298769Z/state.json",
+      "Bytes": 277,
+      "Sha256": "8d62bb3e51585eb688ab44dcf07091ffe2ccfb5b82e494a971d0d7db36093736"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/jit-rundown-20261107T0644285361196Z/events.jsonl",
+      "Bytes": 950976,
+      "Sha256": "be106ae7f97bc96c975449a950f29a3c80a31b742c6b4b4bc811f6b7dbe34769"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/jit-rundown-20261107T0644285361196Z/state.json",
+      "Bytes": 280,
+      "Sha256": "6a04d68b0418c6caa57592a5456ed91fe792b99ca1945cd3d725c175a3e49ea5"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/memory-map-20261107T0633465460276Z.json",
+      "Bytes": 239605,
+      "Sha256": "dff8cd7d17b7d3e121c5ce0c93fea2c88ab5c000cd4187bc3cad9e9509932f67"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/failure/post-gc-steady-checkpoint-20261107T0627163516210Z.json",
+      "Bytes": 539,
+      "Sha256": "51e45f88dde8d95a95ef536e2aa133d7b2669c015f0fdbd086d4742fa74a6146"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/failure/readonly-state-20261107T0627161639808Z/iris-20261107.log",
+      "Bytes": 2732,
+      "Sha256": "ac6ba53def92463d076b369e3cb2a2a5031fa91f85841aef890628ffe58ef0ac"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/failure/readonly-state-20261107T0627161639808Z/state.json",
+      "Bytes": 105574,
+      "Sha256": "1205de098fc75885b917f366674d5b5718b7e56a59e8b71893d70df37b6f9da0"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/failure/samples-45s.json",
+      "Bytes": 7826,
+      "Sha256": "9326cb1063741c515dca9e22a0aed5b1959530d6e1ba0691f28a1a0966693e1b"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/failure/stage1-view-metadata-20261107T0627159855154Z.json",
+      "Bytes": 710,
+      "Sha256": "a9e129036bdb3931720f4077bb265eed662bafbfdbb9949b48a505ee2d713895"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/tool-source/heap-metadata-20261107-1/HeapMetadataProbe.csproj",
+      "Bytes": 456,
+      "Sha256": "f6a5a85ab5c46af3ab64a7613ce03e4affbf7d7afb5a038dfdd868bd26ac04dd"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/tool-source/heap-metadata-20261107-1/Program.cs",
+      "Bytes": 6352,
+      "Sha256": "74016f655e5a01361825990902e23ca9a87def3b280087a3b1aaaa5ad7325d89"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/tool-source/jit-rundown-20261107-1/JitRundownProbe.csproj",
+      "Bytes": 563,
+      "Sha256": "7ec2266fb43207fbfde12e691ba6c134faaa1074edf9a33476a3d25d9cf6dff2"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/tool-source/jit-rundown-20261107-1/Program.cs",
+      "Bytes": 2727,
+      "Sha256": "ed8c86ee408ca9d049b6fdc7868b1cfe398c4125ff4f0d2f1e9bb82600d6a92c"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/editing-menu-lifetime-shared-counterexample-20261107-1.log",
+      "Bytes": 4709,
+      "Sha256": "58f23c88dcd117a123f555e0369733167f10800feb7eeb4504f1c5f12280e402"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/editing-menu-lifetime-tests-20261107-1.log",
+      "Bytes": 4789,
+      "Sha256": "33880c5d0ba3c024cdde8ec69425192e6db845cb1e088f191fb43e6f3b7e9681"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/editing-menu-lifetime-tests-20261107-2.log",
+      "Bytes": 2987,
+      "Sha256": "2105beb012902133624fa6c73e2d6ed7f43b90a52870dfdec9514461717d45c3"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/editing-menu-lifetime-tests-20261107-3.log",
+      "Bytes": 376,
+      "Sha256": "655ecb9fea287b5d7ac8cc4f5ee63ba35995b32cd0c11bb080dbdc2f86d6b3cb"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/heap-metadata-publish-20261107-1.log",
+      "Bytes": 368,
+      "Sha256": "095b328852d3e7581a91993e4be0f07cef3faaf1216d66367fd9e32ac34826c3"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/heap-metadata-publish-20261107-2.log",
+      "Bytes": 344,
+      "Sha256": "b9f64806f11f25ebc81b5fd0e94aae9fa3235d6119840ed3dadafed246c727e2"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/heap-metadata-publish-20261107-3.log",
+      "Bytes": 344,
+      "Sha256": "b9f64806f11f25ebc81b5fd0e94aae9fa3235d6119840ed3dadafed246c727e2"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/heap-metadata-publish-20261107-4.log",
+      "Bytes": 407,
+      "Sha256": "43fe53324fc210a78172857e1e39becfa35927931265793a2ba7f40f02bc3d0d"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/heap-metadata-publish-20261107-5.log",
+      "Bytes": 344,
+      "Sha256": "b9f64806f11f25ebc81b5fd0e94aae9fa3235d6119840ed3dadafed246c727e2"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/heap-metadata-publish-20261107-6.log",
+      "Bytes": 344,
+      "Sha256": "b9f64806f11f25ebc81b5fd0e94aae9fa3235d6119840ed3dadafed246c727e2"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/heap-metadata-publish-20261107-7.log",
+      "Bytes": 344,
+      "Sha256": "b9f64806f11f25ebc81b5fd0e94aae9fa3235d6119840ed3dadafed246c727e2"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/heap-metadata-publish-20261107-8.log",
+      "Bytes": 344,
+      "Sha256": "b9f64806f11f25ebc81b5fd0e94aae9fa3235d6119840ed3dadafed246c727e2"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/jit-rundown-publish-20261107-1.log",
+      "Bytes": 399,
+      "Sha256": "2c376f721f42df27a55c55a83ebaada885d870619ce50776a91e493680a0435e"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/jit-rundown-publish-20261107-2.log",
+      "Bytes": 334,
+      "Sha256": "14e999430210c224980ba55c7c290680b6bdd35ecc1c7b3e51aec1f1d34de51f"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/memory-fix-full-tests-20261107-1.log",
+      "Bytes": 3864,
+      "Sha256": "b8352e065dd1f2694854dbd288d38cd6671219f6063c724373a115ac590c7d8e"
+    },
+    {
+      "Path": "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/memory-fix-release-build-20261107-1.log",
+      "Bytes": 1997,
+      "Sha256": "5f1d5e2cda1bc7a7d91d0bfd6ef6d84893f6b939e47e895d3be1a7c7f2902104"
+    }
+  ],
+  "PsVersion": "5.1.26100.9549",
+  "ParserErrors": 0,
+  "ProductSourceChangedInThisStage": false,
+  "PublicWritesPerformed": false,
+  "ExcludedCodexAndUnrelatedHistory": true,
+  "ClosedWindowMemoryAcceptanceStillPending": true,
+  "SelectedPaths": [
+    "tasks/T-040.evidence/guest-candidate-continuation-process-check-20261107T104250759276Z/command.json",
+    "tasks/T-040.evidence/guest-candidate-continuation-process-check-20261107T104250759276Z/command.log",
+    "tasks/T-040.evidence/guest-candidate-continuation-visible-state-20261107T104308931635Z/command.json",
+    "tasks/T-040.evidence/guest-candidate-continuation-visible-state-20261107T104308931635Z/command.log",
+    "tasks/T-040.evidence/guest-candidate-ui-cycle-feedback-live-20261107T084433350041Z/command.json",
+    "tasks/T-040.evidence/guest-candidate-ui-cycle-feedback-live-20261107T084433350041Z/command.log",
+    "tasks/T-040.evidence/guest-closed-settings-root-path-20261107T070457938609Z/command.json",
+    "tasks/T-040.evidence/guest-closed-settings-root-path-20261107T070457938609Z/command.log",
+    "tasks/T-040.evidence/guest-closed-settings-root-path-corrected-20261107T070934148626Z/command.json",
+    "tasks/T-040.evidence/guest-closed-settings-root-path-corrected-20261107T070934148626Z/command.log",
+    "tasks/T-040.evidence/guest-closed-window-heap-metadata-20261107T065218366047Z/command.json",
+    "tasks/T-040.evidence/guest-closed-window-heap-metadata-20261107T065218366047Z/command.log",
+    "tasks/T-040.evidence/guest-closed-window-reachable-heap-20261107T065832016681Z/command.json",
+    "tasks/T-040.evidence/guest-closed-window-reachable-heap-20261107T065832016681Z/command.log",
+    "tasks/T-040.evidence/guest-formal-0210-data-baseline-before-local-candidate-20261107T082055819704Z/command.json",
+    "tasks/T-040.evidence/guest-formal-0210-data-baseline-before-local-candidate-20261107T082055819704Z/command.log",
+    "tasks/T-040.evidence/guest-local-candidate-user-install-live-check-20261107T082914838718Z/command.json",
+    "tasks/T-040.evidence/guest-local-candidate-user-install-live-check-20261107T082914838718Z/command.log",
+    "tasks/T-040.evidence/guest-local-memory-candidate-input-ready-20261107T082050897296Z/command.json",
+    "tasks/T-040.evidence/guest-local-memory-candidate-input-ready-20261107T082050897296Z/command.log",
+    "tasks/T-040.evidence/guest-memory-candidate-gc-observer-20261107T083352733527Z/command.json",
+    "tasks/T-040.evidence/guest-memory-candidate-gc-observer-20261107T083352733527Z/command.log",
+    "tasks/T-040.evidence/guest-memory-candidate-observer-service-live-20261107T083357555050Z/command.json",
+    "tasks/T-040.evidence/guest-memory-candidate-observer-service-live-20261107T083357555050Z/command.log",
+    "tasks/T-040.evidence/guest-memory-candidate-synthetic-service-20261107T083347514462Z/command.json",
+    "tasks/T-040.evidence/guest-memory-candidate-synthetic-service-20261107T083347514462Z/command.log",
+    "tasks/T-040.evidence/guest-memory-investigation-service-state-20261107T070017302261Z/command.json",
+    "tasks/T-040.evidence/guest-memory-investigation-service-state-20261107T070017302261Z/command.log",
+    "tasks/T-040.evidence/guest-post-gc-save-feedback-live-check-20261107T062949945790Z/command.json",
+    "tasks/T-040.evidence/guest-post-gc-save-feedback-live-check-20261107T062949945790Z/command.log",
+    "tasks/T-040.evidence/guest-post-gc-steady-resident-map-20261107T063343780414Z/command.json",
+    "tasks/T-040.evidence/guest-post-gc-steady-resident-map-20261107T063343780414Z/command.log",
+    "tasks/T-040.evidence/guest-property-identifier-metadata-20261107T071906581745Z/command.json",
+    "tasks/T-040.evidence/guest-property-identifier-metadata-20261107T071906581745Z/command.log",
+    "tasks/T-040.evidence/guest-retaining-property-name-20261107T072316410987Z/command.json",
+    "tasks/T-040.evidence/guest-retaining-property-name-20261107T072316410987Z/command.log",
+    "tasks/T-040.evidence/guest-runtime-code-rundown-20261107T064102754434Z/command.json",
+    "tasks/T-040.evidence/guest-runtime-code-rundown-20261107T064102754434Z/command.log",
+    "tasks/T-040.evidence/guest-runtime-code-rundown-typed-parser-20261107T064426069539Z/command.json",
+    "tasks/T-040.evidence/guest-runtime-code-rundown-typed-parser-20261107T064426069539Z/command.log",
+    "tasks/T-040.evidence/guest-shared-context-menu-property-20261107T071538472986Z/command.json",
+    "tasks/T-040.evidence/guest-shared-context-menu-property-20261107T071538472986Z/command.log",
+    "tasks/T-040.evidence/heap-before-root-graph-20261107-1/Program.cs.txt",
+    "tasks/T-040.evidence/jit-rundown-unparsed-20261107-1/Program.cs.txt",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/binding.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/INSTALLATION.md",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/RELEASES",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/RELEASE_NOTES.md",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/SHA256.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/assets.win.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/payload-manifest.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/release-provenance.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/releases.win.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/candidate/staging-manifest.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/checks/memory-candidate-input-ready-20261107T0820548143067Z.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/checks/runtime-observer-launch-20261107T0833564837951Z.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/continuation/actual-helper-processes-20261107T1042531002020Z.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/continuation/stage1-view-metadata-20261107T1043114531236Z.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/continuation/status.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/installation/candidate-installed-20261107T0828139464469Z.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/installation/candidate-installed-20261107T0843357291348Z.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/installed-state/readonly-state-20261107T0828144006806Z/iris-20261107.log",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/installed-state/readonly-state-20261107T0828144006806Z/state.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/installed-state/readonly-state-20261107T0843360964906Z/iris-20261107.log",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/installed-state/readonly-state-20261107T0843360964906Z/state.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/metrics/samples-prefix.jsonl",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/metrics/saved-state-20261107T0828148162677Z.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/metrics/saved-state-20261107T0843366185076Z.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/plans-before-update/T-040.manual-stage2a-cache-20261107.md",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/plans-before-update/T-040.progress-20261107.md",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/plans-before-update/current_task.md",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/provider/final-state.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/provider/requests.jsonl",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/provider/state.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/runtime/events.jsonl",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/runtime/state.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0820590344758Z/iris-20261107.log",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0820590344758Z/settings.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0820590344758Z/state.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0828141819868Z/iris-20261107.log",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0828141819868Z/settings.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0828141819868Z/state.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0843359011266Z/iris-20261107.log",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0843359011266Z/settings.json",
+    "tasks/T-040.evidence/memory-candidate-baseline-review-20261107-1/snapshots/feature-data-20261107T0843359011266Z/state.json",
+    "tasks/T-040.evidence/memory-continuation-stage-review-20261107-1/powershell51-parse.json",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/binding.json",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/heap-metadata-20261107T0652235755843Z.json",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/heap-metadata-20261107T0658379886617Z.json",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/heap-metadata-20261107T0705043698385Z.json",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/heap-metadata-20261107T0709402533520Z.json",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/heap-metadata-20261107T0715434379853Z.json",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/heap-metadata-20261107T0719131086053Z.json",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/heap-metadata-20261107T0723223961298Z.json",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/jit-rundown-20261107T0641055298769Z/events.jsonl",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/jit-rundown-20261107T0641055298769Z/state.json",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/jit-rundown-20261107T0644285361196Z/events.jsonl",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/jit-rundown-20261107T0644285361196Z/state.json",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/diagnostics/memory-map-20261107T0633465460276Z.json",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/failure/post-gc-steady-checkpoint-20261107T0627163516210Z.json",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/failure/readonly-state-20261107T0627161639808Z/iris-20261107.log",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/failure/readonly-state-20261107T0627161639808Z/state.json",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/failure/samples-45s.json",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/failure/stage1-view-metadata-20261107T0627159855154Z.json",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/tool-source/heap-metadata-20261107-1/HeapMetadataProbe.csproj",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/tool-source/heap-metadata-20261107-1/Program.cs",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/tool-source/jit-rundown-20261107-1/JitRundownProbe.csproj",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/tool-source/jit-rundown-20261107-1/Program.cs",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/editing-menu-lifetime-shared-counterexample-20261107-1.log",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/editing-menu-lifetime-tests-20261107-1.log",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/editing-menu-lifetime-tests-20261107-2.log",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/editing-menu-lifetime-tests-20261107-3.log",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/heap-metadata-publish-20261107-1.log",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/heap-metadata-publish-20261107-2.log",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/heap-metadata-publish-20261107-3.log",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/heap-metadata-publish-20261107-4.log",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/heap-metadata-publish-20261107-5.log",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/heap-metadata-publish-20261107-6.log",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/heap-metadata-publish-20261107-7.log",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/heap-metadata-publish-20261107-8.log",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/jit-rundown-publish-20261107-1.log",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/jit-rundown-publish-20261107-2.log",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/memory-fix-full-tests-20261107-1.log",
+    "tasks/T-040.evidence/memory-failure-fix-review-20261107-1/validation/memory-fix-release-build-20261107-1.log",
+    "tasks/T-040.manual-candidate-post-gc-idle-20261107.md",
+    "tasks/T-040.manual-local-memory-candidate-20261107.md",
+    "tasks/T-040.manual-memory-candidate-ui-cycle-20261107.md",
+    "tasks/T-040.manual-stage2-cache-retry-cancel-20261107.md",
+    "tasks/T-040.manual-stage2a-cache-20261107.md",
+    "tasks/T-040.memory-defect-20261107.md",
+    "tasks/T-040.progress-20261107.md",
+    "tasks/current_task.md",
+    "tasks/t040_archive_memory_candidate_baseline_20261107.py",
+    "tasks/t040_archive_memory_failure_and_fix.py",
+    "tasks/t040_observe_heap_metadata_readonly.ps1",
+    "tasks/t040_observe_jit_rundown_readonly.ps1",
+    "tasks/t040_parse_memory_tools_ps51.ps1",
+    "tasks/t040_save_candidate_post_gc_steady_readonly.ps1",
+    "tasks/t040_save_memory_candidate_installed_readonly.ps1",
+    "tasks/t040_stage_memory_continuation_20261107.py",
+    "tasks/t040_validate_memory_candidate_input_readonly.ps1"
+  ]
+}

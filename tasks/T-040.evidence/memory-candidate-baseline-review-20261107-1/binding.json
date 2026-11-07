@@ -1,0 +1,450 @@
+{
+  "Utc": "2026-11-07T10:46:51.001731+00:00",
+  "Task": "T-040",
+  "Complete": false,
+  "LocalCandidate": true,
+  "PublicRelease": false,
+  "Version": "0.2.11",
+  "SourceCommit": "dccc0dbd3054122e34e27842d55c6585ff953812",
+  "CanonicalSourceTree": "d5d9f93f1eb294e55a83aeb0b3801c19dab3deaf",
+  "SourceFilesVerified": 723,
+  "CandidateAssetsVerified": 10,
+  "NupkgPayloadFilesVerified": 97,
+  "Assets": [
+    {
+      "Name": "assets.win.json",
+      "Bytes": 163,
+      "Sha256": "E37861172C26929C4191771F65CAD7190B59427E6B9F9DF7D12CF5689E9145E2"
+    },
+    {
+      "Name": "INSTALLATION.md",
+      "Bytes": 5055,
+      "Sha256": "2D57883BE10C6F3581234A687B564D7F322936064DC4233A5276DE425038D756"
+    },
+    {
+      "Name": "Iris-0.2.11-full.nupkg",
+      "Bytes": 64629697,
+      "Sha256": "C85DEB0C7983DC8DA0934501D11FB1C90194BA59559F0D8C40CF361D67314770"
+    },
+    {
+      "Name": "Iris-0.2.11-Setup.exe",
+      "Bytes": 116770352,
+      "Sha256": "FB4619A4DE5453A174DE06D7792E05594A6F89D3736600EF486E2DA2619A7762"
+    },
+    {
+      "Name": "payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "E6CA24777E59C989CCA301328958A9A22D144F437B5702F5D61E6B75BB5E46D7"
+    },
+    {
+      "Name": "release-provenance.json",
+      "Bytes": 192131,
+      "Sha256": "5679FC3450E9C6F2554DAE270DA1E4DD1BD25B93DE50AEF1D6F17DE12F6F1293"
+    },
+    {
+      "Name": "RELEASE_NOTES.md",
+      "Bytes": 678,
+      "Sha256": "FB2A8252C41266D98739CEE96B77A7650072DCAD924A7344C9DD49EE7C6C3DCD"
+    },
+    {
+      "Name": "RELEASES",
+      "Bytes": 75,
+      "Sha256": "85AF25C8ED06690ADE19D1D39ACF97F0CCA27B77D53D82E491DFCFD9A31C3EA1"
+    },
+    {
+      "Name": "releases.win.json",
+      "Bytes": 244,
+      "Sha256": "854DE4C2E9AAEDA5CF2F01DA4D257E9B80E9D42D83706C218B5138A1749BD11A"
+    },
+    {
+      "Name": "staging-manifest.json",
+      "Bytes": 18533,
+      "Sha256": "233DE5800DD4EA2DB732EF521BB758AA1824F7756A765A8FA7991922F89A02C8"
+    }
+  ],
+  "InstalledFilesVerified": 97,
+  "ConfigurationAndSecretsHashesPreserved": {
+    "settings.json": "70173c64d43cba8a1bb81b5e77598c1b6d31024d976d0eb0d68aacdab33dde2f",
+    "secrets.dat": "8e666a4667eff9af2aa497dd4d2fc096164ee5d956b926eaf9f150d679ac1121"
+  },
+  "OldHistoryPreserved": true,
+  "HistoryCountsBeforeInstallAfterInstallAfterUse": [
+    1,
+    1,
+    2
+  ],
+  "UserFeedback": {
+    "InstallationCall": "call_DtpH1KOhZnEkNxNS0Tlnshwv",
+    "InstallationRaw": "已执行",
+    "UiCycleCall": "call_KG2hyEKq8YTkbHIx476gYJ5g",
+    "UiCycleRaw": "已执行，翻译结果为“OK”"
+  },
+  "ActualNewSource": "T040 OpenAI fixture",
+  "ActualNewResult": "OK",
+  "RequestedTestSourceWasDifferent": true,
+  "ResultMatchesFixtureRule": true,
+  "NewRequestMatchedBySourceSha256": "6A0797558846D3D9518A458C346DF34BF08924D5A67607AD1E44D8AB41AEB5CE",
+  "ModelAndConnectionTestRequestsObserved": true,
+  "ActualProviderAccountAuthenticationProved": false,
+  "OldAppExit": {
+    "Kind": "ProcessExited",
+    "ExitUtc": "2026-11-07T08:27:45.0146418Z",
+    "Sequence": 19510,
+    "Pid": 3032,
+    "ObservedUtc": "2026-11-07T08:27:45.7225350Z",
+    "ExitCode": 0
+  },
+  "CandidateAppPid": 476,
+  "Startup": {
+    "Bootstrap": {
+      "BootstrapReadyUtc": "2026-11-07T08:27:49.0370000Z",
+      "Kind": "StartupLogCorrelated",
+      "SystemCpuLoadPercentage": 20,
+      "BootstrapReportedMs": 1418.6,
+      "ProcessCreatedUtc": "2026-11-07T08:27:47.5761510Z",
+      "LogName": "iris-20261107.log",
+      "Sequence": 19514,
+      "Pid": 476,
+      "CreationToBootstrapReadyMs": 1460.8490000000002,
+      "LogLine": "2026-11-07 16:27:49.037 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1418.6 ms，托盘图标已创建",
+      "ObservedUtc": "2026-11-07T08:27:49.9393282Z"
+    },
+    "FirstObserved": {
+      "Pid": 476,
+      "SystemCpuLoadPercentage": 43,
+      "ObservedUtc": "2026-11-07T08:27:47.8613786Z",
+      "Sequence": 19511,
+      "ParentPid": 5356,
+      "Kind": "ProcessFirstObserved",
+      "ExecutablePath": "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+      "StartedUtc": "2026-11-07T08:27:47.5761510Z"
+    },
+    "LowCpuNfrPassed": false,
+    "Reason": "First observed CPU load was 43%; the measurement is retained as reference."
+  },
+  "NaturalGen2GcStart": {
+    "Kind": "GCStart",
+    "Utc": "2026-11-07T08:42:59.2766631+00:00",
+    "EventTime": "2026-11-07T16:42:59.1622134+08:00",
+    "Count": 4,
+    "Depth": 2,
+    "Reason": "AllocSmall",
+    "Type": "BackgroundGC"
+  },
+  "NaturalGen2GcStop": {
+    "Kind": "GCStop",
+    "Utc": "2026-11-07T08:42:59.2772198+00:00",
+    "EventTime": "2026-11-07T16:42:59.1892518+08:00",
+    "Count": 4,
+    "Depth": 2
+  },
+  "RuntimeObserverCompleted": true,
+  "RuntimeObserverActuallyAbsent": true,
+  "SyntheticServiceCompletedAndActuallyAbsent": true,
+  "MetricsObserverPid": 2560,
+  "VisibleIrisWindowTitles": [
+    "翻译历史",
+    "Iris 设置"
+  ],
+  "CurrentWindowUseMemoryReference": {
+    "ReferenceOnly": true,
+    "FunctionalWindowsStillOpen": true,
+    "LastObservedUtc": "2026-11-07T10:46:50.8193413Z",
+    "Samples": 22,
+    "WorkingSetMedianMiB": 205.171875,
+    "WorkingSetMaxMiB": 205.171875,
+    "PrivateBytesMedianMiB": 63.72265625,
+    "ProcessCpuMaxPercent": 0
+  },
+  "ClosedWindowCandidateSteadyMemoryProved": false,
+  "MemoryLimitsUnchanged": {
+    "WorkingSetMiB": 160,
+    "PrivateBytesMiB": 100
+  },
+  "PendingManualStep": "Close Iris functional windows, keep PID 476 in the tray, idle 45 seconds and save the existing manual candidate checkpoint.",
+  "GcRequested": false,
+  "WorkingSetTrimmed": false,
+  "IrisUiOperatedByAssistant": false,
+  "Files": [
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\memory-fix-local-candidate-20261107-1\\assets.win.json",
+      "Path": "candidate/assets.win.json",
+      "Bytes": 163,
+      "Sha256": "e37861172c26929c4191771f65cad7190b59427e6b9f9df7d12cf5689e9145e2",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\memory-fix-local-candidate-20261107-1\\INSTALLATION.md",
+      "Path": "candidate/INSTALLATION.md",
+      "Bytes": 5055,
+      "Sha256": "2d57883be10c6f3581234a687b564d7f322936064dc4233a5276de425038d756",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\memory-fix-local-candidate-20261107-1\\payload-manifest.json",
+      "Path": "candidate/payload-manifest.json",
+      "Bytes": 17644,
+      "Sha256": "e6ca24777e59c989cca301328958a9a22d144f437b5702f5d61e6b75bb5e46d7",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\memory-fix-local-candidate-20261107-1\\release-provenance.json",
+      "Path": "candidate/release-provenance.json",
+      "Bytes": 192131,
+      "Sha256": "5679fc3450e9c6f2554dae270da1e4dd1bd25b93de50aef1d6f17de12f6f1293",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\memory-fix-local-candidate-20261107-1\\RELEASE_NOTES.md",
+      "Path": "candidate/RELEASE_NOTES.md",
+      "Bytes": 678,
+      "Sha256": "fb2a8252c41266d98739cee96b77a7650072dcad924a7344c9dd49ee7c6c3dcd",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\memory-fix-local-candidate-20261107-1\\RELEASES",
+      "Path": "candidate/RELEASES",
+      "Bytes": 75,
+      "Sha256": "85af25c8ed06690ade19d1d39acf97f0cca27b77d53d82e491dfcfd9a31c3ea1",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\memory-fix-local-candidate-20261107-1\\releases.win.json",
+      "Path": "candidate/releases.win.json",
+      "Bytes": 244,
+      "Sha256": "854de4c2e9aaeda5cf2f01da4d257e9b80e9d42d83706c218b5138a1749bd11a",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\memory-fix-local-candidate-20261107-1\\SHA256.json",
+      "Path": "candidate/SHA256.json",
+      "Bytes": 1440,
+      "Sha256": "f48e609bee6fd6cae40c1425bbe513568e289003212a5dcc5e99bfb759d377d1",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\memory-fix-local-candidate-20261107-1\\staging-manifest.json",
+      "Path": "candidate/staging-manifest.json",
+      "Bytes": 18533,
+      "Sha256": "233de5800dd4ea2db732ef521bb758aa1824f7756a765a8fa7991922f89a02c8",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T0820590344758Z\\iris-20261107.log",
+      "Path": "snapshots/feature-data-20261107T0820590344758Z/iris-20261107.log",
+      "Bytes": 2732,
+      "Sha256": "ac6ba53def92463d076b369e3cb2a2a5031fa91f85841aef890628ffe58ef0ac",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T0820590344758Z\\settings.json",
+      "Path": "snapshots/feature-data-20261107T0820590344758Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "70173c64d43cba8a1bb81b5e77598c1b6d31024d976d0eb0d68aacdab33dde2f",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T0820590344758Z\\state.json",
+      "Path": "snapshots/feature-data-20261107T0820590344758Z/state.json",
+      "Bytes": 877,
+      "Sha256": "8b28c027868e09c48a6b15108e2b8591ea805dbc35d78ab23951d51de7673ba9",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T0828141819868Z\\iris-20261107.log",
+      "Path": "snapshots/feature-data-20261107T0828141819868Z/iris-20261107.log",
+      "Bytes": 3375,
+      "Sha256": "8c2daefeaf1ba1e7f213030a45ae988f503cec49e934305fcf9c32f44132c2a5",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T0828141819868Z\\settings.json",
+      "Path": "snapshots/feature-data-20261107T0828141819868Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "70173c64d43cba8a1bb81b5e77598c1b6d31024d976d0eb0d68aacdab33dde2f",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T0828141819868Z\\state.json",
+      "Path": "snapshots/feature-data-20261107T0828141819868Z/state.json",
+      "Bytes": 877,
+      "Sha256": "e188ec7a60bd6d875addbf60540d885264eb35eb6ce72941cd380c9eb24c2a96",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T0843359011266Z\\iris-20261107.log",
+      "Path": "snapshots/feature-data-20261107T0843359011266Z/iris-20261107.log",
+      "Bytes": 3965,
+      "Sha256": "eea18fe1af2dbb1b874689a28c16eff0211607af93e1c4a70c8522b0b6e2c70a",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T0843359011266Z\\settings.json",
+      "Path": "snapshots/feature-data-20261107T0843359011266Z/settings.json",
+      "Bytes": 4352,
+      "Sha256": "70173c64d43cba8a1bb81b5e77598c1b6d31024d976d0eb0d68aacdab33dde2f",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T0843359011266Z\\state.json",
+      "Path": "snapshots/feature-data-20261107T0843359011266Z/state.json",
+      "Bytes": 1198,
+      "Sha256": "1c10354a4779643a89f45775eea467a3827b783c078a862e32c6940c04e5a2c5",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T0828144006806Z\\iris-20261107.log",
+      "Path": "installed-state/readonly-state-20261107T0828144006806Z/iris-20261107.log",
+      "Bytes": 3375,
+      "Sha256": "8c2daefeaf1ba1e7f213030a45ae988f503cec49e934305fcf9c32f44132c2a5",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T0828144006806Z\\state.json",
+      "Path": "installed-state/readonly-state-20261107T0828144006806Z/state.json",
+      "Bytes": 101912,
+      "Sha256": "839cb42af591e70c10608b5bccc16ba04c7a129c54012f9a989aeac7d1a68915",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T0843360964906Z\\iris-20261107.log",
+      "Path": "installed-state/readonly-state-20261107T0843360964906Z/iris-20261107.log",
+      "Bytes": 3965,
+      "Sha256": "eea18fe1af2dbb1b874689a28c16eff0211607af93e1c4a70c8522b0b6e2c70a",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\readonly-state-20261107T0843360964906Z\\state.json",
+      "Path": "installed-state/readonly-state-20261107T0843360964906Z/state.json",
+      "Bytes": 105926,
+      "Sha256": "1e6af51c39aa24a1b82d4a92f673ad1e40571588efbcd1b6c0dde138ddd4041d",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\candidate-installed-20261107T0828139464469Z.json",
+      "Path": "installation/candidate-installed-20261107T0828139464469Z.json",
+      "Bytes": 29909,
+      "Sha256": "d313601fe253579af6d10e3cb0c4321763d03669aa9788183eb3a39d2e270e7f",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\candidate-installed-20261107T0843357291348Z.json",
+      "Path": "installation/candidate-installed-20261107T0843357291348Z.json",
+      "Bytes": 29909,
+      "Sha256": "ebe6cc707a96486c18e38b68dd15e1558e0c8c49ea4f6b0a432c060284e44b69",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\synthetic-provider-20261107T0833515270021Z\\final-state.json",
+      "Path": "provider/final-state.json",
+      "Bytes": 115,
+      "Sha256": "2be0cb28b4eb26383480510e888a75c26ee40e528181be863655ffe435229a74",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\synthetic-provider-20261107T0833515270021Z\\requests.jsonl",
+      "Path": "provider/requests.jsonl",
+      "Bytes": 1107,
+      "Sha256": "d9130add937b4043d248863d1c866747815bfc46ebf100a0660dd44edd70f1f3",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\synthetic-provider-20261107T0833515270021Z\\state.json",
+      "Path": "provider/state.json",
+      "Bytes": 316,
+      "Sha256": "b81401f88d7063a0b6d3f99e2742e04d2abba340e43d963c06d481cf67e43d6a",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\runtime-counters-20261107T0833567533925Z\\state.json",
+      "Path": "runtime/state.json",
+      "Bytes": 201,
+      "Sha256": "a08e182d0409d5905873a93104bfc00fa82ae80feacd38244001adfddc065de5",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\runtime-counters-20261107T0833567533925Z\\events.jsonl",
+      "Path": "runtime/events.jsonl",
+      "Bytes": 2379963,
+      "Sha256": "a50bfd8e8c4605d6de937789d34182e1284bfbe9a28b261565a59b628eaccfd3",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\actual-helper-processes-20261107T1042531002020Z.json",
+      "Path": "continuation/actual-helper-processes-20261107T1042531002020Z.json",
+      "Bytes": 1336,
+      "Sha256": "782f3f65bae31f837b05828e1bac04656e077fba4d07bf52bb52aa706819a0b7",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\stage1-view-metadata-20261107T1043114531236Z.json",
+      "Path": "continuation/stage1-view-metadata-20261107T1043114531236Z.json",
+      "Bytes": 812,
+      "Sha256": "caea12531db3b6c0d1190c0d917bfc308287876473cd320bd1572a85c2f6f837",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\metrics-c4cdd9b216e34b3e90ef4c889256b95a\\status.json",
+      "Path": "continuation/status.json",
+      "Bytes": 287,
+      "Sha256": "6f5a93d442d67e47e3e3e73d21bfaa4f412ace1d9c1f1bee390424ee9744c3d4",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\metrics-c4cdd9b216e34b3e90ef4c889256b95a\\samples.jsonl",
+      "Path": "metrics/samples-prefix.jsonl",
+      "Bytes": 6444360,
+      "Sha256": "d82d0056570d839e70fa5250c3361f906d8a48de0c62d335a29e28b1cca72c41",
+      "CompleteLinePrefix": true
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\memory-candidate-input-ready-20261107T0820548143067Z.json",
+      "Path": "checks/memory-candidate-input-ready-20261107T0820548143067Z.json",
+      "Bytes": 398,
+      "Sha256": "2748a98b39e92b31500bbb652a814668cb115e1aeb478d00d73acdad22ab2366",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\runtime-observer-launch-20261107T0833564837951Z.json",
+      "Path": "checks/runtime-observer-launch-20261107T0833564837951Z.json",
+      "Bytes": 322,
+      "Sha256": "2ab81cde981dcd4b194a3876d2dda2be8bc8d2982007f17b236f4627f59e32d5",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\metrics-c4cdd9b216e34b3e90ef4c889256b95a\\saved-state-20261107T0828148162677Z.json",
+      "Path": "metrics/saved-state-20261107T0828148162677Z.json",
+      "Bytes": 965,
+      "Sha256": "697a92a548f00c51c0582fa5fdc0ff1c224f2f17330e23c468fbc65b524c33b3",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\metrics-c4cdd9b216e34b3e90ef4c889256b95a\\saved-state-20261107T0843366185076Z.json",
+      "Path": "metrics/saved-state-20261107T0843366185076Z.json",
+      "Bytes": 965,
+      "Sha256": "1abc0eb854b5dd3b7accb4ec485ab5ed8a4aa790ebe8ea411edd10540a88ab64",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\tasks\\current_task.md",
+      "Path": "plans-before-update/current_task.md",
+      "Bytes": 8009,
+      "Sha256": "985a9227804f98477aaf2be56580fb5d554083f3e6e69e51f0bd961273ea2c65",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\tasks\\T-040.progress-20261107.md",
+      "Path": "plans-before-update/T-040.progress-20261107.md",
+      "Bytes": 10282,
+      "Sha256": "38461de4b97fcbfe40c9300af60c0258a383829e4665a2dc0124f7f7a7d4701d",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\tasks\\T-040.manual-stage2a-cache-20261107.md",
+      "Path": "plans-before-update/T-040.manual-stage2a-cache-20261107.md",
+      "Bytes": 1630,
+      "Sha256": "be56e215f3588e70f2bfa081d3f525ab4402299800ae505fb832e4f7192f6a73",
+      "CompleteLinePrefix": false
+    }
+  ]
+}

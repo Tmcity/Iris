@@ -1,0 +1,3 @@
+  正在确定要还原的项目…
+  所有项目均是最新的，无法还原。
+F:\Iris\artifacts\t040\toolsource\heap-metadata-20261107-1\Program.cs(51,9): error CS0136: 无法在此范围中声明名为“path”的局部变量或参数，因为该名称在封闭局部范围中用于定义局部变量或参数 [F:\Iris\artifacts\t040\toolsource\heap-metadata-20261107-1\HeapMetadataProbe.csproj]

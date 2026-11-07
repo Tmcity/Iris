@@ -1,0 +1,14 @@
+{
+    "ProductOperationPerformed":  false,
+    "WindowMetadataPath":  "C:\\IrisT040Output\\stage1-view-metadata-20261107T0627159855154Z.json",
+    "GcRequested":  false,
+    "VisibleIrisWindowCount":  0,
+    "Utc":  "2026-11-07T06:27:16.3516210Z",
+    "WorkingSetTrimmed":  false,
+    "NaturalFullGcStarts":  1,
+    "TraceProcessAbsent":  true,
+    "TraceCompletedUtc":  "2026-11-07T05:47:25.9531354+00:00",
+    "Checkpoint":  "manual-post-natural-full-gc-tray-idle",
+    "UserRequestedIdleSeconds":  45,
+    "AppPid":  3032
+}
