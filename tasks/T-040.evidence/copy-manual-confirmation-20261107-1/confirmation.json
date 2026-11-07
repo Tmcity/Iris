@@ -1,0 +1,16 @@
+{
+  "Task": "T-040",
+  "QuestionCall": "call_rE8vX5haKp6N55xr2cJaq8G5",
+  "UserReply": "我已确认两行准确，sandbox中没有记事本应用",
+  "ExpectedSource": "Iris T040 input 01",
+  "ExpectedResult": "Iris T040 synthetic translation",
+  "SourceAndResultCopyVerifiedByActualUser": true,
+  "IndependentNotepadScreenshotPresent": false,
+  "UserReportedNotepadUnavailable": true,
+  "EvidenceMethod": "Explicit confirmation by the actual operator, supported by the matching history data and copied-full-text status in the existing screenshot",
+  "NotepadScreenshotMethodRequired": false,
+  "NoNewCopyActionRequested": true,
+  "LateUnmatchedClipboardDoesNotInvalidateEarlierUserConfirmation": true,
+  "RemainingImmediateTask": "Close Iris functional windows, keep the same instance, idle 45 seconds and save the post-GC steady checkpoint",
+  "WholeTaskComplete": false
+}
