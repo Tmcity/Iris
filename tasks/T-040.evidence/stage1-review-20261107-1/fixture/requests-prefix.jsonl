@@ -1,0 +1,8 @@
+{"Kind":"Models","Utc":"2026-11-07T05:39:03.5699184+00:00","Sequence":1,"Path":"/v1/models"}
+{"Kind":"Models","Utc":"2026-11-07T05:44:28.2354242+00:00","Sequence":2,"Path":"/v1/models"}
+{"Kind":"Request","Utc":"2026-11-07T05:44:30.4055346+00:00","ReceivedQpc":571817406833,"Sequence":3,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":null,"SourceSha256":"F8C3BF62A9AA3E6FC1619C250E48ABE7519373D3EDF41BE62EB5DC45199AF2EF","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-07T05:44:30.4112707+00:00","Qpc":571817555467,"Sequence":3}
+{"Kind":"Completed","Utc":"2026-11-07T05:44:30.5627646+00:00","Qpc":571819070315,"Sequence":3,"Truncated":false}
+{"Kind":"Request","Utc":"2026-11-07T05:44:42.6970166+00:00","ReceivedQpc":571940410661,"Sequence":4,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 input 01","SourceSha256":"7EEF8A00456C619C01210F15F7E5F2B9F53D8263358B47DCB9C641466DB99753","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-07T05:44:42.6976775+00:00","Qpc":571940419374,"Sequence":4}
+{"Kind":"Completed","Utc":"2026-11-07T05:44:42.8485825+00:00","Qpc":571941928426,"Sequence":4,"Truncated":false}

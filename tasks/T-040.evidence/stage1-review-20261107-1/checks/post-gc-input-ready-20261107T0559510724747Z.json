@@ -1,0 +1,31 @@
+{
+    "NaturalFullGcStarts":  1,
+    "ProductOperationPerformed":  false,
+    "InputRoot":  "C:\\IrisT040PostGcInput",
+    "TraceCompleted":  true,
+    "Scripts":  [
+                    {
+                        "ParseErrors":  null,
+                        "Name":  "Save-Post-GC-Steady-State.cmd",
+                        "Sha256":  "317EDE3007E4F36301484171E92EEF5601ECB75FD1CC43F5B12B00F666017FB5"
+                    },
+                    {
+                        "ParseErrors":  null,
+                        "Name":  "Capture-Feature-View.cmd",
+                        "Sha256":  "68087C0A3290A2BDBE32524A5A6272B7E0392BDD4269F631D00AAA384FF7AD95"
+                    },
+                    {
+                        "ParseErrors":  0,
+                        "Name":  "t040_save_post_gc_steady_readonly.ps1",
+                        "Sha256":  "51C4AFAEF69D2011C22580B5A70864C79F164721301066216FC73742A99E5BCE"
+                    },
+                    {
+                        "ParseErrors":  0,
+                        "Name":  "t040_observe_stage1_views_readonly.ps1",
+                        "Sha256":  "2E68F4138536213B229B6F018DA6FA1B0B73F2276D506887DD93B822B4B83140"
+                    }
+                ],
+    "TraceActualProcessAbsent":  true,
+    "Utc":  "2026-11-07T05:59:51.0644560Z",
+    "PsVersion":  "5.1.26100.9549"
+}

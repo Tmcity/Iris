@@ -1,0 +1,112 @@
+{
+  "Utc": "2026-11-07T06:06:15.080923+00:00",
+  "Task": "T-040",
+  "Complete": false,
+  "UserFeedback": {
+    "QuestionCall": "call_3ci58mXgottsPMIIh4RlL7iA",
+    "Raw": "已执行"
+  },
+  "ServiceSavedAndUsed": true,
+  "ProviderId": "tp-454b10c20074",
+  "RealUiModelAndConnectionRequestsMatched": true,
+  "RealUiInputTranslationAndHistoryMatched": true,
+  "UserHistoryScreenshotVisuallyReviewed": true,
+  "ScreenshotObserved": "Correct source/result/provider/model and copied-full-text status; result-copy control below initial viewport.",
+  "NewHistoryOperationWarningsObserved": false,
+  "ClipboardActionStatusObserved": true,
+  "TwoPasteContentsIndependentlyProved": false,
+  "LateClipboardMatchesSource": false,
+  "LateClipboardMatchesResult": false,
+  "LateClipboardChangeDoesNotProvePastCopyFailure": true,
+  "NaturalFullGcStart": {
+    "Kind": "GCStart",
+    "Utc": "2026-11-07T05:44:00.5384067+00:00",
+    "EventTime": "2026-11-07T13:44:00.4199908+08:00",
+    "Count": 4,
+    "Depth": 2,
+    "Reason": "AllocSmall",
+    "Type": "BackgroundGC"
+  },
+  "NaturalFullGcStop": {
+    "Kind": "GCStop",
+    "Utc": "2026-11-07T05:44:00.5389569+00:00",
+    "EventTime": "2026-11-07T13:44:00.4383412+08:00",
+    "Count": 4,
+    "Depth": 2
+  },
+  "RuntimeObserverCleanlyStopped": true,
+  "PostTraceClosedWindowSteadyMemoryProved": false,
+  "Pending": "Two clipboard pastes screenshot; same-instance functional windows closed, 45-second idle checkpoint after natural full GC.",
+  "Files": [
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T0545516808618Z\\iris-20261107.log",
+      "Path": "snapshot/iris-20261107.log",
+      "Bytes": 2351,
+      "Sha256": "a1ad4fc1c17966d7802771653358d3a4cdfbfc655a7b90f791eba371d5950b99",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T0545516808618Z\\settings.json",
+      "Path": "snapshot/settings.json",
+      "Bytes": 4352,
+      "Sha256": "70173c64d43cba8a1bb81b5e77598c1b6d31024d976d0eb0d68aacdab33dde2f",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\feature-data-20261107T0545516808618Z\\state.json",
+      "Path": "snapshot/state.json",
+      "Bytes": 877,
+      "Sha256": "e5cc7ea2f8249dcfe9c4a250f2045c9e4a59d9edfee562dc7d57794bf63a0f13",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\synthetic-provider-20261107T0535457545842Z\\requests.jsonl",
+      "Path": "fixture/requests-prefix.jsonl",
+      "Bytes": 1218,
+      "Sha256": "10065cc9a238361f40b2d74a88955eb379fdea6935c487772c861fdd132c5438",
+      "CompleteLinePrefix": true
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\synthetic-provider-20261107T0535457545842Z\\state.json",
+      "Path": "fixture/state.json",
+      "Bytes": 316,
+      "Sha256": "b3cf716b3c766266a943a856232c486461e73f4e218af8a15f0e992187c84829",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\manual-feature-view-20261107T0545439531175Z.png",
+      "Path": "screenshots/manual-feature-view-20261107T0545439531175Z.png",
+      "Bytes": 174844,
+      "Sha256": "f00f4938d609b25aba7d4984c1d37f08b8805e2fc6e163a350f778b039b4adda",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\stage1-view-metadata-20261107T0555112905350Z.json",
+      "Path": "checks/stage1-view-metadata-20261107T0555112905350Z.json",
+      "Bytes": 761,
+      "Sha256": "ef30753cccdb7b79250df0a57dfa374c2e0b98c22f694f312920bea6bbd8bd47",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\runtime-counters-20261107T0537257455600Z\\state.json",
+      "Path": "runtime/state.json",
+      "Bytes": 203,
+      "Sha256": "68c51288ec6aedb07f440bfb59f64507328ef514d5a5cbdb2cc45b33e173de8a",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\runtime-counters-20261107T0537257455600Z\\events.jsonl",
+      "Path": "runtime/events.jsonl",
+      "Bytes": 2379289,
+      "Sha256": "a0e7ccb3b7f92ececf20f84ff8593ef3936109b42e2edc49f7a17df93f13c268",
+      "CompleteLinePrefix": false
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\post-gc-input-ready-20261107T0559510724747Z.json",
+      "Path": "checks/post-gc-input-ready-20261107T0559510724747Z.json",
+      "Bytes": 1375,
+      "Sha256": "2ad3662aedda077ba01634cf04874e67bdc0945dfe82084f0fe703a360de65e3",
+      "CompleteLinePrefix": false
+    }
+  ]
+}

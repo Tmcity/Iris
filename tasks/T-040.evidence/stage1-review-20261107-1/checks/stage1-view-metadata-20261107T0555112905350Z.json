@@ -1,0 +1,21 @@
+{
+    "ProductOperationPerformed":  false,
+    "AppPid":  3032,
+    "NotepadProcesses":  [
+
+                         ],
+    "VisibleIrisWindowTitles":  [
+                                    "翻译历史"
+                                ],
+    "UnmatchedClipboardContentStored":  false,
+    "Utc":  "2026-11-07T05:55:11.2495268Z",
+    "Clipboard":  {
+                      "Modified":  false,
+                      "Length":  24,
+                      "Queried":  true,
+                      "Sha256":  "42fc7747a7baa161457ae30998f8c6426b8cac4ce470b2cffaaea040a0ead587",
+                      "MatchesExpectedResult":  false,
+                      "Failure":  null,
+                      "MatchesExpectedSource":  false
+                  }
+}
