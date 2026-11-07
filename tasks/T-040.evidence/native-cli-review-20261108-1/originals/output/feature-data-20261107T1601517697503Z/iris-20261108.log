@@ -1,0 +1,3 @@
+2026-11-08 00:01:48.889 +08:00 [WRN] (Polly) Execution attempt. Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '429', Handled: 'true', Attempt: '0', Execution Time: 13.9984ms
+2026-11-08 00:01:48.899 +08:00 [WRN] (Polly) Resilience event occurred. EventName: 'OnRetry', Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '429'
+2026-11-08 00:01:49.903 +08:00 [INF] (Polly) Execution attempt. Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '200', Handled: 'false', Attempt: '1', Execution Time: 1.3865ms

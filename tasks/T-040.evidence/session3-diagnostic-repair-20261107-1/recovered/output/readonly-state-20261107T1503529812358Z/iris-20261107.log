@@ -1,0 +1,3 @@
+2026-11-07 21:34:01.128 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置文件不存在，已初始化为默认设置并写入 C:\Users\WDAGUtilityAccount\AppData\Roaming\Iris\settings.json
+2026-11-07 21:34:01.640 +08:00 [INF] (Iris.App.Tray.TrayIconController) 系统托盘图标创建成功（共尝试 1 次）
+2026-11-07 21:34:01.703 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1376.6 ms，托盘图标已创建

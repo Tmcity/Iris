@@ -1,0 +1,7 @@
+2026-11-08 00:01:48.889 +08:00 [WRN] (Polly) Execution attempt. Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '429', Handled: 'true', Attempt: '0', Execution Time: 13.9984ms
+2026-11-08 00:01:48.899 +08:00 [WRN] (Polly) Resilience event occurred. EventName: 'OnRetry', Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '429'
+2026-11-08 00:01:49.903 +08:00 [INF] (Polly) Execution attempt. Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '200', Handled: 'false', Attempt: '1', Execution Time: 1.3865ms
+2026-11-08 00:01:52.632 +08:00 [WRN] (Polly) Execution attempt. Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '503', Handled: 'true', Attempt: '0', Execution Time: 1.843ms
+2026-11-08 00:01:52.633 +08:00 [WRN] (Polly) Resilience event occurred. EventName: 'OnRetry', Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '503'
+2026-11-08 00:01:53.640 +08:00 [ERR] (Polly) Execution attempt. Source: 'iris.llm-iris-llm//Retry', Operation Key: 'null', Result: '503', Handled: 'true', Attempt: '1', Execution Time: 3.087ms
+2026-11-08 00:01:53.663 +08:00 [WRN] (Iris.Core.Translation.TranslationOrchestrator) Provider tp-b242457554ec failed for request "afdbe77e-1294-4784-876e-0fc3aeb0dfd9" with code ProviderUnavailable: IrisException.
