@@ -1,0 +1,2 @@
+2026-11-08 01:31:05.995 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置加载成功: C:\IrisT040Output\startup-clone-run-20261107T1731035115566Z\app\data\settings.json, SchemaVersion=1, 修复条数=0
+2026-11-08 01:31:06.399 +08:00 [ERR] (Iris.Infrastructure.Storage.DatabaseInitializer) Database initialization failed with SQLite error code 10.

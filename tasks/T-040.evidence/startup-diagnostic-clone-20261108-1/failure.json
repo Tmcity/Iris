@@ -1,0 +1,8 @@
+{
+  "Failure": "SQLite error code 10 with diagnostic portable data on VSMB output",
+  "DiagnosticRootCause": "Diagnostic data location must be guest-local; exact VSMB failure retained",
+  "ProductSourceChanged": false,
+  "InstalledDataChanged": false,
+  "FormalNfrResult": false,
+  "DiagnosticPidStillPresentAtLastQuery": 3212
+}
