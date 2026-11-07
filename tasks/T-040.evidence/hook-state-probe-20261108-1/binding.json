@@ -1,0 +1,21 @@
+{
+  "TargetPid": 6040,
+  "EnabledRegistrationObserved": true,
+  "EnabledHandle": 1442753,
+  "EnabledThreadId": 5356,
+  "RestoredOffObserved": true,
+  "PhysicalGestureInteractionProved": false,
+  "GcRequested": false,
+  "Files": [
+    {
+      "Path": "hook-state-20261107T1711305354129Z.json",
+      "Bytes": 303,
+      "Sha256": "bcf82aa1c0faf367a7443486a520e7c3561134c11e8e889440388c0e09c0a71e"
+    },
+    {
+      "Path": "hook-state-20261107T1711332092482Z.json",
+      "Bytes": 296,
+      "Sha256": "4521ac80101b0d93b436a5e10da219fede4f1b18fad22f82008de5c58ad171b4"
+    }
+  ]
+}
