@@ -1,0 +1,19 @@
+{
+  "Files": [
+    {
+      "Path": "actual-state.json",
+      "Bytes": 6146,
+      "Sha256": "b158c4e7bdaba96b47486ed58b2f76a4c17c488b3f68ebdd16dabff2ca4a2913"
+    },
+    {
+      "Path": "check.json",
+      "Bytes": 206,
+      "Sha256": "1890cabc6f205a3f441c21a32c8d145dc050747b3a10aab14e7713e0388fbb93"
+    },
+    {
+      "Path": "tool-source.ps1",
+      "Bytes": 2544,
+      "Sha256": "b3c65ac263f5534252f68389a0bee8cea4670c7fdd37eb464fd27935865145be"
+    }
+  ]
+}

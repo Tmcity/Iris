@@ -36,6 +36,7 @@ $taskResult = @{
     RepeatWorkerCurrentlyPresent = [bool](@($taskIdentity | Where-Object { $_.ProcessId -eq 8096 }).Count)
     InstalledSource = $taskSource
     InstalledExeSha256 = (Get-FileHash -LiteralPath (Join-Path $taskInstalled 'Iris.App.exe') -Algorithm SHA256).Hash.ToLowerInvariant()
+    InstalledAppDllSha256 = (Get-FileHash -LiteralPath (Join-Path $taskInstalled 'Iris.App.dll') -Algorithm SHA256).Hash.ToLowerInvariant()
     ProductOperationPerformed = $false
     InstallerExecuted = $false
 }
