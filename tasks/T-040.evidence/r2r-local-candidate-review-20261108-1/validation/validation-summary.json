@@ -1,0 +1,138 @@
+{
+  "SourceCommit": "90822806f8840c3272dd27f3b2f14abf0f57f2b9",
+  "BuildWarnings": 0,
+  "BuildErrors": 0,
+  "FullTests": {
+    "Total": 3773,
+    "Passed": 3771,
+    "Failed": 0,
+    "Skipped": 2
+  },
+  "Assemblies": [
+    {
+      "Name": "Iris.Maintenance.Tests.dll",
+      "Total": 39,
+      "Passed": 39,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    },
+    {
+      "Name": "Iris.Infrastructure.Tests.dll",
+      "Total": 188,
+      "Passed": 188,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    },
+    {
+      "Name": "Iris.Platform.Windows.Tests.dll",
+      "Total": 1085,
+      "Passed": 1083,
+      "Failed": 0,
+      "Skipped": 2,
+      "SkippedTests": [
+        {
+          "Name": "Iris.Platform.Windows.Tests.Clipboard.Win32ClipboardIsolatedIntegrationTests.IsolatedWindowStation_NativeClipboardIntegration_ExecutesInDedicatedProcess",
+          "Reason": "[ENVIRONMENT LIMITATION] Native isolated window station test skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)"
+        },
+        {
+          "Name": "Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotIsolatedTests.SnapshotHelper_UsesExclusiveNonInteractiveStation_AndJoinsOwnedProcess",
+          "Reason": "[ENVIRONMENT LIMITATION] Snapshot isolated helper skipped: [ISOLATED_CLIPBOARD] SKIP: Window station creation failed or already exists (station=0, error=183)"
+        }
+      ]
+    },
+    {
+      "Name": "Iris.Core.Tests.dll",
+      "Total": 985,
+      "Passed": 985,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    },
+    {
+      "Name": "Iris.ArchitectureTests.dll",
+      "Total": 11,
+      "Passed": 11,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    },
+    {
+      "Name": "Iris.Providers.Tests.dll",
+      "Total": 584,
+      "Passed": 584,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    },
+    {
+      "Name": "Iris.App.Tests.dll",
+      "Total": 881,
+      "Passed": 881,
+      "Failed": 0,
+      "Skipped": 0,
+      "SkippedTests": []
+    }
+  ],
+  "Commands": [
+    {
+      "Command": [
+        "D:\\anaconda3\\python.exe",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "build/tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "StartedUtc": "2026-11-07T19:35:50.207024+00:00",
+      "FinishedUtc": "2026-11-07T19:35:50.557532+00:00",
+      "ExitCode": 0,
+      "Log": "release-manifest-tests.log",
+      "Bytes": 3079,
+      "Sha256": "2afe3ef58304348082f5bb5ac89c0acd9946b9efde5bc5646e1aef7f0b1d964b"
+    },
+    {
+      "Command": [
+        "dotnet",
+        "build",
+        "Iris.slnx",
+        "-c",
+        "Release",
+        "--no-incremental"
+      ],
+      "StartedUtc": "2026-11-07T19:35:50.558545+00:00",
+      "FinishedUtc": "2026-11-07T19:36:13.311919+00:00",
+      "ExitCode": 0,
+      "Log": "release-build.log",
+      "Bytes": 2602,
+      "Sha256": "9286d22c158d57f28cc8c2e3b6174adcf5a61fa0112b70602f48e2d4f1a9bb05"
+    },
+    {
+      "Command": [
+        "dotnet",
+        "test",
+        "Iris.slnx",
+        "-c",
+        "Release",
+        "--no-build",
+        "--no-ansi",
+        "--no-progress",
+        "--report-xunit-xml",
+        "--results-directory",
+        "F:\\Iris\\artifacts\\t040\\r2r-validation-20261108-1\\reports"
+      ],
+      "StartedUtc": "2026-11-07T19:36:13.311919+00:00",
+      "FinishedUtc": "2026-11-07T19:38:08.974746+00:00",
+      "ExitCode": 0,
+      "Log": "full-tests.log",
+      "Bytes": 4720,
+      "Sha256": "a3c8e8c4e7a3a4464e06c11f45cceb40b4e8e5431e41ced5bc02554a02bd01d4"
+    }
+  ],
+  "Scope": "Local/CI checks only; no real installation, public UI upgrade, default prerequisite download or whole-task acceptance is inferred."
+}

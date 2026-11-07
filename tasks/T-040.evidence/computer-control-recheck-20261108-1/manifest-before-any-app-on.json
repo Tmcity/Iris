@@ -1,0 +1,75 @@
+{
+  "Utc": "2026-11-07T19:05:24.301527+00:00",
+  "Files": [
+    {
+      "Path": "checks.json",
+      "Bytes": 1567,
+      "Sha256": "5cd02e5e5b84a46052548d28535be3795ee0d0b65425ac276dfb685e364f92df"
+    },
+    {
+      "Path": "docs_links.py",
+      "Bytes": 1043,
+      "Sha256": "467daf908823dac7ae3e6260d5585f05c080f9972e5a84d5f8c3a632fab49385"
+    },
+    {
+      "Path": "docs_probe.py",
+      "Bytes": 2699,
+      "Sha256": "b84960d0de99958c9245ebfe52a0b1db2c57d0f8198f46643d1b6b120d95ecf3"
+    },
+    {
+      "Path": "native-capabilities.json",
+      "Bytes": 262,
+      "Sha256": "3c06b0c0c6a8e39c2f6aa4be56ba890ab1b231f86beea03bf197699ce00cfe12"
+    },
+    {
+      "Path": "official-computer-use.html",
+      "Bytes": 403442,
+      "Sha256": "a3ac85dcd3cec20e89e95896e964c64e16f82673dfc9a92b344b31e1a1f4d2dc"
+    },
+    {
+      "Path": "official-computer-use.json",
+      "Bytes": 364,
+      "Sha256": "6b35a366f8ccafb532d6d9b95dc1d4c82ae856f787aebabf07a71c5b1bd056bc"
+    },
+    {
+      "Path": "official-computer-use.txt",
+      "Bytes": 24364,
+      "Sha256": "334ab14cbc436b2132d3659cd76001f06416b3b688060abe63015a162cf8e122"
+    },
+    {
+      "Path": "official-search.html",
+      "Bytes": 479901,
+      "Sha256": "921e99fd6c1ab5798c7556c1cc6f408f935b4c80cbe11d8117024ca1b7e15094"
+    },
+    {
+      "Path": "official-search.json",
+      "Bytes": 423,
+      "Sha256": "95376b8e05a70c9f40109dac232d267846c4d24cdba28fe1fa69dbd34c668151"
+    },
+    {
+      "Path": "official-search.txt",
+      "Bytes": 13541,
+      "Sha256": "dbb3abfe3abb667a1f4563896325e7c21cda536cf83db3c39bbc4edf6b2c7004"
+    },
+    {
+      "Path": "official-windows-app.html",
+      "Bytes": 432367,
+      "Sha256": "1df98707843306872c70272aef05d2a59965e76e8a26bbd20d9f099a0a0349d8"
+    },
+    {
+      "Path": "official-windows-app.json",
+      "Bytes": 378,
+      "Sha256": "61208497a2890aee46f2163dc8101ca60830e17f43ebb0f020e5bfd07793ae14"
+    },
+    {
+      "Path": "official-windows-app.txt",
+      "Bytes": 23919,
+      "Sha256": "97f68a830a66c044d0889025c03a3c4e67bb77462ff6d0c690c33d909d1b0c28"
+    },
+    {
+      "Path": "REVIEW.md",
+      "Bytes": 3482,
+      "Sha256": "6a68fc40c42ebddabae618db93db886d962d72ca3219ad9941e9bb7be19bb101"
+    }
+  ]
+}

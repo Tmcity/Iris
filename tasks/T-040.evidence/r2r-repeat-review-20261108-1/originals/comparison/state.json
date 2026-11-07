@@ -1,0 +1,52 @@
+{
+    "InstalledBinaryChanged":  false,
+    "InstalledDataChanged":  false,
+    "Runs":  [
+                 {
+                     "Pid":  4248,
+                     "CreatedUtc":  "2026-11-07T18:56:45.8520715Z",
+                     "ExitCode":  0,
+                     "SampleUtc":  "2026-11-07T18:57:22.4123934Z",
+                     "DataDirectory":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\IrisT040Diagnostic\\21716f14357643bea94aa7ce4175b170\\data",
+                     "PrivateBytes":  36716544,
+                     "Kind":  "baseline",
+                     "WorkingSetBytes":  121122816
+                 },
+                 {
+                     "Pid":  2776,
+                     "CreatedUtc":  "2026-11-07T18:57:23.3864614Z",
+                     "ExitCode":  0,
+                     "SampleUtc":  "2026-11-07T18:57:59.8250554Z",
+                     "DataDirectory":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\IrisT040Diagnostic\\69143e6a8776495b99e15114d5356c11\\data",
+                     "PrivateBytes":  37580800,
+                     "Kind":  "r2r",
+                     "WorkingSetBytes":  121659392
+                 },
+                 {
+                     "Pid":  3536,
+                     "CreatedUtc":  "2026-11-07T18:58:00.8123909Z",
+                     "ExitCode":  0,
+                     "SampleUtc":  "2026-11-07T18:58:37.0508466Z",
+                     "DataDirectory":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\IrisT040Diagnostic\\373da0d1edc64dc283ddbec62d13cf24\\data",
+                     "PrivateBytes":  37535744,
+                     "Kind":  "r2r",
+                     "WorkingSetBytes":  121602048
+                 },
+                 {
+                     "Pid":  3008,
+                     "CreatedUtc":  "2026-11-07T18:58:37.8062941Z",
+                     "ExitCode":  0,
+                     "SampleUtc":  "2026-11-07T18:59:14.2473776Z",
+                     "DataDirectory":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\IrisT040Diagnostic\\56e845e3a3fe465f8174add00760ea2c\\data",
+                     "PrivateBytes":  36749312,
+                     "Kind":  "baseline",
+                     "WorkingSetBytes":  121102336
+                 }
+             ],
+    "FinishedUtc":  "2026-11-07T18:59:14.5300107Z",
+    "FormalNfrResult":  false,
+    "Completed":  true,
+    "ProductOperationPerformed":  true,
+    "Failure":  null,
+    "StartedUtc":  "2026-11-07T18:56:44.9473355Z"
+}

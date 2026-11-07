@@ -1,0 +1,10 @@
+{
+    "WorkerPid":  2432,
+    "OutputDirectory":  "C:\\IrisT040Output\\r2r-cpu-20261107T1911310861124Z",
+    "WorkerScript":  "C:\\IrisT040R2rRepeat\\t040_compare_r2r_with_cpu.ps1",
+    "WorkerCreatedUtc":  "2026-11-07T19:11:31.2585367Z",
+    "WorkerSha256":  "A4F2B72EE0AB216EC4EE056E6F49851EE68D47C7E58B9ED0D9E497009501E9C5",
+    "ProductOperationPerformed":  true,
+    "InstallerExecuted":  false,
+    "StartedUtc":  "2026-11-07T19:11:31.2602788Z"
+}

@@ -1,0 +1,133 @@
+{
+    "Runs":  [
+                 {
+                     "Pid":  3968,
+                     "CreatedUtc":  "2026-11-07T19:22:17.6029299Z",
+                     "ExitCode":  null,
+                     "PostFullGcSteadyStateProved":  false,
+                     "CpuSamples":  [
+                                        {
+                                            "IdleTicks":  32031250,
+                                            "ToUtc":  "2026-11-07T19:22:17.7240629Z",
+                                            "TotalTicks":  33593750,
+                                            "FromUtc":  "2026-11-07T19:22:17.5805565Z",
+                                            "SystemCpuPercentage":  4.6511627906976747
+                                        },
+                                        {
+                                            "IdleTicks":  21093750,
+                                            "ToUtc":  "2026-11-07T19:22:17.8505650Z",
+                                            "TotalTicks":  22187500,
+                                            "FromUtc":  "2026-11-07T19:22:17.7240629Z",
+                                            "SystemCpuPercentage":  4.929577464788732
+                                        },
+                                        {
+                                            "IdleTicks":  21093750,
+                                            "ToUtc":  "2026-11-07T19:22:17.9618378Z",
+                                            "TotalTicks":  22187500,
+                                            "FromUtc":  "2026-11-07T19:22:17.8505650Z",
+                                            "SystemCpuPercentage":  4.929577464788732
+                                        },
+                                        {
+                                            "IdleTicks":  21406250,
+                                            "ToUtc":  "2026-11-07T19:22:18.0730853Z",
+                                            "TotalTicks":  22500000,
+                                            "FromUtc":  "2026-11-07T19:22:17.9618378Z",
+                                            "SystemCpuPercentage":  4.8611111111111107
+                                        },
+                                        {
+                                            "IdleTicks":  19687500,
+                                            "ToUtc":  "2026-11-07T19:22:18.1838273Z",
+                                            "TotalTicks":  20625000,
+                                            "FromUtc":  "2026-11-07T19:22:18.0730853Z",
+                                            "SystemCpuPercentage":  4.5454545454545459
+                                        },
+                                        {
+                                            "IdleTicks":  21093750,
+                                            "ToUtc":  "2026-11-07T19:22:18.2940874Z",
+                                            "TotalTicks":  22500000,
+                                            "FromUtc":  "2026-11-07T19:22:18.1838273Z",
+                                            "SystemCpuPercentage":  6.25
+                                        },
+                                        {
+                                            "IdleTicks":  20781250,
+                                            "ToUtc":  "2026-11-07T19:22:18.4045197Z",
+                                            "TotalTicks":  21875000,
+                                            "FromUtc":  "2026-11-07T19:22:18.2940874Z",
+                                            "SystemCpuPercentage":  5
+                                        }
+                                    ],
+                     "DataDirectory":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\IrisT040Diagnostic\\8c5936e681524f59bbb2b10ae9eca6bd\\data",
+                     "PrelaunchCpuSamples":  [
+                                                 {
+                                                     "IdleTicks":  40468750,
+                                                     "ToUtc":  "2026-11-07T19:22:16.6877048Z",
+                                                     "TotalTicks":  41093750,
+                                                     "FromUtc":  "2026-11-07T19:22:16.4805149Z",
+                                                     "SystemCpuPercentage":  1.520912547528517
+                                                 },
+                                                 {
+                                                     "IdleTicks":  43437500,
+                                                     "ToUtc":  "2026-11-07T19:22:16.9101560Z",
+                                                     "TotalTicks":  43593750,
+                                                     "FromUtc":  "2026-11-07T19:22:16.6877048Z",
+                                                     "SystemCpuPercentage":  0.35842293906810035
+                                                 },
+                                                 {
+                                                     "IdleTicks":  37343750,
+                                                     "ToUtc":  "2026-11-07T19:22:17.1160164Z",
+                                                     "TotalTicks":  37343750,
+                                                     "FromUtc":  "2026-11-07T19:22:16.9101560Z",
+                                                     "SystemCpuPercentage":  0
+                                                 },
+                                                 {
+                                                     "IdleTicks":  41875000,
+                                                     "ToUtc":  "2026-11-07T19:22:17.3231700Z",
+                                                     "TotalTicks":  41875000,
+                                                     "FromUtc":  "2026-11-07T19:22:17.1160164Z",
+                                                     "SystemCpuPercentage":  0
+                                                 },
+                                                 {
+                                                     "IdleTicks":  45468750,
+                                                     "ToUtc":  "2026-11-07T19:22:17.5313152Z",
+                                                     "TotalTicks":  45468750,
+                                                     "FromUtc":  "2026-11-07T19:22:17.3231700Z",
+                                                     "SystemCpuPercentage":  0
+                                                 }
+                                             ],
+                     "Kind":  "baseline",
+                     "StartupCpuConditionProved":  false,
+                     "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\IrisT040Diagnostic\\8c5936e681524f59bbb2b10ae9eca6bd\\Iris.App.exe",
+                     "LaunchRequestedUtc":  "2026-11-07T19:22:17.5805565Z"
+                 }
+             ],
+    "StartedUtc":  "2026-11-07T19:22:14.1338931Z",
+    "InstallerExecuted":  false,
+    "OriginalExitCode":  0,
+    "WorkingSetTrimmed":  false,
+    "OriginalPid":  7584,
+    "FormalNfrResult":  false,
+    "InstalledSettingsAndSecretsUnchanged":  true,
+    "SecretsBeforeSha256":  "60D78472E3E206A670A708D39457527CED1DDE4CD06736839808E3571B9FED4B",
+    "ProductOperationPerformed":  true,
+    "GcRequested":  false,
+    "Failure":  {
+                    "Position":  "At C:\\IrisT040R2rRepeat\\t040_compare_r2r_with_cpu.ps1:107 char:39\r\n+ ... taskLine in [IO.File]::ReadAllLines($taskLog.FullName, [Text.Encoding ...\r\n+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "Message":  "Exception calling \"ReadAllLines\" with \"2\" argument(s): \"The process cannot access the file \u0027C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\IrisT040Diagnostic\\8c5936e681524f59bbb2b10ae9eca6bd\\data\\logs\\iris-20261108.log\u0027 because it is being used by another process.\"",
+                    "Type":  "System.Management.Automation.MethodInvocationException"
+                },
+    "SettingsAfterSha256":  "1AC857BB5C7D34CB40E1DDB440585FF23A0D3D0C9BB63AFA3BFD0ED1A110F2AC",
+    "FinishedUtc":  "2026-11-07T19:22:18.5206172Z",
+    "RestoredPid":  null,
+    "RemainingAppProcesses":  [
+                                  {
+                                      "ProcessId":  3968,
+                                      "CreationDate":  "\/Date(1794079337602)\/",
+                                      "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\IrisT040Diagnostic\\8c5936e681524f59bbb2b10ae9eca6bd\\Iris.App.exe"
+                                  }
+                              ],
+    "SettingsBeforeSha256":  "1AC857BB5C7D34CB40E1DDB440585FF23A0D3D0C9BB63AFA3BFD0ED1A110F2AC",
+    "Completed":  true,
+    "SecretsAfterSha256":  "60D78472E3E206A670A708D39457527CED1DDE4CD06736839808E3571B9FED4B",
+    "DiagnosticOnly":  true,
+    "WorkerPid":  7448
+}

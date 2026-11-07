@@ -1,0 +1,14 @@
+{
+    "Properties":  [
+                       "PSPath",
+                       "PSParentPath",
+                       "PSChildName",
+                       "PSDrive",
+                       "PSProvider",
+                       "ReadCount",
+                       "Length"
+                   ],
+    "SerializationCompleted":  false,
+    "PowerShellVersion":  "5.1.26100.9549",
+    "Mode":  "annotated"
+}

@@ -1,0 +1,116 @@
+{
+  "ObservedUtc": "2026-11-07T19:08:48.2866495Z",
+  "AppProcesses": [
+    {
+      "ProcessId": 12704,
+      "ProcessName": "ChatGPT",
+      "ExecutablePath": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.1103.3517.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+      "HasMainWindow": false,
+      "FileVersion": "157.0.8103.39",
+      "ProductVersion": "157.0.8103.39",
+      "ProductName": "Codex"
+    },
+    {
+      "ProcessId": 22204,
+      "ProcessName": "ChatGPT",
+      "ExecutablePath": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.1103.3517.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+      "HasMainWindow": true,
+      "FileVersion": "157.0.8103.39",
+      "ProductVersion": "157.0.8103.39",
+      "ProductName": "Codex"
+    },
+    {
+      "ProcessId": 24016,
+      "ProcessName": "ChatGPT",
+      "ExecutablePath": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.1103.3517.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+      "HasMainWindow": false,
+      "FileVersion": "157.0.8103.39",
+      "ProductVersion": "157.0.8103.39",
+      "ProductName": "Codex"
+    },
+    {
+      "ProcessId": 24620,
+      "ProcessName": "ChatGPT",
+      "ExecutablePath": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.1103.3517.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+      "HasMainWindow": false,
+      "FileVersion": "157.0.8103.39",
+      "ProductVersion": "157.0.8103.39",
+      "ProductName": "Codex"
+    },
+    {
+      "ProcessId": 24640,
+      "ProcessName": "ChatGPT",
+      "ExecutablePath": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.1103.3517.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+      "HasMainWindow": false,
+      "FileVersion": "157.0.8103.39",
+      "ProductVersion": "157.0.8103.39",
+      "ProductName": "Codex"
+    },
+    {
+      "ProcessId": 24764,
+      "ProcessName": "ChatGPT",
+      "ExecutablePath": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.1103.3517.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+      "HasMainWindow": false,
+      "FileVersion": "157.0.8103.39",
+      "ProductVersion": "157.0.8103.39",
+      "ProductName": "Codex"
+    },
+    {
+      "ProcessId": 25104,
+      "ProcessName": "ChatGPT",
+      "ExecutablePath": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.1103.3517.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+      "HasMainWindow": false,
+      "FileVersion": "157.0.8103.39",
+      "ProductVersion": "157.0.8103.39",
+      "ProductName": "Codex"
+    },
+    {
+      "ProcessId": 27804,
+      "ProcessName": "ChatGPT",
+      "ExecutablePath": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.1103.3517.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+      "HasMainWindow": false,
+      "FileVersion": "157.0.8103.39",
+      "ProductVersion": "157.0.8103.39",
+      "ProductName": "Codex"
+    },
+    {
+      "ProcessId": 30620,
+      "ProcessName": "ChatGPT",
+      "ExecutablePath": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.1103.3517.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+      "HasMainWindow": false,
+      "FileVersion": "157.0.8103.39",
+      "ProductVersion": "157.0.8103.39",
+      "ProductName": "Codex"
+    },
+    {
+      "ProcessId": 32540,
+      "ProcessName": "ChatGPT",
+      "ExecutablePath": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.1103.3517.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+      "HasMainWindow": false,
+      "FileVersion": "157.0.8103.39",
+      "ProductVersion": "157.0.8103.39",
+      "ProductName": "Codex"
+    },
+    {
+      "ProcessId": 35700,
+      "ProcessName": "ChatGPT",
+      "ExecutablePath": "C:\\Program Files\\WindowsApps\\OpenAI.Codex_26.1103.3517.0_x64__2p2nqsd0c76g0\\app\\ChatGPT.exe",
+      "HasMainWindow": false,
+      "FileVersion": "157.0.8103.39",
+      "ProductVersion": "157.0.8103.39",
+      "ProductName": "Codex"
+    },
+    {
+      "ProcessId": 21984,
+      "ProcessName": "codex",
+      "ExecutablePath": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\bin\\14b838c1d074ff01\\codex.exe",
+      "HasMainWindow": false,
+      "FileVersion": null,
+      "ProductVersion": null,
+      "ProductName": null
+    }
+  ],
+  "CommandLinesRead": false,
+  "AppUiOperated": false,
+  "ProductOperationPerformed": false
+}

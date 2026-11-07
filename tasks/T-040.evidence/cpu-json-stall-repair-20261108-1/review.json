@@ -1,0 +1,16 @@
+{
+  "ReviewedUtc": "2026-11-07T19:31:01.373813+00:00",
+  "PowerShellVersion": "5.1.26100.9549",
+  "AnnotatedStringSerializationExceededFourSecondWatchdog": true,
+  "PlainStringSerializationMs": 7.9110000000000005,
+  "SharedStringSerializationMs": 78.8124,
+  "ReadAllLinesSharingFailureReproduced": true,
+  "FinalReaderUsesReadWriteAndDeleteSharing": true,
+  "OriginalRunawayWorkerTerminated": true,
+  "RunawayWorkerExitCode": -1,
+  "DiagnosticPrimaryExitedNormally": true,
+  "NoProductGcOrWorkingSetTrimRequested": true,
+  "MemoryPressureFromFailedCollectorExcludedFromFormalNfr": true,
+  "FormalNfrResult": false,
+  "PublicWritePerformed": false
+}

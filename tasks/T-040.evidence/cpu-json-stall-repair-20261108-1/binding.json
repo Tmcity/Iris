@@ -1,0 +1,225 @@
+{
+  "Files": [
+    {
+      "Path": "original-tool-source/t040_compare_r2r_with_cpu.ps1",
+      "Bytes": 9565,
+      "Sha256": "a4f2b72ee0ab216ec4ee056e6f49851ee68d47c7e58b9ed0d9e497009501e9c5"
+    },
+    {
+      "Path": "original-tool-source/t040_start_r2r_cpu_comparison.ps1",
+      "Bytes": 1136,
+      "Sha256": "726c0c344638395fe43e2c7f085eba11348f5b0af6c80d138dcfecc616ba5e0e"
+    },
+    {
+      "Path": "originals/cpu-comparison-stall-20261107T1915330982457Z/iris-20261108.log",
+      "Bytes": 520,
+      "Sha256": "43e53ce7e6cd4dd1af414a1ae5e2b6073415ab6c07da1bcf3020b37014842385"
+    },
+    {
+      "Path": "originals/cpu-comparison-stall-20261107T1915330982457Z/launch.json",
+      "Bytes": 461,
+      "Sha256": "ab2131230723da064864f72c4c495a84ba29ab9328fe960813e7e9c7c65b3e84"
+    },
+    {
+      "Path": "originals/cpu-comparison-stall-20261107T1915330982457Z/processes.json",
+      "Bytes": 10672,
+      "Sha256": "45f6c77207d8e906dc12a160cb4a480a85ca27a1c4c37ee9bf890983e71ef9f2"
+    },
+    {
+      "Path": "originals/cpu-comparison-stall-20261107T1915330982457Z/startup-phases.txt",
+      "Bytes": 236,
+      "Sha256": "a41869fbc6b804f9d829dd10826a1bac73717d17b518121251cd5d81cefb6205"
+    },
+    {
+      "Path": "originals/cpu-comparison-stall-20261107T1915330982457Z/startup-prehost.txt",
+      "Bytes": 130,
+      "Sha256": "568c0bee1bb9bd966cf294dba9db10072b68eb5a89da75103b87e8ba04f68023"
+    },
+    {
+      "Path": "originals/cpu-comparison-stall-20261107T1915330982457Z/state.json",
+      "Bytes": 4281,
+      "Sha256": "7e1688fd51210ebc1e09b6ae7b6e7ce75249c118d4426b6a5bf34951715ee6a0"
+    },
+    {
+      "Path": "originals/cpu-worker-recovery-20261107T1918215180304Z/launch.json",
+      "Bytes": 461,
+      "Sha256": "ab2131230723da064864f72c4c495a84ba29ab9328fe960813e7e9c7c65b3e84"
+    },
+    {
+      "Path": "originals/cpu-worker-recovery-20261107T1918215180304Z/recovery.json",
+      "Bytes": 738,
+      "Sha256": "b9ba69bb76bbf9d399623a815b2359e538d7f198f70de78be60ecdbc91f0ac7d"
+    },
+    {
+      "Path": "originals/cpu-worker-recovery-20261107T1918215180304Z/state.json",
+      "Bytes": 4281,
+      "Sha256": "7e1688fd51210ebc1e09b6ae7b6e7ce75249c118d4426b6a5bf34951715ee6a0"
+    },
+    {
+      "Path": "originals/metrics-worker-stack-20261107T1917171443394Z.json",
+      "Bytes": 7886,
+      "Sha256": "3712df424eb09adadf71531bb05574248345d97e9a5631183d6abb548548a9f3"
+    },
+    {
+      "Path": "originals/plain-log-json-validation-20261107T1921205684521Z/annotated/fixture.txt",
+      "Bytes": 26,
+      "Sha256": "d172fa571d344f6cba7f70db07da29cd03f1a6a9c591dc4e3927218374f99732"
+    },
+    {
+      "Path": "originals/plain-log-json-validation-20261107T1921205684521Z/annotated/state.json",
+      "Bytes": 415,
+      "Sha256": "577bfdb1681a5443c40e674a8e9129f8cae4ce80c4a05ff5ae5f5785ce3ef43d"
+    },
+    {
+      "Path": "originals/plain-log-json-validation-20261107T1921205684521Z/annotated/stderr.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "originals/plain-log-json-validation-20261107T1921205684521Z/annotated/stdout.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "originals/plain-log-json-validation-20261107T1921205684521Z/plain/fixture.txt",
+      "Bytes": 26,
+      "Sha256": "d172fa571d344f6cba7f70db07da29cd03f1a6a9c591dc4e3927218374f99732"
+    },
+    {
+      "Path": "originals/plain-log-json-validation-20261107T1921205684521Z/plain/state.json",
+      "Bytes": 257,
+      "Sha256": "c40af02b8b32ef6725562476926aac02692ef4da797b06bf37c1aab7d3809a0e"
+    },
+    {
+      "Path": "originals/plain-log-json-validation-20261107T1921205684521Z/plain/stderr.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "originals/plain-log-json-validation-20261107T1921205684521Z/plain/stdout.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "originals/plain-log-json-validation-20261107T1921205684521Z/validation.json",
+      "Bytes": 2173,
+      "Sha256": "0965ca66543e81fac86f437a76955a2d27d5d15176c4981af7f292a9c2d7052b"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1922124027154Z/launch.json",
+      "Bytes": 461,
+      "Sha256": "5613bb73d726bdb394012cc18bce45ecaad07c43a60b28967049f3c33e883ce5"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1922124027154Z/recovery.json",
+      "Bytes": 365,
+      "Sha256": "30fa506ca17f973cb0e15f75e0bf7b1d5a8e3d69d12a6fa4d2a588f14727e50c"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1922124027154Z/state.json",
+      "Bytes": 9102,
+      "Sha256": "7753d578c7fe9c19377c997453335a5b036a3bc8cdac9e6ac807957c691173cd"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1922124027154Z/worker-stderr.txt",
+      "Bytes": 517,
+      "Sha256": "84c41671c21c8208d0d6ac4f1509ab65041e950a406d3e6b477c11bce1587b77"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1922124027154Z/worker-stdout.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "originals/shared-log-reader-validation-20261107T1925008968715Z/fixture.log",
+      "Bytes": 18,
+      "Sha256": "8306480adb5353c3d54a475b53396f71325506fea63a8e69ff422fab1fef4d93"
+    },
+    {
+      "Path": "originals/shared-log-reader-validation-20261107T1925008968715Z/validation.json",
+      "Bytes": 373,
+      "Sha256": "da24aed89ab134be059529ebdca3d9d0023b02cebb4e39eb132163cea7848bda"
+    },
+    {
+      "Path": "readalllines-before-sharing-fix/t040_compare_r2r_with_cpu.ps1",
+      "Bytes": 10005,
+      "Sha256": "79c73daa409abd52c8e55f3ba10d4d157af7836c775a1d35abf5a372204a20af"
+    },
+    {
+      "Path": "readalllines-before-sharing-fix/t040_start_r2r_cpu_comparison.ps1",
+      "Bytes": 1265,
+      "Sha256": "f412cb6d554015d7919637221763eb52cf8a81e4f92977a90a7d4d6fce752c86"
+    },
+    {
+      "Path": "repaired-tool-source/t040_archive_r2r_cpu_and_sampler_repair_20261108.py",
+      "Bytes": 9058,
+      "Sha256": "587cfa3622d591f2161fd8fbcd79bb9f1c6abca1a4d745fe12f770a35a4766b7"
+    },
+    {
+      "Path": "repaired-tool-source/t040_capture_stalled_cpu_comparison_readonly.ps1",
+      "Bytes": 2922,
+      "Sha256": "0344f2fedacf637421a5bd96122e9f538addad95dd3ddc48c215abb855ecd2b8"
+    },
+    {
+      "Path": "repaired-tool-source/t040_compare_r2r_with_cpu.ps1",
+      "Bytes": 10434,
+      "Sha256": "6fa841ec0202fef627397407fea00272bff86bb284d178f8cf6244a15d518b8b"
+    },
+    {
+      "Path": "repaired-tool-source/t040_json_line_repro.ps1",
+      "Bytes": 1278,
+      "Sha256": "04dac950088f8608c996c27b8f7c56a96ab699e7d90ce0d2c157ea1cd1cd88b6"
+    },
+    {
+      "Path": "repaired-tool-source/t040_read_metrics_worker_stack.ps1",
+      "Bytes": 294,
+      "Sha256": "0a3633425de81f8872bc126842c80f18b7e913b474541b5090ba80757f8e6258"
+    },
+    {
+      "Path": "repaired-tool-source/t040_recover_completed_cpu_comparison.ps1",
+      "Bytes": 2814,
+      "Sha256": "29e24415e30ba1eb535f6a7ece0e016497cd0c0d83517da14b2c9e25e26edbef"
+    },
+    {
+      "Path": "repaired-tool-source/t040_recover_runaway_metrics_worker.ps1",
+      "Bytes": 3632,
+      "Sha256": "5a3bfa51c56912e8fc0e22f806af053878e63d885cd6a27823d88bcb36179f64"
+    },
+    {
+      "Path": "repaired-tool-source/t040_start_r2r_cpu_comparison.ps1",
+      "Bytes": 1265,
+      "Sha256": "f412cb6d554015d7919637221763eb52cf8a81e4f92977a90a7d4d6fce752c86"
+    },
+    {
+      "Path": "repaired-tool-source/t040_validate_plain_log_json_ps51.ps1",
+      "Bytes": 2392,
+      "Sha256": "cebca921303665cd4369fb4264df38fc8324a24c59b278683cce5e3dba91acc2"
+    },
+    {
+      "Path": "repaired-tool-source/t040_validate_shared_log_reader_ps51.ps1",
+      "Bytes": 2089,
+      "Sha256": "306c88a25fd490187a8095646b6b1c3b9a712d42159418b37d51872d67ad95bc"
+    },
+    {
+      "Path": "repaired-tool-source/t040_verify_completed_r2r_cpu_readonly.ps1",
+      "Bytes": 2386,
+      "Sha256": "c9efd6597d614f0d7a9994257a1ea388dad3edbdc21d99458ae0f20d35f35adb"
+    },
+    {
+      "Path": "review.json",
+      "Bytes": 665,
+      "Sha256": "af65caa400cb04bddfdfad2f12a5fbead1f03dcfcdecf9cea43053036c41677e"
+    },
+    {
+      "Path": "tool-source/metrics-worker-stack/MetricsWorkerStack.csproj",
+      "Bytes": 456,
+      "Sha256": "f6a5a85ab5c46af3ab64a7613ce03e4affbf7d7afb5a038dfdd868bd26ac04dd"
+    },
+    {
+      "Path": "tool-source/metrics-worker-stack/Program.cs",
+      "Bytes": 1905,
+      "Sha256": "0e9518cc82936b6fd544224851b40f75ebd705545e50ca4b80cbf8ea306d9c63"
+    }
+  ],
+  "FormalNfrResult": false
+}

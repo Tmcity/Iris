@@ -1,0 +1,3 @@
+2026-11-08 03:27:20.466 +08:00 [INF] (Iris.Infrastructure.Settings.JsonSettingsService) 设置加载成功: C:\Users\WDAGUtilityAccount\AppData\Local\IrisT040Diagnostic\f499791a8e1d4e3298bc5c56f2bbbd18\data\settings.json, SchemaVersion=1, 修复条数=0
+2026-11-08 03:27:20.811 +08:00 [INF] (Iris.App.Tray.TrayIconController) 系统托盘图标创建成功（共尝试 1 次）
+2026-11-08 03:27:20.850 +08:00 [INF] (Iris.App.Hosting.AppBootstrapper) Iris 启动序列完成，耗时 1054.7 ms，托盘图标已创建

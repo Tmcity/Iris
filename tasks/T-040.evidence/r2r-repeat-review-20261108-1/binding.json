@@ -1,0 +1,140 @@
+{
+  "Files": [
+    {
+      "Path": "originals/after-restore/iris-20261107.log",
+      "Bytes": 3246,
+      "Sha256": "c2eab1918f85ff2b467d8921a009d168ad027853ae438905744f0fdf97ec3196"
+    },
+    {
+      "Path": "originals/after-restore/iris-20261108.log",
+      "Bytes": 5326,
+      "Sha256": "386fe32b221e1de53b2dbdf2b2c500d961717e1cd600105259cd8dcb089a62a7"
+    },
+    {
+      "Path": "originals/after-restore/state.json",
+      "Bytes": 92256,
+      "Sha256": "35af5440119c46274bc7dfcea4750bc72fbe3f2531f9b8bb075d10053e97bf3f"
+    },
+    {
+      "Path": "originals/before-restore.json",
+      "Bytes": 5015,
+      "Sha256": "0e4067843e0f3c94272f4740bd0719f208ea3a7b168fb24dec613de311b75856"
+    },
+    {
+      "Path": "originals/comparison/01-baseline/iris-20261108.log",
+      "Bytes": 520,
+      "Sha256": "cb7be714b967dea2dbe04286a4bd0760b36104f5a0f5a5b61361b764319fb51e"
+    },
+    {
+      "Path": "originals/comparison/01-baseline/startup-phases.txt",
+      "Bytes": 236,
+      "Sha256": "041badbb589ecc4b820f0ee07b7d00668c30a906ab67a7d2d4a6f3002a07c9dc"
+    },
+    {
+      "Path": "originals/comparison/01-baseline/startup-prehost.txt",
+      "Bytes": 130,
+      "Sha256": "65bf593301550931f3450b6bb95221a55ba01ce4ab4878a88ff6d88e40e8e19a"
+    },
+    {
+      "Path": "originals/comparison/02-r2r/iris-20261108.log",
+      "Bytes": 520,
+      "Sha256": "9a9e2f2871b072c7384a669a924be98afdf96008bf85cfd10e7df82f66a74b76"
+    },
+    {
+      "Path": "originals/comparison/02-r2r/startup-phases.txt",
+      "Bytes": 237,
+      "Sha256": "f2b93fe421a785b51afa28a29f390c35193d954d76c7a693997aad579cbd12d4"
+    },
+    {
+      "Path": "originals/comparison/02-r2r/startup-prehost.txt",
+      "Bytes": 130,
+      "Sha256": "5542ecf792dc773c901833733742b05ffb6b0260ded171797a007eb201220131"
+    },
+    {
+      "Path": "originals/comparison/03-r2r/iris-20261108.log",
+      "Bytes": 520,
+      "Sha256": "aee6d01693ddebd386e646314c705d6dab07ea3b7d21bff5ffac568952c9c430"
+    },
+    {
+      "Path": "originals/comparison/03-r2r/startup-phases.txt",
+      "Bytes": 233,
+      "Sha256": "63d33e5a26ef0694f9a26314a9ab1b29a6fbe0554ded4d5ccfd73a276bf6d0d0"
+    },
+    {
+      "Path": "originals/comparison/03-r2r/startup-prehost.txt",
+      "Bytes": 130,
+      "Sha256": "dea61adbadb532e06080d47e934a646ee0a8e483324723561a4f850c2d97ccd8"
+    },
+    {
+      "Path": "originals/comparison/04-baseline/iris-20261108.log",
+      "Bytes": 520,
+      "Sha256": "6e8cb76cad50442ad0df368a82d5b0793fd1f7ed0b2ca0dd2254060c9f350d06"
+    },
+    {
+      "Path": "originals/comparison/04-baseline/startup-phases.txt",
+      "Bytes": 236,
+      "Sha256": "a3e2483a38123c025414effbaea5320a87fc704a1595c430b41282eecfdf23af"
+    },
+    {
+      "Path": "originals/comparison/04-baseline/startup-prehost.txt",
+      "Bytes": 131,
+      "Sha256": "f4046e22f38f8c5bd567646496aeb79e0267e5d274c04f4697ce611bab817e57"
+    },
+    {
+      "Path": "originals/comparison/state.json",
+      "Bytes": 2507,
+      "Sha256": "2b010507571a92451bd6f33014946d59c19c8418e85b41998d0c68a19d310171"
+    },
+    {
+      "Path": "originals/observer-prefix.jsonl",
+      "Bytes": 2858203,
+      "Sha256": "185735fec2b1bc61fb428408c6664bb37eaf317961002eaa9dfd04b3ca230eea"
+    },
+    {
+      "Path": "originals/restored-installed.json",
+      "Bytes": 362,
+      "Sha256": "c1eaa5c2a6f443711f0679686f2b1139f06f84b4ef12c819fec3c7783a8b8ded"
+    },
+    {
+      "Path": "originals/runner/command.json",
+      "Bytes": 2158,
+      "Sha256": "d19a4edb4c589b1bb73a71f9bf0e8591b5e4aaf5b14e97d1592a7f881e24d179"
+    },
+    {
+      "Path": "originals/transcript.txt",
+      "Bytes": 1896,
+      "Sha256": "94fbf971321c7e9f4d7bdea6127370f3511e06a908d5bb976cc346f0b1ffd226"
+    },
+    {
+      "Path": "review.json",
+      "Bytes": 6039,
+      "Sha256": "b3daf7a0dc7f7007766d502d9210e861a6a1f37203782759ce5e4a9983de6be7"
+    },
+    {
+      "Path": "tool-source/t040_compare_diagnostic_r2r.ps1",
+      "Bytes": 4560,
+      "Sha256": "b3d556fb5d73d81b7366e966d88d82f555c8b0bcdb3f85e0da3a04245795aab4"
+    },
+    {
+      "Path": "tool-source/t040_restore_installed_after_diagnostic.ps1",
+      "Bytes": 1131,
+      "Sha256": "34d682c6667f5c78415d1ea9dc74dadda13b84ed6898b47c531a00276d0d94cb"
+    },
+    {
+      "Path": "tool-source/t040_review_r2r_repeat_20261108.py",
+      "Bytes": 6054,
+      "Sha256": "f8c1240fe6028a8463070b4d5f343d1681905d2fa2d1df2e98ff9b4eb9e73f06"
+    },
+    {
+      "Path": "tool-source/t040_run_current_guest_tool.py",
+      "Bytes": 4186,
+      "Sha256": "b9a6df0f808edc7756de6531f0d73ffd818df1e79578f386190cb67efcb860f1"
+    },
+    {
+      "Path": "tool-source/t040_snapshot_diagnostic_repeat_readonly.ps1",
+      "Bytes": 2404,
+      "Sha256": "e9c3d6078b5b307ce9d1d16f6f40b6a7ed8d221c376ab1cf6b36e9d9652eb27a"
+    }
+  ],
+  "FormalNfrResult": false
+}

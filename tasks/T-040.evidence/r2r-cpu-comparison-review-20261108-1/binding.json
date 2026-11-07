@@ -1,0 +1,120 @@
+{
+  "Files": [
+    {
+      "Path": "diagnostic-binary-manifests.json",
+      "Bytes": 35635,
+      "Sha256": "4ac932c1ef5dd43074ea570c913c5deb8c207863a39ae0c8f7ea714b6d1fc7df"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1925586392087Z/01-baseline/iris-20261108.log",
+      "Bytes": 520,
+      "Sha256": "125ce0367fb6b58455e83bd6ccd76b26322de014676758f5a80b65da54d047a2"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1925586392087Z/01-baseline/startup-phases.txt",
+      "Bytes": 235,
+      "Sha256": "6793895d0537ee53cc5f98e7f99cddcbac8ffb02a3a7ccb49486180f33a96179"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1925586392087Z/01-baseline/startup-prehost.txt",
+      "Bytes": 131,
+      "Sha256": "bd716db49278ee2e5daf3130bca5e3f15af2494fc509d457e4fc67e2977dd16e"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1925586392087Z/02-r2r/iris-20261108.log",
+      "Bytes": 520,
+      "Sha256": "94cd9aa9dd30569385d6b38ec9281566caecc1be6ac285c2b0d8f273e42987ae"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1925586392087Z/02-r2r/startup-phases.txt",
+      "Bytes": 234,
+      "Sha256": "680c315ee087c10ce4a6122f88220a7631b123c18507685f50103738856d4cb6"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1925586392087Z/02-r2r/startup-prehost.txt",
+      "Bytes": 131,
+      "Sha256": "c41cc1533faf34c25cfbe28d9962f9e1cc78957f6e94dc3cea4c2a8155194828"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1925586392087Z/03-r2r/iris-20261108.log",
+      "Bytes": 520,
+      "Sha256": "966f98e0b5c693bd137c3cc39473136072f6e3258cccf80ea2ac493af6d3479d"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1925586392087Z/03-r2r/startup-phases.txt",
+      "Bytes": 233,
+      "Sha256": "100f5d5a31d4749a71d9d33d27a5b51a60a972534d3cdee39ca86cd377b9c1ae"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1925586392087Z/03-r2r/startup-prehost.txt",
+      "Bytes": 130,
+      "Sha256": "b35edd5107a519463a02e01fa757759b4064ed1a12de0b766d4211e90358849a"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1925586392087Z/04-baseline/iris-20261108.log",
+      "Bytes": 520,
+      "Sha256": "41dab39c9c5e9aaabaeb9684dd6b5226c3afd6021873ba31846c5ec2b6d0cc6b"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1925586392087Z/04-baseline/startup-phases.txt",
+      "Bytes": 235,
+      "Sha256": "30d4e74a560e032a8e55d38764149cbed8f6c0fd85dc75aa8219818d0b78617b"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1925586392087Z/04-baseline/startup-prehost.txt",
+      "Bytes": 129,
+      "Sha256": "723661ba2433569f48e592291a5665a4d917c2888af8316e8e45ca26f44e7d6a"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1925586392087Z/independent-terminal-state.json",
+      "Bytes": 616,
+      "Sha256": "a94383eceda1dd690fffa16a15ad56c4db46d888989c9251cc6110a761230dd5"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1925586392087Z/launch.json",
+      "Bytes": 461,
+      "Sha256": "35833e69ebb5c5d59bc47750f3c83eaefa08969549bbd1e5500ce8bc84190442"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1925586392087Z/state.json",
+      "Bytes": 38311,
+      "Sha256": "dd11301a7278dcee4deacaff63b15213ae7ee83714c74abfb32b7adf855c8574"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1925586392087Z/worker-stderr.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "originals/r2r-cpu-20261107T1925586392087Z/worker-stdout.txt",
+      "Bytes": 0,
+      "Sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "Path": "review.json",
+      "Bytes": 4719,
+      "Sha256": "c8f398f6abab83da614e81549f16ccd2c98a4ab6ea98235232212c576a7a73be"
+    },
+    {
+      "Path": "tool-source/t040_archive_r2r_cpu_and_sampler_repair_20261108.py",
+      "Bytes": 9058,
+      "Sha256": "587cfa3622d591f2161fd8fbcd79bb9f1c6abca1a4d745fe12f770a35a4766b7"
+    },
+    {
+      "Path": "tool-source/t040_compare_r2r_with_cpu.ps1",
+      "Bytes": 10434,
+      "Sha256": "6fa841ec0202fef627397407fea00272bff86bb284d178f8cf6244a15d518b8b"
+    },
+    {
+      "Path": "tool-source/t040_start_r2r_cpu_comparison.ps1",
+      "Bytes": 1265,
+      "Sha256": "f412cb6d554015d7919637221763eb52cf8a81e4f92977a90a7d4d6fce752c86"
+    },
+    {
+      "Path": "tool-source/t040_verify_completed_r2r_cpu_readonly.ps1",
+      "Bytes": 2386,
+      "Sha256": "c9efd6597d614f0d7a9994257a1ea388dad3edbdc21d99458ae0f20d35f35adb"
+    }
+  ],
+  "FormalNfrResult": false
+}

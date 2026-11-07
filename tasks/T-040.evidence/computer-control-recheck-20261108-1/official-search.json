@@ -1,0 +1,9 @@
+{
+  "StartedUtc": "2026-11-07T19:01:26.659479+00:00",
+  "FinishedUtc": "2026-11-07T19:01:27.584459+00:00",
+  "RequestedUrl": "https://developers.openai.com/search?query=Codex%20Windows%20computer%20use",
+  "FinalUrl": "https://developers.openai.com/search?query=Codex%20Windows%20computer%20use",
+  "Status": 404,
+  "Bytes": 479901,
+  "Sha256": "921e99fd6c1ab5798c7556c1cc6f408f935b4c80cbe11d8117024ca1b7e15094"
+}

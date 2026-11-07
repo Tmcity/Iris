@@ -1,0 +1,40 @@
+{
+  "Utc": "2026-11-07T19:05:24.296432+00:00",
+  "PriorFilesVerified": 13,
+  "AllPriorEvidenceMatches": true,
+  "CurrentPackageSha256": "babaa17c7a26204a5937476427506545aa662703c68a90286cfc217a8730a407",
+  "CurrentClientSha256": "bdc61752e0f9d9b1e73e3cba25ca71d3d9fe54d335ed8196378106081474d7c1",
+  "CurrentBaseSha256": "5e54867417cb120477455e069c2eb53b6513b8e076a06143d4d207cc8a293d95",
+  "ExistingImportRepairStillMatches": true,
+  "OfficialClientImplementationUnchanged": true,
+  "NewComponentMutationPerformed": false,
+  "KernelResetPerformed": false,
+  "RepeatedBootstrapPerformed": false,
+  "TrustedDesktopBridgeAvailable": false,
+  "AnyAppSetupState": null,
+  "UserSetupStateQuestionSentByRoot": true,
+  "UserSetupStateStillUnknown": true,
+  "OfficialSources": [
+    {
+      "Label": "official-search",
+      "Status": 404,
+      "Url": "https://developers.openai.com/search?query=Codex%20Windows%20computer%20use",
+      "Bytes": 479901,
+      "Sha256": "921e99fd6c1ab5798c7556c1cc6f408f935b4c80cbe11d8117024ca1b7e15094"
+    },
+    {
+      "Label": "official-computer-use",
+      "Status": 200,
+      "Url": "https://learn.chatgpt.com/docs/computer-use",
+      "Bytes": 403442,
+      "Sha256": "a3ac85dcd3cec20e89e95896e964c64e16f82673dfc9a92b344b31e1a1f4d2dc"
+    },
+    {
+      "Label": "official-windows-app",
+      "Status": 200,
+      "Url": "https://learn.chatgpt.com/docs/windows/windows-app",
+      "Bytes": 432367,
+      "Sha256": "1df98707843306872c70272aef05d2a59965e76e8a26bbd20d9f099a0a0349d8"
+    }
+  ]
+}

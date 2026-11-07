@@ -1,0 +1,7 @@
+Diagnostic comparison failed; exact state and any live process retained
+At C:\IrisT040R2rRepeat\t040_compare_r2r_with_cpu.ps1:146 char:27
++ ... .Failure) { throw 'Diagnostic comparison failed; exact state and any  ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Diagnostic comp...rocess retained:String) [], RuntimeException
+    + FullyQualifiedErrorId : Diagnostic comparison failed; exact state and any live process retained
+ 

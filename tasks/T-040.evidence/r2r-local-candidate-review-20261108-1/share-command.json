@@ -1,0 +1,16 @@
+{
+  "Command": [
+    "wsb.exe",
+    "share",
+    "--id",
+    "edf31417-4146-4ccb-9b48-feb98ccb6871",
+    "--host-path",
+    "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\r2r-candidate-input",
+    "--sandbox-path",
+    "C:\\IrisT040R2rCandidate",
+    "--raw"
+  ],
+  "ReadOnly": true,
+  "InstallerExecuted": false,
+  "ExitCode": 0
+}

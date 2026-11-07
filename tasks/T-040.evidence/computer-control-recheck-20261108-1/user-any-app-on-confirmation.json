@@ -1,0 +1,11 @@
+{
+  "RecordedUtc": "2026-11-07T19:12:06.981299+00:00",
+  "ReportedState": "On",
+  "Source": "Root relayed the user direct confirmation that Any App is already enabled",
+  "UserConfirmedSwitchEnabled": true,
+  "ComponentInstallationVerified": false,
+  "EntitlementVerified": false,
+  "RegionalAvailabilityVerified": false,
+  "AdministratorPolicyVerified": false,
+  "AgentChangedSwitch": false
+}

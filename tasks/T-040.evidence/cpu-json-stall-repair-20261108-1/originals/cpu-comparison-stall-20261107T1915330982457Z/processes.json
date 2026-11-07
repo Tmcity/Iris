@@ -1,0 +1,182 @@
+{
+    "TargetSuspended":  false,
+    "Utc":  "2026-11-07T19:15:33.6944798Z",
+    "Processes":  [
+                      {
+                          "Identity":  {
+                                           "ProcessId":  2432,
+                                           "CreationDate":  "\/Date(1794078691258)\/",
+                                           "ExecutablePath":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                                           "CommandLine":  "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\\IrisT040R2rRepeat\\t040_compare_r2r_with_cpu.ps1 -OutputDirectory C:\\IrisT040Output\\r2r-cpu-20261107T1911310861124Z "
+                                       },
+                          "Pid":  2432,
+                          "Threads":  [
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  4352,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  6668,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  2992,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  4272,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  5576,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  764,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "EventPairLow",
+                                              "Id":  7048,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "EventPairLow",
+                                              "Id":  6560,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  7348,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  null,
+                                              "Id":  4268,
+                                              "State":  "Running"
+                                          },
+                                          {
+                                              "WaitReason":  "ExecutionDelay",
+                                              "Id":  1780,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "EventPairLow",
+                                              "Id":  2276,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  2252,
+                                              "State":  "Wait"
+                                          }
+                                      ],
+                          "Present":  true,
+                          "CpuSeconds":  229.015625,
+                          "WorkingSetBytes":  1365336064,
+                          "PrivateBytes":  1320808448
+                      },
+                      {
+                          "Identity":  {
+                                           "ProcessId":  2848,
+                                           "CreationDate":  "\/Date(1794078695470)\/",
+                                           "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\IrisT040Diagnostic\\ab153c47ac4547d6ae4f0181fed9f841\\Iris.App.exe",
+                                           "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\IrisT040Diagnostic\\ab153c47ac4547d6ae4f0181fed9f841\\Iris.App.exe\" "
+                                       },
+                          "Pid":  2848,
+                          "Threads":  [
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  4476,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  5884,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  6612,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  6688,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  2576,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "EventPairLow",
+                                              "Id":  3424,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "EventPairLow",
+                                              "Id":  7044,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  1536,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  1888,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  5724,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  3556,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  3504,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  6316,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  1140,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  5780,
+                                              "State":  "Wait"
+                                          },
+                                          {
+                                              "WaitReason":  "UserRequest",
+                                              "Id":  5124,
+                                              "State":  "Wait"
+                                          }
+                                      ],
+                          "Present":  true,
+                          "CpuSeconds":  1.125,
+                          "WorkingSetBytes":  120283136,
+                          "PrivateBytes":  39833600
+                      }
+                  ],
+    "ProductOperationPerformed":  false
+}

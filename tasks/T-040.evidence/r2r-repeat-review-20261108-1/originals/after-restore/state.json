@@ -1,0 +1,1174 @@
+{
+    "Utc":  "2026-11-07T19:04:55.2107220Z",
+    "Username":  "WDAGUtilityAccount",
+    "ProductOperationPerformed":  false,
+    "Processes":  [
+                      {
+                          "ProcessId":  2440,
+                          "ParentProcessId":  4036,
+                          "Name":  "powershell.exe",
+                          "CreationDate":  "\/Date(1794063822428)\/",
+                          "ExecutablePath":  "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+                          "CommandLine":  "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -NonInteractive -ExecutionPolicy Bypass -File C:\\IrisT040Repair\\observe-process-metrics-v3-readonly.ps1 -OutputDirectory C:\\IrisT040Output\\metrics-v3-e6edd1908748410dad950652b608224b "
+                      },
+                      {
+                          "ProcessId":  2252,
+                          "ParentProcessId":  7872,
+                          "Name":  "Iris.App.exe",
+                          "CreationDate":  "\/Date(1794078113019)\/",
+                          "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+                          "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\" "
+                      }
+                  ],
+    "ProductMetrics":  [
+                           {
+                               "Pid":  2252,
+                               "WorkingSetBytes":  132308992,
+                               "PrivateBytes":  37720064,
+                               "CpuSeconds":  1.515625,
+                               "HandleCount":  711,
+                               "ThreadCount":  19,
+                               "MainWindowTitle":  "",
+                               "MainWindowHandle":  0,
+                               "Modules":  [
+                                               {
+                                                   "Name":  "Iris.App.exe",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+                                                   "MappedBytes":  188416
+                                               },
+                                               {
+                                                   "Name":  "ntdll.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\ntdll.dll",
+                                                   "MappedBytes":  2519040
+                                               },
+                                               {
+                                                   "Name":  "KERNEL32.DLL",
+                                                   "Path":  "C:\\Windows\\System32\\KERNEL32.DLL",
+                                                   "MappedBytes":  831488
+                                               },
+                                               {
+                                                   "Name":  "KERNELBASE.dll",
+                                                   "Path":  "C:\\Windows\\System32\\KERNELBASE.dll",
+                                                   "MappedBytes":  4198400
+                                               },
+                                               {
+                                                   "Name":  "SHELL32.dll",
+                                                   "Path":  "C:\\Windows\\System32\\SHELL32.dll",
+                                                   "MappedBytes":  7979008
+                                               },
+                                               {
+                                                   "Name":  "msvcp_win.dll",
+                                                   "Path":  "C:\\Windows\\System32\\msvcp_win.dll",
+                                                   "MappedBytes":  667648
+                                               },
+                                               {
+                                                   "Name":  "ucrtbase.dll",
+                                                   "Path":  "C:\\Windows\\System32\\ucrtbase.dll",
+                                                   "MappedBytes":  1359872
+                                               },
+                                               {
+                                                   "Name":  "USER32.dll",
+                                                   "Path":  "C:\\Windows\\System32\\USER32.dll",
+                                                   "MappedBytes":  1929216
+                                               },
+                                               {
+                                                   "Name":  "win32u.dll",
+                                                   "Path":  "C:\\Windows\\System32\\win32u.dll",
+                                                   "MappedBytes":  159744
+                                               },
+                                               {
+                                                   "Name":  "GDI32.dll",
+                                                   "Path":  "C:\\Windows\\System32\\GDI32.dll",
+                                                   "MappedBytes":  176128
+                                               },
+                                               {
+                                                   "Name":  "gdi32full.dll",
+                                                   "Path":  "C:\\Windows\\System32\\gdi32full.dll",
+                                                   "MappedBytes":  1212416
+                                               },
+                                               {
+                                                   "Name":  "ADVAPI32.dll",
+                                                   "Path":  "C:\\Windows\\System32\\ADVAPI32.dll",
+                                                   "MappedBytes":  765952
+                                               },
+                                               {
+                                                   "Name":  "msvcrt.dll",
+                                                   "Path":  "C:\\Windows\\System32\\msvcrt.dll",
+                                                   "MappedBytes":  692224
+                                               },
+                                               {
+                                                   "Name":  "sechost.dll",
+                                                   "Path":  "C:\\Windows\\System32\\sechost.dll",
+                                                   "MappedBytes":  688128
+                                               },
+                                               {
+                                                   "Name":  "RPCRT4.dll",
+                                                   "Path":  "C:\\Windows\\System32\\RPCRT4.dll",
+                                                   "MappedBytes":  1146880
+                                               },
+                                               {
+                                                   "Name":  "IMM32.DLL",
+                                                   "Path":  "C:\\Windows\\System32\\IMM32.DLL",
+                                                   "MappedBytes":  200704
+                                               },
+                                               {
+                                                   "Name":  "hostfxr.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\host\\fxr\\10.0.14\\hostfxr.dll",
+                                                   "MappedBytes":  389120
+                                               },
+                                               {
+                                                   "Name":  "hostpolicy.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\hostpolicy.dll",
+                                                   "MappedBytes":  389120
+                                               },
+                                               {
+                                                   "Name":  "coreclr.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\coreclr.dll",
+                                                   "MappedBytes":  4694016
+                                               },
+                                               {
+                                                   "Name":  "ole32.dll",
+                                                   "Path":  "C:\\Windows\\System32\\ole32.dll",
+                                                   "MappedBytes":  1679360
+                                               },
+                                               {
+                                                   "Name":  "combase.dll",
+                                                   "Path":  "C:\\Windows\\System32\\combase.dll",
+                                                   "MappedBytes":  3710976
+                                               },
+                                               {
+                                                   "Name":  "OLEAUT32.dll",
+                                                   "Path":  "C:\\Windows\\System32\\OLEAUT32.dll",
+                                                   "MappedBytes":  888832
+                                               },
+                                               {
+                                                   "Name":  "bcryptPrimitives.dll",
+                                                   "Path":  "C:\\Windows\\System32\\bcryptPrimitives.dll",
+                                                   "MappedBytes":  704512
+                                               },
+                                               {
+                                                   "Name":  "kernel.appcore.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\kernel.appcore.dll",
+                                                   "MappedBytes":  110592
+                                               },
+                                               {
+                                                   "Name":  "System.Private.CoreLib.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Private.CoreLib.dll",
+                                                   "MappedBytes":  16023552
+                                               },
+                                               {
+                                                   "Name":  "Iris.App.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.dll",
+                                                   "MappedBytes":  958464
+                                               },
+                                               {
+                                                   "Name":  "System.Runtime.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Runtime.dll",
+                                                   "MappedBytes":  57344
+                                               },
+                                               {
+                                                   "Name":  "uxtheme.dll",
+                                                   "Path":  "C:\\Windows\\system32\\uxtheme.dll",
+                                                   "MappedBytes":  684032
+                                               },
+                                               {
+                                                   "Name":  "clrjit.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\clrjit.dll",
+                                                   "MappedBytes":  2113536
+                                               },
+                                               {
+                                                   "Name":  "System.Threading.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Threading.dll",
+                                                   "MappedBytes":  73728
+                                               },
+                                               {
+                                                   "Name":  "Iris.Platform.Windows.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.Platform.Windows.dll",
+                                                   "MappedBytes":  778240
+                                               },
+                                               {
+                                                   "Name":  "Iris.Core.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.Core.dll",
+                                                   "MappedBytes":  524288
+                                               },
+                                               {
+                                                   "Name":  "System.Security.Principal.Windows.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Security.Principal.Windows.dll",
+                                                   "MappedBytes":  167936
+                                               },
+                                               {
+                                                   "Name":  "System.Security.Claims.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Security.Claims.dll",
+                                                   "MappedBytes":  90112
+                                               },
+                                               {
+                                                   "Name":  "System.Runtime.InteropServices.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Runtime.InteropServices.dll",
+                                                   "MappedBytes":  102400
+                                               },
+                                               {
+                                                   "Name":  "System.Collections.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Collections.dll",
+                                                   "MappedBytes":  286720
+                                               },
+                                               {
+                                                   "Name":  "icu.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\icu.dll",
+                                                   "MappedBytes":  2744320
+                                               },
+                                               {
+                                                   "Name":  "windows.storage.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\windows.storage.dll",
+                                                   "MappedBytes":  9097216
+                                               },
+                                               {
+                                                   "Name":  "SHCORE.dll",
+                                                   "Path":  "C:\\Windows\\System32\\SHCORE.dll",
+                                                   "MappedBytes":  1019904
+                                               },
+                                               {
+                                                   "Name":  "shlwapi.dll",
+                                                   "Path":  "C:\\Windows\\System32\\shlwapi.dll",
+                                                   "MappedBytes":  417792
+                                               },
+                                               {
+                                                   "Name":  "Velopack.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Velopack.dll",
+                                                   "MappedBytes":  303104
+                                               },
+                                               {
+                                                   "Name":  "System.Linq.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Linq.dll",
+                                                   "MappedBytes":  688128
+                                               },
+                                               {
+                                                   "Name":  "System.Diagnostics.Process.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Diagnostics.Process.dll",
+                                                   "MappedBytes":  319488
+                                               },
+                                               {
+                                                   "Name":  "System.ComponentModel.Primitives.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.ComponentModel.Primitives.dll",
+                                                   "MappedBytes":  69632
+                                               },
+                                               {
+                                                   "Name":  "System.Collections.NonGeneric.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Collections.NonGeneric.dll",
+                                                   "MappedBytes":  94208
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Win32.Primitives.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\Microsoft.Win32.Primitives.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "System.Memory.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Memory.dll",
+                                                   "MappedBytes":  151552
+                                               },
+                                               {
+                                                   "Name":  "System.Xml.XDocument.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Xml.XDocument.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "System.Private.Xml.Linq.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Private.Xml.Linq.dll",
+                                                   "MappedBytes":  380928
+                                               },
+                                               {
+                                                   "Name":  "System.Private.Xml.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Private.Xml.dll",
+                                                   "MappedBytes":  7778304
+                                               },
+                                               {
+                                                   "Name":  "System.Xml.ReaderWriter.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Xml.ReaderWriter.dll",
+                                                   "MappedBytes":  40960
+                                               },
+                                               {
+                                                   "Name":  "BCrypt.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\BCrypt.dll",
+                                                   "MappedBytes":  172032
+                                               },
+                                               {
+                                                   "Name":  "System.Text.Encoding.Extensions.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Text.Encoding.Extensions.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "System.Threading.Thread.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Threading.Thread.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "System.Private.Uri.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Private.Uri.dll",
+                                                   "MappedBytes":  245760
+                                               },
+                                               {
+                                                   "Name":  "System.IO.Compression.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.IO.Compression.dll",
+                                                   "MappedBytes":  409600
+                                               },
+                                               {
+                                                   "Name":  "System.IO.Compression.Native.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.IO.Compression.Native.dll",
+                                                   "MappedBytes":  942080
+                                               },
+                                               {
+                                                   "Name":  "System.Numerics.Vectors.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Numerics.Vectors.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.Hosting.Abstractions.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.Hosting.Abstractions.dll",
+                                                   "MappedBytes":  73728
+                                               },
+                                               {
+                                                   "Name":  "Serilog.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Serilog.dll",
+                                                   "MappedBytes":  188416
+                                               },
+                                               {
+                                                   "Name":  "Iris.Infrastructure.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.Infrastructure.dll",
+                                                   "MappedBytes":  172032
+                                               },
+                                               {
+                                                   "Name":  "Serilog.Sinks.File.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Serilog.Sinks.File.dll",
+                                                   "MappedBytes":  65536
+                                               },
+                                               {
+                                                   "Name":  "System.Text.RegularExpressions.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Text.RegularExpressions.dll",
+                                                   "MappedBytes":  1024000
+                                               },
+                                               {
+                                                   "Name":  "System.Reflection.Emit.Lightweight.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Reflection.Emit.Lightweight.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "System.Reflection.Emit.ILGeneration.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Reflection.Emit.ILGeneration.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "System.Reflection.Primitives.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Reflection.Primitives.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "System.Diagnostics.DiagnosticSource.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Diagnostics.DiagnosticSource.dll",
+                                                   "MappedBytes":  491520
+                                               },
+                                               {
+                                                   "Name":  "System.Diagnostics.Tracing.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Diagnostics.Tracing.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.DependencyInjection.Abstractions.dll",
+                                                   "MappedBytes":  81920
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.Hosting.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.Hosting.dll",
+                                                   "MappedBytes":  90112
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.Logging.Abstractions.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.Logging.Abstractions.dll",
+                                                   "MappedBytes":  81920
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.Diagnostics.Abstractions.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.Diagnostics.Abstractions.dll",
+                                                   "MappedBytes":  49152
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.Configuration.Abstractions.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.Configuration.Abstractions.dll",
+                                                   "MappedBytes":  40960
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.DependencyInjection.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.DependencyInjection.dll",
+                                                   "MappedBytes":  114688
+                                               },
+                                               {
+                                                   "Name":  "System.ComponentModel.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.ComponentModel.dll",
+                                                   "MappedBytes":  20480
+                                               },
+                                               {
+                                                   "Name":  "Serilog.Extensions.Hosting.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Serilog.Extensions.Hosting.dll",
+                                                   "MappedBytes":  65536
+                                               },
+                                               {
+                                                   "Name":  "Serilog.Extensions.Logging.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Serilog.Extensions.Logging.dll",
+                                                   "MappedBytes":  57344
+                                               },
+                                               {
+                                                   "Name":  "Iris.Providers.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.Providers.dll",
+                                                   "MappedBytes":  262144
+                                               },
+                                               {
+                                                   "Name":  "WindowsBase.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\WindowsBase.dll",
+                                                   "MappedBytes":  2166784
+                                               },
+                                               {
+                                                   "Name":  "System.ObjectModel.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.ObjectModel.dll",
+                                                   "MappedBytes":  69632
+                                               },
+                                               {
+                                                   "Name":  "Wpf.Ui.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Wpf.Ui.dll",
+                                                   "MappedBytes":  6594560
+                                               },
+                                               {
+                                                   "Name":  "PresentationFramework.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\PresentationFramework.dll",
+                                                   "MappedBytes":  15814656
+                                               },
+                                               {
+                                                   "Name":  "PresentationCore.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\PresentationCore.dll",
+                                                   "MappedBytes":  8314880
+                                               },
+                                               {
+                                                   "Name":  "System.Xaml.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\System.Xaml.dll",
+                                                   "MappedBytes":  1384448
+                                               },
+                                               {
+                                                   "Name":  "dwrite.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\dwrite.dll",
+                                                   "MappedBytes":  2531328
+                                               },
+                                               {
+                                                   "Name":  "DirectWriteForwarder.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\DirectWriteForwarder.dll",
+                                                   "MappedBytes":  499712
+                                               },
+                                               {
+                                                   "Name":  "System.Runtime.Extensions.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Runtime.Extensions.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "System.Diagnostics.Debug.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Diagnostics.Debug.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "System.Runtime.CompilerServices.VisualC.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Runtime.CompilerServices.VisualC.dll",
+                                                   "MappedBytes":  20480
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.Configuration.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.Configuration.dll",
+                                                   "MappedBytes":  57344
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.Primitives.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.Primitives.dll",
+                                                   "MappedBytes":  57344
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.Configuration.EnvironmentVariables.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.Configuration.EnvironmentVariables.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.FileProviders.Abstractions.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.FileProviders.Abstractions.dll",
+                                                   "MappedBytes":  40960
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.FileProviders.Physical.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.FileProviders.Physical.dll",
+                                                   "MappedBytes":  57344
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.Configuration.FileExtensions.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.Configuration.FileExtensions.dll",
+                                                   "MappedBytes":  40960
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.Configuration.CommandLine.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.Configuration.CommandLine.dll",
+                                                   "MappedBytes":  40960
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.Options.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.Options.dll",
+                                                   "MappedBytes":  81920
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.Logging.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.Logging.dll",
+                                                   "MappedBytes":  65536
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.Diagnostics.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.Diagnostics.dll",
+                                                   "MappedBytes":  49152
+                                               },
+                                               {
+                                                   "Name":  "System.Collections.Concurrent.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Collections.Concurrent.dll",
+                                                   "MappedBytes":  221184
+                                               },
+                                               {
+                                                   "Name":  "System.Net.Http.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Net.Http.dll",
+                                                   "MappedBytes":  1736704
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.Http.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.Http.dll",
+                                                   "MappedBytes":  106496
+                                               },
+                                               {
+                                                   "Name":  "Polly.Core.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Polly.Core.dll",
+                                                   "MappedBytes":  253952
+                                               },
+                                               {
+                                                   "Name":  "System.Net.Primitives.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Net.Primitives.dll",
+                                                   "MappedBytes":  200704
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.Http.Resilience.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.Http.Resilience.dll",
+                                                   "MappedBytes":  155648
+                                               },
+                                               {
+                                                   "Name":  "Polly.Extensions.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Polly.Extensions.dll",
+                                                   "MappedBytes":  73728
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.Diagnostics.ExceptionSummarization.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.Diagnostics.ExceptionSummarization.dll",
+                                                   "MappedBytes":  49152
+                                               },
+                                               {
+                                                   "Name":  "System.Collections.Immutable.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Collections.Immutable.dll",
+                                                   "MappedBytes":  966656
+                                               },
+                                               {
+                                                   "Name":  "System.Threading.ThreadPool.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Threading.ThreadPool.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "System.Text.Json.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Text.Json.dll",
+                                                   "MappedBytes":  1880064
+                                               },
+                                               {
+                                                   "Name":  "System.IO.Pipelines.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.IO.Pipelines.dll",
+                                                   "MappedBytes":  180224
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Data.Sqlite.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Data.Sqlite.dll",
+                                                   "MappedBytes":  196608
+                                               },
+                                               {
+                                                   "Name":  "System.Data.Common.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Data.Common.dll",
+                                                   "MappedBytes":  2760704
+                                               },
+                                               {
+                                                   "Name":  "System.ComponentModel.TypeConverter.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.ComponentModel.TypeConverter.dll",
+                                                   "MappedBytes":  757760
+                                               },
+                                               {
+                                                   "Name":  "System.Security.Cryptography.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Security.Cryptography.dll",
+                                                   "MappedBytes":  2539520
+                                               },
+                                               {
+                                                   "Name":  "System.IO.Packaging.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\System.IO.Packaging.dll",
+                                                   "MappedBytes":  311296
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Win32.Registry.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\Microsoft.Win32.Registry.dll",
+                                                   "MappedBytes":  106496
+                                               },
+                                               {
+                                                   "Name":  "System.Collections.Specialized.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Collections.Specialized.dll",
+                                                   "MappedBytes":  94208
+                                               },
+                                               {
+                                                   "Name":  "PresentationNative_cor3.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\PresentationNative_cor3.dll",
+                                                   "MappedBytes":  1241088
+                                               },
+                                               {
+                                                   "Name":  "System.Configuration.ConfigurationManager.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\System.Configuration.ConfigurationManager.dll",
+                                                   "MappedBytes":  1036288
+                                               },
+                                               {
+                                                   "Name":  "System.Net.WebClient.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Net.WebClient.dll",
+                                                   "MappedBytes":  155648
+                                               },
+                                               {
+                                                   "Name":  "System.Diagnostics.TraceSource.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Diagnostics.TraceSource.dll",
+                                                   "MappedBytes":  131072
+                                               },
+                                               {
+                                                   "Name":  "System.Windows.Extensions.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\System.Windows.Extensions.dll",
+                                                   "MappedBytes":  110592
+                                               },
+                                               {
+                                                   "Name":  "clbcatq.dll",
+                                                   "Path":  "C:\\Windows\\System32\\clbcatq.dll",
+                                                   "MappedBytes":  712704
+                                               },
+                                               {
+                                                   "Name":  "Windows.UI.dll",
+                                                   "Path":  "C:\\Windows\\System32\\Windows.UI.dll",
+                                                   "MappedBytes":  1421312
+                                               },
+                                               {
+                                                   "Name":  "Windows.UI.Immersive.dll",
+                                                   "Path":  "C:\\Windows\\System32\\Windows.UI.Immersive.dll",
+                                                   "MappedBytes":  1380352
+                                               },
+                                               {
+                                                   "Name":  "System.Net.Requests.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Net.Requests.dll",
+                                                   "MappedBytes":  364544
+                                               },
+                                               {
+                                                   "Name":  "System.Net.WebHeaderCollection.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Net.WebHeaderCollection.dll",
+                                                   "MappedBytes":  53248
+                                               },
+                                               {
+                                                   "Name":  "MSCTF.dll",
+                                                   "Path":  "C:\\Windows\\System32\\MSCTF.dll",
+                                                   "MappedBytes":  1425408
+                                               },
+                                               {
+                                                   "Name":  "PresentationFramework.Aero2.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\PresentationFramework.Aero2.dll",
+                                                   "MappedBytes":  434176
+                                               },
+                                               {
+                                                   "Name":  "System.Windows.Controls.Ribbon.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\System.Windows.Controls.Ribbon.dll",
+                                                   "MappedBytes":  1429504
+                                               },
+                                               {
+                                                   "Name":  "System.Runtime.Loader.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Runtime.Loader.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "System.Runtime.Numerics.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Runtime.Numerics.dll",
+                                                   "MappedBytes":  344064
+                                               },
+                                               {
+                                                   "Name":  "System.Text.Encodings.Web.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Text.Encodings.Web.dll",
+                                                   "MappedBytes":  114688
+                                               },
+                                               {
+                                                   "Name":  "System.Security.Cryptography.ProtectedData.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\System.Security.Cryptography.ProtectedData.dll",
+                                                   "MappedBytes":  49152
+                                               },
+                                               {
+                                                   "Name":  "crypt32.dll",
+                                                   "Path":  "C:\\Windows\\System32\\crypt32.dll",
+                                                   "MappedBytes":  1568768
+                                               },
+                                               {
+                                                   "Name":  "DPAPI.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\DPAPI.dll",
+                                                   "MappedBytes":  40960
+                                               },
+                                               {
+                                                   "Name":  "CRYPTBASE.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\CRYPTBASE.dll",
+                                                   "MappedBytes":  49152
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Windows.SDK.NET.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Windows.SDK.NET.dll",
+                                                   "MappedBytes":  24895488
+                                               },
+                                               {
+                                                   "Name":  "WinRT.Runtime.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\WinRT.Runtime.dll",
+                                                   "MappedBytes":  540672
+                                               },
+                                               {
+                                                   "Name":  "Windows.Media.Ocr.dll",
+                                                   "Path":  "C:\\Windows\\System32\\Windows.Media.Ocr.dll",
+                                                   "MappedBytes":  880640
+                                               },
+                                               {
+                                                   "Name":  "msvcp110_win.dll",
+                                                   "Path":  "C:\\Windows\\System32\\msvcp110_win.dll",
+                                                   "MappedBytes":  593920
+                                               },
+                                               {
+                                                   "Name":  "Bcp47Langs.dll",
+                                                   "Path":  "C:\\Windows\\System32\\Bcp47Langs.dll",
+                                                   "MappedBytes":  385024
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Win32.SystemEvents.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\Microsoft.Win32.SystemEvents.dll",
+                                                   "MappedBytes":  106496
+                                               },
+                                               {
+                                                   "Name":  "System.ComponentModel.EventBasedAsync.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.ComponentModel.EventBasedAsync.dll",
+                                                   "MappedBytes":  36864
+                                               },
+                                               {
+                                                   "Name":  "SQLitePCLRaw.core.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\SQLitePCLRaw.core.dll",
+                                                   "MappedBytes":  73728
+                                               },
+                                               {
+                                                   "Name":  "netstandard.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\netstandard.dll",
+                                                   "MappedBytes":  114688
+                                               },
+                                               {
+                                                   "Name":  "SQLitePCLRaw.batteries_v2.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\SQLitePCLRaw.batteries_v2.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "SQLitePCLRaw.provider.e_sqlite3.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\SQLitePCLRaw.provider.e_sqlite3.dll",
+                                                   "MappedBytes":  65536
+                                               },
+                                               {
+                                                   "Name":  "e_sqlite3.DLL",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\e_sqlite3.DLL",
+                                                   "MappedBytes":  2002944
+                                               },
+                                               {
+                                                   "Name":  "Windows.Storage.ApplicationData.dll",
+                                                   "Path":  "C:\\Windows\\System32\\Windows.Storage.ApplicationData.dll",
+                                                   "MappedBytes":  409600
+                                               },
+                                               {
+                                                   "Name":  "twinapi.appcore.dll",
+                                                   "Path":  "C:\\Windows\\System32\\twinapi.appcore.dll",
+                                                   "MappedBytes":  2428928
+                                               },
+                                               {
+                                                   "Name":  "WinTypes.dll",
+                                                   "Path":  "C:\\Windows\\System32\\WinTypes.dll",
+                                                   "MappedBytes":  1482752
+                                               },
+                                               {
+                                                   "Name":  "H.NotifyIcon.Wpf.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\H.NotifyIcon.Wpf.dll",
+                                                   "MappedBytes":  221184
+                                               },
+                                               {
+                                                   "Name":  "urlmon.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\urlmon.dll",
+                                                   "MappedBytes":  1949696
+                                               },
+                                               {
+                                                   "Name":  "iertutil.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\iertutil.dll",
+                                                   "MappedBytes":  2899968
+                                               },
+                                               {
+                                                   "Name":  "srvcli.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\srvcli.dll",
+                                                   "MappedBytes":  167936
+                                               },
+                                               {
+                                                   "Name":  "netutils.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\netutils.dll",
+                                                   "MappedBytes":  53248
+                                               },
+                                               {
+                                                   "Name":  "wpfgfx_cor3.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\wpfgfx_cor3.dll",
+                                                   "MappedBytes":  1978368
+                                               },
+                                               {
+                                                   "Name":  "D3DCompiler_47_cor3.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\D3DCompiler_47_cor3.dll",
+                                                   "MappedBytes":  4771840
+                                               },
+                                               {
+                                                   "Name":  "WindowsCodecs.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\WindowsCodecs.dll",
+                                                   "MappedBytes":  2326528
+                                               },
+                                               {
+                                                   "Name":  "H.NotifyIcon.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\H.NotifyIcon.dll",
+                                                   "MappedBytes":  425984
+                                               },
+                                               {
+                                                   "Name":  "System.Drawing.Primitives.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Drawing.Primitives.dll",
+                                                   "MappedBytes":  122880
+                                               },
+                                               {
+                                                   "Name":  "System.Drawing.Common.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\System.Drawing.Common.dll",
+                                                   "MappedBytes":  913408
+                                               },
+                                               {
+                                                   "Name":  "System.Private.Windows.GdiPlus.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\System.Private.Windows.GdiPlus.dll",
+                                                   "MappedBytes":  417792
+                                               },
+                                               {
+                                                   "Name":  "System.Private.Windows.Core.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\System.Private.Windows.Core.dll",
+                                                   "MappedBytes":  1896448
+                                               },
+                                               {
+                                                   "Name":  "UIAutomationTypes.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\UIAutomationTypes.dll",
+                                                   "MappedBytes":  286720
+                                               },
+                                               {
+                                                   "Name":  "wtsapi32.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\wtsapi32.dll",
+                                                   "MappedBytes":  172032
+                                               },
+                                               {
+                                                   "Name":  "SspiCli.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\SspiCli.dll",
+                                                   "MappedBytes":  299008
+                                               },
+                                               {
+                                                   "Name":  "WINSTA.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\WINSTA.dll",
+                                                   "MappedBytes":  417792
+                                               },
+                                               {
+                                                   "Name":  "powrprof.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\powrprof.dll",
+                                                   "MappedBytes":  385024
+                                               },
+                                               {
+                                                   "Name":  "UMPDC.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\UMPDC.dll",
+                                                   "MappedBytes":  86016
+                                               },
+                                               {
+                                                   "Name":  "DWMAPI.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\DWMAPI.dll",
+                                                   "MappedBytes":  188416
+                                               },
+                                               {
+                                                   "Name":  "d3d9.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\d3d9.dll",
+                                                   "MappedBytes":  1777664
+                                               },
+                                               {
+                                                   "Name":  "VERSION.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\VERSION.dll",
+                                                   "MappedBytes":  45056
+                                               },
+                                               {
+                                                   "Name":  "dxcore.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\dxcore.dll",
+                                                   "MappedBytes":  278528
+                                               },
+                                               {
+                                                   "Name":  "directxdatabasehelper.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\directxdatabasehelper.dll",
+                                                   "MappedBytes":  389120
+                                               },
+                                               {
+                                                   "Name":  "cfgmgr32.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\cfgmgr32.dll",
+                                                   "MappedBytes":  335872
+                                               },
+                                               {
+                                                   "Name":  "PenIMC_cor3.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.WindowsDesktop.App\\10.0.14\\PenIMC_cor3.dll",
+                                                   "MappedBytes":  167936
+                                               },
+                                               {
+                                                   "Name":  "wisp.dll",
+                                                   "Path":  "C:\\Windows\\System32\\wisp.dll",
+                                                   "MappedBytes":  319488
+                                               },
+                                               {
+                                                   "Name":  "atlthunk.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\atlthunk.dll",
+                                                   "MappedBytes":  53248
+                                               },
+                                               {
+                                                   "Name":  "tpcps.dll",
+                                                   "Path":  "C:\\Program Files\\Common Files\\Microsoft Shared\\Ink\\tpcps.dll",
+                                                   "MappedBytes":  102400
+                                               },
+                                               {
+                                                   "Name":  "dataexchange.dll",
+                                                   "Path":  "C:\\Windows\\system32\\dataexchange.dll",
+                                                   "MappedBytes":  376832
+                                               },
+                                               {
+                                                   "Name":  "Microsoft.Extensions.Telemetry.Abstractions.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Microsoft.Extensions.Telemetry.Abstractions.dll",
+                                                   "MappedBytes":  73728
+                                               },
+                                               {
+                                                   "Name":  "Polly.RateLimiting.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Polly.RateLimiting.dll",
+                                                   "MappedBytes":  40960
+                                               },
+                                               {
+                                                   "Name":  "System.Threading.RateLimiting.dll",
+                                                   "Path":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\System.Threading.RateLimiting.dll",
+                                                   "MappedBytes":  81920
+                                               },
+                                               {
+                                                   "Name":  "System.ComponentModel.Annotations.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.ComponentModel.Annotations.dll",
+                                                   "MappedBytes":  188416
+                                               },
+                                               {
+                                                   "Name":  "System.IO.Pipes.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.IO.Pipes.dll",
+                                                   "MappedBytes":  155648
+                                               },
+                                               {
+                                                   "Name":  "System.Security.AccessControl.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Security.AccessControl.dll",
+                                                   "MappedBytes":  217088
+                                               },
+                                               {
+                                                   "Name":  "System.Threading.Overlapped.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Threading.Overlapped.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "winhttp.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\winhttp.dll",
+                                                   "MappedBytes":  1220608
+                                               },
+                                               {
+                                                   "Name":  "IPHLPAPI.DLL",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\IPHLPAPI.DLL",
+                                                   "MappedBytes":  208896
+                                               },
+                                               {
+                                                   "Name":  "NSI.dll",
+                                                   "Path":  "C:\\Windows\\System32\\NSI.dll",
+                                                   "MappedBytes":  40960
+                                               },
+                                               {
+                                                   "Name":  "dhcpcsvc6.DLL",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\dhcpcsvc6.DLL",
+                                                   "MappedBytes":  122880
+                                               },
+                                               {
+                                                   "Name":  "dhcpcsvc.DLL",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\dhcpcsvc.DLL",
+                                                   "MappedBytes":  151552
+                                               },
+                                               {
+                                                   "Name":  "WS2_32.dll",
+                                                   "Path":  "C:\\Windows\\System32\\WS2_32.dll",
+                                                   "MappedBytes":  528384
+                                               },
+                                               {
+                                                   "Name":  "System.Net.Security.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Net.Security.dll",
+                                                   "MappedBytes":  655360
+                                               },
+                                               {
+                                                   "Name":  "System.Net.Sockets.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Net.Sockets.dll",
+                                                   "MappedBytes":  520192
+                                               },
+                                               {
+                                                   "Name":  "mswsock.dll",
+                                                   "Path":  "C:\\Windows\\system32\\mswsock.dll",
+                                                   "MappedBytes":  442368
+                                               },
+                                               {
+                                                   "Name":  "wshunix.dll",
+                                                   "Path":  "C:\\Windows\\system32\\wshunix.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "System.Net.NameResolution.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Net.NameResolution.dll",
+                                                   "MappedBytes":  114688
+                                               },
+                                               {
+                                                   "Name":  "DNSAPI.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\DNSAPI.dll",
+                                                   "MappedBytes":  1409024
+                                               },
+                                               {
+                                                   "Name":  "DSPARSE.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\DSPARSE.dll",
+                                                   "MappedBytes":  53248
+                                               },
+                                               {
+                                                   "Name":  "wshbth.dll",
+                                                   "Path":  "C:\\Windows\\system32\\wshbth.dll",
+                                                   "MappedBytes":  90112
+                                               },
+                                               {
+                                                   "Name":  "DEVOBJ.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\DEVOBJ.dll",
+                                                   "MappedBytes":  192512
+                                               },
+                                               {
+                                                   "Name":  "rasadhlp.dll",
+                                                   "Path":  "C:\\Windows\\System32\\rasadhlp.dll",
+                                                   "MappedBytes":  45056
+                                               },
+                                               {
+                                                   "Name":  "nlansp_c.dll",
+                                                   "Path":  "C:\\Windows\\system32\\nlansp_c.dll",
+                                                   "MappedBytes":  159744
+                                               },
+                                               {
+                                                   "Name":  "winrnr.dll",
+                                                   "Path":  "C:\\Windows\\System32\\winrnr.dll",
+                                                   "MappedBytes":  77824
+                                               },
+                                               {
+                                                   "Name":  "napinsp.dll",
+                                                   "Path":  "C:\\Windows\\system32\\napinsp.dll",
+                                                   "MappedBytes":  98304
+                                               },
+                                               {
+                                                   "Name":  "fwpuclnt.dll",
+                                                   "Path":  "C:\\Windows\\System32\\fwpuclnt.dll",
+                                                   "MappedBytes":  548864
+                                               },
+                                               {
+                                                   "Name":  "System.Runtime.Intrinsics.dll",
+                                                   "Path":  "C:\\Program Files\\dotnet\\shared\\Microsoft.NETCore.App\\10.0.14\\System.Runtime.Intrinsics.dll",
+                                                   "MappedBytes":  32768
+                                               },
+                                               {
+                                                   "Name":  "schannel.DLL",
+                                                   "Path":  "C:\\Windows\\system32\\schannel.DLL",
+                                                   "MappedBytes":  811008
+                                               },
+                                               {
+                                                   "Name":  "ncrypt.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\ncrypt.dll",
+                                                   "MappedBytes":  196608
+                                               },
+                                               {
+                                                   "Name":  "NTASN1.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\NTASN1.dll",
+                                                   "MappedBytes":  258048
+                                               },
+                                               {
+                                                   "Name":  "ncryptsslp.dll",
+                                                   "Path":  "C:\\Windows\\system32\\ncryptsslp.dll",
+                                                   "MappedBytes":  294912
+                                               },
+                                               {
+                                                   "Name":  "MSASN1.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\MSASN1.dll",
+                                                   "MappedBytes":  77824
+                                               },
+                                               {
+                                                   "Name":  "cryptnet.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\cryptnet.dll",
+                                                   "MappedBytes":  241664
+                                               },
+                                               {
+                                                   "Name":  "profapi.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\profapi.dll",
+                                                   "MappedBytes":  167936
+                                               },
+                                               {
+                                                   "Name":  "CRYPTSP.dll",
+                                                   "Path":  "C:\\Windows\\SYSTEM32\\CRYPTSP.dll",
+                                                   "MappedBytes":  110592
+                                               },
+                                               {
+                                                   "Name":  "rsaenh.dll",
+                                                   "Path":  "C:\\Windows\\system32\\rsaenh.dll",
+                                                   "MappedBytes":  233472
+                                               }
+                                           ]
+                           }
+                       ],
+    "ObserverPointer":  {
+                            "StartedUtc":  "2026-11-07T15:03:42.4425538Z",
+                            "ObserverPid":  2440,
+                            "ExistingAppIdentities":  [
+                                                          {
+                                                              "ProcessId":  5568,
+                                                              "CreationDate":  "\/Date(1794058440292)\/"
+                                                          }
+                                                      ],
+                            "ProductOperationPerformed":  false,
+                            "OutputDirectory":  "C:\\IrisT040Output\\metrics-v3-e6edd1908748410dad950652b608224b",
+                            "SourceSha256":  "a6b1cfb9a84abaeb46ee39899948db72b36c889d7530dd84684bbbec80eacfff",
+                            "ObserverScript":  "C:\\IrisT040Repair\\observe-process-metrics-v3-readonly.ps1",
+                            "ObserverCreatedUtc":  "2026-11-07T15:03:42.4282042Z",
+                            "OriginalColdStartupCpuRecovered":  false
+                        },
+    "ObserverStatus":  {
+                           "StartedUtc":  "2026-11-07T15:03:44.5181793Z",
+                           "Failure":  null,
+                           "Ready":  true,
+                           "ConfirmedProcessRaces":  9,
+                           "ObserverPid":  2440,
+                           "ProductOperationPerformed":  false,
+                           "LastHeartbeatUtc":  "2026-11-07T19:04:53.2593229Z",
+                           "Completed":  false,
+                           "OutputDirectory":  "C:\\IrisT040Output\\metrics-v3-e6edd1908748410dad950652b608224b",
+                           "ProcessSamples":  5327,
+                           "Stage":  "Observe",
+                           "Samples":  5357
+                       },
+    "InstalledSource":  {
+                            "Version":  "0.2.11",
+                            "Channel":  "win",
+                            "PackageId":  "Iris",
+                            "Repository":  "https://github.com/Tmcity/Iris",
+                            "RuntimeId":  "win-x64"
+                        }
+}

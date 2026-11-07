@@ -1,0 +1,927 @@
+Troubleshooting | ChatGPT Learn
+For the complete documentation index, see llms.txt. Markdown versions of documentation pages are available by appending
+.md to the page URL.
+ChatGPT
+Start searching
+API Dashboard
+Try ChatGPT         Theme  Light   Dark   System
+Home
+API
+Overview
+Get started with the OpenAI API
+Models
+Explore models and compare capabilities
+Agents
+Build persistent agents on hosted infrastructure
+Tools
+Connect models to tools and data
+Audio & voice
+Build speech and realtime voice experiences
+Production
+Deploy and scale your API integrations
+API reference
+Explore endpoints, parameters, and responses
+ChatGPT
+Plugins
+Extend ChatGPT and Codex
+Sign in with ChatGPT
+Apps powered by your user's ChatGPT plan
+Commerce
+Build commerce flows in ChatGPT
+Ads
+Publish and measure ads in ChatGPT
+Workspace Agents
+Trigger published ChatGPT workspace agents
+ChatGPT + Codex user docs
+Guides and product docs for ChatGPT and Codex
+Use cases
+Example workflows and tasks teams can take on with ChatGPT or Codex
+Docs
+Use cases
+Training
+Resources
+Resources
+Showcase
+Demo apps to get inspired
+Blog
+Learnings and experiences from developers
+Cookbook
+Notebook examples for building with OpenAI models
+Learn
+Docs, videos, and demo apps for building with OpenAI
+Community
+Programs, meetups, and support for builders
+Overview      Features      Configuration      Developers      Security      Administration      Use Cases      Resources
+Search the docs
+Search docs
+Suggested
+responses createreasoning_effortrealtimeprompt caching
+Primary navigation
+API  ChatGPT  Docs  Use cases  Training  Resources  Resources
+Theme  Light   Dark   System
+Search docs
+Suggested
+responses createreasoning_effortrealtimeprompt caching
+Overview  Models  Agents  Tools  Audio & voice  Production  API reference
+DocsOverview
+Home
+Get started
+Quickstart
+Using GPT-6
+Key concepts
+API credits for ChatGPT subscribers
+Core concepts
+Responses API
+Decisions API
+Conversation state
+Background mode
+Streaming
+WebSocket mode
+Mid-turn steering
+Multi-agent
+Webhooks
+File inputs
+Compaction
+Counting tokens
+SDKs and CLI
+OpenAI SDK
+OpenAI CLI
+Cloud providers
+Amazon Bedrock
+Google Cloud
+Resources
+Changelog
+Deprecations
+Supported countries
+OpenAI Crawlers
+Terms and policies
+Legacy APIs
+Agent Builder
+Overview
+Migration guide
+Node reference
+Safety in building agents
+Evals
+Getting started
+Working with evals
+Prompt optimizer
+External models
+Graders
+Fine-tuning
+Optimization cycle
+Supervised fine-tuning
+Vision fine-tuning
+Direct preference optimization
+Best practices
+Assistants API
+Migration guide
+Model catalog
+Choose a model
+Pricing
+Model selection
+Text and code
+Text generation
+Code generation
+Structured output
+Prompting
+Overview
+Prompt engineering
+Citation formatting
+Migration guide
+Prompt generation
+Frontend prompting
+Reasoning
+Reasoning models
+Reasoning best practices
+Images
+Images and vision
+Image input cost calculator
+Image generation
+Overview
+Image prompting
+Realtime and audio
+Audio and speech
+Getting started
+Voice agents
+Specialized models
+Embeddings
+Moderation
+Overview
+Agents API
+Overview
+Quickstart
+Architecture
+Configuring Agents
+Sessions
+Run and continue sessions
+Events and items
+Manage sessions
+Scheduled automations
+Automatic review
+Webhooks
+Environments and sandboxes
+OpenAI-hosted sandboxes
+Self-hosted sandboxes
+Sandbox lifecycle
+Pre-warm sandboxes
+Sandbox security
+Files and artifacts
+Tools and integrations
+Web search
+Computer use
+Functions
+MCP connections
+Plugins
+Vaults
+Multi-agent
+Observability and usage
+Tracing
+Errors and recovery
+API reference
+Bedrock Managed Agents
+Agents SDK
+Overview
+Quickstart
+Agent definitions
+Models and providers
+Running agents
+Sandbox agents
+Orchestration
+Guardrails
+Results and state
+Integrations and observability
+Evaluate agent workflows
+ChatKit
+Overview
+Customize
+Widgets
+Actions
+Advanced integrations
+Overview
+Function calling
+Search and retrieval
+Web search
+File search
+Retrieval
+Connect tools and data
+MCP servers
+Secure MCP Tunnel
+Build tool workflows
+Skills
+Tool search
+Programmatic tool calling
+Async tool calling
+Computer and code
+Shell
+Computer use
+Integration recipes
+Driver reference
+Apply Patch
+Code interpreter
+Media
+Image generation
+Overview
+GPT-Live
+Getting started
+Prompting
+Managing sessions
+Delegation and tools
+Migrate to GPT-Live
+Partner integrations
+Realtime API
+Getting started
+Prompting
+Managing conversations
+Voice activity detection
+Tools and MCP
+Build with voice
+Voice agents
+Connect voice to Decisions
+Custom voices
+Cost optimization
+Connections
+WebRTC
+WebRTC with WARP
+WebSockets
+Telephony and SIP
+Server-side controls
+Audio processing
+File transcription
+Live transcription
+Live translation
+Text to speech
+Audio in Chat Completions
+Go live
+Production best practices
+API keys and service accounts
+Deployment checklist
+Performance and quality
+Fast mode
+Ultrafast mode
+Latency optimization
+Predicted Outputs
+Accuracy optimization
+Evaluation
+Evaluation best practices
+Promptfoo
+Cost and throughput
+Cost optimization
+Prompt caching
+Prompt cache diagnostics
+Batch
+Flex processing
+Safety and governance
+Safety best practices
+Red teaming
+Daybreak
+Safety checks
+Safety classifiers
+Cybersecurity checks
+Misalignment monitoring
+Enforcement notifications
+Under-18 guidance
+CSAM guidance
+Content provenance
+Your data
+Private Safety Processing
+Permissions
+Infrastructure and access
+Terraform provider
+Overview
+Projects and access
+Service accounts
+Rate limits and spend
+Model, tool, and data controls
+Import and reconciliation
+Private Link
+IP allowlist
+Organization blocking
+Mutual TLS
+Workload identity federation
+Federation rules
+X.509 certificates
+Kubernetes
+AWS
+Microsoft Azure
+Google Cloud
+Oracle Cloud Infrastructure
+GitHub Actions
+SPIFFE
+Idira
+IP egress ranges
+Operations
+Rate limits
+Spend limits
+Admin APIs
+Error codes
+Overview   Plugins  Sign in with ChatGPT  Commerce  Ads  Workspace Agents  ChatGPT + Codex user docs   Use cases
+DocsOverview
+Home
+Quickstart
+Core concepts
+Plugin architecture
+Skills
+MCP server
+Plan
+Brainstorm use cases
+Define tools
+Build
+Build an MCP server
+Add UI to your MCP server (optional)
+Add events to your MCP server (optional)
+Extensions
+Authenticate users
+Build skills
+Package your plugin
+Examples
+Test and publish
+Connect and test your plugin
+Submit and publish
+Submit desktop-only plugins
+Submission error reference
+Conversion specs
+Restaurant reservation spec
+Get Quote spec
+Product checkout spec
+Guides
+UI guidelines
+Optimize Metadata
+Submit a Claude Code plugin
+Security & Privacy
+Troubleshooting
+Resources
+Changelog
+Plugin guidelines
+MCP server review requirements
+Plugin UI reference
+Checkout API reference
+Home
+Quickstart
+Request a client ID
+Identity
+On your website
+In your ChatGPT plugin
+Account security notification
+ChatGPT plan usage
+Overview
+UI/UX guidelines
+Registration and sign-in
+Accounts and sessions
+Models and inference
+Codex app-server
+Self-hosted VMs
+Token reference
+Errors and recovery
+Preview limitations
+Home
+Guides
+Get started
+Best practices
+File Upload
+Overview
+Products
+API
+Overview
+Feeds
+Products
+Promotions
+Ads Overview
+Measurement
+Measurement Pixel
+Multiple Pixels (Advanced)
+Image Tag
+Conversions API
+Supported Events
+Advertiser API
+Overview
+API Partner Setup
+Campaign Management
+Bidding & Budgets
+Targeting
+Product Feeds
+Hotel Feeds (limited beta)
+Conversion Tracking
+Reporting
+Troubleshooting
+Account Management
+API Reference
+Authentication
+Ad Account
+Audit Logs
+Campaigns
+Ad Groups
+Ads
+Insights
+Files
+Conversion Setup
+Home
+Get started
+Trigger workspace agent runs
+Authenticate with Workspace Agent access tokens
+Overview  Features  Configuration  Developers  Security  Administration  Use Cases  Resources
+DocsFeatures
+Home
+Get started
+Quickstart
+Use ChatGPT
+Get started with Work
+Meet dots
+Import from another agent
+Foundations
+Prompting
+Working with agents
+Model selection
+Personalize ChatGPT
+Skills & Plugins
+Permissions
+Explore
+What's new
+Models
+Pricing
+Glossary
+Available on
+ChatGPT desktop app
+ChatGPT mobile app
+ChatGPT on the web
+Codex CLI
+Codex IDE extension
+Codex Cloud
+Releases
+Changelog
+Feature Maturity
+Open Source
+Overview
+Workflows
+Projects and chats
+Build plugins
+Visualizations
+Scheduled tasks
+Long-running work
+Notifications
+Pets
+Codex Micro
+Capabilities
+Browser
+Computer use
+Voice
+Composer Predictions
+Plugins
+Sign in with ChatGPT
+Web search
+Image generation
+Image inputs
+Appshots
+Browser extension
+Work with files
+Sites
+Overview
+Create a site
+Data and connections
+Publish and share
+Manage a site
+dots
+Meet dots
+Getting started
+Messaging
+Tasks and memory
+Computers and apps
+Controls
+ChatGPT Space
+Overview
+Getting started
+Pages
+Work with agents
+Collaboration
+Reference
+Commands
+Slash commands
+Settings
+Troubleshooting
+Overview
+Customization
+Overview
+Memories
+Computer History
+Config file
+Config Basics
+Advanced Config
+Config Reference
+Environment Variables
+Sample Config
+Agent configuration
+AGENTS.md
+Subagents
+Speed
+Rules
+Extend ChatGPT and Codex
+Record & Replay
+MCP
+Linux
+Desktop app
+Windows
+Desktop app
+Windows sandbox
+WSL
+Overview
+Development workflows
+Code review
+Integrated terminal
+Extend and automate
+Build skills
+Site tools (WebMCP)
+Annotations Extensibility
+Hooks
+Environments
+Modes
+Local environments
+Git worktrees
+Codex Cloud
+Cloud environments
+Build with Codex
+Codex SDK
+App Server
+GitHub Action
+Non-interactive mode
+Third-party integrations
+GitHub
+GitLab (Beta)
+Slack
+Linear
+Reference
+CLI customization
+Developer commands
+Developer settings
+Overview
+Permissions
+Profiles
+Sandboxing
+Auto-review
+Agent approvals & security
+Codex Security
+Overview
+Codex Security Cloud
+Setup
+Security Review
+Improving the threat model
+FAQ
+Codex Security plugin
+Quickstart
+Run a security scan
+Run a deep scan
+Review code changes
+Use the Security workbench
+Triage a backlog
+Fix findings
+Propose security hardening
+Write vulnerability reports
+Export and track findings
+Changelog
+Codex Security CLI
+Quickstart
+Run bulk scans
+CI/CD
+Overview
+GitHub Actions
+GitLab CI/CD
+Reference
+FAQ
+Codex Security SDK
+Cyber safety
+Models & Trusted Access
+Recommended configuration
+Overview
+Getting started
+Admin rollout guide
+Admin plugin
+Feature Configuration
+Dots
+Space
+Sites
+Teams and Team Tasks
+ChatGPT in Slack and Teams
+Workspace connections
+Local computer access for Work Cloud and dots
+Identity and access
+Authentication overview
+Groups and provisioning
+Dynamic groups
+User lifecycle management
+Roles and workspace permissions
+Personal access tokens
+Service accounts
+Configuration
+Windows app and CLI deployment
+NFS home directories
+Manage app updates
+Managed configuration
+Self-host configuration
+Codex security cookbook
+Remote connections
+Workspace model availability
+Advanced deployment
+Amazon Bedrock
+GovCloud deployment
+Connect to a gateway
+Roll out a gateway
+ChatGPT EDU
+Education plans
+Higher education setup
+ChatGPT Work
+Overview
+Cloud security
+Local security
+Usage and cost
+Admin FAQ
+Collaboration and sharing
+GPTs and sharing
+Plugins and connections
+Plugin controls
+Import and sync plugins from GitHub
+Skill controls
+Migrate custom GPTs to plugins
+Usage and analytics
+Workspace analytics
+Usage Insights
+Analytics API
+Security and compliance
+Governance
+Agent security
+Safety and security in dots
+Prisma AIRS
+HIPAA configuration
+Compliance API and audit events
+Explore use cases
+Collections
+Home
+Videos
+Showcase
+OpenAI Academy
+Online trainings
+Community
+Codex Ambassadors
+Codex for Students
+Codex for Open Source
+Events
+Blog
+Company blog
+Developer blog
+Explore use cases
+Collections
+Home
+Videos
+Showcase
+OpenAI Academy
+Online trainings
+Community
+Codex Ambassadors
+Codex for Students
+Codex for Open Source
+Events
+Blog
+Company blog
+Developer blog
+Showcase   Blog  Cookbook  Learn  Community
+DocsShowcase
+All posts
+Recent
+Designing failover across OpenAI model providers
+Maintaining software with the GPT-6 family
+Bringing my LED display to life with GPT-Live-1 and Codex
+Rethinking skills and prompts for GPT-6 Astra
+Architectural visualization with Astra
+Topics
+General
+API
+Apps SDK
+Audio
+Codex
+Life sciences
+Home
+Topics
+Sign-in with ChatGPT
+Agents
+Evals
+Multimodal
+Text
+Guardrails
+Optimization
+ChatGPT
+Codex
+gpt-oss
+Contribute
+Cookbook on GitHub
+Home
+OpenAI Developers plugin
+Docs MCP
+Categories
+Demo apps
+Videos
+Topics
+Agents
+Audio & Voice
+Computer Use
+Codex
+Evals
+gpt-oss
+Fine-tuning
+Image generation
+Scaling
+Tools
+Video generation
+Community
+Programs
+Codex Ambassadors
+Meet the ambassadors
+Codex for Students
+Codex for Open Source
+OpenAI for Startups
+Spaces
+Events
+Developer Forum
+Discord
+Reddit
+X
+API Dashboard
+Try ChatGPT
+Overview
+Workflows
+Projects and chats
+Build plugins
+Visualizations
+Scheduled tasks
+Long-running work
+Notifications
+Pets
+Codex Micro
+Capabilities
+Browser
+Computer use
+Voice
+Composer Predictions
+Plugins
+Sign in with ChatGPT
+Web search
+Image generation
+Image inputs
+Appshots
+Browser extension
+Work with files
+Sites
+Overview
+Create a site
+Data and connections
+Publish and share
+Manage a site
+dots
+Meet dots
+Getting started
+Messaging
+Tasks and memory
+Computers and apps
+Controls
+ChatGPT Space
+Overview
+Getting started
+Pages
+Work with agents
+Collaboration
+Reference
+Commands
+Slash commands
+Settings
+Troubleshooting
+Copy Page
+Troubleshooting
+Copy Page
+FAQ and fixes for common ChatGPT desktop app issues
+Frequently Asked Questions
+Files appear in the side panel that Codex didn’t edit
+If your project is inside a Git repository, the review panel automatically
+shows changes based on your project’s Git state, including changes that Codex
+didn’t make.
+In the review pane, you can switch between staged changes and changes not yet
+staged, and compare your branch with main.
+If you want to see only the changes of your last Codex turn, switch the diff
+pane to the Last turn view.
+Learn more about how to use the review pane.
+Remove a project from the sidebar
+To remove a project from the sidebar, hover over the name of your project, select
+the three dots, and choose Remove. To restore it, re-add the
+project using the Add new project button next to Chats or using
+Cmd+O.
+Find archived chats
+Archived chats can be found in Settings. When you unarchive
+a chat, it reappears in its original sidebar location.
+A Work conversation does not appear on another device
+Sign in with ChatGPT to the same account and workspace on each device, and look
+in Work history. Codex has a separate history.
+Ask your workspace owner to verify Work Cloud and Allow local computer
+access in workspace permissions. A cloud policy with
+enforce_residency blocks local computer access.
+If the task predates local computer access, select Cloud in the desktop
+composer and start a new Work task.
+A synced task cannot use the computer’s files or tools
+Open the ChatGPT desktop app on the computer that holds the files, sign in to
+the same workspace, and keep it online and connected. If you started a turn
+while the computer was offline, it may be running in a cloud container without
+access to those files.
+A turn stopped after Local computer access with Work Cloud was turned off
+If you still have Work access, send a new message in the existing cloud
+conversation. The new turn can use Work Cloud, but it cannot use local files.
+Automated policy updates are missing
+Use the policy API to manage Global settings. To manage Local or Codex Cloud settings, use the Agent Security UI. Existing Global API workflows remain available after migration. Test your scripts and Terraform integrations, and confirm that policy assignments and ordering are unchanged.
+Only some chats appear in the sidebar
+The sidebar lets you filter chats based on the state of a project. If you’re
+missing chats, select the filter icon next to Chats, then select
+Chronological. If you still don’t see the chat, open
+Settings and check Archived chats.
+Code doesn’t run on a worktree
+Worktrees are created in a different directory and inherit files checked into
+Git by default. Depending on how you manage dependencies and tooling for your
+project, you might have to run setup scripts on your worktree using a
+local environment or copy ignored setup files
+with .worktreeinclude.
+You can also check out the changes in your regular local project. See
+the worktrees documentation to learn more.
+App doesn’t pick up a teammate’s shared local environment
+The local environment configuration must be inside the .codex folder at the
+root of your project. If you are working in a monorepo with more than one
+project, make sure you open the project in the directory that contains the
+.codex folder.
+Codex asks to access Apple Music
+Depending on your task, Codex may need to navigate the file system. Certain
+directories on macOS, including Music, Downloads, or Desktop, require
+additional approval from the user. If Codex needs to read your home directory,
+macOS prompts you to approve access to those folders.
+Scheduled tasks create many worktrees
+Frequent scheduled tasks can create many worktrees over time. Archive scheduled
+runs you no longer need and avoid pinning runs unless you intend to keep their
+worktrees.
+Recover a prompt after selecting the wrong target
+If you started a chat with the wrong target (Local, Worktree, or Cloud) by accident, you can cancel the current run and recover your previous prompt by pressing the up arrow key in the composer.
+Approve for me is missing or disabled
+To use automatic review, select Approve for me from the permissions control
+below the composer. If the mode is missing or disabled:
+Update the desktop app and check the permissions menu in the chat where
+you want to use automatic review. The available choices can differ between
+local and cloud environments.
+For local Codex execution, check your effective configuration for an
+explicit features.guardian_approval = false setting and review the
+configured permission profile, approval policy, and approval reviewer.
+See Config basics for configuration
+precedence. Local configuration doesn’t control a managed cloud runtime.
+If a mode is disabled or missing in a managed workspace, ask your
+administrator to check the allowed permission profiles, sandbox modes,
+approval policies, and approval reviewers. Organization or device policy
+can restrict these choices; local settings can’t override it.
+If the mode is still unexpectedly unavailable, include your app version,
+operating system, execution environment, and whether the option is missing or
+disabled in your feedback.
+Feature is working in the Codex CLI but not in the ChatGPT desktop app
+The ChatGPT desktop app and Codex CLI can include different Codex versions, so
+features may reach one surface before the other.
+To get the version of the Codex CLI on your system run:
+codex --version
+To get the version of Codex bundled with your ChatGPT desktop app, use the
+retained Codex.app compatibility bundle path:
+/Applications/Codex.app/Contents/Resources/codex --version
+Feedback and logs
+Type / into the message composer to provide feedback for the team. If
+you trigger feedback in an existing chat, you can choose to share the
+existing session along with your feedback. After submitting your feedback,
+you’ll receive a session ID that you can share with the team.
+To report an issue:
+Find existing issues on the Codex GitHub repo.
+Open a new GitHub issue
+More logs are available in the following locations:
+App logs (macOS): ~/Library/Logs/com.openai.codex/YYYY/MM/DD
+Session transcripts: $CODEX_HOME/sessions (default: ~/.codex/sessions)
+Archived sessions: $CODEX_HOME/archived_sessions (default: ~/.codex/archived_sessions)
+If you share logs, review them first to confirm they don’t contain sensitive
+information.
+Stuck states and recovery patterns
+If a chat appears stuck:
+Check whether Codex is waiting for an approval.
+Open the terminal and run a basic command like git status.
+Start a new chat with a smaller, more focused prompt.
+If you cancel worktree creation by mistake and lose your prompt, press the up
+arrow key in the composer to recover it.
+Terminal issues
+Terminal appears stuck
+Close the terminal panel.
+Reopen it with Ctrl+`.
+Re-run a basic command like pwd or git status.
+If commands behave differently than expected, check the current directory and
+branch in the terminal first.
+If it continues to be stuck, wait until your active chats are complete and restart the app.
+Fonts aren’t rendering correctly
+Codex uses the same font for the review pane, integrated terminal and any other code displayed inside the app. You can configure the font inside the Settings pane as Code font.
+An environment allows network access but the action is blocked
+Check policy priority before comparing individual settings. A higher-priority policy wins over a lower-priority policy, even if the lower-priority policy is more specific. Within one policy, OS-specific environment overrides take priority over all-OS environment overrides, followed by Global.
+Some network requirements have field-specific merge rules and runtime limits. Managed HTTP/SOCKS listener ports and non-loopback proxy listeners are unsupported by the cloud runtime; socket-rule support depends on the execution path. Local-execution merge behavior is separate.
+Compare the effective policies and test the intended allowed and blocked actions. See Managed configuration for the detailed cases. Do not broaden the global baseline to work around a failed test.
+Previous
+Settings
+Ask AI
+Docs agent
+Loading docs agent...

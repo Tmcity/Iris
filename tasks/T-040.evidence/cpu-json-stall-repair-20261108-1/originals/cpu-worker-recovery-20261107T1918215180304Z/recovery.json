@@ -1,0 +1,17 @@
+{
+    "DiagnosticHelperTerminated":  true,
+    "StartedUtc":  "2026-11-07T19:18:21.9807931Z",
+    "ProductOperationPerformed":  true,
+    "DiagnosticPrimaryPid":  2848,
+    "WorkerCreatedUtc":  "2026-11-07T19:11:31.2585367Z",
+    "WorkerExitCode":  -1,
+    "Reason":  "Self-owned diagnostic worker exceeded its eight-second startup deadline and allocated over one GiB; original state and read-only stacks retained",
+    "ProductKilled":  false,
+    "RestoredCreatedUtc":  "2026-11-07T19:18:22.7732774Z",
+    "DiagnosticPrimaryExitCode":  0,
+    "FinishedUtc":  "2026-11-07T19:18:22.7718231Z",
+    "WorkerWorkingSetBytes":  1996517376,
+    "RestoredPid":  7584,
+    "WorkerCpuSeconds":  388.890625,
+    "WorkerPid":  2432
+}

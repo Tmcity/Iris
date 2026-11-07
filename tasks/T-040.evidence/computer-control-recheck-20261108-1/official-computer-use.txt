@@ -1,0 +1,980 @@
+Computer Use | ChatGPT Learn
+For the complete documentation index, see llms.txt. Markdown versions of documentation pages are available by appending
+.md to the page URL.
+ChatGPT
+Start searching
+API Dashboard
+Try ChatGPT         Theme  Light   Dark   System
+Home
+API
+Overview
+Get started with the OpenAI API
+Models
+Explore models and compare capabilities
+Agents
+Build persistent agents on hosted infrastructure
+Tools
+Connect models to tools and data
+Audio & voice
+Build speech and realtime voice experiences
+Production
+Deploy and scale your API integrations
+API reference
+Explore endpoints, parameters, and responses
+ChatGPT
+Plugins
+Extend ChatGPT and Codex
+Sign in with ChatGPT
+Apps powered by your user's ChatGPT plan
+Commerce
+Build commerce flows in ChatGPT
+Ads
+Publish and measure ads in ChatGPT
+Workspace Agents
+Trigger published ChatGPT workspace agents
+ChatGPT + Codex user docs
+Guides and product docs for ChatGPT and Codex
+Use cases
+Example workflows and tasks teams can take on with ChatGPT or Codex
+Docs
+Use cases
+Training
+Resources
+Resources
+Showcase
+Demo apps to get inspired
+Blog
+Learnings and experiences from developers
+Cookbook
+Notebook examples for building with OpenAI models
+Learn
+Docs, videos, and demo apps for building with OpenAI
+Community
+Programs, meetups, and support for builders
+Overview      Features      Configuration      Developers      Security      Administration      Use Cases      Resources
+Search the docs
+Search docs
+Suggested
+responses createreasoning_effortrealtimeprompt caching
+Primary navigation
+API  ChatGPT  Docs  Use cases  Training  Resources  Resources
+Theme  Light   Dark   System
+Search docs
+Suggested
+responses createreasoning_effortrealtimeprompt caching
+Overview  Models  Agents  Tools  Audio & voice  Production  API reference
+DocsOverview
+Home
+Get started
+Quickstart
+Using GPT-6
+Key concepts
+API credits for ChatGPT subscribers
+Core concepts
+Responses API
+Decisions API
+Conversation state
+Background mode
+Streaming
+WebSocket mode
+Mid-turn steering
+Multi-agent
+Webhooks
+File inputs
+Compaction
+Counting tokens
+SDKs and CLI
+OpenAI SDK
+OpenAI CLI
+Cloud providers
+Amazon Bedrock
+Google Cloud
+Resources
+Changelog
+Deprecations
+Supported countries
+OpenAI Crawlers
+Terms and policies
+Legacy APIs
+Agent Builder
+Overview
+Migration guide
+Node reference
+Safety in building agents
+Evals
+Getting started
+Working with evals
+Prompt optimizer
+External models
+Graders
+Fine-tuning
+Optimization cycle
+Supervised fine-tuning
+Vision fine-tuning
+Direct preference optimization
+Best practices
+Assistants API
+Migration guide
+Model catalog
+Choose a model
+Pricing
+Model selection
+Text and code
+Text generation
+Code generation
+Structured output
+Prompting
+Overview
+Prompt engineering
+Citation formatting
+Migration guide
+Prompt generation
+Frontend prompting
+Reasoning
+Reasoning models
+Reasoning best practices
+Images
+Images and vision
+Image input cost calculator
+Image generation
+Overview
+Image prompting
+Realtime and audio
+Audio and speech
+Getting started
+Voice agents
+Specialized models
+Embeddings
+Moderation
+Overview
+Agents API
+Overview
+Quickstart
+Architecture
+Configuring Agents
+Sessions
+Run and continue sessions
+Events and items
+Manage sessions
+Scheduled automations
+Automatic review
+Webhooks
+Environments and sandboxes
+OpenAI-hosted sandboxes
+Self-hosted sandboxes
+Sandbox lifecycle
+Pre-warm sandboxes
+Sandbox security
+Files and artifacts
+Tools and integrations
+Web search
+Computer use
+Functions
+MCP connections
+Plugins
+Vaults
+Multi-agent
+Observability and usage
+Tracing
+Errors and recovery
+API reference
+Bedrock Managed Agents
+Agents SDK
+Overview
+Quickstart
+Agent definitions
+Models and providers
+Running agents
+Sandbox agents
+Orchestration
+Guardrails
+Results and state
+Integrations and observability
+Evaluate agent workflows
+ChatKit
+Overview
+Customize
+Widgets
+Actions
+Advanced integrations
+Overview
+Function calling
+Search and retrieval
+Web search
+File search
+Retrieval
+Connect tools and data
+MCP servers
+Secure MCP Tunnel
+Build tool workflows
+Skills
+Tool search
+Programmatic tool calling
+Async tool calling
+Computer and code
+Shell
+Computer use
+Integration recipes
+Driver reference
+Apply Patch
+Code interpreter
+Media
+Image generation
+Overview
+GPT-Live
+Getting started
+Prompting
+Managing sessions
+Delegation and tools
+Migrate to GPT-Live
+Partner integrations
+Realtime API
+Getting started
+Prompting
+Managing conversations
+Voice activity detection
+Tools and MCP
+Build with voice
+Voice agents
+Connect voice to Decisions
+Custom voices
+Cost optimization
+Connections
+WebRTC
+WebRTC with WARP
+WebSockets
+Telephony and SIP
+Server-side controls
+Audio processing
+File transcription
+Live transcription
+Live translation
+Text to speech
+Audio in Chat Completions
+Go live
+Production best practices
+API keys and service accounts
+Deployment checklist
+Performance and quality
+Fast mode
+Ultrafast mode
+Latency optimization
+Predicted Outputs
+Accuracy optimization
+Evaluation
+Evaluation best practices
+Promptfoo
+Cost and throughput
+Cost optimization
+Prompt caching
+Prompt cache diagnostics
+Batch
+Flex processing
+Safety and governance
+Safety best practices
+Red teaming
+Daybreak
+Safety checks
+Safety classifiers
+Cybersecurity checks
+Misalignment monitoring
+Enforcement notifications
+Under-18 guidance
+CSAM guidance
+Content provenance
+Your data
+Private Safety Processing
+Permissions
+Infrastructure and access
+Terraform provider
+Overview
+Projects and access
+Service accounts
+Rate limits and spend
+Model, tool, and data controls
+Import and reconciliation
+Private Link
+IP allowlist
+Organization blocking
+Mutual TLS
+Workload identity federation
+Federation rules
+X.509 certificates
+Kubernetes
+AWS
+Microsoft Azure
+Google Cloud
+Oracle Cloud Infrastructure
+GitHub Actions
+SPIFFE
+Idira
+IP egress ranges
+Operations
+Rate limits
+Spend limits
+Admin APIs
+Error codes
+Overview   Plugins  Sign in with ChatGPT  Commerce  Ads  Workspace Agents  ChatGPT + Codex user docs   Use cases
+DocsOverview
+Home
+Quickstart
+Core concepts
+Plugin architecture
+Skills
+MCP server
+Plan
+Brainstorm use cases
+Define tools
+Build
+Build an MCP server
+Add UI to your MCP server (optional)
+Add events to your MCP server (optional)
+Extensions
+Authenticate users
+Build skills
+Package your plugin
+Examples
+Test and publish
+Connect and test your plugin
+Submit and publish
+Submit desktop-only plugins
+Submission error reference
+Conversion specs
+Restaurant reservation spec
+Get Quote spec
+Product checkout spec
+Guides
+UI guidelines
+Optimize Metadata
+Submit a Claude Code plugin
+Security & Privacy
+Troubleshooting
+Resources
+Changelog
+Plugin guidelines
+MCP server review requirements
+Plugin UI reference
+Checkout API reference
+Home
+Quickstart
+Request a client ID
+Identity
+On your website
+In your ChatGPT plugin
+Account security notification
+ChatGPT plan usage
+Overview
+UI/UX guidelines
+Registration and sign-in
+Accounts and sessions
+Models and inference
+Codex app-server
+Self-hosted VMs
+Token reference
+Errors and recovery
+Preview limitations
+Home
+Guides
+Get started
+Best practices
+File Upload
+Overview
+Products
+API
+Overview
+Feeds
+Products
+Promotions
+Ads Overview
+Measurement
+Measurement Pixel
+Multiple Pixels (Advanced)
+Image Tag
+Conversions API
+Supported Events
+Advertiser API
+Overview
+API Partner Setup
+Campaign Management
+Bidding & Budgets
+Targeting
+Product Feeds
+Hotel Feeds (limited beta)
+Conversion Tracking
+Reporting
+Troubleshooting
+Account Management
+API Reference
+Authentication
+Ad Account
+Audit Logs
+Campaigns
+Ad Groups
+Ads
+Insights
+Files
+Conversion Setup
+Home
+Get started
+Trigger workspace agent runs
+Authenticate with Workspace Agent access tokens
+Overview  Features  Configuration  Developers  Security  Administration  Use Cases  Resources
+DocsFeatures
+Home
+Get started
+Quickstart
+Use ChatGPT
+Get started with Work
+Meet dots
+Import from another agent
+Foundations
+Prompting
+Working with agents
+Model selection
+Personalize ChatGPT
+Skills & Plugins
+Permissions
+Explore
+What's new
+Models
+Pricing
+Glossary
+Available on
+ChatGPT desktop app
+ChatGPT mobile app
+ChatGPT on the web
+Codex CLI
+Codex IDE extension
+Codex Cloud
+Releases
+Changelog
+Feature Maturity
+Open Source
+Overview
+Workflows
+Projects and chats
+Build plugins
+Visualizations
+Scheduled tasks
+Long-running work
+Notifications
+Pets
+Codex Micro
+Capabilities
+Browser
+Computer use
+Voice
+Composer Predictions
+Plugins
+Sign in with ChatGPT
+Web search
+Image generation
+Image inputs
+Appshots
+Browser extension
+Work with files
+Sites
+Overview
+Create a site
+Data and connections
+Publish and share
+Manage a site
+dots
+Meet dots
+Getting started
+Messaging
+Tasks and memory
+Computers and apps
+Controls
+ChatGPT Space
+Overview
+Getting started
+Pages
+Work with agents
+Collaboration
+Reference
+Commands
+Slash commands
+Settings
+Troubleshooting
+Overview
+Customization
+Overview
+Memories
+Computer History
+Config file
+Config Basics
+Advanced Config
+Config Reference
+Environment Variables
+Sample Config
+Agent configuration
+AGENTS.md
+Subagents
+Speed
+Rules
+Extend ChatGPT and Codex
+Record & Replay
+MCP
+Linux
+Desktop app
+Windows
+Desktop app
+Windows sandbox
+WSL
+Overview
+Development workflows
+Code review
+Integrated terminal
+Extend and automate
+Build skills
+Site tools (WebMCP)
+Annotations Extensibility
+Hooks
+Environments
+Modes
+Local environments
+Git worktrees
+Codex Cloud
+Cloud environments
+Build with Codex
+Codex SDK
+App Server
+GitHub Action
+Non-interactive mode
+Third-party integrations
+GitHub
+GitLab (Beta)
+Slack
+Linear
+Reference
+CLI customization
+Developer commands
+Developer settings
+Overview
+Permissions
+Profiles
+Sandboxing
+Auto-review
+Agent approvals & security
+Codex Security
+Overview
+Codex Security Cloud
+Setup
+Security Review
+Improving the threat model
+FAQ
+Codex Security plugin
+Quickstart
+Run a security scan
+Run a deep scan
+Review code changes
+Use the Security workbench
+Triage a backlog
+Fix findings
+Propose security hardening
+Write vulnerability reports
+Export and track findings
+Changelog
+Codex Security CLI
+Quickstart
+Run bulk scans
+CI/CD
+Overview
+GitHub Actions
+GitLab CI/CD
+Reference
+FAQ
+Codex Security SDK
+Cyber safety
+Models & Trusted Access
+Recommended configuration
+Overview
+Getting started
+Admin rollout guide
+Admin plugin
+Feature Configuration
+Dots
+Space
+Sites
+Teams and Team Tasks
+ChatGPT in Slack and Teams
+Workspace connections
+Local computer access for Work Cloud and dots
+Identity and access
+Authentication overview
+Groups and provisioning
+Dynamic groups
+User lifecycle management
+Roles and workspace permissions
+Personal access tokens
+Service accounts
+Configuration
+Windows app and CLI deployment
+NFS home directories
+Manage app updates
+Managed configuration
+Self-host configuration
+Codex security cookbook
+Remote connections
+Workspace model availability
+Advanced deployment
+Amazon Bedrock
+GovCloud deployment
+Connect to a gateway
+Roll out a gateway
+ChatGPT EDU
+Education plans
+Higher education setup
+ChatGPT Work
+Overview
+Cloud security
+Local security
+Usage and cost
+Admin FAQ
+Collaboration and sharing
+GPTs and sharing
+Plugins and connections
+Plugin controls
+Import and sync plugins from GitHub
+Skill controls
+Migrate custom GPTs to plugins
+Usage and analytics
+Workspace analytics
+Usage Insights
+Analytics API
+Security and compliance
+Governance
+Agent security
+Safety and security in dots
+Prisma AIRS
+HIPAA configuration
+Compliance API and audit events
+Explore use cases
+Collections
+Home
+Videos
+Showcase
+OpenAI Academy
+Online trainings
+Community
+Codex Ambassadors
+Codex for Students
+Codex for Open Source
+Events
+Blog
+Company blog
+Developer blog
+Explore use cases
+Collections
+Home
+Videos
+Showcase
+OpenAI Academy
+Online trainings
+Community
+Codex Ambassadors
+Codex for Students
+Codex for Open Source
+Events
+Blog
+Company blog
+Developer blog
+Showcase   Blog  Cookbook  Learn  Community
+DocsShowcase
+All posts
+Recent
+Designing failover across OpenAI model providers
+Maintaining software with the GPT-6 family
+Bringing my LED display to life with GPT-Live-1 and Codex
+Rethinking skills and prompts for GPT-6 Astra
+Architectural visualization with Astra
+Topics
+General
+API
+Apps SDK
+Audio
+Codex
+Life sciences
+Home
+Topics
+Sign-in with ChatGPT
+Agents
+Evals
+Multimodal
+Text
+Guardrails
+Optimization
+ChatGPT
+Codex
+gpt-oss
+Contribute
+Cookbook on GitHub
+Home
+OpenAI Developers plugin
+Docs MCP
+Categories
+Demo apps
+Videos
+Topics
+Agents
+Audio & Voice
+Computer Use
+Codex
+Evals
+gpt-oss
+Fine-tuning
+Image generation
+Scaling
+Tools
+Video generation
+Community
+Programs
+Codex Ambassadors
+Meet the ambassadors
+Codex for Students
+Codex for Open Source
+OpenAI for Startups
+Spaces
+Events
+Developer Forum
+Discord
+Reddit
+X
+API Dashboard
+Try ChatGPT
+Overview
+Workflows
+Projects and chats
+Build plugins
+Visualizations
+Scheduled tasks
+Long-running work
+Notifications
+Pets
+Codex Micro
+Capabilities
+Browser
+Computer use
+Voice
+Composer Predictions
+Plugins
+Sign in with ChatGPT
+Web search
+Image generation
+Image inputs
+Appshots
+Browser extension
+Work with files
+Sites
+Overview
+Create a site
+Data and connections
+Publish and share
+Manage a site
+dots
+Meet dots
+Getting started
+Messaging
+Tasks and memory
+Computers and apps
+Controls
+ChatGPT Space
+Overview
+Getting started
+Pages
+Work with agents
+Collaboration
+Reference
+Commands
+Slash commands
+Settings
+Troubleshooting
+Copy Page
+Computer Use
+Copy Page
+Let ChatGPT use desktop apps while it works
+In supported regions, Computer Use in the ChatGPT desktop app is available on
+macOS and Windows with ChatGPT Work and Codex. Open Settings > Computer
+use to see which apps you can control.
+With Computer Use, ChatGPT can see and operate graphical user interfaces on macOS
+or Windows. Use it for tasks where command-line tools or structured integrations
+aren’t enough, such as checking a desktop app, using a browser, changing app
+settings, working with a data source that isn’t available as a plugin, or
+reproducing a bug that only happens in a graphical user interface.
+Because Computer Use can affect app and system state outside your project
+workspace, use it for scoped tasks and review permission prompts before
+continuing.
+Set up Computer Use
+In the ChatGPT desktop app, switch to Work or select Codex.
+Open Settings > Computer use. Under Control, find Any App. If the
+row shows Install, select it and follow the prompts. If the switch is off,
+turn it on. If your app shows a Computer Use plugin page instead, follow
+the setup prompts on that page.
+Start a Computer Use task. ChatGPT asks for
+permission before it uses an app. Apps you approve for future tasks appear
+under Always-allowed apps in the same settings.
+If you don’t see Any App, you may still have separate controls for a browser
+or individual app. Those controls don’t grant access to other desktop apps. In a
+managed workspace, ask your administrator whether your workspace allows Computer
+Use.
+Computer use
+Manage how ChatGPT uses other applications on your computer
+Control
+Any App
+Let ChatGPT control apps on your computer
+Google Chrome
+Connected to browser extension for additional controlManage
+Microsoft Excel
+Let ChatGPT use Microsoft Excel add-in for additional control
+Microsoft PowerPoint
+Let ChatGPT use Microsoft PowerPoint add-in for additional control
+Always-allowed apps
+Calculator
+On Windows, keep the target app visible on the active desktop while the task
+runs. On macOS, grant Screen Recording and Accessibility permissions when
+prompted so ChatGPT can see and interact with the target app.
+On macOS, grant:
+Screen Recording permission so ChatGPT can see the target app.
+Accessibility permission so ChatGPT can click, type, and navigate.
+When to use Computer Use
+For difficult tasks that depend on screenshots or visual judgment, choose
+GPT-6 Astra when it is available in your model
+selector. The same operating-system permissions and app access controls apply.
+Choose Computer Use when the task depends on a graphical user interface that’s
+hard to verify through files or command output alone.
+Good fits include:
+Testing a macOS app, Windows app, iOS simulator flow, or another desktop app
+that ChatGPT is building.
+Performing a task that requires your web browser.
+Reproducing a bug that only appears in a graphical interface.
+Changing app settings that require clicking through a UI.
+Inspecting information in an app or data source that isn’t available through a
+plugin.
+On macOS, running a scoped task in the background while you keep working
+elsewhere.
+Executing a workflow that spans more than one app.
+For web apps you are building locally, use the
+built-in browser first.
+Windows foreground use
+On Windows, Computer Use runs on the active desktop. It can’t operate in the
+background while you keep using the same Windows session, so expect ChatGPT to
+move the pointer, type, and take over the foreground while the task runs.
+For Windows tasks that should continue while you step away, keep the Windows
+device unlocked and connected to the internet. Use
+remote control from your phone to check progress
+or send follow-up instructions, or run the ChatGPT desktop app inside a Windows virtual
+machine so Computer Use takes over the VM instead of your main desktop.
+Start a Computer Use task
+Mention @Computer or @AppName in your prompt, or ask ChatGPT to use Computer
+Use. Describe the exact app, window, or flow ChatGPT should operate.
+Open the app with Computer Use, reproduce the onboarding bug, and fix the
+smallest code path that causes it. After each change, run the same UI flow
+again.
+Open @Chrome and verify the checkout page still works after the latest changes.
+If the target app exposes a dedicated plugin or MCP server, prefer that
+structured integration for data access and repeatable operations. Choose
+Computer Use when ChatGPT needs to inspect or operate the app visually.
+Permissions and approvals
+Workspace administrators can restrict which apps Computer Use can access and
+whether approvals can be saved. See
+managed browser and Computer Use controls.
+System permissions for Computer Use are separate from app approvals in ChatGPT.
+On macOS, Screen Recording and Accessibility permissions let ChatGPT see and
+operate apps. App approvals determine which apps you allow ChatGPT to use. File
+reads, file edits, and shell commands still follow the sandbox and approval
+settings for the task.
+With Computer Use, ChatGPT can see and take action only in the apps you allow.
+During a task, ChatGPT asks for your permission before it can use an app on your
+computer. You can choose Always allow so ChatGPT can use that app in the future
+without asking again. You can remove apps from the Always allow list in the
+Computer Use section of the ChatGPT desktop app settings.
+Computer UseAllow Codex to use Calculator?
+Always allowCancelEscAllow↵
+ChatGPT may also ask for permission before taking sensitive or disruptive actions.
+If ChatGPT can’t see or control an app, open System Settings > Privacy &
+Security and check Screen Recording and Accessibility for Codex
+Computer Use on macOS. On Windows, make sure the target app is visible in the
+active desktop session.
+Configure Windows app policy
+On Windows, Computer Use stores persistent app decisions in
+$CODEX_HOME/config.toml. List the apps that Computer Use can open without
+prompting:[computer_use.windows]
+always_allowed_app_ids = ["mspaint.exe"]
+Use the app identifier that Windows Computer Use reports, such as an executable
+name for a desktop app or an app user model ID for a packaged app. ChatGPT
+prompts for apps that aren’t in the list. To revoke a saved decision, remove
+the app from Settings > Computer Use > Always allow.
+This table stores local Computer Use decisions. It’s separate from the
+admin-enforced requirements.toml, where administrators can disable Computer
+Use with [features].computer_use = false. Older
+$CODEX_HOME/computer-use/config.toml allow-list entries are migrated into the
+current setting; its denied list isn’t part of the current policy schema.
+Locked use
+Locked use is for macOS. On Windows, Computer Use works in the foreground.
+Locked use lets ChatGPT use Computer Use after your Mac locks, but only after
+you enable it. Use it when a ChatGPT task needs to use desktop apps from a
+connected device after the Mac locks.
+When you enable locked use, ChatGPT installs an Apple
+authorization plug-in
+that participates in the macOS unlock flow.
+Locked use is intentionally narrow. It’s not a general-purpose remote-unlock
+path for your Mac, and it doesn’t let other apps or local processes unlock the
+computer.
+To use locked use:
+Open Settings > Computer Use in the app.
+Enable locked use.
+Start a task that uses Computer Use from a connected device after your Mac’s
+screen has locked.
+When a ChatGPT task accesses an app via Computer Use after your Mac locks, ChatGPT
+temporarily unlocks the Mac while blocking local use and preserving the locked
+screen protections. Before unlocking, ChatGPT checks whether the unlock attempt is
+for an active, trusted Computer Use turn. Outside that short-lived window, ChatGPT
+denies the unlock and asks you to unlock manually if needed.
+Locked use includes safeguards:
+The authorization window is short-lived and scoped to the current unlock
+attempt.
+Automatic unlock is available only to ChatGPT during active Computer Use turns.
+ChatGPT covers every display while the desktop is temporarily unlocked.
+If ChatGPT detects local keyboard or pointer input, it relocks the Mac and
+pauses automatic unlock until you unlock it manually.
+Safety guidance
+With Computer Use, ChatGPT can view screen content, take screenshots, and interact
+with windows, menus, keyboard input, and clipboard state in the target app.
+Treat visible app content, browser pages, screenshots, and files opened in the
+target app as context ChatGPT may process while the task runs.
+Keep tasks narrow and stay present for sensitive flows:
+Give ChatGPT one clear target app or flow at a time.
+You can stop the task or take over your computer at any time.
+Keep sensitive apps closed unless they’re required for the task.
+On Windows, expect ChatGPT to take over foreground input while it works; use a
+secondary device, a VM, or stop the task before using that desktop yourself.
+Avoid tasks that require secrets unless you’re present and can approve each
+step.
+Review app permission prompts before allowing ChatGPT to use an app.
+Use Always allow only for apps you trust ChatGPT to use automatically in
+future tasks.
+Stay present for account, security, privacy, network, payment, or
+credential-related settings.
+Cancel the task if ChatGPT starts interacting with the wrong window.
+If ChatGPT uses your browser, it can interact with pages where you’re already
+signed in. Review website actions as if you were taking them yourself: web pages
+can contain malicious or misleading content, and sites may treat approved clicks,
+form submissions, and signed-in actions as coming from your account. To keep
+using your browser while ChatGPT works, ask ChatGPT to use a different browser.
+The feature can’t automate terminal apps or ChatGPT itself, since automating them
+could bypass ChatGPT security policies. It also can’t authenticate as an
+administrator or approve security and privacy permission prompts on your
+computer.
+File edits and shell commands still follow ChatGPT approval and sandbox settings
+where applicable. Changes made through desktop apps may not appear in the review
+pane until they’re saved to disk and tracked by the project. Your ChatGPT data
+controls apply to content processed through ChatGPT, including screenshots taken
+by Computer Use.
+Previous
+Browser
+Next
+Voice
+Ask AI
+Docs agent
+Loading docs agent...

@@ -1,0 +1,17 @@
+{
+  "ObservedUtc": "2026-11-07T19:10:48.3160009Z",
+  "PackageIdentity": {
+    "Name": "OpenAI.Codex",
+    "Version": "26.1103.3517.0",
+    "ProcessorArchitecture": "x64"
+  },
+  "OperatingSystem": {
+    "Caption": "Microsoft Windows 11 专业工作站版",
+    "Version": "10.0.26200",
+    "BuildNumber": "26200",
+    "OSArchitecture": "64 位"
+  },
+  "AppUiOperated": false,
+  "SecurityPolicyChanged": false,
+  "ProductOperationPerformed": false
+}

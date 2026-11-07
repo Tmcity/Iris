@@ -1,0 +1,29 @@
+{
+  "Utc": "2026-11-07T19:12:06.982817+00:00",
+  "UserAnyAppState": "On",
+  "UserStateProvenance": "User actual confirmation relayed by root",
+  "TrustedBridgeAvailableInCurrentChildRuntime": false,
+  "RootLastOfficialBootstrapError": "Computer Use native pipe is unavailable",
+  "NewBootstrapRetryPerformed": false,
+  "KernelResetPerformed": false,
+  "NewComponentMutationPerformed": false,
+  "ExistingPackageImportRepairMatches": true,
+  "CurrentPackageSha256": "babaa17c7a26204a5937476427506545aa662703c68a90286cfc217a8730a407",
+  "HostPackageIdentity": {
+    "Name": "OpenAI.Codex",
+    "Version": "26.1103.3517.0",
+    "ProcessorArchitecture": "x64"
+  },
+  "HostOperatingSystem": {
+    "Caption": "Microsoft Windows 11 专业工作站版",
+    "Version": "10.0.26200",
+    "BuildNumber": "26200",
+    "OSArchitecture": "64 位"
+  },
+  "OfficialTroubleshootingSource": "https://learn.chatgpt.com/docs/reference/troubleshooting",
+  "OfficialTroubleshootingHttpStatus": 200,
+  "NativeBridgeSpecificRecoveryDocumentedInFetchedPages": false,
+  "HostApplicationRuntimeInvestigationStillRequired": true,
+  "SupportReportSubmitted": false,
+  "RecoveryByRestartProved": false
+}

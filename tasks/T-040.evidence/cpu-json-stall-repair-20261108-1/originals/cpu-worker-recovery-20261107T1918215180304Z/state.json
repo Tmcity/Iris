@@ -1,0 +1,70 @@
+{
+    "Runs":  [
+                 {
+                     "Pid":  2848,
+                     "CreatedUtc":  "2026-11-07T19:11:35.4706663Z",
+                     "ExitCode":  null,
+                     "PostFullGcSteadyStateProved":  false,
+                     "CpuSamples":  [
+
+                                    ],
+                     "DataDirectory":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\IrisT040Diagnostic\\ab153c47ac4547d6ae4f0181fed9f841\\data",
+                     "PrelaunchCpuSamples":  [
+                                                 {
+                                                     "IdleTicks":  41875000,
+                                                     "ToUtc":  "2026-11-07T19:11:34.5872681Z",
+                                                     "TotalTicks":  42031250,
+                                                     "FromUtc":  "2026-11-07T19:11:34.3737198Z",
+                                                     "SystemCpuPercentage":  0.37174721189591076
+                                                 },
+                                                 {
+                                                     "IdleTicks":  46875000,
+                                                     "ToUtc":  "2026-11-07T19:11:34.8248119Z",
+                                                     "TotalTicks":  47343750,
+                                                     "FromUtc":  "2026-11-07T19:11:34.5872681Z",
+                                                     "SystemCpuPercentage":  0.99009900990099009
+                                                 },
+                                                 {
+                                                     "IdleTicks":  41875000,
+                                                     "ToUtc":  "2026-11-07T19:11:35.0318546Z",
+                                                     "TotalTicks":  42343750,
+                                                     "FromUtc":  "2026-11-07T19:11:34.8248119Z",
+                                                     "SystemCpuPercentage":  1.1070110701107012
+                                                 },
+                                                 {
+                                                     "IdleTicks":  41718750,
+                                                     "ToUtc":  "2026-11-07T19:11:35.2389009Z",
+                                                     "TotalTicks":  41718750,
+                                                     "FromUtc":  "2026-11-07T19:11:35.0318546Z",
+                                                     "SystemCpuPercentage":  0
+                                                 },
+                                                 {
+                                                     "IdleTicks":  41406250,
+                                                     "ToUtc":  "2026-11-07T19:11:35.4469904Z",
+                                                     "TotalTicks":  41406250,
+                                                     "FromUtc":  "2026-11-07T19:11:35.2389009Z",
+                                                     "SystemCpuPercentage":  0
+                                                 }
+                                             ],
+                     "Kind":  "baseline",
+                     "StartupCpuConditionProved":  false,
+                     "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\IrisT040Diagnostic\\ab153c47ac4547d6ae4f0181fed9f841\\Iris.App.exe",
+                     "LaunchRequestedUtc":  "2026-11-07T19:11:35.4535358Z"
+                 }
+             ],
+    "StartedUtc":  "2026-11-07T19:11:32.8786368Z",
+    "InstallerExecuted":  false,
+    "OriginalExitCode":  0,
+    "WorkingSetTrimmed":  false,
+    "OriginalPid":  2252,
+    "FormalNfrResult":  false,
+    "SecretsBeforeSha256":  "60D78472E3E206A670A708D39457527CED1DDE4CD06736839808E3571B9FED4B",
+    "ProductOperationPerformed":  true,
+    "GcRequested":  false,
+    "Failure":  null,
+    "RestoredPid":  null,
+    "SettingsBeforeSha256":  "1AC857BB5C7D34CB40E1DDB440585FF23A0D3D0C9BB63AFA3BFD0ED1A110F2AC",
+    "Completed":  false,
+    "DiagnosticOnly":  true,
+    "WorkerPid":  2432
+}
