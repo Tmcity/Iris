@@ -1,0 +1,206 @@
+{
+    "StartedUtc":  "2026-11-07T16:51:51.1794735Z",
+    "ModeRestored":  true,
+    "FinishedUtc":  "2026-11-07T16:52:25.6893299Z",
+    "Failure":  null,
+    "Commands":  [
+                     {
+                         "ExitCode":  0,
+                         "Pid":  3100,
+                         "Utc":  "2026-11-07T16:51:51.4277247Z"
+                     },
+                     {
+                         "ExitCode":  0,
+                         "Pid":  5128,
+                         "Utc":  "2026-11-07T16:52:23.6758115Z"
+                     }
+                 ],
+    "ProductOperationPerformed":  true,
+    "NativeCliUsed":  true,
+    "Completed":  true,
+    "EnabledMode":  "ShowIcon",
+    "TargetPid":  6040,
+    "FormalPostGcIdleMemoryProved":  false,
+    "Samples":  [
+                    {
+                        "WorkingSetBytes":  201211904,
+                        "Utc":  "2026-11-07T16:51:54.4713233Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  66723840
+                    },
+                    {
+                        "WorkingSetBytes":  201211904,
+                        "Utc":  "2026-11-07T16:51:55.5344135Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  66723840
+                    },
+                    {
+                        "WorkingSetBytes":  201162752,
+                        "Utc":  "2026-11-07T16:51:56.5344401Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  66654208
+                    },
+                    {
+                        "WorkingSetBytes":  201162752,
+                        "Utc":  "2026-11-07T16:51:57.5345985Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  66654208
+                    },
+                    {
+                        "WorkingSetBytes":  201162752,
+                        "Utc":  "2026-11-07T16:51:58.5346190Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  66654208
+                    },
+                    {
+                        "WorkingSetBytes":  201162752,
+                        "Utc":  "2026-11-07T16:51:59.5346461Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  66654208
+                    },
+                    {
+                        "WorkingSetBytes":  201162752,
+                        "Utc":  "2026-11-07T16:52:00.5347138Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  66654208
+                    },
+                    {
+                        "WorkingSetBytes":  201162752,
+                        "Utc":  "2026-11-07T16:52:01.5452842Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  66654208
+                    },
+                    {
+                        "WorkingSetBytes":  201162752,
+                        "Utc":  "2026-11-07T16:52:02.5508186Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  66654208
+                    },
+                    {
+                        "WorkingSetBytes":  201162752,
+                        "Utc":  "2026-11-07T16:52:03.5508310Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  66654208
+                    },
+                    {
+                        "WorkingSetBytes":  201162752,
+                        "Utc":  "2026-11-07T16:52:04.5529506Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  66654208
+                    },
+                    {
+                        "WorkingSetBytes":  201162752,
+                        "Utc":  "2026-11-07T16:52:05.5550286Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  66654208
+                    },
+                    {
+                        "WorkingSetBytes":  201162752,
+                        "Utc":  "2026-11-07T16:52:06.5551063Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  66654208
+                    },
+                    {
+                        "WorkingSetBytes":  199864320,
+                        "Utc":  "2026-11-07T16:52:07.5589448Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  64602112
+                    },
+                    {
+                        "WorkingSetBytes":  199864320,
+                        "Utc":  "2026-11-07T16:52:08.5662284Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  64602112
+                    },
+                    {
+                        "WorkingSetBytes":  199864320,
+                        "Utc":  "2026-11-07T16:52:09.5686971Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  64602112
+                    },
+                    {
+                        "WorkingSetBytes":  199864320,
+                        "Utc":  "2026-11-07T16:52:10.5707258Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  64602112
+                    },
+                    {
+                        "WorkingSetBytes":  199647232,
+                        "Utc":  "2026-11-07T16:52:11.5707426Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  64294912
+                    },
+                    {
+                        "WorkingSetBytes":  199647232,
+                        "Utc":  "2026-11-07T16:52:12.5707658Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  64294912
+                    },
+                    {
+                        "WorkingSetBytes":  199647232,
+                        "Utc":  "2026-11-07T16:52:13.5707867Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  64294912
+                    },
+                    {
+                        "WorkingSetBytes":  199647232,
+                        "Utc":  "2026-11-07T16:52:14.5708421Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  64294912
+                    },
+                    {
+                        "WorkingSetBytes":  199647232,
+                        "Utc":  "2026-11-07T16:52:15.5728815Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  64294912
+                    },
+                    {
+                        "WorkingSetBytes":  199647232,
+                        "Utc":  "2026-11-07T16:52:16.5753548Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  64294912
+                    },
+                    {
+                        "WorkingSetBytes":  199647232,
+                        "Utc":  "2026-11-07T16:52:17.5754384Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  64294912
+                    },
+                    {
+                        "WorkingSetBytes":  199647232,
+                        "Utc":  "2026-11-07T16:52:18.5754719Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  64294912
+                    },
+                    {
+                        "WorkingSetBytes":  199647232,
+                        "Utc":  "2026-11-07T16:52:19.5754911Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  64294912
+                    },
+                    {
+                        "WorkingSetBytes":  199647232,
+                        "Utc":  "2026-11-07T16:52:20.5775342Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  64294912
+                    },
+                    {
+                        "WorkingSetBytes":  199667712,
+                        "Utc":  "2026-11-07T16:52:21.5813352Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  64335872
+                    },
+                    {
+                        "WorkingSetBytes":  199667712,
+                        "Utc":  "2026-11-07T16:52:22.5813564Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  64335872
+                    },
+                    {
+                        "WorkingSetBytes":  199667712,
+                        "Utc":  "2026-11-07T16:52:23.5814017Z",
+                        "CpuPercent":  0,
+                        "PrivateBytes":  64335872
+                    }
+                ]
+}

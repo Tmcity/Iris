@@ -1,0 +1,28 @@
+{
+  "Pid": 6040,
+  "Utc": "2026-11-07T16:46:16.5308205+00:00",
+  "WorkingSetMiB": 182.02734375,
+  "PrivateBytesMiB": 58.140625,
+  "Coverage": 0.9998068628082147,
+  "Totals": [
+    {
+      "Type": "Private",
+      "ResidentBytes": 46559232,
+      "SharedResidentBytes": 8192,
+      "PrivateResidentBytes": 46551040
+    },
+    {
+      "Type": "Mapped",
+      "ResidentBytes": 52699136,
+      "SharedResidentBytes": 51859456,
+      "PrivateResidentBytes": 839680
+    },
+    {
+      "Type": "Image",
+      "ResidentBytes": 91574272,
+      "SharedResidentBytes": 87089152,
+      "PrivateResidentBytes": 4485120
+    }
+  ],
+  "FormalClosedWindowFullGcProved": false
+}

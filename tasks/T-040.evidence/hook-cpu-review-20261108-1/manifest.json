@@ -1,0 +1,27 @@
+[
+  {
+    "Path": "tasks\\T-040.evidence\\hook-cpu-review-20261108-1\\review.json",
+    "Bytes": 200,
+    "Sha256": "59cdf6facc7e9b118e2234073d0148bcd27378ad862b5a366c0dc1db02c50eb6"
+  },
+  {
+    "Path": "tasks\\T-040.evidence\\hook-cpu-review-20261108-1\\REVIEW.md",
+    "Bytes": 959,
+    "Sha256": "0efe92caff5cbbc7b071e4f4050d79292a67331d481e88f02a3e68e94b4de1a8"
+  },
+  {
+    "Path": "tasks\\T-040.evidence\\hook-cpu-review-20261108-1\\state.json",
+    "Bytes": 8687,
+    "Sha256": "a0e08f8acce2362a5564d12e306f7aed81d43da315e39766ce57b6bfe285929d"
+  },
+  {
+    "Path": "tasks\\T-040.evidence\\current-memory-map-20261108-1\\memory-map-20261107T1646165330897Z.json",
+    "Bytes": 220540,
+    "Sha256": "cf763ebfc93e5462bc292233ee158ef4fe3203dcc6f08be5827dc348f7298487"
+  },
+  {
+    "Path": "tasks\\T-040.evidence\\current-memory-map-20261108-1\\review.json",
+    "Bytes": 689,
+    "Sha256": "add4df34fc87b21f3bbf6c6f92189e2f4ba5a2ac7c89238d9ebb4a28dba08c35"
+  }
+]
