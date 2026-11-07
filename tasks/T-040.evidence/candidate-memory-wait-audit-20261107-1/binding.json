@@ -1,0 +1,184 @@
+{
+  "Utc": "2026-11-07T11:44:24.986492+00:00",
+  "Task": "T-040",
+  "Complete": false,
+  "BlockingCondition": "Required manual same-instance candidate closed-window 45-second checkpoint and feedback are missing.",
+  "ConsecutiveObservedGoalTurnsWithSameMissingCheckpoint": 3,
+  "Turn1": {
+    "Commit": "fd384582baec2cbc361e2b25f538372e53f24d9d",
+    "Classification": "progress",
+    "CheckpointMissing": true
+  },
+  "Turn2": {
+    "Commit": "acfbb38bce523fe447ca17cbe2515f2a82e8709e",
+    "Classification": "progress",
+    "CheckpointMissing": true
+  },
+  "Turn3": {
+    "Classification": "completed independent diagnosis preparation, then blocked on the same manual step",
+    "CheckpointMissing": true
+  },
+  "SandboxId": "4fc7c24d-f1e5-4b3e-adaa-2abe01f643fe",
+  "CurrentProcesses": {
+    "Utc": "2026-11-07T11:42:07.3947824Z",
+    "Processes": [
+      {
+        "ProcessId": 2560,
+        "ParentProcessId": 3120,
+        "Name": "powershell.exe",
+        "CreationDate": "/Date(1793999059445)/",
+        "ExecutablePath": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+        "CommandLine": "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\IrisT040MetricsV2\\observe-process-metrics-v2-readonly.ps1 -OutputDirectory C:\\IrisT040Output\\metrics-c4cdd9b216e34b3e90ef4c889256b95a "
+      },
+      {
+        "ProcessId": 476,
+        "ParentProcessId": 5356,
+        "Name": "Iris.App.exe",
+        "CreationDate": "/Date(1794040067576)/",
+        "ExecutablePath": "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+        "CommandLine": "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\""
+      },
+      {
+        "ProcessId": 7676,
+        "ParentProcessId": 3240,
+        "Name": "T040SyntheticProvider.exe",
+        "CreationDate": "/Date(1794049335476)/",
+        "ExecutablePath": "C:\\IrisT040CacheCheckpoints\\tools\\synthetic-provider\\T040SyntheticProvider.exe",
+        "CommandLine": "\"C:\\IrisT040CacheCheckpoints\\tools\\synthetic-provider\\T040SyntheticProvider.exe\""
+      }
+    ],
+    "ProductOperationPerformed": false
+  },
+  "VisibleIrisWindowTitles": [
+    "翻译历史",
+    "Iris 设置"
+  ],
+  "SameAppCreationIdentityVerified": true,
+  "CurrentMetricsObserverPid": 2560,
+  "CurrentSyntheticProviderPid": 7676,
+  "ManualOperationBoundary": "User reserved actual Iris UI, installation, hotkey and screenshot operations for manual execution.",
+  "IndependentCandidateFixBuildTestsAndReviewCompleted": true,
+  "IndependentCacheCollectorPreparationCompleted": true,
+  "CurrentCapiRetention": {
+    "RecordCount": 319,
+    "MaximumSizeInBytes": 1052672,
+    "WindowLimitReached": false,
+    "WindowEvents": 0,
+    "LogMode": "Circular",
+    "LogName": "Microsoft-Windows-CAPI2/Operational",
+    "OldestUtc": "2026-11-07T11:21:42.0957340Z",
+    "Enabled": true,
+    "NewestUtc": "2026-11-07T11:24:46.2315717Z",
+    "Failure": null
+  },
+  "InstallWindowCapiDataRecoverable": false,
+  "CapiAbsenceDoesNotRuleOutCertificateOrNetworkWait": true,
+  "LiveCapiCollectorValidated": {
+    "Events": 71,
+    "RecordIdGaps": 0,
+    "Duplicates": 0,
+    "Completed": true,
+    "DurationSeconds": 15,
+    "SignatureProbeElapsedMs": 240.852
+  },
+  "LiveValidationExercisedOnlyStandaloneUserContextSignature": true,
+  "ActualWindowsInstaller120SecondWaitRootCauseProved": false,
+  "CompletionAudit": {
+    "Requirement1FullManualFeatureCoverage": "incomplete; only a subset of real operations has been verified",
+    "Requirement2AllNfrMetrics": "incomplete; candidate closed-window memory, 4K and other response metrics are unproved",
+    "Requirement3DefectClosure": "incomplete; code menu lifetime fixed, actual candidate memory and installer/history issues remain",
+    "Requirement4FinalT040DeliverableAndAudit": "missing; tasks/done/T-040.md does not exist"
+  },
+  "EligibleToSetGoalBlocked": true,
+  "GoalComplete": false,
+  "ObjectiveAndScopeUnchanged": true,
+  "RecoveryAction": "User closes Iris functional windows, keeps PID476 in the tray, idles 45 seconds, runs C:/IrisT040CandidateSteady/Save-Candidate-Post-GC-Steady-State.cmd and reports the saved result.",
+  "NoNewPermissionQuestionNeeded": true,
+  "NoNewPublicReleaseAuthorized": true,
+  "Files": [
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\install-event-retention-20261107T1124460999330Z\\Microsoft-Windows-AppLocker-MSI_and_Script.xml",
+      "Path": "diagnostics/install-event-retention-20261107T1124460999330Z/Microsoft-Windows-AppLocker-MSI_and_Script.xml",
+      "Bytes": 26541,
+      "Sha256": "255a9add3ef5134259b24c2019821e4ac74799d6f53957553c65cdf5298dbd1b"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\install-event-retention-20261107T1124460999330Z\\Microsoft-Windows-CAPI2-Operational.xml",
+      "Path": "diagnostics/install-event-retention-20261107T1124460999330Z/Microsoft-Windows-CAPI2-Operational.xml",
+      "Bytes": 17,
+      "Sha256": "3f2e879941c23cc4ba822b7fcf62857c830f2fa62498f01cee12bb1dab15ab44"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\install-event-retention-20261107T1124460999330Z\\state.json",
+      "Path": "diagnostics/install-event-retention-20261107T1124460999330Z/state.json",
+      "Bytes": 2035,
+      "Sha256": "4bc26d89d1f1b5b50c69aba27017666bae04a2648e4ff2564412304ca60a54ad"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\install-event-retention-20261107T1124460999330Z\\System.xml",
+      "Path": "diagnostics/install-event-retention-20261107T1124460999330Z/System.xml",
+      "Bytes": 1682,
+      "Sha256": "e08b94894802977bfe3928c5d7668a548f51dac2a938e340ddda35bbd658d7bf"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\live-capi2-20261107T1136226654230Z\\events.jsonl",
+      "Path": "diagnostics/live-capi2-20261107T1136226654230Z/events.jsonl",
+      "Bytes": 276586,
+      "Sha256": "1dee5dc7082eb37d64c3d506a31886df6a48b4cc27ed74221207def9b36cca0c"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\live-capi2-20261107T1136226654230Z\\record-integrity.json",
+      "Path": "diagnostics/live-capi2-20261107T1136226654230Z/record-integrity.json",
+      "Bytes": 212,
+      "Sha256": "d0d371753f88c2dca7e4cc159ccecfd9d3659d6aef3f290c91083fa18fb4cda0"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\live-capi2-20261107T1136226654230Z\\state.json",
+      "Path": "diagnostics/live-capi2-20261107T1136226654230Z/state.json",
+      "Bytes": 752,
+      "Sha256": "2a1893b429fd76c523d3cb000035dd0403b029e64eb36be1a7e6475a44b5adc8"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\actual-helper-processes-20261107T1142073988089Z.json",
+      "Path": "current-state/actual-helper-processes-20261107T1142073988089Z.json",
+      "Bytes": 1887,
+      "Sha256": "ca0fa33a65a0ba28422361f603664625498e53968bbe84f4f7ec619fb2d8aa11"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\stage1-view-metadata-20261107T1139204316876Z.json",
+      "Path": "current-state/stage1-view-metadata-20261107T1139204316876Z.json",
+      "Bytes": 812,
+      "Sha256": "323bc0007c554d73787e2235153645c20fa5809edb4d56eb622a1d05f5082f23"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\tool-transcript-20261107T112444116746Z.txt",
+      "Path": "commands/tool-transcript-20261107T112444116746Z.txt",
+      "Bytes": 2290,
+      "Sha256": "2adf98ad9254c18cb28530d142e71ae612c8379ad3b13166ac538efffac69022"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261106-2\\output\\tool-transcript-20261107T113620490218Z.txt",
+      "Path": "commands/tool-transcript-20261107T113620490218Z.txt",
+      "Bytes": 1988,
+      "Sha256": "640e1489e78e30905d4c3ede2dcd1fb54285d97c92e7a147f3222b9ba9a92372"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\tasks\\t040_inspect_install_event_retention_readonly.ps1",
+      "Path": "tool-source/t040_inspect_install_event_retention_readonly.ps1",
+      "Bytes": 2737,
+      "Sha256": "c19a1aa26770a45918d21da60b4dd46add1c96075f10716ea44d97edb72c1ce3"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\tasks\\t040_capture_live_capi2_readonly.ps1",
+      "Path": "tool-source/t040_capture_live_capi2_readonly.ps1",
+      "Bytes": 5885,
+      "Sha256": "060a0c7027052e3033c206c06b8da9e9236618968ad1beee1a71876cddafee58"
+    },
+    {
+      "OriginalPath": "F:\\Iris\\tasks\\t040_validate_live_capi2_readonly.ps1",
+      "Path": "tool-source/t040_validate_live_capi2_readonly.ps1",
+      "Bytes": 142,
+      "Sha256": "7b908d9e4773873e8539813fbd2131adbbb612b672d3d57face6e1f7fdf9b05b"
+    }
+  ]
+}

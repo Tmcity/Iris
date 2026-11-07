@@ -1,0 +1,22 @@
+{
+    "Completed":  true,
+    "SecurityPolicyChanged":  false,
+    "SignatureProbeElapsedMs":  240.852,
+    "IrisUiOperatedByTool":  false,
+    "StartedUtc":  "2026-11-07T11:36:22.6654230Z",
+    "ProductOperationPerformed":  false,
+    "DurationSeconds":  15,
+    "CapturedEvents":  71,
+    "ExistingMsiSignatureProbe":  true,
+    "ColdInstallRootCauseProved":  false,
+    "Ready":  false,
+    "EventLogConfigurationChanged":  false,
+    "Utc":  "2026-11-07T11:36:38.2815536Z",
+    "SignatureProbeStatus":  "Valid",
+    "InstallerExecutedByTool":  false,
+    "PsVersion":  "5.1.26100.9549",
+    "LogName":  "Microsoft-Windows-CAPI2/Operational",
+    "Failure":  null,
+    "MaximumLogSizeBytes":  1052672,
+    "ObserverPid":  7784
+}

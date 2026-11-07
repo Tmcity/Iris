@@ -17,11 +17,14 @@
 
 原0.2.10的同条件失败中位205.705MiB保留。候选必须按同一WS≤160MiB、PB≤100MiB比较；相对改善不等于通过。未达标继续定位修正，不能结束T-040。
 
+候选关窗保存条件已在连续三个目标轮中缺失。本轮完成独立安装事件保留检查与实时采集实测后，必须等待用户手工步骤；见 [三轮待反馈审计](T-040.candidate-memory-wait-audit-20261107.md)。归档/字节复核后按审计调用目标工具设为blocked，保留原完整目标，不标完成。不重复提问或继续拿窗口打开的样本代替关窗验证；收到新原件后从同一检查点接续。
+
 ## 已归档与后续
 
 - [失败、引用根链与修正](T-040.evidence/memory-failure-fix-review-20261107-1/binding.json)：共享ContextMenu的IWindowService强引用保留已关闭SettingsWindow；独立菜单修正及反例/Release/全量验证已完成。
 - [候选安装与窗口使用](T-040.evidence/memory-candidate-baseline-review-20261107-1/binding.json)：40份原件逐字节复核，保留实际输入偏差、GC终态、CPU43%的启动参考与待完成内存检查点。
 - [缓存采集入口实测](T-040.evidence/cache-checkpoint-preparation-review-20261107-1/binding.json)：46份原件，缺少服务的拒绝路径、空/非空请求日志前缀均通过；首次校验脚本的共享读取失败及修正版保留。C:\IrisT040CacheCheckpoints下三个独立保存入口仅作下一阶段准备，未执行真实Iris缓存验收。
+- [安装日志保留与实时采集](T-040.evidence/candidate-memory-wait-audit-20261107-1/binding.json)：原安装时段CAPI2数据已不可补取；新只读实时采集验证71条连续事件、无缺口，采集器已正常结束。当前用户签名校验240.852ms不等于复现MSI的120秒等待；没有修改安全策略或日志配置。
 - 内存核对后继续缓存/卡片重试及完整功能；[缓存清单](T-040.manual-stage2a-cache-20261107.md)仍仅准备。候选重启清空进程内缓存，应先真实翻译一次建立缓存，再验证缓存命中和绕过缓存的卡片重试。
 - 冷.NET安装约9分钟的MSI策略等待根因、旧历史警告与其它功能/NFR未闭合。4K环境缺失仍标未验证，用户“先当前环境推进”没有豁免4K项。
 

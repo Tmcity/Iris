@@ -1,0 +1,48 @@
+{
+    "InstallerExecuted":  false,
+    "StartUtc":  "2026-11-06T17:26:00Z",
+    "SecurityPolicyChanged":  false,
+    "Utc":  "2026-11-07T11:24:46.5809490Z",
+    "Logs":  [
+                 {
+                     "RecordCount":  319,
+                     "MaximumSizeInBytes":  1052672,
+                     "WindowLimitReached":  false,
+                     "WindowEvents":  0,
+                     "LogMode":  "Circular",
+                     "LogName":  "Microsoft-Windows-CAPI2/Operational",
+                     "OldestUtc":  "2026-11-07T11:21:42.0957340Z",
+                     "Enabled":  true,
+                     "NewestUtc":  "2026-11-07T11:24:46.2315717Z",
+                     "Failure":  null
+                 },
+                 {
+                     "RecordCount":  16,
+                     "MaximumSizeInBytes":  1052672,
+                     "WindowLimitReached":  false,
+                     "WindowEvents":  16,
+                     "LogMode":  "Circular",
+                     "LogName":  "Microsoft-Windows-AppLocker/MSI and Script",
+                     "OldestUtc":  "2026-11-06T17:29:57.2745681Z",
+                     "Enabled":  true,
+                     "NewestUtc":  "2026-11-06T17:45:56.2015332Z",
+                     "Failure":  null
+                 },
+                 {
+                     "RecordCount":  432,
+                     "MaximumSizeInBytes":  20971520,
+                     "WindowLimitReached":  false,
+                     "WindowEvents":  2,
+                     "LogMode":  "Circular",
+                     "LogName":  "System",
+                     "OldestUtc":  "2026-11-06T13:34:33.1653151Z",
+                     "Enabled":  true,
+                     "NewestUtc":  "2026-11-07T11:02:15.6142506Z",
+                     "Failure":  null
+                 }
+             ],
+    "PsVersion":  "5.1.26100.9549",
+    "ProductOperationPerformed":  false,
+    "EventLogConfigurationChanged":  false,
+    "EndUtc":  "2026-11-06T17:47:00Z"
+}
