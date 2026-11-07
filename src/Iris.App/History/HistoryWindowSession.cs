@@ -86,6 +86,9 @@ internal sealed class HistoryWindowSession(IServiceScope scope, IUiDispatcher ui
         {
             StopAcceptance();
             intent.Advance(hiding: true);
+            // Native Closing is still on the UI stack when idle drains finish synchronously.
+            // Keep acceptance stopped immediately, then post the forced Close after that event unwinds.
+            await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
             await ui.InvokeAsync(() => { ViewModel?.ShowClosing(); return Task.CompletedTask; }, CancellationToken.None).ConfigureAwait(false);
             if (ViewModel != null) await ViewModel.DrainAsync().ConfigureAwait(false);
             await ui.InvokeAsync(() =>

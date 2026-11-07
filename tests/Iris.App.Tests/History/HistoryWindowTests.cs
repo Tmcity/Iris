@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using Iris.App.History;
 using Iris.App.Hosting;
 using Iris.App.Tray;
@@ -15,6 +16,35 @@ namespace Iris.App.Tests.History;
 [Collection("AppShutdownerSharedState")]
 public sealed class HistoryWindowTests
 {
+    [Theory]
+    [InlineData("native-close")]
+    [InlineData("escape")]
+    [InlineData("close-command")]
+    public Task Close_IdleRealWindow_UnwindsClosingEventBeforeCleanupAndReopens(string entry) => Run(async f =>
+    {
+        await f.Repository.Inner.AddAsync(Entry("close lifecycle source"));
+        await f.ShowAsync();
+        var session = f.Session;
+        var window = f.Window;
+        if (entry == "native-close") window.Close();
+        else if (entry == "escape")
+        {
+            window.RaiseEvent(new KeyEventArgs(Keyboard.PrimaryDevice, PresentationSource.FromVisual(window)!, 0, Key.Escape)
+            { RoutedEvent = Keyboard.KeyDownEvent });
+        }
+        else f.Vm.CloseCommand.Execute(null);
+        (session.CleanupTask != null).ShouldBeTrue();
+        await session.CleanupTask!.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken);
+        session.IsDisposed.ShouldBeTrue();
+        window.IsVisible.ShouldBeFalse();
+        f.Presenter.ActiveSession.ShouldBeNull();
+        await f.ShowAsync();
+        f.Session.ShouldNotBeSameAs(session);
+        f.Window.IsVisible.ShouldBeTrue();
+        f.Vm.TotalCount.ShouldBe(1);
+        f.ClipboardWrites.ShouldBeEmpty();
+    });
+
     [Fact]
     public Task LazyHostEntryAndTray_ShowOneRealWindowAndQueryOnlySummaries() => Run(async f =>
     {
