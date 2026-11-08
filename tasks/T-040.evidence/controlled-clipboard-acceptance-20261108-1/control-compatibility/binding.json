@@ -1,0 +1,80 @@
+{
+  "Scope": "Child static and parent-attributed evidence; no actual child input or repair success claim",
+  "Files": [
+    {
+      "Path": "collect_static_review.py",
+      "Bytes": 3186,
+      "Sha256": "92a1feea836c12b4c3cdca7ba03acc1a779986ceb54c42be6fbb9beb0e58703b"
+    },
+    {
+      "Path": "collect_static_review_corrected_count.py",
+      "Bytes": 2101,
+      "Sha256": "fb8aa7c7a9317f260e5e6c5321d11157dd0e5db38dc8156c19ca4f36676df83f"
+    },
+    {
+      "Path": "fetch_official_keyboard_docs.py",
+      "Bytes": 2759,
+      "Sha256": "292e646d39d59915eadeed281c58d071e2b5ec95116423948aaf51372ec46a3f"
+    },
+    {
+      "Path": "official-keyboard-docs/fetch-record.json",
+      "Bytes": 5519,
+      "Sha256": "954873a23ed0ab39aba989fbd198a20206ea003ff79edd5890cf9b6f149cfcbf"
+    },
+    {
+      "Path": "official-keyboard-docs/rdp-client-secured-keyboardhookmode.html",
+      "Bytes": 49616,
+      "Sha256": "68e2c0902781e30c281373f7d5b776c1d59dc1976cd0cff6d3201d0fd7e3969a"
+    },
+    {
+      "Path": "official-keyboard-docs/rdp-client-secured-keyboardhookmode.json",
+      "Bytes": 358,
+      "Sha256": "e94a2858a7b31ae5feee94f5af4f4374efb5b017b83ba5eadf5f8c778e8cbf13"
+    },
+    {
+      "Path": "official-keyboard-docs/rdp-client-secured-keyboardhookmode.txt",
+      "Bytes": 4471,
+      "Sha256": "9fcf3771193674162b34bb5a4e578c80cfce00c40c36e69e125334e085c909ed"
+    },
+    {
+      "Path": "official-keyboard-docs/remote-shortcuts.html",
+      "Bytes": 51878,
+      "Sha256": "28095e9835130d44fc34962bff49473c9d2294ae06eece43892632b5411c7fa1"
+    },
+    {
+      "Path": "official-keyboard-docs/remote-shortcuts.txt",
+      "Bytes": 4128,
+      "Sha256": "a9c8f7f09ac4a553d59d761e972f7dfef54de8b0ab56ad131c54def04ad141bf"
+    },
+    {
+      "Path": "official-keyboard-docs/sandbox-overview.html",
+      "Bytes": 52780,
+      "Sha256": "23ad24689a7a5ab2f14803f6f0af9ee465c13245c34fff3a4495407f40e27069"
+    },
+    {
+      "Path": "official-keyboard-docs/sandbox-overview.txt",
+      "Bytes": 4561,
+      "Sha256": "a07a7dfccc4607cccb982a185b60046e701c20b75810c59a867fa0be6176509c"
+    },
+    {
+      "Path": "parent-reported-recheck-trials.json",
+      "Bytes": 1344,
+      "Sha256": "bbd4ee7af267cde95961ae36ba1635b289e4cf90fbf1661a60153ea470e26e42"
+    },
+    {
+      "Path": "REVIEW.md",
+      "Bytes": 3758,
+      "Sha256": "3b1d35e22e2ca91e2a668854edd67e54367911041ae4a50975b8470f72bcae74"
+    },
+    {
+      "Path": "static-review-corrected-count.json",
+      "Bytes": 11755,
+      "Sha256": "dddfb7991c9558b508beaf89e2d4d6416c218c5e1f4ccf886d8e54e6c397575b"
+    },
+    {
+      "Path": "static-review.json",
+      "Bytes": 11074,
+      "Sha256": "e4ab511236dcfbf356667defa7c7be4811363b4c8bef3c332d9b750c64381131"
+    }
+  ]
+}

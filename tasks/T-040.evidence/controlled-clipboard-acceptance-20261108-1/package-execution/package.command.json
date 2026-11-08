@@ -1,0 +1,22 @@
+{
+  "Command": [
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "F:\\Iris\\build\\pack.ps1",
+    "-Version",
+    "0.2.15",
+    "-OutputDirectory",
+    "F:\\Iris\\artifacts\\t040\\clipboard-observation-local-candidate-20261108-1",
+    "-ReadyToRun"
+  ],
+  "StartedUtc": "2026-11-08T09:57:19.190474+00:00",
+  "FinishedUtc": "2026-11-08T09:58:59.171275+00:00",
+  "ExitCode": 0,
+  "Log": "package.log",
+  "Bytes": 5878,
+  "Sha256": "edc32856236f5ba081da25b1efd11318f873fcca3a1e1256745955b4f0d7021a"
+}

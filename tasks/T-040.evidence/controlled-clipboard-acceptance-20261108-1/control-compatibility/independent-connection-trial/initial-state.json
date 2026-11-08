@@ -1,0 +1,25 @@
+{
+  "Scope": "Independent child connection precondition observation; no key injected",
+  "OfficialWrapper": "C:/Users/28910/.codex/plugins/cache/openai-bundled/computer-use/26.609.41114/scripts/computer-use-client.mjs",
+  "AppSelectedFromFreshListApps": true,
+  "SelectedApp": "MicrosoftWindows.WindowsSandbox_cw5n1h2txyewy!AppCli",
+  "CanonicalWindowIdFromGetWindowAndGetState": 461388,
+  "SandboxWindowResolution": "2034x1145",
+  "InitialObservedUi": {
+    "Page": "Iris Settings, Hotkeys",
+    "InputTranslateBinding": "Ctrl+Alt+F",
+    "BindingStatus": "已生效",
+    "RecorderButton": "录入",
+    "RecordingInProgressVisible": false
+  },
+  "SpecifiedRequestedChord": "Ctrl+Alt+d",
+  "SpecifiedChordCallsPerformed": 0,
+  "ChildClickedOrMovedMouse": false,
+  "ChildSavedOrCancelledSettings": false,
+  "ChildResetSharedNode": false,
+  "ChildStartedOrStoppedHelper": false,
+  "InputStoppedBecausePreconditionWasNotMet": true,
+  "InitialRecordingAbsenceCauseEstablished": false,
+  "RootNotifiedOfPreconditionAndZeroInput": true,
+  "WaitingForRootRecorderReadyOrEndOfTrial": true
+}

@@ -1,0 +1,107 @@
+{
+  "RecordedUtc": "2026-11-08T11:08:05.459494+00:00",
+  "InstalledVersion": "0.2.15",
+  "InstalledSource": "8925eb3c7227181e8c3c6f2dffdb16a09799c8ff",
+  "InstalledPid": 7504,
+  "InstalledCreatedUtc": "2026-11-08T10:09:48.8553550Z",
+  "InstalledFilesMatch": 97,
+  "OriginalSeventeenHistoryRowsUnchanged": true,
+  "CurrentHistoryTotal": 18,
+  "OriginalSecretHashPreserved": true,
+  "ActualClipboardOnlyNativeSelectionReadAndTranslationPassed": true,
+  "ActualClipboardRestorationVerifiedByPureKeyboardPaste": true,
+  "ClipboardBaselineWasDistinctFromSelectedNativeText": true,
+  "NoTypeTextBetweenBaselineAndRestorationVerification": true,
+  "PositiveReaderTransactionFile": "selection-copy-state-20261108T1051289196518Z.json",
+  "PositiveClipboardVersionBefore": 557,
+  "PositiveClipboardVersionAfter": 568,
+  "ActualNativeSyntheticPasswordRefused": true,
+  "PasswordClipboardVersionBeforeAndAfter": 568,
+  "PasswordRequestAndHistoryCountsUnchanged": true,
+  "LastKeyboardTaskInNegativeProbeWasPreviousPositiveTaskNotANewInjection": true,
+  "OldUiaMetadataProbeRejectedInstalled015ByIts013VersionGuard": true,
+  "NativePasswordStyleProbeDidNotReadUiaTextOrClipboard": true,
+  "UiAPriorityReadOrderRestoredAndSaved": true,
+  "OriginalOpenBusyFailureAndFourBeforeRegressionFailuresPreserved": true,
+  "AfterRegressionPassed": 4,
+  "FullTests": {
+    "Total": 3792,
+    "Passed": 3790,
+    "Failed": 0,
+    "Skipped": 2
+  },
+  "CurrentSandboxEarlyAltReleaseObserved": true,
+  "NativeControlShortcutInputFullyRepaired": false,
+  "GenericAliasesModifierOrderRightAltFullScreenAndFreshConnectionTrialsRetained": true,
+  "OfficialComputerUseMouseControlOfBuiltInGuestOskSuccessfullyTriggeredFAndD": true,
+  "FirstOskDTrialWithOwnIrisForegroundExcludedFromCopyAcceptance": true,
+  "InitialNativeHotkeyReadyButUiPreparingNotificationGapObserved": true,
+  "HotkeyInitialProgressDefectStillOpen": true,
+  "FixtureRequests": 2,
+  "FixtureCompletedByItsOneHourLifetime": true,
+  "ScreenshotRecords": [
+    {
+      "Path": "controlled-ui-view-20261108T0903393023746Z.png",
+      "Utc": "2026-11-08T09:03:39.4046276Z",
+      "AppPid": 3808
+    },
+    {
+      "Path": "controlled-ui-view-20261108T1010049266897Z.png",
+      "Utc": "2026-11-08T10:10:05.0300796Z",
+      "AppPid": 7504
+    },
+    {
+      "Path": "controlled-ui-view-20261108T1012195327594Z.png",
+      "Utc": "2026-11-08T10:12:19.6264760Z",
+      "AppPid": 7504
+    },
+    {
+      "Path": "controlled-ui-view-20261108T1017282194932Z.png",
+      "Utc": "2026-11-08T10:17:28.3403133Z",
+      "AppPid": 7504
+    },
+    {
+      "Path": "controlled-ui-view-20261108T1019300991096Z.png",
+      "Utc": "2026-11-08T10:19:30.1822999Z",
+      "AppPid": 7504
+    },
+    {
+      "Path": "controlled-ui-view-20261108T1032597646438Z.png",
+      "Utc": "2026-11-08T10:32:59.8729488Z",
+      "AppPid": 7504
+    },
+    {
+      "Path": "controlled-ui-view-20261108T1044231965615Z.png",
+      "Utc": "2026-11-08T10:44:23.3215590Z",
+      "AppPid": 7504
+    },
+    {
+      "Path": "controlled-ui-view-20261108T1046284885791Z.png",
+      "Utc": "2026-11-08T10:46:28.5991369Z",
+      "AppPid": 7504
+    },
+    {
+      "Path": "controlled-ui-view-20261108T1051283052629Z.png",
+      "Utc": "2026-11-08T10:51:28.4037444Z",
+      "AppPid": 7504
+    },
+    {
+      "Path": "controlled-ui-view-20261108T1052275892498Z.png",
+      "Utc": "2026-11-08T10:52:27.6848843Z",
+      "AppPid": 7504
+    },
+    {
+      "Path": "controlled-ui-view-20261108T1057425455877Z.png",
+      "Utc": "2026-11-08T10:57:42.6646198Z",
+      "AppPid": 7504
+    },
+    {
+      "Path": "controlled-ui-view-20261108T1102341456924Z.png",
+      "Utc": "2026-11-08T11:02:34.2483523Z",
+      "AppPid": 7504
+    }
+  ],
+  "FormalMemoryOrLatencyResult": false,
+  "WholeT040Complete": false,
+  "PublicWritePerformed": false
+}

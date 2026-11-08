@@ -1,0 +1,40 @@
+{
+  "Scope": "Independent official connection, exact one-chord call, bounded UI outcome and source-order review",
+  "Files": [
+    {
+      "Path": "collect_event_order_review.py",
+      "Bytes": 3186,
+      "Sha256": "5a308bc39f31c718afb908fd57d936bf595ccd021ce2c457f14f853d61bc4ebf"
+    },
+    {
+      "Path": "collect_one_chord_observation.py",
+      "Bytes": 3985,
+      "Sha256": "30760904e33b6c264dde9f718572466f7686455f6a7c4356ed7e460e2e1f0276"
+    },
+    {
+      "Path": "event-order-review.json",
+      "Bytes": 8149,
+      "Sha256": "0af0cddf32b694d75e829da7fb09fbe6db29baf0e79a71bab4ce3fa94d3a832a"
+    },
+    {
+      "Path": "initial-state.json",
+      "Bytes": 1085,
+      "Sha256": "c3262631e0c4609bdfbbf40f02dee5d029c93a254372cc2c2139c4e20fc91387"
+    },
+    {
+      "Path": "one-chord-observation.json",
+      "Bytes": 2853,
+      "Sha256": "ef651d69f04f04f37c4406df1cc7dbad153da1f1950f9bae9bb9865f1ddf2859"
+    },
+    {
+      "Path": "pre-chord-hotkey-state.json",
+      "Bytes": 682,
+      "Sha256": "0b74e416652c5fa3fc843b031a943eb4165720c3b9c052006b0e23168910b2f9"
+    },
+    {
+      "Path": "REVIEW.md",
+      "Bytes": 2575,
+      "Sha256": "20f9b06d89c8f8193550b749e1a7580612d4c2d22ab27c1d3f0f33adf707f04f"
+    }
+  ]
+}

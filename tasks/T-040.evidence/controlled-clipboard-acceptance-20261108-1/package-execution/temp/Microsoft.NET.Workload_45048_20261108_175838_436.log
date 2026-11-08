@@ -1,0 +1,14 @@
+[2026-11-08 17:58:38.438] [0000AFF8] === Logging started ===
+[2026-11-08 17:58:38.447] [0000AFF8] Executing: "C:\Program Files\dotnet\dotnet.exe" publish F:\Iris\src\Iris.UiaHost\Iris.UiaHost.csproj -c Release -r win-x64 -p:Version=0.2.15 -p:RestoreConfigFile=F:\Iris\artifacts\pack-0.2.15-d29ff5cb6a6d4d7a9a7c6f4be4f55e66\NuGet.Config --self-contained false -o F:\Iris\artifacts\pack-0.2.15-d29ff5cb6a6d4d7a9a7c6f4be4f55e66\uia, PID: 45048, PPID: 1264
+[2026-11-08 17:58:38.448] [0000AFF8] IsElevated: False
+[2026-11-08 17:58:38.448] [0000AFF8] Is64BitProcess: True
+[2026-11-08 17:58:38.448] [0000AFF8] RebootPending: False
+[2026-11-08 17:58:38.448] [0000AFF8] ProcessorArchitecture: amd64
+[2026-11-08 17:58:38.448] [0000AFF8] HostArchitecture: x64
+[2026-11-08 17:58:38.448] [0000AFF8] SdkDirectory: 10.0.402
+[2026-11-08 17:58:38.448] [0000AFF8] VerifySignatures: False
+[2026-11-08 17:58:38.448] [0000AFF8] SDK feature band: 10.0.400
+[2026-11-08 17:58:40.402] [0000AFF8] Shutting down
+[2026-11-08 17:58:40.402] [0000AFF8] Shutdown completed.
+[2026-11-08 17:58:40.402] [0000AFF8] Restart required: False
+[2026-11-08 17:58:40.402] [0000AFF8] === Logging ended ===

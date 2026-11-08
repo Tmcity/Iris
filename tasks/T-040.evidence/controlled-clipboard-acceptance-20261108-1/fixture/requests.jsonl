@@ -1,0 +1,6 @@
+{"Kind":"Request","Utc":"2026-11-08T10:11:43.7617174+00:00","ReceivedQpc":761036674611,"Sequence":1,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 clipboard fixed 015","SourceSha256":"47862DAE45EBD13A6D95CC97FFF8B9EFE15E71A30A47A6F56DB6F0BDDF1946B3","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-08T10:11:43.7830354+00:00","Qpc":761037152086,"Sequence":1}
+{"Kind":"Completed","Utc":"2026-11-08T10:11:43.9305804+00:00","Qpc":761038642077,"Sequence":1,"Truncated":false}
+{"Kind":"Request","Utc":"2026-11-08T10:50:28.804774+00:00","ReceivedQpc":784287348141,"Sequence":2,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 native selection sample 013","SourceSha256":"59C1C6F138F534D391BC8F1FDB5F3F62602AFBD31A9BFBCE232839C966ED6032","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-08T10:50:28.8058936+00:00","Qpc":784287380670,"Sequence":2}
+{"Kind":"Completed","Utc":"2026-11-08T10:50:28.9564006+00:00","Qpc":784288885738,"Sequence":2,"Truncated":false}

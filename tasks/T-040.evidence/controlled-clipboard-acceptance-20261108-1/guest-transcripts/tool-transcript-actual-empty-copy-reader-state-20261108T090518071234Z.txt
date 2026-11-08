@@ -1,0 +1,39 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261108170519
+Username: D488342E-D666-4\WDAGUtilityAccount
+RunAs User: D488342E-D666-4\WDAGUtilityAccount
+Configuration Name: 
+Machine: D488342E-D666-4 (Microsoft Windows NT 10.0.26100.0)
+Host Application: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -EncodedCommand JABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQA9ACcAUwB0AG8AcAAnADsAIABTAHQAYQByAHQALQBUAHIAYQBuAHMAYwByAGkAcAB0ACAALQBMAGkAdABlAHIAYQBsAFAAYQB0AGgAIAAnAEMAOgBcAEkAcgBpAHMAVAAwADQAMABPAHUAdABwAHUAdABcAHQAbwBvAGwALQB0AHIAYQBuAHMAYwByAGkAcAB0AC0AYQBjAHQAdQBhAGwALQBlAG0AcAB0AHkALQBjAG8AcAB5AC0AcgBlAGEAZABlAHIALQBzAHQAYQB0AGUALQAyADAAMgA2ADEAMQAwADgAVAAwADkAMAA1ADEAOAAwADcAMQAyADMANABaAC4AdAB4AHQAJwAgAHwAIABPAHUAdAAtAE4AdQBsAGwAOwAgAHQAcgB5ACAAewAgACYAIAAnAEMAOgBcAEkAcgBpAHMAVAAwADQAMABSADIAcgBSAGUAcABlAGEAdABcAHQAMAA0ADAAXwBwAHIAbwBiAGUAXwBzAGUAbABlAGMAdABpAG8AbgBfAGMAbwBwAHkAXwBzAHQAYQB0AGUAXwByAGUAYQBkAG8AbgBsAHkALgBwAHMAMQAnADsAIABpAGYAIAAoACQATABBAFMAVABFAFgASQBUAEMATwBEAEUAIAAtAGEAbgBkACAAJABMAEEAUwBUAEUAWABJAFQAQwBPAEQARQAgAC0AbgBlACAAMAApACAAewAgAHQAaAByAG8AdwAgACcATgBlAHMAdABlAGQAIABkAGkAYQBnAG4AbwBzAHQAaQBjACAAZgBhAGkAbABlAGQAJwAgAH0AIAB9ACAAYwBhAHQAYwBoACAAewAgACQAXwAgAHwAIABGAG8AcgBtAGEAdAAtAEwAaQBzAHQAIAAqACAALQBGAG8AcgBjAGUAIAB8ACAATwB1AHQALQBTAHQAcgBpAG4AZwAgAHwAIABXAHIAaQB0AGUALQBPAHUAdABwAHUAdAA7ACAAUwB0AG8AcAAtAFQAcgBhAG4AcwBjAHIAaQBwAHQAIAB8ACAATwB1AHQALQBOAHUAbABsADsAIABlAHgAaQB0ACAAMQAgAH0AOwAgAFMAdABvAHAALQBUAHIAYQBuAHMAYwByAGkAcAB0ACAAfAAgAE8AdQB0AC0ATgB1AGwAbAA7ACAAZQB4AGkAdAAgADAA
+Process ID: 2120
+PSVersion: 5.1.26100.9549
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9549
+BuildVersion: 10.0.26100.9549
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+
+PS>TerminatingError(): "Metadata probe failed; preserve its result"
+
+
+PSMessageDetails      : 
+Exception             : System.Management.Automation.RuntimeException: Metadata
+                         probe failed; preserve its result
+TargetObject          : Metadata probe failed; preserve its result
+CategoryInfo          : OperationStopped: (Metadata probe ...erve its result:St
+                        ring) [], RuntimeException
+FullyQualifiedErrorId : Metadata probe failed; preserve its result
+ErrorDetails          : 
+InvocationInfo        : System.Management.Automation.InvocationInfo
+ScriptStackTrace      : at <ScriptBlock>, C:\IrisT040R2rRepeat\t040_probe_selec
+                        tion_copy_state_readonly.ps1: line 7
+                        at <ScriptBlock>, <No file>: line 1
+PipelineIterationInfo : {}
+**********************
+Windows PowerShell transcript end
+End time: 20261108170523
+**********************

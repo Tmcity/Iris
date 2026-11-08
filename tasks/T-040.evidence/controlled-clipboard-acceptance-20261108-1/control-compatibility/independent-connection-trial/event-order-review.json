@@ -1,0 +1,95 @@
+{
+  "RecordedUtc": "2026-11-08T10:31:41.394326+00:00",
+  "Scope": "Read-only source sequencing review; not an actual runtime Ready measurement",
+  "Sources": [
+    {
+      "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureSession.cs",
+      "Bytes": 23034,
+      "Sha256": "fae455cafd9249172b40dc3f3b8eeefedfdbf0de55647a03fb12d04cf94a218c",
+      "Excerpts": [
+        {
+          "StartLine": 75,
+          "EndLine": 88,
+          "Text": "75:     public HotkeyCaptureProgress Current\n76:     {\n77:         get\n78:         {\n79:             lock (_stateLock)\n80:             {\n81:                 return _current;\n82:             }\n83:         }\n84:     }\n85: \n86:     public Task<HotkeyCaptureResult> Completion => _completionTcs.Task;\n87: \n88:     public event EventHandler? ProgressChanged;"
+        },
+        {
+          "StartLine": 134,
+          "EndLine": 155,
+          "Text": "134:     internal void InitializeHeldKeys(HashSet<uint> initialHeldKeys)\n135:     {\n136:         lock (_stateLock)\n137:         {\n138:             if (initialHeldKeys.Count > 0)\n139:             {\n140:                 foreach (var k in initialHeldKeys)\n141:                 {\n142:                     _heldKeysAtStart.Add(k);\n143:                 }\n144:                 _isReady = false;\n145:             }\n146:             else\n147:             {\n148:                 _isReady = true;\n149:             }\n150: \n151:             _current = new HotkeyCaptureProgress(++_revision, _isReady, HotkeyModifiers.None);\n152:         }\n153: \n154:         _progressChannel.Writer.TryWrite(1);\n155:     }"
+        },
+        {
+          "StartLine": 180,
+          "EndLine": 196,
+          "Text": "180:     private async Task RunProgressWorkerAsync()\n181:     {\n182:         try\n183:         {\n184:             while (await _progressChannel.Reader.WaitToReadAsync().ConfigureAwait(false))\n185:             {\n186:                 while (_progressChannel.Reader.TryRead(out _)) { }\n187: \n188:                 try\n189:                 {\n190:                     ProgressChanged?.Invoke(this, EventArgs.Empty);\n191:                 }\n192:                 catch\n193:                 {\n194:                     // 订阅方异常被捕获，不得影响内部通知循环或 native 回调\n195:                 }\n196:             }"
+        }
+      ]
+    },
+    {
+      "Path": "src/Iris.Platform.Windows/Hotkey/HotkeyCaptureService.cs",
+      "Bytes": 14897,
+      "Sha256": "bf4bf72a3885c0ae25f5745cbd1c8684c8a4a249b5974cb14d695d81d781bc34",
+      "Excerpts": [
+        {
+          "StartLine": 123,
+          "EndLine": 134,
+          "Text": "123:         try\n124:         {\n125:             // 物理初始化屏障：等待线程真实完成 SetWindowsHook 并登记句柄（或失败）\n126:             await physicalInitTcs.Task.ConfigureAwait(false);\n127: \n128:             if (cancellationToken.IsCancellationRequested || session.IsStopRequested)\n129:             {\n130:                 throw new OperationCanceledException(cancellationToken);\n131:             }\n132: \n133:             return session;\n134:         }"
+        },
+        {
+          "StartLine": 194,
+          "EndLine": 206,
+          "Text": "194:             session.SetHookHandle(hookHandle, threadId);\n195: \n196:             if (session.IsStopRequested)\n197:             {\n198:                 // 已请求停止或取消：登记句柄后完成物理屏障，由后续清理协议执行回滚\n199:                 physicalInitTcs.TrySetResult(true);\n200:                 session.SignalThreadExit();\n201:                 return;\n202:             }\n203: \n204:             var initialHeld = DetectInitialHeldKeys();\n205:             session.InitializeHeldKeys(initialHeld);\n206:             physicalInitTcs.TrySetResult(true);"
+        }
+      ]
+    },
+    {
+      "Path": "src/Iris.App/Hosting/HotkeyRecordingCoordinator.cs",
+      "Bytes": 14449,
+      "Sha256": "7f0706853be9f4b1c8dee25b798e238b1eb4d78b4e84870011e0625659a3cc19",
+      "Excerpts": [
+        {
+          "StartLine": 177,
+          "EndLine": 200,
+          "Text": "177:             // 步骤 2: 启动底层键盘捕获会话\n178:             if (_captureService == null)\n179:             {\n180:                 throw new InvalidOperationException(\"IHotkeyCaptureService is not available.\");\n181:             }\n182: \n183:             captureSession = await _captureService.BeginAsync(windowHandle, context.LinkedToken).ConfigureAwait(false);\n184:             context.SetCaptureSession(captureSession);\n185: \n186:             if (onProgress != null)\n187:             {\n188:                 captureSession.ProgressChanged += (_, _) =>\n189:                 {\n190:                     if (!context.IsCompleted)\n191:                     {\n192:                         onProgress(captureSession.Current);\n193:                     }\n194:                 };\n195:             }\n196: \n197:             // 步骤 3: 等待逻辑结果完成\n198:             result = await captureSession.Completion.ConfigureAwait(false);\n199:             _lastCapturedResult = result;\n200:             context.SetResult(result);"
+        }
+      ]
+    },
+    {
+      "Path": "src/Iris.Core/Platform/IHotkeyCaptureService.cs",
+      "Bytes": 2076,
+      "Sha256": "5e1894af499ff1bff3bf0e8919731c218895889b5cf065e688f5af77d2cc1580",
+      "Excerpts": [
+        {
+          "StartLine": 34,
+          "EndLine": 49,
+          "Text": "34: /// <summary>单次录入所有权，规则见 HOTKEY_RECORDING_UI.md；清理失败时服务继续持有资源，可重试 DisposeAsync。</summary>\n35: public interface IHotkeyCaptureSession : IAsyncDisposable\n36: {\n37:     Guid Id { get; }\n38:     HotkeyCaptureProgress Current { get; }\n39:     Task<HotkeyCaptureResult> Completion { get; }\n40: \n41:     /// <summary>在原生回调之外有界合并通知；接收方读取 Current 并自行调度 UI，不能假定通知线程。</summary>\n42:     event EventHandler? ProgressChanged;\n43: }\n44: \n45: /// <summary>Platform 实现的短时按键录入。构造无 I/O；仅 BeginAsync 创建原生资源，进程内最多一个会话。</summary>\n46: public interface IHotkeyCaptureService : IDisposable, IAsyncDisposable\n47: {\n48:     /// <summary>仅接收本进程设置窗口的有效句柄；开始取消需等待回滚，失败资源仍由服务持有。</summary>\n49:     Task<IHotkeyCaptureSession> BeginAsync(nint ownerWindowHandle, CancellationToken cancellationToken = default);"
+        }
+      ]
+    }
+  ],
+  "InitialReadyRacePossible": true,
+  "Sequence": [
+    "InitializeHeldKeys may set _isReady=true and update Current, then writes progress channel",
+    "Notification worker may consume channel before any ProgressChanged subscriber exists",
+    "Physical initialization completion happens after InitializeHeldKeys",
+    "BeginAsync returns session after physical initialization",
+    "RecordingCoordinator subscribes only after await BeginAsync returns",
+    "Coordinator then waits for Completion without an initial Current replay"
+  ],
+  "Qualification": "Race is possible, not guaranteed; UI preparing text cannot establish actual native readiness or held-key state",
+  "CurrentActualRaceEstablishedByChild": false,
+  "CurrentNativeReadyEstablishedByChild": false,
+  "SuggestedRemedyForParentReview": "Subscribe, then replay Current with context completion and revision ordering guards",
+  "ChildProductSourceChanged": false,
+  "ChildTestsRun": false,
+  "ChildSpecifiedChordCallsPerformed": 0,
+  "ChildMovedMouseWithClickOrDrag": false,
+  "InitialExplicitActivateWasPerformed": true,
+  "ParentReportedInitialActivateMovedMouseAndCancelledRecording": true,
+  "InitialTrialMustNotBeCountedAsIncompleteChord": true,
+  "SecondPassiveUiObservations": [
+    "正在准备录入…",
+    "录入中（已暂停）"
+  ],
+  "ParentTookBackDesktopControl": true,
+  "ParentOwnsCurrentReadOnlyMetadataProbeAndAnyLaterChordTrial": true
+}

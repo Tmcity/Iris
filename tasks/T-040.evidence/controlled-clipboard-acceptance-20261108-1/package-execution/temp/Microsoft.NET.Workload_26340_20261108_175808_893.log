@@ -1,0 +1,14 @@
+[2026-11-08 17:58:08.895] [000066E4] === Logging started ===
+[2026-11-08 17:58:08.904] [000066E4] Executing: "C:\Program Files\dotnet\dotnet.exe" publish F:\Iris\src\Iris.App\Iris.App.csproj -c Release -r win-x64 -p:Version=0.2.15 -p:RestoreConfigFile=F:\Iris\artifacts\pack-0.2.15-d29ff5cb6a6d4d7a9a7c6f4be4f55e66\NuGet.Config --self-contained false -o F:\Iris\artifacts\pack-0.2.15-d29ff5cb6a6d4d7a9a7c6f4be4f55e66\app -p:PublishReadyToRun=true, PID: 26340, PPID: 1264
+[2026-11-08 17:58:08.906] [000066E4] IsElevated: False
+[2026-11-08 17:58:08.906] [000066E4] Is64BitProcess: True
+[2026-11-08 17:58:08.906] [000066E4] RebootPending: False
+[2026-11-08 17:58:08.906] [000066E4] ProcessorArchitecture: amd64
+[2026-11-08 17:58:08.906] [000066E4] HostArchitecture: x64
+[2026-11-08 17:58:08.906] [000066E4] SdkDirectory: 10.0.402
+[2026-11-08 17:58:08.906] [000066E4] VerifySignatures: False
+[2026-11-08 17:58:08.906] [000066E4] SDK feature band: 10.0.400
+[2026-11-08 17:58:38.144] [000066E4] Shutting down
+[2026-11-08 17:58:38.144] [000066E4] Shutdown completed.
+[2026-11-08 17:58:38.144] [000066E4] Restart required: False
+[2026-11-08 17:58:38.144] [000066E4] === Logging ended ===

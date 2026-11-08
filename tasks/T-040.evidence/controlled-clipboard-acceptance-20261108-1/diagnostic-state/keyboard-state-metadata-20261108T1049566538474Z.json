@@ -1,0 +1,72 @@
+{
+    "ForegroundInputInjected":  false,
+    "Utc":  "2026-11-08T10:49:56.6538474Z",
+    "ProductOperationPerformed":  false,
+    "Keys":  [
+                 {
+                     "Down":  true,
+                     "KeyName":  "LeftAlt"
+                 },
+                 {
+                     "Down":  false,
+                     "KeyName":  "F"
+                 },
+                 {
+                     "Down":  false,
+                     "KeyName":  "RightControl"
+                 },
+                 {
+                     "Down":  false,
+                     "KeyName":  "Shift"
+                 },
+                 {
+                     "Down":  false,
+                     "KeyName":  "C"
+                 },
+                 {
+                     "Down":  true,
+                     "KeyName":  "Alt"
+                 },
+                 {
+                     "Down":  true,
+                     "KeyName":  "Control"
+                 },
+                 {
+                     "Down":  true,
+                     "KeyName":  "LeftControl"
+                 },
+                 {
+                     "Down":  false,
+                     "KeyName":  "RightWindows"
+                 },
+                 {
+                     "Down":  false,
+                     "KeyName":  "LeftMouse"
+                 },
+                 {
+                     "Down":  false,
+                     "KeyName":  "LeftShift"
+                 },
+                 {
+                     "Down":  false,
+                     "KeyName":  "RightShift"
+                 },
+                 {
+                     "Down":  false,
+                     "KeyName":  "RightMouse"
+                 },
+                 {
+                     "Down":  false,
+                     "KeyName":  "RightAlt"
+                 },
+                 {
+                     "Down":  false,
+                     "KeyName":  "D"
+                 },
+                 {
+                     "Down":  false,
+                     "KeyName":  "LeftWindows"
+                 }
+             ],
+    "UserTextLogged":  false
+}

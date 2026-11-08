@@ -1,0 +1,154 @@
+{
+  "RecordedUtc": "2026-11-08T10:17:30.519977+00:00",
+  "Scope": "Read-only static control-path recheck; parent owns all actual input and recorder trials",
+  "WrapperPath": "C:\\Users\\28910\\.codex\\plugins\\cache\\openai-bundled\\computer-use\\26.609.41114\\scripts\\computer-use-client.mjs",
+  "WrapperBytes": 9184,
+  "WrapperSha256": "aa7cf705c7b4c93ea52d8f2ac6dd81de841a3297da0e4b53c78cebd117d35a7b",
+  "WrapperMatchesPriorRepair": true,
+  "OfficialSourceBindings": [
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\sky.js",
+      "PriorArchive": "F:\\Iris\\tasks\\T-040.evidence\\computer-control-rpc-compatibility-20261108-1\\official-source\\sky.js",
+      "Bytes": 1269,
+      "ActualSha256": "91a38110155e2d48ca376752cd66918e77fbf9457605c3fccc4ca3097684517a",
+      "PriorExpectedSha256": "91a38110155e2d48ca376752cd66918e77fbf9457605c3fccc4ca3097684517a",
+      "MatchesPriorBinding": true
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\sky_service_rpc.js",
+      "PriorArchive": "F:\\Iris\\tasks\\T-040.evidence\\computer-control-rpc-compatibility-20261108-1\\official-source\\sky_service_rpc.js",
+      "Bytes": 1109,
+      "ActualSha256": "87b037bfa736500f6700824099d569cb8add10140c66ad6039e6d21f3f5c2f7d",
+      "PriorExpectedSha256": "87b037bfa736500f6700824099d569cb8add10140c66ad6039e6d21f3f5c2f7d",
+      "MatchesPriorBinding": true
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\service.js",
+      "PriorArchive": "F:\\Iris\\tasks\\T-040.evidence\\computer-control-rpc-compatibility-20261108-1\\official-source\\service.js",
+      "Bytes": 3494,
+      "ActualSha256": "efd97700bc9d87fc6c2e7ef262d49eb638123c52fff92ff680ebd1bbb0e7cb81",
+      "PriorExpectedSha256": "efd97700bc9d87fc6c2e7ef262d49eb638123c52fff92ff680ebd1bbb0e7cb81",
+      "MatchesPriorBinding": true
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\targets\\windows\\create_client.js",
+      "PriorArchive": "F:\\Iris\\tasks\\T-040.evidence\\computer-control-rpc-compatibility-20261108-1\\official-source\\windows-create-client.js",
+      "Bytes": 132,
+      "ActualSha256": "43935a185c83827ea87e23295c7a44327f43e933da97da7cd1b8b7eb23aa6fab",
+      "PriorExpectedSha256": "43935a185c83827ea87e23295c7a44327f43e933da97da7cd1b8b7eb23aa6fab",
+      "MatchesPriorBinding": true
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\targets\\windows\\internal\\computer_use_client.js",
+      "PriorArchive": "F:\\Iris\\tasks\\T-040.evidence\\computer-control-rpc-compatibility-20261108-1\\official-source\\windows-client.js",
+      "Bytes": 8451,
+      "ActualSha256": "1d472472c615143c1f4f7d6ba083225a743e8f705c1042dc6ed64260bb3c116f",
+      "PriorExpectedSha256": "1d472472c615143c1f4f7d6ba083225a743e8f705c1042dc6ed64260bb3c116f",
+      "MatchesPriorBinding": true
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\targets\\windows\\internal\\computer_use_client_base.js",
+      "PriorArchive": "F:\\Iris\\tasks\\T-040.evidence\\computer-control-rpc-compatibility-20261108-1\\official-source\\windows-client-base.js",
+      "Bytes": 10627,
+      "ActualSha256": "5e54867417cb120477455e069c2eb53b6513b8e076a06143d4d207cc8a293d95",
+      "PriorExpectedSha256": "5e54867417cb120477455e069c2eb53b6513b8e076a06143d4d207cc8a293d95",
+      "MatchesPriorBinding": true
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\targets\\windows\\internal\\helper_transport.js",
+      "PriorArchive": "F:\\Iris\\tasks\\T-040.evidence\\computer-control-rpc-compatibility-20261108-1\\official-source\\windows-helper-transport.js",
+      "Bytes": 11728,
+      "ActualSha256": "502b93f0d8be7847e3415c7913451c35acdd8dd41fc85202a06429e263d9ffc8",
+      "PriorExpectedSha256": "502b93f0d8be7847e3415c7913451c35acdd8dd41fc85202a06429e263d9ffc8",
+      "MatchesPriorBinding": true
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\targets\\windows\\internal\\codex_turn_metadata.js",
+      "PriorArchive": "F:\\Iris\\tasks\\T-040.evidence\\computer-control-rpc-compatibility-20261108-1\\official-source\\codex-turn-metadata.js",
+      "Bytes": 744,
+      "ActualSha256": "284ca7197ed514ca272c728d6ab0eda116f4fc44b3485435c004adcf2d95f3fb",
+      "PriorExpectedSha256": "284ca7197ed514ca272c728d6ab0eda116f4fc44b3485435c004adcf2d95f3fb",
+      "MatchesPriorBinding": true
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\cua-repl\\dist\\lib\\js\\oai_js_cua_repl\\src\\environment.js",
+      "PriorArchive": "F:\\Iris\\tasks\\T-040.evidence\\computer-control-rpc-compatibility-20261108-1\\official-source\\cua-repl-environment.js",
+      "Bytes": 1656,
+      "ActualSha256": "0160beba37aa314e2f04a6febaa1a633b59fd59ff65b4e2282dc0926070d40ab",
+      "PriorExpectedSha256": "0160beba37aa314e2f04a6febaa1a633b59fd59ff65b4e2282dc0926070d40ab",
+      "MatchesPriorBinding": true
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\cua-repl\\dist\\lib\\js\\oai_js_cua_repl\\src\\launch.js",
+      "PriorArchive": "F:\\Iris\\tasks\\T-040.evidence\\computer-control-rpc-compatibility-20261108-1\\official-source\\cua-repl-launch.js",
+      "Bytes": 838,
+      "ActualSha256": "2b94afb931a6fd654b07957a04e3269710be747a1f3680cf2d0a007b6598f000",
+      "PriorExpectedSha256": "2b94afb931a6fd654b07957a04e3269710be747a1f3680cf2d0a007b6598f000",
+      "MatchesPriorBinding": true
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\package.json",
+      "PriorArchive": "F:\\Iris\\tasks\\T-040.evidence\\computer-control-rpc-compatibility-20261108-1\\official-source\\sky-package.json",
+      "Bytes": 1500,
+      "ActualSha256": "babaa17c7a26204a5937476427506545aa662703c68a90286cfc217a8730a407",
+      "PriorExpectedSha256": "babaa17c7a26204a5937476427506545aa662703c68a90286cfc217a8730a407",
+      "MatchesPriorBinding": true
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\cua-repl\\package.json",
+      "PriorArchive": "F:\\Iris\\tasks\\T-040.evidence\\computer-control-rpc-compatibility-20261108-1\\official-source\\cua-repl-package.json",
+      "Bytes": 938,
+      "ActualSha256": "1072f03a5848266d34771e69d3af233ac0573831fd41787f3b4e0be1ff82ee2e",
+      "PriorExpectedSha256": "1072f03a5848266d34771e69d3af233ac0573831fd41787f3b4e0be1ff82ee2e",
+      "MatchesPriorBinding": true
+    }
+  ],
+  "OfficialClientKeyNormalization": "Split plus-separated tokens, trim whitespace, drop empty tokens; identity mapper; no modifier rewrite",
+  "CurrentActualHotkeySuccessProvenByChild": false,
+  "NativeParserCauseEstablished": false,
+  "ParentRecorderTrialPending": false,
+  "ChildDesktopInputPerformed": false,
+  "WrapperChanged": false,
+  "SdkChanged": false,
+  "SkillChanged": false,
+  "ApprovalOrInterruptionChanged": false,
+  "HelperStarted": false,
+  "ProductSourceChanged": false,
+  "ProductTestsOrPackageRun": false,
+  "HostSettingsChanged": false,
+  "PublicWritePerformed": false,
+  "SourceExcerpts": [
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\targets\\windows\\internal\\computer_use_client_base.js",
+      "Needle": "this.press_key=",
+      "Offset": 4247,
+      "Excerpt": ",\"to.x\"),to_y:x(o,\"to.y\")},null!=l?{screenshotId:l}:{}))})),this.press_key=i=>e(this,[i],void 0,(function*({window:e,key:i}){if(!i)throw new TypeError(\"key is required\");yield t(this,s,\"m\",f).call(this,\"press_key\",{window:p(e),key:E(i)})})),this.type_text=i=>e(this,[i],void 0,(function*({window:e,text:i}){if(\"string\"!=typeof i)throw new TypeError(\"text is required\");yield t(this,s,\"m\",f).call(this,\"type_text\",{window:p(e),text:i})})),this.launch_app=i=>e(this,void 0,void 0,(function*(){const e=\"object\"==typeof i&&null!=i?Reflect.get(i,\"app\"):void 0;yield t(this,s,\"m\",f).cal"
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\targets\\windows\\internal\\computer_use_client_base.js",
+      "Needle": "function E(",
+      "Offset": 8841,
+      "Excerpt": "TypeError(\"element_index must be an integer >= 0\");return e}function E(e){const t=e.split(\"+\").map((e=>e.trim())).filter(Boolean);if(0===t.length)throw new TypeError(\"key is required\");return t.map(j).join(\"+\")}function j(e){return e}function T(e){var t,i;if(\"object\"!=typeof e||null==e||Array.isArray(e))throw new Error(\"codex-computer-use.exe did not return a screenshot\");const n=Reflect.get(e,\"url\");if(\"string\"!=typeof n||0===n.length)throw new Error(\"codex-computer-use.exe did not return a screenshot URL\");const r={id:null!==(t=k(Reflect.get(e,\"id\")))&&void 0!==t?t:\"scree"
+    },
+    {
+      "Path": "C:\\Users\\28910\\AppData\\Local\\OpenAI\\Codex\\runtimes\\cua_node\\c4873bdffed0b168\\bin\\node_modules\\@oai\\sky\\dist\\project\\cua\\sky_js\\src\\targets\\windows\\internal\\computer_use_client_base.js",
+      "Needle": "function j(",
+      "Offset": 8992,
+      "Excerpt": " new TypeError(\"key is required\");return t.map(j).join(\"+\")}function j(e){return e}function T(e){var t,i;if(\"object\"!=typeof e||null==e||Array.isArray(e))throw new Error(\"codex-computer-use.exe did not return a screenshot\");const n=Reflect.get(e,\"url\");if(\"string\"!=typeof n||0===n.length)throw new Error(\"codex-computer-use.exe did not return a screenshot URL\");const r={id:null!==(t=k(Reflect.get(e,\"id\")))&&void 0!==t?t:\"screenshot-0\",zIndex:null!==(i=A(Reflect.get(e,\"zIndex\")))&&void 0!==i?i:0,url:n};return I(r,\"originX\",A(Reflect.get(e,\"originX\"))),I(r,\"originY\",A(Reflect."
+    }
+  ],
+  "CorrectionRecordedUtc": "2026-11-08T10:18:31.597256+00:00",
+  "CorrectsRecord": "F:\\Iris\\tasks\\T-040.evidence\\computer-control-hotkey-recheck-20261108-1\\static-review.json",
+  "PriorRecordPreserved": true,
+  "CountCorrection": "OfficialSourceBindings contains 12 files; wrapper makes 13 total. Original audit incorrectly required 13 official binding rows.",
+  "OfficialBindingFileCount": 12,
+  "TotalFileCountIncludingWrapper": 13,
+  "AllOfficialFilesMatchPriorBindings": true,
+  "ParentReportedCurrentRecorderTrial": {
+    "Requested": "Ctrl+Alt+d",
+    "ActualRecorderDisplay": "Ctrl+D",
+    "ReportedBy": "root",
+    "ChildDidNotPerformOrObserveInput": true,
+    "OriginalDraftMustBeCancelled": true
+  }
+}

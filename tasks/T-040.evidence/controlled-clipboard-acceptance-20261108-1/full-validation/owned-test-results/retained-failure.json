@@ -1,0 +1,34 @@
+{
+  "Data": {
+    "Phase": "Failed",
+    "HasCandidate": true,
+    "HasConfirmedUpdate": true,
+    "SettingsSessionAlive": true,
+    "ScopedVmCount": 1,
+    "DisposedVmCount": 0,
+    "HelpersStarted": 1,
+    "HelpersExited": 1,
+    "Requests": 1,
+    "Downloads": 1,
+    "Commits": 0,
+    "DraftTests": 0,
+    "ModelQueries": 0,
+    "HostStops": 0
+  },
+  "Current": {
+    "Phase": "Failed",
+    "HasCandidate": true,
+    "HasConfirmedUpdate": true,
+    "SettingsSessionAlive": true,
+    "ScopedVmCount": 1,
+    "DisposedVmCount": 0,
+    "HelpersStarted": 1,
+    "HelpersExited": 1,
+    "Requests": 1,
+    "Downloads": 1,
+    "Commits": 0,
+    "DraftTests": 0,
+    "ModelQueries": 0,
+    "HostStops": 0
+  }
+}

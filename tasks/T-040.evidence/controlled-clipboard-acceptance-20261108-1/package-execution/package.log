@@ -1,0 +1,88 @@
+{
+  "Version": "0.2.15",
+  "SourceCommit": "8925eb3c7227181e8c3c6f2dffdb16a09799c8ff",
+  "SourceGitTree": "4d4f5672c6ecd3295297a2ae795a4e72fb6ee93e"
+}
+可使用以下命令调用工具: vpk
+已成功安装工具“vpk”(版本“1.2.161”)。
+  正在确定要还原的项目…
+  已还原 F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 394 毫秒)。
+  已还原 F:\Iris\src\Iris.Providers\Iris.Providers.csproj (用时 395 毫秒)。
+  已还原 F:\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj (用时 393 毫秒)。
+  已还原 F:\Iris\src\Iris.Core\Iris.Core.csproj (用时 394 毫秒)。
+  已还原 F:\Iris\src\Iris.UiaHost\Iris.UiaHost.csproj (用时 394 毫秒)。
+  已还原 F:\Iris\src\Iris.Infrastructure\Iris.Infrastructure.csproj (用时 394 毫秒)。
+  已还原 F:\Iris\src\Iris.App\Iris.App.csproj (用时 405 毫秒)。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Infrastructure -> F:\Iris\src\Iris.Infrastructure\bin\Release\net10.0\Iris.Infrastructure.dll
+  Iris.Providers -> F:\Iris\src\Iris.Providers\bin\Release\net10.0\Iris.Providers.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.Maintenance -> F:\Iris\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.Maintenance.dll
+  Iris.App -> F:\Iris\src\Iris.App\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.App.dll
+  Iris.App -> F:\Iris\artifacts\pack-0.2.15-d29ff5cb6a6d4d7a9a7c6f4be4f55e66\app\
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.UiaHost -> F:\Iris\artifacts\pack-0.2.15-d29ff5cb6a6d4d7a9a7c6f4be4f55e66\app\uia\
+  正在确定要还原的项目…
+  已还原 F:\Iris\src\Iris.UiaHost\Iris.UiaHost.csproj (用时 291 毫秒)。
+  已还原 F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 291 毫秒)。
+  已还原 F:\Iris\src\Iris.Core\Iris.Core.csproj (用时 291 毫秒)。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.UiaHost -> F:\Iris\src\Iris.UiaHost\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.UiaHost.dll
+  Iris.UiaHost -> F:\Iris\artifacts\pack-0.2.15-d29ff5cb6a6d4d7a9a7c6f4be4f55e66\uia\
+  正在确定要还原的项目…
+  已还原 F:\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj (用时 298 毫秒)。
+  已还原 F:\Iris\src\Iris.Platform.Windows\Iris.Platform.Windows.csproj (用时 298 毫秒)。
+  已还原 F:\Iris\src\Iris.Core\Iris.Core.csproj (用时 298 毫秒)。
+  Iris.Core -> F:\Iris\src\Iris.Core\bin\Release\net10.0\Iris.Core.dll
+  Iris.Platform.Windows -> F:\Iris\src\Iris.Platform.Windows\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.dll
+  Iris.Maintenance -> F:\Iris\src\Iris.Maintenance\bin\Release\net10.0-windows10.0.19041.0\win-x64\Iris.Maintenance.dll
+  Iris.Maintenance -> F:\Iris\artifacts\pack-0.2.15-d29ff5cb6a6d4d7a9a7c6f4be4f55e66\maintenance\
+[17:58:51 INF] Velopack CLI 1.2.161, for distributing applications.
+[17:58:51 INF] Beginning to package Velopack release 0.2.15.
+[17:58:51 INF] Releases Directory: F:\Iris\artifacts\t040\clipboard-observation-local-candidate-20261108-1
+[17:58:51 INF] Starting: Pre-process steps
+[17:58:51 WRN] VelopackApp.Run() was found in method 'System.Int32 Iris.App.Updates.VelopackStartup::RunHook(System.String[])', which does not look like your application's entry point. It is strongly recommended that you move this to the very beginning of your Main() method. 
+[17:58:51 INF] Runtime Dependency: net10-x64-desktop
+[17:58:51 INF] Shortcuts: Desktop,StartMenuRoot
+[17:58:51 INF] Complete: Pre-process steps
+[17:58:51 INF] Starting: Code-sign application
+[17:58:51 WRN] No signing parameters provided, 83 file(s) will not be signed.
+[17:58:51 INF] Complete: Code-sign application
+[17:58:51 INF] Starting: Building release 0.2.15
+[17:58:54 INF] Complete: Building release 0.2.15
+[17:58:54 INF] Starting: Building setup package
+[17:58:54 INF] Setup bundle created 'Iris-win-Setup.exe'.
+[17:58:54 WRN] No signing parameters provided, 1 file(s) will not be signed.
+[17:58:54 INF] Complete: Building setup package
+[17:58:54 INF] Starting: Post-process steps
+[17:58:54 INF] Complete: Post-process steps
+[17:58:54 INF] Finished in 00:00:03.0341564.
+{
+  "IndexedOuterInstaller": "Iris-0.2.15-Setup.exe",
+  "FeedEntries": 1
+}
+{
+  "Version": "0.2.15",
+  "SourceCommit": "8925eb3c7227181e8c3c6f2dffdb16a09799c8ff",
+  "SourceGitTree": "4d4f5672c6ecd3295297a2ae795a4e72fb6ee93e",
+  "PublicAssets": 11,
+  "PayloadEntries": 97,
+  "MaintenancePrefixBytes": 44626644,
+  "InternalSetupBytes": 79039806,
+  "InternalSetupSha256": "e60f2d31c34e4e8f85b034877d22fdda9003f35cf6d7d81618a38deddd7e4639",
+  "FullSha256": "b78c468ce9860953c0526a9f0deeeecc5901c9233f065acaec02490a9d33169c",
+  "OuterSha256": "6143e5d5fd5212f31bbb40dd6c183a37d9149c71cccdfa0a055c9b17d0a05365"
+}
+{
+    "Version":  "0.2.15",
+    "SdkVersion":  "1.2.161",
+    "WorkDirectory":  "F:\\Iris\\artifacts\\pack-0.2.15-d29ff5cb6a6d4d7a9a7c6f4be4f55e66",
+    "OutputDirectory":  "F:\\Iris\\artifacts\\t040\\clipboard-observation-local-candidate-20261108-1",
+    "Installer":  "F:\\Iris\\artifacts\\t040\\clipboard-observation-local-candidate-20261108-1\\Iris-0.2.15-Setup.exe",
+    "Signed":  false,
+    "ReadyToRun":  true
+}

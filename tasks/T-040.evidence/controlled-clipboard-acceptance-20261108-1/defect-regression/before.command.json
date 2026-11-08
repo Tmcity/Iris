@@ -1,0 +1,17 @@
+{
+  "Command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.Platform.Windows.Tests/Iris.Platform.Windows.Tests.csproj",
+    "-c",
+    "Release",
+    "--filter-method",
+    "*ObserveVersion_DoesNotLockCopyWriterAndRequiresCoherentIdentity*",
+    "--no-ansi",
+    "--no-progress"
+  ],
+  "StartedUtc": "2026-11-08T09:46:52.813777+00:00",
+  "FinishedUtc": "2026-11-08T09:47:07.580459+00:00",
+  "ExitCode": 2
+}

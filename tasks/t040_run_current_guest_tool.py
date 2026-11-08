@@ -45,7 +45,7 @@ stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%S%fZ'
 archive = ROOT / 'tasks/T-040.evidence' / ('guest-' + args.label + '-' + stamp)
 archive.mkdir(parents=True, exist_ok=False)
 guest_script = args.guest_root + '\\' + script.name
-transcript = 'C:\\IrisT040Output\\tool-transcript-' + stamp + '.txt'
+transcript = 'C:\\IrisT040Output\\tool-transcript-' + args.label + '-' + stamp + '.txt'
 invocation = ("$ErrorActionPreference='Stop'; Start-Transcript -LiteralPath '" + transcript + "' | Out-Null; "
               "try { & '" + guest_script.replace("'", "''") + "'; if ($LASTEXITCODE -and $LASTEXITCODE -ne 0) { throw 'Nested diagnostic failed' } } "
               "catch { $_ | Format-List * -Force | Out-String | Write-Output; Stop-Transcript | Out-Null; exit 1 }; "

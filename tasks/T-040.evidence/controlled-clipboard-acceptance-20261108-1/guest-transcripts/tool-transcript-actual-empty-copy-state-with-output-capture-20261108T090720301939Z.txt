@@ -1,0 +1,42 @@
+﻿**********************
+Windows PowerShell transcript start
+Start time: 20261108170722
+Username: D488342E-D666-4\WDAGUtilityAccount
+RunAs User: D488342E-D666-4\WDAGUtilityAccount
+Configuration Name: 
+Machine: D488342E-D666-4 (Microsoft Windows NT 10.0.26100.0)
+Host Application: powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -EncodedCommand JABFAHIAcgBvAHIAQQBjAHQAaQBvAG4AUAByAGUAZgBlAHIAZQBuAGMAZQA9ACcAUwB0AG8AcAAnADsAIABTAHQAYQByAHQALQBUAHIAYQBuAHMAYwByAGkAcAB0ACAALQBMAGkAdABlAHIAYQBsAFAAYQB0AGgAIAAnAEMAOgBcAEkAcgBpAHMAVAAwADQAMABPAHUAdABwAHUAdABcAHQAbwBvAGwALQB0AHIAYQBuAHMAYwByAGkAcAB0AC0AYQBjAHQAdQBhAGwALQBlAG0AcAB0AHkALQBjAG8AcAB5AC0AcwB0AGEAdABlAC0AdwBpAHQAaAAtAG8AdQB0AHAAdQB0AC0AYwBhAHAAdAB1AHIAZQAtADIAMAAyADYAMQAxADAAOABUADAAOQAwADcAMgAwADMAMAAxADkAMwA5AFoALgB0AHgAdAAnACAAfAAgAE8AdQB0AC0ATgB1AGwAbAA7ACAAdAByAHkAIAB7ACAAJgAgACcAQwA6AFwASQByAGkAcwBUADAANAAwAFIAMgByAFIAZQBwAGUAYQB0AFwAdAAwADQAMABfAHAAcgBvAGIAZQBfAHMAZQBsAGUAYwB0AGkAbwBuAF8AYwBvAHAAeQBfAHMAdABhAHQAZQBfAHIAZQBhAGQAbwBuAGwAeQAuAHAAcwAxACcAOwAgAGkAZgAgACgAJABMAEEAUwBUAEUAWABJAFQAQwBPAEQARQAgAC0AYQBuAGQAIAAkAEwAQQBTAFQARQBYAEkAVABDAE8ARABFACAALQBuAGUAIAAwACkAIAB7ACAAdABoAHIAbwB3ACAAJwBOAGUAcwB0AGUAZAAgAGQAaQBhAGcAbgBvAHMAdABpAGMAIABmAGEAaQBsAGUAZAAnACAAfQAgAH0AIABjAGEAdABjAGgAIAB7ACAAJABfACAAfAAgAEYAbwByAG0AYQB0AC0ATABpAHMAdAAgACoAIAAtAEYAbwByAGMAZQAgAHwAIABPAHUAdAAtAFMAdAByAGkAbgBnACAAfAAgAFcAcgBpAHQAZQAtAE8AdQB0AHAAdQB0ADsAIABTAHQAbwBwAC0AVAByAGEAbgBzAGMAcgBpAHAAdAAgAHwAIABPAHUAdAAtAE4AdQBsAGwAOwAgAGUAeABpAHQAIAAxACAAfQA7ACAAUwB0AG8AcAAtAFQAcgBhAG4AcwBjAHIAaQBwAHQAIAB8ACAATwB1AHQALQBOAHUAbABsADsAIABlAHgAaQB0ACAAMAA=
+Process ID: 5928
+PSVersion: 5.1.26100.9549
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9549
+BuildVersion: 10.0.26100.9549
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+C:\IrisT040Output\selection-copy-probe-20261108T0907225358407Z
+PS>TerminatingError(): "Metadata probe failed; its stdout/stderr and original state are retained"
+
+
+PSMessageDetails      : 
+Exception             : System.Management.Automation.RuntimeException: Metadata
+                         probe failed; its stdout/stderr and original state are
+                         retained
+TargetObject          : Metadata probe failed; its stdout/stderr and original s
+                        tate are retained
+CategoryInfo          : OperationStopped: (Metadata probe ...te are retained:St
+                        ring) [], RuntimeException
+FullyQualifiedErrorId : Metadata probe failed; its stdout/stderr and original s
+                        tate are retained
+ErrorDetails          : 
+InvocationInfo        : System.Management.Automation.InvocationInfo
+ScriptStackTrace      : at <ScriptBlock>, C:\IrisT040R2rRepeat\t040_probe_selec
+                        tion_copy_state_readonly.ps1: line 16
+                        at <ScriptBlock>, <No file>: line 1
+PipelineIterationInfo : {}
+**********************
+Windows PowerShell transcript end
+End time: 20261108170725
+**********************

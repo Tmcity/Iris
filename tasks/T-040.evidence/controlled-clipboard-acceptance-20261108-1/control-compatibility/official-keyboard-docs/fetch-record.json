@@ -1,0 +1,40 @@
+[
+  {
+    "Label": "sandbox-overview",
+    "RequestedUrl": "https://learn.microsoft.com/en-us/windows/security/application-security/application-isolation/windows-sandbox/windows-sandbox-overview",
+    "StartedUtc": "2026-11-08T10:20:02.242256+00:00",
+    "Status": 200,
+    "FinalUrl": "https://learn.microsoft.com/en-us/windows/security/application-security/application-isolation/windows-sandbox/",
+    "Bytes": 52780,
+    "Sha256": "23ad24689a7a5ab2f14803f6f0af9ee465c13245c34fff3a4495407f40e27069",
+    "KeyboardExcerpts": [],
+    "PlainTextPath": "F:\\Iris\\tasks\\T-040.evidence\\computer-control-hotkey-recheck-20261108-1\\official-keyboard-docs\\sandbox-overview.txt",
+    "FinishedUtc": "2026-11-08T10:20:03.683411+00:00"
+  },
+  {
+    "Label": "remote-shortcuts",
+    "RequestedUrl": "https://learn.microsoft.com/en-us/windows/win32/termserv/terminal-services-shortcut-keys",
+    "StartedUtc": "2026-11-08T10:20:02.242256+00:00",
+    "Status": 200,
+    "FinalUrl": "https://learn.microsoft.com/en-us/windows/win32/termserv/terminal-services-shortcut-keys",
+    "Bytes": 51878,
+    "Sha256": "28095e9835130d44fc34962bff49473c9d2294ae06eece43892632b5411c7fa1",
+    "KeyboardExcerpts": [
+      "rtcut keys. A note regarding missing keys: Many compact keyboards do not contain some keys. For example, many laptops do not have a dedicated BREAK key. However, they usually have keyboard shortcuts that replace dedicated keys. These key replacements are specified by the manufacturer of the keyboard, so you may need to look up key replacements in the documentation provided by your keyboard or laptop manufacturer. There are two different sets of shortcut key combinations you can use on a remote desktop connection: the default Windows shortcut keys, or the shortcut keys originally designed for the remote desktop",
+      "ations on the local machine. Note that once you close down the Remote Desktop Connection, your local machine will once again use the default windows shortcuts. Only when using the full screen The default key combinations will work on whichever machine has the full desktop; functionally, this means that the default key combinations work for the local machine, unless you have the Remote Desktop Connection window in full-screen mode. Note Keyboard shortcuts and hotkeys will not work in nested Remote Desktop or RemoteApp sessions. For more user information about Remote Desktop connection, See How to use Remo",
+      "chever machine has the full desktop; functionally, this means that the default key combinations work for the local machine, unless you have the Remote Desktop Connection window in full-screen mode. Note Keyboard shortcuts and hotkeys will not work in nested Remote Desktop or RemoteApp sessions. For more user information about Remote Desktop connection, See How to use Remote Desktop . Shortcut key Description CTRL+ALT+HOME Activates the connection bar. CTRL+ALT+BREAK or one of these shortcuts: CTRL+ALT+PAUSE CTRL+ALT+PRTSCN CTRL+ALT+FN+SCRLK Switches the client between full-screen mode and window mode. If",
+      "full desktop; functionally, this means that the default key combinations work for the local machine, unless you have the Remote Desktop Connection window in full-screen mode. Note Keyboard shortcuts and hotkeys will not work in nested Remote Desktop or RemoteApp sessions. For more user information about Remote Desktop connection, See How to use Remote Desktop . Shortcut key Description CTRL+ALT+HOME Activates the connection bar. CTRL+ALT+BREAK or one of these shortcuts: CTRL+ALT+PAUSE CTRL+ALT+PRTSCN CTRL+ALT+FN+SCRLK Switches the client between full-screen mode and window mode. If these shortcuts don't work, ",
+      "RemoteApp sessions. For more user information about Remote Desktop connection, See How to use Remote Desktop . Shortcut key Description CTRL+ALT+HOME Activates the connection bar. CTRL+ALT+BREAK or one of these shortcuts: CTRL+ALT+PAUSE CTRL+ALT+PRTSCN CTRL+ALT+FN+SCRLK Switches the client between full-screen mode and window mode. If these shortcuts don't work, or the keys aren't available, you can try the following alternative: Press CTRL+ALT+HOME, TAB, TAB, TAB, TAB, TAB, ENTER. This activates the connection bar, and then presses the Restore down button. CTRL+ALT+END Brings up the Windows Security dialog ",
+      " key Description CTRL+ALT+HOME Activates the connection bar. CTRL+ALT+BREAK or one of these shortcuts: CTRL+ALT+PAUSE CTRL+ALT+PRTSCN CTRL+ALT+FN+SCRLK Switches the client between full-screen mode and window mode. If these shortcuts don't work, or the keys aren't available, you can try the following alternative: Press CTRL+ALT+HOME, TAB, TAB, TAB, TAB, TAB, ENTER. This activates the connection bar, and then presses the Restore down button. CTRL+ALT+END Brings up the Windows Security dialog box for the Remote Desktop Session Host (RD Session Host) (provides the same functionality as pressing CTRL+ALT+DEL "
+    ],
+    "PlainTextPath": "F:\\Iris\\tasks\\T-040.evidence\\computer-control-hotkey-recheck-20261108-1\\official-keyboard-docs\\remote-shortcuts.txt",
+    "FinishedUtc": "2026-11-08T10:20:03.220798+00:00"
+  },
+  {
+    "Label": "rdp-keyboardhookmode",
+    "RequestedUrl": "https://learn.microsoft.com/en-us/windows/win32/termserv/imsrdpclientadvancedsettings-keyboardhookmode",
+    "StartedUtc": "2026-11-08T10:20:02.243273+00:00",
+    "Error": "HTTPError: HTTP Error 404: Not Found",
+    "FinishedUtc": "2026-11-08T10:20:03.303957+00:00"
+  }
+]

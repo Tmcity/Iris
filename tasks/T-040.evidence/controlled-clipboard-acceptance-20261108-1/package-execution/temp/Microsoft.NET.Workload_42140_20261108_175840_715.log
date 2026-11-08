@@ -1,0 +1,14 @@
+[2026-11-08 17:58:40.717] [0000A49C] === Logging started ===
+[2026-11-08 17:58:40.725] [0000A49C] Executing: "C:\Program Files\dotnet\dotnet.exe" publish F:\Iris\src\Iris.Maintenance\Iris.Maintenance.csproj -c Release -r win-x64 -p:Version=0.2.15 -p:RestoreConfigFile=F:\Iris\artifacts\pack-0.2.15-d29ff5cb6a6d4d7a9a7c6f4be4f55e66\NuGet.Config --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -o F:\Iris\artifacts\pack-0.2.15-d29ff5cb6a6d4d7a9a7c6f4be4f55e66\maintenance, PID: 42140, PPID: 1264
+[2026-11-08 17:58:40.728] [0000A49C] IsElevated: False
+[2026-11-08 17:58:40.728] [0000A49C] Is64BitProcess: True
+[2026-11-08 17:58:40.728] [0000A49C] RebootPending: False
+[2026-11-08 17:58:40.728] [0000A49C] ProcessorArchitecture: amd64
+[2026-11-08 17:58:40.728] [0000A49C] HostArchitecture: x64
+[2026-11-08 17:58:40.728] [0000A49C] SdkDirectory: 10.0.402
+[2026-11-08 17:58:40.728] [0000A49C] VerifySignatures: False
+[2026-11-08 17:58:40.728] [0000A49C] SDK feature band: 10.0.400
+[2026-11-08 17:58:50.725] [0000A49C] Shutting down
+[2026-11-08 17:58:50.725] [0000A49C] Shutdown completed.
+[2026-11-08 17:58:50.725] [0000A49C] Restart required: False
+[2026-11-08 17:58:50.725] [0000A49C] === Logging ended ===

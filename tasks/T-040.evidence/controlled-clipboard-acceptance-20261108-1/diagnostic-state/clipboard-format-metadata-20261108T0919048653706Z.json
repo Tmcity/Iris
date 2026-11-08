@@ -1,0 +1,37 @@
+{
+    "ProductOperationPerformed":  false,
+    "ClipboardContentRead":  false,
+    "ClipboardChanged":  false,
+    "Sequence":  464,
+    "Utc":  "2026-11-08T09:19:04.8653706Z",
+    "Formats":  [
+                    {
+                        "Id":  49161,
+                        "RegisteredName":  "DataObject"
+                    },
+                    {
+                        "Id":  1,
+                        "RegisteredName":  null
+                    },
+                    {
+                        "Id":  49621,
+                        "RegisteredName":  "System.String"
+                    },
+                    {
+                        "Id":  13,
+                        "RegisteredName":  null
+                    },
+                    {
+                        "Id":  49171,
+                        "RegisteredName":  "Ole Private Data"
+                    },
+                    {
+                        "Id":  16,
+                        "RegisteredName":  null
+                    },
+                    {
+                        "Id":  7,
+                        "RegisteredName":  null
+                    }
+                ]
+}

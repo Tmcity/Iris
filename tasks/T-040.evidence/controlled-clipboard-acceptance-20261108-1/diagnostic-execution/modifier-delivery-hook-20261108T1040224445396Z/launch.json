@@ -1,0 +1,12 @@
+{
+    "ScriptSha256":  "C89C7F3899EF8400F3806857A5677BD5090292B2535F62A02E5AFEA2AC708A18",
+    "DurationSeconds":  20,
+    "CreatedUtc":  "2026-11-08T10:40:22.5846655Z",
+    "ConsumesInput":  false,
+    "ProductOperationPerformed":  false,
+    "OutputDirectory":  "C:\\IrisT040Output\\modifier-delivery-hook-20261108T1040224445396Z",
+    "ForegroundInputInjected":  false,
+    "ClipboardContentRead":  false,
+    "Script":  "C:\\IrisT040R2rRepeat\\t040_keyboard_delivery_worker_readonly.ps1",
+    "Pid":  7492
+}

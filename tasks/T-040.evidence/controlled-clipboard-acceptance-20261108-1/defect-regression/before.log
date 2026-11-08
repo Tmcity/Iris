@@ -1,0 +1,99 @@
+Running tests from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+failed Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotServiceTests.ObserveVersion_DoesNotLockCopyWriterAndRequiresCoherentIdentity(scenario: "sequence-changes") (127ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : observed
+      should be
+  ClipboardVersion
+      but was
+  ClipboardVersion
+    at Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotServiceTests.<>c__DisplayClass0_0.<<ObserveVersion_DoesNotLockCopyWriterAndRequiresCoherentIdentity>b__0>d.MoveNext() in F:\Iris\tests\Iris.Platform.Windows.Tests\Clipboard\ClipboardSnapshotServiceTests.cs:47
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotServiceTests.Run(Func`2 body, Scope existing) in F:\Iris\tests\Iris.Platform.Windows.Tests\Clipboard\ClipboardSnapshotServiceTests.cs:596
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotServiceTests.Run(Func`2 body, Scope existing) in F:\Iris\tests\Iris.Platform.Windows.Tests\Clipboard\ClipboardSnapshotServiceTests.cs:623
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotServiceTests.ObserveVersion_DoesNotLockCopyWriterAndRequiresCoherentIdentity(scenario: "never-stable") (4ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : Task `s.Service.ObserveVersionAsync()`
+      should throw
+  Iris.Core.Errors.IrisException
+      but did not
+    at System.Threading.Tasks.ContinuationResultTaskFromResultTask`2.InnerInvoke()
+    at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Threading.ExecutionContext.RunFromThreadPoolDispatchLoop(Thread threadPoolThread, ExecutionContext executionContext, ContextCallback callback, Object state)
+    at System.Threading.Tasks.Task.ExecuteWithThreadLocal(Task& currentTaskSlot, Thread threadPoolThread)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+    at Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotServiceTests.<>c__DisplayClass0_0.<<ObserveVersion_DoesNotLockCopyWriterAndRequiresCoherentIdentity>b__0>d.MoveNext() in F:\Iris\tests\Iris.Platform.Windows.Tests\Clipboard\ClipboardSnapshotServiceTests.cs:40
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotServiceTests.Run(Func`2 body, Scope existing) in F:\Iris\tests\Iris.Platform.Windows.Tests\Clipboard\ClipboardSnapshotServiceTests.cs:596
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotServiceTests.Run(Func`2 body, Scope existing) in F:\Iris\tests\Iris.Platform.Windows.Tests\Clipboard\ClipboardSnapshotServiceTests.cs:623
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotServiceTests.ObserveVersion_DoesNotLockCopyWriterAndRequiresCoherentIdentity(scenario: "owner-changes") (1ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : observed
+      should be
+  ClipboardVersion
+      but was
+  ClipboardVersion
+    at Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotServiceTests.<>c__DisplayClass0_0.<<ObserveVersion_DoesNotLockCopyWriterAndRequiresCoherentIdentity>b__0>d.MoveNext() in F:\Iris\tests\Iris.Platform.Windows.Tests\Clipboard\ClipboardSnapshotServiceTests.cs:47
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotServiceTests.Run(Func`2 body, Scope existing) in F:\Iris\tests\Iris.Platform.Windows.Tests\Clipboard\ClipboardSnapshotServiceTests.cs:596
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotServiceTests.Run(Func`2 body, Scope existing) in F:\Iris\tests\Iris.Platform.Windows.Tests\Clipboard\ClipboardSnapshotServiceTests.cs:623
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotServiceTests.ObserveVersion_DoesNotLockCopyWriterAndRequiresCoherentIdentity(scenario: "writer-holds-clipboard") (277ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Xunit.MicrosoftTestingPlatform.XunitException: Iris.Platform.Windows.Clipboard.ClipboardSnapshotService+NativeFailure : CLIPBOARD_OPEN_BUSY code=0x00000000
+    at Iris.Platform.Windows.Clipboard.ClipboardSnapshotService.Open(CancellationToken token) in F:\Iris\src\Iris.Platform.Windows\Clipboard\ClipboardSnapshotService.cs:155
+    at Iris.Platform.Windows.Clipboard.ClipboardSnapshotService.<ReadVersionAsync>b__10_0(CancellationToken token) in F:\Iris\src\Iris.Platform.Windows\Clipboard\ClipboardSnapshotService.cs:22
+    at Iris.Platform.Windows.Clipboard.ClipboardSnapshotService.<>c__DisplayClass49_0`1.<Submit>b__3() in F:\Iris\src\Iris.Platform.Windows\Clipboard\ClipboardSnapshotService.Worker.cs:68
+    --- End of stack trace from previous location ---
+    at Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotServiceTests.<>c__DisplayClass0_0.<<ObserveVersion_DoesNotLockCopyWriterAndRequiresCoherentIdentity>b__0>d.MoveNext() in F:\Iris\tests\Iris.Platform.Windows.Tests\Clipboard\ClipboardSnapshotServiceTests.cs:46
+    --- End of stack trace from previous location ---
+    at Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotServiceTests.Run(Func`2 body, Scope existing) in F:\Iris\tests\Iris.Platform.Windows.Tests\Clipboard\ClipboardSnapshotServiceTests.cs:596
+    at Iris.Platform.Windows.Tests.Clipboard.ClipboardSnapshotServiceTests.Run(Func`2 body, Scope existing) in F:\Iris\tests\Iris.Platform.Windows.Tests\Clipboard\ClipboardSnapshotServiceTests.cs:623
+    --- End of stack trace from previous location ---
+F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) failed with 4 error(s) (1s 620ms)
+Exit code: 2
+
+Test run summary: Failed!
+  total: 4
+  failed: 4
+  succeeded: 0
+  skipped: 0
+  duration: 1s 853ms
+Test run completed with non-success exit code: 2 (see: https://aka.ms/testingplatform/exitcodes)

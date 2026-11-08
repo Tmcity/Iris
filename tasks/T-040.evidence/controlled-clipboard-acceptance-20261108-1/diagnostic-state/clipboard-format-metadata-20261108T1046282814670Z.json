@@ -1,0 +1,25 @@
+{
+    "ProductOperationPerformed":  false,
+    "ClipboardContentRead":  false,
+    "ClipboardChanged":  false,
+    "Sequence":  557,
+    "Utc":  "2026-11-08T10:46:28.2724668Z",
+    "Formats":  [
+                    {
+                        "Id":  13,
+                        "RegisteredName":  null
+                    },
+                    {
+                        "Id":  16,
+                        "RegisteredName":  null
+                    },
+                    {
+                        "Id":  1,
+                        "RegisteredName":  null
+                    },
+                    {
+                        "Id":  7,
+                        "RegisteredName":  null
+                    }
+                ]
+}

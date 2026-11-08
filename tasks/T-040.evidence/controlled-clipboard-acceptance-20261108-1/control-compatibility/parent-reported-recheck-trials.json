@@ -1,0 +1,24 @@
+{
+  "Scope": "Parent-reported actual UI trials; child did not send desktop input or claim independent screenshot observation",
+  "ReportedBy": "/root",
+  "SandboxWindowId": 461388,
+  "SandboxId": "edf31417-4146-4ccb-9b48-feb98ccb6871",
+  "IrisPid": 7504,
+  "LocalVersion": "0.2.15",
+  "Trials": [
+    { "Requested": "Ctrl+Alt+d", "ActualRecorderDisplay": "Ctrl+D", "OriginalDraftNotSaved": true },
+    { "Requested": "Alt+Ctrl+d", "ActualRecorderDisplay": "Ctrl+D", "ModifierOrderComparison": true },
+    { "Requested": "Control_L+Alt_R+d", "ActualRecorderDisplay": "Ctrl+D", "RightAltComparison": true },
+    { "Requested": "CTRL+ALT+O", "ActualRecorderDisplay": "Ctrl+O", "CapitalizationComparison": true },
+    { "Requested": "Ctrl+Alt+f", "FullScreen": true, "ObservedResolution": "2560x1440", "OrdinaryEditFocused": true, "ExpectedActionAppeared": false, "SameSandboxAndProductInstance": true }
+  ],
+  "EarlierGenericORecorderSuccessMustRemain": true,
+  "FullScreenRemedyProven": false,
+  "NativeParserOrRemoteRoutingCauseEstablished": false,
+  "WrapperPatchWarrantedByStaticEvidence": false,
+  "ChildResetSharedRuntime": false,
+  "ChildStoppedOrLaunchedNativeHelper": false,
+  "ChildModifiedHostOrSecuritySettings": false,
+  "CurrentControlHotkeyRepairComplete": false,
+  "ParentOwnsPendingActualCaptureAndFreshSessionComparison": true
+}
