@@ -71,6 +71,63 @@ public sealed class UiaSelectionWorkerTests
         });
     }
 
+    [Theory]
+    [InlineData("native-missing-pid", "Success")]
+    [InlineData("virtual-missing-pid", "Success")]
+    [InlineData("password-missing-pid", "Sensitive")]
+    [InlineData("missing-pid-without-window", "Unsupported")]
+    [InlineData("native-owner-unknown", "Unsupported")]
+    [InlineData("native-owner-foreign", "Unsupported")]
+    [InlineData("reported-owner-foreign", "Unsupported")]
+    [InlineData("claimed-owner-foreign", "Unsupported")]
+    [InlineData("ancestor-owner-foreign", "Unsupported")]
+    public void Execute_SourceProof_UsesAffirmativeNativeOwnershipAndRejectsConflicts(string scenario, string status)
+    {
+        RunOnMta(() =>
+        {
+            uint nativeOwner = scenario is "native-owner-foreign" or "claimed-owner-foreign" ? 9898u
+                : scenario == "native-owner-unknown" ? 0u : 4242u;
+            _adapter.WindowProcessIdFunc = window => window == 0x1000 ? 4242u : window == 0x2000 ? nativeOwner : 0u;
+            _adapter.IsWindowOrAncestorFunc = (window, parent) => parent == 0x1000 && window is 0x1000 or 0x2000;
+            var range = new FakeUiaTextRange("owned selected text");
+            var element = new FakeUiaElement
+            {
+                ProcessId = scenario == "reported-owner-foreign" ? 9898u : scenario == "claimed-owner-foreign" ? 4242u : 0u,
+                NativeWindowHandle = 0x2000,
+                IsPassword = scenario == "password-missing-pid",
+                TextPattern = new FakeUiaTextPattern { Ranges = [range] }
+            };
+            if (scenario is "virtual-missing-pid" or "ancestor-owner-foreign")
+            {
+                element.NativeWindowHandle = 0;
+                element.Parent = new FakeUiaElement
+                {
+                    ProcessId = scenario == "ancestor-owner-foreign" ? 9898u : 0u,
+                    NativeWindowHandle = 0x1000,
+                };
+            }
+            if (scenario == "missing-pid-without-window") element.NativeWindowHandle = 0;
+            _adapter.Session.FocusedElement = element;
+
+            var reply = UiaSelectionWorker.Execute(_validRequest, _adapter);
+            reply.Status.ToString().ShouldBe(status);
+            if (status == "Success")
+            {
+                reply.Text.ShouldBe("owned selected text");
+                element.TextPatternReadCalls.ShouldBe(1);
+            }
+            else
+            {
+                reply.Text.ShouldBeNull();
+                element.TextPatternReadCalls.ShouldBe(0);
+                range.LastRequestedMaxLength.ShouldBe(0);
+            }
+            element.IsDisposed.ShouldBeTrue();
+            if (element.Parent != null && element.ParentReadCalls > 0) element.Parent.IsDisposed.ShouldBeTrue();
+            _adapter.Session.IsDisposed.ShouldBeTrue();
+        });
+    }
+
     [Fact]
     public void Execute_OnMtaThread_MultipleRanges_JoinedByNewline()
     {

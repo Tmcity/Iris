@@ -15,6 +15,7 @@ internal sealed class FakeNativeUiaAdapter : INativeUiaAdapter
     public uint CurrentProcessId { get; set; } = 1000;
     public Func<nint, bool>? IsWindowValidFunc { get; set; }
     public Func<nint, nint, bool>? IsWindowOrAncestorFunc { get; set; }
+    public Func<nint, uint>? WindowProcessIdFunc { get; set; }
     public FakeUiaAutomationSession Session { get; set; } = new();
     public Exception? ThrowOnCreateSession { get; set; }
     public int TotalCreateSessionCalls { get; private set; }
@@ -23,7 +24,7 @@ internal sealed class FakeNativeUiaAdapter : INativeUiaAdapter
 
     public nint GetForegroundWindow() => ForegroundWindow;
 
-    public uint GetWindowProcessId(nint hwnd) => hwnd == ForegroundWindow ? WindowProcessId : 0;
+    public uint GetWindowProcessId(nint hwnd) => WindowProcessIdFunc?.Invoke(hwnd) ?? (hwnd == ForegroundWindow ? WindowProcessId : 0);
 
     public bool IsWindowValid(nint hwnd) => IsWindowValidFunc?.Invoke(hwnd) ?? (hwnd != 0);
 
@@ -76,10 +77,12 @@ internal sealed class FakeUiaElement : IUiaElement
     public FakeUiaTextPattern? TextPattern { get; set; } = new();
     public Exception? ThrowOnDisposeException { get; set; }
     public bool IsDisposed { get; private set; }
+    public int TextPatternReadCalls { get; private set; }
+    public int ParentReadCalls { get; private set; }
 
-    public IUiaElement? GetParent(int maxDepth) => Parent;
+    public IUiaElement? GetParent(int maxDepth) { ParentReadCalls++; return Parent; }
 
-    public IUiaTextPattern? GetTextPattern() => TextPattern;
+    public IUiaTextPattern? GetTextPattern() { TextPatternReadCalls++; return TextPattern; }
 
     public void Dispose()
     {

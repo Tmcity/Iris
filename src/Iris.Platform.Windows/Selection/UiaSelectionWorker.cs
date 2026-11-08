@@ -313,8 +313,8 @@ internal static class UiaSelectionWorker
         INativeUiaAdapter adapter,
         ref bool disposalFailed)
     {
-        // 进程 ID 必须匹配
-        if (element.ProcessId != expectedPid)
+        // A missing provider PID requires affirmative native ownership; a conflicting PID is never overridden.
+        if (element.ProcessId != 0 && element.ProcessId != expectedPid)
         {
             return false;
         }
@@ -322,7 +322,7 @@ internal static class UiaSelectionWorker
         // 拥有直接原生 HWND 时，验证其是否为目标窗口或其子窗口
         if (element.NativeWindowHandle != 0)
         {
-            return adapter.IsWindowOrAncestor(element.NativeWindowHandle, expectedHwnd);
+            return HasNativeWindowSource(element.NativeWindowHandle, expectedHwnd, expectedPid, adapter);
         }
 
         // 虚拟元素（无原生 HWND），有界遍历祖先（深度上限 32）寻找关联的原生窗口
@@ -339,9 +339,10 @@ internal static class UiaSelectionWorker
                 }
 
                 ancestors.Add(parent);
-                if (parent.ProcessId == expectedPid && parent.NativeWindowHandle != 0)
+                if (parent.ProcessId != 0 && parent.ProcessId != expectedPid) return false;
+                if (parent.NativeWindowHandle != 0)
                 {
-                    return adapter.IsWindowOrAncestor(parent.NativeWindowHandle, expectedHwnd);
+                    return HasNativeWindowSource(parent.NativeWindowHandle, expectedHwnd, expectedPid, adapter);
                 }
 
                 current = parent;
@@ -364,4 +365,7 @@ internal static class UiaSelectionWorker
             }
         }
     }
+
+    private static bool HasNativeWindowSource(nint window, nint expectedWindow, uint expectedPid, INativeUiaAdapter adapter) =>
+        adapter.GetWindowProcessId(window) == expectedPid && adapter.IsWindowOrAncestor(window, expectedWindow);
 }
