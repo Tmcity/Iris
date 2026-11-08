@@ -26,6 +26,7 @@ internal sealed class FakeClipboardSnapshotNative : IClipboardSnapshotNative
     public ClipboardVersion Version { get; set; } = new(0, 0, 0);
     public bool IsOpen { get; private set; }
     public bool WindowAlive { get; private set; }
+    public bool AllowVersionReadWithoutOpen { get; set; } = true;
     public int OwnershipViolations { get; private set; }
     public int Count(string api) => Calls.Count(c => c.Api == api);
 
@@ -87,7 +88,7 @@ internal sealed class FakeClipboardSnapshotNative : IClipboardSnapshotNative
     public uint GetClipboardSequenceNumber() { Call("Sequence"); RequireOpen(); return Version.Sequence; }
     public nint GetOwner() { Call("Owner"); RequireOpen(); return Version.Owner; }
     public uint GetOwnerProcessId(nint owner) { bool ok = Call("OwnerPid"); RequireOpen(); return ok ? owner == 900 ? 42u : Version.OwnerProcessId : 0; }
-    private void RequireOpen() { if (!IsOpen) throw new InvalidOperationException("version outside Open"); }
+    private void RequireOpen() { if (!IsOpen && !AllowVersionReadWithoutOpen) throw new InvalidOperationException("version outside Open"); }
     public uint EnumFormats(uint previous)
     {
         if (!Call("Enum")) return 0;

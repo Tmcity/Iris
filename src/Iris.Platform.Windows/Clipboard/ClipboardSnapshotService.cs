@@ -21,6 +21,29 @@ internal sealed partial class ClipboardSnapshotService : IDisposable, IAsyncDisp
     public Task<ClipboardVersion> ReadVersionAsync(CancellationToken cancellationToken = default) =>
         Submit(token => { Open(token); var version = ReadVersion(); CheckCancellation(token); return version; }, cancellationToken);
 
+    internal Task<ClipboardVersion> ObserveVersionAsync(CancellationToken cancellationToken = default) =>
+        Submit(ObserveVersion, cancellationToken);
+
+    private ClipboardVersion ObserveVersion(CancellationToken token)
+    {
+        // Identity APIs do not require OpenClipboard. Avoid taking the copy writer's lock while waiting for its response.
+        for (int attempt = 0; attempt < 3; attempt++)
+        {
+            CheckCancellation(token);
+            uint before = _native.GetClipboardSequenceNumber();
+            nint owner = _native.GetOwner();
+            uint pid = owner == 0 ? 0 : _native.GetOwnerProcessId(owner);
+            nint ownerAfter = _native.GetOwner();
+            uint pidAfter = ownerAfter == 0 ? 0 : _native.GetOwnerProcessId(ownerAfter);
+            uint after = _native.GetClipboardSequenceNumber();
+            CheckCancellation(token);
+            if (before != after || owner != ownerAfter || pid != pidAfter) continue;
+            Check(owner == 0 || pid != 0, "OWNER_ID");
+            return new(after, ownerAfter, pidAfter);
+        }
+        throw new NativeFailure(ErrorCode.ClipboardBusy, "VERSION_UNSTABLE", 0);
+    }
+
     public Task<ClipboardSnapshotResult> TryClearAsync(ClipboardVersion expectedVersion, CancellationToken cancellationToken = default) =>
         Submit(token => Commit(null, expectedVersion, token), cancellationToken);
 

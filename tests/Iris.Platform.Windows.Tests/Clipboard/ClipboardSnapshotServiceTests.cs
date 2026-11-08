@@ -10,6 +10,50 @@ namespace Iris.Platform.Windows.Tests.Clipboard;
 
 public sealed class ClipboardSnapshotServiceTests
 {
+    [Theory]
+    [InlineData("writer-holds-clipboard")]
+    [InlineData("sequence-changes")]
+    [InlineData("owner-changes")]
+    [InlineData("never-stable")]
+    public Task ObserveVersion_DoesNotLockCopyWriterAndRequiresCoherentIdentity(string scenario) => Run(async s =>
+    {
+        s.Native.AllowVersionReadWithoutOpen = true;
+        s.Native.Version = new(10, 2000, 84);
+        int sequences = 0, owners = 0;
+        if (scenario == "writer-holds-clipboard") s.Native.Failures["Open"] = -1;
+        s.Native.Before = api =>
+        {
+            if (api == "Sequence")
+            {
+                sequences++;
+                if (scenario == "never-stable") s.Native.Version = s.Native.Version with { Sequence = s.Native.Version.Sequence + 1 };
+            }
+            if (api == "Owner")
+            {
+                owners++;
+                if (scenario == "sequence-changes" && owners == 1) s.Native.Version = s.Native.Version with { Sequence = 11 };
+                if (scenario == "owner-changes" && owners == 2) s.Native.Version = new(10, 3000, 85);
+            }
+        };
+        if (scenario == "never-stable")
+        {
+            var error = await Should.ThrowAsync<IrisException>(() => s.Service.ObserveVersionAsync());
+            error.Code.ShouldBe(ErrorCode.ClipboardBusy);
+            sequences.ShouldBeLessThanOrEqualTo(12);
+        }
+        else
+        {
+            var observed = await s.Service.ObserveVersionAsync();
+            observed.ShouldBe(scenario == "sequence-changes" ? new ClipboardVersion(11, 2000, 84)
+                : scenario == "owner-changes" ? new ClipboardVersion(10, 3000, 85) : new ClipboardVersion(10, 2000, 84));
+        }
+        s.Native.Count("Open").ShouldBe(0);
+        s.Native.Count("Get").ShouldBe(0);
+        s.Native.Count("Empty").ShouldBe(0);
+        s.Native.Count("Set").ShouldBe(0);
+        s.Native.Before = null;
+    });
+
     [Fact]
     public async Task Constructor_AndDiResolution_AreLazy()
     {

@@ -158,14 +158,14 @@ internal sealed class CompositeSelectionReader(
         {
             token.ThrowIfCancellationRequested();
             if (!IsSourceCurrent(op) || !IsFocusCurrent(op)) return null;
-            var version = await clipboard.ReadVersionAsync(token).ConfigureAwait(false);
+            var version = await clipboard.ObserveVersionAsync(token).ConfigureAwait(false);
             if (Expired()) return null;
             if (version != op.Clear.Version.Value)
             {
                 if (version.Owner == 0 || version.OwnerProcessId != op.Source!.ProcessId) return null;
                 await Task.Delay(TimeSpan.FromMilliseconds(20), timeProvider, token).ConfigureAwait(false);
                 if (Expired()) return null;
-                var stable = await clipboard.ReadVersionAsync(token).ConfigureAwait(false);
+                var stable = await clipboard.ObserveVersionAsync(token).ConfigureAwait(false);
                 if (Expired()) return null;
                 if (stable == version)
                 {
