@@ -1,0 +1,17 @@
+{
+  "Command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.App.Tests/Iris.App.Tests.csproj",
+    "-c",
+    "Release",
+    "--filter-method",
+    "*CardCommands_UpdateRealButtonsWithoutInputRequery*",
+    "--no-ansi",
+    "--no-progress"
+  ],
+  "StartedUtc": "2026-11-08T06:27:13.698574+00:00",
+  "FinishedUtc": "2026-11-08T06:27:22.984510+00:00",
+  "ExitCode": 0
+}

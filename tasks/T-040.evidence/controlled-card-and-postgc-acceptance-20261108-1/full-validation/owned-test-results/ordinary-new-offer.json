@@ -1,0 +1,23 @@
+{
+  "Data": {
+    "HasConfirmedUpdate": false,
+    "RecoveryWindowCreated": false,
+    "Helpers": 0
+  },
+  "Current": {
+    "Phase": "Stopped",
+    "HasCandidate": false,
+    "HasConfirmedUpdate": false,
+    "SettingsSessionAlive": false,
+    "ScopedVmCount": 1,
+    "DisposedVmCount": 1,
+    "HelpersStarted": 0,
+    "HelpersExited": 0,
+    "Requests": 2,
+    "Downloads": 1,
+    "Commits": 0,
+    "DraftTests": 0,
+    "ModelQueries": 0,
+    "HostStops": 1
+  }
+}

@@ -1,0 +1,382 @@
+{
+    "AppPid":  2524,
+    "WorkingSetLimitBytes":  167772160,
+    "Completed":  true,
+    "WorkingSetWithinLimit":  false,
+    "SourceCommit":  "b3072b2837e5b7d83b349d76c719ec9a323020b0",
+    "AppCreatedUtc":  "2026-11-07T21:52:16.6445071Z",
+    "PrivateBytesLimitBytes":  104857600,
+    "PrivateBytesWithinLimit":  true,
+    "Samples":  [
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:24.0058603Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:25.0308190Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:26.0504266Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:27.0599035Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:28.0788649Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:29.0983159Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:30.1190433Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:31.1289789Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:32.1511548Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:33.1646926Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:34.1880843Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:35.2060787Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:36.2140899Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:37.2297601Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:38.2374026Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:39.2533533Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:40.2763671Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:41.3014709Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209879040,
+                        "PrivateBytes":  65183744,
+                        "Utc":  "2026-11-08T06:31:42.3105670Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:31:43.3178521Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:31:44.3259051Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:31:45.3362993Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:31:46.3727267Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:31:47.4377443Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:31:48.4468107Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:31:49.4607338Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:31:50.4682900Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:31:51.4781698Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:31:52.4999061Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:31:53.5157538Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:31:54.5232209Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:31:55.5311367Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:31:56.5676742Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:31:57.5913755Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:31:58.6097417Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:31:59.6418360Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:32:00.6616616Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:32:01.6738129Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:32:02.6896713Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:32:03.7056457Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:32:04.7179434Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:32:05.7333412Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:32:06.7549350Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:32:07.7739388Z"
+                    },
+                    {
+                        "VisibleWindowCount":  0,
+                        "ProcessCpuTotalSeconds":  17.1875,
+                        "Pid":  2524,
+                        "WorkingSetBytes":  209899520,
+                        "PrivateBytes":  65224704,
+                        "Utc":  "2026-11-08T06:32:08.7976957Z"
+                    }
+                ],
+    "FormalMemoryConditionProved":  true,
+    "TraceObserverActuallyAbsent":  true,
+    "FinishedUtc":  "2026-11-08T06:32:10.8115454Z",
+    "ProductOperationPerformed":  false,
+    "NaturalFullGcPairs":  1,
+    "Failure":  null,
+    "StartedUtc":  "2026-11-08T06:31:23.9788448Z",
+    "TraceCompletedUtc":  "2026-11-08T06:29:13.4159664+00:00",
+    "GcRequested":  false,
+    "WorkingSetTrimmed":  false
+}

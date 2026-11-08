@@ -1,0 +1,11 @@
+{
+    "StartedUtc":  "2026-11-08T06:31:19.4261726Z",
+    "GcRequested":  false,
+    "ProductOperationPerformed":  false,
+    "WorkingSetTrimmed":  false,
+    "WorkerPid":  3556,
+    "WorkerCreatedUtc":  "2026-11-08T06:31:19.4237873Z",
+    "TraceLeasePath":  "C:\\IrisT040Output\\fixed-runtime-lease-eb4a65a8290551149044f653c04a5c18480b6735e74ae0fa09b0642e9ebadce4.json",
+    "WorkerScript":  "C:\\IrisT040HistoryFixed\\t040_fixed_candidate_tray_steady_readonly.ps1",
+    "WorkerSha256":  "740FE202D37D8BD500BF2E85231A003E6BB61F0489871A7A3898DFF5EE72437C"
+}

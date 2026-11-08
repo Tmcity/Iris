@@ -1,0 +1,22 @@
+{
+  "Command": [
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "F:\\Iris\\build\\pack.ps1",
+    "-Version",
+    "0.2.13",
+    "-OutputDirectory",
+    "F:\\Iris\\artifacts\\t040\\card-command-local-candidate-20261108-1",
+    "-ReadyToRun"
+  ],
+  "StartedUtc": "2026-11-08T06:31:56.068515+00:00",
+  "FinishedUtc": "2026-11-08T06:33:21.276384+00:00",
+  "ExitCode": 0,
+  "Log": "package.log",
+  "Bytes": 5851,
+  "Sha256": "c7c896fe41b69d2d161f34a5a5f0e7ae024411b80f20c3a38681c3f0cb7fdb32"
+}

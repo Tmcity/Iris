@@ -1,0 +1,33 @@
+{"Kind":"Request","Utc":"2026-11-08T06:20:26.0704547+00:00","ReceivedQpc":622259738955,"Sequence":1,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 R2R memory 07","SourceSha256":"D32A68A948429B59BF8C7598AC3507E89DE5B4F6B275EA147F2298E29EB15402","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-08T06:20:26.0926192+00:00","Qpc":622260247920,"Sequence":1}
+{"Kind":"Completed","Utc":"2026-11-08T06:20:26.2441411+00:00","Qpc":622261763142,"Sequence":1,"Truncated":false}
+{"Kind":"Request","Utc":"2026-11-08T06:21:23.8798941+00:00","ReceivedQpc":622838116714,"Sequence":2,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 cancel ui 08","SourceSha256":"E0FECC0CFA076ABADFE1E6B33008839FF579E8FCE9A05183A21C8E5BDB7F1BC4","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-08T06:21:23.882676+00:00","Qpc":622838148493,"Sequence":2}
+{"Kind":"Completed","Utc":"2026-11-08T06:21:33.8830215+00:00","Qpc":622938151950,"Sequence":2,"Truncated":false}
+{"Kind":"Request","Utc":"2026-11-08T06:22:35.5453288+00:00","ReceivedQpc":623554770590,"Sequence":3,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 cancel ui 08B","SourceSha256":"FEE204C495D447C33B02CC5D91992454EF1FBE2084B79672476F0D7FB5232FBF","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-08T06:22:35.5458721+00:00","Qpc":623554780450,"Sequence":3}
+{"Kind":"Completed","Utc":"2026-11-08T06:22:45.5429507+00:00","Qpc":623654751242,"Sequence":3,"Truncated":false}
+{"Kind":"Request","Utc":"2026-11-08T06:23:23.990248+00:00","ReceivedQpc":624039219308,"Sequence":4,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 retry ui 09","SourceSha256":"49F0AA8C583E0018DE89C8BDA080A8D7BCA7327C542DAF5584D247EFCCB8A14A","FakeKeyAccepted":true}
+{"Kind":"HttpError","Utc":"2026-11-08T06:23:23.9930849+00:00","Sequence":4,"StatusCode":429}
+{"Kind":"Request","Utc":"2026-11-08T06:23:25.0087742+00:00","ReceivedQpc":624049402873,"Sequence":5,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":2,"SyntheticText":"Iris T040 retry ui 09","SourceSha256":"49F0AA8C583E0018DE89C8BDA080A8D7BCA7327C542DAF5584D247EFCCB8A14A","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-08T06:23:25.0093633+00:00","Qpc":624049415412,"Sequence":5}
+{"Kind":"Completed","Utc":"2026-11-08T06:23:25.157932+00:00","Qpc":624050901050,"Sequence":5,"Truncated":false}
+{"Kind":"Request","Utc":"2026-11-08T06:24:32.3968264+00:00","ReceivedQpc":624723282312,"Sequence":6,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":3,"SyntheticText":"Iris T040 retry ui 09","SourceSha256":"49F0AA8C583E0018DE89C8BDA080A8D7BCA7327C542DAF5584D247EFCCB8A14A","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-08T06:24:32.3976094+00:00","Qpc":624723297823,"Sequence":6}
+{"Kind":"Completed","Utc":"2026-11-08T06:24:32.5479775+00:00","Qpc":624724801505,"Sequence":6,"Truncated":false}
+{"Kind":"Request","Utc":"2026-11-08T06:28:43.6666999+00:00","ReceivedQpc":627235983449,"Sequence":7,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 error ui 10","SourceSha256":"9788ECBCF3287B3DBC6CC55F38B47E5E69B68293FA6E7FA42868B3C7A2C64D13","FakeKeyAccepted":true}
+{"Kind":"HttpError","Utc":"2026-11-08T06:28:43.6675021+00:00","Sequence":7,"StatusCode":503}
+{"Kind":"Request","Utc":"2026-11-08T06:28:44.663595+00:00","ReceivedQpc":627245954225,"Sequence":8,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":2,"SyntheticText":"Iris T040 error ui 10","SourceSha256":"9788ECBCF3287B3DBC6CC55F38B47E5E69B68293FA6E7FA42868B3C7A2C64D13","FakeKeyAccepted":true}
+{"Kind":"HttpError","Utc":"2026-11-08T06:28:44.6651285+00:00","Sequence":8,"StatusCode":503}
+{"Kind":"Request","Utc":"2026-11-08T06:37:38.7988459+00:00","ReceivedQpc":632587305949,"Sequence":9,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 card fixed 013","SourceSha256":"CCC2BC5524D66A6A38A9808244C691D6742FB64C48D3F60B0D504DA79127D00E","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-08T06:37:38.7993923+00:00","Qpc":632587315653,"Sequence":9}
+{"Kind":"Completed","Utc":"2026-11-08T06:37:38.9634782+00:00","Qpc":632588956516,"Sequence":9,"Truncated":false}
+{"Kind":"Request","Utc":"2026-11-08T06:38:06.8249327+00:00","ReceivedQpc":632867568446,"Sequence":10,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":2,"SyntheticText":"Iris T040 card fixed 013","SourceSha256":"CCC2BC5524D66A6A38A9808244C691D6742FB64C48D3F60B0D504DA79127D00E","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-08T06:38:06.825324+00:00","Qpc":632867574969,"Sequence":10}
+{"Kind":"Completed","Utc":"2026-11-08T06:38:06.977603+00:00","Qpc":632869097764,"Sequence":10,"Truncated":false}
+{"Kind":"Request","Utc":"2026-11-08T06:39:15.6718995+00:00","ReceivedQpc":633556034042,"Sequence":11,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 synthetic translation","SourceSha256":"29A6272670D8A0946C50159234AF1CBA51ADF9D3A431BDF435021AB8835BE83E","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-08T06:39:15.6725333+00:00","Qpc":633556047066,"Sequence":11}
+{"Kind":"Completed","Utc":"2026-11-08T06:39:15.8223937+00:00","Qpc":633557545670,"Sequence":11,"Truncated":false}
+{"Kind":"Request","Utc":"2026-11-08T06:40:17.5346211+00:00","ReceivedQpc":634174666612,"Sequence":12,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 truncated ui 013","SourceSha256":"0ED3FBA858448AD12BFFE443EFA24AE2DD413EFFCD42628F5B99977D17C0C242","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-08T06:40:17.5349845+00:00","Qpc":634174671575,"Sequence":12}
+{"Kind":"Completed","Utc":"2026-11-08T06:40:17.6935377+00:00","Qpc":634176257111,"Sequence":12,"Truncated":true}

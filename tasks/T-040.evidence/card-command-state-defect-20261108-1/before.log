@@ -1,0 +1,74 @@
+Running tests from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+failed Iris.App.Tests.Translation.ProviderCardCommandTests.CardCommands_UpdateRealButtonsWithoutInputRequery(transition: "retry-operation-ownership") (52ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : button.IsEnabled
+      should be
+  False
+      but was
+  True
+    at Iris.App.Tests.Translation.ProviderCardCommandTests.<>c__DisplayClass0_0.<CardCommands_UpdateRealButtonsWithoutInputRequery>b__0() in F:\Iris\tests\Iris.App.Tests\Translation\ProviderCardCommandTests.cs:58
+    at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass10_0.<RunAsync>b__0() in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:93
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Action work) in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:102
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.App.Tests.Translation.ProviderCardCommandTests.CardCommands_UpdateRealButtonsWithoutInputRequery(transition: "retry-terminal-and-reset") (2ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : button.IsEnabled
+      should be
+  True
+      but was
+  False
+    at Iris.App.Tests.Translation.ProviderCardCommandTests.<>c__DisplayClass0_0.<CardCommands_UpdateRealButtonsWithoutInputRequery>b__0() in F:\Iris\tests\Iris.App.Tests\Translation\ProviderCardCommandTests.cs:43
+    at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass10_0.<RunAsync>b__0() in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:93
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Action work) in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:102
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+failed Iris.App.Tests.Translation.ProviderCardCommandTests.CardCommands_UpdateRealButtonsWithoutInputRequery(transition: "copy-stream-and-reset") (8ms)
+  from F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : button.IsEnabled
+      should be
+  True
+      but was
+  False
+    at Iris.App.Tests.Translation.ProviderCardCommandTests.<>c__DisplayClass0_0.<CardCommands_UpdateRealButtonsWithoutInputRequery>b__0() in F:\Iris\tests\Iris.App.Tests\Translation\ProviderCardCommandTests.cs:33
+    at Iris.App.Tests.TestSupport.WpfTestRunner.<>c__DisplayClass10_0.<RunAsync>b__0() in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:93
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    at Iris.App.Tests.TestSupport.WpfTestRunner.RunAsync(Action work) in F:\Iris\tests\Iris.App.Tests\TestSupport\WpfTestRunner.cs:102
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    at System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    at System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    at System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) failed with 3 error(s) (1s 444ms)
+Exit code: 2
+
+Test run summary: Failed!
+  total: 3
+  failed: 3
+  succeeded: 0
+  skipped: 0
+  duration: 1s 664ms
+Test run completed with non-success exit code: 2 (see: https://aka.ms/testingplatform/exitcodes)

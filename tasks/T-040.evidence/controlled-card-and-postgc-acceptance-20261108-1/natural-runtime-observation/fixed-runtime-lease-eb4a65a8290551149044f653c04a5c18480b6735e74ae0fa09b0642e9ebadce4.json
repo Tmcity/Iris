@@ -1,0 +1,17 @@
+{
+    "Version":  "0.2.12",
+    "ObserverPid":  5184,
+    "GcRequested":  false,
+    "ManifestSha256":  "eb4a65a8290551149044f653c04a5c18480b6735e74ae0fa09b0642e9ebadce4",
+    "TargetCreatedUtc":  "2026-11-07T21:52:16.6445070Z",
+    "ObserverCreatedUtc":  "2026-11-08T06:19:13.0563985Z",
+    "FormalMemoryDuringTraceEligible":  false,
+    "TargetPid":  2524,
+    "DurationSeconds":  600,
+    "SourceCommit":  "b3072b2837e5b7d83b349d76c719ec9a323020b0",
+    "ObserverPath":  "C:\\IrisT040R2rRepeat\\tools\\runtime-counters\\RuntimeCounterProbe.exe",
+    "ProductOperationPerformed":  false,
+    "TraceDirectory":  "C:\\IrisT040Output\\runtime-counters-20261108T0619132270098Z",
+    "ObserverSha256":  "6419E6C20B047D3AA5603C2A846AC5548D9DD80B2329556B9AC8AC1D85E1B8CD",
+    "StartedUtc":  "2026-11-08T06:19:13.0592046Z"
+}

@@ -1,0 +1,131 @@
+{
+  "RecordedUtc": "2026-11-08T06:42:36.541950+00:00",
+  "InstalledVersion": "0.2.13",
+  "InstalledSource": "22133ca09e11cd502b470396735018bb43efc9b2",
+  "InstalledPid": 1864,
+  "InstalledFilesMatch": 97,
+  "OriginalSevenHistoryEntriesPreserved": true,
+  "SettingsAndCredentialHashesPreserved": true,
+  "CurrentHistoryTotal": 13,
+  "ActualHistorySourceSearchFavoriteAndFavoritesFilterPassed": true,
+  "ActualHistoryRetranslateAndUiCacheBadgePassed": true,
+  "ActualStopButtonAndCanceledTextExcludedFromHistory": true,
+  "ServerDisconnectNotInferred": true,
+  "Actual429AutomaticRetryAnd503SafeUiErrorPassed": true,
+  "ActualModelTruncationUiAndHistoryFlagPassed": true,
+  "BeforeRealButtonRegression": {
+    "Total": 3,
+    "Failed": 3
+  },
+  "AfterRealButtonRegression": {
+    "Total": 3,
+    "Passed": 3
+  },
+  "ActualFixedFirstRetryClickSentSecondRequest": true,
+  "ActualFixedFirstCopyClickVerifiedByPureKeyboardPaste": true,
+  "FullValidation": {
+    "Total": 3779,
+    "Passed": 3777,
+    "Failed": 0,
+    "Skipped": 2
+  },
+  "NaturalFullGcPairs": 1,
+  "SteadyVersion": "0.2.12",
+  "SteadyPid": 2524,
+  "SteadySamples": 45,
+  "WsMedianMiB": 200.17578125,
+  "WsMaximumMiB": 200.17578125,
+  "PbMedianMiB": 62.203125,
+  "PostFullGcWs160MiBPassed": false,
+  "PostFullGcPb100MiBPassed": true,
+  "IdleCpuTotalSecondsDelta": 0.0,
+  "ControlWorkflowExclusions": [
+    "First stop click occurred after the ten-second response completed; its retained history is not cancellation evidence.",
+    "Initial truncation-text entry was not visible; only the later visibly verified input and truncated response are acceptance evidence.",
+    "During full host tests, transient host test windows appeared in Computer Use images; separately captured guest evidence and owned PID checks establish guest state."
+  ],
+  "Screenshots": [
+    {
+      "Path": "controlled-ui-view-20261108T0618350376008Z.png.json",
+      "Utc": "2026-11-08T06:18:35.2359559Z",
+      "AppPid": 2524
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0619523064325Z.png.json",
+      "Utc": "2026-11-08T06:19:52.4462029Z",
+      "AppPid": 2524
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0620324006600Z.png.json",
+      "Utc": "2026-11-08T06:20:32.5550586Z",
+      "AppPid": 2524
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0621046333501Z.png.json",
+      "Utc": "2026-11-08T06:21:04.7466089Z",
+      "AppPid": 2524
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0621303817045Z.png.json",
+      "Utc": "2026-11-08T06:21:30.5557703Z",
+      "AppPid": 2524
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0621512089681Z.png.json",
+      "Utc": "2026-11-08T06:21:51.3276036Z",
+      "AppPid": 2524
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0622453166752Z.png.json",
+      "Utc": "2026-11-08T06:22:45.4375131Z",
+      "AppPid": 2524
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0623318763637Z.png.json",
+      "Utc": "2026-11-08T06:23:32.0057309Z",
+      "AppPid": 2524
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0624040542716Z.png.json",
+      "Utc": "2026-11-08T06:24:04.1912652Z",
+      "AppPid": 2524
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0626433317072Z.png.json",
+      "Utc": "2026-11-08T06:26:43.4692105Z",
+      "AppPid": 2524
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0628518764291Z.png.json",
+      "Utc": "2026-11-08T06:28:52.0248297Z",
+      "AppPid": 2524
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0637453112371Z.png.json",
+      "Utc": "2026-11-08T06:37:45.4702313Z",
+      "AppPid": 1864
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0638132976043Z.png.json",
+      "Utc": "2026-11-08T06:38:13.4188739Z",
+      "AppPid": 1864
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0638394887961Z.png.json",
+      "Utc": "2026-11-08T06:38:39.6397690Z",
+      "AppPid": 1864
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0639223693207Z.png.json",
+      "Utc": "2026-11-08T06:39:22.5116012Z",
+      "AppPid": 1864
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0640241428744Z.png.json",
+      "Utc": "2026-11-08T06:40:24.3222198Z",
+      "AppPid": 1864
+    }
+  ],
+  "WholeT040Complete": false,
+  "PublicWritePerformed": false
+}
