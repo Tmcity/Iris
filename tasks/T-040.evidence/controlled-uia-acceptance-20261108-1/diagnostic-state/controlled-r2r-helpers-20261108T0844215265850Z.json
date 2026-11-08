@@ -1,0 +1,27 @@
+{
+    "Utc":  "2026-11-08T08:44:21.5235839Z",
+    "Processes":  [
+                      {
+                          "ProcessId":  7292,
+                          "CreationDate":  "\/Date(1794126848328)\/",
+                          "ExecutablePath":  "C:\\IrisT040R2rRepeat\\tools\\synthetic-provider\\T040SyntheticProvider.exe",
+                          "CommandLine":  "\"C:\\IrisT040R2rRepeat\\tools\\synthetic-provider\\T040SyntheticProvider.exe\"",
+                          "Name":  "T040SyntheticProvider.exe"
+                      },
+                      {
+                          "ProcessId":  3808,
+                          "CreationDate":  "\/Date(1794127116458)\/",
+                          "ExecutablePath":  "C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe",
+                          "CommandLine":  "\"C:\\Users\\WDAGUtilityAccount\\AppData\\Local\\Iris\\current\\Iris.App.exe\"",
+                          "Name":  "Iris.App.exe"
+                      }
+                  ],
+    "ProductOperationPerformed":  false,
+    "FixtureListeners":  [
+                             {
+                                 "LocalAddress":  "127.0.0.1",
+                                 "LocalPort":  18040,
+                                 "OwningProcess":  4
+                             }
+                         ]
+}

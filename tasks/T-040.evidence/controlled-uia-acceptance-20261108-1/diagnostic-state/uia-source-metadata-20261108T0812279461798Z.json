@@ -1,0 +1,42 @@
+{
+  "Utc": "2026-11-08T08:12:27.9482773+00:00",
+  "SourceWindow": 3015552,
+  "SourcePid": 3364,
+  "ProbePid": 3124,
+  "ElapsedMilliseconds": 38.7722,
+  "InstalledPlatformSha256": "4701031EBF9EEC6FF9FA4342B792C60D577ECD241A5B7ED2A24FE4341ACED2BB",
+  "Rows": [
+    {
+      "Depth": 0,
+      "ProcessId": 0,
+      "NativeWindow": 1245476,
+      "IsPassword": false,
+      "MatchesForegroundPid": false,
+      "NativeWindowWithinForeground": true,
+      "VariantProcessId": {
+        "Type": "Int32",
+        "Value": 0
+      },
+      "VariantIsPassword": {
+        "Type": "Boolean",
+        "Value": false
+      },
+      "ProcessGetterImplementationFlags": "IL"
+    }
+  ],
+  "Mode": "IdentifiersOnly",
+  "ProxyMapState": null,
+  "ManagedProperties": {
+    "ProcessId": 30002,
+    "NativeWindowHandle": 30020,
+    "IsPassword": 30019
+  },
+  "Failure": null,
+  "ProductOperationPerformed": false,
+  "ForegroundInputInjected": false,
+  "UserTextOrCredentialsRead": false,
+  "TextPatternsRead": false,
+  "TargetSuspended": false,
+  "GcRequested": false,
+  "Scope": "Actual reviewed UIA adapter metadata on an owned synthetic browser or native scene; no text pattern read and no source-policy change."
+}

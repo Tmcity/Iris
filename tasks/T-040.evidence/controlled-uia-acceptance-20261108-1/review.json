@@ -1,0 +1,104 @@
+{
+  "RecordedUtc": "2026-11-08T08:45:32.068480+00:00",
+  "InstalledVersion": "0.2.14",
+  "InstalledSource": "57fc1ce837961faacd8c54951d2642e4967f9325",
+  "InstalledPid": 3808,
+  "InstalledFilesMatch": 97,
+  "HistoryTotal": 15,
+  "OriginalDataAndSecretHashesPreserved": true,
+  "ModifierAliasesRecordedCorrectlyAndActualOcrHotkeyTriggered": true,
+  "AltLPathLimitationRetained": true,
+  "ControlWrapperOrSdkChangedThisPhase": false,
+  "ActualOcrRegionCaptureCompleted": true,
+  "ActualLocalOcrSucceeded": false,
+  "OcrLanguageCount": 0,
+  "OcrCapabilityDismQueryFailure": "0x80072ee6",
+  "SystemComponentsChanged": false,
+  "OriginalBrowserSelectionFailureAndNativeUnsupportedProtocolPreserved": true,
+  "UiAProviderPidMissingProvedByRawPropertyAndNativeControlComparison": true,
+  "ManagedInitializationWasDiagnosticOnly": true,
+  "ProductUsesWpfUia": false,
+  "BeforeSourceProofRegression": {
+    "Total": 9,
+    "Failed": 4,
+    "Passed": 5
+  },
+  "AfterSourceProofRegression": {
+    "Total": 9,
+    "Passed": 9
+  },
+  "ActualNativeEditAndBrowserSelectionTranslationPassed": true,
+  "ActualSyntheticBrowserPasswordRefused": true,
+  "FixtureRequestsAfterFixedInstallation": 2,
+  "SensitiveTextNotRequestedOrWrittenToHistory": true,
+  "FullTests": {
+    "Total": 3788,
+    "Passed": 3786,
+    "Failed": 0,
+    "Skipped": 2
+  },
+  "ScreenshotRecords": [
+    {
+      "Path": "controlled-ui-view-20261108T0650279802041Z.png.json",
+      "Utc": "2026-11-08T06:50:28.0991995Z",
+      "AppPid": 1864
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0652247855408Z.png.json",
+      "Utc": "2026-11-08T06:52:24.8672927Z",
+      "AppPid": 1864
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0653557023632Z.png.json",
+      "Utc": "2026-11-08T06:53:55.8026093Z",
+      "AppPid": 1864
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0655199258700Z.png.json",
+      "Utc": "2026-11-08T06:55:20.0263804Z",
+      "AppPid": 1864
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0700515047543Z.png.json",
+      "Utc": "2026-11-08T07:00:51.6005868Z",
+      "AppPid": 1864
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0703048415763Z.png.json",
+      "Utc": "2026-11-08T07:03:04.9580840Z",
+      "AppPid": 1864
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0705486112408Z.png.json",
+      "Utc": "2026-11-08T07:05:48.7234826Z",
+      "AppPid": 1864
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0707595771240Z.png.json",
+      "Utc": "2026-11-08T07:07:59.6531425Z",
+      "AppPid": 1864
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0835032256717Z.png.json",
+      "Utc": "2026-11-08T08:35:03.3262228Z",
+      "AppPid": 1864
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0840242816430Z.png.json",
+      "Utc": "2026-11-08T08:40:24.3710264Z",
+      "AppPid": 3808
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0841280542652Z.png.json",
+      "Utc": "2026-11-08T08:41:28.1337001Z",
+      "AppPid": 3808
+    },
+    {
+      "Path": "controlled-ui-view-20261108T0842529840161Z.png.json",
+      "Utc": "2026-11-08T08:42:53.0520845Z",
+      "AppPid": 3808
+    }
+  ],
+  "WholeT040Complete": false,
+  "PublicWritePerformed": false
+}

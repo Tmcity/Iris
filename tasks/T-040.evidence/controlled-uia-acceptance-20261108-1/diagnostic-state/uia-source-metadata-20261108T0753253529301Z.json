@@ -1,0 +1,222 @@
+{
+  "Utc": "2026-11-08T07:53:25.3547779+00:00",
+  "SourceWindow": 721678,
+  "SourcePid": 2052,
+  "ProbePid": 5424,
+  "ElapsedMilliseconds": 60.9987,
+  "InstalledPlatformSha256": "4701031EBF9EEC6FF9FA4342B792C60D577ECD241A5B7ED2A24FE4341ACED2BB",
+  "Rows": [
+    {
+      "Depth": 0,
+      "ProcessId": 0,
+      "NativeWindow": 0,
+      "IsPassword": false,
+      "MatchesForegroundPid": false,
+      "NativeWindowWithinForeground": false,
+      "VariantProcessId": {
+        "Type": "Int32",
+        "Value": 0
+      },
+      "VariantIsPassword": {
+        "Type": "Boolean",
+        "Value": false
+      },
+      "ProcessGetterImplementationFlags": "IL"
+    },
+    {
+      "Depth": 1,
+      "ProcessId": 0,
+      "NativeWindow": 0,
+      "IsPassword": false,
+      "MatchesForegroundPid": false,
+      "NativeWindowWithinForeground": false,
+      "VariantProcessId": {
+        "Type": "Int32",
+        "Value": 0
+      },
+      "VariantIsPassword": {
+        "Type": "Boolean",
+        "Value": false
+      },
+      "ProcessGetterImplementationFlags": "IL"
+    },
+    {
+      "Depth": 2,
+      "ProcessId": 0,
+      "NativeWindow": 0,
+      "IsPassword": false,
+      "MatchesForegroundPid": false,
+      "NativeWindowWithinForeground": false,
+      "VariantProcessId": {
+        "Type": "Int32",
+        "Value": 0
+      },
+      "VariantIsPassword": {
+        "Type": "Boolean",
+        "Value": false
+      },
+      "ProcessGetterImplementationFlags": "IL"
+    },
+    {
+      "Depth": 3,
+      "ProcessId": 0,
+      "NativeWindow": 0,
+      "IsPassword": false,
+      "MatchesForegroundPid": false,
+      "NativeWindowWithinForeground": false,
+      "VariantProcessId": {
+        "Type": "Int32",
+        "Value": 0
+      },
+      "VariantIsPassword": {
+        "Type": "Boolean",
+        "Value": false
+      },
+      "ProcessGetterImplementationFlags": "IL"
+    },
+    {
+      "Depth": 4,
+      "ProcessId": 0,
+      "NativeWindow": 0,
+      "IsPassword": false,
+      "MatchesForegroundPid": false,
+      "NativeWindowWithinForeground": false,
+      "VariantProcessId": {
+        "Type": "Int32",
+        "Value": 0
+      },
+      "VariantIsPassword": {
+        "Type": "Boolean",
+        "Value": false
+      },
+      "ProcessGetterImplementationFlags": "IL"
+    },
+    {
+      "Depth": 5,
+      "ProcessId": 0,
+      "NativeWindow": 0,
+      "IsPassword": false,
+      "MatchesForegroundPid": false,
+      "NativeWindowWithinForeground": false,
+      "VariantProcessId": {
+        "Type": "Int32",
+        "Value": 0
+      },
+      "VariantIsPassword": {
+        "Type": "Boolean",
+        "Value": false
+      },
+      "ProcessGetterImplementationFlags": "IL"
+    },
+    {
+      "Depth": 6,
+      "ProcessId": 0,
+      "NativeWindow": 0,
+      "IsPassword": false,
+      "MatchesForegroundPid": false,
+      "NativeWindowWithinForeground": false,
+      "VariantProcessId": {
+        "Type": "Int32",
+        "Value": 0
+      },
+      "VariantIsPassword": {
+        "Type": "Boolean",
+        "Value": false
+      },
+      "ProcessGetterImplementationFlags": "IL"
+    },
+    {
+      "Depth": 7,
+      "ProcessId": 0,
+      "NativeWindow": 0,
+      "IsPassword": false,
+      "MatchesForegroundPid": false,
+      "NativeWindowWithinForeground": false,
+      "VariantProcessId": {
+        "Type": "Int32",
+        "Value": 0
+      },
+      "VariantIsPassword": {
+        "Type": "Boolean",
+        "Value": false
+      },
+      "ProcessGetterImplementationFlags": "IL"
+    },
+    {
+      "Depth": 8,
+      "ProcessId": 0,
+      "NativeWindow": 0,
+      "IsPassword": false,
+      "MatchesForegroundPid": false,
+      "NativeWindowWithinForeground": false,
+      "VariantProcessId": {
+        "Type": "Int32",
+        "Value": 0
+      },
+      "VariantIsPassword": {
+        "Type": "Boolean",
+        "Value": false
+      },
+      "ProcessGetterImplementationFlags": "IL"
+    },
+    {
+      "Depth": 9,
+      "ProcessId": 0,
+      "NativeWindow": 0,
+      "IsPassword": false,
+      "MatchesForegroundPid": false,
+      "NativeWindowWithinForeground": false,
+      "VariantProcessId": {
+        "Type": "Int32",
+        "Value": 0
+      },
+      "VariantIsPassword": {
+        "Type": "Boolean",
+        "Value": false
+      },
+      "ProcessGetterImplementationFlags": "IL"
+    },
+    {
+      "Depth": 10,
+      "ProcessId": 0,
+      "NativeWindow": 0,
+      "IsPassword": false,
+      "MatchesForegroundPid": false,
+      "NativeWindowWithinForeground": false,
+      "VariantProcessId": {
+        "Type": "Int32",
+        "Value": 0
+      },
+      "VariantIsPassword": {
+        "Type": "Boolean",
+        "Value": false
+      },
+      "ProcessGetterImplementationFlags": "IL"
+    },
+    {
+      "Depth": 11,
+      "ProcessId": 0,
+      "NativeWindow": 721678,
+      "IsPassword": false,
+      "MatchesForegroundPid": false,
+      "NativeWindowWithinForeground": true,
+      "VariantProcessId": {
+        "Type": "Int32",
+        "Value": 0
+      },
+      "VariantIsPassword": {
+        "Type": "Boolean",
+        "Value": false
+      },
+      "ProcessGetterImplementationFlags": "IL"
+    }
+  ],
+  "Failure": null,
+  "ProductOperationPerformed": false,
+  "ForegroundInputInjected": false,
+  "UserTextOrCredentialsRead": false,
+  "TextPatternsRead": false,
+  "TargetSuspended": false,
+  "GcRequested": false,
+  "Scope": "Actual reviewed UIA adapter metadata on the owned synthetic browser; no text pattern read and no source-policy change."
+}

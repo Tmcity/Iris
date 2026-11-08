@@ -1,0 +1,44 @@
+[
+  {
+    "ArchivePath": "tasks/T-040.evidence/computer-control-rpc-compatibility-20261108-1/official-source/windows-client-base.js",
+    "ArchiveSha256": "5e54867417cb120477455e069c2eb53b6513b8e076a06143d4d207cc8a293d95",
+    "Offset": 4247,
+    "Needle": "this.press_key=",
+    "Excerpt": ",\"to.x\"),to_y:x(o,\"to.y\")},null!=l?{screenshotId:l}:{}))})),this.press_key=i=>e(this,[i],void 0,(function*({window:e,key:i}){if(!i)throw new TypeError(\"key is required\");yield t(this,s,\"m\",f).call(this,\"press_key\",{window:p(e),key:E(i)})})),this.type_text=i=>e(this,[i],void 0,(function*({window:e,text:i}){if(\"string\"!=typeof i)throw new TypeError(\"text is required\");yield t(this,s,\"m\",f).call(this,\"type_text\",{window:p(e),text:i})})),this.launch_app=i=>e(this,void 0,void 0,(function*(){const e=\"object\"==typeof i&&null!=i?Reflect.get(i,\"app\"):void 0;yield t(this,s,\"m\",f).cal"
+  },
+  {
+    "ArchivePath": "tasks/T-040.evidence/computer-control-rpc-compatibility-20261108-1/official-source/windows-client-base.js",
+    "ArchiveSha256": "5e54867417cb120477455e069c2eb53b6513b8e076a06143d4d207cc8a293d95",
+    "Offset": 8841,
+    "Needle": "function E(",
+    "Excerpt": "TypeError(\"element_index must be an integer >= 0\");return e}function E(e){const t=e.split(\"+\").map((e=>e.trim())).filter(Boolean);if(0===t.length)throw new TypeError(\"key is required\");return t.map(j).join(\"+\")}function j(e){return e}function T(e){var t,i;if(\"object\"!=typeof e||null==e||Array.isArray(e))throw new Error(\"codex-computer-use.exe did not return a screenshot\");const n=Reflect.get(e,\"url\");if(\"string\"!=typeof n||0===n.length)throw new Error(\"codex-computer-use.exe did not return a screenshot URL\");const r={id:null!==(t=k(Reflect.get(e,\"id\")))&&void 0!==t?t:\"scree"
+  },
+  {
+    "ArchivePath": "tasks/T-040.evidence/computer-control-rpc-compatibility-20261108-1/official-source/windows-client-base.js",
+    "ArchiveSha256": "5e54867417cb120477455e069c2eb53b6513b8e076a06143d4d207cc8a293d95",
+    "Offset": 8992,
+    "Needle": "function j(",
+    "Excerpt": " new TypeError(\"key is required\");return t.map(j).join(\"+\")}function j(e){return e}function T(e){var t,i;if(\"object\"!=typeof e||null==e||Array.isArray(e))throw new Error(\"codex-computer-use.exe did not return a screenshot\");const n=Reflect.get(e,\"url\");if(\"string\"!=typeof n||0===n.length)throw new Error(\"codex-computer-use.exe did not return a screenshot URL\");const r={id:null!==(t=k(Reflect.get(e,\"id\")))&&void 0!==t?t:\"screenshot-0\",zIndex:null!==(i=A(Reflect.get(e,\"zIndex\")))&&void 0!==i?i:0,url:n};return I(r,\"originX\",A(Reflect.get(e,\"originX\"))),I(r,\"originY\",A(Reflect."
+  },
+  {
+    "ArchivePath": "tasks/T-040.evidence/computer-control-rpc-compatibility-20261108-1/official-source/sky_service_rpc.js",
+    "ArchiveSha256": "87b037bfa736500f6700824099d569cb8add10140c66ad6039e6d21f3f5c2f7d",
+    "Offset": 547,
+    "Needle": "rpc(\"sky\",o)",
+    "Excerpt": "se requires a trusted Node REPL Sky service\");let e=yield r.rpc(\"sky\",o);if(\"execute\"===o.type&&\"get_screenshot\"===o.method&&(e=e.map(i)),\"execute\"===o.type&&\"get_window_state\"===o.method&&\"linux\"===n){const r=e;e=Object.assign(Object.assign({},r),{ax_tree:t(r.ax_tree,r.focused_modal),screenshots:r.screenshots.map(i)})}return\"execute\"===o.type&&\"stop_audio_recording\"===o.method&&(e=i(e)),null!=e?e:void 0}))}function i(e){var t;return{filepath:e.filepath,data_url:e.data_url,bytes:Uint8Array.from(Buffer.from(null!==(t=e.data_url.split(\",\")[1])&&void 0!==t?t:\"\",\"base64\"))}}exp"
+  },
+  {
+    "ArchivePath": "tasks/T-040.evidence/computer-control-rpc-compatibility-20261108-1/official-source/sky.js",
+    "ArchiveSha256": "91a38110155e2d48ca376752cd66918e77fbf9457605c3fccc4ca3097684517a",
+    "Offset": 1001,
+    "Needle": "method:e,args:t",
+    "Excerpt": "ethods)&&void 0!==t?t:[]){const t=(...t)=>f({type:\"execute\",method:e,args:t});Reflect.set(n,e,t)}return\"linux\"===n.target&&(null==s?void 0:s.methods.includes(\"drag_handle\"))&&(n.drag_handle=()=>r((t=>f(t)))),l=n,l}function f(e){return t(this,void 0,void 0,(function*(){return n(i,e,null==s?void 0:s.target)}))}export{u as sky};\n"
+  },
+  {
+    "ArchivePath": "tasks/T-040.evidence/computer-control-rpc-compatibility-20261108-1/official-source/service.js",
+    "ArchiveSha256": "efd97700bc9d87fc6c2e7ef262d49eb638123c52fff92ff680ebd1bbb0e7cb81",
+    "Offset": 2247,
+    "Needle": "o.call(t,...r.args)",
+    "Excerpt": "T,request_meta:null==e?void 0:e.requestMeta})}const i=yield o.call(t,...r.args);if(\"get_screenshot\"===r.method){return i.map(u)}if(\"get_window_state\"===r.method&&\"linux\"===t.target){const e=i;return Object.assign(Object.assign({},e),{screenshots:e.screenshots.map(u)})}if(\"stop_audio_recording\"===r.method){return u(i)}return i}))}(y,c);default:throw new t(c)}else{const e=null!==(_=null==m?void 0:m.drag_handles)&&void 0!==_?_:l;if(\"drag_start\"===c.type){if(\"linux\"!==y.target&&\"windows_desktop\"!==y.target)throw new Error(\"Sky drag handles require a desktop runtime\");if(e.has(c"
+  }
+]

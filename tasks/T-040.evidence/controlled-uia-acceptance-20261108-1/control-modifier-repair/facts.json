@@ -1,0 +1,46 @@
+{
+  "RecordedUtc": "2026-11-08T07:05:48.527064+00:00",
+  "Scope": "Read-only wrapper and archived SDK inspection, plus explicitly attributed root-controlled recording comparisons",
+  "CurrentWrapperSha256": "aa7cf705c7b4c93ea52d8f2ac6dd81de841a3297da0e4b53c78cebd117d35a7b",
+  "SkillSha256": "c375b860be0abdbbe5cf8e2ff0d4baa9a4691d6edaab1a0e50bce1f5c0a4cf1d",
+  "DeclaredKeyFormat": "Plus-separated X keysym-style names and Control/Ctrl/Alt/Shift common aliases",
+  "DeclaredAliasSource": "C:\\Users\\28910\\.codex\\plugins\\cache\\openai-bundled\\computer-use\\26.609.41114\\skills\\computer-use\\SKILL.md",
+  "SandboxWindowId": 461388,
+  "SandboxId": "edf31417-4146-4ccb-9b48-feb98ccb6871",
+  "PrimaryIrisPidAtRootTrial": 1864,
+  "RootTrials": [
+    {
+      "Requested": "Control_L+Alt_L+o",
+      "RecordedByActualIrisRecorder": "Ctrl+O",
+      "AltPreserved": false,
+      "Evidence": "tasks/T-040.evidence/guest-actual-controller-chord-recording-result-20261108T070049349097Z"
+    },
+    {
+      "Requested": "Ctrl+Alt+o",
+      "RecordedByActualIrisRecorder": "Ctrl+Alt+O",
+      "AltPreserved": true,
+      "ExpectedReservedScreenshotOcrConflictDisplayed": true,
+      "Evidence": "tasks/T-040.evidence/guest-controller-chord-generic-alias-recording-20261108T070302719777Z"
+    }
+  ],
+  "RootTrialsReportedBy": "root performed official Computer Use recording actions and saved independent guest PNG evidence",
+  "ChildDidNotPerformDesktopInput": true,
+  "ChildReadOnlyWrapperListAppsReturnedSandbox": true,
+  "WrapperRewritesKey": false,
+  "ArchivedSdkJsNormalization": "Split on plus, trim whitespace, drop empty segments, join unchanged key tokens",
+  "RecommendedRequestedKey": "Ctrl+Alt+o",
+  "Qualification": "Alt_L did not remain held as an Alt modifier in this actual Windows Sandbox path; no broader keysym or host-wide support conclusion",
+  "OriginalBindingsMustRemain": true,
+  "RightAltOrModifierOrderComparisonsPerformedByChild": false,
+  "FurtherUnneededComparisonsStoppedAfterGenericAliasSuccess": true,
+  "WrapperChanged": false,
+  "SdkChanged": false,
+  "SkillChanged": false,
+  "PermissionsChanged": false,
+  "TransportChanged": false,
+  "ProductOperationPerformedByChild": false,
+  "PublicWritePerformed": false,
+  "NativeParserCauseEstablished": false,
+  "WholeT040Complete": false,
+  "RootDraftCancellationAndBindingRestorationIndependentlyObservedByChild": false
+}

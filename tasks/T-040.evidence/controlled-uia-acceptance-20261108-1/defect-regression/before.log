@@ -1,0 +1,87 @@
+Running tests from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+failed Iris.Platform.Windows.Tests.Selection.UiaSelectionWorkerTests.Execute_SourceProof_UsesAffirmativeNativeOwnershipAndRejectsConflicts(scenario: "virtual-missing-pid", status: "Success") (17ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : reply.Status.ToString()
+      should be
+  "Success"
+      but was
+  "Unsupported"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |   
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   
+  Expected Value | S    u    c    c    e    s    s                        
+  Actual Value   | U    n    s    u    p    p    o    r    t    e    d    
+  Expected Code  | 83   117  99   99   101  115  115                      
+  Actual Code    | 85   110  115  117  112  112  111  114  116  101  100  
+    at Iris.Platform.Windows.Tests.Selection.UiaSelectionWorkerTests.RunOnMta(Action action) in F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaSelectionWorkerTests.cs:44
+    at Iris.Platform.Windows.Tests.Selection.UiaSelectionWorkerTests.Execute_SourceProof_UsesAffirmativeNativeOwnershipAndRejectsConflicts(String scenario, String status) in F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaSelectionWorkerTests.cs:86
+    at InvokeStub_UiaSelectionWorkerTests.Execute_SourceProof_UsesAffirmativeNativeOwnershipAndRejectsConflicts(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed Iris.Platform.Windows.Tests.Selection.UiaSelectionWorkerTests.Execute_SourceProof_UsesAffirmativeNativeOwnershipAndRejectsConflicts(scenario: "native-missing-pid", status: "Success") (1ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : reply.Status.ToString()
+      should be
+  "Success"
+      but was
+  "Unsupported"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |   
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   
+  Expected Value | S    u    c    c    e    s    s                        
+  Actual Value   | U    n    s    u    p    p    o    r    t    e    d    
+  Expected Code  | 83   117  99   99   101  115  115                      
+  Actual Code    | 85   110  115  117  112  112  111  114  116  101  100  
+    at Iris.Platform.Windows.Tests.Selection.UiaSelectionWorkerTests.RunOnMta(Action action) in F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaSelectionWorkerTests.cs:44
+    at Iris.Platform.Windows.Tests.Selection.UiaSelectionWorkerTests.Execute_SourceProof_UsesAffirmativeNativeOwnershipAndRejectsConflicts(String scenario, String status) in F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaSelectionWorkerTests.cs:86
+    at InvokeStub_UiaSelectionWorkerTests.Execute_SourceProof_UsesAffirmativeNativeOwnershipAndRejectsConflicts(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed Iris.Platform.Windows.Tests.Selection.UiaSelectionWorkerTests.Execute_SourceProof_UsesAffirmativeNativeOwnershipAndRejectsConflicts(scenario: "claimed-owner-foreign", status: "Unsupported") (1ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : reply.Status.ToString()
+      should be
+  "Unsupported"
+      but was
+  "Success"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |   
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   
+  Expected Value | U    n    s    u    p    p    o    r    t    e    d    
+  Actual Value   | S    u    c    c    e    s    s                        
+  Expected Code  | 85   110  115  117  112  112  111  114  116  101  100  
+  Actual Code    | 83   117  99   99   101  115  115                      
+    at Iris.Platform.Windows.Tests.Selection.UiaSelectionWorkerTests.RunOnMta(Action action) in F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaSelectionWorkerTests.cs:44
+    at Iris.Platform.Windows.Tests.Selection.UiaSelectionWorkerTests.Execute_SourceProof_UsesAffirmativeNativeOwnershipAndRejectsConflicts(String scenario, String status) in F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaSelectionWorkerTests.cs:86
+    at InvokeStub_UiaSelectionWorkerTests.Execute_SourceProof_UsesAffirmativeNativeOwnershipAndRejectsConflicts(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+failed Iris.Platform.Windows.Tests.Selection.UiaSelectionWorkerTests.Execute_SourceProof_UsesAffirmativeNativeOwnershipAndRejectsConflicts(scenario: "password-missing-pid", status: "Sensitive") (0ms)
+  from F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : reply.Status.ToString()
+      should be
+  "Sensitive"
+      but was
+  "Unsupported"
+      difference
+  Difference     |  |    |    |    |    |    |    |    |    |    |    |   
+                 | \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  \|/  
+  Index          | 0    1    2    3    4    5    6    7    8    9    10   
+  Expected Value | S    e    n    s    i    t    i    v    e              
+  Actual Value   | U    n    s    u    p    p    o    r    t    e    d    
+  Expected Code  | 83   101  110  115  105  116  105  118  101            
+  Actual Code    | 85   110  115  117  112  112  111  114  116  101  100  
+    at Iris.Platform.Windows.Tests.Selection.UiaSelectionWorkerTests.RunOnMta(Action action) in F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaSelectionWorkerTests.cs:44
+    at Iris.Platform.Windows.Tests.Selection.UiaSelectionWorkerTests.Execute_SourceProof_UsesAffirmativeNativeOwnershipAndRejectsConflicts(String scenario, String status) in F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaSelectionWorkerTests.cs:86
+    at InvokeStub_UiaSelectionWorkerTests.Execute_SourceProof_UsesAffirmativeNativeOwnershipAndRejectsConflicts(Object, Span`1)
+    at System.Reflection.MethodBaseInvoker.InvokeWithFewArgs(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+F:\Iris\tests\Iris.Platform.Windows.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.Platform.Windows.Tests.dll (net10.0|x64) failed with 4 error(s) (1s 223ms)
+Exit code: 2
+
+Test run summary: Failed!
+  total: 9
+  failed: 4
+  succeeded: 5
+  skipped: 0
+  duration: 1s 422ms
+Test run completed with non-success exit code: 2 (see: https://aka.ms/testingplatform/exitcodes)

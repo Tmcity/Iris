@@ -1,0 +1,22 @@
+{
+  "Command": [
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "F:\\Iris\\build\\pack.ps1",
+    "-Version",
+    "0.2.14",
+    "-OutputDirectory",
+    "F:\\Iris\\artifacts\\t040\\uia-source-proof-local-candidate-20261108-1",
+    "-ReadyToRun"
+  ],
+  "StartedUtc": "2026-11-08T08:32:32.392207+00:00",
+  "FinishedUtc": "2026-11-08T08:34:28.133006+00:00",
+  "ExitCode": 0,
+  "Log": "package.log",
+  "Bytes": 5863,
+  "Sha256": "e60a1b8775438bdaa147d0630600de5ab2b0eb2cfbd9613320da54f59cec208b"
+}

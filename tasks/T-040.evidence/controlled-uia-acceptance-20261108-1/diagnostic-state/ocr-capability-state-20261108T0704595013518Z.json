@@ -1,0 +1,13 @@
+{
+    "OcrCapability":  null,
+    "ProductOperationPerformed":  false,
+    "SourceScope":  "Actual current owned Sandbox, read-only capability status",
+    "UserName":  "WDAGUtilityAccount",
+    "CapabilityQueryFailure":  {
+                                   "Message":  "Get-WindowsCapability failed. Error code = 0x80072ee6",
+                                   "Id":  "Microsoft.Dism.Commands.GetWindowsCapabilityCommand",
+                                   "Type":  "System.Runtime.InteropServices.COMException"
+                               },
+    "Utc":  "2026-11-08T07:04:59.5013518Z",
+    "SystemComponentChanged":  false
+}

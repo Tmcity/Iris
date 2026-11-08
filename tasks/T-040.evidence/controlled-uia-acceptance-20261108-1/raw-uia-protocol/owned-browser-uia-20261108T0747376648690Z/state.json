@@ -1,0 +1,27 @@
+{
+    "Completed":  true,
+    "ReplyErrorCode":  "ELEMENT_SOURCE_MISMATCH",
+    "SourceWindow":  721678,
+    "HelperSha256":  "8A08ADEDA1B5B404D9191BAB2D36437B2D723F77A9F9C1191C56A94BF4B667DA",
+    "ReplyStatus":  "Unsupported",
+    "ForegroundInputInjected":  false,
+    "RequestElapsedMilliseconds":  64.903900000000007,
+    "HelperPid":  4188,
+    "FinishedUtc":  "2026-11-08T07:47:37.9819556Z",
+    "SourceName":  "msedge.exe",
+    "OwnSyntheticSceneConfirmed":  true,
+    "ProductOperationPerformed":  false,
+    "ExitCode":  0,
+    "Stage":  "Complete",
+    "SyntheticTextMatched":  false,
+    "Failure":  null,
+    "StartedUtc":  "2026-11-08T07:47:37.7005293Z",
+    "TextLength":  0,
+    "Ready":  {
+                  "protocolVersion":  1,
+                  "kind":  "Ready"
+              },
+    "WholeFeatureProved":  false,
+    "InstalledHelperUsed":  true,
+    "SourcePid":  2052
+}

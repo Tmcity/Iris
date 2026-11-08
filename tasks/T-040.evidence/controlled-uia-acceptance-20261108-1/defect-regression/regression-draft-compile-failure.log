@@ -1,0 +1,2 @@
+F:\Iris\tests\Iris.Platform.Windows.Tests\Selection\UiaSelectionWorkerTests.cs(84,17): error CS0051: Inconsistent accessibility: parameter type 'UiaSelectionStatus' is less accessible than method 'UiaSelectionWorkerTests.Execute_SourceProof_UsesAffirmativeNativeOwnershipAndRejectsConflicts(string, UiaSelectionStatus)' [F:\Iris\tests\Iris.Platform.Windows.Tests\Iris.Platform.Windows.Tests.csproj]
+Build failed with exit code: 1.

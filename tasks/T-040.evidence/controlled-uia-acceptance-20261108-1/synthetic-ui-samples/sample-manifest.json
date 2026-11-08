@@ -1,0 +1,16 @@
+{
+  "Files": [
+    {
+      "Path": "Iris-T040-Owned-Scene.html",
+      "Bytes": 808,
+      "Sha256": "6a99681f51da95da6320b7996f0d6944fe1454f23a758991bd35558ce7b14b18"
+    },
+    {
+      "Path": "ocr-sample-013.png",
+      "Bytes": 19103,
+      "Sha256": "5835fc9ebf3753a4b758c17f8f6cee8c205b65f1753eb39f2ac3f7c0e483207c"
+    }
+  ],
+  "SyntheticOnly": true,
+  "NoExternalRequests": true
+}

@@ -1,0 +1,87 @@
+{
+  "Version": "0.2.14",
+  "SourceCommit": "57fc1ce837961faacd8c54951d2642e4967f9325",
+  "LocalCandidate": true,
+  "PublicWritePerformed": false,
+  "FormalNfrResult": false,
+  "Assets": {
+    "Version": "0.2.14",
+    "SourceCommit": "57fc1ce837961faacd8c54951d2642e4967f9325",
+    "SourceGitTree": "32f80f88f40b91dbc7dd8b72bdd9c146538ab6e8",
+    "PublicAssets": 16,
+    "PayloadEntries": 97,
+    "MaintenancePrefixBytes": 44626548,
+    "InternalSetupBytes": 79038940,
+    "InternalSetupSha256": "7e24c74261ac7f4808e309fb3b7c9de1c4c89363e7234ff2819332324595b1d8",
+    "FullSha256": "a1c05e2f7a0361c6f45378dca5945490736909aaca1af3cc14dc476ec65892e5",
+    "OuterSha256": "cf2bf57536fb8fa16697248a80ccce91cc55ef51d4f34b7d4411ce15c4b70102"
+  },
+  "FullTests": {
+    "Total": 3788,
+    "Passed": 3786,
+    "Failed": 0,
+    "Skipped": 2
+  },
+  "PayloadFiles": 97,
+  "ReadyToRunHeaders": {
+    "Iris.App.dll": {
+      "Machine": "0x8664",
+      "NativeHeaderRva": 9696,
+      "NativeHeaderSize": 196,
+      "ReadyToRunSignature": true,
+      "Bytes": 2228224,
+      "Sha256": "2b980247f708b9d2022ae95b9ed2407a9f104a5d7196a311ad616cf72a79d444"
+    },
+    "Iris.Core.dll": {
+      "Machine": "0x8664",
+      "NativeHeaderRva": 5040,
+      "NativeHeaderSize": 196,
+      "ReadyToRunSignature": true,
+      "Bytes": 1228800,
+      "Sha256": "b87eac95441d0500bdce36052e7f0e8751f0e24146bfd237c5e29681be6f13d1"
+    },
+    "Iris.Infrastructure.dll": {
+      "Machine": "0x8664",
+      "NativeHeaderRva": 5096,
+      "NativeHeaderSize": 196,
+      "ReadyToRunSignature": true,
+      "Bytes": 364544,
+      "Sha256": "ed1990fe29896ecc6e069bdb73ff91aa6e3b303a0785b6631a72906e9f3d1d4c"
+    },
+    "Iris.Platform.Windows.dll": {
+      "Machine": "0x8664",
+      "NativeHeaderRva": 5112,
+      "NativeHeaderSize": 196,
+      "ReadyToRunSignature": true,
+      "Bytes": 1515520,
+      "Sha256": "927e617f5f2a94c987b02617ed6f6fdbce758106d67a7de675e41f087ebb23ee"
+    },
+    "Iris.Providers.dll": {
+      "Machine": "0x8664",
+      "NativeHeaderRva": 5072,
+      "NativeHeaderSize": 196,
+      "ReadyToRunSignature": true,
+      "Bytes": 630784,
+      "Sha256": "063e06ce7efd55b61ef57bdd329cdb23463ce641f2d09f9bcd00b039682af46b"
+    },
+    "Wpf.Ui.dll": {
+      "Machine": "0x8664",
+      "NativeHeaderRva": 5528,
+      "NativeHeaderSize": 196,
+      "ReadyToRunSignature": true,
+      "Bytes": 7073792,
+      "Sha256": "6347d789b5fcf6fd4e41411787ffa3298665406a7c629730d8a26d781df46a3d"
+    }
+  },
+  "OriginalIlOnlyControl": {
+    "Machine": "0x8664",
+    "NativeHeaderRva": 0,
+    "NativeHeaderSize": 0,
+    "ReadyToRunSignature": false,
+    "Bytes": 945664,
+    "Sha256": "668f221f644c9f6b968e0c9324d419f7f202c1753d263383fbedd100eefadf6c"
+  },
+  "InstallerBytes": 123665544,
+  "InstallerSha256": "cf2bf57536fb8fa16697248a80ccce91cc55ef51d4f34b7d4411ce15c4b70102",
+  "ActualInstalledCandidateAndPostGcMemoryPending": true
+}

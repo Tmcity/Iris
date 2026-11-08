@@ -1,0 +1,20 @@
+{
+  "Files": [
+    {
+      "Path": "facts.json",
+      "Bytes": 2440,
+      "Sha256": "7251a45f147528b90c37d050115a67d43a555e61baac386187f26a4fb97a5447"
+    },
+    {
+      "Path": "REVIEW.md",
+      "Bytes": 2275,
+      "Sha256": "ae1c82dc43c83ecd119bbaa8febfbb0318568f38558cc95f4f81efab4c916b4c"
+    },
+    {
+      "Path": "source-excerpts.json",
+      "Bytes": 5136,
+      "Sha256": "054a0f2f3104c10eed56bf3c90b7b4556750c285a33046b66ff7b7e4cdd49907"
+    }
+  ],
+  "WholeT040Complete": false
+}

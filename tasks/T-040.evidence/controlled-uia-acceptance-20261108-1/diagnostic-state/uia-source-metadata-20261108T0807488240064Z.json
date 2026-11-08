@@ -1,0 +1,23 @@
+{
+  "Utc": "2026-11-08T08:07:48.8247853+00:00",
+  "SourceWindow": 3015552,
+  "SourcePid": 3364,
+  "ProbePid": 1568,
+  "ElapsedMilliseconds": 15.5609,
+  "InstalledPlatformSha256": "4701031EBF9EEC6FF9FA4342B792C60D577ECD241A5B7ED2A24FE4341ACED2BB",
+  "Rows": [],
+  "Mode": "RestoreProxies",
+  "ProxyMapState": null,
+  "ManagedProperties": null,
+  "Failure": {
+    "Type": "System.NullReferenceException",
+    "HResult": -2147467261
+  },
+  "ProductOperationPerformed": false,
+  "ForegroundInputInjected": false,
+  "UserTextOrCredentialsRead": false,
+  "TextPatternsRead": false,
+  "TargetSuspended": false,
+  "GcRequested": false,
+  "Scope": "Actual reviewed UIA adapter metadata on an owned synthetic browser or native scene; no text pattern read and no source-policy change."
+}

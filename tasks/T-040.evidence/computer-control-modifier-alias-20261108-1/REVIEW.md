@@ -1,0 +1,11 @@
+# Windows Sandbox modifier alias verification
+
+The root independently used Iris's actual hotkey recorder in the current owned Sandbox. The official `sky.press_key` request `Control_L+Alt_L+o` was recorded as `Ctrl+O`; the request `Ctrl+Alt+o` was recorded as `Ctrl+Alt+O`, including the expected safe collision with the reserved ScreenshotOcr binding. Both comparisons used draft recordings. Root will cancel the drafts and independently verify that the original binding remains; this child does not claim to have observed that subsequent restoration. Root owns the real UI and independently captured guest PNG evidence linked in facts.json; this child did not inject input or claim those screenshots as its own action.
+
+The loaded computer-use skill explicitly permits Control/Ctrl/Alt/Shift common aliases. Use `Ctrl+Alt+o` through the same official absolute wrapper. This is a supported API spelling, with actual modifier preservation demonstrated for this Sandbox. Right-Alt and modifier-order comparisons were stopped after this sufficient result; they are not claimed tested.
+
+The current wrapper hash remains aa7cf705c7b4c93ea52d8f2ac6dd81de841a3297da0e4b53c78cebd117d35a7b. Its Proxy records optional presentation metadata, then forwards the arguments unchanged. The previously bound SDK JavaScript forwarding chain likewise preserves the key string; the Windows client normalization splits plus-separated tokens and trims whitespace, then applies an identity token mapper. This evidence does not establish the underlying native parser or remote-session cause.
+
+Record the limitation narrowly: Alt_L did not remain held as an Alt modifier in this actual Windows Sandbox path. Do not generalize to all keysym names, all chats, or all Windows targets. No wrapper, SDK, skill, approval, interruption, transport, host settings, or Iris files were changed. No alternate SendInput, SendKeys, private protocol, helper launch, Codex UI automation or external support message was used. Read-only official wrapper list_apps returned Sandbox461388 without activation or shared-state reset.
+
+This closes the controller spelling issue for the tested chord. Actual screenshot/selection hotkey actions and the broader Iris acceptance remain root's separate verification.
