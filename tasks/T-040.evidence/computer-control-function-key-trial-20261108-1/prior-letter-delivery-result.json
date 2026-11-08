@@ -1,0 +1,95 @@
+{
+    "StartedUtc":  "2026-11-08T10:40:24.2301548Z",
+    "ProductOperationPerformed":  false,
+    "UserTextLogged":  false,
+    "ConsumesInput":  false,
+    "ForegroundInputInjected":  false,
+    "ClipboardContentRead":  false,
+    "Completed":  true,
+    "Events":  [
+                   {
+                       "Utc":  "2026-11-08T10:40:38.8646641Z",
+                       "ElapsedMilliseconds":  14631.182400000002,
+                       "VirtualKey":  162,
+                       "ScanCode":  29,
+                       "Flags":  0,
+                       "Message":  256,
+                       "Consumed":  false
+                   },
+                   {
+                       "Utc":  "2026-11-08T10:40:38.8806606Z",
+                       "ElapsedMilliseconds":  14646.111700000001,
+                       "VirtualKey":  164,
+                       "ScanCode":  56,
+                       "Flags":  0,
+                       "Message":  256,
+                       "Consumed":  false
+                   },
+                   {
+                       "Utc":  "2026-11-08T10:40:38.9126340Z",
+                       "ElapsedMilliseconds":  14677.9992,
+                       "VirtualKey":  164,
+                       "ScanCode":  56,
+                       "Flags":  128,
+                       "Message":  257,
+                       "Consumed":  false
+                   },
+                   {
+                       "Utc":  "2026-11-08T10:40:38.9286290Z",
+                       "ElapsedMilliseconds":  14693.9531,
+                       "VirtualKey":  70,
+                       "ScanCode":  33,
+                       "Flags":  0,
+                       "Message":  256,
+                       "Consumed":  false
+                   },
+                   {
+                       "Utc":  "2026-11-08T10:40:38.9446409Z",
+                       "ElapsedMilliseconds":  14709.998000000001,
+                       "VirtualKey":  70,
+                       "ScanCode":  33,
+                       "Flags":  128,
+                       "Message":  257,
+                       "Consumed":  false
+                   },
+                   {
+                       "Utc":  "2026-11-08T10:40:38.9603259Z",
+                       "ElapsedMilliseconds":  14725.6614,
+                       "VirtualKey":  164,
+                       "ScanCode":  56,
+                       "Flags":  128,
+                       "Message":  257,
+                       "Consumed":  false
+                   },
+                   {
+                       "Utc":  "2026-11-08T10:40:38.9756241Z",
+                       "ElapsedMilliseconds":  14740.951200000001,
+                       "VirtualKey":  162,
+                       "ScanCode":  29,
+                       "Flags":  128,
+                       "Message":  257,
+                       "Consumed":  false
+                   },
+                   {
+                       "Utc":  "2026-11-08T10:40:39.0067281Z",
+                       "ElapsedMilliseconds":  14772.0653,
+                       "VirtualKey":  162,
+                       "ScanCode":  29,
+                       "Flags":  0,
+                       "Message":  256,
+                       "Consumed":  false
+                   },
+                   {
+                       "Utc":  "2026-11-08T10:40:39.0421482Z",
+                       "ElapsedMilliseconds":  14807.481600000001,
+                       "VirtualKey":  162,
+                       "ScanCode":  29,
+                       "Flags":  128,
+                       "Message":  257,
+                       "Consumed":  false
+                   }
+               ],
+    "HookUnhooked":  true,
+    "Pid":  7492,
+    "FinishedUtc":  "2026-11-08T10:40:44.2426799Z"
+}

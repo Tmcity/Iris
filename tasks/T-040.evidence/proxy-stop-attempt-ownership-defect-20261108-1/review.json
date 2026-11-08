@@ -1,0 +1,26 @@
+{
+  "RecordedUtc": "2026-11-08T11:41:33.978884+00:00",
+  "OriginalFullSource": "1fdd489716b84a50651ac7b9253a3e4a4580f044",
+  "OriginalFullTests": {
+    "Total": 3797,
+    "Passed": 3794,
+    "Failed": 1,
+    "Skipped": 2
+  },
+  "FailedTest": "CancellationCallbackFailure_IsReportedOnce_ThenOriginalSessionCleanupCanRetry(stop)",
+  "ExactChildCleanupAttemptsClaimedBeforeStopReturns": true,
+  "CompositeStopRetainsThoseSameOutcomes": true,
+  "LeafCleanupStillRunsOffCallerThread": true,
+  "AfterProvidersTests": {
+    "Total": 584,
+    "Passed": 584,
+    "Failed": 0,
+    "Skipped": 0
+  },
+  "OriginalAssertionsUnchanged": true,
+  "InvalidTypeFilterZeroTestResultPreserved": true,
+  "NewFullValidationPending": true,
+  "ActualNewInstalledCandidatePending": true,
+  "PublicWritePerformed": false,
+  "WholeT040Complete": false
+}

@@ -65,10 +65,13 @@ internal sealed partial class ProxyConnectivityTester : IProxyConnectivityTester
     }
     private async Task StopCoreAsync(ProxyConnectivitySession[] sessions)
     {
+        // Claim/join each exact cleanup attempt before StopAsync returns, so a concurrent
+        // owner cannot finish and turn this stop into an unreported retry of its failure.
+        var attempts = sessions.Select(session => session.DisposeAsync().AsTask()).ToArray();
         await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
-        var work = sessions.Select(async session =>
+        var work = attempts.Select(async attempt =>
         {
-            try { await session.DisposeAsync().ConfigureAwait(false); return true; }
+            try { await attempt.ConfigureAwait(false); return true; }
             catch (Exception ex) { LogCleanupFailed(_logger, ex.GetType().Name); return false; }
         }).ToArray();
         if ((await Task.WhenAll(work).ConfigureAwait(false)).Any(success => !success)) throw NetworkProxyCodec.Unavailable();
@@ -111,7 +114,10 @@ internal sealed class NetworkTransportLifetime(NetworkTransportManager manager, 
     }
     private async Task StopCoreAsync()
     {
-        await Task.CompletedTask.ConfigureAwait(ConfigureAwaitOptions.ForceYielding);
-        await Task.WhenAll(tester.StopAsync(), manager.StopAsync()).ConfigureAwait(false);
+        // Child admission and attempt ownership are synchronous; their leaf cleanup
+        // already yields before disposal. Retain those outcomes in this composite stop.
+        var connectivity = tester.StopAsync();
+        var transports = manager.StopAsync();
+        await Task.WhenAll(connectivity, transports).ConfigureAwait(false);
     }
 }

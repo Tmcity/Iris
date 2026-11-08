@@ -1,0 +1,450 @@
+{
+  "Files": [
+    {
+      "Path": "collect_function_key_trial.py",
+      "Bytes": 6866,
+      "Sha256": "609511054a74375730035f17fd89da384597cab743cc3260c8d4e7c6e3833c53"
+    },
+    {
+      "Path": "commands/function-key-after-cancel-key-state-20261108T113334903254Z/command.json",
+      "Bytes": 2339,
+      "Sha256": "d8652d8a9ddd67fd25bcf2461c3a631dba28475202633b2847e38356914d847e"
+    },
+    {
+      "Path": "commands/function-key-after-cancel-key-state-20261108T113334903254Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "commands/function-key-after-cancel-key-state-20261108T113334903254Z/completion.json",
+      "Bytes": 122,
+      "Sha256": "8693fd2ef30c4c67ac7134dfdda40330e179c6f553261acbf814220ab431589a"
+    },
+    {
+      "Path": "commands/function-key-before-record-key-state-20261108T112959911150Z/command.json",
+      "Bytes": 2340,
+      "Sha256": "4ac8aacd919cc019fc4896ffb3b68865a2251c4c01b9871607570182507aba10"
+    },
+    {
+      "Path": "commands/function-key-before-record-key-state-20261108T112959911150Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "commands/function-key-before-record-key-state-20261108T112959911150Z/completion.json",
+      "Bytes": 122,
+      "Sha256": "388680332a37d3706084b1d356ce941e7d9bbfb2baef25275574ed79581e4af4"
+    },
+    {
+      "Path": "commands/function-key-before-record-view-20261108T112959901984Z/command.json",
+      "Bytes": 2323,
+      "Sha256": "3106406259769bcde4f94853c26cc3eb6c0ed154528242d0d13ced5d66cbb027"
+    },
+    {
+      "Path": "commands/function-key-before-record-view-20261108T112959901984Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "commands/function-key-before-record-view-20261108T112959901984Z/completion.json",
+      "Bytes": 122,
+      "Sha256": "7c86bc712ff28afc9060888c24c4c40648a24d9e7ea62a04a55da16bc3b6d96d"
+    },
+    {
+      "Path": "commands/function-key-cancelled-binding-state-20261108T113334922170Z/command.json",
+      "Bytes": 2296,
+      "Sha256": "7a26d27c42621012e1c8011311421a7181b6fc4d4100c7c8427d36cf5055d476"
+    },
+    {
+      "Path": "commands/function-key-cancelled-binding-state-20261108T113334922170Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "commands/function-key-cancelled-binding-state-20261108T113334922170Z/completion.json",
+      "Bytes": 122,
+      "Sha256": "ce314d6ab0c8c9aa225461b2c8f85c5387f92c77934af03f837069ac49670770"
+    },
+    {
+      "Path": "commands/function-key-cancelled-guest-view-20261108T113334922170Z/command.json",
+      "Bytes": 2329,
+      "Sha256": "e13286d6852785ab8a25b927b7170283e3639d0315dd517575c0fa0877a25531"
+    },
+    {
+      "Path": "commands/function-key-cancelled-guest-view-20261108T113334922170Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "commands/function-key-cancelled-guest-view-20261108T113334922170Z/completion.json",
+      "Bytes": 122,
+      "Sha256": "f563a6de7582a67df8b39d0ca776cc15c333fb2cd7c4a321de3d97cfb3aade5e"
+    },
+    {
+      "Path": "commands/function-key-recorded-result-view-20261108T113222776057Z/command.json",
+      "Bytes": 2329,
+      "Sha256": "29dca70b86368054af51d89350cdd2bad2d11a27bf2c897747cf3372777fc284"
+    },
+    {
+      "Path": "commands/function-key-recorded-result-view-20261108T113222776057Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "Path": "commands/function-key-recorded-result-view-20261108T113222776057Z/completion.json",
+      "Bytes": 122,
+      "Sha256": "1527af06485fb4d53b5278c664974de03446f172e43025b1a821964e6ab3a241"
+    },
+    {
+      "Path": "key-state-after.json",
+      "Bytes": 2166,
+      "Sha256": "e28f8f1b8c67b3dc1eb5584e157259332751e12ea6c439b02581097953c1156a"
+    },
+    {
+      "Path": "key-state-before.json",
+      "Bytes": 2166,
+      "Sha256": "7c5ea8b67dbe1a716ef4d1fed6e72692d3736a76b55d85f1c8a88917f5ad9eba"
+    },
+    {
+      "Path": "prior-letter-delivery-result.json",
+      "Bytes": 3819,
+      "Sha256": "650c96631db5efc213b11012bf8e033510725a8299ad443442abdd28a53e50b6"
+    },
+    {
+      "Path": "result.json",
+      "Bytes": 2151,
+      "Sha256": "45fa06d4907613238b54defe9ffe07125844e18b65d99592a2750f07e28fc2c7"
+    },
+    {
+      "Path": "REVIEW.md",
+      "Bytes": 1954,
+      "Sha256": "0f87beadaabe780a350d9e3e007343dcc7a5ee07f82cda40a934d9349e2abc55"
+    },
+    {
+      "Path": "settings-after.json",
+      "Bytes": 4527,
+      "Sha256": "70b6aeb7abde4733528df5cba58bdc641ba8225588e99a8e91521dfbf278296b"
+    },
+    {
+      "Path": "settings-before.json",
+      "Bytes": 4527,
+      "Sha256": "70b6aeb7abde4733528df5cba58bdc641ba8225588e99a8e91521dfbf278296b"
+    },
+    {
+      "Path": "tools/t040_capture_controlled_view_readonly.ps1",
+      "Bytes": 1717,
+      "Sha256": "f0c7d4e9dcb28266e7603500f804b17f6eb8645b9bb1b83a7726b56d41ff321b"
+    },
+    {
+      "Path": "tools/t040_data_snapshot_readonly.ps1",
+      "Bytes": 355,
+      "Sha256": "8bcd6b57bb74c1cfefdc7d770911d0f6f5adf6e0e693bc6af75e5394d6195aba"
+    },
+    {
+      "Path": "tools/t040_keyboard_state_metadata_readonly.ps1",
+      "Bytes": 1199,
+      "Sha256": "8a861b33381835c0b50a80abf68e0d63d21566dffe031127e27368c6f9191700"
+    },
+    {
+      "Path": "tools/t040_run_current_guest_tool.py",
+      "Bytes": 4205,
+      "Sha256": "a1c0ef0f9b230b4fd49c864b3d283f3b41f3ccca2da8e1fba7c021c30806d885"
+    },
+    {
+      "Path": "transcripts/function-key-after-cancel-key-state-20261108T113334903254Z.txt",
+      "Bytes": 2092,
+      "Sha256": "89893bc6c2a56b9cfceb75474373168257aa58d479cf38a57a8dede8984e4a52"
+    },
+    {
+      "Path": "transcripts/function-key-before-record-key-state-20261108T112959911150Z.txt",
+      "Bytes": 2092,
+      "Sha256": "4eff1ca6843c48fb1e2f386ab01ce50440f2efd4e7caeacf1631e8a37e932274"
+    },
+    {
+      "Path": "transcripts/function-key-before-record-view-20261108T112959901984Z.txt",
+      "Bytes": 2074,
+      "Sha256": "d6b030b9216e58ff0adc8f851eb8dc1ba90b135ad02e167752d6cf2a4e334e39"
+    },
+    {
+      "Path": "transcripts/function-key-cancelled-binding-state-20261108T113334922170Z.txt",
+      "Bytes": 1998,
+      "Sha256": "558bcb31caae75cfefae840819e11c980d36f3d3213404983b527137b4222f19"
+    },
+    {
+      "Path": "transcripts/function-key-cancelled-guest-view-20261108T113334922170Z.txt",
+      "Bytes": 2078,
+      "Sha256": "f616aa60490d7b6ca87e22519b27d0fb35a1358ae94cbefada3c06aa07948e5f"
+    },
+    {
+      "Path": "transcripts/function-key-recorded-result-view-20261108T113222776057Z.txt",
+      "Bytes": 2078,
+      "Sha256": "93f46cd32d9880fdd12fdff52c318d579fbf881cd4a4bc4c42f634afa04a7f4a"
+    },
+    {
+      "Path": "views/before.png",
+      "Bytes": 117271,
+      "Sha256": "996ef179b7a1b9033c88862b8d8778bdb87ea14515c89c92e5b745822a39ea41"
+    },
+    {
+      "Path": "views/before.png.json",
+      "Bytes": 439,
+      "Sha256": "86769b7e1d57966228bdd15b48fbb6bceb9c931988c1c97fbbd223ea42d7d1f7"
+    },
+    {
+      "Path": "views/cancelled.png",
+      "Bytes": 76104,
+      "Sha256": "9b105b9d4114e108ae8acad80cc19a641c6140e65314df7ce5881d46e7e5f5a9"
+    },
+    {
+      "Path": "views/cancelled.png.json",
+      "Bytes": 439,
+      "Sha256": "4499d3397df5f8f9cd8552a04a9b145382e1c962a6638795c23a652d265ebb17"
+    },
+    {
+      "Path": "views/recorded.png",
+      "Bytes": 117435,
+      "Sha256": "94486efc0884f00a4313126b2a8b133ec2025880a446ca9a5760512fdf721c4b"
+    },
+    {
+      "Path": "views/recorded.png.json",
+      "Bytes": 439,
+      "Sha256": "1097a24f9d03594c55d3f346603f9c350372de2d1eb7564c41c45a9821020c48"
+    }
+  ],
+  "ExactOriginalCopies": [
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-before-record-view-20261108T112959901984Z\\command.json",
+      "Path": "commands/function-key-before-record-view-20261108T112959901984Z/command.json",
+      "Bytes": 2323,
+      "Sha256": "3106406259769bcde4f94853c26cc3eb6c0ed154528242d0d13ced5d66cbb027"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-before-record-view-20261108T112959901984Z\\command.log",
+      "Path": "commands/function-key-before-record-view-20261108T112959901984Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-before-record-view-20261108T112959901984Z\\completion.json",
+      "Path": "commands/function-key-before-record-view-20261108T112959901984Z/completion.json",
+      "Bytes": 122,
+      "Sha256": "7c86bc712ff28afc9060888c24c4c40648a24d9e7ea62a04a55da16bc3b6d96d"
+    },
+    {
+      "SourcePath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\tool-transcript-function-key-before-record-view-20261108T112959901984Z.txt",
+      "Path": "transcripts/function-key-before-record-view-20261108T112959901984Z.txt",
+      "Bytes": 2074,
+      "Sha256": "d6b030b9216e58ff0adc8f851eb8dc1ba90b135ad02e167752d6cf2a4e334e39"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-before-record-key-state-20261108T112959911150Z\\command.json",
+      "Path": "commands/function-key-before-record-key-state-20261108T112959911150Z/command.json",
+      "Bytes": 2340,
+      "Sha256": "4ac8aacd919cc019fc4896ffb3b68865a2251c4c01b9871607570182507aba10"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-before-record-key-state-20261108T112959911150Z\\command.log",
+      "Path": "commands/function-key-before-record-key-state-20261108T112959911150Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-before-record-key-state-20261108T112959911150Z\\completion.json",
+      "Path": "commands/function-key-before-record-key-state-20261108T112959911150Z/completion.json",
+      "Bytes": 122,
+      "Sha256": "388680332a37d3706084b1d356ce941e7d9bbfb2baef25275574ed79581e4af4"
+    },
+    {
+      "SourcePath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\tool-transcript-function-key-before-record-key-state-20261108T112959911150Z.txt",
+      "Path": "transcripts/function-key-before-record-key-state-20261108T112959911150Z.txt",
+      "Bytes": 2092,
+      "Sha256": "4eff1ca6843c48fb1e2f386ab01ce50440f2efd4e7caeacf1631e8a37e932274"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-recorded-result-view-20261108T113222776057Z\\command.json",
+      "Path": "commands/function-key-recorded-result-view-20261108T113222776057Z/command.json",
+      "Bytes": 2329,
+      "Sha256": "29dca70b86368054af51d89350cdd2bad2d11a27bf2c897747cf3372777fc284"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-recorded-result-view-20261108T113222776057Z\\command.log",
+      "Path": "commands/function-key-recorded-result-view-20261108T113222776057Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-recorded-result-view-20261108T113222776057Z\\completion.json",
+      "Path": "commands/function-key-recorded-result-view-20261108T113222776057Z/completion.json",
+      "Bytes": 122,
+      "Sha256": "1527af06485fb4d53b5278c664974de03446f172e43025b1a821964e6ab3a241"
+    },
+    {
+      "SourcePath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\tool-transcript-function-key-recorded-result-view-20261108T113222776057Z.txt",
+      "Path": "transcripts/function-key-recorded-result-view-20261108T113222776057Z.txt",
+      "Bytes": 2078,
+      "Sha256": "93f46cd32d9880fdd12fdff52c318d579fbf881cd4a4bc4c42f634afa04a7f4a"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-cancelled-guest-view-20261108T113334922170Z\\command.json",
+      "Path": "commands/function-key-cancelled-guest-view-20261108T113334922170Z/command.json",
+      "Bytes": 2329,
+      "Sha256": "e13286d6852785ab8a25b927b7170283e3639d0315dd517575c0fa0877a25531"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-cancelled-guest-view-20261108T113334922170Z\\command.log",
+      "Path": "commands/function-key-cancelled-guest-view-20261108T113334922170Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-cancelled-guest-view-20261108T113334922170Z\\completion.json",
+      "Path": "commands/function-key-cancelled-guest-view-20261108T113334922170Z/completion.json",
+      "Bytes": 122,
+      "Sha256": "f563a6de7582a67df8b39d0ca776cc15c333fb2cd7c4a321de3d97cfb3aade5e"
+    },
+    {
+      "SourcePath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\tool-transcript-function-key-cancelled-guest-view-20261108T113334922170Z.txt",
+      "Path": "transcripts/function-key-cancelled-guest-view-20261108T113334922170Z.txt",
+      "Bytes": 2078,
+      "Sha256": "f616aa60490d7b6ca87e22519b27d0fb35a1358ae94cbefada3c06aa07948e5f"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-cancelled-binding-state-20261108T113334922170Z\\command.json",
+      "Path": "commands/function-key-cancelled-binding-state-20261108T113334922170Z/command.json",
+      "Bytes": 2296,
+      "Sha256": "7a26d27c42621012e1c8011311421a7181b6fc4d4100c7c8427d36cf5055d476"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-cancelled-binding-state-20261108T113334922170Z\\command.log",
+      "Path": "commands/function-key-cancelled-binding-state-20261108T113334922170Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-cancelled-binding-state-20261108T113334922170Z\\completion.json",
+      "Path": "commands/function-key-cancelled-binding-state-20261108T113334922170Z/completion.json",
+      "Bytes": 122,
+      "Sha256": "ce314d6ab0c8c9aa225461b2c8f85c5387f92c77934af03f837069ac49670770"
+    },
+    {
+      "SourcePath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\tool-transcript-function-key-cancelled-binding-state-20261108T113334922170Z.txt",
+      "Path": "transcripts/function-key-cancelled-binding-state-20261108T113334922170Z.txt",
+      "Bytes": 1998,
+      "Sha256": "558bcb31caae75cfefae840819e11c980d36f3d3213404983b527137b4222f19"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-after-cancel-key-state-20261108T113334903254Z\\command.json",
+      "Path": "commands/function-key-after-cancel-key-state-20261108T113334903254Z/command.json",
+      "Bytes": 2339,
+      "Sha256": "d8652d8a9ddd67fd25bcf2461c3a631dba28475202633b2847e38356914d847e"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-after-cancel-key-state-20261108T113334903254Z\\command.log",
+      "Path": "commands/function-key-after-cancel-key-state-20261108T113334903254Z/command.log",
+      "Bytes": 23,
+      "Sha256": "0cec79bdabd108dc8f671ea11f65e0db39b7521a87c78cc337ba9cdfa7e42fe6"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\guest-function-key-after-cancel-key-state-20261108T113334903254Z\\completion.json",
+      "Path": "commands/function-key-after-cancel-key-state-20261108T113334903254Z/completion.json",
+      "Bytes": 122,
+      "Sha256": "8693fd2ef30c4c67ac7134dfdda40330e179c6f553261acbf814220ab431589a"
+    },
+    {
+      "SourcePath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\tool-transcript-function-key-after-cancel-key-state-20261108T113334903254Z.txt",
+      "Path": "transcripts/function-key-after-cancel-key-state-20261108T113334903254Z.txt",
+      "Bytes": 2092,
+      "Sha256": "89893bc6c2a56b9cfceb75474373168257aa58d479cf38a57a8dede8984e4a52"
+    },
+    {
+      "SourcePath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\controlled-ui-view-20261108T1130021238813Z.png",
+      "Path": "views/before.png",
+      "Bytes": 117271,
+      "Sha256": "996ef179b7a1b9033c88862b8d8778bdb87ea14515c89c92e5b745822a39ea41"
+    },
+    {
+      "SourcePath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\controlled-ui-view-20261108T1130021238813Z.png.json",
+      "Path": "views/before.png.json",
+      "Bytes": 439,
+      "Sha256": "86769b7e1d57966228bdd15b48fbb6bceb9c931988c1c97fbbd223ea42d7d1f7"
+    },
+    {
+      "SourcePath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\controlled-ui-view-20261108T1132248627943Z.png",
+      "Path": "views/recorded.png",
+      "Bytes": 117435,
+      "Sha256": "94486efc0884f00a4313126b2a8b133ec2025880a446ca9a5760512fdf721c4b"
+    },
+    {
+      "SourcePath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\controlled-ui-view-20261108T1132248627943Z.png.json",
+      "Path": "views/recorded.png.json",
+      "Bytes": 439,
+      "Sha256": "1097a24f9d03594c55d3f346603f9c350372de2d1eb7564c41c45a9821020c48"
+    },
+    {
+      "SourcePath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\controlled-ui-view-20261108T1133372472586Z.png",
+      "Path": "views/cancelled.png",
+      "Bytes": 76104,
+      "Sha256": "9b105b9d4114e108ae8acad80cc19a641c6140e65314df7ce5881d46e7e5f5a9"
+    },
+    {
+      "SourcePath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\controlled-ui-view-20261108T1133372472586Z.png.json",
+      "Path": "views/cancelled.png.json",
+      "Bytes": 439,
+      "Sha256": "4499d3397df5f8f9cd8552a04a9b145382e1c962a6638795c23a652d265ebb17"
+    },
+    {
+      "SourcePath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\keyboard-state-metadata-20261108T1130018458784Z.json",
+      "Path": "key-state-before.json",
+      "Bytes": 2166,
+      "Sha256": "7c5ea8b67dbe1a716ef4d1fed6e72692d3736a76b55d85f1c8a88917f5ad9eba"
+    },
+    {
+      "SourcePath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\keyboard-state-metadata-20261108T1133370447865Z.json",
+      "Path": "key-state-after.json",
+      "Bytes": 2166,
+      "Sha256": "e28f8f1b8c67b3dc1eb5584e157259332751e12ea6c439b02581097953c1156a"
+    },
+    {
+      "SourcePath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261108T1102347752651Z\\settings.json",
+      "Path": "settings-before.json",
+      "Bytes": 4527,
+      "Sha256": "70b6aeb7abde4733528df5cba58bdc641ba8225588e99a8e91521dfbf278296b"
+    },
+    {
+      "SourcePath": "F:\\Iris\\artifacts\\t040\\manual-verification-20261107-3\\output\\feature-data-20261108T1133369012025Z\\settings.json",
+      "Path": "settings-after.json",
+      "Bytes": 4527,
+      "Sha256": "70b6aeb7abde4733528df5cba58bdc641ba8225588e99a8e91521dfbf278296b"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\T-040.evidence\\controlled-clipboard-acceptance-20261108-1\\diagnostic-execution\\modifier-delivery-hook-20261108T1040224445396Z\\result.json",
+      "Path": "prior-letter-delivery-result.json",
+      "Bytes": 3819,
+      "Sha256": "650c96631db5efc213b11012bf8e033510725a8299ad443442abdd28a53e50b6"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\t040_run_current_guest_tool.py",
+      "Path": "tools/t040_run_current_guest_tool.py",
+      "Bytes": 4205,
+      "Sha256": "a1c0ef0f9b230b4fd49c864b3d283f3b41f3ccca2da8e1fba7c021c30806d885"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\t040_capture_controlled_view_readonly.ps1",
+      "Path": "tools/t040_capture_controlled_view_readonly.ps1",
+      "Bytes": 1717,
+      "Sha256": "f0c7d4e9dcb28266e7603500f804b17f6eb8645b9bb1b83a7726b56d41ff321b"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\t040_keyboard_state_metadata_readonly.ps1",
+      "Path": "tools/t040_keyboard_state_metadata_readonly.ps1",
+      "Bytes": 1199,
+      "Sha256": "8a861b33381835c0b50a80abf68e0d63d21566dffe031127e27368c6f9191700"
+    },
+    {
+      "SourcePath": "F:\\Iris\\tasks\\t040_data_snapshot_readonly.ps1",
+      "Path": "tools/t040_data_snapshot_readonly.ps1",
+      "Bytes": 355,
+      "Sha256": "8bcd6b57bb74c1cfefdc7d770911d0f6f5adf6e0e693bc6af75e5394d6195aba"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "Command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.Providers.Tests/Iris.Providers.Tests.csproj",
+    "-c",
+    "Release",
+    "--report-xunit-xml",
+    "--results-directory",
+    "tasks\\T-040.evidence\\proxy-stop-attempt-ownership-defect-20261108-1\\providers-after-reports",
+    "--no-ansi",
+    "--no-progress"
+  ],
+  "StartedUtc": "2026-11-08T11:40:10.606762+00:00",
+  "FinishedUtc": "2026-11-08T11:40:15.348592+00:00",
+  "ExitCode": 0
+}

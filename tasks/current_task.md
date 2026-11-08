@@ -22,6 +22,8 @@
 
 本轮通知修正已实现：订阅后读取Current，串行按revision发布，并在结束时移除本次通知订阅；观察方异常不改变实际捕获/清理。五回归原代码全失败，修后全成功，包含真实SettingsViewModel初始Ready显示。测试草稿取消令牌检查、误用报告参数的0测试记录及日志分析器草稿失败均保留。源代码全量验证与新本地候选尚待完成；安装版仍015/7504，不据回归绿色宣布真实修正版已通过。536原件归档提交1b445b1，536份提交字节全部再次匹配。
 
+通知源码1fdd489的首次全量3797：3794成功、1项ProxyConnectivity stop取消回调失败、2既有环境跳过；App全部通过、Release零错误。此失败暴露另一实际竞态：tester/composite Stop先yield后才加入session.Dispose，可能自动重试并漏报并发完成的首次清理失败。当前已改为Stop返回前认领/加入原Task，再异步等待，原重试和安全报错语义保持；Providers584全成功。原完整验证/错误类型过滤的0测试原件保留，第二轮全量及016候选待执行。控制子代理一次F5也只录入Ctrl+F5，草稿/持久绑定与键释放已独立通过；不支持仅打印字符路径假设，42原件绑定于computer-control-function-key-trial-20261108-1。
+
 只能按computer-use技能通过绝对官方wrapper输入；禁止另造前台协议、SendKeys/Run/终端UI或操作Codex设置。跨turn绑定可能消失，重新bootstrap/list_apps/canonical解析，不能据此宣布控制故障。最后实际Sandbox窗口461388、2034×1145；每次恢复仍须刷新。
 
 ## 已实测并归档
