@@ -465,6 +465,29 @@ public sealed class SettingsHotkeysIntegrationTests
     #region V01 - V09: 草稿、持久化与运行状态
 
     [Fact]
+    public async Task InitialCaptureProgress_ReadyUiDoesNotWaitForASecondKeyboardEvent()
+    {
+        await using var env = new IntegrationEnvironment();
+        await env.Coordinator.StartAsync();
+        var item = env.ViewModel.Hotkeys.First(h => h.Action == IrisAction.InputTranslate);
+        var recording = env.ViewModel.StartRecordingAsync(item);
+        try
+        {
+            env.CaptureService.CurrentSession.ShouldNotBeNull();
+            env.CaptureService.CurrentSession.Current.IsReady.ShouldBeTrue();
+            item.IsRecording.ShouldBeTrue();
+            item.IsPreparing.ShouldBeFalse();
+            item.RecordingPrompt.ShouldBe(UiText.SettingsHotkeyRecordingPrompt);
+        }
+        finally
+        {
+            await env.ViewModel.CancelRecordingAsync();
+            await recording.WaitAsync(TimeSpan.FromSeconds(3), TestContext.Current.CancellationToken);
+        }
+        env.ViewModel.IsDirty.ShouldBeFalse();
+    }
+
+    [Fact]
     public async Task V01_OnlyHotkeysModified_UnfocusedCandidatePersists_DoesNotTakeNoChangeFastPath()
     {
         await using var env = new IntegrationEnvironment();

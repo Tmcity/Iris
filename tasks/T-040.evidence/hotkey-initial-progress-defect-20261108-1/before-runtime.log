@@ -1,0 +1,107 @@
+正在从以下位置运行测试 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+失败 Iris.App.Tests.Hosting.HotkeyRecordingProgressTests.InitialCaptureProgress_CompletedCaptureReleasesItsObserver (98ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : service.Session.SubscriberCount
+      should be
+  0
+      but was
+  1
+    在 Iris.App.Tests.Hosting.HotkeyRecordingProgressTests.InitialCaptureProgress_CompletedCaptureReleasesItsObserver() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\HotkeyRecordingProgressTests.cs:67
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Hosting.HotkeyRecordingProgressTests.InitialCaptureProgress_CompletedCaptureReleasesItsObserver() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\HotkeyRecordingProgressTests.cs:70
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.App.Tests.Hosting.HotkeyRecordingProgressTests.InitialCaptureProgress_ObserverFailureDoesNotPreventCaptureCleanup (3ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : attempts
+      should be
+  1
+      but was
+  0
+    在 Iris.App.Tests.Hosting.HotkeyRecordingProgressTests.InitialCaptureProgress_ObserverFailureDoesNotPreventCaptureCleanup() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\HotkeyRecordingProgressTests.cs:45
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Hosting.HotkeyRecordingProgressTests.InitialCaptureProgress_ObserverFailureDoesNotPreventCaptureCleanup() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\HotkeyRecordingProgressTests.cs:53
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Hosting.HotkeyRecordingProgressTests.InitialCaptureProgress_ObserverFailureDoesNotPreventCaptureCleanup() 位于 F:\Iris\tests\Iris.App.Tests\Hosting\HotkeyRecordingProgressTests.cs:53
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.App.Tests.Hosting.HotkeyRecordingProgressTests.InitialCaptureProgress_PublishesInitializedSnapshotWithoutAnotherKey(ready: True) (1ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : observed.Count
+      should be
+  1
+      but was
+  0
+    在 Iris.App.Tests.Hosting.HotkeyRecordingProgressTests.InitialCaptureProgress_PublishesInitializedSnapshotWithoutAnotherKey(Boolean ready) 位于 F:\Iris\tests\Iris.App.Tests\Hosting\HotkeyRecordingProgressTests.cs:21
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Hosting.HotkeyRecordingProgressTests.InitialCaptureProgress_PublishesInitializedSnapshotWithoutAnotherKey(Boolean ready) 位于 F:\Iris\tests\Iris.App.Tests\Hosting\HotkeyRecordingProgressTests.cs:28
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Hosting.HotkeyRecordingProgressTests.InitialCaptureProgress_PublishesInitializedSnapshotWithoutAnotherKey(Boolean ready) 位于 F:\Iris\tests\Iris.App.Tests\Hosting\HotkeyRecordingProgressTests.cs:28
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.App.Tests.Hosting.HotkeyRecordingProgressTests.InitialCaptureProgress_PublishesInitializedSnapshotWithoutAnotherKey(ready: False) (0ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : observed.Count
+      should be
+  1
+      but was
+  0
+    在 Iris.App.Tests.Hosting.HotkeyRecordingProgressTests.InitialCaptureProgress_PublishesInitializedSnapshotWithoutAnotherKey(Boolean ready) 位于 F:\Iris\tests\Iris.App.Tests\Hosting\HotkeyRecordingProgressTests.cs:21
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Hosting.HotkeyRecordingProgressTests.InitialCaptureProgress_PublishesInitializedSnapshotWithoutAnotherKey(Boolean ready) 位于 F:\Iris\tests\Iris.App.Tests\Hosting\HotkeyRecordingProgressTests.cs:28
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Hosting.HotkeyRecordingProgressTests.InitialCaptureProgress_PublishesInitializedSnapshotWithoutAnotherKey(Boolean ready) 位于 F:\Iris\tests\Iris.App.Tests\Hosting\HotkeyRecordingProgressTests.cs:28
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+失败 Iris.App.Tests.Settings.SettingsHotkeysIntegrationTests.InitialCaptureProgress_ReadyUiDoesNotWaitForASecondKeyboardEvent (253ms)
+  从 F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64)
+  Shouldly.ShouldAssertException : item.IsPreparing
+      should be
+  False
+      but was
+  True
+    在 Iris.App.Tests.Settings.SettingsHotkeysIntegrationTests.InitialCaptureProgress_ReadyUiDoesNotWaitForASecondKeyboardEvent() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsHotkeysIntegrationTests.cs:479
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Settings.SettingsHotkeysIntegrationTests.InitialCaptureProgress_ReadyUiDoesNotWaitForASecondKeyboardEvent() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsHotkeysIntegrationTests.cs:485
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 Iris.App.Tests.Settings.SettingsHotkeysIntegrationTests.InitialCaptureProgress_ReadyUiDoesNotWaitForASecondKeyboardEvent() 位于 F:\Iris\tests\Iris.App.Tests\Settings\SettingsHotkeysIntegrationTests.cs:487
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+    --- End of stack trace from previous location ---
+    在 System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+    在 System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+    在 System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task, ConfigureAwaitOptions options)
+F:\Iris\tests\Iris.App.Tests\bin\Release\net10.0-windows10.0.19041.0\Iris.App.Tests.dll (net10.0|x64) 失败并出现 5 个错误 (1s 688ms)
+退出代码: 2
+
+  生成的进程内文件项目:
+    - F:\Iris\tasks\T-040.evidence\hotkey-initial-progress-defect-20261108-1\before-runtime-reports\28910_SKYRIU-PC_2026-11-08_11_23_53.464519.xunit.xml
+
+测试运行摘要: 失败!
+  总计: 5
+  失败: 5
+  成功: 0
+  已跳过: 0
+  持续时间: 1s 916ms
+已完成测试运行，但显示非成功退出代码: 2 (请参阅: https://aka.ms/testingplatform/exitcodes)

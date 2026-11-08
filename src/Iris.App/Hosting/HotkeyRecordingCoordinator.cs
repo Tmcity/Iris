@@ -12,7 +12,7 @@ namespace Iris.App.Hosting;
 /// 协调 HotkeyCoordinator 的暂停租约与 IHotkeyCaptureService 的底层键盘捕获会话。
 /// 规则见 HOTKEY_RECORDING_UI.md §5、§8。
 /// </summary>
-internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
+internal sealed partial class HotkeyRecordingCoordinator : IAsyncDisposable
 {
     private readonly HotkeyCoordinator? _hotkeyCoordinator;
     private readonly IHotkeyCaptureService? _captureService;
@@ -162,6 +162,7 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
 
         IHotkeyPauseLease? pauseLease = null;
         IHotkeyCaptureSession? captureSession = null;
+        EventHandler? progressHandler = null;
         HotkeyCaptureResult? result = null;
         Exception? cleanupException = null;
 
@@ -185,13 +186,29 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
 
             if (onProgress != null)
             {
-                captureSession.ProgressChanged += (_, _) =>
+                var progressSession = captureSession;
+                Lock progressGate = new();
+                long lastProgressRevision = -1;
+                void PublishCurrentProgress()
                 {
-                    if (!context.IsCompleted)
+                    lock (progressGate)
                     {
-                        onProgress(captureSession.Current);
+                        if (context.IsCompleted) return;
+                        var progress = progressSession.Current;
+                        if (progress.Revision <= lastProgressRevision) return;
+                        lastProgressRevision = progress.Revision;
+                        try { onProgress(progress); }
+                        catch (Exception ex)
+                        {
+                            // Match the native progress pump: observers cannot change capture ownership or cleanup.
+                            LogProgressObserverFailed(_logger, ex.GetType().Name);
+                        }
                     }
-                };
+                }
+                progressHandler = (_, _) => PublishCurrentProgress();
+                progressSession.ProgressChanged += progressHandler;
+                // Initialization may have published before BeginAsync returned and before this subscription.
+                PublishCurrentProgress();
             }
 
             // 步骤 3: 等待逻辑结果完成
@@ -201,6 +218,8 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
         }
         finally
         {
+            if (captureSession != null && progressHandler != null)
+                captureSession.ProgressChanged -= progressHandler;
             // 步骤 4: 结束先清理捕获，再释放暂停租约按最新持久目标恢复
             if (captureSession != null)
             {
@@ -388,6 +407,9 @@ internal sealed class HotkeyRecordingCoordinator : IAsyncDisposable
     {
         await StopAsync().ConfigureAwait(false);
     }
+
+    [LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = "Hotkey recording progress observer failed: {ExceptionType}")]
+    private static partial void LogProgressObserverFailed(ILogger logger, string exceptionType);
 
     private sealed class ActiveRecordingContext
     {

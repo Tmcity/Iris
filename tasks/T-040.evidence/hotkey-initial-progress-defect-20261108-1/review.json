@@ -1,0 +1,23 @@
+{
+  "RecordedUtc": "2026-11-08T11:30:02.934718+00:00",
+  "BeforeBehavior": {
+    "Total": 5,
+    "Failed": 5,
+    "Passed": 0
+  },
+  "AfterBehavior": {
+    "Total": 5,
+    "Failed": 0,
+    "Passed": 5
+  },
+  "InitialReadyAndReleasePromptReplay": true,
+  "ProgressCallbacksSerializedAndRevisionMonotonic": true,
+  "ObserverExceptionsDoNotChangeCaptureCleanup": true,
+  "OwnedSubscriptionReleased": true,
+  "OriginalCompileAndReporterFailuresPreserved": true,
+  "InstalledCandidateStill": "0.2.15",
+  "RealFixedUiAcceptancePending": true,
+  "FullValidationPending": true,
+  "PublicWritePerformed": false,
+  "WholeT040Complete": false
+}

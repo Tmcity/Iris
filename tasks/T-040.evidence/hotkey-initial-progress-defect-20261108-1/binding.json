@@ -1,0 +1,95 @@
+{
+  "Files": [
+    {
+      "Path": "after-corrected-reports/28910_SKYRIU-PC_2026-11-08_11_25_58.563320.xunit.xml",
+      "Bytes": 4166,
+      "Sha256": "2be6a2a3940ba1c455b44102ab85ca55aed2a1b9912d01f25990ae2926052694"
+    },
+    {
+      "Path": "after-corrected.command.json",
+      "Bytes": 535,
+      "Sha256": "e5f24e8914b47fc589030661d310060b681f7c224ea20d98f8d3f7540eaac46f"
+    },
+    {
+      "Path": "after-corrected.log",
+      "Bytes": 568,
+      "Sha256": "d88e23db7f972b292044f0626c48261c82c62d86a2b431483547825a9b11d6f3"
+    },
+    {
+      "Path": "after.command.json",
+      "Bytes": 525,
+      "Sha256": "59e0ed86405509432e41e5a6a3a6146f9770a1b5b5efc95170a4bb0be904ff70"
+    },
+    {
+      "Path": "after.log",
+      "Bytes": 397,
+      "Sha256": "544e60d0367bd01a483707cc27911f854d04c4fe0547c89d43c6a15b587a48e4"
+    },
+    {
+      "Path": "before-corrected.command.json",
+      "Bytes": 532,
+      "Sha256": "cad509dc30e9ce7938dbce38f1a1d3b6858307b3b0a26ac13fc053caea54540f"
+    },
+    {
+      "Path": "before-corrected.log",
+      "Bytes": 556,
+      "Sha256": "7b68305adc0a6cc13c2984b7635a8b467d654a6cfbbe5b109168d86ec2de1427"
+    },
+    {
+      "Path": "before-runtime-reports/28910_SKYRIU-PC_2026-11-08_11_23_53.464519.xunit.xml",
+      "Bytes": 11903,
+      "Sha256": "4b62f33ee4f99f5558f7a189cfd48191ab202c6a0be7b36ec7e34f1a8f5abd27"
+    },
+    {
+      "Path": "before-runtime.command.json",
+      "Bytes": 534,
+      "Sha256": "b24025c1d244952795871b83462a59f421e7ab30b40f6215db18f92bee23675e"
+    },
+    {
+      "Path": "before-runtime.log",
+      "Bytes": 9279,
+      "Sha256": "b4b78cc264f03886788e07c22ceae6a951bc2584c37ca505050e8dbc8ffb91b6"
+    },
+    {
+      "Path": "before.command.json",
+      "Bytes": 522,
+      "Sha256": "a2b9338fddaea8cb48a6ae875056e08a0e44f3559de42a54b64e49fc7fe96930"
+    },
+    {
+      "Path": "before.log",
+      "Bytes": 2469,
+      "Sha256": "4f851411c8383456afe786a45ae643dad99798922d0452668161f58bc19a8fa8"
+    },
+    {
+      "Path": "HotkeyRecordingCoordinator.cs.after",
+      "Bytes": 15859,
+      "Sha256": "de554d6f40694089d942eff901ead5f517bf7a21a76ff744fc287334f4053342"
+    },
+    {
+      "Path": "HotkeyRecordingCoordinator.cs.before",
+      "Bytes": 14449,
+      "Sha256": "7f0706853be9f4b1c8dee25b798e238b1eb4d78b4e84870011e0625659a3cc19"
+    },
+    {
+      "Path": "HotkeyRecordingCoordinator.cs.logging-draft",
+      "Bytes": 15665,
+      "Sha256": "538499d8c65259571101c9b1b966785aaa896d53ad11b922d08621ef8993e3c8"
+    },
+    {
+      "Path": "HotkeyRecordingProgressTests.cs.initial",
+      "Bytes": 4279,
+      "Sha256": "9dd0abff60d70b095fa1d01576491ce5be1af79871ec7bbf9b9b933cb715af54"
+    },
+    {
+      "Path": "HotkeyRecordingProgressTests.cs.regression",
+      "Bytes": 4513,
+      "Sha256": "8bf372eb1774eeebfcabe965eee013cfb32c105b9567f9f13a7e8f5cc6f31730"
+    },
+    {
+      "Path": "review.json",
+      "Bytes": 657,
+      "Sha256": "700df70f0c1211b2f51c68134d1a52526cadb5cfdac2aabfe6eb7fb48dd2a150"
+    }
+  ],
+  "WholeT040Complete": false
+}

@@ -1,0 +1,2 @@
+F:\Iris\src\Iris.App\Hosting\HotkeyRecordingCoordinator.cs(204,29): error CA1848: 为了提高性能，请使用 LoggerMessage 委托，而不是调用“LoggerExtensions.LogWarning(ILogger, string?, params object?[])” (https://learn.microsoft.com/dotnet/fundamentals/code-analysis/quality-rules/ca1848) [F:\Iris\src\Iris.App\Iris.App_zqhpndaq_wpftmp.csproj]
+生成失败，退出代码: 1。

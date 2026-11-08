@@ -1,0 +1,20 @@
+{
+  "Command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.App.Tests/Iris.App.Tests.csproj",
+    "-c",
+    "Release",
+    "--filter-method",
+    "*InitialCaptureProgress*",
+    "--report-xunit-xml",
+    "--results-directory",
+    "F:\\Iris\\tasks\\T-040.evidence\\hotkey-initial-progress-defect-20261108-1\\after-reports",
+    "--no-ansi",
+    "--no-progress"
+  ],
+  "StartedUtc": "2026-11-08T11:24:56.877394+00:00",
+  "FinishedUtc": "2026-11-08T11:24:59.201893+00:00",
+  "ExitCode": 1
+}
