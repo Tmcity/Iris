@@ -23,6 +23,8 @@ internal enum CardState
 internal sealed class ProviderResultCardViewModel : INotifyPropertyChanged
 {
     private readonly Func<ProviderResultCardViewModel, bool> _canRetryPredicate;
+    private readonly RelayCommand _retryCommand;
+    private readonly RelayCommand _copyCommand;
     private Guid _requestId;
     private string _text = string.Empty;
     private CardState _state = CardState.Idle;
@@ -51,8 +53,8 @@ internal sealed class ProviderResultCardViewModel : INotifyPropertyChanged
         _requestId = requestId;
         _canRetryPredicate = canRetryPredicate ?? throw new ArgumentNullException(nameof(canRetryPredicate));
 
-        RetryCommand = new RelayCommand(() => onRetry(this), () => CanRetry);
-        CopyCommand = new RelayCommand(() => onCopy(this), () => CanCopy);
+        _retryCommand = new RelayCommand(() => onRetry(this), () => CanRetry);
+        _copyCommand = new RelayCommand(() => onCopy(this), () => CanCopy);
         GoToSettingsCommand = new RelayCommand(() => onGoToSettings(this));
     }
 
@@ -94,6 +96,7 @@ internal sealed class ProviderResultCardViewModel : INotifyPropertyChanged
             if (SetField(ref _text, value))
             {
                 OnPropertyChanged(nameof(CanCopy));
+                _copyCommand.RaiseCanExecuteChanged();
             }
         }
     }
@@ -108,6 +111,7 @@ internal sealed class ProviderResultCardViewModel : INotifyPropertyChanged
                 OnPropertyChanged(nameof(IsTerminal));
                 OnPropertyChanged(nameof(CanRetry));
                 OnPropertyChanged(nameof(IsStreaming));
+                _retryCommand.RaiseCanExecuteChanged();
             }
         }
     }
@@ -180,8 +184,8 @@ internal sealed class ProviderResultCardViewModel : INotifyPropertyChanged
 
     public string CopyTooltip => IsLocallyTruncated ? UiText.TranslateCopyVisible : UiText.TranslateCopy;
 
-    public ICommand RetryCommand { get; }
-    public ICommand CopyCommand { get; }
+    public ICommand RetryCommand => _retryCommand;
+    public ICommand CopyCommand => _copyCommand;
     public ICommand GoToSettingsCommand { get; }
 
     public void AppendText(string delta)
@@ -230,6 +234,7 @@ internal sealed class ProviderResultCardViewModel : INotifyPropertyChanged
     public void RefreshCanRetry()
     {
         OnPropertyChanged(nameof(CanRetry));
+        _retryCommand.RaiseCanExecuteChanged();
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
