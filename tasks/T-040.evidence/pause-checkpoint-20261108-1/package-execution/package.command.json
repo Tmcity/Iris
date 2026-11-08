@@ -1,0 +1,22 @@
+{
+  "Command": [
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "-NoProfile",
+    "-NonInteractive",
+    "-ExecutionPolicy",
+    "Bypass",
+    "-File",
+    "F:\\Iris\\build\\pack.ps1",
+    "-Version",
+    "0.2.16",
+    "-OutputDirectory",
+    "F:\\Iris\\artifacts\\t040\\hotkey-initial-progress-local-candidate-20261108-1",
+    "-ReadyToRun"
+  ],
+  "StartedUtc": "2026-11-08T11:46:22.169965+00:00",
+  "FinishedUtc": "2026-11-08T11:48:36.865632+00:00",
+  "ExitCode": 0,
+  "Log": "package.log",
+  "Bytes": 5884,
+  "Sha256": "c8f96ea203d777f4960fda4bd4d6c0a92322d4d53608ba53008add3ac391ab91"
+}

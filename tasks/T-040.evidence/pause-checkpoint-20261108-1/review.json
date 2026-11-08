@@ -1,0 +1,28 @@
+{
+  "RecordedUtc": "2026-11-08T11:54:50.297444+00:00",
+  "GoalStatus": "paused",
+  "WorkOrderComplete": false,
+  "SourceCommit": "390fc2b7200f1da116e2d2ac51aa84f4cb15f968",
+  "FullTests": {
+    "Total": 3797,
+    "Passed": 3795,
+    "Failed": 0,
+    "Skipped": 2
+  },
+  "BuildWarnings": 0,
+  "BuildErrors": 0,
+  "CandidateVersion": "0.2.16",
+  "CandidatePackageCompleted": true,
+  "CandidateInstallerBytes": 123667867,
+  "CandidateInstallerSha256": "f6e57cea82d2e359491906168650b10d5d697b7a2dd52ba16d14433f0cc9e332",
+  "CandidateIndependentReviewMappingAndInstallPending": true,
+  "InstalledVersion": "0.2.15",
+  "InstalledPid": 7504,
+  "HistoryTotal": 18,
+  "OfficialPublicVersion": "0.2.10",
+  "FixtureAndRuntimeCounterAbsentAtLastAudit": true,
+  "HostPackageWorkersCompleted": true,
+  "SandboxPreserved": true,
+  "BaiduFixtureCompiledOnlyNotStartedOrAccepted": true,
+  "NewDevelopmentTestsInstallationOrPublicWriteStartedAfterPause": false
+}

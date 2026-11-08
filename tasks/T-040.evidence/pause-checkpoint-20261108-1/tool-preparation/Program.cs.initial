@@ -1,0 +1,101 @@
+using System.Diagnostics;
+using System.Globalization;
+using System.Net;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+
+if (Environment.UserName != "WDAGUtilityAccount") throw new InvalidOperationException("Owned Sandbox only.");
+const string apiKey = "iris-t040-not-a-real-key";
+const string secretKey = "iris-t040-ocr-not-a-real-secret";
+const string accessToken = "iris-t040-synthetic-ocr-token";
+const string words = "Iris T040 OCR synthetic 016";
+const string prefix = "http://127.0.0.1:18042/";
+string output = Path.Combine(@"C:\IrisT040Output", "baidu-ocr-fixture-" + DateTimeOffset.UtcNow.ToString("yyyyMMddTHHmmssfffffffZ", CultureInfo.InvariantCulture));
+Directory.CreateDirectory(output);
+using var listener = new HttpListener();
+listener.Prefixes.Add(prefix);
+using var lifetime = new CancellationTokenSource(TimeSpan.FromHours(1));
+using var stopped = lifetime.Token.Register(listener.Stop);
+using var records = new StreamWriter(Path.Combine(output, "requests.jsonl"), false, new UTF8Encoding(false));
+void Record(object value) { records.WriteLine(JsonSerializer.Serialize(value)); records.Flush(); }
+listener.Start();
+await File.WriteAllTextAsync(Path.Combine(output, "state.json"), JsonSerializer.Serialize(new
+{
+    Utc = DateTimeOffset.UtcNow, Ready = true, Pid = Environment.ProcessId, Prefix = prefix,
+    Scope = "Owned Baidu OAuth/OCR JSON fixture returning fixed synthetic words. No upstream, real account authentication or actual recognition model.",
+    FixedSyntheticWords = words, CredentialsAreSynthetic = true, ProductOperationPerformed = false,
+    StopwatchFrequency = Stopwatch.Frequency
+}));
+int count = 0;
+try
+{
+    while (!lifetime.IsCancellationRequested)
+    {
+        HttpListenerContext context;
+        try { context = await listener.GetContextAsync(); }
+        catch (HttpListenerException) when (lifetime.IsCancellationRequested) { break; }
+        long received = Stopwatch.GetTimestamp();
+        int sequence = ++count;
+        try
+        {
+            string path = context.Request.Url?.AbsolutePath ?? "/";
+            if (context.Request.HttpMethod == "HEAD")
+            {
+                context.Response.StatusCode = 200;
+                Record(new { Kind = "Connectivity", Utc = DateTimeOffset.UtcNow, Sequence = sequence, ReceivedQpc = received, Path = path });
+                continue;
+            }
+            if (path == "/oauth/2.0/token" && context.Request.HttpMethod == "POST")
+            {
+                bool valid = context.Request.QueryString["grant_type"] == "client_credentials"
+                    && context.Request.QueryString["client_id"] == apiKey && context.Request.QueryString["client_secret"] == secretKey;
+                if (!valid) { context.Response.StatusCode = 401; Record(new { Kind = "RejectedSyntheticCredential", Utc = DateTimeOffset.UtcNow, Sequence = sequence }); continue; }
+                await Send(context.Response, new { access_token = accessToken, expires_in = 3600 });
+                Record(new { Kind = "OAuth", Utc = DateTimeOffset.UtcNow, Sequence = sequence, ReceivedQpc = received, FakeCredentialsAccepted = true });
+                continue;
+            }
+            if (context.Request.HttpMethod != "POST" || !path.StartsWith("/rest/2.0/ocr/v1/", StringComparison.Ordinal)
+                || context.Request.QueryString["access_token"] != accessToken || context.Request.ContentLength64 > 10_000_000)
+            { context.Response.StatusCode = 400; continue; }
+            using var body = new MemoryStream();
+            var buffer = new byte[16 * 1024];
+            int length;
+            while ((length = await context.Request.InputStream.ReadAsync(buffer, lifetime.Token)) > 0)
+            {
+                if (body.Length + length > 10_000_000) throw new InvalidDataException("Fixture body limit exceeded.");
+                body.Write(buffer, 0, length);
+            }
+            var form = Encoding.UTF8.GetString(body.ToArray()).Split('&').Select(value => value.Split('=', 2))
+                .ToDictionary(value => Uri.UnescapeDataString(value[0].Replace('+', ' ')), value => Uri.UnescapeDataString(value.Length == 2 ? value[1].Replace('+', ' ') : ""), StringComparer.Ordinal);
+            if (!form.TryGetValue("image", out var encoded) || encoded.Length > 6_000_000) { context.Response.StatusCode = 400; continue; }
+            byte[] image = Convert.FromBase64String(encoded);
+            bool png = image.Length >= 24 && image.AsSpan(0, 8).SequenceEqual(new byte[] { 137, 80, 78, 71, 13, 10, 26, 10 });
+            int? width = png ? System.Buffers.Binary.BinaryPrimitives.ReadInt32BigEndian(image.AsSpan(16, 4)) : null;
+            int? height = png ? System.Buffers.Binary.BinaryPrimitives.ReadInt32BigEndian(image.AsSpan(20, 4)) : null;
+            Record(new { Kind = "OcrImage", Utc = DateTimeOffset.UtcNow, Sequence = sequence, ReceivedQpc = received,
+                Path = path, ImageBytes = image.Length, ImageSha256 = Convert.ToHexString(SHA256.HashData(image)), Png = png, Width = width, Height = height,
+                DetectDirection = form.GetValueOrDefault("detect_direction"), Paragraph = form.GetValueOrDefault("paragraph"), RawImageOrCredentialsLogged = false });
+            await Send(context.Response, new { log_id = sequence, words_result_num = 1,
+                words_result = new[] { new { words, location = new { left = 10, top = 10, width = 260, height = 30 }, probability = new { average = 0.99, min = 0.98, variance = 0.0001 } } },
+                paragraphs_result = new[] { new { words_result_idx = new[] { 0 } } }, direction = 0 });
+            Record(new { Kind = "OcrResponseWritten", Utc = DateTimeOffset.UtcNow, Sequence = sequence, Qpc = Stopwatch.GetTimestamp(), FixedSyntheticWords = words });
+        }
+        catch (Exception error) when (error is IOException or HttpListenerException or OperationCanceledException or FormatException or ArgumentException)
+        { Record(new { Kind = "FixtureFailure", Utc = DateTimeOffset.UtcNow, Sequence = sequence, ErrorType = error.GetType().Name }); }
+        finally { context.Response.Close(); }
+    }
+}
+finally
+{
+    listener.Stop();
+    await File.WriteAllTextAsync(Path.Combine(output, "final-state.json"), JsonSerializer.Serialize(new { Utc = DateTimeOffset.UtcNow, Pid = Environment.ProcessId, Ready = false, Requests = count, ProductOperationPerformed = false }));
+}
+async Task Send(HttpListenerResponse response, object payload)
+{
+    response.ContentType = "application/json";
+    byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(payload);
+    response.ContentLength64 = bytes.Length;
+    await response.OutputStream.WriteAsync(bytes, lifetime.Token);
+    await response.OutputStream.FlushAsync(lifetime.Token);
+}
