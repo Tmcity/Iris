@@ -1,0 +1,10 @@
+{"Kind":"Models","Utc":"2026-11-07T21:03:01.8711387+00:00","Sequence":1,"Path":"/v1/models"}
+{"Kind":"Request","Utc":"2026-11-07T21:03:49.8489934+00:00","ReceivedQpc":288343224282,"Sequence":2,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":null,"SourceSha256":"F8C3BF62A9AA3E6FC1619C250E48ABE7519373D3EDF41BE62EB5DC45199AF2EF","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-07T21:03:49.8542193+00:00","Qpc":288343384535,"Sequence":2}
+{"Kind":"Completed","Utc":"2026-11-07T21:03:50.0074829+00:00","Qpc":288344917170,"Sequence":2,"Truncated":false}
+{"Kind":"Request","Utc":"2026-11-07T21:05:25.0703237+00:00","ReceivedQpc":289295539903,"Sequence":3,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 R2R memory 07","SourceSha256":"D32A68A948429B59BF8C7598AC3507E89DE5B4F6B275EA147F2298E29EB15402","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-07T21:05:25.070924+00:00","Qpc":289295551583,"Sequence":3}
+{"Kind":"Completed","Utc":"2026-11-07T21:05:25.2229292+00:00","Qpc":289297071635,"Sequence":3,"Truncated":false}
+{"Kind":"Request","Utc":"2026-11-07T21:23:37.5777352+00:00","ReceivedQpc":300220615098,"Sequence":4,"Path":"/v1/chat/completions","Protocol":"OpenAI","Attempt":1,"SyntheticText":"Iris T040 synthetic translation","SourceSha256":"29A6272670D8A0946C50159234AF1CBA51ADF9D3A431BDF435021AB8835BE83E","FakeKeyAccepted":true}
+{"Kind":"FirstTextWritten","Utc":"2026-11-07T21:23:37.5782411+00:00","Qpc":300220624752,"Sequence":4}
+{"Kind":"Completed","Utc":"2026-11-07T21:23:37.7344938+00:00","Qpc":300222187283,"Sequence":4,"Truncated":false}

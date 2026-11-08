@@ -1,0 +1,156 @@
+{
+  "RecordedUtc": "2026-11-08T05:00:39.985203+00:00",
+  "Scope": "Actual owned Sandbox UI and separately bound product source",
+  "UiCandidateVersions": [
+    "0.2.11",
+    "0.2.12"
+  ],
+  "InstalledFixedSource": "b3072b2837e5b7d83b349d76c719ec9a323020b0",
+  "InstalledFixedPid": 2524,
+  "FixedPayloadFiles": 97,
+  "OriginalFiveHistoryEntriesPreserved": true,
+  "TwoActualUiTranslationsAdded": true,
+  "CurrentHistoryEntries": 7,
+  "ActualModelDiscoveryAndConnectionUiPassedAfterFixtureRecovery": true,
+  "OriginalFixture1456ExpiredAt": "2026-11-07T16:48:47.9906143+00:00",
+  "OriginalFixtureAbsentAndPortUnboundProvedBeforeRestart": true,
+  "ActualInputAndClipboardTranslateUiPassed": true,
+  "ActualHistoryRefreshAndCopyUiPassed": true,
+  "SourceAndResultCopyVerifiedByVisiblePureKeyboardPastes": true,
+  "TypingBasedClipboardCheckExcluded": "Computer Use type_text modified the clipboard; that check was not product copy evidence",
+  "StaleInputCoordinateCheckExcluded": "Input window hides on deactivation; subsequent blank-desktop keys were not copy evidence",
+  "ActualNativeHistoryCloseFailureObservedOn0211": true,
+  "DefectCause": "Synchronous idle cleanup invoked Window.Close inside the original native Closing event",
+  "BeforeRegression": {
+    "Total": 3,
+    "Failed": 2,
+    "Passed": 1
+  },
+  "AfterRegression": {
+    "Total": 3,
+    "Failed": 0,
+    "Passed": 3
+  },
+  "ActualFixedUiNativeCloseEscapeAndCloseButtonPassed": true,
+  "ActualFixedUiReopenPassed": true,
+  "FullValidation": {
+    "Total": 3776,
+    "Passed": 3774,
+    "Failed": 0,
+    "Skipped": 2
+  },
+  "ObservedRuntimeTargetPid": 7616,
+  "RuntimeObserverPid": 7484,
+  "RuntimeObserverCompleted": true,
+  "NaturalFullGcStarts": 0,
+  "PostFullGcSteadyMemoryProved": false,
+  "WholeT040Complete": false,
+  "PublicWritePerformed": false,
+  "ScreenshotRecords": [
+    {
+      "Path": "controlled-ui-view-20261107T2058543457061Z.png.json",
+      "Utc": "2026-11-07T20:58:54.4964159Z",
+      "AppPid": 7616,
+      "Width": 2034,
+      "Height": 1070
+    },
+    {
+      "Path": "controlled-ui-view-20261107T2101408088891Z.png.json",
+      "Utc": "2026-11-07T21:01:40.9365700Z",
+      "AppPid": 7616,
+      "Width": 2034,
+      "Height": 1070
+    },
+    {
+      "Path": "controlled-ui-view-20261107T2103559351955Z.png.json",
+      "Utc": "2026-11-07T21:03:56.0822848Z",
+      "AppPid": 7616,
+      "Width": 2034,
+      "Height": 1070
+    },
+    {
+      "Path": "controlled-ui-view-20261107T2106267614291Z.png.json",
+      "Utc": "2026-11-07T21:06:26.8910065Z",
+      "AppPid": 7616,
+      "Width": 2034,
+      "Height": 1070
+    },
+    {
+      "Path": "controlled-ui-view-20261107T2109484496947Z.png.json",
+      "Utc": "2026-11-07T21:09:48.6004679Z",
+      "AppPid": 7616,
+      "Width": 2034,
+      "Height": 1070
+    },
+    {
+      "Path": "controlled-ui-view-20261107T2111562504395Z.png.json",
+      "Utc": "2026-11-07T21:11:56.3897094Z",
+      "AppPid": 7616,
+      "Width": 2034,
+      "Height": 1070
+    },
+    {
+      "Path": "controlled-ui-view-20261107T2113024372203Z.png.json",
+      "Utc": "2026-11-07T21:13:02.5760690Z",
+      "AppPid": 7616,
+      "Width": 2034,
+      "Height": 1070
+    },
+    {
+      "Path": "controlled-ui-view-20261107T2116369622074Z.png.json",
+      "Utc": "2026-11-07T21:16:37.1044436Z",
+      "AppPid": 7616,
+      "Width": 2034,
+      "Height": 1070
+    },
+    {
+      "Path": "controlled-ui-view-20261107T2118386621174Z.png.json",
+      "Utc": "2026-11-07T21:18:38.7463062Z",
+      "AppPid": 7616,
+      "Width": 2034,
+      "Height": 1070
+    },
+    {
+      "Path": "controlled-ui-view-20261107T2119215118411Z.png.json",
+      "Utc": "2026-11-07T21:19:21.6298773Z",
+      "AppPid": 7616,
+      "Width": 2034,
+      "Height": 1070
+    },
+    {
+      "Path": "controlled-ui-view-20261107T2123333132465Z.png.json",
+      "Utc": "2026-11-07T21:23:33.4577485Z",
+      "AppPid": 7616,
+      "Width": 2034,
+      "Height": 1070
+    },
+    {
+      "Path": "controlled-ui-view-20261107T2126079275948Z.png.json",
+      "Utc": "2026-11-07T21:26:08.0968434Z",
+      "AppPid": 7616,
+      "Width": 2034,
+      "Height": 1070
+    },
+    {
+      "Path": "controlled-ui-view-20261107T2158394107980Z.png.json",
+      "Utc": "2026-11-07T21:58:39.5680705Z",
+      "AppPid": 2524,
+      "Width": 2034,
+      "Height": 1070
+    },
+    {
+      "Path": "controlled-ui-view-20261107T2202482002637Z.png.json",
+      "Utc": "2026-11-07T22:02:48.3405475Z",
+      "AppPid": 2524,
+      "Width": 2034,
+      "Height": 1070
+    },
+    {
+      "Path": "controlled-ui-view-20261107T2206593980612Z.png.json",
+      "Utc": "2026-11-07T22:06:59.5395804Z",
+      "AppPid": 2524,
+      "Width": 2034,
+      "Height": 1070
+    }
+  ]
+}

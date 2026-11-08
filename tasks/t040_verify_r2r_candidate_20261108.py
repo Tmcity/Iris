@@ -51,6 +51,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--candidate', type=Path, required=True)
 parser.add_argument('--validation', type=Path, required=True)
 parser.add_argument('--source', required=True)
+parser.add_argument('--version', default='0.2.11')
 parser.add_argument('--output', type=Path, required=True)
 args = parser.parse_args()
 candidate = args.candidate.resolve(strict=True)
@@ -60,10 +61,10 @@ provenance = json.loads((candidate / 'release-provenance.json').read_text(encodi
 assert summary['SourceCommit'] == args.source == provenance['SourceCommit']
 assert summary['BuildWarnings'] == 0 and summary['BuildErrors'] == 0
 assert summary['FullTests']['Failed'] == 0
-assets = verify_directory(candidate, '0.2.11')
+assets = verify_directory(candidate, args.version)
 required = ('Iris.App.dll', 'Iris.Core.dll', 'Iris.Infrastructure.dll', 'Iris.Platform.Windows.dll', 'Iris.Providers.dll', 'Wpf.Ui.dll')
 headers = {}
-with zipfile.ZipFile(candidate / 'Iris-0.2.11-full.nupkg') as package:
+with zipfile.ZipFile(candidate / ('Iris-' + args.version + '-full.nupkg')) as package:
     for name in required:
         info = native_header(package.read('lib/app/' + name))
         assert info['ReadyToRunSignature'] and info['Machine'] == '0x8664', name
@@ -75,12 +76,12 @@ with zipfile.ZipFile(baseline) as package:
 manifest = json.loads((candidate / 'payload-manifest.json').read_text(encoding='utf-8-sig'))
 assert len(manifest) == 97
 result = {
-    'Version': '0.2.11', 'SourceCommit': args.source, 'LocalCandidate': True,
+    'Version': args.version, 'SourceCommit': args.source, 'LocalCandidate': True,
     'PublicWritePerformed': False, 'FormalNfrResult': False,
     'Assets': assets, 'FullTests': summary['FullTests'], 'PayloadFiles': len(manifest),
     'ReadyToRunHeaders': headers, 'OriginalIlOnlyControl': control,
-    'InstallerBytes': (candidate / 'Iris-0.2.11-Setup.exe').stat().st_size,
-    'InstallerSha256': hashlib.sha256((candidate / 'Iris-0.2.11-Setup.exe').read_bytes()).hexdigest(),
+    'InstallerBytes': (candidate / ('Iris-' + args.version + '-Setup.exe')).stat().st_size,
+    'InstallerSha256': hashlib.sha256((candidate / ('Iris-' + args.version + '-Setup.exe')).read_bytes()).hexdigest(),
     'ActualInstalledCandidateAndPostGcMemoryPending': True,
 }
 args.output.parent.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,17 @@
+{
+  "Command": [
+    "dotnet",
+    "test",
+    "--project",
+    "tests/Iris.App.Tests/Iris.App.Tests.csproj",
+    "-c",
+    "Release",
+    "--filter-method",
+    "*Close_IdleRealWindow_UnwindsClosingEventBeforeCleanupAndReopens*",
+    "--no-ansi",
+    "--no-progress"
+  ],
+  "StartedUtc": "2026-11-07T21:33:46.091895+00:00",
+  "FinishedUtc": "2026-11-07T21:33:57.877951+00:00",
+  "ExitCode": 0
+}
