@@ -484,3 +484,5 @@ T-030 签发前须按 PROVIDER_REGISTRY.md 将 OCR 注册表原型同步为租�
 **T-039C 定向诊断已实际接单（2026-10-27）** — 既有工程师聊天01a16ef2…执行轮01a17cd6…已确认接续并实际读取最新current_task、精确诊断批准、原helper/native adapter/规范及进程与Sandbox状态，三个读取命令exit0；桌面和API相互印证，见ci-failure-scope-received-20261027.json。工程师会话正在重连，不把interrupted/completedAt=null当终态，不重复派单/重开。架构师已准备DIAGNOSTIC_REVIEW_GATES.md，等待真实线程/桌面/占用与取消/join证据后裁定。当前仍唯一C，父T-039保持▶，默认无缓存运行时引导与真实线上设置UI升级未验收，T-040未签，M6延期。
 
 **2026-11-06 T-039C/父T039结案，T-040签发** — 正式匿名资产、无.NET/无缓存默认022安装、真实029→0210 UI/native一次正常启动/资料、默认保留数据卸载均逐项独立通过。审计tasks/done/T-039C.review-final-20261106；9证据集236原件再次匹配。下一唯一T-040全功能/NFR/缺陷复核，项目目标未完成，M6延期。
+
+**2026-11-11 T-041签发（亚克力界面重构）** — 设计文档docs/superpowers/specs/2026-11-11-acrylic-ui-redesign-design.md经用户批准，并授权本次由开发执行其§7的四处规范修改（ARCHITECTURE.md升至v1.58）和工单签发。T-040保持暂停，其范围与NFR指标不由T-041接续；其余任务状态未改。

@@ -10,7 +10,8 @@
 
 > 本轮范围调整（2026-10-06，用户决定）：M6 悬浮球 / T-033 延迟实现，不纳入本轮开发与发布验收；相关设计保留为后续需求，现有契约与默认配置保持。当前 T-031A 继续，M5 完成后跳过 T-033，按依赖推进 M7 未完成任务。
 
-> 版本：v1.57 · 2026-10-13 · 状态：**已冻结（首期）**
+> 版本：v1.58 · 2026-11-11 · 状态：**已冻结（首期）**
+> v1.58：T-041亚克力界面重构经用户批准的规范变更。TranslateWindow顶栏去掉关闭按钮与翻译按钮，改为按Enter、或原文/语言停止修改1秒后自动翻译，隐藏靠Esc或未钉住时失焦；HistoryWindow的复制仍区分原文与所选服务译文，允许只显示图标按钮。界面材质、布局与其余窗口改动见T-041工单与设计文档；公开契约、设置格式、schema与依赖不变。
 > v1.57：T-039A实证及IPC修正独立结案；DESKTOP_RELEASE.md / CCR-039冻结正式桌面打包/更新/维护流程，GeneralSettingsPatch兼容新增CheckForUpdates、独立Updates客户端，新增无WPF的self-contained维护入口，主应用仍为框架依赖。B完成生产与本地隔离实证，C完成GitHub分发/线上升级闭环。
 > v1.56：T-037/CCR037在19e15f67独立验收结案。LOCALIZATION.md / CCR-038冻结T-038完整zh-CN/en-US界面、稳定启动语言、下次启动生效的General.UiLanguage联合编辑及资源/视觉审计；GeneralSettingsPatch仅兼容新增可选属性，原构造/默认/schema/包保持。
 > v1.55：T-036C/父T-036/CCR036独立验收结案。IPC_COMMAND_LINE.md / CCR-037冻结T-037完整CLI、同用户/同会话命名管道、无数据初始化的第二实例转发和完整停止；IpcCommand仅补安全ToString/说明，默认/包不变。
@@ -1089,7 +1090,7 @@ CLIPBOARD_SNAPSHOTS.md 为正式规范。内部 ClipboardSnapshotService 在单�
 
 | 窗口 | 要点 |
 |---|---|
-| `TranslateWindow` | 无边框 Fluent 窗口，可拖动。顶部栏：钉住 / 设置 / 关闭。原文输入框（多行，最大高度 200 DIP 后滚动；EnterToTranslate=true 时 Enter 翻译、Shift+Enter 换行，false 时 Ctrl+Enter 翻译、Enter 换行；IME 确认不提交）。语言栏：源语言（含“自动检测”，检测结果以灰字显示）⇄ 目标语言（含“自动”）。翻译/停止按钮、结果卡片列表（服务名 · 模型 · 耗时；可选只读文本；复制 / 重试；错误/截断状态）。Esc 隐藏。完整生命周期与预算见 TRANSLATION_WINDOW.md。 |
+| `TranslateWindow` | 无边框 Fluent 窗口，可拖动。顶部栏：源语言 / 钉住 / 设置（无关闭按钮，无翻译按钮；隐藏靠 Esc，或未钉住时失去焦点）。原文输入框（多行，最大高度 200 DIP 后滚动；EnterToTranslate=true 时 Enter 翻译、Shift+Enter 换行，false 时 Ctrl+Enter 翻译、Enter 换行；IME 确认不提交）。语言栏：源语言（含“自动检测”，检测结果以灰字显示）⇄ 目标语言（含“自动”）。原文或语言停止修改 1 秒自动翻译，等同按 Enter；仅翻译进行中显示停止按钮。结果卡片列表（服务名 · 模型 · 耗时；可选只读文本；复制 / 重试；错误/截断状态）。完整生命周期与预算见 TRANSLATION_WINDOW.md。 |
 | `ScreenshotOverlayWindow` | 每个显示器一个；冻结背景 + 遮罩 + 选区；尺寸标签；放大镜；Esc / 右键取消。 |
 | OCR结果展示 | 复用 `TranslateWindow` 原文框；不创建 `OcrResultWindow`，不显示截图预览。 |
 | `FloatingBallWindow` | 见 §6.7。 |

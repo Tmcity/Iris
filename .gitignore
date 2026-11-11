@@ -480,3 +480,5 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+# Local agent scratch: brainstorm mockups and plan run artifacts
+.superpowers/
