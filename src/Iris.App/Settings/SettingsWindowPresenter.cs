@@ -289,6 +289,10 @@ internal sealed partial class SettingsWindowPresenter : ISettingsWindowPresenter
                 }
 
                 window = scope.ServiceProvider.GetRequiredService<SettingsWindow>();
+                // Deliberately optional: the 22 existing construction sites in tests do not register
+                // WindowMaterialService (and do not assert the material), so a required resolve would
+                // turn them all red. The production path registers the singleton in AppHostBuilder.
+                scope.ServiceProvider.GetService<WindowMaterialService>()?.Attach(window);
                 partialCleanup.SetWindow(window);
 
                 viewModel = scope.ServiceProvider.GetRequiredService<SettingsViewModel>();

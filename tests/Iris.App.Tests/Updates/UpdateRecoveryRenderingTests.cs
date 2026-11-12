@@ -37,11 +37,14 @@ public sealed class UpdateRecoveryRenderingTests
             var app = Application.Current;
             var originalResources = app.Resources;
             var originalTheme = ApplicationThemeManager.GetAppTheme();
-            // Exactly App.xaml's global resources. No per-window dictionaries,
-            // foreground or background overrides are installed by this test.
+            // The same global dictionaries App.xaml merges, minus Resources/EditingMenus.xaml:
+            // the recovery window has no text input (UpdateRecoveryWindow.cs builds only
+            // TextBlocks, Buttons and panels), so those styles are not loaded here.
             app.Resources = new ResourceDictionary();
             app.Resources.MergedDictionaries.Add(new Wpf.Ui.Markup.ThemesDictionary { Theme = ApplicationTheme.Light });
             app.Resources.MergedDictionaries.Add(new Wpf.Ui.Markup.ControlsDictionary());
+            app.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/Iris.App;component/Themes/Iris.Light.xaml", UriKind.Absolute) });
+            app.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri("pack://application:,,,/Iris.App;component/Themes/Iris.Styles.xaml", UriKind.Absolute) });
             var theme = dark ? ApplicationTheme.Dark : ApplicationTheme.Light;
             ApplicationThemeManager.Apply(theme);
             int retries = 0, cancellations = 0;

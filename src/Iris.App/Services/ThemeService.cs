@@ -4,6 +4,7 @@ using System.Windows;
 using Iris.Core.Settings;
 using Microsoft.Win32;
 using Wpf.Ui.Appearance;
+using Wpf.Ui.Controls;
 
 namespace Iris.App.Services;
 
@@ -16,6 +17,7 @@ internal sealed partial class ThemeService : IDisposable
     private readonly ISettingsService _settingsService;
     private readonly Microsoft.Extensions.Logging.ILogger<ThemeService>? _logger;
     private readonly Action<ApplicationTheme>? _visualThemeApplier;
+    private readonly WindowMaterialService? _windowMaterialService;
     private readonly Lock _gate = new();
 
     private object? _previewOwner;
@@ -27,11 +29,13 @@ internal sealed partial class ThemeService : IDisposable
     public ThemeService(
         ISettingsService settingsService,
         Microsoft.Extensions.Logging.ILogger<ThemeService>? logger = null,
-        Action<ApplicationTheme>? visualThemeApplier = null)
+        Action<ApplicationTheme>? visualThemeApplier = null,
+        WindowMaterialService? windowMaterialService = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _logger = logger;
         _visualThemeApplier = visualThemeApplier;
+        _windowMaterialService = windowMaterialService;
         _settingsService.Changed += OnSettingsChanged;
     }
 
@@ -67,6 +71,8 @@ internal sealed partial class ThemeService : IDisposable
             }
         }
     }
+
+    internal bool HasWindowMaterialService => _windowMaterialService is not null;
 
     public void Apply(AppTheme theme)
     {
@@ -176,15 +182,34 @@ internal sealed partial class ThemeService : IDisposable
                     LogThemeApplyFailed(_logger, theme.ToString(), ex.GetType().FullName ?? ex.GetType().Name);
                 }
             }
-            return;
+        }
+        else
+        {
+            try
+            {
+                if (Application.Current != null)
+                {
+                    // Ask for "no backdrop" explicitly: the window backdrop is owned by
+                    // WindowMaterialService, and passing Mica here would replace its acrylic.
+                    ApplicationThemeManager.Apply(theme, WindowBackdropType.None);
+                }
+            }
+            catch (Exception ex)
+            {
+                if (_logger != null)
+                {
+                    LogThemeApplyFailed(_logger, theme.ToString(), ex.GetType().FullName ?? ex.GetType().Name);
+                }
+            }
         }
 
+        // Outside the seam branch on purpose: the Iris dictionary and the window material have to
+        // follow the theme on the test path too. Each step is guarded like the calls above, so a
+        // failure stays a logged warning: AppBootstrapper applies an explicit Light/Dark theme
+        // synchronously during startup, with no catch of its own.
         try
         {
-            if (Application.Current != null)
-            {
-                ApplicationThemeManager.Apply(theme);
-            }
+            ApplyIrisThemeDictionary(theme);
         }
         catch (Exception ex)
         {
@@ -193,6 +218,54 @@ internal sealed partial class ThemeService : IDisposable
                 LogThemeApplyFailed(_logger, theme.ToString(), ex.GetType().FullName ?? ex.GetType().Name);
             }
         }
+
+        try
+        {
+            _windowMaterialService?.RefreshOpenWindows();
+        }
+        catch (Exception ex)
+        {
+            if (_logger != null)
+            {
+                LogThemeApplyFailed(_logger, theme.ToString(), ex.GetType().FullName ?? ex.GetType().Name);
+            }
+        }
+    }
+
+    private static readonly string[] IrisThemeDictionaryNames = ["Iris.Light.xaml", "Iris.Dark.xaml"];
+
+    /// <summary>
+    /// Swaps the Iris-owned colour dictionary for the one that matches the theme. WPF-UI swaps
+    /// its own theme dictionary in ApplicationThemeManager; this one is ours, so it has to follow.
+    /// </summary>
+    internal static void ApplyIrisThemeDictionary(ApplicationTheme theme)
+    {
+        var dictionaries = Application.Current?.Resources.MergedDictionaries;
+        if (dictionaries is null)
+        {
+            return;
+        }
+
+        var target = new ResourceDictionary
+        {
+            Source = new Uri(
+                theme == ApplicationTheme.Dark
+                    ? "pack://application:,,,/Iris.App;component/Themes/Iris.Dark.xaml"
+                    : "pack://application:,,,/Iris.App;component/Themes/Iris.Light.xaml",
+                UriKind.Absolute),
+        };
+
+        for (var index = 0; index < dictionaries.Count; index++)
+        {
+            var source = dictionaries[index].Source?.OriginalString;
+            if (source is not null && IrisThemeDictionaryNames.Any(name => source.EndsWith(name, StringComparison.OrdinalIgnoreCase)))
+            {
+                dictionaries[index] = target;
+                return;
+            }
+        }
+
+        dictionaries.Add(target);
     }
 
     private void SafeApplySystemTheme()

@@ -67,6 +67,7 @@ public sealed class AppHostBuilderTests
         var translatePresenter = host.Services.GetService<ITranslateWindowPresenter>();
         var hotkeyService = host.Services.GetService<IHotkeyService>();
         var hotkeyCoordinator = host.Services.GetService<HotkeyCoordinator>();
+        var windowMaterialService = host.Services.GetService<WindowMaterialService>();
 
 
         settingsService.ShouldNotBeNull();
@@ -87,6 +88,8 @@ public sealed class AppHostBuilderTests
         translatePresenter.ShouldNotBeNull();
         hotkeyService.ShouldNotBeNull();
         hotkeyCoordinator.ShouldNotBeNull();
+        windowMaterialService.ShouldNotBeNull();
+        host.Services.GetRequiredService<ThemeService>().HasWindowMaterialService.ShouldBeTrue();
         uiDispatcher.ShouldBeOfType<WpfUiDispatcher>();
         actionDispatcher.ShouldBeOfType<ActionDispatcher>();
         clipboardService.ShouldBeOfType<Win32ClipboardService>();

@@ -1,0 +1,20 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Opaque equivalents of the IrisAcrylic* keys, so the cards keep their separation on a flat
+         background.
+         Not merged in phase 1: nothing wires this dictionary up yet, and it holds one set of values
+         only - dark theme without acrylic would render white cards, while TextFillColorPrimaryBrush
+         is white in dark theme, so the card text would disappear along with the row descriptions
+         (design section 3.2 asks for a single merged dictionary; not merging it in phase 1 is
+         recorded as a deviation in the phase report). A Dark variant has to land before this
+         dictionary is merged, and the merge must come AFTER the theme dictionary: later entries in
+         MergedDictionaries win, and these values must win over the translucent set.
+         The two strokes are alpha 31 and alpha 26 composited over white
+         (#1F000000 -> #E0E0E0, #1A000000 -> #E5E5E5), deliberately stronger than the light acrylic
+         set (#14000000 -> #EBEBEB, #0F000000 -> #F0F0F0), for the same reason that set is faint:
+         a 1px line disappears against a flat fill. -->
+    <SolidColorBrush x:Key="IrisAcrylicCardFillBrush" Color="#FFFFFFFF" />
+    <SolidColorBrush x:Key="IrisAcrylicCardStrokeBrush" Color="#FFE0E0E0" />
+    <SolidColorBrush x:Key="IrisAcrylicRowFillBrush" Color="#FFF9F9F9" />
+    <SolidColorBrush x:Key="IrisAcrylicRowStrokeBrush" Color="#FFE5E5E5" />
+</ResourceDictionary>

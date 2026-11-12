@@ -8,6 +8,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ui:ThemesDictionary Theme="Light" />
                 <ui:ControlsDictionary />
+                <ResourceDictionary Source="Themes/Iris.Light.xaml" />
+                <ResourceDictionary Source="Themes/Iris.Styles.xaml" />
                 <ResourceDictionary Source="Resources/EditingMenus.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

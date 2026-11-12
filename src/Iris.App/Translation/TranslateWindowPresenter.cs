@@ -509,6 +509,9 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
         {
             scope = _serviceProvider.CreateScope();
             window = scope.ServiceProvider.GetRequiredService<TranslateWindow>();
+            // Deliberately optional, same reason as SettingsWindowPresenter: there are 24 construction
+            // sites for this presenter in tests, and none of them register the service.
+            scope.ServiceProvider.GetService<WindowMaterialService>()?.Attach(window);
             vm = scope.ServiceProvider.GetRequiredService<TranslateWindowViewModel>();
 
             window.DataContext = vm;

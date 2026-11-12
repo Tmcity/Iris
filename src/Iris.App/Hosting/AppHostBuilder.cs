@@ -79,6 +79,7 @@ internal static class AppHostBuilder
         builder.Services.AddSingleton<GlobalExceptionHandler>();
         builder.Services.AddSingleton<LogLevelController>();
         builder.Services.AddSingleton<ThemeService>();
+        builder.Services.AddSingleton<WindowMaterialService>();
         builder.Services.AddSingleton<TrayIconController>();
         builder.Services.AddSingleton<TrayNotificationService>();
         builder.Services.AddSingleton<ScreenshotOcrFeedback>();

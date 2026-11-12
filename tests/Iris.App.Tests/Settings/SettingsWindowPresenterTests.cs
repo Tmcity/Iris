@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
 using Shouldly;
+using Wpf.Ui.Controls;
 using Xunit;
 
 namespace Iris.App.Tests.Settings;
@@ -80,6 +81,45 @@ public sealed class SettingsWindowPresenterTests
                 window.Close();
             }
             return Task.CompletedTask;
+        });
+    }
+
+    [Fact]
+    public async Task ShowAsync_AppliesAcrylic_WhenTheSystemSupportsIt()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var services = new ServiceCollection();
+            var settingsService = Substitute.For<ISettingsService>();
+            settingsService.Current.Returns(new AppSettings());
+
+            var autoStartService = Substitute.For<IAutoStartService>();
+            var uiDispatcher = new ImmediateUiDispatcher();
+            // 假的版本号与支持探测：真机上是否支持不影响这条断言。
+            var materialService = new WindowMaterialService(() => 26100, () => true);
+
+            services.AddSingleton(settingsService);
+            services.AddSingleton(autoStartService);
+            services.AddSingleton<IUiDispatcher>(uiDispatcher);
+            services.AddSingleton(materialService);
+            services.AddSingleton<ThemeService>();
+            services.AddScoped<GeneralSettingsSaveCoordinator>(sp =>
+                new GeneralSettingsSaveCoordinator(settingsService, new TestSettingsEditCoordinator(settingsService), autoStartService, NullLogger<GeneralSettingsSaveCoordinator>.Instance));
+            services.AddScoped<SettingsViewModel>();
+            services.AddTransient<SettingsWindow>();
+
+            using var rootProvider = services.BuildServiceProvider();
+            var presenter = new SettingsWindowPresenter(rootProvider, uiDispatcher, NullLogger<SettingsWindowPresenter>.Instance);
+            try
+            {
+                await presenter.ShowAsync("general");
+                var window = presenter.ActiveSession!.Window;
+                window.WindowBackdropType.ShouldBe(WindowBackdropType.Acrylic);
+            }
+            finally
+            {
+                await presenter.ShutdownAsync();
+            }
         });
     }
 

@@ -1,6 +1,7 @@
 using System.ComponentModel;
 using Iris.App.Capture;
 using Iris.App.Hosting;
+using Iris.App.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Iris.App.History;
@@ -22,7 +23,11 @@ internal sealed class HistoryWindowSession(IServiceScope scope, IUiDispatcher ui
         if (Window == null)
         {
             ViewModel = scope.ServiceProvider.GetRequiredService<HistoryViewModel>();
-            Window = scope.ServiceProvider.GetRequiredService<HistoryWindow>();
+            var window = scope.ServiceProvider.GetRequiredService<HistoryWindow>();
+            Window = window;
+            // Deliberately optional, same reason as SettingsWindowPresenter: the tests that build this
+            // session do not register the service.
+            scope.ServiceProvider.GetService<WindowMaterialService>()?.Attach(window);
             Window.DataContext = ViewModel;
             Window.Closing += OnClosing;
             Window.Closed += OnClosed;

@@ -227,10 +227,25 @@ public static class WpfTestRunner
             var app = new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
             app.Resources.MergedDictionaries.Add(new Wpf.Ui.Markup.ThemesDictionary { Theme = Wpf.Ui.Appearance.ApplicationTheme.Light });
             app.Resources.MergedDictionaries.Add(new Wpf.Ui.Markup.ControlsDictionary());
+            AddIrisDictionaries(app.Resources.MergedDictionaries);
             app.Resources.MergedDictionaries.Add(new ResourceDictionary
             {
                 Source = new Uri("pack://application:,,,/Iris.App;component/Resources/EditingMenus.xaml", UriKind.Absolute)
             });
         }
+    }
+
+    // App.xaml 的合并字典在测试宿主里不生效：这里的 Application 是自建的，从不加载 App.xaml。
+    // App.xaml 里合并了什么，就要在这里补什么。顺序与 App.xaml 一致。
+    private static void AddIrisDictionaries(System.Collections.ObjectModel.Collection<ResourceDictionary> dictionaries)
+    {
+        dictionaries.Add(new ResourceDictionary
+        {
+            Source = new Uri("pack://application:,,,/Iris.App;component/Themes/Iris.Light.xaml", UriKind.Absolute)
+        });
+        dictionaries.Add(new ResourceDictionary
+        {
+            Source = new Uri("pack://application:,,,/Iris.App;component/Themes/Iris.Styles.xaml", UriKind.Absolute)
+        });
     }
 }
