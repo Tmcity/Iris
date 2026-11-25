@@ -752,10 +752,13 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
 
     internal void OnWindowIsVisibleChanged(bool isVisible)
     {
+        TranslateWindowViewModel? vm;
         lock (_gate)
         {
             _isVisibleSnapshot = isVisible;
+            vm = _viewModel;
         }
+        vm?.OnWindowVisibilityChanged(isVisible);
     }
 
     internal IDisposable BeginCaptureSuppression()

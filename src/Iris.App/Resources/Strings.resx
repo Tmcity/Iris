@@ -1222,7 +1222,10 @@ Iris 命令行用法：
     <value>去设置</value>
   </data>
   <data name="TranslateInputPlaceholder" xml:space="preserve">
-    <value>输入文本，按 Enter 翻译…</value>
+    <value>输入文本，停顿后自动翻译；按 Enter 立即翻译</value>
+  </data>
+  <data name="TranslateTo" xml:space="preserve">
+    <value>译为</value>
   </data>
   <data name="TranslateInputTooLong" xml:space="preserve">
     <value>输入文本超出最大字符限制</value>

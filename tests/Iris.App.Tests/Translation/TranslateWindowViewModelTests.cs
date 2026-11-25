@@ -18,6 +18,7 @@ using Iris.Core.Translation;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using NSubstitute;
+using Microsoft.Extensions.Time.Testing;
 using Shouldly;
 using Xunit;
 
@@ -30,7 +31,8 @@ public sealed class TranslateWindowViewModelTests
         IUiDispatcher? uiDispatcher = null,
         ITextPreprocessor? textPreprocessor = null,
         ILogger<TranslateWindowViewModel>? logger = null,
-        IClipboardService? clipboard = null)
+        IClipboardService? clipboard = null,
+        TimeProvider? timeProvider = null)
     {
         var appSettings = settings ?? new AppSettings
         {
@@ -63,7 +65,8 @@ public sealed class TranslateWindowViewModelTests
             settingsPresenter,
             dispatcher,
             logger ?? NullLogger<TranslateWindowViewModel>.Instance,
-            preprocessor);
+            preprocessor,
+            timeProvider);
 
         return (vm, orchestrator, cb, settingsService);
     }
@@ -1427,6 +1430,807 @@ public sealed class TranslateWindowViewModelTests
         }
     }
 
+    [Fact]
+    public async Task DetectedSourceLanguageText_ShowsLocalizedNameOnlyWhenSourceIsAutoAndResolved()
+    {
+        var (vm, orchestrator, _, _) = CreateViewModel();
+        var presenter = new TranslateWindowPresenter(
+            Substitute.For<IServiceProvider>(),
+            new ImmediateUiDispatcher(),
+            Substitute.For<ISettingsService>(),
+            Substitute.For<IDesktopContext>(),
+            NullLogger<TranslateWindowPresenter>.Instance);
+        vm.AttachPresenter(presenter);
+
+        var changedProps = new List<string?>();
+        vm.PropertyChanged += (_, e) => changedProps.Add(e.PropertyName);
+
+        static async IAsyncEnumerable<TranslationEvent> MockStream(string resolvedSource)
+        {
+            var reqId = Guid.NewGuid();
+            var p1 = new ProviderDescriptor("p1", "Provider One", "OpenAICompatible", "gpt-4o", true);
+            yield return new TranslationStarted(reqId, new ResolvedLanguagePair(resolvedSource, "zh-Hans", false), [p1]);
+            yield return new ProviderCompleted(reqId, "p1", "ok", TimeSpan.FromMilliseconds(50), false, false, null);
+            yield return new TranslationFinished(reqId, 1, 0);
+        }
+
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(_ => MockStream("en"));
+
+        vm.SourceLanguage.ShouldBe(LanguageCodes.Auto);
+        vm.HasDetectedSourceLanguage.ShouldBeFalse();
+        vm.DetectedSourceLanguageText.ShouldBe(string.Empty);
+
+        var op1 = new TranslateWindowOperation(presenter, CancellationToken.None);
+        vm.ApplyRequest(new TranslateWindowRequest { Text = "Hello", AutoTranslate = true }, op1);
+        await vm.WaitForActiveWorkAsync();
+
+        var expectedEnName = vm.AvailableSourceLanguages.First(l => l.Code == "en").DisplayName;
+        vm.HasDetectedSourceLanguage.ShouldBeTrue();
+        vm.DetectedSourceLanguageText.ShouldBe(expectedEnName);
+        changedProps.ShouldContain(nameof(TranslateWindowViewModel.DetectedSourceLanguageText));
+        changedProps.ShouldContain(nameof(TranslateWindowViewModel.HasDetectedSourceLanguage));
+
+        // Changing SourceLanguage to "en" clears detected source
+        vm.SourceLanguage = "en";
+        vm.HasDetectedSourceLanguage.ShouldBeFalse();
+        vm.DetectedSourceLanguageText.ShouldBe(string.Empty);
+
+        // Changing SourceLanguage back to Auto remains empty (no stale detection)
+        vm.SourceLanguage = LanguageCodes.Auto;
+        vm.HasDetectedSourceLanguage.ShouldBeFalse();
+        vm.DetectedSourceLanguageText.ShouldBe(string.Empty);
+
+        // Resolve again, then SwapLanguagesCommand clears detected source
+        var op2 = new TranslateWindowOperation(presenter, CancellationToken.None);
+        vm.ApplyRequest(new TranslateWindowRequest { Text = "Hello again", AutoTranslate = true }, op2);
+        await vm.WaitForActiveWorkAsync();
+        vm.HasDetectedSourceLanguage.ShouldBeTrue();
+
+        vm.SwapLanguagesCommand.Execute(null);
+        vm.HasDetectedSourceLanguage.ShouldBeFalse();
+        vm.DetectedSourceLanguageText.ShouldBe(string.Empty);
+
+        // Reset to Auto, resolve again, then ApplyRequest with replacement Text (AutoTranslate = false) clears detected source
+        vm.SourceLanguage = LanguageCodes.Auto;
+        vm.TargetLanguage = "zh-Hans";
+        var op3 = new TranslateWindowOperation(presenter, CancellationToken.None);
+        vm.ApplyRequest(new TranslateWindowRequest { Text = "Hello third", AutoTranslate = true }, op3);
+        await vm.WaitForActiveWorkAsync();
+        vm.HasDetectedSourceLanguage.ShouldBeTrue();
+        vm.CanSwapLanguages.ShouldBeTrue();
+        changedProps.Clear();
+        var op4 = new TranslateWindowOperation(presenter, CancellationToken.None);
+        vm.ApplyRequest(new TranslateWindowRequest { Text = "Replaced", AutoTranslate = false }, op4);
+        vm.HasDetectedSourceLanguage.ShouldBeFalse();
+        vm.DetectedSourceLanguageText.ShouldBe(string.Empty);
+        vm.CanSwapLanguages.ShouldBeFalse();
+        changedProps.ShouldContain(nameof(TranslateWindowViewModel.CanSwapLanguages));
+        // When TranslationStarted resolves "auto" or empty, HasDetectedSourceLanguage stays false
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(_ => MockStream(LanguageCodes.Auto));
+        var op5 = new TranslateWindowOperation(presenter, CancellationToken.None);
+        vm.ApplyRequest(new TranslateWindowRequest { Text = "Auto resolved", AutoTranslate = true }, op5);
+        await vm.WaitForActiveWorkAsync();
+        vm.HasDetectedSourceLanguage.ShouldBeFalse();
+    }
+
+    [Fact]
+    public async Task HasStaleResults_BecomesTrueOnUserEditWithCards_AndResetsOnNewTranslation()
+    {
+        var (vm, orchestrator, _, _) = CreateViewModel();
+        var presenter = new TranslateWindowPresenter(
+            Substitute.For<IServiceProvider>(),
+            new ImmediateUiDispatcher(),
+            Substitute.For<ISettingsService>(),
+            Substitute.For<IDesktopContext>(),
+            NullLogger<TranslateWindowPresenter>.Instance);
+        vm.AttachPresenter(presenter);
+
+        var changedProps = new List<string?>();
+        vm.PropertyChanged += (_, e) => changedProps.Add(e.PropertyName);
+
+        async IAsyncEnumerable<TranslationEvent> MockStream()
+        {
+            var reqId = Guid.NewGuid();
+            var p1 = new ProviderDescriptor("p1", "Provider One", "OpenAICompatible", "gpt-4o", true);
+            yield return new TranslationStarted(reqId, new ResolvedLanguagePair("en", "zh-Hans", false), [p1]);
+            yield return new ProviderCompleted(reqId, "p1", "ok", TimeSpan.FromMilliseconds(50), false, false, null);
+            yield return new TranslationFinished(reqId, 1, 0);
+        }
+
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(_ => MockStream());
+
+        // Editing InputText when Cards is empty keeps HasStaleResults == false
+        vm.InputText = "draft";
+        vm.HasStaleResults.ShouldBeFalse();
+
+        // Translate to create cards
+        vm.ExecuteTranslateFromUser();
+        await vm.WaitForActiveWorkAsync();
+        vm.Cards.Count.ShouldBe(1);
+        vm.HasStaleResults.ShouldBeFalse();
+
+        // Editing InputText with cards sets HasStaleResults == true
+        changedProps.Clear();
+        vm.InputText = "edited";
+        vm.HasStaleResults.ShouldBeTrue();
+        changedProps.ShouldContain(nameof(TranslateWindowViewModel.HasStaleResults));
+
+        // Starting a new translation resets HasStaleResults to false
+        vm.ExecuteTranslateFromUser();
+        vm.HasStaleResults.ShouldBeFalse();
+        await vm.WaitForActiveWorkAsync();
+
+        // Changing SourceLanguage marks HasStaleResults == true
+        vm.SourceLanguage = "en";
+        vm.HasStaleResults.ShouldBeTrue();
+        vm.ExecuteTranslateFromUser();
+        await vm.WaitForActiveWorkAsync();
+        vm.HasStaleResults.ShouldBeFalse();
+
+        // Changing TargetLanguage marks HasStaleResults == true
+        vm.TargetLanguage = "ja";
+        vm.HasStaleResults.ShouldBeTrue();
+        vm.ExecuteTranslateFromUser();
+        await vm.WaitForActiveWorkAsync();
+        vm.HasStaleResults.ShouldBeFalse();
+
+        // Invoking SwapLanguagesCommand marks HasStaleResults == true
+        vm.SwapLanguagesCommand.Execute(null);
+        vm.HasStaleResults.ShouldBeTrue();
+        vm.ExecuteTranslateFromUser();
+        await vm.WaitForActiveWorkAsync();
+        vm.HasStaleResults.ShouldBeFalse();
+
+        // Calling ExecuteStop during translation does NOT mark HasStaleResults == true
+        var tcs = new TaskCompletionSource();
+        async IAsyncEnumerable<TranslationEvent> HangingStream([EnumeratorCancellation] CancellationToken ct = default)
+        {
+            var reqId = Guid.NewGuid();
+            var p1 = new ProviderDescriptor("p1", "Provider One", "OpenAICompatible", "gpt-4o", true);
+            yield return new TranslationStarted(reqId, new ResolvedLanguagePair("en", "zh-Hans", false), [p1]);
+            await tcs.Task.WaitAsync(ct);
+        }
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(ci => HangingStream(ci.Arg<CancellationToken>()));
+
+        vm.ExecuteTranslateFromUser();
+        vm.StopCommand.Execute(null);
+        vm.HasStaleResults.ShouldBeFalse();
+        tcs.TrySetResult();
+        await vm.WaitForActiveWorkAsync();
+    }
+
+    [Fact]
+    public void InputLengthAndErrorPartition_ComputesIsInputTooLongAndErrorFlags()
+    {
+        var settings = new AppSettings
+        {
+            Translation = new TranslationSettings { MaxInputChars = 10 }
+        };
+        var (vm, _, _, _) = CreateViewModel(settings: settings);
+
+        var changedProps = new List<string?>();
+        vm.PropertyChanged += (_, e) => changedProps.Add(e.PropertyName);
+
+        vm.InputText = new string('a', 11);
+        vm.IsInputTooLong.ShouldBeTrue();
+        changedProps.ShouldContain(nameof(TranslateWindowViewModel.IsInputTooLong));
+
+        vm.InputText = new string('a', 5);
+        vm.IsInputTooLong.ShouldBeFalse();
+
+        // Empty input -> InputEmpty
+        vm.InputText = "   ";
+        vm.ExecuteTranslateFromUser();
+        vm.Error.ShouldNotBeNull();
+        vm.Error!.Code.ShouldBe(ErrorCode.InputEmpty);
+        vm.IsInputValidationError.ShouldBeTrue();
+        vm.HasGeneralError.ShouldBeFalse();
+        vm.HasVisibleStatus.ShouldBeFalse();
+
+        // Over-limit input -> InputTooLong
+        vm.InputText = new string('x', 11);
+        vm.ExecuteTranslateFromUser();
+        vm.Error.ShouldNotBeNull();
+        vm.Error!.Code.ShouldBe(ErrorCode.InputTooLong);
+        vm.IsInputValidationError.ShouldBeTrue();
+        vm.HasGeneralError.ShouldBeFalse();
+
+        // ApplyRequest with general error + status
+        var presenter = new TranslateWindowPresenter(
+            Substitute.For<IServiceProvider>(),
+            new ImmediateUiDispatcher(),
+            Substitute.For<ISettingsService>(),
+            Substitute.For<IDesktopContext>(),
+            NullLogger<TranslateWindowPresenter>.Instance);
+        var op = new TranslateWindowOperation(presenter, CancellationToken.None);
+        vm.ApplyRequest(new TranslateWindowRequest
+        {
+            Error = new ErrorInfo(ErrorCode.NotConfigured, "not configured"),
+            StatusMessage = "Ready"
+        }, op);
+        vm.IsInputValidationError.ShouldBeFalse();
+        vm.HasGeneralError.ShouldBeTrue();
+        vm.HasVisibleStatus.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void ProviderResultCardViewModel_ProviderInitial_ReturnsUppercaseFirstCharacter()
+    {
+        static ProviderResultCardViewModel MakeCard(string displayName) =>
+            new(Guid.NewGuid(), "p1", displayName, null, Guid.NewGuid(), _ => { }, _ => { }, _ => { }, _ => false);
+
+        MakeCard("DeepL").ProviderInitial.ShouldBe("D");
+        MakeCard("openai").ProviderInitial.ShouldBe("O");
+        MakeCard("  claude ").ProviderInitial.ShouldBe("C");
+        MakeCard("\u767E\u5EA6").ProviderInitial.ShouldBe("\u767E");
+        MakeCard("").ProviderInitial.ShouldBe("?");
+        MakeCard("   ").ProviderInitial.ShouldBe("?");
+    }
+    private static TranslateWindowPresenter AttachTestPresenter(TranslateWindowViewModel vm)
+    {
+        var presenter = new TranslateWindowPresenter(
+            Substitute.For<IServiceProvider>(),
+            new ImmediateUiDispatcher(),
+            Substitute.For<ISettingsService>(),
+            Substitute.For<IDesktopContext>(),
+            NullLogger<TranslateWindowPresenter>.Instance);
+        vm.AttachPresenter(presenter);
+        return presenter;
+    }
+    [Fact]
+    public async Task AutoTranslateDebounce_InputEdit_FiresAt1000MsAndResetsOnSubsequentEdit()
+    {
+        var fakeTime = new FakeTimeProvider();
+        var (vm, orchestrator, _, _) = CreateViewModel(timeProvider: fakeTime);
+        AttachTestPresenter(vm);
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(_ => EmptyStream());
+
+        vm.InputText = "hello";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(999));
+        orchestrator.DidNotReceive().TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+        vm.InputText = "hello world";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(999));
+        orchestrator.DidNotReceive().TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+        fakeTime.Advance(TimeSpan.FromMilliseconds(1));
+        await vm.WaitForActiveWorkAsync();
+
+        orchestrator.Received(1).TranslateAsync(
+            Arg.Is<TranslationRequest>(r =>
+                r.Text == "hello world" &&
+                r.Origin == TextOrigin.Input &&
+                r.RecordHistory == true),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task AutoTranslateDebounce_LanguageChangeAndSwap_FiresAfter1000Ms()
+    {
+        var fakeTime = new FakeTimeProvider();
+
+        var (vm, orchestrator, _, _) = CreateViewModel(timeProvider: fakeTime);
+        AttachTestPresenter(vm);
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(_ => EmptyStream());
+
+        vm.InputText = "hello";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(1000));
+        await vm.WaitForActiveWorkAsync();
+        orchestrator.Received(1).TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+        vm.SourceLanguage = "en";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(999));
+        orchestrator.Received(1).TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+        fakeTime.Advance(TimeSpan.FromMilliseconds(1));
+        await vm.WaitForActiveWorkAsync();
+        orchestrator.Received(2).TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+        vm.TargetLanguage = "ja";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(1000));
+        await vm.WaitForActiveWorkAsync();
+        orchestrator.Received(3).TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+        vm.SwapLanguagesCommand.Execute(null);
+        fakeTime.Advance(TimeSpan.FromMilliseconds(1000));
+        await vm.WaitForActiveWorkAsync();
+        orchestrator.Received(4).TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task AutoTranslateDebounce_ManualTranslateImmediatelyCancelsPendingTimer()
+    {
+        var fakeTime = new FakeTimeProvider();
+        var (vm, orchestrator, _, _) = CreateViewModel(timeProvider: fakeTime);
+        AttachTestPresenter(vm);
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(_ => EmptyStream());
+
+        vm.InputText = "hello";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(500));
+
+        vm.TranslateCommand.Execute(null);
+        await vm.WaitForActiveWorkAsync();
+
+        orchestrator.Received(1).TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+        fakeTime.Advance(TimeSpan.FromMilliseconds(2000));
+        await vm.WaitForActiveWorkAsync();
+
+        orchestrator.Received(1).TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task AutoTranslateDebounce_ProgrammaticApplyRequest_DoesNotScheduleDebounce()
+    {
+        var fakeTime = new FakeTimeProvider();
+        var (vm, orchestrator, _, _) = CreateViewModel(timeProvider: fakeTime);
+
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(_ => EmptyStream());
+        var presenter = new TranslateWindowPresenter(
+            Substitute.For<IServiceProvider>(),
+            new ImmediateUiDispatcher(),
+            Substitute.For<ISettingsService>(),
+            Substitute.For<IDesktopContext>(),
+            NullLogger<TranslateWindowPresenter>.Instance);
+        var op = new TranslateWindowOperation(presenter, CancellationToken.None);
+        // First schedule a user debounce, then overwrite with programmatic ApplyRequest(AutoTranslate: false)
+        vm.InputText = "user draft";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(500));
+
+        vm.ApplyRequest(new TranslateWindowRequest { Text = "from clipboard", AutoTranslate = false }, op);
+
+        fakeTime.Advance(TimeSpan.FromMilliseconds(2000));
+        await vm.WaitForActiveWorkAsync();
+
+        orchestrator.DidNotReceive().TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task AutoTranslateDebounce_EmptyWhitespaceOrTooLong_DoesNotTriggerOrSetError()
+    {
+        var fakeTime = new FakeTimeProvider();
+        var settings = new AppSettings
+        {
+            Translation = new TranslationSettings { MaxInputChars = 10 }
+        };
+        var (vm, orchestrator, _, _) = CreateViewModel(settings: settings, timeProvider: fakeTime);
+
+        vm.InputText = "";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(2000));
+        vm.Error.ShouldBeNull();
+
+        vm.InputText = "   \t\r\n  ";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(2000));
+        vm.Error.ShouldBeNull();
+
+        vm.InputText = new string('a', 11);
+        fakeTime.Advance(TimeSpan.FromMilliseconds(2000));
+        vm.Error.ShouldBeNull();
+
+        await vm.WaitForActiveWorkAsync();
+        orchestrator.DidNotReceive().TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task AutoTranslateDebounce_ImeComposing_SuppressesUntilCommitWithRealTextChange()
+    {
+        var fakeTime = new FakeTimeProvider();
+
+        var (vm, orchestrator, _, _) = CreateViewModel(timeProvider: fakeTime);
+        AttachTestPresenter(vm);
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(_ => EmptyStream());
+
+        vm.InputText = "initial";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(1000));
+        await vm.WaitForActiveWorkAsync();
+        orchestrator.Received(1).TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+        // Start IME composition, edit text, advance 2000ms -> suppressed
+        vm.SetImeComposing(true);
+        vm.InputText = "initial nihao";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(2000));
+        orchestrator.Received(1).TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+        // Commit IME with changed text -> schedules 1000ms debounce
+        vm.SetImeComposing(false);
+        fakeTime.Advance(TimeSpan.FromMilliseconds(999));
+        orchestrator.Received(1).TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+        fakeTime.Advance(TimeSpan.FromMilliseconds(1));
+        await vm.WaitForActiveWorkAsync();
+        orchestrator.Received(2).TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+        // Start IME composition, edit text, then revert to exact same text before commit -> no trigger
+        vm.SetImeComposing(true);
+        vm.InputText = "initial nihao temp";
+        vm.InputText = "initial nihao";
+        vm.SetImeComposing(false);
+        fakeTime.Advance(TimeSpan.FromMilliseconds(2000));
+        await vm.WaitForActiveWorkAsync();
+        orchestrator.Received(2).TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task AutoTranslateDebounce_WindowHiddenOrVisibilityFalse_CancelsAndSuppresses()
+    {
+        var fakeTime = new FakeTimeProvider();
+
+        var (vm, orchestrator, _, _) = CreateViewModel(timeProvider: fakeTime);
+        AttachTestPresenter(vm);
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(_ => EmptyStream());
+
+        vm.InputText = "hello";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(500));
+        vm.OnWindowHidden();
+        fakeTime.Advance(TimeSpan.FromMilliseconds(2000));
+        orchestrator.DidNotReceive().TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+        // Editing while hidden does not trigger
+        vm.InputText = "still hidden";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(2000));
+        orchestrator.DidNotReceive().TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+        // After visibility restored, new edit triggers after 1000ms
+        vm.OnWindowVisibilityChanged(true);
+        vm.InputText = "visible again";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(1000));
+        await vm.WaitForActiveWorkAsync();
+        orchestrator.Received(1).TranslateAsync(
+            Arg.Is<TranslationRequest>(r => r.Text == "visible again"),
+            Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public void AutoTranslateDebounce_Dispose_CancelsPendingTimerCleanly()
+    {
+        var fakeTime = new FakeTimeProvider();
+
+        var (vm, orchestrator, _, _) = CreateViewModel(timeProvider: fakeTime);
+        AttachTestPresenter(vm);
+        vm.InputText = "hello";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(500));
+        vm.Dispose();
+
+        fakeTime.Advance(TimeSpan.FromMilliseconds(2000));
+        orchestrator.DidNotReceive().TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task AutoTranslateDebounce_EditDuringInflightTranslation_CancelsCurrentAndSchedulesNext()
+    {
+        var fakeTime = new FakeTimeProvider();
+
+        var (vm, orchestrator, _, _) = CreateViewModel(timeProvider: fakeTime);
+        AttachTestPresenter(vm);
+        var firstStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var firstCanceled = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        async IAsyncEnumerable<TranslationEvent> BlockingStream([EnumeratorCancellation] CancellationToken ct = default)
+        {
+            var p1 = new ProviderDescriptor("p1", "Provider One", "OpenAICompatible", "gpt-4o", true);
+            yield return new TranslationStarted(Guid.NewGuid(), new ResolvedLanguagePair("en", "zh-Hans", false), [p1]);
+            firstStarted.TrySetResult();
+            try
+            {
+                await Task.Delay(Timeout.InfiniteTimeSpan, ct);
+            }
+            catch (OperationCanceledException)
+            {
+                firstCanceled.TrySetResult();
+                throw;
+            }
+            yield break;
+        }
+
+        int callCount = 0;
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(ci =>
+            {
+                int n = Interlocked.Increment(ref callCount);
+                return n == 1
+                    ? BlockingStream(ci.Arg<CancellationToken>())
+                    : EmptyStream();
+            });
+
+        vm.InputText = "first";
+        vm.TranslateCommand.Execute(null);
+        await firstStarted.Task;
+
+        // Edit during in-flight translation -> cancels current, marks HasStaleResults, schedules next
+        vm.InputText = "second";
+        await firstCanceled.Task;
+        vm.HasStaleResults.ShouldBeTrue();
+
+        fakeTime.Advance(TimeSpan.FromMilliseconds(1000));
+        await vm.WaitForActiveWorkAsync();
+
+        orchestrator.Received(2).TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task AutoTranslateDebounce_Stop_CancelsPendingTimer()
+    {
+        var fakeTime = new FakeTimeProvider();
+
+        var (vm, orchestrator, _, _) = CreateViewModel(timeProvider: fakeTime);
+        AttachTestPresenter(vm);
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(_ => EmptyStream());
+
+        vm.InputText = "hello";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(500));
+        vm.StopCommand.Execute(null);
+
+        fakeTime.Advance(TimeSpan.FromMilliseconds(2000));
+        await vm.WaitForActiveWorkAsync();
+
+        orchestrator.DidNotReceive().TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task AutoTranslateDebounce_SkipsWhenTextAndLanguagesMatchLastInitiatedTranslation()
+    {
+        var fakeTime = new FakeTimeProvider();
+        var (vm, orchestrator, _, _) = CreateViewModel(timeProvider: fakeTime);
+        AttachTestPresenter(vm);
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(_ => EmptyStream());
+
+        vm.InputText = "hello";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(1000));
+        await vm.WaitForActiveWorkAsync();
+        orchestrator.Received(1).TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+        // Edit away and revert to exact same text before 1000ms -> no auto-translate
+        vm.InputText = "hello!";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(500));
+        vm.InputText = "hello";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(2000));
+        await vm.WaitForActiveWorkAsync();
+        orchestrator.Received(1).TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+        // Switch TargetLanguage away and back before 1000ms -> no auto-translate
+        vm.TargetLanguage = "ja";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(500));
+        vm.TargetLanguage = "zh-Hans";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(2000));
+        await vm.WaitForActiveWorkAsync();
+        orchestrator.Received(1).TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+        // Manual re-translate still works
+        vm.TranslateCommand.Execute(null);
+        await vm.WaitForActiveWorkAsync();
+        orchestrator.Received(2).TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
+    public async Task AutoTranslateDebounce_ImeComposing_CancelClearsPendingAndLanguageChangeTriggersAfterCommit()
+    {
+        var fakeTime = new FakeTimeProvider();
+        var (vm, orchestrator, _, _) = CreateViewModel(timeProvider: fakeTime);
+        AttachTestPresenter(vm);
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(_ => EmptyStream());
+
+        // ExecuteStop during IME composition cancels _pendingDebounceAfterIme
+        vm.SetImeComposing(true);
+        vm.InputText = "draft";
+        vm.StopCommand.Execute(null);
+        vm.SetImeComposing(false);
+        fakeTime.Advance(TimeSpan.FromMilliseconds(2000));
+        await vm.WaitForActiveWorkAsync();
+        orchestrator.DidNotReceive().TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+        // Changing TargetLanguage during IME composition (without changing text) triggers debounce 1000ms after commit
+        vm.SetImeComposing(true);
+        vm.TargetLanguage = "ja";
+        fakeTime.Advance(TimeSpan.FromMilliseconds(2000));
+        orchestrator.DidNotReceive().TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+        vm.SetImeComposing(false);
+        fakeTime.Advance(TimeSpan.FromMilliseconds(999));
+        orchestrator.DidNotReceive().TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+        fakeTime.Advance(TimeSpan.FromMilliseconds(1));
+        await vm.WaitForActiveWorkAsync();
+        orchestrator.Received(1).TranslateAsync(
+            Arg.Is<TranslationRequest>(r => r.Text == "draft" && r.TargetLanguage == "ja"),
+            Arg.Any<CancellationToken>());
+    }
+    private static async IAsyncEnumerable<TranslationEvent> EmptyStream()
+    {
+        await Task.CompletedTask;
+        yield break;
+    }
+    [Fact]
+    public async Task EarlyDebounceTimerCallback_ReArmsForRemainingDelayAndTriggersTranslation()
+    {
+        var fakeTime = new Microsoft.Extensions.Time.Testing.FakeTimeProvider();
+        var skewedTime = new SkewedTimestampTimeProvider(fakeTime, TimeSpan.Zero);
+        var settings = new AppSettings { Translation = new TranslationSettings { AutoCopy = AutoCopyMode.None, MaxInputChars = 5000 } };
+        var (vm, orchestrator, _, _) = CreateViewModel(settings: settings, timeProvider: skewedTime);
+        try
+        {
+            orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+                .Returns(_ => EmptyStream());
+            AttachTestPresenter(vm);
+            vm.OnWindowVisibilityChanged(true);
+            vm.InputText = "hello";
+            orchestrator.DidNotReceive().TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+            // Simulate QPC reading 990ms when the 1000ms timer fires.
+            skewedTime.Skew = TimeSpan.FromMilliseconds(-10);
+            fakeTime.Advance(TimeSpan.FromMilliseconds(1000));
+            orchestrator.DidNotReceive().TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>());
+
+            // Reset skew to 0 so the re-armed 10ms timer sees >= 1000ms elapsed.
+            skewedTime.Skew = TimeSpan.Zero;
+            fakeTime.Advance(TimeSpan.FromMilliseconds(10));
+            await vm.WaitForActiveWorkAsync();
+            orchestrator.Received(1).TranslateAsync(
+                Arg.Is<TranslationRequest>(r => r.Text == "hello"),
+                Arg.Any<CancellationToken>());
+        }
+        finally
+        {
+            vm.Dispose();
+        }
+    }
+
+    [Fact]
+    public async Task CanceledApplyRequest_DoesNotCancelLivePendingDebounceTimer()
+    {
+        var fakeTime = new Microsoft.Extensions.Time.Testing.FakeTimeProvider();
+        var (vm, orchestrator, _, _) = CreateViewModel(timeProvider: fakeTime);
+        try
+        {
+            orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+                .Returns(_ => EmptyStream());
+            vm.OnWindowVisibilityChanged(true);
+
+            vm.InputText = "pending";
+            fakeTime.Advance(TimeSpan.FromMilliseconds(500));
+
+            var presenter = AttachTestPresenter(vm);
+            using var canceledOp = new TranslateWindowOperation(presenter, CancellationToken.None);
+            canceledOp.Cancel();
+            vm.ApplyRequest(
+                new TranslateWindowRequest { Text = "ignored", AutoTranslate = false },
+                canceledOp).ShouldBeFalse();
+
+            fakeTime.Advance(TimeSpan.FromMilliseconds(500));
+            await vm.WaitForActiveWorkAsync();
+            orchestrator.Received(1).TranslateAsync(
+                Arg.Is<TranslationRequest>(r => r.Text == "pending"),
+                Arg.Any<CancellationToken>());
+        }
+        finally
+        {
+            vm.Dispose();
+        }
+    }
+
+    [Fact]
+    public async Task AcceptedApplyRequestWithUpdateText_ClearsImeComposingState()
+    {
+        var fakeTime = new Microsoft.Extensions.Time.Testing.FakeTimeProvider();
+        var settings = new AppSettings { Translation = new TranslationSettings { MaxInputChars = 5000 } };
+        var (vm, orchestrator, _, _) = CreateViewModel(settings: settings, timeProvider: fakeTime);
+        try
+        {
+            orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+                .Returns(_ => EmptyStream());
+            vm.OnWindowVisibilityChanged(true);
+            vm.SetImeComposing(true);
+
+            var presenter = AttachTestPresenter(vm);
+            using var op = new TranslateWindowOperation(presenter, CancellationToken.None);
+            vm.ApplyRequest(
+                new TranslateWindowRequest { Text = "ocr text", AutoTranslate = false },
+                op).ShouldBeTrue();
+
+            // Subsequent user edit should debounce normally without being suppressed by stale IME state.
+            vm.InputText = "ocr text edited";
+            fakeTime.Advance(TimeSpan.FromMilliseconds(1000));
+            await vm.WaitForActiveWorkAsync();
+            orchestrator.Received(1).TranslateAsync(
+                Arg.Is<TranslationRequest>(r => r.Text == "ocr text edited"),
+                Arg.Any<CancellationToken>());
+        }
+        finally
+        {
+            vm.Dispose();
+        }
+    }
+
+    [Fact]
+    public async Task AcceptedApplyRequestWithChangedTextAndNoAutoTranslate_MarksExistingCardsStale()
+    {
+        var fakeTime = new Microsoft.Extensions.Time.Testing.FakeTimeProvider();
+        var (vm, orchestrator, _, _) = CreateViewModel(timeProvider: fakeTime);
+        var provider = new ProviderDescriptor("openai", "OpenAI", "OpenAI", "gpt-4o-mini", true);
+        async IAsyncEnumerable<TranslationEvent> Stream(Guid requestId)
+        {
+            yield return new TranslationStarted(requestId, new ResolvedLanguagePair("en", "zh-Hans", false), [provider]);
+            await Task.CompletedTask;
+        }
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(ci => Stream(ci.Arg<TranslationRequest>().RequestId));
+
+        vm.OnWindowVisibilityChanged(true);
+
+        var presenter = AttachTestPresenter(vm);
+        using var op1 = new TranslateWindowOperation(presenter, CancellationToken.None);
+        vm.ApplyRequest(
+            new TranslateWindowRequest { Text = "first", AutoTranslate = true },
+            op1).ShouldBeTrue();
+        for (var i = 0; i < 20 && vm.Cards.Count == 0; i++) await Task.Delay(10, TestContext.Current.CancellationToken);
+        vm.Cards.Count.ShouldBeGreaterThan(0);
+        vm.HasStaleResults.ShouldBeFalse();
+
+        using var op2 = new TranslateWindowOperation(presenter, CancellationToken.None);
+        vm.ApplyRequest(
+            new TranslateWindowRequest { Text = "second", AutoTranslate = false },
+            op2).ShouldBeTrue();
+
+        vm.HasStaleResults.ShouldBeTrue();
+    }
+    [Fact]
+    public void ProviderResultCardViewModel_HasError_TracksErrorMessageAndResetsOnRetry()
+    {
+        var card = new ProviderResultCardViewModel(
+            operationId: Guid.NewGuid(),
+            providerId: "p1",
+            displayName: "Provider 1",
+            model: "m1",
+            requestId: Guid.NewGuid(),
+            onRetry: _ => { },
+            onCopy: _ => { },
+            onGoToSettings: _ => { },
+            canRetryPredicate: _ => true);
+
+        var changedProperties = new List<string?>();
+        card.PropertyChanged += (_, e) => changedProperties.Add(e.PropertyName);
+
+        card.HasError.ShouldBeFalse();
+
+        card.SetCompleted("ok", TimeSpan.FromMilliseconds(10), fromCache: false, isModelTruncated: false, isLocallyTruncated: false);
+        card.HasError.ShouldBeFalse();
+
+        changedProperties.Clear();
+        card.SetFailed("Request failed", showSettings: false, TimeSpan.FromMilliseconds(20));
+        card.HasError.ShouldBeTrue();
+        changedProperties.ShouldContain(nameof(ProviderResultCardViewModel.HasError));
+
+        changedProperties.Clear();
+        card.ResetForRetry(Guid.NewGuid());
+        card.HasError.ShouldBeFalse();
+        changedProperties.ShouldContain(nameof(ProviderResultCardViewModel.HasError));
+    }
+
+    private sealed class SkewedTimestampTimeProvider(TimeProvider inner, TimeSpan initialSkew) : TimeProvider
+    {
+        public TimeSpan Skew { get; set; } = initialSkew;
+
+        public override long TimestampFrequency => inner.TimestampFrequency;
+
+        public override long GetTimestamp() =>
+            inner.GetTimestamp() + (long)(Skew.TotalSeconds * TimestampFrequency);
+
+        public override DateTimeOffset GetUtcNow() => inner.GetUtcNow();
+
+        public override ITimer CreateTimer(TimerCallback callback, object? state, TimeSpan dueTime, TimeSpan period) =>
+            inner.CreateTimer(callback, state, dueTime, period);
+    }
+
     private sealed class ThrowingDisposeAsyncEnumerable : IAsyncEnumerable<TranslationEvent>
     {
         private readonly Guid _reqId;
@@ -1453,6 +2257,59 @@ public sealed class TranslateWindowViewModelTests
             }
             public ValueTask DisposeAsync() => throw new InvalidOperationException("DisposeAsync failed");
         }
+    }
+
+    [Fact]
+    public async Task SwapLanguagesCommand_RaisesCanExecuteChanged_WhenResolvedOrLanguagesChange()
+    {
+        var (vm, orchestrator, _, _) = CreateViewModel();
+        var presenter = AttachTestPresenter(vm);
+
+        int canExecChangedCount = 0;
+        vm.SwapLanguagesCommand.CanExecuteChanged += (_, _) => canExecChangedCount++;
+
+        vm.SourceLanguage = "auto";
+        vm.TargetLanguage = "zh-Hans";
+        vm.SwapLanguagesCommand.CanExecute(null).ShouldBeFalse();
+
+        static async IAsyncEnumerable<TranslationEvent> ResolvedStream()
+        {
+            await Task.Yield();
+            yield return new TranslationStarted(
+                Guid.NewGuid(),
+                new ResolvedLanguagePair("en", "zh-Hans", false),
+                [new ProviderDescriptor("p1", "P1", "Kind", null, true)]);
+            yield return new TranslationFinished(Guid.NewGuid(), 1, 0);
+        }
+
+        orchestrator.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(_ => ResolvedStream());
+
+        canExecChangedCount = 0;
+        vm.InputText = "hello";
+        vm.ExecuteTranslateFromUser();
+        await vm.WaitForActiveWorkAsync();
+
+        canExecChangedCount.ShouldBeGreaterThanOrEqualTo(1);
+        vm.SwapLanguagesCommand.CanExecute(null).ShouldBeTrue();
+
+        canExecChangedCount = 0;
+        var op = new TranslateWindowOperation(presenter, CancellationToken.None);
+        vm.ApplyRequest(new TranslateWindowRequest { Text = "new", AutoTranslate = false }, op);
+        canExecChangedCount.ShouldBeGreaterThanOrEqualTo(1);
+        vm.SwapLanguagesCommand.CanExecute(null).ShouldBeFalse();
+
+        canExecChangedCount = 0;
+        vm.SourceLanguage = "en";
+        canExecChangedCount.ShouldBeGreaterThanOrEqualTo(1);
+        vm.SwapLanguagesCommand.CanExecute(null).ShouldBeTrue();
+
+        canExecChangedCount = 0;
+        vm.TargetLanguage = "en";
+        canExecChangedCount.ShouldBeGreaterThanOrEqualTo(1);
+        vm.SwapLanguagesCommand.CanExecute(null).ShouldBeFalse();
+
+        await vm.WaitForActiveWorkAsync();
     }
 
     private sealed class TestDiagnosticLogger<T> : Microsoft.Extensions.Logging.ILogger<T>

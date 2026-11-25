@@ -67,7 +67,27 @@ internal sealed class ProviderResultCardViewModel : INotifyPropertyChanged
     public string DisplayName
     {
         get => _displayName;
-        private set => SetField(ref _displayName, value);
+        private set
+        {
+            if (SetField(ref _displayName, value))
+            {
+                OnPropertyChanged(nameof(ProviderInitial));
+            }
+        }
+    }
+
+    public string ProviderInitial
+    {
+        get
+        {
+            var trimmed = DisplayName?.Trim();
+            if (string.IsNullOrEmpty(trimmed))
+            {
+                return "?";
+            }
+
+            return System.Globalization.StringInfo.GetNextTextElement(trimmed).ToUpperInvariant();
+        }
     }
 
     public string? Model
@@ -169,8 +189,16 @@ internal sealed class ProviderResultCardViewModel : INotifyPropertyChanged
     public string? ErrorMessage
     {
         get => _errorMessage;
-        set => SetField(ref _errorMessage, value);
+        set
+        {
+            if (SetField(ref _errorMessage, value))
+            {
+                OnPropertyChanged(nameof(HasError));
+            }
+        }
     }
+
+    public bool HasError => !string.IsNullOrEmpty(_errorMessage);
 
     public bool ShowGoToSettings
     {

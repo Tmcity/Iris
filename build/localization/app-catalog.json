@@ -1376,8 +1376,12 @@
     "en-US": "Open settings"
   },
   "TranslateInputPlaceholder": {
-    "zh-CN": "输入文本，按 Enter 翻译…",
-    "en-US": "Enter text and press Enter to translate…"
+    "zh-CN": "输入文本，停顿后自动翻译；按 Enter 立即翻译",
+    "en-US": "Type to translate automatically, or press Enter"
+  },
+  "TranslateTo": {
+    "zh-CN": "译为",
+    "en-US": "To"
   },
   "TranslateInputTooLong": {
     "zh-CN": "输入文本超出最大字符限制",

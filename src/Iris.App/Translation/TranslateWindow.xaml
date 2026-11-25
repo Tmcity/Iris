@@ -1,359 +1,656 @@
 <ui:FluentWindow x:Class="Iris.App.Translation.TranslateWindow"
-                  x:ClassModifier="internal"
-                  ExtendsContentIntoTitleBar="True"
-                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-                  xmlns:app="clr-namespace:Iris.App"
-                  xmlns:local="clr-namespace:Iris.App.Translation"
-                  Title="{x:Static app:UiText.TranslateWindowTitle}"
-                  Width="{Binding WindowWidth, FallbackValue=460}"
-                  MinWidth="280"
-                  MaxWidth="1200"
-                  Height="480"
-                  MinHeight="300"
-                  Topmost="{Binding Topmost, FallbackValue=True}"
-                  WindowStartupLocation="Manual"
-                  ShowInTaskbar="False"
-                  Closing="OnWindowClosing"
-                  Activated="OnWindowActivated"
-                  Deactivated="OnWindowDeactivated"
-                  IsVisibleChanged="OnWindowIsVisibleChanged"
-                  PreviewKeyDown="OnWindowPreviewKeyDown"
-                  LocationChanged="OnWindowLocationChanged"
-                  SizeChanged="OnWindowSizeChanged">
+                 x:ClassModifier="internal"
+                 ExtendsContentIntoTitleBar="True"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 xmlns:app="clr-namespace:Iris.App"
+                 xmlns:local="clr-namespace:Iris.App.Translation"
+                 Title="{x:Static app:UiText.TranslateWindowTitle}"
+                 Width="{Binding WindowWidth, FallbackValue=460}"
+                 MinWidth="280"
+                 MaxWidth="1200"
+                 Height="480"
+                 MinHeight="300"
+                 Topmost="{Binding Topmost, FallbackValue=False}"
+                 WindowStartupLocation="Manual"
+                 ShowInTaskbar="False"
+                 Closing="OnWindowClosing"
+                 Activated="OnWindowActivated"
+                 Deactivated="OnWindowDeactivated"
+                 IsVisibleChanged="OnWindowIsVisibleChanged"
+                 PreviewKeyDown="OnWindowPreviewKeyDown"
+                 LocationChanged="OnWindowLocationChanged"
+                 SizeChanged="OnWindowSizeChanged">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Window.Resources>
 
     <Grid Background="{DynamicResource IrisAcrylicTintBrush}">
-    <DockPanel Margin="12,8,12,12">
+        <DockPanel Margin="12,8,12,12">
+            <!-- Top bar: source language + detected label, drag spacer, pin + settings -->
+            <Grid DockPanel.Dock="Top"
+                  Margin="0,0,0,8"
+                  Background="Transparent"
+                  MouseLeftButtonDown="OnTitleBarMouseDown">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-        <!-- 顶栏：拖拽手柄、钉住、设置、关闭 -->
-        <Grid DockPanel.Dock="Top" Margin="0,0,0,8" MouseLeftButtonDown="OnTitleBarMouseDown" Background="Transparent">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <ComboBox x:Name="SourceLangComboBox"
+                              Style="{StaticResource IrisGhostComboBox}"
+                              MaxWidth="148"
+                              ItemsSource="{Binding AvailableSourceLanguages}"
+                              SelectedValue="{Binding SourceLanguage, Mode=TwoWay}"
+                              SelectedValuePath="Code"
+                              AutomationProperties.Name="{x:Static app:UiText.AccessibilitySourceLanguage}">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding DisplayName}"
+                                           TextTrimming="CharacterEllipsis"
+                                           ToolTip="{Binding DisplayName}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
 
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                <TextBlock Text="{x:Static app:UiText.TranslateWindowTitle}"
-                           FontWeight="SemiBold"
-                           FontSize="12"
-                           Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-            </StackPanel>
-
-            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                <!-- 钉住按钮 -->
-                <ui:Button x:Name="PinButton"
-                           Content="📌"
-                           Command="{Binding PinCommand}"
-                           ToolTip="{x:Static app:UiText.TranslatePinWindow}" AutomationProperties.Name="{x:Static app:UiText.TranslatePinWindow}"
-                           Appearance="{Binding IsPinned, Converter={x:Null}}"
-                           Padding="6,2"
-                           Margin="0,0,4,0"
-                           MinWidth="28" />
-
-                <!-- 设置按钮 -->
-                <ui:Button x:Name="SettingsButton"
-                           Content="⚙"
-                           Command="{Binding GoToSettingsCommand}"
-                           ToolTip="{x:Static app:UiText.TranslateSettings}" AutomationProperties.Name="{x:Static app:UiText.TranslateSettings}"
-                           Padding="6,2"
-                           Margin="0,0,4,0"
-                           MinWidth="28" />
-
-                <!-- 关闭按钮 -->
-                <ui:Button x:Name="CloseButton"
-                           Content="✕"
-                           Click="OnCloseButtonClick"
-                           ToolTip="{x:Static app:UiText.TranslateClose}" AutomationProperties.Name="{x:Static app:UiText.TranslateClose}"
-                           Padding="6,2"
-                           MinWidth="28" />
-            </StackPanel>
-        </Grid>
-
-        <ScrollViewer x:Name="ContentScrollViewer" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Disabled">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-        <!-- 语言选择与操作行 -->
-        <Grid x:Name="LanguageControlsGrid" Grid.Row="0" Margin="0,0,0,8">
-            <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" MinWidth="48" MaxWidth="150" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" MinWidth="48" MaxWidth="150" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <!-- 源语言 -->
-            <ComboBox x:Name="SourceLangComboBox" AutomationProperties.Name="{x:Static app:UiText.AccessibilitySourceLanguage}"
-                      Grid.Column="0"
-                      ItemsSource="{Binding AvailableSourceLanguages}"
-                      SelectedValue="{Binding SourceLanguage, Mode=TwoWay}"
-                      SelectedValuePath="Code"
-                      HorizontalContentAlignment="Stretch"
-                      HorizontalAlignment="Stretch">
-                <ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding DisplayName}" TextWrapping="Wrap" ToolTip="{Binding DisplayName}"/></DataTemplate></ComboBox.ItemTemplate>
-            </ComboBox>
-
-            <!-- 交换按钮 -->
-            <ui:Button x:Name="SwapLanguagesButton"
-                       Grid.Column="1"
-                       Content="⇄"
-                       Command="{Binding SwapLanguagesCommand}"
-                       ToolTip="{x:Static app:UiText.TranslateSwapLanguages}" AutomationProperties.Name="{x:Static app:UiText.TranslateSwapLanguages}"
-                       Margin="4,0"
-                       Padding="4,2" />
-
-            <!-- 目标语言 -->
-            <ComboBox x:Name="TargetLangComboBox" AutomationProperties.Name="{x:Static app:UiText.AccessibilityTargetLanguage}"
-                      Grid.Column="2"
-                      ItemsSource="{Binding AvailableTargetLanguages}"
-                      SelectedValue="{Binding TargetLanguage, Mode=TwoWay}"
-                      SelectedValuePath="Code"
-                      HorizontalContentAlignment="Stretch"
-                      HorizontalAlignment="Stretch">
-                <ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding DisplayName}" TextWrapping="Wrap" ToolTip="{Binding DisplayName}"/></DataTemplate></ComboBox.ItemTemplate>
-            </ComboBox>
-
-            <!-- 翻译 / 停止 按钮 -->
-            <StackPanel x:Name="LanguageActionsPanel" Grid.Column="3" Orientation="Horizontal" Margin="4,0,0,0">
-                <ui:Button x:Name="StopButton"
-                           Content="{x:Static app:UiText.TranslateStopButton}"
-                           Command="{Binding StopCommand}"
-                           Visibility="{Binding IsTranslating, Converter={StaticResource BoolToVis}}"
-                           Appearance="Caution"
-                           Padding="8,3" />
-                <ui:Button x:Name="TranslateButton"
-                           Content="{x:Static app:UiText.TranslateButton}"
-                           Command="{Binding TranslateCommand}"
-                           Appearance="Primary"
-                           Padding="8,3">
-                    <ui:Button.Style>
-                        <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
-                            <Setter Property="Visibility" Value="Visible" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsTranslating}" Value="True">
-                                    <Setter Property="Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </ui:Button.Style>
-                </ui:Button>
-            </StackPanel>
-        </Grid>
-
-        <!-- 原文输入区 -->
-        <Border Grid.Row="1"
-                Margin="0,0,0,8"
-                BorderThickness="1"
-                BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
-                CornerRadius="4"
-                Padding="4">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <TextBox x:Name="InputTextBox"
-                         AutomationProperties.Name="{x:Static app:UiText.AccessibilitySourceText}"
-                         Grid.Row="0"
-                         Text="{Binding InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         MaxHeight="200"
-                         MinHeight="48"
-                         VerticalScrollBarVisibility="Auto"
-                         TextWrapping="Wrap"
-                         AcceptsReturn="True"
-                         FontSize="{Binding FontSize, FallbackValue=14}"
-                         BorderThickness="0"
-                         Background="Transparent"
-                         PreviewKeyDown="OnInputTextBoxPreviewKeyDown" />
-
-                <TextBlock Grid.Row="1"
-                           HorizontalAlignment="Right"
-                           FontSize="10"
-                           Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                           Margin="0,2,4,0">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0} / {1}">
-                            <Binding Path="InputLength" />
-                            <Binding Path="MaxInputChars" />
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-            </Grid>
-        </Border>
-
-        <!-- 状态与错误条 -->
-        <StackPanel Grid.Row="2" Margin="0,0,0,6">
-            <!-- 状态信息 -->
-            <TextBlock x:Name="StatusMessageTextBlock"
-                       Text="{Binding StatusMessage}"
-                       TextWrapping="Wrap"
-                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                       FontSize="11"
-                       Visibility="{Binding HasStatus, Converter={StaticResource BoolToVis}}"
-                       Margin="2,0,0,4" />
-
-            <!-- 错误信息 -->
-            <Border BorderBrush="{DynamicResource SystemFillColorCautionBrush}"
-                    BorderThickness="1"
-                    CornerRadius="4"
-                    Padding="6,4"
-                    Visibility="{Binding HasError, Converter={StaticResource BoolToVis}}"
-                    Margin="0,0,0,4">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding Error.Message}"
-                               Foreground="{DynamicResource SystemFillColorCautionBrush}"
-                               FontSize="11"
+                    <TextBlock x:Name="DetectedSourceLanguageTextBlock"
+                               Text="{Binding DetectedSourceLanguageText}"
+                               FontSize="12"
+                               Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                               TextTrimming="CharacterEllipsis"
+                               MaxWidth="72"
+                               Margin="4,0,0,0"
                                VerticalAlignment="Center"
-                               TextWrapping="Wrap" />
-                    <ui:Button Grid.Column="1"
-                               Content="{x:Static app:UiText.TranslateGoToSettings}"
-                               Command="{Binding GoToSettingsCommand}"
-                               Visibility="{Binding ShowGoToSettingsForError, Converter={StaticResource BoolToVis}}"
-                               Padding="6,2"
-                               FontSize="11" />
-                </Grid>
-            </Border>
-        </StackPanel>
+                               Visibility="{Binding HasDetectedSourceLanguage, Converter={StaticResource BoolToVis}}"
+                               ToolTip="{Binding DetectedSourceLanguageText}" />
+                </StackPanel>
 
-        <!-- 结果卡片列表 -->
-        <ScrollViewer Grid.Row="3"
-                      x:Name="CardsScrollViewer"
-                      VerticalScrollBarVisibility="Auto"
-                      HorizontalScrollBarVisibility="Disabled">
-            <ScrollViewer.Style>
-                <Style TargetType="ScrollViewer" BasedOn="{StaticResource {x:Type ScrollViewer}}">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding Cards.Count}" Value="0"><Setter Property="Visibility" Value="Collapsed"/></DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ScrollViewer.Style>
-            <ItemsControl ItemsSource="{Binding Cards}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="{x:Type local:ProviderResultCardViewModel}">
-                        <ui:Card Margin="0,0,0,8" Padding="10">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
+                <Border Grid.Column="1"
+                        MinWidth="12"
+                        Background="Transparent" />
 
-                                <!-- 卡片顶栏 -->
-                                <Grid Grid.Row="0" Margin="0,0,0,6">
-                                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/></Grid.RowDefinitions>
+                <StackPanel Grid.Column="2"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <ui:Button x:Name="PinButton"
+                               Width="28"
+                               Height="28"
+                               Margin="0,0,2,0"
+                               Command="{Binding PinCommand}">
+                        <ui:Button.Style>
+                            <Style TargetType="ui:Button" BasedOn="{StaticResource IrisIconButton}">
+                                <Setter Property="Icon" Value="{ui:SymbolIcon Pin16}" />
+                                <Setter Property="Content" Value="{x:Static app:UiText.TranslatePinWindow}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsPinned}" Value="True">
+                                        <Setter Property="Icon" Value="{ui:SymbolIcon Pin16, Filled=True}" />
+                                        <Setter Property="Foreground" Value="{DynamicResource AccentTextFillColorPrimaryBrush}" />
+                                        <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                                        <Setter Property="Content" Value="{x:Static app:UiText.TranslateUnpinWindow}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ui:Button.Style>
+                    </ui:Button>
+
+                    <ui:Button x:Name="SettingsButton"
+                               Style="{StaticResource IrisIconButton}"
+                               Width="28"
+                               Height="28"
+                               Icon="{ui:SymbolIcon Settings16}"
+                               Content="{x:Static app:UiText.TranslateSettings}"
+                               Command="{Binding GoToSettingsCommand}" />
+                </StackPanel>
+            </Grid>
+
+            <!-- Main Content -->
+            <ScrollViewer x:Name="ContentScrollViewer"
+                          VerticalScrollBarVisibility="Disabled"
+                          HorizontalScrollBarVisibility="Disabled">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Row 0: Source Text Card -->
+                    <Border Grid.Row="0">
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource IrisCompactCard}">
+                                <Style.Triggers>
+                                    <Trigger Property="IsKeyboardFocusWithin" Value="True">
+                                        <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="0">
+                                <TextBox x:Name="InputTextBox"
+                                         Style="{StaticResource IrisBorderlessTextBox}"
+                                         AutomationProperties.Name="{x:Static app:UiText.AccessibilitySourceText}"
+                                         Text="{Binding InputText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                         MinHeight="48"
+                                         MaxHeight="200"
+                                         AcceptsReturn="True"
+                                         TextWrapping="Wrap"
+                                         VerticalScrollBarVisibility="Auto"
+                                         FontSize="{Binding FontSize, FallbackValue=14}"
+                                         PreviewKeyDown="OnInputTextBoxPreviewKeyDown" />
+
+                                <TextBlock x:Name="InputPlaceholderTextBlock"
+                                           IsHitTestVisible="False"
+                                           Text="{x:Static app:UiText.TranslateInputPlaceholder}"
+                                           FontSize="{Binding FontSize, FallbackValue=14}"
+                                           Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                                           TextWrapping="Wrap"
+                                           Margin="2,1,2,0"
+                                           VerticalAlignment="Top">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding InputLength}" Value="0">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                </TextBlock>
+                            </Grid>
+
+                            <Grid Grid.Row="1"
+                                  Margin="0,6,0,0"
+                                  MinHeight="24">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Grid Grid.Column="0"
+                                      VerticalAlignment="Center">
                                     <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
 
-                                    <!-- 服务名称与模型 -->
-                                    <StackPanel Grid.ColumnSpan="2" VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding DisplayName}"
-                                                   TextWrapping="Wrap"
-                                                   FontWeight="SemiBold"
-                                                   FontSize="12"
-                                                   Margin="0,0,6,0" />
-                                        <TextBlock Text="{Binding Model}"
-                                                   TextWrapping="Wrap"
-                                                   FontSize="11"
-                                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                                                   VerticalAlignment="Center" />
-                                    </StackPanel>
+                                    <ui:Button x:Name="StopButton"
+                                               Grid.Column="0"
+                                               Visibility="{Binding IsTranslating, Converter={StaticResource BoolToVis}}"
+                                               Command="{Binding StopCommand}"
+                                               Content="{x:Static app:UiText.TranslateStopButton}"
+                                               Icon="{ui:SymbolIcon Stop16}"
+                                               Appearance="Secondary"
+                                               Padding="8,3"
+                                               FontSize="12"
+                                               Margin="0,0,6,0"
+                                               AutomationProperties.Name="{x:Static app:UiText.TranslateStopButton}" />
 
-                                    <!-- 耗时、徽章与操作按钮 -->
-                                    <WrapPanel Grid.Row="1" Grid.ColumnSpan="2" Margin="0,4,0,0" VerticalAlignment="Center">
-                                        <!-- 耗时 -->
-                                        <TextBlock Text="{Binding ElapsedText}"
-                                                   FontSize="10"
-                                                   Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                                                   VerticalAlignment="Center"
-                                                   Margin="0,0,6,0" />
+                                    <TextBlock x:Name="InputValidationErrorTextBlock"
+                                               Grid.Column="1"
+                                               Text="{Binding Error.Message}"
+                                               Visibility="{Binding IsInputValidationError, Converter={StaticResource BoolToVis}}"
+                                               Foreground="{DynamicResource SystemFillColorCriticalBrush}"
+                                               FontSize="12"
+                                               TextWrapping="Wrap"
+                                               VerticalAlignment="Center" />
 
-                                        <!-- 缓存徽章 -->
-                                        <Border Background="{DynamicResource SubtleFillColorSecondaryBrush}"
-                                                CornerRadius="3"
-                                                Padding="4,1"
-                                                Margin="0,0,4,0"
-                                                Visibility="{Binding FromCache, Converter={StaticResource BoolToVis}}">
-                                            <TextBlock Text="{x:Static app:UiText.TranslateFromCache}" FontSize="10" />
-                                        </Border>
-
-                                        <!-- 复制按钮 -->
-                                        <ui:Button Content="{x:Static app:UiText.TranslateCopy}"
-                                                   Command="{Binding CopyCommand}"
-                                                   ToolTip="{Binding CopyTooltip}"
-                                                   Padding="6,2"
-                                                   FontSize="11"
-                                                   Margin="0,0,4,0"
-                                                   IsEnabled="{Binding CanCopy}" />
-
-                                        <!-- 重试按钮 -->
-                                        <ui:Button Content="{x:Static app:UiText.TranslateRetry}"
-                                                   Command="{Binding RetryCommand}"
-                                                   ToolTip="{x:Static app:UiText.TranslateRetry}" AutomationProperties.Name="{x:Static app:UiText.TranslateRetry}"
-                                                   Padding="6,2"
-                                                   FontSize="11"
-                                                   Margin="0,0,4,0"
-                                                   Visibility="{Binding CanRetry, Converter={StaticResource BoolToVis}}" />
-
-                                        <!-- 去设置按钮 -->
-                                        <ui:Button Content="{x:Static app:UiText.TranslateGoToSettings}"
-                                                   Command="{Binding GoToSettingsCommand}"
-                                                   Padding="6,2"
-                                                   FontSize="11"
-                                                   Visibility="{Binding ShowGoToSettings, Converter={StaticResource BoolToVis}}" />
-                                    </WrapPanel>
+                                    <TextBlock x:Name="StatusMessageTextBlock"
+                                               Grid.Column="1"
+                                               Text="{Binding StatusMessage}"
+                                               Visibility="{Binding HasVisibleStatus, Converter={StaticResource BoolToVis}}"
+                                               Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                               FontSize="12"
+                                               TextWrapping="Wrap"
+                                               VerticalAlignment="Center" />
                                 </Grid>
 
-                                <!-- 截断提示或错误提示 -->
-                                <StackPanel Grid.Row="1" Margin="0,0,0,4">
-                                    <TextBlock Text="{x:Static app:UiText.TranslateLocalTruncated}"
-                                               TextWrapping="Wrap"
-                                               Foreground="{DynamicResource SystemFillColorCautionBrush}"
-                                               FontSize="11"
-                                               Visibility="{Binding IsLocallyTruncated, Converter={StaticResource BoolToVis}}" />
-                                    <TextBlock Text="{x:Static app:UiText.TranslateModelTruncated}"
-                                               TextWrapping="Wrap"
-                                               Foreground="{DynamicResource SystemFillColorCautionBrush}"
-                                               FontSize="11"
-                                               Visibility="{Binding IsModelTruncated, Converter={StaticResource BoolToVis}}" />
-                                    <TextBlock Text="{Binding ErrorMessage}"
-                                               Foreground="{DynamicResource SystemFillColorCautionBrush}"
-                                               FontSize="11"
-                                               TextWrapping="Wrap" />
-                                </StackPanel>
-
-                                <!-- 译文正文（只读、可选、关闭 Undo） -->
-                                <TextBox Grid.Row="2"
-                                         Text="{Binding Text, Mode=OneWay}"
-                                         IsReadOnly="True"
-                                         TextWrapping="Wrap"
-                                         UndoLimit="0"
-                                         BorderThickness="0"
-                                         Background="Transparent"
-                                         FontSize="{Binding DataContext.FontSize, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" />
+                                <TextBlock x:Name="InputCharCountTextBlock"
+                                           Grid.Column="1"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Right"
+                                           Margin="8,0,0,0"
+                                           FontSize="11">
+                                    <TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsInputTooLong}" Value="True">
+                                                    <Setter Property="Foreground" Value="{DynamicResource SystemFillColorCriticalBrush}" />
+                                                    <Setter Property="FontWeight" Value="SemiBold" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </TextBlock.Style>
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="{}{0} / {1}">
+                                            <Binding Path="InputLength" />
+                                            <Binding Path="MaxInputChars" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
                             </Grid>
-                        </ui:Card>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-        </ScrollViewer>
-        </Grid>
-        </ScrollViewer>
-    </DockPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Row 1: Target Language Divider Row -->
+                    <Grid Grid.Row="1" Margin="0,10,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <ui:Button x:Name="SwapLanguagesButton"
+                                   Grid.Column="0"
+                                   Style="{StaticResource IrisIconButton}"
+                                   Width="28"
+                                   Height="28"
+                                   Icon="{ui:SymbolIcon ArrowSwap20, FontSize=14}"
+                                   Content="{x:Static app:UiText.TranslateSwapLanguages}"
+                                   Command="{Binding SwapLanguagesCommand}" />
+
+                        <TextBlock x:Name="TargetLanguageLabelTextBlock"
+                                   Grid.Column="1"
+                                   Text="{x:Static app:UiText.TranslateTo}"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                   VerticalAlignment="Center"
+                                   Margin="4,0,4,0" />
+
+                        <ComboBox x:Name="TargetLangComboBox"
+                                  Grid.Column="2"
+                                  Style="{StaticResource IrisGhostComboBox}"
+                                  MaxWidth="184"
+                                  ItemsSource="{Binding AvailableTargetLanguages}"
+                                  SelectedValue="{Binding TargetLanguage, Mode=TwoWay}"
+                                  SelectedValuePath="Code"
+                                  AutomationProperties.Name="{x:Static app:UiText.AccessibilityTargetLanguage}">
+                            <ComboBox.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding DisplayName}"
+                                               TextTrimming="CharacterEllipsis"
+                                               ToolTip="{Binding DisplayName}" />
+                                </DataTemplate>
+                            </ComboBox.ItemTemplate>
+                        </ComboBox>
+
+                        <Border Grid.Column="3"
+                                Height="1"
+                                Margin="8,0,0,0"
+                                VerticalAlignment="Center"
+                                Background="{DynamicResource DividerStrokeColorDefaultBrush}" />
+                    </Grid>
+
+                    <!-- Row 2: Results Area -->
+                    <Grid Grid.Row="2">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Border x:Name="GeneralErrorBorder"
+                                Grid.Row="0"
+                                Style="{StaticResource IrisCompactCard}"
+                                Margin="0,0,0,8"
+                                Visibility="{Binding HasGeneralError, Converter={StaticResource BoolToVis}}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <ui:SymbolIcon Grid.Column="0"
+                                               Symbol="ErrorCircle16"
+                                               FontSize="14"
+                                               Foreground="{DynamicResource SystemFillColorCriticalBrush}"
+                                               Margin="0,2,8,0"
+                                               VerticalAlignment="Top" />
+
+                                <TextBlock Grid.Column="1"
+                                           Text="{Binding Error.Message}"
+                                           Foreground="{DynamicResource SystemFillColorCriticalBrush}"
+                                           FontSize="12"
+                                           TextWrapping="Wrap"
+                                           VerticalAlignment="Center" />
+
+                                <ui:Button Grid.Column="2"
+                                           Content="{x:Static app:UiText.TranslateGoToSettings}"
+                                           Command="{Binding GoToSettingsCommand}"
+                                           Visibility="{Binding ShowGoToSettingsForError, Converter={StaticResource BoolToVis}}"
+                                           Padding="8,3"
+                                           FontSize="11"
+                                           Margin="8,0,0,0"
+                                           VerticalAlignment="Center" />
+                            </Grid>
+                        </Border>
+
+                        <ScrollViewer Grid.Row="1"
+                                      x:Name="CardsScrollViewer"
+                                      VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled">
+                            <ScrollViewer.Style>
+                                <Style TargetType="ScrollViewer" BasedOn="{StaticResource {x:Type ScrollViewer}}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Cards.Count}" Value="0">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ScrollViewer.Style>
+
+                            <ItemsControl ItemsSource="{Binding Cards}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="{x:Type local:ProviderResultCardViewModel}">
+                                        <Border Style="{StaticResource IrisCompactCard}"
+                                               Margin="0,0,0,8"
+                                               Padding="0"
+                                               ClipToBounds="True">
+                                            <StackPanel>
+                                                <!-- Top 2px streaming indicator bar (always 2px tall to prevent height jump) -->
+                                                <Border Height="2"
+                                                        Margin="8,0,8,0"
+                                                        CornerRadius="0,0,1,1">
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="Background" Value="Transparent" />
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding IsStreaming}" Value="True">
+                                                                    <Setter Property="Background" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                </Border>
+
+                                                <Grid Margin="12,8,12,10">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                        <RowDefinition Height="Auto" />
+                                                    </Grid.RowDefinitions>
+
+                                                    <!-- Card Header -->
+                                                    <Grid Grid.Row="0" Margin="0,0,0,6">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                        </Grid.ColumnDefinitions>
+
+                                                        <WrapPanel Grid.Column="0"
+                                                                   Orientation="Horizontal"
+                                                                   VerticalAlignment="Center">
+                                                            <Border Width="18"
+                                                                    Height="18"
+                                                                    CornerRadius="4"
+                                                                    Margin="0,0,6,0"
+                                                                    VerticalAlignment="Center"
+                                                                    Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border">
+                                                                        <Setter Property="Opacity" Value="1.0" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding DataContext.HasStaleResults, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="True">
+                                                                                <Setter Property="Opacity" Value="0.52" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                                <TextBlock Text="{Binding ProviderInitial}"
+                                                                           FontSize="10"
+                                                                           FontWeight="SemiBold"
+                                                                           HorizontalAlignment="Center"
+                                                                           VerticalAlignment="Center"
+                                                                           Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                                                            </Border>
+
+                                                            <TextBlock Text="{Binding DisplayName}"
+                                                                       FontWeight="SemiBold"
+                                                                       FontSize="12.5"
+                                                                       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                                                                       TextTrimming="CharacterEllipsis"
+                                                                       MaxWidth="160"
+                                                                       VerticalAlignment="Center"
+                                                                       Margin="0,0,6,0">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Setter Property="Opacity" Value="1.0" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding DataContext.HasStaleResults, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="True">
+                                                                                <Setter Property="Opacity" Value="0.52" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+
+                                                            <TextBlock Text="{Binding Model}"
+                                                                       FontSize="11"
+                                                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                                                       TextTrimming="CharacterEllipsis"
+                                                                       MaxWidth="160"
+                                                                       VerticalAlignment="Center"
+                                                                       Margin="0,0,6,0">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Setter Property="Opacity" Value="1.0" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding DataContext.HasStaleResults, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="True">
+                                                                                <Setter Property="Opacity" Value="0.52" />
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Model}" Value="">
+                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding Model}" Value="{x:Null}">
+                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+
+                                                            <TextBlock Text="{Binding ElapsedText}"
+                                                                       FontSize="11"
+                                                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                                                       VerticalAlignment="Center"
+                                                                       Margin="0,0,6,0">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Setter Property="Opacity" Value="1.0" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding DataContext.HasStaleResults, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="True">
+                                                                                <Setter Property="Opacity" Value="0.52" />
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding ElapsedText}" Value="">
+                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding ElapsedText}" Value="{x:Null}">
+                                                                                <Setter Property="Visibility" Value="Collapsed" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+
+                                                            <Border Margin="0,0,4,0"
+                                                                    Visibility="{Binding FromCache, Converter={StaticResource BoolToVis}}">
+                                                                <Border.Style>
+                                                                    <Style TargetType="Border" BasedOn="{StaticResource IrisTag}">
+                                                                        <Setter Property="Opacity" Value="1.0" />
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding DataContext.HasStaleResults, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="True">
+                                                                                <Setter Property="Opacity" Value="0.52" />
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </Border.Style>
+                                                                <TextBlock Style="{StaticResource IrisTagText}"
+                                                                           Text="{x:Static app:UiText.TranslateFromCache}" />
+                                                            </Border>
+
+                                                            <Border Style="{StaticResource IrisTag}"
+                                                                    Margin="0,0,4,0"
+                                                                    Visibility="{Binding DataContext.HasStaleResults, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}, Converter={StaticResource BoolToVis}}">
+                                                                <TextBlock Style="{StaticResource IrisTagText}"
+                                                                           Text="{x:Static app:UiText.TranslateLastResult}" />
+                                                            </Border>
+                                                        </WrapPanel>
+
+                                                        <StackPanel Grid.Column="1"
+                                                                    Orientation="Horizontal"
+                                                                    VerticalAlignment="Top"
+                                                                    Margin="6,0,0,0">
+                                                            <StackPanel.Style>
+                                                                <Style TargetType="StackPanel">
+                                                                    <Setter Property="Opacity" Value="1.0" />
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding DataContext.HasStaleResults, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="True">
+                                                                            <Setter Property="Opacity" Value="0.52" />
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </StackPanel.Style>
+                                                            <ui:Button Style="{StaticResource IrisIconButton}"
+                                                                       Width="26"
+                                                                       Height="26"
+                                                                       Icon="{ui:SymbolIcon Copy16}"
+                                                                       Content="{x:Static app:UiText.TranslateCopy}"
+                                                                       Command="{Binding CopyCommand}"
+                                                                       IsEnabled="{Binding CanCopy}"
+                                                                       ToolTip="{Binding CopyTooltip}"
+                                                                       AutomationProperties.Name="{Binding CopyTooltip}" />
+
+                                                            <ui:Button Style="{StaticResource IrisIconButton}"
+                                                                       Width="26"
+                                                                       Height="26"
+                                                                       Margin="2,0,0,0"
+                                                                       Icon="{ui:SymbolIcon ArrowClockwise16}"
+                                                                       Content="{x:Static app:UiText.TranslateRetry}"
+                                                                       Command="{Binding RetryCommand}"
+                                                                       Visibility="{Binding CanRetry, Converter={StaticResource BoolToVis}}" />
+                                                        </StackPanel>
+                                                    </Grid>
+
+                                                    <!-- Warnings & Card Error -->
+                                                    <StackPanel Grid.Row="1">
+                                                        <StackPanel.Style>
+                                                            <Style TargetType="StackPanel">
+                                                                <Setter Property="Opacity" Value="1.0" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding DataContext.HasStaleResults, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="True">
+                                                                        <Setter Property="Opacity" Value="0.52" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </StackPanel.Style>
+                                                        <DockPanel Margin="0,0,0,4"
+                                                                   Visibility="{Binding IsLocallyTruncated, Converter={StaticResource BoolToVis}}">
+                                                            <ui:SymbolIcon DockPanel.Dock="Left"
+                                                                           Symbol="Warning16"
+                                                                           FontSize="12"
+                                                                           Foreground="{DynamicResource SystemFillColorCautionBrush}"
+                                                                           Margin="0,2,5,0"
+                                                                           VerticalAlignment="Top" />
+                                                            <TextBlock Text="{x:Static app:UiText.TranslateLocalTruncated}"
+                                                                       Foreground="{DynamicResource SystemFillColorCautionBrush}"
+                                                                       FontSize="11.5"
+                                                                       TextWrapping="Wrap" />
+                                                        </DockPanel>
+
+                                                        <DockPanel Margin="0,0,0,4"
+                                                                   Visibility="{Binding IsModelTruncated, Converter={StaticResource BoolToVis}}">
+                                                            <ui:SymbolIcon DockPanel.Dock="Left"
+                                                                           Symbol="Warning16"
+                                                                           FontSize="12"
+                                                                           Foreground="{DynamicResource SystemFillColorCautionBrush}"
+                                                                           Margin="0,2,5,0"
+                                                                           VerticalAlignment="Top" />
+                                                            <TextBlock Text="{x:Static app:UiText.TranslateModelTruncated}"
+                                                                       Foreground="{DynamicResource SystemFillColorCautionBrush}"
+                                                                       FontSize="11.5"
+                                                                       TextWrapping="Wrap" />
+                                                        </DockPanel>
+
+                                                        <Grid Margin="0,0,0,4"
+                                                              Visibility="{Binding HasError, Converter={StaticResource BoolToVis}}">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto" />
+                                                                <ColumnDefinition Width="*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+
+                                                            <ui:SymbolIcon Grid.Column="0"
+                                                                           Symbol="ErrorCircle16"
+                                                                           FontSize="12"
+                                                                           Foreground="{DynamicResource SystemFillColorCriticalBrush}"
+                                                                           Margin="0,2,5,0"
+                                                                           VerticalAlignment="Top" />
+
+                                                            <TextBlock Grid.Column="1"
+                                                                       Text="{Binding ErrorMessage}"
+                                                                       Foreground="{DynamicResource SystemFillColorCriticalBrush}"
+                                                                       FontSize="12"
+                                                                       TextWrapping="Wrap"
+                                                                       VerticalAlignment="Center" />
+
+                                                            <ui:Button Grid.Column="2"
+                                                                       Content="{x:Static app:UiText.TranslateGoToSettings}"
+                                                                       Command="{Binding GoToSettingsCommand}"
+                                                                       Visibility="{Binding ShowGoToSettings, Converter={StaticResource BoolToVis}}"
+                                                                       Padding="6,2"
+                                                                       FontSize="11"
+                                                                       Margin="6,0,0,0"
+                                                                       VerticalAlignment="Center" />
+                                                        </Grid>
+                                                    </StackPanel>
+
+                                                    <!-- Translated Text -->
+                                                    <TextBox Grid.Row="2"
+                                                             Text="{Binding Text, Mode=OneWay}"
+                                                             IsReadOnly="True"
+                                                             TextWrapping="Wrap"
+                                                             UndoLimit="0"
+                                                             FontSize="{Binding DataContext.FontSize, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}">
+                                                        <TextBox.Style>
+                                                            <Style TargetType="TextBox" BasedOn="{StaticResource IrisBorderlessTextBox}">
+                                                                <Setter Property="Opacity" Value="1.0" />
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding DataContext.HasStaleResults, RelativeSource={RelativeSource AncestorType=ui:FluentWindow}}" Value="True">
+                                                                        <Setter Property="Opacity" Value="0.52" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Text}" Value="">
+                                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger Binding="{Binding Text}" Value="{x:Null}">
+                                                                        <Setter Property="Visibility" Value="Collapsed" />
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBox.Style>
+                                                    </TextBox>
+                                                </Grid>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+        </DockPanel>
     </Grid>
 </ui:FluentWindow>

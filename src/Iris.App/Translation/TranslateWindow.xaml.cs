@@ -16,6 +16,10 @@ internal partial class TranslateWindow : Wpf.Ui.Controls.FluentWindow
     {
         InitializeComponent();
         DpiChanged += (s, e) => _presenter?.ReconstrainWindowPlacement();
+        TextCompositionManager.AddPreviewTextInputStartHandler(InputTextBox, OnInputPreviewTextInputStart);
+        TextCompositionManager.AddPreviewTextInputUpdateHandler(InputTextBox, OnInputPreviewTextInputUpdate);
+        TextCompositionManager.AddPreviewTextInputHandler(InputTextBox, OnInputPreviewTextInput);
+        InputTextBox.LostKeyboardFocus += OnInputTextBoxLostKeyboardFocus;
     }
 
     internal bool ForceClose { get; set; }
@@ -47,11 +51,6 @@ internal partial class TranslateWindow : Wpf.Ui.Controls.FluentWindow
                 NotifyUserPlacementChanged();
             }
         }
-    }
-
-    private void OnCloseButtonClick(object sender, RoutedEventArgs e)
-    {
-        _ = _presenter?.HideAsync();
     }
 
     private void OnWindowClosing(object? sender, CancelEventArgs e)
@@ -88,6 +87,26 @@ internal partial class TranslateWindow : Wpf.Ui.Controls.FluentWindow
     }
 
     internal static Func<ModifierKeys>? TestKeyboardModifiersProvider { get; set; }
+
+    private void OnInputPreviewTextInputStart(object sender, TextCompositionEventArgs e)
+    {
+        ViewModel?.SetImeComposing(true);
+    }
+
+    private void OnInputPreviewTextInputUpdate(object sender, TextCompositionEventArgs e)
+    {
+        ViewModel?.SetImeComposing(true);
+    }
+
+    private void OnInputPreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        ViewModel?.SetImeComposing(false);
+    }
+
+    private void OnInputTextBoxLostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+    {
+        ViewModel?.SetImeComposing(false);
+    }
 
     private void OnInputTextBoxPreviewKeyDown(object sender, KeyEventArgs e)
     {
@@ -142,27 +161,15 @@ internal partial class TranslateWindow : Wpf.Ui.Controls.FluentWindow
 
     private void OnWindowSizeChanged(object sender, SizeChangedEventArgs e)
     {
-        if (LanguageControlsGrid != null && LanguageActionsPanel != null)
-        {
-            bool shortWindow = e.NewSize.Height < 440;
-            ContentScrollViewer.VerticalScrollBarVisibility = shortWindow
-                ? System.Windows.Controls.ScrollBarVisibility.Auto : System.Windows.Controls.ScrollBarVisibility.Disabled;
-            ContentScrollViewer.Padding = shortWindow ? new Thickness(0, 0, 12, 0) : new Thickness(0);
-            CardsScrollViewer.MinHeight = shortWindow ? 160 : 0;
-            CardsScrollViewer.MaxHeight = shortWindow ? 300 : double.PositiveInfinity;
-            bool narrow = e.NewSize.Width < 420;
-            System.Windows.Controls.Grid.SetColumnSpan(SourceLangComboBox, narrow ? 3 : 1);
-            System.Windows.Controls.Grid.SetRow(TargetLangComboBox, narrow ? 1 : 0);
-            System.Windows.Controls.Grid.SetColumn(TargetLangComboBox, narrow ? 0 : 2);
-            System.Windows.Controls.Grid.SetColumnSpan(TargetLangComboBox, narrow ? 4 : 1);
-            TargetLangComboBox.Margin = narrow ? new Thickness(0, 4, 0, 0) : new Thickness(0);
-            System.Windows.Controls.Grid.SetColumn(SwapLanguagesButton, narrow ? 3 : 1);
-            System.Windows.Controls.Grid.SetRow(LanguageActionsPanel, narrow ? 2 : 0);
-            System.Windows.Controls.Grid.SetColumn(LanguageActionsPanel, narrow ? 0 : 3);
-            System.Windows.Controls.Grid.SetColumnSpan(LanguageActionsPanel, narrow ? 4 : 1);
-            LanguageActionsPanel.HorizontalAlignment = HorizontalAlignment.Right;
-            LanguageActionsPanel.Margin = narrow ? new Thickness(0, 6, 0, 0) : new Thickness(4, 0, 0, 0);
-        }
+        bool shortWindow = e.NewSize.Height < 440;
+        ContentScrollViewer.VerticalScrollBarVisibility = shortWindow
+            ? System.Windows.Controls.ScrollBarVisibility.Auto
+            : System.Windows.Controls.ScrollBarVisibility.Disabled;
+        ContentScrollViewer.Padding = shortWindow ? new Thickness(0, 0, 12, 0) : new Thickness(0);
+        CardsScrollViewer.MinHeight = shortWindow ? 160 : 0;
+        CardsScrollViewer.MaxHeight = shortWindow ? 300 : double.PositiveInfinity;
+        InputTextBox.MaxHeight = shortWindow ? 96 : 200;
+
         if (!_isUpdatingPlacement && IsLoaded)
         {
             _presenter?.ReconstrainWindowPlacement();

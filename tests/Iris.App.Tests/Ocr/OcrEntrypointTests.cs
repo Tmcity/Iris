@@ -36,11 +36,12 @@ public sealed class OcrEntrypointTests
         await s.Run(IrisAction.ScreenshotOcr, TestContext.Current.CancellationToken);
         s.Presenter.Window.ShouldBeSameAs(window);
         s.Copies.ShouldBeEmpty();
-        var translateButton = (System.Windows.Controls.Primitives.ButtonBase)window.FindName("TranslateButton");
-        translateButton.IsEnabled.ShouldBeTrue();
+        window.FindName("TranslateButton").ShouldBeNull();
+        window.FindName("CloseButton").ShouldBeNull();
+        s.Presenter.ViewModel.TranslateCommand.CanExecute(null).ShouldBeTrue();
         if (!translate)
         {
-            translateButton.Command.Execute(translateButton.CommandParameter);
+            s.Presenter.ViewModel.TranslateCommand.Execute(null);
             await s.Presenter.ViewModel.WaitForActiveWorkAsync();
             s.Translations.Count.ShouldBe(1);
         }

@@ -52,12 +52,25 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
     private string? _statusMessage;
     private ErrorInfo? _error;
     private bool _isTranslating;
+    private bool _hasStaleResults;
     private bool _isPinned;
 
     private TranslateWindowOperation? _activeOperation;
     private string _sessionOriginalText = string.Empty;
     private TextOrigin _sessionOrigin = TextOrigin.Input;
     private AutoCopyMode _sessionAutoCopyMode = AutoCopyMode.None;
+    internal static readonly TimeSpan AutoTranslateDebounceDelay = TimeSpan.FromMilliseconds(1000);
+    private readonly TimeProvider _timeProvider;
+    private readonly ITimer _debounceTimer;
+    private long _debounceGeneration;
+    private long _debounceScheduledTimestamp;
+    private bool _isWindowVisible = true;
+    private bool _isImeComposing;
+    private bool _pendingDebounceAfterIme;
+    private string _textAtImeStart = string.Empty;
+    private string _sourceLanguageAtImeStart = string.Empty;
+    private string _targetLanguageAtImeStart = string.Empty;
+    private (string PreparedText, string SourceLanguage, string TargetLanguage)? _lastInitiatedTranslation;
     private int _autoCopyClaimed;
 
     private Task? _activeMainTask;
@@ -86,7 +99,8 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         ISettingsWindowPresenter settingsPresenter,
         IUiDispatcher uiDispatcher,
         ILogger<TranslateWindowViewModel> logger,
-        ITextPreprocessor textPreprocessor)
+        ITextPreprocessor textPreprocessor,
+        TimeProvider? timeProvider = null)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
         _orchestrator = orchestrator ?? throw new ArgumentNullException(nameof(orchestrator));
@@ -95,6 +109,8 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         _uiDispatcher = uiDispatcher ?? throw new ArgumentNullException(nameof(uiDispatcher));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _textPreprocessor = textPreprocessor ?? throw new ArgumentNullException(nameof(textPreprocessor));
+        _timeProvider = timeProvider ?? TimeProvider.System;
+        _debounceTimer = _timeProvider.CreateTimer(OnDebounceTimerElapsed, null, Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
 
         var trSettings = _settingsService.Current.Translation;
         _sourceLanguage = trSettings.DefaultSourceLanguage ?? LanguageCodes.Auto;
@@ -124,6 +140,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             if (SetField(ref _inputText, value))
             {
                 OnPropertyChanged(nameof(InputLength));
+                OnPropertyChanged(nameof(IsInputTooLong));
                 OnPropertyChanged(nameof(CanTranslate));
                 ((RelayCommand)TranslateCommand).RaiseCanExecuteChanged();
 
@@ -138,6 +155,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
     public int InputLength => _inputText?.Length ?? 0;
 
     public int MaxInputChars => _settingsService.Current.Translation.MaxInputChars;
+    public bool IsInputTooLong => InputLength > MaxInputChars;
 
     public string SourceLanguage
     {
@@ -146,7 +164,11 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         {
             if (SetField(ref _sourceLanguage, value))
             {
+                _resolvedSourceLanguage = null;
+                OnPropertyChanged(nameof(DetectedSourceLanguageText));
+                OnPropertyChanged(nameof(HasDetectedSourceLanguage));
                 OnPropertyChanged(nameof(CanSwapLanguages));
+                ((RelayCommand)SwapLanguagesCommand).RaiseCanExecuteChanged();
                 if (!_programmaticTextUpdate)
                 {
                     OnUserInputChanged();
@@ -163,11 +185,41 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             if (SetField(ref _targetLanguage, value))
             {
                 OnPropertyChanged(nameof(CanSwapLanguages));
+                ((RelayCommand)SwapLanguagesCommand).RaiseCanExecuteChanged();
                 if (!_programmaticTextUpdate)
                 {
                     OnUserInputChanged();
                 }
             }
+        }
+    }
+    public string DetectedSourceLanguageText
+    {
+        get
+        {
+            if (!string.Equals(_sourceLanguage, LanguageCodes.Auto, StringComparison.OrdinalIgnoreCase) ||
+                string.IsNullOrWhiteSpace(_resolvedSourceLanguage) ||
+                string.Equals(_resolvedSourceLanguage, LanguageCodes.Auto, StringComparison.OrdinalIgnoreCase))
+            {
+                return string.Empty;
+            }
+
+            var match = AvailableSourceLanguages.FirstOrDefault(
+                l => string.Equals(l.Code, _resolvedSourceLanguage, StringComparison.OrdinalIgnoreCase));
+            return match?.DisplayName ?? _resolvedSourceLanguage;
+        }
+    }
+
+    public bool HasDetectedSourceLanguage => !string.IsNullOrEmpty(DetectedSourceLanguageText);
+
+    public bool HasStaleResults => _hasStaleResults;
+
+    private void SetHasStaleResults(bool value)
+    {
+        if (_hasStaleResults != value)
+        {
+            _hasStaleResults = value;
+            OnPropertyChanged(nameof(HasStaleResults));
         }
     }
 
@@ -208,6 +260,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             if (SetField(ref _statusMessage, value))
             {
                 OnPropertyChanged(nameof(HasStatus));
+                OnPropertyChanged(nameof(HasVisibleStatus));
             }
         }
     }
@@ -223,6 +276,9 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             {
                 OnPropertyChanged(nameof(HasError));
                 OnPropertyChanged(nameof(ShowGoToSettingsForError));
+                OnPropertyChanged(nameof(IsInputValidationError));
+                OnPropertyChanged(nameof(HasGeneralError));
+                OnPropertyChanged(nameof(HasVisibleStatus));
             }
         }
     }
@@ -230,6 +286,9 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
     public bool HasError => _error != null;
 
     public bool ShowGoToSettingsForError => _error?.Code is ErrorCode.NotConfigured or ErrorCode.AuthenticationFailed;
+    public bool IsInputValidationError => _error is { Code: ErrorCode.InputEmpty or ErrorCode.InputTooLong };
+    public bool HasGeneralError => _error is not null && !IsInputValidationError;
+    public bool HasVisibleStatus => HasStatus && !IsTranslating && !IsInputValidationError;
 
     public bool IsTranslating
     {
@@ -239,6 +298,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             if (SetField(ref _isTranslating, value))
             {
                 OnPropertyChanged(nameof(CanTranslate));
+                OnPropertyChanged(nameof(HasVisibleStatus));
                 if (TranslateCommand is RelayCommand tc)
                 {
                     tc.RaiseCanExecuteChanged();
@@ -356,10 +416,10 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
         TranslateWindowOperation? oldOp = null;
         bool updateText = request.Text != null;
+        bool textChanged = false;
         bool statusChanged;
         bool errorChanged;
         long appliedRevision;
-
         lock (_gate)
         {
             if (operation.IsRetired || operation.IsCancellationRequested || _disposed)
@@ -384,8 +444,15 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
             if (updateText)
             {
-                if (!string.Equals(_inputText, request.Text, StringComparison.Ordinal)) _inputRevision++;
+                textChanged = !string.Equals(_inputText, request.Text, StringComparison.Ordinal);
+                if (textChanged) _inputRevision++;
+                _resolvedSourceLanguage = null;
                 _inputText = request.Text!;
+                _isImeComposing = false;
+                _pendingDebounceAfterIme = false;
+                _textAtImeStart = string.Empty;
+                _sourceLanguageAtImeStart = string.Empty;
+                _targetLanguageAtImeStart = string.Empty;
             }
             appliedRevision = _inputRevision;
 
@@ -397,6 +464,8 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             errorChanged = !Equals(_error, newError);
             _error = newError;
         }
+
+        CancelPendingAutoTranslate();
 
         if (oldOp != null)
         {
@@ -421,6 +490,15 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 OnPropertyChanged(nameof(InputLength));
 
                 if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(IsInputTooLong));
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(DetectedSourceLanguageText));
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(HasDetectedSourceLanguage));
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(CanSwapLanguages));
+                ((RelayCommand)SwapLanguagesCommand).RaiseCanExecuteChanged();
+                if (!IsCurrentOperation(operation)) return false;
                 OnPropertyChanged(nameof(CanTranslate));
                 if (!IsCurrentOperation(operation) || _inputRevision != appliedRevision) return false;
                 ((RelayCommand)TranslateCommand).RaiseCanExecuteChanged();
@@ -432,6 +510,8 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 OnPropertyChanged(nameof(StatusMessage));
 
                 if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(HasVisibleStatus));
+                if (!IsCurrentOperation(operation)) return false;
                 OnPropertyChanged(nameof(HasStatus));
             }
 
@@ -439,8 +519,12 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             {
                 if (!IsCurrentOperation(operation)) return false;
                 OnPropertyChanged(nameof(Error));
-
                 if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(IsInputValidationError));
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(HasGeneralError));
+                if (!IsCurrentOperation(operation)) return false;
+                OnPropertyChanged(nameof(HasVisibleStatus));
                 OnPropertyChanged(nameof(HasError));
 
                 if (!IsCurrentOperation(operation)) return false;
@@ -465,6 +549,15 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 Interlocked.Exchange(ref _autoCopyClaimed, 0);
 
                 SubmitMainTranslation(operation, _inputText, request.Origin);
+            }
+            else if (updateText)
+            {
+                _lastInitiatedTranslation = null;
+                if (textChanged && Cards.Count > 0)
+                {
+                    if (!IsCurrentOperation(operation)) return false;
+                    SetHasStaleResults(true);
+                }
             }
 
             return IsCurrentOperation(operation) && _inputRevision == appliedRevision;
@@ -496,6 +589,14 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
     internal void OnWindowHidden()
     {
+        _isWindowVisible = false;
+        _isImeComposing = false;
+        _pendingDebounceAfterIme = false;
+        _textAtImeStart = string.Empty;
+        _sourceLanguageAtImeStart = string.Empty;
+        _targetLanguageAtImeStart = string.Empty;
+        _lastInitiatedTranslation = null;
+        CancelPendingAutoTranslate();
         TranslateWindowOperation? opToCancel = null;
         Guid? currentOpId = null;
         lock (_gate)
@@ -538,10 +639,13 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         {
             card.RefreshCanRetry();
         }
+        SetHasStaleResults(Cards.Count > 0);
+        ScheduleAutoTranslateDebounce();
     }
 
     public void ExecuteTranslateFromUser()
     {
+        CancelPendingAutoTranslate();
         string prepared = _textPreprocessor.Prepare(_inputText, TextOrigin.Input);
         if (string.IsNullOrWhiteSpace(prepared))
         {
@@ -585,6 +689,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
 
     private void ExecuteStop()
     {
+        CancelPendingAutoTranslate();
         TranslateWindowOperation? opToCancel;
         lock (_gate)
         {
@@ -608,6 +713,179 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         }
     }
 
+    internal void SetImeComposing(bool isComposing)
+    {
+        if (isComposing)
+        {
+            if (!_isImeComposing)
+            {
+                _isImeComposing = true;
+                _pendingDebounceAfterIme = false;
+                _textAtImeStart = _inputText;
+                _sourceLanguageAtImeStart = _sourceLanguage;
+                _targetLanguageAtImeStart = _targetLanguage;
+                CancelPendingAutoTranslate();
+            }
+            return;
+        }
+
+        if (!_isImeComposing)
+        {
+            return;
+        }
+
+        _isImeComposing = false;
+        bool shouldSchedule = _pendingDebounceAfterIme &&
+            (!string.Equals(_inputText, _textAtImeStart, StringComparison.Ordinal) ||
+             !string.Equals(_sourceLanguage, _sourceLanguageAtImeStart, StringComparison.OrdinalIgnoreCase) ||
+             !string.Equals(_targetLanguage, _targetLanguageAtImeStart, StringComparison.OrdinalIgnoreCase));
+        _pendingDebounceAfterIme = false;
+        _textAtImeStart = string.Empty;
+        _sourceLanguageAtImeStart = string.Empty;
+        _targetLanguageAtImeStart = string.Empty;
+        if (shouldSchedule)
+        {
+            ScheduleAutoTranslateDebounce();
+        }
+    }
+
+    internal void OnWindowVisibilityChanged(bool isVisible)
+    {
+        _isWindowVisible = isVisible;
+        if (!isVisible)
+        {
+            _isImeComposing = false;
+            _pendingDebounceAfterIme = false;
+            _textAtImeStart = string.Empty;
+            _sourceLanguageAtImeStart = string.Empty;
+            _targetLanguageAtImeStart = string.Empty;
+            CancelPendingAutoTranslate();
+        }
+    }
+
+    private void CancelPendingAutoTranslate()
+    {
+        _pendingDebounceAfterIme = false;
+        Interlocked.Increment(ref _debounceGeneration);
+        if (_disposed)
+        {
+            return;
+        }
+
+        try
+        {
+            _debounceTimer.Change(Timeout.InfiniteTimeSpan, Timeout.InfiniteTimeSpan);
+        }
+        catch (ObjectDisposedException)
+        {
+        }
+    }
+
+    private void ScheduleAutoTranslateDebounce()
+    {
+        CancelPendingAutoTranslate();
+
+        if (_disposed || !_isWindowVisible)
+        {
+            return;
+        }
+
+        if (_isImeComposing)
+        {
+            _pendingDebounceAfterIme = true;
+            return;
+        }
+
+        string prepared = _textPreprocessor.Prepare(_inputText, TextOrigin.Input);
+        if (string.IsNullOrWhiteSpace(prepared) ||
+            prepared.Length > MaxInputChars ||
+            IsSameAsLastInitiatedTranslation(prepared))
+        {
+            return;
+        }
+
+        Interlocked.Increment(ref _debounceGeneration);
+        try
+        {
+            Volatile.Write(ref _debounceScheduledTimestamp, _timeProvider.GetTimestamp());
+            _debounceTimer.Change(AutoTranslateDebounceDelay, Timeout.InfiniteTimeSpan);
+        }
+        catch (ObjectDisposedException)
+        {
+        }
+    }
+
+    private void OnDebounceTimerElapsed(object? state)
+    {
+        long firedGeneration = Volatile.Read(ref _debounceGeneration);
+        if (_disposed)
+        {
+            return;
+        }
+
+        try
+        {
+            var dispatchTask = _uiDispatcher.InvokeAsync(() =>
+            {
+                if (_disposed ||
+                    Volatile.Read(ref _debounceGeneration) != firedGeneration ||
+                    !_isWindowVisible ||
+                    _isImeComposing)
+                {
+                    return Task.CompletedTask;
+                }
+                var remaining = AutoTranslateDebounceDelay - _timeProvider.GetElapsedTime(Volatile.Read(ref _debounceScheduledTimestamp));
+                if (remaining > TimeSpan.Zero)
+                {
+                    if (!_disposed &&
+                        Volatile.Read(ref _debounceGeneration) == firedGeneration &&
+                        _isWindowVisible &&
+                        !_isImeComposing)
+                    {
+                        try
+                        {
+                            _debounceTimer.Change(remaining, Timeout.InfiniteTimeSpan);
+                        }
+                        catch (ObjectDisposedException)
+                        {
+                        }
+                    }
+
+                    return Task.CompletedTask;
+                }
+
+                string prepared = _textPreprocessor.Prepare(_inputText, TextOrigin.Input);
+                if (string.IsNullOrWhiteSpace(prepared) ||
+                    prepared.Length > MaxInputChars ||
+                    IsSameAsLastInitiatedTranslation(prepared))
+                {
+                    return Task.CompletedTask;
+                }
+
+                ExecuteTranslateFromUser();
+                return Task.CompletedTask;
+            }, CancellationToken.None);
+            _ = dispatchTask.ContinueWith(
+                t => _ = t.Exception,
+                CancellationToken.None,
+                TaskContinuationOptions.OnlyOnFaulted | TaskContinuationOptions.ExecuteSynchronously,
+                TaskScheduler.Default);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (ObjectDisposedException)
+        {
+        }
+    }
+    private bool IsSameAsLastInitiatedTranslation(string prepared)
+    {
+        return _lastInitiatedTranslation is { } last &&
+            string.Equals(prepared, last.PreparedText, StringComparison.Ordinal) &&
+            string.Equals(_sourceLanguage, last.SourceLanguage, StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(_targetLanguage, last.TargetLanguage, StringComparison.OrdinalIgnoreCase);
+    }
+
     private void ExecuteSwapLanguages()
     {
         string newTarget = _sourceLanguage == LanguageCodes.Auto ? (_resolvedSourceLanguage ?? LanguageCodes.English) : _sourceLanguage;
@@ -619,7 +897,11 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             SourceLanguage = newSource;
             TargetLanguage = newTarget;
             _resolvedSourceLanguage = null;
+            OnPropertyChanged(nameof(DetectedSourceLanguageText));
+            OnPropertyChanged(nameof(HasDetectedSourceLanguage));
             _resolvedTargetLanguage = null;
+            OnPropertyChanged(nameof(CanSwapLanguages));
+            ((RelayCommand)SwapLanguagesCommand).RaiseCanExecuteChanged();
         }
         finally
         {
@@ -638,7 +920,9 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             return;
         }
 
+        _lastInitiatedTranslation = (prepared, _sourceLanguage, _targetLanguage);
         IsTranslating = true;
+        SetHasStaleResults(false);
         Cards.Clear();
         StatusMessage = null;
         Error = null;
@@ -868,17 +1152,25 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
         switch (evt)
         {
             case TranslationStarted started:
-                _resolvedSourceLanguage = started.Languages.Source;
-                _resolvedTargetLanguage = started.Languages.Target;
-
                 await _uiDispatcher.InvokeAsync(() =>
                 {
                     if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.IsCancellationRequested)
                     {
                         return Task.CompletedTask;
                     }
-
+                    lock (_gate)
+                    {
+                        if (_activeOperation == null || _activeOperation.Id != operation.Id || operation.IsCancellationRequested)
+                        {
+                            return Task.CompletedTask;
+                        }
+                        _resolvedSourceLanguage = started.Languages.Source;
+                        _resolvedTargetLanguage = started.Languages.Target;
+                    }
                     OnPropertyChanged(nameof(CanSwapLanguages));
+                    ((RelayCommand)SwapLanguagesCommand).RaiseCanExecuteChanged();
+                    OnPropertyChanged(nameof(DetectedSourceLanguageText));
+                    OnPropertyChanged(nameof(HasDetectedSourceLanguage));
                     if (!isRetry)
                     {
                         Cards.Clear();
@@ -1555,6 +1847,7 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 OnPropertyChanged(nameof(EnterToTranslate));
                 OnPropertyChanged(nameof(HideOnDeactivate));
                 OnPropertyChanged(nameof(MaxInputChars));
+                OnPropertyChanged(nameof(IsInputTooLong));
                 return Task.CompletedTask;
             }, CancellationToken.None);
         }
@@ -1675,10 +1968,14 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
             if (_disposed) return;
             _disposed = true;
             opToCancel = _activeOperation;
+            _hasStaleResults = false;
             _activeOperation = null;
         }
 
         opToCancel?.Cancel();
+        CancelPendingAutoTranslate();
+        _lastInitiatedTranslation = null;
+        _debounceTimer.Dispose();
         opToCancel?.DetachSession();
         CancelPendingAndActiveCopies();
 

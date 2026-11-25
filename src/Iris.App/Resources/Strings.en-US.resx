@@ -1222,7 +1222,10 @@ Use one form per invocation and pass the text as a single argument.</value>
     <value>Open settings</value>
   </data>
   <data name="TranslateInputPlaceholder" xml:space="preserve">
-    <value>Enter text and press Enter to translate…</value>
+    <value>Type to translate automatically, or press Enter</value>
+  </data>
+  <data name="TranslateTo" xml:space="preserve">
+    <value>To</value>
   </data>
   <data name="TranslateInputTooLong" xml:space="preserve">
     <value>Input exceeds the maximum character limit</value>

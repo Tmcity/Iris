@@ -195,6 +195,184 @@ public sealed class IrisStyleResourceTests
         return Task.CompletedTask;
     });
 
+    [Fact]
+    public Task IrisCompactCard_ResolvesInLightAndDarkThemes() => WpfTestRunner.RunAsync(() =>
+    {
+        var style = Find("IrisCompactCard");
+        style.TargetType.ShouldBe(typeof(Border));
+        style.BasedOn.ShouldBeSameAs(Find("IrisCard"));
+
+        try
+        {
+            Wpf.Ui.Appearance.ApplicationThemeManager.Apply(Wpf.Ui.Appearance.ApplicationTheme.Light);
+            Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(Wpf.Ui.Appearance.ApplicationTheme.Light);
+
+            var lightBorder = new Border { Style = style };
+            lightBorder.Padding.ShouldBe(new Thickness(12, 10, 12, 10));
+            var lightFill = lightBorder.Background.ShouldBeOfType<SolidColorBrush>().Color;
+            var lightStroke = lightBorder.BorderBrush.ShouldBeOfType<SolidColorBrush>().Color;
+            lightFill.ShouldBe(ColorOf("IrisAcrylicCardFillBrush"));
+            lightStroke.ShouldBe(ColorOf("IrisAcrylicCardStrokeBrush"));
+
+            Wpf.Ui.Appearance.ApplicationThemeManager.Apply(Wpf.Ui.Appearance.ApplicationTheme.Dark);
+            Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(Wpf.Ui.Appearance.ApplicationTheme.Dark);
+
+            var darkBorder = new Border { Style = style };
+            darkBorder.Padding.ShouldBe(new Thickness(12, 10, 12, 10));
+            var darkFill = darkBorder.Background.ShouldBeOfType<SolidColorBrush>().Color;
+            var darkStroke = darkBorder.BorderBrush.ShouldBeOfType<SolidColorBrush>().Color;
+            darkFill.ShouldBe(ColorOf("IrisAcrylicCardFillBrush"));
+            darkStroke.ShouldBe(ColorOf("IrisAcrylicCardStrokeBrush"));
+
+            darkFill.ShouldNotBe(lightFill);
+        }
+        finally
+        {
+            Wpf.Ui.Appearance.ApplicationThemeManager.Apply(Wpf.Ui.Appearance.ApplicationTheme.Light);
+            Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(Wpf.Ui.Appearance.ApplicationTheme.Light);
+        }
+
+        return Task.CompletedTask;
+    });
+
+    [Fact]
+    public Task IrisGhostComboBox_ResolvesInLightAndDarkThemes() => WpfTestRunner.RunAsync(() =>
+    {
+        var style = Find("IrisGhostComboBox");
+        style.TargetType.ShouldBe(typeof(ComboBox));
+        style.BasedOn.ShouldBeSameAs(Application.Current.FindResource(typeof(ComboBox)));
+
+        try
+        {
+            foreach (var theme in new[] { Wpf.Ui.Appearance.ApplicationTheme.Light, Wpf.Ui.Appearance.ApplicationTheme.Dark })
+            {
+                Wpf.Ui.Appearance.ApplicationThemeManager.Apply(theme);
+                Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(theme);
+
+                var combo = new ComboBox { Style = style };
+                combo.Background.ShouldBeOfType<SolidColorBrush>().Color.A.ShouldBe((byte)0);
+                combo.BorderBrush.ShouldBeOfType<SolidColorBrush>().Color.A.ShouldBe((byte)0);
+                combo.BorderThickness.ShouldBe(new Thickness(0));
+                combo.MinHeight.ShouldBe(28d);
+                combo.Padding.ShouldBe(new Thickness(8, 4, 6, 4));
+                combo.FontSize.ShouldBe(12.5d);
+                combo.VerticalContentAlignment.ShouldBe(VerticalAlignment.Center);
+
+                var host = new Window
+                {
+                    Content = combo,
+                    Width = 240,
+                    Height = 120,
+                    ShowActivated = false,
+                    ShowInTaskbar = false,
+                    Left = -20000,
+                    Top = -20000,
+                };
+                try
+                {
+                    host.Show();
+                    host.UpdateLayout();
+
+                    var contentBorder = Descendants<Border>(combo).First(b => b.Name == "ContentBorder");
+                    (contentBorder.Background as SolidColorBrush)?.Color.A.ShouldBe((byte)0);
+                    (contentBorder.BorderBrush as SolidColorBrush)?.Color.A.ShouldBe((byte)0);
+
+                    combo.IsDropDownOpen = true;
+                    host.UpdateLayout();
+
+                    var openFill = contentBorder.Background.ShouldBeOfType<SolidColorBrush>().Color;
+                    openFill.A.ShouldBeGreaterThan((byte)0);
+
+                    combo.IsDropDownOpen = false;
+                }
+                finally
+                {
+                    host.Close();
+                }
+            }
+        }
+        finally
+        {
+            Wpf.Ui.Appearance.ApplicationThemeManager.Apply(Wpf.Ui.Appearance.ApplicationTheme.Light);
+            Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(Wpf.Ui.Appearance.ApplicationTheme.Light);
+        }
+
+        return Task.CompletedTask;
+    });
+
+    [Fact]
+    public Task IrisBorderlessTextBox_ResolvesTransparentBorderlessInLightAndDarkThemes() => WpfTestRunner.RunAsync(() =>
+    {
+        var themeField = typeof(Wpf.Ui.Appearance.ApplicationThemeManager)
+            .GetField("_currentApplicationTheme", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.NonPublic);
+        var previousTheme = themeField?.GetValue(null) is Wpf.Ui.Appearance.ApplicationTheme current
+            ? current
+            : Wpf.Ui.Appearance.ApplicationTheme.Light;
+
+        try
+        {
+            foreach (var theme in new[] { Wpf.Ui.Appearance.ApplicationTheme.Light, Wpf.Ui.Appearance.ApplicationTheme.Dark })
+            {
+                Wpf.Ui.Appearance.ApplicationThemeManager.Apply(theme);
+                Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(theme);
+
+                var style = Find("IrisBorderlessTextBox");
+                style.TargetType.ShouldBe(typeof(System.Windows.Controls.TextBox));
+
+                var textBox = new System.Windows.Controls.TextBox
+                {
+                    Style = style,
+                    Text = "Sample",
+                    Width = 200,
+                    Height = 60,
+                };
+
+                var window = new Window
+                {
+                    Width = 260,
+                    Height = 140,
+                    ShowInTaskbar = false,
+                    WindowStyle = WindowStyle.None,
+                    Content = textBox,
+                };
+
+                try
+                {
+                    window.Show();
+                    window.UpdateLayout();
+                    textBox.Focus();
+                    textBox.UpdateLayout();
+
+                    textBox.Background.ShouldBeOfType<SolidColorBrush>().Color.A.ShouldBe((byte)0);
+                    textBox.BorderThickness.ShouldBe(new Thickness(0));
+                    var innerBorder = Descendants<System.Windows.Controls.Border>(textBox).FirstOrDefault();
+                    innerBorder.ShouldNotBeNull();
+                    innerBorder!.Background.ShouldBeOfType<SolidColorBrush>().Color.A.ShouldBe((byte)0);
+                    innerBorder.BorderThickness.ShouldBe(new Thickness(0));
+                }
+                finally
+                {
+                    window.Close();
+                }
+            }
+        }
+        finally
+        {
+            Wpf.Ui.Appearance.ApplicationThemeManager.Apply(previousTheme);
+            Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(previousTheme);
+        }
+
+        return Task.CompletedTask;
+    });
+
+    [Fact]
+    public void TranslateTo_ReturnsLocalizedString()
+    {
+        var value = Iris.App.UiText.TranslateTo;
+        value.ShouldNotBeNullOrWhiteSpace();
+        value.ShouldNotBe("TranslateTo");
+    }
+
     private static Style Find(string key) => Application.Current.FindResource(key).ShouldBeOfType<Style>();
 
     private static Color ColorOf(string key) => Application.Current.FindResource(key).ShouldBeOfType<SolidColorBrush>().Color;

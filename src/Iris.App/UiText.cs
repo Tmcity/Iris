@@ -252,6 +252,7 @@ internal static partial class UiText
     public static string TranslateSettings => global::Iris.App.Resources.AppResources.Get("TranslateSettings");
     public static string TranslateClose => global::Iris.App.Resources.AppResources.Get("TranslateClose");
     public static string TranslateInputPlaceholder => global::Iris.App.Resources.AppResources.Get("TranslateInputPlaceholder");
+    public static string TranslateTo => global::Iris.App.Resources.AppResources.Get("TranslateTo");
     public static string TranslateButton => global::Iris.App.Resources.AppResources.Get("TranslateButton");
     public static string TranslateStopButton => global::Iris.App.Resources.AppResources.Get("TranslateStopButton");
     public static string TranslateSwapLanguages => global::Iris.App.Resources.AppResources.Get("TranslateSwapLanguages");
