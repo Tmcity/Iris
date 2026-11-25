@@ -37,6 +37,7 @@ public sealed class HistoryRenderingTests
                     string prefix = $"{(dark ? "Dark" : "Light")}-{size.Width}";
                     Task Capture(string state) => Render(window, $"{prefix}-{state}", directory, manifest);
                     var scroll = (ScrollViewer)window.FindName("HistoryScroll");
+                    var detailScroll = (ScrollViewer)window.FindName("DetailScroll");
                     await Capture("empty");
                     for (int i = 0; i < 51; i++) await f.Repository.Inner.AddAsync(Entry($"{i}: 中文历史记录与 English source for wrapping.\n第二行与长英文 {new string('a', 210)}", i % 2 == 0));
                     await vm.RefreshAsync(); await Capture("list-pagination");
@@ -48,12 +49,12 @@ public sealed class HistoryRenderingTests
                     firstResult.BringIntoView(new Rect(0, 0, firstResult.ActualWidth, Math.Min(80, firstResult.ActualHeight))); await Capture("first-result");
                     var lastResult = (FrameworkElement)((ItemsControl)window.FindName("ResultsList")).ItemContainerGenerator.ContainerFromIndex(1);
                     lastResult.BringIntoView(new Rect(0, 0, lastResult.ActualWidth, Math.Min(80, lastResult.ActualHeight))); await Capture("last-result-header");
-                    scroll.ScrollToEnd(); await Capture("results-truncated");
+                    detailScroll.ScrollToEnd(); scroll.ScrollToEnd(); await Capture("results-truncated");
                     vm.RequestDelete(); ((Border)window.FindName("ConfirmationPanel")).BringIntoView(); await Capture("confirm-delete");
                     vm.CancelConfirmation(); vm.RequestClear(); await Capture("confirm-clear"); vm.CancelConfirmation();
                     var gate = f.NewGate(); f.Repository.QueryOverride = async (q, ct) => { await gate.Pause(); return await f.Repository.Inner.QueryAsync(q, ct); };
                     var query = f.Track(vm.RefreshAsync()); await gate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5));
-                    scroll.ScrollToTop(); await Capture("loading"); gate.Open(); await query;
+                    detailScroll.ScrollToTop(); scroll.ScrollToTop(); await Capture("loading"); gate.Open(); await query;
                     f.Repository.QueryOverride = (_, _) => throw new IOException("synthetic private");
                     await vm.RefreshAsync(); await Capture("error");
                     f.Repository.QueryOverride = null; await vm.RefreshAsync(); await f.SelectAsync();

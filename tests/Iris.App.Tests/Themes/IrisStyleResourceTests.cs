@@ -372,6 +372,154 @@ public sealed class IrisStyleResourceTests
         value.ShouldNotBeNullOrWhiteSpace();
         value.ShouldNotBe("TranslateTo");
     }
+    [Fact]
+    public Task IrisPillCheckBox_ResolvesAndTogglesInLightAndDarkThemes() => WpfTestRunner.RunAsync(() =>
+    {
+        try
+        {
+            foreach (var theme in new[] { Wpf.Ui.Appearance.ApplicationTheme.Light, Wpf.Ui.Appearance.ApplicationTheme.Dark })
+            {
+                Wpf.Ui.Appearance.ApplicationThemeManager.Apply(theme);
+                Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(theme);
+
+                var checkBox = new System.Windows.Controls.CheckBox
+                {
+                    Style = Find("IrisPillCheckBox"),
+                    Content = "Favorites only",
+                };
+
+                var window = new Window
+                {
+                    Width = 260,
+                    Height = 140,
+                    ShowActivated = false,
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Left = -20000,
+                    Top = -20000,
+                    ShowInTaskbar = false,
+                    WindowStyle = WindowStyle.None,
+                    Content = checkBox,
+                };
+
+                try
+                {
+                    window.Show();
+                    window.UpdateLayout();
+
+                    var pillBorder = Descendants<System.Windows.Controls.Border>(checkBox)
+                        .FirstOrDefault(b => b.Name == "PillBorder");
+                    pillBorder.ShouldNotBeNull();
+                    pillBorder!.CornerRadius.TopLeft.ShouldBeGreaterThanOrEqualTo(12d);
+
+                    var starIcon = Descendants<Wpf.Ui.Controls.SymbolIcon>(checkBox)
+                        .FirstOrDefault(i => i.Name == "StarIcon");
+                    starIcon.ShouldNotBeNull();
+                    starIcon!.Symbol.ShouldBe(Wpf.Ui.Controls.SymbolRegular.Star16);
+                    starIcon.Filled.ShouldBeFalse();
+
+                    var uncheckedBorderColor = (pillBorder.BorderBrush as SolidColorBrush)?.Color;
+                    var uncheckedBackgroundColor = (pillBorder.Background as SolidColorBrush)?.Color;
+
+                    checkBox.IsChecked = true;
+                    checkBox.UpdateLayout();
+
+                    starIcon.Filled.ShouldBeTrue();
+                    var checkedBorderColor = (pillBorder.BorderBrush as SolidColorBrush)?.Color;
+                    var checkedBackgroundColor = (pillBorder.Background as SolidColorBrush)?.Color;
+
+                    (checkedBorderColor != uncheckedBorderColor || checkedBackgroundColor != uncheckedBackgroundColor)
+                        .ShouldBeTrue();
+                }
+                finally
+                {
+                    window.Close();
+                }
+            }
+        }
+        finally
+        {
+            Wpf.Ui.Appearance.ApplicationThemeManager.Apply(Wpf.Ui.Appearance.ApplicationTheme.Light);
+            Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(Wpf.Ui.Appearance.ApplicationTheme.Light);
+        }
+
+        return Task.CompletedTask;
+    });
+
+    [Fact]
+    public Task IrisHistoryListItem_ResolvesAndShowsAccentIndicatorWhenSelectedInLightAndDarkThemes() => WpfTestRunner.RunAsync(() =>
+    {
+        try
+        {
+            foreach (var theme in new[] { Wpf.Ui.Appearance.ApplicationTheme.Light, Wpf.Ui.Appearance.ApplicationTheme.Dark })
+            {
+                Wpf.Ui.Appearance.ApplicationThemeManager.Apply(theme);
+                Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(theme);
+
+                var listBox = new System.Windows.Controls.ListBox
+                {
+                    ItemContainerStyle = Find("IrisHistoryListItem"),
+                };
+                listBox.Items.Add("Item 1");
+                listBox.Items.Add("Item 2");
+
+                var window = new Window
+                {
+                    Width = 300,
+                    Height = 200,
+                    ShowActivated = false,
+                    WindowStartupLocation = WindowStartupLocation.Manual,
+                    Left = -20000,
+                    Top = -20000,
+                    ShowInTaskbar = false,
+                    WindowStyle = WindowStyle.None,
+                    Content = listBox,
+                };
+
+                try
+                {
+                    window.Show();
+                    listBox.SelectedIndex = 0;
+                    window.UpdateLayout();
+
+                    var item0 = listBox.ItemContainerGenerator.ContainerFromIndex(0) as System.Windows.Controls.ListBoxItem;
+                    var item1 = listBox.ItemContainerGenerator.ContainerFromIndex(1) as System.Windows.Controls.ListBoxItem;
+                    item0.ShouldNotBeNull();
+                    item1.ShouldNotBeNull();
+
+                    var indicator0 = Descendants<System.Windows.Controls.Border>(item0!)
+                        .FirstOrDefault(b => b.Name == "SelectionIndicator");
+                    var itemBorder0 = Descendants<System.Windows.Controls.Border>(item0!)
+                        .FirstOrDefault(b => b.Name == "ItemBorder");
+                    indicator0.ShouldNotBeNull();
+                    itemBorder0.ShouldNotBeNull();
+                    indicator0!.Visibility.ShouldBe(Visibility.Visible);
+                    indicator0.Width.ShouldBe(3d);
+                    indicator0.Background.ShouldBeOfType<SolidColorBrush>().Color.A.ShouldBeGreaterThan((byte)0);
+                    itemBorder0!.Background.ShouldBeOfType<SolidColorBrush>().Color.A.ShouldBeGreaterThan((byte)0);
+
+                    var indicator1 = Descendants<System.Windows.Controls.Border>(item1!)
+                        .FirstOrDefault(b => b.Name == "SelectionIndicator");
+                    var itemBorder1 = Descendants<System.Windows.Controls.Border>(item1!)
+                        .FirstOrDefault(b => b.Name == "ItemBorder");
+                    indicator1.ShouldNotBeNull();
+                    itemBorder1.ShouldNotBeNull();
+                    indicator1!.Visibility.ShouldNotBe(Visibility.Visible);
+                    itemBorder1!.Background.ShouldBeOfType<SolidColorBrush>().Color.A.ShouldBe((byte)0);
+                }
+                finally
+                {
+                    window.Close();
+                }
+            }
+        }
+        finally
+        {
+            Wpf.Ui.Appearance.ApplicationThemeManager.Apply(Wpf.Ui.Appearance.ApplicationTheme.Light);
+            Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(Wpf.Ui.Appearance.ApplicationTheme.Light);
+        }
+
+        return Task.CompletedTask;
+    });
 
     private static Style Find(string key) => Application.Current.FindResource(key).ShouldBeOfType<Style>();
 
