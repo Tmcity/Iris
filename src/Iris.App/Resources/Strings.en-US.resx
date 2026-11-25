@@ -1410,4 +1410,16 @@ Use one form per invocation and pass the text as a single argument.</value>
   <data name="ShutdownIncomplete" xml:space="preserve">
     <value>Shutdown did not complete. Retry closing Iris.</value>
   </data>
+  <data name="SettingsRowMoreActions" xml:space="preserve">
+    <value>More actions</value>
+  </data>
+  <data name="SettingsRowOpenDetails" xml:space="preserve">
+    <value>Open details</value>
+  </data>
+  <data name="SettingsRowDragToReorder" xml:space="preserve">
+    <value>Drag to reorder</value>
+  </data>
+  <data name="SettingsRowEnabled" xml:space="preserve">
+    <value>Enabled</value>
+  </data>
 </root>

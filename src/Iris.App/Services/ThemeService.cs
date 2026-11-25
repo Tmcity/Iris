@@ -210,6 +210,7 @@ internal sealed partial class ThemeService : IDisposable
         try
         {
             ApplyIrisThemeDictionary(theme);
+            ApplyIrisSolidFallbackDictionary(theme, _windowMaterialService?.IsAcrylicSupported ?? true);
         }
         catch (Exception ex)
         {
@@ -266,6 +267,61 @@ internal sealed partial class ThemeService : IDisposable
         }
 
         dictionaries.Add(target);
+    }
+
+    private static readonly string[] IrisSolidFallbackDictionaryNames = ["Iris.SolidFallback.xaml", "Iris.SolidFallback.Dark.xaml"];
+
+    /// <summary>
+    /// Merges the opaque Iris colour dictionary when the system has no acrylic backdrop, and
+    /// removes it when it does. The dictionary goes right after the Iris theme dictionary: later
+    /// entries in MergedDictionaries win, so the opaque values override the translucent ones.
+    /// </summary>
+    internal static void ApplyIrisSolidFallbackDictionary(ApplicationTheme theme, bool acrylicSupported)
+    {
+        var dictionaries = Application.Current?.Resources.MergedDictionaries;
+        if (dictionaries is null)
+        {
+            return;
+        }
+
+        for (var index = dictionaries.Count - 1; index >= 0; index--)
+        {
+            if (SourceEndsWithAny(dictionaries[index], IrisSolidFallbackDictionaryNames))
+            {
+                dictionaries.RemoveAt(index);
+            }
+        }
+
+        if (acrylicSupported)
+        {
+            return;
+        }
+
+        var fallback = new ResourceDictionary
+        {
+            Source = new Uri(
+                theme == ApplicationTheme.Dark
+                    ? "pack://application:,,,/Iris.App;component/Themes/Iris.SolidFallback.Dark.xaml"
+                    : "pack://application:,,,/Iris.App;component/Themes/Iris.SolidFallback.xaml",
+                UriKind.Absolute),
+        };
+
+        for (var index = 0; index < dictionaries.Count; index++)
+        {
+            if (SourceEndsWithAny(dictionaries[index], IrisThemeDictionaryNames))
+            {
+                dictionaries.Insert(index + 1, fallback);
+                return;
+            }
+        }
+
+        dictionaries.Add(fallback);
+    }
+
+    private static bool SourceEndsWithAny(ResourceDictionary dictionary, string[] names)
+    {
+        var source = dictionary.Source?.OriginalString;
+        return source is not null && names.Any(name => source.EndsWith(name, StringComparison.OrdinalIgnoreCase));
     }
 
     private void SafeApplySystemTheme()

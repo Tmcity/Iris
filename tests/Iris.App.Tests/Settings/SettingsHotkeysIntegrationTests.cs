@@ -1576,7 +1576,12 @@ public sealed class SettingsHotkeysIntegrationTests
                             window.Show();
                             wpfTheme = theme == AppTheme.Dark ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light;
                             Wpf.Ui.Appearance.ApplicationThemeManager.Apply(wpfTheme);
+                            Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(wpfTheme);
                             Wpf.Ui.Appearance.ApplicationThemeManager.Apply(window);
+                            // 夹具守卫：Iris 颜色字典必须跟着主题走。卡面填充的不透明度深色是 0x1A、浅色是 0x66，以 64 为界。
+                            var irisCardFill = (SolidColorBrush)window.FindResource("IrisAcrylicCardFillBrush");
+                            if (theme == AppTheme.Dark) irisCardFill.Color.A.ShouldBeLessThan((byte)64);
+                            else irisCardFill.Color.A.ShouldBeGreaterThan((byte)64);
                             env.ViewModel.CurrentPageKey = "hotkeys";
                             window.UpdateLayout();
 
@@ -1681,6 +1686,7 @@ public sealed class SettingsHotkeysIntegrationTests
                         }
                         finally
                         {
+                            Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(Wpf.Ui.Appearance.ApplicationTheme.Light);
                             await env.ViewModel.CancelRecordingAsync();
                             try
                             {

@@ -16,10 +16,10 @@ namespace Iris.App.Settings;
 internal partial class SettingsWindow : FluentWindow
 {
     private const double CompactLayoutThreshold = 680.0;
-    private bool? _isCompactMode;
-    private bool _suppressPasswordChanged;
-    private Point _dragStartPoint;
+    private System.Windows.Point _dragStartPoint;
     private bool _isDragging;
+    private bool _dragStartedOnHandle;
+    private bool _suppressPasswordChanged;
 
     public SettingsWindow()
     {
@@ -54,47 +54,17 @@ internal partial class SettingsWindow : FluentWindow
 
     internal void ApplyAdaptiveLayout(double width)
     {
-        if (TranslationLayoutGrid == null || ProfilesPane == null || DetailsPane == null)
+        bool compactNav = width < CompactLayoutThreshold;
+        if (NavColumnDef != null)
         {
-            return;
+            double navWidth = TryFindResource(compactNav ? "IrisNavCompactWidth" : "IrisNavWidth") is double w
+                ? w
+                : (compactNav ? 48 : 212);
+            NavColumnDef.Width = new GridLength(navWidth);
         }
-
-        bool compact = width < CompactLayoutThreshold;
-        if (_isCompactMode == compact)
+        if (NavTitleText != null)
         {
-            return;
-        }
-        _isCompactMode = compact;
-
-        if (compact)
-        {
-            ProfilesColDef.Width = new GridLength(1, GridUnitType.Star);
-            DetailsColDef.Width = new GridLength(0);
-            ProfilesRowDef.Height = new GridLength(96);
-            DetailsRowDef.Height = new GridLength(1, GridUnitType.Star);
-
-            Grid.SetRow(ProfilesPane, 0);
-            Grid.SetColumn(ProfilesPane, 0);
-            ProfilesPane.Margin = new Thickness(0, 0, 0, 8);
-
-            Grid.SetRow(DetailsPane, 1);
-            Grid.SetColumn(DetailsPane, 0);
-            DetailsPane.Margin = new Thickness(0);
-        }
-        else
-        {
-            ProfilesColDef.Width = new GridLength(220);
-            DetailsColDef.Width = new GridLength(1, GridUnitType.Star);
-            ProfilesRowDef.Height = new GridLength(1, GridUnitType.Star);
-            DetailsRowDef.Height = new GridLength(0);
-
-            Grid.SetRow(ProfilesPane, 0);
-            Grid.SetColumn(ProfilesPane, 0);
-            ProfilesPane.Margin = new Thickness(0, 0, 10, 0);
-
-            Grid.SetRow(DetailsPane, 0);
-            Grid.SetColumn(DetailsPane, 1);
-            DetailsPane.Margin = new Thickness(0);
+            NavTitleText.Visibility = compactNav ? Visibility.Collapsed : Visibility.Visible;
         }
     }
 
@@ -143,24 +113,45 @@ internal partial class SettingsWindow : FluentWindow
 
     private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
+        if (e.PropertyName == nameof(SettingsViewModel.CurrentPageKey) && sender is SettingsViewModel pageVm)
+            ResetDetailNavigation(pageVm);
+        if (e.PropertyName == nameof(SettingsViewModel.CanEdit) && sender is SettingsViewModel canEditVm)
+        {
+            if (Dispatcher.CheckAccess()) OnViewModelCanEditChanged(canEditVm);
+            else _ = Dispatcher.InvokeAsync(() => OnViewModelCanEditChanged(canEditVm));
+        }
         if (e.PropertyName == nameof(SettingsViewModel.Network) && sender is SettingsViewModel networkVm)
             SyncNetworkPassword(networkVm.Network);
         if (e.PropertyName == nameof(SettingsViewModel.SelectedOcrProfile) && sender is SettingsViewModel ocrVm)
         {
-            if (Dispatcher.CheckAccess()) SyncOcrPasswords(ocrVm.SelectedOcrProfile);
-            else _ = Dispatcher.InvokeAsync(() => SyncOcrPasswords(ocrVm.SelectedOcrProfile));
-        }
-        if (e.PropertyName == nameof(SettingsViewModel.SelectedProfile))
-        {
-            if (!Dispatcher.CheckAccess())
+            if (Dispatcher.CheckAccess())
             {
-                _ = Dispatcher.InvokeAsync(() => OnViewModelPropertyChanged(sender, e));
-                return;
+                SyncOcrPasswords(ocrVm.SelectedOcrProfile);
+                ScheduleOcrDetailSelectionCheck();
             }
-
-            if (sender is SettingsViewModel vm)
+            else
+            {
+                _ = Dispatcher.InvokeAsync(() =>
+                {
+                    SyncOcrPasswords(ocrVm.SelectedOcrProfile);
+                    ScheduleOcrDetailSelectionCheck();
+                });
+            }
+        }
+        if (e.PropertyName == nameof(SettingsViewModel.SelectedProfile) && sender is SettingsViewModel vm)
+        {
+            if (Dispatcher.CheckAccess())
             {
                 SyncPasswordBoxWithDraft(vm.SelectedProfile);
+                OnTranslationViewModelSelectionChanged(vm);
+            }
+            else
+            {
+                Dispatcher.InvokeAsync(() =>
+                {
+                    SyncPasswordBoxWithDraft(vm.SelectedProfile);
+                    OnTranslationViewModelSelectionChanged(vm);
+                });
             }
         }
     }
@@ -266,7 +257,9 @@ internal partial class SettingsWindow : FluentWindow
             {
                 if (s is MenuItem mi && mi.Tag is TranslationProviderPreset p)
                 {
+                    var prevId = vm.SelectedProfile?.Id;
                     vm.AddProfileFromPreset(p);
+                    OnTranslationProfileAddedFromPreset(vm, prevId);
                 }
             };
             menu.Items.Add(item);
@@ -359,21 +352,44 @@ internal partial class SettingsWindow : FluentWindow
         if (!_suppressPasswordChanged && DataContext is SettingsViewModel { SelectedOcrProfile: { } draft })
             draft.SetReplacementCredentials(OcrApiKeyPasswordBox.Password, OcrSecretKeyPasswordBox.Password);
     }
-
     private void OnProfilesListPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        _dragStartPoint = e.GetPosition(null);
+        _dragStartedOnHandle = IsInsideDragHandle(e.OriginalSource as DependencyObject);
+        if (_dragStartedOnHandle)
+        {
+            _dragStartPoint = e.GetPosition(null);
+        }
     }
 
-    private void OnProfilesListMouseMove(object sender, MouseEventArgs e)
+    private static bool IsInsideDragHandle(DependencyObject? current)
     {
-        if (e.LeftButton != MouseButtonState.Pressed || _isDragging)
+        while (current != null)
         {
-            return;
+            if (current is FrameworkElement fe && Equals(fe.Tag, "DragHandle"))
+            {
+                return true;
+            }
+
+            current = current is System.Windows.Media.Visual || current is System.Windows.Media.Media3D.Visual3D
+                ? System.Windows.Media.VisualTreeHelper.GetParent(current)
+                : LogicalTreeHelper.GetParent(current);
         }
+
+        return false;
+    }
+
+    private void OnProfilesListPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e) =>
+        _dragStartedOnHandle = false;
+
+    private void OnProfilesListMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+    {
+        if (e.LeftButton != MouseButtonState.Pressed) { _dragStartedOnHandle = false; return; }
+        if (!_dragStartedOnHandle || _isDragging) return;
+        if (DataContext is not SettingsViewModel vm || !vm.CanEdit) return;
 
         var currentPoint = e.GetPosition(null);
         var diff = _dragStartPoint - currentPoint;
+
         if (Math.Abs(diff.X) > SystemParameters.MinimumHorizontalDragDistance ||
             Math.Abs(diff.Y) > SystemParameters.MinimumVerticalDragDistance)
         {
@@ -390,6 +406,7 @@ internal partial class SettingsWindow : FluentWindow
                     finally
                     {
                         _isDragging = false;
+                        _dragStartedOnHandle = false;
                     }
                 }
             }

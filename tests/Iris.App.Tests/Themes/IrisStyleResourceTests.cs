@@ -1,9 +1,11 @@
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 using Iris.App.Tests.TestSupport;
 using Shouldly;
 using Xunit;
-
 namespace Iris.App.Tests.Themes;
 
 [Collection("IrisThemeResources")]
@@ -26,9 +28,191 @@ public sealed class IrisStyleResourceTests
     [InlineData("IrisCardPadding")]
     [InlineData("IrisRowPadding")]
     [InlineData("IrisRowGap")]
+    [InlineData("IrisPagePadding")]
     public Task ThicknessResources_AreDefined(string key) => WpfTestRunner.RunAsync(() =>
     {
         Application.Current.TryFindResource(key).ShouldBeOfType<Thickness>();
         return Task.CompletedTask;
     });
+
+    // 以下是阶段 2 的新键。这里断言了具体数值，与上面「不断言数值」的口径不同：
+    // 176 / 48 / 24,16,24,16 是设计定下的版面数字，代码隐藏与各页的宽度预算都按它们算。
+    [Theory]
+    [InlineData("IrisNavWidth", 212d)]
+    [InlineData("IrisNavCompactWidth", 48d)]
+    public Task NavWidthResources_HoldTheDesignValues(string key, double expected) => WpfTestRunner.RunAsync(() =>
+    {
+        Application.Current.TryFindResource(key).ShouldBeOfType<double>().ShouldBe(expected);
+        return Task.CompletedTask;
+    });
+
+    [Fact]
+    public Task PagePadding_HoldsTheDesignValue() => WpfTestRunner.RunAsync(() =>
+    {
+        Application.Current.TryFindResource("IrisPagePadding").ShouldBeOfType<Thickness>().ShouldBe(new Thickness(24, 16, 24, 16));
+        return Task.CompletedTask;
+    });
+
+    [Theory]
+    [InlineData("IrisPageTitle", typeof(TextBlock))]
+    [InlineData("IrisRowIcon", typeof(Wpf.Ui.Controls.SymbolIcon))]
+    [InlineData("IrisStatusText", typeof(TextBlock))]
+    [InlineData("IrisRowError", typeof(TextBlock))]
+    [InlineData("IrisListRowItem", typeof(ListBoxItem))]
+    [InlineData("IrisDragHandle", typeof(Border))]
+    [InlineData("IrisBreadcrumbButton", typeof(Wpf.Ui.Controls.Button))]
+    [InlineData("IrisBreadcrumbCurrentText", typeof(TextBlock))]
+    public Task NewStyles_AreDefinedForTheirTargetType(string key, Type targetType) => WpfTestRunner.RunAsync(() =>
+    {
+        Application.Current.TryFindResource(key).ShouldBeOfType<Style>().TargetType.ShouldBe(targetType);
+        return Task.CompletedTask;
+    });
+
+    [Fact]
+    public Task NavItem_UsesTheCompactPadding() => WpfTestRunner.RunAsync(() =>
+    {
+        // 8 + 20（图标）+ 8 = 36：窄态导航项正好放下一个图标，项高也是 36（S0-2）。
+        new Border { Style = Find("IrisNavItem") }.Padding.ShouldBe(new Thickness(8));
+        return Task.CompletedTask;
+    });
+
+    [Fact]
+    public Task TitleStyles_ShareOneType_LargerThanTheSectionHeader() => WpfTestRunner.RunAsync(() =>
+    {
+        var sectionHeader = new TextBlock { Style = Find("IrisSectionHeader") };
+        var pageTitle = new TextBlock { Style = Find("IrisPageTitle") };
+        var current = new TextBlock { Style = Find("IrisBreadcrumbCurrentText") };
+        var back = new Wpf.Ui.Controls.Button { Style = Find("IrisBreadcrumbButton") };
+
+        pageTitle.FontSize.ShouldBe(20d);
+        pageTitle.FontSize.ShouldBeGreaterThan(sectionHeader.FontSize);
+        pageTitle.FontWeight.ShouldBe(FontWeights.SemiBold);
+        pageTitle.Margin.ShouldBe(Application.Current.FindResource("IrisCardGap").ShouldBeOfType<Thickness>());
+
+        // 面包屑的两段与页标题同字号同字重：进出详情时标题不跳。
+        current.FontSize.ShouldBe(pageTitle.FontSize);
+        current.FontWeight.ShouldBe(pageTitle.FontWeight);
+        back.FontSize.ShouldBe(pageTitle.FontSize);
+        back.FontWeight.ShouldBe(pageTitle.FontWeight);
+
+        current.TextTrimming.ShouldBe(TextTrimming.CharacterEllipsis);
+        current.TextWrapping.ShouldBe(TextWrapping.NoWrap);
+        return Task.CompletedTask;
+    });
+
+    [Fact]
+    public Task RowIcon_StatusText_DragHandle_HoldTheirMetrics() => WpfTestRunner.RunAsync(() =>
+    {
+        var icon = new Wpf.Ui.Controls.SymbolIcon { Symbol = Wpf.Ui.Controls.SymbolRegular.Settings20, Style = Find("IrisRowIcon") };
+        icon.FontSize.ShouldBe(20d);
+        icon.Margin.ShouldBe(new Thickness(0, 0, 12, 0));
+        icon.VerticalAlignment.ShouldBe(VerticalAlignment.Center);
+
+        var status = new TextBlock { Style = Find("IrisStatusText") };
+        status.FontSize.ShouldBe(12d);
+        status.TextWrapping.ShouldBe(TextWrapping.Wrap);
+
+        var handle = new Border { Style = Find("IrisDragHandle") };
+        handle.Width.ShouldBe(20d);
+        handle.Cursor.ShouldBe(Cursors.SizeAll);
+        // 背景必须是「透明画刷」而不是 null：null 背景命中不到，拖不动。
+        handle.Background.ShouldBeOfType<SolidColorBrush>().Color.A.ShouldBe((byte)0);
+        return Task.CompletedTask;
+    });
+
+    [Fact]
+    public Task RowError_CollapsesWhileEmpty_AndKeepsTheBrushSetOnTheElement() => WpfTestRunner.RunAsync(() =>
+    {
+        // C5：行内校验错误文字。空串时不占位；有文字时可见；样式本身不设前景色。
+        var description = new TextBlock { Style = Find("IrisRowDescription") };
+        var error = new TextBlock { Style = Find("IrisRowError") };
+
+        error.Text.ShouldBe(string.Empty);
+        error.Visibility.ShouldBe(Visibility.Collapsed);
+        error.Text = "Invalid value";
+        error.Visibility.ShouldBe(Visibility.Visible);
+        error.Text = string.Empty;
+        error.Visibility.ShouldBe(Visibility.Collapsed);
+
+        // 字号与换行继承自 IrisRowDescription。
+        Find("IrisRowError").BasedOn.ShouldBeSameAs(Find("IrisRowDescription"));
+        error.FontSize.ShouldBe(description.FontSize);
+        error.TextWrapping.ShouldBe(TextWrapping.Wrap);
+
+        // 样式自己不设 Foreground：各行把原来的画刷留在元素上，样式不能与它抢。
+        Find("IrisRowError").Setters.OfType<Setter>().ShouldNotContain(setter => setter.Property == TextBlock.ForegroundProperty);
+        var brush = new SolidColorBrush(Colors.Red);
+        var colored = new TextBlock { Style = Find("IrisRowError"), Foreground = brush, Text = "Invalid value" };
+        colored.Foreground.ShouldBeSameAs(brush);
+        return Task.CompletedTask;
+    });
+
+    [Fact]
+    public Task SecondaryTextStyles_ResolveTheSecondaryBrush_AndTheBreadcrumbIsATextButton() => WpfTestRunner.RunAsync(() =>
+    {
+        var icon = new Wpf.Ui.Controls.SymbolIcon { Symbol = Wpf.Ui.Controls.SymbolRegular.Settings20, Style = Find("IrisRowIcon") };
+        var status = new TextBlock { Text = "Status", Style = Find("IrisStatusText") };
+        var back = new Wpf.Ui.Controls.Button { Content = "Translation", Style = Find("IrisBreadcrumbButton") };
+        var host = new Window
+        {
+            Content = new StackPanel { Children = { icon, status, back } },
+            Width = 300,
+            Height = 200,
+            ShowActivated = false,
+            ShowInTaskbar = false,
+            Left = -20000,
+            Top = -20000,
+        };
+        try
+        {
+            host.Show();
+            host.UpdateLayout();
+
+            var secondary = ColorOf("TextFillColorSecondaryBrush");
+            // 前置：主色与次要色确实不同，否则下面三条分不出「套上了次要色」和「什么都没套」。
+            secondary.ShouldNotBe(ColorOf("TextFillColorPrimaryBrush"));
+            icon.Foreground.ShouldBeOfType<SolidColorBrush>().Color.ShouldBe(secondary);
+            status.Foreground.ShouldBeOfType<SolidColorBrush>().Color.ShouldBe(secondary);
+            back.Foreground.ShouldBeOfType<SolidColorBrush>().Color.ShouldBe(secondary);
+            icon.ActualWidth.ShouldBeGreaterThan(0d);
+
+            // 面包屑是「文字按钮」：画出 Content 的文字（与只画图标的 IrisIconButton 相反），无底无边。
+            Descendants<TextBlock>(back).ShouldContain(text => text.Text == "Translation");
+            back.Background.ShouldBeOfType<SolidColorBrush>().Color.A.ShouldBe((byte)0);
+            back.BorderThickness.ShouldBe(new Thickness(0));
+            back.Padding.ShouldBe(new Thickness(0));
+            // 键盘可达，且有焦点框。FindResource 在键不存在时会抛异常——这同时是对这个 WPF-UI 键的核实。
+            back.Focusable.ShouldBeTrue();
+            back.FocusVisualStyle.ShouldBeSameAs(Application.Current.FindResource("DefaultControlFocusVisualStyle"));
+            // 悬停要变色：直接断模板结构，离屏测试里造不出真实的鼠标悬停。
+            back.Template.Triggers.OfType<Trigger>().Any(trigger => trigger.Property == UIElement.IsMouseOverProperty).ShouldBeTrue();
+        }
+        finally
+        {
+            host.Close();
+        }
+
+        return Task.CompletedTask;
+    });
+
+    private static Style Find(string key) => Application.Current.FindResource(key).ShouldBeOfType<Style>();
+
+    private static Color ColorOf(string key) => Application.Current.FindResource(key).ShouldBeOfType<SolidColorBrush>().Color;
+
+    private static IEnumerable<T> Descendants<T>(DependencyObject parent) where T : DependencyObject
+    {
+        for (var index = 0; index < VisualTreeHelper.GetChildrenCount(parent); index++)
+        {
+            var child = VisualTreeHelper.GetChild(parent, index);
+            if (child is T value)
+            {
+                yield return value;
+            }
+
+            foreach (var descendant in Descendants<T>(child))
+            {
+                yield return descendant;
+            }
+        }
+    }
 }

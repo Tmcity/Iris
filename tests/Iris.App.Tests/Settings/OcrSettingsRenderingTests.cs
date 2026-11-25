@@ -28,18 +28,24 @@ public sealed class OcrSettingsRenderingTests
             {
                 await Run(async f =>
                 {
+                    try
+                    {
                     Prepare(f, theme, size); f.Show();
                     f.Vm.SelectedOcrProfile!.DisplayName.Value = "English OCR service with a long descriptive label · 中文识别服务示例";
-                    f.Vm.SelectedOcrProfile.Credentials.Value = CredentialEditKind.Replace;
-                    ((PasswordBox)f.Window.FindName("OcrApiKeyPasswordBox")).Password = "synthetic-masked-api";
-                    ((PasswordBox)f.Window.FindName("OcrSecretKeyPasswordBox")).Password = "synthetic-masked-secret";
-                    var scroll = (ScrollViewer)f.Window.FindName("OcrPageScroll");
-                    scroll.ScrollToTop(); await Render(f, $"{theme}-{size.Width}-ocr-top", directory, manifest);
-                    ((ListBox)f.Window.FindName("OcrProfilesListBox")).BringIntoView(); await Render(f, $"{theme}-{size.Width}-ocr-list", directory, manifest);
-                    ((TextBox)f.Window.FindName("OcrBaseUrlTextBox")).BringIntoView(); await Render(f, $"{theme}-{size.Width}-baidu-options", directory, manifest);
-                    scroll.ScrollToEnd(); await Render(f, $"{theme}-{size.Width}-baidu-fields", directory, manifest);
-                    f.Vm.SelectedOcrProfile = f.Vm.OcrProfiles[1]; f.Vm.SelectedOcrProfile.LanguageTag.Value = "en-US";
-                    scroll.ScrollToEnd(); await Render(f, $"{theme}-{size.Width}-windows-fields", directory, manifest);
+                f.Vm.SelectedOcrProfile.Credentials.Value = CredentialEditKind.Replace;
+                f.Vm.IsOcrDetailOpen = true; f.Window.UpdateLayout();
+                ((PasswordBox)f.Window.FindName("OcrApiKeyPasswordBox")).Password = "synthetic-masked-api";
+                ((PasswordBox)f.Window.FindName("OcrSecretKeyPasswordBox")).Password = "synthetic-masked-secret";
+                var scroll = (ScrollViewer)f.Window.FindName("OcrPageScroll");
+                f.Vm.IsOcrDetailOpen = false; f.Window.UpdateLayout();
+                scroll.ScrollToTop(); await Render(f, $"{theme}-{size.Width}-ocr-top", directory, manifest);
+                ((ListBox)f.Window.FindName("OcrProfilesListBox")).BringIntoView(); await Render(f, $"{theme}-{size.Width}-ocr-list", directory, manifest);
+                f.Vm.IsOcrDetailOpen = true; f.Window.UpdateLayout();
+                ((TextBox)f.Window.FindName("OcrBaseUrlTextBox")).BringIntoView(); await Render(f, $"{theme}-{size.Width}-baidu-options", directory, manifest);
+                scroll.ScrollToEnd(); await Render(f, $"{theme}-{size.Width}-baidu-fields", directory, manifest);
+                f.Vm.SelectedOcrProfile = f.Vm.OcrProfiles[1]; f.Vm.SelectedOcrProfile.LanguageTag.Value = "en-US";
+                f.Window.UpdateLayout();
+                scroll.ScrollToEnd(); await Render(f, $"{theme}-{size.Width}-windows-fields", directory, manifest);
                     f.Show("screenshot"); f.Vm.Screenshot.MaskOpacityText.Value = "0.8";
                     await Render(f, $"{theme}-{size.Width}-screenshot", directory, manifest);
                     if (size.Width == 600)
@@ -47,19 +53,28 @@ public sealed class OcrSettingsRenderingTests
                         ((ScrollViewer)f.Window.FindName("ScreenshotPageScroll")).ScrollToEnd();
                         await Render(f, $"{theme}-{size.Width}-screenshot-bottom", directory, manifest);
                     }
+                    }
+                    finally
+                    {
+                        Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(Wpf.Ui.Appearance.ApplicationTheme.Light);
+                    }
                 }, new() { General = new() { Theme = theme } });
             }
             await Run(async f =>
             {
+                try
+                {
                 Prepare(f, theme, new(760, 520)); f.Show();
+                f.Vm.IsOcrDetailOpen = true; f.Window.UpdateLayout();
                 f.Vm.SelectedOcrProfile!.TimeoutText.Value = "not a number";
                 await f.Vm.ExecuteSaveAsync(); ((TextBox)f.Window.FindName("OcrTimeoutTextBox")).BringIntoView();
                 await Render(f, $"{theme}-invalid-timeout", directory, manifest);
                 f.Vm.ExecuteReload(); f.Show("screenshot"); f.Vm.Screenshot.MaskOpacityText.Value = "NaN";
                 await f.Vm.ExecuteSaveAsync(); await Render(f, $"{theme}-invalid-opacity", directory, manifest);
-                f.Show(); var scroll = (ScrollViewer)f.Window.FindName("OcrPageScroll"); scroll.ScrollToEnd();
-                var gate = f.NewGate(); var cleanupGate = f.NewGate();
-                f.Cloud.Configure = p => { p.Test = async _ => { await gate.Pause(); return new(true, TimeSpan.Zero); }; p.BeforeDispose = cleanupGate.Pause; };
+                f.Show(); f.Vm.IsOcrDetailOpen = true; f.Window.UpdateLayout();
+                var scroll = (ScrollViewer)f.Window.FindName("OcrPageScroll"); scroll.ScrollToEnd();
+                    var gate = f.NewGate(); var cleanupGate = f.NewGate();
+                    f.Cloud.Configure = p => { p.Test = async _ => { await gate.Pause(); return new(true, TimeSpan.Zero); }; p.BeforeDispose = cleanupGate.Pause; };
                 var work = f.Track(f.Vm.ExecuteOcrTestAsync()); await gate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5));
                 await Render(f, $"{theme}-testing", directory, manifest); gate.Open();
                 await cleanupGate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(5));
@@ -80,6 +95,11 @@ public sealed class OcrSettingsRenderingTests
                 f.Vm.Screenshot.MaskOpacityText.Value = "0.7"; f.ExtraObserver.Fail = true;
                 await f.Vm.ExecuteSaveAsync(); f.Receipts.PendingCount.ShouldBe(1);
                 await Render(f, $"{theme}-saved-apply-pending", directory, manifest);
+                }
+                finally
+                {
+                    Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(Wpf.Ui.Appearance.ApplicationTheme.Light);
+                }
             }, new() { General = new() { Theme = theme } });
         }
         File.WriteAllText(Path.Combine(directory, "manifest.json"), JsonSerializer.Serialize(manifest, ManifestOptions));
@@ -88,6 +108,7 @@ public sealed class OcrSettingsRenderingTests
     private static void Prepare(OcrSettingsUiScope f, AppTheme theme, Size size)
     {
         Wpf.Ui.Appearance.ApplicationThemeManager.Apply(theme == AppTheme.Dark ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light);
+        Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(theme == AppTheme.Dark ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light);
         Wpf.Ui.Appearance.ApplicationThemeManager.Apply(f.Window);
         f.Window.Width = size.Width; f.Window.Height = size.Height;
     }

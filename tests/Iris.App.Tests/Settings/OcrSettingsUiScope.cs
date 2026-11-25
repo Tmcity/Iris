@@ -38,10 +38,10 @@ internal sealed class OcrSettingsUiScope
     internal SettingsWindowSession Session { get; }
     internal readonly SettingsApplyReceiptManager Receipts;
     internal IOcrProviderRegistry Registry { get; }
-
-    internal OcrSettingsUiScope(AppSettings? initial = null)
+    internal OcrSettingsUiScope(AppSettings? initial = null, bool readOnly = false)
     {
         if (initial != null) Settings.Value = initial;
+        Settings.IsReadOnly = readOnly;
         var services = new ServiceCollection(); services.AddLogging(); services.AddIrisCore();
         services.AddSingleton<ISettingsService>(Settings); services.AddSingleton<ISecretStore>(SecretStore);
         services.AddSingleton<IOcrProviderFactory>(Cloud); services.AddSingleton<IOcrProviderFactory>(Local);
@@ -60,9 +60,9 @@ internal sealed class OcrSettingsUiScope
     internal void Show(string page = "ocr") { Vm.CurrentPageKey = page; Window.Show(); Window.UpdateLayout(); }
     internal Gate NewGate() { var gate = new Gate(); Gates.Add(gate); return gate; }
     internal T Track<T>(T task, Type? error = null) where T : Task { Tasks.Add((task, error)); return task; }
-    internal static Task Run(Func<OcrSettingsUiScope, Task> body, AppSettings? initial = null) => WpfTestRunner.RunAsync(async () =>
+    internal static Task Run(Func<OcrSettingsUiScope, Task> body, AppSettings? initial = null, bool readOnly = false) => WpfTestRunner.RunAsync(async () =>
     {
-        var f = new OcrSettingsUiScope(initial); Exception? primary = null; var errors = new List<Exception>();
+        var f = new OcrSettingsUiScope(initial, readOnly); Exception? primary = null; var errors = new List<Exception>();
         try { await body(f); } catch (Exception ex) { primary = ex; }
         finally
         {
@@ -106,7 +106,7 @@ internal sealed class OcrSettingsUiScope
     }
     internal sealed class Store : ISettingsService
     {
-        public bool IsReadOnly => false;
+        public bool IsReadOnly { get; set; }
         internal AppSettings Value = new();
         internal int Updates;
         internal Exception? Failure;

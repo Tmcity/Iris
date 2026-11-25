@@ -291,6 +291,7 @@ public sealed class SettingsWindowTranslationUiTests
             using var scope = provider.CreateScope();
             var themeService = scope.ServiceProvider.GetRequiredService<ThemeService>();
             themeService.Apply(appTheme);
+            Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(theme);
 
             var vm = scope.ServiceProvider.GetRequiredService<SettingsViewModel>();
             var window = scope.ServiceProvider.GetRequiredService<SettingsWindow>();
@@ -305,6 +306,10 @@ public sealed class SettingsWindowTranslationUiTests
                 window.Width = width;
                 window.Height = height;
                 window.Show();
+                // 夹具守卫：Iris 颜色字典必须跟着主题走（深色 0x1A、浅色 0x66，以 64 为界）。
+                var irisCardFill = (SolidColorBrush)window.FindResource("IrisAcrylicCardFillBrush");
+                if (theme == Wpf.Ui.Appearance.ApplicationTheme.Dark) irisCardFill.Color.A.ShouldBeLessThan((byte)64);
+                else irisCardFill.Color.A.ShouldBeGreaterThan((byte)64);
                 vm.CurrentPageKey = "translation";
                 vm.SelectedProfile = vm.Profiles[0];
                 window.UpdateLayout();
@@ -325,52 +330,50 @@ public sealed class SettingsWindowTranslationUiTests
                     bgBrush.Color.R.ShouldBeGreaterThan(textBrush.Color.R, "亮色主题下背景色亮度高于前景色");
                 }
 
-                // 1. 验证响应式网格布局根据阈值正确切换
-                var profilesCol = (ColumnDefinition)window.FindName("ProfilesColDef");
-                var detailsCol = (ColumnDefinition)window.FindName("DetailsColDef");
-                var profilesRow = (RowDefinition)window.FindName("ProfilesRowDef");
-                var detailsRow = (RowDefinition)window.FindName("DetailsRowDef");
-                profilesCol.ShouldNotBeNull();
-                detailsCol.ShouldNotBeNull();
-                profilesRow.ShouldNotBeNull();
-                detailsRow.ShouldNotBeNull();
-
+                // 1. 验证自适应导航栏宽度与默认列表态可见性
+                var navCol = (ColumnDefinition)window.FindName("NavColumnDef");
+                navCol.ShouldNotBeNull();
                 if (width < 680)
                 {
-                    profilesCol.Width.IsStar.ShouldBeTrue("窄窗口下列表列占满宽度");
-                    detailsCol.Width.Value.ShouldBe(0, "窄窗口下详情列宽度折叠为0");
-                    profilesRow.Height.Value.ShouldBe(96, "窄窗口下列表行高度为紧凑固定高度");
-                    detailsRow.Height.IsStar.ShouldBeTrue("窄窗口下详情行占满剩余垂直空间");
+                    navCol.Width.Value.ShouldBe(48, "窄窗口下导航栏应折叠为 48px");
                 }
                 else
                 {
-                    profilesCol.Width.Value.ShouldBe(220, "宽窗口下列表列为固定宽度 220");
-                    detailsCol.Width.IsStar.ShouldBeTrue("宽窗口下详情列占满剩余水平空间");
-                    profilesRow.Height.IsStar.ShouldBeTrue("宽窗口下列表行占满垂直空间");
-                    detailsRow.Height.Value.ShouldBe(0, "宽窗口下详情行高度折叠为0");
+                    navCol.Width.Value.ShouldBe(212, "宽窗口下导航栏应展开为 212px");
                 }
 
-                // 2. 验证工具栏全部操作按钮（添加、上移、下移、删除）文字与边界完整且均可见
+                var profilesPane = (UIElement)window.FindName("ProfilesPane");
+                var detailHost = (UIElement)window.FindName("TranslationDetailHost");
+                profilesPane.ShouldNotBeNull();
+                detailHost.ShouldNotBeNull();
+                profilesPane.IsVisible.ShouldBeTrue("默认打开翻译页应显示列表态");
+                detailHost.IsVisible.ShouldBeFalse("默认打开翻译页应隐藏详情态");
+
+                // 2. 验证列表态添加按钮与服务行控件可用且未裁剪
                 var addBtn = (Wpf.Ui.Controls.Button)window.FindName("AddProfileButton");
-                var moveUpBtn = (Wpf.Ui.Controls.Button)window.FindName("MoveUpProfileButton");
-                var moveDownBtn = (Wpf.Ui.Controls.Button)window.FindName("MoveDownProfileButton");
-                var deleteBtn = (Wpf.Ui.Controls.Button)window.FindName("DeleteProfileButton");
-
                 addBtn.ShouldNotBeNull();
-                moveUpBtn.ShouldNotBeNull();
-                moveDownBtn.ShouldNotBeNull();
-                deleteBtn.ShouldNotBeNull();
+                addBtn.ActualWidth.ShouldBeGreaterThan(70);
 
-                addBtn.ActualWidth.ShouldBeGreaterThan(40);
-                addBtn.Visibility.ShouldBe(System.Windows.Visibility.Visible);
-                moveUpBtn.ActualWidth.ShouldBeGreaterThan(0);
-                moveUpBtn.Visibility.ShouldBe(System.Windows.Visibility.Visible);
-                moveDownBtn.ActualWidth.ShouldBeGreaterThan(0);
-                moveDownBtn.Visibility.ShouldBe(System.Windows.Visibility.Visible);
-                deleteBtn.ActualWidth.ShouldBeGreaterThan(0);
-                deleteBtn.Visibility.ShouldBe(System.Windows.Visibility.Visible);
+                var listBox = (ListBox)window.FindName("ProfilesListBox");
+                listBox.ShouldNotBeNull();
+                listBox.UpdateLayout();
+                var rowItem = (ListBoxItem?)listBox.ItemContainerGenerator.ContainerFromIndex(0);
+                rowItem.ShouldNotBeNull();
+                var rowMoreBtn = FindVisualChild<Wpf.Ui.Controls.Button>(rowItem, b => b.Name == "TranslationRowMoreButton");
+                rowMoreBtn.ShouldNotBeNull();
+                rowMoreBtn.ActualWidth.ShouldBeGreaterThan(0);
+                var rowOpenBtn = FindVisualChild<Wpf.Ui.Controls.Button>(rowItem, b => b.Name == "TranslationRowOpenDetailsButton");
+                rowOpenBtn.ShouldNotBeNull();
+                rowOpenBtn.ActualWidth.ShouldBeGreaterThan(0);
 
-                // 3. 验证主要详情输入框在两种尺寸下均具有充足可编辑宽度（>= 150px）
+                // 3. 进入详情态，验证面包屑与详情表单输入区在两种尺寸下均具备充足可编辑宽度
+                vm.IsTranslationDetailOpen = true;
+                window.UpdateLayout();
+
+                var backBtn = (Wpf.Ui.Controls.Button)window.FindName("TranslationBreadcrumbBackButton");
+                backBtn.ShouldNotBeNull();
+                backBtn.IsVisible.ShouldBeTrue();
+
                 var nameBox = (TextBox)window.FindName("DisplayNameTextBox");
                 nameBox.ShouldNotBeNull();
                 nameBox.ActualWidth.ShouldBeGreaterThanOrEqualTo(150, $"DisplayNameTextBox 在 {width}x{height} 下实际宽度 {nameBox.ActualWidth} 不足");
@@ -441,6 +444,7 @@ public sealed class SettingsWindowTranslationUiTests
                 {
                     restoreDict.Theme = Wpf.Ui.Appearance.ApplicationTheme.Light;
                 }
+                Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(Wpf.Ui.Appearance.ApplicationTheme.Light);
             }
         });
     }

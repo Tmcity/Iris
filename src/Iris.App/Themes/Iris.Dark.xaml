@@ -1,5 +1,7 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Window tint laid over the backdrop: #242424 at 68% (0.68 x 255 = 173 = AD). -->
+    <SolidColorBrush x:Key="IrisAcrylicTintBrush" Color="#AD242424" />
     <SolidColorBrush x:Key="IrisAcrylicCardFillBrush" Color="#1AFFFFFF" />
     <SolidColorBrush x:Key="IrisAcrylicCardStrokeBrush" Color="#1FFFFFFF" />
     <SolidColorBrush x:Key="IrisAcrylicRowFillBrush" Color="#14FFFFFF" />

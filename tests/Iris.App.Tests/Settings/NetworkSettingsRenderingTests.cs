@@ -27,6 +27,8 @@ public sealed class NetworkSettingsRenderingTests
         {
             await Run(async f =>
             {
+                try
+                {
                 Prepare(f, theme, width); f.Select();
                 f.Vm.Network.Mode.Value = ProxyMode.Custom;
                 f.Vm.Network.Url.Value = "http://proxy.代理节点.long-label-for-review.example.test:8080/";
@@ -36,6 +38,11 @@ public sealed class NetworkSettingsRenderingTests
                 scroll.ScrollToTop(); await Render(f, $"{theme}-{width}-fields-top", directory, manifest);
                 ((PasswordBox)f.Window.FindName("NetworkPasswordBox")).BringIntoView(); await Render(f, $"{theme}-{width}-credentials", directory, manifest);
                 scroll.ScrollToEnd(); await Render(f, $"{theme}-{width}-target", directory, manifest);
+                }
+                finally
+                {
+                    Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(Wpf.Ui.Appearance.ApplicationTheme.Light);
+                }
             }, LongInitial());
 
             foreach (string state in new[] { "empty", "invalid", "running", "ending", "transport-failed", "cleanup-failed", "readonly", "apply-pending", "http-response" })
@@ -45,6 +52,8 @@ public sealed class NetworkSettingsRenderingTests
                     { Providers = [initial.Ocr.Providers[0] with { Id = BuiltInProviderIds.BaiduOcr, BaiduOptions = new() { BaseUrl = "invalid saved endpoint" } }, initial.Ocr.Providers[1]] } };
                 await Run(async f =>
                 {
+                    try
+                    {
                     Prepare(f, theme, width); var scroll = (ScrollViewer)f.Window.FindName("NetworkPageScroll");
                     if (state is not "empty" and not "readonly") f.Select();
                     if (state == "empty") { f.Vm.NetworkEndpoints.ShouldBeEmpty(); f.Vm.NetworkEndpointHint.ShouldBe(UiText.NetworkNoEndpoints); }
@@ -87,6 +96,11 @@ public sealed class NetworkSettingsRenderingTests
                     }
                     if (state == "readonly") { f.Vm.IsReadOnly.ShouldBeTrue(); f.Vm.TestNetworkCommand.CanExecute(null).ShouldBeFalse(); }
                     scroll.ScrollToEnd(); await Render(f, $"{theme}-{width}-{state}", directory, manifest);
+                    }
+                    finally
+                    {
+                        Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(Wpf.Ui.Appearance.ApplicationTheme.Light);
+                    }
                 }, initial, readOnly: state == "readonly");
             }
         }
@@ -103,6 +117,7 @@ public sealed class NetworkSettingsRenderingTests
     private static void Prepare(NetworkSettingsUiScope f, AppTheme theme, int width)
     {
         Wpf.Ui.Appearance.ApplicationThemeManager.Apply(theme == AppTheme.Dark ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light);
+        Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(theme == AppTheme.Dark ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light);
         f.Window.Width = width; f.Window.Height = width == 600 ? 440 : 520; f.Show();
     }
     private static async Task Render(NetworkSettingsUiScope f, string name, string directory, List<object> manifest)

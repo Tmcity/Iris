@@ -1410,4 +1410,16 @@ Iris 命令行用法：
   <data name="ShutdownIncomplete" xml:space="preserve">
     <value>应用退出未完成，请重试退出。</value>
   </data>
+  <data name="SettingsRowMoreActions" xml:space="preserve">
+    <value>更多操作</value>
+  </data>
+  <data name="SettingsRowOpenDetails" xml:space="preserve">
+    <value>查看详情</value>
+  </data>
+  <data name="SettingsRowDragToReorder" xml:space="preserve">
+    <value>拖动排序</value>
+  </data>
+  <data name="SettingsRowEnabled" xml:space="preserve">
+    <value>启用</value>
+  </data>
 </root>

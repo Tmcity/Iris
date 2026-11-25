@@ -23,12 +23,19 @@ public sealed class SelectionSettingsRenderingTests
             {
                 await SelectionSettingsTestScope.Run(async f =>
                 {
+                    try
+                    {
                 f.Vm.Selection.ClipboardUnsafeProcessesText = string.Join('\n', Enumerable.Range(1, 64).Select(i => $"Long application process name {i:000} with additional extension.exe"));
                 f.Vm.Selection.ClipboardTimeoutText = "not an integer";
                 await f.Vm.ExecuteSaveAsync();
                 f.Vm.Selection.HasError.ShouldBeTrue(); f.Vm.StatusMessage.ShouldBe(UiText.SelectionTimeoutError);
                 Wpf.Ui.Appearance.ApplicationThemeManager.Apply(theme);
+                Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(theme);
                 Wpf.Ui.Appearance.ApplicationThemeManager.Apply(f.Window);
+                // 夹具守卫：Iris 颜色字典必须跟着主题走（深色 0x1A、浅色 0x66，以 64 为界）。
+                var irisCardFill = (SolidColorBrush)f.Window.FindResource("IrisAcrylicCardFillBrush");
+                if (theme == Wpf.Ui.Appearance.ApplicationTheme.Dark) irisCardFill.Color.A.ShouldBeLessThan((byte)64);
+                else irisCardFill.Color.A.ShouldBeGreaterThan((byte)64);
                 f.Window.Width = size.Width; f.Window.Height = size.Height; f.Show();
                 var scroll = (ScrollViewer)f.Window.FindName("SelectionScrollViewer");
                 foreach (bool bottom in new[] { false, true })
@@ -46,6 +53,8 @@ public sealed class SelectionSettingsRenderingTests
                     var foreground = (SolidColorBrush)f.Window.FindResource("TextFillColorPrimaryBrush");
                     if (theme == Wpf.Ui.Appearance.ApplicationTheme.Dark) foreground.Color.R.ShouldBeGreaterThan((byte)150);
                     else foreground.Color.R.ShouldBeLessThan((byte)120);
+                    Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(theme);
+                    f.Window.UpdateLayout();
                     var bitmap = new RenderTargetBitmap((int)size.Width, (int)size.Height, 96, 96, PixelFormats.Pbgra32);
                     var background = new DrawingVisual();
                     using (var drawing = background.RenderOpen())
@@ -61,6 +70,11 @@ public sealed class SelectionSettingsRenderingTests
                     using (var file = File.Create(path)) encoder.Save(file);
                     manifest.Add($"{Path.GetFileName(path)} {size.Width}x{size.Height} SHA256={Convert.ToHexString(SHA256.HashData(File.ReadAllBytes(path)))}");
                 }
+                    }
+                    finally
+                    {
+                        Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(Wpf.Ui.Appearance.ApplicationTheme.Light);
+                    }
                 });
             }
         }

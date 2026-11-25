@@ -26,6 +26,7 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Window.Resources>
 
+    <Grid Background="{DynamicResource IrisAcrylicTintBrush}">
     <DockPanel Margin="12,8,12,12">
 
         <!-- 顶栏：拖拽手柄、钉住、设置、关闭 -->
@@ -354,4 +355,5 @@
         </Grid>
         </ScrollViewer>
     </DockPanel>
+    </Grid>
 </ui:FluentWindow>

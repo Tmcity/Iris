@@ -15,6 +15,7 @@ public sealed class IrisColorKeyTests
     [InlineData("IrisAcrylicCardStrokeBrush")]
     [InlineData("IrisAcrylicRowFillBrush")]
     [InlineData("IrisAcrylicRowStrokeBrush")]
+    [InlineData("IrisAcrylicTintBrush")]
     public Task IrisColorKeys_AreTranslucent(string key) => WpfTestRunner.RunAsync(() =>
     {
         var light = Application.Current.FindResource(key).ShouldBeOfType<SolidColorBrush>();
@@ -31,11 +32,13 @@ public sealed class IrisColorKeyTests
     [InlineData("IrisAcrylicCardStrokeBrush")]
     [InlineData("IrisAcrylicRowFillBrush")]
     [InlineData("IrisAcrylicRowStrokeBrush")]
+    [InlineData("IrisAcrylicTintBrush")]
     public Task SolidFallbackKeys_AreOpaque(string key) => WpfTestRunner.RunAsync(() =>
     {
         var fallback = new ResourceDictionary { Source = new Uri("pack://application:,,,/Iris.App;component/Themes/Iris.SolidFallback.xaml", UriKind.Absolute) };
-        var brush = fallback[key].ShouldBeOfType<SolidColorBrush>();
-        brush.Color.A.ShouldBe((byte)255);
+        var darkFallback = new ResourceDictionary { Source = new Uri("pack://application:,,,/Iris.App;component/Themes/Iris.SolidFallback.Dark.xaml", UriKind.Absolute) };
+        fallback[key].ShouldBeOfType<SolidColorBrush>().Color.A.ShouldBe((byte)255);
+        darkFallback[key].ShouldBeOfType<SolidColorBrush>().Color.A.ShouldBe((byte)255);
         return Task.CompletedTask;
     });
 

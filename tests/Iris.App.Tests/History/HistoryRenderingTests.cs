@@ -86,7 +86,11 @@ public sealed class HistoryRenderingTests
         Wpf.Ui.Appearance.ApplicationThemeManager.Apply(dark ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light);
         window.Resources.MergedDictionaries.Add(new Wpf.Ui.Markup.ThemesDictionary
         { Theme = dark ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light });
+        window.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"pack://application:,,,/Iris.App;component/Themes/Iris.{(dark ? "Dark" : "Light")}.xaml", UriKind.Absolute) });
         window.Resources.MergedDictionaries.Add(new Wpf.Ui.Markup.ControlsDictionary());
+        // 夹具守卫：窗口级也要有对应主题的 Iris 颜色字典（深色 0x1A、浅色 0x66，以 64 为界）。
+        var irisCardFill = (SolidColorBrush)window.FindResource("IrisAcrylicCardFillBrush");
+        if (dark) irisCardFill.Color.A.ShouldBeLessThan((byte)64); else irisCardFill.Color.A.ShouldBeGreaterThan((byte)64);
     }
     private static async Task Render(Window window, string name, string directory, List<object> manifest)
     {

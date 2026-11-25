@@ -239,7 +239,11 @@ public sealed class LocalizationRenderingTests
         var theme = dark ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light;
         Wpf.Ui.Appearance.ApplicationThemeManager.Apply(theme);
         element.Resources.MergedDictionaries.Add(new Wpf.Ui.Markup.ThemesDictionary { Theme = theme });
+        element.Resources.MergedDictionaries.Add(new ResourceDictionary { Source = new Uri($"pack://application:,,,/Iris.App;component/Themes/Iris.{(dark ? "Dark" : "Light")}.xaml", UriKind.Absolute) });
         element.Resources.MergedDictionaries.Add(new Wpf.Ui.Markup.ControlsDictionary());
+        // 夹具守卫：元素级也要有对应主题的 Iris 颜色字典（深色 0x1A、浅色 0x66，以 64 为界）。
+        var irisCardFill = (SolidColorBrush)element.FindResource("IrisAcrylicCardFillBrush");
+        if (dark) irisCardFill.Color.A.ShouldBeLessThan((byte)64); else irisCardFill.Color.A.ShouldBeGreaterThan((byte)64);
         if (element is Window window) window.SetResourceReference(Control.BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
     }
     private static async Task Capture(FrameworkElement element, string name, string directory, List<object> manifest)

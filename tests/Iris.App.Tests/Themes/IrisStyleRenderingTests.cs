@@ -204,4 +204,97 @@ public sealed class IrisStyleRenderingTests
 
         return Task.CompletedTask;
     });
+
+    [Fact]
+    public Task ListRowItem_SelectedRowLooksDifferent_AndSelectionStillWorks() => WpfTestRunner.RunAsync(() =>
+    {
+        var style = (Style)Application.Current.FindResource("IrisListRowItem");
+        // 三行内容相同，所以行与行之间的像素差只可能来自状态。
+        var rows = Enumerable.Range(0, 3).Select(_ => new System.Windows.Controls.ListBoxItem { Content = "Row" }).ToArray();
+        var list = new System.Windows.Controls.ListBox { ItemContainerStyle = style };
+        foreach (var row in rows)
+        {
+            list.Items.Add(row);
+        }
+
+        var surface = new Border { Child = list, Padding = new Thickness(16) };
+        var window = new Window
+        {
+            Content = surface,
+            Width = 460,
+            Height = 300,
+            ShowActivated = false,
+            ShowInTaskbar = false,
+            Left = -20000,
+            Top = -20000,
+        };
+        surface.SetResourceReference(Border.BackgroundProperty, "ApplicationBackgroundBrush");
+        try
+        {
+            window.Show();
+            window.UpdateLayout();
+
+            // 样式真的套到了容器上：否则下面比的是 WPF-UI 自带的行样式。
+            rows[0].Style.ShouldBeSameAs(style);
+
+            // 选中行为没被模板吞掉，两个方向都通。
+            list.SelectedIndex = 0;
+            rows[0].IsSelected.ShouldBeTrue();
+            rows[1].IsSelected = true;
+            list.SelectedIndex.ShouldBe(1);
+            list.SelectedIndex = 0;
+            rows[1].IsSelected.ShouldBeFalse();
+            rows[2].IsEnabled = false;
+            window.UpdateLayout();
+
+            // 常态：卡面与描边来自 Iris 的两个键；间距来自主题层的两个键。
+            var plainBorder = TemplatePart(rows[1], "RowBorder");
+            plainBorder.Background.ShouldBeOfType<SolidColorBrush>().Color.ShouldBe(BrushColor("IrisAcrylicCardFillBrush"));
+            plainBorder.BorderBrush.ShouldBeOfType<SolidColorBrush>().Color.ShouldBe(BrushColor("IrisAcrylicCardStrokeBrush"));
+            rows[1].Padding.ShouldBe((Thickness)Application.Current.FindResource("IrisRowPadding"));
+            rows[1].Margin.ShouldBe((Thickness)Application.Current.FindResource("IrisRowGap"));
+
+            // 选中：状态层有了底色，描边换了一支。未选中：状态层透明。
+            TemplatePart(rows[1], "StateLayer").Background.ShouldBeOfType<SolidColorBrush>().Color.A.ShouldBe((byte)0);
+            TemplatePart(rows[0], "StateLayer").Background.ShouldBeOfType<SolidColorBrush>().Color.A.ShouldBeGreaterThan((byte)0);
+            TemplatePart(rows[0], "RowBorder").BorderBrush.ShouldBeOfType<SolidColorBrush>().Color
+                .ShouldBe(BrushColor("TextFillColorSecondaryBrush"));
+
+            // 禁用：整行降不透明度。先断常态是 1，否则 0.5 那条可能只是模板写死的。
+            plainBorder.Opacity.ShouldBe(1d);
+            TemplatePart(rows[2], "RowBorder").Opacity.ShouldBe(0.5d);
+
+            // 键盘焦点框：FindResource 在键不存在时会抛异常。
+            rows[1].FocusVisualStyle.ShouldBeSameAs(Application.Current.FindResource("DefaultControlFocusVisualStyle"));
+
+            // 最后看像素：选中行与未选中行在行内同一位置（左内边距里，没有文字）颜色不同。
+            var bitmap = new RenderTargetBitmap((int)surface.ActualWidth, (int)surface.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+            bitmap.Render(surface);
+            bitmap.PixelWidth.ShouldBeGreaterThan(0);
+            rows[0].ActualHeight.ShouldBeGreaterThan(20d);
+            RowPixel(bitmap, rows[0], surface).ShouldNotBe(RowPixel(bitmap, rows[1], surface));
+        }
+        finally
+        {
+            window.Close();
+        }
+
+        return Task.CompletedTask;
+    });
+
+    private static Border TemplatePart(System.Windows.Controls.ListBoxItem row, string name) =>
+        row.Template.FindName(name, row).ShouldBeOfType<Border>();
+
+    private static Color BrushColor(string key) =>
+        Application.Current.FindResource(key).ShouldBeOfType<SolidColorBrush>().Color;
+
+    // 取行内 (6, 高度一半) 处的像素：x=6 落在 16 的左内边距里，避开文字与 1px 描边。
+    // 渲染的是 surface（窗口客户区，原点 0,0），所以把行内坐标换算到 surface 上再读。
+    private static uint RowPixel(RenderTargetBitmap bitmap, FrameworkElement row, Visual surface)
+    {
+        var point = row.TransformToAncestor(surface).Transform(new Point(6, row.ActualHeight / 2));
+        var pixel = new byte[4];
+        bitmap.CopyPixels(new Int32Rect((int)point.X, (int)point.Y, 1, 1), pixel, 4, 0);
+        return BitConverter.ToUInt32(pixel, 0);
+    }
 }

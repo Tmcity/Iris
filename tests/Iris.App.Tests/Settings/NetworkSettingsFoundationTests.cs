@@ -76,6 +76,7 @@ public sealed class NetworkSettingsFoundationTests
                 try
                 {
                     Wpf.Ui.Appearance.ApplicationThemeManager.Apply(theme == AppTheme.Dark ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light);
+                    Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(theme == AppTheme.Dark ? Wpf.Ui.Appearance.ApplicationTheme.Dark : Wpf.Ui.Appearance.ApplicationTheme.Light);
                     window.Show(); window.UpdateLayout();
                     vm.IsReadOnly.ShouldBeTrue(); vm.CanEdit.ShouldBeFalse(); vm.SaveCommand.CanExecute(null).ShouldBeFalse();
                     vm.TestDraftCommand.CanExecute(null).ShouldBeFalse(); vm.TestOcrCommand.CanExecute(null).ShouldBeFalse();
@@ -93,7 +94,7 @@ public sealed class NetworkSettingsFoundationTests
                     provider.GetService<IProxyConnectivityTester>().ShouldBeNull();
                     (await File.ReadAllTextAsync(paths.SettingsFile, TestContext.Current.CancellationToken)).ShouldBe(original);
                 }
-                finally { await session.ShutdownAsync(); }
+                finally { Iris.App.Services.ThemeService.ApplyIrisThemeDictionary(Wpf.Ui.Appearance.ApplicationTheme.Light); await session.ShutdownAsync(); }
                 window.IsVisible.ShouldBeFalse();
             });
         }

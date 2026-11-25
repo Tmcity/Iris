@@ -6,6 +6,7 @@
                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                  xmlns:app="clr-namespace:Iris.App"
                  xmlns:settings="clr-namespace:Iris.Core.Settings;assembly=Iris.Core"
+                xmlns:actions="clr-namespace:Iris.Core.Actions;assembly=Iris.Core"
                  xmlns:local="clr-namespace:Iris.App.Settings"
                  Title="{x:Static app:UiText.SettingsWindowTitle}"
                  Width="760"
@@ -14,10 +15,9 @@
                  MinHeight="440"
                  WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <DataTemplate x:Key="WrappingCheckBoxContent"><TextBlock Text="{Binding}" TextWrapping="Wrap"/></DataTemplate>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Window.Resources>
-    <Grid>
+    <Grid Background="{DynamicResource IrisAcrylicTintBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
@@ -32,28 +32,29 @@
         <!-- 主体区域：左侧导航与右侧内容 -->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="140" />
+                <ColumnDefinition x:Name="NavColumnDef" Width="212" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <!-- 左侧导航 -->
             <Border Grid.Column="0"
-                    BorderThickness="0,0,1,0"
-                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
-                    Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}"
                     Padding="6,12,6,8">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <StackPanel>
-                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsTitle}"
+                    <TextBlock x:Name="NavTitleText"
+                               TextWrapping="Wrap"
+                               Text="{x:Static app:UiText.SettingsTitle}"
                                FontSize="18"
                                FontWeight="SemiBold"
                                Margin="8,0,0,12" />
 
                     <!-- 导航项：常规 -->
-                    <Border CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavGeneralClick">
+                    <Border x:Name="NavGeneral"
+                            MouseLeftButtonUp="OnNavGeneralClick"
+                            ToolTip="{x:Static app:UiText.SettingsNavGeneral}"
+                            AutomationProperties.Name="{x:Static app:UiText.SettingsNavGeneral}">
                         <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="Background" Value="Transparent" />
+                            <Style TargetType="Border" BasedOn="{StaticResource IrisNavItem}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding CurrentPageKey}" Value="general">
                                         <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
@@ -61,16 +62,39 @@
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
-                        <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsNavGeneral}"
-                                   FontWeight="Medium"
-                                   VerticalAlignment="Center" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Width="3" Height="16" CornerRadius="2" Margin="-8,0,0,0"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Background="{DynamicResource AccentFillColorDefaultBrush}">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentPageKey}" Value="general">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="Settings20" FontSize="20" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{x:Static app:UiText.SettingsNavGeneral}"
+                                       Margin="12,0,0,0" FontWeight="Medium" VerticalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
                     </Border>
 
                     <!-- 导航项：翻译服务 -->
-                    <Border CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavTranslationClick">
+                    <Border x:Name="NavTranslation"
+                            MouseLeftButtonUp="OnNavTranslationClick"
+                            ToolTip="{x:Static app:UiText.SettingsNavTranslation}"
+                            AutomationProperties.Name="{x:Static app:UiText.SettingsNavTranslation}">
                         <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="Background" Value="Transparent" />
+                            <Style TargetType="Border" BasedOn="{StaticResource IrisNavItem}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding CurrentPageKey}" Value="translation">
                                         <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
@@ -78,16 +102,39 @@
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
-                        <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsNavTranslation}"
-                                   FontWeight="Medium"
-                                   VerticalAlignment="Center" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Width="3" Height="16" CornerRadius="2" Margin="-8,0,0,0"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Background="{DynamicResource AccentFillColorDefaultBrush}">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentPageKey}" Value="translation">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="Translate20" FontSize="20" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{x:Static app:UiText.SettingsNavTranslation}"
+                                       Margin="12,0,0,0" FontWeight="Medium" VerticalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
                     </Border>
 
                     <!-- 导航项：快捷键 -->
-                    <Border CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavHotkeysClick">
+                    <Border x:Name="NavHotkeys"
+                            MouseLeftButtonUp="OnNavHotkeysClick"
+                            ToolTip="{x:Static app:UiText.SettingsNavHotkeys}"
+                            AutomationProperties.Name="{x:Static app:UiText.SettingsNavHotkeys}">
                         <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="Background" Value="Transparent" />
+                            <Style TargetType="Border" BasedOn="{StaticResource IrisNavItem}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding CurrentPageKey}" Value="hotkeys">
                                         <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
@@ -95,14 +142,37 @@
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
-                        <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsNavHotkeys}"
-                                   FontWeight="Medium"
-                                   VerticalAlignment="Center" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Width="3" Height="16" CornerRadius="2" Margin="-8,0,0,0"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Background="{DynamicResource AccentFillColorDefaultBrush}">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentPageKey}" Value="hotkeys">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="Keyboard20" FontSize="20" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{x:Static app:UiText.SettingsNavHotkeys}"
+                                       Margin="12,0,0,0" FontWeight="Medium" VerticalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
                     </Border>
-                    <Border CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavSelectionClick">
+                    <Border x:Name="NavSelection"
+                            MouseLeftButtonUp="OnNavSelectionClick"
+                            ToolTip="{x:Static app:UiText.SettingsNavSelection}"
+                            AutomationProperties.Name="{x:Static app:UiText.SettingsNavSelection}">
                         <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="Background" Value="Transparent" />
+                            <Style TargetType="Border" BasedOn="{StaticResource IrisNavItem}">
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding CurrentPageKey}" Value="selection">
                                         <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
@@ -110,181 +180,644 @@
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
-                        <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsNavSelection}" FontWeight="Medium" VerticalAlignment="Center" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Width="3" Height="16" CornerRadius="2" Margin="-8,0,0,0"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Background="{DynamicResource AccentFillColorDefaultBrush}">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentPageKey}" Value="selection">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="CursorClick20" FontSize="20" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{x:Static app:UiText.SettingsNavSelection}"
+                                       Margin="12,0,0,0" FontWeight="Medium" VerticalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
                     </Border>
-                <Border x:Name="NavOcr" CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavOcrClick"><Border.Style><Style TargetType="Border"><Setter Property="Background" Value="Transparent"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="ocr"><Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></DataTrigger></Style.Triggers></Style></Border.Style><TextBlock Text="{x:Static app:UiText.OcrPageTitle}" TextWrapping="Wrap" FontWeight="Medium"/></Border><Border x:Name="NavScreenshot" CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavScreenshotClick"><Border.Style><Style TargetType="Border"><Setter Property="Background" Value="Transparent"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="screenshot"><Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></DataTrigger></Style.Triggers></Style></Border.Style><TextBlock Text="{x:Static app:UiText.ScreenshotPageTitle}" TextWrapping="Wrap" FontWeight="Medium"/></Border>
-                    <Border x:Name="NavNetwork" CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavNetworkClick">
-                        <Border.Style><Style TargetType="Border"><Setter Property="Background" Value="Transparent"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="network"><Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></DataTrigger></Style.Triggers></Style></Border.Style>
-                        <TextBlock Text="{x:Static app:UiText.NetworkTitle}" TextWrapping="Wrap" FontWeight="Medium"/>
+                    <Border x:Name="NavOcr"
+                            MouseLeftButtonUp="OnNavOcrClick"
+                            ToolTip="{x:Static app:UiText.OcrPageTitle}"
+                            AutomationProperties.Name="{x:Static app:UiText.OcrPageTitle}">
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource IrisNavItem}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentPageKey}" Value="ocr">
+                                        <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Width="3" Height="16" CornerRadius="2" Margin="-8,0,0,0"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Background="{DynamicResource AccentFillColorDefaultBrush}">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentPageKey}" Value="ocr">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="ScanText20" FontSize="20" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{x:Static app:UiText.OcrPageTitle}"
+                                       Margin="12,0,0,0" FontWeight="Medium" VerticalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
                     </Border>
-                    <Border x:Name="NavHistory" CornerRadius="4" Padding="10,6" Margin="0,0,0,4" Cursor="Hand" MouseLeftButtonUp="OnNavHistoryClick">
-                        <Border.Style><Style TargetType="Border"><Setter Property="Background" Value="Transparent"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="history"><Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}"/></DataTrigger></Style.Triggers></Style></Border.Style>
-                        <TextBlock Text="{x:Static app:UiText.HistoryTitle}" TextWrapping="Wrap" FontWeight="Medium"/>
+                    <Border x:Name="NavScreenshot"
+                            MouseLeftButtonUp="OnNavScreenshotClick"
+                            ToolTip="{x:Static app:UiText.ScreenshotPageTitle}"
+                            AutomationProperties.Name="{x:Static app:UiText.ScreenshotPageTitle}">
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource IrisNavItem}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentPageKey}" Value="screenshot">
+                                        <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Width="3" Height="16" CornerRadius="2" Margin="-8,0,0,0"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Background="{DynamicResource AccentFillColorDefaultBrush}">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentPageKey}" Value="screenshot">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="Screenshot20" FontSize="20" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{x:Static app:UiText.ScreenshotPageTitle}"
+                                       Margin="12,0,0,0" FontWeight="Medium" VerticalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </Border>
+                    <Border x:Name="NavNetwork"
+                            MouseLeftButtonUp="OnNavNetworkClick"
+                            ToolTip="{x:Static app:UiText.NetworkTitle}"
+                            AutomationProperties.Name="{x:Static app:UiText.NetworkTitle}">
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource IrisNavItem}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentPageKey}" Value="network">
+                                        <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Width="3" Height="16" CornerRadius="2" Margin="-8,0,0,0"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Background="{DynamicResource AccentFillColorDefaultBrush}">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentPageKey}" Value="network">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="Globe20" FontSize="20" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{x:Static app:UiText.NetworkTitle}"
+                                       Margin="12,0,0,0" FontWeight="Medium" VerticalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
+                    </Border>
+                    <Border x:Name="NavHistory"
+                            MouseLeftButtonUp="OnNavHistoryClick"
+                            ToolTip="{x:Static app:UiText.HistoryTitle}"
+                            AutomationProperties.Name="{x:Static app:UiText.HistoryTitle}">
+                        <Border.Style>
+                            <Style TargetType="Border" BasedOn="{StaticResource IrisNavItem}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CurrentPageKey}" Value="history">
+                                        <Setter Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Border Grid.Column="0" Width="3" Height="16" CornerRadius="2" Margin="-8,0,0,0"
+                                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                                    Background="{DynamicResource AccentFillColorDefaultBrush}">
+                                <Border.Style>
+                                    <Style TargetType="Border">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CurrentPageKey}" Value="history">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="History20" FontSize="20" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{x:Static app:UiText.HistoryTitle}"
+                                       Margin="12,0,0,0" FontWeight="Medium" VerticalAlignment="Center"
+                                       TextTrimming="CharacterEllipsis" />
+                        </Grid>
                     </Border>
                 </StackPanel>
                 </ScrollViewer>
             </Border>
 
-            <ScrollViewer x:Name="NetworkPageScroll" Grid.Column="1" Padding="20,12" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                <ScrollViewer.Style><Style TargetType="ScrollViewer"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="network"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></ScrollViewer.Style>
-                <StackPanel MaxWidth="620" HorizontalAlignment="Stretch">
-                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.NetworkTitle}" FontSize="24" FontWeight="SemiBold" Margin="0,0,0,12"/>
-                    <TextBlock Text="{x:Static app:UiText.NetworkDescription}" TextWrapping="Wrap" Margin="0,0,0,16"/>
-                    <StackPanel IsEnabled="{Binding CanEdit}">
-                        <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.NetworkModeLabel}" FontWeight="SemiBold" Margin="0,0,0,6"/>
-                        <ComboBox x:Name="NetworkModeCombo" ItemsSource="{x:Static local:NetworkSettingsDraftViewModel.Modes}" DisplayMemberPath="Name" SelectedValuePath="Value"
-                                  SelectedValue="{Binding Network.Mode.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinHeight="32"/>
-                        <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" x:Name="NetworkBypassCheck" Content="{x:Static app:UiText.NetworkBypass}" IsChecked="{Binding Network.BypassLocal.Value}" Margin="0,12,0,6"/>
-                        <TextBlock Text="{x:Static app:UiText.NetworkBypassDescription}" TextWrapping="Wrap" Margin="0,0,0,16" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                        <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.NetworkUrlLabel}" FontWeight="SemiBold" Margin="0,0,0,6"/>
-                        <TextBox x:Name="NetworkUrlTextBox" Text="{Binding Network.Url.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinHeight="32" HorizontalScrollBarVisibility="Auto"/>
-                        <TextBlock Text="{x:Static app:UiText.NetworkUrlHint}" TextWrapping="Wrap" Margin="0,6,0,16" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                        <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.NetworkCredentialLabel}" FontWeight="SemiBold" Margin="0,0,0,6"/>
-                        <ComboBox x:Name="NetworkCredentialsCombo" ItemsSource="{x:Static local:NetworkSettingsDraftViewModel.CredentialKinds}" DisplayMemberPath="Name" SelectedValuePath="Value"
-                                  SelectedValue="{Binding Network.Credentials.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinHeight="32"/>
-                        <StackPanel IsEnabled="{Binding Network.IsReplacing}">
-                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.NetworkUserName}" Margin="0,10,0,4"/>
-                            <TextBox x:Name="NetworkUserNameTextBox" Text="{Binding Network.UserName.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinHeight="32"/>
-                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.NetworkPassword}" Margin="0,10,0,4"/>
-                            <PasswordBox x:Name="NetworkPasswordBox" PasswordChanged="OnNetworkPasswordChanged" MinHeight="32"/>
-                        </StackPanel>
-                        <TextBlock Text="{x:Static app:UiText.NetworkCredentialHint}" TextWrapping="Wrap" Margin="0,8,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                    </StackPanel>
-                    <TextBlock x:Name="NetworkValidationText" Text="{Binding Network.ErrorMessage}" TextWrapping="Wrap" Margin="0,0,0,12" Foreground="{DynamicResource SystemFillColorCautionBrush}"/>
-                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.NetworkTargetLabel}" FontWeight="SemiBold" Margin="0,0,0,6"/>
-                    <ComboBox x:Name="NetworkEndpointCombo" ItemsSource="{Binding NetworkEndpoints}" SelectedItem="{Binding SelectedNetworkEndpoint, Mode=TwoWay}" IsEnabled="{Binding CanEdit}" MinHeight="32">
-                        <ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Name}" TextWrapping="Wrap" MaxWidth="320"/></DataTemplate></ComboBox.ItemTemplate>
-                    </ComboBox>
-                    <TextBlock Text="{Binding NetworkEndpointHint}" TextWrapping="Wrap" Margin="0,6,0,8"/>
-                    <TextBlock Text="{x:Static app:UiText.NetworkTargetHint}" TextWrapping="Wrap" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                    <WrapPanel>
-                        <Button x:Name="NetworkTestButton" Content="{x:Static app:UiText.NetworkTest}" Command="{Binding TestNetworkCommand}" Margin="0,0,8,8"/>
-                        <Button x:Name="NetworkCancelButton" Content="{x:Static app:UiText.NetworkCancel}" Command="{Binding CancelNetworkCommand}" Margin="0,0,0,8"/>
-                    </WrapPanel>
-                    <TextBlock x:Name="NetworkStatusText" Text="{Binding NetworkTestStatus}" TextWrapping="Wrap" Margin="0,4,0,8" Visibility="{Binding HasNetworkStatus, Converter={StaticResource BoolToVis}}"/>
-                    <TextBlock x:Name="NetworkResultText" Text="{Binding NetworkResultText}" TextWrapping="Wrap" Margin="0,4,0,12" Visibility="{Binding HasNetworkResult, Converter={StaticResource BoolToVis}}"/>
-                </StackPanel>
-            </ScrollViewer>
-            <ScrollViewer x:Name="HistoryPageScroll" Grid.Column="1" Padding="20,12" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                <ScrollViewer.Style><Style TargetType="ScrollViewer"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="history"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></ScrollViewer.Style>
-                <StackPanel IsEnabled="{Binding CanEdit}">
-                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.HistoryTitle}" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,20"/>
-                    <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" x:Name="HistoryEnabledCheckBox" Content="{x:Static app:UiText.HistoryEnabled}" IsChecked="{Binding History.Enabled.Value}"/>
-                    <TextBlock Text="{x:Static app:UiText.HistoryEnabledHelp}" TextWrapping="Wrap" Margin="0,8,0,24"/>
-                    <TextBlock Text="{x:Static app:UiText.HistoryMaxLabel}" TextWrapping="Wrap"/>
-                    <TextBox x:Name="HistoryMaxEntriesTextBox" Text="{Binding History.MaxEntriesText.Value, UpdateSourceTrigger=PropertyChanged}" Margin="0,8,0,8"/>
-                    <TextBlock Text="{x:Static app:UiText.HistoryMaxHelp}" TextWrapping="Wrap"/>
-                    <TextBlock Text="{Binding History.ErrorMessage}" TextWrapping="Wrap" Foreground="{DynamicResource SystemFillColorCriticalBrush}" Margin="0,12,0,0"/>
-                </StackPanel>
-            </ScrollViewer>
-            <ScrollViewer x:Name="OcrPageScroll" Grid.Column="1" Padding="20,12" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ScrollViewer x:Name="NetworkPageScroll" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <ScrollViewer.Style>
                     <Style TargetType="ScrollViewer">
-                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding CurrentPageKey}" Value="ocr">
-                                <Setter Property="Visibility" Value="Visible"/>
+                            <DataTrigger Binding="{Binding CurrentPageKey}" Value="network">
+                                <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </ScrollViewer.Style>
-                <StackPanel>
-                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.OcrPageTitle}" FontSize="22" FontWeight="SemiBold"/>
-                    <TextBlock Text="{x:Static app:UiText.OcrPageDescription}" TextWrapping="Wrap" Margin="0,6,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                <StackPanel Margin="{StaticResource IrisPagePadding}">
+                    <TextBlock Style="{StaticResource IrisPageTitle}" Text="{x:Static app:UiText.NetworkTitle}" />
+                    <TextBlock Style="{StaticResource IrisRowDescription}" Margin="{StaticResource IrisCardGap}" Text="{x:Static app:UiText.NetworkDescription}" />
                     <StackPanel IsEnabled="{Binding CanEdit}">
-                        <TextBlock Text="{x:Static app:UiText.OcrPrimary}" TextWrapping="Wrap" Margin="0,8,0,3"/>
-                        <ComboBox x:Name="OcrPrimaryCombo" ItemsSource="{Binding OcrActiveChoices}" SelectedValue="{Binding Ocr.ActiveProviderId.Value, Mode=TwoWay}" SelectedValuePath="Id" Margin="0,0,0,8"><ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/></DataTemplate></ComboBox.ItemTemplate></ComboBox>
-                        <TextBlock Text="{x:Static app:UiText.OcrFallbackLabel}" TextWrapping="Wrap" Margin="0,8,0,3"/>
-                        <ComboBox x:Name="OcrFallbackCombo" ItemsSource="{Binding OcrFallbackChoices}" SelectedValue="{Binding Ocr.FallbackProviderId.Value, Mode=TwoWay}" SelectedValuePath="Id" Margin="0,0,0,8"><ComboBox.ItemTemplate><DataTemplate><TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/></DataTemplate></ComboBox.ItemTemplate></ComboBox>
-                        <TextBlock Text="{x:Static app:UiText.OcrLayout}" TextWrapping="Wrap" Margin="0,8,0,3"/>
-                        <ComboBox x:Name="OcrLayoutCombo" ItemsSource="{x:Static local:OcrSettingsDraftViewModel.Layouts}" SelectedValue="{Binding Ocr.TextLayout.Value, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Label"/>
-                        <TextBlock Text="{x:Static app:UiText.OcrLanguageHint}" TextWrapping="Wrap" Margin="0,8,0,3"/>
-                        <TextBox x:Name="OcrLanguageHintTextBox" Text="{Binding Ocr.LanguageHint.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
-                        <CheckBox x:Name="OcrAutoCopyCheck" IsChecked="{Binding Ocr.AutoCopyOnOcr.Value, Mode=TwoWay}" Margin="0,5,0,5">
-                            <TextBlock Text="{x:Static app:UiText.OcrCopySource}" TextWrapping="Wrap"/>
-                        </CheckBox>
-                        <CheckBox x:Name="OcrSilentNotifyCheck" IsChecked="{Binding Ocr.SilentOcrShowNotification.Value, Mode=TwoWay}" Margin="0,5,0,5">
-                            <TextBlock Text="{x:Static app:UiText.OcrNotifySilent}" TextWrapping="Wrap"/>
-                        </CheckBox>
-                        <TextBlock x:Name="OcrSelectionError" Text="{Binding Ocr.ErrorMessage}" TextWrapping="Wrap" Foreground="{DynamicResource SystemFillColorCautionBrush}"/>
-                        <Separator Margin="0,12,0,12"/>
-                        <TextBlock Text="{x:Static app:UiText.OcrServices}" TextWrapping="Wrap" Margin="0,8,0,3"/>
-                        <WrapPanel>
-                            <Button Content="{x:Static app:UiText.OcrAddBaidu}" Command="{Binding AddBaiduOcrCommand}" Margin="0,0,8,8"/>
-                            <Button Content="{x:Static app:UiText.OcrAddWindows}" Command="{Binding AddWindowsOcrCommand}" Margin="0,0,0,8"/>
-                        </WrapPanel>
-                        <ListBox x:Name="OcrProfilesListBox" ItemsSource="{Binding OcrProfiles}" SelectedItem="{Binding SelectedOcrProfile, Mode=TwoWay}" MaxHeight="120" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Margin="0,0,0,8">
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding DisplayName.Value}" TextWrapping="Wrap"/>
-                                        <TextBlock Text="{Binding KindLabel}" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                        <Border Style="{StaticResource IrisRowCard}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ui:SymbolIcon Grid.Column="0" Style="{StaticResource IrisRowIcon}" Symbol="Globe20" />
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.NetworkModeLabel}" />
+                                </StackPanel>
+                                <ComboBox x:Name="NetworkModeCombo" Grid.Column="2" MinWidth="160" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center" ItemsSource="{x:Static local:NetworkSettingsDraftViewModel.Modes}" DisplayMemberPath="Name" SelectedValuePath="Value" SelectedValue="{Binding Network.Mode.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinHeight="32" />
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource IrisRowCard}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ui:SymbolIcon Grid.Column="0" Style="{StaticResource IrisRowIcon}" Symbol="GlobeProhibited20" />
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.NetworkBypass}" />
+                                    <TextBlock Style="{StaticResource IrisRowDescription}" Text="{x:Static app:UiText.NetworkBypassDescription}" />
+                                </StackPanel>
+                                <CheckBox x:Name="NetworkBypassCheck" Grid.Column="2" Style="{StaticResource IrisSwitchCheckBox}" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center" IsChecked="{Binding Network.BypassLocal.Value}" AutomationProperties.Name="{x:Static app:UiText.NetworkBypass}" />
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource IrisRowCard}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ui:SymbolIcon Grid.Column="0" Style="{StaticResource IrisRowIcon}" Symbol="Server20" />
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.NetworkUrlLabel}" />
+                                    <TextBlock Style="{StaticResource IrisRowDescription}" Text="{x:Static app:UiText.NetworkUrlHint}" />
+                                </StackPanel>
+                                <TextBox x:Name="NetworkUrlTextBox" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,8,0,0" Text="{Binding Network.Url.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinHeight="32" HorizontalScrollBarVisibility="Auto" />
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource IrisRowCard}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ui:SymbolIcon Grid.Column="0" Style="{StaticResource IrisRowIcon}" Symbol="Key20" />
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.NetworkCredentialLabel}" />
+                                    <TextBlock Style="{StaticResource IrisRowDescription}" Text="{x:Static app:UiText.NetworkCredentialHint}" />
+                                </StackPanel>
+                                <ComboBox x:Name="NetworkCredentialsCombo" Grid.Column="2" MinWidth="160" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center" ItemsSource="{x:Static local:NetworkSettingsDraftViewModel.CredentialKinds}" DisplayMemberPath="Name" SelectedValuePath="Value" SelectedValue="{Binding Network.Credentials.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinHeight="32" />
+                            </Grid>
+                        </Border>
+                        <StackPanel IsEnabled="{Binding Network.IsReplacing}">
+                            <Border Style="{StaticResource IrisRowCard}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <ui:SymbolIcon Grid.Column="0" Style="{StaticResource IrisRowIcon}" Symbol="Key20" />
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.NetworkUserName}" />
                                     </StackPanel>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                        <Button x:Name="DeleteOcrProfileButton" Content="{x:Static app:UiText.OcrDelete}" Command="{Binding DeleteOcrProfileCommand}" HorizontalAlignment="Left" Margin="0,0,0,8"/>
-                        <StackPanel x:Name="OcrDetailsPanel" DataContext="{Binding SelectedOcrProfile}">
-                            <StackPanel.Style>
-                                <Style TargetType="StackPanel">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding}" Value="{x:Null}">
-                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </StackPanel.Style>
-                            <TextBlock Text="{x:Static app:UiText.OcrName}" TextWrapping="Wrap" Margin="0,8,0,3"/>
-                            <TextBox x:Name="OcrNameTextBox" Text="{Binding DisplayName.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
-                            <CheckBox x:Name="OcrEnabledCheck" IsChecked="{Binding Enabled.Value, Mode=TwoWay}" Margin="0,5,0,5">
-                                <TextBlock Text="{x:Static app:UiText.OcrEnabled}" TextWrapping="Wrap"/>
-                            </CheckBox>
-                            <TextBlock Text="{x:Static app:UiText.OcrTimeout}" TextWrapping="Wrap" Margin="0,8,0,3"/>
-                            <TextBox x:Name="OcrTimeoutTextBox" Text="{Binding TimeoutText.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
-                            <StackPanel x:Name="OcrBaiduOptionsPanel" Visibility="{Binding IsBaidu, Converter={StaticResource BoolToVis}}">
-                                <TextBlock Text="{x:Static app:UiText.OcrMode}" TextWrapping="Wrap" Margin="0,8,0,3"/>
-                                <ComboBox x:Name="OcrModeCombo" ItemsSource="{x:Static local:OcrProfileDraftViewModel.Modes}" SelectedValue="{Binding Mode.Value, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Label"/>
-                                <CheckBox x:Name="OcrDirectionCheck" IsChecked="{Binding DetectDirection.Value, Mode=TwoWay}" Margin="0,5,0,5">
-                                    <TextBlock Text="{x:Static app:UiText.OcrDetectDirection}" TextWrapping="Wrap"/>
-                                </CheckBox>
-                                <CheckBox x:Name="OcrParagraphCheck" IsChecked="{Binding Paragraph.Value, Mode=TwoWay}" Margin="0,5,0,5">
-                                    <TextBlock Text="{x:Static app:UiText.OcrParagraph}" TextWrapping="Wrap"/>
-                                </CheckBox>
-                                <TextBlock Text="{x:Static app:UiText.OcrLanguageType}" TextWrapping="Wrap" Margin="0,8,0,3"/>
-                                <TextBox x:Name="OcrLanguageTypeTextBox" Text="{Binding LanguageType.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
-                                <TextBlock Text="{x:Static app:UiText.OcrBaseUrl}" TextWrapping="Wrap" Margin="0,8,0,3"/>
-                                <TextBox x:Name="OcrBaseUrlTextBox" Text="{Binding BaseUrl.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
-                            </StackPanel>
-                            <StackPanel x:Name="OcrWindowsOptionsPanel" Visibility="{Binding IsWindows, Converter={StaticResource BoolToVis}}">
-                                <TextBlock Text="{x:Static app:UiText.OcrLanguageTag}" TextWrapping="Wrap" Margin="0,8,0,3"/>
-                                <TextBox x:Name="OcrLanguageTagTextBox" Text="{Binding LanguageTag.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
-                            </StackPanel>
-                            <TextBlock Text="{x:Static app:UiText.OcrCredentials}" TextWrapping="Wrap" Margin="0,8,0,3"/>
-                            <ComboBox x:Name="OcrCredentialCombo" ItemsSource="{Binding CredentialOptions}" SelectedValue="{Binding Credentials.Value, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Label"/>
-                            <TextBlock Text="{Binding CredentialDescription}" TextWrapping="Wrap" FontSize="12" Margin="0,6,0,8" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
-                            <StackPanel Visibility="{Binding IsBaidu, Converter={StaticResource BoolToVis}}" IsEnabled="{Binding IsReplacing}">
-                                <TextBlock Text="{x:Static app:UiText.OcrApiKey}" TextWrapping="Wrap" Margin="0,8,0,3"/>
-                                <PasswordBox x:Name="OcrApiKeyPasswordBox" PasswordChanged="OnOcrPasswordChanged" Margin="0,0,0,8"/>
-                                <TextBlock Text="{x:Static app:UiText.OcrSecretKey}" TextWrapping="Wrap" Margin="0,8,0,3"/>
-                                <PasswordBox x:Name="OcrSecretKeyPasswordBox" PasswordChanged="OnOcrPasswordChanged" Margin="0,0,0,8"/>
-                            </StackPanel>
-                            <TextBlock x:Name="OcrProfileError" Text="{Binding ErrorMessage}" TextWrapping="Wrap" Foreground="{DynamicResource SystemFillColorCautionBrush}"/>
+                                    <TextBox x:Name="NetworkUserNameTextBox" Grid.Column="2" Width="200" MinHeight="32" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center" Text="{Binding Network.UserName.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                </Grid>
+                            </Border>
+                            <Border Style="{StaticResource IrisRowCard}">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <ui:SymbolIcon Grid.Column="0" Style="{StaticResource IrisRowIcon}" Symbol="Key20" />
+                                    <StackPanel Grid.Column="1">
+                                        <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.NetworkPassword}" />
+                                    </StackPanel>
+                                    <PasswordBox x:Name="NetworkPasswordBox" Grid.Column="2" Width="200" MinHeight="32" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center" PasswordChanged="OnNetworkPasswordChanged" />
+                                </Grid>
+                            </Border>
                         </StackPanel>
                     </StackPanel>
-                    <WrapPanel Margin="0,12,0,6">
-                        <Button x:Name="OcrTestButton" Content="{x:Static app:UiText.OcrTest}" Command="{Binding TestOcrCommand}" Margin="0,0,8,6"/>
-                        <Button x:Name="OcrCancelTestButton" Content="{x:Static app:UiText.OcrCancelTest}" Command="{Binding CancelOcrTestCommand}" Margin="0,0,0,6"/>
-                    </WrapPanel>
-                    <TextBlock x:Name="OcrTestResultText" Text="{Binding SelectedOcrProfile.TestMessage}" TextWrapping="Wrap"/>
-                    <TextBlock Text="{x:Static app:UiText.OcrTestDescription}" TextWrapping="Wrap" FontSize="12" Margin="0,8,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                    <TextBlock x:Name="NetworkValidationText" Style="{StaticResource IrisRowError}" Margin="{StaticResource IrisCardGap}" Text="{Binding Network.ErrorMessage}" Foreground="{DynamicResource SystemFillColorCautionBrush}" />
+                    <Border Style="{StaticResource IrisCard}">
+                        <StackPanel>
+                            <TextBlock Style="{StaticResource IrisRowTitle}" Margin="0,0,0,6" Text="{x:Static app:UiText.NetworkTargetLabel}" />
+                            <ComboBox x:Name="NetworkEndpointCombo" ItemsSource="{Binding NetworkEndpoints}" SelectedItem="{Binding SelectedNetworkEndpoint, Mode=TwoWay}" IsEnabled="{Binding CanEdit}" MinHeight="32">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}" TextWrapping="Wrap" MaxWidth="320" />
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+                            <TextBlock Style="{StaticResource IrisStatusText}" Margin="0,6,0,4" Text="{Binding NetworkEndpointHint}" />
+                            <TextBlock Style="{StaticResource IrisRowDescription}" Margin="0,0,0,10" Text="{x:Static app:UiText.NetworkTargetHint}" />
+                            <WrapPanel>
+                                <Button x:Name="NetworkTestButton" Content="{x:Static app:UiText.NetworkTest}" Command="{Binding TestNetworkCommand}" Margin="0,0,8,8" />
+                                <Button x:Name="NetworkCancelButton" Content="{x:Static app:UiText.NetworkCancel}" Command="{Binding CancelNetworkCommand}" Margin="0,0,0,8" />
+                            </WrapPanel>
+                            <TextBlock x:Name="NetworkStatusText" Style="{StaticResource IrisStatusText}" Margin="0,4,0,8" Text="{Binding NetworkTestStatus}" Visibility="{Binding HasNetworkStatus, Converter={StaticResource BoolToVis}}" />
+                            <TextBlock x:Name="NetworkResultText" Style="{StaticResource IrisStatusText}" Margin="0,4,0,12" Text="{Binding NetworkResultText}" Visibility="{Binding HasNetworkResult, Converter={StaticResource BoolToVis}}" />
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </ScrollViewer>
-            <ScrollViewer x:Name="ScreenshotPageScroll" Grid.Column="1" Padding="20,12" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+            <ScrollViewer x:Name="HistoryPageScroll" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ScrollViewer.Style><Style TargetType="ScrollViewer"><Setter Property="Visibility" Value="Collapsed"/><Style.Triggers><DataTrigger Binding="{Binding CurrentPageKey}" Value="history"><Setter Property="Visibility" Value="Visible"/></DataTrigger></Style.Triggers></Style></ScrollViewer.Style>
+                <StackPanel IsEnabled="{Binding CanEdit}" Margin="{StaticResource IrisPagePadding}">
+                    <TextBlock Style="{StaticResource IrisPageTitle}" Text="{x:Static app:UiText.HistoryTitle}"/>
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="TextBulletListAdd20" Style="{StaticResource IrisRowIcon}"/>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.HistoryEnabled}"/>
+                                <TextBlock Style="{StaticResource IrisRowDescription}" Text="{x:Static app:UiText.HistoryEnabledHelp}"/>
+                            </StackPanel>
+                            <CheckBox x:Name="HistoryEnabledCheckBox" Grid.Column="2" Style="{StaticResource IrisSwitchCheckBox}" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center" IsChecked="{Binding History.Enabled.Value}" AutomationProperties.Name="{x:Static app:UiText.HistoryEnabled}"/>
+                        </Grid>
+                    </Border>
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="NumberSymbol20" Style="{StaticResource IrisRowIcon}"/>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.HistoryMaxLabel}"/>
+                                <TextBlock Style="{StaticResource IrisRowDescription}" Text="{x:Static app:UiText.HistoryMaxHelp}"/>
+                                <TextBlock Style="{StaticResource IrisRowError}" Text="{Binding History.ErrorMessage}" Foreground="{DynamicResource SystemFillColorCriticalBrush}"/>
+                            </StackPanel>
+                            <TextBox x:Name="HistoryMaxEntriesTextBox" Grid.Column="2" Width="120" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center" Text="{Binding History.MaxEntriesText.Value, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+      <ScrollViewer x:Name="OcrPageScroll" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+        <ScrollViewer.Style>
+          <Style TargetType="ScrollViewer">
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding CurrentPageKey}" Value="ocr">
+                <Setter Property="Visibility" Value="Visible"/>
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </ScrollViewer.Style>
+        <StackPanel Margin="{StaticResource IrisPagePadding}">
+          <StackPanel x:Name="OcrListPanel">
+            <StackPanel.Style>
+              <Style TargetType="StackPanel">
+                <Setter Property="Visibility" Value="Visible"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding IsOcrDetailOpen}" Value="True">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </StackPanel.Style>
+            <TextBlock Style="{StaticResource IrisPageTitle}" Text="{x:Static app:UiText.OcrPageTitle}"/>
+            <TextBlock Text="{x:Static app:UiText.OcrPageDescription}" TextWrapping="Wrap" Margin="0,6,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+            <TextBlock x:Name="OcrSelectionError" Text="{Binding Ocr.ErrorMessage}" TextWrapping="Wrap" Margin="0,0,0,8" Foreground="{DynamicResource SystemFillColorCriticalBrush}"/>
+            <StackPanel IsEnabled="{Binding CanEdit}">
+              <Border Style="{StaticResource IrisRowCard}">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{x:Static app:UiText.OcrPrimary}" TextWrapping="Wrap" Margin="0,0,12,0"/>
+                  <ComboBox x:Name="OcrPrimaryCombo" Grid.Column="1" MinWidth="160" VerticalAlignment="Center" ItemsSource="{Binding OcrActiveChoices}" SelectedValue="{Binding Ocr.ActiveProviderId.Value, Mode=TwoWay}" SelectedValuePath="Id">
+                    <ComboBox.ItemTemplate>
+                      <DataTemplate>
+                        <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/>
+                      </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                  </ComboBox>
+                </Grid>
+              </Border>
+              <Border Style="{StaticResource IrisRowCard}">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{x:Static app:UiText.OcrFallbackLabel}" TextWrapping="Wrap" Margin="0,0,12,0"/>
+                  <ComboBox x:Name="OcrFallbackCombo" Grid.Column="1" MinWidth="160" VerticalAlignment="Center" ItemsSource="{Binding OcrFallbackChoices}" SelectedValue="{Binding Ocr.FallbackProviderId.Value, Mode=TwoWay}" SelectedValuePath="Id">
+                    <ComboBox.ItemTemplate>
+                      <DataTemplate>
+                        <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/>
+                      </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                  </ComboBox>
+                </Grid>
+              </Border>
+              <Border Style="{StaticResource IrisRowCard}">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{x:Static app:UiText.OcrLayout}" TextWrapping="Wrap" Margin="0,0,12,0"/>
+                  <ComboBox x:Name="OcrLayoutCombo" Grid.Column="1" MinWidth="160" VerticalAlignment="Center" ItemsSource="{x:Static local:OcrSettingsDraftViewModel.Layouts}" SelectedValue="{Binding Ocr.TextLayout.Value, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Label"/>
+                </Grid>
+              </Border>
+              <Border Style="{StaticResource IrisRowCard}">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{x:Static app:UiText.OcrLanguageHint}" TextWrapping="Wrap" Margin="0,0,12,0"/>
+                  <TextBox x:Name="OcrLanguageHintTextBox" Grid.Column="1" Width="220" VerticalAlignment="Center" Text="{Binding Ocr.LanguageHint.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </Grid>
+              </Border>
+              <Border Style="{StaticResource IrisRowCard}">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{x:Static app:UiText.OcrCopySource}" TextWrapping="Wrap" Margin="0,0,12,0"/>
+                  <CheckBox x:Name="OcrAutoCopyCheck" Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource IrisSwitchCheckBox}" AutomationProperties.Name="{x:Static app:UiText.OcrCopySource}" IsChecked="{Binding Ocr.AutoCopyOnOcr.Value, Mode=TwoWay}"/>
+                </Grid>
+              </Border>
+              <Border Style="{StaticResource IrisRowCard}">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{x:Static app:UiText.OcrNotifySilent}" TextWrapping="Wrap" Margin="0,0,12,0"/>
+                  <CheckBox x:Name="OcrSilentNotifyCheck" Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource IrisSwitchCheckBox}" AutomationProperties.Name="{x:Static app:UiText.OcrNotifySilent}" IsChecked="{Binding Ocr.SilentOcrShowNotification.Value, Mode=TwoWay}"/>
+                </Grid>
+              </Border>
+            </StackPanel>
+            <TextBlock Style="{StaticResource IrisSectionHeader}" Text="{x:Static app:UiText.OcrServices}"/>
+            <StackPanel x:Name="OcrServicesPane">
+              <StackPanel.Style>
+                <Style TargetType="StackPanel">
+                  <Setter Property="IsEnabled" Value="True"/>
+                  <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsSaving}" Value="True">
+                      <Setter Property="IsEnabled" Value="False"/>
+                    </DataTrigger>
+                  </Style.Triggers>
+                </Style>
+              </StackPanel.Style>
+              <WrapPanel Margin="0,0,0,8">
+                <Button x:Name="OcrAddBaiduButton" Content="{x:Static app:UiText.OcrAddBaidu}" Command="{Binding AddBaiduOcrCommand}" IsEnabled="{Binding CanEdit}" PreviewMouseLeftButtonDown="OnAddOcrProfilePreviewMouseDown" Click="OnAddOcrProfileClick" Margin="0,0,8,0"/>
+                <Button x:Name="OcrAddWindowsButton" Content="{x:Static app:UiText.OcrAddWindows}" Command="{Binding AddWindowsOcrCommand}" IsEnabled="{Binding CanEdit}" PreviewMouseLeftButtonDown="OnAddOcrProfilePreviewMouseDown" Click="OnAddOcrProfileClick"/>
+              </WrapPanel>
+              <ListBox x:Name="OcrProfilesListBox" ItemsSource="{Binding OcrProfiles}" SelectedItem="{Binding SelectedOcrProfile, Mode=TwoWay}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemContainerStyle="{StaticResource IrisListRowItem}" SelectionChanged="OnOcrProfileSelectionChanged" KeyDown="OnOcrProfilesListKeyDown" ContextMenuOpening="OnOcrProfilesListContextMenuOpening">
+                <ListBox.ItemTemplate>
+                  <DataTemplate>
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                      </Grid.ColumnDefinitions>
+                      <Border x:Name="OcrRowNameArea" Grid.Column="0" Background="Transparent" MouseLeftButtonUp="OnOcrRowEntryMouseLeftButtonUp" Padding="0,2">
+                        <Border.Style>
+                          <Style TargetType="Border">
+                            <Setter Property="IsEnabled" Value="False"/>
+                            <Style.Triggers>
+                              <DataTrigger Binding="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                <Setter Property="IsEnabled" Value="True"/>
+                              </DataTrigger>
+                              <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                <Setter Property="IsEnabled" Value="True"/>
+                              </DataTrigger>
+                            </Style.Triggers>
+                          </Style>
+                        </Border.Style>
+                        <StackPanel>
+                          <TextBlock Text="{Binding DisplayName.Value}">
+                            <TextBlock.Style>
+                              <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                  <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource AncestorType=Border}}" Value="False">
+                                    <Setter Property="Foreground" Value="{DynamicResource TextFillColorDisabledBrush}"/>
+                                  </DataTrigger>
+                                </Style.Triggers>
+                              </Style>
+                            </TextBlock.Style>
+                          </TextBlock>
+                          <TextBlock Text="{Binding KindLabel}" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                        </StackPanel>
+                      </Border>
+                      <ui:Button x:Name="OcrRowMoreButton"
+                                 Grid.Column="1"
+                                 Style="{StaticResource IrisIconButton}"
+                                 Icon="{ui:SymbolIcon Symbol=MoreHorizontal20}"
+                                 Content="{x:Static app:UiText.SettingsRowMoreActions}"
+                                 ToolTip="{x:Static app:UiText.SettingsRowMoreActions}"
+                                 AutomationProperties.Name="{x:Static app:UiText.SettingsRowMoreActions}"
+                                 IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Window}}"
+                                 Click="OnOcrRowMoreActionsClick"
+                                 Margin="8,0,4,0"/>
+                      <ui:Button x:Name="OcrRowOpenDetailsButton"
+                                 Grid.Column="2"
+                                 Icon="{ui:SymbolIcon Symbol=ChevronRight20}"
+                                 Content="{x:Static app:UiText.SettingsRowOpenDetails}"
+                                 ToolTip="{x:Static app:UiText.SettingsRowOpenDetails}"
+                                 AutomationProperties.Name="{x:Static app:UiText.SettingsRowOpenDetails}"
+                                 Click="OnOcrRowOpenDetailsClick">
+                        <ui:Button.Style>
+                          <Style TargetType="ui:Button" BasedOn="{StaticResource IrisIconButton}">
+                            <Setter Property="IsEnabled" Value="False"/>
+                            <Style.Triggers>
+                              <DataTrigger Binding="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Window}}" Value="True">
+                                <Setter Property="IsEnabled" Value="True"/>
+                              </DataTrigger>
+                              <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                                <Setter Property="IsEnabled" Value="True"/>
+                              </DataTrigger>
+                            </Style.Triggers>
+                          </Style>
+                        </ui:Button.Style>
+                      </ui:Button>
+                    </Grid>
+                  </DataTemplate>
+                </ListBox.ItemTemplate>
+              </ListBox>
+            </StackPanel>
+          </StackPanel>
+          <StackPanel x:Name="OcrDetailHost">
+            <StackPanel.Style>
+              <Style TargetType="StackPanel">
+                <Setter Property="Visibility" Value="Collapsed"/>
+                <Style.Triggers>
+                  <DataTrigger Binding="{Binding IsOcrDetailOpen}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                  </DataTrigger>
+                </Style.Triggers>
+              </Style>
+            </StackPanel.Style>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+              <ui:Button x:Name="OcrBreadcrumbBackButton" Style="{StaticResource IrisBreadcrumbButton}" Content="{x:Static app:UiText.OcrPageTitle}" Click="OnOcrBreadcrumbBackClick"/>
+              <ui:SymbolIcon Symbol="ChevronRight16"
+                             FontSize="12"
+                             VerticalAlignment="Center"
+                             Margin="8,0"
+                             Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+              <TextBlock x:Name="OcrBreadcrumbCurrentText" Style="{StaticResource IrisBreadcrumbCurrentText}" Text="{Binding SelectedOcrProfile.DisplayName.Value}"/>
+            </StackPanel>
+            <Border Style="{StaticResource IrisCard}">
+              <StackPanel x:Name="OcrDetailsPanel" DataContext="{Binding SelectedOcrProfile}" IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Window}}">
+                <StackPanel.Style>
+                  <Style TargetType="StackPanel">
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </StackPanel.Style>
+                <TextBlock Text="{x:Static app:UiText.OcrName}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                <TextBox x:Name="OcrNameTextBox" Text="{Binding DisplayName.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+                <Grid Margin="0,5,0,5">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                  </Grid.ColumnDefinitions>
+                  <TextBlock Grid.Column="0" Style="{StaticResource IrisRowTitle}" VerticalAlignment="Center" Text="{x:Static app:UiText.OcrEnabled}" Margin="0,0,12,0"/>
+                  <CheckBox x:Name="OcrEnabledCheck" Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource IrisSwitchCheckBox}" AutomationProperties.Name="{x:Static app:UiText.OcrEnabled}" IsChecked="{Binding Enabled.Value, Mode=TwoWay}"/>
+                </Grid>
+                <TextBlock Text="{x:Static app:UiText.OcrTimeout}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                <TextBox x:Name="OcrTimeoutTextBox" Text="{Binding TimeoutText.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
+                <StackPanel x:Name="OcrBaiduOptionsPanel" Visibility="{Binding IsBaidu, Converter={StaticResource BoolToVis}}">
+                  <TextBlock Text="{x:Static app:UiText.OcrMode}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                  <ComboBox x:Name="OcrModeCombo" ItemsSource="{x:Static local:OcrProfileDraftViewModel.Modes}" SelectedValue="{Binding Mode.Value, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Label"/>
+                  <Grid Margin="0,5,0,5">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Style="{StaticResource IrisRowTitle}" VerticalAlignment="Center" Text="{x:Static app:UiText.OcrDetectDirection}" Margin="0,0,12,0"/>
+                    <CheckBox x:Name="OcrDirectionCheck" Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource IrisSwitchCheckBox}" AutomationProperties.Name="{x:Static app:UiText.OcrDetectDirection}" IsChecked="{Binding DetectDirection.Value, Mode=TwoWay}"/>
+                  </Grid>
+                  <Grid Margin="0,5,0,5">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*"/>
+                      <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Style="{StaticResource IrisRowTitle}" VerticalAlignment="Center" Text="{x:Static app:UiText.OcrParagraph}" Margin="0,0,12,0"/>
+                    <CheckBox x:Name="OcrParagraphCheck" Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource IrisSwitchCheckBox}" AutomationProperties.Name="{x:Static app:UiText.OcrParagraph}" IsChecked="{Binding Paragraph.Value, Mode=TwoWay}"/>
+                  </Grid>
+                  <TextBlock Text="{x:Static app:UiText.OcrLanguageType}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                  <TextBox x:Name="OcrLanguageTypeTextBox" Text="{Binding LanguageType.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                  <TextBlock Text="{x:Static app:UiText.OcrBaseUrl}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                  <TextBox x:Name="OcrBaseUrlTextBox" Text="{Binding BaseUrl.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+                <StackPanel x:Name="OcrWindowsOptionsPanel" Visibility="{Binding IsWindows, Converter={StaticResource BoolToVis}}">
+                  <TextBlock Text="{x:Static app:UiText.OcrLanguageTag}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                  <TextBox x:Name="OcrLanguageTagTextBox" Text="{Binding LanguageTag.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </StackPanel>
+                <TextBlock Text="{x:Static app:UiText.OcrCredentials}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                <ComboBox x:Name="OcrCredentialCombo" ItemsSource="{Binding CredentialOptions}" SelectedValue="{Binding Credentials.Value, Mode=TwoWay}" SelectedValuePath="Value" DisplayMemberPath="Label"/>
+                <TextBlock Text="{Binding CredentialDescription}" TextWrapping="Wrap" FontSize="12" Margin="0,6,0,8" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                <StackPanel Visibility="{Binding IsBaidu, Converter={StaticResource BoolToVis}}" IsEnabled="{Binding IsReplacing}">
+                  <TextBlock Text="{x:Static app:UiText.OcrApiKey}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                  <PasswordBox x:Name="OcrApiKeyPasswordBox" PasswordChanged="OnOcrPasswordChanged" Margin="0,0,0,8"/>
+                  <TextBlock Text="{x:Static app:UiText.OcrSecretKey}" TextWrapping="Wrap" Margin="0,8,0,3"/>
+                  <PasswordBox x:Name="OcrSecretKeyPasswordBox" PasswordChanged="OnOcrPasswordChanged" Margin="0,0,0,8"/>
+                </StackPanel>
+                <TextBlock x:Name="OcrProfileError" Text="{Binding ErrorMessage}" TextWrapping="Wrap" Foreground="{DynamicResource SystemFillColorCautionBrush}"/>
+              </StackPanel>
+            </Border>
+            <Border Style="{StaticResource IrisCard}">
+              <StackPanel>
+                <WrapPanel Margin="0,0,0,6">
+                  <Button x:Name="OcrTestButton" Content="{x:Static app:UiText.OcrTest}" Command="{Binding TestOcrCommand}" Margin="0,0,8,6"/>
+                  <Button x:Name="OcrCancelTestButton" Content="{x:Static app:UiText.OcrCancelTest}" Command="{Binding CancelOcrTestCommand}" Margin="0,0,0,6"/>
+                </WrapPanel>
+                <TextBlock x:Name="OcrTestResultText" Text="{Binding SelectedOcrProfile.TestMessage}" TextWrapping="Wrap"/>
+                <TextBlock Text="{x:Static app:UiText.OcrTestDescription}" TextWrapping="Wrap" FontSize="12" Margin="0,8,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+              </StackPanel>
+            </Border>
+          </StackPanel>
+        </StackPanel>
+      </ScrollViewer>
+            <ScrollViewer x:Name="ScreenshotPageScroll" Grid.Column="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                 <ScrollViewer.Style>
                     <Style TargetType="ScrollViewer">
                         <Setter Property="Visibility" Value="Collapsed"/>
@@ -295,33 +828,88 @@
                         </Style.Triggers>
                     </Style>
                 </ScrollViewer.Style>
-                <StackPanel>
-                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.ScreenshotPageTitle}" FontSize="22" FontWeight="SemiBold"/>
-                    <TextBlock Text="{x:Static app:UiText.ScreenshotSettingsDescription}" TextWrapping="Wrap" Margin="0,6,0,18" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                <StackPanel Margin="{StaticResource IrisPagePadding}">
+                    <TextBlock Style="{StaticResource IrisPageTitle}" Text="{x:Static app:UiText.ScreenshotPageTitle}"/>
+                    <TextBlock Style="{StaticResource IrisRowDescription}" Margin="{StaticResource IrisCardGap}" Text="{x:Static app:UiText.ScreenshotSettingsDescription}"/>
                     <StackPanel IsEnabled="{Binding CanEdit}">
-                        <CheckBox x:Name="ScreenshotConfirmCheck" IsChecked="{Binding Screenshot.ConfirmOnMouseUp.Value, Mode=TwoWay}" Margin="0,5,0,5">
-                            <TextBlock Text="{x:Static app:UiText.ScreenshotConfirmOnMouseUp}" TextWrapping="Wrap"/>
-                        </CheckBox>
-                        <CheckBox x:Name="ScreenshotMagnifierCheck" IsChecked="{Binding Screenshot.ShowMagnifier.Value, Mode=TwoWay}" Margin="0,5,0,5">
-                            <TextBlock Text="{x:Static app:UiText.ScreenshotShowMagnifier}" TextWrapping="Wrap"/>
-                        </CheckBox>
-                        <CheckBox x:Name="ScreenshotHideCheck" IsChecked="{Binding Screenshot.HideIrisWindows.Value, Mode=TwoWay}" Margin="0,5,0,5">
-                            <TextBlock Text="{x:Static app:UiText.ScreenshotHideWindows}" TextWrapping="Wrap"/>
-                        </CheckBox>
-                        <CheckBox x:Name="ScreenshotCopyCheck" IsChecked="{Binding Screenshot.CopyImageToClipboard.Value, Mode=TwoWay}" Margin="0,5,0,5">
-                            <TextBlock Text="{x:Static app:UiText.ScreenshotCopyImage}" TextWrapping="Wrap"/>
-                        </CheckBox>
-                        <TextBlock Text="{x:Static app:UiText.ScreenshotOpacity}" TextWrapping="Wrap" Margin="0,8,0,3"/>
-                        <TextBox x:Name="ScreenshotMaskOpacityTextBox" Text="{Binding Screenshot.MaskOpacityText.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,8"/>
-                        <TextBlock x:Name="ScreenshotError" Text="{Binding Screenshot.ErrorMessage}" TextWrapping="Wrap" Foreground="{DynamicResource SystemFillColorCautionBrush}"/>
+                        <Border Style="{StaticResource IrisRowCard}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ui:SymbolIcon Grid.Column="0" Symbol="CursorClick20" Style="{StaticResource IrisRowIcon}"/>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.ScreenshotConfirmOnMouseUp}"/>
+                                </StackPanel>
+                                <CheckBox x:Name="ScreenshotConfirmCheck" Grid.Column="2" Style="{StaticResource IrisSwitchCheckBox}" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center" IsChecked="{Binding Screenshot.ConfirmOnMouseUp.Value, Mode=TwoWay}" AutomationProperties.Name="{x:Static app:UiText.ScreenshotConfirmOnMouseUp}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource IrisRowCard}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ui:SymbolIcon Grid.Column="0" Symbol="ZoomIn20" Style="{StaticResource IrisRowIcon}"/>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.ScreenshotShowMagnifier}"/>
+                                </StackPanel>
+                                <CheckBox x:Name="ScreenshotMagnifierCheck" Grid.Column="2" Style="{StaticResource IrisSwitchCheckBox}" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center" IsChecked="{Binding Screenshot.ShowMagnifier.Value, Mode=TwoWay}" AutomationProperties.Name="{x:Static app:UiText.ScreenshotShowMagnifier}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource IrisRowCard}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ui:SymbolIcon Grid.Column="0" Symbol="EyeOff20" Style="{StaticResource IrisRowIcon}"/>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.ScreenshotHideWindows}"/>
+                                </StackPanel>
+                                <CheckBox x:Name="ScreenshotHideCheck" Grid.Column="2" Style="{StaticResource IrisSwitchCheckBox}" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center" IsChecked="{Binding Screenshot.HideIrisWindows.Value, Mode=TwoWay}" AutomationProperties.Name="{x:Static app:UiText.ScreenshotHideWindows}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource IrisRowCard}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ui:SymbolIcon Grid.Column="0" Symbol="ClipboardImage20" Style="{StaticResource IrisRowIcon}"/>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.ScreenshotCopyImage}"/>
+                                </StackPanel>
+                                <CheckBox x:Name="ScreenshotCopyCheck" Grid.Column="2" Style="{StaticResource IrisSwitchCheckBox}" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center" IsChecked="{Binding Screenshot.CopyImageToClipboard.Value, Mode=TwoWay}" AutomationProperties.Name="{x:Static app:UiText.ScreenshotCopyImage}"/>
+                            </Grid>
+                        </Border>
+                        <Border Style="{StaticResource IrisRowCard}">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ui:SymbolIcon Grid.Column="0" Symbol="Options20" Style="{StaticResource IrisRowIcon}"/>
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                    <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.ScreenshotOpacity}"/>
+                                    <TextBlock x:Name="ScreenshotError" Style="{StaticResource IrisRowError}" Text="{Binding Screenshot.ErrorMessage}" Foreground="{DynamicResource SystemFillColorCautionBrush}"/>
+                                </StackPanel>
+                                <TextBox x:Name="ScreenshotMaskOpacityTextBox" Grid.Column="2" Width="120" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center" Text="{Binding Screenshot.MaskOpacityText.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            </Grid>
+                        </Border>
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>
             <!-- 右侧常规设置内容 -->
             <ScrollViewer x:Name="GeneralPageScroll" Grid.Column="1"
                           VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Disabled"
-                          Padding="24,16,24,16">
+                          HorizontalScrollBarVisibility="Disabled">
                 <ScrollViewer.Style>
                     <Style TargetType="ScrollViewer">
                         <Setter Property="Visibility" Value="Collapsed" />
@@ -332,118 +920,159 @@
                         </Style.Triggers>
                     </Style>
                 </ScrollViewer.Style>
-                <StackPanel MaxWidth="600" HorizontalAlignment="Stretch">
+                <StackPanel Margin="{StaticResource IrisPagePadding}">
                     <!-- 页面标题 -->
-                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsNavGeneral}"
-                               FontSize="22"
-                               FontWeight="SemiBold"
-                               Margin="0,0,0,20" />
+                    <TextBlock Style="{StaticResource IrisPageTitle}"
+                               Text="{x:Static app:UiText.SettingsNavGeneral}" />
 
-                    <ui:Card Margin="0,0,0,16" Padding="16">
-                        <StackPanel>
-                            <TextBlock Text="{x:Static app:UiText.LanguageTitle}" FontWeight="SemiBold" TextWrapping="Wrap" Margin="0,0,0,8"/>
-                            <ComboBox x:Name="UiLanguageCombo" ItemsSource="{x:Static local:SettingsViewModel.InterfaceLanguages}"
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="LocalLanguage20" Style="{StaticResource IrisRowIcon}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.LanguageTitle}" />
+                                <TextBlock x:Name="UiLanguageHint" Style="{StaticResource IrisRowDescription}" Text="{Binding InterfaceLanguageHint}" />
+                            </StackPanel>
+                            <ComboBox x:Name="UiLanguageCombo" Grid.Column="2" MinWidth="160" MaxWidth="170"
+                                      Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center"
+                                      ItemsSource="{x:Static local:SettingsViewModel.InterfaceLanguages}"
                                       IsEnabled="{Binding CanEdit}"
-                                      SelectedValuePath="Value" DisplayMemberPath="Name" SelectedValue="{Binding InterfaceLanguage.Value, Mode=TwoWay}"
-                                      AutomationProperties.Name="{x:Static app:UiText.LanguageTitle}" MinWidth="180"/>
-                            <TextBlock x:Name="UiLanguageHint" Text="{Binding InterfaceLanguageHint}" TextWrapping="Wrap" Margin="0,8,0,0"/>
-                        </StackPanel>
-                    </ui:Card>
+                                      SelectedValuePath="Value" DisplayMemberPath="Name"
+                                      SelectedValue="{Binding InterfaceLanguage.Value, Mode=TwoWay}"
+                                      AutomationProperties.Name="{x:Static app:UiText.LanguageTitle}" />
+                        </Grid>
+                    </Border>
 
-                    <ui:Card Margin="0,0,0,16" Padding="16">
+                    <TextBlock Style="{StaticResource IrisSectionHeader}" Text="{x:Static app:UiText.UpdateTitle}" />
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="ArrowSync20" Style="{StaticResource IrisRowIcon}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.UpdatePreference}" />
+                            </StackPanel>
+                            <CheckBox x:Name="CheckForUpdatesCheckBox" Grid.Column="2"
+                                      Style="{StaticResource IrisSwitchCheckBox}"
+                                      Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center"
+                                      IsChecked="{Binding CheckForUpdates.Value, Mode=TwoWay}"
+                                      IsEnabled="{Binding CanEdit}"
+                                      AutomationProperties.Name="{x:Static app:UiText.UpdatePreference}" />
+                        </Grid>
+                    </Border>
+                    <Border Style="{StaticResource IrisCard}">
                         <StackPanel>
-                            <TextBlock Text="{x:Static app:UiText.UpdateTitle}" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8"/>
-                            <TextBlock Text="{Binding CurrentVersion}" AutomationProperties.Name="{x:Static app:UiText.UpdateTitle}" Margin="0,0,0,8"/>
-                            <CheckBox x:Name="CheckForUpdatesCheckBox" IsChecked="{Binding CheckForUpdates.Value, Mode=TwoWay}" IsEnabled="{Binding CanEdit}" Margin="0,0,0,8">
-                                <TextBlock Text="{x:Static app:UiText.UpdatePreference}" TextWrapping="Wrap"/>
-                            </CheckBox>
-                            <TextBlock Text="{Binding UpdateStatus}" TextWrapping="Wrap" Margin="0,0,0,6"/>
-                            <TextBlock Text="{Binding UpdateDetail}" TextWrapping="Wrap" Margin="0,0,0,8"/>
-                            <ProgressBar Value="{Binding UpdateProgress, Mode=OneWay}" Minimum="0" Maximum="100" Height="4" Margin="0,0,0,10"/>
+                            <TextBlock Text="{Binding CurrentVersion}"
+                                       AutomationProperties.Name="{x:Static app:UiText.UpdateTitle}"
+                                       Margin="0,0,0,8" />
+                            <TextBlock Style="{StaticResource IrisRowDescription}" Text="{Binding UpdateStatus}" Margin="0,0,0,6" />
+                            <TextBlock Style="{StaticResource IrisRowDescription}" Text="{Binding UpdateDetail}" Margin="0,0,0,8" />
+                            <ProgressBar Margin="0,8,0,8" Value="{Binding UpdateProgress, Mode=OneWay}" Minimum="0" Maximum="100" Height="4" />
                             <WrapPanel>
-                                <ui:Button Content="{x:Static app:UiText.UpdateCheck}" Command="{Binding CheckUpdateCommand}" Margin="0,0,6,6"/>
-                                <ui:Button Content="{x:Static app:UiText.UpdateDownload}" Command="{Binding DownloadUpdateCommand}" Margin="0,0,6,6"/>
-                                <ui:Button Content="{x:Static app:UiText.UpdateCancel}" Command="{Binding CancelUpdateCommand}" Margin="0,0,6,6"/>
-                                <ui:Button Content="{x:Static app:UiText.UpdateInstall}" Command="{Binding InstallUpdateCommand}" Margin="0,0,6,6"/>
+                                <ui:Button Content="{x:Static app:UiText.UpdateCheck}" Command="{Binding CheckUpdateCommand}" Margin="0,0,6,6" />
+                                <ui:Button Content="{x:Static app:UiText.UpdateDownload}" Command="{Binding DownloadUpdateCommand}" Margin="0,0,6,6" />
+                                <ui:Button Content="{x:Static app:UiText.UpdateCancel}" Command="{Binding CancelUpdateCommand}" Margin="0,0,6,6" />
+                                <ui:Button Content="{x:Static app:UiText.UpdateInstall}" Command="{Binding InstallUpdateCommand}" Margin="0,0,6,6" />
                             </WrapPanel>
                         </StackPanel>
-                    </ui:Card>
+                    </Border>
 
                     <!-- 外观与主题卡片 -->
-                    <ui:Card Margin="0,0,0,16" Padding="16">
-                        <StackPanel>
-                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsThemeGroup}"
-                                       FontWeight="SemiBold"
-                                       FontSize="14"
-                                       Margin="0,0,0,8" />
-                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsThemeDescription}"
-                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                                       FontSize="12"
-                                       Margin="0,0,0,12" />
-                            <ComboBox SelectedValue="{Binding Theme, Mode=TwoWay}"
-                                      SelectedValuePath="Tag"
-                                      IsEnabled="{Binding CanEdit}"
-                                      Width="200"
-                                      HorizontalAlignment="Left">
-                                <ComboBoxItem Tag="{x:Static settings:AppTheme.System}"
-                                              Content="{x:Static app:UiText.SettingsThemeSystem}" />
-                                <ComboBoxItem Tag="{x:Static settings:AppTheme.Light}"
-                                              Content="{x:Static app:UiText.SettingsThemeLight}" />
-                                <ComboBoxItem Tag="{x:Static settings:AppTheme.Dark}"
-                                              Content="{x:Static app:UiText.SettingsThemeDark}" />
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="Color20" Style="{StaticResource IrisRowIcon}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.SettingsThemeGroup}" />
+                                <TextBlock Style="{StaticResource IrisRowDescription}" Text="{x:Static app:UiText.SettingsThemeDescription}" />
+                            </StackPanel>
+                            <ComboBox Grid.Column="2" MinWidth="160" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center"
+                                      SelectedValue="{Binding Theme, Mode=TwoWay}" SelectedValuePath="Tag"
+                                      IsEnabled="{Binding CanEdit}" AutomationProperties.Name="{x:Static app:UiText.SettingsThemeGroup}">
+                                <ComboBoxItem Tag="{x:Static settings:AppTheme.System}" Content="{x:Static app:UiText.SettingsThemeSystem}" />
+                                <ComboBoxItem Tag="{x:Static settings:AppTheme.Light}" Content="{x:Static app:UiText.SettingsThemeLight}" />
+                                <ComboBoxItem Tag="{x:Static settings:AppTheme.Dark}" Content="{x:Static app:UiText.SettingsThemeDark}" />
                             </ComboBox>
-                        </StackPanel>
-                    </ui:Card>
+                        </Grid>
+                    </Border>
 
                     <!-- 系统启动与通知卡片 -->
-                    <ui:Card Margin="0,0,0,16" Padding="16">
-                        <StackPanel>
-                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsStartupGroup}"
-                                       FontWeight="SemiBold"
-                                       FontSize="14"
-                                       Margin="0,0,0,8" />
-                            <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" IsChecked="{Binding LaunchAtStartup, Mode=TwoWay}"
-                                      IsEnabled="{Binding CanEdit}"
-                                      Content="{x:Static app:UiText.SettingsLaunchAtStartup}"
-                                      Margin="0,4,0,8" />
-                            <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" IsChecked="{Binding ShowStartupNotification, Mode=TwoWay}"
-                                      IsEnabled="{Binding CanEdit}"
-                                      Content="{x:Static app:UiText.SettingsShowStartupNotification}"
-                                      Margin="0,4,0,4" />
-                        </StackPanel>
-                    </ui:Card>
+                    <TextBlock Style="{StaticResource IrisSectionHeader}" Text="{x:Static app:UiText.SettingsStartupGroup}" />
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="Power20" Style="{StaticResource IrisRowIcon}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.SettingsLaunchAtStartup}" />
+                            </StackPanel>
+                            <CheckBox Grid.Column="2" Style="{StaticResource IrisSwitchCheckBox}" Margin="{StaticResource IrisControlGap}"
+                                      VerticalAlignment="Center"
+                                      IsChecked="{Binding LaunchAtStartup, Mode=TwoWay}" IsEnabled="{Binding CanEdit}"
+                                      AutomationProperties.Name="{x:Static app:UiText.SettingsLaunchAtStartup}" />
+                        </Grid>
+                    </Border>
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="Power20" Style="{StaticResource IrisRowIcon}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.SettingsShowStartupNotification}" />
+                            </StackPanel>
+                            <CheckBox Grid.Column="2" Style="{StaticResource IrisSwitchCheckBox}" Margin="{StaticResource IrisControlGap}"
+                                      VerticalAlignment="Center"
+                                      IsChecked="{Binding ShowStartupNotification, Mode=TwoWay}" IsEnabled="{Binding CanEdit}"
+                                      AutomationProperties.Name="{x:Static app:UiText.SettingsShowStartupNotification}" />
+                        </Grid>
+                    </Border>
 
                     <!-- 日志级别卡片 -->
-                    <ui:Card Margin="0,0,0,16" Padding="16">
-                        <StackPanel>
-                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsLogGroup}"
-                                       FontWeight="SemiBold"
-                                       FontSize="14"
-                                       Margin="0,0,0,8" />
-                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsLogDescription}"
-                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                                       FontSize="12"
-                                       Margin="0,0,0,12" />
-                            <ComboBox SelectedValue="{Binding LogLevel, Mode=TwoWay}"
-                                      SelectedValuePath="Tag"
-                                      IsEnabled="{Binding CanEdit}"
-                                      Width="200"
-                                      HorizontalAlignment="Left">
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="DocumentText20" Style="{StaticResource IrisRowIcon}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.SettingsLogGroup}" />
+                                <TextBlock Style="{StaticResource IrisRowDescription}" Text="{x:Static app:UiText.SettingsLogDescription}" />
+                            </StackPanel>
+                            <ComboBox Grid.Column="2" MinWidth="160" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center"
+                                      SelectedValue="{Binding LogLevel, Mode=TwoWay}" SelectedValuePath="Tag"
+                                      IsEnabled="{Binding CanEdit}" AutomationProperties.Name="{x:Static app:UiText.SettingsLogGroup}">
                                 <ComboBoxItem Tag="Verbose" Content="{x:Static app:UiText.LogVerbose}" />
                                 <ComboBoxItem Tag="Debug" Content="{x:Static app:UiText.LogDebug}" />
                                 <ComboBoxItem Tag="Information" Content="{x:Static app:UiText.LogInformation}" />
                                 <ComboBoxItem Tag="Warning" Content="{x:Static app:UiText.LogWarning}" />
                                 <ComboBoxItem Tag="Error" Content="{x:Static app:UiText.LogError}" />
                             </ComboBox>
-                        </StackPanel>
-                    </ui:Card>
+                        </Grid>
+                    </Border>
                 </StackPanel>
             </ScrollViewer>
 
             <!-- 右侧翻译服务设置内容 -->
-            <Grid x:Name="TranslationLayoutGrid"
-                  Grid.Column="1"
-                  Margin="12,12,12,12">
+            <Grid x:Name="TranslationLayoutGrid" Grid.Column="1">
                 <Grid.Style>
                     <Style TargetType="Grid">
                         <Setter Property="Visibility" Value="Collapsed" />
@@ -454,124 +1083,169 @@
                         </Style.Triggers>
                     </Style>
                 </Grid.Style>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="ProfilesColDef" Width="220" />
-                    <ColumnDefinition x:Name="DetailsColDef" Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition x:Name="ProfilesRowDef" Height="*" />
-                    <RowDefinition x:Name="DetailsRowDef" Height="0" />
-                </Grid.RowDefinitions>
 
-                <!-- 服务列表列 -->
-                <Grid x:Name="ProfilesPane"
-                      Grid.Row="0"
-                      Grid.Column="0"
-                      Margin="0,0,10,0"
-                      IsEnabled="{Binding CanEdit}">
+                <ScrollViewer x:Name="ProfilesPane"
+                              VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer.Style>
+                        <Style TargetType="ScrollViewer">
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Setter Property="IsEnabled" Value="True" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsTranslationDetailOpen}" Value="True">
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding IsSaving}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ScrollViewer.Style>
+                    <StackPanel Margin="24,20,24,24">
+                        <TextBlock Style="{StaticResource IrisPageTitle}"
+                                   Text="{x:Static app:UiText.SettingsNavTranslation}" />
+
+                        <!-- 工具栏 -->
+                        <!-- 添加服务按钮与预设菜单 -->
+                        <ui:Button x:Name="AddProfileButton"
+                                   Content="{x:Static app:UiText.SettingsAddProfile}"
+                                   IsEnabled="{Binding CanEdit}"
+                                   Click="OnAddProfileButtonClick"
+                                   HorizontalAlignment="Left"
+                                   Margin="0,0,0,12" />
+
+                        <!-- 服务列表 -->
+                        <ListBox x:Name="ProfilesListBox"
+                                 ItemsSource="{Binding Profiles}"
+                                 SelectedItem="{Binding SelectedProfile, Mode=TwoWay}"
+                                 SelectionMode="Single"
+                                 AllowDrop="True"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 ItemContainerStyle="{StaticResource IrisListRowItem}"
+                                 PreviewMouseLeftButtonDown="OnProfilesListPreviewMouseLeftButtonDown"
+                                PreviewMouseLeftButtonUp="OnProfilesListPreviewMouseLeftButtonUp"
+                                 MouseMove="OnProfilesListMouseMove"
+                                 DragOver="OnProfilesListDragOver"
+                                 Drop="OnProfilesListDrop"
+                                 SelectionChanged="OnProfileSelectionChanged"
+                                 KeyDown="OnTranslationProfilesListKeyDown"
+                                 ContextMenuOpening="OnTranslationProfilesListContextMenuOpening">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Border Grid.Column="0"
+                                                Style="{StaticResource IrisDragHandle}"
+                                                Tag="DragHandle"
+                                                IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                ToolTip="{x:Static app:UiText.SettingsRowDragToReorder}"
+                                                AutomationProperties.Name="{x:Static app:UiText.SettingsRowDragToReorder}">
+                                            <ui:SymbolIcon Symbol="ReOrderDotsVertical20"
+                                                           FontSize="14"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                                        </Border>
+                                        <CheckBox Grid.Column="1"
+                                                  Style="{StaticResource IrisSwitchCheckBox}"
+                                                  IsChecked="{Binding Enabled, Mode=TwoWay}"
+                                                  IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                  VerticalAlignment="Center"
+                                                  Margin="4,0,8,0"
+                                                  AutomationProperties.Name="{x:Static app:UiText.SettingsRowEnabled}" />
+                                        <Border x:Name="TranslationRowNameArea"
+                                                Grid.Column="2"
+                                                Background="Transparent"
+                                                Cursor="Hand"
+                                                Padding="0,2"
+                                                MouseLeftButtonUp="OnTranslationRowEntryMouseLeftButtonUp">
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock Text="{Binding DisplayName}"
+                                                           Style="{StaticResource IrisRowTitle}"
+                                                           TextTrimming="CharacterEllipsis" />
+                                                <TextBlock Text="{Binding Model}"
+                                                           Style="{StaticResource IrisRowDescription}"
+                                                           TextTrimming="CharacterEllipsis" />
+                                            </StackPanel>
+                                        </Border>
+                                        <ui:Button x:Name="TranslationRowMoreButton"
+                                                   Grid.Column="3"
+                                                   Style="{StaticResource IrisIconButton}"
+                                                   Icon="{ui:SymbolIcon Symbol=MoreHorizontal20}"
+                                                   Content="{x:Static app:UiText.SettingsRowMoreActions}"
+                                                   IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                   Click="OnTranslationRowMoreActionsClick"
+                                                   Margin="8,0,4,0" />
+                                        <ui:Button x:Name="TranslationRowOpenDetailsButton"
+                                                   Grid.Column="4"
+                                                   Style="{StaticResource IrisIconButton}"
+                                                   Icon="{ui:SymbolIcon Symbol=ChevronRight20}"
+                                                   Content="{x:Static app:UiText.SettingsRowOpenDetails}"
+                                                   Click="OnTranslationRowOpenDetailsClick" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <Grid x:Name="TranslationDetailHost">
+                    <Grid.Style>
+                        <Style TargetType="Grid">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsTranslationDetailOpen}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Style>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <!-- 工具栏 -->
-                    <WrapPanel Grid.Row="0" Margin="0,0,0,8">
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="24,16,24,8">
+                        <ui:Button x:Name="TranslationBreadcrumbBackButton"
+                                   Style="{StaticResource IrisBreadcrumbButton}"
+                                   Content="{x:Static app:UiText.SettingsNavTranslation}"
+                                   Click="OnTranslationBreadcrumbBackClick" />
+                        <ui:SymbolIcon Symbol="ChevronRight16"
+                                       FontSize="12"
+                                       VerticalAlignment="Center"
+                                       Margin="8,0"
+                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        <TextBlock x:Name="TranslationBreadcrumbCurrentText"
+                                   Style="{StaticResource IrisBreadcrumbCurrentText}"
+                                   Text="{Binding SelectedProfile.DisplayName}" />
+                    </StackPanel>
 
-                        <!-- 添加服务按钮与预设菜单 -->
-                        <ui:Button
-                                   x:Name="AddProfileButton"
-                                   Content="{x:Static app:UiText.SettingsAddProfile}"
-                                   Click="OnAddProfileButtonClick"
-                                   HorizontalAlignment="Stretch"
-                                   MinWidth="0"
-                                   Padding="4,2"
-                                   Margin="0,0,4,4" />
+                    <ScrollViewer x:Name="DetailsPane" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel Margin="24,4,24,24" DataContext="{Binding SelectedProfile}" IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Window}}">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
 
-                        <!-- 操作按钮：上移、下移、删除 -->
-                            <ui:Button x:Name="MoveUpProfileButton"
-                                       Content="{x:Static app:UiText.SettingsMoveUp}"
-                                       Command="{Binding MoveUpCommand}"
-                                       MinWidth="0"
-                                       Padding="3,2"
-                                       Margin="0,0,4,4" />
-                            <ui:Button x:Name="MoveDownProfileButton"
-                                       Content="{x:Static app:UiText.SettingsMoveDown}"
-                                       Command="{Binding MoveDownCommand}"
-                                       MinWidth="0"
-                                       Padding="3,2"
-                                       Margin="0,0,4,4" />
-                            <ui:Button x:Name="DeleteProfileButton"
-                                       Content="{x:Static app:UiText.SettingsDeleteProfile}"
-                                       Command="{Binding DeleteProfileCommand}"
-                                       MinWidth="0"
-                                       Padding="4,2" Margin="0,0,4,4" />
-                    </WrapPanel>
-
-                    <!-- 服务列表 -->
-                    <ListBox x:Name="ProfilesListBox"
-                             Grid.Row="1"
-                             ItemsSource="{Binding Profiles}"
-                             SelectedItem="{Binding SelectedProfile, Mode=TwoWay}"
-                             SelectionMode="Single"
-                             AllowDrop="True"
-                             PreviewMouseLeftButtonDown="OnProfilesListPreviewMouseLeftButtonDown"
-                             MouseMove="OnProfilesListMouseMove"
-                             DragOver="OnProfilesListDragOver"
-                             Drop="OnProfilesListDrop"
-                             SelectionChanged="OnProfileSelectionChanged">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Margin="2,4">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                    </Grid.ColumnDefinitions>
-                                    <CheckBox IsChecked="{Binding Enabled, Mode=TwoWay}"
-                                              VerticalAlignment="Center"
-                                              Margin="0,0,8,0" />
-                                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding DisplayName}"
-                                                   FontWeight="SemiBold"
-                                                   TextTrimming="CharacterEllipsis" />
-                                        <TextBlock Text="{Binding Model}"
-                                                   FontSize="11"
-                                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                                                   TextTrimming="CharacterEllipsis" />
-                                    </StackPanel>
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </Grid>
-
-                <!-- 选定服务详情列 -->
-                <ScrollViewer x:Name="DetailsPane"
-                              Grid.Row="0"
-                              Grid.Column="1"
-                              VerticalScrollBarVisibility="Auto"
-                              HorizontalScrollBarVisibility="Disabled"
-                              Padding="4,0,4,0">
-                    <StackPanel DataContext="{Binding SelectedProfile}"
-                                IsEnabled="{Binding DataContext.CanEdit, RelativeSource={RelativeSource AncestorType=Window}}">
-                        <StackPanel.Style>
-                            <Style TargetType="StackPanel">
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Style>
-
-                        <!-- 基本配置卡片 -->
-                        <ui:Card Margin="0,0,0,12" Padding="12">
-                            <StackPanel>
-                                <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.Text_e8df05872569}" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8" />
-
-                                <Grid Margin="0,0,0,8">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
+                            <!-- 基本配置卡片 -->
+                            <TextBlock Style="{StaticResource IrisSectionHeader}" Text="{x:Static app:UiText.Text_e8df05872569}" />
+                            <Border Style="{StaticResource IrisCard}">
+                                <StackPanel>
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsProfileName}" Width="75" VerticalAlignment="Center" />
                                     <TextBox x:Name="DisplayNameTextBox" Grid.Column="1" Text="{Binding DisplayName, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
@@ -664,13 +1338,12 @@
                                                TextWrapping="Wrap" />
                                 </StackPanel>
                             </StackPanel>
-                        </ui:Card>
+                            </Border>
 
-                        <!-- 凭据设置卡片 -->
-                        <ui:Card Margin="0,0,0,12" Padding="12">
-                            <StackPanel>
-                                <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.Text_a943c0367b80}" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8" />
-
+                            <!-- 凭据设置卡片 -->
+                            <TextBlock Style="{StaticResource IrisSectionHeader}" Text="{x:Static app:UiText.Text_a943c0367b80}" />
+                            <Border Style="{StaticResource IrisCard}">
+                                <StackPanel>
                                 <ComboBox SelectedValue="{Binding CredentialEditKind, Mode=TwoWay}"
                                           SelectedValuePath="Tag"
                                           HorizontalAlignment="Stretch"
@@ -693,18 +1366,16 @@
                                                  x:Name="ApiKeyPasswordBox"
                                                  PasswordChanged="OnApiKeyPasswordChanged" />
                                 </Grid>
-                            </StackPanel>
-                        </ui:Card>
-
-                        <!-- 生成参数卡片 -->
-                        <ui:Card Margin="0,0,0,12" Padding="12">
-                            <StackPanel>
-                                <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.Text_9541ee3d4b15}" FontWeight="SemiBold" FontSize="14" Margin="0,0,0,8" />
-
-                                <Grid Margin="0,0,0,8">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
+                                </StackPanel>
+                            </Border>
+                            <!-- 生成参数卡片 -->
+                            <TextBlock Style="{StaticResource IrisSectionHeader}" Text="{x:Static app:UiText.Text_9541ee3d4b15}" />
+                            <Border Style="{StaticResource IrisCard}">
+                                <StackPanel>
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsProfileTimeout}" Width="95" VerticalAlignment="Center" />
                                     <TextBox Grid.Column="1" Text="{Binding TimeoutText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="120" HorizontalAlignment="Left" />
@@ -743,9 +1414,7 @@
                                               HorizontalAlignment="Left" />
                                 </Grid>
                             </StackPanel>
-                        </ui:Card>
-
-                        <!-- 高级选项卡片 -->
+                            </Border>
                         <Expander x:Name="AdvancedOptionsExpander" Header="{x:Static app:UiText.SettingsProfileAdvanced}" Margin="0,0,0,16">
                             <StackPanel Margin="0,8,0,0">
                                 <!-- OpenAI 兼容高级项 -->
@@ -761,15 +1430,36 @@
                                         </Style>
                                     </StackPanel.Style>
 
-                                    <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" Content="{x:Static app:UiText.SettingsStream}"
-                                              IsChecked="{Binding Stream, Mode=TwoWay}"
-                                              Margin="0,0,0,8" />
-                                    <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" Content="{x:Static app:UiText.SettingsIncludeStreamUsage}"
-                                              IsChecked="{Binding IncludeStreamUsage, Mode=TwoWay}"
-                                              Margin="0,0,0,8" />
-                                    <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" Content="{x:Static app:UiText.SettingsStripThinkTags}"
-                                              IsChecked="{Binding StripThinkTags, Mode=TwoWay}"
-                                              Margin="0,0,0,8" />
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.SettingsStream}" VerticalAlignment="Center" />
+                                        <CheckBox Grid.Column="1" Style="{StaticResource IrisSwitchCheckBox}" VerticalAlignment="Center"
+                                                  IsChecked="{Binding Stream, Mode=TwoWay}"
+                                                  AutomationProperties.Name="{x:Static app:UiText.SettingsStream}" />
+                                    </Grid>
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.SettingsIncludeStreamUsage}" VerticalAlignment="Center" />
+                                        <CheckBox Grid.Column="1" Style="{StaticResource IrisSwitchCheckBox}" VerticalAlignment="Center"
+                                                  IsChecked="{Binding IncludeStreamUsage, Mode=TwoWay}"
+                                                  AutomationProperties.Name="{x:Static app:UiText.SettingsIncludeStreamUsage}" />
+                                    </Grid>
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.SettingsStripThinkTags}" VerticalAlignment="Center" />
+                                        <CheckBox Grid.Column="1" Style="{StaticResource IrisSwitchCheckBox}" VerticalAlignment="Center"
+                                                  IsChecked="{Binding StripThinkTags, Mode=TwoWay}"
+                                                  AutomationProperties.Name="{x:Static app:UiText.SettingsStripThinkTags}" />
+                                    </Grid>
 
                                     <Grid Margin="0,0,0,8">
                                         <Grid.ColumnDefinitions>
@@ -851,18 +1541,26 @@
                                                Visibility="{Binding HasHaikuEffortWarning, Converter={StaticResource BoolToVis}}"
                                                TextWrapping="Wrap" />
 
-                                    <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" Content="{x:Static app:UiText.SettingsRefusalFallback}"
-                                              IsChecked="{Binding RefusalFallback, Mode=TwoWay}"
-                                              Margin="0,0,0,8" />
+                                    <Grid Margin="0,0,0,8">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.SettingsRefusalFallback}" VerticalAlignment="Center" />
+                                        <CheckBox Grid.Column="1" Style="{StaticResource IrisSwitchCheckBox}" VerticalAlignment="Center"
+                                                  IsChecked="{Binding RefusalFallback, Mode=TwoWay}"
+                                                  AutomationProperties.Name="{x:Static app:UiText.SettingsRefusalFallback}" />
+                                    </Grid>
                                 </StackPanel>
                             </StackPanel>
                         </Expander>
-                    </StackPanel>
-                </ScrollViewer>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
             </Grid>
 
             <ScrollViewer x:Name="SelectionScrollViewer" Grid.Column="1" VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Disabled" Padding="24,16">
+                          HorizontalScrollBarVisibility="Disabled">
                 <ScrollViewer.Style>
                     <Style TargetType="ScrollViewer">
                         <Setter Property="Visibility" Value="Collapsed" />
@@ -873,71 +1571,203 @@
                         </Style.Triggers>
                     </Style>
                 </ScrollViewer.Style>
-                <StackPanel IsEnabled="{Binding CanEdit}">
-                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsNavSelection}" FontSize="22" FontWeight="SemiBold" Margin="0,0,0,12" />
+                <StackPanel Margin="{StaticResource IrisPagePadding}" IsEnabled="{Binding CanEdit}">
+                    <TextBlock Style="{StaticResource IrisPageTitle}" Text="{x:Static app:UiText.SettingsNavSelection}" />
                     <TextBlock x:Name="SelectionErrorTextBlock" Text="{Binding Selection.ErrorMessage}" TextWrapping="Wrap"
                                Visibility="{Binding Selection.HasError, Converter={StaticResource BoolToVis}}"
-                               Foreground="{DynamicResource SystemFillColorCriticalBrush}" Margin="0,0,0,12" />
-                    <ui:Card Padding="16" Margin="0,0,0,12">
-                        <StackPanel>
-                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.MouseModeLabel}" FontWeight="SemiBold" Margin="0,0,0,8" />
-                            <ComboBox x:Name="MouseModeComboBox" ItemsSource="{x:Static local:SelectionSettingsDraftViewModel.MouseModes}"
+                               Foreground="{DynamicResource SystemFillColorCriticalBrush}" Margin="{StaticResource IrisCardGap}" />
+
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="CursorClick20" Style="{StaticResource IrisRowIcon}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.MouseModeLabel}" />
+                                <TextBlock Style="{StaticResource IrisRowDescription}" Text="{x:Static app:UiText.MouseExplanation}" />
+                            </StackPanel>
+                            <ComboBox x:Name="MouseModeComboBox" Grid.Column="2" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center" MinWidth="160"
+                                      ItemsSource="{x:Static local:SelectionSettingsDraftViewModel.MouseModes}"
                                       DisplayMemberPath="Label" SelectedValuePath="Mode" SelectedValue="{Binding Selection.MouseMode, Mode=TwoWay}" />
-                            <TextBlock Text="{x:Static app:UiText.MouseExplanation}" TextWrapping="Wrap" FontSize="12" Margin="0,8,0,12"
-                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                            <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" Content="{x:Static app:UiText.MouseBeamLabel}" IsChecked="{Binding Selection.RequireIBeamCursor, Mode=TwoWay}" Margin="0,0,0,12" />
-                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.MouseDragLabel}" Margin="0,0,0,6" />
-                            <TextBox x:Name="MouseDragTextBox" Text="{Binding Selection.MinDragDistanceText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                     Width="140" HorizontalAlignment="Left" Margin="0,0,0,12" />
-                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.MouseHideLabel}" Margin="0,0,0,6" />
-                            <TextBox x:Name="MouseHideTextBox" Text="{Binding Selection.IconAutoHideText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                     Width="140" HorizontalAlignment="Left" Margin="0,0,0,12" />
-                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.MouseExcludedLabel}" FontWeight="SemiBold" Margin="0,0,0,6" />
-                            <TextBox x:Name="MouseExcludedTextBox" Text="{Binding Selection.ExcludedProcessesText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        </Grid>
+                    </Border>
+
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="CursorHover20" Style="{StaticResource IrisRowIcon}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.MouseBeamLabel}" />
+                            </StackPanel>
+                            <CheckBox Grid.Column="2" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center"
+                                      Style="{StaticResource IrisSwitchCheckBox}"
+                                      AutomationProperties.Name="{x:Static app:UiText.MouseBeamLabel}"
+                                      IsChecked="{Binding Selection.RequireIBeamCursor, Mode=TwoWay}" />
+                        </Grid>
+                    </Border>
+
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="Cursor20" Style="{StaticResource IrisRowIcon}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.MouseDragLabel}" />
+                            </StackPanel>
+                            <TextBox x:Name="MouseDragTextBox" Grid.Column="2" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center" Width="120"
+                                     Text="{Binding Selection.MinDragDistanceText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                    </Border>
+
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="Timer20" Style="{StaticResource IrisRowIcon}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.MouseHideLabel}" />
+                            </StackPanel>
+                            <TextBox x:Name="MouseHideTextBox" Grid.Column="2" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center" Width="120"
+                                     Text="{Binding Selection.IconAutoHideText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                    </Border>
+
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <ui:SymbolIcon Grid.Row="0" Grid.Column="0" Symbol="DismissSquare20" Style="{StaticResource IrisRowIcon}" />
+                            <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.MouseExcludedLabel}" />
+                            </StackPanel>
+                            <TextBox x:Name="MouseExcludedTextBox" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,8,0,0"
+                                     Text="{Binding Selection.ExcludedProcessesText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Height="130" />
-                        </StackPanel>
-                    </ui:Card>
-                    <ui:Card Padding="16" Margin="0,0,0,12">
-                        <StackPanel>
-                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SelectionOrderLabel}" FontWeight="SemiBold" Margin="0,0,0,8" />
-                            <ComboBox x:Name="SelectionOrderComboBox" ItemsSource="{x:Static local:SelectionSettingsDraftViewModel.Orders}"
+                        </Grid>
+                    </Border>
+
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="Options20" Style="{StaticResource IrisRowIcon}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.SelectionOrderLabel}" />
+                                <TextBlock Style="{StaticResource IrisRowDescription}" Text="{x:Static app:UiText.SelectionSafetyDescription}" />
+                            </StackPanel>
+                            <ComboBox x:Name="SelectionOrderComboBox" Grid.Column="2" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center" MinWidth="160"
+                                      ItemsSource="{x:Static local:SelectionSettingsDraftViewModel.Orders}"
                                       DisplayMemberPath="Label" SelectedValuePath="Id" SelectedValue="{Binding Selection.ReadOrderChoice, Mode=TwoWay}" />
-                            <TextBlock Text="{x:Static app:UiText.SelectionSafetyDescription}" TextWrapping="Wrap" FontSize="12"
-                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,8,0,12" />
-                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SelectionTimeoutLabel}" FontWeight="SemiBold" Margin="0,0,0,8" />
-                            <TextBox x:Name="SelectionTimeoutTextBox" Text="{Binding Selection.ClipboardTimeoutText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                     Width="140" HorizontalAlignment="Left" />
-                            <TextBlock Text="{x:Static app:UiText.SelectionTimeoutDescription}" TextWrapping="Wrap" FontSize="12"
-                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,8,0,0" />
-                        </StackPanel>
-                    </ui:Card>
-                    <ui:Card Padding="16" Margin="0,0,0,12">
-                        <StackPanel>
-                            <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" Content="{x:Static app:UiText.SelectionRestoreLabel}" IsChecked="{Binding Selection.RestoreClipboard, Mode=TwoWay}" />
-                            <TextBlock Text="{x:Static app:UiText.SelectionRestoreDescription}" TextWrapping="Wrap" FontSize="12"
-                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,6,0,16" />
-                            <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" Content="{x:Static app:UiText.SelectionEmptyLabel}" IsChecked="{Binding Selection.OpenInputWhenEmpty, Mode=TwoWay}" />
-                            <TextBlock Text="{x:Static app:UiText.SelectionEmptyDescription}" TextWrapping="Wrap" FontSize="12"
-                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,6,0,0" />
-                        </StackPanel>
-                    </ui:Card>
-                    <ui:Card Padding="16" Margin="0,0,0,12">
-                        <StackPanel>
-                            <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SelectionProcessesLabel}" FontWeight="SemiBold" Margin="0,0,0,8" />
-                            <TextBlock Text="{x:Static app:UiText.SelectionProcessesDescription}" TextWrapping="Wrap" FontSize="12"
-                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" Margin="0,0,0,10" />
-                            <TextBox x:Name="SelectionProcessesTextBox" Text="{Binding Selection.ClipboardUnsafeProcessesText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        </Grid>
+                    </Border>
+
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="Options20" Style="{StaticResource IrisRowIcon}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.SelectionTimeoutLabel}" />
+                                <TextBlock Style="{StaticResource IrisRowDescription}" Text="{x:Static app:UiText.SelectionTimeoutDescription}" />
+                            </StackPanel>
+                            <TextBox x:Name="SelectionTimeoutTextBox" Grid.Column="2" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center" Width="120"
+                                     Text="{Binding Selection.ClipboardTimeoutText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </Grid>
+                    </Border>
+
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="ClipboardPaste20" Style="{StaticResource IrisRowIcon}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.SelectionRestoreLabel}" />
+                                <TextBlock Style="{StaticResource IrisRowDescription}" Text="{x:Static app:UiText.SelectionRestoreDescription}" />
+                            </StackPanel>
+                            <CheckBox Grid.Column="2" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center"
+                                      Style="{StaticResource IrisSwitchCheckBox}"
+                                      AutomationProperties.Name="{x:Static app:UiText.SelectionRestoreLabel}"
+                                      IsChecked="{Binding Selection.RestoreClipboard, Mode=TwoWay}" />
+                        </Grid>
+                    </Border>
+
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Grid.Column="0" Symbol="Clipboard20" Style="{StaticResource IrisRowIcon}" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.SelectionEmptyLabel}" />
+                                <TextBlock Style="{StaticResource IrisRowDescription}" Text="{x:Static app:UiText.SelectionEmptyDescription}" />
+                            </StackPanel>
+                            <CheckBox Grid.Column="2" Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center"
+                                      Style="{StaticResource IrisSwitchCheckBox}"
+                                      AutomationProperties.Name="{x:Static app:UiText.SelectionEmptyLabel}"
+                                      IsChecked="{Binding Selection.OpenInputWhenEmpty, Mode=TwoWay}" />
+                        </Grid>
+                    </Border>
+
+                    <Border Style="{StaticResource IrisRowCard}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <ui:SymbolIcon Grid.Row="0" Grid.Column="0" Symbol="ShieldKeyhole20" Style="{StaticResource IrisRowIcon}" />
+                            <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Style="{StaticResource IrisRowTitle}" Text="{x:Static app:UiText.SelectionProcessesLabel}" />
+                                <TextBlock Style="{StaticResource IrisRowDescription}" Text="{x:Static app:UiText.SelectionProcessesDescription}" />
+                            </StackPanel>
+                            <TextBox x:Name="SelectionProcessesTextBox" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,8,0,0"
+                                     Text="{Binding Selection.ClipboardUnsafeProcessesText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                      AcceptsReturn="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Height="130" />
-                        </StackPanel>
-                    </ui:Card>
+                        </Grid>
+                    </Border>
                 </StackPanel>
             </ScrollViewer>
 
             <!-- 右侧快捷键设置内容 -->
-            <ScrollViewer Grid.Column="1"
+            <ScrollViewer x:Name="HotkeysPageScroll"
+                          Grid.Column="1"
                           VerticalScrollBarVisibility="Auto"
-                          HorizontalScrollBarVisibility="Disabled"
-                          Padding="24,16,24,16">
+                          HorizontalScrollBarVisibility="Disabled">
                 <ScrollViewer.Style>
                     <Style TargetType="ScrollViewer">
                         <Setter Property="Visibility" Value="Collapsed" />
@@ -948,97 +1778,110 @@
                         </Style.Triggers>
                     </Style>
                 </ScrollViewer.Style>
-                <StackPanel MaxWidth="600" HorizontalAlignment="Left" IsEnabled="{Binding CanAccessHotkeysTab}">
+                <StackPanel Margin="{StaticResource IrisPagePadding}" IsEnabled="{Binding CanAccessHotkeysTab}">
                     <!-- 页面标题 -->
-                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsNavHotkeys}"
-                               FontSize="22"
-                               FontWeight="SemiBold"
-                               Margin="0,0,0,8" />
-                    <TextBlock TextWrapping="Wrap" Text="{x:Static app:UiText.SettingsHotkeysDescription}"
-                               Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                               FontSize="12"
-                               Margin="0,0,0,16" />
+                    <TextBlock Style="{StaticResource IrisPageTitle}" Text="{x:Static app:UiText.SettingsNavHotkeys}" />
+                    <TextBlock Style="{StaticResource IrisRowDescription}" Margin="{StaticResource IrisCardGap}"
+                               Text="{x:Static app:UiText.SettingsHotkeysDescription}" />
 
                     <!-- 快捷键卡片列表 -->
                     <ItemsControl ItemsSource="{Binding Hotkeys}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type local:HotkeyItemDraftViewModel}">
-                                <ui:Card Margin="0,0,0,12" Padding="14">
+                                <Border Style="{StaticResource IrisRowCard}">
                                     <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
                                         <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                             <RowDefinition Height="Auto" />
                                         </Grid.RowDefinitions>
 
                                         <!-- 第一行：名称、描述与启用复选框 -->
-                                        <Grid Grid.Row="0">
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                                                <TextBlock Text="{Binding DisplayName}"
-                                                           TextWrapping="Wrap"
-                                                           FontWeight="SemiBold"
-                                                           FontSize="14" />
-                                                <TextBlock Text="{Binding Description}"
-                                                           TextWrapping="Wrap"
-                                                           Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                                                           FontSize="12"
-                                                           Margin="0,2,0,0" />
-                                            </StackPanel>
-                                            <CheckBox ContentTemplate="{StaticResource WrappingCheckBoxContent}" HorizontalContentAlignment="Stretch" Grid.Column="1"
-                                                      IsChecked="{Binding Enabled, Mode=TwoWay}"
-                                                      IsEnabled="{Binding CanEdit}"
-                                                      Content="{x:Static app:UiText.SettingsHotkeyEnable}"
-                                                      VerticalAlignment="Center" />
-                                        </Grid>
+                                        <ui:SymbolIcon Grid.Row="0" Grid.Column="0">
+                                            <ui:SymbolIcon.Style>
+                                                <Style TargetType="ui:SymbolIcon" BasedOn="{StaticResource IrisRowIcon}">
+                                                    <Setter Property="Symbol" Value="Keyboard20" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Action}" Value="{x:Static actions:IrisAction.InputTranslate}">
+                                                            <Setter Property="Symbol" Value="Translate20" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Action}" Value="{x:Static actions:IrisAction.ClipboardTranslate}">
+                                                            <Setter Property="Symbol" Value="ClipboardTextLtr20" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Action}" Value="{x:Static actions:IrisAction.OpenSettings}">
+                                                            <Setter Property="Symbol" Value="Settings20" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Action}" Value="{x:Static actions:IrisAction.SelectionTranslate}">
+                                                            <Setter Property="Symbol" Value="CursorClick20" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Action}" Value="{x:Static actions:IrisAction.ToggleMouseSelection}">
+                                                            <Setter Property="Symbol" Value="CursorHover20" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </ui:SymbolIcon.Style>
+                                        </ui:SymbolIcon>
+                                        <StackPanel Grid.Row="0" Grid.Column="1" VerticalAlignment="Center">
+                                            <TextBlock Style="{StaticResource IrisRowTitle}" Text="{Binding DisplayName}" />
+                                            <TextBlock Style="{StaticResource IrisRowDescription}" Text="{Binding Description}" />
+                                        </StackPanel>
+                                        <CheckBox Grid.Row="0" Grid.Column="2"
+                                                  Style="{StaticResource IrisSwitchCheckBox}"
+                                                  Margin="{StaticResource IrisControlGap}" VerticalAlignment="Center"
+                                                  IsChecked="{Binding Enabled, Mode=TwoWay}"
+                                                  IsEnabled="{Binding CanEdit}"
+                                                  AutomationProperties.Name="{Binding DisplayName}" />
 
                                         <!-- 第二行：录入控件 -->
-                                        <Grid Grid.Row="1" Margin="0,10,0,0">
-                                            <local:HotkeyRecorderBox MinWidth="360" MaxWidth="500" HorizontalAlignment="Left" />
-                                        </Grid>
+                                        <local:HotkeyRecorderBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                                                                 Margin="0,8,0,0" MinWidth="360" HorizontalAlignment="Stretch" />
 
                                         <!-- 第三行：错误与状态提示 -->
-                                        <StackPanel Grid.Row="2" Margin="0,6,0,0">
-                                            <!-- 草稿错误（冲突、非法键） -->
-                                            <TextBlock Text="{Binding DraftError}"
-                                                       Foreground="{DynamicResource SystemFillColorCriticalBrush}"
-                                                       FontSize="12"
-                                                       TextWrapping="Wrap">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding HasDraftError}" Value="True">
-                                                                <Setter Property="Visibility" Value="Visible" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
+                                        <!-- 草稿错误（冲突、非法键） -->
+                                        <TextBlock Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+                                                   Margin="0,6,0,0"
+                                                   Text="{Binding DraftError}"
+                                                   Foreground="{DynamicResource SystemFillColorCriticalBrush}"
+                                                   FontSize="12"
+                                                   TextWrapping="Wrap">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding HasDraftError}" Value="True">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
 
-                                            <!-- 运行时注册状态 -->
-                                            <TextBlock Text="{Binding RuntimeStatusText}"
-                                                       Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                                                       FontSize="12"
-                                                       Margin="0,2,0,0"
-                                                       TextWrapping="Wrap">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Setter Property="Visibility" Value="Collapsed" />
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding HasRuntimeStatus}" Value="True">
-                                                                <Setter Property="Visibility" Value="Visible" />
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-                                        </StackPanel>
+                                        <!-- 运行时注册状态 -->
+                                        <TextBlock Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
+                                                   Margin="0,2,0,0"
+                                                   Text="{Binding RuntimeStatusText}"
+                                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                                   FontSize="12"
+                                                   TextWrapping="Wrap">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding HasRuntimeStatus}" Value="True">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
                                     </Grid>
-                                </ui:Card>
+                                </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
@@ -1049,21 +1892,16 @@
         <!-- 底部状态与操作栏 -->
         <Border Grid.Row="2"
                 BorderThickness="0,1,0,0"
-                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
-                Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}"
+                BorderBrush="{DynamicResource IrisAcrylicCardStrokeBrush}"
                 Padding="16,10">
             <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <!-- 状态与异常重试提示 -->
-                <Grid Grid.ColumnSpan="2" VerticalAlignment="Center">
+                <Grid Grid.Column="0" Margin="0,0,12,0" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
@@ -1083,6 +1921,9 @@
                                     <DataTrigger Binding="{Binding IsConflict}" Value="True">
                                         <Setter Property="Foreground" Value="{DynamicResource SystemFillColorCautionBrush}" />
                                     </DataTrigger>
+                                    <Trigger Property="Text" Value="">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                    </Trigger>
                                 </Style.Triggers>
                             </Style>
                         </TextBlock.Style>
@@ -1122,7 +1963,7 @@
                 </Grid>
 
                 <!-- 操作按钮区 -->
-                <StackPanel Grid.Column="1" Grid.Row="1" Margin="0,8,0,0"
+                <StackPanel Grid.Column="1" VerticalAlignment="Center"
                             Orientation="Horizontal"
                             HorizontalAlignment="Right">
                     <ui:Button Content="{x:Static app:UiText.SettingsCancel}"

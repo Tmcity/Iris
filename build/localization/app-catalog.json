@@ -1163,6 +1163,22 @@
     "zh-CN": "重试服务应用",
     "en-US": "Retry provider changes"
   },
+  "SettingsRowDragToReorder": {
+    "zh-CN": "拖动排序",
+    "en-US": "Drag to reorder"
+  },
+  "SettingsRowEnabled": {
+    "zh-CN": "启用",
+    "en-US": "Enabled"
+  },
+  "SettingsRowMoreActions": {
+    "zh-CN": "更多操作",
+    "en-US": "More actions"
+  },
+  "SettingsRowOpenDetails": {
+    "zh-CN": "查看详情",
+    "en-US": "Open details"
+  },
   "SettingsSave": {
     "zh-CN": "保存",
     "en-US": "Save"
