@@ -212,8 +212,12 @@ internal sealed partial class MouseSelectionMonitor(
                 {
                     var cleanup = await CleanupAsync(run).ConfigureAwait(false);
                     LogFailure(failure);
-                    if (cleanup != null) LogFailure(cleanup);
-                    CompleteCleanupOrThrow(run, cleanup);
+                    if (cleanup != null)
+                    {
+                        LogFailure(cleanup);
+                        CompleteCleanupOrThrow(run, cleanup);
+                    }
+                    else lock (_gate) run.FaultReported = true;
                 });
                 _ = _stop.ContinueWith(static task => { _ = task.Exception; }, CancellationToken.None,
                     TaskContinuationOptions.OnlyOnFaulted, TaskScheduler.Default);

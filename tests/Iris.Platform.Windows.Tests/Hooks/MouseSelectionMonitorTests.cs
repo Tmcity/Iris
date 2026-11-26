@@ -224,6 +224,24 @@ public sealed class MouseSelectionMonitorTests
     });
 
     [Fact]
+    public Task RuntimePumpFailure_CleanStopWhileBackgroundCleanupIsRunning_DoesNotThrow() => MouseTestRig.Use(async rig =>
+    {
+        var invalidated = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        rig.Monitor.Invalidated += (_, _) => invalidated.TrySetResult();
+        await rig.Start();
+        rig.Api.UnhookGate = rig.Gate();
+        rig.Api.FailPump();
+        await invalidated.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        await rig.Api.UnhookGate.Entered.Task.WaitAsync(TimeSpan.FromSeconds(10));
+        var stop = rig.Monitor.StopAsync();
+        rig.Api.UnhookGate.Release();
+        await stop;
+        rig.Invalidations.Single().Error!.ShouldBe(new ErrorInfo(ErrorCode.HookInstallFailed, ErrorMessages.GetDefault(ErrorCode.HookInstallFailed)));
+        rig.Api.ActiveHandles.ShouldBe(0); rig.Api.MessageThread!.IsAlive.ShouldBeFalse();
+        await rig.Start();
+    });
+
+    [Fact]
     public Task NegativeCodeAndMetadataExceptions_AlwaysCallNextAndNeverThrowAcrossCallback() => MouseTestRig.Use(async rig =>
     {
         await rig.Start();
