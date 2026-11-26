@@ -410,12 +410,23 @@ public sealed class TranslateWindowUiTests
 
                 vm.SourceLanguage = "auto";
                 swapBtn.IsEnabled.ShouldBeFalse();
-                vm.InputText = "Hello";
-                vm.ExecuteTranslateFromUser();
+                var detectedReady = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+                System.ComponentModel.PropertyChangedEventHandler onChanged = (_, _) =>
+                {
+                    if (vm.HasDetectedSourceLanguage && vm.CanSwapLanguages) detectedReady.TrySetResult();
+                };
+                vm.PropertyChanged += onChanged;
+                try
+                {
+                    vm.InputText = "Hello";
+                    vm.ExecuteTranslateFromUser();
+                    if (!(vm.HasDetectedSourceLanguage && vm.CanSwapLanguages))
+                        await detectedReady.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                }
+                finally { vm.PropertyChanged -= onChanged; }
                 await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.Background);
                 window.UpdateLayout();
-                        swapBtn.IsEnabled.ShouldBeTrue();
-
+                swapBtn.IsEnabled.ShouldBeTrue();
                 detectedTb.Visibility.ShouldBe(Visibility.Visible);
                 detectedTb.Text.ShouldNotBeNullOrWhiteSpace();
                 swapBtn.IsEnabled.ShouldBeTrue();
