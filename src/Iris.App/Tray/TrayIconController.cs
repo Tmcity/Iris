@@ -245,6 +245,9 @@ internal sealed partial class TrayIconController : IDisposable
         }
     }
 
+    private static Wpf.Ui.Controls.SymbolIcon CreateMenuIcon(Wpf.Ui.Controls.SymbolRegular symbol, double fontSize = 15) =>
+        new() { Symbol = symbol, FontSize = fontSize };
+
     private ContextMenu CreateContextMenu()
     {
         var contextMenu = new ContextMenu();
@@ -252,6 +255,7 @@ internal sealed partial class TrayIconController : IDisposable
         var inputTranslateItem = new MenuItem
         {
             Header = UiText.TrayMenuInputTranslate,
+            Icon = CreateMenuIcon(Wpf.Ui.Controls.SymbolRegular.Translate16),
             IsEnabled = true,
         };
         inputTranslateItem.Click += OnInputTranslateClick;
@@ -261,15 +265,16 @@ internal sealed partial class TrayIconController : IDisposable
         var clipboardTranslateItem = new MenuItem
         {
             Header = UiText.TrayMenuClipboardTranslate,
+            Icon = CreateMenuIcon(Wpf.Ui.Controls.SymbolRegular.ClipboardTextLtr16),
             IsEnabled = true,
         };
         clipboardTranslateItem.Click += OnClipboardTranslateClick;
         ClipboardTranslateMenuItem = clipboardTranslateItem;
         contextMenu.Items.Add(clipboardTranslateItem);
 
-        ScreenshotTranslateMenuItem = CreateScreenshotItem(UiText.TrayMenuScreenshotTranslate, IrisAction.ScreenshotTranslate);
-        ScreenshotOcrMenuItem = CreateScreenshotItem(UiText.TrayMenuScreenshotOcr, IrisAction.ScreenshotOcr);
-        SilentScreenshotOcrMenuItem = CreateScreenshotItem(UiText.TrayMenuSilentScreenshotOcr, IrisAction.SilentScreenshotOcr);
+        ScreenshotTranslateMenuItem = CreateScreenshotItem(UiText.TrayMenuScreenshotTranslate, IrisAction.ScreenshotTranslate, Wpf.Ui.Controls.SymbolRegular.Screenshot20);
+        ScreenshotOcrMenuItem = CreateScreenshotItem(UiText.TrayMenuScreenshotOcr, IrisAction.ScreenshotOcr, Wpf.Ui.Controls.SymbolRegular.ScanText16);
+        SilentScreenshotOcrMenuItem = CreateScreenshotItem(UiText.TrayMenuSilentScreenshotOcr, IrisAction.SilentScreenshotOcr, Wpf.Ui.Controls.SymbolRegular.Camera16);
         contextMenu.Items.Add(ScreenshotTranslateMenuItem);
         contextMenu.Items.Add(ScreenshotOcrMenuItem);
         contextMenu.Items.Add(SilentScreenshotOcrMenuItem);
@@ -279,12 +284,17 @@ internal sealed partial class TrayIconController : IDisposable
         var settingsItem = new MenuItem
         {
             Header = UiText.TrayMenuSettings,
+            Icon = CreateMenuIcon(Wpf.Ui.Controls.SymbolRegular.Settings16),
             IsEnabled = true,
         };
         settingsItem.Click += OnSettingsClick;
         SettingsMenuItem = settingsItem;
         contextMenu.Items.Add(settingsItem);
-        HistoryMenuItem = new MenuItem { Header = UiText.HistoryTitle };
+        HistoryMenuItem = new MenuItem
+        {
+            Header = UiText.HistoryTitle,
+            Icon = CreateMenuIcon(Wpf.Ui.Controls.SymbolRegular.History16),
+        };
         HistoryMenuItem.Click += async (_, _) =>
         {
             try
@@ -302,6 +312,7 @@ internal sealed partial class TrayIconController : IDisposable
         var debugUiExceptionItem = new MenuItem
         {
             Header = UiText.TrayMenuDebugUiException,
+            Icon = CreateMenuIcon(Wpf.Ui.Controls.SymbolRegular.Bug16),
         };
         debugUiExceptionItem.Click += (_, _) =>
         {
@@ -312,6 +323,7 @@ internal sealed partial class TrayIconController : IDisposable
         var debugTaskExceptionItem = new MenuItem
         {
             Header = UiText.TrayMenuDebugTaskException,
+            Icon = CreateMenuIcon(Wpf.Ui.Controls.SymbolRegular.Bug16),
         };
         debugTaskExceptionItem.Click += async (_, _) =>
         {
@@ -326,6 +338,7 @@ internal sealed partial class TrayIconController : IDisposable
         var debugToggleThemeItem = new MenuItem
         {
             Header = UiText.TrayMenuDebugToggleTheme,
+            Icon = CreateMenuIcon(Wpf.Ui.Controls.SymbolRegular.WeatherMoon16),
         };
         debugToggleThemeItem.Click += async (_, _) =>
         {
@@ -349,13 +362,13 @@ internal sealed partial class TrayIconController : IDisposable
         var exitItem = new MenuItem
         {
             Header = UiText.TrayMenuExit,
+            Icon = CreateMenuIcon(Wpf.Ui.Controls.SymbolRegular.Power20),
         };
         exitItem.Click += (_, _) =>
         {
             _appLifetime.RequestShutdown();
         };
         contextMenu.Items.Add(exitItem);
-
         return contextMenu;
     }
 
@@ -367,9 +380,9 @@ internal sealed partial class TrayIconController : IDisposable
         await DispatchInputTranslateAsync();
     }
 
-    private MenuItem CreateScreenshotItem(string title, IrisAction action)
+    private MenuItem CreateScreenshotItem(string title, IrisAction action, Wpf.Ui.Controls.SymbolRegular iconSymbol)
     {
-        var item = new MenuItem { Header = title };
+        var item = new MenuItem { Header = title, Icon = CreateMenuIcon(iconSymbol) };
         item.Click += async (_, _) =>
         {
             try

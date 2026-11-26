@@ -147,6 +147,34 @@ internal sealed class ScreenshotCanvas(ScreenshotFrameView frame, int monitor, S
     private BitmapSource? _magnifier;
     private PixelRect? _selection;
     private PixelPoint _pointer = new(frame.Frame.Monitors[monitor].Bounds.X, frame.Frame.Monitors[monitor].Bounds.Y);
+    internal const double LabelPaddingX = 8d;
+    internal const double LabelPaddingY = 5d;
+    internal const double LabelCornerRadius = 4d;
+    private static readonly Pen _centerOuterPen = CreateFrozenPen(Color.FromArgb(242, 255, 255, 255), 1);
+    private static readonly Pen _magnifierBorderPen = CreateFrozenPen(Color.FromArgb(153, 128, 128, 128), 1);
+    private readonly Pen _accentPen = CreateFrozenPen(ResolveSystemAccentColor(), 1);
+
+    internal static Color ResolveSystemAccentColor()
+    {
+        try
+        {
+            var c = SystemParameters.WindowGlassColor;
+            if (c.A > 0 && (c.R != 0 || c.G != 0 || c.B != 0))
+                return Color.FromRgb(c.R, c.G, c.B);
+        }
+        catch { }
+        return Color.FromRgb(0x00, 0x78, 0xD4);
+    }
+
+    private static Pen CreateFrozenPen(Color color, double thickness)
+    {
+        var brush = new SolidColorBrush(color);
+        brush.Freeze();
+        var pen = new Pen(brush, thickness);
+        pen.Freeze();
+        return pen;
+    }
+    private static Rect SnapStrokeRect(Rect r) => new(r.X + 0.5, r.Y + 0.5, Math.Max(0, r.Width - 1), Math.Max(0, r.Height - 1));
     internal BitmapSource? FrozenPixels => _frame?.Screens[monitor];
     internal void Release() { _frame = null; _magnifier = null; }
     internal void Update(PixelRect? selection, PixelPoint? point)
@@ -172,12 +200,13 @@ internal sealed class ScreenshotCanvas(ScreenshotFrameView frame, int monitor, S
             dc.DrawRectangle(mask, null, new Rect(0, selected.Bottom, b.Width, Math.Max(0, b.Height - selected.Bottom)));
             dc.DrawRectangle(mask, null, new Rect(0, selected.Top, selected.Left, selected.Height));
             dc.DrawRectangle(mask, null, new Rect(selected.Right, selected.Top, Math.Max(0, b.Width - selected.Right), selected.Height));
-            dc.DrawRectangle(null, new Pen(Brushes.DeepSkyBlue, 1), selected);
+            dc.DrawRectangle(null, _accentPen, SnapStrokeRect(selected));
         }
         var foreground = dark ? Brushes.White : Brushes.Black;
         var chrome = dark ? Brushes.Black : Brushes.White;
+        double padX = LabelPaddingX * scale, padY = LabelPaddingY * scale;
         Rect magnifierBounds = Rect.Empty;
-        double magnifierHeight = 124 + Math.Ceiling(24 * scale);
+        double magnifierHeight = 124 + Math.Ceiling((12 + LabelPaddingY * 2 + 4) * scale);
         if (settings.ShowMagnifier && _magnifier != null && b.Width >= 124 && b.Height >= magnifierHeight)
         {
             double mx = (long)_pointer.X - b.X + 20, my = (long)_pointer.Y - b.Y + 24;
@@ -191,16 +220,16 @@ internal sealed class ScreenshotCanvas(ScreenshotFrameView frame, int monitor, S
             occupied.Add(magnifierBounds);
             var coords = new FormattedText($"{_pointer.X}, {_pointer.Y}", CultureInfo.CurrentUICulture, FlowDirection.LeftToRight,
                 new Typeface("Segoe UI"), 12 * scale, foreground, scale);
-            double cw = Math.Min(b.Width, coords.Width + 12 * scale);
+            double cw = Math.Min(b.Width, coords.Width + padX * 2);
             occupied.Add(new Rect(Math.Clamp(magnifierBounds.X, 0, b.Width - cw), magnifierBounds.Y + 124,
-                cw, Math.Min(b.Height - 124, coords.Height + 8 * scale)));
+                cw, Math.Min(b.Height - 124, coords.Height + padY * 2)));
         }
         void Label(string text, double x, double y, bool center = false, bool avoidMagnifier = false)
         {
             var label = new FormattedText(text, Iris.Core.Localization.UiLanguage.Culture, FlowDirection.LeftToRight,
                 new Typeface("Segoe UI"), 12 * scale, foreground, scale)
-            { MaxTextWidth = Math.Max(1, b.Width - 12 * scale) };
-            double width = Math.Min(b.Width, label.Width + 12 * scale), height = Math.Min(b.Height, label.Height + 8 * scale);
+            { MaxTextWidth = Math.Max(1, b.Width - padX * 2) };
+            double width = Math.Min(b.Width, label.Width + padX * 2), height = Math.Min(b.Height, label.Height + padY * 2);
             if (center) x = (b.Width - width) / 2;
             x = Math.Clamp(x, 0, Math.Max(0, b.Width - width)); y = Math.Clamp(y, 0, Math.Max(0, b.Height - height));
             if (avoidMagnifier)
@@ -224,7 +253,8 @@ internal sealed class ScreenshotCanvas(ScreenshotFrameView frame, int monitor, S
                 x = free.Value.X; y = free.Value.Y;
                 occupied.Add(free.Value);
             }
-            dc.DrawRectangle(chrome, null, new Rect(x, y, width, height)); dc.DrawText(label, new Point(x + 6 * scale, y + 4 * scale));
+            double radius = LabelCornerRadius * scale;
+            dc.DrawRoundedRectangle(chrome, null, new Rect(x, y, width, height), radius, radius); dc.DrawText(label, new Point(x + padX, y + padY));
         }
         if (b.Width > 260 * scale && b.Height > 90 * scale)
             Label(settings.ConfirmOnMouseUp || !ScreenshotSelection.Valid(_selection) ? UiText.ScreenshotDragHint : UiText.ScreenshotConfirmHint, 12 * scale, 12 * scale, center: true, avoidMagnifier: true);
@@ -233,10 +263,11 @@ internal sealed class ScreenshotCanvas(ScreenshotFrameView frame, int monitor, S
         if (!magnifierBounds.IsEmpty)
         {
             double x = magnifierBounds.X, y = magnifierBounds.Y;
-            dc.DrawRectangle(chrome, null, new Rect(x, y, 124, 124));
+            dc.DrawRoundedRectangle(chrome, _magnifierBorderPen, new Rect(x, y, 124, 124), 4, 4);
             RenderOptions.SetBitmapScalingMode(this, BitmapScalingMode.NearestNeighbor);
             dc.DrawImage(_magnifier, new Rect(x + 2, y + 2, 120, 120));
-            dc.DrawRectangle(null, new Pen(Brushes.DeepSkyBlue, 1), new Rect(x + 58, y + 58, 8, 8));
+            dc.DrawRectangle(null, _centerOuterPen, new Rect(x + 57.5, y + 57.5, 9, 9));
+            dc.DrawRectangle(null, _accentPen, new Rect(x + 58.5, y + 58.5, 7, 7));
             Label($"{_pointer.X}, {_pointer.Y}", x, y + 124);
         }
         dc.Pop(); dc.Pop();

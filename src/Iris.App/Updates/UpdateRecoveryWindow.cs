@@ -1,6 +1,9 @@
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Interop;
 using Iris.App.Settings;
+using Wpf.Ui.Appearance;
 
 namespace Iris.App.Updates;
 
@@ -27,20 +30,39 @@ internal sealed class UpdateRecoveryWindow : Window
         SetResourceReference(ForegroundProperty, "TextFillColorPrimaryBrush");
         RetryCommand = new AsyncRelayCommand(retry, onException: _ => { });
         CancelUpdateCommand = new AsyncRelayCommand(cancel, onException: _ => { });
-        var panel = new StackPanel { Margin = new Thickness(24) };
-        panel.Children.Add(new TextBlock { Text = UiText.UpdateFailed, FontSize = 20, FontWeight = FontWeights.SemiBold, TextWrapping = TextWrapping.Wrap });
-        _detail = new TextBlock { TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 16, 0, 12) };
+        var panel = new StackPanel { Margin = new Thickness(24, 16, 24, 24) };
+        panel.Children.Add(new TextBlock { Text = UiText.UpdateFailed, FontSize = 20, FontWeight = FontWeights.SemiBold, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 12) });
+        _detail = new TextBlock { FontSize = 14, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 12) };
         panel.Children.Add(_detail);
-        _cleanup = new TextBlock { Text = UiText.UpdateRecoveryCleanupPending, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 16) };
+        _cleanup = new TextBlock { Text = UiText.UpdateRecoveryCleanupPending, FontSize = 13, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 20) };
+        _cleanup.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
         panel.Children.Add(_cleanup);
         var actions = new WrapPanel { HorizontalAlignment = HorizontalAlignment.Right };
         _retry = new Wpf.Ui.Controls.Button { Content = UiText.UpdateRecoveryRetry, Command = RetryCommand,
-            Appearance = Wpf.Ui.Controls.ControlAppearance.Primary, Padding = new Thickness(12, 6, 12, 6), Margin = new Thickness(0, 0, 8, 0) };
-        _cancel = new Wpf.Ui.Controls.Button { Content = UiText.UpdateRecoveryCancel, Command = CancelUpdateCommand, Padding = new Thickness(12, 6, 12, 6) };
+            Appearance = Wpf.Ui.Controls.ControlAppearance.Primary, Padding = new Thickness(16, 6, 16, 6), MinHeight = 32, Margin = new Thickness(0, 0, 8, 4) };
+        _cancel = new Wpf.Ui.Controls.Button { Content = UiText.UpdateRecoveryCancel, Command = CancelUpdateCommand,
+            Padding = new Thickness(16, 6, 16, 6), MinHeight = 32, Margin = new Thickness(0, 0, 0, 4) };
         actions.Children.Add(_retry); actions.Children.Add(_cancel); panel.Children.Add(actions);
         Content = panel;
+        SourceInitialized += (_, _) => ApplyTitleBarTheme();
     }
 
+    private void ApplyTitleBarTheme()
+    {
+        try
+        {
+            nint handle = new WindowInteropHelper(this).Handle;
+            if (handle == 0) return;
+            int dark = ApplicationThemeManager.GetAppTheme() == ApplicationTheme.Dark ? 1 : 0;
+            _ = DwmSetWindowAttribute(handle, 20, ref dark, sizeof(int));
+        }
+        catch
+        {
+        }
+    }
+
+    [DllImport("dwmapi.dll")]
+    private static extern int DwmSetWindowAttribute(nint hwnd, int attribute, ref int value, int size);
     internal void ShowFailure(string version, bool cleanupPending)
     {
         _detail.Text = UiText.UpdateRecoveryRequired + "\n\n" + version;

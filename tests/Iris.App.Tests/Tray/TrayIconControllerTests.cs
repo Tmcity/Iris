@@ -104,6 +104,39 @@ public sealed class TrayIconControllerTests
     }
 
     [Fact]
+    public async Task ContextMenu_AllMenuItems_HaveBmpSymbolIcons()
+    {
+        await WpfTestRunner.RunAsync(() =>
+        {
+            var (controller, _, menu) = CreateSut();
+            using (controller)
+            {
+                foreach (var entry in menu.Items)
+                {
+                    if (entry is MenuItem item)
+                    {
+                        var icon = item.Icon.ShouldBeOfType<Wpf.Ui.Controls.SymbolIcon>();
+                        ((int)icon.Symbol).ShouldBeLessThanOrEqualTo(0xFFFF);
+                    }
+                }
+
+                ((Wpf.Ui.Controls.SymbolIcon)controller.InputTranslateMenuItem!.Icon!).Symbol.ShouldBe(Wpf.Ui.Controls.SymbolRegular.Translate16);
+                ((Wpf.Ui.Controls.SymbolIcon)controller.ClipboardTranslateMenuItem!.Icon!).Symbol.ShouldBe(Wpf.Ui.Controls.SymbolRegular.ClipboardTextLtr16);
+                ((Wpf.Ui.Controls.SymbolIcon)controller.ScreenshotTranslateMenuItem!.Icon!).Symbol.ShouldBe(Wpf.Ui.Controls.SymbolRegular.Screenshot20);
+                ((Wpf.Ui.Controls.SymbolIcon)controller.ScreenshotOcrMenuItem!.Icon!).Symbol.ShouldBe(Wpf.Ui.Controls.SymbolRegular.ScanText16);
+                ((Wpf.Ui.Controls.SymbolIcon)controller.SilentScreenshotOcrMenuItem!.Icon!).Symbol.ShouldBe(Wpf.Ui.Controls.SymbolRegular.Camera16);
+                ((Wpf.Ui.Controls.SymbolIcon)controller.SettingsMenuItem!.Icon!).Symbol.ShouldBe(Wpf.Ui.Controls.SymbolRegular.Settings16);
+                ((Wpf.Ui.Controls.SymbolIcon)controller.HistoryMenuItem!.Icon!).Symbol.ShouldBe(Wpf.Ui.Controls.SymbolRegular.History16);
+
+                var lastItem = menu.Items[^1].ShouldBeOfType<MenuItem>();
+                ((Wpf.Ui.Controls.SymbolIcon)lastItem.Icon!).Symbol.ShouldBe(Wpf.Ui.Controls.SymbolRegular.Power20);
+            }
+
+            return Task.CompletedTask;
+        });
+    }
+
+    [Fact]
     public async Task InputTranslateMenuItem_Click_DispatchesInputTranslateAction()
     {
         await WpfTestRunner.RunAsync(async () =>

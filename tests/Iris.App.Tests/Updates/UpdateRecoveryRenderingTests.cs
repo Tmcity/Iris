@@ -100,6 +100,7 @@ public sealed class UpdateRecoveryRenderingTests
                 }
                 foreach (var item in text) item.ActualHeight.ShouldBeGreaterThan(0);
                 foreach (var button in buttons) button.ActualWidth.ShouldBeLessThanOrEqualTo(panel.ActualWidth);
+                buttons.ShouldAllBe(button => button.ActualHeight >= 32);
                 foreach (double ratio in bodyContrast) ratio.ShouldBeGreaterThanOrEqualTo(4.5);
                 foreach (var button in buttonPaint)
                     button.Contrast.ShouldBeGreaterThanOrEqualTo(4.5, "the actual action label must be readable against its painted surface");
