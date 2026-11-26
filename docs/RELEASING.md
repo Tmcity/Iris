@@ -10,6 +10,8 @@ The existing local history and initial public `main` history have no common ance
 
 ## Source, assets and tags
 
+`v0.2.10` is an actually published public release (annotated tag `v0.2.10` dereferenced to source `227b3d88938543766a27d86a94ade52f9e5b89b7`; full package `Iris-0.2.10-full.nupkg`, 64,628,628 bytes, SHA256 `DCA307A0AFC1827E27BC7EC2614E5EAD3A30978D4C5D318E4D0D842EBC73F136`). Local candidates `0.2.11`–`0.2.16` were never publicly released and are skipped. The current release candidate is `0.2.17`, with `PreviousVersion = 0.2.10` in `build/release-plan.json`, delivering the T-041 Fluent/Acrylic UI redesign together with the existing T-040 fixes; T-040 remains paused and unclosed, and CI continues with non-ReadyToRun packaging and the existing workflow.
+
 The separately authorized `v0.2.8` retains its original source/tag and failed CI attempt. Its two failing composition tests disposed an unused UI controller before the lazily owned WPF test dispatcher had initialized. Running a failing test alone reproduced the same disposal failure. The assembly fixture now explicitly starts its already owned WPF dispatcher before tests and joins it at assembly teardown. Product code and existing composition assertions are unchanged. This correction was published in `0.2.9`, whose original CI attempt and all public bytes are retained. The next candidate is `0.2.10`, depending on that actually published `0.2.9`; it needs its own source, full validation, candidate and explicit version-tag authorization.
 
 The first local `0.2.9` full run retained one theme callback timeout while other test classes were occupying the shared WPF dispatcher. A temporary diagnostic held that same dispatcher and invoked the original callback test, reproducing its timeout; its source, failure and joined cleanup are archived. The eight theme preview tests now form one explicitly nonparallel collection, so other classes' synchronous UI fixtures cannot overlap their callback observations. Their original background-to-UI calls, five-second timeouts, theme, owner and sanitized-warning assertions are unchanged. Other test collections retain their existing parallel scheduling, all tests remain in full validation, and the temporary diagnostic is excluded from the final source by removing its owned file after archiving it. Product theme code is unchanged.
@@ -41,9 +43,9 @@ The publisher creates a draft, uploads all validated public files without overwr
 Run the same local pipeline from committed release sources:
 
 ```powershell
-python -B build/release_pipeline.py validate --output F:/Iris/artifacts/t039c/validation-unique
-python -B build/release_manifest.py verify --version 0.2.9 --directory F:/Iris/artifacts/t039c/public-0.2.9-download-20261105-1
-python -B build/release_pipeline.py package --version 0.2.10 --output F:/Iris/artifacts/t039c/release-0.2.10-unique --logs F:/Iris/artifacts/t039c/package-0.2.10-unique --validation F:/Iris/artifacts/t039c/validation-unique --previous F:/Iris/artifacts/t039c/public-0.2.9-download-20261105-1
+python -B build/release_pipeline.py validate --output F:/Iris/artifacts/t041/release-0217-20261127-1/validation
+python -B build/release_manifest.py verify --version 0.2.10 --directory F:/Iris/artifacts/t041/release-0217-20261127-1/previous-public-0210
+python -B build/release_pipeline.py package --version 0.2.17 --output F:/Iris/artifacts/t041/release-0217-20261127-1/candidate --logs F:/Iris/artifacts/t041/release-0217-20261127-1/package-logs --validation F:/Iris/artifacts/t041/release-0217-20261127-1/validation --previous F:/Iris/artifacts/t041/release-0217-20261127-1/previous-public-0210
 ```
 
 Directories must be new and unique. The local tool source option accepts the previously obtained pinned vpk package; its use is recorded separately. CI resolves the same version from NuGet. Local and CI packages are separate builds: compare each against its own provenance, and never claim their binary bytes match without checking.
