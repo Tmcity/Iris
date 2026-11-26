@@ -166,7 +166,7 @@
 
 ### 5.1 原始构建、全量 7 程序集回归与本地化审计输出
 
-> **跨机运行说明**：为避免在本机桌面弹出 WPF 测试窗口打扰用户，以下全量 7 程序集汇总数 **`4019`（成功 `4017`、失败 `0`、跳过 `2`）是两台机器实测结果相加**：6 个非 WPF 程序集（`2905` 条）在本机运行，**`Iris.App.Tests`（`1114` 条）全部在远程 `win-server`（`192.168.8.106` / `WIN-JFBOFDSAH6T`，Windows 10.0.26100.33438，.NET 10.0.14）交互会话中运行，未在本机运行**。
+> **跨机运行说明**：为避免在本机桌面弹出 WPF 测试窗口打扰用户，以下全量 7 程序集汇总数 **`4019`（成功 `4017`、失败 `0`、跳过 `2`）是两台机器实测结果相加**：6 个非 WPF 程序集（`2905` 条）在本机运行，**`Iris.App.Tests`（`1114` 条）全部在远程测试机（Windows 10.0.26100.33438，.NET 10.0.14）交互会话中运行，未在本机运行**。
 
 1. **`dotnet build Iris.slnx -c Release`**（本机）：
 ```text
@@ -185,7 +185,7 @@
      - `Iris.Platform.Windows.Tests`：总计 1098，失败 0，成功 1096，已跳过 2（隔离剪贴板 Window Station 环境限制）
      - `Iris.Maintenance.Tests`：总计 39，失败 0，成功 39，已跳过 0
      - `Iris.ArchitectureTests`：总计 11，失败 0，成功 11，已跳过 0
-   - 远程 `win-server`（`192.168.8.106`）运行 `Iris.App.Tests.exe`（最终提交前 Release 产物，未在本机运行）：
+   - 远程测试机运行 `Iris.App.Tests.exe`（最终提交前 Release 产物，未在本机运行）：
 ```text
 === TEST EXECUTION SUMMARY ===
    Iris.App.Tests  Total: 1114, Errors: 0, Failed: 0, Skipped: 0, Not Run: 0, Time: 339.605s
@@ -203,7 +203,7 @@ Compiled resource values matched after XML newline normalization; composite form
 
 ### 5.2 启动与内存测量（`build/measure-startup.ps1`）
 
-本次 `measure-startup.ps1` 在远程 `win-server`（`192.168.8.106` / `WIN-JFBOFDSAH6T`，Windows 10.0.26100.0，虚拟显卡 `Microsoft Basic Display Adapter`，起始 CPU 3%）执行，原始输出如下：
+本次 `measure-startup.ps1` 在远程测试机（Windows 10.0.26100.0，虚拟显卡 `Microsoft Basic Display Adapter`，起始 CPU 3%）执行，原始输出如下：
 ```text
 Iris measure-startup | 2026-11-25 20:37:07 | Microsoft Windows NT 10.0.26100.0 | Configuration=Release Runs=3 IdleSeconds=30
 System CPU load at start: 3% (startup-time NFR is only meaningful below 30%)
@@ -222,24 +222,24 @@ Run StartupMs VisibleWindows WorkingSetMB PrivateBytesMB ExitCode ShutdownLogLin
 --- NFR (ARCH 1.2): StartupMs <= 1500; PrivateBytesMB <= 100; WorkingSetMB <= 160; VisibleWindows = 0; ExitCode = 0; ShutdownLogLines >= 1 ---
 ```
 - **客观说明**：
-  - 阶段 4 未在本机桌面重测 `measure-startup.ps1`；上述 `StartupMs=3770.3 ms` 为 `win-server` 虚拟化环境读数，不与阶段 3 本机基线（`StartupMs=901.6 ms`）直接横比，本机启动耗时标为「未验证」；
-  - `win-server` 三轮内存：Run 1（启动过第二实例、`VisibleWindows=1`）`WorkingSetMB=152.4 MB` / `PrivateBytesMB=46.3 MB`，Run 2–3 常驻态 `WorkingSetMB=113.1 / 113.0 MB`、`PrivateBytesMB=33.0 / 32.8 MB`，二次实例 `393 ms` 退出码 `0`。
+  - 阶段 4 未在本机桌面重测 `measure-startup.ps1`；上述 `StartupMs=3770.3 ms` 为远程测试机虚拟化环境读数，不与阶段 3 本机基线（`StartupMs=901.6 ms`）直接横比，本机启动耗时标为「未验证」；
+  - 远程测试机三轮内存：Run 1（启动过第二实例、`VisibleWindows=1`）`WorkingSetMB=152.4 MB` / `PrivateBytesMB=46.3 MB`，Run 2–3 常驻态 `WorkingSetMB=113.1 / 113.0 MB`、`PrivateBytesMB=33.0 / 32.8 MB`，二次实例 `393 ms` 退出码 `0`。
 
-### 5.3 审查闭环、远程 `win-server` 使用说明与真机截图复看
+### 5.3 审查闭环、远程测试机使用说明与真机截图复看
 
 - **SDD 审查闭环与提交前修补**：Task 1–3 均首轮获 `sdd-reviewer` `APPROVED`；整阶段 `sdd-final-reviewer` 审出 5 项问题（2 项 Important + 3 项 Minor）并经 `sdd-rereviewer` 全部 `all_addressed`；提交前复核进一步完成 2 项界面修补并重截复看：
   1. 列表行元信息 `Metadata` 由单行省略改为 `TextWrapping="Wrap"`，使 324px 左栏下中英文的语言对与结果数均完整显示不截断（重截并复看 `03`、`11`）；
   2. `ConfirmationActionsPanel` 统一改为 `HorizontalAlignment="Left"`（不再在宽模式下右对齐导致 `en-US` `640px` 换行后按钮悬空于 `x≈181`），使换行后的「Confirm deletion / Cancel」按钮与上一行「Keep favorites…」严格左对齐（重截并复看 `12`，并在 `HistoryWindowLayoutTests.cs` 增补左对齐断言）。
-- **远程机器 `win-server`（`192.168.8.106`）使用与清理说明**：
-  - 经 SSH 传至 `win-server` 的 `C:\Temp\iris-p4-test\` 的全部文件为：
+- **远程测试机使用与清理说明**：
+  - 经 SSH 传至远程测试机的 `C:\Temp\iris-p4-test\` 的全部文件为：
     - `portable-app.tar.gz`（解包至 `C:\Temp\iris-p4-test\portable\` 并放置 `portable.txt`）
     - `app-tests.tar.gz`（解包至 `C:\Temp\iris-p4-test\app-tests\`）
     - `history-seeded.db`（由本地 Python 生成的 56 条 V2 样本 SQLite 库，不含任何用户真实数据）
     - `capture-remote-p4.ps1`、`measure-startup.ps1`、`run-remote-tests-and-measure.ps1`、`run-remote-apptests-only.ps1`
   - 临时创建的计划任务 `IrisCapP4`、`IrisVerifyP4`、`IrisAppTestsP4` 均已删除；验证结束后已删除整个 `C:\Temp\iris-p4-test\` 目录（`DirExists=False`），并确认远端无残留 `Iris.App` / `Iris.App.Tests` 进程（`RemainingProcs=0`）。
-- **远程 `win-server` 13 张截图复看与材质说明（`%TEMP%\iris-t041-evidence\phase4-final\win-server-screenshots`）**：
-  - 在 `win-server` 上对浅/深双主题 `HistoryWindow` 读取 `DwmGetWindowAttribute(DWMWA_SYSTEMBACKDROP_TYPE)` 均返回 `hr=0x00000000 DWMWA_SYSTEMBACKDROP_TYPE=3`（仅证明窗口属性已设置）；
-  - **重要说明**：因 `win-server` 为 Windows Server 2025 虚拟显示适配器环境（`Microsoft Basic Display Adapter`），13 张截图中的窗口均呈现**不透明纯色直角外观（`#EAEAEA` / `#333333`），亚克力透底与圆角未生效**，且 `09-zh-light-800-unfocused.png` 与 `03-zh-light-800-selected.png` 逐像素相同（尽管焦点切换时 `GetForegroundWindow != HistoryHwnd`）。因此这组截图**仅用于验证布局、排版、控件可见性、双栏/单列切换、确认条与中英文文本**，「亚克力观感」与「失焦态外观」均标为**未验证**。
+- **远程测试机 13 张截图复看与材质说明（本地临时证据目录）**：
+  - 在远程测试机上对浅/深双主题 `HistoryWindow` 读取 `DwmGetWindowAttribute(DWMWA_SYSTEMBACKDROP_TYPE)` 均返回 `hr=0x00000000 DWMWA_SYSTEMBACKDROP_TYPE=3`（仅证明窗口属性已设置）；
+  - **重要说明**：因远程测试机为 Windows Server 2025 虚拟显示适配器环境（`Microsoft Basic Display Adapter`），13 张截图中的窗口均呈现**不透明纯色直角外观（`#EAEAEA` / `#333333`），亚克力透底与圆角未生效**，且 `09-zh-light-800-unfocused.png` 与 `03-zh-light-800-selected.png` 逐像素相同（尽管焦点切换时 `GetForegroundWindow != HistoryHwnd`）。因此这组截图**仅用于验证布局、排版、控件可见性、双栏/单列切换、确认条与中英文文本**，「亚克力观感」与「失焦态外观」均标为**未验证**。
   - 13 张截图（含最新重截的 `03`、`11`、`12`）均已亲自打开复看，确认布局结构、信息行完整换行、英文 `640px` 确认条左对齐、药丸仅看收藏、左 3px 选中竖条、收藏/截断小标签及 `320×280` 排布正确。
 
 ### 5.4 修改的既有测试、偏差、遗留与未验证说明
@@ -253,7 +253,7 @@ Run StartupMs VisibleWindows WorkingSetMB PrivateBytesMB ExitCode ShutdownLogLin
   3. **英文右栏操作按钮折行**：`en-US` 下右栏操作按钮（`Remove favorite` / `Retranslate with current settings` / `Delete this record`）在 `800px` 宽下折成 2 行、更窄宽度下折成 2–3 行；
   4. **英文列表元数据 `"1 results"` 单复数问题**：`11`/`13` 中单条结果展示为 `1 results`，经 `git log -S HistoryMetadataFormat` 核实为 T-038（提交 `9c1ac9d`）既有资源键 `Strings.en-US.resx:123`（`{0:g} · {1} · {2} → {3} · {4} results`）的既有问题，阶段 4 未改动资源键与 `HistoryViewModel`。
 - **未验证项（显式标注）**：
-  1. **亚克力观感**（`win-server` 虚拟显卡环境下窗口呈不透明纯色直角，仅验证了 `DWMWA_SYSTEMBACKDROP_TYPE=3` 属性已设置，未在支持真实合成亚克力的本机 GPU 桌面验证观感）；
-  2. **失焦态外观**（`win-server` 上 `09` 与 `03` 逐像素相同，无法作为失焦外观证据）；
+  1. **亚克力观感**（远程测试机虚拟显卡环境下窗口呈不透明纯色直角，仅验证了 `DWMWA_SYSTEMBACKDROP_TYPE=3` 属性已设置，未在支持真实合成亚克力的本机 GPU 桌面验证观感）；
+  2. **失焦态外观**（远程测试机上 `09` 与 `03` 逐像素相同，无法作为失焦外观证据）；
   3. **Windows 10 纯色回退真机环境**（纯色回退字典切换路径仅由自动化主题测试覆盖）；
-  4. **本机物理机启动耗时重测与本机运行 `Iris.App.Tests`**（为避免打扰本机桌面，两项均在远程 `win-server` 执行）。
+  4. **本机物理机启动耗时重测与本机运行 `Iris.App.Tests`**（为避免打扰本机桌面，两项均在远程测试机执行）。
