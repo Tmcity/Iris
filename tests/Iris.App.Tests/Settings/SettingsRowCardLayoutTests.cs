@@ -20,7 +20,7 @@ public sealed class SettingsRowCardLayoutTests
     [InlineData("general", 6)]
     [InlineData("selection", 10)]
     [InlineData("network", 6)]
-    [InlineData("hotkeys", 5)]
+    [InlineData("hotkeys", 8)]
     public Task Page_IsBuiltFromIconRowCards(string pageKey, int expectedRows) => Run(f =>
     {
         f.Show(pageKey);
@@ -77,7 +77,7 @@ public sealed class SettingsRowCardLayoutTests
     [InlineData("general", 3)]
     [InlineData("selection", 3)]
     [InlineData("network", 1)]
-    [InlineData("hotkeys", 5)]
+    [InlineData("hotkeys", 8)]
     public Task Page_SwitchesHaveNoContentAndAreNamedAfterTheirRow(string pageKey, int expectedSwitches) => Run(f =>
     {
         f.Show(pageKey);
@@ -351,7 +351,7 @@ public sealed class SettingsRowCardLayoutTests
 
         var page = Page(f, "hotkeys");
         var recorders = Descendants<Iris.App.Settings.HotkeyRecorderBox>(page).ToArray();
-        recorders.Length.ShouldBe(5);
+        recorders.Length.ShouldBe(8);
         foreach (var recorder in recorders)
         {
             recorder.MinWidth.ShouldBe(360d);
@@ -365,12 +365,12 @@ public sealed class SettingsRowCardLayoutTests
         }
 
         var cards = RowCards(f, page);
-        cards.Length.ShouldBe(5);
+        cards.Length.ShouldBe(8);
         var symbols = cards
             .Select(card => ((Grid)card.Child).Children.OfType<Wpf.Ui.Controls.SymbolIcon>().Single().Symbol)
             .Distinct()
             .ToArray();
-        symbols.Length.ShouldBe(5);
+        symbols.Length.ShouldBe(8);
 
         var panel = (StackPanel)page.Content;
         BindingOperations.GetBindingExpression(panel, UIElement.IsEnabledProperty)?
@@ -492,6 +492,12 @@ public sealed class SettingsRowCardLayoutTests
             UiText.SelectionHotkeyDescription,
             UiText.MouseToggle,
             UiText.MouseToggleDescription,
+            UiText.TrayMenuScreenshotTranslate,
+            UiText.ScreenshotTranslateHotkeyDescription,
+            UiText.TrayMenuScreenshotOcr,
+            UiText.ScreenshotOcrHotkeyDescription,
+            UiText.TrayMenuSilentScreenshotOcr,
+            UiText.SilentScreenshotOcrHotkeyDescription,
         ],
         _ => throw new ArgumentOutOfRangeException(nameof(pageKey), pageKey, null),
     };
@@ -550,6 +556,9 @@ public sealed class SettingsRowCardLayoutTests
             [UiText.SettingsTitle] = Wpf.Ui.Controls.SymbolRegular.Settings20,
             [UiText.SettingsNavSelection] = Wpf.Ui.Controls.SymbolRegular.CursorClick20,
             [UiText.MouseToggle] = Wpf.Ui.Controls.SymbolRegular.CursorHover20,
+            [UiText.TrayMenuScreenshotTranslate] = Wpf.Ui.Controls.SymbolRegular.Screenshot20,
+            [UiText.TrayMenuScreenshotOcr] = Wpf.Ui.Controls.SymbolRegular.ScanText16,
+            [UiText.TrayMenuSilentScreenshotOcr] = Wpf.Ui.Controls.SymbolRegular.Camera16,
         },
         _ => throw new ArgumentOutOfRangeException(nameof(pageKey), pageKey, null),
     };

@@ -823,6 +823,18 @@
     "zh-CN": "关闭后仅显示提示，不打开翻译窗口。",
     "en-US": "When off, show a notice without opening the translation window."
   },
+  "ScreenshotOcrHotkeyDescription": {
+    "zh-CN": "框选屏幕区域并识别文字，填入翻译窗口",
+    "en-US": "Capture a screen region and place recognized text in the translation window"
+  },
+  "ScreenshotTranslateHotkeyDescription": {
+    "zh-CN": "框选屏幕区域，识别文字并自动翻译",
+    "en-US": "Capture a screen region, recognize text, and translate automatically"
+  },
+  "SilentScreenshotOcrHotkeyDescription": {
+    "zh-CN": "框选屏幕区域识别文字并直接复制到剪贴板，不打开翻译窗口",
+    "en-US": "Capture a screen region, recognize text, and copy it directly without opening the translation window"
+  },
   "SelectionEmptyLabel": {
     "zh-CN": "无选区时打开输入框",
     "en-US": "Open input when there is no selection"

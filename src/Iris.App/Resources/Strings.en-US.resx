@@ -639,6 +639,15 @@ Use one form per invocation and pass the text as a single argument.</value>
   <data name="ScreenshotShowMagnifier" xml:space="preserve">
     <value>Show magnifier</value>
   </data>
+  <data name="ScreenshotOcrHotkeyDescription" xml:space="preserve">
+    <value>Capture a screen region and place recognized text in the translation window</value>
+  </data>
+  <data name="ScreenshotTranslateHotkeyDescription" xml:space="preserve">
+    <value>Capture a screen region, recognize text, and translate automatically</value>
+  </data>
+  <data name="SilentScreenshotOcrHotkeyDescription" xml:space="preserve">
+    <value>Capture a screen region, recognize text, and copy it directly without opening the translation window</value>
+  </data>
   <data name="SelectionEmptyDescription" xml:space="preserve">
     <value>When off, show a notice without opening the translation window.</value>
   </data>

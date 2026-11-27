@@ -244,6 +244,9 @@ internal static partial class UiText
     public static string SettingsStatusRetryingHotkeys => global::Iris.App.Resources.AppResources.Get("SettingsStatusRetryingHotkeys");
     public static string SettingsStatusHotkeysApplied => global::Iris.App.Resources.AppResources.Get("SettingsStatusHotkeysApplied");
     public static string SettingsStatusHotkeysRetryFailed => global::Iris.App.Resources.AppResources.Get("SettingsStatusHotkeysRetryFailed");
+    public static string ScreenshotTranslateHotkeyDescription => global::Iris.App.Resources.AppResources.Get("ScreenshotTranslateHotkeyDescription");
+    public static string ScreenshotOcrHotkeyDescription => global::Iris.App.Resources.AppResources.Get("ScreenshotOcrHotkeyDescription");
+    public static string SilentScreenshotOcrHotkeyDescription => global::Iris.App.Resources.AppResources.Get("SilentScreenshotOcrHotkeyDescription");
 
     // 翻译窗口
     public static string TranslateWindowTitle => global::Iris.App.Resources.AppResources.Get("TranslateWindowTitle");

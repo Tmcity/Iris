@@ -26,6 +26,10 @@ internal sealed class UpdateRecoveryWindow : Window
         WindowStartupLocation = WindowStartupLocation.CenterScreen;
         ResizeMode = ResizeMode.CanMinimize;
         ShowInTaskbar = true;
+        UseLayoutRounding = true; SnapsToDevicePixels = true;
+        System.Windows.Media.TextOptions.SetTextFormattingMode(this, System.Windows.Media.TextFormattingMode.Display);
+        System.Windows.Media.TextOptions.SetTextRenderingMode(this, System.Windows.Media.TextRenderingMode.ClearType);
+        System.Windows.Media.RenderOptions.SetClearTypeHint(this, System.Windows.Media.ClearTypeHint.Enabled);
         SetResourceReference(BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
         SetResourceReference(ForegroundProperty, "TextFillColorPrimaryBrush");
         RetryCommand = new AsyncRelayCommand(retry, onException: _ => { });

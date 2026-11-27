@@ -1833,6 +1833,15 @@ internal sealed partial class SettingsViewModel : INotifyPropertyChanged, IDispo
         currentHotkeys.TryGetValue(IrisAction.ToggleMouseSelection, out var toggleBinding);
         Hotkeys.Add(new HotkeyItemDraftViewModel(IrisAction.ToggleMouseSelection, UiText.MouseToggle,
             UiText.MouseToggleDescription, toggleBinding, this));
+        currentHotkeys.TryGetValue(IrisAction.ScreenshotTranslate, out var screenshotTranslateBinding);
+        Hotkeys.Add(new HotkeyItemDraftViewModel(IrisAction.ScreenshotTranslate, UiText.TrayMenuScreenshotTranslate,
+            UiText.ScreenshotTranslateHotkeyDescription, screenshotTranslateBinding, this));
+        currentHotkeys.TryGetValue(IrisAction.ScreenshotOcr, out var screenshotOcrBinding);
+        Hotkeys.Add(new HotkeyItemDraftViewModel(IrisAction.ScreenshotOcr, UiText.TrayMenuScreenshotOcr,
+            UiText.ScreenshotOcrHotkeyDescription, screenshotOcrBinding, this));
+        currentHotkeys.TryGetValue(IrisAction.SilentScreenshotOcr, out var silentScreenshotOcrBinding);
+        Hotkeys.Add(new HotkeyItemDraftViewModel(IrisAction.SilentScreenshotOcr, UiText.TrayMenuSilentScreenshotOcr,
+            UiText.SilentScreenshotOcrHotkeyDescription, silentScreenshotOcrBinding, this));
 
         SyncRuntimeStatesFromCoordinator();
         ValidateHotkeyDrafts();

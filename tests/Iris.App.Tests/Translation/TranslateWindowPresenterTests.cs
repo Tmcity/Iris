@@ -863,6 +863,36 @@ public sealed class TranslateWindowPresenterTests
         });
     }
 
+    [Fact]
+    public async Task TryShowAsync_WhenFocusInputFalse_StillActivatesWindowForDeactivation()
+    {
+        await WpfTestRunner.RunAsync(async () =>
+        {
+            var mockAdapter = Substitute.For<INativeWindowPlacementAdapter>();
+            mockAdapter.SetWindowBounds(Arg.Any<nint>(), Arg.Any<Iris.Core.Imaging.PixelRect>(), Arg.Any<bool>(), Arg.Any<bool>())
+                .Returns(true);
+
+            var (presenter, _, _) = CreateTestPresenter(placementAdapter: mockAdapter);
+            try
+            {
+                using var op = presenter.TryBeginOperation(TestContext.Current.CancellationToken);
+                var shown = await presenter.TryShowAsync(op!, new TranslateWindowRequest
+                {
+                    Text = "Clipboard text",
+                    Origin = TextOrigin.Clipboard,
+                    FocusInput = false,
+                    AutoTranslate = false,
+                });
+                shown.ShouldBeTrue();
+                mockAdapter.Received().SetWindowBounds(Arg.Any<nint>(), Arg.Any<Iris.Core.Imaging.PixelRect>(), true, true);
+            }
+            finally
+            {
+                await presenter.ShutdownAsync();
+            }
+        });
+    }
+
     private sealed class BlockingAsyncEnumerable : IAsyncEnumerable<TranslationEvent>
     {
         private readonly TaskCompletionSource _gate;

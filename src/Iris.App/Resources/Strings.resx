@@ -639,6 +639,15 @@ Iris 命令行用法：
   <data name="ScreenshotShowMagnifier" xml:space="preserve">
     <value>显示放大镜</value>
   </data>
+  <data name="ScreenshotOcrHotkeyDescription" xml:space="preserve">
+    <value>框选屏幕区域并识别文字，填入翻译窗口</value>
+  </data>
+  <data name="ScreenshotTranslateHotkeyDescription" xml:space="preserve">
+    <value>框选屏幕区域，识别文字并自动翻译</value>
+  </data>
+  <data name="SilentScreenshotOcrHotkeyDescription" xml:space="preserve">
+    <value>框选屏幕区域识别文字并直接复制到剪贴板，不打开翻译窗口</value>
+  </data>
   <data name="SelectionEmptyDescription" xml:space="preserve">
     <value>关闭后仅显示提示，不打开翻译窗口。</value>
   </data>

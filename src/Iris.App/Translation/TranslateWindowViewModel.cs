@@ -556,8 +556,22 @@ internal sealed partial class TranslateWindowViewModel : INotifyPropertyChanged,
                 if (textChanged && Cards.Count > 0)
                 {
                     if (!IsCurrentOperation(operation)) return false;
-                    SetHasStaleResults(true);
+                    if (request.Origin == TextOrigin.Screenshot)
+                    {
+                        Cards.Clear();
+                        SetHasStaleResults(false);
+                    }
+                    else
+                    {
+                        SetHasStaleResults(true);
+                    }
                 }
+            }
+            else if (request.Origin == TextOrigin.Screenshot && !string.IsNullOrWhiteSpace(request.StatusMessage) && Cards.Count > 0)
+            {
+                if (!IsCurrentOperation(operation)) return false;
+                Cards.Clear();
+                SetHasStaleResults(false);
             }
 
             return IsCurrentOperation(operation) && _inputRevision == appliedRevision;

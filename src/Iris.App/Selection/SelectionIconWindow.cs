@@ -44,7 +44,7 @@ internal sealed class SelectionIconWindow : Window, ISelectionIconView
         Width = Height = 24;
         WindowStyle = WindowStyle.None; ResizeMode = ResizeMode.NoResize;
         AllowsTransparency = true;
-        ShowActivated = false; ShowInTaskbar = false; Focusable = false;
+        ShowActivated = false; ShowInTaskbar = false; Focusable = false; Topmost = true;
         Left = Top = -10000;
         Title = UiText.MouseIconTranslate;
         Background = HitTestBrush;
@@ -137,6 +137,7 @@ internal sealed class SelectionIconWindow : Window, ISelectionIconView
     public void ShowAt(PixelRect bounds)
     {
         ObjectDisposedException.ThrowIf(_closed, this);
+        Topmost = true;
         nint handle = new WindowInteropHelper(this).EnsureHandle();
         _native.Show(this, handle, bounds);
     }

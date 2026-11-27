@@ -29,7 +29,7 @@ internal sealed partial class TrayIconController : IDisposable
     private readonly AsyncRelayCommand _leftClickCommand;
 
     private TaskbarIcon? _taskbarIcon;
-    private ImageSource? _iconSource;
+    private System.Drawing.Icon? _trayIcon;
     private DispatcherTimer? _retryTimer;
     private int _attemptCount;
     private bool _isCreated;
@@ -83,21 +83,19 @@ internal sealed partial class TrayIconController : IDisposable
         }
 
         var iconUri = new Uri("pack://application:,,,/Iris.App;component/Resources/Icons/iris.ico", UriKind.Absolute);
-        var bitmap = new BitmapImage();
-        bitmap.BeginInit();
-        bitmap.UriSource = iconUri;
-        bitmap.CacheOption = BitmapCacheOption.OnLoad;
-        bitmap.EndInit();
-        bitmap.Freeze();
-        _iconSource = bitmap;
+        var resourceStream = Application.GetResourceStream(iconUri)
+            ?? throw new InvalidOperationException("Tray icon resource not found.");
+        using (var stream = resourceStream.Stream)
+        {
+            _trayIcon = new System.Drawing.Icon(stream);
+        }
         _taskbarIcon = new TaskbarIcon
         {
             ToolTipText = UiText.TrayToolTip,
-            IconSource = _iconSource,
+            Icon = _trayIcon,
             ContextMenu = CreateContextMenu(),
             LeftClickCommand = _leftClickCommand,
         };
-
         TryCreate();
     }
 
@@ -517,6 +515,8 @@ internal sealed partial class TrayIconController : IDisposable
             _taskbarIcon.Dispose();
             _taskbarIcon = null;
         }
+        _trayIcon?.Dispose();
+        _trayIcon = null;
 
         _leftClickCommand.RaiseCanExecuteChanged();
     }

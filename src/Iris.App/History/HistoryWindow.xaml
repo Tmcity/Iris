@@ -11,7 +11,12 @@
                  MinWidth="280"
                  MinHeight="240"
                  WindowStartupLocation="CenterScreen"
-                 ExtendsContentIntoTitleBar="True">
+                 ExtendsContentIntoTitleBar="True"
+                 UseLayoutRounding="True"
+                 SnapsToDevicePixels="True"
+                 TextOptions.TextFormattingMode="Display"
+                 TextOptions.TextRenderingMode="ClearType"
+                 RenderOptions.ClearTypeHint="Enabled">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Window.Resources>

@@ -223,4 +223,74 @@ public sealed class OcrEntrypointTests
         }
         finally { await hotkeys.StopAcceptanceAndNativeAsync(); await hotkeys.WaitForInFlightDispatchesAsync(); }
     });
+    [Fact]
+    public Task ScreenshotTranslate_WithPriorCardsAndMultilineOcr_ClearsStaleCardsAndAutoTranslates() => WpfTestRunner.RunAsync(async () =>
+    {
+        await using var s = new OcrEntrypointScope();
+        static async IAsyncEnumerable<TranslationEvent> Stream(TranslationRequest req)
+        {
+            var p1 = new Iris.Core.Common.ProviderDescriptor("p1", "P1", "Kind", null, true);
+            yield return new TranslationStarted(req.RequestId, new Iris.Core.Languages.ResolvedLanguagePair("en", "zh-Hans", false), [p1]);
+            yield return new ProviderDelta(req.RequestId, "p1", $"TR:{req.Text}");
+            yield return new ProviderCompleted(req.RequestId, "p1", $"TR:{req.Text}", TimeSpan.FromMilliseconds(5), false, false, null);
+            yield return new TranslationFinished(req.RequestId, 1, 0);
+            await Task.CompletedTask;
+        }
+        s.Translation.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(ci => { var req = ci.Arg<TranslationRequest>(); s.Translations.Enqueue(req); return Stream(req); });
+
+        using (var op1 = s.Presenter.TryBeginOperation())
+        {
+            await s.Presenter.TryShowAsync(op1!, new TranslateWindowRequest { Text = "old source", AutoTranslate = true, Origin = TextOrigin.Input });
+        }
+        await s.Presenter.ViewModel!.WaitForActiveWorkAsync();
+        await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.Background);
+        s.Presenter.ViewModel.Cards.Count.ShouldBe(1);
+        s.Presenter.ViewModel.Cards[0].Text.ShouldBe("TR:old source");
+
+        s.Ocr.RecognizeAsync(Arg.Any<ImageData>(), null, Arg.Any<CancellationToken>())
+            .Returns(OcrEntrypointScope.Outcome("Hello\nWorld"));
+        await s.Dispatcher.DispatchAsync(IrisAction.ScreenshotTranslate, new ActionContext(ActionTrigger.Hotkey));
+        await s.Presenter.ViewModel.WaitForActiveWorkAsync();
+        await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.Background);
+
+        s.Presenter.ViewModel.InputText.ShouldBe("Hello\nWorld");
+        s.Translations.Select(t => t.Text).ShouldContain("Hello\nWorld");
+        s.Presenter.ViewModel.Cards.Count.ShouldBe(1);
+        s.Presenter.ViewModel.Cards[0].Text.ShouldBe("TR:Hello\nWorld");
+    });
+
+    [Fact]
+    public Task ScreenshotOcr_WithPriorCards_ClearsStaleTranslationCards() => WpfTestRunner.RunAsync(async () =>
+    {
+        await using var s = new OcrEntrypointScope();
+        static async IAsyncEnumerable<TranslationEvent> Stream(TranslationRequest req)
+        {
+            var p1 = new Iris.Core.Common.ProviderDescriptor("p1", "P1", "Kind", null, true);
+            yield return new TranslationStarted(req.RequestId, new Iris.Core.Languages.ResolvedLanguagePair("en", "zh-Hans", false), [p1]);
+            yield return new ProviderDelta(req.RequestId, "p1", "old result");
+            yield return new ProviderCompleted(req.RequestId, "p1", "old result", TimeSpan.FromMilliseconds(5), false, false, null);
+            yield return new TranslationFinished(req.RequestId, 1, 0);
+            await Task.CompletedTask;
+        }
+        s.Translation.TranslateAsync(Arg.Any<TranslationRequest>(), Arg.Any<CancellationToken>())
+            .Returns(ci => { var req = ci.Arg<TranslationRequest>(); s.Translations.Enqueue(req); return Stream(req); });
+
+        using (var op1 = s.Presenter.TryBeginOperation())
+        {
+            await s.Presenter.TryShowAsync(op1!, new TranslateWindowRequest { Text = "old source", AutoTranslate = true, Origin = TextOrigin.Input });
+        }
+        await s.Presenter.ViewModel!.WaitForActiveWorkAsync();
+        await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.Background);
+        s.Presenter.ViewModel.Cards.Count.ShouldBe(1);
+
+        s.Ocr.RecognizeAsync(Arg.Any<ImageData>(), null, Arg.Any<CancellationToken>())
+            .Returns(OcrEntrypointScope.Outcome("Only OCR text"));
+        await s.Dispatcher.DispatchAsync(IrisAction.ScreenshotOcr, new ActionContext(ActionTrigger.Hotkey));
+        await s.Presenter.ViewModel.WaitForActiveWorkAsync();
+        await System.Windows.Threading.Dispatcher.Yield(System.Windows.Threading.DispatcherPriority.Background);
+
+        s.Presenter.ViewModel.InputText.ShouldBe("Only OCR text");
+        s.Presenter.ViewModel.Cards.ShouldBeEmpty();
+    });
 }

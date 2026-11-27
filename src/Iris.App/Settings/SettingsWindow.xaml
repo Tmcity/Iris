@@ -13,7 +13,12 @@
                  Height="520"
                  MinWidth="600"
                  MinHeight="440"
-                 WindowStartupLocation="CenterScreen">
+                 WindowStartupLocation="CenterScreen"
+                 UseLayoutRounding="True"
+                 SnapsToDevicePixels="True"
+                 TextOptions.TextFormattingMode="Display"
+                 TextOptions.TextRenderingMode="ClearType"
+                 RenderOptions.ClearTypeHint="Enabled">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </Window.Resources>
@@ -1822,6 +1827,15 @@
                                                         </DataTrigger>
                                                         <DataTrigger Binding="{Binding Action}" Value="{x:Static actions:IrisAction.ToggleMouseSelection}">
                                                             <Setter Property="Symbol" Value="CursorHover20" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Action}" Value="{x:Static actions:IrisAction.ScreenshotTranslate}">
+                                                            <Setter Property="Symbol" Value="Screenshot20" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Action}" Value="{x:Static actions:IrisAction.ScreenshotOcr}">
+                                                            <Setter Property="Symbol" Value="ScanText16" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Action}" Value="{x:Static actions:IrisAction.SilentScreenshotOcr}">
+                                                            <Setter Property="Symbol" Value="Camera16" />
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>

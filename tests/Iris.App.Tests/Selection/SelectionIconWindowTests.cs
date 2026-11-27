@@ -42,6 +42,7 @@ public sealed class SelectionIconWindowTests
                 window.WindowStyle.ShouldBe(WindowStyle.None);
                 window.ShowActivated.ShouldBeFalse();
                 window.ShowInTaskbar.ShouldBeFalse();
+                window.Topmost.ShouldBeTrue();
                 window.Title.ShouldBe(UiText.MouseIconTranslate);
 
                 var bg = window.Background.ShouldBeOfType<SolidColorBrush>();

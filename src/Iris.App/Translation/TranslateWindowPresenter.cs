@@ -193,7 +193,7 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                     {
                         EnsureWindowCreated();
 
-                        ApplyPlacement(request.Anchor, request.FocusInput);
+                        ApplyPlacement(request.Anchor, true);
 
                         bool canShow = false;
                         lock (_gate)
@@ -234,9 +234,9 @@ internal sealed partial class TranslateWindowPresenter : ITranslateWindowPresent
                         }
 
                         _window!.Show();
+                        _window.Activate();
                         if (request.FocusInput)
                         {
-                            _window.Activate();
                             _window.FocusInputArea();
                         }
                     }
