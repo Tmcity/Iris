@@ -279,6 +279,7 @@ public sealed class LocalizationTests
             text.BringIntoView(); await f.IdleAsync();
             var expected = new System.Windows.Media.FormattedText(text.Text, CultureInfo.GetCultureInfo(AppLanguage.Name), System.Windows.FlowDirection.LeftToRight,
                 new System.Windows.Media.Typeface(text.FontFamily, text.FontStyle, text.FontWeight, text.FontStretch), text.FontSize, text.Foreground,
+                null, System.Windows.Media.TextOptions.GetTextFormattingMode(text),
                 System.Windows.Media.VisualTreeHelper.GetDpi(text).PixelsPerDip) { MaxTextWidth = text.ActualWidth };
             text.ActualHeight.ShouldBeGreaterThanOrEqualTo(expected.Height - 1);
         });
