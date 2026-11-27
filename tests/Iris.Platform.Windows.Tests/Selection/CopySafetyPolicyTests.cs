@@ -12,6 +12,7 @@ public sealed class CopySafetyPolicyTests
     [InlineData("RichEdit20A", true)]
     [InlineData("RichEdit20W", true)]
     [InlineData("richedit50w", true)]
+    [InlineData("RichEditD2DPT", true)]
     [InlineData("EditCustom", false)]
     [InlineData("Chrome_RenderWidgetHostHWND", false)]
     [InlineData("ConsoleWindowClass", false)]
@@ -65,5 +66,24 @@ public sealed class CopySafetyPolicyTests
         native.Focus--;
         native.ClassName = "ConsoleWindowClass";
         policy.IsValid(source, permit).ShouldBeFalse();
+    }
+
+    [Theory]
+    [InlineData("WeChatMainWndForPC", 0u, true)]
+    [InlineData("Chrome_WidgetWin_1", 0u, true)]
+    [InlineData("ConsoleWindowClass", 0u, false)]
+    [InlineData("CASCADIA_HOSTING_WINDOW_CLASS", 0u, false)]
+    [InlineData("WeChatMainWndForPC", 0x20u, false)]
+    public void Capture_WhenUiaUnsupported_AllowsSafeNonTerminalCustomFocusOnly(string className, uint style, bool allowed)
+    {
+        var native = new FakeCopySafetyNative { ClassName = className, Style = (nint)style };
+        var policy = new CopySafetyPolicy(native);
+        var source = new ForegroundAppInfo("chat.exe", 5000, null, 0x1234);
+        var permit = policy.Capture(source, allowCustomWhenUiaUnsupported: true);
+        permit.HasValue.ShouldBe(allowed);
+        if (permit.HasValue)
+        {
+            policy.IsValid(source, permit.Value).ShouldBeTrue();
+        }
     }
 }

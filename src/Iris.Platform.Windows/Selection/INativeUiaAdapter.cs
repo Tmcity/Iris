@@ -10,6 +10,7 @@ internal interface INativeUiaAdapter
     bool IsWindowValid(nint hwnd);
     bool IsWindowOrAncestor(nint childHwnd, nint expectedAncestorHwnd);
     uint GetCurrentProcessId();
+    IReadOnlyList<nint> GetChildWindows(nint parentHwnd, uint expectedProcessId) => [];
 
     IUiaAutomationSession CreateSession(int connectionTimeoutMs, int transactionTimeoutMs);
 }
@@ -17,6 +18,7 @@ internal interface INativeUiaAdapter
 internal interface IUiaAutomationSession : IDisposable
 {
     IUiaElement? GetFocusedElement();
+    IUiaElement? ElementFromHandle(nint hwnd) => null;
 }
 
 internal interface IUiaElement : IDisposable

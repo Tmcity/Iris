@@ -147,6 +147,10 @@ internal static class UiaSelectionWorker
         focused = session.GetFocusedElement();
         if (focused == null)
         {
+            if (TryReadChildWindowSelection(request, adapter, session, 0, false, ref disposalFailed, out var noFocusReply))
+            {
+                return noFocusReply;
+            }
             return new UiaReplyFrame
             {
                 ProtocolVersion = UiaProtocolConstants.CurrentVersion,
@@ -184,6 +188,10 @@ internal static class UiaSelectionWorker
         pattern = focused.GetTextPattern();
         if (pattern == null || !pattern.SupportsSelection)
         {
+            if (TryReadChildWindowSelection(request, adapter, session, focused.NativeWindowHandle, false, ref disposalFailed, out var noPatternReply))
+            {
+                return noPatternReply;
+            }
             return new UiaReplyFrame
             {
                 ProtocolVersion = UiaProtocolConstants.CurrentVersion,
@@ -197,6 +205,10 @@ internal static class UiaSelectionWorker
         ranges = pattern.GetSelection();
         if (ranges.Count == 0)
         {
+            if (TryReadChildWindowSelection(request, adapter, session, focused.NativeWindowHandle, true, ref disposalFailed, out var emptyRangesReply))
+            {
+                return emptyRangesReply;
+            }
             return new UiaReplyFrame
             {
                 ProtocolVersion = UiaProtocolConstants.CurrentVersion,
@@ -276,6 +288,10 @@ internal static class UiaSelectionWorker
 
         if (!hasNonWhitespace || sb.Length == 0)
         {
+            if (TryReadChildWindowSelection(request, adapter, session, focused.NativeWindowHandle, true, ref disposalFailed, out var emptyTextReply))
+            {
+                return emptyTextReply;
+            }
             return new UiaReplyFrame
             {
                 ProtocolVersion = UiaProtocolConstants.CurrentVersion,
@@ -304,6 +320,168 @@ internal static class UiaSelectionWorker
             Status = UiaSelectionStatus.Success,
             Text = sb.ToString()
         };
+    }
+
+    private static bool TryReadChildWindowSelection(
+        UiaRequestFrame request,
+        INativeUiaAdapter adapter,
+        IUiaAutomationSession session,
+        nint skipHwnd,
+        bool focusedHadTextPattern,
+        ref bool disposalFailed,
+        out UiaReplyFrame reply)
+    {
+        reply = null!;
+        var children = adapter.GetChildWindows((nint)request.Hwnd, request.ProcessId);
+        if (children.Count == 0)
+        {
+            return false;
+        }
+
+        bool sawAnyTextPattern = focusedHadTextPattern;
+        for (int c = 0; c < children.Count; c++)
+        {
+            nint childHwnd = children[c];
+            if (childHwnd == 0 || childHwnd == skipHwnd) continue;
+
+            IUiaElement? childElement = null;
+            IUiaTextPattern? childPattern = null;
+            IReadOnlyList<IUiaTextRange>? childRanges = null;
+            try
+            {
+                childElement = session.ElementFromHandle(childHwnd);
+                if (childElement == null) continue;
+                if (childElement.ProcessId != 0 && childElement.ProcessId != request.ProcessId) continue;
+                if (childElement.IsPassword)
+                {
+                    reply = new UiaReplyFrame
+                    {
+                        ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                        RequestId = request.RequestId,
+                        Status = UiaSelectionStatus.Sensitive,
+                        ErrorCode = "PASSWORD_CONTROL"
+                    };
+                    return true;
+                }
+
+                childPattern = childElement.GetTextPattern();
+                if (childPattern == null || !childPattern.SupportsSelection) continue;
+
+                sawAnyTextPattern = true;
+                childRanges = childPattern.GetSelection();
+                if (childRanges.Count == 0) continue;
+                if (childRanges.Count > UiaProtocolConstants.MaxRanges)
+                {
+                    reply = new UiaReplyFrame
+                    {
+                        ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                        RequestId = request.RequestId,
+                        Status = UiaSelectionStatus.TooLong,
+                        ErrorCode = "RANGE_COUNT_EXCEEDED"
+                    };
+                    return true;
+                }
+
+                var sb = new StringBuilder();
+                int totalUnits = 0;
+                bool hasNonWhitespace = false;
+                bool isFirstNonEmpty = true;
+                for (int i = 0; i < childRanges.Count; i++)
+                {
+                    int delimiterCost = isFirstNonEmpty ? 0 : 1;
+                    int availableIfNonEmpty = UiaProtocolConstants.MaxTextUnits - totalUnits - delimiterCost;
+                    int queryLimit = availableIfNonEmpty > 0 ? availableIfNonEmpty + 1 : 1;
+                    var text = childRanges[i].GetText(queryLimit);
+                    if (string.IsNullOrEmpty(text)) continue;
+                    if (availableIfNonEmpty < 0 || text.Length > availableIfNonEmpty)
+                    {
+                        reply = new UiaReplyFrame
+                        {
+                            ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                            RequestId = request.RequestId,
+                            Status = UiaSelectionStatus.TooLong,
+                            ErrorCode = "LENGTH_EXCEEDED"
+                        };
+                        return true;
+                    }
+                    if (!string.IsNullOrWhiteSpace(text)) hasNonWhitespace = true;
+                    if (!isFirstNonEmpty)
+                    {
+                        sb.Append('\n');
+                        totalUnits += 1;
+                    }
+                    sb.Append(text);
+                    totalUnits += text.Length;
+                    isFirstNonEmpty = false;
+                    if (totalUnits > UiaProtocolConstants.MaxTextUnits)
+                    {
+                        reply = new UiaReplyFrame
+                        {
+                            ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                            RequestId = request.RequestId,
+                            Status = UiaSelectionStatus.TooLong,
+                            ErrorCode = "LENGTH_EXCEEDED"
+                        };
+                        return true;
+                    }
+                }
+
+                if (!hasNonWhitespace || sb.Length == 0) continue;
+
+                var fgFinal = adapter.GetForegroundWindow();
+                if (fgFinal != (nint)request.Hwnd || adapter.GetWindowProcessId(fgFinal) != request.ProcessId)
+                {
+                    reply = new UiaReplyFrame
+                    {
+                        ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                        RequestId = request.RequestId,
+                        Status = UiaSelectionStatus.TargetChanged,
+                        ErrorCode = "TARGET_CHANGED"
+                    };
+                    return true;
+                }
+
+                reply = new UiaReplyFrame
+                {
+                    ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                    RequestId = request.RequestId,
+                    Status = UiaSelectionStatus.Success,
+                    Text = sb.ToString()
+                };
+                return true;
+            }
+            finally
+            {
+                if (childRanges != null)
+                {
+                    foreach (var r in childRanges)
+                    {
+                        try { r.Dispose(); } catch { disposalFailed = true; }
+                    }
+                }
+                if (childPattern != null)
+                {
+                    try { childPattern.Dispose(); } catch { disposalFailed = true; }
+                }
+                if (childElement != null)
+                {
+                    try { childElement.Dispose(); } catch { disposalFailed = true; }
+                }
+            }
+        }
+
+        if (sawAnyTextPattern && !focusedHadTextPattern)
+        {
+            reply = new UiaReplyFrame
+            {
+                ProtocolVersion = UiaProtocolConstants.CurrentVersion,
+                RequestId = request.RequestId,
+                Status = UiaSelectionStatus.Empty
+            };
+            return true;
+        }
+
+        return false;
     }
 
     private static bool IsElementFromExpectedSource(

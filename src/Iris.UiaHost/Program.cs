@@ -51,7 +51,11 @@ internal static class Program
 
             // 3. 验证通过后，在当前 MTA 线程初始化 UIA 并执行选区读取
             var reply = UiaSelectionWorker.Execute(request, RealNativeUiaAdapter.Instance);
-
+            if (reply.Status == UiaSelectionStatus.Unsupported && reply.ErrorCode is "TEXT_PATTERN_UNSUPPORTED" or "NO_FOCUSED_ELEMENT")
+            {
+                System.Threading.Thread.Sleep(60);
+                reply = UiaSelectionWorker.Execute(request, RealNativeUiaAdapter.Instance);
+            }
             // 4. 输出 Reply 帧并退出
             Console.Out.WriteLine(UiaProtocolCodec.SerializeReply(reply));
             Console.Out.Flush();

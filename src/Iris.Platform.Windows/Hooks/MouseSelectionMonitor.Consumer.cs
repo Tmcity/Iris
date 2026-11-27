@@ -82,14 +82,33 @@ internal sealed partial class MouseSelectionMonitor
                     try
                     {
                         app = desktop.GetForegroundApp();
-                        if (app == null || app.WindowHandle == 0 || app.ProcessId <= 0 || (uint)app.ProcessId == run.SelfProcess ||
-                            sample.Source != new MouseSource(app.WindowHandle, (uint)app.ProcessId) || !ValidProcess(app.ProcessName) ||
-                            run.Options.ExcludedProcesses.Contains(app.ProcessName, StringComparer.OrdinalIgnoreCase))
+                        if (sample.Source.Window == 0 || sample.Source.ProcessId == 0 || sample.Source.ProcessId == run.SelfProcess)
                         {
                             recognizer.Reset();
                             continue;
                         }
-                        app = app with { WindowTitle = null };
+                        bool matchedForeground = app != null && app.WindowHandle != 0 && app.ProcessId > 0 &&
+                                                 sample.Source == new MouseSource(app.WindowHandle, (uint)app.ProcessId);
+                        if (sample.Message == MouseMessage.LeftUp)
+                        {
+                            if (!matchedForeground || (uint)app!.ProcessId == run.SelfProcess || !ValidProcess(app.ProcessName) ||
+                                run.Options.ExcludedProcesses.Contains(app.ProcessName, StringComparer.OrdinalIgnoreCase))
+                            {
+                                recognizer.Reset();
+                                continue;
+                            }
+                            app = app with { WindowTitle = null };
+                        }
+                        else
+                        {
+                            if (matchedForeground && ((uint)app!.ProcessId == run.SelfProcess || !ValidProcess(app.ProcessName) ||
+                                run.Options.ExcludedProcesses.Contains(app.ProcessName, StringComparer.OrdinalIgnoreCase)))
+                            {
+                                recognizer.Reset();
+                                continue;
+                            }
+                            if (app != null) app = app with { WindowTitle = null };
+                        }
                         if (sample.Message == MouseMessage.LeftDown)
                         {
                             metrics = default;

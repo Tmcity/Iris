@@ -16,7 +16,7 @@ internal readonly record struct MouseSample(MouseMessage Message, PixelPoint Poi
 {
     internal bool IsDown => Message is MouseMessage.LeftDown or MouseMessage.RightDown or MouseMessage.MiddleDown or MouseMessage.XDown;
     internal bool IsUp => Message is MouseMessage.LeftUp or MouseMessage.RightUp or MouseMessage.MiddleUp or MouseMessage.XUp;
-    internal bool Injected => (Flags & 3) != 0;
+    internal bool Injected => (Flags & 2) != 0;
 }
 
 internal readonly record struct QueuedMouseSample(MouseSample Sample, long Epoch);

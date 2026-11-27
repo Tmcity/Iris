@@ -20,8 +20,11 @@ internal interface IMouseHookApi
     void DispatchMessage(in MSG message);
     bool PostThreadMessage(uint thread, uint message);
     bool GetCursorInfo(ref CURSORINFO cursor);
+    bool IsIBeamCursorShape(nint cursor);
+    bool IsTextSelectionSurface(nint rootWindow, int x, int y);
     short GetAsyncKeyState(int key);
     nint ForegroundWindow();
+    nint RootWindowAtPoint(int x, int y);
     uint WindowThreadProcessId(nint window, out uint processId);
     uint TickCount();
     uint DoubleClickTime();

@@ -241,7 +241,7 @@ Use one form per invocation and pass the text as a single argument.</value>
     <value>Processes excluded from mouse selection</value>
   </data>
   <data name="MouseExplanation" xml:space="preserve">
-    <value>Showing the icon reads the selection in advance; clicking translates that text. Disabling clipboard restoration may change clipboard contents.</value>
+    <value>Controls automatic action after mouse selection; does not affect the shortcut.</value>
   </data>
   <data name="MouseHideError" xml:space="preserve">
     <value>Icon duration must be an integer from 500 to 10000.</value>
@@ -262,10 +262,10 @@ Use one form per invocation and pass the text as a single argument.</value>
     <value>Show translation icon</value>
   </data>
   <data name="MouseModeLabel" xml:space="preserve">
-    <value>Mouse selection mode</value>
+    <value>Mouse selection action</value>
   </data>
   <data name="MouseModeOff" xml:space="preserve">
-    <value>Disable mouse selection</value>
+    <value>Off (shortcut only)</value>
   </data>
   <data name="MouseReadFailed" xml:space="preserve">
     <value>The selection could not be read. Please select the text again.</value>
@@ -280,10 +280,10 @@ Use one form per invocation and pass the text as a single argument.</value>
     <value>Mouse monitoring disabled</value>
   </data>
   <data name="MouseToggle" xml:space="preserve">
-    <value>Toggle mouse selection</value>
+    <value>Toggle mouse selection action</value>
   </data>
   <data name="MouseToggleDescription" xml:space="preserve">
-    <value>Enable or disable mouse selection (no default shortcut)</value>
+    <value>Enable or disable automatic mouse selection action</value>
   </data>
   <data name="NetworkAddressNeedsCredentials" xml:space="preserve">
     <value>The proxy address changed. Explicitly choose to replace or clear credentials.</value>
@@ -805,7 +805,7 @@ Use one form per invocation and pass the text as a single argument.</value>
     <value>Saved; will apply when shortcut capture ends</value>
   </data>
   <data name="SettingsHotkeysDescription" xml:space="preserve">
-    <value>Configure global shortcuts for common actions. Combinations with the Win key are supported.</value>
+    <value>Manage quick-action switches and global shortcuts for each feature. Combinations with the Win key are supported.</value>
   </data>
   <data name="SettingsHotkeysGroup" xml:space="preserve">
     <value>Global shortcuts</value>
@@ -847,7 +847,7 @@ Use one form per invocation and pass the text as a single argument.</value>
     <value>General</value>
   </data>
   <data name="SettingsNavHotkeys" xml:space="preserve">
-    <value>Shortcuts</value>
+    <value>Actions &amp; shortcuts</value>
   </data>
   <data name="SettingsNavSelection" xml:space="preserve">
     <value>Selection translation</value>

@@ -101,6 +101,29 @@ public sealed class NativeMouseAdapterTests
         new NativeMouseAdapter(api).Read(0xffff, 0, 900).ShouldBeNull();
     }
 
+    [Fact]
+    public void Down_UsesRootWindowAtPoint_WhenForegroundNotSwitchedYet()
+    {
+        using var api = new FakeMouseHookApi { Window = 1000, HitWindow = 2000 };
+        ReadDown(api).Source.Window.ShouldBe((nint)2000);
+    }
+
+    [Fact]
+    public void CustomIBeamShapeAndDriverInjectedFlag1_AreAcceptedWhileLowerIlFlag2IsRejected()
+    {
+        using var api = new FakeMouseHookApi { CursorHandle = 999, CustomIBeamShape = true };
+        ReadDown(api).IBeam.ShouldBeTrue();
+        new MouseSample(MouseMessage.LeftDown, new(0, 0), 100, 1).Injected.ShouldBeFalse();
+        new MouseSample(MouseMessage.LeftDown, new(0, 0), 100, 2).Injected.ShouldBeTrue();
+    }
+
+    [Fact]
+    public void TerminalTextSelectionSurface_AcceptsArrowCursorWhenCursorVisible()
+    {
+        using var api = new FakeMouseHookApi { CursorHandle = 999, CustomIBeamShape = false, TextSelectionSurface = true };
+        ReadDown(api).IBeam.ShouldBeTrue();
+    }
+
     private static MouseSample ReadDown(FakeMouseHookApi api)
     {
         var adapter = new NativeMouseAdapter(api);

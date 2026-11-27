@@ -74,6 +74,37 @@ internal sealed unsafe class RealNativeUiaAdapter : INativeUiaAdapter
         return PInvoke.GetCurrentProcessId();
     }
 
+    public IReadOnlyList<nint> GetChildWindows(nint parentHwnd, uint expectedProcessId)
+    {
+        if (parentHwnd == 0 || expectedProcessId == 0) return [];
+        var results = new List<nint>(8);
+        EnumChildProc callback = (hwnd, _) =>
+        {
+            if (IsWindowVisibleRaw(hwnd))
+            {
+                uint pid = 0;
+                uint tid = PInvoke.GetWindowThreadProcessId(new HWND((void*)hwnd), &pid);
+                if (tid != 0 && pid == expectedProcessId)
+                {
+                    results.Add(hwnd);
+                    if (results.Count >= 32) return false;
+                }
+            }
+            return true;
+        };
+        EnumChildWindowsRaw(parentHwnd, callback, 0);
+        GC.KeepAlive(callback);
+        return results;
+    }
+
+    private delegate bool EnumChildProc(nint hwnd, nint lParam);
+
+    [DllImport("user32.dll", EntryPoint = "EnumChildWindows")]
+    private static extern bool EnumChildWindowsRaw(nint hWndParent, EnumChildProc lpEnumFunc, nint lParam);
+
+    [DllImport("user32.dll", EntryPoint = "IsWindowVisible")]
+    private static extern bool IsWindowVisibleRaw(nint hWnd);
+
     public IUiaAutomationSession CreateSession(int connectionTimeoutMs, int transactionTimeoutMs)
     {
         if (Thread.CurrentThread.GetApartmentState() == ApartmentState.STA)
@@ -256,6 +287,14 @@ internal sealed class RealUiaAutomationSession : IUiaAutomationSession
     {
         ObjectDisposedException.ThrowIf(_disposed, this);
         var element = _uia.GetFocusedElement();
+        return element != null ? new RealUiaElement(element, _uia, _releaseComAction) : null;
+    }
+
+    public unsafe IUiaElement? ElementFromHandle(nint hwnd)
+    {
+        ObjectDisposedException.ThrowIf(_disposed, this);
+        if (hwnd == 0) return null;
+        var element = _uia.ElementFromHandle(new HWND((void*)hwnd));
         return element != null ? new RealUiaElement(element, _uia, _releaseComAction) : null;
     }
 

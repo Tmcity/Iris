@@ -87,7 +87,8 @@ internal sealed partial class TrayIconController : IDisposable
             ?? throw new InvalidOperationException("Tray icon resource not found.");
         using (var stream = resourceStream.Stream)
         {
-            _trayIcon = new System.Drawing.Icon(stream);
+            int iconSize = Math.Max(16, GetSystemMetrics(49));
+            _trayIcon = new System.Drawing.Icon(stream, new System.Drawing.Size(iconSize, iconSize));
         }
         _taskbarIcon = new TaskbarIcon
         {
@@ -520,6 +521,8 @@ internal sealed partial class TrayIconController : IDisposable
 
         _leftClickCommand.RaiseCanExecuteChanged();
     }
+    [System.Runtime.InteropServices.DllImport("user32.dll")]
+    private static extern int GetSystemMetrics(int nIndex);
 
     [LoggerMessage(EventId = 1, Level = LogLevel.Warning, Message = "系统托盘图标创建失败，将在 {DelaySeconds:F0} 秒后重试（第 {Attempt} 次尝试）")]
     private static partial void LogFirstAttemptFailed(ILogger logger, Exception ex, double delaySeconds, int attempt);

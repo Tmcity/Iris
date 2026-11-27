@@ -32,10 +32,13 @@ internal sealed class FakeMouseHookApi : IMouseHookApi, IDisposable
     internal uint Now = 100;
     internal nint Window = 1000;
     internal uint Process = 42;
+    internal nint HitWindow { get; set; }
     internal uint SelfProcess = 7;
     internal bool CursorSuccess = true;
     internal uint CursorFlags = 1;
     internal nint CursorHandle = 900;
+    internal bool CustomIBeamShape { get; set; }
+    internal bool TextSelectionSurface { get; set; }
     internal nint LoadedCursor = 900;
     internal short Shift { get; set; }
     internal bool PidSuccess = true;
@@ -147,8 +150,11 @@ internal sealed class FakeMouseHookApi : IMouseHookApi, IDisposable
         cursor.hCursor = (HCURSOR)CursorHandle;
         return CursorSuccess;
     }
+    public bool IsIBeamCursorShape(nint cursor) { Call(nameof(IsIBeamCursorShape)); return CustomIBeamShape; }
+    public bool IsTextSelectionSurface(nint rootWindow, int x, int y) { Call(nameof(IsTextSelectionSurface)); return TextSelectionSurface; }
     public short GetAsyncKeyState(int key) { Call(nameof(GetAsyncKeyState)); ShiftKey = key; return Shift; }
     public nint ForegroundWindow() { Call(nameof(ForegroundWindow)); return Window; }
+    public nint RootWindowAtPoint(int x, int y) { Call(nameof(RootWindowAtPoint)); return HitWindow != 0 ? HitWindow : Window; }
     public uint WindowThreadProcessId(nint window, out uint processId)
     {
         Call(nameof(WindowThreadProcessId)); processId = Process; return PidSuccess ? 11u : 0;

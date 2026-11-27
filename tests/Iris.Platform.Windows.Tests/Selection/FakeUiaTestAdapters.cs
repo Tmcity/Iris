@@ -17,6 +17,7 @@ internal sealed class FakeNativeUiaAdapter : INativeUiaAdapter
     public Func<nint, nint, bool>? IsWindowOrAncestorFunc { get; set; }
     public Func<nint, uint>? WindowProcessIdFunc { get; set; }
     public FakeUiaAutomationSession Session { get; set; } = new();
+    public List<nint> ChildWindows { get; set; } = [];
     public Exception? ThrowOnCreateSession { get; set; }
     public int TotalCreateSessionCalls { get; private set; }
     public int CreateSessionConnectionTimeout { get; private set; }
@@ -32,6 +33,7 @@ internal sealed class FakeNativeUiaAdapter : INativeUiaAdapter
         IsWindowOrAncestorFunc?.Invoke(childHwnd, expectedAncestorHwnd) ?? (childHwnd == expectedAncestorHwnd);
 
     public uint GetCurrentProcessId() => CurrentProcessId;
+    public IReadOnlyList<nint> GetChildWindows(nint parentHwnd, uint expectedProcessId) => ChildWindows;
 
     public IUiaAutomationSession CreateSession(int connectionTimeoutMs, int transactionTimeoutMs)
     {
@@ -52,6 +54,7 @@ internal sealed class FakeUiaAutomationSession : IUiaAutomationSession
 {
     public FakeUiaElement? FocusedElement { get; set; }
     public Exception? ThrowOnGetFocused { get; set; }
+    public Dictionary<nint, FakeUiaElement> ElementsByHandle { get; set; } = [];
     public Exception? ThrowOnDisposeException { get; set; }
     public bool IsDisposed { get; private set; }
 
@@ -60,6 +63,7 @@ internal sealed class FakeUiaAutomationSession : IUiaAutomationSession
         if (ThrowOnGetFocused != null) throw ThrowOnGetFocused;
         return FocusedElement;
     }
+    public IUiaElement? ElementFromHandle(nint hwnd) => ElementsByHandle.TryGetValue(hwnd, out var el) ? el : null;
 
     public void Dispose()
     {

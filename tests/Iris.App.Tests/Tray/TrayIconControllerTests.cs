@@ -137,6 +137,40 @@ public sealed class TrayIconControllerTests
     }
 
     [Fact]
+    public async Task EmbeddedTrayIcon_Has32BitAlphaAndTransparentCorners()
+    {
+        await WpfTestRunner.RunAsync(() =>
+        {
+            var uri = new Uri("pack://application:,,,/Iris.App;component/Resources/Icons/iris.ico", UriKind.Absolute);
+            using var stream = Application.GetResourceStream(uri)!.Stream;
+            using var ms = new System.IO.MemoryStream();
+            stream.CopyTo(ms);
+            byte[] bytes = ms.ToArray();
+
+            ushort count = BitConverter.ToUInt16(bytes, 4);
+            count.ShouldBeGreaterThanOrEqualTo((ushort)4);
+            for (int i = 0; i < count; i++)
+            {
+                int entryOffset = 6 + i * 16;
+                int w = bytes[entryOffset] == 0 ? 256 : bytes[entryOffset];
+                ushort bpp = BitConverter.ToUInt16(bytes, entryOffset + 6);
+                int size = BitConverter.ToInt32(bytes, entryOffset + 8);
+                int dataOffset = BitConverter.ToInt32(bytes, entryOffset + 12);
+                bpp.ShouldBe((ushort)32);
+                if (w < 256)
+                {
+                    // Bottom-left corner BGRA alpha == 0 and AND mask bit == 1 (transparent)
+                    bytes[dataOffset + 43].ShouldBe((byte)0);
+                    int andOffset = dataOffset + 40 + w * w * 4;
+                    ((bytes[andOffset] >> 7) & 1).ShouldBe(1);
+                }
+                (dataOffset + size).ShouldBeLessThanOrEqualTo(bytes.Length);
+            }
+            return Task.CompletedTask;
+        });
+    }
+
+    [Fact]
     public async Task InputTranslateMenuItem_Click_DispatchesInputTranslateAction()
     {
         await WpfTestRunner.RunAsync(async () =>

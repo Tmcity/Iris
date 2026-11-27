@@ -241,7 +241,7 @@ Iris 命令行用法：
     <value>完全排除鼠标划词的进程</value>
   </data>
   <data name="MouseExplanation" xml:space="preserve">
-    <value>显示图标时会预读选区，点击后翻译已读取的文本。关闭剪贴板恢复可能改变剪贴板内容。</value>
+    <value>控制鼠标选词后的自动动作，不影响划词快捷键。</value>
   </data>
   <data name="MouseHideError" xml:space="preserve">
     <value>图标停留时间须为 500–10000 的整数。</value>
@@ -262,10 +262,10 @@ Iris 命令行用法：
     <value>显示翻译图标</value>
   </data>
   <data name="MouseModeLabel" xml:space="preserve">
-    <value>鼠标划词模式</value>
+    <value>鼠标选词响应</value>
   </data>
   <data name="MouseModeOff" xml:space="preserve">
-    <value>关闭鼠标划词</value>
+    <value>不弹出（仅快捷键）</value>
   </data>
   <data name="MouseReadFailed" xml:space="preserve">
     <value>选区预读未完成，请重新选择文本。</value>
@@ -280,10 +280,10 @@ Iris 命令行用法：
     <value>鼠标监听已关闭</value>
   </data>
   <data name="MouseToggle" xml:space="preserve">
-    <value>切换鼠标划词</value>
+    <value>切换鼠标选词响应</value>
   </data>
   <data name="MouseToggleDescription" xml:space="preserve">
-    <value>切换鼠标划词的启用状态（默认未设置快捷键）</value>
+    <value>开启或关闭鼠标选词后的自动响应</value>
   </data>
   <data name="NetworkAddressNeedsCredentials" xml:space="preserve">
     <value>代理地址已改变，请明确选择替换或清除凭据。</value>
@@ -805,7 +805,7 @@ Iris 命令行用法：
     <value>已保存，录入结束后应用</value>
   </data>
   <data name="SettingsHotkeysDescription" xml:space="preserve">
-    <value>配置触发常用功能的全局快捷键。支持包含 Win 键的组合键。</value>
+    <value>管理各项快捷功能的启用开关与全局快捷键。支持包含 Win 键的组合键。</value>
   </data>
   <data name="SettingsHotkeysGroup" xml:space="preserve">
     <value>全局快捷键</value>
@@ -847,7 +847,7 @@ Iris 命令行用法：
     <value>常规</value>
   </data>
   <data name="SettingsNavHotkeys" xml:space="preserve">
-    <value>快捷键</value>
+    <value>功能与快捷键</value>
   </data>
   <data name="SettingsNavSelection" xml:space="preserve">
     <value>划词翻译</value>

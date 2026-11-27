@@ -47,6 +47,11 @@ internal sealed class NativeMouseAdapter(IMouseHookApi api)
         if (sample.IsDown || sample.IsUp)
         {
             nint window = api.ForegroundWindow();
+            if (sample.IsDown)
+            {
+                nint hit = api.RootWindowAtPoint(raw.pt.X, raw.pt.Y);
+                if (hit != 0) window = hit;
+            }
             uint pid = 0;
             if (window != 0 && api.WindowThreadProcessId(window, out pid) == 0) pid = 0;
             sample = sample with { Source = new(window, pid) };
@@ -55,7 +60,9 @@ internal sealed class NativeMouseAdapter(IMouseHookApi api)
         {
             var cursor = new CURSORINFO { cbSize = (uint)Marshal.SizeOf<CURSORINFO>() };
             bool visibleIBeam = api.GetCursorInfo(ref cursor) && (uint)cursor.flags == 1 &&
-                iBeam != 0 && cursor.hCursor == (HCURSOR)iBeam;
+                ((iBeam != 0 && cursor.hCursor == (HCURSOR)iBeam) ||
+                 (!cursor.hCursor.IsNull && api.IsIBeamCursorShape(cursor.hCursor)) ||
+                 (sample.Source.Window != 0 && api.IsTextSelectionSurface(sample.Source.Window, raw.pt.X, raw.pt.Y)));
             sample = sample with { IBeam = visibleIBeam, Shift = (api.GetAsyncKeyState(0x10) & 0x8000) != 0 };
         }
         return sample;

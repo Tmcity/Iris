@@ -288,8 +288,8 @@
     "en-US": "Processes excluded from mouse selection"
   },
   "MouseExplanation": {
-    "zh-CN": "显示图标时会预读选区，点击后翻译已读取的文本。关闭剪贴板恢复可能改变剪贴板内容。",
-    "en-US": "Showing the icon reads the selection in advance; clicking translates that text. Disabling clipboard restoration may change clipboard contents."
+    "zh-CN": "控制鼠标选词后的自动动作，不影响划词快捷键。",
+    "en-US": "Controls automatic action after mouse selection; does not affect the shortcut."
   },
   "MouseHideError": {
     "zh-CN": "图标停留时间须为 500–10000 的整数。",
@@ -316,12 +316,12 @@
     "en-US": "Show translation icon"
   },
   "MouseModeLabel": {
-    "zh-CN": "鼠标划词模式",
-    "en-US": "Mouse selection mode"
+    "zh-CN": "鼠标选词响应",
+    "en-US": "Mouse selection action"
   },
   "MouseModeOff": {
-    "zh-CN": "关闭鼠标划词",
-    "en-US": "Disable mouse selection"
+    "zh-CN": "不弹出（仅快捷键）",
+    "en-US": "Off (shortcut only)"
   },
   "MouseReadFailed": {
     "zh-CN": "选区预读未完成，请重新选择文本。",
@@ -340,12 +340,12 @@
     "en-US": "Mouse monitoring disabled"
   },
   "MouseToggle": {
-    "zh-CN": "切换鼠标划词",
-    "en-US": "Toggle mouse selection"
+    "zh-CN": "切换鼠标选词响应",
+    "en-US": "Toggle mouse selection action"
   },
   "MouseToggleDescription": {
-    "zh-CN": "切换鼠标划词的启用状态（默认未设置快捷键）",
-    "en-US": "Enable or disable mouse selection (no default shortcut)"
+    "zh-CN": "开启或关闭鼠标选词后的自动响应",
+    "en-US": "Enable or disable automatic mouse selection action"
   },
   "NetworkAddressNeedsCredentials": {
     "zh-CN": "代理地址已改变，请明确选择替换或清除凭据。",
@@ -1008,8 +1008,8 @@
     "en-US": "Shortcut conflict: duplicates reserved action [{0}]"
   },
   "SettingsHotkeysDescription": {
-    "zh-CN": "配置触发常用功能的全局快捷键。支持包含 Win 键的组合键。",
-    "en-US": "Configure global shortcuts for common actions. Combinations with the Win key are supported."
+    "zh-CN": "管理各项快捷功能的启用开关与全局快捷键。支持包含 Win 键的组合键。",
+    "en-US": "Manage quick-action switches and global shortcuts for each feature. Combinations with the Win key are supported."
   },
   "SettingsHotkeysGroup": {
     "zh-CN": "全局快捷键",
@@ -1096,8 +1096,8 @@
     "en-US": "General"
   },
   "SettingsNavHotkeys": {
-    "zh-CN": "快捷键",
-    "en-US": "Shortcuts"
+    "zh-CN": "功能与快捷键",
+    "en-US": "Actions & shortcuts"
   },
   "SettingsNavSelection": {
     "zh-CN": "划词翻译",

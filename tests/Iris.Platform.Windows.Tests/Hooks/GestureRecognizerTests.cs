@@ -112,7 +112,7 @@ public sealed class GestureRecognizerTests
     [InlineData((uint)MouseMessage.XDown, 0)]
     [InlineData((uint)MouseMessage.Wheel, 0)]
     [InlineData((uint)MouseMessage.HorizontalWheel, 0)]
-    [InlineData((uint)MouseMessage.Move, 1)]
+    [InlineData((uint)MouseMessage.Move, 2)]
     [InlineData((uint)MouseMessage.LeftUp, 2)]
     public void InvalidInput_ResetsDragAndClickSequence(uint message, uint flags)
     {

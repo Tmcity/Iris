@@ -112,4 +112,28 @@ public sealed class MousePipelineTests
         await rig.Send(MouseMessage.LeftDown); await rig.Send(MouseMessage.LeftUp, 4); await rig.DrainAsync();
         rig.Gestures.Count.ShouldBe(1);
     });
+
+    [Fact]
+    public Task ClickIntoInactiveWindow_SucceedsOnceWindowBecomesForegroundBeforeUp() => MouseTestRig.Use(async rig =>
+    {
+        var downObserved = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        rig.Api.Window = 999; // Previous foreground window at LeftDown
+        rig.Api.HitWindow = 2000; // Target window under cursor at LeftDown
+        rig.Desktop.App = new("other.exe", 88, null, 999);
+        rig.Desktop.AfterSource = () => downObserved.TrySetResult();
+        await rig.Start();
+        await rig.Send(MouseMessage.LeftDown);
+        await downObserved.Task.WaitAsync(TimeSpan.FromSeconds(10));
+
+        // Target window activates before LeftUp
+        rig.Desktop.AfterSource = null;
+        rig.Api.Window = 2000;
+        rig.Api.HitWindow = 0;
+        rig.Desktop.App = new("notepad.exe", 42, null, 2000);
+        await rig.Send(MouseMessage.LeftUp, 20);
+        await rig.DrainAsync();
+
+        rig.Gestures.Count.ShouldBe(1);
+        rig.Gestures.Single().App!.ProcessName.ShouldBe("notepad.exe");
+    });
 }

@@ -30,7 +30,7 @@ public sealed class SettingsWindowNavigationLayoutTests
     [
         new("NavGeneral", "general", () => UiText.SettingsNavGeneral, Wpf.Ui.Controls.SymbolRegular.Settings20),
         new("NavTranslation", "translation", () => UiText.SettingsNavTranslation, Wpf.Ui.Controls.SymbolRegular.Translate20),
-        new("NavHotkeys", "hotkeys", () => UiText.SettingsNavHotkeys, Wpf.Ui.Controls.SymbolRegular.Keyboard20),
+        new("NavHotkeys", "hotkeys", () => UiText.SettingsNavHotkeys, Wpf.Ui.Controls.SymbolRegular.Options20),
         new("NavSelection", "selection", () => UiText.SettingsNavSelection, Wpf.Ui.Controls.SymbolRegular.CursorClick20),
         new("NavOcr", "ocr", () => UiText.OcrPageTitle, Wpf.Ui.Controls.SymbolRegular.ScanText20),
         new("NavScreenshot", "screenshot", () => UiText.ScreenshotPageTitle, Wpf.Ui.Controls.SymbolRegular.Screenshot20),

@@ -104,6 +104,7 @@ internal sealed class CompositeSelectionReader(
                     case UiaSelectionStatus.TooLong: throw Failure("TOO_LONG", code: ErrorCode.InputTooLong);
                     case UiaSelectionStatus.Busy: throw Failure("UIA_BUSY");
                     case UiaSelectionStatus.Success: text = result.Text; break;
+                    case UiaSelectionStatus.Unsupported: op.UiaUnsupported = true; continue;
                     default: continue;
                 }
             }
@@ -118,7 +119,7 @@ internal sealed class CompositeSelectionReader(
     private async Task<string?> ReadClipboardAsync(Operation op, CancellationToken token)
     {
         if (op.Options.ClipboardUnsafeProcesses.Contains(op.Source!.ProcessName, StringComparer.OrdinalIgnoreCase)) return null;
-        try { op.Permit = safety.Capture(op.Source); }
+        try { op.Permit = safety.Capture(op.Source, op.UiaUnsupported); }
         catch (Exception) { return null; } // Pure query failure is not affirmative copy permission.
         if (op.Permit == null) return null;
         bool Guard() => !token.IsCancellationRequested && !IsStopped() && IsSourceCurrent(op) && IsFocusCurrent(op);
@@ -334,6 +335,7 @@ internal sealed class CompositeSelectionReader(
         public ClipboardVersion? Candidate { get; set; }
         public bool Restored { get; set; }
         public bool TargetChanged { get; set; }
+        public bool UiaUnsupported { get; set; }
         public Task? CleanupTask { get; set; }
     }
 }

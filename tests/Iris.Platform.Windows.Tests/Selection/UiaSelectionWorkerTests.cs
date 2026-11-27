@@ -625,4 +625,62 @@ public sealed class UiaSelectionWorkerTests
             reply.ErrorCode.ShouldBe("COM_CLEANUP_FAILED");
         });
     }
+
+    [Fact]
+    public void Execute_WhenFocusedElementHasNoTextPattern_FallsBackToChildRenderWindowSelection()
+    {
+        RunOnMta(() =>
+        {
+            _adapter.Session.FocusedElement = new FakeUiaElement
+            {
+                ProcessId = 4242,
+                NativeWindowHandle = 0x1000,
+                TextPattern = null
+            };
+            var childRender = new FakeUiaElement
+            {
+                ProcessId = 4242,
+                NativeWindowHandle = 0x1002,
+                TextPattern = new FakeUiaTextPattern { Ranges = [new FakeUiaTextRange("QQ selected chat")] }
+            };
+            _adapter.ChildWindows.Add(0x1002);
+            _adapter.Session.ElementsByHandle[0x1002] = childRender;
+
+            var reply = UiaSelectionWorker.Execute(_validRequest, _adapter);
+
+            reply.Status.ShouldBe(UiaSelectionStatus.Success);
+            reply.Text.ShouldBe("QQ selected chat");
+            childRender.IsDisposed.ShouldBeTrue();
+        });
+    }
+
+    [Fact]
+    public void Execute_WhenFocusedInputSelectionIsEmpty_FallsBackToChildDocumentSelection()
+    {
+        RunOnMta(() =>
+        {
+            _adapter.IsWindowOrAncestorFunc = (_, _) => true;
+            _adapter.WindowProcessIdFunc = _ => 4242;
+            _adapter.Session.FocusedElement = new FakeUiaElement
+            {
+                ProcessId = 4242,
+                NativeWindowHandle = 0x1001,
+                TextPattern = new FakeUiaTextPattern { Ranges = [new FakeUiaTextRange("")] }
+            };
+            var childRender = new FakeUiaElement
+            {
+                ProcessId = 4242,
+                NativeWindowHandle = 0x1002,
+                TextPattern = new FakeUiaTextPattern { Ranges = [new FakeUiaTextRange("Bubble selection")] }
+            };
+            _adapter.ChildWindows.Add(0x1002);
+            _adapter.Session.ElementsByHandle[0x1002] = childRender;
+
+            var reply = UiaSelectionWorker.Execute(_validRequest, _adapter);
+
+            reply.Status.ShouldBe(UiaSelectionStatus.Success);
+            reply.Text.ShouldBe("Bubble selection");
+            childRender.IsDisposed.ShouldBeTrue();
+        });
+    }
 }
